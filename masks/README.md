@@ -13,7 +13,7 @@ Usage:
 ## Results
 
 Before:
-
+```
 /mnt/ssd/cdorman/data/mcs/intphys$ tree smalltrain/
   smalltrain/
   ├── 2
@@ -30,12 +30,16 @@ Before:
   │   │   ├── ....
   │   │   └── scene_100.png
   │   └── status.json
+```
 
-/mnt/ssd/cdorman/data/mcs/intphys$ tree smalltrain/
-
+Then run the masks processor:
+```
 /mnt/ssd/cdorman/data/mcs/mcs_github/masks[master ]$ python3 masks.py --dir /mnt/ssd/cdorman/data/mcs/intphys/smalltrain/
+```
 
 After:
+```
+/mnt/ssd/cdorman/data/mcs/intphys$ tree smalltrain/
 
   smalltrain/
   ├── 2
@@ -57,3 +61,4 @@ After:
   │   │   ├── ....
   │   │   └── scene_100.png
   │   └── status.json
+```
