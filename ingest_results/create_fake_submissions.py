@@ -24,24 +24,36 @@ Create some submissions, which includes:
 Pass in an integer that determines the number of submissions to create, default to 1.
 """
 import random
+import argparse
 
 
 class SubmissionCreator:
 
-    def __init__(self):
+    def __init__(self, num_sub):
+
+        for sub in range(num_sub):
+            self.create_submission(sub)
+
+    def create_submission(self, sub):
+        # Create a working directory
+
+        # Create the answer.txt
+
+        # create the frame dependent VOE, with same final value as the answer.txt
+
+        # create the location information
+
+        # zip them all together
         pass
-        # ground_truth = "ground_truth.txt"
-        # with open(ground_truth, 'w') as outfile:
-        #     for block in range(1, 3):
-        #         for test in range(1, 1080):
-        #             results = [0, 0, 0, 0]
-        #             indexes = random.sample({0, 1, 2, 3}, 2)
-        #             results[indexes[0]] = 1
-        #             results[indexes[1]] = 1
-        #             for index in range(4):
-        #                 outfile.write("O{}/{:04d}/{} {}\n".format(block, test, index+1, results[index]))
 
 
 if __name__ == "__main__":
-    random.seed(894357)
-    handler = SubmissionCreator()
+    random.seed(9435212)
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--num", default="1", help="Number of submissions to create")
+    opt = parser.parse_args()
+    num_submissions = int(opt.num)
+    print("Creating {} submissions".format(num_submissions))
+
+    handler = SubmissionCreator(num_submissions)

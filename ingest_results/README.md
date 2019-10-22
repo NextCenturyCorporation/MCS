@@ -2,8 +2,12 @@
 # Ingestion Routines
 
 The code in this directory reads in data from a submission (in
-answer.tx and other files) to load ElasticSearch (ES) with data that
+answer.txt and other files) to load ElasticSearch (ES) with data that
 can be searched, sorted, and filtered.
+
+To help with the development of this, it also creates fake submissions
+and other data (ground_truth and test metadata) that will be used
+during the ingestion.
 
 ## Steps
 
