@@ -27,14 +27,14 @@ class GroundTruthCreator:
     def __init__(self):
         ground_truth = "ground_truth.txt"
         with open(ground_truth, 'w') as outfile:
-            for block in range(1, 3):
-                for test in range(1, 1080):
+            for block in range(0, 3):
+                for test in range(0, 1080):
                     results = [0, 0, 0, 0]
                     indexes = random.sample({0, 1, 2, 3}, 2)
                     results[indexes[0]] = 1
                     results[indexes[1]] = 1
                     for index in range(4):
-                        outfile.write("O{}/{:04d}/{} {}\n".format(block, test, index+1, results[index]))
+                        outfile.write("O{}/{:04d}/{} {}\n".format(block+1, test+1, index+1, results[index]))
 
 
 if __name__ == "__main__":

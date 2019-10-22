@@ -48,8 +48,7 @@ class SubmissionCreator:
             print("Creating directory " + str(dir_path))
             os.mkdir(dir_path)
 
-        # Create descriptive json file.  In this case all the submissions are by the
-        # same TA1 performer.
+        # Create descriptive json file.  In this case all the submissions are by the same TA1 performer.
         # TODO:  make multiple performers with multiple submissions
         desc_json = {"Performer": "TA1_group_test",
                      "Submission": sub_name,
@@ -59,6 +58,7 @@ class SubmissionCreator:
             json.dump(desc_json, outfile, indent=4)
 
         # Create the answer.txt
+        self.create_answer_txt(dir_path)
 
         # create the frame dependent VOE, with same final value as the answer.txt
 
@@ -66,6 +66,18 @@ class SubmissionCreator:
 
         # zip them all together
         shutil.make_archive(sub_name, 'zip', base_dir)
+
+    def create_answer_txt(self, path):
+        answer_file = "answer.txt"
+        with open(path / answer_file, 'w') as outfile:
+            for block in range(0, 3):
+                for test in range(0, 1080):
+                    # Create 2 high, 2 low and shuffle
+                    results = [random.uniform(0.0, 0.3), random.uniform(0.0, 0.2), random.uniform(0.7, 1.0),
+                               random.uniform(0.8, 1.0)]
+                    random.shuffle(results)
+                    for index in range(4):
+                        outfile.write("O{}/{:04d}/{} {:04f}\n".format(block+1, test+1, index + 1, results[index]))
 
 
 if __name__ == "__main__":
