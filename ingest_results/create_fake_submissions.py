@@ -67,7 +67,7 @@ class SubmissionCreator:
         self.create_location_information(dir_path, answer_json)
 
         # zip them all together
-        shutil.make_archive(sub_name, 'zip', base_dir)
+        shutil.make_archive(sub_name, 'zip', dir_path)
 
     def create_answer_txt(self, path):
         answer_file = "answer.txt"
