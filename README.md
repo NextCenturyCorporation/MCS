@@ -3,6 +3,19 @@
 This is code that may be useful for people on the Machine Common Sense
 program.
 
+## Ingest Results
+
+The code in this directory creates placeholders / examples of ground
+truth and submissions.  It is useful to see what a submission should
+look like and allows us to practice ingesting the data for scoring and
+visualizations.  The ground truth information, like the submission
+data, is made up.
+
+## Masks
+
+The code in this directory makes the mask information for training
+data consistent.
+
 
 ## Apache 2 Open Source License
 
