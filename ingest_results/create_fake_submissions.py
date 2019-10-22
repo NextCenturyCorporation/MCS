@@ -58,26 +58,75 @@ class SubmissionCreator:
             json.dump(desc_json, outfile, indent=4)
 
         # Create the answer.txt
-        self.create_answer_txt(dir_path)
+        answer_json = self.create_answer_txt(dir_path)
 
         # create the frame dependent VOE, with same final value as the answer.txt
+        self.create_frame_dependent_voe(dir_path, answer_json)
 
         # create the location information
+        self.create_location_information(dir_path, answer_json)
 
         # zip them all together
         shutil.make_archive(sub_name, 'zip', base_dir)
 
     def create_answer_txt(self, path):
         answer_file = "answer.txt"
+        answer_json = {}
         with open(path / answer_file, 'w') as outfile:
             for block in range(0, 3):
+                block_json = {}
                 for test in range(0, 1080):
+                    test_json = {}
                     # Create 2 high, 2 low and shuffle
                     results = [random.uniform(0.0, 0.3), random.uniform(0.0, 0.2), random.uniform(0.7, 1.0),
                                random.uniform(0.8, 1.0)]
                     random.shuffle(results)
-                    for index in range(4):
-                        outfile.write("O{}/{:04d}/{} {:04f}\n".format(block+1, test+1, index + 1, results[index]))
+                    for scene in range(4):
+                        outfile.write("O{}/{:04d}/{} {:04f}\n".format(block + 1, test + 1, scene + 1, results[scene]))
+                        test_json[str(scene + 1)] = results[scene]
+                    block_json[str(test + 1)] = test_json
+                answer_json[str(block + 1)] = block_json
+
+        return answer_json
+
+    def create_frame_dependent_voe(self, path, answer_json):
+
+        for block in range(0, 3):
+            for test in range(0, 1080):
+                for scene in range(0, 4):
+
+                    file_name = "voe_O" + str(block + 1) + "_" + str(test + 1).zfill(4) + "_" + str(scene + 1) + ".txt"
+                    final_answer = answer_json[str(block + 1)][str(test + 1)][str(scene + 1)]
+
+                    with open(path / file_name, 'w') as outfile:
+                        for frame_num in range(0, 20):
+                            outfile.write("{} 1.0000\n".format(frame_num + 1))
+
+                        frame_val = 1.0
+                        index_of_final = random.randint(20, 100)
+                        for frame_num in range(0, index_of_final):
+                            frame_val = frame_val - random.uniform(0, (1. - final_answer) / (101 - index_of_final))
+                            if frame_val < final_answer:
+                                frame_val = final_answer
+                            outfile.write("{} {:04f}\n".format(frame_num + 1, frame_val))
+
+                        for frame_num in range(index_of_final, 100):
+                            outfile.write("{} {:04f}\n".format(frame_num + 1, final_answer))
+
+    def create_location_information(self, path, answer_json):
+        location_file = "location.txt"
+        with open(path / location_file, 'w') as outfile:
+            for block in range(0, 3):
+                for test in range(0, 1080):
+                    for scene in range(0, 4):
+                        final_answer = answer_json[str(block + 1)][str(test + 1)][str(scene + 1)]
+                        if final_answer > 0.5:
+                            frame_num = random.randint(0, 100)
+                            location = [random.randint(0, 100), random.randint(0, 100)]
+                            outfile.write("O{}/{:04d}/{} {} {} {}\n".format(block + 1, test + 1, scene + 1, frame_num,
+                                                                            location[0], location[1]))
+                        else:
+                            outfile.write("O{}/{:04d}/{} -1 -1 -1\n".format(block + 1, test + 1, scene + 1))
 
 
 if __name__ == "__main__":
