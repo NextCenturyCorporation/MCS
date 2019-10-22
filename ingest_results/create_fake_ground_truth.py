@@ -38,4 +38,5 @@ class GroundTruthCreator:
 
 
 if __name__ == "__main__":
+    random.seed(1354289787)
     handler = GroundTruthCreator()

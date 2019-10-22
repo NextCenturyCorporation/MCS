@@ -20,7 +20,7 @@ can be searched, sorted, and filtered.
 1. Run create_fake_answer.py.  This will produce several .zip files
    that represent submissions from performer.
 
-1. Run ingester.py.  this will pull in the .zip files, the metadata,
+1. Run create_json_ingest.py.  this will pull in the .zip files, the metadata,
    and the ground truth files and create a .json file that can be read
    into ES.
 
