@@ -2,8 +2,12 @@
 # Ingestion Routines
 
 The code in this directory reads in data from a submission (in
-answer.tx and other files) to load ElasticSearch (ES) with data that
+answer.txt and other files) to load ElasticSearch (ES) with data that
 can be searched, sorted, and filtered.
+
+To help with the development of this, it also creates fake submissions
+and other data (ground_truth and test metadata) that will be used
+during the ingestion.
 
 ## Steps
 
@@ -17,10 +21,11 @@ can be searched, sorted, and filtered.
    regarding the tests; namely, what the objects are, what is being
    done wrong, etc.
 
-1. Run create_fake_answer.py.  This will produce several .zip files
-   that represent submissions from performer.
+1. Run create_fake_submissions.py.  This will produce several .zip
+   files that represent submissions from performer.  Pass in '--num X'
+   to produce X of them. 
 
-1. Run ingester.py.  this will pull in the .zip files, the metadata,
+1. Run create_json_ingest.py.  this will pull in the .zip files, the metadata,
    and the ground truth files and create a .json file that can be read
    into ES.
 
