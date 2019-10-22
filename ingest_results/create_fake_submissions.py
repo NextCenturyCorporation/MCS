@@ -25,17 +25,38 @@ Pass in an integer that determines the number of submissions to create, default 
 """
 import random
 import argparse
+import os
+import json
+import shutil
+import tempfile
+from pathlib import Path
 
 
 class SubmissionCreator:
 
     def __init__(self, num_sub):
-
         for sub in range(num_sub):
             self.create_submission(sub)
 
     def create_submission(self, sub):
+        sub_name = "submission_" + str(sub)
+
         # Create a working directory
+        base_dir = Path(tempfile.mkdtemp())
+        dir_path = Path(base_dir / sub_name)
+        if not os.path.exists(dir_path):
+            print("Creating directory " + str(dir_path))
+            os.mkdir(dir_path)
+
+        # Create descriptive json file.  In this case all the submissions are by the
+        # same TA1 performer.
+        # TODO:  make multiple performers with multiple submissions
+        desc_json = {"Performer": "TA1_group_test",
+                     "Submission": sub_name,
+                     "Description": "What data was used, what parameters"}
+        desc_path = dir_path / "description.json"
+        with open(desc_path, "w") as outfile:
+            json.dump(desc_json, outfile, indent=4)
 
         # Create the answer.txt
 
@@ -44,7 +65,7 @@ class SubmissionCreator:
         # create the location information
 
         # zip them all together
-        pass
+        shutil.make_archive(sub_name, 'zip', base_dir)
 
 
 if __name__ == "__main__":
