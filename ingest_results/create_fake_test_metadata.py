@@ -34,9 +34,8 @@ class TestMetadataCreator:
                 for test in range(0, 1080):
 
                     test_json = {"num_objects": random.randint(1, 3),
-                                 "variation": random.randint(1,6),
-                                 "color": random.sample({"blue", "red", "green", "magenta"}, 1)[0],
-                                 "object": random.sample({"sphere", "cone", "cube"}, 1)[0]}
+                                 "complexity": random.sample({"static", "dynamic 1", "dynamic 2"}, 1)[0],
+                                 "occluder": random.sample({"present", "not present"}, 1)[0]}
                     test_string = str(test+1).zfill(4)
                     block_json[test_string] = test_json
 

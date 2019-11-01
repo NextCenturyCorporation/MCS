@@ -1,0 +1,49 @@
+{
+  "settings": {
+    "number_of_shards": "1",
+    "number_of_replicas": "1"
+  },
+  "mappings": {
+    "eval1": {
+      "properties": {
+        "block": {
+          "type": "keyword"
+        },
+        "test": {
+          "type": "keyword"
+        },
+        "num_objects": {
+          "type": "keyword"
+        },
+        "color": {
+          "type": "keyword"
+        },
+        "object": {
+          "type": "keyword"
+        },
+        "performer": {
+          "type": "keyword"
+        },
+        "ground_truth": {
+          "type": "double"
+        },
+        "plausibility": {
+          "type": "double"
+        },
+        "magType": {
+          "type": "keyword"
+        },
+        "net": {
+          "type": "keyword"
+        },
+        "time": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis||yyyy-MM-dd'T'hh:mm:ss'Z'"
+        },
+        "type": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}
