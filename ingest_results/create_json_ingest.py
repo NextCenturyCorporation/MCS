@@ -16,11 +16,14 @@
 #   limitations under the License.
 
 """
-Create json file that can be ingested into ElasticSearch
+Read in submission, metadata, and ground truth to create an elastic search 
+index that can be read by Neon.
 
 """
 import json
 import zipfile
+from pathlib import Path
+import os
 from elasticsearch import Elasticsearch
 from collections import defaultdict
 
@@ -40,6 +43,12 @@ settings = '''
           "mappings": {
             "eval1": {
               "properties": {
+                "performer": {
+                  "type": "keyword"
+                },
+                "submission": {
+                  "type": "keyword"
+                },              
                 "block": {
                   "type": "keyword"
                 },
@@ -56,9 +65,6 @@ settings = '''
                   "type": "keyword"
                 },
                 "object": {
-                  "type": "keyword"
-                },
-                "performer": {
                   "type": "keyword"
                 },
                 "ground_truth": {
@@ -78,8 +84,16 @@ class JsonImportCreator:
 
     def __init__(self):
 
+        # global counter
+        self.object_id = 0
+
         # Performer data
-        self.sub_file = "submission_example.zip"
+        # self.sub_file = "submission_example.zip"
+
+        # Find all the submission data
+        self.submission_files = [f for f in os.listdir('.') if
+                                 str(f).startswith("submission_") and str(f).endswith(".zip")]
+        self.submission_files.sort()
         self.answer_filename = "answer.txt"
         self.description_filename = "description.json"
 
@@ -99,31 +113,37 @@ class JsonImportCreator:
         self.es.indices.create(index=config['index_name'], ignore=400, body=settings)
 
     def process(self):
-        bulk_data = []
-        object_id = 0
-
         # Get the metadata
-        metadata = self.get_metadata()
-        # print(" metadata {}".format(metadata))
+        self.metadata = self.get_metadata()
+        # print(" metadata {}".format(self.metadata))
 
         # Get the ground truth data
-        ground_truth = self.get_ground_truth()
+        self.ground_truth = self.get_ground_truth()
 
-        # Get the submission data
-        description = self.get_description_information()
-        answer = self.get_answer()
+        for file in self.submission_files:
+            print("Submission file: ".format(file))
+            self.process_submission(file)
+
+    def process_submission(self, filename):
+
+        # Get the submission data description
+        description = self.get_description_information(filename)
+        answer = self.get_answer(filename)
+
+        bulk_data = []
 
         for block in answer:
             for test in answer[block]:
                 for scene in answer[block][test]:
-                    # print("block {} test {} scene {}: score {}".format(block, test, scene, answer[block][test][scene]))
+                    # print("block {} test {} scene {}: score {}".
+                    #   format(block, test, scene, answer[block][test][scene]))
 
                     # Get the dictionary entry
                     op_dict = {
                         "index": {
                             "_index": config['index_name'],
                             "_type": config['index_type'],
-                            "_id": object_id
+                            "_id": self.object_id
                         }
                     }
                     bulk_data.append(op_dict)
@@ -133,24 +153,25 @@ class JsonImportCreator:
 
                     # Data associated with the performer
                     data_dict["performer"] = description["Performer"]
+                    data_dict["submission"] = description["Submission"]
                     data_dict["block"] = block
                     data_dict["test"] = test
                     data_dict["scene"] = scene
                     data_dict["plausibility"] = answer[block][test][scene]
 
                     # Data associated with this test
-                    data_dict["num_objects"] = metadata[block][test]["num_objects"]
-                    data_dict["color"] = metadata[block][test]["color"]
-                    data_dict["object"] = metadata[block][test]["object"]
-                    data_dict["variation"] = metadata[block][test]["variation"]
+                    data_dict["num_objects"] = self.metadata[block][test]["num_objects"]
+                    data_dict["color"] = self.metadata[block][test]["color"]
+                    data_dict["object"] = self.metadata[block][test]["object"]
+                    data_dict["variation"] = self.metadata[block][test]["variation"]
 
-                    data_dict["ground_truth"] = ground_truth[block][test][scene]
+                    data_dict["ground_truth"] = self.ground_truth[block][test][scene]
                     bulk_data.append(data_dict)
 
-                    object_id = object_id + 1
+                    self.object_id = self.object_id + 1
 
         res = self.es.bulk(index=config['index_name'], body=bulk_data, refresh=True)
-        print("Result: {}".format(res))
+        # print("Result: {}".format(res))
 
     def get_metadata(self):
         with open(self.metadata_filename) as metadata_file:
@@ -163,8 +184,9 @@ class JsonImportCreator:
             return self.parse_answer_file(ground_truth_file)
         print("Unable to get file {}".format(self.ground_truth_filename))
 
-    def get_answer(self):
-        with zipfile.ZipFile(self.sub_file) as my_zip:
+    def get_answer(self, filename):
+        """ Pull the answer.txt file out of a zipfile and return parsed object"""
+        with zipfile.ZipFile(filename) as my_zip:
             content = my_zip.namelist()
             if self.answer_filename in content:
                 with my_zip.open(self.answer_filename) as answer_file:
@@ -172,6 +194,13 @@ class JsonImportCreator:
         print("Unable to get file {}".format(self.answer_filename))
 
     def parse_answer_file(self, file):
+        """ Parse an answer.txt or ground_truth.txt file, looks like:
+        O1/0001/1 1
+        O1/0001/2 0
+        O1/0001/3 0
+        O1/0001/4 1
+        ....
+        """
         answer = self.nested_dict(3, float)
         for line in file:
             # The following is necessary because what we get from a regular file and a zip file are different
@@ -191,8 +220,9 @@ class JsonImportCreator:
             answer[block][test][scene] = float(split_line[1])
         return answer
 
-    def get_description_information(self):
-        with zipfile.ZipFile(self.sub_file) as my_zip:
+    def get_description_information(self, filename):
+        """ Pull the description.txt file out of a zip and read in the information"""
+        with zipfile.ZipFile(filename) as my_zip:
             content = my_zip.namelist()
             if self.answer_filename in content:
                 with my_zip.open(self.description_filename, 'r') as description_file:
