@@ -61,10 +61,10 @@ settings = '''
                 "num_objects": {
                   "type": "keyword"
                 },
-                "color": {
+                "complexity": {
                   "type": "keyword"
                 },
-                "object": {
+                "occluder": {
                   "type": "keyword"
                 },
                 "ground_truth": {
@@ -161,9 +161,8 @@ class JsonImportCreator:
 
                     # Data associated with this test
                     data_dict["num_objects"] = self.metadata[block][test]["num_objects"]
-                    data_dict["color"] = self.metadata[block][test]["color"]
-                    data_dict["object"] = self.metadata[block][test]["object"]
-                    data_dict["variation"] = self.metadata[block][test]["variation"]
+                    data_dict["complexity"] = self.metadata[block][test]["complexity"]
+                    data_dict["occluder"] = self.metadata[block][test]["occluder"]
 
                     data_dict["ground_truth"] = self.ground_truth[block][test][scene]
                     bulk_data.append(data_dict)
