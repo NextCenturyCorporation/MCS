@@ -128,6 +128,29 @@ layouts:
     sizey: 4
     type: "aggregation"
 
+  - bindings:
+      title: "NumObjects"
+      type: "bar-v"
+      _id: "03da6de8-ca87-4911-8609-75de2d3968b8"
+      xField: "num_objects"
+    col: 1
+    row: 9
+    name: "NumObjects"
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+
+  - bindings:
+      title: "Occluder"
+      type: "bar-v"
+      _id: "03da6de8-ca87-4911-8609-75de2d3968b8"
+      xField: "occluder"
+    col: 1
+    row: 13
+    name: "Occluder"
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
 
   - bindings:
       title: "Ground Truth vs Plausibility"
@@ -135,11 +158,13 @@ layouts:
       _id: "24886883-2c5f-481a-b766-57414e4666cf"
       xField: "ground_truth"
       yField: "plausibility"
+      scaleMinX: "-0.1"
+      scaleMaxX: "1.1"
     col: 5
     row: 5
     name: "Ground Truth vs Plausibility"
-    sizex: 4
-    sizey: 5
+    sizex: 5
+    sizey: 10
     type: "aggregation"
 
   - bindings:
@@ -154,11 +179,17 @@ layouts:
       - submission
       - block
       - test
-      - variation
+      - scene
+      - complexity
+      - num_objects
+      - occluder
+      - ground_truth
+      - plausibility
+      - url_string
     col: 1
-    row: 10
+    row: 20
     name: "Data Table"
-    sizex: 7
+    sizex: 12
     sizey: 6
     type: "dataTable"
 
