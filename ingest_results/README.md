@@ -11,7 +11,7 @@ during the ingestion.
 
 ## Steps
 
-1. Run the create_fake_ground_truth.py.  This will produce
+1. Run create_fake_ground_truth.py.  This will produce
    ground_truth.txt that represents what the 'right' answers are.
    This is the same format at the answer.txt file, with integer values
    rather than real values.
@@ -23,11 +23,10 @@ during the ingestion.
 
 1. Run create_fake_submissions.py.  This will produce several .zip
    files that represent submissions from performer.  Pass in '--num X'
-   to produce X of them. 
+   to produce X of them; defaults to 1. 
 
-1. Run create_json_ingest.py.  this will pull in the .zip files, the metadata,
-   and the ground truth files and create a .json file that can be read
-   into ES.
+1. Run create_json_ingest.py.  This will pull in the .zip files, the metadata,
+   and the ground truth files and push them in to ES.
+   
 
-1. Run load.sh.  This will create a elastic search data set and put
-   the data in there.
+
