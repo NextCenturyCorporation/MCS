@@ -1,0 +1,168 @@
+version: ""
+neonServerUrl: ""
+projectIcon: ""
+projectTitle: "Evaluation Submissions"
+lastModified: 1572378751950
+fileName: "config.yaml"
+
+datastores:
+  es1:
+    name: "es1"
+    host: "elasticsearch"
+    type: "elasticsearchrest"
+    databases:
+      msc_eval:
+        name: "msc_eval"
+        prettyName: "msc_eval"
+        tables:
+          eval1:
+            name: "eval1"
+            prettyName: "eval1"
+            mappings: {}
+            labelOptions: {}
+            fields:
+            - columnName: "performer"
+              prettyName: "performer"
+              hide: false
+              type: "keyword"
+            - columnName: "color"
+              prettyName: "color"
+              hide: false
+              type: "keyword"
+            - columnName: "test"
+              prettyName: "test"
+              hide: false
+              type: "keyword"
+            - columnName: "plausibility"
+              prettyName: "plausibility"
+              hide: false
+              type: "double"
+            - columnName: "ground_truth"
+              prettyName: "ground_truth"
+              hide: false
+              type: "double"
+            - columnName: "num_objects"
+              prettyName: "num_objects"
+              hide: false
+              type: "keyword"
+            - columnName: "block"
+              prettyName: "block"
+              hide: false
+              type: "keyword"
+            - columnName: "variation"
+              prettyName: "variation"
+              hide: false
+              type: "long"
+            - columnName: "object"
+              prettyName: "object"
+              hide: false
+              type: "keyword"
+            - columnName: "scene"
+              prettyName: "scene"
+              hide: false
+              type: "keyword"
+            - columnName: "_id"
+              prettyName: "_id"
+              hide: false
+              type: "text"
+
+
+dashboards:
+  layout: "evaluation_1"
+  filters: []
+  fields: {}
+  tables:
+    table_key_1: "es1.msc_eval.eval1"
+  options:
+    connectOnLoad: true
+  visualizationTitles: {}
+  contributors: {}
+  fullTitle: "Evaluation 1"
+  name: "Evaluation_1"
+
+
+layouts:
+  evaluation_1:
+  
+  - bindings:
+      title: "Performer"
+      type: "bar-v"
+      _id: "7c6db303-93c7-4aa0-bc35-6a152f0befd3"
+      xField: "performer"
+    col: 1
+    row: 1
+    name: "Performer"
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+    
+  - bindings:
+      title: "Submission"
+      type: "bar-v"
+      _id: "7c6db303-93c7-4aa0-bc35-6a152f0befd3"
+      xField: "submission"
+    col: 5
+    row: 1
+    name: "Submission"
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+    
+  - bindings:
+      title: "Block"
+      type: "bar-v"
+      _id: "1e7c52f7-e9aa-4b02-8da8-4388a66806e0"
+      xField: "block"
+    col: 9
+    row: 1
+    name: "Block"
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+
+  - bindings:
+      title: "Variation"
+      type: "bar-v"
+      _id: "81eb0fc7-66c0-4d66-9f85-c32ceec24a93"
+      xField: "variation"
+    col: 1
+    row: 5
+    name: "Variation"
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+
+
+  - bindings:
+      title: "Ground Truth vs Plausibility"
+      type: "scatter-xy"
+      _id: "24886883-2c5f-481a-b766-57414e4666cf"
+      xField: "ground_truth"
+      yField: "plausibility"
+    col: 5
+    row: 5
+    name: "Ground Truth vs Plausibility"
+    sizex: 4
+    sizey: 5
+    type: "aggregation"
+
+  - bindings:
+      title: "Raw Data"
+      tableKey: "table_key_1"
+      idField: "_id_key"
+      limit: 100
+      ignoreSelf: false
+      _id: "1cd9cb1f-81ed-4809-b949-57e01b07cd12"
+      showFields:
+      - performer
+      - submission
+      - block
+      - test
+      - variation
+    col: 1
+    row: 10
+    name: "Data Table"
+    sizex: 7
+    sizey: 6
+    type: "dataTable"
+
