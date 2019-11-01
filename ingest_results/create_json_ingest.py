@@ -72,7 +72,10 @@ settings = '''
                 },
                 "plausibility": {
                   "type": "double"
-                } 
+                },
+                "url_string": {
+                  "type": "keyword"
+                }
               }
             }
           }
@@ -121,7 +124,7 @@ class JsonImportCreator:
         self.ground_truth = self.get_ground_truth()
 
         for file in self.submission_files:
-            print("Submission file: ".format(file))
+            print("Submission file: {}".format(file))
             self.process_submission(file)
 
     def process_submission(self, filename):
@@ -151,6 +154,9 @@ class JsonImportCreator:
                     # Get the data
                     data_dict = {}
 
+                    url_string = "perf={}&subm={}&block={}&test={}".format(description["Performer"],
+                                                                           description["Submission"], block, test)
+
                     # Data associated with the performer
                     data_dict["performer"] = description["Performer"]
                     data_dict["submission"] = description["Submission"]
@@ -165,6 +171,7 @@ class JsonImportCreator:
                     data_dict["occluder"] = self.metadata[block][test]["occluder"]
 
                     data_dict["ground_truth"] = self.ground_truth[block][test][scene]
+                    data_dict["url_string"] = url_string
                     bulk_data.append(data_dict)
 
                     self.object_id = self.object_id + 1
@@ -215,7 +222,7 @@ class JsonImportCreator:
             block = str(key[0])
             test = str(key[1])
             scene = str(key[2])
-            print("{} {} {} {}".format(block, test, scene, split_line[1]))
+            # print("{} {} {} {}".format(block, test, scene, split_line[1]))
             answer[block][test][scene] = float(split_line[1])
         return answer
 
