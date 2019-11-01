@@ -25,8 +25,8 @@ datastores:
               prettyName: "performer"
               hide: false
               type: "keyword"
-            - columnName: "color"
-              prettyName: "color"
+            - columnName: "complexity"
+              prettyName: "complexity"
               hide: false
               type: "keyword"
             - columnName: "test"
@@ -49,12 +49,8 @@ datastores:
               prettyName: "block"
               hide: false
               type: "keyword"
-            - columnName: "variation"
-              prettyName: "variation"
-              hide: false
-              type: "long"
-            - columnName: "object"
-              prettyName: "object"
+            - columnName: "occluder"
+              prettyName: "occluder"
               hide: false
               type: "keyword"
             - columnName: "scene"
@@ -121,13 +117,13 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      title: "Variation"
+      title: "Complexity"
       type: "bar-v"
       _id: "81eb0fc7-66c0-4d66-9f85-c32ceec24a93"
-      xField: "variation"
+      xField: "complexity"
     col: 1
     row: 5
-    name: "Variation"
+    name: "Complexity"
     sizex: 4
     sizey: 4
     type: "aggregation"
