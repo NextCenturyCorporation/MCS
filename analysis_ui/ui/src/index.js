@@ -1,18 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Image from 'react-image';
-
 // From: https://github.com/react-component/slider
 import Slider, { Range } from 'rc-slider';
 
+// Images from Test
+import { imagey_1, imagey_2, imagey_3, imagey_4 } from './test/images';
+
+// CSS Stuff 
 import './index.css';
 import 'rc-slider/assets/index.css';
-
-import imagey from './test/images';
-
-function log(value) {
-  console.log(value); //eslint-disable-line
-}
 
 function pad(num, size) {
     var s = num+"";
@@ -49,7 +46,6 @@ class Results extends React.Component {
     }
 
     onSliderChange = (value) => {
-        log(value);
         this.setState( {
             value: value,
             valueStr: pad(value,3),
@@ -58,23 +54,22 @@ class Results extends React.Component {
 
     render() {
 
-        const createSliderWithTooltip = Slider.createSliderWithTooltip;
-        const TRange = createSliderWithTooltip(Slider.Range);
+        const v = this.state.value;
 
         return (
                 <div>
 
-            here: {this.state.valueStr }
-
                 <div className="intphys_img">
-                <img src={ imagey.image1 } />
+                <img src={ imagey_1[v] } />
                 &nbsp;
-                <img src={ imagey.image2 } />
+                <img src={ imagey_2[v] } />
                 &nbsp;
-                <img src={ imagey.image3 } />
+                <img src={ imagey_3[v] } />
                 &nbsp;
-                <img src={ imagey.image4 } />
+                <img src={ imagey_4[v] } />
+                &nbsp;
                 </div>
+                            Frame: {v}
                 <div className="slider">
                 <Slider
             value={this.state.value}
