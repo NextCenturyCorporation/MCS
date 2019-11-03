@@ -1,6 +1,23 @@
 body {
     font: 14px "Century Gothic", Futura, sans-serif;
-    margin: 20px;
+    margin: 15px;
+    background-color: rgba(240, 240, 220, 1);
+}
+
+.header {
+    font: 18px "Century Gothic", Futura, sans-serif;
+    display: flex; 
+    flex-direction: row;
+    height: 50px;
+    background-color: rgba(40, 90, 90, 1); /* 33, 33, 33, 1); */
+    color: rgba(200, 200, 200, 1);
+    margin-bottom: 12px;
+}
+
+.title { 
+    margin-top: 12px;
+    margin-left: 30px;
+    margin-right: 10px;
 }
 
 ol, ul {
@@ -41,8 +58,8 @@ ol, ul {
 }
 
 .game {
-    display: flex;
-    flex-direction: row;
+/*     display: flex; */
+/*     flex-direction: row; */
 }
 
 .game-info {

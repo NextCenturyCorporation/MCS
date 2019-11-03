@@ -1,12 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Image from 'react-image';
 
 // From: https://github.com/react-component/slider
-import Slider, { TRange } from 'rc-slider';
+import Slider, { Range } from 'rc-slider';
 
 import './index.css';
 import 'rc-slider/assets/index.css';
 
+import imagey from './test/images';
+
+function log(value) {
+  console.log(value); //eslint-disable-line
+}
+
+function pad(num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
 
 function Square(props) {
     return (
@@ -20,101 +32,58 @@ function Square(props) {
     );
 }
 
-class Board extends React.Component {
+class Results extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            squares: Array(9).fill(null),
-            xIsNext: true,
+            value: 0,
+            valueStr: '',
         };
     }
     
     renderSquare(i) {
-        return <Square
-        value={this.state.squares[i]}
-        onClick = { () => this.handleClick(i) }
-        />;
     }
 
     handleClick(i) {
-        const squares = this.state.squares.slice();
-
-        if (calculateWinner(squares) || squares[i]) {
-            return;
-        }
-        
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
-        this.setState( {
-            squares: squares,
-            xIsNext: !this.state.xIsNext
-        });
     }
+
+    onSliderChange = (value) => {
+        log(value);
+        this.setState( {
+            value: value,
+            valueStr: pad(value,3),
+        })
+    };
 
     render() {
 
-        const winner = calculateWinner(this.state.squares);
-        let status;
-        if (winner) {
-            status = 'Winner: ' + winner;
-        } else {
-            status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-        }
-
         const createSliderWithTooltip = Slider.createSliderWithTooltip;
-        const TRange = createSliderWithTooltip(Slider);
+        const TRange = createSliderWithTooltip(Slider.Range);
 
         return (
                 <div>
 
-                <div className="status">{status}</div>
+            here: {this.state.valueStr }
 
-                <div className="board-row">
-                {this.renderSquare(0)}
-            {this.renderSquare(1)}
-            {this.renderSquare(2)}
-            </div>
-
-                <div className="board-row">
-                {this.renderSquare(3)}
-            {this.renderSquare(4)}
-            {this.renderSquare(5)}
-            </div>
-
-                <div className="board-row">
-                {this.renderSquare(6)}
-            {this.renderSquare(7)}
-            {this.renderSquare(8)}
-            
-            </div>
-
-                <div className="slider">
-                <TRange />
+                <div className="intphys_img">
+                <img src={ imagey.image1 } />
+                &nbsp;
+                <img src={ imagey.image2 } />
+                &nbsp;
+                <img src={ imagey.image3 } />
+                &nbsp;
+                <img src={ imagey.image4 } />
                 </div>
-
+                <div className="slider">
+                <Slider
+            value={this.state.value}
+            onChange={this.onSliderChange} />
+                </div>
+                
             </div>
         );
     }
-}
-
-function calculateWinner(squares) {
-    const lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-        const [a, b, c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
-        }
-    }
-    return null;
 }
 
 
@@ -122,28 +91,32 @@ class EvalUI extends React.Component {
 
     // Assume that we are called with a URL like:
     // http://localhost:3000/app/perf=Bob&subm=ABC&block=O3&test=123
+    // Parse that and put it into the state
     constructor(props) {
         super(props);
+
         this.state = {
-            perf: 'bob',
+            perf: 'TA1-Test',
             subm: 'ABC',
             block: 'O3',
             test: '123',
         };
     }
     
-    
     render() {
-        return (
-            <div className="game">
-                
-                <div className="game-board">
-                   <Board />
-                </div>
 
-                <div className="game-info">
-                   <div>{/* status */}</div>
-                   <ol>{/* TODO */}</ol>
+        return (
+                <div className="layout">
+
+                <div className="header">
+                <div className="title">Performer: { this.state.perf }</div>
+                <div className="title">Submission: { this.state.subm }</div>
+                <div className="title">Block: { this.state.block }</div>
+                <div className="title">Test: { this.state.test }</div>
+                </div>
+                
+                <div className="layout-board">
+                   <Results value={this.state}/>
                 </div>
 
             </div>
