@@ -44,9 +44,9 @@ class SubmissionCreator:
         # Create a working directory
         base_dir = Path(tempfile.mkdtemp())
         dir_path = Path(base_dir / sub_name)
-        if not os.path.exists(dir_path):
+        if not dir_path.exists():
             print("Creating directory " + str(dir_path))
-            os.mkdir(dir_path)
+            dir_path.mkdir()
 
         # Create descriptive json file.  In this case all the submissions are by the same TA1 performer.
         # TODO:  make multiple performers with multiple submissions
@@ -54,7 +54,7 @@ class SubmissionCreator:
                      "Submission": sub_name,
                      "Description": "What data was used, what parameters"}
         desc_path = dir_path / "description.json"
-        with open(desc_path, "w") as outfile:
+        with desc_path.open("w") as outfile:
             json.dump(desc_json, outfile, indent=4)
 
         # Create the answer.txt
@@ -67,12 +67,13 @@ class SubmissionCreator:
         self.create_location_information(dir_path, answer_json)
 
         # zip them all together
-        shutil.make_archive(sub_name, 'zip', dir_path)
+        shutil.make_archive(sub_name, 'zip', str(dir_path))
 
     def create_answer_txt(self, path):
-        answer_file = "answer.txt"
+        answer_filename = "answer.txt"
         answer_json = {}
-        with open(path / answer_file, 'w') as outfile:
+        answer_file = path / answer_filename
+        with answer_file.open('w') as outfile:
             for block in range(0, 3):
                 block_json = {}
                 for test in range(0, 1080):
@@ -95,10 +96,10 @@ class SubmissionCreator:
             for test in range(0, 1080):
                 for scene in range(0, 4):
 
-                    file_name = "voe_O" + str(block + 1) + "_" + str(test + 1).zfill(4) + "_" + str(scene + 1) + ".txt"
+                    voe_filename = "voe_O" + str(block + 1) + "_" + str(test + 1).zfill(4) + "_" + str(scene + 1) + ".txt"
                     final_answer = answer_json[str(block + 1)][str(test + 1)][str(scene + 1)]
-
-                    with open(path / file_name, 'w') as outfile:
+                    voe_file = path / voe_filename
+                    with voe_file.open('w') as outfile:
                         for frame_num in range(0, 20):
                             outfile.write("{} 1.0000\n".format(frame_num + 1))
 
@@ -114,8 +115,9 @@ class SubmissionCreator:
                             outfile.write("{} {:04f}\n".format(frame_num + 1, final_answer))
 
     def create_location_information(self, path, answer_json):
-        location_file = "location.txt"
-        with open(path / location_file, 'w') as outfile:
+        location_filename = "location.txt"
+        location_file = path / location_filename
+        with location_file.open('w') as outfile:
             for block in range(0, 3):
                 for test in range(0, 1080):
                     for scene in range(0, 4):
