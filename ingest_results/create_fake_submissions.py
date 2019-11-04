@@ -105,7 +105,7 @@ class SubmissionCreator:
 
                         frame_val = 1.0
                         index_of_final = random.randint(20, 100)
-                        for frame_num in range(0, index_of_final):
+                        for frame_num in range(20, index_of_final):
                             frame_val = frame_val - random.uniform(0, (1. - final_answer) / (101 - index_of_final))
                             if frame_val < final_answer:
                                 frame_val = final_answer
