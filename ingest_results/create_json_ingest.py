@@ -132,6 +132,8 @@ class JsonImportCreator:
         # Get the submission data description
         description = self.get_description_information(filename)
         answer = self.get_answer(filename)
+        voe_signal = self.get_voe_signal(filename)
+        print("voe signal {}".format(voe_signal))
 
         bulk_data = []
 
@@ -163,7 +165,6 @@ class JsonImportCreator:
                     data_dict["block"] = block
                     data_dict["test"] = test
                     data_dict["scene"] = scene
-                    data_dict["plausibility"] = answer[block][test][scene]
 
                     # Data associated with this test
                     data_dict["num_objects"] = self.metadata[block][test]["num_objects"]
@@ -171,6 +172,10 @@ class JsonImportCreator:
                     data_dict["occluder"] = self.metadata[block][test]["occluder"]
 
                     data_dict["ground_truth"] = self.ground_truth[block][test][scene]
+
+                    # Data associated with performer results
+                    data_dict["plausibility"] = answer[block][test][scene]
+                    data_dict["voe_signal"] = voe_signal[block][test][scene]
                     data_dict["url_string"] = url_string
                     bulk_data.append(data_dict)
 
@@ -214,7 +219,7 @@ class JsonImportCreator:
                 line = line.decode('utf-8')
             split_line = line.split()
             if len(split_line) != 2:
-                raise ValueError('lines must have 2 fields, line {} has {}'.format(i + 1, len(split_line)))
+                raise ValueError('lines must have 2 fields, line {} has {}'.format(line, len(split_line)))
 
             # Line looks like:  O3/1076/2 1
             first_part = split_line[0]
@@ -235,6 +240,26 @@ class JsonImportCreator:
                     description = json.load(description_file)
                     return description
         # Handle case where this did not work
+
+    def get_voe_signal(self, filename):
+        voe_signal = self.nested_dict(4,float)
+        with zipfile.ZipFile(filename) as my_zip:
+            voe_content = [f for f in my_zip.namelist() if str(f).startswith("voe_")]
+            for voe_filename in voe_content:
+
+                key = voe_filename.split('_')
+                block = str(key[1])
+                test = str(key[2])
+                scene = str(key[3]).split('.')[0]
+
+                with my_zip.open(voe_filename) as voe_file:
+                    for cnt, line in enumerate(voe_file):
+                        if isinstance(line, (bytes, bytearray)):
+                            line = line.decode('utf-8')
+                        split_line = line.split(' ')
+                        val = float(split_line[1])
+                        voe_signal[block][test][scene][str(cnt+1)] = val
+        return voe_signal
 
     def check(self):
         # sanity check
