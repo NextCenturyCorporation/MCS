@@ -102,6 +102,7 @@ class SubmissionCreator:
                     with voe_file.open('w') as outfile:
                         for frame_num in range(0, 20):
                             outfile.write("{} 1.0000\n".format(frame_num + 1))
+                            print("{} {}".format(frame_num+1, 1.0))
 
                         frame_val = 1.0
                         index_of_final = random.randint(20, 100)
@@ -110,9 +111,11 @@ class SubmissionCreator:
                             if frame_val < final_answer:
                                 frame_val = final_answer
                             outfile.write("{} {:04f}\n".format(frame_num + 1, frame_val))
+                            print("{} {}".format(frame_num+1, frame_val))
 
                         for frame_num in range(index_of_final, 100):
                             outfile.write("{} {:04f}\n".format(frame_num + 1, final_answer))
+                            print("{} {}".format(frame_num+1, final_answer))
 
     def create_location_information(self, path, answer_json):
         location_filename = "location.txt"

@@ -20,6 +20,31 @@ body {
     margin-right: 10px;
 }
 
+.voe_div {
+    display: flex; 
+    flex-direction: row;
+}
+
+.scene_div {
+    display: flex; 
+    flex-direction: row;
+    margin-bottom: 20px;
+}    
+
+.sceneinfo {
+    margin-left: 50px;
+    margin-right: 70px;
+}
+
+.commentarea {
+    margin-top:20px;
+    width:300px;
+}
+
+.voe_chart {
+    margin-left: 20px;
+}
+
 ol, ul {
     padding-left: 30px;
 }
