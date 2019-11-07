@@ -134,7 +134,7 @@ class JsonImportCreator:
         description = self.get_description_information(filename)
         answer = self.get_answer(filename)
         voe_signal = self.get_voe_signal(filename)
-        print("voe signal {}".format(voe_signal))
+        # print("voe signal {}".format(voe_signal))
 
         bulk_data = []
 
