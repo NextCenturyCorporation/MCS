@@ -2,33 +2,30 @@
 #  Training for occluders
 #
 #
-# from numpy import mean
-# from numpy import std
-# from matplotlib import pyplot
-# from sklearn.model_selection import KFold
-# # from keras.datasets import mnist
-# from keras.utils import to_categorical
-# from keras.models import Sequential
-# from keras.layers import Conv2D
-# from keras.layers import MaxPooling2D
-# from keras.layers import Dense
-# from keras.layers import Flatten
-# from keras.optimizers import SGD
 
-import argparse
 import json
 import os
 import shutil
 from PIL import Image
 from pathlib import Path
 import random
+from statistics import mode
 
 
 class OccluderDataCreator:
 
     def __init__(self):
         random.seed(23954)
+
         self.dataDir = Path("/mnt/ssd/cdorman/data/mcs/intphys/train/")
+        self.outdir = Path("/mnt/ssd/cdorman/data/mcs/intphys/split/")
+        self.make_out_dirs("train")
+        self.make_out_dirs("test")
+
+    def make_out_dirs(self, name):
+        os.mkdir(self.outdir / name)
+        for subdir in ["sky", "floor", "walls", "occluder", "Sphere", "Cone", "Cube"]:
+            os.mkdir(self.outdir / name / subdir)
 
     def make_data(self):
         # Read all the intphys train directories
@@ -44,9 +41,12 @@ class OccluderDataCreator:
 
         # for subdir in traindirs:
         #     self.get_data_from_dir("train", subdir)
-        self.get_data_from_dir(Path("train"), traindirs[0])
+        for subdir in testdirs:
+            self.get_data_from_dir("test", subdir)
+        # self.get_data_from_dir(self.outdir / ("train"), traindirs[0])
 
     def get_data_from_dir(self, dest_dir, in_path):
+        print("Doing directory {}".format(in_path))
         """ Passed a directory name, read the status.json and get images"""
         status = self.read_json(in_path)
 
@@ -60,7 +60,8 @@ class OccluderDataCreator:
                 mask_color = mask_json[obj_name]
                 obj_type = "unknown"
                 if obj_name in ("floor", "walls", "sky"):
-                    obj_type = obj_name
+                    # obj_type = obj_name
+                    continue
                 elif obj_name.startswith("occluder"):
                     obj_type = "occluder"
                 else:
@@ -69,10 +70,75 @@ class OccluderDataCreator:
 
     def get_image_for_object(self, out_path, in_path, frame_num, obj_type, mask_color):
         frame_num_with_leading_zeros = str(frame_num).zfill(3)
-        scene_filename = in_path / "scene" / ("scene_" + frame_num_with_leading_zeros + ".png")
-        out_dir_path = out_path / obj_type
-        print("filename {} {} {} {} goes to {}".format(frame_num, obj_type, mask_color, str(scene_filename),
-                                                       out_dir_path))
+        mask_filename = in_path / "masks" / ("masks_" + frame_num_with_leading_zeros + ".png")
+        scene_name = os.path.basename(os.path.normpath(in_path))
+        out_file_path = self.outdir / out_path / obj_type / (
+                "mask_" + scene_name + "_" + frame_num_with_leading_zeros + "_" + obj_type + ".png")
+        # print("filename {} {} {} {} goes to {}".format(frame_num, obj_type, mask_color, str(mask_filename),
+        #                                                out_file_path))
+        orig_image = Image.open(mask_filename)
+        new_image = self.get_part_of_image(orig_image, mask_color)
+
+        new_image.save(out_file_path)
+
+    def get_part_of_image(self, orig, color):
+        """
+        Get part of an image, consisting of the parts that are of a particular color
+        """
+        orig_pixels = orig.load()
+
+        # Determine what parts belong to the mask
+        minx = 10000
+        maxx = 0
+        miny = 10000
+        maxy = 0
+        for x in range(orig.size[0]):
+            for y in range(orig.size[1]):
+                if orig_pixels[x, y] == color:
+                    if x < minx:
+                        minx = x
+                    if x > maxx:
+                        maxx = x
+                    if y < miny:
+                        miny = y
+                    if y > maxy:
+                        maxy = y
+        DIFF = 3
+
+        # Give a little bit of room on either side
+        minx = minx - DIFF
+        maxx = maxx + DIFF
+        miny = miny - DIFF
+        maxy = maxy + DIFF
+
+        # Make sure we did not go off the edge
+        minx = minx if minx >= 0 else 0
+        maxx = maxx if maxx < orig.size[0] else orig.size[0] - 1
+        miny = miny if miny >= 0 else 0
+        maxy = maxy if maxy < orig.size[1] else orig.size[1] - 1
+
+        # Determine what color to make the background.  Add 4 corners pixel color, removing the object color
+        vals = [orig_pixels[minx, miny], orig_pixels[minx, maxy], orig_pixels[maxx, miny], orig_pixels[maxx, maxy]]
+        if color in vals:
+            vals.remove(color)
+        background_color = max(set(vals), key=vals.count)
+
+        # Size of the thing we putting into the image
+        sizex = maxx - minx + 1
+        sizey = maxy - miny + 1
+
+        # Where it should go:  in the middle, minus half the size
+        startx = orig.size[0] // 2 - (sizex // 2)
+        starty = orig.size[1] // 2 - (sizey // 2)
+
+        new_img = Image.new(orig.mode, orig.size, background_color)
+        new_img_pixels = new_img.load()
+        for x in range(sizex):
+            for y in range(sizey):
+                new_img_pixels[startx + x, starty + y] = orig_pixels[minx + x, miny + y]
+
+        # print("Range of color: {} {} {} {}".format(minx, maxx, miny, maxy))
+        return new_img
 
     def read_json(self, dirpath):
         status_path = dirpath / "status.json"
@@ -80,9 +146,6 @@ class OccluderDataCreator:
         with status_path.open() as file:
             status_json = json.load(file)
         return status_json
-
-    def readImage(self):
-        pass
 
     def get_dirs(self):
         if not os.path.exists(self.dataDir):
@@ -96,107 +159,3 @@ class OccluderDataCreator:
 if __name__ == "__main__":
     dc = OccluderDataCreator()
     dc.make_data()
-
-#
-#
-# # load train and test dataset
-# def load_dataset():
-#     (trainX, trainY), (testX, testY) = mnist.load_data()
-#     # reshape dataset to have a single channel
-#     trainX = trainX.reshape((trainX.shape[0], 28, 28, 1))
-#     testX = testX.reshape((testX.shape[0], 28, 28, 1))
-#     # one hot encode target values
-#     trainY = to_categorical(trainY)
-#     testY = to_categorical(testY)
-#     return trainX, trainY, testX, testY
-#
-#
-# # scale pixels
-# def prep_pixels(train, test):
-#     # convert from integers to floats
-#     train_norm = train.astype('float32')
-#     test_norm = test.astype('float32')
-#     # normalize to range 0-1
-#     train_norm = train_norm / 255.0
-#     test_norm = test_norm / 255.0
-#     # return normalized images
-#     return train_norm, test_norm
-#
-#
-# # define cnn model
-# def define_model():
-#     model = Sequential()
-#     model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', input_shape=(28, 28, 1)))
-#     model.add(MaxPooling2D((2, 2)))
-#     model.add(Flatten())
-#     model.add(Dense(100, activation='relu', kernel_initializer='he_uniform'))
-#     model.add(Dense(10, activation='softmax'))
-#     # compile model
-#     opt = SGD(lr=0.01, momentum=0.9)
-#     model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
-#     return model
-#
-#
-# # evaluate a model using k-fold cross-validation
-# def evaluate_model(model, dataX, dataY, n_folds=5):
-#     scores, histories = list(), list()
-#     # prepare cross validation
-#     kfold = KFold(n_folds, shuffle=True, random_state=1)
-#     # enumerate splits
-#     for train_ix, test_ix in kfold.split(dataX):
-#         # select rows for train and test
-#         trainX, trainY, testX, testY = dataX[train_ix], dataY[train_ix], dataX[test_ix], dataY[test_ix]
-#         # fit model
-#         history = model.fit(trainX, trainY, epochs=10, batch_size=32, validation_data=(testX, testY), verbose=0)
-#         # evaluate model
-#         _, acc = model.evaluate(testX, testY, verbose=0)
-#         print('> %.3f' % (acc * 100.0))
-#         # stores scores
-#         scores.append(acc)
-#         histories.append(history)
-#     return scores, histories
-#
-#
-# # plot diagnostic learning curves
-# def summarize_diagnostics(histories):
-#     for i in range(len(histories)):
-#         # plot loss
-#         pyplot.subplot(211)
-#         pyplot.title('Cross Entropy Loss')
-#         pyplot.plot(histories[i].history['loss'], color='blue', label='train')
-#         pyplot.plot(histories[i].history['val_loss'], color='orange', label='test')
-#         # plot accuracy
-#         pyplot.subplot(212)
-#         pyplot.title('Classification Accuracy')
-#         pyplot.plot(histories[i].history['acc'], color='blue', label='train')
-#         pyplot.plot(histories[i].history['val_acc'], color='orange', label='test')
-#     pyplot.show()
-#
-#
-# # summarize model performance
-# def summarize_performance(scores):
-#     # print summary
-#     print('Accuracy: mean=%.3f std=%.3f, n=%d' % (mean(scores) * 100, std(scores) * 100, len(scores)))
-#     # box and whisker plots of results
-#     pyplot.boxplot(scores)
-#     pyplot.show()
-#
-#
-# # run the test harness for evaluating a model
-# def run_test_harness():
-#     # load dataset
-#     trainX, trainY, testX, testY = load_dataset()
-#     # prepare pixel data
-#     trainX, testX = prep_pixels(trainX, testX)
-#     # define model
-#     model = define_model()
-#     # evaluate model
-#     scores, histories = evaluate_model(model, trainX, trainY)
-#     # learning curves
-#     summarize_diagnostics(histories)
-#     # summarize estimated performance
-#     summarize_performance(scores)
-#
-#
-# # entry point, run the test harness
-# run_test_harness()
