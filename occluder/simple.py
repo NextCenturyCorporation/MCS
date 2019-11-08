@@ -18,6 +18,9 @@ from keras.layers import Dense
 from keras.layers import Flatten
 from keras.optimizers import SGD
 
+
+import time
+
 # load train and test dataset
 def load_dataset():
 	# load dataset
@@ -71,6 +74,12 @@ def evaluate_model(model, dataX, dataY, n_folds=5):
 		# stores scores
 		scores.append(acc)
 		histories.append(history)
+
+
+	# learning curves
+	summarize_diagnostics(histories)
+	# summarize estimated performance
+	summarize_performance(scores)
 	return scores, histories
 
 # plot diagnostic learning curves
@@ -96,6 +105,20 @@ def summarize_performance(scores):
 	pyplot.boxplot(scores)
 	pyplot.show()
 
+# load and prepare the image
+def load_image(filename):
+	# load the image
+	img = load_img(filename, grayscale=True, target_size=(28, 28))
+	# convert to array
+	img = img_to_array(img)
+	# reshape into a single sample with 1 channel
+	img = img.reshape(1, 28, 28, 1)
+	# prepare pixel data
+	img = img.astype('float32')
+	img = img / 255.0
+	return img
+
+
 # run the test harness for evaluating a model
 def run_test_harness():
 	# load dataset
@@ -104,12 +127,30 @@ def run_test_harness():
 	trainX, testX = prep_pixels(trainX, testX)
 	# define model
 	model = define_model()
-	# evaluate model
-	scores, histories = evaluate_model(model, trainX, trainY)
-	# learning curves
-	summarize_diagnostics(histories)
-	# summarize estimated performance
-	summarize_performance(scores)
+
+	if False:
+		# evaluate model using K-fold cross validation
+		scores, histories = evaluate_model(model, trainX, trainY)
+	else:
+		# just do it once
+		model.fit(trainX, trainY, epochs=10, batch_size=32, verbose=0)
+
+		# Store model
+		model.save('final_model.h5')
+
+	# evaluate model on test data
+	_, acc = model.evaluate(testX, testY, verbose=0)
+	print('> %.3f' % (acc * 100.0))
+
+	run_example(model)
+
+
+# STart the timer
+start_time = time.time()
 
 # entry point, run the test harness
 run_test_harness()
+
+# End timer
+elapsed_time = time.time() - start_time
+print("Time: {} sec".format(elapsed_time))
