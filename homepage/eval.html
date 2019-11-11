@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <title>MCS Evaluators</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/styles.css">
+    </head>
+    <body>
+        <div class="container-fluid h-100">
+            <div class="row justify-content-center" style="margin-top: 20px;">
+                <h2>Evaluators Page</h2>
+                
+            </div>
+            <div style="margin: 50px;">
+                <h2>Instructions </h2>
+                <p>The link below will take you to a dashboard that will allow you to
+                filter and select individual tests from the blocks.  NOTE: the data in
+                the dashboard at present is completely made up. </p>
+                <p>You can click on any of the bar graphs to select a particular
+                sub-set of the test data.  For example, to only see results from Block
+                O1, click on that bar in the Blocks area on the upper right.  When you
+                select a particular performer, submission, or block, the Ground Truth
+                vs Plausibility graph will change, showing only that data.</p>
+                <p>The tests in IntPhys are internally divided into different
+                categories, depending on their level of dynamic complexity, the number
+                of objects, and whether there is an occluder present.  You can also
+                filter on these; for example, you can compare the results when there
+                are different numbers of objects present.
+                <p>The Ground Truth vs Plausibility graph in the middle shows the
+                ground truth (either 0 for implausible or 1 for plausible) versus the
+                submitted answer (a float value between 0 and 1).  A perfect score
+                would be to have all the results at the bottom right (0,0) or upper
+                left (1,1).  The graph is also selectable, so it may be of interest to
+                see why various tests are returning a low value    when ground truth is
+                1. <p>
+                    <a href="http://ec2-54-173-69-214.compute-1.amazonaws.com:4199/?dashboard=-#%E2%9F%A6%E2%9F%A7">Overall Stats Page</a>
+
+                <p>The data table on the bottom of the page will allow a user to select a
+                particular test.  THIS IS NOT IMPLEMENTED YET.  Click on the row and
+                it will take you to another page that shows the results for a
+                partiular test.</p>
+                <a href="http://ec2-54-173-69-214.compute-1.amazonaws.com:3000/">Single Test View</a> 
+            </div>
+
+            
+        </div>
+    </body>
+</html>
