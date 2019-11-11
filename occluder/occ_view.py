@@ -141,13 +141,13 @@ class MaskInfo:
                 continue
 
             # too small, must be non-occluder object
-            if val.pixel_count < 804:
+            if val.pixel_count < 501:
                 to_be_removed.append(key)
                 continue
 
             # aspect ratio wrong for medium sized
-            if 800 < val.pixel_count < 1450:
-                if 0.6 < val.aspect_ratio < 1.8:
+            if 500 < val.pixel_count < 1680:
+                if 0.5 < val.aspect_ratio < 1.8:
                     to_be_removed.append(key)
                     continue
 
@@ -246,6 +246,7 @@ class OccluderViewer:
                 num = len(obj)
             elif len(obj) != num:
                 print("Problem in test {} scene {} frame {}. Wrong num ".format(self.test_num, scene_num, frame_num))
+                print("expected {} but got {}".format(str(num), len(obj)))
                 return
 
             occluder_counter = 1
@@ -277,6 +278,14 @@ class OccluderViewer:
 
         sys.stdout.flush()
 
+        if event.key == 'm':
+            self.frame_slider.val = self.frame_slider.val + 1
+            self.update_slider(1)
+            return
+        if event.key == 'n':
+            self.frame_slider.val = self.frame_slider.val - 1
+            self.update_slider(1)
+            return
         if event.key == 'x':
             self.write_out_status()
 
@@ -316,8 +325,8 @@ if __name__ == "__main__":
     dc = OccluderViewer()
 
     if debug:
-        dc.set_up_view(107)
+        dc.set_up_view(984)
     else:
-        for test in range(45, 1001):
+        for test in range(1, 1081):
             dc.set_test_num(test)
             dc.write_out_status()
