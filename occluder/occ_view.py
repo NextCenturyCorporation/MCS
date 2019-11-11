@@ -144,30 +144,44 @@ class OccluderViewer:
 
     def write_out_status_for_scene(self, scene_num):
 
+        # Crate the json object
         status_json = {}
-        frames = []
         header = {}
-        statu
+        header["test"] = self.test_num
+        header["scene"] = scene_num
+        status_json["header"] = header
+
         # Make sure there are the same number of occluders in the scene over all frames
         num = -1
-        for frame_num in range(1,101):
-            mask= MaskInfo(self.dataDir / self.test_num_string / str(scene_num), frame_num)
-            obj = mask.get_obj
+        frames = []
+        for frame_num in range(1, 101):
+            frame_info = {}
+            frame_info["frame"] = frame_num
+            mask_info = {}
+
+            mask = MaskInfo(self.dataDir / self.test_num_string / str(scene_num), frame_num)
+            obj = mask.get_obj()
             if num == -1:
                 num = len(obj)
             elif len(obj) != num:
                 print("Problem in test {} scene {} frame {}. Wrong num ".format(self.test_num, scene_num, frame_num))
 
+            occluder_counter = 1
+            for key, value in obj.items():
+                occluder_name = "occluder" + str(occluder_counter)
+                mask_info[occluder_name] = key
+            frame_info["masks"] = mask_info
+            frames.append(frame_info)
+        status_json["frames"] = frames
 
-
-        status_path = self.dataDir / self.test_num_string / str(scene_num) / "status.json"
+        # status_path = self.dataDir / self.test_num_string / str(scene_num) / "status.json"
+        status_path = Path(("status/status_" + str(self.test_num) + "_" + str(scene_num) + ".json"))
         with status_path.open("w") as outfile:
-
-
+            json.dump(status_json, outfile, indent=4)
 
     def write_out_status(self):
         for ii in range(0, 4):
-            self.write_out_status_for_scene(ii+1)
+            self.write_out_status_for_scene(ii + 1)
 
     def update_keypress(self, event):
 
