@@ -1,0 +1,18 @@
+{
+  "name": "node-graphql",
+  "version": "0.0.1",
+  "author": "Brian Pippin",
+  "dependencies": {
+    "apollo-server": "^2.9.7",
+    "apollo-server-express": "^2.9.7",
+    "elasticsearch": "^16.5.0",
+    "es6": "npm:@elastic/elasticsearch@^6.8.3",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "graphql": "^14.5.8",
+    "graphql-compose": "^7.4.3",
+    "graphql-compose-elasticsearch": "^4.0.6",
+    "graphql-type-json": "^0.3.0",
+    "lodash": "^4.17.15"
+  }
+}
