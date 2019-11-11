@@ -15,12 +15,11 @@ import matplotlib.image as mpimg
 from matplotlib.widgets import Slider
 import sys
 
-debug = True
+# debug = True
+debug = False
 red = (255, 1, 1)
 green = (1,255, 1)
 white = (255,255,255)
-
-# debug = False
 
 class Obj:
 
@@ -108,30 +107,77 @@ class MaskInfo:
         self.objects[ground_color].label = 'ground'
 
         if debug:
+            self.clean_up_objects(frame_num)
             print("Mask info for path {}, frame {}".format(in_path, frame_num))
             for obj in self.objects.values():
                 print("\t{}".format(obj))
         else:
-            self.clean_up_objects()
+            self.clean_up_objects(frame_num)
 
-    def clean_up_objects(self):
+    def clean_up_objects(self, frame_num):
         to_be_removed = []
+        sky_found = False
+        ground_found = False
+
         for key, val in self.objects.items():
-            # too big, must be ground or sky
-            if val.pixel_count > 12000:
+
+            # sky is usually the top region
+            if val.minx == 0 and val.miny == 0 and val.maxx == 287 and val.maxy > 100:
+                sky_found = True
                 to_be_removed.append(key)
+                continue
+
+            # ground might be entire bottom
+            if val.minx == 0 and val.miny == 152 and val.maxx == 287 and val.maxy == 287:
+                ground_found = True
+                to_be_removed.append(key)
+                continue
+
+            # Ground might start at bottom
+            if val.minx == 0 and val.maxx == 287 and val.miny == 152 and val.maxy > 200:
+                ground_found = True
+                to_be_removed.append(key)
+                continue
 
             # too small, must be non-occluder object
-            elif val.pixel_count < 800:
+            if val.pixel_count < 800:
                 to_be_removed.append(key)
+                continue
 
-            # aspect ratio wrong
-            elif 800 < val.pixel_count < 1400:
+            # aspect ratio wrong for medium sized
+            if 800 < val.pixel_count < 1400:
                 if 0.8 < val.aspect_ratio < 1.5:
                     to_be_removed.append(key)
+                    continue
+
+            # if big and not ground or sky, must be occluder
+            if sky_found and ground_found and val.pixel_count > 10000:
+                continue
+
+            # If wide and flat, then must be occluder
+            if val.aspect_ratio > 3:
+                continue
+
+            # If not too big, then occluder
+            if val.pixel_count > 1400:
+                continue
+
+            # bad ground or sky?
+            print("Got to here {} {}".format(self.test_num, frame_num))
+            to_be_removed.append(key)
 
         for x in to_be_removed:
             self.objects.pop(x)
+
+        # If there are two left, and one is much bigger, then it is the ground
+        keys = list(self.objects.keys())
+        if len(keys) == 2:
+            size_1 = self.objects.get(keys[0]).pixel_count
+            size_2 = self.objects.get(keys[1]).pixel_count
+            if size_1 > size_2 and size_1 > 20000:
+                self.objects.pop(keys[0])
+            elif size_2 > size_1 and size_2 > 20000:
+                self.objects.pop(keys[1])
 
 
 class OccluderViewer:
@@ -269,7 +315,7 @@ if __name__ == "__main__":
     dc = OccluderViewer()
 
     if debug:
-        dc.set_up_view(42)
+        dc.set_up_view(41)
     else:
         for test in range(1, 1001):
             dc.set_test_num(test)
