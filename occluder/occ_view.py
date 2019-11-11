@@ -146,8 +146,8 @@ class MaskInfo:
                 continue
 
             # aspect ratio wrong for medium sized
-            if 800 < val.pixel_count < 1400:
-                if 0.6 < val.aspect_ratio < 1.65:
+            if 800 < val.pixel_count < 1450:
+                if 0.6 < val.aspect_ratio < 1.8:
                     to_be_removed.append(key)
                     continue
 
@@ -316,8 +316,8 @@ if __name__ == "__main__":
     dc = OccluderViewer()
 
     if debug:
-        dc.set_up_view(9)
+        dc.set_up_view(107)
     else:
-        for test in range(10, 1001):
+        for test in range(45, 1001):
             dc.set_test_num(test)
             dc.write_out_status()
