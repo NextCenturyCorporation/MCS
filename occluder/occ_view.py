@@ -18,8 +18,9 @@ import sys
 # debug = True
 debug = False
 red = (255, 1, 1)
-green = (1,255, 1)
-white = (255,255,255)
+green = (1, 255, 1)
+white = (255, 255, 255)
+
 
 class Obj:
 
@@ -140,13 +141,13 @@ class MaskInfo:
                 continue
 
             # too small, must be non-occluder object
-            if val.pixel_count < 800:
+            if val.pixel_count < 804:
                 to_be_removed.append(key)
                 continue
 
             # aspect ratio wrong for medium sized
             if 800 < val.pixel_count < 1400:
-                if 0.8 < val.aspect_ratio < 1.5:
+                if 0.6 < val.aspect_ratio < 1.65:
                     to_be_removed.append(key)
                     continue
 
@@ -163,7 +164,7 @@ class MaskInfo:
                 continue
 
             # bad ground or sky?
-            print("Got to here {} {}".format(self.test_num, frame_num))
+            print("Got to here {} {}".format(frame_num, val))
             to_be_removed.append(key)
 
         for x in to_be_removed:
@@ -315,8 +316,8 @@ if __name__ == "__main__":
     dc = OccluderViewer()
 
     if debug:
-        dc.set_up_view(41)
+        dc.set_up_view(9)
     else:
-        for test in range(1, 1001):
+        for test in range(10, 1001):
             dc.set_test_num(test)
             dc.write_out_status()
