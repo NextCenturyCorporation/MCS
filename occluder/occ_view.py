@@ -15,6 +15,12 @@ import matplotlib.image as mpimg
 from matplotlib.widgets import Slider
 import sys
 
+debug = True
+red = (255, 1, 1)
+green = (1,255, 1)
+white = (255,255,255)
+
+# debug = False
 
 class Obj:
 
@@ -25,6 +31,7 @@ class Obj:
         self.maxx = 0
         self.miny = 10000
         self.maxy = 0
+        self.label = None
 
     def add_pixel(self, x, y):
         self.pixel_count = self.pixel_count + 1
@@ -45,8 +52,7 @@ class Obj:
     def __str__(self):
         return "(" + str(self.color) + " [ " + str(self.minx) + ", " + str(self.maxx) + ", " + str(
             self.miny) + ", " + str(self.maxy) + " ] " + " ct: " + str(
-            self.pixel_count) + " AR: " + str(self.aspect_ratio) \
-               + ")"
+            self.pixel_count) + " AR: " + str(self.aspect_ratio) + ")"
 
 
 class MaskInfo:
@@ -83,11 +89,30 @@ class MaskInfo:
                     obj.add_pixel(x, y)
                     self.objects[color] = obj
 
-        self.clean_up_objects()
+        x_spacing = [1, 20, 30, 40, 100, 120, 150, 180, 240, 277]
+        y_sky_spacing = [1, 20, 50]
+        sky_color = []
+        # Try to find the sky
+        for x in x_spacing:
+            for y in y_sky_spacing:
+                sky_color.append(pixels[x, y])
+        sky_color = max(sky_color, key=sky_color.count)
+        self.objects[sky_color].label = 'sky'
 
-        print("Mask info for path {}, frame {}".format(in_path, frame_num))
-        for obj in self.objects.values():
-            print("\t{}".format(obj))
+        y_ground_spacing = [163, 183]
+        ground_color = []
+        for x in x_spacing:
+            for y in y_ground_spacing:
+                ground_color.append(pixels[x, y])
+        ground_color = max(ground_color, key=ground_color.count)
+        self.objects[ground_color].label = 'ground'
+
+        if debug:
+            print("Mask info for path {}, frame {}".format(in_path, frame_num))
+            for obj in self.objects.values():
+                print("\t{}".format(obj))
+        else:
+            self.clean_up_objects()
 
     def clean_up_objects(self):
         to_be_removed = []
@@ -116,6 +141,10 @@ class OccluderViewer:
         self.dataDir = Path("/mnt/ssd/cdorman/data/mcs/intphys/test/O1")
         self.masks = []
 
+    def set_test_num(self, test_num):
+        self.test_num = test_num
+        self.test_num_string = str(self.test_num).zfill(4)
+
     def process_mask(self, mask_path, frame_num):
         self.masks.clear()
         for scene in range(4):
@@ -136,7 +165,12 @@ class OccluderViewer:
             # img_src = mpimg.imread(str(image_name))
             draw = ImageDraw.Draw(img_src)
             for obj in self.masks[ii].get_obj().values():
-                draw.rectangle([(obj.minx, obj.miny), (obj.maxx, obj.maxy)], width=2)
+                draw_color = white
+                if obj.label is 'sky':
+                    draw_color = red
+                elif obj.label is 'ground':
+                    draw_color = green
+                draw.rectangle([(obj.minx, obj.miny), (obj.maxx, obj.maxy)], width=2, outline=draw_color)
 
             self.axs[ii].imshow(img_src)
 
@@ -148,7 +182,7 @@ class OccluderViewer:
         status_json = {}
         header = {}
         header["test"] = self.test_num
-        header["scene"] = scene_num
+        # header["scene"] = scene_num
         status_json["header"] = header
 
         # Make sure there are the same number of occluders in the scene over all frames
@@ -165,23 +199,32 @@ class OccluderViewer:
                 num = len(obj)
             elif len(obj) != num:
                 print("Problem in test {} scene {} frame {}. Wrong num ".format(self.test_num, scene_num, frame_num))
+                return
 
             occluder_counter = 1
-            for key, value in obj.items():
+            # this will sort the occluders by the left-most pixel
+            listofTuples = sorted(obj.items(), key=lambda x: x[1].minx)
+            for elem in listofTuples:
+                # print(elem[0], " ::", elem[1])
                 occluder_name = "occluder" + str(occluder_counter)
-                mask_info[occluder_name] = key
+                mask_info[occluder_name] = elem[0]
+                occluder_counter = occluder_counter + 1
             frame_info["masks"] = mask_info
             frames.append(frame_info)
         status_json["frames"] = frames
 
-        # status_path = self.dataDir / self.test_num_string / str(scene_num) / "status.json"
-        status_path = Path(("status/status_" + str(self.test_num) + "_" + str(scene_num) + ".json"))
+        # This one includes the scene num
+        #         status_path = Path(("status/status_" + str(self.test_num) + "_" + str(scene_num) + ".json"))
+        status_path = Path(("status/status_" + str(self.test_num).zfill(4) + ".json"))
         with status_path.open("w") as outfile:
             json.dump(status_json, outfile, indent=4)
 
+        print("wrote out data for test {}".format(self.test_num))
+
     def write_out_status(self):
-        for ii in range(0, 4):
-            self.write_out_status_for_scene(ii + 1)
+        self.write_out_status_for_scene(1)
+        # for ii in range(0, 4):
+        #     self.write_out_status_for_scene(ii + 1)
 
     def update_keypress(self, event):
 
@@ -191,10 +234,9 @@ class OccluderViewer:
             self.write_out_status()
 
         if event.key == 'right':
-            self.test_num = self.test_num + 1
+            self.set_test_num(self.test_num + 1)
         elif event.key == 'left':
-            self.test_num = self.test_num - 1
-        self.test_num_string = str(self.test_num).zfill(4)
+            self.set_test_num(self.test_num - 1)
         plt.title(self.test_num_string)
 
         print("Reading in new test {}".format(self.test_num))
@@ -225,4 +267,10 @@ class OccluderViewer:
 
 if __name__ == "__main__":
     dc = OccluderViewer()
-    dc.set_up_view(1000)
+
+    if debug:
+        dc.set_up_view(42)
+    else:
+        for test in range(1, 1001):
+            dc.set_test_num(test)
+            dc.write_out_status()
