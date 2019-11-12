@@ -15,12 +15,11 @@ import matplotlib.image as mpimg
 from matplotlib.widgets import Slider
 import sys
 
-# debug = True
-debug = False
+debug = True
+# debug = False
 red = (255, 1, 1)
 green = (1, 255, 1)
 white = (255, 255, 255)
-
 
 class Obj:
 
@@ -185,7 +184,7 @@ class OccluderViewer:
 
     def __init__(self):
         self.test_num = 1
-        self.dataDir = Path("/mnt/ssd/cdorman/data/mcs/intphys/test/O1")
+        self.dataDir = Path("/mnt/ssd/cdorman/data/mcs/intphys/test/O3")
         self.masks = []
 
     def set_test_num(self, test_num):
