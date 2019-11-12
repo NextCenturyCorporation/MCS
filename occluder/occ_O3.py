@@ -58,7 +58,7 @@ class Obj:
             self.pixel_count) + " AR: " + str(self.aspect_ratio) + ")"
 
     def get_mid(self):
-        return [(self.maxx - self.minx) / 2, (self.maxy - self.miny) / 2]
+        return [(self.maxx + self.minx) / 2., (self.maxy + self.miny) / 2.]
 
 
 class MaskInfo:
@@ -205,7 +205,12 @@ class OccluderViewer:
     def update_slider(self, val):
         # Change the frame
         frame_num = int(self.frame_slider.val)
-        self.process_mask(self.dataDir / self.test_num_string, frame_num)
+        # self.process_mask(self.dataDir / self.test_num_string, frame_num)
+
+        # match occluders
+        mask = MaskInfo(self.dataDir / self.test_num_string / str(1))
+        all_obj = mask.get_objects_for_frame(frame_num)
+        new_obj = self.get_matched_obj(self.obj, all_obj)
 
         # Draw the images
         frame_num_string = str(frame_num).zfill(3)
@@ -214,17 +219,14 @@ class OccluderViewer:
                     "scene_" + frame_num_string + ".png")
 
             img_src = Image.open(image_name)
-            # img_src = mpimg.imread(str(image_name))
             draw = ImageDraw.Draw(img_src)
-            for obj in self.masks[ii].get_obj().values():
+            for obj in new_obj.values():
                 draw_color = white
-                if obj.label is 'sky':
-                    draw_color = red
-                elif obj.label is 'ground':
-                    draw_color = green
                 draw.rectangle([(obj.minx, obj.miny), (obj.maxx, obj.maxy)], width=2, outline=draw_color)
 
             self.axs[ii].imshow(img_src)
+
+        self.obj = new_obj
 
         self.fig.canvas.draw_idle()
 
@@ -246,7 +248,7 @@ class OccluderViewer:
             img_src.save("./has_no_occluder/test_" + self.test_num_string + ".png")
             print("Test {} has no occ".format(self.test_num_string))
         else:
-            img_src.save("./has_occluder/test_" + self.test_num_string + ".png")
+            img_src.save("./has_occluder/test_" + str(len(obj)) + "_" + self.test_num_string + ".png")
             print("Test {} has occ {}".format(self.test_num_string, len(obj)))
 
     def get_matched_obj(self, old, new):
@@ -262,23 +264,21 @@ class OccluderViewer:
                     smallest_dist = dist
                     closest_object = new_key
 
-            old_size = old_val.pixel_count
-            new_size = new[closest_object].pixel_count
-            diff_size = abs( 1 - abs( old_size - new_size) / old_size)
-            print("Change in size {}.   Change in dist {}".format(diff_size, smallest_dist))
-
-            if diff_size > 0.2:
-                print(" --------- too big ?? ")
+            # old_size = old_val.pixel_count
+            # new_size = new[closest_object].pixel_count
+            # diff_size = abs( 1 - abs( old_size - new_size) / old_size)
+            # print("Change in size {}.   Change in dist {}".format(diff_size, smallest_dist))
+            #
+            # if 0.8 < diff_size < 1.2:
+            #     pass
+            # else:
+            #     print("Out of size")
 
             ret_obj[closest_object] = new[closest_object]
 
         return ret_obj
 
     def write_out_status_for_scene(self, scene_num):
-
-        # Make sure there are the same number of occluders in the scene over all frames
-        num = -1
-
         # Create the json object
         status_json = {}
         header = {}
@@ -353,6 +353,37 @@ class OccluderViewer:
             frame_info["masks"] = mask_info
             frame_dict[frame_num] = frame_info
 
+            last_obj = match_obj
+
+        # go backward in time
+        last_obj = obj_50
+        for frame_num in range(49, 0, -1):
+            frame_info = {}
+            frame_info["frame"] = frame_num
+            mask_info = {}
+
+            mask = MaskInfo(self.dataDir / self.test_num_string / str(scene_num))
+            current_obj = mask.get_objects_for_frame(frame_num)
+            match_obj = self.get_matched_obj(last_obj, current_obj)
+
+            if len(match_obj) != len(last_obj):
+                print("Problem in test {} scene {} frame {}. Wrong num ".format(self.test_num, scene_num, frame_num))
+                print("expected {} but got {}".format(str(len(last_obj)), str(len(match_obj))))
+                return
+
+            occluder_counter = 1
+            # this will sort the occluders by the left-most pixel
+            listofTuples = sorted(match_obj.items(), key=lambda x: x[1].minx)
+            for elem in listofTuples:
+                # print(elem[0], " ::", elem[1])
+                occluder_name = "occluder" + str(occluder_counter)
+                mask_info[occluder_name] = elem[0]
+                occluder_counter = occluder_counter + 1
+            frame_info["masks"] = mask_info
+            frame_dict[frame_num] = frame_info
+
+            last_obj = match_obj
+
         # convert from frame_dict to frames
         frames = []
         for frame_num in range(1, 101):
@@ -372,18 +403,25 @@ class OccluderViewer:
         # for ii in range(0, 4):
         #     self.write_out_status_for_scene(ii + 1)
 
+    def set_obj_at_50(self):
+        # Get number of occluders in frame 50
+        frame_num = 50
+        scene_num = 1
+        mask = MaskInfo(self.dataDir / self.test_num_string / str(scene_num))
+        mask.get_objects_for_frame(frame_num)
+        self.obj = mask.clean_up_O3_50()
+
     def update_keypress(self, event):
 
         sys.stdout.flush()
 
         if event.key == 'm':
-            self.frame_slider.val = self.frame_slider.val + 1
-            self.update_slider(1)
+            self.frame_slider.set_val(self.frame_slider.val + 1)
             return
         if event.key == 'n':
-            self.frame_slider.val = self.frame_slider.val - 1
-            self.update_slider(1)
+            self.frame_slider.set_val(self.frame_slider.val - 1)
             return
+
         if event.key == 'x':
             self.write_out_status()
 
@@ -392,6 +430,7 @@ class OccluderViewer:
         elif event.key == 'left':
             self.set_test_num(self.test_num - 1)
         plt.title(self.test_num_string)
+        self.set_obj_at_50()
 
         print("Reading in new test {}".format(self.test_num))
         self.frame_slider.set_val(50)
@@ -414,6 +453,7 @@ class OccluderViewer:
         self.frame_slider.on_changed(self.update_slider)
 
         self.fig.canvas.mpl_connect('key_press_event', self.update_keypress)
+        self.set_obj_at_50()
 
         plt.title(self.test_num_string)
         plt.show()
@@ -427,10 +467,14 @@ class OccluderViewer:
 if __name__ == "__main__":
     dc = OccluderViewer()
 
-    dc.divide()
-    # if debug:
-    #     dc.set_up_view(984)
-    # else:
-    #     for test in range(1, 1081):
-    #         dc.set_test_num(test)
-    #         dc.write_out_status()
+    # splits the data into 2 directories
+    # dc.divide()
+
+    # dc.set_test_num(3)
+    # dc.write_out_status()
+
+    # dc.set_up_view(3)
+
+    for test in range(1, 1081):
+        dc.set_test_num(test)
+        dc.write_out_status()
