@@ -19,9 +19,28 @@ Kibana - http://localhost:5601/app/kibana#/management/kibana/index?_g=()
 
 GraphQL - http://localhost:9100/graphql
  - This will let you write queries and test to see what the back end returns.  If you want ALL the data your query would look like this:
-    # Write your query or mutation here
+
     {
         msc_eval {
+            block
+            complexity
+            ground_truth
+            num_objects
+            occluder
+            performer
+            plausibility
+            scene
+            submission
+            test
+            url_string
+            voe_signal
+        }
+    }
+
+    or
+
+    {
+        getEvalAnalysis (test: "0001", block:"O1",     submission:"submission_0", performer:"TA1_group_test") {
             block
             complexity
             ground_truth
