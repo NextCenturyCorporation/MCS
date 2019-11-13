@@ -269,7 +269,7 @@ class JsonImportCreator:
     def check(self):
         # sanity check
         res = self.es.search(index=config['index_name'], size=2, body={"query": {"match_all": {}}})
-        print("Query response: '{}'".format(res))
+        # print("Query response: '{}'".format(res))
 
     def nested_dict(self, n, type):
         """ Create a multi dimensional dictionary of dimension n.

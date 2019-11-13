@@ -8,7 +8,7 @@ fileName: "config.yaml"
 datastores:
   es1:
     name: "es1"
-    host: "elasticsearch"
+    host: "neon-es"
     type: "elasticsearchrest"
     databases:
       msc_eval:
@@ -174,6 +174,9 @@ layouts:
       limit: 100
       ignoreSelf: false
       _id: "1cd9cb1f-81ed-4809-b949-57e01b07cd12"
+      linkPrefix: "http://ec2-54-173-69-214.compute-1.amazonaws.com:3000/"
+      linkFields:
+      - url_string
       showFields:
       - performer
       - submission
@@ -185,6 +188,7 @@ layouts:
       - occluder
       - ground_truth
       - plausibility
+      - voe_signal
       - url_string
     col: 1
     row: 20
