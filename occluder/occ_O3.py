@@ -6,6 +6,8 @@ import json
 import math
 import os
 import shutil
+import time
+
 from PIL import Image, ImageDraw
 from pathlib import Path
 import random
@@ -35,6 +37,7 @@ class Obj:
         self.label = None
         self.midx = 0
         self.midy = 0
+        self.dy = 0
 
     def add_pixel(self, x, y):
         self.pixel_count = self.pixel_count + 1
@@ -105,7 +108,8 @@ class MaskInfo:
     def clean_up_O3_50(self):
         to_be_removed = []
         for key, val in self.objects.items():
-            if val.pixel_count < 1001:
+
+            if val.pixel_count < 1500:
                 to_be_removed.append(key)
                 continue
 
@@ -251,30 +255,72 @@ class OccluderViewer:
             img_src.save("./has_occluder/test_" + str(len(obj)) + "_" + self.test_num_string + ".png")
             print("Test {} has occ {}".format(self.test_num_string, len(obj)))
 
+    # def get_matched_obj_old(self, old, new):
+    #     ret_obj = {}
+    #     for old_key, old_val in old.items():
+    #         old_mid = old_val.get_mid()
+    #         old_size = old_val.pixel_count
+    #
+    #         # Get predicted y
+    #         print("current loc: {} {}".format(old_mid[0], old_mid[1]))
+    #         pred_y = old_mid[1] + old_val.dy
+    #         print("Predicted loc: {} {}".format(old_mid[0], pred_y))
+    #
+    #         # find closest
+    #         smallest_dist = 1000000
+    #         closest_object = None
+    #         for new_key, new_val in new.items():
+    #             new_mid = new_val.get_mid()
+    #             dx = old_mid[0] - new_mid[0]
+    #             dy = pred_y - new_mid[1]
+    #             dist = math.sqrt(dx * dx + dy * dy)
+    #
+    #             # make sure not too different in size
+    #             new_size = new_val.pixel_count
+    #             diff_size = abs(old_size - new_size) / old_size
+    #
+    #             # print(
+    #             #     "   Current item loc: {} {} dist: {} diff_size {}".format(new_mid[0], new_mid[1], dist, diff_size))
+    #
+    #             if dist < smallest_dist:  # and diff_size < 0.5:
+    #                 smallest_dist = dist
+    #                 closest_object = new_key
+    #
+    #         ret_obj[closest_object] = new[closest_object]
+    #         ret_mid = ret_obj[closest_object].get_mid()
+    #         # print("   New mid {} {}".format(ret_mid[0], ret_mid[1]))
+    #         dy = ret_mid[1] - old_mid[1]
+    #         # print("   dy = {}".format(dy))
+    #         ret_obj[closest_object].dy = dy
+    #
+    #     return ret_obj
+
     def get_matched_obj(self, old, new):
         ret_obj = {}
         for old_key, old_val in old.items():
             old_mid = old_val.get_mid()
+            # print("   Old mid {} {}".format(old_mid[0], old_mid[1]))
+
+            # find closest
             smallest_dist = 1000000
             closest_object = None
             for new_key, new_val in new.items():
-                new_mid = new_val.get_mid()
-                dist = math.sqrt((old_mid[0] - new_mid[0]) ** 2 + (old_mid[1] - new_mid[1]) ** 2)
-                if dist < smallest_dist:
+                dx_left = old_val.minx - new_val.minx
+                dx_right = old_val.maxx - new_val.maxx
+                dy_left = old_val.miny - new_val.miny
+                dy_right = old_val.maxy - new_val.maxy
+
+                dist = dx_left * dx_left + dx_right * dx_right + dy_left * dy_left + dy_right * dy_right
+
+                # print("  dist {} ".format(dist))
+
+                if dist < smallest_dist:  # and diff_size < 0.5:
                     smallest_dist = dist
                     closest_object = new_key
 
-            # old_size = old_val.pixel_count
-            # new_size = new[closest_object].pixel_count
-            # diff_size = abs( 1 - abs( old_size - new_size) / old_size)
-            # print("Change in size {}.   Change in dist {}".format(diff_size, smallest_dist))
-            #
-            # if 0.8 < diff_size < 1.2:
-            #     pass
-            # else:
-            #     print("Out of size")
-
             ret_obj[closest_object] = new[closest_object]
+            ret_mid = ret_obj[closest_object].get_mid()
+            # print("   New mid {} {}".format(ret_mid[0], ret_mid[1]))
 
         return ret_obj
 
@@ -415,6 +461,9 @@ class OccluderViewer:
 
         sys.stdout.flush()
 
+        if event.key == 'q':
+            exit(0)
+
         if event.key == 'm':
             self.frame_slider.set_val(self.frame_slider.val + 1)
             return
@@ -473,8 +522,10 @@ if __name__ == "__main__":
     # dc.set_test_num(3)
     # dc.write_out_status()
 
-    # dc.set_up_view(3)
+    # dc.set_up_view(64)
 
     for test in range(1, 1081):
+        t = time.time()
         dc.set_test_num(test)
         dc.write_out_status()
+        print("time: {}".format( str(time.time()-t)))

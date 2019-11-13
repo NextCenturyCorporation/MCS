@@ -184,7 +184,7 @@ class OccluderViewer:
 
     def __init__(self):
         self.test_num = 1
-        self.dataDir = Path("/mnt/ssd/cdorman/data/mcs/intphys/test/O3")
+        self.dataDir = Path("/mnt/ssd/cdorman/data/mcs/intphys/test/O1")
         self.masks = []
 
     def set_test_num(self, test_num):
