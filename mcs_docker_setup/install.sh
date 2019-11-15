@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #neon installation on docker
 
 docker build -t node-graphql node-graphql/.
