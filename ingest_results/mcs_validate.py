@@ -44,7 +44,8 @@ class MCSEval1Validator:
     """
 
     def __init__(self):
-        pass
+        # There are 3 blocks, with 1080 tests in each, with 4 scenes in each
+        self.num_scenes = 3 * 1080 * 4
 
     def validate(self, filename):
 
@@ -96,6 +97,41 @@ class MCSEval1Validator:
         # If we have passed all the tests, then return true
         return True
 
+    def valid_voe(self, dir):
+        # Make sure that there are VOE files
+        voe_files = [f for f in os.listdir(dir) if f.startswith("voe_") and f.endswith(".txt")]
+        num_voe_files = len(voe_files)
+        if num_voe_files != self.num_scenes:
+            print("Wrong number of voe files: {}. Should be {}".format(num_voe_files, self.num_scenes))
+            return False
+
+        # Pick one and make sure that it is correct
+        dirpath = Path(dir)
+        filepath = dirpath / voe_files[123]
+        return self.parse_voe(filepath)
+
+    def parse_voe(self, voe_filepath):
+        with voe_filepath.open("r") as voe_file:
+            line_counter = 1
+            for line in voe_file:
+                split_line = line.split()
+                if not int(split_line[0]) == line_counter:
+                    print("Line {} of {} is {}, should start with line number".format(line_counter, voe_filepath, split_line[0]))
+                    return False
+
+                val = float(split_line[1])
+                if not 0.0 <= val <= 1.0:
+                    print("Line {} of {} is {}, should end with a float [0,1]".format(line_counter, voe_filepath, split_line[0]))
+                    return False
+
+                line_counter = line_counter + 1
+
+        if line_counter != 100:
+            print("VOE file {} has {} lines, should be 100".format(voe_filepath, line_counter))
+            return False
+
+        return True
+
     def valid_location(self, dir):
         dirpath = Path(dir)
         filepath = dirpath / "location.txt"
@@ -114,11 +150,11 @@ class MCSEval1Validator:
                     print("Line {}: {} does not have 4 fields in location.txt".format(line_counter, line))
                     return False
 
-                if not self.parse_block_test_scene( split_line[0]):
+                if not self.parse_block_test_scene(split_line[0]):
                     print("Line {} failed to parse block / test / scene".format(line))
                     return False
 
-                for index in [1,2]:
+                for index in [1, 2]:
                     val = int(split_line[index])
                     if val == -1:
                         pass
@@ -215,12 +251,12 @@ class MCSEval1Validator:
                     print("Line {}: {} does not have 2 fields in answer.txt".format(line_counter, line))
                     return False
 
-                if not self.parse_block_test_scene( split_line[0]):
+                if not self.parse_block_test_scene(split_line[0]):
                     print("Line {} failed to parse block / test / scene".format(line))
                     return False
 
                 try:
-                    val = float( split_line[1])
+                    val = float(split_line[1])
                     if not 0 <= val <= 1:
                         print("Line {} does not have valid plausibility {}".format(line, val))
                         return False
@@ -229,9 +265,8 @@ class MCSEval1Validator:
                     return False
                 line_counter = line_counter + 1
 
-        correct_line_count = 1080 * 3 * 4
-        if not line_counter == correct_line_count:
-            print("Wrong number of lines in answer.txt: {}.  Should be {}".format(line_counter, correct_line_count))
+        if not line_counter == self.num_scenes:
+            print("Wrong number of lines in answer.txt: {}.  Should be {}".format(line_counter, self.num_scenes))
             return False
 
         return True
@@ -247,6 +282,7 @@ class MCSEval1Validator:
             print("Caught exception reading zipfile {}:  {}".format(filename, str(e)))
             return False
         return True
+
 
 if __name__ == "__main__":
     arguments = parse_arguments()
