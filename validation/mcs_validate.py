@@ -15,10 +15,9 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-"""
-Read in submission, metadata, and ground truth to create an elastic search
-index that can be read by Neon.
-
+"""Parse a submission file and attempt to validate it, checking the
+zip and the files inside.  If it does not validate, then print a
+useful message about why it did not validate.
 """
 import json
 import argparse
