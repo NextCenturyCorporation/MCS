@@ -91,7 +91,7 @@ class MCSEval1Validator:
             return False
 
         finally:
-            shutil.rmtree(temp_dir)
+            # shutil.rmtree(temp_dir)
             pass
 
         # If we have passed all the tests, then return true
@@ -126,7 +126,8 @@ class MCSEval1Validator:
 
                 line_counter = line_counter + 1
 
-        if line_counter != 100:
+        # Allow off by one in case there is a return at the end of the file 
+        if line_counter not in [100, 101]:
             print("VOE file {} has {} lines, should be 100".format(voe_filepath, line_counter))
             return False
 
@@ -287,4 +288,8 @@ class MCSEval1Validator:
 if __name__ == "__main__":
     arguments = parse_arguments()
     validator = MCSEval1Validator()
-    validator.validate(arguments.zipfile)
+    result = validator.validate(arguments.zipfile)
+    if result:
+        print("Valid file")
+    else:
+        print("Invalid")
