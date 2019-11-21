@@ -32,8 +32,8 @@ body {
 }    
 
 .sceneinfo {
-    margin-left: 50px;
-    margin-right: 70px;
+    margin-left: 60px;
+    margin-right: 60px;
 }
 
 .commentarea {
@@ -43,6 +43,7 @@ body {
 
 .voe_chart {
     margin-left: 20px;
+    margin-right: 30px;
 }
 
 ol, ul {
@@ -95,4 +96,17 @@ ol, ul {
     margin-left: 20px;
     margin-top: 20px;
     width: 300px;
+}
+
+.comment-container {
+    margin: 20px;
+}
+
+.comment-display {
+    margin: 10px 20px;
+}
+
+.comment-date {
+    font-size: 10px;
+    color: #777777;
 }
