@@ -13,10 +13,15 @@ client.ping({
     : console.log('ElasticSearch is ok');
 });
 
-function ElasticSearchClient(body) {
+function ElasticSearchClient(index, body) {
   // perform the actual search passing in the index, the search query and the type
-  return client.search({index: 'msc_eval', body: body});
+  return client.search({index: index, body: body, from:0, size: 1000});
 }
+
+function ElasticSaveClient(index, type, body) {
+  // Update Elastic Search by query
+  return client.index({index: index, type: type, body: body})
+} 
 
 function ApiElasticSearchClient(req, res) {
   // perform the actual search passing in the index, the search query and the type
@@ -30,5 +35,6 @@ function ApiElasticSearchClient(req, res) {
 
 module.exports = {
   ApiElasticSearchClient,
-  ElasticSearchClient
+  ElasticSearchClient,
+  ElasticSaveClient
 };
