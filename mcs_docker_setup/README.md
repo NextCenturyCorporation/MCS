@@ -1,13 +1,13 @@
 This will help you setup the MCS Structure
 
-1.  Download Neon files located here:  https://nextcenturycorporation-my.sharepoint.com/personal/aamduka_hq_nextcentury_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Faamduka%5Fhq%5Fnextcentury%5Fcom%2FDocuments%2FAttachments%2Fneon%2Etar%2Egz&parent=%2Fpersonal%2Faamduka%5Fhq%5Fnextcentury%5Fcom%2FDocuments%2FAttachments&originalPath=aHR0cHM6Ly9uZXh0Y2VudHVyeWNvcnBvcmF0aW9uLW15LnNoYXJlcG9pbnQuY29tLzp1Oi9nL3BlcnNvbmFsL2FhbWR1a2FfaHFfbmV4dGNlbnR1cnlfY29tL0VhR01IYVVKTEtCQWlMOW8zaHlmSEg4QmhLVGFaVzdKSS1MaE1ZdlVRTlI4MGc_cnRpbWU9YTNEY0pyMW0xMGc  (It is suppose to be in owncloud as well but can't find the link for that)
-2. Unzip/tar/gz the neon.tar.gz file (Note it might require you to untar the file twice)
+1.  Download Neon files located here:  https://s3.amazonaws.com/www.machinecommonsense.com/neon-2019-11-04-thomas.tgz
+2. Unzip the file
 3. Run install.sh in the Neon Directory
-4. In the Neon directory after that completes run the command "docker-compose down"
-5. Copy the "analysis-ui" and "node-graphql" folders into the Neon directory
-6. Copy the docker-compose.yml file into the Neon directory
-7. In the Neon directory run the command "docker build -t node-graphql node-graphql/."
-8. In the Neon directory run the command "docker build -t analysis-ui analysis-ui/."
+4. Copy the "analysis-ui" and "node-graphql" folders into the Neon directory
+5. Copy the docker-compose.yml file into the Neon directory
+6. In the Neon directory run the command "docker build -t node-graphql node-graphql/."
+7. In the Neon directory run the command "docker build -t analysis-ui analysis-ui/."
+8. Copy the config.yaml file that is in the MCS/ingest_results directory into the Neon/resources directory
 9. Run the command "docker-compose up -d"
 10.  After that run the command "docker ps -a" to make sure all of the containers are up and running.
 11.  Follow the README.md located in "ingest_results" in the MCS git repository, you should be able to run "python3 create_json_ingest.py" at the end (or your python of choice) to ingest results in ElasticSearch.  (Note the new docker-compose.yml file does not start up the Neon data load that imports the earthquake data.)

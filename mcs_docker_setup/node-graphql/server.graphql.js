@@ -1,5 +1,5 @@
 
-const {ElasticSearchClient} = require('./server.elasticsearch');
+const {ElasticSearchClient, ElasticSaveClient} = require('./server.elasticsearch');
 const elasticSearchSchema = require('./server.es.schema');
 const {makeExecutableSchema} = require('graphql-tools');
 const _ = require('lodash');
@@ -24,6 +24,15 @@ const typeDefs = `
     voe_signal: JSON
   }
 
+  type Comment {
+    block: String
+    performer: String
+    submission: String
+    test: String
+    createdDate: String
+    text: String
+  }
+
   type Query {
     msc_eval: [Source]
     getEvalByTest(test: String) : [Source]
@@ -31,6 +40,11 @@ const typeDefs = `
     getEvalBySubmission(submission: String) : [Source]
     getEvalByPerformer(performer: String) : [Source]
     getEvalAnalysis(test: String, block: String, submission: String, performer: String) : [Source]
+    getComments(test: String, block: String, submission: String, performer: String) : [Comment]
+  }
+
+  type Mutation {
+    saveComment(test: String, block: String, submission: String, performer: String, createdDate: String, text: String) : Comment
   }
 `;
 
@@ -66,7 +80,7 @@ function getAnalysisSchema(testVal, blockVal, submissionVal, perfomerVal) {
 const resolvers = {
   Query: {
     msc_eval: (obj, args, context, infow) => new Promise((resolve, reject) => {
-      ElasticSearchClient({...elasticSearchSchema})
+      ElasticSearchClient('msc_eval', {...elasticSearchSchema})
         .then(r => {
           let _source = r.body.hits.hits;
               _source.map((item, i) => _source[i] = item._source);
@@ -74,7 +88,7 @@ const resolvers = {
         });
     }),
     getEvalByTest: (obj, args, context, infow) => new Promise((resolve, reject) => {
-      ElasticSearchClient(getElasticSchema("test", args["test"]))
+      ElasticSearchClient('msc_eval', getElasticSchema("test", args["test"]))
         .then(r => {
           let _source = r.body.hits.hits;
               _source.map((item, i) => _source[i] = item._source);
@@ -82,7 +96,7 @@ const resolvers = {
         });
     }),
     getEvalByBlock: (obj, args, context, infow) => new Promise((resolve, reject) => {
-      ElasticSearchClient(getElasticSchema("block", args["block"]))
+      ElasticSearchClient('msc_eval', getElasticSchema("block", args["block"]))
         .then(r => {
           let _source = r.body.hits.hits;
               _source.map((item, i) => _source[i] = item._source);
@@ -90,7 +104,7 @@ const resolvers = {
         });
     }),
     getEvalBySubmission: (obj, args, context, infow) => new Promise((resolve, reject) => {
-      ElasticSearchClient(getElasticSchema("submission", args["submission"]))
+      ElasticSearchClient('msc_eval', getElasticSchema("submission", args["submission"]))
         .then(r => {
           let _source = r.body.hits.hits;
               _source.map((item, i) => _source[i] = item._source);
@@ -98,7 +112,7 @@ const resolvers = {
         });
     }),
     getEvalByPerformer: (obj, args, context, infow) => new Promise((resolve, reject) => {
-      ElasticSearchClient(getElasticSchema("performer", args["performer"]))
+      ElasticSearchClient('msc_eval', getElasticSchema("performer", args["performer"]))
         .then(r => {
           let _source = r.body.hits.hits;
               _source.map((item, i) => _source[i] = item._source);
@@ -106,14 +120,33 @@ const resolvers = {
         });
     }),
     getEvalAnalysis: (obj, args, context, infow) => new Promise((resolve, reject) => {
-      console.log(args, args["test"], args["block"], args["submission"], args["performer"])
-      ElasticSearchClient(getAnalysisSchema(args["test"], args["block"], args["submission"], args["performer"]))
+      ElasticSearchClient('msc_eval', getAnalysisSchema(args["test"], args["block"], args["submission"], args["performer"]))
         .then(r => {
           let _source = r.body.hits.hits;
               _source.map((item, i) => _source[i] = item._source);
           resolve(_source);
         });
     }),
+    getComments: (obj, args, context, infow) => new Promise((resolve, reject) => {
+      ElasticSearchClient('comments', getAnalysisSchema(args["test"], args["block"], args["submission"], args["performer"]))
+        .then(r => {
+          let _source = r.body.hits.hits;
+              _source.map((item, i) => _source[i] = item._source);
+          resolve(_source);
+        });
+    })
+  }, 
+  Mutation: {
+    saveComment: async (obj, args, context, infow) => {
+      return await ElasticSaveClient('comments', 'comment', {
+        test: args["test"],
+        block: args["block"],
+        submission: args["submission"],
+        performer: args["performer"],
+        text: args["text"],
+        createdDate: args["createdDate"]
+      });
+    }
   }
 };
 
