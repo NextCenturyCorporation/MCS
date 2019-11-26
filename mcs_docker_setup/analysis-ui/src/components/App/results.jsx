@@ -9,7 +9,8 @@ import gql from 'graphql-tag';
 import { isInlineFragment } from 'apollo-utilities';
 
 const queryName = "getEvalAnalysis"
-const imagesBucket = "https://machinecommonsensecollab.s3.amazonaws.com/intphys/images/"
+const imagesBucket = "https://intphys-images.s3.amazonaws.com/"
+
 //TODO:  Update graphql so that we only return the values we need on the final page
 const msc_eval = gql`
     query getEvalAnalysis($test: String!, $block: String!, $submission: String!, $performer: String! ){
