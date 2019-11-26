@@ -1,12 +1,11 @@
 import React from 'react';
-import Image from 'react-image';
+//import Image from 'react-image';
 // From: https://github.com/react-component/slider
-import Slider, { Range } from 'rc-slider';
+import Slider from 'rc-slider';
 import LineChart from 'react-linechart';
 import _ from "lodash";
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { isInlineFragment } from 'apollo-utilities';
 
 const queryName = "getEvalAnalysis"
 const imagesBucket = "https://intphys-images.s3.amazonaws.com/"
@@ -69,17 +68,13 @@ class VoeChart extends React.Component {
 
 const SceneImage = ({ url }) => {
     const styles = {
-      backgroundImage: `url(${url})`,
-      backgroundSize: 'contain',
-      backgroundPosition: 'center',
       width: '250px',
       height: '250px',
-      display: 'inline-block',
       margin: '10px 25px'
     };
   
     return (
-      <div className="scene-image" style={styles}></div>
+      <img className="scene-image" style={styles} src={url}/>
     );
   }
 
@@ -92,7 +87,7 @@ class Results extends React.Component {
             valueStr: '',
         };
     }
-    
+
     renderSquare(i) {}
 
     handleClick(i) {}
@@ -112,7 +107,22 @@ class Results extends React.Component {
         })
     };
 
-    
+    componentDidMount() {
+        for(let j=1; j<= 4; j++) {
+            for (let i =1; i <= 100; i++) {
+                let prefix = "";
+
+                if(i < 10) { 
+                    prefix = "00";
+                } else if (i < 100) {
+                    prefix = "0";
+                }
+
+                const imageUrl = imagesBucket + this.props.value.block + "/" + this.props.value.test + "/" + j + "/scene/scene_" + prefix + i + ".png";
+                new Image().src = imageUrl;
+            }
+        }
+    }
 
     render() {
         return (
