@@ -9,7 +9,6 @@ let setNeedToRefetch = null;
 const AddComment = ({ mutate }) => {
     const submitComment = (evt) => {
         evt.persist();
-        console.log(commentState);
         mutate({
             variables: { 
                 test: commentState.test,

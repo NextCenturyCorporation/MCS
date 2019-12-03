@@ -8,16 +8,23 @@ body {
     font: 18px "Century Gothic", Futura, sans-serif;
     display: flex; 
     flex-direction: row;
-    height: 50px;
+    height: 60px;
     background-color: rgba(40, 90, 90, 1); /* 33, 33, 33, 1); */
     color: rgba(200, 200, 200, 1);
     margin-bottom: 12px;
 }
 
 .title { 
-    margin-top: 12px;
     margin-left: 30px;
     margin-right: 10px;
+    position: relative;
+    display: table;
+    text-align: center;
+    height: 60px;
+}
+.title .Dropdown-root {
+    vertical-align: middle !important;
+    display: table-cell !important;
 }
 
 .voe_div {
@@ -109,4 +116,11 @@ ol, ul {
 .comment-date {
     font-size: 10px;
     color: #777777;
+}
+
+.header-dropdown-title {
+    position: relative;
+    padding-right: 5px;
+    vertical-align: middle;
+    display: table-cell;
 }
