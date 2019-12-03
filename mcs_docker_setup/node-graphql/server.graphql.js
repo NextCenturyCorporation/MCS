@@ -33,6 +33,11 @@ const typeDefs = `
     text: String
   }
 
+  type Bucket {
+    key: String
+    doc_count: Float
+  }
+
   type Query {
     msc_eval: [Source]
     getEvalByTest(test: String) : [Source]
@@ -41,6 +46,7 @@ const typeDefs = `
     getEvalByPerformer(performer: String) : [Source]
     getEvalAnalysis(test: String, block: String, submission: String, performer: String) : [Source]
     getComments(test: String, block: String, submission: String, performer: String) : [Comment]
+    getFieldAggregation(fieldName: String) : [Bucket]
   }
 
   type Mutation {
@@ -74,6 +80,20 @@ function getAnalysisSchema(testVal, blockVal, submissionVal, perfomerVal) {
       }
     }
   };
+}
+
+function getFieldAggregationSchema(fieldName) {
+  return {
+      "aggs": {
+        "full_name": {
+          "terms": {
+            "field": fieldName,
+            "size": 100000
+          }
+        }
+      },
+      "size": 0
+  }
 }
 
 // The root provides a resolver function for each API endpoint
@@ -132,6 +152,13 @@ const resolvers = {
         .then(r => {
           let _source = r.body.hits.hits;
               _source.map((item, i) => _source[i] = item._source);
+          resolve(_source);
+        });
+    }),
+    getFieldAggregation: (obj, args, context, infow) => new Promise((resolve, reject) => {
+      ElasticSearchClient('msc_eval', getFieldAggregationSchema(args["fieldName"]))
+        .then(r => {
+          let _source = r.body.aggregations.full_name.buckets;
           resolve(_source);
         });
     })
