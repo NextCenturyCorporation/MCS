@@ -115,12 +115,15 @@ class MCSEval1Validator:
             for line in voe_file:
                 split_line = line.split()
                 if not int(split_line[0]) == line_counter:
-                    print("Line {} of {} is {}, should start with line number".format(line_counter, voe_filepath, split_line[0]))
+                    print("Line {} of {} starts with {}, should start with number {}".format(line_counter, voe_filepath,
+                                                                                             split_line[0],
+                                                                                             line_counter))
                     return False
 
                 val = float(split_line[1])
                 if not 0.0 <= val <= 1.0:
-                    print("Line {} of {} is {}, should end with a float [0,1]".format(line_counter, voe_filepath, split_line[0]))
+                    print("Line {} of {} is {}, should end with a float [0,1]".format(line_counter, voe_filepath,
+                                                                                      split_line[0]))
                     return False
 
                 line_counter = line_counter + 1
