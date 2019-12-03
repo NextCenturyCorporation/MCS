@@ -42,7 +42,6 @@ class DisplayComments extends React.Component {
                     
                     const comments = data[queryName]
                     const commentsInOrder = _.sortBy(comments, "createdDate");
-                    console.log("Comments", commentsInOrder);
 
                     return (
                         <div className="comment-container">
