@@ -24,34 +24,33 @@ services:
       - neon-es
       - node-server
     networks:
-      neon-net:
+      - neon-net
   node-server:
     container_name: node-graphql
     image: node-graphql
     environment:
-      - NODE_ENV=local
       - ES_HOST=elasticsearch
       - NODE_PORT=9100
       - ELASTIC_URL=http://neon-es:9200
     ports: 
       - 9100:9100
+    expose:
+      - 9100
     depends_on:
       - neon-es
       - kibana
       - neon-server
     networks:
-      neon-net:
+      - neon-net
   kibana:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana:6.7.2
     environment:
       - "ELASTICSEARCH_URL=http://neon-es:9200"
-    expose:
-      - 5601
     ports:
       - 5601:5601
     networks:
-      neon-net:
+      - neon-net
     depends_on:
       - neon-es
   neon-es:
@@ -91,15 +90,4 @@ services:
       - 80
     networks:
       neon-net:
-  # data-load:
-  #   volumes:
-  #     - ./data:/data
-  #   image: node:12.4.0-slim
-  #   depends_on:
-  #     - elasticsearch
-  #   entrypoint: []
-  #   command: /bin/bash /data/load.sh
-  #   container_name: data-load
-  #   networks:
-  #     esnet:
   

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const AxiosInstanse = axios.create({
-  baseURL: 'http://localhost:9100/api',
+  baseURL: 'https://ec2-54-157-23-98.compute-1.amazonaws.com:9100/api',
   proxyHeaders: false,
   credentials: true,
   crossdomain: true,
