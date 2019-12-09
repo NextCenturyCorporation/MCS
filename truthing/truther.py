@@ -11,8 +11,6 @@
 #   1100
 #
 # Use
-
-import json
 from PIL import Image, ImageDraw
 from pathlib import Path
 import matplotlib.pyplot as plt
@@ -20,9 +18,51 @@ import matplotlib.image as mpimg
 from matplotlib.widgets import Slider
 import sys
 
+
+from pyqtgraph.Qt import QtGui, QtCore
+import pyqtgraph as pg
+import numpy as np
+import pyqtgraph.metaarray as metaarray
+
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QHBoxLayout, QLabel, QSizePolicy, QSlider, QSpacerItem, \
+    QVBoxLayout, QWidget
+
+
+from answer import Answer
+
 red = (255, 1, 1)
 green = (1, 255, 1)
 white = (255, 255, 255)
+
+
+class Slider(QWidget):
+    def __init__(self, minimum, maximum, parent=None):
+        super(Slider, self).__init__(parent=parent)
+        self.verticalLayout = QVBoxLayout(self)
+        self.label = QLabel(self)
+        self.verticalLayout.addWidget(self.label)
+        self.horizontalLayout = QHBoxLayout()
+        spacerItem = QSpacerItem(0, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
+        self.slider = QSlider(self)
+        self.slider.setOrientation(Qt.Vertical)
+        self.horizontalLayout.addWidget(self.slider)
+        spacerItem1 = QSpacerItem(0, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem1)
+        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.resize(self.sizeHint())
+
+        self.minimum = minimum
+        self.maximum = maximum
+        self.slider.valueChanged.connect(self.setLabelValue)
+        self.x = None
+        self.setLabelValue(self.slider.value())
+
+    def setLabelValue(self, value):
+        self.x = self.minimum + (float(value) / (self.slider.maximum() - self.slider.minimum())) * (
+        self.maximum - self.minimum)
+        self.label.setText("{0:.4g}".format(self.x))
 
 
 class TruthingViewer:
@@ -31,67 +71,42 @@ class TruthingViewer:
         self.test_num = 1
         self.dataDir = Path("/mnt/ssd/cdorman/data/mcs/intphys/test/O2")
         self.masks = []
-        self.imageMap = {}
+        self.image_map = {}
+        self.texts = []
+        self.image_items = [None] * 4
+
+        self.win = QtGui.QMainWindow()
+        self.win.resize(1500, 400)
+        self.view = pg.GraphicsLayoutWidget()
+        self.win.setCentralWidget(self.view)
+        self.win.show()
+        self.win.setWindowTitle('truthing')
+
+        self.read_answers()
+
+    def read_answers(self):
+        filename = "Berkeley-m2-learned-answer.txt"
+        with open(filename) as answer_file:
+            answer_obj = Answer(answer_file)
+            self.answer = answer_obj.get_answer()
+        # answer_obj.print_answer()
 
     def set_test_num(self, test_num):
         self.test_num = test_num
         self.test_num_string = str(self.test_num).zfill(4)
+        self.read_images()
 
-    # def process_mask(self, mask_path, frame_num):
-    #     self.masks.clear()
-    #     for scene in range(4):
-    #         self.masks.append(MaskInfo(mask_path / str(scene + 1), frame_num))
-
-    def write_out_status_for_scene(self, scene_num):
-
-        # Crate the json object
-        status_json = {}
-        header = {}
-        header["test"] = self.test_num
-        # header["scene"] = scene_num
-        status_json["header"] = header
-
-        # Make sure there are the same number of occluders in the scene over all frames
-        num = -1
-        frames = []
-        for frame_num in range(1, 101):
-            frame_info = {}
-            frame_info["frame"] = frame_num
-            mask_info = {}
-
-            # mask = MaskInfo(self.dataDir / self.test_num_string / str(scene_num), frame_num)
-            # obj = mask.get_obj()
-            # if num == -1:
-            #     num = len(obj)
-            # elif len(obj) != num:
-            #     print("Problem in test {} scene {} frame {}. Wrong num ".format(self.test_num, scene_num, frame_num))
-            #     print("expected {} but got {}".format(str(num), len(obj)))
-            #     return
-
-            occluder_counter = 1
-            # this will sort the occluders by the left-most pixel
-            listofTuples = sorted(obj.items(), key=lambda x: x[1].minx)
-            for elem in listofTuples:
-                # print(elem[0], " ::", elem[1])
-                occluder_name = "occluder" + str(occluder_counter)
-                mask_info[occluder_name] = elem[0]
-                occluder_counter = occluder_counter + 1
-            frame_info["masks"] = mask_info
-            frames.append(frame_info)
-        status_json["frames"] = frames
-
-        # This one includes the scene num
-        #         status_path = Path(("status/status_" + str(self.test_num) + "_" + str(scene_num) + ".json"))
-        status_path = Path(("status/status_" + str(self.test_num).zfill(4) + ".json"))
-        with status_path.open("w") as outfile:
-            json.dump(status_json, outfile, indent=4)
-
-        print("wrote out data for test {}".format(self.test_num))
-
-    def write_out_status(self):
-        self.write_out_status_for_scene(1)
-        # for ii in range(0, 4):
-        #     self.write_out_status_for_scene(ii + 1)
+    def read_images(self):
+        self.image_map.clear()
+        for scene in range(0, 4):
+            frame_map = {}
+            for frame_num in range(1, 101):
+                frame_num_string = str(frame_num).zfill(3)
+                image_name = self.dataDir / self.test_num_string / str(scene + 1) / "scene" / (
+                        "scene_" + frame_num_string + ".png")
+                img_src = Image.open(image_name)
+                frame_map[frame_num] = img_src
+            self.image_map[scene] = frame_map
 
     def update_keypress(self, event):
 
@@ -110,10 +125,9 @@ class TruthingViewer:
 
         if event.key == 'right':
             self.set_test_num(self.test_num + 1)
-            self.read_images()
         elif event.key == 'left':
             self.set_test_num(self.test_num - 1)
-            self.read_images()
+
         plt.title(self.test_num_string)
 
         print("Reading in new test {}".format(self.test_num))
@@ -122,46 +136,43 @@ class TruthingViewer:
     def set_up_view(self, test_num):
 
         self.test_num = test_num
-        self.test_num_string = str(test_num).zfill(4)
-        plt.rcParams["figure.figsize"] = [13, 5]
-        self.fig, self.axs = plt.subplots(1, 4)
+        self.set_test_num(test_num)
 
-        for ii in range(0, 4):
-            image_name = self.dataDir / self.test_num_string / str(ii + 1) / "scene" / "scene_001.png"
+        for scene in range(0, 4):
+            image_name = self.dataDir / self.test_num_string / str(scene + 1) / "scene" / "scene_001.png"
             img_src = mpimg.imread(str(image_name))
-            self.axs[ii].imshow(img_src)
-            self.axs[ii].axis("off")
+            self.image_items[scene] = pg.ImageItem(img_src, axisOrder='row-major', border='w')
+            vb = self.view.ci.addViewBox(row=0, col=scene)
+            vb.invertY()
+            vb.addItem(self.image_items[scene])
 
-        axis_color = 'lightgoldenrodyellow'
-        axis_freq = plt.axes([0.25, 0.1, 0.65, 0.03], facecolor=axis_color)
-        self.frame_slider = Slider(axis_freq, 'frame', 1, 100, valfmt='%0d    ')
-        self.frame_slider.on_changed(self.update_slider)
-
-        self.fig.canvas.mpl_connect('key_press_event', self.update_keypress)
-
-        plt.title(self.test_num_string)
-        self.read_images()
-        plt.show()
+        horizLayout = QHBoxLayout(self.view)
+        horizLayout.addWidget(Slider(0,100))
 
     def update_slider(self, val):
         frame_num = int(self.frame_slider.val)
+        self.set_test_num(frame_num)
+
+        for text in self.texts:
+            text.set_visible(False)
+        self.texts.clear()
+
         for scene in range(0, 4):
-            self.axs[scene].imshow(self.imageMap[scene][frame_num])
+            # self.axs[scene].imshow(self.image_map[scene][frame_num])
+            self.image_items[scene].setImage(self.image_map[scene][frame_num])
+
+            val = self.answer['O2'][self.test_num_string][str(scene+1)]
+            textstr = str(val)
+            self.texts.append(self.axs[scene].text(0.04, 0.95, textstr, transform=self.axs[scene].transAxes, fontsize=12,
+                                 verticalalignment='top'))
+
         self.fig.canvas.draw_idle()
 
-    def read_images(self):
-        self.imageMap.clear()
-        for scene in range(0, 4):
-            frame_map = {}
-            for frame_num in range(1, 101):
-                frame_num_string = str(frame_num).zfill(3)
-                image_name = self.dataDir / self.test_num_string / str(scene + 1) / "scene" / (
-                        "scene_" + frame_num_string + ".png")
-                img_src = Image.open(image_name)
-                frame_map[frame_num] = img_src
-            self.imageMap[scene] = frame_map
-
-
 if __name__ == "__main__":
+
+    app = QtGui.QApplication([])
+
     dc = TruthingViewer()
     dc.set_up_view(1)
+
+    QtGui.QApplication.instance().exec_()
