@@ -123,6 +123,7 @@ class TruthingViewer:
 
         self.test_num = test_num
         self.test_num_string = str(test_num).zfill(4)
+        plt.rcParams["figure.figsize"] = [13, 5]
         self.fig, self.axs = plt.subplots(1, 4)
 
         for ii in range(0, 4):
