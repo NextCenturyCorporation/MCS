@@ -75,6 +75,7 @@ class TruthingViewer:
         self.image_map = {}
         self.texts = []
         self.image_items = [None] * 4
+        self.text_items = [None] * 4
 
         self.win = QtGui.QMainWindow()
         self.win.resize(1500, 400)
@@ -147,6 +148,10 @@ class TruthingViewer:
             vb = self.view.ci.addViewBox(row=0, col=scene)
             vb.invertY()
             vb.addItem(self.image_items[scene])
+            #
+            # self.text_items[scene] = pg.TextItem("text", color='b')
+            # vb = self.view.ci.addViewBox(row=1, col=scene)
+            # vb.addItem(self.text_items[scene])
 
         self.create_slider()
 
@@ -167,15 +172,11 @@ class TruthingViewer:
         self.texts.clear()
 
         for scene in range(0, 4):
-            # self.axs[scene].imshow(self.image_map[scene][frame_num])
-            print("val {}".format(val))
             img = self.image_map[scene][frame_num]
             self.image_items[scene].setImage(img)
 
-            val = self.answer['O2'][self.test_num_string][str(scene+1)]
-            textstr = str(val)
-            # self.texts.append(self.axs[scene].text(0.04, 0.95, textstr, transform=self.axs[scene].transAxes, fontsize=12,
-            #                      verticalalignment='top'))
+            # val = self.answer['O2'][self.test_num_string][str(scene+1)]
+            # self.text_items[scene].setText(str(val))
 
 
 if __name__ == "__main__":
