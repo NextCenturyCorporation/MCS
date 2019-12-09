@@ -18,7 +18,6 @@ import matplotlib.image as mpimg
 from matplotlib.widgets import Slider
 import sys
 
-
 from pyqtgraph.Qt import QtGui, QtCore
 import pyqtgraph as pg
 import numpy as np
@@ -27,7 +26,6 @@ import pyqtgraph.metaarray as metaarray
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QHBoxLayout, QLabel, QSizePolicy, QSlider, QSpacerItem, \
     QVBoxLayout, QWidget
-
 
 from answer import Answer
 
@@ -39,7 +37,7 @@ white = (255, 255, 255)
 class Slider(QWidget):
     def __init__(self, minimum, maximum, parent=None):
         super(Slider, self).__init__(parent=parent)
-        self.verticalLayout = QVBoxLayout(self)
+        self.verticalLayout = QHBoxLayout(self)
         self.label = QLabel(self)
         self.verticalLayout.addWidget(self.label)
         self.horizontalLayout = QHBoxLayout()
@@ -59,9 +57,12 @@ class Slider(QWidget):
         self.x = None
         self.setLabelValue(self.slider.value())
 
+    def setCallback(self, fn):
+        self.slider.valueChanged.connect(fn)
+
     def setLabelValue(self, value):
         self.x = self.minimum + (float(value) / (self.slider.maximum() - self.slider.minimum())) * (
-        self.maximum - self.minimum)
+                self.maximum - self.minimum)
         self.label.setText("{0:.4g}".format(self.x))
 
 
@@ -78,6 +79,7 @@ class TruthingViewer:
         self.win = QtGui.QMainWindow()
         self.win.resize(1500, 400)
         self.view = pg.GraphicsLayoutWidget()
+        self.view.setBackground('w')
         self.win.setCentralWidget(self.view)
         self.win.show()
         self.win.setWindowTitle('truthing')
@@ -104,7 +106,7 @@ class TruthingViewer:
                 frame_num_string = str(frame_num).zfill(3)
                 image_name = self.dataDir / self.test_num_string / str(scene + 1) / "scene" / (
                         "scene_" + frame_num_string + ".png")
-                img_src = Image.open(image_name)
+                img_src = mpimg.imread(str(image_name))
                 frame_map[frame_num] = img_src
             self.image_map[scene] = frame_map
 
@@ -146,12 +148,19 @@ class TruthingViewer:
             vb.invertY()
             vb.addItem(self.image_items[scene])
 
+        self.create_slider()
+
+    def create_slider(self):
         horizLayout = QHBoxLayout(self.view)
-        horizLayout.addWidget(Slider(0,100))
+        s = Slider(0, 100)
+        s.setCallback(self.update_slider)
+        horizLayout.addWidget(s)
 
     def update_slider(self, val):
-        frame_num = int(self.frame_slider.val)
-        self.set_test_num(frame_num)
+        frame_num = int(val)
+        # self.set_test_num(frame_num)
+        if frame_num > 100 or frame_num < 1:
+            return
 
         for text in self.texts:
             text.set_visible(False)
@@ -159,17 +168,17 @@ class TruthingViewer:
 
         for scene in range(0, 4):
             # self.axs[scene].imshow(self.image_map[scene][frame_num])
-            self.image_items[scene].setImage(self.image_map[scene][frame_num])
+            print("val {}".format(val))
+            img = self.image_map[scene][frame_num]
+            self.image_items[scene].setImage(img)
 
             val = self.answer['O2'][self.test_num_string][str(scene+1)]
             textstr = str(val)
-            self.texts.append(self.axs[scene].text(0.04, 0.95, textstr, transform=self.axs[scene].transAxes, fontsize=12,
-                                 verticalalignment='top'))
+            # self.texts.append(self.axs[scene].text(0.04, 0.95, textstr, transform=self.axs[scene].transAxes, fontsize=12,
+            #                      verticalalignment='top'))
 
-        self.fig.canvas.draw_idle()
 
 if __name__ == "__main__":
-
     app = QtGui.QApplication([])
 
     dc = TruthingViewer()
