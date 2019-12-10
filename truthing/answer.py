@@ -21,6 +21,15 @@ class Answer:
         self.answer = answer
         return answer
 
+    def next_test(self, block):
+        """Determine the next test that is not -1"""
+        for test in range(0, 1080):
+            test_name = str(test + 1).zfill(4)
+            if self.answer[block][test_name]['1'] == -1:
+                return test + 1
+
+        return 1
+
     def parse_answer_file(self, file):
         """ Parse an answer.txt or ground_truth.txt file, looks like:
         O1/0001/1 1

@@ -38,6 +38,7 @@ white = (255, 255, 255)
 berkeley = "Berkeley-m2-learned-answer.txt"
 gt = "ground_truth.txt"
 
+
 class ClickableImageItem(pg.ImageItem):
     sigMouseClick = QtCore.pyqtSignal(object)
 
@@ -99,7 +100,6 @@ class TruthingViewer:
     def __init__(self):
 
         # init
-        self.test_num = 1
         self.dataDir = Path("/mnt/ssd/cdorman/data/mcs/intphys/test/O2")
         self.masks = []
         self.image_map = {}
@@ -139,6 +139,7 @@ class TruthingViewer:
             print("going off edge of tests")
             return
 
+        self.win.setWindowTitle( str('truthing')+str(test_num))
         self.test_num = test_num
         self.test_num_string = str(self.test_num).zfill(4)
         self.read_images()
@@ -161,29 +162,49 @@ class TruthingViewer:
 
         if event.key() == 70:
             self.set_test_num(self.test_num + 1)
+            self.update_slider(1)
         elif event.key() == 66:
             self.set_test_num(self.test_num - 1)
-        elif event.key() == 49:    # This is '1'
+            self.update_slider(1)
+        elif event.key() == 49:  # This is '1'
             self.selected.append(1)
-        elif event.key() == 50:    # this is '2'
+        elif event.key() == 50:  # this is '2'
             self.selected.append(2)
-        elif event.key() == 51:   # this is '3'
+        elif event.key() == 51:  # this is '3'
             self.selected.append(3)
         elif event.key() == 52:
             self.selected.append(4)
         else:
             print("key: {}".format(event.key()))
 
-        # If both have been selected, write out and reset
-        if len(self.selected) == 2:
-            self.set_results()
-            self.write_results()
+        self.handle_selected()
+
+    def handle_selected(self):
+        """If both have been selected, write out and reset"""
+        if not len(self.selected) == 2:
+            return
+
+        if self.selected[0] == self.selected[1]:
+            print("Cannot have same!! {}".format(self.selected[0]))
             self.selected.clear()
+            return
+
+        if self.selected[0] < 1 or self.selected[0] > 4 or self.selected[1] < 1 or self.selected[1] > 4:
+            print("Not in Range!! {} {}".format(self.selected[0], self.selected[1]))
+            self.selected.clear()
+            return
+
+        self.set_results()
+        self.write_results()
+        self.selected.clear()
+        print("Wrote results")
+        self.set_test_num(self.test_num + 1)
+        self.update_slider(1)
 
     def set_results(self):
-        vals = [ 1, 1, 1, 1]
-        vals[self.selected[0]-1] = 0
-        vals[self.selected[1]-1] = 0
+        vals = [1, 1, 1, 1]
+        vals[self.selected[0] - 1] = 0
+        vals[self.selected[1] - 1] = 0
         block = 'O2'
         test = str(self.test_num).zfill(4)
         self.ground_truth.set_vals(block, test, vals)
@@ -195,9 +216,10 @@ class TruthingViewer:
     def mouseMoved(self, ev):
         print(" mouse moved {}".format(ev))
 
-    def set_up_view(self, test_num):
+    def set_up_view(self):
 
-        self.test_num = test_num
+        # Get the latest one that has not been truthed
+        test_num = self.ground_truth.next_test('O2')
         self.set_test_num(test_num)
 
         for scene in range(0, 4):
@@ -248,7 +270,7 @@ if __name__ == "__main__":
     app = QtGui.QApplication([])
 
     dc = TruthingViewer()
-    dc.set_up_view(1)
+    dc.set_up_view()
 
     QtGui.QApplication.instance().exec_()
 
