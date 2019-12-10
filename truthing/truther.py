@@ -167,12 +167,16 @@ class TruthingViewer:
             self.set_test_num(self.test_num - 1)
             self.update_slider(1)
         elif event.key() == 49:  # This is '1'
+            print("1")
             self.selected.append(1)
         elif event.key() == 50:  # this is '2'
+            print("2")
             self.selected.append(2)
         elif event.key() == 51:  # this is '3'
+            print("3")
             self.selected.append(3)
         elif event.key() == 52:
+            print("4")
             self.selected.append(4)
         else:
             print("key: {}".format(event.key()))
@@ -197,7 +201,7 @@ class TruthingViewer:
         self.set_results()
         self.write_results()
         self.selected.clear()
-        print("Wrote results")
+        print("Wrote results for: {}".format(self.test_num))
         self.set_test_num(self.test_num + 1)
         self.update_slider(1)
 
@@ -210,7 +214,7 @@ class TruthingViewer:
         self.ground_truth.set_vals(block, test, vals)
 
     def write_results(self):
-        gt_name = str(gt + datetime.datetime.now().isoformat())
+        gt_name = str(gt + "." + datetime.datetime.now().isoformat())
         self.ground_truth.write_answer_file(gt_name)
 
     def mouseMoved(self, ev):
