@@ -139,7 +139,7 @@ class TruthingViewer:
             print("going off edge of tests")
             return
 
-        self.win.setWindowTitle( str('truthing')+str(test_num))
+        self.win.setWindowTitle( str('truthing ')+str(test_num))
         self.test_num = test_num
         self.test_num_string = str(self.test_num).zfill(4)
         self.read_images()
