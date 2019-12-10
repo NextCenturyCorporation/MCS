@@ -14,7 +14,7 @@
 import datetime
 import time
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageChops
 from pathlib import Path
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
@@ -141,7 +141,7 @@ class TruthingViewer:
             print("going off edge of tests")
             return
 
-        self.win.setWindowTitle( str('truthing ')+str(test_num))
+        self.win.setWindowTitle(str('truthing ') + str(test_num))
         self.test_num = test_num
         self.test_num_string = str(self.test_num).zfill(4)
         self.read_images()
@@ -221,7 +221,6 @@ class TruthingViewer:
     def write_results(self):
         gt_name = str(gt + "." + datetime.datetime.now().isoformat())
         self.ground_truth.write_answer_file(gt_name)
-
 
     def mouseMoved(self, ev):
         print(" mouse moved {}".format(ev))
