@@ -3,11 +3,23 @@ from collections import defaultdict
 
 class Answer:
 
-    def __init__(self, file):
-        self.answer = self.parse_answer_file(file)
+    def __init__(self):
+        self.answer = self.get_empty_answer()
 
     def get_answer(self):
         return self.answer
+
+    def get_empty_answer(self):
+        answer = self.nested_dict(3, float)
+        for block in range(0, 3):
+            for test in range(0, 1080):
+                for scene in range(4):
+                    block_name = str(block + 1)
+                    test_name = str(test + 1)
+                    scene_name = str(scene + 1)
+                    answer[block_name][test_name][scene_name] = -1
+        self.answer = answer
+        return answer
 
     def parse_answer_file(self, file):
         """ Parse an answer.txt or ground_truth.txt file, looks like:
@@ -34,7 +46,29 @@ class Answer:
             scene = str(key[2])
             # print("{} {} {} {}".format(block, test, scene, split_line[1]))
             answer[block][test][scene] = float(split_line[1])
+        self.answer = answer
         return answer
+
+    def write_answer_file(self, filename):
+        with open(filename, 'w') as outfile:
+            for block in range(0, 3):
+                for test in range(0, 1080):
+                    for scene in range(4):
+                        block_name = str('O' + str(block + 1))
+                        test_name = str(test + 1).zfill(4)
+                        scene_name = str(scene + 1)
+                        if block_name in self.answer and test_name in self.answer[block_name] and scene_name in \
+                                self.answer[block_name][test_name]:
+                            val = int(self.answer[block_name][test_name][scene_name])
+                            outfile.write("{}/{}/{} {}\n".format(block_name, test_name, scene_name, val))
+                        else:
+                            outfile.write("{}/{}/{} -1\n".format(block_name, test_name, scene_name))
+
+    def set_vals(self, block, test, vals):
+        self.answer[block][test]['1'] = vals[0]
+        self.answer[block][test]['2'] = vals[1]
+        self.answer[block][test]['3'] = vals[2]
+        self.answer[block][test]['4'] = vals[3]
 
     def print_answer(self):
         for block in self.answer.keys():
