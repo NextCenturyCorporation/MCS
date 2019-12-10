@@ -12,6 +12,7 @@
 #
 # Use
 import datetime
+import time
 
 from PIL import Image, ImageDraw
 from pathlib import Path
@@ -107,6 +108,7 @@ class TruthingViewer:
         self.image_items = [None] * 4
 
         self.selected = []
+        self.start = time.time()
 
         # Windowing
         self.win = KeyPressWindow()
@@ -201,9 +203,12 @@ class TruthingViewer:
         self.set_results()
         self.write_results()
         self.selected.clear()
-        print("Wrote results for: {}".format(self.test_num))
+
         self.set_test_num(self.test_num + 1)
         self.update_slider(1)
+        diff = time.time() - self.start
+        print("Wrote results for: {}.  {} sec".format(self.test_num, str(diff)))
+        self.start = time.time()
 
     def set_results(self):
         vals = [1, 1, 1, 1]
@@ -216,6 +221,7 @@ class TruthingViewer:
     def write_results(self):
         gt_name = str(gt + "." + datetime.datetime.now().isoformat())
         self.ground_truth.write_answer_file(gt_name)
+
 
     def mouseMoved(self, ev):
         print(" mouse moved {}".format(ev))
