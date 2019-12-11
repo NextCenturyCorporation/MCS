@@ -38,7 +38,7 @@ white = (255, 255, 255)
 
 berkeley = "Berkeley-m2-learned-answer.txt"
 gt = "ground_truth.txt"
-block = 'O2'
+block = 'O1'
 test_data_path = "/mnt/ssd/cdorman/data/mcs/intphys/test/"
 
 class ClickableImageItem(pg.ImageItem):
@@ -96,6 +96,11 @@ class Slider(QWidget):
                 self.maximum - self.minimum)
         self.label.setText("{0:d}".format(int(self.x)))
 
+    def set_val(self, value):
+        self.slider.setValue(value)
+
+    def get_val(self):
+        return self.slider.value()
 
 class TruthingViewer:
 
@@ -177,9 +182,15 @@ class TruthingViewer:
         elif event.key() == 51:  # this is '3'
             print("3")
             self.selected.append(3)
-        elif event.key() == 52:
+        elif event.key() == 52:   # this is '4'
             print("4")
             self.selected.append(4)
+        elif event.key() == 84:    # this is 't', for toggle
+            current_val = int(self.slider.get_val())
+            if current_val == 1:
+                self.slider.set_val(100)
+            else:
+                self.slider.set_val(1)
         else:
             print("key: {}".format(event.key()))
 
@@ -218,6 +229,10 @@ class TruthingViewer:
         self.ground_truth.set_vals(block, test, vals)
 
     def write_results(self):
+
+        self.ground_truth.write_answer_file(gt)
+
+        # backup file
         gt_name = str(gt + "." + datetime.datetime.now().isoformat())
         self.ground_truth.write_answer_file(gt_name)
 
@@ -246,9 +261,9 @@ class TruthingViewer:
 
     def create_slider(self):
         horizLayout = QHBoxLayout(self.view)
-        s = Slider(0, 100)
-        s.setCallback(self.update_slider)
-        horizLayout.addWidget(s)
+        self.slider = Slider(0, 100)
+        self.slider.setCallback(self.update_slider)
+        horizLayout.addWidget(self.slider)
 
     def update_slider(self, val):
         frame_num = int(val)
