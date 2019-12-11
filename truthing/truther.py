@@ -10,21 +10,16 @@
 #   1010
 #   1100
 #
-# Use
 import datetime
 import time
 
-from PIL import Image, ImageDraw, ImageChops
 from pathlib import Path
-import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from matplotlib.widgets import Slider
 import sys
 
 from pyqtgraph.Qt import QtGui, QtCore
 import pyqtgraph as pg
-import numpy as np
-import pyqtgraph.metaarray as metaarray
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QHBoxLayout, QLabel, QSizePolicy, QSlider, QSpacerItem, \
@@ -32,20 +27,10 @@ from PyQt5.QtWidgets import QApplication, QHBoxLayout, QLabel, QSizePolicy, QSli
 
 from answer import Answer
 
-red = (255, 1, 1)
-green = (1, 255, 1)
-white = (255, 255, 255)
-
 berkeley = "Berkeley-m2-learned-answer.txt"
 gt = "ground_truth.txt"
-block = 'O1'
+block = 'O2'
 test_data_path = "/mnt/ssd/cdorman/data/mcs/intphys/test/"
-
-class ClickableImageItem(pg.ImageItem):
-    sigMouseClick = QtCore.pyqtSignal(object)
-
-    def mouseClickEvent(self, ev):
-        print("Clicked")
 
 
 class KeyPressWindow(QtGui.QMainWindow):
@@ -60,9 +45,6 @@ class KeyPressWindow(QtGui.QMainWindow):
 
     def keyPressEvent(self, ev):
         self.fn(ev)
-
-    def mouseReleaseEvent(self, ev):
-        print("Mouse clicked event in window")
 
 
 class Slider(QWidget):
@@ -101,6 +83,7 @@ class Slider(QWidget):
 
     def get_val(self):
         return self.slider.value()
+
 
 class TruthingViewer:
 
@@ -146,10 +129,11 @@ class TruthingViewer:
             print("going off edge of tests")
             return
 
-        self.win.setWindowTitle(str('truthing ') + str(test_num))
         self.test_num = test_num
         self.test_num_string = str(self.test_num).zfill(4)
         self.read_images()
+
+        self.win.setWindowTitle(str('truthing ') + str(self.test_num_string))
 
     def read_images(self):
         self.image_map.clear()
@@ -182,10 +166,12 @@ class TruthingViewer:
         elif event.key() == 51:  # this is '3'
             print("3")
             self.selected.append(3)
-        elif event.key() == 52:   # this is '4'
+        elif event.key() == 52:  # this is '4'
             print("4")
             self.selected.append(4)
-        elif event.key() == 84:    # this is 't', for toggle
+        elif event.key() == 81:   # this is 'q', for quit
+            exit(0)
+        elif event.key() == 84:  # this is 't', for toggle
             current_val = int(self.slider.get_val())
             if current_val == 1:
                 self.slider.set_val(100)
@@ -256,9 +242,6 @@ class TruthingViewer:
 
         self.create_slider()
 
-    def clicked(self, event):
-        print("clicked event {}".format(event))
-
     def create_slider(self):
         horizLayout = QHBoxLayout(self.view)
         self.slider = Slider(0, 100)
@@ -280,6 +263,7 @@ class TruthingViewer:
                 self.image_items[scene].setImage(img, border='r')
             else:
                 self.image_items[scene].setImage(img, border='w')
+
 
 if __name__ == "__main__":
     app = QtGui.QApplication([])
