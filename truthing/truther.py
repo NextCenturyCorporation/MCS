@@ -104,7 +104,6 @@ class TruthingViewer:
         self.dataDir = Path("/mnt/ssd/cdorman/data/mcs/intphys/test/O2")
         self.masks = []
         self.image_map = {}
-        self.texts = []
         self.image_items = [None] * 4
 
         self.selected = []
@@ -237,14 +236,8 @@ class TruthingViewer:
             self.image_items[scene] = pg.ImageItem(img_src, axisOrder='row-major', border='w')
 
             vb = self.view.ci.addViewBox(row=0, col=scene)
-
-            proxy = pg.SignalProxy(vb.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved)
             vb.invertY()
             vb.addItem(self.image_items[scene])
-
-            # self.text_items[scene] = pg.TextItem("text", color='b')
-            # vb = self.view.ci.addViewBox(row=1, col=scene)
-            # vb.addItem(self.text_items[scene])
 
         self.create_slider()
 
@@ -259,21 +252,18 @@ class TruthingViewer:
 
     def update_slider(self, val):
         frame_num = int(val)
-        # self.set_test_num(frame_num)
         if frame_num > 100 or frame_num < 1:
             return
 
-        for text in self.texts:
-            text.set_visible(False)
-        self.texts.clear()
+        answer = self.ground_truth.get_answer()
 
         for scene in range(0, 4):
             img = self.image_map[scene][frame_num]
-            self.image_items[scene].setImage(img)
-
-            # val = self.answer['O2'][self.test_num_string][str(scene+1)]
-            # self.text_items[scene].setText(str(val))
-
+            scene_name = str(scene + 1)
+            if answer['O2'][self.test_num_string][scene_name] == 0:
+                self.image_items[scene].setImage(img, border='r')
+            else:
+                self.image_items[scene].setImage(img, border='w')
 
 if __name__ == "__main__":
     app = QtGui.QApplication([])
