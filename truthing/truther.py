@@ -38,7 +38,8 @@ white = (255, 255, 255)
 
 berkeley = "Berkeley-m2-learned-answer.txt"
 gt = "ground_truth.txt"
-
+block = 'O2'
+test_data_path = "/mnt/ssd/cdorman/data/mcs/intphys/test/"
 
 class ClickableImageItem(pg.ImageItem):
     sigMouseClick = QtCore.pyqtSignal(object)
@@ -101,7 +102,7 @@ class TruthingViewer:
     def __init__(self):
 
         # init
-        self.dataDir = Path("/mnt/ssd/cdorman/data/mcs/intphys/test/O2")
+        self.dataDir = Path(test_data_path + block)
         self.masks = []
         self.image_map = {}
         self.image_items = [None] * 4
@@ -213,7 +214,6 @@ class TruthingViewer:
         vals = [1, 1, 1, 1]
         vals[self.selected[0] - 1] = 0
         vals[self.selected[1] - 1] = 0
-        block = 'O2'
         test = str(self.test_num).zfill(4)
         self.ground_truth.set_vals(block, test, vals)
 
@@ -227,7 +227,7 @@ class TruthingViewer:
     def set_up_view(self):
 
         # Get the latest one that has not been truthed
-        test_num = self.ground_truth.next_test('O2')
+        test_num = self.ground_truth.next_test(block)
         self.set_test_num(test_num)
 
         for scene in range(0, 4):
@@ -260,7 +260,8 @@ class TruthingViewer:
         for scene in range(0, 4):
             img = self.image_map[scene][frame_num]
             scene_name = str(scene + 1)
-            if answer['O2'][self.test_num_string][scene_name] == 0:
+            # If already truthed as implausible, show as red
+            if answer[block][self.test_num_string][scene_name] == 0:
                 self.image_items[scene].setImage(img, border='r')
             else:
                 self.image_items[scene].setImage(img, border='w')
