@@ -30,9 +30,11 @@ from answer import Answer
 
 berkeley = "Berkeley-m2-learned-answer.txt"
 gt = "ground_truth.txt"
-block = 'O1'
+block = 'O3'
 test_data_path = "/mnt/ssd/cdorman/data/mcs/intphys/test/"
-starting_test = 821
+
+# Set this if you want to jump to a specific test;  otherwise it gets the next -1 in the current block
+starting_test = -1  #  821
 
 class KeyPressWindow(QtGui.QMainWindow):
     sigKeyPress = QtCore.pyqtSignal(object)
@@ -134,7 +136,7 @@ class TruthingViewer:
         self.test_num_string = str(self.test_num).zfill(4)
         self.read_images()
 
-        self.win.setWindowTitle(str('truthing ') + str(self.test_num_string))
+        self.win.setWindowTitle(str('truthing ') + str(block) + " / " + str(self.test_num_string))
 
     def read_images(self):
         self.image_map.clear()
@@ -228,8 +230,10 @@ class TruthingViewer:
 
     def set_up_view(self):
 
-        # Get the latest one that has not been truthed
-        test_num = starting_test  #   self.ground_truth.next_test(block)
+        # Use specified test or get the latest one that has not been truthed
+        test_num = starting_test
+        if starting_test == -1:
+            test_num = self.ground_truth.next_test(block)
         self.set_test_num(test_num)
 
         for scene in range(0, 4):
