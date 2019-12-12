@@ -12,6 +12,7 @@
 #
 import datetime
 import time
+from itertools import starmap
 
 from pathlib import Path
 import matplotlib.image as mpimg
@@ -29,9 +30,9 @@ from answer import Answer
 
 berkeley = "Berkeley-m2-learned-answer.txt"
 gt = "ground_truth.txt"
-block = 'O2'
+block = 'O1'
 test_data_path = "/mnt/ssd/cdorman/data/mcs/intphys/test/"
-
+starting_test = 821
 
 class KeyPressWindow(QtGui.QMainWindow):
     sigKeyPress = QtCore.pyqtSignal(object)
@@ -228,7 +229,7 @@ class TruthingViewer:
     def set_up_view(self):
 
         # Get the latest one that has not been truthed
-        test_num = self.ground_truth.next_test(block)
+        test_num = starting_test  #   self.ground_truth.next_test(block)
         self.set_test_num(test_num)
 
         for scene in range(0, 4):
