@@ -265,7 +265,7 @@ class TruthingViewer:
             scene_name = str(scene + 1)
             # If already truthed as implausible, show as red
             if answer[block][self.test_num_string][scene_name] == 0:
-                self.image_items[scene].setImage(img, border='r')
+                self.image_items[scene].setImage(img, border=pg.mkPen(color=(255,0,0), width=8))
             else:
                 self.image_items[scene].setImage(img, border='w')
 
