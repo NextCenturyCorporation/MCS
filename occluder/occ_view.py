@@ -324,7 +324,7 @@ if __name__ == "__main__":
     dc = OccluderViewer()
 
     if debug:
-        dc.set_up_view(3)
+        dc.set_up_view(1)
     else:
         for test in range(1, 1081):
             dc.set_test_num(test)
