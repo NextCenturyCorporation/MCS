@@ -3,13 +3,8 @@
 #
 
 import json
-import os
-import shutil
 from PIL import Image, ImageDraw
 from pathlib import Path
-import random
-from statistics import mode
-import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from matplotlib.widgets import Slider
@@ -17,6 +12,8 @@ import sys
 
 debug = True
 # debug = False
+
+
 red = (255, 1, 1)
 green = (1, 255, 1)
 white = (255, 255, 255)

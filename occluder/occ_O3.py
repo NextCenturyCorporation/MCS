@@ -1,18 +1,14 @@
 #
 #  Training for occluders
 #
+# This one is for O3, which is a little different from O1 and O2.  The logic for O1/O2 didn't quite
+# work for O3.
 
 import json
-import math
-import os
-import shutil
 import time
 
 from PIL import Image, ImageDraw
 from pathlib import Path
-import random
-from statistics import mode
-import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from matplotlib.widgets import Slider
@@ -20,6 +16,9 @@ import sys
 
 debug = True
 # debug = False
+datadir = "/mnt/ssd/cdorman/data/mcs/intphys/test/O3"
+
+
 red = (255, 1, 1)
 green = (1, 255, 1)
 white = (255, 255, 255)
@@ -122,78 +121,11 @@ class MaskInfo:
 
         return self.objects
 
-    # def clean_up_objects(self, frame_num):
-    #     to_be_removed = []
-    #     sky_found = False
-    #     ground_found = False
-    #
-    #     for key, val in self.objects.items():
-    #
-    #         # sky is usually the top region
-    #         if val.minx == 0 and val.miny == 0 and val.maxx == 287 and val.maxy > 100:
-    #             sky_found = True
-    #             to_be_removed.append(key)
-    #             continue
-    #
-    #         # ground might be entire bottom
-    #         if val.minx == 0 and val.miny == 152 and val.maxx == 287 and val.maxy == 287:
-    #             ground_found = True
-    #             to_be_removed.append(key)
-    #             continue
-    #
-    #         # Ground might start at bottom
-    #         if val.minx == 0 and val.maxx == 287 and val.miny == 152 and val.maxy > 200:
-    #             ground_found = True
-    #             to_be_removed.append(key)
-    #             continue
-    #
-    #         # too small, must be non-occluder object
-    #         if val.pixel_count < 501:
-    #             to_be_removed.append(key)
-    #             continue
-    #
-    #         # aspect ratio wrong for medium sized
-    #         if 500 < val.pixel_count < 1680:
-    #             if 0.5 < val.aspect_ratio < 1.8:
-    #                 to_be_removed.append(key)
-    #                 continue
-    #
-    #         # if big and not ground or sky, must be occluder
-    #         if sky_found and ground_found and val.pixel_count > 10000:
-    #             continue
-    #
-    #         # If wide and flat, then must be occluder
-    #         if val.aspect_ratio > 3:
-    #             continue
-    #
-    #         # If not too big, then occluder
-    #         if val.pixel_count > 1400:
-    #             continue
-    #
-    #         # bad ground or sky?
-    #         print("Got to here {} {}".format(frame_num, val))
-    #         to_be_removed.append(key)
-    #
-    #     for x in to_be_removed:
-    #         self.objects.pop(x)
-    #
-    #     # If there are two left, and one is much bigger, then it is the ground
-    #     keys = list(self.objects.keys())
-    #     if len(keys) == 2:
-    #         size_1 = self.objects.get(keys[0]).pixel_count
-    #         size_2 = self.objects.get(keys[1]).pixel_count
-    #         if size_1 > size_2 and size_1 > 20000:
-    #             self.objects.pop(keys[0])
-    #         elif size_2 > size_1 and size_2 > 20000:
-    #             self.objects.pop(keys[1])
-    #
-
-
 class OccluderViewer:
 
     def __init__(self):
         self.test_num = 1
-        self.dataDir = Path("/mnt/ssd/cdorman/data/mcs/intphys/test/O3")
+        self.dataDir = Path(datadir)
         self.masks = []
 
     def set_test_num(self, test_num):
@@ -522,10 +454,11 @@ if __name__ == "__main__":
     # dc.set_test_num(3)
     # dc.write_out_status()
 
-    # dc.set_up_view(64)
-
-    for test in range(1, 1081):
-        t = time.time()
-        dc.set_test_num(test)
-        dc.write_out_status()
-        print("time: {}".format( str(time.time()-t)))
+    if debug:
+        dc.set_up_view(64)
+    else:
+        for test in range(1, 1081):
+            t = time.time()
+            dc.set_test_num(test)
+            dc.write_out_status()
+            print("time: {}".format( str(time.time()-t)))
