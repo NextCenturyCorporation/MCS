@@ -12,14 +12,15 @@ import sys
 
 from frameobject import FrameObject
 
-debug = True
-# debug = False
+purpose = 'images'  # 'view   # 'status'
+
 datadir = "/mnt/ssd/cdorman/data/mcs/intphys/test/O1"
 # datadir = "/mnt/ssd/cdorman/data/mcs/intphys/test/O2"
 
 red = (255, 1, 1)
 green = (1, 255, 1)
 white = (255, 255, 255)
+
 
 class MaskInfo:
     """
@@ -73,13 +74,15 @@ class MaskInfo:
         ground_color = max(ground_color, key=ground_color.count)
         self.objects[ground_color].label = 'ground'
 
-        if debug:
-            self.clean_up_objects(frame_num)
+        self.clean_up_objects(frame_num)
+        if purpose == 'view':
             print("Mask info for path {}, frame {}".format(in_path, frame_num))
             for obj in self.objects.values():
                 print("\t{}".format(obj))
+        elif purpose == 'images':
+            pass
         else:
-            self.clean_up_objects(frame_num)
+            pass
 
     def clean_up_objects(self, frame_num):
         to_be_removed = []
@@ -157,11 +160,7 @@ class OccluderViewer:
     def set_test_num(self, test_num):
         self.test_num = test_num
         self.test_num_string = str(self.test_num).zfill(4)
-
-    def process_mask(self, mask_path, frame_num):
-        self.masks.clear()
-        for scene in range(4):
-            self.masks.append(MaskInfo(mask_path / str(scene + 1), frame_num))
+        self.process_mask(self.dataDir / self.test_num_string, 50)
 
     def update_slider(self, val):
         # Change the frame
@@ -169,25 +168,33 @@ class OccluderViewer:
         self.process_mask(self.dataDir / self.test_num_string, frame_num)
 
         # Draw the images
-        frame_num_string = str(frame_num).zfill(3)
-        for ii in range(0, 4):
-            image_name = self.dataDir / self.test_num_string / str(ii + 1) / "scene" / (
-                    "scene_" + frame_num_string + ".png")
-
-            img_src = Image.open(image_name)
-            # img_src = mpimg.imread(str(image_name))
-            draw = ImageDraw.Draw(img_src)
-            for obj in self.masks[ii].get_obj().values():
-                draw_color = white
-                if obj.label is 'sky':
-                    draw_color = red
-                elif obj.label is 'ground':
-                    draw_color = green
-                draw.rectangle([(obj.minx, obj.miny), (obj.maxx, obj.maxy)], width=2, outline=draw_color)
-
-            self.axs[ii].imshow(img_src)
+        for scene_num in range(0, 4):
+            img_src = self.get_overlaid_image(frame_num, scene_num)
+            self.axs[scene_num].imshow(img_src)
 
         self.fig.canvas.draw_idle()
+
+    def get_overlaid_image(self, frame_num, scene_num):
+        frame_num_string = str(frame_num).zfill(3)
+        image_name = self.dataDir / self.test_num_string / str(scene_num + 1) / "scene" / (
+                "scene_" + frame_num_string + ".png")
+
+        img_src = Image.open(image_name)
+        draw = ImageDraw.Draw(img_src)
+        for obj in self.masks[scene_num].get_obj().values():
+            draw_color = white
+            if obj.label is 'sky':
+                draw_color = red
+            elif obj.label is 'ground':
+                draw_color = green
+            draw.rectangle([(obj.minx, obj.miny), (obj.maxx, obj.maxy)], width=2, outline=draw_color)
+
+        return img_src
+
+    def process_mask(self, mask_path, frame_num):
+        self.masks.clear()
+        for scene in range(4):
+            self.masks.append(MaskInfo(mask_path / str(scene + 1), frame_num))
 
     def write_out_status_for_scene(self, scene_num):
 
@@ -266,8 +273,7 @@ class OccluderViewer:
 
     def set_up_view(self, test_num):
 
-        self.test_num = test_num
-        self.test_num_string = str(test_num).zfill(4)
+        self.set_test_num(test_num)
         self.fig, self.axs = plt.subplots(1, 4)
 
         for ii in range(0, 4):
@@ -286,11 +292,22 @@ class OccluderViewer:
         plt.title(self.test_num_string)
         plt.show()
 
+    def make_image(self):
+        """Write out an image with occluders labeled"""
+        img_src = self.get_overlaid_image(50, 0)
+        num_occ = len(self.masks[0].get_obj())
+        image_filename = "images" + str(num_occ) + "/test_" + self.test_num_string + ".png"
+        img_src.save(image_filename)
+
 
 if __name__ == "__main__":
     dc = OccluderViewer()
 
-    if debug:
+    if purpose == 'images':
+        for test in range(1, 1081):
+            dc.set_test_num(test)
+            dc.make_image()
+    elif purpose == 'view':
         dc.set_up_view(1)
     else:
         for test in range(1, 1081):
