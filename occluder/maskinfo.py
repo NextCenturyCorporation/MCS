@@ -28,11 +28,12 @@ class MaskInfo:
         """The path must be the path including block and scene.   """
         self.path = path
         self.objects = {}
+        self.occluders = {}
         self.frame_num = frame_num
         self.get_objects_for_frame(frame_num)
 
-    def get_num_obj(self):
-        return len(self.objects)
+    def get_num_occluders(self):
+        return len(self.occluders)
 
     def get_obj(self):
         return self.objects
@@ -71,7 +72,9 @@ class MaskInfo:
         sky_found = False
         ground_found = False
 
-        for key, val in self.objects.items():
+        self.occluders = self.objects
+
+        for key, val in self.occluders.items():
 
             # sky is usually the top region
             if val.minx == 0 and val.miny == 0 and val.maxx == 287 and val.maxy > 100:
@@ -119,21 +122,22 @@ class MaskInfo:
             to_be_removed.append(key)
 
         for x in to_be_removed:
-            self.objects.pop(x)
+            self.occluders.pop(x)
 
         # If there are two left, and one is much bigger, then it is the ground
-        keys = list(self.objects.keys())
+        keys = list(self.occluders.keys())
         if len(keys) == 2:
-            size_1 = self.objects.get(keys[0]).pixel_count
-            size_2 = self.objects.get(keys[1]).pixel_count
+            size_1 = self.occluders.get(keys[0]).pixel_count
+            size_2 = self.occluders.get(keys[1]).pixel_count
             if size_1 > size_2 and size_1 > 20000:
-                self.objects.pop(keys[0])
+                self.occluders.pop(keys[0])
             elif size_2 > size_1 and size_2 > 20000:
-                self.objects.pop(keys[1])
+                self.occluders.pop(keys[1])
 
     def clean_up_O3(self):
+        self.occluders = self.objects
         to_be_removed = []
-        for key, val in self.objects.items():
+        for key, val in self.occluders.items():
 
             if val.pixel_count < 1500:
                 to_be_removed.append(key)
@@ -144,6 +148,25 @@ class MaskInfo:
                 continue
 
         for x in to_be_removed:
-            self.objects.pop(x)
+            self.occluders.pop(x)
 
-        return self.objects
+        return self.occluders
+
+    @staticmethod
+    def are_masks_same(mask1, mask2):
+        """ Determine if two masks are same"""
+
+        # If differing in num objects, cannot be the same
+        if not mask1.orig_num_objects == mask2.orig_num_objects:
+            return False
+
+        for obj1 in mask1.get_obj().values():
+            found = False
+            for obj2 in mask2.get_obj().values():
+                if FrameObject.are_objects_same(obj1, obj2):
+                    found = True
+                    break
+            if not found:
+                return False
+
+        return True

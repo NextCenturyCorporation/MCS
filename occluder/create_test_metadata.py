@@ -23,6 +23,8 @@ import random
 import json
 from pathlib import Path
 import time
+
+from frameobject import FrameObject
 from maskinfo import MaskInfo
 from occ_view import OccluderViewer
 
@@ -56,33 +58,33 @@ class TestMetadataCreator:
             json.dump(data_json, outfile, indent=4)
 
     def get_test_json(self, block_num, test_num):
-        (num_occluders, num_objects) = self.get_max_count_objects(block_num, test_num)
-        complexity = self.get_complexity(block_num, test_num)
+        (num_occluders, num_objects, static_scene) = self.get_max_count_objects(block_num, test_num)
+        if static_scene:
+            complexity = "static"
+        else:
+            complexity = "dynamic"
 
         test_json = {"num_objects": num_objects,
                      "complexity": complexity,
                      "occluder": num_occluders}
         return test_json
 
-    # def get_num_occluders(self, block_num, test_num):
-    #     data_dir = data_dir_base + "/O" + str(block_num)
-    #     dc = OccluderViewer(data_dir)
-    #     dc.set_test_num(test_num)
-    #     num_occluders = dc.get_num_occluders(scene_num=1)
-    #     return num_occluders
-
     def get_max_count_objects(self, block_num, test_num):
         data_dir = data_dir_base + "/O" + str(block_num) + "/"
         max_count = -1
         num_occluders = -1
+
+        static_scene = False
         for scene_num in range(1, 5):
+            masks_list = []
             for frame_num in range(1, 101):
                 mask = MaskInfo(Path(data_dir + str(test_num).zfill(4) + "/" + str(scene_num)), frame_num)
+                masks_list.append(mask)
                 count = mask.get_num_orig_objects()
                 max_count = count if count > max_count else max_count
 
                 mask.clean_up_occluders()
-                current_occluders = mask.get_num_obj()
+                current_occluders = mask.get_num_occluders()
                 if num_occluders == -1:
                     num_occluders = current_occluders
                 elif not num_occluders == current_occluders:
@@ -94,13 +96,23 @@ class TestMetadataCreator:
                 #     "block {} test {} scene {} frame {} occluders {} objects {}".format(block_num, test_num, scene_num,
                 #                                                                         frame_num, num_occluders,
                 #                                                                         count))
+
+            # see if the objects in the mask have same min/max x/y over all of them, in which case it is static
+            if not static_scene:
+                static_scene = self.is_scene_static(masks_list)
         num_obj = max_count - num_occluders - 2
         if num_obj < 1:
             print("Problem with {} {}".format(block_num, test_num))
-        return (num_occluders, num_obj)
 
-    def get_complexity(self, block_num, test_num):
-        return random.sample({"static", "dynamic 1", "dynamic 2"}, 1)[0]
+        return (num_occluders, num_obj, static_scene)
+
+    def is_scene_static(self, masks_list):
+        """ Go through all the masks and see if they are the same;  if any are different, then not static"""
+        for frame_num in range(2, 101):
+            same_obj = FrameObject.are_objects_same(masks_list[1], masks_list[frame_num])
+            if not same_obj:
+                return False
+        return True
 
     def count_objects(self):
         block_num = 1
@@ -127,10 +139,23 @@ class TestMetadataCreator:
         mask = MaskInfo(Path(data_dir + str(test_num).zfill(4) + "/" + str(scene_num)), frame_num)
         print("Num objects: {}".format(mask.get_num_orig_objects()))
 
+    def compare_masks(self):
+        block_num = 3
+        test_num = 3
+        scene_num = 1
+        frame_num = 33
+        data_dir = data_dir_base + "/O" + str(block_num) + "/"
+
+        mask1 = MaskInfo(Path(data_dir + str(test_num).zfill(4) + "/" + str(scene_num)), frame_num)
+        frame_num = 78
+        mask2 = MaskInfo(Path(data_dir + str(test_num).zfill(4) + "/" + str(scene_num)), frame_num)
+        result = MaskInfo.are_masks_same(mask1, mask2)
+        print(" Same:  {}".format(result))
+
 
 if __name__ == "__main__":
     random.seed(2834523)
     handler = TestMetadataCreator()
     # handler.count_objects()
-
-    handler.process()
+    handler.compare_masks()
+    # handler.process()

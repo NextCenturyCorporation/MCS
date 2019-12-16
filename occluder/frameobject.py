@@ -1,5 +1,3 @@
-
-
 class FrameObject:
     """A particular object (ball, occluder, ground, etc.) in a frame """
 
@@ -38,3 +36,10 @@ class FrameObject:
 
     def get_mid(self):
         return [(self.maxx + self.minx) / 2., (self.maxy + self.miny) / 2.]
+
+    @staticmethod
+    def are_objects_same(obj1, obj2):
+        """Determine if two objects are the same """
+        if obj1.minx == obj2.minx and obj1.maxx == obj1.maxx and obj1.miny == obj2.miny and obj1.maxy == obj2.maxy:
+            return True
+        return False
