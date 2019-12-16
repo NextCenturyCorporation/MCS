@@ -16,8 +16,8 @@ import sys
 
 from frameobject import FrameObject
 
-debug = True
-# debug = False
+purpose = 'images'  # 'view   # 'status'
+
 datadir = "/mnt/ssd/cdorman/data/mcs/intphys/test/O3"
 
 
@@ -30,10 +30,10 @@ class MaskInfo:
     Mask information for a single mask.  One of 100 in a scene; one scene of 4 in a test
     """
 
-    def __init__(self, path):
+    def __init__(self, path, frame_num):
         self.path = path
         self.objects = {}
-        self.frame_num = None
+        self.get_objects_for_frame(frame_num)
 
     def get_num_obj(self):
         return len(self.objects)
@@ -59,6 +59,8 @@ class MaskInfo:
                     obj = FrameObject(color)
                     obj.add_pixel(x, y)
                     self.objects[color] = obj
+
+        self.clean_up_O3_50()
         return self.objects
 
     def print_info(self):
@@ -93,12 +95,17 @@ class OccluderViewer:
     def set_test_num(self, test_num):
         self.test_num = test_num
         self.test_num_string = str(self.test_num).zfill(4)
+        self.process_mask(self.dataDir / self.test_num_string, 50)
 
     def process_mask(self, mask_path, frame_num):
         self.masks.clear()
         for scene in range(4):
-            mask = MaskInfo(mask_path / str(scene + 1))
-            self.masks.append(mask.get_objects_for_frame(frame_num))
+            self.masks.append(MaskInfo(mask_path / str(scene + 1), frame_num))
+
+        # self.masks.clear()
+        # for scene in range(4):
+        #     mask = MaskInfo(mask_path / str(scene + 1))
+        #     self.masks.append(mask.get_objects_for_frame(frame_num))
 
     def update_slider(self, val):
         # Change the frame
@@ -111,22 +118,30 @@ class OccluderViewer:
         new_obj = self.get_matched_obj(self.obj, all_obj)
 
         # Draw the images
-        frame_num_string = str(frame_num).zfill(3)
-        for ii in range(0, 4):
-            image_name = self.dataDir / self.test_num_string / str(ii + 1) / "scene" / (
-                    "scene_" + frame_num_string + ".png")
-
-            img_src = Image.open(image_name)
-            draw = ImageDraw.Draw(img_src)
-            for obj in new_obj.values():
-                draw_color = white
-                draw.rectangle([(obj.minx, obj.miny), (obj.maxx, obj.maxy)], width=2, outline=draw_color)
-
-            self.axs[ii].imshow(img_src)
+        for scene_num in range(0, 4):
+            img_src = self.get_overlaid_image(frame_num, scene_num)
+            self.axs[scene_num].imshow(img_src)
 
         self.obj = new_obj
 
         self.fig.canvas.draw_idle()
+
+    def get_overlaid_image(self, frame_num, scene_num):
+        frame_num_string = str(frame_num).zfill(3)
+        image_name = self.dataDir / self.test_num_string / str(scene_num + 1) / "scene" / (
+                "scene_" + frame_num_string + ".png")
+
+        img_src = Image.open(image_name)
+        draw = ImageDraw.Draw(img_src)
+        for obj in self.masks[scene_num].get_obj().values():
+            draw_color = white
+            if obj.label is 'sky':
+                draw_color = red
+            elif obj.label is 'ground':
+                draw_color = green
+            draw.rectangle([(obj.minx, obj.miny), (obj.maxx, obj.maxy)], width=2, outline=draw_color)
+
+        return img_src
 
     def write_to_occ_or_not(self):
         # which scene and frame
@@ -148,46 +163,6 @@ class OccluderViewer:
         else:
             img_src.save("./has_occluder/test_" + str(len(obj)) + "_" + self.test_num_string + ".png")
             print("Test {} has occ {}".format(self.test_num_string, len(obj)))
-
-    # def get_matched_obj_old(self, old, new):
-    #     ret_obj = {}
-    #     for old_key, old_val in old.items():
-    #         old_mid = old_val.get_mid()
-    #         old_size = old_val.pixel_count
-    #
-    #         # Get predicted y
-    #         print("current loc: {} {}".format(old_mid[0], old_mid[1]))
-    #         pred_y = old_mid[1] + old_val.dy
-    #         print("Predicted loc: {} {}".format(old_mid[0], pred_y))
-    #
-    #         # find closest
-    #         smallest_dist = 1000000
-    #         closest_object = None
-    #         for new_key, new_val in new.items():
-    #             new_mid = new_val.get_mid()
-    #             dx = old_mid[0] - new_mid[0]
-    #             dy = pred_y - new_mid[1]
-    #             dist = math.sqrt(dx * dx + dy * dy)
-    #
-    #             # make sure not too different in size
-    #             new_size = new_val.pixel_count
-    #             diff_size = abs(old_size - new_size) / old_size
-    #
-    #             # print(
-    #             #     "   Current item loc: {} {} dist: {} diff_size {}".format(new_mid[0], new_mid[1], dist, diff_size))
-    #
-    #             if dist < smallest_dist:  # and diff_size < 0.5:
-    #                 smallest_dist = dist
-    #                 closest_object = new_key
-    #
-    #         ret_obj[closest_object] = new[closest_object]
-    #         ret_mid = ret_obj[closest_object].get_mid()
-    #         # print("   New mid {} {}".format(ret_mid[0], ret_mid[1]))
-    #         dy = ret_mid[1] - old_mid[1]
-    #         # print("   dy = {}".format(dy))
-    #         ret_obj[closest_object].dy = dy
-    #
-    #     return ret_obj
 
     def get_matched_obj(self, old, new):
         ret_obj = {}
@@ -406,21 +381,24 @@ class OccluderViewer:
             dc.set_test_num(test)
             dc.write_to_occ_or_not()
 
+    def make_image(self):
+        """Write out an image with occluders labeled"""
+        img_src = self.get_overlaid_image(50, 0)
+        num_occ = len(self.masks[0].get_obj())
+        image_filename = "images" + str(num_occ) + "/test_" + self.test_num_string + ".png"
+        img_src.save(image_filename)
+
 
 if __name__ == "__main__":
     dc = OccluderViewer()
 
-    # splits the data into 2 directories
-    # dc.divide()
-
-    # dc.set_test_num(3)
-    # dc.write_out_status()
-
-    if debug:
-        dc.set_up_view(64)
+    if purpose == 'images':
+        for test in range(1, 1081):
+            dc.set_test_num(test)
+            dc.make_image()
+    elif purpose == 'view':
+        dc.set_up_view(1)
     else:
         for test in range(1, 1081):
-            t = time.time()
             dc.set_test_num(test)
             dc.write_out_status()
-            print("time: {}".format( str(time.time()-t)))

@@ -14,8 +14,8 @@ from frameobject import FrameObject
 
 purpose = 'images'  # 'view   # 'status'
 
-datadir = "/mnt/ssd/cdorman/data/mcs/intphys/test/O1"
-# datadir = "/mnt/ssd/cdorman/data/mcs/intphys/test/O2"
+# datadir = "/mnt/ssd/cdorman/data/mcs/intphys/test/O1"
+datadir = "/mnt/ssd/cdorman/data/mcs/intphys/test/O2"
 
 red = (255, 1, 1)
 green = (1, 255, 1)
@@ -30,7 +30,7 @@ class MaskInfo:
     def __init__(self, path, frame_num):
         self.path = path
         self.objects = {}
-        self.get_objects_for_frame(self.path, frame_num)
+        self.get_objects_for_frame(frame_num)
 
     def get_num_obj(self):
         return len(self.objects)
@@ -38,9 +38,9 @@ class MaskInfo:
     def get_obj(self):
         return self.objects
 
-    def get_objects_for_frame(self, in_path, frame_num):
+    def get_objects_for_frame(self, frame_num):
         frame_num_with_leading_zeros = str(frame_num).zfill(3)
-        mask_filename = in_path / "masks" / ("masks_" + frame_num_with_leading_zeros + ".png")
+        mask_filename = self.path / "masks" / ("masks_" + frame_num_with_leading_zeros + ".png")
 
         mask_image = Image.open(mask_filename)
         pixels = mask_image.load()
