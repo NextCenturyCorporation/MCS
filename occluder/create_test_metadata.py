@@ -22,7 +22,7 @@ Create a file 'metadata.json' that describes the tests.
 import random
 import json
 from pathlib import Path
-
+from time import time
 from maskinfo import MaskInfo
 from occ_view import OccluderViewer
 
@@ -41,10 +41,14 @@ class TestMetadataCreator:
             for block in range(1, 4):
                 block_json = {}
                 for test in range(1, 1081):
+                    start_time = time.time()
                     test_json = self.get_test_json(block, test)
-                    print("{} {} {}".format(block, test, test_json))
+                    end_time = time.time()
+                    diff = str(end_time - start_time)
+                    print("{} {} {}   seconds: {}".format(block, test, test_json, diff))
                     test_string = str(test).zfill(4)
                     block_json[test_string] = test_json
+                    print("")
 
                 block_string = "O" + str(block)
                 data_json[block_string] = block_json
@@ -86,10 +90,10 @@ class TestMetadataCreator:
                                                                                                   frame_num,
                                                                                                   current_occluders))
 
-                print(
-                    "block {} test {} scene {} frame {} occluders {} objects {}".format(block_num, test_num, scene_num,
-                                                                                        frame_num, num_occluders,
-                                                                                        count))
+                # print(
+                #     "block {} test {} scene {} frame {} occluders {} objects {}".format(block_num, test_num, scene_num,
+                #                                                                         frame_num, num_occluders,
+                #                                                                         count))
         return (num_occluders, (max_count - num_occluders))
 
     def get_complexity(self, block_num, test_num):
