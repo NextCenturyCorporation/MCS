@@ -1,3 +1,19 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+# Copyright 2019 Next Century Corporation
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 from PIL import Image
 
 from frameobject import FrameObject
@@ -12,6 +28,7 @@ class MaskInfo:
         """The path must be the path including block and scene.   """
         self.path = path
         self.objects = {}
+        self.frame_num = frame_num
         self.get_objects_for_frame(frame_num)
 
     def get_num_obj(self):
@@ -23,7 +40,13 @@ class MaskInfo:
     def get_num_orig_objects(self):
         return self.orig_num_objects
 
+    def print_info(self):
+        print("Mask info for path {}, frame {}".format(self.path, self.frame_num))
+        for obj in self.objects.values():
+            print("\t{}".format(obj))
+
     def get_objects_for_frame(self, frame_num):
+        self.frame_num = frame_num
         frame_num_with_leading_zeros = str(frame_num).zfill(3)
         mask_filename = self.path / "masks" / ("masks_" + frame_num_with_leading_zeros + ".png")
 
@@ -43,28 +66,7 @@ class MaskInfo:
 
         self.orig_num_objects = len(self.objects)
 
-        x_spacing = [1, 20, 30, 40, 100, 120, 150, 180, 240, 277]
-        y_sky_spacing = [1, 20, 50]
-        sky_color = []
-
-        # Try to find the sky
-        for x in x_spacing:
-            for y in y_sky_spacing:
-                sky_color.append(pixels[x, y])
-        sky_color = max(sky_color, key=sky_color.count)
-        self.objects[sky_color].label = 'sky'
-
-        y_ground_spacing = [163, 183]
-        ground_color = []
-        for x in x_spacing:
-            for y in y_ground_spacing:
-                ground_color.append(pixels[x, y])
-        ground_color = max(ground_color, key=ground_color.count)
-        self.objects[ground_color].label = 'ground'
-
-        self.clean_up_objects(frame_num)
-
-    def clean_up_objects(self, frame_num):
+    def clean_up_occluders(self):
         to_be_removed = []
         sky_found = False
         ground_found = False
@@ -113,7 +115,7 @@ class MaskInfo:
                 continue
 
             # bad ground or sky?
-            print("Got to here {} {}".format(frame_num, val))
+            print("Got to here {}. Not sure what to do with color: {}. assuming not occluder".format(self.frame_num, val))
             to_be_removed.append(key)
 
         for x in to_be_removed:
@@ -128,3 +130,20 @@ class MaskInfo:
                 self.objects.pop(keys[0])
             elif size_2 > size_1 and size_2 > 20000:
                 self.objects.pop(keys[1])
+
+    def clean_up_O3(self):
+        to_be_removed = []
+        for key, val in self.objects.items():
+
+            if val.pixel_count < 1500:
+                to_be_removed.append(key)
+                continue
+
+            if val.pixel_count > 20000:
+                to_be_removed.append(key)
+                continue
+
+        for x in to_be_removed:
+            self.objects.pop(x)
+
+        return self.objects

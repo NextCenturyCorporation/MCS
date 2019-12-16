@@ -45,7 +45,8 @@ class OccluderViewer:
 
         self.fig.canvas.draw_idle()
 
-    def get_num_obj(self, scene_num):
+    def get_num_occluders(self, scene_num):
+        self.masks[scene_num].clean_up_occluders()
         return len(self.masks[scene_num].get_obj())
 
     def get_overlaid_image(self, frame_num, scene_num):

@@ -15,6 +15,7 @@ from matplotlib.widgets import Slider
 import sys
 
 from frameobject import FrameObject
+from maskinfo import MaskInfo
 
 purpose = 'images'  # 'view   # 'status'
 
@@ -24,66 +25,6 @@ datadir = "/mnt/ssd/cdorman/data/mcs/intphys/test/O3"
 red = (255, 1, 1)
 green = (1, 255, 1)
 white = (255, 255, 255)
-
-class MaskInfo:
-    """
-    Mask information for a single mask.  One of 100 in a scene; one scene of 4 in a test
-    """
-
-    def __init__(self, path, frame_num):
-        self.path = path
-        self.objects = {}
-        self.get_objects_for_frame(frame_num)
-
-    def get_num_obj(self):
-        return len(self.objects)
-
-    def get_obj(self):
-        return self.objects
-
-    def get_objects_for_frame(self, frame_num):
-        self.frame_num = frame_num
-        frame_num_with_leading_zeros = str(frame_num).zfill(3)
-        mask_filename = self.path / "masks" / ("masks_" + frame_num_with_leading_zeros + ".png")
-
-        mask_image = Image.open(mask_filename)
-        pixels = mask_image.load()
-
-        # Determine what parts belong to the mask
-        for x in range(mask_image.size[0]):
-            for y in range(mask_image.size[1]):
-                color = pixels[x, y]
-                if color in self.objects:
-                    self.objects.get(color).add_pixel(x, y)
-                else:
-                    obj = FrameObject(color)
-                    obj.add_pixel(x, y)
-                    self.objects[color] = obj
-
-        self.clean_up_O3_50()
-        return self.objects
-
-    def print_info(self):
-        print("Mask info for path {}, frame {}".format(self.in_path, self.frame_num))
-        for obj in self.objects.values():
-            print("\t{}".format(obj))
-
-    def clean_up_O3_50(self):
-        to_be_removed = []
-        for key, val in self.objects.items():
-
-            if val.pixel_count < 1500:
-                to_be_removed.append(key)
-                continue
-
-            if val.pixel_count > 20000:
-                to_be_removed.append(key)
-                continue
-
-        for x in to_be_removed:
-            self.objects.pop(x)
-
-        return self.objects
 
 class OccluderViewer:
 
@@ -101,11 +42,6 @@ class OccluderViewer:
         self.masks.clear()
         for scene in range(4):
             self.masks.append(MaskInfo(mask_path / str(scene + 1), frame_num))
-
-        # self.masks.clear()
-        # for scene in range(4):
-        #     mask = MaskInfo(mask_path / str(scene + 1))
-        #     self.masks.append(mask.get_objects_for_frame(frame_num))
 
     def update_slider(self, val):
         # Change the frame
