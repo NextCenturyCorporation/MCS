@@ -53,8 +53,8 @@ class MaskInfo:
         mask_filename = self.path / "masks" / ("masks_" + frame_num_with_leading_zeros + ".png")
 
         mask_image = Image.open(mask_filename)
-        pixels = mask_image.load()
-
+        # pixels = mask_image.load()
+        #
         # # Determine what parts belong to the mask
         # for x in range(mask_image.size[0]):
         #     for y in range(mask_image.size[1]):
@@ -69,7 +69,7 @@ class MaskInfo:
         self.objects = {}
         arr = np.array(mask_image)
         colors = np.unique(arr)
-        #  print("Number of colors: {}".format(str(len(colors))))
+        # b print("Number of colors: {}".format(str(len(colors))))
         for color in colors:
             obje = np.where(arr == color)
             obj = FrameObject(color)

@@ -14,6 +14,7 @@ class FrameObject:
         self.dy = 0
 
     def set_vals(self, list_of_vals):
+        self.pixel_count = len(list_of_vals[1])
         self.minx = list_of_vals[1].min()
         self.maxx = list_of_vals[1].max()
         self.miny = list_of_vals[0].min()

@@ -42,7 +42,7 @@ class TestMetadataCreator:
         with open(metadata, 'w') as outfile:
             for block in range(1, 4):
                 block_json = {}
-                for test in range(1, 1081):
+                for test in range(34, 1081):
                     start_time = time.time()
                     test_json = self.get_test_json(block, test)
                     end_time = time.time()
@@ -74,10 +74,15 @@ class TestMetadataCreator:
         max_count = -1
         num_occluders = -1
 
+        if block_num == 1:
+            if test_num == 34:
+                print("Got to here")
+
         static_scene = False
         for scene_num in range(1, 5):
             masks_list = []
             for frame_num in range(1, 101):
+
                 mask = MaskInfo(Path(data_dir + str(test_num).zfill(4) + "/" + str(scene_num)), frame_num)
                 masks_list.append(mask)
                 count = mask.get_num_orig_objects()
@@ -139,14 +144,14 @@ class TestMetadataCreator:
         print("Num objects: {}".format(mask.get_num_orig_objects()))
 
     def compare_masks(self):
-        block_num = 3
-        test_num = 2
+        block_num = 1
+        test_num = 34
         scene_num = 1
         frame_num = 33
         data_dir = data_dir_base + "/O" + str(block_num) + "/"
 
         mask1 = MaskInfo(Path(data_dir + str(test_num).zfill(4) + "/" + str(scene_num)), frame_num)
-        frame_num = 78
+        frame_num = 92
         mask2 = MaskInfo(Path(data_dir + str(test_num).zfill(4) + "/" + str(scene_num)), frame_num)
         result = MaskInfo.are_masks_same(mask1, mask2)
         print(" Same:  {}".format(result))
