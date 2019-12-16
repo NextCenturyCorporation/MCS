@@ -22,7 +22,7 @@ Create a file 'metadata.json' that describes the tests.
 import random
 import json
 from pathlib import Path
-from time import time
+import time
 from maskinfo import MaskInfo
 from occ_view import OccluderViewer
 
@@ -94,7 +94,10 @@ class TestMetadataCreator:
                 #     "block {} test {} scene {} frame {} occluders {} objects {}".format(block_num, test_num, scene_num,
                 #                                                                         frame_num, num_occluders,
                 #                                                                         count))
-        return (num_occluders, (max_count - num_occluders))
+        num_obj = max_count - num_occluders - 2
+        if num_obj < 1:
+            print("Problem with {} {}".format(block_num, test_num))
+        return (num_occluders, num_obj)
 
     def get_complexity(self, block_num, test_num):
         return random.sample({"static", "dynamic 1", "dynamic 2"}, 1)[0]
