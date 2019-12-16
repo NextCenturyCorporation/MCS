@@ -6,4 +6,4 @@ scikit-learn>=0.21.3
 pillow>=6.2.1
 
 # Note that this is an older version (i.e. pre 2) of tensorflow
-tensorflow==1.14
+tensorflow==1.15.0
