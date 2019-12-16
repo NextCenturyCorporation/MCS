@@ -14,6 +14,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+import numpy as np
 from PIL import Image
 
 from frameobject import FrameObject
@@ -54,16 +55,26 @@ class MaskInfo:
         mask_image = Image.open(mask_filename)
         pixels = mask_image.load()
 
-        # Determine what parts belong to the mask
-        for x in range(mask_image.size[0]):
-            for y in range(mask_image.size[1]):
-                color = pixels[x, y]
-                if color in self.objects:
-                    self.objects.get(color).add_pixel(x, y)
-                else:
-                    obj = FrameObject(color)
-                    obj.add_pixel(x, y)
-                    self.objects[color] = obj
+        # # Determine what parts belong to the mask
+        # for x in range(mask_image.size[0]):
+        #     for y in range(mask_image.size[1]):
+        #         color = pixels[x, y]
+        #         if color in self.objects:
+        #             self.objects.get(color).add_pixel(x, y)
+        #         else:
+        #             obj = FrameObject(color)
+        #             obj.add_pixel(x, y)
+        #             self.objects[color] = obj
+
+        self.objects = {}
+        arr = np.array(mask_image)
+        colors = np.unique(arr)
+        #  print("Number of colors: {}".format(str(len(colors))))
+        for color in colors:
+            obje = np.where(arr == color)
+            obj = FrameObject(color)
+            obj.set_vals(obje)
+            self.objects[color] = obj
 
         self.orig_num_objects = len(self.objects)
 
@@ -118,7 +129,8 @@ class MaskInfo:
                 continue
 
             # bad ground or sky?
-            print("Got to here {}. Not sure what to do with color: {}. assuming not occluder".format(self.frame_num, val))
+            print(
+                "Got to here {}. Not sure what to do with color: {}. assuming not occluder".format(self.frame_num, val))
             to_be_removed.append(key)
 
         for x in to_be_removed:

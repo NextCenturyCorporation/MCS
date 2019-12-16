@@ -13,6 +13,13 @@ class FrameObject:
         self.midy = 0
         self.dy = 0
 
+    def set_vals(self, list_of_vals):
+        self.minx = list_of_vals[1].min()
+        self.maxx = list_of_vals[1].max()
+        self.miny = list_of_vals[0].min()
+        self.maxy = list_of_vals[0].max()
+        self.calcAR()
+
     def add_pixel(self, x, y):
         self.pixel_count = self.pixel_count + 1
         if x < self.minx:
@@ -23,6 +30,9 @@ class FrameObject:
             self.miny = y
         if y > self.maxy:
             self.maxy = y
+        self.calcAR()
+
+    def calcAR(self):
         diffy = abs(self.maxy - self.miny)
         if diffy > 0:
             self.aspect_ratio = abs(self.maxx - self.minx) / diffy
