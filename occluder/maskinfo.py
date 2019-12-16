@@ -129,8 +129,7 @@ class MaskInfo:
                 continue
 
             # bad ground or sky?
-            print(
-                "Got to here {}. Not sure what to do with color: {}. assuming not occluder".format(self.frame_num, val))
+            # print("Got to here {}. Not sure what to do with color: {}. assuming not occluder".format(self.frame_num, val))
             to_be_removed.append(key)
 
         for x in to_be_removed:

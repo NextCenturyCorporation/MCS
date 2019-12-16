@@ -47,11 +47,10 @@ class TestMetadataCreator:
                     test_json = self.get_test_json(block, test)
                     end_time = time.time()
                     diff = str(end_time - start_time)
-                    print("{} {} {}   seconds: {}".format(block, test, test_json, diff))
                     test_string = str(test).zfill(4)
                     block_json[test_string] = test_json
-                    print("")
 
+                    print("{} {} {}   seconds: {}".format(block, test, test_json, diff))
                 block_string = "O" + str(block)
                 data_json[block_string] = block_json
 
@@ -78,7 +77,7 @@ class TestMetadataCreator:
             if test_num == 34:
                 print("Got to here")
 
-        static_scene = False
+        num_static_scene = 0
         for scene_num in range(1, 5):
             masks_list = []
             for frame_num in range(1, 101):
@@ -101,17 +100,22 @@ class TestMetadataCreator:
                                                                                                   current_occluders))
 
             # see if the objects in the mask have same min/max x/y over all of them, in which case it is static
-            if not static_scene:
-                static_scene = self.is_scene_static(masks_list)
+            if self.is_scene_static(masks_list):
+                num_static_scene += 1
+
         num_obj = max_count - num_occluders - 2
         if num_obj < 1:
             print("Problem with {} {}".format(block_num, test_num))
+
+        static_scene = False
+        if num_static_scene == 2:
+            static_scene = True
 
         return (num_occluders, num_obj, static_scene)
 
     def is_scene_static(self, masks_list):
         """ Go through all the masks and see if they are the same;  if any are different, then not static"""
-        print("length of masks:  {}".format(len(masks_list)))
+        # print("length of masks:  {}".format(len(masks_list)))
         for frame_num in range(2, 100):
             same_obj = MaskInfo.are_masks_same(masks_list[1], masks_list[frame_num])
             if not same_obj:
