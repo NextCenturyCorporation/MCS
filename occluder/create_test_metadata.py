@@ -83,7 +83,10 @@ class TestMetadataCreator:
                 count = mask.get_num_orig_objects()
                 max_count = count if count > max_count else max_count
 
-                mask.clean_up_occluders()
+                if block_num == 3:
+                    mask.clean_up_O3()
+                else:
+                    mask.clean_up_occluders()
                 current_occluders = mask.get_num_occluders()
                 if num_occluders == -1:
                     num_occluders = current_occluders
@@ -91,11 +94,6 @@ class TestMetadataCreator:
                     print("Number of occluders changed!!.  Was: {}.  In frame {} it is {}".format(num_occluders,
                                                                                                   frame_num,
                                                                                                   current_occluders))
-
-                # print(
-                #     "block {} test {} scene {} frame {} occluders {} objects {}".format(block_num, test_num, scene_num,
-                #                                                                         frame_num, num_occluders,
-                #                                                                         count))
 
             # see if the objects in the mask have same min/max x/y over all of them, in which case it is static
             if not static_scene:
@@ -108,8 +106,9 @@ class TestMetadataCreator:
 
     def is_scene_static(self, masks_list):
         """ Go through all the masks and see if they are the same;  if any are different, then not static"""
-        for frame_num in range(2, 101):
-            same_obj = FrameObject.are_objects_same(masks_list[1], masks_list[frame_num])
+        print("length of masks:  {}".format(len(masks_list)))
+        for frame_num in range(2, 100):
+            same_obj = MaskInfo.are_masks_same(masks_list[1], masks_list[frame_num])
             if not same_obj:
                 return False
         return True
@@ -141,7 +140,7 @@ class TestMetadataCreator:
 
     def compare_masks(self):
         block_num = 3
-        test_num = 3
+        test_num = 2
         scene_num = 1
         frame_num = 33
         data_dir = data_dir_base + "/O" + str(block_num) + "/"
@@ -157,5 +156,5 @@ if __name__ == "__main__":
     random.seed(2834523)
     handler = TestMetadataCreator()
     # handler.count_objects()
-    handler.compare_masks()
-    # handler.process()
+    # handler.compare_masks()
+    handler.process()
