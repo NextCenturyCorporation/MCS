@@ -239,10 +239,10 @@ class JsonImportCreator:
             if self.answer_filename in content:
                 with my_zip.open(self.description_filename, 'r') as description_file:
 
-                    #  d = io.TextIOWrapper(description_file)
-                    #  description = json.load(d)
+                    d = io.TextIOWrapper(description_file)
+                    description = json.load(d)
 
-                    description = json.load(description_file)
+                    # description = json.load(description_file)
                     return description
         # Handle case where this did not work
 
