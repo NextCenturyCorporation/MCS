@@ -3,198 +3,35 @@
 #
 
 import json
-import os
-import shutil
 from PIL import Image, ImageDraw
 from pathlib import Path
-import random
-from statistics import mode
-import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from matplotlib.widgets import Slider
 import sys
 
-debug = True
-# debug = False
+from maskinfo import MaskInfo
+
+purpose = 'images'  # 'view   # 'status'
+
+# datadir = "/mnt/ssd/cdorman/data/mcs/intphys/test/O1"
+datadir = "/mnt/ssd/cdorman/data/mcs/intphys/test/O2"
+
 red = (255, 1, 1)
 green = (1, 255, 1)
 white = (255, 255, 255)
 
-class Obj:
-
-    def __init__(self, color):
-        self.color = color;
-        self.pixel_count = 0
-        self.minx = 10000
-        self.maxx = 0
-        self.miny = 10000
-        self.maxy = 0
-        self.label = None
-
-    def add_pixel(self, x, y):
-        self.pixel_count = self.pixel_count + 1
-        if x < self.minx:
-            self.minx = x
-        if x > self.maxx:
-            self.maxx = x
-        if y < self.miny:
-            self.miny = y
-        if y > self.maxy:
-            self.maxy = y
-        diffy = abs(self.maxy - self.miny)
-        if diffy > 0:
-            self.aspect_ratio = abs(self.maxx - self.minx) / diffy
-        else:
-            self.aspect_ratio = 1
-
-    def __str__(self):
-        return "(" + str(self.color) + " [ " + str(self.minx) + ", " + str(self.maxx) + ", " + str(
-            self.miny) + ", " + str(self.maxy) + " ] " + " ct: " + str(
-            self.pixel_count) + " AR: " + str(self.aspect_ratio) + ")"
-
-
-class MaskInfo:
-    """
-    Mask information for a single mask.  One of 100 in a scene; one scene of 4 in a test
-    """
-
-    def __init__(self, path, frame_num):
-        self.path = path
-        self.objects = {}
-        self.get_objects_for_frame(self.path, frame_num)
-
-    def get_num_obj(self):
-        return len(self.objects)
-
-    def get_obj(self):
-        return self.objects
-
-    def get_objects_for_frame(self, in_path, frame_num):
-        frame_num_with_leading_zeros = str(frame_num).zfill(3)
-        mask_filename = in_path / "masks" / ("masks_" + frame_num_with_leading_zeros + ".png")
-
-        mask_image = Image.open(mask_filename)
-        pixels = mask_image.load()
-
-        # Determine what parts belong to the mask
-        for x in range(mask_image.size[0]):
-            for y in range(mask_image.size[1]):
-                color = pixels[x, y]
-                if color in self.objects:
-                    self.objects.get(color).add_pixel(x, y)
-                else:
-                    obj = Obj(color)
-                    obj.add_pixel(x, y)
-                    self.objects[color] = obj
-
-        x_spacing = [1, 20, 30, 40, 100, 120, 150, 180, 240, 277]
-        y_sky_spacing = [1, 20, 50]
-        sky_color = []
-        # Try to find the sky
-        for x in x_spacing:
-            for y in y_sky_spacing:
-                sky_color.append(pixels[x, y])
-        sky_color = max(sky_color, key=sky_color.count)
-        self.objects[sky_color].label = 'sky'
-
-        y_ground_spacing = [163, 183]
-        ground_color = []
-        for x in x_spacing:
-            for y in y_ground_spacing:
-                ground_color.append(pixels[x, y])
-        ground_color = max(ground_color, key=ground_color.count)
-        self.objects[ground_color].label = 'ground'
-
-        if debug:
-            self.clean_up_objects(frame_num)
-            print("Mask info for path {}, frame {}".format(in_path, frame_num))
-            for obj in self.objects.values():
-                print("\t{}".format(obj))
-        else:
-            self.clean_up_objects(frame_num)
-
-    def clean_up_objects(self, frame_num):
-        to_be_removed = []
-        sky_found = False
-        ground_found = False
-
-        for key, val in self.objects.items():
-
-            # sky is usually the top region
-            if val.minx == 0 and val.miny == 0 and val.maxx == 287 and val.maxy > 100:
-                sky_found = True
-                to_be_removed.append(key)
-                continue
-
-            # ground might be entire bottom
-            if val.minx == 0 and val.miny == 152 and val.maxx == 287 and val.maxy == 287:
-                ground_found = True
-                to_be_removed.append(key)
-                continue
-
-            # Ground might start at bottom
-            if val.minx == 0 and val.maxx == 287 and val.miny == 152 and val.maxy > 200:
-                ground_found = True
-                to_be_removed.append(key)
-                continue
-
-            # too small, must be non-occluder object
-            if val.pixel_count < 501:
-                to_be_removed.append(key)
-                continue
-
-            # aspect ratio wrong for medium sized
-            if 500 < val.pixel_count < 1680:
-                if 0.5 < val.aspect_ratio < 1.8:
-                    to_be_removed.append(key)
-                    continue
-
-            # if big and not ground or sky, must be occluder
-            if sky_found and ground_found and val.pixel_count > 10000:
-                continue
-
-            # If wide and flat, then must be occluder
-            if val.aspect_ratio > 3:
-                continue
-
-            # If not too big, then occluder
-            if val.pixel_count > 1400:
-                continue
-
-            # bad ground or sky?
-            print("Got to here {} {}".format(frame_num, val))
-            to_be_removed.append(key)
-
-        for x in to_be_removed:
-            self.objects.pop(x)
-
-        # If there are two left, and one is much bigger, then it is the ground
-        keys = list(self.objects.keys())
-        if len(keys) == 2:
-            size_1 = self.objects.get(keys[0]).pixel_count
-            size_2 = self.objects.get(keys[1]).pixel_count
-            if size_1 > size_2 and size_1 > 20000:
-                self.objects.pop(keys[0])
-            elif size_2 > size_1 and size_2 > 20000:
-                self.objects.pop(keys[1])
-
-
 class OccluderViewer:
 
-    def __init__(self):
+    def __init__(self, data_dir):
         self.test_num = 1
-        self.dataDir = Path("/mnt/ssd/cdorman/data/mcs/intphys/test/O1")
+        self.dataDir = Path(data_dir)
         self.masks = []
 
     def set_test_num(self, test_num):
         self.test_num = test_num
         self.test_num_string = str(self.test_num).zfill(4)
-
-    def process_mask(self, mask_path, frame_num):
-        self.masks.clear()
-        for scene in range(4):
-            self.masks.append(MaskInfo(mask_path / str(scene + 1), frame_num))
+        self.process_mask(self.dataDir / self.test_num_string, 50)
 
     def update_slider(self, val):
         # Change the frame
@@ -202,25 +39,37 @@ class OccluderViewer:
         self.process_mask(self.dataDir / self.test_num_string, frame_num)
 
         # Draw the images
-        frame_num_string = str(frame_num).zfill(3)
-        for ii in range(0, 4):
-            image_name = self.dataDir / self.test_num_string / str(ii + 1) / "scene" / (
-                    "scene_" + frame_num_string + ".png")
-
-            img_src = Image.open(image_name)
-            # img_src = mpimg.imread(str(image_name))
-            draw = ImageDraw.Draw(img_src)
-            for obj in self.masks[ii].get_obj().values():
-                draw_color = white
-                if obj.label is 'sky':
-                    draw_color = red
-                elif obj.label is 'ground':
-                    draw_color = green
-                draw.rectangle([(obj.minx, obj.miny), (obj.maxx, obj.maxy)], width=2, outline=draw_color)
-
-            self.axs[ii].imshow(img_src)
+        for scene_num in range(0, 4):
+            img_src = self.get_overlaid_image(frame_num, scene_num)
+            self.axs[scene_num].imshow(img_src)
 
         self.fig.canvas.draw_idle()
+
+    def get_num_occluders(self, scene_num):
+        self.masks[scene_num].clean_up_occluders()
+        return len(self.masks[scene_num].get_obj())
+
+    def get_overlaid_image(self, frame_num, scene_num):
+        frame_num_string = str(frame_num).zfill(3)
+        image_name = self.dataDir / self.test_num_string / str(scene_num + 1) / "scene" / (
+                "scene_" + frame_num_string + ".png")
+
+        img_src = Image.open(image_name)
+        draw = ImageDraw.Draw(img_src)
+        for obj in self.masks[scene_num].get_obj().values():
+            draw_color = white
+            if obj.label is 'sky':
+                draw_color = red
+            elif obj.label is 'ground':
+                draw_color = green
+            draw.rectangle([(obj.minx, obj.miny), (obj.maxx, obj.maxy)], width=2, outline=draw_color)
+
+        return img_src
+
+    def process_mask(self, mask_path, frame_num):
+        self.masks.clear()
+        for scene in range(4):
+            self.masks.append(MaskInfo(mask_path / str(scene + 1), frame_num))
 
     def write_out_status_for_scene(self, scene_num):
 
@@ -299,8 +148,7 @@ class OccluderViewer:
 
     def set_up_view(self, test_num):
 
-        self.test_num = test_num
-        self.test_num_string = str(test_num).zfill(4)
+        self.set_test_num(test_num)
         self.fig, self.axs = plt.subplots(1, 4)
 
         for ii in range(0, 4):
@@ -319,12 +167,23 @@ class OccluderViewer:
         plt.title(self.test_num_string)
         plt.show()
 
+    def make_image(self):
+        """Write out an image with occluders labeled"""
+        img_src = self.get_overlaid_image(50, 0)
+        num_occ = len(self.masks[0].get_obj())
+        image_filename = "images" + str(num_occ) + "/test_" + self.test_num_string + ".png"
+        img_src.save(image_filename)
+
 
 if __name__ == "__main__":
-    dc = OccluderViewer()
+    dc = OccluderViewer(datadir)
 
-    if debug:
-        dc.set_up_view(3)
+    if purpose == 'images':
+        for test in range(1, 1081):
+            dc.set_test_num(test)
+            dc.make_image()
+    elif purpose == 'view':
+        dc.set_up_view(1)
     else:
         for test in range(1, 1081):
             dc.set_test_num(test)
