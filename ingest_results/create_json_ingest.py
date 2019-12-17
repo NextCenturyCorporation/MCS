@@ -263,7 +263,7 @@ class JsonImportCreator:
         # Handle case where this did not work
 
     def get_voe_signal(self, filename):
-        voe_signal = self.nested_dict(4, float)
+        voe_signal = self.nested_dict(3, float)
         with zipfile.ZipFile(filename) as my_zip:
             voe_content = [f for f in my_zip.namelist() if str(f).startswith("voe_")]
             for voe_filename in voe_content:
@@ -274,12 +274,16 @@ class JsonImportCreator:
                 scene = str(key[3]).split('.')[0]
 
                 with my_zip.open(voe_filename) as voe_file:
+                    voe_signal[block][test][scene] = []
                     for cnt, line in enumerate(voe_file):
                         if isinstance(line, (bytes, bytearray)):
                             line = line.decode('utf-8')
                         split_line = line.split(' ')
                         val = float(split_line[1])
-                        voe_signal[block][test][scene][str(cnt + 1)] = val
+                        voe_signal[block][test][scene].append({
+                            "frame": str(cnt + 1),
+                            "value": val
+                        })
         return voe_signal
 
     def check(self):
