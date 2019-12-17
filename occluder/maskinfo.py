@@ -142,9 +142,12 @@ class MaskInfo:
 
 
     def clean_up_O3(self):
-        self.occluders = self.objects
+        self.occluders = copy.deepcopy(self.objects)
         to_be_removed = []
         for key, val in self.occluders.items():
+
+            if val.pixel_count > 1300 and val.aspect_ratio > 3:
+                continue
 
             if val.pixel_count < 1500:
                 to_be_removed.append(key)
@@ -156,6 +159,10 @@ class MaskInfo:
 
         for x in to_be_removed:
             self.occluders.pop(x)
+
+        keys = list(self.occluders.keys())
+        for key in keys:
+            self.objects.pop(key)
 
         return self.occluders
 

@@ -40,9 +40,9 @@ class TestMetadataCreator:
         data_json = {}
         metadata = "metadata.json"
         with open(metadata, 'w') as outfile:
-            for block in range(3, 4):
+            for block in range(1, 4):
                 block_json = {}
-                for test in range(34, 1081):
+                for test in range(34, 40):
                     start_time = time.time()
                     test_json = self.get_test_json(block, test)
                     end_time = time.time()
@@ -71,7 +71,16 @@ class TestMetadataCreator:
     def get_max_count_objects(self, block_num, test_num):
         data_dir = data_dir_base + "/O" + str(block_num) + "/"
         max_count = -1
-        num_occluders = -1
+
+        # Number of occluders is determined for frame 50
+        scene_num = 1
+        frame_num = 50
+        mask = MaskInfo(Path(data_dir + str(test_num).zfill(4) + "/" + str(scene_num)), frame_num)
+        if block_num == 3:
+            mask.clean_up_O3()
+        else:
+            mask.clean_up_occluders()
+        num_occluders = mask.get_num_occluders()
 
         num_static_scene = 0
         for scene_num in range(1, 5):
@@ -80,19 +89,6 @@ class TestMetadataCreator:
 
                 mask = MaskInfo(Path(data_dir + str(test_num).zfill(4) + "/" + str(scene_num)), frame_num)
                 masks_list.append(mask)
-
-                if block_num == 3:
-                    mask.clean_up_O3()
-                else:
-                    mask.clean_up_occluders()
-
-                current_occluders = mask.get_num_occluders()
-                if num_occluders == -1:
-                    num_occluders = current_occluders
-                elif not num_occluders == current_occluders:
-                    print("Number of occluders changed!!.  Was: {}.  In frame {} it is {}".format(num_occluders,
-                                                                                                  frame_num,
-                                                                                                  current_occluders))
                 count = mask.get_num_obj()
                 max_count = count if count > max_count else max_count
                 # print("num obj: {}  occluders: {}".format(count, current_occluders))
@@ -102,7 +98,7 @@ class TestMetadataCreator:
                 num_static_scene += 1
 
         # ground and sky are always there
-        num_obj = max_count - 2
+        num_obj = max_count - num_occluders - 2
         if num_obj < 1:
             print("Problem with {} {}".format(block_num, test_num))
 
