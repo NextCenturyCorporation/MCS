@@ -12,33 +12,73 @@
             </div>
             <div style="margin: 50px;">
                 <h2>Instructions </h2>
+
+                <p>The instructions here are for people viewing and evaluating the output
+                of TA1 performers.  The goal is to gain some sort of insight into what
+                the algorithms are doing, what information they are using, and where
+                they fail.
+
+                <p>Important points:
+
+                    <ul>
+                        <li>Ground Truth is either 1, meaning that it is 'Plausible' or
+                            realistic, or 0, meaning that it is 'Implausible' or impossible.</li>
+
+                        <li>The Score is based on <b>Loss</b>.  Lower is better.
+
+                    </ul>
+
+                <h3>Summary Stats</h3>
+
                 <p>The link below will take you to a dashboard that will allow you to
-                filter and select individual tests from the blocks.  NOTE: the data in
-                the dashboard at present is completely made up. </p>
-                <p>You can click on any of the bar graphs to select a particular
-                sub-set of the test data.  For example, to only see results from Block
-                O1, click on that bar in the Blocks area on the upper right.  When you
-                select a particular performer, submission, or block, the Ground Truth
-                vs Plausibility graph will change, showing only that data.</p>
+                filter and select individual tests from the blocks.</p>
+                
+                <p><a href="http://ec2-54-157-23-98.compute-1.amazonaws.com:4199/?dashboard=-#%E2%9F%A6%E2%9F%A7">Overall Stats Page</a>
+
+                <p><b>Bar Charts:</b> Click on any of the bar graphs to filter a
+                particular sub-set of the test data.  For example, to only see results
+                from Block O1, click on that bar in the Blocks area on the upper right.
+                When you select a particular performer, submission, or block, the Ground
+                Truth vs Plausibility graph will change, showing only that data.</p>
+
                 <p>The tests in IntPhys are internally divided into different
                 categories, depending on their level of dynamic complexity, the number
                 of objects, and whether there is an occluder present.  You can also
                 filter on these; for example, you can compare the results when there
                 are different numbers of objects present.
-                <p>The Ground Truth vs Plausibility graph in the middle shows the
-                ground truth (either 0 for implausible or 1 for plausible) versus the
-                submitted answer (a float value between 0 and 1).  A perfect score
-                would be to have all the results at the bottom right (0,0) or upper
-                left (1,1).  The graph is also selectable, so it may be of interest to
-                see why various tests are returning a low value    when ground truth is
-                1. <p>
-                    <a href="http://ec2-54-157-23-98.compute-1.amazonaws.com:4199/?dashboard=-#%E2%9F%A6%E2%9F%A7">Overall Stats Page</a>
 
-                <p>The data table on the bottom of the page will allow a user to select a
-                particular test.  THIS IS NOT IMPLEMENTED YET.  Click on the row and
-                it will take you to another page that shows the results for a
-                partiular test.</p>
-                <a href="http://ec2-54-157-23-98.compute-1.amazonaws.com:3000/?perf=TA1_group_test&subm=submission_0&block=O3&test=0602">Single Test View</a> 
+                <p><b>Graph:</b> The Ground Truth vs Plausibility graph in the middle
+                shows the ground truth (either 0 for implausible or 1 for plausible)
+                versus the submitted answer (a float value between 0 and 1).  A perfect
+                score would be to have all the results at the bottom left (0,0) or upper
+                right (1,1).  The graph is also selectable; click-and-drag around a set
+                of results.
+
+                <p><b>Data Table and Links:</b> The data table on the bottom of the page
+                will allow a user to select in individual test.  Click on the link at
+                the end of the row and it will take you to another page that shows the
+                    results for that test.</p>
+
+                <p><b>Score:</b>The score on the right is the average of the mean
+                squared error (MSE) loss between ground truth (O or 1) and the
+                plausibility score (floating point number between 0 and 1).  The MSE is
+                also known as
+                the <a href="https://en.wikipedia.org/wiki/Brier_score">Brier Score</a>.
+                Lower is better.
+
+                <H3>Individual Test Results</h3>
+
+                <p>After clicking on a link from the summary stats page data table, you
+                will see the results from a single test.  The test consists of 4 scenes,
+                each with 100 frames.
+
+                <p>Please wait until the images are loaded.  After loading, there is a
+                    slider that allows you to view the frames like a movie.
+
+                <p>The plots at the bottom shows the Plausibility score for each scene
+                as a function of frame number.  When the plausibility drops, it means
+                that the algorithm discovered something that it thought was unrealistic.
+                
             </div>
 
             
