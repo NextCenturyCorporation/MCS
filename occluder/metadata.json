@@ -5394,6 +5394,11 @@
             "num_objects": 2,
             "complexity": "dynamic",
             "occluder": 2
+        },
+        "1080": {
+            "num_objects": 2,
+            "complexity": "dynamic",
+            "occluder": 1
         }
     },
     "O2": {
@@ -10791,6 +10796,11 @@
             "num_objects": 2,
             "complexity": "dynamic",
             "occluder": 1
+        },
+        "1080": {
+            "num_objects": 1,
+            "complexity": "static",
+            "occluder": 0
         }
     },
     "O3": {
@@ -16188,6 +16198,11 @@
             "num_objects": 3,
             "complexity": "static",
             "occluder": 0
+        },
+        "1080": {
+            "num_objects": 3,
+            "complexity": "dynamic",
+            "occluder": 1
         }
     }
 }
