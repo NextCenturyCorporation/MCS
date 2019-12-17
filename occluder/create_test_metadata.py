@@ -40,7 +40,7 @@ class TestMetadataCreator:
         data_json = {}
         metadata = "metadata.json"
         with open(metadata, 'w') as outfile:
-            for block in range(1, 4):
+            for block in range(3, 4):
                 block_json = {}
                 for test in range(34, 1081):
                     start_time = time.time()
@@ -73,10 +73,6 @@ class TestMetadataCreator:
         max_count = -1
         num_occluders = -1
 
-        if block_num == 1:
-            if test_num == 34:
-                print("Got to here")
-
         num_static_scene = 0
         for scene_num in range(1, 5):
             masks_list = []
@@ -84,13 +80,12 @@ class TestMetadataCreator:
 
                 mask = MaskInfo(Path(data_dir + str(test_num).zfill(4) + "/" + str(scene_num)), frame_num)
                 masks_list.append(mask)
-                count = mask.get_num_orig_objects()
-                max_count = count if count > max_count else max_count
 
                 if block_num == 3:
                     mask.clean_up_O3()
                 else:
                     mask.clean_up_occluders()
+
                 current_occluders = mask.get_num_occluders()
                 if num_occluders == -1:
                     num_occluders = current_occluders
@@ -98,12 +93,16 @@ class TestMetadataCreator:
                     print("Number of occluders changed!!.  Was: {}.  In frame {} it is {}".format(num_occluders,
                                                                                                   frame_num,
                                                                                                   current_occluders))
+                count = mask.get_num_obj()
+                max_count = count if count > max_count else max_count
+                # print("num obj: {}  occluders: {}".format(count, current_occluders))
 
             # see if the objects in the mask have same min/max x/y over all of them, in which case it is static
             if self.is_scene_static(masks_list):
                 num_static_scene += 1
 
-        num_obj = max_count - num_occluders - 2
+        # ground and sky are always there
+        num_obj = max_count - 2
         if num_obj < 1:
             print("Problem with {} {}".format(block_num, test_num))
 
@@ -125,7 +124,7 @@ class TestMetadataCreator:
     def count_objects(self):
         block_num = 1
         test_num = 1
-        scene_num = 1
+        scene_num = 2
         frame_num = 33
         data_dir = data_dir_base + "/O" + str(block_num) + "/"
         mask = MaskInfo(Path(data_dir + str(test_num).zfill(4) + "/" + str(scene_num)), frame_num)
@@ -149,8 +148,8 @@ class TestMetadataCreator:
 
     def compare_masks(self):
         block_num = 1
-        test_num = 34
-        scene_num = 1
+        test_num = 36
+        scene_num = 2
         frame_num = 33
         data_dir = data_dir_base + "/O" + str(block_num) + "/"
 

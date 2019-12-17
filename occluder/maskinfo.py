@@ -16,7 +16,7 @@
 #   limitations under the License.
 import numpy as np
 from PIL import Image
-
+import copy
 from frameobject import FrameObject
 
 
@@ -53,23 +53,11 @@ class MaskInfo:
         mask_filename = self.path / "masks" / ("masks_" + frame_num_with_leading_zeros + ".png")
 
         mask_image = Image.open(mask_filename)
-        # pixels = mask_image.load()
-        #
-        # # Determine what parts belong to the mask
-        # for x in range(mask_image.size[0]):
-        #     for y in range(mask_image.size[1]):
-        #         color = pixels[x, y]
-        #         if color in self.objects:
-        #             self.objects.get(color).add_pixel(x, y)
-        #         else:
-        #             obj = FrameObject(color)
-        #             obj.add_pixel(x, y)
-        #             self.objects[color] = obj
 
         self.objects = {}
         arr = np.array(mask_image)
         colors = np.unique(arr)
-        # b print("Number of colors: {}".format(str(len(colors))))
+        # print("Number of colors: {}".format(str(len(colors))))
         for color in colors:
             obje = np.where(arr == color)
             obj = FrameObject(color)
@@ -78,12 +66,15 @@ class MaskInfo:
 
         self.orig_num_objects = len(self.objects)
 
+    def get_num_obj(self):
+        return len(self.objects)
+
     def clean_up_occluders(self):
         to_be_removed = []
         sky_found = False
         ground_found = False
 
-        self.occluders = self.objects
+        self.occluders = copy.deepcopy(self.objects)
 
         for key, val in self.occluders.items():
 
@@ -144,6 +135,11 @@ class MaskInfo:
                 self.occluders.pop(keys[0])
             elif size_2 > size_1 and size_2 > 20000:
                 self.occluders.pop(keys[1])
+
+        keys = list(self.occluders.keys())
+        for key in keys:
+            self.objects.pop(key)
+
 
     def clean_up_O3(self):
         self.occluders = self.objects
