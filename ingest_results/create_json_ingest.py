@@ -21,6 +21,8 @@ index that can be read by Neon.
 
 """
 import json
+import math
+import random
 import zipfile
 from pathlib import Path
 import os
@@ -76,6 +78,15 @@ settings = '''
                 },
                 "url_string": {
                   "type": "keyword"
+                }
+                "plaus_round" {
+                    "type": "double"
+                }
+                "ground_truth_delta": {
+                    "type": "double"
+                },
+                "mse_loss": {
+                    "type": "double"
                 }
               }
             }
@@ -157,6 +168,8 @@ class JsonImportCreator:
                     # Get the data
                     data_dict = {}
 
+                    mse_loss = math.pow((self.ground_truth[block][test][scene]-answer[block][test][scene]), 2)
+
                     url_string = "perf={}&subm={}&block={}&test={}".format(description["Performer"],
                                                                            description["Submission"], block, test)
 
@@ -173,11 +186,15 @@ class JsonImportCreator:
                     data_dict["occluder"] = self.metadata[block][test]["occluder"]
 
                     data_dict["ground_truth"] = self.ground_truth[block][test][scene]
+                    data_dict["ground_truth_delta"] = self.ground_truth[block][test][scene] + random.uniform(-0.05,
+                                                                                                             0.05)
 
                     # Data associated with performer results
                     data_dict["plausibility"] = answer[block][test][scene]
+                    data_dict["plaus_round"] = float("{0:.2f}".format(answer[block][test][scene]))
                     data_dict["voe_signal"] = voe_signal[block][test][scene]
                     data_dict["url_string"] = url_string
+                    data_dict["mse_loss"] = mse_loss
                     bulk_data.append(data_dict)
 
                     self.object_id = self.object_id + 1
@@ -238,7 +255,6 @@ class JsonImportCreator:
             content = my_zip.namelist()
             if self.answer_filename in content:
                 with my_zip.open(self.description_filename, 'r') as description_file:
-
                     d = io.TextIOWrapper(description_file)
                     description = json.load(d)
 
@@ -247,7 +263,7 @@ class JsonImportCreator:
         # Handle case where this did not work
 
     def get_voe_signal(self, filename):
-        voe_signal = self.nested_dict(4,float)
+        voe_signal = self.nested_dict(4, float)
         with zipfile.ZipFile(filename) as my_zip:
             voe_content = [f for f in my_zip.namelist() if str(f).startswith("voe_")]
             for voe_filename in voe_content:
@@ -263,7 +279,7 @@ class JsonImportCreator:
                             line = line.decode('utf-8')
                         split_line = line.split(' ')
                         val = float(split_line[1])
-                        voe_signal[block][test][scene][str(cnt+1)] = val
+                        voe_signal[block][test][scene][str(cnt + 1)] = val
         return voe_signal
 
     def check(self):
