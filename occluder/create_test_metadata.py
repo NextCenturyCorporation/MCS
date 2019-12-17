@@ -42,7 +42,7 @@ class TestMetadataCreator:
         with open(metadata, 'w') as outfile:
             for block in range(1, 4):
                 block_json = {}
-                for test in range(34, 40):
+                for test in range(1, 1080):
                     start_time = time.time()
                     test_json = self.get_test_json(block, test)
                     end_time = time.time()
