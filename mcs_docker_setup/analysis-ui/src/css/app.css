@@ -44,8 +44,7 @@ body {
 }
 
 .commentarea {
-    margin-top:20px;
-    width:300px;
+    margin:20px;
 }
 
 .voe_chart {
@@ -114,7 +113,7 @@ ol, ul {
 }
 
 .comment-date {
-    font-size: 10px;
+    font-size: 12px;
     color: #777777;
 }
 

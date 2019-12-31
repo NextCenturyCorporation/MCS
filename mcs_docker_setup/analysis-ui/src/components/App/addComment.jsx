@@ -16,10 +16,12 @@ const AddComment = ({ mutate }) => {
                 submission: commentState.subm,
                 performer: commentState.perf,
                 createdDate: (new Date()).toISOString(),
-                text: document.getElementById("commentTextArea").value
+                text: document.getElementById("commentTextArea").value,
+                userName: document.getElementById("commentUserName").value
             }
         }).then( res => {
             document.getElementById("commentTextArea").value = '';
+            document.getElementById("commentUserName").value = '';
             setTimeout(function() {
                 setNeedToRefetch(true);
             }, 1500);
@@ -28,15 +30,21 @@ const AddComment = ({ mutate }) => {
 
     return (
         <div className="commentarea">
-            <TextareaAutosize id="commentTextArea" minRows={4} cols="100" defaultValue="Enter comments here.  Resize for more room"/>
-            <input type="button" onClick={submitComment} value="Submit"/>
+            <h5>Leave a comment: </h5>
+            <div className="form-group w-50">
+                <input type="text" placeholder="Enter name here." id="commentUserName" className="form-control"/>
+            </div>
+            <div className="form-group w-75">
+                <TextareaAutosize id="commentTextArea" minRows={4} cols="100" placeholder="Enter comments here. (Resize for more room)" className="form-control"/>
+                <input type="button" onClick={submitComment} value="Submit" className="btn btn-primary mt-2"/>
+            </div>
         </div>
     );
 };
 
 const addCommentMutation = gql`
-    mutation saveComment($test: String!, $block: String!, $submission: String!, $performer: String!, $createdDate: String!, $text: String!) {
-        saveComment(test: $test, block: $block, submission: $submission, performer: $performer, createdDate: $createdDate, text: $text) {
+    mutation saveComment($test: String!, $block: String!, $submission: String!, $performer: String!, $createdDate: String!, $text: String!, $userName: String!) {
+        saveComment(test: $test, block: $block, submission: $submission, performer: $performer, createdDate: $createdDate, text: $text, userName: $userName) {
             text
         }
     }
