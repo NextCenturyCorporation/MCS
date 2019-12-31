@@ -7,6 +7,8 @@ import CommentsComponent from './comments'
 // CSS Stuff 
 import '../../css/app.css';
 import 'rc-slider/assets/index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'material-design-icons/iconfont/material-icons.css'
 
 export class App extends React.Component {
 
@@ -25,7 +27,7 @@ export class App extends React.Component {
                 <div className="layout">
 
                     <EvalHeader state={this.state}/>
-                    
+
                     <div className="layout-board">
                         <Results value={this.state}/>
                         <CommentsComponent state={this.state}/>

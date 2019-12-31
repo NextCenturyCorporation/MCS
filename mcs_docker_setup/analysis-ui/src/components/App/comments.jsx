@@ -6,7 +6,7 @@ function CommentsComponent({state}) {
     const [needToRefetch, setNeedToRefetch] = React.useState(false);
 
     return(
-        <div>
+        <div className="comments-holder">
             <DisplayComments value={state} needToRefetch={needToRefetch}/>
             <AddCommentBlock state={state} setNeedToRefetch={setNeedToRefetch}/>
         </div>

@@ -1,1 +1,4 @@
 .DS_Store
+truthing/__pycache__
+truthing/pyqtgraph
+truthing/node_modules
