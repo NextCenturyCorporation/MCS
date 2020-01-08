@@ -41,6 +41,16 @@ const typeDefs = `
     doc_count: Float
   }
 
+  type SubmissionBucket {
+    key: SubmissionPerformer
+    doc_count: Float
+  }
+
+  type SubmissionPerformer {
+    performer: String
+    submission: String
+  }
+
   type Query {
     msc_eval: [Source]
     getEvalByTest(test: String) : [Source]
@@ -50,6 +60,7 @@ const typeDefs = `
     getEvalAnalysis(test: String, block: String, submission: String, performer: String) : [Source]
     getComments(test: String, block: String, submission: String, performer: String) : [Comment]
     getFieldAggregation(fieldName: String) : [Bucket]
+    getSubmissionFieldAggregation: [SubmissionBucket]
   }
 
   type Mutation {
@@ -96,6 +107,22 @@ function getFieldAggregationSchema(fieldName) {
         }
       },
       "size": 0
+  }
+}
+
+function getSubmissionFieldAggregationSchema() {
+  return {
+    "size": 0,
+    "aggs" : {
+      "full_name": {
+        "composite" : {
+          "sources" : [
+            { "performer": { "terms": {"field": "performer" } } },
+            { "submission": { "terms": { "field": "submission" } } } 
+          ]
+        }
+      }
+    }
   }
 }
 
@@ -177,6 +204,13 @@ const resolvers = {
     }),
     getFieldAggregation: (obj, args, context, infow) => new Promise((resolve, reject) => {
       ElasticSearchClient('msc_eval', getFieldAggregationSchema(args["fieldName"]))
+        .then(r => {
+          let _source = r.body.aggregations.full_name.buckets;
+          resolve(_source);
+        });
+    }),
+    getSubmissionFieldAggregation: (obj, args, context, infow) => new Promise((resolve, reject) => {
+      ElasticSearchClient('msc_eval', getSubmissionFieldAggregationSchema())
         .then(r => {
           let _source = r.body.aggregations.full_name.buckets;
           resolve(_source);

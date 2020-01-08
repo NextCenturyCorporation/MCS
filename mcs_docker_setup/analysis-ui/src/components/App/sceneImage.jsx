@@ -25,14 +25,22 @@ class SceneImage extends React.Component {
     render() {
         
         return (
-            <div className="scene-image-container">
-                {this.props.evals.map((item, key) =>
-                    <div key={"scene_image_" + key}>
-                        <div className="sceneinfo">Scene: {key+1}</div>
-                        <ImageHolder currentEval={item} state={this.props.state} imagesBucket={this.props.imagesBucket} scene={key+1}/>
-                        <div className="sceneScore">Plausibility: {item.plausibility}<br/>Ground Truth: {item.ground_truth}</div>
-                    </div>
-                )}
+            <div>
+                <div className="scene-info-container">
+                    <span className="scene-info-holder"><b>Complexity:</b> {this.props.evals[0].complexity}</span>
+                    <span className="scene-info-holder"><b>Occluders:</b> {this.props.evals[0].occluder}</span>
+                    <span className="scene-info-holder"><b>Number of Objects:</b> {this.props.evals[0].num_objects}</span>
+                    <span className="scene-info-holder-note">(These values are the same across all scenes, and represent the highest value a scene could have)</span>
+                </div>
+                <div className="scene-image-container">
+                    {this.props.evals.map((item, key) =>
+                        <div key={"scene_image_" + key}>
+                            <div className="sceneinfo">Scene: {key+1}</div>
+                            <ImageHolder currentEval={item} state={this.props.state} imagesBucket={this.props.imagesBucket} scene={key+1}/>
+                            <div className="sceneScore">Plausibility: {item.plausibility}<br/>Ground Truth: {item.ground_truth}</div>
+                        </div>
+                    )}
+                </div>
             </div>
         );
     }

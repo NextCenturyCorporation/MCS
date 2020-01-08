@@ -94,6 +94,20 @@ body {
     margin: 10px 0;
 }
 
+.scene-info-container {
+    display: flex;
+    flex-direction: row;
+    margin: 10px 25px;
+}
+
+.scene-info-holder {
+    margin-right: 30px;
+}
+
+.scene-info-holder-note {
+    font: 12px "Century Gothic", Futura, sans-serif;
+    line-height: 24px;
+}
 
 .sceneinfo {
     width: 250px;
