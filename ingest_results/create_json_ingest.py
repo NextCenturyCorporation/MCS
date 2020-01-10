@@ -83,6 +83,18 @@ settings = '''
                 },
                 "url_string": {
                   "type": "keyword"
+                },
+                "mse_loss": {
+                    "type": "double"
+                },
+                "location_frame": {
+                    "type": "integer"
+                },
+                "location_x": {
+                    "type": "integer"
+                },
+                "location_y": {
+                    "type": "integer"
                 }
               }
             }
@@ -107,6 +119,7 @@ class JsonImportCreator:
         self.submission_files.sort()
         self.answer_filename = "answer.txt"
         self.description_filename = "description.json"
+        self.location_filename = "location.txt"
 
         # Test data
         self.metadata_filename = "metadata.json"
@@ -141,6 +154,10 @@ class JsonImportCreator:
         description = self.get_description_information(filename)
         answer = self.get_answer(filename)
         voe_signal = self.get_voe_signal(filename)
+        location_info = self.get_location(filename)
+        location_frame = location_info["frame"]
+        location_x = location_info["x"]
+        location_y = location_info["y"]
         # print("voe signal {}".format(voe_signal))
 
         bulk_data = []
@@ -164,7 +181,7 @@ class JsonImportCreator:
                     # Get the data
                     data_dict = {}
 
-                    mse_loss = math.pow((self.ground_truth[block][test][scene]-answer[block][test][scene]), 2)
+                    mse_loss = math.pow((self.ground_truth[block][test][scene] - answer[block][test][scene]), 2)
 
                     url_string = "perf={}&subm={}&block={}&test={}".format(description["Performer"],
                                                                            description["Submission"], block, test)
@@ -191,6 +208,9 @@ class JsonImportCreator:
                     data_dict["voe_signal"] = voe_signal[block][test][scene]
                     data_dict["url_string"] = url_string
                     data_dict["mse_loss"] = mse_loss
+                    data_dict["location_frame"] = location_frame[block][test][scene]
+                    data_dict["location_x"] = location_x[block][test][scene]
+                    data_dict["location_y"] = location_y[block][test][scene]
                     bulk_data.append(data_dict)
 
                     self.object_id = self.object_id + 1
@@ -244,6 +264,38 @@ class JsonImportCreator:
             # print("{} {} {} {}".format(block, test, scene, split_line[1]))
             answer[block][test][scene] = float(split_line[1])
         return answer
+
+    def get_location(self, filename):
+        with zipfile.ZipFile(filename) as my_zip:
+            content = my_zip.namelist()
+            if self.location_filename in content:
+                with my_zip.open(self.location_filename) as location_file:
+                    return self.parse_location_file(location_file)
+        print("Unable to get location file {}".format(self.location_filename))
+
+    def parse_location_file(self, file):
+        # Location info is frame, x, y
+        location_frame = self.nested_dict(3, int)
+        location_x = self.nested_dict(3, int)
+        location_y = self.nested_dict(3, int)
+        for line in file:
+            if isinstance(line, (bytes, bytearray)):
+                line = line.decode('utf-8')
+            split_line = line.split()
+            if len(split_line) != 4:
+                raise ValueError('location lines must have 4 fields, line {} has {}'.format(line, len(split_line)))
+            # Line looks like:  O3/1076/2 34 166 211
+            first_part = split_line[0]
+            key = first_part.split('/')
+            block = str(key[0])
+            test = str(key[1])
+            scene = str(key[2])
+
+            location_frame[block][test][scene] = int(split_line[1])
+            location_x[block][test][scene] = int(split_line[2])
+            location_y[block][test][scene] = int(split_line[3])
+
+        return {"frame": location_frame, "x": location_x, "y": location_y}
 
     def get_description_information(self, filename):
         """ Pull the description.txt file out of a zip and read in the information"""
