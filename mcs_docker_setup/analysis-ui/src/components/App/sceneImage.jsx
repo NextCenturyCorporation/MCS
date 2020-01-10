@@ -1,14 +1,7 @@
 import React from 'react';
 
 const ImageHolder = ({currentEval, state, imagesBucket, scene}) => {
-    const styles = {
-      width: '250px',
-      height: '250px',
-      margin: '5px 25px',
-      position: 'absolute',
-      top: 0,
-      left: 0
-    };
+    const styles = {};
 
     if(parseInt(currentEval.ground_truth) === 0) {
         styles["border"] = "2px solid red";
@@ -23,22 +16,20 @@ const ImageHolder = ({currentEval, state, imagesBucket, scene}) => {
     );
 }
 
-const LocationHolder = () => {
+const LocationHolder = ({currentEval, state}) => {
     const styles = {
-        position: 'absolute',
-        height: '5px',
-        width: '5px',
-        margin: '5px 25px',
-        'background-color': '#ccc',
-        'opacity': '0.5',
-        'border-radius': '50%',
-        'z-index': 50,
-        top: 50,
-        left: 50
+        top: currentEval["location_y"],
+        left: currentEval["location_x"]
     };
 
+    if(currentEval["location_frame"] === parseInt(state.value)) {
+        styles["display"] = "inline";
+    } else {
+        styles["display"] = "none";
+    }
+
     return (
-        <div style={styles}></div>
+        <div style={styles} className="location-dot"></div>
     );
 }
 
@@ -60,9 +51,9 @@ class SceneImage extends React.Component {
                             <div className="sceneinfo">Scene: {key+1}</div>
                             <div className="scene-image-container-holder">
                                 <ImageHolder currentEval={item} state={this.props.state} imagesBucket={this.props.imagesBucket} scene={key+1}/>
-                                <LocationHolder/>
+                                <LocationHolder currentEval={item} state={this.props.state}/>
                             </div>
-                            <div className="sceneScore">Plausibility: {item.plausibility}<br/>Ground Truth: {item.ground_truth}</div>
+                            <div className="sceneScore">Plausibility: {item.plausibility}<br/>Loc. Frame (x,y): {item.location_frame} ({item.location_x}, {item.location_y})<br/>Ground Truth: {item.ground_truth}</div>
                         </div>
                     )}
                 </div>

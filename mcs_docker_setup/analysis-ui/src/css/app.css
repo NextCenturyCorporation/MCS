@@ -98,6 +98,27 @@ body {
     position: relative;
 }
 
+.scene-image {
+    width: 288px;
+    height: 288px;
+    margin: 5px 25px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.location-dot {
+    position: absolute;
+    height: 6px;
+    width: 6px;
+    margin: 5px 25px;
+    background-color: #ffffff;
+    opacity: 1;
+    border-radius: 50%;
+    border: #000 1px;
+    z-index: 10;
+}
+
 .scene-info-container {
     display: flex;
     flex-direction: row;
@@ -126,9 +147,9 @@ body {
 .sceneScore {
     width: 250px;
     margin: 0 25px;
-    padding-left: 25px;
     position: relative;
-    margin-top: 260px;
+    margin-top: 298px;
+    padding-left: 18px;
 }
 
 .commentarea {
@@ -210,4 +231,8 @@ ol, ul {
     padding-right: 5px;
     vertical-align: middle;
     display: table-cell;
+}
+
+.layout-board {
+    margin-bottom: 50px;
 }
