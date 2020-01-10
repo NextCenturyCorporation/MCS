@@ -30,7 +30,7 @@ export class App extends React.Component {
 
                     <div className="layout-board">
                         <Results value={this.state}/>
-                        <CommentsComponent state={this.state}/>
+                        {/* <CommentsComponent state={this.state}/> */}
                     </div>
                 </div>
             </div>

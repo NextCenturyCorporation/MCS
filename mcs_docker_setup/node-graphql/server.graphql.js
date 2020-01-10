@@ -23,6 +23,9 @@ const typeDefs = `
     test: String
     url_string: String
     voe_signal: JSON
+    location_frame: Float
+    location_x: Float
+    location_y: Float
   }
 
   type Comment {

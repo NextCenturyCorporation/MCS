@@ -1,11 +1,7 @@
 import React from 'react';
 
 const ImageHolder = ({currentEval, state, imagesBucket, scene}) => {
-    const styles = {
-      width: '250px',
-      height: '250px',
-      margin: '5px 25px'
-    };
+    const styles = {};
 
     if(parseInt(currentEval.ground_truth) === 0) {
         styles["border"] = "2px solid red";
@@ -17,6 +13,23 @@ const ImageHolder = ({currentEval, state, imagesBucket, scene}) => {
   
     return (
       <img id={"scene_image_" + scene} className="scene-image" style={styles} src={url} alt=""/>
+    );
+}
+
+const LocationHolder = ({currentEval, state}) => {
+    const styles = {
+        top: currentEval["location_y"],
+        left: currentEval["location_x"]
+    };
+
+    if(currentEval["location_frame"] === parseInt(state.value)) {
+        styles["display"] = "inline";
+    } else {
+        styles["display"] = "none";
+    }
+
+    return (
+        <div style={styles} className="location-dot"></div>
     );
 }
 
@@ -36,8 +49,11 @@ class SceneImage extends React.Component {
                     {this.props.evals.map((item, key) =>
                         <div key={"scene_image_" + key}>
                             <div className="sceneinfo">Scene: {key+1}</div>
-                            <ImageHolder currentEval={item} state={this.props.state} imagesBucket={this.props.imagesBucket} scene={key+1}/>
-                            <div className="sceneScore">Plausibility: {item.plausibility}<br/>Ground Truth: {item.ground_truth}</div>
+                            <div className="scene-image-container-holder">
+                                <ImageHolder currentEval={item} state={this.props.state} imagesBucket={this.props.imagesBucket} scene={key+1}/>
+                                <LocationHolder currentEval={item} state={this.props.state}/>
+                            </div>
+                            <div className="sceneScore">Plausibility: {item.plausibility}<br/>Loc. Frame (x,y): {item.location_frame} ({item.location_x}, {item.location_y})<br/>Ground Truth: {item.ground_truth}</div>
                         </div>
                     )}
                 </div>

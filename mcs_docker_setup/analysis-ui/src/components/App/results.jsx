@@ -24,6 +24,9 @@ const msc_eval = gql`
             test
             url_string
             voe_signal
+            location_frame
+            location_x
+            location_y
         }
   }`;
 
