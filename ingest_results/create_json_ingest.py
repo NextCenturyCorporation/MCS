@@ -37,8 +37,7 @@ config = {
     'index_type': 'eval1'
 }
 
-settings = '''
-        {
+settings = {
           "mappings": {
             "eval1": {
               "properties": {
@@ -100,7 +99,6 @@ settings = '''
             }
           }
         }
-        '''
 
 
 class JsonImportCreator:

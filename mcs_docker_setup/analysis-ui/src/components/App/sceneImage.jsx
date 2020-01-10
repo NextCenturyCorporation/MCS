@@ -4,7 +4,10 @@ const ImageHolder = ({currentEval, state, imagesBucket, scene}) => {
     const styles = {
       width: '250px',
       height: '250px',
-      margin: '5px 25px'
+      margin: '5px 25px',
+      position: 'absolute',
+      top: 0,
+      left: 0
     };
 
     if(parseInt(currentEval.ground_truth) === 0) {
@@ -17,6 +20,25 @@ const ImageHolder = ({currentEval, state, imagesBucket, scene}) => {
   
     return (
       <img id={"scene_image_" + scene} className="scene-image" style={styles} src={url} alt=""/>
+    );
+}
+
+const LocationHolder = () => {
+    const styles = {
+        position: 'absolute',
+        height: '5px',
+        width: '5px',
+        margin: '5px 25px',
+        'background-color': '#ccc',
+        'opacity': '0.5',
+        'border-radius': '50%',
+        'z-index': 50,
+        top: 50,
+        left: 50
+    };
+
+    return (
+        <div style={styles}></div>
     );
 }
 
@@ -36,7 +58,10 @@ class SceneImage extends React.Component {
                     {this.props.evals.map((item, key) =>
                         <div key={"scene_image_" + key}>
                             <div className="sceneinfo">Scene: {key+1}</div>
-                            <ImageHolder currentEval={item} state={this.props.state} imagesBucket={this.props.imagesBucket} scene={key+1}/>
+                            <div className="scene-image-container-holder">
+                                <ImageHolder currentEval={item} state={this.props.state} imagesBucket={this.props.imagesBucket} scene={key+1}/>
+                                <LocationHolder/>
+                            </div>
                             <div className="sceneScore">Plausibility: {item.plausibility}<br/>Ground Truth: {item.ground_truth}</div>
                         </div>
                     )}

@@ -94,6 +94,10 @@ body {
     margin: 10px 0;
 }
 
+.scene-image-container-holder {
+    position: relative;
+}
+
 .scene-info-container {
     display: flex;
     flex-direction: row;
@@ -123,6 +127,8 @@ body {
     width: 250px;
     margin: 0 25px;
     padding-left: 25px;
+    position: relative;
+    margin-top: 260px;
 }
 
 .commentarea {
