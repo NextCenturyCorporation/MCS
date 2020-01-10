@@ -1,199 +1,559 @@
-version: ""
+about: ""
 neonServerUrl: ""
 projectIcon: ""
-projectTitle: "Evaluation Submissions"
-lastModified: 1572378751950
-fileName: "config.yaml"
+projectTitle: "MCS Eval UI"
+version: ""
 
-datastores:
-  es1:
-    name: "es1"
-    host: "neon-es"
-    type: "elasticsearchrest"
-    databases:
-      msc_eval:
-        name: "msc_eval"
-        prettyName: "msc_eval"
-        tables:
-          eval1:
-            name: "eval1"
-            prettyName: "eval1"
-            mappings: {}
-            labelOptions: {}
-            fields:
-            - columnName: "performer"
-              prettyName: "performer"
-              hide: false
-              type: "keyword"
-            - columnName: "complexity"
-              prettyName: "complexity"
-              hide: false
-              type: "keyword"
-            - columnName: "test"
-              prettyName: "test"
-              hide: false
-              type: "keyword"
-            - columnName: "plausibility"
-              prettyName: "plausibility"
-              hide: false
-              type: "double"
-            - columnName: "ground_truth"
-              prettyName: "ground_truth"
-              hide: false
-              type: "double"
-            - columnName: "num_objects"
-              prettyName: "num_objects"
-              hide: false
-              type: "keyword"
-            - columnName: "block"
-              prettyName: "block"
-              hide: false
-              type: "keyword"
-            - columnName: "occluder"
-              prettyName: "occluder"
-              hide: false
-              type: "keyword"
-            - columnName: "scene"
-              prettyName: "scene"
-              hide: false
-              type: "keyword"
-            - columnName: "_id"
-              prettyName: "_id"
-              hide: false
-              type: "text"
+layouts:
+  eval1:
+  - bindings:
+      contributionKeys: []
+      title: "Performer"
+      type: "bar-v"
+      xField: "performer"
+      tableKey: "es1.msc_eval.eval1"
+      dualView: ""
+      axisLabelX: "Performer"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: false
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+    col: 1
+    row: 1
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
 
+  - bindings:
+      title: "Submission"
+      type: "bar-v"
+      xField: "submission"
+      tableKey: "es1.msc_eval.eval1"
+      dualView: ""
+      axisLabelX: "Submission"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: false
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+    col: 5
+    row: 1
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Block"
+      type: "bar-v"
+      xField: "block"
+      tableKey: "es1.msc_eval.eval1"
+      dualView: ""
+      axisLabelX: "Block"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: false
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+    col: 9
+    row: 1
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Complexity"
+      type: "bar-v"
+      xField: "complexity"
+      tableKey: "es1.msc_eval.eval1"
+      dualView: ""
+      axisLabelX: "Complexity"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: false
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+    col: 1
+    row: 5
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Number of Objects"
+      type: "bar-v"
+      xField: "num_objects"
+      tableKey: "es1.msc_eval.eval1"
+      dualView: ""
+      axisLabelX: "Number of Objects"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: false
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+    col: 1
+    row: 9
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Occluder"
+      type: "bar-v"
+      xField: "occluder"
+      tableKey: "es1.msc_eval.eval1"
+      dualView: ""
+      axisLabelX: "Occluder"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: false
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+    col: 1
+    row: 13
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Plausibility (Log Scale)"
+      type: "histogram"
+      xField: "plaus_round"
+      scaleMinX: "0.0"
+      scaleMaxX: "1.0"
+      tableKey: "es1.msc_eval.eval1"
+      dualView: ""
+      axisLabelX: "Plausibility"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: false
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: false
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: true
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+    col: 5
+    row: 13
+    sizex: 8
+    sizey: 4
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Average Loss"
+      type: "list"
+      xField: "performer"
+      tableKey: "es1.msc_eval.eval1"
+      dualView: ""
+      axisLabelX: "Loss"
+      axisLabelY: "Count"
+      groupField: ""
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "avg"
+      countByAggregation: true
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: false
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: "mse_loss"
+      yField: ""
+    col: 9
+    row: 5
+    sizex: 4
+    sizey: 3
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Tests (CTRL-Click to Select Multiple)"
+      type: "list"
+      xField: "test"
+      tableKey: "es1.msc_eval.eval1"
+      dualView: ""
+      axisLabelX: "Test"
+      axisLabelY: "Count"
+      groupField: ""
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: true
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+    col: 9
+    row: 8
+    sizex: 4
+    sizey: 5
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Ground Truth vs Plausibility"
+      type: "scatter-xy"
+      xField: "ground_truth"
+      yField: "plaus_round"
+      scaleMinX: "-0.1"
+      scaleMaxX: "1.1"
+      scaleMinY: "-0.1"
+      scaleMaxY: "1.1"
+      tableKey: "es1.msc_eval.eval1"
+      dualView: ""
+      axisLabelX: "Ground Truth"
+      axisLabelY: "Plausibility"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: true
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: false
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+    col: 5
+    row: 5
+    sizex: 4
+    sizey: 8
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Raw Data"
+      tableKey: "es1.msc_eval.eval1"
+      idField: "_id_key"
+      limit: 100
+      ignoreSelf: false
+      linkPrefix: "http://ec2-54-157-23-98.compute-1.amazonaws.com:3000/?"
+      linkFields:
+      - "url_string"
+      showFields:
+      - "performer"
+      - "submission"
+      - "block"
+      - "test"
+      - "scene"
+      - "complexity"
+      - "num_objects"
+      - "occluder"
+      - "ground_truth"
+      - "plausibility"
+      - "mse_loss"
+      - "url_string"
+      sortField: "test"
+      sortDescending: false
+    col: 1
+    row: 17
+    sizex: 12
+    sizey: 6
+    type: "dataTable"
+
+#  - bindings:
+#      contributionKeys: []
+#      title: "User Comments"
+#      tableKey: "es1.comments.comment"
+#      idField: "_id"
+#      titleContentField: "text"
+#      contentFields:
+#          - "performer"
+#          - "submission"
+#          - "block"
+#          - "test"
+#          - "text"
+#      contentLabels:
+#          - "Performer"
+#          - "Submission"
+#          - "Block"
+#          - "Test"
+#          - "Comment"
+#      dateField: "createdDate"
+#      sortField: "createdDate"
+#      sortDescending: true
+#      filterField: ""
+#      limit: 100
+#      hideUnfiltered: false
+#      applyPreviousFilter: false
+#      multiOpen: true
+#      multiLineTitle: false
+#      startOpen: false
+#      ignoreSelf: false
+#      delimiter: ","
+#      linkPrefix: ""
+#      toggleFiltered: false
+#      typeMap: {}
+#      linkField: ""
+#      typeField: ""
+#    col: 9
+#    row: 10
+#    sizex: 4
+#    sizey: 3
+#    type: "newsFeed"
 
 dashboards:
-  layout: "evaluation_1"
+  name: "MCS Eval 1"
+  layout: "eval1"
   filters: []
   fields: {}
   tables:
     table_key_1: "es1.msc_eval.eval1"
+  relations:
+    - - es1.msc_eval.eval1.performer
+      - es1.comments.comment.performer
+      - es1.info._doc.performer
+    - - es1.msc_eval.eval1.submission
+      - es1.comments.comment.submission
+      - es1.info._doc.submission
+    - - es1.msc_eval.eval1.block
+      - es1.comments.comment.block
+    - - es1.msc_eval.eval1.test
+      - es1.comments.comment.test
   options:
+    hideFilterValues: true
     connectOnLoad: true
+    colorMaps:
+      msc_eval:
+        eval1:
+          performer:
+            "IBM-MIT-Harvard-Stanford_test": "#5E508F"
+            "OPICS (OSU, UU, NYU)": "#FF8737"
+            "TA1-MESS-UCBerkeley": "#B34F92"
   visualizationTitles: {}
-  contributors: {}
-  fullTitle: "Evaluation 1"
-  name: "Evaluation_1"
+  contributors:
+      ibm0:
+          orgName: IBM-MIT-Harvard-Stanford_test submission_0
+          abbreviation: IBM Submission 0
+          description: Modified ADEPT model (http://physadept.csail.mit.edu/). Used ground truth masks. Derenderer - ResNet34. Physics engine with 128 particle filters. Plausibility scores - normalized (linear) accumulated log likelihood.
+      ibm1:
+          orgName: IBM-MIT-Harvard-Stanford_test submission_1
+          abbreviation: IBM Submission 1
+          description: Modified ADEPT model (http://physadept.csail.mit.edu/). Used ground truth masks. Derenderer - ResNet34. Physics engine with 128 particle filters. Plausibility scores - normalized (softmax) accumulated log likelihood.
+      messCore:
+          orgName: TA1-MESS-UCBerkeley M1-CoreRules
+          abbreviation: MESS Core
+          description: This method implements several core knowledge principles (continuity, occlusion etc.) as series of heuristics to detect implausible scenarios. Locations are in `t x y` format and range of t is [0,99] and x,y is [0,287]. Especially note that t,x,y are 0-indexed.
+      messRpin:
+          orgName: TA1-MESS-UCBerkeley M2-Learned-RPIN
+          abbreviation: MESS RPIN
+          description: We propose a region-proposal interaction network (RPIN) to learning a dynamic model of object interactions and use that dynamics model to finding surprising instances in held-out examples. Locations are in `t x y` format and range of t is [0,99] and x,y is [0,287]. Especially note that t,x,y are 0-indexed.
+      opics:
+          orgName: OPICS (OSU, UU, NYU) Submission 1
+          abbreviation: OPICS
+          description: The algorithm learns from passive observations of training experience to model appearances and dynamics of objects. New observation sequences are evaluated with respect to the learned mode.
 
+datastores:
+  es1:
+    host: "neon-es"
+    type: "elasticsearchrest"
+    databases:
+      msc_eval:
+        prettyName: "MCS Eval 1"
+        tables:
+          eval1:
+            prettyName: "Data"
+            mappings: {}
+            labelOptions: {}
+            fields:
 
-layouts:
-  evaluation_1:
-  
-  - bindings:
-      title: "Performer"
-      type: "bar-v"
-      _id: "7c6db303-93c7-4aa0-bc35-6a152f0befd3"
-      xField: "performer"
-    col: 1
-    row: 1
-    name: "Performer"
-    sizex: 4
-    sizey: 4
-    type: "aggregation"
-    
-  - bindings:
-      title: "Submission"
-      type: "bar-v"
-      _id: "7c6db303-93c7-4aa0-bc35-6a152f0befd3"
-      xField: "submission"
-    col: 5
-    row: 1
-    name: "Submission"
-    sizex: 4
-    sizey: 4
-    type: "aggregation"
-    
-  - bindings:
-      title: "Block"
-      type: "bar-v"
-      _id: "1e7c52f7-e9aa-4b02-8da8-4388a66806e0"
-      xField: "block"
-    col: 9
-    row: 1
-    name: "Block"
-    sizex: 4
-    sizey: 4
-    type: "aggregation"
-
-  - bindings:
-      title: "Complexity"
-      type: "bar-v"
-      _id: "81eb0fc7-66c0-4d66-9f85-c32ceec24a93"
-      xField: "complexity"
-    col: 1
-    row: 5
-    name: "Complexity"
-    sizex: 4
-    sizey: 4
-    type: "aggregation"
-
-  - bindings:
-      title: "NumObjects"
-      type: "bar-v"
-      _id: "03da6de8-ca87-4911-8609-75de2d3968b8"
-      xField: "num_objects"
-    col: 1
-    row: 9
-    name: "NumObjects"
-    sizex: 4
-    sizey: 4
-    type: "aggregation"
-
-  - bindings:
-      title: "Occluder"
-      type: "bar-v"
-      _id: "03da6de8-ca87-4911-8609-75de2d3968b8"
-      xField: "occluder"
-    col: 1
-    row: 13
-    name: "Occluder"
-    sizex: 4
-    sizey: 4
-    type: "aggregation"
-
-  - bindings:
-      title: "Ground Truth vs Plausibility"
-      type: "scatter-xy"
-      _id: "24886883-2c5f-481a-b766-57414e4666cf"
-      xField: "ground_truth"
-      yField: "plausibility"
-      scaleMinX: "-0.1"
-      scaleMaxX: "1.1"
-    col: 5
-    row: 5
-    name: "Ground Truth vs Plausibility"
-    sizex: 5
-    sizey: 10
-    type: "aggregation"
-
-  - bindings:
-      title: "Raw Data"
-      tableKey: "table_key_1"
-      idField: "_id_key"
-      limit: 100
-      ignoreSelf: false
-      _id: "1cd9cb1f-81ed-4809-b949-57e01b07cd12"
-      linkPrefix: "http://ec2-54-173-69-214.compute-1.amazonaws.com:3000/"
-      linkFields:
-      - url_string
-      showFields:
-      - performer
-      - submission
-      - block
-      - test
-      - scene
-      - complexity
-      - num_objects
-      - occluder
-      - ground_truth
-      - plausibility
-      - voe_signal
-      - url_string
-    col: 1
-    row: 20
-    name: "Data Table"
-    sizex: 12
-    sizey: 6
-    type: "dataTable"
+#      comments:
+#        prettyName: "MCS Eval 1 Comments"
+#        tables:
+#          comment:
+#            prettyName: "Data"
+#            mappings: {}
+#            labelOptions: {}
+#            fields:
 

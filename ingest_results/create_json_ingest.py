@@ -39,54 +39,50 @@ config = {
 
 settings = '''
         {
-          "settings": {
-            "number_of_shards": "1",
-            "number_of_replicas": "0"
-          },
           "mappings": {
             "eval1": {
               "properties": {
-                "performer": {
-                  "type": "keyword"
-                },
-                "submission": {
-                  "type": "keyword"
-                },              
                 "block": {
-                  "type": "keyword"
-                },
-                "test": {
-                  "type": "keyword"
-                },
-                "scene": {
-                  "type": "keyword"
-                },
-                "num_objects": {
                   "type": "keyword"
                 },
                 "complexity": {
                   "type": "keyword"
                 },
-                "occluder": {
-                  "type": "keyword"
-                },
                 "ground_truth": {
                   "type": "double"
                 },
-                "plausibility": {
-                  "type": "double"
-                },
-                "url_string": {
-                  "type": "keyword"
-                }
-                "plaus_round" {
-                    "type": "double"
-                }
                 "ground_truth_delta": {
                     "type": "double"
                 },
                 "mse_loss": {
                     "type": "double"
+                },
+                "num_objects": {
+                  "type": "keyword"
+                },
+                "occluder": {
+                  "type": "keyword"
+                },
+                "performer": {
+                  "type": "keyword"
+                },
+                "plaus_round": {
+                    "type": "double"
+                },
+                "plausibility": {
+                  "type": "double"
+                },
+                "scene": {
+                  "type": "keyword"
+                },
+                "submission": {
+                  "type": "keyword"
+                },              
+                "test": {
+                  "type": "keyword"
+                },
+                "url_string": {
+                  "type": "keyword"
                 }
               }
             }
