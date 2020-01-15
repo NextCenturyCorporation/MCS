@@ -1,9 +1,10 @@
 import React from 'react';
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import _ from "lodash";
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
 const GET_FIELD_AGG = gql`
     query getFieldAggregation($fieldName: String!){
@@ -12,30 +13,67 @@ const GET_FIELD_AGG = gql`
         }
   }`;
 
-class HeaderDropdown extends React.Component {
+const GET_SUBMISSION_AGG = gql`
+    query getSubmissionFieldAggregation{
+        getSubmissionFieldAggregation {
+            key {
+                performer
+                submission
+            }
+        }
+  }`;
+
+class ListItem extends React.Component {
     render() {
+        if(this.props.item.includes('/')) {
+            let perfSubm = this.props.item.split('/');
+            this.props.state["perf"] = perfSubm[0];
+            this.props.state['subm'] = perfSubm[1];
+        } else {
+            this.props.state[this.props.stateName] = this.props.item;
+        }
+        
+        const urlBasePath = window.location.href.split('?')[0];
+        const params = "?perf=" + this.props.state["perf"] + "&subm=" + this.props.state["subm"] + "&block=" + this.props.state["block"] + "&test=" + this.props.state["test"];
+
+        const newLocation = urlBasePath + params;
+
         return (
-            <Query query={GET_FIELD_AGG} variables={{"fieldName": this.props.fieldName}}>
+            <NavDropdown.Item id={this.props.stateName + "_" + this.props.itemKey} href={newLocation}>{this.props.item}</NavDropdown.Item>
+        )
+    }
+}
+
+class DropListItems extends React.Component {
+    render() {
+        let queryName = GET_FIELD_AGG;
+        let variablesToQuery = {"fieldName": this.props.fieldName};
+        let dataName = "getFieldAggregation";
+
+        if(this.props.fieldName === "submission") {
+            queryName = GET_SUBMISSION_AGG;
+            variablesToQuery = {};
+            dataName = "getSubmissionFieldAggregation";
+        }
+
+        return(
+            <Query query={queryName} variables={variablesToQuery}>
             {
                 ({ loading, error, data }) => {
                     let dropdownOptions = [];
-                    let that = this;
-
-                    if(data !== undefined) {
-                        dropdownOptions = _.map(data["getFieldAggregation"], 'key');
-                    }
-
-                    function headerOnChange(item) {
-                        that.props.state[that.props.stateName] = item.value;
-
-                        const urlBasePath = window.location.href.split('?')[0];
-                        const params = "?perf=" + that.props.state["perf"] + "&subm=" + that.props.state["subm"] + "&block=" + that.props.state["block"] + "&test=" + that.props.state["test"];
-
-                        window.location = urlBasePath + params;
+                    
+                    if(data !== undefined && dataName !== "getSubmissionFieldAggregation") {
+                        dropdownOptions = _.map(data[dataName], 'key');
+                    } else if (data !== undefined ) {
+                        for(let i=0; i < data[dataName].length; i++) {
+                            dropdownOptions.push(data[dataName][i].key.performer + "/" + data[dataName][i].key.submission);
+                        }
                     }
 
                     return (
-                        <Dropdown options={dropdownOptions} onChange={headerOnChange} value={this.props.defaultOption}/>
+                        dropdownOptions.map((item,key) =>
+                            <ListItem stateName={this.props.stateName} state={this.props.state} item={item} itemKey={key} key={this.props.stateName + "_" + key}/>
+                        )
                     )
                 }
             }
@@ -47,24 +85,23 @@ class HeaderDropdown extends React.Component {
 class EvalHeader extends React.Component {
     render() {
         return (
-            <div className="header">
-                <div className="title">
-                    <div className="header-dropdown-title">Performer: </div>
-                    <HeaderDropdown fieldName={"performer"} stateName={"perf"} defaultOption={this.props.state.perf} className="header-dropdown" state={this.props.state}/>
-                </div>
-                <div className="title">
-                    <div className="header-dropdown-title">Submission: </div>
-                    <HeaderDropdown fieldName={"submission"} stateName={"subm"} defaultOption={this.props.state.subm} className="header-dropdown" state={this.props.state}/>
-                </div>
-                <div className="title">
-                    <div className="header-dropdown-title">Block: </div>
-                    <HeaderDropdown fieldName={"block"} stateName={"block"} defaultOption={this.props.state.block} className="header-dropdown" state={this.props.state}/>
-                </div>
-                <div className="title">
-                    <div className="header-dropdown-title">Test: </div>
-                    <HeaderDropdown fieldName={"test"} stateName={"test"} defaultOption={this.props.state.test} className="header-dropdown" state={this.props.state}/>
-                </div>
-            </div>
+            <Navbar variant="dark" expand="lg">
+                <Navbar.Brand href="#home">MCS Analysis</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mr-auto">
+                        <NavDropdown title={"Performer/Submission: " + this.props.state.perf + "/" + this.props.state.subm} id="basic-nav-dropdown">
+                            <DropListItems fieldName={"submission"} stateName={"subm"} state={this.props.state}/>
+                        </NavDropdown>
+                        <NavDropdown title={"Block: " + this.props.state.block} id="basic-nav-dropdown">
+                            <DropListItems fieldName={"block"} stateName={"block"} state={this.props.state}/>
+                        </NavDropdown>
+                        <NavDropdown title={"Test: " + this.props.state.test} id="basic-nav-dropdown">
+                            <DropListItems fieldName={"test"} stateName={"test"} state={this.props.state}/>
+                        </NavDropdown>
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
         );
     }
 }

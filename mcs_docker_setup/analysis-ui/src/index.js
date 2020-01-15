@@ -9,6 +9,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 
 const httpLink = createHttpLink({
   uri: 'http://ec2-54-157-23-98.compute-1.amazonaws.com:9100/graphql'
+  //uri: 'http://localhost:9100/graphql'
 });
 
 const client = new ApolloClient({

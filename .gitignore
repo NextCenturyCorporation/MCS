@@ -1,2 +1,5 @@
 .DS_Store
 ai2thor_wrapper/*.png
+truthing/__pycache__
+truthing/pyqtgraph
+truthing/node_modules
