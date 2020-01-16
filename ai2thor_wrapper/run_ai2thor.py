@@ -1,10 +1,16 @@
 import ai2thor.controller
+import json
 from PIL import Image
 import sys
 
-if len(sys.argv) < 2:
-    print('Usage: python run_ai2thor.py <path_to_mcs_unity_build_file>')
+if len(sys.argv) < 3:
+    print('Usage: python run_ai2thor.py <mcs_unity_build_file> <mcs_config_json_file>')
     sys.exit()
+
+config = {}
+
+with open(sys.argv[2], encoding='utf-8-sig') as config_file:
+    config = json.load(config_file)
 
 controller = ai2thor.controller.Controller(
     quality='Medium',
@@ -13,10 +19,17 @@ controller = ai2thor.controller.Controller(
     local_executable_path=sys.argv[1],
     width=600,
     height=400,
-    scene="MCS"
+    scene='MCS',
+    # Initialize Properties:
+    logs=True,
+    renderClassImage=True,
+    renderDepthImage=True,
+    renderObjectImage=True,
+    sceneConfig=config
 )
 
-event = controller.step(dict(action='Initialize', renderClassImage=True, renderDepthImage=True, renderObjectImage=True))
+# Initialize is called in the Controller's constructor and its output is saved in last_event
+event = controller.last_event
 img = Image.fromarray(event.frame)
 img.save(fp='frame0.png')
 img = Image.fromarray(event.depth_frame / 30)
