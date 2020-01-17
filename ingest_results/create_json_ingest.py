@@ -207,6 +207,7 @@ class JsonImportCreator:
                     data_dict["voe_signal"] = voe_signal[block][test][scene]
                     data_dict["url_string"] = url_string
                     data_dict["mse_loss"] = mse_loss
+                    data_dict["mes_loss_int_round"] = math.pow((self.ground_truth[block][test][scene] - round(float("{0:.9f}".format(answer[block][test][scene])))), 2)
                     data_dict["location_frame"] = location_frame[block][test][scene]
                     data_dict["location_x"] = location_x[block][test][scene]
                     data_dict["location_y"] = location_y[block][test][scene]
