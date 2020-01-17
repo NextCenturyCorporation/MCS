@@ -203,6 +203,7 @@ class JsonImportCreator:
                     # Data associated with performer results
                     data_dict["plausibility"] = answer[block][test][scene]
                     data_dict["plaus_round"] = float("{0:.2f}".format(answer[block][test][scene]))
+                    data_dict["plaus_int_round"] = round(float("{0:.9f}".format(answer[block][test][scene])))
                     data_dict["voe_signal"] = voe_signal[block][test][scene]
                     data_dict["url_string"] = url_string
                     data_dict["mse_loss"] = mse_loss
