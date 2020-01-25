@@ -53,8 +53,20 @@ settings = {
                 "ground_truth_delta": {
                     "type": "double"
                 },
+                "location_frame": {
+                    "type": "integer"
+                },
+                "location_x": {
+                    "type": "integer"
+                },
+                "location_y": {
+                    "type": "integer"
+                },
                 "mse_loss": {
                     "type": "double"
+                },
+                "mse_loss_int_round": {
+                    "type": "integer"
                 },
                 "num_objects": {
                   "type": "keyword"
@@ -65,8 +77,14 @@ settings = {
                 "performer": {
                   "type": "keyword"
                 },
+                "performer_submission": {
+                  "type": "keyword"
+                },
                 "plaus_round": {
                     "type": "double"
+                },
+                "plaus_int_round": {
+                    "type": "integer"
                 },
                 "plausibility": {
                   "type": "double"
@@ -83,17 +101,15 @@ settings = {
                 "url_string": {
                   "type": "keyword"
                 },
-                "mse_loss": {
-                    "type": "double"
-                },
-                "location_frame": {
-                    "type": "integer"
-                },
-                "location_x": {
-                    "type": "integer"
-                },
-                "location_y": {
-                    "type": "integer"
+                "voe_signal_list": {
+                  "properties": {
+                    "frame": {
+                      "type": "double"
+                    },
+                    "value": {
+                      "type": "double"
+                    }
+                  }
                 }
               }
             }
@@ -128,7 +144,7 @@ class JsonImportCreator:
 
         # delete index if exists
         if self.es.indices.exists(config['index_name']):
-            print("Removing existing index")
+            print("Removing existing index " + config['index_name'])
             self.es.indices.delete(index=config['index_name'])
 
         # create index
@@ -151,12 +167,12 @@ class JsonImportCreator:
         # Get the submission data description
         description = self.get_description_information(filename)
         answer = self.get_answer(filename)
-        voe_signal = self.get_voe_signal(filename)
+        voe_signal_dict, voe_signal_list = self.get_voe_signal(filename)
         location_info = self.get_location(filename)
         location_frame = location_info["frame"]
         location_x = location_info["x"]
         location_y = location_info["y"]
-        # print("voe signal {}".format(voe_signal))
+        # print("voe signal {}".format(voe_signal_dict))
 
         bulk_data = []
 
@@ -187,6 +203,8 @@ class JsonImportCreator:
                     # Data associated with the performer
                     data_dict["performer"] = description["Performer"]
                     data_dict["submission"] = description["Submission"]
+                    performer_short = description["Performer"][:description["Performer"].replace(" ", "-").find("-")]
+                    data_dict["performer_submission"] = performer_short + "-" + description["Submission"].replace(" ", "-")
                     data_dict["block"] = block
                     data_dict["test"] = test
                     data_dict["scene"] = scene
@@ -204,10 +222,11 @@ class JsonImportCreator:
                     data_dict["plausibility"] = answer[block][test][scene]
                     data_dict["plaus_round"] = float("{0:.2f}".format(answer[block][test][scene]))
                     data_dict["plaus_int_round"] = round(float("{0:.9f}".format(answer[block][test][scene])))
-                    data_dict["voe_signal"] = voe_signal[block][test][scene]
+                    data_dict["voe_signal"] = voe_signal_dict[block][test][scene]
+                    data_dict["voe_signal_list"] = voe_signal_list[block][test][scene]
                     data_dict["url_string"] = url_string
                     data_dict["mse_loss"] = mse_loss
-                    data_dict["mes_loss_int_round"] = math.pow((self.ground_truth[block][test][scene] - round(float("{0:.9f}".format(answer[block][test][scene])))), 2)
+                    data_dict["mse_loss_int_round"] = math.pow((self.ground_truth[block][test][scene] - round(float("{0:.9f}".format(answer[block][test][scene])))), 2)
                     data_dict["location_frame"] = location_frame[block][test][scene]
                     data_dict["location_x"] = location_x[block][test][scene]
                     data_dict["location_y"] = location_y[block][test][scene]
@@ -215,7 +234,7 @@ class JsonImportCreator:
 
                     self.object_id = self.object_id + 1
 
-        res = self.es.bulk(index=config['index_name'], body=bulk_data, refresh=True)
+        res = self.es.bulk(index=config['index_name'], body=bulk_data, refresh=True, request_timeout=30)
         # print("Result: {}".format(res))
 
     def get_metadata(self):
@@ -311,24 +330,33 @@ class JsonImportCreator:
         # Handle case where this did not work
 
     def get_voe_signal(self, filename):
-        voe_signal = self.nested_dict(4, float)
+        voe_signal_dict = self.nested_dict(4, float)
+        voe_signal_list = self.nested_dict(3, float)
+
         with zipfile.ZipFile(filename) as my_zip:
             voe_content = [f for f in my_zip.namelist() if str(f).startswith("voe_")]
-            for voe_filename in voe_content:
 
+            for voe_filename in voe_content:
                 key = voe_filename.split('_')
                 block = str(key[1])
                 test = str(key[2])
                 scene = str(key[3]).split('.')[0]
 
                 with my_zip.open(voe_filename) as voe_file:
+                    voe_signal_list[block][test][scene] = []
+
                     for cnt, line in enumerate(voe_file):
                         if isinstance(line, (bytes, bytearray)):
                             line = line.decode('utf-8')
                         split_line = line.split(' ')
                         val = float(split_line[1])
-                        voe_signal[block][test][scene][str(cnt + 1)] = val
-        return voe_signal
+                        voe_signal_dict[block][test][scene][str(cnt + 1)] = val
+                        voe_signal_list[block][test][scene].append({
+                            "frame": str(cnt + 1),
+                            "value": val
+                        })
+
+        return voe_signal_dict, voe_signal_list
 
     def check(self):
         # sanity check
