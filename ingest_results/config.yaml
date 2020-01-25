@@ -1,21 +1,21 @@
 about: ""
 neonServerUrl: ""
 projectIcon: ""
-projectTitle: "MCS Eval UI"
+projectTitle: "MCS Evaluation UI"
 version: ""
 
 layouts:
   eval1:
   - bindings:
       contributionKeys: []
-      title: "Performer"
+      title: "Performers"
       type: "bar-v"
       xField: "performer"
       tableKey: "es1.msc_eval.eval1"
       dualView: ""
       axisLabelX: "Performer"
       axisLabelY: "Count"
-      groupField: "performer"
+      groupField: "submission"
       limit: 10000
       customEventsToPublish: []
       customEventsToReceive: []
@@ -47,14 +47,15 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      title: "Submission"
+      contributionKeys: ["ibm0", "ibm1", "messCore", "messRpin", "opics1", "opics2"]
+      title: "Submissions"
       type: "bar-v"
       xField: "submission"
       tableKey: "es1.msc_eval.eval1"
       dualView: ""
       axisLabelX: "Submission"
       axisLabelY: "Count"
-      groupField: "performer"
+      groupField: "submission"
       limit: 10000
       customEventsToPublish: []
       customEventsToReceive: []
@@ -87,14 +88,14 @@ layouts:
 
   - bindings:
       contributionKeys: []
-      title: "Block"
+      title: "Blocks"
       type: "bar-v"
       xField: "block"
       tableKey: "es1.msc_eval.eval1"
       dualView: ""
       axisLabelX: "Block"
       axisLabelY: "Count"
-      groupField: "performer"
+      groupField: "submission"
       limit: 10000
       customEventsToPublish: []
       customEventsToReceive: []
@@ -134,7 +135,7 @@ layouts:
       dualView: ""
       axisLabelX: "Complexity"
       axisLabelY: "Count"
-      groupField: "performer"
+      groupField: "submission"
       limit: 10000
       customEventsToPublish: []
       customEventsToReceive: []
@@ -174,7 +175,7 @@ layouts:
       dualView: ""
       axisLabelX: "Number of Objects"
       axisLabelY: "Count"
-      groupField: "performer"
+      groupField: "submission"
       limit: 10000
       customEventsToPublish: []
       customEventsToReceive: []
@@ -207,14 +208,14 @@ layouts:
 
   - bindings:
       contributionKeys: []
-      title: "Occluder"
+      title: "Number of Occluders"
       type: "bar-v"
       xField: "occluder"
       tableKey: "es1.msc_eval.eval1"
       dualView: ""
-      axisLabelX: "Occluder"
+      axisLabelX: "Number of Occluders"
       axisLabelY: "Count"
-      groupField: "performer"
+      groupField: "submission"
       limit: 10000
       customEventsToPublish: []
       customEventsToReceive: []
@@ -256,7 +257,7 @@ layouts:
       dualView: ""
       axisLabelX: "Plausibility"
       axisLabelY: "Count"
-      groupField: "performer"
+      groupField: "submission"
       limit: 10000
       customEventsToPublish: []
       customEventsToReceive: []
@@ -289,9 +290,9 @@ layouts:
 
   - bindings:
       contributionKeys: []
-      title: "Average Loss"
+      title: "Average MSE Loss"
       type: "list"
-      xField: "performer"
+      xField: "submission"
       tableKey: "es1.msc_eval.eval1"
       dualView: ""
       axisLabelX: "Loss"
@@ -381,7 +382,7 @@ layouts:
       dualView: ""
       axisLabelX: "Ground Truth"
       axisLabelY: "Plausibility"
-      groupField: "performer"
+      groupField: "submission"
       limit: 10000
       customEventsToPublish: []
       customEventsToReceive: []
@@ -484,7 +485,7 @@ layouts:
 #    type: "newsFeed"
 
 dashboards:
-  name: "MCS Eval 1"
+  name: "MCS Evaluation 1 Overview"
   layout: "eval1"
   filters: []
   fields: {}
@@ -493,10 +494,8 @@ dashboards:
   relations:
     - - es1.msc_eval.eval1.performer
       - es1.comments.comment.performer
-      - es1.info._doc.performer
     - - es1.msc_eval.eval1.submission
       - es1.comments.comment.submission
-      - es1.info._doc.submission
     - - es1.msc_eval.eval1.block
       - es1.comments.comment.block
     - - es1.msc_eval.eval1.test
@@ -511,15 +510,22 @@ dashboards:
             "IBM-MIT-Harvard-Stanford_test": "#5E508F"
             "OPICS (OSU, UU, NYU)": "#FF8737"
             "TA1-MESS-UCBerkeley": "#B34F92"
+          submission:
+            "M1-CoreRules": "#B34F92" # Pink-Purple
+            "M2-Learned-RPIN": "#811D64" # Dark Pink-Purple
+            "submission_0": "#5E508F" # Deep-Purple
+            "submission_1": "#312761" # Dark Deep-Purple
+            "Submission 1": "#FF8737" # Orange
+            "Submission 2": "#C65800" # Dark Orange
   visualizationTitles: {}
   contributors:
       ibm0:
           orgName: IBM-MIT-Harvard-Stanford_test submission_0
-          abbreviation: IBM Submission 0
+          abbreviation: IBM Sub. 0
           description: Modified ADEPT model (http://physadept.csail.mit.edu/). Used ground truth masks. Derenderer - ResNet34. Physics engine with 128 particle filters. Plausibility scores - normalized (linear) accumulated log likelihood.
       ibm1:
           orgName: IBM-MIT-Harvard-Stanford_test submission_1
-          abbreviation: IBM Submission 1
+          abbreviation: IBM Sub. 1
           description: Modified ADEPT model (http://physadept.csail.mit.edu/). Used ground truth masks. Derenderer - ResNet34. Physics engine with 128 particle filters. Plausibility scores - normalized (softmax) accumulated log likelihood.
       messCore:
           orgName: TA1-MESS-UCBerkeley M1-CoreRules
@@ -529,10 +535,14 @@ dashboards:
           orgName: TA1-MESS-UCBerkeley M2-Learned-RPIN
           abbreviation: MESS RPIN
           description: We propose a region-proposal interaction network (RPIN) to learning a dynamic model of object interactions and use that dynamics model to finding surprising instances in held-out examples. Locations are in `t x y` format and range of t is [0,99] and x,y is [0,287]. Especially note that t,x,y are 0-indexed.
-      opics:
+      opics1:
           orgName: OPICS (OSU, UU, NYU) Submission 1
-          abbreviation: OPICS
+          abbreviation: OPICS Sub. 1
           description: The algorithm learns from passive observations of training experience to model appearances and dynamics of objects. New observation sequences are evaluated with respect to the learned mode.
+      opics2:
+          orgName: OPICS (OSU, UU, NYU) Submission 2
+          abbreviation: OPICS Sub. 2
+          description: The algorithm learns from passive observations of training experience to model appearances and dynamics of objects. New observation sequences are evaluated with respect to the learned mode. We add others explanation for surprising situation and fix some bugs.
 
 datastores:
   es1:
@@ -540,16 +550,74 @@ datastores:
     type: "elasticsearchrest"
     databases:
       msc_eval:
-        prettyName: "MCS Eval 1"
+        prettyName: "MCS Evaluation 1 Results"
         tables:
           eval1:
             prettyName: "Data"
             mappings: {}
             labelOptions: {}
             fields:
+                - columnName: block
+                  prettyName: Block
+                  type: keyword
+                - columnName: complexity
+                  prettyName: Complexity
+                  type: keyword
+                - columnName: ground_truth
+                  prettyName: Ground Truth
+                  type: decimal
+                - columnName: ground_truth_delta
+                  hide: true
+                - columnName: location_frame
+                  prettyName: Location Frame
+                  type: integer
+                - columnName: location_x
+                  prettyName: Location X
+                  type: integer
+                - columnName: location_y
+                  prettyName: Location Y
+                  type: integer
+                - columnName: mse_loss
+                  prettyName: MSE Loss
+                  type: decimal
+                - columnName: mse_loss_int_round
+                  prettyName: MSE Loss (Thresholded)
+                  type: integer
+                - columnName: num_objects
+                  prettyName: Number of Objects
+                  type: keyword
+                - columnName: occluder
+                  prettyName: Number of Occluders
+                  type: keyword
+                - columnName: performer
+                  prettyName: Performer
+                  type: keyword
+                - columnName: plaus_round
+                  prettyName: Plausibility (Rounded)
+                  type: decimal
+                - columnName: plaus_int_round
+                  prettyName: Plausibility (Thresholded)
+                  type: integer
+                - columnName: plausibility
+                  prettyName: Plausibility
+                  type: decimal
+                - columnName: scene
+                  prettyName: Test Scene
+                  type: keyword
+                - columnName: submission
+                  prettyName: Submission
+                  type: keyword
+                - columnName: test
+                  prettyName: Test
+                  type: keyword
+                - columnName: url_string
+                  prettyName: URL to Analysis Page
+                  type: keyword
+                - columnName: voe_signal.*
+                  hide: true
 
 #      comments:
-#        prettyName: "MCS Eval 1 Comments"
+#        prettyName: "MCS Evaluation 1 Comments"
 #        tables:
 #          comment:
 #            prettyName: "Data"
