@@ -1,5 +1,7 @@
 .DS_Store
-ai2thor_wrapper/*.png
+ai2thor_wrapper/**/*.gif
+ai2thor_wrapper/**/*.mp4
+ai2thor_wrapper/**/*.png
 truthing/__pycache__
 truthing/pyqtgraph
 truthing/node_modules

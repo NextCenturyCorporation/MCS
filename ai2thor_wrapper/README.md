@@ -3,7 +3,7 @@
 - AI2-THOR Documentation:  http://ai2thor.allenai.org/documentation
 - AI2-THOR GitHub:  https://github.com/allenai/ai2thor
 - MCS AI2-THOR GitHub Fork:  https://github.com/NextCenturyCorporation/ai2thor
-- MCS AI2-THOR Scene Files and API:  https://github.com/NextCenturyCorporation/MCS/ai2thor_wrapper/scenes/
+- MCS AI2-THOR Scene Files and API:  [scenes](./scenes)
 
 ## Setup
 
@@ -21,14 +21,16 @@ pip install Pillow
 To run via command line with visual output:
 
 ```
-python run_ai2thor.py <mcs_unity_build_file> <mcs_config_json_file>
+python run_mcs_environment.py <mcs_unity_build_file> <mcs_config_json_file>
 ```
 
 To run via command line headlessly, first install xvfb (on Ubuntu, run `sudo apt-get install xvfb`), then:
 
 ```
-xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' python run_ai2thor.py <mcs_unity_build_file> <mcs_config_json_file>
+xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' python run_mcs_environment.py <mcs_unity_build_file> <mcs_config_json_file>
 ```
+
+Each run will generate a subdirectory (named based on your config file) containing the output image files from each step.
 
 Looking for the logs from your Unity run?  I found mine here:  `~/.config/unity3d/CACI\ with\ the\ Allen\ Institute\ for\ Artificial\ Intelligence/MCS-AI2-THOR/Player.log`
 
