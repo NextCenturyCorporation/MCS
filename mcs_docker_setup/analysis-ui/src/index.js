@@ -7,9 +7,10 @@ import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
+console.log("uri", window.GRAPHQL_URL, "1002");
+
 const httpLink = createHttpLink({
-  uri: 'http://ec2-54-157-23-98.compute-1.amazonaws.com:9100/graphql'
-  //uri: 'http://localhost:9100/graphql'
+  uri: window.GRAPHQL_URL
 });
 
 const client = new ApolloClient({

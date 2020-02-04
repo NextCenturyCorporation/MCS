@@ -19,7 +19,7 @@ services:
     container_name: analysis-ui
     image: analysis-ui
     volumes:
-      - ./configs/prod/config.js:/usr/src/app/public/js/config.js
+      - ./configs/dev/config.js:/usr/src/app/public/js/config.js
     ports: 
       - 3000:3000
     depends_on:
