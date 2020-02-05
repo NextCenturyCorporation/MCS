@@ -13,11 +13,11 @@ docker build --tag node-graphql node-graphql/.
 docker build --tag analysis-ui analysis-ui/.
 
 # 3.  Download Neon file from S3: 
-wget https://s3.amazonaws.com/www.machinecommonsense.com/neon-2019-11-04-thomas.tgz
+wget https://s3.amazonaws.com/www.machinecommonsense.com/neon-jan-2020.tar.gz
 
 # 4. Unzip/tar/gz the neon.tar.gz file (Note it might require you to untar the file twice)
-tar xfz neon-2019-11-04-thomas.tgz
-NEON_DIR=neon-2019-11-04-thomas/
+tar xfz neon-jan-2020.tar.gz
+NEON_DIR=neon-jan-2020/
 cd $NEON_DIR
 
 # 5. Copy javascript config files
