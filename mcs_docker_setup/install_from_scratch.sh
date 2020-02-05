@@ -24,7 +24,7 @@ cd $NEON_DIR
 cp -r ../analysis-ui/public/configs configs
 
 # 5. Copy the docker-compose.yml file into the Neon directory
-rm docker-compose.yml
+# rm docker-compose.yml
 cp ../docker-compose-dev.yml docker-compose.yml
 
 # 6. Run the install file
