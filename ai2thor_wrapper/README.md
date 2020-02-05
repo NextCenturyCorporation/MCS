@@ -7,7 +7,7 @@
 
 ## Setup
 
-1. Build the MCS Unity application using the MCS fork of the AI2-THOR GitHub repository.  On Linux, this will create the file `<cloned_repository>/unity/MCS-AI2-THOR.x86_64`.
+1. Build the MCS Unity application using the MCS fork of the AI2-THOR GitHub repository.  On Linux, this will create the file `<cloned_repository>/unity/MCS-AI2-THOR.x86_64`. On Mac, it will look something like this: `<cloned_repository>/unity/<nameofbuild>.app/Contents/MacOS/<nameofbuild>`
 
 2. Install the Python dependencies (I tested on Python v3.6.5)
 
@@ -32,5 +32,5 @@ xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' python run_mcs_en
 
 Each run will generate a subdirectory (named based on your config file) containing the output image files from each step.
 
-Looking for the logs from your Unity run?  I found mine here:  `~/.config/unity3d/CACI\ with\ the\ Allen\ Institute\ for\ Artificial\ Intelligence/MCS-AI2-THOR/Player.log`
+Looking for the logs from your Unity run?  I found mine here:  `~/.config/unity3d/CACI\ with\ the\ Allen\ Institute\ for\ Artificial\ Intelligence/MCS-AI2-THOR/Player.log` If using a Mac, Unity logs can be accessed from within the Console app here: `~/Library/Logs/Unity`
 
