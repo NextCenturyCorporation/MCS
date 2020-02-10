@@ -2,7 +2,8 @@ from goal import Goal
 
 class StepOutput:
 
-    actionList = []
+    action_list = []
+    object_list = []
     depth_mask = None
     goal = None
     image = None
@@ -14,7 +15,8 @@ class StepOutput:
         self,
         step_number=None,
         goal=Goal(),
-        actionList=[],
+        action_list=[],
+        object_list=[],
         image=None,
         depth_mask=None,
         object_mask=None,
@@ -22,7 +24,8 @@ class StepOutput:
     ):
         self.step_number = step_number
         self.goal = goal
-        self.actionList = actionList
+        self.action_list = action_list
+        self.object_list = object_list
         self.image = image
         self.depth_mask = depth_mask
         self.object_mask = object_mask

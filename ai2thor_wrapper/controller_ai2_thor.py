@@ -48,6 +48,18 @@ class Controller_AI2_THOR(Controller):
         self.__step_number += 1
         return self.wrap_output(self.__controller.step(self.wrap_step(action=action)))
 
+    def retrieve_action_list(self, scene_event):
+        # TODO Return the list of AI2-THOR actions based on the player's simulated age, position (lying, crawling, or standing), and nearby or held objects
+        return []
+
+    def retrieve_object_list(self, scene_event):
+        # TODO Return the list of objects in the scene by non-descriptive UUID and their corresponding object metadata like the vector from the player to the object
+        return []
+
+    def retrieve_metadata(self, scene_event):
+        # TODO Return any other metadata from the current scene that we want to pass to the TA1 performer modules
+        return {}
+
     def save_images(self, scene_event):
         scene_image = Image.fromarray(scene_event.frame)
         scene_image.save(fp=self.__output_folder + 'frame' + str(self.__step_number) + '.png')
@@ -65,10 +77,12 @@ class Controller_AI2_THOR(Controller):
         image, depth_mask, object_mask = self.save_images(scene_event)
         return StepOutput(
             step_number=self.__step_number,
+            action_list=self.retrieve_action_list(scene_event),
+            object_list=self.retrieve_object_list(scene_event),
             image=image,
             depth_mask=depth_mask,
             object_mask=object_mask,
-            metadata=scene_event
+            metadata=self.retrieve_metadata(scene_event)
         )
 
     def wrap_step(self, **kwargs):
