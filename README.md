@@ -3,7 +3,7 @@
 This is code that may be useful for people on the Machine Common Sense
 program.
 
-## 
+##  Local Deployment Steps
 
  1. Make sure you have docker installed (Mac - brew install docker)
  2. Make sure you have wget installed (Mac - brew install wget)
