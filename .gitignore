@@ -1,7 +1,10 @@
 .DS_Store
+ai2thor_wrapper/__pycache__/*
 ai2thor_wrapper/**/*.gif
 ai2thor_wrapper/**/*.mp4
 ai2thor_wrapper/**/*.png
+mcs_docker_setup/neon-jan-2020/*
+mcs_docker_setup/neon-jan-2020.tar.gz
 truthing/__pycache__
 truthing/pyqtgraph
 truthing/node_modules
