@@ -51,17 +51,25 @@ class Controller_AI2_THOR(Controller):
     def save_images(self, scene_event):
         scene_image = Image.fromarray(scene_event.frame)
         scene_image.save(fp=self.__output_folder + 'frame' + str(self.__step_number) + '.png')
-        scene_image = Image.fromarray(scene_event.depth_frame / 30)
-        scene_image = scene_image.convert('L')
-        scene_image.save(fp=self.__output_folder + 'depth' + str(self.__step_number) + '.png')
-        scene_image = Image.fromarray(scene_event.class_segmentation_frame)
-        scene_image.save(fp=self.__output_folder + 'class' + str(self.__step_number) + '.png')
-        scene_image = Image.fromarray(scene_event.instance_segmentation_frame)
-        scene_image.save(fp=self.__output_folder + 'object' + str(self.__step_number) + '.png')
+        # Divide the depth mask by 30 so it doesn't appear all white (some odd side effect of the depth grayscaling).
+        depth_mask = Image.fromarray(scene_event.depth_frame / 30)
+        depth_mask = depth_mask.convert('L')
+        depth_mask.save(fp=self.__output_folder + 'depth' + str(self.__step_number) + '.png')
+        class_mask = Image.fromarray(scene_event.class_segmentation_frame)
+        class_mask.save(fp=self.__output_folder + 'class' + str(self.__step_number) + '.png')
+        object_mask = Image.fromarray(scene_event.instance_segmentation_frame)
+        object_mask.save(fp=self.__output_folder + 'object' + str(self.__step_number) + '.png')
+        return scene_image, depth_mask, object_mask
 
     def wrap_output(self, scene_event):
-        self.save_images(scene_event)
-        return StepOutput(__step_number=self.__step_number, metadata=scene_event)
+        image, depth_mask, object_mask = self.save_images(scene_event)
+        return StepOutput(
+            step_number=self.__step_number,
+            image=image,
+            depth_mask=depth_mask,
+            object_mask=object_mask,
+            metadata=scene_event
+        )
 
     def wrap_step(self, **kwargs):
         return dict(
