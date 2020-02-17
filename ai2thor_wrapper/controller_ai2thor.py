@@ -4,7 +4,7 @@ from PIL import Image
 from controller_mcs import Controller_MCS
 from step_output import StepOutput
 
-class Controller_AI2_THOR(Controller_MCS):
+class Controller_AI2THOR(Controller_MCS):
 
     __controller = None
 
