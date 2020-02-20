@@ -15,9 +15,23 @@ def run_scene(controller, config_name, config_data):
     output = controller.reset_scene(config_name, config_data)
     print('step=' + str(output.step_number))
 
-    for i in range(1, 31):
-        output = controller.step('Pass')
+    #for i in range(1, 31):
+    #    output = controller.step('Pass')
+    #    print('step=' + str(output.step_number))
+
+    # Testing RotateLook
+    rotateAngle = -45
+    lookAngle = -15
+    for i in range(1, 7):
+        rotateAngle += 10
+        lookAngle += 5
+        output = controller.step('RotateLook', rotation=rotateAngle, horizon=lookAngle)
         print('step=' + str(output.step_number))
+
+    # Test error case for invalid params for RotateLook (will log a message and then Pass)
+    rotateAngle = 400
+    output = controller.step('RotateLook', rotation=rotateAngle, horizon=lookAngle)
+    print('step=' + str(output.step_number))
 
 if __name__ == "__main__":
     config_data = {}
