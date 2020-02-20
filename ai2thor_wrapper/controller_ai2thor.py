@@ -17,6 +17,14 @@ class Controller_AI2THOR(Controller_MCS):
 
     __step_number = 0
 
+    MAX_ROTATION = 360
+    MIN_ROTATION = -360
+    MAX_HORIZON = 90
+    MIN_HORIZON = -90
+
+    ROTATION_KEY = 'rotation'
+    HORIZON_KEY = 'horizon'
+
     def __init__(self, unity_app_path):
         super().__init__()
         self.__controller = ai2thor.controller.Controller(
@@ -46,15 +54,15 @@ class Controller_AI2THOR(Controller_MCS):
     def validate_params(self, **kwargs):
         isValid = True
 
-        rotation = kwargs.get("rotation", 0)
-        horizon = kwargs.get("horizon", 0)
+        rotation = kwargs.get(self.ROTATION_KEY, 0)
+        horizon = kwargs.get(self.HORIZON_KEY, 0)
 
-        if rotation > 360 or rotation < -360:
-            print("Value of rotation needs to be between -360 and 360. Current value: " + str(rotation))
+        if rotation > self.MAX_ROTATION or rotation < self.MIN_ROTATION:
+            print('Value of rotation needs to be between ' + str(self.MIN_ROTATION) + ' and ' + str(self.MAX_ROTATION) + '. Current value: ' + str(rotation))
             isValid = False
 
-        if horizon > 90 or horizon < -90:
-            print("Value of horizon needs to be between -90 and 90. Current value: " + str(horizon))
+        if horizon > self.MAX_HORIZON or horizon < self.MIN_HORIZON:
+            print('Value of horizon needs to be between ' + str(self.MIN_HORIZON) + ' and ' + str(self.MAX_HORIZON) + '. Current value: ' + str(horizon))
             isValid = False
 
         return isValid
@@ -64,11 +72,11 @@ class Controller_AI2THOR(Controller_MCS):
     # rotation degrees into an object)
     def convert_params(self, **kwargs):
         rotation_vector = {}
-        rotation_vector['y'] = kwargs.get('rotation', 0)
+        rotation_vector['y'] = kwargs.get(self.ROTATION_KEY, 0)
 
         return dict(
             rotation=rotation_vector,
-            horizon=kwargs.get('horizon', 0)
+            horizon=kwargs.get(self.HORIZON_KEY, 0)
         )
 
     # Override
@@ -77,12 +85,12 @@ class Controller_AI2THOR(Controller_MCS):
 
         # TODO: we might want a different strategy than "Pass" for invalid input in the future
         if self.validate_params(**kwargs) == False:
-            print("Passing due to validation errors")
-            action="Pass"
+            print('Passing due to validation errors')
+            action='Pass'
 
         params = self.convert_params(**kwargs)
 
-        return self.wrap_output(self.__controller.step(self.wrap_step(action=action, rotation=params.get('rotation'), horizon=params.get('horizon'))))
+        return self.wrap_output(self.__controller.step(self.wrap_step(action=action, rotation=params.get(self.ROTATION_KEY), horizon=params.get(self.HORIZON_KEY))))
 
     def retrieve_action_list(self, scene_event):
         # TODO Return the list of AI2-THOR actions based on the player's simulated age, position (lying, crawling, or standing), and nearby or held objects
