@@ -1,10 +1,10 @@
 import os
 import ai2thor.controller
 from PIL import Image
-from controller import Controller
+from controller_mcs import Controller_MCS
 from step_output import StepOutput
 
-class Controller_AI2_THOR(Controller):
+class Controller_AI2THOR(Controller_MCS):
 
     __controller = None
 

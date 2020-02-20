@@ -1,6 +1,6 @@
 import json
 import sys
-from controller_ai2_thor import Controller_AI2_THOR
+from controller_ai2thor import Controller_AI2THOR
 
 if len(sys.argv) < 3:
     print('Usage: python run_mcs_environment.py <mcs_unity_build_file> <mcs_config_json_file>')
@@ -8,7 +8,7 @@ if len(sys.argv) < 3:
 
 def create_controller(unity_app_path):
     # TODO: Toggle between AI2-THOR and other controllers like ThreeDWorld or ML-Agents
-    return Controller_AI2_THOR(unity_app_path)
+    return Controller_AI2THOR(unity_app_path)
 
 # TODO: Add config_name to config_data file (and in Unity class)
 def run_scene(controller, config_name, config_data):

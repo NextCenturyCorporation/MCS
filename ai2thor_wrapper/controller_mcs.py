@@ -1,6 +1,6 @@
 from step_output import StepOutput
 
-class Controller:
+class Controller_MCS:
 
     def __init__(self):
         # TODO
