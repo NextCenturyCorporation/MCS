@@ -52,9 +52,11 @@ class Controller_AI2THOR(Controller_MCS):
         return self.wrap_output(self.__controller.step(self.wrap_step(action='Initialize', sceneConfig=config_data)))
 
     # TODO: may need to reevaluate validation strategy/error handling in the future
-    # Need a validation/conversion step for what ai2thor will accept as input
-    # to keep parameters more simple for the user (in this case, wrapping
-    # rotation degrees into an object)
+    """
+    Need a validation/conversion step for what ai2thor will accept as input
+    to keep parameters more simple for the user (in this case, wrapping
+    rotation degrees into an object)
+    """
     def validate_and_convert_params(self, **kwargs):
         rotation = kwargs.get(self.ROTATION_KEY, 0)
         horizon = kwargs.get(self.HORIZON_KEY, 0)
@@ -85,8 +87,7 @@ class Controller_AI2THOR(Controller_MCS):
 
         params = self.validate_and_convert_params(**kwargs)
 
-        return self.wrap_output(self.__controller.step(self.wrap_step(action=action, \
-            rotation=params.get(self.ROTATION_KEY), horizon=params.get(self.HORIZON_KEY))))
+        return self.wrap_output(self.__controller.step(self.wrap_step(action=action, **params)))
 
     def retrieve_action_list(self, scene_event):
         # TODO Return the list of AI2-THOR actions based on the player's simulated age, position (lying, crawling, or standing), and nearby or held objects

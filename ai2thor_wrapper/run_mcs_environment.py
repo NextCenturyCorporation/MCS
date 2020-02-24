@@ -15,7 +15,8 @@ def run_scene(controller, config_name, config_data):
     output = controller.reset_scene(config_name, config_data)
     print('step=' + str(output.step_number))
 
-    #for i in range(1, 31):
+    # Default test code for a scene
+    # for i in range(1, 31):
     #    output = controller.step('Pass')
     #    print('step=' + str(output.step_number))
 
