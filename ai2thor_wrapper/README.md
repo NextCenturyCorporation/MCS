@@ -34,3 +34,9 @@ Each run will generate a subdirectory (named based on your config file) containi
 
 Looking for the logs from your Unity run?  I found mine here:  `~/.config/unity3d/CACI\ with\ the\ Allen\ Institute\ for\ Artificial\ Intelligence/MCS-AI2-THOR/Player.log` If using a Mac, Unity logs can be accessed from within the Console app here: `~/Library/Logs/Unity`
 
+## Test
+
+```
+python -m unittest
+```
+

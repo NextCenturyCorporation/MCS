@@ -6,10 +6,11 @@ if len(sys.argv) < 3:
     sys.exit()
 
 def run_scene(controller, config_data):
-    output = controller.start_scene(config_data)
     print("===============================================================================")
+    output = controller.start_scene(config_data)
     print('step=' + str(output.step_number))
     print(str(output))
+    print("===============================================================================")
 
     #for i in range(1, 31):
     #    output = controller.step('Pass')
@@ -22,19 +23,23 @@ def run_scene(controller, config_data):
         rotateAngle += 10
         lookAngle += 5
         output = controller.step('RotateLook', rotation=rotateAngle, horizon=lookAngle)
-        print("===============================================================================")
         print('step=' + str(output.step_number))
         print(str(output))
+        print("===============================================================================")
 
     # Test error case for invalid params for RotateLook (will log a message and then Pass)
     rotateAngle = 400
     output = controller.step('RotateLook', rotation=rotateAngle, horizon=lookAngle)
-    print("===============================================================================")
     print('step=' + str(output.step_number))
     print(str(output))
+    print("===============================================================================")
 
 if __name__ == "__main__":
-    config_data = MCS.load_config_json_file(sys.argv[2])
+    config_data, status = MCS.load_config_json_file(sys.argv[2])
+
+    if status is not None:
+        print(status)
+        exit()
 
     controller = MCS.create_controller(sys.argv[1])
 
