@@ -94,8 +94,8 @@
         "shows": [{
             "stepBegin": 0,
             "position": {
-                "x": -3,
-                "y": 0.25,
+                "x": 0,
+                "y": 0.5,
                 "z": 3
             },
             "scale": {
