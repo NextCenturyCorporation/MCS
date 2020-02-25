@@ -79,12 +79,6 @@ class Controller_AI2THOR(Controller_MCS):
            print('Value of horizon needs to be a number. Will be set to 0.')
            horizon = 0
 
-        if rotation > self.MAX_ROTATION or rotation < self.MIN_ROTATION:
-            print('Value of rotation needs to be between ' + str(self.MIN_ROTATION) + \
-                ' and ' + str(self.MAX_ROTATION) + '. Current value: ' + str(rotation) + \
-                '. Will be reset to 0.')
-            rotation = 0
-
         if horizon > self.MAX_HORIZON or horizon < self.MIN_HORIZON:
             print('Value of horizon needs to be between ' + str(self.MIN_HORIZON) + \
                 ' and ' + str(self.MAX_HORIZON) + '. Current value: ' + str(horizon)+ \

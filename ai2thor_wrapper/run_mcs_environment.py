@@ -35,7 +35,7 @@ def run_scene(controller, config_name, config_data):
         print('step=' + str(output.step_number))
 
     # Test error case for invalid params for RotateLook (will log a message and then Pass)
-    rotateAngle = 400
+    lookAngle = 180
     output = controller.step('RotateLook', rotation=rotateAngle, horizon=lookAngle)
     print('step=' + str(output.step_number))
 
