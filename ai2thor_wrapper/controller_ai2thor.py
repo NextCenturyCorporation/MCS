@@ -51,6 +51,16 @@ class Controller_AI2THOR(Controller_MCS):
         self.__step_number = 0
         return self.wrap_output(self.__controller.step(self.wrap_step(action='Initialize', sceneConfig=config_data)))
 
+    """
+    Check if value is a number.
+    """
+    def is_number(self, value):
+        try:
+            float(value)
+        except ValueError:
+            return False
+        return True
+
     # TODO: may need to reevaluate validation strategy/error handling in the future
     """
     Need a validation/conversion step for what ai2thor will accept as input
@@ -60,6 +70,14 @@ class Controller_AI2THOR(Controller_MCS):
     def validate_and_convert_params(self, **kwargs):
         rotation = kwargs.get(self.ROTATION_KEY, 0)
         horizon = kwargs.get(self.HORIZON_KEY, 0)
+
+        if self.is_number(rotation) == False:
+           print('Value of rotation needs to be a number. Will be set to 0.')
+           rotation = 0
+
+        if self.is_number(horizon) == False:
+           print('Value of horizon needs to be a number. Will be set to 0.')
+           horizon = 0
 
         if rotation > self.MAX_ROTATION or rotation < self.MIN_ROTATION:
             print('Value of rotation needs to be between ' + str(self.MIN_ROTATION) + \

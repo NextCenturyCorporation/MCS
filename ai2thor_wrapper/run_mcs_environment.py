@@ -21,11 +21,16 @@ def run_scene(controller, config_name, config_data):
     #    print('step=' + str(output.step_number))
 
     # Testing RotateLook
+    # Rotate and look starting angles
     rotateAngle = -45
     lookAngle = -15
-    for i in range(1, 7):
-        rotateAngle += 10
-        lookAngle += 5
+    output = controller.step('RotateLook', rotation=rotateAngle, horizon=lookAngle)
+    print('step=' + str(output.step_number))
+
+    # Relative values to continue rotating/looking
+    rotateAngle = 10
+    lookAngle = 5
+    for i in range(1, 6):
         output = controller.step('RotateLook', rotation=rotateAngle, horizon=lookAngle)
         print('step=' + str(output.step_number))
 
