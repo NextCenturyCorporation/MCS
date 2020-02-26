@@ -66,19 +66,33 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         return self.wrap_output(self.__controller.step(self.wrap_step(action='Initialize', sceneConfig=config_data)))
 
+    """
+    Check if value is a number.
+    """
+    def is_number(self, value):
+        try:
+            float(value)
+        except ValueError:
+            return False
+        return True
+
     # TODO: may need to reevaluate validation strategy/error handling in the future
-    # Need a validation/conversion step for what ai2thor will accept as input
-    # to keep parameters more simple for the user (in this case, wrapping
-    # rotation degrees into an object)
+    """
+    Need a validation/conversion step for what ai2thor will accept as input
+    to keep parameters more simple for the user (in this case, wrapping
+    rotation degrees into an object)
+    """
     def validate_and_convert_params(self, **kwargs):
         rotation = kwargs.get(self.ROTATION_KEY, 0)
         horizon = kwargs.get(self.HORIZON_KEY, 0)
 
-        if rotation > self.MAX_ROTATION or rotation < self.MIN_ROTATION:
-            print('Value of rotation needs to be between ' + str(self.MIN_ROTATION) + \
-                ' and ' + str(self.MAX_ROTATION) + '. Current value: ' + str(rotation) + \
-                '. Will be reset to 0.')
-            rotation = 0
+        if self.is_number(rotation) == False:
+           print('Value of rotation needs to be a number. Will be set to 0.')
+           rotation = 0
+
+        if self.is_number(horizon) == False:
+           print('Value of horizon needs to be a number. Will be set to 0.')
+           horizon = 0
 
         if horizon > self.MAX_HORIZON or horizon < self.MIN_HORIZON:
             print('Value of horizon needs to be between ' + str(self.MIN_HORIZON) + \
@@ -106,8 +120,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         params = self.validate_and_convert_params(**kwargs)
 
-        return self.wrap_output(self.__controller.step(self.wrap_step(action=action, \
-            rotation=params.get(self.ROTATION_KEY), horizon=params.get(self.HORIZON_KEY))))
+        return self.wrap_output(self.__controller.step(self.wrap_step(action=action, **params)))
 
     def retrieve_goal(self, current_scene):
         # TODO MCS-53 Return goal object from scene configuration data object
