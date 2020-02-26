@@ -1,3 +1,4 @@
+import json
 import os
 from PIL import Image
 
@@ -9,6 +10,7 @@ from mcs_goal import MCS_Goal
 from mcs_pose import MCS_Pose
 from mcs_return_status import MCS_Return_Status
 from mcs_step_output import MCS_Step_Output
+from mcs_util import MCS_Util
 
 class MCS_Controller_AI2THOR(MCS_Controller):
     """
@@ -19,9 +21,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     ACTION_LIST = [item.value for item in MCS_Action]
 
-    DEFAULT_SCENE = {
-        "objects": []
-    }
+    # The grid size is how far the player can move with a single step
+    GRID_SIZE = 0.1
 
     MAX_ROTATION = 360
     MIN_ROTATION = -360
@@ -31,11 +32,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     ROTATION_KEY = 'rotation'
     HORIZON_KEY = 'horizon'
 
-    def __init__(self, unity_app_file_path):
+    def __init__(self, unity_app_file_path, debug=False):
         super().__init__()
+
         self.__controller = ai2thor.controller.Controller(
-            # The grid size is how far the player can move with a single step
-            gridSize=0.1,
             quality='Medium',
             fullscreen=False,
             # The headless flag does not work for me
@@ -47,8 +47,15 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             scene='MCS',
             logs=True,
             # This constructor always initializes a scene, so add a scene config to ensure it doesn't error
-            sceneConfig=self.DEFAULT_SCENE
+            sceneConfig={
+                "objects": []
+            }
         )
+
+        self.__debug = debug
+        if self.__debug:
+            print("===============================================================================")
+
         self.on_init()
 
     def on_init(self):
@@ -113,9 +120,13 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         self.__step_number += 1
 
+        if self.__debug:
+            print("===============================================================================")
+            print("STEP = " + str(self.__step_number))
+
         params = self.validate_and_convert_params(**kwargs)
 
-        return self.wrap_output(self.__controller.step(self.wrap_step(action=action, \
+        return self.wrap_output(self.__controller.step(self.wrap_step(action=action, objectId=kwargs.get("objectId", None), \
             rotation=params.get(self.ROTATION_KEY), horizon=params.get(self.HORIZON_KEY))))
 
     def retrieve_goal(self, current_scene):
@@ -156,8 +167,15 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         return scene_image, depth_mask, object_mask
 
     def wrap_output(self, scene_event):
+        if self.__output_folder is not None:
+            with open(self.__output_folder + 'metadata' + str(self.__step_number) + '.json', 'w') as json_file:
+                json.dump({
+                    "metadata": scene_event.metadata
+                }, json_file, sort_keys=True, indent=4)
+
         image, depth_mask, object_mask = self.save_images(scene_event)
-        return MCS_Step_Output(
+
+        step_output = MCS_Step_Output(
             action_list=self.ACTION_LIST,
             depth_mask_list=[depth_mask],
             goal=self.retrieve_goal(self.__current_scene),
@@ -170,12 +188,28 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             step_number=self.__step_number
         )
 
+        if self.__debug:
+            print("MCS STEP OUTPUT = " + str(step_output))
+
+        return step_output
+
     def wrap_step(self, **kwargs):
-        return dict(
+        # Create the step data dict for the AI2-THOR step function.
+        step_data = dict(
+            continuous=True,
+            gridSize=self.GRID_SIZE,
             logs=True,
+            moveMagnitude=0.25,
             renderClassImage=True,
             renderDepthImage=True,
             renderObjectImage=True,
+            # The Unity MCS Scene is 12 by 12, so the max distance from corner to corner is just under 17.
+            visibilityDistance=17.0,
             **kwargs
         )
+
+        if self.__debug:
+            print("AI2THOR STEP INPUT = " + json.dumps(step_data, sort_keys=True, indent=4))
+
+        return step_data
 
