@@ -8,3 +8,4 @@ mcs_docker_setup/neon-jan-2020.tar.gz
 truthing/__pycache__
 truthing/pyqtgraph
 truthing/node_modules
+*.swp

@@ -1,6 +1,7 @@
 import os
-import ai2thor.controller
 from PIL import Image
+
+import ai2thor.controller
 
 from mcs_action import MCS_Action
 from mcs_controller import MCS_Controller
@@ -43,6 +44,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             # This constructor always initializes a scene, so add a scene config to ensure it doesn't error
             sceneConfig=self.DEFAULT_SCENE
         )
+        self.on_init()
+
+    def on_init(self):
         self.__current_scene = None
         self.__output_folder = None # Save output image files to debug
         self.__step_number = 0

@@ -40,3 +40,7 @@ Looking for the logs from your Unity run?  I found mine here:  `~/.config/unity3
 python -m unittest
 ```
 
+## Documentation Style Guide
+
+See https://numpydoc.readthedocs.io/en/latest/format.html
+
