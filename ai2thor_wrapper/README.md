@@ -18,7 +18,7 @@ pip install Pillow
 
 ## Run
 
-To run via command line with visual output:
+To run via command line with visual output (note that on a Mac, the command would be "python3" instead of "python"):
 
 ```
 python run_mcs_environment.py <mcs_unity_build_file> <mcs_config_json_file>
