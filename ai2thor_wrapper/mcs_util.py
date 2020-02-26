@@ -1,4 +1,7 @@
 class MCS_Util:
+    """
+    Defines utility functions for MCS classes.
+    """
 
     NUMBER_OF_SPACES = 4
 

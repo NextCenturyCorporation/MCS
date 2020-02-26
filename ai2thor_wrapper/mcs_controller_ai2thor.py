@@ -11,6 +11,11 @@ from mcs_return_status import MCS_Return_Status
 from mcs_step_output import MCS_Step_Output
 
 class MCS_Controller_AI2THOR(MCS_Controller):
+    """
+    MCS Controller class implementation for the AI2-THOR library.
+
+    https://ai2thor.allenai.org/ithor/documentation/
+    """
 
     ACTION_LIST = [item.value for item in MCS_Action]
 

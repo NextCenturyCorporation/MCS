@@ -4,6 +4,39 @@ from mcs_return_status import MCS_Return_Status
 from mcs_util import MCS_Util
 
 class MCS_Step_Output:
+    """
+    Defines attributes of the output from a single step in the MCS 3D environment.
+
+    Attributes
+    ----------
+    action_list : list of strings
+        The list of MCS actions available for the next step.
+    depth_mask_list : list of Pillow.Image objects
+        The list of depth mask images from the scene after the last action and physics simulation were run.  This is
+        usually just a list with a single object, except for the MCS_Step_Output object returned from a call to
+        controller.start_scene for a scene with a Pre-Interaction Phase.
+    goal : MCS_Goal or None
+        The goal for the current scene.  Will be None in "Exploration" scenes.
+    head_tilt : float
+        How far your head is tilted up/down in degrees (between 90 and -90).  Changed by setting the horizon parameter
+        in a "RotateLook" action.
+    image_list : list of Pillow.Image objects
+        The list of normal vision images from the scene after the last action and physics simulation were run.  This is
+        usually just a list with a single object, except for the MCS_Step_Output object returned from a call to
+        controller.start_scene for a scene with a Pre-Interaction Phase.
+    object_list : list of MCS_Object objects
+        The list of objects in the 3D environment within your current view.
+    object_mask_list : list of Pillow.Image objects
+        The list of object mask images from the scene after the last action and physics simulation were run.  This is
+        usually just a list with a single object, except for the MCS_Step_Output object returned from a call to
+        controller.start_scene for a scene with a Pre-Interaction Phase.
+    pose : string
+        Your current pose.  See MCS_Pose.
+    return_status : string
+        The return status from your last action.  See MCS_Return_Status.
+    step_number : integer
+        The step number of your last action, recorded since you started the current scene.
+    """
 
     def __init__(
         self,
