@@ -2,6 +2,9 @@ import json
 from mcs_controller_ai2thor import MCS_Controller_AI2THOR
 
 class MCS:
+    """
+    Defines utility functions for machine learning modules to create MCS controllers and handle config data files.
+    """
 
     """
     Creates and returns a new MCS_Controller object.
@@ -9,16 +12,17 @@ class MCS:
     Parameters
     ----------
     unity_app_file_path : str
-        File path to your Unity app.
+        The file path to your MCS Unity application.
+    debug : boolean, optional
 
     Returns
     -------
     MCS_Controller
     """
     @staticmethod
-    def create_controller(unity_app_file_path):
+    def create_controller(unity_app_file_path, debug=False):
         # TODO: Toggle between AI2-THOR and other controllers like ThreeDWorld?
-        return MCS_Controller_AI2THOR(unity_app_file_path)
+        return MCS_Controller_AI2THOR(unity_app_file_path, debug)
 
     """
     Loads the given JSON config file and returns its data.
@@ -26,12 +30,12 @@ class MCS:
     Parameters
     ----------
     config_json_file_path : str
-        File path to your JSON file.
+        The file path to your MCS JSON scene configuration file.
 
     Returns
     -------
     dict
-        The data from the JSON file.
+        The MCS scene configuration data from the given JSON file.
     None or string
         The error status (if any).
     """

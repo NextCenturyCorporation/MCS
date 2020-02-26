@@ -5,7 +5,7 @@ from mcs import MCS
 class Test_MCS(unittest.TestCase):
 
     def test_create_controller(self):
-        # TODO MCS-15 Create a mock controller
+        # TODO How do we test this without starting the whole app?
         pass
 
     def test_load_config_file_json(self):
