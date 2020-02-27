@@ -1,3 +1,4 @@
+import glob
 import json
 import os
 from PIL import Image
@@ -21,8 +22,16 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     ACTION_LIST = [item.value for item in MCS_Action]
 
-    # The grid size is how far the player can move with a single step
+    # AI2-THOR creates a square grid across the scene that is uses for "snap-to-grid" movement.
+    # (This value may not really matter because we set continuous to True in the step input.)
     GRID_SIZE = 0.1
+
+    # How far the player can move with a single step.
+    MOVE_DISTANCE = 0.2
+
+    # How far the player can reach.  I think this value needs to be bigger than the MOVE_DISTANCE or else the player
+    # may not be able to move into a position to reach some objects (it may be mathematically impossible).
+    REACH_DISTANCE = 0.4
 
     MAX_ROTATION = 360
     MIN_ROTATION = -360
@@ -79,6 +88,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         if config_data['name'] is not None:
             os.makedirs('./' + config_data['name'], exist_ok=True)
             self.__output_folder = './' + config_data['name'] + '/'
+            file_list = glob.glob(self.__output_folder + '*')
+            for file_path in file_list:
+                os.remove(file_path)
 
         return self.wrap_output(self.__controller.step(self.wrap_step(action='Initialize', sceneConfig=config_data)))
 
@@ -213,12 +225,12 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             continuous=True,
             gridSize=self.GRID_SIZE,
             logs=True,
-            moveMagnitude=0.25,
+            moveMagnitude=self.MOVE_DISTANCE,
             renderClassImage=True,
             renderDepthImage=True,
             renderObjectImage=True,
-            # The Unity MCS Scene is 12 by 12, so the max distance from corner to corner is just under 17.
-            visibilityDistance=17.0,
+            # Yes, in AI2-THOR, the player's reach appears to be governed by the "visibilityDistance", confusingly...
+            visibilityDistance=self.REACH_DISTANCE,
             **kwargs
         )
 

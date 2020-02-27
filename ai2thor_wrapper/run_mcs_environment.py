@@ -40,7 +40,7 @@ if __name__ == "__main__":
     controller = MCS.create_controller(sys.argv[1], debug=True)
 
     config_file_path = sys.argv[2]
-    config_file_name = config_file_path[config_file_path.rfind('/'):]
+    config_file_name = config_file_path[config_file_path.rfind('/')+1:]
 
     # TODO: Read name directly from JSON in config file
     config_data['name'] = config_file_name[0:config_file_name.find('.')]

@@ -136,13 +136,13 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "continuous": True,
             "gridSize": 0.1,
             "logs": True,
-            "moveMagnitude": 0.25,
+            "moveMagnitude": 0.2,
             "numberProperty": 1234,
             "renderClassImage": True,
             "renderDepthImage": True,
             "renderObjectImage": True,
             "stringProperty": "test_property",
-            "visibilityDistance": 17.0
+            "visibilityDistance": 0.4
         }
         self.assertEqual(actual, expected)
 
