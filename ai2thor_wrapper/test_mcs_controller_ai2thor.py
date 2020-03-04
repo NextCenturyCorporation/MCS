@@ -66,8 +66,41 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         pass
 
     def test_retrieve_return_status(self):
-        # TODO MCS-47
-        pass
+        mock_scene_event_data = {
+            "metadata": {
+                "lastActionStatus": "SUCCESSFUL"
+            }
+        }
+
+        actual = self.controller.retrieve_return_status(self.create_mock_scene_event(mock_scene_event_data))
+        self.assertEqual(actual, MCS_Return_Status.SUCCESSFUL.name)
+
+        mock_scene_event_data = {
+            "metadata": {
+                "lastActionStatus": "FAILED"
+            }
+        }
+
+        actual = self.controller.retrieve_return_status(self.create_mock_scene_event(mock_scene_event_data))
+        self.assertEqual(actual, MCS_Return_Status.FAILED.name)
+
+        mock_scene_event_data = {
+            "metadata": {
+                "lastActionStatus": "INVALID_STATUS"
+            }
+        }
+
+        actual = self.controller.retrieve_return_status(self.create_mock_scene_event(mock_scene_event_data))
+        self.assertEqual(actual, MCS_Return_Status.UNDEFINED.name)
+
+        mock_scene_event_data = {
+            "metadata": {
+                "lastActionStatus": None
+            }
+        }
+
+        actual = self.controller.retrieve_return_status(self.create_mock_scene_event(mock_scene_event_data))
+        self.assertEqual(actual, MCS_Return_Status.UNDEFINED.name)
 
     def test_save_images(self):
         image_data = numpy.array([[0]], dtype=numpy.uint8)
@@ -108,6 +141,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                 "agent": {
                     "cameraHorizon": 12.34
                 },
+                "lastActionStatus": "SUCCESSFUL",
                 "lastActionSuccess": True
             }
         }

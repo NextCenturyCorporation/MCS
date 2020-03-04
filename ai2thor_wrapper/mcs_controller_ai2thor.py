@@ -171,9 +171,16 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         return MCS_Pose.STAND.name
 
     def retrieve_return_status(self, scene_event):
-        # TODO MCS-47 Return proper step status from Unity in step output object
-        return MCS_Return_Status.SUCCESSFUL.name if scene_event.metadata['lastActionSuccess'] == True \
-                else MCS_Return_Status.UNDEFINED.name
+        # TODO MCS-47 Need to implement all proper step statuses on the Unity side
+        return_status = MCS_Return_Status.UNDEFINED.name
+
+        try:
+            if scene_event.metadata['lastActionStatus']:
+                return_status = MCS_Return_Status[scene_event.metadata['lastActionStatus']].name
+        except:
+            print("Return status " + scene_event.metadata['lastActionStatus'] + " is not currently supported.")
+        finally:
+            return return_status
 
     def save_images(self, scene_event):
         # TODO MCS-51 May have multiple images

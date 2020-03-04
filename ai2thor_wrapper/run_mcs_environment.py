@@ -13,22 +13,17 @@ def run_scene(controller, config_data):
     #    output = controller.step('Pass')
     #    print('step=' + str(output.step_number))
 
-    # Testing RotateLook
-    # Rotate and look starting angles
-    rotateAngle = -45
-    lookAngle = -15
-    output = controller.step('RotateLook', rotation=rotateAngle, horizon=lookAngle)
+    # Test RotateLook
+    output = controller.step('RotateLook', rotation=-5, horizon=-15)
     print('step=' + str(output.step_number))
 
-    # Relative values to continue rotating/looking
-    rotateAngle = 10
-    lookAngle = 5
-    for i in range(1, 6):
-        output = controller.step('RotateLook', rotation=rotateAngle, horizon=lookAngle)
+    # Use RotateLook to reset to starting point
+    output = controller.step('RotateLook', rotation=5, horizon=15)
+    print('step=' + str(output.step_number))
 
-    # Test error case for invalid params for RotateLook (will log a message and then Pass)
-    lookAngle = 180
-    output = controller.step('RotateLook', rotation=rotateAngle, horizon=lookAngle)
+    # Testing return status for MoveAhead
+    for i in range(1, 6):
+        output = controller.step('MoveAhead')
 
 if __name__ == "__main__":
     config_data, status = MCS.load_config_json_file(sys.argv[2])
