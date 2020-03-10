@@ -13,17 +13,30 @@ def run_scene(controller, config_data):
     #    output = controller.step('Pass')
     #    print('step=' + str(output.step_number))
 
-    # Test RotateLook
-    output = controller.step('RotateLook', rotation=-5, horizon=-15)
-    print('step=' + str(output.step_number))
+    # Testing PickupObject and DropObject (using playroom scene):
+    # Should return NOT_OBJECT
+    output = controller.step('PickupObject', objectId="invalid_object")
 
-    # Use RotateLook to reset to starting point
-    output = controller.step('RotateLook', rotation=5, horizon=15)
-    print('step=' + str(output.step_number))
-
-    # Testing return status for MoveAhead
-    for i in range(1, 6):
+    # Move towards apple to pick it up
+    for i in range(1, 7):
         output = controller.step('MoveAhead')
+
+    output = controller.step('RotateLook', rotation=0, horizon=35)
+
+    # Should return OUT_OF_REACH
+    output = controller.step('PickupObject', objectId="test_ball_1")
+
+    # Should return SUCCESSFUL
+    output = controller.step('PickupObject', objectId="test_apple_1")
+
+    # Should return NOT_OBJECT
+    output = controller.step('DropObject', objectId="invalid_object")
+
+    # Should return NOT_HELD
+    output = controller.step('DropObject', objectId="test_ball_1")
+
+    # Should return SUCCESSFUL
+    output = controller.step('DropObject', objectId="test_apple_1")
 
 if __name__ == "__main__":
     config_data, status = MCS.load_config_json_file(sys.argv[2])

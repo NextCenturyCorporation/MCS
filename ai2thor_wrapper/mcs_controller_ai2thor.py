@@ -145,6 +145,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             print("MCS Warning: The given action '" + action + "' is not valid. Exchanging it with the 'Pass' action.")
             action = "Pass"
 
+        # convert action name for ai2thor if needed
+        if action == MCS_Action.DROP_OBJECT.value:
+            action = "DropHandObject"
+
         self.__step_number += 1
 
         if self.__debug:
