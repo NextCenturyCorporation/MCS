@@ -29,6 +29,9 @@ def run_scene(controller, config_data):
     # Should return SUCCESSFUL
     output = controller.step('PickupObject', objectId="test_apple_1")
 
+    # Should return HAND_IS_FULL
+    output = controller.step('PickupObject', objectId="test_ball_1")
+
     # Should return NOT_OBJECT
     output = controller.step('DropObject', objectId="invalid_object")
 
