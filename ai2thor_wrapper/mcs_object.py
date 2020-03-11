@@ -7,37 +7,48 @@ class MCS_Object:
 
     Attributes
     ----------
-    angle : dict
-        The "x" & "y" degrees (or "x" & "z" degrees if in the "LIE" pose) needed to "RotateLook" to face this object.
+    uuid : string
+        The unique ID of this object, used with some actions.
+    color : dict
+        The "r", "g", and "b" pixel values of this object in images from the MCS_Step_Output's "object_mask_list".
+    direction : dict
+        The normalized direction vector of "x", "y", and "z" degrees between your position and this object's.
+        Use "x" and "y" as "rotation" and "horizon" params (respectively) in a "RotateLook" action to face this object.
     distance : float
         The distance to this object in number of steps ("Move" actions).
     held : boolean
         Whether you are holding this object.
-    id : string
-        The unique ID of this object, used with some actions.
     mass : float
-        Haptic feedback.  The mass of this object.  Only returned in output while holding this object or from actions
-        which involve touching this object.
-    material : string
-        Haptic feedback.  The material of this object.  Only returned in output while holding this object or from actions
-        which involve touching this object.  See MCS_Material
+        Haptic feedback.  The mass of this object.
+    material_list : list of strings
+        Haptic feedback.  The materials of this object.
+    point_list : list of dicts
+        The list of 3D points (dicts with "x", "y", and "z") that form the outside shape of this object.
+    visible : boolean
+        Whether you can see this object in your camera view.
     """
 
     def __init__(
         self,
-        angle=None,
-        distance=None,
+        uuid="",
+        color=None,
+        direction=None,
+        distance=-1,
         held=False,
-        mass=None,
-        material=MCS_Material.UNDEFINED,
-        uuid=None
+        mass=0,
+        material_list=None,
+        point_list=None,
+        visible=False
     ):
-        self.angle = angle
+        self.uuid = uuid
+        self.color = color
+        self.direction = direction
         self.distance = distance
         self.held = held
         self.mass = mass
-        self.material = material
-        self.uuid = uuid
+        self.material_list = [] if material_list is None else material_list
+        self.point_list = [] if point_list is None else point_list
+        self.visible = visible
 
     def __str__(self):
         return MCS_Util.class_to_str(self)

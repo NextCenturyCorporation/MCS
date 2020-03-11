@@ -58,8 +58,128 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual, -56.78)
 
     def test_retrieve_object_list(self):
-        # TODO MCS-52
-        pass
+        mock_scene_event_data = {
+            "metadata": {
+                "objects": [{
+                    "direction": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "distance": 0,
+                    "isPickedUp": True,
+                    "mass": 1,
+                    "objectId": "testId1",
+                    "points": [{
+                        "x": 1,
+                        "y": 2,
+                        "z": 3
+                    }, {
+                        "x": 4,
+                        "y": 5,
+                        "z": 6
+                    }, {
+                        "x": 7,
+                        "y": 8,
+                        "z": 9
+                    }],
+                    "salientMaterials": [],
+                    "visibleInCamera": False
+                }, {
+                    "direction": {
+                        "x": 90,
+                        "y": -30,
+                        "z": 0
+                    },
+                    "distance": 1.1,
+                    "isPickedUp": False,
+                    "mass": 12.34,
+                    "objectId": "testId2",
+                    "points": [{
+                        "x": 11,
+                        "y": 12,
+                        "z": 13
+                    }, {
+                        "x": 14,
+                        "y": 15,
+                        "z": 16
+                    }, {
+                        "x": 17,
+                        "y": 18,
+                        "z": 19
+                    }],
+                    "salientMaterials": ["Foobar", "Metal", "Plastic"],
+                    "visibleInCamera": True
+                }]
+            },
+            "object_id_to_color": {
+                "testId1": (12, 34, 56),
+                "testId2": (98, 76, 54)
+            }
+        }
+
+        actual = self.controller.retrieve_object_list(self.create_mock_scene_event(mock_scene_event_data))
+        self.assertEqual(len(actual), 2)
+
+        self.assertEqual(actual[0].uuid, "testId1")
+        self.assertEqual(actual[0].color, {
+            "r": 12,
+            "g": 34,
+            "b": 56
+        })
+        self.assertEqual(actual[0].direction, {
+            "x": 0,
+            "y": 0,
+            "z": 0
+        })
+        self.assertEqual(actual[0].distance, 0)
+        self.assertEqual(actual[0].held, True)
+        self.assertEqual(actual[0].mass, 1)
+        self.assertEqual(actual[0].material_list, [])
+        self.assertEqual(actual[0].point_list, [{
+            "x": 1,
+            "y": 2,
+            "z": 3
+        }, {
+            "x": 4,
+            "y": 5,
+            "z": 6
+        }, {
+            "x": 7,
+            "y": 8,
+            "z": 9
+        }])
+        self.assertEqual(actual[0].visible, False)
+
+        self.assertEqual(actual[1].uuid, "testId2")
+        self.assertEqual(actual[1].color, {
+            "r": 98,
+            "g": 76,
+            "b": 54
+        })
+        self.assertEqual(actual[1].direction, {
+            "x": 90,
+            "y": -30,
+            "z": 0
+        })
+        self.assertEqual(actual[1].distance, 5.5)
+        self.assertEqual(actual[1].held, False)
+        self.assertEqual(actual[1].mass, 12.34)
+        self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
+        self.assertEqual(actual[1].point_list, [{
+            "x": 11,
+            "y": 12,
+            "z": 13
+        }, {
+            "x": 14,
+            "y": 15,
+            "z": 16
+        }, {
+            "x": 17,
+            "y": 18,
+            "z": 19
+        }])
+        self.assertEqual(actual[1].visible, True)
 
     def test_retrieve_pose(self):
         # TODO MCS-18
@@ -142,7 +262,36 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                     "cameraHorizon": 12.34
                 },
                 "lastActionStatus": "SUCCESSFUL",
-                "lastActionSuccess": True
+                "lastActionSuccess": True,
+                "objects": [{
+                    "direction": {
+                        "x": 90,
+                        "y": -30,
+                        "z": 0
+                    },
+                    "distance": 1.1,
+                    "isPickedUp": False,
+                    "mass": 12.34,
+                    "objectId": "testId",
+                    "points": [{
+                        "x": 1,
+                        "y": 2,
+                        "z": 3
+                    }, {
+                        "x": 4,
+                        "y": 5,
+                        "z": 6
+                    }, {
+                        "x": 7,
+                        "y": 8,
+                        "z": 9
+                    }],
+                    "salientMaterials": ["Wood"],
+                    "visibleInCamera": True
+                }]
+            },
+            "object_id_to_color": {
+                "testId": (12, 34, 56)
             }
         }
 
@@ -151,10 +300,40 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
         # self.assertEqual(actual.goal, MCS_Goal()) # TODO MCS-53
         self.assertEqual(actual.head_tilt, 12.34)
-        self.assertEqual(actual.object_list, []) # TODO MCS-52
         self.assertEqual(actual.pose, MCS_Pose.STAND.value) # TODO MCS-18
         self.assertEqual(actual.return_status, MCS_Return_Status.SUCCESSFUL.value)
         self.assertEqual(actual.step_number, 0)
+
+        self.assertEqual(len(actual.object_list), 1)
+        self.assertEqual(actual.object_list[0].uuid, "testId")
+        self.assertEqual(actual.object_list[0].color, {
+            "r": 12,
+            "g": 34,
+            "b": 56
+        })
+        self.assertEqual(actual.object_list[0].direction, {
+            "x": 90,
+            "y": -30,
+            "z": 0
+        })
+        self.assertEqual(actual.object_list[0].distance, 5.5)
+        self.assertEqual(actual.object_list[0].held, False)
+        self.assertEqual(actual.object_list[0].mass, 12.34)
+        self.assertEqual(actual.object_list[0].material_list, ["WOOD"])
+        self.assertEqual(actual.object_list[0].point_list, [{
+            "x": 1,
+            "y": 2,
+            "z": 3
+        }, {
+            "x": 4,
+            "y": 5,
+            "z": 6
+        }, {
+            "x": 7,
+            "y": 8,
+            "z": 9
+        }])
+        self.assertEqual(actual.object_list[0].visible, True)
 
         self.assertEqual(len(actual.depth_mask_list), 1)
         self.assertEqual(len(actual.image_list), 1)
