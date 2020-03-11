@@ -6,27 +6,27 @@ class MCS_Goal:
 
     Attributes
     ----------
-    details : dict
+    type_list : list of strings
+        The list of types associated with this goal, including the relevant MCS core domains.
+    task_list : list of strings
+        The list of tasks associated with this goal (secondary to its types).
+    info_list : list
+        The list of information for the visualization interface associated with this goal.
+    metadata : dict
         The metadata specific to this goal.
-    domains : list of strings
-        The list of core MCS domains associated with this goal.
-    tasks : list of strings
-        The list of tasks associated with this goal.
-    types : list of strings
-        The list of types associated with this goal.
     """
 
     def __init__(
         self,
-        details={},
-        domains=[],
-        tasks=[],
-        types=[]
+        type_list=None,
+        task_list=None,
+        info_list=None,
+        metadata=None
     ):
-        self.details = details
-        self.domains = domains
-        self.tasks = tasks
-        self.types = types
+        self.type_list = [] if type_list is None else type_list
+        self.task_list = [] if task_list is None else task_list
+        self.info_list = [] if info_list is None else info_list
+        self.metadata = {} if metadata is None else metadata
 
     def __str__(self):
         return MCS_Util.class_to_str(self)
