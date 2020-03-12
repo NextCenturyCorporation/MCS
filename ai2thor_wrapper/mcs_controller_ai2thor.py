@@ -75,8 +75,6 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     def on_init(self, debug=False):
         self.__debug = debug
-        if self.__debug:
-            print("===============================================================================")
 
         self.__current_scene = None
         self.__output_folder = None # Save output image files to debug
@@ -151,15 +149,16 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     def step(self, action, **kwargs):
         super().step(action, **kwargs)
 
-        if not action in self.ACTION_LIST:
-            print("MCS Warning: The given action '" + action + "' is not valid. Exchanging it with the 'Pass' action.")
-            action = "Pass"
-
         self.__step_number += 1
 
         if self.__debug:
             print("===============================================================================")
             print("STEP = " + str(self.__step_number))
+            print("ACTION = " + action)
+
+        if not action in self.ACTION_LIST:
+            print("MCS Warning: The given action '" + action + "' is not valid. Exchanging it with the 'Pass' action.")
+            action = "Pass"
 
         params = self.validate_and_convert_params(**kwargs)
 
@@ -222,20 +221,20 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         # Divide the depth mask by 30 so it doesn't appear all white (some odd side effect of the depth grayscaling).
         depth_mask = Image.fromarray(scene_event.depth_frame / 30)
         depth_mask = depth_mask.convert('L')
-        class_mask = Image.fromarray(scene_event.class_segmentation_frame)
+        # class_mask = Image.fromarray(scene_event.class_segmentation_frame)
         object_mask = Image.fromarray(scene_event.instance_segmentation_frame)
 
-        if self.__output_folder is not None:
-            scene_image.save(fp=self.__output_folder + 'frame' + str(self.__step_number) + '.png')
-            depth_mask.save(fp=self.__output_folder + 'depth' + str(self.__step_number) + '.png')
-            class_mask.save(fp=self.__output_folder + 'class' + str(self.__step_number) + '.png')
-            object_mask.save(fp=self.__output_folder + 'object' + str(self.__step_number) + '.png')
+        if self.__debug and self.__output_folder is not None:
+            scene_image.save(fp=self.__output_folder + 'frame_image_' + str(self.__step_number) + '.png')
+            depth_mask.save(fp=self.__output_folder + 'depth_mask_' + str(self.__step_number) + '.png')
+            # class_mask.save(fp=self.__output_folder + 'class_mask_' + str(self.__step_number) + '.png')
+            object_mask.save(fp=self.__output_folder + 'object_mask_' + str(self.__step_number) + '.png')
 
         return scene_image, depth_mask, object_mask
 
     def wrap_output(self, scene_event):
-        if self.__output_folder is not None:
-            with open(self.__output_folder + 'metadata' + str(self.__step_number) + '.json', 'w') as json_file:
+        if self.__debug and self.__output_folder is not None:
+            with open(self.__output_folder + 'ai2thor_step_output_' + str(self.__step_number) + '.json', 'w') as json_file:
                 json.dump({
                     "metadata": scene_event.metadata
                 }, json_file, sort_keys=True, indent=4)
@@ -255,8 +254,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             step_number=self.__step_number
         )
 
-        if self.__debug:
-            print("MCS STEP OUTPUT = " + str(step_output))
+        if self.__debug and self.__output_folder is not None:
+            with open(self.__output_folder + 'mcs_step_output_' + str(self.__step_number) + '.json', 'w') as json_file:
+                json_file.write(str(step_output))
+                #json.dump(json.loads(str(step_output)), json_file, sort_keys=True, indent=4)
 
         return step_output
 
@@ -267,7 +268,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             gridSize=self.GRID_SIZE,
             logs=True,
             moveMagnitude=self.MOVE_DISTANCE,
-            renderClassImage=True,
+            # renderClassImage=True,
             renderDepthImage=True,
             renderObjectImage=True,
             # Yes, in AI2-THOR, the player's reach appears to be governed by the "visibilityDistance", confusingly...
@@ -275,8 +276,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             **kwargs
         )
 
-        if self.__debug:
-            print("AI2THOR STEP INPUT = " + json.dumps(step_data, sort_keys=True, indent=4))
+        if self.__debug and self.__output_folder is not None:
+            with open(self.__output_folder + 'ai2thor_step_input_' + str(self.__step_number) + '.json', 'w') as json_file:
+                json.dump(step_data, json_file, sort_keys=True, indent=4)
 
         return step_data
 
