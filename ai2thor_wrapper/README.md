@@ -40,6 +40,14 @@ Looking for the logs from your Unity run?  I found mine here:  `~/.config/unity3
 python -m unittest
 ```
 
+## Human Input Test
+
+To run a test and enter the commands via a terminal to test out the scenario run the following command:
+
+python run_mcs_human_input.py <mcs_unity_build_file> <mcs_config_json_file>
+
+When you first start this, a list of commands will print out that you can enter (Note: not all commands might be implemented at this time)
+
 ## Documentation Style Guide
 
 See https://numpydoc.readthedocs.io/en/latest/format.html
