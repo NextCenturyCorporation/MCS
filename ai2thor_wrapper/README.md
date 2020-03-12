@@ -56,3 +56,11 @@ https://docs.python.org/3.6/library/unittest.html
 
 See https://numpydoc.readthedocs.io/en/latest/format.html
 
+### Making GIFs
+
+First, install ffmpeg. Then (change the frame rate with the `-r` option):
+
+```
+ffmpeg -r 3 -i frame_image_%d.png output.gif
+```
+

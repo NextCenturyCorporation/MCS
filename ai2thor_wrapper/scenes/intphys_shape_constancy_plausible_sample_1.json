@@ -1,0 +1,71 @@
+﻿{
+    "name": "intphys_shape_constancy_plausible_sample_1",
+    "ceilingMaterial": "AI2-THOR/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Fabrics/CarpetDark",
+    "wallMaterial": "AI2-THOR/Walls/EggshellDrywall",
+    "performerStart": {
+        "position": {
+            "z": -1
+        }
+    },
+    "goal": {
+      "type_list": ["observation", "intuitive_physics", "objects"],
+      "task_list": ["plausibility"],
+      "info_list": [],
+      "last_step": 10,
+      "metadata": {
+        "choose": ["plausible", "implausible"]
+      }
+    },
+    "objects": [{
+        "id": "ball_a",
+        "type": "sphere",
+        "mass": 0.25,
+        "materialFile": "AI2-THOR/Plastics/GreenPlastic",
+        "pickupable": true,
+        "salientMaterials": ["plastic"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": -2.5,
+                "y": 0.25,
+                "z": 3
+            },
+            "scale": {
+                "x": 0.25,
+                "y": 0.25,
+                "z": 0.25
+            }
+        }],
+        "forces": [{
+            "stepBegin": 1,
+            "stepEnd": 3,
+            "vector": {
+                "x": 33,
+                "y": 66,
+                "z": 0
+            }
+        }]
+    }, {
+        "id": "wall_a",
+        "type": "cube",
+        "kinematic": true,
+        "mass": 100,
+        "materialFile": "AI2-THOR/Ceramics/RedBrick",
+        "salientMaterials": ["ceramic"],
+        "structure": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 1.25,
+                "z": 2.5
+            },
+            "scale": {
+                "x": 0.5,
+                "y": 2.5,
+                "z": 0.1
+            }
+        }]
+    }]
+}
