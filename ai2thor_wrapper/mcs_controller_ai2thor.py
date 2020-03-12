@@ -65,14 +65,12 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     # Override
     def end_scene(self, classification, confidence):
-        print('mcs_controller_ai2thor end scene')
         super().end_scene(classification, confidence)
         # TODO MCS-54 Save classification, confidence, and list of actions (steps) taken in this scene for scoring (maybe save to file?)
         pass
 
     # Override
     def start_scene(self, config_data):
-        print('mcs_controller_ai2thor start scene')
         super().start_scene(config_data)
 
         self.__current_scene = config_data
@@ -126,15 +124,6 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             rotation=rotation_vector,
             horizon=horizon
         )
-    # Override 
-    def interact(self, **kwargs):
-        print("===================================================")
-        print("=========== Begin interactive mode ================")
-        print(super.interact)
-
-        super().interact()
-
-        print("============ End interactive mode =================")
 
     # Override
     def step(self, action, **kwargs):
