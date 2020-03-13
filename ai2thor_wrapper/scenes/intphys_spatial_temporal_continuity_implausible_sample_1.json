@@ -1,0 +1,79 @@
+﻿{
+    "name": "intphys_spatial_temporal_continuity_implausible_sample_1",
+    "ceilingMaterial": "AI2-THOR/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Fabrics/RugPattern224",
+    "wallMaterial": "AI2-THOR/Walls/YellowDrywall",
+    "performerStart": {
+        "position": {
+            "z": -1
+        }
+    },
+    "goal": {
+      "type_list": ["observation", "intuitive_physics", "objects"],
+      "task_list": ["plausibility"],
+      "info_list": [],
+      "last_step": 30,
+      "metadata": {
+        "choose": ["plausible", "implausible"]
+      }
+    },
+    "objects": [{
+        "id": "ball_a",
+        "type": "sphere",
+        "mass": 0.25,
+        "materialFile": "AI2-THOR/Plastics/BlueRubber",
+        "pickupable": true,
+        "salientMaterials": ["rubber"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": -2.5,
+                "y": 0.25,
+                "z": 3
+            },
+            "scale": {
+                "x": 0.25,
+                "y": 0.25,
+                "z": 0.25
+            }
+        }],
+        "forces": [{
+            "stepBegin": 1,
+            "stepEnd": 1,
+            "vector": {
+                "x": 50,
+                "y": 0,
+                "z": 0
+            }
+        }, {
+            "stepBegin": 15,
+            "stepEnd": 15,
+            "vector": {
+                "x": -75,
+                "y": 0,
+                "z": 0
+            }
+        }]
+    }, {
+        "id": "wall_a",
+        "type": "cube",
+        "kinematic": true,
+        "mass": 100,
+        "materialFile": "AI2-THOR/Ceramics/GREYGRANITE",
+        "salientMaterials": ["ceramic"],
+        "structure": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 1.25,
+                "z": 2.5
+            },
+            "scale": {
+                "x": 0.5,
+                "y": 2.5,
+                "z": 0.1
+            }
+        }]
+    }]
+}

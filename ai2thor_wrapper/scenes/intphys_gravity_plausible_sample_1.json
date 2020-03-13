@@ -1,0 +1,41 @@
+﻿{
+    "name": "intphys_gravity_plausible_sample_1",
+    "ceilingMaterial": "AI2-THOR/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Fabrics/Carpet4",
+    "wallMaterial": "AI2-THOR/Walls/DrywallOrange",
+    "performerStart": {
+        "position": {
+            "z": -1
+        }
+    },
+    "goal": {
+      "type_list": ["observation", "intuitive_physics", "objects"],
+      "task_list": ["plausibility"],
+      "info_list": [],
+      "last_step": 10,
+      "metadata": {
+        "choose": ["plausible", "implausible"]
+      }
+    },
+    "objects": [{
+        "id": "ball_a",
+        "type": "sphere",
+        "mass": 0.25,
+        "materialFile": "AI2-THOR/Plastics/YellowPlastic2",
+        "pickupable": true,
+        "salientMaterials": ["plastic"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 2.25,
+                "z": 3
+            },
+            "scale": {
+                "x": 0.25,
+                "y": 0.25,
+                "z": 0.25
+            }
+        }]
+    }]
+}

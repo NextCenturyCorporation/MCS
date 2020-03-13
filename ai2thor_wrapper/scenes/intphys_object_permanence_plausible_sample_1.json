@@ -1,0 +1,71 @@
+﻿{
+    "name": "intphys_object_permanence_plausible_sample_1",
+    "ceilingMaterial": "AI2-THOR/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Fabrics/HotelCarpet3",
+    "wallMaterial": "AI2-THOR/Walls/Drywall4Tiled",
+    "performerStart": {
+        "position": {
+            "z": -1
+        }
+    },
+    "goal": {
+      "type_list": ["observation", "intuitive_physics", "objects"],
+      "task_list": ["plausibility"],
+      "info_list": [],
+      "last_step": 10,
+      "metadata": {
+        "choose": ["plausible", "implausible"]
+      }
+    },
+    "objects": [{
+        "id": "ball_a",
+        "type": "sphere",
+        "mass": 0.25,
+        "materialFile": "AI2-THOR/Plastics/OrangePlastic",
+        "pickupable": true,
+        "salientMaterials": ["plastic"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 2.25,
+                "z": 3
+            },
+            "scale": {
+                "x": 0.25,
+                "y": 0.25,
+                "z": 0.25
+            }
+        }],
+        "forces": [{
+            "stepBegin": 0,
+            "stepEnd": 5,
+            "vector": {
+                "x": 0,
+                "y": 50,
+                "z": 0
+            }
+        }]
+    }, {
+        "id": "wall_a",
+        "type": "cube",
+        "kinematic": true,
+        "mass": 100,
+        "materialFile": "AI2-THOR/Wood/WoodFloorsCross",
+        "salientMaterials": ["wood"],
+        "structure": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.75,
+                "z": 2.5
+            },
+            "scale": {
+                "x": 10,
+                "y": 0.5,
+                "z": 0.1
+            }
+        }]
+    }]
+}

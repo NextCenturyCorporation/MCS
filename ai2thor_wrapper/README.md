@@ -64,3 +64,11 @@ When you first start this, a list of commands will print out that you can enter 
 
 See https://numpydoc.readthedocs.io/en/latest/format.html
 
+### Making GIFs
+
+First, install ffmpeg. Then (change the frame rate with the `-r` option):
+
+```
+ffmpeg -r 3 -i frame_image_%d.png output.gif
+```
+
