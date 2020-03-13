@@ -37,7 +37,7 @@ def print_commands():
     print("MoveAhead")
     print("RotateLook, rotation=45, horizon=15")
     print(" ")
-    print("Enter 'print' to print the commands again.")
+    print("Enter 'help' to print the commands again.")
     print("Enter 'exit' to exit the program.")
     print(" ")
     print("------------------ End Commands ------------------")
@@ -59,7 +59,7 @@ def input_commands():
         print("Exiting Human Input Mode")
         return
 
-    if(userInput[0] == 'print'):
+    if(userInput[0] == 'help'):
         print_commands()
         return input_commands()
 
@@ -68,7 +68,7 @@ def input_commands():
         if len(userInput[0]) == 1:
             userInput[0] = MCS_Action[MCS_Action_Keys(userInput[0] ).name].value
     except:
-        print("You entered an invalid shortcut key, please try again. (Type 'print' to display commands again)")
+        print("You entered an invalid shortcut key, please try again. (Type 'help' to display commands again)")
         print("You entered: " + userInput[0])
         return input_commands()
 
@@ -79,7 +79,7 @@ def input_commands():
     try:
         actionCheck = MCS_Action(userInput[0]).name
     except:
-        print("You entered an invalid command, please try again.  (Type 'print' to display commands again)")
+        print("You entered an invalid command, please try again.  (Type 'help' to display commands again)")
         return input_commands()
  
     # Run commands that have no parameters
@@ -89,7 +89,6 @@ def input_commands():
         return input_commands()
     else:
         # Create Params List
-        print("Creating param list")
         try:
             params = {}
             for param in userInput[1:]:
