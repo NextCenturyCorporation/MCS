@@ -13,33 +13,56 @@ def run_scene(controller, config_data):
     #    output = controller.step('Pass')
     #    print('step=' + str(output.step_number))
 
-    # Testing PickupObject and DropObject (using playroom scene):
-    # Should return NOT_OBJECT
-    output = controller.step('PickupObject', objectId="invalid_object")
-
+    # Testing PutObject (using playroom scene):
     # Move towards apple to pick it up
-    for i in range(1, 7):
+    output = controller.step('MoveLeft')
+    for i in range(1, 4):
         output = controller.step('MoveAhead')
 
-    output = controller.step('RotateLook', rotation=0, horizon=35)
+    output = controller.step('RotateLook', rotation=0, horizon=45)
+
+    # Should return SUCCESSFUL
+    output = controller.step('PickupObject', objectId="playroom_apple_a")
+
+    output = controller.step('MoveLeft')
+
+    # Should return NOT_RECEPTACLE
+    output = controller.step('MoveAhead')
+    output = controller.step('PutObject', objectId="playroom_apple_a", receptacleObjectId="playroom_apple_b")
+
+    for i in range(1, 5):
+        output = controller.step('MoveAhead')
 
     # Should return OUT_OF_REACH
-    output = controller.step('PickupObject', objectId="test_ball_1")
+    output = controller.step('PutObject', objectId="playroom_apple_a", receptacleObjectId="playroom_plate_a")
 
-    # Should return SUCCESSFUL
-    output = controller.step('PickupObject', objectId="test_apple_1")
-
-    # Should return HAND_IS_FULL
-    output = controller.step('PickupObject', objectId="test_ball_1")
-
-    # Should return NOT_OBJECT
-    output = controller.step('DropObject', objectId="invalid_object")
+    output = controller.step('MoveAhead')
 
     # Should return NOT_HELD
-    output = controller.step('DropObject', objectId="test_ball_1")
+    output = controller.step('PutObject', objectId="playroom_apple_b", receptacleObjectId="playroom_box_a")
 
+    # Should return NOT_OBJECT
+    output = controller.step('PutObject', objectId="invalid_apple_a", receptacleObjectId="playroom_box_a")
+    output = controller.step('PutObject', objectId="playroom_apple_a", receptacleObjectId="invalid_box_a")
+    
     # Should return SUCCESSFUL
-    output = controller.step('DropObject', objectId="test_apple_1")
+    output = controller.step('PutObject', objectId="playroom_apple_a", receptacleObjectId="playroom_plate_a")
+    
+    # Pick up plate and move towards the closed box
+    output = controller.step('PickupObject', objectId="playroom_plate_a")
+
+    output = controller.step('RotateLook', rotation=160, horizon=-30)
+    
+    for i in range(1, 8):
+        output = controller.step('MoveAhead')
+
+    output = controller.step('RotateLook', rotation=-10, horizon=0)
+
+    for i in range(1, 3):
+        output = controller.step('MoveAhead')
+
+    # Should return OBSTRUCTED
+    output = controller.step('PutObject', objectId="playroom_plate_a", receptacleObjectId="playroom_box_b")
 
 if __name__ == "__main__":
     config_data, status = MCS.load_config_json_file(sys.argv[2])
