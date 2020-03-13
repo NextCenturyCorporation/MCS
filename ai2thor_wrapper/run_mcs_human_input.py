@@ -33,10 +33,22 @@ def print_commands():
         print("ShortcutKey: " + commandListItem.key)
         print("*******************")
 
+    print("Example commands: ")
+    print("MoveAhead")
+    print("RotateLook, rotation=45, horizon=15")
     print(" ")
-    print("Enter 'exit' to exit the program")
+    print("Enter 'print' to print the commands again.")
+    print("Enter 'exit' to exit the program.")
     print(" ")
     print("------------------ End Commands ------------------")
+
+# Check to see if a string is a float before converting
+def isFloat(value):
+    try:
+        float(value)
+        return True
+    except ValueError:
+        return False
 
 # Execute Input Commands until the user exits the system
 def input_commands(): 
@@ -47,54 +59,51 @@ def input_commands():
         print("Exiting Human Input Mode")
         return
 
+    if(userInput[0] == 'print'):
+        print_commands()
+        return input_commands()
+
+    # Check for shortcut key, if attempted shortcut key, map and check valid key
     try:
-        # Map shortcut keys to command value
-        print(len(userInput[0]))
         if len(userInput[0]) == 1:
-            print("Mapping key to command")
-            userInput[0] = MCS_Action[MCS_Action_Keys(userInput[0]).name].value
-
-        print('You entered command: ')
-        print(*userInput)
-        
-        # Run commands that have no parameters
-        if len(userInput) < 2:
-            output = controller.step(userInput[0])
-            print('step=' + str(output.step_number))
-            return input_commands()
-        # Run commands that have parameters, parse params to send to step function
-        else:
-            # controller.step won't take params as string, need to recreate
-            param1key, param1value = userInput[1].split('=')
-            param1key = param1key.strip()
-
-            # this could probably be done more easily, open to suggestions
-            if len(userInput) > 3:
-                param2key, param2value = userInput[2].split('=')
-                param2key = param2key.strip()
-
-                if len(userInput) > 4: 
-                    param3key, param3value = userInput[3].split('=')
-                    param3ey = param3key.strip()
-
-                    param4key, param4value = userInput[4].split('=')
-                    param4key = param4key.strip()
-
-                    output = controller.step(userInput[0], param1key=param1value.strip(), param2key=param2value.strip(), param3key=param3value.strip(), param4key=param4value.strip())
-                    print('step=' + str(output.step_number))
-                    return input_commands()
-                else:
-                    output = controller.step(userInput[0], param1key=param1value.strip(), param2key=param2value.strip())
-                    print('step=' + str(output.step_number))
-                    return input_commands()
-            else:
-                output = controller.step(userInput[0], param1key=param1value.strip())
-                print('step=' + str(output.step_number))
-                return input_commands()
+            userInput[0] = MCS_Action[MCS_Action_Keys(userInput[0] ).name].value
     except:
-        print("You entered an invalid command or a command not yet implemented, please try again.")
-        print("You entered: ")
-        print(*userInput)
+        print("You entered an invalid shortcut key, please try again. (Type 'print' to display commands again)")
+        print("You entered: " + userInput[0])
+        return input_commands()
+
+    print('You entered command: ')
+    print(*userInput)
+
+    # Check action is available, before executing and defaulting to a pass
+    try:
+        actionCheck = MCS_Action(userInput[0]).name
+    except:
+        print("You entered an invalid command, please try again.  (Type 'print' to display commands again)")
+        return input_commands()
+ 
+    # Run commands that have no parameters
+    if len(userInput) < 2:
+        output = controller.step(userInput[0])
+        print('step=' + str(output.step_number))
+        return input_commands()
+    else:
+        # Create Params List
+        print("Creating param list")
+        try:
+            params = {}
+            for param in userInput[1:]:
+                paramKey, paramValue = param.split('=')
+                if isFloat(paramValue.strip()):
+                    params[paramKey.strip()] = float(paramValue.strip())
+                else: 
+                    params[paramKey.strip()] = paramValue.strip()
+        except:
+            print("ERROR: Parameters should be separated by commas, and look like this example: rotation=45")
+            return input_commands()
+
+        output = controller.step(userInput[0], **params)
+        print('step=' + str(output.step_number))
         return input_commands()
 
 # Run scene loaded in the config data
