@@ -8,6 +8,8 @@ import ai2thor.controller
 from mcs_action import MCS_Action
 from mcs_controller import MCS_Controller
 from mcs_goal import MCS_Goal
+from mcs_material import MCS_Material
+from mcs_object import MCS_Object
 from mcs_pose import MCS_Pose
 from mcs_return_status import MCS_Return_Status
 from mcs_step_output import MCS_Step_Output
@@ -40,6 +42,14 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     ROTATION_KEY = 'rotation'
     HORIZON_KEY = 'horizon'
+
+    @staticmethod
+    def find_material_enum_errors(enum_string):
+        try:
+            enum_instance = MCS_Material[enum_string]
+            return True
+        except KeyError:
+            return False
 
     def __init__(self, unity_app_file_path, debug=False):
         super().__init__()
@@ -159,6 +169,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         return self.wrap_output(self.__controller.step(self.wrap_step(action=action, **params)))
 
+
     def retrieve_goal(self, current_scene):
         # TODO MCS-53 Return goal object from scene configuration data object
         return MCS_Goal()
@@ -168,7 +179,30 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     def retrieve_object_list(self, scene_event):
         # TODO MCS-52 Return the list of objects in the scene by non-descriptive UUID and their corresponding object metadata like the vector from the player to the object
-        return []
+        return [self.retrieve_object_output(object_metadata, scene_event.object_id_to_color) for object_metadata in \
+                scene_event.metadata['objects']]
+
+    def retrieve_object_output(self, object_metadata, object_id_to_color):
+        material_list = list(filter(self.find_material_enum_errors, [material_string.upper() for material_string in \
+                object_metadata['salientMaterials']]))
+
+        rgb = object_id_to_color[object_metadata['objectId']]
+
+        return MCS_Object(
+            uuid=object_metadata['objectId'],
+            color={
+                'r': rgb[0],
+                'g': rgb[1],
+                'b': rgb[2]
+            },
+            direction=object_metadata['direction'],
+            distance=(object_metadata['distance'] / self.MOVE_DISTANCE),
+            held=object_metadata['isPickedUp'],
+            mass=object_metadata['mass'],
+            material_list=(None if len(material_list) == 0 else material_list),
+            point_list=object_metadata['points'],
+            visible=object_metadata['visibleInCamera']
+        )
 
     def retrieve_pose(self, scene_event):
         # TODO MCS-18 Return pose from Unity in step output object
@@ -181,7 +215,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         try:
             if scene_event.metadata['lastActionStatus']:
                 return_status = MCS_Return_Status[scene_event.metadata['lastActionStatus']].name
-        except:
+        except KeyError:
             print("Return status " + scene_event.metadata['lastActionStatus'] + " is not currently supported.")
         finally:
             return return_status
