@@ -1,0 +1,29 @@
+﻿{
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "objects": [{
+        "id": "wall_diagonal",
+        "type": "cube",
+        "kinematic": true,
+        "structure": true,
+        "mass": 100,
+        "materialFile": "AI2-THOR/Materials/Walls/DrywallBeige",
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 3.5,
+                "y": 1.25,
+                "z": 3.5
+            },
+            "rotation": {
+                "y": -45
+            },
+            "scale": {
+                "x": 4,
+                "y": 2.5,
+                "z": 0.1
+            }
+        }]
+    }]
+}
