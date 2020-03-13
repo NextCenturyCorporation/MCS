@@ -52,6 +52,14 @@ https://docs.python.org/3.6/library/unittest.html
 4. The name of each test function should start with `test` and accept `self` as an argument. Use the `self.assert*` functions to make your test assertions.
 5. Add `setUp(self)` and/or `tearDown(self)` functions to run custom behavior before or after each individual unit test.
 
+## Human Input Test
+
+To run a test and enter the commands via a terminal to test out the scenario run the following command:
+
+python run_mcs_human_input.py <mcs_unity_build_file> <mcs_config_json_file>
+
+When you first start this, a list of commands will print out that you can enter (Note: not all commands might be implemented at this time)
+
 ## Documentation Style Guide
 
 See https://numpydoc.readthedocs.io/en/latest/format.html
