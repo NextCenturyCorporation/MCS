@@ -9,7 +9,7 @@ import json
 
 DEFAULT_JSON = """
 {
-  "name": "file_name_prefix_uuid",
+  "name": "",
   "ceilingMaterial": "Walls/Drywall",
   "floorMaterial": "Fabrics/CarpetWhite 3",
   "wallMaterial": "Walls/DrywallBeige",
