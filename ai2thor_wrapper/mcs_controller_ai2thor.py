@@ -44,7 +44,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     HORIZON_KEY = 'horizon'
 
     @staticmethod
-    def remove_material_enum_errors(enum_string):
+    def find_material_enum_errors(enum_string):
         try:
             enum_instance = MCS_Material[enum_string]
             return True
@@ -179,7 +179,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 scene_event.metadata['objects']]
 
     def retrieve_object_output(self, object_metadata, object_id_to_color):
-        material_list = list(filter(self.remove_material_enum_errors, [material_string.upper() for material_string in \
+        material_list = list(filter(self.find_material_enum_errors, [material_string.upper() for material_string in \
                 object_metadata['salientMaterials']]))
 
         rgb = object_id_to_color[object_metadata['objectId']]
