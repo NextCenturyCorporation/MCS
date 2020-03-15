@@ -6,7 +6,7 @@ with open('python_api/README.md', 'r') as fh:
 setuptools.setup(
     name='python_api',  
     version='0.0.1',
-    scripts=['run_mcs_human_input'] ,
+    scripts=[],
     author='Next Century, a wholly owned subsidiary of CACI',
     author_email='mcs-ta2@machinecommonsense.com',
     description='Machine Common Sense Python API to Unity 3D Simulation Environment',
