@@ -1,9 +1,9 @@
 .DS_Store
-python_api/__pycache__/*
-python_api/**/*.gif
-python_api/**/*.json
-python_api/**/*.mp4
-python_api/**/*.png
+mcs_python_api/__pycache__/*
+mcs_python_api/**/*.gif
+mcs_python_api/**/*.json
+mcs_python_api/**/*.mp4
+mcs_python_api/**/*.png
 mcs_docker_setup/neon-jan-2020/*
 mcs_docker_setup/neon-jan-2020.tar.gz
 truthing/__pycache__

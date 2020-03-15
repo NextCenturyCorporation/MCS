@@ -1,10 +1,10 @@
 import setuptools
 
-with open('python_api/README.md', 'r') as fh:
+with open('mcs_python_api/README.md', 'r') as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='python_api',  
+    name='mcs_python_api',
     version='0.0.1',
     scripts=[],
     author='Next Century, a wholly owned subsidiary of CACI',
