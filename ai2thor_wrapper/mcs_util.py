@@ -1,3 +1,5 @@
+from mcs_material import MCS_Material
+
 class MCS_Util:
     """
     Defines utility functions for MCS classes.
@@ -31,6 +33,27 @@ class MCS_Util:
         return "{}" if len(text_list) == 0 else "{\n" + (",\n").join(text_list) + "\n" + this_indent + "}"
 
     """
+    Transforms the given list of MCS_Object objects into a list of strings.
+
+    Parameters
+    ----------
+    object_list : list of MCS_Object objects
+        The input list.
+
+    Returns
+    -------
+    list of strings
+    """
+    @staticmethod
+    def generate_pretty_object_output(object_list):
+        # TODO What else should we show here?
+        titles = ["OBJECT ID", "HELD", "VISIBLE", "DISTANCE", "DIRECTION"]
+        rows = [titles] + [[metadata.uuid, metadata.held, metadata.visible, metadata.distance, \
+                MCS_Util.vector_to_string(metadata.direction)] for metadata in object_list]
+        widths = [max(len(str(row[i])) for row in rows) for i in range(0, len(titles))]
+        return [("  ".join(str(row[i]).ljust(widths[i]) for i in range(0, len(row)))) for row in rows]
+
+    """
     Transforms the given value into a string.
 
     Parameters
@@ -61,4 +84,41 @@ class MCS_Util:
         elif isinstance(input_value, str):
             return "\"" + input_value.replace("\"", "\\\"") + "\""
         return str(input_value).replace("\n", "\n" + this_indent)
+
+    """
+    Transforms the given vector into a string.
+
+    Parameters
+    ----------
+    vector : dict
+        The input vector.
+
+    Returns
+    -------
+    string
+    """
+    @staticmethod
+    def vector_to_string(vector):
+        return ('(' + str(vector['x']) + ',' + str(vector['y']) + ',' + str(vector['z']) + ')') if vector is not None \
+                else 'None'
+
+    """
+    Returns whether the given string can be successfully converted into an MCS_Material enum.
+
+    Parameters
+    ----------
+    enum_string
+        The string to be converted into an MCS_Material enum.
+
+    Returns
+    -------
+    boolean
+    """
+    @staticmethod
+    def verify_material_enum_string(enum_string):
+        try:
+            enum_instance = MCS_Material[enum_string.upper()]
+            return True
+        except KeyError:
+            return False
 

@@ -5,6 +5,7 @@ import unittest
 
 from mcs_action import MCS_Action
 from mcs_goal import MCS_Goal
+from mcs_object import MCS_Object
 from mcs_pose import MCS_Pose
 from mcs_return_status import MCS_Return_Status
 from mcs_step_output import MCS_Step_Output
@@ -162,7 +163,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "y": -30,
             "z": 0
         })
-        self.assertEqual(actual[1].distance, 5.5)
+        self.assertEqual(actual[1].distance, 2.2)
         self.assertEqual(actual[1].held, False)
         self.assertEqual(actual[1].mass, 12.34)
         self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
@@ -316,7 +317,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "y": -30,
             "z": 0
         })
-        self.assertEqual(actual.object_list[0].distance, 5.5)
+        self.assertEqual(actual.object_list[0].distance, 2.2)
         self.assertEqual(actual.object_list[0].held, False)
         self.assertEqual(actual.object_list[0].mass, 12.34)
         self.assertEqual(actual.object_list[0].material_list, ["WOOD"])
@@ -349,13 +350,13 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "continuous": True,
             "gridSize": 0.1,
             "logs": True,
-            "moveMagnitude": 0.2,
+            "moveMagnitude": 0.5,
             "numberProperty": 1234,
-            "renderClassImage": True,
+            # "renderClassImage": True,
             "renderDepthImage": True,
             "renderObjectImage": True,
             "stringProperty": "test_property",
-            "visibilityDistance": 0.4
+            "visibilityDistance": 1.0
         }
         self.assertEqual(actual, expected)
 

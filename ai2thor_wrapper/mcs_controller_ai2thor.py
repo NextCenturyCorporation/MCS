@@ -8,7 +8,6 @@ import ai2thor.controller
 from mcs_action import MCS_Action
 from mcs_controller import MCS_Controller
 from mcs_goal import MCS_Goal
-from mcs_material import MCS_Material
 from mcs_object import MCS_Object
 from mcs_pose import MCS_Pose
 from mcs_return_status import MCS_Return_Status
@@ -29,11 +28,12 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     GRID_SIZE = 0.1
 
     # How far the player can move with a single step.
-    MOVE_DISTANCE = 0.2
+    MAX_MOVE_DISTANCE = 0.5
 
-    # How far the player can reach.  I think this value needs to be bigger than the MOVE_DISTANCE or else the player
-    # may not be able to move into a position to reach some objects (it may be mathematically impossible).
-    REACH_DISTANCE = 0.4
+    # How far the player can reach.  I think this value needs to be bigger than the MAX_MOVE_DISTANCE or else the
+    # player may not be able to move into a position to reach some objects (it may be mathematically impossible).
+    # TODO Reduce this number once the player can crouch down to reach and pickup small objects on the floor.
+    MAX_REACH_DISTANCE = 1.0
 
     MAX_ROTATION = 360
     MIN_ROTATION = -360
@@ -42,14 +42,6 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     ROTATION_KEY = 'rotation'
     HORIZON_KEY = 'horizon'
-
-    @staticmethod
-    def find_material_enum_errors(enum_string):
-        try:
-            enum_instance = MCS_Material[enum_string]
-            return True
-        except KeyError:
-            return False
 
     def __init__(self, unity_app_file_path, debug=False):
         super().__init__()
@@ -157,8 +149,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         if self.__debug:
             print("===============================================================================")
-            print("STEP = " + str(self.__step_number))
-            print("ACTION = " + action)
+            print("STEP: " + str(self.__step_number))
+            print("ACTION: " + action)
 
         if not action in self.ACTION_LIST:
             print("MCS Warning: The given action '" + action + "' is not valid. Exchanging it with the 'Pass' action.")
@@ -177,13 +169,12 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         return scene_event.metadata['agent']['cameraHorizon']
 
     def retrieve_object_list(self, scene_event):
-        # TODO MCS-52 Return the list of objects in the scene by non-descriptive UUID and their corresponding object metadata like the vector from the player to the object
-        return [self.retrieve_object_output(object_metadata, scene_event.object_id_to_color) for object_metadata in \
-                scene_event.metadata['objects']]
+        return sorted([self.retrieve_object_output(object_metadata, scene_event.object_id_to_color) for \
+                object_metadata in scene_event.metadata['objects']], key=lambda x: x.uuid)
 
     def retrieve_object_output(self, object_metadata, object_id_to_color):
-        material_list = list(filter(self.find_material_enum_errors, [material_string.upper() for material_string in \
-                object_metadata['salientMaterials']]))
+        material_list = list(filter(MCS_Util.verify_material_enum_string, [material.upper() for material in \
+                object_metadata['salientMaterials']])) if object_metadata['salientMaterials'] is not None else []
 
         rgb = object_id_to_color[object_metadata['objectId']]
 
@@ -195,12 +186,12 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 'b': rgb[2]
             },
             direction=object_metadata['direction'],
-            distance=(object_metadata['distance'] / self.MOVE_DISTANCE),
+            distance=(object_metadata['distanceXZ'] / self.MAX_MOVE_DISTANCE),
             held=object_metadata['isPickedUp'],
             mass=object_metadata['mass'],
             material_list=(None if len(material_list) == 0 else material_list),
             point_list=object_metadata['points'],
-            visible=object_metadata['visibleInCamera']
+            visible=(object_metadata['visibleInCamera'] or object_metadata['isPickedUp'])
         )
 
     def retrieve_pose(self, scene_event):
@@ -258,10 +249,15 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             step_number=self.__step_number
         )
 
+        if self.__debug:
+            print("RETURN STATUS: " + step_output.return_status)
+            print("OBJECTS (" + str(len(step_output.object_list)) + " TOTAL):")
+            for line in MCS_Util.generate_pretty_object_output(step_output.object_list):
+                print("    " + line)
+
         if self.__debug and self.__output_folder is not None:
             with open(self.__output_folder + 'mcs_step_output_' + str(self.__step_number) + '.json', 'w') as json_file:
                 json_file.write(str(step_output))
-                #json.dump(json.loads(str(step_output)), json_file, sort_keys=True, indent=4)
 
         return step_output
 
@@ -271,12 +267,12 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             continuous=True,
             gridSize=self.GRID_SIZE,
             logs=True,
-            moveMagnitude=self.MOVE_DISTANCE,
+            moveMagnitude=self.MAX_MOVE_DISTANCE,
             # renderClassImage=True,
             renderDepthImage=True,
             renderObjectImage=True,
             # Yes, in AI2-THOR, the player's reach appears to be governed by the "visibilityDistance", confusingly...
-            visibilityDistance=self.REACH_DISTANCE,
+            visibilityDistance=self.MAX_REACH_DISTANCE,
             **kwargs
         )
 

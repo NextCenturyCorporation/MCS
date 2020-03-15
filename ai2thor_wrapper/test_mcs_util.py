@@ -1,5 +1,6 @@
 import unittest
 
+from mcs_object import MCS_Object
 from mcs_util import MCS_Util
 
 class My_Emptyclass:
@@ -60,6 +61,33 @@ class Test_MCS_Util(unittest.TestCase):
     def test_class_to_str_with_empty_class(self):
         self.assertEqual(MCS_Util.class_to_str(My_Emptyclass()), "{}")
 
+    def test_generate_pretty_object_output(self):
+        object_list = [
+            MCS_Object(
+                uuid='id1',
+                held=True,
+                visible=True,
+                distance=0,
+                direction=None
+            ),
+            MCS_Object(
+                uuid='really_long_id2',
+                held=False,
+                visible=False,
+                distance=1234.5678,
+                direction={
+                    'x': 10,
+                    'y': 20,
+                    'z': 30
+                }
+            )
+        ]
+        self.assertEqual(MCS_Util.generate_pretty_object_output(object_list), [
+            'OBJECT ID        HELD   VISIBLE  DISTANCE   DIRECTION ',
+            'id1              True   True     0          None      ',
+            'really_long_id2  False  False    1234.5678  (10,20,30)'
+        ])
+
     def test_value_to_str_with_boolean(self):
         self.assertEqual(MCS_Util.value_to_str(True), "True")
         self.assertEqual(MCS_Util.value_to_str(False), "False")
@@ -86,4 +114,18 @@ class Test_MCS_Util(unittest.TestCase):
     def test_value_to_str_with_string(self):
         self.assertEqual(MCS_Util.value_to_str(""), "\"\"")
         self.assertEqual(MCS_Util.value_to_str("a b c d"), "\"a b c d\"")
+
+    def test_vector_to_string(self):
+        self.assertEqual(MCS_Util.vector_to_string(None), 'None')
+        self.assertEqual(MCS_Util.vector_to_string({
+            'x': 1,
+            'y': 2,
+            'z': 3
+        }), '(1,2,3)')
+
+    def test_verify_material_enum_string(self):
+        self.assertEqual(MCS_Util.verify_material_enum_string('Ceramic'), True)
+        self.assertEqual(MCS_Util.verify_material_enum_string('Plastic'), True)
+        self.assertEqual(MCS_Util.verify_material_enum_string('Foobar'), False)
+        self.assertEqual(MCS_Util.verify_material_enum_string(''), False)
 
