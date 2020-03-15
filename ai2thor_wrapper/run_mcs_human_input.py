@@ -85,7 +85,6 @@ def input_commands():
     # Run commands that have no parameters
     if len(userInput) < 2:
         output = controller.step(userInput[0])
-        print('step=' + str(output.step_number))
         return input_commands()
     else:
         # Create Params List
@@ -102,15 +101,15 @@ def input_commands():
             return input_commands()
 
         output = controller.step(userInput[0], **params)
-        print('step=' + str(output.step_number))
         return input_commands()
 
 # Run scene loaded in the config data
 def run_scene(controller, config_data):
-    output = controller.start_scene(config_data)
-
     build_commands()
     print_commands()
+
+    output = controller.start_scene(config_data)
+
     input_commands()
 
     sys.exit()
