@@ -1,11 +1,10 @@
 import setuptools
 
-with open('README.md', 'r') as fh:
+with open('python_api/README.md', 'r') as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='mcs_python_api',  
-    package_dir={'':'python_api'},
+    name='python_api',  
     version='0.0.1',
     scripts=['run_mcs_human_input'] ,
     author='Next Century, a wholly owned subsidiary of CACI',
