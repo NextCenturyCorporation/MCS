@@ -1,4 +1,4 @@
-from mcs_material import MCS_Material
+from mcs_python_api.mcs_material import MCS_Material
 
 class MCS_Util:
     """

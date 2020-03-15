@@ -1,7 +1,7 @@
-from mcs_goal import MCS_Goal
-from mcs_pose import MCS_Pose
-from mcs_return_status import MCS_Return_Status
-from mcs_util import MCS_Util
+from mcs_python_api.mcs_goal import MCS_Goal
+from mcs_python_api.mcs_pose import MCS_Pose
+from mcs_python_api.mcs_return_status import MCS_Return_Status
+from mcs_python_api.mcs_util import MCS_Util
 
 class MCS_Step_Output:
     """
