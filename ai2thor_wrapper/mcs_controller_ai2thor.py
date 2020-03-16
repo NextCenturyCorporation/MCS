@@ -43,6 +43,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     DEFAULT_ROTATION = 0
     DEFAULT_FORCE = 0.5
     DEFAULT_AMOUNT = 0.5
+    DEFAULT_DIRECTION = 0
 
     MAX_ROTATION = 360
     MIN_ROTATION = -360
@@ -56,8 +57,14 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     ROTATION_KEY = 'rotation'
     HORIZON_KEY = 'horizon'
-    FORCE_KEY = 'froce'
+    FORCE_KEY = 'force'
     AMOUNT_KEY = 'amount'
+    OBJECT_DIRECTION_X_KEY = 'objectDirectionX'
+    OBJECT_DIRECTION_Y_KEY = 'objectDirectionY'
+    OBJECT_DIRECTION_Z_KEY = 'objectDirectionZ'
+    RECEPTACLE_DIRECTION_X = 'receptacleObjectDirectionX'
+    RECEPTACLE_DIRECTION_Y = 'receptacleObjectDirectionY'
+    RECEPTACLE_DIRECTION_Z = 'receptacleObjectDirectionZ'
 
     # Hard coding actions that effect MoveMagnitude so the appropriate value is set based off of the action
     # TODO: Move this to an enum or some place, so that you can determine special move interactions that way
@@ -152,21 +159,50 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         amount = kwargs.get(self.AMOUNT_KEY, self.DEFAULT_AMOUNT)
         force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
 
-        if self.is_number(rotation, "rotation") == False:
-            rotation = self.DEFAULT_HORIZON_ROTATION
+        objectDirectionX = kwargs.get(self.OBJECT_DIRECTION_X_KEY, self.DEFAULT_DIRECTION)
+        objectDirectionY = kwargs.get(self.OBJECT_DIRECTION_Y_KEY, self.DEFAULT_DIRECTION)
+        objectDirectionZ = kwargs.get(self.OBJECT_DIRECTION_Z_KEY, self.DEFAULT_DIRECTION)
+        receptacleObjectDirectionX = kwargs.get(self.RECEPTACLE_DIRECTION_X, self.DEFAULT_DIRECTION)
+        receptacleObjectDirectionY = kwargs.get(self.RECEPTACLE_DIRECTION_Y, self.DEFAULT_DIRECTION)
+        receptacleObjectDirectionZ = kwargs.get(self.RECEPTACLE_DIRECTION_Z, self.DEFAULT_DIRECTION)
 
-        if self.is_number(horizon, "horizon") == False:
-            horizon = self.DEFAULT_HORIZON_ROTATION
+        # Check params that should be numbers
+        if self.is_number(rotation, self.ROTATION_KEY) == False:
+            rotation = self.DEFAULT_ROTATION
 
-        if self.is_number(amount, "amount") == False:
-            amount = self.DEFAULT_FORCE_AMOUNT
+        if self.is_number(horizon, self.HORIZON_KEY) == False:
+            horizon = self.DEFAULT_HORIZON
+
+        if self.is_number(amount, self.AMOUNT_KEY) == False:
+            amount = self.DEFAULT_AMOUNT
         
-        if self.is_number(force, "force") == False:
-            force = self.DEFAULT_FORCE_AMOUNT
+        if self.is_number(force, self.FORCE_KEY) == False:
+            force = self.DEFAULT_FORCE
 
-        horizon = self.is_in_range(horizon, self.MIN_HORIZON, self.MAX_HORIZON, self.DEFAULT_HORIZON, "horizon")
-        amount = self.is_in_range(amount, self.MIN_AMOUNT, self.MAX_AMOUNT, self.DEFAULT_AMOUNT, "amount")
-        force = self.is_in_range(force, self.MIN_FORCE, self.MAX_FORCE, self.DEFAULT_FORCE, "force")
+        # Check object directions are numbers
+        if self.is_number(objectDirectionX, self.OBJECT_DIRECTION_X_KEY) == False:
+            objectDirectionX = self.DEFAULT_DIRECTION
+        
+        if self.is_number(objectDirectionY, self.OBJECT_DIRECTION_Y_KEY) == False:
+            objectDirectionY = self.DEFAULT_DIRECTION
+
+        if self.is_number(objectDirectionZ, self.OBJECT_DIRECTION_Z_KEY) == False:
+            objectDirectionZ = self.DEFAULT_DIRECTION
+
+        # Check receptacle directions are numbers
+        if self.is_number(receptacleObjectDirectionX, self.RECEPTACLE_DIRECTION_X) == False:
+            receptacleObjectDirectionX = self.DEFAULT_DIRECTION
+
+        if self.is_number(receptacleObjectDirectionY, self.RECEPTACLE_DIRECTION_Y) == False:
+            receptacleObjectDirectionY = self.DEFAULT_DIRECTION
+
+        if self.is_number(receptacleObjectDirectionZ, self.RECEPTACLE_DIRECTION_Z) == False:
+            receptacleObjectDirectionZ = self.DEFAULT_DIRECTION
+
+        # Check that params that should fall in a range are in that range
+        horizon = self.is_in_range(horizon, self.MIN_HORIZON, self.MAX_HORIZON, self.DEFAULT_HORIZON, self.HORIZON_KEY)
+        amount = self.is_in_range(amount, self.MIN_AMOUNT, self.MAX_AMOUNT, self.DEFAULT_AMOUNT, self.AMOUNT_KEY)
+        force = self.is_in_range(force, self.MIN_FORCE, self.MAX_FORCE, self.DEFAULT_FORCE, self.FORCE_KEY)
 
         # Set the Move Magnitude to the appropriate amount based on the action
         if action in self.FORCE_ACTIONS:
@@ -186,7 +222,13 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             receptacleObjectId=kwargs.get("receptacleObjectId", None),
             rotation=rotation_vector,
             horizon=horizon,
-            moveMagnitude=moveMagnitude
+            moveMagnitude=moveMagnitude,
+            objectDirectionX=objectDirectionX,
+            objectDirectionY=objectDirectionY,
+            objectDirectionZ=objectDirectionZ,
+            receptacleObjectDirectionX=receptacleObjectDirectionX,
+            receptacleObjectDirectionY=receptacleObjectDirectionY,
+            receptacleObjectDirectionZ=receptacleObjectDirectionZ
         )
 
     # Override
