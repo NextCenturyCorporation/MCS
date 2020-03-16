@@ -455,7 +455,7 @@ The Y of the directional vector pointing to the target object based on your curr
 - objectDirectionZ : float, optional\
 The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - amount : float\
-The amount to open the object between 0 (no change) and 1 (completely opened). Default: 0.5
+The amount to open the object between 0 (completely closed) and 1 (completely opened). Default: 1
 
 #### Returns
 
@@ -488,7 +488,7 @@ The Y of the directional vector pointing to the target object based on your curr
 - objectDirectionZ : float, optional\
 The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - amount : float\
-The amount to close the object between 0 (no change) and 1 (completely closed). Default: 0.5
+The amount to close the object between 0 (completely opened) and 1 (completely closed). Default: 1
 
 #### Returns
 
