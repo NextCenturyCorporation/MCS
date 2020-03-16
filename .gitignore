@@ -1,4 +1,5 @@
 .DS_Store
+python_api/scenes/*.json
 python_api/machine_common_sense/__pycache__/*
 python_api/machine_common_sense/**/*.gif
 python_api/machine_common_sense/**/*.json

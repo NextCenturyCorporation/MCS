@@ -1,74 +1,51 @@
-# MCS AI2-THOR Python Wrapper
+# MCS Python Library: Usage README
 
-- AI2-THOR Documentation:  http://ai2thor.allenai.org/documentation
-- AI2-THOR GitHub:  https://github.com/allenai/ai2thor
-- MCS AI2-THOR GitHub Fork:  https://github.com/NextCenturyCorporation/ai2thor
-- MCS AI2-THOR Scene Files and API:  [scenes](./scenes)
+## Download
 
-## Setup
-
-1. Build the MCS Unity application using the MCS fork of the AI2-THOR GitHub repository.  On Linux, this will create the file `<cloned_repository>/unity/MCS-AI2-THOR.x86_64`. On Mac, it will look something like this: `<cloned_repository>/unity/<nameofbuild>.app/Contents/MacOS/<nameofbuild>`
-
-2. Install the Python dependencies (I tested on Python v3.6.5)
+### Python Library
 
 ```
-pip install ai2thor
-pip install Pillow
+pip install git+https://github.com/NextCenturyCorporation/MCS@latest
 ```
 
-## Run
+### Unity Application
 
-To run via command line with visual output (note that on a Mac, the command would be "python3" instead of "python"):
+TODO
 
+## Import
+
+```python
+from machine_common_sense import MCS
+
+# Either load the config data dict from an MCS config JSON file or create your own.
+# We will give you the training config JSON files and the format to make your own.
+config_data = MCS.load_config_json_file(config_json_file_path)
+
+# We will give you the Unity app file.
+controller = MCS.create_controller(unity_app_file_path)
+
+output = controller.start_scene(config_data)
+
+# Use your machine learning algorithm to select your next action based on the scene
+# output (goal, actions, images, metadata, etc.) from your previous action.
+action, params = select_action(output)
+
+# Continue to select actions until your algorithm decides to stop.
+while action != '':
+  controller.step(action, params)
+    action, params = select_action(output)
+
+# For interaction-based goals, your series of selected actions will be scored.
+# For observation-based goals, you will pass a classification and a confidence
+# to the end_scene function here.
+controller.end_scene()# Either load the config data dict from an MCS config JSON file or create your own.
 ```
-python run_mcs_environment.py <mcs_unity_build_file> <mcs_config_json_file>
-```
 
-To run via command line headlessly, first install xvfb (on Ubuntu, run `sudo apt-get install xvfb`), then:
+## Documentation
 
-```
-xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' python run_mcs_environment.py <mcs_unity_build_file> <mcs_config_json_file>
-```
+[API.md](./API.md)
 
-Each run will generate a subdirectory (named based on your config file) containing the output image files from each step.
+## Example Scene Configuration Files
 
-Looking for the logs from your Unity run?  I found mine here:  `~/.config/unity3d/CACI\ with\ the\ Allen\ Institute\ for\ Artificial\ Intelligence/MCS-AI2-THOR/Player.log` If using a Mac, Unity logs can be accessed from within the Console app here: `~/Library/Logs/Unity`
-
-## Testing
-
-### Running Tests
-
-```
-python -m unittest
-```
-
-### Writing Tests
-
-https://docs.python.org/3.6/library/unittest.html
-
-1. The name of your test file should start with `test`.
-2. The name of your test class inside your test file should match the name of your test file (case insensitive).
-3. Import `unittest`. Your test class should extend `unittest.TestCase`.
-4. The name of each test function should start with `test` and accept `self` as an argument. Use the `self.assert*` functions to make your test assertions.
-5. Add `setUp(self)` and/or `tearDown(self)` functions to run custom behavior before or after each individual unit test.
-
-## Human Input Test
-
-To run a test and enter the commands via a terminal to test out the scenario run the following command:
-
-python run_mcs_human_input.py <mcs_unity_build_file> <mcs_config_json_file>
-
-When you first start this, a list of commands will print out that you can enter (Note: not all commands might be implemented at this time)
-
-## Documentation Style Guide
-
-See https://numpydoc.readthedocs.io/en/latest/format.html
-
-### Making GIFs
-
-First, install ffmpeg. Then (change the frame rate with the `-r` option):
-
-```
-ffmpeg -r 3 -i frame_image_%d.png output.gif
-```
+[scenes/README.md](./scenes/README.md)
 

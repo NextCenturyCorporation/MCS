@@ -15,17 +15,17 @@ class MCS_Object:
         The normalized direction vector of "x", "y", and "z" degrees between your position and this object's.
         Use "x" and "y" as "rotation" and "horizon" params (respectively) in a "RotateLook" action to face this object.
     distance : float
-        The distance to this object in number of steps ("Move" actions).
+        The distance along the 2-dimensional X/Z grid from you oto this object in number of steps ("Move" actions).
     held : boolean
         Whether you are holding this object.
     mass : float
         Haptic feedback.  The mass of this object.
     material_list : list of strings
-        Haptic feedback.  The materials of this object.
+        Haptic feedback.  The material(s) of this object.  See MCS_Material.
     point_list : list of dicts
-        The list of 3D points (dicts with "x", "y", and "z") that form the outside shape of this object.
+        The list of 3D points (dicts with "x", "y", and "z") that form the outer shape of this object.
     visible : boolean
-        Whether you can see this object in your camera view.
+        Whether you can see this object in your camera viewport.
     """
 
     def __init__(

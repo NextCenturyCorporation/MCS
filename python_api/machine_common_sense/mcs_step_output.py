@@ -10,13 +10,13 @@ class MCS_Step_Output:
     Attributes
     ----------
     action_list : list of strings
-        The list of MCS actions available for the next step.
+        The list of all actions that are available for the next step.  See MCS_Action.
     depth_mask_list : list of Pillow.Image objects
         The list of depth mask images from the scene after the last action and physics simulation were run.  This is
         usually just a list with a single object, except for the MCS_Step_Output object returned from a call to
         controller.start_scene for a scene with a Pre-Interaction Phase.
     goal : MCS_Goal or None
-        The goal for the current scene.  Will be None in "Exploration" scenes.
+        The goal for the whole scene.  Will be None in "Exploration" scenes.
     head_tilt : float
         How far your head is tilted up/down in degrees (between 90 and -90).  Changed by setting the horizon parameter
         in a "RotateLook" action.
@@ -25,7 +25,7 @@ class MCS_Step_Output:
         usually just a list with a single object, except for the MCS_Step_Output object returned from a call to
         controller.start_scene for a scene with a Pre-Interaction Phase.
     object_list : list of MCS_Object objects
-        The list of objects in the 3D environment within your current view.
+        The list of metadata for all objects in the scene.
     object_mask_list : list of Pillow.Image objects
         The list of object mask images from the scene after the last action and physics simulation were run.  This is
         usually just a list with a single object, except for the MCS_Step_Output object returned from a call to
