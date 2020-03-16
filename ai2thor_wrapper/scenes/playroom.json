@@ -3,7 +3,7 @@
     "floorMaterial": "Fabrics/CarpetWhite 3",
     "wallMaterial": "Walls/DrywallBeige",
     "objects": [{
-        "id": "playroom_drawers",
+        "id": "drawers",
         "type": "drawer_1",
         "kinematic": true,
         "mass": 50,
@@ -21,7 +21,7 @@
             }
         }]
     }, {
-        "id": "playroom_sofa",
+        "id": "sofa",
         "type": "sofa_1",
         "mass": 50,
         "shows": [{
@@ -33,7 +33,7 @@
             }
         }]
     }, {
-        "id": "playroom_sofa_chair",
+        "id": "sofa_chair",
         "type": "sofa_chair_1",
         "mass": 25,
         "shows": [{
@@ -50,7 +50,7 @@
             }
         }]
     }, {
-        "id": "playroom_dinner_table",
+        "id": "dinner_table",
         "type": "table_1",
         "mass": 10,
         "shows": [{
@@ -67,7 +67,7 @@
             }
         }]
     }, {
-        "id": "playroom_coffee_table",
+        "id": "coffee_table",
         "type": "table_5",
         "mass": 10,
         "shows": [{
@@ -84,7 +84,7 @@
             }
         }]
     }, {
-        "id": "playroom_desk",
+        "id": "desk",
         "type": "table_2",
         "mass": 10,
         "shows": [{
@@ -96,7 +96,7 @@
             }
         }]
     }, {
-        "id": "playroom_chair_a",
+        "id": "chair_a",
         "type": "chair_1",
         "mass": 5,
         "moveable": true,
@@ -109,7 +109,7 @@
             }
         }]
     }, {
-        "id": "playroom_chair_b",
+        "id": "chair_b",
         "type": "chair_2",
         "mass": 5,
         "moveable": true,
@@ -122,7 +122,7 @@
             }
         }]
     }, {
-        "id": "playroom_ball_a",
+        "id": "ball_a",
         "type": "sphere",
         "mass": 0.1,
         "salientMaterials": ["plastic"],
@@ -142,7 +142,7 @@
             }
         }]
     }, {
-        "id": "playroom_ball_b",
+        "id": "ball_b",
         "type": "sphere",
         "mass": 0.5,
         "salientMaterials": ["plastic"],
@@ -162,7 +162,7 @@
             }
         }]
     }, {
-        "id": "playroom_ball_c",
+        "id": "ball_c",
         "type": "sphere",
         "mass": 1,
         "salientMaterials": ["wood"],
@@ -182,7 +182,7 @@
             }
         }]
     }, {
-        "id": "playroom_ball_d",
+        "id": "ball_d",
         "type": "sphere",
         "mass": 5,
         "salientMaterials": ["metal"],
@@ -202,7 +202,7 @@
             }
         }]
     }, {
-        "id": "playroom_box_a",
+        "id": "box_a",
         "type": "box_2",
         "mass": 1,
         "opened": true,
@@ -220,7 +220,7 @@
             }
         }]
     }, {
-        "id": "playroom_box_b",
+        "id": "box_b",
         "type": "box_3",
         "mass": 1,
         "shows": [{
@@ -237,7 +237,7 @@
             }
         }]
     }, {
-        "id": "playroom_apple_a",
+        "id": "apple_a",
         "type": "apple_1",
         "mass": 0.5,
         "shows": [{
@@ -254,7 +254,7 @@
             }
         }]
     }, {
-        "id": "playroom_apple_b",
+        "id": "apple_b",
         "type": "apple_2",
         "mass": 0.5,
         "shows": [{
@@ -271,7 +271,7 @@
             }
         }]
     }, {
-        "id": "playroom_bowl_a",
+        "id": "bowl_a",
         "type": "bowl_3",
         "shows": [{
             "stepBegin": 0,
@@ -287,7 +287,7 @@
             }
         }]
     }, {
-        "id": "playroom_bowl_b",
+        "id": "bowl_b",
         "type": "bowl_4",
         "shows": [{
             "stepBegin": 0,
@@ -303,7 +303,7 @@
             }
         }]
     }, {
-        "id": "playroom_cup_a",
+        "id": "cup_a",
         "type": "cup_2",
         "shows": [{
             "stepBegin": 0,
@@ -319,7 +319,7 @@
             }
         }]
     }, {
-        "id": "playroom_cup_b",
+        "id": "cup_b",
         "type": "cup_6",
         "shows": [{
             "stepBegin": 0,
@@ -335,7 +335,7 @@
             }
         }]
     }, {
-        "id": "playroom_plate_a",
+        "id": "plate_a",
         "type": "plate_1",
         "salientMaterials": ["plastic"],
         "shows": [{
@@ -352,7 +352,7 @@
             }
         }]
     }, {
-        "id": "playroom_plate_b",
+        "id": "plate_b",
         "type": "plate_3",
         "salientMaterials": ["plastic"],
         "shows": [{

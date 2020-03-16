@@ -22,34 +22,34 @@ def run_scene(controller, config_data):
     output = controller.step('RotateLook', rotation=0, horizon=45)
 
     # Should return SUCCESSFUL
-    output = controller.step('PickupObject', objectId="playroom_apple_a")
+    output = controller.step('PickupObject', objectId="apple_a")
 
     output = controller.step('MoveLeft')
 
     # Should return NOT_RECEPTACLE
     output = controller.step('MoveAhead')
-    output = controller.step('PutObject', objectId="playroom_apple_a", receptacleObjectId="playroom_apple_b")
+    output = controller.step('PutObject', objectId="apple_a", receptacleObjectId="apple_b")
 
     for i in range(1, 5):
         output = controller.step('MoveAhead')
 
     # Should return OUT_OF_REACH
-    output = controller.step('PutObject', objectId="playroom_apple_a", receptacleObjectId="playroom_plate_a")
+    output = controller.step('PutObject', objectId="apple_a", receptacleObjectId="plate_a")
 
     output = controller.step('MoveAhead')
 
     # Should return NOT_HELD
-    output = controller.step('PutObject', objectId="playroom_apple_b", receptacleObjectId="playroom_box_a")
+    output = controller.step('PutObject', objectId="apple_b", receptacleObjectId="box_a")
 
     # Should return NOT_OBJECT
-    output = controller.step('PutObject', objectId="invalid_apple_a", receptacleObjectId="playroom_box_a")
-    output = controller.step('PutObject', objectId="playroom_apple_a", receptacleObjectId="invalid_box_a")
+    output = controller.step('PutObject', objectId="invalid_apple_a", receptacleObjectId="box_a")
+    output = controller.step('PutObject', objectId="apple_a", receptacleObjectId="invalid_box_a")
     
     # Should return SUCCESSFUL
-    output = controller.step('PutObject', objectId="playroom_apple_a", receptacleObjectId="playroom_plate_a")
+    output = controller.step('PutObject', objectId="apple_a", receptacleObjectId="plate_a")
     
     # Pick up plate and move towards the closed box
-    output = controller.step('PickupObject', objectId="playroom_plate_a")
+    output = controller.step('PickupObject', objectId="plate_a")
 
     output = controller.step('RotateLook', rotation=160, horizon=-30)
     
@@ -62,7 +62,7 @@ def run_scene(controller, config_data):
         output = controller.step('MoveAhead')
 
     # Should return OBSTRUCTED
-    output = controller.step('PutObject', objectId="playroom_plate_a", receptacleObjectId="playroom_box_b")
+    output = controller.step('PutObject', objectId="plate_a", receptacleObjectId="box_b")
 
 if __name__ == "__main__":
     config_data, status = MCS.load_config_json_file(sys.argv[2])
