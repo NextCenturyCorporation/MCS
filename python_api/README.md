@@ -45,7 +45,9 @@ controller.end_scene()# Either load the config data dict from an MCS config JSON
 
 To start the Unity application and enter your actions and parameters from the terminal, you can run the `mcs_run_in_human_input_mode` script that was installed in the package with the MCS Python Library:
 
+```
 mcs_run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file>
+```
 
 ## Documentation
 
