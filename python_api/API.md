@@ -298,13 +298,7 @@ Place an object you are holding into/onto a nearby receptacle object.
 #### Parameters
 
 - objectId : string, optional\
-The "uuid" of the held object. Required unless the "objectDirection" properties are given.
-- objectDirectionX : float, optional\
-The X of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
-- objectDirectionY : float, optional\
-The Y of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
-- objectDirectionZ : float, optional\
-The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
+The "uuid" of the held object. Defaults to the first held object.
 - receptacleObjectId : string\
 The "uuid" of the target receptacle. Required unless the "receptacleObjectDirection" properties are given.
 - receptacleObjectDirectionX : float, optional\
@@ -337,13 +331,7 @@ Drop an object you are holding.
 #### Parameters
 
 - objectId : string, optional\
-The "uuid" of the held object. Required unless the "objectDirection" properties are given.
-- objectDirectionX : float, optional\
-The X of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
-- objectDirectionY : float, optional\
-The Y of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
-- objectDirectionZ : float, optional\
-The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
+The "uuid" of the held object. Defaults to the first held object.
 
 #### Returns
 
@@ -362,13 +350,7 @@ Throw an object you are holding.
 #### Parameters
 
 - objectId : string, optional\
-The "uuid" of the held object. Required unless the "objectDirection" properties are given.
-- objectDirectionX : float, optional\
-The X of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
-- objectDirectionY : float, optional\
-The Y of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
-- objectDirectionZ : float, optional\
-The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
+The "uuid" of the held object. Defaults to the first held object.
 - (Not Yet Supported) rotation : float\
 Rotation degrees around the Y axis to throw the held object (left/right).
 - (Not Yet Supported) horizon : float\
