@@ -4,10 +4,6 @@ from machine_common_sense.mcs_action import MCS_Action
 from machine_common_sense.mcs_action_keys import MCS_Action_Keys
 from machine_common_sense.mcs_action_api_desc import MCS_Action_API_DESC
 
-if len(sys.argv) < 3:
-    print('Usage: python run_mcs_human_input.py <mcs_unity_build_file> <mcs_config_json_file>')
-    sys.exit()
-
 # variables
 commandList = []
 
@@ -115,13 +111,19 @@ def run_scene(controller, config_data):
     sys.exit()
 
 def main():
+    if len(sys.argv) < 3:
+        print('Usage: python run_mcs_human_input.py <mcs_unity_build_file> <mcs_config_json_file> <debug_files>')
+        sys.exit()
+
     config_data, status = MCS.load_config_json_file(sys.argv[2])
 
     if status is not None:
         print(status)
         exit()
 
-    controller = MCS.create_controller(sys.argv[1], debug='terminal')
+    debug = 'terminal' if sys.argv[3] is None else True
+
+    controller = MCS.create_controller(sys.argv[1], debug=debug)
 
     config_file_path = sys.argv[2]
     config_file_name = config_file_path[config_file_path.rfind('/'):]

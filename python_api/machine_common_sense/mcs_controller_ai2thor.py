@@ -86,7 +86,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         self.__current_scene = config_data
         self.__step_number = 0
 
-        if config_data['name'] is not None:
+        if self.__debug_to_file and config_data['name'] is not None:
             os.makedirs('./' + config_data['name'], exist_ok=True)
             self.__output_folder = './' + config_data['name'] + '/'
             file_list = glob.glob(self.__output_folder + '*')
@@ -143,9 +143,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     def step(self, action, **kwargs):
         super().step(action, **kwargs)
 
-        # convert action name for ai2thor if needed
-        if action == MCS_Action.DROP_OBJECT.value:
-            action = "DropHandObject"
+        if not action in self.ACTION_LIST:
+            print("MCS Warning: The given action '" + action + "' is not valid. Exchanging it with the 'Pass' action.")
+            action = "Pass"
 
         self.__step_number += 1
 
@@ -154,9 +154,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             print("STEP: " + str(self.__step_number))
             print("ACTION: " + action)
 
-        if not action in self.ACTION_LIST:
-            print("MCS Warning: The given action '" + action + "' is not valid. Exchanging it with the 'Pass' action.")
-            action = "Pass"
+        # convert action name for ai2thor if needed
+        if action == MCS_Action.DROP_OBJECT.value:
+            action = "DropHandObject"
 
         params = self.validate_and_convert_params(**kwargs)
 
