@@ -1,5 +1,13 @@
 # MCS Python Library: API
 
+- [Python Class: MCS](#MCS)
+- [Python Class: MCS_Controller](#MCS_Controller)
+- [Python Class: MCS_Goal](#MCS_Goal)
+- [Python Class: MCS_Object](#MCS_Object)
+- [Python Class: MCS_Step_Output](#MCS_Step_Output)
+- [Actions](#Actions)
+- [Future Actions (Not Yet Supported)](#Future-Actions)
+
 ## MCS
 
 ### static create_controller(unity_app_file_path)
@@ -9,7 +17,7 @@ Creates and returns an MCS Controller object using the Unity application at the 
 #### Parameters
 
 - unity_app_file_path : string\
-The file path to the MCS Unity application.  The TA2 team will give you this application.
+The file path to the MCS Unity application. The TA2 team will give you this application.
 
 #### Returns
 
@@ -23,7 +31,7 @@ Reads and returns the data from the given JSON scene configuration file.
 #### Parameters
 
 - config_json_file_path : string\
-The file path to the MCS scene configuration JSON file.  The TA2 team will give you these files, or you can make them yourself (more details on how to do this are coming soon).
+The file path to the MCS scene configuration JSON file. The TA2 team will give you these files, or you can make them yourself (more details on how to do this are coming soon).
 
 #### Returns
 
@@ -39,10 +47,10 @@ Ends the current MCS scene.
 #### Parameters
 
 - classification : string, optional\
-Your selected classification for classification tasks.  Not required for non-classification tasks.
+Your selected classification for classification tasks. Not required for non-classification tasks.
 
 - confidence : float, optional\
-Your classification confidence (between 0 and 1) for classification tasks.  Not required for non-classification tasks.
+Your classification confidence (between 0 and 1) for classification tasks. Not required for non-classification tasks.
 
 ### start_scene(config_data)
 
@@ -91,7 +99,7 @@ The list of types associated with this goal, including the relevant MCS core dom
 
 ### metadata : dict
 
-The metadata specific to this goal.  More details coming soon.
+The metadata specific to this goal. More details coming soon.
 
 ## MCS_Object
 
@@ -105,7 +113,7 @@ The "r", "g", and "b" pixel values of this object in images from the MCS_Step_Ou
 
 ### direction : dict
 
-The normalized direction vector of "x", "y", and "z" degrees between your position and this object's.  Use "x" and "y" as "rotation" and "horizon" params (respectively) in a "RotateLook" action to face this object.
+The normalized direction vector of "x", "y", and "z" degrees between your position and this object's. Use "x" and "y" as "rotation" and "horizon" params (respectively) in a "RotateLook" action to face this object.
 
 ### distance : float
 
@@ -117,11 +125,11 @@ Whether you are holding this object.
 
 ### mass : float
 
-Haptic feedback.  The mass of this object.
+Haptic feedback. The mass of this object.
 
 ### material_list : list of strings
 
-Haptic feedback.  The material(s) of this object.  Possible materials: "Metal", "Wood", "Plastic", "Glass", "Ceramic", "Stone", "Fabric", "Rubber", "Food", "Paper", "Wax", "Soap", "Sponge", "Organic".
+Haptic feedback. The material(s) of this object. Possible materials: "Metal", "Wood", "Plastic", "Glass", "Ceramic", "Stone", "Fabric", "Rubber", "Food", "Paper", "Wax", "Soap", "Sponge", "Organic".
 
 ### point_list : list of dicts
 
@@ -135,23 +143,23 @@ Whether you can see this object in your camera viewport.
 
 ### action_list : list of strings
 
-The list of all actions (like "MoveAhead" or "PickupObject") that are available for the next step.  May be a subset of all possible actions.
+The list of all actions (like "MoveAhead" or "PickupObject") that are available for the next step. May be a subset of all possible actions.
 
 ### depth_mask_list : list of Pillow.Image objects
 
-The list of depth mask images from the scene after the last action and physics simulation were run.  This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a Pre-Interaction Phase.
+The list of depth mask images from the scene after the last action and physics simulation were run. This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a Pre-Interaction Phase.
 
 ### goal : MCS_Goal
 
-The goal for the whole scene.  Will be None in "Exploration" (a.k.a. "Free Play", or "Playroom") scenes.
+The goal for the whole scene. Will be None in "Exploration" (a.k.a. "Free Play", or "Playroom") scenes.
 
 ### head_tilt : float
 
-How far your head is tilted up/down in degrees (between 90 and -90).  Changed by setting the "horizon" parameter in a "RotateLook" action.
+How far your head is tilted up/down in degrees (between 90 and -90). Changed by setting the "horizon" parameter in a "RotateLook" action.
 
 ### image_list : list of Pillow.Image objects
 
-The list of images from the scene after the last action and physics simulation were run.  This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a Pre-Interaction Phase.
+The list of images from the scene after the last action and physics simulation were run. This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a Pre-Interaction Phase.
 
 ### object_list : list of MCS_Object objects
 
@@ -159,11 +167,11 @@ The list of metadata for all objects in the scene.
 
 ### object_mask_list : list of Pillow.Image objects
 
-The list of object mask images from the scene after the last action and physics simulation were run.  This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a Pre-Interaction Phase.
+The list of object mask images from the scene after the last action and physics simulation were run. This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a Pre-Interaction Phase.
 
 ### pose : string
 
-Your current pose.  Either "LIE", "CRAWL", "SQUAT", or "STAND".
+Your current pose. Either "LIE", "CRAWL", "SQUAT", or "STAND".
 
 ### return_status : string
 
@@ -244,7 +252,7 @@ Rotate your viewport left/right and/or up/down based on your current viewport.
 - rotation : float\
 Rotation degrees around the Y axis to change your look angle (left/right).
 - horizon : float\
-Rotation degrees around the X axis to change your look angle (up/down).  This affects your current "head tilt".
+Rotation degrees around the X axis to change your look angle (up/down). This affects your current "head tilt".
 
 #### Returns
 
@@ -254,18 +262,18 @@ If the rotation is not between [-360, 360] or the horizon is not between [-90, 9
 
 ### PickupObject
 
-Pickup a nearby object and hold it in your hand.  This action incorporates reaching out your hand in front of you, opening your fingers, and grabbing the object.
+Pickup a nearby object and hold it in your hand. This action incorporates reaching out your hand in front of you, opening your fingers, and grabbing the object.
 
 #### Parameters
 
 - objectId : string, optional\
-The "uuid" of the target object.  Required unless the "objectDirection" properties are given.
+The "uuid" of the target object. Required unless the "objectDirection" properties are given.
 - objectDirectionX : float, optional\
-The X of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The X of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionY : float, optional\
-The Y of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Y of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionZ : float, optional\
-The Z of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 
 #### Returns
 
@@ -290,21 +298,21 @@ Place an object you are holding into/onto a nearby receptacle object.
 #### Parameters
 
 - objectId : string, optional\
-The "uuid" of the held object.  Required unless the "objectDirection" properties are given.
+The "uuid" of the held object. Required unless the "objectDirection" properties are given.
 - objectDirectionX : float, optional\
-The X of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The X of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionY : float, optional\
-The Y of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Y of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionZ : float, optional\
-The Z of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - receptacleObjectId : string\
-The "uuid" of the target receptacle.  Required unless the "receptacleObjectDirection" properties are given.
+The "uuid" of the target receptacle. Required unless the "receptacleObjectDirection" properties are given.
 - receptacleObjectDirectionX : float, optional\
-The X of the directional vector pointing to the target receptacle based on your current viewport.  Can be used in place of the "receptacleObjectId" property.
+The X of the directional vector pointing to the target receptacle based on your current viewport. Can be used in place of the "receptacleObjectId" property.
 - receptacleObjectDirectionY : float, optional\
-The Y of the directional vector pointing to the target receptacle based on your current viewport.  Can be used in place of the "receptacleObjectId" property.
+The Y of the directional vector pointing to the target receptacle based on your current viewport. Can be used in place of the "receptacleObjectId" property.
 - receptacleObjectDirectionZ : float, optional\
-The Z of the directional vector pointing to the target receptacle based on your current viewport.  Can be used in place of the "receptacleObjectId" property.
+The Z of the directional vector pointing to the target receptacle based on your current viewport. Can be used in place of the "receptacleObjectId" property.
 
 #### Returns
 
@@ -329,13 +337,13 @@ Drop an object you are holding.
 #### Parameters
 
 - objectId : string, optional\
-The "uuid" of the held object.  Required unless the "objectDirection" properties are given.
+The "uuid" of the held object. Required unless the "objectDirection" properties are given.
 - objectDirectionX : float, optional\
-The X of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The X of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionY : float, optional\
-The Y of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Y of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionZ : float, optional\
-The Z of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 
 #### Returns
 
@@ -354,16 +362,16 @@ Throw an object you are holding.
 #### Parameters
 
 - objectId : string, optional\
-The "uuid" of the held object.  Required unless the "objectDirection" properties are given.
+The "uuid" of the held object. Required unless the "objectDirection" properties are given.
 - objectDirectionX : float, optional\
-The X of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The X of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionY : float, optional\
-The Y of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Y of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionZ : float, optional\
-The Z of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
-- (not yet supported) rotation : float\
+The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
+- (Not Yet Supported) rotation : float\
 Rotation degrees around the Y axis to throw the held object (left/right).
-- (not yet supported) horizon : float\
+- (Not Yet Supported) horizon : float\
 Rotation degrees around the X axis to throw the held object (up/down).
 - force : float\
 The amount of force, from 0 to 1, used to throw the held object.
@@ -387,16 +395,16 @@ Pull a nearby object.
 #### Parameters
 
 - objectId : string, optional\
-The "uuid" of the target object.  Required unless the "objectDirection" properties are given.
+The "uuid" of the target object. Required unless the "objectDirection" properties are given.
 - objectDirectionX : float, optional\
-The X of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The X of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionY : float, optional\
-The Y of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Y of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionZ : float, optional\
-The Z of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
-- (not yet supported) rotation : float\
+The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
+- (Not Yet Supported) rotation : float\
 Rotation degrees around the Y axis to pull the target object (left/right).
-- (not yet supported) horizon : float\
+- (Not Yet Supported) horizon : float\
 Rotation degrees around the X axis to pull the target object (up/down).
 - force : float\
 The amount of force, from 0 to 1, used to pull the target object.
@@ -422,16 +430,16 @@ Push a nearby object.
 #### Parameters
 
 - objectId : string, optional\
-The "uuid" of the target object.  Required unless the "objectDirection" properties are given.
+The "uuid" of the target object. Required unless the "objectDirection" properties are given.
 - objectDirectionX : float, optional\
-The X of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The X of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionY : float, optional\
-The Y of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Y of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionZ : float, optional\
-The Z of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
-- (not yet supported) rotation : float\
+The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
+- (Not Yet Supported) rotation : float\
 Rotation degrees around the Y axis to push the target object (left/right).
-- (not yet supported) horizon : float\
+- (Not Yet Supported) horizon : float\
 Rotation degrees around the X axis to push the target object (up/down).
 - force : float\
 The amount of force, from 0 to 1, used to push the target object.
@@ -457,13 +465,13 @@ Open a nearby object.
 #### Parameters
 
 - objectId : string, optional\
-The "uuid" of the target object.  Required unless the "objectDirection" properties are given.
+The "uuid" of the target object. Required unless the "objectDirection" properties are given.
 - objectDirectionX : float, optional\
-The X of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The X of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionY : float, optional\
-The Y of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Y of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionZ : float, optional\
-The Z of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - amount : float\
 The amount to open the object between 0 and 1 (where 0 is none and 1 is completely).
 
@@ -490,13 +498,13 @@ Close a nearby object.
 #### Parameters
 
 - objectId : string, optional\
-The "uuid" of the target object.  Required unless the "objectDirection" properties are given.
+The "uuid" of the target object. Required unless the "objectDirection" properties are given.
 - objectDirectionX : float, optional\
-The X of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The X of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionY : float, optional\
-The Y of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Y of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionZ : float, optional\
-The Z of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - amount : float\
 The amount to close the object between 0 and 1 (where 0 is none and 1 is completely).
 
@@ -524,7 +532,9 @@ Do nothing.
 
 - "SUCCESSFUL"
 
-## Future Actions (Not Yet Supported)
+## Future Actions
+
+(Not Yet Supported)
 
 ### LieDown
 
@@ -584,13 +594,13 @@ Rotate a held object.
 #### Parameters
 
 - objectId : string, optional\
-The "uuid" of the held object.  Required unless the "objectDirection" properties are given.
+The "uuid" of the held object. Required unless the "objectDirection" properties are given.
 - objectDirectionX : float, optional\
-The X of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The X of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionY : float, optional\
-The Y of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Y of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionZ : float, optional\
-The Z of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - rotationX : float\
 Rotation degrees around the X axis.
 - rotationY : float\
@@ -617,13 +627,13 @@ Rotate a nearby object.
 #### Parameters
 
 - objectId : string, optional\
-The "uuid" of the target object.  Required unless the "objectDirection" properties are given.
+The "uuid" of the target object. Required unless the "objectDirection" properties are given.
 - objectDirectionX : float, optional\
-The X of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The X of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionY : float, optional\
-The Y of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Y of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionZ : float, optional\
-The Z of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - rotationX : float\
 Rotation degrees around the X axis.
 - rotationY : float\
@@ -648,13 +658,13 @@ Rotate a held object.
 #### Parameters
 
 - objectId : string, optional\
-The "uuid" of the held object.  Required unless the "objectDirection" properties are given.
+The "uuid" of the held object. Required unless the "objectDirection" properties are given.
 - objectDirectionX : float, optional\
-The X of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The X of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionY : float, optional\
-The Y of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Y of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - objectDirectionZ : float, optional\
-The Z of the directional vector pointing to the target object based on your current viewport.  Can be used in place of the "objectId" property.
+The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - rotationX : float\
 Rotation degrees around the X axis.
 - rotationY : float\
