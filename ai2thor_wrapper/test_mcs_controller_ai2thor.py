@@ -67,7 +67,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "y": 0,
                         "z": 0
                     },
-                    "distance": 0,
+                    "distanceXZ": 0,
                     "isPickedUp": True,
                     "mass": 1,
                     "objectId": "testId1",
@@ -92,7 +92,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "y": -30,
                         "z": 0
                     },
-                    "distance": 1.1,
+                    "distanceXZ": 1.1,
                     "isPickedUp": False,
                     "mass": 12.34,
                     "objectId": "testId2",
@@ -150,7 +150,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "y": 8,
             "z": 9
         }])
-        self.assertEqual(actual[0].visible, False)
+        self.assertEqual(actual[0].visible, True)
 
         self.assertEqual(actual[1].uuid, "testId2")
         self.assertEqual(actual[1].color, {
@@ -270,7 +270,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "y": -30,
                         "z": 0
                     },
-                    "distance": 1.1,
+                    "distanceXZ": 1.1,
                     "isPickedUp": False,
                     "mass": 12.34,
                     "objectId": "testId",
