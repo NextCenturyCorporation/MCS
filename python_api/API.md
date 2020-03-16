@@ -190,7 +190,7 @@ Move yourself ahead based on your current viewport.
 #### Parameters
 
 - amount : float\
-Movement percentage between 0 (no distance) and 1 (maximum distance).
+Movement percentage between 0 (no distance) and 1 (maximum distance). Default: 0.5
 
 #### Returns
 
@@ -205,7 +205,7 @@ Move yourself to your right based on your current viewport.
 #### Parameters
 
 - amount : float\
-Movement percentage between 0 (no distance) and 1 (maximum distance).
+Movement percentage between 0 (no distance) and 1 (maximum distance). Default: 0.5
 
 #### Returns
 
@@ -220,7 +220,7 @@ Move yourself to your left based on your current viewport.
 #### Parameters
 
 - amount : float\
-Movement percentage between 0 (no distance) and 1 (maximum distance).
+Movement percentage between 0 (no distance) and 1 (maximum distance). Default: 0.5
 
 #### Returns
 
@@ -235,7 +235,7 @@ Move yourself back based on your current viewport.
 #### Parameters
 
 - amount : float\
-Movement percentage between 0 (no distance) and 1 (maximum distance).
+Movement percentage between 0 (no distance) and 1 (maximum distance). Default: 0.5
 
 #### Returns
 
@@ -258,7 +258,7 @@ Rotation degrees around the X axis to change your look angle (up/down). This aff
 
 - "SUCCESSFUL"
 - "SUCCESSFUL_WITH_INVALID_PARAMETERS"\
-If the rotation is not between [-360, 360] or the horizon is not between [-90, 90], 0 will be used in place of each invalid parameter.
+If the rotation is not between [-360, 360] or the horizon is not between [-180, 180], 0 will be used in place of each invalid parameter.
 
 ### PickupObject
 
@@ -374,13 +374,13 @@ Rotation degrees around the Y axis to throw the held object (left/right).
 - (Not Yet Supported) horizon : float\
 Rotation degrees around the X axis to throw the held object (up/down).
 - force : float\
-The amount of force, from 0 to 1, used to throw the held object.
+The amount of force, from 0 to 1, used to throw the held object. Default: 0.5
 
 #### Returns
 
 - "SUCCESSFUL"
 - "SUCCESSFUL_WITH_INVALID_PARAMETERS"\
-If the rotation is not between [-360, 360] or the horizon is not between [-90, 90], 0 will be used in place of each invalid parameter.
+If the rotation is not between [-360, 360] or the horizon is not between [-180, 180], 0 will be used in place of each invalid parameter.
 - "NOT_HELD"\
 If you cannot drop the object because you are not holding it.
 - "NOT_INTERACTABLE"\
@@ -407,13 +407,13 @@ Rotation degrees around the Y axis to pull the target object (left/right).
 - (Not Yet Supported) horizon : float\
 Rotation degrees around the X axis to pull the target object (up/down).
 - force : float\
-The amount of force, from 0 to 1, used to pull the target object.
+The amount of force, from 0 to 1, used to pull the target object. Default: 0.5
 
 #### Returns
 
 - "SUCCESSFUL"
 - "SUCCESSFUL_WITH_INVALID_PARAMETERS"\
-If the rotation is not between [-360, 360] or the horizon is not between [-90, 90], 0 will be used in place of each invalid parameter.
+If the rotation is not between [-360, 360] or the horizon is not between [-180, 180], 0 will be used in place of each invalid parameter.
 - "NOT_INTERACTABLE"\
 If the object corresponding to the "objectDirection" vector is not an interactable object.
 - "NOT_OBJECT"\
@@ -442,13 +442,13 @@ Rotation degrees around the Y axis to push the target object (left/right).
 - (Not Yet Supported) horizon : float\
 Rotation degrees around the X axis to push the target object (up/down).
 - force : float\
-The amount of force, from 0 to 1, used to push the target object.
+The amount of force, from 0 to 1, used to push the target object. Default: 0.5
 
 #### Returns
 
 - "SUCCESSFUL"
 - "SUCCESSFUL_WITH_INVALID_PARAMETERS"\
-If the rotation is not between [-360, 360] or the horizon is not between [-90, 90], 0 will be used in place of each invalid parameter.
+If the rotation is not between [-360, 360] or the horizon is not between [-180, 180], 0 will be used in place of each invalid parameter.
 - "NOT_INTERACTABLE"\
 If the object corresponding to the "objectDirection" vector is not an interactable object.
 - "NOT_OBJECT"\
@@ -473,7 +473,7 @@ The Y of the directional vector pointing to the target object based on your curr
 - objectDirectionZ : float, optional\
 The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - amount : float\
-The amount to open the object between 0 (no change) and 1 (completely opened).
+The amount to open the object between 0 (no change) and 1 (completely opened). Default: 0.5
 
 #### Returns
 
@@ -506,7 +506,7 @@ The Y of the directional vector pointing to the target object based on your curr
 - objectDirectionZ : float, optional\
 The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
 - amount : float\
-The amount to close the object between 0 (no change) and 1 (completely closed).
+The amount to close the object between 0 (no change) and 1 (completely closed). Default: 0.5
 
 #### Returns
 
