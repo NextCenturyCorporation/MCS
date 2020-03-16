@@ -134,6 +134,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         return dict(
             objectId=kwargs.get("objectId", None),
+            receptacleObjectId=kwargs.get("receptacleObjectId", None),
             rotation=rotation_vector,
             horizon=horizon
         )
