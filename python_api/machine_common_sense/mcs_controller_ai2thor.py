@@ -155,8 +155,14 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             print("ACTION: " + action)
 
         # convert action name for ai2thor if needed
+        if action == MCS_Action.CLOSE_OBJECT.value:
+            # The AI2-THOR Python library has buggy error checking specifically for CloseObject function, so call our own function here.
+            action = "MCSCloseObject"
         if action == MCS_Action.DROP_OBJECT.value:
             action = "DropHandObject"
+        if action == MCS_Action.OPEN_OBJECT.value:
+            # The AI2-THOR Python library has buggy error checking for OpenObject, so call our own function here.
+            action = "MCSOpenObject"
 
         params = self.validate_and_convert_params(**kwargs)
 
