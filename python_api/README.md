@@ -14,6 +14,8 @@ TODO
 
 ## Import
 
+Code Example:
+
 ```python
 from machine_common_sense import MCS
 
@@ -38,7 +40,7 @@ while action != '':
 # For interaction-based goals, your series of selected actions will be scored.
 # For observation-based goals, you will pass a classification and a confidence
 # to the end_scene function here.
-controller.end_scene()# Either load the config data dict from an MCS config JSON file or create your own.
+controller.end_scene()
 ```
 
 ## Run with Human Input
