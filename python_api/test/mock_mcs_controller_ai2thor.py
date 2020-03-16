@@ -1,5 +1,5 @@
-from mcs_controller_ai2thor import MCS_Controller_AI2THOR
-from mcs_step_output import MCS_Step_Output
+from machine_common_sense.mcs_controller_ai2thor import MCS_Controller_AI2THOR
+from machine_common_sense.mcs_step_output import MCS_Step_Output
 
 class Mock_AI2THOR_Controller():
     def __init__(self):

@@ -3,13 +3,13 @@ from PIL import Image
 from types import SimpleNamespace
 import unittest
 
-from mcs_action import MCS_Action
-from mcs_goal import MCS_Goal
-from mcs_object import MCS_Object
-from mcs_pose import MCS_Pose
-from mcs_return_status import MCS_Return_Status
-from mcs_step_output import MCS_Step_Output
-from mock_mcs_controller_ai2thor import Mock_MCS_Controller_AI2THOR
+from machine_common_sense.mcs_action import MCS_Action
+from machine_common_sense.mcs_goal import MCS_Goal
+from machine_common_sense.mcs_object import MCS_Object
+from machine_common_sense.mcs_pose import MCS_Pose
+from machine_common_sense.mcs_return_status import MCS_Return_Status
+from machine_common_sense.mcs_step_output import MCS_Step_Output
+from .mock_mcs_controller_ai2thor import Mock_MCS_Controller_AI2THOR
 
 class Test_MCS_Controller_AI2THOR(unittest.TestCase):
 

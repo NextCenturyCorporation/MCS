@@ -1,6 +1,6 @@
 import unittest
 
-from mcs import MCS
+from machine_common_sense.mcs import MCS
 
 class Test_MCS(unittest.TestCase):
 
@@ -9,7 +9,7 @@ class Test_MCS(unittest.TestCase):
         pass
 
     def test_load_config_file_json(self):
-        actual, status = MCS.load_config_json_file("test_scene.json")
+        actual, status = MCS.load_config_json_file("test/test_scene.json")
         expected = {
             "ceilingMaterial": "Walls/WallDrywallWhite",
             "floorMaterial": "Fabrics/RUG4",
@@ -47,12 +47,12 @@ class Test_MCS(unittest.TestCase):
         self.assertEqual(status, None)
 
     def test_load_config_file_json_is_invalid(self):
-        actual, status = MCS.load_config_json_file("test_scene_invalid.json")
+        actual, status = MCS.load_config_json_file("test/test_scene_invalid.json")
         self.assertEqual(actual, {})
-        self.assertEqual(status, "The given file 'test_scene_invalid.json' does not contain valid JSON.")
+        self.assertEqual(status, "The given file 'test/test_scene_invalid.json' does not contain valid JSON.")
 
     def test_load_config_file_json_is_missing(self):
-        actual, status = MCS.load_config_json_file("test_scene_missing.json")
+        actual, status = MCS.load_config_json_file("test/test_scene_missing.json")
         self.assertEqual(actual, {})
-        self.assertEqual(status, "The given file 'test_scene_missing.json' cannot be found.")
+        self.assertEqual(status, "The given file 'test/test_scene_missing.json' cannot be found.")
 

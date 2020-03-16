@@ -1,7 +1,7 @@
 import unittest
 
-from mcs_object import MCS_Object
-from mcs_util import MCS_Util
+from machine_common_sense.mcs_object import MCS_Object
+from machine_common_sense.mcs_util import MCS_Util
 
 class My_Emptyclass:
 
