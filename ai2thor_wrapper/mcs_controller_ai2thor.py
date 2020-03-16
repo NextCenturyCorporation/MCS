@@ -30,18 +30,40 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     # How far the player can move with a single step.
     MAX_MOVE_DISTANCE = 0.5
 
+    # The amount of force to offset force values, that seems appropriate for a baby
+    # TODO Check with psych team about this about what we should use for a baby, defaulting to .25 now
+    MAX_BABY_FORCE = 0.25
+
     # How far the player can reach.  I think this value needs to be bigger than the MAX_MOVE_DISTANCE or else the
     # player may not be able to move into a position to reach some objects (it may be mathematically impossible).
     # TODO Reduce this number once the player can crouch down to reach and pickup small objects on the floor.
     MAX_REACH_DISTANCE = 1.0
+
+    DEFAULT_HORIZON= 0
+    DEFAULT_ROTATION = 0
+    DEFAULT_FORCE = 0.5
+    DEFAULT_AMOUNT = 0.5
 
     MAX_ROTATION = 360
     MIN_ROTATION = -360
     MAX_HORIZON = 90
     MIN_HORIZON = -90
 
+    MAX_FORCE = 1
+    MIN_FORCE = 0
+    MAX_AMOUNT = 1
+    MIN_AMOUNT = 0
+
     ROTATION_KEY = 'rotation'
     HORIZON_KEY = 'horizon'
+    FORCE_KEY = 'froce'
+    AMOUNT_KEY = 'amount'
+
+    # Hard coding actions that effect MoveMagnitude so the appropriate value is set based off of the action
+    # TODO: Move this to an enum or some place, so that you can determine special move interactions that way
+    FORCE_ACTIONS = ["ThrowObject", "PushObject", "PullObject"]
+    OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
+    MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
     def __init__(self, unity_app_file_path, debug=False):
         super().__init__()
@@ -97,12 +119,25 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     """
     Check if value is a number.
     """
-    def is_number(self, value):
+    def is_number(self, value, name):
         try:
             float(value)
         except ValueError:
+            print('Value of ' + name + 'needs to be a number. Will be set to 0.')
             return False
         return True
+
+    """
+    Check if value is a between correct range.
+    """
+    def is_in_range(self, value, minVal, maxVal, default, name):
+        if value > maxVal or value < minVal:
+            print('Value of ' + name + 'needs to be between ' + str(minVal) + \
+                ' and ' + str(maxVal) + '. Current value: ' + str(value)+ \
+                '. Will be reset to ' + str(default) + '.')
+            return default
+        else:
+            return value
 
     # TODO: may need to reevaluate validation strategy/error handling in the future
     """
@@ -110,23 +145,38 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     to keep parameters more simple for the user (in this case, wrapping
     rotation degrees into an object)
     """
-    def validate_and_convert_params(self, **kwargs):
-        rotation = kwargs.get(self.ROTATION_KEY, 0)
-        horizon = kwargs.get(self.HORIZON_KEY, 0)
+    def validate_and_convert_params(self, action, **kwargs):
+        moveMagnitude = self.MAX_MOVE_DISTANCE
+        rotation = kwargs.get(self.ROTATION_KEY, self.DEFAULT_HORIZON)
+        horizon = kwargs.get(self.HORIZON_KEY, self.DEFAULT_HORIZON)
+        amount = kwargs.get(self.AMOUNT_KEY, self.DEFAULT_AMOUNT)
+        force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
 
-        if self.is_number(rotation) == False:
-           print('Value of rotation needs to be a number. Will be set to 0.')
-           rotation = 0
+        if self.is_number(rotation, "rotation") == False:
+            rotation = self.DEFAULT_HORIZON_ROTATION
 
-        if self.is_number(horizon) == False:
-           print('Value of horizon needs to be a number. Will be set to 0.')
-           horizon = 0
+        if self.is_number(horizon, "horizon") == False:
+            horizon = self.DEFAULT_HORIZON_ROTATION
 
-        if horizon > self.MAX_HORIZON or horizon < self.MIN_HORIZON:
-            print('Value of horizon needs to be between ' + str(self.MIN_HORIZON) + \
-                ' and ' + str(self.MAX_HORIZON) + '. Current value: ' + str(horizon)+ \
-                '. Will be reset to 0.')
-            horizon = 0
+        if self.is_number(amount, "amount") == False:
+            amount = self.DEFAULT_FORCE_AMOUNT
+        
+        if self.is_number(force, "force") == False:
+            force = self.DEFAULT_FORCE_AMOUNT
+
+        horizon = self.is_in_range(horizon, self.MIN_HORIZON, self.MAX_HORIZON, self.DEFAULT_HORIZON, "horizon")
+        amount = self.is_in_range(amount, self.MIN_AMOUNT, self.MAX_AMOUNT, self.DEFAULT_AMOUNT, "amount")
+        force = self.is_in_range(force, self.MIN_FORCE, self.MAX_FORCE, self.DEFAULT_FORCE, "force")
+
+        # Set the Move Magnitude to the appropriate amount based on the action
+        if action in self.FORCE_ACTIONS:
+            moveMagnitude = force * self.MAX_BABY_FORCE
+
+        if action in self.OBJECT_MOVE_ACTIONS:
+            moveMagnitude = amount
+
+        if action in self.MOVE_ACTIONS:
+            moveMagnitude = amount * self.MAX_MOVE_DISTANCE
 
         rotation_vector = {}
         rotation_vector['y'] = rotation
@@ -134,7 +184,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         return dict(
             objectId=kwargs.get("objectId", None),
             rotation=rotation_vector,
-            horizon=horizon
+            horizon=horizon,
+            moveMagnitude=moveMagnitude
         )
 
     # Override
@@ -158,7 +209,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             print("MCS Warning: The given action '" + action + "' is not valid. Exchanging it with the 'Pass' action.")
             action = "Pass"
 
-        params = self.validate_and_convert_params(**kwargs)
+        params = self.validate_and_convert_params(action, **kwargs)
 
         return self.wrap_output(self.__controller.step(self.wrap_step(action=action, **params)))
 
@@ -269,7 +320,6 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             continuous=True,
             gridSize=self.GRID_SIZE,
             logs=True,
-            moveMagnitude=self.MAX_MOVE_DISTANCE,
             # renderClassImage=True,
             renderDepthImage=True,
             renderObjectImage=True,
