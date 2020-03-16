@@ -145,6 +145,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         # convert action name for ai2thor if needed
         if action == MCS_Action.DROP_OBJECT.value:
             action = "DropHandObject"
+        if action == MCS_Action.ROTATE_OBJECT_IN_HAND.value:
+            action = "RotateHand"
 
         self.__step_number += 1
 
