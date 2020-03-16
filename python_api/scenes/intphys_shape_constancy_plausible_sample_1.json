@@ -1,8 +1,8 @@
 ﻿{
     "name": "intphys_shape_constancy_plausible_sample_1",
-    "ceilingMaterial": "AI2-THOR/Walls/Drywall",
-    "floorMaterial": "AI2-THOR/Fabrics/CarpetDark",
-    "wallMaterial": "AI2-THOR/Walls/EggshellDrywall",
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetDark",
+    "wallMaterial": "AI2-THOR/Materials/Walls/EggshellDrywall",
     "performerStart": {
         "position": {
             "z": -1
@@ -21,7 +21,7 @@
         "id": "ball_a",
         "type": "sphere",
         "mass": 0.25,
-        "materialFile": "AI2-THOR/Plastics/GreenPlastic",
+        "materialFile": "AI2-THOR/Materials/Plastics/GreenPlastic",
         "pickupable": true,
         "salientMaterials": ["plastic"],
         "shows": [{
@@ -51,7 +51,7 @@
         "type": "cube",
         "kinematic": true,
         "mass": 100,
-        "materialFile": "AI2-THOR/Ceramics/RedBrick",
+        "materialFile": "AI2-THOR/Materials/Ceramics/RedBrick",
         "salientMaterials": ["ceramic"],
         "structure": true,
         "shows": [{

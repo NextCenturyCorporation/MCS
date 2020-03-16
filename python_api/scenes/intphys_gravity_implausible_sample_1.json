@@ -1,8 +1,8 @@
 ﻿{
     "name": "intphys_gravity_implausible_sample_1",
-    "ceilingMaterial": "AI2-THOR/Walls/Drywall",
-    "floorMaterial": "AI2-THOR/Fabrics/Carpet4",
-    "wallMaterial": "AI2-THOR/Walls/DrywallOrange",
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/Carpet4",
+    "wallMaterial": "AI2-THOR/Materials/Walls/DrywallOrange",
     "performerStart": {
         "position": {
             "z": -1
@@ -21,7 +21,7 @@
         "id": "ball_a",
         "type": "sphere",
         "mass": 0.25,
-        "materialFile": "AI2-THOR/Plastics/YellowPlastic2",
+        "materialFile": "AI2-THOR/Materials/Plastics/YellowPlastic2",
         "pickupable": true,
         "salientMaterials": ["plastic"],
         "shows": [{
