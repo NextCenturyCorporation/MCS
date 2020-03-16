@@ -1,5 +1,6 @@
 import json
-from mcs_python_api.mcs_controller_ai2thor import MCS_Controller_AI2THOR
+
+from machine_common_sense.mcs_controller_ai2thor import MCS_Controller_AI2THOR
 
 class MCS:
     """

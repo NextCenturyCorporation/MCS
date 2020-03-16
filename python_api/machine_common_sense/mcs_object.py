@@ -1,5 +1,5 @@
-from mcs_python_api.mcs_material import MCS_Material
-from mcs_python_api.mcs_util import MCS_Util
+from machine_common_sense.mcs_material import MCS_Material
+from machine_common_sense.mcs_util import MCS_Util
 
 class MCS_Object:
     """

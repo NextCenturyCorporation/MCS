@@ -1,4 +1,4 @@
-from mcs_python_api.mcs_step_output import MCS_Step_Output
+from machine_common_sense.mcs_step_output import MCS_Step_Output
 
 class MCS_Controller:
     """
