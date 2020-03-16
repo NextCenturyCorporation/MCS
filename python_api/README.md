@@ -57,3 +57,7 @@ mcs_run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file>
 
 [scenes/README.md](./scenes/README.md)
 
+## Development README
+
+[machine_common_sense/README.md](./machine_common_sense/README.md)
+
