@@ -44,6 +44,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     DEFAULT_FORCE = 0.5
     DEFAULT_AMOUNT = 0.5
     DEFAULT_DIRECTION = 0
+    DEFAULT_OBJECT_MOVE_AMOUNT = 1
 
     MAX_ROTATION = 360
     MIN_ROTATION = -360
@@ -154,7 +155,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     """
     def validate_and_convert_params(self, action, **kwargs):
         moveMagnitude = self.MAX_MOVE_DISTANCE
-        rotation = kwargs.get(self.ROTATION_KEY, self.DEFAULT_HORIZON)
+        rotation = kwargs.get(self.ROTATION_KEY, self.DEFAULT_ROTATION)
         horizon = kwargs.get(self.HORIZON_KEY, self.DEFAULT_HORIZON)
         amount = kwargs.get(self.AMOUNT_KEY, self.DEFAULT_AMOUNT)
         force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
@@ -167,36 +168,40 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         receptacleObjectDirectionZ = kwargs.get(self.RECEPTACLE_DIRECTION_Z, self.DEFAULT_DIRECTION)
 
         # Check params that should be numbers
-        if self.is_number(rotation, self.ROTATION_KEY) == False:
+        if not self.is_number(rotation, self.ROTATION_KEY):
             rotation = self.DEFAULT_ROTATION
 
-        if self.is_number(horizon, self.HORIZON_KEY) == False:
+        if not self.is_number(horizon, self.HORIZON_KEY):
             horizon = self.DEFAULT_HORIZON
 
-        if self.is_number(amount, self.AMOUNT_KEY) == False:
-            amount = self.DEFAULT_AMOUNT
+        if not self.is_number(amount, self.AMOUNT_KEY):
+            # The default for open/close is 1, the default for "Move" actions is 0.5
+            if action in self.OBJECT_MOVE_ACTIONS:
+                amount = self.DEFAULT_OBJECT_MOVE_AMOUNT
+            else:
+                amount = self.DEFAULT_AMOUNT
         
-        if self.is_number(force, self.FORCE_KEY) == False:
+        if not self.is_number(force, self.FORCE_KEY):
             force = self.DEFAULT_FORCE
 
         # Check object directions are numbers
-        if self.is_number(objectDirectionX, self.OBJECT_DIRECTION_X_KEY) == False:
+        if not self.is_number(objectDirectionX, self.OBJECT_DIRECTION_X_KEY):
             objectDirectionX = self.DEFAULT_DIRECTION
         
-        if self.is_number(objectDirectionY, self.OBJECT_DIRECTION_Y_KEY) == False:
+        if not self.is_number(objectDirectionY, self.OBJECT_DIRECTION_Y_KEY):
             objectDirectionY = self.DEFAULT_DIRECTION
 
-        if self.is_number(objectDirectionZ, self.OBJECT_DIRECTION_Z_KEY) == False:
+        if not self.is_number(objectDirectionZ, self.OBJECT_DIRECTION_Z_KEY):
             objectDirectionZ = self.DEFAULT_DIRECTION
 
         # Check receptacle directions are numbers
-        if self.is_number(receptacleObjectDirectionX, self.RECEPTACLE_DIRECTION_X) == False:
+        if not self.is_number(receptacleObjectDirectionX, self.RECEPTACLE_DIRECTION_X):
             receptacleObjectDirectionX = self.DEFAULT_DIRECTION
 
-        if self.is_number(receptacleObjectDirectionY, self.RECEPTACLE_DIRECTION_Y) == False:
+        if not self.is_number(receptacleObjectDirectionY, self.RECEPTACLE_DIRECTION_Y):
             receptacleObjectDirectionY = self.DEFAULT_DIRECTION
 
-        if self.is_number(receptacleObjectDirectionZ, self.RECEPTACLE_DIRECTION_Z) == False:
+        if not self.is_number(receptacleObjectDirectionZ, self.RECEPTACLE_DIRECTION_Z):
             receptacleObjectDirectionZ = self.DEFAULT_DIRECTION
 
         # Check that params that should fall in a range are in that range
@@ -217,18 +222,24 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         rotation_vector = {}
         rotation_vector['y'] = rotation
 
+        object_vector = {}
+        object_vector['x'] = objectDirectionX
+        object_vector['y'] = objectDirectionY
+        object_vector['z'] = objectDirectionZ
+
+        receptacle_vector = {}
+        receptacle_vector['x'] = receptacleObjectDirectionX
+        receptacle_vector['y'] = receptacleObjectDirectionY
+        receptacle_vector['z'] = receptacleObjectDirectionZ
+
         return dict(
             objectId=kwargs.get("objectId", None),
             receptacleObjectId=kwargs.get("receptacleObjectId", None),
             rotation=rotation_vector,
             horizon=horizon,
             moveMagnitude=moveMagnitude,
-            objectDirectionX=objectDirectionX,
-            objectDirectionY=objectDirectionY,
-            objectDirectionZ=objectDirectionZ,
-            receptacleObjectDirectionX=receptacleObjectDirectionX,
-            receptacleObjectDirectionY=receptacleObjectDirectionY,
-            receptacleObjectDirectionZ=receptacleObjectDirectionZ
+            objectDirection=object_vector,
+            receptacleObjectDirection=receptacle_vector
         )
 
     # Override
