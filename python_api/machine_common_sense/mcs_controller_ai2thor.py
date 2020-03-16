@@ -66,7 +66,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         self.on_init(debug)
 
     def on_init(self, debug=False):
-        self.__debug = debug
+        self.__debug_to_file = True if (debug is True or debug is 'file') else False
+        self.__debug_to_terminal = True if (debug is True or debug is 'terminal') else False
 
         self.__current_scene = None
         self.__output_folder = None # Save output image files to debug
@@ -147,7 +148,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         self.__step_number += 1
 
-        if self.__debug:
+        if self.__debug_to_terminal:
             print("===============================================================================")
             print("STEP: " + str(self.__step_number))
             print("ACTION: " + action)
@@ -219,7 +220,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         # class_mask = Image.fromarray(scene_event.class_segmentation_frame)
         object_mask = Image.fromarray(scene_event.instance_segmentation_frame)
 
-        if self.__debug and self.__output_folder is not None:
+        if self.__debug_to_file and self.__output_folder is not None:
             scene_image.save(fp=self.__output_folder + 'frame_image_' + str(self.__step_number) + '.png')
             depth_mask.save(fp=self.__output_folder + 'depth_mask_' + str(self.__step_number) + '.png')
             # class_mask.save(fp=self.__output_folder + 'class_mask_' + str(self.__step_number) + '.png')
@@ -228,7 +229,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         return scene_image, depth_mask, object_mask
 
     def wrap_output(self, scene_event):
-        if self.__debug and self.__output_folder is not None:
+        if self.__debug_to_file and self.__output_folder is not None:
             with open(self.__output_folder + 'ai2thor_step_output_' + str(self.__step_number) + '.json', 'w') as json_file:
                 json.dump({
                     "metadata": scene_event.metadata
@@ -249,13 +250,13 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             step_number=self.__step_number
         )
 
-        if self.__debug:
+        if self.__debug_to_terminal:
             print("RETURN STATUS: " + step_output.return_status)
             print("OBJECTS (" + str(len(step_output.object_list)) + " TOTAL):")
             for line in MCS_Util.generate_pretty_object_output(step_output.object_list):
                 print("    " + line)
 
-        if self.__debug and self.__output_folder is not None:
+        if self.__debug_to_file and self.__output_folder is not None:
             with open(self.__output_folder + 'mcs_step_output_' + str(self.__step_number) + '.json', 'w') as json_file:
                 json_file.write(str(step_output))
 
@@ -276,7 +277,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             **kwargs
         )
 
-        if self.__debug and self.__output_folder is not None:
+        if self.__debug_to_file and self.__output_folder is not None:
             with open(self.__output_folder + 'ai2thor_step_input_' + str(self.__step_number) + '.json', 'w') as json_file:
                 json.dump(step_data, json_file, sort_keys=True, indent=4)
 

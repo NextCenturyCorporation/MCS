@@ -1,8 +1,8 @@
 import sys
-from mcs import MCS
+from machine_common_sense.mcs import MCS
 
 if len(sys.argv) < 2:
-    print('Usage: python run_intphys_samples.py <mcs_unity_build_file>')
+    print('Usage: python run_mcs_intphys_samples.py <mcs_unity_build_file>')
     sys.exit()
 
 def run_scene(file_name):
@@ -31,12 +31,12 @@ def run_scene(file_name):
 if __name__ == "__main__":
     controller = MCS.create_controller(sys.argv[1], debug=True)
 
-    run_scene('scenes/intphys_gravity_plausible_sample_1.json')
-    run_scene('scenes/intphys_gravity_implausible_sample_1.json')
-    run_scene('scenes/intphys_object_permanence_plausible_sample_1.json')
-    run_scene('scenes/intphys_object_permanence_implausible_sample_1.json')
-    run_scene('scenes/intphys_shape_constancy_plausible_sample_1.json')
-    run_scene('scenes/intphys_shape_constancy_implausible_sample_1.json')
-    run_scene('scenes/intphys_spatial_temporal_continuity_plausible_sample_1.json')
-    run_scene('scenes/intphys_spatial_temporal_continuity_implausible_sample_1.json')
+    run_scene('./scenes/intphys_gravity_plausible_sample_1.json')
+    run_scene('./scenes/intphys_gravity_implausible_sample_1.json')
+    run_scene('./scenes/intphys_object_permanence_plausible_sample_1.json')
+    run_scene('./scenes/intphys_object_permanence_implausible_sample_1.json')
+    run_scene('./scenes/intphys_shape_constancy_plausible_sample_1.json')
+    run_scene('./scenes/intphys_shape_constancy_implausible_sample_1.json')
+    run_scene('./scenes/intphys_spatial_temporal_continuity_plausible_sample_1.json')
+    run_scene('./scenes/intphys_spatial_temporal_continuity_implausible_sample_1.json')
 

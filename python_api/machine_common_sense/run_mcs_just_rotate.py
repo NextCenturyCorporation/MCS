@@ -1,8 +1,8 @@
 import sys
-from mcs import MCS
+from machine_common_sense.mcs import MCS
 
 if len(sys.argv) < 3:
-    print('Usage: python run_spin_around_in_a_circle.py <mcs_unity_build_file> <mcs_config_json_file>')
+    print('Usage: python run_mcs_just_rotate.py <mcs_unity_build_file> <mcs_config_json_file>')
     sys.exit()
 
 if __name__ == "__main__":
