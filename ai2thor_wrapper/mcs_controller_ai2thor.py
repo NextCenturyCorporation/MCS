@@ -30,18 +30,48 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     # How far the player can move with a single step.
     MAX_MOVE_DISTANCE = 0.5
 
+    # The amount of force to offset force values, that seems appropriate for a baby
+    # TODO Check with psych team about this about what we should use for a baby, defaulting to .25 now
+    MAX_BABY_FORCE = 0.25
+
     # How far the player can reach.  I think this value needs to be bigger than the MAX_MOVE_DISTANCE or else the
     # player may not be able to move into a position to reach some objects (it may be mathematically impossible).
     # TODO Reduce this number once the player can crouch down to reach and pickup small objects on the floor.
     MAX_REACH_DISTANCE = 1.0
+
+    DEFAULT_HORIZON= 0
+    DEFAULT_ROTATION = 0
+    DEFAULT_FORCE = 0.5
+    DEFAULT_AMOUNT = 0.5
+    DEFAULT_DIRECTION = 0
+    DEFAULT_OBJECT_MOVE_AMOUNT = 1
 
     MAX_ROTATION = 360
     MIN_ROTATION = -360
     MAX_HORIZON = 90
     MIN_HORIZON = -90
 
+    MAX_FORCE = 1
+    MIN_FORCE = 0
+    MAX_AMOUNT = 1
+    MIN_AMOUNT = 0
+
     ROTATION_KEY = 'rotation'
     HORIZON_KEY = 'horizon'
+    FORCE_KEY = 'force'
+    AMOUNT_KEY = 'amount'
+    OBJECT_DIRECTION_X_KEY = 'objectDirectionX'
+    OBJECT_DIRECTION_Y_KEY = 'objectDirectionY'
+    OBJECT_DIRECTION_Z_KEY = 'objectDirectionZ'
+    RECEPTACLE_DIRECTION_X = 'receptacleObjectDirectionX'
+    RECEPTACLE_DIRECTION_Y = 'receptacleObjectDirectionY'
+    RECEPTACLE_DIRECTION_Z = 'receptacleObjectDirectionZ'
+
+    # Hard coding actions that effect MoveMagnitude so the appropriate value is set based off of the action
+    # TODO: Move this to an enum or some place, so that you can determine special move interactions that way
+    FORCE_ACTIONS = ["ThrowObject", "PushObject", "PullObject"]
+    OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
+    MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
     def __init__(self, unity_app_file_path, debug=False):
         super().__init__()
@@ -97,12 +127,25 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     """
     Check if value is a number.
     """
-    def is_number(self, value):
+    def is_number(self, value, name):
         try:
             float(value)
         except ValueError:
+            print('Value of ' + name + 'needs to be a number. Will be set to 0.')
             return False
         return True
+
+    """
+    Check if value is a between correct range.
+    """
+    def is_in_range(self, value, minVal, maxVal, default, name):
+        if value > maxVal or value < minVal:
+            print('Value of ' + name + 'needs to be between ' + str(minVal) + \
+                ' and ' + str(maxVal) + '. Current value: ' + str(value)+ \
+                '. Will be reset to ' + str(default) + '.')
+            return default
+        else:
+            return value
 
     # TODO: may need to reevaluate validation strategy/error handling in the future
     """
@@ -110,32 +153,93 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     to keep parameters more simple for the user (in this case, wrapping
     rotation degrees into an object)
     """
-    def validate_and_convert_params(self, **kwargs):
-        rotation = kwargs.get(self.ROTATION_KEY, 0)
-        horizon = kwargs.get(self.HORIZON_KEY, 0)
+    def validate_and_convert_params(self, action, **kwargs):
+        moveMagnitude = self.MAX_MOVE_DISTANCE
+        rotation = kwargs.get(self.ROTATION_KEY, self.DEFAULT_ROTATION)
+        horizon = kwargs.get(self.HORIZON_KEY, self.DEFAULT_HORIZON)
+        amount = kwargs.get(self.AMOUNT_KEY, self.DEFAULT_AMOUNT)
+        force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
 
-        if self.is_number(rotation) == False:
-           print('Value of rotation needs to be a number. Will be set to 0.')
-           rotation = 0
+        objectDirectionX = kwargs.get(self.OBJECT_DIRECTION_X_KEY, self.DEFAULT_DIRECTION)
+        objectDirectionY = kwargs.get(self.OBJECT_DIRECTION_Y_KEY, self.DEFAULT_DIRECTION)
+        objectDirectionZ = kwargs.get(self.OBJECT_DIRECTION_Z_KEY, self.DEFAULT_DIRECTION)
+        receptacleObjectDirectionX = kwargs.get(self.RECEPTACLE_DIRECTION_X, self.DEFAULT_DIRECTION)
+        receptacleObjectDirectionY = kwargs.get(self.RECEPTACLE_DIRECTION_Y, self.DEFAULT_DIRECTION)
+        receptacleObjectDirectionZ = kwargs.get(self.RECEPTACLE_DIRECTION_Z, self.DEFAULT_DIRECTION)
 
-        if self.is_number(horizon) == False:
-           print('Value of horizon needs to be a number. Will be set to 0.')
-           horizon = 0
+        # Check params that should be numbers
+        if not self.is_number(rotation, self.ROTATION_KEY):
+            rotation = self.DEFAULT_ROTATION
 
-        if horizon > self.MAX_HORIZON or horizon < self.MIN_HORIZON:
-            print('Value of horizon needs to be between ' + str(self.MIN_HORIZON) + \
-                ' and ' + str(self.MAX_HORIZON) + '. Current value: ' + str(horizon)+ \
-                '. Will be reset to 0.')
-            horizon = 0
+        if not self.is_number(horizon, self.HORIZON_KEY):
+            horizon = self.DEFAULT_HORIZON
+
+        if not self.is_number(amount, self.AMOUNT_KEY):
+            # The default for open/close is 1, the default for "Move" actions is 0.5
+            if action in self.OBJECT_MOVE_ACTIONS:
+                amount = self.DEFAULT_OBJECT_MOVE_AMOUNT
+            else:
+                amount = self.DEFAULT_AMOUNT
+        
+        if not self.is_number(force, self.FORCE_KEY):
+            force = self.DEFAULT_FORCE
+
+        # Check object directions are numbers
+        if not self.is_number(objectDirectionX, self.OBJECT_DIRECTION_X_KEY):
+            objectDirectionX = self.DEFAULT_DIRECTION
+        
+        if not self.is_number(objectDirectionY, self.OBJECT_DIRECTION_Y_KEY):
+            objectDirectionY = self.DEFAULT_DIRECTION
+
+        if not self.is_number(objectDirectionZ, self.OBJECT_DIRECTION_Z_KEY):
+            objectDirectionZ = self.DEFAULT_DIRECTION
+
+        # Check receptacle directions are numbers
+        if not self.is_number(receptacleObjectDirectionX, self.RECEPTACLE_DIRECTION_X):
+            receptacleObjectDirectionX = self.DEFAULT_DIRECTION
+
+        if not self.is_number(receptacleObjectDirectionY, self.RECEPTACLE_DIRECTION_Y):
+            receptacleObjectDirectionY = self.DEFAULT_DIRECTION
+
+        if not self.is_number(receptacleObjectDirectionZ, self.RECEPTACLE_DIRECTION_Z):
+            receptacleObjectDirectionZ = self.DEFAULT_DIRECTION
+
+        # Check that params that should fall in a range are in that range
+        horizon = self.is_in_range(horizon, self.MIN_HORIZON, self.MAX_HORIZON, self.DEFAULT_HORIZON, self.HORIZON_KEY)
+        amount = self.is_in_range(amount, self.MIN_AMOUNT, self.MAX_AMOUNT, self.DEFAULT_AMOUNT, self.AMOUNT_KEY)
+        force = self.is_in_range(force, self.MIN_FORCE, self.MAX_FORCE, self.DEFAULT_FORCE, self.FORCE_KEY)
+
+        # Set the Move Magnitude to the appropriate amount based on the action
+        if action in self.FORCE_ACTIONS:
+            moveMagnitude = force * self.MAX_BABY_FORCE
+
+        if action in self.OBJECT_MOVE_ACTIONS:
+            moveMagnitude = amount
+
+        if action in self.MOVE_ACTIONS:
+            moveMagnitude = amount * self.MAX_MOVE_DISTANCE
 
         rotation_vector = {}
         rotation_vector['y'] = rotation
+
+        object_vector = {}
+        object_vector['x'] = objectDirectionX
+        object_vector['y'] = objectDirectionY
+        object_vector['z'] = objectDirectionZ
+
+        receptacle_vector = {}
+        receptacle_vector['x'] = receptacleObjectDirectionX
+        receptacle_vector['y'] = receptacleObjectDirectionY
+        receptacle_vector['z'] = receptacleObjectDirectionZ
 
         return dict(
             objectId=kwargs.get("objectId", None),
             receptacleObjectId=kwargs.get("receptacleObjectId", None),
             rotation=rotation_vector,
-            horizon=horizon
+            horizon=horizon,
+            moveMagnitude=moveMagnitude,
+            objectDirection=object_vector,
+            receptacleObjectDirection=receptacle_vector
         )
 
     # Override
@@ -145,6 +249,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         # convert action name for ai2thor if needed
         if action == MCS_Action.DROP_OBJECT.value:
             action = "DropHandObject"
+        if action == MCS_Action.ROTATE_OBJECT_IN_HAND.value:
+            action = "RotateHand"
 
         self.__step_number += 1
 
@@ -157,7 +263,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             print("MCS Warning: The given action '" + action + "' is not valid. Exchanging it with the 'Pass' action.")
             action = "Pass"
 
-        params = self.validate_and_convert_params(**kwargs)
+        params = self.validate_and_convert_params(action, **kwargs)
 
         return self.wrap_output(self.__controller.step(self.wrap_step(action=action, **params)))
 
@@ -268,7 +374,6 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             continuous=True,
             gridSize=self.GRID_SIZE,
             logs=True,
-            moveMagnitude=self.MAX_MOVE_DISTANCE,
             # renderClassImage=True,
             renderDepthImage=True,
             renderObjectImage=True,
