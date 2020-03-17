@@ -1,8 +1,10 @@
 import sys
+
 from machine_common_sense.mcs import MCS
 from machine_common_sense.mcs_action import MCS_Action
-from machine_common_sense.mcs_action_keys import MCS_Action_Keys
 from machine_common_sense.mcs_action_api_desc import MCS_Action_API_DESC
+from machine_common_sense.mcs_action_keys import MCS_Action_Keys
+from machine_common_sense.mcs_util import MCS_Util
 
 # variables
 commandList = []
