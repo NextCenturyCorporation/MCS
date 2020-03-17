@@ -38,14 +38,6 @@ def print_commands():
     print(" ")
     print("------------------ End Commands ------------------")
 
-# Check to see if a string is a float before converting
-def isFloat(value):
-    try:
-        float(value)
-        return True
-    except ValueError:
-        return False
-
 # Execute Input Commands until the user exits the system
 def input_commands(controller): 
     print('Enter your command:')
@@ -71,33 +63,18 @@ def input_commands(controller):
     print('You entered command: ')
     print(*userInput)
 
-    # Check action is available, before executing and defaulting to a pass
-    try:
-        actionCheck = MCS_Action(userInput[0]).name
-    except:
+    action, params = MCS_Util.input_to_action_and_params(','.join(userInput))
+
+    if action is None:
         print("You entered an invalid command, please try again.  (Type 'help' to display commands again)")
         return input_commands(controller)
- 
-    # Run commands that have no parameters
-    if len(userInput) < 2:
-        output = controller.step(userInput[0])
-        return input_commands(controller)
-    else:
-        # Create Params List
-        try:
-            params = {}
-            for param in userInput[1:]:
-                paramKey, paramValue = param.split('=')
-                if isFloat(paramValue.strip()):
-                    params[paramKey.strip()] = float(paramValue.strip())
-                else: 
-                    params[paramKey.strip()] = paramValue.strip()
-        except:
-            print("ERROR: Parameters should be separated by commas, and look like this example: rotation=45")
-            return input_commands(controller)
 
-        output = controller.step(userInput[0], **params)
+    if params is None:
+        print("ERROR: Parameters should be separated by commas, and look like this example: rotation=45")
         return input_commands(controller)
+ 
+    output = controller.step(action, **params);
+    return input_commands(controller)
 
 # Run scene loaded in the config data
 def run_scene(controller, config_data):

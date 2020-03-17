@@ -1,4 +1,5 @@
 import sys
+
 from machine_common_sense.mcs import MCS
 
 if len(sys.argv) < 2:
@@ -26,7 +27,8 @@ def run_scene(file_name):
     output = controller.start_scene(config_data)
 
     for i in range(1, last_step + 1):
-        output = controller.step('Pass')
+        action = output.action_list[len(output.action_list) - 1]
+        output = controller.step(action, **params)
 
 if __name__ == "__main__":
     controller = MCS.create_controller(sys.argv[1], debug=True)

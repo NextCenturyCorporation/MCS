@@ -1,3 +1,4 @@
+from machine_common_sense.mcs_action import MCS_Action
 from machine_common_sense.mcs_material import MCS_Material
 
 class MCS_Util:
@@ -52,6 +53,102 @@ class MCS_Util:
                 MCS_Util.vector_to_string(metadata.direction)] for metadata in object_list]
         widths = [max(len(str(row[i])) for row in rows) for i in range(0, len(titles))]
         return [("  ".join(str(row[i]).ljust(widths[i]) for i in range(0, len(row)))) for row in rows]
+
+    """
+    Transforms the given input string into an action string and parameter dict.
+
+    Parameters
+    ----------
+    input_value : string
+        The input value.
+
+    Returns
+    -------
+    string
+        The action string, or None if the given input had an error transforming the action string.
+    dict
+        The parameter dict, or None if the given input had an error transforming parameters.
+    """
+    @staticmethod
+    def input_to_action_and_params(input_str):
+        input_split = input_str.split(',')
+        action = input_split[0]
+
+        try:
+            validate_action = MCS_Action(action).name
+        except:
+            return None, {}
+
+        if len(input_split) < 2:
+            return action, {}
+
+        params = {}
+
+        try:
+            for param in input_split[1:]:
+                paramKey, paramValue = param.split('=')
+                if MCS_Util.is_number(paramValue.strip()):
+                    params[paramKey.strip()] = float(paramValue.strip())
+                else:
+                    params[paramKey.strip()] = paramValue.strip()
+        except:
+            return action, None
+
+        return action, params
+
+    """
+    Returns if the given value is within the given min and max; if not, returns the given default.
+
+    Parameters
+    ----------
+    value : number
+        The input value.
+    min_value : number
+        The min value.
+    max_value : number
+        The max value.
+    default_value : number
+        The default value.
+    label : string
+        A label for the input value.  If given, and if the input value is not within the range, will print an error.
+
+    Returns
+    -------
+    number
+    """
+    @staticmethod
+    def is_in_range(value, min_value, max_value, default_value, label=None):
+        if value > max_value or value < min_value:
+            if label is not None:
+                print('Value of ' + label + 'needs to be between ' + str(min_value) + \
+                    ' and ' + str(max_value) + '. Current value: ' + str(value) + \
+                    '. Will be reset to ' + str(default_value) + '.')
+            return default_value
+        return value
+
+    """
+    Returns if the given value is a number.
+
+    Parameters
+    ----------
+    value :
+        The input value.
+    label : string
+        A label for the input value.  If given, and if the input value is not a number, will print an error.
+
+    Returns
+    -------
+    boolean
+    """
+    @staticmethod
+    def is_number(value, label=None):
+        try:
+            float(value)
+            return True
+        except ValueError:
+            if label is not None:
+                print('Value of ' + label + 'needs to be a number. Will be set to 0.')
+            return False
 
     """
     Transforms the given value into a string.

@@ -88,6 +88,62 @@ class Test_MCS_Util(unittest.TestCase):
             'really_long_id2  False  False    1234.5678  (10,20,30)'
         ])
 
+    def test_input_to_action_and_params(self):
+        self.assertEqual(MCS_Util.input_to_action_and_params('MoveBack'), ('MoveBack', {}))
+        self.assertEqual(MCS_Util.input_to_action_and_params('RotateLook,rotation=12.34'), ('RotateLook', {
+            'rotation': 12.34
+        }))
+        self.assertEqual(MCS_Util.input_to_action_and_params('PickupObject,objectId=testId'), ('PickupObject', {
+            'objectId': 'testId'
+        }))
+        self.assertEqual(MCS_Util.input_to_action_and_params('PushObject,objectId=testId,force=12.34'), ('PushObject', {
+            'objectId': 'testId',
+            'force': 12.34
+        }))
+        self.assertEqual(MCS_Util.input_to_action_and_params('Foobar'), (None, {}))
+        self.assertEqual(MCS_Util.input_to_action_and_params('MoveBack,key:value'), ('MoveBack', None))
+
+    def test_is_in_range(self):
+        self.assertEqual(MCS_Util.is_in_range(0, 0, 1, 1234), 0)
+        self.assertEqual(MCS_Util.is_in_range(0.5, 0, 1, 1234), 0.5)
+        self.assertEqual(MCS_Util.is_in_range(1, 0, 1, 1234), 1)
+
+        self.assertEqual(MCS_Util.is_in_range(-1, 0, 1, 1234), 1234)
+        self.assertEqual(MCS_Util.is_in_range(1.01, 0, 1, 1234), 1234)
+        self.assertEqual(MCS_Util.is_in_range(100, 0, 1, 1234), 1234)
+
+        self.assertEqual(MCS_Util.is_in_range(2, 2, 4, 1234), 2)
+        self.assertEqual(MCS_Util.is_in_range(2.1, 2, 4, 1234), 2.1)
+        self.assertEqual(MCS_Util.is_in_range(4, 2, 4, 1234), 4)
+
+        self.assertEqual(MCS_Util.is_in_range(1.9, 2, 4, 1234), 1234)
+        self.assertEqual(MCS_Util.is_in_range(-3, 2, 4, 1234), 1234)
+        self.assertEqual(MCS_Util.is_in_range(4.1, 2, 4, 1234), 1234)
+
+        self.assertEqual(MCS_Util.is_in_range(-2, -2, 2, 1234), -2)
+        self.assertEqual(MCS_Util.is_in_range(0, -2, 2, 1234), 0)
+        self.assertEqual(MCS_Util.is_in_range(2, -2, 2, 1234), 2)
+
+        self.assertEqual(MCS_Util.is_in_range(-2.1, -2, 2, 1234), 1234)
+        self.assertEqual(MCS_Util.is_in_range(2.1, -2, 2, 1234), 1234)
+        self.assertEqual(MCS_Util.is_in_range(200, -2, 2, 1234), 1234)
+
+        self.assertEqual(MCS_Util.is_in_range(-4, -4, -2, 1234), -4)
+        self.assertEqual(MCS_Util.is_in_range(-2.1, -4, -2, 1234), -2.1)
+        self.assertEqual(MCS_Util.is_in_range(-2, -4, -2, 1234), -2)
+
+        self.assertEqual(MCS_Util.is_in_range(-5, -4, -2, 1234), 1234)
+        self.assertEqual(MCS_Util.is_in_range(-1, -4, -2, 1234), 1234)
+        self.assertEqual(MCS_Util.is_in_range(3, -4, -2, 1234), 1234)
+
+    def test_is_number(self):
+        self.assertEqual(MCS_Util.is_number('0'), True)
+        self.assertEqual(MCS_Util.is_number('1'), True)
+        self.assertEqual(MCS_Util.is_number('12.34'), True)
+        self.assertEqual(MCS_Util.is_number('01'), True)
+        self.assertEqual(MCS_Util.is_number(''), False)
+        self.assertEqual(MCS_Util.is_number('asdf'), False)
+
     def test_value_to_str_with_boolean(self):
         self.assertEqual(MCS_Util.value_to_str(True), "True")
         self.assertEqual(MCS_Util.value_to_str(False), "False")

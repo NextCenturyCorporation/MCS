@@ -33,9 +33,63 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         # TODO MCS-15
         pass
 
+    def test_retrieve_action_list(self):
+        self.assertEqual(self.controller.retrieve_action_list(MCS_Goal(), 0), self.controller.ACTION_LIST)
+        self.assertEqual(self.controller.retrieve_action_list(MCS_Goal(action_list=[]), 0), \
+                self.controller.ACTION_LIST)
+        self.assertEqual(self.controller.retrieve_action_list(MCS_Goal(action_list=[[]]), 0), \
+                self.controller.ACTION_LIST)
+        self.assertEqual(self.controller.retrieve_action_list(MCS_Goal(action_list=[['MoveAhead',\
+                'RotateLook,rotation=180']]), 0), ['MoveAhead', 'RotateLook,rotation=180'])
+        self.assertEqual(self.controller.retrieve_action_list(MCS_Goal(action_list=[['MoveAhead',\
+                'RotateLook,rotation=180']]), 1), self.controller.ACTION_LIST)
+        self.assertEqual(self.controller.retrieve_action_list(MCS_Goal(action_list=[['MoveAhead',\
+                'RotateLook,rotation=180'], []]), 1), self.controller.ACTION_LIST)
+        self.assertEqual(self.controller.retrieve_action_list(MCS_Goal(action_list=[[],['MoveAhead',\
+                'RotateLook,rotation=180']]), 0), self.controller.ACTION_LIST)
+        self.assertEqual(self.controller.retrieve_action_list(MCS_Goal(action_list=[[],['MoveAhead',\
+                'RotateLook,rotation=180']]), 1), ['MoveAhead', 'RotateLook,rotation=180'])
+
     def test_retrieve_goal(self):
-        # TODO MCS-53
-        pass
+        goal_1 = self.controller.retrieve_goal({})
+        self.assertEqual(goal_1.action_list, None)
+        self.assertEqual(goal_1.info_list, [])
+        self.assertEqual(goal_1.last_step, None)
+        self.assertEqual(goal_1.task_list, [])
+        self.assertEqual(goal_1.type_list, [])
+        self.assertEqual(goal_1.metadata, {})
+
+        goal_2 = self.controller.retrieve_goal({
+            "goal": {
+            }
+        })
+        self.assertEqual(goal_2.action_list, None)
+        self.assertEqual(goal_2.info_list, [])
+        self.assertEqual(goal_2.last_step, None)
+        self.assertEqual(goal_2.task_list, [])
+        self.assertEqual(goal_2.type_list, [])
+        self.assertEqual(goal_2.metadata, {})
+
+        goal_3 = self.controller.retrieve_goal({
+            "goal": {
+                "action_list": [["action1"], [], ["action2", "action3", "action4"]],
+                "info_list": ["info1", "info2", 12.34],
+                "last_step": 10,
+                "task_list": ["task1", "task2"],
+                "type_list": ["type1", "type2"],
+                "metadata": {
+                    "key": "value"
+                }
+            }
+        })
+        self.assertEqual(goal_3.action_list, [["action1"], [], ["action2", "action3", "action4"]])
+        self.assertEqual(goal_3.info_list, ["info1", "info2", 12.34])
+        self.assertEqual(goal_3.last_step, 10)
+        self.assertEqual(goal_3.task_list, ["task1", "task2"])
+        self.assertEqual(goal_3.type_list, ["type1", "type2"])
+        self.assertEqual(goal_3.metadata, {
+            "key": "value"
+        })
 
     def test_retrieve_head_tilt(self):
         mock_scene_event_data = {
@@ -350,7 +404,6 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "continuous": True,
             "gridSize": 0.1,
             "logs": True,
-            "moveMagnitude": 0.5,
             "numberProperty": 1234,
             # "renderClassImage": True,
             "renderDepthImage": True,

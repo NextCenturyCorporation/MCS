@@ -103,6 +103,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         self.__head_tilt = 0
         self.__output_folder = None # Save output image files to debug
         self.__step_number = 0
+        self.__goal = None
 
     # Override
     def end_scene(self, classification, confidence):
@@ -116,6 +117,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         self.__current_scene = config_data
         self.__step_number = 0
+        self.__goal = self.retrieve_goal(self.__current_scene)
 
         if self.__debug_to_file and config_data['name'] is not None:
             os.makedirs('./' + config_data['name'], exist_ok=True)
@@ -125,29 +127,6 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 os.remove(file_path)
 
         return self.wrap_output(self.__controller.step(self.wrap_step(action='Initialize', sceneConfig=config_data)))
-
-    """
-    Check if value is a number.
-    """
-    def is_number(self, value, name):
-        try:
-            float(value)
-        except ValueError:
-            print('Value of ' + name + 'needs to be a number. Will be set to 0.')
-            return False
-        return True
-
-    """
-    Check if value is a between correct range.
-    """
-    def is_in_range(self, value, minVal, maxVal, default, name):
-        if value > maxVal or value < minVal:
-            print('Value of ' + name + 'needs to be between ' + str(minVal) + \
-                ' and ' + str(maxVal) + '. Current value: ' + str(value)+ \
-                '. Will be reset to ' + str(default) + '.')
-            return default
-        else:
-            return value
 
     # TODO: may need to reevaluate validation strategy/error handling in the future
     """
@@ -170,46 +149,47 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         receptacleObjectDirectionZ = kwargs.get(self.RECEPTACLE_DIRECTION_Z, self.DEFAULT_DIRECTION)
 
         # Check params that should be numbers
-        if not self.is_number(rotation, self.ROTATION_KEY):
+        if not MCS_Util.is_number(rotation, self.ROTATION_KEY):
             rotation = self.DEFAULT_ROTATION
 
-        if not self.is_number(horizon, self.HORIZON_KEY):
+        if not MCS_Util.is_number(horizon, self.HORIZON_KEY):
             horizon = self.DEFAULT_HORIZON
 
-        if not self.is_number(amount, self.AMOUNT_KEY):
+        if not MCS_Util.is_number(amount, self.AMOUNT_KEY):
             # The default for open/close is 1, the default for "Move" actions is 0.5
             if action in self.OBJECT_MOVE_ACTIONS:
                 amount = self.DEFAULT_OBJECT_MOVE_AMOUNT
             else:
                 amount = self.DEFAULT_AMOUNT
-        
-        if not self.is_number(force, self.FORCE_KEY):
+
+        if not MCS_Util.is_number(force, self.FORCE_KEY):
             force = self.DEFAULT_FORCE
 
         # Check object directions are numbers
-        if not self.is_number(objectDirectionX, self.OBJECT_DIRECTION_X_KEY):
+        if not MCS_Util.is_number(objectDirectionX, self.OBJECT_DIRECTION_X_KEY):
             objectDirectionX = self.DEFAULT_DIRECTION
-        
-        if not self.is_number(objectDirectionY, self.OBJECT_DIRECTION_Y_KEY):
+
+        if not MCS_Util.is_number(objectDirectionY, self.OBJECT_DIRECTION_Y_KEY):
             objectDirectionY = self.DEFAULT_DIRECTION
 
-        if not self.is_number(objectDirectionZ, self.OBJECT_DIRECTION_Z_KEY):
+        if not MCS_Util.is_number(objectDirectionZ, self.OBJECT_DIRECTION_Z_KEY):
             objectDirectionZ = self.DEFAULT_DIRECTION
 
         # Check receptacle directions are numbers
-        if not self.is_number(receptacleObjectDirectionX, self.RECEPTACLE_DIRECTION_X):
+        if not MCS_Util.is_number(receptacleObjectDirectionX, self.RECEPTACLE_DIRECTION_X):
             receptacleObjectDirectionX = self.DEFAULT_DIRECTION
 
-        if not self.is_number(receptacleObjectDirectionY, self.RECEPTACLE_DIRECTION_Y):
+        if not MCS_Util.is_number(receptacleObjectDirectionY, self.RECEPTACLE_DIRECTION_Y):
             receptacleObjectDirectionY = self.DEFAULT_DIRECTION
 
-        if not self.is_number(receptacleObjectDirectionZ, self.RECEPTACLE_DIRECTION_Z):
+        if not MCS_Util.is_number(receptacleObjectDirectionZ, self.RECEPTACLE_DIRECTION_Z):
             receptacleObjectDirectionZ = self.DEFAULT_DIRECTION
 
         # Check that params that should fall in a range are in that range
-        horizon = self.is_in_range(horizon, self.MIN_HORIZON, self.MAX_HORIZON, self.DEFAULT_HORIZON, self.HORIZON_KEY)
-        amount = self.is_in_range(amount, self.MIN_AMOUNT, self.MAX_AMOUNT, self.DEFAULT_AMOUNT, self.AMOUNT_KEY)
-        force = self.is_in_range(force, self.MIN_FORCE, self.MAX_FORCE, self.DEFAULT_FORCE, self.FORCE_KEY)
+        horizon = MCS_Util.is_in_range(horizon, self.MIN_HORIZON, self.MAX_HORIZON, self.DEFAULT_HORIZON, \
+                self.HORIZON_KEY)
+        amount = MCS_Util.is_in_range(amount, self.MIN_AMOUNT, self.MAX_AMOUNT, self.DEFAULT_AMOUNT, self.AMOUNT_KEY)
+        force = MCS_Util.is_in_range(force, self.MIN_FORCE, self.MAX_FORCE, self.DEFAULT_FORCE, self.FORCE_KEY)
 
         # TODO Consider the current "head tilt" value while validating the input "horizon" value.
 
@@ -250,6 +230,14 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     def step(self, action, **kwargs):
         super().step(action, **kwargs)
 
+        if self.__goal.last_step is not None and self.__goal.last_step < self.__step_number:
+            print("MCS Warning: You have passed the last step of this scene. Skipping your action." + \
+                    "Please call controller.end_scene() now.")
+            return None
+
+        if ',' in action:
+            action, kwargs = MCS_Util.input_to_action_and_params(action)
+
         if not action in self.ACTION_LIST:
             print("MCS Warning: The given action '" + action + "' is not valid. Exchanging it with the 'Pass' action.")
             action = "Pass"
@@ -282,14 +270,30 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             # so just use our own custom action here.
             return "MCSOpenObject"
 
-        if action == MCS_Action.ROTATE_OBJECT_IN_HAND.value:
-            return "RotateHand"
+        # if action == MCS_Action.ROTATE_OBJECT_IN_HAND.value:
+        #     return "RotateHand"
 
         return action
 
+    def retrieve_action_list(self, goal, step_number):
+        if goal is not None and goal.action_list is not None:
+            if len(goal.action_list) > step_number:
+                if len(goal.action_list[step_number]) > 0:
+                    return goal.action_list[step_number]
+
+        return self.ACTION_LIST
+
     def retrieve_goal(self, current_scene):
-        # TODO MCS-53 Return goal object from scene configuration data object
-        return MCS_Goal()
+        goal_config = current_scene['goal'] if 'goal' in current_scene else {}
+
+        return MCS_Goal(
+            action_list=(goal_config['action_list'] if 'action_list' in goal_config else None),
+            info_list=(goal_config['info_list'] if 'type_list' in goal_config else []),
+            last_step=(goal_config['last_step'] if 'last_step' in goal_config else None),
+            task_list=(goal_config['task_list'] if 'type_list' in goal_config else []),
+            type_list=(goal_config['type_list'] if 'type_list' in goal_config else []),
+            metadata=(goal_config['metadata'] if 'metadata' in goal_config else {})
+        )
 
     def retrieve_head_tilt(self, scene_event):
         return scene_event.metadata['agent']['cameraHorizon']
@@ -363,9 +367,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         image, depth_mask, object_mask = self.save_images(scene_event)
 
         step_output = MCS_Step_Output(
-            action_list=self.ACTION_LIST,
+            action_list=self.retrieve_action_list(self.__goal, self.__step_number),
             depth_mask_list=[depth_mask],
-            goal=self.retrieve_goal(self.__current_scene),
+            goal=self.__goal,
             head_tilt=self.retrieve_head_tilt(scene_event),
             image_list=[image],
             object_list=self.retrieve_object_list(scene_event),
