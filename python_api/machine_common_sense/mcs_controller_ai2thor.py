@@ -31,8 +31,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     MAX_MOVE_DISTANCE = 0.5
 
     # The amount of force to offset force values, that seems appropriate for a baby
-    # TODO Check with psych team about this about what we should use for a baby, defaulting to .25 now
-    MAX_BABY_FORCE = 0.25
+    # TODO Check with psych team about this about what we should use for a baby, defaulting to 25 now
+    MAX_BABY_FORCE = 25.0
 
     # How far the player can reach.  I think this value needs to be bigger than the MAX_MOVE_DISTANCE or else the
     # player may not be able to move into a position to reach some objects (it may be mathematically impossible).
