@@ -13,56 +13,19 @@ def run_scene(controller, config_data):
     #    output = controller.step('Pass')
     #    print('step=' + str(output.step_number))
 
-    # Testing PutObject (using playroom scene):
+    # Testing PushObject, PullObject (using playroom scene):
     # Move towards apple to pick it up
     output = controller.step('MoveLeft')
-    for i in range(1, 4):
-        output = controller.step('MoveAhead')
+    output = controller.step('MoveAhead')
+
+    # Should return OUT_OF_REACH
+    output = controller.step('PullObject', objectId="apple_a", force=1)
 
     output = controller.step('RotateLook', rotation=0, horizon=45)
 
     # Should return SUCCESSFUL
-    output = controller.step('PickupObject', objectId="apple_a")
-
-    output = controller.step('MoveLeft')
-
-    # Should return NOT_RECEPTACLE
-    output = controller.step('MoveAhead')
-    output = controller.step('PutObject', objectId="apple_a", receptacleObjectId="apple_b")
-
-    for i in range(1, 5):
-        output = controller.step('MoveAhead')
-
-    # Should return OUT_OF_REACH
-    output = controller.step('PutObject', objectId="apple_a", receptacleObjectId="plate_a")
-
-    output = controller.step('MoveAhead')
-
-    # Should return NOT_HELD
-    output = controller.step('PutObject', objectId="apple_b", receptacleObjectId="box_a")
-
-    # Should return NOT_OBJECT
-    output = controller.step('PutObject', objectId="invalid_apple_a", receptacleObjectId="box_a")
-    output = controller.step('PutObject', objectId="apple_a", receptacleObjectId="invalid_box_a")
-    
-    # Should return SUCCESSFUL
-    output = controller.step('PutObject', objectId="apple_a", receptacleObjectId="plate_a")
-    
-    # Pick up plate and move towards the closed box
-    output = controller.step('PickupObject', objectId="plate_a")
-
-    output = controller.step('RotateLook', rotation=160, horizon=-30)
-    
-    for i in range(1, 8):
-        output = controller.step('MoveAhead')
-
-    output = controller.step('RotateLook', rotation=-10, horizon=0)
-
-    for i in range(1, 3):
-        output = controller.step('MoveAhead')
-
-    # Should return OBSTRUCTED
-    output = controller.step('PutObject', objectId="plate_a", receptacleObjectId="box_b")
+    output = controller.step('PullObject', objectId="apple_a", force=1)
+    output = controller.step('PushObject', objectId="apple_a", force=1)
 
 if __name__ == "__main__":
     config_data, status = MCS.load_config_json_file(sys.argv[2])
