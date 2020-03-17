@@ -5,14 +5,50 @@
     "wallMaterial": "AI2-THOR/Materials/Walls/Drywall4Tiled",
     "performerStart": {
         "position": {
-            "z": -1
+            "x": -2,
+            "z": 3
+        },
+        "rotation": {
+            "y": 90
         }
     },
     "goal": {
       "type_list": ["observation", "intuitive_physics", "objects"],
       "task_list": ["plausibility"],
       "info_list": [],
-      "last_step": 10,
+      "last_step": 30,
+      "action_list": [
+          ["RotateLook,horizon=-30"],
+          ["RotateLook,horizon=-30"],
+          ["Pass"],
+          ["RotateLook,horizon=30"],
+          ["RotateLook,horizon=30"],
+          ["RotateLook,rotation=30"],
+          ["RotateLook,rotation=30"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["RotateLook,rotation=-30"],
+          ["RotateLook,rotation=-30"],
+          ["RotateLook,rotation=-30"],
+          ["RotateLook,rotation=-30"],
+          ["RotateLook,rotation=-30"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"]
+      ],
       "metadata": {
         "choose": ["plausible", "implausible"]
       }
@@ -25,10 +61,10 @@
         "pickupable": true,
         "salientMaterials": ["plastic"],
         "shows": [{
-            "stepBegin": 0,
+            "stepBegin": 21,
             "position": {
                 "x": 0,
-                "y": 2.25,
+                "y": 2,
                 "z": 3
             },
             "scale": {
@@ -37,17 +73,8 @@
                 "z": 0.25
             }
         }],
-        "forces": [{
-            "stepBegin": 0,
-            "stepEnd": 5,
-            "vector": {
-                "x": 0,
-                "y": 50,
-                "z": 0
-            }
-        }],
         "hides": [{
-            "stepBegin": 4
+            "stepBegin": 24
         }]
     }, {
         "id": "wall_a",
@@ -61,7 +88,7 @@
             "stepBegin": 0,
             "position": {
                 "x": 0,
-                "y": 0.75,
+                "y": 1,
                 "z": 2.5
             },
             "scale": {

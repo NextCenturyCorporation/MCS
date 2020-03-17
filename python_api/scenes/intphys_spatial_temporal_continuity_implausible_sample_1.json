@@ -5,14 +5,70 @@
     "wallMaterial": "AI2-THOR/Materials/Walls/YellowDrywall",
     "performerStart": {
         "position": {
-            "z": -1
+            "x": -2,
+            "z": 3
+        },
+        "rotation": {
+            "y": 90
         }
     },
     "goal": {
       "type_list": ["observation", "intuitive_physics", "objects"],
       "task_list": ["plausibility"],
       "info_list": [],
-      "last_step": 30,
+      "last_step": 45,
+      "action_list": [
+          ["RotateLook,horizon=-30"],
+          ["RotateLook,horizon=-30"],
+          ["Pass"],
+          ["RotateLook,horizon=30"],
+          ["RotateLook,horizon=30"],
+          ["RotateLook,rotation=30"],
+          ["RotateLook,rotation=30"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["RotateLook,rotation=-30"],
+          ["RotateLook,rotation=-30"],
+          ["RotateLook,rotation=-30"],
+          ["RotateLook,rotation=-30"],
+          ["RotateLook,rotation=-30"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"]
+      ],
       "metadata": {
         "choose": ["plausible", "implausible"]
       }
@@ -20,36 +76,36 @@
     "objects": [{
         "id": "ball_a",
         "type": "sphere",
-        "mass": 0.25,
+        "mass": 0.5,
         "materialFile": "AI2-THOR/Materials/Plastics/BlueRubber",
         "pickupable": true,
         "salientMaterials": ["rubber"],
         "shows": [{
-            "stepBegin": 0,
+            "stepBegin": 20,
             "position": {
                 "x": -2.5,
                 "y": 0.25,
                 "z": 3
             },
             "scale": {
-                "x": 0.25,
-                "y": 0.25,
-                "z": 0.25
+                "x": 0.5,
+                "y": 0.5,
+                "z": 0.5
             }
         }],
         "forces": [{
-            "stepBegin": 1,
-            "stepEnd": 1,
+            "stepBegin": 20,
+            "stepEnd": 20,
             "vector": {
-                "x": 50,
+                "x": 100,
                 "y": 0,
                 "z": 0
             }
         }, {
-            "stepBegin": 15,
-            "stepEnd": 15,
+            "stepBegin": 32,
+            "stepEnd": 32,
             "vector": {
-                "x": -75,
+                "x": -200,
                 "y": 0,
                 "z": 0
             }
@@ -70,7 +126,7 @@
                 "z": 2.5
             },
             "scale": {
-                "x": 0.5,
+                "x": 0.6,
                 "y": 2.5,
                 "z": 0.1
             }

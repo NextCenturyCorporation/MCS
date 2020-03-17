@@ -5,14 +5,51 @@
     "wallMaterial": "AI2-THOR/Materials/Walls/EggshellDrywall",
     "performerStart": {
         "position": {
-            "z": -1
+            "x": -2,
+            "z": 3
+        },
+        "rotation": {
+            "y": 90
         }
     },
     "goal": {
       "type_list": ["observation", "intuitive_physics", "objects"],
       "task_list": ["plausibility"],
       "info_list": [],
-      "last_step": 10,
+      "last_step": 30,
+      "action_list": [
+          ["RotateLook,horizon=-30"],
+          ["RotateLook,horizon=-30"],
+          ["Pass"],
+          ["RotateLook,horizon=30"],
+          ["RotateLook,horizon=30"],
+          ["RotateLook,rotation=30"],
+          ["RotateLook,rotation=30"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["RotateLook,rotation=-30"],
+          ["RotateLook,rotation=-30"],
+          ["RotateLook,rotation=-30"],
+          ["RotateLook,rotation=-30"],
+          ["RotateLook,rotation=-30"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"]
+      ],
       "metadata": {
         "choose": ["plausible", "implausible"]
       }
@@ -25,7 +62,7 @@
         "pickupable": true,
         "salientMaterials": ["plastic"],
         "shows": [{
-            "stepBegin": 0,
+            "stepBegin": 20,
             "position": {
                 "x": -2.5,
                 "y": 0.25,
@@ -38,11 +75,11 @@
             }
         }],
         "forces": [{
-            "stepBegin": 1,
-            "stepEnd": 3,
+            "stepBegin": 20,
+            "stepEnd": 23,
             "vector": {
-                "x": 33,
-                "y": 66,
+                "x": 25,
+                "y": 50,
                 "z": 0
             }
         }]
@@ -62,7 +99,7 @@
                 "z": 2.5
             },
             "scale": {
-                "x": 0.5,
+                "x": 1,
                 "y": 2.5,
                 "z": 0.1
             }

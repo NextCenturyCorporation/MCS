@@ -13,6 +13,18 @@
       "task_list": ["plausibility"],
       "info_list": [],
       "last_step": 10,
+      "action_list": [
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"]
+      ],
       "metadata": {
         "choose": ["plausible", "implausible"]
       }
@@ -20,7 +32,7 @@
     "objects": [{
         "id": "ball_a",
         "type": "sphere",
-        "mass": 0.25,
+        "mass": 0.1,
         "materialFile": "AI2-THOR/Materials/Plastics/YellowPlastic2",
         "pickupable": true,
         "salientMaterials": ["plastic"],
@@ -28,13 +40,13 @@
             "stepBegin": 0,
             "position": {
                 "x": 0,
-                "y": 2.25,
+                "y": 2.9,
                 "z": 3
             },
             "scale": {
-                "x": 0.25,
-                "y": 0.25,
-                "z": 0.25
+                "x": 0.1,
+                "y": 0.1,
+                "z": 0.1
             }
         }]
     }]
