@@ -81,13 +81,21 @@ Any action-specific parameters.
 #### Returns
 
 - output : MCS_Step_Output\
-The MCS scene output data object from after the action and the physics simulation were run.
+The MCS scene output data object from after the action and the physics simulation were run. Returns None if you have passed the "last_step" of this scene.
 
 ## MCS_Goal
+
+### action_list : list of lists of strings, or None
+
+The list of actions that are available for the scene at each step (outer list index).  Each inner list item is a list of action strings. For example, ['MoveAhead','RotateLook,rotation=180'] restricts the actions to either 'MoveAhead' or 'RotateLook' with the 'rotation' parameter set to 180. An action_list of None means that all actions are always available. An empty inner list means that all actions are available for that specific step.
 
 ### info_list : list of strings
 
 The list of information for the visualization interface associated with this goal.
+
+### last_step : integer
+
+The last step of this scene. This scene will automatically end following this step.
 
 ### task_list : list of strings
 

@@ -41,7 +41,7 @@
 ### Walls
 
 - `"AI2-THOR/Materials/Walls/Drywall"`
-- `"AI2-THOR/Materials/Walls/DrywallBiege"`
+- `"AI2-THOR/Materials/Walls/DrywallBeige"`
 - `"AI2-THOR/Materials/Walls/DrywallOrange"`
 - `"AI2-THOR/Materials/Walls/Drywall4Tiled"`
 - `"AI2-THOR/Materials/Walls/EggshellDrywall"`

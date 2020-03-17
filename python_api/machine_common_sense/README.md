@@ -40,6 +40,12 @@ xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' python3 run_mcs_e
 
 Each run will generate a subdirectory (named based on your config file) containing the output image files from each step.
 
+## Running Local Code Changes
+
+If you've installed the `machine_common_sense` library using `pip`, the run scripts appear to use the installed library rather than your local code. To test any changes that you've made in your local code, `cd` to the root directory of this repository and run `pip install .` (remember the dot) to reinstall the `machine_common_sense` library from your local code.
+
+## Logs
+
 Looking for the logs from your Unity run? I found mine here: `~/.config/unity3d/CACI\ with\ the\ Allen\ Institute\ for\ Artificial\ Intelligence/MCS-AI2-THOR/Player.log` If using a Mac, Unity logs can be accessed from within the Console app here: `~/Library/Logs/Unity`
 
 ## Testing
