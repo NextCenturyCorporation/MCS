@@ -48,8 +48,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     MAX_ROTATION = 360
     MIN_ROTATION = -360
-    MAX_HORIZON = 90
-    MIN_HORIZON = -90
+    MAX_HORIZON = 180
+    MIN_HORIZON = -180
 
     MAX_FORCE = 1
     MIN_FORCE = 0
@@ -100,6 +100,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         self.__debug_to_terminal = True if (debug is True or debug is 'terminal') else False
 
         self.__current_scene = None
+        self.__head_tilt = 0
         self.__output_folder = None # Save output image files to debug
         self.__step_number = 0
 
@@ -210,6 +211,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         amount = self.is_in_range(amount, self.MIN_AMOUNT, self.MAX_AMOUNT, self.DEFAULT_AMOUNT, self.AMOUNT_KEY)
         force = self.is_in_range(force, self.MIN_FORCE, self.MAX_FORCE, self.DEFAULT_FORCE, self.FORCE_KEY)
 
+        # TODO Consider the current "head tilt" value while validating the input "horizon" value.
+
         # Set the Move Magnitude to the appropriate amount based on the action
         if action in self.FORCE_ACTIONS:
             moveMagnitude = force * self.MAX_BABY_FORCE
@@ -258,22 +261,31 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             print("STEP: " + str(self.__step_number))
             print("ACTION: " + action)
 
-        # convert action name for ai2thor if needed
-        if action == MCS_Action.CLOSE_OBJECT.value:
-            # The AI2-THOR Python library has buggy error checking specifically for CloseObject function, so call our own function here.
-            action = "MCSCloseObject"
-        if action == MCS_Action.DROP_OBJECT.value:
-            action = "DropHandObject"
-        if action == MCS_Action.OPEN_OBJECT.value:
-            # The AI2-THOR Python library has buggy error checking for OpenObject, so call our own function here.
-            action = "MCSOpenObject"
-        if action == MCS_Action.ROTATE_OBJECT_IN_HAND.value:
-            action = "RotateHand"
-
         params = self.validate_and_convert_params(action, **kwargs)
+
+        # Only call mcs_action_to_ai2thor_action AFTER calling validate_and_convert_params
+        action = self.mcs_action_to_ai2thor_action(action)
 
         return self.wrap_output(self.__controller.step(self.wrap_step(action=action, **params)))
 
+    def mcs_action_to_ai2thor_action(self, action):
+        if action == MCS_Action.CLOSE_OBJECT.value:
+            # The AI2-THOR Python library has buggy error checking specifically for the CloseObject action,
+            # so just use our own custom action here.
+            return "MCSCloseObject"
+
+        if action == MCS_Action.DROP_OBJECT.value:
+            return "DropHandObject"
+
+        if action == MCS_Action.OPEN_OBJECT.value:
+            # The AI2-THOR Python library has buggy error checking specifically for the OpenObject action,
+            # so just use our own custom action here.
+            return "MCSOpenObject"
+
+        if action == MCS_Action.ROTATE_OBJECT_IN_HAND.value:
+            return "RotateHand"
+
+        return action
 
     def retrieve_goal(self, current_scene):
         # TODO MCS-53 Return goal object from scene configuration data object
@@ -343,7 +355,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     def wrap_output(self, scene_event):
         if self.__debug_to_file and self.__output_folder is not None:
-            with open(self.__output_folder + 'ai2thor_step_output_' + str(self.__step_number) + '.json', 'w') as json_file:
+            with open(self.__output_folder + 'ai2thor_output_' + str(self.__step_number) + '.json', 'w') as json_file:
                 json.dump({
                     "metadata": scene_event.metadata
                 }, json_file, sort_keys=True, indent=4)
@@ -363,6 +375,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             step_number=self.__step_number
         )
 
+        self.__head_tilt = step_output.head_tilt
+
         if self.__debug_to_terminal:
             print("RETURN STATUS: " + step_output.return_status)
             print("OBJECTS (" + str(len(step_output.object_list)) + " TOTAL):")
@@ -370,7 +384,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 print("    " + line)
 
         if self.__debug_to_file and self.__output_folder is not None:
-            with open(self.__output_folder + 'mcs_step_output_' + str(self.__step_number) + '.json', 'w') as json_file:
+            with open(self.__output_folder + 'mcs_output_' + str(self.__step_number) + '.json', 'w') as json_file:
                 json_file.write(str(step_output))
 
         return step_output
@@ -390,7 +404,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         )
 
         if self.__debug_to_file and self.__output_folder is not None:
-            with open(self.__output_folder + 'ai2thor_step_input_' + str(self.__step_number) + '.json', 'w') as json_file:
+            with open(self.__output_folder + 'ai2thor_input_' + str(self.__step_number) + '.json', 'w') as json_file:
                 json.dump(step_data, json_file, sort_keys=True, indent=4)
 
         return step_data
