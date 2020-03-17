@@ -10,6 +10,8 @@
 
 - [playroom.json](./playroom.json)
 
+![playroom](./images/playroom.gif)
+
 ### IntPhys
 
 - [intphys_gravity_plausible_sample_1.json](./intphys_gravity_plausible_sample_1.json)
