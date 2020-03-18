@@ -35,16 +35,21 @@ OUTPUT_TEMPLATE = json.loads(OUTPUT_TEMPLATE_JSON)
 # the following mins and maxes are inclusive
 MIN_POSITION = -4.8
 MAX_POSITION = 4.8
+POSITION_DIGITS = 1
 MIN_ROTATION = 0
-MAX_ROTATION = 360
+MAX_ROTATION = 359
+ROTATION_DIGITS = 0
 
 
 def random_position():
-    return random.uniform(MIN_POSITION, MAX_POSITION)
+    return round(random.uniform(MIN_POSITION, MAX_POSITION), POSITION_DIGITS)
 
 
 def random_rotation():
-    return random.uniform(MIN_ROTATION, MAX_ROTATION)
+    rotation = round(random.uniform(MIN_ROTATION, MAX_ROTATION), ROTATION_DIGITS)
+    if ROTATION_DIGITS == 0:
+        rotation = int(rotation)
+    return rotation
 
 
 def generate_file(name):
