@@ -4,6 +4,20 @@
 
 ### Python Library
 
+1. Install the required third-party Python libraries:
+
+```
+pip install -r requirements.txt
+```
+
+2. Ensure you've installed `ai2thor` version `2.2.0`:
+
+```
+pip show ai2thor
+```
+
+3. Install the MCS Python Library:
+
 ```
 pip install git+https://github.com/NextCenturyCorporation/MCS@latest
 ```
