@@ -58,7 +58,7 @@ def generate_file(name):
     body['name'] = os.path.basename(name)
     position = body['performerStart']['position']
     position['x'] = random_position()
-    position['y'] = random_position()
+    position['z'] = random_position()
     body['performerStart']['rotation']['y'] = random_rotation()
 
     with open(name, 'w') as out:
