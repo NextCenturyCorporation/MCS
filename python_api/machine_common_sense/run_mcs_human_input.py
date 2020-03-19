@@ -45,11 +45,11 @@ def input_commands(controller):
     print('Enter your command:')
     userInput = input().split(',')
 
-    if(userInput[0] == 'exit'):
+    if(userInput[0].lower() == 'exit'):
         print("Exiting Human Input Mode")
         return
 
-    if(userInput[0] == 'help'):
+    if(userInput[0].lower() == 'help'):
         print_commands()
         return input_commands(controller)
 
@@ -91,7 +91,7 @@ def run_scene(controller, config_data):
 
 def main():
     if len(sys.argv) < 3:
-        print('Usage: python run_mcs_human_input.py <mcs_unity_build_file> <mcs_config_json_file> <debug_files>')
+        print('Usage: python run_mcs_human_input.py <mcs_unity_build_file> <mcs_config_json_file> <debug_files> <enable_noise>')
         sys.exit()
 
     config_data, status = MCS.load_config_json_file(sys.argv[2])
@@ -100,9 +100,15 @@ def main():
         print(status)
         exit()
 
-    debug = 'terminal' if len(sys.argv) < 4 else True
+    debug = True
+    if sys.argv[3] is not None:
+        debug = sys.argv[3].lower() == 'true'
 
-    controller = MCS.create_controller(sys.argv[1], debug=debug)
+    enable_noise = False
+    if sys.argv[4] is not None:
+        enable_noise = sys.argv[4].lower() == 'true'
+
+    controller = MCS.create_controller(sys.argv[1], debug=debug, enable_noise=enable_noise)
 
     config_file_path = sys.argv[2]
     config_file_name = config_file_path[config_file_path.rfind('/'):]

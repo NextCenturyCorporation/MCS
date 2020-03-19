@@ -1,12 +1,19 @@
 from machine_common_sense.mcs_step_output import MCS_Step_Output
+import random
 
 class MCS_Controller:
     """
     Starts and ends scenes, runs actions on each step, and returns scene output data.
+
+    Parameters
+    ----------
+    enable_noise : boolean, optional
+        An optional flag to enable noise in the system for move, amount, force actions
     """
 
-    def __init__(self):
+    def __init__(self, enable_noise=False):
         # TODO Override
+        self.__enable_noise = enable_noise
         pass
 
     """
@@ -59,4 +66,15 @@ class MCS_Controller:
     def step(self, action, **kwargs):
         # TODO Override
         return MCS_Step_Output()
+
+    """
+    Calculates a random value float between -0.05 and 0.05 to add some noise into move, amount, force actions
+
+    Returns
+    -------
+    float
+        A float value for the amount of noise that will be applied to actions.
+    """
+    def generate_noise(self):
+        return random.uniform(-0.5, 0.5)
 

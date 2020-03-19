@@ -413,3 +413,13 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         }
         self.assertEqual(actual, expected)
 
+    def test_generate_noise(self):
+        # Current noise range is -0.5 to 0.5
+        minValue = -0.5
+        maxValue = 0.5
+
+        currentNoise = self.controller.generate_noise()
+        self.assertTrue(minValue <= currentNoise <= maxValue)
+
+        currentNoise = self.controller.generate_noise()
+        self.assertTrue(minValue <= currentNoise <= maxValue)
