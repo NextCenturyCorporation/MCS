@@ -1,0 +1,33 @@
+﻿{
+    "ceilingMaterial": "Walls/WallDrywallWhite",
+    "floorMaterial": "Fabrics/RUG4",
+    "wallMaterial": "Walls/YellowDrywall",
+    "objects": [{
+        "id": "testBall",
+        "type": "sphere",
+        "materialFile": "Plastics/BlueRubber",
+        "physics": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.5,
+                "z": 3
+            },
+            "scale": {
+                "x": 0.25,
+                "y": 0.25,
+                "z": 0.25
+            }
+        }],
+        "forces": [{
+            "stepBegin": 1,
+            "stepEnd": 1,
+            "vector": {
+                "x": 50,
+                "y": 0,
+                "z": 0
+            }
+        }]
+    }]
+}

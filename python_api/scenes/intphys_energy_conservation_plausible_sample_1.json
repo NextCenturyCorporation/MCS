@@ -1,0 +1,127 @@
+﻿{
+    "name": "intphys_energy_conservation_plausible_sample_1",
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/RugPattern224",
+    "wallMaterial": "AI2-THOR/Materials/Walls/YellowDrywall",
+    "performerStart": {
+        "position": {
+            "x": -2,
+            "z": 3
+        },
+        "rotation": {
+            "y": 90
+        }
+    },
+    "goal": {
+      "type_list": ["observation", "intuitive_physics", "objects"],
+      "task_list": ["plausibility"],
+      "info_list": [],
+      "last_step": 45,
+      "action_list": [
+          ["RotateLook,horizon=-30"],
+          ["RotateLook,horizon=-30"],
+          ["Pass"],
+          ["RotateLook,horizon=30"],
+          ["RotateLook,horizon=30"],
+          ["RotateLook,rotation=30"],
+          ["RotateLook,rotation=30"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["MoveAhead,amount=1"],
+          ["RotateLook,rotation=-30"],
+          ["RotateLook,rotation=-30"],
+          ["RotateLook,rotation=-30"],
+          ["RotateLook,rotation=-30"],
+          ["RotateLook,rotation=-30"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"],
+          ["Pass"]
+      ],
+      "metadata": {
+        "choose": ["plausible", "implausible"]
+      }
+    },
+    "objects": [{
+        "id": "ball_a",
+        "type": "sphere",
+        "mass": 0.5,
+        "materialFile": "AI2-THOR/Materials/Plastics/BlueRubber",
+        "pickupable": true,
+        "salientMaterials": ["rubber"],
+        "shows": [{
+            "stepBegin": 20,
+            "position": {
+                "x": -2.5,
+                "y": 0.25,
+                "z": 3
+            },
+            "scale": {
+                "x": 0.5,
+                "y": 0.5,
+                "z": 0.5
+            }
+        }],
+        "forces": [{
+            "stepBegin": 20,
+            "stepEnd": 20,
+            "vector": {
+                "x": 100,
+                "y": 0,
+                "z": 0
+            }
+        }]
+    }, {
+        "id": "wall_a",
+        "type": "cube",
+        "kinematic": true,
+        "mass": 100,
+        "materialFile": "AI2-THOR/Materials/Ceramics/GREYGRANITE",
+        "salientMaterials": ["ceramic"],
+        "structure": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 1.25,
+                "z": 2.5
+            },
+            "scale": {
+                "x": 0.6,
+                "y": 2.5,
+                "z": 0.1
+            }
+        }]
+    }]
+}

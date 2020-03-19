@@ -1,0 +1,11 @@
+#!/bin/bash
+
+ffmpeg -r 3 -i machine_common_sense/intphys_gravity_plausible_sample_1/frame_image_%d.png scenes/images/intphys_gravity_plausible_sample_1.gif
+ffmpeg -r 3 -i machine_common_sense/intphys_gravity_implausible_sample_1/frame_image_%d.png scenes/images/intphys_gravity_implausible_sample_1.gif
+ffmpeg -r 3 -i machine_common_sense/intphys_object_permanence_plausible_sample_1/frame_image_%d.png scenes/images/intphys_object_permanence_plausible_sample_1.gif
+ffmpeg -r 3 -i machine_common_sense/intphys_object_permanence_implausible_sample_1/frame_image_%d.png scenes/images/intphys_object_permanence_implausible_sample_1.gif
+ffmpeg -r 3 -i machine_common_sense/intphys_shape_constancy_plausible_sample_1/frame_image_%d.png scenes/images/intphys_shape_constancy_plausible_sample_1.gif
+ffmpeg -r 3 -i machine_common_sense/intphys_shape_constancy_implausible_sample_1/frame_image_%d.png scenes/images/intphys_shape_constancy_implausible_sample_1.gif
+ffmpeg -r 3 -i machine_common_sense/intphys_spatial_temporal_continuity_plausible_sample_1/frame_image_%d.png scenes/images/intphys_spatial_temporal_continuity_plausible_sample_1.gif
+ffmpeg -r 3 -i machine_common_sense/intphys_spatial_temporal_continuity_implausible_sample_1/frame_image_%d.png scenes/images/intphys_spatial_temporal_continuity_implausible_sample_1.gif
+

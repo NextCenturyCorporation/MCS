@@ -1,9 +1,11 @@
 .DS_Store
-ai2thor_wrapper/__pycache__/*
-ai2thor_wrapper/**/*.gif
-ai2thor_wrapper/**/*.json
-ai2thor_wrapper/**/*.mp4
-ai2thor_wrapper/**/*.png
+python_api/scenes/*.json
+python_api/machine_common_sense/__pycache__/*
+python_api/machine_common_sense/**/*.gif
+python_api/machine_common_sense/**/*.json
+python_api/machine_common_sense/**/*.mp4
+python_api/machine_common_sense/**/*.png
+python_api/test/__pycache__/*
 mcs_docker_setup/neon-jan-2020/*
 mcs_docker_setup/neon-jan-2020.tar.gz
 truthing/__pycache__
