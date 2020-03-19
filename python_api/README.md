@@ -83,6 +83,8 @@ To start the Unity application and enter your actions and parameters from the te
 mcs_run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file>
 ```
 
+If you want the script to save the input and output data in a new folder named after the scene, add `true` to the end of the above console command.
+
 ## Documentation
 
 [API.md](./API.md)

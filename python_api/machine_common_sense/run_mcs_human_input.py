@@ -100,7 +100,7 @@ def main():
         print(status)
         exit()
 
-    debug = 'terminal' if sys.argv[3] is None else True
+    debug = 'terminal' if len(sys.argv) < 4 else True
 
     controller = MCS.create_controller(sys.argv[1], debug=debug)
 
