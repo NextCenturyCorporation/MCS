@@ -24,6 +24,8 @@ pip install git+https://github.com/NextCenturyCorporation/MCS@latest
 
 ### Unity Application
 
+Please note that our Unity App is built on Linux. If you need a Mac or Windows version, please [contact us](#troubleshooting) directly.
+
 1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.0.1/MCS-AI2-THOR-Unity-App-v0.0.1.x86_64)
 
 2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.0.1/MCS-AI2-THOR-Unity-App-v0.0.1_Data.tar.gz)
@@ -92,4 +94,8 @@ mcs_run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file>
 ## Development README
 
 [machine_common_sense/README.md](./machine_common_sense/README.md)
+
+## Troubleshooting
+
+[mcs-ta2@machinecommonsense.com](mailto:mcs-ta2@machinecommonsense.com)
 
