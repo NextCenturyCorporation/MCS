@@ -210,8 +210,6 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             rotation = rotation * (1 + self.generate_noise())
             horizon = horizon * (1 + self.generate_noise())
             moveMagnitude = moveMagnitude * (1 + self.generate_noise())
-            print("Noise added to values.")
-            print(moveMagnitude)
 
         rotation_vector = {}
         rotation_vector['y'] = rotation
