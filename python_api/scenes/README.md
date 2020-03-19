@@ -20,8 +20,10 @@
 - [intphys_object_permanence_implausible_sample_1.json](./intphys_object_permanence_implausible_sample_1.json)
 - [intphys_shape_constancy_plausible_sample_1.json](./intphys_shape_constancy_plausible_sample_1.json)
 - [intphys_shape_constancy_implausible_sample_1.json](./intphys_shape_constancy_implausible_sample_1.json)
-- [intphys_spatial_temporal_continuity_plausible_sample_1.json](./intphys_spatial_temporal_continuity_plausible_sample_1.json)
-- [intphys_spatial_temporal_continuity_implausible_sample_1.json](./intphys_spatial_temporal_continuity_implausible_sample_1.json)
+- (Coming soon!) [intphys_spatial_temporal_continuity_plausible_sample_1.json](./intphys_spatial_temporal_continuity_plausible_sample_1.json)
+- (Coming soon!) [intphys_spatial_temporal_continuity_implausible_sample_1.json](./intphys_spatial_temporal_continuity_implausible_sample_1.json)
+- [intphys_energy_conservation_plausible_sample_1.json](./intphys_energy_conservation_plausible_sample_1.json)
+- [intphys_energy_conservation_implausible_sample_1.json](./intphys_energy_conservation_implausible_sample_1.json)
 
 #### Gravity
 
@@ -53,15 +55,19 @@ Implausible:
 
 ![intphys_shape_constancy_implausible_sample_1](./images/intphys_shape_constancy_implausible_sample_1.gif)
 
-#### Spatial Temporal Continuity
+#### Spatio-Temporal Continuity
+
+Coming soon!
+
+#### Energy Conservation
 
 Plausible:
 
-![intphys_spatial_temporal_continuity_plausible_sample_1](./images/intphys_spatial_temporal_continuity_plausible_sample_1.gif)
+![intphys_energy_conservation_plausible_sample_1](./images/intphys_energy_conservation_plausible_sample_1.gif)
 
 Implausible:
 
-![intphys_spatial_temporal_continuity_implausible_sample_1](./images/intphys_spatial_temporal_continuity_implausible_sample_1.gif)
+![intphys_energy_conservation_implausible_sample_1](./images/intphys_energy_conservation_implausible_sample_1.gif)
 
 ### Walls
 

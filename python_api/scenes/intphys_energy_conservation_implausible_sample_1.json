@@ -1,5 +1,5 @@
 ﻿{
-    "name": "intphys_spatial_temporal_continuity_implausible_sample_1",
+    "name": "intphys_energy_conservation_implausible_sample_1",
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/RugPattern224",
     "wallMaterial": "AI2-THOR/Materials/Walls/YellowDrywall",
