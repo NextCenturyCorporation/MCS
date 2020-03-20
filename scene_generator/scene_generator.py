@@ -70,7 +70,7 @@ def collision(test_rect, test_point):
     #assuming test_rect is an array4 points in order... Clockwise or CCW does not matter
     #points are {x,y,z}
     #
-    # From https://math.stackexchange.com/posts/190373/revisions
+    # From https://math.stackexchange.com/a/190373
     A=test_rect[0]
     B=test_rect[1]
     C=test_rect[2]
