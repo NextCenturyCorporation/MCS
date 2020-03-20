@@ -12,7 +12,7 @@ import uuid
 import math
 from _hashlib import new
 
-
+#
 OUTPUT_TEMPLATE_JSON = """
 {
   "name": "",
