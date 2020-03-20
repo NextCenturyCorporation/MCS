@@ -12,7 +12,7 @@ An open room containing over 60 objects for undirected exploration.
 
 - [playroom.json](./playroom.json)
 
-![playroom](./images/playroom.gif)
+![playroom_v2](./images/playroom_v2.gif)
 
 ### IntPhys
 
