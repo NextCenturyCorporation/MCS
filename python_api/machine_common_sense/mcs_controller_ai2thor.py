@@ -306,7 +306,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         material_list = list(filter(MCS_Util.verify_material_enum_string, [material.upper() for material in \
                 object_metadata['salientMaterials']])) if object_metadata['salientMaterials'] is not None else []
 
-        rgb = object_id_to_color[object_metadata['objectId']]
+        rgb = object_id_to_color[object_metadata['objectId']] if object_metadata['objectId'] in object_id_to_color \
+                else [None, None, None]
 
         return MCS_Object(
             uuid=object_metadata['objectId'],
