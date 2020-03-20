@@ -10,7 +10,7 @@ import copy
 import random
 import uuid
 import math
-from _hashlib import new
+
 
 
 OUTPUT_TEMPLATE_JSON = """
@@ -69,6 +69,8 @@ def dot_prod_dict(v1, v2):
 def collision(test_rect, test_point):
     #assuming test_rect is an array4 points in order... Clockwise or CCW does not matter
     #points are {x,y,z}
+    #
+    # From https://math.stackexchange.com/posts/190373/revisions
     A=test_rect[0]
     B=test_rect[1]
     C=test_rect[2]
@@ -101,11 +103,8 @@ def calc_obj_pos(performer_position, new_object, old_object):
         b = { 'x': new_x+(dx*rotate_cos)-(dz*rotate_sin) , 'y' : 0 , 'z': new_z-(dx*rotate_sin+dz*rotate_cos)}
         c = { 'x': new_x-(dx*rotate_cos)+(dz*rotate_sin) , 'y' : 0 , 'z': new_z-(dx*rotate_sin+dz*rotate_cos)}
         d = { 'x': new_x-(dx*rotate_cos)+(dz*rotate_sin) , 'y' : 0 , 'z': new_z+(dx*rotate_sin+dz*rotate_cos)} 
-        rect = []
-        rect.append(a)
-        rect.append(b)
-        rect.append(c)
-        rect.append(d)
+        rect = [a, b, c, d]
+
         
         if  not collision(rect,performer_position):
             break;
@@ -178,7 +177,7 @@ def main(argv):
     parser.add_argument('--prefix', required=True, help='Prefix for output filenames')
     parser.add_argument('-c', '--count', type=int, default=1, help='How many scenes to generate [default=1]')
     parser.add_argument('--seed', type=int, default=None, help='Random number seed [default=None]')
-    parser.add_argument('--objects', required=False, help='File containing a list of objects to insert')
+    parser.add_argument('--objects', required=True, help='File containing a list of objects to insert')
     
     args = parser.parse_args(argv[1:])
 
