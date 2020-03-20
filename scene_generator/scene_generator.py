@@ -9,13 +9,16 @@ import json
 import copy
 import random
 import uuid
+import math
+from _hashlib import new
+
 
 OUTPUT_TEMPLATE_JSON = """
 {
   "name": "",
-  "ceilingMaterial": "Walls/Drywall",
-  "floorMaterial": "Fabrics/CarpetWhite 3",
-  "wallMaterial": "Walls/DrywallBeige",
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+  "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
   "performerStart": {
     "position": {
       "x": 0,
@@ -58,15 +61,69 @@ def get_object(object_file_name):
     with open(object_file_name) as object_file:
         objects = json.load(object_file)
         
-    return random.choice(objects);
-    
+    return random.choice(objects)
 
-def generate_file(name, object_file_name):
+def dot_prod_dict(v1, v2):
+    return sum (v1[key]*v2.get(key,0) for key in v1)
+
+def collision(test_rect, test_point):
+    #assuming test_rect is an array4 points in order... Clockwise or CCW does not matter
+    #points are {x,y,z}
+    A=test_rect[0]
+    B=test_rect[1]
+    C=test_rect[2]
+    
+    vectorAB={'x': B['x']-A['x'], 'y': B['y']-A['y'], 'z': B['z']-A['z']}
+    vectorBC={'x': C['x']-B['x'], 'y': C['y']-B['y'], 'z': C['z']-B['z']}
+    
+    vectorAM={'x': test_point['x']-A['x'], 'y': test_point['y']-A['y'], 'z': test_point['z']-A['z']}
+    vectorBM={'x': test_point['x']-B['x'], 'y': test_point['y']-B['y'], 'z': test_point['z']-B['z']}
+    
+    return (0<=dot_prod_dict(vectorAB, vectorAM)<=dot_prod_dict(vectorAB, vectorAB)) & (0<=dot_prod_dict(vectorBC, vectorBM)<=dot_prod_dict(vectorBC, vectorBC))
+
+def calc_obj_pos(performer_position, new_object, old_object):
+    #generate position and rotation
+    #find the corners
+    #calculate intercept of points
+
+    dx = old_object['dimensions']['x']
+    dz = old_object['dimensions']['z']
+    
+    
+    while True:
+        rotation_amount = round(random.uniform(MIN_ROTATION,MAX_ROTATION), 0)
+        radian_amount = rotation_amount*math.pi/180.0
+        new_x = random_position()
+        new_z = random_position()
+        rotate_sin = math.sin(radian_amount)
+        rotate_cos = math.cos(radian_amount)
+        a = { 'x': new_x+(dx*rotate_cos)-(dz*rotate_sin) , 'y' : 0 , 'z': new_z+(dx*rotate_sin+dz*rotate_cos)}
+        b = { 'x': new_x+(dx*rotate_cos)-(dz*rotate_sin) , 'y' : 0 , 'z': new_z-(dx*rotate_sin+dz*rotate_cos)}
+        c = { 'x': new_x-(dx*rotate_cos)+(dz*rotate_sin) , 'y' : 0 , 'z': new_z-(dx*rotate_sin+dz*rotate_cos)}
+        d = { 'x': new_x-(dx*rotate_cos)+(dz*rotate_sin) , 'y' : 0 , 'z': new_z+(dx*rotate_sin+dz*rotate_cos)} 
+        rect = []
+        rect.append(a)
+        rect.append(b)
+        rect.append(c)
+        rect.append(d)
+        
+        if  not collision(rect,performer_position):
+            break;
+        
+        
+    rotation = { 'x' : 0, 'y': rotation_amount, 'z': 0 }
+    
+    position = { 'x' : new_x, 'y': old_object['position_y'], 'z' : new_z}
+    new_object['rotation'] = rotation
+    new_object['position'] = position
+
+def generate_file(name, object_file_name): 
     global OUTPUT_TEMPLATE
     body = copy.deepcopy(OUTPUT_TEMPLATE)
     body['name'] = os.path.basename(name)
     position = body['performerStart']['position']
     position['x'] = random_position()
+    position['y'] = 0
     position['z'] = random_position()
     body['performerStart']['rotation']['y'] = random_rotation()
 
@@ -89,9 +146,8 @@ def generate_file(name, object_file_name):
     
     shows_object['stepBegin'] = 0;
     
-    
-    shows_object['rotation'] = { 'x': 0.0, 'z': 0.0}
     shows_object['scale'] = selected_object['scale']
+    calc_obj_pos(position, shows_object, selected_object)
 
     body['objects'].append(new_object)
     with open(name, 'w') as out:
