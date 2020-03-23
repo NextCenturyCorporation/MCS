@@ -34,7 +34,10 @@ if __name__ == "__main__":
         print(status)
         exit()
 
-    controller = MCS.create_controller(sys.argv[1], debug=True)
+    debug = 'terminal' if sys.argv[3] is None else True
+    enable_noise = 'terminal' if sys.argv[4] is None else False
+
+    controller = MCS.create_controller(sys.argv[1], debug=debug, enable_noise=enable_noise)
 
     config_file_path = sys.argv[2]
     config_file_name = config_file_path[config_file_path.rfind('/')+1:]
