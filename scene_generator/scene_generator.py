@@ -57,11 +57,11 @@ def random_rotation():
         rotation = int(rotation)
     return rotation
 
-def get_object(object_file_name):
+def load_object_file(object_file_name):
     with open(object_file_name) as object_file:
         objects = json.load(object_file)
+    return objects    
         
-    return random.choice(objects)
 
 def dot_prod_dict(v1, v2):
     return sum (v1[key]*v2.get(key,0) for key in v1)
@@ -91,8 +91,11 @@ def calc_obj_pos(performer_position, new_object, old_object):
     dx = old_object['dimensions']['x']
     dz = old_object['dimensions']['z']
     
+    #putting in a limit to the number of times we can choose for now
+    #hard-coding a limit for now
     
-    while True:
+    tries = 0
+    while tries<6:
         rotation_amount = round(random.uniform(MIN_ROTATION,MAX_ROTATION), 0)
         radian_amount = rotation_amount*math.pi/180.0
         new_x = random_position()
@@ -108,7 +111,7 @@ def calc_obj_pos(performer_position, new_object, old_object):
         
         if  not collision(rect,performer_position):
             break;
-        
+        tries += 1
         
     rotation = { 'x' : 0, 'y': rotation_amount, 'z': 0 }
     
@@ -116,7 +119,7 @@ def calc_obj_pos(performer_position, new_object, old_object):
     new_object['rotation'] = rotation
     new_object['position'] = position
 
-def generate_file(name, object_file_name): 
+def generate_file(name, objects): 
     global OUTPUT_TEMPLATE
     body = copy.deepcopy(OUTPUT_TEMPLATE)
     body['name'] = os.path.basename(name)
@@ -126,7 +129,7 @@ def generate_file(name, object_file_name):
     position['z'] = random_position()
     body['performerStart']['rotation']['y'] = random_rotation()
 
-    selected_object = get_object(object_file_name)
+    selected_object = copy.deepcopy(random.choice(objects))
     
     new_object = {}
     new_object['id'] = selected_object['type']+'_'+str(uuid.uuid4())
@@ -168,7 +171,7 @@ def generate_one_fileset(prefix, count, object_file_name):
             file_exists = os.path.exists(name)
             index += 1
 
-        generate_file(name,object_file_name)
+        generate_file(name,objects)
         count -= 1
 
 
@@ -183,7 +186,8 @@ def main(argv):
 
     random.seed(args.seed)
         
-    generate_one_fileset(args.prefix, args.count, args.objects)
+    objects = load_object_file(args.objects)
+    generate_one_fileset(args.prefix, args.count, objects)
     
 
 if __name__ == '__main__':
