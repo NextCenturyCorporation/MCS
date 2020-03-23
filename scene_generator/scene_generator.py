@@ -12,6 +12,8 @@ import uuid
 import math
 from _hashlib import new
 
+from materials import *
+
 #
 OUTPUT_TEMPLATE_JSON = """
 {
@@ -183,7 +185,7 @@ def main(argv):
     args = parser.parse_args(argv[1:])
 
     random.seed(args.seed)
-        
+    print(random.choice(FLOOR_MATERIALS))
     generate_one_fileset(args.prefix, args.count, args.objects)
     
 
