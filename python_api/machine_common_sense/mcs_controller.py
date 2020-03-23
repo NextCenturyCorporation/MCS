@@ -12,9 +12,7 @@ class MCS_Controller:
     """
 
     def __init__(self, enable_noise=False):
-        # TODO Override
         self.__enable_noise = enable_noise
-        pass
 
     """
     Ends the current scene.
