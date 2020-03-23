@@ -157,7 +157,7 @@ def generate_file(name, objects):
 
 
 
-def generate_one_fileset(prefix, count, object_file_name):
+def generate_one_fileset(prefix, count, objects):
     # skip existing files
     index = 1
     dirname = os.path.dirname(prefix)
