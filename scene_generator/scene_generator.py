@@ -13,7 +13,7 @@ import math
 
 
 from materials import *
-
+from goals import generate_goal
 
 OUTPUT_TEMPLATE_JSON = """
 {
@@ -122,7 +122,8 @@ def calc_obj_pos(performer_position, new_object, old_object):
     
     return False
 
-def generate_file(name, objects): 
+
+def generate_file(name, objects, add_goal):
     global OUTPUT_TEMPLATE
     body = copy.deepcopy(OUTPUT_TEMPLATE)
     body['name'] = os.path.basename(name)
@@ -160,13 +161,16 @@ def generate_file(name, objects):
             new_object['info'].append(selected_object['salientMaterials'][0])
             new_object['salientMaterials'] = selected_object['salientMaterials']
         body['objects'].append(new_object)
+
+    if add_goal:
+        body['goal'] = generate_goal([new_object])
         
     with open(name, 'w') as out:
         json.dump(body, out, indent=2)
 
 
 
-def generate_one_fileset(prefix, count, objects):
+def generate_one_fileset(prefix, count, objects, add_goal):
     # skip existing files
     index = 1
     dirname = os.path.dirname(prefix)
@@ -180,7 +184,7 @@ def generate_one_fileset(prefix, count, objects):
             file_exists = os.path.exists(name)
             index += 1
 
-        generate_file(name,objects)
+        generate_file(name, objects, add_goal)
         count -= 1
 
 
@@ -189,16 +193,15 @@ def main(argv):
     parser.add_argument('--prefix', required=True, help='Prefix for output filenames')
     parser.add_argument('-c', '--count', type=int, default=1, help='How many scenes to generate [default=1]')
     parser.add_argument('--seed', type=int, default=None, help='Random number seed [default=None]')
-    parser.add_argument('--objects', required=True, help='File containing a list of objects to insert')
-    
+    parser.add_argument('--objects', required=True, metavar='OBJECTS_FILE', help='File containing a list of objects to choose from')
+    parser.add_argument('--goal', action='store_true', default=False, help='Generate a random goal [default is to not generate a goal]')
+        
     args = parser.parse_args(argv[1:])
 
     random.seed(args.seed)
 
-
-        
     objects = load_object_file(args.objects)
-    generate_one_fileset(args.prefix, args.count, objects)
+    generate_one_fileset(args.prefix, args.count, objects, args.goal)
 
     
 
