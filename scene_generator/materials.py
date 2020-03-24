@@ -1,3 +1,4 @@
+#Holding the bunches of materials- will probably be changed by whatever Thomas has planned 
 CERAMIC_MATERIALS = [
     "AI2-THOR/Materials/Ceramics/ConcreteBoards1",
     "AI2-THOR/Materials/Ceramics/GREYGRANITE",

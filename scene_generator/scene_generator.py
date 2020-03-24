@@ -14,7 +14,7 @@ import math
 
 from materials import *
 
-#
+
 OUTPUT_TEMPLATE_JSON = """
 {
   "name": "",
@@ -47,6 +47,7 @@ POSITION_DIGITS = 1
 MIN_ROTATION = 0
 MAX_ROTATION = 359
 ROTATION_DIGITS = 0
+MAX_TRIES = 6
 
 
 def random_position():
@@ -85,12 +86,9 @@ def collision(test_rect, test_point):
     
     return (0<=dot_prod_dict(vectorAB, vectorAM)<=dot_prod_dict(vectorAB, vectorAB)) & (0<=dot_prod_dict(vectorBC, vectorBM)<=dot_prod_dict(vectorBC, vectorBC))
 
-#Returns true if we managed to put the object in the frame
-#False if we couldnt
+
 def calc_obj_pos(performer_position, new_object, old_object):
-    #generate position and rotation
-    #find the corners
-    #calculate intercept of points
+    """"Returns True if we can place the object in the frame, False otherwise. Note modifications will be necessary for multiple objects"""
 
     dx = old_object['dimensions']['x']
     dz = old_object['dimensions']['z']
@@ -99,7 +97,7 @@ def calc_obj_pos(performer_position, new_object, old_object):
     #hard-coding a limit for now
     
     tries = 0
-    while tries<6:
+    while tries< MAX_TRIES:
         rotation_amount = round(random.uniform(MIN_ROTATION,MAX_ROTATION), 0)
         radian_amount = rotation_amount*math.pi/180.0
         new_x = random_position()
@@ -118,10 +116,8 @@ def calc_obj_pos(performer_position, new_object, old_object):
         tries += 1
      
     if tries < 6 :
-        rotation = { 'x' : 0, 'y': rotation_amount, 'z': 0 }
-        position = { 'x' : new_x, 'y': old_object['position_y'], 'z' : new_z}
-        new_object['rotation'] = rotation
-        new_object['position'] = position
+        new_object['rotation'] = { 'x' : 0, 'y': rotation_amount, 'z': 0 }
+        new_object['position'] = { 'x' : new_x, 'y': old_object['position_y'], 'z' : new_z}
         return True
     
     return False
@@ -153,9 +149,8 @@ def generate_file(name, objects):
         for attribute in selected_object['attributes']:
             new_object[attribute]= True
     
-        shows = []
+        shows = [shows_object]
         new_object['shows'] = shows;
-        shows.append(shows_object)
         shows_object['stepBegin'] = 0;
         shows_object['scale'] = selected_object['scale']
         if 'salientMaterials' in selected_object:
