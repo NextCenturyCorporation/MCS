@@ -100,11 +100,6 @@ def calc_obj_coords(x,z,dx,dz,rotation):
         
 def calc_obj_pos( other_points , new_object, old_object):
     """Returns True if we can place the object in the frame, False otherwise. """
-
-    #First- generate a list of all other points- 
-    #for lack of something smarter, just going to loop through all points
-    #Potentially its not the best- but we can smartify things... I hope
-    
         
     dx = old_object['dimensions']['x']
     dz = old_object['dimensions']['z']
@@ -119,14 +114,18 @@ def calc_obj_pos( other_points , new_object, old_object):
         new_z = random_position()
         
         rect = calc_obj_coords(new_x, new_z, dx, dz, rotation)
-        if  not collision(rect,performer_position):
-            break;
+        collision_free = True
+        for point in other_points:
+            collision_free &= collision(rect, point)
+            if(not collision_free):
+                break
+            
         tries += 1
      
     if tries < 6 :
         new_object['rotation'] = { 'x' : 0, 'y': rotation, 'z': 0 }
         new_object['position'] = { 'x' : new_x, 'y': old_object['position_y'], 'z' : new_z}
-        
+        other_points.extend(rect)
         return True
     
     return False
@@ -149,7 +148,7 @@ def generate_file(name, objects):
         selected_object = copy.deepcopy(random.choice(objects))
         shows_object = {}
     
-        if calc_obj_pos(other_points , body['objects'], shows_object, selected_object):
+        if calc_obj_pos(other_points, shows_object, selected_object):
             new_object = {}
             new_object['id'] = selected_object['type']+'_'+str(uuid.uuid4())
             new_object['type'] = selected_object['type']
