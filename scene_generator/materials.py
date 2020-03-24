@@ -1,4 +1,6 @@
 #Holding the bunches of materials- will probably be changed by whatever Thomas has planned 
+#Names here are matching the object material types
+#I.R.: an object with the "Ceramic" property will use "CERAMIC_MATERIALS"
 CERAMIC_MATERIALS = [
     "AI2-THOR/Materials/Ceramics/ConcreteBoards1",
     "AI2-THOR/Materials/Ceramics/GREYGRANITE",

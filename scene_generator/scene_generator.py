@@ -115,7 +115,7 @@ def calc_obj_pos(performer_position, new_object, old_object):
             break;
         tries += 1
      
-    if tries < 6 :
+    if tries < MAX_TRIES :
         new_object['rotation'] = { 'x' : 0, 'y': rotation_amount, 'z': 0 }
         new_object['position'] = { 'x' : new_x, 'y': old_object['position_y'], 'z' : new_z}
         return True
