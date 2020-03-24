@@ -1,10 +1,149 @@
 # MCS Scene Configuration Files: API
 
-## Scene Objects
+## Scenes
 
-(TODO)
+A **scene** is a JSON object (called a [scene config](#scene-config)) that, when passed to the MCS Unity application via the MCS Python Library, describes the objects, materials (colors and textures), and scripted actions that will happen in that specific instance of the MCS 3D simulation environment.
 
-## Materials
+Example:
+
+```json
+{
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "performerStart": {
+        "position": {
+            "x": -1,
+            "z": -1
+        },
+        "rotation": {
+            "y": 90
+        }
+    },
+    "objects": [{
+        "id": "sofa",
+        "type": "sofa_1",
+        "mass": 50,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": -2,
+                "y": 0,
+                "z": -4.25
+            }
+        }]
+    }, {
+        "id": "ball_a",
+        "type": "sphere",
+        "mass": 0.05,
+        "materialFile": "AI2-THOR/Materials/Plastics/BlueRubber",
+        "pickupable": true,
+        "salientMaterials": ["plastic"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.025,
+                "z": 1
+            },
+            "scale": {
+                "x": 0.025,
+                "y": 0.025,
+                "z": 0.025
+            }
+        }]
+    }]
+}
+```
+
+### Scene Config
+
+Each **scene config** has the following properties:
+
+- `ceilingMaterial` (string, optional): The material (color/texture) for the room's ceiling. See the [Material List](#material-list) for options.
+- `floorMaterial` (string, optional): The material (color/texture) for the room's floor. See the [Material List](#material-list) for options.
+- `wallMaterial` (string, optional): The material (color/texture) for the room's four outer walls. See the [Material List](#material-list) for options.
+- `performerStart` ([transform config](#transform-config), optional): The starting position and rotation of the performer (the "player").  Only the `position.x`, `position.z`, and `rotation.y` properties are used. Default: `{ "position": { "x": 0, "z": 0 }, "rotation": { "y": 0 } }`
+- `objects` ([object config](#object-config) array, required): The objects for the scene.
+
+### Object Config
+
+Each **object config** has the following properties:
+
+- `id` (string, required): The object's unique ID.
+- `type` (string, required): The object's type from the [Object List](#object-list).
+- `forces` ([move config](#move-config) array, optional): The steps on which to apply force to the object. The config `vector` describes the amount of force (in Newtons) to apply in each direction using the global coordinate system. Default: `[]`
+- `hides` ([step config](#step-config) array, optional): The steps on which to hide the object, completely removing its existence from the scene until it is shown again (see the `shows` property). Default: `[]`
+- `kinematic` (boolean, optional): Whether the object should ignore gravity. Usually paired with `structure`. Default: `false`
+- `mass` (float, optional): The mass of the object, which affects the physics simulation. Default: `1`
+- `materialFile` (string, optional): The material (color/texture) of the object. Please note that most non-primitive objects already have specific material(s). See the [Material List](#material-list) for options. Default: none
+- `moveable` (boolean, optional): Whether the object should be moveable, if it is not already moveable based on its `type`. Default: depends on `type`
+- `moves` ([move config](#move-config) array, optional): The steps on which to move the object, teleporting it from one position in the scene to another. The config `vector` describes the final position in the global coordinate system. Default: `[]`
+- `nullParent` ([transform config](#transform-config), optional): Whether to wrap the object in a null parent object. Useful if you want to rotate an object by a point other than its center point. Default: none
+- `openable` (boolean, optional): Whether the object should be openable, if it is not already openable based on its `type`. Default: depends on `type`
+- `opened` (boolean, optional): Whether the object should begin opened. Must also be `openable`. Default: `false`
+- `pickupable` (boolean, optional): Whether the object should be pickupable, if it is not already openable based on its `type`. Pickupable objects are also automatically `moveable`. Default: depends on `type`
+- `resizes` ([size config](#size-config) array, optional): The steps on which to resize the object. Default: `[]`
+- `rotates` ([move config](#move-config) array, optional): The steps on which to rotate the object. The config `vector` describes the final rotation (in degrees) in the global coordinate system. Default: `[]`
+- `salientMaterials` (string array, optional)
+- `shows` ([show config](#show-config) array, optional): The steps on which to show the object, adding its existence to the scene. Please note that each object begins hidden within the scene, so each object should have at least one element in its `shows` array to be useful. Default: `[]`
+- `structure` (boolean, optional): Whether the object is a structural part of the environment. Usually paired with `kinematic`. Default: `false`
+- `torques` ([move config](#move-config) array, optional): The steps on which to apply torque to the object. The config `vector` describes the amount of torque (in Newtons) to apply in each direction using the global coordinate system. Default: `[]`
+
+### Move Config
+
+Each **move config** has the following properties:
+
+- `stepBegin` (integer, required): The step on which the action should begin.  Must be non-negative.  A value of `0` means the action will begin during scene initialization.
+- `stepEnd` (integer, required): The step on which the action should end.  Must be equal to or greater than the `stepBegin`.
+- `vector` ([vector config](#vector-config), required): The coordinates to describe the movement. Default: `{ "x": 0, "y": 0, "z": 0 }`
+
+### Show Config
+
+Each **show config** has the following properties:
+
+- `stepBegin` (integer, required): The step on which to show the object.  Must be non-negative.  A value of `0` means the object will be shown during scene initialization.
+- `position` ([vector config](#vector-config), optional): The object's position within the environment using the global coordinate system. Default: `{ "x": 0, "y": 0, "z": 0 }`
+- `rotation` ([vector config](#vector-config), optional): The object's rotation (in degrees) within the environment using the global coordinate system. Default: `{ "x": 0, "y": 0, "z": 0 }`
+- `scale` ([vector config](#vector-config), optional): The object's scale, which will be multipled by its base scale. Default: `{ "x": 1, "y": 1, "z": 1 }`
+
+### Size Config
+
+Each **size config** has the following properties:
+
+- `stepBegin` (integer, required): The step on which the action should begin.  Must be non-negative.  A value of `0` means the action will begin during scene initialization.
+- `stepEnd` (integer, required): The step on which the action should end.  Must be equal to or greater than the `stepBegin`.
+- `size` ([vector config](#vector-config), required): The coordinates to describe the size, which will be multiplied by its current size. Default: `{ "x": 1, "y": 1, "z": 1 }`
+
+### Step Config
+
+Each **step config** has the following properties:
+
+- `stepBegin` (integer, required): The step on which the action should occur.  Must be non-negative.  A value of `0` means the action will occur during scene initialization.
+
+### Transform Config
+
+Each **transform config** has the following properties:
+
+- `position` ([vector config](#vector-config), optional): The object's position within the environment using the global coordinate system. Default: `{ "x": 0, "y": 0, "z": 0 }`
+- `rotation` ([vector config](#vector-config), optional): The object's rotation (in degrees) within the environment using the global coordinate system. Default: `{ "x": 0, "y": 0, "z": 0 }`
+- `scale` ([vector config](#vector-config), optional): The object's scale, which will be multipled by its base scale.  Default: `{ "x": 1, "y": 1, "z": 1 }`
+
+### Vector Config
+
+Each **vector config** has the following properties:
+
+- `x` (float, optional)
+- `y` (float, optional)
+- `z` (float, optional)
+
+## Object List
+
+Coming soon!
+
+## Material List
+
+In Unity, "Materials" are the colors and textures applied to objects in the 3D simulation environment. Some objects may have default materials. Some objects may have multiple materials.
 
 ### Ceramics
 
@@ -12,7 +151,7 @@
 - `"AI2-THOR/Materials/Ceramics/GREYGRANITE"`
 - `"AI2-THOR/Materials/Ceramics/KitchenFloor"`
 - `"AI2-THOR/Materials/Ceramics/RedBrick"`
-- `"AI2-THOR/Materials/Ceramics/TexturesCom_BrickRound0044_1_seamless_S"`
+- `"AI2-THOR/Materials/Ceramics/TexturesCom_BrickRound0044_1_seamless_S"` (rough stone)
 - `"AI2-THOR/Materials/Ceramics/WhiteCountertop"`
 
 ### Fabrics
@@ -21,8 +160,8 @@
 - `"AI2-THOR/Materials/Fabrics/Carpet4"`
 - `"AI2-THOR/Materials/Fabrics/CarpetDark"`
 - `"AI2-THOR/Materials/Fabrics/CarpetWhite 3"`
-- `"AI2-THOR/Materials/Fabrics/HotelCarpet3"`
-- `"AI2-THOR/Materials/Fabrics/RugPattern224"`
+- `"AI2-THOR/Materials/Fabrics/HotelCarpet3"` (red pattern)
+- `"AI2-THOR/Materials/Fabrics/RugPattern224"` (brown, green, and white pattern)
 
 ### Metals
 
@@ -57,4 +196,3 @@
 - `"AI2-THOR/Materials/Wood/TexturesCom_WoodFine0050_1_seamless_S"`
 - `"AI2-THOR/Materials/Wood/WoodFloorsCross"`
 - `"AI2-THOR/Materials/Wood/WoodGrain_Brown"`
-
