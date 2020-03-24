@@ -48,7 +48,7 @@ MIN_ROTATION = 0
 MAX_ROTATION = 359
 ROTATION_DIGITS = 0
 MAX_TRIES = 6
-
+MAX_OBJECTS = 5
 
 def random_position():
     return round(random.uniform(MIN_PERFORMER_POSITION, MAX_PERFORMER_POSITION), POSITION_DIGITS)
@@ -86,10 +86,26 @@ def collision(test_rect, test_point):
     
     return (0<=dot_prod_dict(vectorAB, vectorAM)<=dot_prod_dict(vectorAB, vectorAB)) & (0<=dot_prod_dict(vectorBC, vectorBM)<=dot_prod_dict(vectorBC, vectorBC))
 
+def calc_obj_coords(x,z,dx,dz,rotation):
+    """Returns an array of points that are the coordinates of the rectangle """
+    radian_amount = rotation*math.pi/180.0
 
-def calc_obj_pos(performer_position, new_object, old_object):
-    """"Returns True if we can place the object in the frame, False otherwise. Note modifications will be necessary for multiple objects"""
+    rotate_sin = math.sin(radian_amount)
+    rotate_cos = math.cos(radian_amount)
+    a = { 'x': x+(dx*rotate_cos)-(dz*rotate_sin) , 'y' : 0 , 'z': z+(dx*rotate_sin+dz*rotate_cos)}
+    b = { 'x': x+(dx*rotate_cos)-(dz*rotate_sin) , 'y' : 0 , 'z': z-(dx*rotate_sin+dz*rotate_cos)}
+    c = { 'x': x-(dx*rotate_cos)+(dz*rotate_sin) , 'y' : 0 , 'z': z-(dx*rotate_sin+dz*rotate_cos)}
+    d = { 'x': x-(dx*rotate_cos)+(dz*rotate_sin) , 'y' : 0 , 'z': z+(dx*rotate_sin+dz*rotate_cos)} 
+    return [a, b, c, d]
+        
+def calc_obj_pos( other_points , new_object, old_object):
+    """Returns True if we can place the object in the frame, False otherwise. """
 
+    #First- generate a list of all other points- 
+    #for lack of something smarter, just going to loop through all points
+    #Potentially its not the best- but we can smartify things... I hope
+    
+        
     dx = old_object['dimensions']['x']
     dz = old_object['dimensions']['z']
     
@@ -98,26 +114,19 @@ def calc_obj_pos(performer_position, new_object, old_object):
     
     tries = 0
     while tries< MAX_TRIES:
-        rotation_amount = round(random.uniform(MIN_ROTATION,MAX_ROTATION), 0)
-        radian_amount = rotation_amount*math.pi/180.0
+        rotation = random_rotation()
         new_x = random_position()
         new_z = random_position()
-        rotate_sin = math.sin(radian_amount)
-        rotate_cos = math.cos(radian_amount)
-        a = { 'x': new_x+(dx*rotate_cos)-(dz*rotate_sin) , 'y' : 0 , 'z': new_z+(dx*rotate_sin+dz*rotate_cos)}
-        b = { 'x': new_x+(dx*rotate_cos)-(dz*rotate_sin) , 'y' : 0 , 'z': new_z-(dx*rotate_sin+dz*rotate_cos)}
-        c = { 'x': new_x-(dx*rotate_cos)+(dz*rotate_sin) , 'y' : 0 , 'z': new_z-(dx*rotate_sin+dz*rotate_cos)}
-        d = { 'x': new_x-(dx*rotate_cos)+(dz*rotate_sin) , 'y' : 0 , 'z': new_z+(dx*rotate_sin+dz*rotate_cos)} 
-        rect = [a, b, c, d]
-
         
+        rect = calc_obj_coords(new_x, new_z, dx, dz, rotation)
         if  not collision(rect,performer_position):
             break;
         tries += 1
      
     if tries < 6 :
-        new_object['rotation'] = { 'x' : 0, 'y': rotation_amount, 'z': 0 }
+        new_object['rotation'] = { 'x' : 0, 'y': rotation, 'z': 0 }
         new_object['position'] = { 'x' : new_x, 'y': old_object['position_y'], 'z' : new_z}
+        
         return True
     
     return False
@@ -135,31 +144,31 @@ def generate_file(name, objects):
     position['z'] = random_position()
     body['performerStart']['rotation']['y'] = random_rotation()
     
-    selected_object = copy.deepcopy(random.choice(objects))
+    other_points = [ position ]
+    for x in range (0, MAX_OBJECTS):
+        selected_object = copy.deepcopy(random.choice(objects))
+        shows_object = {}
     
+        if calc_obj_pos(other_points , body['objects'], shows_object, selected_object):
+            new_object = {}
+            new_object['id'] = selected_object['type']+'_'+str(uuid.uuid4())
+            new_object['type'] = selected_object['type']
+            new_object['info'] = selected_object['info']
+            new_object['mass'] = selected_object['mass']
+            for attribute in selected_object['attributes']:
+                new_object[attribute]= True
     
-    shows_object = {}
-    
-    if calc_obj_pos(position, shows_object, selected_object):
-        new_object = {}
-        new_object['id'] = selected_object['type']+'_'+str(uuid.uuid4())
-        new_object['type'] = selected_object['type']
-        new_object['info'] = selected_object['info']
-        new_object['mass'] = selected_object['mass']
-        for attribute in selected_object['attributes']:
-            new_object[attribute]= True
-    
-        shows = [shows_object]
-        new_object['shows'] = shows;
-        shows_object['stepBegin'] = 0;
-        shows_object['scale'] = selected_object['scale']
-        if 'salientMaterials' in selected_object:
-            salientMaterialsIndex = selected_object['salientMaterials'][0].upper()+'_MATERIALS'
-            salientMaterial = random.choice(globals().get(salientMaterialsIndex, None))
-            new_object['material']=salientMaterial;
-            new_object['info'].append(selected_object['salientMaterials'][0])
-            new_object['salientMaterials'] = selected_object['salientMaterials']
-        body['objects'].append(new_object)
+                shows = [shows_object]
+            new_object['shows'] = shows;
+            shows_object['stepBegin'] = 0;
+            shows_object['scale'] = selected_object['scale']
+            if 'salientMaterials' in selected_object:
+                salientMaterialsIndex = selected_object['salientMaterials'][0].upper()+'_MATERIALS'
+                salientMaterial = random.choice(globals().get(salientMaterialsIndex, None))
+                new_object['material']=salientMaterial;
+                new_object['info'].append(selected_object['salientMaterials'][0])
+                new_object['salientMaterials'] = selected_object['salientMaterials']
+            body['objects'].append(new_object)
         
     with open(name, 'w') as out:
         json.dump(body, out, indent=2)
