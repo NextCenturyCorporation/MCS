@@ -53,7 +53,6 @@ MAX_OBJECTS = 5
 def random_position():
     return round(random.uniform(MIN_PERFORMER_POSITION, MAX_PERFORMER_POSITION), POSITION_DIGITS)
 
-
 def random_rotation():
     rotation = round(random.uniform(MIN_ROTATION, MAX_ROTATION), ROTATION_DIGITS)
     if ROTATION_DIGITS == 0:
@@ -65,7 +64,6 @@ def load_object_file(object_file_name):
         objects = json.load(object_file)
     return objects    
         
-
 def dot_prod_dict(v1, v2):
     return sum (v1[key]*v2.get(key,0) for key in v1)
 
@@ -115,7 +113,6 @@ def calc_obj_pos( other_points , new_object, old_object):
             break          
         tries += 1
      
-
     if tries < MAX_TRIES :
         new_object['rotation'] = { 'x' : 0, 'y': rotation, 'z': 0 }
         new_object['position'] = { 'x' : new_x, 'y': old_object['position_y'], 'z' : new_z}
@@ -195,11 +192,7 @@ def main(argv):
     parser.add_argument('--objects', required=True, help='File containing a list of objects to insert')
     
     args = parser.parse_args(argv[1:])
-
-    random.seed(args.seed)
-
-
-        
+    random.seed(args.seed)       
     objects = load_object_file(args.objects)
     generate_one_fileset(args.prefix, args.count, objects)
 
