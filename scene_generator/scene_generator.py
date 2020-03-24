@@ -103,10 +103,7 @@ def calc_obj_pos( other_points , new_object, old_object):
         
     dx = old_object['dimensions']['x']
     dz = old_object['dimensions']['z']
-    
-    #putting in a limit to the number of times we can choose for now
-    #hard-coding a limit for now
-    
+
     tries = 0
     while tries< MAX_TRIES:
         rotation = random_rotation()
@@ -114,17 +111,13 @@ def calc_obj_pos( other_points , new_object, old_object):
         new_z = random_position()
         
         rect = calc_obj_coords(new_x, new_z, dx, dz, rotation)
-        collision_free = True
-        for point in other_points:
-            collision_free &= collision(rect, point)
-            if(not collision_free):
-                break
-            
+        if not any(collision(rect, point) for point in other_points):
+            break          
         tries += 1
      
 
     if tries < MAX_TRIES :
-        new_object['rotation'] = { 'x' : 0, 'y': rotation_amount, 'z': 0 }
+        new_object['rotation'] = { 'x' : 0, 'y': rotation, 'z': 0 }
         new_object['position'] = { 'x' : new_x, 'y': old_object['position_y'], 'z' : new_z}
         other_points.extend(rect)
         return True
@@ -145,7 +138,8 @@ def generate_file(name, objects):
     body['performerStart']['rotation']['y'] = random_rotation()
     
     other_points = [ position ]
-    for x in range (0, MAX_OBJECTS):
+    object_count = random.randint(1,MAX_OBJECTS)
+    for x in range (0, object_count):
         selected_object = copy.deepcopy(random.choice(objects))
         shows_object = {}
     
