@@ -1,8 +1,25 @@
 # MCS Scene Configuration Files: API
 
+- [Scenes](#scenes)
+  - [Scene Config](#scene-config)
+  - [Object Config](#object-config)
+  - [Goal Config](#goal-config)
+  - [Goal Metadata Config](#goal-metadata-config)
+  - [Answer Config](#answer-config)
+  - [Move Config](#move-config)
+  - [Show Config](#show-config)
+  - [Size Config](#size-config)
+  - [Step Config](#step-config)
+  - [Transform Config](#transform-config)
+  - [Vector Config](#vector-config)
+- [Object List](#object-list)
+- [Material List](#material-list)
+
 ## Scenes
 
 A **scene** is a JSON object (called a [scene config](#scene-config)) that, when passed to the MCS Unity application via the MCS Python Library, describes the objects, materials (colors and textures), and scripted actions that will happen in that specific instance of the MCS 3D simulation environment.
+
+### Scene Config
 
 Example:
 
@@ -56,8 +73,6 @@ Example:
 }
 ```
 
-### Scene Config
-
 Each **scene config** has the following properties:
 
 - `name` (string, optional): A unique name for the scene used for our logs. Default: none
@@ -66,6 +81,8 @@ Each **scene config** has the following properties:
 - `wallMaterial` (string, optional): The material (color/texture) for the room's four outer walls. See the [Material List](#material-list) for options. Default (v0.0.3+): `"AI2-THOR/Materials/Walls/DrywallBeige"`
 - `performerStart` ([transform config](#transform-config), optional): The starting position and rotation of the performer (the "player").  Only the `position.x`, `position.z`, and `rotation.y` properties are used. Default: `{ "position": { "x": 0, "z": 0 }, "rotation": { "y": 0 } }`
 - `objects` ([object config](#object-config) array, optional): The objects for the scene. Default: `[]`
+- `goal` ([goal config](#goal-config), optional): The goal for the scene. Default: none
+- `answer` ([answer config](#answer-config), optional): The best answer to the goal for the scene. Default: none
 
 ### Object Config
 
@@ -90,6 +107,30 @@ Each **object config** has the following properties:
 - `shows` ([show config](#show-config) array, optional): The steps on which to show the object, adding its existence to the scene. Please note that each object begins hidden within the scene, so each object should have at least one element in its `shows` array to be useful. Default: `[]`
 - `structure` (boolean, optional): Whether the object is a structural part of the environment. Usually paired with `kinematic`. Default: `false`
 - `torques` ([move config](#move-config) array, optional): The steps on which to apply torque to the object. The config `vector` describes the amount of torque (in Newtons) to apply in each direction using the global coordinate system. Default: `[]`
+
+### Goal Config
+
+Each **goal config** has the following properties:
+
+- `action_list` (string array array, optional): The list of actions that are available for the scene at each step (outer list index).  Each inner list item is a list of action strings. For example, `['MoveAhead','RotateLook,rotation=180']` restricts the actions to either `'MoveAhead'` or `'RotateLook'` with the `'rotation'` parameter set to `180`. An empty outer `action_list` means that all actions are always available. An empty inner list means that all actions are available for that specific step. Default: none
+- `info_list` (array, optional): A list of information for the visualization interface associated with this goal. Default: none
+- `last_preview_phase_step` (integer, optional): The last step of the preview phase of this scene, if any. Default: -1
+- `last_step` (integer, optional): The last step of this scene. This scene will automatically end following this step.
+- `metadata` ([goal metadata config](#goal-metadata-config), optional): The metadata specific to this goal. Default: none
+- `task_list` (string array, optional): A list of types for the visualization interface associated with this goal, including the relevant MCS core domains. Default: none
+- `type_list` (string array, optional) A list of tasks for the visualization interface associated with this goal (secondary to its types).
+
+### Goal Metadata Config
+
+Each **goal metadata config** has the following properties:
+
+(Coming soon!)
+
+### Answer Config
+
+Each **answer config** has the following properties:
+
+(Coming soon!)
 
 ### Move Config
 
