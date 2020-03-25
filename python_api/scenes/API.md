@@ -60,11 +60,12 @@ Example:
 
 Each **scene config** has the following properties:
 
-- `ceilingMaterial` (string, optional): The material (color/texture) for the room's ceiling. See the [Material List](#material-list) for options.
-- `floorMaterial` (string, optional): The material (color/texture) for the room's floor. See the [Material List](#material-list) for options.
-- `wallMaterial` (string, optional): The material (color/texture) for the room's four outer walls. See the [Material List](#material-list) for options.
+- `name` (string, optional): A unique name for the scene used for our logs. Default: none
+- `ceilingMaterial` (string, optional): The material (color/texture) for the room's ceiling. See the [Material List](#material-list) for options. Default: `"AI2-THOR/Materials/Walls/Drywall"`
+- `floorMaterial` (string, optional): The material (color/texture) for the room's floor. See the [Material List](#material-list) for options. Default: `"AI2-THOR/Materials/Fabrics/CarpetWhite 3"`
+- `wallMaterial` (string, optional): The material (color/texture) for the room's four outer walls. See the [Material List](#material-list) for options. Default: `"AI2-THOR/Materials/Walls/DrywallBeige"`
 - `performerStart` ([transform config](#transform-config), optional): The starting position and rotation of the performer (the "player").  Only the `position.x`, `position.z`, and `rotation.y` properties are used. Default: `{ "position": { "x": 0, "z": 0 }, "rotation": { "y": 0 } }`
-- `objects` ([object config](#object-config) array, required): The objects for the scene.
+- `objects` ([object config](#object-config) array, optional): The objects for the scene. Default: `[]`
 
 ### Object Config
 
