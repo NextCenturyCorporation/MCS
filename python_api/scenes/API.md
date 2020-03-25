@@ -78,13 +78,13 @@ Each **object config** has the following properties:
 - `mass` (float, optional): The mass of the object, which affects the physics simulation. Default: `1`
 - `materialFile` (string, optional): The material (color/texture) of the object. Please note that most non-primitive objects already have specific material(s). See the [Material List](#material-list) for options. Default: none
 - `moveable` (boolean, optional): Whether the object should be moveable, if it is not already moveable based on its `type`. Default: depends on `type`
-- `moves` ([move config](#move-config) array, optional): The steps on which to move the object, teleporting it from one position in the scene to another. The config `vector` describes the final position in the global coordinate system. Useful if you want to have impossible events (spontaneous teleportation). Default: `[]`
+- `moves` ([move config](#move-config) array, optional): The steps on which to move the object, teleporting it from one position in the scene to another. The config `vector` describes the amount of position to change, added to the object's current position. Useful if you want to have impossible events (spontaneous teleportation). Default: `[]`
 - `nullParent` ([transform config](#transform-config), optional): Whether to wrap the object in a null parent object. Useful if you want to rotate an object by a point other than its center point. Default: none
 - `openable` (boolean, optional): Whether the object should be openable, if it is not already openable based on its `type`. Default: depends on `type`
 - `opened` (boolean, optional): Whether the object should begin opened. Must also be `openable`. Default: `false`
 - `pickupable` (boolean, optional): Whether the object should be pickupable, if it is not already openable based on its `type`. Pickupable objects are also automatically `moveable`. Default: depends on `type`
-- `resizes` ([size config](#size-config) array, optional): The steps on which to resize the object. Useful if you want to have impossible events (spontaneous resizing). Default: `[]`
-- `rotates` ([move config](#move-config) array, optional): The steps on which to rotate the object. Useful if you want to have impossible events (spontaneous rotation). The config `vector` describes the final rotation (in degrees) in the global coordinate system. Default: `[]`
+- `resizes` ([size config](#size-config) array, optional): The steps on which to resize the object. The config `size` is multiplied by the object's current size. Useful if you want to have impossible events (spontaneous resizing). Default: `[]`
+- `rotates` ([move config](#move-config) array, optional): The steps on which to rotate the object. Useful if you want to have impossible events (spontaneous rotation). The config `vector` describes the amount of rotation (in degrees) to change, added to the object's current rotation. Default: `[]`
 - `salientMaterials` (string array, optional)
 - `shows` ([show config](#show-config) array, optional): The steps on which to show the object, adding its existence to the scene. Please note that each object begins hidden within the scene, so each object should have at least one element in its `shows` array to be useful. Default: `[]`
 - `structure` (boolean, optional): Whether the object is a structural part of the environment. Usually paired with `kinematic`. Default: `false`
@@ -105,7 +105,7 @@ Each **show config** has the following properties:
 - `stepBegin` (integer, required): The step on which to show the object.  Must be non-negative.  A value of `0` means the object will be shown during scene initialization.
 - `position` ([vector config](#vector-config), optional): The object's position within the environment using the global coordinate system. Default: `{ "x": 0, "y": 0, "z": 0 }`
 - `rotation` ([vector config](#vector-config), optional): The object's rotation (in degrees) within the environment using the global coordinate system. Default: `{ "x": 0, "y": 0, "z": 0 }`
-- `scale` ([vector config](#vector-config), optional): The object's scale, which will be multipled by its base scale. Default: `{ "x": 1, "y": 1, "z": 1 }`
+- `scale` ([vector config](#vector-config), optional): The object's scale, which is multiplied by its base scale. Default: `{ "x": 1, "y": 1, "z": 1 }`
 
 ### Size Config
 
@@ -113,7 +113,7 @@ Each **size config** has the following properties:
 
 - `stepBegin` (integer, required): The step on which the action should begin.  Must be non-negative.  A value of `0` means the action will begin during scene initialization.
 - `stepEnd` (integer, required): The step on which the action should end.  Must be equal to or greater than the `stepBegin`.
-- `size` ([vector config](#vector-config), required): The coordinates to describe the size, which will be multiplied by its current size. Default: `{ "x": 1, "y": 1, "z": 1 }`
+- `size` ([vector config](#vector-config), required): The coordinates to describe the size, which is multiplied by the object's current size. Default: `{ "x": 1, "y": 1, "z": 1 }`
 
 ### Step Config
 
@@ -127,7 +127,7 @@ Each **transform config** has the following properties:
 
 - `position` ([vector config](#vector-config), optional): The object's position within the environment using the global coordinate system. Default: `{ "x": 0, "y": 0, "z": 0 }`
 - `rotation` ([vector config](#vector-config), optional): The object's rotation (in degrees) within the environment using the global coordinate system. Default: `{ "x": 0, "y": 0, "z": 0 }`
-- `scale` ([vector config](#vector-config), optional): The object's scale, which will be multipled by its base scale.  Default: `{ "x": 1, "y": 1, "z": 1 }`
+- `scale` ([vector config](#vector-config), optional): The object's scale, which is multiplied by its base scale.  Default: `{ "x": 1, "y": 1, "z": 1 }`
 
 ### Vector Config
 
