@@ -13,7 +13,7 @@ import math
 
 
 from materials import *
-
+from separating_axis_theorem import *
 
 OUTPUT_TEMPLATE_JSON = """
 {
@@ -96,7 +96,7 @@ def calc_obj_coords(x,z,dx,dz,rotation):
     d = { 'x': x-(dx*rotate_cos)+(dz*rotate_sin) , 'y' : 0 , 'z': z+(dx*rotate_sin+dz*rotate_cos)} 
     return [a, b, c, d]
         
-def calc_obj_pos( other_points , new_object, old_object):
+def calc_obj_pos( performer_position, other_rects , new_object, old_object):
     """Returns True if we can place the object in the frame, False otherwise. """
         
     dx = old_object['dimensions']['x']
@@ -109,14 +109,14 @@ def calc_obj_pos( other_points , new_object, old_object):
         new_z = random_position()
         
         rect = calc_obj_coords(new_x, new_z, dx, dz, rotation)
-        if not any(collision(rect, point) for point in other_points):
+        if not collision(rect, performer_position) and (len(other_rects) == 0 or any(sat_entry(rect, other_rect) for other_rect in other_rects)):
             break          
         tries += 1
      
     if tries < MAX_TRIES :
         new_object['rotation'] = { 'x' : 0, 'y': rotation, 'z': 0 }
         new_object['position'] = { 'x' : new_x, 'y': old_object['position_y'], 'z' : new_z}
-        other_points.extend(rect)
+        other_rects.append(rect)
         return True
     
     return False
@@ -134,13 +134,13 @@ def generate_file(name, objects):
     position['z'] = random_position()
     body['performerStart']['rotation']['y'] = random_rotation()
     
-    other_points = [ position ]
+    other_rects = [ ]
     object_count = random.randint(1,MAX_OBJECTS)
     for x in range (0, object_count):
         selected_object = copy.deepcopy(random.choice(objects))
         shows_object = {}
     
-        if calc_obj_pos(other_points, shows_object, selected_object):
+        if calc_obj_pos(position, other_rects, shows_object, selected_object):
             new_object = {}
             new_object['id'] = selected_object['type']+'_'+str(uuid.uuid4())
             new_object['type'] = selected_object['type']
@@ -149,7 +149,7 @@ def generate_file(name, objects):
             for attribute in selected_object['attributes']:
                 new_object[attribute]= True
     
-                shows = [shows_object]
+            shows = [shows_object]
             new_object['shows'] = shows;
             shows_object['stepBegin'] = 0;
             shows_object['scale'] = selected_object['scale']
