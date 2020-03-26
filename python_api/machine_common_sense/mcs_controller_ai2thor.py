@@ -73,7 +73,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
-    def __init__(self, unity_app_file_path, debug=False):
+    def __init__(self, unity_app_file_path, debug=False, enable_noise=False):
         super().__init__()
 
         self.__controller = ai2thor.controller.Controller(
@@ -93,11 +93,13 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             }
         )
 
-        self.on_init(debug)
+        self.on_init(debug, enable_noise)
 
-    def on_init(self, debug=False):
+    def on_init(self, debug=False, enable_noise=False):
         self.__debug_to_file = True if (debug is True or debug is 'file') else False
         self.__debug_to_terminal = True if (debug is True or debug is 'terminal') else False
+
+        self.__enable_noise = enable_noise
 
         self.__current_scene = None
         self.__head_tilt = 0
@@ -202,6 +204,12 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         if action in self.MOVE_ACTIONS:
             moveMagnitude = amount * self.MAX_MOVE_DISTANCE
+
+        # Add in noise if noise is enable
+        if self.__enable_noise:
+            rotation = rotation * (1 + self.generate_noise())
+            horizon = horizon * (1 + self.generate_noise())
+            moveMagnitude = moveMagnitude * (1 + self.generate_noise())
 
         rotation_vector = {}
         rotation_vector['y'] = rotation
