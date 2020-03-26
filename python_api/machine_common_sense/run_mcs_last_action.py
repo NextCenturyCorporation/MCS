@@ -28,7 +28,7 @@ if __name__ == "__main__":
 
     output = controller.start_scene(config_data)
 
-    for i in range(1, last_step + 1):
+    for i in range(output.step_number + 1, last_step + 1):
         action = output.action_list[len(output.action_list) - 1]
         output = controller.step(action)
 

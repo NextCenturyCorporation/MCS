@@ -5,39 +5,20 @@
     "wallMaterial": "AI2-THOR/Materials/Walls/YellowDrywall",
     "performerStart": {
         "position": {
-            "x": -2,
-            "z": 3
+            "x": 0,
+            "z": -1.5
         },
         "rotation": {
-            "y": 90
+            "y": 0
         }
     },
     "goal": {
-      "type_list": ["observation", "intuitive_physics", "objects"],
-      "task_list": ["plausibility"],
+      "type_list": ["intuitive_physics", "no_action", "choice", "objects"],
+      "task_list": ["energy_conservation"],
       "info_list": [],
-      "last_step": 45,
+      "last_preview_phase_step": 20,
+      "last_step": 50,
       "action_list": [
-          ["RotateLook,horizon=-30"],
-          ["RotateLook,horizon=-30"],
-          ["Pass"],
-          ["RotateLook,horizon=30"],
-          ["RotateLook,horizon=30"],
-          ["RotateLook,rotation=30"],
-          ["RotateLook,rotation=30"],
-          ["MoveAhead,amount=1"],
-          ["MoveAhead,amount=1"],
-          ["MoveAhead,amount=1"],
-          ["MoveAhead,amount=1"],
-          ["MoveAhead,amount=1"],
-          ["MoveAhead,amount=1"],
-          ["MoveAhead,amount=1"],
-          ["MoveAhead,amount=1"],
-          ["RotateLook,rotation=-30"],
-          ["RotateLook,rotation=-30"],
-          ["RotateLook,rotation=-30"],
-          ["RotateLook,rotation=-30"],
-          ["RotateLook,rotation=-30"],
           ["Pass"],
           ["Pass"],
           ["Pass"],
@@ -83,7 +64,7 @@
         "shows": [{
             "stepBegin": 20,
             "position": {
-                "x": -2.5,
+                "x": -3,
                 "y": 0.25,
                 "z": 3
             },
@@ -102,8 +83,8 @@
                 "z": 0
             }
         }, {
-            "stepBegin": 32,
-            "stepEnd": 32,
+            "stepBegin": 34,
+            "stepEnd": 34,
             "vector": {
                 "x": -200,
                 "y": 0,
@@ -116,6 +97,30 @@
         "kinematic": true,
         "mass": 100,
         "materialFile": "AI2-THOR/Materials/Ceramics/GREYGRANITE",
+        "nullParent": {
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 2.5
+            }
+        },
+        "rotates": [{
+            "stepBegin": 1,
+            "stepEnd": 9,
+            "vector": {
+                "x": -10,
+                "y": 0,
+                "z": 0
+            }
+        }, {
+            "stepBegin": 11,
+            "stepEnd": 19,
+            "vector": {
+                "x": 10,
+                "y": 0,
+                "z": 0
+            }
+        }],
         "salientMaterials": ["ceramic"],
         "structure": true,
         "shows": [{
@@ -123,10 +128,10 @@
             "position": {
                 "x": 0,
                 "y": 1.25,
-                "z": 2.5
+                "z": 0
             },
             "scale": {
-                "x": 0.6,
+                "x": 0.75,
                 "y": 2.5,
                 "z": 0.1
             }

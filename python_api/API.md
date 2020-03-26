@@ -99,11 +99,11 @@ The last step of this scene. This scene will automatically end following this st
 
 ### task_list : list of strings
 
-The list of tasks associated with this goal (secondary to its types).
+The list of tasks for the visualization interface associated with this goal (secondary to its types).
 
 ### type_list : list of strings
 
-The list of types associated with this goal, including the relevant MCS core domains.
+The list of types for the visualization interface associated with this goal, including the relevant MCS core domains.
 
 ### metadata : dict
 
@@ -155,7 +155,7 @@ The list of all actions (like "MoveAhead" or "PickupObject") that are available 
 
 ### depth_mask_list : list of Pillow.Image objects
 
-The list of depth mask images from the scene after the last action and physics simulation were run. This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a Pre-Interaction Phase.
+The list of depth mask images from the scene after the last action and physics simulation were run. This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a scripted Preview Phase.
 
 ### goal : MCS_Goal
 
@@ -167,7 +167,7 @@ How far your head is tilted up/down in degrees (between 90 and -90). Changed by 
 
 ### image_list : list of Pillow.Image objects
 
-The list of images from the scene after the last action and physics simulation were run. This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a Pre-Interaction Phase.
+The list of images from the scene after the last action and physics simulation were run. This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a scripted Preview Phase.
 
 ### object_list : list of MCS_Object objects
 
@@ -175,7 +175,7 @@ The list of metadata for all objects in the scene.
 
 ### object_mask_list : list of Pillow.Image objects
 
-The list of object mask images from the scene after the last action and physics simulation were run. This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a Pre-Interaction Phase.
+The list of object mask images from the scene after the last action and physics simulation were run. This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a scripted Preview Phase.
 
 ### pose : string
 

@@ -26,19 +26,21 @@ def run_scene(file_name):
 
     output = controller.start_scene(config_data)
 
-    for i in range(1, last_step + 1):
+    for i in range(output.step_number + 1, last_step + 1):
         action = output.action_list[len(output.action_list) - 1]
-        output = controller.step(action, **params)
+        output = controller.step(action)
 
 if __name__ == "__main__":
     controller = MCS.create_controller(sys.argv[1], debug=True)
 
-    run_scene('./scenes/intphys_gravity_plausible_sample_1.json')
-    run_scene('./scenes/intphys_gravity_implausible_sample_1.json')
-    run_scene('./scenes/intphys_object_permanence_plausible_sample_1.json')
-    run_scene('./scenes/intphys_object_permanence_implausible_sample_1.json')
-    run_scene('./scenes/intphys_shape_constancy_plausible_sample_1.json')
-    run_scene('./scenes/intphys_shape_constancy_implausible_sample_1.json')
-    run_scene('./scenes/intphys_spatial_temporal_continuity_plausible_sample_1.json')
-    run_scene('./scenes/intphys_spatial_temporal_continuity_implausible_sample_1.json')
+    run_scene('../scenes/intphys_gravity_plausible_sample_1.json')
+    run_scene('../scenes/intphys_gravity_implausible_sample_1.json')
+    run_scene('../scenes/intphys_object_permanence_plausible_sample_1.json')
+    run_scene('../scenes/intphys_object_permanence_implausible_sample_1.json')
+    run_scene('../scenes/intphys_shape_constancy_plausible_sample_1.json')
+    run_scene('../scenes/intphys_shape_constancy_implausible_sample_1.json')
+    # run_scene('../scenes/intphys_spatio_temporal_continuity_plausible_sample_1.json')
+    # run_scene('../scenes/intphys_spatio_temporal_continuity_implausible_sample_1.json')
+    run_scene('../scenes/intphys_energy_conservation_plausible_sample_1.json')
+    run_scene('../scenes/intphys_energy_conservation_implausible_sample_1.json')
 
