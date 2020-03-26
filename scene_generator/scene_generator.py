@@ -15,6 +15,7 @@ import math
 from materials import *
 from separating_axis_theorem import *
 
+
 OUTPUT_TEMPLATE_JSON = """
 {
   "name": "",
@@ -67,6 +68,8 @@ def load_object_file(object_file_name):
 def dot_prod_dict(v1, v2):
     return sum (v1[key]*v2.get(key,0) for key in v1)
 
+       
+    
 def collision(test_rect, test_point):
     #assuming test_rect is an array4 points in order... Clockwise or CCW does not matter
     #points are {x,y,z}
