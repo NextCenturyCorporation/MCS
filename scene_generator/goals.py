@@ -44,10 +44,10 @@ def _generate_id_goal(objects):
 
 def _generate_transportation_goal(objects):
     if len(objects) < 2:
-        raise Exception(f'need at least 2 for this goal, was only given {len(objects)}')
+        raise ValueError(f'need at least 2 for this goal, was only given {len(objects)}')
     pickupables = [x for x in objects if 'pickupable' in x['attributes']]
     if len(pickupables) == 0:
-        raise Exception('at least one object must be "pickupable"')
+        raise ValueError('at least one object must be "pickupable"')
     target1 = random.choice(pickupables)
     other_objects = [x for x in objects if x != target1]
     target2 = random.choice(other_objects)
