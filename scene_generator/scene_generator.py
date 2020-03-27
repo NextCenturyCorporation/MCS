@@ -14,6 +14,7 @@ import math
 
 from materials import *
 from separating_axis_theorem import *
+from zlib import MAX_WBITS
 
 
 OUTPUT_TEMPLATE_JSON = """
@@ -50,6 +51,14 @@ MAX_ROTATION = 359
 ROTATION_DIGITS = 0
 MAX_TRIES = 6
 MAX_OBJECTS = 5
+MAX_WALLS = 3
+MIN_WALLS = 0
+MAX_WALL_WIDTH = 4
+MIN_WALL_WIDTH = 1
+WALL_Y_POS = 1.25
+WALL_HEIGHT = 2.5
+WALL_DEPTH = 0.1
+
 
 def random_position():
     return round(random.uniform(MIN_PERFORMER_POSITION, MAX_PERFORMER_POSITION), POSITION_DIGITS)
@@ -93,10 +102,10 @@ def calc_obj_coords(x,z,dx,dz,rotation):
 
     rotate_sin = math.sin(radian_amount)
     rotate_cos = math.cos(radian_amount)
-    a = { 'x': x+(dx*rotate_cos)-(dz*rotate_sin) , 'y' : 0 , 'z': z+(dx*rotate_sin+dz*rotate_cos)}
-    b = { 'x': x+(dx*rotate_cos)-(dz*rotate_sin) , 'y' : 0 , 'z': z-(dx*rotate_sin+dz*rotate_cos)}
-    c = { 'x': x-(dx*rotate_cos)+(dz*rotate_sin) , 'y' : 0 , 'z': z-(dx*rotate_sin+dz*rotate_cos)}
-    d = { 'x': x-(dx*rotate_cos)+(dz*rotate_sin) , 'y' : 0 , 'z': z+(dx*rotate_sin+dz*rotate_cos)} 
+    a = { 'x': x+(dx*rotate_cos)-(dz*rotate_sin) , 'y' : 0 , 'z': z+dx*rotate_sin+dz*rotate_cos}
+    b = { 'x': x+(dx*rotate_cos)+(dz*rotate_sin) , 'y' : 0 , 'z': z+dx*rotate_sin-dz*rotate_cos}
+    c = { 'x': x-(dx*rotate_cos)+(dz*rotate_sin) , 'y' : 0 , 'z': z-dx*rotate_sin-dz*rotate_cos}
+    d = { 'x': x-(dx*rotate_cos)-(dz*rotate_sin) , 'y' : 0 , 'z': z-dx*rotate_sin+dz*rotate_cos} 
     return [a, b, c, d]
         
 def calc_obj_pos( performer_position, other_rects , new_object, old_object):
@@ -124,12 +133,49 @@ def calc_obj_pos( performer_position, other_rects , new_object, old_object):
     
     return False
 
+
+def generate_wall(wall_mat_choice, performer_position, other_rects, objects_array):
+    # Wanted to reuse written functions, but this is a bit more of a special snowflake
+    
+    tries = 0
+    while tries< MAX_TRIES:
+        rotation = random_rotation()
+        new_x = random_position()
+        new_z = random_position()
+        new_x_size = round(random.uniform(MIN_WALL_WIDTH, MAX_WALL_WIDTH), POSITION_DIGITS)
+        rect = calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, rotation)
+        if not collision(rect, performer_position) and (len(other_rects) == 0 or any(sat_entry(rect, other_rect) for other_rect in other_rects)):
+            break
+        tries += 1
+        
+    if tries < MAX_TRIES :
+        new_object = {}
+        new_object['id'] ='wall_'+str(uuid.uuid4())
+        new_object['material'] = wall_mat_choice
+        new_object['type']='cube'
+        new_object['kinematic']='true'
+        new_object['structure'] = 'true'
+        new_object['mass'] = 100,
+        shows_object = {}
+        shows = [shows_object]
+        new_object['shows'] = shows;
+        
+        shows_object['stepBegin'] = 0;
+        shows_object['scale'] = {'x': new_x_size, 'y': WALL_HEIGHT, 'z' :WALL_DEPTH}
+    
+        shows_object['rotation'] = { 'x' : 0, 'y': rotation, 'z': 0 }
+        shows_object['position'] = { 'x' : new_x, 'y': WALL_Y_POS, 'z' : new_z}
+        other_rects.append(rect)
+        objects_array.append(new_object)
+                
+                
 def generate_file(name, objects): 
     global OUTPUT_TEMPLATE
     body = copy.deepcopy(OUTPUT_TEMPLATE)
     body['name'] = os.path.basename(name)
-    body['ceilingMaterial'] = random.choice(CEILING_AND_WALL_MATERIALS)
-    body['wallMaterial'] = random.choice(CEILING_AND_WALL_MATERIALS)
+    ceil_wall_mat_choice = random.choice(CEILING_AND_WALL_MATERIALS)
+    body['ceilingMaterial'] = ceil_wall_mat_choice
+    body['wallMaterial'] = ceil_wall_mat_choice
     body['floorMaterial'] =random.choice(FLOOR_MATERIALS)
     position = body['performerStart']['position']
     position['x'] = random_position()
@@ -163,7 +209,12 @@ def generate_file(name, objects):
                 new_object['info'].append(selected_object['salientMaterials'][0])
                 new_object['salientMaterials'] = selected_object['salientMaterials']
             body['objects'].append(new_object)
-        
+            
+            
+    wall_count = random.randint(MIN_WALLS,MAX_WALLS)
+    for x in range (0,wall_count):
+        generate_wall(ceil_wall_mat_choice, position, other_rects, body['objects'])
+    
     with open(name, 'w') as out:
         json.dump(body, out, indent=2)
 
