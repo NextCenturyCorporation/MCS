@@ -132,7 +132,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         output = self.wrap_output(self.__controller.step(self.wrap_step(action='Initialize', sceneConfig=config_data)))
 
         if not skip_preview_phase:
-            if self.__goal is not None and self.__goal.last_preview_phase_step >= 0:
+            if self.__goal is not None and self.__goal.last_preview_phase_step > 0:
                 image_list = output.image_list
                 depth_mask_list = output.depth_mask_list
                 object_mask_list = output.object_mask_list
@@ -316,10 +316,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     def retrieve_action_list(self, goal, step_number):
         if goal is not None and goal.action_list is not None:
-            if step_number <= goal.last_preview_phase_step:
+            if step_number < goal.last_preview_phase_step:
                 return ['Pass']
             adjusted_step = step_number - goal.last_preview_phase_step
-            print('adjusted_step ' + str(adjusted_step))
             if len(goal.action_list) > adjusted_step:
                 if len(goal.action_list[adjusted_step]) > 0:
                     return goal.action_list[adjusted_step]
@@ -333,7 +332,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             action_list=(goal_config['action_list'] if 'action_list' in goal_config else None),
             info_list=(goal_config['info_list'] if 'type_list' in goal_config else []),
             last_preview_phase_step=(goal_config['last_preview_phase_step'] if 'last_preview_phase_step' \
-                    in goal_config else -1),
+                    in goal_config else 0),
             last_step=(goal_config['last_step'] if 'last_step' in goal_config else None),
             task_list=(goal_config['task_list'] if 'type_list' in goal_config else []),
             type_list=(goal_config['type_list'] if 'type_list' in goal_config else []),

@@ -14,7 +14,7 @@ class MCS_Goal:
     info_list : list
         The list of information for the visualization interface associated with this goal.
     last_preview_phase_step : integer
-        The last step of the preview phase of this scene (scripted in its configuration), if any. Default: -1
+        The last step of the preview phase of this scene (scripted in its configuration), if any. Default: 0
     last_step : integer
         The last step of this scene. This scene will automatically end following this step.
     task_list : list of strings
@@ -29,7 +29,7 @@ class MCS_Goal:
         self,
         action_list=None,
         info_list=None,
-        last_preview_phase_step=-1,
+        last_preview_phase_step=0,
         last_step=None,
         task_list=None,
         type_list=None,
