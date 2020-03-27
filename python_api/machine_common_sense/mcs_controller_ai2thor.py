@@ -101,7 +101,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         self.__enable_noise = enable_noise
 
-        self.__current_scene = None
+        self.__scene_configuration = None
         self.__head_tilt = 0
         self.__output_folder = None # Save output image files to debug
         self.__step_number = 0
@@ -117,9 +117,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     def start_scene(self, config_data):
         super().start_scene(config_data)
 
-        self.__current_scene = config_data
+        self.__scene_configuration = config_data
         self.__step_number = 0
-        self.__goal = self.retrieve_goal(self.__current_scene)
+        self.__goal = self.retrieve_goal(self.__scene_configuration)
+        skip_preview_phase = True if 'goal' in config_data and 'skip_preview_phase' in config_data['goal'] else False
 
         if self.__debug_to_file and config_data['name'] is not None:
             os.makedirs('./' + config_data['name'], exist_ok=True)
@@ -128,7 +129,33 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             for file_path in file_list:
                 os.remove(file_path)
 
-        return self.wrap_output(self.__controller.step(self.wrap_step(action='Initialize', sceneConfig=config_data)))
+        output = self.wrap_output(self.__controller.step(self.wrap_step(action='Initialize', sceneConfig=config_data)))
+
+        if not skip_preview_phase:
+            if self.__goal is not None and self.__goal.last_preview_phase_step >= 0:
+                image_list = output.image_list
+                depth_mask_list = output.depth_mask_list
+                object_mask_list = output.object_mask_list
+
+                if self.__debug_to_terminal:
+                    print('STARTING PREVIEW PHASE...')
+
+                for i in range(0, self.__goal.last_preview_phase_step):
+                    output = self.step('Pass')
+                    image_list = image_list + output.image_list
+                    depth_mask_list = depth_mask_list + output.depth_mask_list
+                    object_mask_list = object_mask_list + output.object_mask_list
+
+                if self.__debug_to_terminal:
+                    print('ENDING PREVIEW PHASE')
+
+                output.image_list = image_list
+                output.depth_mask_list = depth_mask_list
+                output.object_mask_list = object_mask_list
+            elif self.__debug_to_terminal:
+                print('NO PREVIEW PHASE')
+
+        return output
 
     # TODO: may need to reevaluate validation strategy/error handling in the future
     """
@@ -238,8 +265,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     def step(self, action, **kwargs):
         super().step(action, **kwargs)
 
-        if self.__goal.last_step is not None and self.__goal.last_step < self.__step_number:
-            print("MCS Warning: You have passed the last step of this scene. Skipping your action." + \
+        if self.__goal.last_step is not None and self.__goal.last_step == self.__step_number:
+            print("MCS Warning: You have passed the last step for this scene. Skipping your action. " + \
                     "Please call controller.end_scene() now.")
             return None
 
@@ -261,6 +288,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         # Only call mcs_action_to_ai2thor_action AFTER calling validate_and_convert_params
         action = self.mcs_action_to_ai2thor_action(action)
+
+        if self.__goal.last_step is not None and self.__goal.last_step == self.__step_number:
+            print("MCS Warning: This is your last step for this scene. All your future actions will be skipped. " + \
+                    "Please call controller.end_scene() now.")
 
         return self.wrap_output(self.__controller.step(self.wrap_step(action=action, **params)))
 
@@ -285,18 +316,24 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     def retrieve_action_list(self, goal, step_number):
         if goal is not None and goal.action_list is not None:
-            if len(goal.action_list) > step_number:
-                if len(goal.action_list[step_number]) > 0:
-                    return goal.action_list[step_number]
+            if step_number <= goal.last_preview_phase_step:
+                return ['Pass']
+            adjusted_step = step_number - goal.last_preview_phase_step
+            print('adjusted_step ' + str(adjusted_step))
+            if len(goal.action_list) > adjusted_step:
+                if len(goal.action_list[adjusted_step]) > 0:
+                    return goal.action_list[adjusted_step]
 
         return self.ACTION_LIST
 
-    def retrieve_goal(self, current_scene):
-        goal_config = current_scene['goal'] if 'goal' in current_scene else {}
+    def retrieve_goal(self, scene_configuration):
+        goal_config = scene_configuration['goal'] if 'goal' in scene_configuration else {}
 
         return MCS_Goal(
             action_list=(goal_config['action_list'] if 'action_list' in goal_config else None),
             info_list=(goal_config['info_list'] if 'type_list' in goal_config else []),
+            last_preview_phase_step=(goal_config['last_preview_phase_step'] if 'last_preview_phase_step' \
+                    in goal_config else -1),
             last_step=(goal_config['last_step'] if 'last_step' in goal_config else None),
             task_list=(goal_config['task_list'] if 'type_list' in goal_config else []),
             type_list=(goal_config['type_list'] if 'type_list' in goal_config else []),
@@ -392,9 +429,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         if self.__debug_to_terminal:
             print("RETURN STATUS: " + step_output.return_status)
-            print("OBJECTS (" + str(len(step_output.object_list)) + " TOTAL):")
-            for line in MCS_Util.generate_pretty_object_output(step_output.object_list):
-                print("    " + line)
+            print("OBJECTS: " + str(len(step_output.object_list)) + " TOTAL")
+            if len(step_output.object_list) > 0:
+                for line in MCS_Util.generate_pretty_object_output(step_output.object_list):
+                    print("    " + line)
 
         if self.__debug_to_file and self.__output_folder is not None:
             with open(self.__output_folder + 'mcs_output_' + str(self.__step_number) + '.json', 'w') as json_file:
