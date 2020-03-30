@@ -149,6 +149,7 @@ def generate_file(name, objects):
             new_object['type'] = selected_object['type']
             new_object['info'] = selected_object['info']
             new_object['mass'] = selected_object['mass']
+            #new_object['dimensions'] = selected_object['dimensions']
             for attribute in selected_object['attributes']:
                 new_object[attribute]= True
     
