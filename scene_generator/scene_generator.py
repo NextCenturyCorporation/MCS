@@ -136,6 +136,7 @@ def calc_obj_pos( performer_position, other_rects , new_object, old_object):
 
 def generate_wall(wall_mat_choice, performer_position, other_rects, objects_array):
     # Wanted to reuse written functions, but this is a bit more of a special snowflake
+    # Generates obstacle walls placed in the scene.
     
     tries = 0
     while tries< MAX_TRIES:
