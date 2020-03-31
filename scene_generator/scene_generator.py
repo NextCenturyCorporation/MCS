@@ -121,7 +121,7 @@ def calc_obj_pos( performer_position, other_rects , new_object, old_object):
         new_z = random_position()
         
         rect = calc_obj_coords(new_x, new_z, dx, dz, rotation)
-        if not collision(rect, performer_position) and (len(other_rects) == 0 or any(sat_entry(rect, other_rect) for other_rect in other_rects)):
+        if not collision(rect, performer_position) and (len(other_rects) == 0 or not any(sat_entry(rect, other_rect) for other_rect in other_rects)):
             break          
         tries += 1
      
@@ -130,6 +130,7 @@ def calc_obj_pos( performer_position, other_rects , new_object, old_object):
         new_object['position'] = { 'x' : new_x, 'y': old_object['position_y'], 'z' : new_z}
         other_rects.append(rect)
         return True
+  
     
     return False
 
@@ -145,7 +146,7 @@ def generate_wall(wall_mat_choice, performer_position, other_rects, objects_arra
         new_z = random_position()
         new_x_size = round(random.uniform(MIN_WALL_WIDTH, MAX_WALL_WIDTH), POSITION_DIGITS)
         rect = calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, rotation)
-        if not collision(rect, performer_position) and (len(other_rects) == 0 or any(sat_entry(rect, other_rect) for other_rect in other_rects)):
+        if not collision(rect, performer_position) and (len(other_rects) == 0 or not any(sat_entry(rect, other_rect) for other_rect in other_rects)):
             break
         tries += 1
         
@@ -196,7 +197,7 @@ def generate_file(name, objects):
             new_object['type'] = selected_object['type']
             new_object['info'] = selected_object['info']
             new_object['mass'] = selected_object['mass']
-            #new_object['dimensions'] = selected_object['dimensions']
+            new_object['dimensions'] = selected_object['dimensions']
             for attribute in selected_object['attributes']:
                 new_object[attribute]= True
     
