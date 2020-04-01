@@ -306,8 +306,12 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     def retrieve_head_tilt(self, scene_event):
         return scene_event.metadata['agent']['cameraHorizon']
 
+    def retrieve_object_colors(self, scene_event):
+        # Use the color map for the final event (though they should all be the same anyway).
+        return scene_event.events[len(scene_event.events) - 1].object_id_to_color
+
     def retrieve_object_list(self, scene_event):
-        return sorted([self.retrieve_object_output(object_metadata, scene_event.object_id_to_color) for \
+        return sorted([self.retrieve_object_output(object_metadata, self.retrieve_object_colors(scene_event)) for \
                 object_metadata in scene_event.metadata['objects']], key=lambda x: x.uuid)
 
     def retrieve_object_output(self, object_metadata, object_id_to_color):
@@ -350,21 +354,29 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             return return_status
 
     def save_images(self, scene_event):
-        # TODO MCS-51 May have multiple images
-        scene_image = Image.fromarray(scene_event.frame)
-        # Divide the depth mask by 30 so it doesn't appear all white (some odd side effect of the depth grayscaling).
-        depth_mask = Image.fromarray(scene_event.depth_frame / 30)
-        depth_mask = depth_mask.convert('L')
-        # class_mask = Image.fromarray(scene_event.class_segmentation_frame)
-        object_mask = Image.fromarray(scene_event.instance_segmentation_frame)
+        image_list = []
+        depth_mask_list = []
+        object_mask_list = []
 
-        if self.__debug_to_file and self.__output_folder is not None:
-            scene_image.save(fp=self.__output_folder + 'frame_image_' + str(self.__step_number) + '.png')
-            depth_mask.save(fp=self.__output_folder + 'depth_mask_' + str(self.__step_number) + '.png')
-            # class_mask.save(fp=self.__output_folder + 'class_mask_' + str(self.__step_number) + '.png')
-            object_mask.save(fp=self.__output_folder + 'object_mask_' + str(self.__step_number) + '.png')
+        for index, event in enumerate(scene_event.events):
+            scene_image = Image.fromarray(event.frame)
+            image_list.append(scene_image)
 
-        return scene_image, depth_mask, object_mask
+            # Divide the depth mask by 30 so it doesn't look all white (some odd side effect of the depth grayscaling).
+            depth_mask = Image.fromarray(event.depth_frame / 30)
+            depth_mask = depth_mask.convert('L')
+            depth_mask_list.append(depth_mask)
+
+            object_mask = Image.fromarray(event.instance_segmentation_frame)
+            object_mask_list.append(object_mask)
+
+            if self.__debug_to_file and self.__output_folder is not None:
+                suffix = '_' + str(self.__step_number) + '-' + str(index) + '.png'
+                scene_image.save(fp=self.__output_folder + 'frame_image' + suffix)
+                depth_mask.save(fp=self.__output_folder + 'depth_mask' + suffix)
+                object_mask.save(fp=self.__output_folder + 'object_mask' + suffix)
+
+        return image_list, depth_mask_list, object_mask_list
 
     def wrap_output(self, scene_event):
         if self.__debug_to_file and self.__output_folder is not None:
@@ -373,16 +385,16 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                     "metadata": scene_event.metadata
                 }, json_file, sort_keys=True, indent=4)
 
-        image, depth_mask, object_mask = self.save_images(scene_event)
+        image_list, depth_mask_list, object_mask_list = self.save_images(scene_event)
 
         step_output = MCS_Step_Output(
             action_list=self.retrieve_action_list(self.__goal, self.__step_number),
-            depth_mask_list=[depth_mask],
+            depth_mask_list=depth_mask_list,
             goal=self.__goal,
             head_tilt=self.retrieve_head_tilt(scene_event),
-            image_list=[image],
+            image_list=image_list,
             object_list=self.retrieve_object_list(scene_event),
-            object_mask_list=[object_mask],
+            object_mask_list=object_mask_list,
             pose=self.retrieve_pose(scene_event),
             return_status=self.retrieve_return_status(scene_event),
             step_number=self.__step_number
@@ -408,7 +420,6 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             continuous=True,
             gridSize=self.GRID_SIZE,
             logs=True,
-            # renderClassImage=True,
             renderDepthImage=True,
             renderObjectImage=True,
             # Yes, in AI2-THOR, the player's reach appears to be governed by the "visibilityDistance", confusingly...
