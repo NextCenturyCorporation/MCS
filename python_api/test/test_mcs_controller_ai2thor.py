@@ -139,7 +139,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "z": 9
                     }],
                     "salientMaterials": [],
-                    "visibleInCamera": False
+                    "visibleInCamera": True
                 }, {
                     "direction": {
                         "x": 90,
