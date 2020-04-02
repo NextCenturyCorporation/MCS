@@ -342,6 +342,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     def retrieve_head_tilt(self, scene_event):
         return scene_event.metadata['agent']['cameraHorizon']
 
+    def retrieve_rotation(self, scene_event):
+        return scene_event.metadata['agent']['rotation']['y']
+
     def retrieve_object_list(self, scene_event):
         return sorted([self.retrieve_object_output(object_metadata, scene_event.object_id_to_color) for \
                 object_metadata in scene_event.metadata['objects'] if object_metadata['visibleInCamera']], key=lambda x: x.uuid)
@@ -421,6 +424,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             object_mask_list=[object_mask],
             pose=self.retrieve_pose(scene_event),
             return_status=self.retrieve_return_status(scene_event),
+            rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number
         )
 
