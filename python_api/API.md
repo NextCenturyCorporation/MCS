@@ -94,6 +94,10 @@ The list of actions that are available for the scene at each step (outer list in
 
 The list of descriptors of objects and tasks associated with this goal (for the visualization interface).
 
+### last_preview_phase_step : integer
+
+The last step of the Preview Phase in this scene, if any. Each step of a Preview Phase normally has a single specific action defined in this goal's `action_list` property for the performer to choose, like `["Pass"]`. Default: `0` (no preview phase)
+
 ### last_step : integer
 
 The last step of this scene. This scene will automatically end following this step.
@@ -109,6 +113,10 @@ The list of types associated with this goal (for the visualization interface), i
 ### metadata : dict
 
 The metadata specific to this goal. Please see [Goal Metadata](#Goal-Metadata).
+
+### answer : dict
+
+The answer specific to this goal, for reinforcement during training. More details coming soon.
 
 ## MCS_Object
 
@@ -769,7 +777,7 @@ A transferral goal's `metadata` (with `category` of `"TRANSFERRAL"`) will also h
 
 #### relationship : list of strings
 
-The required final position of the two target objects in relation to one another.  For transferral goals, this value will always be either `["next to", "target_1", "target_2"]` or `["on top of", "target_1", "target_2"]`.
+The required final position of the two target objects in relation to one another.  For transferral goals, this value will always be either `["target_1", "next_to", "target_2"]` or `["target_1", "on_top_of", "target_2"]`.
 
 #### target_1_id : string
 
