@@ -26,6 +26,7 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
         "object_list": [],
         "object_mask_list": [],
         "pose": MCS_Pose.UNDEFINED,
+        "position": {},
         "return_status": MCS_Return_Status.UNDEFINED,
         "rotation": 0.0,
         "step_number": 0
@@ -70,6 +71,9 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
     def test_pose(self):
         self.assertEqual(self.mcs_step_output.pose, MCS_Pose.UNDEFINED)
         self.assertIsInstance(self.mcs_step_output.pose, MCS_Pose)
+
+    def test_position(self):
+        self.assertIsInstance(self.mcs_step_output.position, dict)
 
     def test_return_status(self):
         self.assertEqual(self.mcs_step_output.return_status, MCS_Return_Status.UNDEFINED)

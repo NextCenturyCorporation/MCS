@@ -376,6 +376,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         # TODO MCS-18 Return pose from Unity in step output object
         return MCS_Pose.STAND.name
 
+    def retrieve_position(self, scene_event) -> dict:
+        return scene_event.metadata['agent']['position']
+
     def retrieve_return_status(self, scene_event):
         # TODO MCS-47 Need to implement all proper step statuses on the Unity side
         return_status = MCS_Return_Status.UNDEFINED.name
@@ -423,6 +426,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             object_list=self.retrieve_object_list(scene_event),
             object_mask_list=[object_mask],
             pose=self.retrieve_pose(scene_event),
+            position=self.retrieve_position(scene_event),
             return_status=self.retrieve_return_status(scene_event),
             rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number
