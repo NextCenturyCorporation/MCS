@@ -143,6 +143,14 @@ Haptic feedback. The material(s) of this object. Possible materials: "Metal", "W
 
 The list of 3D points (dicts with "x", "y", and "z") that form the outer shape of this object.
 
+### position : dict
+
+The "x", "y", and "z" position for the object in the scene.
+
+### rotation : float
+
+The rotation angle in degrees of the object.
+
 ### visible : boolean
 
 Whether you can see this object in your camera viewport.
@@ -181,9 +189,17 @@ The list of object mask images from the scene after the last action and physics 
 
 Your current pose. Either "LIE", "CRAWL", "SQUAT", or "STAND".
 
+### position : dict
+
+The "x", "y", and "z" position of the agent in the scene.
+
 ### return_status : string
 
 The return status from your last action.
+
+### rotation : float
+
+The rotation angle in degrees for the agent.
 
 ### step_number : integer
 
