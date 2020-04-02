@@ -43,12 +43,13 @@ class MCS_Step_Output:
         action_list=[],
         depth_mask_list=[],
         goal=MCS_Goal(),
-        head_tilt=0,
+        head_tilt=0.0,
         image_list=[],
         object_list=[],
         object_mask_list=[],
         pose=MCS_Pose.UNDEFINED,
         return_status=MCS_Return_Status.UNDEFINED,
+        rotation=0.0,
         step_number=0
     ):
         self.action_list = action_list
@@ -60,6 +61,7 @@ class MCS_Step_Output:
         self.object_mask_list = object_mask_list
         self.pose = pose
         self.return_status = return_status
+        self.rotation = rotation
         self.step_number = step_number
 
     def __str__(self):

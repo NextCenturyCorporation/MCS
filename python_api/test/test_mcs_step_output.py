@@ -21,12 +21,13 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
             "type_list": [],
             "metadata": {}
         },
-        "head_tilt": 0,
+        "head_tilt": 0.0,
         "image_list": [],
         "object_list": [],
         "object_mask_list": [],
         "pose": MCS_Pose.UNDEFINED,
         "return_status": MCS_Return_Status.UNDEFINED,
+        "rotation": 0.0,
         "step_number": 0
     }'''
 
@@ -51,8 +52,8 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
         self.assertIsInstance(self.mcs_step_output.goal, MCS_Goal)
     
     def test_head_tilt(self):
-        self.assertEqual(self.mcs_step_output.head_tilt, 0)
-        self.assertIsInstance(self.mcs_step_output.head_tilt, int)
+        self.assertAlmostEqual(self.mcs_step_output.head_tilt, 0.0)
+        self.assertIsInstance(self.mcs_step_output.head_tilt, float)
 
     def test_image_list(self):
         self.assertFalse(self.mcs_step_output.image_list)
@@ -73,6 +74,10 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
     def test_return_status(self):
         self.assertEqual(self.mcs_step_output.return_status, MCS_Return_Status.UNDEFINED)
         self.assertIsInstance(self.mcs_step_output.return_status, MCS_Return_Status)
+
+    def test_rotation(self):
+        self.assertAlmostEqual(self.mcs_step_output.rotation, 0.0)
+        self.assertIsInstance(self.mcs_step_output.rotation, float)
 
     def test_step_number(self):
         self.assertEqual(self.mcs_step_output.step_number, 0)
