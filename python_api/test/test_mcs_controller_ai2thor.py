@@ -114,6 +114,12 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
 
     def test_retrieve_object_list(self):
         mock_scene_event_data = {
+            "events": [self.create_mock_scene_event({
+                "object_id_to_color": {
+                    "testId1": (12, 34, 56),
+                    "testId2": (98, 76, 54)
+                }
+            })],
             "metadata": {
                 "objects": [{
                     "direction": {
@@ -186,10 +192,6 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                     "salientMaterials": ["Foobar", "Metal", "Plastic"],
                     "visibleInCamera": True
                 }]
-            },
-            "object_id_to_color": {
-                "testId1": (12, 34, 56),
-                "testId2": (98, 76, 54)
             }
         }
 
@@ -299,39 +301,82 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
 
     def test_save_images(self):
         image_data = numpy.array([[0]], dtype=numpy.uint8)
-        class_mask_data = numpy.array([[64]], dtype=numpy.uint8)
         depth_mask_data = numpy.array([[128]], dtype=numpy.uint8)
         object_mask_data = numpy.array([[192]], dtype=numpy.uint8)
 
         mock_scene_event_data = {
-            "class_segmentation_frame": class_mask_data,
-            "depth_frame": depth_mask_data,
-            "frame": image_data,
-            "instance_segmentation_frame": object_mask_data
+            "events": [self.create_mock_scene_event({
+                "depth_frame": depth_mask_data,
+                "frame": image_data,
+                "instance_segmentation_frame": object_mask_data
+            })]
         }
 
-        scene_image, depth_mask, object_mask = self.controller.save_images(self.create_mock_scene_event(
+        image_list, depth_mask_list, object_mask_list = self.controller.save_images(self.create_mock_scene_event(
             mock_scene_event_data))
 
-        self.assertEqual(numpy.array(depth_mask), numpy.round(depth_mask_data / 30))
-        self.assertEqual(numpy.array(scene_image), image_data)
-        self.assertEqual(numpy.array(object_mask), object_mask_data)
+        self.assertEqual(len(image_list), 1)
+        self.assertEqual(len(depth_mask_list), 1)
+        self.assertEqual(len(object_mask_list), 1)
+
+        self.assertEqual(numpy.array(image_list[0]), image_data)
+        self.assertEqual(numpy.array(depth_mask_list[0]), numpy.round(depth_mask_data / 30))
+        self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data)
+
+    def test_save_images_with_multiple_images(self):
+        image_data_1 = numpy.array([[64]], dtype=numpy.uint8)
+        depth_mask_data_1 = numpy.array([[128]], dtype=numpy.uint8)
+        object_mask_data_1 = numpy.array([[192]], dtype=numpy.uint8)
+
+        image_data_2 = numpy.array([[32]], dtype=numpy.uint8)
+        depth_mask_data_2 = numpy.array([[96]], dtype=numpy.uint8)
+        object_mask_data_2 = numpy.array([[160]], dtype=numpy.uint8)
+
+        mock_scene_event_data = {
+            "events": [self.create_mock_scene_event({
+                "depth_frame": depth_mask_data_1,
+                "frame": image_data_1,
+                "instance_segmentation_frame": object_mask_data_1
+            }), self.create_mock_scene_event({
+                "depth_frame": depth_mask_data_2,
+                "frame": image_data_2,
+                "instance_segmentation_frame": object_mask_data_2
+            })]
+        }
+
+        image_list, depth_mask_list, object_mask_list = self.controller.save_images(self.create_mock_scene_event(
+            mock_scene_event_data))
+
+        self.assertEqual(len(image_list), 2)
+        self.assertEqual(len(depth_mask_list), 2)
+        self.assertEqual(len(object_mask_list), 2)
+
+        self.assertEqual(numpy.array(image_list[0]), image_data_1)
+        self.assertEqual(numpy.array(depth_mask_list[0]), numpy.round(depth_mask_data_1 / 30))
+        self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data_1)
+
+        self.assertEqual(numpy.array(image_list[1]), image_data_2)
+        self.assertEqual(numpy.array(depth_mask_list[1]), numpy.round(depth_mask_data_2 / 30))
+        self.assertEqual(numpy.array(object_mask_list[1]), object_mask_data_2)
 
     def test_validate_and_convert_params(self):
-        # TODO
+        # TODO MCS-15
         pass
 
     def test_wrap_output(self):
         image_data = numpy.array([[0]], dtype=numpy.uint8)
-        class_mask_data = numpy.array([[64]], dtype=numpy.uint8)
         depth_mask_data = numpy.array([[128]], dtype=numpy.uint8)
         object_mask_data = numpy.array([[192]], dtype=numpy.uint8)
 
         mock_scene_event_data = {
-            "class_segmentation_frame": class_mask_data,
-            "depth_frame": depth_mask_data,
-            "frame": image_data,
-            "instance_segmentation_frame": object_mask_data,
+            "events": [self.create_mock_scene_event({
+                "depth_frame": depth_mask_data,
+                "frame": image_data,
+                "instance_segmentation_frame": object_mask_data,
+                "object_id_to_color": {
+                    "testId": (12, 34, 56)
+                }
+            })],
             "metadata": {
                 "agent": {
                     "cameraHorizon": 12.34,
@@ -384,16 +429,13 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                     "salientMaterials": ["Wood"],
                     "visibleInCamera": True
                 }]
-            },
-            "object_id_to_color": {
-                "testId": (12, 34, 56)
             }
         }
 
         actual = self.controller.wrap_output(self.create_mock_scene_event(mock_scene_event_data))
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
-        # self.assertEqual(actual.goal, MCS_Goal()) # TODO MCS-53
+        # self.assertEqual(actual.goal, MCS_Goal()) # TODO MCS-15
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, MCS_Pose.STAND.value) # TODO MCS-18
         self.assertEqual(actual.return_status, MCS_Return_Status.SUCCESSFUL.value)
@@ -445,7 +487,6 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
-            # "renderClassImage": True,
             "renderDepthImage": True,
             "renderObjectImage": True,
             "stringProperty": "test_property",
