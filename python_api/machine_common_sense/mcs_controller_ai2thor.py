@@ -369,6 +369,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             mass=object_metadata['mass'],
             material_list=(None if len(material_list) == 0 else material_list),
             point_list=object_metadata['points'],
+            position=object_metadata['position'],
             visible=(object_metadata['visibleInCamera'] or object_metadata['isPickedUp'])
         )
 
