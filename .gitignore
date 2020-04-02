@@ -32,6 +32,7 @@ mcs_docker_setup/neon-jan-2020*
 
 # Scenes config ?
 python_api/scenes/*.json
+python_api/playroom
 
 # machine common sense
 python_api/machine_common_sense/**/*.gif

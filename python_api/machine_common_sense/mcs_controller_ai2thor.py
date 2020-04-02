@@ -342,6 +342,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     def retrieve_head_tilt(self, scene_event):
         return scene_event.metadata['agent']['cameraHorizon']
 
+    def retrieve_rotation(self, scene_event):
+        return scene_event.metadata['agent']['rotation']['y']
+
     def retrieve_object_list(self, scene_event):
         return sorted([self.retrieve_object_output(object_metadata, scene_event.object_id_to_color) for \
                 object_metadata in scene_event.metadata['objects'] if object_metadata['visibleInCamera']], key=lambda x: x.uuid)
@@ -364,14 +367,19 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             distance=(object_metadata['distanceXZ'] / self.MAX_MOVE_DISTANCE),
             held=object_metadata['isPickedUp'],
             mass=object_metadata['mass'],
-            material_list=(None if len(material_list) == 0 else material_list),
+            material_list=material_list,
             point_list=object_metadata['points'],
+            position=object_metadata['position'],
+            rotation=object_metadata['rotation']['y'],
             visible=(object_metadata['visibleInCamera'] or object_metadata['isPickedUp'])
         )
 
     def retrieve_pose(self, scene_event):
         # TODO MCS-18 Return pose from Unity in step output object
         return MCS_Pose.STAND.name
+
+    def retrieve_position(self, scene_event) -> dict:
+        return scene_event.metadata['agent']['position']
 
     def retrieve_return_status(self, scene_event):
         # TODO MCS-47 Need to implement all proper step statuses on the Unity side
@@ -420,7 +428,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             object_list=self.retrieve_object_list(scene_event),
             object_mask_list=[object_mask],
             pose=self.retrieve_pose(scene_event),
+            position=self.retrieve_position(scene_event),
             return_status=self.retrieve_return_status(scene_event),
+            rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number
         )
 
