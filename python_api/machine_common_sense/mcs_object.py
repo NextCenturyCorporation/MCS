@@ -31,15 +31,15 @@ class MCS_Object:
 
     def __init__(
         self,
-        uuid: str="",
-        color: dict={},
-        direction: dict={},
-        distance: float=-1.0,
-        held: bool=False,
-        mass: float=0.0,
-        material_list: list=[],
-        point_list: list=[],
-        visible: bool=False
+        uuid:"",
+        color:{},
+        direction:{},
+        distance:-1.0,
+        held:False,
+        mass:0.0,
+        material_list:[],
+        point_list:[],
+        visible:False
     ):
         self.uuid = uuid
         self.color = color
