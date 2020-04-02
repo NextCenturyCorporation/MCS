@@ -1,6 +1,7 @@
 from machine_common_sense.mcs_material import MCS_Material
 from machine_common_sense.mcs_util import MCS_Util
 
+
 class MCS_Object:
     """
     Defines attributes of an object in the MCS 3D environment.
@@ -30,15 +31,15 @@ class MCS_Object:
 
     def __init__(
         self,
-        uuid="",
-        color=None,
-        direction=None,
-        distance=-1,
-        held=False,
-        mass=0,
-        material_list=None,
-        point_list=None,
-        visible=False
+        uuid: str="",
+        color: dict={},
+        direction: dict={},
+        distance: float=-1.0,
+        held: bool=False,
+        mass: float=0.0,
+        material_list: list=[],
+        point_list: list=[],
+        visible: bool=False
     ):
         self.uuid = uuid
         self.color = color
@@ -46,8 +47,8 @@ class MCS_Object:
         self.distance = distance
         self.held = held
         self.mass = mass
-        self.material_list = [] if material_list is None else material_list
-        self.point_list = [] if point_list is None else point_list
+        self.material_list = material_list
+        self.point_list = point_list
         self.visible = visible
 
     def __str__(self):
