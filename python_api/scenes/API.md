@@ -92,7 +92,7 @@ Each **object config** has the following properties:
 - `type` (string, required): The object's type from the [Object List](#object-list).
 - `forces` ([move config](#move-config) array, optional): The steps on which to apply force to the object. The config `vector` describes the amount of force (in Newtons) to apply in each direction using the global coordinate system. Default: `[]`
 - `hides` ([step config](#step-config) array, optional): The steps on which to hide the object, completely removing its existence from the scene until it is shown again (see the `shows` property). Useful if you want to have impossible events (spontaneous disappearance). Default: `[]`
-- `kinematic` (boolean, optional): Whether the object should ignore gravity. Usually paired with `structure`. Default: `false`
+- `kinematic` (boolean, optional): If true, the object will ignore all forces including gravity. See Unity's [isKinematic property](https://docs.unity3d.com/ScriptReference/Rigidbody-isKinematic.html). Usually paired with `structure`. Default: `false`
 - `mass` (float, optional): The mass of the object, which affects the physics simulation. Default: `1`
 - `materialFile` (string, optional): The material (color/texture) of the object. Please note that most non-primitive objects already have specific material(s). See the [Material List](#material-list) for options. Default: none
 - `moveable` (boolean, optional): Whether the object should be moveable, if it is not already moveable based on its `type`. Default: depends on `type`

@@ -1,12 +1,13 @@
 # MCS Python Library: API
 
-- [Python Class: MCS](#MCS)
-- [Python Class: MCS_Controller](#MCS_Controller)
-- [Python Class: MCS_Goal](#MCS_Goal)
-- [Python Class: MCS_Object](#MCS_Object)
-- [Python Class: MCS_Step_Output](#MCS_Step_Output)
-- [Actions](#Actions)
-- [Future Actions (Not Yet Supported)](#Future-Actions)
+- [Python Class: MCS](#mcs)
+- [Python Class: MCS_Controller](#mcs_controller)
+- [Python Class: MCS_Goal](#mcs_goal)
+- [Python Class: MCS_Object](#mcs_object)
+- [Python Class: MCS_Step_Output](#mcs_step_output)
+- [Actions](#actions)
+- [Future Actions (Not Yet Supported)](#future-actions)
+- [Goal Metadata](#goal-metadata)
 
 ## MCS
 
@@ -40,17 +41,17 @@ The MCS scene configuration data object.
 
 ## MCS_Controller
 
-### end_scene([classification, confidence])
+### end_scene([choice, confidence])
 
 Ends the current MCS scene.
 
 #### Parameters
 
-- classification : string, optional\
-Your selected classification for classification tasks. Not required for non-classification tasks.
+- choice : string, optional\
+Your selected choice for IntPhys or classification goals. Not required for goals that have no choices.
 
 - confidence : float, optional\
-Your classification confidence (between 0 and 1) for classification tasks. Not required for non-classification tasks.
+Your choice confidence (between 0 and 1) for IntPhys or classification goals. Not required for goals that have no choices.
 
 ### start_scene(config_data)
 
@@ -91,7 +92,7 @@ The list of actions that are available for the scene at each step (outer list in
 
 ### info_list : list of strings
 
-The list of information for the visualization interface associated with this goal.
+The list of descriptors of objects and tasks associated with this goal (for the visualization interface).
 
 ### last_step : integer
 
@@ -99,15 +100,15 @@ The last step of this scene. This scene will automatically end following this st
 
 ### task_list : list of strings
 
-The list of tasks for the visualization interface associated with this goal (secondary to its types).
+The list of tasks associated with this goal (for the visualization interface), secondary to its types.
 
 ### type_list : list of strings
 
-The list of types for the visualization interface associated with this goal, including the relevant MCS core domains.
+The list of types associated with this goal (for the visualization interface), including the relevant MCS core domains.
 
 ### metadata : dict
 
-The metadata specific to this goal. More details coming soon.
+The metadata specific to this goal. Please see [Goal Metadata](#Goal-Metadata).
 
 ## MCS_Object
 
@@ -722,3 +723,74 @@ TODO
 
 TODO
 
+## Goal Metadata
+
+A goal's `metadata` property is a dict with a string `category` property and one or more other properties depending on the `category`.
+
+Categories:
+
+- [`"INTPHYS"`](#intphys)
+- [`"RETRIEVAL"`](#retrieval)
+- [`"TRANSFERRAL"`](#transferral)
+
+### IntPhys
+
+In a scenario that has an IntPhys goal, you must sit and observe a scene as objects move across your camera's viewport, and then decide whether the scene is "plausible" or "implausible". These scenarios will demand a "common sense" understanding of basic ("intuitive") physics. Based on Emmanuel Dupoux's [IntPhys: A Benchmark for Visual Intuitive Physics Reasoning](https://intphys.com/).
+
+An IntPhys goal's `metadata` (with `category` of `"INTPHYS"`) will also have the following properties:
+
+#### choose : list of strings
+
+The list of choices, one of which must be given in your call to `end_scene`.  For IntPhys goals, this value will always be `["plausible", "implausible"]`.
+
+### Retrieval
+
+In a scenario that has a retrieval goal, you must find and pickup a target object. This may involve exploring the scene, avoiding obstacles, interacting with objects (like closed containers), and tracking moving objects. These scenarios will demand a "common sense" understanding of self navigation (how to move and rotate yourself within a scene and around obstacles), object interaction (how objects work, including opening containers), and the basic physics of movement (kinematics, gravity, friction, etc.).
+
+A retrieval goal's `metadata` (with `category` of `"RETRIEVAL"`) will also have the following properties:
+
+#### target_id : string
+
+The `objectId` of the target object to retrieve.
+
+#### target_image : list of lists of lists of integers
+
+An image of the target object to retrieve, given as a three-dimensional RGB pixel array.
+
+#### target_info : list of strings
+
+Human-readable information describing the target object needed for the visualization interface.
+
+### Transferral
+
+In a scenario that has a transferral goal, you must find and pickup the first target object and put it down either next to or on top of the second target object. This may involve exploring the scene, avoiding obstacles, interacting with objects (like closed receptacles), and tracking moving objects. These scenarios will demand a "common sense" understanding of self navigation (how to move and rotate yourself within a scene and around obstacles), object interaction (how objects work, including opening containers), and the basic physics of movement (kinematics, gravity, friction, etc.).
+
+A transferral goal's `metadata` (with `category` of `"TRANSFERRAL"`) will also have the following properties:
+
+#### relationship : list of strings
+
+The required final position of the two target objects in relation to one another.  For transferral goals, this value will always be either `["next to", "target_1", "target_2"]` or `["on top of", "target_1", "target_2"]`.
+
+#### target_1_id : string
+
+The `objectId` of the first target object to pickup and transfer to the second target object.
+
+#### target_1_image : list of lists of lists of integers
+
+An image of the first target object to pickup and transfer to the second target object, given as a three-dimensional RGB pixel array.
+
+#### target_1_info : list of strings
+
+Human-readable information describing the target object needed for the visualization interface.
+
+#### target_2_id : string
+
+The `objectId` of the second target object to which the first target object must be transferred.
+
+#### target_2_image : list of lists of lists of integers
+
+An image of the second target object to which the first target object must be transferred, given as a three-dimensional RGB pixel array.
+
+#### target_2_info : list of strings
+
+Human-readable information describing the target object needed for the visualization interface.
