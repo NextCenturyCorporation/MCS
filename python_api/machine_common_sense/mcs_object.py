@@ -26,7 +26,9 @@ class MCS_Object(object):
     point_list : list of dicts
         The list of 3D points (dicts with "x", "y", and "z") that form the outer shape of this object.
     position : dictionary
-        Global position in the Playroom
+        Global position of this object
+    rotation : float
+        Rotation angle of this object
     visible : boolean
         Whether you can see this object in your camera viewport.
     """
@@ -42,6 +44,7 @@ class MCS_Object(object):
         material_list=[],
         point_list=[],
         position={},
+        rotation=0.0,
         visible=False
     ):
         self.uuid = uuid
@@ -53,6 +56,7 @@ class MCS_Object(object):
         self.material_list = material_list
         self.point_list = point_list
         self.position = position
+        self.rotation = rotation
         self.visible = visible
 
     def __str__(self):

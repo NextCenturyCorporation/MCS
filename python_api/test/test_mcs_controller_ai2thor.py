@@ -138,6 +138,16 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "y": 8,
                         "z": 9
                     }],
+                    "position": {
+                        "x": 1,
+                        "y": 1,
+                        "z": 2
+                    },
+                    "rotation": {
+                        "x": 1.0,
+                        "y": 2.0,
+                        "z": 3.0
+                    },
                     "salientMaterials": [],
                     "visibleInCamera": True
                 }, {
@@ -163,6 +173,16 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "y": 18,
                         "z": 19
                     }],
+                    "position": {
+                        "x": 1,
+                        "y": 2,
+                        "z": 3
+                    },
+                    "rotation": {
+                        "x": 1.0,
+                        "y": 2.0,
+                        "z": 3.0
+                    },
                     "salientMaterials": ["Foobar", "Metal", "Plastic"],
                     "visibleInCamera": True
                 }]
@@ -314,7 +334,17 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "instance_segmentation_frame": object_mask_data,
             "metadata": {
                 "agent": {
-                    "cameraHorizon": 12.34
+                    "cameraHorizon": 12.34,
+                    "position": {
+                        "x": 0.12,
+                        "y": -0.23,
+                        "z": 4.5
+                    },
+                    "rotation": {
+                        "x": 1.111,
+                        "y": 2.222,
+                        "z": 3.333
+                    }
                 },
                 "lastActionStatus": "SUCCESSFUL",
                 "lastActionSuccess": True,
@@ -341,6 +371,16 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "y": 8,
                         "z": 9
                     }],
+                    "position": {
+                        "x": 10,
+                        "y": 11,
+                        "z": 12
+                    },
+                    "rotation": {
+                        "x": 1.0,
+                        "y": 2.0,
+                        "z": 3.0
+                    },
                     "salientMaterials": ["Wood"],
                     "visibleInCamera": True
                 }]

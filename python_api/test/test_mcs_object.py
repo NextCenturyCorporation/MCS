@@ -17,6 +17,7 @@ class Test_Default_MCS_Object(unittest.TestCase):
         "material_list": [],
         "point_list": [],
         "position": {},
+        "rotation": 0.0,
         "visible": False
     }'''
 
@@ -64,6 +65,10 @@ class Test_Default_MCS_Object(unittest.TestCase):
     def test_position(self):
         self.assertFalse(self.mcs_object.position)
         self.assertIsInstance(self.mcs_object.position, dict)
+
+    def test_rotation(self):
+        self.assertAlmostEqual(self.mcs_object.rotation, 0.0)
+        self.assertIsInstance(self.mcs_object.rotation, float)
 
     def test_visible(self):
         self.assertIsInstance(self.mcs_object.visible, bool)
