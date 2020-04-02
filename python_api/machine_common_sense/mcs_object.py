@@ -2,7 +2,7 @@ from machine_common_sense.mcs_material import MCS_Material
 from machine_common_sense.mcs_util import MCS_Util
 
 
-class MCS_Object:
+class MCS_Object(object):
     """
     Defines attributes of an object in the MCS 3D environment.
 
@@ -25,21 +25,24 @@ class MCS_Object:
         Haptic feedback.  The material(s) of this object.  See MCS_Material.
     point_list : list of dicts
         The list of 3D points (dicts with "x", "y", and "z") that form the outer shape of this object.
+    position : dictionary
+        Global position in the Playroom
     visible : boolean
         Whether you can see this object in your camera viewport.
     """
 
     def __init__(
         self,
-        uuid:"",
-        color:{},
-        direction:{},
-        distance:-1.0,
-        held:False,
-        mass:0.0,
-        material_list:[],
-        point_list:[],
-        visible:False
+        uuid="",
+        color={},
+        direction={},
+        distance=-1.0,
+        held=False,
+        mass=0.0,
+        material_list=[],
+        point_list=[],
+        position={},
+        visible=False
     ):
         self.uuid = uuid
         self.color = color
@@ -49,6 +52,7 @@ class MCS_Object:
         self.mass = mass
         self.material_list = material_list
         self.point_list = point_list
+        self.position = position
         self.visible = visible
 
     def __str__(self):
