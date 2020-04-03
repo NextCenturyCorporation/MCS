@@ -131,19 +131,6 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                     "isPickedUp": True,
                     "mass": 1,
                     "objectId": "testId1",
-                    "points": [{
-                        "x": 1,
-                        "y": 2,
-                        "z": 3
-                    }, {
-                        "x": 4,
-                        "y": 5,
-                        "z": 6
-                    }, {
-                        "x": 7,
-                        "y": 8,
-                        "z": 9
-                    }],
                     "position": {
                         "x": 1,
                         "y": 1,
@@ -166,19 +153,6 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                     "isPickedUp": False,
                     "mass": 12.34,
                     "objectId": "testId2",
-                    "points": [{
-                        "x": 11,
-                        "y": 12,
-                        "z": 13
-                    }, {
-                        "x": 14,
-                        "y": 15,
-                        "z": 16
-                    }, {
-                        "x": 17,
-                        "y": 18,
-                        "z": 19
-                    }],
                     "position": {
                         "x": 1,
                         "y": 2,
@@ -213,19 +187,6 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[0].held, True)
         self.assertEqual(actual[0].mass, 1)
         self.assertEqual(actual[0].material_list, [])
-        self.assertEqual(actual[0].point_list, [{
-            "x": 1,
-            "y": 2,
-            "z": 3
-        }, {
-            "x": 4,
-            "y": 5,
-            "z": 6
-        }, {
-            "x": 7,
-            "y": 8,
-            "z": 9
-        }])
         self.assertEqual(actual[0].visible, True)
 
         self.assertEqual(actual[1].uuid, "testId2")
@@ -243,19 +204,6 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[1].held, False)
         self.assertEqual(actual[1].mass, 12.34)
         self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
-        self.assertEqual(actual[1].point_list, [{
-            "x": 11,
-            "y": 12,
-            "z": 13
-        }, {
-            "x": 14,
-            "y": 15,
-            "z": 16
-        }, {
-            "x": 17,
-            "y": 18,
-            "z": 19
-        }])
         self.assertEqual(actual[1].visible, True)
 
     def test_retrieve_pose(self):
@@ -403,19 +351,6 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                     "isPickedUp": False,
                     "mass": 12.34,
                     "objectId": "testId",
-                    "points": [{
-                        "x": 1,
-                        "y": 2,
-                        "z": 3
-                    }, {
-                        "x": 4,
-                        "y": 5,
-                        "z": 6
-                    }, {
-                        "x": 7,
-                        "y": 8,
-                        "z": 9
-                    }],
                     "position": {
                         "x": 10,
                         "y": 11,
@@ -457,19 +392,6 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.object_list[0].held, False)
         self.assertEqual(actual.object_list[0].mass, 12.34)
         self.assertEqual(actual.object_list[0].material_list, ["WOOD"])
-        self.assertEqual(actual.object_list[0].point_list, [{
-            "x": 1,
-            "y": 2,
-            "z": 3
-        }, {
-            "x": 4,
-            "y": 5,
-            "z": 6
-        }, {
-            "x": 7,
-            "y": 8,
-            "z": 9
-        }])
         self.assertEqual(actual.object_list[0].visible, True)
 
         self.assertEqual(len(actual.depth_mask_list), 1)
