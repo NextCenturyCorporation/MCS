@@ -32,12 +32,12 @@ class MCS_Step_Output:
         controller.start_scene for a scene with a Pre-Interaction Phase.
     pose : string
         Your current pose.  See MCS_Pose.
-    position : dictionary
-        The agent's global position in the Playroom.
+    position : dict
+        The "x", "y", and "z" coordinates for your global position.
     return_status : string
         The return status from your last action.  See MCS_Return_Status.
     rotation : float
-        How far the agent is rotated in degrees.
+        Your current rotation angle in degrees.
     step_number : integer
         The step number of your last action, recorded since you started the current scene.
     """

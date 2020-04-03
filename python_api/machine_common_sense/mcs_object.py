@@ -25,10 +25,10 @@ class MCS_Object(object):
         Haptic feedback.  The material(s) of this object.  See MCS_Material.
     point_list : list of dicts
         The list of 3D points (dicts with "x", "y", and "z") that form the outer shape of this object.
-    position : dictionary
-        Global position of this object
+    position : dict
+        The "x", "y", and "z" coordinates for the global position of the center of this object's 3D model.
     rotation : float
-        Rotation angle of this object
+        This object's rotation angle in degrees.
     visible : boolean
         Whether you can see this object in your camera viewport.
     """

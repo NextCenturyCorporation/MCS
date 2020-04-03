@@ -154,11 +154,11 @@ The list of 3D points (dicts with "x", "y", and "z") that form the outer shape o
 
 ### position : dict
 
-The "x", "y", and "z" position for the object in the scene.
+The "x", "y", and "z" coordinates for the global position of the center of this object's 3D model.
 
 ### rotation : float
 
-The rotation angle in degrees of the object.
+This object's rotation angle in degrees.
 
 ### visible : boolean
 
@@ -200,7 +200,7 @@ Your current pose. Either "LIE", "CRAWL", "SQUAT", or "STAND".
 
 ### position : dict
 
-The "x", "y", and "z" position of the agent in the scene.
+The "x", "y", and "z" coordinates for your global position.
 
 ### return_status : string
 
@@ -208,7 +208,7 @@ The return status from your last action.
 
 ### rotation : float
 
-The rotation angle in degrees for the agent.
+Your current rotation angle in degrees.
 
 ### step_number : integer
 
