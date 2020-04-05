@@ -13,19 +13,18 @@ def run_scene(controller, config_data):
     #    output = controller.step('Pass')
     #    print('step=' + str(output.step_number))
 
-    # Testing PushObject, PullObject (using playroom scene):
-    # Move towards apple to pick it up
-    output = controller.step('MoveLeft')
+    # Test ThrowObject
     output = controller.step('MoveAhead')
-
-    # Should return OUT_OF_REACH
-    output = controller.step('PullObject', objectId="apple_a", force=1)
-
-    output = controller.step('RotateLook', rotation=0, horizon=45)
-
-    # Should return SUCCESSFUL
-    output = controller.step('PullObject', objectId="apple_a", force=1)
-    output = controller.step('PushObject', objectId="apple_a", force=1)
+    output = controller.step('MoveAhead')
+    output = controller.step('RotateLook', rotation=270, horizon=40)
+    output = controller.step('PickupObject', objectId="apple_a")
+    output = controller.step('Pass')
+    output = controller.step('RotateLook', rotation=0, horizon=-30)
+    output = controller.step('ThrowObject', objectId="apple_a", force=1, objectDirectionX=1, objectDirectionY=0, objectDirectionZ=2)
+    output = controller.step('RotateLook', rotation=20, horizon=0)
+    output = controller.step('Pass')
+    output = controller.step('Pass')
+    output = controller.step('Pass')
 
 if __name__ == "__main__":
     config_data, status = MCS.load_config_json_file(sys.argv[2])

@@ -384,10 +384,14 @@ Throw an object you are holding.
 
 - objectId : string, optional\
 The "uuid" of the held object. Defaults to the first held object.
-- (Not Yet Supported) rotation : float\
-Rotation degrees around the Y axis to throw the held object (left/right).
-- (Not Yet Supported) horizon : float\
-Rotation degrees around the X axis to throw the held object (up/down).
+- objectDirectionX : float, optional\
+The X of the directional vector pointing to where you would like to throw the object based on your current viewport.
+- objectDirectionY : float, optional\
+The Y of the directional vector pointing to where you would like to throw the object based on your current viewport.
+- objectDirectionZ : float, optional\
+The Z of the directional vector pointing to where you would like to throw the object based on your current viewport.
+(Note: if no direction is given, the object will be thrown forward (0, 0, 1))
+
 - force : float\
 The amount of force, from 0 to 1, used to throw the held object. Default: 0.5
 

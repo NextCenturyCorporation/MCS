@@ -20,4 +20,4 @@ class MCS_Action_API_DESC(Enum):
     ROTATE_OBJECT_IN_HAND = "Rotate a held object. (objectId=string, rotationX=float, rotationY=float, rotationZ=float, , objectDirectionX=float, objectDirectionY=float, objectDirectionZ=float)"
     SQUAT = "Change pose to 'SQUAT' (no params)"
     STAND = "Change pose to 'STAND' (no params)"
-    THROW_OBJECT = "Throw an object you are holding. (objectId=string, rotation=float, horizon=float, force=float (default:0.5))"
+    THROW_OBJECT = "Throw an object you are holding. (objectId=string, objectDirectionX=float, objectDirectionY=float, objectDirectionZ=float, force=float (default:0.5))"
