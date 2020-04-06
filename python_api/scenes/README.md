@@ -61,16 +61,6 @@ Implausible:
 
 Coming soon!
 
-#### Energy Conservation
-
-Plausible:
-
-![intphys_energy_conservation_plausible_sample_1](./images/intphys_energy_conservation_plausible_sample_1.gif)
-
-Implausible:
-
-![intphys_energy_conservation_implausible_sample_1](./images/intphys_energy_conservation_implausible_sample_1.gif)
-
 ### Walls
 
 - [wall_ahead.json](./wall_ahead.json)
