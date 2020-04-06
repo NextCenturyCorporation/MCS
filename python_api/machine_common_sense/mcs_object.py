@@ -16,7 +16,7 @@ class MCS_Object(object):
         The normalized direction vector of "x", "y", and "z" degrees between your position and this object's.
         Use "x" and "y" as "rotation" and "horizon" params (respectively) in a "RotateLook" action to face this object.
     distance : float
-        The distance along the 2-dimensional X/Z grid from you oto this object in number of steps ("Move" actions).
+        The distance along the 2-dimensional X/Z grid from you to this object in number of steps ("Move" actions).
     held : boolean
         Whether you are holding this object.
     mass : float
