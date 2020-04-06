@@ -5,6 +5,7 @@ from machine_common_sense.mcs_action_keys import MCS_Action_Keys
 from machine_common_sense.mcs_controller import MCS_Controller
 from machine_common_sense.mcs_controller_ai2thor import MCS_Controller_AI2THOR
 from machine_common_sense.mcs_goal import MCS_Goal
+from machine_common_sense.mcs_goal_category import MCS_Goal_Category
 from machine_common_sense.mcs_material import MCS_Material
 from machine_common_sense.mcs_object import MCS_Object
 from machine_common_sense.mcs_pose import MCS_Pose
