@@ -15,7 +15,6 @@ class Test_Default_MCS_Object(unittest.TestCase):
         "held": False,
         "mass": 0.0,
         "material_list": [],
-        "point_list": [],
         "position": {},
         "rotation": 0.0,
         "visible": False
@@ -57,10 +56,6 @@ class Test_Default_MCS_Object(unittest.TestCase):
     def test_material_list(self):
         self.assertFalse(self.mcs_object.material_list)
         self.assertIsInstance(self.mcs_object.material_list, list)
-
-    def test_point_list(self):
-        self.assertFalse(self.mcs_object.point_list)
-        self.assertIsInstance(self.mcs_object.point_list, list)
 
     def test_position(self):
         self.assertFalse(self.mcs_object.position)
