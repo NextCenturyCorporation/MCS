@@ -1,33 +1,47 @@
-import uuid
-import goals
+from goals import *
+import operator
 import pytest
+import uuid
 
 
-def test__generate_id_goal():
+def test_AttributeConstraint():
+    equality_ac = AttributeConstraint(operator.eq, 'the answer', 42)
+    obj = {'the answer': 42}
+    assert equality_ac.is_true(obj)
+
+    contains_ac = AttributeConstraint(list.__contains__, 'best color', 'red')
+    obj = {'best color': ['green', 'red']}
+    assert contains_ac.is_true(obj)
+
+
+def test_IdGoal_get_goal():
+    goal_obj = IdGoal()
     obj = {
         'id': uuid.uuid4(),
         'info': [uuid.uuid4()],
     }
-    object_list = [ obj ]
-    goal = goals._generate_id_goal(object_list)
+    object_list = [obj]
+    goal = goal_obj.get_goal(object_list)
     assert goal['info_list'] == obj['info']
     target = goal['metadata']['target']
     assert target['id'] == obj['id']
     assert target['info'] == obj['info']
 
 
-def test__generate_transportation_goal_argcount():
+def test_TransportationGoal_get_goal_argcount():
+    goal_obj = TransportationGoal()
     with pytest.raises(ValueError):
-        goals._generate_transportation_goal(['one object'])
+        goal_obj.get_goal(['one object'])
 
 
-def test__generate_transportation_goal_argvalid():
+def test_TransportationGoal_get_goal_argvalid():
+    goal_obj = TransportationGoal()
     with pytest.raises(ValueError):
-        goals._generate_transportation_goal([{'attributes': ['']},
-                                             {'attributes': ['']}])
+        goal_obj.get_goal([{'attributes': ['']}, {'attributes': ['']}])
 
 
 def test__generate_transportation_goal():
+    goal_obj = TransportationGoal()
     extra_info = uuid.uuid4()
     pickupable_id = uuid.uuid4()
     pickupable_info_item = uuid.uuid4()
@@ -43,18 +57,18 @@ def test__generate_transportation_goal():
         'info': [other_info_item, extra_info],
         'attributes': []
     }
-    goal = goals._generate_transportation_goal([pickupable_obj, other_obj])
-    
+    goal = goal_obj.get_goal([pickupable_obj, other_obj])
+
     combined_info = goal['info_list']
     assert set(combined_info) == {pickupable_info_item, other_info_item, extra_info}
-    
+
     target1 = goal['metadata']['target_1']
     assert target1['id'] == pickupable_id
-    assert target1['info'] == [ pickupable_info_item, extra_info ]
+    assert target1['info'] == [pickupable_info_item, extra_info]
     target2 = goal['metadata']['target_2']
     assert target2['id'] == other_id
-    assert target2['info'] == [ other_info_item, extra_info ]
+    assert target2['info'] == [other_info_item, extra_info]
 
     relationship = goal['metadata']['relationship']
     relationship_type = relationship[0]
-    assert relationship_type in [g.value for g in goals.RelationshipType]
+    assert relationship_type in [g.value for g in TransportationGoal.RelationshipType]
