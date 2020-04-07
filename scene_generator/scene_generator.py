@@ -146,7 +146,8 @@ def generate_file(name, objects, add_goal):
 
     if add_goal:
         goal_obj = goals.generate_goal()
-        min_obj_count = len(goal_obj.get_object_constraint_lists())
+        constraint_lists = goal_obj.get_object_constraint_lists()
+        min_obj_count = len(constraint_lists)
     else:
         min_obj_count = 1
 
@@ -155,11 +156,9 @@ def generate_file(name, objects, add_goal):
     object_count = random.randint(min_obj_count, MAX_OBJECTS)
     for x in range(object_count):
         valid_objects = objects
-        if add_goal:
-            constraint_lists = goal_obj.get_object_constraint_lists()
-            if x < len(constraint_lists):
-                constraint_list = constraint_lists[x]
-                valid_objects = goal_obj.find_all_valid_objects(constraint_list, objects)
+        if add_goal and x < len(constraint_lists):
+            constraint_list = constraint_lists[x]
+            valid_objects = goal_obj.find_all_valid_objects(constraint_list, objects)
         selected_object = copy.deepcopy(random.choice(valid_objects))
         shows_object = {}
 
@@ -187,7 +186,7 @@ def generate_file(name, objects, add_goal):
 
     body['objects'] = all_objects
     if add_goal:
-        body['goal'] = goal_obj.get_goal(all_objects)
+        body['goal'] = goal_obj.get_config(all_objects)
 
     with open(name, 'w') as out:
         json.dump(body, out, indent=2)

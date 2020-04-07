@@ -21,7 +21,7 @@ def test_IdGoal_get_goal():
         'info': [uuid.uuid4()],
     }
     object_list = [obj]
-    goal = goal_obj.get_goal(object_list)
+    goal = goal_obj.get_config(object_list)
     assert goal['info_list'] == obj['info']
     target = goal['metadata']['target']
     assert target['id'] == obj['id']
@@ -31,13 +31,13 @@ def test_IdGoal_get_goal():
 def test_TransportationGoal_get_goal_argcount():
     goal_obj = TransportationGoal()
     with pytest.raises(ValueError):
-        goal_obj.get_goal(['one object'])
+        goal_obj.get_config(['one object'])
 
 
 def test_TransportationGoal_get_goal_argvalid():
     goal_obj = TransportationGoal()
     with pytest.raises(ValueError):
-        goal_obj.get_goal([{'attributes': ['']}, {'attributes': ['']}])
+        goal_obj.get_config([{'attributes': ['']}, {'attributes': ['']}])
 
 
 def test__generate_transportation_goal():
@@ -57,7 +57,7 @@ def test__generate_transportation_goal():
         'info': [other_info_item, extra_info],
         'attributes': []
     }
-    goal = goal_obj.get_goal([pickupable_obj, other_obj])
+    goal = goal_obj.get_config([pickupable_obj, other_obj])
 
     combined_info = goal['info_list']
     assert set(combined_info) == {pickupable_info_item, other_info_item, extra_info}
@@ -70,5 +70,5 @@ def test__generate_transportation_goal():
     assert target2['info'] == [other_info_item, extra_info]
 
     relationship = goal['metadata']['relationship']
-    relationship_type = relationship[0]
+    relationship_type = relationship[1]
     assert relationship_type in [g.value for g in TransportationGoal.RelationshipType]

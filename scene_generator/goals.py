@@ -24,33 +24,8 @@ class Goal:
     def get_object_constraint_lists(self):
         return []
 
-    def get_goal(self, objects):
+    def get_config(self, objects):
         return {}
-
-    @staticmethod
-    def find_valid_object(constraint_list, objects):
-        """Find a member of objects that satisifies all constraints in constraint_list"""
-        for obj in objects:
-            obj_ok = True
-            for constraint in constraint_list:
-                if not constraint.is_true(obj):
-                    obj_ok = False
-                    break
-            if obj_ok:
-                return obj
-        return None
-
-    def find_valid_objects(self, objects):
-        """Find objects that satisfy this goal's constraints. It does not do backtracking, so it can fail to find a
-        solution if there are too many constraints and too few objects."""
-        valid_objects = []
-        for constraint_list in self.get_object_constraint_lists():
-            obj = self.find_valid_object(constraint_list, objects)
-            if obj is None:
-                return None
-            valid_objects.append(obj)
-            objects.remove(obj)
-        return valid_objects
 
     @staticmethod
     def find_all_valid_objects(constraint_list, objects):
@@ -66,14 +41,6 @@ class Goal:
                 valid_objects.append(obj)
         return valid_objects
 
-    def find_all_valid_objects_all_constraints(self, objects):
-        """For each constraint, find all valid members of objects."""
-        valid_objects = []
-        for constraint_list in self.get_object_constraint_lists():
-            objects = self.find_all_valid_objects(constraint_list, objects)
-            valid_objects.append(objects)
-        return valid_objects
-
 
 class IdGoal(Goal):
     TEMPLATE = {
@@ -84,7 +51,7 @@ class IdGoal(Goal):
     def get_object_constraint_lists(self):
         return [[]]
 
-    def get_goal(self, objects):
+    def get_config(self, objects):
         target = objects[0]
 
         goal = copy.deepcopy(self.TEMPLATE)
@@ -111,7 +78,7 @@ class TransportationGoal(Goal):
     def get_object_constraint_lists(self):
         return [[AttributeConstraint(list.__contains__, 'attributes', 'pickupable')], []]
 
-    def get_goal(self, objects):
+    def get_config(self, objects):
         if len(objects) < 2:
             raise ValueError(f'need at least 2 objects for this goal, was given {len(objects)}')
         target1, target2 = objects
@@ -131,7 +98,7 @@ class TransportationGoal(Goal):
                 'id': target2['id'],
                 'info': target2['info']
             },
-            'relationship': [relationship.value, 'target_1', 'target_2']
+            'relationship': ['target_1', relationship.value, 'target_2']
         }
         return goal
 
