@@ -4,6 +4,7 @@
 
 import copy
 import random
+from abc import ABC, abstractmethod
 from enum import Enum
 
 
@@ -18,12 +19,14 @@ class AttributeConstraint:
         return self.attribute in obj and self.predicate(obj[self.attribute], *self.arguments)
 
 
-class Goal:
+class Goal(ABC):
     """An abstract Goal."""
 
+    @abstractmethod
     def get_object_constraint_lists(self):
         return []
 
+    @abstractmethod
     def get_config(self, objects):
         return {}
 
