@@ -10,6 +10,7 @@ from enum import Enum
 
 class AttributeConstraint:
     """True iff the object has attribute and predicate is true when applied to the attribute and the arguments."""
+
     def __init__(self, predicate, attribute, *arguments):
         self.predicate = predicate
         self.attribute = attribute
@@ -45,10 +46,12 @@ class Goal(ABC):
         return valid_objects
 
 
-class IdGoal(Goal):
+class RetrievalGoal(Goal):
     TEMPLATE = {
-        'type_list': ['interaction', 'identification', 'objects', 'places'],
-        'task_list': ['navigation', 'identification']
+        'category': 'retrieval',
+        'domain_list': ['objects', 'places', 'object_solidity', 'navigation', 'localization'],
+        'type_list': ['interaction', 'action_full', 'retrieve'],
+        'task_list': ['navigate', 'localize', 'retrieve'],
     }
 
     def get_object_constraint_lists(self):
@@ -62,18 +65,22 @@ class IdGoal(Goal):
         goal['metadata'] = {
             'target': {
                 'id': target['id'],
-                'info': target['info']
+                'info': target['info'],
+                'match_image': True
             }
         }
+        goal['description'] = f'Find and pick up the {" ".join(target["info"])}.'
         return goal
 
 
-class TransportationGoal(Goal):
+class TransferralGoal(Goal):
     class RelationshipType(Enum):
         NEXT_TO = 'next to'
         ON_TOP_OF = 'on top of'
 
     TEMPLATE = {
+        'category': 'transferral',
+        'domain_list': ['objects', 'places', 'object_solidity', 'navigation', 'localization'],
         'type_list': ['interaction', 'identification', 'objects', 'places'],
         'task_list': ['navigation', 'identification', 'transportation']
     }
@@ -95,20 +102,29 @@ class TransportationGoal(Goal):
         goal['metadata'] = {
             'target_1': {
                 'id': target1['id'],
-                'info': target1['info']
+                'info': target1['info'],
+                'match_image': True
             },
             'target_2': {
                 'id': target2['id'],
-                'info': target2['info']
+                'info': target2['info'],
+                'explicit': True
             },
             'relationship': ['target_1', relationship.value, 'target_2']
         }
+        goal['description'] = f'Find and pick up the {" ".join(target1["info"])} and move it {relationship.value} the {" ".join(target2["info"])}.'
         return goal
 
 
-GOAL_TYPES = [IdGoal, TransportationGoal]
+GOAL_TYPES = {
+    'interaction': [RetrievalGoal, TransferralGoal]
+}
 
 
-def generate_goal():
-    """Return a 'goal' object of a random type"""
-    return random.choice(GOAL_TYPES)()
+def generate_goal(goal_type):
+    """Return a random class of 'goal' object from within the specified overall type"""
+    return random.choice(GOAL_TYPES[goal_type])()
+
+
+def get_goal_types():
+    return GOAL_TYPES.keys()
