@@ -15,6 +15,7 @@ import math
 from materials import *
 from separating_axis_theorem import *
 from zlib import MAX_WBITS
+from numpy.random import choice
 
 
 OUTPUT_TEMPLATE_JSON = """
@@ -58,7 +59,8 @@ MIN_WALL_WIDTH = 1
 WALL_Y_POS = 1.25
 WALL_HEIGHT = 2.5
 WALL_DEPTH = 0.1
-
+WALL_COUNTS = [0,1,2,3]
+WALL_PROBS = [60,20,10,10]
 
 def random_position():
     return round(random.uniform(MIN_PERFORMER_POSITION, MAX_PERFORMER_POSITION), POSITION_DIGITS)
@@ -212,7 +214,8 @@ def generate_file(name, objects):
             body['objects'].append(new_object)
             
             
-    wall_count = random.randint(MIN_WALLS,MAX_WALLS)
+    wall_count = random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
+    print(wall_count)
     for x in range (0,wall_count):
         generate_wall(ceil_wall_mat_choice, position, other_rects, body['objects'])
     
