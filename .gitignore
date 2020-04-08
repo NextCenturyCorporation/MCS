@@ -1,14 +1,47 @@
+# Environments
+.env
+.venv
+env
+venv
+ENV/
+env.bak/
+venv.bak/
+
+# Editors
+.vscode
+*.swp
+
+# Mac OS
 .DS_Store
+ingest_results/__MACOSX/*
+
+# Byte-compiled
+**/__pycache__/
+
+# Packaging and distribution
+*.egg-info/
+*.egg
+eggs/
+.eggs/
+dist/
+sdist/
+wheels/
+
+# Neon
+mcs_docker_setup/neon-jan-2020*
+
+# Scenes config ?
 python_api/scenes/*.json
-python_api/machine_common_sense/__pycache__/*
+python_api/scenes/images/*.gif
+python_api/playroom/
+playroom/
+
+# machine common sense
 python_api/machine_common_sense/**/*.gif
 python_api/machine_common_sense/**/*.json
 python_api/machine_common_sense/**/*.mp4
 python_api/machine_common_sense/**/*.png
-python_api/test/__pycache__/*
-mcs_docker_setup/neon-jan-2020/*
-mcs_docker_setup/neon-jan-2020.tar.gz
-truthing/__pycache__
+
+# truthing
 truthing/pyqtgraph
 truthing/node_modules
-*.swp

@@ -39,13 +39,14 @@ def print_commands():
     print("----------------- Other Commands -----------------")
     print(" ")
     print("Enter 'help' to print the commands again.")
+    print("Enter 'reset' to reset the scene.")
     print("Enter 'exit' to exit the program.")
     print(" ")
     print("------------------ End Commands ------------------")
     print(" ")
 
 # Execute Input Commands until the user exits the system
-def input_commands(controller, previous_output):
+def input_commands(controller, previous_output, config_data):
     if previous_output.action_list is not None and len(previous_output.action_list) < len(commandList):
         print('Only actions available during this step:')
         for action in previous_output.action_list:
@@ -66,7 +67,11 @@ def input_commands(controller, previous_output):
 
     if(userInput[0].lower() == 'help'):
         print_commands()
-        return input_commands(controller, previous_output)
+        return input_commands(controller, previous_output, config_data)
+
+    if(userInput[0].lower() == 'reset'):
+        output = controller.start_scene(config_data)
+        return input_commands(controller, output, config_data)
 
     # Check for shortcut key, if attempted shortcut key, map and check valid key
     try:
@@ -75,7 +80,7 @@ def input_commands(controller, previous_output):
     except:
         print("You entered an invalid shortcut key, please try again. (Type 'help' to display commands again)")
         print("You entered: " + userInput[0])
-        return input_commands(controller, previous_output)
+        return input_commands(controller, previous_output, config_data)
 
     print('You entered command:')
     print(*userInput)
@@ -84,17 +89,17 @@ def input_commands(controller, previous_output):
 
     if action is None:
         print("You entered an invalid command, please try again.  (Type 'help' to display commands again)")
-        return input_commands(controller, previous_output)
+        return input_commands(controller, previous_output, config_data)
 
     if params is None:
         print("ERROR: Parameters should be separated by commas, and look like this example: rotation=45")
-        return input_commands(controller, previous_output)
+        return input_commands(controller, previous_output, config_data)
 
     output = controller.step(action, **params);
 
     print('===============================================================================')
 
-    return input_commands(controller, output)
+    return input_commands(controller, output, config_data)
 
 # Run scene loaded in the config data
 def run_scene(controller, config_data):
@@ -103,7 +108,7 @@ def run_scene(controller, config_data):
 
     output = controller.start_scene(config_data)
 
-    input_commands(controller, output)
+    input_commands(controller, output, config_data)
 
     sys.exit()
 
@@ -119,11 +124,11 @@ def main():
         exit()
 
     debug = True
-    if sys.argv[3] is not None:
+    if len(sys.argv) >= 4:
         debug = sys.argv[3].lower() == 'true'
 
     enable_noise = False
-    if sys.argv[4] is not None:
+    if len(sys.argv) >= 5:
         enable_noise = sys.argv[4].lower() == 'true'
 
     controller = MCS.create_controller(sys.argv[1], debug=debug, enable_noise=enable_noise)
