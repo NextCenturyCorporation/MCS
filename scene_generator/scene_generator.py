@@ -45,7 +45,7 @@ MIN_SCENE_POSITION = -4.95
 MAX_SCENE_POSITION = 4.95
 POSITION_DIGITS = 1
 VALID_ROTATIONS = (0, 45, 90, 135, 180, 225, 270, 315)
-MAX_TRIES = 6
+MAX_TRIES = 20
 MAX_OBJECTS = 5
 
 
@@ -181,7 +181,7 @@ def generate_file(name, objects, goal_type):
 
     body['objects'] = all_objects
     if goal_type is not None:
-        body['goal'] = goal_obj.get_config(all_objects)
+        body['goal'] = goal_obj.get_config(all_objects[:min_obj_count])
 
     with open(name, 'w') as out:
         json.dump(body, out, indent=2)
