@@ -49,7 +49,7 @@ POSITION_DIGITS = 1
 MIN_ROTATION = 0
 MAX_ROTATION = 359
 ROTATION_DIGITS = 0
-MAX_TRIES = 6
+MAX_TRIES = 20
 MAX_OBJECTS = 5
 MAX_WALLS = 3
 MIN_WALLS = 0
@@ -240,7 +240,6 @@ def generate_file(name, objects, add_goal):
                 new_object['salientMaterials'] = selected_object['salientMaterials']
             all_objects.append(new_object)
             
-            
     wall_count = random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
     print(wall_count)
     for x in range (0,wall_count):
@@ -250,7 +249,7 @@ def generate_file(name, objects, add_goal):
 
     body['objects'] = all_objects
     if add_goal:
-        body['goal'] = goal_obj.get_config(all_objects)
+        body['goal'] = goal_obj.get_config(all_objects[:min_obj_count])
 
 
     with open(name, 'w') as out:

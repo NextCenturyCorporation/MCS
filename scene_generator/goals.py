@@ -82,12 +82,11 @@ class TransportationGoal(Goal):
         return [[AttributeConstraint(list.__contains__, 'attributes', 'pickupable')], []]
 
     def get_config(self, objects):
-        print(objects)
         if len(objects) < 2:
             raise ValueError(f'need at least 2 objects for this goal, was given {len(objects)}')
         target1, target2 = objects
-        if 'pickupable' not in target1['attributes']:
-            raise ValueError('first object must be "pickupable"')
+        if not target1.get('pickupable', False):
+            raise ValueError(f'first object must be "pickupable": {target1}')
         relationship = random.choice(list(self.RelationshipType))
 
         goal = copy.deepcopy(self.TEMPLATE)
