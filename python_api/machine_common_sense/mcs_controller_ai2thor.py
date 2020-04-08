@@ -8,6 +8,7 @@ import ai2thor.controller
 from machine_common_sense.mcs_action import MCS_Action
 from machine_common_sense.mcs_controller import MCS_Controller
 from machine_common_sense.mcs_goal import MCS_Goal
+from machine_common_sense.mcs_goal_category import MCS_Goal_Category
 from machine_common_sense.mcs_object import MCS_Object
 from machine_common_sense.mcs_pose import MCS_Pose
 from machine_common_sense.mcs_return_status import MCS_Return_Status
@@ -45,6 +46,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     DEFAULT_AMOUNT = 0.5
     DEFAULT_DIRECTION = 0
     DEFAULT_OBJECT_MOVE_AMOUNT = 1
+    DEFAULT_REWARD = 0
 
     MAX_ROTATION = 360
     MIN_ROTATION = -360
@@ -360,6 +362,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         rgb = object_id_to_color[object_metadata['objectId']] if object_metadata['objectId'] in object_id_to_color \
                 else [None, None, None]
 
+        if object_metadata['objectBounds'] is None:
+            print(f"No bounds for {object_metadata['objectId']}")
+
         return MCS_Object(
             uuid=object_metadata['objectId'],
             color={
@@ -396,6 +401,122 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             print("Return status " + scene_event.metadata['lastActionStatus'] + " is not currently supported.")
         finally:
             return return_status
+
+    def __get_object_from_list(objects, target_id):
+        '''
+        Finds an mcs_object in a list. Uses a generator to return the first item
+        or defaults to None if the target isn't found.
+
+        Args:
+            objects: list of mcs_objects
+            target_id: ID of mcs_object to find
+
+        Returns:
+            target: object if found or None
+        '''
+        return next((o for o in objects if o['objectId'] == target_id), None)
+
+    def _calc_retrieval_reward(self, objects):
+        '''
+        Calculate the reward for the retrieval goal.
+
+        Args:
+            scene_event: 
+
+        Returns:
+            int: 1 for goal achieved, 0 otherwise
+
+        '''
+        reward = self.DEFAULT_REWARD
+        goal_id = self.__goal.metadata.get('target_id', None)
+        goal_object = self.__get_object_from_list(objects, goal_id)
+        if goal_object and goal_object['isPickedUp']:
+            reward = 1
+        return reward
+
+    def _calc_goto_reward(self, objects):
+        '''
+        Calculate the reward for the go to goal.
+
+        Args:
+            scene_event:
+
+        Returns:
+            int: 1 for goal achieved, 0 otherwise
+
+        '''
+        reward = self.DEFAULT_REWARD
+        goal_id = self.__goal.metadata.get('target_id', None)
+        goal_object = self.__get_object_from_list(objects, goal_id)
+        # this could still be a problem for table or couch
+        # could be standing right next to it but be greater than
+        # reach distance from object's center point
+        if goal_object and goal_object['distance'] <= self.MAX_REACH_DISTANCE:
+            reward = 1
+        return reward
+
+    def _calc_transferral_reward(self, objects):
+        '''
+        Calculate the reward for the transferral goal.
+
+        Args:
+            scene_event:
+
+        Returns:
+            int: 1 for goal achieved, 0 otherwise
+
+        '''
+        reward=self.DEFAULT_REWARD
+        relationship = self.__goal.metadata.get('relationship', None)
+        if relationship is None or len(relationship) != 3:
+            return reward
+        
+        target_id, action, goal_id = relationship
+        target_object = self.__get_object_from_list(objects, target_id)
+        goal_object = self.__get_object_from_list(objects, goal_id)
+
+        # if either object is None, then return default reward
+        if goal_object is None or target_object is None:
+            return reward
+
+        # if either objects are held, the goal has not been achieved
+        if goal_object['isPickedUp'] or target_object['isPickedUp']:
+            return reward
+
+        # ensure distance between objects are below some threshold
+        self.MAX_MOVE_DISTANCE
+
+        # actions are next_to or on_top_of
+        # or the target is on top of the goal
+        
+        return reward
+    
+    def _calculate_default_reward(self, objects):
+        '''Returns the default reward. Object list is passed in but ignored.'''
+        return self.DEFAULT_REWARD
+
+    def retrieve_reward(self, scene_event):
+        '''
+        Determine if the agent achieved the objective/task/goal.
+
+        Args:
+            scene_event:
+
+        Returns:
+            int: reward is 1 if goal achieved, 0 otherwise
+
+        '''
+        
+        category = self.__goal.metadata.get('category', None)
+
+        switch = {
+            MCS_Goal_Category.RETRIEVAL.name: self._calc_retrieval_reward,
+            MCS_Goal_Category.TRANSFERRAL.name: self._calc_transferral_reward,
+            MCS_Goal_Category.GOTO.name: self._calc_goto_reward,
+        }
+
+        objects = scene_event.metadata['objects']
+        return switch.get(category, self._calculate_default_reward)(objects)
 
     def save_images(self, scene_event):
         image_list = []
@@ -442,6 +563,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             pose=self.retrieve_pose(scene_event),
             position=self.retrieve_position(scene_event),
             return_status=self.retrieve_return_status(scene_event),
+            reward=self.retrieve_reward(scene_event),
             rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number
         )
