@@ -23,8 +23,6 @@ class MCS_Object(object):
         Haptic feedback.  The mass of this object.
     material_list : list of strings
         Haptic feedback.  The material(s) of this object.  See MCS_Material.
-    point_list : list of dicts
-        The list of 3D points (dicts with "x", "y", and "z") that form the outer shape of this object.
     position : dict
         The "x", "y", and "z" coordinates for the global position of the center of this object's 3D model.
     rotation : float
@@ -42,7 +40,6 @@ class MCS_Object(object):
         held=False,
         mass=0.0,
         material_list=[],
-        point_list=[],
         position={},
         rotation=0.0,
         visible=False
@@ -54,7 +51,6 @@ class MCS_Object(object):
         self.held = held
         self.mass = mass
         self.material_list = material_list
-        self.point_list = point_list
         self.position = position
         self.rotation = rotation
         self.visible = visible

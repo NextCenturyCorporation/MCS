@@ -377,7 +377,6 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             held=object_metadata['isPickedUp'],
             mass=object_metadata['mass'],
             material_list=material_list,
-            point_list=object_metadata['points'],
             position=object_metadata['position'],
             rotation=object_metadata['rotation']['y'],
             visible=(object_metadata['visibleInCamera'] or object_metadata['isPickedUp'])
