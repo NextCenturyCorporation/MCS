@@ -14,11 +14,11 @@ def test_AttributeConstraint():
     assert contains_ac.is_true(obj)
 
 
-def test_IdGoal_get_goal():
-    goal_obj = IdGoal()
+def test_RetrievalGoal_get_goal():
+    goal_obj = RetrievalGoal()
     obj = {
-        'id': uuid.uuid4(),
-        'info': [uuid.uuid4()],
+        'id': str(uuid.uuid4()),
+        'info': [str(uuid.uuid4())],
     }
     object_list = [obj]
     goal = goal_obj.get_config(object_list)
@@ -28,30 +28,30 @@ def test_IdGoal_get_goal():
     assert target['info'] == obj['info']
 
 
-def test_TransportationGoal_get_goal_argcount():
-    goal_obj = TransportationGoal()
+def test_TransferralGoal_get_goal_argcount():
+    goal_obj = TransferralGoal()
     with pytest.raises(ValueError):
         goal_obj.get_config(['one object'])
 
 
-def test_TransportationGoal_get_goal_argvalid():
-    goal_obj = TransportationGoal()
+def test_TransferralGoal_get_goal_argvalid():
+    goal_obj = TransferralGoal()
     with pytest.raises(ValueError):
         goal_obj.get_config([{'attributes': ['']}, {'attributes': ['']}])
 
 
-def test__generate_transportation_goal():
-    goal_obj = TransportationGoal()
-    extra_info = uuid.uuid4()
-    pickupable_id = uuid.uuid4()
-    pickupable_info_item = uuid.uuid4()
+def test__generate_transferral_goal():
+    goal_obj = TransferralGoal()
+    extra_info = str(uuid.uuid4())
+    pickupable_id = str(uuid.uuid4())
+    pickupable_info_item = str(uuid.uuid4())
     pickupable_obj = {
         'id': pickupable_id,
         'info': [pickupable_info_item, extra_info],
         'attributes': ['pickupable']
     }
-    other_id = uuid.uuid4()
-    other_info_item = uuid.uuid4()
+    other_id = str(uuid.uuid4())
+    other_info_item = str(uuid.uuid4())
     other_obj = {
         'id': other_id,
         'info': [other_info_item, extra_info],
@@ -71,4 +71,4 @@ def test__generate_transportation_goal():
 
     relationship = goal['metadata']['relationship']
     relationship_type = relationship[1]
-    assert relationship_type in [g.value for g in TransportationGoal.RelationshipType]
+    assert relationship_type in [g.value for g in TransferralGoal.RelationshipType]
