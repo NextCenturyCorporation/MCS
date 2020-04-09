@@ -159,7 +159,7 @@ def generate_file(name, objects, goal_type):
 
         if calc_obj_pos(position, other_rects, shows_object, selected_object):
             new_object = {
-                'id': selected_object['type'] + '_' + str(uuid.uuid4()),
+                'id': str(uuid.uuid4()),
                 'type': selected_object['type'],
                 'info': selected_object['info'],
                 'mass': selected_object['mass']

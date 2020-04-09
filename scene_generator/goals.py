@@ -108,7 +108,7 @@ class TransferralGoal(Goal):
             'target_2': {
                 'id': target2['id'],
                 'info': target2['info'],
-                'explicit': True
+                'match_image': True
             },
             'relationship': ['target_1', relationship.value, 'target_2']
         }
