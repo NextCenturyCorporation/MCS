@@ -184,7 +184,16 @@ Each **vector config** has the following properties:
 
 ## Object List
 
-The following objects are currently available:
+You can use any of these strings with an object's `type` property.
+
+The following primitive shapes are available, and can be set as `moveable` or `pickupable`:
+
+- `"capsule"`
+- `"cube"`
+- `"cylinder"`
+- `"sphere"`
+
+The following objects are also available:
 
 | Object Type | Moveable | Pickupable | Receptacle | Openable |
 | --- | --- | --- | --- | --- |
