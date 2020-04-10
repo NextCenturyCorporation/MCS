@@ -9,11 +9,14 @@ from abc import ABC, abstractmethod
 from enum import Enum
 
 from geometry import random_position, random_rotation, calc_obj_pos
+import materials
 
 MAX_OBJECTS = 5
 
 
 def instantiate_object(object_def, object_location):
+    """Create a new object from an object definition (as from the objects.json file). object_location will be modified
+    by this function."""
     new_object = {
         'id': str(uuid.uuid4()),
         'type': object_def['type'],
@@ -29,7 +32,7 @@ def instantiate_object(object_def, object_location):
     object_location['scale'] = object_def['scale']
     if 'salientMaterials' in object_def:
         salientMaterialsIndex = object_def['salientMaterials'][0].upper() + '_MATERIALS'
-        salientMaterial = random.choice(globals().get(salientMaterialsIndex, None))
+        salientMaterial = random.choice(getattr(materials, salientMaterialsIndex, ['']))
         new_object['material'] = salientMaterial
         new_object['info'].append(object_def['salientMaterials'][0])
         new_object['salientMaterials'] = object_def['salientMaterials']
@@ -66,12 +69,13 @@ class GoalException(Exception):
 
 
 class Goal(ABC):
-    """An abstract Goal."""
+    """An abstract Goal. Subclasses must implement compute_objects and get_config."""
 
     def __init__(self):
         self._performer_start = None
 
     def update_body(self, object_defs, body):
+        """Helper method that calls other Goal methods to set performerStart, objects, and goal."""
         body['performerStart'] = self.compute_performer_start()
         goal_objects, all_objects = self.compute_objects(object_defs)
         body['objects'] = all_objects
@@ -79,6 +83,8 @@ class Goal(ABC):
         return body
 
     def compute_performer_start(self):
+        """Compute the starting location (position & rotation) for the performer. Must return the same thing on
+        multiple calls. This default implementation chooses a random location."""
         if self._performer_start is None:
             self._performer_start = {
                 'position': {
@@ -94,10 +100,14 @@ class Goal(ABC):
 
     @abstractmethod
     def compute_objects(self, object_defs):
+        """Compute object instances for the scene from the set of possible object definitions. Returns a pair:
+        (objects required for the goal, all objects in the scene including objects required for the goal)"""
         pass
 
     @abstractmethod
     def get_config(self, goal_objects):
+        """Get the goal configuration. goal_objects is the objects required for the goal (as returned from
+        compute_objects)."""
         pass
 
     @staticmethod
@@ -115,18 +125,22 @@ class Goal(ABC):
         return valid_objects
 
 
-class NullGoal(Goal):
+class EmptyGoal(Goal):
+    """An empty goal."""
+
     def __init__(self):
-        super(NullGoal, self).__init__()
+        super(EmptyGoal, self).__init__()
 
     def compute_objects(self, object_defs):
-        return []
+        return [], []
 
     def get_config(self, goal_objects):
         return ''
 
 
 class RetrievalGoal(Goal):
+    """Going to a specified object and picking it up."""
+
     TEMPLATE = {
         'category': 'retrieval',
         'domain_list': ['objects', 'places', 'object_solidity', 'navigation', 'localization'],
@@ -155,6 +169,9 @@ class RetrievalGoal(Goal):
         return [target], all_objects
 
     def get_config(self, objects):
+        if len(objects) < 1:
+            raise ValueError('need at least 1 object for this goal')
+
         target = objects[0]
 
         goal = copy.deepcopy(self.TEMPLATE)
@@ -171,6 +188,8 @@ class RetrievalGoal(Goal):
 
 
 class TransferralGoal(Goal):
+    """Moving a specified object to another specified object."""
+
     class RelationshipType(Enum):
         NEXT_TO = 'next to'
         ON_TOP_OF = 'on top of'
@@ -185,8 +204,25 @@ class TransferralGoal(Goal):
     def __init__(self):
         super(TransferralGoal, self).__init__()
 
-    def get_object_constraint_lists(self):
-        return [[AttributeConstraint(list.__contains__, 'attributes', 'pickupable')], []]
+    def compute_objects(self, object_defs):
+        performer_start = self.compute_performer_start()
+        performer_position = performer_start['position']
+        bounding_rects = []
+
+        pickupables = [od for od in object_defs if 'pickupable' in od['attributes']]
+        target1_def = random.choice(pickupables)
+        target1_location = calc_obj_pos(performer_position, bounding_rects, target1_def)
+        target1 = instantiate_object(target1_def, target1_location)
+
+        target2_def = random.choice(object_defs)
+        target2_location = calc_obj_pos(performer_position, bounding_rects, target2_def)
+        target2 = instantiate_object(target2_def, target2_location)
+
+        goal_objects = [target1, target2]
+        all_objects = goal_objects.copy()
+        add_objects(object_defs, all_objects, bounding_rects, performer_position)
+
+        return goal_objects, all_objects
 
     def get_config(self, objects):
         if len(objects) < 2:
@@ -224,12 +260,11 @@ GOAL_TYPES = {
 
 def choose_goal(goal_type):
     """Return a random class of 'goal' object from within the specified
-overall type, or NullGoal if goal_type is None"""
+overall type, or EmptyGoal if goal_type is None"""
     if goal_type is None:
-        return NullGoal()
+        return EmptyGoal()
     else:
-        return RetrievalGoal()
-#        return random.choice(GOAL_TYPES[goal_type])()
+        return random.choice(GOAL_TYPES[goal_type])()
 
 
 def get_goal_types():
