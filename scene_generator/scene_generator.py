@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-
+import logging
 import sys
 import argparse
 import os
@@ -62,7 +62,7 @@ def generate_file(name, object_defs, goal_type):
         json.dump(body, out, indent=2)
 
 
-def generate_one_fileset(prefix, count, object_defs, goal_type):
+def generate_one_fileset(prefix, count, object_defs, goal_type, stop_on_error):
     # skip existing files
     index = 1
     dirname = os.path.dirname(prefix)
@@ -70,14 +70,19 @@ def generate_one_fileset(prefix, count, object_defs, goal_type):
         os.makedirs(dirname, exist_ok=True)
 
     while count > 0:
-        file_exists = True
-        while file_exists:
+        while True:
             name = f'{prefix}-{index:04}.json'
             file_exists = os.path.exists(name)
+            if not file_exists:
+                break
             index += 1
-
-        generate_file(name, object_defs, goal_type)
-        count -= 1
+        try:
+            generate_file(name, object_defs, goal_type)
+            count -= 1
+        except (RuntimeError, ZeroDivisionError) as e:
+            if stop_on_error:
+                raise
+            logging.warning(f'failed to create a file: {e}')
 
 
 def main(argv):
@@ -89,11 +94,14 @@ def main(argv):
                         help='File containing a list of objects to choose from')
     parser.add_argument('--goal', default=None, choices=goals.get_goal_types(),
                         help='Generate a goal of the specified type [default is to not generate a goal]')
+    parser.add_argument('--stop-on-error', default=False, action='store_true',
+                        help='Stop immediately if there is an error generating a file [default is print a warning but '
+                             'do not stop]')
 
     args = parser.parse_args(argv[1:])
     random.seed(args.seed)
     objects = load_object_file(args.objects)
-    generate_one_fileset(args.prefix, args.count, objects, args.goal)
+    generate_one_fileset(args.prefix, args.count, objects, args.goal, args.stop_on_error)
 
 
 if __name__ == '__main__':
