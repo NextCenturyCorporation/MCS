@@ -46,9 +46,8 @@ MAX_PERFORMER_POSITION = 4.8
 MIN_SCENE_POSITION = -4.95
 MAX_SCENE_POSITION = 4.95
 POSITION_DIGITS = 1
-MIN_ROTATION = 0
-MAX_ROTATION = 359
-ROTATION_DIGITS = 0
+
+VALID_ROTATIONS = (0, 45, 90, 135, 180, 225, 270, 315)
 MAX_TRIES = 20
 MAX_OBJECTS = 5
 MAX_WALLS = 3
@@ -67,10 +66,7 @@ def random_position():
 
 
 def random_rotation():
-    rotation = round(random.uniform(MIN_ROTATION, MAX_ROTATION), ROTATION_DIGITS)
-    if ROTATION_DIGITS == 0:
-        rotation = int(rotation)
-    return rotation
+    return random.choice(VALID_ROTATIONS)
 
 
 def load_object_file(object_file_name):
@@ -183,7 +179,7 @@ def generate_wall(wall_mat_choice, performer_position, other_rects, objects_arra
                 
                 
 
-def generate_file(name, objects, add_goal):
+def generate_file(name, objects, goal_type):
     global OUTPUT_TEMPLATE, CEILING_AND_WALL_MATERIALS, FLOOR_MATERIALS, MAX_OBJECTS
 
     body = copy.deepcopy(OUTPUT_TEMPLATE)
@@ -200,8 +196,8 @@ def generate_file(name, objects, add_goal):
     position['z'] = random_position()
     body['performerStart']['rotation']['y'] = random_rotation()
 
-    if add_goal:
-        goal_obj = goals.generate_goal()
+    if goal_type is not None:
+        goal_obj = goals.generate_goal(goal_type)
         constraint_lists = goal_obj.get_object_constraint_lists()
         min_obj_count = len(constraint_lists)
     else:
@@ -212,7 +208,7 @@ def generate_file(name, objects, add_goal):
     object_count = random.randint(min_obj_count, MAX_OBJECTS)
     for x in range(object_count):
         valid_objects = objects
-        if add_goal and x < len(constraint_lists):
+        if goal_type is not None and x < len(constraint_lists):
             constraint_list = constraint_lists[x]
             valid_objects = goal_obj.find_all_valid_objects(constraint_list, objects)
         selected_object = copy.deepcopy(random.choice(valid_objects))
@@ -247,16 +243,16 @@ def generate_file(name, objects, add_goal):
 
    
 
-    body['objects'] = all_objects
-    if add_goal:
-        body['goal'] = goal_obj.get_config(all_objects[:min_obj_count])
+    body['objects'] = all_objects)
 
+    if goal_type is not None:
+        body['goal'] = goal_obj.get_config(all_objects[:min_obj_count])
 
     with open(name, 'w') as out:
         json.dump(body, out, indent=2)
 
 
-def generate_one_fileset(prefix, count, objects, add_goal):
+def generate_one_fileset(prefix, count, objects, goal_type):
     # skip existing files
     index = 1
     dirname = os.path.dirname(prefix)
@@ -270,7 +266,7 @@ def generate_one_fileset(prefix, count, objects, add_goal):
             file_exists = os.path.exists(name)
             index += 1
 
-        generate_file(name, objects, add_goal)
+        generate_file(name, objects, goal_type)
         count -= 1
 
 
@@ -281,8 +277,8 @@ def main(argv):
     parser.add_argument('--seed', type=int, default=None, help='Random number seed [default=None]')
     parser.add_argument('--objects', required=True, metavar='OBJECTS_FILE',
                         help='File containing a list of objects to choose from')
-    parser.add_argument('--goal', action='store_true', default=False,
-                        help='Generate a random goal [default is to not generate a goal]')
+    parser.add_argument('--goal', default=None, choices=goals.get_goal_types(),
+                        help='Generate a goal of the specified type [default is to not generate a goal]')
 
     args = parser.parse_args(argv[1:])
     random.seed(args.seed)
