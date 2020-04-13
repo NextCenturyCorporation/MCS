@@ -48,10 +48,11 @@ def calc_obj_coords(x, z, dx, dz, rotation):
 
     rotate_sin = math.sin(radian_amount)
     rotate_cos = math.cos(radian_amount)
-    a = {'x': x + (dx * rotate_cos) - (dz * rotate_sin), 'y': 0, 'z': z + (dx * rotate_sin + dz * rotate_cos)}
-    b = {'x': x + (dx * rotate_cos) - (dz * rotate_sin), 'y': 0, 'z': z - (dx * rotate_sin + dz * rotate_cos)}
-    c = {'x': x - (dx * rotate_cos) + (dz * rotate_sin), 'y': 0, 'z': z - (dx * rotate_sin + dz * rotate_cos)}
-    d = {'x': x - (dx * rotate_cos) + (dz * rotate_sin), 'y': 0, 'z': z + (dx * rotate_sin + dz * rotate_cos)}
+    a = { 'x': x+(dx*rotate_cos)-(dz*rotate_sin) , 'y' : 0 , 'z': z+dx*rotate_sin+dz*rotate_cos}
+    b = { 'x': x+(dx*rotate_cos)+(dz*rotate_sin) , 'y' : 0 , 'z': z+dx*rotate_sin-dz*rotate_cos}
+    c = { 'x': x-(dx*rotate_cos)+(dz*rotate_sin) , 'y' : 0 , 'z': z-dx*rotate_sin-dz*rotate_cos}
+    d = { 'x': x-(dx*rotate_cos)-(dz*rotate_sin) , 'y' : 0 , 'z': z-dx*rotate_sin+dz*rotate_cos} 
+
     return [a, b, c, d]
 
 

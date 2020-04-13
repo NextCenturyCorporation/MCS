@@ -3,15 +3,28 @@
 #
 
 import copy
+import logging
 import random
 import uuid
 from abc import ABC, abstractmethod
 from enum import Enum
 
-from geometry import random_position, random_rotation, calc_obj_pos
+import geometry
+from geometry import random_position, random_rotation, calc_obj_pos, POSITION_DIGITS
 import materials
+from separating_axis_theorem import sat_entry
 
+MAX_TRIES = 20
 MAX_OBJECTS = 5
+MAX_WALLS = 3
+MIN_WALLS = 0
+MAX_WALL_WIDTH = 4
+MIN_WALL_WIDTH = 1
+WALL_Y_POS = 1.25
+WALL_HEIGHT = 2.5
+WALL_DEPTH = 0.1
+WALL_COUNTS = [0,1,2,3]
+WALL_PROBS = [60,20,10,10]
 
 
 def instantiate_object(object_def, object_location):
@@ -51,16 +64,43 @@ def add_objects(object_defs, object_list, rectangles, performer_position):
             object_list.append(obj)
 
 
-class AttributeConstraint:
-    """True iff the object has attribute and predicate is true when applied to the attribute and the arguments."""
-
-    def __init__(self, predicate, attribute, *arguments):
-        self.predicate = predicate
-        self.attribute = attribute
-        self.arguments = arguments
-
-    def is_true(self, obj):
-        return self.attribute in obj and self.predicate(obj[self.attribute], *self.arguments)
+def generate_wall(wall_mat_choice, performer_position, other_rects):
+    # Wanted to reuse written functions, but this is a bit more of a special snowflake
+    # Generates obstacle walls placed in the scene.
+    
+    tries = 0
+    while tries< MAX_TRIES:
+        rotation = random_rotation()
+        new_x = random_position()
+        new_z = random_position()
+        new_x_size = round(random.uniform(MIN_WALL_WIDTH, MAX_WALL_WIDTH), POSITION_DIGITS)
+        rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, rotation)
+        if not geometry.collision(rect, performer_position) and \
+                (len(other_rects) == 0 or not any(sat_entry(rect, other_rect) for other_rect in other_rects)):
+            break
+        tries += 1
+        
+    if tries < MAX_TRIES :
+        new_object = {
+            'id' : 'wall_'+str(uuid.uuid4()),
+            'material' : wall_mat_choice,
+            'type':'cube',
+            'kinematic':'true',
+            'structure' : 'true',
+            'mass'  : 100
+            }
+        shows_object = {}
+        shows = [shows_object]
+        new_object['shows'] = shows
+        
+        shows_object['stepBegin'] = 0
+        shows_object['scale'] = {'x': new_x_size, 'y': WALL_HEIGHT, 'z' :WALL_DEPTH}
+    
+        shows_object['rotation'] = { 'x' : 0, 'y': rotation, 'z': 0 }
+        shows_object['position'] = { 'x' : new_x, 'y': WALL_Y_POS, 'z' : new_z}
+        other_rects.append(rect)
+        return new_object
+    return None
 
 
 class GoalException(Exception):
@@ -69,7 +109,9 @@ class GoalException(Exception):
 
 
 class Goal(ABC):
-    """An abstract Goal. Subclasses must implement compute_objects and get_config."""
+    """An abstract Goal. Subclasses must implement compute_objects and
+    get_config. Users of a goal object should normally only need to call 
+    update_body."""
 
     def __init__(self):
         self._performer_start = None
@@ -77,8 +119,9 @@ class Goal(ABC):
     def update_body(self, object_defs, body):
         """Helper method that calls other Goal methods to set performerStart, objects, and goal."""
         body['performerStart'] = self.compute_performer_start()
-        goal_objects, all_objects = self.compute_objects(object_defs)
-        body['objects'] = all_objects
+        goal_objects, all_objects, bounding_rects = self.compute_objects(object_defs)
+        walls = self.generate_walls(body['wallMaterial'], body['performerStart'], bounding_rects)
+        body['objects'] = all_objects + walls
         body['goal'] = self.get_config(goal_objects)
         return body
 
@@ -100,8 +143,8 @@ class Goal(ABC):
 
     @abstractmethod
     def compute_objects(self, object_defs):
-        """Compute object instances for the scene from the set of possible object definitions. Returns a pair:
-        (objects required for the goal, all objects in the scene including objects required for the goal)"""
+        """Compute object instances for the scene from the set of possible object definitions. Returns a tuple:
+        (objects required for the goal, all objects in the scene including objects required for the goal, bounding rectangles)"""
         pass
 
     @abstractmethod
@@ -110,6 +153,18 @@ class Goal(ABC):
         compute_objects)."""
         pass
 
+    def generate_walls(self, material, performer_start, bounding_rects):
+        wall_count = random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
+
+        walls = []
+        for x in range(0, wall_count):
+            wall = generate_wall(material, performer_start, bounding_rects)
+            if wall is not None:
+                walls.append(wall)
+            else:
+                logging.warning('could not generate wall')
+        return walls
+        
     @staticmethod
     def find_all_valid_objects(constraint_list, objects):
         """Find all members of objects that satisfy all constraints in constraint_list"""
@@ -166,7 +221,7 @@ class RetrievalGoal(Goal):
         all_objects = [target]
         add_objects(object_defs, all_objects, bounding_rects, performer_position)
 
-        return [target], all_objects
+        return [target], all_objects, bounding_rects
 
     def get_config(self, objects):
         if len(objects) < 1:
@@ -222,7 +277,7 @@ class TransferralGoal(Goal):
         all_objects = goal_objects.copy()
         add_objects(object_defs, all_objects, bounding_rects, performer_position)
 
-        return goal_objects, all_objects
+        return goal_objects, all_objects, bounding_rects
 
     def get_config(self, objects):
         if len(objects) < 2:

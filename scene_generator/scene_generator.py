@@ -38,7 +38,6 @@ OUTPUT_TEMPLATE = json.loads(OUTPUT_TEMPLATE_JSON)
 # the following mins and maxes are inclusive
 MIN_SCENE_POSITION = -4.95
 MAX_SCENE_POSITION = 4.95
-MAX_TRIES = 20
 
 
 def load_object_file(object_file_name):
@@ -51,8 +50,9 @@ def generate_file(name, object_defs, goal_type):
     global OUTPUT_TEMPLATE
     body = copy.deepcopy(OUTPUT_TEMPLATE)
     body['name'] = os.path.basename(name)
-    body['ceilingMaterial'] = random.choice(CEILING_AND_WALL_MATERIALS)
-    body['wallMaterial'] = random.choice(CEILING_AND_WALL_MATERIALS)
+    ceil_wall_mat_choice = random.choice(CEILING_AND_WALL_MATERIALS)
+    body['ceilingMaterial'] = ceil_wall_mat_choice
+    body['wallMaterial'] = ceil_wall_mat_choice
     body['floorMaterial'] = random.choice(FLOOR_MATERIALS)
 
     goal_obj = goals.choose_goal(goal_type)
