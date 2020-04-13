@@ -239,7 +239,7 @@ def generate_file(name, objects, goal_type):
             all_objects.append(new_object)
             
     wall_count = random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
-    print(wall_count)
+ 
     for x in range (0,wall_count):
         generate_wall(ceil_wall_mat_choice, position, other_rects, all_objects)
 
