@@ -248,8 +248,8 @@ class TransferralGoal(Goal):
             },
             'relationship': ['target_1', relationship.value, 'target_2']
         }
-        goal[
-            'description'] = f'Find and pick up the {" ".join(target1["info"])} and move it {relationship.value} the {" ".join(target2["info"])}.'
+        goal['description'] = f'Find and pick up the {" ".join(target1["info"])} and move it {relationship.value} ' \
+                'the {" ".join(target2["info"])}.'
         return goal
 
 
