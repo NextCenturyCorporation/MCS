@@ -4,6 +4,36 @@ import pytest
 import uuid
 
 
+def test_instantiate_object():
+    object_def = {
+        'type': uuid.uuid4(),
+        'info': [uuid.uuid4(), uuid.uuid4()],
+        'mass': random.random(),
+        'attributes': ['foo', 'bar'],
+        'scale': 1.0
+    }
+    object_location = {
+        'position': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        },
+        'rotation': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        }
+    }
+    obj = instantiate_object(object_def, object_location)
+    assert type(obj['id']) is str
+    for prop in ('type', 'info', 'mass'):
+        assert object_def[prop] == obj[prop]
+    for attribute in object_def['attributes']:
+        assert obj[attribute] is True
+    assert obj['shows'][0]['position'] == object_location['position']
+    assert obj['shows'][0]['rotation'] == object_location['rotation']
+
+
 def test_RetrievalGoal_get_goal():
     goal_obj = RetrievalGoal()
     obj = {
