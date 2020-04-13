@@ -120,7 +120,8 @@ class Goal(ABC):
         """Helper method that calls other Goal methods to set performerStart, objects, and goal."""
         body['performerStart'] = self.compute_performer_start()
         goal_objects, all_objects, bounding_rects = self.compute_objects(object_defs)
-        walls = self.generate_walls(body['wallMaterial'], body['performerStart'], bounding_rects)
+        walls = self.generate_walls(body['wallMaterial'], body['performerStart']['position'],
+                                    bounding_rects)
         body['objects'] = all_objects + walls
         body['goal'] = self.get_config(goal_objects)
         return body
@@ -153,12 +154,12 @@ class Goal(ABC):
         compute_objects)."""
         pass
 
-    def generate_walls(self, material, performer_start, bounding_rects):
+    def generate_walls(self, material, performer_position, bounding_rects):
         wall_count = random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
 
         walls = []
         for x in range(0, wall_count):
-            wall = generate_wall(material, performer_start, bounding_rects)
+            wall = generate_wall(material, performer_position, bounding_rects)
             if wall is not None:
                 walls.append(wall)
             else:
@@ -304,7 +305,7 @@ class TransferralGoal(Goal):
             'relationship': ['target_1', relationship.value, 'target_2']
         }
         goal['description'] = f'Find and pick up the {" ".join(target1["info"])} and move it {relationship.value} ' \
-                'the {" ".join(target2["info"])}.'
+                f'the {" ".join(target2["info"])}.'
         return goal
 
 

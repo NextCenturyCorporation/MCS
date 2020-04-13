@@ -79,7 +79,7 @@ def generate_one_fileset(prefix, count, object_defs, goal_type, stop_on_error):
         try:
             generate_file(name, object_defs, goal_type)
             count -= 1
-        except (RuntimeError, ZeroDivisionError) as e:
+        except (RuntimeError, ZeroDivisionError, TypeError) as e:
             if stop_on_error:
                 raise
             logging.warning(f'failed to create a file: {e}')
