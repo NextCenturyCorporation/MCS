@@ -13,12 +13,14 @@ class MCS_Goal:
         actions are always available. An empty inner list means that all actions are available for that specific step.
     info_list : list
         The list of information for the visualization interface associated with this goal.
+    last_preview_phase_step : integer
+        The last step of the preview phase of this scene (scripted in its configuration), if any. Default: 0
     last_step : integer
         The last step of this scene. This scene will automatically end following this step.
     task_list : list of strings
-        The list of tasks associated with this goal (secondary to its types).
+        The list of tasks for the visualization interface associated with this goal (secondary to its types).
     type_list : list of strings
-        The list of types associated with this goal, including the relevant MCS core domains.
+        The list of types for the visualization interface associated with this goal, including relevant core domains.
     metadata : dict
         The metadata specific to this goal.
     """
@@ -27,6 +29,7 @@ class MCS_Goal:
         self,
         action_list=None,
         info_list=None,
+        last_preview_phase_step=0,
         last_step=None,
         task_list=None,
         type_list=None,
@@ -34,6 +37,7 @@ class MCS_Goal:
     ):
         self.action_list = action_list
         self.info_list = [] if info_list is None else info_list
+        self.last_preview_phase_step = last_preview_phase_step
         self.last_step = last_step
         self.task_list = [] if task_list is None else task_list
         self.type_list = [] if type_list is None else type_list

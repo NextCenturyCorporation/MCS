@@ -114,6 +114,12 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
 
     def test_retrieve_object_list(self):
         mock_scene_event_data = {
+            "events": [self.create_mock_scene_event({
+                "object_id_to_color": {
+                    "testId1": (12, 34, 56),
+                    "testId2": (98, 76, 54)
+                }
+            })],
             "metadata": {
                 "objects": [{
                     "direction": {
@@ -125,21 +131,18 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                     "isPickedUp": True,
                     "mass": 1,
                     "objectId": "testId1",
-                    "points": [{
+                    "position": {
                         "x": 1,
-                        "y": 2,
-                        "z": 3
-                    }, {
-                        "x": 4,
-                        "y": 5,
-                        "z": 6
-                    }, {
-                        "x": 7,
-                        "y": 8,
-                        "z": 9
-                    }],
+                        "y": 1,
+                        "z": 2
+                    },
+                    "rotation": {
+                        "x": 1.0,
+                        "y": 2.0,
+                        "z": 3.0
+                    },
                     "salientMaterials": [],
-                    "visibleInCamera": False
+                    "visibleInCamera": True
                 }, {
                     "direction": {
                         "x": 90,
@@ -150,26 +153,19 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                     "isPickedUp": False,
                     "mass": 12.34,
                     "objectId": "testId2",
-                    "points": [{
-                        "x": 11,
-                        "y": 12,
-                        "z": 13
-                    }, {
-                        "x": 14,
-                        "y": 15,
-                        "z": 16
-                    }, {
-                        "x": 17,
-                        "y": 18,
-                        "z": 19
-                    }],
+                    "position": {
+                        "x": 1,
+                        "y": 2,
+                        "z": 3
+                    },
+                    "rotation": {
+                        "x": 1.0,
+                        "y": 2.0,
+                        "z": 3.0
+                    },
                     "salientMaterials": ["Foobar", "Metal", "Plastic"],
                     "visibleInCamera": True
                 }]
-            },
-            "object_id_to_color": {
-                "testId1": (12, 34, 56),
-                "testId2": (98, 76, 54)
             }
         }
 
@@ -191,19 +187,6 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[0].held, True)
         self.assertEqual(actual[0].mass, 1)
         self.assertEqual(actual[0].material_list, [])
-        self.assertEqual(actual[0].point_list, [{
-            "x": 1,
-            "y": 2,
-            "z": 3
-        }, {
-            "x": 4,
-            "y": 5,
-            "z": 6
-        }, {
-            "x": 7,
-            "y": 8,
-            "z": 9
-        }])
         self.assertEqual(actual[0].visible, True)
 
         self.assertEqual(actual[1].uuid, "testId2")
@@ -221,19 +204,6 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[1].held, False)
         self.assertEqual(actual[1].mass, 12.34)
         self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
-        self.assertEqual(actual[1].point_list, [{
-            "x": 11,
-            "y": 12,
-            "z": 13
-        }, {
-            "x": 14,
-            "y": 15,
-            "z": 16
-        }, {
-            "x": 17,
-            "y": 18,
-            "z": 19
-        }])
         self.assertEqual(actual[1].visible, True)
 
     def test_retrieve_pose(self):
@@ -279,42 +249,95 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
 
     def test_save_images(self):
         image_data = numpy.array([[0]], dtype=numpy.uint8)
-        class_mask_data = numpy.array([[64]], dtype=numpy.uint8)
         depth_mask_data = numpy.array([[128]], dtype=numpy.uint8)
         object_mask_data = numpy.array([[192]], dtype=numpy.uint8)
 
         mock_scene_event_data = {
-            "class_segmentation_frame": class_mask_data,
-            "depth_frame": depth_mask_data,
-            "frame": image_data,
-            "instance_segmentation_frame": object_mask_data
+            "events": [self.create_mock_scene_event({
+                "depth_frame": depth_mask_data,
+                "frame": image_data,
+                "instance_segmentation_frame": object_mask_data
+            })]
         }
 
-        scene_image, depth_mask, object_mask = self.controller.save_images(self.create_mock_scene_event(
+        image_list, depth_mask_list, object_mask_list = self.controller.save_images(self.create_mock_scene_event(
             mock_scene_event_data))
 
-        self.assertEqual(numpy.array(depth_mask), numpy.round(depth_mask_data / 30))
-        self.assertEqual(numpy.array(scene_image), image_data)
-        self.assertEqual(numpy.array(object_mask), object_mask_data)
+        self.assertEqual(len(image_list), 1)
+        self.assertEqual(len(depth_mask_list), 1)
+        self.assertEqual(len(object_mask_list), 1)
+
+        self.assertEqual(numpy.array(image_list[0]), image_data)
+        self.assertEqual(numpy.array(depth_mask_list[0]), numpy.round(depth_mask_data / 30))
+        self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data)
+
+    def test_save_images_with_multiple_images(self):
+        image_data_1 = numpy.array([[64]], dtype=numpy.uint8)
+        depth_mask_data_1 = numpy.array([[128]], dtype=numpy.uint8)
+        object_mask_data_1 = numpy.array([[192]], dtype=numpy.uint8)
+
+        image_data_2 = numpy.array([[32]], dtype=numpy.uint8)
+        depth_mask_data_2 = numpy.array([[96]], dtype=numpy.uint8)
+        object_mask_data_2 = numpy.array([[160]], dtype=numpy.uint8)
+
+        mock_scene_event_data = {
+            "events": [self.create_mock_scene_event({
+                "depth_frame": depth_mask_data_1,
+                "frame": image_data_1,
+                "instance_segmentation_frame": object_mask_data_1
+            }), self.create_mock_scene_event({
+                "depth_frame": depth_mask_data_2,
+                "frame": image_data_2,
+                "instance_segmentation_frame": object_mask_data_2
+            })]
+        }
+
+        image_list, depth_mask_list, object_mask_list = self.controller.save_images(self.create_mock_scene_event(
+            mock_scene_event_data))
+
+        self.assertEqual(len(image_list), 2)
+        self.assertEqual(len(depth_mask_list), 2)
+        self.assertEqual(len(object_mask_list), 2)
+
+        self.assertEqual(numpy.array(image_list[0]), image_data_1)
+        self.assertEqual(numpy.array(depth_mask_list[0]), numpy.round(depth_mask_data_1 / 30))
+        self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data_1)
+
+        self.assertEqual(numpy.array(image_list[1]), image_data_2)
+        self.assertEqual(numpy.array(depth_mask_list[1]), numpy.round(depth_mask_data_2 / 30))
+        self.assertEqual(numpy.array(object_mask_list[1]), object_mask_data_2)
 
     def test_validate_and_convert_params(self):
-        # TODO
+        # TODO MCS-15
         pass
 
     def test_wrap_output(self):
         image_data = numpy.array([[0]], dtype=numpy.uint8)
-        class_mask_data = numpy.array([[64]], dtype=numpy.uint8)
         depth_mask_data = numpy.array([[128]], dtype=numpy.uint8)
         object_mask_data = numpy.array([[192]], dtype=numpy.uint8)
 
         mock_scene_event_data = {
-            "class_segmentation_frame": class_mask_data,
-            "depth_frame": depth_mask_data,
-            "frame": image_data,
-            "instance_segmentation_frame": object_mask_data,
+            "events": [self.create_mock_scene_event({
+                "depth_frame": depth_mask_data,
+                "frame": image_data,
+                "instance_segmentation_frame": object_mask_data,
+                "object_id_to_color": {
+                    "testId": (12, 34, 56)
+                }
+            })],
             "metadata": {
                 "agent": {
-                    "cameraHorizon": 12.34
+                    "cameraHorizon": 12.34,
+                    "position": {
+                        "x": 0.12,
+                        "y": -0.23,
+                        "z": 4.5
+                    },
+                    "rotation": {
+                        "x": 1.111,
+                        "y": 2.222,
+                        "z": 3.333
+                    }
                 },
                 "lastActionStatus": "SUCCESSFUL",
                 "lastActionSuccess": True,
@@ -328,32 +351,26 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                     "isPickedUp": False,
                     "mass": 12.34,
                     "objectId": "testId",
-                    "points": [{
-                        "x": 1,
-                        "y": 2,
-                        "z": 3
-                    }, {
-                        "x": 4,
-                        "y": 5,
-                        "z": 6
-                    }, {
-                        "x": 7,
-                        "y": 8,
-                        "z": 9
-                    }],
+                    "position": {
+                        "x": 10,
+                        "y": 11,
+                        "z": 12
+                    },
+                    "rotation": {
+                        "x": 1.0,
+                        "y": 2.0,
+                        "z": 3.0
+                    },
                     "salientMaterials": ["Wood"],
                     "visibleInCamera": True
                 }]
-            },
-            "object_id_to_color": {
-                "testId": (12, 34, 56)
             }
         }
 
         actual = self.controller.wrap_output(self.create_mock_scene_event(mock_scene_event_data))
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
-        # self.assertEqual(actual.goal, MCS_Goal()) # TODO MCS-53
+        # self.assertEqual(actual.goal, MCS_Goal()) # TODO MCS-15
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, MCS_Pose.STAND.value) # TODO MCS-18
         self.assertEqual(actual.return_status, MCS_Return_Status.SUCCESSFUL.value)
@@ -375,19 +392,6 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.object_list[0].held, False)
         self.assertEqual(actual.object_list[0].mass, 12.34)
         self.assertEqual(actual.object_list[0].material_list, ["WOOD"])
-        self.assertEqual(actual.object_list[0].point_list, [{
-            "x": 1,
-            "y": 2,
-            "z": 3
-        }, {
-            "x": 4,
-            "y": 5,
-            "z": 6
-        }, {
-            "x": 7,
-            "y": 8,
-            "z": 9
-        }])
         self.assertEqual(actual.object_list[0].visible, True)
 
         self.assertEqual(len(actual.depth_mask_list), 1)
@@ -405,7 +409,6 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
-            # "renderClassImage": True,
             "renderDepthImage": True,
             "renderObjectImage": True,
             "stringProperty": "test_property",

@@ -32,8 +32,12 @@ class MCS_Step_Output:
         controller.start_scene for a scene with a Pre-Interaction Phase.
     pose : string
         Your current pose.  See MCS_Pose.
+    position : dict
+        The "x", "y", and "z" coordinates for your global position.
     return_status : string
         The return status from your last action.  See MCS_Return_Status.
+    rotation : float
+        Your current rotation angle in degrees.
     step_number : integer
         The step number of your last action, recorded since you started the current scene.
     """
@@ -43,12 +47,14 @@ class MCS_Step_Output:
         action_list=[],
         depth_mask_list=[],
         goal=MCS_Goal(),
-        head_tilt=0,
+        head_tilt=0.0,
         image_list=[],
         object_list=[],
         object_mask_list=[],
         pose=MCS_Pose.UNDEFINED,
+        position={},
         return_status=MCS_Return_Status.UNDEFINED,
+        rotation=0.0,
         step_number=0
     ):
         self.action_list = action_list
@@ -59,9 +65,10 @@ class MCS_Step_Output:
         self.object_list = object_list
         self.object_mask_list = object_mask_list
         self.pose = pose
+        self.position = position
         self.return_status = return_status
+        self.rotation = rotation
         self.step_number = step_number
 
     def __str__(self):
         return MCS_Util.class_to_str(self)
-

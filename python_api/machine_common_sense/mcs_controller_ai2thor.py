@@ -31,8 +31,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     MAX_MOVE_DISTANCE = 0.5
 
     # The amount of force to offset force values, that seems appropriate for a baby
-    # TODO Check with psych team about this about what we should use for a baby, defaulting to 25 now
-    MAX_BABY_FORCE = 25.0
+    # TODO Check with psych team about this about what we should use for a baby, defaulting to 50 now
+    MAX_BABY_FORCE = 50.0
 
     # How far the player can reach.  I think this value needs to be bigger than the MAX_MOVE_DISTANCE or else the
     # player may not be able to move into a position to reach some objects (it may be mathematically impossible).
@@ -101,7 +101,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         self.__enable_noise = enable_noise
 
-        self.__current_scene = None
+        self.__scene_configuration = None
         self.__head_tilt = 0
         self.__output_folder = None # Save output image files to debug
         self.__step_number = 0
@@ -117,9 +117,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     def start_scene(self, config_data):
         super().start_scene(config_data)
 
-        self.__current_scene = config_data
+        self.__scene_configuration = config_data
         self.__step_number = 0
-        self.__goal = self.retrieve_goal(self.__current_scene)
+        self.__goal = self.retrieve_goal(self.__scene_configuration)
+        skip_preview_phase = True if 'goal' in config_data and 'skip_preview_phase' in config_data['goal'] else False
 
         if self.__debug_to_file and config_data['name'] is not None:
             os.makedirs('./' + config_data['name'], exist_ok=True)
@@ -128,7 +129,33 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             for file_path in file_list:
                 os.remove(file_path)
 
-        return self.wrap_output(self.__controller.step(self.wrap_step(action='Initialize', sceneConfig=config_data)))
+        output = self.wrap_output(self.__controller.step(self.wrap_step(action='Initialize', sceneConfig=config_data)))
+
+        if not skip_preview_phase:
+            if self.__goal is not None and self.__goal.last_preview_phase_step > 0:
+                image_list = output.image_list
+                depth_mask_list = output.depth_mask_list
+                object_mask_list = output.object_mask_list
+
+                if self.__debug_to_terminal:
+                    print('STARTING PREVIEW PHASE...')
+
+                for i in range(0, self.__goal.last_preview_phase_step):
+                    output = self.step('Pass')
+                    image_list = image_list + output.image_list
+                    depth_mask_list = depth_mask_list + output.depth_mask_list
+                    object_mask_list = object_mask_list + output.object_mask_list
+
+                if self.__debug_to_terminal:
+                    print('ENDING PREVIEW PHASE')
+
+                output.image_list = image_list
+                output.depth_mask_list = depth_mask_list
+                output.object_mask_list = object_mask_list
+            elif self.__debug_to_terminal:
+                print('NO PREVIEW PHASE')
+
+        return output
 
     # TODO: may need to reevaluate validation strategy/error handling in the future
     """
@@ -238,8 +265,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     def step(self, action, **kwargs):
         super().step(action, **kwargs)
 
-        if self.__goal.last_step is not None and self.__goal.last_step < self.__step_number:
-            print("MCS Warning: You have passed the last step of this scene. Skipping your action." + \
+        if self.__goal.last_step is not None and self.__goal.last_step == self.__step_number:
+            print("MCS Warning: You have passed the last step for this scene. Skipping your action. " + \
                     "Please call controller.end_scene() now.")
             return None
 
@@ -261,6 +288,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         # Only call mcs_action_to_ai2thor_action AFTER calling validate_and_convert_params
         action = self.mcs_action_to_ai2thor_action(action)
+
+        if self.__goal.last_step is not None and self.__goal.last_step == self.__step_number:
+            print("MCS Warning: This is your last step for this scene. All your future actions will be skipped. " + \
+                    "Please call controller.end_scene() now.")
 
         return self.wrap_output(self.__controller.step(self.wrap_step(action=action, **params)))
 
@@ -285,18 +316,23 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     def retrieve_action_list(self, goal, step_number):
         if goal is not None and goal.action_list is not None:
-            if len(goal.action_list) > step_number:
-                if len(goal.action_list[step_number]) > 0:
-                    return goal.action_list[step_number]
+            if step_number < goal.last_preview_phase_step:
+                return ['Pass']
+            adjusted_step = step_number - goal.last_preview_phase_step
+            if len(goal.action_list) > adjusted_step:
+                if len(goal.action_list[adjusted_step]) > 0:
+                    return goal.action_list[adjusted_step]
 
         return self.ACTION_LIST
 
-    def retrieve_goal(self, current_scene):
-        goal_config = current_scene['goal'] if 'goal' in current_scene else {}
+    def retrieve_goal(self, scene_configuration):
+        goal_config = scene_configuration['goal'] if 'goal' in scene_configuration else {}
 
         return MCS_Goal(
             action_list=(goal_config['action_list'] if 'action_list' in goal_config else None),
             info_list=(goal_config['info_list'] if 'type_list' in goal_config else []),
+            last_preview_phase_step=(goal_config['last_preview_phase_step'] if 'last_preview_phase_step' \
+                    in goal_config else 0),
             last_step=(goal_config['last_step'] if 'last_step' in goal_config else None),
             task_list=(goal_config['task_list'] if 'type_list' in goal_config else []),
             type_list=(goal_config['type_list'] if 'type_list' in goal_config else []),
@@ -306,9 +342,16 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     def retrieve_head_tilt(self, scene_event):
         return scene_event.metadata['agent']['cameraHorizon']
 
+    def retrieve_rotation(self, scene_event):
+        return scene_event.metadata['agent']['rotation']['y']
+
+    def retrieve_object_colors(self, scene_event):
+        # Use the color map for the final event (though they should all be the same anyway).
+        return scene_event.events[len(scene_event.events) - 1].object_id_to_color
+
     def retrieve_object_list(self, scene_event):
-        return sorted([self.retrieve_object_output(object_metadata, scene_event.object_id_to_color) for \
-                object_metadata in scene_event.metadata['objects']], key=lambda x: x.uuid)
+        return sorted([self.retrieve_object_output(object_metadata, self.retrieve_object_colors(scene_event)) for \
+                object_metadata in scene_event.metadata['objects'] if object_metadata['visibleInCamera']], key=lambda x: x.uuid)
 
     def retrieve_object_output(self, object_metadata, object_id_to_color):
         material_list = list(filter(MCS_Util.verify_material_enum_string, [material.upper() for material in \
@@ -328,14 +371,18 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             distance=(object_metadata['distanceXZ'] / self.MAX_MOVE_DISTANCE),
             held=object_metadata['isPickedUp'],
             mass=object_metadata['mass'],
-            material_list=(None if len(material_list) == 0 else material_list),
-            point_list=object_metadata['points'],
+            material_list=material_list,
+            position=object_metadata['position'],
+            rotation=object_metadata['rotation']['y'],
             visible=(object_metadata['visibleInCamera'] or object_metadata['isPickedUp'])
         )
 
     def retrieve_pose(self, scene_event):
         # TODO MCS-18 Return pose from Unity in step output object
         return MCS_Pose.STAND.name
+
+    def retrieve_position(self, scene_event) -> dict:
+        return scene_event.metadata['agent']['position']
 
     def retrieve_return_status(self, scene_event):
         # TODO MCS-47 Need to implement all proper step statuses on the Unity side
@@ -350,21 +397,29 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             return return_status
 
     def save_images(self, scene_event):
-        # TODO MCS-51 May have multiple images
-        scene_image = Image.fromarray(scene_event.frame)
-        # Divide the depth mask by 30 so it doesn't appear all white (some odd side effect of the depth grayscaling).
-        depth_mask = Image.fromarray(scene_event.depth_frame / 30)
-        depth_mask = depth_mask.convert('L')
-        # class_mask = Image.fromarray(scene_event.class_segmentation_frame)
-        object_mask = Image.fromarray(scene_event.instance_segmentation_frame)
+        image_list = []
+        depth_mask_list = []
+        object_mask_list = []
 
-        if self.__debug_to_file and self.__output_folder is not None:
-            scene_image.save(fp=self.__output_folder + 'frame_image_' + str(self.__step_number) + '.png')
-            depth_mask.save(fp=self.__output_folder + 'depth_mask_' + str(self.__step_number) + '.png')
-            # class_mask.save(fp=self.__output_folder + 'class_mask_' + str(self.__step_number) + '.png')
-            object_mask.save(fp=self.__output_folder + 'object_mask_' + str(self.__step_number) + '.png')
+        for index, event in enumerate(scene_event.events):
+            scene_image = Image.fromarray(event.frame)
+            image_list.append(scene_image)
 
-        return scene_image, depth_mask, object_mask
+            # Divide the depth mask by 30 so it doesn't look all white (some odd side effect of the depth grayscaling).
+            depth_mask = Image.fromarray(event.depth_frame / 30)
+            depth_mask = depth_mask.convert('L')
+            depth_mask_list.append(depth_mask)
+
+            object_mask = Image.fromarray(event.instance_segmentation_frame)
+            object_mask_list.append(object_mask)
+
+            if self.__debug_to_file and self.__output_folder is not None:
+                suffix = '_' + str(self.__step_number) + '-' + str(index) + '.png'
+                scene_image.save(fp=self.__output_folder + 'frame_image' + suffix)
+                depth_mask.save(fp=self.__output_folder + 'depth_mask' + suffix)
+                object_mask.save(fp=self.__output_folder + 'object_mask' + suffix)
+
+        return image_list, depth_mask_list, object_mask_list
 
     def wrap_output(self, scene_event):
         if self.__debug_to_file and self.__output_folder is not None:
@@ -373,18 +428,20 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                     "metadata": scene_event.metadata
                 }, json_file, sort_keys=True, indent=4)
 
-        image, depth_mask, object_mask = self.save_images(scene_event)
+        image_list, depth_mask_list, object_mask_list = self.save_images(scene_event)
 
         step_output = MCS_Step_Output(
             action_list=self.retrieve_action_list(self.__goal, self.__step_number),
-            depth_mask_list=[depth_mask],
+            depth_mask_list=depth_mask_list,
             goal=self.__goal,
             head_tilt=self.retrieve_head_tilt(scene_event),
-            image_list=[image],
+            image_list=image_list,
             object_list=self.retrieve_object_list(scene_event),
-            object_mask_list=[object_mask],
+            object_mask_list=object_mask_list,
             pose=self.retrieve_pose(scene_event),
+            position=self.retrieve_position(scene_event),
             return_status=self.retrieve_return_status(scene_event),
+            rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number
         )
 
@@ -392,9 +449,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         if self.__debug_to_terminal:
             print("RETURN STATUS: " + step_output.return_status)
-            print("OBJECTS (" + str(len(step_output.object_list)) + " TOTAL):")
-            for line in MCS_Util.generate_pretty_object_output(step_output.object_list):
-                print("    " + line)
+            print("OBJECTS: " + str(len(step_output.object_list)) + " TOTAL")
+            if len(step_output.object_list) > 0:
+                for line in MCS_Util.generate_pretty_object_output(step_output.object_list):
+                    print("    " + line)
 
         if self.__debug_to_file and self.__output_folder is not None:
             with open(self.__output_folder + 'mcs_output_' + str(self.__step_number) + '.json', 'w') as json_file:
@@ -408,7 +466,6 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             continuous=True,
             gridSize=self.GRID_SIZE,
             logs=True,
-            # renderClassImage=True,
             renderDepthImage=True,
             renderObjectImage=True,
             # Yes, in AI2-THOR, the player's reach appears to be governed by the "visibilityDistance", confusingly...
