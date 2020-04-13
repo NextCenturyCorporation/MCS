@@ -245,7 +245,7 @@ def generate_file(name, objects, goal_type):
 
    
 
-    body['objects'] = all_objects)
+    body['objects'] = all_objects
 
     if goal_type is not None:
         body['goal'] = goal_obj.get_config(all_objects[:min_obj_count])
