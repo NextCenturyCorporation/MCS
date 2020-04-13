@@ -142,6 +142,8 @@ def calc_obj_pos(performer_position, other_rects, new_object, old_object):
 
 
 
+  
+
 def generate_wall(wall_mat_choice, performer_position, other_rects, objects_array):
     # Wanted to reuse written functions, but this is a bit more of a special snowflake
     # Generates obstacle walls placed in the scene.
@@ -216,7 +218,7 @@ def generate_file(name, objects, goal_type):
 
         if calc_obj_pos(position, other_rects, shows_object, selected_object):
             new_object = {
-                'id': selected_object['type'] + '_' + str(uuid.uuid4()),
+                'id': str(uuid.uuid4()),
                 'type': selected_object['type'],
                 'info': selected_object['info'],
                 'mass': selected_object['mass']
