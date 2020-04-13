@@ -4,16 +4,6 @@ import pytest
 import uuid
 
 
-def test_AttributeConstraint():
-    equality_ac = AttributeConstraint(operator.eq, 'the answer', 42)
-    obj = {'the answer': 42}
-    assert equality_ac.is_true(obj)
-
-    contains_ac = AttributeConstraint(list.__contains__, 'best color', 'red')
-    obj = {'best color': ['green', 'red']}
-    assert contains_ac.is_true(obj)
-
-
 def test_RetrievalGoal_get_goal():
     goal_obj = RetrievalGoal()
     obj = {
@@ -48,7 +38,7 @@ def test__generate_transferral_goal():
     pickupable_obj = {
         'id': pickupable_id,
         'info': [pickupable_info_item, extra_info],
-        'attributes': ['pickupable']
+        'pickupable': True
     }
     other_id = str(uuid.uuid4())
     other_info_item = str(uuid.uuid4())
