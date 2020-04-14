@@ -10,7 +10,7 @@ from abc import ABC, abstractmethod
 from enum import Enum
 
 import geometry
-import materials_tuples
+import materials
 from geometry import random_position, random_rotation, calc_obj_pos, POSITION_DIGITS
 from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJECTS_PICKUPABLE_LISTS
 from separating_axis_theorem import sat_entry
@@ -60,9 +60,8 @@ def instantiate_object(object_def, object_location):
     object_location['scale'] = object_def['scale']
     colors = set()
     if 'materialCategory' in object_def:
-        materials_list = [random.choice(getattr(materials_tuples, name.upper() + '_MATERIALS')) for name in object_def['materialCategory']]
-        materials = [mat[0] for mat in materials_list]
-        new_object['materials'] = materials
+        materials_list = [random.choice(getattr(materials, name.upper() + '_MATERIALS')) for name in object_def['materialCategory']]
+        new_object['materials'] = [mat[0] for mat in materials_list]
         for material in materials_list:
             for color in material[1]:
                 colors.add(color)
@@ -96,7 +95,7 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
     # Generates obstacle walls placed in the scene.
     
     tries = 0
-    while tries< MAX_TRIES:
+    while tries < MAX_TRIES:
         rotation = random_rotation()
         new_x = random_position()
         new_z = random_position()
@@ -106,16 +105,16 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
                 (len(other_rects) == 0 or not any(sat_entry(rect, other_rect) for other_rect in other_rects)):
             break
         tries += 1
-        
-    if tries < MAX_TRIES :
+
+    if tries < MAX_TRIES:
         new_object = {
-            'id' : 'wall_'+str(uuid.uuid4()),
-            'material' : wall_mat_choice,
-            'type':'cube',
-            'kinematic':'true',
-            'structure' : 'true',
-            'mass'  : 100
-            }
+            'id': 'wall_' + str(uuid.uuid4()),
+            'material': wall_mat_choice,
+            'type': 'cube',
+            'kinematic': 'true',
+            'structure': 'true',
+            'mass': 100
+        }
         shows_object = {}
         shows = [shows_object]
         new_object['shows'] = shows
