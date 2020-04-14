@@ -309,8 +309,57 @@ class TransferralGoal(Goal):
         return goal
 
 
+class TraversalGoal(Goal):
+    """Locating and navigating to a specified object."""
+
+    TEMPLATE = {
+        'category': 'traversal',
+        'domain_list': ['objects', 'places', 'object_solidity', 'navigation', 'localization'],
+        'type_list': ['interaction', 'action_full', 'traversal'],
+        'task_list': ['navigate', 'localize', 'traversal'],
+    }
+
+    def __init__(self):
+        super(TraversalGoal, self).__init__()
+
+    def compute_objects(self, object_defs):
+        # add objects we need for the goal
+        target_def = copy.deepcopy(random.choice(object_defs))
+        performer_start = self.compute_performer_start()
+        performer_position = performer_start['position']
+        bounding_rects = []
+        target_location = calc_obj_pos(performer_position, bounding_rects, target_def)
+        if target_location is None:
+            raise GoalException('could not place target object')
+
+        target = instantiate_object(target_def, target_location)
+
+        all_objects = [target]
+        add_objects(object_defs, all_objects, bounding_rects, performer_position)
+
+        return [target], all_objects, bounding_rects
+
+    def get_config(self, objects):
+        if len(objects) < 1:
+            raise ValueError('need at least 1 object for this goal')
+
+        target = objects[0]
+
+        goal = copy.deepcopy(self.TEMPLATE)
+        goal['info_list'] = target['info']
+        goal['metadata'] = {
+            'target': {
+                'id': target['id'],
+                'info': target['info'],
+                'match_image': True
+            }
+        }
+        goal['description'] = f'Locate the {" ".join(target["info"])} and move near it.'
+        return goal
+
+
 GOAL_TYPES = {
-    'interaction': [RetrievalGoal, TransferralGoal]
+    'interaction': [RetrievalGoal, TransferralGoal, TraversalGoal]
 }
 
 
