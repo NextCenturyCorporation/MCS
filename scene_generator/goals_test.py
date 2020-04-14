@@ -1,13 +1,12 @@
 from goals import *
-import operator
 import pytest
 import uuid
 
 
 def test_instantiate_object():
     object_def = {
-        'type': uuid.uuid4(),
-        'info': [uuid.uuid4(), uuid.uuid4()],
+        'type': str(uuid.uuid4()),
+        'info': [str(uuid.uuid4()), str(uuid.uuid4())],
         'mass': random.random(),
         'attributes': ['foo', 'bar'],
         'scale': 1.0
@@ -26,7 +25,7 @@ def test_instantiate_object():
     }
     obj = instantiate_object(object_def, object_location)
     assert type(obj['id']) is str
-    for prop in ('type', 'info', 'mass'):
+    for prop in ('type', 'mass'):
         assert object_def[prop] == obj[prop]
     for attribute in object_def['attributes']:
         assert obj[attribute] is True
