@@ -16,6 +16,7 @@ import goals
 from separating_axis_theorem import *
 from zlib import MAX_WBITS
 from numpy.random import choice
+from optimal_path import generatepath
 
 OUTPUT_TEMPLATE_JSON = """
 {
@@ -220,11 +221,10 @@ def generate_file(name, objects, goal_type):
         if calc_obj_pos(position, other_rects, shows_object, selected_object):
 
             new_object = {
-                'id': selected_object['type']+str(uuid.uuid4()),
+                'id': selected_object['type']+'_'+str(uuid.uuid4()),
                 'type': selected_object['type'],
                 'info': selected_object['info'],
-                'mass': selected_object['mass'],
-                'dimensions': selected_object['dimensions']
+                'mass': selected_object['mass']
                 }
 
             for attribute in selected_object['attributes']:
@@ -253,7 +253,10 @@ def generate_file(name, objects, goal_type):
 
     if goal_type is not None:
         body['goal'] = goal_obj.get_config(all_objects[:min_obj_count])
+        
 
+
+    
     with open(name, 'w') as out:
         json.dump(body, out, indent=2)
 
