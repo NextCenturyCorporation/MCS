@@ -4,14 +4,34 @@ import pytest
 import uuid
 
 
-def test_AttributeConstraint():
-    equality_ac = AttributeConstraint(operator.eq, 'the answer', 42)
-    obj = {'the answer': 42}
-    assert equality_ac.is_true(obj)
-
-    contains_ac = AttributeConstraint(list.__contains__, 'best color', 'red')
-    obj = {'best color': ['green', 'red']}
-    assert contains_ac.is_true(obj)
+def test_instantiate_object():
+    object_def = {
+        'type': uuid.uuid4(),
+        'info': [uuid.uuid4(), uuid.uuid4()],
+        'mass': random.random(),
+        'attributes': ['foo', 'bar'],
+        'scale': 1.0
+    }
+    object_location = {
+        'position': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        },
+        'rotation': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        }
+    }
+    obj = instantiate_object(object_def, object_location)
+    assert type(obj['id']) is str
+    for prop in ('type', 'info', 'mass'):
+        assert object_def[prop] == obj[prop]
+    for attribute in object_def['attributes']:
+        assert obj[attribute] is True
+    assert obj['shows'][0]['position'] == object_location['position']
+    assert obj['shows'][0]['rotation'] == object_location['rotation']
 
 
 def test_RetrievalGoal_get_goal():
@@ -48,7 +68,7 @@ def test__generate_transferral_goal():
     pickupable_obj = {
         'id': pickupable_id,
         'info': [pickupable_info_item, extra_info],
-        'attributes': ['pickupable']
+        'pickupable': True
     }
     other_id = str(uuid.uuid4())
     other_info_item = str(uuid.uuid4())
