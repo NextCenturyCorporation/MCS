@@ -1,6 +1,8 @@
 import glob
 import json
 import os
+import math
+import sympy
 from PIL import Image
 
 import ai2thor.controller
@@ -401,7 +403,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         finally:
             return return_status
 
-    def __get_object_from_list(objects, target_id):
+    def __get_object_from_list(self, objects, target_id):
         '''
         Finds an mcs_object in a list. Uses a generator to return the first item
         or defaults to None if the target isn't found.
@@ -415,7 +417,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         '''
         return next((o for o in objects if o['objectId'] == target_id), None)
 
-    def _calc_retrieval_reward(self, objects):
+    def _calc_retrieval_reward(self, scene_event):
         '''
         Calculate the reward for the retrieval goal.
 
@@ -428,12 +430,13 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         '''
         reward = self.DEFAULT_REWARD
         goal_id = self.__goal.metadata.get('target_id', None)
+        objects = scene_event.metadata['objects']
         goal_object = self.__get_object_from_list(objects, goal_id)
         if goal_object and goal_object['isPickedUp']:
             reward = 1
         return reward
 
-    def _calc_goto_reward(self, objects):
+    def _calc_goto_reward(self, scene_event):
         '''
         Calculate the reward for the go to goal.
 
@@ -445,16 +448,58 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         '''
         reward = self.DEFAULT_REWARD
-        goal_id = self.__goal.metadata.get('target_id', None)
+        objects = scene_event.metadata['objects']
+        #goal_id = self.__goal.metadata.get('target_id', None)
+        goal_id = self.__goal.metadata.get('target_id', 'block_blank_a') # testing
         goal_object = self.__get_object_from_list(objects, goal_id)
-        # this could still be a problem for table or couch
-        # could be standing right next to it but be greater than
-        # reach distance from object's center point
-        if goal_object and goal_object['distance'] <= self.MAX_REACH_DISTANCE:
+        goal_object_xz_center = goal_object['position']['x'], \
+            goal_object['position']['z']
+        print(goal_object_xz_center)
+        bbox3d = goal_object['objectBounds']['objectBoundsCorners']
+        print(bbox3d)
+        lower_box = bbox3d[:4]
+        upper_box = bbox3d[4:]
+        # get the corner positions. unique in x and z, ignores y.
+        # bounds corners are not always upright/square
+        # or is this a precision thing?
+        corners = [(pt['x'], pt['z']) for pt in upper_box]
+        print(corners)
+
+        a, b, c, d = corners
+        poly = sympy.Polygon(a,b,c,d)
+
+        # get agent center xz
+        agent_center_xz = scene_event.metadata['agent']['position']['x'], \
+            scene_event.metadata['agent']['position']['x']
+        print(agent_center_xz)
+
+        # calculate center_line from center of object to agent in the xz plane
+        center_line = sympy.Segment(sympy.Point(goal_object_xz_center), \
+                sympy.Point(agent_center_xz))
+
+        # does the center_line intersect the polygon?
+        intersections = [ i.evalf() for i in poly.intersection(center_line)]
+
+        # check for 0, 1 or more intersections
+        # 0 intersections means agent is "inside" of objects. near
+        # 1 intersection needs to be evaluated for intersection point
+        # more than 1 intersection is a problem unless at a corner
+        # two intersections should be identical in that case
+        if len(intersections):
+            intersection = intersections[0]
+
+            # intersection distance is less than center distance
+            distance_to_object = sympy.Point(agent_center_xz).distance(intersection).evalf()
+            print(distance_to_object)
+            if distance_to_object <= self.MAX_REACH_DISTANCE + 0.5:
+                reward = 1
+        else:
             reward = 1
+
+        print(f'reward is {reward}')
         return reward
 
-    def _calc_transferral_reward(self, objects):
+    def _calc_transferral_reward(self, scene_event):
         '''
         Calculate the reward for the transferral goal.
 
@@ -470,6 +515,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         if relationship is None or len(relationship) != 3:
             return reward
         
+        objects = scene_event.metadata['objects']
+
         target_id, action, goal_id = relationship
         target_object = self.__get_object_from_list(objects, target_id)
         goal_object = self.__get_object_from_list(objects, goal_id)
@@ -490,8 +537,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         
         return reward
     
-    def _calculate_default_reward(self, objects):
-        '''Returns the default reward. Object list is passed in but ignored.'''
+    def _calculate_default_reward(self, scene_event):
+        '''Returns the default reward. Scene event is passed in but ignored.'''
         return self.DEFAULT_REWARD
 
     def retrieve_reward(self, scene_event):
@@ -505,8 +552,15 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             int: reward is 1 if goal achieved, 0 otherwise
 
         '''
-        
-        category = self.__goal.metadata.get('category', None)
+        # TODO maybe this becomes mcs_reward
+        # then I can write proper unit tests
+        # maybe construct one initially like goal
+        # or perhaps this is part of mcs_goal
+        # https://github.com/NextCenturyCorporation/MCS/blob/master/python_api/API.md#Goal-Metadata
+
+        #category = self.__goal.metadata.get('category', None)
+        category = self.__goal.metadata.get('category', 'GOTO') # testing
+        #print(f"agent: {scene_event.metadata['agent']}")
 
         switch = {
             MCS_Goal_Category.RETRIEVAL.name: self._calc_retrieval_reward,
@@ -514,8 +568,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             MCS_Goal_Category.GOTO.name: self._calc_goto_reward,
         }
 
-        objects = scene_event.metadata['objects']
-        return switch.get(category, self._calculate_default_reward)(objects)
+        return switch.get(category, self._calculate_default_reward)(scene_event)
 
     def save_images(self, scene_event):
         image_list = []

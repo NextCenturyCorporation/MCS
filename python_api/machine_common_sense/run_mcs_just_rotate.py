@@ -1,4 +1,6 @@
 import sys
+import time
+
 from machine_common_sense.mcs import MCS
 
 if len(sys.argv) < 3:
@@ -22,6 +24,12 @@ if __name__ == "__main__":
 
     output = controller.start_scene(config_data)
 
-    for i in range(1, 12):
+    for i in range(1, 11):
         output = controller.step('RotateLook', rotation=30)
 
+    # testing .... remove
+    output = controller.step('RotateLook', rotation=-15)
+    time.sleep(1)
+    output = controller.step('MoveAhead')
+    output = controller.step('MoveAhead')
+    output = controller.step('MoveAhead')
