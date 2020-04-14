@@ -254,7 +254,8 @@ class RetrievalGoal(Goal):
 
     def compute_objects(self):
         # add objects we need for the goal
-        target_def = self.choose_object_def()
+        pickupable_defs = random.choice(OBJECTS_PICKUPABLE_LISTS)
+        target_def = random.choice(pickupable_defs)
         performer_start = self.compute_performer_start()
         performer_position = performer_start['position']
         bounding_rects = []
