@@ -33,6 +33,160 @@ def test_instantiate_object():
     assert obj['shows'][0]['rotation'] == object_location['rotation']
 
 
+def test_instantiate_object_offset():
+    offset = {
+        'x': random.random(),
+        'z': random.random()
+    }
+    object_def = {
+        'type': str(uuid.uuid4()),
+        'info': [str(uuid.uuid4()), str(uuid.uuid4())],
+        'mass': random.random(),
+        'scale': 1.0,
+        'attributes': [],
+        'offset': offset
+    }
+    x = random.random()
+    z = random.random()
+    object_location = {
+        'position': {
+            'x': x,
+            'y': 0.0,
+            'z': z
+        },
+        'rotation': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        }
+    }
+    obj = instantiate_object(object_def, object_location)
+    position = obj['shows'][0]['position']
+    assert position['x'] == x - offset['x']
+    assert position['z'] == z - offset['z']
+
+
+def test_instantiate_object_materials():
+    material_category = ['plastic']
+    materials_list = materials.PLASTIC_MATERIALS
+    object_def = {
+        'type': str(uuid.uuid4()),
+        'info': [str(uuid.uuid4()), str(uuid.uuid4())],
+        'mass': random.random(),
+        'scale': 1.0,
+        'attributes': [],
+        'materialCategory': material_category
+    }
+    object_location = {
+        'position': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        },
+        'rotation': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        }
+    }
+    obj = instantiate_object(object_def, object_location)
+    assert obj['materials'][0] in (mat[0] for mat in materials_list)
+
+
+def test_instantiate_object_salient_materials():
+    salient_materials = ["plastic", "hollow"]
+    object_def = {
+        'type': str(uuid.uuid4()),
+        'info': [str(uuid.uuid4()), str(uuid.uuid4())],
+        'mass': random.random(),
+        'scale': 1.0,
+        'attributes': [],
+        'salientMaterials': salient_materials
+    }
+    object_location = {
+        'position': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        },
+        'rotation': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        }
+    }
+    obj = instantiate_object(object_def, object_location)
+    assert obj['salientMaterials'] == salient_materials
+    for sm in salient_materials:
+        assert sm in obj['info']
+
+
+def test_instantiate_object_size():
+    object_def = {
+        'type': str(uuid.uuid4()),
+        'info': [str(uuid.uuid4()), str(uuid.uuid4())],
+        'mass': random.random(),
+        'scale': 1.0,
+        'attributes': [],
+    }
+    object_location = {
+        'position': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        },
+        'rotation': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        }
+    }
+    size_mapping = {
+        'pickupable': 'light',
+        'moveable': 'heavy',
+        'anythingelse': 'massive'
+    }
+    for attribute in size_mapping:
+        size = size_mapping[attribute]
+        object_def['attributes'] = [attribute]
+        obj = instantiate_object(object_def, object_location)
+        assert size in obj['info']
+
+
+def test_instantiate_object_choose():
+    object_type = str(uuid.uuid4())
+    mass = random.random()
+    salient_materials = ["plastic", "hollow"]
+    object_def = {
+        'type': str(uuid.uuid4()),
+        'info': [str(uuid.uuid4()), str(uuid.uuid4())],
+        'mass': random.random(),
+        'scale': 1.0,
+        'attributes': [],
+        'choose': [{
+            'type': object_type,
+            'mass': mass,
+            'salientMaterials': salient_materials
+        }]
+    }
+    object_location = {
+        'position': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        },
+        'rotation': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        }
+    }
+    obj = instantiate_object(object_def, object_location)
+    assert obj['type'] == object_type
+    assert obj['mass'] == mass
+    assert obj['salientMaterials'] == salient_materials
+
+
 def test_RetrievalGoal_get_goal():
     goal_obj = RetrievalGoal()
     obj = {
