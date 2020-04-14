@@ -188,7 +188,7 @@ class EmptyGoal(Goal):
         super(EmptyGoal, self).__init__()
 
     def compute_objects(self, object_defs):
-        return [], []
+        return [], [], []
 
     def get_config(self, goal_objects):
         return ''
@@ -209,7 +209,8 @@ class RetrievalGoal(Goal):
 
     def compute_objects(self, object_defs):
         # add objects we need for the goal
-        target_def = copy.deepcopy(random.choice(object_defs))
+        pickupables = [od for od in object_defs if 'pickupable' in od['attributes']]
+        target_def = copy.deepcopy(random.choice(pickupables))
         performer_start = self.compute_performer_start()
         performer_position = performer_start['position']
         bounding_rects = []
