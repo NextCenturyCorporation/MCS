@@ -177,7 +177,7 @@ The list of all actions (like "MoveAhead" or "PickupObject") that are available 
 
 ### depth_mask_list : list of Pillow.Image objects
 
-The list of depth mask images from the scene after the last action and physics simulation were run. This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a scripted Preview Phase.
+The list of depth mask images from the scene after the last action and physics simulation were run. This is normally a list with five images, where the physics simulation has unpaused and paused again for a little bit between each image, and the final image is the state of the environment before your next action. The MCS_Step_Output object returned from a call to controller.start_scene will normally have a list with only one image, except for a scene with a scripted Preview Phase.
 
 ### goal : MCS_Goal
 
@@ -189,15 +189,17 @@ How far your head is tilted up/down in degrees (between 90 and -90). Changed by 
 
 ### image_list : list of Pillow.Image objects
 
-The list of images from the scene after the last action and physics simulation were run. This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a scripted Preview Phase.
+The list of images from the scene after the last action and physics simulation were run. This is normally a list with five images, where the physics simulation has unpaused and paused again for a little bit between each image, and the final image is the state of the environment before your next action. The MCS_Step_Output object returned from a call to controller.start_scene will normally have a list with only one image, except for a scene with a scripted Preview Phase.
 
 ### object_list : list of MCS_Object objects
 
-The list of metadata for all objects in the scene.
+The list of metadata for all currently visible objects in the scene.
 
 ### object_mask_list : list of Pillow.Image objects
 
-The list of object mask images from the scene after the last action and physics simulation were run. This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a scripted Preview Phase.
+The list of object mask (instance segmentation) images from the scene after the last action and physics simulation were run. This is normally a list with five images, where the physics simulation has unpaused and paused again for a little bit between each image, and the final image is the state of the environment before your next action. The MCS_Step_Output object returned from a call to controller.start_scene will normally have a list with only one image, except for a scene with a scripted Preview Phase.
+
+The color of each object in the mask corresponds to the "color" property in its MCS_Object object.
 
 ### pose : string
 
@@ -610,39 +612,6 @@ Change pose to "STAND".
 If you cannot enter "STAND" pose because your path above you is obstructed.
 - "WRONG_POSE"\
 If you cannot enter "STAND" pose because you are not in "SQUAT" pose.
-
-### RotateObject
-
-Rotate a held object.
-
-#### Parameters
-
-- objectId : string, optional\
-The "uuid" of the held object. Required unless the "objectDirection" properties are given.
-- objectDirectionX : float, optional\
-The X of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
-- objectDirectionY : float, optional\
-The Y of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
-- objectDirectionZ : float, optional\
-The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
-- rotationX : float\
-Rotation degrees around the X axis.
-- rotationY : float\
-Rotation degrees around the Y axis.
-- rotationZ : float\
-Rotation degrees around the Z axis.
-
-#### Returns
-
-- "SUCCESSFUL"
-- "SUCCESSFUL_WITH_INVALID_PARAMETERS"\
-If the X, Y, or Z is not between [-360, 360], 0 will be used in place of each invalid parameter.
-- "NOT_HELD"\
-If you cannot drop the object because you are not holding it.
-- "NOT_INTERACTABLE"\
-If the object corresponding to the "objectDirection" vector is not an interactable object.
-- "NOT_OBJECT"\
-If the object corresponding to the "objectId" (or object corresponding to the "objectDirection" vector) is not a real object.
 
 ### RotateObject
 
