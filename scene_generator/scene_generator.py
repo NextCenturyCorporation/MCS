@@ -11,6 +11,9 @@ import random
 import uuid
 import math
 
+
+from  config import MAX_PERFORMER_POSITION, MIN_PERFORMER_POSITION
+
 from materials import *
 import goals
 from separating_axis_theorem import *
@@ -42,10 +45,7 @@ OUTPUT_TEMPLATE_JSON = """
 OUTPUT_TEMPLATE = json.loads(OUTPUT_TEMPLATE_JSON)
 
 # the following mins and maxes are inclusive
-MIN_PERFORMER_POSITION = -4.8
-MAX_PERFORMER_POSITION = 4.8
-MIN_SCENE_POSITION = -4.95
-MAX_SCENE_POSITION = 4.95
+
 POSITION_DIGITS = 1
 
 VALID_ROTATIONS = (0, 45, 90, 135, 180, 225, 270, 315)
@@ -136,6 +136,7 @@ def calc_obj_pos(performer_position, other_rects, new_object, old_object):
     if tries < MAX_TRIES:
         new_object['rotation'] = {'x': 0, 'y': rotation, 'z': 0}
         new_object['position'] = {'x': new_x, 'y': old_object['position_y'], 'z': new_z}
+        new_object['bounding_box'] = rect
         other_rects.append(rect)
         return True
 
@@ -167,7 +168,8 @@ def generate_wall(wall_mat_choice, performer_position, other_rects, objects_arra
             'type':'cube',
             'kinematic':'true',
             'structure' : 'true',
-            'mass'  : 100
+            'mass'  : 100,
+            'bounding_box' : rect
             }
         shows_object = {}
         shows = [shows_object]
@@ -181,7 +183,7 @@ def generate_wall(wall_mat_choice, performer_position, other_rects, objects_arra
         other_rects.append(rect)
         objects_array.append(new_object)
                 
-                
+               
 
 def generate_file(name, objects, goal_type):
     global OUTPUT_TEMPLATE, CEILING_AND_WALL_MATERIALS, FLOOR_MATERIALS, MAX_OBJECTS
@@ -224,12 +226,14 @@ def generate_file(name, objects, goal_type):
                 'id': selected_object['type']+'_'+str(uuid.uuid4()),
                 'type': selected_object['type'],
                 'info': selected_object['info'],
-                'mass': selected_object['mass']
+                'mass': selected_object['mass'],
+                'bounding_box': shows_object['bounding_box']
                 }
 
             for attribute in selected_object['attributes']:
                 new_object[attribute] = True
-
+            
+            shows_object.pop('bounding_box')
             shows = [shows_object]
             new_object['shows'] = shows
             shows_object['stepBegin'] = 0
@@ -253,8 +257,16 @@ def generate_file(name, objects, goal_type):
 
     if goal_type is not None:
         body['goal'] = goal_obj.get_config(all_objects[:min_obj_count])
-        
-
+        performer_position = (position['x'],position['z'])
+        if 'target_1' in body['goal']['metadata']:
+            id = body['goal']['metadata']['target_1']['id']
+            target = next(object for object in all_objects if object['id'] == id)
+            goal_position = (target['shows'][0]['position']['x'],target['shows'][0]['position']['z'])
+            hole_rects=[]
+            hole_rects.extend(object['bounding_box'] for object in all_objects if object['id'] != id)
+            path, length = generatepath(performer_position, goal_position, hole_rects)
+            #First one is the start position.
+            print(path)
 
     
     with open(name, 'w') as out:
