@@ -15,6 +15,7 @@ import objects
 from geometry import random_position, random_rotation, calc_obj_pos, POSITION_DIGITS
 from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJECTS_PICKUPABLE_LISTS
 from separating_axis_theorem import sat_entry
+from test_images import OBJECT_IMAGES
 
 MAX_TRIES = 20
 MAX_OBJECTS = 5
@@ -93,7 +94,7 @@ def instantiate_object(object_def, object_location):
 
     info.append(' '.join(info))
     new_object['info'] = info
-
+    print(new_object)
     return new_object
 
 
@@ -157,6 +158,13 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
         return new_object
     return None
 
+def find_image_for_object(object_def):
+    if len(object_def['materials']) == 1:
+        return OBJECT_IMAGES[object_def['type']][object_def['materials'][0]]
+    elif len(object_def['materials']) == 2:
+        return OBJECT_IMAGES[object_def['type']][object_def['materials'][0]][object_def['materials'][1]]
+    else:
+        raise ValueError('image could not be located for object and material')
 
 class GoalException(Exception):
     def __init__(self, message=''):
@@ -337,6 +345,7 @@ class RetrievalGoal(InteractionGoal):
             raise ValueError('need at least 1 object for this goal')
 
         target = objects[0]
+        target_image_obj = find_image_for_object(target)
 
         goal = copy.deepcopy(self.TEMPLATE)
         goal['info_list'] = target['info']
@@ -344,7 +353,9 @@ class RetrievalGoal(InteractionGoal):
             'target': {
                 'id': target['id'],
                 'info': target['info'],
-                'match_image': True
+                'match_image': True,
+                'image': target_image_obj.pixelArray,
+                'image_name': target_image_obj.name
             }
         }
         goal['description'] = f'Find and pick up the {target["info"][-1]}.'
@@ -382,6 +393,9 @@ class TransferralGoal(InteractionGoal):
             raise ValueError(f'first object must be "pickupable": {target1}')
         relationship = random.choice(list(self.RelationshipType))
 
+        target1_image_obj = find_image_for_object(target1)
+        target2_image_obj = find_image_for_object(target2)
+
         goal = copy.deepcopy(self.TEMPLATE)
         both_info = set(target1['info'] + target2['info'])
         goal['info_list'] = list(both_info)
@@ -389,12 +403,16 @@ class TransferralGoal(InteractionGoal):
             'target_1': {
                 'id': target1['id'],
                 'info': target1['info'],
-                'match_image': True
+                'match_image': True,
+                'image': target1_image_obj.pixelArray,
+                'image_name': target1_image_obj.name
             },
             'target_2': {
                 'id': target2['id'],
                 'info': target2['info'],
-                'match_image': True
+                'match_image': True,
+                'image': target2_image_obj.pixelArray,
+                'image_name': target2_image_obj.name
             },
             'relationship': ['target_1', relationship.value, 'target_2']
         }
