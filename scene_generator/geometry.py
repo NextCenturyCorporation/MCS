@@ -1,3 +1,4 @@
+import logging
 import math
 import random
 
@@ -83,4 +84,5 @@ object in the frame, None otherwise."""
         other_rects.append(rect)
         return new_object
 
+    logging.debug(f'could not place object: {old_object}')
     return None
