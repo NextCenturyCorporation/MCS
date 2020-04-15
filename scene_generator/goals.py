@@ -10,8 +10,9 @@ from abc import ABC, abstractmethod
 from enum import Enum
 
 import geometry
-from geometry import random_position, random_rotation, calc_obj_pos, POSITION_DIGITS
 import materials
+from geometry import random_position, random_rotation, calc_obj_pos, POSITION_DIGITS
+from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJECTS_PICKUPABLE_LISTS
 from separating_axis_theorem import sat_entry
 
 MAX_TRIES = 20
@@ -30,6 +31,16 @@ WALL_PROBS = [60,20,10,10]
 def instantiate_object(object_def, object_location):
     """Create a new object from an object definition (as from the objects.json file). object_location will be modified
     by this function."""
+    if object_def is None or object_location is None:
+        raise ValueError('instantiate_object cannot take None parameters')
+
+    # apply choice if necessary
+    if 'choose' in object_def:
+        object_def = copy.deepcopy(object_def)
+        choice = random.choice(object_def['choose'])
+        for key in choice:
+            object_def[key] = choice[key]
+            
     new_object = {
         'id': str(uuid.uuid4()),
         'type': object_def['type'],
@@ -39,29 +50,44 @@ def instantiate_object(object_def, object_location):
     for attribute in object_def['attributes']:
         new_object[attribute] = True
 
+    if 'offset' in object_def:
+        object_location['position']['x'] -= object_def['offset']['x']
+        object_location['position']['z'] -= object_def['offset']['z']
+
     shows = [object_location]
     new_object['shows'] = shows
     object_location['stepBegin'] = 0
     object_location['scale'] = object_def['scale']
+    colors = set()
+    if 'materialCategory' in object_def:
+        materials_list = [random.choice(getattr(materials, name.upper() + '_MATERIALS')) for name in object_def['materialCategory']]
+        new_object['materials'] = [mat[0] for mat in materials_list]
+        for material in materials_list:
+            for color in material[1]:
+                colors.add(color)
+
+    # specific ordering of adjectives for the info list:
+    # size weight color(s) material(s) object
+    info = object_def['info']
     if 'salientMaterials' in object_def:
-        salientMaterialsIndex = object_def['salientMaterials'][0].upper() + '_MATERIALS'
-        salientMaterial = random.choice(getattr(materials, salientMaterialsIndex, ['']))
-        new_object['material'] = salientMaterial
-        new_object['info'].append(object_def['salientMaterials'][0])
-        new_object['salientMaterials'] = object_def['salientMaterials']
+        salient_materials = object_def['salientMaterials']
+        new_object['salientMaterials'] = salient_materials
+        info = info[:1] + salient_materials + info[1:]
+
+    info = info[:1] + list(colors) + info[1:]
+
+    if 'pickupable' in object_def['attributes']:
+        size = 'light'
+    elif 'moveable' in object_def['attributes']:
+        size = 'heavy'
+    else:
+        size = 'massive'
+    info = info[:1] + [size] + info[1:]
+
+    info.append(' '.join(info))
+    new_object['info'] = info
+
     return new_object
-
-
-def add_objects(object_defs, object_list, rectangles, performer_position):
-    """Add random objects to fill object_list to some random number of objects up to MAX_OBJECTS. If object_list
-    already has more than this randomly determined number, no new objects are added."""
-    object_count = random.randint(1, MAX_OBJECTS)
-    for i in range(len(object_list), object_count):
-        object_def = copy.deepcopy(random.choice(object_defs))
-        obj_location = calc_obj_pos(performer_position, rectangles, object_def)
-        if obj_location is not None:
-            obj = instantiate_object(object_def, obj_location)
-            object_list.append(obj)
 
 
 def generate_wall(wall_mat_choice, performer_position, other_rects):
@@ -69,7 +95,7 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
     # Generates obstacle walls placed in the scene.
     
     tries = 0
-    while tries< MAX_TRIES:
+    while tries < MAX_TRIES:
         rotation = random_rotation()
         new_x = random_position()
         new_z = random_position()
@@ -79,16 +105,16 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
                 (len(other_rects) == 0 or not any(sat_entry(rect, other_rect) for other_rect in other_rects)):
             break
         tries += 1
-        
-    if tries < MAX_TRIES :
+
+    if tries < MAX_TRIES:
         new_object = {
-            'id' : 'wall_'+str(uuid.uuid4()),
-            'material' : wall_mat_choice,
-            'type':'cube',
-            'kinematic':'true',
-            'structure' : 'true',
-            'mass'  : 100
-            }
+            'id': 'wall_' + str(uuid.uuid4()),
+            'material': wall_mat_choice,
+            'type': 'cube',
+            'kinematic': 'true',
+            'structure': 'true',
+            'mass': 100
+        }
         shows_object = {}
         shows = [shows_object]
         new_object['shows'] = shows
@@ -116,10 +142,10 @@ class Goal(ABC):
     def __init__(self):
         self._performer_start = None
 
-    def update_body(self, object_defs, body):
+    def update_body(self, body):
         """Helper method that calls other Goal methods to set performerStart, objects, and goal."""
         body['performerStart'] = self.compute_performer_start()
-        goal_objects, all_objects, bounding_rects = self.compute_objects(object_defs)
+        goal_objects, all_objects, bounding_rects = self.compute_objects()
         walls = self.generate_walls(body['wallMaterial'], body['performerStart']['position'],
                                     bounding_rects)
         body['objects'] = all_objects + walls
@@ -142,11 +168,29 @@ class Goal(ABC):
             }
         return self._performer_start
 
+    def choose_object_def(self):
+        """Pick one object definition (to be added to the scene) and return a copy of it."""
+        object_def_list = random.choices([OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE],
+                                         [50, 25, 25])[0]
+        return copy.deepcopy(random.choice(object_def_list))
+
     @abstractmethod
-    def compute_objects(self, object_defs):
-        """Compute object instances for the scene from the set of possible object definitions. Returns a tuple:
+    def compute_objects(self):
+        """Compute object instances for the scene. Returns a tuple:
         (objects required for the goal, all objects in the scene including objects required for the goal, bounding rectangles)"""
         pass
+
+    def add_objects(self, object_list, rectangles, performer_position):
+        """Add random objects to fill object_list to some random number of objects up to MAX_OBJECTS. If object_list
+        already has more than this randomly determined number, no new objects are added."""
+        object_count = random.randint(1, MAX_OBJECTS)
+        for i in range(len(object_list), object_count):
+            object_def = self.choose_object_def()
+            obj_location = calc_obj_pos(performer_position, rectangles, object_def)
+            if obj_location is not None:
+                obj = instantiate_object(object_def, obj_location)
+                object_list.append(obj)
+
 
     @abstractmethod
     def get_config(self, goal_objects):
@@ -187,8 +231,8 @@ class EmptyGoal(Goal):
     def __init__(self):
         super(EmptyGoal, self).__init__()
 
-    def compute_objects(self, object_defs):
-        return [], []
+    def compute_objects(self):
+        return [], [], []
 
     def get_config(self, goal_objects):
         return ''
@@ -207,9 +251,10 @@ class RetrievalGoal(Goal):
     def __init__(self):
         super(RetrievalGoal, self).__init__()
 
-    def compute_objects(self, object_defs):
+    def compute_objects(self):
         # add objects we need for the goal
-        target_def = copy.deepcopy(random.choice(object_defs))
+        pickupable_defs = random.choice(OBJECTS_PICKUPABLE_LISTS)
+        target_def = random.choice(pickupable_defs)
         performer_start = self.compute_performer_start()
         performer_position = performer_start['position']
         bounding_rects = []
@@ -220,7 +265,7 @@ class RetrievalGoal(Goal):
         target = instantiate_object(target_def, target_location)
 
         all_objects = [target]
-        add_objects(object_defs, all_objects, bounding_rects, performer_position)
+        self.add_objects(all_objects, bounding_rects, performer_position)
 
         return [target], all_objects, bounding_rects
 
@@ -239,7 +284,7 @@ class RetrievalGoal(Goal):
                 'match_image': True
             }
         }
-        goal['description'] = f'Find and pick up the {" ".join(target["info"])}.'
+        goal['description'] = f'Find and pick up the {target["info"][-1]}.'
         return goal
 
 
@@ -260,23 +305,23 @@ class TransferralGoal(Goal):
     def __init__(self):
         super(TransferralGoal, self).__init__()
 
-    def compute_objects(self, object_defs):
+    def compute_objects(self):
         performer_start = self.compute_performer_start()
         performer_position = performer_start['position']
         bounding_rects = []
 
-        pickupables = [od for od in object_defs if 'pickupable' in od['attributes']]
-        target1_def = random.choice(pickupables)
+        pickupable_defs = random.choice(OBJECTS_PICKUPABLE_LISTS)
+        target1_def = random.choice(pickupable_defs)
         target1_location = calc_obj_pos(performer_position, bounding_rects, target1_def)
         target1 = instantiate_object(target1_def, target1_location)
 
-        target2_def = random.choice(object_defs)
+        target2_def = self.choose_object_def()
         target2_location = calc_obj_pos(performer_position, bounding_rects, target2_def)
         target2 = instantiate_object(target2_def, target2_location)
 
         goal_objects = [target1, target2]
         all_objects = goal_objects.copy()
-        add_objects(object_defs, all_objects, bounding_rects, performer_position)
+        self.add_objects(all_objects, bounding_rects, performer_position)
 
         return goal_objects, all_objects, bounding_rects
 
@@ -304,8 +349,8 @@ class TransferralGoal(Goal):
             },
             'relationship': ['target_1', relationship.value, 'target_2']
         }
-        goal['description'] = f'Find and pick up the {" ".join(target1["info"])} and move it {relationship.value} ' \
-                f'the {" ".join(target2["info"])}.'
+        goal['description'] = f'Find and pick up the {target1["info"][-1]} and move it {relationship.value} ' \
+                f'the {target2["info"][-1]}.'
         return goal
 
 
