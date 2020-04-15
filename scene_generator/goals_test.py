@@ -201,6 +201,20 @@ def test_RetrievalGoal_get_goal():
     assert target['info'] == obj['info']
 
 
+def test_TraversalGoal_get_goal():
+    goal_obj = TraversalGoal()
+    obj = {
+        'id': str(uuid.uuid4()),
+        'info': [str(uuid.uuid4())],
+    }
+    object_list = [obj]
+    goal = goal_obj.get_config(object_list)
+    assert goal['info_list'] == obj['info']
+    target = goal['metadata']['target']
+    assert target['id'] == obj['id']
+    assert target['info'] == obj['info']
+
+
 def test_TransferralGoal_get_goal_argcount():
     goal_obj = TransferralGoal()
     with pytest.raises(ValueError):
