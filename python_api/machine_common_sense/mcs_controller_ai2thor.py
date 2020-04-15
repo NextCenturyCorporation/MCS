@@ -41,6 +41,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     # player may not be able to move into a position to reach some objects (it may be mathematically impossible).
     # TODO Reduce this number once the player can crouch down to reach and pickup small objects on the floor.
     MAX_REACH_DISTANCE = 1.0
+    GOAL_ACHIEVED = 1
+    GOAL_NOT_ACHIEVED = 0
 
     DEFAULT_HORIZON= 0
     DEFAULT_ROTATION = 0
@@ -48,7 +50,6 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     DEFAULT_AMOUNT = 0.5
     DEFAULT_DIRECTION = 0
     DEFAULT_OBJECT_MOVE_AMOUNT = 1
-    DEFAULT_REWARD = 0
 
     MAX_ROTATION = 360
     MIN_ROTATION = -360
@@ -428,17 +429,17 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             int: 1 for goal achieved, 0 otherwise
 
         '''
-        reward = self.DEFAULT_REWARD
+        reward = self.GOAL_NOT_ACHIEVED
         goal_id = self.__goal.metadata.get('target_id', None)
         objects = scene_event.metadata['objects']
         goal_object = self.__get_object_from_list(objects, goal_id)
         if goal_object and goal_object['isPickedUp']:
-            reward = 1
+            reward = self.GOAL_ACHIEVED
         return reward
 
-    def _calc_goto_reward(self, scene_event):
+    def _calc_traversal_reward(self, scene_event):
         '''
-        Calculate the reward for the go to goal.
+        Calculate the reward for the traversal goal.
 
         Args:
             scene_event:
@@ -447,56 +448,44 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             int: 1 for goal achieved, 0 otherwise
 
         '''
-        reward = self.DEFAULT_REWARD
+        reward = self.GOAL_NOT_ACHIEVED
+        goal_id = self.__goal.metadata.get('target_id', None)
+
         objects = scene_event.metadata['objects']
-        #goal_id = self.__goal.metadata.get('target_id', None)
-        goal_id = self.__goal.metadata.get('target_id', 'block_blank_a') # testing
         goal_object = self.__get_object_from_list(objects, goal_id)
         goal_object_xz_center = goal_object['position']['x'], \
             goal_object['position']['z']
-        print(goal_object_xz_center)
+
         bbox3d = goal_object['objectBounds']['objectBoundsCorners']
-        print(bbox3d)
         lower_box = bbox3d[:4]
         upper_box = bbox3d[4:]
-        # get the corner positions. unique in x and z, ignores y.
-        # bounds corners are not always upright/square
-        # or is this a precision thing?
-        corners = [(pt['x'], pt['z']) for pt in upper_box]
-        print(corners)
 
+        corners = [(pt['x'], pt['z']) for pt in upper_box]
         a, b, c, d = corners
-        poly = sympy.Polygon(a,b,c,d)
+        upper_polygon = sympy.Polygon(a,b,c,d)
 
         # get agent center xz
         agent_center_xz = scene_event.metadata['agent']['position']['x'], \
             scene_event.metadata['agent']['position']['x']
-        print(agent_center_xz)
 
         # calculate center_line from center of object to agent in the xz plane
         center_line = sympy.Segment(sympy.Point(goal_object_xz_center), \
                 sympy.Point(agent_center_xz))
 
-        # does the center_line intersect the polygon?
-        intersections = [ i.evalf() for i in poly.intersection(center_line)]
+        # find the interesection of the center_line and the polygon
+        intersections = [i.evalf() for i in upper_polygon.intersection(center_line)]
 
         # check for 0, 1 or more intersections
-        # 0 intersections means agent is "inside" of objects. near
-        # 1 intersection needs to be evaluated for intersection point
-        # more than 1 intersection is a problem unless at a corner
-        # two intersections should be identical in that case
         if len(intersections):
+            # two intersections should only occur on a corner
             intersection = intersections[0]
-
-            # intersection distance is less than center distance
             distance_to_object = sympy.Point(agent_center_xz).distance(intersection).evalf()
-            print(distance_to_object)
-            if distance_to_object <= self.MAX_REACH_DISTANCE + 0.5:
-                reward = 1
+            if distance_to_object <= self.MAX_REACH_DISTANCE:
+                reward = self.GOAL_ACHIEVED
         else:
-            reward = 1
+            # 0 intersections means the agent is "inside" of upper box bounds
+            reward = self.GOAL_ACHIEVED
 
-        print(f'reward is {reward}')
         return reward
 
     def _calc_transferral_reward(self, scene_event):
@@ -510,7 +499,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             int: 1 for goal achieved, 0 otherwise
 
         '''
-        reward=self.DEFAULT_REWARD
+        reward=self.GOAL_NOT_ACHIEVED
         relationship = self.__goal.metadata.get('relationship', None)
         if relationship is None or len(relationship) != 3:
             return reward
@@ -534,12 +523,13 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         # actions are next_to or on_top_of
         # or the target is on top of the goal
+        # going to use similar code to traversal goal
         
         return reward
     
     def _calculate_default_reward(self, scene_event):
         '''Returns the default reward. Scene event is passed in but ignored.'''
-        return self.DEFAULT_REWARD
+        return self.GOAL_NOT_ACHIEVED
 
     def retrieve_reward(self, scene_event):
         '''
@@ -559,13 +549,13 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         # https://github.com/NextCenturyCorporation/MCS/blob/master/python_api/API.md#Goal-Metadata
 
         #category = self.__goal.metadata.get('category', None)
-        category = self.__goal.metadata.get('category', 'GOTO') # testing
+        category = self.__goal.metadata.get('category', 'traversal') # testing
         #print(f"agent: {scene_event.metadata['agent']}")
 
         switch = {
             MCS_Goal_Category.RETRIEVAL.name: self._calc_retrieval_reward,
             MCS_Goal_Category.TRANSFERRAL.name: self._calc_transferral_reward,
-            MCS_Goal_Category.GOTO.name: self._calc_goto_reward,
+            MCS_Goal_Category.TRAVERSAL.name: self._calc_traversal_reward,
         }
 
         return switch.get(category, self._calculate_default_reward)(scene_event)
@@ -603,7 +593,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 }, json_file, sort_keys=True, indent=4)
 
         image_list, depth_mask_list, object_mask_list = self.save_images(scene_event)
-
+        step_reward = self.retrieve_reward(scene_event)
+        print(step_reward)
         step_output = MCS_Step_Output(
             action_list=self.retrieve_action_list(self.__goal, self.__step_number),
             depth_mask_list=depth_mask_list,
@@ -615,7 +606,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             pose=self.retrieve_pose(scene_event),
             position=self.retrieve_position(scene_event),
             return_status=self.retrieve_return_status(scene_event),
-            reward=self.retrieve_reward(scene_event),
+            reward=step_reward,
             rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number
         )
