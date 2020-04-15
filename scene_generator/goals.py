@@ -124,7 +124,6 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
     
         shows_object['rotation'] = { 'x' : 0, 'y': rotation, 'z': 0 }
         shows_object['position'] = { 'x' : new_x, 'y': WALL_Y_POS, 'z' : new_z}
-        other_rects.append(rect)
         return new_object
     return None
 
@@ -190,6 +189,7 @@ class Goal(ABC):
             if obj_location is not None:
                 obj = instantiate_object(object_def, obj_location)
                 object_list.append(obj)
+        
 
 
     @abstractmethod
@@ -314,11 +314,13 @@ class TransferralGoal(Goal):
         target1_def = random.choice(pickupable_defs)
         target1_location = calc_obj_pos(performer_position, bounding_rects, target1_def)
         target1 = instantiate_object(target1_def, target1_location)
-
+        
+        
         target2_def = self.choose_object_def()
         target2_location = calc_obj_pos(performer_position, bounding_rects, target2_def)
         target2 = instantiate_object(target2_def, target2_location)
 
+        
         goal_objects = [target1, target2]
         all_objects = goal_objects.copy()
         self.add_objects(all_objects, bounding_rects, performer_position)

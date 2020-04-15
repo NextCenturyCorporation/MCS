@@ -79,7 +79,8 @@ object in the frame, None otherwise."""
     if tries < MAX_TRIES:
         new_object = {
             'rotation': {'x': 0, 'y': rotation, 'z': 0},
-            'position':  {'x': new_x, 'y': old_object['position_y'], 'z': new_z}
+            'position':  {'x': new_x, 'y': old_object['position_y'], 'z': new_z},
+            'bounding_box': rect
             }
         other_rects.append(rect)
         return new_object
