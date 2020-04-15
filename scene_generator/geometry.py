@@ -11,6 +11,11 @@ MAX_PERFORMER_POSITION = 4.8
 POSITION_DIGITS = 2
 VALID_ROTATIONS = (0, 45, 90, 135, 180, 225, 270, 315)
 
+ORIGIN = {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+}
 
 def random_position():
     return round(random.uniform(MIN_PERFORMER_POSITION, MAX_PERFORMER_POSITION), POSITION_DIGITS)
@@ -85,4 +90,22 @@ object in the frame, None otherwise."""
         return new_object
 
     logging.debug(f'could not place object: {old_object}')
+    return None
+
+
+def can_enclose(objectA, objectB):
+    """Return True iff each 'dimensions' of objectA is >= the corresponding dimension of objectB."""
+    return objectA['dimensions']['x'] >= objectB['dimensions']['x'] and \
+        objectA['dimensions']['y'] >= objectB['dimensions']['y'] and \
+        objectA['dimensions']['z'] >= objectB['dimensions']['z']
+
+
+def can_contain(container, target):
+    """Return the index of the container's "enclosed_areas" that the target fits in, or None if it does not fit in any of them (or if the container doesn't have any). Does not try any rotation to see if that makes it possible to fit."""
+    if 'enclosed_areas' not in container:
+        return None
+    for i in range(len(container['enclosed_areas'])):
+        space = container['enclosed_areas'][i]
+        if can_enclose(space, target):
+            return i
     return None
