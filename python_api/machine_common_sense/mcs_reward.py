@@ -2,10 +2,7 @@ from typing import List, Dict
 
 import sympy
 
-from machine_common_sense.mcs_goal import MCS_Goal
-from machine_common_sense.mcs_goal_category import MCS_Goal_Category
-from machine_common_sense.mcs_object import MCS_Object
-#from machine_common_sense.mcs_controller_ai2thor import MAX_REACH_DISTANCE, MAX_MOVE_DISTANCE
+import machine_common_sense as mcs
 
 GOAL_ACHIEVED = 1
 GOAL_NOT_ACHIEVED = 0
@@ -17,8 +14,8 @@ MAX_MOVE_DISTANCE = 0.5
 class MCS_Reward(object):
     '''Reward utility class'''
     @staticmethod
-    def __get_object_from_list(objects: List[MCS_Object],
-                               target_id: str) -> MCS_Object:
+    def __get_object_from_list(objects: List[mcs.Object],
+                               target_id: str) -> mcs.Object:
         '''
         Finds an mcs_object in a list. Uses a generator to return the first item
         or defaults to None if the target isn't found.
@@ -33,12 +30,12 @@ class MCS_Reward(object):
         return next((o for o in objects if o['objectId'] == target_id), None)
 
     @staticmethod
-    def calc_retrieval_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
+    def calc_retrieval_reward(goal: mcs.Goal, scene_metadata: Dict) -> int:
         '''
         Calculate the reward for the retrieval goal.
 
         Args:
-            goal: MCS_Goal
+            goal: mcs.Goal
             scene_metadata: Dict
 
         Returns:
@@ -54,12 +51,12 @@ class MCS_Reward(object):
         return reward
 
     @staticmethod
-    def calc_traversal_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
+    def calc_traversal_reward(goal: mcs.Goal, scene_metadata: Dict) -> int:
         '''
         Calculate the reward for the traversal goal.
 
         Args:
-            goal: MCS_Goal
+            goal: mcs.Goal
             scene_metadata: Dict
 
         Returns:
@@ -96,7 +93,8 @@ class MCS_Reward(object):
         ]
 
         # check for 0, 1 or more intersections
-        if len(intersections):
+        num_intersections = len(intersections)
+        if num_intersections:
             # two intersections should only occur on a corner
             intersection = intersections[0]
             distance_to_object = sympy.Point(agent_center_xz).distance(
@@ -110,12 +108,12 @@ class MCS_Reward(object):
         return reward
 
     @staticmethod
-    def calc_transferral_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
+    def calc_transferral_reward(goal: mcs.Goal, scene_metadata: Dict) -> int:
         '''
         Calculate the reward for the transferral goal.
 
         Args:
-            goal: MCS_Goal
+            goal: mcs.Goal
             scene_metadata: Dict
 
         Returns:
@@ -151,17 +149,17 @@ class MCS_Reward(object):
         return reward
 
     @staticmethod
-    def calculate_default_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
+    def calculate_default_reward(goal: mcs.Goal, scene_metadata: Dict) -> int:
         '''Returns the default reward. Scene event is passed in but ignored.'''
         return GOAL_NOT_ACHIEVED
 
     @staticmethod
-    def retrieve_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
+    def retrieve_reward(goal: mcs.Goal, scene_metadata: Dict) -> int:
         '''
         Determine if the agent achieved the objective/task/goal.
 
         Args:
-            goal: MCS_Goal
+            goal: mcs.Goal
             scene_metadata: Dict
 
         Returns:
@@ -171,10 +169,10 @@ class MCS_Reward(object):
         category = goal.metadata.get('category', None)
 
         switch = {
-            MCS_Goal_Category.RETRIEVAL.name: MCS_Reward.calc_retrieval_reward,
-            MCS_Goal_Category.TRANSFERRAL.name:
+            mcs.Goal_Category.RETRIEVAL.name: MCS_Reward.calc_retrieval_reward,
+            mcs.Goal_Category.TRANSFERRAL.name:
             MCS_Reward.calc_transferral_reward,
-            MCS_Goal_Category.TRAVERSAL.name: MCS_Reward.calc_traversal_reward,
+            mcs.Goal_Category.TRAVERSAL.name: MCS_Reward.calc_traversal_reward,
         }
 
         return switch.get(category,
