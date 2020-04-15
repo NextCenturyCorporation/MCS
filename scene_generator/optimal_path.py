@@ -1,6 +1,6 @@
 from extremitypathfinder.extremitypathfinder import PolygonEnvironment as Environment
 
-from  config import MAX_SCENE_POSITION, MIN_SCENE_POSITION
+from  geometry import MAX_SCENE_POSITION, MIN_SCENE_POSITION
 
 
 
