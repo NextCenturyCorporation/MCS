@@ -416,9 +416,9 @@ class TraversalGoal(Goal):
     def __init__(self):
         super(TraversalGoal, self).__init__()
 
-    def compute_objects(self, object_defs):
+    def compute_objects(self):
         # add objects we need for the goal
-        target_def = copy.deepcopy(random.choice(object_defs))
+        target_def = self.choose_object_def()
         performer_start = self.compute_performer_start()
         performer_position = performer_start['position']
         bounding_rects = []
@@ -429,7 +429,7 @@ class TraversalGoal(Goal):
         target = instantiate_object(target_def, target_location)
 
         all_objects = [target]
-        self.add_objects(object_defs, all_objects, bounding_rects, performer_position)
+        self.add_objects(all_objects, bounding_rects, performer_position)
 
         return [target], all_objects, bounding_rects
 
