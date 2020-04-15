@@ -7,6 +7,7 @@
 - [Python Class: MCS_Step_Output](#mcs_step_output)
 - [Actions](#actions)
 - [Future Actions (Not Yet Supported)](#future-actions)
+- [Goal Descriptions](#goal-description)
 - [Goal Metadata](#goal-metadata)
 
 ## MCS
@@ -90,6 +91,10 @@ The MCS scene output data object from after the action and the physics simulatio
 
 The list of actions that are available for the scene at each step (outer list index).  Each inner list item is a list of action strings. For example, ['MoveAhead','RotateLook,rotation=180'] restricts the actions to either 'MoveAhead' or 'RotateLook' with the 'rotation' parameter set to 180. An action_list of None means that all actions are always available. An empty inner list means that all actions are available for that specific step.
 
+### description : string
+
+A human-readable sentence describing this goal and containing the target task(s) and object(s). Please see [Goal Descriptions](#Goal-Descriptions).
+
 ### info_list : list of strings
 
 The list of descriptors of objects and tasks associated with this goal (for the visualization interface).
@@ -172,7 +177,7 @@ The list of all actions (like "MoveAhead" or "PickupObject") that are available 
 
 ### depth_mask_list : list of Pillow.Image objects
 
-The list of depth mask images from the scene after the last action and physics simulation were run. This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a scripted Preview Phase.
+The list of depth mask images from the scene after the last action and physics simulation were run. This is normally a list with five images, where the physics simulation has unpaused and paused again for a little bit between each image, and the final image is the state of the environment before your next action. The MCS_Step_Output object returned from a call to controller.start_scene will normally have a list with only one image, except for a scene with a scripted Preview Phase.
 
 ### goal : MCS_Goal
 
@@ -184,15 +189,17 @@ How far your head is tilted up/down in degrees (between 90 and -90). Changed by 
 
 ### image_list : list of Pillow.Image objects
 
-The list of images from the scene after the last action and physics simulation were run. This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a scripted Preview Phase.
+The list of images from the scene after the last action and physics simulation were run. This is normally a list with five images, where the physics simulation has unpaused and paused again for a little bit between each image, and the final image is the state of the environment before your next action. The MCS_Step_Output object returned from a call to controller.start_scene will normally have a list with only one image, except for a scene with a scripted Preview Phase.
 
 ### object_list : list of MCS_Object objects
 
-The list of metadata for all objects in the scene.
+The list of metadata for all currently visible objects in the scene.
 
 ### object_mask_list : list of Pillow.Image objects
 
-The list of object mask images from the scene after the last action and physics simulation were run. This is usually just a list with a single image, except for the MCS_Step_Output object returned from a call to controller.start_scene for a scene with a scripted Preview Phase.
+The list of object mask (instance segmentation) images from the scene after the last action and physics simulation were run. This is normally a list with five images, where the physics simulation has unpaused and paused again for a little bit between each image, and the final image is the state of the environment before your next action. The MCS_Step_Output object returned from a call to controller.start_scene will normally have a list with only one image, except for a scene with a scripted Preview Phase.
+
+The color of each object in the mask corresponds to the "color" property in its MCS_Object object.
 
 ### pose : string
 
@@ -608,39 +615,6 @@ If you cannot enter "STAND" pose because you are not in "SQUAT" pose.
 
 ### RotateObject
 
-Rotate a held object.
-
-#### Parameters
-
-- objectId : string, optional\
-The "uuid" of the held object. Required unless the "objectDirection" properties are given.
-- objectDirectionX : float, optional\
-The X of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
-- objectDirectionY : float, optional\
-The Y of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
-- objectDirectionZ : float, optional\
-The Z of the directional vector pointing to the target object based on your current viewport. Can be used in place of the "objectId" property.
-- rotationX : float\
-Rotation degrees around the X axis.
-- rotationY : float\
-Rotation degrees around the Y axis.
-- rotationZ : float\
-Rotation degrees around the Z axis.
-
-#### Returns
-
-- "SUCCESSFUL"
-- "SUCCESSFUL_WITH_INVALID_PARAMETERS"\
-If the X, Y, or Z is not between [-360, 360], 0 will be used in place of each invalid parameter.
-- "NOT_HELD"\
-If you cannot drop the object because you are not holding it.
-- "NOT_INTERACTABLE"\
-If the object corresponding to the "objectDirection" vector is not an interactable object.
-- "NOT_OBJECT"\
-If the object corresponding to the "objectId" (or object corresponding to the "objectDirection" vector) is not a real object.
-
-### RotateObject
-
 Rotate a nearby object.
 
 #### Parameters
@@ -751,6 +725,55 @@ TODO
 
 TODO
 
+## Goal Descriptions
+
+Objects will be described with the following syntax: `size weight color(s) material(s) object`
+
+Sizes:
+
+- `tiny`: near the size of a baseball
+- `small`: near the size of a baby
+- `medium`: near the size of a child
+- `large`: near the size of an adult
+- `huge`: near the size of a sofa
+
+Weights:
+
+- `light`: can be held by a baby
+- `heavy`: cannot be held by a baby, but can be pushed or pulled
+- `massive`: cannot be moved by a baby
+
+Colors:
+
+- `black`
+- `blue`
+- `brown`
+- `green`
+- `grey`
+- `orange`
+- `purple`
+- `red`
+- `white`
+- `yellow`
+
+Materials:
+
+- `ceramic`
+- `food`
+- `glass`
+- `hollow`
+- `fabric`
+- `metal`
+- `organic`
+- `paper`
+- `plastic`
+- `rubber`
+- `soap`
+- `sponge`
+- `stone`
+- `wax`
+- `wood`
+
 ## Goal Metadata
 
 A goal's `metadata` property is a dict with a string `category` property and one or more other properties depending on the `category`.
@@ -777,17 +800,21 @@ In a scenario that has a retrieval goal, you must find and pickup a target objec
 
 A retrieval goal's `metadata` (with `category` of `"RETRIEVAL"`) will also have the following properties:
 
-#### target_id : string
+#### target.id : string
 
 The `objectId` of the target object to retrieve.
 
-#### target_image : list of lists of lists of integers
+#### target.image : list of lists of lists of integers
 
 An image of the target object to retrieve, given as a three-dimensional RGB pixel array.
 
-#### target_info : list of strings
+#### target.info : list of strings
 
 Human-readable information describing the target object needed for the visualization interface.
+
+#### target.match_image : string
+
+Whether the image of the target object (`target.image`) exactly matches the actual target object in the scene. If `false`, then the actual object will be different in one way (for example, the image may depict a blue ball, but the actual object is a yellow ball, or a blue cube).
 
 ### Transferral
 
@@ -799,26 +826,35 @@ A transferral goal's `metadata` (with `category` of `"TRANSFERRAL"`) will also h
 
 The required final position of the two target objects in relation to one another.  For transferral goals, this value will always be either `["target_1", "next_to", "target_2"]` or `["target_1", "on_top_of", "target_2"]`.
 
-#### target_1_id : string
+#### target_1.id : string
 
 The `objectId` of the first target object to pickup and transfer to the second target object.
 
-#### target_1_image : list of lists of lists of integers
+#### target_1.image : list of lists of lists of integers
 
 An image of the first target object to pickup and transfer to the second target object, given as a three-dimensional RGB pixel array.
 
-#### target_1_info : list of strings
+#### target_1.info : list of strings
 
 Human-readable information describing the target object needed for the visualization interface.
 
-#### target_2_id : string
+#### target_1.match_image : string
+
+Whether the image of the first target object (`target_1.image`) exactly matches the actual object in the scene. If `false`, then the actual first target object will be different in one way (for example, the image may depict a blue ball, but the actual object is a yellow ball, or a blue cube).
+
+#### target_2.id : string
 
 The `objectId` of the second target object to which the first target object must be transferred.
 
-#### target_2_image : list of lists of lists of integers
+#### target_2.image : list of lists of lists of integers
 
 An image of the second target object to which the first target object must be transferred, given as a three-dimensional RGB pixel array.
 
-#### target_2_info : list of strings
+#### target_2.info : list of strings
 
 Human-readable information describing the target object needed for the visualization interface.
+
+#### target_2.match_image : string
+
+Whether the image of the second target object (`target_2.image`) exactly matches the actual object in the scene. If `false`, then the actual second target object will be different in one way (for example, the image may depict a blue ball, but the actual object is a yellow ball, or a blue cube).
+
