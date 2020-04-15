@@ -191,7 +191,6 @@ class Goal(ABC):
                 obj = instantiate_object(object_def, obj_location)
                 object_list.append(obj)
 
-
     @abstractmethod
     def get_config(self, goal_objects):
         """Get the goal configuration. goal_objects is the objects required for the goal (as returned from
@@ -238,7 +237,44 @@ class EmptyGoal(Goal):
         return ''
 
 
-class RetrievalGoal(Goal):
+class InteractionGoal(Goal, ABC):
+    def __init__(self):
+        super(InteractionGoal, self).__init__()
+        self._bounding_rects = []
+
+    def _set_performer_start(self):
+        self._performer_start = self.compute_performer_start()
+
+    def _set_target_def(self):
+        """Chooses a pickupable object since most interaction goals require that."""
+        pickupable_defs = random.choice(OBJECTS_PICKUPABLE_LISTS)
+        self._target_def = random.choice(pickupable_defs)
+
+    def _set_target_location(self):
+        performer_position = self._performer_start['position']
+        self._target_location = calc_obj_pos(performer_position, self._bounding_rects, self._target_def)
+        if self._target_location is None:
+            raise GoalException(f'could not place target object (type={self._target_def["type"]})')
+
+    def _set_goal_objects(self):
+        """Set all objects required for the goal other than the target, if any. May update _bounding_rects."""
+        self._goal_objects = []
+
+    def compute_objects(self):
+        self._set_performer_start()
+        self._set_target_def()
+        self._set_target_location()
+        self._target = instantiate_object(self._target_def, self._target_location)
+        self._set_goal_objects()
+        
+        all_objects = [self._target] + self._goal_objects
+        all_goal_objects = all_objects.copy()
+        self.add_objects(all_objects, self._bounding_rects, self._performer_start['position'])
+
+        return all_goal_objects, all_objects, self._bounding_rects
+        
+    
+class RetrievalGoal(InteractionGoal):
     """Going to a specified object and picking it up."""
 
     TEMPLATE = {
@@ -250,24 +286,6 @@ class RetrievalGoal(Goal):
 
     def __init__(self):
         super(RetrievalGoal, self).__init__()
-
-    def compute_objects(self):
-        # add objects we need for the goal
-        pickupable_defs = random.choice(OBJECTS_PICKUPABLE_LISTS)
-        target_def = random.choice(pickupable_defs)
-        performer_start = self.compute_performer_start()
-        performer_position = performer_start['position']
-        bounding_rects = []
-        target_location = calc_obj_pos(performer_position, bounding_rects, target_def)
-        if target_location is None:
-            raise GoalException('could not place target object')
-
-        target = instantiate_object(target_def, target_location)
-
-        all_objects = [target]
-        self.add_objects(all_objects, bounding_rects, performer_position)
-
-        return [target], all_objects, bounding_rects
 
     def get_config(self, objects):
         if len(objects) < 1:
@@ -288,7 +306,7 @@ class RetrievalGoal(Goal):
         return goal
 
 
-class TransferralGoal(Goal):
+class TransferralGoal(InteractionGoal):
     """Moving a specified object to another specified object."""
 
     class RelationshipType(Enum):
@@ -305,25 +323,11 @@ class TransferralGoal(Goal):
     def __init__(self):
         super(TransferralGoal, self).__init__()
 
-    def compute_objects(self):
-        performer_start = self.compute_performer_start()
-        performer_position = performer_start['position']
-        bounding_rects = []
-
-        pickupable_defs = random.choice(OBJECTS_PICKUPABLE_LISTS)
-        target1_def = random.choice(pickupable_defs)
-        target1_location = calc_obj_pos(performer_position, bounding_rects, target1_def)
-        target1 = instantiate_object(target1_def, target1_location)
-
+    def _set_goal_objects(self):
         target2_def = self.choose_object_def()
-        target2_location = calc_obj_pos(performer_position, bounding_rects, target2_def)
+        target2_location = calc_obj_pos(self._performer_position, self._bounding_rects, target2_def)
         target2 = instantiate_object(target2_def, target2_location)
-
-        goal_objects = [target1, target2]
-        all_objects = goal_objects.copy()
-        self.add_objects(all_objects, bounding_rects, performer_position)
-
-        return goal_objects, all_objects, bounding_rects
+        self._goal_objects = [target2]
 
     def get_config(self, objects):
         if len(objects) < 2:
@@ -380,7 +384,7 @@ class TraversalGoal(Goal):
         target = instantiate_object(target_def, target_location)
 
         all_objects = [target]
-        add_objects(object_defs, all_objects, bounding_rects, performer_position)
+        self.add_objects(object_defs, all_objects, bounding_rects, performer_position)
 
         return [target], all_objects, bounding_rects
 
