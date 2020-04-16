@@ -27,10 +27,37 @@ class MCS_Reward(object):
         Returns:
             target: object if found or None
         '''
-        return next((o for o in objects if o['objectId'] == target_id), None)
+        return next((o for o in objects if o['id'] == target_id), None)
 
     @staticmethod
-    def calc_distance_to_goal(action_obj_xz_pos: Tuple[float, float], goal_obj: MCS_Object) -> float:
+    def _convert_bounds_to_polygons(goal_object: MCS_Goal) -> Tuple[sympy.Polygon, sympy.Polygon]:
+        '''
+        Converts goal object bounds to an upper and lower planar polygon.
+
+        Args:
+            goal_object: MCS_Goal
+
+        Returns:
+            polygons: Tuple(sympy.Polygon, sympy.Polygon)
+        '''
+        # split 3d object bounds into upper and lower boxes
+        bbox3d = goal_object['objectBounds']['objectBoundsCorners']
+        lower_box, upper_box = bbox3d[:4], bbox3d[4:]
+
+        # conver lower box plane to sympy Polygon
+        lower_corners = [(pt['x'], pt['z']) for pt in lower_box]
+        a, b, c, d = lower_corners
+        lower_polygon = sympy.Polygon(a, b, c, d)
+
+        # convert upper box plane to sympy Polygon
+        upper_corners = [(pt['x'], pt['z']) for pt in upper_box]
+        e, f, g, h = upper_corners
+        upper_polygon = sympy.Polygon(e, f, g, h)
+
+        return lower_polygon, upper_polygon
+
+    @staticmethod
+    def __calc_distance_to_goal(action_obj_xz_pos: Tuple[float, float], goal_obj: MCS_Object) -> float:
         '''
         Object 2D (xz) distance center to the goal object nearest edge
         
@@ -46,14 +73,7 @@ class MCS_Reward(object):
         goal_object_xz_center = goal_obj['position']['x'], \
             goal_obj['position']['z']
 
-        # split 3d object bounds into upper and lower boxes
-        bbox3d = goal_object['objectBounds']['objectBoundsCorners']
-        lower_box, upper_box = bbox3d[:4], bbox3d[4:]
-
-        # convert upper box plane to sympy Polygon
-        corners = [(pt['x'], pt['z']) for pt in upper_box]
-        a, b, c, d = corners
-        upper_polygon = sympy.Polygon(a, b, c, d)
+        _, upper_polygon = MCS_Reward._convert_bounds_to_polygons(goal_object)
 
         # calculate center_line from center of object to action object center
         center_line = sympy.Segment(sympy.Point(goal_object_xz_center), \
@@ -80,9 +100,11 @@ class MCS_Reward(object):
         return distance_to_edge
 
     @staticmethod
-    def calc_retrieval_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
+    def _calc_retrieval_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
         '''
         Calculate the reward for the retrieval goal.
+
+        The goal object must be in the agent's hand.
 
         Args:
             goal: MCS_Goal
@@ -101,7 +123,7 @@ class MCS_Reward(object):
         return reward
 
     @staticmethod
-    def calc_traversal_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
+    def _calc_traversal_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
         '''
         Calculate the reward for the traversal goal.
 
@@ -123,15 +145,18 @@ class MCS_Reward(object):
 
         if goal_object is not None and agent is not None:
             agent_center_xz = agent['position']['x'], agent['position']['z']
-            distance_to_goal = MCS_Reward.calc_distance_to_goal(agent_center_xz, goal_object)
+            distance_to_goal = MCS_Reward.__calc_distance_to_goal(agent_center_xz, goal_object)
             reward = int(distance_to_goal < MAX_REACH_DISTANCE)
 
         return reward
 
     @staticmethod
-    def calc_transferral_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
+    def _calc_transferral_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
         '''
         Calculate the reward for the transferral goal.
+
+        The action object must be next to or on top of the goal object. This
+        depends on the relationship action verb.
 
         Args:
             goal: MCS_Goal
@@ -166,22 +191,13 @@ class MCS_Reward(object):
 
         # actions are next_to or on_top_of (ie; action obj next to goal obj)
         if action == 'next_to':
-            distance_to_goal = MCS_Reward.calc_distance_to_goal(action_object_xz_center, goal_object)
+            distance_to_goal = MCS_Reward.__calc_distance_to_goal(action_object_xz_center, goal_object)
             reward = int(distance_to_goal <= MAX_MOVE_DISTANCE)
         elif action == 'on_top_of':
-
-            # split 3d object bounds into upper and lower boxes
-            bbox3d = goal_object['objectBounds']['objectBoundsCorners']
-            lower_box, upper_box = bbox3d[:4], bbox3d[4:]
-            # convert upper box plane to sympy Polygon
-            corners = [(pt['x'], pt['z']) for pt in upper_box]
-            a, b, c, d = corners
-            upper_polygon = sympy.Polygon(a, b, c, d)
-
-            action_pt = sympy.Point(action_object_center_xz)
-
             # check that the target object center is within goal object bounds
             # and the y dimension of the target is above the goal
+            _, upper_polygon = MCS_Reward._convert_bounds_to_polygons(goal_object)
+            action_pt = sympy.Point(action_object_center_xz)
             action_obj_within_bounds = upper_polygon.encloses_point(action_pt)
             action_obj_above_goal = action_object['position']['y'] > goal_object['position']['y']
             if action_obj_within_bounds and action_obj_above_goal:
@@ -190,8 +206,8 @@ class MCS_Reward(object):
         return reward
 
     @staticmethod
-    def calculate_default_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
-        '''Returns the default reward.'''
+    def _calculate_default_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
+        '''Returns the default reward of 0; not achieved.'''
         return GOAL_NOT_ACHIEVED
 
     @staticmethod
@@ -213,11 +229,11 @@ class MCS_Reward(object):
             category = goal.metadata.get('category', None)
 
         switch = {
-            MCS_Goal_Category.RETRIEVAL.name: MCS_Reward.calc_retrieval_reward,
-            MCS_Goal_Category.TRANSFERRAL.name: MCS_Reward.calc_transferral_reward,
-            MCS_Goal_Category.TRAVERSAL.name: MCS_Reward.calc_traversal_reward,
+            MCS_Goal_Category.RETRIEVAL.name: MCS_Reward._calc_retrieval_reward,
+            MCS_Goal_Category.TRANSFERRAL.name: MCS_Reward._calc_transferral_reward,
+            MCS_Goal_Category.TRAVERSAL.name: MCS_Reward._calc_traversal_reward,
         }
 
         return switch.get(category,
-                          MCS_Reward.calculate_default_reward)(goal,
+                          MCS_Reward._calculate_default_reward)(goal,
                                                                scene_metadata)
