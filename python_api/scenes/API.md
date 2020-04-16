@@ -263,9 +263,9 @@ The following materials are currently available:
 
 ### Ceramics
 
+- `"AI2-THOR/Materials/Ceramics/BrownMarbleFake 1"`
 - `"AI2-THOR/Materials/Ceramics/ConcreteBoards1"`
 - `"AI2-THOR/Materials/Ceramics/GREYGRANITE"`
-- `"AI2-THOR/Materials/Ceramics/KitchenFloor"`
 - `"AI2-THOR/Materials/Ceramics/RedBrick"`
 - `"AI2-THOR/Materials/Ceramics/TexturesCom_BrickRound0044_1_seamless_S"` (rough stone)
 - `"AI2-THOR/Materials/Ceramics/WhiteCountertop"`
@@ -281,16 +281,20 @@ The following materials are currently available:
 
 ### Metals
 
+- `"AI2-THOR/Materials/Metals/BlackSmoothMeta"` (yes, it is misspelled)
 - `"AI2-THOR/Materials/Metals/Brass 1"`
 - `"AI2-THOR/Materials/Metals/BrownMetal 1"`
 - `"AI2-THOR/Materials/Metals/GenericStainlessSteel"`
 - `"AI2-THOR/Materials/Metals/Metal"`
+- `"AI2-THOR/Materials/Metals/WhiteMetal"`
 
 ### Plastics
 
+- `"AI2-THOR/Materials/Plastics/BlackPlastic"`
 - `"AI2-THOR/Materials/Plastics/BlueRubber"`
 - `"AI2-THOR/Materials/Plastics/GreenPlastic"`
 - `"AI2-THOR/Materials/Plastics/OrangePlastic"`
+- `"AI2-THOR/Materials/Plastics/WhitePlastic"`
 - `"AI2-THOR/Materials/Plastics/YellowPlastic2"`
 
 ### Walls
@@ -307,9 +311,13 @@ The following materials are currently available:
 ### Woods
 
 - `"AI2-THOR/Materials/Wood/BedroomFloor1"`
+- `"AI2-THOR/Materials/Wood/DarkWoodSmooth2"`
 - `"AI2-THOR/Materials/Wood/LightWoodCounters 1"`
 - `"AI2-THOR/Materials/Wood/LightWoodCounters4"`
+- `"AI2-THOR/Materials/Wood/SMOOTHWOODWood3"`
 - `"AI2-THOR/Materials/Wood/TexturesCom_WoodFine0050_1_seamless_S"`
+- `"AI2-THOR/Materials/Wood/WhiteWood"`
 - `"AI2-THOR/Materials/Wood/WoodFloorsCross"`
 - `"AI2-THOR/Materials/Wood/WoodGrain_Brown"`
+- `"AI2-THOR/Materials/Wood/WornWood"`
 
