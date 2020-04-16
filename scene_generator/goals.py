@@ -15,7 +15,7 @@ import objects
 from geometry import random_position, random_rotation, calc_obj_pos, POSITION_DIGITS
 from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJECTS_PICKUPABLE_LISTS
 from separating_axis_theorem import sat_entry
-from test_images import OBJECT_IMAGES
+from images import OBJECT_IMAGES
 
 MAX_TRIES = 20
 MAX_OBJECTS = 5
@@ -94,7 +94,6 @@ def instantiate_object(object_def, object_location):
 
     info.append(' '.join(info))
     new_object['info'] = info
-    print(new_object)
     return new_object
 
 
@@ -159,12 +158,34 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
     return None
 
 def find_image_for_object(object_def):
-    if len(object_def['materials']) == 1:
-        return OBJECT_IMAGES[object_def['type']][object_def['materials'][0]]
-    elif len(object_def['materials']) == 2:
-        return OBJECT_IMAGES[object_def['type']][object_def['materials'][0]][object_def['materials'][1]]
-    else:
-        raise ValueError('image could not be located for object and material')
+    try:
+        target_image = []
+
+        if 'materials' not in object_def or len(object_def['materials']) == 0:
+            target_image = OBJECT_IMAGES[object_def['type']] if object_def['type'] in OBJECT_IMAGES else []
+        elif len(object_def['materials']) == 1:
+            target_image = OBJECT_IMAGES[object_def['type']][object_def['materials'][0]] if object_def['type'] in OBJECT_IMAGES else []
+        elif len(object_def['materials']) == 2:
+            target_image =  OBJECT_IMAGES[object_def['type']][object_def['materials'][0]][object_def['materials'][1]] if object_def['type'] in OBJECT_IMAGES else []
+        else:
+            raise ValueError('Materials list exceeds number of expected materials')
+
+        if target_image == []:
+            print("Unable to find the image for the type and materials provided")
+            print(object_def['type'])
+            if 'materials' in object_def: 
+                print(object_def['materials'])
+            
+        return target_image
+    except: 
+        raise GoalException('Images object could not be found, make sure you generated the images.py file')
+
+def find_image_name(target):
+    if 'materials' not in target:
+        return target['type'] + '.png' 
+
+    material_name_list = [item[(item.rfind('/') + 1):].lower().replace(' ', '_') for item in target['materials']]
+    return target['type'] + ('_' if len(material_name_list) > 0 else '') + ('_'.join(material_name_list)) + '.png'
 
 class GoalException(Exception):
     def __init__(self, message=''):
@@ -346,6 +367,7 @@ class RetrievalGoal(InteractionGoal):
 
         target = objects[0]
         target_image_obj = find_image_for_object(target)
+        image_name = find_image_name(target)
 
         goal = copy.deepcopy(self.TEMPLATE)
         goal['info_list'] = target['info']
@@ -354,8 +376,8 @@ class RetrievalGoal(InteractionGoal):
                 'id': target['id'],
                 'info': target['info'],
                 'match_image': True,
-                'image': target_image_obj.pixelArray,
-                'image_name': target_image_obj.name
+                'image': target_image_obj,
+                'image_name': image_name
             }
         }
         goal['description'] = f'Find and pick up the {target["info"][-1]}.'
@@ -396,6 +418,9 @@ class TransferralGoal(InteractionGoal):
         target1_image_obj = find_image_for_object(target1)
         target2_image_obj = find_image_for_object(target2)
 
+        image_name1 = find_image_name(target1)
+        image_name2 = find_image_name(target2)
+
         goal = copy.deepcopy(self.TEMPLATE)
         both_info = set(target1['info'] + target2['info'])
         goal['info_list'] = list(both_info)
@@ -404,15 +429,15 @@ class TransferralGoal(InteractionGoal):
                 'id': target1['id'],
                 'info': target1['info'],
                 'match_image': True,
-                'image': target1_image_obj.pixelArray,
-                'image_name': target1_image_obj.name
+                'image': target1_image_obj,
+                'image_name': image_name1
             },
             'target_2': {
                 'id': target2['id'],
                 'info': target2['info'],
                 'match_image': True,
-                'image': target2_image_obj.pixelArray,
-                'image_name': target2_image_obj.name
+                'image': target2_image_obj,
+                'image_name': image_name2
             },
             'relationship': ['target_1', relationship.value, 'target_2']
         }
@@ -457,13 +482,18 @@ class TraversalGoal(Goal):
 
         target = objects[0]
 
+        target_image_obj = find_image_for_object(target)
+        image_name = find_image_name(target)
+
         goal = copy.deepcopy(self.TEMPLATE)
         goal['info_list'] = target['info']
         goal['metadata'] = {
             'target': {
                 'id': target['id'],
                 'info': target['info'],
-                'match_image': True
+                'match_image': True,
+                'image': target_image_obj,
+                'image_name': image_name
             }
         }
         goal['description'] = f'Locate the {" ".join(target["info"])} and move near it.'
