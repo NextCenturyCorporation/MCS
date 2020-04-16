@@ -71,7 +71,7 @@ object in the frame, None otherwise."""
 
         rect = calc_obj_coords(new_x, new_z, dx, dz, rotation)
         if not collision(rect, performer_position) and (
-                len(other_rects) == 0 or any(sat_entry(rect, other_rect) for other_rect in other_rects)):
+                len(other_rects) == 0 or not any(sat_entry(rect, other_rect) for other_rect in other_rects)):
             break
         tries += 1
 

@@ -972,8 +972,9 @@ OBJECTS_PICKUPABLE_MISC = [{
     }
 }]
 
-OBJECTS_PICKUPABLE = OBJECTS_PICKUPABLE_BALLS + OBJECTS_PICKUPABLE_BLOCKS + OBJECTS_PICKUPABLE_TOYS + \
-    OBJECTS_PICKUPABLE_MISC
+OBJECTS_PICKUPABLE_LISTS = [OBJECTS_PICKUPABLE_BALLS, OBJECTS_PICKUPABLE_BLOCKS, OBJECTS_PICKUPABLE_TOYS,
+                            OBJECTS_PICKUPABLE_MISC]
+OBJECTS_PICKUPABLE = [item for sublist in OBJECTS_PICKUPABLE_LISTS for item in sublist]
 
 OBJECTS_MOVEABLE = [{
     "type": "chair_1",
@@ -1052,7 +1053,7 @@ OBJECTS_MOVEABLE = [{
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"]
     }, {
-        "mass": 12.5
+        "mass": 12.5,
         "materialCategory": ["metal"],
         "salientMaterials": ["metal"]
     }],
@@ -1085,7 +1086,7 @@ OBJECTS_MOVEABLE = [{
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"]
     }, {
-        "mass": 12.5
+        "mass": 12.5,
         "materialCategory": ["metal"],
         "salientMaterials": ["metal"]
     }],
@@ -1465,7 +1466,7 @@ OBJECTS_IMMOBILE = [{
     },
     "offset": {
         "x": 0.04,
-        "y": 0.35
+        "y": 0.35,
         "z": 0
     },
     "position_y": 0,
