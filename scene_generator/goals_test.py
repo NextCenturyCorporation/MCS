@@ -187,6 +187,19 @@ def test_instantiate_object_choose():
     assert obj['salientMaterials'] == salient_materials
 
 
+def test_move_to_container():
+    # find a tiny object so we know it will fit in *something*
+    for obj_def in objects.OBJECTS_PICKUPABLE:
+        if 'tiny' in obj_def['info']:
+            obj = instantiate_object(obj_def, geometry.ORIGIN_LOCATION)
+            all_objects = [obj]
+            move_to_container(obj, all_objects, [], geometry.ORIGIN)
+            container_id = all_objects[1]['id']
+            assert obj['locationParent'] == container_id
+            return
+    assert False, 'could not find a tiny object'
+
+
 def test_RetrievalGoal_get_goal():
     goal_obj = RetrievalGoal()
     obj = {

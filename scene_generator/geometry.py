@@ -17,6 +17,19 @@ ORIGIN = {
     "z": 0.0
 }
 
+ORIGIN_LOCATION = {
+    'position': {
+        'x': 0.0,
+        'y': 0.0,
+        'z': 0.0
+    },
+    'rotation': {
+        'x': 0.0,
+        'y': 0.0,
+        'z': 0.0
+    }
+}
+
 def random_position():
     return round(random.uniform(MIN_PERFORMER_POSITION, MAX_PERFORMER_POSITION), POSITION_DIGITS)
 
