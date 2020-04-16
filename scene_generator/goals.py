@@ -113,6 +113,7 @@ def move_to_container(target, all_objects, bounding_rects, performer_position):
                 found_container = instantiate_object(container_def, container_location)
                 found_area = container_def['enclosed_areas'][area_index]
                 all_objects.remove(target)
+                all_objects.append(found_container)
                 objects.add_child(found_container, target)
                 target['shows'][0]['position'] = found_area['position'].copy()
                 target['shows'][0]['rotation'] = geometry.ORIGIN.copy()
@@ -298,6 +299,7 @@ class InteractionGoal(Goal, ABC):
     def add_objects(self, all_objects, bounding_rects, performer_position):
         """Maybe add a container and put the target inside it. If so, maybe put other objects in other objects, too."""
         if random.random() <= self.TARGET_CONTAINED_CHANCE:
+            logging.debug('trying to put target in a container')
             if move_to_container(self._target, all_objects, bounding_rects, performer_position):
                 # maybe do it with other objects, too
                 super(InteractionGoal, self).add_objects(all_objects, bounding_rects, performer_position)
