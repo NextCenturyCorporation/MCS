@@ -42,7 +42,12 @@ Each run will generate a subdirectory (named based on your config file) containi
 
 ## Running Local Code Changes
 
-If you've installed the `machine_common_sense` library using `pip`, the run scripts appear to use the installed library rather than your local code. To test any changes that you've made in your local code, `cd` to the root directory of this repository and run `pip install .` (remember the dot) to reinstall the `machine_common_sense` library from your local code.
+For development, install the `machine_common_sense` library using `pip` with the `-e` flag so it sees all of your local code changes.
+
+```
+cd <mcs_root_folder>
+pip install -e .
+```
 
 ## Logs
 
