@@ -14,28 +14,28 @@ GOAL_NOT_ACHIEVED = 0
 class MCS_Reward(object):
     '''Reward utility class'''
     @staticmethod
-    def __get_object_from_list(objects: List[MCS_Object],
-                               target_id: str) -> MCS_Object:
+    def __get_object_from_list(objects: List[Dict],
+                               target_id: str) -> Dict:
         '''
         Finds an mcs_object in a list. Uses a generator to return the first item
         or defaults to None if the target isn't found.
 
         Args:
-            objects: list of mcs_objects
+            objects: list of object dictionaries
             target_id: str ID of the mcs_object to find
 
         Returns:
-            target: object if found or None
+            target: object dictionary if found or None
         '''
-        return next((o for o in objects if o['id'] == target_id), None)
+        return next((o for o in objects if o['objectId'] == target_id), None)
 
     @staticmethod
-    def _convert_bounds_to_polygons(goal_object: MCS_Goal) -> Tuple[sympy.Polygon, sympy.Polygon]:
+    def _convert_bounds_to_polygons(goal_object: Dict) -> Tuple[sympy.Polygon, sympy.Polygon]:
         '''
         Converts goal object bounds to an upper and lower planar polygon.
 
         Args:
-            goal_object: MCS_Goal
+            goal_object: dict
 
         Returns:
             polygons: Tuple(sympy.Polygon, sympy.Polygon)
@@ -57,13 +57,13 @@ class MCS_Reward(object):
         return lower_polygon, upper_polygon
 
     @staticmethod
-    def __calc_distance_to_goal(action_obj_xz_pos: Tuple[float, float], goal_obj: MCS_Object) -> float:
+    def __calc_distance_to_goal(action_obj_xz_pos: Tuple[float, float], goal_obj: Dict) -> float:
         '''
         Object 2D (xz) distance center to the goal object nearest edge
         
         Args:
             action_obj_xz_pos: Tuple (x,z)
-            goal_obj: MCS_Object
+            goal_obj: dict
 
         Returns:
             distance_to_edge: float
@@ -73,7 +73,7 @@ class MCS_Reward(object):
         goal_object_xz_center = goal_obj['position']['x'], \
             goal_obj['position']['z']
 
-        _, upper_polygon = MCS_Reward._convert_bounds_to_polygons(goal_object)
+        _, upper_polygon = MCS_Reward._convert_bounds_to_polygons(goal_obj)
 
         # calculate center_line from center of object to action object center
         center_line = sympy.Segment(sympy.Point(goal_object_xz_center), \
@@ -97,7 +97,7 @@ class MCS_Reward(object):
             distance_to_edge = sympy.Point(action_obj_xz_pos).distance(
                 intersection).evalf()
             
-        return distance_to_edge
+        return float(distance_to_edge)
 
     @staticmethod
     def _calc_retrieval_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
@@ -197,7 +197,7 @@ class MCS_Reward(object):
             # check that the target object center is within goal object bounds
             # and the y dimension of the target is above the goal
             _, upper_polygon = MCS_Reward._convert_bounds_to_polygons(goal_object)
-            action_pt = sympy.Point(action_object_center_xz)
+            action_pt = sympy.Point(action_object_xz_center)
             action_obj_within_bounds = upper_polygon.encloses_point(action_pt)
             action_obj_above_goal = action_object['position']['y'] > goal_object['position']['y']
             if action_obj_within_bounds and action_obj_above_goal:
