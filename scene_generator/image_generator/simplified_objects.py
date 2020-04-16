@@ -150,6 +150,40 @@ OBJECT_LIST = [{
         'z': 7.5
     }
 }, {
+    'type': 'box_2',
+    'position': {
+        'x': 0,
+        'y': 0.75,
+        'z': 2
+    },
+    'rotation': {
+        'x': -45,
+        'y': 0,
+        'z': 0
+    },
+    'scale': {
+        'x': 2,
+        'y': 2,
+        'z': 2
+    }
+}, {
+    'type': 'box_3',
+    'position': {
+        'x': 0,
+        'y': 0.75,
+        'z': 2
+    },
+    'rotation': {
+        'x': -60,
+        'y': 0,
+        'z': 0
+    },
+    'scale': {
+        'x': 1.75,
+        'y': 1.75,
+        'z': 1.75
+    }
+}, {
     'type': 'chair_1',
     'materials_options': [
         ['wood'],
@@ -587,17 +621,17 @@ OBJECT_LIST = [{
     ],
     'position': {
         'x': 0.2,
-        'y': 0,
+        'y': 0.5,
         'z': 2
     },
     'rotation': {
-        'x': 0,
+        'x': -45,
         'y': 0,
         'z': 0
     },
     'scale': {
         'x': 1,
-        'y': 0.5,
+        'y': 0.75,
         'z': 1
     }
 }, {
