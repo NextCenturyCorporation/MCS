@@ -135,11 +135,11 @@ The "r", "g", and "b" pixel values of this object in images from the MCS_Step_Ou
 
 ### direction : dict
 
-The normalized direction vector of "x", "y", and "z" degrees between your position and this object's. Use "x" and "y" as "rotation" and "horizon" params (respectively) in a "RotateLook" action to face this object.
+The direction vector of the "x", "y", and "z" degrees between your position and this object's position (the difference in the two positions), normalized to 1. You can use the "x" and "y" as the "rotation" and "horizon" parameters (respectively) in a "RotateLook" action to face this object.
 
 ### distance : float
 
-The distance along the 2-dimensional X/Z grid from you to this object in number of steps ("Move" actions).
+The distance along the 2-dimensional X/Z grid from you to this object in number of steps ("Move" actions). If you want the distance to the object in the environment's global coordinate system (like the "position" property), multiply this number by 0.5.
 
 ### held : boolean
 
@@ -152,10 +152,6 @@ Haptic feedback. The mass of this object.
 ### material_list : list of strings
 
 Haptic feedback. The material(s) of this object. Possible materials: "Metal", "Wood", "Plastic", "Glass", "Ceramic", "Stone", "Fabric", "Rubber", "Food", "Paper", "Wax", "Soap", "Sponge", "Organic".
-
-### point_list : list of dicts
-
-The list of 3D points (dicts with "x", "y", and "z") that form the outer shape of this object.
 
 ### position : dict
 
