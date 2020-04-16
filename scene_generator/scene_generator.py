@@ -62,7 +62,7 @@ def generate_file(name, goal_type):
         json.dump(body, out, indent=2)
 
 
-def generate_one_fileset(prefix, count, goal_type, stop_on_error):
+def generate_fileset(prefix, count, goal_type, stop_on_error):
     # skip existing files
     index = 1
     dirname = os.path.dirname(prefix)
@@ -98,7 +98,7 @@ def main(argv):
 
     args = parser.parse_args(argv[1:])
     random.seed(args.seed)
-    generate_one_fileset(args.prefix, args.count, args.goal, args.stop_on_error)
+    generate_fileset(args.prefix, args.count, args.goal, args.stop_on_error)
 
 
 if __name__ == '__main__':
