@@ -46,4 +46,6 @@ python_api/machine_common_sense/**/*.png
 truthing/pyqtgraph
 truthing/node_modules
 
+scene_generator/image_generator/images.py
+scene_generator/image_generator/*.tar.gz
 scene_generator/image_generator/**/*.png
