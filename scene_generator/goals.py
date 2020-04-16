@@ -155,8 +155,8 @@ class Goal(ABC):
                                     bounding_rects)
         body['objects'] = all_objects + walls
         body['goal'] = self.get_config(goal_objects)
-        path = self.find_answer(goal_objects, all_objects+walls)
-        body['answer']['actions'] = self.parse_path(path)
+        body['answer']['actions'] = self.find_answer(goal_objects, all_objects+walls)
+        
         return body
 
     def compute_performer_start(self):
@@ -198,10 +198,9 @@ class Goal(ABC):
                 obj = instantiate_object(object_def, obj_location)
                 object_list.append(obj)
         
-    def parse_path_section(self,path_section):        
+    def parse_path_section(self,path_section,current_heading):        
         index = 1
         actions = []
-        current_heading = self._performer_start['rotation']['y']
         dx = path_section[1][0]-path_section[0][0]
         dz = path_section[1][1]-path_section[0][1]
         if dx == 0:
@@ -355,8 +354,20 @@ class RetrievalGoal(Goal):
         hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if object['id'] != goal_objects[0]['id'])
         path = generatepath(performer, goal, hole_rects)
         
+  
+        actions = []
+        current_heading = self._performer_start['rotation']['y']
+        for indx in range(len(path)-1):
+            actions.append(self.parse_path_section(path[indx:indx+2], current_heading))
+
+        actions.append({
+            'action': 'PickupObject',
+            'params': {
+                'objectId': goal_objects[0]['id']
+                }
+            })
+        return actions
         
-        return path
 
 class TransferralGoal(Goal):
     """Moving a specified object to another specified object."""
