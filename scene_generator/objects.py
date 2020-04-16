@@ -1,3 +1,5 @@
+import logging
+
 OBJECTS_PICKUPABLE_BALLS = [{
     "type": "sphere",
     "info": ["tiny", "ball"],
@@ -1523,6 +1525,7 @@ OBJECTS_IMMOBILE = [{
 
 _ALL_OBJECTS = None
 
+
 def get_all_object_defs():
     global _ALL_OBJECTS
     if _ALL_OBJECTS is None:
@@ -1530,7 +1533,9 @@ def get_all_object_defs():
         _ALL_OBJECTS = [item for def_list in lists for item in globals()[def_list]]
     return _ALL_OBJECTS
 
+
 _ENCLOSED_CONTAINERS = None
+
 
 def get_enclosed_containers():
     """Return all object definitions that have 'enclosed_areas' whose value is a non-empty list."""
@@ -1539,9 +1544,3 @@ def get_enclosed_containers():
         all_defs = get_all_object_defs()
         _ENCLOSED_CONTAINERS = [obj_def for obj_def in all_defs if 'enclosed_areas' in obj_def and len(obj_def['enclosed_areas']) > 0]
     return _ENCLOSED_CONTAINERS
-
-def add_child(parent, child):
-    if 'children' in parent:
-        parent['children'].append(child)
-    else:
-        parent['children'] = [child]

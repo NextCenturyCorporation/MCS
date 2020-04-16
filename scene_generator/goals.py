@@ -25,8 +25,8 @@ MIN_WALL_WIDTH = 1
 WALL_Y_POS = 1.25
 WALL_HEIGHT = 2.5
 WALL_DEPTH = 0.1
-WALL_COUNTS = [0,1,2,3]
-WALL_PROBS = [60,20,10,10]
+WALL_COUNTS = [0, 1, 2, 3]
+WALL_PROBS = [60, 20, 10, 10]
 
 
 def instantiate_object(object_def, object_location):
@@ -103,7 +103,6 @@ def move_to_container(target, all_objects, bounding_rects, performer_position):
     container."""
     shuffled_containers = objects.get_enclosed_containers().copy()
     random.shuffle(shuffled_containers)
-    found_container = None
     for container_def in shuffled_containers:
         area_index = geometry.can_contain(container_def, target)
         if area_index is not None:
@@ -112,9 +111,8 @@ def move_to_container(target, all_objects, bounding_rects, performer_position):
             if container_location is not None:
                 found_container = instantiate_object(container_def, container_location)
                 found_area = container_def['enclosed_areas'][area_index]
-                all_objects.remove(target)
                 all_objects.append(found_container)
-                objects.add_child(found_container, target)
+                target['locationParent'] = found_container['id']
                 target['shows'][0]['position'] = found_area['position'].copy()
                 target['shows'][0]['rotation'] = geometry.ORIGIN.copy()
                 return True
@@ -299,12 +297,12 @@ class InteractionGoal(Goal, ABC):
     def add_objects(self, all_objects, bounding_rects, performer_position):
         """Maybe add a container and put the target inside it. If so, maybe put other objects in other objects, too."""
         if random.random() <= self.TARGET_CONTAINED_CHANCE:
-            logging.debug('trying to put target in a container')
             if move_to_container(self._target, all_objects, bounding_rects, performer_position):
                 # maybe do it with other objects, too
                 super(InteractionGoal, self).add_objects(all_objects, bounding_rects, performer_position)
                 for obj in all_objects:
-                    if getattr(obj, 'pickupable', False) and random.random() <= self.OBJECT_CONTAINED_CHANCE:
+                    if obj != self._target and obj.get('pickupable', False) \
+                            and random.random() <= self.OBJECT_CONTAINED_CHANCE:
                         move_to_container(obj, all_objects, bounding_rects, performer_position)
 
     def compute_objects(self):
@@ -401,7 +399,7 @@ class TransferralGoal(InteractionGoal):
             'relationship': ['target_1', relationship.value, 'target_2']
         }
         goal['description'] = f'Find and pick up the {target1["info"][-1]} and move it {relationship.value} ' \
-                f'the {target2["info"][-1]}.'
+            f'the {target2["info"][-1]}.'
         return goal
 
 
