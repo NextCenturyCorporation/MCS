@@ -1,7 +1,7 @@
-from machine_common_sense.mcs_goal import MCS_Goal
-from machine_common_sense.mcs_pose import MCS_Pose
-from machine_common_sense.mcs_return_status import MCS_Return_Status
-from machine_common_sense.mcs_util import MCS_Util
+from .mcs_goal import MCS_Goal
+from .mcs_pose import MCS_Pose
+from .mcs_return_status import MCS_Return_Status
+from .mcs_util import MCS_Util
 
 class MCS_Step_Output:
     """

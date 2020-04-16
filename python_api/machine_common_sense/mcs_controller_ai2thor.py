@@ -6,16 +6,16 @@ from PIL import Image
 
 import ai2thor.controller
 
-from machine_common_sense.mcs_action import MCS_Action
-from machine_common_sense.mcs_controller import MCS_Controller
-from machine_common_sense.mcs_goal import MCS_Goal
-from machine_common_sense.mcs_goal_category import MCS_Goal_Category
-from machine_common_sense.mcs_object import MCS_Object
-from machine_common_sense.mcs_pose import MCS_Pose
-from machine_common_sense.mcs_return_status import MCS_Return_Status
-from machine_common_sense.mcs_reward import MCS_Reward
-from machine_common_sense.mcs_step_output import MCS_Step_Output
-from machine_common_sense.mcs_util import MCS_Util
+from .mcs_action import MCS_Action
+from .mcs_controller import MCS_Controller
+from .mcs_goal import MCS_Goal
+from .mcs_goal_category import MCS_Goal_Category
+from .mcs_object import MCS_Object
+from .mcs_pose import MCS_Pose
+from .mcs_return_status import MCS_Return_Status
+from .mcs_reward import MCS_Reward
+from .mcs_step_output import MCS_Step_Output
+from .mcs_util import MCS_Util
 
 
 class MCS_Controller_AI2THOR(MCS_Controller):
@@ -364,8 +364,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         rgb = object_id_to_color[object_metadata['objectId']] if object_metadata['objectId'] in object_id_to_color \
                 else [None, None, None]
 
-        if object_metadata['objectBounds'] is None:
-            print(f"No bounds for {object_metadata['objectId']}")
+        #if object_metadata['objectBounds'] is None:
+        #    print(f"No bounds for {object_metadata['objectId']}")
 
         return MCS_Object(
             uuid=object_metadata['objectId'],

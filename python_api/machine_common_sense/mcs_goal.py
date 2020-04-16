@@ -1,4 +1,4 @@
-from machine_common_sense.mcs_util import MCS_Util
+from .mcs_util import MCS_Util
 
 class MCS_Goal:
     """
