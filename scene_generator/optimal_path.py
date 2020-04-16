@@ -1,6 +1,8 @@
 from extremitypathfinder.extremitypathfinder import PolygonEnvironment as Environment
 
 from  geometry import MAX_SCENE_POSITION, MIN_SCENE_POSITION
+from math import degrees
+from numpy.ma.core import arctan
 
 
 
@@ -21,4 +23,10 @@ def generatepath(source_loc, target_loc, other_rects):
     environment.store(boundary_coordinates, holes, validate = True)
     environment.prepare()
     
-    return environment.find_shortest_path(source_loc, target_loc)
+    path,length = environment.find_shortest_path(source_loc, target_loc)
+    return path
+    
+                
+    
+
+

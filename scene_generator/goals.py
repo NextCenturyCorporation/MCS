@@ -14,6 +14,11 @@ import materials
 from geometry import random_position, random_rotation, calc_obj_pos, POSITION_DIGITS
 from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJECTS_PICKUPABLE_LISTS
 from separating_axis_theorem import sat_entry
+from optimal_path import generatepath
+from numpy.lib.scimath import sqrt
+from numpy import degrees
+from numpy.core import arctan
+import math
 
 MAX_TRIES = 20
 MAX_OBJECTS = 5
@@ -115,15 +120,16 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
             'structure': 'true',
             'mass': 100
         }
-        shows_object = {}
+        shows_object = {
+            'stepBegin' : 0,
+            'scale' : {'x': new_x_size, 'y': WALL_HEIGHT, 'z' :WALL_DEPTH},
+            'rotation': { 'x' : 0, 'y': rotation, 'z': 0 },
+            'position' : { 'x' : new_x, 'y': WALL_Y_POS, 'z' : new_z},
+            'bounding_box': rect
+            }
         shows = [shows_object]
         new_object['shows'] = shows
-        
-        shows_object['stepBegin'] = 0
-        shows_object['scale'] = {'x': new_x_size, 'y': WALL_HEIGHT, 'z' :WALL_DEPTH}
-    
-        shows_object['rotation'] = { 'x' : 0, 'y': rotation, 'z': 0 }
-        shows_object['position'] = { 'x' : new_x, 'y': WALL_Y_POS, 'z' : new_z}
+
         return new_object
     return None
 
@@ -149,6 +155,8 @@ class Goal(ABC):
                                     bounding_rects)
         body['objects'] = all_objects + walls
         body['goal'] = self.get_config(goal_objects)
+        path = self.find_answer(goal_objects, all_objects+walls)
+        body['answer']['actions'] = self.parse_path(path)
         return body
 
     def compute_performer_start(self):
@@ -190,8 +198,50 @@ class Goal(ABC):
                 obj = instantiate_object(object_def, obj_location)
                 object_list.append(obj)
         
-
-
+    def parse_path_section(self,path_section):        
+        index = 1
+        actions = []
+        current_heading = self._performer_start['rotation']['y']
+        dx = path_section[1][0]-path_section[0][0]
+        dz = path_section[1][1]-path_section[0][1]
+        if dx == 0:
+            if dz >0:
+                theta = 90
+            else:
+                theta = 270
+        else:
+            theta = degrees(arctan(dz/dx))
+            if dx < 0:
+                theta += 180
+            #IF my calculations are correct, this should be right no matter what
+            # I'm assuming a positive angle is a clockwise rotation- so this should work
+            #I think
+        delta_t = current_heading-theta
+        current_heading = theta
+        if (delta_t != 0 ):
+            action = {
+                'action': 'RotateLook',
+                'params': {
+                    'rotation': delta_t,
+                    'horizon': 0.0
+                    }
+                }
+            actions.append(action)
+        distance = sqrt( dx ** 2 + dz ** 2 )
+        frac, whole = math.modf(distance / 0.5)
+        for wholes in range(int(whole)):
+            actions.append({
+                    "action": "MoveAhead",
+                    "params": {}
+                    })
+        actions.append({
+                "action": "MoveAhead",
+                "params": {
+                    "amount": frac
+                    }
+            })
+        return actions
+     
     @abstractmethod
     def get_config(self, goal_objects):
         """Get the goal configuration. goal_objects is the objects required for the goal (as returned from
@@ -209,7 +259,11 @@ class Goal(ABC):
             else:
                 logging.warning('could not generate wall')
         return walls
-        
+    @abstractmethod
+    def find_answer(self, goal_objects, all_objects):
+        '''Compute the optimal set of moves and up[date the body object'''
+        pass
+       
     @staticmethod
     def find_all_valid_objects(constraint_list, objects):
         """Find all members of objects that satisfy all constraints in constraint_list"""
@@ -225,6 +279,7 @@ class Goal(ABC):
         return valid_objects
 
 
+        
 class EmptyGoal(Goal):
     """An empty goal."""
 
@@ -235,6 +290,10 @@ class EmptyGoal(Goal):
         return [], [], []
 
     def get_config(self, goal_objects):
+        return ''
+    
+ 
+    def get_answer(self, goal_objects, all_objects):
         return ''
 
 
@@ -287,6 +346,17 @@ class RetrievalGoal(Goal):
         goal['description'] = f'Find and pick up the {target["info"][-1]}.'
         return goal
 
+   
+    def find_answer(self, goal_objects, all_objects):
+        #Goal should be a singleton... I hope
+        performer = (self._performer_start['position']['x'],self._performer_start['position']['z'])
+        goal = (goal_objects[0]['shows'][0]['position']['x'],goal_objects[0]['shows'][0]['position']['z'])
+        hole_rects=[]
+        hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if object['id'] != goal_objects[0]['id'])
+        path = generatepath(performer, goal, hole_rects)
+        
+        
+        return path
 
 class TransferralGoal(Goal):
     """Moving a specified object to another specified object."""
@@ -354,7 +424,14 @@ class TransferralGoal(Goal):
         goal['description'] = f'Find and pick up the {target1["info"][-1]} and move it {relationship.value} ' \
                 f'the {target2["info"][-1]}.'
         return goal
-
+    
+    def find_answer(self, goal_objects, all_objects):
+        performer = (self._performer_start['position']['x'],self._performer_start['position']['z'])
+        goal = (goal_objects[0]['shows'][0]['position']['x'],goal_objects[0]['shows'][0]['position']['z'])
+        hole_rects=[]
+        hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if object['id'] != goal_objects[0]['id'])
+        path = generatepath(performer, goal, hole_rects)
+        return path
 
 class TraversalGoal(Goal):
     """Locating and navigating to a specified object."""
@@ -403,7 +480,13 @@ class TraversalGoal(Goal):
         }
         goal['description'] = f'Locate the {" ".join(target["info"])} and move near it.'
         return goal
-
+    def find_answer(self, goal_objects, all_objects):
+        performer = (self._performer_start['position']['x'],self._performer_start['position']['z'])
+        goal = (goal_objects[0]['shows'][0]['position']['x'],goal_objects[0]['shows'][0]['position']['z'])
+        hole_rects=[]
+        hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if object['id'] != goal_objects[0]['id'])
+        path = generatepath(performer, goal, hole_rects)
+        return path
 
 GOAL_TYPES = {
     'interaction': [RetrievalGoal, TransferralGoal, TraversalGoal]
