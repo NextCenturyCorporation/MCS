@@ -46,7 +46,7 @@ def instantiate_object(object_def, object_location):
         'id': str(uuid.uuid4()),
         'type': object_def['type'],
         'info': object_def['info'],
-        'mass': object_def['mass'],
+        'mass': object_def['mass']
     }
     if 'dimensions' in object_def:
         new_object['dimensions'] = object_def['dimensions']
