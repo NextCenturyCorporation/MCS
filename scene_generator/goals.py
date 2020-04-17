@@ -15,7 +15,6 @@ import objects
 from geometry import random_position, random_rotation, calc_obj_pos, POSITION_DIGITS
 from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJECTS_PICKUPABLE_LISTS
 from separating_axis_theorem import sat_entry
-from images import OBJECT_IMAGES
 
 MAX_TRIES = 20
 MAX_OBJECTS = 5
@@ -157,35 +156,29 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
         return new_object
     return None
 
+def generate_image_file_name(target):
+    if 'materials' not in target:
+        return target['type']
+
+    material_name_list = [item[(item.rfind('/') + 1):].lower().replace(' ', '_') for item in target['materials']]
+    return target['type'] + ('_' if len(material_name_list) > 0 else '') + ('_'.join(material_name_list))
+
 def find_image_for_object(object_def):
+    image_file_name = ""
+
     try:
         target_image = []
+        image_file_name = 'image_generator/' + generate_image_file_name(object_def) + '.txt'
 
-        if 'materials' not in object_def or len(object_def['materials']) == 0:
-            target_image = OBJECT_IMAGES[object_def['type']] if object_def['type'] in OBJECT_IMAGES else []
-        elif len(object_def['materials']) == 1:
-            target_image = OBJECT_IMAGES[object_def['type']][object_def['materials'][0]] if object_def['type'] in OBJECT_IMAGES else []
-        elif len(object_def['materials']) == 2:
-            target_image =  OBJECT_IMAGES[object_def['type']][object_def['materials'][0]][object_def['materials'][1]] if object_def['type'] in OBJECT_IMAGES else []
-        else:
-            raise ValueError('Materials list exceeds number of expected materials')
-
-        if target_image == []:
-            print("Unable to find the image for the type and materials provided")
-            print(object_def['type'])
-            if 'materials' in object_def: 
-                print(object_def['materials'])
+        with open(image_file_name, 'r') as image_file:
+            target_image = image_file.read()
             
         return target_image
     except: 
-        raise GoalException('Images object could not be found, make sure you generated the images.py file')
+        logging.warn('Image object could not be found, make sure you generated the images.py file: ' + image_file_name)
 
 def find_image_name(target):
-    if 'materials' not in target:
-        return target['type'] + '.png' 
-
-    material_name_list = [item[(item.rfind('/') + 1):].lower().replace(' ', '_') for item in target['materials']]
-    return target['type'] + ('_' if len(material_name_list) > 0 else '') + ('_'.join(material_name_list)) + '.png'
+    return generate_image_file_name(target) + '.png'
 
 class GoalException(Exception):
     def __init__(self, message=''):
