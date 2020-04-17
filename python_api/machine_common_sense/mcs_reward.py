@@ -100,7 +100,7 @@ class MCS_Reward(object):
         return float(distance_to_edge)
 
     @staticmethod
-    def _calc_retrieval_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
+    def _calc_retrieval_reward(goal: MCS_Goal, objects: Dict, agent: Dict) -> int:
         '''
         Calculate the reward for the retrieval goal.
 
@@ -108,7 +108,8 @@ class MCS_Reward(object):
 
         Args:
             goal: MCS_Goal
-            scene_metadata: Dict
+            objects: Dict
+            agent: Dict
 
         Returns:
             int: 1 for goal achieved, 0 otherwise
@@ -116,14 +117,13 @@ class MCS_Reward(object):
         '''
         reward = GOAL_NOT_ACHIEVED
         goal_id = goal.metadata.get('target_id', None)
-        objects = scene_metadata.get('objects', None)
         goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
         if goal_object and ('isPickedUp' in goal_object) and goal_object['isPickedUp']:
             reward = GOAL_ACHIEVED
         return reward
 
     @staticmethod
-    def _calc_traversal_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
+    def _calc_traversal_reward(goal: MCS_Goal, objects: Dict, agent: Dict) -> int:
         '''
         Calculate the reward for the traversal goal.
 
@@ -131,7 +131,8 @@ class MCS_Reward(object):
 
         Args:
             goal: MCS_Goal
-            scene_metadata: Dict
+            objects: Dict
+            agent: Dict
 
         Returns:
             int: 1 for goal achieved, 0 otherwise
@@ -139,8 +140,6 @@ class MCS_Reward(object):
         '''
         reward = GOAL_NOT_ACHIEVED
         goal_id = goal.metadata.get('target_id', None)
-        objects = scene_metadata.get('objects', None)
-        agent = scene_metadata.get('agent', None)
         goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
 
         if goal_object is not None and agent is not None:
@@ -151,7 +150,7 @@ class MCS_Reward(object):
         return reward
 
     @staticmethod
-    def _calc_transferral_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
+    def _calc_transferral_reward(goal: MCS_Goal, objects: Dict, agent: Dict) -> int:
         '''
         Calculate the reward for the transferral goal.
 
@@ -160,7 +159,8 @@ class MCS_Reward(object):
 
         Args:
             goal: MCS_Goal
-            scene_metadata: Dict
+            objects: Dict
+            agent: Dict
 
         Returns:
             int: 1 for goal achieved, 0 otherwise
@@ -176,7 +176,7 @@ class MCS_Reward(object):
         action_id, action, goal_id = relationship
         action = action.lower()
 
-        objects = scene_metadata['objects']
+        #objects = scene_metadata['objects']
         action_object = MCS_Reward.__get_object_from_list(objects, action_id)
         goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
 
@@ -206,18 +206,19 @@ class MCS_Reward(object):
         return reward
 
     @staticmethod
-    def _calculate_default_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
+    def _calculate_default_reward(goal: MCS_Goal, objects: Dict, agent: Dict) -> int:
         '''Returns the default reward of 0; not achieved.'''
         return GOAL_NOT_ACHIEVED
 
     @staticmethod
-    def calculate_reward(goal: MCS_Goal, scene_metadata: Dict) -> int:
+    def calculate_reward(goal: MCS_Goal, objects: Dict, agent: Dict) -> int:
         '''
         Determine if the agent achieved the objective/task/goal.
 
         Args:
             goal: MCS_Goal
-            scene_metadata: Dict
+            objects: Dict
+            agent: Dict
 
         Returns:
             int: reward is 1 if goal achieved, 0 otherwise
@@ -236,4 +237,4 @@ class MCS_Reward(object):
 
         return switch.get(category,
                           MCS_Reward._calculate_default_reward)(goal,
-                                                               scene_metadata)
+                                                               objects, agent)

@@ -12,13 +12,13 @@ class Test_MCS_Reward(unittest.TestCase):
 
     def test_default_reward(self):
         goal = MCS_Goal()
-        reward = MCS_Reward.calculate_reward(goal, {})
+        reward = MCS_Reward.calculate_reward(goal, objects={}, agent={})
         self.assertFalse(reward)
         self.assertIsInstance(reward, int)
 
     def test_none_goal(self):
         goal = None
-        reward = MCS_Reward.calculate_reward(goal, {})
+        reward = MCS_Reward.calculate_reward(goal, objects={}, agent={})
         self.assertFalse(reward)
         self.assertIsInstance(reward, int)
 
@@ -129,8 +129,7 @@ class Test_MCS_Reward(unittest.TestCase):
         for i in range(10):
             obj = {"objectId": str(i), 'isPickedUp': not i}
             obj_list.append(obj)
-        scene_metadata = {'objects': obj_list}
-        reward = MCS_Reward._calc_retrieval_reward(goal, scene_metadata)
+        reward = MCS_Reward._calc_retrieval_reward(goal, obj_list, agent={})
         self.assertTrue(reward)
         self.assertIsInstance(reward, int)
 
@@ -141,8 +140,7 @@ class Test_MCS_Reward(unittest.TestCase):
         for i in range(10):
             obj = {"objectId": str(i), 'isPickedUp': False}
             obj_list.append(obj)
-        scene_metadata = {'objects': obj_list}
-        reward = MCS_Reward._calc_retrieval_reward(goal, scene_metadata)
+        reward = MCS_Reward._calc_retrieval_reward(goal, obj_list, agent={})
         self.assertFalse(reward)
         self.assertIsInstance(reward, int)
 
@@ -164,8 +162,8 @@ class Test_MCS_Reward(unittest.TestCase):
             obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 1.0, 'z': 1.0})
             obj['position'] = {'x': 0.5 + i, 'z': 0.5}
             obj_list.append(obj)
-        scene_metadata = {'objects': obj_list, 'agent': {'position': {'x':-0.9, 'y': 0.5, 'z':0.0}}}
-        reward = MCS_Reward._calc_traversal_reward(goal, scene_metadata)
+        agent = {'position': {'x':-0.9, 'y': 0.5, 'z':0.0}}
+        reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
         self.assertTrue(reward)
         self.assertIsInstance(reward, int)
 
@@ -187,8 +185,8 @@ class Test_MCS_Reward(unittest.TestCase):
             obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 1.0, 'z': 1.0})
             obj['position'] = {'x': 0.5 + i, 'z': 0.5}
             obj_list.append(obj)
-        scene_metadata = {'objects': obj_list, 'agent': {'position': {'x':-0.9, 'y': 0.5, 'z':-1.0}}}
-        reward = MCS_Reward._calc_traversal_reward(goal, scene_metadata)
+        agent = {'position': {'x':-0.9, 'y': 0.5, 'z':-1.0}}
+        reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
         self.assertFalse(reward)
         self.assertIsInstance(reward, int)
 
@@ -210,8 +208,8 @@ class Test_MCS_Reward(unittest.TestCase):
             obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 1.0, 'z': 1.0})
             obj['position'] = {'x': 0.5 + i, 'z': 0.5}
             obj_list.append(obj)
-        scene_metadata = {'objects': obj_list, 'agent': {'position': {'x':-0.9, 'y': 0.5, 'z':0.0}}}
-        reward = MCS_Reward._calc_traversal_reward(goal, scene_metadata)
+        agent = {'position': {'x':-0.9, 'y': 0.5, 'z':0.0}}
+        reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
         self.assertFalse(reward)
         self.assertIsInstance(reward, int)
 
@@ -234,8 +232,8 @@ class Test_MCS_Reward(unittest.TestCase):
             obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 1.0, 'z': 1.0})
             obj['position'] = {'x': 0.5 + i, 'z': 0.5}
             obj_list.append(obj)
-        scene_metadata = {'objects': obj_list, 'agent': {'position': {'x':-0.9, 'y': 0.5, 'z':0.0}}}
-        reward = MCS_Reward._calc_transferral_reward(goal, scene_metadata)
+        agent = {'position': {'x':-0.9, 'y': 0.5, 'z':0.0}}
+        reward = MCS_Reward._calc_transferral_reward(goal, obj_list, agent)
         self.assertFalse(reward)
         self.assertIsInstance(reward, int)
 
@@ -258,8 +256,8 @@ class Test_MCS_Reward(unittest.TestCase):
             obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 1.0, 'z': 1.0})
             obj['position'] = {'x': 0.5 + i, 'z': 0.5}
             obj_list.append(obj)
-        scene_metadata = {'objects': obj_list, 'agent': {'position': {'x':-0.9, 'y': 0.5, 'z':0.0}}}
-        reward = MCS_Reward._calc_transferral_reward(goal, scene_metadata)
+        agent = {'position': {'x':-0.9, 'y': 0.5, 'z':0.0}}
+        reward = MCS_Reward._calc_transferral_reward(goal, obj_list, agent)
         self.assertTrue(reward)
         self.assertIsInstance(reward, int)
 
@@ -282,8 +280,8 @@ class Test_MCS_Reward(unittest.TestCase):
             obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 1.0, 'z': 1.0})
             obj['position'] = {'x': 0.5 + i, 'z': 0.5}
             obj_list.append(obj)
-        scene_metadata = {'objects': obj_list, 'agent': {'position': {'x':-0.9, 'y': 0.5, 'z':0.0}}}
-        reward = MCS_Reward._calc_transferral_reward(goal, scene_metadata)
+        agent = {'position': {'x':-0.9, 'y': 0.5, 'z':0.0}}
+        reward = MCS_Reward._calc_transferral_reward(goal, obj_list, agent)
         self.assertFalse(reward)
         self.assertIsInstance(reward, int)
 
@@ -306,8 +304,8 @@ class Test_MCS_Reward(unittest.TestCase):
             obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0 + i, 'z': 1.0})
             obj['position'] = {'x': 0.5, 'y': 0.0 + i, 'z': 0.5}
             obj_list.append(obj)
-        scene_metadata = {'objects': obj_list, 'agent': {'position': {'x':-0.9, 'y': 0.5, 'z':0.0}}}
-        reward = MCS_Reward._calc_transferral_reward(goal, scene_metadata)
+        agent = {'position': {'x':-0.9, 'y': 0.5, 'z':0.0}}
+        reward = MCS_Reward._calc_transferral_reward(goal, obj_list, agent)
         self.assertTrue(reward)
         self.assertIsInstance(reward, int)
 
@@ -330,7 +328,7 @@ class Test_MCS_Reward(unittest.TestCase):
             obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0 + i, 'z': 1.0})
             obj['position'] = {'x': 0.5, 'y': 0.0 + i, 'z': 0.5}
             obj_list.append(obj)
-        scene_metadata = {'objects': obj_list, 'agent': {'position': {'x':-0.9, 'y': 0.5, 'z':0.0}}}
-        reward = MCS_Reward._calc_transferral_reward(goal, scene_metadata)
+        agent = {'position': {'x':-0.9, 'y': 0.5, 'z':0.0}}
+        reward = MCS_Reward._calc_transferral_reward(goal, obj_list, agent)
         self.assertFalse(reward)
         self.assertIsInstance(reward, int)

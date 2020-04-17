@@ -438,6 +438,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         image_list, depth_mask_list, object_mask_list = self.save_images(scene_event)
 
+        objects = scene_event.metadata.get('objects', None)
+        agent = scene_event.metadata.get('agent', None)
         step_output = MCS_Step_Output(
             action_list=self.retrieve_action_list(self.__goal, self.__step_number),
             depth_mask_list=depth_mask_list,
@@ -449,7 +451,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             pose=self.retrieve_pose(scene_event),
             position=self.retrieve_position(scene_event),
             return_status=self.retrieve_return_status(scene_event),
-            reward=MCS_Reward.calculate_reward(self.__goal, scene_event.metadata),
+            reward=MCS_Reward.calculate_reward(self.__goal, objects, agent),
             rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number
         )
