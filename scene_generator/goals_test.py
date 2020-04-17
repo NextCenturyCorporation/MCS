@@ -1,6 +1,7 @@
 from goals import *
 import pytest
 import uuid
+from images import OBJECT_IMAGES
 
 
 def test_instantiate_object():
@@ -205,6 +206,7 @@ def test_RetrievalGoal_get_goal():
     obj = {
         'id': str(uuid.uuid4()),
         'info': [str(uuid.uuid4())],
+        'type': 'sphere'
     }
     object_list = [obj]
     goal = goal_obj.get_config(object_list)
@@ -219,6 +221,7 @@ def test_TraversalGoal_get_goal():
     obj = {
         'id': str(uuid.uuid4()),
         'info': [str(uuid.uuid4())],
+        'type': 'sphere'
     }
     object_list = [obj]
     goal = goal_obj.get_config(object_list)
@@ -248,14 +251,16 @@ def test__generate_transferral_goal():
     pickupable_obj = {
         'id': pickupable_id,
         'info': [pickupable_info_item, extra_info],
-        'pickupable': True
+        'pickupable': True,
+        'type': 'sphere'
     }
     other_id = str(uuid.uuid4())
     other_info_item = str(uuid.uuid4())
     other_obj = {
         'id': other_id,
         'info': [other_info_item, extra_info],
-        'attributes': []
+        'attributes': [],
+        'type': 'changing_table'
     }
     goal = goal_obj.get_config([pickupable_obj, other_obj])
 

@@ -9,7 +9,7 @@
 3. Run the image generator (it will pause for a bit after the final scene to create the output `images.py` file):
 
 ```
-python image_generator.py <unity_app_file_path>
+python image_generator.py <unity_app_file_path> <output_folder=../images/>
 ```
 
 4. TAR all the output object images:
