@@ -24,5 +24,5 @@ if __name__ == "__main__":
 
     output = controller.start_scene(config_data)
 
-    for i in range(1, 10):
+    for i in range(1, 12):
         output = controller.step('RotateLook', rotation=30)
