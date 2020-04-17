@@ -4,27 +4,27 @@ import re
 
 # From https://stackoverflow.com/questions/13249415/how-to-implement-custom-indentation-when-pretty-printing-with-the-json-module
 
-class NoIndent(object):
+class PrettyJsonNoIndent(object):
     """ Value wrapper. """
     def __init__(self, value):
         self.value = value
 
-class MyEncoder(json.JSONEncoder):
+class PrettyJsonEncoder(json.JSONEncoder):
     FORMAT_SPEC = '@@{}@@'
     regex = re.compile(FORMAT_SPEC.format(r'(\d+)'))
 
     def __init__(self, **kwargs):
         # Save copy of any keyword argument values needed for use here.
         self.__sort_keys = kwargs.get('sort_keys', None)
-        super(MyEncoder, self).__init__(**kwargs)
+        super(PrettyJsonEncoder, self).__init__(**kwargs)
 
     def default(self, obj):
-        return (self.FORMAT_SPEC.format(id(obj)) if isinstance(obj, NoIndent)
-                else super(MyEncoder, self).default(obj))
+        return (self.FORMAT_SPEC.format(id(obj)) if isinstance(obj, PrettyJsonNoIndent)
+                else super(PrettyJsonEncoder, self).default(obj))
 
     def encode(self, obj):
         format_spec = self.FORMAT_SPEC  # Local var to expedite access.
-        json_repr = super(MyEncoder, self).encode(obj)  # Default JSON.
+        json_repr = super(PrettyJsonEncoder, self).encode(obj)  # Default JSON.
 
         # Replace any marked-up object ids in the JSON repr with the
         # value returned from the json.dumps() of the corresponding

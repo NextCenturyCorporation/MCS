@@ -9,8 +9,10 @@ from machine_common_sense.mcs import MCS
 from PIL import Image, ImageOps
 
 import materials
-from pretty_json import MyEncoder, NoIndent
 import simplified_objects
+
+sys.path.insert(1, '../pretty_json')
+from pretty_json import PrettyJsonEncoder, PrettyJsonNoIndent
 
 def generate_materials_lists(materials_options):
     materials_lists = []
@@ -103,12 +105,13 @@ def save_output_data(output_data):
     pretty_output_data = wrap_with_noindent(output_data)
 
     with open('images.py', 'w') as output_file:
-        output_file.write('OBJECT_IMAGES = ' + json.dumps(pretty_output_data, cls=MyEncoder, sort_keys=True, indent=2))
+        output_file.write('OBJECT_IMAGES = ' + json.dumps(pretty_output_data, cls=PrettyJsonEncoder, sort_keys=True, \
+                indent=2))
 
 def wrap_with_noindent(nested_data):
     for prop in nested_data:
         if isinstance(nested_data[prop], list):
-            nested_data[prop] = NoIndent(nested_data[prop])
+            nested_data[prop] = PrettyJsonNoIndent(nested_data[prop])
         elif isinstance(nested_data[prop], dict):
             nested_data[prop] = wrap_with_noindent(nested_data[prop])
     return nested_data
