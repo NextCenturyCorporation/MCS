@@ -519,6 +519,13 @@ class TransferralGoal(InteractionGoal):
         path  = generatepath(goal,target, hole_rects)
         for indx in range(len(path)-1):
             actions.append(self.parse_path_section(path[indx:indx+2], current_heading))
+            
+        actions.append({
+            'action': 'PutObject',
+            'params': {
+                'objectId': goal_objects[0]['id'] ,
+                'receptacleObjectId': goal_objects[1]['id']
+                }})
   
         return actions
 
