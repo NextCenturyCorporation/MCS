@@ -73,28 +73,10 @@ class MCS_Reward(object):
 
         _, upper_polygon = MCS_Reward._convert_bounds_to_polygons(goal_obj)
 
-        # calculate center_line from center of object to action object center
-        center_line = sympy.Segment(sympy.Point(goal_object_xz_center), \
-                sympy.Point(action_obj_xz_pos))
+        action_center_pt = sympy.Point(action_obj_xz_pos)
+        if not upper_polygon.encloses_point(action_center_pt):
+            distance_to_edge = upper_polygon.distance(action_center_pt).evalf()
 
-        # find the interesection of the center_line and the goal object bounds
-        intersections = [
-            i.evalf() for i in upper_polygon.intersection(center_line)
-        ]
-        num_intersections = len(intersections)
-        # if there are 0 intersections then the action object is inside the goal
-        # object bounds. We will return a distance of 0.0 in this case and consider
-        # the goal reached as far as 'nearness' goes.
-        if num_intersections:
-            # most of the time, there should be only one intersection.
-            # two intersections should only occur on a corner but
-            # they will be identical points so just grab the first one
-            intersection = intersections[0]
-            # determine the distance from the center of the action object to the goal
-            # object edge
-            distance_to_edge = sympy.Point(action_obj_xz_pos).distance(
-                intersection).evalf()
-            
         return float(distance_to_edge)
 
     @staticmethod
