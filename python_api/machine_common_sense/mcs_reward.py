@@ -46,13 +46,11 @@ class MCS_Reward(object):
 
         # conver lower box plane to sympy Polygon
         lower_corners = [(pt['x'], pt['z']) for pt in lower_box]
-        a, b, c, d = lower_corners
-        lower_polygon = sympy.Polygon(a, b, c, d)
+        lower_polygon = sympy.Polygon(*lower_corners)
 
         # convert upper box plane to sympy Polygon
         upper_corners = [(pt['x'], pt['z']) for pt in upper_box]
-        e, f, g, h = upper_corners
-        upper_polygon = sympy.Polygon(e, f, g, h)
+        upper_polygon = sympy.Polygon(*upper_corners)
 
         return lower_polygon, upper_polygon
 
@@ -118,7 +116,7 @@ class MCS_Reward(object):
         reward = GOAL_NOT_ACHIEVED
         goal_id = goal.metadata.get('target_id', None)
         goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
-        if goal_object and ('isPickedUp' in goal_object) and goal_object['isPickedUp']:
+        if goal_object and goal_object.get('isPickedUp', False):
             reward = GOAL_ACHIEVED
         return reward
 
