@@ -156,12 +156,14 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
         return new_object
     return None
 
+
 def generate_image_file_name(target):
     if 'materials' not in target:
         return target['type']
 
     material_name_list = [item[(item.rfind('/') + 1):].lower().replace(' ', '_') for item in target['materials']]
     return target['type'] + ('_' if len(material_name_list) > 0 else '') + ('_'.join(material_name_list))
+
 
 def find_image_for_object(object_def):
     image_file_name = ""
@@ -175,10 +177,12 @@ def find_image_for_object(object_def):
             
         return target_image
     except: 
-        logging.warn('Image object could not be found, make sure you generated the images.py file: ' + image_file_name)
+        logging.warning('Image object could not be found, make sure you generated the images.py file: ' + image_file_name)
+
 
 def find_image_name(target):
     return generate_image_file_name(target) + '.png'
+
 
 class GoalException(Exception):
     def __init__(self, message=''):
