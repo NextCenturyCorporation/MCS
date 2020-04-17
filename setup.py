@@ -20,11 +20,8 @@ setuptools.setup(
     license='Apache-2',
     install_requires=[
         'sympy',
-        'ai2thor==2.2.0'
+        'ai2thor @ https://github.com/NextCenturyCorporation/ai2thor/tarball/master#egg=ai2thor'
     ],
-    dependency_links = [
-     "https://github.com/NextCenturyCorporation/ai2thor/tarball/master#egg=ai2thor-2.2.0",
-    ],    
     package_dir={'':'python_api'},
     packages=setuptools.find_packages('python_api'),
     entry_points={
