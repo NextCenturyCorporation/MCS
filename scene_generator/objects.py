@@ -1279,6 +1279,7 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "crib",
     "info": ["huge", "brown", "crib"],
+    "materialCategory": ["wood"],
     "mass": 25,
     "attributes": [],
     "dimensions": {
