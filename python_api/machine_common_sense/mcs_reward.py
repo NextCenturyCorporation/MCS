@@ -178,10 +178,10 @@ class MCS_Reward(object):
         action_object = MCS_Reward.__get_object_from_list(objects, action_id)
         goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
 
-        if goal_object is None or ('isPickedUp' in goal_object and goal_object['isPickedUp']):
+        if goal_object is None or goal_object.get('isPickedUp', False):
             return GOAL_NOT_ACHIEVED
         
-        if action_object is None or ('isPickedUp' in action_object and action_object['isPickedUp']):
+        if action_object is None or action_object.get('isPickedUp', False):
             return GOAL_NOT_ACHIEVED
 
         action_object_xz_center = action_object['position']['x'], \
