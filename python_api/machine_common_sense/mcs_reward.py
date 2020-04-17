@@ -17,12 +17,12 @@ class MCS_Reward(object):
     def __get_object_from_list(objects: List[Dict],
                                target_id: str) -> Dict:
         '''
-        Finds an mcs_object in a list. Uses a generator to return the first item
+        Finds an object in a list. Uses a generator to return the first item
         or defaults to None if the target isn't found.
 
         Args:
             objects: list of object dictionaries
-            target_id: str ID of the mcs_object to find
+            target_id: str objectId of the object to find
 
         Returns:
             target: object dictionary if found or None
