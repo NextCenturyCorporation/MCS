@@ -364,8 +364,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         rgb = object_id_to_color[object_metadata['objectId']] if object_metadata['objectId'] in object_id_to_color \
                 else [None, None, None]
 
-        #if object_metadata['objectBounds'] is None:
-        #    print(f"No bounds for {object_metadata['objectId']}")
+        bounds = object_metadata.get('objectBounds', None)
+        if bounds is None:
+            print(f"No bounds for {object_metadata['objectId']}")
 
         return MCS_Object(
             uuid=object_metadata['objectId'],
