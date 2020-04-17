@@ -216,12 +216,17 @@ class Goal(ABC):
             # I'm assuming a positive angle is a clockwise rotation- so this should work
             #I think
         delta_t = current_heading-theta
+        if delta_t > 180:
+            delta_t -=360
+        elif delta_t < -180:
+            delta_t += 180
+            
         current_heading = theta
         if (delta_t != 0 ):
             action = {
                 'action': 'RotateLook',
                 'params': {
-                    'rotation': delta_t,
+                    'rotation': round(delta_t,0),
                     'horizon': 0.0
                     }
                 }
@@ -236,7 +241,7 @@ class Goal(ABC):
         actions.append({
                 "action": "MoveAhead",
                 "params": {
-                    "amount": frac
+                    "amount": round(frac,POSITION_DIGITS)
                     }
             })
         return actions
@@ -437,12 +442,33 @@ class TransferralGoal(Goal):
         return goal
     
     def find_answer(self, goal_objects, all_objects):
+        #Goal should be a singleton... I hope
         performer = (self._performer_start['position']['x'],self._performer_start['position']['z'])
         goal = (goal_objects[0]['shows'][0]['position']['x'],goal_objects[0]['shows'][0]['position']['z'])
         hole_rects=[]
         hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if object['id'] != goal_objects[0]['id'])
         path = generatepath(performer, goal, hole_rects)
-        return path
+        
+  
+        actions = []
+        current_heading = self._performer_start['rotation']['y']
+        for indx in range(len(path)-1):
+            actions.append(self.parse_path_section(path[indx:indx+2], current_heading))
+
+        actions.append({
+            'action': 'PickupObject',
+            'params': {
+                'objectId': goal_objects[0]['id']
+                }
+            })
+        target = (goal_objects[1]['shows'][0]['position']['x'],goal_objects[1]['shows'][0]['position']['z'])
+        hole_rects=[]
+        hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if  ( object['id'] != goal_objects[0]['id'] and object['id'] != goal_objects[1]['id']))
+        path  = generatepath(goal,target, hole_rects)
+        for indx in range(len(path)-1):
+            actions.append(self.parse_path_section(path[indx:indx+2], current_heading))
+  
+        return actions
 
 class TraversalGoal(Goal):
     """Locating and navigating to a specified object."""
@@ -492,12 +518,21 @@ class TraversalGoal(Goal):
         goal['description'] = f'Locate the {" ".join(target["info"])} and move near it.'
         return goal
     def find_answer(self, goal_objects, all_objects):
+        #Goal should be a singleton... I hope
         performer = (self._performer_start['position']['x'],self._performer_start['position']['z'])
         goal = (goal_objects[0]['shows'][0]['position']['x'],goal_objects[0]['shows'][0]['position']['z'])
         hole_rects=[]
         hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if object['id'] != goal_objects[0]['id'])
         path = generatepath(performer, goal, hole_rects)
-        return path
+        
+  
+        actions = []
+        current_heading = self._performer_start['rotation']['y']
+        for indx in range(len(path)-1):
+            actions.append(self.parse_path_section(path[indx:indx+2], current_heading))
+
+       
+        return actions
 
 GOAL_TYPES = {
     'interaction': [RetrievalGoal, TransferralGoal, TraversalGoal]
