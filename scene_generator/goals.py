@@ -11,6 +11,7 @@ from enum import Enum
 
 import geometry
 import materials
+import objects
 from geometry import random_position, random_rotation, calc_obj_pos, POSITION_DIGITS
 from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJECTS_PICKUPABLE_LISTS
 from separating_axis_theorem import sat_entry
@@ -24,8 +25,8 @@ MIN_WALL_WIDTH = 1
 WALL_Y_POS = 1.25
 WALL_HEIGHT = 2.5
 WALL_DEPTH = 0.1
-WALL_COUNTS = [0,1,2,3]
-WALL_PROBS = [60,20,10,10]
+WALL_COUNTS = [0, 1, 2, 3]
+WALL_PROBS = [60, 20, 10, 10]
 
 
 def instantiate_object(object_def, object_location):
@@ -36,7 +37,7 @@ def instantiate_object(object_def, object_location):
 
     # apply choice if necessary
     if 'choose' in object_def:
-        object_def = copy.deepcopy(object_def)
+        object_def = object_def.copy()
         choice = random.choice(object_def['choose'])
         for key in choice:
             object_def[key] = choice[key]
@@ -47,6 +48,11 @@ def instantiate_object(object_def, object_location):
         'info': object_def['info'],
         'mass': object_def['mass']
     }
+    if 'dimensions' in object_def:
+        new_object['dimensions'] = object_def['dimensions']
+    else:
+        logging.warning(f'object type "{object_def["type"]}" has no dimensions')
+
     for attribute in object_def['attributes']:
         new_object[attribute] = True
 
@@ -60,7 +66,8 @@ def instantiate_object(object_def, object_location):
     object_location['scale'] = object_def['scale']
     colors = set()
     if 'materialCategory' in object_def:
-        materials_list = [random.choice(getattr(materials, name.upper() + '_MATERIALS')) for name in object_def['materialCategory']]
+        materials_list = [random.choice(getattr(materials, name.upper() + '_MATERIALS')) for name in
+                          object_def['materialCategory']]
         new_object['materials'] = [mat[0] for mat in materials_list]
         for material in materials_list:
             for color in material[1]:
@@ -88,6 +95,28 @@ def instantiate_object(object_def, object_location):
     new_object['info'] = info
 
     return new_object
+
+
+def move_to_container(target, all_objects, bounding_rects, performer_position):
+    """Try to find a random container that target will fit in. If found, put it in the container, remove it from all
+    _objects, and add container to all_objects (and bounding_rects). Return True iff the target was put in a
+    container."""
+    shuffled_containers = objects.get_enclosed_containers().copy()
+    random.shuffle(shuffled_containers)
+    for container_def in shuffled_containers:
+        area_index = geometry.can_contain(container_def, target)
+        if area_index is not None:
+            # try to place the container before we accept it
+            container_location = geometry.calc_obj_pos(performer_position, bounding_rects, container_def)
+            if container_location is not None:
+                found_container = instantiate_object(container_def, container_location)
+                found_area = container_def['enclosed_areas'][area_index]
+                all_objects.append(found_container)
+                target['locationParent'] = found_container['id']
+                target['shows'][0]['position'] = found_area['position'].copy()
+                target['shows'][0]['rotation'] = geometry.ORIGIN.copy()
+                return True
+    return False
 
 
 def generate_wall(wall_mat_choice, performer_position, other_rects):
@@ -191,7 +220,6 @@ class Goal(ABC):
                 obj = instantiate_object(object_def, obj_location)
                 object_list.append(obj)
 
-
     @abstractmethod
     def get_config(self, goal_objects):
         """Get the goal configuration. goal_objects is the objects required for the goal (as returned from
@@ -238,7 +266,60 @@ class EmptyGoal(Goal):
         return ''
 
 
-class RetrievalGoal(Goal):
+class InteractionGoal(Goal, ABC):
+    TARGET_CONTAINED_CHANCE = 0.25
+    """Chance that the target will be in a container"""
+    OBJECT_CONTAINED_CHANCE = 0.5
+    """Chance that, if the target is in a container, a non-target pickupable object in the scene will be, too."""
+
+    def __init__(self):
+        super(InteractionGoal, self).__init__()
+        self._bounding_rects = []
+
+    def _set_performer_start(self):
+        self._performer_start = self.compute_performer_start()
+
+    def _set_target_def(self):
+        """Chooses a pickupable object since most interaction goals require that."""
+        pickupable_defs = random.choice(OBJECTS_PICKUPABLE_LISTS)
+        self._target_def = random.choice(pickupable_defs)
+
+    def _set_target_location(self):
+        performer_position = self._performer_start['position']
+        self._target_location = calc_obj_pos(performer_position, self._bounding_rects, self._target_def)
+        if self._target_location is None:
+            raise GoalException(f'could not place target object (type={self._target_def["type"]})')
+
+    def _set_goal_objects(self):
+        """Set all objects required for the goal other than the target, if any. May update _bounding_rects."""
+        self._goal_objects = []
+
+    def add_objects(self, all_objects, bounding_rects, performer_position):
+        """Maybe add a container and put the target inside it. If so, maybe put other objects in other objects, too."""
+        if random.random() <= self.TARGET_CONTAINED_CHANCE:
+            if move_to_container(self._target, all_objects, bounding_rects, performer_position):
+                # maybe do it with other objects, too
+                super(InteractionGoal, self).add_objects(all_objects, bounding_rects, performer_position)
+                for obj in all_objects:
+                    if obj != self._target and obj.get('pickupable', False) \
+                            and random.random() <= self.OBJECT_CONTAINED_CHANCE:
+                        move_to_container(obj, all_objects, bounding_rects, performer_position)
+
+    def compute_objects(self):
+        self._set_performer_start()
+        self._set_target_def()
+        self._set_target_location()
+        self._target = instantiate_object(self._target_def, self._target_location)
+        self._set_goal_objects()
+        
+        all_objects = [self._target] + self._goal_objects
+        all_goal_objects = all_objects.copy()
+        self.add_objects(all_objects, self._bounding_rects, self._performer_start['position'])
+
+        return all_goal_objects, all_objects, self._bounding_rects
+        
+    
+class RetrievalGoal(InteractionGoal):
     """Going to a specified object and picking it up."""
 
     TEMPLATE = {
@@ -250,24 +331,6 @@ class RetrievalGoal(Goal):
 
     def __init__(self):
         super(RetrievalGoal, self).__init__()
-
-    def compute_objects(self):
-        # add objects we need for the goal
-        pickupable_defs = random.choice(OBJECTS_PICKUPABLE_LISTS)
-        target_def = random.choice(pickupable_defs)
-        performer_start = self.compute_performer_start()
-        performer_position = performer_start['position']
-        bounding_rects = []
-        target_location = calc_obj_pos(performer_position, bounding_rects, target_def)
-        if target_location is None:
-            raise GoalException('could not place target object')
-
-        target = instantiate_object(target_def, target_location)
-
-        all_objects = [target]
-        self.add_objects(all_objects, bounding_rects, performer_position)
-
-        return [target], all_objects, bounding_rects
 
     def get_config(self, objects):
         if len(objects) < 1:
@@ -288,7 +351,7 @@ class RetrievalGoal(Goal):
         return goal
 
 
-class TransferralGoal(Goal):
+class TransferralGoal(InteractionGoal):
     """Moving a specified object to another specified object."""
 
     class RelationshipType(Enum):
@@ -305,25 +368,11 @@ class TransferralGoal(Goal):
     def __init__(self):
         super(TransferralGoal, self).__init__()
 
-    def compute_objects(self):
-        performer_start = self.compute_performer_start()
-        performer_position = performer_start['position']
-        bounding_rects = []
-
-        pickupable_defs = random.choice(OBJECTS_PICKUPABLE_LISTS)
-        target1_def = random.choice(pickupable_defs)
-        target1_location = calc_obj_pos(performer_position, bounding_rects, target1_def)
-        target1 = instantiate_object(target1_def, target1_location)
-
+    def _set_goal_objects(self):
         target2_def = self.choose_object_def()
-        target2_location = calc_obj_pos(performer_position, bounding_rects, target2_def)
+        target2_location = calc_obj_pos(self._performer_start['position'], self._bounding_rects, target2_def)
         target2 = instantiate_object(target2_def, target2_location)
-
-        goal_objects = [target1, target2]
-        all_objects = goal_objects.copy()
-        self.add_objects(all_objects, bounding_rects, performer_position)
-
-        return goal_objects, all_objects, bounding_rects
+        self._goal_objects = [target2]
 
     def get_config(self, objects):
         if len(objects) < 2:
@@ -350,7 +399,7 @@ class TransferralGoal(Goal):
             'relationship': ['target_1', relationship.value, 'target_2']
         }
         goal['description'] = f'Find and pick up the {target1["info"][-1]} and move it {relationship.value} ' \
-                f'the {target2["info"][-1]}.'
+            f'the {target2["info"][-1]}.'
         return goal
 
 
