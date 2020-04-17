@@ -1,7 +1,6 @@
 from goals import *
 import pytest
 import uuid
-from images import OBJECT_IMAGES
 
 
 def test_instantiate_object():
