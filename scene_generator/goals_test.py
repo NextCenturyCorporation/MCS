@@ -1,6 +1,7 @@
 from goals import *
 import pytest
 import uuid
+from images import OBJECT_IMAGES
 
 
 def test_instantiate_object():
@@ -187,11 +188,25 @@ def test_instantiate_object_choose():
     assert obj['salientMaterials'] == salient_materials
 
 
+def test_move_to_container():
+    # find a tiny object so we know it will fit in *something*
+    for obj_def in objects.OBJECTS_PICKUPABLE:
+        if 'tiny' in obj_def['info']:
+            obj = instantiate_object(obj_def, geometry.ORIGIN_LOCATION)
+            all_objects = [obj]
+            move_to_container(obj, all_objects, [], geometry.ORIGIN)
+            container_id = all_objects[1]['id']
+            assert obj['locationParent'] == container_id
+            return
+    assert False, 'could not find a tiny object'
+
+
 def test_RetrievalGoal_get_goal():
     goal_obj = RetrievalGoal()
     obj = {
         'id': str(uuid.uuid4()),
         'info': [str(uuid.uuid4())],
+        'type': 'sphere'
     }
     object_list = [obj]
     goal = goal_obj.get_config(object_list)
@@ -206,6 +221,7 @@ def test_TraversalGoal_get_goal():
     obj = {
         'id': str(uuid.uuid4()),
         'info': [str(uuid.uuid4())],
+        'type': 'sphere'
     }
     object_list = [obj]
     goal = goal_obj.get_config(object_list)
@@ -235,14 +251,16 @@ def test__generate_transferral_goal():
     pickupable_obj = {
         'id': pickupable_id,
         'info': [pickupable_info_item, extra_info],
-        'pickupable': True
+        'pickupable': True,
+        'type': 'sphere'
     }
     other_id = str(uuid.uuid4())
     other_info_item = str(uuid.uuid4())
     other_obj = {
         'id': other_id,
         'info': [other_info_item, extra_info],
-        'attributes': []
+        'attributes': [],
+        'type': 'changing_table'
     }
     goal = goal_obj.get_config([pickupable_obj, other_obj])
 

@@ -10,7 +10,11 @@ import copy
 import random
 
 from materials import *
+from pretty_json.pretty_json import PrettyJsonEncoder, PrettyJsonNoIndent
 import goals
+
+# no public way to find this, apparently :(
+LOG_LEVELS = logging._nameToLevel.keys()
 
 OUTPUT_TEMPLATE_JSON = """
 {
@@ -51,16 +55,34 @@ def generate_file(name, goal_type):
     body = copy.deepcopy(OUTPUT_TEMPLATE)
     body['name'] = os.path.basename(name)
     ceil_wall_mat_choice = random.choice(CEILING_AND_WALL_MATERIALS)
-    body['ceilingMaterial'] = ceil_wall_mat_choice
-    body['wallMaterial'] = ceil_wall_mat_choice
-    body['floorMaterial'] = random.choice(FLOOR_MATERIALS)
+    body['ceilingMaterial'] = ceil_wall_mat_choice[0]
+    body['wallMaterial'] = ceil_wall_mat_choice[0]
+    body['floorMaterial'] = random.choice(FLOOR_MATERIALS)[0]
 
     goal_obj = goals.choose_goal(goal_type)
     goal_obj.update_body(body)
 
-    with open(name, 'w') as out:
-        json.dump(body, out, indent=2)
+    # Use PrettyJsonNoIndent on some of the lists and dicts in the output body because the indentation from the normal
+    # Python JSON module spaces them out far too much.
+    if 'goal' in body:
+        wrap_with_json_no_indent(body['goal'], ['domain_list', 'type_list', 'task_list', 'info_list'])
+        if 'metadata' in body['goal']:
+            for target in ['target', 'target_1', 'target_2']:
+                if target in body['goal']['metadata']:
+                    wrap_with_json_no_indent(body['goal']['metadata'][target], ['info', 'image'])
 
+    if 'objects' in body:
+        for object_config in body['objects']:
+            wrap_with_json_no_indent(object_config, ['info', 'materials', 'salientMaterials'])
+
+    with open(name, 'w') as out:
+        # PrettyJsonEncoder doesn't work with json.dump so use json.dumps here instead.
+        out.write(json.dumps(body, cls=PrettyJsonEncoder, indent=2))
+
+def wrap_with_json_no_indent(data, prop_list):
+    for prop in prop_list:
+        if prop in data:
+            data[prop] = PrettyJsonNoIndent(data[prop])
 
 def generate_fileset(prefix, count, goal_type, stop_on_error):
     # skip existing files
@@ -95,9 +117,14 @@ def main(argv):
     parser.add_argument('--stop-on-error', default=False, action='store_true',
                         help='Stop immediately if there is an error generating a file [default is print a warning but '
                              'do not stop]')
+    parser.add_argument('--loglevel', choices=LOG_LEVELS, help='set logging level')
 
     args = parser.parse_args(argv[1:])
     random.seed(args.seed)
+
+    if args.loglevel:
+        logging.getLogger().setLevel(args.loglevel)
+
     generate_fileset(args.prefix, args.count, args.goal, args.stop_on_error)
 
 

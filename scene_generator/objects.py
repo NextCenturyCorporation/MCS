@@ -1,4 +1,5 @@
 import copy
+import logging
 import uuid
 
 OBJECTS_PICKUPABLE_BALLS = [{
@@ -1280,6 +1281,7 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "crib",
     "info": ["huge", "brown", "crib"],
+    "materialCategory": ["wood"],
     "mass": 25,
     "attributes": [],
     "dimensions": {
@@ -1902,7 +1904,32 @@ def create_occluder(wall_material, pole_material, x_position, x_scale, sideways=
             occluder[POLE]['shows'][0]['position']['x'] = 3 + x_position + x_scale / 2
         else:
             occluder[POLE]['shows'][0]['position']['x'] = -3 + x_position - x_scale / 2
-#    elif x_position > 0:
-#        occluder[WALL]['shows'][0]['rotation']['y'] *= -1
+    elif x_position > 0:
+        for rot in occluder[WALL]['rotates']:
+            rot['vector']['y'] *= -1
 
     return occluder
+
+
+_ALL_OBJECTS = None
+
+
+def get_all_object_defs():
+    global _ALL_OBJECTS
+    if _ALL_OBJECTS is None:
+        lists = [k for k in globals().keys() if k.startswith('OBJECTS_')]
+        _ALL_OBJECTS = [item for def_list in lists for item in globals()[def_list]]
+    return _ALL_OBJECTS
+
+
+_ENCLOSED_CONTAINERS = None
+
+
+def get_enclosed_containers():
+    """Return all object definitions that have 'enclosed_areas' whose value is a non-empty list."""
+    global _ENCLOSED_CONTAINERS
+    if _ENCLOSED_CONTAINERS is None:
+        all_defs = get_all_object_defs()
+        _ENCLOSED_CONTAINERS = [obj_def for obj_def in all_defs if 'enclosed_areas' in obj_def and len(obj_def['enclosed_areas']) > 0]
+    return _ENCLOSED_CONTAINERS
+

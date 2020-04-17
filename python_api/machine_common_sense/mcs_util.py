@@ -1,5 +1,5 @@
-from machine_common_sense.mcs_action import MCS_Action
-from machine_common_sense.mcs_material import MCS_Material
+from .mcs_action import MCS_Action
+from .mcs_material import MCS_Material
 
 class MCS_Util:
     """

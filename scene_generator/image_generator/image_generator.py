@@ -3,14 +3,17 @@
 import itertools
 import json
 import numpy
+import os
 import sys
 
 from machine_common_sense.mcs import MCS
 from PIL import Image, ImageOps
 
 import materials
-from pretty_json import MyEncoder, NoIndent
 import simplified_objects
+
+sys.path.insert(1, '../pretty_json')
+from pretty_json import PrettyJsonEncoder, PrettyJsonNoIndent
 
 def generate_materials_lists(materials_options):
     materials_lists = []
@@ -26,6 +29,10 @@ def generate_materials_lists(materials_options):
             materials_lists_specific_category = [[item] for item in materials_lists_specific_category[0]]
         materials_lists = materials_lists + materials_lists_specific_category
     return materials_lists
+
+def generate_output_file_name(object_type, material_list):
+    material_name_list = [item[(item.rfind('/') + 1):].lower().replace(' ', '_') for item in material_list]
+    return object_type + ('_' if len(material_name_list) > 0 else '') + ('_'.join(material_name_list))
 
 def generate_scene_configuration(object_definition, material_list): 
     scene_configuration = {
@@ -55,85 +62,52 @@ def generate_scene_configuration_list(object_list):
         for material_list in materials_lists:
             scene_configuration_data = generate_scene_configuration(object_definition, material_list)
             scene_configuration_list.append(scene_configuration_data)
-            #save_json_file(object_definition['type'], 
     return scene_configuration_list
 
 def get_global_material_list(material):
     return getattr(materials, material.upper() + '_MATERIALS')
 
-def save_json_file(object_type, material_list, json_data): 
-    material_string_list = [item[(item.rfind('/') + 1):].lower() for item in material_list]
-    with open(object_type + '_' + ('_'.join(material_string_list)) + '.json', 'w') as json_file:
-        json.dump(json_data, json_file, indent=4)
-
-def stow_image_pixel_list(output_data, scene_configuration, object_screenshot):
-    object_config = scene_configuration['objects'][0]
-    object_type = object_config['type']
-    material_list = object_config['materials'] if 'materials' in object_config else []
-
-    print('type = ' + object_type + ', materials = ' + json.dumps(material_list))
-
-    material_name_list = [item[(item.rfind('/') + 1):].lower().replace(' ', '_') for item in material_list]
-    screenshot_name = object_type + ('_' if len(material_name_list) > 0 else '') + ('_'.join(material_name_list))
-    object_screenshot.save(fp=screenshot_name + '.png')
-
-    if object_type not in output_data:
-        output_data[object_type] = {}
-
-    output_nested = output_data[object_type]
-
+def retrieve_image_pixel_list(object_screenshot):
     # Retrieve a two-dimensional list of pixel tuples from the Pillow Image
     pixels = list(object_screenshot.getdata())
     width, height = object_screenshot.size
-    pixels = [pixels[i * width:(i + 1) * width] for i in range(0, height)]
-
-    if len(material_list) == 0:
-        output_data[object_type] = pixels
-    else:
-        for i in range(0, len(material_list)):
-            if material_list[i] not in output_nested:
-                output_nested[material_list[i]] = {}
-            if i == len(material_list) - 1:
-                output_nested[material_list[i]] = pixels
-            output_nested = output_nested[material_list[i]]
-
-    return output_data
-
-def save_output_data(output_data):
-    pretty_output_data = wrap_with_noindent(output_data)
-
-    with open('images.py', 'w') as output_file:
-        output_file.write('OBJECT_IMAGES = ' + json.dumps(pretty_output_data, cls=MyEncoder, sort_keys=True, indent=2))
-
-def wrap_with_noindent(nested_data):
-    for prop in nested_data:
-        if isinstance(nested_data[prop], list):
-            nested_data[prop] = NoIndent(nested_data[prop])
-        elif isinstance(nested_data[prop], dict):
-            nested_data[prop] = wrap_with_noindent(nested_data[prop])
-    return nested_data
+    return [pixels[i * width:(i + 1) * width] for i in range(0, height)]
 
 def main(args):
     if len(args) < 2:
-        print('Usage: python image_generator.py <unity_app_file_path>')
+        print('Usage: python image_generator.py <unity_app_file_path> <output_folder=../images/>')
         exit()
 
     controller = MCS.create_controller(args[1])
 
-    output_data = {}
-
     scene_configuration_list = generate_scene_configuration_list(simplified_objects.OBJECT_LIST)
 
+    output_folder = (args[2] if len(args) > 2 else '../images') + '/'
+
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
     for scene_configuration in scene_configuration_list:
+        object_config = scene_configuration['objects'][0]
+        object_type = object_config['type']
+        material_list = object_config['materials'] if 'materials' in object_config else []
+
+        print('type = ' + object_type + ', materials = ' + json.dumps(material_list))
+
         step_output = controller.start_scene(scene_configuration)
         object_screenshot = step_output.image_list[0]
 
+        # Shrink and crop the object's screenshot to reduce its size.
         object_screenshot = object_screenshot.resize((300, 200))
         object_screenshot = object_screenshot.crop(ImageOps.invert(object_screenshot).getbbox())
 
-        output_data = stow_image_pixel_list(output_data, scene_configuration, object_screenshot)
+        output_file_name = output_folder + generate_output_file_name(object_type, material_list)
+        object_screenshot.save(fp=output_file_name + '.png')
 
-    save_output_data(output_data)
+        pixels = retrieve_image_pixel_list(object_screenshot)
+
+        with open(output_file_name + '.txt', 'w') as output_text_file:
+            output_text_file.write(json.dumps(PrettyJsonNoIndent(pixels), cls=PrettyJsonEncoder))
 
 if __name__ == '__main__':
     main(sys.argv)
