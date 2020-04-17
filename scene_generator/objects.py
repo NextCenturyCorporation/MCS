@@ -1,3 +1,6 @@
+import copy
+import uuid
+
 OBJECTS_PICKUPABLE_BALLS = [{
     "type": "sphere",
     "info": ["tiny", "ball"],
@@ -1634,3 +1637,272 @@ OBJECTS_IMMOBILE = [{
         "z": 1
     }
 }]
+
+OCCLUDER_INSTANCE_NORMAL = [{
+    "id": "occluder_wall_uuid",
+    "type": "cube",
+    "kinematic": True,
+    "structure": True,
+    "mass": 100,
+    "material": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "shows": [{
+        "stepBegin": 0,
+        "position": {
+            "x": 0,
+            "y": 0.625,
+            "z": 1
+        },
+        "scale": {
+            "x": 1,
+            "y": 1.25,
+            "z": 0.1
+        }
+    }],
+    "moves": [{
+        "stepBegin": 1,
+        "stepEnd": 6,
+        "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 7,
+        "stepEnd": 12,
+        "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 35,
+        "stepEnd": 40,
+        "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+        }
+    }],
+    "rotates": [{
+        "stepBegin": 1,
+        "stepEnd": 2,
+        "vector": {
+            "x": 0,
+            "y": 45,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 11,
+        "stepEnd": 12,
+        "vector": {
+            "x": 0,
+            "y": -45,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 35,
+        "stepEnd": 36,
+        "vector": {
+            "x": 0,
+            "y": 45,
+            "z": 0
+        }
+    }]
+}, {
+    "id": "occluder_pole_uuid",
+    "type": "cylinder",
+    "kinematic": True,
+    "structure": True,
+    "mass": 100,
+    "material": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "shows": [{
+        "stepBegin": 0,
+        "position": {
+            "x": 0,
+            "y": 2.25,
+            "z": 1
+        },
+        "scale": {
+            "x": 0.1,
+            "y": 1,
+            "z": 0.1
+        }
+    }],
+    "moves": [{
+        "stepBegin": 1,
+        "stepEnd": 6,
+        "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 7,
+        "stepEnd": 12,
+        "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 35,
+        "stepEnd": 40,
+        "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+        }
+    }]
+}]
+
+OCCLUDER_INSTANCE_SIDEWAYS = [{
+    "id": "occluder_wall_uuid",
+    "type": "cube",
+    "kinematic": True,
+    "structure": True,
+    "mass": 100,
+    "material": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "shows": [{
+        "stepBegin": 0,
+        "position": {
+            "x": 0,
+            "y": 0.625,
+            "z": 1
+        },
+        "scale": {
+            "x": 1,
+            "y": 1.25,
+            "z": 0.1
+        }
+    }],
+    "moves": [{
+        "stepBegin": 1,
+        "stepEnd": 4,
+        "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 9,
+        "stepEnd": 12,
+        "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 25,
+        "stepEnd": 28,
+        "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+        }
+    }],
+    "rotates": [{
+        "stepBegin": 5,
+        "stepEnd": 6,
+        "vector": {
+            "x": 45,
+            "y": 0,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 7,
+        "stepEnd": 8,
+        "vector": {
+            "x": -45,
+            "y": 0,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 29,
+        "stepEnd": 30,
+        "vector": {
+            "x": 45,
+            "y": 0,
+            "z": 0
+        }
+    }]
+}, {
+    "id": "occluder_pole_uuid",
+    "type": "cylinder",
+    "kinematic": True,
+    "structure": True,
+    "mass": 100,
+    "material": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "shows": [{
+        "stepBegin": 0,
+        "position": {
+            "x": 0,
+            "y": 0.75,
+            "z": 1
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 90
+        },
+        "scale": {
+            "x": 0.1,
+            "y": 3,
+            "z": 0.1
+        }
+    }],
+    "moves": [{
+        "stepBegin": 1,
+        "stepEnd": 4,
+        "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 9,
+        "stepEnd": 12,
+        "vector": {
+            "x": -0.25,
+            "y": 0,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 25,
+        "stepEnd": 28,
+        "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+        }
+    }]
+}]
+
+def create_occluder(wall_material, pole_material, x_position, x_scale, sideways=False):
+    if sideways:
+        occluder = copy.deepcopy(OCCLUDER_INSTANCE_SIDEWAYS)
+    else:
+        occluder = copy.deepcopy(OCCLUDER_INSTANCE_NORMAL)
+
+    WALL = 0
+    POLE = 1
+
+    occluder[WALL]['id'] = str(uuid.uuid4())
+    occluder[POLE]['id'] = str(uuid.uuid4())
+
+    occluder[WALL]['material'] = wall_material
+    occluder[POLE]['material'] = pole_material
+
+    occluder[WALL]['shows'][0]['position']['x'] = x_position
+    occluder[POLE]['shows'][0]['position']['x'] = x_position
+
+    occluder[WALL]['shows'][0]['scale']['x'] = x_position
+
+    if sideways:
+        if x_position > 0:
+            occluder[POLE]['shows'][0]['position']['x'] = 3 + x_position + x_scale / 2
+        else:
+            occluder[POLE]['shows'][0]['position']['x'] = -3 + x_position - x_scale / 2
+#    elif x_position > 0:
+#        occluder[WALL]['shows'][0]['rotation']['y'] *= -1
+
+    return occluder
