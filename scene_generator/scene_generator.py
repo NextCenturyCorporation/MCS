@@ -15,6 +15,10 @@ from materials import *
 import goals
 
 
+# no public way to find this, apparently :(
+LOG_LEVELS = logging._nameToLevel.keys()
+
+
 OUTPUT_TEMPLATE_JSON = """
 {
   "name": "",
@@ -100,9 +104,14 @@ def main(argv):
     parser.add_argument('--stop-on-error', default=False, action='store_true',
                         help='Stop immediately if there is an error generating a file [default is print a warning but '
                              'do not stop]')
+    parser.add_argument('--loglevel', choices=LOG_LEVELS, help='set logging level')
 
     args = parser.parse_args(argv[1:])
     random.seed(args.seed)
+
+    if args.loglevel:
+        logging.getLogger().setLevel(args.loglevel)
+
     generate_fileset(args.prefix, args.count, args.goal, args.stop_on_error)
 
 
