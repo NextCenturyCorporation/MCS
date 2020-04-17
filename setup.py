@@ -18,7 +18,7 @@ setuptools.setup(
         'Operating System :: OS Independent',
     ],
     license='Apache-2',
-    install_requires=['sympy'],
+    install_requires=['sympy', 'ai2thor', 'pillow'],
     package_dir={'':'python_api'},
     packages=setuptools.find_packages('python_api'),
     entry_points={
