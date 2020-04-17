@@ -18,7 +18,7 @@ setuptools.setup(
         'Operating System :: OS Independent',
     ],
     license='Apache-2',
-    install_requires=['sympy', 'ai2thor'],
+    install_requires=['sympy', 'ai2thor==2.2.0'],
     dependency_links = [
      "http://https://github.com/NextCenturyCorporation/ai2thor/tarball/master#egg=ai2thor-2.2.0",
     ],    
