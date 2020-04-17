@@ -28,20 +28,20 @@ class MCS_Goal:
     def __init__(
         self,
         action_list=None,
-        info_list=[],
+        info_list=None,
         last_preview_phase_step=0,
         last_step=None,
-        task_list=[],
-        type_list=[],
-        metadata={}
+        task_list=None,
+        type_list=None,
+        metadata=None
     ):
         self.action_list = action_list
-        self.info_list = info_list
+        self.info_list = [] if info_list is None else info_list
         self.last_preview_phase_step = last_preview_phase_step
         self.last_step = last_step
-        self.task_list = task_list
-        self.type_list = type_list
-        self.metadata = metadata
+        self.task_list = [] if task_list is None else task_list
+        self.type_list = [] if type_list is None else type_list
+        self.metadata = {} if metadata is None else metadata
 
     def __str__(self):
         return MCS_Util.class_to_str(self)
