@@ -18,8 +18,9 @@ setuptools.setup(
         'Operating System :: OS Independent',
     ],
     license='Apache-2',
+    install_requires=['sympy'],
     package_dir={'':'python_api'},
-    packages=setuptools.find_packages(['python_api', 'sympy']),
+    packages=setuptools.find_packages('python_api'),
     entry_points={
         'console_scripts':[
             'mcs_run_in_human_input_mode=machine_common_sense.run_mcs_human_input:main'
