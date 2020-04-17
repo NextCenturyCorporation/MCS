@@ -261,11 +261,18 @@ For our training and evaluation datasets, we normally use the materials under "W
 
 The following materials are currently available:
 
+### Blocks
+
+- `"UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/blue_1x1"`
+- `"UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/red_1x1"`
+- `"UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/wood_1x1"`
+- `"UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/yellow_1x1"`
+
 ### Ceramics
 
+- `"AI2-THOR/Materials/Ceramics/BrownMarbleFake 1"`
 - `"AI2-THOR/Materials/Ceramics/ConcreteBoards1"`
 - `"AI2-THOR/Materials/Ceramics/GREYGRANITE"`
-- `"AI2-THOR/Materials/Ceramics/KitchenFloor"`
 - `"AI2-THOR/Materials/Ceramics/RedBrick"`
 - `"AI2-THOR/Materials/Ceramics/TexturesCom_BrickRound0044_1_seamless_S"` (rough stone)
 - `"AI2-THOR/Materials/Ceramics/WhiteCountertop"`
@@ -281,17 +288,28 @@ The following materials are currently available:
 
 ### Metals
 
+- `"AI2-THOR/Materials/Metals/BlackSmoothMeta"` (yes, it is misspelled)
 - `"AI2-THOR/Materials/Metals/Brass 1"`
 - `"AI2-THOR/Materials/Metals/BrownMetal 1"`
+- `"AI2-THOR/Materials/Metals/BrushedIron_AlbedoTransparency"`
 - `"AI2-THOR/Materials/Metals/GenericStainlessSteel"`
 - `"AI2-THOR/Materials/Metals/Metal"`
+- `"AI2-THOR/Materials/Metals/WhiteMetal"`
+- `"UnityAssetStore/Baby_Room/Models/Materials/cabinet metal"`
 
 ### Plastics
 
-- `"AI2-THOR/Materials/Plastics/BlueRubber"`
-- `"AI2-THOR/Materials/Plastics/GreenPlastic"`
+- `"AI2-THOR/Materials/Plastics/BlackPlastic"`
 - `"AI2-THOR/Materials/Plastics/OrangePlastic"`
-- `"AI2-THOR/Materials/Plastics/YellowPlastic2"`
+- `"AI2-THOR/Materials/Plastics/WhitePlastic"`
+- `"UnityAssetStore/Kindergarten_Interior/Models/Materials/color 1"` (flat blue)
+- `"UnityAssetStore/Kindergarten_Interior/Models/Materials/color 2"` (flat red)
+- `"UnityAssetStore/Kindergarten_Interior/Models/Materials/color 4"` (flat yellow)
+
+### Rubbers
+
+- `"AI2-THOR/Materials/Plastics/BlueRubber"`
+- `"AI2-THOR/Materials/Plastics/LightBlueRubber"`
 
 ### Walls
 
@@ -307,9 +325,25 @@ The following materials are currently available:
 ### Woods
 
 - `"AI2-THOR/Materials/Wood/BedroomFloor1"`
+- `"AI2-THOR/Materials/Wood/DarkWoodSmooth2"`
 - `"AI2-THOR/Materials/Wood/LightWoodCounters 1"`
 - `"AI2-THOR/Materials/Wood/LightWoodCounters4"`
 - `"AI2-THOR/Materials/Wood/TexturesCom_WoodFine0050_1_seamless_S"`
+- `"AI2-THOR/Materials/Wood/WhiteWood"`
 - `"AI2-THOR/Materials/Wood/WoodFloorsCross"`
 - `"AI2-THOR/Materials/Wood/WoodGrain_Brown"`
+- `"AI2-THOR/Materials/Wood/WornWood"`
+- `"UnityAssetStore/Baby_Room/Models/Materials/wood 1"`
+- `"UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 1"` (blue)
+- `"UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 2"` (red)
+- `"UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 4"` (yellow)
+
+The following materials are available for the letter and number block objects:
+
+- `"UnityAssetStore/KD_NumberBlocks/Assets/Textures/Yellow/TOYBlocks_NumberBlock_1_Yellow_1K/NumberBlockYellow_1"`
+- `"UnityAssetStore/KD_NumberBlocks/Assets/Textures/Yellow/TOYBlocks_NumberBlock_2_Yellow_1K/NumberBlockYellow_2"`
+- `"UnityAssetStore/KD_NumberBlocks/Assets/Textures/Yellow/TOYBlocks_NumberBlock_3_Yellow_1K/NumberBlockYellow_3"`
+- `"UnityAssetStore/KD_AlphabetBlocks/Assets/Textures/Blue/TOYBlocks_AlphabetBlock_C_Blue_1K/ToyBlockBlueC"`
+- `"UnityAssetStore/KD_AlphabetBlocks/Assets/Textures/Blue/TOYBlocks_AlphabetBlock_M_Blue_1K/ToyBlockBlueM"`
+- `"UnityAssetStore/KD_AlphabetBlocks/Assets/Textures/Blue/TOYBlocks_AlphabetBlock_S_Blue_1K/ToyBlockBlueS"`
 
