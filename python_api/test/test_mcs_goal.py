@@ -28,7 +28,7 @@ class Test_Default_MCS_Goal(unittest.TestCase):
         self.assertIsNone(self.goal.action_list)
 
     def test_info_list(self):
-        self.assertFalse(self.goal.info_list)
+        self.assertEqual(len(self.goal.info_list), 0)
         self.assertIsInstance(self.goal.info_list, list)
 
     def test_last_preview_phase(self):
@@ -39,11 +39,11 @@ class Test_Default_MCS_Goal(unittest.TestCase):
         self.assertIsNone(self.goal.last_step)
         
     def test_task_list(self):
-        self.assertFalse(self.goal.task_list)
+        self.assertEqual(len(self.goal.task_list), 0)
         self.assertIsInstance(self.goal.task_list, list)
 
     def test_type_list(self):
-        self.assertFalse(self.goal.type_list)
+        self.assertEqual(len(self.goal.type_list), 0)
         self.assertIsInstance(self.goal.type_list, list)
 
     def test_metadata(self):
