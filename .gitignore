@@ -48,4 +48,5 @@ truthing/node_modules
 
 scene_generator/**/images.py
 scene_generator/image_generator/*.tar.gz
+scene_generator/image_generator/**/*.txt
 scene_generator/image_generator/**/*.png

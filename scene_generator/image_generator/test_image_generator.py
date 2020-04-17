@@ -68,6 +68,12 @@ class Test_Image_Generator(unittest.TestCase):
         ]
         self.assertEqual(actual, expected)
 
+    def test_generate_output_file_name(self):
+        self.assertEqual(image_generator.generate_output_file_name('test_type', []), 'test_type')
+        self.assertEqual(image_generator.generate_output_file_name('test_type', ['a']), 'test_type_a')
+        self.assertEqual(image_generator.generate_output_file_name('test_type', ['a', 'b']), 'test_type_a_b')
+        self.assertEqual(image_generator.generate_output_file_name('test_type', ['A']), 'test_type_a')
+
     def test_generate_scene_configuration(self):
         object_definition = {
             'type': 'sphere',
@@ -88,6 +94,7 @@ class Test_Image_Generator(unittest.TestCase):
             'objects': [{
                 'id': 'test_sphere',
                 'type': 'sphere',
+                'kinematic': True,
                 'shows': [{
                     'stepBegin': 0,
                     'position': {
@@ -125,6 +132,7 @@ class Test_Image_Generator(unittest.TestCase):
             'objects': [{
                 'id': 'test_sphere',
                 'type': 'sphere',
+                'kinematic': True,
                 'materials': ['test_material'],
                 'shows': [{
                     'stepBegin': 0,
@@ -181,6 +189,7 @@ class Test_Image_Generator(unittest.TestCase):
             'objects': [{
                 'id': 'test_sphere',
                 'type': 'sphere',
+                'kinematic': True,
                 'materials': ['plastic_1'],
                 'shows': [{
                     'stepBegin': 0,
@@ -201,6 +210,7 @@ class Test_Image_Generator(unittest.TestCase):
             'objects': [{
                 'id': 'test_sphere',
                 'type': 'sphere',
+                'kinematic': True,
                 'materials': ['plastic_2'],
                 'shows': [{
                     'stepBegin': 0,
@@ -221,6 +231,7 @@ class Test_Image_Generator(unittest.TestCase):
             'objects': [{
                 'id': 'test_sphere',
                 'type': 'sphere',
+                'kinematic': True,
                 'materials': ['metal_1'],
                 'shows': [{
                     'stepBegin': 0,
@@ -241,6 +252,7 @@ class Test_Image_Generator(unittest.TestCase):
             'objects': [{
                 'id': 'test_sphere',
                 'type': 'sphere',
+                'kinematic': True,
                 'materials': ['metal_2'],
                 'shows': [{
                     'stepBegin': 0,
@@ -261,6 +273,7 @@ class Test_Image_Generator(unittest.TestCase):
             'objects': [{
                 'id': 'test_sofa',
                 'type': 'sofa',
+                'kinematic': True,
                 'shows': [{
                     'stepBegin': 0,
                     'position': {
@@ -282,79 +295,10 @@ class Test_Image_Generator(unittest.TestCase):
         self.assertEqual(METAL_MATERIALS, image_generator.get_global_material_list('metal'))
         self.assertEqual(PLASTIC_MATERIALS, image_generator.get_global_material_list('plastic'))
 
-    def test_stow_image_pixel_list(self):
-        output_data = {}
-        scene_configuration = {
-            'objects': [{
-                'type': 'sphere',
-                'materials': ['test_material']
-            }]
-        }
+    def test_retrieve_image_pixel_list(self):
         object_screenshot = Image.fromarray(numpy.array([[(1, 2, 3), (4, 5, 6)], [(7, 8, 9), (10, 11, 12)]], \
             dtype=numpy.uint8))
-        actual = image_generator.stow_image_pixel_list(output_data, scene_configuration, object_screenshot)
-        expected = {
-            'sphere': {
-                'test_material': [[(1, 2, 3), (4, 5, 6)], [(7, 8, 9), (10, 11, 12)]]
-            }
-        }
-        self.assertEqual(actual, expected)
-
-    def test_stow_image_pixel_list_existing_material(self):
-        output_data = {
-            'sphere': {
-                'test_material_1': [[(21, 22, 23), (24, 25, 26)], [(27, 28, 29), (30, 31, 32)]]
-            }
-        }
-        scene_configuration = {
-            'objects': [{
-                'type': 'sphere',
-                'materials': ['test_material_2']
-            }]
-        }
-        object_screenshot = Image.fromarray(numpy.array([[(1, 2, 3), (4, 5, 6)], [(7, 8, 9), (10, 11, 12)]], \
-            dtype=numpy.uint8))
-        actual = image_generator.stow_image_pixel_list(output_data, scene_configuration, object_screenshot)
-        expected = {
-            'sphere': {
-                'test_material_1': [[(21, 22, 23), (24, 25, 26)], [(27, 28, 29), (30, 31, 32)]],
-                'test_material_2': [[(1, 2, 3), (4, 5, 6)], [(7, 8, 9), (10, 11, 12)]]
-            }
-        }
-        self.assertEqual(actual, expected)
-
-    def test_stow_image_pixel_list_multiple_material(self):
-        output_data = {}
-        scene_configuration = {
-            'objects': [{
-                'type': 'sphere',
-                'materials': ['test_material_1', 'test_material_2']
-            }]
-        }
-        object_screenshot = Image.fromarray(numpy.array([[(1, 2, 3), (4, 5, 6)], [(7, 8, 9), (10, 11, 12)]], \
-            dtype=numpy.uint8))
-        actual = image_generator.stow_image_pixel_list(output_data, scene_configuration, object_screenshot)
-        expected = {
-            'sphere': {
-                'test_material_1': {
-                    'test_material_2': [[(1, 2, 3), (4, 5, 6)], [(7, 8, 9), (10, 11, 12)]]
-                }
-            }
-        }
-        self.assertEqual(actual, expected)
-
-    def test_stow_image_pixel_list_no_material(self):
-        output_data = {}
-        scene_configuration = {
-            'objects': [{
-                'type': 'sphere'
-            }]
-        }
-        object_screenshot = Image.fromarray(numpy.array([[(1, 2, 3), (4, 5, 6)], [(7, 8, 9), (10, 11, 12)]], \
-            dtype=numpy.uint8))
-        actual = image_generator.stow_image_pixel_list(output_data, scene_configuration, object_screenshot)
-        expected = {
-            'sphere': [[(1, 2, 3), (4, 5, 6)], [(7, 8, 9), (10, 11, 12)]]
-        }
+        actual = image_generator.retrieve_image_pixel_list(object_screenshot)
+        expected = [[(1, 2, 3), (4, 5, 6)], [(7, 8, 9), (10, 11, 12)]]
         self.assertEqual(actual, expected)
 
