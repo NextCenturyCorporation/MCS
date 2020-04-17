@@ -168,7 +168,7 @@ def find_image_for_object(object_def):
 
     try:
         target_image = []
-        image_file_name = 'image_generator/' + generate_image_file_name(object_def) + '.txt'
+        image_file_name = 'images/' + generate_image_file_name(object_def) + '.txt'
 
         with open(image_file_name, 'r') as image_file:
             target_image = image_file.read()

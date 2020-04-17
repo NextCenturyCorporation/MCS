@@ -3,6 +3,7 @@
 import itertools
 import json
 import numpy
+import os
 import sys
 
 from machine_common_sense.mcs import MCS
@@ -74,12 +75,17 @@ def retrieve_image_pixel_list(object_screenshot):
 
 def main(args):
     if len(args) < 2:
-        print('Usage: python image_generator.py <unity_app_file_path>')
+        print('Usage: python image_generator.py <unity_app_file_path> <output_folder=../images/>')
         exit()
 
     controller = MCS.create_controller(args[1])
 
     scene_configuration_list = generate_scene_configuration_list(simplified_objects.OBJECT_LIST)
+
+    output_folder = (args[2] if len(args) > 2 else '../images') + '/'
+
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
 
     for scene_configuration in scene_configuration_list:
         object_config = scene_configuration['objects'][0]
@@ -95,7 +101,7 @@ def main(args):
         object_screenshot = object_screenshot.resize((300, 200))
         object_screenshot = object_screenshot.crop(ImageOps.invert(object_screenshot).getbbox())
 
-        output_file_name = generate_output_file_name(object_type, material_list)
+        output_file_name = output_folder + generate_output_file_name(object_type, material_list)
         object_screenshot.save(fp=output_file_name + '.png')
 
         pixels = retrieve_image_pixel_list(object_screenshot)
