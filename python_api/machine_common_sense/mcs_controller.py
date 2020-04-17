@@ -1,4 +1,4 @@
-from machine_common_sense.mcs_step_output import MCS_Step_Output
+from .mcs_step_output import MCS_Step_Output
 import random
 
 class MCS_Controller:

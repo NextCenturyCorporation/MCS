@@ -1,18 +1,30 @@
 import glob
 import json
 import os
+import math
 from PIL import Image
 
 import ai2thor.controller
 
-from machine_common_sense.mcs_action import MCS_Action
-from machine_common_sense.mcs_controller import MCS_Controller
-from machine_common_sense.mcs_goal import MCS_Goal
-from machine_common_sense.mcs_object import MCS_Object
-from machine_common_sense.mcs_pose import MCS_Pose
-from machine_common_sense.mcs_return_status import MCS_Return_Status
-from machine_common_sense.mcs_step_output import MCS_Step_Output
-from machine_common_sense.mcs_util import MCS_Util
+# How far the player can reach.  I think this value needs to be bigger than the MAX_MOVE_DISTANCE or else the
+# player may not be able to move into a position to reach some objects (it may be mathematically impossible).
+# TODO Reduce this number once the player can crouch down to reach and pickup small objects on the floor.
+MAX_REACH_DISTANCE = 1.0
+
+# How far the player can move with a single step.
+MAX_MOVE_DISTANCE = 0.5
+
+from .mcs_action import MCS_Action
+from .mcs_controller import MCS_Controller
+from .mcs_goal import MCS_Goal
+from .mcs_goal_category import MCS_Goal_Category
+from .mcs_object import MCS_Object
+from .mcs_pose import MCS_Pose
+from .mcs_return_status import MCS_Return_Status
+from .mcs_reward import MCS_Reward
+from .mcs_step_output import MCS_Step_Output
+from .mcs_util import MCS_Util
+
 
 class MCS_Controller_AI2THOR(MCS_Controller):
     """
@@ -27,17 +39,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     # (This value may not really matter because we set continuous to True in the step input.)
     GRID_SIZE = 0.1
 
-    # How far the player can move with a single step.
-    MAX_MOVE_DISTANCE = 0.5
-
     # The amount of force to offset force values, that seems appropriate for a baby
     # TODO Check with psych team about this about what we should use for a baby, defaulting to 50 now
     MAX_BABY_FORCE = 50.0
-
-    # How far the player can reach.  I think this value needs to be bigger than the MAX_MOVE_DISTANCE or else the
-    # player may not be able to move into a position to reach some objects (it may be mathematically impossible).
-    # TODO Reduce this number once the player can crouch down to reach and pickup small objects on the floor.
-    MAX_REACH_DISTANCE = 1.0
 
     DEFAULT_HORIZON= 0
     DEFAULT_ROTATION = 0
@@ -164,7 +168,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     rotation degrees into an object)
     """
     def validate_and_convert_params(self, action, **kwargs):
-        moveMagnitude = self.MAX_MOVE_DISTANCE
+        moveMagnitude = MAX_MOVE_DISTANCE
         rotation = kwargs.get(self.ROTATION_KEY, self.DEFAULT_ROTATION)
         horizon = kwargs.get(self.HORIZON_KEY, self.DEFAULT_HORIZON)
         amount = kwargs.get(self.AMOUNT_KEY, self.DEFAULT_AMOUNT)
@@ -230,7 +234,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             moveMagnitude = amount
 
         if action in self.MOVE_ACTIONS:
-            moveMagnitude = amount * self.MAX_MOVE_DISTANCE
+            moveMagnitude = amount * MAX_MOVE_DISTANCE
 
         # Add in noise if noise is enable
         if self.__enable_noise:
@@ -360,6 +364,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         rgb = object_id_to_color[object_metadata['objectId']] if object_metadata['objectId'] in object_id_to_color \
                 else [None, None, None]
 
+        bounds = object_metadata.get('objectBounds', None)
+        if bounds is None:
+            print(f"No bounds for {object_metadata['objectId']}")
+
         return MCS_Object(
             uuid=object_metadata['objectId'],
             color={
@@ -368,7 +376,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 'b': rgb[2]
             },
             direction=object_metadata['direction'],
-            distance=(object_metadata['distanceXZ'] / self.MAX_MOVE_DISTANCE),
+            distance=(object_metadata['distanceXZ'] / MAX_MOVE_DISTANCE),
             held=object_metadata['isPickedUp'],
             mass=object_metadata['mass'],
             material_list=material_list,
@@ -430,6 +438,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         image_list, depth_mask_list, object_mask_list = self.save_images(scene_event)
 
+        objects = scene_event.metadata.get('objects', None)
+        agent = scene_event.metadata.get('agent', None)
         step_output = MCS_Step_Output(
             action_list=self.retrieve_action_list(self.__goal, self.__step_number),
             depth_mask_list=depth_mask_list,
@@ -441,6 +451,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             pose=self.retrieve_pose(scene_event),
             position=self.retrieve_position(scene_event),
             return_status=self.retrieve_return_status(scene_event),
+            reward=MCS_Reward.calculate_reward(self.__goal, objects, agent),
             rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number
         )
@@ -469,7 +480,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             renderDepthImage=True,
             renderObjectImage=True,
             # Yes, in AI2-THOR, the player's reach appears to be governed by the "visibilityDistance", confusingly...
-            visibilityDistance=self.MAX_REACH_DISTANCE,
+            visibilityDistance=MAX_REACH_DISTANCE,
             **kwargs
         )
 

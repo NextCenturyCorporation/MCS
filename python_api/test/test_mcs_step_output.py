@@ -28,6 +28,7 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
         "pose": MCS_Pose.UNDEFINED,
         "position": {},
         "return_status": MCS_Return_Status.UNDEFINED,
+        "reward": 0,
         "rotation": 0.0,
         "step_number": 0
     }'''
@@ -79,6 +80,10 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
         self.assertEqual(self.mcs_step_output.return_status, MCS_Return_Status.UNDEFINED)
         self.assertIsInstance(self.mcs_step_output.return_status, MCS_Return_Status)
 
+    def test_reward(self):
+        self.assertEqual(self.mcs_step_output.reward, 0)
+        self.assertIsInstance(self.mcs_step_output.reward, int)
+        
     def test_rotation(self):
         self.assertAlmostEqual(self.mcs_step_output.rotation, 0.0)
         self.assertIsInstance(self.mcs_step_output.rotation, float)
