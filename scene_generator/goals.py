@@ -98,7 +98,6 @@ def instantiate_object(object_def, object_location):
 
     info.append(' '.join(info))
     new_object['info'] = info
-
     return new_object
 
 
@@ -162,6 +161,29 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
         return new_object
     return None
 
+def generate_image_file_name(target):
+    if 'materials' not in target:
+        return target['type']
+
+    material_name_list = [item[(item.rfind('/') + 1):].lower().replace(' ', '_') for item in target['materials']]
+    return target['type'] + ('_' if len(material_name_list) > 0 else '') + ('_'.join(material_name_list))
+
+def find_image_for_object(object_def):
+    image_file_name = ""
+
+    try:
+        target_image = []
+        image_file_name = 'images/' + generate_image_file_name(object_def) + '.txt'
+
+        with open(image_file_name, 'r') as image_file:
+            target_image = image_file.read()
+            
+        return target_image
+    except: 
+        logging.warn('Image object could not be found, make sure you generated the images.py file: ' + image_file_name)
+
+def find_image_name(target):
+    return generate_image_file_name(target) + '.png'
 
 class GoalException(Exception):
     def __init__(self, message=''):
@@ -403,6 +425,8 @@ class RetrievalGoal(InteractionGoal):
             raise ValueError('need at least 1 object for this goal')
 
         target = objects[0]
+        target_image_obj = find_image_for_object(target)
+        image_name = find_image_name(target)
 
         goal = copy.deepcopy(self.TEMPLATE)
         goal['info_list'] = target['info']
@@ -410,7 +434,9 @@ class RetrievalGoal(InteractionGoal):
             'target': {
                 'id': target['id'],
                 'info': target['info'],
-                'match_image': True
+                'match_image': True,
+                'image': target_image_obj,
+                'image_name': image_name
             }
         }
         goal['description'] = f'Find and pick up the {target["info"][-1]}.'
@@ -473,6 +499,12 @@ class TransferralGoal(InteractionGoal):
             raise ValueError(f'first object must be "pickupable": {target1}')
         relationship = random.choice(list(self.RelationshipType))
 
+        target1_image_obj = find_image_for_object(target1)
+        target2_image_obj = find_image_for_object(target2)
+
+        image_name1 = find_image_name(target1)
+        image_name2 = find_image_name(target2)
+
         goal = copy.deepcopy(self.TEMPLATE)
         both_info = set(target1['info'] + target2['info'])
         goal['info_list'] = list(both_info)
@@ -480,12 +512,16 @@ class TransferralGoal(InteractionGoal):
             'target_1': {
                 'id': target1['id'],
                 'info': target1['info'],
-                'match_image': True
+                'match_image': True,
+                'image': target1_image_obj,
+                'image_name': image_name1
             },
             'target_2': {
                 'id': target2['id'],
                 'info': target2['info'],
-                'match_image': True
+                'match_image': True,
+                'image': target2_image_obj,
+                'image_name': image_name2
             },
             'relationship': ['target_1', relationship.value, 'target_2']
         }
@@ -565,13 +601,18 @@ class TraversalGoal(Goal):
 
         target = objects[0]
 
+        target_image_obj = find_image_for_object(target)
+        image_name = find_image_name(target)
+
         goal = copy.deepcopy(self.TEMPLATE)
         goal['info_list'] = target['info']
         goal['metadata'] = {
             'target': {
                 'id': target['id'],
                 'info': target['info'],
-                'match_image': True
+                'match_image': True,
+                'image': target_image_obj,
+                'image_name': image_name
             }
         }
         goal['description'] = f'Locate the {" ".join(target["info"])} and move near it.'

@@ -1,4 +1,6 @@
 import sys
+import time
+
 from machine_common_sense.mcs import MCS
 
 if len(sys.argv) < 3:
@@ -24,4 +26,3 @@ if __name__ == "__main__":
 
     for i in range(1, 12):
         output = controller.step('RotateLook', rotation=30)
-

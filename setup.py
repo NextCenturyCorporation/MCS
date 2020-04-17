@@ -18,6 +18,10 @@ setuptools.setup(
         'Operating System :: OS Independent',
     ],
     license='Apache-2',
+    install_requires=[
+        'sympy',
+        'ai2thor @ https://github.com/NextCenturyCorporation/ai2thor/tarball/master#egg=ai2thor'
+    ],
     package_dir={'':'python_api'},
     packages=setuptools.find_packages('python_api'),
     entry_points={

@@ -1,7 +1,7 @@
-from machine_common_sense.mcs_goal import MCS_Goal
-from machine_common_sense.mcs_pose import MCS_Pose
-from machine_common_sense.mcs_return_status import MCS_Return_Status
-from machine_common_sense.mcs_util import MCS_Util
+from .mcs_goal import MCS_Goal
+from .mcs_pose import MCS_Pose
+from .mcs_return_status import MCS_Return_Status
+from .mcs_util import MCS_Util
 
 class MCS_Step_Output:
     """
@@ -36,6 +36,8 @@ class MCS_Step_Output:
         The "x", "y", and "z" coordinates for your global position.
     return_status : string
         The return status from your last action.  See MCS_Return_Status.
+    reward : integer
+        Reward is 1 on successful completion of a task, 0 otherwise.
     rotation : float
         Your current rotation angle in degrees.
     step_number : integer
@@ -54,6 +56,7 @@ class MCS_Step_Output:
         pose=MCS_Pose.UNDEFINED,
         position={},
         return_status=MCS_Return_Status.UNDEFINED,
+        reward=0,
         rotation=0.0,
         step_number=0
     ):
@@ -67,6 +70,7 @@ class MCS_Step_Output:
         self.pose = pose
         self.position = position
         self.return_status = return_status
+        self.reward = reward
         self.rotation = rotation
         self.step_number = step_number
 
