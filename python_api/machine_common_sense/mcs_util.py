@@ -197,7 +197,7 @@ class MCS_Util:
     @staticmethod
     def vector_to_string(vector):
         return ('(' + str(vector['x']) + ',' + str(vector['y']) + ',' + str(vector['z']) + ')') if vector is not None \
-                else 'None'
+                and 'x' in vector and 'y' in vector and 'z' in vector else 'None'
 
     """
     Returns whether the given string can be successfully converted into an MCS_Material enum.

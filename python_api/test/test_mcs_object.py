@@ -10,8 +10,11 @@ class Test_Default_MCS_Object(unittest.TestCase):
     str_output = '''    {
         "uuid": "",
         "color": {},
+        "dimensions": {},
         "direction": {},
         "distance": -1.0,
+        "distance_in_steps": -1.0,
+        "distance_in_world": -1.0,
         "held": False,
         "mass": 0.0,
         "material_list": [],
@@ -37,6 +40,10 @@ class Test_Default_MCS_Object(unittest.TestCase):
         self.assertFalse(self.mcs_object.color)
         self.assertIsInstance(self.mcs_object.color, dict)
         
+    def test_dimensions(self):
+        self.assertFalse(self.mcs_object.dimensions)
+        self.assertIsInstance(self.mcs_object.dimensions, dict)
+
     def test_direction(self):
         self.assertFalse(self.mcs_object.direction)
         self.assertIsInstance(self.mcs_object.direction, dict)
@@ -44,6 +51,14 @@ class Test_Default_MCS_Object(unittest.TestCase):
     def test_distance(self):
         self.assertAlmostEqual(self.mcs_object.distance, -1.0)
         self.assertIsInstance(self.mcs_object.distance, float)
+
+    def test_distance_in_steps(self):
+        self.assertAlmostEqual(self.mcs_object.distance_in_steps, -1.0)
+        self.assertIsInstance(self.mcs_object.distance_in_steps, float)
+
+    def test_distance_in_world(self):
+        self.assertAlmostEqual(self.mcs_object.distance_in_world, -1.0)
+        self.assertIsInstance(self.mcs_object.distance_in_world, float)
 
     def test_held(self):
         self.assertFalse(self.mcs_object.held)
@@ -71,3 +86,4 @@ class Test_Default_MCS_Object(unittest.TestCase):
 
     def test_str(self):
         self.assertEqual(str(self.mcs_object), textwrap.dedent(self.str_output))
+

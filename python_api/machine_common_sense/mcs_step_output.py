@@ -46,29 +46,29 @@ class MCS_Step_Output:
 
     def __init__(
         self,
-        action_list=[],
-        depth_mask_list=[],
-        goal=MCS_Goal(),
+        action_list=None,
+        depth_mask_list=None,
+        goal=None,
         head_tilt=0.0,
-        image_list=[],
-        object_list=[],
-        object_mask_list=[],
+        image_list=None,
+        object_list=None,
+        object_mask_list=None,
         pose=MCS_Pose.UNDEFINED,
-        position={},
+        position=None,
         return_status=MCS_Return_Status.UNDEFINED,
         reward=0,
         rotation=0.0,
         step_number=0
     ):
-        self.action_list = action_list
-        self.depth_mask_list = depth_mask_list
-        self.goal = goal
+        self.action_list = [] if action_list is None else action_list
+        self.depth_mask_list = [] if depth_mask_list is None else depth_mask_list
+        self.goal = MCS_Goal() if goal is None else goal
         self.head_tilt = head_tilt
-        self.image_list = image_list
-        self.object_list = object_list
-        self.object_mask_list = object_mask_list
+        self.image_list = [] if image_list is None else image_list
+        self.object_list = [] if object_list is None else object_list
+        self.object_mask_list = [] if object_mask_list is None else object_mask_list
         self.pose = pose
-        self.position = position
+        self.position = {} if position is None else position
         self.return_status = return_status
         self.reward = reward
         self.rotation = rotation

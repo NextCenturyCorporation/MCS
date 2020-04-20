@@ -133,13 +133,25 @@ The unique ID of this object, used with some actions.
 
 The "r", "g", and "b" pixel values of this object in images from the MCS_Step_Output's "object_mask_list".
 
+### dimensions : list of dicts
+
+The dimensions of this object in the environment's 3D global coordinate system as a list of 8 points (dicts with "x", "y", and "z").
+
 ### direction : dict
 
 The direction vector of the "x", "y", and "z" degrees between your position and this object's position (the difference in the two positions), normalized to 1. You can use the "x" and "y" as the "rotation" and "horizon" parameters (respectively) in a "RotateLook" action to face this object.
 
 ### distance : float
 
-The distance along the 2-dimensional X/Z grid from you to this object in number of steps ("Move" actions). If you want the distance to the object in the environment's global coordinate system (like the "position" property), multiply this number by 0.5.
+DEPRECATED. Same as distance_in_steps. Please use distance_in_steps or distance_in_world.
+
+### distance_in_steps : float
+
+The distance from you to this object in number of steps ("Move" actions) on the 2D X/Z movement grid.
+
+### distance_in_world : float
+
+The distance from you to this object in the environment's 3D global coordinate system.
 
 ### held : boolean
 
