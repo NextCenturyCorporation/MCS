@@ -10,6 +10,7 @@ MIN_PERFORMER_POSITION = -4.8
 MAX_PERFORMER_POSITION = 4.8
 POSITION_DIGITS = 2
 VALID_ROTATIONS = (0, 45, 90, 135, 180, 225, 270, 315)
+ROOM_DIMENSIONS = ((-4.95, 4.95), (-4.95, 4.95))
 
 ORIGIN = {
     "x": 0.0,
@@ -29,6 +30,7 @@ ORIGIN_LOCATION = {
         'z': 0.0
     }
 }
+
 
 def random_position():
     return round(random.uniform(MIN_PERFORMER_POSITION, MAX_PERFORMER_POSITION), POSITION_DIGITS)
@@ -67,12 +69,22 @@ def calc_obj_coords(x, z, dx, dz, rotation):
 
     rotate_sin = math.sin(radian_amount)
     rotate_cos = math.cos(radian_amount)
-    a = { 'x': x+(dx*rotate_cos)-(dz*rotate_sin) , 'y' : 0 , 'z': z+dx*rotate_sin+dz*rotate_cos}
-    b = { 'x': x+(dx*rotate_cos)+(dz*rotate_sin) , 'y' : 0 , 'z': z+dx*rotate_sin-dz*rotate_cos}
-    c = { 'x': x-(dx*rotate_cos)+(dz*rotate_sin) , 'y' : 0 , 'z': z-dx*rotate_sin-dz*rotate_cos}
-    d = { 'x': x-(dx*rotate_cos)-(dz*rotate_sin) , 'y' : 0 , 'z': z-dx*rotate_sin+dz*rotate_cos} 
+    a = {'x': x + (dx * rotate_cos) - (dz * rotate_sin), 'y': 0, 'z': z + dx * rotate_sin + dz * rotate_cos}
+    b = {'x': x + (dx * rotate_cos) + (dz * rotate_sin), 'y': 0, 'z': z + dx * rotate_sin - dz * rotate_cos}
+    c = {'x': x - (dx * rotate_cos) + (dz * rotate_sin), 'y': 0, 'z': z - dx * rotate_sin - dz * rotate_cos}
+    d = {'x': x - (dx * rotate_cos) - (dz * rotate_sin), 'y': 0, 'z': z - dx * rotate_sin + dz * rotate_cos}
 
     return [a, b, c, d]
+
+
+def point_within_room(point):
+    return ROOM_DIMENSIONS[0][0] <= point['x'] <= ROOM_DIMENSIONS[0][1] and \
+           ROOM_DIMENSIONS[1][0] <= point['z'] <= ROOM_DIMENSIONS[1][1]
+
+
+def rect_within_room(rect):
+    """Return True iff the passed rectangle is entirely within the bounds of the room."""
+    return all(point_within_room(point) for point in rect)
 
 
 def calc_obj_pos(performer_position, other_rects, old_object):
@@ -89,8 +101,9 @@ object in the frame, None otherwise."""
         new_z = random_position()
 
         rect = calc_obj_coords(new_x, new_z, dx, dz, rotation)
-        if not collision(rect, performer_position) and (
-                len(other_rects) == 0 or not any(sat_entry(rect, other_rect) for other_rect in other_rects)):
+        if not collision(rect, performer_position) and \
+                rect_within_room(rect) and \
+                (len(other_rects) == 0 or not any(sat_entry(rect, other_rect) for other_rect in other_rects)):
             break
         tries += 1
 
@@ -114,7 +127,9 @@ def can_enclose(objectA, objectB):
 
 
 def can_contain(container, target):
-    """Return the index of the container's "enclosed_areas" that the target fits in, or None if it does not fit in any of them (or if the container doesn't have any). Does not try any rotation to see if that makes it possible to fit."""
+    """Return the index of the container's "enclosed_areas" that the target fits in, or None if it does not fit in any
+     of them (or if the container doesn't have any). Does not try any rotation to see if that makes it possible to
+     fit."""
     if 'enclosed_areas' not in container:
         return None
     for i in range(len(container['enclosed_areas'])):
