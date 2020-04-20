@@ -18,8 +18,10 @@ from separating_axis_theorem import sat_entry
 from optimal_path import generatepath
 from numpy.lib.scimath import sqrt
 from numpy import degrees
-from numpy.core import arctan
+from numpy.core import arctan2
 import math
+
+from .mcs_controller_ai2thor import MAX_MOVE_DISTANCE
 
 MAX_TRIES = 20
 MAX_OBJECTS = 5
@@ -233,24 +235,13 @@ class Goal(ABC):
         actions = []
         dx = path_section[1][0]-path_section[0][0]
         dz = path_section[1][1]-path_section[0][1]
-        if dx == 0:
-            if dz >0:
-                theta = 90
-            else:
-                theta = 270
-        else:
-            theta = degrees(arctan(dz/dx))
-            if dx < 0:
-                theta += 180
+        theta = degrees(arctan2(dx,dz))
+  
             #IF my calculations are correct, this should be right no matter what
             # I'm assuming a positive angle is a clockwise rotation- so this should work
             #I think
+
         delta_t = current_heading-theta
-        if delta_t > 180:
-            delta_t -=360
-        elif delta_t < -180:
-            delta_t += 180
-            
         current_heading = theta
         if (delta_t != 0 ):
             action = {
@@ -262,7 +253,7 @@ class Goal(ABC):
                 }
             actions.append(action)
         distance = sqrt( dx ** 2 + dz ** 2 )
-        frac, whole = math.modf(distance / 0.5)
+        frac, whole = math.modf(distance / MAX_MOVE_DISTANCE)
         for wholes in range(int(whole)):
             actions.append({
                     "action": "MoveAhead",
@@ -429,7 +420,7 @@ class RetrievalGoal(InteractionGoal):
         actions = []
         current_heading = self._performer_start['rotation']['y']
         for indx in range(len(path)-1):
-            actions.append(self.parse_path_section(path[indx:indx+2], current_heading))
+            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading))
 
         actions.append({
             'action': 'PickupObject',
@@ -505,7 +496,7 @@ class TransferralGoal(InteractionGoal):
         actions = []
         current_heading = self._performer_start['rotation']['y']
         for indx in range(len(path)-1):
-            actions.append(self.parse_path_section(path[indx:indx+2], current_heading))
+            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading))
 
         actions.append({
             'action': 'PickupObject',
@@ -518,7 +509,7 @@ class TransferralGoal(InteractionGoal):
         hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if  ( object['id'] != goal_objects[0]['id'] and object['id'] != goal_objects[1]['id']))
         path  = generatepath(goal,target, hole_rects)
         for indx in range(len(path)-1):
-            actions.append(self.parse_path_section(path[indx:indx+2], current_heading))
+            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading))
             
         actions.append({
             'action': 'PutObject',
@@ -588,7 +579,7 @@ class TraversalGoal(Goal):
         actions = []
         current_heading = self._performer_start['rotation']['y']
         for indx in range(len(path)-1):
-            actions.append(self.parse_path_section(path[indx:indx+2], current_heading))
+            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading))
 
        
         return actions
