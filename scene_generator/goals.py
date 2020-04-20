@@ -47,6 +47,9 @@ def instantiate_object(object_def, object_location):
     if object_def is None or object_location is None:
         raise ValueError('instantiate_object cannot take None parameters')
 
+    # Call the finalize function here in case it wasn't called before now (calling it twice shouldn't hurt anything).
+    object_def = finalize_object_definition(object_def)
+
     new_object = {
         'id': str(uuid.uuid4()),
         'type': object_def['type'],
