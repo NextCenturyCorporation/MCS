@@ -4,23 +4,19 @@ OBJECTS_PICKUPABLE_BALLS = [{
     "type": "sphere",
     "info": ["tiny", "ball"],
     "choose": [{
-        "mass": 0.015625,
+        "mass": 0.0625,
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic", "hollow"]
     }, {
-        "mass": 0.0625,
+        "mass": 0.125,
         "materialCategory": ["rubber"],
         "salientMaterials": ["rubber"]
-    }, {
-        "mass": 0.125,
-        "materialCategory": ["block_blank"],
-        "salientMaterials": ["wood"]
     }, {
         "mass": 0.125,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"]
     }, {
-        "mass": 0.0625,
+        "mass": 0.25,
         "materialCategory": ["metal"],
         "salientMaterials": ["metal"]
     }],
@@ -40,23 +36,19 @@ OBJECTS_PICKUPABLE_BALLS = [{
     "type": "sphere",
     "info": ["tiny", "ball"],
     "choose": [{
-        "mass": 0.0625,
+        "mass": 0.125,
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic", "hollow"]
     }, {
-        "mass": 0.140625,
+        "mass": 0.25,
         "materialCategory": ["rubber"],
         "salientMaterials": ["rubber"]
     }, {
-        "mass": 0.140625,
-        "materialCategory": ["block_blank"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 0.140625,
+        "mass": 0.25,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"]
     }, {
-        "mass": 0.25,
+        "mass": 0.5,
         "materialCategory": ["metal"],
         "salientMaterials": ["metal"]
     }],
@@ -80,15 +72,11 @@ OBJECTS_PICKUPABLE_BALLS = [{
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic", "hollow"]
     }, {
-        "mass": 0.5625,
+        "mass": 0.5,
         "materialCategory": ["rubber"],
         "salientMaterials": ["rubber"]
     }, {
-        "mass": 0.5625,
-        "materialCategory": ["block_blank"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 0.5625,
+        "mass": 0.5,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"]
     }, {
@@ -112,19 +100,19 @@ OBJECTS_PICKUPABLE_BALLS = [{
     "type": "sphere",
     "info": ["small", "ball"],
     "choose": [{
-        "mass": 1.5625,
+        "mass": 1,
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic", "hollow"]
     }, {
-        "mass": 1.5625,
+        "mass": 2,
         "materialCategory": ["rubber"],
-        "salientMaterials": ["rubber", "hollow"]
+        "salientMaterials": ["rubber"],
     }, {
-        "mass": 3.515625,
+        "mass": 2,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"]
     }, {
-        "mass": 6.25,
+        "mass": 4,
         "materialCategory": ["metal"],
         "salientMaterials": ["metal"]
     }],
@@ -146,21 +134,9 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
     "type": "block_blank_wood_cube",
     "info": ["tiny", "blank", "cube", "block"],
     "choose": [{
-        "mass": 0.33,
-        "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic", "hollow"]
-    }, {
         "mass": 0.66,
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
-    }, {
-        "mass": 0.66,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 1.66,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"]
     }],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -183,21 +159,9 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
     "type": "block_blank_wood_cube",
     "info": ["tiny", "blank", "cube", "block"],
     "choose": [{
-        "mass": 0.66,
-        "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic", "hollow"]
-    }, {
         "mass": 1.33,
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
-    }, {
-        "mass": 1.33,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 3.33,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"]
     }],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -220,21 +184,9 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
     "type": "block_blank_wood_cube",
     "info": ["tiny", "blank", "cube", "block"],
     "choose": [{
-        "mass": 1.33,
-        "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic", "hollow"]
-    }, {
         "mass": 2.66,
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
-    }, {
-        "mass": 2.66,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 6.66,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"]
     }],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -257,21 +209,9 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
     "type": "block_blank_wood_cylinder",
     "info": ["tiny", "blank", "cylinder", "block"],
     "choose": [{
-        "mass": 0.33,
-        "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic", "hollow"]
-    }, {
         "mass": 0.66,
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
-    }, {
-        "mass": 0.66,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 1.66,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"]
     }],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -294,21 +234,9 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
     "type": "block_blank_wood_cylinder",
     "info": ["tiny", "blank", "cylinder", "block"],
     "choose": [{
-        "mass": 0.66,
-        "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic", "hollow"]
-    }, {
         "mass": 1.33,
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
-    }, {
-        "mass": 1.33,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 3.33,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"]
     }],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -331,21 +259,9 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
     "type": "block_blank_wood_cylinder",
     "info": ["tiny", "blank", "cylinder", "block"],
     "choose": [{
-        "mass": 1.33,
-        "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic", "hollow"]
-    }, {
         "mass": 2.66,
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
-    }, {
-        "mass": 2.66,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 6.66,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"]
     }],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -416,136 +332,138 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
 
 OBJECTS_PICKUPABLE_TOYS = [{
     "type": "duck_on_wheels",
-    "info": ["tiny", "duck"],
+    "attributes": ["moveable", "pickupable"],
     "choose": [{
-        "mass": 0.5,
-        "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic", "hollow"]
-    }, {
+        "info": ["tiny", "duck"],
         "mass": 1,
         "materialCategory": ["block_blank"],
-        "salientMaterials": ["wood"]
+        "salientMaterials": ["wood"],
+        "dimensions": {
+            "x": 0.105,
+            "y": 0.085,
+            "z": 0.0325
+        },
+        "offset": {
+            "x": 0,
+            "y": 0.0425,
+            "z": 0
+        },
+        "position_y": 0.01,
+        "scale": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        }
     }, {
-        "mass": 1,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"]
-    }],
-    "attributes": ["moveable", "pickupable"],
-    "dimensions": {
-        "x": 0.21,
-        "y": 0.17,
-        "z": 0.065
-    },
-    "offset": {
-        "x": 0,
-        "y": 0.085,
-        "z": 0
-    },
-    "position_y": 0.01,
-    "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-    }
-}, {
-    "type": "duck_on_wheels",
-    "info": ["small", "duck"],
-    "choose": [{
-        "mass": 1.25,
-        "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic", "hollow"]
-    }, {
-        "mass": 2.5,
+        "info": ["tiny", "duck"],
+        "mass": 2,
         "materialCategory": ["block_blank"],
-        "salientMaterials": ["wood"]
+        "salientMaterials": ["wood"],
+        "dimensions": {
+            "x": 0.21,
+            "y": 0.17,
+            "z": 0.065
+        },
+        "offset": {
+            "x": 0,
+            "y": 0.085,
+            "z": 0
+        },
+        "position_y": 0.01,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+        }
     }, {
-        "mass": 2.5,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"]
-    }],
-    "attributes": ["moveable", "pickupable"],
-    "dimensions": {
-        "x": 0.42,
-        "y": 0.34,
-        "z": 0.13
-    },
-    "offset": {
-        "x": 0,
-        "y": 0.085,
-        "z": 0
-    },
-    "position_y": 0.02,
-    "scale": {
-        "x": 2,
-        "y": 2,
-        "z": 2
-    }
-}, {
-    "type": "racecar_red",
-    "info": ["tiny", "racecar"],
-    "choose": [{
-        "mass": 0.5,
-        "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic", "hollow"]
-    }, {
-        "mass": 1,
+        "info": ["small", "duck"],
+        "mass": 4,
         "materialCategory": ["block_blank"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 1,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"]
-    }],
-    "attributes": ["moveable", "pickupable"],
-    "dimensions": {
-        "x": 0.07,
-        "y": 0.06,
-        "z": 0.15
-    },
-    "offset": {
-        "x": 0,
-        "y": 0.03,
-        "z": 0
-    },
-    "position_y": 0.01,
-    "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-    }
+        "salientMaterials": ["wood"],
+        "dimensions": {
+            "x": 0.42,
+            "y": 0.34,
+            "z": 0.13
+        },
+        "offset": {
+            "x": 0,
+            "y": 0.17,
+            "z": 0
+        },
+        "position_y": 0.01,
+        "scale": {
+            "x": 2,
+            "y": 2,
+            "z": 2
+        }
+    }]
 }, {
     "type": "racecar_red",
-    "info": ["small", "racecar"],
-    "choose": [{
-        "mass": 2.5,
-        "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic", "hollow"]
-    }, {
-        "mass": 5,
-        "materialCategory": ["block_blank"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 5,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"]
-    }],
     "attributes": ["moveable", "pickupable"],
-    "dimensions": {
-        "x": 0.21,
-        "y": 0.18,
-        "z": 0.45
-    },
-    "offset": {
-        "x": 0,
-        "y": 0.09,
-        "z": 0
-    },
-    "position_y": 0.03,
-    "scale": {
-        "x": 3,
-        "y": 3,
-        "z": 3
-    }
+    "choose": [{
+        "info": ["tiny", "racecar"],
+        "mass": 1,
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"],
+        "dimensions": {
+            "x": 0.0525,
+            "y": 0.045,
+            "z": 0.1125
+        },
+        "offset": {
+            "x": 0,
+            "y": 0.0225,
+            "z": 0
+        },
+        "position_y": 0.01,
+        "scale": {
+            "x": 0.75,
+            "y": 0.75,
+            "z": 0.75
+        }
+    }, {
+        "info": ["tiny", "racecar"],
+        "mass": 2,
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"],
+        "dimensions": {
+            "x": 0.105,
+            "y": 0.09,
+            "z": 0.225
+        },
+        "offset": {
+            "x": 0,
+            "y": 0.045,
+            "z": 0
+        },
+        "position_y": 0.01,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+        }
+    }, {
+        "info": ["small", "racecar"],
+        "mass": 4,
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"],
+        "dimensions": {
+            "x": 0.21,
+            "y": 0.18,
+            "z": 0.45
+        },
+        "offset": {
+            "x": 0,
+            "y": 0.09,
+            "z": 0
+        },
+        "position_y": 0.01,
+        "scale": {
+            "x": 3,
+            "y": 3,
+            "z": 3
+        }
+    }]
 }, {
     "type": "pacifier",
     "info": ["tiny", "pacifier"],
@@ -571,8 +489,8 @@ OBJECTS_PICKUPABLE_TOYS = [{
 }, {
     "choose": [{
         "type": "crayon_blue",
+        "info": ["tiny", "blue", "crayon"]
     }],
-    "info": ["tiny", "crayon"],
     "mass": 0.125,
     "salientMaterials": ["wax"],
     "attributes": ["moveable", "pickupable"],
@@ -597,7 +515,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
 OBJECTS_PICKUPABLE_MISC = [{
     "type": "apple_1",
     "info": ["tiny", "red", "apple"],
-    "mass": 0.25,
+    "mass": 0.5,
     "salientMaterials": ["food"],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -619,7 +537,7 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "apple_2",
     "info": ["tiny", "green", "apple"],
-    "mass": 0.25,
+    "mass": 0.5,
     "salientMaterials": ["food"],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -645,14 +563,6 @@ OBJECTS_PICKUPABLE_MISC = [{
         "mass": 0.25,
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
-    }, {
-        "mass": 0.5,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"],
-    }, {
-        "mass": 1.25,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"],
     }],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -678,14 +588,6 @@ OBJECTS_PICKUPABLE_MISC = [{
         "mass": 0.25,
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
-    }, {
-        "mass": 0.5,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"],
-    }, {
-        "mass": 1.25,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"],
     }],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -711,14 +613,6 @@ OBJECTS_PICKUPABLE_MISC = [{
         "mass": 0.25,
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
-    }, {
-        "mass": 0.5,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"],
-    }, {
-        "mass": 1.25,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"],
     }],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -744,14 +638,6 @@ OBJECTS_PICKUPABLE_MISC = [{
         "mass": 0.25,
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
-    }, {
-        "mass": 0.5,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"],
-    }, {
-        "mass": 1.25,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"],
     }],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -777,14 +663,6 @@ OBJECTS_PICKUPABLE_MISC = [{
         "mass": 0.25,
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
-    }, {
-        "mass": 0.5,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"],
-    }, {
-        "mass": 1.25,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"],
     }],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -810,14 +688,6 @@ OBJECTS_PICKUPABLE_MISC = [{
         "mass": 0.25,
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
-    }, {
-        "mass": 0.5,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"],
-    }, {
-        "mass": 1.25,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"],
     }],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -839,7 +709,7 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_2",
     "info": ["small", "brown", "box"],
-    "mass": 0.375,
+    "mass": 0.5,
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosed_areas": [{
@@ -907,7 +777,7 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_3",
     "info": ["small", "brown", "box"],
-    "mass": 0.375,
+    "mass": 0.5,
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosed_areas": [{
@@ -982,13 +852,9 @@ OBJECTS_MOVEABLE = [{
     "type": "chair_1",
     "info": ["medium", "chair"],
     "choose": [{
-        "mass": 2,
+        "mass": 5,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"]
-    }, {
-        "mass": 5,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"]
     }],
     "attributes": ["moveable", "receptacle"],
     "dimensions": {
@@ -1011,17 +877,9 @@ OBJECTS_MOVEABLE = [{
     "type": "chair_2",
     "info": ["medium", "stool"],
     "choose": [{
-        "mass": 1,
+        "mass": 2.5,
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"]
-    }, {
-        "mass": 2,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 5,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"]
     }],
     "attributes": ["moveable", "receptacle"],
     "dimensions": {
@@ -1043,21 +901,10 @@ OBJECTS_MOVEABLE = [{
 }, {
     "type": "block_blank_wood_cube",
     "info": ["small", "blank", "cube", "block"],
-    "mass": 5,
-    "materialCategory": ["block_blank"],
-    "salientMaterials": ["wood"],
     "choose": [{
-        "mass": 2.5,
-        "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic", "hollow"]
-    }, {
         "mass": 5,
-        "materialCategory": ["wood"],
+        "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
-    }, {
-        "mass": 12.5,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"]
     }],
     "attributes": ["moveable"],
     "dimensions": {
@@ -1080,17 +927,9 @@ OBJECTS_MOVEABLE = [{
     "type": "block_blank_wood_cylinder",
     "info": ["small", "blank", "block", "cylinder"],
     "choose": [{
-        "mass": 2.5,
-        "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic", "hollow"]
-    }, {
         "mass": 5,
-        "materialCategory": ["wood"],
+        "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
-    }, {
-        "mass": 12.5,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"]
     }],
     "attributes": ["moveable"],
     "dimensions": {
@@ -1111,148 +950,376 @@ OBJECTS_MOVEABLE = [{
     }
 }, {
     "type": "box_2",
-    "info": ["small", "brown", "box"],
-    "mass": 0.5,
-    "salientMaterials": ["paper"],
     "attributes": ["moveable", "receptacle", "openable"],
-    "enclosed_areas": [{
-        "position": {
-            "x": 0,
-            "y": -0.074,
-            "z": -0.145
-        },
+    "choose": [{
+        "info": ["small", "brown", "box"],
+        "mass": 1,
+        "salientMaterials": ["paper"],
+        "enclosed_areas": [{
+            "position": {
+                "x": 0,
+                "y": -0.074,
+                "z": -0.145
+            },
+            "dimensions": {
+                "x": 0.296,
+                "y": 0.203,
+                "z": 0.339
+            }
+        }],
         "dimensions": {
-            "x": 0.296,
-            "y": 0.203,
-            "z": 0.339
-        }
-    }],
-    "dimensions": {
-        "x": 0.623,
-        "y": 0.381,
-        "z": 0.567
-    },
-    "offset": {
-        "x": -0.007,
-        "y": 0,
-        "z": -0.144
-    },
-    "position_y": 0.2,
-    "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-    }
-}, {
-    "type": "box_2",
-    "info": ["medium", "brown", "box"],
-    "mass": 1,
-    "salientMaterials": ["paper"],
-    "attributes": ["moveable", "receptacle", "openable"],
-    "enclosed_areas": [{
-        "position": {
-            "x": 0,
-            "y": -0.111,
-            "z": -0.2175
+            "x": 0.623,
+            "y": 0.381,
+            "z": 0.567
         },
-        "dimensions": {
-            "x": 0.444,
-            "y": 0.3045,
-            "z": 0.5085
-        }
-    }],
-    "dimensions": {
-        "x": 0.9345,
-        "y": 0.5715,
-        "z": 0.8505
-    },
-    "offset": {
-        "x": -0.0105,
-        "y": 0,
-        "z": -0.216
-    },
-    "position_y": 0.3,
-    "scale": {
-        "x": 1.5,
-        "y": 1.5,
-        "z": 1.5
-    }
-}, {
-    "type": "box_3",
-    "info": ["small", "brown", "box"],
-    "mass": 0.5,
-    "salientMaterials": ["paper"],
-    "attributes": ["moveable", "receptacle", "openable"],
-    "enclosed_areas": [{
-        "position": {
-            "x": 0,
-            "y": -0.117,
-            "z": -0.131
+        "offset": {
+            "x": -0.007,
+            "y": 0,
+            "z": -0.144
         },
-        "dimensions": {
-            "x": 0.399,
-            "y": 0.305,
-            "z": 0.322
+        "position_y": 0.2,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
         }
-    }],
-    "dimensions": {
-        "x": 0.712,
-        "y": 0.5,
-        "z": 0.503
-    },
-    "offset": {
-        "x": 0.008,
-        "y": -0.038,
-        "z": -0.115
-    },
-    "position_y": 0.3,
-    "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-    }
+    }, {
+        "info": ["medium", "brown", "box"],
+        "mass": 3,
+        "salientMaterials": ["paper"],
+        "enclosed_areas": [{
+            "position": {
+                "x": 0,
+                "y": -0.111,
+                "z": -0.2175
+            },
+            "dimensions": {
+                "x": 0.444,
+                "y": 0.3045,
+                "z": 0.5085
+            }
+        }],
+        "dimensions": {
+            "x": 0.9345,
+            "y": 0.5715,
+            "z": 0.8505
+        },
+        "offset": {
+            "x": -0.0105,
+            "y": 0,
+            "z": -0.216
+        },
+        "position_y": 0.3,
+        "scale": {
+            "x": 1.5,
+            "y": 1.5,
+            "z": 1.5
+        }
+    }]
 }, {
     "type": "box_3",
-    "info": ["medium", "brown", "box"],
-    "mass": 1,
-    "salientMaterials": ["paper"],
     "attributes": ["moveable", "receptacle", "openable"],
-    "enclosed_areas": [{
-        "position": {
-            "x": 0,
-            "y": -0.117,
-            "z": -0.1965
-        },
+    "choose": [{
+        "info": ["small", "brown", "box"],
+        "mass": 1,
+        "salientMaterials": ["paper"],
+        "enclosed_areas": [{
+            "position": {
+                "x": 0,
+                "y": -0.117,
+                "z": -0.131
+            },
+            "dimensions": {
+                "x": 0.399,
+                "y": 0.305,
+                "z": 0.322
+            }
+        }],
         "dimensions": {
-            "x": 0.5985,
-            "y": 0.305,
-            "z": 0.483
+            "x": 0.712,
+            "y": 0.5,
+            "z": 0.503
+        },
+        "offset": {
+            "x": 0.008,
+            "y": -0.038,
+            "z": -0.115
+        },
+        "position_y": 0.3,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
         }
-    }],
-    "dimensions": {
-        "x": 1.068,
-        "y": 0.5,
-        "z": 0.7545
-    },
-    "offset": {
-        "x": 0.012,
-        "y": -0.038,
-        "z": -0.1725
-    },
-    "position_y": 0.3,
-    "scale": {
-        "x": 1.5,
-        "y": 1,
-        "z": 1.5
-    }
+    }, {
+        "info": ["medium", "brown", "box"],
+        "mass": 3,
+        "salientMaterials": ["paper"],
+        "enclosed_areas": [{
+            "position": {
+                "x": 0,
+                "y": -0.117,
+                "z": -0.1965
+            },
+            "dimensions": {
+                "x": 0.5985,
+                "y": 0.305,
+                "z": 0.483
+            }
+        }],
+        "dimensions": {
+            "x": 1.068,
+            "y": 0.5,
+            "z": 0.7545
+        },
+        "offset": {
+            "x": 0.012,
+            "y": -0.038,
+            "z": -0.1725
+        },
+        "position_y": 0.3,
+        "scale": {
+            "x": 1.5,
+            "y": 1,
+            "z": 1.5
+        }
+    }]
+}, {
+    "info": ["medium", "plant"],
+    "mass": 2.5,
+    "salientMaterials": ["organic", "ceramic"],
+    "attributes": ["moveable"],
+    "choose": [{
+        "type": "plant_1",
+        "dimensions": {
+            "x": 0.931,
+            "y": 0.807,
+            "z": 0.894
+        },
+        "offset": {
+            "x": -0.114,
+            "y": 0.399,
+            "z": -0.118
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+        }
+    }, {
+        "type": "plant_5",
+        "dimensions": {
+            "x": 0.522,
+            "y": 0.656,
+            "z": 0.62
+        },
+        "offset": {
+            "x": -0.024,
+            "y": 0.32,
+            "z": -0.018
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+        }
+    }, {
+        "type": "plant_7",
+        "dimensions": {
+            "x": 0.72,
+            "y": 1.094,
+            "z": 0.755
+        },
+        "offset": {
+            "x": 0,
+            "y": 0.546,
+            "z": -0.017
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+        }
+    }, {
+        "type": "plant_9",
+        "dimensions": {
+            "x": 0.679,
+            "y": 0.859,
+            "z": 0.546
+        },
+        "offset": {
+            "x": 0.037,
+            "y": 0.41,
+            "z": 0
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+        }
+    }, {
+        "type": "plant_14",
+        "dimensions": {
+            "x": 0.508,
+            "y": 0.815,
+            "z": 0.623
+        },
+        "offset": {
+            "x": 0.036,
+            "y": 0.383,
+            "z": 0.033
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+        }
+    }, {
+        "type": "plant_16",
+        "dimensions": {
+            "x": 0.702,
+            "y": 1.278,
+            "z": 0.813
+        },
+        "offset": {
+            "x": -0.008,
+            "y": 0.629,
+            "z": -0.012
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+        }
+    }]
+}, {
+    "info": ["small", "plant"],
+    "mass": 1,
+    "salientMaterials": ["organic", "ceramic"],
+    "attributes": ["moveable"],
+    "choose": [{
+        "type": "plant_1",
+        "dimensions": {
+            "x": 0.931 / 0.5,
+            "y": 0.807 / 0.5,
+            "z": 0.894 / 0.5
+        },
+        "offset": {
+            "x": -0.114 / 0.5,
+            "y": 0.399 / 0.5,
+            "z": -0.118 / 0.5
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        }
+    }, {
+        "type": "plant_5",
+        "dimensions": {
+            "x": 0.522 / 0.5,
+            "y": 0.656 / 0.5,
+            "z": 0.62 / 0.5
+        },
+        "offset": {
+            "x": -0.024 / 0.5,
+            "y": 0.32 / 0.5,
+            "z": -0.018 / 0.5
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        }
+    }, {
+        "type": "plant_7",
+        "dimensions": {
+            "x": 0.72 / 0.5,
+            "y": 1.094 / 0.5,
+            "z": 0.755 / 0.5
+        },
+        "offset": {
+            "x": 0 / 0.5,
+            "y": 0.546 / 0.5,
+            "z": -0.017 / 0.5
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        }
+    }, {
+        "type": "plant_9",
+        "dimensions": {
+            "x": 0.679 / 0.5,
+            "y": 0.859 / 0.5,
+            "z": 0.546 / 0.5
+        },
+        "offset": {
+            "x": 0.037 / 0.5,
+            "y": 0.41 / 0.5,
+            "z": 0 / 0.5
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        }
+    }, {
+        "type": "plant_14",
+        "dimensions": {
+            "x": 0.508 / 0.5,
+            "y": 0.815 / 0.5,
+            "z": 0.623 / 0.5
+        },
+        "offset": {
+            "x": 0.036 / 0.5,
+            "y": 0.383 / 0.5,
+            "z": 0.033 / 0.5
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        }
+    }, {
+        "type": "plant_16",
+        "dimensions": {
+            "x": 0.702 / 0.5,
+            "y": 1.278 / 0.5,
+            "z": 0.813 / 0.5
+        },
+        "offset": {
+            "x": -0.008 / 0.5,
+            "y": 0.629 / 0.5,
+            "z": -0.012 / 0.5
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        }
+    }]
 }]
 
 OBJECTS_IMMOBILE = [{
     "type": "changing_table",
     "info": ["huge", "brown", "changing table"],
     "mass": 100,
-    "materialCategory": ["wood", "metal"],
-    "salientMaterials": ["wood", "metal"],
+    "materialCategory": ["wood", "wood"],
+    "salientMaterials": ["wood", "wood"],
     "attributes": ["receptacle", "openable"],
     "enclosed_areas": [
         # TODO
@@ -1301,293 +1368,211 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "table_1",
     "info": ["huge", "table"],
+    "attributes": ["receptacle"],
     "choose": [{
-        "mass": 2,
-        "materialCategory": ["plastic", "plastic"],
-        "salientMaterials": ["plastic"]
-    }, {
-        "mass": 4,
+        "mass": 5,
         "materialCategory": ["wood", "wood"],
-        "salientMaterials": ["wood"]
+        "salientMaterials": ["wood"],
+        "open_areas": [
+            # TODO
+        ],
+        "dimensions": {
+            "x": 0.69,
+            "y": 0.88,
+            "z": 1.63
+        },
+        "offset": {
+            "x": 0.067,
+            "y": 0.44,
+            "z": -0.07
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+        }
     }, {
         "mass": 10,
-        "materialCategory": ["metal", "metal"],
-        "salientMaterials": ["metal"]
-    }],
-    "attributes": ["receptacle"],
-    "open_areas": [
-        # TODO
-    ],
-    "dimensions": {
-        "x": 0.69,
-        "y": 0.88,
-        "z": 1.63
-    },
-    "offset": {
-        "x": 0.067,
-        "y": 0.44,
-        "z": -0.07
-    },
-    "position_y": 0,
-    "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-    }
-}, {
-    "type": "table_1",
-    "info": ["huge", "table"],
-    "choose": [{
-        "mass": 3,
-        "materialCategory": ["plastic", "plastic"],
-        "salientMaterials": ["plastic"]
-    }, {
-        "mass": 6,
         "materialCategory": ["wood", "wood"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 15,
-        "materialCategory": ["metal", "metal"],
-        "salientMaterials": ["metal"]
-    }],
-    "attributes": ["receptacle"],
-    "open_areas": [
-        # TODO
-    ],
-    "dimensions": {
-        "x": 1.6215,
-        "y": 0.88,
-        "z": 1.63
-    },
-    "offset": {
-        "x": 0.15745,
-        "y": 0.44,
-        "z": -0.07
-    },
-    "position_y": 0,
-    "scale": {
-        "x": 2.35,
-        "y": 1,
-        "z": 1
-    }
+        "salientMaterials": ["wood"],
+        "open_areas": [
+            # TODO
+        ],
+        "dimensions": {
+            "x": 1.6215,
+            "y": 0.88,
+            "z": 1.63
+        },
+        "offset": {
+            "x": 0.15745,
+            "y": 0.44,
+            "z": -0.07
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 2.35,
+            "y": 1,
+            "z": 1
+        }
+    }]
 }, {
     "type": "table_5",
     "info": ["huge", "table"],
+    "attributes": ["receptacle"],
     "choose": [{
-        "mass": 10,
-        "materialCategory": ["plastic", "plastic"],
-        "salientMaterials": ["plastic"]
-    }, {
         "mass": 20,
         "materialCategory": ["wood", "wood"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 50,
-        "materialCategory": ["metal", "metal"],
-        "salientMaterials": ["metal"]
-    }],
-    "attributes": ["receptacle"],
-    "open_areas": [
-        # TODO
-    ],
-    "dimensions": {
-        "x": 1.2,
-        "y": 0.7,
-        "z": 1.9
-    },
-    "offset": {
-        "x": -0.18,
-        "y": 0.35,
-        "z": 0
-    },
-    "position_y": 0,
-    "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-    }
-}, {
-    "type": "table_5",
-    "info": ["large", "table"],
-    "choose": [{
-        "mass": 5,
-        "materialCategory": ["plastic", "plastic"],
-        "salientMaterials": ["plastic"]
+        "salientMaterials": ["wood"],
+        "open_areas": [
+            # TODO
+        ],
+        "dimensions": {
+            "x": 1.2,
+            "y": 0.7,
+            "z": 1.9
+        },
+        "offset": {
+            "x": -0.18,
+            "y": 0.35,
+            "z": 0
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+        }
     }, {
         "mass": 10,
         "materialCategory": ["wood", "wood"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 25,
-        "materialCategory": ["metal", "metal"],
-        "salientMaterials": ["metal"]
-    }],
-    "attributes": ["receptacle"],
-    "open_areas": [
-        # TODO
-    ],
-    "dimensions": {
-        "x": 1.2,
-        "y": 0.35,
-        "z": 1.9
-    },
-    "offset": {
-        "x": -0.18,
-        "y": 0.175,
-        "z": 0
-    },
-    "position_y": 0,
-    "scale": {
-        "x": 1,
-        "y": 0.5,
-        "z": 1
-    }
+        "salientMaterials": ["wood"],
+        "open_areas": [
+            # TODO
+        ],
+        "dimensions": {
+            "x": 1.2,
+            "y": 0.35,
+            "z": 1.9
+        },
+        "offset": {
+            "x": -0.18,
+            "y": 0.175,
+            "z": 0
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 1,
+            "y": 0.5,
+            "z": 1
+        }
+    }]
 }, {
     "type": "table_6",
-    "info": ["medium", "shelf"],
+    "attributes": ["receptacle"],
     "choose": [{
+        "info": ["medium", "shelf"],
         "mass": 10,
         "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic"]
+        "salientMaterials": ["plastic"],
+        "open_areas": [
+            # TODO
+        ],
+        "dimensions": {
+            "x": 0.93,
+            "y": 0.75,
+            "z": 1.02
+        },
+        "offset": {
+            "x": 0.04,
+            "y": 0.35,
+            "z": 0
+        },
+        "position_y": 0,
+        "scale": {
+            # Final scale: 1, 1, 1
+            "x": 1.3490361137,
+            "y": 1,
+            "z": 0.44906078935,
+        }
     }, {
-        "mass": 20,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 50,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"]
-    }],
-    "attributes": ["receptacle"],
-    "open_areas": [
-        # TODO
-    ],
-    "dimensions": {
-        "x": 0.93,
-        "y": 0.75,
-        "z": 1.02
-    },
-    "offset": {
-        "x": 0.04,
-        "y": 0.35,
-        "z": 0
-    },
-    "position_y": 0,
-    "scale": {
-        # Final scale: 1, 1, 1
-        "x": 1.3490361137,
-        "y": 1,
-        "z": 0.44906078935,
-    }
-}, {
-    "type": "table_6",
-    "info": ["huge", "shelf"],
-    "choose": [{
+        "info": ["huge", "shelf"],
         "mass": 15,
         "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic"]
-    }, {
-        "mass": 30,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 75,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"]
-    }],
-    "attributes": ["receptacle"],
-    "open_areas": [
-        # TODO
-    ],
-    "dimensions": {
-        "x": 0.465,
-        "y": 1.5,
-        "z": 2.04
-    },
-    "offset": {
-        "x": 0.02,
-        "y": 0.7,
-        "z": 0
-    },
-    "position_y": 0,
-    "scale": {
-        # Final scale: 0.5, 2, 2
-        "x": 0.67451805685,
-        "y": 2,
-        "z": 0.8981215787
-    }
+        "salientMaterials": ["plastic"],
+        "open_areas": [
+            # TODO
+        ],
+        "dimensions": {
+            "x": 0.465,
+            "y": 1.5,
+            "z": 2.04
+        },
+        "offset": {
+            "x": 0.02,
+            "y": 0.7,
+            "z": 0
+        },
+        "position_y": 0,
+        "scale": {
+            # Final scale: 0.5, 2, 2
+            "x": 0.67451805685,
+            "y": 2,
+            "z": 0.8981215787
+        }
+    }]
 }, {
     "type": "shelf_1",
-    "info": ["medium", "shelf"],
+    "attributes": ["receptacle"],
     "choose": [{
+        "info": ["medium", "shelf"],
         "mass": 5,
         "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic"]
+        "salientMaterials": ["plastic"],
+        "open_areas": [
+            # TODO
+        ],
+        "dimensions": {
+            "x": 0.78,
+            "y": 0.77,
+            "z": 0.4
+        },
+        "offset": {
+            "x": 0,
+            "y": 0.39,
+            "z": 0
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+        }
     }, {
-        "mass": 10,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 25,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"]
-    }],
-    "attributes": ["receptacle"],
-    "open_areas": [
-        # TODO
-    ],
-    "dimensions": {
-        "x": 0.78,
-        "y": 0.77,
-        "z": 0.4
-    },
-    "offset": {
-        "x": 0,
-        "y": 0.39,
-        "z": 0
-    },
-    "position_y": 0,
-    "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-    }
-}, {
-    "type": "shelf_1",
-    "info": ["huge", "shelf"],
-    "choose": [{
+        "info": ["huge", "shelf"],
         "mass": 15,
         "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic"]
-    }, {
-        "mass": 30,
-        "materialCategory": ["wood"],
-        "salientMaterials": ["wood"]
-    }, {
-        "mass": 75,
-        "materialCategory": ["metal"],
-        "salientMaterials": ["metal"]
-    }],
-    "attributes": ["receptacle"],
-    "open_areas": [
-        # TODO
-    ],
-    "dimensions": {
-        "x": 1.56,
-        "y": 1.54,
-        "z": 0.8
-    },
-    "offset": {
-        "x": 0,
-        "y": 0.78,
-        "z": 0
-    },
-    "position_y": 0,
-    "scale": {
-        "x": 2,
-        "y": 2,
-        "z": 2
-    }
+        "salientMaterials": ["plastic"],
+        "open_areas": [
+            # TODO
+        ],
+        "dimensions": {
+            "x": 1.56,
+            "y": 1.54,
+            "z": 0.8
+        },
+        "offset": {
+            "x": 0,
+            "y": 0.78,
+            "z": 0
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 2,
+            "y": 2,
+            "z": 2
+        }
+    }]
 }, {
     "type": "sofa_1",
     "info": ["huge", "brown", "sofa"],
@@ -1636,6 +1621,120 @@ OBJECTS_IMMOBILE = [{
         "y": 1,
         "z": 1
     }
+}, {
+    "info": ["large", "plant"],
+    "mass": 5,
+    "salientMaterials": ["organic", "ceramic"],
+    "attributes": [],
+    "choose": [{
+        "type": "plant_1",
+        "dimensions": {
+            "x": 0.931 * 2,
+            "y": 0.807 * 2,
+            "z": 0.894
+        },
+        "offset": {
+            "x": -0.114 * 2,
+            "y": 0.399 * 2,
+            "z": -0.118
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 2,
+            "y": 2,
+            "z": 2
+        }
+    }, {
+        "type": "plant_5",
+        "dimensions": {
+            "x": 0.522 * 2,
+            "y": 0.656 * 2,
+            "z": 0.62
+        },
+        "offset": {
+            "x": -0.024 * 2,
+            "y": 0.32 * 2,
+            "z": -0.018
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 2,
+            "y": 2,
+            "z": 2
+        }
+    }, {
+        "type": "plant_7",
+        "dimensions": {
+            "x": 0.72 * 2,
+            "y": 1.094 * 2,
+            "z": 0.755
+        },
+        "offset": {
+            "x": 0 * 2,
+            "y": 0.546 * 2,
+            "z": -0.017
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 2,
+            "y": 2,
+            "z": 2
+        }
+    }, {
+        "type": "plant_9",
+        "dimensions": {
+            "x": 0.679 * 2,
+            "y": 0.859 * 2,
+            "z": 0.546
+        },
+        "offset": {
+            "x": 0.037 * 2,
+            "y": 0.41 * 2,
+            "z": 0
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 2,
+            "y": 2,
+            "z": 2
+        }
+    }, {
+        "type": "plant_14",
+        "dimensions": {
+            "x": 0.508 * 2,
+            "y": 0.815 * 2,
+            "z": 0.623
+        },
+        "offset": {
+            "x": 0.036 * 2,
+            "y": 0.383 * 2,
+            "z": 0.033
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 2,
+            "y": 2,
+            "z": 2
+        }
+    }, {
+        "type": "plant_16",
+        "dimensions": {
+            "x": 0.702 * 2,
+            "y": 1.278 * 2,
+            "z": 0.813
+        },
+        "offset": {
+            "x": -0.008 * 2,
+            "y": 0.629 * 2,
+            "z": -0.012
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 2,
+            "y": 2,
+            "z": 2
+        }
+    }]
 }]
 
 _ALL_OBJECTS = None

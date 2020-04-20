@@ -62,13 +62,18 @@ OBJECT_LIST = [{
     ],
     'position': {
         'x': 0,
-        'y': 0,
+        'y': 0.3,
         'z': 2
     },
+    'rotation': {
+        'x': -30,
+        'y': 0,
+        'z': 0
+    },
     'scale': {
-        'x': 10,
-        'y': 10,
-        'z': 10
+        'x': 8,
+        'y': 8,
+        'z': 8
     }
 }, {
     'type': 'block_blank_wood_cylinder',
@@ -81,13 +86,18 @@ OBJECT_LIST = [{
     ],
     'position': {
         'x': 0,
-        'y': 0,
+        'y': 0.3,
         'z': 2
     },
+    'rotation': {
+        'x': -30,
+        'y': 0,
+        'z': 0
+    },
     'scale': {
-        'x': 10,
-        'y': 10,
-        'z': 10
+        'x': 8,
+        'y': 8,
+        'z': 8
     }
 }, {
     'type': 'block_yellow_number_1',
@@ -97,13 +107,18 @@ OBJECT_LIST = [{
     ],
     'position': {
         'x': 0,
-        'y': 0,
+        'y': 0.3,
         'z': 2
     },
+    'rotation': {
+        'x': -30,
+        'y': 0,
+        'z': 0
+    },
     'scale': {
-        'x': 10,
-        'y': 10,
-        'z': 10
+        'x': 8,
+        'y': 8,
+        'z': 8
     }
 }, {
     'type': 'bowl_3',
@@ -229,7 +244,7 @@ OBJECT_LIST = [{
 }, {
     'type': 'changing_table',
     'materials_options': [
-        ['wood', 'metal']
+        ['wood', 'wood']
     ],
     'position': {
         'x': 0,
@@ -336,18 +351,18 @@ OBJECT_LIST = [{
     ],
     'position': {
         'x': 0,
-        'y': 0,
+        'y': 0.1,
         'z': 2
     },
     'rotation': {
-        'x': 0,
+        'x': -30,
         'y': 0,
         'z': 0
     },
     'scale': {
-        'x': 6.6,
-        'y': 6.6,
-        'z': 6.6
+        'x': 6,
+        'y': 6,
+        'z': 6
     }
 }, {
     'type': 'pacifier',
@@ -521,18 +536,18 @@ OBJECT_LIST = [{
     ],
     'position': {
         'x': 0,
-        'y': 0,
+        'y': 0.2,
         'z': 2
     },
     'rotation': {
         'x': 0,
         'y': 90,
-        'z': 0
+        'z': -30
     },
     'scale': {
-        'x': 10,
-        'y': 10,
-        'z': 10
+        'x': 12,
+        'y': 12,
+        'z': 12
     }
 }, {
     'type': 'shelf_1',
