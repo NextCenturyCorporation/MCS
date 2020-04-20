@@ -3,26 +3,10 @@
 This is code that may be useful for people on the Machine Common Sense
 program.
 
-##  Local Deployment Steps
+## Homepage
 
-# These installation instructions are for the Eval Platform for Eval1 at this time.
-
- 1. Make sure you have docker installed (Mac - brew install docker)
- 2. Make sure you also have docker-compose installed (comes included in Mac install)
- 3. Make sure you have wget installed (Mac - brew install wget)
- 4. Make sure you have git installed (Mac - brew install git)
- 5. Check out the project here:  https://github.com/NextCenturyCorporation/MCS
- 6. cd into the project and into the subfolder ‘mcs_docker_setup’
- 7. sh install_from_scratch.sh
- 8. Next install python and pip (I installed python3/pip3 on mac). 
- 9. Install python elasticsearch client ('pip install elasticsearch', or ‘pip3 install elasticsearch’ if using a mac)
-10. Then go to the ingest_results folder in the MCS project
-11. Copy the ground_truth.txt file (https://development-environment-setup.s3.amazonaws.com/ground_truth.txt) into the ingest_results folder
-12. Unzip the submissions.zip (https://development-environment-setup.s3.amazonaws.com/submissions.zip) file into the ingest_results folder (Note:  this will unzip the first 6 submission files we received, if you are adding additional submissions, please zip up the contents of the folder only, and not the folder itself.  Also your submission file must start with the word submission) 
-13. Now run with python the create_json_ingest.py (if you installed python3 on mac, the command is python3 create_json_ingest.py)
-14. You should then be able to navigate to:  http://localhost:4199/?dashboard=-#%E2%9F%A6%E2%9F%A7
-
-*** Note, if you are adding additional submissions, add your submission zip to the ingest results folder and run step 12 again.
+Home for machinecommonsense.com
+[link](homepage/README.md) 
 
 ## Ingest Results
 
@@ -31,12 +15,43 @@ truth and submissions.  It is useful to see what a submission should
 look like and allows us to practice ingesting the data for scoring and
 visualizations.  The ground truth information, like the submission
 data, is made up.
+[link](ingest_results/README.md) 
 
 ## Masks
 
 The code in this directory makes the mask information for training
 data consistent.
+[link](masks/README.md) 
 
+## MCS_Docker_Setup
+
+Contains code and instructions for setting up the evaluation tools
+[link](mcs_docker_setup/README.md) 
+
+## Occluder Labeller
+
+A labelling of the objects in the scene that are occluders.
+[link](occluder/README.md) 
+
+## MCS Python Library
+
+Contains the python api for interacting with our AI2Thor/Unity Testing Environment
+[link](python_api/README.md) 
+
+## Scene Generator
+
+Scripts for generating scenes of training data.
+[link](scene-generator/README.md) 
+
+## Truthing (Ground Truth for Intphys)
+
+Contains code for establishing the ground truth of the Intphy tests for Evaluation 1
+[link](scene-truthing/README.md) 
+
+## Validation for Eval1 Submissions
+
+Validating Evaluation 1 Submissions
+[link](validation/README.md) 
 
 ## Apache 2 Open Source License
 

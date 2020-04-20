@@ -1,4 +1,3 @@
-
 # Masks Processor
 
 Code in this directory processes a train/ directory, reading each
