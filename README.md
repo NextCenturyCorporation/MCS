@@ -6,7 +6,7 @@ program.
 ## Homepage
 
 Home for machinecommonsense.com
-[link](homepage/README.md) 
+[Link to Homepage](homepage/README.md) 
 
 ## Ingest Results
 
@@ -15,43 +15,43 @@ truth and submissions.  It is useful to see what a submission should
 look like and allows us to practice ingesting the data for scoring and
 visualizations.  The ground truth information, like the submission
 data, is made up.
-[link](ingest_results/README.md) 
+[Link to Ingest Results](ingest_results/README.md) 
 
 ## Masks
 
 The code in this directory makes the mask information for training
 data consistent.
-[link](masks/README.md) 
+[Link to Masks](masks/README.md) 
 
 ## MCS_Docker_Setup
 
 Contains code and instructions for setting up the evaluation tools
-[link](mcs_docker_setup/README.md) 
+[Link Evaluation Tool Setup](mcs_docker_setup/README.md) 
 
 ## Occluder Labeller
 
 A labelling of the objects in the scene that are occluders.
-[link](occluder/README.md) 
+[Link to Occluder Labeller](occluder/README.md) 
 
 ## MCS Python Library
 
 Contains the python api for interacting with our AI2Thor/Unity Testing Environment
-[link](python_api/README.md) 
+[Link to Python API](python_api/README.md) 
 
 ## Scene Generator
 
 Scripts for generating scenes of training data.
-[link](scene-generator/README.md) 
+[Link to Scene Generator](scene-generator/README.md) 
 
 ## Truthing (Ground Truth for Intphys)
 
 Contains code for establishing the ground truth of the Intphy tests for Evaluation 1
-[link](scene-truthing/README.md) 
+[Link to Truthing](scene-truthing/README.md) 
 
 ## Validation for Eval1 Submissions
 
 Validating Evaluation 1 Submissions
-[link](validation/README.md) 
+[Link to Validation](validation/README.md) 
 
 ## Apache 2 Open Source License
 
