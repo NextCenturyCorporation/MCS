@@ -97,9 +97,8 @@ def instantiate_object(object_def, object_location):
 
 
 def move_to_container(target, all_objects, bounding_rects, performer_position):
-    """Try to find a random container that target will fit in. If found, put it in the container, remove it from all
-    _objects, and add container to all_objects (and bounding_rects). Return True iff the target was put in a
-    container."""
+    """Try to find a random container that target will fit in. If found, set the target's locationParent, and add
+    container to all_objects (and bounding_rects). Return True iff the target was put in a container."""
     shuffled_containers = objects.get_enclosed_containers().copy()
     random.shuffle(shuffled_containers)
     for container_def in shuffled_containers:
@@ -175,7 +174,7 @@ def find_image_for_object(object_def):
             
         return target_image
     except: 
-        logging.warn('Image object could not be found, make sure you generated the images.py file: ' + image_file_name)
+        logging.warning('Image object could not be found, make sure you generated the images.py file: ' + image_file_name)
 
 def find_image_name(target):
     return generate_image_file_name(target) + '.png'
