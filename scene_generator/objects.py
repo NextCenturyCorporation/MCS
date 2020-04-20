@@ -1321,9 +1321,29 @@ OBJECTS_IMMOBILE = [{
     "materialCategory": ["wood", "wood"],
     "salientMaterials": ["wood", "wood"],
     "attributes": ["receptacle", "openable"],
-    "enclosed_areas": [
-        # TODO
-    ],
+    "enclosed_areas": [{
+        "position": {
+            "x": 0.165,
+            "y": 0.47,
+            "z": -0.03
+        },
+        "dimensions": {
+            "x": 0.68,
+            "y": 0.22,
+            "z": 0.41
+        }
+    }, {
+        "position": {
+            "x": 0.165,
+            "y": 0.19,
+            "z": -0.03
+        },
+        "dimensions": {
+            "x": 0.68,
+            "y": 0.2,
+            "z": 0.41
+        }
+    }],
     "open_areas": [
         # TODO
     ],
