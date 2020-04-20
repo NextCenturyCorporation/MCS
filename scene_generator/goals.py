@@ -21,7 +21,7 @@ from numpy import degrees
 from numpy.core import arctan2
 import math
 
-from .mcs_controller_ai2thor import MAX_MOVE_DISTANCE
+from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
 
 MAX_TRIES = 20
 MAX_OBJECTS = 5
@@ -276,11 +276,10 @@ class Goal(ABC):
             actions.append(action)
         distance = sqrt( dx ** 2 + dz ** 2 )
         frac, whole = math.modf(distance / MAX_MOVE_DISTANCE)
-        for wholes in range(int(whole)):
-            actions.append({
+        actions.extend([{
                     "action": "MoveAhead",
                     "params": {}
-                    })
+                    }]*int(whole))
         actions.append({
                 "action": "MoveAhead",
                 "params": {
@@ -308,8 +307,8 @@ class Goal(ABC):
                 logging.warning('could not generate wall')
         return walls
     @abstractmethod
-    def find_answer(self, goal_objects, all_objects):
-        '''Compute the optimal set of moves and up[date the body object'''
+    def find_optimal_path(self, goal_objects, all_objects):
+        '''Compute the optimal set of moves and update the body object'''
         pass
        
     @staticmethod
@@ -341,7 +340,7 @@ class EmptyGoal(Goal):
         return ''
     
  
-    def get_answer(self, goal_objects, all_objects):
+    def find_optimal_path(self, goal_objects, all_objects):
         return ''
 
 
@@ -434,7 +433,7 @@ class RetrievalGoal(InteractionGoal):
         return goal
 
    
-    def find_answer(self, goal_objects, all_objects):
+    def find_optimal_path(self, goal_objects, all_objects):
         #Goal should be a singleton... I hope
         performer = (self._performer_start['position']['x'],self._performer_start['position']['z'])
         goal = (goal_objects[0]['shows'][0]['position']['x'],goal_objects[0]['shows'][0]['position']['z'])
@@ -520,14 +519,13 @@ class TransferralGoal(InteractionGoal):
             f'the {target2["info"][-1]}.'
         return goal
     
-    def find_answer(self, goal_objects, all_objects):
+    def find_optimal_path(self, goal_objects, all_objects):
         #Goal should be a singleton... I hope
         performer = (self._performer_start['position']['x'],self._performer_start['position']['z'])
         goal = (goal_objects[0]['shows'][0]['position']['x'],goal_objects[0]['shows'][0]['position']['z'])
         hole_rects=[]
         hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if object['id'] != goal_objects[0]['id'])
         path = generatepath(performer, goal, hole_rects)
-        
   
         actions = []
         current_heading = self._performer_start['rotation']['y']
@@ -608,7 +606,8 @@ class TraversalGoal(Goal):
         }
         goal['description'] = f'Locate the {" ".join(target["info"])} and move near it.'
         return goal
-    def find_answer(self, goal_objects, all_objects):
+    
+    def find_optimal_path(self, goal_objects, all_objects):
         #Goal should be a singleton... I hope
         performer = (self._performer_start['position']['x'],self._performer_start['position']['z'])
         goal = (goal_objects[0]['shows'][0]['position']['x'],goal_objects[0]['shows'][0]['position']['z'])

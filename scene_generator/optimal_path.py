@@ -8,7 +8,7 @@ from numpy.ma.core import arctan
 
 # passing the other_rects from my  calculations previously
 # This is the source for extremitypathfinder: https://github.com/MrMinimal64/extremitypathfinder
-#other_loc will probably contain the target- we'll see
+#target_loc will probably contain the target- we'll see
 def generatepath(source_loc, target_loc, other_rects):
     '''Boundary has to be CCW, Holes CW'''
     boundary_coordinates = [ (MAX_SCENE_POSITION, MAX_SCENE_POSITION),(MIN_SCENE_POSITION, MAX_SCENE_POSITION),(MIN_SCENE_POSITION, MIN_SCENE_POSITION), (MAX_SCENE_POSITION,MIN_SCENE_POSITION)]
