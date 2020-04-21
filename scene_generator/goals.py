@@ -145,7 +145,7 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
     if tries < MAX_TRIES:
         new_object = {
             'id': 'wall_' + str(uuid.uuid4()),
-            'material': wall_mat_choice,
+            'materials': [wall_mat_choice],
             'type': 'cube',
             'kinematic': 'true',
             'structure': 'true',
