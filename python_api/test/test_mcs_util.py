@@ -66,26 +66,30 @@ class Test_MCS_Util(unittest.TestCase):
             MCS_Object(
                 uuid='id1',
                 held=True,
-                visible=True,
-                distance=0,
+                position=None,
+                distance_in_world=0,
                 direction=None
             ),
             MCS_Object(
                 uuid='really_long_id2',
                 held=False,
-                visible=False,
-                distance=1234.5678,
+                position={
+                    'x': 1,
+                    'y': 2,
+                    'z': 3
+                },
+                distance_in_world=1234567890987654321,
                 direction={
-                    'x': 10,
-                    'y': 20,
-                    'z': 30
+                    'x': 10000,
+                    'y': 20000,
+                    'z': 30000
                 }
             )
         ]
         self.assertEqual(MCS_Util.generate_pretty_object_output(object_list), [
-            'OBJECT ID        HELD   VISIBLE  DISTANCE   DIRECTION ',
-            'id1              True   True     0          None      ',
-            'really_long_id2  False  False    1234.5678  (10,20,30)'
+            'OBJECT ID        HELD   POSITION (WORLD)  DISTANCE (WORLD)     DIRECTION (WORLD)  ',
+            'id1              True   None              0                    None               ',
+            'really_long_id2  False  (1,2,3)           1234567890987654321  (10000,20000,30000)'
         ])
 
     def test_input_to_action_and_params(self):

@@ -48,9 +48,9 @@ class MCS_Util:
     @staticmethod
     def generate_pretty_object_output(object_list):
         # TODO What else should we show here?
-        titles = ["OBJECT ID", "HELD", "VISIBLE", "DISTANCE", "DIRECTION"]
-        rows = [titles] + [[metadata.uuid, metadata.held, metadata.visible, metadata.distance, \
-                MCS_Util.vector_to_string(metadata.direction)] for metadata in object_list]
+        titles = ["OBJECT ID", "HELD", "POSITION (WORLD)", "DISTANCE (WORLD)", "DIRECTION (WORLD)"]
+        rows = [titles] + [[metadata.uuid, metadata.held, MCS_Util.vector_to_string(metadata.position), \
+                metadata.distance_in_world, MCS_Util.vector_to_string(metadata.direction)] for metadata in object_list]
         widths = [max(len(str(row[i])) for row in rows) for i in range(0, len(titles))]
         return [("  ".join(str(row[i]).ljust(widths[i]) for i in range(0, len(row)))) for row in rows]
 
