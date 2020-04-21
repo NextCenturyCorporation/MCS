@@ -251,13 +251,25 @@ def test_Goal_duplicate_object():
             "z": 0.1
         }
     }
-    sphere = instantiate_object(obj, {})
-    object_list = [obj]
+    object_location = {
+        'position': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        },
+        'rotation': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        }
+    }
+    sphere = instantiate_object(obj, object_location)
+    object_list = [sphere]
     bounding_rect = [[{'x': 3.7346446609406727, 'y': 0, 'z': 4.23}, {'x': 3.77, 'y': 0, 'z': 4.265355339059328}, {'x': 3.8053553390593273, 'y': 0, 'z': 4.23}, {'x': 3.77, 'y': 0, 'z': 4.194644660940673}], [{'x': 3.846, 'y': 0, 'z': -1.9685000000000001}, {'x': 3.846, 'y': 0, 'z': -2.4715000000000003}, {'x': 3.1340000000000003, 'y': 0, 'z': -2.4715000000000003}, {'x': 3.1340000000000003, 'y': 0, 'z': -1.9685000000000001}]]
     performer_position = {'x': 0.77, 'y': 0, 'z': -0.41}
     goal = goal_obj.get_config(object_list)
-    foo = goal_obj.add_objects([sphere], bounding_rect, performer_position)
-    assert foo is None
+    empty = goal_obj.add_objects([sphere], bounding_rect, performer_position)
+    assert empty is None
 
 
 def test_TraversalGoal_get_goal():
