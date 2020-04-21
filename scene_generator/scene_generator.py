@@ -48,7 +48,7 @@ def load_object_file(object_file_name):
     return objects
 
 
-def generate_file(name, goal_type):
+def generate_file(name, goal_type, find_path):
     global OUTPUT_TEMPLATE
     body = copy.deepcopy(OUTPUT_TEMPLATE)
     body['name'] = os.path.basename(name)
@@ -57,7 +57,7 @@ def generate_file(name, goal_type):
     body['wallMaterial'] = ceil_wall_mat_choice[0]
     body['floorMaterial'] = random.choice(FLOOR_MATERIALS)[0]
 
-    goal_obj = goals.choose_goal(goal_type)
+    goal_obj = goals.choose_goal(goal_type, find_path)
     goal_obj.update_body(body)
 
     # Use PrettyJsonNoIndent on some of the lists and dicts in the output body because the indentation from the normal
@@ -82,7 +82,7 @@ def wrap_with_json_no_indent(data, prop_list):
         if prop in data:
             data[prop] = PrettyJsonNoIndent(data[prop])
 
-def generate_fileset(prefix, count, goal_type, stop_on_error):
+def generate_fileset(prefix, count, goal_type, find_path, stop_on_error):
     # skip existing files
     index = 1
     dirname = os.path.dirname(prefix)
@@ -97,7 +97,7 @@ def generate_fileset(prefix, count, goal_type, stop_on_error):
                 break
             index += 1
         try:
-            generate_file(name, goal_type)
+            generate_file(name, goal_type, find_path)
             count -= 1
         except (RuntimeError, ZeroDivisionError, TypeError) as e:
             if stop_on_error:
@@ -112,6 +112,8 @@ def main(argv):
     parser.add_argument('--seed', type=int, default=None, help='Random number seed [default=None]')
     parser.add_argument('--goal', default=None, choices=goals.get_goal_types(),
                         help='Generate a goal of the specified type [default is to not generate a goal]')
+    parser.add_argument('--find_path', default=False, action='store_true',
+                        help='Whether to run the pathfinding for interaction goals')
     parser.add_argument('--stop-on-error', default=False, action='store_true',
                         help='Stop immediately if there is an error generating a file [default is print a warning but '
                              'do not stop]')
@@ -123,7 +125,7 @@ def main(argv):
     if args.loglevel:
         logging.getLogger().setLevel(args.loglevel)
 
-    generate_fileset(args.prefix, args.count, args.goal, args.stop_on_error)
+    generate_fileset(args.prefix, args.count, args.goal, args.find_path, args.stop_on_error)
 
 
 if __name__ == '__main__':

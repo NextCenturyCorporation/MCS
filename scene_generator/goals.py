@@ -205,7 +205,8 @@ class Goal(ABC):
     get_config. Users of a goal object should normally only need to call 
     update_body."""
 
-    def __init__(self):
+    def __init__(self, find_path=False):
+        self._find_path = find_path
         self._performer_start = None
         self._targets = []
 
@@ -217,7 +218,8 @@ class Goal(ABC):
                                     bounding_rects)
         body['objects'] = all_objects + walls
         body['goal'] = self.get_config(goal_objects)
-        body['answer']['actions'] = self.find_optimal_path(goal_objects, all_objects+walls)
+        if self._find_path:
+            body['answer']['actions'] = self.find_optimal_path(goal_objects, all_objects+walls)
         
         return body
 
@@ -342,8 +344,8 @@ class Goal(ABC):
 class EmptyGoal(Goal):
     """An empty goal."""
 
-    def __init__(self):
-        super(EmptyGoal, self).__init__()
+    def __init__(self, find_path=False):
+        super(EmptyGoal, self).__init__(find_path)
 
     def compute_objects(self):
         return [], [], []
@@ -362,8 +364,8 @@ class InteractionGoal(Goal, ABC):
     OBJECT_CONTAINED_CHANCE = 0.5
     """Chance that, if the target is in a container, a non-target pickupable object in the scene will be, too."""
 
-    def __init__(self):
-        super(InteractionGoal, self).__init__()
+    def __init__(self, find_path=False):
+        super(InteractionGoal, self).__init__(find_path)
         self._bounding_rects = []
 
     def _set_performer_start(self):
@@ -419,8 +421,8 @@ class RetrievalGoal(InteractionGoal):
         'task_list': ['navigate', 'localize', 'retrieve'],
     }
 
-    def __init__(self):
-        super(RetrievalGoal, self).__init__()
+    def __init__(self, find_path=False):
+        super(RetrievalGoal, self).__init__(find_path)
 
     def get_config(self, objects):
         if len(objects) < 1:
@@ -484,8 +486,8 @@ class TransferralGoal(InteractionGoal):
         'task_list': ['navigation', 'identification', 'transportation']
     }
 
-    def __init__(self):
-        super(TransferralGoal, self).__init__()
+    def __init__(self, find_path=False):
+        super(TransferralGoal, self).__init__(find_path)
 
 
     def _set_goal_objects(self):
@@ -579,8 +581,8 @@ class TraversalGoal(Goal):
         'task_list': ['navigate', 'localize', 'traversal'],
     }
 
-    def __init__(self):
-        super(TraversalGoal, self).__init__()
+    def __init__(self, find_path=False):
+        super(TraversalGoal, self).__init__(find_path)
 
     def compute_objects(self):
         # add objects we need for the goal
@@ -644,13 +646,13 @@ GOAL_TYPES = {
 }
 
 
-def choose_goal(goal_type):
+def choose_goal(goal_type, find_path):
     """Return a random class of 'goal' object from within the specified
 overall type, or EmptyGoal if goal_type is None"""
     if goal_type is None:
-        return EmptyGoal()
+        return EmptyGoal(find_path)
     else:
-        return random.choice(GOAL_TYPES[goal_type])()
+        return random.choice(GOAL_TYPES[goal_type])(find_path)
 
 
 def get_goal_types():
