@@ -243,9 +243,6 @@ class Goal(ABC):
     def add_objects(self, object_list, rectangles, performer_position):
         """Add random objects to fill object_list to some random number of objects up to MAX_OBJECTS. If object_list
         already has more than this randomly determined number, no new objects are added."""
-        print("Goal add_objects called")
-        print(rectangles)
-        print(performer_position)
         object_count = random.randint(1, MAX_OBJECTS)
         for i in range(len(object_list), object_count):
             object_def = self.choose_object_def()
@@ -332,9 +329,6 @@ class InteractionGoal(Goal, ABC):
 
     def add_objects(self, all_objects, bounding_rects, performer_position):
         """Maybe add a container and put the target inside it. If so, maybe put other objects in other objects, too."""
-        print("interaction add_objects called")
-        print(bounding_rects)
-        print(performer_position)
         if random.random() <= self.TARGET_CONTAINED_CHANCE:
             if move_to_container(self._target, all_objects, bounding_rects, performer_position):
                 # maybe do it with other objects, too
