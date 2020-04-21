@@ -36,19 +36,27 @@ WALL_COUNTS = [0, 1, 2, 3]
 WALL_PROBS = [60, 20, 10, 10]
 
 
+def finalize_object_definition(object_def):
+    object_def_copy = copy.deepcopy(object_def)
+
+    # apply choice if necessary
+    if 'choose' in object_def_copy:
+        choice = random.choice(object_def_copy['choose'])
+        for key in choice:
+            object_def_copy[key] = choice[key]
+        del object_def_copy['choose']
+
+    return object_def_copy
+
 def instantiate_object(object_def, object_location):
     """Create a new object from an object definition (as from the objects.json file). object_location will be modified
     by this function."""
     if object_def is None or object_location is None:
         raise ValueError('instantiate_object cannot take None parameters')
 
-    # apply choice if necessary
-    if 'choose' in object_def:
-        object_def = object_def.copy()
-        choice = random.choice(object_def['choose'])
-        for key in choice:
-            object_def[key] = choice[key]
-            
+    # Call the finalize function here in case it wasn't called before now (calling it twice shouldn't hurt anything).
+    object_def = finalize_object_definition(object_def)
+
     new_object = {
         'id': str(uuid.uuid4()),
         'type': object_def['type'],
@@ -104,12 +112,12 @@ def instantiate_object(object_def, object_location):
 
 
 def move_to_container(target, all_objects, bounding_rects, performer_position):
-    """Try to find a random container that target will fit in. If found, put it in the container, remove it from all
-    _objects, and add container to all_objects (and bounding_rects). Return True iff the target was put in a
-    container."""
+    """Try to find a random container that target will fit in. If found, set the target's locationParent, and add
+    container to all_objects (and bounding_rects). Return True iff the target was put in a container."""
     shuffled_containers = objects.get_enclosed_containers().copy()
     random.shuffle(shuffled_containers)
     for container_def in shuffled_containers:
+        container_def = finalize_object_definition(container_def)
         area_index = geometry.can_contain(container_def, target)
         if area_index is not None:
             # try to place the container before we accept it
@@ -182,7 +190,7 @@ def find_image_for_object(object_def):
             
         return target_image
     except: 
-        logging.warn('Image object could not be found, make sure you generated the images.py file: ' + image_file_name)
+        logging.warning('Image object could not be found, make sure you generated the images.py file: ' + image_file_name)
 
 def find_image_name(target):
     return generate_image_file_name(target) + '.png'
@@ -232,7 +240,7 @@ class Goal(ABC):
         """Pick one object definition (to be added to the scene) and return a copy of it."""
         object_def_list = random.choices([OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE],
                                          [50, 25, 25])[0]
-        return copy.deepcopy(random.choice(object_def_list))
+        return finalize_object_definition(random.choice(object_def_list))
 
     @abstractmethod
     def compute_objects(self):
@@ -361,7 +369,7 @@ class InteractionGoal(Goal, ABC):
     def _set_target_def(self):
         """Chooses a pickupable object since most interaction goals require that."""
         pickupable_defs = random.choice(OBJECTS_PICKUPABLE_LISTS)
-        self._target_def = random.choice(pickupable_defs)
+        self._target_def = finalize_object_definition(random.choice(pickupable_defs))
 
     def _set_target_location(self):
         performer_position = self._performer_start['position']

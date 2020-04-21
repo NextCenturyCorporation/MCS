@@ -1,7 +1,6 @@
 from goals import *
 import pytest
 import uuid
-from images import OBJECT_IMAGES
 
 
 def test_instantiate_object():
@@ -154,47 +153,42 @@ def test_instantiate_object_size():
         assert size in obj['info']
 
 
-def test_instantiate_object_choose():
-    object_type = str(uuid.uuid4())
-    mass = random.random()
-    salient_materials = ["plastic", "hollow"]
+def test_finalize_object_definition():
+    object_type = 'type1'
+    mass = 12.34
+    material_category = ['plastic']
+    salient_materials = ['plastic', 'hollow']
     object_def = {
-        'type': str(uuid.uuid4()),
-        'info': [str(uuid.uuid4()), str(uuid.uuid4())],
-        'mass': random.random(),
-        'scale': 1.0,
-        'attributes': [],
+        'type': 'type2',
+        'mass': 56.78,
         'choose': [{
             'type': object_type,
             'mass': mass,
+            'materialCategory': material_category,
             'salientMaterials': salient_materials
         }]
     }
-    object_location = {
-        'position': {
-            'x': 0.0,
-            'y': 0.0,
-            'z': 0.0
-        },
-        'rotation': {
-            'x': 0.0,
-            'y': 0.0,
-            'z': 0.0
-        }
-    }
-    obj = instantiate_object(object_def, object_location)
+    obj = finalize_object_definition(object_def)
     assert obj['type'] == object_type
     assert obj['mass'] == mass
+    assert obj['materialCategory'] == material_category
     assert obj['salientMaterials'] == salient_materials
 
 
 def test_move_to_container():
     # find a tiny object so we know it will fit in *something*
     for obj_def in objects.OBJECTS_PICKUPABLE:
+        obj_def = finalize_object_definition(obj_def)
         if 'tiny' in obj_def['info']:
             obj = instantiate_object(obj_def, geometry.ORIGIN_LOCATION)
             all_objects = [obj]
-            move_to_container(obj, all_objects, [], geometry.ORIGIN)
+            tries = 0
+            while tries < 100:
+                if move_to_container(obj, all_objects, [], geometry.ORIGIN):
+                    break
+                tries += 1
+            if tries == 100:
+                logging.error('could not put the object in any container')
             container_id = all_objects[1]['id']
             assert obj['locationParent'] == container_id
             return
