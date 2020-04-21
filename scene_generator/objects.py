@@ -1493,8 +1493,8 @@ OBJECTS_IMMOBILE = [{
     "choose": [{
         "info": ["medium", "shelf"],
         "mass": 10,
-        "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic"],
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"],
         "open_areas": [
             # TODO
         ],
@@ -1518,8 +1518,8 @@ OBJECTS_IMMOBILE = [{
     }, {
         "info": ["huge", "shelf"],
         "mass": 15,
-        "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic"],
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"],
         "open_areas": [
             # TODO
         ],
@@ -1547,8 +1547,8 @@ OBJECTS_IMMOBILE = [{
     "choose": [{
         "info": ["medium", "shelf"],
         "mass": 5,
-        "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic"],
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"],
         "open_areas": [
             # TODO
         ],
@@ -1571,8 +1571,8 @@ OBJECTS_IMMOBILE = [{
     }, {
         "info": ["huge", "shelf"],
         "mass": 15,
-        "materialCategory": ["plastic"],
-        "salientMaterials": ["plastic"],
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"],
         "open_areas": [
             # TODO
         ],
