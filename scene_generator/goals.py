@@ -209,7 +209,7 @@ class Goal(ABC):
         self._performer_start = None
         self._targets = []
 
-    def update_body(self, body):
+    def update_body(self, body, find_path):
         """Helper method that calls other Goal methods to set performerStart, objects, and goal."""
         body['performerStart'] = self.compute_performer_start()
         goal_objects, all_objects, bounding_rects = self.compute_objects()
@@ -217,7 +217,8 @@ class Goal(ABC):
                                     bounding_rects)
         body['objects'] = all_objects + walls
         body['goal'] = self.get_config(goal_objects)
-        body['answer']['actions'] = self.find_optimal_path(goal_objects, all_objects+walls)
+        if find_path:
+            body['answer']['actions'] = self.find_optimal_path(goal_objects, all_objects+walls)
         
         return body
 
