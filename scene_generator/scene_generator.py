@@ -60,6 +60,7 @@ def generate_file(name, goal_type):
     body['floorMaterial'] = random.choice(FLOOR_MATERIALS)[0]
 
     goal_obj = goals.choose_goal(goal_type)
+    print(goal_obj)
     goal_obj.update_body(body)
 
     # Use PrettyJsonNoIndent on some of the lists and dicts in the output body because the indentation from the normal

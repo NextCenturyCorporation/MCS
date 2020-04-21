@@ -200,6 +200,7 @@ class Goal(ABC):
 
     def __init__(self):
         self._performer_start = None
+        self._targets = []
 
     def update_body(self, body):
         """Helper method that calls other Goal methods to set performerStart, objects, and goal."""
@@ -242,11 +243,16 @@ class Goal(ABC):
     def add_objects(self, object_list, rectangles, performer_position):
         """Add random objects to fill object_list to some random number of objects up to MAX_OBJECTS. If object_list
         already has more than this randomly determined number, no new objects are added."""
+        print("Goal add_objects called")
+        print(rectangles)
+        print(performer_position)
         object_count = random.randint(1, MAX_OBJECTS)
         for i in range(len(object_list), object_count):
             object_def = self.choose_object_def()
             obj_location = calc_obj_pos(performer_position, rectangles, object_def)
-            if obj_location is not None:
+            obj_info = object_def['info'][-1]
+            targets_info = [tgt['info'][-1] for tgt in self._targets]
+            if obj_info not in targets_info and obj_location is not None:
                 obj = instantiate_object(object_def, obj_location)
                 object_list.append(obj)
 
@@ -326,6 +332,9 @@ class InteractionGoal(Goal, ABC):
 
     def add_objects(self, all_objects, bounding_rects, performer_position):
         """Maybe add a container and put the target inside it. If so, maybe put other objects in other objects, too."""
+        print("interaction add_objects called")
+        print(bounding_rects)
+        print(performer_position)
         if random.random() <= self.TARGET_CONTAINED_CHANCE:
             if move_to_container(self._target, all_objects, bounding_rects, performer_position):
                 # maybe do it with other objects, too
@@ -367,6 +376,8 @@ class RetrievalGoal(InteractionGoal):
             raise ValueError('need at least 1 object for this goal')
 
         target = objects[0]
+        self._target = target
+        self._targets.append(target)
         target_image_obj = find_image_for_object(target)
         image_name = find_image_name(target)
 
@@ -416,6 +427,7 @@ class TransferralGoal(InteractionGoal):
             raise ValueError(f'first object must be "pickupable": {target1}')
         relationship = random.choice(list(self.RelationshipType))
 
+        self._targets.append([target1, target2])
         target1_image_obj = find_image_for_object(target1)
         target2_image_obj = find_image_for_object(target2)
 
@@ -471,7 +483,7 @@ class TraversalGoal(Goal):
             raise GoalException('could not place target object')
 
         target = instantiate_object(target_def, target_location)
-
+        self._targets.append(target)
         all_objects = [target]
         self.add_objects(all_objects, bounding_rects, performer_position)
 
