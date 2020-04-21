@@ -10,7 +10,9 @@ MIN_PERFORMER_POSITION = -4.8
 MAX_PERFORMER_POSITION = 4.8
 POSITION_DIGITS = 2
 VALID_ROTATIONS = (0, 45, 90, 135, 180, 225, 270, 315)
+
 ROOM_DIMENSIONS = ((-4.95, 4.95), (-4.95, 4.95))
+
 
 ORIGIN = {
     "x": 0.0,
@@ -110,7 +112,8 @@ object in the frame, None otherwise."""
     if tries < MAX_TRIES:
         new_object = {
             'rotation': {'x': 0, 'y': rotation, 'z': 0},
-            'position':  {'x': new_x, 'y': old_object['position_y'], 'z': new_z}
+            'position':  {'x': new_x, 'y': old_object['position_y'], 'z': new_z},
+            'bounding_box': rect
             }
         other_rects.append(rect)
         return new_object
