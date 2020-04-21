@@ -138,7 +138,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.1,
         "y": 0.1,
@@ -163,7 +163,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.1,
         "y": 0.2,
@@ -188,7 +188,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.2,
         "y": 0.1,
@@ -287,7 +287,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
     "mass": 0.66,
     "materialCategory": ["block_letter"],
     "salientMaterials": ["wood"],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.1,
         "y": 0.1,
@@ -311,7 +311,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
     "mass": 0.66,
     "materialCategory": ["block_number"],
     "salientMaterials": ["wood"],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.1,
         "y": 0.1,
@@ -564,7 +564,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.175,
         "y": 0.116,
@@ -589,7 +589,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.209,
         "y": 0.059,
@@ -614,7 +614,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.105,
         "y": 0.135,
@@ -639,7 +639,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.106,
         "y": 0.098,
@@ -664,7 +664,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.208,
         "y": 0.117,
@@ -689,7 +689,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.304,
         "y": 0.208,
@@ -856,7 +856,7 @@ OBJECTS_MOVEABLE = [{
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"]
     }],
-    "attributes": ["moveable", "receptacle"],
+    "attributes": ["moveable", "receptacle", "stackTarget"],
     "dimensions": {
         "x": 0.54,
         "y": 1.04,
@@ -881,7 +881,7 @@ OBJECTS_MOVEABLE = [{
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"]
     }],
-    "attributes": ["moveable", "receptacle"],
+    "attributes": ["moveable", "receptacle", "stackTarget"],
     "dimensions": {
         "x": 0.3,
         "y": 0.75,
@@ -906,7 +906,7 @@ OBJECTS_MOVEABLE = [{
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
     }],
-    "attributes": ["moveable"],
+    "attributes": ["moveable", "stackTarget"],
     "dimensions": {
         "x": 0.25,
         "y": 0.25,
@@ -1320,7 +1320,7 @@ OBJECTS_IMMOBILE = [{
     "mass": 100,
     "materialCategory": ["wood", "wood"],
     "salientMaterials": ["wood", "wood"],
-    "attributes": ["receptacle", "openable"],
+    "attributes": ["receptacle", "openable", "stackTarget"],
     "enclosed_areas": [{
         "position": {
             "x": 0.165,
@@ -1439,8 +1439,8 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "table_5",
     "info": ["huge", "table"],
-    "attributes": ["receptacle"],
     "choose": [{
+        "attributes": ["receptacle"],
         "mass": 20,
         "materialCategory": ["wood", "wood"],
         "salientMaterials": ["wood"],
@@ -1464,6 +1464,7 @@ OBJECTS_IMMOBILE = [{
             "z": 1
         }
     }, {
+        "attributes": ["receptacle", "stackTarget"],
         "mass": 10,
         "materialCategory": ["wood", "wood"],
         "salientMaterials": ["wood"],
@@ -1489,9 +1490,35 @@ OBJECTS_IMMOBILE = [{
     }]
 }, {
     "type": "table_6",
-    "attributes": ["receptacle"],
     "choose": [{
+        "info": ["small", "shelf"],
+        "attributes": ["receptacle", "stackTarget"],
+        "mass": 5,
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"],
+        "open_areas": [
+            # TODO
+        ],
+        "dimensions": {
+            "x": 0.93,
+            "y": 0.75,
+            "z": 1.02
+        },
+        "offset": {
+            "x": 0.04,
+            "y": 0.35,
+            "z": 0
+        },
+        "position_y": 0,
+        "scale": {
+            # Final scale: 0.5, 0.5, 0.5
+            "x": 0.67451805685,
+            "y": 0.5,
+            "z": 0.22453039467
+        }
+    }, {
         "info": ["medium", "shelf"],
+        "attributes": ["receptacle"],
         "mass": 10,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"],
@@ -1517,6 +1544,7 @@ OBJECTS_IMMOBILE = [{
         }
     }, {
         "info": ["huge", "shelf"],
+        "attributes": ["receptacle"],
         "mass": 15,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"],
@@ -1543,10 +1571,35 @@ OBJECTS_IMMOBILE = [{
     }]
 }, {
     "type": "shelf_1",
-    "attributes": ["receptacle"],
     "choose": [{
-        "info": ["medium", "shelf"],
+        "info": ["small", "shelf"],
+        "attributes": ["receptacle", "stackTarget"],
         "mass": 5,
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"],
+        "open_areas": [
+            # TODO
+        ],
+        "dimensions": {
+            "x": 0.39,
+            "y": 0.385,
+            "z": 0.2
+        },
+        "offset": {
+            "x": 0,
+            "y": 0.195,
+            "z": 0
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        }
+    }, {
+        "info": ["medium", "shelf"],
+        "attributes": ["receptacle"],
+        "mass": 10,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"],
         "open_areas": [
@@ -1570,6 +1623,7 @@ OBJECTS_IMMOBILE = [{
         }
     }, {
         "info": ["huge", "shelf"],
+        "attributes": ["receptacle"],
         "mass": 15,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"],
@@ -1597,7 +1651,7 @@ OBJECTS_IMMOBILE = [{
     "type": "sofa_1",
     "info": ["huge", "brown", "sofa"],
     "mass": 100,
-    "attributes": ["receptacle"],
+    "attributes": ["receptacle", "stackTarget"],
     "open_areas": [
         # TODO
     ],
@@ -1621,7 +1675,7 @@ OBJECTS_IMMOBILE = [{
     "type": "sofa_chair_1",
     "info": ["huge", "black", "sofa chair"],
     "mass": 50,
-    "attributes": ["receptacle"],
+    "attributes": ["receptacle", "stackTarget"],
     "open_areas": [
         # TODO
     ],
