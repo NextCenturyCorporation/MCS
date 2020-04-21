@@ -127,6 +127,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "y": 0,
                         "z": 0
                     },
+                    "distance": 0,
                     "distanceXZ": 0,
                     "isPickedUp": True,
                     "mass": 1,
@@ -149,9 +150,13 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "y": -30,
                         "z": 0
                     },
+                    "distance": 1.5,
                     "distanceXZ": 1.1,
                     "isPickedUp": False,
                     "mass": 12.34,
+                    "objectBounds": {
+                        "objectBoundsCorners": ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"]
+                    },
                     "objectId": "testId2",
                     "position": {
                         "x": 1,
@@ -178,12 +183,15 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "g": 34,
             "b": 56
         })
+        self.assertEqual(actual[0].dimensions, {})
         self.assertEqual(actual[0].direction, {
             "x": 0,
             "y": 0,
             "z": 0
         })
         self.assertEqual(actual[0].distance, 0)
+        self.assertEqual(actual[0].distance_in_steps, 0)
+        self.assertEqual(actual[0].distance_in_world, 0)
         self.assertEqual(actual[0].held, True)
         self.assertEqual(actual[0].mass, 1)
         self.assertEqual(actual[0].material_list, [])
@@ -195,12 +203,15 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "g": 76,
             "b": 54
         })
+        self.assertEqual(actual[1].dimensions, ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
         self.assertEqual(actual[1].direction, {
             "x": 90,
             "y": -30,
             "z": 0
         })
         self.assertEqual(actual[1].distance, 2.2)
+        self.assertEqual(actual[1].distance_in_steps, 2.2)
+        self.assertEqual(actual[1].distance_in_world, 1.5)
         self.assertEqual(actual[1].held, False)
         self.assertEqual(actual[1].mass, 12.34)
         self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
@@ -347,9 +358,13 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "y": -30,
                         "z": 0
                     },
+                    "distance": 1.5,
                     "distanceXZ": 1.1,
                     "isPickedUp": False,
                     "mass": 12.34,
+                    "objectBounds": {
+                        "objectBoundsCorners": ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"]
+                    },
                     "objectId": "testId",
                     "position": {
                         "x": 10,
@@ -383,12 +398,15 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "g": 34,
             "b": 56
         })
+        self.assertEqual(actual.object_list[0].dimensions, ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
         self.assertEqual(actual.object_list[0].direction, {
             "x": 90,
             "y": -30,
             "z": 0
         })
         self.assertEqual(actual.object_list[0].distance, 2.2)
+        self.assertEqual(actual.object_list[0].distance_in_steps, 2.2)
+        self.assertEqual(actual.object_list[0].distance_in_world, 1.5)
         self.assertEqual(actual.object_list[0].held, False)
         self.assertEqual(actual.object_list[0].mass, 12.34)
         self.assertEqual(actual.object_list[0].material_list, ["WOOD"])
