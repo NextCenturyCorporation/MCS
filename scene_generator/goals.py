@@ -190,7 +190,7 @@ def find_image_for_object(object_def):
             
         return target_image
     except: 
-        logging.warning('Image object could not be found, make sure you generated the images.py file: ' + image_file_name)
+        logging.warning('Image object could not be found, make sure you generated the image: ' + image_file_name)
 
 def find_image_name(target):
     return generate_image_file_name(target) + '.png'
