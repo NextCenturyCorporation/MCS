@@ -12,11 +12,18 @@ class MCS_Object(object):
         The unique ID of this object, used with some actions.
     color : dict
         The "r", "g", and "b" pixel values of this object in images from the MCS_Step_Output's "object_mask_list".
+    dimensions : dict
+        The dimensions of this object in the environment's 3D global coordinate system as a list of 8 points (dicts
+        with "x", "y", and "z").
     direction : dict
         The normalized direction vector of "x", "y", and "z" degrees between your position and this object's.
         Use "x" and "y" as "rotation" and "horizon" params (respectively) in a "RotateLook" action to face this object.
     distance : float
-        The distance along the 2-dimensional X/Z grid from you to this object in number of steps ("Move" actions).
+        DEPRECATED. Same as distance_in_steps. Please use distance_in_steps or distance_in_world.
+    distance_in_steps : float
+        The distance from you to this object in number of steps ("Move" actions) on the 2D X/Z movement grid.
+    distance_in_world : float
+        The distance from you to this object in the environment's 3D global coordinate system.
     held : boolean
         Whether you are holding this object.
     mass : float
@@ -34,26 +41,33 @@ class MCS_Object(object):
     def __init__(
         self,
         uuid="",
-        color={},
-        direction={},
+        color=None,
+        dimensions=None,
+        direction=None,
         distance=-1.0,
+        distance_in_steps=-1.0,
+        distance_in_world=-1.0,
         held=False,
         mass=0.0,
-        material_list=[],
-        position={},
+        material_list=None,
+        position=None,
         rotation=0.0,
         visible=False
     ):
         self.uuid = uuid
-        self.color = color
-        self.direction = direction
+        self.color = {} if color is None else color
+        self.dimensions = {} if dimensions is None else dimensions
+        self.direction = {} if direction is None else direction
         self.distance = distance
+        self.distance_in_steps = distance_in_steps
+        self.distance_in_world = distance_in_world
         self.held = held
         self.mass = mass
-        self.material_list = material_list
-        self.position = position
+        self.material_list = [] if material_list is None else material_list
+        self.position = {} if position is None else position
         self.rotation = rotation
         self.visible = visible
 
     def __str__(self):
         return MCS_Util.class_to_str(self)
+
