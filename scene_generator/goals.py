@@ -503,7 +503,7 @@ class TraversalGoal(Goal):
                 'image_name': image_name
             }
         }
-        goal['description'] = f'Find the {" ".join(target["info"][-1])} and move near it.'
+        goal['description'] = f'Find the {target["info"][-1]} and move near it.'
         return goal
 
 
