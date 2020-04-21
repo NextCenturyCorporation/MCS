@@ -132,7 +132,7 @@ OBJECTS_PICKUPABLE_BALLS = [{
 
 OBJECTS_PICKUPABLE_BLOCKS = [{
     "type": "block_blank_wood_cube",
-    "info": ["tiny", "blank", "cube", "block"],
+    "info": ["tiny", "blank block", "cube"],
     "choose": [{
         "mass": 0.66,
         "materialCategory": ["block_blank"],
@@ -157,7 +157,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
     }
 }, {
     "type": "block_blank_wood_cube",
-    "info": ["tiny", "blank", "cube", "block"],
+    "info": ["tiny", "blank block", "cube"],
     "choose": [{
         "mass": 1.33,
         "materialCategory": ["block_blank"],
@@ -182,7 +182,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
     }
 }, {
     "type": "block_blank_wood_cube",
-    "info": ["tiny", "blank", "cube", "block"],
+    "info": ["tiny", "blank block", "cube"],
     "choose": [{
         "mass": 2.66,
         "materialCategory": ["block_blank"],
@@ -207,7 +207,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
     }
 }, {
     "type": "block_blank_wood_cylinder",
-    "info": ["tiny", "blank", "cylinder", "block"],
+    "info": ["tiny", "blank block", "cylinder"],
     "choose": [{
         "mass": 0.66,
         "materialCategory": ["block_blank"],
@@ -232,7 +232,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
     }
 }, {
     "type": "block_blank_wood_cylinder",
-    "info": ["tiny", "blank", "cylinder", "block"],
+    "info": ["tiny", "blank block", "cylinder"],
     "choose": [{
         "mass": 1.33,
         "materialCategory": ["block_blank"],
@@ -257,7 +257,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
     }
 }, {
     "type": "block_blank_wood_cylinder",
-    "info": ["tiny", "blank", "cylinder", "block"],
+    "info": ["tiny", "blank block", "cylinder"],
     "choose": [{
         "mass": 2.66,
         "materialCategory": ["block_blank"],
@@ -283,7 +283,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
 }, {
     # Readers, please ignore the "yellow number 1" in the type: the object's chosen material will change this design.
     "type": "block_yellow_number_1",
-    "info": ["tiny", "letter", "cube", "block"],
+    "info": ["tiny", "letter block", "cube"],
     "mass": 0.66,
     "materialCategory": ["block_letter"],
     "salientMaterials": ["wood"],
@@ -307,7 +307,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
 }, {
     # Readers, please ignore the "yellow number 1" in the type: the object's chosen material will change this design.
     "type": "block_yellow_number_1",
-    "info": ["tiny", "number", "cube", "block"],
+    "info": ["tiny", "number block", "cube"],
     "mass": 0.66,
     "materialCategory": ["block_number"],
     "salientMaterials": ["wood"],
@@ -900,7 +900,7 @@ OBJECTS_MOVEABLE = [{
     }
 }, {
     "type": "block_blank_wood_cube",
-    "info": ["small", "blank", "cube", "block"],
+    "info": ["small", "blank block", "cube"],
     "choose": [{
         "mass": 5,
         "materialCategory": ["block_blank"],
@@ -925,7 +925,7 @@ OBJECTS_MOVEABLE = [{
     }
 }, {
     "type": "block_blank_wood_cylinder",
-    "info": ["small", "blank", "block", "cylinder"],
+    "info": ["small", "blank block", "cylinder"],
     "choose": [{
         "mass": 5,
         "materialCategory": ["block_blank"],
@@ -1085,7 +1085,7 @@ OBJECTS_MOVEABLE = [{
         }
     }]
 }, {
-    "info": ["medium", "plant"],
+    "info": ["medium", "potted plant"],
     "mass": 2.5,
     "salientMaterials": ["organic", "ceramic"],
     "attributes": ["moveable"],
@@ -1199,7 +1199,7 @@ OBJECTS_MOVEABLE = [{
         }
     }]
 }, {
-    "info": ["small", "plant"],
+    "info": ["small", "potted plant"],
     "mass": 1,
     "salientMaterials": ["organic", "ceramic"],
     "attributes": ["moveable"],
@@ -1642,7 +1642,7 @@ OBJECTS_IMMOBILE = [{
         "z": 1
     }
 }, {
-    "info": ["large", "plant"],
+    "info": ["large", "potted plant"],
     "mass": 5,
     "salientMaterials": ["organic", "ceramic"],
     "attributes": [],
