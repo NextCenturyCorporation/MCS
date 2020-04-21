@@ -409,8 +409,10 @@ class TransferralGoal(InteractionGoal):
 
     def _set_goal_objects(self):
         target2_def = self.choose_object_def()
-        while not target2_def.get('stackTarget', False):
+        tries = 0
+        while tries < MAX_TRIES and not target2_def.get('stackTarget', False):
             target2_def = self.choose_object_def()
+            tries = tries + 1
         target2_location = calc_obj_pos(self._performer_start['position'], self._bounding_rects, target2_def)
         target2 = instantiate_object(target2_def, target2_location)
         self._goal_objects = [target2]
