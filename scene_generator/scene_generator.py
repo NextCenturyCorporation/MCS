@@ -57,8 +57,8 @@ def generate_file(name, goal_type, find_path):
     body['wallMaterial'] = ceil_wall_mat_choice[0]
     body['floorMaterial'] = random.choice(FLOOR_MATERIALS)[0]
 
-    goal_obj = goals.choose_goal(goal_type, find_path)
-    goal_obj.update_body(body)
+    goal_obj = goals.choose_goal(goal_type)
+    goal_obj.update_body(body, find_path)
 
     # Use PrettyJsonNoIndent on some of the lists and dicts in the output body because the indentation from the normal
     # Python JSON module spaces them out far too much.
