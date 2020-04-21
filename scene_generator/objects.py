@@ -283,7 +283,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
 }, {
     # Readers, please ignore the "yellow number 1" in the type: the object's chosen material will change this design.
     "type": "block_yellow_number_1",
-    "info": ["tiny", "blank", "cube", "block"],
+    "info": ["tiny", "letter", "cube", "block"],
     "mass": 0.66,
     "materialCategory": ["block_letter"],
     "salientMaterials": ["wood"],
@@ -307,7 +307,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
 }, {
     # Readers, please ignore the "yellow number 1" in the type: the object's chosen material will change this design.
     "type": "block_yellow_number_1",
-    "info": ["tiny", "blank", "cube", "block"],
+    "info": ["tiny", "number", "cube", "block"],
     "mass": 0.66,
     "materialCategory": ["block_number"],
     "salientMaterials": ["wood"],
