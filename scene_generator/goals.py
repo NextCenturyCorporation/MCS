@@ -489,7 +489,11 @@ class TransferralGoal(InteractionGoal):
 
 
     def _set_goal_objects(self):
-        target2_def = self.choose_object_def()
+        targets = objects.get_all_object_defs()
+        random.shuffle(targets)        
+        target2_def = next((tgt for tgt in targets if tgt.get('stackTarget', False)), None)
+        if target2_def is None:
+            raise ValueError(f'No stack targets found for transferral goal')
         target2_location = calc_obj_pos(self._performer_start['position'], self._bounding_rects, target2_def)
         target2 = instantiate_object(target2_def, target2_location)
         self._goal_objects = [target2]
@@ -501,6 +505,8 @@ class TransferralGoal(InteractionGoal):
         target1, target2 = objects
         if not target1.get('pickupable', False):
             raise ValueError(f'first object must be "pickupable": {target1}')
+        if not target2.get('stackTarget', False):
+            raise ValueError(f'second object must be "stackable": {target2}')
         relationship = random.choice(list(self.RelationshipType))
 
         self._targets.append([target1, target2])
