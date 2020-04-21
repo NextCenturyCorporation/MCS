@@ -208,7 +208,7 @@ class Goal(ABC):
                                     bounding_rects)
         body['objects'] = all_objects + walls
         body['goal'] = self.get_config(goal_objects)
-        body['answer']['actions'] = self.find_answer(goal_objects, all_objects+walls)
+        body['answer']['actions'] = self.find_optimal_path(goal_objects, all_objects+walls)
         
         return body
 
@@ -306,6 +306,7 @@ class Goal(ABC):
             else:
                 logging.warning('could not generate wall')
         return walls
+    
     @abstractmethod
     def find_optimal_path(self, goal_objects, all_objects):
         '''Compute the optimal set of moves and update the body object'''
