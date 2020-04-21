@@ -364,9 +364,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         rgb = object_id_to_color[object_metadata['objectId']] if object_metadata['objectId'] in object_id_to_color \
                 else [None, None, None]
 
-        bounds = object_metadata.get('objectBounds', None)
-        if bounds is None:
-            print(f"No bounds for {object_metadata['objectId']}")
+        bounds = object_metadata['objectBounds'] if 'objectBounds' in object_metadata and \
+            object_metadata['objectBounds'] is not None else {}
 
         return MCS_Object(
             uuid=object_metadata['objectId'],
@@ -375,8 +374,11 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 'g': rgb[1],
                 'b': rgb[2]
             },
+            dimensions=(bounds['objectBoundsCorners'] if 'objectBoundsCorners' in bounds else None),
             direction=object_metadata['direction'],
-            distance=(object_metadata['distanceXZ'] / MAX_MOVE_DISTANCE),
+            distance=(object_metadata['distanceXZ'] / MAX_MOVE_DISTANCE), # DEPRECATED
+            distance_in_steps=(object_metadata['distanceXZ'] / MAX_MOVE_DISTANCE),
+            distance_in_world=(object_metadata['distance']),
             held=object_metadata['isPickedUp'],
             mass=object_metadata['mass'],
             material_list=material_list,

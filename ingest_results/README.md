@@ -1,4 +1,3 @@
-
 # Ingestion Routines
 
 The code in this directory reads in data from a submission (in

@@ -40,8 +40,6 @@ OUTPUT_TEMPLATE_JSON = """
 OUTPUT_TEMPLATE = json.loads(OUTPUT_TEMPLATE_JSON)
 
 # the following mins and maxes are inclusive
-MIN_SCENE_POSITION = -4.95
-MAX_SCENE_POSITION = 4.95
 
 
 def load_object_file(object_file_name):
