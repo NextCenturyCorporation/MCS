@@ -28,23 +28,27 @@ pip install git+https://github.com/NextCenturyCorporation/MCS@latest
 
 Please note that our Unity App is built on Linux. If you need a Mac or Windows version, please [contact us](#troubleshooting) directly.
 
-1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.0.3/MCS-AI2-THOR-Unity-App-v0.0.3.x86_64)
+1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.0.4/MCS-AI2-THOR-Unity-App-v0.0.4.x86_64)
 
-2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.0.3/MCS-AI2-THOR-Unity-App-v0.0.3_Data.tar.gz)
+2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.0.4/MCS-AI2-THOR-Unity-App-v0.0.4_Data.tar.gz)
 
 3. Ensure that both the Unity App and the TAR are in the same directory.
 
 4. Untar the Data Directory:
 
 ```
-tar -xzvf MCS-AI2-THOR-Unity-App-v0.0.3_Data.tar.gz
+tar -xzvf MCS-AI2-THOR-Unity-App-v0.0.4_Data.tar.gz
 ```
 
 5. Mark the Unity App as executable:
 
 ```
-chmod a+x MCS-AI2-THOR-Unity-App-v0.0.3.x86_64
+chmod a+x MCS-AI2-THOR-Unity-App-v0.0.4.x86_64
 ```
+
+### Training Dataset
+
+https://interaction-scenes.s3.amazonaws.com/interaction_scenes.zip
 
 ## Import
 
