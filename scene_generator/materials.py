@@ -54,8 +54,8 @@ PLASTIC_MATERIALS = [
     ("AI2-THOR/Materials/Plastics/BlackPlastic", ["black"]),
     ("AI2-THOR/Materials/Plastics/OrangePlastic", ["orange"]),
     ("AI2-THOR/Materials/Plastics/WhitePlastic", ["white"]),
-    ("UnityAssetStore/Kindergarten_Interior/Models/Materials/color 1", ["blue"]),
-    ("UnityAssetStore/Kindergarten_Interior/Models/Materials/color 2", ["red"]),
+    ("UnityAssetStore/Kindergarten_Interior/Models/Materials/color 1", ["red"]),
+    ("UnityAssetStore/Kindergarten_Interior/Models/Materials/color 2", ["blue"]),
     ("UnityAssetStore/Kindergarten_Interior/Models/Materials/color 4", ["yellow"])
 ]
 

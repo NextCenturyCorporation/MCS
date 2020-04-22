@@ -1,4 +1,6 @@
+import copy
 import logging
+import uuid
 
 OBJECTS_PICKUPABLE_BALLS = [{
     "type": "sphere",
@@ -138,7 +140,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.1,
         "y": 0.1,
@@ -163,7 +165,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.1,
         "y": 0.2,
@@ -188,7 +190,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.2,
         "y": 0.1,
@@ -287,7 +289,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
     "mass": 0.66,
     "materialCategory": ["block_letter"],
     "salientMaterials": ["wood"],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.1,
         "y": 0.1,
@@ -311,7 +313,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
     "mass": 0.66,
     "materialCategory": ["block_number"],
     "salientMaterials": ["wood"],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.1,
         "y": 0.1,
@@ -564,7 +566,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.175,
         "y": 0.116,
@@ -589,7 +591,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.209,
         "y": 0.059,
@@ -614,7 +616,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.105,
         "y": 0.135,
@@ -639,7 +641,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.106,
         "y": 0.098,
@@ -664,7 +666,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.208,
         "y": 0.117,
@@ -689,7 +691,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"],
     }],
-    "attributes": ["moveable", "pickupable"],
+    "attributes": ["moveable", "pickupable", "stackTarget"],
     "dimensions": {
         "x": 0.304,
         "y": 0.208,
@@ -856,7 +858,7 @@ OBJECTS_MOVEABLE = [{
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"]
     }],
-    "attributes": ["moveable", "receptacle"],
+    "attributes": ["moveable", "receptacle", "stackTarget"],
     "dimensions": {
         "x": 0.54,
         "y": 1.04,
@@ -881,7 +883,7 @@ OBJECTS_MOVEABLE = [{
         "materialCategory": ["plastic"],
         "salientMaterials": ["plastic"]
     }],
-    "attributes": ["moveable", "receptacle"],
+    "attributes": ["moveable", "receptacle", "stackTarget"],
     "dimensions": {
         "x": 0.3,
         "y": 0.75,
@@ -906,7 +908,7 @@ OBJECTS_MOVEABLE = [{
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
     }],
-    "attributes": ["moveable"],
+    "attributes": ["moveable", "stackTarget"],
     "dimensions": {
         "x": 0.25,
         "y": 0.25,
@@ -1320,7 +1322,7 @@ OBJECTS_IMMOBILE = [{
     "mass": 100,
     "materialCategory": ["wood", "wood"],
     "salientMaterials": ["wood", "wood"],
-    "attributes": ["receptacle", "openable"],
+    "attributes": ["receptacle", "openable", "stackTarget"],
     "enclosed_areas": [{
         "position": {
             "x": 0.165,
@@ -1439,8 +1441,8 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "table_5",
     "info": ["huge", "table"],
-    "attributes": ["receptacle"],
     "choose": [{
+        "attributes": ["receptacle"],
         "mass": 20,
         "materialCategory": ["wood", "wood"],
         "salientMaterials": ["wood"],
@@ -1464,6 +1466,7 @@ OBJECTS_IMMOBILE = [{
             "z": 1
         }
     }, {
+        "attributes": ["receptacle", "stackTarget"],
         "mass": 10,
         "materialCategory": ["wood", "wood"],
         "salientMaterials": ["wood"],
@@ -1489,9 +1492,35 @@ OBJECTS_IMMOBILE = [{
     }]
 }, {
     "type": "table_6",
-    "attributes": ["receptacle"],
     "choose": [{
+        "info": ["small", "shelf"],
+        "attributes": ["receptacle", "stackTarget"],
+        "mass": 5,
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"],
+        "open_areas": [
+            # TODO
+        ],
+        "dimensions": {
+            "x": 0.93,
+            "y": 0.75,
+            "z": 1.02
+        },
+        "offset": {
+            "x": 0.04,
+            "y": 0.35,
+            "z": 0
+        },
+        "position_y": 0,
+        "scale": {
+            # Final scale: 0.5, 0.5, 0.5
+            "x": 0.67451805685,
+            "y": 0.5,
+            "z": 0.22453039467
+        }
+    }, {
         "info": ["medium", "shelf"],
+        "attributes": ["receptacle"],
         "mass": 10,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"],
@@ -1517,6 +1546,7 @@ OBJECTS_IMMOBILE = [{
         }
     }, {
         "info": ["huge", "shelf"],
+        "attributes": ["receptacle"],
         "mass": 15,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"],
@@ -1543,10 +1573,35 @@ OBJECTS_IMMOBILE = [{
     }]
 }, {
     "type": "shelf_1",
-    "attributes": ["receptacle"],
     "choose": [{
-        "info": ["medium", "shelf"],
+        "info": ["small", "shelf"],
+        "attributes": ["receptacle", "stackTarget"],
         "mass": 5,
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"],
+        "open_areas": [
+            # TODO
+        ],
+        "dimensions": {
+            "x": 0.39,
+            "y": 0.385,
+            "z": 0.2
+        },
+        "offset": {
+            "x": 0,
+            "y": 0.195,
+            "z": 0
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        }
+    }, {
+        "info": ["medium", "shelf"],
+        "attributes": ["receptacle"],
+        "mass": 10,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"],
         "open_areas": [
@@ -1570,6 +1625,7 @@ OBJECTS_IMMOBILE = [{
         }
     }, {
         "info": ["huge", "shelf"],
+        "attributes": ["receptacle"],
         "mass": 15,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"],
@@ -1597,7 +1653,7 @@ OBJECTS_IMMOBILE = [{
     "type": "sofa_1",
     "info": ["huge", "brown", "sofa"],
     "mass": 100,
-    "attributes": ["receptacle"],
+    "attributes": ["receptacle", "stackTarget"],
     "open_areas": [
         # TODO
     ],
@@ -1621,7 +1677,7 @@ OBJECTS_IMMOBILE = [{
     "type": "sofa_chair_1",
     "info": ["huge", "black", "sofa chair"],
     "mass": 50,
-    "attributes": ["receptacle"],
+    "attributes": ["receptacle", "stackTarget"],
     "open_areas": [
         # TODO
     ],
@@ -1757,6 +1813,277 @@ OBJECTS_IMMOBILE = [{
     }]
 }]
 
+OCCLUDER_INSTANCE_NORMAL = [{
+    "id": "occluder_wall_uuid",
+    "type": "cube",
+    "kinematic": True,
+    "structure": True,
+    "mass": 100,
+    "material": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "shows": [{
+        "stepBegin": 0,
+        "position": {
+            "x": 0,
+            "y": 0.625,
+            "z": 1
+        },
+        "scale": {
+            "x": 1,
+            "y": 1.25,
+            "z": 0.1
+        }
+    }],
+    "moves": [{
+        "stepBegin": 1,
+        "stepEnd": 6,
+        "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 7,
+        "stepEnd": 12,
+        "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 35,
+        "stepEnd": 40,
+        "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+        }
+    }],
+    "rotates": [{
+        "stepBegin": 1,
+        "stepEnd": 2,
+        "vector": {
+            "x": 0,
+            "y": 45,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 11,
+        "stepEnd": 12,
+        "vector": {
+            "x": 0,
+            "y": -45,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 35,
+        "stepEnd": 36,
+        "vector": {
+            "x": 0,
+            "y": 45,
+            "z": 0
+        }
+    }]
+}, {
+    "id": "occluder_pole_uuid",
+    "type": "cylinder",
+    "kinematic": True,
+    "structure": True,
+    "mass": 100,
+    "material": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "shows": [{
+        "stepBegin": 0,
+        "position": {
+            "x": 0,
+            "y": 2.25,
+            "z": 1
+        },
+        "scale": {
+            "x": 0.1,
+            "y": 1,
+            "z": 0.1
+        }
+    }],
+    "moves": [{
+        "stepBegin": 1,
+        "stepEnd": 6,
+        "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 7,
+        "stepEnd": 12,
+        "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 35,
+        "stepEnd": 40,
+        "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+        }
+    }]
+}]
+
+OCCLUDER_INSTANCE_SIDEWAYS = [{
+    "id": "occluder_wall_uuid",
+    "type": "cube",
+    "kinematic": True,
+    "structure": True,
+    "mass": 100,
+    "material": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "shows": [{
+        "stepBegin": 0,
+        "position": {
+            "x": 0,
+            "y": 0.625,
+            "z": 1
+        },
+        "scale": {
+            "x": 1,
+            "y": 1.25,
+            "z": 0.1
+        }
+    }],
+    "moves": [{
+        "stepBegin": 1,
+        "stepEnd": 4,
+        "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 9,
+        "stepEnd": 12,
+        "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 25,
+        "stepEnd": 28,
+        "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+        }
+    }],
+    "rotates": [{
+        "stepBegin": 5,
+        "stepEnd": 6,
+        "vector": {
+            "x": 45,
+            "y": 0,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 7,
+        "stepEnd": 8,
+        "vector": {
+            "x": -45,
+            "y": 0,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 29,
+        "stepEnd": 30,
+        "vector": {
+            "x": 45,
+            "y": 0,
+            "z": 0
+        }
+    }]
+}, {
+    "id": "occluder_pole_uuid",
+    "type": "cylinder",
+    "kinematic": True,
+    "structure": True,
+    "mass": 100,
+    "material": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "shows": [{
+        "stepBegin": 0,
+        "position": {
+            "x": 0,
+            "y": 0.75,
+            "z": 1
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 90
+        },
+        "scale": {
+            "x": 0.1,
+            "y": 3,
+            "z": 0.1
+        }
+    }],
+    "moves": [{
+        "stepBegin": 1,
+        "stepEnd": 4,
+        "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 9,
+        "stepEnd": 12,
+        "vector": {
+            "x": -0.25,
+            "y": 0,
+            "z": 0
+        }
+    }, {
+        "stepBegin": 25,
+        "stepEnd": 28,
+        "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+        }
+    }]
+}]
+
+def create_occluder(wall_material, pole_material, x_position, x_scale, sideways=False):
+    if sideways:
+        occluder = copy.deepcopy(OCCLUDER_INSTANCE_SIDEWAYS)
+    else:
+        occluder = copy.deepcopy(OCCLUDER_INSTANCE_NORMAL)
+
+    WALL = 0
+    POLE = 1
+
+    occluder[WALL]['id'] = str(uuid.uuid4())
+    occluder[POLE]['id'] = str(uuid.uuid4())
+
+    occluder[WALL]['material'] = wall_material
+    occluder[POLE]['material'] = pole_material
+
+    occluder[WALL]['shows'][0]['position']['x'] = x_position
+    occluder[POLE]['shows'][0]['position']['x'] = x_position
+
+    occluder[WALL]['shows'][0]['scale']['x'] = x_position
+
+    if sideways:
+        if x_position > 0:
+            occluder[POLE]['shows'][0]['position']['x'] = 3 + x_position + x_scale / 2
+        else:
+            occluder[POLE]['shows'][0]['position']['x'] = -3 + x_position - x_scale / 2
+    elif x_position > 0:
+        for rot in occluder[WALL]['rotates']:
+            rot['vector']['y'] *= -1
+
+    return occluder
+
+
 _ALL_OBJECTS = None
 
 
@@ -1778,3 +2105,4 @@ def get_enclosed_containers():
         all_defs = get_all_object_defs()
         _ENCLOSED_CONTAINERS = [obj_def for obj_def in all_defs if 'enclosed_areas' in obj_def and len(obj_def['enclosed_areas']) > 0]
     return _ENCLOSED_CONTAINERS
+
