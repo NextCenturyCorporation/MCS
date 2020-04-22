@@ -333,3 +333,6 @@ def test__generate_transferral_goal():
     relationship = goal['metadata']['relationship']
     relationship_type = relationship[1]
     assert relationship_type in [g.value for g in TransferralGoal.RelationshipType]
+
+
+    
