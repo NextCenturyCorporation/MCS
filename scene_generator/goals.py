@@ -495,8 +495,8 @@ class TransferralGoal(InteractionGoal):
 
     def _set_goal_objects(self):
         targets = objects.get_all_object_defs()
-        random.shuffle(targets)        
-        target2_def = next((tgt for tgt in targets if tgt.get('stackTarget', False)), None)
+        random.shuffle(targets)
+        target2_def = next((tgt for tgt in targets if 'stackTarget' in tgt.get('attributes', [])), None)
         if target2_def is None:
             raise ValueError(f'No stack targets found for transferral goal')
         target2_location = calc_obj_pos(self._performer_start['position'], self._bounding_rects, target2_def)
