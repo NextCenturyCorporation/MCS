@@ -795,6 +795,7 @@ Categories:
 - [`"INTPHYS"`](#intphys)
 - [`"RETRIEVAL"`](#retrieval)
 - [`"TRANSFERRAL"`](#transferral)
+- [`"TRAVERSAL"`](#traversal)
 
 ### IntPhys
 
@@ -808,7 +809,7 @@ The list of choices, one of which must be given in your call to `end_scene`.  Fo
 
 ### Retrieval
 
-In a scenario that has a retrieval goal, you must find and pickup a target object. This may involve exploring the scene, avoiding obstacles, interacting with objects (like closed containers), and tracking moving objects. These scenarios will demand a "common sense" understanding of self navigation (how to move and rotate yourself within a scene and around obstacles), object interaction (how objects work, including opening containers), and the basic physics of movement (kinematics, gravity, friction, etc.).
+In a scenario that has a retrieval goal, you must find and pickup a target object. This may involve exploring the scene, avoiding obstacles, interacting with objects (like closed containers), and (future evaluations) tracking moving objects. These scenarios will demand a "common sense" understanding of self navigation (how to move and rotate yourself within a scene and around obstacles), object interaction (how objects work, including opening containers), and (future evaluations) the basic physics of movement (kinematics, gravity, friction, etc.).
 
 A retrieval goal's `metadata` (with `category` of `"RETRIEVAL"`) will also have the following properties:
 
@@ -830,7 +831,7 @@ Whether the image of the target object (`target.image`) exactly matches the actu
 
 ### Transferral
 
-In a scenario that has a transferral goal, you must find and pickup the first target object and put it down either next to or on top of the second target object. This may involve exploring the scene, avoiding obstacles, interacting with objects (like closed receptacles), and tracking moving objects. These scenarios will demand a "common sense" understanding of self navigation (how to move and rotate yourself within a scene and around obstacles), object interaction (how objects work, including opening containers), and the basic physics of movement (kinematics, gravity, friction, etc.).
+In a scenario that has a transferral goal, you must find and pickup the first target object and put it down either next to or on top of the second target object. This may involve exploring the scene, avoiding obstacles, interacting with objects (like closed receptacles), and (future evaluations) tracking moving objects. These scenarios will demand a "common sense" understanding of self navigation (how to move and rotate yourself within a scene and around obstacles), object interaction (how objects work, including opening containers), and (future evaluations) the basic physics of movement (kinematics, gravity, friction, etc.).
 
 A transferral goal's `metadata` (with `category` of `"TRANSFERRAL"`) will also have the following properties:
 
@@ -870,3 +871,24 @@ Human-readable information describing the target object needed for the visualiza
 
 Whether the image of the second target object (`target_2.image`) exactly matches the actual object in the scene. If `false`, then the actual second target object will be different in one way (for example, the image may depict a blue ball, but the actual object is a yellow ball, or a blue cube).
 
+### Traversal
+
+In a scenario that has a traversal goal, you must find and move next to a target object. This may involve exploring the scene, and avoiding obstacles. These scenarios will demand a "common sense" understanding of self navigation (how to move and rotate yourself within a scene and around obstacles).
+
+A retrieval goal's `metadata` (with `category` of `"TRAVERSAL"`) will also have the following properties:
+
+#### target.id : string
+
+The `objectId` of the target object to find and move next to.
+
+#### target.image : list of lists of lists of integers
+
+An image of the target object to find and move next to, given as a three-dimensional RGB pixel array.
+
+#### target.info : list of strings
+
+Human-readable information describing the target object needed for the visualization interface.
+
+#### target.match_image : string
+
+Whether the image of the target object (`target.image`) exactly matches the actual target object in the scene. If `false`, then the actual object will be different in one way (for example, the image may depict a blue ball, but the actual object is a yellow ball, or a blue cube).
