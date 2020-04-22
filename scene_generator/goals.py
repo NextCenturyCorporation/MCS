@@ -139,7 +139,7 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
     
     tries = 0
     while tries < MAX_TRIES:
-        rotation = random_rotation()
+        rotation = random.choice((0, 90, 180, 270))
         new_x = random_position()
         new_z = random_position()
         new_x_size = round(random.uniform(MIN_WALL_WIDTH, MAX_WALL_WIDTH), POSITION_DIGITS)
