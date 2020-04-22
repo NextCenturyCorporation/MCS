@@ -14,7 +14,6 @@
     "objects": [{
         "id": "sofa",
         "type": "sofa_1",
-        "mass": 50,
         "shows": [{
             "stepBegin": 0,
             "position": {
@@ -26,7 +25,6 @@
     }, {
         "id": "sofa_chair",
         "type": "sofa_chair_1",
-        "mass": 25,
         "shows": [{
             "stepBegin": 0,
             "position": {
@@ -43,7 +41,6 @@
     }, {
         "id": "dinner_table",
         "type": "table_1",
-        "mass": 10,
         "shows": [{
             "stepBegin": 0,
             "position": {
@@ -60,7 +57,6 @@
     }, {
         "id": "coffee_table",
         "type": "table_5",
-        "mass": 10,
         "shows": [{
             "stepBegin": 0,
             "position": {
@@ -77,7 +73,6 @@
     }, {
         "id": "shelf_1",
         "type": "shelf_1",
-        "mass": 10,
         "shows": [{
             "stepBegin": 0,
             "position": {
@@ -99,7 +94,6 @@
     }, {
         "id": "shelf_2",
         "type": "table_6",
-        "mass": 10,
         "shows": [{
             "stepBegin": 0,
             "position": {
@@ -121,8 +115,6 @@
     }, {
         "id": "chair_a",
         "type": "chair_1",
-        "mass": 5,
-        "moveable": true,
         "shows": [{
             "stepBegin": 0,
             "position": {
@@ -134,8 +126,6 @@
     }, {
         "id": "chair_b",
         "type": "chair_1",
-        "mass": 5,
-        "moveable": true,
         "shows": [{
             "stepBegin": 0,
             "position": {
@@ -152,8 +142,6 @@
     }, {
         "id": "stool_a",
         "type": "chair_2",
-        "mass": 5,
-        "moveable": true,
         "shows": [{
             "stepBegin": 0,
             "position": {
@@ -170,8 +158,6 @@
     }, {
         "id": "stool_b",
         "type": "chair_2",
-        "mass": 5,
-        "moveable": true,
         "shows": [{
             "stepBegin": 0,
             "position": {
@@ -257,13 +243,12 @@
             "scale": {
                 "x": 0.25,
                 "y": 0.25,
-                "z": 0.2
+                "z": 0.25
             }
         }]
     }, {
         "id": "box_a",
         "type": "box_2",
-        "mass": 1,
         "opened": true,
         "shows": [{
             "stepBegin": 0,
@@ -281,7 +266,6 @@
     }, {
         "id": "box_b",
         "type": "box_3",
-        "mass": 1,
         "shows": [{
             "stepBegin": 0,
             "position": {
@@ -298,7 +282,6 @@
     }, {
         "id": "apple_a",
         "type": "apple_1",
-        "mass": 0.5,
         "shows": [{
             "stepBegin": 0,
             "position": {
@@ -315,7 +298,6 @@
     }, {
         "id": "apple_b",
         "type": "apple_2",
-        "mass": 0.5,
         "shows": [{
             "stepBegin": 0,
             "position": {
@@ -396,7 +378,6 @@
     }, {
         "id": "plate_a",
         "type": "plate_1",
-        "salientMaterials": ["plastic"],
         "shows": [{
             "stepBegin": 0,
             "position": {
@@ -413,7 +394,6 @@
     }, {
         "id": "plate_b",
         "type": "plate_3",
-        "salientMaterials": ["plastic"],
         "shows": [{
             "stepBegin": 0,
             "position": {
