@@ -3,6 +3,7 @@ import math
 import random
 
 from separating_axis_theorem import sat_entry
+from setuptools.sandbox import AbstractSandbox
 
 MAX_TRIES = 100
 # the following mins and maxes are inclusive
@@ -65,16 +66,21 @@ def collision(test_rect, test_point):
                 0 <= dot_prod_dict(vectorBC, vectorBM) <= dot_prod_dict(vectorBC, vectorBC))
 
 
-def calc_obj_coords(x, z, dx, dz, rotation):
+def calc_obj_coords(x, z, dx, dz, ox, oz, rotation):
     """Returns an array of points that are the coordinates of the rectangle """
-    radian_amount = rotation * math.pi / 180.0
+    radian_amount = math.pi * (2 - rotation / 180.0)
 
     rotate_sin = math.sin(radian_amount)
     rotate_cos = math.cos(radian_amount)
-    a = {'x': x + (dx * rotate_cos) - (dz * rotate_sin), 'y': 0, 'z': z + dx * rotate_sin + dz * rotate_cos}
-    b = {'x': x + (dx * rotate_cos) + (dz * rotate_sin), 'y': 0, 'z': z + dx * rotate_sin - dz * rotate_cos}
-    c = {'x': x - (dx * rotate_cos) + (dz * rotate_sin), 'y': 0, 'z': z - dx * rotate_sin - dz * rotate_cos}
-    d = {'x': x - (dx * rotate_cos) - (dz * rotate_sin), 'y': 0, 'z': z - dx * rotate_sin + dz * rotate_cos}
+    x_1 = dx - ox
+    x_2 = -(dx + ox)
+    z_1 = dz - oz
+    z_2 = -(dz + oz)
+    
+    a = {'x': x + x_1 * rotate_cos - z_1 * rotate_sin, 'y': 0, 'z': z + x_1 * rotate_sin + z_1 * rotate_cos}
+    b = {'x': x + x_1 * rotate_cos - z_2 * rotate_sin, 'y': 0, 'z': z + x_1 * rotate_sin + z_2 * rotate_cos}
+    c = {'x': x + x_2 * rotate_cos - z_2 * rotate_sin, 'y': 0, 'z': z + x_2 * rotate_sin + z_2 * rotate_cos}
+    d = {'x': x + x_2 * rotate_cos - z_1 * rotate_sin, 'y': 0, 'z': z + x_2 * rotate_sin + z_1 * rotate_cos}
 
     return [a, b, c, d]
 
