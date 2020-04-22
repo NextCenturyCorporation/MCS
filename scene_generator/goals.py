@@ -172,12 +172,14 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
         return new_object
     return None
 
+
 def generate_image_file_name(target):
     if 'materials' not in target:
         return target['type']
 
     material_name_list = [item[(item.rfind('/') + 1):].lower().replace(' ', '_') for item in target['materials']]
     return target['type'] + ('_' if len(material_name_list) > 0 else '') + ('_'.join(material_name_list))
+
 
 def find_image_for_object(object_def):
     image_file_name = ""
@@ -191,10 +193,12 @@ def find_image_for_object(object_def):
             
         return target_image
     except: 
-        logging.warning('Image object could not be found, make sure you generated the images.py file: ' + image_file_name)
+        logging.warning('Image object could not be found, make sure you generated the image: ' + image_file_name)
+
 
 def find_image_name(target):
     return generate_image_file_name(target) + '.png'
+
 
 class GoalException(Exception):
     def __init__(self, message=''):
@@ -210,7 +214,7 @@ class Goal(ABC):
         self._performer_start = None
         self._targets = []
 
-    def update_body(self, body):
+    def update_body(self, body, find_path):
         """Helper method that calls other Goal methods to set performerStart, objects, and goal."""
         body['performerStart'] = self.compute_performer_start()
         goal_objects, all_objects, bounding_rects = self.compute_objects()
@@ -218,7 +222,8 @@ class Goal(ABC):
                                     bounding_rects)
         body['objects'] = all_objects + walls
         body['goal'] = self.get_config(goal_objects)
-        body['answer']['actions'] = self.find_optimal_path(goal_objects, all_objects+walls)
+        if find_path:
+            body['answer']['actions'] = self.find_optimal_path(goal_objects, all_objects+walls)
         
         return body
 
@@ -490,7 +495,11 @@ class TransferralGoal(InteractionGoal):
 
 
     def _set_goal_objects(self):
-        target2_def = self.choose_object_def()
+        targets = objects.get_all_object_defs()
+        random.shuffle(targets)        
+        target2_def = next((tgt for tgt in targets if tgt.get('stackTarget', False)), None)
+        if target2_def is None:
+            raise ValueError(f'No stack targets found for transferral goal')
         target2_location = calc_obj_pos(self._performer_start['position'], self._bounding_rects, target2_def)
         target2 = instantiate_object(target2_def, target2_location)
         self._goal_objects = [target2]
@@ -502,6 +511,8 @@ class TransferralGoal(InteractionGoal):
         target1, target2 = objects
         if not target1.get('pickupable', False):
             raise ValueError(f'first object must be "pickupable": {target1}')
+        if not target2.get('stackTarget', False):
+            raise ValueError(f'second object must be "stackable": {target2}')
         relationship = random.choice(list(self.RelationshipType))
 
         self._targets.append([target1, target2])
