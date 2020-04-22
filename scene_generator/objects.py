@@ -2085,13 +2085,12 @@ def create_occluder(wall_material, pole_material, x_position, x_scale, sideways=
 
 
 _ALL_OBJECTS = None
-
+_ALL_OBJECTS_LISTS = [OBJECTS_PICKUPABLE_BALLS, OBJECTS_PICKUPABLE_BLOCKS, OBJECTS_PICKUPABLE_TOYS, OBJECTS_PICKUPABLE_MISC, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE]
 
 def get_all_object_defs():
     global _ALL_OBJECTS
     if _ALL_OBJECTS is None:
-        lists = [k for k in globals().keys() if k.startswith('OBJECTS_')]
-        _ALL_OBJECTS = [item for def_list in lists for item in globals()[def_list]]
+        _ALL_OBJECTS = [item for def_list in _ALL_OBJECTS_LISTS for item in def_list]
     return _ALL_OBJECTS
 
 
