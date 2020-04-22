@@ -303,8 +303,8 @@ The following materials are currently available:
 - `"AI2-THOR/Materials/Plastics/BlackPlastic"`
 - `"AI2-THOR/Materials/Plastics/OrangePlastic"`
 - `"AI2-THOR/Materials/Plastics/WhitePlastic"`
-- `"UnityAssetStore/Kindergarten_Interior/Models/Materials/color 1"` (flat blue)
-- `"UnityAssetStore/Kindergarten_Interior/Models/Materials/color 2"` (flat red)
+- `"UnityAssetStore/Kindergarten_Interior/Models/Materials/color 1"` (flat red)
+- `"UnityAssetStore/Kindergarten_Interior/Models/Materials/color 2"` (flat blue)
 - `"UnityAssetStore/Kindergarten_Interior/Models/Materials/color 4"` (flat yellow)
 
 ### Rubbers
