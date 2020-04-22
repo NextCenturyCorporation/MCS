@@ -219,7 +219,7 @@ The following objects are also available:
 | `"box_3"` | X | X | X | X | none |
 | `"chair_1"` | X | | | | woods |
 | `"chair_2"` | X | | | | plastics |
-| `"changing_table"` | | | X | X |
+| `"changing_table"` | | | X | X | woods |
 | `"crib"` | | | | | woods |
 | `"cup_2"` | X | X | | | plastics |
 | `"cup_6"` | X | X | | | plastics |
