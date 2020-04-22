@@ -508,9 +508,10 @@ class TransferralGoal(InteractionGoal):
         if len(objects) < 2:
             raise ValueError(f'need at least 2 objects for this goal, was given {len(objects)}')
         target1, target2 = objects
-        if not target1.get('pickupable', False):
+        print(target2)
+        if 'pickupable' not in target1.get('attributes', []):
             raise ValueError(f'first object must be "pickupable": {target1}')
-        if not target2.get('stackTarget', False):
+        if 'stackTarget' not in target2.get('attributes', []):
             raise ValueError(f'second object must be "stackable": {target2}')
         relationship = random.choice(list(self.RelationshipType))
 
