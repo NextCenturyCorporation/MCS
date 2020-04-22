@@ -221,6 +221,10 @@ The "x", "y", and "z" coordinates for your global position.
 
 The return status from your last action.
 
+### reward : int
+
+1 if you have accomplished this scene's goal; 0 otherwise.
+
 ### rotation : float
 
 Your current rotation angle in degrees.
