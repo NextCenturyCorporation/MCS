@@ -195,73 +195,74 @@ The following primitive shapes are available, and can be set as `moveable` or `p
 
 The following objects are also available:
 
-| Object Type | Moveable | Pickupable | Receptacle | Openable |
-| --- | --- | --- | --- | --- |
-| `"apple_1"` | X | X | | |
-| `"apple_2"` | X | X | | |
-| `"block_blank_blue_cube"` | X | X | | |
-| `"block_blank_blue_cylinder"` | X | X | | |
-| `"block_blank_red_cube"` | X | X | | |
-| `"block_blank_red_cylinder"` | X | X | | |
-| `"block_blank_wood_cube"` | X | X | | |
-| `"block_blank_wood_cylinder"` | X | X | | |
-| `"block_blank_yellow_cube"` | X | X | | |
-| `"block_blank_yellow_cylinder"` | X | X | | |
-| `"block_blue_letter_c"` | X | X | | |
-| `"block_blue_letter_m"` | X | X | | |
-| `"block_blue_letter_s"` | X | X | | |
-| `"block_yellow_number_1"` | X | X | | |
-| `"block_yellow_number_2"` | X | X | | |
-| `"block_yellow_number_3"` | X | X | | |
-| `"bowl_3"` | X | X | | |
-| `"bowl_4"` | X | X | | |
-| `"box_2"` | X | X | X | X |
-| `"box_3"` | X | X | X | X |
-| `"chair_1"` | X | | | |
-| `"chair_2"` | X | | | |
+| Object Type | Moveable | Pickupable | Receptacle | Openable | Materials |
+| --- | --- | --- | --- | --- | --- |
+| `"apple_1"` | X | X | | | none |
+| `"apple_2"` | X | X | | | none |
+| `"block_blank_blue_cube"` | X | X | | | blocks (blank) |
+| `"block_blank_blue_cylinder"` | X | X | | | blocks (blank) |
+| `"block_blank_red_cube"` | X | X | | | blocks (blank) |
+| `"block_blank_red_cylinder"` | X | X | | | blocks (blank) |
+| `"block_blank_wood_cube"` | X | X | | | blocks (blank) |
+| `"block_blank_wood_cylinder"` | X | X | | | blocks (blank) |
+| `"block_blank_yellow_cube"` | X | X | | | blocks (blank) |
+| `"block_blank_yellow_cylinder"` | X | X | | | blocks (blank) |
+| `"block_blue_letter_c"` | X | X | | | blocks (designs) |
+| `"block_blue_letter_m"` | X | X | | | blocks (designs) |
+| `"block_blue_letter_s"` | X | X | | | blocks (designs) |
+| `"block_yellow_number_1"` | X | X | | | blocks (designs) |
+| `"block_yellow_number_2"` | X | X | | | blocks (designs) |
+| `"block_yellow_number_3"` | X | X | | | blocks (designs) |
+| `"bowl_3"` | X | X | | | plastics |
+| `"bowl_4"` | X | X | | | plastics |
+| `"box_2"` | X | X | X | X | none |
+| `"box_3"` | X | X | X | X | none |
+| `"chair_1"` | X | | | | woods |
+| `"chair_2"` | X | | | | plastics |
 | `"changing_table"` | | | X | X |
-| `"crib"` | | | | |
-| `"cup_2"` | X | X | | |
-| `"cup_6"` | X | X | | |
-| `"duck_on_wheels"` | X | X | | |
-| `"foam_floor_tiles"` | | | | |
-| `"pacifier"` | X | X | | |
-| `"plate_1"` | X | X | | |
-| `"plate_3"` | X | X | | |
-| `"painting_2"` | | | | |
-| `"painting_4"` | | | | |
-| `"painting_5"` | | | | |
-| `"painting_9"` | | | | |
-| `"painting_10"` | | | | |
-| `"painting_16"` | | | | |
-| `"plant_1"` | | | | |
-| `"plant_5"` | | | | |
-| `"plant_7"` | | | | |
-| `"plant_9"` | | | | |
-| `"plant_12"` | | | | |
-| `"plant_16"` | | | | |
-| `"racecar_red"` | X | X | | |
-| `"shelf_1"` | | | X | |
-| `"sofa_1"` | | | | |
-| `"sofa_chair_1"` | | | | |
-| `"table_1"` | | | X | |
-| `"table_5"` | | | X | |
-| `"table_6"` | | | X | |
+| `"crib"` | | | | | woods |
+| `"cup_2"` | X | X | | | plastics |
+| `"cup_6"` | X | X | | | plastics |
+| `"duck_on_wheels"` | X | X | | | blocks (blank) |
+| `"foam_floor_tiles"` | | | | | none |
+| `"pacifier"` | X | X | | | none |
+| `"plate_1"` | X | X | | | plastics |
+| `"plate_3"` | X | X | | | plastics |
+| `"painting_2"` | | | | | none |
+| `"painting_4"` | | | | | none |
+| `"painting_5"` | | | | | none |
+| `"painting_9"` | | | | | none |
+| `"painting_10"` | | | | | none |
+| `"painting_16"` | | | | | none |
+| `"plant_1"` | | | | | none |
+| `"plant_5"` | | | | | none |
+| `"plant_7"` | | | | | none |
+| `"plant_9"` | | | | | none |
+| `"plant_12"` | | | | | none |
+| `"plant_16"` | | | | | none |
+| `"racecar_red"` | X | X | | | blocks (blank) |
+| `"shelf_1"` | | | X | | woods |
+| `"sofa_1"` | | | | | none | woods |
+| `"sofa_chair_1"` | | | | | none |
+| `"table_1"` | | | X | | woods |
+| `"table_5"` | | | X | | woods |
+| `"table_6"` | | | X | | woods |
 
 - Moveable: Can be pushed, pulled, and knocked over.
 - Pickupable: Can be picked up (all pickupable objects are also moveable).
 - Receptacle: Can hold objects.
 - Openable: Can be opened.
+- Materials: Only the listed materials are allowed to be used on the object. If "none", any configured materials will be ignored, and the object's default materials will be used.
 
 ## Material List
 
 In Unity, "Materials" are the colors and textures applied to objects in the 3D simulation environment. Some objects may have default materials. Some objects may have multiple materials. Some materials may have patterns intended for objects of a specific size, and may look odd if applied to objects that are too big or small.
 
-For our training and evaluation datasets, we normally use the materials under "Walls" for both the ceiling and the walls, and a combination of some of the materials under "Ceramics", "Fabrics", and "Woods" for the floors.
+For our training and evaluation datasets, we normally use the materials under "Walls", "Ceramics", "Fabrics", and "Woods" for the ceiling and the walls, and the materials under "Ceramics", "Fabrics", and "Woods" for the floors.
 
 The following materials are currently available:
 
-### Blocks
+### Blocks (Blank)
 
 - `"UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/blue_1x1"`
 - `"UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/red_1x1"`
