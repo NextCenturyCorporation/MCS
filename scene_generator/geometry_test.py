@@ -288,3 +288,22 @@ def test_calc_obj_coords_rotation90_offset_position_xz():
     assert new_b == pytest.approx(b)
     assert new_c == pytest.approx(c)
     assert new_d == pytest.approx(d)
+
+
+def test_calc_obj_coords_rotation45_offset_position_xz():
+
+    d = {'x': 8.41421, 'y': 0, 'z': 9.82843}
+    a = {'x': 11.24264, 'y': 0, 'z': 7}
+    b = {'x': 8.41421, 'y': 0, 'z': 4.17157}
+    c = {'x': 5.58579, 'y': 0, 'z': 7}
+    new_a, new_b, new_c, new_d = calc_obj_coords(position_x=7,
+                                                 position_z=7,
+                                                 delta_x=2,
+                                                 delta_z=2,
+                                                 offset_x=1,
+                                                 offset_z=1,
+                                                 rotation=45)
+    assert new_a == pytest.approx(a)
+    assert new_b == pytest.approx(b)
+    assert new_c == pytest.approx(c)
+    assert new_d == pytest.approx(d)
