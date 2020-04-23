@@ -99,8 +99,8 @@ def calc_obj_pos(performer_position, other_rects, old_object):
     """Returns new object with rotation & position if we can place the
 object in the frame, None otherwise."""
 
-    dx = old_object['dimensions']['x']
-    dz = old_object['dimensions']['z']
+    dx = old_object['dimensions']['x']/2.0
+    dz = old_object['dimensions']['z']/2.0
 
     tries = 0
     while tries < MAX_TRIES:
