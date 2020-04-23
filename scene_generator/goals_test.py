@@ -336,6 +336,7 @@ def test__generate_transferral_goal():
     relationship_type = relationship[1]
     assert relationship_type in [g.value for g in TransferralGoal.RelationshipType]
 
+
 def test__generate_transferral_goal_with_nonstackable_goal():
     goal_obj = TransferralGoal()
     extra_info = str(uuid.uuid4())
@@ -360,3 +361,11 @@ def test__generate_transferral_goal_with_nonstackable_goal():
     with pytest.raises(ValueError) as excinfo:
         goal = goal_obj.get_config([pickupable_obj, other_obj])
     assert "second object must be" in str(excinfo.value)
+
+
+def test_GravityGoal_compute_objects():
+    goal = GravityGoal()
+    target_objs, all_objs, rects = goal.compute_objects()
+    assert len(target_objs) == 0
+    assert len(rects) == 0
+    # TODO: in a future ticket when all_objs has stuff

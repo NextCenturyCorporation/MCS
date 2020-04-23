@@ -136,7 +136,7 @@ def move_to_container(target, all_objects, bounding_rects, performer_position):
 def generate_wall(wall_mat_choice, performer_position, other_rects):
     # Wanted to reuse written functions, but this is a bit more of a special snowflake
     # Generates obstacle walls placed in the scene.
-    
+
     tries = 0
     while tries < MAX_TRIES:
         rotation = random.choice((0, 90, 180, 270))
@@ -214,7 +214,8 @@ class Goal(ABC):
         self._targets = []
 
     def update_body(self, body, find_path):
-        """Helper method that calls other Goal methods to set performerStart, objects, and goal."""
+        """Helper method that calls other Goal methods to set performerStart, objects, and goal. Returns the goal body
+        object."""
         body['performerStart'] = self.compute_performer_start()
         goal_objects, all_objects, bounding_rects = self.compute_objects()
         walls = self.generate_walls(body['wallMaterial'], body['performerStart']['position'],
@@ -320,7 +321,7 @@ class Goal(ABC):
             else:
                 logging.warning('could not generate wall')
         return walls
-    
+
     @abstractmethod
     def find_optimal_path(self, goal_objects, all_objects):
         """Compute the optimal set of moves and update the body object"""
@@ -409,7 +410,7 @@ class InteractionGoal(Goal, ABC):
 
         return all_goal_objects, all_objects, self._bounding_rects
         
-    
+
 class RetrievalGoal(InteractionGoal):
     """Going to a specified object and picking it up."""
 
@@ -537,7 +538,7 @@ class TransferralGoal(InteractionGoal):
         goal['description'] = f'Find and pick up the {target1["info"][-1]} and move it {relationship.value} ' \
             f'the {target2["info"][-1]}.'
         return goal
-    
+
     def find_optimal_path(self, goal_objects, all_objects):
         # Goal should be a singleton... I hope
         performer = (self._performer_start['position']['x'],self._performer_start['position']['z'])
@@ -626,7 +627,7 @@ class TraversalGoal(Goal):
         }
         goal['description'] = f'Find the {target["info"][-1]} and move near it.'
         return goal
-    
+
     def find_optimal_path(self, goal_objects, all_objects):
         # Goal should be a singleton... I hope
         performer = (self._performer_start['position']['x'],self._performer_start['position']['z'])
@@ -643,8 +644,144 @@ class TraversalGoal(Goal):
         return actions
 
 
+class IntPhysGoal(Goal, ABC):
+    """Base class for Intuitive Physics goals. Subclasses must set TEMPLATE variable (for use in get_config)."""
+
+    def __init__(self):
+        super(IntPhysGoal, self).__init__()
+
+    def compute_performer_start(self):
+        if self._performer_start is None:
+            self._performer_start = {
+                'position': {
+                    'x': 0,
+                    'y': 0,
+                    'z': -4.5
+                },
+                'rotation': {
+                    'y': 0
+                }
+            }
+        return self._performer_start
+
+    def update_body(self, body, find_path):
+        body = super(IntPhysGoal, self).update_body()
+        body['observation'] = True
+        body['answer'] = {
+            'choice': 'plausible'
+        }
+        return body
+
+    def find_optimal_path(self, goal_objects, all_objects):
+        return ''
+
+    def _get_last_step(self):
+        return 40
+
+    def get_config(self, goal_objects):
+        goal = copy.deepcopy(self.TEMPLATE)
+        goal['last_step'] = self._get_last_step()
+        goal['action_list'] = [['Pass']] * goal['last_step']
+        return goal
+
+    def generate_walls(self, material, performer_position, bounding_rects):
+        """IntPhys goals have no walls."""
+        return []
+
+    def compute_objects(self):
+        func = random.choice([IntPhysGoal._get_objects_moving_across, IntPhysGoal._get_objects_falling_down])
+        objs = func(self)
+        return [], objs, []
+
+    def _get_objects_moving_across(self):
+        # TODO: in a future ticket
+        return []
+
+    def _get_objects_falling_down(self):
+        # TODO: in a future ticket
+        return []
+
+
+class GravityGoal(IntPhysGoal):
+    TEMPLATE = {
+        'category': 'intphys',
+        'domain_list': ['objects', 'object_solidity', 'object_motion', 'gravity'],
+        'type_list': ['observation', 'action_none', 'intphys', 'gravity'],
+        'task_list': ['choose'],
+        'description': '',
+        'metadata': {}
+    }
+
+    def __init__(self):
+        super(GravityGoal, self).__init__()
+        self.OBJECT_PROBABILITIES = (
+            (IntPhysGoal._get_objects_falling_down, GravityGoal._get_ramp_going_down, GravityGoal._get_ramp_going_up),
+            (20, 60, 20)
+        )
+
+    def compute_objects(self):
+        func = random.choices(self.OBJECT_PROBABILITIES[0], self.OBJECT_PROBABILITIES[1])[0]
+        objs = func(self)
+        return [], objs, []
+
+    def _get_ramp_going_down(self):
+        # TODO: in a future ticket
+        return []
+
+    def _get_ramp_going_up(self):
+        # TODO: in a future ticket
+        return []
+
+
+class ObjectPermanenceGoal(IntPhysGoal):
+    TEMPLATE = {
+        'category': 'intphys',
+        'domain_list': ['objects', 'object_solidity', 'object_motion', 'object_permanence'],
+        'type_list': ['observation', 'action_none', 'intphys', 'object_permanence'],
+        'task_list': ['choose'],
+        'description': '',
+        'metadata': {}
+    }
+
+    def __init__(self):
+        super(ObjectPermanenceGoal, self).__init__()
+
+
+class ShapeConstancyGoal(IntPhysGoal):
+    TEMPLATE = {
+        'category': 'intphys',
+        'domain_list': ['objects', 'object_solidity', 'object_motion', 'object_permanence'],
+        'type_list': ['observation', 'action_none', 'intphys', 'shape_constancy'],
+        'task_list': ['choose'],
+        'description': '',
+        'metadata': {}
+    }
+
+    def __init__(self):
+        super(ShapeConstancyGoal, self).__init__()
+
+
+class SpatioTemporalContinuityGoal(IntPhysGoal):
+    TEMPLATE = {
+        'category': 'intphys',
+        'domain_list': ['objects', 'object_solidity', 'object_motion', 'object_permanence'],
+        'type_list': ['observation', 'action_none', 'intphys', 'spatio_temporal_continuity'],
+        'task_list': ['choose'],
+        'description': '',
+        'metadata': {}
+    }
+
+    def __init__(self):
+        super(SpatioTemporalContinuityGoal, self).__init__()
+
+    def _get_last_step(self):
+        return 60
+
+
 GOAL_TYPES = {
-    'interaction': [RetrievalGoal, TransferralGoal, TraversalGoal]
+    'interaction': [RetrievalGoal, TransferralGoal, TraversalGoal],
+# uncomment intphys goals when they have objects
+#    'intphys': [GravityGoal, ObjectPermanenceGoal, ShapeConstancyGoal, SpatioTemporalContinuityGoal]
 }
 
 
