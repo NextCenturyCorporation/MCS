@@ -212,7 +212,7 @@ def test_calc_obj_coords_identity_offset():
     assert new_b == pytest.approx(b)
     assert new_c == pytest.approx(c)
     assert new_d == pytest.approx(d)
-    
+
 
 def test_calc_obj_coords_rotation90_offset():
 
@@ -222,6 +222,63 @@ def test_calc_obj_coords_rotation90_offset():
     c = {'x': -1, 'y': 0, 'z': 1}
     new_a, new_b, new_c, new_d = calc_obj_coords(position_x=0,
                                                  position_z=0,
+                                                 delta_x=2,
+                                                 delta_z=2,
+                                                 offset_x=1,
+                                                 offset_z=1,
+                                                 rotation=90)
+    assert new_a == pytest.approx(a)
+    assert new_b == pytest.approx(b)
+    assert new_c == pytest.approx(c)
+    assert new_d == pytest.approx(d)
+
+
+def test_calc_obj_coords_rotation90_offset_position_x():
+
+    d = {'x': 10, 'y': 0, 'z': 1}
+    a = {'x': 10, 'y': 0, 'z': -3}
+    b = {'x': 6, 'y': 0, 'z': -3}
+    c = {'x': 6, 'y': 0, 'z': 1}
+    new_a, new_b, new_c, new_d = calc_obj_coords(position_x=7,
+                                                 position_z=0,
+                                                 delta_x=2,
+                                                 delta_z=2,
+                                                 offset_x=1,
+                                                 offset_z=1,
+                                                 rotation=90)
+    assert new_a == pytest.approx(a)
+    assert new_b == pytest.approx(b)
+    assert new_c == pytest.approx(c)
+    assert new_d == pytest.approx(d)
+
+
+def test_calc_obj_coords_rotation90_offset_position_z():
+
+    d = {'x': 3, 'y': 0, 'z': 8}
+    a = {'x': 3, 'y': 0, 'z': 4}
+    b = {'x': -1, 'y': 0, 'z': 4}
+    c = {'x': -1, 'y': 0, 'z': 8}
+    new_a, new_b, new_c, new_d = calc_obj_coords(position_x=0,
+                                                 position_z=7,
+                                                 delta_x=2,
+                                                 delta_z=2,
+                                                 offset_x=1,
+                                                 offset_z=1,
+                                                 rotation=90)
+    assert new_a == pytest.approx(a)
+    assert new_b == pytest.approx(b)
+    assert new_c == pytest.approx(c)
+    assert new_d == pytest.approx(d)
+
+
+def test_calc_obj_coords_rotation90_offset_position_xz():
+
+    d = {'x': 10, 'y': 0, 'z': 8}
+    a = {'x': 10, 'y': 0, 'z': 4}
+    b = {'x': 6, 'y': 0, 'z': 4}
+    c = {'x': 6, 'y': 0, 'z': 8}
+    new_a, new_b, new_c, new_d = calc_obj_coords(position_x=7,
+                                                 position_z=7,
                                                  delta_x=2,
                                                  delta_z=2,
                                                  offset_x=1,
