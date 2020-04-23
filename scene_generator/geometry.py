@@ -72,10 +72,10 @@ def calc_obj_coords(x, z, dx, dz, ox, oz, rotation):
 
     rotate_sin = math.sin(radian_amount)
     rotate_cos = math.cos(radian_amount)
-    x_1 = dx - ox
-    x_2 = -(dx + ox)
-    z_1 = dz - oz
-    z_2 = -(dz + oz)
+    x_1 = dx + ox
+    x_2 = -dx + ox
+    z_1 = dz + oz
+    z_2 = -dz + oz
     
     a = {'x': x + x_1 * rotate_cos - z_1 * rotate_sin, 'y': 0, 'z': z + x_1 * rotate_sin + z_1 * rotate_cos}
     b = {'x': x + x_1 * rotate_cos - z_2 * rotate_sin, 'y': 0, 'z': z + x_1 * rotate_sin + z_2 * rotate_cos}
