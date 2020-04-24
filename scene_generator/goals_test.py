@@ -369,3 +369,12 @@ def test_GravityGoal_compute_objects():
     assert len(target_objs) == 0
     assert len(rects) == 0
     # TODO: in a future ticket when all_objs has stuff
+
+
+def test__get_objects_moving_across():
+    class TestGoal(IntPhysGoal):
+        pass
+
+    goal = TestGoal()
+    objs = goal._get_objects_moving_across()
+    assert 1 <= len(objs) <= 3

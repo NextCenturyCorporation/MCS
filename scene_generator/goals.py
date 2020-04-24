@@ -36,6 +36,15 @@ WALL_COUNTS = [0, 1, 2, 3]
 WALL_PROBS = [60, 20, 10, 10]
 
 
+def all_items_less_equal(a, b):
+    """Return true iff every item in a is <= its corresponding item in b."""
+    return all((a[key] <= b[key] for key in a))
+
+def compute_acceleration(force, mass):
+    """Return the acceleration imparted to mass by force (a x,y,z dictionary)"""
+    accel = { item: force[item]/mass for item in force }
+    return accel
+
 def finalize_object_definition(object_def):
     object_def_copy = copy.deepcopy(object_def)
 
@@ -694,8 +703,105 @@ class IntPhysGoal(Goal, ABC):
         return [], objs, []
 
     def _get_objects_moving_across(self):
-        # TODO: in a future ticket
-        return []
+        num_objects = random.choices((1, 2, 3), (40, 30, 30))[0]
+        object_positions = {
+            'a': (4.2, 1.6),
+            'b': (5.3, 1.6),
+            'c': (4.8, 2.7),
+            'd': (5.9, 2.7),
+            'e': (-4.2, 1.6),
+            'f': (-5.3, 1.6),
+            'g': (-4.8, 2.7),
+            'h': (-5.9, 2.7)
+        }
+        exclusions = {
+            'a': ('e', 'f'),
+            'b': ('e', 'f'),
+            'c': ('g', 'h'),
+            'd': ('g', 'h'),
+            'e': ('a', 'b'),
+            'f': ('a', 'b'),
+            'g': ('c', 'd'),
+            'h': ('c', 'd')
+        }
+        # Object in key position must have velocities <= velocities
+        # for object in value position (e.g., object in b must have
+        # velocities <= velocities for object in a).
+        velocity_ordering = {
+            'b': 'a',
+            'd': 'c',
+            'f': 'e',
+            'h': 'g'
+        }
+        available_locations = set(object_positions.keys())
+        location_assignments = {}
+        new_objects = []
+        for i in range(num_objects):
+            location = random.choice(list(available_locations))
+            available_locations.remove(location)
+            for loc in exclusions[location]:
+                available_locations.discard(loc)
+            obj_def = finalize_object_definition(random.choice(objects.get_intphys_objects()))
+            remaining_intphys_options = obj_def['intphys_options'].copy()
+            while len(remaining_intphys_options) > 0:
+                intphys_option = random.choice(remaining_intphys_options)
+                if location in velocity_ordering and velocity_ordering[location] in location_assignments:
+                    # ensure the objects won't collide
+                    other_obj = location_assignments[velocity_ordering[location]]
+                    # TODO: compute value for collision 
+                    collision = False
+                    if not collision:
+                        break
+                    elif len(remaining_intphys_options) == 1:
+                        # last chance, so just swap the items to make their relative velocities "ok"
+                        location_assignments[location] = other_obj
+                        location = velocity_ordering[location]
+                        location_assignments[location] = None # to be assigned later
+                        break
+                else:
+                    break
+                remaining_intphys_options.remove(intphys_option)
+
+            object_location = {
+                'position': {
+                    'x': object_positions[location][0],
+                    'y': intphys_option['y'],
+                    'z': object_positions[location][1]
+                }
+            }
+            obj = instantiate_object(obj_def, object_location)
+            location_assignments[location] = obj
+            position_by_step = copy.deepcopy(intphys_option['position_by_step'])
+            object_position_x = object_positions[location][0]
+            # adjust position_by_step and remove outliers
+            for position in position_by_step:
+                if location in ('a', 'b', 'c', 'd'):
+                    position['x'] = object_position_x - position['x']
+                else:
+                    position['x'] = object_position_x + position['x']
+            if location in ('a', 'b', 'e', 'f'):
+                max_x = 3.55 + obj['scale']['x'] / 2.0 * 1.2
+            else:
+                max_x = 4.2 + obj['scale']['x'] / 2.0 * 1.2
+            filtered_position_by_step = [position for position in position_by_step if (math.abs(position['x']) <= max_x)]
+            # set shows.stepBegin
+            min_stepBegin = 13
+            if location in velocity_ordering and velocity_ordering[location] in location_assignments:
+                min_stepBegin = location_assignments[velocity_ordering[location]]['shows'][0]['stepBegin']
+            stepsBegin = random.randint(min_stepBegin, 55 - len(filtered_position_by_step))
+            obj['shows'][0]['stepsBegin'] = stepsBegin
+            obj['forces'] = [{
+                'stepBegin': stepBegin,
+                'stepEnd': 55,
+                'vector': intphys_option['force']
+            }]
+            if location in ('a', 'b', 'c', 'd'):
+                obj['forces'][0]['vector']['x'] *= -1
+            intphys_options['position_by_step'] = filtered_position_by_step
+            obj['intphys_options'] = intphys_options
+            new_objects.append(obj)
+
+        return new_objects
 
     def _get_objects_falling_down(self):
         # TODO: in a future ticket
