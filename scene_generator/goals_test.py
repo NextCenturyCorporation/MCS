@@ -308,8 +308,7 @@ def test__generate_transferral_goal():
         'id': pickupable_id,
         'info': [pickupable_info_item, extra_info],
         'pickupable': True,
-        'type': 'sphere',
-        'attributes': ['pickupable']
+        'type': 'sphere'
     }
     other_id = str(uuid.uuid4())
     other_info_item = str(uuid.uuid4())
@@ -318,7 +317,7 @@ def test__generate_transferral_goal():
         'info': [other_info_item, extra_info],
         'attributes': [],
         'type': 'changing_table',
-        'attributes': ['stackTarget']
+        'stackTarget': True
     }
     goal = goal_obj.get_config([pickupable_obj, other_obj])
 

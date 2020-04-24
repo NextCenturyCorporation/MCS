@@ -152,9 +152,9 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
         new_x = random_position()
         new_z = random_position()
         new_x_size = round(random.uniform(MIN_WALL_WIDTH, MAX_WALL_WIDTH), POSITION_DIGITS)
-        rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, rotation)
+        rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, 0, 0, rotation)
         if not geometry.collision(rect, performer_position) and \
-                all(geometry.point_within_room() for point in rect) and \
+                all(geometry.point_within_room(point) for point in rect) and \
                 (len(other_rects) == 0 or not any(sat_entry(rect, other_rect) for other_rect in other_rects)):
             break
         tries += 1
@@ -505,16 +505,16 @@ class TransferralGoal(InteractionGoal):
             raise ValueError(f'No stack targets found for transferral goal')
         target2_location = calc_obj_pos(self._performer_start['position'], self._bounding_rects, target2_def)
         target2 = instantiate_object(target2_def, target2_location)
+        logging.debug(f'target2 = {target2}')
         self._goal_objects = [target2]
 
     def get_config(self, objects):
         if len(objects) < 2:
             raise ValueError(f'need at least 2 objects for this goal, was given {len(objects)}')
-        target1, target2 = objects
-        print(target2)
-        if 'pickupable' not in target1.get('attributes', []):
+        target1, target2 = objects[0:2]
+        if not target1.get('pickupable', False):
             raise ValueError(f'first object must be "pickupable": {target1}')
-        if 'stackTarget' not in target2.get('attributes', []):
+        if not target2.get('stackTarget', False):
             raise ValueError(f'second object must be "stackable": {target2}')
         relationship = random.choice(list(self.RelationshipType))
 
@@ -675,7 +675,7 @@ class IntPhysGoal(Goal, ABC):
         return self._performer_start
 
     def update_body(self, body, find_path):
-        body = super(IntPhysGoal, self).update_body()
+        body = super(IntPhysGoal, self).update_body(body, find_path)
         body['observation'] = True
         body['answer'] = {
             'choice': 'plausible'
