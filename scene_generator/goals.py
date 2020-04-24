@@ -783,7 +783,7 @@ class IntPhysGoal(Goal, ABC):
                 max_x = 3.55 + obj['scale']['x'] / 2.0 * 1.2
             else:
                 max_x = 4.2 + obj['scale']['x'] / 2.0 * 1.2
-            filtered_position_by_step = [position for position in position_by_step if (math.abs(position['x']) <= max_x)]
+            filtered_position_by_step = [position for position in position_by_step if (abs(position['x']) <= max_x)]
             # set shows.stepBegin
             min_stepBegin = 13
             if location in velocity_ordering and velocity_ordering[location] in location_assignments:
@@ -791,14 +791,14 @@ class IntPhysGoal(Goal, ABC):
             stepsBegin = random.randint(min_stepBegin, 55 - len(filtered_position_by_step))
             obj['shows'][0]['stepsBegin'] = stepsBegin
             obj['forces'] = [{
-                'stepBegin': stepBegin,
+                'stepBegin': stepsBegin,
                 'stepEnd': 55,
                 'vector': intphys_option['force']
             }]
             if location in ('a', 'b', 'c', 'd'):
                 obj['forces'][0]['vector']['x'] *= -1
-            intphys_options['position_by_step'] = filtered_position_by_step
-            obj['intphys_options'] = intphys_options
+            intphys_option['position_by_step'] = filtered_position_by_step
+            obj['intphys_options'] = intphys_option
             new_objects.append(obj)
 
         return new_objects
