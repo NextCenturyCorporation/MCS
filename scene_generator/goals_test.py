@@ -369,3 +369,11 @@ def test_GravityGoal_compute_objects():
     assert len(target_objs) == 0
     assert len(rects) == 0
     # TODO: in a future ticket when all_objs has stuff
+
+
+def test__object_collision():
+    r1=geometry.calc_obj_coords(-1.97,1.75, .55,.445, -.01, .445, 315)
+    r2=geometry.calc_obj_coords(-3.04,.85,1.75,.05,0,0,315)
+    assert sat_entry(r1,r2)
+    r3 = geometry.calc_obj_coords(.04,.85,1.75,.05,0,0,315)
+    assert not sat_entry(r1,r3)
