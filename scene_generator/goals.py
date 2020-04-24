@@ -669,7 +669,4 @@ def get_goal_types():
     return GOAL_TYPES.keys()
 
 
-def test__object_collision():
-    r1=geometry.calc_obj_coords(-1.97,1.75, 1.1,.89,315)
-    r2=geometry.calc_obj_coords(-3.04,.85,3.35,.1,315)
-    sat_entry(r1,r2)
+
