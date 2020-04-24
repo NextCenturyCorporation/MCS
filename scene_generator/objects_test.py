@@ -2,6 +2,7 @@ from objects import *
 import uuid
 import random
 
+
 def test_create_occluder_normal():
     wall_material = str(uuid.uuid4())
     pole_material = str(uuid.uuid4())
@@ -18,7 +19,8 @@ def test_create_occluder_normal():
     assert pole['material'] == pole_material
     for x in wall, pole:
         assert x['shows'][0]['position']['x'] == x_position
-    
+
+        
 def test_create_occluder_sideways():
     wall_material = str(uuid.uuid4())
     pole_material = str(uuid.uuid4())
@@ -33,4 +35,11 @@ def test_create_occluder_sideways():
     assert pole['type'] == 'cylinder'
     assert wall['material'] == wall_material
     assert pole['material'] == pole_material
+
     
+def test_get_all_object_defs():
+    all = get_all_object_defs()
+    dup = get_all_object_defs()
+    assert all is dup
+    for obj_def in all:
+        assert type(obj_def) is type({})

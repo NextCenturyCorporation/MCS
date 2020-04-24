@@ -139,7 +139,7 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
     
     tries = 0
     while tries < MAX_TRIES:
-        rotation = random_rotation()
+        rotation = random.choice((0, 90, 180, 270))
         new_x = random_position()
         new_z = random_position()
         new_x_size = round(random.uniform(MIN_WALL_WIDTH, MAX_WALL_WIDTH), POSITION_DIGITS)
@@ -496,8 +496,8 @@ class TransferralGoal(InteractionGoal):
 
     def _set_goal_objects(self):
         targets = objects.get_all_object_defs()
-        random.shuffle(targets)        
-        target2_def = next((tgt for tgt in targets if tgt.get('stackTarget', False)), None)
+        random.shuffle(targets)
+        target2_def = next((tgt for tgt in targets if 'stackTarget' in tgt.get('attributes', [])), None)
         if target2_def is None:
             raise ValueError(f'No stack targets found for transferral goal')
         target2_location = calc_obj_pos(self._performer_start['position'], self._bounding_rects, target2_def)
@@ -509,9 +509,10 @@ class TransferralGoal(InteractionGoal):
         if len(objects) < 2:
             raise ValueError(f'need at least 2 objects for this goal, was given {len(objects)}')
         target1, target2 = objects
-        if not target1.get('pickupable', False):
+        print(target2)
+        if 'pickupable' not in target1.get('attributes', []):
             raise ValueError(f'first object must be "pickupable": {target1}')
-        if not target2.get('stackTarget', False):
+        if 'stackTarget' not in target2.get('attributes', []):
             raise ValueError(f'second object must be "stackable": {target2}')
         relationship = random.choice(list(self.RelationshipType))
 
@@ -651,6 +652,7 @@ class TraversalGoal(Goal):
        
         return actions
 
+# Note: the names of all goal classes in GOAL_TYPES must end in "Goal" or choose_goal will not work
 GOAL_TYPES = {
     'interaction': [RetrievalGoal, TransferralGoal, TraversalGoal]
 }
@@ -662,11 +664,17 @@ overall type, or EmptyGoal if goal_type is None"""
     if goal_type is None:
         return EmptyGoal()
     else:
-        return random.choice(GOAL_TYPES[goal_type])()
+        if goal_type in GOAL_TYPES:
+            return random.choice(GOAL_TYPES[goal_type])()
+        else:
+            class_name = goal_type + 'Goal'
+            print(globals().keys())
+            klass = globals()[class_name]
+            return klass()
 
 
 def get_goal_types():
-    return GOAL_TYPES.keys()
-
-
+    generic_types = GOAL_TYPES.keys()
+    specific_types = [ klass.__name__.replace('Goal','') for classes in GOAL_TYPES.values() for klass in classes]
+    return list(generic_types) + specific_types
 

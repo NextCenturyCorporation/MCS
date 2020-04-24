@@ -308,7 +308,8 @@ def test__generate_transferral_goal():
         'id': pickupable_id,
         'info': [pickupable_info_item, extra_info],
         'pickupable': True,
-        'type': 'sphere'
+        'type': 'sphere',
+        'attributes': ['pickupable']
     }
     other_id = str(uuid.uuid4())
     other_info_item = str(uuid.uuid4())
@@ -317,7 +318,7 @@ def test__generate_transferral_goal():
         'info': [other_info_item, extra_info],
         'attributes': [],
         'type': 'changing_table',
-        'stackTarget': True
+        'attributes': ['stackTarget']
     }
     goal = goal_obj.get_config([pickupable_obj, other_obj])
 
@@ -344,7 +345,8 @@ def test__generate_transferral_goal_with_nonstackable_goal():
         'id': pickupable_id,
         'info': [pickupable_info_item, extra_info],
         'pickupable': True,
-        'type': 'sphere'
+        'type': 'sphere',
+        'attributes': ['pickupable']
     }
     other_id = str(uuid.uuid4())
     other_info_item = str(uuid.uuid4())
@@ -353,7 +355,7 @@ def test__generate_transferral_goal_with_nonstackable_goal():
         'info': [other_info_item, extra_info],
         'attributes': [],
         'type': 'changing_table',
-        'stackTarget': False # uh-oh
+        'attributes': []
     }
     with pytest.raises(ValueError) as excinfo:
         goal = goal_obj.get_config([pickupable_obj, other_obj])

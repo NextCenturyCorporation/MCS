@@ -1,4 +1,6 @@
+from .mcs import MCS
 from .mcs_action import MCS_Action
+from .mcs_action_api_desc import MCS_Action_API_DESC
 from .mcs_action_keys import MCS_Action_Keys
 from .mcs_controller import MCS_Controller
 from .mcs_controller_ai2thor import MCS_Controller_AI2THOR
@@ -11,3 +13,4 @@ from .mcs_return_status import MCS_Return_Status
 from .mcs_reward import MCS_Reward
 from .mcs_step_output import MCS_Step_Output
 from .mcs_util import MCS_Util
+from .run_mcs_human_input import main
