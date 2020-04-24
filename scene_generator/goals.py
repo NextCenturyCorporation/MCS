@@ -785,9 +785,9 @@ class IntPhysGoal(Goal, ABC):
                     position = object_position_x + position
                 new_positions.append(position)
             if location in ('a', 'b', 'e', 'f'):
-                max_x = 3.55 + obj['scale']['x'] / 2.0 * 1.2
+                max_x = 3.55 + obj_def['scale']['x'] / 2.0 * 1.2
             else:
-                max_x = 4.2 + obj['scale']['x'] / 2.0 * 1.2
+                max_x = 4.2 + obj_def['scale']['x'] / 2.0 * 1.2
             filtered_position_by_step = [position for position in new_positions if (abs(position) <= max_x)]
             # set shows.stepBegin
             min_stepBegin = 13
