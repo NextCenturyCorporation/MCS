@@ -154,6 +154,7 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
         new_x_size = round(random.uniform(MIN_WALL_WIDTH, MAX_WALL_WIDTH), POSITION_DIGITS)
         rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, rotation)
         if not geometry.collision(rect, performer_position) and \
+                all(geometry.point_within_room() for point in rect) and \
                 (len(other_rects) == 0 or not any(sat_entry(rect, other_rect) for other_rect in other_rects)):
             break
         tries += 1
@@ -911,3 +912,4 @@ def get_goal_types():
     generic_types = GOAL_TYPES.keys()
     specific_types = [ klass.__name__.replace('Goal','') for classes in GOAL_TYPES.values() for klass in classes]
     return list(generic_types) + specific_types
+

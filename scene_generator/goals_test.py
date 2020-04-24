@@ -378,3 +378,11 @@ def test__get_objects_moving_across():
     goal = TestGoal()
     objs = goal._get_objects_moving_across()
     assert 1 <= len(objs) <= 3
+
+
+def test__object_collision():
+    r1=geometry.calc_obj_coords(-1.97,1.75, .55,.445, -.01, .445, 315)
+    r2=geometry.calc_obj_coords(-3.04,.85,1.75,.05,0,0,315)
+    assert sat_entry(r1,r2)
+    r3 = geometry.calc_obj_coords(.04,.85,1.75,.05,0,0,315)
+    assert not sat_entry(r1,r3)
