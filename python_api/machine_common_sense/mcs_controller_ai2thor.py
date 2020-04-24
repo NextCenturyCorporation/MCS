@@ -171,7 +171,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         moveMagnitude = MAX_MOVE_DISTANCE
         rotation = kwargs.get(self.ROTATION_KEY, self.DEFAULT_ROTATION)
         horizon = kwargs.get(self.HORIZON_KEY, self.DEFAULT_HORIZON)
-        amount = kwargs.get(self.AMOUNT_KEY, self.DEFAULT_AMOUNT)
+        amount = kwargs.get(self.AMOUNT_KEY,
+            self.DEFAULT_OBJECT_MOVE_AMOUNT if action in self.OBJECT_MOVE_ACTIONS else self.DEFAULT_AMOUNT)
         force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
 
         objectDirectionX = kwargs.get(self.OBJECT_DIRECTION_X_KEY, self.DEFAULT_DIRECTION)
