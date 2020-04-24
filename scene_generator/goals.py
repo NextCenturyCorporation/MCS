@@ -742,7 +742,9 @@ class IntPhysGoal(Goal, ABC):
             available_locations.remove(location)
             for loc in exclusions[location]:
                 available_locations.discard(loc)
-            obj_def = finalize_object_definition(random.choice(objects.get_intphys_objects()))
+            # TODO: later this will get imported from objects (or somewhere else)
+            from objects_intphys_v1 import OBJECTS_INTPHYS
+            obj_def = finalize_object_definition(random.choice(OBJECTS_INTPHYS))
             remaining_intphys_options = obj_def['intphys_options'].copy()
             while len(remaining_intphys_options) > 0:
                 intphys_option = random.choice(remaining_intphys_options)
@@ -775,16 +777,18 @@ class IntPhysGoal(Goal, ABC):
             position_by_step = copy.deepcopy(intphys_option['position_by_step'])
             object_position_x = object_positions[location][0]
             # adjust position_by_step and remove outliers
+            new_positions = []
             for position in position_by_step:
                 if location in ('a', 'b', 'c', 'd'):
-                    position['x'] = object_position_x - position['x']
+                    position = object_position_x - position
                 else:
-                    position['x'] = object_position_x + position['x']
+                    position = object_position_x + position
+                new_positions.append(position)
             if location in ('a', 'b', 'e', 'f'):
                 max_x = 3.55 + obj['scale']['x'] / 2.0 * 1.2
             else:
                 max_x = 4.2 + obj['scale']['x'] / 2.0 * 1.2
-            filtered_position_by_step = [position for position in position_by_step if (abs(position['x']) <= max_x)]
+            filtered_position_by_step = [position for position in new_positions if (abs(position) <= max_x)]
             # set shows.stepBegin
             min_stepBegin = 13
             if location in velocity_ordering and velocity_ordering[location] in location_assignments:
