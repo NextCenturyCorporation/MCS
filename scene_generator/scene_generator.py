@@ -77,6 +77,7 @@ def generate_file(name, goal_type, find_path):
         # PrettyJsonEncoder doesn't work with json.dump so use json.dumps here instead.
         out.write(json.dumps(body, cls=PrettyJsonEncoder, indent=2))
 
+
 def wrap_with_json_no_indent(data, prop_list):
     for prop in prop_list:
         if prop in data:
@@ -111,7 +112,8 @@ def main(argv):
     parser.add_argument('-c', '--count', type=int, default=1, help='How many scenes to generate [default=1]')
     parser.add_argument('--seed', type=int, default=None, help='Random number seed [default=None]')
     parser.add_argument('--goal', default=None, choices=goals.get_goal_types(),
-                        help='Generate a goal of the specified type [default is to not generate a goal]')
+                        help='Generate a goal of the specified type [default is to not generate a goal]. Lowercase '
+                             'goals are categories; capitalized goals are specific goals.')
     parser.add_argument('--find_path', default=False, action='store_true',
                         help='Whether to run the pathfinding for interaction goals')
     parser.add_argument('--stop-on-error', default=False, action='store_true',

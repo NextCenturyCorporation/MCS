@@ -778,6 +778,7 @@ class SpatioTemporalContinuityGoal(IntPhysGoal):
         return 60
 
 
+# Note: the names of all goal classes in GOAL_TYPES must end in "Goal" or choose_goal will not work
 GOAL_TYPES = {
     'interaction': [RetrievalGoal, TransferralGoal, TraversalGoal],
 # uncomment intphys goals when they have objects
@@ -791,8 +792,16 @@ overall type, or EmptyGoal if goal_type is None"""
     if goal_type is None:
         return EmptyGoal()
     else:
-        return random.choice(GOAL_TYPES[goal_type])()
+        if goal_type in GOAL_TYPES:
+            return random.choice(GOAL_TYPES[goal_type])()
+        else:
+            class_name = goal_type + 'Goal'
+            print(globals().keys())
+            klass = globals()[class_name]
+            return klass()
 
 
 def get_goal_types():
-    return GOAL_TYPES.keys()
+    generic_types = GOAL_TYPES.keys()
+    specific_types = [ klass.__name__.replace('Goal','') for classes in GOAL_TYPES.values() for klass in classes]
+    return list(generic_types) + specific_types
