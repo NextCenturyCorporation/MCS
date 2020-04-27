@@ -16,12 +16,10 @@ from geometry import random_position, random_rotation, calc_obj_pos, POSITION_DI
 from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJECTS_PICKUPABLE_LISTS
 from separating_axis_theorem import sat_entry
 from optimal_path import generatepath
-from numpy.lib.scimath import sqrt
-from numpy import degrees
-from numpy.core import arctan2
-import math
-
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
+from math import atan2, degrees, modf, sqrt
+from sympy.geometry.line import Segment
+from sympy.geometry import intersection, Point
 
 MAX_TRIES = 20
 MAX_OBJECTS = 5
@@ -268,12 +266,12 @@ class Goal(ABC):
                 object_list.append(obj)
 
         
-    def parse_path_section(self,path_section,current_heading):        
+    def parse_path_section(self,path_section,current_heading, performer, goal_boundary):        
         index = 1
         actions = []
         dx = path_section[1][0]-path_section[0][0]
         dz = path_section[1][1]-path_section[0][1]
-        theta = degrees(arctan2(dx,dz))
+        theta = degrees(atan2(dz,dx))
   
             #IF my calculations are correct, this should be right no matter what
             # I'm assuming a positive angle is a clockwise rotation- so this should work
@@ -291,11 +289,24 @@ class Goal(ABC):
                 }
             actions.append(action)
         distance = sqrt( dx ** 2 + dz ** 2 )
-        frac, whole = math.modf(distance / MAX_MOVE_DISTANCE)
+        frac, whole = modf(distance / MAX_MOVE_DISTANCE)
         actions.extend([{
                     "action": "MoveAhead",
                     "params": {}
                     }]*int(whole))
+        ## Where am I?
+        performer = path_section[0]+[MAX_MOVE_DISTANCE*whole*n for n in (cos(theta),sin(theta))]
+        goal_center = (path_section[1][0],path_section[1][1])
+        performer_seg = Segment(performer, goal_center)
+        
+        for indx in range(len(goal_boundary)):
+            intersect_point = intersection(performer_seg, Segment(goal_boundary[indx-1], goal_boundary[indx] ))
+            if intersect_point:
+                frac = intersect_point[0].distance(performer)/ MAX_MOVE_DISTANCE
+                performer = intersect_point[0]
+                break
+                              
+        
         actions.append({
                 "action": "MoveAhead",
                 "params": {
@@ -459,13 +470,13 @@ class RetrievalGoal(InteractionGoal):
         hole_rects=[]
         hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if object['id'] != goal_objects[0]['id'])
         path = generatepath(performer, goal, hole_rects)
-        
+        goal_boundary = (object['shows'][0]['bounding_box'] for object in all_objects if object['id'] == goal_objects[0]['id'] )
   
         actions = []
         current_heading = self._performer_start['rotation']['y']
         for indx in range(len(path)-1):
-            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading))
-
+            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary))
+        #Do I have to look down to see the object????
         actions.append({
             'action': 'PickupObject',
             'params': {
