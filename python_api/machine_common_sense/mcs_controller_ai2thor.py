@@ -332,6 +332,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     def retrieve_goal(self, scene_configuration):
         goal_config = scene_configuration['goal'] if 'goal' in scene_configuration else {}
+        if 'category' in goal_config:
+            goal_config['metadata']['category'] = goal_config['category']
 
         return MCS_Goal(
             action_list=(goal_config['action_list'] if 'action_list' in goal_config else None),
@@ -356,7 +358,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     def retrieve_object_list(self, scene_event):
         return sorted([self.retrieve_object_output(object_metadata, self.retrieve_object_colors(scene_event)) for \
-                object_metadata in scene_event.metadata['objects'] if object_metadata['visibleInCamera']], key=lambda x: x.uuid)
+                object_metadata in scene_event.metadata['objects'] 
+                    if object_metadata['visibleInCamera'] or object_metadata['isPickedUp']], key=lambda x: x.uuid)
 
     def retrieve_object_output(self, object_metadata, object_id_to_color):
         material_list = list(filter(MCS_Util.verify_material_enum_string, [material.upper() for material in \

@@ -210,9 +210,9 @@ class MCS_Reward(object):
             category = goal.metadata.get('category', None)
 
         switch = {
-            MCS_Goal_Category.RETRIEVAL.name: MCS_Reward._calc_retrieval_reward,
-            MCS_Goal_Category.TRANSFERRAL.name: MCS_Reward._calc_transferral_reward,
-            MCS_Goal_Category.TRAVERSAL.name: MCS_Reward._calc_traversal_reward,
+            MCS_Goal_Category.RETRIEVAL.value: MCS_Reward._calc_retrieval_reward,
+            MCS_Goal_Category.TRANSFERRAL.value: MCS_Reward._calc_transferral_reward,
+            MCS_Goal_Category.TRAVERSAL.value: MCS_Reward._calc_traversal_reward,
         }
 
         return switch.get(category,
