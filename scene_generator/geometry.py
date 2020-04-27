@@ -3,6 +3,7 @@ import math
 import random
 
 from separating_axis_theorem import sat_entry
+from setuptools.sandbox import AbstractSandbox
 
 MAX_TRIES = 100
 # the following mins and maxes are inclusive
@@ -65,16 +66,21 @@ def collision(test_rect, test_point):
                 0 <= dot_prod_dict(vectorBC, vectorBM) <= dot_prod_dict(vectorBC, vectorBC))
 
 
-def calc_obj_coords(x, z, dx, dz, rotation):
+def calc_obj_coords(position_x, position_z, delta_x, delta_z, offset_x, offset_z, rotation):
     """Returns an array of points that are the coordinates of the rectangle """
-    radian_amount = rotation * math.pi / 180.0
+    radian_amount = math.pi * (2 - rotation / 180.0)
 
     rotate_sin = math.sin(radian_amount)
     rotate_cos = math.cos(radian_amount)
-    a = {'x': x + (dx * rotate_cos) - (dz * rotate_sin), 'y': 0, 'z': z + dx * rotate_sin + dz * rotate_cos}
-    b = {'x': x + (dx * rotate_cos) + (dz * rotate_sin), 'y': 0, 'z': z + dx * rotate_sin - dz * rotate_cos}
-    c = {'x': x - (dx * rotate_cos) + (dz * rotate_sin), 'y': 0, 'z': z - dx * rotate_sin - dz * rotate_cos}
-    d = {'x': x - (dx * rotate_cos) - (dz * rotate_sin), 'y': 0, 'z': z - dx * rotate_sin + dz * rotate_cos}
+    x_plus = delta_x + offset_x
+    x_minus = -delta_x + offset_x
+    z_plus = delta_z + offset_z
+    z_minus = -delta_z + offset_z
+    
+    a = {'x': position_x + x_plus * rotate_cos - z_plus * rotate_sin, 'y': 0, 'z': position_z + x_plus * rotate_sin + z_plus * rotate_cos}
+    b = {'x': position_x + x_plus * rotate_cos - z_minus * rotate_sin, 'y': 0, 'z': position_z + x_plus * rotate_sin + z_minus * rotate_cos}
+    c = {'x': position_x + x_minus * rotate_cos - z_minus * rotate_sin, 'y': 0, 'z': position_z + x_minus * rotate_sin + z_minus * rotate_cos}
+    d = {'x': position_x + x_minus * rotate_cos - z_plus * rotate_sin, 'y': 0, 'z': position_z + x_minus * rotate_sin + z_plus * rotate_cos}
 
     return [a, b, c, d]
 
@@ -93,8 +99,8 @@ def calc_obj_pos(performer_position, other_rects, old_object):
     """Returns new object with rotation & position if we can place the
 object in the frame, None otherwise."""
 
-    dx = old_object['dimensions']['x']
-    dz = old_object['dimensions']['z']
+    dx = old_object['dimensions']['x']/2.0
+    dz = old_object['dimensions']['z']/2.0
 
     tries = 0
     while tries < MAX_TRIES:
