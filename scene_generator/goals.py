@@ -17,7 +17,7 @@ from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJE
 from separating_axis_theorem import sat_entry
 from optimal_path import generatepath
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
-from math import atan2, degrees, modf, sqrt
+from math import atan2, degrees, modf, sqrt, cos, sin
 from sympy.geometry.line import Segment
 from sympy.geometry import intersection, Point
 
@@ -271,8 +271,8 @@ class Goal(ABC):
     def parse_path_section(self,path_section,current_heading, performer, goal_boundary):        
         index = 1
         actions = []
-        dx = path_section[1][0]-path_section[0][0]
-        dz = path_section[1][1]-path_section[0][1]
+        dx = path_section[1][0]-performer[0]
+        dz = path_section[1][1]-performer[1]
         theta = degrees(atan2(dz,dx))
   
             #IF my calculations are correct, this should be right no matter what
@@ -297,12 +297,13 @@ class Goal(ABC):
                     "params": {}
                     }]*int(whole))
         ## Where am I?
-        performer = path_section[0]+[MAX_MOVE_DISTANCE*whole*n for n in (cos(theta),sin(theta))]
+        performer = (performer[0]+MAX_MOVE_DISTANCE*whole*cos(theta), performer[1]+MAX_MOVE_DISTANCE*whole*sin(theta))
+ 
         goal_center = (path_section[1][0],path_section[1][1])
         performer_seg = Segment(performer, goal_center)
         
         for indx in range(len(goal_boundary)):
-            intersect_point = intersection(performer_seg, Segment(goal_boundary[indx-1], goal_boundary[indx] ))
+            intersect_point = intersection(performer_seg, Segment((goal_boundary[indx-1]['x'],goal_boundary[indx-1]['z']), (goal_boundary[indx]['x'],goal_boundary[indx]['z'] )))
             if intersect_point:
                 frac = intersect_point[0].distance(performer)/ MAX_MOVE_DISTANCE
                 performer = intersect_point[0]
@@ -468,7 +469,10 @@ class RetrievalGoal(InteractionGoal):
         hole_rects=[]
         hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if object['id'] != goal_objects[0]['id'])
         path = generatepath(performer, goal, hole_rects)
-        goal_boundary = (object['shows'][0]['bounding_box'] for object in all_objects if object['id'] == goal_objects[0]['id'] )
+        for object in all_objects:
+             if object['id'] == goal_objects[0]['id']:
+                 goal_boundary = object['shows'][0]['bounding_box'] 
+                 break
 
         actions = []
         current_heading = self._performer_start['rotation']['y']
@@ -560,7 +564,10 @@ class TransferralGoal(InteractionGoal):
         hole_rects=[]
         hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if object['id'] != goal_objects[0]['id'])
         path = generatepath(performer, goal, hole_rects)
-  
+        for object in all_objects:
+             if object['id'] == goal_objects[0]['id']:
+                 goal_boundary = object['shows'][0]['bounding_box'] 
+                 break
         actions = []
         current_heading = self._performer_start['rotation']['y']
         for indx in range(len(path)-1):
@@ -576,6 +583,10 @@ class TransferralGoal(InteractionGoal):
         hole_rects = []
         hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if  ( object['id'] != goal_objects[0]['id'] and object['id'] != goal_objects[1]['id']))
         path  = generatepath(goal,target, hole_rects)
+        for object in all_objects:
+             if object['id'] == goal_objects[0]['id']:
+                 goal_boundary = object['shows'][0]['bounding_box'] 
+                 break
         for indx in range(len(path)-1):
             actions.extend(self.parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary))
             
@@ -649,7 +660,10 @@ class TraversalGoal(Goal):
         hole_rects = []
         hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if object['id'] != goal_objects[0]['id'])
         path = generatepath(performer, goal, hole_rects)
-
+        for object in all_objects:
+             if object['id'] == goal_objects[0]['id']:
+                 goal_boundary = object['shows'][0]['bounding_box'] 
+                 break
         actions = []
         current_heading = self._performer_start['rotation']['y']
         for indx in range(len(path)-1):
