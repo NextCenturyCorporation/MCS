@@ -124,7 +124,7 @@ class Test_MCS_Reward(unittest.TestCase):
 
     def test_retrieval_reward(self):
         goal = MCS_Goal()
-        goal.metadata['target_id'] = '0'
+        goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
             obj = {"objectId": str(i), 'isPickedUp': not i}
@@ -135,7 +135,7 @@ class Test_MCS_Reward(unittest.TestCase):
 
     def test_retrieval_reward_nothing_pickedup(self):
         goal = MCS_Goal()
-        goal.metadata['target_id'] = '0'
+        goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
             obj = {"objectId": str(i), 'isPickedUp': False}
@@ -146,7 +146,7 @@ class Test_MCS_Reward(unittest.TestCase):
 
     def test_traversal_reward(self):
         goal = MCS_Goal()
-        goal.metadata['target_id'] = '0'
+        goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
             obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}}
@@ -169,7 +169,7 @@ class Test_MCS_Reward(unittest.TestCase):
 
     def test_traversal_reward_outside_agent_reach(self):
         goal = MCS_Goal()
-        goal.metadata['target_id'] = '0'
+        goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
             obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}}
@@ -192,7 +192,7 @@ class Test_MCS_Reward(unittest.TestCase):
 
     def test_traversal_reward_with_missing_target(self):
         goal = MCS_Goal()
-        goal.metadata['target_id'] = '111' # missing target
+        goal.metadata['target'] = {'id': '111'} # missing target
         obj_list = []
         for i in range(10):
             obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}}
