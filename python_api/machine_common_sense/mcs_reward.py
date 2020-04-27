@@ -153,7 +153,9 @@ class MCS_Reward(object):
             return GOAL_NOT_ACHIEVED
 
         # action object to goal object
-        action_id, action, goal_id = relationship
+        action_target, action, goal_target = relationship
+        action_id = action_target.get('id', None)
+        goal_id = goal_target.get('id', None)
         action = action.lower()
 
         #objects = scene_metadata['objects']
