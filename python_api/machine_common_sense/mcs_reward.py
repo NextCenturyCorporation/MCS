@@ -96,7 +96,7 @@ class MCS_Reward(object):
 
         '''
         reward = GOAL_NOT_ACHIEVED
-        goal_id = goal.metadata.get('target_id', None)
+        goal_id = goal.metadata['target'].get('id', None)
         goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
         if goal_object and goal_object.get('isPickedUp', False):
             reward = GOAL_ACHIEVED
@@ -119,7 +119,7 @@ class MCS_Reward(object):
 
         '''
         reward = GOAL_NOT_ACHIEVED
-        goal_id = goal.metadata.get('target_id', None)
+        goal_id = goal.metadata['target'].get('id', None)
         goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
 
         if goal_object is not None and agent is not None:
