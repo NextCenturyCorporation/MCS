@@ -568,7 +568,7 @@ class TransferralGoal(InteractionGoal):
         actions = []
         current_heading = self._performer_start['rotation']['y']
         for indx in range(len(path)-1):
-            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading))
+            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary))
 
         actions.append({
             'action': 'PickupObject',
@@ -581,7 +581,7 @@ class TransferralGoal(InteractionGoal):
         hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if  ( object['id'] != goal_objects[0]['id'] and object['id'] != goal_objects[1]['id']))
         path  = generatepath(goal,target, hole_rects)
         for indx in range(len(path)-1):
-            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading))
+            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary))
             
         actions.append({
             'action': 'PutObject',
@@ -657,7 +657,7 @@ class TraversalGoal(Goal):
         actions = []
         current_heading = self._performer_start['rotation']['y']
         for indx in range(len(path)-1):
-            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading))
+            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary))
 
        
         return actions
