@@ -44,7 +44,7 @@ if __name__ == "__main__":
             os.path.isfile(os.path.join(sys.argv[2], file_name)) and os.path.splitext(file_name)[1] == '.json']
 
     print(f'FOUND {len(file_list)} SCENE CONFIGURATION FILES... STARTING MCS PYTHON CONTROLLER AND UNITY APP...')
-    controller = MCS.create_controller(sys.argv[1], debug=False)
+    controller = MCS.create_controller(sys.argv[1], debug='terminal')
 
     scene_time_list = []
     step_time_list_list = []
