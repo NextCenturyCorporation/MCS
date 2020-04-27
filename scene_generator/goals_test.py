@@ -308,8 +308,7 @@ def test__generate_transferral_goal():
         'id': pickupable_id,
         'info': [pickupable_info_item, extra_info],
         'pickupable': True,
-        'type': 'sphere',
-        'attributes': ['pickupable']
+        'type': 'sphere'
     }
     other_id = str(uuid.uuid4())
     other_info_item = str(uuid.uuid4())
@@ -318,7 +317,7 @@ def test__generate_transferral_goal():
         'info': [other_info_item, extra_info],
         'attributes': [],
         'type': 'changing_table',
-        'attributes': ['stackTarget']
+        'stackTarget': True
     }
     goal = goal_obj.get_config([pickupable_obj, other_obj])
 
@@ -369,6 +368,15 @@ def test_GravityGoal_compute_objects():
     assert len(target_objs) == 0
     assert len(rects) == 0
     # TODO: in a future ticket when all_objs has stuff
+
+
+def test__get_objects_moving_across():
+    class TestGoal(IntPhysGoal):
+        pass
+
+    goal = TestGoal()
+    objs = goal._get_objects_moving_across()
+    assert 1 <= len(objs) <= 3
 
 
 def test__object_collision():

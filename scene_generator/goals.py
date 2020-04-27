@@ -36,6 +36,15 @@ WALL_COUNTS = [0, 1, 2, 3]
 WALL_PROBS = [60, 20, 10, 10]
 
 
+def all_items_less_equal(a, b):
+    """Return true iff every item in a is <= its corresponding item in b."""
+    return all((a[key] <= b[key] for key in a))
+
+def compute_acceleration(force, mass):
+    """Return the acceleration imparted to mass by force (a x,y,z dictionary)"""
+    accel = { item: force[item]/mass for item in force }
+    return accel
+
 def finalize_object_definition(object_def):
     object_def_copy = copy.deepcopy(object_def)
 
@@ -143,9 +152,9 @@ def generate_wall(wall_mat_choice, performer_position, other_rects):
         new_x = random_position()
         new_z = random_position()
         new_x_size = round(random.uniform(MIN_WALL_WIDTH, MAX_WALL_WIDTH), POSITION_DIGITS)
-        rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, rotation)
+        rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, 0, 0, rotation)
         if not geometry.collision(rect, performer_position) and \
-                all(geometry.point_within_room() for point in rect) and \
+                all(geometry.point_within_room(point) for point in rect) and \
                 (len(other_rects) == 0 or not any(sat_entry(rect, other_rect) for other_rect in other_rects)):
             break
         tries += 1
@@ -496,16 +505,16 @@ class TransferralGoal(InteractionGoal):
             raise ValueError(f'No stack targets found for transferral goal')
         target2_location = calc_obj_pos(self._performer_start['position'], self._bounding_rects, target2_def)
         target2 = instantiate_object(target2_def, target2_location)
+        logging.debug(f'target2 = {target2}')
         self._goal_objects = [target2]
 
     def get_config(self, objects):
         if len(objects) < 2:
             raise ValueError(f'need at least 2 objects for this goal, was given {len(objects)}')
-        target1, target2 = objects
-        print(target2)
-        if 'pickupable' not in target1.get('attributes', []):
+        target1, target2 = objects[0:2]
+        if not target1.get('pickupable', False):
             raise ValueError(f'first object must be "pickupable": {target1}')
-        if 'stackTarget' not in target2.get('attributes', []):
+        if not target2.get('stackTarget', False):
             raise ValueError(f'second object must be "stackable": {target2}')
         relationship = random.choice(list(self.RelationshipType))
 
@@ -666,7 +675,7 @@ class IntPhysGoal(Goal, ABC):
         return self._performer_start
 
     def update_body(self, body, find_path):
-        body = super(IntPhysGoal, self).update_body()
+        body = super(IntPhysGoal, self).update_body(body, find_path)
         body['observation'] = True
         body['answer'] = {
             'choice': 'plausible'
@@ -695,8 +704,109 @@ class IntPhysGoal(Goal, ABC):
         return [], objs, []
 
     def _get_objects_moving_across(self):
-        # TODO: in a future ticket
-        return []
+        num_objects = random.choices((1, 2, 3), (40, 30, 30))[0]
+        object_positions = {
+            'a': (4.2, 1.6),
+            'b': (5.3, 1.6),
+            'c': (4.8, 2.7),
+            'd': (5.9, 2.7),
+            'e': (-4.2, 1.6),
+            'f': (-5.3, 1.6),
+            'g': (-4.8, 2.7),
+            'h': (-5.9, 2.7)
+        }
+        exclusions = {
+            'a': ('e', 'f'),
+            'b': ('e', 'f'),
+            'c': ('g', 'h'),
+            'd': ('g', 'h'),
+            'e': ('a', 'b'),
+            'f': ('a', 'b'),
+            'g': ('c', 'd'),
+            'h': ('c', 'd')
+        }
+        # Object in key position must have velocities <= velocities
+        # for object in value position (e.g., object in b must have
+        # velocities <= velocities for object in a).
+        velocity_ordering = {
+            'b': 'a',
+            'd': 'c',
+            'f': 'e',
+            'h': 'g'
+        }
+        available_locations = set(object_positions.keys())
+        location_assignments = {}
+        new_objects = []
+        for i in range(num_objects):
+            location = random.choice(list(available_locations))
+            available_locations.remove(location)
+            for loc in exclusions[location]:
+                available_locations.discard(loc)
+            # TODO: later this will get imported from objects (or somewhere else)
+            from objects_intphys_v1 import OBJECTS_INTPHYS
+            obj_def = finalize_object_definition(random.choice(OBJECTS_INTPHYS))
+            remaining_intphys_options = obj_def['intphys_options'].copy()
+            while len(remaining_intphys_options) > 0:
+                intphys_option = random.choice(remaining_intphys_options)
+                if location in velocity_ordering and velocity_ordering[location] in location_assignments:
+                    # ensure the objects won't collide
+                    other_obj = location_assignments[velocity_ordering[location]]
+                    # TODO: compute value for collision 
+                    collision = False
+                    if not collision:
+                        break
+                    elif len(remaining_intphys_options) == 1:
+                        # last chance, so just swap the items to make their relative velocities "ok"
+                        location_assignments[location] = other_obj
+                        location = velocity_ordering[location]
+                        location_assignments[location] = None # to be assigned later
+                        break
+                else:
+                    break
+                remaining_intphys_options.remove(intphys_option)
+
+            object_location = {
+                'position': {
+                    'x': object_positions[location][0],
+                    'y': intphys_option['y'],
+                    'z': object_positions[location][1]
+                }
+            }
+            obj = instantiate_object(obj_def, object_location)
+            location_assignments[location] = obj
+            position_by_step = copy.deepcopy(intphys_option['position_by_step'])
+            object_position_x = object_positions[location][0]
+            # adjust position_by_step and remove outliers
+            new_positions = []
+            for position in position_by_step:
+                if location in ('a', 'b', 'c', 'd'):
+                    position = object_position_x - position
+                else:
+                    position = object_position_x + position
+                new_positions.append(position)
+            if location in ('a', 'b', 'e', 'f'):
+                max_x = 3.55 + obj_def['scale']['x'] / 2.0 * 1.2
+            else:
+                max_x = 4.2 + obj_def['scale']['x'] / 2.0 * 1.2
+            filtered_position_by_step = [position for position in new_positions if (abs(position) <= max_x)]
+            # set shows.stepBegin
+            min_stepBegin = 13
+            if location in velocity_ordering and velocity_ordering[location] in location_assignments:
+                min_stepBegin = location_assignments[velocity_ordering[location]]['shows'][0]['stepBegin']
+            stepsBegin = random.randint(min_stepBegin, 55 - len(filtered_position_by_step))
+            obj['shows'][0]['stepsBegin'] = stepsBegin
+            obj['forces'] = [{
+                'stepBegin': stepsBegin,
+                'stepEnd': 55,
+                'vector': intphys_option['force']
+            }]
+            if location in ('a', 'b', 'c', 'd'):
+                obj['forces'][0]['vector']['x'] *= -1
+            intphys_option['position_by_step'] = filtered_position_by_step
+            obj['intphys_options'] = intphys_option
+            new_objects.append(obj)
+
+        return new_objects
 
     def _get_objects_falling_down(self):
         # TODO: in a future ticket
