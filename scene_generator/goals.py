@@ -7,7 +7,7 @@ import logging
 import random
 import uuid
 from abc import ABC, abstractmethod
-from enum import Enum
+from enum import Enum, auto
 
 import geometry
 import materials
@@ -710,35 +710,45 @@ class IntPhysGoal(Goal, ABC):
         return [], objs, []
 
     def _get_objects_moving_across(self):
+        class Position(Enum):
+            RIGHT_FIRST_NEAR = auto()
+            RIGHT_LAST_NEAR = auto()
+            RIGHT_FIRST_FAR = auto()
+            RIGHT_LAST_FAR = auto()
+            LEFT_FIRST_NEAR = auto()
+            LEFT_LAST_NEAR = auto()
+            LEFT_FIRST_FAR = auto()
+            LEFT_LAST_FAR = auto()
+
         num_objects = random.choices((1, 2, 3), (40, 30, 30))[0]
         object_positions = {
-            'a': (4.2, 1.6),
-            'b': (5.3, 1.6),
-            'c': (4.8, 2.7),
-            'd': (5.9, 2.7),
-            'e': (-4.2, 1.6),
-            'f': (-5.3, 1.6),
-            'g': (-4.8, 2.7),
-            'h': (-5.9, 2.7)
+            Position.RIGHT_FIRST_NEAR: (4.2, 1.6),
+            Position.RIGHT_LAST_NEAR: (5.3, 1.6),
+            Position.RIGHT_FIRST_FAR: (4.8, 2.7),
+            Position.RIGHT_LAST_FAR: (5.9, 2.7),
+            Position.LEFT_FIRST_NEAR: (-4.2, 1.6),
+            Position.LEFT_LAST_NEAR: (-5.3, 1.6),
+            Position.LEFT_FIRST_FAR: (-4.8, 2.7),
+            Position.LEFT_LAST_FAR: (-5.9, 2.7)
         }
         exclusions = {
-            'a': ('e', 'f'),
-            'b': ('e', 'f'),
-            'c': ('g', 'h'),
-            'd': ('g', 'h'),
-            'e': ('a', 'b'),
-            'f': ('a', 'b'),
-            'g': ('c', 'd'),
-            'h': ('c', 'd')
+            Position.RIGHT_FIRST_NEAR: (Position.LEFT_FIRST_NEAR, Position.LEFT_LAST_NEAR),
+            Position.RIGHT_LAST_NEAR: (Position.LEFT_FIRST_NEAR, Position.LEFT_LAST_NEAR),
+            Position.RIGHT_FIRST_FAR: (Position.LEFT_FIRST_FAR, Position.LEFT_LAST_FAR),
+            Position.RIGHT_LAST_FAR: (Position.LEFT_FIRST_FAR, Position.LEFT_LAST_FAR),
+            Position.LEFT_FIRST_NEAR: (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR),
+            Position.LEFT_LAST_NEAR: (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR),
+            Position.LEFT_FIRST_FAR: (Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR),
+            Position.LEFT_LAST_FAR: (Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR)
         }
         # Object in key position must have velocities <= velocities
         # for object in value position (e.g., object in b must have
         # velocities <= velocities for object in a).
         velocity_ordering = {
-            'b': 'a',
-            'd': 'c',
-            'f': 'e',
-            'h': 'g'
+            Position.RIGHT_LAST_NEAR: Position.RIGHT_FIRST_NEAR,
+            Position.RIGHT_LAST_FAR: Position.RIGHT_FIRST_FAR,
+            Position.LEFT_LAST_NEAR: Position.LEFT_FIRST_NEAR,
+            Position.LEFT_LAST_FAR: Position.LEFT_FIRST_FAR
         }
         available_locations = set(object_positions.keys())
         location_assignments = {}
@@ -785,12 +795,12 @@ class IntPhysGoal(Goal, ABC):
             # adjust position_by_step and remove outliers
             new_positions = []
             for position in position_by_step:
-                if location in ('a', 'b', 'c', 'd'):
+                if location in (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR, Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR):
                     position = object_position_x - position
                 else:
                     position = object_position_x + position
                 new_positions.append(position)
-            if location in ('a', 'b', 'e', 'f'):
+            if location in (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR, Position.LEFT_FIRST_NEAR, Position.LEFT_LAST_NEAR):
                 max_x = IntPhysGoal.VIEWPORT_LIMIT_NEAR + obj_def['scale']['x'] / 2.0 * IntPhysGoal.VIEWPORT_PERSPECTIVE_FACTOR
             else:
                 max_x = IntPhysGoal.VIEWPORT_LIMIT_FAR + obj_def['scale']['x'] / 2.0 * IntPhysGoal.VIEWPORT_PERSPECTIVE_FACTOR
@@ -806,7 +816,7 @@ class IntPhysGoal(Goal, ABC):
                 'stepEnd': 55,
                 'vector': intphys_option['force']
             }]
-            if location in ('a', 'b', 'c', 'd'):
+            if location in (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR, Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR):
                 obj['forces'][0]['vector']['x'] *= -1
             intphys_option['position_by_step'] = filtered_position_by_step
             obj['intphys_options'] = intphys_option
