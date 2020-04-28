@@ -38,7 +38,7 @@ WALL_PROBS = [60, 20, 10, 10]
 
 def random_real(a, b, step):
     """Return a random real number N where a <= N <= b and N - a is divisible by step."""
-    steps = (b - a) / step
+    steps = int((b - a) / step)
     n = random.randint(0, steps)
     return a + n * step
 
@@ -263,7 +263,7 @@ class Goal(ABC):
         """Helper method that calls other Goal methods to set performerStart, objects, and goal. Returns the goal body
         object."""
         body['performerStart'] = self.compute_performer_start()
-        goal_objects, all_objects, bounding_rects = self.compute_objects()
+        goal_objects, all_objects, bounding_rects = self.compute_objects(body['wallMaterial'])
         walls = self.generate_walls(body['wallMaterial'], body['performerStart']['position'],
                                     bounding_rects)
         body['objects'] = all_objects + walls
@@ -296,7 +296,7 @@ class Goal(ABC):
         return finalize_object_definition(random.choice(object_def_list))
 
     @abstractmethod
-    def compute_objects(self):
+    def compute_objects(self, wall_material_name):
         """Compute object instances for the scene. Returns a tuple:
         (objects required for the goal, all objects in the scene including objects required for the goal, bounding rectangles)"""
         pass
@@ -394,7 +394,7 @@ class EmptyGoal(Goal):
     def __init__(self):
         super(EmptyGoal, self).__init__()
 
-    def compute_objects(self):
+    def compute_objects(self, wall_material_name):
         return [], [], []
 
     def get_config(self, goal_objects):
@@ -443,7 +443,7 @@ class InteractionGoal(Goal, ABC):
                             and random.random() <= self.OBJECT_CONTAINED_CHANCE:
                         move_to_container(obj, all_objects, bounding_rects, performer_position)
 
-    def compute_objects(self):
+    def compute_objects(self, wall_material_name):
         self._set_performer_start()
         self._set_target_def()
         self._set_target_location()
@@ -541,7 +541,6 @@ class TransferralGoal(InteractionGoal):
             raise ValueError(f'No stack targets found for transferral goal')
         target2_location = calc_obj_pos(self._performer_start['position'], self._bounding_rects, target2_def)
         target2 = instantiate_object(target2_def, target2_location)
-        logging.debug(f'target2 = {target2}')
         self._goal_objects = [target2]
 
     def get_config(self, objects):
@@ -634,7 +633,7 @@ class TraversalGoal(Goal):
     def __init__(self):
         super(TraversalGoal, self).__init__()
 
-    def compute_objects(self):
+    def compute_objects(self, wall_material_name):
         # add objects we need for the goal
         target_def = self.choose_object_def()
         performer_start = self.compute_performer_start()
@@ -736,10 +735,10 @@ class IntPhysGoal(Goal, ABC):
         """IntPhys goals have no walls."""
         return []
 
-    def compute_objects(self):
+    def compute_objects(self, wall_material_name):
         func = random.choice([IntPhysGoal._get_objects_moving_across, IntPhysGoal._get_objects_falling_down])
-        objs = func(self)
-        return [], objs, []
+        objs, occluders = func(self, wall_material_name)
+        return [], objs + occluders, []
 
     def _get_num_occluders(self):
         """Return number of occluders for the scene."""
@@ -749,11 +748,12 @@ class IntPhysGoal(Goal, ABC):
         """Return how many occluders must be paired with a target object."""
         return 1
     
-    def _add_occluders(self, obj_list):
-        """Add occluders to the obj_list."""
-        target_obj = obj_list[0]
+    def _get_occluders(self, obj_list, wall_material_name):
+        """Get occluders to for objects in obj_list."""
         num_occluders = self._get_num_occluders()
         num_paired_occluders = self._get_num_paired_occluders()
+        non_wall_materials = [m for m in materials.CEILING_AND_WALL_MATERIALS
+                              if m[0] != wall_material_name]
         occluder_list = []
         for i in range(num_occluders):
             occluder_fits = False
@@ -790,7 +790,7 @@ class IntPhysGoal(Goal, ABC):
                     occluder_fits = True
                     break
             if occluder_fits:
-                occluder_objs = objects.create_occluder(random.choice(materials.CEILING_AND_WALL_MATERIALS),
+                occluder_objs = objects.create_occluder(random.choice(non_wall_materials),
                                                         random.choice(materials.METAL_MATERIALS),
                                                         occluder_x, x_scale)
                 occluder_list.extend(occluder_objs)
@@ -798,13 +798,13 @@ class IntPhysGoal(Goal, ABC):
                 logging.debug(f'could not fit occluder at x={occluder_x}')
                 if i < num_paired_occluders:
                     raise GoalException(f'Could not add minimum number of occluders ({num_paired_occluders})')
-        obj_list.extend(occluder_list)
+        return occluder_list
 
     def _get_num_objects_moving_across(self):
         return random.choices((1, 2, 3), (40, 30, 30))[0]
 
-    def _get_objects_moving_across(self):
-        """Get objects to move across the scene and occluders for them."""
+    def _get_objects_moving_across(self, wall_material_name):
+        """Get objects to move across the scene and occluders for them. Returns (objects, occluders) pair."""
         num_objects = self._get_num_objects_moving_across()
         object_positions = {
             'a': (4.2, 1.6),
@@ -907,12 +907,12 @@ class IntPhysGoal(Goal, ABC):
             obj['intphys_options'] = intphys_option
             new_objects.append(obj)
 
-        self._add_occluders(new_objects)
-        return new_objects
+        occluders = self._get_occluders(new_objects, wall_material_name)
+        return new_objects, occluders
 
-    def _get_objects_falling_down(self):
+    def _get_objects_falling_down(self, wall_material_name):
         # TODO: in a future ticket
-        return []
+        return [], []
 
 
 class GravityGoal(IntPhysGoal):
@@ -932,7 +932,7 @@ class GravityGoal(IntPhysGoal):
             (20, 60, 20)
         )
 
-    def compute_objects(self):
+    def compute_objects(self, wall_material_name):
         func = random.choices(self.OBJECT_PROBABILITIES[0], self.OBJECT_PROBABILITIES[1])[0]
         objs = func(self)
         return [], objs, []
