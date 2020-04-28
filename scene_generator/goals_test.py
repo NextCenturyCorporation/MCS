@@ -308,8 +308,7 @@ def test__generate_transferral_goal():
         'id': pickupable_id,
         'info': [pickupable_info_item, extra_info],
         'pickupable': True,
-        'type': 'sphere',
-        'attributes': ['pickupable']
+        'type': 'sphere'
     }
     other_id = str(uuid.uuid4())
     other_info_item = str(uuid.uuid4())
@@ -318,7 +317,7 @@ def test__generate_transferral_goal():
         'info': [other_info_item, extra_info],
         'attributes': [],
         'type': 'changing_table',
-        'attributes': ['stackTarget']
+        'stackTarget': True
     }
     goal = goal_obj.get_config([pickupable_obj, other_obj])
 
@@ -335,6 +334,7 @@ def test__generate_transferral_goal():
     relationship = goal['metadata']['relationship']
     relationship_type = relationship[1]
     assert relationship_type in [g.value for g in TransferralGoal.RelationshipType]
+
 
 def test__generate_transferral_goal_with_nonstackable_goal():
     goal_obj = TransferralGoal()
@@ -360,6 +360,15 @@ def test__generate_transferral_goal_with_nonstackable_goal():
     with pytest.raises(ValueError) as excinfo:
         goal = goal_obj.get_config([pickupable_obj, other_obj])
     assert "second object must be" in str(excinfo.value)
+
+
+def test_GravityGoal_compute_objects():
+    goal = GravityGoal()
+    target_objs, all_objs, rects = goal.compute_objects()
+    assert len(target_objs) == 0
+    assert len(rects) == 0
+    # TODO: in a future ticket when all_objs has stuff
+
 
 def test__object_collision():
     r1=geometry.calc_obj_coords(-1.97,1.75, .55,.445, -.01, .445, 315)

@@ -6,6 +6,8 @@ Here are the instructions for downloading and installing our latest Python and U
 
 ### Python Library
 
+The latest release of the MCS Python library is `0.0.5`
+
 1. Install the required third-party Python libraries:
 
 ```
@@ -25,6 +27,8 @@ pip install git+https://github.com/NextCenturyCorporation/MCS@latest
 ```
 
 ### Unity Application
+
+The latest release of the MCS Unity app is `0.0.4`
 
 Please note that our Unity App is built on Linux. If you need a Mac or Windows version, please [contact us](#troubleshooting) directly.
 
@@ -104,10 +108,20 @@ for config_json_file_path in config_json_file_list:
 To start the Unity application and enter your actions and parameters from the terminal, you can run the `mcs_run_in_human_input_mode` script that was installed in the package with the MCS Python Library:
 
 ```
-mcs_run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file> <debug> <enable_noise>
+mcs_run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file> <debug=False> <enable_noise=False>
 ```
 
 If you want the script to save the input and output data in a new folder named after the scene, add `true` to the end of the above console command.
+
+## Run with Scene Timer
+
+To run the Unity application and measure your runtime speed, you can run the `mcs_run_scene_timer` script that was installed in the package with the MCS Python Library:
+
+```
+mcs_run_scene_timer <mcs_unity_build_file> <mcs_config_file_folder> <debug=False>
+```
+
+This will run all of the MCS scene configuration JSON files in the given folder, use the PASS action for 20 steps (or for a number of steps equal to the last_step of the config file's goal, if any) in each scene, and print out the total, average, minimum, and maximum run time for all the scenes and the steps.
 
 ## Documentation
 

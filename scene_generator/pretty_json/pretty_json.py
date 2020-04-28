@@ -33,7 +33,7 @@ class PrettyJsonEncoder(json.JSONEncoder):
             # see https://stackoverflow.com/a/15012814/355230
             id = int(match.group(1))
             no_indent = PyObj_FromPtr(id)
-            json_obj_repr = json.dumps(no_indent.value, sort_keys=self.__sort_keys, separators=(',', ':'))
+            json_obj_repr = json.dumps(no_indent.value, cls=PrettyJsonEncoder, sort_keys=self.__sort_keys, separators=(',', ':'))
 
             # Replace the matched id string with json formatted representation
             # of the corresponding Python object.

@@ -124,7 +124,7 @@ class Test_MCS_Reward(unittest.TestCase):
 
     def test_retrieval_reward(self):
         goal = MCS_Goal()
-        goal.metadata['target_id'] = '0'
+        goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
             obj = {"objectId": str(i), 'isPickedUp': not i}
@@ -135,7 +135,7 @@ class Test_MCS_Reward(unittest.TestCase):
 
     def test_retrieval_reward_nothing_pickedup(self):
         goal = MCS_Goal()
-        goal.metadata['target_id'] = '0'
+        goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
             obj = {"objectId": str(i), 'isPickedUp': False}
@@ -146,7 +146,7 @@ class Test_MCS_Reward(unittest.TestCase):
 
     def test_traversal_reward(self):
         goal = MCS_Goal()
-        goal.metadata['target_id'] = '0'
+        goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
             obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}}
@@ -169,7 +169,7 @@ class Test_MCS_Reward(unittest.TestCase):
 
     def test_traversal_reward_outside_agent_reach(self):
         goal = MCS_Goal()
-        goal.metadata['target_id'] = '0'
+        goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
             obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}}
@@ -192,7 +192,7 @@ class Test_MCS_Reward(unittest.TestCase):
 
     def test_traversal_reward_with_missing_target(self):
         goal = MCS_Goal()
-        goal.metadata['target_id'] = '111' # missing target
+        goal.metadata['target'] = {'id': '111'} # missing target
         obj_list = []
         for i in range(10):
             obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}}
@@ -215,7 +215,8 @@ class Test_MCS_Reward(unittest.TestCase):
 
     def test_transferral_reward_with_missing_relationship(self):
         goal = MCS_Goal()
-        goal.metadata['target_id'] = '0'
+        goal.metadata['target_1'] = {'id': '0'}
+        goal.metadata['target_2'] = {'id': '1'}
         goal.metadata['relationship'] = []
         obj_list = []
         for i in range(10):
@@ -239,8 +240,9 @@ class Test_MCS_Reward(unittest.TestCase):
 
     def test_transferral_reward_next_to(self):
         goal = MCS_Goal()
-        goal.metadata['target_id'] = '0'
-        goal.metadata['relationship'] = ['0', 'next_to', '1']
+        goal.metadata['target_1'] = {'id': '0'}
+        goal.metadata['target_2'] = {'id': '1'}
+        goal.metadata['relationship'] = ['target_1', 'next_to', 'target_2']
         obj_list = []
         for i in range(10):
             obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}}
@@ -263,8 +265,9 @@ class Test_MCS_Reward(unittest.TestCase):
 
     def test_transferral_reward_next_to_with_pickedup_object(self):
         goal = MCS_Goal()
-        goal.metadata['target_id'] = '0'
-        goal.metadata['relationship'] = ['0', 'next_to', '1']
+        goal.metadata['target_1'] = {'id': '0'}
+        goal.metadata['target_2'] = {'id': '1'}
+        goal.metadata['relationship'] = ['target_1', 'next_to', 'target_2']
         obj_list = []
         for i in range(10):
             obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}, "isPickedUp": True}
@@ -287,8 +290,9 @@ class Test_MCS_Reward(unittest.TestCase):
 
     def test_transferral_reward_on_top_of(self):
         goal = MCS_Goal()
-        goal.metadata['target_id'] = '0'
-        goal.metadata['relationship'] = ['1', 'on_top_of', '0']
+        goal.metadata['target_1'] = {'id': '1'}
+        goal.metadata['target_2'] = {'id': '0'}
+        goal.metadata['relationship'] = ['target_1', 'on_top_of', 'target_2']
         obj_list = []
         for i in range(10):
             obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}}
@@ -311,8 +315,9 @@ class Test_MCS_Reward(unittest.TestCase):
 
     def test_transferral_reward_on_top_of_with_pickedup_object(self):
         goal = MCS_Goal()
-        goal.metadata['target_id'] = '0'
-        goal.metadata['relationship'] = ['1', 'on_top_of', '0']
+        goal.metadata['target_1'] = {'id': '0'}
+        goal.metadata['target_2'] = {'id': '1'}        
+        goal.metadata['relationship'] = ['target_1', 'on_top_of', 'target_2']
         obj_list = []
         for i in range(10):
             obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}, "isPickedUp": True}

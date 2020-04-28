@@ -96,7 +96,7 @@ class MCS_Reward(object):
 
         '''
         reward = GOAL_NOT_ACHIEVED
-        goal_id = goal.metadata.get('target_id', None)
+        goal_id = goal.metadata['target'].get('id', None)
         goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
         if goal_object and goal_object.get('isPickedUp', False):
             reward = GOAL_ACHIEVED
@@ -119,7 +119,7 @@ class MCS_Reward(object):
 
         '''
         reward = GOAL_NOT_ACHIEVED
-        goal_id = goal.metadata.get('target_id', None)
+        goal_id = goal.metadata['target'].get('id', None)
         goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
 
         if goal_object is not None and agent is not None:
@@ -153,7 +153,11 @@ class MCS_Reward(object):
             return GOAL_NOT_ACHIEVED
 
         # action object to goal object
-        action_id, action, goal_id = relationship
+        _, action, _ = relationship
+        action_target = goal.metadata.get('target_1', None)
+        action_id = action_target.get('id', None)
+        goal_target = goal.metadata.get('target_2', None)
+        goal_id = goal_target.get('id', None)
         action = action.lower()
 
         #objects = scene_metadata['objects']
@@ -210,9 +214,9 @@ class MCS_Reward(object):
             category = goal.metadata.get('category', None)
 
         switch = {
-            MCS_Goal_Category.RETRIEVAL.name: MCS_Reward._calc_retrieval_reward,
-            MCS_Goal_Category.TRANSFERRAL.name: MCS_Reward._calc_transferral_reward,
-            MCS_Goal_Category.TRAVERSAL.name: MCS_Reward._calc_traversal_reward,
+            MCS_Goal_Category.RETRIEVAL.value: MCS_Reward._calc_retrieval_reward,
+            MCS_Goal_Category.TRANSFERRAL.value: MCS_Reward._calc_transferral_reward,
+            MCS_Goal_Category.TRAVERSAL.value: MCS_Reward._calc_traversal_reward,
         }
 
         return switch.get(category,
