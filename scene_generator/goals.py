@@ -36,14 +36,49 @@ WALL_COUNTS = [0, 1, 2, 3]
 WALL_PROBS = [60, 20, 10, 10]
 
 
+def random_real(a, b, step):
+    """Return a random real number N where a <= N <= b and N - a is divisible by step."""
+    steps = (b - a) / step
+    n = random.randint(0, steps)
+    return a + n * step
+
+
+def float_range(*args):
+    """Generator that computes a range of floating point
+    numbers. (Equivalent to range built-in but works for floats.)
+    Based on https://stackoverflow.com/a/54013196/746000
+
+    """
+    start, step = 0, 1
+    if len(args) == 1:
+        stop = args[0]
+    elif len(args) == 2:
+        start, stop = args[0], args[1]
+    elif len(args) == 3:
+        start, stop, step = args[0], args[1], args[2]
+    else:
+        raise TypeError(f'floatRange accepts 1, 2, or 3 arguments. ({len(args)} given)')
+    for num in start, step, stop:
+        if not isinstance(num, (int, float)):
+            raise TypeError(f'floatRange only accepts float and integer arguments. ({type(num)} : {num} given)')
+    count = 0
+    value = start
+    while value < stop:
+        yield value
+        count += 1
+        value = start + step*count
+    return
+
 def all_items_less_equal(a, b):
     """Return true iff every item in a is <= its corresponding item in b."""
     return all((a[key] <= b[key] for key in a))
+
 
 def compute_acceleration(force, mass):
     """Return the acceleration imparted to mass by force (a x,y,z dictionary)"""
     accel = { item: force[item]/mass for item in force }
     return accel
+
 
 def finalize_object_definition(object_def):
     object_def_copy = copy.deepcopy(object_def)
@@ -56,6 +91,7 @@ def finalize_object_definition(object_def):
         del object_def_copy['choose']
 
     return object_def_copy
+
 
 def instantiate_object(object_def, object_location):
     """Create a new object from an object definition (as from the objects.json file). object_location will be modified
@@ -703,8 +739,70 @@ class IntPhysGoal(Goal, ABC):
         objs = func(self)
         return [], objs, []
 
+    def _get_num_occluders(self):
+        """Return number of occluders for the scene."""
+        return random.choices((1, 2, 3, 4), (40, 20, 20, 20))[0]
+
+    def _get_num_paired_occluders(self):
+        """Return how many occluders must be paired with a target object."""
+        return 1
+    
+    def _add_occluders(self, obj_list):
+        """Add occluders to the obj_list."""
+        target_obj = obj_list[0]
+        num_occluders = self._get_num_occluders()
+        num_paired_occluders = self._get_num_paired_occluders()
+        for i in range(num_occluders):
+            if i < num_paired_occluders:
+                paired_obj = obj_list[i]
+                min_scale = min(max(paired_obj['shows'][0]['scale']['x'], 0.25), 1)
+                positions_by_step = paired_obj['intphys_options']['positions_by_step']
+                position_index = random.randrange(len(positions_by_step))
+                paired_x = positions_by_step[position_index]
+                paired_z = paired_obj['shows'][0]['position']['z']
+                if paired_z == 1.6:
+                    occluder_x = paired_x * 0.9
+                elif paired_z == 2.7:
+                    occluder_x = paired_x * 0.8
+                else:
+                    logging.warning(f'Unsupported z for occluder target "{paired_obj["id"]}": {paired_z}')
+                    occluder_x = paired_x
+            else:
+                min_scale = 0.25
+                occluder_x = None
+            x_scale = random_real(min_scale, 1.0, 0.05)
+            if occluder_x is None:
+                limit = 3.0 - x_scale / 2.0
+                limit = int(limit / 0.05) * 0.05
+                occluder_x = random_real(-limit, limit, 0.05)
+            # Now to fit the occluder into the scene. Try rescaling it
+            # to make it smaller and if that doesn't work, don't have it
+            # in the scene.
+            occluder_fits = False
+            for scale_try in float_range(x_scale, min_scale, -0.05):
+                found_collision = False
+                for other_occluder in occluder_list:
+                    if geometry.occluders_too_close(other_occluder, occluder_x, scale_try):
+                        found_collision = True
+                        break
+                if not found_collision:
+                    fit_scale = scale_try
+                    occluder_fits = True
+                    break
+            if occluder_fits:
+                occluder = objects.create_occluder(random.choice(materials.CEILING_AND_WALL_MATERIALS),
+                                                   random.choice(materials.METAL_MATERIALS),
+                                                   x_position, x_scale)
+                occluder_list.add(occluder)
+            else:
+                logging.debug(f'could not fit occluder at x={occluder_x}')
+        obj_list.extend(occluder_list)
+
+    def _get_num_objects_moving_across(self):
+        return random.choices((1, 2, 3), (40, 30, 30))[0]
+
     def _get_objects_moving_across(self):
-        num_objects = random.choices((1, 2, 3), (40, 30, 30))[0]
+        num_objects = self._get_num_objects_moving_across()
         object_positions = {
             'a': (4.2, 1.6),
             'b': (5.3, 1.6),
@@ -806,6 +904,7 @@ class IntPhysGoal(Goal, ABC):
             obj['intphys_options'] = intphys_option
             new_objects.append(obj)
 
+#        self._add_occluders(new_objects)
         return new_objects
 
     def _get_objects_falling_down(self):
@@ -888,6 +987,14 @@ class SpatioTemporalContinuityGoal(IntPhysGoal):
     def _get_last_step(self):
         return 60
 
+    def _get_num_occluders(self):
+        return random.choices((2, 3, 4), (40, 30, 30))[0]
+
+    def _get_num_paired_occluders(self):
+        return 2
+
+    def _get_num_objects_moving_across(self):
+        return random.choices((2, 3), (60, 40))[0]
 
 # Note: the names of all goal classes in GOAL_TYPES must end in "Goal" or choose_goal will not work
 GOAL_TYPES = {

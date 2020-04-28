@@ -3,6 +3,12 @@ import pytest
 import uuid
 
 
+def test_random_real():
+    n = random_real(0, 1, 0.1)
+    assert 0 <= n <= 1
+    # need to multiply by 10 and mod by 1 instead of 0.1 to avoid weird roundoff
+    assert n * 10 % 1 < 1e-8
+
 def test_instantiate_object():
     object_def = {
         'type': str(uuid.uuid4()),
