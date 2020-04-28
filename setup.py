@@ -5,7 +5,7 @@ with open('python_api/README.md', 'r') as fh:
 
 setuptools.setup(
     name='machine_common_sense',
-    version='0.0.4',
+    version='0.0.5',
     maintainer='Next Century, a wholly owned subsidiary of CACI',
     maintainer_email='mcs-ta2@machinecommonsense.com',
     url='https://github.com/NextCenturyCorporation/MCS/',
@@ -26,7 +26,8 @@ setuptools.setup(
     packages=setuptools.find_packages('python_api'),
     entry_points={
         'console_scripts':[
-            'mcs_run_in_human_input_mode=machine_common_sense.run_mcs_human_input:main'
+            'mcs_run_in_human_input_mode=machine_common_sense.run_mcs_human_input:main',
+            'mcs_run_scene_timer=machine_common_sense.run_mcs_scene_timer:main'
         ]
     }
 )
