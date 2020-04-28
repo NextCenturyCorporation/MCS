@@ -657,6 +657,12 @@ class TraversalGoal(Goal):
 class IntPhysGoal(Goal, ABC):
     """Base class for Intuitive Physics goals. Subclasses must set TEMPLATE variable (for use in get_config)."""
 
+    # The 3.55 or 4.2 is the position at which the object will leave the camera's viewport, and is dependent on the
+    # object's Z position (either 1.6 or 2.7). The * 1.2 is to account for the camera's perspective.
+    VIEWPORT_LIMIT_NEAR = 3.55
+    VIEWPORT_LIMIT_FAR = 4.2
+    VIEWPORT_PERSPECTIVE_FACTOR = 1.2
+
     def __init__(self):
         super(IntPhysGoal, self).__init__()
 
@@ -751,7 +757,7 @@ class IntPhysGoal(Goal, ABC):
                 if location in velocity_ordering and velocity_ordering[location] in location_assignments:
                     # ensure the objects won't collide
                     other_obj = location_assignments[velocity_ordering[location]]
-                    # TODO: compute value for collision 
+                    # TODO: compute value for collision (MCS-188)
                     collision = False
                     if not collision:
                         break
@@ -785,9 +791,9 @@ class IntPhysGoal(Goal, ABC):
                     position = object_position_x + position
                 new_positions.append(position)
             if location in ('a', 'b', 'e', 'f'):
-                max_x = 3.55 + obj_def['scale']['x'] / 2.0 * 1.2
+                max_x = IntPhysGoal.VIEWPORT_LIMIT_NEAR + obj_def['scale']['x'] / 2.0 * IntPhysGoal.VIEWPORT_PERSPECTIVE_FACTOR
             else:
-                max_x = 4.2 + obj_def['scale']['x'] / 2.0 * 1.2
+                max_x = IntPhysGoal.VIEWPORT_LIMIT_FAR + obj_def['scale']['x'] / 2.0 * IntPhysGoal.VIEWPORT_PERSPECTIVE_FACTOR
             filtered_position_by_step = [position for position in new_positions if (abs(position) <= max_x)]
             # set shows.stepBegin
             min_stepBegin = 13
