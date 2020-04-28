@@ -2052,7 +2052,9 @@ OCCLUDER_INSTANCE_SIDEWAYS = [{
     }]
 }]
 
+
 def create_occluder(wall_material, pole_material, x_position, x_scale, sideways=False):
+    """Create an occluder pair of objects: (wall, pole)."""
     if sideways:
         occluder = copy.deepcopy(OCCLUDER_INSTANCE_SIDEWAYS)
     else:
@@ -2070,7 +2072,7 @@ def create_occluder(wall_material, pole_material, x_position, x_scale, sideways=
     occluder[WALL]['shows'][0]['position']['x'] = x_position
     occluder[POLE]['shows'][0]['position']['x'] = x_position
 
-    occluder[WALL]['shows'][0]['scale']['x'] = x_position
+    occluder[WALL]['shows'][0]['scale']['x'] = x_scale
 
     if sideways:
         if x_position > 0:
@@ -2086,6 +2088,7 @@ def create_occluder(wall_material, pole_material, x_position, x_scale, sideways=
 
 _ALL_OBJECTS = None
 _ALL_OBJECTS_LISTS = [OBJECTS_PICKUPABLE_BALLS, OBJECTS_PICKUPABLE_BLOCKS, OBJECTS_PICKUPABLE_TOYS, OBJECTS_PICKUPABLE_MISC, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE]
+
 
 def get_all_object_defs():
     global _ALL_OBJECTS
