@@ -4,10 +4,11 @@ import sys
 import time
 
 from machine_common_sense.mcs import MCS
+from machine_common_sense.mcs import MCS
 
 DEFAULT_STEP_COUNT = 20
 
-def run_scene(file_name):
+def run_scene(controller, file_name):
     config_data, status = MCS.load_config_json_file(file_name)
 
     if status is not None:
@@ -37,7 +38,7 @@ def run_scene(file_name):
 
     return step_time_list
 
-if __name__ == "__main__":
+def main():
     if len(sys.argv) < 3:
         print('Usage: python mcs_run_scene_timer.py <mcs_unity_build_file> <scene_configuration_dir> <debug=False>')
         sys.exit()
@@ -63,7 +64,7 @@ if __name__ == "__main__":
         print('================================================================================')
         print(f'RUNNING FILE {(i + 1)}: {file_list[i]}')
         start = time.perf_counter()
-        step_time_list = run_scene(file_list[i])
+        step_time_list = run_scene(controller, file_list[i])
         end = time.perf_counter()
         scene_time_list.append(end - start)
         step_time_list_list.append(step_time_list)
@@ -81,4 +82,7 @@ if __name__ == "__main__":
     print(f'Average single scene took {statistics.mean(scene_time_list):0.4f} seconds')
     print(f'Longest single scene took {max(scene_time_list):0.4f} seconds')
     print(f'Shortest single scene took {min(scene_time_list):0.4f} seconds')
+
+if __name__ == "__main__":
+    main()
 
