@@ -424,7 +424,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             object_mask_list.append(object_mask)
 
             if self.__debug_to_file and self.__output_folder is not None:
-                suffix = '_' + str(self.__step_number) + '-' + str(index) + '.png'
+                step_plus_substep_index = 0 if self.__step_number == 0 else ((self.__step_number - 1) * 5) + index
+                suffix = '_' + str(step_plus_substep_index) + '.png'
                 scene_image.save(fp=self.__output_folder + 'frame_image' + suffix)
                 depth_mask.save(fp=self.__output_folder + 'depth_mask' + suffix)
                 object_mask.save(fp=self.__output_folder + 'object_mask' + suffix)
