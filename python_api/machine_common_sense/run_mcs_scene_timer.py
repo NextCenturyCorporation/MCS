@@ -61,7 +61,7 @@ if __name__ == "__main__":
 
     for i in range(0, len(file_list)):
         print('================================================================================')
-        print('RUNNING FILE ' + str(i + 1) + ': ' + file_list[i])
+        print(f'RUNNING FILE {(i + 1)}: {file_list[i]}')
         start = time.perf_counter()
         step_time_list = run_scene(file_list[i])
         end = time.perf_counter()
