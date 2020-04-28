@@ -26,7 +26,8 @@ setuptools.setup(
     packages=setuptools.find_packages('python_api'),
     entry_points={
         'console_scripts':[
-            'mcs_run_in_human_input_mode=machine_common_sense.run_mcs_human_input:main'
+            'mcs_run_in_human_input_mode=machine_common_sense.run_mcs_human_input:main',
+            'mcs_run_scene_timer=machine_common_sense.run_mcs_scene_timer:main'
         ]
     }
 )
