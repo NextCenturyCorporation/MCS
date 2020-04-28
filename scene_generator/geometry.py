@@ -3,7 +3,6 @@ import math
 import random
 
 from separating_axis_theorem import sat_entry
-from setuptools.sandbox import AbstractSandbox
 
 MAX_TRIES = 100
 # the following mins and maxes are inclusive
@@ -101,6 +100,12 @@ object in the frame, None otherwise."""
 
     dx = old_object['dimensions']['x']/2.0
     dz = old_object['dimensions']['z']/2.0
+    if 'offset' in old_object:
+        offset_x = old_object['offset']['x']
+        offset_z = old_object['offset']['z']
+    else:
+        offset_x = 0.0
+        offset_z = 0.0
 
     tries = 0
     while tries < MAX_TRIES:
@@ -108,7 +113,7 @@ object in the frame, None otherwise."""
         new_x = random_position()
         new_z = random_position()
 
-        rect = calc_obj_coords(new_x, new_z, dx, dz, rotation)
+        rect = calc_obj_coords(new_x, new_z, dx, dz, offset_x, offset_z, rotation)
         if not collision(rect, performer_position) and \
                 rect_within_room(rect) and \
                 (len(other_rects) == 0 or not any(sat_entry(rect, other_rect) for other_rect in other_rects)):
