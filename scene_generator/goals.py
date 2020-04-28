@@ -16,7 +16,7 @@ from geometry import random_position, random_rotation, calc_obj_pos, POSITION_DI
 from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJECTS_PICKUPABLE_LISTS
 from separating_axis_theorem import sat_entry
 from optimal_path import generatepath
-from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
+from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, PERFORMER_CAMERA_Y
 from math import atan2, degrees, modf, sqrt, cos, sin
 from sympy.geometry.line import Segment
 from sympy.geometry import intersection, Point
@@ -479,12 +479,33 @@ class RetrievalGoal(InteractionGoal):
         for indx in range(len(path)-1):
             actions.extend(self.parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary))
         #Do I have to look down to see the object????
+        plane_dist = sqrt( (goal[0]-performer[0] ) ** 2 + (goal[1]-position[1]) ** 2 )
+        height_dist = PERFORMER_CAMERA_Y-goal_objects[0]['shows'][0]['position']['y']
+        elevation = degrees(atan2(height_dist,plane_dist))
+        if abs(elevation) > 30:
+            actions.append(
+                 {
+                'action': 'RotateLook',
+                'params': {
+                    'rotation': 0.0,
+                    'horizon': round(elevation, POSITION_DIGITS)
+                    }
+                })
         actions.append({
             'action': 'PickupObject',
             'params': {
                 'objectId': goal_objects[0]['id']
                 }
             })
+        if abs(elevation) > 30:
+            actions.append(
+                 {
+                'action': 'RotateLook',
+                'params': {
+                    'rotation': 0.0,
+                    'horizon': -1*round(elevation, POSITION_DIGITS)
+                    }
+                })
         return actions
         
 
@@ -572,17 +593,39 @@ class TransferralGoal(InteractionGoal):
         current_heading = self._performer_start['rotation']['y']
         for indx in range(len(path)-1):
             actions.extend(self.parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary))
-
+#Do I have to look down to see the object????
+        plane_dist = sqrt( (goal[0]-performer[0] ) ** 2 + (goal[1]-position[1]) ** 2 )
+        height_dist = PERFORMER_CAMERA_Y-goal_objects[0]['shows'][0]['position']['y']
+        elevation = degrees(atan2(height_dist,plane_dist))
+        if abs(elevation) > 30:
+            actions.append(
+                 {
+                'action': 'RotateLook',
+                'params': {
+                    'rotation': 0.0,
+                    'horizon': round(elevation, POSITION_DIGITS)
+                    }
+                })
         actions.append({
             'action': 'PickupObject',
             'params': {
                 'objectId': goal_objects[0]['id']
                 }
             })
+        if abs(elevation) > 30:
+            actions.append(
+                 {
+                'action': 'RotateLook',
+                'params': {
+                    'rotation': 0.0,
+                    'horizon': -1*round(elevation, POSITION_DIGITS)
+                    }
+                })
+
         target = (goal_objects[1]['shows'][0]['position']['x'], goal_objects[1]['shows'][0]['position']['z'])
         hole_rects = []
         hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if  ( object['id'] != goal_objects[0]['id'] and object['id'] != goal_objects[1]['id']))
-        path  = generatepath(goal,target, hole_rects)
+        path  = generatepath(performer,target, hole_rects)
         for object in all_objects:
              if object['id'] == goal_objects[0]['id']:
                  goal_boundary = object['shows'][0]['bounding_box'] 

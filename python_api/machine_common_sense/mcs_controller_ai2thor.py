@@ -14,6 +14,9 @@ MAX_REACH_DISTANCE = 1.0
 # How far the player can move with a single step.
 MAX_MOVE_DISTANCE = 0.5
 
+# Performer camera 'y' position
+PERFORMER_CAMERA_Y = 0.4625
+
 from .mcs_action import MCS_Action
 from .mcs_controller import MCS_Controller
 from .mcs_goal import MCS_Goal
