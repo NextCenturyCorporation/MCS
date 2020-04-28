@@ -17,7 +17,7 @@ from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJE
 from separating_axis_theorem import sat_entry
 from optimal_path import generatepath
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, PERFORMER_CAMERA_Y
-from math import atan2, degrees, modf, sqrt, cos, sin
+from math import atan2, degrees, modf, sqrt, cos, sin, radians
 from sympy.geometry.line import Segment
 from sympy.geometry import intersection, Point
 
@@ -297,7 +297,7 @@ class Goal(ABC):
                     "params": {}
                     }]*int(whole))
         ## Where am I?
-        performer = (performer[0]+MAX_MOVE_DISTANCE*whole*cos(theta), performer[1]+MAX_MOVE_DISTANCE*whole*sin(theta))
+        performer = (performer[0]+MAX_MOVE_DISTANCE*whole*cos(radians(theta)), performer[1]+MAX_MOVE_DISTANCE*whole*sin(radians(theta)))
  
         goal_center = (path_section[1][0],path_section[1][1])
         performer_seg = Segment(performer, goal_center)
@@ -306,6 +306,7 @@ class Goal(ABC):
             intersect_point = intersection(performer_seg, Segment((goal_boundary[indx-1]['x'],goal_boundary[indx-1]['z']), (goal_boundary[indx]['x'],goal_boundary[indx]['z'] )))
             if intersect_point:
                 frac = intersect_point[0].distance(performer)/ MAX_MOVE_DISTANCE
+                assert frac < 1.0
                 performer = intersect_point[0]
                 break
                               
