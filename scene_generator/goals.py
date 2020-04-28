@@ -693,6 +693,8 @@ class TraversalGoal(Goal):
 class IntPhysGoal(Goal, ABC):
     """Base class for Intuitive Physics goals. Subclasses must set TEMPLATE variable (for use in get_config)."""
 
+    MAX_OCCLUDER_TRIES = 100
+
     def __init__(self):
         super(IntPhysGoal, self).__init__()
 
@@ -752,56 +754,57 @@ class IntPhysGoal(Goal, ABC):
         target_obj = obj_list[0]
         num_occluders = self._get_num_occluders()
         num_paired_occluders = self._get_num_paired_occluders()
+        occluder_list = []
         for i in range(num_occluders):
-            if i < num_paired_occluders:
-                paired_obj = obj_list[i]
-                min_scale = min(max(paired_obj['shows'][0]['scale']['x'], 0.25), 1)
-                positions_by_step = paired_obj['intphys_options']['positions_by_step']
-                position_index = random.randrange(len(positions_by_step))
-                paired_x = positions_by_step[position_index]
-                paired_z = paired_obj['shows'][0]['position']['z']
-                if paired_z == 1.6:
-                    occluder_x = paired_x * 0.9
-                elif paired_z == 2.7:
-                    occluder_x = paired_x * 0.8
-                else:
-                    logging.warning(f'Unsupported z for occluder target "{paired_obj["id"]}": {paired_z}')
-                    occluder_x = paired_x
-            else:
-                min_scale = 0.25
-                occluder_x = None
-            x_scale = random_real(min_scale, 1.0, 0.05)
-            if occluder_x is None:
-                limit = 3.0 - x_scale / 2.0
-                limit = int(limit / 0.05) * 0.05
-                occluder_x = random_real(-limit, limit, 0.05)
-            # Now to fit the occluder into the scene. Try rescaling it
-            # to make it smaller and if that doesn't work, don't have it
-            # in the scene.
             occluder_fits = False
-            for scale_try in float_range(x_scale, min_scale, -0.05):
+            # try random position and scale until we find one that fits (or try too many times)
+            for occluder_try in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
+                if i < num_paired_occluders:
+                    paired_obj = obj_list[i]
+                    min_scale = min(max(paired_obj['shows'][0]['scale']['x'], 0.25), 1)
+                    position_by_step = paired_obj['intphys_options']['position_by_step']
+                    position_index = random.randrange(len(position_by_step))
+                    paired_x = position_by_step[position_index]
+                    paired_z = paired_obj['shows'][0]['position']['z']
+                    if paired_z == 1.6:
+                        occluder_x = paired_x * 0.9
+                    elif paired_z == 2.7:
+                        occluder_x = paired_x * 0.8
+                    else:
+                        logging.warning(f'Unsupported z for occluder target "{paired_obj["id"]}": {paired_z}')
+                        occluder_x = paired_x
+                else:
+                    min_scale = 0.25
+                    occluder_x = None
+                x_scale = random_real(min_scale, 1.0, 0.05)
+                if occluder_x is None:
+                    limit = 3.0 - x_scale / 2.0
+                    limit = int(limit / 0.05) * 0.05
+                    occluder_x = random_real(-limit, limit, 0.05)
                 found_collision = False
                 for other_occluder in occluder_list:
-                    if geometry.occluders_too_close(other_occluder, occluder_x, scale_try):
+                    if geometry.occluders_too_close(other_occluder, occluder_x, x_scale):
                         found_collision = True
                         break
                 if not found_collision:
-                    fit_scale = scale_try
                     occluder_fits = True
                     break
             if occluder_fits:
-                occluder = objects.create_occluder(random.choice(materials.CEILING_AND_WALL_MATERIALS),
-                                                   random.choice(materials.METAL_MATERIALS),
-                                                   x_position, x_scale)
-                occluder_list.add(occluder)
+                occluder_objs = objects.create_occluder(random.choice(materials.CEILING_AND_WALL_MATERIALS),
+                                                        random.choice(materials.METAL_MATERIALS),
+                                                        occluder_x, x_scale)
+                occluder_list.extend(occluder_objs)
             else:
                 logging.debug(f'could not fit occluder at x={occluder_x}')
+                if i < num_paired_occluders:
+                    raise GoalException(f'Could not add minimum number of occluders ({num_paired_occluders})')
         obj_list.extend(occluder_list)
 
     def _get_num_objects_moving_across(self):
         return random.choices((1, 2, 3), (40, 30, 30))[0]
 
     def _get_objects_moving_across(self):
+        """Get objects to move across the scene and occluders for them."""
         num_objects = self._get_num_objects_moving_across()
         object_positions = {
             'a': (4.2, 1.6),
@@ -904,7 +907,7 @@ class IntPhysGoal(Goal, ABC):
             obj['intphys_options'] = intphys_option
             new_objects.append(obj)
 
-#        self._add_occluders(new_objects)
+        self._add_occluders(new_objects)
         return new_objects
 
     def _get_objects_falling_down(self):

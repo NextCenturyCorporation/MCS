@@ -382,7 +382,7 @@ def test__get_objects_moving_across():
 
     goal = TestGoal()
     objs = goal._get_objects_moving_across()
-    assert 1 <= len(objs) <= 3
+    assert 1 <= len(objs) <= 6 # objects and occluders
 
 
 def test__object_collision():
