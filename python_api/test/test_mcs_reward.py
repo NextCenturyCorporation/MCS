@@ -1,5 +1,6 @@
 import unittest
 import math
+import time
 import sympy
 
 from machine_common_sense.mcs_reward import MCS_Reward
@@ -9,6 +10,14 @@ from machine_common_sense.mcs_util import MCS_Util
 
 
 class Test_MCS_Reward(unittest.TestCase):
+
+
+    def setUp(self):
+        self._start_at = time.time()
+
+    def tearDown(self):
+        elapsed = time.time() - self._start_at
+        print(f"{self.id()} ({round(elapsed,2)}s)")
 
     def test_default_reward(self):
         goal = MCS_Goal()
@@ -242,7 +251,7 @@ class Test_MCS_Reward(unittest.TestCase):
         goal = MCS_Goal()
         goal.metadata['target_1'] = {'id': '0'}
         goal.metadata['target_2'] = {'id': '1'}
-        goal.metadata['relationship'] = ['target_1', 'next_to', 'target_2']
+        goal.metadata['relationship'] = ['target_1', 'next to', 'target_2']
         obj_list = []
         for i in range(10):
             obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}}
@@ -267,7 +276,7 @@ class Test_MCS_Reward(unittest.TestCase):
         goal = MCS_Goal()
         goal.metadata['target_1'] = {'id': '0'}
         goal.metadata['target_2'] = {'id': '1'}
-        goal.metadata['relationship'] = ['target_1', 'next_to', 'target_2']
+        goal.metadata['relationship'] = ['target_1', 'next to', 'target_2']
         obj_list = []
         for i in range(10):
             obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}, "isPickedUp": True}
@@ -292,7 +301,7 @@ class Test_MCS_Reward(unittest.TestCase):
         goal = MCS_Goal()
         goal.metadata['target_1'] = {'id': '1'}
         goal.metadata['target_2'] = {'id': '0'}
-        goal.metadata['relationship'] = ['target_1', 'on_top_of', 'target_2']
+        goal.metadata['relationship'] = ['target_1', 'on top of', 'target_2']
         obj_list = []
         for i in range(10):
             obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}}
@@ -317,7 +326,7 @@ class Test_MCS_Reward(unittest.TestCase):
         goal = MCS_Goal()
         goal.metadata['target_1'] = {'id': '0'}
         goal.metadata['target_2'] = {'id': '1'}        
-        goal.metadata['relationship'] = ['target_1', 'on_top_of', 'target_2']
+        goal.metadata['relationship'] = ['target_1', 'on top of', 'target_2']
         obj_list = []
         for i in range(10):
             obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}, "isPickedUp": True}
