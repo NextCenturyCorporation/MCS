@@ -174,10 +174,10 @@ class MCS_Reward(object):
             action_object['position']['z']
 
         # actions are next_to or on_top_of (ie; action obj next to goal obj)
-        if action == 'next_to':
+        if action == 'next to':
             distance_to_goal = MCS_Reward.__calc_distance_to_goal(action_object_xz_center, goal_object)
             reward = int(distance_to_goal <= MAX_MOVE_DISTANCE)
-        elif action == 'on_top_of':
+        elif action == 'on top of':
             # check that the target object center is within goal object bounds
             # and the y dimension of the target is above the goal
             _, upper_polygon = MCS_Reward._convert_bounds_to_polygons(goal_object)
