@@ -1,7 +1,10 @@
 from goals import *
 import pytest
 import uuid
+import math
 
+from geometry import POSITION_DIGITS
+from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
 
 def test_instantiate_object():
     object_def = {
@@ -272,6 +275,69 @@ def test_Goal_duplicate_object():
     assert empty is None
 
 
+def test_Goal_parse_path_section():
+    path_section = ((0, 0), (0.1, 0.1))
+    expected_actions = [{
+        'action': 'RotateLook',
+        'params': {
+            'rotation': -45.0,
+            'horizon': 0.0
+        }
+    }, {
+        'action': 'MoveAhead',
+        'params': {
+            'amount': round(math.sqrt(2 * 0.1**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
+        }
+    }]
+    goal = EmptyGoal()
+    actions = goal.parse_path_section(path_section, 0)
+    assert actions == expected_actions
+
+
+def test_InteractionGoal__get_navigation_action():
+    expected_actions = [{
+        'action': 'RotateLook',
+        'params': {
+            'rotation': -45.0,
+            'horizon': 0.0
+        }
+    }, {
+        'action': 'MoveAhead',
+        'params': {
+            'amount': round(math.sqrt(2 * 0.1**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
+        }
+    }]
+    class TestGoal(InteractionGoal):
+        def get_config(self):
+            return ''
+
+        def find_optimal_path(self, goal_objects, all_objects):
+            return []
+
+    goal = TestGoal()
+    goal._performer_start = {
+        'position': {
+            'x': 0,
+            'y': 0,
+            'z': 0
+        },
+        'rotation': {
+            'y': 0
+        }
+    }
+    goal_object = {
+        'shows': [{
+            'position': {
+                'x': 0.1,
+                'y': 0,
+                'z': 0.1
+            }
+        }]
+    }
+    actions = goal._get_navigation_actions(goal_object, [])
+    assert actions == expected_actions
+    
+    
 def test_TraversalGoal_get_goal():
     goal_obj = TraversalGoal()
     obj = {

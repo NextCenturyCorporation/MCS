@@ -356,7 +356,7 @@ class EmptyGoal(Goal):
         return ''
 
     def find_optimal_path(self, goal_objects, all_objects):
-        return ''
+        return []
 
 
 class InteractionGoal(Goal, ABC):
@@ -411,6 +411,21 @@ class InteractionGoal(Goal, ABC):
 
         return all_goal_objects, all_objects, self._bounding_rects
         
+    def _get_navigation_actions(self, goal_object, all_objects):
+        """Get the action sequence for going from performer start to the goal_object."""
+        performer = (self._performer_start['position']['x'], self._performer_start['position']['z'])
+        goal = (goal_object['shows'][0]['position']['x'], goal_object['shows'][0]['position']['z'])
+        hole_rects = []
+        hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if object['id'] != goal_object['id'])
+        path = generatepath(performer, goal, hole_rects)
+
+        actions = []
+        current_heading = self._performer_start['rotation']['y']
+        for indx in range(len(path)-1):
+            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading))
+
+        return actions
+
 
 class RetrievalGoal(InteractionGoal):
     """Going to a specified object and picking it up."""
@@ -451,16 +466,7 @@ class RetrievalGoal(InteractionGoal):
 
     def find_optimal_path(self, goal_objects, all_objects):
         # Goal should be a singleton... I hope
-        performer = (self._performer_start['position']['x'],self._performer_start['position']['z'])
-        goal = (goal_objects[0]['shows'][0]['position']['x'],goal_objects[0]['shows'][0]['position']['z'])
-        hole_rects=[]
-        hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if object['id'] != goal_objects[0]['id'])
-        path = generatepath(performer, goal, hole_rects)
-
-        actions = []
-        current_heading = self._performer_start['rotation']['y']
-        for indx in range(len(path)-1):
-            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading))
+        actions = self._get_navigation_actions(goal_objects[0], all_objects)
 
         actions.append({
             'action': 'PickupObject',
@@ -542,17 +548,7 @@ class TransferralGoal(InteractionGoal):
 
     def find_optimal_path(self, goal_objects, all_objects):
         # Goal should be a singleton... I hope
-        performer = (self._performer_start['position']['x'],self._performer_start['position']['z'])
-        goal = (goal_objects[0]['shows'][0]['position']['x'],goal_objects[0]['shows'][0]['position']['z'])
-        hole_rects=[]
-        hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if object['id'] != goal_objects[0]['id'])
-        path = generatepath(performer, goal, hole_rects)
-  
-        actions = []
-        current_heading = self._performer_start['rotation']['y']
-        for indx in range(len(path)-1):
-            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading))
-
+        actions = self._get_navigation_actions(goal_objects[0], all_objects)
         actions.append({
             'action': 'PickupObject',
             'params': {
@@ -631,18 +627,7 @@ class TraversalGoal(Goal):
 
     def find_optimal_path(self, goal_objects, all_objects):
         # Goal should be a singleton... I hope
-        performer = (self._performer_start['position']['x'],self._performer_start['position']['z'])
-        goal = (goal_objects[0]['shows'][0]['position']['x'],goal_objects[0]['shows'][0]['position']['z'])
-        hole_rects = []
-        hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if object['id'] != goal_objects[0]['id'])
-        path = generatepath(performer, goal, hole_rects)
-
-        actions = []
-        current_heading = self._performer_start['rotation']['y']
-        for indx in range(len(path)-1):
-            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading))
-
-        return actions
+        return _get_navigation_actions(goal_objects[0], all_objects)
 
 
 class IntPhysGoal(Goal, ABC):
@@ -674,7 +659,7 @@ class IntPhysGoal(Goal, ABC):
         return body
 
     def find_optimal_path(self, goal_objects, all_objects):
-        return ''
+        return []
 
     def _get_last_step(self):
         return 40
