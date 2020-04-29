@@ -76,10 +76,10 @@ def calc_obj_coords(position_x, position_z, delta_x, delta_z, offset_x, offset_z
     z_plus = delta_z + offset_z
     z_minus = -delta_z + offset_z
     
-    a = {'x': position_x + x_plus * rotate_cos - z_plus * rotate_sin, 'y': 0, 'z': position_z + x_plus * rotate_sin + z_plus * rotate_cos}
-    b = {'x': position_x + x_plus * rotate_cos - z_minus * rotate_sin, 'y': 0, 'z': position_z + x_plus * rotate_sin + z_minus * rotate_cos}
-    c = {'x': position_x + x_minus * rotate_cos - z_minus * rotate_sin, 'y': 0, 'z': position_z + x_minus * rotate_sin + z_minus * rotate_cos}
-    d = {'x': position_x + x_minus * rotate_cos - z_plus * rotate_sin, 'y': 0, 'z': position_z + x_minus * rotate_sin + z_plus * rotate_cos}
+    a = {'x': round(position_x + x_plus * rotate_cos - z_plus * rotate_sin, POSITION_DIGITS), 'y': 0, 'z': round(position_z + x_plus * rotate_sin + z_plus * rotate_cos, POSITION_DIGITS)}
+    b = {'x': round(position_x + x_plus * rotate_cos - z_minus * rotate_sin, POSITION_DIGITS), 'y': 0, 'z': round(position_z + x_plus * rotate_sin + z_minus * rotate_cos, POSITION_DIGITS)}
+    c = {'x': round(position_x + x_minus * rotate_cos - z_minus * rotate_sin, POSITION_DIGITS), 'y': 0, 'z': round(position_z + x_minus * rotate_sin + z_minus * rotate_cos, POSITION_DIGITS)}
+    d = {'x': round(position_x + x_minus * rotate_cos - z_plus * rotate_sin, POSITION_DIGITS), 'y': 0, 'z': round(position_z + x_minus * rotate_sin + z_plus * rotate_cos, POSITION_DIGITS)}
 
     return [a, b, c, d]
 

@@ -279,7 +279,7 @@ class Goal(ABC):
             # I'm assuming a positive angle is a clockwise rotation- so this should work
             #I think
 
-        delta_t = current_heading-theta
+        delta_t = (current_heading-theta) % 360
         current_heading = theta
         if delta_t != 0:
             action = {
@@ -480,7 +480,7 @@ class RetrievalGoal(InteractionGoal):
         for indx in range(len(path)-1):
             actions.extend(self.parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary))
         #Do I have to look down to see the object????
-        plane_dist = sqrt( (goal[0]-performer[0] ) ** 2 + (goal[1]-position[1]) ** 2 )
+        plane_dist = sqrt( (goal[0]-performer[0] ) ** 2 + (goal[1]-performer[1]) ** 2 )
         height_dist = PERFORMER_CAMERA_Y-goal_objects[0]['shows'][0]['position']['y']
         elevation = degrees(atan2(height_dist,plane_dist))
         if abs(elevation) > 30:
@@ -488,8 +488,8 @@ class RetrievalGoal(InteractionGoal):
                  {
                 'action': 'RotateLook',
                 'params': {
-                    'rotation': 0.0,
-                    'horizon': round(elevation, POSITION_DIGITS)
+                    'rotation': 0,
+                    'horizon': round(elevation,0)
                     }
                 })
         actions.append({
@@ -503,8 +503,8 @@ class RetrievalGoal(InteractionGoal):
                  {
                 'action': 'RotateLook',
                 'params': {
-                    'rotation': 0.0,
-                    'horizon': -1*round(elevation, POSITION_DIGITS)
+                    'rotation': 0,
+                    'horizon': -1*round(elevation, 0)
                     }
                 })
         return actions
@@ -595,7 +595,7 @@ class TransferralGoal(InteractionGoal):
         for indx in range(len(path)-1):
             actions.extend(self.parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary))
 #Do I have to look down to see the object????
-        plane_dist = sqrt( (goal[0]-performer[0] ) ** 2 + (goal[1]-position[1]) ** 2 )
+        plane_dist = sqrt( (goal[0]-performer[0] ) ** 2 + (goal[1]-performer[1]) ** 2 )
         height_dist = PERFORMER_CAMERA_Y-goal_objects[0]['shows'][0]['position']['y']
         elevation = degrees(atan2(height_dist,plane_dist))
         if abs(elevation) > 30:
