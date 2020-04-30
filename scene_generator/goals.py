@@ -7,7 +7,7 @@ import logging
 import random
 import uuid
 from abc import ABC, abstractmethod
-from enum import Enum
+from enum import Enum, auto
 
 import geometry
 import materials
@@ -42,6 +42,17 @@ def random_real(a, b, step):
     steps = int((b - a) / step)
     n = random.randint(0, steps)
     return a + n * step
+
+
+def all_items_less_equal(a, b):
+    """Return true iff every item in a is <= its corresponding item in b."""
+    return all((a[key] <= b[key] for key in a))
+
+
+def compute_acceleration(force, mass):
+    """Return the acceleration imparted to mass by force (a x,y,z dictionary)"""
+    accel = { item: force[item]/mass for item in force }
+    return accel
 
 
 def finalize_object_definition(object_def):
@@ -657,6 +668,12 @@ class TraversalGoal(Goal):
 class IntPhysGoal(Goal, ABC):
     """Base class for Intuitive Physics goals. Subclasses must set TEMPLATE variable (for use in get_config)."""
 
+    # The 3.55 or 4.2 is the position at which the object will leave the camera's viewport, and is dependent on the
+    # object's Z position (either 1.6 or 2.7). The * 1.2 is to account for the camera's perspective.
+    VIEWPORT_LIMIT_NEAR = 3.55
+    VIEWPORT_LIMIT_FAR = 4.2
+    VIEWPORT_PERSPECTIVE_FACTOR = 1.2
+
     def __init__(self):
         super(IntPhysGoal, self).__init__()
 
@@ -704,8 +721,119 @@ class IntPhysGoal(Goal, ABC):
         return [], objs + occluders, []
 
     def _get_objects_moving_across(self):
-        # TODO: in a future ticket
-        return []
+        class Position(Enum):
+            RIGHT_FIRST_NEAR = auto()
+            RIGHT_LAST_NEAR = auto()
+            RIGHT_FIRST_FAR = auto()
+            RIGHT_LAST_FAR = auto()
+            LEFT_FIRST_NEAR = auto()
+            LEFT_LAST_NEAR = auto()
+            LEFT_FIRST_FAR = auto()
+            LEFT_LAST_FAR = auto()
+
+        num_objects = random.choices((1, 2, 3), (40, 30, 30))[0]
+        object_positions = {
+            Position.RIGHT_FIRST_NEAR: (4.2, 1.6),
+            Position.RIGHT_LAST_NEAR: (5.3, 1.6),
+            Position.RIGHT_FIRST_FAR: (4.8, 2.7),
+            Position.RIGHT_LAST_FAR: (5.9, 2.7),
+            Position.LEFT_FIRST_NEAR: (-4.2, 1.6),
+            Position.LEFT_LAST_NEAR: (-5.3, 1.6),
+            Position.LEFT_FIRST_FAR: (-4.8, 2.7),
+            Position.LEFT_LAST_FAR: (-5.9, 2.7)
+        }
+        exclusions = {
+            Position.RIGHT_FIRST_NEAR: (Position.LEFT_FIRST_NEAR, Position.LEFT_LAST_NEAR),
+            Position.RIGHT_LAST_NEAR: (Position.LEFT_FIRST_NEAR, Position.LEFT_LAST_NEAR),
+            Position.RIGHT_FIRST_FAR: (Position.LEFT_FIRST_FAR, Position.LEFT_LAST_FAR),
+            Position.RIGHT_LAST_FAR: (Position.LEFT_FIRST_FAR, Position.LEFT_LAST_FAR),
+            Position.LEFT_FIRST_NEAR: (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR),
+            Position.LEFT_LAST_NEAR: (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR),
+            Position.LEFT_FIRST_FAR: (Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR),
+            Position.LEFT_LAST_FAR: (Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR)
+        }
+        # Object in key position must have velocities <= velocities
+        # for object in value position (e.g., object in b must have
+        # velocities <= velocities for object in a).
+        velocity_ordering = {
+            Position.RIGHT_LAST_NEAR: Position.RIGHT_FIRST_NEAR,
+            Position.RIGHT_LAST_FAR: Position.RIGHT_FIRST_FAR,
+            Position.LEFT_LAST_NEAR: Position.LEFT_FIRST_NEAR,
+            Position.LEFT_LAST_FAR: Position.LEFT_FIRST_FAR
+        }
+        available_locations = set(object_positions.keys())
+        location_assignments = {}
+        new_objects = []
+        for i in range(num_objects):
+            location = random.choice(list(available_locations))
+            available_locations.remove(location)
+            for loc in exclusions[location]:
+                available_locations.discard(loc)
+            # TODO: later this will get imported from objects (or somewhere else)
+            from objects_intphys_v1 import OBJECTS_INTPHYS
+            obj_def = finalize_object_definition(random.choice(OBJECTS_INTPHYS))
+            remaining_intphys_options = obj_def['intphys_options'].copy()
+            while len(remaining_intphys_options) > 0:
+                intphys_option = random.choice(remaining_intphys_options)
+                if location in velocity_ordering and velocity_ordering[location] in location_assignments:
+                    # ensure the objects won't collide
+                    other_obj = location_assignments[velocity_ordering[location]]
+                    # TODO: compute value for collision (MCS-188)
+                    collision = False
+                    if not collision:
+                        break
+                    elif len(remaining_intphys_options) == 1:
+                        # last chance, so just swap the items to make their relative velocities "ok"
+                        location_assignments[location] = other_obj
+                        location = velocity_ordering[location]
+                        location_assignments[location] = None # to be assigned later
+                        break
+                else:
+                    break
+                remaining_intphys_options.remove(intphys_option)
+
+            object_location = {
+                'position': {
+                    'x': object_positions[location][0],
+                    'y': intphys_option['y'],
+                    'z': object_positions[location][1]
+                }
+            }
+            obj = instantiate_object(obj_def, object_location)
+            location_assignments[location] = obj
+            position_by_step = copy.deepcopy(intphys_option['position_by_step'])
+            object_position_x = object_positions[location][0]
+            # adjust position_by_step and remove outliers
+            new_positions = []
+            for position in position_by_step:
+                if location in (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR, Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR):
+                    position = object_position_x - position
+                else:
+                    position = object_position_x + position
+                new_positions.append(position)
+            if location in (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR, Position.LEFT_FIRST_NEAR, Position.LEFT_LAST_NEAR):
+                max_x = IntPhysGoal.VIEWPORT_LIMIT_NEAR + obj_def['scale']['x'] / 2.0 * IntPhysGoal.VIEWPORT_PERSPECTIVE_FACTOR
+            else:
+                max_x = IntPhysGoal.VIEWPORT_LIMIT_FAR + obj_def['scale']['x'] / 2.0 * IntPhysGoal.VIEWPORT_PERSPECTIVE_FACTOR
+            filtered_position_by_step = [position for position in new_positions if (abs(position) <= max_x)]
+            # set shows.stepBegin
+            min_stepBegin = 13
+            if location in velocity_ordering and velocity_ordering[location] in location_assignments:
+                min_stepBegin = location_assignments[velocity_ordering[location]]['shows'][0]['stepBegin']
+            stepsBegin = random.randint(min_stepBegin, 55 - len(filtered_position_by_step))
+            obj['shows'][0]['stepsBegin'] = stepsBegin
+            obj['forces'] = [{
+                'stepBegin': stepsBegin,
+                'stepEnd': 55,
+                'vector': intphys_option['force']
+            }]
+            if location in (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR, Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR):
+                obj['forces'][0]['vector']['x'] *= -1
+            intphys_option['position_by_step'] = filtered_position_by_step
+            obj['intphys_options'] = intphys_option
+            new_objects.append(obj)
+
+        return new_objects
 
     def _get_objects_falling_down(self, wall_material_name):
         MAX_POSITION_TRIES = 100
