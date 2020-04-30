@@ -138,17 +138,42 @@ RAMP_90_TEMPLATE = [{
 }]
 
 RAMP_30_90_TEMPLATE = [{
-    "id": "ramp_",
+    "id": "ramp_part1_",
     "type": "cube",
     "materials": [],
-    "kinematic": True,
-    "structure": True,
+    "kinematic": true,
+    "structure": true,
     "mass": 100,
     "shows": [{
         "stepBegin": 0,
         "position": {
-            "x": 3,
-            "y": 0.5,
+            "x": -0.366,
+            "y": 0.384,
+            "z": 2.1
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 30
+        },
+        "scale": {
+            "x": 2,
+            "y": 2,
+            "z": 2.2
+        }
+    }]
+}, {
+    "id": "ramp_part2_",
+    "type": "cube",
+    "materials": [],
+    "kinematic": true,
+    "structure": true,
+    "mass": 100,
+    "shows": [{
+        "stepBegin": 0,
+        "position": {
+            "x": 5,
+            "y": 1.25,
             "z": 2.1
         },
         "rotation": {
@@ -158,23 +183,98 @@ RAMP_30_90_TEMPLATE = [{
         },
         "scale": {
             "x": 10,
-            "y": 2,
+            "y": 1,
+            "z": 2.2
+        }
+    }]
+}, {
+    "id": "ramp_part3_",
+    "type": "cube",
+    "materials": [],
+    "kinematic": true,
+    "structure": true,
+    "mass": 100,
+    "shows": [{
+        "stepBegin": 0,
+        "position": {
+            "x": 3.268,
+            "y": 0.25,
+            "z": 2.1
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+        },
+        "scale": {
+            "x": 10,
+            "y": 1,
             "z": 2.2
         }
     }]
 }]
 
 RAMP_45_90_TEMPLATE = [{
-    "id": "ramp_",
+    "id": "ramp_part1_",
     "type": "cube",
     "materials": [],
-    "kinematic": True,
-    "structure": True,
+    "kinematic": true,
+    "structure": true,
     "mass": 100,
     "shows": [{
         "stepBegin": 0,
         "position": {
-            "x": 3,
+            "x": -1,
+            "y": 1,
+            "z": 2.1
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 45
+        },
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 2.2
+        }
+    }]
+}, {
+    "id": "ramp_part2_",
+    "type": "cube",
+    "materials": [],
+    "kinematic": true,
+    "structure": true,
+    "mass": 100,
+    "shows": [{
+        "stepBegin": 0,
+        "position": {
+            "x": 4,
+            "y": 1.2071,
+            "z": 2.1
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+        },
+        "scale": {
+            "x": 10,
+            "y": 1,
+            "z": 2.2
+        }
+    }]
+}, {
+    "id": "ramp_part3_",
+    "type": "cube",
+    "materials": [],
+    "kinematic": true,
+    "structure": true,
+    "mass": 100,
+    "shows": [{
+        "stepBegin": 0,
+        "position": {
+            "x": 3.2929,
             "y": 0.5,
             "z": 2.1
         },
@@ -185,7 +285,7 @@ RAMP_45_90_TEMPLATE = [{
         },
         "scale": {
             "x": 10,
-            "y": 2,
+            "y": 1,
             "z": 2.2
         }
     }]
@@ -197,6 +297,8 @@ RAMP_TEMPLATE_INFO = [(RAMP_30_TEMPLATE, 1), (RAMP_45_TEMPLATE, 3), (RAMP_90_TEM
 def create_ramp(material_string, x_position_percent, left_to_right = False):
     """Create a ramp of a random type. Returns a list of objects that make
     up the ramp."""
+    if x_position_percent < 0 or x_position_percent > 1:
+        raise ValueError(f'x_position_percent must be between 0 and 1 (inclusive), was {x_position_percent}')
     template_info = random.choice(RAMP_TEMPLATE_INFO)
     ramp = []
     x_term = x_position_percent * template_info[1]
