@@ -151,3 +151,18 @@ def can_contain(container, target):
         if can_enclose(space, target):
             return i
     return None
+
+
+def intervals_disjoint(a, b):
+    """Return true iff 2D intervals a and b do not intersect each
+    other. (Touching is ok.)"""
+    return a[0] >= b[1] or a[1] <= b[0]
+
+
+def interval_fits(interval, interval_list):
+    """Return true iff 2D interval does not intersect any 2D intervals in
+    interval_list. (Touching is ok.)"""
+    for i in interval_list:
+        if not intervals_disjoint(interval, i):
+            return False
+    return True
