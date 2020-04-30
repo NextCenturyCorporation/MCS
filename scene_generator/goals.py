@@ -650,6 +650,18 @@ class IntPhysGoal(Goal, ABC):
     VIEWPORT_PERSPECTIVE_FACTOR = 1.2
     OBJECT_NEAR_Z = 1.6
     OBJECT_FAR_Z = 2.7
+    # In each IntPhys scene containing occluders, the first 12 steps
+    # involve moving and rotating the occluders, so the action should
+    # start on step 13 at the earliest. The
+    # objects-moving-across-behind-occluders scenes have 60 steps, and
+    # the objects-falling-down-behind-occluders scenes have 40. The
+    # last 6 steps of the scene involve moving and rotating the
+    # occluders again. For objects-falling-down-behind-occluders
+    # scenes, we reserve 8 steps for falling, and 8 steps for
+    # post-falling actions, meaning that the objects can appear and
+    # begin falling anytime between steps 13 and 20, inclusive.
+    EARLIEST_ACTION_START_STEP = 13
+    LATEST_ACTION_START_STEP = 20
 
     def __init__(self):
         super(IntPhysGoal, self).__init__()
@@ -797,7 +809,7 @@ class IntPhysGoal(Goal, ABC):
                 max_x = IntPhysGoal.VIEWPORT_LIMIT_FAR + obj_def['scale']['x'] / 2.0 * IntPhysGoal.VIEWPORT_PERSPECTIVE_FACTOR
             filtered_position_by_step = [position for position in new_positions if (abs(position) <= max_x)]
             # set shows.stepBegin
-            min_stepBegin = 13
+            min_stepBegin = EARLIEST_ACTION_START_STEP
             if location in velocity_ordering and velocity_ordering[location] in location_assignments:
                 min_stepBegin = location_assignments[velocity_ordering[location]]['shows'][0]['stepBegin']
             stepsBegin = random.randint(min_stepBegin, 55 - len(filtered_position_by_step))
@@ -855,13 +867,14 @@ class IntPhysGoal(Goal, ABC):
             }
             obj_def = random.choice(objects_intphys_v1.OBJECTS_INTPHYS)
             obj = instantiate_object(obj_def, location)
-            obj['shows'][0]['stepBegin'] = random.randint(13, 20)
+            obj['shows'][0]['stepBegin'] = random.randint(EARLIEST_ACTION_START_STEP, LATEST_ACTION_START_STEP)
             object_list.append(obj)
         # place required occluders, then (maybe) some random ones
         num_occluders = 2 if num_objects == 2 else random.choice((1, 2))
         occluders = []
         non_wall_materials = [m for m in materials.CEILING_AND_WALL_MATERIALS
                               if m[0] != wall_material_name]
+        occluder_intervals = []
         for i in range(num_objects):
             paired_obj = object_list[i]
             min_scale = min(max(paired_obj['shows'][0]['scale']['x'], MIN_OCCLUDER_SCALE), 1)
@@ -885,18 +898,26 @@ class IntPhysGoal(Goal, ABC):
                                                     random.choice(materials.METAL_MATERIALS),
                                                     adjusted_x, x_scale, True)
             occluders.extend(occluder_pair)
+            occluder_intervals.append((adjusted_x - x_scale/2.0, adjusted_x + x_scale/2.0))
         # TODO: ensure these occluders have at least 0.5 gap between
         # each other and existing occluders
         for i in range(num_occluders - num_objects):
-            x_scale = random_real(MIN_OCCLUDER_SCALE, MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
-            # Choose x so occluders are in the camera's viewport, with
-            # a gap so we can see when an object enters/leaves the
-            # scene.
-            limit = 3 - x_scale / 2.0
-            x_position = random_real(-limit, limit, MIN_RANDOM_INTERVAL)
-            occluder_pair = objects.create_occluder(random.choice(non_wall_materials),
-                                                    random.choice(materials.METAL_MATERIALS),
-                                                    x_position, x_scale, True)
+            for _ in range(MAX_TRIES):
+                x_scale = random_real(MIN_OCCLUDER_SCALE, MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
+                # Choose x so occluders are in the camera's viewport, with
+                # a gap so we can see when an object enters/leaves the
+                # scene.
+                limit = 3 - x_scale / 2.0
+                x_position = random_real(-limit, limit, MIN_RANDOM_INTERVAL)
+                gap = (x_position - x_scale/2.0 - MIN_OCCLUDER_SEPARATION,
+                       x_position + x_scale/2.0 + MIN_OCCLUDER_SEPARATION)
+                if geometry.interval_fits(gap, occluder_intervals):
+                    occluder_pair = objects.create_occluder(random.choice(non_wall_materials),
+                                                            random.choice(materials.METAL_MATERIALS),
+                                                            x_position, x_scale, True)
+                    occluder_intervals.append((x_position - x_scale/2.0, x_position + x_scale/2.0))
+                    break
+                # we may end up with fewer occluders if they don't fit, but that's ok
             occluders.extend(occluder_pair)
         return object_list, occluders
 
