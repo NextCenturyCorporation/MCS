@@ -43,43 +43,6 @@ def random_real(a, b, step):
     return a + n * step
 
 
-def float_range(*args):
-    """Generator that computes a range of floating point
-    numbers. (Equivalent to range built-in but works for floats.)
-    Based on https://stackoverflow.com/a/54013196/746000
-
-    """
-    start, step = 0, 1
-    if len(args) == 1:
-        stop = args[0]
-    elif len(args) == 2:
-        start, stop = args[0], args[1]
-    elif len(args) == 3:
-        start, stop, step = args[0], args[1], args[2]
-    else:
-        raise TypeError(f'floatRange accepts 1, 2, or 3 arguments. ({len(args)} given)')
-    for num in start, step, stop:
-        if not isinstance(num, (int, float)):
-            raise TypeError(f'floatRange only accepts float and integer arguments. ({type(num)} : {num} given)')
-    count = 0
-    value = start
-    while value < stop:
-        yield value
-        count += 1
-        value = start + step*count
-    return
-
-def all_items_less_equal(a, b):
-    """Return true iff every item in a is <= its corresponding item in b."""
-    return all((a[key] <= b[key] for key in a))
-
-
-def compute_acceleration(force, mass):
-    """Return the acceleration imparted to mass by force (a x,y,z dictionary)"""
-    accel = { item: force[item]/mass for item in force }
-    return accel
-
-
 def finalize_object_definition(object_def):
     object_def_copy = copy.deepcopy(object_def)
 
