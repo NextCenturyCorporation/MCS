@@ -44,17 +44,6 @@ def random_real(a, b, step):
     return a + n * step
 
 
-def all_items_less_equal(a, b):
-    """Return true iff every item in a is <= its corresponding item in b."""
-    return all((a[key] <= b[key] for key in a))
-
-
-def compute_acceleration(force, mass):
-    """Return the acceleration imparted to mass by force (a x,y,z dictionary)"""
-    accel = { item: force[item]/mass for item in force }
-    return accel
-
-
 def finalize_object_definition(object_def):
     object_def_copy = copy.deepcopy(object_def)
 
@@ -347,20 +336,6 @@ class Goal(ABC):
     def find_optimal_path(self, goal_objects, all_objects):
         """Compute the optimal set of moves and update the body object"""
         pass
-       
-    @staticmethod
-    def find_all_valid_objects(constraint_list, objects):
-        """Find all members of objects that satisfy all constraints in constraint_list"""
-        valid_objects = []
-        for obj in objects:
-            obj_ok = True
-            for constraint in constraint_list:
-                if not constraint.is_true(obj):
-                    obj_ok = False
-                    break
-            if obj_ok:
-                valid_objects.append(obj)
-        return valid_objects
 
 
 class EmptyGoal(Goal):
