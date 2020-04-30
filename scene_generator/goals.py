@@ -35,7 +35,7 @@ WALL_HEIGHT = 3
 WALL_DEPTH = 0.1
 WALL_COUNTS = [0, 1, 2, 3]
 WALL_PROBS = [60, 20, 10, 10]
-
+MIN_RANDOM_INTERVAL = 0.05
 
 def random_real(a, b, step):
     """Return a random real number N where a <= N <= b and N - a is divisible by step."""
@@ -709,6 +709,9 @@ class IntPhysGoal(Goal, ABC):
             LEFT_LAST_FAR = auto()
 
         num_objects = random.choices((1, 2, 3), (40, 30, 30))[0]
+        # The following x positions start outside the camera viewport
+        # and ensure that objects with scale 1 don't collide with each
+        # other.
         object_positions = {
             Position.RIGHT_FIRST_NEAR: (4.2, IntPhysGoal.OBJECT_NEAR_Z),
             Position.RIGHT_LAST_NEAR: (5.3, IntPhysGoal.OBJECT_NEAR_Z),
@@ -816,6 +819,7 @@ class IntPhysGoal(Goal, ABC):
         MAX_POSITION_TRIES = 100
         MIN_OCCLUDER_SEPARATION = 0.5
         MIN_OCCLUDER_SCALE = 0.25
+        MAX_OCCLUDER_SCALE = 1.0
         NEAR_X_PERSPECTIVE_FACTOR = 0.9
         FAR_X_PERSPECTIVE_FACTOR = 0.8
         # min scale for each occluder / 2, plus 0.5 separation
@@ -830,7 +834,10 @@ class IntPhysGoal(Goal, ABC):
             # have to be a certain distance apart, so these objects
             # do, too.
             for _ in range(MAX_POSITION_TRIES):
-                x_position = random_real(-2.5, 2.5, 0.05)
+                # Choose x so the occluder (for this object) is fully
+                # in the camera's viewport and with a gap so we can
+                # see when an object enters/leaves the scene.
+                x_position = random_real(-2.5, 2.5, MIN_RANDOM_INTERVAL)
                 too_close = False
                 for obj in object_list:
                     distance = abs(obj['shows'][0]['position']['x'] - x_position)
@@ -842,7 +849,7 @@ class IntPhysGoal(Goal, ABC):
             location = {
                 'position': {
                     'x': x_position,
-                    'y': 3.8,
+                    'y': 3.8, # ensure the object starts above the camera viewport
                     'z': random.choice((IntPhysGoal.OBJECT_NEAR_Z, IntPhysGoal.OBJECT_FAR_Z))
                 }
             }
@@ -864,7 +871,7 @@ class IntPhysGoal(Goal, ABC):
             # Determine the biggest scale we could use for the new
             # occluder (up to 1) so it isn't too close to any of the
             # others.
-            max_scale = 1
+            max_scale = MAX_OCCLUDER_SCALE
             for occluder in occluders:
                 distance = abs(occluder['shows'][0]['position']['x'] - x_position)
                 scale = 2 * (distance - occluder['shows'][0]['scale']['x'] / 2.0 - MIN_OCCLUDER_SEPARATION)
@@ -872,16 +879,21 @@ class IntPhysGoal(Goal, ABC):
                     raise GoalException('Placed objects too close together after all')
                 if scale < max_scale:
                     max_scale = scale
-            x_scale = random_real(min_scale, max_scale, 0.05)
+            x_scale = random_real(min_scale, max_scale, MIN_RANDOM_INTERVAL)
             adjusted_x = x_position * factor
             occluder_pair = objects.create_occluder(random.choice(non_wall_materials),
                                                     random.choice(materials.METAL_MATERIALS),
                                                     adjusted_x, x_scale, True)
             occluders.extend(occluder_pair)
+        # TODO: ensure these occluders have at least 0.5 gap between
+        # each other and existing occluders
         for i in range(num_occluders - num_objects):
-            x_scale = random_real(MIN_OCCLUDER_SCALE, 1, 0.05)
+            x_scale = random_real(MIN_OCCLUDER_SCALE, MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
+            # Choose x so occluders are in the camera's viewport, with
+            # a gap so we can see when an object enters/leaves the
+            # scene.
             limit = 3 - x_scale / 2.0
-            x_position = random_real(-limit, limit, 0.05)
+            x_position = random_real(-limit, limit, MIN_RANDOM_INTERVAL)
             occluder_pair = objects.create_occluder(random.choice(non_wall_materials),
                                                     random.choice(materials.METAL_MATERIALS),
                                                     x_position, x_scale, True)
