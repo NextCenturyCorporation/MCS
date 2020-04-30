@@ -94,24 +94,28 @@ def rect_within_room(rect):
     return all(point_within_room(point) for point in rect)
 
 
-def calc_obj_pos(performer_position, other_rects, old_object):
+def calc_obj_pos(performer_position, other_rects, obj_def,
+                 x_func=random_position,
+                 z_func=random_position,
+                 rotation_func=random_rotation):
+
     """Returns new object with rotation & position if we can place the
 object in the frame, None otherwise."""
 
-    dx = old_object['dimensions']['x']/2.0
-    dz = old_object['dimensions']['z']/2.0
-    if 'offset' in old_object:
-        offset_x = old_object['offset']['x']
-        offset_z = old_object['offset']['z']
+    dx = obj_def['dimensions']['x'] / 2.0
+    dz = obj_def['dimensions']['z'] / 2.0
+    if 'offset' in obj_def:
+        offset_x = obj_def['offset']['x']
+        offset_z = obj_def['offset']['z']
     else:
         offset_x = 0.0
         offset_z = 0.0
 
     tries = 0
     while tries < MAX_TRIES:
-        rotation = random_rotation()
-        new_x = random_position()
-        new_z = random_position()
+        rotation = rotation_func()
+        new_x = x_func()
+        new_z = z_func()
 
         rect = calc_obj_coords(new_x, new_z, dx, dz, offset_x, offset_z, rotation)
         if not collision(rect, performer_position) and \
@@ -123,13 +127,13 @@ object in the frame, None otherwise."""
     if tries < MAX_TRIES:
         new_object = {
             'rotation': {'x': 0, 'y': rotation, 'z': 0},
-            'position':  {'x': new_x, 'y': old_object['position_y'], 'z': new_z},
+            'position':  {'x': new_x, 'y': obj_def['position_y'], 'z': new_z},
             'bounding_box': rect
             }
         other_rects.append(rect)
         return new_object
 
-    logging.debug(f'could not place object: {old_object}')
+    logging.debug(f'could not place object: {obj_def}')
     return None
 
 
