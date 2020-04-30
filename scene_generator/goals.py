@@ -36,6 +36,13 @@ WALL_COUNTS = [0, 1, 2, 3]
 WALL_PROBS = [60, 20, 10, 10]
 
 
+def random_real(a, b, step):
+    """Return a random real number N where a <= N <= b and N - a is divisible by step."""
+    steps = int((b - a) / step)
+    n = random.randint(0, steps)
+    return a + (n * step)
+
+
 def all_items_less_equal(a, b):
     """Return true iff every item in a is <= its corresponding item in b."""
     return all((a[key] <= b[key] for key in a))
@@ -698,15 +705,41 @@ class IntPhysGoal(Goal, ABC):
         goal = copy.deepcopy(self.TEMPLATE)
         goal['last_step'] = self._get_last_step()
         goal['action_list'] = [['Pass']] * goal['last_step']
+        scenery_type = f'scenery_objects_{self._scenery_count}'
+        goal['type_list'].append(scenery_type)
+
         return goal
 
     def generate_walls(self, material, performer_position, bounding_rects):
         """IntPhys goals have no walls."""
         return []
 
+    def _compute_scenery(self):
+        def random_x():
+            return random_real(-6.5, 6.5, 0.05)
+
+        def random_z():
+            return random_real(3.25, 4.95, 0.05)
+
+        self._scenery_count = random.choices((0, 1, 2, 3, 4, 5),
+                                             (50, 10, 10, 10, 10, 10))[0]
+        scenery_list = []
+        scenery_rects = []
+        scenery_defs = objects.OBJECTS_MOVEABLE + objects.OBJECTS_IMMOBILE
+        for i in range(self._scenery_count):
+            location = None
+            while location is None:
+                scenery_def = finalize_object_definition(random.choice(scenery_defs))
+                location = calc_obj_pos(geometry.ORIGIN, scenery_rects, scenery_def,
+                                        random_x, random_z)
+            scenery_obj = instantiate_object(scenery_def, location)
+            scenery_list.append(scenery_obj)
+        return scenery_list
+
     def compute_objects(self):
         func = random.choice([IntPhysGoal._get_objects_moving_across, IntPhysGoal._get_objects_falling_down])
         objs = func(self)
+        objs += self._compute_scenery()
         return [], objs, []
 
     def _get_objects_moving_across(self):
@@ -849,6 +882,7 @@ class GravityGoal(IntPhysGoal):
     def compute_objects(self):
         func = random.choices(self.OBJECT_PROBABILITIES[0], self.OBJECT_PROBABILITIES[1])[0]
         objs = func(self)
+        objs += self._compute_scenery()
         return [], objs, []
 
     def _get_ramp_going_down(self):

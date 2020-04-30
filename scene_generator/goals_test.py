@@ -370,13 +370,30 @@ def test_GravityGoal_compute_objects():
     # TODO: in a future ticket when all_objs has stuff
 
 
-def test__get_objects_moving_across():
+def test_IntPhysGoal__get_objects_moving_across():
     class TestGoal(IntPhysGoal):
         pass
 
     goal = TestGoal()
     objs = goal._get_objects_moving_across()
     assert 1 <= len(objs) <= 3
+
+
+def test_IntPhysGoal__compute_scenery():
+    class TestGoal(IntPhysGoal):
+        pass
+
+    goal = TestGoal()
+    # There's a good change of no scenery, so keep trying until we get
+    # some.
+    scenery_generated = False
+    while not scenery_generated:
+        scenery_list = goal._compute_scenery()
+        assert 0 <= len(scenery_list) <= 5
+        scenery_generated = len(scenery_list) > 0
+        for scenery in scenery_list:
+            assert -6.5 <= scenery['shows'][0]['position']['x'] <= 6.5
+            assert 3.25 <= scenery['shows'][0]['position']['z'] <= 4.95
 
 
 def test__object_collision():
