@@ -809,7 +809,7 @@ class IntPhysGoal(Goal, ABC):
                 max_x = IntPhysGoal.VIEWPORT_LIMIT_FAR + obj_def['scale']['x'] / 2.0 * IntPhysGoal.VIEWPORT_PERSPECTIVE_FACTOR
             filtered_position_by_step = [position for position in new_positions if (abs(position) <= max_x)]
             # set shows.stepBegin
-            min_stepBegin = EARLIEST_ACTION_START_STEP
+            min_stepBegin = IntPhysGoal.EARLIEST_ACTION_START_STEP
             if location in velocity_ordering and velocity_ordering[location] in location_assignments:
                 min_stepBegin = location_assignments[velocity_ordering[location]]['shows'][0]['stepBegin']
             stepsBegin = random.randint(min_stepBegin, 55 - len(filtered_position_by_step))
@@ -867,7 +867,8 @@ class IntPhysGoal(Goal, ABC):
             }
             obj_def = random.choice(objects_intphys_v1.OBJECTS_INTPHYS)
             obj = instantiate_object(obj_def, location)
-            obj['shows'][0]['stepBegin'] = random.randint(EARLIEST_ACTION_START_STEP, LATEST_ACTION_START_STEP)
+            obj['shows'][0]['stepBegin'] = random.randint(IntPhysGoal.EARLIEST_ACTION_START_STEP,
+                                                          IntPhysGoal.LATEST_ACTION_START_STEP)
             object_list.append(obj)
         # place required occluders, then (maybe) some random ones
         num_occluders = 2 if num_objects == 2 else random.choice((1, 2))
