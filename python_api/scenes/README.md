@@ -16,48 +16,58 @@ An open room containing over 60 objects for undirected exploration.
 
 ### IntPhys
 
-- [intphys_gravity_plausible_sample_1.json](./intphys_gravity_plausible_sample_1.json)
-- [intphys_gravity_implausible_sample_1.json](./intphys_gravity_implausible_sample_1.json)
-- [intphys_object_permanence_plausible_sample_1.json](./intphys_object_permanence_plausible_sample_1.json)
-- [intphys_object_permanence_implausible_sample_1.json](./intphys_object_permanence_implausible_sample_1.json)
-- [intphys_shape_constancy_plausible_sample_1.json](./intphys_shape_constancy_plausible_sample_1.json)
-- [intphys_shape_constancy_implausible_sample_1.json](./intphys_shape_constancy_implausible_sample_1.json)
-- (Coming soon!) [intphys_spatial_temporal_continuity_plausible_sample_1.json](./intphys_spatial_temporal_continuity_plausible_sample_1.json)
-- (Coming soon!) [intphys_spatial_temporal_continuity_implausible_sample_1.json](./intphys_spatial_temporal_continuity_implausible_sample_1.json)
-- [intphys_energy_conservation_plausible_sample_1.json](./intphys_energy_conservation_plausible_sample_1.json)
-- [intphys_energy_conservation_implausible_sample_1.json](./intphys_energy_conservation_implausible_sample_1.json)
+Please see the `intphys*.json` files in this folder.
 
-#### Gravity
+#### Object Permanence: Objects Moving Across Behind Occluders
 
-Plausible:
+| Plausible | Implausible |
+| --------- | ----------- |
+| ![](./images/intphys_object_permanence_quartet_1A.gif) | ![](./images/intphys_object_permanence_quartet_1C.gif) |
+| ![](./images/intphys_object_permanence_quartet_1B.gif) | ![](./images/intphys_object_permanence_quartet_1D.gif) |
 
-![intphys_gravity_plausible_sample_1](./images/intphys_gravity_plausible_sample_1.gif)
+#### Object Permanence: Objects Falling Down Behind Occluders
 
-Implausible:
+| Plausible | Implausible |
+| --------- | ----------- |
+| ![](./images/intphys_object_permanence_quartet_2A.gif) | ![](./images/intphys_object_permanence_quartet_2C.gif) |
+| ![](./images/intphys_object_permanence_quartet_2B.gif) | ![](./images/intphys_object_permanence_quartet_2D.gif) |
 
-![intphys_gravity_implausible_sample_1](./images/intphys_gravity_implausible_sample_1.gif)
+#### Shape Constancy: Objects Moving Across Behind Occluders
 
-#### Object Permanence
+| Plausible | Implausible |
+| --------- | ----------- |
+| ![](./images/intphys_shape_constancy_quartet_1A.gif) | ![](./images/intphys_shape_constancy_quartet_1C.gif) |
+| ![](./images/intphys_shape_constancy_quartet_1B.gif) | ![](./images/intphys_shape_constancy_quartet_1D.gif) |
 
-Plausible:
+#### Shape Constancy: Objects Falling Down Behind Occluders
 
-![intphys_object_permanence_plausible_sample_1](./images/intphys_object_permanence_plausible_sample_1.gif)
+| Plausible | Implausible |
+| --------- | ----------- |
+| ![](./images/intphys_shape_constancy_quartet_2A.gif) | ![](./images/intphys_shape_constancy_quartet_2C.gif) |
+| ![](./images/intphys_shape_constancy_quartet_2B.gif) | ![](./images/intphys_shape_constancy_quartet_2D.gif) |
 
-Implausible:
+#### Spatio-Temporal Continuity: Objects Moving Across Behind Occluders
 
-![intphys_object_permanence_implausible_sample_1](./images/intphys_object_permanence_implausible_sample_1.gif)
+| Plausible | Implausible |
+| --------- | ----------- |
+| ![](./images/intphys_spatio_temporal_continuity_quartet_1A.gif) | ![](./images/intphys_spatio_temporal_continuity_quartet_1C.gif) |
+| ![](./images/intphys_spatio_temporal_continuity_quartet_1B.gif) | ![](./images/intphys_spatio_temporal_continuity_quartet_1D.gif) |
 
-#### Shape Constancy
+#### Spatio-Temporal Continuity: Objects Falling Down Behind Occluders
 
-Plausible:
+| Plausible | Implausible |
+| --------- | ----------- |
+| ![](./images/intphys_spatio_temporal_continuity_quartet_2A.gif) | ![](./images/intphys_spatio_temporal_continuity_quartet_2C.gif) |
+| ![](./images/intphys_spatio_temporal_continuity_quartet_2B.gif) | ![](./images/intphys_spatio_temporal_continuity_quartet_2D.gif) |
 
-![intphys_shape_constancy_plausible_sample_1](./images/intphys_shape_constancy_plausible_sample_1.gif)
+#### Gravity: Objects Falling Down Behind Occluders
 
-Implausible:
+| Plausible | Implausible |
+| --------- | ----------- |
+| ![](./images/intphys_gravity_quartet_1A.gif) | ![](./images/intphys_gravity_quartet_1C.gif) |
+| ![](./images/intphys_gravity_quartet_1B.gif) | ![](./images/intphys_gravity_quartet_1D.gif) |
 
-![intphys_shape_constancy_implausible_sample_1](./images/intphys_shape_constancy_implausible_sample_1.gif)
-
-#### Spatio-Temporal Continuity
+#### Gravity: Objects Rolling Up or Down Ramps
 
 Coming soon!
 
