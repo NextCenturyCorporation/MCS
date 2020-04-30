@@ -153,6 +153,15 @@ def can_contain(container, target):
     return None
 
 
+def occluders_too_close(occluder, x_position, x_scale):
+    """Return True iff a new occluder at x_position with scale x_scale
+    would be too close to existing occluder occluder."""
+    existing_scale = occluder['shows'][0]['scale']['x']
+    min_distance = existing_scale / 2.0 + x_scale / 2.0 + 0.5
+    existing_x = occluder['shows'][0]['position']['x']
+    return abs(existing_x - x_position) < min_distance
+
+
 def intervals_disjoint(a, b):
     """Return true iff 2D intervals a and b do not intersect each
     other. (Touching is ok.)"""
