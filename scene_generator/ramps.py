@@ -41,7 +41,7 @@ RAMP_30_TEMPLATE = [{
     "shows": [{
         "stepBegin": 0,
         "position": {
-            "x": 4,
+            "x": 6,
             "y": 0,
             "z": 2.1
         },
@@ -293,6 +293,11 @@ RAMP_45_90_TEMPLATE = [{
 
 RAMP_TEMPLATE_INFO = [(RAMP_30_TEMPLATE, 1), (RAMP_45_TEMPLATE, 3), (RAMP_90_TEMPLATE, 4),
                       (RAMP_30_90_TEMPLATE, 2), (RAMP_45_90_TEMPLATE, 3)]
+"""Each type of ramp has a specific amount of variation allowed in
+its final X position based on keeping the ramp and some space at the
+bottom of the ramp within the camera's viewport.
+
+"""
 
 def create_ramp(material_string, x_position_percent, left_to_right = False):
     """Create a ramp of a random type. Returns a list of objects that make
