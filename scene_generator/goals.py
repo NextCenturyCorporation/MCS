@@ -41,7 +41,7 @@ def random_real(a, b, step):
     """Return a random real number N where a <= N <= b and N - a is divisible by step."""
     steps = int((b - a) / step)
     n = random.randint(0, steps)
-    return a + n * step
+    return a + (n * step)
 
 
 def finalize_object_definition(object_def):
@@ -648,6 +648,8 @@ class IntPhysGoal(Goal, ABC):
     VIEWPORT_LIMIT_NEAR = 3.55
     VIEWPORT_LIMIT_FAR = 4.2
     VIEWPORT_PERSPECTIVE_FACTOR = 1.2
+    OBJECT_NEAR_Z = 1.6
+    OBJECT_FAR_Z = 2.7
 
     def __init__(self):
         super(IntPhysGoal, self).__init__()
@@ -708,14 +710,14 @@ class IntPhysGoal(Goal, ABC):
 
         num_objects = random.choices((1, 2, 3), (40, 30, 30))[0]
         object_positions = {
-            Position.RIGHT_FIRST_NEAR: (4.2, 1.6),
-            Position.RIGHT_LAST_NEAR: (5.3, 1.6),
-            Position.RIGHT_FIRST_FAR: (4.8, 2.7),
-            Position.RIGHT_LAST_FAR: (5.9, 2.7),
-            Position.LEFT_FIRST_NEAR: (-4.2, 1.6),
-            Position.LEFT_LAST_NEAR: (-5.3, 1.6),
-            Position.LEFT_FIRST_FAR: (-4.8, 2.7),
-            Position.LEFT_LAST_FAR: (-5.9, 2.7)
+            Position.RIGHT_FIRST_NEAR: (4.2, IntPhysGoal.OBJECT_NEAR_Z),
+            Position.RIGHT_LAST_NEAR: (5.3, IntPhysGoal.OBJECT_NEAR_Z),
+            Position.RIGHT_FIRST_FAR: (4.8, IntPhysGoal.OBJECT_FAR_Z),
+            Position.RIGHT_LAST_FAR: (5.9, IntPhysGoal.OBJECT_FAR_Z),
+            Position.LEFT_FIRST_NEAR: (-4.2, IntPhysGoal.OBJECT_NEAR_Z),
+            Position.LEFT_LAST_NEAR: (-5.3, IntPhysGoal.OBJECT_NEAR_Z),
+            Position.LEFT_FIRST_FAR: (-4.8, IntPhysGoal.OBJECT_FAR_Z),
+            Position.LEFT_LAST_FAR: (-5.9, IntPhysGoal.OBJECT_FAR_Z)
         }
         exclusions = {
             Position.RIGHT_FIRST_NEAR: (Position.LEFT_FIRST_NEAR, Position.LEFT_LAST_NEAR),
@@ -812,9 +814,13 @@ class IntPhysGoal(Goal, ABC):
 
     def _get_objects_falling_down(self, wall_material_name):
         MAX_POSITION_TRIES = 100
+        MIN_OCCLUDER_SEPARATION = 0.5
+        MIN_OCCLUDER_SCALE = 0.25
+        NEAR_X_PERSPECTIVE_FACTOR = 0.9
+        FAR_X_PERSPECTIVE_FACTOR = 0.8
         # min scale for each occluder / 2, plus 0.5 separation
         # divided by the smaller scale factor for distance from viewpoint
-        min_obj_distance = (0.25/2 + 0.25/2 + 0.5) / 0.8
+        min_obj_distance = (MIN_OCCLUDER_SCALE/2 + MIN_OCCLUDER_SCALE/2 + MIN_OCCLUDER_SEPARATION) / FAR_X_PERSPECTIVE_FACTOR
         num_objects = random.choice((1, 2))
         object_list = []
         for i in range(num_objects):
@@ -837,7 +843,7 @@ class IntPhysGoal(Goal, ABC):
                 'position': {
                     'x': x_position,
                     'y': 3.8,
-                    'z': random.choice((1.6, 2.7))
+                    'z': random.choice((IntPhysGoal.OBJECT_NEAR_Z, IntPhysGoal.OBJECT_FAR_Z))
                 }
             }
             obj_def = random.choice(objects_intphys_v1.OBJECTS_INTPHYS)
@@ -851,17 +857,17 @@ class IntPhysGoal(Goal, ABC):
                               if m[0] != wall_material_name]
         for i in range(num_objects):
             paired_obj = object_list[i]
-            min_scale = min(max(paired_obj['shows'][0]['scale']['x'], 0.25), 1)
+            min_scale = min(max(paired_obj['shows'][0]['scale']['x'], MIN_OCCLUDER_SCALE), 1)
             x_position = paired_obj['shows'][0]['position']['x']
             paired_z = paired_obj['shows'][0]['position']['z']
-            factor = 0.9 if paired_z == 1.6 else 0.8
+            factor = NEAR_X_PERSPECTIVE_FACTOR if paired_z == IntPhysGoal.OBJECT_NEAR_Z else FAR_X_PERSPECTIVE_FACTOR
             # Determine the biggest scale we could use for the new
             # occluder (up to 1) so it isn't too close to any of the
             # others.
             max_scale = 1
             for occluder in occluders:
                 distance = abs(occluder['shows'][0]['position']['x'] - x_position)
-                scale = 2 * (distance - occluder['shows'][0]['scale']['x'] / 2.0 - 0.5)
+                scale = 2 * (distance - occluder['shows'][0]['scale']['x'] / 2.0 - MIN_OCCLUDER_SEPARATION)
                 if scale < 0:
                     raise GoalException('Placed objects too close together after all')
                 if scale < max_scale:
@@ -873,7 +879,7 @@ class IntPhysGoal(Goal, ABC):
                                                     adjusted_x, x_scale, True)
             occluders.extend(occluder_pair)
         for i in range(num_occluders - num_objects):
-            x_scale = random_real(0.25, 1, 0.05)
+            x_scale = random_real(MIN_OCCLUDER_SCALE, 1, 0.05)
             limit = 3 - x_scale / 2.0
             x_position = random_real(-limit, limit, 0.05)
             occluder_pair = objects.create_occluder(random.choice(non_wall_materials),
