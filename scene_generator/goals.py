@@ -650,6 +650,10 @@ class IntPhysGoal(Goal, ABC):
     VIEWPORT_PERSPECTIVE_FACTOR = 1.2
     OBJECT_NEAR_Z = 1.6
     OBJECT_FAR_Z = 2.7
+    MIN_OCCLUDER_SCALE = 0.25
+    MAX_OCCLUDER_SCALE = 1.0
+    NEAR_X_PERSPECTIVE_FACTOR = 0.9
+    FAR_X_PERSPECTIVE_FACTOR = 0.8
     # In each IntPhys scene containing occluders, the first 12 steps
     # involve moving and rotating the occluders, so the action should
     # start on step 13 at the earliest. The
@@ -730,26 +734,26 @@ class IntPhysGoal(Goal, ABC):
             for occluder_try in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
                 if i < num_paired_occluders:
                     paired_obj = obj_list[i]
-                    min_scale = min(max(paired_obj['shows'][0]['scale']['x'], 0.25), 1)
+                    min_scale = min(max(paired_obj['shows'][0]['scale']['x'], IntPhysGoal.MIN_OCCLUDER_SCALE), IntPhysGoal.MAX_OCCLUDER_SCALE)
                     position_by_step = paired_obj['intphys_options']['position_by_step']
                     position_index = random.randrange(len(position_by_step))
                     paired_x = position_by_step[position_index]
                     paired_z = paired_obj['shows'][0]['position']['z']
-                    if paired_z == 1.6:
-                        occluder_x = paired_x * 0.9
-                    elif paired_z == 2.7:
-                        occluder_x = paired_x * 0.8
+                    if paired_z == IntPhysGoal.OBJECT_NEAR_Z:
+                        occluder_x = paired_x * IntPhysGoal.NEAR_X_PERSPECTIVE_FACTOR
+                    elif paired_z == IntPhysGoal.OBJECT_FAR_Z:
+                        occluder_x = paired_x * IntPhysGoal.FAR_X_PERSPECTIVE_FACTOR
                     else:
                         logging.warning(f'Unsupported z for occluder target "{paired_obj["id"]}": {paired_z}')
                         occluder_x = paired_x
                 else:
-                    min_scale = 0.25
+                    min_scale = IntPhysGoal.MIN_OCCLUDER_SCALE
                     occluder_x = None
-                x_scale = random_real(min_scale, 1.0, 0.05)
+                x_scale = random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
                 if occluder_x is None:
                     limit = 3.0 - x_scale / 2.0
-                    limit = int(limit / 0.05) * 0.05
-                    occluder_x = random_real(-limit, limit, 0.05)
+                    limit = int(limit / MIN_RANDOM_INTERVAL) * MIN_RANDOM_INTERVAL
+                    occluder_x = random_real(-limit, limit, MIN_RANDOM_INTERVAL)
                 found_collision = False
                 for other_occluder in occluder_list:
                     if geometry.occluders_too_close(other_occluder, occluder_x, x_scale):
@@ -892,13 +896,10 @@ class IntPhysGoal(Goal, ABC):
     def _get_objects_falling_down(self, wall_material_name):
         MAX_POSITION_TRIES = 100
         MIN_OCCLUDER_SEPARATION = 0.5
-        MIN_OCCLUDER_SCALE = 0.25
-        MAX_OCCLUDER_SCALE = 1.0
-        NEAR_X_PERSPECTIVE_FACTOR = 0.9
-        FAR_X_PERSPECTIVE_FACTOR = 0.8
         # min scale for each occluder / 2, plus 0.5 separation
         # divided by the smaller scale factor for distance from viewpoint
-        min_obj_distance = (MIN_OCCLUDER_SCALE/2 + MIN_OCCLUDER_SCALE/2 + MIN_OCCLUDER_SEPARATION) / FAR_X_PERSPECTIVE_FACTOR
+        min_obj_distance = (IntPhysGoal.MIN_OCCLUDER_SCALE/2 + IntPhysGoal.MIN_OCCLUDER_SCALE/2 +
+                            MIN_OCCLUDER_SEPARATION) / IntPhysGoal.FAR_X_PERSPECTIVE_FACTOR
         num_objects = random.choice((1, 2))
         object_list = []
         for i in range(num_objects):
@@ -940,14 +941,15 @@ class IntPhysGoal(Goal, ABC):
         occluder_intervals = []
         for i in range(num_objects):
             paired_obj = object_list[i]
-            min_scale = min(max(paired_obj['shows'][0]['scale']['x'], MIN_OCCLUDER_SCALE), 1)
+            min_scale = min(max(paired_obj['shows'][0]['scale']['x'], IntPhysGoal.MIN_OCCLUDER_SCALE), 1)
             x_position = paired_obj['shows'][0]['position']['x']
             paired_z = paired_obj['shows'][0]['position']['z']
-            factor = NEAR_X_PERSPECTIVE_FACTOR if paired_z == IntPhysGoal.OBJECT_NEAR_Z else FAR_X_PERSPECTIVE_FACTOR
+            factor = IntPhysGoal.NEAR_X_PERSPECTIVE_FACTOR if paired_z == IntPhysGoal.OBJECT_NEAR_Z \
+                else IntPhysGoal.FAR_X_PERSPECTIVE_FACTOR
             # Determine the biggest scale we could use for the new
             # occluder (up to 1) so it isn't too close to any of the
             # others.
-            max_scale = MAX_OCCLUDER_SCALE
+            max_scale = IntPhysGoal.MAX_OCCLUDER_SCALE
             for occluder in occluders:
                 distance = abs(occluder['shows'][0]['position']['x'] - x_position)
                 scale = 2 * (distance - occluder['shows'][0]['scale']['x'] / 2.0 - MIN_OCCLUDER_SEPARATION)
@@ -966,7 +968,7 @@ class IntPhysGoal(Goal, ABC):
         # each other and existing occluders
         for i in range(num_occluders - num_objects):
             for _ in range(MAX_TRIES):
-                x_scale = random_real(MIN_OCCLUDER_SCALE, MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
+                x_scale = random_real(IntPhysGoal.MIN_OCCLUDER_SCALE, IntPhysGoal.MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
                 # Choose x so occluders are in the camera's viewport, with
                 # a gap so we can see when an object enters/leaves the
                 # scene.
