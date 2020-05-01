@@ -708,11 +708,16 @@ class IntPhysGoal(Goal, ABC):
         return []
 
     def _compute_scenery(self):
+        MIN_VISIBLE_X = -6.5
+        MAX_VISIBLE_X = 6.5
+
         def random_x():
-            return random_real(-6.5, 6.5, 0.05)
+            return random_real(MIN_VISIBLE_X, MAX_VISIBLE_X, MIN_RANDOM_INTERVAL)
 
         def random_z():
-            return random_real(3.25, 4.95, 0.05)
+            # Choose values so the scenery is placed between the
+            # moving IntPhys objects and the room's wall.
+            return random_real(3.25, 4.95, MIN_RANDOM_INTERVAL)
 
         self._scenery_count = random.choices((0, 1, 2, 3, 4, 5),
                                              (50, 10, 10, 10, 10, 10))[0]
