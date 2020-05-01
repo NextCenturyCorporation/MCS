@@ -1,6 +1,6 @@
 from typing import List, Dict, Tuple
 
-import sympy
+from shapely import geometry
 
 from .mcs_goal import MCS_Goal
 from .mcs_goal_category import MCS_Goal_Category
@@ -30,7 +30,7 @@ class MCS_Reward(object):
         return next((o for o in objects if o['objectId'] == target_id), None)
 
     @staticmethod
-    def _convert_bounds_to_polygons(goal_object: Dict) -> Tuple[sympy.Polygon, sympy.Polygon]:
+    def _convert_bounds_to_polygons(goal_object: Dict) -> Tuple[geometry.Polygon, geometry.Polygon]:
         '''
         Converts goal object bounds to an upper and lower planar polygon.
 
@@ -38,19 +38,19 @@ class MCS_Reward(object):
             goal_object: dict
 
         Returns:
-            polygons: Tuple(sympy.Polygon, sympy.Polygon)
+            polygons: Tuple(shapely.geometry.Polygon, shapely.geometry.Polygon)
         '''
         # split 3d object bounds into upper and lower boxes
         bbox3d = goal_object['objectBounds']['objectBoundsCorners']
         lower_box, upper_box = bbox3d[:4], bbox3d[4:]
 
-        # conver lower box plane to sympy Polygon
+        # conver lower box plane to shapely Polygon
         lower_corners = [(pt['x'], pt['z']) for pt in lower_box]
-        lower_polygon = sympy.Polygon(*lower_corners)
+        lower_polygon = geometry.Polygon(lower_corners)
 
-        # convert upper box plane to sympy Polygon
+        # convert upper box plane to shapely Polygon
         upper_corners = [(pt['x'], pt['z']) for pt in upper_box]
-        upper_polygon = sympy.Polygon(*upper_corners)
+        upper_polygon = geometry.Polygon(upper_corners)
 
         return lower_polygon, upper_polygon
 
@@ -73,11 +73,11 @@ class MCS_Reward(object):
 
         _, upper_polygon = MCS_Reward._convert_bounds_to_polygons(goal_obj)
 
-        action_center_pt = sympy.Point(action_obj_xz_pos)
-        if not upper_polygon.encloses_point(action_center_pt):
-            distance_to_edge = upper_polygon.distance(action_center_pt).evalf()
+        action_center_pt = geometry.Point(action_obj_xz_pos)
+        if not action_center_pt.within(upper_polygon):
+            distance_to_edge = upper_polygon.distance(action_center_pt)
 
-        return float(distance_to_edge)
+        return distance_to_edge
 
     @staticmethod
     def _calc_retrieval_reward(goal: MCS_Goal, objects: Dict, agent: Dict) -> int:
@@ -123,9 +123,9 @@ class MCS_Reward(object):
         goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
 
         if goal_object is not None and agent is not None:
-            agent_center_xz = agent['position']['x'], agent['position']['z']
-            distance_to_goal = MCS_Reward.__calc_distance_to_goal(agent_center_xz, goal_object)
-            reward = int(distance_to_goal < MAX_REACH_DISTANCE)
+           agent_center_xz = agent['position']['x'], agent['position']['z']
+           distance_to_goal = MCS_Reward.__calc_distance_to_goal(agent_center_xz, goal_object)
+           reward = int(distance_to_goal < MAX_REACH_DISTANCE)
 
         return reward
 
@@ -181,8 +181,8 @@ class MCS_Reward(object):
             # check that the target object center is within goal object bounds
             # and the y dimension of the target is above the goal
             _, upper_polygon = MCS_Reward._convert_bounds_to_polygons(goal_object)
-            action_pt = sympy.Point(action_object_xz_center)
-            action_obj_within_bounds = upper_polygon.encloses_point(action_pt)
+            action_pt = geometry.Point(action_object_xz_center)
+            action_obj_within_bounds = action_pt.within(upper_polygon)
             action_obj_above_goal = action_object['position']['y'] > goal_object['position']['y']
             if action_obj_within_bounds and action_obj_above_goal:
                 reward = GOAL_ACHIEVED

@@ -1,7 +1,10 @@
 import unittest
 import math
 import time
-import sympy
+import random
+
+from typing import Tuple
+from shapely import geometry
 
 from machine_common_sense.mcs_reward import MCS_Reward
 from machine_common_sense.mcs_goal import MCS_Goal
@@ -84,12 +87,12 @@ class Test_MCS_Reward(unittest.TestCase):
 
         lower, upper = MCS_Reward._convert_bounds_to_polygons(goal_object)
 
-        self.assertIsInstance(lower, sympy.Polygon)
-        self.assertIsInstance(upper, sympy.Polygon)
-        self.assertEqual(len(lower.vertices), 4)
-        self.assertEqual(len(upper.vertices), 4)
-        self.assertIsInstance(lower.vertices[0], sympy.Point2D)
-        self.assertIsInstance(upper.vertices[0], sympy.Point2D)
+        self.assertIsInstance(lower, geometry.Polygon)
+        self.assertIsInstance(upper, geometry.Polygon)
+        self.assertEqual(lower.length, 4)
+        self.assertEqual(upper.length, 4)
+        self.assertIsInstance(list(lower.exterior.coords)[0], Tuple)
+        self.assertIsInstance(list(upper.exterior.coords)[0], Tuple)
 
     def test_distance_to_object_within_polygon(self):
         goal_object = {'objectBounds': {'objectBoundsCorners': []}}
@@ -130,6 +133,30 @@ class Test_MCS_Reward(unittest.TestCase):
         self.assertTrue(dist)
         # distance to edge is 0.5 in both dimensions ~= 0.707
         self.assertAlmostEqual(dist, math.sqrt(0.5*0.5 + 0.5*0.5))
+
+    def test_distance_to_object_with_high_precision_corners(self):
+        goal_object = {'objectBounds': {'objectBoundsCorners': []}}
+
+        # could use pi or e or both
+        rn = random.random()
+
+        # create lower plane (y = 0)
+        goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 0.0, 'z': 0.0})
+        goal_object['objectBounds']['objectBoundsCorners'].append({'x':rn, 'y': 0.0, 'z': 0.0})
+        goal_object['objectBounds']['objectBoundsCorners'].append({'x':rn, 'y': 0.0, 'z': rn})
+        goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 0.0, 'z': rn})
+        # create upper plane (y = 1)
+        goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0, 'z': 0.0})
+        goal_object['objectBounds']['objectBoundsCorners'].append({'x':rn, 'y': 1.0, 'z': 0.0})
+        goal_object['objectBounds']['objectBoundsCorners'].append({'x':rn, 'y': 1.0, 'z': rn})
+        goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0, 'z': rn})
+        # goal object center position
+        goal_object['position'] = {'x': 0.0, 'z': 0.0}
+
+        dist = MCS_Reward._MCS_Reward__calc_distance_to_goal((1.5, 1.5), goal_object)
+        self.assertIsInstance(dist, float)
+        self.assertTrue(dist)
+        #self.assertAlmostEqual(dist, math.sqrt(1/3.0*1/3.0 + 1/3.0*1/3.0))
 
     def test_retrieval_reward(self):
         goal = MCS_Goal()
