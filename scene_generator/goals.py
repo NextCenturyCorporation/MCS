@@ -201,6 +201,8 @@ def find_image_name(target):
 
 
 def parse_path_section(path_section, current_heading):
+    """Compute the actions for one path section, starting with
+    current_heading. Returns a tuple: (list of actions, new heading)"""
     index = 1
     actions = []
     dx = path_section[1][0]-path_section[0][0]
@@ -211,7 +213,6 @@ def parse_path_section(path_section, current_heading):
         # I'm assuming a positive angle is a clockwise rotation- so this should work
         #I think
 
-    # TODO: maybe fix current_heading
     delta_t = current_heading-theta
     current_heading = theta
     if delta_t != 0:
@@ -235,7 +236,7 @@ def parse_path_section(path_section, current_heading):
                 "amount": round(frac,POSITION_DIGITS)
                 }
         })
-    return actions
+    return actions, current_heading
 
 
 def get_navigation_actions(start_location, goal_object, all_objects):
@@ -256,9 +257,9 @@ def get_navigation_actions(start_location, goal_object, all_objects):
 
     actions = []
     current_heading = start_location['rotation']['y']
-    # TODO: maybe fix current_heading
     for indx in range(len(path)-1):
-        actions.extend(parse_path_section(path[indx:indx+2], current_heading))
+        actions, current_heading = parse_path_section(path[indx:indx+2], current_heading)
+        actions.extend(actions)
 
     return actions
 
@@ -578,9 +579,9 @@ class TransferralGoal(InteractionGoal):
         goal = (target['shows'][0]['position']['x'], target['shows'][0]['position']['z'])
         path = generatepath(goal, target, hole_rects)
         current_heading = self._performer_start['rotation']['y']
-        # TODO: maybe fix current_heading
         for indx in range(len(path)-1):
-            actions.extend(parse_path_section(path[indx:indx+2], current_heading))
+            actions, current_heading = parse_path_section(path[indx:indx+2], current_heading)
+            actions.extend(actions)
 
         # TODO: maybe look at receptacle part of the parent object (future ticket)
         actions.append({
