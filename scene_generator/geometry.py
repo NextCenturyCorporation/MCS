@@ -1,6 +1,7 @@
 import logging
 import math
 import random
+from typing import List, Dict, Any
 
 from separating_axis_theorem import sat_entry
 
@@ -46,7 +47,7 @@ def dot_prod_dict(v1, v2):
     return sum(v1[key] * v2.get(key, 0) for key in v1)
 
 
-def collision(test_rect, test_point):
+def collision(test_rect: List[Dict[str, float]], test_point: Dict[str, float]):
     # assuming test_rect is an array4 points in order... Clockwise or CCW does not matter
     # points are {x,y,z}
     #
@@ -94,7 +95,8 @@ def rect_within_room(rect):
     return all(point_within_room(point) for point in rect)
 
 
-def calc_obj_pos(performer_position, other_rects, old_object):
+def calc_obj_pos(performer_position: Dict[str, float], other_rects: List[List[Dict[str, float]]],
+                 old_object: Dict[str, Any]):
     """Returns new object with rotation & position if we can place the
 object in the frame, None otherwise."""
 
@@ -133,14 +135,14 @@ object in the frame, None otherwise."""
     return None
 
 
-def can_enclose(objectA, objectB):
+def can_enclose(objectA: Dict[str, Any], objectB: Dict[str, Any]):
     """Return True iff each 'dimensions' of objectA is >= the corresponding dimension of objectB."""
     return objectA['dimensions']['x'] >= objectB['dimensions']['x'] and \
         objectA['dimensions']['y'] >= objectB['dimensions']['y'] and \
         objectA['dimensions']['z'] >= objectB['dimensions']['z']
 
 
-def can_contain(container, target):
+def can_contain(container: Dict[str, Any], target: Dict[str, Any]):
     """Return the index of the container's "enclosed_areas" that the target fits in, or None if it does not fit in any
      of them (or if the container doesn't have any). Does not try any rotation to see if that makes it possible to
      fit."""
