@@ -275,7 +275,7 @@ def test_Goal_duplicate_object():
     assert empty is None
 
 
-def test_Goal_parse_path_section():
+def test_parse_path_section():
     path_section = ((0, 0), (0.1, 0.1))
     expected_actions = [{
         'action': 'RotateLook',
@@ -289,12 +289,11 @@ def test_Goal_parse_path_section():
             'amount': round(math.sqrt(2 * 0.1**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
         }
     }]
-    goal = EmptyGoal()
-    actions = goal.parse_path_section(path_section, 0)
+    actions, new_heading = parse_path_section(path_section, 0)
     assert actions == expected_actions
 
 
-def test_InteractionGoal__get_navigation_action():
+def test_get_navigation_action():
     expected_actions = [{
         'action': 'RotateLook',
         'params': {
@@ -307,15 +306,7 @@ def test_InteractionGoal__get_navigation_action():
             'amount': round(math.sqrt(2 * 0.1**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
         }
     }]
-    class TestGoal(InteractionGoal):
-        def get_config(self):
-            return ''
-
-        def find_optimal_path(self, goal_objects, all_objects):
-            return []
-
-    goal = TestGoal()
-    goal._performer_start = {
+    start = {
         'position': {
             'x': 0,
             'y': 0,
@@ -334,7 +325,55 @@ def test_InteractionGoal__get_navigation_action():
             }
         }]
     }
-    actions = goal._get_navigation_actions(goal_object, [])
+    actions = get_navigation_actions(start, goal_object, [])
+    assert actions == expected_actions
+    
+    
+def test_get_navigation_action_with_locationParent():
+    expected_actions = [{
+        'action': 'RotateLook',
+        'params': {
+            'rotation': -45.0,
+            'horizon': 0.0
+        }
+    }, {
+        'action': 'MoveAhead',
+        'params': {
+            'amount': round(math.sqrt(2 * 0.1**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
+        }
+    }]
+    start = {
+        'position': {
+            'x': 0,
+            'y': 0,
+            'z': 0
+        },
+        'rotation': {
+            'y': 0
+        }
+    }
+    container_object = {
+        'id': 'container1',
+        'shows': [{
+            'position': {
+                'x': 0.1,
+                'y': 0,
+                'z': 0.1
+            }
+        }]
+    }
+    goal_object = {
+        'id': 'object1',
+        'locationParent': 'container1',
+        'shows': [{
+            'position': {
+                'x': -0.1,
+                'y': 0,
+                'z': 0
+            }
+        }]
+    }
+    actions = get_navigation_actions(start, goal_object, [container_object, goal_object])
     assert actions == expected_actions
     
     

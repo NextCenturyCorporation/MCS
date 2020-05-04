@@ -258,8 +258,8 @@ def get_navigation_actions(start_location, goal_object, all_objects):
     actions = []
     current_heading = start_location['rotation']['y']
     for indx in range(len(path)-1):
-        actions, current_heading = parse_path_section(path[indx:indx+2], current_heading)
-        actions.extend(actions)
+        new_actions, current_heading = parse_path_section(path[indx:indx+2], current_heading)
+        actions.extend(new_actions)
 
     return actions
 
