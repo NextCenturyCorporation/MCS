@@ -16,9 +16,6 @@ from geometry import random_position, random_rotation, calc_obj_pos, POSITION_DI
 from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJECTS_PICKUPABLE_LISTS
 from separating_axis_theorem import sat_entry
 from optimal_path import generatepath
-from numpy.lib.scimath import sqrt
-from numpy import degrees
-from numpy.core import arctan2
 import math
 
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
@@ -207,7 +204,7 @@ def parse_path_section(path_section, current_heading):
     actions = []
     dx = path_section[1][0]-path_section[0][0]
     dz = path_section[1][1]-path_section[0][1]
-    theta = degrees(arctan2(dx,dz))
+    theta = math.degrees(math.atan2(dx,dz))
 
         #IF my calculations are correct, this should be right no matter what
         # I'm assuming a positive angle is a clockwise rotation- so this should work
@@ -224,7 +221,7 @@ def parse_path_section(path_section, current_heading):
                 }
             }
         actions.append(action)
-    distance = sqrt( dx ** 2 + dz ** 2 )
+    distance = math.sqrt( dx ** 2 + dz ** 2 )
     frac, whole = math.modf(distance / MAX_MOVE_DISTANCE)
     actions.extend([{
                 "action": "MoveAhead",
