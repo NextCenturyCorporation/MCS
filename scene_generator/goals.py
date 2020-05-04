@@ -200,6 +200,69 @@ def find_image_name(target):
     return generate_image_file_name(target) + '.png'
 
 
+def parse_path_section(path_section, current_heading):
+    index = 1
+    actions = []
+    dx = path_section[1][0]-path_section[0][0]
+    dz = path_section[1][1]-path_section[0][1]
+    theta = degrees(arctan2(dx,dz))
+
+        #IF my calculations are correct, this should be right no matter what
+        # I'm assuming a positive angle is a clockwise rotation- so this should work
+        #I think
+
+    # TODO: maybe fix current_heading
+    delta_t = current_heading-theta
+    current_heading = theta
+    if delta_t != 0:
+        action = {
+            'action': 'RotateLook',
+            'params': {
+                'rotation': round(delta_t,0),
+                'horizon': 0.0
+                }
+            }
+        actions.append(action)
+    distance = sqrt( dx ** 2 + dz ** 2 )
+    frac, whole = math.modf(distance / MAX_MOVE_DISTANCE)
+    actions.extend([{
+                "action": "MoveAhead",
+                "params": {}
+                }]*int(whole))
+    actions.append({
+            "action": "MoveAhead",
+            "params": {
+                "amount": round(frac,POSITION_DIGITS)
+                }
+        })
+    return actions
+
+
+def get_navigation_actions(start_location, goal_object, all_objects):
+    """Get the action sequence for going from performer start to the goal_object."""
+    performer = (start_location['position']['x'], start_location['position']['z'])
+    if 'locationParent' in goal_object:
+        parent = next((obj for obj in all_objects if obj['id'] == goal_object['locationParent']))
+        if parent is None:
+            raise GoalException(f'object {goal_object["id"]} has parent {goal_object["locationParent"]} that does not exist')
+        goal_object = parent
+    goal = (goal_object['shows'][0]['position']['x'], goal_object['shows'][0]['position']['z'])
+    hole_rects = []
+
+    hole_rects.extend(object['shows'][0]['bounding_box'] for object
+                      in all_objects if object['id'] != goal_object['id']
+                      and 'locationParent' not in object)
+    path = generatepath(performer, goal, hole_rects)
+
+    actions = []
+    current_heading = start_location['rotation']['y']
+    # TODO: maybe fix current_heading
+    for indx in range(len(path)-1):
+        actions.extend(parse_path_section(path[indx:indx+2], current_heading))
+
+    return actions
+
+
 class GoalException(Exception):
     def __init__(self, message=''):
         super(GoalException, self).__init__(message)
@@ -268,42 +331,6 @@ class Goal(ABC):
             if obj_info not in targets_info and obj_location is not None:
                 obj = instantiate_object(object_def, obj_location)
                 object_list.append(obj)
-
-    def parse_path_section(self, path_section, current_heading):
-        index = 1
-        actions = []
-        dx = path_section[1][0]-path_section[0][0]
-        dz = path_section[1][1]-path_section[0][1]
-        theta = degrees(arctan2(dx,dz))
-  
-            #IF my calculations are correct, this should be right no matter what
-            # I'm assuming a positive angle is a clockwise rotation- so this should work
-            #I think
-
-        delta_t = current_heading-theta
-        current_heading = theta
-        if delta_t != 0:
-            action = {
-                'action': 'RotateLook',
-                'params': {
-                    'rotation': round(delta_t,0),
-                    'horizon': 0.0
-                    }
-                }
-            actions.append(action)
-        distance = sqrt( dx ** 2 + dz ** 2 )
-        frac, whole = math.modf(distance / MAX_MOVE_DISTANCE)
-        actions.extend([{
-                    "action": "MoveAhead",
-                    "params": {}
-                    }]*int(whole))
-        actions.append({
-                "action": "MoveAhead",
-                "params": {
-                    "amount": round(frac,POSITION_DIGITS)
-                    }
-            })
-        return actions
 
     @abstractmethod
     def get_config(self, goal_objects):
@@ -410,21 +437,6 @@ class InteractionGoal(Goal, ABC):
         self.add_objects(all_objects, self._bounding_rects, self._performer_start['position'])
 
         return all_goal_objects, all_objects, self._bounding_rects
-        
-    def _get_navigation_actions(self, goal_object, all_objects):
-        """Get the action sequence for going from performer start to the goal_object."""
-        performer = (self._performer_start['position']['x'], self._performer_start['position']['z'])
-        goal = (goal_object['shows'][0]['position']['x'], goal_object['shows'][0]['position']['z'])
-        hole_rects = []
-        hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if object['id'] != goal_object['id'])
-        path = generatepath(performer, goal, hole_rects)
-
-        actions = []
-        current_heading = self._performer_start['rotation']['y']
-        for indx in range(len(path)-1):
-            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading))
-
-        return actions
 
 
 class RetrievalGoal(InteractionGoal):
@@ -466,8 +478,9 @@ class RetrievalGoal(InteractionGoal):
 
     def find_optimal_path(self, goal_objects, all_objects):
         # Goal should be a singleton... I hope
-        actions = self._get_navigation_actions(goal_objects[0], all_objects)
+        actions = get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
 
+        # TODO: look at the target object (future ticket)
         actions.append({
             'action': 'PickupObject',
             'params': {
@@ -548,7 +561,8 @@ class TransferralGoal(InteractionGoal):
 
     def find_optimal_path(self, goal_objects, all_objects):
         # Goal should be a singleton... I hope
-        actions = self._get_navigation_actions(goal_objects[0], all_objects)
+        actions = get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
+        # TODO: look at the target object (future ticket)
         actions.append({
             'action': 'PickupObject',
             'params': {
@@ -557,11 +571,18 @@ class TransferralGoal(InteractionGoal):
             })
         target = (goal_objects[1]['shows'][0]['position']['x'], goal_objects[1]['shows'][0]['position']['z'])
         hole_rects = []
-        hole_rects.extend(object['shows'][0]['bounding_box'] for object in all_objects if  ( object['id'] != goal_objects[0]['id'] and object['id'] != goal_objects[1]['id']))
-        path  = generatepath(goal,target, hole_rects)
+        hole_rects.extend(object['shows'][0]['bounding_box'] for object
+                          in all_objects if (object['id'] != goal_objects[0]['id']
+                                             and object['id'] != goal_objects[1]['id']
+                                             and 'locationParent' not in object))
+        goal = (target['shows'][0]['position']['x'], target['shows'][0]['position']['z'])
+        path = generatepath(goal, target, hole_rects)
+        current_heading = self._performer_start['rotation']['y']
+        # TODO: maybe fix current_heading
         for indx in range(len(path)-1):
-            actions.extend(self.parse_path_section(path[indx:indx+2], current_heading))
-            
+            actions.extend(parse_path_section(path[indx:indx+2], current_heading))
+
+        # TODO: maybe look at receptacle part of the parent object (future ticket)
         actions.append({
             'action': 'PutObject',
             'params': {
@@ -627,7 +648,8 @@ class TraversalGoal(Goal):
 
     def find_optimal_path(self, goal_objects, all_objects):
         # Goal should be a singleton... I hope
-        return _get_navigation_actions(goal_objects[0], all_objects)
+        # TODO: (maybe) look at actual object if it's inside a parent (future ticket)
+        return get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
 
 
 class IntPhysGoal(Goal, ABC):
