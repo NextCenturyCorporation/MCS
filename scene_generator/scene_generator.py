@@ -39,16 +39,14 @@ OUTPUT_TEMPLATE_JSON = """
 
 OUTPUT_TEMPLATE = json.loads(OUTPUT_TEMPLATE_JSON)
 
-# the following mins and maxes are inclusive
 
-
-def load_object_file(object_file_name):
+def load_object_file(object_file_name: str) -> List[Dict[str, Any]]:
     with open(object_file_name) as object_file:
         objects = json.load(object_file)
     return objects
 
 
-def generate_file(name, goal_type, find_path):
+def generate_file(name: str, goal_type: str, find_path, bool) -> None:
     global OUTPUT_TEMPLATE
     body = copy.deepcopy(OUTPUT_TEMPLATE)
     body['name'] = os.path.basename(name)
@@ -78,12 +76,12 @@ def generate_file(name, goal_type, find_path):
         out.write(json.dumps(body, cls=PrettyJsonEncoder, indent=2))
 
 
-def wrap_with_json_no_indent(data, prop_list):
+def wrap_with_json_no_indent(data: Dict[str, Any], prop_list: List[str):
     for prop in prop_list:
         if prop in data:
             data[prop] = PrettyJsonNoIndent(data[prop])
 
-def generate_fileset(prefix, count, goal_type, find_path, stop_on_error):
+def generate_fileset(prefix: str, count: int, goal_type: str, find_path: bool, stop_on_error: bool) -> None:
     # skip existing files
     index = 1
     dirname = os.path.dirname(prefix)
