@@ -698,11 +698,41 @@ class IntPhysGoal(Goal, ABC):
         goal = copy.deepcopy(self.TEMPLATE)
         goal['last_step'] = self._get_last_step()
         goal['action_list'] = [['Pass']] * goal['last_step']
+        scenery_type = f'scenery_objects_{self._scenery_count}'
+        goal['type_list'].append(scenery_type)
+
         return goal
 
     def generate_walls(self, material, performer_position, bounding_rects):
         """IntPhys goals have no walls."""
         return []
+
+    def _compute_scenery(self):
+        MIN_VISIBLE_X = -6.5
+        MAX_VISIBLE_X = 6.5
+
+        def random_x():
+            return random_real(MIN_VISIBLE_X, MAX_VISIBLE_X, MIN_RANDOM_INTERVAL)
+
+        def random_z():
+            # Choose values so the scenery is placed between the
+            # moving IntPhys objects and the room's wall.
+            return random_real(3.25, 4.95, MIN_RANDOM_INTERVAL)
+
+        self._scenery_count = random.choices((0, 1, 2, 3, 4, 5),
+                                             (50, 10, 10, 10, 10, 10))[0]
+        scenery_list = []
+        scenery_rects = []
+        scenery_defs = objects.OBJECTS_MOVEABLE + objects.OBJECTS_IMMOBILE
+        for i in range(self._scenery_count):
+            location = None
+            while location is None:
+                scenery_def = finalize_object_definition(random.choice(scenery_defs))
+                location = calc_obj_pos(geometry.ORIGIN, scenery_rects, scenery_def,
+                                        random_x, random_z)
+            scenery_obj = instantiate_object(scenery_def, location)
+            scenery_list.append(scenery_obj)
+        return scenery_list
 
     def compute_objects(self, wall_material_name):
         func = random.choice([IntPhysGoal._get_objects_moving_across, IntPhysGoal._get_objects_falling_down])
@@ -1005,6 +1035,7 @@ class GravityGoal(IntPhysGoal):
     def compute_objects(self, wall_material_name):
         func = random.choices(self.OBJECT_PROBABILITIES[0], self.OBJECT_PROBABILITIES[1])[0]
         objs = func(self, wall_material_name)
+        objs += self._compute_scenery()
         return [], objs, []
 
     def _get_ramp_going_down(self, wall_material_name):
