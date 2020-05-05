@@ -83,6 +83,7 @@ def wrap_with_json_no_indent(data, prop_list):
         if prop in data:
             data[prop] = PrettyJsonNoIndent(data[prop])
 
+
 def generate_fileset(prefix, count, goal_type, find_path, stop_on_error):
     # skip existing files
     index = 1

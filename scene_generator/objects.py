@@ -1,6 +1,6 @@
 import copy
-import logging
 import uuid
+from typing import Tuple, Dict, Any, List
 
 OBJECTS_PICKUPABLE_BALLS = [{
     "type": "sphere",
@@ -2053,7 +2053,8 @@ OCCLUDER_INSTANCE_SIDEWAYS = [{
 }]
 
 
-def create_occluder(wall_material, pole_material, x_position, x_scale, sideways=False):
+def create_occluder(wall_material: str, pole_material: str, x_position: float, x_scale: float, sideways: bool = False) \
+        -> Tuple[Dict[str, Any]]:
     """Create an occluder pair of objects: (wall, pole)."""
     if sideways:
         occluder = copy.deepcopy(OCCLUDER_INSTANCE_SIDEWAYS)
@@ -2090,7 +2091,7 @@ _ALL_OBJECTS = None
 _ALL_OBJECTS_LISTS = [OBJECTS_PICKUPABLE_BALLS, OBJECTS_PICKUPABLE_BLOCKS, OBJECTS_PICKUPABLE_TOYS, OBJECTS_PICKUPABLE_MISC, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE]
 
 
-def get_all_object_defs():
+def get_all_object_defs() -> List[Dict[str, Any]]:
     global _ALL_OBJECTS
     if _ALL_OBJECTS is None:
         _ALL_OBJECTS = [item for def_list in _ALL_OBJECTS_LISTS for item in def_list]
@@ -2100,7 +2101,7 @@ def get_all_object_defs():
 _ENCLOSED_CONTAINERS = None
 
 
-def get_enclosed_containers():
+def get_enclosed_containers() -> List[Dict[str, Any]]:
     """Return all object definitions that have 'enclosed_areas' whose value is a non-empty list."""
     global _ENCLOSED_CONTAINERS
     if _ENCLOSED_CONTAINERS is None:
@@ -2112,7 +2113,7 @@ def get_enclosed_containers():
 _INTPHYS_OBJECTS = None
 
 
-def get_intphys_objects():
+def get_intphys_objects() -> List[Dict[str, Any]]:
     """Return all object definitions that have 'intphys_options'."""
     global _INTPHYS_OBJECTS
     if _INTPHYS_OBJECTS is None:
