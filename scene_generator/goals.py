@@ -878,7 +878,7 @@ class IntPhysGoal(Goal, ABC):
             object_location = {
                 'position': {
                     'x': object_positions[location][0],
-                    'y': intphys_option['y'],
+                    'y': intphys_option['y'] + obj_def['position_y'],
                     'z': object_positions[location][1]
                 }
             }
