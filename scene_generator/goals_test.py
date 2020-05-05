@@ -6,6 +6,12 @@ import math
 from geometry import POSITION_DIGITS
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
 
+def test_random_real():
+    n = random_real(0, 1, 0.1)
+    assert 0 <= n <= 1
+    # need to multiply by 10 and mod by 1 instead of 0.1 to avoid weird roundoff
+    assert n * 10 % 1 < 1e-8
+
 def test_instantiate_object():
     object_def = {
         'type': str(uuid.uuid4()),
@@ -469,15 +475,73 @@ def test__generate_transferral_goal_with_nonstackable_goal():
 
 def test_GravityGoal_compute_objects():
     goal = GravityGoal()
-    target_objs, all_objs, rects = goal.compute_objects()
+    target_objs, all_objs, rects = goal.compute_objects('dummy wall material')
     assert len(target_objs) == 0
     assert len(rects) == 0
     # TODO: in a future ticket when all_objs has stuff
 
 
+def test_IntPhysGoal__get_objects_moving_across():
+    class TestGoal(IntPhysGoal):
+        pass
+
+    goal = TestGoal()
+    wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)
+    objs, occluders = goal._get_objects_moving_across(wall_material[0])
+    assert 1 <= len(objs) <= 3
+    assert 1 <= len(occluders) <= 4 * 2 # each occluder is actually 2 objects
+    # the first occluder should be at one of the positions for the first object
+    occluder_x = occluders[0]['shows'][0]['position']['x']
+    first_obj = objs[0]
+    found = False
+    multiplier = 0.9 if first_obj['shows'][0]['position']['z'] == 1.6 else 0.8
+    for position in first_obj['intphys_options']['position_by_step']:
+        adjusted_x = position * multiplier
+        if adjusted_x == occluder_x:
+            found = True
+            break
+    assert found
+    for o in occluders:
+        assert o['material'] != wall_material[0]
+
+
+def test_IntPhysGoal__compute_scenery():
+    class TestGoal(IntPhysGoal):
+        pass
+
+    goal = TestGoal()
+    # There's a good change of no scenery, so keep trying until we get
+    # some.
+    scenery_generated = False
+    while not scenery_generated:
+        scenery_list = goal._compute_scenery()
+        assert 0 <= len(scenery_list) <= 5
+        scenery_generated = len(scenery_list) > 0
+        for scenery in scenery_list:
+            assert -6.5 <= scenery['shows'][0]['position']['x'] <= 6.5
+            assert 3.25 <= scenery['shows'][0]['position']['z'] <= 4.95
+
+
 def test__object_collision():
-    r1=geometry.calc_obj_coords(-1.97,1.75, .55,.445, -.01, .445, 315)
-    r2=geometry.calc_obj_coords(-3.04,.85,1.75,.05,0,0,315)
+    r1 = geometry.calc_obj_coords(-1.97,1.75, .55,.445, -.01, .445, 315)
+    r2 = geometry.calc_obj_coords(-3.04,.85,1.75,.05,0,0,315)
     assert sat_entry(r1,r2)
     r3 = geometry.calc_obj_coords(.04,.85,1.75,.05,0,0,315)
     assert not sat_entry(r1,r3)
+
+
+def test__get_objects_falling_down():
+    class TestGoal(IntPhysGoal):
+        pass
+
+    goal = TestGoal()
+    wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)
+    obj_list, occluders = goal._get_objects_falling_down(wall_material[0])
+    assert 1 <= len(obj_list) <= 2
+    assert len(obj_list)*2 <= len(occluders) <= 4
+    for obj in obj_list:
+        assert -2.5 <= obj['shows'][0]['position']['x'] <= 2.5
+        assert obj['shows'][0]['position']['y'] == 3.8
+        z = obj['shows'][0]['position']['z']
+        assert z == 1.6 or z == 2.7
+        assert 13 <= obj['shows'][0]['stepBegin'] <= 20

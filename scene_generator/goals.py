@@ -7,12 +7,13 @@ import logging
 import random
 import uuid
 from abc import ABC, abstractmethod
-from enum import Enum
+from enum import Enum, auto
 from typing import Any, Dict, List, Optional, AnyStr, Tuple
 
 import geometry
 import materials
 import objects
+import objects_intphys_v1
 from geometry import random_position, random_rotation, calc_obj_pos, POSITION_DIGITS
 from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJECTS_PICKUPABLE_LISTS
 from separating_axis_theorem import sat_entry
@@ -32,6 +33,13 @@ WALL_HEIGHT = 3
 WALL_DEPTH = 0.1
 WALL_COUNTS = [0, 1, 2, 3]
 WALL_PROBS = [60, 20, 10, 10]
+MIN_RANDOM_INTERVAL = 0.05
+
+def random_real(a, b, step):
+    """Return a random real number N where a <= N <= b and N - a is divisible by step."""
+    steps = int((b - a) / step)
+    n = random.randint(0, steps)
+    return a + (n * step)
 
 
 def finalize_object_definition(object_def: Dict[str, Any]) -> Dict[str, Any]:
@@ -284,7 +292,7 @@ class Goal(ABC):
         """Helper method that calls other Goal methods to set performerStart, objects, and goal. Returns the goal body
         object."""
         body['performerStart'] = self.compute_performer_start()
-        goal_objects, all_objects, bounding_rects = self.compute_objects()
+        goal_objects, all_objects, bounding_rects = self.compute_objects(body['wallMaterial'])
         walls = self.generate_walls(body['wallMaterial'], body['performerStart']['position'],
                                     bounding_rects)
         body['objects'] = all_objects + walls
@@ -317,7 +325,7 @@ class Goal(ABC):
         return finalize_object_definition(random.choice(object_def_list))
 
     @abstractmethod
-    def compute_objects(self) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
+    def compute_objects(self, wall_material_name: str) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
         """Compute object instances for the scene. Returns a tuple:
         (objects required for the goal, all objects in the scene including objects required for the goal, bounding rectangles)"""
         pass
@@ -360,7 +368,7 @@ class Goal(ABC):
             List[Dict[str, Any]]:
         """Compute the optimal set of moves and update the body object"""
         pass
-       
+
 
 class EmptyGoal(Goal):
     """An empty goal."""
@@ -368,7 +376,7 @@ class EmptyGoal(Goal):
     def __init__(self):
         super(EmptyGoal, self).__init__()
 
-    def compute_objects(self):
+    def compute_objects(self, wall_material_name):
         return [], [], []
 
     def get_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
@@ -419,7 +427,7 @@ class InteractionGoal(Goal, ABC):
                             and random.random() <= self.OBJECT_CONTAINED_CHANCE:
                         move_to_container(obj, all_objects, bounding_rects, performer_position)
 
-    def compute_objects(self) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
+    def compute_objects(self, wall_material_name: str) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
         self._set_performer_start()
         self._set_target_def()
         self._set_target_location()
@@ -510,7 +518,6 @@ class TransferralGoal(InteractionGoal):
             raise ValueError(f'No stack targets found for transferral goal')
         target2_location = calc_obj_pos(self._performer_start['position'], self._bounding_rects, target2_def)
         target2 = instantiate_object(target2_def, target2_location)
-        logging.debug(f'target2 = {target2}')
         self._goal_objects = [target2]
 
     def get_config(self, objects: List[Dict[str, Any]]) -> Dict[str, Any]:
@@ -606,7 +613,7 @@ class TraversalGoal(Goal):
     def __init__(self):
         super(TraversalGoal, self).__init__()
 
-    def compute_objects(self) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
+    def compute_objects(self, wall_material_name: str) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
         # add objects we need for the goal
         target_def = self.choose_object_def()
         performer_start = self.compute_performer_start()
@@ -656,6 +663,27 @@ class TraversalGoal(Goal):
 class IntPhysGoal(Goal, ABC):
     """Base class for Intuitive Physics goals. Subclasses must set TEMPLATE variable (for use in get_config)."""
 
+    MAX_OCCLUDER_TRIES = 100
+    # The 3.55 or 4.2 is the position at which the object will leave the camera's viewport, and is dependent on the
+    # object's Z position (either 1.6 or 2.7). The * 1.2 is to account for the camera's perspective.
+    VIEWPORT_LIMIT_NEAR = 3.55
+    VIEWPORT_LIMIT_FAR = 4.2
+    VIEWPORT_PERSPECTIVE_FACTOR = 1.2
+    OBJECT_NEAR_Z = 1.6
+    OBJECT_FAR_Z = 2.7
+    # In each IntPhys scene containing occluders, the first 12 steps
+    # involve moving and rotating the occluders, so the action should
+    # start on step 13 at the earliest. The
+    # objects-moving-across-behind-occluders scenes have 60 steps, and
+    # the objects-falling-down-behind-occluders scenes have 40. The
+    # last 6 steps of the scene involve moving and rotating the
+    # occluders again. For objects-falling-down-behind-occluders
+    # scenes, we reserve 8 steps for falling, and 8 steps for
+    # post-falling actions, meaning that the objects can appear and
+    # begin falling anytime between steps 13 and 20, inclusive.
+    EARLIEST_ACTION_START_STEP = 13
+    LATEST_ACTION_START_STEP = 20
+
     def __init__(self):
         super(IntPhysGoal, self).__init__()
 
@@ -692,6 +720,9 @@ class IntPhysGoal(Goal, ABC):
         goal = copy.deepcopy(self.TEMPLATE)
         goal['last_step'] = self._get_last_step()
         goal['action_list'] = [['Pass']] * goal['last_step']
+        scenery_type = f'scenery_objects_{self._scenery_count}'
+        goal['type_list'].append(scenery_type)
+
         return goal
 
     def generate_walls(self, material: str, performer_position: Dict[str, Any],
@@ -699,18 +730,312 @@ class IntPhysGoal(Goal, ABC):
         """IntPhys goals have no walls."""
         return []
 
-    def compute_objects(self) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
+    def _compute_scenery(self):
+        MIN_VISIBLE_X = -6.5
+        MAX_VISIBLE_X = 6.5
+
+        def random_x():
+            return random_real(MIN_VISIBLE_X, MAX_VISIBLE_X, MIN_RANDOM_INTERVAL)
+
+        def random_z():
+            # Choose values so the scenery is placed between the
+            # moving IntPhys objects and the room's wall.
+            return random_real(3.25, 4.95, MIN_RANDOM_INTERVAL)
+
+        self._scenery_count = random.choices((0, 1, 2, 3, 4, 5),
+                                             (50, 10, 10, 10, 10, 10))[0]
+        scenery_list = []
+        scenery_rects = []
+        scenery_defs = objects.OBJECTS_MOVEABLE + objects.OBJECTS_IMMOBILE
+        for i in range(self._scenery_count):
+            location = None
+            while location is None:
+                scenery_def = finalize_object_definition(random.choice(scenery_defs))
+                location = calc_obj_pos(geometry.ORIGIN, scenery_rects, scenery_def,
+                                        random_x, random_z)
+            scenery_obj = instantiate_object(scenery_def, location)
+            scenery_list.append(scenery_obj)
+        return scenery_list
+
+    def compute_objects(self, wall_material_name):
         func = random.choice([IntPhysGoal._get_objects_moving_across, IntPhysGoal._get_objects_falling_down])
-        objs = func(self)
-        return [], objs, []
+        objs, occluders = func(self, wall_material_name)
+        return [], objs + occluders, []
 
-    def _get_objects_moving_across(self) -> List[Dict[str, Any]]:
-        # TODO: in a future ticket
-        return []
+    def _get_num_occluders(self):
+        """Return number of occluders for the scene."""
+        return random.choices((1, 2, 3, 4), (40, 20, 20, 20))[0]
 
-    def _get_objects_falling_down(self) -> List[Dict[str, Any]]:
-        # TODO: in a future ticket
-        return []
+    def _get_num_paired_occluders(self):
+        """Return how many occluders must be paired with a target object."""
+        return 1
+    
+    def _get_occluders(self, obj_list, wall_material_name):
+        """Get occluders to for objects in obj_list."""
+        num_occluders = self._get_num_occluders()
+        num_paired_occluders = self._get_num_paired_occluders()
+        non_wall_materials = [m for m in materials.CEILING_AND_WALL_MATERIALS
+                              if m[0] != wall_material_name]
+        occluder_list = []
+        for i in range(num_occluders):
+            occluder_fits = False
+            # try random position and scale until we find one that fits (or try too many times)
+            for occluder_try in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
+                if i < num_paired_occluders:
+                    paired_obj = obj_list[i]
+                    min_scale = min(max(paired_obj['shows'][0]['scale']['x'], 0.25), 1)
+                    position_by_step = paired_obj['intphys_options']['position_by_step']
+                    position_index = random.randrange(len(position_by_step))
+                    paired_x = position_by_step[position_index]
+                    paired_z = paired_obj['shows'][0]['position']['z']
+                    if paired_z == 1.6:
+                        occluder_x = paired_x * 0.9
+                    elif paired_z == 2.7:
+                        occluder_x = paired_x * 0.8
+                    else:
+                        logging.warning(f'Unsupported z for occluder target "{paired_obj["id"]}": {paired_z}')
+                        occluder_x = paired_x
+                else:
+                    min_scale = 0.25
+                    occluder_x = None
+                x_scale = random_real(min_scale, 1.0, 0.05)
+                if occluder_x is None:
+                    limit = 3.0 - x_scale / 2.0
+                    limit = int(limit / 0.05) * 0.05
+                    occluder_x = random_real(-limit, limit, 0.05)
+                found_collision = False
+                for other_occluder in occluder_list:
+                    if geometry.occluders_too_close(other_occluder, occluder_x, x_scale):
+                        found_collision = True
+                        break
+                if not found_collision:
+                    occluder_fits = True
+                    break
+            if occluder_fits:
+                occluder_objs = objects.create_occluder(random.choice(non_wall_materials),
+                                                        random.choice(materials.METAL_MATERIALS),
+                                                        occluder_x, x_scale)
+                occluder_list.extend(occluder_objs)
+            else:
+                logging.debug(f'could not fit occluder at x={occluder_x}')
+                if i < num_paired_occluders:
+                    raise GoalException(f'Could not add minimum number of occluders ({num_paired_occluders})')
+        return occluder_list
+
+    def _get_objects_moving_across(self, wall_material_name):
+        """Get objects to move across the scene and occluders for them. Returns (objects, occluders) pair."""
+        class Position(Enum):
+            RIGHT_FIRST_NEAR = auto()
+            RIGHT_LAST_NEAR = auto()
+            RIGHT_FIRST_FAR = auto()
+            RIGHT_LAST_FAR = auto()
+            LEFT_FIRST_NEAR = auto()
+            LEFT_LAST_NEAR = auto()
+            LEFT_FIRST_FAR = auto()
+            LEFT_LAST_FAR = auto()
+
+        num_objects = random.choices((1, 2, 3), (40, 30, 30))[0]
+        # The following x positions start outside the camera viewport
+        # and ensure that objects with scale 1 don't collide with each
+        # other.
+        object_positions = {
+            Position.RIGHT_FIRST_NEAR: (4.2, IntPhysGoal.OBJECT_NEAR_Z),
+            Position.RIGHT_LAST_NEAR: (5.3, IntPhysGoal.OBJECT_NEAR_Z),
+            Position.RIGHT_FIRST_FAR: (4.8, IntPhysGoal.OBJECT_FAR_Z),
+            Position.RIGHT_LAST_FAR: (5.9, IntPhysGoal.OBJECT_FAR_Z),
+            Position.LEFT_FIRST_NEAR: (-4.2, IntPhysGoal.OBJECT_NEAR_Z),
+            Position.LEFT_LAST_NEAR: (-5.3, IntPhysGoal.OBJECT_NEAR_Z),
+            Position.LEFT_FIRST_FAR: (-4.8, IntPhysGoal.OBJECT_FAR_Z),
+            Position.LEFT_LAST_FAR: (-5.9, IntPhysGoal.OBJECT_FAR_Z)
+        }
+        exclusions = {
+            Position.RIGHT_FIRST_NEAR: (Position.LEFT_FIRST_NEAR, Position.LEFT_LAST_NEAR),
+            Position.RIGHT_LAST_NEAR: (Position.LEFT_FIRST_NEAR, Position.LEFT_LAST_NEAR),
+            Position.RIGHT_FIRST_FAR: (Position.LEFT_FIRST_FAR, Position.LEFT_LAST_FAR),
+            Position.RIGHT_LAST_FAR: (Position.LEFT_FIRST_FAR, Position.LEFT_LAST_FAR),
+            Position.LEFT_FIRST_NEAR: (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR),
+            Position.LEFT_LAST_NEAR: (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR),
+            Position.LEFT_FIRST_FAR: (Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR),
+            Position.LEFT_LAST_FAR: (Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR)
+        }
+        # Object in key position must have velocities <= velocities
+        # for object in value position (e.g., object in b must have
+        # velocities <= velocities for object in a).
+        velocity_ordering = {
+            Position.RIGHT_LAST_NEAR: Position.RIGHT_FIRST_NEAR,
+            Position.RIGHT_LAST_FAR: Position.RIGHT_FIRST_FAR,
+            Position.LEFT_LAST_NEAR: Position.LEFT_FIRST_NEAR,
+            Position.LEFT_LAST_FAR: Position.LEFT_FIRST_FAR
+        }
+        available_locations = set(object_positions.keys())
+        location_assignments = {}
+        new_objects = []
+        for i in range(num_objects):
+            location = random.choice(list(available_locations))
+            available_locations.remove(location)
+            for loc in exclusions[location]:
+                available_locations.discard(loc)
+            # TODO: later this will get imported from objects (or somewhere else)
+            from objects_intphys_v1 import OBJECTS_INTPHYS
+            obj_def = finalize_object_definition(random.choice(OBJECTS_INTPHYS))
+            remaining_intphys_options = obj_def['intphys_options'].copy()
+            while len(remaining_intphys_options) > 0:
+                intphys_option = random.choice(remaining_intphys_options)
+                if location in velocity_ordering and velocity_ordering[location] in location_assignments:
+                    # ensure the objects won't collide
+                    other_obj = location_assignments[velocity_ordering[location]]
+                    # TODO: compute value for collision (MCS-188)
+                    collision = False
+                    if not collision:
+                        break
+                    elif len(remaining_intphys_options) == 1:
+                        # last chance, so just swap the items to make their relative velocities "ok"
+                        location_assignments[location] = other_obj
+                        location = velocity_ordering[location]
+                        location_assignments[location] = None # to be assigned later
+                        break
+                else:
+                    break
+                remaining_intphys_options.remove(intphys_option)
+
+            object_location = {
+                'position': {
+                    'x': object_positions[location][0],
+                    'y': intphys_option['y'],
+                    'z': object_positions[location][1]
+                }
+            }
+            obj = instantiate_object(obj_def, object_location)
+            location_assignments[location] = obj
+            position_by_step = copy.deepcopy(intphys_option['position_by_step'])
+            object_position_x = object_positions[location][0]
+            # adjust position_by_step and remove outliers
+            new_positions = []
+            for position in position_by_step:
+                if location in (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR, Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR):
+                    position = object_position_x - position
+                else:
+                    position = object_position_x + position
+                new_positions.append(position)
+            if location in (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR, Position.LEFT_FIRST_NEAR, Position.LEFT_LAST_NEAR):
+                max_x = IntPhysGoal.VIEWPORT_LIMIT_NEAR + obj_def['scale']['x'] / 2.0 * IntPhysGoal.VIEWPORT_PERSPECTIVE_FACTOR
+            else:
+                max_x = IntPhysGoal.VIEWPORT_LIMIT_FAR + obj_def['scale']['x'] / 2.0 * IntPhysGoal.VIEWPORT_PERSPECTIVE_FACTOR
+            filtered_position_by_step = [position for position in new_positions if (abs(position) <= max_x)]
+            # set shows.stepBegin
+            min_stepBegin = IntPhysGoal.EARLIEST_ACTION_START_STEP
+            if location in velocity_ordering and velocity_ordering[location] in location_assignments:
+                min_stepBegin = location_assignments[velocity_ordering[location]]['shows'][0]['stepBegin']
+            stepsBegin = random.randint(min_stepBegin, 55 - len(filtered_position_by_step))
+            obj['shows'][0]['stepsBegin'] = stepsBegin
+            obj['forces'] = [{
+                'stepBegin': stepsBegin,
+                'stepEnd': 55,
+                'vector': intphys_option['force']
+            }]
+            if location in (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR, Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR):
+                obj['forces'][0]['vector']['x'] *= -1
+            intphys_option['position_by_step'] = filtered_position_by_step
+            obj['intphys_options'] = intphys_option
+            new_objects.append(obj)
+
+        occluders = self._get_occluders(new_objects, wall_material_name)
+        return new_objects, occluders
+
+    def _get_objects_falling_down(self, wall_material_name):
+        MAX_POSITION_TRIES = 100
+        MIN_OCCLUDER_SEPARATION = 0.5
+        MIN_OCCLUDER_SCALE = 0.25
+        MAX_OCCLUDER_SCALE = 1.0
+        NEAR_X_PERSPECTIVE_FACTOR = 0.9
+        FAR_X_PERSPECTIVE_FACTOR = 0.8
+        # min scale for each occluder / 2, plus 0.5 separation
+        # divided by the smaller scale factor for distance from viewpoint
+        min_obj_distance = (MIN_OCCLUDER_SCALE/2 + MIN_OCCLUDER_SCALE/2 + MIN_OCCLUDER_SEPARATION) / FAR_X_PERSPECTIVE_FACTOR
+        num_objects = random.choice((1, 2))
+        object_list = []
+        for i in range(num_objects):
+            found_space = False
+            # It doesn't matter how close the objects are to each
+            # other, but each one must have an occluder, and those
+            # have to be a certain distance apart, so these objects
+            # do, too.
+            for _ in range(MAX_POSITION_TRIES):
+                # Choose x so the occluder (for this object) is fully
+                # in the camera's viewport and with a gap so we can
+                # see when an object enters/leaves the scene.
+                x_position = random_real(-2.5, 2.5, MIN_RANDOM_INTERVAL)
+                too_close = False
+                for obj in object_list:
+                    distance = abs(obj['shows'][0]['position']['x'] - x_position)
+                    too_close = distance < min_obj_distance
+                if not too_close:
+                    found_space = True
+            if not found_space:
+                raise GoalException(f'Could not place {i+1} objects to fall down')
+            location = {
+                'position': {
+                    'x': x_position,
+                    'y': 3.8, # ensure the object starts above the camera viewport
+                    'z': random.choice((IntPhysGoal.OBJECT_NEAR_Z, IntPhysGoal.OBJECT_FAR_Z))
+                }
+            }
+            obj_def = random.choice(objects_intphys_v1.OBJECTS_INTPHYS)
+            obj = instantiate_object(obj_def, location)
+            obj['shows'][0]['stepBegin'] = random.randint(IntPhysGoal.EARLIEST_ACTION_START_STEP,
+                                                          IntPhysGoal.LATEST_ACTION_START_STEP)
+            object_list.append(obj)
+        # place required occluders, then (maybe) some random ones
+        num_occluders = 2 if num_objects == 2 else random.choice((1, 2))
+        occluders = []
+        non_wall_materials = [m for m in materials.CEILING_AND_WALL_MATERIALS
+                              if m[0] != wall_material_name]
+        occluder_intervals = []
+        for i in range(num_objects):
+            paired_obj = object_list[i]
+            min_scale = min(max(paired_obj['shows'][0]['scale']['x'], MIN_OCCLUDER_SCALE), 1)
+            x_position = paired_obj['shows'][0]['position']['x']
+            paired_z = paired_obj['shows'][0]['position']['z']
+            factor = NEAR_X_PERSPECTIVE_FACTOR if paired_z == IntPhysGoal.OBJECT_NEAR_Z else FAR_X_PERSPECTIVE_FACTOR
+            # Determine the biggest scale we could use for the new
+            # occluder (up to 1) so it isn't too close to any of the
+            # others.
+            max_scale = MAX_OCCLUDER_SCALE
+            for occluder in occluders:
+                distance = abs(occluder['shows'][0]['position']['x'] - x_position)
+                scale = 2 * (distance - occluder['shows'][0]['scale']['x'] / 2.0 - MIN_OCCLUDER_SEPARATION)
+                if scale < 0:
+                    raise GoalException('Placed objects too close together after all')
+                if scale < max_scale:
+                    max_scale = scale
+            x_scale = random_real(min_scale, max_scale, MIN_RANDOM_INTERVAL)
+            adjusted_x = x_position * factor
+            occluder_pair = objects.create_occluder(random.choice(non_wall_materials),
+                                                    random.choice(materials.METAL_MATERIALS),
+                                                    adjusted_x, x_scale, True)
+            occluders.extend(occluder_pair)
+            occluder_intervals.append((adjusted_x - x_scale/2.0, adjusted_x + x_scale/2.0))
+        # TODO: ensure these occluders have at least 0.5 gap between
+        # each other and existing occluders
+        for i in range(num_occluders - num_objects):
+            for _ in range(MAX_TRIES):
+                x_scale = random_real(MIN_OCCLUDER_SCALE, MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
+                # Choose x so occluders are in the camera's viewport, with
+                # a gap so we can see when an object enters/leaves the
+                # scene.
+                limit = 3 - x_scale / 2.0
+                x_position = random_real(-limit, limit, MIN_RANDOM_INTERVAL)
+                gap = (x_position - x_scale/2.0 - MIN_OCCLUDER_SEPARATION,
+                       x_position + x_scale/2.0 + MIN_OCCLUDER_SEPARATION)
+                if geometry.interval_fits(gap, occluder_intervals):
+                    occluder_pair = objects.create_occluder(random.choice(non_wall_materials),
+                                                            random.choice(materials.METAL_MATERIALS),
+                                                            x_position, x_scale, True)
+                    occluder_intervals.append((x_position - x_scale/2.0, x_position + x_scale/2.0))
+                    break
+                # we may end up with fewer occluders if they don't fit, but that's ok
+            occluders.extend(occluder_pair)
+        return object_list, occluders
 
 
 class GravityGoal(IntPhysGoal):
@@ -730,16 +1055,17 @@ class GravityGoal(IntPhysGoal):
             (20, 60, 20)
         )
 
-    def compute_objects(self) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
+    def compute_objects(self, wall_material_name: str) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
         func = random.choices(self.OBJECT_PROBABILITIES[0], self.OBJECT_PROBABILITIES[1])[0]
-        objs = func(self)
+        objs = func(self, wall_material_name)
+        objs += self._compute_scenery()
         return [], objs, []
 
-    def _get_ramp_going_down(self) -> List[Dict[str, Any]]:
+    def _get_ramp_going_down(self, wall_material_name: str) -> List[Dict[str, Any]]:
         # TODO: in a future ticket
         return []
 
-    def _get_ramp_going_up(self) -> List[Dict[str, Any]]:
+    def _get_ramp_going_up(self, wall_material_name: str) -> List[Dict[str, Any]]:
         # TODO: in a future ticket
         return []
 
@@ -788,6 +1114,14 @@ class SpatioTemporalContinuityGoal(IntPhysGoal):
     def _get_last_step(self) -> int:
         return 60
 
+    def _get_num_occluders(self):
+        return random.choices((2, 3, 4), (40, 30, 30))[0]
+
+    def _get_num_paired_occluders(self):
+        return 2
+
+    def _get_num_objects_moving_across(self):
+        return random.choices((2, 3), (60, 40))[0]
 
 # Note: the names of all goal classes in GOAL_TYPES must end in "Goal" or choose_goal will not work
 GOAL_TYPES = {

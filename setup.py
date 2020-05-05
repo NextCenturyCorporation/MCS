@@ -19,7 +19,7 @@ setuptools.setup(
     ],
     license='Apache-2',
     install_requires=[
-        'sympy',
+        'shapely',
         'ai2thor @ https://github.com/NextCenturyCorporation/ai2thor/tarball/master#egg=ai2thor'
     ],
     package_dir={'':'python_api'},
