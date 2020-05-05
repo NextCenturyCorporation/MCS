@@ -376,13 +376,13 @@ def test_GravityGoal_compute_objects():
     # TODO: in a future ticket when all_objs has stuff
 
 
-def test_IntPhysGoal__get_objects_moving_across():
+def test_IntPhysGoal__get_objects_and_occluders_moving_across():
     class TestGoal(IntPhysGoal):
         pass
 
     goal = TestGoal()
     wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)
-    objs, occluders = goal._get_objects_moving_across(wall_material[0])
+    objs, occluders = goal._get_objects_and_occluders_moving_across(wall_material[0])
     assert 1 <= len(objs) <= 3
     assert 1 <= len(occluders) <= 4 * 2 # each occluder is actually 2 objects
     # the first occluder should be at one of the positions for the first object

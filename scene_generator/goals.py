@@ -8,11 +8,13 @@ import random
 import uuid
 from abc import ABC, abstractmethod
 from enum import Enum, auto
+from typing import Tuple, List, Dict, Any, Iterable
 
 import geometry
 import materials
 import objects
 import objects_intphys_v1
+import ramps
 from geometry import random_position, random_rotation, calc_obj_pos, POSITION_DIGITS
 from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJECTS_PICKUPABLE_LISTS
 from separating_axis_theorem import sat_entry
@@ -37,7 +39,8 @@ WALL_COUNTS = [0, 1, 2, 3]
 WALL_PROBS = [60, 20, 10, 10]
 MIN_RANDOM_INTERVAL = 0.05
 
-def random_real(a, b, step):
+
+def random_real(a, b, step=MIN_RANDOM_INTERVAL):
     """Return a random real number N where a <= N <= b and N - a is divisible by step."""
     steps = int((b - a) / step)
     n = random.randint(0, steps)
@@ -739,7 +742,7 @@ class IntPhysGoal(Goal, ABC):
         return scenery_list
 
     def compute_objects(self, wall_material_name):
-        func = random.choice([IntPhysGoal._get_objects_moving_across, IntPhysGoal._get_objects_falling_down])
+        func = random.choice([IntPhysGoal._get_objects_and_occluders_moving_across, IntPhysGoal._get_objects_falling_down])
         objs, occluders = func(self, wall_material_name)
         return [], objs + occluders, []
 
@@ -829,52 +832,59 @@ class IntPhysGoal(Goal, ABC):
             else:
                 logging.debug(f'could not fit occluder at x={occluder_x}')
 
-    def _get_objects_moving_across(self, wall_material_name):
-        """Get objects to move across the scene and occluders for them. Returns (objects, occluders) pair."""
-        class Position(Enum):
-            RIGHT_FIRST_NEAR = auto()
-            RIGHT_LAST_NEAR = auto()
-            RIGHT_FIRST_FAR = auto()
-            RIGHT_LAST_FAR = auto()
-            LEFT_FIRST_NEAR = auto()
-            LEFT_LAST_NEAR = auto()
-            LEFT_FIRST_FAR = auto()
-            LEFT_LAST_FAR = auto()
+    class Position(Enum):
+        RIGHT_FIRST_NEAR = auto()
+        RIGHT_LAST_NEAR = auto()
+        RIGHT_FIRST_FAR = auto()
+        RIGHT_LAST_FAR = auto()
+        LEFT_FIRST_NEAR = auto()
+        LEFT_LAST_NEAR = auto()
+        LEFT_FIRST_FAR = auto()
+        LEFT_LAST_FAR = auto()
 
+    def _get_objects_and_occluders_moving_across(self, wall_material_name: str):
+        """Get objects to move across the scene and occluders for them. Returns (objects, occluders) pair."""
+        new_objects = self._get_objects_moving_across(wall_material_name)
+        occluders = self._get_occluders(new_objects, wall_material_name)
+        return new_objects, occluders
+
+    def _get_objects_moving_across(self, wall_material_name, valid_positions: Iterable = frozenset(Position),
+                                   positions=None) -> List[Dict[str, Any]]:
+        """Get objects to move across the scene. Returns objects."""
         num_objects = random.choices((1, 2, 3), (40, 30, 30))[0]
         # The following x positions start outside the camera viewport
         # and ensure that objects with scale 1 don't collide with each
         # other.
         object_positions = {
-            Position.RIGHT_FIRST_NEAR: (4.2, IntPhysGoal.OBJECT_NEAR_Z),
-            Position.RIGHT_LAST_NEAR: (5.3, IntPhysGoal.OBJECT_NEAR_Z),
-            Position.RIGHT_FIRST_FAR: (4.8, IntPhysGoal.OBJECT_FAR_Z),
-            Position.RIGHT_LAST_FAR: (5.9, IntPhysGoal.OBJECT_FAR_Z),
-            Position.LEFT_FIRST_NEAR: (-4.2, IntPhysGoal.OBJECT_NEAR_Z),
-            Position.LEFT_LAST_NEAR: (-5.3, IntPhysGoal.OBJECT_NEAR_Z),
-            Position.LEFT_FIRST_FAR: (-4.8, IntPhysGoal.OBJECT_FAR_Z),
-            Position.LEFT_LAST_FAR: (-5.9, IntPhysGoal.OBJECT_FAR_Z)
+            IntPhysGoal.Position.RIGHT_FIRST_NEAR: (4.2, IntPhysGoal.OBJECT_NEAR_Z),
+            IntPhysGoal.Position.RIGHT_LAST_NEAR: (5.3, IntPhysGoal.OBJECT_NEAR_Z),
+            IntPhysGoal.Position.RIGHT_FIRST_FAR: (4.8, IntPhysGoal.OBJECT_FAR_Z),
+            IntPhysGoal.Position.RIGHT_LAST_FAR: (5.9, IntPhysGoal.OBJECT_FAR_Z),
+            IntPhysGoal.Position.LEFT_FIRST_NEAR: (-4.2, IntPhysGoal.OBJECT_NEAR_Z),
+            IntPhysGoal.Position.LEFT_LAST_NEAR: (-5.3, IntPhysGoal.OBJECT_NEAR_Z),
+            IntPhysGoal.Position.LEFT_FIRST_FAR: (-4.8, IntPhysGoal.OBJECT_FAR_Z),
+            IntPhysGoal.Position.LEFT_LAST_FAR: (-5.9, IntPhysGoal.OBJECT_FAR_Z)
         }
         exclusions = {
-            Position.RIGHT_FIRST_NEAR: (Position.LEFT_FIRST_NEAR, Position.LEFT_LAST_NEAR),
-            Position.RIGHT_LAST_NEAR: (Position.LEFT_FIRST_NEAR, Position.LEFT_LAST_NEAR),
-            Position.RIGHT_FIRST_FAR: (Position.LEFT_FIRST_FAR, Position.LEFT_LAST_FAR),
-            Position.RIGHT_LAST_FAR: (Position.LEFT_FIRST_FAR, Position.LEFT_LAST_FAR),
-            Position.LEFT_FIRST_NEAR: (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR),
-            Position.LEFT_LAST_NEAR: (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR),
-            Position.LEFT_FIRST_FAR: (Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR),
-            Position.LEFT_LAST_FAR: (Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR)
+            IntPhysGoal.Position.RIGHT_FIRST_NEAR: (IntPhysGoal.Position.LEFT_FIRST_NEAR, IntPhysGoal.Position.LEFT_LAST_NEAR),
+            IntPhysGoal.Position.RIGHT_LAST_NEAR: (IntPhysGoal.Position.LEFT_FIRST_NEAR, IntPhysGoal.Position.LEFT_LAST_NEAR),
+            IntPhysGoal.Position.RIGHT_FIRST_FAR: (IntPhysGoal.Position.LEFT_FIRST_FAR, IntPhysGoal.Position.LEFT_LAST_FAR),
+            IntPhysGoal.Position.RIGHT_LAST_FAR: (IntPhysGoal.Position.LEFT_FIRST_FAR, IntPhysGoal.Position.LEFT_LAST_FAR),
+            IntPhysGoal.Position.LEFT_FIRST_NEAR: (IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR),
+            IntPhysGoal.Position.LEFT_LAST_NEAR: (IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR),
+            IntPhysGoal.Position.LEFT_FIRST_FAR: (IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR),
+            IntPhysGoal.Position.LEFT_LAST_FAR: (IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR)
         }
         # Object in key position must have velocities <= velocities
         # for object in value position (e.g., object in b must have
         # velocities <= velocities for object in a).
         velocity_ordering = {
-            Position.RIGHT_LAST_NEAR: Position.RIGHT_FIRST_NEAR,
-            Position.RIGHT_LAST_FAR: Position.RIGHT_FIRST_FAR,
-            Position.LEFT_LAST_NEAR: Position.LEFT_FIRST_NEAR,
-            Position.LEFT_LAST_FAR: Position.LEFT_FIRST_FAR
+            IntPhysGoal.Position.RIGHT_LAST_NEAR: IntPhysGoal.Position.RIGHT_FIRST_NEAR,
+            IntPhysGoal.Position.RIGHT_LAST_FAR: IntPhysGoal.Position.RIGHT_FIRST_FAR,
+            IntPhysGoal.Position.LEFT_LAST_NEAR: IntPhysGoal.Position.LEFT_FIRST_NEAR,
+            IntPhysGoal.Position.LEFT_LAST_FAR: IntPhysGoal.Position.LEFT_FIRST_FAR
         }
-        available_locations = set(object_positions.keys())
+        available_locations = set(valid_positions)
         location_assignments = {}
         new_objects = []
         for i in range(num_objects):
@@ -919,12 +929,12 @@ class IntPhysGoal(Goal, ABC):
             # adjust position_by_step and remove outliers
             new_positions = []
             for position in position_by_step:
-                if location in (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR, Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR):
+                if location in (IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR, IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR):
                     position = object_position_x - position
                 else:
                     position = object_position_x + position
                 new_positions.append(position)
-            if location in (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR, Position.LEFT_FIRST_NEAR, Position.LEFT_LAST_NEAR):
+            if location in (IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR, IntPhysGoal.Position.LEFT_FIRST_NEAR, IntPhysGoal.Position.LEFT_LAST_NEAR):
                 max_x = IntPhysGoal.VIEWPORT_LIMIT_NEAR + obj_def['scale']['x'] / 2.0 * IntPhysGoal.VIEWPORT_PERSPECTIVE_FACTOR
             else:
                 max_x = IntPhysGoal.VIEWPORT_LIMIT_FAR + obj_def['scale']['x'] / 2.0 * IntPhysGoal.VIEWPORT_PERSPECTIVE_FACTOR
@@ -940,14 +950,15 @@ class IntPhysGoal(Goal, ABC):
                 'stepEnd': 55,
                 'vector': intphys_option['force']
             }]
-            if location in (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR, Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR):
+            if location in (IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR, IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR):
                 obj['forces'][0]['vector']['x'] *= -1
             intphys_option['position_by_step'] = filtered_position_by_step
             obj['intphys_options'] = intphys_option
             new_objects.append(obj)
+            if positions is not None:
+                positions.append(location)
 
-        occluders = self._get_occluders(new_objects, wall_material_name)
-        return new_objects, occluders
+        return new_objects
 
     def _get_objects_falling_down(self, wall_material_name):
         MAX_POSITION_TRIES = 100
@@ -1035,24 +1046,49 @@ class GravityGoal(IntPhysGoal):
 
     def __init__(self):
         super(GravityGoal, self).__init__()
-        self.OBJECT_PROBABILITIES = (
-            (IntPhysGoal._get_objects_falling_down, GravityGoal._get_ramp_going_down, GravityGoal._get_ramp_going_up),
-            (20, 60, 20)
-        )
 
     def compute_objects(self, wall_material_name):
-        func = random.choices(self.OBJECT_PROBABILITIES[0], self.OBJECT_PROBABILITIES[1])[0]
-        objs = func(self, wall_material_name)
-        objs += self._compute_scenery()
-        return [], objs, []
+        objs = self._get_ramp_and_objects(wall_material_name)
+        scenery = self._compute_scenery()
+        return [], objs + scenery, []
 
-    def _get_ramp_going_down(self, wall_material_name):
-        # TODO: in a future ticket
-        return []
+    def _create_random_ramp(self) -> Tuple[ramps.Ramp, bool, List[Dict[str, Any]]]:
+        material_name = random.choice(materials.OCCLUDER_MATERIALS)
+        x_position_percent = random_real(0, 1)
+        left_to_right = random.choice((True, False))
+        ramp_type, ramp_objs = ramps.create_ramp(material_name, x_position_percent, left_to_right)
+        return ramp_type, left_to_right, ramp_objs
+
+    def _get_ramp_and_objects(self, wall_material_name):
+        ramp_type, left_to_right, ramp_objs = self._create_random_ramp()
+        if ramp_type in (ramps.Ramp.RAMP_90, ramps.Ramp.RAMP_30_90, ramps.Ramp.RAMP_45_90):
+            if left_to_right:
+                valid_positions = { IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR,
+                                    IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR }
+            else:
+                valid_positions = { IntPhysGoal.Position.LEFT_FIRST_NEAR, IntPhysGoal.Position.LEFT_LAST_NEAR,
+                                    IntPhysGoal.Position.LEFT_FIRST_FAR, IntPhysGoal.Position.LEFT_LAST_FAR }
+        else:
+            valid_positions = set(IntPhysGoal.Position)
+        positions = []
+        objs = self._get_objects_moving_across(wall_material_name, valid_positions, positions)
+        # adjust height to be on top of ramp if necessary
+        for i in range(len(objs)):
+            obj = objs[i]
+            position = positions[i]
+            if left_to_right and position in (
+                    IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR,
+                    IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR) or \
+                    not left_to_right and position in (
+                    IntPhysGoal.Position.LEFT_FIRST_NEAR, IntPhysGoal.Position.LEFT_LAST_NEAR,
+                    IntPhysGoal.Position.LEFT_FIRST_FAR, IntPhysGoal.Position.LEFT_LAST_FAR):
+                obj['shows'][0]['position']['y'] += ramps.RAMP_OBJECT_HEIGHTS[ramp_type]
+
+        return ramp_objs + objs
 
     def _get_ramp_going_up(self, wall_material_name):
         # TODO: in a future ticket
-        return []
+        return [], []
 
 
 class ObjectPermanenceGoal(IntPhysGoal):
