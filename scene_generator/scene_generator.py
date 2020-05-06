@@ -39,13 +39,18 @@ OUTPUT_TEMPLATE_JSON = """
 
 OUTPUT_TEMPLATE = json.loads(OUTPUT_TEMPLATE_JSON)
 
-# the following mins and maxes are inclusive
 
-
-def load_object_file(object_file_name):
-    with open(object_file_name) as object_file:
-        objects = json.load(object_file)
-    return objects
+def strip_debug_info(body):
+    """Remove info that's only for our internal use (e.g., for debugging)"""
+    for obj in body['objects']:
+        obj.pop('info', None)
+    for goal_key in ('domain_list', 'type_list', 'task_list', 'info_list'):
+        body['goal'].pop(goal_key, None)
+    if 'metadata' in body['goal']:
+        metadata = body['goal']['metadata']
+        for target_key in ('target', 'target_1', 'target_2'):
+            if target_key in metadata:
+                metadata[target_key].pop('info', None)
 
 
 def generate_file(name, goal_type, find_path):
@@ -60,8 +65,16 @@ def generate_file(name, goal_type, find_path):
     goal_obj = goals.choose_goal(goal_type)
     goal_obj.update_body(body, find_path)
 
+    write_scene(name + '-debug', body)
+    strip_debug_info(body)
+    write_scene(name, body)
+    
+
+def write_scene(name, scene):
     # Use PrettyJsonNoIndent on some of the lists and dicts in the output body because the indentation from the normal
     # Python JSON module spaces them out far too much.
+    body = copy.deepcopy(scene)
+    
     if 'goal' in body:
         wrap_with_json_no_indent(body['goal'], ['domain_list', 'type_list', 'task_list', 'info_list'])
         if 'metadata' in body['goal']:
@@ -82,6 +95,7 @@ def wrap_with_json_no_indent(data, prop_list):
     for prop in prop_list:
         if prop in data:
             data[prop] = PrettyJsonNoIndent(data[prop])
+
 
 def generate_fileset(prefix, count, goal_type, find_path, stop_on_error):
     # skip existing files

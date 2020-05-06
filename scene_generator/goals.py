@@ -349,10 +349,10 @@ class EmptyGoal(Goal):
         return [], [], []
 
     def get_config(self, goal_objects):
-        return ''
+        return {}
 
     def find_optimal_path(self, goal_objects, all_objects):
-        return ''
+        return []
 
 
 class InteractionGoal(Goal, ABC):
