@@ -38,6 +38,18 @@ WALL_PROBS = [60, 20, 10, 10]
 MIN_RANDOM_INTERVAL = 0.05
 
 
+def set_enclosed_info(goal, *targets):
+    """If any target is in an enclosed area, add 'target_enclosed' to the
+    'type_list' of the goal. If any target isn't in an enclosed area,
+    add 'target_not_enclosed'.
+    """
+    type_list = goal['type_list']
+    for target in targets:
+        enclosed_string = 'target_not_enclosed' if target.get('locationParent', None) is None else 'target_enclosed'
+        if not enclosed_string in type_list:
+            type_list.append(enclosed_string)
+
+            
 def random_real(a, b, step):
     """Return a random real number N where a <= N <= b and N - a is divisible by step."""
     steps = int((b - a) / step)
@@ -432,6 +444,7 @@ class RetrievalGoal(InteractionGoal):
         image_name = find_image_name(target)
 
         goal = copy.deepcopy(self.TEMPLATE)
+        set_enclosed_info(goal, target)
         goal['info_list'] = target['info']
         goal['metadata'] = {
             'target': {
@@ -512,6 +525,7 @@ class TransferralGoal(InteractionGoal):
         image_name2 = find_image_name(target2)
 
         goal = copy.deepcopy(self.TEMPLATE)
+        set_enclosed_info(goal, target1, target2)
         both_info = set(target1['info'] + target2['info'])
         goal['info_list'] = list(both_info)
         goal['metadata'] = {
@@ -611,6 +625,7 @@ class TraversalGoal(Goal):
         image_name = find_image_name(target)
 
         goal = copy.deepcopy(self.TEMPLATE)
+        set_enclosed_info(goal, target)
         goal['info_list'] = target['info']
         goal['metadata'] = {
             'target': {
