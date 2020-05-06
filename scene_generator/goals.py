@@ -235,6 +235,11 @@ class Goal(ABC):
         body['goal'] = self.get_config(goal_objects)
         if find_path:
             body['answer']['actions'] = self.find_optimal_path(goal_objects, all_objects+walls)
+
+        info_set = set(body['goal']['info_list'])
+        for obj in body['objects']:
+            info_set |= frozenset(obj.get('info', []))
+        body['goal']['info_list'] = list(info_set)
         
         return body
 
@@ -432,7 +437,6 @@ class RetrievalGoal(InteractionGoal):
         image_name = find_image_name(target)
 
         goal = copy.deepcopy(self.TEMPLATE)
-        goal['info_list'] = target['info']
         goal['metadata'] = {
             'target': {
                 'id': target['id'],
@@ -513,7 +517,6 @@ class TransferralGoal(InteractionGoal):
 
         goal = copy.deepcopy(self.TEMPLATE)
         both_info = set(target1['info'] + target2['info'])
-        goal['info_list'] = list(both_info)
         goal['metadata'] = {
             'target_1': {
                 'id': target1['id'],
@@ -611,7 +614,6 @@ class TraversalGoal(Goal):
         image_name = find_image_name(target)
 
         goal = copy.deepcopy(self.TEMPLATE)
-        goal['info_list'] = target['info']
         goal['metadata'] = {
             'target': {
                 'id': target['id'],

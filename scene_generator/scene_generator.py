@@ -48,7 +48,7 @@ def load_object_file(object_file_name):
     return objects
 
 
-def generate_file(name, goal_type, find_path):
+def generate_scene(name, goal_type, find_path):
     global OUTPUT_TEMPLATE
     body = copy.deepcopy(OUTPUT_TEMPLATE)
     body['name'] = os.path.basename(name)
@@ -60,6 +60,12 @@ def generate_file(name, goal_type, find_path):
     goal_obj = goals.choose_goal(goal_type)
     goal_obj.update_body(body, find_path)
 
+    return body
+
+
+def generate_file(name, goal_type, find_path):
+    body = generate_scene(name, goal_type, find_path)
+    
     # Use PrettyJsonNoIndent on some of the lists and dicts in the output body because the indentation from the normal
     # Python JSON module spaces them out far too much.
     if 'goal' in body:
