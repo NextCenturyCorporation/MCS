@@ -18,6 +18,7 @@ setuptools.setup(
         'Operating System :: OS Independent',
     ],
     license='Apache-2',
+    python_requires=">3.6",
     install_requires=[
         'shapely',
         'ai2thor @ https://github.com/NextCenturyCorporation/ai2thor/tarball/master#egg=ai2thor'
