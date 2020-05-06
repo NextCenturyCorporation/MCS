@@ -37,6 +37,7 @@ WALL_COUNTS = [0, 1, 2, 3]
 WALL_PROBS = [60, 20, 10, 10]
 MIN_RANDOM_INTERVAL = 0.05
 
+
 def random_real(a, b, step):
     """Return a random real number N where a <= N <= b and N - a is divisible by step."""
     steps = int((b - a) / step)
@@ -865,10 +866,11 @@ class IntPhysGoal(Goal, ABC):
             Position.LEFT_FIRST_FAR: (Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR),
             Position.LEFT_LAST_FAR: (Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR)
         }
-        # Object in key position must have velocities <= velocities
-        # for object in value position (e.g., object in b must have
-        # velocities <= velocities for object in a).
-        velocity_ordering = {
+        # Object in key position must have acceleration <=
+        # acceleration for object in value position (e.g., object in
+        # RIGHT_LAST_NEAR must have acceleration <= acceleration for
+        # object in RIGHT_FIRST_NEAR).
+        acceleration_ordering = {
             Position.RIGHT_LAST_NEAR: Position.RIGHT_FIRST_NEAR,
             Position.RIGHT_LAST_FAR: Position.RIGHT_FIRST_FAR,
             Position.LEFT_LAST_NEAR: Position.LEFT_FIRST_NEAR,
@@ -888,17 +890,20 @@ class IntPhysGoal(Goal, ABC):
             remaining_intphys_options = obj_def['intphys_options'].copy()
             while len(remaining_intphys_options) > 0:
                 intphys_option = random.choice(remaining_intphys_options)
-                if location in velocity_ordering and velocity_ordering[location] in location_assignments:
+                if location in acceleration_ordering and \
+                   acceleration_ordering[location] in location_assignments:
                     # ensure the objects won't collide
-                    other_obj = location_assignments[velocity_ordering[location]]
-                    # TODO: compute value for collision (MCS-188)
-                    collision = False
+                    acceleration = abs(intphys_option['force']['x'] / obj_def['mass'])
+                    other_obj = location_assignments[acceleration_ordering[location]]
+                    other_acceleration = abs(other_obj['intphys_option']['force']['x'] / other_obj['mass'])
+
+                    collision = acceleration > other_acceleration
                     if not collision:
                         break
                     elif len(remaining_intphys_options) == 1:
-                        # last chance, so just swap the items to make their relative velocities "ok"
+                        # last chance, so just swap the items to make their relative acceleration "ok"
                         location_assignments[location] = other_obj
-                        location = velocity_ordering[location]
+                        location = acceleration_ordering[location]
                         location_assignments[location] = None # to be assigned later
                         break
                 else:
@@ -931,8 +936,8 @@ class IntPhysGoal(Goal, ABC):
             filtered_position_by_step = [position for position in new_positions if (abs(position) <= max_x)]
             # set shows.stepBegin
             min_stepBegin = IntPhysGoal.EARLIEST_ACTION_START_STEP
-            if location in velocity_ordering and velocity_ordering[location] in location_assignments:
-                min_stepBegin = location_assignments[velocity_ordering[location]]['shows'][0]['stepBegin']
+            if location in acceleration_ordering and acceleration_ordering[location] in location_assignments:
+                min_stepBegin = location_assignments[acceleration_ordering[location]]['shows'][0]['stepBegin']
             stepsBegin = random.randint(min_stepBegin, 55 - len(filtered_position_by_step))
             obj['shows'][0]['stepsBegin'] = stepsBegin
             obj['forces'] = [{
@@ -943,7 +948,7 @@ class IntPhysGoal(Goal, ABC):
             if location in (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR, Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR):
                 obj['forces'][0]['vector']['x'] *= -1
             intphys_option['position_by_step'] = filtered_position_by_step
-            obj['intphys_options'] = intphys_option
+            obj['intphys_option'] = intphys_option
             new_objects.append(obj)
 
         occluders = self._get_occluders(new_objects, wall_material_name)
@@ -1042,17 +1047,17 @@ class GravityGoal(IntPhysGoal):
 
     def compute_objects(self, wall_material_name):
         func = random.choices(self.OBJECT_PROBABILITIES[0], self.OBJECT_PROBABILITIES[1])[0]
-        objs = func(self, wall_material_name)
-        objs += self._compute_scenery()
-        return [], objs, []
+        objs, occluders = func(self, wall_material_name)
+        scenery = self._compute_scenery()
+        return [], objs + occluders + scenery, []
 
     def _get_ramp_going_down(self, wall_material_name):
         # TODO: in a future ticket
-        return []
+        return [], []
 
     def _get_ramp_going_up(self, wall_material_name):
         # TODO: in a future ticket
-        return []
+        return [], []
 
 
 class ObjectPermanenceGoal(IntPhysGoal):
