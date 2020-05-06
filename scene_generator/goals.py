@@ -1062,6 +1062,8 @@ class GravityGoal(IntPhysGoal):
     def _get_ramp_and_objects(self, wall_material_name):
         ramp_type, left_to_right, ramp_objs = self._create_random_ramp()
         if ramp_type in (ramps.Ramp.RAMP_90, ramps.Ramp.RAMP_30_90, ramps.Ramp.RAMP_45_90):
+            # Don't put objects in places where they'd have to roll up
+            # 90 degree (i.e., vertical) ramps.
             if left_to_right:
                 valid_positions = { IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR,
                                     IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR }
