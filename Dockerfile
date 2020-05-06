@@ -16,15 +16,11 @@
 # docker run --gpus all -e DISPLAY -v /home/HQ/dwetherby/Downloads/interaction_scenes:/scenes -v /tmp/.X11-unix:/tmp/.X11-unix:rw mcs-playroom:0.0.6 \
 #  python3.6 /mcs/python_api/machine_common_sense/run_mcs_just_rotate.py /mcs/MCS-AI2-THOR-Unity-App-v0.0.6.x86_64 /scenes/retrieval/retrieval_goal-0002.json
 
-FROM nvidia/opengl:1.0-glvnd-runtime-ubuntu16.04
+FROM nvidia/opengl:1.0-glvnd-runtime-ubuntu18.04
 
 ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES},display
 
 WORKDIR /mcs
-
-RUN apt-get update -y&& \
-    apt-get install -y software-properties-common && \
-    add-apt-repository ppa:deadsnakes/ppa
 
 RUN apt-get update -y && \
     apt-get install -y xvfb mesa-utils python3.6 python3-pip && \
