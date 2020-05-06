@@ -1,6 +1,7 @@
 # MCS Playroom Docker container
 #
 # docker build --tag mcs-playroom:0.0.6 .
+# docker build --tag mcs-playroom:0.0.x --build-arg mcsversion=0.0.x .
 #
 # Allow X session connection
 # xhost +si:localuser:root
@@ -18,23 +19,23 @@
 
 FROM nvidia/opengl:1.0-glvnd-runtime-ubuntu18.04
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES},display
+
+# --build-arg mcsversion=0.0.x to override default in docker build command
+ARG mcsversion=0.0.6
 
 WORKDIR /mcs
 
 RUN apt-get update -y && \
-    apt-get install -y xvfb mesa-utils python3.6 python3-pip && \
-    python3.6 -m pip install --upgrade pip setuptools wheel
-
-# copy the mcs repository into the image and install into default python environment
-COPY . /mcs
-RUN python3.6 -m pip install .
-# or we could install from MCS tagged branch rather than copying into the container
-# RUN pip install git+https://github.com/NextCenturyCorporation/MCS@latest
+    apt-get install -y git python3.6 python3-pip && \
+    python3.6 -m pip install --upgrade pip setuptools wheel && \
+    python3.6 -m pip install git+https://github.com/NextCenturyCorporation/MCS@${mcsversion}
 
 # add ai2thor/unity resources
-ADD https://github.com/NextCenturyCorporation/MCS/releases/download/0.0.6/MCS-AI2-THOR-Unity-App-v0.0.6.x86_64 /mcs
-ADD https://github.com/NextCenturyCorporation/MCS/releases/download/0.0.6/MCS-AI2-THOR-Unity-App-v0.0.6_Data.tar.gz /mcs
-RUN tar -xzvf /mcs/MCS-AI2-THOR-Unity-App-v0.0.6_Data.tar.gz -C /mcs && \
-    chmod a+x /mcs/MCS-AI2-THOR-Unity-App-v0.0.6.x86_64 && \
-    rm /mcs/MCS-AI2-THOR-Unity-App-v0.0.6_Data.tar.gz
+ADD https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsversion}/MCS-AI2-THOR-Unity-App-v${mcsversion}.x86_64 /mcs
+ADD https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsversion}/MCS-AI2-THOR-Unity-App-v${mcsversion}_Data.tar.gz /mcs
+RUN tar -xzvf /mcs/MCS-AI2-THOR-Unity-App-v${mcsversion}_Data.tar.gz -C /mcs && \
+    chmod a+x /mcs/MCS-AI2-THOR-Unity-App-v${mcsversion}.x86_64 && \
+    rm /mcs/MCS-AI2-THOR-Unity-App-v${mcsversion}_Data.tar.gz
