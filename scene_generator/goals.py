@@ -762,7 +762,7 @@ class IntPhysGoal(Goal, ABC):
                 if i < num_paired_occluders:
                     paired_obj = obj_list[i]
                     min_scale = min(max(paired_obj['shows'][0]['scale']['x'], 0.25), 1)
-                    position_by_step = paired_obj['intphys_options']['position_by_step']
+                    position_by_step = paired_obj['intphys_option']['position_by_step']
                     position_index = random.randrange(len(position_by_step))
                     paired_x = position_by_step[position_index]
                     paired_z = paired_obj['shows'][0]['position']['z']
@@ -918,7 +918,7 @@ class IntPhysGoal(Goal, ABC):
             if location in (Position.RIGHT_FIRST_NEAR, Position.RIGHT_LAST_NEAR, Position.RIGHT_FIRST_FAR, Position.RIGHT_LAST_FAR):
                 obj['forces'][0]['vector']['x'] *= -1
             intphys_option['position_by_step'] = filtered_position_by_step
-            obj['intphys_options'] = intphys_option
+            obj['intphys_option'] = intphys_option
             new_objects.append(obj)
 
         occluders = self._get_occluders(new_objects, wall_material_name)
@@ -1039,17 +1039,17 @@ class GravityGoal(IntPhysGoal):
 
     def compute_objects(self, wall_material_name):
         func = random.choices(self.OBJECT_PROBABILITIES[0], self.OBJECT_PROBABILITIES[1])[0]
-        objs = func(self, wall_material_name)
-        objs += self._compute_scenery()
-        return [], objs, []
+        objs, occluders = func(self, wall_material_name)
+        scenery = self._compute_scenery()
+        return [], objs + occluders + scenery, []
 
     def _get_ramp_going_down(self, wall_material_name):
         # TODO: in a future ticket
-        return []
+        return [], []
 
     def _get_ramp_going_up(self, wall_material_name):
         # TODO: in a future ticket
-        return []
+        return [], []
 
 
 class ObjectPermanenceGoal(IntPhysGoal):
