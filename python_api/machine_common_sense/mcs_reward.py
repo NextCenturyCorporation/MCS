@@ -98,6 +98,11 @@ class MCS_Reward(object):
         reward = GOAL_NOT_ACHIEVED
         goal_id = goal.metadata['target'].get('id', None)
         goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
+        print(f"{goal_object.keys()}")
+        print(f"{goal_object['distance']}")
+        print(f"{goal_object['distanceXZ']}")
+        print(f"{goal_object['isMoving']}")
+
         if goal_object and goal_object.get('isPickedUp', False):
             reward = GOAL_ACHIEVED
         return reward
@@ -122,10 +127,8 @@ class MCS_Reward(object):
         goal_id = goal.metadata['target'].get('id', None)
         goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
 
-        if goal_object is not None and agent is not None:
-           agent_center_xz = agent['position']['x'], agent['position']['z']
-           distance_to_goal = MCS_Reward.__calc_distance_to_goal(agent_center_xz, goal_object)
-           reward = int(distance_to_goal < MAX_REACH_DISTANCE)
+        if goal_object is not None:
+            reward = int(goal_object['distanceXZ'] < MAX_REACH_DISTANCE)
 
         return reward
 
