@@ -427,7 +427,7 @@ def test_IntPhysGoal__compute_scenery():
         pass
 
     goal = TestGoal()
-    # There's a good change of no scenery, so keep trying until we get
+    # There's a good chance of no scenery, so keep trying until we get
     # some.
     scenery_generated = False
     while not scenery_generated:
@@ -472,12 +472,15 @@ def test_mcs_209():
     obj = instantiate_object(obj_def, {'position': ORIGIN})
     assert obj['shows'][0]['rotation'] == obj_def['rotation']
 
-    assert obj['torques'] == [DEFAULT_TORQUE]
-
     class TestGoal(IntPhysGoal):
+        TEMPLATE = {'type_list': []}
         pass
 
     goal = TestGoal()
     objs, _ = goal._get_objects_moving_across('dummy')
     for obj in objs:
         assert obj['shows'][0]['stepBegin'] == obj['forces'][0]['stepBegin']
+
+    body = {'wallMaterial': 'dummy'}
+    goal._scenery_count = 0
+    goal.update_body(body, False)
