@@ -1,10 +1,12 @@
-from scene_generator import generate_scene
+from scene_generator import generate_scene, clean_object
+
 
 def find_object(id, obj_list):
     for obj in obj_list:
         if obj['id'] == id:
             return obj
     return None
+
 
 def test_generate_scene_target_enclosed():
     for _ in range(20):
@@ -20,3 +22,26 @@ def test_generate_scene_target_enclosed():
                     assert 'target_not_enclosed' in type_list
                 else:
                     assert 'target_enclosed' in type_list
+
+
+def test_clean_object():
+    obj = {
+        'id': 'thing1',
+        'dimensions': {
+            'x': 13,
+            'z': 42
+        },
+        'intphys_option': 'stuff',
+        'shows': {
+            'stepBegin': 0,
+            'bounding_box': 'dummy'
+        }
+    }
+    expected = {
+        'id': 'thing1',
+        'shows': {
+            'stepBegin': 0
+        }
+    }
+    clean_object(obj)
+    assert obj == expected
