@@ -210,7 +210,8 @@ def test_RetrievalGoal_get_goal():
     }
     object_list = [obj]
     goal = goal_obj.get_config(object_list)
-    assert goal['info_list'] == obj['info']
+# TODO: re-enable when merged with MCS-199
+#    assert goal['info_list'] == obj['info']
     target = goal['metadata']['target']
     assert target['id'] == obj['id']
     assert target['info'] == obj['info']
@@ -287,7 +288,8 @@ def test_TraversalGoal_get_goal():
     }
     object_list = [obj]
     goal = goal_obj.get_config(object_list)
-    assert goal['info_list'] == obj['info']
+# TODO: re-enable when merged with MCS-199
+#    assert goal['info_list'] == obj['info']
     target = goal['metadata']['target']
     assert target['id'] == obj['id']
     assert target['info'] == obj['info']
@@ -327,8 +329,9 @@ def test__generate_transferral_goal():
     }
     goal = goal_obj.get_config([pickupable_obj, other_obj])
 
-    combined_info = goal['info_list']
-    assert set(combined_info) == {pickupable_info_item, other_info_item, extra_info}
+# TODO: re-enable when merged with MCS-199
+#    combined_info = goal['info_list']
+#    assert set(combined_info) == {pickupable_info_item, other_info_item, extra_info}
 
     target1 = goal['metadata']['target_1']
     assert target1['id'] == pickupable_id
@@ -376,13 +379,13 @@ def test_GravityGoal_compute_objects():
     # TODO: in a future ticket when all_objs has stuff
 
 
-def test_IntPhysGoal__get_objects_moving_across():
+def test_IntPhysGoal__get_objects_and_occluders_moving_across():
     class TestGoal(IntPhysGoal):
         pass
 
     goal = TestGoal()
     wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)
-    objs, occluders = goal._get_objects_moving_across(wall_material[0])
+    objs, occluders = goal._get_objects_and_occluders_moving_across(wall_material[0])
     assert 1 <= len(objs) <= 3
     assert 1 <= len(occluders) <= 4 * 2 # each occluder is actually 2 objects
     # the first occluder should be at one of the positions for the first object
@@ -406,7 +409,7 @@ def test_IntPhysGoal__get_objects_moving_across_collisions():
 
     goal = TestGoal()
     wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)
-    objs, occluders = goal._get_objects_moving_across(wall_material[0])
+    objs = goal._get_objects_moving_across(wall_material[0])
     for obj in objs:
         x = obj['shows'][0]['position']['x']
         z = obj['shows'][0]['position']['z']
