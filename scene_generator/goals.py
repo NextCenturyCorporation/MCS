@@ -87,6 +87,9 @@ def instantiate_object(object_def, object_location):
         object_location['position']['x'] -= object_def['offset']['x']
         object_location['position']['z'] -= object_def['offset']['z']
 
+    if 'rotation' in object_def:
+        object_location['rotation'] = copy.deepcopy(object_def['rotation'])
+
     shows = [object_location]
     new_object['shows'] = shows
     object_location['stepBegin'] = 0
@@ -140,7 +143,8 @@ def move_to_container(target, all_objects, bounding_rects, performer_position):
                 all_objects.append(found_container)
                 target['locationParent'] = found_container['id']
                 target['shows'][0]['position'] = found_area['position'].copy()
-                target['shows'][0]['rotation'] = geometry.ORIGIN.copy()
+                if not 'rotation' in target['shows'][0]:
+                    target['shows'][0]['rotation'] = geometry.ORIGIN.copy()
                 return True
     return False
 
@@ -671,6 +675,15 @@ class IntPhysGoal(Goal, ABC):
     # begin falling anytime between steps 13 and 20, inclusive.
     EARLIEST_ACTION_START_STEP = 13
     LATEST_ACTION_START_STEP = 20
+    DEFAULT_TORQUE = {
+        'stepBegin': 0,
+        'stepEnd': 60,
+        'vector': {
+            'x': 0,
+            'y': 0,
+            'z': 0
+        }
+    }
 
     def __init__(self):
         super(IntPhysGoal, self).__init__()
@@ -691,6 +704,9 @@ class IntPhysGoal(Goal, ABC):
 
     def update_body(self, body, find_path):
         body = super(IntPhysGoal, self).update_body(body, find_path)
+        for obj in body['objects']:
+            obj['torques'] = [IntPhysGoal.DEFAULT_TORQUE]
+
         body['observation'] = True
         body['answer'] = {
             'choice': 'plausible'
@@ -949,10 +965,10 @@ class IntPhysGoal(Goal, ABC):
             min_stepBegin = IntPhysGoal.EARLIEST_ACTION_START_STEP
             if location in acceleration_ordering and acceleration_ordering[location] in location_assignments:
                 min_stepBegin = location_assignments[acceleration_ordering[location]]['shows'][0]['stepBegin']
-            stepsBegin = random.randint(min_stepBegin, 55 - len(filtered_position_by_step))
-            obj['shows'][0]['stepsBegin'] = stepsBegin
+            stepBegin = random.randint(min_stepBegin, 55 - len(filtered_position_by_step))
+            obj['shows'][0]['stepBegin'] = stepBegin
             obj['forces'] = [{
-                'stepBegin': stepsBegin,
+                'stepBegin': stepBegin,
                 'stepEnd': 55,
                 'vector': intphys_option['force']
             }]

@@ -1,3 +1,4 @@
+from geometry import ORIGIN
 from goals import *
 import pytest
 import uuid
@@ -429,7 +430,7 @@ def test_IntPhysGoal__compute_scenery():
         pass
 
     goal = TestGoal()
-    # There's a good change of no scenery, so keep trying until we get
+    # There's a good chance of no scenery, so keep trying until we get
     # some.
     scenery_generated = False
     while not scenery_generated:
@@ -464,3 +465,25 @@ def test__get_objects_falling_down():
         z = obj['shows'][0]['position']['z']
         assert z == 1.6 or z == 2.7
         assert 13 <= obj['shows'][0]['stepBegin'] <= 20
+
+
+def test_mcs_209():
+    from objects_intphys_v1 import OBJECTS_INTPHYS
+    obj_defs = OBJECTS_INTPHYS.copy()
+    random.shuffle(obj_defs)
+    obj_def = next((od for od in obj_defs if 'rotation' in od))
+    obj = instantiate_object(obj_def, {'position': ORIGIN})
+    assert obj['shows'][0]['rotation'] == obj_def['rotation']
+
+    class TestGoal(IntPhysGoal):
+        TEMPLATE = {'type_list': []}
+        pass
+
+    goal = TestGoal()
+    objs, _ = goal._get_objects_moving_across('dummy')
+    for obj in objs:
+        assert obj['shows'][0]['stepBegin'] == obj['forces'][0]['stepBegin']
+
+    body = {'wallMaterial': 'dummy'}
+    goal._scenery_count = 0
+    goal.update_body(body, False)
