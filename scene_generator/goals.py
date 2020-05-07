@@ -244,15 +244,10 @@ class Goal(ABC):
         walls = self.generate_walls(body['wallMaterial'], body['performerStart']['position'],
                                     bounding_rects)
         body['objects'] = all_objects + walls
-        body['goal'] = self.get_config(goal_objects)
+        body['goal'] = self.get_config(goal_objects, all_objects + walls)
         if find_path:
-            body['answer']['actions'] = self.find_optimal_path(goal_objects, all_objects+walls)
+            body['answer']['actions'] = self.find_optimal_path(goal_objects, all_objects + walls)
 
-        info_set = set(body['goal'].get('info_list', []))
-        for obj in body['objects']:
-            info_set |= frozenset(obj.get('info', []))
-        body['goal']['info_list'] = list(info_set)
-        
         return body
 
     def compute_performer_start(self):
@@ -332,8 +327,14 @@ class Goal(ABC):
             })
         return actions
 
+    def _update_goal_info_list(self, goal, all_objects):
+        info_set = set(goal.get('info_list', []))
+        for obj in all_objects:
+            info_set |= frozenset(obj.get('info', []))
+        goal['info_list'] = list(info_set)
+
     @abstractmethod
-    def get_config(self, goal_objects):
+    def get_config(self, goal_objects, all_objects):
         """Get the goal configuration. goal_objects is the objects required for the goal (as returned from
         compute_objects)."""
         pass
@@ -365,7 +366,7 @@ class EmptyGoal(Goal):
     def compute_objects(self, wall_material_name):
         return [], [], []
 
-    def get_config(self, goal_objects):
+    def get_config(self, goal_objects, all_objects):
         return ''
 
     def find_optimal_path(self, goal_objects, all_objects):
@@ -438,11 +439,11 @@ class RetrievalGoal(InteractionGoal):
     def __init__(self):
         super(RetrievalGoal, self).__init__()
 
-    def get_config(self, objects):
-        if len(objects) < 1:
+    def get_config(self, goal_objects, all_objects):
+        if len(goal_objects) < 1:
             raise ValueError('need at least 1 object for this goal')
 
-        target = objects[0]
+        target = goal_objects[0]
         self._target = target
         self._targets.append(target)
         target_image_obj = find_image_for_object(target)
@@ -460,6 +461,7 @@ class RetrievalGoal(InteractionGoal):
             }
         }
         goal['description'] = f'Find and pick up the {target["info"][-1]}.'
+        self._update_goal_info_list(goal, all_objects)
         return goal
 
     def find_optimal_path(self, goal_objects, all_objects):
@@ -511,10 +513,10 @@ class TransferralGoal(InteractionGoal):
         target2 = instantiate_object(target2_def, target2_location)
         self._goal_objects = [target2]
 
-    def get_config(self, objects):
-        if len(objects) < 2:
-            raise ValueError(f'need at least 2 objects for this goal, was given {len(objects)}')
-        target1, target2 = objects[0:2]
+    def get_config(self, goal_objects, all_objects):
+        if len(goal_objects) < 2:
+            raise ValueError(f'need at least 2 objects for this goal, was given {len(goal_objects)}')
+        target1, target2 = goal_objects[0:2]
         if not target1.get('pickupable', False):
             raise ValueError(f'first object must be "pickupable": {target1}')
         if not target2.get('stackTarget', False):
@@ -550,6 +552,7 @@ class TransferralGoal(InteractionGoal):
         }
         goal['description'] = f'Find and pick up the {target1["info"][-1]} and move it {relationship.value} ' \
             f'the {target2["info"][-1]}.'
+        self._update_goal_info_list(goal, all_objects)
         return goal
 
     def find_optimal_path(self, goal_objects, all_objects):
@@ -618,11 +621,11 @@ class TraversalGoal(Goal):
 
         return [target], all_objects, bounding_rects
 
-    def get_config(self, objects):
-        if len(objects) < 1:
+    def get_config(self, goal_objects, all_objects):
+        if len(goal_objects) < 1:
             raise ValueError('need at least 1 object for this goal')
 
-        target = objects[0]
+        target = goal_objects[0]
 
         target_image_obj = find_image_for_object(target)
         image_name = find_image_name(target)
@@ -639,6 +642,7 @@ class TraversalGoal(Goal):
             }
         }
         goal['description'] = f'Find the {target["info"][-1]} and move near it.'
+        self._update_goal_info_list(goal, all_objects)
         return goal
 
     def find_optimal_path(self, goal_objects, all_objects):
@@ -716,13 +720,14 @@ class IntPhysGoal(Goal, ABC):
     def _get_last_step(self):
         return 40
 
-    def get_config(self, goal_objects):
+    def get_config(self, goal_objects, all_objects):
         goal = copy.deepcopy(self.TEMPLATE)
         goal['last_step'] = self._get_last_step()
         goal['action_list'] = [['Pass']] * goal['last_step']
         scenery_type = f'scenery_objects_{self._scenery_count}'
         goal['type_list'].append(scenery_type)
 
+        self._update_goal_info_list(goal, all_objects)
         return goal
 
     def generate_walls(self, material, performer_position, bounding_rects):
