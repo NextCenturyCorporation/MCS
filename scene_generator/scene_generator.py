@@ -45,7 +45,7 @@ def clean_object(obj):
     obj.pop('dimensions', None)
     obj.pop('intphys_option', None)
     if 'shows' in obj:
-        obj['shows'].pop('bounding_box', None)
+        obj['shows'][0].pop('bounding_box', None)
 
 
 def generate_scene(name, goal_type, find_path):
@@ -65,7 +65,15 @@ def generate_scene(name, goal_type, find_path):
 
 def generate_file(name, goal_type, find_path):
     body = generate_scene(name, goal_type, find_path)
-    
+
+    for object_config in body['objects']:
+        wrap_with_json_no_indent(object_config, ['info', 'materials', 'salientMaterials'])
+        clean_object(object_config)
+
+    write_file(name, body)
+
+
+def write_file(name, body):
     # Use PrettyJsonNoIndent on some of the lists and dicts in the output body because the indentation from the normal
     # Python JSON module spaces them out far too much.
     wrap_with_json_no_indent(body['goal'], ['domain_list', 'type_list', 'task_list', 'info_list'])
@@ -73,10 +81,6 @@ def generate_file(name, goal_type, find_path):
         for target in ['target', 'target_1', 'target_2']:
             if target in body['goal']['metadata']:
                 wrap_with_json_no_indent(body['goal']['metadata'][target], ['info', 'image'])
-
-    for object_config in body['objects']:
-        wrap_with_json_no_indent(object_config, ['info', 'materials', 'salientMaterials'])
-        clean_object(object_config)
 
     with open(name, 'w') as out:
         # PrettyJsonEncoder doesn't work with json.dump so use json.dumps here instead.
