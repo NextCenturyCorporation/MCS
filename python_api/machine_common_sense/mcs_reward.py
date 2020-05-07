@@ -98,10 +98,6 @@ class MCS_Reward(object):
         reward = GOAL_NOT_ACHIEVED
         goal_id = goal.metadata['target'].get('id', None)
         goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
-        print(f"{goal_object.keys()}")
-        print(f"{goal_object['distance']}")
-        print(f"{goal_object['distanceXZ']}")
-        print(f"{goal_object['isMoving']}")
 
         if goal_object and goal_object.get('isPickedUp', False):
             reward = GOAL_ACHIEVED
