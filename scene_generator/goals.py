@@ -230,21 +230,21 @@ def parse_path_section(path_section: List[List[float]], current_heading: float) 
             'params': {
                 'rotation': round(delta_t,0),
                 'horizon': 0.0
-                }
             }
+        }
         actions.append(action)
     distance = math.sqrt( dx ** 2 + dz ** 2 )
     frac, whole = math.modf(distance / MAX_MOVE_DISTANCE)
     actions.extend([{
-                "action": "MoveAhead",
-                "params": {}
-                }]*int(whole))
+        "action": "MoveAhead",
+        "params": {}
+    }] * int(whole))
     actions.append({
-            "action": "MoveAhead",
-            "params": {
-                "amount": round(frac,POSITION_DIGITS)
-                }
-        })
+        "action": "MoveAhead",
+        "params": {
+            "amount": round(frac,POSITION_DIGITS)
+        }
+    })
     return actions, current_heading
 
 
