@@ -1,4 +1,5 @@
-from scene_generator import generate_scene
+from scene_generator import generate_scene, clean_object
+
 
 def test_generate_scene_goal_info():
     scene = generate_scene('test', 'interaction', False)
@@ -8,3 +9,26 @@ def test_generate_scene_goal_info():
     for obj in scene['objects']:
         obj_info_set = set(obj.get('info', []))
         assert obj_info_set <= info_set
+
+
+def test_clean_object():
+    obj = {
+        'id': 'thing1',
+        'dimensions': {
+            'x': 13,
+            'z': 42
+        },
+        'intphys_option': 'stuff',
+        'shows': {
+            'stepBegin': 0,
+            'bounding_box': 'dummy'
+        }
+    }
+    expected = {
+        'id': 'thing1',
+        'shows': {
+            'stepBegin': 0
+        }
+    }
+    clean_object(obj)
+    assert obj == expected
