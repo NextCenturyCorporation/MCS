@@ -9,13 +9,6 @@
 # Run interactive bash shell
 # docker run -it --rm --gpus all -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw mcs-playroom:0.0.6
 #
-# Run playroom with preloaded scene
-# docker run --gpus all -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw mcs-playroom:0.0.6 \
-#  python3.6 /mcs/python_api/machine_common_sense/run_mcs_just_pass.py /mcs/MCS-AI2-THOR-Unity-App-v0.0.6.x86_64 /mcs/python_api/scenes/playroom.json
-#
-# Run with scenes provided through volume mapping
-# docker run --gpus all -e DISPLAY -v /home/HQ/dwetherby/Downloads/interaction_scenes:/scenes -v /tmp/.X11-unix:/tmp/.X11-unix:rw mcs-playroom:0.0.6 \
-#  python3.6 /mcs/python_api/machine_common_sense/run_mcs_just_rotate.py /mcs/MCS-AI2-THOR-Unity-App-v0.0.6.x86_64 /scenes/retrieval/retrieval_goal-0002.json
 
 FROM nvidia/opengl:1.0-glvnd-runtime-ubuntu18.04
 
