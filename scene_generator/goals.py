@@ -236,7 +236,7 @@ class Goal(ABC):
         if find_path:
             body['answer']['actions'] = self.find_optimal_path(goal_objects, all_objects+walls)
 
-        info_set = set(body['goal']['info_list'])
+        info_set = set(body['goal'].get('info_list', []))
         for obj in body['objects']:
             info_set |= frozenset(obj.get('info', []))
         body['goal']['info_list'] = list(info_set)
