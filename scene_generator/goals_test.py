@@ -390,7 +390,7 @@ def test_IntPhysGoal__get_objects_moving_across():
     first_obj = objs[0]
     found = False
     multiplier = 0.9 if first_obj['shows'][0]['position']['z'] == 1.6 else 0.8
-    for position in first_obj['intphys_options']['position_by_step']:
+    for position in first_obj['intphys_option']['position_by_step']:
         adjusted_x = position * multiplier
         if adjusted_x == occluder_x:
             found = True
@@ -400,6 +400,27 @@ def test_IntPhysGoal__get_objects_moving_across():
         assert o['material'] != wall_material[0]
 
 
+def test_IntPhysGoal__get_objects_moving_across_collisions():
+    class TestGoal(IntPhysGoal):
+        pass
+
+    goal = TestGoal()
+    wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)
+    objs, occluders = goal._get_objects_moving_across(wall_material[0])
+    for obj in objs:
+        x = obj['shows'][0]['position']['x']
+        z = obj['shows'][0]['position']['z']
+        # check for possible collision with all other objects
+        for other in (o for o in objs if o != obj):
+            other_x = other['shows'][0]['position']['x']
+            other_z = other['shows'][0]['position']['z']
+            # could other catch up to obj?
+            if other_z == z and abs(other_x) > abs(x):
+                obj_a = obj['intphys_option']['force']['x'] / obj['mass']
+                other_a = other['intphys_option']['force']['x'] / obj['mass']
+                assert abs(other_a) <= abs(obj_a)
+
+    
 def test_IntPhysGoal__compute_scenery():
     class TestGoal(IntPhysGoal):
         pass
