@@ -65,6 +65,12 @@ def generate_scene(name, goal_type, find_path):
 def generate_file(name, goal_type, find_path):
     body = generate_scene(name, goal_type, find_path)
 
+    return body
+
+
+def generate_file(name, goal_type, find_path):
+    body = generate_scene(name, goal_type, find_path)
+
     # Use PrettyJsonNoIndent on some of the lists and dicts in the output body because the indentation from the normal
     # Python JSON module spaces them out far too much.
     wrap_with_json_no_indent(body['goal'], ['domain_list', 'type_list', 'task_list', 'info_list'])

@@ -247,6 +247,11 @@ class Goal(ABC):
         body['goal'] = self.get_config(goal_objects)
         if find_path:
             body['answer']['actions'] = self.find_optimal_path(goal_objects, all_objects+walls)
+
+        info_set = set(body['goal'].get('info_list', []))
+        for obj in body['objects']:
+            info_set |= frozenset(obj.get('info', []))
+        body['goal']['info_list'] = list(info_set)
         
         return body
 
@@ -445,7 +450,6 @@ class RetrievalGoal(InteractionGoal):
 
         goal = copy.deepcopy(self.TEMPLATE)
         set_enclosed_info(goal, target)
-        goal['info_list'] = target['info']
         goal['metadata'] = {
             'target': {
                 'id': target['id'],
@@ -527,7 +531,6 @@ class TransferralGoal(InteractionGoal):
         goal = copy.deepcopy(self.TEMPLATE)
         set_enclosed_info(goal, target1, target2)
         both_info = set(target1['info'] + target2['info'])
-        goal['info_list'] = list(both_info)
         goal['metadata'] = {
             'target_1': {
                 'id': target1['id'],
@@ -626,7 +629,6 @@ class TraversalGoal(Goal):
 
         goal = copy.deepcopy(self.TEMPLATE)
         set_enclosed_info(goal, target)
-        goal['info_list'] = target['info']
         goal['metadata'] = {
             'target': {
                 'id': target['id'],
@@ -786,7 +788,7 @@ class IntPhysGoal(Goal, ABC):
             for _ in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
                 paired_obj = obj_list[i]
                 min_scale = min(max(paired_obj['shows'][0]['scale']['x'], IntPhysGoal.MIN_OCCLUDER_SCALE), IntPhysGoal.MAX_OCCLUDER_SCALE)
-                position_by_step = paired_obj['intphys_options']['position_by_step']
+                position_by_step = paired_obj['intphys_option']['position_by_step']
                 position_index = random.randrange(len(position_by_step))
                 paired_x = position_by_step[position_index]
                 paired_z = paired_obj['shows'][0]['position']['z']
