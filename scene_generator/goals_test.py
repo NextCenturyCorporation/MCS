@@ -1,3 +1,4 @@
+from geometry import ORIGIN
 from goals import *
 import pytest
 import uuid
@@ -461,3 +462,20 @@ def test__get_objects_falling_down():
         z = obj['shows'][0]['position']['z']
         assert z == 1.6 or z == 2.7
         assert 13 <= obj['shows'][0]['stepBegin'] <= 20
+
+
+def test_mcs_209():
+    from objects_intphys_v1 import OBJECTS_INTPHYS
+    obj_defs = OBJECTS_INTPHYS.copy()
+    random.shuffle(obj_defs)
+    obj_def = next((od for od in obj_defs if 'rotation' in od))
+    obj = instantiate_object(obj_def, {'position': ORIGIN})
+    assert obj['shows'][0]['rotation'] == obj_def['rotation']
+
+    class TestGoal(IntPhysGoal):
+        pass
+
+    goal = TestGoal()
+    objs, _ = goal._get_objects_moving_across('dummy')
+    for obj in objs:
+        assert obj['shows'][0]['stepBegin'] == obj['forces'][0]['stepBegin']

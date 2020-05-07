@@ -85,6 +85,9 @@ def instantiate_object(object_def, object_location):
         object_location['position']['x'] -= object_def['offset']['x']
         object_location['position']['z'] -= object_def['offset']['z']
 
+    if 'rotation' in object_def:
+        object_location['rotation'] = copy.deepcopy(object_def['rotation'])
+
     shows = [object_location]
     new_object['shows'] = shows
     object_location['stepBegin'] = 0
@@ -138,7 +141,8 @@ def move_to_container(target, all_objects, bounding_rects, performer_position):
                 all_objects.append(found_container)
                 target['locationParent'] = found_container['id']
                 target['shows'][0]['position'] = found_area['position'].copy()
-                target['shows'][0]['rotation'] = geometry.ORIGIN.copy()
+                if not 'rotation' in target['shows'][0]:
+                    target['shows'][0]['rotation'] = geometry.ORIGIN.copy()
                 return True
     return False
 
@@ -771,7 +775,7 @@ class IntPhysGoal(Goal, ABC):
             for _ in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
                 paired_obj = obj_list[i]
                 min_scale = min(max(paired_obj['shows'][0]['scale']['x'], IntPhysGoal.MIN_OCCLUDER_SCALE), IntPhysGoal.MAX_OCCLUDER_SCALE)
-                position_by_step = paired_obj['intphys_options']['position_by_step']
+                position_by_step = paired_obj['intphys_option']['position_by_step']
                 position_index = random.randrange(len(position_by_step))
                 paired_x = position_by_step[position_index]
                 paired_z = paired_obj['shows'][0]['position']['z']
@@ -938,10 +942,10 @@ class IntPhysGoal(Goal, ABC):
             min_stepBegin = IntPhysGoal.EARLIEST_ACTION_START_STEP
             if location in acceleration_ordering and acceleration_ordering[location] in location_assignments:
                 min_stepBegin = location_assignments[acceleration_ordering[location]]['shows'][0]['stepBegin']
-            stepsBegin = random.randint(min_stepBegin, 55 - len(filtered_position_by_step))
-            obj['shows'][0]['stepsBegin'] = stepsBegin
+            stepBegin = random.randint(min_stepBegin, 55 - len(filtered_position_by_step))
+            obj['shows'][0]['stepBegin'] = stepBegin
             obj['forces'] = [{
-                'stepBegin': stepsBegin,
+                'stepBegin': stepBegin,
                 'stepEnd': 55,
                 'vector': intphys_option['force']
             }]
