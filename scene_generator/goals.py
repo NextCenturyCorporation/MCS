@@ -237,6 +237,11 @@ class Goal(ABC):
         body['goal'] = self.get_config(goal_objects)
         if find_path:
             body['answer']['actions'] = self.find_optimal_path(goal_objects, all_objects+walls)
+
+        info_set = set(body['goal'].get('info_list', []))
+        for obj in body['objects']:
+            info_set |= frozenset(obj.get('info', []))
+        body['goal']['info_list'] = list(info_set)
         
         return body
 
@@ -434,7 +439,6 @@ class RetrievalGoal(InteractionGoal):
         image_name = find_image_name(target)
 
         goal = copy.deepcopy(self.TEMPLATE)
-        goal['info_list'] = target['info']
         goal['metadata'] = {
             'target': {
                 'id': target['id'],
@@ -515,7 +519,6 @@ class TransferralGoal(InteractionGoal):
 
         goal = copy.deepcopy(self.TEMPLATE)
         both_info = set(target1['info'] + target2['info'])
-        goal['info_list'] = list(both_info)
         goal['metadata'] = {
             'target_1': {
                 'id': target1['id'],
@@ -613,7 +616,6 @@ class TraversalGoal(Goal):
         image_name = find_image_name(target)
 
         goal = copy.deepcopy(self.TEMPLATE)
-        goal['info_list'] = target['info']
         goal['metadata'] = {
             'target': {
                 'id': target['id'],
@@ -875,14 +877,15 @@ class IntPhysGoal(Goal, ABC):
             IntPhysGoal.Position.LEFT_FIRST_FAR: (IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR),
             IntPhysGoal.Position.LEFT_LAST_FAR: (IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR)
         }
-        # Object in key position must have velocities <= velocities
-        # for object in value position (e.g., object in b must have
-        # velocities <= velocities for object in a).
-        velocity_ordering = {
-            IntPhysGoal.Position.RIGHT_LAST_NEAR: IntPhysGoal.Position.RIGHT_FIRST_NEAR,
-            IntPhysGoal.Position.RIGHT_LAST_FAR: IntPhysGoal.Position.RIGHT_FIRST_FAR,
-            IntPhysGoal.Position.LEFT_LAST_NEAR: IntPhysGoal.Position.LEFT_FIRST_NEAR,
-            IntPhysGoal.Position.LEFT_LAST_FAR: IntPhysGoal.Position.LEFT_FIRST_FAR
+        # Object in key position must have acceleration <=
+        # acceleration for object in value position (e.g., object in
+        # RIGHT_LAST_NEAR must have acceleration <= acceleration for
+        # object in RIGHT_FIRST_NEAR).
+        acceleration_ordering = {
+            Position.RIGHT_LAST_NEAR: Position.RIGHT_FIRST_NEAR,
+            Position.RIGHT_LAST_FAR: Position.RIGHT_FIRST_FAR,
+            Position.LEFT_LAST_NEAR: Position.LEFT_FIRST_NEAR,
+            Position.LEFT_LAST_FAR: Position.LEFT_FIRST_FAR
         }
         available_locations = set(valid_positions)
         location_assignments = {}
@@ -898,17 +901,20 @@ class IntPhysGoal(Goal, ABC):
             remaining_intphys_options = obj_def['intphys_options'].copy()
             while len(remaining_intphys_options) > 0:
                 intphys_option = random.choice(remaining_intphys_options)
-                if location in velocity_ordering and velocity_ordering[location] in location_assignments:
+                if location in acceleration_ordering and \
+                   acceleration_ordering[location] in location_assignments:
                     # ensure the objects won't collide
-                    other_obj = location_assignments[velocity_ordering[location]]
-                    # TODO: compute value for collision (MCS-188)
-                    collision = False
+                    acceleration = abs(intphys_option['force']['x'] / obj_def['mass'])
+                    other_obj = location_assignments[acceleration_ordering[location]]
+                    other_acceleration = abs(other_obj['intphys_option']['force']['x'] / other_obj['mass'])
+
+                    collision = acceleration > other_acceleration
                     if not collision:
                         break
                     elif len(remaining_intphys_options) == 1:
-                        # last chance, so just swap the items to make their relative velocities "ok"
+                        # last chance, so just swap the items to make their relative acceleration "ok"
                         location_assignments[location] = other_obj
-                        location = velocity_ordering[location]
+                        location = acceleration_ordering[location]
                         location_assignments[location] = None # to be assigned later
                         break
                 else:
@@ -941,8 +947,8 @@ class IntPhysGoal(Goal, ABC):
             filtered_position_by_step = [position for position in new_positions if (abs(position) <= max_x)]
             # set shows.stepBegin
             min_stepBegin = IntPhysGoal.EARLIEST_ACTION_START_STEP
-            if location in velocity_ordering and velocity_ordering[location] in location_assignments:
-                min_stepBegin = location_assignments[velocity_ordering[location]]['shows'][0]['stepBegin']
+            if location in acceleration_ordering and acceleration_ordering[location] in location_assignments:
+                min_stepBegin = location_assignments[acceleration_ordering[location]]['shows'][0]['stepBegin']
             stepsBegin = random.randint(min_stepBegin, 55 - len(filtered_position_by_step))
             obj['shows'][0]['stepsBegin'] = stepsBegin
             obj['forces'] = [{
@@ -953,7 +959,7 @@ class IntPhysGoal(Goal, ABC):
             if location in (IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR, IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR):
                 obj['forces'][0]['vector']['x'] *= -1
             intphys_option['position_by_step'] = filtered_position_by_step
-            obj['intphys_options'] = intphys_option
+            obj['intphys_option'] = intphys_option
             new_objects.append(obj)
             if positions is not None:
                 positions.append(location)
