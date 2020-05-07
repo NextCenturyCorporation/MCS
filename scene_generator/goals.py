@@ -37,6 +37,15 @@ WALL_COUNTS = [0, 1, 2, 3]
 WALL_PROBS = [60, 20, 10, 10]
 MIN_RANDOM_INTERVAL = 0.05
 
+DEFAULT_TORQUE = {
+    'stepBegin': 0,
+    'stepEnd': 60,
+    'vector': {
+        'x': 0,
+        'y': 0,
+        'z': 0
+    }
+}
 
 def random_real(a, b, step):
     """Return a random real number N where a <= N <= b and N - a is divisible by step."""
@@ -80,6 +89,8 @@ def instantiate_object(object_def, object_location):
 
     for attribute in object_def['attributes']:
         new_object[attribute] = True
+
+    new_object['torques'] = [DEFAULT_TORQUE]
 
     if 'offset' in object_def:
         object_location['position']['x'] -= object_def['offset']['x']

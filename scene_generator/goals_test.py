@@ -472,6 +472,8 @@ def test_mcs_209():
     obj = instantiate_object(obj_def, {'position': ORIGIN})
     assert obj['shows'][0]['rotation'] == obj_def['rotation']
 
+    assert obj['torques'] == [DEFAULT_TORQUE]
+
     class TestGoal(IntPhysGoal):
         pass
 
