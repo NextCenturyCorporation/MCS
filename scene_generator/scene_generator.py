@@ -40,13 +40,15 @@ OUTPUT_TEMPLATE_JSON = """
 OUTPUT_TEMPLATE = json.loads(OUTPUT_TEMPLATE_JSON)
 
 
-def load_object_file(object_file_name: str) -> List[Dict[str, Any]]:
-    with open(object_file_name) as object_file:
-        objects = json.load(object_file)
-    return objects
+def clean_object(obj):
+    """Remove properties we do not want TA1s to have access to."""
+    obj.pop('dimensions', None)
+    obj.pop('intphys_option', None)
+    if 'shows' in obj:
+        obj['shows'].pop('bounding_box', None)
 
 
-def generate_file(name: str, goal_type: str, find_path, bool) -> None:
+def generate_scene(name, goal_type, find_path):
     global OUTPUT_TEMPLATE
     body = copy.deepcopy(OUTPUT_TEMPLATE)
     body['name'] = os.path.basename(name)
@@ -58,18 +60,23 @@ def generate_file(name: str, goal_type: str, find_path, bool) -> None:
     goal_obj = goals.choose_goal(goal_type)
     goal_obj.update_body(body, find_path)
 
+    return body
+
+
+def generate_file(name, goal_type, find_path):
+    body = generate_scene(name, goal_type, find_path)
+    
     # Use PrettyJsonNoIndent on some of the lists and dicts in the output body because the indentation from the normal
     # Python JSON module spaces them out far too much.
-    if 'goal' in body:
-        wrap_with_json_no_indent(body['goal'], ['domain_list', 'type_list', 'task_list', 'info_list'])
-        if 'metadata' in body['goal']:
-            for target in ['target', 'target_1', 'target_2']:
-                if target in body['goal']['metadata']:
-                    wrap_with_json_no_indent(body['goal']['metadata'][target], ['info', 'image'])
+    wrap_with_json_no_indent(body['goal'], ['domain_list', 'type_list', 'task_list', 'info_list'])
+    if 'metadata' in body['goal']:
+        for target in ['target', 'target_1', 'target_2']:
+            if target in body['goal']['metadata']:
+                wrap_with_json_no_indent(body['goal']['metadata'][target], ['info', 'image'])
 
-    if 'objects' in body:
-        for object_config in body['objects']:
-            wrap_with_json_no_indent(object_config, ['info', 'materials', 'salientMaterials'])
+    for object_config in body['objects']:
+        wrap_with_json_no_indent(object_config, ['info', 'materials', 'salientMaterials'])
+        clean_object(object_config)
 
     with open(name, 'w') as out:
         # PrettyJsonEncoder doesn't work with json.dump so use json.dumps here instead.
