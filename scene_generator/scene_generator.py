@@ -53,8 +53,15 @@ def strip_debug_info(body):
                 metadata[target_key].pop('info', None)
 
 
-def generate_file(name, goal_type, find_path):
-    """Create a new scenery file and a debug file. name must end with '.json'."""
+def clean_object(obj):
+    """Remove properties we do not want TA1s to have access to."""
+    obj.pop('dimensions', None)
+    obj.pop('intphys_option', None)
+    if 'shows' in obj:
+        obj['shows'][0].pop('bounding_box', None)
+
+
+def generate_scene(name, goal_type, find_path):
     global OUTPUT_TEMPLATE
     body = copy.deepcopy(OUTPUT_TEMPLATE)
     body['name'] = os.path.basename(name)
@@ -65,7 +72,13 @@ def generate_file(name, goal_type, find_path):
 
     goal_obj = goals.choose_goal(goal_type)
     goal_obj.update_body(body, find_path)
+    return body
 
+
+def generate_file(name, goal_type, find_path):
+    """Create a new scenery file and a debug file. name must end with '.json'."""
+    body = generate_scene(name, goal_type, find_path)
+    
     debug_name = name[:-5] + '-debug.json'
     write_scene(debug_name, body)
     strip_debug_info(body)
@@ -76,17 +89,18 @@ def write_scene(name, scene):
     # Use PrettyJsonNoIndent on some of the lists and dicts in the output body because the indentation from the normal
     # Python JSON module spaces them out far too much.
     body = copy.deepcopy(scene)
-    
-    if 'goal' in body:
-        wrap_with_json_no_indent(body['goal'], ['domain_list', 'type_list', 'task_list', 'info_list'])
-        if 'metadata' in body['goal']:
-            for target in ['target', 'target_1', 'target_2']:
-                if target in body['goal']['metadata']:
-                    wrap_with_json_no_indent(body['goal']['metadata'][target], ['info', 'image'])
 
-    if 'objects' in body:
-        for object_config in body['objects']:
-            wrap_with_json_no_indent(object_config, ['info', 'materials', 'salientMaterials'])
+    # Use PrettyJsonNoIndent on some of the lists and dicts in the output body because the indentation from the normal
+    # Python JSON module spaces them out far too much.
+    wrap_with_json_no_indent(body['goal'], ['domain_list', 'type_list', 'task_list', 'info_list'])
+    if 'metadata' in body['goal']:
+        for target in ['target', 'target_1', 'target_2']:
+            if target in body['goal']['metadata']:
+                wrap_with_json_no_indent(body['goal']['metadata'][target], ['info', 'image'])
+
+    for object_config in body['objects']:
+        wrap_with_json_no_indent(object_config, ['info', 'materials', 'salientMaterials'])
+        clean_object(object_config)
 
     with open(name, 'w') as out:
         # PrettyJsonEncoder doesn't work with json.dump so use json.dumps here instead.
