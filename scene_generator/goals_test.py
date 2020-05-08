@@ -380,6 +380,16 @@ def test_GravityGoal_compute_objects():
     # TODO: in a future ticket when all_objs has stuff
 
 
+# test for MCS-214
+def test_GravityGoal__get_ramp_and_objects():
+    goal = GravityGoal()
+    object_list = goal._get_ramp_and_objects('dummy')
+    assert len(object_list) > 0
+    for obj in object_list:
+        if 'intphys_option' in obj:
+            assert obj['intphys_option']['y'] == 0
+
+
 def test_IntPhysGoal__get_objects_and_occluders_moving_across():
     class TestGoal(IntPhysGoal):
         pass
@@ -480,7 +490,7 @@ def test_mcs_209():
         pass
 
     goal = TestGoal()
-    objs, _ = goal._get_objects_moving_across('dummy')
+    objs = goal._get_objects_moving_across('dummy')
     for obj in objs:
         assert obj['shows'][0]['stepBegin'] == obj['forces'][0]['stepBegin']
 
