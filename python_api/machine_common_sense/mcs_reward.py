@@ -30,54 +30,22 @@ class MCS_Reward(object):
         return next((o for o in objects if o['objectId'] == target_id), None)
 
     @staticmethod
-    def _convert_bounds_to_polygons(goal_object: Dict) -> Tuple[geometry.Polygon, geometry.Polygon]:
+    def _convert_object_to_planar_polygon(goal_object: Dict) -> geometry.Polygon:
         '''
-        Converts goal object bounds to an upper and lower planar polygon.
+        Project goal object bounds (x,y,z) to an XZ planar polygon.
 
         Args:
             goal_object: dict
 
         Returns:
-            polygons: Tuple(shapely.geometry.Polygon, shapely.geometry.Polygon)
+            polygons: shapely.geometry.Polygon
         '''
-        # split 3d object bounds into upper and lower boxes
         bbox3d = goal_object['objectBounds']['objectBoundsCorners']
-        lower_box, upper_box = bbox3d[:4], bbox3d[4:]
+        # project to XZ plane
+        xz_pts = [(pt['x'], pt['z']) for pt in bbox3d]
+        polygon = geometry.MultiPoint(xz_pts).convex_hull
 
-        # conver lower box plane to shapely Polygon
-        lower_corners = [(pt['x'], pt['z']) for pt in lower_box]
-        lower_polygon = geometry.Polygon(lower_corners)
-
-        # convert upper box plane to shapely Polygon
-        upper_corners = [(pt['x'], pt['z']) for pt in upper_box]
-        upper_polygon = geometry.Polygon(upper_corners)
-
-        return lower_polygon, upper_polygon
-
-    @staticmethod
-    def __calc_distance_to_goal(action_obj_xz_pos: Tuple[float, float], goal_obj: Dict) -> float:
-        '''
-        Object 2D (xz) distance center to the goal object nearest edge
-        
-        Args:
-            action_obj_xz_pos: Tuple (x,z)
-            goal_obj: dict
-
-        Returns:
-            distance_to_edge: float
-        '''
-        distance_to_edge = 0.0
-
-        goal_object_xz_center = goal_obj['position']['x'], \
-            goal_obj['position']['z']
-
-        _, upper_polygon = MCS_Reward._convert_bounds_to_polygons(goal_obj)
-
-        action_center_pt = geometry.Point(action_obj_xz_pos)
-        if not action_center_pt.within(upper_polygon):
-            distance_to_edge = upper_polygon.distance(action_center_pt)
-
-        return distance_to_edge
+        return polygon
 
     @staticmethod
     def _calc_retrieval_reward(goal: MCS_Goal, objects: Dict, agent: Dict) -> int:
@@ -98,6 +66,7 @@ class MCS_Reward(object):
         reward = GOAL_NOT_ACHIEVED
         goal_id = goal.metadata['target'].get('id', None)
         goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
+
         if goal_object and goal_object.get('isPickedUp', False):
             reward = GOAL_ACHIEVED
         return reward
@@ -122,10 +91,8 @@ class MCS_Reward(object):
         goal_id = goal.metadata['target'].get('id', None)
         goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
 
-        if goal_object is not None and agent is not None:
-           agent_center_xz = agent['position']['x'], agent['position']['z']
-           distance_to_goal = MCS_Reward.__calc_distance_to_goal(agent_center_xz, goal_object)
-           reward = int(distance_to_goal < MAX_REACH_DISTANCE)
+        if goal_object is not None:
+            reward = int(goal_object['distanceXZ'] < MAX_REACH_DISTANCE)
 
         return reward
 
@@ -170,21 +137,19 @@ class MCS_Reward(object):
         if action_object is None or action_object.get('isPickedUp', False):
             return GOAL_NOT_ACHIEVED
 
-        action_object_xz_center = action_object['position']['x'], \
-            action_object['position']['z']
+        goal_polygon = MCS_Reward._convert_object_to_planar_polygon(goal_object)
+        action_polygon = MCS_Reward._convert_object_to_planar_polygon(action_object)
 
         # actions are next_to or on_top_of (ie; action obj next to goal obj)
         if action == 'next to':
-            distance_to_goal = MCS_Reward.__calc_distance_to_goal(action_object_xz_center, goal_object)
-            reward = int(distance_to_goal <= MAX_MOVE_DISTANCE)
+            polygonal_distance = action_polygon.distance(goal_polygon)
+            reward = int(polygonal_distance <= MAX_MOVE_DISTANCE)
         elif action == 'on top of':
-            # check that the target object center is within goal object bounds
+            # check that the action object center intersects the goal object bounds
             # and the y dimension of the target is above the goal
-            _, upper_polygon = MCS_Reward._convert_bounds_to_polygons(goal_object)
-            action_pt = geometry.Point(action_object_xz_center)
-            action_obj_within_bounds = action_pt.within(upper_polygon)
+            action_obj_within_goal = action_polygon.intersects(goal_polygon)
             action_obj_above_goal = action_object['position']['y'] > goal_object['position']['y']
-            if action_obj_within_bounds and action_obj_above_goal:
+            if action_obj_within_goal and action_obj_above_goal:
                 reward = GOAL_ACHIEVED
 
         return reward
