@@ -43,7 +43,7 @@ OUTPUT_TEMPLATE = json.loads(OUTPUT_TEMPLATE_JSON)
 def strip_debug_info(body):
     """Remove info that's only for our internal use (e.g., for debugging)"""
     for obj in body['objects']:
-        obj.pop('info', None)
+        clean_object(obj)
     for goal_key in ('domain_list', 'type_list', 'task_list', 'info_list'):
         body['goal'].pop(goal_key, None)
     if 'metadata' in body['goal']:
@@ -55,6 +55,7 @@ def strip_debug_info(body):
 
 def clean_object(obj):
     """Remove properties we do not want TA1s to have access to."""
+    obj.pop('info', None)
     obj.pop('dimensions', None)
     obj.pop('intphys_option', None)
     if 'shows' in obj:
@@ -100,7 +101,6 @@ def write_scene(name, scene):
 
     for object_config in body['objects']:
         wrap_with_json_no_indent(object_config, ['info', 'materials', 'salientMaterials'])
-        clean_object(object_config)
 
     with open(name, 'w') as out:
         # PrettyJsonEncoder doesn't work with json.dump so use json.dumps here instead.
