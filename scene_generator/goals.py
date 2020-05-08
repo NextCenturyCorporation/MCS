@@ -1123,7 +1123,7 @@ class GravityGoal(IntPhysGoal):
         return [], objs + scenery, []
 
     def _create_random_ramp(self) -> Tuple[ramps.Ramp, bool, List[Dict[str, Any]]]:
-        material_name = random.choice(materials.OCCLUDER_MATERIALS)
+        material_name = random.choice(materials.OCCLUDER_MATERIALS)[0]
         x_position_percent = random_real(0, 1)
         left_to_right = random.choice((True, False))
         ramp_type, ramp_objs = ramps.create_ramp(material_name, x_position_percent, left_to_right)
