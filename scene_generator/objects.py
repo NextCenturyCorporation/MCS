@@ -1850,8 +1850,8 @@ OCCLUDER_INSTANCE_NORMAL = [{
             "z": 0
         }
     }, {
-        "stepBegin": 35,
-        "stepEnd": 40,
+        "stepBegin": 55,
+        "stepEnd": 60,
         "vector": {
             "x": 0,
             "y": 0.25,
@@ -1875,8 +1875,8 @@ OCCLUDER_INSTANCE_NORMAL = [{
             "z": 0
         }
     }, {
-        "stepBegin": 35,
-        "stepEnd": 36,
+        "stepBegin": 55,
+        "stepEnd": 56,
         "vector": {
             "x": 0,
             "y": 45,
@@ -1920,8 +1920,8 @@ OCCLUDER_INSTANCE_NORMAL = [{
             "z": 0
         }
     }, {
-        "stepBegin": 35,
-        "stepEnd": 40,
+        "stepBegin": 55,
+        "stepEnd": 60,
         "vector": {
             "x": 0,
             "y": 0.25,
@@ -1967,8 +1967,8 @@ OCCLUDER_INSTANCE_SIDEWAYS = [{
             "z": 0
         }
     }, {
-        "stepBegin": 25,
-        "stepEnd": 28,
+        "stepBegin": 35,
+        "stepEnd": 38,
         "vector": {
             "x": 0,
             "y": 0.25,

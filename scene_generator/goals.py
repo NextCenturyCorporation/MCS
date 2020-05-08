@@ -754,7 +754,7 @@ class IntPhysGoal(Goal, ABC):
         return []
 
     def _get_last_step(self) -> int:
-        return 40
+        return 60
 
     def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         goal = copy.deepcopy(self.TEMPLATE)
@@ -1081,6 +1081,8 @@ class GravityGoal(IntPhysGoal):
     def __init__(self):
         super(GravityGoal, self).__init__()
 
+    def _get_last_step(self) -> int:
+        return 40
 
     def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         goal = super(GravityGoal, self).get_config(goal_objects, all_objects)
@@ -1170,6 +1172,9 @@ class ObjectPermanenceGoal(IntPhysGoal):
     def __init__(self):
         super(ObjectPermanenceGoal, self).__init__()
 
+    def _get_last_step(self) -> int:
+        return 60
+
 
 class ShapeConstancyGoal(IntPhysGoal):
     TEMPLATE = {
@@ -1183,6 +1188,9 @@ class ShapeConstancyGoal(IntPhysGoal):
 
     def __init__(self):
         super(ShapeConstancyGoal, self).__init__()
+
+    def _get_last_step(self) -> int:
+        return 60
 
 
 class SpatioTemporalContinuityGoal(IntPhysGoal):
