@@ -367,7 +367,7 @@ class Goal(ABC):
             info_set |= frozenset(obj.get('info', []))
         goal['info_list'] = list(info_set)
 
-    def get_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Get the goal configuration. goal_objects is the objects required for the goal (as returned from
         compute_objects)."""
         pass
@@ -1082,8 +1082,8 @@ class GravityGoal(IntPhysGoal):
         super(GravityGoal, self).__init__()
 
 
-    def get_config(self, goal_objects):
-        goal = super(GravityGoal, self).get_config(goal_objects)
+    def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+        goal = super(GravityGoal, self).get_config(goal_objects, all_objects)
         scenery_type = f'scenery_objects_{self._scenery_count}'
         goal['type_list'].append(scenery_type)
         return goal
