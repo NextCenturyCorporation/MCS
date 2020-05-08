@@ -822,8 +822,8 @@ class IntPhysGoal(Goal, ABC):
                     occluder_fits = True
                     break
             if occluder_fits:
-                occluder_objs = objects.create_occluder(random.choice(non_wall_materials),
-                                                        random.choice(materials.METAL_MATERIALS),
+                occluder_objs = objects.create_occluder(random.choice(non_wall_materials)[0],
+                                                        random.choice(materials.METAL_MATERIALS)[0],
                                                         occluder_x, x_scale)
                 occluder_list.extend(occluder_objs)
                 break
@@ -853,8 +853,8 @@ class IntPhysGoal(Goal, ABC):
                     occluder_fits = True
                     break
             if occluder_fits:
-                occluder_objs = objects.create_occluder(random.choice(non_wall_materials),
-                                                        random.choice(materials.METAL_MATERIALS),
+                occluder_objs = objects.create_occluder(random.choice(non_wall_materials)[0],
+                                                        random.choice(materials.METAL_MATERIALS)[0],
                                                         occluder_x, x_scale)
                 occluder_list.extend(occluder_objs)
             else:
@@ -1059,8 +1059,8 @@ class IntPhysGoal(Goal, ABC):
                     max_scale = scale
             x_scale = random_real(min_scale, max_scale, MIN_RANDOM_INTERVAL)
             adjusted_x = x_position * factor
-            occluder_pair = objects.create_occluder(random.choice(non_wall_materials),
-                                                    random.choice(materials.METAL_MATERIALS),
+            occluder_pair = objects.create_occluder(random.choice(non_wall_materials)[0],
+                                                    random.choice(materials.METAL_MATERIALS)[0],
                                                     adjusted_x, x_scale, True)
             occluders.extend(occluder_pair)
         self._add_occluders(occluders, num_occluders - num_objects, non_wall_materials)

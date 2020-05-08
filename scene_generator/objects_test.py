@@ -15,8 +15,8 @@ def test_create_occluder_normal():
     # make sure we got them back in the right order
     assert wall['type'] == 'cube'
     assert pole['type'] == 'cylinder'
-    assert wall['material'] == wall_material
-    assert pole['material'] == pole_material
+    assert wall['materials'] == [wall_material]
+    assert pole['materials'] == [pole_material]
     for x in wall, pole:
         assert x['shows'][0]['position']['x'] == x_position
 
@@ -33,8 +33,8 @@ def test_create_occluder_sideways():
     # make sure we got them back in the right order
     assert wall['type'] == 'cube'
     assert pole['type'] == 'cylinder'
-    assert wall['material'] == wall_material
-    assert pole['material'] == pole_material
+    assert wall['materials'] == [wall_material]
+    assert pole['materials'] == [pole_material]
 
     
 def test_get_all_object_defs():
