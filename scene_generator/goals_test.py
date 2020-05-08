@@ -465,7 +465,6 @@ def test__get_objects_falling_down():
 
 
 def test_mcs_209():
-    from objects_intphys_v1 import OBJECTS_INTPHYS
     obj_defs = OBJECTS_INTPHYS.copy()
     random.shuffle(obj_defs)
     obj_def = next((od for od in obj_defs if 'rotation' in od))

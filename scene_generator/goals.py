@@ -13,10 +13,9 @@ from typing import Tuple, List, Dict, Any, Iterable
 import geometry
 import materials
 import objects
-import objects_intphys_v1
 import ramps
 from geometry import random_position, random_rotation, calc_obj_pos, POSITION_DIGITS
-from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJECTS_PICKUPABLE_LISTS
+from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJECTS_PICKUPABLE_LISTS, OBJECTS_INTPHYS
 from separating_axis_theorem import sat_entry
 from optimal_path import generatepath
 from numpy.lib.scimath import sqrt
@@ -932,7 +931,6 @@ class IntPhysGoal(Goal, ABC):
             for loc in exclusions[location]:
                 available_locations.discard(loc)
             # TODO: later this will get imported from objects (or somewhere else)
-            from objects_intphys_v1 import OBJECTS_INTPHYS
             obj_def = finalize_object_definition(random.choice(OBJECTS_INTPHYS))
             remaining_intphys_options = obj_def['intphys_options'].copy()
             while len(remaining_intphys_options) > 0:
@@ -1037,7 +1035,7 @@ class IntPhysGoal(Goal, ABC):
                     'z': random.choice((IntPhysGoal.OBJECT_NEAR_Z, IntPhysGoal.OBJECT_FAR_Z))
                 }
             }
-            obj_def = random.choice(objects_intphys_v1.OBJECTS_INTPHYS)
+            obj_def = random.choice(OBJECTS_INTPHYS)
             obj = instantiate_object(obj_def, location)
             obj['shows'][0]['stepBegin'] = random.randint(IntPhysGoal.EARLIEST_ACTION_START_STEP,
                                                           IntPhysGoal.LATEST_ACTION_START_STEP)
