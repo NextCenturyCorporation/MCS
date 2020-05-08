@@ -42,16 +42,16 @@ def test_clean_object():
             'z': 42
         },
         'intphys_option': 'stuff',
-        'shows': {
+        'shows': [{
             'stepBegin': 0,
             'bounding_box': 'dummy'
-        }
+        }]
     }
     expected = {
         'id': 'thing1',
-        'shows': {
+        'shows': [{
             'stepBegin': 0
-        }
+        }]
     }
     clean_object(obj)
     assert obj == expected

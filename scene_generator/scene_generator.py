@@ -41,12 +41,26 @@ OUTPUT_TEMPLATE_JSON = """
 OUTPUT_TEMPLATE = json.loads(OUTPUT_TEMPLATE_JSON)
 
 
+def strip_debug_info(body):
+    """Remove info that's only for our internal use (e.g., for debugging)"""
+    for obj in body['objects']:
+        clean_object(obj)
+    for goal_key in ('domain_list', 'type_list', 'task_list', 'info_list'):
+        body['goal'].pop(goal_key, None)
+    if 'metadata' in body['goal']:
+        metadata = body['goal']['metadata']
+        for target_key in ('target', 'target_1', 'target_2'):
+            if target_key in metadata:
+                metadata[target_key].pop('info', None)
+
+
 def clean_object(obj):
     """Remove properties we do not want TA1s to have access to."""
+    obj.pop('info', None)
     obj.pop('dimensions', None)
     obj.pop('intphys_option', None)
     if 'shows' in obj:
-        obj['shows'].pop('bounding_box', None)
+        obj['shows'][0].pop('bounding_box', None)
 
 
 def generate_scene(name, goal_type, find_path):
@@ -64,7 +78,19 @@ def generate_scene(name, goal_type, find_path):
 
 
 def generate_file(name, goal_type, find_path):
+    """Create a new scenery file and a debug file. name must end with '.json'."""
     body = generate_scene(name, goal_type, find_path)
+    
+    debug_name = name[:-5] + '-debug.json'
+    write_scene(debug_name, body)
+    strip_debug_info(body)
+    write_scene(name, body)
+    
+
+def write_scene(name, scene):
+    # Use PrettyJsonNoIndent on some of the lists and dicts in the output body because the indentation from the normal
+    # Python JSON module spaces them out far too much.
+    body = copy.deepcopy(scene)
 
     # Use PrettyJsonNoIndent on some of the lists and dicts in the output body because the indentation from the normal
     # Python JSON module spaces them out far too much.
@@ -76,7 +102,6 @@ def generate_file(name, goal_type, find_path):
 
     for object_config in body['objects']:
         wrap_with_json_no_indent(object_config, ['info', 'materials', 'salientMaterials'])
-        clean_object(object_config)
 
     with open(name, 'w') as out:
         # PrettyJsonEncoder doesn't work with json.dump so use json.dumps here instead.
