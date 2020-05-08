@@ -340,7 +340,7 @@ def create_ramp(material_string: str, x_position_percent: float, left_to_right =
         obj['id'] += str(uuid.uuid4())
         obj['materials'].append(material_string)
         obj['shows'][0]['position']['x'] += x_term
-        if left_to_right:
+        if not left_to_right:
             obj['shows'][0]['position']['x'] *= -1
             obj['shows'][0]['rotation']['z'] *= -1
         ramp.append(obj)
