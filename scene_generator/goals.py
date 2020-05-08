@@ -801,10 +801,19 @@ class IntPhysGoal(Goal, ABC):
             for _ in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
                 paired_obj = obj_list[i]
                 min_scale = min(max(paired_obj['shows'][0]['scale']['x'], IntPhysGoal.MIN_OCCLUDER_SCALE), IntPhysGoal.MAX_OCCLUDER_SCALE)
+                x_scale = random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
                 position_by_step = paired_obj['intphys_option']['position_by_step']
-                position_index = random.randrange(len(position_by_step))
-                paired_x = position_by_step[position_index]
                 paired_z = paired_obj['shows'][0]['position']['z']
+                factor = IntPhysGoal.NEAR_X_PERSPECTIVE_FACTOR \
+                    if paired_z == IntPhysGoal.OBJECT_NEAR_Z \
+                       else IntPhysGoal.FAR_X_PERSPECTIVE_FACTOR
+                min_paired_x = -3 + x_scale / 2
+                max_paired_x = 3 - x_scale / 2
+                while True:
+                    position_index = random.randrange(len(position_by_step))
+                    paired_x = position_by_step[position_index]
+                    if min_paired_x <= paired_x <= max_paired_x:
+                        break
                 if paired_z == IntPhysGoal.OBJECT_NEAR_Z:
                     occluder_x = paired_x * IntPhysGoal.NEAR_X_PERSPECTIVE_FACTOR
                 elif paired_z == IntPhysGoal.OBJECT_FAR_Z:
@@ -812,7 +821,6 @@ class IntPhysGoal(Goal, ABC):
                 else:
                     logging.warning(f'Unsupported z for occluder target "{paired_obj["id"]}": {paired_z}')
                     occluder_x = paired_x
-                x_scale = random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
                 found_collision = False
                 for other_occluder in occluder_list:
                     if geometry.occluders_too_close(other_occluder, occluder_x, x_scale):
