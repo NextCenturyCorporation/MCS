@@ -879,8 +879,11 @@ class IntPhysGoal(Goal, ABC):
     def _get_num_objects_moving_across(self):
         return random.choices((1, 2, 3), (40, 30, 30))[0]
 
-    def _get_objects_moving_across(self, wall_material_name, valid_positions: Iterable = frozenset(Position),
-                                   positions=None) -> List[Dict[str, Any]]:
+    def _get_objects_moving_across(self, wall_material_name: str,
+                                   valid_positions: Iterable = frozenset(Position),
+                                   positions = None,
+                                   valid_defs: List[Dict[str, Any]] = objects_intphys_v1.OBJECTS_INTPHYS) \
+                                   -> List[Dict[str, Any]]:
         """Get objects to move across the scene. Returns objects."""
         num_objects = self._get_num_objects_moving_across()
         # The following x positions start outside the camera viewport
@@ -924,8 +927,7 @@ class IntPhysGoal(Goal, ABC):
             available_locations.remove(location)
             for loc in exclusions[location]:
                 available_locations.discard(loc)
-            # TODO: later this will get imported from objects (or somewhere else)
-            obj_def = finalize_object_definition(random.choice(OBJECTS_INTPHYS))
+            obj_def = finalize_object_definition(random.choice(valid_defs))
             remaining_intphys_options = obj_def['intphys_options'].copy()
             while len(remaining_intphys_options) > 0:
                 intphys_option = random.choice(remaining_intphys_options)
@@ -1143,7 +1145,17 @@ class GravityGoal(IntPhysGoal):
         else:
             valid_positions = set(IntPhysGoal.Position)
         positions = []
-        objs = self._get_objects_moving_across(wall_material_name, valid_positions, positions)
+        # TODO: later this will get imported from objects (or somewhere else)
+        from objects_intphys_v1 import OBJECTS_INTPHYS
+        # only want intphys_options where y == 0
+        valid_defs = []
+        for obj_def in OBJECTS_INTPHYS:
+            new_od = obj_def.copy()
+            valid_intphys = [intphys for intphys in obj_def['intphys_options'] if intphys['y'] == 0]
+            if len(valid_intphys) != 0:
+                new_od['intphys_options'] = valid_intphys
+                valid_defs.append(new_od)
+        objs = self._get_objects_moving_across(wall_material_name, valid_positions, positions, valid_defs)
         # adjust height to be on top of ramp if necessary
         for i in range(len(objs)):
             obj = objs[i]
