@@ -45,7 +45,7 @@ def clean_object(obj):
     obj.pop('dimensions', None)
     obj.pop('intphys_option', None)
     if 'shows' in obj:
-        obj['shows'].pop('bounding_box', None)
+        obj['shows'][0].pop('bounding_box', None)
 
 
 def generate_scene(name, goal_type, find_path):
@@ -68,7 +68,7 @@ def generate_file(name, goal_type, find_path):
     
     # Use PrettyJsonNoIndent on some of the lists and dicts in the output body because the indentation from the normal
     # Python JSON module spaces them out far too much.
-    wrap_with_json_no_indent(body['goal'], ['domain_list', 'type_list', 'task_list', 'info_list'])
+    wrap_with_json_no_indent(body['goal'], ['action_list', 'domain_list', 'type_list', 'task_list', 'info_list'])
     if 'metadata' in body['goal']:
         for target in ['target', 'target_1', 'target_2']:
             if target in body['goal']['metadata']:
@@ -106,7 +106,7 @@ def generate_fileset(prefix, count, goal_type, find_path, stop_on_error):
         try:
             generate_file(name, goal_type, find_path)
             count -= 1
-        except (RuntimeError, ZeroDivisionError, TypeError) as e:
+        except (RuntimeError, ZeroDivisionError, TypeError, goals.GoalException, ValueError) as e:
             if stop_on_error:
                 raise
             logging.warning(f'failed to create a file: {e}')
