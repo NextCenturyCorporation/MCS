@@ -13,6 +13,7 @@ def test_random_real():
     # need to multiply by 10 and mod by 1 instead of 0.1 to avoid weird roundoff
     assert n * 10 % 1 < 1e-8
 
+
 def test_instantiate_object():
     object_def = {
         'type': str(uuid.uuid4()),
@@ -213,9 +214,8 @@ def test_RetrievalGoal_get_goal():
         'type': 'sphere'
     }
     object_list = [obj]
-    goal = goal_obj.get_config(object_list)
-# TODO: re-enable when merged with MCS-199
-#    assert goal['info_list'] == obj['info']
+    goal = goal_obj.get_config(object_list, object_list)
+    assert goal['info_list'] == obj['info']
     target = goal['metadata']['target']
     assert target['id'] == obj['id']
     assert target['info'] == obj['info']
@@ -227,7 +227,6 @@ def test_Goal_duplicate_object():
         'id': str(uuid.uuid4()),
         'info': [str(uuid.uuid4())],
         'type': 'sphere',
-        "info": ["tiny", "ball"],
         "choose": [{
             "mass": 0.25,
             "materialCategory": ["plastic"],
@@ -278,7 +277,7 @@ def test_Goal_duplicate_object():
     object_list = [sphere]
     bounding_rect = [[{'x': 3.7346446609406727, 'y': 0, 'z': 4.23}, {'x': 3.77, 'y': 0, 'z': 4.265355339059328}, {'x': 3.8053553390593273, 'y': 0, 'z': 4.23}, {'x': 3.77, 'y': 0, 'z': 4.194644660940673}], [{'x': 3.846, 'y': 0, 'z': -1.9685000000000001}, {'x': 3.846, 'y': 0, 'z': -2.4715000000000003}, {'x': 3.1340000000000003, 'y': 0, 'z': -2.4715000000000003}, {'x': 3.1340000000000003, 'y': 0, 'z': -1.9685000000000001}]]
     performer_position = {'x': 0.77, 'y': 0, 'z': -0.41}
-    goal = goal_obj.get_config(object_list)
+    goal = goal_obj.get_config(object_list, object_list)
     empty = goal_obj.add_objects(object_list, bounding_rect, performer_position)
     assert empty is None
 
@@ -393,9 +392,8 @@ def test_TraversalGoal_get_goal():
         'type': 'sphere'
     }
     object_list = [obj]
-    goal = goal_obj.get_config(object_list)
-# TODO: re-enable when merged with MCS-199
-#    assert goal['info_list'] == obj['info']
+    goal = goal_obj.get_config(object_list, object_list)
+    assert goal['info_list'] == obj['info']
     target = goal['metadata']['target']
     assert target['id'] == obj['id']
     assert target['info'] == obj['info']
@@ -404,13 +402,13 @@ def test_TraversalGoal_get_goal():
 def test_TransferralGoal_get_goal_argcount():
     goal_obj = TransferralGoal()
     with pytest.raises(ValueError):
-        goal_obj.get_config(['one object'])
+        goal_obj.get_config(['one object'], ['one object'])
 
 
 def test_TransferralGoal_get_goal_argvalid():
     goal_obj = TransferralGoal()
     with pytest.raises(ValueError):
-        goal_obj.get_config([{'attributes': ['']}, {'attributes': ['']}])
+        goal_obj.get_config([{'attributes': ['']}, {'attributes': ['']}], [])
 
 
 def test__generate_transferral_goal():
@@ -433,11 +431,11 @@ def test__generate_transferral_goal():
         'type': 'changing_table',
         'stackTarget': True
     }
-    goal = goal_obj.get_config([pickupable_obj, other_obj])
+    obj_list = [pickupable_obj, other_obj]
+    goal = goal_obj.get_config(obj_list, obj_list)
 
-# TODO: re-enable when merged with MCS-199
-#    combined_info = goal['info_list']
-#    assert set(combined_info) == {pickupable_info_item, other_info_item, extra_info}
+    combined_info = goal['info_list']
+    assert set(combined_info) == {pickupable_info_item, other_info_item, extra_info}
 
     target1 = goal['metadata']['target_1']
     assert target1['id'] == pickupable_id
@@ -468,12 +466,11 @@ def test__generate_transferral_goal_with_nonstackable_goal():
     other_obj = {
         'id': other_id,
         'info': [other_info_item, extra_info],
-        'attributes': [],
         'type': 'changing_table',
         'attributes': []
     }
     with pytest.raises(ValueError) as excinfo:
-        goal = goal_obj.get_config([pickupable_obj, other_obj])
+        goal = goal_obj.get_config([pickupable_obj, other_obj], [])
     assert "second object must be" in str(excinfo.value)
 
 
@@ -493,7 +490,7 @@ def test_IntPhysGoal__get_objects_and_occluders_moving_across():
     wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)
     objs, occluders = goal._get_objects_and_occluders_moving_across(wall_material[0])
     assert 1 <= len(objs) <= 3
-    assert 1 <= len(occluders) <= 4 * 2 # each occluder is actually 2 objects
+    assert 1 <= len(occluders) <= 4 * 2  # each occluder is actually 2 objects
     # the first occluder should be at one of the positions for the first object
     occluder_x = occluders[0]['shows'][0]['position']['x']
     first_obj = objs[0]
@@ -548,11 +545,11 @@ def test_IntPhysGoal__compute_scenery():
 
 
 def test__object_collision():
-    r1 = geometry.calc_obj_coords(-1.97,1.75, .55,.445, -.01, .445, 315)
-    r2 = geometry.calc_obj_coords(-3.04,.85,1.75,.05,0,0,315)
-    assert sat_entry(r1,r2)
-    r3 = geometry.calc_obj_coords(.04,.85,1.75,.05,0,0,315)
-    assert not sat_entry(r1,r3)
+    r1 = geometry.calc_obj_coords(-1.97, 1.75, .55, .445, -.01, .445, 315)
+    r2 = geometry.calc_obj_coords(-3.04, .85, 1.75, .05, 0, 0, 315)
+    assert sat_entry(r1, r2)
+    r3 = geometry.calc_obj_coords(.04, .85, 1.75, .05, 0, 0, 315)
+    assert not sat_entry(r1, r3)
 
 
 def test__get_objects_falling_down():
@@ -573,7 +570,6 @@ def test__get_objects_falling_down():
 
 
 def test_mcs_209():
-    from objects_intphys_v1 import OBJECTS_INTPHYS
     obj_defs = OBJECTS_INTPHYS.copy()
     random.shuffle(obj_defs)
     obj_def = next((od for od in obj_defs if 'rotation' in od))

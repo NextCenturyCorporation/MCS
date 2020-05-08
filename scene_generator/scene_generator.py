@@ -8,6 +8,7 @@ import os.path
 import json
 import copy
 import random
+from typing import Dict, Any, List
 
 from materials import *
 from pretty_json.pretty_json import PrettyJsonEncoder, PrettyJsonNoIndent

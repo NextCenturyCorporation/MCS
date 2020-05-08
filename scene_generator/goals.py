@@ -13,10 +13,9 @@ from typing import Any, Dict, Iterable, List, Optional, AnyStr, Tuple
 import geometry
 import materials
 import objects
-import objects_intphys_v1
 import ramps
 from geometry import random_position, random_rotation, calc_obj_pos, POSITION_DIGITS
-from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJECTS_PICKUPABLE_LISTS
+from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE, OBJECTS_PICKUPABLE_LISTS, OBJECTS_INTPHYS
 from separating_axis_theorem import sat_entry
 from optimal_path import generatepath
 import math
@@ -37,6 +36,18 @@ WALL_PROBS = [60, 20, 10, 10]
 MIN_RANDOM_INTERVAL = 0.05
 
 
+def set_enclosed_info(goal, *targets):
+    """If any target is in an enclosed area, add 'target_enclosed' to the
+    'type_list' of the goal. If any target isn't in an enclosed area,
+    add 'target_not_enclosed'.
+    """
+    type_list = goal['type_list']
+    for target in targets:
+        enclosed_string = 'target_not_enclosed' if target.get('locationParent', None) is None else 'target_enclosed'
+        if not enclosed_string in type_list:
+            type_list.append(enclosed_string)
+
+            
 def random_real(a, b, step=MIN_RANDOM_INTERVAL):
     """Return a random real number N where a <= N <= b and N - a is divisible by step."""
     steps = int((b - a) / step)
@@ -302,15 +313,10 @@ class Goal(ABC):
         walls = self.generate_walls(body['wallMaterial'], body['performerStart']['position'],
                                     bounding_rects)
         body['objects'] = all_objects + walls
-        body['goal'] = self.get_config(goal_objects)
+        body['goal'] = self.get_config(goal_objects, all_objects + walls)
         if find_path:
-            body['answer']['actions'] = self.find_optimal_path(goal_objects, all_objects+walls)
+            body['answer']['actions'] = self.find_optimal_path(goal_objects, all_objects + walls)
 
-        info_set = set(body['goal'].get('info_list', []))
-        for obj in body['objects']:
-            info_set |= frozenset(obj.get('info', []))
-        body['goal']['info_list'] = list(info_set)
-        
         return body
 
     def compute_performer_start(self) -> Dict[str, Dict[str, float]]:
@@ -355,7 +361,12 @@ class Goal(ABC):
                 obj = instantiate_object(object_def, obj_location)
                 object_list.append(obj)
 
-    @abstractmethod
+    def _update_goal_info_list(self, goal, all_objects):
+        info_set = set(goal.get('info_list', []))
+        for obj in all_objects:
+            info_set |= frozenset(obj.get('info', []))
+        goal['info_list'] = list(info_set)
+
     def get_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Get the goal configuration. goal_objects is the objects required for the goal (as returned from
         compute_objects)."""
@@ -390,7 +401,7 @@ class EmptyGoal(Goal):
     def compute_objects(self, wall_material_name):
         return [], [], []
 
-    def get_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         return {}
 
     def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
@@ -465,17 +476,18 @@ class RetrievalGoal(InteractionGoal):
     def __init__(self):
         super(RetrievalGoal, self).__init__()
 
-    def get_config(self, objects: List[Dict[str, Any]]) -> Dict[str, Any]:
-        if len(objects) < 1:
+    def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+        if len(goal_objects) < 1:
             raise ValueError('need at least 1 object for this goal')
 
-        target = objects[0]
+        target = goal_objects[0]
         self._target = target
         self._targets.append(target)
         target_image_obj = find_image_for_object(target)
         image_name = find_image_name(target)
 
         goal = copy.deepcopy(self.TEMPLATE)
+        set_enclosed_info(goal, target)
         goal['metadata'] = {
             'target': {
                 'id': target['id'],
@@ -486,6 +498,7 @@ class RetrievalGoal(InteractionGoal):
             }
         }
         goal['description'] = f'Find and pick up the {target["info"][-1]}.'
+        self._update_goal_info_list(goal, all_objects)
         return goal
 
     def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
@@ -530,10 +543,10 @@ class TransferralGoal(InteractionGoal):
         target2 = instantiate_object(target2_def, target2_location)
         self._goal_objects = [target2]
 
-    def get_config(self, objects: List[Dict[str, Any]]) -> Dict[str, Any]:
-        if len(objects) < 2:
-            raise ValueError(f'need at least 2 objects for this goal, was given {len(objects)}')
-        target1, target2 = objects[0:2]
+    def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+        if len(goal_objects) < 2:
+            raise ValueError(f'need at least 2 objects for this goal, was given {len(goal_objects)}')
+        target1, target2 = goal_objects[0:2]
         if not target1.get('pickupable', False):
             raise ValueError(f'first object must be "pickupable": {target1}')
         if not target2.get('stackTarget', False):
@@ -548,7 +561,7 @@ class TransferralGoal(InteractionGoal):
         image_name2 = find_image_name(target2)
 
         goal: Dict[str, Any] = copy.deepcopy(self.TEMPLATE)
-        both_info = set(target1['info'] + target2['info'])
+        set_enclosed_info(goal, target1, target2)
         goal['metadata'] = {
             'target_1': {
                 'id': target1['id'],
@@ -568,6 +581,7 @@ class TransferralGoal(InteractionGoal):
         }
         goal['description'] = f'Find and pick up the {target1["info"][-1]} and move it {relationship.value} ' \
             f'the {target2["info"][-1]}.'
+        self._update_goal_info_list(goal, all_objects)
         return goal
 
     def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
@@ -639,17 +653,17 @@ class TraversalGoal(Goal):
 
         return [target], all_objects, bounding_rects
 
-    def get_config(self, objects: List[Dict[str, Any]]) -> Dict[str, Any]:
-        if len(objects) < 1:
+    def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+        if len(goal_objects) < 1:
             raise ValueError('need at least 1 object for this goal')
 
-        target = objects[0]
+        target = goal_objects[0]
 
         target_image_obj = find_image_for_object(target)
         image_name = find_image_name(target)
 
         goal: Dict[str, Any] = copy.deepcopy(self.TEMPLATE)
-        goal['info_list'] = target['info']
+        set_enclosed_info(goal, target)
         goal['metadata'] = {
             'target': {
                 'id': target['id'],
@@ -660,6 +674,7 @@ class TraversalGoal(Goal):
             }
         }
         goal['description'] = f'Find the {target["info"][-1]} and move near it.'
+        self._update_goal_info_list(goal, all_objects)
         return goal
 
     def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
@@ -741,13 +756,14 @@ class IntPhysGoal(Goal, ABC):
     def _get_last_step(self) -> int:
         return 40
 
-    def get_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         goal = copy.deepcopy(self.TEMPLATE)
         goal['last_step'] = self._get_last_step()
         goal['action_list'] = [['Pass']] * goal['last_step']
         scenery_type = f'scenery_objects_{self._scenery_count}'
         goal['type_list'].append(scenery_type)
 
+        self._update_goal_info_list(goal, all_objects)
         return goal
 
     def generate_walls(self, material: str, performer_position: Dict[str, Any],
@@ -935,7 +951,6 @@ class IntPhysGoal(Goal, ABC):
             for loc in exclusions[location]:
                 available_locations.discard(loc)
             # TODO: later this will get imported from objects (or somewhere else)
-            from objects_intphys_v1 import OBJECTS_INTPHYS
             obj_def = finalize_object_definition(random.choice(OBJECTS_INTPHYS))
             remaining_intphys_options = obj_def['intphys_options'].copy()
             while len(remaining_intphys_options) > 0:
@@ -1040,7 +1055,7 @@ class IntPhysGoal(Goal, ABC):
                     'z': random.choice((IntPhysGoal.OBJECT_NEAR_Z, IntPhysGoal.OBJECT_FAR_Z))
                 }
             }
-            obj_def = random.choice(objects_intphys_v1.OBJECTS_INTPHYS)
+            obj_def = random.choice(OBJECTS_INTPHYS)
             obj = instantiate_object(obj_def, location)
             obj['shows'][0]['stepBegin'] = random.randint(IntPhysGoal.EARLIEST_ACTION_START_STEP,
                                                           IntPhysGoal.LATEST_ACTION_START_STEP)
