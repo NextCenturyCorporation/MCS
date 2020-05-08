@@ -1,6 +1,7 @@
 import logging
 import math
 import random
+from typing import List, Dict, Any, Optional
 
 from separating_axis_theorem import sat_entry
 
@@ -34,19 +35,19 @@ ORIGIN_LOCATION = {
 }
 
 
-def random_position():
+def random_position() -> float:
     return round(random.uniform(MIN_PERFORMER_POSITION, MAX_PERFORMER_POSITION), POSITION_DIGITS)
 
 
-def random_rotation():
+def random_rotation() -> float:
     return random.choice(VALID_ROTATIONS)
 
 
-def dot_prod_dict(v1, v2):
+def dot_prod_dict(v1: Dict[Any, float], v2: Dict[Any, float]) -> float:
     return sum(v1[key] * v2.get(key, 0) for key in v1)
 
 
-def collision(test_rect, test_point):
+def collision(test_rect: List[Dict[str, float]], test_point: Dict[str, float]):
     # assuming test_rect is an array4 points in order... Clockwise or CCW does not matter
     # points are {x,y,z}
     #
@@ -65,7 +66,8 @@ def collision(test_rect, test_point):
                 0 <= dot_prod_dict(vectorBC, vectorBM) <= dot_prod_dict(vectorBC, vectorBC))
 
 
-def calc_obj_coords(position_x, position_z, delta_x, delta_z, offset_x, offset_z, rotation):
+def calc_obj_coords(position_x: float, position_z: float, delta_x: float, delta_z: float, offset_x: float,
+                    offset_z: float, rotation: float) -> List[Dict[str, float]]:
     """Returns an array of points that are the coordinates of the rectangle """
     radian_amount = math.pi * (2 - rotation / 180.0)
 
@@ -84,12 +86,12 @@ def calc_obj_coords(position_x, position_z, delta_x, delta_z, offset_x, offset_z
     return [a, b, c, d]
 
 
-def point_within_room(point):
+def point_within_room(point: Dict[str, float]) -> bool:
     return ROOM_DIMENSIONS[0][0] <= point['x'] <= ROOM_DIMENSIONS[0][1] and \
            ROOM_DIMENSIONS[1][0] <= point['z'] <= ROOM_DIMENSIONS[1][1]
 
 
-def rect_within_room(rect):
+def rect_within_room(rect: List[Dict[str, float]]) -> bool:
     """Return True iff the passed rectangle is entirely within the bounds of the room."""
     return all(point_within_room(point) for point in rect)
 
@@ -137,14 +139,14 @@ object in the frame, None otherwise."""
     return None
 
 
-def can_enclose(objectA, objectB):
+def can_enclose(objectA: Dict[str, Any], objectB: Dict[str, Any]) -> bool:
     """Return True iff each 'dimensions' of objectA is >= the corresponding dimension of objectB."""
     return objectA['dimensions']['x'] >= objectB['dimensions']['x'] and \
         objectA['dimensions']['y'] >= objectB['dimensions']['y'] and \
         objectA['dimensions']['z'] >= objectB['dimensions']['z']
 
 
-def can_contain(container, target):
+def can_contain(container: Dict[str, Any], target: Dict[str, Any]) -> Optional[int]:
     """Return the index of the container's "enclosed_areas" that the target fits in, or None if it does not fit in any
      of them (or if the container doesn't have any). Does not try any rotation to see if that makes it possible to
      fit."""
