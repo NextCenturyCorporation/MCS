@@ -497,8 +497,8 @@ def test_IntPhysGoal__get_objects_and_occluders_moving_across():
         pass
 
     goal = TestGoal()
-    wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)
-    objs, occluders = goal._get_objects_and_occluders_moving_across(wall_material[0])
+    wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)[0]
+    objs, occluders = goal._get_objects_and_occluders_moving_across(wall_material)
     assert 1 <= len(objs) <= 3
     assert 1 <= len(occluders) <= 4 * 2  # each occluder is actually 2 objects
     # the first occluder should be at one of the positions for the first object
@@ -513,7 +513,7 @@ def test_IntPhysGoal__get_objects_and_occluders_moving_across():
             break
     assert found
     for o in occluders:
-        assert o['material'] != wall_material[0]
+        assert o['materials'] != wall_material
 
 
 def test_IntPhysGoal__get_objects_moving_across_collisions():
@@ -521,8 +521,8 @@ def test_IntPhysGoal__get_objects_moving_across_collisions():
         pass
 
     goal = TestGoal()
-    wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)
-    objs = goal._get_objects_moving_across(wall_material[0])
+    wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)[0]
+    objs = goal._get_objects_moving_across(wall_material)
     for obj in objs:
         x = obj['shows'][0]['position']['x']
         z = obj['shows'][0]['position']['z']
@@ -538,10 +538,7 @@ def test_IntPhysGoal__get_objects_moving_across_collisions():
 
     
 def test_IntPhysGoal__compute_scenery():
-    class TestGoal(IntPhysGoal):
-        pass
-
-    goal = TestGoal()
+    goal = GravityGoal()
     # There's a good chance of no scenery, so keep trying until we get
     # some.
     scenery_generated = False
@@ -567,8 +564,8 @@ def test__get_objects_falling_down():
         pass
 
     goal = TestGoal()
-    wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)
-    obj_list, occluders = goal._get_objects_falling_down(wall_material[0])
+    wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)[0]
+    obj_list, occluders = goal._get_objects_falling_down(wall_material)
     assert 1 <= len(obj_list) <= 2
     assert len(obj_list)*2 <= len(occluders) <= 4
     for obj in obj_list:

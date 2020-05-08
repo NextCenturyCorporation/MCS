@@ -367,7 +367,7 @@ class Goal(ABC):
             info_set |= frozenset(obj.get('info', []))
         goal['info_list'] = list(info_set)
 
-    def get_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Get the goal configuration. goal_objects is the objects required for the goal (as returned from
         compute_objects)."""
         pass
@@ -754,14 +754,12 @@ class IntPhysGoal(Goal, ABC):
         return []
 
     def _get_last_step(self) -> int:
-        return 40
+        return 60
 
     def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         goal = copy.deepcopy(self.TEMPLATE)
         goal['last_step'] = self._get_last_step()
         goal['action_list'] = [['Pass']] * goal['last_step']
-        scenery_type = f'scenery_objects_{self._scenery_count}'
-        goal['type_list'].append(scenery_type)
 
         self._update_goal_info_list(goal, all_objects)
         return goal
@@ -770,33 +768,6 @@ class IntPhysGoal(Goal, ABC):
                        bounding_rects: List[List[Dict[str, float]]]) -> List[Dict[str, Any]]:
         """IntPhys goals have no walls."""
         return []
-
-    def _compute_scenery(self):
-        MIN_VISIBLE_X = -6.5
-        MAX_VISIBLE_X = 6.5
-
-        def random_x():
-            return random_real(MIN_VISIBLE_X, MAX_VISIBLE_X, MIN_RANDOM_INTERVAL)
-
-        def random_z():
-            # Choose values so the scenery is placed between the
-            # moving IntPhys objects and the room's wall.
-            return random_real(3.25, 4.95, MIN_RANDOM_INTERVAL)
-
-        self._scenery_count = random.choices((0, 1, 2, 3, 4, 5),
-                                             (50, 10, 10, 10, 10, 10))[0]
-        scenery_list = []
-        scenery_rects = []
-        scenery_defs = objects.OBJECTS_MOVEABLE + objects.OBJECTS_IMMOBILE
-        for i in range(self._scenery_count):
-            location = None
-            while location is None:
-                scenery_def = finalize_object_definition(random.choice(scenery_defs))
-                location = calc_obj_pos(geometry.ORIGIN, scenery_rects, scenery_def,
-                                        random_x, random_z)
-            scenery_obj = instantiate_object(scenery_def, location)
-            scenery_list.append(scenery_obj)
-        return scenery_list
 
     def compute_objects(self, wall_material_name):
         func = random.choice([IntPhysGoal._get_objects_and_occluders_moving_across, IntPhysGoal._get_objects_falling_down])
@@ -851,8 +822,8 @@ class IntPhysGoal(Goal, ABC):
                     occluder_fits = True
                     break
             if occluder_fits:
-                occluder_objs = objects.create_occluder(random.choice(non_wall_materials),
-                                                        random.choice(materials.METAL_MATERIALS),
+                occluder_objs = objects.create_occluder(random.choice(non_wall_materials)[0],
+                                                        random.choice(materials.METAL_MATERIALS)[0],
                                                         occluder_x, x_scale)
                 occluder_list.extend(occluder_objs)
                 break
@@ -882,8 +853,8 @@ class IntPhysGoal(Goal, ABC):
                     occluder_fits = True
                     break
             if occluder_fits:
-                occluder_objs = objects.create_occluder(random.choice(non_wall_materials),
-                                                        random.choice(materials.METAL_MATERIALS),
+                occluder_objs = objects.create_occluder(random.choice(non_wall_materials)[0],
+                                                        random.choice(materials.METAL_MATERIALS)[0],
                                                         occluder_x, x_scale)
                 occluder_list.extend(occluder_objs)
             else:
@@ -905,13 +876,16 @@ class IntPhysGoal(Goal, ABC):
         occluders = self._get_occluders(new_objects, wall_material_name)
         return new_objects, occluders
 
+    def _get_num_objects_moving_across(self):
+        return random.choices((1, 2, 3), (40, 30, 30))[0]
+
     def _get_objects_moving_across(self, wall_material_name: str,
                                    valid_positions: Iterable = frozenset(Position),
                                    positions = None,
                                    valid_defs: List[Dict[str, Any]] = objects_intphys_v1.OBJECTS_INTPHYS) \
                                    -> List[Dict[str, Any]]:
         """Get objects to move across the scene. Returns objects."""
-        num_objects = random.choices((1, 2, 3), (40, 30, 30))[0]
+        num_objects = self._get_num_objects_moving_across()
         # The following x positions start outside the camera viewport
         # and ensure that objects with scale 1 don't collide with each
         # other.
@@ -1087,8 +1061,8 @@ class IntPhysGoal(Goal, ABC):
                     max_scale = scale
             x_scale = random_real(min_scale, max_scale, MIN_RANDOM_INTERVAL)
             adjusted_x = x_position * factor
-            occluder_pair = objects.create_occluder(random.choice(non_wall_materials),
-                                                    random.choice(materials.METAL_MATERIALS),
+            occluder_pair = objects.create_occluder(random.choice(non_wall_materials)[0],
+                                                    random.choice(materials.METAL_MATERIALS)[0],
                                                     adjusted_x, x_scale, True)
             occluders.extend(occluder_pair)
         self._add_occluders(occluders, num_occluders - num_objects, non_wall_materials)
@@ -1109,13 +1083,49 @@ class GravityGoal(IntPhysGoal):
     def __init__(self):
         super(GravityGoal, self).__init__()
 
+    def _get_last_step(self) -> int:
+        return 40
+
+    def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+        goal = super(GravityGoal, self).get_config(goal_objects, all_objects)
+        scenery_type = f'scenery_objects_{self._scenery_count}'
+        goal['type_list'].append(scenery_type)
+        return goal
+
+    def _compute_scenery(self):
+        MIN_VISIBLE_X = -6.5
+        MAX_VISIBLE_X = 6.5
+
+        def random_x():
+            return random_real(MIN_VISIBLE_X, MAX_VISIBLE_X, MIN_RANDOM_INTERVAL)
+
+        def random_z():
+            # Choose values so the scenery is placed between the
+            # moving IntPhys objects and the room's wall.
+            return random_real(3.25, 4.95, MIN_RANDOM_INTERVAL)
+
+        self._scenery_count = random.choices((0, 1, 2, 3, 4, 5),
+                                             (50, 10, 10, 10, 10, 10))[0]
+        scenery_list = []
+        scenery_rects = []
+        scenery_defs = objects.OBJECTS_MOVEABLE + objects.OBJECTS_IMMOBILE
+        for i in range(self._scenery_count):
+            location = None
+            while location is None:
+                scenery_def = finalize_object_definition(random.choice(scenery_defs))
+                location = calc_obj_pos(geometry.ORIGIN, scenery_rects, scenery_def,
+                                        random_x, random_z)
+            scenery_obj = instantiate_object(scenery_def, location)
+            scenery_list.append(scenery_obj)
+        return scenery_list
+
     def compute_objects(self, wall_material_name: str) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
         objs = self._get_ramp_and_objects(wall_material_name)
         scenery = self._compute_scenery()
         return [], objs + scenery, []
 
     def _create_random_ramp(self) -> Tuple[ramps.Ramp, bool, List[Dict[str, Any]]]:
-        material_name = random.choice(materials.OCCLUDER_MATERIALS)
+        material_name = random.choice(materials.OCCLUDER_MATERIALS)[0]
         x_position_percent = random_real(0, 1)
         left_to_right = random.choice((True, False))
         ramp_type, ramp_objs = ramps.create_ramp(material_name, x_position_percent, left_to_right)
@@ -1174,6 +1184,9 @@ class ObjectPermanenceGoal(IntPhysGoal):
     def __init__(self):
         super(ObjectPermanenceGoal, self).__init__()
 
+    def _get_last_step(self) -> int:
+        return 60
+
 
 class ShapeConstancyGoal(IntPhysGoal):
     TEMPLATE = {
@@ -1187,6 +1200,9 @@ class ShapeConstancyGoal(IntPhysGoal):
 
     def __init__(self):
         super(ShapeConstancyGoal, self).__init__()
+
+    def _get_last_step(self) -> int:
+        return 60
 
 
 class SpatioTemporalContinuityGoal(IntPhysGoal):
@@ -1214,11 +1230,11 @@ class SpatioTemporalContinuityGoal(IntPhysGoal):
     def _get_num_objects_moving_across(self):
         return random.choices((2, 3), (60, 40))[0]
 
+
 # Note: the names of all goal classes in GOAL_TYPES must end in "Goal" or choose_goal will not work
 GOAL_TYPES = {
     'interaction': [RetrievalGoal, TransferralGoal, TraversalGoal],
-# uncomment intphys goals when they have objects
-#    'intphys': [GravityGoal, ObjectPermanenceGoal, ShapeConstancyGoal, SpatioTemporalContinuityGoal]
+    'intphys': [GravityGoal, ObjectPermanenceGoal, ShapeConstancyGoal, SpatioTemporalContinuityGoal]
 }
 
 
@@ -1232,7 +1248,6 @@ overall type, or EmptyGoal if goal_type is None"""
             return random.choice(GOAL_TYPES[goal_type])()
         else:
             class_name = goal_type + 'Goal'
-            print(globals().keys())
             klass = globals()[class_name]
             return klass()
 
