@@ -3304,7 +3304,7 @@ OBJECTS_INTPHYS = [{
     },
     "scale": {
         "x": 0.75,
-        "y": 0.75,
+        "y": 0.375, # Must be half
         "z": 0.75
     },
     "intphys_options": [{
@@ -3508,7 +3508,7 @@ OBJECTS_INTPHYS = [{
     },
     "scale": {
         "x": 0.5,
-        "y": 0.5,
+        "y": 0.25, # Must be half
         "z": 0.5
     },
     "intphys_options": [{
@@ -3710,7 +3710,7 @@ OBJECTS_INTPHYS = [{
     },
     "scale": {
         "x": 0.25,
-        "y": 0.125,
+        "y": 0.125, # Must be half
         "z": 0.25
     },
     "intphys_options": [{
