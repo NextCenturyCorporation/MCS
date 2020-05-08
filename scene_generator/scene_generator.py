@@ -54,6 +54,7 @@ def strip_debug_info(body):
 
 
 def generate_file(name, goal_type, find_path):
+    """Create a new scenery file and a debug file. name must end with '.json'."""
     global OUTPUT_TEMPLATE
     body = copy.deepcopy(OUTPUT_TEMPLATE)
     body['name'] = os.path.basename(name)
@@ -65,7 +66,8 @@ def generate_file(name, goal_type, find_path):
     goal_obj = goals.choose_goal(goal_type)
     goal_obj.update_body(body, find_path)
 
-    write_scene(name + '-debug', body)
+    debug_name = name[:-5] + '-debug.json'
+    write_scene(debug_name, body)
     strip_debug_info(body)
     write_scene(name, body)
     
