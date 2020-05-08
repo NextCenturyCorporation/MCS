@@ -723,6 +723,7 @@ class IntPhysGoal(Goal, ABC):
 
     def __init__(self):
         super(IntPhysGoal, self).__init__()
+        self._last_step = 60
 
     def compute_performer_start(self) -> Dict[str, Dict[str, float]]:
         if self._performer_start is None:
@@ -753,12 +754,9 @@ class IntPhysGoal(Goal, ABC):
             List[Dict[str, Any]]:
         return []
 
-    def _get_last_step(self) -> int:
-        return 60
-
     def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         goal = copy.deepcopy(self.TEMPLATE)
-        goal['last_step'] = self._get_last_step()
+        goal['last_step'] = self._last_step
         goal['action_list'] = [['Pass']] * goal['last_step']
 
         self._update_goal_info_list(goal, all_objects)
@@ -893,6 +891,7 @@ class IntPhysGoal(Goal, ABC):
                                    valid_defs: List[Dict[str, Any]] = OBJECTS_INTPHYS) \
                                    -> List[Dict[str, Any]]:
         """Get objects to move across the scene. Returns objects."""
+        self._last_step = 60
         num_objects = self._get_num_objects_moving_across()
         # The following x positions start outside the camera viewport
         # and ensure that objects with scale 1 don't collide with each
@@ -1005,6 +1004,7 @@ class IntPhysGoal(Goal, ABC):
         return new_objects
 
     def _get_objects_falling_down(self, wall_material_name):
+        self._last_step = 40
         MAX_POSITION_TRIES = 100
         MIN_OCCLUDER_SEPARATION = 0.5
         # min scale for each occluder / 2, plus 0.5 separation
@@ -1090,9 +1090,6 @@ class GravityGoal(IntPhysGoal):
 
     def __init__(self):
         super(GravityGoal, self).__init__()
-
-    def _get_last_step(self) -> int:
-        return 40
 
     def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         goal = super(GravityGoal, self).get_config(goal_objects, all_objects)
@@ -1191,9 +1188,6 @@ class ObjectPermanenceGoal(IntPhysGoal):
     def __init__(self):
         super(ObjectPermanenceGoal, self).__init__()
 
-    def _get_last_step(self) -> int:
-        return 60
-
 
 class ShapeConstancyGoal(IntPhysGoal):
     TEMPLATE = {
@@ -1208,9 +1202,6 @@ class ShapeConstancyGoal(IntPhysGoal):
     def __init__(self):
         super(ShapeConstancyGoal, self).__init__()
 
-    def _get_last_step(self) -> int:
-        return 60
-
 
 class SpatioTemporalContinuityGoal(IntPhysGoal):
     TEMPLATE = {
@@ -1224,9 +1215,6 @@ class SpatioTemporalContinuityGoal(IntPhysGoal):
 
     def __init__(self):
         super(SpatioTemporalContinuityGoal, self).__init__()
-
-    def _get_last_step(self) -> int:
-        return 60
 
     def _get_num_occluders(self):
         return random.choices((2, 3, 4), (40, 30, 30))[0]
