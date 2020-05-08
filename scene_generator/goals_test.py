@@ -477,7 +477,7 @@ def test_mcs_209():
         pass
 
     goal = TestGoal()
-    objs, _ = goal._get_objects_moving_across('dummy')
+    objs = goal._get_objects_moving_across('dummy')
     for obj in objs:
         assert obj['shows'][0]['stepBegin'] == obj['forces'][0]['stepBegin']
 
