@@ -1814,22 +1814,22 @@ OBJECTS_IMMOBILE = [{
 }]
 
 OCCLUDER_INSTANCE_NORMAL = [{
-    "id": "occluder_wall_uuid",
+    "id": "occluder_wall_",
     "type": "cube",
     "kinematic": True,
     "structure": True,
     "mass": 100,
-    "material": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "materials": ["AI2-THOR/Materials/Walls/DrywallBeige"],
     "shows": [{
         "stepBegin": 0,
         "position": {
             "x": 0,
-            "y": 0.625,
+            "y": 0.75,
             "z": 1
         },
         "scale": {
             "x": 1,
-            "y": 1.25,
+            "y": 1.5,
             "z": 0.1
         }
     }],
@@ -1850,8 +1850,8 @@ OCCLUDER_INSTANCE_NORMAL = [{
             "z": 0
         }
     }, {
-        "stepBegin": 35,
-        "stepEnd": 40,
+        "stepBegin": 55,
+        "stepEnd": 60,
         "vector": {
             "x": 0,
             "y": 0.25,
@@ -1875,8 +1875,8 @@ OCCLUDER_INSTANCE_NORMAL = [{
             "z": 0
         }
     }, {
-        "stepBegin": 35,
-        "stepEnd": 36,
+        "stepBegin": 55,
+        "stepEnd": 56,
         "vector": {
             "x": 0,
             "y": 45,
@@ -1884,12 +1884,12 @@ OCCLUDER_INSTANCE_NORMAL = [{
         }
     }]
 }, {
-    "id": "occluder_pole_uuid",
+    "id": "occluder_pole_",
     "type": "cylinder",
     "kinematic": True,
     "structure": True,
     "mass": 100,
-    "material": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "materials": ["AI2-THOR/Materials/Walls/DrywallBeige"],
     "shows": [{
         "stepBegin": 0,
         "position": {
@@ -1920,8 +1920,8 @@ OCCLUDER_INSTANCE_NORMAL = [{
             "z": 0
         }
     }, {
-        "stepBegin": 35,
-        "stepEnd": 40,
+        "stepBegin": 55,
+        "stepEnd": 60,
         "vector": {
             "x": 0,
             "y": 0.25,
@@ -1931,22 +1931,22 @@ OCCLUDER_INSTANCE_NORMAL = [{
 }]
 
 OCCLUDER_INSTANCE_SIDEWAYS = [{
-    "id": "occluder_wall_uuid",
+    "id": "occluder_wall_",
     "type": "cube",
     "kinematic": True,
     "structure": True,
     "mass": 100,
-    "material": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "materials": ["AI2-THOR/Materials/Walls/DrywallBeige"],
     "shows": [{
         "stepBegin": 0,
         "position": {
             "x": 0,
-            "y": 0.625,
+            "y": 0.75,
             "z": 1
         },
         "scale": {
             "x": 1,
-            "y": 1.25,
+            "y": 1.5,
             "z": 0.1
         }
     }],
@@ -1967,8 +1967,8 @@ OCCLUDER_INSTANCE_SIDEWAYS = [{
             "z": 0
         }
     }, {
-        "stepBegin": 25,
-        "stepEnd": 28,
+        "stepBegin": 35,
+        "stepEnd": 38,
         "vector": {
             "x": 0,
             "y": 0.25,
@@ -1992,8 +1992,8 @@ OCCLUDER_INSTANCE_SIDEWAYS = [{
             "z": 0
         }
     }, {
-        "stepBegin": 29,
-        "stepEnd": 30,
+        "stepBegin": 39,
+        "stepEnd": 40,
         "vector": {
             "x": 45,
             "y": 0,
@@ -2001,12 +2001,12 @@ OCCLUDER_INSTANCE_SIDEWAYS = [{
         }
     }]
 }, {
-    "id": "occluder_pole_uuid",
+    "id": "occluder_pole_",
     "type": "cylinder",
     "kinematic": True,
     "structure": True,
     "mass": 100,
-    "material": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "materials": ["AI2-THOR/Materials/Walls/DrywallBeige"],
     "shows": [{
         "stepBegin": 0,
         "position": {
@@ -2042,8 +2042,8 @@ OCCLUDER_INSTANCE_SIDEWAYS = [{
             "z": 0
         }
     }, {
-        "stepBegin": 25,
-        "stepEnd": 28,
+        "stepBegin": 35,
+        "stepEnd": 38,
         "vector": {
             "x": 0.25,
             "y": 0,
@@ -3304,7 +3304,7 @@ OBJECTS_INTPHYS = [{
     },
     "scale": {
         "x": 0.75,
-        "y": 0.75,
+        "y": 0.375, # Must be half
         "z": 0.75
     },
     "intphys_options": [{
@@ -3508,7 +3508,7 @@ OBJECTS_INTPHYS = [{
     },
     "scale": {
         "x": 0.5,
-        "y": 0.5,
+        "y": 0.25, # Must be half
         "z": 0.5
     },
     "intphys_options": [{
@@ -3710,7 +3710,7 @@ OBJECTS_INTPHYS = [{
     },
     "scale": {
         "x": 0.25,
-        "y": 0.125,
+        "y": 0.125, # Must be half
         "z": 0.25
     },
     "intphys_options": [{
@@ -3894,11 +3894,11 @@ def create_occluder(wall_material: str, pole_material: str, x_position: float, x
     WALL = 0
     POLE = 1
 
-    occluder[WALL]['id'] = str(uuid.uuid4())
-    occluder[POLE]['id'] = str(uuid.uuid4())
+    occluder[WALL]['id'] = occluder[WALL]['id'] + str(uuid.uuid4())
+    occluder[POLE]['id'] = occluder[POLE]['id'] + str(uuid.uuid4())
 
-    occluder[WALL]['material'] = wall_material
-    occluder[POLE]['material'] = pole_material
+    occluder[WALL]['materials'] = [wall_material]
+    occluder[POLE]['materials'] = [pole_material]
 
     occluder[WALL]['shows'][0]['position']['x'] = x_position
     occluder[POLE]['shows'][0]['position']['x'] = x_position

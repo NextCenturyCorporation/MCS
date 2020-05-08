@@ -754,7 +754,7 @@ class IntPhysGoal(Goal, ABC):
         return []
 
     def _get_last_step(self) -> int:
-        return 40
+        return 60
 
     def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         goal = copy.deepcopy(self.TEMPLATE)
@@ -830,8 +830,8 @@ class IntPhysGoal(Goal, ABC):
                     occluder_fits = True
                     break
             if occluder_fits:
-                occluder_objs = objects.create_occluder(random.choice(non_wall_materials),
-                                                        random.choice(materials.METAL_MATERIALS),
+                occluder_objs = objects.create_occluder(random.choice(non_wall_materials)[0],
+                                                        random.choice(materials.METAL_MATERIALS)[0],
                                                         occluder_x, x_scale)
                 occluder_list.extend(occluder_objs)
                 break
@@ -861,8 +861,8 @@ class IntPhysGoal(Goal, ABC):
                     occluder_fits = True
                     break
             if occluder_fits:
-                occluder_objs = objects.create_occluder(random.choice(non_wall_materials),
-                                                        random.choice(materials.METAL_MATERIALS),
+                occluder_objs = objects.create_occluder(random.choice(non_wall_materials)[0],
+                                                        random.choice(materials.METAL_MATERIALS)[0],
                                                         occluder_x, x_scale)
                 occluder_list.extend(occluder_objs)
             else:
@@ -887,8 +887,11 @@ class IntPhysGoal(Goal, ABC):
     def _get_num_objects_moving_across(self):
         return random.choices((1, 2, 3), (40, 30, 30))[0]
 
-    def _get_objects_moving_across(self, wall_material_name, valid_positions: Iterable = frozenset(Position),
-                                   positions=None) -> List[Dict[str, Any]]:
+    def _get_objects_moving_across(self, wall_material_name: str,
+                                   valid_positions: Iterable = frozenset(Position),
+                                   positions = None,
+                                   valid_defs: List[Dict[str, Any]] = OBJECTS_INTPHYS) \
+                                   -> List[Dict[str, Any]]:
         """Get objects to move across the scene. Returns objects."""
         num_objects = self._get_num_objects_moving_across()
         # The following x positions start outside the camera viewport
@@ -932,8 +935,7 @@ class IntPhysGoal(Goal, ABC):
             available_locations.remove(location)
             for loc in exclusions[location]:
                 available_locations.discard(loc)
-            # TODO: later this will get imported from objects (or somewhere else)
-            obj_def = finalize_object_definition(random.choice(OBJECTS_INTPHYS))
+            obj_def = finalize_object_definition(random.choice(valid_defs))
             remaining_intphys_options = obj_def['intphys_options'].copy()
             while len(remaining_intphys_options) > 0:
                 intphys_option = random.choice(remaining_intphys_options)
@@ -1067,8 +1069,8 @@ class IntPhysGoal(Goal, ABC):
                     max_scale = scale
             x_scale = random_real(min_scale, max_scale, MIN_RANDOM_INTERVAL)
             adjusted_x = x_position * factor
-            occluder_pair = objects.create_occluder(random.choice(non_wall_materials),
-                                                    random.choice(materials.METAL_MATERIALS),
+            occluder_pair = objects.create_occluder(random.choice(non_wall_materials)[0],
+                                                    random.choice(materials.METAL_MATERIALS)[0],
                                                     adjusted_x, x_scale, True)
             occluders.extend(occluder_pair)
         self._add_occluders(occluders, num_occluders - num_objects, non_wall_materials)
@@ -1089,6 +1091,8 @@ class GravityGoal(IntPhysGoal):
     def __init__(self):
         super(GravityGoal, self).__init__()
 
+    def _get_last_step(self) -> int:
+        return 40
 
     def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         goal = super(GravityGoal, self).get_config(goal_objects, all_objects)
@@ -1129,7 +1133,7 @@ class GravityGoal(IntPhysGoal):
         return [], objs + scenery, []
 
     def _create_random_ramp(self) -> Tuple[ramps.Ramp, bool, List[Dict[str, Any]]]:
-        material_name = random.choice(materials.OCCLUDER_MATERIALS)
+        material_name = random.choice(materials.OCCLUDER_MATERIALS)[0]
         x_position_percent = random_real(0, 1)
         left_to_right = random.choice((True, False))
         ramp_type, ramp_objs = ramps.create_ramp(material_name, x_position_percent, left_to_right)
@@ -1149,7 +1153,16 @@ class GravityGoal(IntPhysGoal):
         else:
             valid_positions = set(IntPhysGoal.Position)
         positions = []
-        objs = self._get_objects_moving_across(wall_material_name, valid_positions, positions)
+        # TODO: later this will get imported from objects (or somewhere else)
+        # only want intphys_options where y == 0
+        valid_defs = []
+        for obj_def in OBJECTS_INTPHYS:
+            new_od = obj_def.copy()
+            valid_intphys = [intphys for intphys in obj_def['intphys_options'] if intphys['y'] == 0]
+            if len(valid_intphys) != 0:
+                new_od['intphys_options'] = valid_intphys
+                valid_defs.append(new_od)
+        objs = self._get_objects_moving_across(wall_material_name, valid_positions, positions, valid_defs)
         # adjust height to be on top of ramp if necessary
         for i in range(len(objs)):
             obj = objs[i]
@@ -1178,6 +1191,9 @@ class ObjectPermanenceGoal(IntPhysGoal):
     def __init__(self):
         super(ObjectPermanenceGoal, self).__init__()
 
+    def _get_last_step(self) -> int:
+        return 60
+
 
 class ShapeConstancyGoal(IntPhysGoal):
     TEMPLATE = {
@@ -1191,6 +1207,9 @@ class ShapeConstancyGoal(IntPhysGoal):
 
     def __init__(self):
         super(ShapeConstancyGoal, self).__init__()
+
+    def _get_last_step(self) -> int:
+        return 60
 
 
 class SpatioTemporalContinuityGoal(IntPhysGoal):
