@@ -528,10 +528,7 @@ def test_IntPhysGoal__get_objects_moving_across_collisions():
 
     
 def test_IntPhysGoal__compute_scenery():
-    class TestGoal(IntPhysGoal):
-        pass
-
-    goal = TestGoal()
+    goal = GravityGoal()
     # There's a good chance of no scenery, so keep trying until we get
     # some.
     scenery_generated = False
