@@ -2,7 +2,10 @@ from geometry import ORIGIN
 from goals import *
 import pytest
 import uuid
+import math
 
+from geometry import POSITION_DIGITS
+from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
 
 def test_random_real():
     n = random_real(0, 1, 0.1)
@@ -279,6 +282,108 @@ def test_Goal_duplicate_object():
     assert empty is None
 
 
+def test_parse_path_section():
+    path_section = ((0, 0), (0.1, 0.1))
+    expected_actions = [{
+        'action': 'RotateLook',
+        'params': {
+            'rotation': -45.0,
+            'horizon': 0.0
+        }
+    }, {
+        'action': 'MoveAhead',
+        'params': {
+            'amount': round(math.sqrt(2 * 0.1**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
+        }
+    }]
+    actions, new_heading = parse_path_section(path_section, 0)
+    assert actions == expected_actions
+
+
+def test_get_navigation_action():
+    expected_actions = [{
+        'action': 'RotateLook',
+        'params': {
+            'rotation': -45.0,
+            'horizon': 0.0
+        }
+    }, {
+        'action': 'MoveAhead',
+        'params': {
+            'amount': round(math.sqrt(2 * 0.1**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
+        }
+    }]
+    start = {
+        'position': {
+            'x': 0,
+            'y': 0,
+            'z': 0
+        },
+        'rotation': {
+            'y': 0
+        }
+    }
+    goal_object = {
+        'shows': [{
+            'position': {
+                'x': 0.1,
+                'y': 0,
+                'z': 0.1
+            }
+        }]
+    }
+    actions = get_navigation_actions(start, goal_object, [])
+    assert actions == expected_actions
+    
+    
+def test_get_navigation_action_with_locationParent():
+    expected_actions = [{
+        'action': 'RotateLook',
+        'params': {
+            'rotation': -45.0,
+            'horizon': 0.0
+        }
+    }, {
+        'action': 'MoveAhead',
+        'params': {
+            'amount': round(math.sqrt(2 * 0.1**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
+        }
+    }]
+    start = {
+        'position': {
+            'x': 0,
+            'y': 0,
+            'z': 0
+        },
+        'rotation': {
+            'y': 0
+        }
+    }
+    container_object = {
+        'id': 'container1',
+        'shows': [{
+            'position': {
+                'x': 0.1,
+                'y': 0,
+                'z': 0.1
+            }
+        }]
+    }
+    goal_object = {
+        'id': 'object1',
+        'locationParent': 'container1',
+        'shows': [{
+            'position': {
+                'x': -0.1,
+                'y': 0,
+                'z': 0
+            }
+        }]
+    }
+    actions = get_navigation_actions(start, goal_object, [container_object, goal_object])
+    assert actions == expected_actions
+    
+    
 def test_TraversalGoal_get_goal():
     goal_obj = TraversalGoal()
     obj = {

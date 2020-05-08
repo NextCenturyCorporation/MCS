@@ -8,6 +8,7 @@ import os.path
 import json
 import copy
 import random
+from typing import Dict, Any, List
 
 from materials import *
 from pretty_json.pretty_json import PrettyJsonEncoder, PrettyJsonNoIndent
@@ -65,12 +66,6 @@ def generate_scene(name, goal_type, find_path):
 def generate_file(name, goal_type, find_path):
     body = generate_scene(name, goal_type, find_path)
 
-    return body
-
-
-def generate_file(name, goal_type, find_path):
-    body = generate_scene(name, goal_type, find_path)
-
     # Use PrettyJsonNoIndent on some of the lists and dicts in the output body because the indentation from the normal
     # Python JSON module spaces them out far too much.
     wrap_with_json_no_indent(body['goal'], ['domain_list', 'type_list', 'task_list', 'info_list'])
@@ -88,13 +83,13 @@ def generate_file(name, goal_type, find_path):
         out.write(json.dumps(body, cls=PrettyJsonEncoder, indent=2))
 
 
-def wrap_with_json_no_indent(data, prop_list):
+def wrap_with_json_no_indent(data: Dict[str, Any], prop_list: List[str]):
     for prop in prop_list:
         if prop in data:
             data[prop] = PrettyJsonNoIndent(data[prop])
 
 
-def generate_fileset(prefix, count, goal_type, find_path, stop_on_error):
+def generate_fileset(prefix: str, count: int, goal_type: str, find_path: bool, stop_on_error: bool) -> None:
     # skip existing files
     index = 1
     dirname = os.path.dirname(prefix)
