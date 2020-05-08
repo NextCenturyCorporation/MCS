@@ -771,7 +771,7 @@ class IntPhysGoal(Goal, ABC):
             for _ in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
                 paired_obj = obj_list[i]
                 min_scale = min(max(paired_obj['shows'][0]['scale']['x'], IntPhysGoal.MIN_OCCLUDER_SCALE), IntPhysGoal.MAX_OCCLUDER_SCALE)
-                position_by_step = paired_obj['intphys_options']['position_by_step']
+                position_by_step = paired_obj['intphys_option']['position_by_step']
                 position_index = random.randrange(len(position_by_step))
                 paired_x = position_by_step[position_index]
                 paired_z = paired_obj['shows'][0]['position']['z']
