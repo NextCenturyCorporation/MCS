@@ -882,7 +882,7 @@ class IntPhysGoal(Goal, ABC):
     def _get_objects_moving_across(self, wall_material_name: str,
                                    valid_positions: Iterable = frozenset(Position),
                                    positions = None,
-                                   valid_defs: List[Dict[str, Any]] = objects_intphys_v1.OBJECTS_INTPHYS) \
+                                   valid_defs: List[Dict[str, Any]] = OBJECTS_INTPHYS) \
                                    -> List[Dict[str, Any]]:
         """Get objects to move across the scene. Returns objects."""
         num_objects = self._get_num_objects_moving_across()
@@ -1146,7 +1146,6 @@ class GravityGoal(IntPhysGoal):
             valid_positions = set(IntPhysGoal.Position)
         positions = []
         # TODO: later this will get imported from objects (or somewhere else)
-        from objects_intphys_v1 import OBJECTS_INTPHYS
         # only want intphys_options where y == 0
         valid_defs = []
         for obj_def in OBJECTS_INTPHYS:
