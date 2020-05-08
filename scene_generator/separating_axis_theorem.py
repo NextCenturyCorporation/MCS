@@ -22,6 +22,8 @@
 # Copied from https://github.com/JuantAldea/Separating-Axis-Theorem/blob/master/python/separation_axis_theorem.py
 
 # Rewriting things to handle our dict format
+from typing import List, Dict
+
 
 def normalize(v):
     from math import sqrt
@@ -89,7 +91,7 @@ def separating_axis_theorem(vertices_a, vertices_b):
     return True
 
 
-def sat_entry(rect_a, rect_b):
+def sat_entry(rect_a: List[Dict[str, float]], rect_b: List[Dict[str, float]]):
     """takes our dict points and converts them to this format"""
     vertices_a = [(rect_a[i]['x'], rect_a[i]['z']) for i in range(len(rect_a))]
     vertices_b = [(rect_b[i]['x'], rect_b[i]['z']) for i in range(len(rect_b))]

@@ -107,13 +107,13 @@ def write_scene(name, scene):
         out.write(json.dumps(body, cls=PrettyJsonEncoder, indent=2))
 
 
-def wrap_with_json_no_indent(data, prop_list):
+def wrap_with_json_no_indent(data: Dict[str, Any], prop_list: List[str]):
     for prop in prop_list:
         if prop in data:
             data[prop] = PrettyJsonNoIndent(data[prop])
 
 
-def generate_fileset(prefix, count, goal_type, find_path, stop_on_error):
+def generate_fileset(prefix: str, count: int, goal_type: str, find_path: bool, stop_on_error: bool) -> None:
     # skip existing files
     index = 1
     dirname = os.path.dirname(prefix)
