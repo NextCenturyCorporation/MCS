@@ -259,7 +259,7 @@ def get_navigation_actions(start_location: Dict[str, Any], goal_object: Dict[str
     """Get the action sequence for going from performer start to the goal_object."""
     performer = (start_location['position']['x'], start_location['position']['z'])
     if 'locationParent' in goal_object:
-        parent = next((obj for obj in all_objects if obj['id'] == goal_object['locationParent']))
+        parent = next((obj for obj in all_objects if obj['id'] == goal_object['locationParent']), None)
         if parent is None:
             raise GoalException(f'object {goal_object["id"]} has parent {goal_object["locationParent"]} that does not exist')
         goal_object = parent
