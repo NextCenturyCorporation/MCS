@@ -710,7 +710,10 @@ class IntPhysGoal(Goal, ABC):
     # post-falling actions, meaning that the objects can appear and
     # begin falling anytime between steps 13 and 20, inclusive.
     EARLIEST_ACTION_START_STEP = 13
-    LATEST_ACTION_START_STEP = 20
+    LATEST_ACTION_FALL_DOWN_START_STEP = 20
+    LAST_STEP_MOVE_ACROSS = 60
+    LAST_STEP_FALL_DOWN = 40
+    LAST_STEP_RAMP = 40
     DEFAULT_TORQUE = {
         'stepBegin': 0,
         'stepEnd': 60,
@@ -723,7 +726,6 @@ class IntPhysGoal(Goal, ABC):
 
     def __init__(self):
         super(IntPhysGoal, self).__init__()
-        self._last_step = 60
 
     def compute_performer_start(self) -> Dict[str, Dict[str, float]]:
         if self._performer_start is None:
@@ -769,6 +771,7 @@ class IntPhysGoal(Goal, ABC):
 
     def compute_objects(self, wall_material_name):
         func = random.choice([IntPhysGoal._get_objects_and_occluders_moving_across, IntPhysGoal._get_objects_falling_down])
+        self._last_step = IntPhysGoal.LAST_STEP_FALL_DOWN
         objs, occluders = func(self, wall_material_name)
         return [], objs + occluders, []
 
@@ -878,20 +881,22 @@ class IntPhysGoal(Goal, ABC):
 
     def _get_objects_and_occluders_moving_across(self, wall_material_name: str):
         """Get objects to move across the scene and occluders for them. Returns (objects, occluders) pair."""
-        new_objects = self._get_objects_moving_across(wall_material_name)
+        self._last_step = IntPhysGoal.LAST_STEP_MOVE_ACROSS
+        # Subtract 5 for end occluder movement and rotation
+        new_objects = self._get_objects_moving_across(wall_material_name, self._last_step - 5)
         occluders = self._get_occluders(new_objects, wall_material_name)
         return new_objects, occluders
 
     def _get_num_objects_moving_across(self):
         return random.choices((1, 2, 3), (40, 30, 30))[0]
 
-    def _get_objects_moving_across(self, wall_material_name: str,
+    def _get_objects_moving_across(self, wall_material_name: str, last_action_end_step,
+                                   earliest_action_start_step = EARLIEST_ACTION_START_STEP,
                                    valid_positions: Iterable = frozenset(Position),
                                    positions = None,
                                    valid_defs: List[Dict[str, Any]] = OBJECTS_INTPHYS) \
                                    -> List[Dict[str, Any]]:
         """Get objects to move across the scene. Returns objects."""
-        self._last_step = 60
         num_objects = self._get_num_objects_moving_across()
         # The following x positions start outside the camera viewport
         # and ensure that objects with scale 1 don't collide with each
@@ -983,14 +988,14 @@ class IntPhysGoal(Goal, ABC):
                 max_x = IntPhysGoal.VIEWPORT_LIMIT_FAR + obj_def['scale']['x'] / 2.0 * IntPhysGoal.VIEWPORT_PERSPECTIVE_FACTOR
             filtered_position_by_step = [position for position in new_positions if (abs(position) <= max_x)]
             # set shows.stepBegin
-            min_stepBegin = IntPhysGoal.EARLIEST_ACTION_START_STEP
+            min_step_begin = earliest_action_start_step
             if location in acceleration_ordering and acceleration_ordering[location] in location_assignments:
-                min_stepBegin = location_assignments[acceleration_ordering[location]]['shows'][0]['stepBegin']
-            stepBegin = random.randint(min_stepBegin, 55 - len(filtered_position_by_step))
+                min_step_begin = location_assignments[acceleration_ordering[location]]['shows'][0]['stepBegin']
+            stepBegin = random.randint(min_step_begin, last_action_end_step - len(filtered_position_by_step))
             obj['shows'][0]['stepBegin'] = stepBegin
             obj['forces'] = [{
                 'stepBegin': stepBegin,
-                'stepEnd': 55,
+                'stepEnd': last_action_end_step,
                 'vector': intphys_option['force']
             }]
             if location in (IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR, IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR):
@@ -1004,7 +1009,6 @@ class IntPhysGoal(Goal, ABC):
         return new_objects
 
     def _get_objects_falling_down(self, wall_material_name):
-        self._last_step = 40
         MAX_POSITION_TRIES = 100
         MIN_OCCLUDER_SEPARATION = 0.5
         # min scale for each occluder / 2, plus 0.5 separation
@@ -1042,7 +1046,7 @@ class IntPhysGoal(Goal, ABC):
             obj_def = random.choice(OBJECTS_INTPHYS)
             obj = instantiate_object(obj_def, location)
             obj['shows'][0]['stepBegin'] = random.randint(IntPhysGoal.EARLIEST_ACTION_START_STEP,
-                                                          IntPhysGoal.LATEST_ACTION_START_STEP)
+                                                          IntPhysGoal.LATEST_ACTION_FALL_DOWN_START_STEP)
             object_list.append(obj)
         # place required occluders, then (maybe) some random ones
         num_occluders = 2 if num_objects == 2 else random.choice((1, 2))
@@ -1085,7 +1089,9 @@ class GravityGoal(IntPhysGoal):
         'type_list': ['observation', 'action_none', 'intphys', 'gravity'],
         'task_list': ['choose'],
         'description': '',
-        'metadata': {}
+        'metadata': {
+            'choose': ['plausible', 'implausible']
+        }
     }
 
     def __init__(self):
@@ -1159,7 +1165,8 @@ class GravityGoal(IntPhysGoal):
             if len(valid_intphys) != 0:
                 new_od['intphys_options'] = valid_intphys
                 valid_defs.append(new_od)
-        objs = self._get_objects_moving_across(wall_material_name, valid_positions, positions, valid_defs)
+        self._last_step = IntPhysGoal.LAST_STEP_RAMP
+        objs = self._get_objects_moving_across(wall_material_name, self._last_step, 0, valid_positions, positions, valid_defs)
         # adjust height to be on top of ramp if necessary
         for i in range(len(objs)):
             obj = objs[i]
