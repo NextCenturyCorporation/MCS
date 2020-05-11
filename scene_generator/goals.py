@@ -713,7 +713,9 @@ class IntPhysGoal(Goal, ABC):
     LATEST_ACTION_FALL_DOWN_START_STEP = 20
     LAST_STEP_MOVE_ACROSS = 60
     LAST_STEP_FALL_DOWN = 40
-    LAST_STEP_RAMP = 40
+    LAST_STEP_RAMP = 50
+    LAST_STEP_RAMP_BUFFER = 10
+    RAMP_DOWNWARD_FORCE = -350
     DEFAULT_TORQUE = {
         'stepBegin': 0,
         'stepEnd': 60,
@@ -1166,7 +1168,9 @@ class GravityGoal(IntPhysGoal):
                 new_od['intphys_options'] = valid_intphys
                 valid_defs.append(new_od)
         self._last_step = IntPhysGoal.LAST_STEP_RAMP
-        objs = self._get_objects_moving_across(wall_material_name, self._last_step, 0, valid_positions, positions, valid_defs)
+        # Add a buffer to the ramp's last step to account for extra steps needed by objects moving up the ramps.
+        objs = self._get_objects_moving_across(wall_material_name, self._last_step - IntPhysGoal.LAST_STEP_RAMP_BUFFER,
+                                               0, valid_positions, positions, valid_defs)
         # adjust height to be on top of ramp if necessary
         for i in range(len(objs)):
             obj = objs[i]
@@ -1178,6 +1182,8 @@ class GravityGoal(IntPhysGoal):
                     IntPhysGoal.Position.LEFT_FIRST_NEAR, IntPhysGoal.Position.LEFT_LAST_NEAR,
                     IntPhysGoal.Position.LEFT_FIRST_FAR, IntPhysGoal.Position.LEFT_LAST_FAR):
                 obj['shows'][0]['position']['y'] += ramps.RAMP_OBJECT_HEIGHTS[ramp_type]
+                # Add a downward force to all objects moving down the ramps so that they will move more realistically.
+                obj['forces'][0]['vector']['y'] = obj['mass'] * IntPhysGoal.RAMP_DOWNWARD_FORCE
 
         return ramp_objs + objs
 
