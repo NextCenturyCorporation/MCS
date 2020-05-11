@@ -547,8 +547,9 @@ def test_IntPhysGoal__compute_scenery():
         assert 0 <= len(scenery_list) <= 5
         scenery_generated = len(scenery_list) > 0
         for scenery in scenery_list:
-            assert -6.5 <= scenery['shows'][0]['position']['x'] <= 6.5
-            assert 3.25 <= scenery['shows'][0]['position']['z'] <= 4.95
+            for point in scenery['shows'][0]['bounding_box']:
+                assert -6.5 <= point['x'] <= 6.5
+                assert 3.25 <= point['z'] <= 4.95
 
 
 def test__object_collision():
