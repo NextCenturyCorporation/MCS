@@ -841,10 +841,10 @@ class IntPhysGoal(Goal, ABC):
             else:
                 logging.warning(f'could not fit required occluder at x={occluder_x}')
                 raise GoalException(f'Could not add minimum number of occluders ({num_paired_occluders})')
-        self._add_occluders(occluder_list, num_occluders - num_paired_occluders, non_wall_materials)
+        self._add_occluders(occluder_list, num_occluders - num_paired_occluders, non_wall_materials, False)
         return occluder_list
 
-    def _add_occluders(self, occluder_list, num_to_add, non_wall_materials):
+    def _add_occluders(self, occluder_list, num_to_add, non_wall_materials, sideways):
         """Create additional, non-paired occluders and add them to occluder_list."""
         for _ in range(num_to_add):
             occluder_fits = False
@@ -866,7 +866,7 @@ class IntPhysGoal(Goal, ABC):
             if occluder_fits:
                 occluder_objs = objects.create_occluder(random.choice(non_wall_materials)[0],
                                                         random.choice(materials.METAL_MATERIALS)[0],
-                                                        occluder_x, x_scale)
+                                                        occluder_x, x_scale, sideways)
                 occluder_list.extend(occluder_objs)
             else:
                 logging.debug(f'could not fit occluder at x={occluder_x}')
@@ -1079,7 +1079,7 @@ class IntPhysGoal(Goal, ABC):
                                                     random.choice(materials.METAL_MATERIALS)[0],
                                                     adjusted_x, x_scale, True)
             occluders.extend(occluder_pair)
-        self._add_occluders(occluders, num_occluders - num_objects, non_wall_materials)
+        self._add_occluders(occluders, num_occluders - num_objects, non_wall_materials, True)
 
         return object_list, occluders
 
