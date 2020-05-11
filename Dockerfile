@@ -22,9 +22,9 @@ ARG mcsversion=0.0.6
 WORKDIR /mcs
 
 RUN apt-get update -y && \
-    apt-get install -y git python3.6 python3-pip && \
-    python3.6 -m pip install --upgrade pip setuptools wheel && \
-    python3.6 -m pip install git+https://github.com/NextCenturyCorporation/MCS@${mcsversion}
+    apt-get install -y git python3.8 python3-pip && \
+    python3.8 -m pip install --upgrade pip setuptools wheel && \
+    python3.8 -m pip install git+https://github.com/NextCenturyCorporation/MCS@${mcsversion}
 
 # add ai2thor/unity resources
 ADD https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsversion}/MCS-AI2-THOR-Unity-App-v${mcsversion}.x86_64 /mcs
