@@ -1108,6 +1108,8 @@ class GravityGoal(IntPhysGoal):
     def _compute_scenery(self):
         MIN_VISIBLE_X = -6.5
         MAX_VISIBLE_X = 6.5
+        MIN_Z = 3.25
+        MAX_Z = 4.95
 
         def random_x():
             return random_real(MIN_VISIBLE_X, MAX_VISIBLE_X, MIN_RANDOM_INTERVAL)
@@ -1115,7 +1117,7 @@ class GravityGoal(IntPhysGoal):
         def random_z():
             # Choose values so the scenery is placed between the
             # moving IntPhys objects and the room's wall.
-            return random_real(3.25, 4.95, MIN_RANDOM_INTERVAL)
+            return random_real(MIN_Z, MAX_Z, MIN_RANDOM_INTERVAL)
 
         self._scenery_count = random.choices((0, 1, 2, 3, 4, 5),
                                              (50, 10, 10, 10, 10, 10))[0]
@@ -1128,6 +1130,16 @@ class GravityGoal(IntPhysGoal):
                 scenery_def = finalize_object_definition(random.choice(scenery_defs))
                 location = calc_obj_pos(geometry.ORIGIN, scenery_rects, scenery_def,
                                         random_x, random_z)
+                if location is not None:
+                    # check that the bounds are valid
+                    for point in location['bounding_box']:
+                        x = point['x']
+                        z = point['z']
+                        if x < MIN_VISIBLE_X or x > MAX_VISIBLE_X or \
+                           z < MIN_Z or z > MAX_Z:
+                            # reset location so we try again
+                            location = None
+                            break
             scenery_obj = instantiate_object(scenery_def, location)
             scenery_list.append(scenery_obj)
         return scenery_list
