@@ -281,7 +281,8 @@ def get_navigation_actions(start_location: Dict[str, Any], goal_object: Dict[str
                       in all_objects if object['id'] != goal_object['id']
                       and 'locationParent' not in object)
     path = generatepath(performer, goal, hole_rects)
-
+    if path is None:
+        raise GoalException(f'could not find path to target {goal_object["id"]}')
     actions = []
     current_heading = start_location['rotation']['y']
     for indx in range(len(path)-1):
@@ -421,6 +422,7 @@ class InteractionGoal(Goal, ABC):
 
     def _set_performer_start(self) -> None:
         self._performer_start = self.compute_performer_start()
+        logging.debug(f'performer_start = {self._performer_start}')
 
     def _set_target_def(self) -> None:
         """Chooses a pickupable object since most interaction goals require that."""
@@ -432,6 +434,8 @@ class InteractionGoal(Goal, ABC):
         self._target_location = calc_obj_pos(performer_position, self._bounding_rects, self._target_def)
         if self._target_location is None:
             raise GoalException(f'could not place target object (type={self._target_def["type"]})')
+        logging.debug(f'target location = {self._target_location}')
+        logging.debug(f'bounding_rects = {self._bounding_rects}')
 
     def _set_goal_objects(self) -> None:
         """Set all objects required for the goal other than the target, if any. May update _bounding_rects."""
@@ -606,7 +610,11 @@ class TransferralGoal(InteractionGoal):
         else:
             target = (goal_objects[0]['shows'][0]['position']['x'], goal_objects[0]['shows'][0]['position']['z'])
         goal = (goal_objects[1]['shows'][0]['position']['x'], goal_objects[1]['shows'][0]['position']['z'])
+        logging.debug(f'TransGoal.f_o_p: target = {target}\tgoal = {goal}\tholes = {hole_rects}')
         path = generatepath(target, goal, hole_rects)
+        if path is None:
+            raise GoalException('could not find path from target object to goal')
+        logging.debug(f'TransGoal.f_o_p: got path = {path}')
         current_heading = self._performer_start['rotation']['y']
         for indx in range(len(path)-1):
             actions, current_heading = parse_path_section(path[indx:indx+2], current_heading)
