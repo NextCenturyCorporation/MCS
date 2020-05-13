@@ -80,6 +80,10 @@ def generate_scene(name, goal_type, find_path):
 def generate_file(name, goal_type, find_path):
     """Create a new scenery file and a debug file. name must end with '.json'."""
     body = generate_scene(name, goal_type, find_path)
+    write_file(name, body)
+
+
+def write_file(name, body):
     
     debug_name = name[:-5] + '-debug.json'
     write_scene(debug_name, body)
