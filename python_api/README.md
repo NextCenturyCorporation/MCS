@@ -52,7 +52,11 @@ chmod a+x MCS-AI2-THOR-Unity-App-v0.0.6.x86_64
 
 ### Training Dataset
 
-https://mcs-interactive-test-scenes.s3.amazonaws.com/interaction_scenes.zip
+Interactive:
+https://evaluation2-training-scenes.s3.amazonaws.com/interaction_scenes.zip
+
+Intphys:
+https://evaluation2-training-scenes.s3.amazonaws.com/intphys-scenes.zip
 
 ## Import
 
