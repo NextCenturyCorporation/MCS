@@ -3883,7 +3883,8 @@ OBJECTS_INTPHYS = [{
 }]
 
 
-def create_occluder(wall_material: str, pole_material: str, x_position: float, x_scale: float, sideways: bool = False) \
+def create_occluder(wall_material: str, pole_material: str,
+                    x_position: float, x_scale: float, sideways: bool = False) \
         -> Tuple[Dict[str, Any]]:
     """Create an occluder pair of objects: (wall, pole)."""
     if sideways:

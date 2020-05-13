@@ -41,7 +41,7 @@ OUTPUT_TEMPLATE_JSON = """
 OUTPUT_TEMPLATE = json.loads(OUTPUT_TEMPLATE_JSON)
 
 
-def strip_debug_info(body):
+def strip_debug_info(body: Dict[str, Any]) -> None:
     """Remove info that's only for our internal use (e.g., for debugging)"""
     for obj in body['objects']:
         clean_object(obj)
@@ -54,7 +54,7 @@ def strip_debug_info(body):
                 metadata[target_key].pop('info', None)
 
 
-def clean_object(obj):
+def clean_object(obj: Dict[str, Any]) -> None:
     """Remove properties we do not want TA1s to have access to."""
     obj.pop('info', None)
     obj.pop('dimensions', None)
@@ -74,33 +74,35 @@ def generate_body_template(name: str) -> Dict[str, Any]:
     return body
 
 
-def generate_scene(name, goal_type, find_path):
+def generate_scene(name: str, goal_type: str, find_path: bool) -> Dict[str, Any]:
     body = generate_body_template(name)
     goal_obj = goals.choose_goal(goal_type)
     goal_obj.update_body(body, find_path)
     return body
 
 
-def generate_file(name, goal_type, find_path):
+def generate_file(name: str, goal_type: str, find_path: bool) -> None:
     """Create a new scenery file and a debug file. name must end with '.json'."""
     body = generate_scene(name, goal_type, find_path)
     write_file(name, body)
 
 
-def write_file(name, body):
+def write_file(name: str, body: Dict[str, Any]) -> None:
     debug_name = name[:-5] + '-debug.json'
     write_scene(debug_name, body)
     strip_debug_info(body)
     write_scene(name, body)
     
 
-def write_scene(name, scene):
-    # Use PrettyJsonNoIndent on some of the lists and dicts in the output body because the indentation from the normal
-    # Python JSON module spaces them out far too much.
+def write_scene(name: str, scene: Dict[str, Any]) -> None:
+    # Use PrettyJsonNoIndent on some of the lists and dicts in the
+    # output body because the indentation from the normal Python JSON
+    # module spaces them out far too much.
     body = copy.deepcopy(scene)
 
-    # Use PrettyJsonNoIndent on some of the lists and dicts in the output body because the indentation from the normal
-    # Python JSON module spaces them out far too much.
+    # Use PrettyJsonNoIndent on some of the lists and dicts in the
+    # output body because the indentation from the normal Python JSON
+    # module spaces them out far too much.
     wrap_with_json_no_indent(body['goal'], ['action_list', 'domain_list', 'type_list', 'task_list', 'info_list'])
     if 'metadata' in body['goal']:
         for target in ['target', 'target_1', 'target_2']:
@@ -115,7 +117,7 @@ def write_scene(name, scene):
         out.write(json.dumps(body, cls=PrettyJsonEncoder, indent=2))
 
 
-def wrap_with_json_no_indent(data: Dict[str, Any], prop_list: List[str]):
+def wrap_with_json_no_indent(data: Dict[str, Any], prop_list: List[str]) -> None:
     for prop in prop_list:
         if prop in data:
             data[prop] = PrettyJsonNoIndent(data[prop])

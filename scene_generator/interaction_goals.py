@@ -17,7 +17,7 @@ from optimal_path import generatepath
 from util import finalize_object_definition, instantiate_object
 
 
-def set_enclosed_info(goal, *targets):
+def set_enclosed_info(goal: Dict[str, Any], *targets: Dict[str, Any]) -> None:
     """If any target is in an enclosed area, add 'target_enclosed' to the
     'type_list' of the goal. If any target isn't in an enclosed area,
     add 'target_not_enclosed'.
@@ -25,7 +25,7 @@ def set_enclosed_info(goal, *targets):
     type_list = goal['type_list']
     for target in targets:
         enclosed_string = 'target_not_enclosed' if target.get('locationParent', None) is None else 'target_enclosed'
-        if not enclosed_string in type_list:
+        if enclosed_string not in type_list:
             type_list.append(enclosed_string)
 
 
@@ -41,7 +41,6 @@ def find_image_for_object(object_def: Dict[str, Any]) -> AnyStr:
     image_file_name = ""
 
     try:
-        target_image = []
         image_file_name = 'images/' + generate_image_file_name(object_def) + '.txt'
 
         with open(image_file_name, 'r') as image_file:
@@ -59,7 +58,6 @@ def find_image_name(target: Dict[str, Any]) -> str:
 def parse_path_section(path_section: List[List[float]], current_heading: float) -> Tuple[List[Dict[str, Any]], float]:
     """Compute the actions for one path section, starting with
     current_heading. Returns a tuple: (list of actions, new heading)"""
-    index = 1
     actions = []
     dx = path_section[1][0]-path_section[0][0]
     dz = path_section[1][1]-path_section[0][1]
@@ -139,7 +137,7 @@ def move_to_container(target: Dict[str, Any], all_objects: List[Dict[str, Any]],
                 all_objects.append(found_container)
                 target['locationParent'] = found_container['id']
                 target['shows'][0]['position'] = found_area['position'].copy()
-                if not 'rotation' in target['shows'][0]:
+                if 'rotation' not in target['shows'][0]:
                     target['shows'][0]['rotation'] = geometry.ORIGIN.copy()
                 return True
     return False

@@ -19,7 +19,7 @@ WALL_HEIGHT = 3
 WALL_DEPTH = 0.1
 
 
-def random_real(a, b, step=MIN_RANDOM_INTERVAL):
+def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
     """Return a random real number N where a <= N <= b and N - a is divisible by step."""
     steps = int((b - a) / step)
     n = random.randint(0, steps)
@@ -85,7 +85,7 @@ class IntPhysGoal(Goal, ABC):
             }
         return self._performer_start
 
-    def update_body(self, body: Dict[str, Any], find_path: bool):
+    def update_body(self, body: Dict[str, Any], find_path: bool) -> Dict[str, Any]:
         body = super(IntPhysGoal, self).update_body(body, find_path)
         for obj in body['objects']:
             obj['torques'] = [IntPhysGoal.DEFAULT_TORQUE]
@@ -113,21 +113,23 @@ class IntPhysGoal(Goal, ABC):
         """IntPhys goals have no walls."""
         return []
 
-    def compute_objects(self, wall_material_name):
+    def compute_objects(self, wall_material_name: str) \
+        -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
         func = random.choice([IntPhysGoal._get_objects_and_occluders_moving_across, IntPhysGoal._get_objects_falling_down])
         self._last_step = IntPhysGoal.LAST_STEP_FALL_DOWN
         objs, occluders = func(self, wall_material_name)
         return [], objs + occluders, []
 
-    def _get_num_occluders(self):
+    def _get_num_occluders(self) -> int:
         """Return number of occluders for the scene."""
         return random.choices((1, 2, 3, 4), (40, 20, 20, 20))[0]
 
-    def _get_num_paired_occluders(self):
+    def _get_num_paired_occluders(self) -> int:
         """Return how many occluders must be paired with a target object."""
         return 1
-    
-    def _get_occluders(self, obj_list, wall_material_name):
+
+    def _get_occluders(self, obj_list: List[Dict[str, Any]],
+                       wall_material_name: str) -> List[Dict[str, Any]]:
         """Get occluders to for objects in obj_list."""
         num_occluders = self._get_num_occluders()
         num_paired_occluders = self._get_num_paired_occluders()
@@ -186,7 +188,10 @@ class IntPhysGoal(Goal, ABC):
         self._add_occluders(occluder_list, num_occluders - num_paired_occluders, non_wall_materials, False)
         return occluder_list
 
-    def _add_occluders(self, occluder_list, num_to_add, non_wall_materials, sideways):
+
+    def _add_occluders(self, occluder_list: List[Dict[str, Any]],
+                       num_to_add: int, non_wall_materials: List[Tuple],
+                       sideways: bool) -> None:
         """Create additional, non-paired occluders and add them to occluder_list."""
         for _ in range(num_to_add):
             occluder_fits = False
@@ -223,7 +228,8 @@ class IntPhysGoal(Goal, ABC):
         LEFT_FIRST_FAR = auto()
         LEFT_LAST_FAR = auto()
 
-    def _get_objects_and_occluders_moving_across(self, wall_material_name: str):
+    def _get_objects_and_occluders_moving_across(self, wall_material_name: str) \
+        -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
         """Get objects to move across the scene and occluders for them. Returns (objects, occluders) pair."""
         self._last_step = IntPhysGoal.LAST_STEP_MOVE_ACROSS
         # Subtract 5 for end occluder movement and rotation
@@ -231,7 +237,7 @@ class IntPhysGoal(Goal, ABC):
         occluders = self._get_occluders(new_objects, wall_material_name)
         return new_objects, occluders
 
-    def _get_num_objects_moving_across(self):
+    def _get_num_objects_moving_across(self) -> int:
         return random.choices((1, 2, 3), (40, 30, 30))[0]
 
     def _get_objects_moving_across(self, wall_material_name: str, last_action_end_step,
@@ -352,7 +358,8 @@ class IntPhysGoal(Goal, ABC):
 
         return new_objects
 
-    def _get_objects_falling_down(self, wall_material_name):
+    def _get_objects_falling_down(self, wall_material_name: str) \
+        -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
         MAX_POSITION_TRIES = 100
         MIN_OCCLUDER_SEPARATION = 0.5
         # min scale for each occluder / 2, plus 0.5 separation
@@ -441,7 +448,8 @@ class GravityGoal(IntPhysGoal):
     def __init__(self):
         super(GravityGoal, self).__init__()
 
-    def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def get_config(self, goal_objects: List[Dict[str, Any]],
+                   all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         goal = super(GravityGoal, self).get_config(goal_objects, all_objects)
         scenery_type = f'scenery_objects_{self._scenery_count}'
         goal['type_list'].append(scenery_type)
@@ -486,7 +494,8 @@ class GravityGoal(IntPhysGoal):
             scenery_list.append(scenery_obj)
         return scenery_list
 
-    def compute_objects(self, wall_material_name: str) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
+    def compute_objects(self, wall_material_name: str) \
+        -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
         objs = self._get_ramp_and_objects(wall_material_name)
         scenery = self._compute_scenery()
         return [], objs + scenery, []
@@ -498,7 +507,7 @@ class GravityGoal(IntPhysGoal):
         ramp_type, ramp_objs = ramps.create_ramp(material_name, x_position_percent, left_to_right)
         return ramp_type, left_to_right, ramp_objs
 
-    def _get_ramp_and_objects(self, wall_material_name):
+    def _get_ramp_and_objects(self, wall_material_name: str) -> List[Dict[str, Any]]:
         ramp_type, left_to_right, ramp_objs = self._create_random_ramp()
         if ramp_type in (ramps.Ramp.RAMP_90, ramps.Ramp.RAMP_30_90, ramps.Ramp.RAMP_45_90):
             # Don't put objects in places where they'd have to roll up
@@ -583,11 +592,11 @@ class SpatioTemporalContinuityGoal(IntPhysGoal):
     def __init__(self):
         super(SpatioTemporalContinuityGoal, self).__init__()
 
-    def _get_num_occluders(self):
+    def _get_num_occluders(self) -> int:
         return random.choices((2, 3, 4), (40, 30, 30))[0]
 
-    def _get_num_paired_occluders(self):
+    def _get_num_paired_occluders(self) -> int:
         return 2
 
-    def _get_num_objects_moving_across(self):
+    def _get_num_objects_moving_across(self) -> int:
         return random.choices((2, 3), (60, 40))[0]

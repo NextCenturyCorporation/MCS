@@ -109,7 +109,8 @@ class Goal(ABC):
         return finalize_object_definition(random.choice(object_def_list))
 
     @abstractmethod
-    def compute_objects(self, wall_material_name: str) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
+    def compute_objects(self, wall_material_name: str) \
+        -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
         """Compute object instances for the scene. Returns a tuple:
         (objects required for the goal, all objects in the scene including objects required for the goal, bounding rectangles)"""
         pass
@@ -128,7 +129,7 @@ class Goal(ABC):
                 obj = instantiate_object(object_def, obj_location)
                 object_list.append(obj)
 
-    def _update_goal_info_list(self, goal, all_objects):
+    def _update_goal_info_list(self, goal: Dict[str, Any], all_objects: List[Dict[str, Any]]):
         info_set = set(goal.get('info_list', []))
         for obj in all_objects:
             info_set |= frozenset(obj.get('info', []))
@@ -168,7 +169,8 @@ class EmptyGoal(Goal):
     def __init__(self):
         super(EmptyGoal, self).__init__()
 
-    def compute_objects(self, wall_material_name):
+    def compute_objects(self, wall_material_name: str) \
+        -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
         return [], [], []
 
     def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
