@@ -158,6 +158,9 @@ class Goal(ABC):
         """Compute the optimal set of moves and update the body object"""
         pass
 
+    def update_quartet_member(self, body: Dict[str, Any], q: int) -> None:
+        pass
+
 
 class EmptyGoal(Goal):
     """An empty goal."""
