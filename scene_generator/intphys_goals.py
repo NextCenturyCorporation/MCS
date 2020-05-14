@@ -115,9 +115,10 @@ class IntPhysGoal(Goal, ABC):
 
     def compute_objects(self, wall_material_name: str) \
         -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
-        func = random.choice([IntPhysGoal._get_objects_and_occluders_moving_across, IntPhysGoal._get_objects_falling_down])
+        self._object_creator = random.choice([IntPhysGoal._get_objects_and_occluders_moving_across,
+                                              IntPhysGoal._get_objects_falling_down])
         self._last_step = IntPhysGoal.LAST_STEP_FALL_DOWN
-        objs, occluders = func(self, wall_material_name)
+        objs, occluders = self._object_creator(self, wall_material_name)
         return [], objs + occluders, []
 
     def _get_num_occluders(self) -> int:
@@ -432,6 +433,13 @@ class IntPhysGoal(Goal, ABC):
 
         return object_list, occluders
 
+    def update_quartet_member(self, body: Dict[str, Any], q: int) -> None:
+        """Update a scene template to be a member of the quartet. Effectively
+        replaces update_body. q should be between 1 and 4 (inclusive).
+
+        """
+        pass
+
 
 class GravityGoal(IntPhysGoal):
     TEMPLATE = {
@@ -563,6 +571,47 @@ class ObjectPermanenceGoal(IntPhysGoal):
 
     def __init__(self):
         super(ObjectPermanenceGoal, self).__init__()
+
+    def _appear_behind_occluder(self, body: Dict[str, Any]) -> None:
+        if self._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across:
+            # TODO: In MCS-123
+            pass
+        elif self._object_creator == IntPhysGoal._get_objects_falling_down:
+            # TODO: In MCS-130
+            pass
+        else:
+            raise ValueError('unknown object creation function, cannot update scene')
+
+    def _disappear_behind_occluder(self, body: Dict[str, Any]) -> None:
+        if self._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across:
+            # TODO: In MCS-123
+            pass
+        elif self._object_creator == IntPhysGoal._get_objects_falling_down:
+            # TODO: In MCS-130
+            pass
+        else:
+            raise ValueError('unknown object creation function, cannot update scene')
+
+    def update_quartet_member(self, body: Dict[str, Any], q: int) -> None:
+        self.update_body(body)
+        if q == 1:
+            # normal (plausible)
+            pass
+        elif q == 2:
+            # target moves behind occluder and disappears (implausible)
+            self._disappear_behind_occluder(body)
+        elif q == 3:
+            # target first appears from behind occluder (implausible)
+            self._appear_behind_occluder(body)
+        elif q == 4:
+            # target not in the scene (plausible)
+            target_id = body['metadata']['target']['id']
+            for obj in body['objects']:
+                if obj['id'] == target_id:
+                    del body['objects'][obj]
+                    break
+        else:
+            raise ValueError(f'q must be between 1 and 4 (inclusive), not {q}')
 
 
 class ShapeConstancyGoal(IntPhysGoal):
