@@ -23,14 +23,22 @@ def find_unity_executable():
     return str(next(pathlib.Path('/mcs').glob('MCS-AI2-THOR*.x86_64'), None))
 
 
+def determine_max_steps(scene):
+    goal = scene['goal']
+    max_steps = 0
+    if 'interaction' in goal['type_list']:
+        max_steps = 200
+    elif 'intphys' in type_list:
+        max_steps = goal['last_step']
+    return max_steps
+
+
 def run_playroom(controller, scene):
     '''Run the MCS interactive playroom'''
     output = controller.start_scene(scene)
 
-    # loop for max steps or until goal achieved
-    # TODO how do we know max steps? intphys vs interaction
-    last_step = 50
-    for i in range(1, last_step + 1):
+    max_steps = determine_max_steps(scene)
+    for i in range(1, max_steps + 1):
 
         # TEMPLATE: determine action
         action = 'Pass'
@@ -40,7 +48,7 @@ def run_playroom(controller, scene):
         output = controller.step(action=action)
 
         # TEMPLATE: break out of loop if goal achieved
-
+    
 
 def main():
     args = parse_args()
