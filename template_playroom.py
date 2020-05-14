@@ -6,6 +6,8 @@ from machine_common_sense.mcs import MCS
 
 # TEMPLATE: import TA1 packages
 
+MAX_ALLOWED_INTERACTION_STEPS = 200
+
 
 def parse_args():
     '''Parse command line arguments'''
@@ -28,14 +30,14 @@ def determine_max_steps(scene):
     goal = scene['goal']
     max_steps = 0
     if 'interaction' in goal['type_list']:
-        max_steps = 200
+        max_steps = MAX_ALLOWED_INTERACTION_STEPS
     elif 'intphys' in type_list:
         max_steps = goal['last_step']
     return max_steps
 
 
 def run_playroom(controller, scene):
-    '''Run the MCS interactive playroom'''
+    '''Run the MCS playroom'''
     output = controller.start_scene(scene)
 
     max_steps = determine_max_steps(scene)
