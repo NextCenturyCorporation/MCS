@@ -12,6 +12,7 @@ from typing import Dict, Any, List
 
 from materials import *
 from pretty_json.pretty_json import PrettyJsonEncoder, PrettyJsonNoIndent
+import goal
 import goals
 
 # no public way to find this, apparently :(
@@ -148,14 +149,14 @@ def generate_quartet(prefix: str, index: int, goal_type: str,
                      find_path: bool, stop_on_error: bool) -> None:
     goal_obj = goals.choose_goal(goal_type)
     for q in range(1,5):
-        name = f'{prefix}-{index:04}-{q}'
+        name = f'{prefix}-{index:04}-{q}.json'
         while True:
             body = generate_body_template(name)
             try:
                 goal_obj.update_quartet_member(body, q)
                 write_scene(name, body)
                 break
-            except (RuntimeError, ZeroDivisionError, TypeError, goals.GoalException, ValueError) as e:
+            except (RuntimeError, ZeroDivisionError, TypeError, goal.GoalException, ValueError) as e:
                 if stop_on_error:
                     raise
                 logging.warning(f'failed to create a quartet member: {e}')
@@ -172,6 +173,7 @@ def generate_quartets(prefix: str, count: int, goal_type: str,
                 break
             index += 1
         generate_quartet(prefix, index, goal_type, find_path, stop_on_error)
+        count -= 1
 
 
 def generate_fileset(prefix: str, count: int, goal_type: str, find_path: bool, stop_on_error: bool,
