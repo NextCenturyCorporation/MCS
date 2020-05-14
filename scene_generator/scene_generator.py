@@ -172,7 +172,8 @@ def generate_quartets(prefix: str, count: int, goal_type: str,
                 break
             index += 1
         generate_quartet(prefix, index, goal_type, find_path, stop_on_error)
-    
+
+
 def generate_fileset(prefix: str, count: int, goal_type: str, find_path: bool, stop_on_error: bool,
                      gen_quartet: bool) -> None:
     dirname = os.path.dirname(prefix)
@@ -193,7 +194,7 @@ def main(argv):
     parser.add_argument('--goal', default=None, choices=goals.get_goal_types(),
                         help='Generate a goal of the specified type [default is to not generate a goal]. Lowercase '
                              'goals are categories; capitalized goals are specific goals.')
-    parser.add_argument('--quartet', default=None, choices=goals.get_goal_types(),
+    parser.add_argument('--quartet', default=None, choices=goals.get_goal_types('intphys'),
                         help='Generate a scene quartet for a goal of the specified type [default is to generate individual scenes]. Lowercase '
                              'goals are categories; capitalized goals are specific goals.')
     parser.add_argument('--find_path', default=False, action='store_true',
