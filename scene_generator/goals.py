@@ -226,7 +226,7 @@ def find_image_name(target: Dict[str, Any]) -> str:
     return generate_image_file_name(target) + '.png'
 
 
-def parse_path_section(path_section: List[List[float]], current_heading: float) -> Tuple[List[Dict[str, Any]], float]:
+def parse_path_section(path_section: List[Tuple[float, float]], current_heading: float) -> Tuple[List[Dict[str, Any]], float]:
     """Compute the actions for one path section, starting with
     current_heading. Returns a tuple: (list of actions, new heading)"""
     index = 1
