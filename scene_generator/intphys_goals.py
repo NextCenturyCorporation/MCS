@@ -26,6 +26,12 @@ def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
     return a + (n * step)
 
 
+def find_target(scene: Dict[str, Any]) -> Dict[str, Any]:
+    """Find the target object in the scene."""
+    target_id = scene['metadata']['target']['id']
+    return next((obj for obj in scene['objects'] if obj['id'] == target_id))
+
+
 class IntPhysGoal(Goal, ABC):
     """Base class for Intuitive Physics goals. Subclasses must set TEMPLATE variable (for use in get_config)."""
 
@@ -162,6 +168,7 @@ class IntPhysGoal(Goal, ABC):
                     paired_x = position_by_step[position_index]
                     if min_paired_x <= paired_x <= max_paired_x:
                         break
+                paired_obj['intphys_option']['implausible_event_index'] = position_index
                 if paired_z == IntPhysGoal.OBJECT_NEAR_Z:
                     occluder_x = paired_x * IntPhysGoal.NEAR_X_PERSPECTIVE_FACTOR
                 elif paired_z == IntPhysGoal.OBJECT_FAR_Z:
@@ -529,7 +536,6 @@ class GravityGoal(IntPhysGoal):
         else:
             valid_positions = set(IntPhysGoal.Position)
         positions = []
-        # TODO: later this will get imported from objects (or somewhere else)
         # only want intphys_options where y == 0
         valid_defs = []
         for obj_def in objects.OBJECTS_INTPHYS:
@@ -574,8 +580,12 @@ class ObjectPermanenceGoal(IntPhysGoal):
 
     def _appear_behind_occluder(self, body: Dict[str, Any]) -> None:
         if self._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across:
-            # TODO: In MCS-123
-            pass
+            target = find_target(body)
+            implausible_event_index = target['intphys_option']['implausible_event_index']
+            implausible_event_step = implausible_event_index + target['forces'][0]['stepBegin']
+            implausible_event_x = target['intphys_option']['position_by_step'][implausible_event_index]
+            target['shows'][0]['stepBegin'] = implausible_event_step
+            target['shows'][0]['position']['x'] = implausible_event_x
         elif self._object_creator == IntPhysGoal._get_objects_falling_down:
             # TODO: In MCS-130
             pass
@@ -584,8 +594,12 @@ class ObjectPermanenceGoal(IntPhysGoal):
 
     def _disappear_behind_occluder(self, body: Dict[str, Any]) -> None:
         if self._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across:
-            # TODO: In MCS-123
-            pass
+            target = find_target(body)
+            implausible_event_step = target['intphys_option']['implausible_event_index'] + \
+                target['forces'][0]['stepBegin']
+            target['hides'] = [{
+                'stepBegin': implausible_event_step
+            }]
         elif self._object_creator == IntPhysGoal._get_objects_falling_down:
             # TODO: In MCS-130
             pass
@@ -593,15 +607,17 @@ class ObjectPermanenceGoal(IntPhysGoal):
             raise ValueError('unknown object creation function, cannot update scene')
 
     def update_quartet_member(self, body: Dict[str, Any], q: int) -> None:
-        self.update_body(body)
+        self.update_body(body, False)
         if q == 1:
             # normal (plausible)
             pass
         elif q == 2:
             # target moves behind occluder and disappears (implausible)
+            body['answer']['choice'] = 'implausible'
             self._disappear_behind_occluder(body)
         elif q == 3:
             # target first appears from behind occluder (implausible)
+            body['answer']['choice'] = 'implausible'
             self._appear_behind_occluder(body)
         elif q == 4:
             # target not in the scene (plausible)
