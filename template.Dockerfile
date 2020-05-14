@@ -1,7 +1,7 @@
 # Templated MCS submission Dockerfile for Evaluation 2
 #
 # Building your docker image
-# docker build --tag <your-tag>:<version>  -f Template.Dockerfile .
+# docker build --tag <your-tag>:<version>  -f template.Dockerfile .
 #
 # Run interactive bash shell for testing build (nvidia-smi, glxgears, xeyes)
 # xhost +si:localuser:root
