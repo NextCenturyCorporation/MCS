@@ -610,11 +610,11 @@ class TransferralGoal(InteractionGoal):
         else:
             target = (goal_objects[0]['shows'][0]['position']['x'], goal_objects[0]['shows'][0]['position']['z'])
         goal = (goal_objects[1]['shows'][0]['position']['x'], goal_objects[1]['shows'][0]['position']['z'])
-        logging.debug(f'TransGoal.f_o_p: target = {target}\tgoal = {goal}\tholes = {hole_rects}')
+        logging.debug(f'TransferralGoal.f_o_p: target = {target}\tgoal = {goal}\tholes = {hole_rects}')
         path = generatepath(target, goal, hole_rects)
         if path is None:
             raise GoalException('could not find path from target object to goal')
-        logging.debug(f'TransGoal.f_o_p: got path = {path}')
+        logging.debug(f'TransferralGoal.f_o_p: got path = {path}')
         current_heading = self._performer_start['rotation']['y']
         for indx in range(len(path)-1):
             actions, current_heading = parse_path_section(path[indx:indx+2], current_heading)
