@@ -15,9 +15,6 @@
 # This is a multi-stage build based upon the MCS playroom base image
 FROM mcs-playroom:0.0.6
 
-# pathlib is used in the playroom file to find the unity executable
-RUN python3.8 -m pip install pathlib
-
 # Install any software dependencies for your TA1 submission
 # if you have a requirements.txt file, copy it into the image before installing
 # COPY requirements.txt /requirements.txt
