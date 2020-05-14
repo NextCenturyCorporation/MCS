@@ -47,13 +47,13 @@ def main():
 
     unity_exe_path = find_unity_executable()
     if unity_exe_path is None:
-        print("Unity executable not found in /mcs")
-        exit()
+        print("Unity executable not found in /mcs", file=sys.stderr)
+        exit(1)
 
     scene_config, status = MCS.load_config_json_file(args.scene)
     if status is not None:
-        print(status)
-        exit()
+        print(status, file=sys.stderr)
+        exit(1)
 
     controller = MCS.create_controller(unity_exe_path, debug=False)
     run_playroom(controller, scene_config)
