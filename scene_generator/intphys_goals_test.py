@@ -17,9 +17,9 @@ def test_random_real():
 def test_GravityGoal_compute_objects():
     goal = GravityGoal()
     target_objs, all_objs, rects = goal.compute_objects('dummy wall material')
-    assert len(target_objs) == 0
+    assert len(target_objs) > 0
+    assert len(all_objs) > 0
     assert len(rects) == 0
-    # TODO: in a future ticket when all_objs has stuff
 
 
 # test for MCS-214
@@ -117,7 +117,7 @@ def test_mcs_209():
     assert obj['shows'][0]['rotation'] == obj_def['rotation']
 
     class TestGoal(IntPhysGoal):
-        TEMPLATE = {'type_list': []}
+        TEMPLATE = {'type_list': [], 'metadata':{}}
         pass
 
     goal = TestGoal()
