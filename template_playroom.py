@@ -24,6 +24,7 @@ def find_unity_executable():
 
 
 def determine_max_steps(scene):
+    '''Determine maximum number of steps allowed for the goal type'''
     goal = scene['goal']
     max_steps = 0
     if 'interaction' in goal['type_list']:
