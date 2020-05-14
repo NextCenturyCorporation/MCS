@@ -31,7 +31,7 @@ def determine_max_steps(scene):
     max_steps = 0
     if 'interaction' in goal['type_list']:
         max_steps = MAX_ALLOWED_INTERACTION_STEPS
-    elif 'intphys' in type_list:
+    elif 'intphys' in goal['type_list']:
         max_steps = goal['last_step']
     return max_steps
 
