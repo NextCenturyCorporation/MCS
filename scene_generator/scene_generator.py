@@ -10,6 +10,7 @@ import copy
 import random
 from typing import Dict, Any, List
 
+import quartets
 from materials import *
 from pretty_json.pretty_json import PrettyJsonEncoder, PrettyJsonNoIndent
 import goal
@@ -139,22 +140,24 @@ def generate_scene_fileset(prefix: str, count: int, goal_type: str, find_path: b
         try:
             generate_file(name, goal_type, find_path)
             count -= 1
-        except (RuntimeError, ZeroDivisionError, TypeError, goals.GoalException, ValueError) as e:
+        except (RuntimeError, ZeroDivisionError, TypeError, goal.GoalException, ValueError) as e:
             if stop_on_error:
                 raise
             logging.warning(f'failed to create a file: {e}')
 
 
-def generate_quartet(prefix: str, index: int, goal_type: str,
+def generate_quartet(prefix: str, index: int, quartet_name: str,
                      find_path: bool, stop_on_error: bool) -> None:
-    goal_obj = goals.choose_goal(goal_type)
-    for q in range(1,5):
+    template = generate_body_template('')
+    quartet_class = quartets.get_quartet_class(quartet_name)
+    quartet = quartet_class(template, find_path)
+    for q in range(1, 5):
         name = f'{prefix}-{index:04}-{q}.json'
         while True:
-            body = generate_body_template(name)
             try:
-                goal_obj.update_quartet_member(body, q)
-                write_scene(name, body)
+                scene = quartet.get_scene(q)
+                scene['name'] = name
+                write_scene(name, scene)
                 break
             except (RuntimeError, ZeroDivisionError, TypeError, goal.GoalException, ValueError) as e:
                 if stop_on_error:
@@ -162,7 +165,7 @@ def generate_quartet(prefix: str, index: int, goal_type: str,
                 logging.warning(f'failed to create a quartet member: {e}')
 
 
-def generate_quartets(prefix: str, count: int, goal_type: str,
+def generate_quartets(prefix: str, count: int, quartet_name: str,
                       find_path: bool, stop_on_error: bool) -> None:
     index = 1
     while count > 0:
@@ -172,20 +175,20 @@ def generate_quartets(prefix: str, count: int, goal_type: str,
             if not file_exists:
                 break
             index += 1
-        generate_quartet(prefix, index, goal_type, find_path, stop_on_error)
+        generate_quartet(prefix, index, quartet_name, find_path, stop_on_error)
         count -= 1
 
 
-def generate_fileset(prefix: str, count: int, goal_type: str, find_path: bool, stop_on_error: bool,
+def generate_fileset(prefix: str, count: int, type_name: str, find_path: bool, stop_on_error: bool,
                      gen_quartet: bool) -> None:
     dirname = os.path.dirname(prefix)
     if dirname != '':
         os.makedirs(dirname, exist_ok=True)
 
     if gen_quartet:
-        generate_quartets(prefix, count, goal_type, find_path, stop_on_error)
+        generate_quartets(prefix, count, type_name, find_path, stop_on_error)
     else:
-        generate_scene_fileset(prefix, count, goal_type, find_path, stop_on_error)
+        generate_scene_fileset(prefix, count, type_name, find_path, stop_on_error)
 
 
 def main(argv):
@@ -196,7 +199,7 @@ def main(argv):
     parser.add_argument('--goal', default=None, choices=goals.get_goal_types(),
                         help='Generate a goal of the specified type [default is to not generate a goal]. Lowercase '
                              'goals are categories; capitalized goals are specific goals.')
-    parser.add_argument('--quartet', default=None, choices=goals.get_goal_types('intphys'),
+    parser.add_argument('--quartet', default=None, choices=quartets.get_quartet_types(),
                         help='Generate a scene quartet for a goal of the specified type [default is to generate individual scenes]. Lowercase '
                              'goals are categories; capitalized goals are specific goals.')
     parser.add_argument('--find_path', default=False, action='store_true',
@@ -216,16 +219,16 @@ def main(argv):
         parser.error('Cannot specify body goal and quartet')
 
     if args.goal is not None:
-        goal = args.goal
+        type_name = args.goal
         is_quartet = False
     elif args.quartet is not None:
-        goal = args.quartet
+        type_name = args.quartet
         is_quartet = True
     else:
-        goal = None
+        type_name = None
         is_quartet = False
         
-    generate_fileset(args.prefix, args.count, goal, args.find_path, args.stop_on_error, is_quartet)
+    generate_fileset(args.prefix, args.count, type_name, args.find_path, args.stop_on_error, is_quartet)
 
 
 if __name__ == '__main__':

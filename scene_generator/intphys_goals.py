@@ -29,15 +29,6 @@ def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
     return a + (n * step)
 
 
-def find_target(scene: Dict[str, Any]) -> Dict[str, Any]:
-    """Find a 'target' object in the scene. (IntPhys goals don't really
-    have them, but they do have objects that may behave plausibly or
-    implausibly.)
-    """
-    target_id = scene['goal']['metadata']['objects'][0]
-    return next((obj for obj in scene['objects'] if obj['id'] == target_id))
-
-
 class IntPhysGoal(Goal, ABC):
     """Base class for Intuitive Physics goals. Subclasses must set TEMPLATE variable (for use in get_config)."""
 
@@ -598,59 +589,6 @@ class ObjectPermanenceGoal(IntPhysGoal):
 
     def __init__(self):
         super(ObjectPermanenceGoal, self).__init__()
-
-    def _appear_behind_occluder(self, body: Dict[str, Any]) -> None:
-        target = find_target(body)
-        if self._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across:
-            implausible_event_index = target['intphys_option']['implausible_event_index']
-            implausible_event_step = implausible_event_index + target['forces'][0]['stepBegin']
-            implausible_event_x = target['intphys_option']['position_by_step'][implausible_event_index]
-            target['shows'][0]['position']['x'] = implausible_event_x
-        elif self._object_creator == IntPhysGoal._get_objects_falling_down:
-            # 8 is enough steps for anything to fall to the ground
-            implausible_event_step = 8 + target['shows'][0]['stepBegin']
-            target['shows'][0]['position']['y'] = target['intphys_option']['position_y']
-        else:
-            raise ValueError('unknown object creation function, cannot update scene')
-        target['shows'][0]['stepBegin'] = implausible_event_step
-
-    def _disappear_behind_occluder(self, body: Dict[str, Any]) -> None:
-        target = find_target(body)
-        if self._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across:
-            implausible_event_step = target['intphys_option']['implausible_event_index'] + \
-                target['forces'][0]['stepBegin']
-        elif self._object_creator == IntPhysGoal._get_objects_falling_down:
-            # 8 is enough steps for anything to fall to the ground
-            implausible_event_step = 8 + target['shows'][0]['stepBegin']
-        else:
-            raise ValueError('unknown object creation function, cannot update scene')
-        target['hides'] = [{
-            'stepBegin': implausible_event_step
-        }]
-
-    def update_quartet_member(self, body: Dict[str, Any], q: int) -> None:
-        self.update_body(body, False)
-        if q == 1:
-            # normal (plausible)
-            pass
-        elif q == 2:
-            # target moves behind occluder and disappears (implausible)
-            body['answer']['choice'] = 'implausible'
-            self._disappear_behind_occluder(body)
-        elif q == 3:
-            # target first appears from behind occluder (implausible)
-            body['answer']['choice'] = 'implausible'
-            self._appear_behind_occluder(body)
-        elif q == 4:
-            # target not in the scene (plausible)
-            target_id = body['goal']['metadata']['objects'][0]
-            for i in range(len(body['objects'])):
-                obj = body['objects'][i]
-                if obj['id'] == target_id:
-                    del body['objects'][i]
-                    break
-        else:
-            raise ValueError(f'q must be between 1 and 4 (inclusive), not {q}')
 
 
 class ShapeConstancyGoal(IntPhysGoal):
