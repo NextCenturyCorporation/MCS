@@ -1,7 +1,7 @@
 import logging
 import math
 import random
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Callable
 
 from separating_axis_theorem import sat_entry
 
@@ -100,9 +100,10 @@ def rect_within_room(rect: List[Dict[str, float]]) -> bool:
 def calc_obj_pos(performer_position: Dict[str, float],
                  other_rects: List[List[Dict[str, float]]],
                  obj_def: Dict[str, Any],
-                 x_func=random_position,
-                 z_func=random_position,
-                 rotation_func=random_rotation):
+                 x_func: Callable[[], float] = random_position,
+                 z_func: Callable[[], float] = random_position,
+                 rotation_func: Callable[[], float] = random_rotation) \
+                 -> Optional[Dict[str, Any]]:
 
     """Returns new object with rotation & position if we can place the
 object in the frame, None otherwise."""
@@ -175,7 +176,7 @@ def can_contain(container: Dict[str, Any], target: Dict[str, Any]) -> Optional[i
     return None
 
 
-def occluders_too_close(occluder, x_position, x_scale):
+def occluders_too_close(occluder: Dict[str, Any], x_position: float, x_scale: float) -> bool:
     """Return True iff a new occluder at x_position with scale x_scale
     would be too close to existing occluder occluder."""
     existing_scale = occluder['shows'][0]['scale']['x']

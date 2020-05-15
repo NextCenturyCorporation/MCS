@@ -2,10 +2,12 @@ import glob
 import json
 import os
 import math
+import numpy
 import datetime
 from PIL import Image
 
 import ai2thor.controller
+import ai2thor.server
 
 # How far the player can reach.  I think this value needs to be bigger than the MAX_MOVE_DISTANCE or else the
 # player may not be able to move into a position to reach some objects (it may be mathematically impossible).
@@ -26,6 +28,15 @@ from .mcs_reward import MCS_Reward
 from .mcs_step_output import MCS_Step_Output
 from .mcs_util import MCS_Util
 
+def __image_depth_override(self, image_depth_data, **kwargs):
+    # From https://github.com/NextCenturyCorporation/ai2thor/blob/master/ai2thor/server.py#L232-L240
+    # Removed the part of the function that caused some objects to entirely disappear from the image.
+    image_depth = ai2thor.server.read_buffer_image(image_depth_data, self.screen_width, self.screen_height, **kwargs)
+    max_spots = image_depth[:,:,0] == 255
+    image_depth_out = image_depth[:,:,0] + image_depth[:,:,1] / numpy.float32(256) + image_depth[:,:,2] / numpy.float32(256 ** 2)
+    return image_depth_out.astype(numpy.float32)
+
+ai2thor.server.Event._image_depth = __image_depth_override
 
 class MCS_Controller_AI2THOR(MCS_Controller):
     """
@@ -440,8 +451,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             scene_image = Image.fromarray(event.frame)
             image_list.append(scene_image)
 
-            # Divide the depth mask by 30 so it doesn't look all white (some odd side effect of the depth grayscaling).
-            depth_mask = Image.fromarray(event.depth_frame / 30)
+            depth_mask = Image.fromarray(event.depth_frame)
             depth_mask = depth_mask.convert('L')
             depth_mask_list.append(depth_mask)
 
