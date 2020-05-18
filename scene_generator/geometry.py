@@ -7,9 +7,10 @@ from separating_axis_theorem import sat_entry
 
 MAX_TRIES = 100
 PERFORMER_WIDTH = 0.1
+PERFORMER_HALF_WIDTH = PERFORMER_WIDTH / 2.0
 # the following mins and maxes are inclusive
-MIN_PERFORMER_POSITION = -4.8 + PERFORMER_WIDTH / 2.0
-MAX_PERFORMER_POSITION = 4.8 - PERFORMER_WIDTH / 2.0
+MIN_PERFORMER_POSITION = -4.8 + PERFORMER_HALF_WIDTH
+MAX_PERFORMER_POSITION = 4.8 - PERFORMER_HALF_WIDTH
 POSITION_DIGITS = 2
 VALID_ROTATIONS = (0, 45, 90, 135, 180, 225, 270, 315)
 
@@ -119,14 +120,14 @@ object in the frame, None otherwise."""
 
     # reserve space around the performer
     performer_rect = [
-        {'x': performer_position['x'] - PERFORMER_WIDTH / 2.0,
-         'z': performer_position['z'] - PERFORMER_WIDTH / 2.0},
-        {'x': performer_position['x'] - PERFORMER_WIDTH / 2.0,
-         'z': performer_position['z'] + PERFORMER_WIDTH / 2.0},
-        {'x': performer_position['x'] + PERFORMER_WIDTH / 2.0,
-         'z': performer_position['z'] + PERFORMER_WIDTH / 2.0},
-        {'x': performer_position['x'] + PERFORMER_WIDTH / 2.0,
-         'z': performer_position['z'] - PERFORMER_WIDTH / 2.0}
+        {'x': performer_position['x'] - PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] - PERFORMER_HALF_WIDTH},
+        {'x': performer_position['x'] - PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] + PERFORMER_HALF_WIDTH},
+        {'x': performer_position['x'] + PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] + PERFORMER_HALF_WIDTH},
+        {'x': performer_position['x'] + PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] - PERFORMER_HALF_WIDTH}
     ]
     logging.debug(f'performer_rect = {performer_rect}')
 
