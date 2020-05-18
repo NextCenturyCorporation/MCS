@@ -2,7 +2,7 @@ import copy
 import logging
 import uuid
 import random
-from typing import Dict, Any
+from typing import Dict, Any, Optional, List, Tuple
 
 import materials
 
@@ -21,7 +21,7 @@ def finalize_object_definition(object_def: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def instantiate_object(object_def: Dict[str, Any],
-                       object_location: Dict[str, Dict[str, float]],
+                       object_location: Dict[str, Any],
                        materials_list: Optional[List[Tuple[str, List[str]]]] = None) \
                        -> Dict[str, Any]:
     """Create a new object from an object definition (as from the objects.json file). object_location will be modified
@@ -92,4 +92,3 @@ def instantiate_object(object_def: Dict[str, Any],
     info.append(' '.join(info))
     new_object['info'] = info
     return new_object
-
