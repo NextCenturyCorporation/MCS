@@ -102,9 +102,21 @@ class ShapeConstancyQuartet(Quartet):
 
     def _create_b(self) -> Dict[str, Any]:
         a = self._scenes[0]['objects'][0]
-        possible_defs = [obj_def for obj_def in objects.OBJECTS_INTPHYS
-                         if obj_def['type'] != a['type'] and
-                         obj_def['scale'] == a['shows'][0]['scale']]
+        possible_defs = []
+        normalized_scale = a['shows'][0]['scale']
+        # cylinders have "special" scaling: scale.y is half what it is
+        # for other objects
+        if a['type'] == 'cylinder':
+            normalized_scale = normalized_scale.copy()
+            normalized_scale['y'] *= 2
+        for obj_def in objects.OBJECTS_INTPHYS:
+            if obj_def['type'] != a['type']:
+                def_scale = obj_def['scale']
+                if obj_def['type'] == 'cylinder':
+                    def_scale = def_scale.copy()
+                    def_scale['y'] *= 2
+                if def_scale == normalized_scale:
+                    possible_defs.append(obj_def)
         if len(possible_defs) == 0:
             raise goal.GoalException(f'no valid choices for "b" object. a = {a}')
         b_def = random.choice(possible_defs)
