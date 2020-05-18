@@ -1,4 +1,5 @@
 import copy
+import logging
 import random
 from abc import ABC, abstractmethod
 from typing import Dict, Any, List, Type, Optional
@@ -122,11 +123,12 @@ class ShapeConstancyQuartet(Quartet):
         b_def = random.choice(possible_defs)
         b_def = util.finalize_object_definition(b_def)
         b = util.instantiate_object(b_def, a['original_location'], a['materials_list'])
+        logging.debug(f'a type: {a["type"]}\tb type: {b["type"]}')
         return b
 
     def _turn_a_into_b(self, scene: Dict[str, Any]) -> None:
         scene['answer']['choice'] = 'implausible'
-        a = self._scenes[0]['objects'][0]
+        a = scene['objects'][0]
         b = copy.deepcopy(self._b)
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             implausible_event_index = a['intphys_option']['implausible_event_index']
@@ -140,10 +142,11 @@ class ShapeConstancyQuartet(Quartet):
             implausible_event_step = 8 + a['shows'][0]['stepBegin']
             b['shows'][0]['position']['x'] = a['shows'][0]['position']['x']
             b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
-            b['shows'][0]['position']['y'] = a['intphys_option']['y']
+            b['shows'][0]['position']['y'] = a['intphys_option']['position_y']
         else:
             raise ValueError(f'unknown object creation function, cannot update scene: {self._goal._object_creator}')
         b['shows'][0]['stepBegin'] = implausible_event_step
+        logging.debug(f'hiding a ({a["id"]}) at step {implausible_event_step}')
         a['hides'] = [{
             'stepBegin': implausible_event_step
         }]
@@ -151,7 +154,7 @@ class ShapeConstancyQuartet(Quartet):
 
     def _turn_b_into_a(self, scene: Dict[str, Any]) -> None:
         scene['answer']['choice'] = 'implausible'
-        a = self._scenes[0]['objects'][0]
+        a = scene['objects'][0]
         b = copy.deepcopy(self._b)
         b['shows'][0]['position']['x'] = a['shows'][0]['position']['x']
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
@@ -164,19 +167,20 @@ class ShapeConstancyQuartet(Quartet):
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
             implausible_event_step = 8 + a['shows'][0]['stepBegin']
             b['shows'][0]['position']['y'] = a['shows'][0]['position']['y']
-            a['shows'][0]['position']['y'] = a['intphys_option']['y']
+            a['shows'][0]['position']['y'] = a['original_location']['position']['y']
             pass
         else:
             raise ValueError(f'unknown object creation function, cannot update scene: {self._goal._object_creator}')
         a['shows'][0]['stepBegin'] = implausible_event_step
         b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
+        logging.debug(f'hiding b ({b["id"]}) at step {implausible_event_step}')
         b['hides'] = [{
             'stepBegin': implausible_event_step
         }]
         scene['objects'].append(b)
 
     def _b_replaces_a(self, body: Dict[str, Any]) -> None:
-        body['objects'][0] = self._b
+        body['objects'][0] = copy.deepcopy(self._b)
 
     def get_scene(self, q: int) -> Dict[str, Any]:
         if q < 1 or q > 4:
@@ -198,6 +202,7 @@ class ShapeConstancyQuartet(Quartet):
                 # object A is never added to the scene (plausible)
                 self._b_replaces_a(scene)
             self._scenes[q - 1] = scene
+        logging.debug(f'get_scene: q={q}\thides? {scene["objects"][0].get("hides", None)}')
         return scene
 
 
