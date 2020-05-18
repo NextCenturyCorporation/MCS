@@ -168,7 +168,7 @@ class ShapeConstancyQuartet(Quartet):
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
             implausible_event_step = 8 + a['shows'][0]['stepBegin']
             b['shows'][0]['position']['y'] = a['shows'][0]['position']['y']
-            a['shows'][0]['position']['y'] = a['intphys']['position_y']
+            a['shows'][0]['position']['y'] = a['intphys_option']['position_y']
             pass
         else:
             raise ValueError(f'unknown object creation function, cannot update scene: {self._goal._object_creator}')
@@ -181,8 +181,13 @@ class ShapeConstancyQuartet(Quartet):
         }]
         scene['objects'].append(b)
 
-    def _b_replaces_a(self, body: Dict[str, Any]) -> None:
-        body['objects'][0] = copy.deepcopy(self._b)
+    def _b_replaces_a(self, scene: Dict[str, Any]) -> None:
+        a = scene['objects'][0]
+        b = copy.deepcopy(self._b)
+        b['shows'] = a['shows']
+        if 'forces' in a:
+            b['forces'] = a['forces']
+        scene['objects'][0] = b
 
     def get_scene(self, q: int) -> Dict[str, Any]:
         if q < 1 or q > 4:
