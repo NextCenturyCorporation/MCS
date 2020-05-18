@@ -150,8 +150,8 @@ class IntPhysGoal(Goal, ABC):
         # another object) at that specific step.
         for i in range(num_paired_occluders):
             occluder_fits = False
+            paired_obj = obj_list[i]
             for _ in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
-                paired_obj = obj_list[i]
                 min_scale = min(max(paired_obj['shows'][0]['scale']['x'], IntPhysGoal.MIN_OCCLUDER_SCALE), IntPhysGoal.MAX_OCCLUDER_SCALE)
                 x_scale = random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
                 position_by_step = paired_obj['intphys_option']['position_by_step']

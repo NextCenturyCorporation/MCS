@@ -14,6 +14,19 @@ def find_target(scene: Dict[str, Any]) -> Dict[str, Any]:
     return next((obj for obj in scene['objects'] if obj['id'] == target_id))
 
 
+def find_targets(scene: Dict[str, Any]) -> Dict[str, Any]:
+    """Find 'target' objects in the scene. (IntPhys goals don't really
+    have them, but they do have objects that may behave plausibly or
+    implausibly.)
+    """
+    target_ids = scene['goal']['metadata']['objects']
+    # This isn't the most efficient way to do this, but since there
+    # will only be 2-3 'target' objects and maybe a dozen total
+    # objects, that's ok.
+    return [next((obj for obj in scene['objects'] if obj['id'] == target_id))
+            for target_id in target_ids]
+
+
 class Quartet(ABC):
     def __init__(self, template: Dict[str, Any], find_path: bool):
         self._template = template
@@ -96,8 +109,30 @@ class SpatioTemporalContinuityQuartet(Quartet):
 
     def _teleport_forward(self, scene: Dict[str, Any]) -> None:
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
-            # TODO: in MCS-125
-            pass
+            scene['answer']['choice'] = 'implausible'
+            target, other_object = find_targets(scene)[0:2]
+            # go from the lower index to the higher one so we teleport forward
+            implausible_event_index1 = target['intphys_option']['implausible_event_index']
+            implausible_event_index2 = other_object['intphys_option']['implausible_event_index']
+            if implausible_event_index1 < implausible_event_index2:
+                implausible_event_index = implausible_event_index1
+                destination_index = implausible_event_index2
+                destination_x = other_object['intphys_option']['position_by_step'][destination_index]
+            else:
+                implausible_event_index = implausible_event_index2
+                destination_index = implausible_event_index1
+                destination_x = target['intphys_option']['position_by_step'][destination_index]
+            implausible_event_step = implausible_event_index + target['forces'][0]['stepBegin']
+
+            target['teleports'] = [{
+                'stepBegin': implausible_event_index,
+                'stepEnd': implausible_event_index,
+                'vector': {
+                    'x': destination_x,
+                    'y': 0,
+                    'z': 0
+                }
+            }]
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
             # TODO: in MCS-132
             pass
@@ -107,7 +142,30 @@ class SpatioTemporalContinuityQuartet(Quartet):
     def _teleport_backward(self, scene: Dict[str, Any]) -> None:
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             # TODO: in MCS-125
-            pass
+            scene['answer']['choice'] = 'implausible'
+            target, other_object = find_targets(scene)[0:2]
+            # go from the higher index to the lower one so we teleport backward
+            implausible_event_index1 = target['intphys_option']['implausible_event_index']
+            implausible_event_index2 = other_object['intphys_option']['implausible_event_index']
+            if implausible_event_index1 > implausible_event_index2:
+                implausible_event_index = implausible_event_index1
+                destination_index = implausible_event_index2
+                destination_x = other_object['intphys_option']['position_by_step'][destination_index]
+            else:
+                implausible_event_index = implausible_event_index2
+                destination_index = implausible_event_index1
+                destination_x = target['intphys_option']['position_by_step'][destination_index]
+            implausible_event_step = implausible_event_index + target['forces'][0]['stepBegin']
+
+            target['teleports'] = [{
+                'stepBegin': implausible_event_index,
+                'stepEnd': implausible_event_index,
+                'vector': {
+                    'x': destination_x,
+                    'y': 0,
+                    'z': 0
+                }
+            }]
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
             # TODO: in MCS-132
             pass
@@ -117,7 +175,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
     def _move_later(self, scene: Dict[str, Any]) -> None:
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             # TODO: in MCS-125
-            pass
+            scene['answer']['choice'] = 'implausible'
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
             # TODO: in MCS-132
             pass
