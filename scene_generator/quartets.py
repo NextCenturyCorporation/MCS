@@ -127,50 +127,53 @@ class ShapeConstancyQuartet(Quartet):
     def _turn_a_into_b(self, scene: Dict[str, Any]) -> None:
         scene['answer']['choice'] = 'implausible'
         a = self._scenes[0]['objects'][0]
+        b = copy.deepcopy(self._b)
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             implausible_event_index = a['intphys_option']['implausible_event_index']
             implausible_event_step = implausible_event_index + a['forces'][0]['stepBegin']
             implausible_event_x = a['intphys_option']['position_by_step'][implausible_event_index]
-            a['hides'] = [{
-                'stepBegin': implausible_event_step
-            }]
-            b = copy.deepcopy(self._b)
-            b['shows'][0]['stepBegin'] = implausible_event_step
             b['shows'][0]['position']['x'] = implausible_event_x
             b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
             b['forces'] = copy.deepcopy(a['forces'])
-            scene['objects'].append(b)
-            pass
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
-            # TODO: In MCS-131
-            pass
+            # 8 steps is enough time for the object to fall to the ground
+            implausible_event_step = 8 + a['shows'][0]['stepBegin']
+            b['shows'][0]['position']['x'] = a['shows'][0]['position']['x']
+            b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
+            b['shows'][0]['position']['y'] = a['intphys_option']['y']
         else:
-            raise ValueError('unknown object creation function, cannot update scene')
+            raise ValueError(f'unknown object creation function, cannot update scene: {self._goal._object_creator}')
+        b['shows'][0]['stepBegin'] = implausible_event_step
+        a['hides'] = [{
+            'stepBegin': implausible_event_step
+        }]
+        scene['objects'].append(b)
 
     def _turn_b_into_a(self, scene: Dict[str, Any]) -> None:
         scene['answer']['choice'] = 'implausible'
         a = self._scenes[0]['objects'][0]
+        b = copy.deepcopy(self._b)
+        b['shows'][0]['position']['x'] = a['shows'][0]['position']['x']
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             implausible_event_index = a['intphys_option']['implausible_event_index']
             implausible_event_step = implausible_event_index + a['forces'][0]['stepBegin']
             implausible_event_x = a['intphys_option']['position_by_step'][implausible_event_index]
-            b = copy.deepcopy(self._b)
-            b['shows'][0]['position']['x'] = a['shows'][0]['position']['x']
-            b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
-            b['hides'] = [{
-                'stepBegin': implausible_event_step
-            }]
             b['forces'] = copy.deepcopy(a['forces'])
-            scene['objects'].append(b)
-
-            a['shows'][0]['stepBegin'] = implausible_event_step
             a['shows'][0]['position']['x'] = implausible_event_x
             pass
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
-            # TODO: In MCS-131
+            implausible_event_step = 8 + a['shows'][0]['stepBegin']
+            b['shows'][0]['position']['y'] = a['shows'][0]['position']['y']
+            a['shows'][0]['position']['y'] = a['intphys_option']['y']
             pass
         else:
-            raise ValueError('unknown object creation function, cannot update scene')
+            raise ValueError(f'unknown object creation function, cannot update scene: {self._goal._object_creator}')
+        a['shows'][0]['stepBegin'] = implausible_event_step
+        b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
+        b['hides'] = [{
+            'stepBegin': implausible_event_step
+        }]
+        scene['objects'].append(b)
 
     def _b_replaces_a(self, body: Dict[str, Any]) -> None:
         body['objects'][0] = self._b
