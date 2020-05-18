@@ -63,7 +63,7 @@ class ObjectPermanenceQuartet(Quartet):
 
     def get_scene(self, q: int) -> Dict[str, Any]:
         if q < 1 or q > 4:
-            raise ValueError(f'q must be between 1 and 4 (exclusive), not {q}')
+            raise ValueError(f'q must be between 1 and 4 (inclusive), not {q}')
         scene = self._scenes[q - 1]
         if scene is None:
             scene = copy.deepcopy(self._scenes[0])
@@ -83,6 +83,58 @@ class ObjectPermanenceQuartet(Quartet):
                     if obj['id'] == target_id:
                         del scene['objects'][i]
                         break
+            self._scenes[q - 1] = scene
+        return scene
+
+
+class SpatioTemporalContinuityQuartet(Quartet):
+    def __init__(self, template: Dict[str, Any], find_path: bool):
+        super(SpatioTemporalContinuityQuartet, self).__init__(template, find_path)
+        self._goal = intphys_goals.SpatioTemporalContinuityGoal()
+        self._scenes[0] = copy.deepcopy(self._template)
+        self._goal.update_body(self._scenes[0], self._find_path)
+
+    def _teleport_forward(self, scene: Dict[str, Any]) -> None:
+        if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
+            # TODO: in MCS-125
+            pass
+        elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
+            # TODO: in MCS-132
+            pass
+        else:
+            raise ValueError('unknown object creation function, cannot update scene')
+
+    def _teleport_backward(self, scene: Dict[str, Any]) -> None:
+        if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
+            # TODO: in MCS-125
+            pass
+        elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
+            # TODO: in MCS-132
+            pass
+        else:
+            raise ValueError('unknown object creation function, cannot update scene')
+
+    def _move_later(self, scene: Dict[str, Any]) -> None:
+        if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
+            # TODO: in MCS-125
+            pass
+        elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
+            # TODO: in MCS-132
+            pass
+        else:
+            raise ValueError('unknown object creation function, cannot update scene')
+
+    def get_scene(self, q: int) -> Dict[str, Any]:
+        if q < 1 or q > 4:
+            raise ValueError(f'q must be between 1 and 4 (inclusive), not {q}')
+        if self._scenes[q - 1] is None:
+            scene = copy.deepcopy(self._scenes[0])
+            if q == 2:
+                self._teleport_forward(scene)
+            elif q == 3:
+                self._teleport_backward(scene)
+            elif q == 4:
+                self._move_later(scene)
             self._scenes[q - 1] = scene
         return scene
 
