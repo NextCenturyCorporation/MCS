@@ -98,6 +98,7 @@ class ShapeConstancyQuartet(Quartet):
         self._goal = intphys_goals.ShapeConstancyGoal()
         self._scenes[0] = copy.deepcopy(self._template)
         self._goal.update_body(self._scenes[0], self._find_path)
+        logging.debug(f'SCQ: setup = f{self._goal._object_creator}')
         # we need the b object for 3/4 of the scenes, so generate it now
         self._b = self._create_b()
 
@@ -167,10 +168,11 @@ class ShapeConstancyQuartet(Quartet):
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
             implausible_event_step = 8 + a['shows'][0]['stepBegin']
             b['shows'][0]['position']['y'] = a['shows'][0]['position']['y']
-            a['shows'][0]['position']['y'] = a['original_location']['position']['y']
+            a['shows'][0]['position']['y'] = a['intphys']['position_y']
             pass
         else:
             raise ValueError(f'unknown object creation function, cannot update scene: {self._goal._object_creator}')
+        b['shows'][0]['stepBegin'] = a['shows'][0]['stepBegin']
         a['shows'][0]['stepBegin'] = implausible_event_step
         b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
         logging.debug(f'hiding b ({b["id"]}) at step {implausible_event_step}')
