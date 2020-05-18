@@ -1,8 +1,12 @@
 import copy
+import random
 from abc import ABC, abstractmethod
 from typing import Dict, Any, List, Type, Optional
 
+import goal
 import intphys_goals
+import objects
+import util
 
 
 def find_target(scene: Dict[str, Any]) -> Dict[str, Any]:
@@ -98,35 +102,65 @@ class ShapeConstancyQuartet(Quartet):
 
     def _create_b(self) -> Dict[str, Any]:
         a = self._scenes[0]['objects'][0]
-        while True:
-            b_def = random.choice(objects.OBJECTS_INTPHYS)
-            if b_def['type'] != a['type']:
-                break
+        possible_defs = [obj_def for obj_def in objects.OBJECTS_INTPHYS
+                         if obj_def['type'] != a['type'] and
+                         obj_def['scale'] == a['shows'][0]['scale']]
+        if len(possible_defs) == 0:
+            raise goal.GoalException(f'no valid choices for "b" object. a = {a}')
+        b_def = random.choice(possible_defs)
         b_def = util.finalize_object_definition(b_def)
-        b = util.instantiate_object(b_def, a['original_location'], a['material_list'])
+        b = util.instantiate_object(b_def, a['original_location'], a['materials_list'])
         return b
 
-    def _turn_a_into_b(self, body: Dict[str, Any], q: int) -> None:
-        if self._goal._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across:
-            # TODO: In MCS-124
+    def _turn_a_into_b(self, scene: Dict[str, Any]) -> None:
+        scene['answer']['choice'] = 'implausible'
+        a = self._scenes[0]['objects'][0]
+        if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
+            implausible_event_index = a['intphys_option']['implausible_event_index']
+            implausible_event_step = implausible_event_index + a['forces'][0]['stepBegin']
+            implausible_event_x = a['intphys_option']['position_by_step'][implausible_event_index]
+            a['hides'] = [{
+                'stepBegin': implausible_event_step
+            }]
+            b = copy.deepcopy(self._b)
+            b['shows'][0]['stepBegin'] = implausible_event_step
+            b['shows'][0]['position']['x'] = implausible_event_x
+            b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
+            b['forces'] = copy.deepcopy(a['forces'])
+            scene['objects'].append(b)
             pass
-        elif self._goal._object_creator == IntPhysGoal._get_objects_falling_down:
+        elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
             # TODO: In MCS-131
             pass
         else:
             raise ValueError('unknown object creation function, cannot update scene')
 
-    def _turn_b_into_a(self, body: Dict[str, Any], q: int) -> None:
-        if self._goal._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across:
-            # TODO: In MCS-124
+    def _turn_b_into_a(self, scene: Dict[str, Any]) -> None:
+        scene['answer']['choice'] = 'implausible'
+        a = self._scenes[0]['objects'][0]
+        if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
+            implausible_event_index = a['intphys_option']['implausible_event_index']
+            implausible_event_step = implausible_event_index + a['forces'][0]['stepBegin']
+            implausible_event_x = a['intphys_option']['position_by_step'][implausible_event_index]
+            b = copy.deepcopy(self._b)
+            b['shows'][0]['position']['x'] = a['shows'][0]['position']['x']
+            b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
+            b['hides'] = [{
+                'stepBegin': implausible_event_step
+            }]
+            b['forces'] = copy.deepcopy(a['forces'])
+            scene['objects'].append(b)
+
+            a['shows'][0]['stepBegin'] = implausible_event_step
+            a['shows'][0]['position']['x'] = implausible_event_x
             pass
-        elif self._goal._object_creator == IntPhysGoal._get_objects_falling_down:
+        elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
             # TODO: In MCS-131
             pass
         else:
             raise ValueError('unknown object creation function, cannot update scene')
 
-    def _b_replaces_a(self, body: Dict[str, Any], q: int) -> None:
+    def _b_replaces_a(self, body: Dict[str, Any]) -> None:
         body['objects'][0] = self._b
 
     def get_scene(self, q: int) -> Dict[str, Any]:
@@ -152,7 +186,7 @@ class ShapeConstancyQuartet(Quartet):
         return scene
 
 
-QUARTET_TYPES = [ObjectPermanenceQuartet]
+QUARTET_TYPES = [ObjectPermanenceQuartet, ShapeConstancyQuartet]
 
 
 def get_quartet_class(name: str) -> Type[Quartet]:
