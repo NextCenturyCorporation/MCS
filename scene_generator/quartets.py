@@ -105,7 +105,8 @@ class ShapeConstancyQuartet(Quartet):
         possible_defs = []
         normalized_scale = a['shows'][0]['scale']
         # cylinders have "special" scaling: scale.y is half what it is
-        # for other objects
+        # for other objects (because Unity automatically doubles the
+        # scale.y of cylinders)
         if a['type'] == 'cylinder':
             normalized_scale = normalized_scale.copy()
             normalized_scale['y'] *= 2
@@ -154,6 +155,7 @@ class ShapeConstancyQuartet(Quartet):
             implausible_event_index = a['intphys_option']['implausible_event_index']
             implausible_event_step = implausible_event_index + a['forces'][0]['stepBegin']
             implausible_event_x = a['intphys_option']['position_by_step'][implausible_event_index]
+            # put b where a was so it can later turn into a
             b = copy.deepcopy(self._b)
             b['shows'][0]['position']['x'] = a['shows'][0]['position']['x']
             b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
