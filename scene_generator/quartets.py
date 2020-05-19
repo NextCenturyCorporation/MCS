@@ -36,6 +36,7 @@ class ObjectPermanenceQuartet(Quartet):
         self._goal = intphys_goals.ObjectPermanenceGoal()
         self._scenes[0] = copy.deepcopy(self._template)
         self._goal.update_body(self._scenes[0], self._find_path)
+        logging.debug(f'OPQ: setup = f{self._goal._object_creator}')
 
     def _appear_behind_occluder(self, body: Dict[str, Any]) -> None:
         target = find_target(body)
