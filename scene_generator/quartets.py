@@ -127,7 +127,7 @@ class ShapeConstancyQuartet(Quartet):
 
     def _turn_a_into_b(self, scene: Dict[str, Any]) -> None:
         scene['answer']['choice'] = 'implausible'
-        a = self._scenes[0]['objects'][0]
+        a = scene['objects'][0]
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             implausible_event_index = a['intphys_option']['implausible_event_index']
             implausible_event_step = implausible_event_index + a['forces'][0]['stepBegin']
@@ -150,7 +150,7 @@ class ShapeConstancyQuartet(Quartet):
 
     def _turn_b_into_a(self, scene: Dict[str, Any]) -> None:
         scene['answer']['choice'] = 'implausible'
-        a = self._scenes[0]['objects'][0]
+        a = scene['objects'][0]
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             implausible_event_index = a['intphys_option']['implausible_event_index']
             implausible_event_step = implausible_event_index + a['forces'][0]['stepBegin']
