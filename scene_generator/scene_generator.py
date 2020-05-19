@@ -51,6 +51,7 @@ def strip_debug_info(body: Dict[str, Any]) -> None:
         body['goal'].pop(goal_key, None)
     if 'metadata' in body['goal']:
         metadata = body['goal']['metadata']
+        metadata.pop('objects', None)
         for target_key in ('target', 'target_1', 'target_2'):
             if target_key in metadata:
                 metadata[target_key].pop('info', None)
