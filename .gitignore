@@ -36,6 +36,8 @@ python_api/scenes/images/*.gif
 python_api/playroom/
 playroom/
 
+**/SCENE_HISTORY
+
 # machine common sense
 python_api/machine_common_sense/**/*.gif
 python_api/machine_common_sense/**/*.json

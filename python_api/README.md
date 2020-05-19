@@ -6,7 +6,7 @@ Here are the instructions for downloading and installing our latest Python and U
 
 ### Python Library
 
-The latest release of the MCS Python library is `0.0.6`
+The latest release of the MCS Python library is `0.0.7`
 
 1. Install the required third-party Python libraries:
 
@@ -28,31 +28,35 @@ pip install git+https://github.com/NextCenturyCorporation/MCS@latest
 
 ### Unity Application
 
-The latest release of the MCS Unity app is `0.0.6`
+The latest release of the MCS Unity app is `0.0.7`
 
 Please note that our Unity App is built on Linux. If you need a Mac or Windows version, please [contact us](#troubleshooting) directly.
 
-1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.0.6/MCS-AI2-THOR-Unity-App-v0.0.6.x86_64)
+1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.0.7/MCS-AI2-THOR-Unity-App-v0.0.7.x86_64)
 
-2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.0.6/MCS-AI2-THOR-Unity-App-v0.0.6_Data.tar.gz)
+2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.0.7/MCS-AI2-THOR-Unity-App-v0.0.7_Data.tar.gz)
 
 3. Ensure that both the Unity App and the TAR are in the same directory.
 
 4. Untar the Data Directory:
 
 ```
-tar -xzvf MCS-AI2-THOR-Unity-App-v0.0.6_Data.tar.gz
+tar -xzvf MCS-AI2-THOR-Unity-App-v0.0.7_Data.tar.gz
 ```
 
 5. Mark the Unity App as executable:
 
 ```
-chmod a+x MCS-AI2-THOR-Unity-App-v0.0.6.x86_64
+chmod a+x MCS-AI2-THOR-Unity-App-v0.0.7.x86_64
 ```
 
 ### Training Dataset
 
-https://mcs-interactive-test-scenes.s3.amazonaws.com/interaction_scenes.zip
+Interactive:
+https://evaluation2-training-scenes.s3.amazonaws.com/interaction-scenes.zip
+
+Intphys:
+https://evaluation2-training-scenes.s3.amazonaws.com/intphys-scenes.zip
 
 ## Import
 

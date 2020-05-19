@@ -5,7 +5,7 @@ with open('python_api/README.md', 'r') as fh:
 
 setuptools.setup(
     name='machine_common_sense',
-    version='0.0.6',
+    version='0.0.7',
     maintainer='Next Century, a wholly owned subsidiary of CACI',
     maintainer_email='mcs-ta2@machinecommonsense.com',
     url='https://github.com/NextCenturyCorporation/MCS/',

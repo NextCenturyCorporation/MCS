@@ -2,9 +2,12 @@ import glob
 import json
 import os
 import math
+import numpy
+import datetime
 from PIL import Image
 
 import ai2thor.controller
+import ai2thor.server
 
 # How far the player can reach.  I think this value needs to be bigger than the MAX_MOVE_DISTANCE or else the
 # player may not be able to move into a position to reach some objects (it may be mathematically impossible).
@@ -25,6 +28,15 @@ from .mcs_reward import MCS_Reward
 from .mcs_step_output import MCS_Step_Output
 from .mcs_util import MCS_Util
 
+def __image_depth_override(self, image_depth_data, **kwargs):
+    # From https://github.com/NextCenturyCorporation/ai2thor/blob/master/ai2thor/server.py#L232-L240
+    # Removed the part of the function that caused some objects to entirely disappear from the image.
+    image_depth = ai2thor.server.read_buffer_image(image_depth_data, self.screen_width, self.screen_height, **kwargs)
+    max_spots = image_depth[:,:,0] == 255
+    image_depth_out = image_depth[:,:,0] + image_depth[:,:,1] / numpy.float32(256) + image_depth[:,:,2] / numpy.float32(256 ** 2)
+    return image_depth_out.astype(numpy.float32)
+
+ai2thor.server.Event._image_depth = __image_depth_override
 
 class MCS_Controller_AI2THOR(MCS_Controller):
     """
@@ -77,6 +89,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
+    HISTORY_DIRECTORY = "SCENE_HISTORY"
+
     def __init__(self, unity_app_file_path, debug=False, enable_noise=False):
         super().__init__()
 
@@ -111,8 +125,20 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         self.__step_number = 0
         self.__goal = None
 
+        if not os.path.exists(self.HISTORY_DIRECTORY):
+            os.makedirs(self.HISTORY_DIRECTORY)
+
+    # Write the history file
+    def write_history_file(self, history_item):
+        with open(self.__scene_file, "a+") as history_file:
+            history_file.write(json.dumps(history_item))
+
     # Override
     def end_scene(self, classification, confidence):
+        history_item = {"classification": classification, "confidence": confidence}
+        self.__history_list.append(history_item)
+        self.write_history_file(history_item)
+
         super().end_scene(classification, confidence)
         # TODO MCS-54 Save classification, confidence, and list of actions (steps) taken in this scene for scoring (maybe save to file?)
         pass
@@ -123,7 +149,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         self.__scene_configuration = config_data
         self.__step_number = 0
+        self.__history_list = []
         self.__goal = self.retrieve_goal(self.__scene_configuration)
+        self.__scene_file = os.path.join(self.HISTORY_DIRECTORY, self.__scene_configuration['name'].replace('.json','') + "-" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
         skip_preview_phase = True if 'goal' in config_data and 'skip_preview_phase' in config_data['goal'] else False
 
         if self.__debug_to_file and config_data['name'] is not None:
@@ -294,6 +322,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         # Only call mcs_action_to_ai2thor_action AFTER calling validate_and_convert_params
         action = self.mcs_action_to_ai2thor_action(action)
 
+        history_item = {"step": self.__step_number, "action": action, "args": kwargs, "params": params}
+        self.__history_list.append(history_item)
+        self.write_history_file(history_item)
+
         if self.__goal.last_step is not None and self.__goal.last_step == self.__step_number:
             print("MCS Warning: This is your last step for this scene. All your future actions will be skipped. " + \
                     "Please call controller.end_scene() now.")
@@ -419,8 +451,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             scene_image = Image.fromarray(event.frame)
             image_list.append(scene_image)
 
-            # Divide the depth mask by 30 so it doesn't look all white (some odd side effect of the depth grayscaling).
-            depth_mask = Image.fromarray(event.depth_frame / 30)
+            depth_mask = Image.fromarray(event.depth_frame)
             depth_mask = depth_mask.convert('L')
             depth_mask_list.append(depth_mask)
 

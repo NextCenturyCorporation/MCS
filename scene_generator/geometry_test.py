@@ -1,5 +1,6 @@
 import pytest
 
+import geometry
 from geometry import *
 from separating_axis_theorem import sat_entry
 
@@ -307,3 +308,13 @@ def test_calc_obj_coords_rotation45_offset_position_xz():
     assert new_b == pytest.approx(b)
     assert new_c == pytest.approx(c)
     assert new_d == pytest.approx(d)
+
+
+def test__object_collision():
+    r1 = geometry.calc_obj_coords(-1.97, 1.75, .55, .445, -.01, .445, 315)
+    r2 = geometry.calc_obj_coords(-3.04, .85, 1.75, .05, 0, 0, 315)
+    assert sat_entry(r1, r2)
+    r3 = geometry.calc_obj_coords(.04, .85, 1.75, .05, 0, 0, 315)
+    assert not sat_entry(r1, r3)
+
+

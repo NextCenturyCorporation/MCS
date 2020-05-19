@@ -72,7 +72,7 @@ class Test_MCS_Reward(unittest.TestCase):
         # expect that method still returns the first instance and not the duplicate
         self.assertFalse('duplicate' in results)
 
-    def test_convert_object_bounds_to_polygons(self):
+    def test_convert_object_to_planar_polygon(self):
         goal_object = {'objectBounds': {'objectBoundsCorners': []}}
         # create lower plane (y = 0)
         goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 0.0, 'z': 0.0})
@@ -85,78 +85,31 @@ class Test_MCS_Reward(unittest.TestCase):
         goal_object['objectBounds']['objectBoundsCorners'].append({'x':1.0, 'y': 1.0, 'z': 1.0})
         goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0, 'z': 1.0})
 
-        lower, upper = MCS_Reward._convert_bounds_to_polygons(goal_object)
+        polygon = MCS_Reward._convert_object_to_planar_polygon(goal_object)
+        
+        self.assertIsInstance(polygon, geometry.Polygon)
+        self.assertEqual(len(list(polygon.exterior.coords)), 5)
+        self.assertIsInstance(list(polygon.exterior.coords)[0], Tuple)
 
-        self.assertIsInstance(lower, geometry.Polygon)
-        self.assertIsInstance(upper, geometry.Polygon)
-        self.assertEqual(lower.length, 4)
-        self.assertEqual(upper.length, 4)
-        self.assertIsInstance(list(lower.exterior.coords)[0], Tuple)
-        self.assertIsInstance(list(upper.exterior.coords)[0], Tuple)
-
-    def test_distance_to_object_within_polygon(self):
+    def test_convert_skewed_object_to_planar_polygon(self):
         goal_object = {'objectBounds': {'objectBoundsCorners': []}}
+
         # create lower plane (y = 0)
         goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 0.0, 'z': 0.0})
         goal_object['objectBounds']['objectBoundsCorners'].append({'x':1.0, 'y': 0.0, 'z': 0.0})
         goal_object['objectBounds']['objectBoundsCorners'].append({'x':1.0, 'y': 0.0, 'z': 1.0})
         goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 0.0, 'z': 1.0})
-        # create upper plane (y = 1)
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0, 'z': 0.0})
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':1.0, 'y': 1.0, 'z': 0.0})
+        # create upper plane (y = 1) but shifted over x and z by 1
         goal_object['objectBounds']['objectBoundsCorners'].append({'x':1.0, 'y': 1.0, 'z': 1.0})
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0, 'z': 1.0})
-        # goal object center position
-        goal_object['position'] = {'x': 0.5, 'z': 0.5}
+        goal_object['objectBounds']['objectBoundsCorners'].append({'x':2.0, 'y': 1.0, 'z': 1.0})
+        goal_object['objectBounds']['objectBoundsCorners'].append({'x':2.0, 'y': 1.0, 'z': 2.0})
+        goal_object['objectBounds']['objectBoundsCorners'].append({'x':1.0, 'y': 1.0, 'z': 2.0})
 
-        dist = MCS_Reward._MCS_Reward__calc_distance_to_goal((0.5, 0.5), goal_object)
-        self.assertIsInstance(dist, float)
-        self.assertEqual(dist, 0.0)
+        polygon = MCS_Reward._convert_object_to_planar_polygon(goal_object)
 
-    def test_distance_to_object_outside_polygon(self):
-        goal_object = {'objectBounds': {'objectBoundsCorners': []}}
-        # create lower plane (y = 0)
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 0.0, 'z': 0.0})
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':1.0, 'y': 0.0, 'z': 0.0})
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':1.0, 'y': 0.0, 'z': 1.0})
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 0.0, 'z': 1.0})
-        # create upper plane (y = 1)
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0, 'z': 0.0})
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':1.0, 'y': 1.0, 'z': 0.0})
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':1.0, 'y': 1.0, 'z': 1.0})
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0, 'z': 1.0})
-        # goal object center position
-        goal_object['position'] = {'x': 0.5, 'z': 0.5}
-
-        dist = MCS_Reward._MCS_Reward__calc_distance_to_goal((1.5, 1.5), goal_object)
-        self.assertIsInstance(dist, float)
-        self.assertTrue(dist)
-        # distance to edge is 0.5 in both dimensions ~= 0.707
-        self.assertAlmostEqual(dist, math.sqrt(0.5*0.5 + 0.5*0.5))
-
-    def test_distance_to_object_with_high_precision_corners(self):
-        goal_object = {'objectBounds': {'objectBoundsCorners': []}}
-
-        # could use pi or e or both
-        rn = random.random()
-
-        # create lower plane (y = 0)
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 0.0, 'z': 0.0})
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':rn, 'y': 0.0, 'z': 0.0})
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':rn, 'y': 0.0, 'z': rn})
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 0.0, 'z': rn})
-        # create upper plane (y = 1)
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0, 'z': 0.0})
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':rn, 'y': 1.0, 'z': 0.0})
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':rn, 'y': 1.0, 'z': rn})
-        goal_object['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0, 'z': rn})
-        # goal object center position
-        goal_object['position'] = {'x': 0.0, 'z': 0.0}
-
-        dist = MCS_Reward._MCS_Reward__calc_distance_to_goal((1.5, 1.5), goal_object)
-        self.assertIsInstance(dist, float)
-        self.assertTrue(dist)
-        #self.assertAlmostEqual(dist, math.sqrt(1/3.0*1/3.0 + 1/3.0*1/3.0))
+        self.assertIsInstance(polygon, geometry.Polygon)
+        self.assertEqual(len(list(polygon.exterior.coords)), 7)
+        self.assertIsInstance(list(polygon.exterior.coords)[0], Tuple)
 
     def test_retrieval_reward(self):
         goal = MCS_Goal()
@@ -185,18 +138,7 @@ class Test_MCS_Reward(unittest.TestCase):
         goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
-            obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}}
-            # create lower plane (y = 0)
-            obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 0.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':1.0 + i, 'y': 0.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':1.0 + i, 'y': 0.0, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 0.0, 'z': 1.0})
-            # create upper plane (y = 1)
-            obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 1.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':1.0 + i, 'y': 1.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':1.0 + i, 'y': 1.0, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 1.0, 'z': 1.0})
-            obj['position'] = {'x': 0.5 + i, 'z': 0.5}
+            obj = {"objectId":str(i), "distanceXZ": 0.5}
             obj_list.append(obj)
         agent = {'position': {'x':-0.9, 'y': 0.5, 'z':0.0}}
         reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
@@ -208,19 +150,7 @@ class Test_MCS_Reward(unittest.TestCase):
         goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
-            obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}}
-            # create lower plane (y = 0)
-            obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 0.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':1.0 + i, 'y': 0.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':1.0 + i, 'y': 0.0, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 0.0, 'z': 1.0})
-            # create upper plane (y = 1)
-            obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 1.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':1.0 + i, 'y': 1.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':1.0 + i, 'y': 1.0, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 1.0, 'z': 1.0})
-            obj['position'] = {'x': 0.5 + i, 'z': 0.5}
-            obj_list.append(obj)
+            obj = {"objectId":str(i), "distanceXZ": 1.1}
         agent = {'position': {'x':-0.9, 'y': 0.5, 'z':-1.0}}
         reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
         self.assertEqual(reward, 0)
@@ -231,19 +161,7 @@ class Test_MCS_Reward(unittest.TestCase):
         goal.metadata['target'] = {'id': '111'} # missing target
         obj_list = []
         for i in range(10):
-            obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}}
-            # create lower plane (y = 0)
-            obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 0.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':1.0 + i, 'y': 0.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':1.0 + i, 'y': 0.0, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 0.0, 'z': 1.0})
-            # create upper plane (y = 1)
-            obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 1.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':1.0 + i, 'y': 1.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':1.0 + i, 'y': 1.0, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 1.0, 'z': 1.0})
-            obj['position'] = {'x': 0.5 + i, 'z': 0.5}
-            obj_list.append(obj)
+            obj = {"objectId":str(i), "distanceXZ": 0.3 * i}
         agent = {'position': {'x':-0.9, 'y': 0.5, 'z':0.0}}
         reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
         self.assertEqual(reward, 0)

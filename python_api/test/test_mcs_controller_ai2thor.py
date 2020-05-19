@@ -279,7 +279,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(len(object_mask_list), 1)
 
         self.assertEqual(numpy.array(image_list[0]), image_data)
-        self.assertEqual(numpy.array(depth_mask_list[0]), numpy.round(depth_mask_data / 30))
+        self.assertEqual(numpy.array(depth_mask_list[0]), depth_mask_data)
         self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data)
 
     def test_save_images_with_multiple_images(self):
@@ -311,11 +311,11 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(len(object_mask_list), 2)
 
         self.assertEqual(numpy.array(image_list[0]), image_data_1)
-        self.assertEqual(numpy.array(depth_mask_list[0]), numpy.round(depth_mask_data_1 / 30))
+        self.assertEqual(numpy.array(depth_mask_list[0]), depth_mask_data_1)
         self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data_1)
 
         self.assertEqual(numpy.array(image_list[1]), image_data_2)
-        self.assertEqual(numpy.array(depth_mask_list[1]), numpy.round(depth_mask_data_2 / 30))
+        self.assertEqual(numpy.array(depth_mask_list[1]), depth_mask_data_2)
         self.assertEqual(numpy.array(object_mask_list[1]), object_mask_data_2)
 
     def test_validate_and_convert_params(self):
@@ -415,7 +415,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(len(actual.depth_mask_list), 1)
         self.assertEqual(len(actual.image_list), 1)
         self.assertEqual(len(actual.object_mask_list), 1)
-        self.assertEqual(numpy.array(actual.depth_mask_list[0]), numpy.round(depth_mask_data / 30))
+        self.assertEqual(numpy.array(actual.depth_mask_list[0]), depth_mask_data)
         self.assertEqual(numpy.array(actual.image_list[0]), image_data)
         self.assertEqual(numpy.array(actual.object_mask_list[0]), object_mask_data)
 
