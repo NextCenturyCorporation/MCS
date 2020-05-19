@@ -194,7 +194,6 @@ class IntPhysGoal(Goal, ABC):
         self._add_occluders(occluder_list, num_occluders - num_paired_occluders, non_wall_materials, False)
         return occluder_list
 
-
     def _add_occluders(self, occluder_list: List[Dict[str, Any]],
                        num_to_add: int, non_wall_materials: List[Tuple],
                        sideways: bool) -> None:
