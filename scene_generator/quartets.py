@@ -196,6 +196,10 @@ class ShapeConstancyQuartet(Quartet):
                 # Object B moves normally (replacing object A's movement),
                 # object A is never added to the scene (plausible)
                 self._b_replaces_a(scene)
+            # May have added and/or deleted an object, so regenerate
+            # goal.info_list
+            del scene['goal']['info_list']
+            self._goal._update_goal_info_list(scene['goal'], scene['objects'])
             self._scenes[q - 1] = scene
         return scene
 
