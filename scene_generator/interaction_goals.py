@@ -109,7 +109,8 @@ def get_navigation_actions(start_location: Dict[str, Any], goal_object: Dict[str
                       in all_objects if object['id'] != goal_object['id']
                       and 'locationParent' not in object)
     path = generatepath(performer, goal, hole_rects)
-
+    if path is None:
+        raise GoalException(f'could not find path to target {goal_object["id"]}')
     actions = []
     current_heading = start_location['rotation']['y']
     for indx in range(len(path)-1):
@@ -340,7 +341,11 @@ class TransferralGoal(InteractionGoal):
         else:
             target = (goal_objects[0]['shows'][0]['position']['x'], goal_objects[0]['shows'][0]['position']['z'])
         goal = (goal_objects[1]['shows'][0]['position']['x'], goal_objects[1]['shows'][0]['position']['z'])
+        logging.debug(f'TransferralGoal.f_o_p: target = {target}\tgoal = {goal}\tholes = {hole_rects}')
         path = generatepath(target, goal, hole_rects)
+        if path is None:
+            raise GoalException('could not find path from target object to goal')
+        logging.debug(f'TransferralGoal.f_o_p: got path = {path}')
         current_heading = self._performer_start['rotation']['y']
         for indx in range(len(path)-1):
             actions, current_heading = parse_path_section(path[indx:indx+2], current_heading)
