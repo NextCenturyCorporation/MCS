@@ -172,7 +172,8 @@ def generate_quartets(prefix: str, count: int, goal_type: str,
                 break
             index += 1
         generate_quartet(prefix, index, goal_type, find_path, stop_on_error)
-    
+
+
 def generate_fileset(prefix: str, count: int, goal_type: str, find_path: bool, stop_on_error: bool,
                      gen_quartet: bool) -> None:
     dirname = os.path.dirname(prefix)
@@ -190,12 +191,13 @@ def main(argv):
     parser.add_argument('--prefix', required=True, help='Prefix for output filenames')
     parser.add_argument('-c', '--count', type=int, default=1, help='How many scenes or quartets to generate [default=1]')
     parser.add_argument('--seed', type=int, default=None, help='Random number seed [default=None]')
-    parser.add_argument('--goal', default=None, choices=goals.get_goal_types(),
-                        help='Generate a goal of the specified type [default is to not generate a goal]. Lowercase '
-                             'goals are categories; capitalized goals are specific goals.')
-    parser.add_argument('--quartet', default=None, choices=goals.get_goal_types(),
-                        help='Generate a scene quartet for a goal of the specified type [default is to generate individual scenes]. Lowercase '
-                             'goals are categories; capitalized goals are specific goals.')
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('--goal', default=None, choices=goals.get_goal_types(),
+                       help='Generate a goal of the specified type [default is to not generate a goal]. Lowercase '
+                       'goals are categories; capitalized goals are specific goals.')
+    group.add_argument('--quartet', default=None, choices=goals.get_goal_types('intphys'),
+                       help='Generate a scene quartet for a goal of the specified type [default is to generate individual scenes]. Lowercase '
+                       'goals are categories; capitalized goals are specific goals.')
     parser.add_argument('--find_path', default=False, action='store_true',
                         help='Whether to run the pathfinding for interaction goals')
     parser.add_argument('--stop-on-error', default=False, action='store_true',
@@ -208,9 +210,6 @@ def main(argv):
 
     if args.loglevel:
         logging.getLogger().setLevel(args.loglevel)
-
-    if args.goal is not None and args.quartet is not None:
-        parser.error('Cannot specify body goal and quartet')
 
     if args.goal is not None:
         goal = args.goal

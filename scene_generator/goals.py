@@ -3,7 +3,7 @@
 #
 
 import random
-from typing import List
+from typing import List, Optional
 
 from goal import Goal, EmptyGoal
 from interaction_goals import RetrievalGoal, TransferralGoal, TraversalGoal
@@ -16,7 +16,7 @@ GOAL_TYPES = {
 }
 
 
-def choose_goal(goal_type: str) -> Goal:
+def choose_goal(goal_type: Optional[str]) -> Goal:
     """Return a random class of 'goal' object from within the specified
 overall type, or EmptyGoal if goal_type is None"""
     if goal_type is None:
@@ -30,7 +30,11 @@ overall type, or EmptyGoal if goal_type is None"""
             return klass()
 
 
-def get_goal_types() -> List[str]:
-    generic_types = GOAL_TYPES.keys()
-    specific_types = [klass.__name__.replace('Goal', '') for classes in GOAL_TYPES.values() for klass in classes]
-    return list(generic_types) + specific_types
+def get_goal_types(generic_type: Optional[str] = None) -> List[str]:
+    if generic_type is None:
+        generic_types = GOAL_TYPES.keys()
+        specific_types = [klass.__name__.replace('Goal', '') for classes in GOAL_TYPES.values() for klass in classes]
+        return list(generic_types) + specific_types
+    else:
+        specific_types = [klass.__name__.replace('Goal', '') for klass in GOAL_TYPES[generic_type]]
+        return [generic_type] + specific_types
