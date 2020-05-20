@@ -138,16 +138,15 @@ class ShapeConstancyQuartet(Quartet):
             implausible_event_step = implausible_event_index + a['forces'][0]['stepBegin']
             implausible_event_x = a['intphys_option']['position_by_step'][implausible_event_index]
             b['shows'][0]['position']['x'] = implausible_event_x
-            b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
             b['forces'] = copy.deepcopy(a['forces'])
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
             # 8 steps is enough time for the object to fall to the ground
             implausible_event_step = 8 + a['shows'][0]['stepBegin']
             b['shows'][0]['position']['x'] = a['shows'][0]['position']['x']
-            b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
             b['shows'][0]['position']['y'] = a['intphys_option']['position_y']
         else:
             raise ValueError(f'unknown object creation function, cannot update scene: {self._goal._object_creator}')
+        b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
         b['shows'][0]['stepBegin'] = implausible_event_step
         logging.debug(f'hiding a ({a["id"]}) at step {implausible_event_step}')
         a['hides'] = [{
@@ -164,11 +163,6 @@ class ShapeConstancyQuartet(Quartet):
             implausible_event_index = a['intphys_option']['implausible_event_index']
             implausible_event_step = implausible_event_index + a['forces'][0]['stepBegin']
             implausible_event_x = a['intphys_option']['position_by_step'][implausible_event_index]
-            # put b where a was so it can later turn into a
-            b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
-            b['hides'] = [{
-                'stepBegin': implausible_event_step
-            }]
             b['forces'] = copy.deepcopy(a['forces'])
             a['shows'][0]['position']['x'] = implausible_event_x
             pass
