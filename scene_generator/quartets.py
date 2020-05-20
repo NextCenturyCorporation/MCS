@@ -108,7 +108,8 @@ class ShapeConstancyQuartet(Quartet):
         possible_defs = []
         normalized_scale = a['shows'][0]['scale']
         # cylinders have "special" scaling: scale.y is half what it is
-        # for other objects
+        # for other objects (because Unity automatically doubles the
+        # scale.y of cylinders)
         if a['type'] == 'cylinder':
             normalized_scale = normalized_scale.copy()
             normalized_scale['y'] *= 2
@@ -163,6 +164,11 @@ class ShapeConstancyQuartet(Quartet):
             implausible_event_index = a['intphys_option']['implausible_event_index']
             implausible_event_step = implausible_event_index + a['forces'][0]['stepBegin']
             implausible_event_x = a['intphys_option']['position_by_step'][implausible_event_index]
+            # put b where a was so it can later turn into a
+            b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
+            b['hides'] = [{
+                'stepBegin': implausible_event_step
+            }]
             b['forces'] = copy.deepcopy(a['forces'])
             a['shows'][0]['position']['x'] = implausible_event_x
             pass
@@ -209,6 +215,10 @@ class ShapeConstancyQuartet(Quartet):
                 # Object B moves normally (replacing object A's movement),
                 # object A is never added to the scene (plausible)
                 self._b_replaces_a(scene)
+            # May have added and/or deleted an object, so regenerate
+            # goal.info_list
+            del scene['goal']['info_list']
+            self._goal._update_goal_info_list(scene['goal'], scene['objects'])
             self._scenes[q - 1] = scene
         logging.debug(f'get_scene: q={q}\thides? {scene["objects"][0].get("hides", None)}')
         return scene
