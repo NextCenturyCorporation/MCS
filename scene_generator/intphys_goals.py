@@ -149,7 +149,6 @@ class IntPhysGoal(Goal, ABC):
                 paired_x = position_by_step[position_index]
                 if min_paired_x <= paired_x <= max_paired_x:
                     break
-            paired_obj['intphys_option']['implausible_event_index'] = position_index
             if paired_z == IntPhysGoal.OBJECT_NEAR_Z:
                 occluder_x = paired_x * IntPhysGoal.NEAR_X_PERSPECTIVE_FACTOR
             elif paired_z == IntPhysGoal.OBJECT_FAR_Z:
@@ -163,6 +162,10 @@ class IntPhysGoal(Goal, ABC):
                     found_collision = True
                     break
             if not found_collision:
+                # occluder_indices are needed by quartets
+                occluder_indices = paired_obj['intphys_option'].get('occluder_indices', [])
+                occluder_indices.append(position_index)
+                paired_obj['intphys_option']['occluder_indices'] = occluder_indices
                 occluder_fits = True
                 break
         if occluder_fits:
@@ -200,7 +203,6 @@ class IntPhysGoal(Goal, ABC):
                 raise GoalException(f'Could not add minimum number of occluders ({num_paired_occluders})')
         self._add_occluders(occluder_list, num_occluders - num_paired_occluders, non_wall_materials, False)
         return occluder_list
-
 
     def _add_occluders(self, occluder_list: List[Dict[str, Any]],
                        num_to_add: int, non_wall_materials: List[Tuple],
