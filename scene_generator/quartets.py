@@ -35,7 +35,7 @@ class ObjectPermanenceQuartet(Quartet):
     def _appear_behind_occluder(self, body: Dict[str, Any]) -> None:
         target = find_target(body)
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
-            implausible_event_index = target['intphys_option']['implausible_event_index']
+            implausible_event_index = target['intphys_option']['occluder_indices'][0]
             implausible_event_step = implausible_event_index + target['forces'][0]['stepBegin']
             implausible_event_x = target['intphys_option']['position_by_step'][implausible_event_index]
             target['shows'][0]['position']['x'] = implausible_event_x
@@ -50,7 +50,7 @@ class ObjectPermanenceQuartet(Quartet):
     def _disappear_behind_occluder(self, body: Dict[str, Any]) -> None:
         target = find_target(body)
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
-            implausible_event_step = target['intphys_option']['implausible_event_index'] + \
+            implausible_event_step = target['intphys_option']['occluder_indices'][0] + \
                 target['forces'][0]['stepBegin']
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
             # 8 is enough steps for anything to fall to the ground
