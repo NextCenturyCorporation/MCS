@@ -197,7 +197,6 @@ class IntPhysGoal(Goal, ABC):
                                                       materials.METAL_MATERIALS)
             if occluder_objs is not None:
                 occluder_list.extend(occluder_objs)
-                break
             else:
                 logging.warning('could not fit required occluder')
                 raise GoalException(f'Could not add minimum number of occluders ({num_paired_occluders})')
@@ -462,7 +461,6 @@ class IntPhysGoal(Goal, ABC):
         return object_list, occluders
 
 
-
 class GravityGoal(IntPhysGoal):
     TEMPLATE = {
         'category': 'intphys',
@@ -627,5 +625,20 @@ class SpatioTemporalContinuityGoal(IntPhysGoal):
     def _get_num_paired_occluders(self) -> int:
         return 2
 
-    def _get_num_objects_moving_across(self) -> int:
-        return random.choices((2, 3), (60, 40))[0]
+    def _get_occluders(self, obj_list: List[Dict[str, Any]],
+                       wall_material_name: str) -> List[Dict[str, Any]]:
+        num_occluders = self._get_num_occluders()
+        non_wall_materials = [m for m in materials.CEILING_AND_WALL_MATERIALS
+                              if m[0] != wall_material_name]
+        target = obj_list[0]
+        occluder_list = []
+        for _ in range(2):
+            occluder_objs = self._get_paired_occluder(target, occluder_list, non_wall_materials,
+                                                      materials.METAL_MATERIALS)
+            if occluder_objs is None:
+                raise GoalException(f'Could not add minimum number of occluders')
+            occluder_list.extend(occluder_objs)
+
+        self._add_occluders(occluder_list, num_occluders - 2, non_wall_materials, False)
+
+        return occluder_list
