@@ -30,7 +30,8 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
         "return_status": MCS_Return_Status.UNDEFINED,
         "reward": 0,
         "rotation": 0.0,
-        "step_number": 0
+        "step_number": 0,
+        "structural_object_list": []
     }'''
 
     @classmethod
@@ -91,6 +92,10 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
     def test_step_number(self):
         self.assertEqual(self.mcs_step_output.step_number, 0)
         self.assertIsInstance(self.mcs_step_output.step_number, int)
+
+    def test_structural_object_list(self):
+        self.assertFalse(self.mcs_step_output.structural_object_list)
+        self.assertIsInstance(self.mcs_step_output.structural_object_list, list)
 
     def test_str(self):
         self.assertEqual(str(self.mcs_step_output), textwrap.dedent(self.str_output))

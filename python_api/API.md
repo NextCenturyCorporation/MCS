@@ -203,7 +203,7 @@ The list of images from the scene after the last action and physics simulation w
 
 ### object_list : list of MCS_Object objects
 
-The list of metadata for all currently visible objects in the scene.
+The list of metadata for all currently visible objects in the scene. For metadata on structural objects like walls, please see `structural_object_list`
 
 ### object_mask_list : list of Pillow.Image objects
 
@@ -230,6 +230,10 @@ The return status from your last action.
 ### rotation : float
 
 Your current rotation angle in degrees.
+
+### structural_object_list : list of MCS_Object objects
+
+The list of metadata for all the structural objects (like walls) in the scene. This includes occluders and ramps from IntPhys scenes. Please note that occluders are composed of two separate objects, the "wall" and the "pole", with corresponding object IDs (`occluder_wall_<uuid>` and `occluder_pole_<uuid>`), and ramps are composed of between one and three objects (depending on the type of ramp), with corresponding object IDs.
 
 ### step_number : integer
 

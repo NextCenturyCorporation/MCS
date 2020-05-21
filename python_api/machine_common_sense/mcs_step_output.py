@@ -25,7 +25,8 @@ class MCS_Step_Output:
         usually just a list with a single object, except for the MCS_Step_Output object returned from a call to
         controller.start_scene for a scene with a Pre-Interaction Phase.
     object_list : list of MCS_Object objects
-        The list of metadata for all objects in the scene.
+        The list of metadata for all the interactive objects in the scene. For metadata on structural objects like
+        walls, please see structural_object_list
     object_mask_list : list of Pillow.Image objects
         The list of object mask images from the scene after the last action and physics simulation were run.  This is
         usually just a list with a single object, except for the MCS_Step_Output object returned from a call to
@@ -42,6 +43,8 @@ class MCS_Step_Output:
         Your current rotation angle in degrees.
     step_number : integer
         The step number of your last action, recorded since you started the current scene.
+    structural_object_list : list of MCS_Object objects
+        The list of metadata for all the structural objects (like walls) in the scene.
     """
 
     def __init__(
@@ -58,7 +61,8 @@ class MCS_Step_Output:
         return_status=MCS_Return_Status.UNDEFINED,
         reward=0,
         rotation=0.0,
-        step_number=0
+        step_number=0,
+        structural_object_list=None
     ):
         self.action_list = [] if action_list is None else action_list
         self.depth_mask_list = [] if depth_mask_list is None else depth_mask_list
@@ -73,6 +77,7 @@ class MCS_Step_Output:
         self.reward = reward
         self.rotation = rotation
         self.step_number = step_number
+        self.structural_object_list = [] if structural_object_list is None else structural_object_list
 
     def __str__(self):
         return MCS_Util.class_to_str(self)
