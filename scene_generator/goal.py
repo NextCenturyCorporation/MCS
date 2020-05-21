@@ -5,10 +5,9 @@ import random
 from typing import Dict, Any, Tuple, List, Optional
 
 import geometry
-from geometry import random_position, random_rotation, calc_obj_pos, POSITION_DIGITS
-from objects import OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE
-from separating_axis_theorem import sat_entry
-from util import finalize_object_definition, instantiate_object
+import objects
+import separating_axis_theorem
+import util
 
 MAX_TRIES = 20
 MAX_WALL_WIDTH = 4
@@ -30,13 +29,14 @@ def generate_wall(wall_mat_choice: str, performer_position: Dict[str, float],
     tries = 0
     while tries < MAX_TRIES:
         rotation = random.choice((0, 90, 180, 270))
-        new_x = random_position()
-        new_z = random_position()
-        new_x_size = round(random.uniform(MIN_WALL_WIDTH, MAX_WALL_WIDTH), POSITION_DIGITS)
+        new_x = geometry.random_position()
+        new_z = geometry.random_position()
+        new_x_size = round(random.uniform(MIN_WALL_WIDTH, MAX_WALL_WIDTH), geometry.POSITION_DIGITS)
         rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, 0, 0, rotation)
         if not geometry.collision(rect, performer_position) and \
                 all(geometry.point_within_room(point) for point in rect) and \
-                (len(other_rects) == 0 or not any(sat_entry(rect, other_rect) for other_rect in other_rects)):
+                (len(other_rects) == 0 or not any(
+                    separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)):
             break
         tries += 1
 
@@ -94,21 +94,22 @@ class Goal(ABC):
         if self._performer_start is None:
             self._performer_start = {
                 'position': {
-                    'x': random_position(),
+                    'x': geometry.random_position(),
                     'y': 0,
-                    'z': random_position()
+                    'z': geometry.random_position()
                 },
                 'rotation': {
-                    'y': random_rotation()
+                    'y': geometry.random_rotation()
                 }
             }
         return self._performer_start
 
     def choose_object_def(self) -> Dict[str, Any]:
         """Pick one object definition (to be added to the scene) and return a copy of it."""
-        object_def_list = random.choices([OBJECTS_PICKUPABLE, OBJECTS_MOVEABLE, OBJECTS_IMMOBILE],
+        object_def_list = random.choices([objects.OBJECTS_PICKUPABLE, objects.OBJECTS_MOVEABLE,
+                                          objects.OBJECTS_IMMOBILE],
                                          [50, 25, 25])[0]
-        return finalize_object_definition(random.choice(object_def_list))
+        return util.finalize_object_definition(random.choice(object_def_list))
 
     @abstractmethod
     def compute_objects(self, wall_material_name: str) \
@@ -124,11 +125,11 @@ class Goal(ABC):
         object_count = random.randint(1, MAX_OBJECTS)
         for i in range(len(object_list), object_count):
             object_def = self.choose_object_def()
-            obj_location = calc_obj_pos(performer_position, rectangles, object_def)
+            obj_location = geometry.calc_obj_pos(performer_position, rectangles, object_def)
             obj_info = object_def['info'][-1]
             targets_info = [tgt['info'][-1] for tgt in self._targets]
             if obj_info not in targets_info and obj_location is not None:
-                obj = instantiate_object(object_def, obj_location)
+                obj = util.instantiate_object(object_def, obj_location)
                 object_list.append(obj)
 
     def _update_goal_info_list(self, goal: Dict[str, Any], all_objects: List[Dict[str, Any]]):

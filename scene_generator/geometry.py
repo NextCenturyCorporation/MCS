@@ -6,9 +6,11 @@ from typing import List, Dict, Any, Optional, Callable
 from separating_axis_theorem import sat_entry
 
 MAX_TRIES = 100
+PERFORMER_WIDTH = 0.1
+PERFORMER_HALF_WIDTH = PERFORMER_WIDTH / 2.0
 # the following mins and maxes are inclusive
-MIN_PERFORMER_POSITION = -4.8
-MAX_PERFORMER_POSITION = 4.8
+MIN_PERFORMER_POSITION = -4.8 + PERFORMER_HALF_WIDTH
+MAX_PERFORMER_POSITION = 4.8 - PERFORMER_HALF_WIDTH
 POSITION_DIGITS = 2
 VALID_ROTATIONS = (0, 45, 90, 135, 180, 225, 270, 315)
 
@@ -116,16 +118,29 @@ object in the frame, None otherwise."""
         offset_x = 0.0
         offset_z = 0.0
 
+    # reserve space around the performer
+    performer_rect = [
+        {'x': performer_position['x'] - PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] - PERFORMER_HALF_WIDTH},
+        {'x': performer_position['x'] - PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] + PERFORMER_HALF_WIDTH},
+        {'x': performer_position['x'] + PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] + PERFORMER_HALF_WIDTH},
+        {'x': performer_position['x'] + PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] - PERFORMER_HALF_WIDTH}
+    ]
+    logging.debug(f'performer_rect = {performer_rect}')
+
     tries = 0
+    collision_rects = other_rects + [performer_rect]
     while tries < MAX_TRIES:
         rotation = rotation_func()
         new_x = x_func()
         new_z = z_func()
 
         rect = calc_obj_coords(new_x, new_z, dx, dz, offset_x, offset_z, rotation)
-        if not collision(rect, performer_position) and \
-                rect_within_room(rect) and \
-                (len(other_rects) == 0 or not any(sat_entry(rect, other_rect) for other_rect in other_rects)):
+        if rect_within_room(rect) and \
+           (len(other_rects) == 0 or not any(sat_entry(rect, other_rect) for other_rect in collision_rects)):
             break
         tries += 1
 
