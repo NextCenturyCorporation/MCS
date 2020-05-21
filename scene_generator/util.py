@@ -20,7 +20,10 @@ def finalize_object_definition(object_def: Dict[str, Any]) -> Dict[str, Any]:
     return object_def_copy
 
 
-def instantiate_object(object_def: Dict[str, Any], object_location: Dict[str, Any]) -> Dict[str, Any]:
+def instantiate_object(object_def: Dict[str, Any],
+                       object_location: Dict[str, Dict[str, float]],
+                       materials_list: Optional[List[Tuple[str, List[str]]]] = None) \
+                       -> Dict[str, Any]:
     """Create a new object from an object definition (as from the objects.json file). object_location will be modified
     by this function."""
     if object_def is None or object_location is None:
@@ -43,6 +46,8 @@ def instantiate_object(object_def: Dict[str, Any], object_location: Dict[str, An
     for attribute in object_def['attributes']:
         new_object[attribute] = True
 
+    # need the original position for quartets
+    new_object['original_location'] = copy.deepcopy(object_location)
     if 'offset' in object_def:
         object_location['position']['x'] -= object_def['offset']['x']
         object_location['position']['z'] -= object_def['offset']['z']
@@ -55,9 +60,12 @@ def instantiate_object(object_def: Dict[str, Any], object_location: Dict[str, An
     object_location['stepBegin'] = 0
     object_location['scale'] = object_def['scale']
     colors = set()
-    if 'materialCategory' in object_def:
+    if materials_list is None and 'materialCategory' in object_def:
         materials_list = [random.choice(getattr(materials, name.upper() + '_MATERIALS')) for name in
                           object_def['materialCategory']]
+    if materials_list is not None:
+        # need to remember materials for quartets
+        new_object['materials_list'] = materials_list
         new_object['materials'] = [mat[0] for mat in materials_list]
         for material in materials_list:
             for color in material[1]:

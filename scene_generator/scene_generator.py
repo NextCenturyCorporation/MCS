@@ -51,6 +51,7 @@ def strip_debug_info(body: Dict[str, Any]) -> None:
         body['goal'].pop(goal_key, None)
     if 'metadata' in body['goal']:
         metadata = body['goal']['metadata']
+        metadata.pop('objects', None)
         for target_key in ('target', 'target_1', 'target_2'):
             if target_key in metadata:
                 metadata[target_key].pop('info', None)
@@ -61,6 +62,8 @@ def clean_object(obj: Dict[str, Any]) -> None:
     obj.pop('info', None)
     obj.pop('dimensions', None)
     obj.pop('intphys_option', None)
+    obj.pop('materials_list', None)
+    obj.pop('original_location', None)
     if 'shows' in obj:
         obj['shows'][0].pop('bounding_box', None)
 
