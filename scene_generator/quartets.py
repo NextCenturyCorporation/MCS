@@ -87,6 +87,76 @@ class ObjectPermanenceQuartet(Quartet):
         return scene
 
 
+class ShapeConstancyQuartet(Quartet):
+    """This quartet is about one object turning into another object of a
+    different shape. The 'a' object may turn into the 'b' object or
+    vice versa.
+    """
+
+    def __init__(self, template: Dict[str, Any], find_path: bool):
+        super(ShapeConstancyQuartet, self).__init__(template, find_path)
+        self._goal = intphys_goals.ShapeConstancyGoal()
+        self._scenes[0] = copy.deepcopy(self._template)
+        self._goal.update_body(self._scenes[0], self._find_path)
+        # we need the b object for 3/4 of the scenes, so generate it now
+        self._b = self._create_b()
+
+    def _create_b(self) -> Dict[str, Any]:
+        a = self._scenes[0]['objects'][0]
+        while True:
+            b_def = random.choice(objects.OBJECTS_INTPHYS)
+            if b_def['type'] != a['type']:
+                break
+        b_def = util.finalize_object_definition(b_def)
+        b = util.instantiate_object(b_def, a['original_location'], a['material_list'])
+        return b
+
+    def _turn_a_into_b(self, body: Dict[str, Any], q: int) -> None:
+        if self._goal._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across:
+            # TODO: In MCS-124
+            pass
+        elif self._goal._object_creator == IntPhysGoal._get_objects_falling_down:
+            # TODO: In MCS-131
+            pass
+        else:
+            raise ValueError('unknown object creation function, cannot update scene')
+
+    def _turn_b_into_a(self, body: Dict[str, Any], q: int) -> None:
+        if self._goal._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across:
+            # TODO: In MCS-124
+            pass
+        elif self._goal._object_creator == IntPhysGoal._get_objects_falling_down:
+            # TODO: In MCS-131
+            pass
+        else:
+            raise ValueError('unknown object creation function, cannot update scene')
+
+    def _b_replaces_a(self, body: Dict[str, Any], q: int) -> None:
+        body['objects'][0] = self._b
+
+    def get_scene(self, q: int) -> Dict[str, Any]:
+        if q < 1 or q > 4:
+            raise ValueError(f'q must be between 1 and 4 (exclusive), not {q}')
+        scene = self._scenes[q - 1]
+        if scene is None:
+            scene = copy.deepcopy(self._scenes[0])
+            if q == 2:
+                # Object A moves behind an occluder, then object B emerges
+                # from behind the occluder (implausible)
+                self._turn_a_into_b(scene)
+            elif q == 3:
+                # Object B moves behind an occluder (replacing object A's
+                # movement), then object A emerges from behind the
+                # occluder (implausible)
+                self._turn_b_into_a(scene)
+            elif q == 4:
+                # Object B moves normally (replacing object A's movement),
+                # object A is never added to the scene (plausible)
+                self._b_replaces_a(scene)
+            self._scenes[q - 1] = scene
+        return scene
+
+
 QUARTET_TYPES = [ObjectPermanenceQuartet]
 
 
