@@ -22,7 +22,10 @@ WALL_DEPTH = 0.1
 def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
     """Return a random real number N where a <= N <= b and N - a is divisible by step."""
     steps = int((b - a) / step)
-    n = random.randint(0, steps)
+    try:
+        n = random.randint(0, steps)
+    except ValueError as e:
+        raise ValueError(f'bad args to random_real: ({a}, {b}, {step})', e)
     return a + (n * step)
 
 
@@ -104,6 +107,7 @@ class IntPhysGoal(Goal, ABC):
         goal = copy.deepcopy(self.TEMPLATE)
         goal['last_step'] = self._last_step
         goal['action_list'] = [['Pass']] * goal['last_step']
+        goal['metadata']['objects'] = [obj['id'] for obj in self._goal_objects]
 
         self._update_goal_info_list(goal, all_objects)
         return goal
@@ -119,7 +123,7 @@ class IntPhysGoal(Goal, ABC):
                                               IntPhysGoal._get_objects_falling_down])
         self._last_step = IntPhysGoal.LAST_STEP_FALL_DOWN
         objs, occluders = self._object_creator(self, wall_material_name)
-        return [], objs + occluders, []
+        return objs, objs + occluders, []
 
     def _get_num_occluders(self) -> int:
         """Return number of occluders for the scene."""
@@ -162,6 +166,7 @@ class IntPhysGoal(Goal, ABC):
                     paired_x = position_by_step[position_index]
                     if min_paired_x <= paired_x <= max_paired_x:
                         break
+                paired_obj['intphys_option']['implausible_event_index'] = position_index
                 if paired_z == IntPhysGoal.OBJECT_NEAR_Z:
                     occluder_x = paired_x * IntPhysGoal.NEAR_X_PERSPECTIVE_FACTOR
                 elif paired_z == IntPhysGoal.OBJECT_FAR_Z:
@@ -240,8 +245,8 @@ class IntPhysGoal(Goal, ABC):
     def _get_num_objects_moving_across(self) -> int:
         return random.choices((1, 2, 3), (40, 30, 30))[0]
 
-    def _get_objects_moving_across(self, wall_material_name: str, last_action_end_step,
-                                   earliest_action_start_step = EARLIEST_ACTION_START_STEP,
+    def _get_objects_moving_across(self, wall_material_name: str, last_action_end_step: int,
+                                   earliest_action_start_step: int = EARLIEST_ACTION_START_STEP,
                                    valid_positions: Iterable = frozenset(Position),
                                    positions = None,
                                    valid_defs: List[Dict[str, Any]] = objects.OBJECTS_INTPHYS) \
@@ -341,7 +346,11 @@ class IntPhysGoal(Goal, ABC):
             min_step_begin = earliest_action_start_step
             if location in acceleration_ordering and acceleration_ordering[location] in location_assignments:
                 min_step_begin = location_assignments[acceleration_ordering[location]]['shows'][0]['stepBegin']
-            stepBegin = random.randint(min_step_begin, last_action_end_step - len(filtered_position_by_step))
+            max_step_begin = last_action_end_step - len(filtered_position_by_step)
+            if min_step_begin >= max_step_begin:
+                stepBegin = min_step_begin
+            else:
+                stepBegin = random.randint(min_step_begin, max_step_begin)
             obj['shows'][0]['stepBegin'] = stepBegin
             obj['forces'] = [{
                 'stepBegin': stepBegin,
@@ -383,8 +392,11 @@ class IntPhysGoal(Goal, ABC):
                 for obj in object_list:
                     distance = abs(obj['shows'][0]['position']['x'] - x_position)
                     too_close = distance < min_obj_distance
+                    if too_close:
+                        break
                 if not too_close:
                     found_space = True
+                    break
             if not found_space:
                 raise GoalException(f'Could not place {i+1} objects to fall down')
             location = {
@@ -398,9 +410,13 @@ class IntPhysGoal(Goal, ABC):
             obj = instantiate_object(obj_def, location)
             obj['shows'][0]['stepBegin'] = random.randint(IntPhysGoal.EARLIEST_ACTION_START_STEP,
                                                           IntPhysGoal.LATEST_ACTION_FALL_DOWN_START_STEP)
+            obj['intphys_option'] = {
+                'position_y': obj_def['position_y']
+            }
             object_list.append(obj)
         # place required occluders, then (maybe) some random ones
         num_occluders = 2 if num_objects == 2 else random.choice((1, 2))
+        logging.debug(f'num_objects = {num_objects}\tnum_occluders = {num_occluders}')
         occluders = []
         non_wall_materials = [m for m in materials.CEILING_AND_WALL_MATERIALS
                               if m[0] != wall_material_name]
@@ -419,10 +435,13 @@ class IntPhysGoal(Goal, ABC):
                 distance = abs(occluder['shows'][0]['position']['x'] - x_position)
                 scale = 2 * (distance - occluder['shows'][0]['scale']['x'] / 2.0 - MIN_OCCLUDER_SEPARATION)
                 if scale < 0:
-                    raise GoalException('Placed objects too close together after all')
+                    raise GoalException(f'Placed objects too close together after all ({distance})')
                 if scale < max_scale:
                     max_scale = scale
-            x_scale = random_real(min_scale, max_scale, MIN_RANDOM_INTERVAL)
+            if max_scale <= min_scale:
+                x_scale = min_scale
+            else:
+                x_scale = random_real(min_scale, max_scale, MIN_RANDOM_INTERVAL)
             adjusted_x = x_position * factor
             occluder_pair = objects.create_occluder(random.choice(non_wall_materials)[0],
                                                     random.choice(materials.METAL_MATERIALS)[0],
@@ -505,7 +524,7 @@ class GravityGoal(IntPhysGoal):
         -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
         objs = self._get_ramp_and_objects(wall_material_name)
         scenery = self._compute_scenery()
-        return [], objs + scenery, []
+        return objs, objs + scenery, []
 
     def _create_random_ramp(self) -> Tuple[ramps.Ramp, bool, List[Dict[str, Any]]]:
         material_name = random.choice(materials.OCCLUDER_MATERIALS)[0]
@@ -528,7 +547,6 @@ class GravityGoal(IntPhysGoal):
         else:
             valid_positions = set(IntPhysGoal.Position)
         positions = []
-        # TODO: later this will get imported from objects (or somewhere else)
         # only want intphys_options where y == 0
         valid_defs = []
         for obj_def in objects.OBJECTS_INTPHYS:
@@ -570,47 +588,6 @@ class ObjectPermanenceGoal(IntPhysGoal):
 
     def __init__(self):
         super(ObjectPermanenceGoal, self).__init__()
-
-    def _appear_behind_occluder(self, body: Dict[str, Any]) -> None:
-        if self._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across:
-            # TODO: In MCS-123
-            pass
-        elif self._object_creator == IntPhysGoal._get_objects_falling_down:
-            # TODO: In MCS-130
-            pass
-        else:
-            raise ValueError('unknown object creation function, cannot update scene')
-
-    def _disappear_behind_occluder(self, body: Dict[str, Any]) -> None:
-        if self._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across:
-            # TODO: In MCS-123
-            pass
-        elif self._object_creator == IntPhysGoal._get_objects_falling_down:
-            # TODO: In MCS-130
-            pass
-        else:
-            raise ValueError('unknown object creation function, cannot update scene')
-
-    def update_quartet_member(self, body: Dict[str, Any], q: int) -> None:
-        self.update_body(body)
-        if q == 1:
-            # normal (plausible)
-            pass
-        elif q == 2:
-            # target moves behind occluder and disappears (implausible)
-            self._disappear_behind_occluder(body)
-        elif q == 3:
-            # target first appears from behind occluder (implausible)
-            self._appear_behind_occluder(body)
-        elif q == 4:
-            # target not in the scene (plausible)
-            target_id = body['metadata']['target']['id']
-            for obj in body['objects']:
-                if obj['id'] == target_id:
-                    del body['objects'][obj]
-                    break
-        else:
-            raise ValueError(f'q must be between 1 and 4 (inclusive), not {q}')
 
 
 class ShapeConstancyGoal(IntPhysGoal):

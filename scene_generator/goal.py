@@ -71,12 +71,14 @@ class Goal(ABC):
     def __init__(self):
         self._performer_start = None
         self._targets = []
+        self._goal_objects = []
 
     def update_body(self, body: Dict[str, Any], find_path: bool) -> Dict[str, Any]:
         """Helper method that calls other Goal methods to set performerStart, objects, and goal. Returns the goal body
         object."""
         body['performerStart'] = self.compute_performer_start()
         goal_objects, all_objects, bounding_rects = self.compute_objects(body['wallMaterial'])
+        self._goal_objects = goal_objects
         walls = self.generate_walls(body['wallMaterial'], body['performerStart']['position'],
                                     bounding_rects)
         body['objects'] = all_objects + walls
