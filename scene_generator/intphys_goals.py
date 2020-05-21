@@ -376,6 +376,10 @@ class IntPhysGoal(Goal, ABC):
 
         return new_objects
 
+
+    def _get_num_occluders_falling_down(self, num_objects: int) -> int:
+        return 2 if num_objects == 2 else random.choice((1, 2))
+
     def _get_objects_falling_down(self, wall_material_name: str) \
         -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
         MAX_POSITION_TRIES = 100
@@ -424,7 +428,7 @@ class IntPhysGoal(Goal, ABC):
             }
             object_list.append(obj)
         # place required occluders, then (maybe) some random ones
-        num_occluders = 2 if num_objects == 2 else random.choice((1, 2))
+        num_occluders = self._get_num_occluders_falling_down(num_objects)
         logging.debug(f'num_objects = {num_objects}\tnum_occluders = {num_occluders}')
         occluders = []
         non_wall_materials = [m for m in materials.CEILING_AND_WALL_MATERIALS
@@ -455,6 +459,8 @@ class IntPhysGoal(Goal, ABC):
             occluder_pair = objects.create_occluder(random.choice(non_wall_materials)[0],
                                                     random.choice(materials.METAL_MATERIALS)[0],
                                                     adjusted_x, x_scale, True)
+            # occluded_id needed by SpatioTemporalContinuityQuartet
+            occluder_pair[0]['intphys_option']['occluded_id'] = paired_obj['id']
             occluders.extend(occluder_pair)
         self._add_occluders(occluders, num_occluders - num_objects, non_wall_materials, True)
 
@@ -642,3 +648,6 @@ class SpatioTemporalContinuityGoal(IntPhysGoal):
         self._add_occluders(occluder_list, num_occluders - 2, non_wall_materials, False)
 
         return occluder_list
+
+    def _get_num_occluders_falling_down(self, num_objects: int) -> int:
+        return 2

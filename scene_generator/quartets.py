@@ -1,6 +1,6 @@
 import copy
 from abc import ABC, abstractmethod
-from typing import Dict, Any, List, Type, Optional
+from typing import Dict, Any, List, Type, Optional, Tuple
 
 import intphys_goals
 from goal import GoalException
@@ -128,10 +128,30 @@ class SpatioTemporalContinuityQuartet(Quartet):
             if 'forces' in target:
                 target['forces'][0]['stepBegin'] -= diff
 
+    def _find_other_occluder(self, target: Dict[str, Any], scene: Dict[str, Any]) -> \
+            Tuple[Dict[str, Any], Dict[str, Any]]:
+        target_id = target['id']
+        other_occluder = None
+        other_object_id = None
+        for obj in scene['objects']:
+            occluded_id = obj.get('intphys_option', {}).get('occluded_id', None)
+            if occluded_id != target_id:
+                other_occluder = obj
+                other_object_id = occluded_id
+                break
+        if other_occluder is None:
+            raise GoalException('cannot find a second occluder, error generating scene')
+        if other_object_id is None:
+            other_object = None
+        else:
+            other_object = next((obj for obj in scene['objects'] if obj['id'] == other_object_id))
+        return other_occluder, other_object
+
     def _teleport_forward(self, scene: Dict[str, Any]) -> None:
+        scene['answer']['choice'] = 'implausible'
+        all_targets = find_targets(scene)
+        target = all_targets[0]
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
-            scene['answer']['choice'] = 'implausible'
-            target = find_targets(scene)[0]
             # go from the lower index to the higher one so we teleport forward
             implausible_event_index1 = target['intphys_option']['occluder_indices'][0]
             implausible_event_index2 = target['intphys_option']['occluder_indices'][1]
@@ -144,25 +164,44 @@ class SpatioTemporalContinuityQuartet(Quartet):
                 destination_index = implausible_event_index1
                 destination_x = target['intphys_option']['position_by_step'][destination_index]
             implausible_event_step = implausible_event_index + target['forces'][0]['stepBegin']
-            target['teleports'] = [{
-                'stepBegin': implausible_event_step,
-                'stepEnd': implausible_event_step,
-                'vector': {
-                    'x': destination_x,
-                    'y': 0,
-                    'z': 0
-                }
-            }]
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
-            # TODO: in MCS-132
-            pass
+            # 8 is enough for it to fall to the ground
+            implausible_event_step = 8 + target['shows'][0]['stepBegin']
+            # find another occluder besides the target's
+            other_occluder, other_object = self._find_other_occluder(target, scene)
+            # teleport the target behind the other occluder
+            factor = intphys_goals.IntPhysGoal.NEAR_X_PERSPECTIVE_FACTOR \
+                if target['shows'][0]['position']['z'] == intphys_goals.IntPhysGoal.OBJECT_NEAR_Z \
+                else intphys_goals.IntPhysGoal.FAR_X_PERSPECTIVE_FACTOR
+            destination_x = other_occluder['shows'][0]['position']['x'] / factor
+            # if the other occluder had an object behind it, teleport
+            # that where the target was
+            if other_object is not None:
+                other_object['teleports'] = [{
+                    'stepBegin': implausible_event_step,
+                    'stepEnd': implausible_event_step,
+                    'vector': {
+                        'x': target['shows'][0]['position']['x'],
+                        'y': target['shows'][0]['position']['y'],
+                        'z': target['shows'][0]['position']['z']
+                    }
+                }]
         else:
             raise ValueError('unknown object creation function, cannot update scene')
+        target['teleports'] = [{
+            'stepBegin': implausible_event_step,
+            'stepEnd': implausible_event_step,
+            'vector': {
+                'x': destination_x,
+                'y': target['shows'][0]['position']['y'],
+                'z': target['shows'][0]['position']['z']
+            }
+        }]
 
     def _teleport_backward(self, scene: Dict[str, Any]) -> None:
+        target = find_targets(scene)[0]
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             scene['answer']['choice'] = 'implausible'
-            target = find_targets(scene)[0]
             # go from the higher index to the lower one so we teleport backward
             implausible_event_index1 = target['intphys_option']['occluder_indices'][0]
             implausible_event_index2 = target['intphys_option']['occluder_indices'][1]
@@ -175,25 +214,45 @@ class SpatioTemporalContinuityQuartet(Quartet):
                 destination_index = implausible_event_index1
                 destination_x = target['intphys_option']['position_by_step'][destination_index]
             implausible_event_step = implausible_event_index + target['forces'][0]['stepBegin']
-            target['teleports'] = [{
-                'stepBegin': implausible_event_step,
-                'stepEnd': implausible_event_step,
-                'vector': {
-                    'x': destination_x,
-                    'y': 0,
-                    'z': 0
-                }
-            }]
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
-            # TODO: in MCS-132
-            pass
+            # 8 is enough for it to fall to the ground
+            implausible_event_step = 8 + target['shows'][0]['stepBegin']
+            # find another occluder besides the target's
+            other_occluder, other_object = self._find_other_occluder(target, scene)
+            # start behind the other occluder
+            original_position = target['shows'][0]['position'].copy()
+            factor = intphys_goals.IntPhysGoal.NEAR_X_PERSPECTIVE_FACTOR \
+                if target['shows'][0]['position']['z'] == intphys_goals.IntPhysGoal.OBJECT_NEAR_Z \
+                else intphys_goals.IntPhysGoal.FAR_X_PERSPECTIVE_FACTOR
+            target['shows'][0]['position']['x'] = other_occluder['shows'][0]['position']['x'] / factor
+            # later teleport back to its original position
+            destination_x = original_position['x']
+            # If the other occluder had an object behind it, start it
+            # in this object's original position and then teleport it
+            # back to its original position.
+            if other_object is not None:
+                other_object['teleports'] = [{
+                    'stepBegin': implausible_event_step,
+                    'stepEnd': implausible_event_step,
+                    'vector': other_object['shows'][0]['position'].copy()
+                }]
+                other_object['shows'][0]['position'] = original_position
         else:
             raise ValueError('unknown object creation function, cannot update scene')
+        target['teleports'] = [{
+            'stepBegin': implausible_event_step,
+            'stepEnd': implausible_event_step,
+            'vector': {
+                'x': destination_x,
+                'y': target['shows'][0]['position']['y'],
+                'z': target['shows'][0]['position']['z']
+            }
+        }]
 
     def _move_later(self, scene: Dict[str, Any]) -> None:
+        scene['answer']['choice'] = 'implausible'
+        target = find_targets(scene)[0]
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
-            scene['answer']['choice'] = 'implausible'
-            target = find_targets(scene)[0]
             implausible_event_index1 = target['intphys_option']['occluder_indices'][0]
             implausible_event_index2 = target['intphys_option']['occluder_indices'][1]
             adjustment = abs(implausible_event_index1 - implausible_event_index2)
@@ -201,8 +260,18 @@ class SpatioTemporalContinuityQuartet(Quartet):
             if 'forces' in target:
                 target['forces'][0]['stepBegin'] += adjustment
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
-            # TODO: in MCS-132
-            pass
+            # find another occluder besides the target's
+            other_occluder, other_object = self._find_other_occluder(target, scene)
+            # move target behind the other occluder
+            original_position = target['shows'][0]['position'].copy()
+            factor = intphys_goals.IntPhysGoal.NEAR_X_PERSPECTIVE_FACTOR \
+                if target['shows'][0]['position']['z'] == intphys_goals.IntPhysGoal.OBJECT_NEAR_Z \
+                else intphys_goals.IntPhysGoal.FAR_X_PERSPECTIVE_FACTOR
+            target['shows'][0]['position']['x'] = other_occluder['shows'][0]['position']['x'] / factor
+            # If there was another object behind the occluder, put it
+            # where the target was
+            if other_object is not None:
+                other_object['shows'][0]['position'] = original_position
         else:
             raise ValueError('unknown object creation function, cannot update scene')
 
@@ -221,7 +290,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
         return self._scenes[q - 1]
 
 
-QUARTET_TYPES = [ObjectPermanenceQuartet]
+QUARTET_TYPES: List[Type[Quartet]] = [ObjectPermanenceQuartet, SpatioTemporalContinuityQuartet]
 
 
 def get_quartet_class(name: str) -> Type[Quartet]:
