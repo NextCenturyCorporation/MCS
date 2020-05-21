@@ -94,6 +94,11 @@ class ObjectPermanenceQuartet(Quartet):
 
 
 class ShapeConstancyQuartet(Quartet):
+    """This quartet is about one object turning into another object of a
+    different shape. The 'a' object may turn into the 'b' object or
+    vice versa.
+    """
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(ShapeConstancyQuartet, self).__init__(template, find_path)
         self._goal = intphys_goals.ShapeConstancyGoal()

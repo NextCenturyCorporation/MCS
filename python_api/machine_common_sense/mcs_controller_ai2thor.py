@@ -28,13 +28,12 @@ from .mcs_reward import MCS_Reward
 from .mcs_step_output import MCS_Step_Output
 from .mcs_util import MCS_Util
 
+# From https://github.com/NextCenturyCorporation/ai2thor/blob/master/ai2thor/server.py#L232-L240
 def __image_depth_override(self, image_depth_data, **kwargs):
-    # From https://github.com/NextCenturyCorporation/ai2thor/blob/master/ai2thor/server.py#L232-L240
-    # Removed the part of the function that caused some objects to entirely disappear from the image.
+    # The MCS depth shader in Unity is completely different now, so override the original AI2-THOR depth image code.
+    # Just return what Unity sends us.
     image_depth = ai2thor.server.read_buffer_image(image_depth_data, self.screen_width, self.screen_height, **kwargs)
-    max_spots = image_depth[:,:,0] == 255
-    image_depth_out = image_depth[:,:,0] + image_depth[:,:,1] / numpy.float32(256) + image_depth[:,:,2] / numpy.float32(256 ** 2)
-    return image_depth_out.astype(numpy.float32)
+    return image_depth
 
 ai2thor.server.Event._image_depth = __image_depth_override
 

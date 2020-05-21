@@ -1,5 +1,5 @@
 import intphys_goals
-from quartets import ShapeConstancyQuartet
+from quartets import ShapeConstancyQuartet, ObjectPermanenceQuartet
 
 
 def test_ShapeConstancyQuartet():
@@ -42,3 +42,12 @@ def test_ShapeConstancyQuartet_get_scene_3():
     else:
         assert a['shows'][0]['stepBegin'] >= 8
         assert a['shows'][0]['position']['y'] == a['intphys_option']['position_y']
+
+
+def test_ObjectPermanenceQuartet_get_scene():
+    template = {'wallMaterial': 'dummy'}
+    quartet = ObjectPermanenceQuartet(template, False)
+    for q in range(1, 5):
+        scene = quartet.get_scene(q)
+        # at least one object and occluder (itself 2 objects)
+        assert len(scene['objects']) >= 3
