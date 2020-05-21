@@ -460,6 +460,8 @@ class IntPhysGoal(Goal, ABC):
                                                     random.choice(materials.METAL_MATERIALS)[0],
                                                     adjusted_x, x_scale, True)
             # occluded_id needed by SpatioTemporalContinuityQuartet
+            if 'intphys_option' not in occluder_pair[0]:
+                occluder_pair[0]['intphys_option'] = {}
             occluder_pair[0]['intphys_option']['occluded_id'] = paired_obj['id']
             occluders.extend(occluder_pair)
         self._add_occluders(occluders, num_occluders - num_objects, non_wall_materials, True)
