@@ -156,6 +156,7 @@ def generate_quartet(prefix: str, index: int, quartet_name: str,
     quartet = quartet_class(template, find_path)
     for q in range(1, 5):
         name = f'{prefix}-{index:04}-{q}.json'
+        logging.debug(f'starting generation of\t{name}')
         while True:
             try:
                 scene = quartet.get_scene(q)
@@ -166,6 +167,7 @@ def generate_quartet(prefix: str, index: int, quartet_name: str,
                 if stop_on_error:
                     raise
                 logging.warning(f'failed to create a quartet member: {e}')
+        logging.debug(f'end generation of\t{name}')
 
 
 def generate_quartets(prefix: str, count: int, quartet_name: str,

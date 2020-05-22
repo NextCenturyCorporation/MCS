@@ -1,4 +1,5 @@
 import copy
+import logging
 import random
 from abc import ABC, abstractmethod
 from typing import Dict, Any, List, Type, Optional
@@ -35,6 +36,7 @@ class ObjectPermanenceQuartet(Quartet):
         self._goal = intphys_goals.ObjectPermanenceGoal()
         self._scenes[0] = copy.deepcopy(self._template)
         self._goal.update_body(self._scenes[0], self._find_path)
+        logging.debug(f'OPQ: setup = f{self._goal._object_creator}')
 
     def _appear_behind_occluder(self, body: Dict[str, Any]) -> None:
         target = find_target(body)
@@ -102,6 +104,7 @@ class ShapeConstancyQuartet(Quartet):
         self._goal = intphys_goals.ShapeConstancyGoal()
         self._scenes[0] = copy.deepcopy(self._template)
         self._goal.update_body(self._scenes[0], self._find_path)
+        logging.debug(f'SCQ: setup = f{self._goal._object_creator}')
         # we need the b object for 3/4 of the scenes, so generate it now
         self._b = self._create_b()
 
@@ -128,59 +131,69 @@ class ShapeConstancyQuartet(Quartet):
         b_def = random.choice(possible_defs)
         b_def = util.finalize_object_definition(b_def)
         b = util.instantiate_object(b_def, a['original_location'], a['materials_list'])
+        logging.debug(f'a type: {a["type"]}\tb type: {b["type"]}')
         return b
 
     def _turn_a_into_b(self, scene: Dict[str, Any]) -> None:
         scene['answer']['choice'] = 'implausible'
         a = scene['objects'][0]
+        b = copy.deepcopy(self._b)
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             implausible_event_index = a['intphys_option']['implausible_event_index']
             implausible_event_step = implausible_event_index + a['forces'][0]['stepBegin']
             implausible_event_x = a['intphys_option']['position_by_step'][implausible_event_index]
-            a['hides'] = [{
-                'stepBegin': implausible_event_step
-            }]
-            b = copy.deepcopy(self._b)
-            b['shows'][0]['stepBegin'] = implausible_event_step
             b['shows'][0]['position']['x'] = implausible_event_x
-            b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
             b['forces'] = copy.deepcopy(a['forces'])
-            scene['objects'].append(b)
-            pass
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
-            # TODO: In MCS-131
-            pass
+            # 8 steps is enough time for the object to fall to the ground
+            implausible_event_step = 8 + a['shows'][0]['stepBegin']
+            b['shows'][0]['position']['x'] = a['shows'][0]['position']['x']
+            b['shows'][0]['position']['y'] = a['intphys_option']['position_y']
         else:
-            raise ValueError('unknown object creation function, cannot update scene')
+            raise ValueError(f'unknown object creation function, cannot update scene: {self._goal._object_creator}')
+        b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
+        b['shows'][0]['stepBegin'] = implausible_event_step
+        logging.debug(f'hiding a ({a["id"]}) at step {implausible_event_step}')
+        a['hides'] = [{
+            'stepBegin': implausible_event_step
+        }]
+        scene['objects'].append(b)
 
     def _turn_b_into_a(self, scene: Dict[str, Any]) -> None:
         scene['answer']['choice'] = 'implausible'
         a = scene['objects'][0]
+        b = copy.deepcopy(self._b)
+        b['shows'][0]['position']['x'] = a['shows'][0]['position']['x']
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             implausible_event_index = a['intphys_option']['implausible_event_index']
             implausible_event_step = implausible_event_index + a['forces'][0]['stepBegin']
             implausible_event_x = a['intphys_option']['position_by_step'][implausible_event_index]
-            # put b where a was so it can later turn into a
-            b = copy.deepcopy(self._b)
-            b['shows'][0]['position']['x'] = a['shows'][0]['position']['x']
-            b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
-            b['hides'] = [{
-                'stepBegin': implausible_event_step
-            }]
             b['forces'] = copy.deepcopy(a['forces'])
-            scene['objects'].append(b)
-
-            a['shows'][0]['stepBegin'] = implausible_event_step
             a['shows'][0]['position']['x'] = implausible_event_x
             pass
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
-            # TODO: In MCS-131
+            implausible_event_step = 8 + a['shows'][0]['stepBegin']
+            b['shows'][0]['position']['y'] = a['shows'][0]['position']['y']
+            a['shows'][0]['position']['y'] = a['intphys_option']['position_y']
             pass
         else:
-            raise ValueError('unknown object creation function, cannot update scene')
+            raise ValueError(f'unknown object creation function, cannot update scene: {self._goal._object_creator}')
+        b['shows'][0]['stepBegin'] = a['shows'][0]['stepBegin']
+        a['shows'][0]['stepBegin'] = implausible_event_step
+        b['shows'][0]['position']['z'] = a['shows'][0]['position']['z']
+        logging.debug(f'hiding b ({b["id"]}) at step {implausible_event_step}')
+        b['hides'] = [{
+            'stepBegin': implausible_event_step
+        }]
+        scene['objects'].append(b)
 
-    def _b_replaces_a(self, body: Dict[str, Any]) -> None:
-        body['objects'][0] = self._b
+    def _b_replaces_a(self, scene: Dict[str, Any]) -> None:
+        a = scene['objects'][0]
+        b = copy.deepcopy(self._b)
+        b['shows'] = a['shows']
+        if 'forces' in a:
+            b['forces'] = a['forces']
+        scene['objects'][0] = b
 
     def get_scene(self, q: int) -> Dict[str, Any]:
         if q < 1 or q > 4:
@@ -206,6 +219,7 @@ class ShapeConstancyQuartet(Quartet):
             del scene['goal']['info_list']
             self._goal._update_goal_info_list(scene['goal'], scene['objects'])
             self._scenes[q - 1] = scene
+        logging.debug(f'get_scene: q={q}\thides? {scene["objects"][0].get("hides", None)}')
         return scene
 
 
