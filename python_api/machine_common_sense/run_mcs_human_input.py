@@ -134,7 +134,7 @@ def main():
     controller = MCS.create_controller(sys.argv[1], debug=debug, enable_noise=enable_noise)
 
     config_file_path = sys.argv[2]
-    config_file_name = config_file_path[config_file_path.rfind('/'):]
+    config_file_name = config_file_path[config_file_path.rfind('/')+1:]
 
     if 'name' not in config_data.keys():
         config_data['name'] = config_file_name[0:config_file_name.find('.')]
