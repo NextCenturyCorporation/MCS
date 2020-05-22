@@ -180,7 +180,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
                 other_object['teleports'] = [{
                     'stepBegin': implausible_event_step,
                     'stepEnd': implausible_event_step,
-                    'vector': {
+                    'position': {
                         'x': target['shows'][0]['position']['x'],
                         'y': target['shows'][0]['position']['y'],
                         'z': target['shows'][0]['position']['z']
@@ -191,7 +191,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
         target['teleports'] = [{
             'stepBegin': implausible_event_step,
             'stepEnd': implausible_event_step,
-            'vector': {
+            'position': {
                 'x': destination_x,
                 'y': target['shows'][0]['position']['y'],
                 'z': target['shows'][0]['position']['z']
@@ -234,7 +234,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
                 other_object['teleports'] = [{
                     'stepBegin': implausible_event_step,
                     'stepEnd': implausible_event_step,
-                    'vector': other_object['shows'][0]['position'].copy()
+                    'position': other_object['shows'][0]['position'].copy()
                 }]
                 other_object['shows'][0]['position'] = original_position
         else:
@@ -242,7 +242,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
         target['teleports'] = [{
             'stepBegin': implausible_event_step,
             'stepEnd': implausible_event_step,
-            'vector': {
+            'position': {
                 'x': destination_x,
                 'y': target['shows'][0]['position']['y'],
                 'z': target['shows'][0]['position']['z']
