@@ -369,6 +369,7 @@ class IntPhysGoal(Goal, ABC):
             if location in (IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR, IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR):
                 obj['forces'][0]['vector']['x'] *= -1
             intphys_option['position_by_step'] = filtered_position_by_step
+            intphys_option['position_y'] = obj_def['position_y']
             obj['intphys_option'] = intphys_option
             new_objects.append(obj)
             if positions is not None:
