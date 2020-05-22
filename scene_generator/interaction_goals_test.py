@@ -7,6 +7,7 @@ from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
 
 import geometry
 import objects
+import scene_generator
 from geometry import POSITION_DIGITS
 from goals import *
 from interaction_goals import move_to_container, parse_path_section, get_navigation_actions
@@ -238,3 +239,18 @@ def test__generate_transferral_goal_with_nonstackable_goal():
     with pytest.raises(ValueError) as excinfo:
         goal = goal_obj.get_config([pickupable_obj, other_obj], [])
     assert "second object must be" in str(excinfo.value)
+
+
+def test_MCS_158_performerStart():
+    """Ensure the performerStart is not right next to the target object."""
+    goal_obj = TraversalGoal()
+    body = scene_generator.generate_body_template('158-performerStart')
+    goal_obj.update_body(body, False)
+    metadata = body['goal']['metadata']
+    target_id = metadata['target']['id']
+    target = next((obj for obj in body['objects'] if obj['id'] == target_id))
+    target_position = target['shows'][0]['position']
+    performer_start = body['performerStart']['position']
+    dist = geometry.position_distance(target_position, performer_start)
+    assert dist >= geometry.MINIMUM_START_DIST_FROM_TARGET
+

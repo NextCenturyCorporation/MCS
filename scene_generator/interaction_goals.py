@@ -380,10 +380,15 @@ class TraversalGoal(Goal):
         target_def = self.choose_object_def()
         performer_start = self.compute_performer_start()
         performer_position = performer_start['position']
-        bounding_rects = []
-        target_location = geometry.calc_obj_pos(performer_position, bounding_rects, target_def)
-        if target_location is None:
-            raise GoalException('could not place target object')
+        # make sure the target is far enough away from the performer start
+        while True:
+            bounding_rects = []
+            target_location = geometry.calc_obj_pos(performer_position, bounding_rects, target_def)
+            if target_location is None:
+                raise GoalException('could not place target object')
+            distance = geometry.position_distance(performer_start, target_location['position'])
+            if distance >= geometry.MINIMUM_START_DIST_FROM_TARGET:
+                break
 
         target = instantiate_object(target_def, target_location)
         self._targets.append(target)

@@ -16,6 +16,7 @@ VALID_ROTATIONS = (0, 45, 90, 135, 180, 225, 270, 315)
 
 ROOM_DIMENSIONS = ((-4.95, 4.95), (-4.95, 4.95))
 
+MINIMUM_START_DIST_FROM_TARGET = 2
 
 ORIGIN = {
     "x": 0.0,
@@ -184,3 +185,8 @@ def occluders_too_close(occluder: Dict[str, Any], x_position: float, x_scale: fl
     min_distance = existing_scale / 2.0 + x_scale / 2.0 + 0.5
     existing_x = occluder['shows'][0]['position']['x']
     return abs(existing_x - x_position) < min_distance
+
+
+def position_distance(a: Dict[str, float], b: Dict[str, float]) -> float:
+    """Compute the distance between two positions."""
+    return math.sqrt((a['x'] - b['x'])**2 + (a['y'] - b['y'])**2 + (a['z'] - b['z'])**2)
