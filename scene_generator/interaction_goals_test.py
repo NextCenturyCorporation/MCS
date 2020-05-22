@@ -242,7 +242,8 @@ def test__generate_transferral_goal_with_nonstackable_goal():
 
 
 def test_MCS_158_performerStart():
-    """Ensure the performerStart is not right next to the target object."""
+    """Ensure the performerStart is not right next to the target object
+    (for TraversalGoal)."""
     goal_obj = TraversalGoal()
     body = scene_generator.generate_body_template('158-performerStart')
     goal_obj.update_body(body, False)
@@ -254,3 +255,16 @@ def test_MCS_158_performerStart():
     dist = geometry.position_distance(target_position, performer_start)
     assert dist >= geometry.MINIMUM_START_DIST_FROM_TARGET
 
+def test_MCS_158_target_separation():
+    """Ensure that the targets for TransferralGoal aren't too close to each other."""
+    goal_obj = TransferralGoal()
+    body = scene_generator.generate_body_template('158-performerStart')
+    goal_obj.update_body(body, False)
+    metadata = body['goal']['metadata']
+    target1_id = metadata['target_1']['id']
+    target2_id = metadata['target_2']['id']
+    target1 = next((obj for obj in body['objects'] if obj['id'] == target1_id))
+    target2 = next((obj for obj in body['objects'] if obj['id'] == target2_id))
+    distance = geometry.position_distance(target1['shows'][0]['position'],
+                                          target2['shows'][0]['position'])
+    assert distance >= geometry.MINIMUM_TARGET_SEPARATION

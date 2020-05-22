@@ -274,7 +274,16 @@ class TransferralGoal(InteractionGoal):
         target2_def = next((tgt for tgt in targets if 'stackTarget' in tgt.get('attributes', [])), None)
         if target2_def is None:
             raise ValueError(f'No stack targets found for transferral goal')
-        target2_location = geometry.calc_obj_pos(self._performer_start['position'], self._bounding_rects, target2_def)
+        # ensure the targets aren't too close together
+        while True:
+            new_bounding_rects = self._bounding_rects.copy()
+            target2_location = geometry.calc_obj_pos(self._performer_start['position'],
+                                                     new_bounding_rects, target2_def)
+            distance = geometry.position_distance(self._target['shows'][0]['position'],
+                                                  target2_location['position'])
+            if distance >= geometry.MINIMUM_TARGET_SEPARATION:
+                break
+        self._bounding_rects = new_bounding_rects
         target2 = instantiate_object(target2_def, target2_location)
         self._goal_objects = [target2]
 
@@ -386,7 +395,8 @@ class TraversalGoal(Goal):
             target_location = geometry.calc_obj_pos(performer_position, bounding_rects, target_def)
             if target_location is None:
                 raise GoalException('could not place target object')
-            distance = geometry.position_distance(performer_start, target_location['position'])
+            distance = geometry.position_distance(performer_start['position'],
+                                                  target_location['position'])
             if distance >= geometry.MINIMUM_START_DIST_FROM_TARGET:
                 break
 
