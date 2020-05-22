@@ -77,8 +77,8 @@ def generate_file(name, goal_type, find_path):
         # PrettyJsonEncoder doesn't work with json.dump so use json.dumps here instead.
         try:
             out.write(json.dumps(body, cls=PrettyJsonEncoder, indent=2))
-        except:
-            logging.error(body)
+        except Exception as e:
+            logging.error(body, e)
 
 
 def wrap_with_json_no_indent(data, prop_list):

@@ -868,7 +868,6 @@ overall type, or EmptyGoal if goal_type is None"""
             return random.choice(GOAL_TYPES[goal_type])()
         else:
             class_name = goal_type + 'Goal'
-            print(globals().keys())
             klass = globals()[class_name]
             return klass()
 
