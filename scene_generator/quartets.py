@@ -134,11 +134,12 @@ class SpatioTemporalContinuityQuartet(Quartet):
         other_occluder = None
         other_object_id = None
         for obj in scene['objects']:
-            occluded_id = obj.get('intphys_option', {}).get('occluded_id', None)
-            if occluded_id != target_id:
-                other_occluder = obj
-                other_object_id = occluded_id
-                break
+            if obj.get('intphys_option', {}).get('is_occluder', False):
+                occluded_id = obj.get('intphys_option', {}).get('occluded_id', None)
+                if occluded_id != target_id:
+                    other_occluder = obj
+                    other_object_id = occluded_id
+                    break
         if other_occluder is None:
             raise GoalException('cannot find a second occluder, error generating scene')
         if other_object_id is None:
