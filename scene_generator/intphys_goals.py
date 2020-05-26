@@ -152,7 +152,9 @@ class IntPhysGoal(Goal, ABC):
             occluder_fits = False
             for _ in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
                 paired_obj = obj_list[i]
-                min_scale = min(max(paired_obj['shows'][0]['scale']['x'], IntPhysGoal.MIN_OCCLUDER_SCALE), IntPhysGoal.MAX_OCCLUDER_SCALE)
+                # object could be a cube on its corner, so use the diagonal distance
+                x_diagonal = math.sqrt(2) * paired_obj['shows'][0]['scale']['x']
+                min_scale = min(max(x_diagonal, IntPhysGoal.MIN_OCCLUDER_SCALE), IntPhysGoal.MAX_OCCLUDER_SCALE)
                 x_scale = random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
                 position_by_step = paired_obj['intphys_option']['position_by_step']
                 paired_z = paired_obj['shows'][0]['position']['z']
