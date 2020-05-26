@@ -20,7 +20,7 @@ if __name__ == "__main__":
     if 'name' not in config_data.keys():
         config_data['name'] = config_file_name[0:config_file_name.find('.')]
 
-    last_step = 30
+    last_step = 60
     if 'goal' in config_data.keys():
         if 'last_step' in config_data['goal'].keys():
             last_step = config_data['goal']['last_step']

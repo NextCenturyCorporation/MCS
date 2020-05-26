@@ -187,6 +187,8 @@ The list of all actions (like "MoveAhead" or "PickupObject") that are available 
 
 The list of depth mask images from the scene after the last action and physics simulation were run. This is normally a list with five images, where the physics simulation has unpaused and paused again for a little bit between each image, and the final image is the state of the environment before your next action. The MCS_Step_Output object returned from a call to controller.start_scene will normally have a list with only one image, except for a scene with a scripted Preview Phase.
 
+A pixel value of 255 translates to 25 in the environment's global coordinate system.
+
 ### goal : MCS_Goal
 
 The goal for the whole scene. Will be None in "Exploration" (a.k.a. "Free Play", or "Playroom") scenes.
