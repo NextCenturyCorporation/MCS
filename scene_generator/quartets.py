@@ -11,16 +11,15 @@ def find_target(scene: Dict[str, Any]) -> Dict[str, Any]:
     have them, but they do have objects that may behave plausibly or
     implausibly.)
     """
-    target_id = scene['goal']['metadata']['objects'][0]
-    return next((obj for obj in scene['objects'] if obj['id'] == target_id))
+    return find_targets(scene, 1)[0]
 
 
-def find_targets(scene: Dict[str, Any]) -> List[Dict[str, Any]]:
+def find_targets(scene: Dict[str, Any], num_targets: Optional[int] = None) -> List[Dict[str, Any]]:
     """Find 'target' objects in the scene. (IntPhys goals don't really
     have them, but they do have objects that may behave plausibly or
     implausibly.)
     """
-    target_ids = scene['goal']['metadata']['objects']
+    target_ids = scene['goal']['metadata']['objects'][:num_targets]
     # This isn't the most efficient way to do this, but since there
     # will only be 2-3 'target' objects and maybe a dozen total
     # objects, that's ok.
@@ -112,7 +111,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
             self._check_stepBegin()
 
     def _check_stepBegin(self) -> None:
-        target = find_targets(self._scenes[0])[0]
+        target = find_target(self._scenes[0])
         implausible_event_index1 = target['intphys_option']['occluder_indices'][0]
         implausible_event_index2 = target['intphys_option']['occluder_indices'][1]
         orig_stepBegin = target['shows'][0]['stepBegin']
@@ -160,6 +159,10 @@ class SpatioTemporalContinuityQuartet(Quartet):
             raise ValueError('unknown object creation function, cannot update scene')
 
     def _teleport_backward(self, scene: Dict[str, Any]) -> None:
+<<<<<<< Updated upstream
+=======
+        target = find_target(scene)
+>>>>>>> Stashed changes
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             scene['answer']['choice'] = 'implausible'
             target = find_targets(scene)[0]
@@ -191,6 +194,8 @@ class SpatioTemporalContinuityQuartet(Quartet):
             raise ValueError('unknown object creation function, cannot update scene')
 
     def _move_later(self, scene: Dict[str, Any]) -> None:
+        scene['answer']['choice'] = 'implausible'
+        target = find_target(scene)
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             scene['answer']['choice'] = 'implausible'
             target = find_targets(scene)[0]
