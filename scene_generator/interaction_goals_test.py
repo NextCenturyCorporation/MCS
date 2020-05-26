@@ -241,9 +241,9 @@ def test__generate_transferral_goal_with_nonstackable_goal():
     assert "second object must be" in str(excinfo.value)
 
 
-def test_MCS_158_performerStart():
+def test_traversal_performer_start_not_close_to_target():
     """Ensure the performerStart is not right next to the target object
-    (for TraversalGoal)."""
+    (for TraversalGoal). For MCS-158."""
     goal_obj = TraversalGoal()
     body = scene_generator.generate_body_template('158-performerStart')
     goal_obj.update_body(body, False)
@@ -255,8 +255,9 @@ def test_MCS_158_performerStart():
     dist = geometry.position_distance(target_position, performer_start)
     assert dist >= geometry.MINIMUM_START_DIST_FROM_TARGET
 
-def test_MCS_158_target_separation():
-    """Ensure that the targets for TransferralGoal aren't too close to each other."""
+def test_transferral_targets_not_close_to_each_other():
+    """Ensure that the targets for TransferralGoal aren't too close to
+    each other. For MCS-158."""
     goal_obj = TransferralGoal()
     body = scene_generator.generate_body_template('158-performerStart')
     goal_obj.update_body(body, False)
