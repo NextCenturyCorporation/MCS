@@ -38,7 +38,7 @@ def test_parse_path_section():
     expected_actions = [{
         'action': 'RotateLook',
         'params': {
-            'rotation': -45.0,
+            'rotation': 315.0,
             'horizon': 0.0
         }
     }, {
@@ -47,7 +47,7 @@ def test_parse_path_section():
             'amount': round(math.sqrt(2 * 0.1**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
         }
     }]
-    actions, new_heading = parse_path_section(path_section, 0)
+    actions, new_heading = parse_path_section(path_section, 0, (0, 0), [])
     assert actions == expected_actions
 
 
@@ -55,13 +55,13 @@ def test_get_navigation_action():
     expected_actions = [{
         'action': 'RotateLook',
         'params': {
-            'rotation': -45.0,
+            'rotation': 315.0,
             'horizon': 0.0
         }
     }, {
         'action': 'MoveAhead',
         'params': {
-            'amount': round(math.sqrt(2 * 0.1**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
+            'amount': round(math.sqrt(2 * 0.09**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
         }
     }]
     start = {
@@ -75,15 +75,38 @@ def test_get_navigation_action():
         }
     }
     goal_object = {
+        'id': 'goal',
         'shows': [{
             'position': {
                 'x': 0.1,
-                'y': 0,
+                'y': 0.5,
                 'z': 0.1
-            }
+            },
+            'bounding_box': [
+                {
+                    'x': 0.11,
+                    'y': 0.5,
+                    'z': 0.11
+                },
+                {
+                    'x': 0.09,
+                    'y': 0.5,
+                    'z': 0.11
+                },
+                {
+                    'x': 0.09,
+                    'y': 0.5,
+                    'z': 0.09
+                },
+                {
+                    'x': 0.11,
+                    'y': 0.5,
+                    'z': 0.09
+                },
+            ]
         }]
     }
-    actions = get_navigation_actions(start, goal_object, [])
+    actions = get_navigation_actions(start, goal_object, [goal_object])
     assert actions == expected_actions
     
     
@@ -91,13 +114,13 @@ def test_get_navigation_action_with_locationParent():
     expected_actions = [{
         'action': 'RotateLook',
         'params': {
-            'rotation': -45.0,
+            'rotation': 315.0,
             'horizon': 0.0
         }
     }, {
         'action': 'MoveAhead',
         'params': {
-            'amount': round(math.sqrt(2 * 0.1**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
+            'amount': round(math.sqrt(2 * 0.09**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
         }
     }]
     start = {
@@ -117,7 +140,29 @@ def test_get_navigation_action_with_locationParent():
                 'x': 0.1,
                 'y': 0,
                 'z': 0.1
-            }
+            },
+            'bounding_box': [
+                {
+                    'x': 0.11,
+                    'y': 0,
+                    'z': 0.11
+                },
+                {
+                    'x': 0.09,
+                    'y': 0,
+                    'z': 0.11
+                },
+                {
+                    'x': 0.09,
+                    'y': 0,
+                    'z': 0.09
+                },
+                {
+                    'x': 0.11,
+                    'y': 0,
+                    'z': 0.09
+                },
+            ]
         }]
     }
     goal_object = {
@@ -238,3 +283,71 @@ def test__generate_transferral_goal_with_nonstackable_goal():
     with pytest.raises(ValueError) as excinfo:
         goal = goal_obj.get_config([pickupable_obj, other_obj], [])
     assert "second object must be" in str(excinfo.value)
+
+
+def test_add_RotateLook_to_action_list_before_Pickup_or_Put_Object():
+    """For MCS-161"""
+    # make scene with a small target object
+    scene = {
+        'name': 'mcs-161',
+        'performerStart': {
+            'position': {
+                'x': 0,
+                'y': 0,
+                'z': 0
+            },
+            'rotation': {
+                'y': 0
+            }
+        },
+        'objects': [{
+            'id': 'object-01',
+            'type': 'sphere',
+            'dimensions': {
+                'x': 0.02,
+                'y': 0.02,
+                'z': 0.02
+            },
+            'shows': [{
+                'position': {
+                    'x': 0,
+                    'y': 0,
+                    'z': 2
+                },
+                'stepBegin': 0,
+                'scale': {
+                    'x': 0.02,
+                    'y': 0.02,
+                    'z': 0.02
+                },
+                'bounding_box': [
+                    {
+                        'x': 0.01,
+                        'y': 0,
+                        'z': 2.01,
+                    },
+                    {
+                        'x': 0.01,
+                        'y': 0,
+                        'z': 1.99,
+                    },
+                    {
+                        'x': -0.01,
+                        'y': 0,
+                        'z': 1.99,
+                    },
+                    {
+                        'x': -0.01,
+                        'y': 0,
+                        'z': 2.01,
+                    },
+                ]
+            }],
+        }]
+    }
+    # check that path finding looks down at it
+
+    goal_obj = RetrievalGoal()
+    goal_obj._performer_start = scene['performerStart']
+    path = goal_obj.find_optimal_path(scene['objects'], scene['objects'])
+    assert path[-1]['action'] == 'RotateLook'

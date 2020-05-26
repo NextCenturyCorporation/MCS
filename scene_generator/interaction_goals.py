@@ -7,7 +7,9 @@ import random
 import math
 from typing import Dict, Any, AnyStr, List, Tuple
 
-from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
+from sympy import Segment, intersection
+
+from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, PERFORMER_CAMERA_Y
 
 import geometry
 import objects
@@ -59,9 +61,9 @@ def parse_path_section(path_section: List[List[float]], current_heading: float, 
     """Compute the actions for one path section, starting with
     current_heading. Returns a tuple: (list of actions, new heading)"""
     actions = []
-    dx = path_section[1][0]-performer[0][0]
-    dz = path_section[1][1]-performer[0][1]
-    theta = math.degrees(math.atan2(dx,dz))
+    dx = path_section[1][0]-performer[0]
+    dz = path_section[1][1]-performer[1]
+    theta = math.degrees(math.atan2(dz, dx))
 
         #IF my calculations are correct, this should be right no matter what
         # I'm assuming a positive angle is a clockwise rotation- so this should work
@@ -84,16 +86,19 @@ def parse_path_section(path_section: List[List[float]], current_heading: float, 
         "action": "MoveAhead",
         "params": {}
     }] * int(whole))
-    ## Where am I?
-    performer = (performer[0]+MAX_MOVE_DISTANCE*whole*cos(radians(theta)), performer[1]+MAX_MOVE_DISTANCE*whole*sin(radians(theta)))
+    # Where am I?
+    performer = (performer[0] + MAX_MOVE_DISTANCE * whole * math.cos(math.radians(theta)),
+                 performer[1] + MAX_MOVE_DISTANCE * whole * math.sin(
+                     math.radians(theta)))
 
     goal_center = (path_section[1][0],path_section[1][1])
     performer_seg = Segment(performer, goal_center)
 
     for indx in range(len(goal_boundary)):
-        intersect_point = intersection(performer_seg, Segment((goal_boundary[indx-1]['x'],goal_boundary[indx-1]['z']), (goal_boundary[indx]['x'],goal_boundary[indx]['z'] )))
+        intersect_point = intersection(performer_seg, Segment((goal_boundary[indx-1]['x'],goal_boundary[indx-1]['z']),
+                                                              (goal_boundary[indx]['x'],goal_boundary[indx]['z'] )))
         if intersect_point:
-            frac = intersect_point[0].distance(performer)/ MAX_MOVE_DISTANCE
+            frac = intersect_point[0].distance(performer) / MAX_MOVE_DISTANCE
             assert frac < 1.0
             performer = intersect_point[0]
             break
@@ -126,9 +131,9 @@ def get_navigation_actions(start_location: Dict[str, Any], goal_object: Dict[str
     if path is None:
         raise GoalException(f'could not find path to target {goal_object["id"]}')
     for object in all_objects:
-         if object['id'] == goal_objects[0]['id']:
-             goal_boundary = object['shows'][0]['bounding_box'] 
-             break
+        if object['id'] == goal_object['id']:
+            goal_boundary = object['shows'][0]['bounding_box']
+            break
     actions = []
     current_heading = start_location['rotation']['y']
     for indx in range(len(path)-1):
@@ -259,13 +264,13 @@ class RetrievalGoal(InteractionGoal):
         # Goal should be a singleton... I hope
         actions = get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
 
-        #Do I have to look down to see the object????
-        plane_dist = math.sqrt( (goal[0]-performer[0] ) ** 2 + (goal[1]-performer[1]) ** 2 )
-        height_dist = PERFORMER_CAMERA_Y-goal_objects[0]['shows'][0]['position']['y']
-        elevation = degrees(math.atan2(height_dist,plane_dist))
+        # Do I have to look down to see the object????
+        plane_dist = math.sqrt((goal_objects[0]['shows'][0]['position']['x'] - self._performer_start['position']['x']) ** 2 +
+                               (goal_objects[0]['shows'][0]['position']['z'] - self._performer_start['position']['z']) ** 2)
+        height_dist = PERFORMER_CAMERA_Y - goal_objects[0]['shows'][0]['position']['y']
+        elevation = math.degrees(math.atan2(height_dist, plane_dist))
         if abs(elevation) > 30:
-            actions.append(
-                 {
+            actions.append({
                 'action': 'RotateLook',
                 'params': {
                     'rotation': 0,
@@ -362,10 +367,11 @@ class TransferralGoal(InteractionGoal):
             List[Dict[str, Any]]:
         # Goal should be a singleton... I hope
         actions = get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
-#Do I have to look down to see the object????
-        plane_dist = sqrt( (goal[0]-performer[0] ) ** 2 + (goal[1]-performer[1]) ** 2 )
+        # Do I have to look down to see the object????
+        plane_dist = math.sqrt((goal_objects[0]['shows'][0]['position']['x'] - self._performer_start['position']['x']) ** 2 +
+                               (goal_objects[0]['shows'][0]['position']['z'] - self._performer_start['position']['z']) ** 2)
         height_dist = PERFORMER_CAMERA_Y-goal_objects[0]['shows'][0]['position']['y']
-        elevation = degrees(atan2(height_dist,plane_dist))
+        elevation = math.degrees(math.atan2(height_dist, plane_dist))
         if abs(elevation) > 30:
             actions.append(
                  {
@@ -406,9 +412,13 @@ class TransferralGoal(InteractionGoal):
         if path is None:
             raise GoalException('could not find path from target object to goal')
         logging.debug(f'TransferralGoal.f_o_p: got path = {path}')
+        for object in all_objects:
+            if object['id'] == goal_objects[0]['id']:
+                goal_boundary = object['shows'][0]['bounding_box']
+                break
         current_heading = self._performer_start['rotation']['y']
         for indx in range(len(path)-1):
-            actions, current_heading = parse_path_section(path[indx:indx+2], current_heading)
+            actions, current_heading = parse_path_section(path[indx:indx+2], current_heading, self._performer_start, goal_boundary)
             actions.extend(actions)
 
         # TODO: maybe look at receptacle part of the parent object (future ticket)
