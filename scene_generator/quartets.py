@@ -116,6 +116,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
             pass
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
             # TODO: in MCS-132
+            pass
 
     def _move_later(self, scene: Dict[str, Any]) -> None:
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
@@ -123,6 +124,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
             pass
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
             # TODO: in MCS-132
+            pass
 
     def get_scene(self, q: int) -> Dict[str, Any]:
         if q < 1 or q > 4:
@@ -183,7 +185,7 @@ class ShapeConstancyQuartet(Quartet):
         a = scene['objects'][0]
         b = copy.deepcopy(self._b)
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
-            implausible_event_index = a['intphys_option']['implausible_event_index']
+            implausible_event_index = a['intphys_option']['occluder_indices'][0]
             implausible_event_step = implausible_event_index + a['forces'][0]['stepBegin']
             implausible_event_x = a['intphys_option']['position_by_step'][implausible_event_index]
             b['shows'][0]['position']['x'] = implausible_event_x
@@ -209,7 +211,7 @@ class ShapeConstancyQuartet(Quartet):
         b = copy.deepcopy(self._b)
         b['shows'][0]['position']['x'] = a['shows'][0]['position']['x']
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
-            implausible_event_index = a['intphys_option']['implausible_event_index']
+            implausible_event_index = a['intphys_option']['occluder_indices'][0]
             implausible_event_step = implausible_event_index + a['forces'][0]['stepBegin']
             implausible_event_x = a['intphys_option']['position_by_step'][implausible_event_index]
             b['forces'] = copy.deepcopy(a['forces'])
