@@ -84,38 +84,43 @@ def parse_path_section(path_section: List[Sequence[float]],
             }
         }
         actions.append(action)
-    distance = math.sqrt( dx ** 2 + dz ** 2 )
-    frac, whole = math.modf(distance / MAX_MOVE_DISTANCE)
-    actions.extend([{
-        "action": "MoveAhead",
-        "params": {}
-    }] * int(whole))
-    # Where am I?
-    performer = (performer[0] + MAX_MOVE_DISTANCE * whole * math.cos(math.radians(theta)),
-                 performer[1] + MAX_MOVE_DISTANCE * whole * math.sin(
-                     math.radians(theta)))
 
     goal_center = (path_section[1][0],path_section[1][1])
     performer_seg = Segment(performer, goal_center)
+    distance = None
 
     for indx in range(len(goal_boundary)):
         intersect_point = intersection(performer_seg, Segment((goal_boundary[indx-1]['x'],goal_boundary[indx-1]['z']),
                                                               (goal_boundary[indx]['x'],goal_boundary[indx]['z'] )))
         if intersect_point:
-            frac = float(intersect_point[0].distance(performer)) / MAX_MOVE_DISTANCE
-            assert frac < 1.0
+            distance = float(intersect_point[0].distance(performer))
             break
 
-    # Where am I?
-    performer = (performer[0] + MAX_MOVE_DISTANCE * frac * math.cos(math.radians(theta)),
-                 performer[1] + MAX_MOVE_DISTANCE * frac * math.sin(
-                     math.radians(theta)))
-    actions.append({
+    if distance is None:
+        distance = math.sqrt( dx ** 2 + dz ** 2 )
+    frac, whole = math.modf(distance / MAX_MOVE_DISTANCE)
+    actions.extend([{
         "action": "MoveAhead",
-        "params": {
-            "amount": round(frac, POSITION_DIGITS)
-        }
-    })
+        "params": {}
+    }] * int(whole))
+
+    rounded_frac = round(frac, POSITION_DIGITS)
+    if rounded_frac == 1.0:
+        actions.append({
+            "action": "MoveAhead",
+            "params": {}
+        })
+    elif rounded_frac > 0:
+        actions.append({
+            "action": "MoveAhead",
+            "params": {
+                "amount": rounded_frac
+            }
+        })
+    # Where am I?
+    performer = (performer[0] + distance * math.cos(math.radians(theta)),
+                 performer[1] + distance * math.sin(
+                     math.radians(theta)))
     return actions, current_heading, performer
 
 

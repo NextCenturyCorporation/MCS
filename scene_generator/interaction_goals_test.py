@@ -51,6 +51,38 @@ def test_parse_path_section():
     assert actions == expected_actions
 
 
+def test_parse_path_section_fractional():
+    path_section = ((0, 0), (1, 0))
+    goal_boundary = [{
+        'x': 1.1,
+        'y': 0,
+        'z': 0.1
+    }, {
+        'x': 1.1,
+        'y': 0,
+        'z': -0.1
+    }, {
+        'x': 0.9,
+        'y': 0,
+        'z': -0.1
+    }, {
+        'x': 0.9,
+        'y': 0,
+        'z': 0.1
+    }]
+    expected_actions = [{
+        'action': 'MoveAhead',
+        'params': {}
+    }, {
+        'action': 'MoveAhead',
+        'params': {
+            'amount': round(0.4 / MAX_MOVE_DISTANCE, POSITION_DIGITS)
+        }
+    }]
+    actions, new_heading, performer = parse_path_section(path_section, 0, (0, 0), goal_boundary)
+    assert actions == expected_actions
+
+
 def test_get_navigation_action():
     expected_actions = [{
         'action': 'RotateLook',
@@ -273,7 +305,6 @@ def test_get_navigation_action_with_turning():
                         {'action': 'MoveAhead', 'params': {'amount': 0.83}},
                         {'action': 'RotateLook', 'params': {'rotation': 45.0, 'horizon': 0.0}},
                         {'action': 'MoveAhead', 'params': {}}, {'action': 'MoveAhead', 'params': {}},
-                        {'action': 'MoveAhead', 'params': {'amount': 0.0}},
                         {'action': 'RotateLook', 'params': {'rotation': 45.0, 'horizon': 0.0}},
                         {'action': 'MoveAhead', 'params': {}}, {'action': 'MoveAhead', 'params': {}},
                         {'action': 'MoveAhead', 'params': {'amount': round((.9*math.sqrt(2)-1)/MAX_MOVE_DISTANCE, POSITION_DIGITS)}}]
@@ -453,5 +484,6 @@ def test_add_RotateLook_to_action_list_before_Pickup_or_Put_Object():
     goal_obj = RetrievalGoal()
     goal_obj._performer_start = scene['performerStart']
     path = goal_obj.find_optimal_path(scene['objects'], scene['objects'])
+    print(path)
     # TODO: uncomment when this is fixed
     # assert path[-1]['action'] == 'RotateLook'
