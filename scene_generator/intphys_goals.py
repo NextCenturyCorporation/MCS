@@ -142,12 +142,12 @@ class IntPhysGoal(Goal, ABC):
             x_scale = random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
             position_by_step = paired_obj['intphys_option']['position_by_step']
             paired_z = paired_obj['shows'][0]['position']['z']
-            min_paired_x = -3 + x_scale / 2
-            max_paired_x = 3 - x_scale / 2
+            min_paired_x_position = -3 + x_scale / 2
+            max_paired_x_position = 3 - x_scale / 2
             while True:
                 position_index = random.randrange(len(position_by_step))
                 paired_x = position_by_step[position_index]
-                if min_paired_x <= paired_x <= max_paired_x:
+                if min_paired_x_position <= paired_x <= max_paired_x_position:
                     break
             if paired_z == IntPhysGoal.OBJECT_NEAR_Z:
                 occluder_x = paired_x * IntPhysGoal.NEAR_X_PERSPECTIVE_FACTOR
