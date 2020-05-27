@@ -5,7 +5,7 @@ from enum import Enum
 import random
 
 import math
-from typing import Dict, Any, AnyStr, List, Tuple
+from typing import Dict, Any, AnyStr, List, Tuple, Sequence
 
 from sympy import Segment, intersection
 
@@ -57,9 +57,13 @@ def find_image_name(target: Dict[str, Any]) -> str:
     return generate_image_file_name(target) + '.png'
 
 
-def parse_path_section(path_section: List[List[float]], current_heading: float, performer, goal_boundary) -> Tuple[List[Dict[str, Any]], float]:
+def parse_path_section(path_section: List[Sequence[float]],
+                       current_heading: float,
+                       performer: Tuple[float, float],
+                       goal_boundary: List[Dict[str, float]]) -> \
+                       Tuple[List[Dict[str, Any]], float, Tuple[float, float]]:
     """Compute the actions for one path section, starting with
-    current_heading. Returns a tuple: (list of actions, new heading)"""
+    current_heading. Returns a tuple: (list of actions, new heading, performer position)"""
     actions = []
     dx = path_section[1][0]-performer[0]
     dz = path_section[1][1]-performer[1]
@@ -98,18 +102,21 @@ def parse_path_section(path_section: List[List[float]], current_heading: float, 
         intersect_point = intersection(performer_seg, Segment((goal_boundary[indx-1]['x'],goal_boundary[indx-1]['z']),
                                                               (goal_boundary[indx]['x'],goal_boundary[indx]['z'] )))
         if intersect_point:
-            frac = intersect_point[0].distance(performer) / MAX_MOVE_DISTANCE
+            frac = float(intersect_point[0].distance(performer)) / MAX_MOVE_DISTANCE
             assert frac < 1.0
-            performer = intersect_point[0]
             break
 
+    # Where am I?
+    performer = (performer[0] + MAX_MOVE_DISTANCE * frac * math.cos(math.radians(theta)),
+                 performer[1] + MAX_MOVE_DISTANCE * frac * math.sin(
+                     math.radians(theta)))
     actions.append({
         "action": "MoveAhead",
         "params": {
             "amount": round(frac, POSITION_DIGITS)
         }
     })
-    return actions, current_heading
+    return actions, current_heading, performer
 
 
 def get_navigation_actions(start_location: Dict[str, Any], goal_object: Dict[str, Any],
@@ -137,7 +144,7 @@ def get_navigation_actions(start_location: Dict[str, Any], goal_object: Dict[str
     actions = []
     current_heading = start_location['rotation']['y']
     for indx in range(len(path)-1):
-        new_actions, current_heading = parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary)
+        new_actions, current_heading, performer = parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary)
         actions.extend(new_actions)
 
     return actions
@@ -417,8 +424,9 @@ class TransferralGoal(InteractionGoal):
                 goal_boundary = object['shows'][0]['bounding_box']
                 break
         current_heading = self._performer_start['rotation']['y']
+        performer = (self._performer_start['position']['x'], self._performer_start['position']['z'])
         for indx in range(len(path)-1):
-            actions, current_heading = parse_path_section(path[indx:indx+2], current_heading, self._performer_start, goal_boundary)
+            actions, current_heading, performer = parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary)
             actions.extend(actions)
 
         # TODO: maybe look at receptacle part of the parent object (future ticket)

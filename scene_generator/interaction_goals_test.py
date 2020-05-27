@@ -47,7 +47,7 @@ def test_parse_path_section():
             'amount': round(math.sqrt(2 * 0.1**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
         }
     }]
-    actions, new_heading = parse_path_section(path_section, 0, (0, 0), [])
+    actions, new_heading, performer = parse_path_section(path_section, 0, (0, 0), [])
     assert actions == expected_actions
 
 
@@ -108,8 +108,8 @@ def test_get_navigation_action():
     }
     actions = get_navigation_actions(start, goal_object, [goal_object])
     assert actions == expected_actions
-    
-    
+
+
 def test_get_navigation_action_with_locationParent():
     expected_actions = [{
         'action': 'RotateLook',
@@ -178,8 +178,110 @@ def test_get_navigation_action_with_locationParent():
     }
     actions = get_navigation_actions(start, goal_object, [container_object, goal_object])
     assert actions == expected_actions
-    
-    
+
+
+def test_get_navigation_action_with_turning():
+    """Test get_navigation_actions when you have to turn because of
+    navigating around an obstacle:
+                G
+
+             ----------
+             |        |
+             ----------
+
+                S
+
+    (S is start, G is goal)
+    """
+    start = {
+        'position': {
+            'x': 0,
+            'y': 0,
+            'z': 0
+        },
+        'rotation': {
+            'y': 0
+        }
+    }
+    goal_obj = {
+        'id': 'goal-01',
+        'shows': [{
+            'position': {
+                'x': 0,
+                'y': 0,
+                'z': 3
+            },
+            'bounding_box': [
+                {
+                    'x': 0.1,
+                    'y': 0,
+                    'z': 3.1
+                },
+                {
+                    'x': 0.1,
+                    'y': 0,
+                    'z': 2.9
+                },
+                {
+                    'x': -0.1,
+                    'y': 0,
+                    'z': 2.9
+                },
+                {
+                    'x': -0.1,
+                    'y': 0,
+                    'z': 3.1
+                }
+            ]
+        }]
+    }
+    obstacle_obj = {
+        'id': 'obstacle-01',
+        'shows': [{
+            'position': {
+                'x': 1,
+                'y': 0,
+                'z': 1.5
+            },
+            'bounding_box': [
+                {
+                    'x': 2,
+                    'y': 0,
+                    'z': 2
+                },
+                {
+                    'x': 2,
+                    'y': 0,
+                    'z': 1
+                },
+                {
+                    'x': -1,
+                    'y': 0,
+                    'z': 1
+                },
+                {
+                    'x': -1,
+                    'y': 0,
+                    'z': 2
+                },
+                
+            ]
+        }]
+    }
+    expected_actions = [{'action': 'RotateLook', 'params': {'rotation': 225.0, 'horizon': 0.0}},
+                        {'action': 'MoveAhead', 'params': {}}, {'action': 'MoveAhead', 'params': {}},
+                        {'action': 'MoveAhead', 'params': {'amount': 0.83}},
+                        {'action': 'RotateLook', 'params': {'rotation': 45.0, 'horizon': 0.0}},
+                        {'action': 'MoveAhead', 'params': {}}, {'action': 'MoveAhead', 'params': {}},
+                        {'action': 'MoveAhead', 'params': {'amount': 0.0}},
+                        {'action': 'RotateLook', 'params': {'rotation': 45.0, 'horizon': 0.0}},
+                        {'action': 'MoveAhead', 'params': {}}, {'action': 'MoveAhead', 'params': {}},
+                        {'action': 'MoveAhead', 'params': {'amount': round((.9*math.sqrt(2)-1)/MAX_MOVE_DISTANCE, POSITION_DIGITS)}}]
+    all_objs = [goal_obj, obstacle_obj]
+    actions = get_navigation_actions(start, goal_obj, all_objs)
+    assert actions == expected_actions
+
+
 def test_RetrievalGoal_get_goal():
     goal_obj = RetrievalGoal()
     obj = {
@@ -286,6 +388,7 @@ def test__generate_transferral_goal_with_nonstackable_goal():
 
 
 def test_add_RotateLook_to_action_list_before_Pickup_or_Put_Object():
+
     """For MCS-161"""
     # make scene with a small target object
     scene = {
