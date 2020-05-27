@@ -138,7 +138,7 @@ def test_get_navigation_action():
             ]
         }]
     }
-    actions = get_navigation_actions(start, goal_object, [goal_object])
+    actions, performer = get_navigation_actions(start, goal_object, [goal_object])
     assert actions == expected_actions
 
 
@@ -208,7 +208,7 @@ def test_get_navigation_action_with_locationParent():
             }
         }]
     }
-    actions = get_navigation_actions(start, goal_object, [container_object, goal_object])
+    actions, performer = get_navigation_actions(start, goal_object, [container_object, goal_object])
     assert actions == expected_actions
 
 
@@ -309,7 +309,7 @@ def test_get_navigation_action_with_turning():
                         {'action': 'MoveAhead', 'params': {}}, {'action': 'MoveAhead', 'params': {}},
                         {'action': 'MoveAhead', 'params': {'amount': round((.9*math.sqrt(2)-1)/MAX_MOVE_DISTANCE, POSITION_DIGITS)}}]
     all_objs = [goal_obj, obstacle_obj]
-    actions = get_navigation_actions(start, goal_obj, all_objs)
+    actions, performer = get_navigation_actions(start, goal_obj, all_objs)
     assert actions == expected_actions
 
 
@@ -486,4 +486,4 @@ def test_add_RotateLook_to_action_list_before_Pickup_or_Put_Object():
     path = goal_obj.find_optimal_path(scene['objects'], scene['objects'])
     print(path)
     # TODO: uncomment when this is fixed
-    # assert path[-1]['action'] == 'RotateLook'
+    assert path[-1]['action'] == 'RotateLook'

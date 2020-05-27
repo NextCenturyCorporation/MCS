@@ -124,9 +124,12 @@ def parse_path_section(path_section: List[Sequence[float]],
     return actions, current_heading, performer
 
 
-def get_navigation_actions(start_location: Dict[str, Any], goal_object: Dict[str, Any],
-                           all_objects: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Get the action sequence for going from performer start to the goal_object."""
+def get_navigation_actions(start_location: Dict[str, Any],
+                           goal_object: Dict[str, Any],
+                           all_objects: List[Dict[str, Any]]) -> \
+                           Tuple[List[Dict[str, Any]], Tuple[float, float]]:
+    """Get the action sequence for going from performer start to the
+    goal_object. Returns tuple (action_list, performer end position)."""
     performer = (start_location['position']['x'], start_location['position']['z'])
     if 'locationParent' in goal_object:
         parent = next((obj for obj in all_objects if obj['id'] == goal_object['locationParent']), None)
@@ -152,7 +155,7 @@ def get_navigation_actions(start_location: Dict[str, Any], goal_object: Dict[str
         new_actions, current_heading, performer = parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary)
         actions.extend(new_actions)
 
-    return actions
+    return actions, performer
 
 
 def move_to_container(target: Dict[str, Any], all_objects: List[Dict[str, Any]],
@@ -274,12 +277,13 @@ class RetrievalGoal(InteractionGoal):
     def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
             List[Dict[str, Any]]:
         # Goal should be a singleton... I hope
-        actions = get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
+        actions, performer = get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
 
         # Do I have to look down to see the object????
-        plane_dist = math.sqrt((goal_objects[0]['shows'][0]['position']['x'] - self._performer_start['position']['x']) ** 2 +
-                               (goal_objects[0]['shows'][0]['position']['z'] - self._performer_start['position']['z']) ** 2)
+        plane_dist = math.sqrt((goal_objects[0]['shows'][0]['position']['x'] - performer[0]) ** 2 +
+                               (goal_objects[0]['shows'][0]['position']['z'] - performer[1]) ** 2)
         height_dist = PERFORMER_CAMERA_Y - goal_objects[0]['shows'][0]['position']['y']
+        print(f'plane_dist={plane_dist}\theight_dist={height_dist}')              
         elevation = math.degrees(math.atan2(height_dist, plane_dist))
         if abs(elevation) > 30:
             actions.append({
@@ -378,10 +382,10 @@ class TransferralGoal(InteractionGoal):
     def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
             List[Dict[str, Any]]:
         # Goal should be a singleton... I hope
-        actions = get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
+        actions, performer = get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
         # Do I have to look down to see the object????
-        plane_dist = math.sqrt((goal_objects[0]['shows'][0]['position']['x'] - self._performer_start['position']['x']) ** 2 +
-                               (goal_objects[0]['shows'][0]['position']['z'] - self._performer_start['position']['z']) ** 2)
+        plane_dist = math.sqrt((goal_objects[0]['shows'][0]['position']['x'] - performer[0]) ** 2 +
+                               (goal_objects[0]['shows'][0]['position']['z'] - performer[1]) ** 2)
         height_dist = PERFORMER_CAMERA_Y-goal_objects[0]['shows'][0]['position']['y']
         elevation = math.degrees(math.atan2(height_dist, plane_dist))
         if abs(elevation) > 30:
@@ -503,4 +507,4 @@ class TraversalGoal(Goal):
             List[Dict[str, Any]]:
         # Goal should be a singleton... I hope
         # TODO: (maybe) look at actual object if it's inside a parent (future ticket)
-        return get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
+        return get_navigation_actions(self._performer_start, goal_objects[0], all_objects)[0]
