@@ -51,6 +51,7 @@ Please see the `intphys*.json` files in this folder.
 | Plausible | Implausible |
 | --------- | ----------- |
 | ![](./images/intphys_spatio_temporal_continuity_quartet_1A_v2.gif) | ![](./images/intphys_spatio_temporal_continuity_quartet_1C_v2.gif) |
+| | ![](./images/intphys_spatio_temporal_continuity_quartet_1C_alt_v2.gif) |
 | ![](./images/intphys_spatio_temporal_continuity_quartet_1B_v2.gif) | ![](./images/intphys_spatio_temporal_continuity_quartet_1D_v2.gif) |
 
 #### Spatio-Temporal Continuity: Objects Falling Down Behind Occluders
