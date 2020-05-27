@@ -1,4 +1,4 @@
-from scene_generator import generate_scene, clean_object
+from scene_generator import generate_scene, clean_object, strip_debug_info
 
 
 def find_object(id, obj_list):
@@ -32,6 +32,59 @@ def test_generate_scene_goal_info():
     for obj in scene['objects']:
         obj_info_set = set(obj.get('info', []))
         assert obj_info_set <= info_set
+
+
+def test_strip_debug_info():
+    body = {
+        'objects': [
+            {
+                'id': 'thing1',
+                'dimensions': {
+                    'x': 13,
+                    'z': 42
+                },
+                'intphys_option': 'stuff',
+                'shows': [{
+                    'stepBegin': 0,
+                    'bounding_box': 'dummy'
+                }]
+            }
+        ],
+        'goal': {
+            'keep_me': True,
+            'domain_list': ['foo', 'bar'],
+            'type_list': ['type1'],
+            'task_list': ['taskA', 'taskB'],
+            'info_list': ['stuff', 'more stuff'],
+            'metadata': {
+                'objects': ['obj1', 'obj2'],
+                'target': {
+                    'id': 'R2D2',
+                    'info': 'thingy'
+                }
+            }
+        }
+    }
+    expected_body = {
+        'objects': [
+            {
+                'id': 'thing1',
+                'shows': [{
+                    'stepBegin': 0,
+                }]
+            }
+        ],
+        'goal': {
+            'keep_me': True,
+            'metadata': {
+                'target': {
+                    'id': 'R2D2',
+                }
+            }
+        }
+    }
+    strip_debug_info(body)
+    assert body == expected_body
 
 
 def test_clean_object():
