@@ -48,6 +48,8 @@ Please see the `intphys*.json` files in this folder.
 
 #### Spatio-Temporal Continuity: Objects Moving Across Behind Occluders
 
+For implausible spatio-temporal continuity scenes in which an object teleports forward from one occluder to a second occluder, there are two variants, and each quartet will use one of them. In both variants, the object disappears once it moves behind an occluder. Then, either the object appears immediately from behind a second occluder, or the object waits until it would normally appear behind the occluder (as if it had never disappeared and rolled behind it).
+
 | Plausible | Implausible |
 | --------- | ----------- |
 | ![](./images/intphys_spatio_temporal_continuity_quartet_1A_v2.gif) | ![](./images/intphys_spatio_temporal_continuity_quartet_1C_v2.gif) |
