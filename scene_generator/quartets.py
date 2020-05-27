@@ -159,10 +159,6 @@ class SpatioTemporalContinuityQuartet(Quartet):
             raise ValueError('unknown object creation function, cannot update scene')
 
     def _teleport_backward(self, scene: Dict[str, Any]) -> None:
-<<<<<<< Updated upstream
-=======
-        target = find_target(scene)
->>>>>>> Stashed changes
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             scene['answer']['choice'] = 'implausible'
             target = find_targets(scene)[0]
