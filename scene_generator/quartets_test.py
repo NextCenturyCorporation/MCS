@@ -49,5 +49,5 @@ def test_ObjectPermanenceQuartet_get_scene():
     quartet = ObjectPermanenceQuartet(template, False)
     for q in range(1, 5):
         scene = quartet.get_scene(q)
-        # at least one object and occluder (itself 2 objects)
-        assert len(scene['objects']) >= 3
+        # at least one occluder (itself 2 objects)
+        assert len(scene['objects']) >= 2
