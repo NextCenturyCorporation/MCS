@@ -205,7 +205,7 @@ def main(argv):
     group.add_argument('--goal', default=None, choices=goals.get_goal_types(),
                        help='Generate a goal of the specified type [default is to not generate a goal]. Lowercase '
                        'goals are categories; capitalized goals are specific goals.')
-    group.add_argument('--quartet', default=None, choices=goals.get_goal_types('intphys'),
+    group.add_argument('--quartet', default=None, choices=quartets.get_quartet_types(),
                        help='Generate a scene quartet for a goal of the specified type [default is to generate individual scenes]. Lowercase '
                        'goals are categories; capitalized goals are specific goals.')
     parser.add_argument('--find_path', default=False, action='store_true',

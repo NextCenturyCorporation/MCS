@@ -133,6 +133,49 @@ class IntPhysGoal(Goal, ABC):
         """Return how many occluders must be paired with a target object."""
         return 1
 
+    def _get_paired_occluder(self, paired_obj, occluder_list, non_wall_materials, pole_materials):
+        occluder_fits = False
+        for _ in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
+            min_scale = min(max(paired_obj['shows'][0]['scale']['x'],
+                                IntPhysGoal.MIN_OCCLUDER_SCALE),
+                            IntPhysGoal.MAX_OCCLUDER_SCALE)
+            x_scale = random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
+            position_by_step = paired_obj['intphys_option']['position_by_step']
+            paired_z = paired_obj['shows'][0]['position']['z']
+            min_paired_x_position = -3 + x_scale / 2
+            max_paired_x_position = 3 - x_scale / 2
+            while True:
+                position_index = random.randrange(len(position_by_step))
+                paired_x = position_by_step[position_index]
+                if min_paired_x_position <= paired_x <= max_paired_x_position:
+                    break
+            if paired_z == IntPhysGoal.OBJECT_NEAR_Z:
+                occluder_x = paired_x * IntPhysGoal.NEAR_X_PERSPECTIVE_FACTOR
+            elif paired_z == IntPhysGoal.OBJECT_FAR_Z:
+                occluder_x = paired_x * IntPhysGoal.FAR_X_PERSPECTIVE_FACTOR
+            else:
+                logging.warning(f'Unsupported z for occluder target "{paired_obj["id"]}": {paired_z}')
+                occluder_x = paired_x
+            found_collision = False
+            for other_occluder in occluder_list:
+                if geometry.occluders_too_close(other_occluder, occluder_x, x_scale):
+                    found_collision = True
+                    break
+            if not found_collision:
+                # occluder_indices are needed by quartets
+                occluder_indices = paired_obj['intphys_option'].get('occluder_indices', [])
+                occluder_indices.append(position_index)
+                paired_obj['intphys_option']['occluder_indices'] = occluder_indices
+                occluder_fits = True
+                break
+        if occluder_fits:
+            occluder_objs = objects.create_occluder(random.choice(non_wall_materials)[0],
+                                                    random.choice(pole_materials)[0],
+                                                    occluder_x, x_scale)
+        else:
+            occluder_objs = None
+        return occluder_objs
+
     def _get_occluders(self, obj_list: List[Dict[str, Any]],
                        wall_material_name: str) -> List[Dict[str, Any]]:
         """Get occluders to for objects in obj_list."""
@@ -149,49 +192,14 @@ class IntPhysGoal(Goal, ABC):
         # (make the object disappear, teleport it, or replace it with
         # another object) at that specific step.
         for i in range(num_paired_occluders):
-            occluder_fits = False
-            for _ in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
-                paired_obj = obj_list[i]
-                # object could be a cube on its corner, so use the diagonal distance
-                x_diagonal = math.sqrt(2) * paired_obj['shows'][0]['scale']['x']
-                min_scale = min(max(x_diagonal, IntPhysGoal.MIN_OCCLUDER_SCALE), IntPhysGoal.MAX_OCCLUDER_SCALE)
-                x_scale = random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
-                position_by_step = paired_obj['intphys_option']['position_by_step']
-                paired_z = paired_obj['shows'][0]['position']['z']
-                factor = IntPhysGoal.NEAR_X_PERSPECTIVE_FACTOR \
-                    if paired_z == IntPhysGoal.OBJECT_NEAR_Z \
-                       else IntPhysGoal.FAR_X_PERSPECTIVE_FACTOR
-                min_paired_x = -3 + x_scale / 2
-                max_paired_x = 3 - x_scale / 2
-                while True:
-                    position_index = random.randrange(len(position_by_step))
-                    paired_x = position_by_step[position_index]
-                    if min_paired_x <= paired_x <= max_paired_x:
-                        break
-                paired_obj['intphys_option']['implausible_event_index'] = position_index
-                if paired_z == IntPhysGoal.OBJECT_NEAR_Z:
-                    occluder_x = paired_x * IntPhysGoal.NEAR_X_PERSPECTIVE_FACTOR
-                elif paired_z == IntPhysGoal.OBJECT_FAR_Z:
-                    occluder_x = paired_x * IntPhysGoal.FAR_X_PERSPECTIVE_FACTOR
-                else:
-                    logging.warning(f'Unsupported z for occluder target "{paired_obj["id"]}": {paired_z}')
-                    occluder_x = paired_x
-                found_collision = False
-                for other_occluder in occluder_list:
-                    if geometry.occluders_too_close(other_occluder, occluder_x, x_scale):
-                        found_collision = True
-                        break
-                if not found_collision:
-                    occluder_fits = True
-                    break
-            if occluder_fits:
-                occluder_objs = objects.create_occluder(random.choice(non_wall_materials)[0],
-                                                        random.choice(materials.METAL_MATERIALS)[0],
-                                                        occluder_x, x_scale)
+            paired_obj = obj_list[i]
+            occluder_objs = self._get_paired_occluder(paired_obj, occluder_list, non_wall_materials,
+                                                      materials.METAL_MATERIALS)
+            if occluder_objs is not None:
                 occluder_list.extend(occluder_objs)
                 break
             else:
-                logging.warning(f'could not fit required occluder at x={occluder_x}')
+                logging.warning('could not fit required occluder')
                 raise GoalException(f'Could not add minimum number of occluders ({num_paired_occluders})')
         self._add_occluders(occluder_list, num_occluders - num_paired_occluders, non_wall_materials, False)
         return occluder_list
@@ -453,12 +461,6 @@ class IntPhysGoal(Goal, ABC):
 
         return object_list, occluders
 
-    def update_quartet_member(self, body: Dict[str, Any], q: int) -> None:
-        """Update a scene template to be a member of the quartet. Effectively
-        replaces update_body. q should be between 1 and 4 (inclusive).
-
-        """
-        pass
 
 
 class GravityGoal(IntPhysGoal):
