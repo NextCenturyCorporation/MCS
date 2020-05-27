@@ -219,7 +219,8 @@ class SpatioTemporalContinuityQuartet(Quartet):
                 self._teleport_backward(scene)
             elif q == 4:
                 self._move_later(scene)
-
+            self._scenes[q - 1] = scene
+        return self._scenes[q - 1]
 
 class ShapeConstancyQuartet(Quartet):
     """This quartet is about one object turning into another object of a
@@ -293,7 +294,7 @@ class ShapeConstancyQuartet(Quartet):
         b = copy.deepcopy(self._b)
         b['shows'][0]['position']['x'] = a['shows'][0]['position']['x']
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
-            implausible_event_index = a['intphys_option']['implausible_event_index']
+            implausible_event_index = a['intphys_option']['occluder_indices'][0]
             implausible_event_step = implausible_event_index + a['forces'][0]['stepBegin']
             implausible_event_x = a['intphys_option']['position_by_step'][implausible_event_index]
             b['forces'] = copy.deepcopy(a['forces'])

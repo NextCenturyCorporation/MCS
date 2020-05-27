@@ -17,7 +17,6 @@ def test_STCQ__teleport_forward():
     if quartet._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
         target = find_targets(scene)[0]
         assert target['teleports'][0]['stepBegin'] == target['teleports'][0]['stepEnd']
-        assert target['teleports'][0]['vector']['x'] > 0
 
 
 def test_STCQ__teleport_backward():
@@ -27,7 +26,6 @@ def test_STCQ__teleport_backward():
     if quartet._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
         target = find_targets(scene)[0]
         assert target['teleports'][0]['stepBegin'] == target['teleports'][0]['stepEnd']
-        assert target['teleports'][0]['vector']['x'] > 0
 
 
 def test_STCQ__move_later():
