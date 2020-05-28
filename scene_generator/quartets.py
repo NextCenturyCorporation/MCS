@@ -268,7 +268,7 @@ class ShapeConstancyQuartet(Quartet):
         a = scene['objects'][0]
         b = copy.deepcopy(self._b)
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
-            implausible_event_index = a['intphys_option']['implausible_event_index']
+            implausible_event_index = a['intphys_option']['occluder_indices'][0]
             implausible_event_step = implausible_event_index + a['forces'][0]['stepBegin']
             implausible_event_x = a['intphys_option']['position_by_step'][implausible_event_index]
             b['shows'][0]['position']['x'] = implausible_event_x
