@@ -19,7 +19,7 @@ def test_STCQ__teleport_forward():
     if quartet._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
         implausible_event_index1 = target['intphys_option']['occluder_indices'][0]
         implausible_event_index2 = target['intphys_option']['occluder_indices'][1]
-        assert target['teleports'][0]['stepBegin'] == min(implausible_event_index1, implausible_event_index2)
+        assert target['teleports'][0]['stepBegin'] == min(implausible_event_index1, implausible_event_index2) + target['forces'][0]['stepBegin']
     else:
         assert target['teleports'][0]['stepBegin'] >= 8
 
@@ -33,7 +33,7 @@ def test_STCQ__teleport_backward():
     if quartet._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
         implausible_event_index1 = target['intphys_option']['occluder_indices'][0]
         implausible_event_index2 = target['intphys_option']['occluder_indices'][1]
-        assert target['teleports'][0]['stepBegin'] == max(implausible_event_index1, implausible_event_index2)
+        assert target['teleports'][0]['stepBegin'] == max(implausible_event_index1, implausible_event_index2) + target['forces'][0]['stepBegin']
     else:
         assert target['teleports'][0]['stepBegin'] >= 8
 
