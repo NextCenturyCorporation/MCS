@@ -473,9 +473,15 @@ class GravityGoal(IntPhysGoal):
         }
     }
 
-    def __init__(self):
+    def __init__(self, ramp_type: Optional[ramps.Ramp] = None, roll_down: Optional[bool] = None):
+        """Caller can specify ramp type and whether the objects roll down or
+        up the ramp, if desired. If not specified, a random choice
+        will be made. In the case of steep ramps (i.e., with 90 degree
+        angles), roll_down is ignored.
+        """
         super(GravityGoal, self).__init__()
-        self._ramp_type: Optional[ramps.Ramp] = None
+        self._ramp_type: Optional[ramps.Ramp] = ramp_type
+        self._roll_down = roll_down
         self._left_to_right: Optional[bool] = None
 
     def is_ramp_steep(self) -> bool:
@@ -541,7 +547,7 @@ class GravityGoal(IntPhysGoal):
         material_name = random.choice(materials.OCCLUDER_MATERIALS)[0]
         x_position_percent = random.random()
         left_to_right = random.choice((True, False))
-        ramp_type, ramp_objs = ramps.create_ramp(material_name, x_position_percent, left_to_right)
+        ramp_type, ramp_objs = ramps.create_ramp(material_name, x_position_percent, left_to_right, self._ramp_type)
         return ramp_type, left_to_right, ramp_objs
 
     def _get_ramp_and_objects(self, room_wall_material_name: str) -> \
@@ -556,17 +562,19 @@ class GravityGoal(IntPhysGoal):
             else:
                 valid_positions = { IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR,
                                     IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR }
+        elif self._roll_down is not None:
+            # enforce rolling up or down the ramp as specified
+            if self._roll_down and left_to_right or not self._roll_down and not left_to_right:
+                valid_positions = { IntPhysGoal.Position.LEFT_FIRST_NEAR, IntPhysGoal.Position.LEFT_LAST_NEAR,
+                                    IntPhysGoal.Position.LEFT_FIRST_FAR, IntPhysGoal.Position.LEFT_LAST_FAR }
+            else:
+                valid_positions = { IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR,
+                                    IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR }
         else:
             valid_positions = set(IntPhysGoal.Position)
         positions = []
-        # only want intphys_options where y == 0
-        valid_defs = []
-        for obj_def in objects.OBJECTS_INTPHYS:
-            new_od = obj_def.copy()
-            valid_intphys = [intphys for intphys in obj_def['intphys_options'] if intphys['y'] == 0]
-            if len(valid_intphys) != 0:
-                new_od['intphys_options'] = valid_intphys
-                valid_defs.append(new_od)
+
+        valid_defs = objects.get_intphys_objects_y_0()
         self._last_step = IntPhysGoal.LAST_STEP_RAMP
         # Add a buffer to the ramp's last step to account for extra steps needed by objects moving up the ramps.
         objs = self._get_objects_moving_across(room_wall_material_name, self._last_step - IntPhysGoal.LAST_STEP_RAMP_BUFFER,
