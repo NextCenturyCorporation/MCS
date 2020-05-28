@@ -324,14 +324,17 @@ RAMP_OBJECT_HEIGHTS = {
 }
 
 
-def create_ramp(material_string: str, x_position_percent: float, left_to_right: bool) -> Tuple[Ramp, List[Dict[str, Any]]]:
+def create_ramp(material_string: str, x_position_percent: float,
+                left_to_right: bool,
+                ramp_type: Optional[Ramp] = None) -> \
+                Tuple[Ramp, List[Dict[str, Any]]]:
     """Create a ramp of a random type. Returns a tuple of (ramp_type, list
     of objects that make up the ramp).
-
     """
     if x_position_percent < 0 or x_position_percent > 1:
         raise ValueError(f'x_position_percent must be between 0 and 1 (inclusive), was {x_position_percent}')
-    ramp_type = random.choice(list(Ramp))
+    if ramp_type is None:
+        ramp_type = random.choice(list(Ramp))
     template_info = _RAMP_TEMPLATE_INFO[ramp_type]
     ramp = []
     x_term = x_position_percent * template_info[1]
