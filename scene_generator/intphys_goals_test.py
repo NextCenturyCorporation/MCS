@@ -25,7 +25,7 @@ def test_GravityGoal_compute_objects():
 # test for MCS-214
 def test_GravityGoal__get_ramp_and_objects():
     goal = GravityGoal()
-    object_list = goal._get_ramp_and_objects('dummy')
+    ramp_type, left_to_right, object_list = goal._get_ramp_and_objects('dummy')
     assert len(object_list) > 0
     for obj in object_list:
         if 'intphys_option' in obj:
