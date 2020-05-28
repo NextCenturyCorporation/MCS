@@ -51,6 +51,7 @@ def strip_debug_info(body: Dict[str, Any]) -> None:
         body['goal'].pop(goal_key, None)
     if 'metadata' in body['goal']:
         metadata = body['goal']['metadata']
+        metadata.pop('objects', None)
         for target_key in ('target', 'target_1', 'target_2'):
             if target_key in metadata:
                 metadata[target_key].pop('info', None)
@@ -61,6 +62,8 @@ def clean_object(obj: Dict[str, Any]) -> None:
     obj.pop('info', None)
     obj.pop('dimensions', None)
     obj.pop('intphys_option', None)
+    obj.pop('materials_list', None)
+    obj.pop('original_location', None)
     if 'shows' in obj:
         obj['shows'][0].pop('bounding_box', None)
 
@@ -153,6 +156,7 @@ def generate_quartet(prefix: str, index: int, quartet_name: str,
     quartet = quartet_class(template, find_path)
     for q in range(1, 5):
         name = f'{prefix}-{index:04}-{q}.json'
+        logging.debug(f'starting generation of\t{name}')
         while True:
             try:
                 scene = quartet.get_scene(q)
@@ -163,6 +167,7 @@ def generate_quartet(prefix: str, index: int, quartet_name: str,
                 if stop_on_error:
                     raise
                 logging.warning(f'failed to create a quartet member: {e}')
+        logging.debug(f'end generation of\t{name}')
 
 
 def generate_quartets(prefix: str, count: int, quartet_name: str,
