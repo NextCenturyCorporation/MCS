@@ -117,12 +117,12 @@ class IntPhysGoal(Goal, ABC):
         """IntPhys goals have no walls."""
         return []
 
-    def compute_objects(self, wall_material_name: str) \
+    def compute_objects(self, room_wall_material_name: str) \
         -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
         self._object_creator = random.choice([IntPhysGoal._get_objects_and_occluders_moving_across,
                                               IntPhysGoal._get_objects_falling_down])
         self._last_step = IntPhysGoal.LAST_STEP_FALL_DOWN
-        objs, occluders = self._object_creator(self, wall_material_name)
+        objs, occluders = self._object_creator(self, room_wall_material_name)
         return objs, objs + occluders, []
 
     def _get_num_occluders(self) -> int:
@@ -133,7 +133,7 @@ class IntPhysGoal(Goal, ABC):
         """Return how many occluders must be paired with a target object."""
         return 1
 
-    def _get_paired_occluder(self, paired_obj, occluder_list, non_wall_materials, pole_materials):
+    def _get_paired_occluder(self, paired_obj, occluder_list, non_room_wall_materials, pole_materials):
         occluder_fits = False
         for _ in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
             min_scale = min(max(paired_obj['shows'][0]['scale']['x'],
@@ -169,7 +169,7 @@ class IntPhysGoal(Goal, ABC):
                 occluder_fits = True
                 break
         if occluder_fits:
-            occluder_objs = objects.create_occluder(random.choice(non_wall_materials)[0],
+            occluder_objs = objects.create_occluder(random.choice(non_room_wall_materials)[0],
                                                     random.choice(pole_materials)[0],
                                                     occluder_x, x_scale)
         else:
@@ -177,12 +177,12 @@ class IntPhysGoal(Goal, ABC):
         return occluder_objs
 
     def _get_occluders(self, obj_list: List[Dict[str, Any]],
-                       wall_material_name: str) -> List[Dict[str, Any]]:
+                       room_wall_material_name: str) -> List[Dict[str, Any]]:
         """Get occluders to for objects in obj_list."""
         num_occluders = self._get_num_occluders()
         num_paired_occluders = self._get_num_paired_occluders()
-        non_wall_materials = [m for m in materials.CEILING_AND_WALL_MATERIALS
-                              if m[0] != wall_material_name]
+        non_room_wall_materials = [m for m in materials.CEILING_AND_WALL_MATERIALS
+                                   if m[0] != room_wall_material_name]
         occluder_list = []
         # First add paired occluders. We want to position each paired
         # occluder at the same X position that its corresponding
@@ -193,19 +193,18 @@ class IntPhysGoal(Goal, ABC):
         # another object) at that specific step.
         for i in range(num_paired_occluders):
             paired_obj = obj_list[i]
-            occluder_objs = self._get_paired_occluder(paired_obj, occluder_list, non_wall_materials,
+            occluder_objs = self._get_paired_occluder(paired_obj, occluder_list, non_room_wall_materials,
                                                       materials.METAL_MATERIALS)
             if occluder_objs is not None:
                 occluder_list.extend(occluder_objs)
-                break
             else:
                 logging.warning('could not fit required occluder')
                 raise GoalException(f'Could not add minimum number of occluders ({num_paired_occluders})')
-        self._add_occluders(occluder_list, num_occluders - num_paired_occluders, non_wall_materials, False)
+        self._add_occluders(occluder_list, num_occluders - num_paired_occluders, non_room_wall_materials, False)
         return occluder_list
 
     def _add_occluders(self, occluder_list: List[Dict[str, Any]],
-                       num_to_add: int, non_wall_materials: List[Tuple],
+                       num_to_add: int, non_room_wall_materials: List[Tuple],
                        sideways: bool) -> None:
         """Create additional, non-paired occluders and add them to occluder_list."""
         for _ in range(num_to_add):
@@ -226,7 +225,7 @@ class IntPhysGoal(Goal, ABC):
                     occluder_fits = True
                     break
             if occluder_fits:
-                occluder_objs = objects.create_occluder(random.choice(non_wall_materials)[0],
+                occluder_objs = objects.create_occluder(random.choice(non_room_wall_materials)[0],
                                                         random.choice(materials.METAL_MATERIALS)[0],
                                                         occluder_x, x_scale, sideways)
                 occluder_list.extend(occluder_objs)
@@ -243,19 +242,19 @@ class IntPhysGoal(Goal, ABC):
         LEFT_FIRST_FAR = auto()
         LEFT_LAST_FAR = auto()
 
-    def _get_objects_and_occluders_moving_across(self, wall_material_name: str) \
+    def _get_objects_and_occluders_moving_across(self, room_wall_material_name: str) \
         -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
         """Get objects to move across the scene and occluders for them. Returns (objects, occluders) pair."""
         self._last_step = IntPhysGoal.LAST_STEP_MOVE_ACROSS
         # Subtract 5 for end occluder movement and rotation
-        new_objects = self._get_objects_moving_across(wall_material_name, self._last_step - 5)
-        occluders = self._get_occluders(new_objects, wall_material_name)
+        new_objects = self._get_objects_moving_across(room_wall_material_name, self._last_step - 5)
+        occluders = self._get_occluders(new_objects, room_wall_material_name)
         return new_objects, occluders
 
     def _get_num_objects_moving_across(self) -> int:
         return random.choices((1, 2, 3), (40, 30, 30))[0]
 
-    def _get_objects_moving_across(self, wall_material_name: str, last_action_end_step: int,
+    def _get_objects_moving_across(self, room_wall_material_name: str, last_action_end_step: int,
                                    earliest_action_start_step: int = EARLIEST_ACTION_START_STEP,
                                    valid_positions: Iterable = frozenset(Position),
                                    positions = None,
@@ -377,7 +376,7 @@ class IntPhysGoal(Goal, ABC):
 
         return new_objects
 
-    def _get_objects_falling_down(self, wall_material_name: str) \
+    def _get_objects_falling_down(self, room_wall_material_name: str) \
         -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
         MAX_POSITION_TRIES = 100
         MIN_OCCLUDER_SEPARATION = 0.5
@@ -428,8 +427,8 @@ class IntPhysGoal(Goal, ABC):
         num_occluders = 2 if num_objects == 2 else random.choice((1, 2))
         logging.debug(f'num_objects = {num_objects}\tnum_occluders = {num_occluders}')
         occluders = []
-        non_wall_materials = [m for m in materials.CEILING_AND_WALL_MATERIALS
-                              if m[0] != wall_material_name]
+        non_room_wall_materials = [m for m in materials.CEILING_AND_WALL_MATERIALS
+                                   if m[0] != room_wall_material_name]
         for i in range(num_objects):
             paired_obj = object_list[i]
             min_scale = min(max(paired_obj['shows'][0]['scale']['x'], IntPhysGoal.MIN_OCCLUDER_SCALE), 1)
@@ -453,14 +452,13 @@ class IntPhysGoal(Goal, ABC):
             else:
                 x_scale = random_real(min_scale, max_scale, MIN_RANDOM_INTERVAL)
             adjusted_x = x_position * factor
-            occluder_pair = objects.create_occluder(random.choice(non_wall_materials)[0],
+            occluder_pair = objects.create_occluder(random.choice(non_room_wall_materials)[0],
                                                     random.choice(materials.METAL_MATERIALS)[0],
                                                     adjusted_x, x_scale, True)
             occluders.extend(occluder_pair)
-        self._add_occluders(occluders, num_occluders - num_objects, non_wall_materials, True)
+        self._add_occluders(occluders, num_occluders - num_objects, non_room_wall_materials, True)
 
         return object_list, occluders
-
 
 
 class GravityGoal(IntPhysGoal):
@@ -524,9 +522,9 @@ class GravityGoal(IntPhysGoal):
             scenery_list.append(scenery_obj)
         return scenery_list
 
-    def compute_objects(self, wall_material_name: str) \
+    def compute_objects(self, room_wall_material_name: str) \
         -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
-        objs = self._get_ramp_and_objects(wall_material_name)
+        objs = self._get_ramp_and_objects(room_wall_material_name)
         scenery = self._compute_scenery()
         return objs, objs + scenery, []
 
@@ -537,7 +535,7 @@ class GravityGoal(IntPhysGoal):
         ramp_type, ramp_objs = ramps.create_ramp(material_name, x_position_percent, left_to_right)
         return ramp_type, left_to_right, ramp_objs
 
-    def _get_ramp_and_objects(self, wall_material_name: str) -> List[Dict[str, Any]]:
+    def _get_ramp_and_objects(self, room_wall_material_name: str) -> List[Dict[str, Any]]:
         ramp_type, left_to_right, ramp_objs = self._create_random_ramp()
         if ramp_type in (ramps.Ramp.RAMP_90, ramps.Ramp.RAMP_30_90, ramps.Ramp.RAMP_45_90):
             # Don't put objects in places where they'd have to roll up
@@ -561,7 +559,7 @@ class GravityGoal(IntPhysGoal):
                 valid_defs.append(new_od)
         self._last_step = IntPhysGoal.LAST_STEP_RAMP
         # Add a buffer to the ramp's last step to account for extra steps needed by objects moving up the ramps.
-        objs = self._get_objects_moving_across(wall_material_name, self._last_step - IntPhysGoal.LAST_STEP_RAMP_BUFFER,
+        objs = self._get_objects_moving_across(room_wall_material_name, self._last_step - IntPhysGoal.LAST_STEP_RAMP_BUFFER,
                                                0, valid_positions, positions, valid_defs)
         # adjust height to be on top of ramp if necessary
         for i in range(len(objs)):
@@ -627,5 +625,20 @@ class SpatioTemporalContinuityGoal(IntPhysGoal):
     def _get_num_paired_occluders(self) -> int:
         return 2
 
-    def _get_num_objects_moving_across(self) -> int:
-        return random.choices((2, 3), (60, 40))[0]
+    def _get_occluders(self, obj_list: List[Dict[str, Any]],
+                       room_wall_material_name: str) -> List[Dict[str, Any]]:
+        num_occluders = self._get_num_occluders()
+        non_room_wall_materials = [m for m in materials.CEILING_AND_WALL_MATERIALS
+                                   if m[0] != room_wall_material_name]
+        target = obj_list[0]
+        occluder_list = []
+        for _ in range(2):
+            occluder_objs = self._get_paired_occluder(target, occluder_list, non_room_wall_materials,
+                                                      materials.METAL_MATERIALS)
+            if occluder_objs is None:
+                raise GoalException(f'Could not add minimum number of occluders')
+            occluder_list.extend(occluder_objs)
+
+        self._add_occluders(occluder_list, num_occluders - 2, non_room_wall_materials, False)
+
+        return occluder_list
