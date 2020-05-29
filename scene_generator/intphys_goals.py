@@ -489,6 +489,16 @@ class GravityGoal(IntPhysGoal):
             raise ValueError('cannot get ramp type before compute_objects is called')
         return self._ramp_type in (ramps.Ramp.RAMP_90, ramps.Ramp.RAMP_30_90, ramps.Ramp.RAMP_45_90)
 
+    def get_ramp_type(self) -> ramps.Ramp:
+        if self._ramp_type is None:
+            raise ValueError('cannot get ramp type before compute_objects is called')
+        return self._ramp_type
+
+    def is_left_to_right(self) -> bool:
+        if self._left_to_right is None:
+            raise ValueError('cannot get left-to-right-ness before compute_objects is called')
+        return self._left_to_right
+
     def get_config(self, goal_objects: List[Dict[str, Any]],
                    all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         goal = super(GravityGoal, self).get_config(goal_objects, all_objects)
@@ -543,16 +553,16 @@ class GravityGoal(IntPhysGoal):
         scenery = self._compute_scenery()
         return objs, objs + scenery, []
 
-    def _create_random_ramp(self) -> Tuple[ramps.Ramp, bool, List[Dict[str, Any]]]:
+    def _create_random_ramp(self) -> Tuple[ramps.Ramp, bool, float, List[Dict[str, Any]]]:
         material_name = random.choice(materials.OCCLUDER_MATERIALS)[0]
         x_position_percent = random.random()
         left_to_right = random.choice((True, False))
-        ramp_type, ramp_objs = ramps.create_ramp(material_name, x_position_percent, left_to_right, self._ramp_type)
-        return ramp_type, left_to_right, ramp_objs
+        ramp_type, x_term, ramp_objs = ramps.create_ramp(material_name, x_position_percent, left_to_right, self._ramp_type)
+        return ramp_type, left_to_right, x_term, ramp_objs
 
     def _get_ramp_and_objects(self, room_wall_material_name: str) -> \
         Tuple[ramps.Ramp, bool, List[Dict[str, Any]]]:
-        ramp_type, left_to_right, ramp_objs = self._create_random_ramp()
+        ramp_type, left_to_right, x_term, ramp_objs = self._create_random_ramp()
         if ramp_type in (ramps.Ramp.RAMP_90, ramps.Ramp.RAMP_30_90, ramps.Ramp.RAMP_45_90):
             # Don't put objects in places where they'd have to roll up
             # 90 degree (i.e., vertical) ramps.
@@ -582,6 +592,8 @@ class GravityGoal(IntPhysGoal):
         # adjust height to be on top of ramp if necessary
         for i in range(len(objs)):
             obj = objs[i]
+            obj['intphys_option']['moving_object'] = True
+            obj['intphys_option']['ramp_x_term'] = x_term
             position = positions[i]
             # Add a downward force to all objects moving down the
             # ramps so that they will move more realistically.
