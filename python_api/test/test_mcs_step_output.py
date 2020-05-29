@@ -11,6 +11,10 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
 
     str_output = '''    {
         "action_list": [],
+        "camera_aspect_ratio": (0.0, 0.0),
+        "camera_clipping_planes": (0.0, 0.0),
+        "camera_field_of_view": 0.0,
+        "camera_height": 0.0,
         "depth_mask_list": [],
         "goal": {
             "action_list": None,
@@ -45,6 +49,18 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
     def test_action_list(self):
         self.assertFalse(self.mcs_step_output.action_list)
         self.assertIsInstance(self.mcs_step_output.action_list, list)
+
+    def test_camera_aspect_ratio(self):
+        self.assertIsInstance(self.mcs_step_output.camera_aspect_ratio, tuple)
+
+    def test_camera_clipping_planes(self):
+        self.assertIsInstance(self.mcs_step_output.camera_clipping_planes, tuple)
+
+    def test_camera_field_of_view(self):
+        self.assertIsInstance(self.mcs_step_output.camera_field_of_view, float)
+
+    def test_camera_height(self):
+        self.assertIsInstance(self.mcs_step_output.camera_height, float)
 
     def test_depth_mask_list(self):
         self.assertFalse(self.mcs_step_output.depth_mask_list)

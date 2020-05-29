@@ -350,6 +350,12 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "z": 3.333
                     }
                 },
+                "cameraPosition": {
+                    "y": 0.1234
+                },
+                "clippingPlaneFar": 25,
+                "clippingPlaneNear": 0,
+                "fov": 42.5,
                 "lastActionStatus": "SUCCESSFUL",
                 "lastActionSuccess": True,
                 "objects": [{
@@ -385,6 +391,10 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         actual = self.controller.wrap_output(self.create_mock_scene_event(mock_scene_event_data))
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
+        self.assertEqual(actual.camera_aspect_ratio, (600, 400))
+        self.assertEqual(actual.camera_clipping_planes, (0, 25))
+        self.assertEqual(actual.camera_field_of_view, 42.5)
+        self.assertEqual(actual.camera_height, 0.1234)
         # self.assertEqual(actual.goal, MCS_Goal()) # TODO MCS-15
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, MCS_Pose.STAND.value) # TODO MCS-18

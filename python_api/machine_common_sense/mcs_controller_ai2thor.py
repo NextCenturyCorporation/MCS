@@ -46,6 +46,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     ACTION_LIST = [item.value for item in MCS_Action]
 
+    # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built on this assumption.
+    SCREEN_HEIGHT = 400
+    SCREEN_WIDTH = 600
+
     # AI2-THOR creates a square grid across the scene that is uses for "snap-to-grid" movement.
     # (This value may not really matter because we set continuous to True in the step input.)
     GRID_SIZE = 0.1
@@ -99,8 +103,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             # The headless flag does not work for me
             headless=False,
             local_executable_path=unity_app_file_path,
-            width=600,
-            height=400,
+            width=self.SCREEN_WIDTH,
+            height=self.SCREEN_HEIGHT,
             # Set the name of our Scene in our Unity app
             scene='MCS',
             logs=True,
@@ -479,6 +483,11 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         agent = scene_event.metadata.get('agent', None)
         step_output = MCS_Step_Output(
             action_list=self.retrieve_action_list(self.__goal, self.__step_number),
+            camera_aspect_ratio=(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            camera_clipping_planes=(scene_event.metadata.get('clippingPlaneNear', 0), \
+                    scene_event.metadata.get('clippingPlaneFar', 0)),
+            camera_field_of_view=scene_event.metadata.get('fov', 0),
+            camera_height=scene_event.metadata.get('cameraPosition', {}).get('y', 0),
             depth_mask_list=depth_mask_list,
             goal=self.__goal,
             head_tilt=self.retrieve_head_tilt(scene_event),

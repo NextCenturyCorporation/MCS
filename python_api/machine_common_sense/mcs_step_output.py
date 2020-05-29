@@ -10,26 +10,44 @@ class MCS_Step_Output:
     Attributes
     ----------
     action_list : list of strings
-        The list of all actions that are available for the next step.  See MCS_Action.
+        The list of all actions that are available for the next step. May be a subset of all possible actions. See
+        MCS_Action.
+    camera_aspect_ratio : (float, float)
+        The player camera's aspect ratio. This will remain constant for the whole scene.
+    camera_clipping_planes : (float, float)
+        The player camera's near and far clipping planes. This will remain constant for the whole scene.
+    camera_field_of_view : float
+        The player camera's field of view. This will remain constant for the whole scene.
+    camera_height : float
+        The player camera's height. This will change if the player uses actions like "LieDown", "Sit", or "Crouch".
     depth_mask_list : list of Pillow.Image objects
-        The list of depth mask images from the scene after the last action and physics simulation were run.  This is
-        usually just a list with a single object, except for the MCS_Step_Output object returned from a call to
-        controller.start_scene for a scene with a Pre-Interaction Phase.
+        The list of depth mask images from the scene after the last action and physics simulation were run.
+        This is normally a list with five images, where the physics simulation has unpaused and paused again
+        for a little bit between each image, and the final image is the state of the environment before your
+        next action. The MCS_Step_Output object returned from a call to controller.start_scene will normally
+        have a list with only one image, except for a scene with a scripted Preview Phase. A pixel value of
+        255 translates to 25 (the far clipping plane) in the environment's global coordinate system.
     goal : MCS_Goal or None
         The goal for the whole scene.  Will be None in "Exploration" scenes.
     head_tilt : float
         How far your head is tilted up/down in degrees (between 90 and -90).  Changed by setting the horizon parameter
         in a "RotateLook" action.
     image_list : list of Pillow.Image objects
-        The list of normal vision images from the scene after the last action and physics simulation were run.  This is
-        usually just a list with a single object, except for the MCS_Step_Output object returned from a call to
-        controller.start_scene for a scene with a Pre-Interaction Phase.
+        The list of images from the scene after the last action and physics simulation were run. This is
+        normally a list with five images, where the physics simulation has unpaused and paused again for a
+        little bit between each image, and the final image is the state of the environment before your next
+        action. The MCS_Step_Output object returned from a call to controller.start_scene will normally have
+        a list with only one image, except for a scene with a scripted Preview Phase.
     object_list : list of MCS_Object objects
         The list of metadata for all objects in the scene.
     object_mask_list : list of Pillow.Image objects
-        The list of object mask images from the scene after the last action and physics simulation were run.  This is
-        usually just a list with a single object, except for the MCS_Step_Output object returned from a call to
-        controller.start_scene for a scene with a Pre-Interaction Phase.
+        The list of object mask (instance segmentation) images from the scene after the last action and
+        physics simulation were run. This is normally a list with five images, where the physics simulation
+        has unpaused and paused again for a little bit between each image, and the final image is the state
+        of the environment before your next action. The MCS_Step_Output object returned from a call to
+        controller.start_scene will normally have a list with only one image, except for a scene with a
+        scripted Preview Phase. The color of each object in the mask corresponds to the "color" property
+        in its MCS_Object object.
     pose : string
         Your current pose.  See MCS_Pose.
     position : dict
@@ -47,6 +65,10 @@ class MCS_Step_Output:
     def __init__(
         self,
         action_list=None,
+        camera_aspect_ratio=None,
+        camera_clipping_planes=None,
+        camera_field_of_view=0.0,
+        camera_height=0.0,
         depth_mask_list=None,
         goal=None,
         head_tilt=0.0,
@@ -61,6 +83,10 @@ class MCS_Step_Output:
         step_number=0
     ):
         self.action_list = [] if action_list is None else action_list
+        self.camera_aspect_ratio = (0.0, 0.0) if camera_aspect_ratio is None else camera_aspect_ratio
+        self.camera_clipping_planes = (0.0, 0.0) if camera_clipping_planes is None else camera_clipping_planes
+        self.camera_field_of_view = camera_field_of_view
+        self.camera_height = camera_height
         self.depth_mask_list = [] if depth_mask_list is None else depth_mask_list
         self.goal = MCS_Goal() if goal is None else goal
         self.head_tilt = head_tilt
