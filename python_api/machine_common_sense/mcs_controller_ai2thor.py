@@ -389,8 +389,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     def retrieve_object_list(self, scene_event):
         return sorted([self.retrieve_object_output(object_metadata, self.retrieve_object_colors(scene_event)) for \
-                object_metadata in scene_event.metadata['objects'] 
-                    if object_metadata['visibleInCamera'] or object_metadata['isPickedUp']], key=lambda x: x.uuid)
+                object_metadata in scene_event.metadata['objects'] if object_metadata['visibleInCamera'] or \
+                object_metadata['isPickedUp']], key=lambda x: x.uuid)
 
     def retrieve_object_output(self, object_metadata, object_id_to_color):
         material_list = list(filter(MCS_Util.verify_material_enum_string, [material.upper() for material in \
@@ -441,6 +441,11 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         finally:
             return return_status
 
+    def retrieve_structural_object_list(self, scene_event):
+        return sorted([self.retrieve_object_output(object_metadata, self.retrieve_object_colors(scene_event)) for \
+                object_metadata in scene_event.metadata['structuralObjects'] if object_metadata['visibleInCamera']], \
+                key=lambda x: x.uuid)
+
     def save_images(self, scene_event):
         image_list = []
         depth_mask_list = []
@@ -490,7 +495,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             return_status=self.retrieve_return_status(scene_event),
             reward=MCS_Reward.calculate_reward(self.__goal, objects, agent),
             rotation=self.retrieve_rotation(scene_event),
-            step_number=self.__step_number
+            step_number=self.__step_number,
+            structural_object_list=self.retrieve_structural_object_list(scene_event)
         )
 
         self.__head_tilt = step_output.head_tilt
