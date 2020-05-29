@@ -9,7 +9,7 @@ def test_get_position_step():
     }
     x = 1.0
     expected_step = 2
-    step = get_position_step(target, x, True)
+    step = get_position_step(target, x, False, True)
     assert step == expected_step
 
 
