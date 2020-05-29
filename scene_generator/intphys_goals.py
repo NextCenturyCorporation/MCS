@@ -547,11 +547,12 @@ class GravityGoal(IntPhysGoal):
 
     def compute_objects(self, room_wall_material_name: str) \
         -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
-        ramp_type, left_to_right, objs = self._get_ramp_and_objects(room_wall_material_name)
+        ramp_type, left_to_right, ramp_objs, objs = self._get_ramp_and_objects(room_wall_material_name)
         self._ramp_type = ramp_type
         self._left_to_right = left_to_right
         scenery = self._compute_scenery()
-        return objs, objs + scenery, []
+        goal_objs = objs + ramp_objs
+        return goal_objs, goal_objs + scenery, []
 
     def _create_random_ramp(self) -> Tuple[ramps.Ramp, bool, float, List[Dict[str, Any]]]:
         material_name = random.choice(materials.OCCLUDER_MATERIALS)[0]
@@ -561,7 +562,7 @@ class GravityGoal(IntPhysGoal):
         return ramp_type, left_to_right, x_term, ramp_objs
 
     def _get_ramp_and_objects(self, room_wall_material_name: str) -> \
-        Tuple[ramps.Ramp, bool, List[Dict[str, Any]]]:
+        Tuple[ramps.Ramp, bool, List[Dict[str, Any]], List[Dict[str, Any]]]:
         ramp_type, left_to_right, x_term, ramp_objs = self._create_random_ramp()
         if ramp_type in (ramps.Ramp.RAMP_90, ramps.Ramp.RAMP_30_90, ramps.Ramp.RAMP_45_90):
             # Don't put objects in places where they'd have to roll up
@@ -606,7 +607,7 @@ class GravityGoal(IntPhysGoal):
                 obj['shows'][0]['position']['y'] += ramps.RAMP_OBJECT_HEIGHTS[ramp_type]
                 obj['forces'][0]['vector']['y'] = obj['mass'] * IntPhysGoal.RAMP_DOWNWARD_FORCE
 
-        return ramp_type, left_to_right, ramp_objs + objs
+        return ramp_type, left_to_right, ramp_objs, objs
 
 
 class ObjectPermanenceGoal(IntPhysGoal):

@@ -6,7 +6,7 @@ import copy
 from enum import Enum, auto
 import random
 import uuid
-from typing import Tuple, List, Dict, Any
+from typing import Tuple, List, Dict, Any, Optional
 
 RAMP_30_TEMPLATE = [{
     "id": "ramp_part1_",
@@ -302,7 +302,7 @@ class Ramp(Enum):
     RAMP_45_90 = auto()
 
 
-_RAMP_TEMPLATE_INFO = {
+_RAMP_TEMPLATE_INFO: Tuple[Dict[str, Any], int] = {
     Ramp.RAMP_30: (RAMP_30_TEMPLATE, 1),
     Ramp.RAMP_45: (RAMP_45_TEMPLATE, 3),
     Ramp.RAMP_90: (RAMP_90_TEMPLATE, 4),
