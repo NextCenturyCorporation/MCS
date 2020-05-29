@@ -257,9 +257,9 @@ class IntPhysGoal(Goal, ABC):
     def _get_objects_moving_across(self, room_wall_material_name: str, last_action_end_step: int,
                                    earliest_action_start_step: int = EARLIEST_ACTION_START_STEP,
                                    valid_positions: Iterable = frozenset(Position),
-                                   positions = None,
+                                   positions: Optional[List[Position]] = None,
                                    valid_defs: List[Dict[str, Any]] = objects.OBJECTS_INTPHYS) \
-                                   -> List[Dict[str, Any]]:
+            -> List[Dict[str, Any]]:
         """Get objects to move across the scene. Returns objects."""
         num_objects = self._get_num_objects_moving_across()
         # The following x positions start outside the camera viewport

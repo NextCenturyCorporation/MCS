@@ -32,6 +32,17 @@ def find_targets(scene: Dict[str, Any], num_targets: Optional[int] = None) -> Li
             for target_id in target_ids]
 
 
+def get_position_step(target: Dict[str, Any], x_position: float, left_to_right: bool) -> int:
+    """Get the step number at which the target reaches x_position"""
+    positions = target['intphys_option']['position_by_step']
+    for i in range(len(positions)):
+        pos = positions[i]
+        if left_to_right and pos > x_position or \
+           not left_to_right and pos < x_position:
+            return i
+    raise goal.GoalException(f'cannot find step for position: {x_position}')
+
+
 class Quartet(ABC):
     def __init__(self, template: Dict[str, Any], find_path: bool):
         self._template = template
@@ -409,22 +420,11 @@ class GravityQuartet(Quartet):
             top_offset *= -1
         return bottom_offset, top_offset
 
-    def _get_position_step(self, target: Dict[str, Any], x_position: float) -> int:
-        """Get the step number at which the target reaches x_position"""
-        positions = target['intphys_option']['position_by_step']
-        left_to_right = self._goal.is_left_to_right()
-        for i in range(len(positions)):
-            pos = positions[i]
-            if left_to_right and pos > x_position or \
-               not left_to_right and pos < x_position:
-                return i
-        raise goal.GoalException(f'cannot find step for position: {x_position}')
-        
     def _make_object_faster(self, scene: Dict[str, Any]) -> None:
         target = find_target(scene)
         bottom_offset, top_offset = self._get_ramp_offsets()
         implausible_x_start = target['intphys_option']['ramp_x_term'] + bottom_offset
-        implausible_step = self._get_position_step(target, implausible_x_start)
+        implausible_step = get_position_step(target, implausible_x_start, self._goal.is_left_to_right())
         new_force = target['forces'][0].copy()
         new_force['stepBegin'] = implausible_step
         new_force['vector']['x'] *= 2
@@ -435,7 +435,7 @@ class GravityQuartet(Quartet):
         target = find_target(scene)
         bottom_offset, top_offset = self._get_ramp_offsets()
         implausible_x_start = target['intphys_option']['ramp_x_term'] + top_offset
-        implausible_step = self._get_position_step(target, implausible_x_start)
+        implausible_step = get_position_step(target, implausible_x_start, self._goal.is_left_to_right())
         new_force = target['forces'][0].copy()
         new_force['stepBegin'] = implausible_step
         new_force['vector']['x'] /= 2.0
