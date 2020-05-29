@@ -348,8 +348,8 @@ class TransferralGoal(InteractionGoal):
         logging.debug(f'TransferralGoal.f_o_p: got path = {path}')
         current_heading = self._performer_start['rotation']['y']
         for indx in range(len(path)-1):
-            actions, current_heading = parse_path_section(path[indx:indx+2], current_heading)
-            actions.extend(actions)
+            new_actions, current_heading = parse_path_section(path[indx:indx+2], current_heading)
+            actions.extend(new_actions)
 
         # TODO: maybe look at receptacle part of the parent object (future ticket)
         actions.append({
