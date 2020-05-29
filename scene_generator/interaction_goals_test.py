@@ -2,6 +2,8 @@ import logging
 import uuid
 
 import math
+from typing import Dict, Any
+
 import pytest
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
 
@@ -9,8 +11,17 @@ import geometry
 import objects
 from geometry import POSITION_DIGITS
 from goals import *
-from interaction_goals import move_to_container, parse_path_section, get_navigation_actions
+from interaction_goals import move_to_container, parse_path_section, get_navigation_actions, set_enclosed_info, \
+    InteractionGoal
 from util import finalize_object_definition, instantiate_object
+
+
+def test_set_enclosed_info():
+    goal = { 'type_list': [] }
+    targets = [{}, {'locationParent': 'bogus'}]
+    set_enclosed_info(goal, *targets)
+    enclosed_info = set(goal['type_list'])
+    assert enclosed_info == {'target_not_enclosed', 'target_enclosed'}
 
 
 def test_move_to_container():
@@ -238,3 +249,90 @@ def test__generate_transferral_goal_with_nonstackable_goal():
     with pytest.raises(ValueError) as excinfo:
         goal = goal_obj.get_config([pickupable_obj, other_obj], [])
     assert "second object must be" in str(excinfo.value)
+
+
+class DummyInteractionGoal(InteractionGoal):
+    def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
+            List[Dict[str, Any]]:
+        return []
+
+
+def test_InteractionGoal__set_target_def():
+    goal_obj = DummyInteractionGoal()
+    goal_obj._set_target_def()
+    assert 'pickupable' in goal_obj._target_def['attributes']
+
+
+def test_InteractionGoal__set_target_location():
+    goal_obj = DummyInteractionGoal()
+    goal_obj._set_performer_start()
+    goal_obj._set_target_def()
+    goal_obj._set_target_location()
+    assert goal_obj._target_location is not None
+
+
+def test_InteractionGoal_compute_objects():
+    goal_obj = DummyInteractionGoal()
+    goal_objs, objs, rects = goal_obj.compute_objects('dummy wall material')
+    assert len(goal_objs) == 1
+    assert len(objs) >= 1
+    assert len(rects) >= 1
+    assert len(objs) == len(rects)
+
+
+def test_RetrievalGoal_get_config():
+    goal_obj = RetrievalGoal()
+    goal_obj._set_performer_start()
+    goal_obj._set_target_def()
+    goal_obj._set_target_location()
+    target = instantiate_object(goal_obj._target_def, goal_obj._target_location)
+    goal_objs = [target]
+    all_objs = [target]
+    config = goal_obj.get_config(goal_objs, all_objs)
+    metadata = config['metadata']
+    assert metadata['target']['id'] == target['id']
+    assert metadata['target']['info'] == target['info']
+
+
+def test_TransferralGoal__set_goal_objects():
+    goal_obj = TransferralGoal()
+    goal_obj._set_performer_start()
+    goal_obj._set_goal_objects()
+    assert len(goal_obj._goal_objects) == 1
+
+
+def test_TransferralGoal_get_config():
+    goal_obj = TransferralGoal()
+    goal_objects, all_objects, bounding_rects = goal_obj.compute_objects('dummy material')
+    config = goal_obj.get_config(goal_objects, all_objects)
+    metadata = config['metadata']
+    assert 'target_1' in metadata
+    assert 'target_2' in metadata
+    assert 'relationship' in metadata
+
+
+def test_TransferralGoal_find_optimal_path():
+    goal_obj = TransferralGoal()
+    goal_objects, all_objects, bounding_rects = goal_obj.compute_objects('dummy material')
+    actions = goal_obj.find_optimal_path(goal_objects, all_objects)
+    pickup_action = next((action for action in actions if action['action'] == 'PickupObject'))
+    assert pickup_action is not None
+    assert actions[-1]['action'] == 'PutObject'
+
+
+def test_TraversalGoal_compute_objects():
+    goal_obj = TraversalGoal()
+    goal_objects, all_objects, rects = goal_obj.compute_objects('dummy material')
+    assert len(goal_objects) == 1
+    assert len(all_objects) >= 1
+    assert goal_objects[0] in all_objects
+
+
+def test_TraversalGoal_get_config():
+    goal_obj = TraversalGoal()
+    goal_objects, all_objects, rects = goal_obj.compute_objects('dummy material')
+    config = goal_obj.get_config(goal_objects, all_objects)
+    target = goal_objects[0]
+    metadata = config['metadata']
+    assert metadata['target']['id'] == target['id']
+    assert metadata['target']['info'] == target['info']

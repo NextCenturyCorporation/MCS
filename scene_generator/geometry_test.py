@@ -1,6 +1,7 @@
 import pytest
 
 import geometry
+import objects
 from geometry import *
 from separating_axis_theorem import sat_entry
 
@@ -318,3 +319,6 @@ def test__object_collision():
     assert not sat_entry(r1, r3)
 
 
+def test_calc_obj_pos():
+    new_obj = calc_obj_pos(geometry.ORIGIN, [], random.choice(objects.get_all_object_defs()))
+    assert new_obj is not None

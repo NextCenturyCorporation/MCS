@@ -43,3 +43,19 @@ def test_get_all_object_defs():
     assert all is dup
     for obj_def in all:
         assert type(obj_def) is type({})
+
+
+def test_get_enclosed_containers():
+    containers = get_enclosed_containers()
+    for c in containers:
+        assert len(c['enclosed_areas']) > 0
+    dup = get_enclosed_containers()
+    assert dup is containers
+
+
+def test_get_intphys_objects():
+    objs = get_intphys_objects()
+    for obj in objs:
+        assert 'intphys_options' in obj
+    dup = get_intphys_objects()
+    assert dup is objs
