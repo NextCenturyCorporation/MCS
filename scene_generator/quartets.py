@@ -127,7 +127,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
             diff = new_stepBegin - max_stepBegin
             if diff > orig_stepBegin:
                 print(f'new_sb={new_stepBegin}\tmax_sb={max_stepBegin}\torig_sb={orig_stepBegin}')
-                raise GoalException('cannot fix start times for this goal, must start over')
+                raise goal.GoalException('cannot fix start times for this goal, must start over')
             target['shows'][0]['stepBegin'] -= diff
             if 'forces' in target:
                 target['forces'][0]['stepBegin'] -= diff
@@ -284,6 +284,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
         scene['answer']['choice'] = 'implausible'
         target = find_target(scene)
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
+            scene['answer']['choice'] = 'implausible'
             implausible_event_index1 = target['intphys_option']['occluder_indices'][0]
             implausible_event_index2 = target['intphys_option']['occluder_indices'][1]
             adjustment = abs(implausible_event_index1 - implausible_event_index2)
@@ -319,6 +320,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
                 self._move_later(scene)
             self._scenes[q - 1] = scene
         return self._scenes[q - 1]
+
 
 class ShapeConstancyQuartet(Quartet):
     """This quartet is about one object turning into another object of a
@@ -448,6 +450,31 @@ class ShapeConstancyQuartet(Quartet):
             self._scenes[q - 1] = scene
         logging.debug(f'get_scene: q={q}\thides? {scene["objects"][0].get("hides", None)}')
         return scene
+
+
+class GravityQuartet(Quartet):
+    def __init__(self, template: Dict[str, Any], find_path: bool):
+        super(GravityQuartet, self).__init__(template, find_path)
+        self._goal = intphys_goals.GravityGoal()
+        self._scenes[0] = copy.deepcopy(self._template)
+        self._goal.update_body(self._scenes[0], self._find_path)
+
+    def get_scene(self, q: int) -> Dict[str, Any]:
+        if q > 0:
+            if self._scenes[q - 1] is None:
+                if self._goal.is_ramp_steep():
+                    self._scenes[q - 1] = self._get_steep_scene(q)
+                else:
+                    self._scenes[q - 1] = self._get_gentle_scene(q)
+        return self._scenes[q - 1]
+
+    def _get_steep_scene(self, q: int) -> Dict[str, Any]:
+        # TODO: in MCS-133
+        pass
+
+    def _get_gentle_scene(self, q: int) -> Dict[str, Any]:
+        # TODO: in MCS-122
+        pass
 
 
 QUARTET_TYPES: List[Type[Quartet]] = [ObjectPermanenceQuartet, ShapeConstancyQuartet, SpatioTemporalContinuityQuartet]
