@@ -7,6 +7,7 @@ from typing import Dict, Any, List, Iterable, Tuple, Optional
 
 import geometry
 import materials
+import math
 import objects
 import ramps
 from goal import MIN_RANDOM_INTERVAL, Goal, GoalException
@@ -136,9 +137,11 @@ class IntPhysGoal(Goal, ABC):
     def _get_paired_occluder(self, paired_obj, occluder_list, non_room_wall_materials, pole_materials):
         occluder_fits = False
         for _ in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
-            min_scale = min(max(paired_obj['shows'][0]['scale']['x'],
+            x_diagonal = math.sqrt(2) * paired_obj['shows'][0]['scale']['x']
+            min_scale = min(max(x_diagonal,
                                 IntPhysGoal.MIN_OCCLUDER_SCALE),
                             IntPhysGoal.MAX_OCCLUDER_SCALE)
+            # object could be a cube on its corner, so use the diagonal distance
             x_scale = random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
             position_by_step = paired_obj['intphys_option']['position_by_step']
             paired_z = paired_obj['shows'][0]['position']['z']
@@ -369,12 +372,16 @@ class IntPhysGoal(Goal, ABC):
             if location in (IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR, IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR):
                 obj['forces'][0]['vector']['x'] *= -1
             intphys_option['position_by_step'] = filtered_position_by_step
+            intphys_option['position_y'] = obj_def['position_y']
             obj['intphys_option'] = intphys_option
             new_objects.append(obj)
             if positions is not None:
                 positions.append(location)
 
         return new_objects
+
+    def _get_num_occluders_falling_down(self, num_objects: int) -> int:
+        return 2 if num_objects == 2 else random.choice((1, 2))
 
     def _get_objects_falling_down(self, room_wall_material_name: str) \
         -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
@@ -424,7 +431,7 @@ class IntPhysGoal(Goal, ABC):
             }
             object_list.append(obj)
         # place required occluders, then (maybe) some random ones
-        num_occluders = 2 if num_objects == 2 else random.choice((1, 2))
+        num_occluders = self._get_num_occluders_falling_down(num_objects)
         logging.debug(f'num_objects = {num_objects}\tnum_occluders = {num_occluders}')
         occluders = []
         non_room_wall_materials = [m for m in materials.CEILING_AND_WALL_MATERIALS
@@ -455,6 +462,10 @@ class IntPhysGoal(Goal, ABC):
             occluder_pair = objects.create_occluder(random.choice(non_room_wall_materials)[0],
                                                     random.choice(materials.METAL_MATERIALS)[0],
                                                     adjusted_x, x_scale, True)
+            # occluded_id needed by SpatioTemporalContinuityQuartet
+            if 'intphys_option' not in occluder_pair[0]:
+                occluder_pair[0]['intphys_option'] = {}
+            occluder_pair[0]['intphys_option']['occluded_id'] = paired_obj['id']
             occluders.extend(occluder_pair)
         self._add_occluders(occluders, num_occluders - num_objects, non_room_wall_materials, True)
 
@@ -674,3 +685,6 @@ class SpatioTemporalContinuityGoal(IntPhysGoal):
         self._add_occluders(occluder_list, num_occluders - 2, non_room_wall_materials, False)
 
         return occluder_list
+
+    def _get_num_occluders_falling_down(self, num_objects: int) -> int:
+        return 2

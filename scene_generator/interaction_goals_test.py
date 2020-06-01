@@ -7,6 +7,7 @@ from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
 
 import geometry
 import objects
+import scene_generator
 from geometry import POSITION_DIGITS
 from goals import *
 from interaction_goals import move_to_container, parse_path_section, get_navigation_actions
@@ -238,3 +239,33 @@ def test__generate_transferral_goal_with_nonstackable_goal():
     with pytest.raises(ValueError) as excinfo:
         goal = goal_obj.get_config([pickupable_obj, other_obj], [])
     assert "second object must be" in str(excinfo.value)
+
+
+def test_traversal_performer_start_not_close_to_target():
+    """Ensure the performerStart is not right next to the target object
+    (for TraversalGoal). For MCS-158."""
+    goal_obj = TraversalGoal()
+    body = scene_generator.generate_body_template('158-performerStart')
+    goal_obj.update_body(body, False)
+    metadata = body['goal']['metadata']
+    target_id = metadata['target']['id']
+    target = next((obj for obj in body['objects'] if obj['id'] == target_id))
+    target_position = target['shows'][0]['position']
+    performer_start = body['performerStart']['position']
+    dist = geometry.position_distance(target_position, performer_start)
+    assert dist >= geometry.MINIMUM_START_DIST_FROM_TARGET
+
+def test_transferral_targets_not_close_to_each_other():
+    """Ensure that the targets for TransferralGoal aren't too close to
+    each other. For MCS-158."""
+    goal_obj = TransferralGoal()
+    body = scene_generator.generate_body_template('158-performerStart')
+    goal_obj.update_body(body, False)
+    metadata = body['goal']['metadata']
+    target1_id = metadata['target_1']['id']
+    target2_id = metadata['target_2']['id']
+    target1 = next((obj for obj in body['objects'] if obj['id'] == target1_id))
+    target2 = next((obj for obj in body['objects'] if obj['id'] == target2_id))
+    distance = geometry.position_distance(target1['shows'][0]['position'],
+                                          target2['shows'][0]['position'])
+    assert distance >= geometry.MINIMUM_TARGET_SEPARATION

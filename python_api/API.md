@@ -183,11 +183,27 @@ Whether you can see this object in your camera viewport.
 
 The list of all actions (like "MoveAhead" or "PickupObject") that are available for the next step. May be a subset of all possible actions.
 
+### camera_aspect_ratio : (float, float)
+
+The player camera's aspect ratio. This will remain constant for the whole scene.
+
+### camera_clipping_planes : (float, float)
+
+The player camera's near and far clipping planes. This will remain constant for the whole scene.
+
+### camera_field_of_view : float
+
+The player camera's field of view. This will remain constant for the whole scene.
+
+### camera_height : float
+
+The player camera's height. This will change if the player uses actions like "LieDown", "Sit", or "Crouch".
+
 ### depth_mask_list : list of Pillow.Image objects
 
 The list of depth mask images from the scene after the last action and physics simulation were run. This is normally a list with five images, where the physics simulation has unpaused and paused again for a little bit between each image, and the final image is the state of the environment before your next action. The MCS_Step_Output object returned from a call to controller.start_scene will normally have a list with only one image, except for a scene with a scripted Preview Phase.
 
-A pixel value of 255 translates to 25 in the environment's global coordinate system.
+A pixel value of 255 translates to 25 (the far clipping plane) in the environment's global coordinate system.
 
 ### goal : MCS_Goal
 
@@ -203,7 +219,7 @@ The list of images from the scene after the last action and physics simulation w
 
 ### object_list : list of MCS_Object objects
 
-The list of metadata for all currently visible objects in the scene.
+The list of metadata for all currently visible objects in the scene. For metadata on structural objects like walls, please see `structural_object_list`
 
 ### object_mask_list : list of Pillow.Image objects
 
@@ -230,6 +246,10 @@ The return status from your last action.
 ### rotation : float
 
 Your current rotation angle in degrees.
+
+### structural_object_list : list of MCS_Object objects
+
+The list of metadata for all the structural objects (like walls) in the scene. This includes occluders and ramps from IntPhys scenes. Please note that occluders are composed of two separate objects, the "wall" and the "pole", with corresponding object IDs (`occluder_wall_<uuid>` and `occluder_pole_<uuid>`), and ramps are composed of between one and three objects (depending on the type of ramp), with corresponding object IDs.
 
 ### step_number : integer
 

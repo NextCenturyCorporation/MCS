@@ -3907,6 +3907,11 @@ def create_occluder(wall_material: str, pole_material: str,
 
     occluder[WALL]['shows'][0]['scale']['x'] = x_scale
 
+    # is_occluder is needed by SpatioTemporalContinuityQuartet
+    occluder[WALL]['intphys_option'] = {
+        'is_occluder': True
+    }
+
     if sideways:
         if x_position > 0:
             occluder[POLE]['shows'][0]['position']['x'] = 3 + x_position + x_scale / 2

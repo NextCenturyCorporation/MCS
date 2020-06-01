@@ -161,7 +161,8 @@ def generate_quartet(prefix: str, index: int, quartet_name: str,
             try:
                 scene = quartet.get_scene(q)
                 scene['name'] = name
-                write_scene(name, scene)
+                scene_copy = copy.deepcopy(scene)
+                write_file(name, scene_copy)
                 break
             except (RuntimeError, ZeroDivisionError, TypeError, goal.GoalException, ValueError) as e:
                 if stop_on_error:

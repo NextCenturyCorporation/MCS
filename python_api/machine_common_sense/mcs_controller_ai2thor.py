@@ -46,6 +46,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     ACTION_LIST = [item.value for item in MCS_Action]
 
+    # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built on this assumption.
+    SCREEN_HEIGHT = 400
+    SCREEN_WIDTH = 600
+
     # AI2-THOR creates a square grid across the scene that is uses for "snap-to-grid" movement.
     # (This value may not really matter because we set continuous to True in the step input.)
     GRID_SIZE = 0.1
@@ -99,8 +103,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             # The headless flag does not work for me
             headless=False,
             local_executable_path=unity_app_file_path,
-            width=600,
-            height=400,
+            width=self.SCREEN_WIDTH,
+            height=self.SCREEN_HEIGHT,
             # Set the name of our Scene in our Unity app
             scene='MCS',
             logs=True,
@@ -389,8 +393,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     def retrieve_object_list(self, scene_event):
         return sorted([self.retrieve_object_output(object_metadata, self.retrieve_object_colors(scene_event)) for \
-                object_metadata in scene_event.metadata['objects'] 
-                    if object_metadata['visibleInCamera'] or object_metadata['isPickedUp']], key=lambda x: x.uuid)
+                object_metadata in scene_event.metadata['objects'] if object_metadata['visibleInCamera'] or \
+                object_metadata['isPickedUp']], key=lambda x: x.uuid)
 
     def retrieve_object_output(self, object_metadata, object_id_to_color):
         material_list = list(filter(MCS_Util.verify_material_enum_string, [material.upper() for material in \
@@ -441,6 +445,11 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         finally:
             return return_status
 
+    def retrieve_structural_object_list(self, scene_event):
+        return sorted([self.retrieve_object_output(object_metadata, self.retrieve_object_colors(scene_event)) for \
+                object_metadata in scene_event.metadata['structuralObjects'] if object_metadata['visibleInCamera']], \
+                key=lambda x: x.uuid)
+
     def save_images(self, scene_event):
         image_list = []
         depth_mask_list = []
@@ -458,7 +467,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             object_mask_list.append(object_mask)
 
             if self.__debug_to_file and self.__output_folder is not None:
-                step_plus_substep_index = 0 if self.__step_number == 0 else ((self.__step_number - 1) * 5) + index
+                step_plus_substep_index = 0 if self.__step_number == 0 else ((self.__step_number - 1) * 5) + (index + 1)
                 suffix = '_' + str(step_plus_substep_index) + '.png'
                 scene_image.save(fp=self.__output_folder + 'frame_image' + suffix)
                 depth_mask.save(fp=self.__output_folder + 'depth_mask' + suffix)
@@ -479,6 +488,11 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         agent = scene_event.metadata.get('agent', None)
         step_output = MCS_Step_Output(
             action_list=self.retrieve_action_list(self.__goal, self.__step_number),
+            camera_aspect_ratio=(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            camera_clipping_planes=(scene_event.metadata.get('clippingPlaneNear', 0), \
+                    scene_event.metadata.get('clippingPlaneFar', 0)),
+            camera_field_of_view=scene_event.metadata.get('fov', 0),
+            camera_height=scene_event.metadata.get('cameraPosition', {}).get('y', 0),
             depth_mask_list=depth_mask_list,
             goal=self.__goal,
             head_tilt=self.retrieve_head_tilt(scene_event),
@@ -490,7 +504,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             return_status=self.retrieve_return_status(scene_event),
             reward=MCS_Reward.calculate_reward(self.__goal, objects, agent),
             rotation=self.retrieve_rotation(scene_event),
-            step_number=self.__step_number
+            step_number=self.__step_number,
+            structural_object_list=self.retrieve_structural_object_list(scene_event)
         )
 
         self.__head_tilt = step_output.head_tilt
