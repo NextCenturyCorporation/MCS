@@ -455,7 +455,7 @@ class ShapeConstancyQuartet(Quartet):
 class GravityQuartet(Quartet):
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(GravityQuartet, self).__init__(template, find_path)
-        self._goal = intphys_goals.GravityGoal()
+        self._goal = intphys_goals.GravityGoal(use_fastest=True)
         self._scenes[0] = copy.deepcopy(self._template)
         self._goal.update_body(self._scenes[0], self._find_path)
 
@@ -469,8 +469,23 @@ class GravityQuartet(Quartet):
         return self._scenes[q - 1]
 
     def _get_steep_scene(self, q: int) -> Dict[str, Any]:
-        # TODO: in MCS-133
-        pass
+        scene = copy.deepcopy(self._scenes[0])
+        target = scene['objects'][0]
+        if q == 2:
+            # switch the target to use lowest force.x
+            new_intphys_option = sorted(target['intphy_option']['saved_options'],
+                                        key=lambda io: io['force']['x'])[0]
+            orig_x_position = target['shows'][0]['position']['x']
+            target['forces'][0]['x'] = new_intphys_option['force']['x']
+        elif q == 3:
+            # fast, falls too quickly
+            scene['answer']['choice'] = 'implausible'
+            # TODO
+        elif q == 4:
+            # slow, falls too slowly
+            scene['answer']['choice'] = 'implausible'
+            # TODO
+        return scene
 
     def _get_gentle_scene(self, q: int) -> Dict[str, Any]:
         # TODO: in MCS-122
