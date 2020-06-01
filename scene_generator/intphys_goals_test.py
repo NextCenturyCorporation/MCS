@@ -1,10 +1,11 @@
 import materials
+import objects
+import util
 from geometry import ORIGIN
 from goals import *
 
 from intphys_goals import random_real, IntPhysGoal
 from objects import OBJECTS_INTPHYS
-from util import instantiate_object
 
 
 def test_random_real():
@@ -12,6 +13,88 @@ def test_random_real():
     assert 0 <= n <= 1
     # need to multiply by 10 and mod by 1 instead of 0.1 to avoid weird roundoff
     assert n * 10 % 1 < 1e-8
+
+
+def test_IntPhysGoal_compute_performer_start():
+    class TestGoal(IntPhysGoal):
+        pass
+
+    expected_start = {
+        'position': {
+            'x': 0,
+            'y': 0,
+            'z': -4.5
+        },
+        'rotation': {
+            'y': 0
+        }
+    }
+    goal_obj = TestGoal()
+    start = goal_obj.compute_performer_start()
+    assert start == expected_start
+
+
+def test_IntPhysGoal_update_body():
+    class TestGoal(IntPhysGoal):
+        TEMPLATE = {'type_list': [], 'metadata':{}}
+
+    goal_obj = TestGoal()
+    body = { 'wallMaterial': 'dummy material' }
+    goal_obj.update_body(body, False)
+    assert body['observation'] == True
+    assert body['answer']['choice'] == 'plausible'
+
+
+def test_IntPhysGoal_get_config():
+    class TestGoal(IntPhysGoal):
+        TEMPLATE = {'type_list': [], 'metadata':{}}
+    goal_obj = TestGoal()
+    goal_objects, all_objs, rects = goal_obj.compute_objects('dummy material')
+    goal_obj._goal_objects = goal_objects
+    config = goal_obj.get_config(goal_objects, all_objs)
+    assert config['action_list'] == [['Pass']] * config['last_step']
+    assert len(config['metadata']['objects']) == len(goal_obj._goal_objects)
+
+
+def test_IntPhysGoal_compute_objects():
+    class TestGoal(IntPhysGoal):
+        pass
+
+    goal = TestGoal()
+    target_objs, all_objs, rects = goal.compute_objects('dummy wall material')
+    assert len(target_objs) > 0
+    assert len(all_objs) > 0
+    assert len(rects) == 0
+
+
+def test_IntPhysGoal__get_num_occluders():
+    class TestGoal(IntPhysGoal):
+        pass
+
+    goal = TestGoal()
+    num_occluders = goal._get_num_occluders()
+    assert 1 <= num_occluders <= 4
+
+
+def test_IntPhysGoal__get_num_paired_occluders():
+    class TestGoal(IntPhysGoal):
+        pass
+
+    goal = TestGoal()
+    num_paired_occluders = goal._get_num_paired_occluders()
+    assert num_paired_occluders == 1
+
+
+def test_IntPhysGoal__get_paired_occluder():
+    class TestGoal(IntPhysGoal):
+        pass
+
+    goal = TestGoal()
+    target_objs = goal._get_objects_moving_across('dummy wall material', 60)
+    occluder = goal._get_paired_occluder(target_objs[0], [],
+                                         materials.CEILING_AND_WALL_MATERIALS,
+                                         materials.METAL_MATERIALS)
+    assert occluder is not None
 
 
 def test_GravityGoal_compute_objects():
@@ -113,7 +196,7 @@ def test_mcs_209():
     obj_defs = OBJECTS_INTPHYS.copy()
     random.shuffle(obj_defs)
     obj_def = next((od for od in obj_defs if 'rotation' in od))
-    obj = instantiate_object(obj_def, {'position': ORIGIN})
+    obj = util.instantiate_object(obj_def, {'position': ORIGIN})
     assert obj['shows'][0]['rotation'] == obj_def['rotation']
 
     class TestGoal(IntPhysGoal):

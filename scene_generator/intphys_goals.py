@@ -178,7 +178,7 @@ class IntPhysGoal(Goal, ABC):
 
     def _get_occluders(self, obj_list: List[Dict[str, Any]],
                        wall_material_name: str) -> List[Dict[str, Any]]:
-        """Get occluders to for objects in obj_list."""
+        """Get occluders for objects in obj_list."""
         num_occluders = self._get_num_occluders()
         num_paired_occluders = self._get_num_paired_occluders()
         non_wall_materials = [m for m in materials.CEILING_AND_WALL_MATERIALS
