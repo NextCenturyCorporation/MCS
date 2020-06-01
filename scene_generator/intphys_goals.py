@@ -7,6 +7,7 @@ from typing import Dict, Any, List, Iterable, Tuple
 
 import geometry
 import materials
+import math
 import objects
 import ramps
 from goal import MIN_RANDOM_INTERVAL, Goal, GoalException
@@ -136,9 +137,11 @@ class IntPhysGoal(Goal, ABC):
     def _get_paired_occluder(self, paired_obj, occluder_list, non_room_wall_materials, pole_materials):
         occluder_fits = False
         for _ in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
-            min_scale = min(max(paired_obj['shows'][0]['scale']['x'],
+            x_diagonal = math.sqrt(2) * paired_obj['shows'][0]['scale']['x']
+            min_scale = min(max(x_diagonal,
                                 IntPhysGoal.MIN_OCCLUDER_SCALE),
                             IntPhysGoal.MAX_OCCLUDER_SCALE)
+            # object could be a cube on its corner, so use the diagonal distance
             x_scale = random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
             position_by_step = paired_obj['intphys_option']['position_by_step']
             paired_z = paired_obj['shows'][0]['position']['z']
