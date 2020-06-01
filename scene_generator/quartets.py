@@ -169,6 +169,28 @@ class SpatioTemporalContinuityQuartet(Quartet):
                 destination_index = implausible_event_index1
                 destination_x = target['intphys_option']['position_by_step'][destination_index]
             implausible_event_step = implausible_event_index + target['forces'][0]['stepBegin']
+            position = {
+                'x': destination_x,
+                'y': target['intphys_option']['position_y'],
+                'z': target['shows'][0]['position']['z']
+            }
+            if random.random() <= 0.5:
+                # delay emergence of the target
+                target['hides'] = {'stepBegin': implausible_event_step}
+                target['shows'].append({
+                    'stepBegin': target['shows'][0]['stepBegin'] + destination_index + 1,
+                    'position': position
+                })
+                scene['goal']['type_list'].append('teleport_delayed')
+            else:
+                # teleport the target
+                target['teleports'] = [{
+                    'stepBegin': implausible_event_step,
+                    'stepEnd': implausible_event_step,
+                    'position': position
+                }]
+                scene['goal']['type_list'].append('teleport_instantaneous')
+
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
             # 8 is enough for it to fall to the ground
             implausible_event_step = 8 + target['shows'][0]['stepBegin']
@@ -191,17 +213,17 @@ class SpatioTemporalContinuityQuartet(Quartet):
                         'z': target['shows'][0]['position']['z']
                     }
                 }]
+            target['teleports'] = [{
+                'stepBegin': implausible_event_step,
+                'stepEnd': implausible_event_step,
+                'position': {
+                    'x': destination_x,
+                    'y': target['intphys_option']['position_y'],
+                    'z': target['shows'][0]['position']['z']
+                }
+            }]
         else:
             raise ValueError('unknown object creation function, cannot update scene')
-        target['teleports'] = [{
-            'stepBegin': implausible_event_step,
-            'stepEnd': implausible_event_step,
-            'position': {
-                'x': destination_x,
-                'y': target['intphys_option']['position_y'],
-                'z': target['shows'][0]['position']['z']
-            }
-        }]
 
     def _teleport_backward(self, scene: Dict[str, Any]) -> None:
         target = find_targets(scene)[0]
