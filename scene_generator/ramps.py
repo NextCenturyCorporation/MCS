@@ -324,7 +324,7 @@ RAMP_OBJECT_HEIGHTS = {
 }
 
 
-def create_ramp(material_string: str, x_position_percent: float, right_to_left = False) -> Tuple[Ramp, List[Dict[str, Any]]]:
+def create_ramp(material_string: str, x_position_percent: float, left_to_right: bool) -> Tuple[Ramp, List[Dict[str, Any]]]:
     """Create a ramp of a random type. Returns a tuple of (ramp_type, list
     of objects that make up the ramp).
 
@@ -340,7 +340,7 @@ def create_ramp(material_string: str, x_position_percent: float, right_to_left =
         obj['id'] += str(uuid.uuid4())
         obj['materials'].append(material_string)
         obj['shows'][0]['position']['x'] += x_term
-        if not right_to_left:
+        if left_to_right:
             obj['shows'][0]['position']['x'] *= -1
             obj['shows'][0]['rotation']['z'] *= -1
         ramp.append(obj)

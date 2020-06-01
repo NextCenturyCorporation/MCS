@@ -333,7 +333,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                 "frame": image_data,
                 "instance_segmentation_frame": object_mask_data,
                 "object_id_to_color": {
-                    "testId": (12, 34, 56)
+                    "testId": (12, 34, 56),
+                    "testWallId": (101, 102, 103)
                 }
             })],
             "metadata": {
@@ -350,6 +351,12 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "z": 3.333
                     }
                 },
+                "cameraPosition": {
+                    "y": 0.1234
+                },
+                "clippingPlaneFar": 25,
+                "clippingPlaneNear": 0,
+                "fov": 42.5,
                 "lastActionStatus": "SUCCESSFUL",
                 "lastActionSuccess": True,
                 "objects": [{
@@ -378,6 +385,33 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                     },
                     "salientMaterials": ["Wood"],
                     "visibleInCamera": True
+                }],
+                "structuralObjects": [{
+                    "direction": {
+                        "x": 180,
+                        "y": -60,
+                        "z": 0
+                    },
+                    "distance": 2.5,
+                    "distanceXZ": 2.2,
+                    "isPickedUp": False,
+                    "mass": 56.78,
+                    "objectBounds": {
+                        "objectBoundsCorners": ["p11", "p12", "p13", "p14", "p15", "p16", "p17", "p18"]
+                    },
+                    "objectId": "testWallId",
+                    "position": {
+                        "x": 20,
+                        "y": 21,
+                        "z": 22
+                    },
+                    "rotation": {
+                        "x": 4.0,
+                        "y": 5.0,
+                        "z": 6.0
+                    },
+                    "salientMaterials": ["Ceramic"],
+                    "visibleInCamera": True
                 }]
             }
         }
@@ -385,6 +419,10 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         actual = self.controller.wrap_output(self.create_mock_scene_event(mock_scene_event_data))
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
+        self.assertEqual(actual.camera_aspect_ratio, (600, 400))
+        self.assertEqual(actual.camera_clipping_planes, (0, 25))
+        self.assertEqual(actual.camera_field_of_view, 42.5)
+        self.assertEqual(actual.camera_height, 0.1234)
         # self.assertEqual(actual.goal, MCS_Goal()) # TODO MCS-15
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, MCS_Pose.STAND.value) # TODO MCS-18
@@ -411,6 +449,27 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.object_list[0].mass, 12.34)
         self.assertEqual(actual.object_list[0].material_list, ["WOOD"])
         self.assertEqual(actual.object_list[0].visible, True)
+
+        self.assertEqual(len(actual.structural_object_list), 1)
+        self.assertEqual(actual.structural_object_list[0].uuid, "testWallId")
+        self.assertEqual(actual.structural_object_list[0].color, {
+            "r": 101,
+            "g": 102,
+            "b": 103
+        })
+        self.assertEqual(actual.structural_object_list[0].dimensions, ["p11", "p12", "p13", "p14", "p15", "p16", "p17", "p18"])
+        self.assertEqual(actual.structural_object_list[0].direction, {
+            "x": 180,
+            "y": -60,
+            "z": 0
+        })
+        self.assertEqual(actual.structural_object_list[0].distance, 4.4)
+        self.assertEqual(actual.structural_object_list[0].distance_in_steps, 4.4)
+        self.assertEqual(actual.structural_object_list[0].distance_in_world, 2.5)
+        self.assertEqual(actual.structural_object_list[0].held, False)
+        self.assertEqual(actual.structural_object_list[0].mass, 56.78)
+        self.assertEqual(actual.structural_object_list[0].material_list, ["CERAMIC"])
+        self.assertEqual(actual.structural_object_list[0].visible, True)
 
         self.assertEqual(len(actual.depth_mask_list), 1)
         self.assertEqual(len(actual.image_list), 1)
