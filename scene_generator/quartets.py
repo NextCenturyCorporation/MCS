@@ -473,6 +473,11 @@ class ShapeConstancyQuartet(Quartet):
 
 
 class GravityQuartet(Quartet):
+    RAMP_30_BOTTOM_OFFSET = -1.55
+    RAMP_45_BOTTOM_OFFSET = -2.4
+    RAMP_30_TOP_OFFSET = 1
+    RAMP_45_TOP_OFFSET = -1
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(GravityQuartet, self).__init__(template, find_path)
         # only need to specify ramp_type until MCS-133 is implemented
@@ -520,8 +525,12 @@ class GravityQuartet(Quartet):
                 obj['forces'][0]['vector']['y'] = obj['mass'] * intphys_goals.IntPhysGoal.RAMP_DOWNWARD_FORCE
 
     def _get_ramp_offsets(self) -> Tuple[float, float]:
-        bottom_offset = -1.55 if self._goal.get_ramp_type() == ramps.Ramp.RAMP_30 else -2.4
-        top_offset = 1 if self._goal.get_ramp_type() == ramps.Ramp.RAMP_30 else -1
+        bottom_offset = RAMP_30_BOTTOM_OFFSET \
+            if self._goal.get_ramp_type() == ramps.Ramp.RAMP_30 \
+               else RAMP_45_BOTTOM_OFFSET
+        top_offset = RAMP_30_TOP_OFFSET \
+            if self._goal.get_ramp_type() == ramps.Ramp.RAMP_30 \
+               else RAMP_45_TOP_OFFSET
         left_to_right = self._goal.is_left_to_right()
         if left_to_right:
             bottom_offset *= -1
