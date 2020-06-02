@@ -11,19 +11,19 @@ The latest release of the MCS Python library is `0.0.8`
 1. Install the required third-party Python libraries:
 
 ```
-pip install -r requirements.txt
+pip3 install ai2thor==2.2.0 numpy Pillow
 ```
 
 2. Ensure you've installed `ai2thor` version `2.2.0`:
 
 ```
-pip show ai2thor
+pip3 show ai2thor
 ```
 
 3. Install the MCS Python Library:
 
 ```
-pip install git+https://github.com/NextCenturyCorporation/MCS@latest
+pip3 install git+https://github.com/NextCenturyCorporation/MCS@latest
 ```
 
 ### Unity Application
@@ -109,7 +109,7 @@ for config_json_file_path in config_json_file_list:
 
 ## Run with Human Input
 
-To start the Unity application and enter your actions and parameters from the terminal, you can run the `mcs_run_in_human_input_mode` script that was installed in the package with the MCS Python Library:
+To start the Unity application and enter your actions and parameters from the terminal, you can run the `mcs_run_in_human_input_mode` script that was installed in the package with the MCS Python Library (the `mcs_unity_build_file` is the executable):
 
 ```
 mcs_run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file> <debug=False> <enable_noise=False>
