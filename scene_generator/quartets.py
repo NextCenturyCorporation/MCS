@@ -48,6 +48,7 @@ def get_position_step(target: Dict[str, Any], x_position: float,
         if counting_up and pos > x_position or \
            not counting_up and pos < x_position:
             return i
+    logging.error(f'left_to_right={left_to_right}\tforwards={forwards}\tpositions: {positions}')
     raise goal.GoalException(f'cannot find step for position: {x_position}')
 
 
@@ -165,7 +166,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
                     other_object_id = occluded_id
                     break
         if other_occluder is None:
-            raise GoalException('cannot find a second occluder, error generating scene')
+            raise goal.GoalException('cannot find a second occluder, error generating scene')
         if other_object_id is None:
             other_object = None
         else:
@@ -419,12 +420,10 @@ class ShapeConstancyQuartet(Quartet):
             implausible_event_x = a['intphys_option']['position_by_step'][implausible_event_index]
             b['forces'] = copy.deepcopy(a['forces'])
             a['shows'][0]['position']['x'] = implausible_event_x
-            pass
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
             implausible_event_step = 8 + a['shows'][0]['stepBegin']
             b['shows'][0]['position']['y'] = a['shows'][0]['position']['y']
             a['shows'][0]['position']['y'] = a['intphys_option']['position_y']
-            pass
         else:
             raise ValueError(f'unknown object creation function, cannot update scene: {self._goal._object_creator}')
         b['shows'][0]['stepBegin'] = a['shows'][0]['stepBegin']
@@ -473,6 +472,14 @@ class ShapeConstancyQuartet(Quartet):
 
 
 class GravityQuartet(Quartet):
+    RAMP_OFFSETS = {
+        ramps.Ramp.RAMP_30: (-1.55, 1),
+        ramps.Ramp.RAMP_45: (-2.4, -1),
+        ramps.Ramp.RAMP_90: (2, 2),
+        ramps.Ramp.RAMP_30_90: (0, 0),
+        ramps.Ramp.RAMP_45_90: (1, 1)
+    }
+
     RAMP_30_BOTTOM_OFFSET = -1.55
     RAMP_45_BOTTOM_OFFSET = -2.4
     RAMP_30_TOP_OFFSET = 1
@@ -480,9 +487,7 @@ class GravityQuartet(Quartet):
 
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(GravityQuartet, self).__init__(template, find_path)
-        # only need to specify ramp_type until MCS-133 is implemented
-        ramp_type = random.choice((ramps.Ramp.RAMP_30, ramps.Ramp.RAMP_45))
-        self._goal = intphys_goals.GravityGoal(ramp_type, roll_down = False, use_fastest = True)
+        self._goal = intphys_goals.GravityGoal(roll_down = False, use_fastest = True)
         self._scenes[0] = copy.deepcopy(self._template)
         self._goal.update_body(self._scenes[0], self._find_path)
 
@@ -498,20 +503,36 @@ class GravityQuartet(Quartet):
     def _get_steep_scene(self, q: int) -> Dict[str, Any]:
         scene = copy.deepcopy(self._scenes[0])
         target = scene['objects'][0]
-        if q == 2:
+        if q == 2 or q == 4:
             # switch the target to use lowest force.x
-            new_intphys_option = sorted(target['intphy_option']['saved_options'],
+            new_intphys_option = sorted(target['intphys_option']['saved_options'],
                                         key=lambda io: io['force']['x'])[0]
             orig_x_position = target['shows'][0]['position']['x']
-            target['forces'][0]['x'] = new_intphys_option['force']['x']
-        elif q == 3:
-            # fast, falls too quickly
+            target['forces'][0]['vector']['x'] = new_intphys_option['force']['x']
+            if not self._goal.is_left_to_right():
+                target['forces'][0]['vector']['x'] *= -1
+            if q == 4:
+                # Doing nothing here causes the downward force to
+                # start before the object reaches the top of the ramp,
+                # but it shouldn't affect it so we won't bother
+                # recomputing all the 'position_by_step' values for
+                # the slow speed to get the top-of-ramp value.
+                pass
+        if q == 3 or q == 4:
             scene['answer']['choice'] = 'implausible'
-            # TODO
-        elif q == 4:
-            # slow, falls too slowly
-            scene['answer']['choice'] = 'implausible'
-            # TODO
+            _, top_offset = self._get_ramp_offsets()
+            logging.debug(f'top_offset={top_offset}')
+            implausible_x_start = target['intphys_option']['ramp_x_term'] + top_offset
+            implausible_step = get_position_step(target, implausible_x_start,
+                                                 self._goal.is_left_to_right(),
+                                                 False) - 1 + \
+                                                 target['shows'][0]['stepBegin']
+            new_force = copy.deepcopy(target['forces'][0])
+            new_force['stepBegin'] = implausible_step
+            factor = 2 if q == 3 else 0.5
+            new_force['vector']['y'] *= factor
+            target['forces'].append(new_force)
+            target['forces'][0]['stepEnd'] = implausible_step - 1
         return scene
 
     def _get_gentle_scene(self, q: int) -> Dict[str, Any]:
@@ -540,12 +561,7 @@ class GravityQuartet(Quartet):
                 obj['forces'][0]['vector']['y'] = obj['mass'] * intphys_goals.IntPhysGoal.RAMP_DOWNWARD_FORCE
 
     def _get_ramp_offsets(self) -> Tuple[float, float]:
-        bottom_offset = RAMP_30_BOTTOM_OFFSET \
-            if self._goal.get_ramp_type() == ramps.Ramp.RAMP_30 \
-               else RAMP_45_BOTTOM_OFFSET
-        top_offset = RAMP_30_TOP_OFFSET \
-            if self._goal.get_ramp_type() == ramps.Ramp.RAMP_30 \
-               else RAMP_45_TOP_OFFSET
+        bottom_offset, top_offset = GravityQuartet.RAMP_OFFSETS[self._goal.get_ramp_type()]
         left_to_right = self._goal.is_left_to_right()
         if left_to_right:
             bottom_offset *= -1
