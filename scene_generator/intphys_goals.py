@@ -617,7 +617,6 @@ class GravityGoal(IntPhysGoal):
             valid_positions = set(IntPhysGoal.Position)
         positions = []
 
-        valid_defs = objects.get_intphys_objects_y_0()
         self._last_step = IntPhysGoal.LAST_STEP_RAMP
         # Add a buffer to the ramp's last step to account for extra steps needed by objects moving up the ramps.
         objs = self._get_objects_moving_across(room_wall_material_name, self._last_step - IntPhysGoal.LAST_STEP_RAMP_BUFFER,
