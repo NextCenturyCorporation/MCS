@@ -11,14 +11,14 @@ const getPresignedPostData = selectedFile => {
 
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onload = function () {
+            resolve(JSON.parse(this.responseText));
+        };
         xhr.send(
             JSON.stringify({
                 key: selectedFile.name
             })
         );
-        xhr.onload = function () {
-            resolve(JSON.parse(this.responseText));
-        };
     });
 };
 
@@ -36,11 +36,11 @@ const uploadFileToS3 = (presignedPostData, file) => {
 
         const xhr = new XMLHttpRequest();
         xhr.open("PUT", presignedPostData.url, true);
-        xhr.setRequestHeader("Content-Type", "multipart/form-data")
-        xhr.send(formData);
+        xhr.setRequestHeader("Content-Type", "multipart/form-data");
         xhr.onload = function () {
             this.status === 200 ? resolve() : reject(this.responseText);
         };
+        xhr.send(formData); 
     });
 };
 
@@ -57,7 +57,6 @@ class FileUploadButton extends React.Component {
 
     onFormSubmit(e) {
         e.preventDefault() 
-        const that = this;
         $("#fileUploadStatus").text("");
         
         try {
