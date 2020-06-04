@@ -21,7 +21,7 @@ setuptools.setup(
     python_requires=">3.6",
     install_requires=[
         'shapely',
-        'ai2thor @ https://github.com/NextCenturyCorporation/ai2thor/tarball/master#egg=ai2thor'
+        'ai2thor @ https://github.com/NextCenturyCorporation/ai2thor#egg=ai2thor'
     ],
     package_dir={'':'python_api'},
     packages=setuptools.find_packages('python_api'),
