@@ -190,7 +190,7 @@ def generate_quartets(prefix: str, count: int, quartet_name: str,
 def write_scene_of_pair(scenes: Tuple[Dict[str, Any], Dict[str, Any]],
                         name_stem: str, index: int) -> None:
     name = f'{name_stem}{index}.json'
-    scene = scenes[index]
+    scene = scenes[index - 1]
     scene['name'] = name
     scene_copy = copy.deepcopy(scene)
     write_file(name, scene_copy)
@@ -206,7 +206,8 @@ def generate_pair(prefix: str, count: int,
     while True:
         try:
             scenes = pair.get_scenes()
-            write_scene_of_pair(scenes, name_stem, 0)
+            write_scene_of_pair(scenes, name_stem, 1)
+            write_scene_of_pair(scenes, name_stem, 2)
             break
         except (RuntimeError, ZeroDivisionError, TypeError, goal.GoalException, ValueError) as e:
             if stop_on_error:
