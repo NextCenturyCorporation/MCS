@@ -2,9 +2,10 @@ import copy
 import logging
 import uuid
 import random
-from typing import Dict, Any, Optional, List, Tuple
+from typing import Dict, Any, Optional, List, Tuple, Iterable
 
 import materials
+import objects
 
 
 def finalize_object_definition(object_def: Dict[str, Any]) -> Dict[str, Any]:
@@ -95,17 +96,18 @@ def instantiate_object(object_def: Dict[str, Any],
     return new_object
 
 
-def create_similar(obj: Dict[str, Any]) -> Dict[str, Any]:
+def get_similar_definition(obj: Dict[str, Any]) -> Dict[str, Any]:
     choice = random.randint(1, 3)
     if choice == 1:
-        return create_with_new_type(obj)
+        return get_def_with_new_type(obj)
     elif choice == 2:
-        return create_with_new_material(obj)
+        return get_def_with_new_material(obj)
     else:
-        return create_with_new_scale(obj)
+        return get_def_with_new_scale(obj)
 
 
-def test_same_and_different(a: Dict[str, Any], b: Dict[str, Any], same: Iterable[str], different: Iterable[str]) -> bool:
+def check_same_and_different(a: Dict[str, Any], b: Dict[str, Any],
+                            same: Iterable[str], different: Iterable[str]) -> bool:
     """Return true iff for all properties in same that are in a, they
     exist in b and have the same value, and for all properties in
     different that are in a, they exist in b and are different.
@@ -128,17 +130,17 @@ def test_same_and_different(a: Dict[str, Any], b: Dict[str, Any], same: Iterable
 
     
 def get_similar_defs(obj: Dict[str, Any], same: Iterable[str],
-                     different: Iterable[str]) -> Dict[str, Any]:
+                     different: Iterable[str]) -> List[Dict[str, Any]]:
     """Return object definitions similar to obj: where properties from
     same are identical and from different are different.
     """
     valid_defs = []
     for obj_def in objects.get_all_object_defs():
-        if test_same_and_different(obj_def, obj, same, different):
+        if check_same_and_different(obj_def, obj, same, different):
             # now test the choose part if it's there
             if 'choose' in obj_def:
                 valid_choices = [choice for choice in obj_def['choose']
-                                 if test_same_and_different(choice, obj, same, different)]
+                                 if check_same_and_different(choice, obj, same, different)]
                 if len(valid_choices) != 0:
                     new_def = copy.deepcopy(obj_def)
                     new_def['choose'] = valid_choices
@@ -151,21 +153,22 @@ def get_similar_defs(obj: Dict[str, Any], same: Iterable[str],
 def get_def_with_new_type(obj: Dict[str, Any]) -> Dict[str, Any]:
     valid_defs = get_similar_defs(obj, ('materialCategory',
                                         'similarityScale'),
-                                  ('type'))
+                                  ('type',))
     obj_def = random.choice(valid_defs)
     return obj_def
+
 
 def get_def_with_new_material(obj: Dict[str, Any]) -> Dict[str, Any]:
     valid_defs = get_similar_defs(obj, ('type',
                                         'similarityScale'),
-                                  ('materialCategory'))
+                                  ('materialCategory',))
     obj_def = random.choice(valid_defs)
     return obj_def
 
 
-def create_with_new_scale(obj: Dict[str, Any]) -> Dict[str, Any]:
+def get_def_with_new_scale(obj: Dict[str, Any]) -> Dict[str, Any]:
     valid_defs = get_similar_defs(obj, ('type',
                                         'materialCategory'),
-                                  ('similarityScale'))
+                                  ('similarityScale',))
     obj_def = random.choice(valid_defs)
     return obj_def
