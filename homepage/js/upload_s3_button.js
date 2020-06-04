@@ -1,0 +1,96 @@
+/**
+ * Retrieve pre-signed POST data from a dedicated API endpoint.
+ * @param selectedFile
+ * @returns {Promise<any>}
+ */
+const getPresignedPostData = selectedFile => {
+    return new Promise(resolve => {
+        const xhr = new XMLHttpRequest();
+
+        const url = "https://60lrpeo443.execute-api.us-east-1.amazonaws.com/version1/uploadEvaluationSubmission";
+
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(
+            JSON.stringify({
+                key: selectedFile.name
+            })
+        );
+        xhr.onload = function () {
+            resolve(JSON.parse(this.responseText));
+        };
+    });
+};
+
+/**
+ * Upload file to S3 with previously received pre-signed POST data.
+ * @param presignedPostData
+ * @param file
+ * @returns {Promise<any>}
+ */
+const uploadFileToS3 = (presignedPostData, file) => {
+    return new Promise((resolve, reject) => {
+        const formData = new FormData();
+
+        formData.append("file", file);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("PUT", presignedPostData.url, true);
+        xhr.setRequestHeader("Content-Type", "multipart/form-data")
+        xhr.send(formData);
+        xhr.onload = function () {
+            this.status === 200 ? resolve() : reject(this.responseText);
+        };
+    });
+};
+
+const e = React.createElement;
+
+class FileUploadButton extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { file: undefined, fileName: ""}
+
+        this.onFormSubmit = this.onFormSubmit.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+    }
+
+    onFormSubmit(e) {
+        e.preventDefault() 
+        const that = this;
+        
+        try {
+            getPresignedPostData(this.state.file)
+                .then( response => {
+                    uploadFileToS3(response, this.state.file)
+                        .then (response => {
+                            console.log("Success!");
+                            $("#fileUploadStatus").text("File Upload Success!");
+                        })
+                })
+        } catch (e) {
+            console.log("An error occurred!", e.message);
+            $("#fileUploadStatus").text("Error uploading the file.");
+        }
+    }
+
+    handleChange(e) {
+        this.setState({ file: e.target.files[0], fileName: e.target.files[0].name })
+    }
+
+    render() {
+        return (
+            React.createElement('form', { className: 'FileForm', onSubmit: this.onFormSubmit },
+                React.createElement('input', {
+                    type: 'file',
+                    name: this.state.fileName,
+                    onChange: this.handleChange
+                }),
+                React.createElement('button', { type: 'submit' }, "Upload")
+            )
+        )
+    }
+}
+
+const domContainer = document.querySelector('#FileUploadButton');
+ReactDOM.render(e(FileUploadButton), domContainer);
