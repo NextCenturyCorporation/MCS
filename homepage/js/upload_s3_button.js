@@ -58,6 +58,7 @@ class FileUploadButton extends React.Component {
     onFormSubmit(e) {
         e.preventDefault() 
         const that = this;
+        $("#fileUploadStatus").text("");
         
         try {
             getPresignedPostData(this.state.file)
