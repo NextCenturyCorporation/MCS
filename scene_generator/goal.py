@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 import random
 from typing import Dict, Any, Tuple, List, Optional
 
+import exceptions
 import geometry
 import objects
 import separating_axis_theorem
@@ -16,7 +17,6 @@ WALL_Y_POS = 1.5
 WALL_HEIGHT = 3
 WALL_DEPTH = 0.1
 MAX_OBJECTS = 5
-MIN_RANDOM_INTERVAL = 0.05
 WALL_COUNTS = [0, 1, 2, 3]
 WALL_PROBS = [60, 20, 10, 10]
 
@@ -181,6 +181,6 @@ class EmptyGoal(Goal):
         return []
 
 
-class GoalException(Exception):
+class GoalException(exceptions.SceneException):
     def __init__(self, message=''):
         super(GoalException, self).__init__(message)
