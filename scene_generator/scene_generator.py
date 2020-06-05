@@ -145,7 +145,7 @@ def generate_scene_fileset(prefix: str, count: int, goal_type: str, find_path: b
         try:
             generate_file(name, goal_type, find_path)
             count -= 1
-        except (RuntimeError, ZeroDivisionError, TypeError, goal.GoalException, ValueError) as e:
+        except (RuntimeError, ZeroDivisionError, TypeError, exceptions.SceneException, ValueError) as e:
             if stop_on_error:
                 raise
             logging.warning(f'failed to create a file: {e}')
@@ -166,7 +166,7 @@ def generate_quartet(prefix: str, index: int, quartet_name: str,
                 scene_copy = copy.deepcopy(scene)
                 write_file(name, scene_copy)
                 break
-            except (RuntimeError, ZeroDivisionError, TypeError, goal.GoalException, ValueError) as e:
+            except (RuntimeError, ZeroDivisionError, TypeError, exceptions.SceneException, ValueError) as e:
                 if stop_on_error:
                     raise
                 logging.warning(f'failed to create a quartet member: {e}')
@@ -209,7 +209,7 @@ def generate_pair(prefix: str, count: int,
             write_scene_of_pair(scenes, name_stem, 1)
             write_scene_of_pair(scenes, name_stem, 2)
             break
-        except (RuntimeError, ZeroDivisionError, TypeError, goal.GoalException, ValueError) as e:
+        except (RuntimeError, ZeroDivisionError, TypeError, exceptions.SceneException, ValueError) as e:
             if stop_on_error:
                 raise
             logging.warning(f'failed to create a pair: {e}')
