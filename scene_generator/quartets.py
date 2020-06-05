@@ -511,13 +511,11 @@ class GravityQuartet(Quartet):
             target['forces'][0]['vector']['x'] = new_intphys_option['force']['x']
             if not self._goal.is_left_to_right():
                 target['forces'][0]['vector']['x'] *= -1
-            if q == 4:
-                # Doing nothing here causes the downward force to
-                # start before the object reaches the top of the ramp,
-                # but it shouldn't affect it so we won't bother
-                # recomputing all the 'position_by_step' values for
-                # the slow speed to get the top-of-ramp value.
-                pass
+            # Doing nothing here for q==4 causes the downward force to
+            # start before the object reaches the top of the ramp, but
+            # it shouldn't affect it so we won't bother recomputing
+            # all the 'position_by_step' values for the slow speed to
+            # get the top-of-ramp value.
         if q == 3 or q == 4:
             scene['answer']['choice'] = 'implausible'
             _, top_offset = self._get_ramp_offsets()
