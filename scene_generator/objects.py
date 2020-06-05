@@ -2053,7 +2053,7 @@ OCCLUDER_INSTANCE_SIDEWAYS = [{
 }]
 
 
-OBJECTS_INTPHYS = [{
+OBJECTS_INTPHYS: List[Dict[str, Any]] = [{
     "type": "sphere",
     "info": ["medium", "ball"],
     "mass": 0.75,
@@ -3957,3 +3957,21 @@ def get_intphys_objects() -> List[Dict[str, Any]]:
         all_defs = get_all_object_defs()
         _INTPHYS_OBJECTS = [obj_def for obj_def in all_defs if 'intphys_options' in obj_def]
     return _INTPHYS_OBJECTS
+
+
+_INTPHYS_OBJECTS_Y_0 = None
+
+
+def get_intphys_objects_y_0() -> List[Dict[str, Any]]:
+    """Return all object definitions for intphys objects where y == 0."""
+    global _INTPHYS_OBJECTS_Y_0, OBJECTS_INTPHYS
+    if _INTPHYS_OBJECTS_Y_0 is None:
+        valid_defs = []
+        for obj_def in OBJECTS_INTPHYS:
+            valid_intphys = [intphys for intphys in obj_def['intphys_options'] if intphys['y'] == 0]
+            if len(valid_intphys) != 0:
+                new_od = obj_def.copy()
+                new_od['intphys_options'] = valid_intphys
+                valid_defs.append(new_od)
+        _INTPHYS_OBJECTS_Y_0 = valid_defs
+    return _INTPHYS_OBJECTS_Y_0

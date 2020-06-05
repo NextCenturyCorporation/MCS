@@ -260,9 +260,9 @@ class IntPhysGoal(Goal, ABC):
     def _get_objects_moving_across(self, room_wall_material_name: str, last_action_end_step: int,
                                    earliest_action_start_step: int = EARLIEST_ACTION_START_STEP,
                                    valid_positions: Iterable = frozenset(Position),
-                                   positions = None,
+                                   positions: Optional[List[Position]] = None,
                                    valid_defs: List[Dict[str, Any]] = objects.OBJECTS_INTPHYS) \
-                                   -> List[Dict[str, Any]]:
+            -> List[Dict[str, Any]]:
         """Get objects to move across the scene. Returns objects."""
         num_objects = self._get_num_objects_moving_across()
         # The following x positions start outside the camera viewport
@@ -484,15 +484,31 @@ class GravityGoal(IntPhysGoal):
         }
     }
 
-    def __init__(self):
+    def __init__(self, ramp_type: Optional[ramps.Ramp] = None, roll_down: Optional[bool] = None):
+        """Caller can specify ramp type and whether the objects roll down or
+        up the ramp, if desired. If not specified, a random choice
+        will be made. In the case of steep ramps (i.e., with 90 degree
+        angles), roll_down is ignored.
+        """
         super(GravityGoal, self).__init__()
-        self._ramp_type: Optional[ramps.Ramp] = None
+        self._ramp_type: Optional[ramps.Ramp] = ramp_type
+        self._roll_down = roll_down
         self._left_to_right: Optional[bool] = None
 
     def is_ramp_steep(self) -> bool:
         if self._ramp_type is None:
             raise ValueError('cannot get ramp type before compute_objects is called')
         return self._ramp_type in (ramps.Ramp.RAMP_90, ramps.Ramp.RAMP_30_90, ramps.Ramp.RAMP_45_90)
+
+    def get_ramp_type(self) -> ramps.Ramp:
+        if self._ramp_type is None:
+            raise ValueError('cannot get ramp type before compute_objects is called')
+        return self._ramp_type
+
+    def is_left_to_right(self) -> bool:
+        if self._left_to_right is None:
+            raise ValueError('cannot get left-to-right-ness before compute_objects is called')
+        return self._left_to_right
 
     def get_config(self, goal_objects: List[Dict[str, Any]],
                    all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
@@ -542,22 +558,23 @@ class GravityGoal(IntPhysGoal):
 
     def compute_objects(self, room_wall_material_name: str) \
         -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
-        ramp_type, left_to_right, objs = self._get_ramp_and_objects(room_wall_material_name)
+        ramp_type, left_to_right, ramp_objs, objs = self._get_ramp_and_objects(room_wall_material_name)
         self._ramp_type = ramp_type
         self._left_to_right = left_to_right
         scenery = self._compute_scenery()
-        return objs, objs + scenery, []
+        goal_objs = objs + ramp_objs
+        return goal_objs, goal_objs + scenery, []
 
-    def _create_random_ramp(self) -> Tuple[ramps.Ramp, bool, List[Dict[str, Any]]]:
+    def _create_random_ramp(self) -> Tuple[ramps.Ramp, bool, float, List[Dict[str, Any]]]:
         material_name = random.choice(materials.OCCLUDER_MATERIALS)[0]
         x_position_percent = random.random()
         left_to_right = random.choice((True, False))
-        ramp_type, ramp_objs = ramps.create_ramp(material_name, x_position_percent, left_to_right)
-        return ramp_type, left_to_right, ramp_objs
+        ramp_type, x_term, ramp_objs = ramps.create_ramp(material_name, x_position_percent, left_to_right, self._ramp_type)
+        return ramp_type, left_to_right, x_term, ramp_objs
 
     def _get_ramp_and_objects(self, room_wall_material_name: str) -> \
-        Tuple[ramps.Ramp, bool, List[Dict[str, Any]]]:
-        ramp_type, left_to_right, ramp_objs = self._create_random_ramp()
+        Tuple[ramps.Ramp, bool, List[Dict[str, Any]], List[Dict[str, Any]]]:
+        ramp_type, left_to_right, x_term, ramp_objs = self._create_random_ramp()
         if ramp_type in (ramps.Ramp.RAMP_90, ramps.Ramp.RAMP_30_90, ramps.Ramp.RAMP_45_90):
             # Don't put objects in places where they'd have to roll up
             # 90 degree (i.e., vertical) ramps.
@@ -567,17 +584,19 @@ class GravityGoal(IntPhysGoal):
             else:
                 valid_positions = { IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR,
                                     IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR }
+        elif self._roll_down is not None:
+            # enforce rolling up or down the ramp as specified
+            if self._roll_down and left_to_right or not self._roll_down and not left_to_right:
+                valid_positions = { IntPhysGoal.Position.LEFT_FIRST_NEAR, IntPhysGoal.Position.LEFT_LAST_NEAR,
+                                    IntPhysGoal.Position.LEFT_FIRST_FAR, IntPhysGoal.Position.LEFT_LAST_FAR }
+            else:
+                valid_positions = { IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR,
+                                    IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR }
         else:
             valid_positions = set(IntPhysGoal.Position)
         positions = []
-        # only want intphys_options where y == 0
-        valid_defs = []
-        for obj_def in objects.OBJECTS_INTPHYS:
-            new_od = obj_def.copy()
-            valid_intphys = [intphys for intphys in obj_def['intphys_options'] if intphys['y'] == 0]
-            if len(valid_intphys) != 0:
-                new_od['intphys_options'] = valid_intphys
-                valid_defs.append(new_od)
+
+        valid_defs = objects.get_intphys_objects_y_0()
         self._last_step = IntPhysGoal.LAST_STEP_RAMP
         # Add a buffer to the ramp's last step to account for extra steps needed by objects moving up the ramps.
         objs = self._get_objects_moving_across(room_wall_material_name, self._last_step - IntPhysGoal.LAST_STEP_RAMP_BUFFER,
@@ -585,6 +604,8 @@ class GravityGoal(IntPhysGoal):
         # adjust height to be on top of ramp if necessary
         for i in range(len(objs)):
             obj = objs[i]
+            obj['intphys_option']['moving_object'] = True
+            obj['intphys_option']['ramp_x_term'] = x_term
             position = positions[i]
             # Add a downward force to all objects moving down the
             # ramps so that they will move more realistically.
@@ -597,7 +618,7 @@ class GravityGoal(IntPhysGoal):
                 obj['shows'][0]['position']['y'] += ramps.RAMP_OBJECT_HEIGHTS[ramp_type]
                 obj['forces'][0]['vector']['y'] = obj['mass'] * IntPhysGoal.RAMP_DOWNWARD_FORCE
 
-        return ramp_type, left_to_right, ramp_objs + objs
+        return ramp_type, left_to_right, ramp_objs, objs
 
 
 class ObjectPermanenceGoal(IntPhysGoal):

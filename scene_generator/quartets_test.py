@@ -1,5 +1,16 @@
 import intphys_goals
-from quartets import ShapeConstancyQuartet, ObjectPermanenceQuartet, SpatioTemporalContinuityQuartet, find_targets
+import objects
+from quartets import ShapeConstancyQuartet, ObjectPermanenceQuartet, SpatioTemporalContinuityQuartet, find_targets, get_position_step
+
+
+def test_get_position_step():
+    target = {
+        'intphys_option': objects.OBJECTS_INTPHYS[0]['intphys_options'][0]
+    }
+    x = 1.0
+    expected_step = 2
+    step = get_position_step(target, x, False, True)
+    assert step == expected_step
 
 
 def test_STCQ_get_scene():

@@ -7,6 +7,7 @@ from typing import Dict, Any, List, Type, Optional, Tuple
 import goal
 import intphys_goals
 import objects
+import ramps
 import util
 
 
@@ -29,6 +30,25 @@ def find_targets(scene: Dict[str, Any], num_targets: Optional[int] = None) -> Li
     # objects, that's ok.
     return [next((obj for obj in scene['objects'] if obj['id'] == target_id))
             for target_id in target_ids]
+
+
+def get_position_step(target: Dict[str, Any], x_position: float,
+                      left_to_right: bool, forwards: bool) -> int:
+    """Get the step number at which the target reaches x_position"""
+    positions = target['intphys_option']['position_by_step']
+    if forwards:
+        rang = range(len(positions))
+        counting_up = not left_to_right
+    else:
+        rang = range(len(positions)-1, -1, -1)
+        counting_up = left_to_right
+
+    for i in rang:
+        pos = positions[i]
+        if counting_up and pos > x_position or \
+           not counting_up and pos < x_position:
+            return i
+    raise goal.GoalException(f'cannot find step for position: {x_position}')
 
 
 class Quartet(ABC):
@@ -453,9 +473,16 @@ class ShapeConstancyQuartet(Quartet):
 
 
 class GravityQuartet(Quartet):
+    RAMP_30_BOTTOM_OFFSET = -1.55
+    RAMP_45_BOTTOM_OFFSET = -2.4
+    RAMP_30_TOP_OFFSET = 1
+    RAMP_45_TOP_OFFSET = -1
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(GravityQuartet, self).__init__(template, find_path)
-        self._goal = intphys_goals.GravityGoal()
+        # only need to specify ramp_type until MCS-133 is implemented
+        ramp_type = random.choice((ramps.Ramp.RAMP_30, ramps.Ramp.RAMP_45))
+        self._goal = intphys_goals.GravityGoal(ramp_type, roll_down = False)
         self._scenes[0] = copy.deepcopy(self._template)
         self._goal.update_body(self._scenes[0], self._find_path)
 
@@ -473,11 +500,74 @@ class GravityQuartet(Quartet):
         pass
 
     def _get_gentle_scene(self, q: int) -> Dict[str, Any]:
-        # TODO: in MCS-122
+        scene = copy.deepcopy(self._scenes[0])
+        if q == 2:
+            self._make_roll_down(scene)
+        elif q == 3:
+            scene['answer']['choice'] = 'implausible'
+            self._make_object_faster(scene)
+        elif q == 4:
+            scene['answer']['choice'] = 'implausible'
+            self._make_roll_down(scene)
+            self._make_object_slower(scene)
+        return scene
+
+    def _make_roll_down(self, scene: Dict[str, Any]) -> None:
+        ramp_type = self._goal.get_ramp_type()
+        for obj in scene['objects']:
+            if obj.get('intphys_option', {}).get('moving_object', False):
+                obj['shows'][0]['position']['x'] *= -1
+                obj['forces'][0]['vector']['x'] *= -1
+                # adjust height to be on top of ramp
+                obj['shows'][0]['position']['y'] += ramps.RAMP_OBJECT_HEIGHTS[ramp_type]
+                # Add a downward force to all objects moving down the
+                # ramps so that they will move more realistically.
+                obj['forces'][0]['vector']['y'] = obj['mass'] * intphys_goals.IntPhysGoal.RAMP_DOWNWARD_FORCE
+
+    def _get_ramp_offsets(self) -> Tuple[float, float]:
+        bottom_offset = RAMP_30_BOTTOM_OFFSET \
+            if self._goal.get_ramp_type() == ramps.Ramp.RAMP_30 \
+               else RAMP_45_BOTTOM_OFFSET
+        top_offset = RAMP_30_TOP_OFFSET \
+            if self._goal.get_ramp_type() == ramps.Ramp.RAMP_30 \
+               else RAMP_45_TOP_OFFSET
+        left_to_right = self._goal.is_left_to_right()
+        if left_to_right:
+            bottom_offset *= -1
+            top_offset *= -1
+        return bottom_offset, top_offset
+
+    def _make_object_faster(self, scene: Dict[str, Any]) -> None:
+        target = find_target(scene)
+        bottom_offset, top_offset = self._get_ramp_offsets()
+        implausible_x_start = target['intphys_option']['ramp_x_term'] + bottom_offset
+        implausible_step = get_position_step(target, implausible_x_start,
+                                             self._goal.is_left_to_right(),
+                                             True) + \
+                                             target['shows'][0]['stepBegin']
+        new_force = copy.deepcopy(target['forces'][0])
+        new_force['stepBegin'] = implausible_step
+        new_force['vector']['x'] *= 2
+        target['forces'][0]['stepEnd'] = implausible_step - 1
+        target['forces'].append(new_force)
+
+    def _make_object_slower(self, scene: Dict[str, Any]) -> None:
+        target = find_target(scene)
+        bottom_offset, top_offset = self._get_ramp_offsets()
+        implausible_x_start = target['intphys_option']['ramp_x_term'] + top_offset
+        implausible_step = get_position_step(target, implausible_x_start,
+                                             self._goal.is_left_to_right(),
+                                             False) + \
+                                             target['shows'][0]['stepBegin']
+        new_force = copy.deepcopy(target['forces'][0])
+        new_force['stepBegin'] = implausible_step
+        new_force['vector']['x'] /= 2.0
+        target['forces'][0]['stepEnd'] = implausible_step - 1
+        target['forces'].append(new_force)
         pass
 
 
-QUARTET_TYPES: List[Type[Quartet]] = [ObjectPermanenceQuartet, ShapeConstancyQuartet, SpatioTemporalContinuityQuartet]
+QUARTET_TYPES: List[Type[Quartet]] = [GravityQuartet, ObjectPermanenceQuartet, ShapeConstancyQuartet, SpatioTemporalContinuityQuartet]
 
 
 def get_quartet_class(name: str) -> Type[Quartet]:
