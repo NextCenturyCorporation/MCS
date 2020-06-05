@@ -26,13 +26,14 @@ def test_STCQ__teleport_forward():
     quartet = SpatioTemporalContinuityQuartet(template, False)
     scene = quartet.get_scene(2)
     target = find_targets(scene)[0]
-    assert target['teleports'][0]['stepBegin'] == target['teleports'][0]['stepEnd']
-    if quartet._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
-        implausible_event_index1 = target['intphys_option']['occluder_indices'][0]
-        implausible_event_index2 = target['intphys_option']['occluder_indices'][1]
-        assert target['teleports'][0]['stepBegin'] == min(implausible_event_index1, implausible_event_index2) + target['forces'][0]['stepBegin']
-    else:
-        assert target['teleports'][0]['stepBegin'] >= 8
+    if 'teleports' in target:
+        assert target['teleports'][0]['stepBegin'] == target['teleports'][0]['stepEnd']
+        if quartet._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
+            implausible_event_index1 = target['intphys_option']['occluder_indices'][0]
+            implausible_event_index2 = target['intphys_option']['occluder_indices'][1]
+            assert target['teleports'][0]['stepBegin'] == min(implausible_event_index1, implausible_event_index2) + target['forces'][0]['stepBegin']
+        else:
+            assert target['teleports'][0]['stepBegin'] >= 8
 
 
 def test_STCQ__teleport_backward():
