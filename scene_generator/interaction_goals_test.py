@@ -39,7 +39,7 @@ def test_parse_path_section():
     expected_actions = [{
         'action': 'RotateLook',
         'params': {
-            'rotation': -45.0,
+            'rotation': 315.0,
             'horizon': 0.0
         }
     }, {
@@ -48,7 +48,39 @@ def test_parse_path_section():
             'amount': round(math.sqrt(2 * 0.1**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
         }
     }]
-    actions, new_heading = parse_path_section(path_section, 0)
+    actions, new_heading, performer = parse_path_section(path_section, 0, (0, 0), [])
+    assert actions == expected_actions
+
+
+def test_parse_path_section_fractional():
+    path_section = ((0, 0), (1, 0))
+    goal_boundary = [{
+        'x': 1.1,
+        'y': 0,
+        'z': 0.1
+    }, {
+        'x': 1.1,
+        'y': 0,
+        'z': -0.1
+    }, {
+        'x': 0.9,
+        'y': 0,
+        'z': -0.1
+    }, {
+        'x': 0.9,
+        'y': 0,
+        'z': 0.1
+    }]
+    expected_actions = [{
+        'action': 'MoveAhead',
+        'params': {}
+    }, {
+        'action': 'MoveAhead',
+        'params': {
+            'amount': round(0.4 / MAX_MOVE_DISTANCE, POSITION_DIGITS)
+        }
+    }]
+    actions, new_heading, performer = parse_path_section(path_section, 0, (0, 0), goal_boundary)
     assert actions == expected_actions
 
 
@@ -56,13 +88,13 @@ def test_get_navigation_action():
     expected_actions = [{
         'action': 'RotateLook',
         'params': {
-            'rotation': -45.0,
+            'rotation': 315.0,
             'horizon': 0.0
         }
     }, {
         'action': 'MoveAhead',
         'params': {
-            'amount': round(math.sqrt(2 * 0.1**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
+            'amount': round(math.sqrt(2 * 0.09**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
         }
     }]
     start = {
@@ -76,29 +108,52 @@ def test_get_navigation_action():
         }
     }
     goal_object = {
+        'id': 'goal',
         'shows': [{
             'position': {
                 'x': 0.1,
-                'y': 0,
+                'y': 0.5,
                 'z': 0.1
-            }
+            },
+            'bounding_box': [
+                {
+                    'x': 0.11,
+                    'y': 0.5,
+                    'z': 0.11
+                },
+                {
+                    'x': 0.09,
+                    'y': 0.5,
+                    'z': 0.11
+                },
+                {
+                    'x': 0.09,
+                    'y': 0.5,
+                    'z': 0.09
+                },
+                {
+                    'x': 0.11,
+                    'y': 0.5,
+                    'z': 0.09
+                },
+            ]
         }]
     }
-    actions = get_navigation_actions(start, goal_object, [])
+    actions, performer = get_navigation_actions(start, goal_object, [goal_object])
     assert actions == expected_actions
-    
-    
+
+
 def test_get_navigation_action_with_locationParent():
     expected_actions = [{
         'action': 'RotateLook',
         'params': {
-            'rotation': -45.0,
+            'rotation': 315.0,
             'horizon': 0.0
         }
     }, {
         'action': 'MoveAhead',
         'params': {
-            'amount': round(math.sqrt(2 * 0.1**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
+            'amount': round(math.sqrt(2 * 0.09**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
         }
     }]
     start = {
@@ -118,7 +173,29 @@ def test_get_navigation_action_with_locationParent():
                 'x': 0.1,
                 'y': 0,
                 'z': 0.1
-            }
+            },
+            'bounding_box': [
+                {
+                    'x': 0.11,
+                    'y': 0,
+                    'z': 0.11
+                },
+                {
+                    'x': 0.09,
+                    'y': 0,
+                    'z': 0.11
+                },
+                {
+                    'x': 0.09,
+                    'y': 0,
+                    'z': 0.09
+                },
+                {
+                    'x': 0.11,
+                    'y': 0,
+                    'z': 0.09
+                },
+            ]
         }]
     }
     goal_object = {
@@ -132,10 +209,111 @@ def test_get_navigation_action_with_locationParent():
             }
         }]
     }
-    actions = get_navigation_actions(start, goal_object, [container_object, goal_object])
+    actions, performer = get_navigation_actions(start, goal_object, [container_object, goal_object])
     assert actions == expected_actions
-    
-    
+
+
+def test_get_navigation_action_with_turning():
+    """Test get_navigation_actions when you have to turn because of
+    navigating around an obstacle:
+                G
+
+             ----------
+             |        |
+             ----------
+
+                S
+
+    (S is start, G is goal)
+    """
+    start = {
+        'position': {
+            'x': 0,
+            'y': 0,
+            'z': 0
+        },
+        'rotation': {
+            'y': 0
+        }
+    }
+    goal_obj = {
+        'id': 'goal-01',
+        'shows': [{
+            'position': {
+                'x': 0,
+                'y': 0,
+                'z': 3
+            },
+            'bounding_box': [
+                {
+                    'x': 0.1,
+                    'y': 0,
+                    'z': 3.1
+                },
+                {
+                    'x': 0.1,
+                    'y': 0,
+                    'z': 2.9
+                },
+                {
+                    'x': -0.1,
+                    'y': 0,
+                    'z': 2.9
+                },
+                {
+                    'x': -0.1,
+                    'y': 0,
+                    'z': 3.1
+                }
+            ]
+        }]
+    }
+    obstacle_obj = {
+        'id': 'obstacle-01',
+        'shows': [{
+            'position': {
+                'x': 1,
+                'y': 0,
+                'z': 1.5
+            },
+            'bounding_box': [
+                {
+                    'x': 2,
+                    'y': 0,
+                    'z': 2
+                },
+                {
+                    'x': 2,
+                    'y': 0,
+                    'z': 1
+                },
+                {
+                    'x': -1,
+                    'y': 0,
+                    'z': 1
+                },
+                {
+                    'x': -1,
+                    'y': 0,
+                    'z': 2
+                },
+                
+            ]
+        }]
+    }
+    expected_actions = [{'action': 'RotateLook', 'params': {'rotation': 225.0, 'horizon': 0.0}},
+                        {'action': 'MoveAhead', 'params': {}}, {'action': 'MoveAhead', 'params': {}},
+                        {'action': 'MoveAhead', 'params': {'amount': 0.83}},
+                        {'action': 'RotateLook', 'params': {'rotation': 45.0, 'horizon': 0.0}},
+                        {'action': 'MoveAhead', 'params': {}}, {'action': 'MoveAhead', 'params': {}},
+                        {'action': 'RotateLook', 'params': {'rotation': 45.0, 'horizon': 0.0}},
+                        {'action': 'MoveAhead', 'params': {}}, {'action': 'MoveAhead', 'params': {}},
+                        {'action': 'MoveAhead', 'params': {'amount': round((.9*math.sqrt(2)-1)/MAX_MOVE_DISTANCE, POSITION_DIGITS)}}]
+    all_objs = [goal_obj, obstacle_obj]
+    actions, performer = get_navigation_actions(start, goal_obj, all_objs)
+    assert actions == expected_actions
+
+
 def test_RetrievalGoal_get_goal():
     goal_obj = RetrievalGoal()
     obj = {
@@ -241,6 +419,77 @@ def test__generate_transferral_goal_with_nonstackable_goal():
     assert "second object must be" in str(excinfo.value)
 
 
+def test_add_RotateLook_to_action_list_before_Pickup_or_Put_Object():
+
+    """For MCS-161"""
+    # make scene with a small target object
+    scene = {
+        'name': 'mcs-161',
+        'performerStart': {
+            'position': {
+                'x': 0,
+                'y': 0,
+                'z': 0
+            },
+            'rotation': {
+                'y': 0
+            }
+        },
+        'objects': [{
+            'id': 'object-01',
+            'type': 'sphere',
+            'dimensions': {
+                'x': 0.02,
+                'y': 0.02,
+                'z': 0.02
+            },
+            'shows': [{
+                'position': {
+                    'x': 0,
+                    'y': 0,
+                    'z': 2
+                },
+                'stepBegin': 0,
+                'scale': {
+                    'x': 0.02,
+                    'y': 0.02,
+                    'z': 0.02
+                },
+                'bounding_box': [
+                    {
+                        'x': 0.01,
+                        'y': 0,
+                        'z': 2.01,
+                    },
+                    {
+                        'x': 0.01,
+                        'y': 0,
+                        'z': 1.99,
+                    },
+                    {
+                        'x': -0.01,
+                        'y': 0,
+                        'z': 1.99,
+                    },
+                    {
+                        'x': -0.01,
+                        'y': 0,
+                        'z': 2.01,
+                    },
+                ]
+            }],
+        }]
+    }
+    # check that path finding looks down at it
+
+    goal_obj = RetrievalGoal()
+    goal_obj._performer_start = scene['performerStart']
+    path = goal_obj.find_optimal_path(scene['objects'], scene['objects'])
+    print(path)
+    # TODO: uncomment when this is fixed
+    assert path[-1]['action'] == 'RotateLook'
+
+
 def test_traversal_performer_start_not_close_to_target():
     """Ensure the performerStart is not right next to the target object
     (for TraversalGoal). For MCS-158."""
@@ -254,6 +503,7 @@ def test_traversal_performer_start_not_close_to_target():
     performer_start = body['performerStart']['position']
     dist = geometry.position_distance(target_position, performer_start)
     assert dist >= geometry.MINIMUM_START_DIST_FROM_TARGET
+
 
 def test_transferral_targets_not_close_to_each_other():
     """Ensure that the targets for TransferralGoal aren't too close to

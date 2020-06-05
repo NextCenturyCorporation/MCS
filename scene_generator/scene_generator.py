@@ -119,7 +119,10 @@ def write_scene(name: str, scene: Dict[str, Any]) -> None:
 
     with open(name, 'w') as out:
         # PrettyJsonEncoder doesn't work with json.dump so use json.dumps here instead.
-        out.write(json.dumps(body, cls=PrettyJsonEncoder, indent=2))
+        try:
+            out.write(json.dumps(body, cls=PrettyJsonEncoder, indent=2))
+        except Exception as e:
+            logging.error(body, e)
 
 
 def wrap_with_json_no_indent(data: Dict[str, Any], prop_list: List[str]) -> None:
