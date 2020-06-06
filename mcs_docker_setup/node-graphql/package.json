@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "author": "Brian Pippin",
   "dependencies": {
-    "apollo-server": "^2.9.7",
+    "apollo-server": "^2.14.2",
     "apollo-server-express": "^2.9.7",
     "elasticsearch": "^16.5.0",
     "es6": "npm:@elastic/elasticsearch@^6.8.3",
