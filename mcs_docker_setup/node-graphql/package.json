@@ -4,7 +4,7 @@
   "author": "Brian Pippin",
   "dependencies": {
     "apollo-server": "^2.14.2",
-    "apollo-server-express": "^2.9.7",
+    "apollo-server-express": "^2.14.2",
     "elasticsearch": "^16.5.0",
     "es6": "npm:@elastic/elasticsearch@^6.8.3",
     "express": "^4.17.1",
