@@ -10,7 +10,8 @@ import materials
 import math
 import objects
 import ramps
-from goal import MIN_RANDOM_INTERVAL, Goal, GoalException
+import util
+from goal import Goal, GoalException
 from util import finalize_object_definition, instantiate_object
 
 MAX_WALL_WIDTH = 4
@@ -132,7 +133,7 @@ class IntPhysGoal(Goal, ABC):
                                 IntPhysGoal.MIN_OCCLUDER_SCALE),
                             IntPhysGoal.MAX_OCCLUDER_SCALE)
             # object could be a cube on its corner, so use the diagonal distance
-            x_scale = util.random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
+            x_scale = util.random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, util.MIN_RANDOM_INTERVAL)
             position_by_step = paired_obj['intphys_option']['position_by_step']
             paired_z = paired_obj['shows'][0]['position']['z']
             min_paired_x_position = -3 + x_scale / 2
@@ -205,10 +206,10 @@ class IntPhysGoal(Goal, ABC):
             for try_num in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
                 # try random position and scale until we find one that fits (or try too many times)
                 min_scale = IntPhysGoal.MIN_OCCLUDER_SCALE
-                x_scale = util.random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
+                x_scale = util.random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, util.MIN_RANDOM_INTERVAL)
                 limit = 3.0 - x_scale / 2.0
-                limit = int(limit / MIN_RANDOM_INTERVAL) * MIN_RANDOM_INTERVAL
-                occluder_x = util.random_real(-limit, limit, MIN_RANDOM_INTERVAL)
+                limit = int(limit / util.MIN_RANDOM_INTERVAL) * util.MIN_RANDOM_INTERVAL
+                occluder_x = util.random_real(-limit, limit, util.MIN_RANDOM_INTERVAL)
                 found_collision = False
                 for other_occluder in occluder_list:
                     if geometry.occluders_too_close(other_occluder, occluder_x, x_scale):
@@ -393,7 +394,7 @@ class IntPhysGoal(Goal, ABC):
                 # Choose x so the occluder (for this object) is fully
                 # in the camera's viewport and with a gap so we can
                 # see when an object enters/leaves the scene.
-                x_position = util.random_real(-2.5, 2.5, MIN_RANDOM_INTERVAL)
+                x_position = util.random_real(-2.5, 2.5, util.MIN_RANDOM_INTERVAL)
                 too_close = False
                 for obj in object_list:
                     distance = abs(obj['shows'][0]['position']['x'] - x_position)
@@ -447,7 +448,7 @@ class IntPhysGoal(Goal, ABC):
             if max_scale <= min_scale:
                 x_scale = min_scale
             else:
-                x_scale = util.random_real(min_scale, max_scale, MIN_RANDOM_INTERVAL)
+                x_scale = util.random_real(min_scale, max_scale, util.MIN_RANDOM_INTERVAL)
             adjusted_x = x_position * factor
             occluder_pair = objects.create_occluder(random.choice(non_room_wall_materials)[0],
                                                     random.choice(materials.METAL_MATERIALS)[0],
@@ -498,12 +499,12 @@ class GravityGoal(IntPhysGoal):
         MAX_Z = 4.95
 
         def random_x():
-            return util.random_real(MIN_VISIBLE_X, MAX_VISIBLE_X, MIN_RANDOM_INTERVAL)
+            return util.random_real(MIN_VISIBLE_X, MAX_VISIBLE_X, util.MIN_RANDOM_INTERVAL)
 
         def random_z():
             # Choose values so the scenery is placed between the
             # moving IntPhys objects and the room's wall.
-            return util.random_real(MIN_Z, MAX_Z, MIN_RANDOM_INTERVAL)
+            return util.random_real(MIN_Z, MAX_Z, util.MIN_RANDOM_INTERVAL)
 
         self._scenery_count = random.choices((0, 1, 2, 3, 4, 5),
                                              (50, 10, 10, 10, 10, 10))[0]

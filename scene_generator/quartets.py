@@ -145,7 +145,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
                     other_object_id = occluded_id
                     break
         if other_occluder is None:
-            raise GoalException('cannot find a second occluder, error generating scene')
+            raise goal.GoalException('cannot find a second occluder, error generating scene')
         if other_object_id is None:
             other_object = None
         else:
