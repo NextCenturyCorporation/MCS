@@ -255,6 +255,7 @@ def test_traversal_performer_start_not_close_to_target():
     dist = geometry.position_distance(target_position, performer_start)
     assert dist >= geometry.MINIMUM_START_DIST_FROM_TARGET
 
+
 def test_transferral_targets_not_close_to_each_other():
     """Ensure that the targets for TransferralGoal aren't too close to
     each other. For MCS-158."""

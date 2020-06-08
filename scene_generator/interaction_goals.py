@@ -5,7 +5,7 @@ from enum import Enum
 import random
 
 import math
-from typing import Dict, Any, AnyStr, List, Tuple
+from typing import Dict, Any, AnyStr, List, Tuple, Sequence
 
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
 
@@ -55,7 +55,7 @@ def find_image_name(target: Dict[str, Any]) -> str:
     return generate_image_file_name(target) + '.png'
 
 
-def parse_path_section(path_section: List[List[float]], current_heading: float) -> Tuple[List[Dict[str, Any]], float]:
+def parse_path_section(path_section: Sequence[Sequence[float]], current_heading: float) -> Tuple[List[Dict[str, Any]], float]:
     """Compute the actions for one path section, starting with
     current_heading. Returns a tuple: (list of actions, new heading)"""
     actions = []
