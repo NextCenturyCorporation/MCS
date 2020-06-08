@@ -8,6 +8,9 @@ import objects
 import util
 
 
+MAX_PLACEMENT_TRIES = 100
+
+
 def move_to_location(obj_def: Dict[str, Any], obj: Dict[str, Any],
                      location: Dict[str, Any]):
     """Move the passed object to a new location"""
@@ -63,12 +66,22 @@ class ImmediatelyVisiblePair(InteractionPair):
         target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
         scene1 = self._get_empty_scene()
         # place target object in scene 1 right in front of the performer
-        in_front_location = geometry.get_location_in_front_of_performer(self._performer_start, target_def)
+        for _ in range(MAX_PLACEMENT_TRIES):
+            in_front_location = geometry.get_location_in_front_of_performer(self._performer_start, target_def)
+            if in_front_location is not None:
+                break
+        if in_front_location is None:
+            raise exceptions.SceneException('could not place object in front of performer')
         target = util.instantiate_object(target_def, in_front_location)
         scene1['objects'] = [target]
         scene2 = self._get_empty_scene()
         # place target object in scene 2 behind the performer
-        behind_location = geometry.get_location_behind_performer(self._performer_start, target_def)
+        for _ in range(MAX_PLACEMENT_TRIES):
+            behind_location = geometry.get_location_behind_performer(self._performer_start, target_def)
+            if behind_location is not None:
+                break
+        if behind_location is None:
+            raise exceptions.SceneException('could not place object behind performer')
         target2 = copy.deepcopy(target)
         move_to_location(target_def, target2, behind_location)
         scene2['objects'] = [target2]
