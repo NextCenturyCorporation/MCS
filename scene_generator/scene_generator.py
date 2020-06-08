@@ -11,11 +11,11 @@ import random
 from enum import Enum, auto
 from typing import Dict, Any, List, Tuple
 
+import exceptions
 import pairs
 import quartets
 from materials import *
 from pretty_json.pretty_json import PrettyJsonEncoder, PrettyJsonNoIndent
-import goal
 import goals
 
 # no public way to find this, apparently :(

@@ -1,8 +1,14 @@
 import logging
 import math
 import random
-from typing import List, Dict, Any, Optional, Callable
+from typing import List, Dict, Any, Optional, Callable, Tuple
 
+import shapely
+from shapely import affinity
+from shapely.geometry import LineString
+
+import exceptions
+import util
 from separating_axis_theorem import sat_entry
 
 MAX_TRIES = 100
@@ -105,7 +111,8 @@ def calc_obj_pos(performer_position: Dict[str, float],
                  obj_def: Dict[str, Any],
                  x_func: Callable[[], float] = random_position,
                  z_func: Callable[[], float] = random_position,
-                 rotation_func: Callable[[], float] = random_rotation) \
+                 rotation_func: Callable[[], float] = random_rotation,
+                 xz_func: Callable[[], Tuple[float, float]] = None) \
                  -> Optional[Dict[str, Any]]:
 
     """Returns new object with rotation & position if we can place the
@@ -137,8 +144,11 @@ object in the frame, None otherwise."""
     collision_rects = other_rects + [performer_rect]
     while tries < MAX_TRIES:
         rotation = rotation_func()
-        new_x = x_func()
-        new_z = z_func()
+        if xz_func is not None:
+            new_x, new_z = xz_func()
+        else:
+            new_x = x_func()
+            new_z = z_func()
 
         rect = calc_obj_coords(new_x, new_z, dx, dz, offset_x, offset_z, rotation)
         if rect_within_room(rect) and \
@@ -191,3 +201,63 @@ def occluders_too_close(occluder: Dict[str, Any], x_position: float, x_scale: fl
 def position_distance(a: Dict[str, float], b: Dict[str, float]) -> float:
     """Compute the distance between two positions."""
     return math.sqrt((a['x'] - b['x'])**2 + (a['y'] - b['y'])**2 + (a['z'] - b['z'])**2)
+
+
+def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
+        -> shapely.geometry.Point:
+    MIN_DISTANCE_AWAY = 1
+    max_dimension = max(ROOM_DIMENSIONS[0][1] - ROOM_DIMENSIONS[0][0],
+                        ROOM_DIMENSIONS[1][1] - ROOM_DIMENSIONS[1][0])
+    # make it long enough for the far end to be outside the room
+    view_segment = shapely.geometry.LineString([[MIN_DISTANCE_AWAY, 0], [max_dimension * 2, 0]])
+    affinity.rotate(view_segment, -performer_start['rotation']['y'], origin=(0, 0))
+    affinity.translate(view_segment, performer_start['position']['x'],
+                       performer_start['position']['z'])
+    room = shapely.geometry.box(ROOM_DIMENSIONS[0][0], ROOM_DIMENSIONS[1][0],
+                                ROOM_DIMENSIONS[0][1], ROOM_DIMENSIONS[1][1])
+
+    target_segment = room.intersection(view_segment)
+    if target_segment.is_empty:
+        raise exceptions.SceneException('performer too close to the wall, cannot place object in front of it')
+    return target_segment
+
+
+def get_location_in_front_of_performer(performer_start: Dict[str, Dict[str, float]],
+                                       target_def: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    visible_segment = get_visible_segment(performer_start)
+
+    def segment_xz():
+        fraction = random.random()
+        point = visible_segment.interpolate(fraction, normalized=True)
+        return point.x, point.y
+
+    return calc_obj_pos(performer_start['position'], [], target_def, xz_func=segment_xz)
+
+
+def get_location_behind_performer(performer_start: Dict[str, Dict[str, float]],
+                                  target_def: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    # find the part of the the room that's behind the performer
+    max_dimension = max(ROOM_DIMENSIONS[0][1] - ROOM_DIMENSIONS[0][0],
+                        ROOM_DIMENSIONS[1][1] - ROOM_DIMENSIONS[1][0])
+    # if the performer were at the origin facing 0, this would be behind it
+    base_rear = shapely.geometry.box(-max_dimension*2, -max_dimension*2,
+                                     0, max_dimension*2)
+    performer_point = shapely.geometry.Point(performer_start['position']['x'],
+                                             performer_start['position']['z'])
+    translated_rear = affinity.translate(base_rear, performer_point.x, performer_point.y)
+    performer_rear = affinity.rotate(translated_rear, -performer_start['rotation']['y'],
+                                     origin=performer_point)
+    bounds = performer_rear.bounds
+
+    def compute_xz():
+        # pick a random x within the polygon's bounding rectangle
+        x = util.random_real(bounds[0], bounds[2])
+        # intersect a vertical line with the poly at that x
+        vertical_line = shapely.geometry.LineString([[x, bounds[1]], [x, bounds[3]]])
+        target_segment = vertical_line.intersection(performer_rear)
+        # pick a random value along that vertical line
+        fraction = random.random()
+        location = target_segment.interpolate(fraction, normalized=True)
+        return location.x, location.y
+
+    return calc_obj_pos(performer_start['position'], [], target_def, xz_func=compute_xz)
