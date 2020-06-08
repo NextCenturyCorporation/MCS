@@ -1,14 +1,23 @@
 import copy
 from abc import ABC, abstractmethod
+import logging
 import random
 from typing import Tuple, Dict, Any, Type
 
+import exceptions
 import geometry
 import objects
 import util
-
+from geometry import ROOM_DIMENSIONS, MIN_START_DISTANCE_AWAY
 
 MAX_PLACEMENT_TRIES = 100
+PERFORMER_BOUNDS = ((ROOM_DIMENSIONS[0][0] + MIN_START_DISTANCE_AWAY,
+                     ROOM_DIMENSIONS[0][1] - MIN_START_DISTANCE_AWAY),
+                    (ROOM_DIMENSIONS[1][0] + MIN_START_DISTANCE_AWAY,
+                     ROOM_DIMENSIONS[1][1] - MIN_START_DISTANCE_AWAY))
+"""(minX, maxX), (minZ, maxZ) for the performer (leaving space to put
+an object in front of it)"""
+                    
 
 
 def move_to_location(obj_def: Dict[str, Any], obj: Dict[str, Any],
@@ -42,9 +51,9 @@ class InteractionPair(ABC):
         if getattr(self, '_performer_start', None) is None:
             self._performer_start = {
                 'position': {
-                    'x': geometry.random_position(),
+                    'x': round(random.uniform(PERFORMER_BOUNDS[0][0], PERFORMER_BOUNDS[0][1]), geometry.POSITION_DIGITS),
                     'y': 0,
-                    'z': geometry.random_position()
+                    'z': round(random.uniform(PERFORMER_BOUNDS[1][0], PERFORMER_BOUNDS[1][1]), geometry.POSITION_DIGITS)
                 },
                 'rotation': {
                     'y': geometry.random_rotation()
@@ -55,6 +64,7 @@ class InteractionPair(ABC):
 class ImmediatelyVisiblePair(InteractionPair):
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(ImmediatelyVisiblePair, self).__init__(template, find_path)
+        logging.debug(f'performerStart={self._performer_start}')
 
     def _get_empty_scene(self) -> Dict[str, Any]:
         scene = copy.deepcopy(self._template)
@@ -72,6 +82,7 @@ class ImmediatelyVisiblePair(InteractionPair):
                 break
         if in_front_location is None:
             raise exceptions.SceneException('could not place object in front of performer')
+        logging.debug(f'position in front={in_front_location["position"]}')
         target = util.instantiate_object(target_def, in_front_location)
         scene1['objects'] = [target]
         scene2 = self._get_empty_scene()
@@ -82,6 +93,7 @@ class ImmediatelyVisiblePair(InteractionPair):
                 break
         if behind_location is None:
             raise exceptions.SceneException('could not place object behind performer')
+        logging.debug(f'position behind={behind_location["position"]}')
         target2 = copy.deepcopy(target)
         move_to_location(target_def, target2, behind_location)
         scene2['objects'] = [target2]

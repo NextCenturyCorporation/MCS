@@ -24,6 +24,7 @@ ROOM_DIMENSIONS = ((-4.95, 4.95), (-4.95, 4.95))
 
 MINIMUM_START_DIST_FROM_TARGET = 2
 MINIMUM_TARGET_SEPARATION = 2
+MIN_START_DISTANCE_AWAY = 1
 
 ORIGIN = {
     "x": 0.0,
@@ -205,20 +206,21 @@ def position_distance(a: Dict[str, float], b: Dict[str, float]) -> float:
 
 def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
         -> shapely.geometry.Point:
-    MIN_DISTANCE_AWAY = 1
+    logging.debug(f'>>>get_visible_segment: {performer_start}')
     max_dimension = max(ROOM_DIMENSIONS[0][1] - ROOM_DIMENSIONS[0][0],
                         ROOM_DIMENSIONS[1][1] - ROOM_DIMENSIONS[1][0])
     # make it long enough for the far end to be outside the room
-    view_segment = shapely.geometry.LineString([[MIN_DISTANCE_AWAY, 0], [max_dimension * 2, 0]])
-    affinity.rotate(view_segment, -performer_start['rotation']['y'], origin=(0, 0))
-    affinity.translate(view_segment, performer_start['position']['x'],
-                       performer_start['position']['z'])
+    view_segment = shapely.geometry.LineString([[0, MIN_START_DISTANCE_AWAY], [0, max_dimension * 2]])
+    view_segment = affinity.rotate(view_segment, -performer_start['rotation']['y'], origin=(0, 0))
+    view_segment = affinity.translate(view_segment, performer_start['position']['x'],
+                                      performer_start['position']['z'])
     room = shapely.geometry.box(ROOM_DIMENSIONS[0][0], ROOM_DIMENSIONS[1][0],
                                 ROOM_DIMENSIONS[0][1], ROOM_DIMENSIONS[1][1])
 
     target_segment = room.intersection(view_segment)
     if target_segment.is_empty:
-        raise exceptions.SceneException('performer too close to the wall, cannot place object in front of it')
+        raise exceptions.SceneException(f'performer too close to the wall, cannot place object in front of it (performer location={performer_start})')
+    logging.debug(f'<<<get_visible_segment: {target_segment}')
     return target_segment
 
 
@@ -241,7 +243,7 @@ def get_location_behind_performer(performer_start: Dict[str, Dict[str, float]],
                         ROOM_DIMENSIONS[1][1] - ROOM_DIMENSIONS[1][0])
     # if the performer were at the origin facing 0, this would be behind it
     base_rear = shapely.geometry.box(-max_dimension*2, -max_dimension*2,
-                                     0, max_dimension*2)
+                                     max_dimension*2, 0)
     performer_point = shapely.geometry.Point(performer_start['position']['x'],
                                              performer_start['position']['z'])
     translated_rear = affinity.translate(base_rear, performer_point.x, performer_point.y)
