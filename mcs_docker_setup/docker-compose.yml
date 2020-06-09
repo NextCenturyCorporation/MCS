@@ -15,6 +15,17 @@ services:
       - ./dist:/var/www:ro
       - ./resources/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./resources/config.yaml:/var/www/app/config/config.yaml
+  # neon-dash-dev:
+  #   container_name: neon-dash-dev
+  #   image: nginx:alpine
+  #   ports: 
+  #     - 5199:81
+  #   networks:
+  #     neon-net:
+  #   volumes:
+  #     - ./dist:/var/www:ro
+  #     - ./resources/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+  #     - ./resources/config.yaml:/var/www/app/config/config.yaml
   analysis-ui:
     container_name: analysis-ui
     image: analysis-ui
@@ -27,6 +38,18 @@ services:
       - node-server
     networks:
       - neon-net
+  # analysis-ui-dev:
+  #   container_name: analysis-ui-dev
+  #   image: analysis-ui
+  #   volumes:
+  #     - ./configs/prod/config.js:/usr/src/app/public/js/config.js
+  #   ports: 
+  #     - 3100:3100
+  #   depends_on:
+  #     - neon-es
+  #     - node-server
+  #   networks:
+  #     - neon-net
   node-server:
     container_name: node-graphql
     image: node-graphql
@@ -92,4 +115,16 @@ services:
       - 80
     networks:
       neon-net:
+  # neon-server-dev:
+  #   environment:
+  #     STATE_DIRECTORY: /config
+  #     SERVER_PORT: 81
+  #   volumes:
+  #     - ./resources:/config
+  #   image: com.ncc.neon/server:latest
+  #   container_name: neon-server
+  #   expose:
+  #     - 81
+  #   networks:
+  #     neon-net:
   
