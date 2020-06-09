@@ -4,6 +4,7 @@ import uuid
 import random
 from typing import Dict, Any, Optional, List, Tuple, Iterable
 
+import geometry
 import materials
 import objects
 
@@ -62,6 +63,7 @@ def instantiate_object(object_def: Dict[str, Any],
 
     # need the original position for quartets
     new_object['original_location'] = copy.deepcopy(object_location)
+    object_location = copy.deepcopy(object_location)
     if 'offset' in object_def:
         object_location['position']['x'] -= object_def['offset']['x']
         object_location['position']['z'] -= object_def['offset']['z']
@@ -109,6 +111,17 @@ def instantiate_object(object_def: Dict[str, Any],
     return new_object
 
 
+def put_object_in_container(obj: Dict[str, Any],
+                            container: Dict[str, Any],
+                            container_def: Dict[str, Any],
+                            area_index: int) -> None:
+    area = container_def['enclosed_areas'][area_index]
+    obj['locationParent'] = container['id']
+    obj['shows'][0]['position'] = area['position'].copy()
+    if 'rotation' not in obj['shows'][0]:
+        obj['shows'][0]['rotation'] = geometry.ORIGIN.copy()
+
+
 def get_similar_definition(obj: Dict[str, Any]) -> Dict[str, Any]:
     choice = random.randint(1, 3)
     if choice == 1:
@@ -120,7 +133,7 @@ def get_similar_definition(obj: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def check_same_and_different(a: Dict[str, Any], b: Dict[str, Any],
-                            same: Iterable[str], different: Iterable[str]) -> bool:
+                             same: Iterable[str], different: Iterable[str]) -> bool:
     """Return true iff for all properties in same that are in a, they
     exist in b and have the same value, and for all properties in
     different that are in a, they exist in b and are different.

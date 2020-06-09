@@ -7,6 +7,7 @@ import random
 import math
 from typing import Dict, Any, AnyStr, List, Tuple, Sequence
 
+import util
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
 
 import geometry
@@ -61,11 +62,11 @@ def parse_path_section(path_section: Sequence[Sequence[float]], current_heading:
     actions = []
     dx = path_section[1][0]-path_section[0][0]
     dz = path_section[1][1]-path_section[0][1]
-    theta = math.degrees(math.atan2(dx,dz))
+    theta = math.degrees(math.atan2(dx, dz))
 
-        #IF my calculations are correct, this should be right no matter what
-        # I'm assuming a positive angle is a clockwise rotation- so this should work
-        #I think
+    # IF my calculations are correct, this should be right no matter what
+    # I'm assuming a positive angle is a clockwise rotation- so this should work
+    # I think
 
     delta_t = current_heading-theta
     current_heading = theta
@@ -73,12 +74,12 @@ def parse_path_section(path_section: Sequence[Sequence[float]], current_heading:
         action = {
             'action': 'RotateLook',
             'params': {
-                'rotation': round(delta_t,0),
+                'rotation': round(delta_t, 0),
                 'horizon': 0.0
             }
         }
         actions.append(action)
-    distance = math.sqrt( dx ** 2 + dz ** 2 )
+    distance = math.sqrt(dx ** 2 + dz ** 2)
     frac, whole = math.modf(distance / MAX_MOVE_DISTANCE)
     actions.extend([{
         "action": "MoveAhead",
@@ -134,12 +135,8 @@ def move_to_container(target: Dict[str, Any], all_objects: List[Dict[str, Any]],
             container_location = geometry.calc_obj_pos(performer_position, bounding_rects, container_def)
             if container_location is not None:
                 found_container = instantiate_object(container_def, container_location)
-                found_area = container_def['enclosed_areas'][area_index]
                 all_objects.append(found_container)
-                target['locationParent'] = found_container['id']
-                target['shows'][0]['position'] = found_area['position'].copy()
-                if 'rotation' not in target['shows'][0]:
-                    target['shows'][0]['rotation'] = geometry.ORIGIN.copy()
+                util.put_object_in_container(target, found_container, container_def, area_index)
                 return True
     return False
 
