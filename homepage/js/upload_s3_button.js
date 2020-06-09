@@ -40,6 +40,10 @@ const uploadFileToS3 = (presignedPostData, file) => {
         xhr.onload = function () {
             this.status === 200 ? resolve() : reject(this.responseText);
         };
+        xhr.onerror = function (error) {
+            $("#fileUploadStatus").text(error);
+            console.log("An error occurred during the upload!");
+        };
         xhr.send(formData); 
     });
 };
@@ -70,7 +74,7 @@ class FileUploadButton extends React.Component {
                 })
         } catch (e) {
             console.log("An error occurred!", e.message);
-            $("#fileUploadStatus").text("Error uploading the file.");
+            $("#fileUploadStatus").text("Error uploading the file. " + e.message);
         }
     }
 
