@@ -3943,7 +3943,12 @@ def get_enclosed_containers() -> List[Dict[str, Any]]:
     global _ENCLOSED_CONTAINERS
     if _ENCLOSED_CONTAINERS is None:
         all_defs = get_all_object_defs()
-        _ENCLOSED_CONTAINERS = [obj_def for obj_def in all_defs if 'enclosed_areas' in obj_def and len(obj_def['enclosed_areas']) > 0]
+        _ENCLOSED_CONTAINERS = [
+            obj_def for obj_def in all_defs
+            if 'enclosed_areas' in obj_def and len(obj_def['enclosed_areas']) > 0
+            or 'choose' in obj_def and 'enclosed_areas' in obj_def['choose'][0]
+            and len(obj_def['choose'][0]['enclosed_areas']) > 0
+        ]
     return _ENCLOSED_CONTAINERS
 
 
