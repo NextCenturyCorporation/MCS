@@ -32,11 +32,17 @@ def generate_wall(wall_mat_choice: str, performer_position: Dict[str, float],
         new_x = geometry.random_position()
         new_z = geometry.random_position()
         new_x_size = round(random.uniform(MIN_WALL_WIDTH, MAX_WALL_WIDTH), geometry.POSITION_DIGITS)
+        #TODO: 
+        if (rotation == 0 or rotation == 180) and (new_z < -3.5 or new_z > 3.5) \
+            or (rotation == 90 or rotation == 270) and (new_x < -3.5 or new_x > 3.5):
+            #tries += 1
+            continue
+
         rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, 0, 0, rotation)
         if not geometry.collision(rect, performer_position) and \
                 all(geometry.point_within_room(point) for point in rect) and \
                 (len(other_rects) == 0 or not any(
-                    separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)):
+                    separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)): #TODO: add another condition -> Parallel walls should be at least 1 apart on the appropriate axis
             break
         tries += 1
 
