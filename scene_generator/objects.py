@@ -1326,17 +1326,6 @@ OBJECTS_IMMOBILE = [{
     "enclosed_areas": [{
         "position": {
             "x": 0.165,
-            "y": 0.47,
-            "z": -0.03
-        },
-        "dimensions": {
-            "x": 0.68,
-            "y": 0.22,
-            "z": 0.41
-        }
-    }, {
-        "position": {
-            "x": 0.165,
             "y": 0.19,
             "z": -0.03
         },
