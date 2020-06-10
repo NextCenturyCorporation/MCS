@@ -307,25 +307,56 @@ def get_location_behind_performer(performer_start: Dict[str, Dict[str, float]],
 
 
 def get_adjacent_location(obj_def: Dict[str, Any],
-                          target: Dict[str, Any]) -> Dict[str, Any]:
-    """Find a location such that, if obj_def is instantiated there, it will
-    be next to target."""
+                          target: Dict[str, Any],
+                          performer_start: Dict[str, float]) -> Dict[str, Any]:
+    """Find a location such that, if obj_def is instantiated there, it
+    will be next to target. Ensures that the object at the new
+    location will not overlap the performer start, if necessary trying
+    to put the new object on each cardinal side of the target.
+    """
+    for side in range(4):
+        location = _adjacent_location(obj_def, target, performer_start, side)
+        if location is not None:
+            return location
+    return None
+
+
+def _adjacent_location(obj_def: Dict[str, Any],
+                          target: Dict[str, Any],
+                          performer_start: Dict[str, float],
+                       side: int) -> Dict[str, Any]:
+    if side < 0 or side > 3:
+        raise ValueError(f'side must be 0-3 (not {side})')
     GAP = 0.01
-    distance = obj_def['dimensions']['x']/2.0 + target['dimensions']['x']/2.0 + GAP
+    distance_dim = 'x' if side in (0, 2) else 'z'
+    distance = obj_def['dimensions'][distance_dim]/2.0 + \
+        target['dimensions'][distance_dim]/2.0 + GAP
     separator_segment = shapely.geometry.LineString([[0, 0], [distance, 0]])
     shows = target['shows'][0]
-    separator_segment = affinity.rotate(separator_segment, -shows['rotation']['y'])
+    rotation = -shows['rotation']['y'] + 90 * side
+    separator_segment = affinity.rotate(separator_segment, rotation)
     separator_segment = affinity.translate(separator_segment,
                                            shows['position']['x'],
                                            shows['position']['z'])
-    location = {
-        'position': {
-            'x': separator_segment.coords[1][0],
-            'y': 0,
-            'z': separator_segment.coords[1][1]
-        },
-        'rotation': {
-            'y': shows['rotation']['y']
+    x = separator_segment.coords[1][0]
+    z = separator_segment.coords[1][1]
+    bounding_box = shapely.geometry.box(x - target['dimensions']['x'],
+                                        z - target['dimensions']['z'],
+                                        x + target['dimensions']['x'],
+                                        z + target['dimensions']['z'])
+    bounding_box = affinity.rotate(bounding_box, -shows['rotation']['y'])
+    performer = shapely.geometry.Point(performer_start['x'], performer_start['z'])
+    if not bounding_box.intersects(performer):
+        location = {
+            'position': {
+                'x': x,
+                'y': 0,
+                'z': z
+            },
+            'rotation': {
+                'y': shows['rotation']['y']
+            }
         }
-    }
+    else:
+        location = None
     return location

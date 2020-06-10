@@ -119,7 +119,9 @@ class SimilarAdjacentContainedPair(InteractionPair):
         if len(valid_container_defs) == 0:
             raise exceptions.SceneException(f'failed to find target and/or similar object that will fit in something')
         container_def = util.finalize_object_definition(random.choice(valid_container_defs))
-        container_location = geometry.get_adjacent_location(container_def, target)
+        container_location = geometry.get_adjacent_location(container_def,
+                                                            target,
+                                                            self._performer_start['position'])
         container = util.instantiate_object(container_def, container_location)
         area_index = geometry.can_contain(container_def, target, similar)
         if area_index is None:
@@ -134,7 +136,9 @@ class SimilarAdjacentContainedPair(InteractionPair):
         util.put_object_in_container(target2, container2, container_def, area_index)
         similar2 = copy.deepcopy(similar)
         del similar2['locationParent']
-        similar2_location = geometry.get_adjacent_location(similar_def, container2)
+        similar2_location = geometry.get_adjacent_location(similar_def,
+                                                           container2,
+                                                           self._performer_start['position'])
         move_to_location(similar_def, similar2, similar2_location)
         scene2 = self._get_empty_scene()
         scene2['objects'] = [target2, similar2, container2]
@@ -142,8 +146,7 @@ class SimilarAdjacentContainedPair(InteractionPair):
         return scene1, scene2
 
 
-#_INTERACTION_PAIR_CLASSES = [ImmediatelyVisiblePair]
-_INTERACTION_PAIR_CLASSES = [SimilarAdjacentContainedPair]
+_INTERACTION_PAIR_CLASSES = [ImmediatelyVisiblePair, SimilarAdjacentContainedPair]
 
 
 def get_pair_class() -> Type[InteractionPair]:
