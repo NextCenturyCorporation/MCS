@@ -20,6 +20,22 @@ MIN_RANDOM_INTERVAL = 0.05
 WALL_COUNTS = [0, 1, 2, 3]
 WALL_PROBS = [60, 20, 10, 10]
 
+DIST_WALL_APART = 1
+
+
+def rect_safe_distance_from_other_rects(rect: List[Dict[str, float]], other_rects: List[List[Dict[str, float]]], dist_apart: float) -> bool:
+    """ Returns wether a rectangle object will be at a safe/specific distance away from the other built walls. Uses euclidean distance between 
+        points from the wall that we want to generate and points of the other walls. A use case example would be to allow an agent to move."""
+    other_rects_points = [point for rect in other_rects for point in rect]
+
+    for coord_point in rect:
+        for other_rects_coord_point in other_rects_points:
+            if abs(coord_point['x'] - other_rects_coord_point['x']) < dist_apart or \
+                abs(coord_point['z'] - other_rects_coord_point['z']) < dist_apart:
+                return False
+
+    return True
+    
 
 def generate_wall(wall_mat_choice: str, performer_position: Dict[str, float],
                   other_rects: List[List[Dict[str, float]]]) -> Optional[Dict[str, Any]]:
@@ -33,16 +49,18 @@ def generate_wall(wall_mat_choice: str, performer_position: Dict[str, float],
         new_z = geometry.random_position()
         new_x_size = round(random.uniform(MIN_WALL_WIDTH, MAX_WALL_WIDTH), geometry.POSITION_DIGITS)
         #TODO: 
-        if (rotation == 0 or rotation == 180) and (new_z < -3.5 or new_z > 3.5) \
-            or (rotation == 90 or rotation == 270) and (new_x < -3.5 or new_x > 3.5):
-            #tries += 1
+        if ((rotation == 0 or rotation == 180) and (new_z < -3.5 or new_z > 3.5)) or \
+            ((rotation == 90 or rotation == 270) and (new_x < -3.5 or new_x > 3.5)):
+            tries += 1
             continue
 
         rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, 0, 0, rotation)
         if not geometry.collision(rect, performer_position) and \
-                all(geometry.point_within_room(point) for point in rect) and \
-                (len(other_rects) == 0 or not any(
-                    separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)): #TODO: add another condition -> Parallel walls should be at least 1 apart on the appropriate axis
+                geometry.rect_within_room(rect) and \
+                (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)) and \
+                rect_safe_distance_from_other_rects(rect, other_rects, DIST_WALL_APART): #TODO: Parallel walls should be at least 1 apart on the appropriate axis
+            print(rect[0]['x'], rect[1]['x'], rect[2]['x'], rect[3]['x'])
+            print(rect[0]['z'], rect[1]['z'], rect[2]['z'], rect[3]['z'])
             break
         tries += 1
 
