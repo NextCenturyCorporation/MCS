@@ -106,33 +106,18 @@ class SimilarAdjacentContainedPair(InteractionPair):
         super(SimilarAdjacentContainedPair, self).__init__(template, find_path)
 
     def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-        target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
-        target_location = geometry.calc_obj_pos(self._performer_start['position'], [], target_def)
-        target = util.instantiate_object(target_def, target_location)
-        similar_def = util.get_similar_definition(target)
-        similar = util.instantiate_object(similar_def, geometry.ORIGIN_LOCATION)
-        # find a container big enough for both of them
-        container_defs = objects.get_enclosed_containers()
-        valid_container_defs = []
-        for container_def in container_defs:
-            index = geometry.can_contain(container_def, target, similar)
-            if index is not None:
-                valid_container_defs.append(container_def)
-            elif 'choose' in container_def:
-                # try choose
-                valid_choices = []
-                for choice in container_def['choose']:
-                    index = geometry.can_contain(choice, target, similar)
-                    if index is not None:
-                        valid_choices.append(choice)
-                if len(valid_choices) == len(container_def['choose']):
-                    valid_container_defs.append(container_def)
-                elif len(valid_choices) > 0:
-                    new_def = copy.deepcopy(container_def)
-                    new_def['choose'] = valid_choices
-                    valid_container_defs.append(new_def)
+        for _ in range(MAX_PLACEMENT_TRIES):
+            target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
+            target_location = geometry.calc_obj_pos(self._performer_start['position'], [], target_def)
+            target = util.instantiate_object(target_def, target_location)
+            similar_def = util.get_similar_definition(target)
+            similar = util.instantiate_object(similar_def, geometry.ORIGIN_LOCATION)
+            # find a container big enough for both of them
+            valid_container_defs = geometry.get_enclosable_container_defs((target, similar))
+            if len(valid_container_defs) > 0:
+                break
         if len(valid_container_defs) == 0:
-            raise exceptions.SceneException(f'target and/or similar object are too big (target={target}, similar={similar})')
+            raise exceptions.SceneException(f'failed to find target and/or similar object that will fit in something')
         container_def = util.finalize_object_definition(random.choice(valid_container_defs))
         container_location = geometry.get_adjacent_location(container_def, target)
         container = util.instantiate_object(container_def, container_location)
@@ -148,6 +133,7 @@ class SimilarAdjacentContainedPair(InteractionPair):
         container2 = copy.deepcopy(container)
         util.put_object_in_container(target2, container2, container_def, area_index)
         similar2 = copy.deepcopy(similar)
+        del similar2['locationParent']
         similar2_location = geometry.get_adjacent_location(similar_def, container2)
         move_to_location(similar_def, similar2, similar2_location)
         scene2 = self._get_empty_scene()

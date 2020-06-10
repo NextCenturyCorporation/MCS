@@ -1,13 +1,15 @@
+import copy
 import logging
 import math
 import random
-from typing import List, Dict, Any, Optional, Callable, Tuple
+from typing import List, Dict, Any, Optional, Callable, Tuple, Sequence
 
 import shapely
 from shapely import affinity
 from shapely.geometry import LineString
 
 import exceptions
+import objects
 import util
 from separating_axis_theorem import sat_entry
 
@@ -196,6 +198,37 @@ def can_contain(container: Dict[str, Any],
         if fits:
             return i
     return None
+
+
+def get_enclosable_container_defs(objs: Sequence[Dict[str, Any]],
+                                  container_defs: Sequence[Dict[str, Any]] = None) \
+                                  -> List[Dict[str, Any]]:
+    """Return a list of object definitions for containers that can enclose
+    all the pass objects objs. If container_defs is None, use
+    objects.get_enclosed_containers().
+    """
+    if container_defs is None:
+        container_defs = objects.get_enclosed_containers()
+    valid_container_defs = []
+    for container_def in container_defs:
+        index = can_contain(container_def, *objs)
+        if index is not None:
+            valid_container_defs.append(container_def)
+        elif 'choose' in container_def:
+            # try choose
+            valid_choices = []
+            for choice in container_def['choose']:
+                index = can_contain(choice, *objs)
+                if index is not None:
+                    valid_choices.append(choice)
+            if len(valid_choices) > 0:
+                if len(valid_choices) == len(container_def['choose']):
+                    valid_container_defs.append(container_def)
+                else:
+                    new_def = copy.deepcopy(container_def)
+                    new_def['choose'] = valid_choices
+                    valid_container_defs.append(new_def)
+    return valid_container_defs
 
 
 def occluders_too_close(occluder: Dict[str, Any], x_position: float, x_scale: float) -> bool:
