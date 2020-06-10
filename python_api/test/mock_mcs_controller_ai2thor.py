@@ -16,3 +16,6 @@ class Mock_MCS_Controller_AI2THOR(MCS_Controller_AI2THOR):
         self.__controller = Mock_AI2THOR_Controller()
         self.on_init()
 
+    def set_config(self, config):
+        self._config = config
+
