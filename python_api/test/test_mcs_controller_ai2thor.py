@@ -16,6 +16,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
 
     def setUp(self):
         self.controller = Mock_MCS_Controller_AI2THOR()
+        self.controller.set_config({ 'metadata': '' })
 
     def create_mock_scene_event(self, mock_scene_event_data):
         # Wrap the dict in a SimpleNamespace object to permit property access with dotted notation since the actual
@@ -270,7 +271,6 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         pass
 
     def test_restrict_goal_output_metadata(self):
-        self.controller.set_config({ 'metadata': '' })
         goal = MCS_Goal(metadata={
             'target': { 'image': [0] },
             'target_1': { 'image': [1] },
@@ -340,7 +340,6 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         })
 
     def test_restrict_object_output_metadata(self):
-        self.controller.set_config({ 'metadata': '' })
         test_object = MCS_Object(
             color={ 'r': 1, 'g': 2, 'b': 3 },
             dimensions={ 'x': 1, 'y': 2, 'z': 3 },
@@ -440,7 +439,6 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.rotation, None)
 
     def test_restrict_step_output_metadata(self):
-        self.controller.set_config({ 'metadata': '' })
         step = MCS_Step_Output(
             camera_aspect_ratio=(1, 2),
             camera_clipping_planes=(3, 4),
