@@ -29,6 +29,8 @@ services:
   analysis-ui:
     container_name: analysis-ui
     image: analysis-ui
+    environment: 
+      - REACT_APP_COMMENTS_ON=false
     volumes:
       - ./configs/dev/config.js:/usr/src/app/public/js/config.js
     ports: 
@@ -41,6 +43,8 @@ services:
   analysis-ui-staging:
     container_name: analysis-ui-staging
     image: analysis-ui-staging
+    environment:
+      - REACT_APP_COMMENTS_ON=true
     volumes:
       - ./configs/dev/config.js:/usr/src/app/public/js/config.js
     ports: 
@@ -115,4 +119,4 @@ services:
       - 80
     networks:
       neon-net:
-  
+        

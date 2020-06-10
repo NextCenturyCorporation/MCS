@@ -29,6 +29,9 @@ services:
   analysis-ui:
     container_name: analysis-ui
     image: analysis-ui
+    # Can accept a value of true/false or 0/1
+    environment: 
+      - REACT_APP_COMMENTS_ON=false
     volumes:
       - ./configs/prod/config.js:/usr/src/app/public/js/config.js
     ports: 
@@ -41,6 +44,9 @@ services:
   analysis-ui-staging:
     container_name: analysis-ui-staging
     image: analysis-ui-staging
+    # Can accept a value of true/false or 0/1
+    environment: 
+      - REACT_APP_COMMENTS_ON=true
     volumes:
       - ./configs/prod/config.js:/usr/src/app/public/js/config.js
     ports: 
