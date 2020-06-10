@@ -820,7 +820,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "position": {
             "x": 0,
             "y": -0.0585,
-            "z": -0.655
+            "z": -0.0655
         },
         "dimensions": {
             "x": 0.1995,
