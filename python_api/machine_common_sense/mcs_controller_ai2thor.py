@@ -371,8 +371,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         if os.path.exists(self.CONFIG_FILE):
             with open(self.CONFIG_FILE, 'r') as config_file:
                 config = yaml.load(config_file)
-                print("CONFIG!")
-                print(config)
+                if self.__debug_to_terminal:
+                    print('Read MCS Config File:')
+                    print(config)
                 if self.CONFIG_METADATA_MODE not in config:
                     config[self.CONFIG_METADATA_MODE] = ''
                 return config
