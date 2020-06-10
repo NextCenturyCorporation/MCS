@@ -918,7 +918,7 @@ Whether the image of the target object (`target.image`) exactly matches the actu
 
 ## Config File
 
-To use an MCS config file, set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS config file.
+To use an MCS configuration file, set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file.
 
 ### Config File Properties
 
@@ -933,3 +933,30 @@ The `metadata` property describes what metadata will be returned by the MCS Pyth
 
 Otherwise, return the metadata for the visible and held objects.
 
+### Using the Config File to Generate Scene Graphs or Maps
+
+1. Save your MCS configuration file with `metadata: full`
+
+2. Create a simple Python script to loop over one or more JSON scene configuration files, load each scene in the MCS controller, and save the output data in your own scene graph or scene map format.
+
+```python
+import os
+from machine_common_sense.mcs import MCS
+
+os.environ['MCS_CONFIG_FILE_PATH'] = # Path to your MCS configuration file
+
+scene_files = # List of scene configuration file paths
+
+unity_app = # Path to your MCS Unity application
+
+controller = MCS.create_controller(unity_app)
+
+for scene_file in scene_files:
+    config_data, status = MCS.load_config_json(scene_file)
+
+    if status is not None:
+        print(status)
+    else:
+        output = controller.start_scene(config_data)
+        # Use the output to save your scene graph or map
+```
