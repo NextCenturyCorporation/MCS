@@ -65,6 +65,7 @@ def clean_object(obj: Dict[str, Any]) -> None:
     obj.pop('dimensions', None)
     obj.pop('intphys_option', None)
     obj.pop('materials_list', None)
+    obj.pop('materialCategory', None)
     obj.pop('original_location', None)
     if 'shows' in obj:
         obj['shows'][0].pop('bounding_box', None)

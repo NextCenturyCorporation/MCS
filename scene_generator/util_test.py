@@ -1,8 +1,10 @@
 import uuid
 
+import geometry
 import materials
+import objects
 from goals import *
-from util import finalize_object_definition, instantiate_object
+from util import finalize_object_definition, instantiate_object, check_same_and_different, get_similar_defs
 
 
 def test_finalize_object_definition():
@@ -176,3 +178,29 @@ def test_instantiate_object_size():
         obj = instantiate_object(object_def, object_location)
         assert size in obj['info']
 
+
+def test_check_same_and_different():
+    a = {
+        'type': 'ball',
+        'color': 'blue',
+        'size': 'tiny',
+        'ignored': 'stuff'
+    }
+    b = {
+        'type': 'ball',
+        'color': 'red',
+        'size': 'tiny',
+        'ignored': 42
+    }
+    assert check_same_and_different(a, b, ('type', 'size'), ('color',)) is True
+    assert check_same_and_different(a, b, ('type', 'color'), ('size',)) is False
+    assert check_same_and_different(a, b, ('color', 'size'), ('type',)) is False
+
+
+def test_get_similar_defs():
+    original_def = objects.OBJECTS_PICKUPABLE_BALLS[0]
+    obj = instantiate_object(original_def, geometry.ORIGIN)
+    similar_defs = get_similar_defs(obj, ('type', 'materialCategory'), ('mass',))
+    for obj_def in similar_defs:
+        assert check_same_and_different(obj_def, obj, ('type', 'materialCategory'), ('mass',))
+    
