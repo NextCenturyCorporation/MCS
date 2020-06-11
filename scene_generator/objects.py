@@ -468,7 +468,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
     }]
 }, {
     "type": "pacifier",
-    "info": ["tiny", "pacifier"],
+    "info": ["tiny", "blue", "pacifier"],
     "mass": 0.125,
     "salientMaterials": ["plastic"],
     "attributes": ["moveable", "pickupable"],
