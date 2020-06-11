@@ -34,6 +34,10 @@ class MCS_Object(object):
         The "x", "y", and "z" coordinates for the global position of the center of this object's 3D model.
     rotation : float
         This object's rotation angle in degrees.
+    shape : string
+        This object's shape in plain English.
+    texture_color_list : list of strings
+        This object's colors, derived from its textures, in plain English.
     visible : boolean
         Whether you can see this object in your camera viewport.
     """
@@ -52,6 +56,8 @@ class MCS_Object(object):
         material_list=None,
         position=None,
         rotation=0.0,
+        shape="",
+        texture_color_list=None,
         visible=False
     ):
         self.uuid = uuid
@@ -66,6 +72,8 @@ class MCS_Object(object):
         self.material_list = [] if material_list is None else material_list
         self.position = {} if position is None else position
         self.rotation = rotation
+        self.shape = shape
+        self.texture_color_list = [] if texture_color_list is None else texture_color_list
         self.visible = visible
 
     def __str__(self):

@@ -174,6 +174,14 @@ The "x", "y", and "z" coordinates for the global position of the center of this 
 
 This object's rotation angle in degrees.
 
+### shape : string
+
+This object's shape in plain English.
+
+### texture_color_list : list of strings
+
+This object's colors, derived from its textures, in plain English.
+
 ### visible : boolean
 
 Whether you can see this object in your camera viewport.

@@ -34,6 +34,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             })],
             "metadata": {
                 "objects": [{
+                    "colorsFromMaterials": ["c1"],
                     "direction": {
                         "x": 0,
                         "y": 0,
@@ -55,8 +56,10 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "z": 3.0
                     },
                     "salientMaterials": [],
+                    "shape": "shape1",
                     "visibleInCamera": True
                 }, {
+                    "colorsFromMaterials": ["c2", "c3"],
                     "direction": {
                         "x": 90,
                         "y": -30,
@@ -81,8 +84,10 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "z": 3.0
                     },
                     "salientMaterials": ["Foobar", "Metal", "Plastic"],
+                    "shape": "shape2",
                     "visibleInCamera": True
                 }, {
+                    "colorsFromMaterials": [],
                     "direction": {
                         "x": -90,
                         "y": 180,
@@ -107,6 +112,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "z": 13.0
                     },
                     "salientMaterials": ["Wood"],
+                    "shape": "shape3",
                     "visibleInCamera": False
                 }]
             }
@@ -150,6 +156,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                 "lastActionStatus": "SUCCESSFUL",
                 "lastActionSuccess": True,
                 "objects": [{
+                    "colorsFromMaterials": ["c1"],
                     "direction": {
                         "x": 90,
                         "y": -30,
@@ -174,8 +181,10 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "z": 3.0
                     },
                     "salientMaterials": ["Wood"],
+                    "shape": "shape",
                     "visibleInCamera": True
                 }, {
+                    "colorsFromMaterials": [],
                     "direction": {
                         "x": -90,
                         "y": 180,
@@ -200,9 +209,11 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "z": 13.0
                     },
                     "salientMaterials": ["Wood"],
+                    "shape": "shapeHidden",
                     "visibleInCamera": False
                 }],
                 "structuralObjects": [{
+                    "colorsFromMaterials": ["c2"],
                     "direction": {
                         "x": 180,
                         "y": -60,
@@ -227,8 +238,10 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "z": 6.0
                     },
                     "salientMaterials": ["Ceramic"],
+                    "shape": "structure",
                     "visibleInCamera": True
                 }, {
+                    "colorsFromMaterials": [],
                     "direction": {
                         "x": -180,
                         "y": 60,
@@ -253,6 +266,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                         "z": 16.0
                     },
                     "salientMaterials": ["Ceramic"],
+                    "shape": "structureHidden",
                     "visibleInCamera": False
                 }]
             }
@@ -347,7 +361,9 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             distance_in_steps=34.56,
             distance_in_world=56.78,
             position={ 'x': 4, 'y': 5, 'z': 6 },
-            rotation={ 'x': 7, 'y': 8, 'z': 9 }
+            rotation={ 'x': 7, 'y': 8, 'z': 9 },
+            shape='sofa',
+            texture_color_list=['c1', 'c2']
         )
         actual = self.controller.restrict_object_output_metadata(test_object)
         self.assertEqual(actual.color, { 'r': 1, 'g': 2, 'b': 3 })
@@ -357,6 +373,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.distance_in_world, 56.78)
         self.assertEqual(actual.position, { 'x': 4, 'y': 5, 'z': 6 })
         self.assertEqual(actual.rotation, { 'x': 7, 'y': 8, 'z': 9 })
+        self.assertEqual(actual.shape, 'sofa')
+        self.assertEqual(actual.texture_color_list, ['c1', 'c2'])
 
     def test_restrict_object_output_metadata_full(self):
         self.controller.set_config({ 'metadata': 'full' })
@@ -367,7 +385,9 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             distance_in_steps=34.56,
             distance_in_world=56.78,
             position={ 'x': 4, 'y': 5, 'z': 6 },
-            rotation={ 'x': 7, 'y': 8, 'z': 9 }
+            rotation={ 'x': 7, 'y': 8, 'z': 9 },
+            shape='sofa',
+            texture_color_list=['c1', 'c2']
         )
         actual = self.controller.restrict_object_output_metadata(test_object)
         self.assertEqual(actual.color, { 'r': 1, 'g': 2, 'b': 3 })
@@ -377,6 +397,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.distance_in_world, 56.78)
         self.assertEqual(actual.position, { 'x': 4, 'y': 5, 'z': 6 })
         self.assertEqual(actual.rotation, { 'x': 7, 'y': 8, 'z': 9 })
+        self.assertEqual(actual.shape, 'sofa')
+        self.assertEqual(actual.texture_color_list, ['c1', 'c2'])
 
     def test_restrict_object_output_metadata_no_navigation(self):
         self.controller.set_config({ 'metadata': 'no_navigation' })
@@ -387,7 +409,9 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             distance_in_steps=34.56,
             distance_in_world=56.78,
             position={ 'x': 4, 'y': 5, 'z': 6 },
-            rotation={ 'x': 7, 'y': 8, 'z': 9 }
+            rotation={ 'x': 7, 'y': 8, 'z': 9 },
+            shape='sofa',
+            texture_color_list=['c1', 'c2']
         )
         actual = self.controller.restrict_object_output_metadata(test_object)
         self.assertEqual(actual.color, { 'r': 1, 'g': 2, 'b': 3 })
@@ -397,6 +421,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.distance_in_world, 56.78)
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
+        self.assertEqual(actual.shape, 'sofa')
+        self.assertEqual(actual.texture_color_list, ['c1', 'c2'])
 
     def test_restrict_object_output_metadata_no_vision(self):
         self.controller.set_config({ 'metadata': 'no_vision' })
@@ -407,7 +433,9 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             distance_in_steps=34.56,
             distance_in_world=56.78,
             position={ 'x': 4, 'y': 5, 'z': 6 },
-            rotation={ 'x': 7, 'y': 8, 'z': 9 }
+            rotation={ 'x': 7, 'y': 8, 'z': 9 },
+            shape='sofa',
+            texture_color_list=['c1', 'c2']
         )
         actual = self.controller.restrict_object_output_metadata(test_object)
         self.assertEqual(actual.color, None)
@@ -417,6 +445,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.distance_in_world, None)
         self.assertEqual(actual.position, { 'x': 4, 'y': 5, 'z': 6 })
         self.assertEqual(actual.rotation, { 'x': 7, 'y': 8, 'z': 9 })
+        self.assertEqual(actual.shape, None)
+        self.assertEqual(actual.texture_color_list, None)
 
     def test_restrict_object_output_metadata_none(self):
         self.controller.set_config({ 'metadata': 'none' })
@@ -427,7 +457,9 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             distance_in_steps=34.56,
             distance_in_world=56.78,
             position={ 'x': 4, 'y': 5, 'z': 6 },
-            rotation={ 'x': 7, 'y': 8, 'z': 9 }
+            rotation={ 'x': 7, 'y': 8, 'z': 9 },
+            shape='sofa',
+            texture_color_list=['c1', 'c2']
         )
         actual = self.controller.restrict_object_output_metadata(test_object)
         self.assertEqual(actual.color, None)
@@ -437,6 +469,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.distance_in_world, None)
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
+        self.assertEqual(actual.shape, None)
+        self.assertEqual(actual.texture_color_list, None)
 
     def test_restrict_step_output_metadata(self):
         step = MCS_Step_Output(
@@ -716,6 +750,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[0].material_list, [])
         self.assertEqual(actual[0].position, { "x": 1, "y": 1, "z": 2 })
         self.assertEqual(actual[0].rotation, 2.0)
+        self.assertEqual(actual[0].shape, 'shape1')
+        self.assertEqual(actual[0].texture_color_list, ['c1'])
         self.assertEqual(actual[0].visible, True)
 
         self.assertEqual(actual[1].uuid, "testId2")
@@ -738,6 +774,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
         self.assertEqual(actual[1].position, { "x": 1, "y": 2, "z": 3 })
         self.assertEqual(actual[1].rotation, 2)
+        self.assertEqual(actual[1].shape, 'shape2')
+        self.assertEqual(actual[1].texture_color_list, ['c2', 'c3'])
         self.assertEqual(actual[1].visible, True)
 
     def test_retrieve_object_list_with_config_metadata_full(self):
@@ -766,6 +804,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[0].material_list, [])
         self.assertEqual(actual[0].position, { "x": 1, "y": 1, "z": 2 })
         self.assertEqual(actual[0].rotation, 2.0)
+        self.assertEqual(actual[0].shape, 'shape1')
+        self.assertEqual(actual[0].texture_color_list, ['c1'])
         self.assertEqual(actual[0].visible, True)
 
         self.assertEqual(actual[1].uuid, "testId2")
@@ -788,6 +828,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
         self.assertEqual(actual[1].position, { "x": 1, "y": 2, "z": 3 })
         self.assertEqual(actual[1].rotation, 2)
+        self.assertEqual(actual[1].shape, 'shape2')
+        self.assertEqual(actual[1].texture_color_list, ['c2', 'c3'])
         self.assertEqual(actual[1].visible, True)
 
         self.assertEqual(actual[2].uuid, "testId3")
@@ -810,6 +852,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[2].material_list, ["WOOD"])
         self.assertEqual(actual[2].position, { "x": -3, "y": -2, "z": -1 })
         self.assertEqual(actual[2].rotation, 12)
+        self.assertEqual(actual[2].shape, 'shape3')
+        self.assertEqual(actual[2].texture_color_list, [])
         self.assertEqual(actual[2].visible, False)
 
     def test_retrieve_object_list_with_config_metadata_no_navigation(self):
@@ -838,6 +882,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[0].material_list, [])
         self.assertEqual(actual[0].position, None)
         self.assertEqual(actual[0].rotation, None)
+        self.assertEqual(actual[0].shape, 'shape1')
+        self.assertEqual(actual[0].texture_color_list, ['c1'])
         self.assertEqual(actual[0].visible, True)
 
         self.assertEqual(actual[1].uuid, "testId2")
@@ -860,6 +906,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
         self.assertEqual(actual[1].position, None)
         self.assertEqual(actual[1].rotation, None)
+        self.assertEqual(actual[1].shape, 'shape2')
+        self.assertEqual(actual[1].texture_color_list, ['c2', 'c3'])
         self.assertEqual(actual[1].visible, True)
 
     def test_retrieve_object_list_with_config_metadata_no_vision(self):
@@ -880,6 +928,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[0].material_list, [])
         self.assertEqual(actual[0].position, { "x": 1, "y": 1, "z": 2 })
         self.assertEqual(actual[0].rotation, 2.0)
+        self.assertEqual(actual[0].shape, None)
+        self.assertEqual(actual[0].texture_color_list, None)
         self.assertEqual(actual[0].visible, True)
 
         self.assertEqual(actual[1].uuid, "testId2")
@@ -894,6 +944,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
         self.assertEqual(actual[1].position, { "x": 1, "y": 2, "z": 3 })
         self.assertEqual(actual[1].rotation, 2)
+        self.assertEqual(actual[1].shape, None)
+        self.assertEqual(actual[1].texture_color_list, None)
         self.assertEqual(actual[1].visible, True)
 
     def test_retrieve_object_list_with_config_metadata_none(self):
@@ -914,6 +966,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[0].material_list, [])
         self.assertEqual(actual[0].position, None)
         self.assertEqual(actual[0].rotation, None)
+        self.assertEqual(actual[0].shape, None)
+        self.assertEqual(actual[0].texture_color_list, None)
         self.assertEqual(actual[0].visible, True)
 
         self.assertEqual(actual[1].uuid, "testId2")
@@ -928,6 +982,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
         self.assertEqual(actual[1].position, None)
         self.assertEqual(actual[1].rotation, None)
+        self.assertEqual(actual[1].shape, None)
+        self.assertEqual(actual[1].texture_color_list, None)
         self.assertEqual(actual[1].visible, True)
 
     def test_retrieve_pose(self):
@@ -1071,6 +1127,10 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.object_list[0].held, False)
         self.assertEqual(actual.object_list[0].mass, 12.34)
         self.assertEqual(actual.object_list[0].material_list, ["WOOD"])
+        self.assertEqual(actual.object_list[0].position, { "x": 10, "y": 11, "z": 12 })
+        self.assertEqual(actual.object_list[0].rotation, 2.0)
+        self.assertEqual(actual.object_list[0].shape, 'shape')
+        self.assertEqual(actual.object_list[0].texture_color_list, ['c1'])
         self.assertEqual(actual.object_list[0].visible, True)
 
         self.assertEqual(len(actual.structural_object_list), 1)
@@ -1092,6 +1152,10 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.structural_object_list[0].held, False)
         self.assertEqual(actual.structural_object_list[0].mass, 56.78)
         self.assertEqual(actual.structural_object_list[0].material_list, ["CERAMIC"])
+        self.assertEqual(actual.structural_object_list[0].position, { "x": 20, "y": 21, "z": 22 })
+        self.assertEqual(actual.structural_object_list[0].rotation, 5.0)
+        self.assertEqual(actual.structural_object_list[0].shape, 'structure')
+        self.assertEqual(actual.structural_object_list[0].texture_color_list, ['c2'])
         self.assertEqual(actual.structural_object_list[0].visible, True)
 
         self.assertEqual(len(actual.depth_mask_list), 1)
