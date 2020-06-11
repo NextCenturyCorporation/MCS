@@ -245,6 +245,12 @@ def position_distance(a: Dict[str, float], b: Dict[str, float]) -> float:
     return math.sqrt((a['x'] - b['x'])**2 + (a['y'] - b['y'])**2 + (a['z'] - b['z'])**2)
 
 
+def get_room_box() -> shapely.geometry.Polygon:
+    room = shapely.geometry.box(ROOM_DIMENSIONS[0][0], ROOM_DIMENSIONS[1][0],
+                                ROOM_DIMENSIONS[0][1], ROOM_DIMENSIONS[1][1])
+    return room
+
+
 def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
         -> shapely.geometry.LineString:
     logging.debug(f'>>>get_visible_segment: {performer_start}')
@@ -255,8 +261,7 @@ def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
     view_segment = affinity.rotate(view_segment, -performer_start['rotation']['y'], origin=(0, 0))
     view_segment = affinity.translate(view_segment, performer_start['position']['x'],
                                       performer_start['position']['z'])
-    room = shapely.geometry.box(ROOM_DIMENSIONS[0][0], ROOM_DIMENSIONS[1][0],
-                                ROOM_DIMENSIONS[0][1], ROOM_DIMENSIONS[1][1])
+    room = get_room_box()
 
     target_segment = room.intersection(view_segment)
     if target_segment.is_empty:
@@ -331,8 +336,9 @@ def get_adjacent_location_on_side(obj_def: Dict[str, Any],
     """Get a location such that, if obj_def is instantiated there, it will
     be next to target. Side determines on which side of target to
     place it: 0 = right (positive x), 1 = behind (positive z), 2 =
-    left (negative x) and 3 = in front (negative z). If the location
-    would overlap the performer_start, None is returned."
+    left (negative x) and 3 = in front (negative z). If the object
+    would overlap the performer_start or would be outside the room,
+    None is returned."
     """
     if side < 0 or side > 3:
         raise ValueError(f'side must be 0-3 (not {side})')
@@ -355,7 +361,8 @@ def get_adjacent_location_on_side(obj_def: Dict[str, Any],
                                         z + obj_def['dimensions']['z'])
     bounding_box = affinity.rotate(bounding_box, -shows['rotation']['y'], origin=(0, 0))
     performer = shapely.geometry.Point(performer_start['x'], performer_start['z'])
-    if not bounding_box.intersects(performer):
+    room = get_room_box()
+    if not bounding_box.intersects(performer) and room.contains(bounding_box):
         location = {
             'position': {
                 'x': x,
