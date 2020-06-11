@@ -1,6 +1,7 @@
 import copy
 from abc import ABC, abstractmethod
 import logging
+import math
 import random
 from typing import Tuple, Dict, Any, Type
 
@@ -126,6 +127,7 @@ class HiddenBehindPair(InteractionPair):
         target = util.instantiate_object(target_def, in_front_location)
         scene1['objects'] = [target]
 
+        # place occluder right in front of performer in scene 2
         for _ in range(MAX_PLACEMENT_TRIES):
             in_front_location = geometry.get_location_in_front_of_performer(self._performer_start, occluder_def,
                                                                             lambda: 0)
@@ -133,11 +135,21 @@ class HiddenBehindPair(InteractionPair):
                 break
         if in_front_location is None:
             raise exceptions.SceneException('could not place occluder in front of performer')
+        # Rotate occluder to be facing the performer. There is a
+        # chance that this rotation could cause the occluder to
+        # intersect the wall of the room, because it's different from
+        # the rotation returned by get_location_in_front_of_performer
+        # (which does check for that). But it seems pretty unlikely.
+        dx = self._performer_start['position']['x'] - in_front_location['position']['x']
+        dz = self._performer_start['position']['z'] - in_front_location['position']['z']
+        angle = math.degrees(math.atan2(dz, dx))
+        # negative because we do clockwise rotation
+        in_front_location['rotation']['y'] = -angle
         occluder = util.instantiate_object(occluder_def, in_front_location)
         occluded_location = geometry.get_adjacent_location_on_side(target_def,
                                                                    occluder,
                                                                    self._performer_start['position'],
-                                                                   1)
+                                                                   2)
         if occluded_location is None:
             raise exceptions.SceneException('could not place target behind occluder')
         target2 = copy.deepcopy(target)
