@@ -10,7 +10,6 @@ import objects
 import util
 from geometry import ROOM_DIMENSIONS, MIN_START_DISTANCE_AWAY
 
-MAX_PLACEMENT_TRIES = 100
 PERFORMER_BOUNDS = ((ROOM_DIMENSIONS[0][0] + MIN_START_DISTANCE_AWAY,
                      ROOM_DIMENSIONS[0][1] - MIN_START_DISTANCE_AWAY),
                     (ROOM_DIMENSIONS[1][0] + MIN_START_DISTANCE_AWAY,
@@ -74,7 +73,7 @@ class ImmediatelyVisiblePair(InteractionPair):
     def _get_locations(self, target_def: Dict[str, Any]) -> \
             Optional[Tuple[Dict[str, Any], Dict[str, Any]]]:
         # place target object in scene 1 right in front of the performer
-        for _ in range(MAX_PLACEMENT_TRIES):
+        for _ in range(util.MAX_TRIES):
             in_front_location = geometry.\
                 get_location_in_front_of_performer(self._performer_start, target_def)
             if in_front_location is not None:
@@ -83,7 +82,7 @@ class ImmediatelyVisiblePair(InteractionPair):
             return None
         
         # place target object in scene 2 behind the performer
-        for _ in range(MAX_PLACEMENT_TRIES):
+        for _ in range(util.MAX_TRIES):
             behind_location = geometry.get_location_behind_performer(self._performer_start, target_def)
             if behind_location is not None:
                 break
@@ -95,7 +94,7 @@ class ImmediatelyVisiblePair(InteractionPair):
     def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         # choose target object
         target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
-        for _ in range(MAX_PLACEMENT_TRIES):
+        for _ in range(util.MAX_TRIES):
             locations = self._get_locations(target_def)
             if locations is not None:
                 break

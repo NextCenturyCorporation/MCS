@@ -24,7 +24,6 @@ WALL_DEPTH = 0.1
 class IntPhysGoal(Goal, ABC):
     """Base class for Intuitive Physics goals. Subclasses must set TEMPLATE variable (for use in get_config)."""
 
-    MAX_OCCLUDER_TRIES = 100
     # The 3.55 or 4.2 is the position at which the object will leave the camera's viewport, and is dependent on the
     # object's Z position (either 1.6 or 2.7). The * 1.2 is to account for the camera's perspective.
     VIEWPORT_LIMIT_NEAR = 3.55
@@ -127,7 +126,7 @@ class IntPhysGoal(Goal, ABC):
 
     def _get_paired_occluder(self, paired_obj, occluder_list, non_room_wall_materials, pole_materials):
         occluder_fits = False
-        for _ in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
+        for _ in range(util.MAX_TRIES):
             x_diagonal = math.sqrt(2) * paired_obj['shows'][0]['scale']['x']
             min_scale = min(max(x_diagonal,
                                 IntPhysGoal.MIN_OCCLUDER_SCALE),
@@ -376,7 +375,6 @@ class IntPhysGoal(Goal, ABC):
 
     def _get_objects_falling_down(self, room_wall_material_name: str) \
         -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
-        MAX_POSITION_TRIES = 100
         MIN_OCCLUDER_SEPARATION = 0.5
         # min scale for each occluder / 2, plus 0.5 separation
         # divided by the smaller scale factor for distance from viewpoint
@@ -390,7 +388,7 @@ class IntPhysGoal(Goal, ABC):
             # other, but each one must have an occluder, and those
             # have to be a certain distance apart, so these objects
             # do, too.
-            for _ in range(MAX_POSITION_TRIES):
+            for _ in range(util.MAX_TRIES):
                 # Choose x so the occluder (for this object) is fully
                 # in the camera's viewport and with a gap so we can
                 # see when an object enters/leaves the scene.

@@ -11,7 +11,6 @@ import exceptions
 import util
 from separating_axis_theorem import sat_entry
 
-MAX_TRIES = 100
 PERFORMER_WIDTH = 0.1
 PERFORMER_HALF_WIDTH = PERFORMER_WIDTH / 2.0
 # the following mins and maxes are inclusive
@@ -143,7 +142,7 @@ object in the frame, None otherwise."""
 
     tries = 0
     collision_rects = other_rects + [performer_rect]
-    while tries < MAX_TRIES:
+    while tries < util.MAX_TRIES:
         rotation = rotation_func()
         if xz_func is not None:
             new_x, new_z = xz_func()
@@ -157,7 +156,7 @@ object in the frame, None otherwise."""
             break
         tries += 1
 
-    if tries < MAX_TRIES:
+    if tries < util.MAX_TRIES:
         new_object = {
             'rotation': {'x': 0, 'y': rotation, 'z': 0},
             'position':  {'x': new_x, 'y': obj_def['position_y'], 'z': new_z},

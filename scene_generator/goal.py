@@ -10,7 +10,6 @@ import objects
 import separating_axis_theorem
 import util
 
-MAX_TRIES = 20
 MAX_WALL_WIDTH = 4
 MIN_WALL_WIDTH = 1
 WALL_Y_POS = 1.5
@@ -27,7 +26,7 @@ def generate_wall(wall_mat_choice: str, performer_position: Dict[str, float],
     # Generates obstacle walls placed in the scene.
 
     tries = 0
-    while tries < MAX_TRIES:
+    while tries < util.MAX_TRIES:
         rotation = random.choice((0, 90, 180, 270))
         new_x = geometry.random_position()
         new_z = geometry.random_position()
@@ -40,7 +39,7 @@ def generate_wall(wall_mat_choice: str, performer_position: Dict[str, float],
             break
         tries += 1
 
-    if tries < MAX_TRIES:
+    if tries < util.MAX_TRIES:
         new_object = {
             'id': 'wall_' + str(uuid.uuid4()),
             'materials': [wall_mat_choice],

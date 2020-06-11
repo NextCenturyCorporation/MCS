@@ -7,6 +7,7 @@ from typing import Dict, Any, Optional, List, Tuple
 import materials
 
 
+MAX_TRIES = 200
 MIN_RANDOM_INTERVAL = 0.05
 
 
