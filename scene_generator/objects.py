@@ -468,7 +468,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
     }]
 }, {
     "type": "pacifier",
-    "info": ["tiny", "pacifier"],
+    "info": ["tiny", "blue", "pacifier"],
     "mass": 0.125,
     "salientMaterials": ["plastic"],
     "attributes": ["moveable", "pickupable"],
@@ -820,7 +820,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "position": {
             "x": 0,
             "y": -0.0585,
-            "z": -0.655
+            "z": -0.0655
         },
         "dimensions": {
             "x": 0.1995,
@@ -1324,17 +1324,6 @@ OBJECTS_IMMOBILE = [{
     "salientMaterials": ["wood", "wood"],
     "attributes": ["receptacle", "openable", "stackTarget"],
     "enclosed_areas": [{
-        "position": {
-            "x": 0.165,
-            "y": 0.47,
-            "z": -0.03
-        },
-        "dimensions": {
-            "x": 0.68,
-            "y": 0.22,
-            "z": 0.41
-        }
-    }, {
         "position": {
             "x": 0.165,
             "y": 0.19,
