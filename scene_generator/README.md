@@ -12,6 +12,14 @@ pip3 install -r requirements.txt
 
 If you want to have an image pixel array for each target object in the interactive goals, you must first run the `image_generator` to populate the `images` folder with each object/material combination pixel array text file (or download the files from S3).
 
+Pixels (for the scene generator):
+
+https://mcs-unity-images.s3.amazonaws.com/mcs-training-pixels-spring-2020.tar.gz
+
+Images (for viewing):
+
+https://mcs-unity-images.s3.amazonaws.com/mcs-training-images-spring-2020.tar.gz
+
 ## Running
 
 The following will show the script's options in your terminal:
