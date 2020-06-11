@@ -2,7 +2,7 @@ import copy
 from abc import ABC, abstractmethod
 import logging
 import random
-from typing import Tuple, Dict, Any, Type
+from typing import Tuple, Dict, Any, Type, Optional
 
 import exceptions
 import geometry
@@ -71,29 +71,45 @@ class ImmediatelyVisiblePair(InteractionPair):
         scene['performerStart'] = self._performer_start
         return scene
 
-    def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-        # choose target object
-        target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
-        scene1 = self._get_empty_scene()
+    def _get_locations(self, target_def: Dict[str, Any]) -> \
+            Optional[Tuple[Dict[str, Any], Dict[str, Any]]]:
         # place target object in scene 1 right in front of the performer
         for _ in range(MAX_PLACEMENT_TRIES):
-            in_front_location = geometry.get_location_in_front_of_performer(self._performer_start, target_def)
+            in_front_location = geometry.\
+                get_location_in_front_of_performer(self._performer_start, target_def)
             if in_front_location is not None:
                 break
         if in_front_location is None:
-            raise exceptions.SceneException('could not place object in front of performer')
-        logging.debug(f'position in front={in_front_location["position"]}')
-        target = util.instantiate_object(target_def, in_front_location)
-        scene1['objects'] = [target]
-        scene2 = self._get_empty_scene()
+            return None
+        
         # place target object in scene 2 behind the performer
         for _ in range(MAX_PLACEMENT_TRIES):
             behind_location = geometry.get_location_behind_performer(self._performer_start, target_def)
             if behind_location is not None:
                 break
         if behind_location is None:
-            raise exceptions.SceneException('could not place object behind performer')
-        logging.debug(f'position behind={behind_location["position"]}')
+            return None
+
+        return in_front_location, behind_location
+
+    def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        # choose target object
+        target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
+        for _ in range(MAX_PLACEMENT_TRIES):
+            locations = self._get_locations(target_def)
+            if locations is not None:
+                break
+            self._performer_start = None
+            self._compute_performer_start()
+        if locations is None:
+            raise exceptions.SceneException('could not place performer with objects in front and behind')
+        in_front_location, behind_location = locations
+
+        scene1 = self._get_empty_scene()
+        target = util.instantiate_object(target_def, in_front_location)
+        scene1['objects'] = [target]
+        
+        scene2 = self._get_empty_scene()
         target2 = copy.deepcopy(target)
         move_to_location(target_def, target2, behind_location)
         scene2['objects'] = [target2]

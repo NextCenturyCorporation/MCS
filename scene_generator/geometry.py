@@ -205,8 +205,11 @@ def position_distance(a: Dict[str, float], b: Dict[str, float]) -> float:
 
 
 def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
-        -> shapely.geometry.Point:
-    logging.debug(f'>>>get_visible_segment: {performer_start}')
+        -> shapely.geometry.LineString:
+    """Get a line segment that should be visible to the performer
+    (straight ahead and at least MIN_START_DISTANCE_AWAY but within
+    the room).
+    """
     max_dimension = max(ROOM_DIMENSIONS[0][1] - ROOM_DIMENSIONS[0][0],
                         ROOM_DIMENSIONS[1][1] - ROOM_DIMENSIONS[1][0])
     # make it long enough for the far end to be outside the room
@@ -220,7 +223,6 @@ def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
     target_segment = room.intersection(view_segment)
     if target_segment.is_empty:
         raise exceptions.SceneException(f'performer too close to the wall, cannot place object in front of it (performer location={performer_start})')
-    logging.debug(f'<<<get_visible_segment: {target_segment}')
     return target_segment
 
 
@@ -238,10 +240,12 @@ def get_location_in_front_of_performer(performer_start: Dict[str, Dict[str, floa
 
 def get_location_behind_performer(performer_start: Dict[str, Dict[str, float]],
                                   target_def: Dict[str, Any]) -> Optional[Dict[str, Any]]:
-    # find the part of the the room that's behind the performer
+    # First, find the part of the the room that's behind the performer
+    # (i.e., the 180 degree arc in the opposite direction from its
+    # orientation)
     max_dimension = max(ROOM_DIMENSIONS[0][1] - ROOM_DIMENSIONS[0][0],
                         ROOM_DIMENSIONS[1][1] - ROOM_DIMENSIONS[1][0])
-    # if the performer were at the origin facing 0, this would be behind it
+    # if the performer were at the origin facing 0, this box would be behind it
     base_rear = shapely.geometry.box(-max_dimension*2, -max_dimension*2,
                                      max_dimension*2, 0)
     performer_point = shapely.geometry.Point(performer_start['position']['x'],
