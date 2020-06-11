@@ -101,6 +101,53 @@ class ImmediatelyVisiblePair(InteractionPair):
         return scene1, scene2
 
 
+class HiddenBehindPair(InteractionPair):
+    def __init__(self, template: Dict[str, Any], find_path: bool):
+        super(HiddenBehindPair, self).__init__(template, find_path)
+
+    def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        for _ in range(MAX_PLACEMENT_TRIES):
+            target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
+            occluder_defs = geometry.get_wider_and_taller_defs(target_def)
+            if occluder_defs is not None:
+                break
+        if occluder_defs is None:
+            raise exceptions.SceneException('could not get a target and occluder')
+        occluder_def = util.finalize_object_definition(random.choice(occluder_defs))
+
+        scene1 = self._get_empty_scene()
+        # place target object in scene 1 right in front of the performer
+        for _ in range(MAX_PLACEMENT_TRIES):
+            in_front_location = geometry.get_location_in_front_of_performer(self._performer_start, target_def)
+            if in_front_location is not None:
+                break
+        if in_front_location is None:
+            raise exceptions.SceneException('could not place target in front of performer')
+        target = util.instantiate_object(target_def, in_front_location)
+        scene1['objects'] = [target]
+
+        for _ in range(MAX_PLACEMENT_TRIES):
+            in_front_location = geometry.get_location_in_front_of_performer(self._performer_start, occluder_def,
+                                                                            lambda: 0)
+            if in_front_location is not None:
+                break
+        if in_front_location is None:
+            raise exceptions.SceneException('could not place occluder in front of performer')
+        occluder = util.instantiate_object(occluder_def, in_front_location)
+        occluded_location = geometry.get_adjacent_location_on_side(target_def,
+                                                                   occluder,
+                                                                   self._performer_start['position'],
+                                                                   1)
+        if occluded_location is None:
+            raise exceptions.SceneException('could not place target behind occluder')
+        target2 = copy.deepcopy(target)
+        move_to_location(target_def, target2, occluded_location)
+        scene2 = self._get_empty_scene()
+        scene2['objects'] = [target2, occluder]
+
+        return scene1, scene2
+    
+
 class SimilarAdjacentContainedPair(InteractionPair):
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(SimilarAdjacentContainedPair, self).__init__(template, find_path)
@@ -146,7 +193,8 @@ class SimilarAdjacentContainedPair(InteractionPair):
         return scene1, scene2
 
 
-_INTERACTION_PAIR_CLASSES = [ImmediatelyVisiblePair, SimilarAdjacentContainedPair]
+#_INTERACTION_PAIR_CLASSES = [ImmediatelyVisiblePair, SimilarAdjacentContainedPair]
+_INTERACTION_PAIR_CLASSES = [HiddenBehindPair]
 
 
 def get_pair_class() -> Type[InteractionPair]:

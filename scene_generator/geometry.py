@@ -246,7 +246,7 @@ def position_distance(a: Dict[str, float], b: Dict[str, float]) -> float:
 
 
 def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
-        -> shapely.geometry.Point:
+        -> shapely.geometry.LineString:
     logging.debug(f'>>>get_visible_segment: {performer_start}')
     max_dimension = max(ROOM_DIMENSIONS[0][1] - ROOM_DIMENSIONS[0][0],
                         ROOM_DIMENSIONS[1][1] - ROOM_DIMENSIONS[1][0])
@@ -266,7 +266,9 @@ def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
 
 
 def get_location_in_front_of_performer(performer_start: Dict[str, Dict[str, float]],
-                                       target_def: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+                                       target_def: Dict[str, Any],
+                                       rotation_func: Callable[[], float] = random_rotation) \
+                                       -> Optional[Dict[str, Any]]:
     visible_segment = get_visible_segment(performer_start)
 
     def segment_xz():
@@ -274,7 +276,8 @@ def get_location_in_front_of_performer(performer_start: Dict[str, Dict[str, floa
         point = visible_segment.interpolate(fraction, normalized=True)
         return point.x, point.y
 
-    return calc_obj_pos(performer_start['position'], [], target_def, xz_func=segment_xz)
+    return calc_obj_pos(performer_start['position'], [], target_def,
+                        xz_func=segment_xz, rotation_func=rotation_func)
 
 
 def get_location_behind_performer(performer_start: Dict[str, Dict[str, float]],
@@ -308,43 +311,49 @@ def get_location_behind_performer(performer_start: Dict[str, Dict[str, float]],
 
 def get_adjacent_location(obj_def: Dict[str, Any],
                           target: Dict[str, Any],
-                          performer_start: Dict[str, float]) -> Dict[str, Any]:
+                          performer_start: Dict[str, float]) -> Optional[Dict[str, Any]]:
     """Find a location such that, if obj_def is instantiated there, it
     will be next to target. Ensures that the object at the new
     location will not overlap the performer start, if necessary trying
     to put the new object on each cardinal side of the target.
     """
     for side in range(4):
-        location = _adjacent_location(obj_def, target, performer_start, side)
+        location = get_adjacent_location_on_side(obj_def, target, performer_start, side)
         if location is not None:
             return location
     return None
 
 
-def _adjacent_location(obj_def: Dict[str, Any],
-                          target: Dict[str, Any],
-                          performer_start: Dict[str, float],
-                       side: int) -> Dict[str, Any]:
+def get_adjacent_location_on_side(obj_def: Dict[str, Any],
+                                  target: Dict[str, Any],
+                                  performer_start: Dict[str, float],
+                                  side: int) -> Optional[Dict[str, Any]]:
+    """Get a location such that, if obj_def is instantiated there, it will
+    be next to target. Side determines on which side of target to
+    place it: 0 = right (positive x), 1 = behind (positive z), 2 =
+    left (negative x) and 3 = in front (negative z). If the location
+    would overlap the performer_start, None is returned."
+    """
     if side < 0 or side > 3:
         raise ValueError(f'side must be 0-3 (not {side})')
-    GAP = 0.01
+    GAP = 0.05
     distance_dim = 'x' if side in (0, 2) else 'z'
     distance = obj_def['dimensions'][distance_dim]/2.0 + \
         target['dimensions'][distance_dim]/2.0 + GAP
     separator_segment = shapely.geometry.LineString([[0, 0], [distance, 0]])
     shows = target['shows'][0]
     rotation = -shows['rotation']['y'] + 90 * side
-    separator_segment = affinity.rotate(separator_segment, rotation)
+    separator_segment = affinity.rotate(separator_segment, rotation, origin=(0, 0))
     separator_segment = affinity.translate(separator_segment,
                                            shows['position']['x'],
                                            shows['position']['z'])
     x = separator_segment.coords[1][0]
     z = separator_segment.coords[1][1]
-    bounding_box = shapely.geometry.box(x - target['dimensions']['x'],
-                                        z - target['dimensions']['z'],
-                                        x + target['dimensions']['x'],
-                                        z + target['dimensions']['z'])
-    bounding_box = affinity.rotate(bounding_box, -shows['rotation']['y'])
+    bounding_box = shapely.geometry.box(x - obj_def['dimensions']['x'],
+                                        z - obj_def['dimensions']['z'],
+                                        x + obj_def['dimensions']['x'],
+                                        z + obj_def['dimensions']['z'])
+    bounding_box = affinity.rotate(bounding_box, -shows['rotation']['y'], origin=(0, 0))
     performer = shapely.geometry.Point(performer_start['x'], performer_start['z'])
     if not bounding_box.intersects(performer):
         location = {
@@ -360,3 +369,28 @@ def _adjacent_location(obj_def: Dict[str, Any],
     else:
         location = None
     return location
+
+
+def get_wider_and_taller_defs(obj_def: Dict[str, Any]) \
+        -> List[Dict[str, Any]]:
+    dims = obj_def['dimensions']
+    bigger_defs = []
+    for new_def in objects.get_all_object_defs():
+        if 'dimensions' in new_def:
+            if new_def['dimensions']['x'] >= dims['x'] and \
+               new_def['dimensions']['y'] >= dims['y']:
+                bigger_defs.append(new_def)
+        elif 'choose' in new_def:
+            bigger_choices = []
+            for choice in new_def['choose']:
+                if choice['dimensions']['x'] >= dims['x'] and \
+                   choice['dimensions']['y'] >= dims['y']:
+                    bigger_choices.append(choice)
+            if len(bigger_choices) > 0:
+                if len(bigger_choices) == len(new_def['choose']):
+                    bigger_defs.append(new_def)
+                else:
+                    bigger_def = copy.deepcopy(new_def)
+                    bigger_def['choose'] = bigger_choices
+                    bigger_defs.append(bigger_def)
+    return bigger_defs
