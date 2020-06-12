@@ -8,6 +8,7 @@ import geometry
 import objects
 import separating_axis_theorem
 import util
+import copy
 
 MAX_TRIES = 20
 MAX_WALL_WIDTH = 4
@@ -21,74 +22,32 @@ WALL_COUNTS = [0, 1, 2, 3]
 WALL_PROBS = [60, 20, 10, 10]
 
 DIST_WALL_APART = 1
-
-
-def rect_safe_distance_from_other_rects(rect: List[Dict[str, float]], other_rects: List[List[Dict[str, float]]], dist_apart: float, x, z, x_size, rotation) -> bool:
-    """ Returns wether a rectangle object will be at a safe/specific distance away from the other built walls. Uses euclidean distance between 
-        points from the wall that we want to generate and points of the other walls. A use case example would be to allow an agent to move."""
-    print('Here')
-    print(len(other_rects))
-    other_rects_points = [point for rectangl in other_rects for point in rectangl]
-    test_rect = geometry.calc_obj_coords(x, z, x_size + dist_apart, WALL_DEPTH + dist_apart, 0, 0, rotation)
-    print(len(other_rects_points))
-
-    """
-    for coord_point in rect:
-        for other_rects_coord_point in other_rects_points:
-            if abs(coord_point['x'] - other_rects_coord_point['x']) < dist_apart or \
-                abs(coord_point['z'] - other_rects_coord_point['z']) < dist_apart:
-                return False
-    """
-    """
-    for other_rects_coord_point in other_rects_points:
-        if geometry.collision(test_rect, other_rects_coord_point):
-            #print('False')
-            return False
-    #print('True')
-    """
-    """
-    for other_rect in other_rects:
-        if separating_axis_theorem.sat_entry(test_rect, other_rect):
-            #print('False')
-            return False
-    #print('True')
-    """
-    ret = True
-    for coord_point in rect:
-        for other_rects_coord_point in other_rects_points:
-            #f"dist: {geometry.position_distance(coord_point, other_rects_coord_point)}"
-            if geometry.position_distance(coord_point, other_rects_coord_point) < dist_apart:
-                ret = False
-
-    return ret
+SAFE_DIST_FROM_ROOM_WALL = 3.5
     
 
 def generate_wall(wall_mat_choice: str, performer_position: Dict[str, float],
                   other_rects: List[List[Dict[str, float]]]) -> Optional[Dict[str, Any]]:
     # Wanted to reuse written functions, but this is a bit more of a special snowflake
     # Generates obstacle walls placed in the scene.
-    print(len(other_rects))
+    
     tries = 0
     while tries < MAX_TRIES:
         rotation = random.choice((0, 90, 180, 270))
         new_x = geometry.random_position()
         new_z = geometry.random_position()
         new_x_size = round(random.uniform(MIN_WALL_WIDTH, MAX_WALL_WIDTH), geometry.POSITION_DIGITS)
-        #TODO: 
-        """
-        if ((rotation == 0 or rotation == 180) and (new_z < -3.5 or new_z > 3.5)) or \
-            ((rotation == 90 or rotation == 270) and (new_x < -3.5 or new_x > 3.5)):
+        
+        if ((rotation == 0 or rotation == 180) and (new_z < -SAFE_DIST_FROM_ROOM_WALL or new_z > SAFE_DIST_FROM_ROOM_WALL)) or \
+            ((rotation == 90 or rotation == 270) and (new_x < -SAFE_DIST_FROM_ROOM_WALL or new_x > SAFE_DIST_FROM_ROOM_WALL)): #This is to make sure the wall is not too close to the rooms 4 walls
             tries += 1
             continue
-        """
 
         rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, 0, 0, rotation)
-        #print(geometry.collision(rect, performer_position))
-        #print(not any(separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects))
+        test_rect = geometry.calc_obj_coords(new_x, new_z, new_x_size + DIST_WALL_APART, WALL_DEPTH + DIST_WALL_APART, 0, 0, rotation)
         if not geometry.collision(rect, performer_position) and \
                 geometry.rect_within_room(rect) and \
-                (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)): #and \
-                #(len(other_rects) == 0 or rect_safe_distance_from_other_rects(rect, other_rects, DIST_WALL_APART, new_x, new_z, new_x_size, rotation)): #TODO: Parallel walls should be at least 1 apart on the appropriate axis
+                (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)) and \
+                (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(test_rect, other_rect) for other_rect in other_rects)): #Parallel walls should be at least 1 apart on the appropriate axis
             break
         tries += 1
 
@@ -133,7 +92,6 @@ class Goal(ABC):
         self._goal_objects = goal_objects
         walls = self.generate_walls(body['wallMaterial'], body['performerStart']['position'],
                                     bounding_rects)
-        #print(' ')
         body['objects'] = all_objects + walls
         body['goal'] = self.get_config(goal_objects, all_objects + walls)
         if find_path:
@@ -199,13 +157,15 @@ class Goal(ABC):
     def generate_walls(self, material: str, performer_position: Dict[str, Any],
                        bounding_rects: List[List[Dict[str, float]]]) -> List[Dict[str, Any]]:
         wall_count = random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
-        print(len(bounding_rects))
-        walls = []
+        
+        walls = [] 
+        all_bounding_rects = [copy.deepcopy(bounding_rect) for bounding_rect in bounding_rects] # Add bounding rects to walls
         for x in range(0, wall_count):
-            wall = generate_wall(material, performer_position, bounding_rects)
-            #print(wall['shows'][0]['bounding_box'])
+            wall = generate_wall(material, performer_position, all_bounding_rects)
+
             if wall is not None:
                 walls.append(wall)
+                all_bounding_rects.append(wall['shows'][0]['bounding_box'])
             else:
                 logging.warning('could not generate wall')
         return walls
