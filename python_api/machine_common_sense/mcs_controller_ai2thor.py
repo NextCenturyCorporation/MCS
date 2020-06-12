@@ -402,6 +402,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             object_output.distance = None
             object_output.distance_in_steps = None
             object_output.distance_in_world = None
+            object_output.shape = None
+            object_output.texture_color_list = None
 
         if mode == self.CONFIG_METADATA_MODE_NO_NAVIGATION or mode == self.CONFIG_METADATA_MODE_NONE:
             object_output.position = None
@@ -501,6 +503,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             material_list=material_list,
             position=object_metadata['position'],
             rotation=object_metadata['rotation']['y'],
+            shape=object_metadata['shape'],
+            texture_color_list=object_metadata['colorsFromMaterials'],
             visible=(object_metadata['visibleInCamera'] or object_metadata['isPickedUp'])
         ))
 

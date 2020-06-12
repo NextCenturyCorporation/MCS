@@ -285,8 +285,8 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
         "z": 2
     }
 }, {
-    # Readers, please ignore the "yellow number 1" in the type: the object's chosen material will change this design.
-    "type": "block_yellow_number_1",
+    # Readers, please ignore the "blue letter c" in the type: the object's chosen material will change this design.
+    "type": "block_blue_letter_c",
     "info": ["tiny", "letter block", "cube"],
     "mass": 0.66,
     "materialCategory": ["block_letter"],
