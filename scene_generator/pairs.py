@@ -50,9 +50,9 @@ def add_objects(target: Dict[str, Any], performer_position: Dict[str, float], sc
             rect = rects[-1]
             rect_as_poly = shapely.geometry.Polygon([(point['x'], point['z']) for point in rect])
             # check intersection of rect_coords with line between target and performer
-            visible_segment = shapely.geometry.LineString((performer_position['x'],
+            visible_segment = shapely.geometry.LineString([(performer_position['x'],
                                                            performer_position['z']),
-                                                          (target_x, target_z))
+                                                           (target_x, target_z)])
             if rect_as_poly.intersects(visible_segment):
                 # reject it
                 rects.pop()
@@ -139,13 +139,13 @@ class ImmediatelyVisiblePair(InteractionPair):
         scene1 = self._get_empty_scene()
         target = util.instantiate_object(target_def, in_front_location)
         scene1['objects'] = [target]
-        add_objects(scene1)
+        add_objects(target, self._performer_start['position'], scene1)
         
         scene2 = self._get_empty_scene()
         target2 = copy.deepcopy(target)
         move_to_location(target_def, target2, behind_location)
         scene2['objects'] = [target2]
-        add_objects(scene2)
+        add_objects(target, self._performer_start['position'], scene2)
         return scene1, scene2
 
 
