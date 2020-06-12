@@ -138,12 +138,117 @@ class Test_MCS_Reward(unittest.TestCase):
         goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
-            obj = {"objectId":str(i), "distanceXZ": 0.5}
+            obj = {"objectId":str(i), "objectBounds": {"objectBoundsCorners": []}}
+            # create lower plane (y = 0)
+            obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 0.0, 'z': 0.0})
+            obj['objectBounds']['objectBoundsCorners'].append({'x':1.0 + i, 'y': 0.0, 'z': 0.0})
+            obj['objectBounds']['objectBoundsCorners'].append({'x':1.0 + i, 'y': 0.0, 'z': 1.0})
+            obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 0.0, 'z': 1.0})
+            # create upper plane (y = 1)
+            obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 1.0, 'z': 0.0})
+            obj['objectBounds']['objectBoundsCorners'].append({'x':1.0 + i, 'y': 1.0, 'z': 0.0})
+            obj['objectBounds']['objectBoundsCorners'].append({'x':1.0 + i, 'y': 1.0, 'z': 1.0})
+            obj['objectBounds']['objectBoundsCorners'].append({'x':0.0 + i, 'y': 1.0, 'z': 1.0})
+            obj['position'] = {'x': 0.0 + i, 'z': 0.0}
+            
             obj_list.append(obj)
+
         agent = {'position': {'x':-0.9, 'y': 0.5, 'z':0.0}}
         reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
         self.assertEqual(reward, 1)
         self.assertIsInstance(reward, int)
+
+    def test_traversal_reward_large_object_long_side(self):
+        goal = MCS_Goal()
+        goal.metadata['target'] = {'id': '0'}
+        obj = {"objectId":str(0), "objectBounds": {"objectBoundsCorners": []}}
+        # create lower plane (y = 0)
+        obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 0.0, 'z': 0.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':10.0, 'y': 0.0, 'z': 0.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':10.0, 'y': 0.0, 'z': 1.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 0.0, 'z': 1.0})
+        # create upper plane (y = 1)
+        obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0, 'z': 0.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':10.0, 'y': 1.0, 'z': 0.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':10.0, 'y': 1.0, 'z': 1.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0, 'z': 1.0})
+        obj['position'] = {'x': 0.0, 'z': 0.0}
+        obj_list = []
+        obj_list.append(obj)
+        
+        agent = {'position': {'x': 10.1, 'y': 0.5, 'z': 1.1}}
+        reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
+        self.assertEqual(reward, 1)
+        self.assertIsInstance(reward, int)        
+
+    def test_traversal_reward_large_object_long_side_out_of_reach(self):
+        goal = MCS_Goal()
+        goal.metadata['target'] = {'id': '0'}
+        obj = {"objectId":str(0), "objectBounds": {"objectBoundsCorners": []}}
+        # create lower plane (y = 0)
+        obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 0.0, 'z': 0.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':10.0, 'y': 0.0, 'z': 0.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':10.0, 'y': 0.0, 'z': 1.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 0.0, 'z': 1.0})
+        # create upper plane (y = 1)
+        obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0, 'z': 0.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':10.0, 'y': 1.0, 'z': 0.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':10.0, 'y': 1.0, 'z': 1.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0, 'z': 1.0})
+        obj['position'] = {'x': 0.0, 'z': 0.0}
+        obj_list = []
+        obj_list.append(obj)
+        
+        agent = {'position': {'x': 11.1, 'y': 0.5, 'z': 1.1}}
+        reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
+        self.assertEqual(reward, 0)
+        self.assertIsInstance(reward, int)   
+
+    def test_traversal_reward_large_object_short_side(self):
+        goal = MCS_Goal()
+        goal.metadata['target'] = {'id': '0'}
+        obj = {"objectId":str(0), "objectBounds": {"objectBoundsCorners": []}}
+        # create lower plane (y = 0)
+        obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 0.0, 'z': 0.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':10.0, 'y': 0.0, 'z': 0.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':10.0, 'y': 0.0, 'z': 1.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 0.0, 'z': 1.0})
+        # create upper plane (y = 1)
+        obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0, 'z': 0.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':10.0, 'y': 1.0, 'z': 0.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':10.0, 'y': 1.0, 'z': 1.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0, 'z': 1.0})
+        obj['position'] = {'x': 0.0, 'z': 0.0}
+        obj_list = []
+        obj_list.append(obj)
+        
+        agent = {'position': {'x': -0.5, 'y': 0.5, 'z': 0.0}}
+        reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
+        self.assertEqual(reward, 1)
+        self.assertIsInstance(reward, int)        
+
+    def test_traversal_reward_large_object_short_side_out_of_reach(self):
+        goal = MCS_Goal()
+        goal.metadata['target'] = {'id': '0'}
+        obj = {"objectId":str(0), "objectBounds": {"objectBoundsCorners": []}}
+        # create lower plane (y = 0)
+        obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 0.0, 'z': 0.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':10.0, 'y': 0.0, 'z': 0.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':10.0, 'y': 0.0, 'z': 1.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 0.0, 'z': 1.0})
+        # create upper plane (y = 1)
+        obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0, 'z': 0.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':10.0, 'y': 1.0, 'z': 0.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':10.0, 'y': 1.0, 'z': 1.0})
+        obj['objectBounds']['objectBoundsCorners'].append({'x':0.0, 'y': 1.0, 'z': 1.0})
+        obj['position'] = {'x': 0.0, 'z': 0.0}
+        obj_list = []
+        obj_list.append(obj)
+        
+        agent = {'position': {'x': -1.5, 'y': 0.5, 'z': 0.0}}
+        reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
+        self.assertEqual(reward, 0)
+        self.assertIsInstance(reward, int)     
 
     def test_traversal_reward_outside_agent_reach(self):
         goal = MCS_Goal()
