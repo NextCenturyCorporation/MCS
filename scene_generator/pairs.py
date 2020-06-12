@@ -41,7 +41,12 @@ def add_objects(target: Dict[str, Any], performer_position: Dict[str, float], sc
     all_obj_defs = objects.get_all_object_defs()
     target_x = target['shows'][0]['position']['x']
     target_z = target['shows'][0]['position']['z']
-    rects = []
+    target_coords = geometry.calc_obj_coords(target_x, target_z,
+                                             target['dimensions']['x'] / 2.0,
+                                             target['dimensions']['z'] / 2.0,
+                                             0, 0, target['shows'][0]['rotation']['y'])
+    # init with the rect for the target
+    rects = [target_coords]
     for _ in range(NUM_EXTRA_OBJECTS):
         found_location = False
         for dummy in range(util.MAX_TRIES):
