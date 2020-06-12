@@ -91,8 +91,13 @@ class MCS_Reward(object):
         goal_id = goal.metadata['target'].get('id', None)
         goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
 
+        agent_pos = agent['position']
+        agent_xz = geometry.Point(agent_pos['x'], agent_pos['z'])
+        
         if goal_object is not None:
-            reward = int(goal_object['distanceXZ'] < MAX_REACH_DISTANCE)
+            goal_polygon = MCS_Reward._convert_object_to_planar_polygon(goal_object)
+            polygonal_distance = agent_xz.distance(goal_polygon)
+            reward = int(polygonal_distance <= MAX_REACH_DISTANCE)
 
         return reward
 
