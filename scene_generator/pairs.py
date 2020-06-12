@@ -4,19 +4,21 @@ import logging
 import random
 from typing import Tuple, Dict, Any, Type, Optional
 
+import shapely
+
 import exceptions
 import geometry
 import objects
 import util
 from geometry import ROOM_DIMENSIONS, MIN_START_DISTANCE_AWAY
 
+NUM_EXTRA_OBJECTS = 5
 PERFORMER_BOUNDS = ((ROOM_DIMENSIONS[0][0] + MIN_START_DISTANCE_AWAY,
                      ROOM_DIMENSIONS[0][1] - MIN_START_DISTANCE_AWAY),
                     (ROOM_DIMENSIONS[1][0] + MIN_START_DISTANCE_AWAY,
                      ROOM_DIMENSIONS[1][1] - MIN_START_DISTANCE_AWAY))
 """(minX, maxX), (minZ, maxZ) for the performer (leaving space to put
 an object in front of it)"""
-                    
 
 
 def move_to_location(obj_def: Dict[str, Any], obj: Dict[str, Any],
@@ -30,6 +32,36 @@ def move_to_location(obj_def: Dict[str, Any], obj: Dict[str, Any],
     obj['shows'][0]['position'] = new_location['position']
     obj['shows'][0]['rotation'] = new_location['rotation']
     obj['shows'][0]['bounding_box'] = new_location['bounding_box']
+
+
+def add_objects(target: Dict[str, Any], performer_position: Dict[str, float], scene: Dict[str, Any]):
+    """Add NUM_EXTRA_OBJECTS to the scene with none between the performer
+    and the target. In rare cases, fewer than NUM_EXTRA_OBJECTS may be
+    added."""
+    all_obj_defs = objects.get_all_object_defs()
+    target_x = target['shows'][0]['position']['x']
+    target_z = target['shows'][0]['position']['z']
+    rects = []
+    for _ in range(NUM_EXTRA_OBJECTS):
+        found_location = False
+        for dummy in range(util.MAX_TRIES):
+            obj_def = util.finalize_object_definition(random.choice(all_obj_defs))
+            location = geometry.calc_obj_pos(performer_position, rects, obj_def)
+            rect = rects[-1]
+            rect_as_poly = shapely.geometry.Polygon([(point['x'], point['z']) for point in rect])
+            # check intersection of rect_coords with line between target and performer
+            visible_segment = shapely.geometry.LineString((performer_position['x'],
+                                                           performer_position['z']),
+                                                          (target_x, target_z))
+            if rect_as_poly.intersects(visible_segment):
+                # reject it
+                rects.pop()
+            else:
+                found_location = True
+                break
+        if found_location:
+            new_obj = util.instantiate_object(obj_def, location)
+            scene['objects'].append(new_obj)
 
 
 class InteractionPair(ABC):
@@ -107,11 +139,13 @@ class ImmediatelyVisiblePair(InteractionPair):
         scene1 = self._get_empty_scene()
         target = util.instantiate_object(target_def, in_front_location)
         scene1['objects'] = [target]
+        add_objects(scene1)
         
         scene2 = self._get_empty_scene()
         target2 = copy.deepcopy(target)
         move_to_location(target_def, target2, behind_location)
         scene2['objects'] = [target2]
+        add_objects(scene2)
         return scene1, scene2
 
 
