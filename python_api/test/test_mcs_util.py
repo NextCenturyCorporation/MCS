@@ -65,18 +65,28 @@ class Test_MCS_Util(unittest.TestCase):
         object_list = [
             MCS_Object(
                 uuid='id1',
+                shape='',
+                texture_color_list=[],
                 held=True,
                 position=None,
+                dimensions=None,
                 distance_in_world=0,
                 direction=None
             ),
             MCS_Object(
                 uuid='really_long_id2',
+                shape='sofa',
+                texture_color_list=['black', 'white'],
                 held=False,
                 position={
                     'x': 1,
                     'y': 2,
                     'z': 3
+                },
+                dimensions={
+                    'x': 4,
+                    'y': 5,
+                    'z': 6
                 },
                 distance_in_world=1234567890987654321,
                 direction={
@@ -87,9 +97,9 @@ class Test_MCS_Util(unittest.TestCase):
             )
         ]
         self.assertEqual(MCS_Util.generate_pretty_object_output(object_list), [
-            'OBJECT ID        HELD   POSITION (WORLD)  DISTANCE (WORLD)     DIRECTION (WORLD)  ',
-            'id1              True   None              0                    None               ',
-            'really_long_id2  False  (1,2,3)           1234567890987654321  (10000,20000,30000)'
+            'OBJECT ID        SHAPE  COLORS        HELD   POSITION (WORLD)  DIMENSIONS (WORLD)  DISTANCE (WORLD)     DIRECTION (WORLD)  ',
+            'id1                                   True   None              None                0                    None               ',
+            'really_long_id2  sofa   black, white  False  (1,2,3)           (4,5,6)             1234567890987654321  (10000,20000,30000)'
         ])
 
     def test_input_to_action_and_params(self):

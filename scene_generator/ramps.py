@@ -6,7 +6,7 @@ import copy
 from enum import Enum, auto
 import random
 import uuid
-from typing import Tuple, List, Dict, Any
+from typing import Tuple, List, Dict, Any, Optional
 
 RAMP_30_TEMPLATE = [{
     "id": "ramp_part1_",
@@ -302,7 +302,7 @@ class Ramp(Enum):
     RAMP_45_90 = auto()
 
 
-_RAMP_TEMPLATE_INFO = {
+_RAMP_TEMPLATE_INFO: Tuple[Dict[str, Any], int] = {
     Ramp.RAMP_30: (RAMP_30_TEMPLATE, 1),
     Ramp.RAMP_45: (RAMP_45_TEMPLATE, 3),
     Ramp.RAMP_90: (RAMP_90_TEMPLATE, 4),
@@ -324,14 +324,17 @@ RAMP_OBJECT_HEIGHTS = {
 }
 
 
-def create_ramp(material_string: str, x_position_percent: float, left_to_right: bool) -> Tuple[Ramp, List[Dict[str, Any]]]:
-    """Create a ramp of a random type. Returns a tuple of (ramp_type, list
-    of objects that make up the ramp).
-
+def create_ramp(material_string: str, x_position_percent: float,
+                left_to_right: bool,
+                ramp_type: Optional[Ramp] = None) -> \
+                Tuple[Ramp, float, List[Dict[str, Any]]]:
+    """Create a ramp of a random type. Returns a tuple of (ramp_type,
+    x_term, list of objects that make up the ramp).
     """
     if x_position_percent < 0 or x_position_percent > 1:
         raise ValueError(f'x_position_percent must be between 0 and 1 (inclusive), was {x_position_percent}')
-    ramp_type = random.choice(list(Ramp))
+    if ramp_type is None:
+        ramp_type = random.choice(list(Ramp))
     template_info = _RAMP_TEMPLATE_INFO[ramp_type]
     ramp = []
     x_term = x_position_percent * template_info[1]
@@ -344,4 +347,4 @@ def create_ramp(material_string: str, x_position_percent: float, left_to_right: 
             obj['shows'][0]['position']['x'] *= -1
             obj['shows'][0]['rotation']['z'] *= -1
         ramp.append(obj)
-    return ramp_type, ramp
+    return ramp_type, x_term, ramp

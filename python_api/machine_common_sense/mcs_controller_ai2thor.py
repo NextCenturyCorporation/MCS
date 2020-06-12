@@ -1,9 +1,10 @@
+import datetime
 import glob
 import json
-import os
 import math
 import numpy
-import datetime
+import os
+import yaml
 from PIL import Image
 
 import ai2thor.controller
@@ -16,6 +17,9 @@ MAX_REACH_DISTANCE = 1.0
 
 # How far the player can move with a single step.
 MAX_MOVE_DISTANCE = 0.5
+
+# Performer camera 'y' position
+PERFORMER_CAMERA_Y = 0.4625
 
 from .mcs_action import MCS_Action
 from .mcs_controller import MCS_Controller
@@ -94,6 +98,13 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     HISTORY_DIRECTORY = "SCENE_HISTORY"
 
+    CONFIG_FILE = os.getenv('MCS_CONFIG_FILE_PATH', './mcs_config.yaml')
+    CONFIG_METADATA_MODE = 'metadata'
+    CONFIG_METADATA_MODE_FULL = 'full' # Normal metadata plus metadata for all hidden objects
+    CONFIG_METADATA_MODE_NO_NAVIGATION = 'no_navigation' # No navigation metadata like 3D coordinates
+    CONFIG_METADATA_MODE_NO_VISION = 'no_vision' # No vision (image feature) metadata, except for the images
+    CONFIG_METADATA_MODE_NONE = 'none' # No metadata, except for the images and haptic/audio feedback
+
     def __init__(self, unity_app_file_path, debug=False, enable_noise=False):
         super().__init__()
 
@@ -130,6 +141,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         if not os.path.exists(self.HISTORY_DIRECTORY):
             os.makedirs(self.HISTORY_DIRECTORY)
+
+        self._config = self.read_config_file()
 
     # Write the history file
     def write_history_file(self, history_item):
@@ -354,6 +367,67 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         return action
 
+    def read_config_file(self):
+        if os.path.exists(self.CONFIG_FILE):
+            with open(self.CONFIG_FILE, 'r') as config_file:
+                config = yaml.load(config_file)
+                if self.__debug_to_terminal:
+                    print('Read MCS Config File:')
+                    print(config)
+                if self.CONFIG_METADATA_MODE not in config:
+                    config[self.CONFIG_METADATA_MODE] = ''
+                return config
+        return {}
+
+    def restrict_goal_output_metadata(self, goal_output):
+        mode = self._config[self.CONFIG_METADATA_MODE] if self.CONFIG_METADATA_MODE in self._config else ''
+
+        if mode == self.CONFIG_METADATA_MODE_NO_VISION or mode == self.CONFIG_METADATA_MODE_NONE:
+            if 'target' in goal_output.metadata and 'image' in goal_output.metadata['target']:
+                goal_output.metadata['target']['image'] = None
+            if 'target_1' in goal_output.metadata and 'image' in goal_output.metadata['target_1']:
+                goal_output.metadata['target_1']['image'] = None
+            if 'target_2' in goal_output.metadata and 'image' in goal_output.metadata['target_2']:
+                goal_output.metadata['target_2']['image'] = None
+
+        return goal_output
+
+    def restrict_object_output_metadata(self, object_output):
+        mode = self._config[self.CONFIG_METADATA_MODE] if self.CONFIG_METADATA_MODE in self._config else ''
+
+        if mode == self.CONFIG_METADATA_MODE_NO_VISION or mode == self.CONFIG_METADATA_MODE_NONE:
+            object_output.color = None
+            object_output.dimensions = None
+            object_output.direction = None
+            object_output.distance = None
+            object_output.distance_in_steps = None
+            object_output.distance_in_world = None
+            object_output.shape = None
+            object_output.texture_color_list = None
+
+        if mode == self.CONFIG_METADATA_MODE_NO_NAVIGATION or mode == self.CONFIG_METADATA_MODE_NONE:
+            object_output.position = None
+            object_output.rotation = None
+
+        return object_output
+
+    def restrict_step_output_metadata(self, step_output):
+        mode = self._config[self.CONFIG_METADATA_MODE] if self.CONFIG_METADATA_MODE in self._config else ''
+
+        if mode == self.CONFIG_METADATA_MODE_NO_VISION or mode == self.CONFIG_METADATA_MODE_NONE:
+            step_output.camera_aspect_ratio = None
+            step_output.camera_clipping_planes = None
+            step_output.camera_field_of_view = None
+            step_output.camera_height = None
+            step_output.depth_mask_list = []
+            step_output.object_mask_list = []
+
+        if mode == self.CONFIG_METADATA_MODE_NO_NAVIGATION or mode == self.CONFIG_METADATA_MODE_NONE:
+            step_output.position = None
+            step_output.rotation = None
+
+        return step_output
+
     def retrieve_action_list(self, goal, step_number):
         if goal is not None and goal.action_list is not None:
             if step_number < goal.last_preview_phase_step:
@@ -370,7 +444,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         if 'category' in goal_config:
             goal_config['metadata']['category'] = goal_config['category']
 
-        return MCS_Goal(
+        return self.restrict_goal_output_metadata(MCS_Goal(
             action_list=(goal_config['action_list'] if 'action_list' in goal_config else None),
             info_list=(goal_config['info_list'] if 'type_list' in goal_config else []),
             last_preview_phase_step=(goal_config['last_preview_phase_step'] if 'last_preview_phase_step' \
@@ -379,7 +453,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             task_list=(goal_config['task_list'] if 'type_list' in goal_config else []),
             type_list=(goal_config['type_list'] if 'type_list' in goal_config else []),
             metadata=(goal_config['metadata'] if 'metadata' in goal_config else {})
-        )
+        ))
 
     def retrieve_head_tilt(self, scene_event):
         return scene_event.metadata['agent']['cameraHorizon']
@@ -392,6 +466,12 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         return scene_event.events[len(scene_event.events) - 1].object_id_to_color
 
     def retrieve_object_list(self, scene_event):
+        mode = self._config[self.CONFIG_METADATA_MODE] if self.CONFIG_METADATA_MODE in self._config else ''
+
+        if mode == self.CONFIG_METADATA_MODE_FULL:
+            return sorted([self.retrieve_object_output(object_metadata, self.retrieve_object_colors(scene_event)) for \
+                    object_metadata in scene_event.metadata['objects']], key=lambda x: x.uuid)
+
         return sorted([self.retrieve_object_output(object_metadata, self.retrieve_object_colors(scene_event)) for \
                 object_metadata in scene_event.metadata['objects'] if object_metadata['visibleInCamera'] or \
                 object_metadata['isPickedUp']], key=lambda x: x.uuid)
@@ -406,7 +486,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         bounds = object_metadata['objectBounds'] if 'objectBounds' in object_metadata and \
             object_metadata['objectBounds'] is not None else {}
 
-        return MCS_Object(
+        return self.restrict_object_output_metadata(MCS_Object(
             uuid=object_metadata['objectId'],
             color={
                 'r': rgb[0],
@@ -423,8 +503,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             material_list=material_list,
             position=object_metadata['position'],
             rotation=object_metadata['rotation']['y'],
+            shape=object_metadata['shape'],
+            texture_color_list=object_metadata['colorsFromMaterials'],
             visible=(object_metadata['visibleInCamera'] or object_metadata['isPickedUp'])
-        )
+        ))
 
     def retrieve_pose(self, scene_event):
         # TODO MCS-18 Return pose from Unity in step output object
@@ -446,6 +528,12 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             return return_status
 
     def retrieve_structural_object_list(self, scene_event):
+        mode = self._config[self.CONFIG_METADATA_MODE] if self.CONFIG_METADATA_MODE in self._config else ''
+
+        if mode == self.CONFIG_METADATA_MODE_FULL:
+            return sorted([self.retrieve_object_output(object_metadata, self.retrieve_object_colors(scene_event)) for \
+                    object_metadata in scene_event.metadata['structuralObjects']], key=lambda x: x.uuid)
+
         return sorted([self.retrieve_object_output(object_metadata, self.retrieve_object_colors(scene_event)) for \
                 object_metadata in scene_event.metadata['structuralObjects'] if object_metadata['visibleInCamera']], \
                 key=lambda x: x.uuid)
@@ -486,7 +574,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         objects = scene_event.metadata.get('objects', None)
         agent = scene_event.metadata.get('agent', None)
-        step_output = MCS_Step_Output(
+        step_output = self.restrict_step_output_metadata(MCS_Step_Output(
             action_list=self.retrieve_action_list(self.__goal, self.__step_number),
             camera_aspect_ratio=(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
             camera_clipping_planes=(scene_event.metadata.get('clippingPlaneNear', 0), \
@@ -506,7 +594,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number,
             structural_object_list=self.retrieve_structural_object_list(scene_event)
-        )
+        ))
 
         self.__head_tilt = step_output.head_tilt
 

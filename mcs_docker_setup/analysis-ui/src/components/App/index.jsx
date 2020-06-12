@@ -19,6 +19,7 @@ export class App extends React.Component {
         super(props);
 
         this.state = queryString.parse(window.location.search);
+        this.state.showComments = (process.env.REACT_APP_COMMENTS_ON.toLowerCase() == 'true' || process.env.REACT_APP_COMMENTS_ON == '1');
     }
 
     render() {
@@ -30,7 +31,7 @@ export class App extends React.Component {
 
                     <div className="layout-board">
                         <Results value={this.state}/>
-                        {/* <CommentsComponent state={this.state}/> */}
+                        { this.state.showComments &&  <CommentsComponent state={this.state}/> }
                     </div>
                 </div>
             </div>

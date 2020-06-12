@@ -7,7 +7,9 @@ import random
 import math
 from typing import Dict, Any, AnyStr, List, Tuple, Sequence
 
-from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
+from sympy import Segment, intersection
+
+from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, PERFORMER_CAMERA_Y
 
 import geometry
 import objects
@@ -55,19 +57,23 @@ def find_image_name(target: Dict[str, Any]) -> str:
     return generate_image_file_name(target) + '.png'
 
 
-def parse_path_section(path_section: Sequence[Sequence[float]], current_heading: float) -> Tuple[List[Dict[str, Any]], float]:
+def parse_path_section(path_section: List[Sequence[float]],
+                       current_heading: float,
+                       performer: Tuple[float, float],
+                       goal_boundary: List[Dict[str, float]]) -> \
+                       Tuple[List[Dict[str, Any]], float, Tuple[float, float]]:
     """Compute the actions for one path section, starting with
-    current_heading. Returns a tuple: (list of actions, new heading)"""
+    current_heading. Returns a tuple: (list of actions, new heading, performer position)"""
     actions = []
-    dx = path_section[1][0]-path_section[0][0]
-    dz = path_section[1][1]-path_section[0][1]
-    theta = math.degrees(math.atan2(dx,dz))
+    dx = path_section[1][0]-performer[0]
+    dz = path_section[1][1]-performer[1]
+    theta = math.degrees(math.atan2(dz, dx))
 
         #IF my calculations are correct, this should be right no matter what
         # I'm assuming a positive angle is a clockwise rotation- so this should work
         #I think
 
-    delta_t = current_heading-theta
+    delta_t = (current_heading-theta) % 360
     current_heading = theta
     if delta_t != 0:
         action = {
@@ -78,24 +84,52 @@ def parse_path_section(path_section: Sequence[Sequence[float]], current_heading:
             }
         }
         actions.append(action)
-    distance = math.sqrt( dx ** 2 + dz ** 2 )
+
+    goal_center = (path_section[1][0],path_section[1][1])
+    performer_seg = Segment(performer, goal_center)
+    distance = None
+
+    for indx in range(len(goal_boundary)):
+        intersect_point = intersection(performer_seg, Segment((goal_boundary[indx-1]['x'],goal_boundary[indx-1]['z']),
+                                                              (goal_boundary[indx]['x'],goal_boundary[indx]['z'] )))
+        if intersect_point:
+            distance = float(intersect_point[0].distance(performer))
+            break
+
+    if distance is None:
+        distance = math.sqrt( dx ** 2 + dz ** 2 )
     frac, whole = math.modf(distance / MAX_MOVE_DISTANCE)
     actions.extend([{
         "action": "MoveAhead",
         "params": {}
     }] * int(whole))
-    actions.append({
-        "action": "MoveAhead",
-        "params": {
-            "amount": round(frac, POSITION_DIGITS)
-        }
-    })
-    return actions, current_heading
+
+    rounded_frac = round(frac, POSITION_DIGITS)
+    if rounded_frac == 1.0:
+        actions.append({
+            "action": "MoveAhead",
+            "params": {}
+        })
+    elif rounded_frac > 0:
+        actions.append({
+            "action": "MoveAhead",
+            "params": {
+                "amount": rounded_frac
+            }
+        })
+    # Where am I?
+    performer = (performer[0] + distance * math.cos(math.radians(theta)),
+                 performer[1] + distance * math.sin(
+                     math.radians(theta)))
+    return actions, current_heading, performer
 
 
-def get_navigation_actions(start_location: Dict[str, Any], goal_object: Dict[str, Any],
-                           all_objects: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Get the action sequence for going from performer start to the goal_object."""
+def get_navigation_actions(start_location: Dict[str, Any],
+                           goal_object: Dict[str, Any],
+                           all_objects: List[Dict[str, Any]]) -> \
+                           Tuple[List[Dict[str, Any]], Tuple[float, float]]:
+    """Get the action sequence for going from performer start to the
+    goal_object. Returns tuple (action_list, performer end position)."""
     performer = (start_location['position']['x'], start_location['position']['z'])
     if 'locationParent' in goal_object:
         parent = next((obj for obj in all_objects if obj['id'] == goal_object['locationParent']), None)
@@ -111,13 +145,17 @@ def get_navigation_actions(start_location: Dict[str, Any], goal_object: Dict[str
     path = generatepath(performer, goal, hole_rects)
     if path is None:
         raise GoalException(f'could not find path to target {goal_object["id"]}')
+    for object in all_objects:
+        if object['id'] == goal_object['id']:
+            goal_boundary = object['shows'][0]['bounding_box']
+            break
     actions = []
     current_heading = start_location['rotation']['y']
     for indx in range(len(path)-1):
-        new_actions, current_heading = parse_path_section(path[indx:indx+2], current_heading)
+        new_actions, current_heading, performer = parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary)
         actions.extend(new_actions)
 
-    return actions
+    return actions, performer
 
 
 def move_to_container(target: Dict[str, Any], all_objects: List[Dict[str, Any]],
@@ -239,15 +277,37 @@ class RetrievalGoal(InteractionGoal):
     def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
             List[Dict[str, Any]]:
         # Goal should be a singleton... I hope
-        actions = get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
+        actions, performer = get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
 
-        # TODO: look at the target object (future ticket)
+        # Do I have to look down to see the object????
+        plane_dist = math.sqrt((goal_objects[0]['shows'][0]['position']['x'] - performer[0]) ** 2 +
+                               (goal_objects[0]['shows'][0]['position']['z'] - performer[1]) ** 2)
+        height_dist = PERFORMER_CAMERA_Y - goal_objects[0]['shows'][0]['position']['y']
+        print(f'plane_dist={plane_dist}\theight_dist={height_dist}')              
+        elevation = math.degrees(math.atan2(height_dist, plane_dist))
+        if abs(elevation) > 30:
+            actions.append({
+                'action': 'RotateLook',
+                'params': {
+                    'rotation': 0,
+                    'horizon': round(elevation,0)
+                    }
+                })
         actions.append({
             'action': 'PickupObject',
             'params': {
                 'objectId': goal_objects[0]['id']
                 }
             })
+        if abs(elevation) > 30:
+            actions.append(
+                 {
+                'action': 'RotateLook',
+                'params': {
+                    'rotation': 0,
+                    'horizon': -1*round(elevation, 0)
+                    }
+                })
         return actions
         
 
@@ -331,14 +391,36 @@ class TransferralGoal(InteractionGoal):
     def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
             List[Dict[str, Any]]:
         # Goal should be a singleton... I hope
-        actions = get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
-        # TODO: look at the target object (future ticket)
+        actions, performer = get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
+        # Do I have to look down to see the object????
+        plane_dist = math.sqrt((goal_objects[0]['shows'][0]['position']['x'] - performer[0]) ** 2 +
+                               (goal_objects[0]['shows'][0]['position']['z'] - performer[1]) ** 2)
+        height_dist = PERFORMER_CAMERA_Y-goal_objects[0]['shows'][0]['position']['y']
+        elevation = math.degrees(math.atan2(height_dist, plane_dist))
+        if abs(elevation) > 30:
+            actions.append(
+                 {
+                'action': 'RotateLook',
+                'params': {
+                    'rotation': 0.0,
+                    'horizon': round(elevation, POSITION_DIGITS)
+                    }
+                })
         actions.append({
             'action': 'PickupObject',
             'params': {
                 'objectId': goal_objects[0]['id']
                 }
             })
+        if abs(elevation) > 30:
+            actions.append(
+                 {
+                'action': 'RotateLook',
+                'params': {
+                    'rotation': 0.0,
+                    'horizon': -1*round(elevation, POSITION_DIGITS)
+                    }
+                })
         hole_rects = []
         hole_rects.extend(object['shows'][0]['bounding_box'] for object
                           in all_objects if (object['id'] != goal_objects[0]['id']
@@ -355,9 +437,14 @@ class TransferralGoal(InteractionGoal):
         if path is None:
             raise GoalException('could not find path from target object to goal')
         logging.debug(f'TransferralGoal.f_o_p: got path = {path}')
+        for object in all_objects:
+            if object['id'] == goal_objects[0]['id']:
+                goal_boundary = object['shows'][0]['bounding_box']
+                break
         current_heading = self._performer_start['rotation']['y']
+        performer = (self._performer_start['position']['x'], self._performer_start['position']['z'])
         for indx in range(len(path)-1):
-            actions, current_heading = parse_path_section(path[indx:indx+2], current_heading)
+            actions, current_heading, performer = parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary)
             actions.extend(actions)
 
         # TODO: maybe look at receptacle part of the parent object (future ticket)
@@ -435,4 +522,4 @@ class TraversalGoal(Goal):
             List[Dict[str, Any]]:
         # Goal should be a singleton... I hope
         # TODO: (maybe) look at actual object if it's inside a parent (future ticket)
-        return get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
+        return get_navigation_actions(self._performer_start, goal_objects[0], all_objects)[0]

@@ -15,13 +15,42 @@ services:
       - ./dist:/var/www:ro
       - ./resources/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./resources/config.yaml:/var/www/app/config/config.yaml
+  neon-dash-staging:
+    container_name: neon-dash-staging
+    image: nginx:alpine
+    ports: 
+      - 5199:80
+    networks:
+      neon-net:
+    volumes:
+      - ./dist:/var/www:ro
+      - ./resources/nginx-staging.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./resources/config-staging.yaml:/var/www/app/config/config.yaml
   analysis-ui:
     container_name: analysis-ui
     image: analysis-ui
+    # Can accept a value of true/false or 0/1
+    environment: 
+      - REACT_APP_COMMENTS_ON=false
     volumes:
       - ./configs/prod/config.js:/usr/src/app/public/js/config.js
     ports: 
       - 3000:3000
+    depends_on:
+      - neon-es
+      - node-server
+    networks:
+      - neon-net
+  analysis-ui-staging:
+    container_name: analysis-ui-staging
+    image: analysis-ui-staging
+    # Can accept a value of true/false or 0/1
+    environment: 
+      - REACT_APP_COMMENTS_ON=true
+    volumes:
+      - ./configs/prod/config.js:/usr/src/app/public/js/config.js
+    ports: 
+      - 2000:2000
     depends_on:
       - neon-es
       - node-server
