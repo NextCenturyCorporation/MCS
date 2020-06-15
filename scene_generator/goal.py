@@ -44,12 +44,11 @@ def generate_wall(wall_mat_choice: str, performer_position: Dict[str, float],
         else:
 
             rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, 0, 0, rotation)
-            # test_rect is to allow parallel walls to be at least 1(DIST_WALL_APART) apart on the appropriate axis
-            test_rect = geometry.calc_obj_coords(new_x, new_z, new_x_size + DIST_WALL_APART, WALL_DEPTH + DIST_WALL_APART, 0, 0, rotation)
+            # barrier_rect is to allow parallel walls to be at least 1(DIST_WALL_APART) apart on the appropriate axis
+            barrier_rect = geometry.calc_obj_coords(new_x, new_z, new_x_size + DIST_WALL_APART, WALL_DEPTH + DIST_WALL_APART, 0, 0, rotation)
             if not geometry.collision(rect, performer_position) and \
                     geometry.rect_within_room(rect) and \
-                    (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)) and \
-                    (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(test_rect, other_rect) for other_rect in other_rects)): 
+                    (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(barrier_rect, other_rect) for other_rect in other_rects)): 
                 break
         tries += 1
 
