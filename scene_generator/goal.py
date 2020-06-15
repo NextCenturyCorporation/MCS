@@ -39,16 +39,16 @@ def generate_wall(wall_mat_choice: str, performer_position: Dict[str, float],
         
         if ((rotation == 0 or rotation == 180) and (new_z < -SAFE_DIST_FROM_ROOM_WALL or new_z > SAFE_DIST_FROM_ROOM_WALL)) or \
             ((rotation == 90 or rotation == 270) and (new_x < -SAFE_DIST_FROM_ROOM_WALL or new_x > SAFE_DIST_FROM_ROOM_WALL)): #This is to make sure the wall is not too close to the rooms 4 walls
-            tries += 1
             continue
+        else:
 
-        rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, 0, 0, rotation)
-        test_rect = geometry.calc_obj_coords(new_x, new_z, new_x_size + DIST_WALL_APART, WALL_DEPTH + DIST_WALL_APART, 0, 0, rotation)
-        if not geometry.collision(rect, performer_position) and \
-                geometry.rect_within_room(rect) and \
-                (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)) and \
-                (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(test_rect, other_rect) for other_rect in other_rects)): #Parallel walls should be at least 1 apart on the appropriate axis
-            break
+            rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, 0, 0, rotation)
+            test_rect = geometry.calc_obj_coords(new_x, new_z, new_x_size + DIST_WALL_APART, WALL_DEPTH + DIST_WALL_APART, 0, 0, rotation)
+            if not geometry.collision(rect, performer_position) and \
+                    geometry.rect_within_room(rect) and \
+                    (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)) and \
+                    (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(test_rect, other_rect) for other_rect in other_rects)): #Parallel walls should be at least 1 apart on the appropriate axis
+                break
         tries += 1
 
     if tries < MAX_TRIES:
@@ -159,7 +159,7 @@ class Goal(ABC):
         wall_count = random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
         
         walls = [] 
-        all_bounding_rects = [copy.deepcopy(bounding_rect) for bounding_rect in bounding_rects] # Add bounding rects to walls
+        all_bounding_rects = [bounding_rect.copy() for bounding_rect in bounding_rects] # Add bounding rects to walls
         for x in range(0, wall_count):
             wall = generate_wall(material, performer_position, all_bounding_rects)
 
