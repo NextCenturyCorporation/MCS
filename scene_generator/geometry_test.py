@@ -1,12 +1,8 @@
-from typing import Dict, Any
-
 import pytest
 
 import geometry
-import objects
 from geometry import *
 from separating_axis_theorem import sat_entry
-import shapely
 
 
 def test_collision():
@@ -350,13 +346,3 @@ def test_get_position_behind_performer():
     negative_z = get_location_behind_performer(start, target_def)
     assert 0 >= negative_z['position']['z'] >= ROOM_DIMENSIONS[1][0]
     assert ROOM_DIMENSIONS[0][1] >= negative_z['position']['z'] >= ROOM_DIMENSIONS[0][0]
-
-
-def are_adjacent(obj_a: Dict[str, Any], obj_b: Dict[str, Any]) -> bool:
-    poly_a = geometry.get_bounding_polygon(obj_a)
-    poly_b = geometry.get_bounding_polygon(obj_b)
-    distance = poly_a.distance(poly_b)
-    return distance <= MAX_ADJACENT_DISTANCE
-
-
-MAX_ADJACENT_DISTANCE = 0.5
