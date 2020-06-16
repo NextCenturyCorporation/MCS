@@ -355,10 +355,9 @@ def get_adjacent_location_on_side(obj_def: Dict[str, Any],
                                            shows['position']['z'])
     x = separator_segment.coords[1][0]
     z = separator_segment.coords[1][1]
-    bounding_box = shapely.geometry.box(x - obj_def['dimensions']['x'],
-                                        z - obj_def['dimensions']['z'],
-                                        x + obj_def['dimensions']['x'],
-                                        z + obj_def['dimensions']['z'])
+    dx = obj_def['dimensions']['x'] / 2.0
+    dz = obj_def['dimensions']['z'] / 2.0
+    bounding_box = shapely.geometry.box(x - dx, z - dz, x + dx, z + dz)
     bounding_box = affinity.rotate(bounding_box, -shows['rotation']['y'], origin=(0, 0))
     performer = shapely.geometry.Point(performer_start['x'], performer_start['z'])
     room = get_room_box()
@@ -401,3 +400,19 @@ def get_wider_and_taller_defs(obj_def: Dict[str, Any]) \
                     bigger_def['choose'] = bigger_choices
                     bigger_defs.append(bigger_def)
     return bigger_defs
+
+
+def get_bounding_polygon(obj: Dict[str, Any]) -> shapely.geometry.Polygon:
+    show = obj['shows'][0]
+    if 'bounding_box' in show:
+        bb: List[Dict[str, float]] = show['bounding_box']
+        coords = [(point['x'], point['z']) for point in bb]
+        poly = shapely.geometry.Polygon(coords)
+    else:
+        x = show['position']['x']
+        z = show['position']['z']
+        dx = obj['dimensions']['x'] / 2.0
+        dz = obj['dimensions']['z'] / 2.0
+        poly = shapely.geometry.box(x - dx, z - dz, x + dx, z + dz)
+        poly = shapely.affinity.rotate(poly, -show['rotation']['y'])
+    return poly
