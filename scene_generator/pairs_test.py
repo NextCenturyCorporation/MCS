@@ -1,16 +1,5 @@
-from typing import Dict, Any
-
-import geometry
+from geometry_test import are_adjacent
 from pairs import SimilarAdjacentPair
-
-MAX_ADJACENT_DISTANCE = 0.5
-
-
-def are_adjacent(obj_a: Dict[str, Any], obj_b: Dict[str, Any]) -> bool:
-    poly_a = geometry.get_bounding_polygon(obj_a)
-    poly_b = geometry.get_bounding_polygon(obj_b)
-    distance = poly_a.distance(poly_b)
-    return distance <= MAX_ADJACENT_DISTANCE
 
 
 def test_SimilarAdjacentPair():
