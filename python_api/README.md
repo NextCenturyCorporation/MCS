@@ -58,6 +58,9 @@ https://evaluation2-training-scenes.s3.amazonaws.com/interaction-scenes.zip
 Intphys:
 https://evaluation2-training-scenes.s3.amazonaws.com/intphys-scenes.zip
 
+Intphys Validation Set:
+https://evaluation2-training-scenes.s3.amazonaws.com/validation-intphys-scenes.zip
+
 ## Import
 
 Example importing the MCS library:
