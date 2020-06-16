@@ -348,3 +348,19 @@ def get_wider_and_taller_defs(obj_def: Dict[str, Any]) \
                     bigger_def['choose'] = bigger_choices
                     bigger_defs.append(bigger_def)
     return bigger_defs
+
+
+def get_bounding_polygon(obj: Dict[str, Any]) -> shapely.geometry.Polygon:
+    show = obj['shows'][0]
+    if 'bounding_box' in show:
+        bb: List[Dict[str, float]] = show['bounding_box']
+        coords = [(point['x'], point['z']) for point in bb]
+        poly = shapely.geometry.Polygon(coords)
+    else:
+        x = show['position']['x']
+        z = show['position']['z']
+        dx = obj['dimensions']['x'] / 2.0
+        dz = obj['dimensions']['z'] / 2.0
+        poly = shapely.geometry.box(x - dx, z - dz, x + dx, z + dz)
+        poly = shapely.affinity.rotate(poly, -show['rotation']['y'])
+    return poly

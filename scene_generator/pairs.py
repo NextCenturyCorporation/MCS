@@ -185,11 +185,13 @@ class SimilarAdjacentPair(InteractionPair):
                 container = util.instantiate_object(container_def, container_location)
                 containers.put_object_in_container(target, container, container_def, index)
         scene1 = self._get_empty_scene()
-        scene1['objects'] = [target] if container is None else [container, target]
+        scene1['objects'] = [target] if container is None else [target, container]
 
         similar_location = geometry. \
             get_adjacent_location(similar_def, target,
                                   self._performer_start['position'])
+        if similar_location is None:
+            raise exceptions.SceneException('could not place similar object adjacent to target')
         similar = util.instantiate_object(similar_def, similar_location)
         scene2 = self._get_empty_scene()
         if container is None:
@@ -199,7 +201,7 @@ class SimilarAdjacentPair(InteractionPair):
             containers.put_objects_in_container(target2, similar, container,
                                                 container_def, index, orientation,
                                                 rot_a, rot_b)
-            scene2['objects'] = [container, target2, similar]
+            scene2['objects'] = [target2, similar, container]
 
         return scene1, scene2
 
