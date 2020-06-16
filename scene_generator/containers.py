@@ -16,6 +16,8 @@ def put_object_in_container(obj: Dict[str, Any],
     obj['shows'][0]['position'] = area['position'].copy()
     if 'rotation' not in obj['shows'][0]:
         obj['shows'][0]['rotation'] = geometry.ORIGIN.copy()
+    # if it had a bounding_box, it's not valid any more
+    obj.pop('bounding_box', None)
 
 
 def put_objects_in_container(obj_a: Dict[str, Any],
@@ -64,6 +66,9 @@ def put_objects_in_container(obj_a: Dict[str, Any],
         shows_b['position']['z'] += height_b / 2.0
     shows_a['rotation'] = { 'y': rot_a }
     shows_b['rotation'] = { 'y': rot_b }
+    # any bounding_box they may have had is not valid any more
+    shows_a.pop('bounding_box', None)
+    shows_b.pop('bounding_box', None)
 
 
 def can_enclose(objectA: Dict[str, Any], objectB: Dict[str, Any]) -> bool:
