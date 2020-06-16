@@ -1,10 +1,10 @@
 import copy
+from enum import Enum, auto
 from typing import Dict, Any, Optional, Tuple, Sequence, List
 
 import geometry
 import objects
 import util
-from geometry import Orientation
 
 
 def put_object_in_container(obj: Dict[str, Any],
@@ -20,14 +20,24 @@ def put_object_in_container(obj: Dict[str, Any],
     obj.pop('bounding_box', None)
 
 
+class Orientation(Enum):
+    SIDE_BY_SIDE = auto()
+    FRONT_TO_BACK = auto()
+
+
 def put_objects_in_container(obj_a: Dict[str, Any],
                              obj_b: Dict[str, Any],
                              container: Dict[str, Any],
                              container_def: Dict[str, Any],
                              area_index: int,
-                             orientation: geometry.Orientation,
+                             orientation: Orientation,
                              rot_a: float,
                              rot_b: float) -> None:
+    """Put two objects in the same enclosed area of a
+    container. orientation determines how they are laid out with
+    respect to each other within the container. rot_a and rot_b must
+    be either 0 or 90.
+    """
     if rot_a not in (0, 90):
         raise ValueError('only 0 and 90 degree rotations supported for object a, not {rot_a}')
     if rot_b not in (0, 90):
@@ -38,7 +48,7 @@ def put_objects_in_container(obj_a: Dict[str, Any],
     obj_b['locationParent'] = container['id']
     shows_a = obj_a['shows'][0]
     shows_b = obj_b['shows'][0]
-    if orientation == geometry.Orientation.SIDE_BY_SIDE:
+    if orientation == Orientation.SIDE_BY_SIDE:
         if rot_a == 0:
             width_a = obj_a['dimensions']['x']
         elif rot_a == 90:
@@ -51,7 +61,7 @@ def put_objects_in_container(obj_a: Dict[str, Any],
             width_b = obj_b['dimensions']['z']
         shows_b['position'] = area_position.copy()
         shows_b['position']['x'] += width_b / 2.0
-    elif orientation == geometry.Orientation.FRONT_TO_BACK:
+    elif orientation == Orientation.FRONT_TO_BACK:
         if rot_a == 0:
             height_a = obj_a['dimensions']['z']
         elif rot_a == 90:
@@ -78,17 +88,17 @@ def can_enclose(objectA: Dict[str, Any], objectB: Dict[str, Any]) -> bool:
         objectA['dimensions']['z'] >= objectB['dimensions']['z']
 
 
-def can_contain(container: Dict[str, Any],
+def can_contain(container_def: Dict[str, Any],
                 *targets: Dict[str, Any]) -> Optional[int]:
     """Return the index of the container's "enclosed_areas" that all
      targets fit in, or None if they all do not fit in any of the
      enclosed_areas (or if the container doesn't have any). Does not
      try any rotation to see if that makes it possible to fit.
     """
-    if 'enclosed_areas' not in container:
+    if 'enclosed_areas' not in container_def:
         return None
-    for i in range(len(container['enclosed_areas'])):
-        space = container['enclosed_areas'][i]
+    for i in range(len(container_def['enclosed_areas'])):
+        space = container_def['enclosed_areas'][i]
         fits = True
         for target in targets:
             if not can_enclose(space, target):
@@ -197,7 +207,7 @@ def get_enclosable_container_defs(objs: Sequence[Dict[str, Any]],
                                   container_defs: Sequence[Dict[str, Any]] = None) \
                                   -> List[Dict[str, Any]]:
     """Return a list of object definitions for containers that can enclose
-    all the pass objects objs. If container_defs is None, use
+    all the passed objects objs. If container_defs is None, use
     objects.get_enclosed_containers().
     """
     if container_defs is None:

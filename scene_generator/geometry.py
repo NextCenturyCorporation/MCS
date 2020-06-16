@@ -2,7 +2,6 @@ import copy
 import logging
 import math
 import random
-from enum import Enum, auto
 from typing import List, Dict, Any, Optional, Callable, Tuple
 
 import shapely
@@ -171,11 +170,6 @@ object in the frame, None otherwise."""
 
     logging.debug(f'could not place object: {obj_def}')
     return None
-
-
-class Orientation(Enum):
-    SIDE_BY_SIDE = auto()
-    FRONT_TO_BACK = auto()
 
 
 def occluders_too_close(occluder: Dict[str, Any], x_position: float, x_scale: float) -> bool:
