@@ -32,8 +32,8 @@ class MCS_Object(object):
         Haptic feedback.  The material(s) of this object.  See MCS_Material.
     position : dict
         The "x", "y", and "z" coordinates for the global position of the center of this object's 3D model.
-    rotation : float
-        This object's rotation angle in degrees.
+    rotation : dict
+        This object's rotation angles around the "x", "y", and "z" axes in degrees.
     shape : string
         This object's shape in plain English.
     texture_color_list : list of strings
@@ -55,7 +55,7 @@ class MCS_Object(object):
         mass=0.0,
         material_list=None,
         position=None,
-        rotation=0.0,
+        rotation=None,
         shape="",
         texture_color_list=None,
         visible=False
@@ -71,7 +71,7 @@ class MCS_Object(object):
         self.mass = mass
         self.material_list = [] if material_list is None else material_list
         self.position = {} if position is None else position
-        self.rotation = rotation
+        self.rotation = {} if rotation is None else rotation
         self.shape = shape
         self.texture_color_list = [] if texture_color_list is None else texture_color_list
         self.visible = visible

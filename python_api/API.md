@@ -170,9 +170,9 @@ Haptic feedback. The material(s) of this object. Possible materials: "Metal", "W
 
 The "x", "y", and "z" coordinates for the global position of the center of this object's 3D model.
 
-### rotation : float
+### rotation : dict
 
-This object's rotation angle in degrees.
+This object's rotation angles around the "x", "y", and "z" axes in degrees.
 
 ### shape : string
 
