@@ -449,6 +449,65 @@ def test_TransferralGoal_ensure_pickup_action():
     assert body['answer']['actions'][-1]['action'] == 'PutObject'
 
 
+def test_TransferralGoal_navigate_near_objects():
+    """For MCS-271"""
+    goal_obj = TransferralGoal()
+    body: Dict[str, Any] = {
+        'name': '',
+        'ceilingMaterial': 'AI2-THOR/Materials/Walls/Drywall',
+        'floorMaterial': 'AI2-THOR/Materials/Fabrics/CarpetWhite 3',
+        'wallMaterial': 'AI2-THOR/Materials/Walls/DrywallBeige',
+        'performerStart': {
+            'position': {
+                'x': 0,
+                'z': 0
+            },
+            'rotation': {
+                'y': 0
+            }
+        },
+        'objects': [],
+        'goal': {},
+        'answer': {}
+    }
+    goal_obj.update_body(body, True)
+    pickupable_id = body['goal']['metadata']['target_1']['id']
+    container_id = body['goal']['metadata']['target_2']['id']
+    pickupable_obj = next((obj for obj in body['objects'] if obj['id'] == pickupable_id))
+    container_obj = next((obj for obj in body['objects'] if obj['id'] == container_id))
+    pickupable_position = pickupable_obj['shows'][0]['position']
+    container_position = container_obj['shows'][0]['position']
+
+    position = body['performerStart']['position']
+    x = position['x']
+    z = position['z']
+    # 0 at start faces positive z, and rotations are clockwise
+    heading = 90 - body['performerStart']['rotation']['y']
+    for action in body['answer']['actions']:
+        if action['action'] == 'PickupObject':
+            # should be near pickupable object
+            pickupable_distance = math.sqrt((x - pickupable_position['x'])**2 +
+                                            (z - pickupable_position['z'])**2)
+            assert pickupable_distance <= 0.5
+        elif action['action'] == 'PutObject':
+            # should be near container
+            container_distance = math.sqrt((x - container_position['x'])**2 +
+                                           (z - container_position['z'])**2)
+            assert container_distance <= 0.5
+        elif action['action'] == 'RotateLook':
+            # subtract because rotations are clockwise
+            heading = (heading - action['params']['rotation']) % 360.0
+        elif action['action'] == 'MoveAhead':
+            amount = action['params'].get('amount', 1)
+            distance = amount * MAX_MOVE_DISTANCE
+            radians = math.radians(heading)
+            x += distance * math.cos(radians)
+            z += distance * math.sin(radians)
+        else:
+            logging.error(f'unknown action "{action["action"]}"')
+            assert False
+
+
 def test_add_RotateLook_to_action_list_before_Pickup_or_Put_Object():
     """For MCS-161"""
     # make scene with a small target object
