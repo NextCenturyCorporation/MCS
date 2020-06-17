@@ -586,16 +586,18 @@ class GravityGoal(IntPhysGoal):
         # only want intphys_options where y == 0
         valid_defs = []
         for obj_def in objects.OBJECTS_INTPHYS:
-            new_od = obj_def.copy()
-            valid_intphys = [intphys for intphys in obj_def['intphys_options'] if intphys['y'] == 0]
-            if len(valid_intphys) != 0:
-                new_od['saved_intphys_options'] = copy.deepcopy(valid_intphys)
-                if self.is_ramp_steep() and self._use_fastest:
-                    # use the intphys with the highest force.x for each object
-                    sorted_intphys = sorted(valid_intphys, key=lambda intphys: intphys['force']['x'])
-                    valid_intphys = [sorted_intphys[-1]]
-                new_od['intphys_options'] = valid_intphys
-                valid_defs.append(new_od)
+            # Want to avoid cubes in the gravity tests at this time MCS-269
+            if obj_def['type'] != 'cube':
+                new_od = obj_def.copy()
+                valid_intphys = [intphys for intphys in obj_def['intphys_options'] if intphys['y'] == 0]
+                if len(valid_intphys) != 0:
+                    new_od['saved_intphys_options'] = copy.deepcopy(valid_intphys)
+                    if self.is_ramp_steep() and self._use_fastest:
+                        # use the intphys with the highest force.x for each object
+                        sorted_intphys = sorted(valid_intphys, key=lambda intphys: intphys['force']['x'])
+                        valid_intphys = [sorted_intphys[-1]]
+                    new_od['intphys_options'] = valid_intphys
+                    valid_defs.append(new_od)
         if self.is_ramp_steep():
             # Don't put objects in places where they'd have to roll up
             # 90 degree (i.e., vertical) ramps.
