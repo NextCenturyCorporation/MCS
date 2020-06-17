@@ -475,7 +475,12 @@ def test_TransferralGoal_navigate_near_objects():
     container_id = body['goal']['metadata']['target_2']['id']
     pickupable_obj = next((obj for obj in body['objects'] if obj['id'] == pickupable_id))
     container_obj = next((obj for obj in body['objects'] if obj['id'] == container_id))
-    pickupable_position = pickupable_obj['shows'][0]['position']
+    if 'locationParent' in pickupable_obj:
+        parent = next((obj for obj in body['objects'] if obj['id'] == pickupable_obj['locationParent']))
+        pickupable_position = parent['shows'][0]['position']
+        pass
+    else:
+        pickupable_position = pickupable_obj['shows'][0]['position']
     container_position = container_obj['shows'][0]['position']
 
     position = body['performerStart']['position']
