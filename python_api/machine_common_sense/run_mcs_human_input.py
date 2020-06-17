@@ -1,5 +1,6 @@
 import sys
 import argparse
+#import importlib 
 
 from machine_common_sense.mcs import MCS
 from machine_common_sense.mcs_action import MCS_Action
@@ -113,51 +114,40 @@ def run_scene(controller, config_data):
 
     sys.exit()
 
-def main(): #(argv):
-    """
+def main(argv): 
+    
     parser = argparse.ArgumentParser(description='Run MCS')
-    required_group = parser.add_argument_group(title='Required Arguments')
-    optional_group = parser.add_argument_group(title='Optional Arguments')
+    required_group = parser.add_argument_group(title='required arguments')
 
     required_group.add_argument('mcs_unity_build_file', help='Path to MCS unity build file')
     required_group.add_argument('mcs_config_json_file', help='MCS JSON scene configuration file to load')
 
-    optional_group.add_argument('-d','--debug', default=True, nargs=1, help='True or False on whether to debug files [default=True]')
-    optional_group.add_argument('-n','--noise', default=False, nargs=1, help='True or False on whether to enable noise in MCS [default=True]')
-    optional_group.add_argument('-s','--seed', type=int, default=None, nargs=1, help='Seed(integer) for the random number generator [default=None]')
+    parser.add_argument('-d','--debug', default=True, help='True or False on whether to debug files [default=True]')
+    parser.add_argument('-n','--noise', default=False, help='True or False on whether to enable noise in MCS [default=True]')
+    parser.add_argument('-s','--seed', type=int, default=None, help='Seed(integer) for the random number generator [default=None]')
     args = parser.parse_args(argv[1:])
-    print(args)
-    exit()
-    """
-    #"""
-    if len(sys.argv) < 3:
-        print('Usage: python run_mcs_human_input.py <mcs_unity_build_file> <mcs_config_json_file> <debug_files> <enable_noise> <seed_value>')
-        sys.exit()
     
-    config_data, status = MCS.load_config_json_file(sys.argv[2])
-
-    if status is not None:
-        print(status)
-        exit()
-
-    debug = True
-    if len(sys.argv) >= 4:
-        debug = sys.argv[3].lower() == 'true'
-
-    enable_noise = False
-    if len(sys.argv) >= 5:
-        enable_noise = sys.argv[4].lower() == 'true'
-
-    seed_val = None
-    if len(sys.argv) >= 6:
-        seed_val = sys.argv[5]
-
-        if not seed_val.isnumeric():
-            print(seed_val, ' is not a numeric number')
+    if not isinstance(args.debug, bool):
+        if args.debug.lower() != 'true' and args.debug.lower() != 'false':
+            print('Debug files must be <True> or <False>')
             exit()
-        seed_val = int(seed_val)
-    #"""
-    """
+        else:
+            if args.debug.lower() == 'false':
+                args.debug = False
+            else:
+                args.debug = True
+
+
+    if not isinstance(args.noise, bool):
+        if args.noise.lower() != 'true' and args.noise.lower() != 'false':
+            print('Enabling Noise must be <True> or <False>')
+            exit()
+        else:
+            if args.noise.lower() == 'true':
+                args.noise = True
+            else:
+                args.noise = False
+
     config_data, status = MCS.load_config_json_file(args.mcs_config_json_file)
 
     if status is not None:
@@ -167,8 +157,11 @@ def main(): #(argv):
     debug = args.debug
     enable_noise = args.noise
     seed_val = args.seed
-    """
     
+    #print(sys.modules)
+    #importlib.reload(sys.modules)
+    #help(MCS)
+
     controller = MCS.create_controller(sys.argv[1], debug=debug, enable_noise=enable_noise, seed=seed_val)
 
     config_file_path = sys.argv[2]
@@ -180,6 +173,5 @@ def main(): #(argv):
     run_scene(controller, config_data)
 
 if __name__ == "__main__":
-    #main(sys.argv)
-    main()
+    main(sys.argv)
 
