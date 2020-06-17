@@ -199,7 +199,7 @@ class SimilarAdjacentPair(InteractionPair):
                 container_location = geometry. \
                     calc_obj_pos(self._performer_start['position'], [], container_def)
                 container = util.instantiate_object(container_def, container_location)
-                containers.put_object_in_container(target, container, container_def, index)
+                containers.put_object_in_container(target, container, container_def, index, rot_a)
         scene1 = self._get_empty_scene()
         scene1['objects'] = [target] if container is None else [target, container]
 
@@ -261,6 +261,62 @@ class SimilarFarPair(InteractionPair):
                 raise exceptions.SceneException('could not place similar object away from target')
             scene1['objects'] = [target]
             scene2['objects'] = [target, similar]
+        return scene1, scene2
+
+
+class SimilarAdjacentFarPair(InteractionPair):
+    def __init__(self, template: Dict[str, Any], find_path: bool):
+        super(SimilarAdjacentFarPair, self).__init__(template, find_path)
+
+    def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
+        target = util.instantiate_object(target_def, geometry.ORIGIN_LOCATION)
+        similar_def = util.finalize_object_definition(util.get_similar_definition(target))
+        scene1 = self._get_empty_scene()
+        scene2 = self._get_empty_scene()
+        container_def = None
+        performer_position = self._performer_start['position']
+        if random.random() <= util.TARGET_CONTAINED_CHANCE:
+            container_defs = objects.get_enclosed_containers().copy()
+            random.shuffle(container_defs)
+            for container_def in container_defs:
+                placement = containers.can_contain_both(container_def, target_def, similar_def)
+                if placement is not None:
+                    break
+            if placement is not None:
+                container_def, index, orientation, rot_a, rot_b = placement
+                similar = util.instantiate_object(similar_def, geometry.ORIGIN_LOCATION)
+                container_location = geometry. \
+                    calc_obj_pos(performer_position, [], container_def)
+                container = util.instantiate_object(container_def, container_location)
+                containers.put_objects_in_container(target, similar, container,
+                                                    container_def, index, orientation,
+                                                    rot_a, rot_b)
+                scene1['objects'] = [target, similar, container]
+        if container_def is None:
+            # Decided not to use a container or couldn't find one that
+            # could hold the target & similar objects.
+            similar_location = geometry.get_adjacent_location(similar_def, target,
+                                                              performer_position)
+            similar = util.instantiate_object(similar_def, similar_location)
+            scene1['objects'] = [target, similar]
+
+        # scene 2
+        if container_def is None:
+            target2_location = geometry.calc_obj_pos(performer_position, [], target_def)
+            target2 = util.instantiate_object(target_def, target2_location)
+            similar2 = instantiate_away_from(similar_def, performer_position, target2)
+            scene2['objects'] = [target2, similar2]
+        else:
+            target_container_loc = geometry.calc_obj_pos(performer_position, [], container_def)
+            target_container = util.instantiate_object(container_def, target_container_loc)
+            target2 = util.instantiate_object(target_def, geometry.ORIGIN_LOCATION)
+            containers.put_object_in_container(target2, target_container, container_def, index, rot_a)
+
+            similar_container = instantiate_away_from(container_def, performer_position, target_container)
+            similar2 = util.instantiate_object(target_def, geometry.ORIGIN_LOCATION)
+            containers.put_object_in_container(similar2, similar_container, container_def, index, rot_b)
+            scene2['objects'] = [target2, similar2, target_container, similar_container]
         return scene1, scene2
 
 

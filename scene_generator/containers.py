@@ -10,12 +10,15 @@ import util
 def put_object_in_container(obj: Dict[str, Any],
                             container: Dict[str, Any],
                             container_def: Dict[str, Any],
-                            area_index: int) -> None:
+                            area_index: int,
+                            rotation: Optional[float] = None) -> None:
     area = container_def['enclosed_areas'][area_index]
     obj['locationParent'] = container['id']
     obj['shows'][0]['position'] = area['position'].copy()
     if 'rotation' not in obj['shows'][0]:
         obj['shows'][0]['rotation'] = geometry.ORIGIN.copy()
+    if rotation is not None:
+        obj['shows'][0]['rotation']['y'] = rotation
     # if it had a bounding_box, it's not valid any more
     obj.pop('bounding_box', None)
 
