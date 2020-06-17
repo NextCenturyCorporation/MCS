@@ -116,12 +116,15 @@ def run_scene(controller, config_data):
 def main(): #(argv):
     """
     parser = argparse.ArgumentParser(description='Run MCS')
-    parser.add_argument('mcs_unity_build_file', required=True, help='Path to MCS unity build file')
-    parser.add_argument('mcs_config_json_file', required=True, help='MCS JSON scene configuration file to load')
+    required_group = parser.add_argument_group(title='Required Arguments')
+    optional_group = parser.add_argument_group(title='Optional Arguments')
 
-    parser.add_argument('-d','--debug', default=True, nargs=1, help='True or False on whether to debug files [default=True]')
-    parser.add_argument('-n','--noise', default=False, nargs=1, help='True or False on whether to enable noise in MCS [default=True]')
-    parser.add_argument('-s','--seed', type=int, default=None, nargs=1, help='Seed(integer) for the random number generator [default=None]')
+    required_group.add_argument('mcs_unity_build_file', help='Path to MCS unity build file')
+    required_group.add_argument('mcs_config_json_file', help='MCS JSON scene configuration file to load')
+
+    optional_group.add_argument('-d','--debug', default=True, nargs=1, help='True or False on whether to debug files [default=True]')
+    optional_group.add_argument('-n','--noise', default=False, nargs=1, help='True or False on whether to enable noise in MCS [default=True]')
+    optional_group.add_argument('-s','--seed', type=int, default=None, nargs=1, help='Seed(integer) for the random number generator [default=None]')
     args = parser.parse_args(argv[1:])
     print(args)
     exit()
