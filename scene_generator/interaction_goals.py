@@ -127,9 +127,13 @@ def parse_path_section(path_section: Sequence[Sequence[float]],
 def get_navigation_actions(start_location: Dict[str, Any],
                            goal_object: Dict[str, Any],
                            all_objects: List[Dict[str, Any]]) -> \
-                           Tuple[List[Dict[str, Any]], Tuple[float, float]]:
+                           Tuple[List[Dict[str, Any]],
+                                 Tuple[float, float],
+                                 float]:
     """Get the action sequence for going from performer start to the
-    goal_object. Returns tuple (action_list, performer end position)."""
+    goal_object. Returns tuple (action_list, performer end position,
+    performer end heading).
+    """
     performer = (start_location['position']['x'], start_location['position']['z'])
     if 'locationParent' in goal_object:
         parent = next((obj for obj in all_objects if obj['id'] == goal_object['locationParent']), None)
@@ -150,12 +154,12 @@ def get_navigation_actions(start_location: Dict[str, Any],
             goal_boundary = object['shows'][0]['bounding_box']
             break
     actions = []
-    current_heading = start_location['rotation']['y']
+    current_heading = 90 - start_location['rotation']['y']
     for indx in range(len(path)-1):
         new_actions, current_heading, performer = parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary)
         actions.extend(new_actions)
 
-    return actions, performer
+    return actions, performer, current_heading
 
 
 def move_to_container(target: Dict[str, Any], all_objects: List[Dict[str, Any]],
@@ -277,7 +281,7 @@ class RetrievalGoal(InteractionGoal):
     def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
             List[Dict[str, Any]]:
         # Goal should be a singleton... I hope
-        actions, performer = get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
+        actions, performer, heading = get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
 
         # Do I have to look down to see the object????
         plane_dist = math.sqrt((goal_objects[0]['shows'][0]['position']['x'] - performer[0]) ** 2 +
@@ -391,15 +395,16 @@ class TransferralGoal(InteractionGoal):
     def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
             List[Dict[str, Any]]:
         # Goal should be a singleton... I hope
-        actions, performer = get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
+        actions, performer, heading = get_navigation_actions(self._performer_start,
+                                                             goal_objects[0],
+                                                             all_objects)
         # Do I have to look down to see the object????
         plane_dist = math.sqrt((goal_objects[0]['shows'][0]['position']['x'] - performer[0]) ** 2 +
                                (goal_objects[0]['shows'][0]['position']['z'] - performer[1]) ** 2)
         height_dist = PERFORMER_CAMERA_Y-goal_objects[0]['shows'][0]['position']['y']
         elevation = math.degrees(math.atan2(height_dist, plane_dist))
         if abs(elevation) > 30:
-            actions.append(
-                 {
+            actions.append({
                 'action': 'RotateLook',
                 'params': {
                     'rotation': 0.0,
@@ -413,8 +418,7 @@ class TransferralGoal(InteractionGoal):
                 }
             })
         if abs(elevation) > 30:
-            actions.append(
-                 {
+            actions.append({
                 'action': 'RotateLook',
                 'params': {
                     'rotation': 0.0,
@@ -441,8 +445,7 @@ class TransferralGoal(InteractionGoal):
             if object['id'] == goal_objects[0]['id']:
                 goal_boundary = object['shows'][0]['bounding_box']
                 break
-        current_heading = self._performer_start['rotation']['y']
-        performer = (self._performer_start['position']['x'], self._performer_start['position']['z'])
+        current_heading = heading
         for indx in range(len(path)-1):
             new_actions, current_heading, performer = parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary)
             actions.extend(new_actions)

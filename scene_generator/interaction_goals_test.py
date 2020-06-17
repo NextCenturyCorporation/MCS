@@ -90,7 +90,7 @@ def test_get_navigation_action():
     expected_actions = [{
         'action': 'RotateLook',
         'params': {
-            'rotation': 315.0,
+            'rotation': 45.0,
             'horizon': 0.0
         }
     }, {
@@ -141,7 +141,7 @@ def test_get_navigation_action():
             ]
         }]
     }
-    actions, performer = get_navigation_actions(start, goal_object, [goal_object])
+    actions, performer, heading = get_navigation_actions(start, goal_object, [goal_object])
     assert actions == expected_actions
 
 
@@ -149,7 +149,7 @@ def test_get_navigation_action_with_locationParent():
     expected_actions = [{
         'action': 'RotateLook',
         'params': {
-            'rotation': 315.0,
+            'rotation': 45.0,
             'horizon': 0.0
         }
     }, {
@@ -211,7 +211,7 @@ def test_get_navigation_action_with_locationParent():
             }
         }]
     }
-    actions, performer = get_navigation_actions(start, goal_object, [container_object, goal_object])
+    actions, performer, heading = get_navigation_actions(start, goal_object, [container_object, goal_object])
     assert actions == expected_actions
 
 
@@ -303,7 +303,7 @@ def test_get_navigation_action_with_turning():
             ]
         }]
     }
-    expected_actions = [{'action': 'RotateLook', 'params': {'rotation': 225.0, 'horizon': 0.0}},
+    expected_actions = [{'action': 'RotateLook', 'params': {'rotation': 315.0, 'horizon': 0.0}},
                         {'action': 'MoveAhead', 'params': {}}, {'action': 'MoveAhead', 'params': {}},
                         {'action': 'MoveAhead', 'params': {'amount': 0.83}},
                         {'action': 'RotateLook', 'params': {'rotation': 45.0, 'horizon': 0.0}},
@@ -312,7 +312,7 @@ def test_get_navigation_action_with_turning():
                         {'action': 'MoveAhead', 'params': {}}, {'action': 'MoveAhead', 'params': {}},
                         {'action': 'MoveAhead', 'params': {'amount': round((.9*math.sqrt(2)-1)/MAX_MOVE_DISTANCE, POSITION_DIGITS)}}]
     all_objs = [goal_obj, obstacle_obj]
-    actions, performer = get_navigation_actions(start, goal_obj, all_objs)
+    actions, performer, heading = get_navigation_actions(start, goal_obj, all_objs)
     assert actions == expected_actions
 
 
@@ -498,6 +498,7 @@ def test_TransferralGoal_navigate_near_objects():
             # should be near container
             container_distance = math.sqrt((x - container_position['x'])**2 +
                                            (z - container_position['z'])**2)
+            print(f'location=({x}, {z})\tcontainer={container_obj}')
             assert container_distance <= 0.5
         elif action['action'] == 'RotateLook':
             # subtract because rotations are clockwise
