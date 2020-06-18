@@ -502,7 +502,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             mass=object_metadata['mass'],
             material_list=material_list,
             position=object_metadata['position'],
-            rotation=object_metadata['rotation']['y'],
+            rotation=object_metadata['rotation'],
             shape=object_metadata['shape'],
             texture_color_list=object_metadata['colorsFromMaterials'],
             visible=(object_metadata['visibleInCamera'] or object_metadata['isPickedUp'])

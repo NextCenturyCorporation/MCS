@@ -19,7 +19,7 @@ class Test_Default_MCS_Object(unittest.TestCase):
         "mass": 0.0,
         "material_list": [],
         "position": {},
-        "rotation": 0.0,
+        "rotation": {},
         "shape": "",
         "texture_color_list": [],
         "visible": False
@@ -79,8 +79,8 @@ class Test_Default_MCS_Object(unittest.TestCase):
         self.assertIsInstance(self.mcs_object.position, dict)
 
     def test_rotation(self):
-        self.assertAlmostEqual(self.mcs_object.rotation, 0.0)
-        self.assertIsInstance(self.mcs_object.rotation, float)
+        self.assertFalse(self.mcs_object.rotation)
+        self.assertIsInstance(self.mcs_object.rotation, dict)
 
     def test_shape(self):
         self.assertEqual(self.mcs_object.shape, "")
