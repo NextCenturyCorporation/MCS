@@ -105,9 +105,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     CONFIG_METADATA_MODE_NO_VISION = 'no_vision' # No vision (image feature) metadata, except for the images
     CONFIG_METADATA_MODE_NONE = 'none' # No metadata, except for the images and haptic/audio feedback
 
-    def __init__(self, unity_app_file_path, debug=False, enable_noise=False, seed=None):
+    def __init__(self, unity_app_file_path, debug=False, enable_noise=False):#, seed=None):
         super().__init__()
-
+        print("HEREE22222")
         self.__controller = ai2thor.controller.Controller(
             quality='Medium',
             fullscreen=False,
@@ -124,15 +124,16 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 "objects": []
             }
         )
+        print("HEREE333333")
+        self.on_init(debug, enable_noise)#, seed)
 
-        self.on_init(debug, enable_noise, seed)
-
-    def on_init(self, debug=False, enable_noise=False, seed=None):
+    def on_init(self, debug=False, enable_noise=False):#, seed=None):
+        print("HEREE44444")
         self.__debug_to_file = True if (debug is True or debug is 'file') else False
         self.__debug_to_terminal = True if (debug is True or debug is 'terminal') else False
 
         self.__enable_noise = enable_noise
-        self.__seed = seed
+        #self.__seed = seed
         """FIXME
         if not self.__seed == None:
             random.seed(self.__seed)
@@ -149,9 +150,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             os.makedirs(self.HISTORY_DIRECTORY)
 
         self._config = self.read_config_file()
+        print("HEREE55555")
 
-    def get_seed_value(self):
-        return self.__seed
+    #def get_seed_value(self):
+        #return self.__seed
 
     # Write the history file
     def write_history_file(self, history_item):

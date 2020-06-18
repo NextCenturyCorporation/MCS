@@ -162,7 +162,7 @@ def main(argv):
     #importlib.reload(sys.modules)
     #help(MCS)
 
-    controller = MCS.create_controller(sys.argv[1], debug=debug, enable_noise=enable_noise, seed=seed_val)
+    controller = MCS.create_controller(sys.argv[1], debug=debug, enable_noise=enable_noise)#, seed=seed_val)
 
     config_file_path = sys.argv[2]
     config_file_name = config_file_path[config_file_path.rfind('/')+1:]
