@@ -6,7 +6,7 @@ Here are the instructions for downloading and installing our latest Python and U
 
 ### Python Library
 
-The latest release of the MCS Python library is `0.0.10`
+The latest release of the MCS Python library is `0.0.10`. We will accept Evaluation 2 submissions with a minimum version of 0.0.9 given the short timeframe between this release and submission.
 
 1. Install the required third-party Python libraries:
 
@@ -28,7 +28,7 @@ pip3 install git+https://github.com/NextCenturyCorporation/MCS@latest
 
 ### Unity Application
 
-The latest release of the MCS Unity app is `0.0.10`
+The latest release of the MCS Unity app is `0.0.10`.
 
 Please note that our Unity App is built on Linux. If you need a Mac or Windows version, please [contact us](#troubleshooting) directly.
 
