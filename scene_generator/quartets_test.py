@@ -9,7 +9,17 @@ def test_get_position_step():
     }
     x = 1.0
     expected_step = 2
-    step = get_position_step(target, x, False, True)
+    step = get_position_step(target, x, True, True)
+    assert step == expected_step
+
+
+def test_get_position_step2():
+    target = {
+        'intphys_option': objects.OBJECTS_INTPHYS[0]['intphys_options'][0]
+    }
+    x = 9.0
+    expected_step = 5
+    step = get_position_step(target, x, True, False)
     assert step == expected_step
 
 

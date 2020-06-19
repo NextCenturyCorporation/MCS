@@ -36,18 +36,24 @@ def get_position_step(target: Dict[str, Any], x_position: float,
                       left_to_right: bool, forwards: bool) -> int:
     """Get the step number at which the target reaches x_position"""
     positions = target['intphys_option']['position_by_step']
+    logging.debug(f'>>>g_p_s: left_to_right={left_to_right}\tforwards={forwards}\tpositions: {positions}')
     if forwards:
         rang = range(len(positions))
-        counting_up = not left_to_right
+        counting_up = left_to_right
     else:
         rang = range(len(positions)-1, -1, -1)
-        counting_up = left_to_right
+        counting_up = not left_to_right
 
     for i in rang:
         pos = positions[i]
         if counting_up and pos > x_position or \
            not counting_up and pos < x_position:
-            return i
+            if forwards:
+                result = i
+            else:
+                result = len(positions) - 1 - i 
+            logging.debug(f'<<<g_p_s: {result}')
+            return result
     logging.error(f'left_to_right={left_to_right}\tforwards={forwards}\tpositions: {positions}')
     raise goal.GoalException(f'cannot find step for position: {x_position}')
 
@@ -520,11 +526,11 @@ class GravityQuartet(Quartet):
         if q == 3 or q == 4:
             scene['answer']['choice'] = 'implausible'
             _, top_offset = self._get_ramp_offsets()
-            logging.debug(f'top_offset={top_offset}')
             implausible_x_start = target['intphys_option']['ramp_x_term'] + top_offset
+            logging.debug(f'top_offset={top_offset}\timplausible_x_start={implausible_x_start}')
             implausible_step = get_position_step(target, implausible_x_start,
                                                  self._goal.is_left_to_right(),
-                                                 False) - 1 + \
+                                                 True) - 1 + \
                                                  target['shows'][0]['stepBegin']
             new_force = copy.deepcopy(target['forces'][0])
             new_force['stepBegin'] = implausible_step
@@ -564,7 +570,7 @@ class GravityQuartet(Quartet):
     def _get_ramp_offsets(self) -> Tuple[float, float]:
         bottom_offset, top_offset = GravityQuartet.RAMP_OFFSETS[self._goal.get_ramp_type()]
         left_to_right = self._goal.is_left_to_right()
-        if left_to_right:
+        if not left_to_right:
             bottom_offset *= -1
             top_offset *= -1
         return bottom_offset, top_offset
