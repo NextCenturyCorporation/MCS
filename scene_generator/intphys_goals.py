@@ -502,6 +502,9 @@ class GravityGoal(IntPhysGoal):
         self._left_to_right: Optional[bool] = None
         self._use_fastest = use_fastest
 
+    def _get_num_objects_moving_across(self) -> int:
+        return 1
+
     def is_ramp_steep(self) -> bool:
         if self._ramp_type is None:
             raise ValueError('cannot get ramp type before compute_objects is called')
