@@ -487,7 +487,8 @@ class GravityQuartet(Quartet):
 
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(GravityQuartet, self).__init__(template, find_path)
-        self._goal = intphys_goals.GravityGoal(roll_down = False, use_fastest = True)
+        self._goal = intphys_goals.GravityGoal(ramp_type = ramps.Ramp.RAMP_90,
+                                               roll_down = False, use_fastest = True)
         self._scenes[0] = copy.deepcopy(self._template)
         self._goal.update_body(self._scenes[0], self._find_path)
 
@@ -527,7 +528,9 @@ class GravityQuartet(Quartet):
                                                  target['shows'][0]['stepBegin']
             new_force = copy.deepcopy(target['forces'][0])
             new_force['stepBegin'] = implausible_step
-            factor = 2 if q == 3 else 0.5
+            if q == 3:
+                new_force['vector']['x'] *= 0.1
+            factor = 1000 if q == 3 else 0.01
             new_force['vector']['y'] *= factor
             target['forces'].append(new_force)
             target['forces'][0]['stepEnd'] = implausible_step - 1
