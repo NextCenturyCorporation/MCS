@@ -4,6 +4,7 @@
 
 import copy
 from enum import Enum, auto
+import logging
 import random
 import uuid
 from typing import Tuple, List, Dict, Any, Optional
@@ -302,7 +303,7 @@ class Ramp(Enum):
     RAMP_45_90 = auto()
 
 
-_RAMP_TEMPLATE_INFO: Tuple[Dict[str, Any], int] = {
+_RAMP_TEMPLATE_INFO: Dict[Ramp, Tuple[List[Dict[str, Any]], int]] = {
     Ramp.RAMP_30: (RAMP_30_TEMPLATE, 1),
     Ramp.RAMP_45: (RAMP_45_TEMPLATE, 3),
     Ramp.RAMP_90: (RAMP_90_TEMPLATE, 4),
@@ -346,5 +347,6 @@ def create_ramp(material_string: str, x_position_percent: float,
         if left_to_right:
             obj['shows'][0]['position']['x'] *= -1
             obj['shows'][0]['rotation']['z'] *= -1
+        logging.debug(f"c_r: ramp.x={obj['shows'][0]['position']['x']}\tx_term={x_term}")
         ramp.append(obj)
     return ramp_type, x_term, ramp
