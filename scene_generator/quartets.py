@@ -254,8 +254,8 @@ class SpatioTemporalContinuityQuartet(Quartet):
 
     def _teleport_backward(self, scene: Dict[str, Any]) -> None:
         target = find_targets(scene)[0]
+        scene['answer']['choice'] = 'implausible'
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
-            scene['answer']['choice'] = 'implausible'
             # go from the higher index to the lower one so we teleport backward
             implausible_event_index1 = target['intphys_option']['occluder_indices'][0]
             implausible_event_index2 = target['intphys_option']['occluder_indices'][1]
@@ -308,7 +308,6 @@ class SpatioTemporalContinuityQuartet(Quartet):
         }]
 
     def _move_later(self, scene: Dict[str, Any]) -> None:
-        scene['answer']['choice'] = 'implausible'
         target = find_target(scene)
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             scene['answer']['choice'] = 'implausible'
