@@ -354,11 +354,14 @@ class IntPhysGoal(Goal, ABC):
                 else:
                     position = object_position_x + position
                 new_positions.append(position)
-            if location in (IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR, IntPhysGoal.Position.LEFT_FIRST_NEAR, IntPhysGoal.Position.LEFT_LAST_NEAR):
-                max_x = IntPhysGoal.VIEWPORT_LIMIT_NEAR + obj_def['scale']['x'] / 2.0 * IntPhysGoal.VIEWPORT_PERSPECTIVE_FACTOR
-            else:
-                max_x = IntPhysGoal.VIEWPORT_LIMIT_FAR + obj_def['scale']['x'] / 2.0 * IntPhysGoal.VIEWPORT_PERSPECTIVE_FACTOR
-            filtered_position_by_step = [position for position in new_positions if (abs(position) <= max_x)]
+            if False:
+                if location in (IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR, IntPhysGoal.Position.LEFT_FIRST_NEAR, IntPhysGoal.Position.LEFT_LAST_NEAR):
+                    max_x = IntPhysGoal.VIEWPORT_LIMIT_NEAR + obj_def['scale']['x'] / 2.0 * IntPhysGoal.VIEWPORT_PERSPECTIVE_FACTOR
+                else:
+                    max_x = IntPhysGoal.VIEWPORT_LIMIT_FAR + obj_def['scale']['x'] / 2.0 * IntPhysGoal.VIEWPORT_PERSPECTIVE_FACTOR
+                filtered_position_by_step = [position for position in new_positions if (abs(position) <= max_x)]
+                logging.debug(f'IPG._g_o_m_a: positions={new_positions}\tfiltered positions={filtered_position_by_step}')
+            filtered_position_by_step = new_positions
             intphys_option['position_by_step'] = filtered_position_by_step
 
             # set shows.stepBegin
