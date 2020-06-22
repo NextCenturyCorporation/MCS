@@ -274,12 +274,13 @@ class SimilarAdjacentFarPair(InteractionPair):
         similar_def = util.finalize_object_definition(util.get_similar_definition(target))
         scene1 = self._get_empty_scene()
         scene2 = self._get_empty_scene()
-        container_def = None
+        placement = None
         performer_position = self._performer_start['position']
         if random.random() <= util.TARGET_CONTAINED_CHANCE:
             container_defs = objects.get_enclosed_containers().copy()
             random.shuffle(container_defs)
             for container_def in container_defs:
+                container_def = util.finalize_object_definition(container_def)
                 placement = containers.can_contain_both(container_def, target_def, similar_def)
                 if placement is not None:
                     break
@@ -293,7 +294,7 @@ class SimilarAdjacentFarPair(InteractionPair):
                                                     container_def, index, orientation,
                                                     rot_a, rot_b)
                 scene1['objects'] = [target, similar, container]
-        if container_def is None:
+        if placement is None:
             # Decided not to use a container or couldn't find one that
             # could hold the target & similar objects.
             similar_location = geometry.get_adjacent_location(similar_def, target,
@@ -302,7 +303,7 @@ class SimilarAdjacentFarPair(InteractionPair):
             scene1['objects'] = [target, similar]
 
         # scene 2
-        if container_def is None:
+        if placement is None:
             target2_location = geometry.calc_obj_pos(performer_position, [], target_def)
             target2 = util.instantiate_object(target_def, target2_location)
             similar2 = instantiate_away_from(similar_def, performer_position, target2)
