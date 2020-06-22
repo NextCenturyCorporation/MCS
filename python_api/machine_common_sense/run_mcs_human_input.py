@@ -1,6 +1,7 @@
 import sys
 import argparse
 #import importlib 
+import cmd
 
 from machine_common_sense.mcs import MCS
 from machine_common_sense.mcs_action import MCS_Action
@@ -97,7 +98,7 @@ def input_commands(controller, previous_output, config_data):
         print("ERROR: Parameters should be separated by commas, and look like this example: rotation=45")
         return input_commands(controller, previous_output, config_data)
 
-    output = controller.step(action, **params);
+    output = controller.step(action, **params)
 
     print('===============================================================================')
 
@@ -111,6 +112,8 @@ def run_scene(controller, config_data):
     output = controller.start_scene(config_data)
 
     input_commands(controller, output, config_data)
+    #input_commands = HumanInputShell()
+    #input_commands.cmdloop()
 
     sys.exit()
 
@@ -173,3 +176,21 @@ def main(argv):
 if __name__ == "__main__":
     main(sys.argv)
 
+
+class HumanInputShell(cmd.Cmd):
+    prompt = '>'
+    controller = None
+    previous_output = None
+    config_data = None 
+
+    def __init__(self, input_controller, input_previous_output, input_config_data):
+        print("In constructor")
+
+    def do_exit(self, args):
+        print("In Exit")
+
+    def do_help(self, args):
+        print("In help")
+
+    def do_reset(self, args):
+        print("In reset")
