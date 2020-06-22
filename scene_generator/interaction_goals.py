@@ -287,7 +287,6 @@ class RetrievalGoal(InteractionGoal):
         plane_dist = math.sqrt((goal_objects[0]['shows'][0]['position']['x'] - performer[0]) ** 2 +
                                (goal_objects[0]['shows'][0]['position']['z'] - performer[1]) ** 2)
         height_dist = PERFORMER_CAMERA_Y - goal_objects[0]['shows'][0]['position']['y']
-        print(f'plane_dist={plane_dist}\theight_dist={height_dist}')              
         elevation = math.degrees(math.atan2(height_dist, plane_dist))
         if abs(elevation) > 30:
             actions.append({
@@ -442,7 +441,7 @@ class TransferralGoal(InteractionGoal):
             raise GoalException('could not find path from target object to goal')
         logging.debug(f'TransferralGoal.f_o_p: got path = {path}')
         for object in all_objects:
-            if object['id'] == goal_objects[0]['id']:
+            if object['id'] == goal_objects[1]['id']:
                 goal_boundary = object['shows'][0]['bounding_box']
                 break
         current_heading = heading
