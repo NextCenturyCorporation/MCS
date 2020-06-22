@@ -5,6 +5,9 @@ import math
 from typing import Dict, Any
 
 import pytest
+
+import goal
+from goal import MAX_TRIES
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
 
 import geometry
@@ -442,7 +445,12 @@ def test_TransferralGoal_ensure_pickup_action():
         'goal': {},
         'answer': {}
     }
-    goal_obj.update_body(body, True)
+    for _ in range(MAX_TRIES):
+        try:
+            goal_obj.update_body(body, True)
+            break
+        except goal.GoalException:
+            pass
     # should have a PickupObject action
     assert any((action['action'] == 'PickupObject' for action in body['answer']['actions']))
     # last action one should be PutObject
@@ -498,7 +506,6 @@ def test_TransferralGoal_navigate_near_objects():
             # should be near container
             container_distance = math.sqrt((x - container_position['x'])**2 +
                                            (z - container_position['z'])**2)
-            print(f'location=({x}, {z})\tcontainer={container_obj}')
             assert container_distance <= 0.5
         elif action['action'] == 'RotateLook':
             # subtract because rotations are clockwise
