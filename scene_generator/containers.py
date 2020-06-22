@@ -1,6 +1,6 @@
 import copy
 from enum import Enum, auto
-from typing import Dict, Any, Optional, Tuple, Sequence, List
+from typing import Dict, Any, Optional, Tuple, Sequence, List, Iterable
 
 import geometry
 import objects
@@ -235,3 +235,10 @@ def get_enclosable_container_defs(objs: Sequence[Dict[str, Any]],
                     new_def['choose'] = valid_choices
                     valid_container_defs.append(new_def)
     return valid_container_defs
+
+
+def get_parent(obj: Dict[str, Any], all_objects: Iterable[Dict[str, Any]]) \
+        -> Dict[str, Any]:
+    parent_id = obj['locationParent']
+    parent = next((o for o in all_objects if o['id'] == parent_id))
+    return parent
