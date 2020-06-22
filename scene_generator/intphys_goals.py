@@ -482,7 +482,7 @@ class GravityGoal(IntPhysGoal):
     TEMPLATE = {
         'category': 'intphys',
         'domain_list': ['objects', 'object_solidity', 'object_motion', 'gravity'],
-        'type_list': ['observation', 'action_none', 'intphys', 'gravity'],
+        'type_list': ['passive', 'action_none', 'intphys', 'gravity'],
         'task_list': ['choose'],
         'description': '',
         'metadata': {
@@ -647,7 +647,7 @@ class ObjectPermanenceGoal(IntPhysGoal):
     TEMPLATE = {
         'category': 'intphys',
         'domain_list': ['objects', 'object_solidity', 'object_motion', 'object_permanence'],
-        'type_list': ['observation', 'action_none', 'intphys', 'object_permanence'],
+        'type_list': ['passive', 'action_none', 'intphys', 'object_permanence'],
         'task_list': ['choose'],
         'description': '',
         'metadata': {}
@@ -661,7 +661,7 @@ class ShapeConstancyGoal(IntPhysGoal):
     TEMPLATE = {
         'category': 'intphys',
         'domain_list': ['objects', 'object_solidity', 'object_motion', 'object_permanence'],
-        'type_list': ['observation', 'action_none', 'intphys', 'shape_constancy'],
+        'type_list': ['passive', 'action_none', 'intphys', 'shape_constancy'],
         'task_list': ['choose'],
         'description': '',
         'metadata': {}
@@ -675,7 +675,7 @@ class SpatioTemporalContinuityGoal(IntPhysGoal):
     TEMPLATE = {
         'category': 'intphys',
         'domain_list': ['objects', 'object_solidity', 'object_motion', 'object_permanence'],
-        'type_list': ['observation', 'action_none', 'intphys', 'spatio_temporal_continuity'],
+        'type_list': ['passive', 'action_none', 'intphys', 'spatio_temporal_continuity'],
         'task_list': ['choose'],
         'description': '',
         'metadata': {}

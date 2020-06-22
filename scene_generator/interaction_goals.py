@@ -242,8 +242,8 @@ class RetrievalGoal(InteractionGoal):
     TEMPLATE = {
         'category': 'retrieval',
         'domain_list': ['objects', 'places', 'object_solidity', 'navigation', 'localization'],
-        'type_list': ['interaction', 'action_full', 'retrieve'],
-        'task_list': ['navigate', 'localize', 'retrieve'],
+        'type_list': ['interactive', 'action_full', 'retrieval'],
+        'task_list': ['navigate', 'localize', 'identify', 'retrieve'],
     }
 
     def __init__(self):
@@ -321,8 +321,8 @@ class TransferralGoal(InteractionGoal):
     TEMPLATE = {
         'category': 'transferral',
         'domain_list': ['objects', 'places', 'object_solidity', 'navigation', 'localization'],
-        'type_list': ['interaction', 'identification', 'objects', 'places'],
-        'task_list': ['navigation', 'identification', 'transportation']
+        'type_list': ['interactive', 'action_full', 'transferral'],
+        'task_list': ['navigate', 'localize', 'identify', 'retrieve', 'transfer']
     }
 
     def __init__(self):
@@ -464,8 +464,8 @@ class TraversalGoal(Goal):
     TEMPLATE = {
         'category': 'traversal',
         'domain_list': ['objects', 'places', 'object_solidity', 'navigation', 'localization'],
-        'type_list': ['interaction', 'action_full', 'traversal'],
-        'task_list': ['navigate', 'localize', 'traversal'],
+        'type_list': ['interactive', 'action_full', 'traversal'],
+        'task_list': ['navigate', 'localize', 'identify'],
     }
 
     def __init__(self):
