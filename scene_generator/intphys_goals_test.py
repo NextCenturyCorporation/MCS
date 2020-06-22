@@ -25,12 +25,11 @@ def test_GravityGoal_compute_objects():
 # test for MCS-214
 def test_GravityGoal__get_ramp_and_objects():
     goal = GravityGoal()
-    ramp_type, left_to_right, object_list = goal._get_ramp_and_objects('dummy')
-    assert len(object_list) > 0
+    ramp_type, left_to_right, ramp_objs, object_list = goal._get_ramp_and_objects('dummy')
+    assert len(ramp_objs) >= 1
     for obj in object_list:
-        if 'intphys_option' in obj:
-            assert obj['intphys_option']['y'] == 0
-
+        assert obj['intphys_option']['y'] == 0
+        assert obj['type'] != 'cube'
 
 def test_IntPhysGoal__get_objects_and_occluders_moving_across():
     class TestGoal(IntPhysGoal):
