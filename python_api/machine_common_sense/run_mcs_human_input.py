@@ -19,6 +19,79 @@ class command:
         self.key = key
         self.desc = desc
 
+class HumanInputShell(cmd.Cmd):
+
+    prompt = '>'
+
+    controller = None
+    previous_output = None
+    config_data = None 
+
+    userInput = None #Will be re-initalized everytime input is read in
+
+    def __init__(self, input_controller, input_previous_output, input_config_data):
+        super(HumanInputShell,self).__init__()
+        
+        controller = input_controller
+        previous_output = input_previous_output
+        config_data = input_config_data
+
+
+    def precmd(self, args):
+        """
+        if previous_output.action_list is not None and len(previous_output.action_list) < len(commandList):
+            print('Only actions available during this step:')
+                for action in previous_output.action_list:
+                    print('  ' + action)
+        else:
+            print('All actions available during this step.')
+
+        if previous_output.action_list is not None and len(previous_output.action_list) == 1:
+            print('Automatically selecting the only available action...')
+            userInput = previous_output.action_list[1]
+        else:
+            print('Enter your command:')
+            userInput = input().split(',')
+
+        """
+        print("In precmd: What to do before each cmd line prompt")
+
+    def postcmd(self, stop, args):
+        """
+        print('You entered command:')
+        print(*userInput)
+        """
+
+
+    def do_exit(self, args): #MAke is so EXIT or ExIT can work?
+        print("In Exit")
+
+        print("Exiting Human Input Mode")
+        sys.exit()
+
+
+    def do_help(self, args):
+        print("In help")
+
+        print_commands()
+
+    def do_reset(self, args):
+        print("In reset")
+
+    def default(self, args):
+        """
+        print("You entered an invalid shortcut key, please try again. (Type 'help' to display commands again)")
+        print("You entered: " + userInput[0])
+        return input_commands(controller, previous_output, config_data)
+        """
+        print("Command not recognized")
+
+
+    def do_h(self, args):
+        self.do_help(args)
+        print("This will be an example of a shortcut call")
+
+
 # Define all the possible human input commands
 def build_commands():
     for action in MCS_Action:
@@ -108,14 +181,16 @@ def input_commands(controller, previous_output, config_data):
 def run_scene(controller, config_data):
     build_commands()
     print_commands()
-
+    
     output = controller.start_scene(config_data)
+    
+    #input_commands(controller, output, config_data)
 
-    input_commands(controller, output, config_data)
-    #input_commands = HumanInputShell()
-    #input_commands.cmdloop()
-
-    sys.exit()
+    input_commands = HumanInputShell(controller, output, config_data)
+    print("DEad3")
+    input_commands.cmdloop()
+    print("DEad4")
+    #sys.exit()
 
 def main(argv): 
     
