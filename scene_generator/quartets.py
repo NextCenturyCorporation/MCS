@@ -529,7 +529,7 @@ class GravityQuartet(Quartet):
             logging.debug(f'top_offset={top_offset}\timplausible_x_start={implausible_x_start}')
             implausible_step = get_position_step(target, implausible_x_start,
                                                  self._goal.is_left_to_right(),
-                                                 True) - 1 + \
+                                                 True) + \
                                                  target['shows'][0]['stepBegin']
             new_force = copy.deepcopy(target['forces'][0])
             new_force['stepBegin'] = implausible_step
@@ -539,6 +539,7 @@ class GravityQuartet(Quartet):
             new_force['vector']['y'] *= factor
             target['forces'].append(new_force)
             target['forces'][0]['stepEnd'] = implausible_step - 1
+            target['forces'][0]['vector']['y'] = 0
         return scene
 
     def _get_gentle_scene(self, q: int) -> Dict[str, Any]:
