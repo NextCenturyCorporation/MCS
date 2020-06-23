@@ -219,16 +219,3 @@ def get_def_with_new_scale(obj: Dict[str, Any]) -> Dict[str, Any]:
         obj_def = None
     return obj_def
 
-
-def find_performer_rect(performer_position: Dict[str, float]) -> List[Dict[str, float]]:
-    return [
-        {'x': performer_position['x'] - PERFORMER_HALF_WIDTH,
-         'z': performer_position['z'] - PERFORMER_HALF_WIDTH},
-        {'x': performer_position['x'] - PERFORMER_HALF_WIDTH,
-         'z': performer_position['z'] + PERFORMER_HALF_WIDTH},
-        {'x': performer_position['x'] + PERFORMER_HALF_WIDTH,
-         'z': performer_position['z'] + PERFORMER_HALF_WIDTH},
-        {'x': performer_position['x'] + PERFORMER_HALF_WIDTH,
-         'z': performer_position['z'] - PERFORMER_HALF_WIDTH}
-    ]
-

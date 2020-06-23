@@ -398,3 +398,13 @@ def test_rect_to_poly():
     actual = geometry.rect_to_poly(rect)
     assert actual.equals(expected)
 
+
+def test_find_performer_rect():
+    expected1 = [{'x': -0.05, 'z': -0.05}, {'x': -0.05, 'z': 0.05}, {'x': 0.05, 'z': 0.05}, {'x': 0.05, 'z': -0.05}]
+    actual1 = find_performer_rect({'x': 0, 'y': 0, 'z': 0})
+    assert actual1 == expected1
+
+    expected2 = [{'x': 0.95, 'z': 0.95}, {'x': 0.95, 'z': 1.05}, {'x': 1.05, 'z': 1.05}, {'x': 1.05, 'z': 0.95}]
+    actual2 = find_performer_rect({'x': 1, 'y': 1, 'z': 1})
+    assert actual2 == expected2
+

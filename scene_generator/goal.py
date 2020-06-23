@@ -27,7 +27,7 @@ def generate_wall(wall_mat_choice: str, performer_position: Dict[str, float],
     # Generates obstacle walls placed in the scene.
 
     tries = 0
-    performer_rect = util.find_performer_rect(performer_position)
+    performer_rect = geometry.find_performer_rect(performer_position)
     performer_poly = geometry.rect_to_poly(performer_rect)
     while tries < MAX_TRIES:
         rotation = random.choice((0, 90, 180, 270))

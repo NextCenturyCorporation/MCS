@@ -129,7 +129,7 @@ object in the frame, None otherwise."""
         offset_z = 0.0
 
     # reserve space around the performer
-    performer_rect = util.find_performer_rect(performer_position)
+    performer_rect = find_performer_rect(performer_position)
     logging.debug(f'performer_rect = {performer_rect}')
 
     tries = 0
@@ -409,4 +409,17 @@ def get_bounding_polygon(obj: Dict[str, Any]) -> shapely.geometry.Polygon:
 def rect_to_poly(rect: List[Dict[str, Any]]) -> shapely.geometry.Polygon:
     points = [(point['x'], point['z']) for point in rect]
     return shapely.geometry.Polygon(points)
+
+
+def find_performer_rect(performer_position: Dict[str, float]) -> List[Dict[str, float]]:
+    return [
+        {'x': performer_position['x'] - util.PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] - util.PERFORMER_HALF_WIDTH},
+        {'x': performer_position['x'] - util.PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] + util.PERFORMER_HALF_WIDTH},
+        {'x': performer_position['x'] + util.PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] + util.PERFORMER_HALF_WIDTH},
+        {'x': performer_position['x'] + util.PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] - util.PERFORMER_HALF_WIDTH}
+    ]
 
