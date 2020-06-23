@@ -7,14 +7,10 @@ import random
 import math
 from typing import Dict, Any, AnyStr, List, Tuple, Sequence
 
-<<<<<<< HEAD
 import util
-from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
-=======
 from sympy import Segment, intersection
 
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, PERFORMER_CAMERA_Y
->>>>>>> master
 
 import geometry
 import objects
