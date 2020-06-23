@@ -8,14 +8,14 @@ import pytest
 
 import goal
 from goal import MAX_TRIES
-from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
+from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, MAX_REACH_DISTANCE
 
 import geometry
 import objects
 import scene_generator
 from geometry import POSITION_DIGITS
 from goals import *
-from interaction_goals import move_to_container, parse_path_section, get_navigation_actions
+from interaction_goals import move_to_container, parse_path_section, get_navigation_actions, trim_actions_to_reach
 from util import finalize_object_definition, instantiate_object
 
 
@@ -324,6 +324,45 @@ def test_get_navigation_action_with_turning():
     assert actions == expected_actions
 
 
+def test_trim_actions_to_reach():
+    path_section = ((0, 0), (1, 0))
+    goal_boundary = [{
+        'x': 1.1,
+        'y': 0,
+        'z': 0.1
+    }, {
+        'x': 1.1,
+        'y': 0,
+        'z': -0.1
+    }, {
+        'x': 0.9,
+        'y': 0,
+        'z': -0.1
+    }, {
+        'x': 0.9,
+        'y': 0,
+        'z': 0.1
+    }]
+    expected_actions = [{
+        'action': 'MoveAhead',
+        'params': {
+            'amount': 1
+        }
+    }]
+    actions, new_heading, performer = parse_path_section(path_section, 0, (0, 0), goal_boundary)
+    target = {
+        'shows': [{
+            'position': {
+                'x': 1,
+                'y': 0,
+                'z': 0
+            }
+        }]
+    }
+    actions, performer = trim_actions_to_reach(actions, performer, new_heading, target)
+    assert actions == expected_actions
+
+
 def test_RetrievalGoal_get_goal():
     goal_obj = RetrievalGoal()
     obj = {
@@ -506,12 +545,12 @@ def test_TransferralGoal_navigate_near_objects():
             # should be near pickupable object
             pickupable_distance = math.sqrt((x - pickupable_position['x'])**2 +
                                             (z - pickupable_position['z'])**2)
-            assert pickupable_distance <= 0.5
+            assert pickupable_distance <= MAX_REACH_DISTANCE
         elif action['action'] == 'PutObject':
             # should be near container
             container_distance = math.sqrt((x - container_position['x'])**2 +
                                            (z - container_position['z'])**2)
-            assert container_distance <= 0.5
+            assert container_distance <= MAX_REACH_DISTANCE
         elif action['action'] == 'RotateLook':
             # subtract because rotations are clockwise
             heading = (heading - action['params']['rotation']) % 360.0

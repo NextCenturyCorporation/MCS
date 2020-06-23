@@ -9,7 +9,7 @@ from typing import Dict, Any, AnyStr, List, Tuple, Sequence
 
 from sympy import Segment, intersection
 
-from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, PERFORMER_CAMERA_Y
+from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, MAX_REACH_DISTANCE, PERFORMER_CAMERA_Y
 
 import geometry
 import objects
@@ -159,6 +159,37 @@ def get_navigation_actions(start_location: Dict[str, Any],
     return actions, performer, current_heading
 
 
+def trim_actions_to_reach(actions: List[Dict[str, Any]],
+                          performer: Tuple[float, float],
+                          heading: float,
+                          goal_obj: Dict[str, Any]) -> \
+                          Tuple[List[Dict[str, Any]], Tuple[float, float]]:
+    """Trim the action list from the end so that the performer doesn't
+    take additonal steps toward the goal object once they're within
+    MAX_REACH_DISTANCE.
+    """
+    goal_position = goal_obj['shows'][0]['position']
+    total_distance = math.sqrt((performer[0] - goal_position['x'])**2 + (performer[1] - goal_position['z'])**2)
+
+    i = len(actions)
+    step_dist = 0
+    dist_moved = 0
+    while total_distance < MAX_REACH_DISTANCE and i > 0:
+        i -= 1
+        action = actions[i]
+        if action['action'] != 'MoveAhead':
+            break
+        step_dist = action['params']['amount'] * MAX_MOVE_DISTANCE
+        total_distance += step_dist
+        dist_moved += step_dist
+
+    dist_moved -= step_dist
+    new_actions = actions[:i+1]
+    new_x = performer[0] - dist_moved * math.cos(math.radians(heading))
+    new_z = performer[1] - dist_moved * math.sin(math.radians(heading))
+    return new_actions, (new_x, new_z)
+
+
 def move_to_container(target: Dict[str, Any], all_objects: List[Dict[str, Any]],
                       bounding_rects: List[List[Dict[str, float]]], performer_position: Dict[str, float]) -> bool:
     """Try to find a random container that target will fit in. If found, set the target's locationParent, and add
@@ -279,6 +310,7 @@ class RetrievalGoal(InteractionGoal):
             List[Dict[str, Any]]:
         # Goal should be a singleton... I hope
         actions, performer, heading = get_navigation_actions(self._performer_start, goal_objects[0], all_objects)
+        actions, performer = trim_actions_to_reach(actions, performer, heading, goal_objects[0])
 
         # Do I have to look down to see the object????
         plane_dist = math.sqrt((goal_objects[0]['shows'][0]['position']['x'] - performer[0]) ** 2 +
@@ -394,6 +426,8 @@ class TransferralGoal(InteractionGoal):
         actions, performer, heading = get_navigation_actions(self._performer_start,
                                                              goal_objects[0],
                                                              all_objects)
+        actions, performer = trim_actions_to_reach(actions, performer, heading, goal_objects[0])
+
         # Do I have to look down to see the object????
         plane_dist = math.sqrt((goal_objects[0]['shows'][0]['position']['x'] - performer[0]) ** 2 +
                                (goal_objects[0]['shows'][0]['position']['z'] - performer[1]) ** 2)
@@ -445,6 +479,8 @@ class TransferralGoal(InteractionGoal):
         for indx in range(len(path)-1):
             new_actions, current_heading, performer = parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary)
             actions.extend(new_actions)
+
+        actions, performer = trim_actions_to_reach(actions, performer, current_heading, goal_objects[1])
 
         # TODO: maybe look at receptacle part of the parent object (future ticket)
         actions.append({
