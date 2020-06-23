@@ -205,8 +205,7 @@ class SimilarAdjacentContainedPair(InteractionPair):
         return scene1, scene2
 
 
-#_INTERACTION_PAIR_CLASSES = [ImmediatelyVisiblePair, SimilarAdjacentContainedPair]
-_INTERACTION_PAIR_CLASSES = [HiddenBehindPair]
+_INTERACTION_PAIR_CLASSES = [HiddenBehindPair, ImmediatelyVisiblePair, SimilarAdjacentContainedPair]
 
 
 def get_pair_class() -> Type[InteractionPair]:
