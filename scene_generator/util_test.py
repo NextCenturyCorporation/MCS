@@ -4,7 +4,7 @@ import geometry
 import materials
 import objects
 from goals import *
-from util import finalize_object_definition, instantiate_object, check_same_and_different, get_similar_defs
+from util import finalize_object_definition, instantiate_object, check_same_and_different, get_similar_defs, find_performer_rect
 
 
 def test_finalize_object_definition():
@@ -203,4 +203,14 @@ def test_get_similar_defs():
     similar_defs = get_similar_defs(obj, ('type', 'materialCategory'), ('mass',))
     for obj_def in similar_defs:
         assert check_same_and_different(obj_def, obj, ('type', 'materialCategory'), ('mass',))
-    
+
+
+def test_find_performer_rect():
+    expected1 = [{'x': -0.05, 'z': -0.05}, {'x': -0.05, 'z': 0.05}, {'x': 0.05, 'z': 0.05}, {'x': 0.05, 'z': -0.05}]
+    actual1 = find_performer_rect({'x': 0, 'y': 0, 'z': 0})
+    assert actual1 == expected1
+
+    expected2 = [{'x': 0.95, 'z': 0.95}, {'x': 0.95, 'z': 1.05}, {'x': 1.05, 'z': 1.05}, {'x': 1.05, 'z': 0.95}]
+    actual2 = find_performer_rect({'x': 1, 'y': 1, 'z': 1})
+    assert actual2 == expected2
+
