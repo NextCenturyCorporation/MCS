@@ -202,7 +202,7 @@ The player camera's near and far clipping planes. This will remain constant for 
 
 ### camera_field_of_view : float
 
-The player camera's field of view. This will remain constant for the whole scene.
+The player camera's vertical field of view, in degrees. The horizontal field of view can be computed using this and the `camera_aspect_ratio`.  This will remain constant for the whole scene.
 
 ### camera_height : float
 

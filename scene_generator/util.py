@@ -9,6 +9,7 @@ import materials
 import objects
 
 
+MAX_TRIES = 200
 MIN_RANDOM_INTERVAL = 0.05
 
 
