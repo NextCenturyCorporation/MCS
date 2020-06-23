@@ -101,16 +101,13 @@ def parse_path_section(path_section: Sequence[Sequence[float]],
     frac, whole = math.modf(distance / MAX_MOVE_DISTANCE)
     actions.extend([{
         "action": "MoveAhead",
-        "params": {}
+        "params": {
+            "amount": 1
+        }
     }] * int(whole))
 
     rounded_frac = round(frac, POSITION_DIGITS)
-    if rounded_frac == 1.0:
-        actions.append({
-            "action": "MoveAhead",
-            "params": {}
-        })
-    elif rounded_frac > 0:
+    if rounded_frac > 0:
         actions.append({
             "action": "MoveAhead",
             "params": {

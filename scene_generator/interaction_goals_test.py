@@ -78,7 +78,9 @@ def test_parse_path_section_fractional():
     }]
     expected_actions = [{
         'action': 'MoveAhead',
-        'params': {}
+        'params': {
+            'amount': 1
+        }
     }, {
         'action': 'MoveAhead',
         'params': {
@@ -307,12 +309,15 @@ def test_get_navigation_action_with_turning():
         }]
     }
     expected_actions = [{'action': 'RotateLook', 'params': {'rotation': 315.0, 'horizon': 0.0}},
-                        {'action': 'MoveAhead', 'params': {}}, {'action': 'MoveAhead', 'params': {}},
+                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
+                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
                         {'action': 'MoveAhead', 'params': {'amount': 0.83}},
                         {'action': 'RotateLook', 'params': {'rotation': 45.0, 'horizon': 0.0}},
-                        {'action': 'MoveAhead', 'params': {}}, {'action': 'MoveAhead', 'params': {}},
+                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
+                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
                         {'action': 'RotateLook', 'params': {'rotation': 45.0, 'horizon': 0.0}},
-                        {'action': 'MoveAhead', 'params': {}}, {'action': 'MoveAhead', 'params': {}},
+                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
+                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
                         {'action': 'MoveAhead', 'params': {'amount': round((.9*math.sqrt(2)-1)/MAX_MOVE_DISTANCE, POSITION_DIGITS)}}]
     all_objs = [goal_obj, obstacle_obj]
     actions, performer, heading = get_navigation_actions(start, goal_obj, all_objs)
