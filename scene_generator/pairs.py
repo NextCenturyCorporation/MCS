@@ -12,7 +12,7 @@ import objects
 import util
 from geometry import ROOM_DIMENSIONS, MIN_START_DISTANCE_AWAY
 
-NUM_EXTRA_OBJECTS = 5
+MAX_EXTRA_OBJECTS = 10
 PERFORMER_BOUNDS = ((ROOM_DIMENSIONS[0][0] + MIN_START_DISTANCE_AWAY,
                      ROOM_DIMENSIONS[0][1] - MIN_START_DISTANCE_AWAY),
                     (ROOM_DIMENSIONS[1][0] + MIN_START_DISTANCE_AWAY,
@@ -35,9 +35,9 @@ def move_to_location(obj_def: Dict[str, Any], obj: Dict[str, Any],
 
 
 def add_objects(target: Dict[str, Any], performer_position: Dict[str, float], scene: Dict[str, Any]):
-    """Add NUM_EXTRA_OBJECTS to the scene with none between the performer
-    and the target. In rare cases, fewer than NUM_EXTRA_OBJECTS may be
-    added."""
+    """Add 0 to MAX_EXTRA_OBJECTS to the scene with none between the
+    performer and the target.
+    """
     all_obj_defs = objects.get_all_object_defs()
     target_x = target['shows'][0]['position']['x']
     target_z = target['shows'][0]['position']['z']
@@ -47,7 +47,8 @@ def add_objects(target: Dict[str, Any], performer_position: Dict[str, float], sc
                                              0, 0, target['shows'][0]['rotation']['y'])
     # init with the rect for the target
     rects = [target_coords]
-    for _ in range(NUM_EXTRA_OBJECTS):
+    num_extra_objects = random.randint(0, MAX_EXTRA_OBJECTS)
+    for _ in range(num_extra_objects):
         found_location = False
         for dummy in range(util.MAX_TRIES):
             obj_def = util.finalize_object_definition(random.choice(all_obj_defs))
