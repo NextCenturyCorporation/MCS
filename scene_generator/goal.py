@@ -27,13 +27,16 @@ def generate_wall(wall_mat_choice: str, performer_position: Dict[str, float],
     # Generates obstacle walls placed in the scene.
 
     tries = 0
+    performer_rect = util.find_performer_rect(performer_position)
+    performer_poly = geometry.rect_to_poly(performer_rect)
     while tries < MAX_TRIES:
         rotation = random.choice((0, 90, 180, 270))
         new_x = geometry.random_position()
         new_z = geometry.random_position()
         new_x_size = round(random.uniform(MIN_WALL_WIDTH, MAX_WALL_WIDTH), geometry.POSITION_DIGITS)
         rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, 0, 0, rotation)
-        if not geometry.collision(rect, performer_position) and \
+        wall_poly = geometry.rect_to_poly(rect)
+        if not wall_poly.intersects(performer_poly) and \
                 all(geometry.point_within_room(point) for point in rect) and \
                 (len(other_rects) == 0 or not any(
                     separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)):

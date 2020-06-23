@@ -390,3 +390,11 @@ def test_get_wider_and_taller_defs():
         wt_def = util.finalize_object_definition(wt_def)
         assert wt_def['dimensions']['x'] >= dims['x']
         assert wt_def['dimensions']['y'] >= dims['y']
+
+
+def test_rect_to_poly():
+    rect = [{'x': 1, 'z': 2}, {'x': 3, 'z': 4}, {'x': 7, 'z': 0}, {'x': 5, 'z': -2}]
+    expected = shapely.geometry.Polygon([(1, 2), (3, 4), (7, 0), (5, -2)])
+    actual = geometry.rect_to_poly(rect)
+    assert actual.equals(expected)
+
