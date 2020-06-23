@@ -314,7 +314,9 @@ def get_adjacent_location(obj_def: Dict[str, Any],
     location will not overlap the performer start, if necessary trying
     to put the new object on each cardinal side of the target.
     """
-    for side in range(4):
+    sides = list(range(4))
+    random.shuffle(sides)
+    for side in sides:
         location = _adjacent_location(obj_def, target, performer_start, side)
         if location is not None:
             return location
