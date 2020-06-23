@@ -10,7 +10,8 @@ import materials
 import math
 import objects
 import ramps
-from goal import MIN_RANDOM_INTERVAL, Goal, GoalException
+import util
+from goal import Goal, GoalException
 from util import finalize_object_definition, instantiate_object
 
 MAX_WALL_WIDTH = 4
@@ -20,20 +21,9 @@ WALL_HEIGHT = 3
 WALL_DEPTH = 0.1
 
 
-def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
-    """Return a random real number N where a <= N <= b and N - a is divisible by step."""
-    steps = int((b - a) / step)
-    try:
-        n = random.randint(0, steps)
-    except ValueError as e:
-        raise ValueError(f'bad args to random_real: ({a}, {b}, {step})', e)
-    return a + (n * step)
-
-
 class IntPhysGoal(Goal, ABC):
     """Base class for Intuitive Physics goals. Subclasses must set TEMPLATE variable (for use in get_config)."""
 
-    MAX_OCCLUDER_TRIES = 100
     # The 3.55 or 4.2 is the position at which the object will leave the camera's viewport, and is dependent on the
     # object's Z position (either 1.6 or 2.7). The * 1.2 is to account for the camera's perspective.
     VIEWPORT_LIMIT_NEAR = 3.55
@@ -157,13 +147,13 @@ class IntPhysGoal(Goal, ABC):
 
     def _get_paired_occluder(self, paired_obj, occluder_list, non_room_wall_materials, pole_materials):
         occluder_fits = False
-        for _ in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
+        for _ in range(util.MAX_TRIES):
             x_diagonal = math.sqrt(2) * paired_obj['shows'][0]['scale']['x']
             min_scale = min(max(x_diagonal,
                                 IntPhysGoal.MIN_OCCLUDER_SCALE),
                             IntPhysGoal.MAX_OCCLUDER_SCALE)
             # object could be a cube on its corner, so use the diagonal distance
-            x_scale = random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
+            x_scale = util.random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, util.MIN_RANDOM_INTERVAL)
             position_by_step = paired_obj['intphys_option']['position_by_step']
             paired_z = paired_obj['shows'][0]['position']['z']
             min_paired_x_position = -3 + x_scale / 2
@@ -236,10 +226,10 @@ class IntPhysGoal(Goal, ABC):
             for try_num in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
                 # try random position and scale until we find one that fits (or try too many times)
                 min_scale = IntPhysGoal.MIN_OCCLUDER_SCALE
-                x_scale = random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, MIN_RANDOM_INTERVAL)
+                x_scale = util.random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, util.MIN_RANDOM_INTERVAL)
                 limit = 3.0 - x_scale / 2.0
-                limit = int(limit / MIN_RANDOM_INTERVAL) * MIN_RANDOM_INTERVAL
-                occluder_x = random_real(-limit, limit, MIN_RANDOM_INTERVAL)
+                limit = int(limit / util.MIN_RANDOM_INTERVAL) * util.MIN_RANDOM_INTERVAL
+                occluder_x = util.random_real(-limit, limit, util.MIN_RANDOM_INTERVAL)
                 found_collision = False
                 for other_occluder in occluder_list:
                     if geometry.occluders_too_close(other_occluder, occluder_x, x_scale):
@@ -391,7 +381,6 @@ class IntPhysGoal(Goal, ABC):
 
     def _get_objects_falling_down(self, room_wall_material_name: str) \
         -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
-        MAX_POSITION_TRIES = 100
         MIN_OCCLUDER_SEPARATION = 0.5
         # min scale for each occluder / 2, plus 0.5 separation
         # divided by the smaller scale factor for distance from viewpoint
@@ -405,11 +394,11 @@ class IntPhysGoal(Goal, ABC):
             # other, but each one must have an occluder, and those
             # have to be a certain distance apart, so these objects
             # do, too.
-            for _ in range(MAX_POSITION_TRIES):
+            for _ in range(util.MAX_TRIES):
                 # Choose x so the occluder (for this object) is fully
                 # in the camera's viewport and with a gap so we can
                 # see when an object enters/leaves the scene.
-                x_position = random_real(-2.5, 2.5, MIN_RANDOM_INTERVAL)
+                x_position = util.random_real(-2.5, 2.5, util.MIN_RANDOM_INTERVAL)
                 too_close = False
                 for obj in object_list:
                     distance = abs(obj['shows'][0]['position']['x'] - x_position)
@@ -463,7 +452,7 @@ class IntPhysGoal(Goal, ABC):
             if max_scale <= min_scale:
                 x_scale = min_scale
             else:
-                x_scale = random_real(min_scale, max_scale, MIN_RANDOM_INTERVAL)
+                x_scale = util.random_real(min_scale, max_scale, util.MIN_RANDOM_INTERVAL)
             adjusted_x = x_position * factor
             occluder_pair = objects.create_occluder(random.choice(non_room_wall_materials)[0],
                                                     random.choice(materials.METAL_MATERIALS)[0],
@@ -531,12 +520,12 @@ class GravityGoal(IntPhysGoal):
         MAX_Z = 4.95
 
         def random_x():
-            return random_real(MIN_VISIBLE_X, MAX_VISIBLE_X, MIN_RANDOM_INTERVAL)
+            return util.random_real(MIN_VISIBLE_X, MAX_VISIBLE_X, util.MIN_RANDOM_INTERVAL)
 
         def random_z():
             # Choose values so the scenery is placed between the
             # moving IntPhys objects and the room's wall.
-            return random_real(MIN_Z, MAX_Z, MIN_RANDOM_INTERVAL)
+            return util.random_real(MIN_Z, MAX_Z, util.MIN_RANDOM_INTERVAL)
 
         self._scenery_count = random.choices((0, 1, 2, 3, 4, 5),
                                              (50, 10, 10, 10, 10, 10))[0]

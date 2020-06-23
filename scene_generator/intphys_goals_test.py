@@ -2,9 +2,9 @@ import materials
 from geometry import ORIGIN
 from goals import *
 
-from intphys_goals import random_real, IntPhysGoal
+from intphys_goals import IntPhysGoal
 from objects import OBJECTS_INTPHYS
-from util import instantiate_object
+from util import instantiate_object, random_real
 
 
 def test_random_real():
@@ -116,7 +116,7 @@ def test_mcs_209():
     assert obj['shows'][0]['rotation'] == obj_def['rotation']
 
     class TestGoal(IntPhysGoal):
-        TEMPLATE = {'type_list': [], 'metadata':{}}
+        TEMPLATE = {'type_list': [], 'metadata': {}}
         pass
 
     goal = TestGoal()

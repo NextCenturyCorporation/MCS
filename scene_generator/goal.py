@@ -4,19 +4,18 @@ from abc import ABC, abstractmethod
 import random
 from typing import Dict, Any, Tuple, List, Optional
 
+import exceptions
 import geometry
 import objects
 import separating_axis_theorem
 import util
 
-MAX_TRIES = 20
 MAX_WALL_WIDTH = 4
 MIN_WALL_WIDTH = 1
 WALL_Y_POS = 1.5
 WALL_HEIGHT = 3
 WALL_DEPTH = 0.1
 MAX_OBJECTS = 5
-MIN_RANDOM_INTERVAL = 0.05
 WALL_COUNTS = [0, 1, 2, 3]
 WALL_PROBS = [60, 20, 10, 10]
 
@@ -27,7 +26,7 @@ def generate_wall(wall_mat_choice: str, performer_position: Dict[str, float],
     # Generates obstacle walls placed in the scene.
 
     tries = 0
-    while tries < MAX_TRIES:
+    while tries < util.MAX_TRIES:
         rotation = random.choice((0, 90, 180, 270))
         new_x = geometry.random_position()
         new_z = geometry.random_position()
@@ -40,7 +39,7 @@ def generate_wall(wall_mat_choice: str, performer_position: Dict[str, float],
             break
         tries += 1
 
-    if tries < MAX_TRIES:
+    if tries < util.MAX_TRIES:
         new_object = {
             'id': 'wall_' + str(uuid.uuid4()),
             'materials': [wall_mat_choice],
@@ -181,6 +180,6 @@ class EmptyGoal(Goal):
         return []
 
 
-class GoalException(Exception):
+class GoalException(exceptions.SceneException):
     def __init__(self, message=''):
         super(GoalException, self).__init__(message)

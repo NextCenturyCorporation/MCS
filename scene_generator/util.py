@@ -8,6 +8,20 @@ import materials
 import objects
 
 
+MAX_TRIES = 200
+MIN_RANDOM_INTERVAL = 0.05
+
+
+def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
+    """Return a random real number N where a <= N <= b and N - a is divisible by step."""
+    steps = int((b - a) / step)
+    try:
+        n = random.randint(0, steps)
+    except ValueError as e:
+        raise ValueError(f'bad args to random_real: ({a}, {b}, {step})', e)
+    return a + (n * step)
+
+
 def finalize_object_definition(object_def: Dict[str, Any]) -> Dict[str, Any]:
     object_def_copy = copy.deepcopy(object_def)
 
