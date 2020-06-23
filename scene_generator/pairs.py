@@ -109,12 +109,12 @@ class HiddenBehindPair(InteractionPair):
     def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         for _ in range(MAX_PLACEMENT_TRIES):
             target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
-            occluder_defs = geometry.get_wider_and_taller_defs(target_def)
-            if occluder_defs is not None:
+            blocker_defs = geometry.get_wider_and_taller_defs(target_def)
+            if blocker_defs is not None:
                 break
-        if occluder_defs is None:
-            raise exceptions.SceneException('could not get a target and occluder')
-        occluder_def = util.finalize_object_definition(random.choice(occluder_defs))
+        if blocker_defs is None:
+            raise exceptions.SceneException('could not get a target and blocker')
+        blocker_def = util.finalize_object_definition(random.choice(blocker_defs))
 
         scene1 = self._get_empty_scene()
         # place target object in scene 1 right in front of the performer
@@ -127,16 +127,16 @@ class HiddenBehindPair(InteractionPair):
         target = util.instantiate_object(target_def, in_front_location)
         scene1['objects'] = [target]
 
-        # place occluder right in front of performer in scene 2
+        # place blocker right in front of performer in scene 2
         for _ in range(MAX_PLACEMENT_TRIES):
-            in_front_location = geometry.get_location_in_front_of_performer(self._performer_start, occluder_def,
+            in_front_location = geometry.get_location_in_front_of_performer(self._performer_start, blocker_def,
                                                                             lambda: 0)
             if in_front_location is not None:
                 break
         if in_front_location is None:
-            raise exceptions.SceneException('could not place occluder in front of performer')
-        # Rotate occluder to be facing the performer. There is a
-        # chance that this rotation could cause the occluder to
+            raise exceptions.SceneException('could not place blocker in front of performer')
+        # Rotate blocker to be facing the performer. There is a
+        # chance that this rotation could cause the blocker to
         # intersect the wall of the room, because it's different from
         # the rotation returned by get_location_in_front_of_performer
         # (which does check for that). But it seems pretty unlikely.
@@ -145,17 +145,17 @@ class HiddenBehindPair(InteractionPair):
         angle = math.degrees(math.atan2(dz, dx))
         # negative because we do clockwise rotation
         in_front_location['rotation']['y'] = -angle
-        occluder = util.instantiate_object(occluder_def, in_front_location)
+        blocker = util.instantiate_object(blocker_def, in_front_location)
         occluded_location = geometry.get_adjacent_location_on_side(target_def,
-                                                                   occluder,
+                                                                   blocker,
                                                                    self._performer_start['position'],
                                                                    2)
         if occluded_location is None:
-            raise exceptions.SceneException('could not place target behind occluder')
+            raise exceptions.SceneException('could not place target behind blocker')
         target2 = copy.deepcopy(target)
         move_to_location(target_def, target2, occluded_location)
         scene2 = self._get_empty_scene()
-        scene2['objects'] = [target2, occluder]
+        scene2['objects'] = [target2, blocker]
 
         return scene1, scene2
     
