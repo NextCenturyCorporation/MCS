@@ -2,6 +2,7 @@ import copy
 import logging
 import math
 import random
+from enum import IntEnum
 from typing import List, Dict, Any, Optional, Callable, Tuple, Sequence
 
 import shapely
@@ -329,10 +330,17 @@ def get_adjacent_location(obj_def: Dict[str, Any],
     return None
 
 
+class Side(IntEnum):
+    RIGHT = 0
+    BACK = 1
+    LEFT = 2
+    FRONT = 3
+
+
 def get_adjacent_location_on_side(obj_def: Dict[str, Any],
                                   target: Dict[str, Any],
                                   performer_start: Dict[str, float],
-                                  side: int) -> Optional[Dict[str, Any]]:
+                                  side: Side) -> Optional[Dict[str, Any]]:
     """Get a location such that, if obj_def is instantiated there, it will
     be next to target. Side determines on which side of target to
     place it: 0 = right (positive x), 1 = behind (positive z), 2 =
@@ -340,8 +348,6 @@ def get_adjacent_location_on_side(obj_def: Dict[str, Any],
     would overlap the performer_start or would be outside the room,
     None is returned."
     """
-    if side < 0 or side > 3:
-        raise ValueError(f'side must be 0-3 (not {side})')
     GAP = 0.05
     distance_dim = 'x' if side in (0, 2) else 'z'
     distance = obj_def['dimensions'][distance_dim]/2.0 + \

@@ -146,7 +146,7 @@ class HiddenBehindPair(InteractionPair):
         occluded_location = geometry.get_adjacent_location_on_side(target_def,
                                                                    blocker,
                                                                    self._performer_start['position'],
-                                                                   1)
+                                                                   geometry.Side.BACK)
         if occluded_location is None:
             raise exceptions.SceneException('could not place target behind blocker')
         target2 = copy.deepcopy(target)
