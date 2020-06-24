@@ -2,6 +2,8 @@ import logging
 import uuid
 
 import math
+from typing import Dict, Any
+
 import pytest
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
 
@@ -419,8 +421,35 @@ def test__generate_transferral_goal_with_nonstackable_goal():
     assert "second object must be" in str(excinfo.value)
 
 
-def test_add_RotateLook_to_action_list_before_Pickup_or_Put_Object():
+def test_TransferralGoal_ensure_pickup_action():
+    """For MCS-270"""
+    goal_obj = TransferralGoal()
+    body: Dict[str, Any] = {
+        'name': '',
+        'ceilingMaterial': 'AI2-THOR/Materials/Walls/Drywall',
+        'floorMaterial': 'AI2-THOR/Materials/Fabrics/CarpetWhite 3',
+        'wallMaterial': 'AI2-THOR/Materials/Walls/DrywallBeige',
+        'performerStart': {
+            'position': {
+                'x': 0,
+                'z': 0
+            },
+            'rotation': {
+                'y': 0
+            }
+        },
+        'objects': [],
+        'goal': {},
+        'answer': {}
+    }
+    goal_obj.update_body(body, True)
+    # should have a PickupObject action
+    assert any((action['action'] == 'PickupObject' for action in body['answer']['actions']))
+    # last action one should be PutObject
+    assert body['answer']['actions'][-1]['action'] == 'PutObject'
 
+
+def test_add_RotateLook_to_action_list_before_Pickup_or_Put_Object():
     """For MCS-161"""
     # make scene with a small target object
     scene = {

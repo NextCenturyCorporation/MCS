@@ -57,7 +57,7 @@ def find_image_name(target: Dict[str, Any]) -> str:
     return generate_image_file_name(target) + '.png'
 
 
-def parse_path_section(path_section: List[Sequence[float]],
+def parse_path_section(path_section: Sequence[Sequence[float]],
                        current_heading: float,
                        performer: Tuple[float, float],
                        goal_boundary: List[Dict[str, float]]) -> \
@@ -444,8 +444,8 @@ class TransferralGoal(InteractionGoal):
         current_heading = self._performer_start['rotation']['y']
         performer = (self._performer_start['position']['x'], self._performer_start['position']['z'])
         for indx in range(len(path)-1):
-            actions, current_heading, performer = parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary)
-            actions.extend(actions)
+            new_actions, current_heading, performer = parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary)
+            actions.extend(new_actions)
 
         # TODO: maybe look at receptacle part of the parent object (future ticket)
         actions.append({
