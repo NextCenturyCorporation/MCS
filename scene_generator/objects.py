@@ -2,6 +2,8 @@ import copy
 import uuid
 from typing import Tuple, Dict, Any, List
 
+BOX_FLAP_SIZE = 0.1
+
 OBJECTS_PICKUPABLE_BALLS = [{
     "type": "sphere",
     "info": ["tiny", "ball"],
@@ -283,8 +285,8 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
         "z": 2
     }
 }, {
-    # Readers, please ignore the "yellow number 1" in the type: the object's chosen material will change this design.
-    "type": "block_yellow_number_1",
+    # Readers, please ignore the "blue letter c" in the type: the object's chosen material will change this design.
+    "type": "block_blue_letter_c",
     "info": ["tiny", "letter block", "cube"],
     "mass": 0.66,
     "materialCategory": ["block_letter"],
@@ -468,7 +470,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
     }]
 }, {
     "type": "pacifier",
-    "info": ["tiny", "pacifier"],
+    "info": ["tiny", "blue", "pacifier"],
     "mass": 0.125,
     "salientMaterials": ["plastic"],
     "attributes": ["moveable", "pickupable"],
@@ -728,7 +730,7 @@ OBJECTS_PICKUPABLE_MISC = [{
     }],
     "dimensions": {
         "x": 0.623 * 1.25,
-        "y": 0.381 * 0.75,
+        "y": (0.381 - BOX_FLAP_SIZE) * 0.75,
         "z": 0.567 * 1.25
     },
     "offset": {
@@ -762,7 +764,7 @@ OBJECTS_PICKUPABLE_MISC = [{
     }],
     "dimensions": {
         "x": 0.623 * 0.75,
-        "y": 0.381 * 0.75,
+        "y": (0.381 - BOX_FLAP_SIZE) * 0.75,
         "z": 0.567 * 0.75
     },
     "offset": {
@@ -785,23 +787,23 @@ OBJECTS_PICKUPABLE_MISC = [{
     "enclosed_areas": [{
         "position": {
             "x": 0,
-            "y": -0.0585,
+            "y": -0.117 * 0.5,
             "z": -0.131
         },
         "dimensions": {
             "x": 0.399,
-            "y": 0.1525,
+            "y": 0.305 * 0.5,
             "z": 0.322
         }
     }],
     "dimensions": {
         "x": 0.712,
-        "y": 0.25,
+        "y": (0.5 - BOX_FLAP_SIZE) * 0.5,
         "z": 0.503
     },
     "offset": {
         "x": 0.008,
-        "y": -0.019,
+        "y": -0.038 * 0.5,
         "z": -0.115
     },
     "position_y": 0.15,
@@ -819,24 +821,24 @@ OBJECTS_PICKUPABLE_MISC = [{
     "enclosed_areas": [{
         "position": {
             "x": 0,
-            "y": -0.0585,
-            "z": -0.0655
+            "y": -0.117 * 0.5,
+            "z": -0.131 * 0.5
         },
         "dimensions": {
-            "x": 0.1995,
-            "y": 0.1525,
-            "z": 0.161
+            "x": 0.399 * 0.5,
+            "y": 0.305 * 0.5,
+            "z": 0.322 * 0.5
         }
     }],
     "dimensions": {
-        "x": 0.356,
-        "y": 0.25,
-        "z": 0.2515
+        "x": 0.712 * 0.5,
+        "y": (0.5 - BOX_FLAP_SIZE) * 0.5,
+        "z": 0.503 * 0.5
     },
     "offset": {
-        "x": 0.004,
-        "y": -0.019,
-        "z": -0.0775
+        "x": 0.008 * 0.5,
+        "y": -0.038 * 0.5,
+        "z": -0.115 * 0.5
     },
     "position_y": 0.15,
     "scale": {
@@ -971,7 +973,7 @@ OBJECTS_MOVEABLE = [{
         }],
         "dimensions": {
             "x": 0.623 * 1.25,
-            "y": 0.381 * 1.25,
+            "y": (0.381 - BOX_FLAP_SIZE) * 1.25,
             "z": 0.567 * 1.25
         },
         "offset": {
@@ -1003,7 +1005,7 @@ OBJECTS_MOVEABLE = [{
         }],
         "dimensions": {
             "x": 0.623 * 1.75,
-            "y": 0.381 * 1.75,
+            "y": (0.381 - BOX_FLAP_SIZE) * 1.75,
             "z": 0.567 * 1.75
         },
         "offset": {
@@ -1039,7 +1041,7 @@ OBJECTS_MOVEABLE = [{
         }],
         "dimensions": {
             "x": 0.712,
-            "y": 0.5,
+            "y": (0.5 - BOX_FLAP_SIZE),
             "z": 0.503
         },
         "offset": {
@@ -1061,23 +1063,23 @@ OBJECTS_MOVEABLE = [{
             "position": {
                 "x": 0,
                 "y": -0.117,
-                "z": -0.1965
+                "z": -0.131 * 1.5
             },
             "dimensions": {
-                "x": 0.5985,
+                "x": 0.399 * 1.5,
                 "y": 0.305,
-                "z": 0.483
+                "z": 0.322 * 1.5
             }
         }],
         "dimensions": {
-            "x": 1.068,
-            "y": 0.5,
-            "z": 0.7545
+            "x": 0.712 * 1.5,
+            "y": (0.5 - BOX_FLAP_SIZE),
+            "z": 0.503 * 1.5
         },
         "offset": {
-            "x": 0.012,
+            "x": 0.008 * 1.5,
             "y": -0.038,
-            "z": -0.1725
+            "z": -0.115 * 1.5
         },
         "position_y": 0.3,
         "scale": {
@@ -1324,17 +1326,6 @@ OBJECTS_IMMOBILE = [{
     "salientMaterials": ["wood", "wood"],
     "attributes": ["receptacle", "openable", "stackTarget"],
     "enclosed_areas": [{
-        "position": {
-            "x": 0.165,
-            "y": 0.47,
-            "z": -0.03
-        },
-        "dimensions": {
-            "x": 0.68,
-            "y": 0.22,
-            "z": 0.41
-        }
-    }, {
         "position": {
             "x": 0.165,
             "y": 0.19,
@@ -2053,7 +2044,7 @@ OCCLUDER_INSTANCE_SIDEWAYS = [{
 }]
 
 
-OBJECTS_INTPHYS = [{
+OBJECTS_INTPHYS: List[Dict[str, Any]] = [{
     "type": "sphere",
     "info": ["medium", "ball"],
     "mass": 0.75,
@@ -3945,9 +3936,9 @@ def get_enclosed_containers() -> List[Dict[str, Any]]:
         all_defs = get_all_object_defs()
         _ENCLOSED_CONTAINERS = [
             obj_def for obj_def in all_defs
-            if 'enclosed_areas' in obj_def and len(obj_def['enclosed_areas']) > 0
-            or 'choose' in obj_def and 'enclosed_areas' in obj_def['choose'][0]
-            and len(obj_def['choose'][0]['enclosed_areas']) > 0
+            if ('enclosed_areas' in obj_def and len(obj_def['enclosed_areas']) > 0)
+            or (('choose' in obj_def) and ('enclosed_areas' in obj_def['choose'][0])
+                and (len(obj_def['choose'][0]['enclosed_areas']) > 0))
         ]
     return _ENCLOSED_CONTAINERS
 
