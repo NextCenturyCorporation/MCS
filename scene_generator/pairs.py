@@ -31,7 +31,8 @@ def move_to_location(obj_def: Dict[str, Any], obj: Dict[str, Any],
         new_location['position']['z'] -= obj_def['offset']['z']
     obj['shows'][0]['position'] = new_location['position']
     obj['shows'][0]['rotation'] = new_location['rotation']
-    obj['shows'][0]['bounding_box'] = new_location['bounding_box']
+    if 'bounding_box' in new_location:
+        obj['shows'][0]['bounding_box'] = new_location['bounding_box']
 
 
 def add_objects(target: Dict[str, Any], performer_position: Dict[str, float], scene: Dict[str, Any]):
@@ -97,16 +98,16 @@ class InteractionPair(ABC):
                 }
             }
 
+    def _get_empty_scene(self) -> Dict[str, Any]:
+        scene = copy.deepcopy(self._template)
+        scene['performerStart'] = self._performer_start
+        return scene
+
 
 class ImmediatelyVisiblePair(InteractionPair):
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(ImmediatelyVisiblePair, self).__init__(template, find_path)
         logging.debug(f'performerStart={self._performer_start}')
-
-    def _get_empty_scene(self) -> Dict[str, Any]:
-        scene = copy.deepcopy(self._template)
-        scene['performerStart'] = self._performer_start
-        return scene
 
     def _get_locations(self, target_def: Dict[str, Any]) -> \
             Optional[Tuple[Dict[str, Any], Dict[str, Any]]]:
@@ -155,7 +156,52 @@ class ImmediatelyVisiblePair(InteractionPair):
         return scene1, scene2
 
 
-_INTERACTION_PAIR_CLASSES = [ImmediatelyVisiblePair]
+class SimilarAdjacentContainedPair(InteractionPair):
+    def __init__(self, template: Dict[str, Any], find_path: bool):
+        super(SimilarAdjacentContainedPair, self).__init__(template, find_path)
+
+    def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        for _ in range(MAX_PLACEMENT_TRIES):
+            target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
+            target_location = geometry.calc_obj_pos(self._performer_start['position'], [], target_def)
+            target = util.instantiate_object(target_def, target_location)
+            similar_def = util.get_similar_definition(target)
+            similar = util.instantiate_object(similar_def, geometry.ORIGIN_LOCATION)
+            # find a container big enough for both of them
+            valid_container_defs = geometry.get_enclosable_container_defs((target, similar))
+            if len(valid_container_defs) > 0:
+                break
+        if len(valid_container_defs) == 0:
+            raise exceptions.SceneException(f'failed to find target and/or similar object that will fit in something')
+        container_def = util.finalize_object_definition(random.choice(valid_container_defs))
+        container_location = geometry.get_adjacent_location(container_def,
+                                                            target,
+                                                            self._performer_start['position'])
+        container = util.instantiate_object(container_def, container_location)
+        area_index = geometry.can_contain(container_def, target, similar)
+        if area_index is None:
+            raise exceptions.SceneException('internal error: container should be big enough but is not')
+        util.put_object_in_container(similar, container, container_def, area_index)
+
+        scene1 = self._get_empty_scene()
+        scene1['objects'] = [target, similar, container]
+
+        target2 = copy.deepcopy(target)
+        container2 = copy.deepcopy(container)
+        util.put_object_in_container(target2, container2, container_def, area_index)
+        similar2 = copy.deepcopy(similar)
+        del similar2['locationParent']
+        similar2_location = geometry.get_adjacent_location(similar_def,
+                                                           container2,
+                                                           self._performer_start['position'])
+        move_to_location(similar_def, similar2, similar2_location)
+        scene2 = self._get_empty_scene()
+        scene2['objects'] = [target2, similar2, container2]
+
+        return scene1, scene2
+
+
+_INTERACTION_PAIR_CLASSES = [ImmediatelyVisiblePair, SimilarAdjacentContainedPair]
 
 
 def get_pair_class() -> Type[InteractionPair]:

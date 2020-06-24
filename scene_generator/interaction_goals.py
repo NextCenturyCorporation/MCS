@@ -7,6 +7,7 @@ import random
 import math
 from typing import Dict, Any, AnyStr, List, Tuple, Sequence
 
+import util
 from sympy import Segment, intersection
 
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, PERFORMER_CAMERA_Y
@@ -69,9 +70,9 @@ def parse_path_section(path_section: Sequence[Sequence[float]],
     dz = path_section[1][1]-performer[1]
     theta = math.degrees(math.atan2(dz, dx))
 
-        #IF my calculations are correct, this should be right no matter what
-        # I'm assuming a positive angle is a clockwise rotation- so this should work
-        #I think
+    # IF my calculations are correct, this should be right no matter what
+    # I'm assuming a positive angle is a clockwise rotation- so this should work
+    # I think
 
     delta_t = (current_heading-theta) % 360
     current_heading = theta
@@ -79,7 +80,7 @@ def parse_path_section(path_section: Sequence[Sequence[float]],
         action = {
             'action': 'RotateLook',
             'params': {
-                'rotation': round(delta_t,0),
+                'rotation': round(delta_t, 0),
                 'horizon': 0.0
             }
         }
@@ -172,12 +173,8 @@ def move_to_container(target: Dict[str, Any], all_objects: List[Dict[str, Any]],
             container_location = geometry.calc_obj_pos(performer_position, bounding_rects, container_def)
             if container_location is not None:
                 found_container = instantiate_object(container_def, container_location)
-                found_area = container_def['enclosed_areas'][area_index]
                 all_objects.append(found_container)
-                target['locationParent'] = found_container['id']
-                target['shows'][0]['position'] = found_area['position'].copy()
-                if 'rotation' not in target['shows'][0]:
-                    target['shows'][0]['rotation'] = geometry.ORIGIN.copy()
+                util.put_object_in_container(target, found_container, container_def, area_index)
                 return True
     return False
 
