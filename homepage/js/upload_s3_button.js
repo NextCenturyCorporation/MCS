@@ -64,6 +64,11 @@ class FileUploadButton extends React.Component {
         $("#fileUploadStatus").text("");
         
         try {
+            Object.defineProperty(this.state.file, 'name', {
+                writable: true,
+                value: (new Date).toISOString() + "_" + this.state.file.name
+            });
+
             getPresignedPostData(this.state.file)
                 .then( response => {
                     uploadFileToS3(response, this.state.file)
@@ -79,7 +84,7 @@ class FileUploadButton extends React.Component {
     }
 
     handleChange(e) {
-        this.setState({ file: e.target.files[0], fileName: e.target.files[0].name })
+        this.setState({ file: e.target.files[0], fileName: e.target.files[0].name });
     }
 
     render() {
