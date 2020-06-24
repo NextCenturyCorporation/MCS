@@ -140,16 +140,13 @@ class HiddenBehindPair(InteractionPair):
         # intersect the wall of the room, because it's different from
         # the rotation returned by get_location_in_front_of_performer
         # (which does check for that). But it seems pretty unlikely.
-        dx = self._performer_start['position']['x'] - in_front_location['position']['x']
-        dz = self._performer_start['position']['z'] - in_front_location['position']['z']
-        angle = math.degrees(math.atan2(dz, dx))
-        # negative because we do clockwise rotation
-        in_front_location['rotation']['y'] = -angle
+        angle = self._performer_start['rotation']['y']
+        in_front_location['rotation']['y'] = angle
         blocker = util.instantiate_object(blocker_def, in_front_location)
         occluded_location = geometry.get_adjacent_location_on_side(target_def,
                                                                    blocker,
                                                                    self._performer_start['position'],
-                                                                   2)
+                                                                   1)
         if occluded_location is None:
             raise exceptions.SceneException('could not place target behind blocker')
         target2 = copy.deepcopy(target)
