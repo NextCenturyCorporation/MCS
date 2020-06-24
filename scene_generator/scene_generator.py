@@ -162,6 +162,7 @@ def generate_quartet(prefix: str, index: int, quartet_name: str,
     quartet_class = quartets.get_quartet_class(quartet_name)
     quartet = quartet_class(template, find_path)
     quartet_id = str(uuid.uuid4())
+    quartet_name = quartet.__class__.__name__.replace('Quartet', '').lower()
     for q in range(1, 5):
         name = f'{prefix}-{index:04}-{q}.json'
         logging.debug(f'starting generation of\t{name}')
@@ -169,7 +170,7 @@ def generate_quartet(prefix: str, index: int, quartet_name: str,
             try:
                 scene = quartet.get_scene(q)
                 scene['name'] = name
-                scene['goal']['series_id'] = 'quartet_' + quartet_id
+                scene['goal']['series_id'] = 'quartet_' + quartet_name + '_' + quartet_id
                 scene_copy = copy.deepcopy(scene)
                 write_file(name, scene_copy)
                 break
@@ -210,12 +211,13 @@ def generate_pair(prefix: str, count: int,
     pair_class = pairs.get_pair_class()
     pair = pair_class(template, find_path)
     pair_id = str(uuid.uuid4())
+    pair_name = pair.__class__.__name__.replace('Pair', '').lower()
     logging.debug(f'generating scene pair #{count}')
     while True:
         try:
             scenes = pair.get_scenes()
-            scenes[0]['goal']['series_id'] = 'pair_' + pair_id
-            scenes[1]['goal']['series_id'] = 'pair_' + pair_id
+            scenes[0]['goal']['series_id'] = 'pair_' + pair_name + '_' + pair_id
+            scenes[1]['goal']['series_id'] = 'pair_' + pair_name + '_' + pair_id
             write_scene_of_pair(scenes, name_stem, 1)
             write_scene_of_pair(scenes, name_stem, 2)
             break
