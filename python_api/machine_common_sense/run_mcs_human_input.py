@@ -2,6 +2,8 @@ import sys
 import argparse
 #import importlib 
 import cmd
+import threading
+import getch
 
 from machine_common_sense.mcs import MCS
 from machine_common_sense.mcs_action import MCS_Action
@@ -37,11 +39,13 @@ class HumanInputShell(cmd.Cmd):
     def precmd(self, line):
         return line
 
-    def postcmd(self, stopFlag, line):
+    def postcmd(self, stopFlag, line) -> bool:
         userCommand = line.split(',')
         print('You entered command:')
         print(*userCommand)
         print('===============================================================================')
+        return stopFlag
+        
 
     def default(self, line):
 
@@ -68,6 +72,16 @@ class HumanInputShell(cmd.Cmd):
             print("You entered an invalid shortcut key, please try again. (Type 'help' to display commands again)")
             print("You entered: " + userInput[0])
             return
+
+        if userInput and userInput[0].lower() == 'exit':
+            self.do_exit(line)
+            return 
+        if userInput and userInput[0].lower() == 'help':
+            self.do_help(line)
+            return
+        if userInput and userInput[0].lower() == 'reset':
+            self.do_reset(line)
+            return 
             
         action, params = MCS_Util.input_to_action_and_params(','.join(userInput))
 
@@ -81,11 +95,14 @@ class HumanInputShell(cmd.Cmd):
 
         output = self.controller.step(action, **params)
         self.previous_output = output
+    
+    #def emptyline(self):
+        #pass
 
 
-    def do_exit(self, args): #MAke is so EXIT or ExIT can work?
+    def do_exit(self, args) -> bool:
         print("Exiting Human Input Mode")
-        sys.exit()
+        return True
 
     def do_help(self, args):
         print_commands()
@@ -94,8 +111,9 @@ class HumanInputShell(cmd.Cmd):
         self.previous_output = (self.controller).start_scene(self.config_data)
 
     def do_h(self, args):
+        print("Help shortcut call")
         self.do_help(args)
-        print("This will be an example of a shortcut call")
+        
 
 
 
@@ -186,6 +204,17 @@ def input_commands(controller, previous_output, config_data):
     return input_commands(controller, output, config_data)
 """
 
+def shortcut_key_only_mode(input_commands: HumanInputShell):
+    print('In thread')
+    toggle = False
+
+    while True:
+        char = getch.getch()
+        if char == chr(27): # ESC key
+            print("Hit toggle key")
+            #toggle = True
+
+
 # Run scene loaded in the config data
 def run_scene(controller, config_data):
     build_commands()
@@ -194,11 +223,17 @@ def run_scene(controller, config_data):
     output = controller.start_scene(config_data)
     
     #input_commands(controller, output, config_data)
+    #sys.exit()
 
     input_commands = HumanInputShell(controller, output, config_data)
+
+    thread1 = threading.Thread(target=shortcut_key_only_mode, args=(input_commands, ))
+    thread1.start()
+
     input_commands.cmdloop()
+
+    sys.exit()
     
-    #sys.exit()
 
 def main(argv): 
     
