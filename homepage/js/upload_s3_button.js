@@ -32,7 +32,7 @@ const uploadFileToS3 = (presignedPostData, file) => {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open("PUT", presignedPostData.url, true);
-        xhr.setRequestHeader("Content-Type", "multipart/form-data");
+        xhr.setRequestHeader("Content-Type", "application/octet-stream");
         xhr.onload = function () {
             this.status === 200 ? resolve() : reject(this.responseText);
         };
