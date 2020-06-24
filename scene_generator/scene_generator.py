@@ -8,6 +8,7 @@ import os.path
 import json
 import copy
 import random
+import uuid
 from enum import Enum, auto
 from typing import Dict, Any, List, Tuple
 
@@ -49,7 +50,7 @@ def strip_debug_info(body: Dict[str, Any]) -> None:
     """Remove info that's only for our internal use (e.g., for debugging)"""
     for obj in body['objects']:
         clean_object(obj)
-    for goal_key in ('domain_list', 'type_list', 'task_list', 'info_list'):
+    for goal_key in ('domain_list', 'type_list', 'task_list', 'info_list', 'series_id'):
         body['goal'].pop(goal_key, None)
     if 'metadata' in body['goal']:
         metadata = body['goal']['metadata']
@@ -160,6 +161,7 @@ def generate_quartet(prefix: str, index: int, quartet_name: str,
     template = generate_body_template('')
     quartet_class = quartets.get_quartet_class(quartet_name)
     quartet = quartet_class(template, find_path)
+    quartet_id = str(uuid.uuid4())
     for q in range(1, 5):
         name = f'{prefix}-{index:04}-{q}.json'
         logging.debug(f'starting generation of\t{name}')
@@ -167,6 +169,7 @@ def generate_quartet(prefix: str, index: int, quartet_name: str,
             try:
                 scene = quartet.get_scene(q)
                 scene['name'] = name
+                scene['goal']['series_id'] = 'quartet_' + quartet_id
                 scene_copy = copy.deepcopy(scene)
                 write_file(name, scene_copy)
                 break
@@ -206,10 +209,13 @@ def generate_pair(prefix: str, count: int,
     name_stem = f'{prefix}-{count:04}-'
     pair_class = pairs.get_pair_class()
     pair = pair_class(template, find_path)
+    pair_id = str(uuid.uuid4())
     logging.debug(f'generating scene pair #{count}')
     while True:
         try:
             scenes = pair.get_scenes()
+            scenes[0]['goal']['series_id'] = 'pair_' + pair_id
+            scenes[1]['goal']['series_id'] = 'pair_' + pair_id
             write_scene_of_pair(scenes, name_stem, 1)
             write_scene_of_pair(scenes, name_stem, 2)
             break
