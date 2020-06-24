@@ -223,7 +223,7 @@ class IntPhysGoal(Goal, ABC):
         """Create additional, non-paired occluders and add them to occluder_list."""
         for _ in range(num_to_add):
             occluder_fits = False
-            for try_num in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
+            for try_num in range(util.MAX_TRIES):
                 # try random position and scale until we find one that fits (or try too many times)
                 min_scale = IntPhysGoal.MIN_OCCLUDER_SCALE
                 x_scale = util.random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, util.MIN_RANDOM_INTERVAL)

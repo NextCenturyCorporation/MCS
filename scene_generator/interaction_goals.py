@@ -167,14 +167,18 @@ def move_to_container(target: Dict[str, Any], all_objects: List[Dict[str, Any]],
     random.shuffle(shuffled_containers)
     for container_def in shuffled_containers:
         container_def = finalize_object_definition(container_def)
-        area_index = geometry.can_contain(container_def, target)
-        if area_index is not None:
+        containment = geometry.how_can_contain(container_def, target)
+        if containment is not None:
             # try to place the container before we accept it
-            container_location = geometry.calc_obj_pos(performer_position, bounding_rects, container_def)
+            container_location = geometry.calc_obj_pos(performer_position,
+                                                       bounding_rects, container_def)
             if container_location is not None:
                 found_container = instantiate_object(container_def, container_location)
                 all_objects.append(found_container)
-                util.put_object_in_container(target, found_container, container_def, area_index)
+                area_index, angles = containment
+                util.put_object_in_container(target, found_container,
+                                             container_def, area_index,
+                                             angles[0])
                 return True
     return False
 

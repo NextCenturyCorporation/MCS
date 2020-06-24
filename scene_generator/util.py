@@ -4,6 +4,7 @@ import uuid
 import random
 from typing import Dict, Any, Optional, List, Tuple, Iterable
 
+import exceptions
 import geometry
 import materials
 import objects
@@ -23,12 +24,16 @@ def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
     return a + (n * step)
 
 
-def finalize_object_definition(object_def: Dict[str, Any]) -> Dict[str, Any]:
+def finalize_object_definition(object_def: Dict[str, Any],
+                               choice: Optional[Dict[str,Any]] = None) \
+                               -> Dict[str, Any]:
     object_def_copy = copy.deepcopy(object_def)
 
-    # apply choice if necessary
-    if 'choose' in object_def_copy:
+    # get choice if available and none provided
+    if choice is None and 'choose' in object_def_copy:
         choice = random.choice(object_def_copy['choose'])
+
+    if choice is not None:
         for key in choice:
             object_def_copy[key] = choice[key]
         del object_def_copy['choose']
@@ -115,12 +120,15 @@ def instantiate_object(object_def: Dict[str, Any],
 def put_object_in_container(obj: Dict[str, Any],
                             container: Dict[str, Any],
                             container_def: Dict[str, Any],
-                            area_index: int) -> None:
+                            area_index: int,
+                            angle: Optional[float] = None) -> None:
     area = container_def['enclosed_areas'][area_index]
     obj['locationParent'] = container['id']
     obj['shows'][0]['position'] = area['position'].copy()
     if 'rotation' not in obj['shows'][0]:
         obj['shows'][0]['rotation'] = geometry.ORIGIN.copy()
+    if angle is not None:
+        obj['shows'][0]['rotation']['y'] = angle
 
 
 def get_similar_definition(obj: Dict[str, Any]) -> Dict[str, Any]:
