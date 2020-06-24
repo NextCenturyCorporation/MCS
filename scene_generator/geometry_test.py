@@ -379,14 +379,18 @@ def test_get_adjacent_location_on_side():
         if expected_angle > 180:
             expected_angle -= 360
         # need to allow some tolerance because of object offsets
-        assert delta == pytest.approx(expected_angle, abs=5)
+        assert delta == pytest.approx(expected_angle, abs=15)
 
 
 def test_get_wider_and_taller_defs():
     obj_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
     dims = obj_def['dimensions']
     wt_defs = get_wider_and_taller_defs(obj_def)
-    for wt_def in wt_defs:
+    for wt_def_pair in wt_defs:
+        wt_def, angle = wt_def_pair
         wt_def = util.finalize_object_definition(wt_def)
-        assert wt_def['dimensions']['x'] >= dims['x']
         assert wt_def['dimensions']['y'] >= dims['y']
+        if angle == 0:
+            assert wt_def['dimensions']['x'] >= dims['x']
+        else:
+            assert wt_def['dimensions']['z'] >= dims['x']

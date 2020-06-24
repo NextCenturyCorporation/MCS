@@ -114,7 +114,8 @@ class HiddenBehindPair(InteractionPair):
                 break
         if blocker_defs is None:
             raise exceptions.SceneException('could not get a target and blocker')
-        blocker_def = util.finalize_object_definition(random.choice(blocker_defs))
+        blocker_def, blocker_angle = random.choice(blocker_defs)
+        blocker_def = util.finalize_object_definition(blocker_def)
 
         scene1 = self._get_empty_scene()
         # place target object in scene 1 right in front of the performer
@@ -130,21 +131,22 @@ class HiddenBehindPair(InteractionPair):
         # place blocker right in front of performer in scene 2
         for _ in range(MAX_PLACEMENT_TRIES):
             in_front_location = geometry.get_location_in_front_of_performer(self._performer_start, blocker_def,
-                                                                            lambda: 0)
+                                                                            lambda: blocker_angle)
             if in_front_location is not None:
                 break
         if in_front_location is None:
             raise exceptions.SceneException('could not place blocker in front of performer')
-        # Rotate blocker to be facing the performer. There is a
-        # chance that this rotation could cause the blocker to
-        # intersect the wall of the room, because it's different from
-        # the rotation returned by get_location_in_front_of_performer
-        # (which does check for that). But it seems pretty unlikely.
+        # Rotate blocker to be facing the performer (plus
+        # blocker_angle). There is a chance that this rotation could
+        # cause the blocker to intersect the wall of the room, because
+        # it's different from the rotation returned by
+        # get_location_in_front_of_performer (which does check for
+        # that). But it seems pretty unlikely.
         dx = self._performer_start['position']['x'] - in_front_location['position']['x']
         dz = self._performer_start['position']['z'] - in_front_location['position']['z']
         angle = math.degrees(math.atan2(dz, dx))
         # negative because we do clockwise rotation
-        in_front_location['rotation']['y'] = -angle
+        in_front_location['rotation']['y'] = -angle + blocker_angle
         blocker = util.instantiate_object(blocker_def, in_front_location)
         occluded_location = geometry.get_adjacent_location_on_side(target_def,
                                                                    blocker,
