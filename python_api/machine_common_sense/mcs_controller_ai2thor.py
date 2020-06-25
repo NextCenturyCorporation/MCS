@@ -5,6 +5,7 @@ import math
 import numpy
 import os
 import yaml
+import random
 from PIL import Image
 
 import ai2thor.controller
@@ -134,6 +135,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         self.__enable_noise = enable_noise
         self.__seed = seed
+        
+        if self.__seed:
+            random.seed(self.__seed)
 
         self.__scene_configuration = None
         self.__head_tilt = 0
