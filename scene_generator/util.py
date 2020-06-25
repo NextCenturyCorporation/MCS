@@ -9,6 +9,7 @@ import materials
 import objects
 
 
+MAX_TRIES = 200
 MIN_RANDOM_INTERVAL = 0.05
 
 
@@ -171,7 +172,8 @@ def check_same_and_different(a: Dict[str, Any], b: Dict[str, Any],
 def get_similar_defs(obj: Dict[str, Any], same: Iterable[str],
                      different: Iterable[str]) -> List[Dict[str, Any]]:
     """Return object definitions similar to obj: where properties from
-    same are identical and from different are different.
+    same are identical and from different are different. Raises a
+    SceneException if none are found.
     """
     valid_defs = []
     for obj_def in objects.get_all_object_defs():
@@ -186,6 +188,8 @@ def get_similar_defs(obj: Dict[str, Any], same: Iterable[str],
                     valid_defs.append(new_def)
             else:
                 valid_defs.append(obj_def)
+    if len(valid_defs) == 0:
+        raise exceptions.SceneException(f'Cannot find anything similar to {obj} (same={same}, different={different})')
     return valid_defs
 
 
