@@ -9,6 +9,7 @@ from typing import Dict, Any, AnyStr, List, Tuple, Sequence
 
 from sympy import Segment, intersection
 
+import util
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, PERFORMER_CAMERA_Y
 
 import geometry
@@ -183,8 +184,6 @@ def move_to_container(target: Dict[str, Any], all_objects: List[Dict[str, Any]],
 
 
 class InteractionGoal(Goal, ABC):
-    TARGET_CONTAINED_CHANCE = 0.25
-    """Chance that the target will be in a container"""
     OBJECT_CONTAINED_CHANCE = 0.5
     """Chance that, if the target is in a container, a non-target pickupable object in the scene will be, too."""
 
@@ -213,7 +212,7 @@ class InteractionGoal(Goal, ABC):
     def add_objects(self, all_objects: List[Dict[str, Any]], bounding_rects: List[List[Dict[str, float]]],
                     performer_position: Dict[str, float]) -> None:
         """Maybe add a container and put the target inside it. If so, maybe put other objects in other objects, too."""
-        if random.random() <= self.TARGET_CONTAINED_CHANCE:
+        if random.random() <= util.TARGET_CONTAINED_CHANCE:
             if move_to_container(self._target, all_objects, bounding_rects, performer_position):
                 # maybe do it with other objects, too
                 super(InteractionGoal, self).add_objects(all_objects, bounding_rects, performer_position)

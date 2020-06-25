@@ -114,9 +114,8 @@ def calc_obj_pos(performer_position: Dict[str, float],
                  rotation_func: Callable[[], float] = random_rotation,
                  xz_func: Callable[[], Tuple[float, float]] = None) \
                  -> Optional[Dict[str, Any]]:
-
     """Returns new object with rotation & position if we can place the
-object in the frame, None otherwise."""
+    object in the frame, None otherwise."""
 
     dx = obj_def['dimensions']['x'] / 2.0
     dz = obj_def['dimensions']['z'] / 2.0
@@ -159,7 +158,7 @@ object in the frame, None otherwise."""
     if tries < util.MAX_TRIES:
         new_object = {
             'rotation': {'x': 0, 'y': rotation, 'z': 0},
-            'position':  {'x': new_x, 'y': obj_def['position_y'], 'z': new_z},
+            'position':  {'x': new_x, 'y': obj_def.get('position_y', 0), 'z': new_z},
             'bounding_box': rect
             }
         other_rects.append(rect)

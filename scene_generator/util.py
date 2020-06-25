@@ -4,12 +4,16 @@ import uuid
 import random
 from typing import Dict, Any, Optional, List, Tuple, Iterable
 
+import exceptions
 import materials
 import objects
 
 
 MAX_TRIES = 200
 MIN_RANDOM_INTERVAL = 0.05
+
+TARGET_CONTAINED_CHANCE = 0.25
+"""Chance that the target will be in a container"""
 
 
 def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
