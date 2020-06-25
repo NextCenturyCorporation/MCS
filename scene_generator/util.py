@@ -123,7 +123,7 @@ def put_object_in_container(obj: Dict[str, Any],
         obj['shows'][0]['rotation'] = geometry.ORIGIN.copy()
 
 
-def get_similar_definition(obj: Dict[str, Any]) -> Dict[str, Any]:
+def get_similar_definition(obj: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     """Get an object definition similar to obj but different in one of
     type, material, or scale. It is possible but unlikely that no such
     definition can be found, in which case it returns None.

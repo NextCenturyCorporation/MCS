@@ -2,6 +2,7 @@ import copy
 import logging
 import math
 import random
+from enum import IntEnum
 from typing import List, Dict, Any, Optional, Callable, Tuple, Sequence
 
 import shapely
@@ -244,6 +245,12 @@ def position_distance(a: Dict[str, float], b: Dict[str, float]) -> float:
     return math.sqrt((a['x'] - b['x'])**2 + (a['y'] - b['y'])**2 + (a['z'] - b['z'])**2)
 
 
+def get_room_box() -> shapely.geometry.Polygon:
+    room = shapely.geometry.box(ROOM_DIMENSIONS[0][0], ROOM_DIMENSIONS[1][0],
+                                ROOM_DIMENSIONS[0][1], ROOM_DIMENSIONS[1][1])
+    return room
+
+
 def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
         -> shapely.geometry.LineString:
     """Get a line segment that should be visible to the performer
@@ -257,8 +264,7 @@ def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
     view_segment = affinity.rotate(view_segment, -performer_start['rotation']['y'], origin=(0, 0))
     view_segment = affinity.translate(view_segment, performer_start['position']['x'],
                                       performer_start['position']['z'])
-    room = shapely.geometry.box(ROOM_DIMENSIONS[0][0], ROOM_DIMENSIONS[1][0],
-                                ROOM_DIMENSIONS[0][1], ROOM_DIMENSIONS[1][1])
+    room = get_room_box()
 
     target_segment = room.intersection(view_segment)
     if target_segment.is_empty:
@@ -267,7 +273,9 @@ def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
 
 
 def get_location_in_front_of_performer(performer_start: Dict[str, Dict[str, float]],
-                                       target_def: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+                                       target_def: Dict[str, Any],
+                                       rotation_func: Callable[[], float] = random_rotation) \
+                                       -> Optional[Dict[str, Any]]:
     visible_segment = get_visible_segment(performer_start)
 
     def segment_xz():
@@ -275,7 +283,8 @@ def get_location_in_front_of_performer(performer_start: Dict[str, Dict[str, floa
         point = visible_segment.interpolate(fraction, normalized=True)
         return point.x, point.y
 
-    return calc_obj_pos(performer_start['position'], [], target_def, xz_func=segment_xz)
+    return calc_obj_pos(performer_start['position'], [], target_def,
+                        xz_func=segment_xz, rotation_func=rotation_func)
 
 
 def get_location_behind_performer(performer_start: Dict[str, Dict[str, float]],
@@ -311,7 +320,7 @@ def get_location_behind_performer(performer_start: Dict[str, Dict[str, float]],
 
 def get_adjacent_location(obj_def: Dict[str, Any],
                           target: Dict[str, Any],
-                          performer_start: Dict[str, float]) -> Dict[str, Any]:
+                          performer_start: Dict[str, float]) -> Optional[Dict[str, Any]]:
     """Find a location such that, if obj_def is instantiated there, it
     will be next to target. Ensures that the object at the new
     location will not overlap the performer start, if necessary trying
@@ -320,38 +329,50 @@ def get_adjacent_location(obj_def: Dict[str, Any],
     sides = list(range(4))
     random.shuffle(sides)
     for side in sides:
-        location = _adjacent_location(obj_def, target, performer_start, side)
+        location = get_adjacent_location_on_side(obj_def, target, performer_start, side)
         if location is not None:
             return location
     return None
 
 
-def _adjacent_location(obj_def: Dict[str, Any],
-                          target: Dict[str, Any],
-                          performer_start: Dict[str, float],
-                       side: int) -> Dict[str, Any]:
-    if side < 0 or side > 3:
-        raise ValueError(f'side must be 0-3 (not {side})')
-    GAP = 0.01
+class Side(IntEnum):
+    RIGHT = 0
+    BACK = 1
+    LEFT = 2
+    FRONT = 3
+
+
+def get_adjacent_location_on_side(obj_def: Dict[str, Any],
+                                  target: Dict[str, Any],
+                                  performer_start: Dict[str, float],
+                                  side: Side) -> Optional[Dict[str, Any]]:
+    """Get a location such that, if obj_def is instantiated there, it will
+    be next to target. Side determines on which side of target to
+    place it: 0 = right (positive x), 1 = behind (positive z), 2 =
+    left (negative x) and 3 = in front (negative z). If the object
+    would overlap the performer_start or would be outside the room,
+    None is returned."
+    """
+    GAP = 0.05
     distance_dim = 'x' if side in (0, 2) else 'z'
     distance = obj_def['dimensions'][distance_dim]/2.0 + \
         target['dimensions'][distance_dim]/2.0 + GAP
     separator_segment = shapely.geometry.LineString([[0, 0], [distance, 0]])
     shows = target['shows'][0]
     rotation = -shows['rotation']['y'] + 90 * side
-    separator_segment = affinity.rotate(separator_segment, rotation)
+    separator_segment = affinity.rotate(separator_segment, rotation, origin=(0, 0))
     separator_segment = affinity.translate(separator_segment,
                                            shows['position']['x'],
                                            shows['position']['z'])
     x = separator_segment.coords[1][0]
     z = separator_segment.coords[1][1]
-    bounding_box = shapely.geometry.box(x - target['dimensions']['x'],
-                                        z - target['dimensions']['z'],
-                                        x + target['dimensions']['x'],
-                                        z + target['dimensions']['z'])
-    bounding_box = affinity.rotate(bounding_box, -shows['rotation']['y'])
+    dx = obj_def['dimensions']['x'] / 2.0
+    dz = obj_def['dimensions']['z'] / 2.0
+    bounding_box = shapely.geometry.box(x - dx, z - dz, x + dx, z + dz)
+    bounding_box = affinity.rotate(bounding_box, -shows['rotation']['y'], origin=(0, 0))
     performer = shapely.geometry.Point(performer_start['x'], performer_start['z'])
-    if not bounding_box.intersects(performer):
+    room = get_room_box()
+    if not bounding_box.intersects(performer) and room.contains(bounding_box):
         location = {
             'position': {
                 'x': x,
@@ -365,3 +386,44 @@ def _adjacent_location(obj_def: Dict[str, Any],
     else:
         location = None
     return location
+
+
+def get_wider_and_taller_defs(obj_def: Dict[str, Any]) \
+        -> List[Dict[str, Any]]:
+    dims = obj_def['dimensions']
+    bigger_defs = []
+    for new_def in objects.get_all_object_defs():
+        if 'dimensions' in new_def:
+            if new_def['dimensions']['x'] >= dims['x'] and \
+               new_def['dimensions']['y'] >= dims['y']:
+                bigger_defs.append(new_def)
+        elif 'choose' in new_def:
+            bigger_choices = []
+            for choice in new_def['choose']:
+                if choice['dimensions']['x'] >= dims['x'] and \
+                   choice['dimensions']['y'] >= dims['y']:
+                    bigger_choices.append(choice)
+            if len(bigger_choices) > 0:
+                if len(bigger_choices) == len(new_def['choose']):
+                    bigger_defs.append(new_def)
+                else:
+                    bigger_def = copy.deepcopy(new_def)
+                    bigger_def['choose'] = bigger_choices
+                    bigger_defs.append(bigger_def)
+    return bigger_defs
+
+
+def get_bounding_polygon(obj: Dict[str, Any]) -> shapely.geometry.Polygon:
+    show = obj['shows'][0]
+    if 'bounding_box' in show:
+        bb: List[Dict[str, float]] = show['bounding_box']
+        coords = [(point['x'], point['z']) for point in bb]
+        poly = shapely.geometry.Polygon(coords)
+    else:
+        x = show['position']['x']
+        z = show['position']['z']
+        dx = obj['dimensions']['x'] / 2.0
+        dz = obj['dimensions']['z'] / 2.0
+        poly = shapely.geometry.box(x - dx, z - dz, x + dx, z + dz)
+        poly = shapely.affinity.rotate(poly, -show['rotation']['y'])
+    return poly

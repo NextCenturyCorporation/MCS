@@ -1,7 +1,7 @@
 import copy
-from abc import ABC, abstractmethod
 import logging
 import random
+from abc import ABC, abstractmethod
 from typing import Tuple, Dict, Any, Type, Optional
 
 import shapely
@@ -156,12 +156,67 @@ class ImmediatelyVisiblePair(InteractionPair):
         return scene1, scene2
 
 
+class HiddenBehindPair(InteractionPair):
+    def __init__(self, template: Dict[str, Any], find_path: bool):
+        super(HiddenBehindPair, self).__init__(template, find_path)
+
+    def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        for _ in range(util.MAX_TRIES):
+            target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
+            blocker_defs = geometry.get_wider_and_taller_defs(target_def)
+            if blocker_defs is not None:
+                break
+        if blocker_defs is None:
+            raise exceptions.SceneException('could not get a target and blocker')
+        blocker_def = util.finalize_object_definition(random.choice(blocker_defs))
+
+        scene1 = self._get_empty_scene()
+        # place target object in scene 1 right in front of the performer
+        for _ in range(util.MAX_TRIES):
+            in_front_location = geometry.get_location_in_front_of_performer(self._performer_start, target_def)
+            if in_front_location is not None:
+                break
+        if in_front_location is None:
+            raise exceptions.SceneException('could not place target in front of performer')
+        target = util.instantiate_object(target_def, in_front_location)
+        scene1['objects'] = [target]
+
+        # place blocker right in front of performer in scene 2
+        for _ in range(util.MAX_TRIES):
+            in_front_location = geometry.get_location_in_front_of_performer(self._performer_start, blocker_def,
+                                                                            lambda: 0)
+            if in_front_location is not None:
+                break
+        if in_front_location is None:
+            raise exceptions.SceneException('could not place blocker in front of performer')
+        # Rotate blocker to be facing the performer. There is a
+        # chance that this rotation could cause the blocker to
+        # intersect the wall of the room, because it's different from
+        # the rotation returned by get_location_in_front_of_performer
+        # (which does check for that). But it seems pretty unlikely.
+        angle = self._performer_start['rotation']['y']
+        in_front_location['rotation']['y'] = angle
+        blocker = util.instantiate_object(blocker_def, in_front_location)
+        occluded_location = geometry.get_adjacent_location_on_side(target_def,
+                                                                   blocker,
+                                                                   self._performer_start['position'],
+                                                                   geometry.Side.BACK)
+        if occluded_location is None:
+            raise exceptions.SceneException('could not place target behind blocker')
+        target2 = copy.deepcopy(target)
+        move_to_location(target_def, target2, occluded_location)
+        scene2 = self._get_empty_scene()
+        scene2['objects'] = [target2, blocker]
+
+        return scene1, scene2
+    
+
 class SimilarAdjacentContainedPair(InteractionPair):
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(SimilarAdjacentContainedPair, self).__init__(template, find_path)
 
     def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-        for _ in range(MAX_PLACEMENT_TRIES):
+        for _ in range(util.MAX_TRIES):
             target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
             target_location = geometry.calc_obj_pos(self._performer_start['position'], [], target_def)
             target = util.instantiate_object(target_def, target_location)
@@ -201,7 +256,7 @@ class SimilarAdjacentContainedPair(InteractionPair):
         return scene1, scene2
 
 
-_INTERACTION_PAIR_CLASSES = [ImmediatelyVisiblePair, SimilarAdjacentContainedPair]
+_INTERACTION_PAIR_CLASSES = [HiddenBehindPair, ImmediatelyVisiblePair, SimilarAdjacentContainedPair]
 
 
 def get_pair_class() -> Type[InteractionPair]:
