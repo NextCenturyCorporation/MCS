@@ -258,7 +258,7 @@ class ImmediatelyVisibleSimilarPair(InteractionPair):
         return scene1, scene2
 
 
-_INTERACTION_PAIR_CLASSES = [ImmediatelyVisibleSimilarPair]
+_INTERACTION_PAIR_CLASSES = [ImmediatelyVisiblePair, ImmediatelyVisibleSimilarPair]
 
 
 def get_pair_class() -> Type[InteractionPair]:
