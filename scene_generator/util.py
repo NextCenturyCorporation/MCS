@@ -9,7 +9,7 @@ import objects
 
 
 MIN_RANDOM_INTERVAL = 0.05
-TARGET_CONTAINED_CHANCE = 0.25
+TARGET_CONTAINED_CHANCE = 0.5
 """Chance that the target will be in a container"""
 
 

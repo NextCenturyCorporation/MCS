@@ -36,6 +36,10 @@ def move_to_location(obj_def: Dict[str, Any], obj: Dict[str, Any],
 
 
 class InteractionPair(ABC):
+    """Abstract base class for interaction pairs. This is analogous to the
+    intphys quartets, but for interaction scenarios. See MCS-235.
+    """
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         self._template = template
         self._find_path = find_path
@@ -69,6 +73,12 @@ class InteractionPair(ABC):
 
 
 class ImmediatelyVisiblePair(InteractionPair):
+    """(1A) The Target Object is immediately visible (starting in view of
+    the camera) OR (1B) behind the camera (must rotate to see the
+    object). For each pair, the object may or may not be inside a
+    container (like a box). See MCS-232.
+    """
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(ImmediatelyVisiblePair, self).__init__(template, find_path)
         logging.debug(f'performerStart={self._performer_start}')
@@ -103,6 +113,12 @@ class ImmediatelyVisiblePair(InteractionPair):
 
 
 class HiddenBehindPair(InteractionPair):
+    """(2A) The Target Object is immediately visible OR (2B) is hidden
+    behind a larger object that itself is immediately visible. For
+    each pair, the object may or may not be inside a container (like a
+    box). See MCS-239.
+    """
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(HiddenBehindPair, self).__init__(template, find_path)
 
@@ -161,6 +177,14 @@ class HiddenBehindPair(InteractionPair):
     
 
 class SimilarAdjacentPair(InteractionPair):
+    """(3A) The Target Object is positioned normally, without a Similar
+    Object in the scene, OR (3B) with a Similar Object in the scene,
+    and directly adjacent to it. For each pair, the objects may or may
+    not be inside a container, but only if the container is big enough
+    to hold both together; otherwise, no container will be used in
+    that pair.
+    """
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(SimilarAdjacentPair, self).__init__(template, find_path)
 
@@ -207,6 +231,12 @@ class SimilarAdjacentPair(InteractionPair):
 
 
 class SimilarAdjacentContainedPair(InteractionPair):
+    """(8A) The Target Object is positioned adjacent to a Similar Object,
+    but the Similar Object is inside a container OR (8B) the Target
+    Object is positioned adjacent to a Similar Object, but the Target
+    Object is inside a container. See MCS-238.
+    """
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(SimilarAdjacentContainedPair, self).__init__(template, find_path)
 
@@ -251,8 +281,12 @@ class SimilarAdjacentContainedPair(InteractionPair):
         return scene1, scene2
 
 
-#_INTERACTION_PAIR_CLASSES = [HiddenBehindPair, ImmediatelyVisiblePair, SimilarAdjacentContainedPair]
-_INTERACTION_PAIR_CLASSES = [SimilarAdjacentPair]
+_INTERACTION_PAIR_CLASSES = [
+    HiddenBehindPair,
+    ImmediatelyVisiblePair,
+    SimilarAdjacentPair,
+    SimilarAdjacentContainedPair
+]
 
 
 def get_pair_class() -> Type[InteractionPair]:
