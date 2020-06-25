@@ -5,7 +5,7 @@ with open('python_api/README.md', 'r') as fh:
 
 setuptools.setup(
     name='machine_common_sense',
-    version='0.0.8',
+    version='0.0.10',
     maintainer='Next Century, a wholly owned subsidiary of CACI',
     maintainer_email='mcs-ta2@machinecommonsense.com',
     url='https://github.com/NextCenturyCorporation/MCS/',
@@ -21,7 +21,7 @@ setuptools.setup(
     python_requires=">3.6",
     install_requires=[
         'shapely',
-        'ai2thor @ https://github.com/NextCenturyCorporation/ai2thor/tarball/master#egg=ai2thor'
+        'ai2thor @ git+https://github.com/NextCenturyCorporation/ai2thor#egg=ai2thor'
     ],
     package_dir={'':'python_api'},
     packages=setuptools.find_packages('python_api'),

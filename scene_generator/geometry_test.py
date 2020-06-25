@@ -360,3 +360,45 @@ def are_adjacent(obj_a: Dict[str, Any], obj_b: Dict[str, Any]) -> bool:
 
 
 MAX_ADJACENT_DISTANCE = 0.5
+
+
+def test_get_adjacent_location():
+    target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
+    target = util.instantiate_object(target_def, ORIGIN_LOCATION)
+    obj_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
+
+    location = get_adjacent_location(obj_def, target, ORIGIN)
+    assert location is not None
+
+    # check that their bounding boxes are near each other
+    obj = util.instantiate_object(obj_def, location)
+    obj_bb = get_bounding_polygon(obj)
+    target_bb = get_bounding_polygon(target)
+    assert obj_bb.distance(target_bb) < 0.5
+    
+
+def test_get_adjacent_location_on_side():
+    for side in range(4):
+        target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
+        target = util.instantiate_object(target_def, ORIGIN_LOCATION)
+        obj_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
+        location = get_adjacent_location_on_side(obj_def, target, ORIGIN, side)
+        assert location is not None
+        angle = math.degrees(math.atan2(location['position']['z'], location['position']['x']))
+        target_angle = target['shows'][0]['rotation']['y']
+        delta = angle - target_angle
+        expected_angle = 90 * side
+        if expected_angle > 180:
+            expected_angle -= 360
+        # need to allow some tolerance because of object offsets
+        assert delta == pytest.approx(expected_angle, abs=5)
+
+
+def test_get_wider_and_taller_defs():
+    obj_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
+    dims = obj_def['dimensions']
+    wt_defs = get_wider_and_taller_defs(obj_def)
+    for wt_def in wt_defs:
+        wt_def = util.finalize_object_definition(wt_def)
+        assert wt_def['dimensions']['x'] >= dims['x']
+        assert wt_def['dimensions']['y'] >= dims['y']
