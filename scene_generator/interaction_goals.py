@@ -446,6 +446,19 @@ class TransferralGoal(InteractionGoal):
             new_actions, current_heading, performer = parse_path_section(path[indx:indx+2], current_heading, performer, goal_boundary)
             actions.extend(new_actions)
 
+        # Do I have to look down to see the receptacle?
+        plane_dist = math.sqrt((goal_objects[1]['shows'][0]['position']['x'] - performer[0]) ** 2 +
+                               (goal_objects[1]['shows'][0]['position']['z'] - performer[1]) ** 2)
+        height_dist = PERFORMER_CAMERA_Y-goal_objects[1]['shows'][0]['position']['y']
+        elevation = math.degrees(math.atan2(height_dist, plane_dist))
+        if abs(elevation) > 30:
+            actions.append({
+                'action': 'RotateLook',
+                'params': {
+                    'rotation': 0.0,
+                    'horizon': round(elevation, POSITION_DIGITS)
+                    }
+                })
         # TODO: maybe look at receptacle part of the parent object (future ticket)
         actions.append({
             'action': 'PutObject',
