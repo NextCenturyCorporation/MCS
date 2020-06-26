@@ -2,6 +2,7 @@ import copy
 import logging
 import math
 import random
+from enum import IntEnum
 from typing import List, Dict, Any, Optional, Callable, Tuple, Sequence
 
 import shapely
@@ -13,7 +14,6 @@ import objects
 import util
 from separating_axis_theorem import sat_entry
 
-MAX_TRIES = 100
 # the following mins and maxes are inclusive
 MIN_PERFORMER_POSITION = -4.8 + util.PERFORMER_HALF_WIDTH
 MAX_PERFORMER_POSITION = 4.8 - util.PERFORMER_HALF_WIDTH
@@ -134,7 +134,7 @@ object in the frame, None otherwise."""
 
     tries = 0
     collision_rects = other_rects + [performer_rect]
-    while tries < MAX_TRIES:
+    while tries < util.MAX_TRIES:
         rotation = rotation_func()
         if xz_func is not None:
             new_x, new_z = xz_func()
@@ -148,7 +148,7 @@ object in the frame, None otherwise."""
             break
         tries += 1
 
-    if tries < MAX_TRIES:
+    if tries < util.MAX_TRIES:
         new_object = {
             'rotation': {'x': 0, 'y': rotation, 'z': 0},
             'position':  {'x': new_x, 'y': obj_def['position_y'], 'z': new_z},
@@ -159,65 +159,6 @@ object in the frame, None otherwise."""
 
     logging.debug(f'could not place object: {obj_def}')
     return None
-
-
-def can_enclose(objectA: Dict[str, Any], objectB: Dict[str, Any]) -> bool:
-    """Return True iff each 'dimensions' of objectA is >= the corresponding dimension of objectB."""
-    return objectA['dimensions']['x'] >= objectB['dimensions']['x'] and \
-        objectA['dimensions']['y'] >= objectB['dimensions']['y'] and \
-        objectA['dimensions']['z'] >= objectB['dimensions']['z']
-
-
-def can_contain(container: Dict[str, Any],
-                *targets: Dict[str, Any]) -> Optional[int]:
-    """Return the index of the container's "enclosed_areas" that all
-     targets fit in, or None if they all do not fit in any of the
-     enclosed_areas (or if the container doesn't have any). Does not
-     try any rotation to see if that makes it possible to fit.
-    """
-    if 'enclosed_areas' not in container:
-        return None
-    for i in range(len(container['enclosed_areas'])):
-        space = container['enclosed_areas'][i]
-        fits = True
-        for target in targets:
-            if not can_enclose(space, target):
-                fits = False
-                break
-        if fits:
-            return i
-    return None
-
-
-def get_enclosable_container_defs(objs: Sequence[Dict[str, Any]],
-                                  container_defs: Sequence[Dict[str, Any]] = None) \
-                                  -> List[Dict[str, Any]]:
-    """Return a list of object definitions for containers that can enclose
-    all the pass objects objs. If container_defs is None, use
-    objects.get_enclosed_containers().
-    """
-    if container_defs is None:
-        container_defs = objects.get_enclosed_containers()
-    valid_container_defs = []
-    for container_def in container_defs:
-        index = can_contain(container_def, *objs)
-        if index is not None:
-            valid_container_defs.append(container_def)
-        elif 'choose' in container_def:
-            # try choose
-            valid_choices = []
-            for choice in container_def['choose']:
-                index = can_contain(choice, *objs)
-                if index is not None:
-                    valid_choices.append(choice)
-            if len(valid_choices) > 0:
-                if len(valid_choices) == len(container_def['choose']):
-                    valid_container_defs.append(container_def)
-                else:
-                    new_def = copy.deepcopy(container_def)
-                    new_def['choose'] = valid_choices
-                    valid_container_defs.append(new_def)
-    return valid_container_defs
 
 
 def occluders_too_close(occluder: Dict[str, Any], x_position: float, x_scale: float) -> bool:
@@ -242,7 +183,10 @@ def get_room_box() -> shapely.geometry.Polygon:
 
 def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
         -> shapely.geometry.LineString:
-    logging.debug(f'>>>get_visible_segment: {performer_start}')
+    """Get a line segment that should be visible to the performer
+    (straight ahead and at least MIN_START_DISTANCE_AWAY but within
+    the room).
+    """
     max_dimension = max(ROOM_DIMENSIONS[0][1] - ROOM_DIMENSIONS[0][0],
                         ROOM_DIMENSIONS[1][1] - ROOM_DIMENSIONS[1][0])
     # make it long enough for the far end to be outside the room
@@ -255,7 +199,6 @@ def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
     target_segment = room.intersection(view_segment)
     if target_segment.is_empty:
         raise exceptions.SceneException(f'performer too close to the wall, cannot place object in front of it (performer location={performer_start})')
-    logging.debug(f'<<<get_visible_segment: {target_segment}')
     return target_segment
 
 
@@ -276,10 +219,12 @@ def get_location_in_front_of_performer(performer_start: Dict[str, Dict[str, floa
 
 def get_location_behind_performer(performer_start: Dict[str, Dict[str, float]],
                                   target_def: Dict[str, Any]) -> Optional[Dict[str, Any]]:
-    # find the part of the the room that's behind the performer
+    # First, find the part of the the room that's behind the performer
+    # (i.e., the 180 degree arc in the opposite direction from its
+    # orientation)
     max_dimension = max(ROOM_DIMENSIONS[0][1] - ROOM_DIMENSIONS[0][0],
                         ROOM_DIMENSIONS[1][1] - ROOM_DIMENSIONS[1][0])
-    # if the performer were at the origin facing 0, this would be behind it
+    # if the performer were at the origin facing 0, this box would be behind it
     base_rear = shapely.geometry.box(-max_dimension*2, -max_dimension*2,
                                      max_dimension*2, 0)
     performer_point = shapely.geometry.Point(performer_start['position']['x'],
@@ -311,17 +256,26 @@ def get_adjacent_location(obj_def: Dict[str, Any],
     location will not overlap the performer start, if necessary trying
     to put the new object on each cardinal side of the target.
     """
-    for side in range(4):
+    sides = list(range(4))
+    random.shuffle(sides)
+    for side in sides:
         location = get_adjacent_location_on_side(obj_def, target, performer_start, side)
         if location is not None:
             return location
     return None
 
 
+class Side(IntEnum):
+    RIGHT = 0
+    BACK = 1
+    LEFT = 2
+    FRONT = 3
+
+
 def get_adjacent_location_on_side(obj_def: Dict[str, Any],
                                   target: Dict[str, Any],
                                   performer_start: Dict[str, float],
-                                  side: int) -> Optional[Dict[str, Any]]:
+                                  side: Side) -> Optional[Dict[str, Any]]:
     """Get a location such that, if obj_def is instantiated there, it will
     be next to target. Side determines on which side of target to
     place it: 0 = right (positive x), 1 = behind (positive z), 2 =
@@ -329,8 +283,6 @@ def get_adjacent_location_on_side(obj_def: Dict[str, Any],
     would overlap the performer_start or would be outside the room,
     None is returned."
     """
-    if side < 0 or side > 3:
-        raise ValueError(f'side must be 0-3 (not {side})')
     GAP = 0.05
     distance_dim = 'x' if side in (0, 2) else 'z'
     distance = obj_def['dimensions'][distance_dim]/2.0 + \

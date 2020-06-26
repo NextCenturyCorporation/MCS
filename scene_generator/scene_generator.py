@@ -122,7 +122,10 @@ def write_scene(name: str, scene: Dict[str, Any]) -> None:
 
     with open(name, 'w') as out:
         # PrettyJsonEncoder doesn't work with json.dump so use json.dumps here instead.
-        out.write(json.dumps(body, cls=PrettyJsonEncoder, indent=2))
+        try:
+            out.write(json.dumps(body, cls=PrettyJsonEncoder, indent=2))
+        except Exception as e:
+            logging.error(body, e)
 
 
 def wrap_with_json_no_indent(data: Dict[str, Any], prop_list: List[str]) -> None:
@@ -232,7 +235,7 @@ def generate_pair_fileset(prefix: str, count: int,
 
 
 class FilesetType(Enum):
-    NORMAL = auto()
+    SINGLE = auto()
     QUARTET = auto()
     PAIR = auto()
 
@@ -247,7 +250,7 @@ def generate_fileset(prefix: str, count: int, type_name: str, find_path: bool, s
         generate_quartets(prefix, count, type_name, find_path, stop_on_error)
     elif fileset_type == FilesetType.PAIR:
         generate_pair_fileset(prefix, count, find_path, stop_on_error)
-    elif fileset_type == FilesetType.NORMAL:
+    elif fileset_type == FilesetType.SINGLE:
         generate_scene_fileset(prefix, count, type_name, find_path, stop_on_error)
 
 
@@ -280,7 +283,7 @@ def main(argv):
 
     if args.goal is not None:
         type_name = args.goal
-        fileset_type = FilesetType.NORMAL
+        fileset_type = FilesetType.SINGLE
     elif args.quartet is not None:
         type_name = args.quartet
         fileset_type = FilesetType.QUARTET
@@ -289,7 +292,7 @@ def main(argv):
         fileset_type = FilesetType.PAIR
     else:
         type_name = None
-        fileset_type = FilesetType.NORMAL
+        fileset_type = FilesetType.SINGLE
 
     generate_fileset(args.prefix, args.count, type_name, args.find_path, args.stop_on_error, fileset_type)
 
