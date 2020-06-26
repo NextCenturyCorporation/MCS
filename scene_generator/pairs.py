@@ -299,7 +299,7 @@ class SimilarAdjacentContainedPair(InteractionPair):
             similar_def = util.get_similar_definition(target)
             similar = util.instantiate_object(similar_def, geometry.ORIGIN_LOCATION)
             # find a container big enough for both of them
-            valid_containments = geometry.get_enclosable_containments((target, similar))
+            valid_containments = containers.get_enclosable_containments((target, similar))
             if len(valid_containments) > 0:
                 break
         if len(valid_containments) == 0:
@@ -312,14 +312,14 @@ class SimilarAdjacentContainedPair(InteractionPair):
                                                             self._performer_start['position'])
         container = util.instantiate_object(container_def, container_location)
 
-        util.put_object_in_container(similar, container, container_def, area_index, angles[1])
+        containers.put_object_in_container(similar, container, container_def, area_index, angles[1])
 
         scene1 = self._get_empty_scene()
         scene1['objects'] = [target, similar, container]
 
         target2 = copy.deepcopy(target)
         container2 = copy.deepcopy(container)
-        util.put_object_in_container(target2, container2, container_def, area_index, angles[0])
+        containers.put_object_in_container(target2, container2, container_def, area_index, angles[0])
         similar2 = copy.deepcopy(similar)
         del similar2['locationParent']
         similar2_location = geometry.get_adjacent_location(similar_def,

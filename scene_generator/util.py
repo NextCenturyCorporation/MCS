@@ -28,7 +28,7 @@ def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
 
 
 def finalize_object_definition(object_def: Dict[str, Any],
-                               choice: Optional[Dict[str,Any]] = None) \
+                               choice: Optional[Dict[str, Any]] = None) \
                                -> Dict[str, Any]:
     object_def_copy = copy.deepcopy(object_def)
 
@@ -118,20 +118,6 @@ def instantiate_object(object_def: Dict[str, Any],
     info.append(' '.join(info))
     new_object['info'] = info
     return new_object
-
-
-def put_object_in_container(obj: Dict[str, Any],
-                            container: Dict[str, Any],
-                            container_def: Dict[str, Any],
-                            area_index: int,
-                            angle: Optional[float] = None) -> None:
-    area = container_def['enclosed_areas'][area_index]
-    obj['locationParent'] = container['id']
-    obj['shows'][0]['position'] = area['position'].copy()
-    if 'rotation' not in obj['shows'][0]:
-        obj['shows'][0]['rotation'] = geometry.ORIGIN.copy()
-    if angle is not None:
-        obj['shows'][0]['rotation']['y'] = angle
 
 
 def get_similar_definition(obj: Dict[str, Any]) -> Optional[Dict[str, Any]]:
@@ -231,4 +217,3 @@ def get_def_with_new_scale(obj: Dict[str, Any]) -> Dict[str, Any]:
     else:
         obj_def = None
     return obj_def
-
