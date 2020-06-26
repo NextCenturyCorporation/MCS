@@ -7,7 +7,6 @@ from typing import Dict, Any
 import pytest
 
 import goal
-from goal import MAX_TRIES
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, MAX_REACH_DISTANCE
 
 import geometry
@@ -16,7 +15,7 @@ import scene_generator
 from geometry import POSITION_DIGITS
 from goals import *
 from interaction_goals import move_to_container, parse_path_section, get_navigation_actions, trim_actions_to_reach
-from util import finalize_object_definition, instantiate_object
+from util import MAX_TRIES, finalize_object_definition, instantiate_object
 
 
 def test_move_to_container():
