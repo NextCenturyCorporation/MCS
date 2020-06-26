@@ -116,7 +116,7 @@ class ObjectPermanenceQuartet(Quartet):
                 self._appear_behind_occluder(scene)
             elif q == 4:
                 # target not in the scene (plausible)
-                target_id = self._goal._targets[0]
+                target_id = self._goal._targets[0]['id']
                 for i in range(len(scene['objects'])):
                     obj = scene['objects'][i]
                     if obj['id'] == target_id:

@@ -137,7 +137,7 @@ class IntPhysGoal(Goal, ABC):
 
         return {
             'target': [moving_objs[0]],
-            'distractor': moving_objs[1:] if len(moving_objs) > 1 else [],
+            'distractor': moving_objs[1:],
             'background object': background_objs,
             'occluder': occluder_objs
         }, []
@@ -560,7 +560,7 @@ class GravityGoal(IntPhysGoal):
 
         return {
             'target': [moving_objs[0]],
-            'distractor': moving_objs[1:] if len(moving_objs) > 1 else [],
+            'distractor': moving_objs[1:],
             'background object': background_objs,
             'ramp': ramp_objs
         }, []
