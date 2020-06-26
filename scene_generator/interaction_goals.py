@@ -7,6 +7,7 @@ import random
 import math
 from typing import Dict, Any, AnyStr, List, Tuple, Sequence
 
+import containers
 import util
 from sympy import Segment, intersection
 
@@ -199,21 +200,19 @@ def move_to_container(target: Dict[str, Any], all_objects: List[Dict[str, Any]],
     random.shuffle(shuffled_containers)
     for container_def in shuffled_containers:
         container_def = finalize_object_definition(container_def)
-        area_index = geometry.can_contain(container_def, target)
+        area_index = containers.can_contain(container_def, target)
         if area_index is not None:
             # try to place the container before we accept it
             container_location = geometry.calc_obj_pos(performer_position, bounding_rects, container_def)
             if container_location is not None:
                 found_container = instantiate_object(container_def, container_location)
                 all_objects.append(found_container)
-                util.put_object_in_container(target, found_container, container_def, area_index)
+                containers.put_object_in_container(target, found_container, container_def, area_index)
                 return True
     return False
 
 
 class InteractionGoal(Goal, ABC):
-    TARGET_CONTAINED_CHANCE = 0.25
-    """Chance that the target will be in a container"""
     OBJECT_CONTAINED_CHANCE = 0.5
     """Chance that, if the target is in a container, a non-target pickupable object in the scene will be, too."""
 
@@ -242,7 +241,7 @@ class InteractionGoal(Goal, ABC):
     def add_objects(self, all_objects: List[Dict[str, Any]], bounding_rects: List[List[Dict[str, float]]],
                     performer_position: Dict[str, float]) -> None:
         """Maybe add a container and put the target inside it. If so, maybe put other objects in other objects, too."""
-        if random.random() <= self.TARGET_CONTAINED_CHANCE:
+        if random.random() <= util.TARGET_CONTAINED_CHANCE:
             if move_to_container(self._target, all_objects, bounding_rects, performer_position):
                 # maybe do it with other objects, too
                 super(InteractionGoal, self).add_objects(all_objects, bounding_rects, performer_position)

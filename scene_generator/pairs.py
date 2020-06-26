@@ -6,6 +6,7 @@ from typing import Tuple, Dict, Any, Type, Optional
 
 import shapely
 
+import containers
 import exceptions
 import geometry
 import objects
@@ -19,7 +20,6 @@ PERFORMER_BOUNDS = ((ROOM_DIMENSIONS[0][0] + MIN_START_DISTANCE_AWAY,
                      ROOM_DIMENSIONS[1][1] - MIN_START_DISTANCE_AWAY))
 """(minX, maxX), (minZ, maxZ) for the performer (leaving space to put
 an object in front of it)"""
-
 
 def move_to_location(obj_def: Dict[str, Any], obj: Dict[str, Any],
                      location: Dict[str, Any]):
@@ -72,6 +72,10 @@ def add_objects(target: Dict[str, Any], performer_position: Dict[str, float], sc
 
 
 class InteractionPair(ABC):
+    """Abstract base class for interaction pairs. This is analogous to the
+    intphys quartets, but for interaction scenarios. See MCS-235.
+    """
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         self._template = template
         self._find_path = find_path
@@ -105,6 +109,12 @@ class InteractionPair(ABC):
 
 
 class ImmediatelyVisiblePair(InteractionPair):
+    """(1A) The Target Object is immediately visible (starting in view of
+    the camera) OR (1B) behind the camera (must rotate to see the
+    object). For each pair, the object may or may not be inside a
+    container (like a box). See MCS-232.
+    """
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(ImmediatelyVisiblePair, self).__init__(template, find_path)
         logging.debug(f'performerStart={self._performer_start}')
@@ -157,6 +167,12 @@ class ImmediatelyVisiblePair(InteractionPair):
 
 
 class HiddenBehindPair(InteractionPair):
+    """(2A) The Target Object is immediately visible OR (2B) is hidden
+    behind a larger object that itself is immediately visible. For
+    each pair, the object may or may not be inside a container (like a
+    box). See MCS-239.
+    """
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(HiddenBehindPair, self).__init__(template, find_path)
 
@@ -211,7 +227,67 @@ class HiddenBehindPair(InteractionPair):
         return scene1, scene2
     
 
+class SimilarAdjacentPair(InteractionPair):
+    """(3A) The Target Object is positioned normally, without a Similar
+    Object in the scene, OR (3B) with a Similar Object in the scene,
+    and directly adjacent to it. For each pair, the objects may or may
+    not be inside a container, but only if the container is big enough
+    to hold both together; otherwise, no container will be used in
+    that pair.
+    """
+
+    def __init__(self, template: Dict[str, Any], find_path: bool):
+        super(SimilarAdjacentPair, self).__init__(template, find_path)
+
+    def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
+        target_location = geometry.calc_obj_pos(self._performer_start['position'], [], target_def)
+        target = util.instantiate_object(target_def, target_location)
+        similar_def = util.finalize_object_definition(util.get_similar_definition(target))
+        container = None
+        if random.random() <= util.TARGET_CONTAINED_CHANCE:
+            container_defs = objects.get_enclosed_containers().copy()
+            random.shuffle(container_defs)
+            for container_def in container_defs:
+                placement = containers.can_contain_both(container_def, target_def, similar_def)
+                if placement is not None:
+                    break
+            if placement is not None:
+                container_def, index, orientation, rot_a, rot_b = placement
+                container_def = util.finalize_object_definition(container_def)
+                container_location = geometry. \
+                    calc_obj_pos(self._performer_start['position'], [], container_def)
+                container = util.instantiate_object(container_def, container_location)
+                containers.put_object_in_container(target, container, container_def, index)
+        scene1 = self._get_empty_scene()
+        scene1['objects'] = [target] if container is None else [target, container]
+
+        similar_location = geometry. \
+            get_adjacent_location(similar_def, target,
+                                  self._performer_start['position'])
+        if similar_location is None:
+            raise exceptions.SceneException('could not place similar object adjacent to target')
+        similar = util.instantiate_object(similar_def, similar_location)
+        scene2 = self._get_empty_scene()
+        if container is None:
+            scene2['objects'] = [target, similar]
+        else:
+            target2 = copy.deepcopy(target)
+            containers.put_objects_in_container(target2, similar, container,
+                                                container_def, index, orientation,
+                                                rot_a, rot_b)
+            scene2['objects'] = [target2, similar, container]
+
+        return scene1, scene2
+
+
 class SimilarAdjacentContainedPair(InteractionPair):
+    """(8A) The Target Object is positioned adjacent to a Similar Object,
+    but the Similar Object is inside a container OR (8B) the Target
+    Object is positioned adjacent to a Similar Object, but the Target
+    Object is inside a container. See MCS-238.
+    """
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(SimilarAdjacentContainedPair, self).__init__(template, find_path)
 
@@ -223,7 +299,7 @@ class SimilarAdjacentContainedPair(InteractionPair):
             similar_def = util.get_similar_definition(target)
             similar = util.instantiate_object(similar_def, geometry.ORIGIN_LOCATION)
             # find a container big enough for both of them
-            valid_container_defs = geometry.get_enclosable_container_defs((target, similar))
+            valid_container_defs = containers.get_enclosable_container_defs((target, similar))
             if len(valid_container_defs) > 0:
                 break
         if len(valid_container_defs) == 0:
@@ -233,17 +309,17 @@ class SimilarAdjacentContainedPair(InteractionPair):
                                                             target,
                                                             self._performer_start['position'])
         container = util.instantiate_object(container_def, container_location)
-        area_index = geometry.can_contain(container_def, target, similar)
+        area_index = containers.can_contain(container_def, target, similar)
         if area_index is None:
             raise exceptions.SceneException('internal error: container should be big enough but is not')
-        util.put_object_in_container(similar, container, container_def, area_index)
+        containers.put_object_in_container(similar, container, container_def, area_index)
 
         scene1 = self._get_empty_scene()
         scene1['objects'] = [target, similar, container]
 
         target2 = copy.deepcopy(target)
         container2 = copy.deepcopy(container)
-        util.put_object_in_container(target2, container2, container_def, area_index)
+        containers.put_object_in_container(target2, container2, container_def, area_index)
         similar2 = copy.deepcopy(similar)
         del similar2['locationParent']
         similar2_location = geometry.get_adjacent_location(similar_def,
@@ -256,7 +332,12 @@ class SimilarAdjacentContainedPair(InteractionPair):
         return scene1, scene2
 
 
-_INTERACTION_PAIR_CLASSES = [HiddenBehindPair, ImmediatelyVisiblePair, SimilarAdjacentContainedPair]
+_INTERACTION_PAIR_CLASSES = [
+    HiddenBehindPair,
+    ImmediatelyVisiblePair,
+    SimilarAdjacentPair,
+    SimilarAdjacentContainedPair
+]
 
 
 def get_pair_class() -> Type[InteractionPair]:

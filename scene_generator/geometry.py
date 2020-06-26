@@ -172,65 +172,6 @@ object in the frame, None otherwise."""
     return None
 
 
-def can_enclose(objectA: Dict[str, Any], objectB: Dict[str, Any]) -> bool:
-    """Return True iff each 'dimensions' of objectA is >= the corresponding dimension of objectB."""
-    return objectA['dimensions']['x'] >= objectB['dimensions']['x'] and \
-        objectA['dimensions']['y'] >= objectB['dimensions']['y'] and \
-        objectA['dimensions']['z'] >= objectB['dimensions']['z']
-
-
-def can_contain(container: Dict[str, Any],
-                *targets: Dict[str, Any]) -> Optional[int]:
-    """Return the index of the container's "enclosed_areas" that all
-     targets fit in, or None if they all do not fit in any of the
-     enclosed_areas (or if the container doesn't have any). Does not
-     try any rotation to see if that makes it possible to fit.
-    """
-    if 'enclosed_areas' not in container:
-        return None
-    for i in range(len(container['enclosed_areas'])):
-        space = container['enclosed_areas'][i]
-        fits = True
-        for target in targets:
-            if not can_enclose(space, target):
-                fits = False
-                break
-        if fits:
-            return i
-    return None
-
-
-def get_enclosable_container_defs(objs: Sequence[Dict[str, Any]],
-                                  container_defs: Sequence[Dict[str, Any]] = None) \
-                                  -> List[Dict[str, Any]]:
-    """Return a list of object definitions for containers that can enclose
-    all the pass objects objs. If container_defs is None, use
-    objects.get_enclosed_containers().
-    """
-    if container_defs is None:
-        container_defs = objects.get_enclosed_containers()
-    valid_container_defs = []
-    for container_def in container_defs:
-        index = can_contain(container_def, *objs)
-        if index is not None:
-            valid_container_defs.append(container_def)
-        elif 'choose' in container_def:
-            # try choose
-            valid_choices = []
-            for choice in container_def['choose']:
-                index = can_contain(choice, *objs)
-                if index is not None:
-                    valid_choices.append(choice)
-            if len(valid_choices) > 0:
-                if len(valid_choices) == len(container_def['choose']):
-                    valid_container_defs.append(container_def)
-                else:
-                    new_def = copy.deepcopy(container_def)
-                    new_def['choose'] = valid_choices
-                    valid_container_defs.append(new_def)
-    return valid_container_defs
-
-
 def occluders_too_close(occluder: Dict[str, Any], x_position: float, x_scale: float) -> bool:
     """Return True iff a new occluder at x_position with scale x_scale
     would be too close to existing occluder occluder."""
