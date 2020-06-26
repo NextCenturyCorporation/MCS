@@ -203,4 +203,4 @@ def test_get_similar_defs():
     similar_defs = get_similar_defs(obj, ('type', 'materialCategory'), ('mass',))
     for obj_def in similar_defs:
         assert check_same_and_different(obj_def, obj, ('type', 'materialCategory'), ('mass',))
-    
+

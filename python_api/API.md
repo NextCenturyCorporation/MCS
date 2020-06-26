@@ -170,9 +170,9 @@ Haptic feedback. The material(s) of this object. Possible materials: "Metal", "W
 
 The "x", "y", and "z" coordinates for the global position of the center of this object's 3D model.
 
-### rotation : float
+### rotation : dict
 
-This object's rotation angle in degrees.
+This object's rotation angles around the "x", "y", and "z" axes in degrees.
 
 ### shape : string
 
@@ -202,7 +202,7 @@ The player camera's near and far clipping planes. This will remain constant for 
 
 ### camera_field_of_view : float
 
-The player camera's field of view. This will remain constant for the whole scene.
+The player camera's vertical field of view, in degrees. The horizontal field of view can be computed using this and the `camera_aspect_ratio`.  This will remain constant for the whole scene.
 
 ### camera_height : float
 

@@ -223,7 +223,7 @@ class IntPhysGoal(Goal, ABC):
         """Create additional, non-paired occluders and add them to occluder_list."""
         for _ in range(num_to_add):
             occluder_fits = False
-            for try_num in range(IntPhysGoal.MAX_OCCLUDER_TRIES):
+            for try_num in range(util.MAX_TRIES):
                 # try random position and scale until we find one that fits (or try too many times)
                 min_scale = IntPhysGoal.MIN_OCCLUDER_SCALE
                 x_scale = util.random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, util.MIN_RANDOM_INTERVAL)
@@ -471,7 +471,7 @@ class GravityGoal(IntPhysGoal):
     TEMPLATE = {
         'category': 'intphys',
         'domain_list': ['objects', 'object_solidity', 'object_motion', 'gravity'],
-        'type_list': ['observation', 'action_none', 'intphys', 'gravity'],
+        'type_list': ['passive', 'action_none', 'intphys', 'gravity'],
         'task_list': ['choose'],
         'description': '',
         'metadata': {
@@ -575,16 +575,18 @@ class GravityGoal(IntPhysGoal):
         # only want intphys_options where y == 0
         valid_defs = []
         for obj_def in objects.OBJECTS_INTPHYS:
-            new_od = obj_def.copy()
-            valid_intphys = [intphys for intphys in obj_def['intphys_options'] if intphys['y'] == 0]
-            if len(valid_intphys) != 0:
-                new_od['saved_intphys_options'] = copy.deepcopy(valid_intphys)
-                if self.is_ramp_steep() and self._use_fastest:
-                    # use the intphys with the highest force.x for each object
-                    sorted_intphys = sorted(valid_intphys, key=lambda intphys: intphys['force']['x'])
-                    valid_intphys = [sorted_intphys[-1]]
-                new_od['intphys_options'] = valid_intphys
-                valid_defs.append(new_od)
+            # Want to avoid cubes in the gravity tests at this time MCS-269
+            if obj_def['type'] != 'cube':
+                new_od = obj_def.copy()
+                valid_intphys = [intphys for intphys in obj_def['intphys_options'] if intphys['y'] == 0]
+                if len(valid_intphys) != 0:
+                    new_od['saved_intphys_options'] = copy.deepcopy(valid_intphys)
+                    if self.is_ramp_steep() and self._use_fastest:
+                        # use the intphys with the highest force.x for each object
+                        sorted_intphys = sorted(valid_intphys, key=lambda intphys: intphys['force']['x'])
+                        valid_intphys = [sorted_intphys[-1]]
+                    new_od['intphys_options'] = valid_intphys
+                    valid_defs.append(new_od)
         if self.is_ramp_steep():
             # Don't put objects in places where they'd have to roll up
             # 90 degree (i.e., vertical) ramps.
@@ -634,7 +636,7 @@ class ObjectPermanenceGoal(IntPhysGoal):
     TEMPLATE = {
         'category': 'intphys',
         'domain_list': ['objects', 'object_solidity', 'object_motion', 'object_permanence'],
-        'type_list': ['observation', 'action_none', 'intphys', 'object_permanence'],
+        'type_list': ['passive', 'action_none', 'intphys', 'object_permanence'],
         'task_list': ['choose'],
         'description': '',
         'metadata': {}
@@ -648,7 +650,7 @@ class ShapeConstancyGoal(IntPhysGoal):
     TEMPLATE = {
         'category': 'intphys',
         'domain_list': ['objects', 'object_solidity', 'object_motion', 'object_permanence'],
-        'type_list': ['observation', 'action_none', 'intphys', 'shape_constancy'],
+        'type_list': ['passive', 'action_none', 'intphys', 'shape_constancy'],
         'task_list': ['choose'],
         'description': '',
         'metadata': {}
@@ -662,7 +664,7 @@ class SpatioTemporalContinuityGoal(IntPhysGoal):
     TEMPLATE = {
         'category': 'intphys',
         'domain_list': ['objects', 'object_solidity', 'object_motion', 'object_permanence'],
-        'type_list': ['observation', 'action_none', 'intphys', 'spatio_temporal_continuity'],
+        'type_list': ['passive', 'action_none', 'intphys', 'spatio_temporal_continuity'],
         'task_list': ['choose'],
         'description': '',
         'metadata': {}

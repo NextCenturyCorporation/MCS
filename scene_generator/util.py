@@ -11,6 +11,10 @@ import objects
 
 MAX_TRIES = 200
 MIN_RANDOM_INTERVAL = 0.05
+PERFORMER_WIDTH = 0.1
+PERFORMER_HALF_WIDTH = PERFORMER_WIDTH / 2.0
+TARGET_CONTAINED_CHANCE = 0.5
+"""Chance that the target will be in a container"""
 
 TARGET_CONTAINED_CHANCE = 0.25
 """Chance that the target will be in a container"""
@@ -26,15 +30,19 @@ def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
     return a + (n * step)
 
 
-def finalize_object_definition(object_def: Dict[str, Any]) -> Dict[str, Any]:
+def finalize_object_definition(object_def: Dict[str, Any],
+                               choice: Optional[Dict[str,Any]] = None) \
+                               -> Dict[str, Any]:
     object_def_copy = copy.deepcopy(object_def)
 
-    # apply choice if necessary
-    if 'choose' in object_def_copy:
+    # get choice if available and none provided
+    if choice is None and 'choose' in object_def_copy:
         choice = random.choice(object_def_copy['choose'])
+
+    if choice is not None:
         for key in choice:
             object_def_copy[key] = choice[key]
-        del object_def_copy['choose']
+        object_def_copy.pop('choose', None)
 
     return object_def_copy
 
@@ -67,6 +75,7 @@ def instantiate_object(object_def: Dict[str, Any],
 
     # need the original position for quartets
     new_object['original_location'] = copy.deepcopy(object_location)
+    object_location = copy.deepcopy(object_location)
     if 'offset' in object_def:
         object_location['position']['x'] -= object_def['offset']['x']
         object_location['position']['z'] -= object_def['offset']['z']
@@ -114,18 +123,27 @@ def instantiate_object(object_def: Dict[str, Any],
     return new_object
 
 
-def get_similar_definition(obj: Dict[str, Any]) -> Dict[str, Any]:
-    choice = random.randint(1, 3)
-    if choice == 1:
-        return get_def_with_new_type(obj)
-    elif choice == 2:
-        return get_def_with_new_material(obj)
-    else:
-        return get_def_with_new_scale(obj)
+def get_similar_definition(obj: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    """Get an object definition similar to obj but different in one of
+    type, material, or scale. It is possible but unlikely that no such
+    definition can be found, in which case it returns None.
+    """
+    choices = [1, 2, 3]
+    random.shuffle(choices)
+    for choice in choices:
+        if choice == 1:
+            new_obj = get_def_with_new_type(obj)
+        elif choice == 2:
+            new_obj = get_def_with_new_material(obj)
+        else:
+            new_obj = get_def_with_new_scale(obj)
+        if new_obj is not None:
+            return new_obj
+    return None
 
 
 def check_same_and_different(a: Dict[str, Any], b: Dict[str, Any],
-                            same: Iterable[str], different: Iterable[str]) -> bool:
+                             same: Iterable[str], different: Iterable[str]) -> bool:
     """Return true iff for all properties in same that are in a, they
     exist in b and have the same value, and for all properties in
     different that are in a, they exist in b and are different.
@@ -175,7 +193,10 @@ def get_def_with_new_type(obj: Dict[str, Any]) -> Dict[str, Any]:
     valid_defs = get_similar_defs(obj, ('materialCategory',
                                         'similarityScale'),
                                   ('type',))
-    obj_def = random.choice(valid_defs)
+    if len(valid_defs) > 0:
+        obj_def = random.choice(valid_defs)
+    else:
+        obj_def = None
     return obj_def
 
 
@@ -183,7 +204,10 @@ def get_def_with_new_material(obj: Dict[str, Any]) -> Dict[str, Any]:
     valid_defs = get_similar_defs(obj, ('type',
                                         'similarityScale'),
                                   ('materialCategory',))
-    obj_def = random.choice(valid_defs)
+    if len(valid_defs) > 0:
+        obj_def = random.choice(valid_defs)
+    else:
+        obj_def = None
     return obj_def
 
 
@@ -191,5 +215,9 @@ def get_def_with_new_scale(obj: Dict[str, Any]) -> Dict[str, Any]:
     valid_defs = get_similar_defs(obj, ('type',
                                         'materialCategory'),
                                   ('similarityScale',))
-    obj_def = random.choice(valid_defs)
+    if len(valid_defs) > 0:
+        obj_def = random.choice(valid_defs)
+    else:
+        obj_def = None
     return obj_def
+
