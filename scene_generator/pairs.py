@@ -265,6 +265,13 @@ class SimilarFarPair(InteractionPair):
 
 
 class SimilarAdjacentFarPair(InteractionPair):
+    """(5A) The Target Object is positioned directly adjacent to a Similar
+    Object OR (5B) far away from a Similar Object. For each pair, the
+    objects may or may not be inside identical containers, but only if
+    the container is big enough to hold both together; otherwise, no
+    container will be used in that pair.
+    """
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(SimilarAdjacentFarPair, self).__init__(template, find_path)
 
