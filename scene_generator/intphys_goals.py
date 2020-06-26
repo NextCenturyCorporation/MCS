@@ -161,7 +161,7 @@ class IntPhysGoal(Goal, ABC):
         scenery_list = []
         scenery_rects = []
         scenery_defs = objects.OBJECTS_MOVEABLE + objects.OBJECTS_IMMOBILE
-        for i in range(scenery_count):
+        for _ in range(scenery_count):
             location = None
             while location is None:
                 scenery_def = finalize_object_definition(random.choice(scenery_defs))

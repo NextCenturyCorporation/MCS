@@ -16,8 +16,8 @@ def test_random_real():
 
 def test_GravityGoal_compute_objects():
     goal = GravityGoal()
-    object_dict, rects = goal.compute_objects('dummy wall material')
-    assert len(object_dict['target']) > 0
+    tag_to_objects, rects = goal.compute_objects('dummy wall material')
+    assert len(tag_to_objects['target']) > 0
     assert len(rects) == 0
 
 

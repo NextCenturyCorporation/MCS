@@ -194,7 +194,7 @@ class InteractionGoal(Goal, ABC):
         if self._target_location is None:
             raise GoalException(f'could not place target object (type={self._target_def["type"]})')
 
-    def _generate_additional_target_objs(self) -> None:
+    def _generate_additional_target_objs(self) -> List[Dict[str, Any]]:
         """Returns target objects required for the goal other than the first target, if any.
         May update _bounding_rects."""
         return []
@@ -318,7 +318,7 @@ class TransferralGoal(InteractionGoal):
     def __init__(self):
         super(TransferralGoal, self).__init__()
 
-    def _generate_additional_target_objs(self) -> None:
+    def _generate_additional_target_objs(self) -> List[Dict[str, Any]]:
         targets = objects.get_all_object_defs()
         random.shuffle(targets)
         target2_def = next((tgt for tgt in targets if 'stackTarget' in tgt.get('attributes', [])), None)

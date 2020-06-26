@@ -85,24 +85,24 @@ class Goal(ABC):
     def __init__(self):
         self._performer_start = None
         self._targets = []
-        self._object_dict = []
+        self._tag_to_objects = []
 
     def update_body(self, body: Dict[str, Any], find_path: bool) -> Dict[str, Any]:
         """Helper method that calls other Goal methods to set performerStart, objects, and goal. Returns the goal body
         object."""
         body['performerStart'] = self.compute_performer_start()
 
-        object_dict, bounding_rects = self.compute_objects(body['wallMaterial'])
-        self._object_dict = object_dict
-        self._targets = object_dict['target']
+        tag_to_objects, bounding_rects = self.compute_objects(body['wallMaterial'])
+        self._tag_to_objects = tag_to_objects
+        self._targets = tag_to_objects['target']
 
         walls = self.generate_walls(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], \
                 bounding_rects)
         if walls is not None:
-            object_dict['wall'] = walls
+            tag_to_objects['wall'] = walls
 
-        body['objects'] = [element for key, value in object_dict.items() for element in value]
-        body['goal'] = self.get_config(self._targets, object_dict)
+        body['objects'] = [element for value in tag_to_objects.values() for element in value]
+        body['goal'] = self.get_config(self._targets, tag_to_objects)
 
         if find_path:
             body['answer']['actions'] = self.find_optimal_path(self._targets, body['objects'])
@@ -136,7 +136,7 @@ class Goal(ABC):
     def compute_objects(self, wall_material_name: str) -> \
             Tuple[Dict[str, List[Dict[str, Any]]], List[List[Dict[str, float]]]]:
         """Compute object instances for the scene. Returns a tuple:
-        (objects required for the goal, all objects in the scene including objects required for the goal, bounding rectangles)"""
+        (dict that maps tag strings to object lists, bounding rectangles)"""
         pass
 
     def add_objects(self, object_list: List[Dict[str, Any]], rectangles: List[List[Dict[str, float]]],
@@ -153,29 +153,29 @@ class Goal(ABC):
                 obj = util.instantiate_object(object_def, obj_location)
                 object_list.append(obj)
 
-    def _update_goal_info_list(self, goal: Dict[str, Any], object_dict: Dict[str, List[Dict[str, Any]]]) -> None:
+    def _update_goal_info_list(self, goal: Dict[str, Any], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> None:
         info_set = set(goal.get('info_list', []))
 
-        for key, value in object_dict.items():
+        for key, value in tag_to_objects.items():
             for obj in value:
                 info_list = obj.get('info', []).copy()
                 if 'info_string' in obj:
                     info_list.append(obj['info_string'])
-                info_set |= frozenset([(key + ' ' + info) for info in info_list])
+                info_set |= set([(key + ' ' + info) for info in info_list])
 
         goal['info_list'] = list(info_set)
 
-    def _update_goal_tags(self, goal: Dict[str, Any], object_dict: Dict[str, List[Dict[str, Any]]]) -> None:
-        self._update_goal_tags_of_type(goal, object_dict['target'], 'target')
-        if 'distractor' in object_dict:
-            self._update_goal_tags_of_type(goal, object_dict['distractor'], 'distractor')
+    def _update_goal_tags(self, goal: Dict[str, Any], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> None:
+        self._update_goal_tags_of_type(goal, tag_to_objects['target'], 'target')
+        if 'distractor' in tag_to_objects:
+            self._update_goal_tags_of_type(goal, tag_to_objects['distractor'], 'distractor')
         for item in ['background object', 'distractor', 'occluder', 'target', 'wall']:
-            if item in object_dict:
-                number = len(object_dict[item])
+            if item in tag_to_objects:
+                number = len(tag_to_objects[item])
                 if item == 'occluder':
                     number = (int)(number / 2)
                 goal['type_list'].append(item + 's ' + str(number))
-        self._update_goal_info_list(goal, object_dict)
+        self._update_goal_info_list(goal, tag_to_objects)
 
     def _update_goal_tags_of_type(self, goal: Dict[str, Any], objs: List[Dict[str, Any]], name: str) -> None:
         for obj in objs:
@@ -190,12 +190,12 @@ class Goal(ABC):
                 if new_tag not in goal['type_list']:
                     goal['type_list'].append(new_tag)
 
-    def get_config(self, goal_objects: List[Dict[str, Any]], object_dict: Dict[str, List[Dict[str, Any]]]) -> \
+    def get_config(self, goal_objects: List[Dict[str, Any]], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> \
             Dict[str, Any]:
         """Get the goal configuration. goal_objects is the objects required for the goal (as returned from
         compute_objects)."""
         goal_config = self._get_subclass_config(goal_objects)
-        self._update_goal_tags(goal_config, object_dict)
+        self._update_goal_tags(goal_config, tag_to_objects)
         return goal_config
 
     @abstractmethod

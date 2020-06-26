@@ -464,7 +464,7 @@ class ShapeConstancyQuartet(Quartet):
             # May have added and/or deleted an object, so regenerate
             # goal.info_list
             del scene['goal']['info_list']
-            self._goal._update_goal_info_list(scene['goal'], self._goal._object_dict)
+            self._goal._update_goal_info_list(scene['goal'], self._goal._tag_to_objects)
             self._scenes[q - 1] = scene
         logging.debug(f'get_scene: q={q}\thides? {scene["objects"][0].get("hides", None)}')
         return scene
