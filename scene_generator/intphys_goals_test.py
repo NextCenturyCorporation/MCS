@@ -31,6 +31,7 @@ def test_GravityGoal__get_ramp_and_objects():
         assert obj['intphys_option']['y'] == 0
         assert obj['type'] != 'cube'
 
+
 def test_IntPhysGoal__get_objects_and_occluders_moving_across():
     class TestGoal(IntPhysGoal):
         pass

@@ -1,7 +1,7 @@
 import logging
+import random
 import uuid
 from abc import ABC, abstractmethod
-import random
 from typing import Dict, Any, Tuple, List, Optional
 
 import exceptions
@@ -9,7 +9,6 @@ import geometry
 import objects
 import separating_axis_theorem
 import util
-import copy
 
 MAX_WALL_WIDTH = 4
 MIN_WALL_WIDTH = 1

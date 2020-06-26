@@ -3,7 +3,7 @@ import logging
 import math
 import random
 from enum import IntEnum
-from typing import List, Dict, Any, Optional, Callable, Tuple, Sequence
+from typing import List, Dict, Any, Optional, Callable, Tuple
 
 import shapely
 from shapely import affinity
