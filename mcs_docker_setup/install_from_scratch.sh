@@ -12,6 +12,9 @@ docker build --tag node-graphql node-graphql/.
 # 2.  Build Analysis UI Container
 docker build --tag analysis-ui analysis-ui/.
 
+## Build the dev/staging analysis_ui (comments on main difference now)
+docker build --tag analysis-ui-staging analysis-ui/. --build-arg PORT_ARG=2000
+
 # 3.  Download Neon file from S3:
 NEON_FILE=neon-jan-2020.tar.gz
 if [ ! -f $NEON_FILE ]; then 

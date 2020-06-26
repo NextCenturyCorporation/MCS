@@ -1,9 +1,9 @@
 import copy
-from abc import ABC, abstractmethod
 import logging
-import math
 import random
 from typing import Tuple, Dict, Any, Type, Optional
+
+import shapely
 
 import containers
 import exceptions
@@ -12,14 +12,13 @@ import objects
 import util
 from geometry import ROOM_DIMENSIONS, MIN_START_DISTANCE_AWAY
 
-MAX_PLACEMENT_TRIES = 100
+MAX_EXTRA_OBJECTS = 10
 PERFORMER_BOUNDS = ((ROOM_DIMENSIONS[0][0] + MIN_START_DISTANCE_AWAY,
                      ROOM_DIMENSIONS[0][1] - MIN_START_DISTANCE_AWAY),
                     (ROOM_DIMENSIONS[1][0] + MIN_START_DISTANCE_AWAY,
                      ROOM_DIMENSIONS[1][1] - MIN_START_DISTANCE_AWAY))
 """(minX, maxX), (minZ, maxZ) for the performer (leaving space to put
 an object in front of it)"""
-                    
 
 def move_to_location(obj_def: Dict[str, Any], obj: Dict[str, Any],
                      location: Dict[str, Any]):
@@ -51,7 +50,47 @@ def instantiate_away_from(obj_def: Dict[str, Any],
     return None
 
 
+def add_objects(target: Dict[str, Any], performer_position: Dict[str, float], scene: Dict[str, Any]):
+    """Add 0 to MAX_EXTRA_OBJECTS to the scene with none between the
+    performer and the target.
+    """
+    all_obj_defs = objects.get_all_object_defs()
+    target_x = target['shows'][0]['position']['x']
+    target_z = target['shows'][0]['position']['z']
+    target_coords = geometry.calc_obj_coords(target_x, target_z,
+                                             target['dimensions']['x'] / 2.0,
+                                             target['dimensions']['z'] / 2.0,
+                                             0, 0, target['shows'][0]['rotation']['y'])
+    # init with the rect for the target
+    rects = [target_coords]
+    num_extra_objects = random.randint(0, MAX_EXTRA_OBJECTS)
+    for _ in range(num_extra_objects):
+        found_location = False
+        for dummy in range(util.MAX_TRIES):
+            obj_def = util.finalize_object_definition(random.choice(all_obj_defs))
+            location = geometry.calc_obj_pos(performer_position, rects, obj_def)
+            rect = rects[-1]
+            rect_as_poly = shapely.geometry.Polygon([(point['x'], point['z']) for point in rect])
+            # check intersection of rect_coords with line between target and performer
+            visible_segment = shapely.geometry.LineString([(performer_position['x'],
+                                                           performer_position['z']),
+                                                           (target_x, target_z)])
+            if rect_as_poly.intersects(visible_segment):
+                # reject it
+                rects.pop()
+            else:
+                found_location = True
+                break
+        if found_location:
+            new_obj = util.instantiate_object(obj_def, location)
+            scene['objects'].append(new_obj)
+
+
 class InteractionPair(ABC):
+    """Abstract base class for interaction pairs. This is analogous to the
+    intphys quartets, but for interaction scenarios. See MCS-235.
+    """
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         self._template = template
         self._find_path = find_path
@@ -85,56 +124,87 @@ class InteractionPair(ABC):
 
 
 class ImmediatelyVisiblePair(InteractionPair):
+    """(1A) The Target Object is immediately visible (starting in view of
+    the camera) OR (1B) behind the camera (must rotate to see the
+    object). For each pair, the object may or may not be inside a
+    container (like a box). See MCS-232.
+    """
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(ImmediatelyVisiblePair, self).__init__(template, find_path)
         logging.debug(f'performerStart={self._performer_start}')
 
-    def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-        # choose target object
-        target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
-        scene1 = self._get_empty_scene()
+    def _get_locations(self, target_def: Dict[str, Any]) -> \
+            Optional[Tuple[Dict[str, Any], Dict[str, Any]]]:
         # place target object in scene 1 right in front of the performer
-        for _ in range(MAX_PLACEMENT_TRIES):
-            in_front_location = geometry.get_location_in_front_of_performer(self._performer_start, target_def)
+        for _ in range(util.MAX_TRIES):
+            in_front_location = geometry.\
+                get_location_in_front_of_performer(self._performer_start, target_def)
             if in_front_location is not None:
                 break
         if in_front_location is None:
-            raise exceptions.SceneException('could not place object in front of performer')
-        logging.debug(f'position in front={in_front_location["position"]}')
-        target = util.instantiate_object(target_def, in_front_location)
-        scene1['objects'] = [target]
-        scene2 = self._get_empty_scene()
+            return None
+        
         # place target object in scene 2 behind the performer
-        for _ in range(MAX_PLACEMENT_TRIES):
+        for _ in range(util.MAX_TRIES):
             behind_location = geometry.get_location_behind_performer(self._performer_start, target_def)
             if behind_location is not None:
                 break
         if behind_location is None:
-            raise exceptions.SceneException('could not place object behind performer')
-        logging.debug(f'position behind={behind_location["position"]}')
+            return None
+
+        return in_front_location, behind_location
+
+    def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        # choose target object
+        target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
+        for _ in range(util.MAX_TRIES):
+            locations = self._get_locations(target_def)
+            if locations is not None:
+                break
+            self._performer_start = None
+            self._compute_performer_start()
+        if locations is None:
+            raise exceptions.SceneException('could not place performer with objects in front and behind')
+        in_front_location, behind_location = locations
+
+        scene1 = self._get_empty_scene()
+        target = util.instantiate_object(target_def, in_front_location)
+        scene1['objects'] = [target]
+        add_objects(target, self._performer_start['position'], scene1)
+        
+        scene2 = self._get_empty_scene()
         target2 = copy.deepcopy(target)
         move_to_location(target_def, target2, behind_location)
         scene2['objects'] = [target2]
+        add_objects(target, self._performer_start['position'], scene2)
         return scene1, scene2
 
 
 class HiddenBehindPair(InteractionPair):
+    """(2A) The Target Object is immediately visible OR (2B) is hidden
+    behind a larger object that itself is immediately visible. For
+    each pair, the object may or may not be inside a container (like a
+    box). See MCS-239.
+    """
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(HiddenBehindPair, self).__init__(template, find_path)
 
     def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-        for _ in range(MAX_PLACEMENT_TRIES):
+        for _ in range(util.MAX_TRIES):
             target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
-            occluder_defs = geometry.get_wider_and_taller_defs(target_def)
-            if occluder_defs is not None:
+            blocker_defs = geometry.get_wider_and_taller_defs(target_def)
+            if blocker_defs is not None:
                 break
-        if occluder_defs is None:
-            raise exceptions.SceneException('could not get a target and occluder')
-        occluder_def = util.finalize_object_definition(random.choice(occluder_defs))
+        if blocker_defs is None:
+            raise exceptions.SceneException('could not get a target and blocker')
+        blocker_def, blocker_angle = random.choice(blocker_defs)
+        blocker_def = util.finalize_object_definition(blocker_def)
 
         scene1 = self._get_empty_scene()
         # place target object in scene 1 right in front of the performer
-        for _ in range(MAX_PLACEMENT_TRIES):
+        for _ in range(util.MAX_TRIES):
             in_front_location = geometry.get_location_in_front_of_performer(self._performer_start, target_def)
             if in_front_location is not None:
                 break
@@ -143,40 +213,46 @@ class HiddenBehindPair(InteractionPair):
         target = util.instantiate_object(target_def, in_front_location)
         scene1['objects'] = [target]
 
-        # place occluder right in front of performer in scene 2
-        for _ in range(MAX_PLACEMENT_TRIES):
-            in_front_location = geometry.get_location_in_front_of_performer(self._performer_start, occluder_def,
-                                                                            lambda: 0)
+        # place blocker right in front of performer in scene 2
+        for _ in range(util.MAX_TRIES):
+            in_front_location = geometry.get_location_in_front_of_performer(self._performer_start, blocker_def,
+                                                                            lambda: blocker_angle)
             if in_front_location is not None:
                 break
         if in_front_location is None:
-            raise exceptions.SceneException('could not place occluder in front of performer')
-        # Rotate occluder to be facing the performer. There is a
-        # chance that this rotation could cause the occluder to
-        # intersect the wall of the room, because it's different from
-        # the rotation returned by get_location_in_front_of_performer
-        # (which does check for that). But it seems pretty unlikely.
-        dx = self._performer_start['position']['x'] - in_front_location['position']['x']
-        dz = self._performer_start['position']['z'] - in_front_location['position']['z']
-        angle = math.degrees(math.atan2(dz, dx))
-        # negative because we do clockwise rotation
-        in_front_location['rotation']['y'] = -angle
-        occluder = util.instantiate_object(occluder_def, in_front_location)
+            raise exceptions.SceneException('could not place blocker in front of performer')
+        # Rotate blocker to be "facing" the performer (accounting for
+        # blocker_angle). There is a chance that this rotation could
+        # cause the blocker to intersect the wall of the room, because
+        # it's different from the rotation returned by
+        # get_location_in_front_of_performer (which does check for
+        # that). But it seems pretty unlikely.
+        angle = self._performer_start['rotation']['y']
+        in_front_location['rotation']['y'] = angle + blocker_angle
+        blocker = util.instantiate_object(blocker_def, in_front_location)
         occluded_location = geometry.get_adjacent_location_on_side(target_def,
-                                                                   occluder,
+                                                                   blocker,
                                                                    self._performer_start['position'],
-                                                                   2)
+                                                                   geometry.Side.BACK)
         if occluded_location is None:
-            raise exceptions.SceneException('could not place target behind occluder')
+            raise exceptions.SceneException('could not place target behind blocker')
         target2 = copy.deepcopy(target)
         move_to_location(target_def, target2, occluded_location)
         scene2 = self._get_empty_scene()
-        scene2['objects'] = [target2, occluder]
+        scene2['objects'] = [target2, blocker]
 
         return scene1, scene2
     
 
 class SimilarAdjacentPair(InteractionPair):
+    """(3A) The Target Object is positioned normally, without a Similar
+    Object in the scene, OR (3B) with a Similar Object in the scene,
+    and directly adjacent to it. For each pair, the objects may or may
+    not be inside a container, but only if the container is big enough
+    to hold both together; otherwise, no container will be used in
+    that pair.
+    """
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(SimilarAdjacentPair, self).__init__(template, find_path)
 
@@ -330,38 +406,44 @@ class SimilarAdjacentFarPair(InteractionPair):
 
 
 class SimilarAdjacentContainedPair(InteractionPair):
+    """(8A) The Target Object is positioned adjacent to a Similar Object,
+    but the Similar Object is inside a container OR (8B) the Target
+    Object is positioned adjacent to a Similar Object, but the Target
+    Object is inside a container. See MCS-238.
+    """
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(SimilarAdjacentContainedPair, self).__init__(template, find_path)
 
     def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-        for _ in range(MAX_PLACEMENT_TRIES):
+        for _ in range(util.MAX_TRIES):
             target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
             target_location = geometry.calc_obj_pos(self._performer_start['position'], [], target_def)
             target = util.instantiate_object(target_def, target_location)
             similar_def = util.get_similar_definition(target)
             similar = util.instantiate_object(similar_def, geometry.ORIGIN_LOCATION)
             # find a container big enough for both of them
-            valid_container_defs = containers.get_enclosable_container_defs((target, similar))
-            if len(valid_container_defs) > 0:
+            valid_containments = containers.get_enclosable_containments((target, similar))
+            if len(valid_containments) > 0:
                 break
-        if len(valid_container_defs) == 0:
+        if len(valid_containments) == 0:
             raise exceptions.SceneException(f'failed to find target and/or similar object that will fit in something')
-        container_def = util.finalize_object_definition(random.choice(valid_container_defs))
+        containment = random.choice(valid_containments)
+        container_def, area_index, angles = containment
+        container_def = util.finalize_object_definition(container_def)
         container_location = geometry.get_adjacent_location(container_def,
                                                             target,
                                                             self._performer_start['position'])
         container = util.instantiate_object(container_def, container_location)
-        area_index = containers.can_contain(container_def, target, similar)
-        if area_index is None:
-            raise exceptions.SceneException('internal error: container should be big enough but is not')
-        containers.put_object_in_container(similar, container, container_def, area_index)
+
+        containers.put_object_in_container(similar, container, container_def, area_index, angles[1])
 
         scene1 = self._get_empty_scene()
         scene1['objects'] = [target, similar, container]
 
         target2 = copy.deepcopy(target)
         container2 = copy.deepcopy(container)
-        containers.put_object_in_container(target2, container2, container_def, area_index)
+        containers.put_object_in_container(target2, container2, container_def, area_index, angles[0])
         similar2 = copy.deepcopy(similar)
         del similar2['locationParent']
         similar2_location = geometry.get_adjacent_location(similar_def,
@@ -374,8 +456,13 @@ class SimilarAdjacentContainedPair(InteractionPair):
         return scene1, scene2
 
 
-_INTERACTION_PAIR_CLASSES = [HiddenBehindPair, ImmediatelyVisiblePair, SimilarAdjacentPair, SimilarFarPair,
-                             SimilarAdjacentContainedPair]
+_INTERACTION_PAIR_CLASSES = [
+    HiddenBehindPair,
+    ImmediatelyVisiblePair,
+    SimilarAdjacentPair,
+    SimilarFarPair,
+    SimilarAdjacentContainedPair
+]
 
 
 def get_pair_class() -> Type[InteractionPair]:

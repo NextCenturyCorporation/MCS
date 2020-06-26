@@ -84,32 +84,72 @@ def put_objects_in_container(obj_a: Dict[str, Any],
     shows_b.pop('bounding_box', None)
 
 
-def can_enclose(objectA: Dict[str, Any], objectB: Dict[str, Any]) -> bool:
-    """Return True iff each 'dimensions' of objectA is >= the corresponding dimension of objectB."""
-    return objectA['dimensions']['x'] >= objectB['dimensions']['x'] and \
-        objectA['dimensions']['y'] >= objectB['dimensions']['y'] and \
-        objectA['dimensions']['z'] >= objectB['dimensions']['z']
+def can_enclose(container: Dict[str, Any], target: Dict[str, Any]) -> Optional[float]:
+    """iff each 'dimensions' of container is >= the corresponding dimension
+    of target, returns 0 (degrees). Otherwise it returns 90 if
+    target fits in container when it's rotated 90 degrees. Otherwise it
+    returns None.
+    """
+    if container['dimensions']['x'] >= target['dimensions']['x'] and \
+            container['dimensions']['y'] >= target['dimensions']['y'] and \
+            container['dimensions']['z'] >= target['dimensions']['z']:
+        return 0
+    elif container['dimensions']['x'] >= target['dimensions']['z'] and \
+            container['dimensions']['y'] >= target['dimensions']['y'] and \
+            container['dimensions']['z'] >= target['dimensions']['x']:
+        return 90
+    else:
+        return None
 
 
-def can_contain(container_def: Dict[str, Any],
-                *targets: Dict[str, Any]) -> Optional[int]:
+def how_can_contain(container: Dict[str, Any],
+                    *targets: Dict[str, Any]) -> Optional[Tuple[int, List[float]]]:
     """Return the index of the container's "enclosed_areas" that all
      targets fit in, or None if they all do not fit in any of the
      enclosed_areas (or if the container doesn't have any). Does not
      try any rotation to see if that makes it possible to fit.
     """
-    if 'enclosed_areas' not in container_def:
+    if 'enclosed_areas' not in container:
         return None
-    for i in range(len(container_def['enclosed_areas'])):
-        space = container_def['enclosed_areas'][i]
+    for i in range(len(container['enclosed_areas'])):
+        space = container['enclosed_areas'][i]
+        angles = []
         fits = True
         for target in targets:
-            if not can_enclose(space, target):
+            angle = can_enclose(space, target)
+            if angle is None:
                 fits = False
                 break
+            angles.append(angle)
         if fits:
-            return i
+            return i, angles
     return None
+
+
+def get_enclosable_containments(objs: Sequence[Dict[str, Any]],
+                                container_defs: Sequence[Dict[str, Any]] = None) \
+                                -> List[Tuple[Dict[str, Any], int, List[float]]]:
+    """Return a list of object definitions for containers that can enclose
+    all the pass objects objs. If container_defs is None, use
+    objects.get_enclosed_containers().
+    """
+    if container_defs is None:
+        container_defs = objects.get_enclosed_containers()
+    valid_containments = []
+    for container_def in container_defs:
+        containment = how_can_contain(container_def, *objs)
+        if containment is not None:
+            index, angles = containment
+            valid_containments.append((container_def, index, angles))
+        elif 'choose' in container_def:
+            # try choose
+            for choice in container_def['choose']:
+                containment = how_can_contain(choice, *objs)
+                if containment is not None:
+                    new_def = util.finalize_object_definition(container_def, choice)
+                    index, angles = containment
+                    valid_containments.append((new_def, index, angles))
+    return valid_containments
 
 
 def _ea_can_contain_both(ea_def: Dict[str, Any],
