@@ -6,7 +6,8 @@ from shapely.geometry import Polygon, Point
 from shapely.ops import unary_union
 
 from extremitypathfinder.extremitypathfinder import PolygonEnvironment as Environment
-from geometry import ROOM_DIMENSIONS, PERFORMER_WIDTH
+from geometry import ROOM_DIMENSIONS
+from util import PERFORMER_WIDTH
 
 MIN_X = ROOM_DIMENSIONS[0][0]
 MAX_X = ROOM_DIMENSIONS[0][1]

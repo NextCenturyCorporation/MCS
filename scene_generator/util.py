@@ -5,13 +5,16 @@ import random
 from typing import Dict, Any, Optional, List, Tuple, Iterable
 
 import exceptions
-import geometry
 import materials
 import objects
 
 
 MAX_TRIES = 200
 MIN_RANDOM_INTERVAL = 0.05
+PERFORMER_WIDTH = 0.1
+PERFORMER_HALF_WIDTH = PERFORMER_WIDTH / 2.0
+TARGET_CONTAINED_CHANCE = 0.5
+"""Chance that the target will be in a container"""
 
 
 def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
@@ -36,7 +39,7 @@ def finalize_object_definition(object_def: Dict[str, Any],
     if choice is not None:
         for key in choice:
             object_def_copy[key] = choice[key]
-        del object_def_copy['choose']
+        object_def_copy.pop('choose', None)
 
     return object_def_copy
 
@@ -131,7 +134,7 @@ def put_object_in_container(obj: Dict[str, Any],
         obj['shows'][0]['rotation']['y'] = angle
 
 
-def get_similar_definition(obj: Dict[str, Any]) -> Dict[str, Any]:
+def get_similar_definition(obj: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     """Get an object definition similar to obj but different in one of
     type, material, or scale. It is possible but unlikely that no such
     definition can be found, in which case it returns None.
@@ -228,3 +231,4 @@ def get_def_with_new_scale(obj: Dict[str, Any]) -> Dict[str, Any]:
     else:
         obj_def = None
     return obj_def
+
