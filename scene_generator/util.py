@@ -4,13 +4,16 @@ import uuid
 import random
 from typing import Dict, Any, Optional, List, Tuple, Iterable
 
-import geometry
 import materials
 import objects
 
 
 MAX_TRIES = 200
 MIN_RANDOM_INTERVAL = 0.05
+PERFORMER_WIDTH = 0.1
+PERFORMER_HALF_WIDTH = PERFORMER_WIDTH / 2.0
+TARGET_CONTAINED_CHANCE = 0.5
+"""Chance that the target will be in a container"""
 
 
 def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
@@ -35,7 +38,7 @@ def finalize_object_definition(object_def: Dict[str, Any],
     if choice is not None:
         for key in choice:
             object_def_copy[key] = choice[key]
-        del object_def_copy['choose']
+        object_def_copy.pop('choose', None)
 
     return object_def_copy
 
@@ -114,17 +117,6 @@ def instantiate_object(object_def: Dict[str, Any],
     info.append(' '.join(info))
     new_object['info'] = info
     return new_object
-
-
-def put_object_in_container(obj: Dict[str, Any],
-                            container: Dict[str, Any],
-                            container_def: Dict[str, Any],
-                            area_index: int) -> None:
-    area = container_def['enclosed_areas'][area_index]
-    obj['locationParent'] = container['id']
-    obj['shows'][0]['position'] = area['position'].copy()
-    if 'rotation' not in obj['shows'][0]:
-        obj['shows'][0]['rotation'] = geometry.ORIGIN.copy()
 
 
 def get_similar_definition(obj: Dict[str, Any]) -> Optional[Dict[str, Any]]:
@@ -224,3 +216,4 @@ def get_def_with_new_scale(obj: Dict[str, Any]) -> Dict[str, Any]:
     else:
         obj_def = None
     return obj_def
+

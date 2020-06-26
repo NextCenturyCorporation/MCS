@@ -1,3 +1,5 @@
+from typing import Dict, Any
+
 import pytest
 
 import geometry
@@ -350,6 +352,16 @@ def test_get_position_behind_performer():
     assert ROOM_DIMENSIONS[0][1] >= negative_z['position']['z'] >= ROOM_DIMENSIONS[0][0]
 
 
+def are_adjacent(obj_a: Dict[str, Any], obj_b: Dict[str, Any]) -> bool:
+    poly_a = geometry.get_bounding_polygon(obj_a)
+    poly_b = geometry.get_bounding_polygon(obj_b)
+    distance = poly_a.distance(poly_b)
+    return distance <= MAX_ADJACENT_DISTANCE
+
+
+MAX_ADJACENT_DISTANCE = 0.5
+
+
 def test_get_adjacent_location():
     target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
     target = util.instantiate_object(target_def, ORIGIN_LOCATION)
@@ -394,3 +406,21 @@ def test_get_wider_and_taller_defs():
             assert wt_def['dimensions']['x'] >= dims['x']
         else:
             assert wt_def['dimensions']['z'] >= dims['x']
+
+
+def test_rect_to_poly():
+    rect = [{'x': 1, 'z': 2}, {'x': 3, 'z': 4}, {'x': 7, 'z': 0}, {'x': 5, 'z': -2}]
+    expected = shapely.geometry.Polygon([(1, 2), (3, 4), (7, 0), (5, -2)])
+    actual = geometry.rect_to_poly(rect)
+    assert actual.equals(expected)
+
+
+def test_find_performer_rect():
+    expected1 = [{'x': -0.05, 'z': -0.05}, {'x': -0.05, 'z': 0.05}, {'x': 0.05, 'z': 0.05}, {'x': 0.05, 'z': -0.05}]
+    actual1 = find_performer_rect({'x': 0, 'y': 0, 'z': 0})
+    assert actual1 == expected1
+
+    expected2 = [{'x': 0.95, 'z': 0.95}, {'x': 0.95, 'z': 1.05}, {'x': 1.05, 'z': 1.05}, {'x': 1.05, 'z': 0.95}]
+    actual2 = find_performer_rect({'x': 1, 'y': 1, 'z': 1})
+    assert actual2 == expected2
+

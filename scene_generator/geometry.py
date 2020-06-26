@@ -14,11 +14,9 @@ import objects
 import util
 from separating_axis_theorem import sat_entry
 
-PERFORMER_WIDTH = 0.1
-PERFORMER_HALF_WIDTH = PERFORMER_WIDTH / 2.0
 # the following mins and maxes are inclusive
-MIN_PERFORMER_POSITION = -4.8 + PERFORMER_HALF_WIDTH
-MAX_PERFORMER_POSITION = 4.8 - PERFORMER_HALF_WIDTH
+MIN_PERFORMER_POSITION = -4.8 + util.PERFORMER_HALF_WIDTH
+MAX_PERFORMER_POSITION = 4.8 - util.PERFORMER_HALF_WIDTH
 POSITION_DIGITS = 2
 VALID_ROTATIONS = (0, 45, 90, 135, 180, 225, 270, 315)
 
@@ -131,16 +129,7 @@ object in the frame, None otherwise."""
         offset_z = 0.0
 
     # reserve space around the performer
-    performer_rect = [
-        {'x': performer_position['x'] - PERFORMER_HALF_WIDTH,
-         'z': performer_position['z'] - PERFORMER_HALF_WIDTH},
-        {'x': performer_position['x'] - PERFORMER_HALF_WIDTH,
-         'z': performer_position['z'] + PERFORMER_HALF_WIDTH},
-        {'x': performer_position['x'] + PERFORMER_HALF_WIDTH,
-         'z': performer_position['z'] + PERFORMER_HALF_WIDTH},
-        {'x': performer_position['x'] + PERFORMER_HALF_WIDTH,
-         'z': performer_position['z'] - PERFORMER_HALF_WIDTH}
-    ]
+    performer_rect = find_performer_rect(performer_position)
     logging.debug(f'performer_rect = {performer_rect}')
 
     tries = 0
@@ -170,65 +159,6 @@ object in the frame, None otherwise."""
 
     logging.debug(f'could not place object: {obj_def}')
     return None
-
-
-def can_enclose(objectA: Dict[str, Any], objectB: Dict[str, Any]) -> bool:
-    """Return True iff each 'dimensions' of objectA is >= the corresponding dimension of objectB."""
-    return objectA['dimensions']['x'] >= objectB['dimensions']['x'] and \
-        objectA['dimensions']['y'] >= objectB['dimensions']['y'] and \
-        objectA['dimensions']['z'] >= objectB['dimensions']['z']
-
-
-def can_contain(container: Dict[str, Any],
-                *targets: Dict[str, Any]) -> Optional[int]:
-    """Return the index of the container's "enclosed_areas" that all
-     targets fit in, or None if they all do not fit in any of the
-     enclosed_areas (or if the container doesn't have any). Does not
-     try any rotation to see if that makes it possible to fit.
-    """
-    if 'enclosed_areas' not in container:
-        return None
-    for i in range(len(container['enclosed_areas'])):
-        space = container['enclosed_areas'][i]
-        fits = True
-        for target in targets:
-            if not can_enclose(space, target):
-                fits = False
-                break
-        if fits:
-            return i
-    return None
-
-
-def get_enclosable_container_defs(objs: Sequence[Dict[str, Any]],
-                                  container_defs: Sequence[Dict[str, Any]] = None) \
-                                  -> List[Dict[str, Any]]:
-    """Return a list of object definitions for containers that can enclose
-    all the pass objects objs. If container_defs is None, use
-    objects.get_enclosed_containers().
-    """
-    if container_defs is None:
-        container_defs = objects.get_enclosed_containers()
-    valid_container_defs = []
-    for container_def in container_defs:
-        index = can_contain(container_def, *objs)
-        if index is not None:
-            valid_container_defs.append(container_def)
-        elif 'choose' in container_def:
-            # try choose
-            valid_choices = []
-            for choice in container_def['choose']:
-                index = can_contain(choice, *objs)
-                if index is not None:
-                    valid_choices.append(choice)
-            if len(valid_choices) > 0:
-                if len(valid_choices) == len(container_def['choose']):
-                    valid_container_defs.append(container_def)
-                else:
-                    new_def = copy.deepcopy(container_def)
-                    new_def['choose'] = valid_choices
-                    valid_container_defs.append(new_def)
-    return valid_container_defs
 
 
 def occluders_too_close(occluder: Dict[str, Any], x_position: float, x_scale: float) -> bool:
@@ -420,8 +350,7 @@ def get_bounding_polygon(obj: Dict[str, Any]) -> shapely.geometry.Polygon:
     show = obj['shows'][0]
     if 'bounding_box' in show:
         bb: List[Dict[str, float]] = show['bounding_box']
-        coords = [(point['x'], point['z']) for point in bb]
-        poly = shapely.geometry.Polygon(coords)
+        poly = rect_to_poly(bb)
     else:
         x = show['position']['x']
         z = show['position']['z']
@@ -430,3 +359,22 @@ def get_bounding_polygon(obj: Dict[str, Any]) -> shapely.geometry.Polygon:
         poly = shapely.geometry.box(x - dx, z - dz, x + dx, z + dz)
         poly = shapely.affinity.rotate(poly, -show['rotation']['y'])
     return poly
+
+
+def rect_to_poly(rect: List[Dict[str, Any]]) -> shapely.geometry.Polygon:
+    points = [(point['x'], point['z']) for point in rect]
+    return shapely.geometry.Polygon(points)
+
+
+def find_performer_rect(performer_position: Dict[str, float]) -> List[Dict[str, float]]:
+    return [
+        {'x': performer_position['x'] - util.PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] - util.PERFORMER_HALF_WIDTH},
+        {'x': performer_position['x'] - util.PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] + util.PERFORMER_HALF_WIDTH},
+        {'x': performer_position['x'] + util.PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] + util.PERFORMER_HALF_WIDTH},
+        {'x': performer_position['x'] + util.PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] - util.PERFORMER_HALF_WIDTH}
+    ]
+
