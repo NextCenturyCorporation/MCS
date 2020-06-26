@@ -1,14 +1,9 @@
-<<<<<<< HEAD
-import containers
-from geometry_test import are_adjacent
-from pairs import SimilarAdjacentPair, SimilarFarPair, SimilarAdjacentFarPair
-=======
 import shapely
 
+import containers
 import geometry
 from geometry_test import are_adjacent
-from pairs import SimilarAdjacentPair, SimilarFarPair, ImmediatelyVisiblePair, HiddenBehindPair
->>>>>>> master
+from pairs import SimilarAdjacentPair, SimilarFarPair, ImmediatelyVisiblePair, HiddenBehindPair, SimilarAdjacentFarPair
 
 
 def test_SimilarAdjacentPair():
@@ -53,7 +48,6 @@ def test_SimilarFarPair_get_scenes():
         assert not are_adjacent(target2, similar)
 
 
-<<<<<<< HEAD
 def test_SimilarAdjacentFarPair():
     pair = SimilarAdjacentFarPair({}, False)
     assert pair is not None
@@ -80,7 +74,8 @@ def test_SimilarAdjacentFarPair_get_scene():
         assert not are_adjacent(target2Parent, similar2Parent)
     else:
         assert not are_adjacent(target2, similar2)
-=======
+
+
 def test_ImmediatelyVisiblePair():
     pair = ImmediatelyVisiblePair({}, False)
     assert pair is not None
@@ -110,4 +105,3 @@ def test_HiddenBehindPair_get_scenes():
 
     occluder_poly = geometry.get_bounding_polygon(occluder)
     assert occluder_poly.intersects(line_to_target)
->>>>>>> master

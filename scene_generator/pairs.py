@@ -1,6 +1,7 @@
 import copy
 import logging
 import random
+from abc import ABC, abstractmethod
 from typing import Tuple, Dict, Any, Type, Optional
 
 import shapely
@@ -42,7 +43,7 @@ def instantiate_away_from(obj_def: Dict[str, Any],
     object are not adjacent. Returns None if it cannot find any such
     location for the new object.
     """
-    for _ in range(MAX_PLACEMENT_TRIES):
+    for _ in range(util.MAX_TRIES):
         location = geometry.calc_obj_pos(performer_position, [], obj_def)
         new_obj = util.instantiate_object(obj_def, location)
         if not geometry.are_adjacent(old_obj, new_obj):
