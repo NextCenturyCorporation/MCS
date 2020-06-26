@@ -19,18 +19,6 @@ from optimal_path import generatepath
 from util import finalize_object_definition, instantiate_object
 
 
-def set_enclosed_info(goal: Dict[str, Any], *targets: Dict[str, Any]) -> None:
-    """If any target is in an enclosed area, add 'target_enclosed' to the
-    'type_list' of the goal. If any target isn't in an enclosed area,
-    add 'target_not_enclosed'.
-    """
-    type_list = goal['type_list']
-    for target in targets:
-        enclosed_string = 'target_not_enclosed' if target.get('locationParent', None) is None else 'target_enclosed'
-        if enclosed_string not in type_list:
-            type_list.append(enclosed_string)
-
-
 def generate_image_file_name(target: Dict[str, Any]) -> str:
     if 'materials' not in target:
         return target['type']
@@ -206,9 +194,10 @@ class InteractionGoal(Goal, ABC):
         if self._target_location is None:
             raise GoalException(f'could not place target object (type={self._target_def["type"]})')
 
-    def _set_goal_objects(self) -> None:
-        """Set all objects required for the goal other than the target, if any. May update _bounding_rects."""
-        self._goal_objects = []
+    def _generate_additional_target_objs(self) -> None:
+        """Returns target objects required for the goal other than the first target, if any.
+        May update _bounding_rects."""
+        return []
 
     def add_objects(self, all_objects: List[Dict[str, Any]], bounding_rects: List[List[Dict[str, float]]],
                     performer_position: Dict[str, float]) -> None:
@@ -222,18 +211,22 @@ class InteractionGoal(Goal, ABC):
                             and random.random() <= self.OBJECT_CONTAINED_CHANCE:
                         move_to_container(obj, all_objects, bounding_rects, performer_position)
 
-    def compute_objects(self, wall_material_name: str) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
+    def compute_objects(self, room_wall_material_name: str) -> \
+            Tuple[Dict[str, List[Dict[str, Any]]], List[List[Dict[str, float]]]]:
+
         self._set_performer_start()
         self._set_target_def()
         self._set_target_location()
         self._target = instantiate_object(self._target_def, self._target_location)
-        self._set_goal_objects()
+        additional_target_objs = self._generate_additional_target_objs()
         
-        all_objects = [self._target] + self._goal_objects
-        all_goal_objects = all_objects.copy()
-        self.add_objects(all_objects, self._bounding_rects, self._performer_start['position'])
+        target_objs = [self._target] + additional_target_objs
+        self.add_objects(target_objs, self._bounding_rects, self._performer_start['position'])
 
-        return all_goal_objects, all_objects, self._bounding_rects
+        return {
+            'target': target_objs,
+            'distractor': []
+        }, self._bounding_rects
 
 
 class RetrievalGoal(InteractionGoal):
@@ -249,18 +242,16 @@ class RetrievalGoal(InteractionGoal):
     def __init__(self):
         super(RetrievalGoal, self).__init__()
 
-    def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         if len(goal_objects) < 1:
             raise ValueError('need at least 1 object for this goal')
 
         target = goal_objects[0]
         self._target = target
-        self._targets.append(target)
         target_image_obj = find_image_for_object(target)
         image_name = find_image_name(target)
 
         goal = copy.deepcopy(self.TEMPLATE)
-        set_enclosed_info(goal, target)
         goal['metadata'] = {
             'target': {
                 'id': target['id'],
@@ -270,8 +261,7 @@ class RetrievalGoal(InteractionGoal):
                 'image_name': image_name
             }
         }
-        goal['description'] = f'Find and pick up the {target["info"][-1]}.'
-        self._update_goal_info_list(goal, all_objects)
+        goal['description'] = f'Find and pick up the {target["info_string"]}.'
         return goal
 
     def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
@@ -328,7 +318,7 @@ class TransferralGoal(InteractionGoal):
     def __init__(self):
         super(TransferralGoal, self).__init__()
 
-    def _set_goal_objects(self) -> None:
+    def _generate_additional_target_objs(self) -> None:
         targets = objects.get_all_object_defs()
         random.shuffle(targets)
         target2_def = next((tgt for tgt in targets if 'stackTarget' in tgt.get('attributes', [])), None)
@@ -345,9 +335,9 @@ class TransferralGoal(InteractionGoal):
                 break
         self._bounding_rects = new_bounding_rects
         target2 = instantiate_object(target2_def, target2_location)
-        self._goal_objects = [target2]
+        return [target2]
 
-    def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         if len(goal_objects) < 2:
             raise ValueError(f'need at least 2 objects for this goal, was given {len(goal_objects)}')
         target1, target2 = goal_objects[0:2]
@@ -357,7 +347,6 @@ class TransferralGoal(InteractionGoal):
             raise ValueError(f'second object must be "stackable": {target2}')
         relationship = random.choice(list(self.RelationshipType))
 
-        self._targets.append([target1, target2])
         target1_image_obj = find_image_for_object(target1)
         target2_image_obj = find_image_for_object(target2)
 
@@ -365,7 +354,6 @@ class TransferralGoal(InteractionGoal):
         image_name2 = find_image_name(target2)
 
         goal: Dict[str, Any] = copy.deepcopy(self.TEMPLATE)
-        set_enclosed_info(goal, target1, target2)
         goal['metadata'] = {
             'target_1': {
                 'id': target1['id'],
@@ -383,9 +371,8 @@ class TransferralGoal(InteractionGoal):
             },
             'relationship': ['target_1', relationship.value, 'target_2']
         }
-        goal['description'] = f'Find and pick up the {target1["info"][-1]} and move it {relationship.value} ' \
-            f'the {target2["info"][-1]}.'
-        self._update_goal_info_list(goal, all_objects)
+        goal['description'] = f'Find and pick up the {target1["info_string"]} and move it {relationship.value} ' \
+            f'the {target2["info_string"]}.'
         return goal
 
     def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
@@ -471,7 +458,9 @@ class TraversalGoal(Goal):
     def __init__(self):
         super(TraversalGoal, self).__init__()
 
-    def compute_objects(self, wall_material_name: str) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
+    def compute_objects(self, room_wall_material_name: str) -> \
+            Tuple[Dict[str, List[Dict[str, Any]]], List[List[Dict[str, float]]]]:
+
         # add objects we need for the goal
         target_def = self.choose_object_def()
         performer_start = self.compute_performer_start()
@@ -488,13 +477,15 @@ class TraversalGoal(Goal):
                 break
 
         target = instantiate_object(target_def, target_location)
-        self._targets.append(target)
-        all_objects = [target]
-        self.add_objects(all_objects, bounding_rects, performer_position)
+        target_objs = [target]
+        self.add_objects(target_objs, bounding_rects, performer_position)
 
-        return [target], all_objects, bounding_rects
+        return {
+            'target': target_objs,
+            'distractor': []
+        }, bounding_rects
 
-    def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         if len(goal_objects) < 1:
             raise ValueError('need at least 1 object for this goal')
 
@@ -504,7 +495,6 @@ class TraversalGoal(Goal):
         image_name = find_image_name(target)
 
         goal: Dict[str, Any] = copy.deepcopy(self.TEMPLATE)
-        set_enclosed_info(goal, target)
         goal['metadata'] = {
             'target': {
                 'id': target['id'],
@@ -514,8 +504,7 @@ class TraversalGoal(Goal):
                 'image_name': image_name
             }
         }
-        goal['description'] = f'Find the {target["info"][-1]} and move near it.'
-        self._update_goal_info_list(goal, all_objects)
+        goal['description'] = f'Find the {target["info_string"]} and move near it.'
         return goal
 
     def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \

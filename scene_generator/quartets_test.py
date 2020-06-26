@@ -14,7 +14,7 @@ def test_get_position_step():
 
 
 def test_STCQ_get_scene():
-    template = {'wallMaterial': 'dummy'}
+    template = {'wallMaterial': 'dummy', 'wallColors': ['color']}
     quartet = SpatioTemporalContinuityQuartet(template, False)
     for q in range(1, 5):
         scene = quartet.get_scene(q)
@@ -22,10 +22,10 @@ def test_STCQ_get_scene():
 
 
 def test_STCQ__teleport_forward():
-    template = {'wallMaterial': 'dummy'}
+    template = {'wallMaterial': 'dummy', 'wallColors': ['color']}
     quartet = SpatioTemporalContinuityQuartet(template, False)
     scene = quartet.get_scene(2)
-    target = find_targets(scene)[0]
+    target = find_targets(scene, quartet._goal)[0]
     if 'teleports' in target:
         assert target['teleports'][0]['stepBegin'] == target['teleports'][0]['stepEnd']
         if quartet._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
@@ -37,10 +37,10 @@ def test_STCQ__teleport_forward():
 
 
 def test_STCQ__teleport_backward():
-    template = {'wallMaterial': 'dummy'}
+    template = {'wallMaterial': 'dummy', 'wallColors': ['color']}
     quartet = SpatioTemporalContinuityQuartet(template, False)
     scene = quartet.get_scene(3)
-    target = find_targets(scene)[0]
+    target = find_targets(scene, quartet._goal)[0]
     assert target['teleports'][0]['stepBegin'] == target['teleports'][0]['stepEnd']
     if quartet._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
         implausible_event_index1 = target['intphys_option']['occluder_indices'][0]
@@ -51,20 +51,20 @@ def test_STCQ__teleport_backward():
 
 
 def test_STCQ__move_later():
-    template = {'wallMaterial': 'dummy'}
+    template = {'wallMaterial': 'dummy', 'wallColors': ['color']}
     quartet = SpatioTemporalContinuityQuartet(template, False)
     scene = quartet.get_scene(4)
-    target = find_targets(scene)[0]
+    target = find_targets(scene, quartet._goal)[0]
     assert 'teleports' not in target
     if quartet._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
         later_step_begin = target['shows'][0]['stepBegin']
-        orig_target = find_targets(quartet.get_scene(1))[0]
+        orig_target = find_targets(quartet.get_scene(1), quartet._goal)[0]
         orig_step_begin = orig_target['shows'][0]['stepBegin']
         assert later_step_begin > orig_step_begin
 
 
 def test_ShapeConstancyQuartet():
-    template = {'wallMaterial': 'dummy'}
+    template = {'wallMaterial': 'dummy', 'wallColors': ['color']}
     quartet = ShapeConstancyQuartet(template, False)
     assert quartet is not None
     a = quartet._scenes[0]['objects'][0]
@@ -76,7 +76,7 @@ def test_ShapeConstancyQuartet():
 
 def test_ShapeConstancyQuartet_get_scene_2():
     # tests _turn_a_into_b
-    template = {'wallMaterial': 'dummy'}
+    template = {'wallMaterial': 'dummy', 'wallColors': ['color']}
     quartet = ShapeConstancyQuartet(template, False)
     scene = quartet.get_scene(2)
     a = scene['objects'][0]
@@ -92,7 +92,7 @@ def test_ShapeConstancyQuartet_get_scene_2():
 
 def test_ShapeConstancyQuartet_get_scene_3():
     # tests turn_b_into_a
-    template = {'wallMaterial': 'dummy'}
+    template = {'wallMaterial': 'dummy', 'wallColors': ['color']}
     quartet = ShapeConstancyQuartet(template, False)
     scene = quartet.get_scene(3)
     a = scene['objects'][0]
@@ -106,7 +106,7 @@ def test_ShapeConstancyQuartet_get_scene_3():
 
 
 def test_ObjectPermanenceQuartet_get_scene():
-    template = {'wallMaterial': 'dummy'}
+    template = {'wallMaterial': 'dummy', 'wallColors': ['color']}
     quartet = ObjectPermanenceQuartet(template, False)
     for q in range(1, 5):
         scene = quartet.get_scene(q)

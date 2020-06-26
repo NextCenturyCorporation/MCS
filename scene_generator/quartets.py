@@ -11,20 +11,20 @@ import ramps
 import util
 
 
-def find_target(scene: Dict[str, Any]) -> Dict[str, Any]:
+def find_target(scene: Dict[str, Any], goal: goal.Goal) -> Dict[str, Any]:
     """Find a 'target' object in the scene. (IntPhys goals don't really
     have them, but they do have objects that may behave plausibly or
     implausibly.)
     """
-    return find_targets(scene, 1)[0]
+    return find_targets(scene, goal, 1)[0]
 
 
-def find_targets(scene: Dict[str, Any], num_targets: Optional[int] = None) -> List[Dict[str, Any]]:
+def find_targets(scene: Dict[str, Any], goal: goal.Goal, num_targets: Optional[int] = None) -> List[Dict[str, Any]]:
     """Find 'target' objects in the scene. (IntPhys goals don't really
     have them, but they do have objects that may behave plausibly or
     implausibly.)
     """
-    target_ids = scene['goal']['metadata']['objects'][:num_targets]
+    target_ids = [target['id'] for target in goal._targets[:num_targets]]
     # This isn't the most efficient way to do this, but since there
     # will only be 2-3 'target' objects and maybe a dozen total
     # objects, that's ok.
@@ -72,7 +72,7 @@ class ObjectPermanenceQuartet(Quartet):
         logging.debug(f'OPQ: setup = f{self._goal._object_creator}')
 
     def _appear_behind_occluder(self, body: Dict[str, Any]) -> None:
-        target = find_target(body)
+        target = find_target(body, self._goal)
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             implausible_event_index = target['intphys_option']['occluder_indices'][0]
             implausible_event_step = implausible_event_index + target['forces'][0]['stepBegin']
@@ -87,7 +87,7 @@ class ObjectPermanenceQuartet(Quartet):
         target['shows'][0]['stepBegin'] = implausible_event_step
 
     def _disappear_behind_occluder(self, body: Dict[str, Any]) -> None:
-        target = find_target(body)
+        target = find_target(body, self._goal)
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             implausible_event_step = target['intphys_option']['occluder_indices'][0] + \
                 target['forces'][0]['stepBegin']
@@ -116,7 +116,7 @@ class ObjectPermanenceQuartet(Quartet):
                 self._appear_behind_occluder(scene)
             elif q == 4:
                 # target not in the scene (plausible)
-                target_id = scene['goal']['metadata']['objects'][0]
+                target_id = self._goal._targets[0]
                 for i in range(len(scene['objects'])):
                     obj = scene['objects'][i]
                     if obj['id'] == target_id:
@@ -137,7 +137,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
             self._check_stepBegin()
 
     def _check_stepBegin(self) -> None:
-        target = find_target(self._scenes[0])
+        target = find_target(self._scenes[0], self._goal)
         implausible_event_index1 = target['intphys_option']['occluder_indices'][0]
         implausible_event_index2 = target['intphys_option']['occluder_indices'][1]
         orig_stepBegin = target['shows'][0]['stepBegin']
@@ -175,7 +175,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
 
     def _teleport_forward(self, scene: Dict[str, Any]) -> None:
         scene['answer']['choice'] = 'implausible'
-        all_targets = find_targets(scene)
+        all_targets = find_targets(scene, self._goal)
         target = all_targets[0]
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             # go from the lower index to the higher one so we teleport forward
@@ -247,7 +247,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
             raise ValueError('unknown object creation function, cannot update scene')
 
     def _teleport_backward(self, scene: Dict[str, Any]) -> None:
-        target = find_targets(scene)[0]
+        target = find_targets(scene, self._goal)[0]
         scene['answer']['choice'] = 'implausible'
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             # go from the higher index to the lower one so we teleport backward
@@ -302,7 +302,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
         }]
 
     def _move_later(self, scene: Dict[str, Any]) -> None:
-        target = find_target(scene)
+        target = find_target(scene, self._goal)
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             scene['answer']['choice'] = 'implausible'
             implausible_event_index1 = target['intphys_option']['occluder_indices'][0]
@@ -464,7 +464,7 @@ class ShapeConstancyQuartet(Quartet):
             # May have added and/or deleted an object, so regenerate
             # goal.info_list
             del scene['goal']['info_list']
-            self._goal._update_goal_info_list(scene['goal'], scene['objects'])
+            self._goal._update_goal_info_list(scene['goal'], self._goal._object_dict)
             self._scenes[q - 1] = scene
         logging.debug(f'get_scene: q={q}\thides? {scene["objects"][0].get("hides", None)}')
         return scene
@@ -566,7 +566,7 @@ class GravityQuartet(Quartet):
         return bottom_offset, top_offset
 
     def _make_object_faster(self, scene: Dict[str, Any]) -> None:
-        target = find_target(scene)
+        target = find_target(scene, self._goal)
         bottom_offset, top_offset = self._get_ramp_offsets()
         implausible_x_start = target['intphys_option']['ramp_x_term'] + bottom_offset
         implausible_step = get_position_step(target, implausible_x_start,
@@ -580,7 +580,7 @@ class GravityQuartet(Quartet):
         target['forces'].append(new_force)
 
     def _make_object_slower(self, scene: Dict[str, Any]) -> None:
-        target = find_target(scene)
+        target = find_target(scene, self._goal)
         bottom_offset, top_offset = self._get_ramp_offsets()
         implausible_x_start = target['intphys_option']['ramp_x_term'] + top_offset
         implausible_step = get_position_step(target, implausible_x_start,

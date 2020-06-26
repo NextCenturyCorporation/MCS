@@ -27,6 +27,7 @@ OUTPUT_TEMPLATE_JSON = """
   "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
   "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
   "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+  "wallColors": ["white"],
   "performerStart": {
     "position": {
       "x": 0,
@@ -47,6 +48,7 @@ OUTPUT_TEMPLATE = json.loads(OUTPUT_TEMPLATE_JSON)
 
 def strip_debug_info(body: Dict[str, Any]) -> None:
     """Remove info that's only for our internal use (e.g., for debugging)"""
+    body.pop('wallColors', None)
     for obj in body['objects']:
         clean_object(obj)
     for goal_key in ('domain_list', 'type_list', 'task_list', 'info_list'):
@@ -62,11 +64,16 @@ def strip_debug_info(body: Dict[str, Any]) -> None:
 def clean_object(obj: Dict[str, Any]) -> None:
     """Remove properties we do not want TA1s to have access to."""
     obj.pop('info', None)
+    obj.pop('info_string', None)
     obj.pop('dimensions', None)
     obj.pop('intphys_option', None)
     obj.pop('materials_list', None)
     obj.pop('materialCategory', None)
     obj.pop('original_location', None)
+    obj.pop('novel_color', None)
+    obj.pop('novel_combination', None)
+    obj.pop('novel_shape', None)
+    obj.pop('shape', None)
     if 'shows' in obj:
         obj['shows'][0].pop('bounding_box', None)
 
@@ -78,6 +85,7 @@ def generate_body_template(name: str) -> Dict[str, Any]:
     ceil_wall_mat_choice = random.choice(CEILING_AND_WALL_MATERIALS)
     body['ceilingMaterial'] = ceil_wall_mat_choice[0]
     body['wallMaterial'] = ceil_wall_mat_choice[0]
+    body['wallColors'] = ceil_wall_mat_choice[1]
     body['floorMaterial'] = random.choice(FLOOR_MATERIALS)[0]
     return body
 

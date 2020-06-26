@@ -1804,8 +1804,11 @@ OBJECTS_IMMOBILE = [{
     }]
 }]
 
+
 OCCLUDER_INSTANCE_NORMAL = [{
     "id": "occluder_wall_",
+    "info": [],
+    "info_string": "",
     "type": "cube",
     "kinematic": True,
     "structure": True,
@@ -1876,6 +1879,8 @@ OCCLUDER_INSTANCE_NORMAL = [{
     }]
 }, {
     "id": "occluder_pole_",
+    "info": [],
+    "info_string": "",
     "type": "cylinder",
     "kinematic": True,
     "structure": True,
@@ -1921,8 +1926,11 @@ OCCLUDER_INSTANCE_NORMAL = [{
     }]
 }]
 
+
 OCCLUDER_INSTANCE_SIDEWAYS = [{
     "id": "occluder_wall_",
+    "info": [],
+    "info_string": "",
     "type": "cube",
     "kinematic": True,
     "structure": True,
@@ -1993,6 +2001,8 @@ OCCLUDER_INSTANCE_SIDEWAYS = [{
     }]
 }, {
     "id": "occluder_pole_",
+    "info": [],
+    "info_string": "",
     "type": "cylinder",
     "kinematic": True,
     "structure": True,
@@ -3874,7 +3884,7 @@ OBJECTS_INTPHYS: List[Dict[str, Any]] = [{
 }]
 
 
-def create_occluder(wall_material: str, pole_material: str,
+def create_occluder(wall_material: Tuple[str, List[str]], pole_material: Tuple[str, List[str]],
                     x_position: float, x_scale: float, sideways: bool = False) \
         -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """Create an occluder pair of objects: (wall, pole)."""
@@ -3890,8 +3900,14 @@ def create_occluder(wall_material: str, pole_material: str,
     occluder[WALL]['id'] = occluder[WALL]['id'] + occluder_id
     occluder[POLE]['id'] = occluder[POLE]['id'] + occluder_id
 
-    occluder[WALL]['materials'] = [wall_material]
-    occluder[POLE]['materials'] = [pole_material]
+    occluder[WALL]['materials'] = [wall_material[0]]
+    occluder[POLE]['materials'] = [pole_material[0]]
+
+    occluder[WALL]['info'] = wall_material[1]
+    occluder[POLE]['info'] = pole_material[1]
+
+    occluder[WALL]['info_string'] = ' '.join(occluder[WALL]['info'])
+    occluder[POLE]['info_string'] = ' '.join(occluder[POLE]['info'])
 
     occluder[WALL]['shows'][0]['position']['x'] = x_position
     occluder[POLE]['shows'][0]['position']['x'] = x_position

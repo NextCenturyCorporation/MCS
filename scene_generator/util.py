@@ -50,8 +50,11 @@ def instantiate_object(object_def: Dict[str, Any],
     new_object = {
         'id': str(uuid.uuid4()),
         'type': object_def['type'],
-        'info': object_def['info'],
-        'mass': object_def['mass']
+        'mass': object_def['mass'],
+        'info': object_def['info'].copy(),
+        'novel_color': object_def['novel_color'] if 'novel_color' in object_def else False,
+        'novel_combination': object_def['novel_combination'] if 'novel_combination' in object_def else False,
+        'novel_shape': object_def['novel_shape'] if 'novel_shape' in object_def else False
     }
     if 'dimensions' in object_def:
         new_object['dimensions'] = object_def['dimensions']
@@ -74,7 +77,7 @@ def instantiate_object(object_def: Dict[str, Any],
     new_object['shows'] = shows
     object_location['stepBegin'] = 0
     object_location['scale'] = object_def['scale']
-    colors = set()
+    colors = []
     if materials_list is None and 'materialCategory' in object_def:
         new_object['materialCategory'] = object_def['materialCategory']
         materials_list = [random.choice(getattr(materials, name.upper() + '_MATERIALS')) for name in
@@ -82,20 +85,23 @@ def instantiate_object(object_def: Dict[str, Any],
     if materials_list is not None:
         # need to remember materials for quartets
         new_object['materials_list'] = materials_list
-        new_object['materials'] = [mat[0] for mat in materials_list]
-        for material in materials_list:
-            for color in material[1]:
-                colors.add(color)
+        new_object['materials'] = [material_and_color[0] for material_and_color in materials_list]
+        for material_and_color in materials_list:
+            if material_and_color[0] in materials.NOVEL_COLOR_LIST:
+                new_object['novel_color'] = True
+            for color in material_and_color[1]:
+                if color not in colors:
+                    colors.append(color)
 
-    # specific ordering of adjectives for the info list:
-    # size weight color(s) material(s) object
-    info = object_def['info']
+    # The info list contains words that we can use to filter on specific object tags in the UI.
+    # Start with this specific ordering of object tags in the info list needed for making the goal_string:
+    # size weight color(s) material(s) shape
     if 'salientMaterials' in object_def:
         salient_materials = object_def['salientMaterials']
         new_object['salientMaterials'] = salient_materials
-        info = info[:1] + salient_materials + info[1:]
+        new_object['info'] = new_object['info'][:1] + salient_materials + new_object['info'][1:]
 
-    info = info[:1] + list(colors) + info[1:]
+    new_object['info'] = new_object['info'][:1] + list(colors) + new_object['info'][1:]
 
     if 'pickupable' in object_def['attributes']:
         size = 'light'
@@ -103,10 +109,35 @@ def instantiate_object(object_def: Dict[str, Any],
         size = 'heavy'
     else:
         size = 'massive'
-    info = info[:1] + [size] + info[1:]
+    new_object['info'] = new_object['info'][:1] + [size] + new_object['info'][1:]
 
-    info.append(' '.join(info))
-    new_object['info'] = info
+    # Save a string of the joined info list that we can use to filter on the specific object in the UI.
+    new_object['info_string'] = ' '.join(new_object['info'])
+
+    # Use the object's goal_string for goal descriptions.
+    new_object['goal_string'] = new_object['info_string']
+
+    # Save the object shape now before we add more new tags to the end of the info list.
+    new_object['shape'] = new_object['info'][-1]
+
+    if new_object['novel_color']:
+        new_object['info_string'] = '(novel color) ' + new_object['info_string']
+        for color in list(colors):
+            new_object['info'].append('novel ' + color)
+
+    if new_object['novel_shape']:
+        new_object['info_string'] = '(novel shape) ' + new_object['info_string']
+        new_object['info'].append('novel ' + new_object['shape'])
+
+    # This object can't be marked as a novel combination if it's a novel color or a novel shape.
+    if new_object['novel_combination'] and (new_object['novel_color'] or new_object['novel_shape']):
+        new_object['novel_combination'] = False
+
+    if new_object['novel_combination']:
+        new_object['info_string'] = '(novel combination) ' + new_object['info_string']
+        for color in list(colors):
+            new_object['info'].append('novel ' + color + ' ' + new_object['shape'])
+
     return new_object
 
 

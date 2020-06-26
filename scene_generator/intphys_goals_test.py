@@ -16,9 +16,8 @@ def test_random_real():
 
 def test_GravityGoal_compute_objects():
     goal = GravityGoal()
-    target_objs, all_objs, rects = goal.compute_objects('dummy wall material')
-    assert len(target_objs) > 0
-    assert len(all_objs) > 0
+    object_dict, rects = goal.compute_objects('dummy wall material')
+    assert len(object_dict['target']) > 0
     assert len(rects) == 0
 
 
@@ -124,6 +123,6 @@ def test_mcs_209():
     for obj in objs:
         assert obj['shows'][0]['stepBegin'] == obj['forces'][0]['stepBegin']
 
-    body = {'wallMaterial': 'dummy'}
+    body = {'wallMaterial': 'dummy', 'wallColors': ['color']}
     goal._scenery_count = 0
     goal.update_body(body, False)
