@@ -1,12 +1,8 @@
-from typing import Dict, Any
-
 import pytest
 
 import geometry
-import objects
 from geometry import *
 from separating_axis_theorem import sat_entry
-import shapely
 
 
 def test_collision():
@@ -378,7 +374,7 @@ def test_get_adjacent_location():
     
 
 def test_get_adjacent_location_on_side():
-    for side in range(4):
+    for side in list(Side):
         target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
         target = util.instantiate_object(target_def, ORIGIN_LOCATION)
         obj_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
