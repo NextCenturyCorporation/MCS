@@ -45,6 +45,8 @@ ORIGIN_LOCATION = {
     }
 }
 
+MAX_ADJACENT_DISTANCE = 0.5
+
 
 def random_position() -> float:
     return round(random.uniform(MIN_PERFORMER_POSITION, MAX_PERFORMER_POSITION), POSITION_DIGITS)
@@ -356,6 +358,13 @@ def get_bounding_polygon(obj: Dict[str, Any]) -> shapely.geometry.Polygon:
         poly = shapely.geometry.box(x - dx, z - dz, x + dx, z + dz)
         poly = shapely.affinity.rotate(poly, -show['rotation']['y'])
     return poly
+
+
+def are_adjacent(obj_a: Dict[str, Any], obj_b: Dict[str, Any]) -> bool:
+    poly_a = get_bounding_polygon(obj_a)
+    poly_b = get_bounding_polygon(obj_b)
+    distance = poly_a.distance(poly_b)
+    return distance <= MAX_ADJACENT_DISTANCE
 
 
 def rect_to_poly(rect: List[Dict[str, Any]]) -> shapely.geometry.Polygon:

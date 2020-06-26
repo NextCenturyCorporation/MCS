@@ -1,12 +1,8 @@
-from typing import Dict, Any
-
 import pytest
 
 import geometry
-import objects
 from geometry import *
 from separating_axis_theorem import sat_entry
-import shapely
 
 
 def test_collision():
