@@ -8,6 +8,7 @@ import os.path
 import json
 import copy
 import random
+import uuid
 from enum import Enum, auto
 from typing import Dict, Any, List, Tuple
 
@@ -49,7 +50,7 @@ def strip_debug_info(body: Dict[str, Any]) -> None:
     """Remove info that's only for our internal use (e.g., for debugging)"""
     for obj in body['objects']:
         clean_object(obj)
-    for goal_key in ('domain_list', 'type_list', 'task_list', 'info_list'):
+    for goal_key in ('domain_list', 'type_list', 'task_list', 'info_list', 'series_id'):
         body['goal'].pop(goal_key, None)
     if 'metadata' in body['goal']:
         metadata = body['goal']['metadata']
@@ -122,7 +123,10 @@ def write_scene(name: str, scene: Dict[str, Any]) -> None:
 
     with open(name, 'w') as out:
         # PrettyJsonEncoder doesn't work with json.dump so use json.dumps here instead.
-        out.write(json.dumps(body, cls=PrettyJsonEncoder, indent=2))
+        try:
+            out.write(json.dumps(body, cls=PrettyJsonEncoder, indent=2))
+        except Exception as e:
+            logging.error(body, e)
 
 
 def wrap_with_json_no_indent(data: Dict[str, Any], prop_list: List[str]) -> None:
@@ -157,6 +161,8 @@ def generate_quartet(prefix: str, index: int, quartet_name: str,
     template = generate_body_template('')
     quartet_class = quartets.get_quartet_class(quartet_name)
     quartet = quartet_class(template, find_path)
+    quartet_id = str(uuid.uuid4())
+    quartet_name = quartet.__class__.__name__.replace('Quartet', '').lower()
     for q in range(1, 5):
         name = f'{prefix}-{index:04}-{q}.json'
         logging.debug(f'starting generation of\t{name}')
@@ -164,6 +170,7 @@ def generate_quartet(prefix: str, index: int, quartet_name: str,
             try:
                 scene = quartet.get_scene(q)
                 scene['name'] = name
+                scene['goal']['series_id'] = 'quartet_' + quartet_name + '_' + quartet_id
                 scene_copy = copy.deepcopy(scene)
                 write_file(name, scene_copy)
                 break
@@ -203,10 +210,14 @@ def generate_pair(prefix: str, count: int,
     name_stem = f'{prefix}-{count:04}-'
     pair_class = pairs.get_pair_class()
     pair = pair_class(template, find_path)
+    pair_id = str(uuid.uuid4())
+    pair_name = pair.__class__.__name__.replace('Pair', '').lower()
     logging.debug(f'generating scene pair #{count}')
     while True:
         try:
             scenes = pair.get_scenes()
+            scenes[0]['goal']['series_id'] = 'pair_' + pair_name + '_' + pair_id
+            scenes[1]['goal']['series_id'] = 'pair_' + pair_name + '_' + pair_id
             write_scene_of_pair(scenes, name_stem, 1)
             write_scene_of_pair(scenes, name_stem, 2)
             break
@@ -232,7 +243,7 @@ def generate_pair_fileset(prefix: str, count: int,
 
 
 class FilesetType(Enum):
-    NORMAL = auto()
+    SINGLE = auto()
     QUARTET = auto()
     PAIR = auto()
 
@@ -247,7 +258,7 @@ def generate_fileset(prefix: str, count: int, type_name: str, find_path: bool, s
         generate_quartets(prefix, count, type_name, find_path, stop_on_error)
     elif fileset_type == FilesetType.PAIR:
         generate_pair_fileset(prefix, count, find_path, stop_on_error)
-    elif fileset_type == FilesetType.NORMAL:
+    elif fileset_type == FilesetType.SINGLE:
         generate_scene_fileset(prefix, count, type_name, find_path, stop_on_error)
 
 
@@ -280,7 +291,7 @@ def main(argv):
 
     if args.goal is not None:
         type_name = args.goal
-        fileset_type = FilesetType.NORMAL
+        fileset_type = FilesetType.SINGLE
     elif args.quartet is not None:
         type_name = args.quartet
         fileset_type = FilesetType.QUARTET
@@ -289,7 +300,7 @@ def main(argv):
         fileset_type = FilesetType.PAIR
     else:
         type_name = None
-        fileset_type = FilesetType.NORMAL
+        fileset_type = FilesetType.SINGLE
 
     generate_fileset(args.prefix, args.count, type_name, args.find_path, args.stop_on_error, fileset_type)
 

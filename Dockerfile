@@ -10,21 +10,21 @@
 # docker run -it --rm --gpus all -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw mcs-playroom:0.0.6
 #
 
-FROM nvidia/opengl:1.0-glvnd-runtime-ubuntu18.04
+FROM nvidia/cudagl:10.1-base-ubuntu18.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
 ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES},display
 
 # --build-arg mcsversion=0.0.x to override default in docker build command
-ARG mcsversion=0.0.6
+ARG mcsversion=0.0.10
 
 WORKDIR /mcs
 
 RUN apt-get update -y && \
-    apt-get install -y git python3.8 python3-pip && \
-    python3.8 -m pip install --upgrade pip setuptools wheel && \
-    python3.8 -m pip install git+https://github.com/NextCenturyCorporation/MCS@${mcsversion}
+    apt-get install -y git python3.7 python3-pip mesa-utils && \
+    python3.7 -m pip install --upgrade pip setuptools wheel && \
+    python3.7 -m pip install git+https://github.com/NextCenturyCorporation/MCS@${mcsversion}
 
 # add ai2thor/unity resources
 ADD https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsversion}/MCS-AI2-THOR-Unity-App-v${mcsversion}.x86_64 /mcs
