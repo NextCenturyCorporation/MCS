@@ -321,27 +321,30 @@ def get_adjacent_location_on_side(obj_def: Dict[str, Any],
 
 
 def get_wider_and_taller_defs(obj_def: Dict[str, Any]) \
-        -> List[Dict[str, Any]]:
+        -> List[Tuple[Dict[str, Any], float]]:
+    """Return all object definitions both taller and either wider or
+    deeper. If wider (x-axis), angle 0 is returned; if deeper
+    (z-axis), 90 degrees is returned. Objects returned may be equal in
+    dimensions, not just strictly greater.
+    """
     dims = obj_def['dimensions']
     bigger_defs = []
     for new_def in objects.get_all_object_defs():
         if 'dimensions' in new_def:
-            if new_def['dimensions']['x'] >= dims['x'] and \
-               new_def['dimensions']['y'] >= dims['y']:
-                bigger_defs.append(new_def)
+            if new_def['dimensions']['y'] >= dims['y']:
+                if new_def['dimensions']['x'] >= dims['x']:
+                    bigger_defs.append((new_def, 0))
+                elif new_def['dimensions']['z'] >= dims['x']:
+                    bigger_defs.append((new_def, 90))
         elif 'choose' in new_def:
-            bigger_choices = []
             for choice in new_def['choose']:
-                if choice['dimensions']['x'] >= dims['x'] and \
-                   choice['dimensions']['y'] >= dims['y']:
-                    bigger_choices.append(choice)
-            if len(bigger_choices) > 0:
-                if len(bigger_choices) == len(new_def['choose']):
-                    bigger_defs.append(new_def)
-                else:
-                    bigger_def = copy.deepcopy(new_def)
-                    bigger_def['choose'] = bigger_choices
-                    bigger_defs.append(bigger_def)
+                if choice['dimensions']['y'] >= dims['y']:
+                    if choice['dimensions']['x'] >= dims['x']:
+                        bigger_def = util.finalize_object_definition(new_def, choice)
+                        bigger_defs.append((bigger_def, 0))
+                    elif choice['dimensions']['z'] >= dims['x']:
+                        bigger_def = util.finalize_object_definition(new_def, choice)
+                        bigger_defs.append((bigger_def, 90))
     return bigger_defs
 
 

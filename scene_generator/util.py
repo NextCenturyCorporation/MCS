@@ -27,13 +27,14 @@ def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
 
 
 def finalize_object_definition(object_def: Dict[str, Any],
-                               choice: Dict[str, Any] = None) \
+                               choice: Optional[Dict[str,Any]] = None) \
                                -> Dict[str, Any]:
     object_def_copy = copy.deepcopy(object_def)
 
-    # apply choice if necessary
+    # get choice if available and none provided
     if choice is None and 'choose' in object_def_copy:
         choice = random.choice(object_def_copy['choose'])
+
     if choice is not None:
         for key in choice:
             object_def_copy[key] = choice[key]
