@@ -442,9 +442,9 @@ OBJECTS_PICKUPABLE_TOYS = [{
         },
         "position_y": 0.01,
         "scale": {
-            "x": 1,
-            "y": 1,
-            "z": 1
+            "x": 1.5,
+            "y": 1.5,
+            "z": 1.5
         }
     }, {
         "info": ["small", "racecar"],
@@ -3881,6 +3881,201 @@ OBJECTS_INTPHYS: List[Dict[str, Any]] = [{
             11.8
         ]
     }]
+}]
+
+
+OBJECTS_INTPHYS_NOVEL = [{
+    "type": "duck_on_wheels",
+    "novel_shape": True, # This is a novel shape for IntPhys scenes
+    "attributes": ["moveable", "pickupable"],
+    "info": ["tiny", "duck"],
+    "mass": 2,
+    "choose": [{
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"]
+    }, {
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"]
+    }],
+    "dimensions": {
+        "x": 0.21,
+        "y": 0.17,
+        "z": 0.065
+    },
+    "offset": {
+        "x": 0,
+        "y": 0.085,
+        "z": 0
+    },
+    "position_y": 0.01,
+    "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+    }
+}, {
+    "type": "duck_on_wheels",
+    "novel_shape": True, # This is a novel shape for IntPhys scenes
+    "attributes": ["moveable", "pickupable"],
+    "info": ["small", "duck"],
+    "mass": 4,
+    "choose": [{
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"]
+    }, {
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"]
+    }],
+    "dimensions": {
+        "x": 0.21 * 2.5,
+        "y": 0.17 * 2.5,
+        "z": 0.065 * 2.5
+    },
+    "offset": {
+        "x": 0,
+        "y": 0.085 * 2.5,
+        "z": 0
+    },
+    "position_y": 0.01,
+    "scale": {
+        "x": 2.5,
+        "y": 2.5,
+        "z": 2.5
+    }
+}, {
+    "type": "duck_on_wheels",
+    "novel_shape": True, # This is a novel shape for IntPhys scenes
+    "attributes": ["moveable", "pickupable"],
+    "info": ["medium", "duck"],
+    "mass": 8,
+    "choose": [{
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"]
+    }, {
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"]
+    }],
+    "dimensions": {
+        "x": 0.21 * 4,
+        "y": 0.17 * 4,
+        "z": 0.065 * 4
+    },
+    "offset": {
+        "x": 0,
+        "y": 0.085 * 4,
+        "z": 0
+    },
+    "position_y": 0.01,
+    "scale": {
+        "x": 4,
+        "y": 4,
+        "z": 4
+    }
+}, {
+    "type": "racecar_red",
+    "novel_shape": True, # This is a novel shape for IntPhys scenes
+    "attributes": ["moveable", "pickupable"],
+    "info": ["tiny", "racecar"],
+    "mass": 2,
+    "choose": [{
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"]
+    }, {
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"]
+    }],
+    "dimensions": {
+        # The X and Z dimensions here are switched due to the Y rotation that's configured below.
+        "x": 0.15 * 2,
+        "y": 0.06 * 2,
+        "z": 0.07 * 2
+    },
+    "offset": {
+        "x": 0,
+        "y": 0.03 * 2,
+        "z": 0
+    },
+    "rotation": {
+        "x": 0,
+        "y": 90,
+        "z": 0
+    },
+    "position_y": 0.01,
+    "scale": {
+        "x": 2,
+        "y": 2,
+        "z": 2
+    }
+}, {
+    "type": "racecar_red",
+    "novel_shape": True, # This is a novel shape for IntPhys scenes
+    "attributes": ["moveable", "pickupable"],
+    "info": ["small", "racecar"],
+    "mass": 4,
+    "choose": [{
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"]
+    }, {
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"]
+    }],
+    "dimensions": {
+        # The X and Z dimensions here are switched due to the Y rotation that's configured below.
+        "x": 0.15 * 3.5,
+        "y": 0.06 * 3.5,
+        "z": 0.07 * 3.5
+    },
+    "offset": {
+        "x": 0,
+        "y": 0.03 * 3.5,
+        "z": 0
+    },
+    "rotation": {
+        "x": 0,
+        "y": 90,
+        "z": 0
+    },
+    "position_y": 0.01,
+    "scale": {
+        "x": 3.5,
+        "y": 3.5,
+        "z": 3.5
+    }
+}, {
+    "type": "racecar_red",
+    "novel_shape": True, # This is a novel shape for IntPhys scenes
+    "attributes": ["moveable", "pickupable"],
+    "info": ["medium", "racecar"],
+    "mass": 4,
+    "choose": [{
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"]
+    }, {
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"]
+    }],
+    "dimensions": {
+        # The X and Z dimensions here are switched due to the Y rotation that's configured below.
+        "x": 0.15 * 5,
+        "y": 0.06 * 5,
+        "z": 0.07 * 5
+    },
+    "offset": {
+        "x": 0,
+        "y": 0.03 * 5,
+        "z": 0
+    },
+    "rotation": {
+        "x": 0,
+        "y": 90,
+        "z": 0
+    },
+    "position_y": 0.01,
+    "scale": {
+        "x": 5,
+        "y": 5,
+        "z": 5
+    }
 }]
 
 

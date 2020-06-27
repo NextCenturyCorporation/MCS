@@ -69,8 +69,8 @@ def test_ShapeConstancyQuartet():
     assert quartet is not None
     a = quartet._scenes[0]['objects'][0]
     assert a['type'] != quartet._b['type']
-    assert a['shows'][0]['scale']['x'] == quartet._b['shows'][0]['scale']['x']
-    assert a['shows'][0]['scale']['z'] == quartet._b['shows'][0]['scale']['z']
+    assert (a['dimensions']['x'] > (quartet._b['dimensions']['x'] - 0.1) and
+            a['dimensions']['x'] < (quartet._b['dimensions']['x'] + 0.1))
     assert a['materials'] == quartet._b['materials']
 
 
