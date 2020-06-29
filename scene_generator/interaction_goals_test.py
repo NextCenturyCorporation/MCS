@@ -512,6 +512,7 @@ def test_TransferralGoal_navigate_near_objects():
         'ceilingMaterial': 'AI2-THOR/Materials/Walls/Drywall',
         'floorMaterial': 'AI2-THOR/Materials/Fabrics/CarpetWhite 3',
         'wallMaterial': 'AI2-THOR/Materials/Walls/DrywallBeige',
+        'wallColors': ['white'],
         'performerStart': {
             'position': {
                 'x': 0,

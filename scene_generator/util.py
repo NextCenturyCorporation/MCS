@@ -16,6 +16,9 @@ PERFORMER_HALF_WIDTH = PERFORMER_WIDTH / 2.0
 TARGET_CONTAINED_CHANCE = 0.5
 """Chance that the target will be in a container"""
 
+TARGET_CONTAINED_CHANCE = 0.25
+"""Chance that the target will be in a container"""
+
 
 def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
     """Return a random real number N where a <= N <= b and N - a is divisible by step."""
