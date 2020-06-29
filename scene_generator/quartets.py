@@ -103,6 +103,8 @@ class ObjectPermanenceQuartet(Quartet):
     def get_scene(self, q: int) -> Dict[str, Any]:
         if q < 1 or q > 4:
             raise ValueError(f'q must be between 1 and 4 (inclusive), not {q}')
+        if self._scenes[q - 1]:
+            return self._scenes[q - 1]
         scene = copy.deepcopy(self._scene_template)
         if q == 1:
             scene['goal']['type_list'].append('object permanence show object')
@@ -328,6 +330,8 @@ class SpatioTemporalContinuityQuartet(Quartet):
     def get_scene(self, q: int) -> Dict[str, Any]:
         if q < 1 or q > 4:
             raise ValueError(f'q must be between 1 and 4 (inclusive), not {q}')
+        if self._scenes[q - 1]:
+            return self._scenes[q - 1]
         scene = copy.deepcopy(self._scene_template)
         if q == 1:
             scene['goal']['type_list'].append('spatio temporal continuity move earlier')
@@ -440,6 +444,8 @@ class ShapeConstancyQuartet(Quartet):
     def get_scene(self, q: int) -> Dict[str, Any]:
         if q < 1 or q > 4:
             raise ValueError(f'q must be between 1 and 4 (exclusive), not {q}')
+        if self._scenes[q - 1]:
+            return self._scenes[q - 1]
         scene = copy.deepcopy(self._scene_template)
         if q == 1:
             scene['goal']['type_list'].append('shape constancy object one')
@@ -491,6 +497,8 @@ class GravityQuartet(Quartet):
     def get_scene(self, q: int) -> Dict[str, Any]:
         if q < 1 or q > 4:
             raise ValueError(f'q must be between 1 and 4 (exclusive), not {q}')
+        if self._scenes[q - 1]:
+            return self._scenes[q - 1]
         scene = copy.deepcopy(self._scene_template)
         scene['goal']['type_list'].append('gravity ramp ' + self._goal.get_ramp_name())
         if self._goal.is_ramp_steep():
