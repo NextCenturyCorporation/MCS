@@ -380,6 +380,7 @@ class ShapeConstancyQuartet(Quartet):
         b_def = random.choice(possible_defs)
         b_def = util.finalize_object_definition(b_def)
         b = util.instantiate_object(b_def, a['original_location'], a['materials_list'])
+        b['id'] = a['id']
         logging.debug(f'a type: {a["type"]}\tb type: {b["type"]}')
         return b
 
