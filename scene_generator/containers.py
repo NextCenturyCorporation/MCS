@@ -60,7 +60,7 @@ def put_objects_in_container(obj_a: Dict[str, Any],
         shows_a['position']['x'] -= width_a / 2.0
         if rot_b == 0:
             width_b = obj_b['dimensions']['x']
-        elif rot_a == 90:
+        elif rot_b == 90:
             width_b = obj_b['dimensions']['z']
         shows_b['position'] = area_position.copy()
         shows_b['position']['x'] += width_b / 2.0
@@ -257,14 +257,14 @@ def get_enclosable_container_defs(objs: Sequence[Dict[str, Any]],
         container_defs = objects.get_enclosed_containers()
     valid_container_defs = []
     for container_def in container_defs:
-        index = can_contain(container_def, *objs)
+        index, _ = how_can_contain(container_def, *objs)
         if index is not None:
             valid_container_defs.append(container_def)
         elif 'choose' in container_def:
             # try choose
             valid_choices = []
             for choice in container_def['choose']:
-                index = can_contain(choice, *objs)
+                index, _ = how_can_contain(choice, *objs)
                 if index is not None:
                     valid_choices.append(choice)
             if len(valid_choices) > 0:

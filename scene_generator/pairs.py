@@ -208,15 +208,15 @@ class ImmediatelyVisibleSimilarPair(InteractionPair):
         behind_location = geometry. \
             get_location_behind_performer(self._performer_start, container_def)
         front_obj_container = util.instantiate_object(container_def, in_front_location)
-        index = containers.can_contain(container_def, front_obj)
+        index, angles = containers.how_can_contain(container_def, front_obj)
         if index is None:
             return None
-        containers.put_object_in_container(front_obj, front_obj_container, container_def, index)
+        containers.put_object_in_container(front_obj, front_obj_container, container_def, index, angles[0])
         back_obj_container = util.instantiate_object(container_def, behind_location)
-        index = containers.can_contain(container_def, back_obj)
+        index, angles = containers.how_can_contain(container_def, back_obj)
         if index is None:
             return None
-        containers.put_object_in_container(back_obj, back_obj_container, container_def, index)
+        containers.put_object_in_container(back_obj, back_obj_container, container_def, index, angles[0])
 
         return front_obj_container, back_obj_container
 
