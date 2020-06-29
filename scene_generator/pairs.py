@@ -1,6 +1,7 @@
 import copy
 import logging
 import random
+from abc import ABC, abstractmethod
 from typing import Tuple, Dict, Any, Type, Optional
 
 import shapely
@@ -42,7 +43,7 @@ def instantiate_away_from(obj_def: Dict[str, Any],
     object are not adjacent. Returns None if it cannot find any such
     location for the new object.
     """
-    for _ in range(MAX_PLACEMENT_TRIES):
+    for _ in range(util.MAX_TRIES):
         location = geometry.calc_obj_pos(performer_position, [], obj_def)
         new_obj = util.instantiate_object(obj_def, location)
         if not geometry.are_adjacent(old_obj, new_obj):
@@ -275,7 +276,7 @@ class SimilarAdjacentPair(InteractionPair):
                 container_location = geometry. \
                     calc_obj_pos(self._performer_start['position'], [], container_def)
                 container = util.instantiate_object(container_def, container_location)
-                containers.put_object_in_container(target, container, container_def, index)
+                containers.put_object_in_container(target, container, container_def, index, rot_a)
         scene1 = self._get_empty_scene()
         scene1['objects'] = [target] if container is None else [target, container]
 
@@ -337,6 +338,71 @@ class SimilarFarPair(InteractionPair):
                 raise exceptions.SceneException('could not place similar object away from target')
             scene1['objects'] = [target]
             scene2['objects'] = [target, similar]
+        return scene1, scene2
+
+
+class SimilarAdjacentFarPair(InteractionPair):
+    """(5A) The Target Object is positioned directly adjacent to a Similar
+    Object OR (5B) far away from a Similar Object. For each pair, the
+    objects may or may not be inside identical containers, but only if
+    the container is big enough to hold both together; otherwise, no
+    container will be used in that pair.
+    """
+
+    def __init__(self, template: Dict[str, Any], find_path: bool):
+        super(SimilarAdjacentFarPair, self).__init__(template, find_path)
+
+    def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
+        target = util.instantiate_object(target_def, geometry.ORIGIN_LOCATION)
+        similar_def = util.finalize_object_definition(util.get_similar_definition(target))
+        scene1 = self._get_empty_scene()
+        scene2 = self._get_empty_scene()
+        placement = None
+        performer_position = self._performer_start['position']
+        if random.random() <= util.TARGET_CONTAINED_CHANCE:
+            container_defs = objects.get_enclosed_containers().copy()
+            random.shuffle(container_defs)
+            for container_def in container_defs:
+                container_def = util.finalize_object_definition(container_def)
+                placement = containers.can_contain_both(container_def, target_def, similar_def)
+                if placement is not None:
+                    break
+            if placement is not None:
+                container_def, index, orientation, rot_a, rot_b = placement
+                similar = util.instantiate_object(similar_def, geometry.ORIGIN_LOCATION)
+                container_location = geometry. \
+                    calc_obj_pos(performer_position, [], container_def)
+                container = util.instantiate_object(container_def, container_location)
+                containers.put_objects_in_container(target, similar, container,
+                                                    container_def, index, orientation,
+                                                    rot_a, rot_b)
+                scene1['objects'] = [target, similar, container]
+
+                # scene 2
+                target_container_loc = geometry.calc_obj_pos(performer_position, [], container_def)
+                target_container = util.instantiate_object(container_def, target_container_loc)
+                target2 = util.instantiate_object(target_def, geometry.ORIGIN_LOCATION)
+                containers.put_object_in_container(target2, target_container, container_def, index, rot_a)
+
+                similar_container = instantiate_away_from(container_def, performer_position, target_container)
+                similar2 = util.instantiate_object(target_def, geometry.ORIGIN_LOCATION)
+                containers.put_object_in_container(similar2, similar_container, container_def, index, rot_b)
+                scene2['objects'] = [target2, similar2, target_container, similar_container]
+        if placement is None:
+            # Decided not to use a container or couldn't find one that
+            # could hold the target & similar objects.
+            similar_location = geometry.get_adjacent_location(similar_def, target,
+                                                              performer_position)
+            similar = util.instantiate_object(similar_def, similar_location)
+            scene1['objects'] = [target, similar]
+
+            # scene 2
+            target2_location = geometry.calc_obj_pos(performer_position, [], target_def)
+            target2 = util.instantiate_object(target_def, target2_location)
+            similar2 = instantiate_away_from(similar_def, performer_position, target2)
+            scene2['objects'] = [target2, similar2]
+
         return scene1, scene2
 
 
