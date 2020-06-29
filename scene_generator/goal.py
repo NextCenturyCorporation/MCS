@@ -1,7 +1,7 @@
 import logging
+import random
 import uuid
 from abc import ABC, abstractmethod
-import random
 from typing import Dict, Any, Tuple, List, Optional
 
 import exceptions
@@ -9,7 +9,6 @@ import geometry
 import objects
 import separating_axis_theorem
 import util
-import copy
 
 MAX_WALL_WIDTH = 4
 MIN_WALL_WIDTH = 1
@@ -28,8 +27,10 @@ def generate_wall(wall_material: str, wall_colors: List[str], performer_position
                   other_rects: List[List[Dict[str, float]]]) -> Optional[Dict[str, Any]]:
     # Wanted to reuse written functions, but this is a bit more of a special snowflake
     # Generates obstacle walls placed in the scene.
-    
+
     tries = 0
+    performer_rect = geometry.find_performer_rect(performer_position)
+    performer_poly = geometry.rect_to_poly(performer_rect)
     while tries < util.MAX_TRIES:
         rotation = random.choice((0, 90, 180, 270))
         new_x = geometry.random_position()
@@ -41,11 +42,11 @@ def generate_wall(wall_material: str, wall_colors: List[str], performer_position
             ((rotation == 90 or rotation == 270) and (new_x < -SAFE_DIST_FROM_ROOM_WALL or new_x > SAFE_DIST_FROM_ROOM_WALL)): 
             continue
         else:
-
             rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, 0, 0, rotation)
             # barrier_rect is to allow parallel walls to be at least 1(DIST_WALL_APART) apart on the appropriate axis
             barrier_rect = geometry.calc_obj_coords(new_x, new_z, new_x_size + DIST_WALL_APART, WALL_DEPTH + DIST_WALL_APART, 0, 0, rotation)
-            if not geometry.collision(rect, performer_position) and \
+            wall_poly = geometry.rect_to_poly(rect)
+            if not wall_poly.intersects(performer_poly) and \
                     geometry.rect_within_room(rect) and \
                     (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(barrier_rect, other_rect) for other_rect in other_rects)): 
                 break

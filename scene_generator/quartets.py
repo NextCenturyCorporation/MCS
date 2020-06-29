@@ -506,7 +506,6 @@ class GravityQuartet(Quartet):
             # switch the target to use lowest force.x
             new_intphys_option = sorted(target['intphys_option']['saved_options'],
                                         key=lambda io: io['force']['x'])[0]
-            orig_x_position = target['shows'][0]['position']['x']
             target['forces'][0]['vector']['x'] = new_intphys_option['force']['x']
             if not self._goal.is_left_to_right():
                 target['forces'][0]['vector']['x'] *= -1

@@ -1,6 +1,8 @@
+import copy
 import logging
 import math
 import random
+from enum import IntEnum
 from typing import List, Dict, Any, Optional, Callable, Tuple
 
 import shapely
@@ -8,14 +10,13 @@ from shapely import affinity
 from shapely.geometry import LineString
 
 import exceptions
+import objects
 import util
 from separating_axis_theorem import sat_entry
 
-PERFORMER_WIDTH = 0.1
-PERFORMER_HALF_WIDTH = PERFORMER_WIDTH / 2.0
 # the following mins and maxes are inclusive
-MIN_PERFORMER_POSITION = -4.8 + PERFORMER_HALF_WIDTH
-MAX_PERFORMER_POSITION = 4.8 - PERFORMER_HALF_WIDTH
+MIN_PERFORMER_POSITION = -4.8 + util.PERFORMER_HALF_WIDTH
+MAX_PERFORMER_POSITION = 4.8 - util.PERFORMER_HALF_WIDTH
 POSITION_DIGITS = 2
 VALID_ROTATIONS = (0, 45, 90, 135, 180, 225, 270, 315)
 
@@ -43,6 +44,8 @@ ORIGIN_LOCATION = {
         'z': 0.0
     }
 }
+
+MAX_ADJACENT_DISTANCE = 0.5
 
 
 def random_position() -> float:
@@ -128,16 +131,7 @@ object in the frame, None otherwise."""
         offset_z = 0.0
 
     # reserve space around the performer
-    performer_rect = [
-        {'x': performer_position['x'] - PERFORMER_HALF_WIDTH,
-         'z': performer_position['z'] - PERFORMER_HALF_WIDTH},
-        {'x': performer_position['x'] - PERFORMER_HALF_WIDTH,
-         'z': performer_position['z'] + PERFORMER_HALF_WIDTH},
-        {'x': performer_position['x'] + PERFORMER_HALF_WIDTH,
-         'z': performer_position['z'] + PERFORMER_HALF_WIDTH},
-        {'x': performer_position['x'] + PERFORMER_HALF_WIDTH,
-         'z': performer_position['z'] - PERFORMER_HALF_WIDTH}
-    ]
+    performer_rect = find_performer_rect(performer_position)
     logging.debug(f'performer_rect = {performer_rect}')
 
     tries = 0
@@ -169,26 +163,6 @@ object in the frame, None otherwise."""
     return None
 
 
-def can_enclose(objectA: Dict[str, Any], objectB: Dict[str, Any]) -> bool:
-    """Return True iff each 'dimensions' of objectA is >= the corresponding dimension of objectB."""
-    return objectA['dimensions']['x'] >= objectB['dimensions']['x'] and \
-        objectA['dimensions']['y'] >= objectB['dimensions']['y'] and \
-        objectA['dimensions']['z'] >= objectB['dimensions']['z']
-
-
-def can_contain(container: Dict[str, Any], target: Dict[str, Any]) -> Optional[int]:
-    """Return the index of the container's "enclosed_areas" that the target fits in, or None if it does not fit in any
-     of them (or if the container doesn't have any). Does not try any rotation to see if that makes it possible to
-     fit."""
-    if 'enclosed_areas' not in container:
-        return None
-    for i in range(len(container['enclosed_areas'])):
-        space = container['enclosed_areas'][i]
-        if can_enclose(space, target):
-            return i
-    return None
-
-
 def occluders_too_close(occluder: Dict[str, Any], x_position: float, x_scale: float) -> bool:
     """Return True iff a new occluder at x_position with scale x_scale
     would be too close to existing occluder occluder."""
@@ -201,6 +175,12 @@ def occluders_too_close(occluder: Dict[str, Any], x_position: float, x_scale: fl
 def position_distance(a: Dict[str, float], b: Dict[str, float]) -> float:
     """Compute the distance between two positions."""
     return math.sqrt((a['x'] - b['x'])**2 + (a['y'] - b['y'])**2 + (a['z'] - b['z'])**2)
+
+
+def get_room_box() -> shapely.geometry.Polygon:
+    room = shapely.geometry.box(ROOM_DIMENSIONS[0][0], ROOM_DIMENSIONS[1][0],
+                                ROOM_DIMENSIONS[0][1], ROOM_DIMENSIONS[1][1])
+    return room
 
 
 def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
@@ -216,8 +196,7 @@ def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
     view_segment = affinity.rotate(view_segment, -performer_start['rotation']['y'], origin=(0, 0))
     view_segment = affinity.translate(view_segment, performer_start['position']['x'],
                                       performer_start['position']['z'])
-    room = shapely.geometry.box(ROOM_DIMENSIONS[0][0], ROOM_DIMENSIONS[1][0],
-                                ROOM_DIMENSIONS[0][1], ROOM_DIMENSIONS[1][1])
+    room = get_room_box()
 
     target_segment = room.intersection(view_segment)
     if target_segment.is_empty:
@@ -226,7 +205,9 @@ def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
 
 
 def get_location_in_front_of_performer(performer_start: Dict[str, Dict[str, float]],
-                                       target_def: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+                                       target_def: Dict[str, Any],
+                                       rotation_func: Callable[[], float] = random_rotation) \
+                                       -> Optional[Dict[str, Any]]:
     visible_segment = get_visible_segment(performer_start)
 
     def segment_xz():
@@ -234,7 +215,8 @@ def get_location_in_front_of_performer(performer_start: Dict[str, Dict[str, floa
         point = visible_segment.interpolate(fraction, normalized=True)
         return point.x, point.y
 
-    return calc_obj_pos(performer_start['position'], [], target_def, xz_func=segment_xz)
+    return calc_obj_pos(performer_start['position'], [], target_def,
+                        xz_func=segment_xz, rotation_func=rotation_func)
 
 
 def get_location_behind_performer(performer_start: Dict[str, Dict[str, float]],
@@ -266,3 +248,142 @@ def get_location_behind_performer(performer_start: Dict[str, Dict[str, float]],
         return location.x, location.y
 
     return calc_obj_pos(performer_start['position'], [], target_def, xz_func=compute_xz)
+
+
+def get_adjacent_location(obj_def: Dict[str, Any],
+                          target: Dict[str, Any],
+                          performer_start: Dict[str, float]) -> Optional[Dict[str, Any]]:
+    """Find a location such that, if obj_def is instantiated there, it
+    will be next to target. Ensures that the object at the new
+    location will not overlap the performer start, if necessary trying
+    to put the new object on each cardinal side of the target.
+    """
+    sides = list(range(4))
+    random.shuffle(sides)
+    for side in sides:
+        location = get_adjacent_location_on_side(obj_def, target, performer_start, side)
+        if location is not None:
+            return location
+    return None
+
+
+class Side(IntEnum):
+    RIGHT = 0
+    BACK = 1
+    LEFT = 2
+    FRONT = 3
+
+
+def get_adjacent_location_on_side(obj_def: Dict[str, Any],
+                                  target: Dict[str, Any],
+                                  performer_start: Dict[str, float],
+                                  side: Side) -> Optional[Dict[str, Any]]:
+    """Get a location such that, if obj_def is instantiated there, it will
+    be next to target. Side determines on which side of target to
+    place it: 0 = right (positive x), 1 = behind (positive z), 2 =
+    left (negative x) and 3 = in front (negative z). If the object
+    would overlap the performer_start or would be outside the room,
+    None is returned."
+    """
+    GAP = 0.05
+    distance_dim = 'x' if side in (0, 2) else 'z'
+    distance = obj_def['dimensions'][distance_dim]/2.0 + \
+        target['dimensions'][distance_dim]/2.0 + GAP
+    separator_segment = shapely.geometry.LineString([[0, 0], [distance, 0]])
+    shows = target['shows'][0]
+    rotation = -shows['rotation']['y'] + 90 * side
+    separator_segment = affinity.rotate(separator_segment, rotation, origin=(0, 0))
+    separator_segment = affinity.translate(separator_segment,
+                                           shows['position']['x'],
+                                           shows['position']['z'])
+    x = separator_segment.coords[1][0]
+    z = separator_segment.coords[1][1]
+    dx = obj_def['dimensions']['x'] / 2.0
+    dz = obj_def['dimensions']['z'] / 2.0
+    bounding_box = shapely.geometry.box(x - dx, z - dz, x + dx, z + dz)
+    bounding_box = affinity.rotate(bounding_box, -shows['rotation']['y'], origin=(0, 0))
+    performer = shapely.geometry.Point(performer_start['x'], performer_start['z'])
+    room = get_room_box()
+    if not bounding_box.intersects(performer) and room.contains(bounding_box):
+        location = {
+            'position': {
+                'x': x,
+                'y': 0,
+                'z': z
+            },
+            'rotation': {
+                'y': shows['rotation']['y']
+            }
+        }
+    else:
+        location = None
+    return location
+
+
+def get_wider_and_taller_defs(obj_def: Dict[str, Any]) \
+        -> List[Tuple[Dict[str, Any], float]]:
+    """Return all object definitions both taller and either wider or
+    deeper. If wider (x-axis), angle 0 is returned; if deeper
+    (z-axis), 90 degrees is returned. Objects returned may be equal in
+    dimensions, not just strictly greater.
+    """
+    dims = obj_def['dimensions']
+    bigger_defs = []
+    for new_def in objects.get_all_object_defs():
+        if 'dimensions' in new_def:
+            if new_def['dimensions']['y'] >= dims['y']:
+                if new_def['dimensions']['x'] >= dims['x']:
+                    bigger_defs.append((new_def, 0))
+                elif new_def['dimensions']['z'] >= dims['x']:
+                    bigger_defs.append((new_def, 90))
+        elif 'choose' in new_def:
+            for choice in new_def['choose']:
+                if choice['dimensions']['y'] >= dims['y']:
+                    if choice['dimensions']['x'] >= dims['x']:
+                        bigger_def = util.finalize_object_definition(new_def, choice)
+                        bigger_defs.append((bigger_def, 0))
+                    elif choice['dimensions']['z'] >= dims['x']:
+                        bigger_def = util.finalize_object_definition(new_def, choice)
+                        bigger_defs.append((bigger_def, 90))
+    return bigger_defs
+
+
+def get_bounding_polygon(obj: Dict[str, Any]) -> shapely.geometry.Polygon:
+    show = obj['shows'][0]
+    if 'bounding_box' in show:
+        bb: List[Dict[str, float]] = show['bounding_box']
+        poly = rect_to_poly(bb)
+    else:
+        x = show['position']['x']
+        z = show['position']['z']
+        dx = obj['dimensions']['x'] / 2.0
+        dz = obj['dimensions']['z'] / 2.0
+        poly = shapely.geometry.box(x - dx, z - dz, x + dx, z + dz)
+        poly = shapely.affinity.rotate(poly, -show['rotation']['y'])
+    return poly
+
+
+def are_adjacent(obj_a: Dict[str, Any], obj_b: Dict[str, Any]) -> bool:
+    poly_a = get_bounding_polygon(obj_a)
+    poly_b = get_bounding_polygon(obj_b)
+    distance = poly_a.distance(poly_b)
+    return distance <= MAX_ADJACENT_DISTANCE
+
+
+def rect_to_poly(rect: List[Dict[str, Any]]) -> shapely.geometry.Polygon:
+    points = [(point['x'], point['z']) for point in rect]
+    return shapely.geometry.Polygon(points)
+
+
+def find_performer_rect(performer_position: Dict[str, float]) -> List[Dict[str, float]]:
+    return [
+        {'x': performer_position['x'] - util.PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] - util.PERFORMER_HALF_WIDTH},
+        {'x': performer_position['x'] - util.PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] + util.PERFORMER_HALF_WIDTH},
+        {'x': performer_position['x'] + util.PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] + util.PERFORMER_HALF_WIDTH},
+        {'x': performer_position['x'] + util.PERFORMER_HALF_WIDTH,
+         'z': performer_position['z'] - util.PERFORMER_HALF_WIDTH}
+    ]
+
