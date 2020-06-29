@@ -285,7 +285,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
                     'position': {
                         'x': other_object['shows'][0]['position']['x'],
                         'y': other_object['intphys_option']['position_y'],
-                        'z': other_object['shows'][0]['position']['x']
+                        'z': other_object['shows'][0]['position']['z']
                     }
                 }]
                 other_object['shows'][0]['position'] = original_position
