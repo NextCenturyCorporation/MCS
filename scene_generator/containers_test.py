@@ -3,8 +3,8 @@ import random
 import geometry
 import objects
 import util
-from containers import put_object_in_container, put_objects_in_container, Orientation, can_enclose, can_contain, \
-    can_contain_both, get_enclosable_container_defs
+from containers import put_object_in_container, put_objects_in_container, Orientation, can_enclose, \
+    can_contain_both, how_can_contain
 from geometry_test import are_adjacent
 
 
@@ -54,11 +54,11 @@ def test_can_enclose():
             'z': 42
         }
     }
-    assert can_enclose(big, small)
-    assert not can_enclose(small, big)
+    assert can_enclose(big, small) is not None
+    assert can_enclose(small, big) is None
 
 
-def test_can_contain():
+def test_how_can_contain():
     small = {
         'dimensions': {
             'x': 0.01,
@@ -74,9 +74,9 @@ def test_can_contain():
         }
     }
     container_def = util.finalize_object_definition(objects.get_enclosed_containers()[0])
-    assert can_contain(container_def, small) is not None
-    assert can_contain(container_def, big) is None
-    assert can_contain(container_def, small, big) is None
+    assert how_can_contain(container_def, small) is not None
+    assert how_can_contain(container_def, big) is None
+    assert how_can_contain(container_def, small, big) is None
 
 
 def test_can_contain_both():
@@ -104,27 +104,3 @@ def test_can_contain_both():
     container_def = util.finalize_object_definition(objects.get_enclosed_containers()[0])
     assert can_contain_both(container_def, small1, small2) is not None
     assert can_contain_both(container_def, small1, big) is None
-
-
-def test_get_enclosable_container_defs():
-    medium = {
-        'dimensions': {
-            'x': 0.1,
-            'y': 0.2,
-            'z': 0.3
-        }
-    }
-    container_defs = get_enclosable_container_defs((medium,))
-    assert len(container_defs) > 0
-    for container_def in container_defs:
-        if can_contain(container_def, medium) is not None:
-            continue
-        if 'choose' in container_def:
-            found_enclosure = False
-            for choice in container_def['choose']:
-                if can_contain(choice, medium) is not None:
-                    found_enclosure = True
-                    break
-            assert found_enclosure
-        else:
-            assert False

@@ -2,10 +2,11 @@ from typing import Dict, Any
 
 import shapely
 
+import containers
 import geometry
 from geometry_test import are_adjacent
 from pairs import ImmediatelyVisibleSimilarPair, SimilarAdjacentPair, SimilarFarPair, ImmediatelyVisiblePair, \
-    HiddenBehindPair
+    HiddenBehindPair, SimilarAdjacentFarPair
 
 
 def test_SimilarAdjacentPair():
@@ -48,6 +49,34 @@ def test_SimilarFarPair_get_scenes():
         assert not are_adjacent(container1, container2)
     else:
         assert not are_adjacent(target2, similar)
+
+
+def test_SimilarAdjacentFarPair():
+    pair = SimilarAdjacentFarPair({}, False)
+    assert pair is not None
+
+
+def test_SimilarAdjacentFarPair_get_scene():
+    pair = SimilarAdjacentFarPair({}, False)
+    scene1, scene2 = pair.get_scenes()
+    assert scene1 is not None
+    assert scene2 is not None
+    target, similar = scene1['objects'][0:2]
+    is_contained = 'locationParent' in target
+    assert is_contained == ('locationParent' in similar)
+    if is_contained:
+        assert target['locationParent'] == similar['locationParent']
+    else:
+        assert are_adjacent(target, similar)
+    
+    target2, similar2 = scene2['objects'][0:2]
+    if is_contained:
+        assert target2['locationParent'] != similar2['locationParent']
+        target2Parent = containers.get_parent(target2, scene2['objects'])
+        similar2Parent = containers.get_parent(similar2, scene2['objects'])
+        assert not are_adjacent(target2Parent, similar2Parent)
+    else:
+        assert not are_adjacent(target2, similar2)
 
 
 def test_ImmediatelyVisiblePair():

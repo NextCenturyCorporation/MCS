@@ -5,6 +5,7 @@ import math
 import numpy
 import os
 import yaml
+import random
 from PIL import Image
 
 import ai2thor.controller
@@ -105,9 +106,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     CONFIG_METADATA_MODE_NO_VISION = 'no_vision' # No vision (image feature) metadata, except for the images
     CONFIG_METADATA_MODE_NONE = 'none' # No metadata, except for the images and haptic/audio feedback
 
-    def __init__(self, unity_app_file_path, debug=False, enable_noise=False):
+    def __init__(self, unity_app_file_path, debug=False, enable_noise=False, seed=None):
         super().__init__()
-
+        
         self.__controller = ai2thor.controller.Controller(
             quality='Medium',
             fullscreen=False,
@@ -124,14 +125,19 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 "objects": []
             }
         )
+        
+        self.on_init(debug, enable_noise, seed)
 
-        self.on_init(debug, enable_noise)
-
-    def on_init(self, debug=False, enable_noise=False):
+    def on_init(self, debug=False, enable_noise=False, seed=None):
+        
         self.__debug_to_file = True if (debug is True or debug is 'file') else False
         self.__debug_to_terminal = True if (debug is True or debug is 'terminal') else False
 
         self.__enable_noise = enable_noise
+        self.__seed = seed
+        
+        if self.__seed:
+            random.seed(self.__seed)
 
         self.__scene_configuration = None
         self.__head_tilt = 0
@@ -143,6 +149,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             os.makedirs(self.HISTORY_DIRECTORY)
 
         self._config = self.read_config_file()
+
+
+    def get_seed_value(self):
+        return self.__seed
 
     # Write the history file
     def write_history_file(self, history_item):

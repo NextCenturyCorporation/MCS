@@ -31,7 +31,7 @@ def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
 
 
 def finalize_object_definition(object_def: Dict[str, Any],
-                               choice: Optional[Dict[str,Any]] = None) \
+                               choice: Optional[Dict[str, Any]] = None) \
                                -> Dict[str, Any]:
     object_def_copy = copy.deepcopy(object_def)
 
@@ -220,4 +220,3 @@ def get_def_with_new_scale(obj: Dict[str, Any]) -> Dict[str, Any]:
     else:
         obj_def = None
     return obj_def
-
