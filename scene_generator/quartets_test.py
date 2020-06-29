@@ -1,5 +1,6 @@
 import intphys_goals
 import objects
+import pytest
 from quartets import ShapeConstancyQuartet, ObjectPermanenceQuartet, SpatioTemporalContinuityQuartet, find_targets, get_position_step
 
 
@@ -69,8 +70,7 @@ def test_ShapeConstancyQuartet():
     assert quartet is not None
     a = quartet._scenes[0]['objects'][0]
     assert a['type'] != quartet._b['type']
-    assert a['shows'][0]['scale']['x'] == quartet._b['shows'][0]['scale']['x']
-    assert a['shows'][0]['scale']['z'] == quartet._b['shows'][0]['scale']['z']
+    assert a['dimensions']['x'] == pytest.approx(quartet._b['dimensions']['x'], abs=intphys_goals.MAX_SIZE_DIFFERENCE)
     assert a['materials'] == quartet._b['materials']
 
 

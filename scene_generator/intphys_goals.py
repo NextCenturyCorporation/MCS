@@ -14,6 +14,7 @@ import util
 from goal import Goal, GoalException
 from util import finalize_object_definition, instantiate_object
 
+MAX_SIZE_DIFFERENCE = 0.1
 MAX_WALL_WIDTH = 4
 MIN_WALL_WIDTH = 1
 WALL_Y_POS = 1.5
@@ -85,6 +86,7 @@ class IntPhysGoal(Goal, ABC):
 
     def __init__(self):
         super(IntPhysGoal, self).__init__()
+        self._object_defs = objects.OBJECTS_INTPHYS
 
     def compute_performer_start(self) -> Dict[str, Dict[str, float]]:
         if self._performer_start is None:
@@ -295,7 +297,7 @@ class IntPhysGoal(Goal, ABC):
         """Get objects to move across the scene and occluders for them. Returns (objects, occluders) pair."""
         self._last_step = IntPhysGoal.LAST_STEP_MOVE_ACROSS
         # Subtract 5 for end occluder movement and rotation
-        new_objects = self._get_objects_moving_across(room_wall_material_name, self._last_step - 5)
+        new_objects = self._get_objects_moving_across(room_wall_material_name, self._last_step - 5, self._object_defs)
         occluders = self._get_occluders(new_objects, room_wall_material_name)
         return new_objects, occluders
 
@@ -303,11 +305,10 @@ class IntPhysGoal(Goal, ABC):
         return random.choices((1, 2, 3), (40, 30, 30))[0]
 
     def _get_objects_moving_across(self, room_wall_material_name: str, last_action_end_step: int,
+                                   valid_defs: List[Dict[str, Any]],
                                    earliest_action_start_step: int = EARLIEST_ACTION_START_STEP,
                                    valid_positions: Iterable = frozenset(Position),
-                                   positions: Optional[List[Position]] = None,
-                                   valid_defs: List[Dict[str, Any]] = objects.OBJECTS_INTPHYS) \
-            -> List[Dict[str, Any]]:
+                                   positions: Optional[List[Position]] = None) -> List[Dict[str, Any]]:
         """Get objects to move across the scene. Returns objects."""
         num_objects = self._get_num_objects_moving_across()
         # The following x positions start outside the camera viewport
@@ -426,6 +427,10 @@ class IntPhysGoal(Goal, ABC):
     def _get_objects_falling_down(self, room_wall_material_name: str) \
         -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
         MIN_OCCLUDER_SEPARATION = 0.5
+        # Choose between traditional and novel objects.
+        # Only use novel objects in "falling down" scenes for now, since we don't have their intphys_options yet.
+        self._object_defs = objects.OBJECTS_INTPHYS + objects.OBJECTS_INTPHYS_NOVEL
+
         # min scale for each occluder / 2, plus 0.5 separation
         # divided by the smaller scale factor for distance from viewpoint
         min_obj_distance = (IntPhysGoal.MIN_OCCLUDER_SCALE/2 + IntPhysGoal.MIN_OCCLUDER_SCALE/2 +
@@ -461,7 +466,7 @@ class IntPhysGoal(Goal, ABC):
                     'z': random.choice((IntPhysGoal.OBJECT_NEAR_Z, IntPhysGoal.OBJECT_FAR_Z))
                 }
             }
-            obj_def = random.choice(objects.OBJECTS_INTPHYS)
+            obj_def = random.choice(self._object_defs)
             obj = instantiate_object(obj_def, location)
             obj['shows'][0]['stepBegin'] = random.randint(IntPhysGoal.EARLIEST_ACTION_START_STEP,
                                                           IntPhysGoal.LATEST_ACTION_FALL_DOWN_START_STEP)
@@ -579,7 +584,7 @@ class GravityGoal(IntPhysGoal):
         ramp_type, left_to_right, x_term, ramp_objs = self._create_random_ramp()
         # only want intphys_options where y == 0
         valid_defs = []
-        for obj_def in objects.OBJECTS_INTPHYS:
+        for obj_def in self._object_defs:
             # Want to avoid cubes in the gravity tests at this time MCS-269
             if obj_def['type'] != 'cube':
                 new_od = obj_def.copy()
@@ -616,7 +621,7 @@ class GravityGoal(IntPhysGoal):
         self._last_step = IntPhysGoal.LAST_STEP_RAMP
         # Add a buffer to the ramp's last step to account for extra steps needed by objects moving up the ramps.
         objs = self._get_objects_moving_across(room_wall_material_name, self._last_step - IntPhysGoal.LAST_STEP_RAMP_BUFFER,
-                                               0, valid_positions, positions, valid_defs)
+                                               valid_defs, 0, valid_positions, positions)
         # adjust height to be on top of ramp if necessary
         for i in range(len(objs)):
             obj = objs[i]

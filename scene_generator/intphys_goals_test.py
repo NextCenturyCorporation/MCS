@@ -61,7 +61,7 @@ def test_IntPhysGoal__get_objects_moving_across_collisions():
 
     goal = TestGoal()
     wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)[0]
-    objs = goal._get_objects_moving_across(wall_material, 55)
+    objs = goal._get_objects_moving_across(wall_material, 55, goal._object_defs)
     for obj in objs:
         x = obj['shows'][0]['position']['x']
         z = obj['shows'][0]['position']['z']
@@ -120,7 +120,7 @@ def test_mcs_209():
         pass
 
     goal = TestGoal()
-    objs = goal._get_objects_moving_across('dummy', 55)
+    objs = goal._get_objects_moving_across('dummy', 55, goal._object_defs)
     for obj in objs:
         assert obj['shows'][0]['stepBegin'] == obj['forces'][0]['stepBegin']
 

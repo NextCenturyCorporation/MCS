@@ -360,20 +360,13 @@ class ShapeConstancyQuartet(Quartet):
     def _create_b(self) -> Dict[str, Any]:
         a = self._scenes[0]['objects'][0]
         possible_defs = []
-        normalized_scale = a['shows'][0]['scale']
-        # cylinders have "special" scaling: scale.y is half what it is
-        # for other objects (because Unity automatically doubles the
-        # scale.y of cylinders)
-        if a['type'] == 'cylinder':
-            normalized_scale = normalized_scale.copy()
-            normalized_scale['y'] *= 2
-        for obj_def in objects.OBJECTS_INTPHYS:
+        # Use the X dimensions because the performer will always be facing that side of the object.
+        a_size = a['dimensions']['x']
+        for obj_def in self._goal._object_defs:
             if obj_def['type'] != a['type']:
-                def_scale = obj_def['scale']
-                if obj_def['type'] == 'cylinder':
-                    def_scale = def_scale.copy()
-                    def_scale['y'] *= 2
-                if def_scale == normalized_scale:
+                possible_b_size = obj_def['dimensions']['x']
+                if possible_b_size < (a_size + intphys_goals.MAX_SIZE_DIFFERENCE) and possible_b_size > \
+                        (a_size - intphys_goals.MAX_SIZE_DIFFERENCE):
                     possible_defs.append(obj_def)
         if len(possible_defs) == 0:
             raise goal.GoalException(f'no valid choices for "b" object. a = {a}')
@@ -437,7 +430,9 @@ class ShapeConstancyQuartet(Quartet):
     def _b_replaces_a(self, scene: Dict[str, Any]) -> None:
         a = scene['objects'][0]
         b = copy.deepcopy(self._b)
-        b['shows'] = a['shows']
+        # Don't accidentally copy the 'rotation' from the 'shows' list because it's unique per object.
+        b['shows'][0]['stepBegin'] = a['shows'][0]['stepBegin']
+        b['shows'][0]['position'] = a['shows'][0]['position']
         if 'forces' in a:
             b['forces'] = a['forces']
         scene['objects'][0] = b
