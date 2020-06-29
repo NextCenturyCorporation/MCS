@@ -60,7 +60,7 @@ def put_objects_in_container(obj_a: Dict[str, Any],
         shows_a['position']['x'] -= width_a / 2.0
         if rot_b == 0:
             width_b = obj_b['dimensions']['x']
-        elif rot_a == 90:
+        elif rot_b == 90:
             width_b = obj_b['dimensions']['z']
         shows_b['position'] = area_position.copy()
         shows_b['position']['x'] += width_b / 2.0
