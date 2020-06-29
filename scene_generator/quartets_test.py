@@ -68,7 +68,7 @@ def test_ShapeConstancyQuartet():
     template = {'wallMaterial': 'dummy', 'wallColors': ['color']}
     quartet = ShapeConstancyQuartet(template, False)
     assert quartet is not None
-    a = quartet._scenes[0]['objects'][0]
+    a = quartet._scene_template['objects'][0]
     assert a['type'] != quartet._b['type']
     assert a['id'] == quartet._b['id']
     assert a['dimensions']['x'] == pytest.approx(quartet._b['dimensions']['x'], abs=intphys_goals.MAX_SIZE_DIFFERENCE)
