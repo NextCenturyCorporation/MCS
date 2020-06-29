@@ -35,6 +35,7 @@ OUTPUT_TEMPLATE_JSON = """
       "z": 0
     },
     "rotation": {
+      "x": 0,
       "y": 0
     }
   },
