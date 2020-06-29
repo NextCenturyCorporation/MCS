@@ -203,6 +203,8 @@ def move_to_container(target: Dict[str, Any], all_objects: List[Dict[str, Any]],
 
 
 class InteractionGoal(Goal, ABC):
+    LAST_STEP = 600
+
     OBJECT_CONTAINED_CHANCE = 0.5
     """Chance that, if the target is in a container, a non-target pickupable object in the scene will be, too."""
 
@@ -267,6 +269,7 @@ class RetrievalGoal(InteractionGoal):
         'domain_list': ['objects', 'places', 'object_solidity', 'navigation', 'localization'],
         'type_list': ['interactive', 'action_full', 'retrieval'],
         'task_list': ['navigate', 'localize', 'identify', 'retrieve'],
+        'last_step': InteractionGoal.LAST_STEP
     }
 
     def __init__(self):
@@ -342,7 +345,8 @@ class TransferralGoal(InteractionGoal):
         'category': 'transferral',
         'domain_list': ['objects', 'places', 'object_solidity', 'navigation', 'localization'],
         'type_list': ['interactive', 'action_full', 'transferral'],
-        'task_list': ['navigate', 'localize', 'identify', 'retrieve', 'transfer']
+        'task_list': ['navigate', 'localize', 'identify', 'retrieve', 'transfer'],
+        'last_step': InteractionGoal.LAST_STEP
     }
 
     def __init__(self):
@@ -486,6 +490,7 @@ class TraversalGoal(Goal):
         'domain_list': ['objects', 'places', 'object_solidity', 'navigation', 'localization'],
         'type_list': ['interactive', 'action_full', 'traversal'],
         'task_list': ['navigate', 'localize', 'identify'],
+        'last_step': InteractionGoal.LAST_STEP
     }
 
     def __init__(self):
