@@ -405,7 +405,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
     "type": "racecar_red",
     "attributes": ["moveable", "pickupable"],
     "choose": [{
-        "info": ["tiny", "racecar"],
+        "info": ["tiny", "car"],
         "mass": 1,
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"],
@@ -426,7 +426,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
             "z": 0.75
         }
     }, {
-        "info": ["tiny", "racecar"],
+        "info": ["tiny", "car"],
         "mass": 2,
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"],
@@ -447,7 +447,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
             "z": 1.5
         }
     }, {
-        "info": ["small", "racecar"],
+        "info": ["small", "car"],
         "mass": 4,
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"],
@@ -3975,7 +3975,7 @@ OBJECTS_INTPHYS_NOVEL = [{
     "type": "racecar_red",
     "novel_shape": True, # This is a novel shape for IntPhys scenes
     "attributes": ["moveable", "pickupable"],
-    "info": ["tiny", "racecar"],
+    "info": ["tiny", "car"],
     "mass": 2,
     "choose": [{
         "materialCategory": ["block_blank"],
@@ -4010,7 +4010,7 @@ OBJECTS_INTPHYS_NOVEL = [{
     "type": "racecar_red",
     "novel_shape": True, # This is a novel shape for IntPhys scenes
     "attributes": ["moveable", "pickupable"],
-    "info": ["small", "racecar"],
+    "info": ["small", "car"],
     "mass": 4,
     "choose": [{
         "materialCategory": ["block_blank"],
@@ -4045,7 +4045,7 @@ OBJECTS_INTPHYS_NOVEL = [{
     "type": "racecar_red",
     "novel_shape": True, # This is a novel shape for IntPhys scenes
     "attributes": ["moveable", "pickupable"],
-    "info": ["medium", "racecar"],
+    "info": ["medium", "car"],
     "mass": 4,
     "choose": [{
         "materialCategory": ["block_blank"],
