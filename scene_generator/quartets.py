@@ -500,7 +500,6 @@ class GravityQuartet(Quartet):
         if self._scenes[q - 1]:
             return self._scenes[q - 1]
         scene = copy.deepcopy(self._scene_template)
-        scene['goal']['type_list'].append('gravity ramp ' + self._goal.get_ramp_name())
         if self._goal.is_ramp_steep():
             scene = self._get_steep_scene(scene, q)
         else:

@@ -660,6 +660,11 @@ class GravityGoal(IntPhysGoal):
 
         return ramp_type, left_to_right, ramp_objs, objs
 
+    def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+        goal = super(GravityGoal, self)._get_subclass_config(goal_objects)
+        goal['type_list'].append('ramp ' + self.get_ramp_name())
+        return goal
+
 
 class ObjectPermanenceGoal(IntPhysGoal):
     TEMPLATE = {
