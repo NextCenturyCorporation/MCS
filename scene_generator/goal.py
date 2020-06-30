@@ -23,7 +23,7 @@ DIST_WALL_APART = 1
 SAFE_DIST_FROM_ROOM_WALL = 3.5
     
 
-def generate_wall(wall_mat_choice: str, performer_position: Dict[str, float],
+def generate_wall(wall_material: str, wall_colors: List[str], performer_position: Dict[str, float],
                   other_rects: List[List[Dict[str, float]]]) -> Optional[Dict[str, Any]]:
     # Wanted to reuse written functions, but this is a bit more of a special snowflake
     # Generates obstacle walls placed in the scene.
@@ -55,11 +55,13 @@ def generate_wall(wall_mat_choice: str, performer_position: Dict[str, float],
     if tries < util.MAX_TRIES:
         new_object = {
             'id': 'wall_' + str(uuid.uuid4()),
-            'materials': [wall_mat_choice],
+            'materials': [wall_material],
             'type': 'cube',
             'kinematic': 'true',
             'structure': 'true',
-            'mass': 100
+            'mass': 100,
+            'info': wall_colors,
+            'info_string': ' '.join(wall_colors)
         }
         shows_object = {
             'stepBegin': 0,
@@ -75,6 +77,7 @@ def generate_wall(wall_mat_choice: str, performer_position: Dict[str, float],
     return None
 
 
+
 class Goal(ABC):
     """An abstract Goal. Subclasses must implement compute_objects and
     get_config. Users of a goal object should normally only need to call 
@@ -83,20 +86,27 @@ class Goal(ABC):
     def __init__(self):
         self._performer_start = None
         self._targets = []
-        self._goal_objects = []
+        self._tag_to_objects = []
 
     def update_body(self, body: Dict[str, Any], find_path: bool) -> Dict[str, Any]:
         """Helper method that calls other Goal methods to set performerStart, objects, and goal. Returns the goal body
         object."""
         body['performerStart'] = self.compute_performer_start()
-        goal_objects, all_objects, bounding_rects = self.compute_objects(body['wallMaterial'])
-        self._goal_objects = goal_objects
-        walls = self.generate_walls(body['wallMaterial'], body['performerStart']['position'],
-                                    bounding_rects)
-        body['objects'] = all_objects + walls
-        body['goal'] = self.get_config(goal_objects, all_objects + walls)
+
+        tag_to_objects, bounding_rects = self.compute_objects(body['wallMaterial'])
+        self._tag_to_objects = tag_to_objects
+        self._targets = tag_to_objects['target']
+
+        walls = self.generate_walls(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], \
+                bounding_rects)
+        if walls is not None:
+            tag_to_objects['wall'] = walls
+
+        body['objects'] = [element for value in tag_to_objects.values() for element in value]
+        body['goal'] = self.get_config(self._targets, tag_to_objects)
+
         if find_path:
-            body['answer']['actions'] = self.find_optimal_path(goal_objects, all_objects + walls)
+            body['answer']['actions'] = self.find_optimal_path(self._targets, body['objects'])
 
         return body
 
@@ -124,10 +134,10 @@ class Goal(ABC):
         return util.finalize_object_definition(random.choice(object_def_list))
 
     @abstractmethod
-    def compute_objects(self, wall_material_name: str) \
-        -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
+    def compute_objects(self, wall_material_name: str) -> \
+            Tuple[Dict[str, List[Dict[str, Any]]], List[List[Dict[str, float]]]]:
         """Compute object instances for the scene. Returns a tuple:
-        (objects required for the goal, all objects in the scene including objects required for the goal, bounding rectangles)"""
+        (dict that maps tag strings to object lists, bounding rectangles)"""
         pass
 
     def add_objects(self, object_list: List[Dict[str, Any]], rectangles: List[List[Dict[str, float]]],
@@ -144,18 +154,57 @@ class Goal(ABC):
                 obj = util.instantiate_object(object_def, obj_location)
                 object_list.append(obj)
 
-    def _update_goal_info_list(self, goal: Dict[str, Any], all_objects: List[Dict[str, Any]]):
+    def _update_goal_info_list(self, goal: Dict[str, Any], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> None:
         info_set = set(goal.get('info_list', []))
-        for obj in all_objects:
-            info_set |= frozenset(obj.get('info', []))
+
+        for key, value in tag_to_objects.items():
+            for obj in value:
+                info_list = obj.get('info', []).copy()
+                if 'info_string' in obj:
+                    info_list.append(obj['info_string'])
+                info_set |= set([(key + ' ' + info) for info in info_list])
+
         goal['info_list'] = list(info_set)
 
-    def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _update_goal_tags(self, goal: Dict[str, Any], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> None:
+        self._update_goal_tags_of_type(goal, tag_to_objects['target'], 'target')
+        if 'distractor' in tag_to_objects:
+            self._update_goal_tags_of_type(goal, tag_to_objects['distractor'], 'distractor')
+        for item in ['background object', 'distractor', 'occluder', 'target', 'wall']:
+            if item in tag_to_objects:
+                number = len(tag_to_objects[item])
+                if item == 'occluder':
+                    number = (int)(number / 2)
+                goal['type_list'].append(item + 's ' + str(number))
+        self._update_goal_info_list(goal, tag_to_objects)
+
+    def _update_goal_tags_of_type(self, goal: Dict[str, Any], objs: List[Dict[str, Any]], name: str) -> None:
+        for obj in objs:
+            enclosed_tag = (name + ' not enclosed') if obj.get('locationParent', None) is None else (name + ' enclosed')
+            novel_color_tag = (name + ' novel color') if 'novel_color' in obj and obj['novel_color'] else \
+                    (name + ' not novel color')
+            novel_combination_tag = (name + ' novel combination') if 'novel_combination' in obj and \
+                    obj['novel_combination'] else (name + ' not novel combination')
+            novel_shape_tag = (name + ' novel shape') if 'novel_shape' in obj and obj['novel_shape'] else \
+                    (name + ' not novel shape')
+            for new_tag in [enclosed_tag, novel_color_tag, novel_combination_tag, novel_shape_tag]:
+                if new_tag not in goal['type_list']:
+                    goal['type_list'].append(new_tag)
+
+    def get_config(self, goal_objects: List[Dict[str, Any]], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> \
+            Dict[str, Any]:
         """Get the goal configuration. goal_objects is the objects required for the goal (as returned from
         compute_objects)."""
+        goal_config = self._get_subclass_config(goal_objects)
+        self._update_goal_tags(goal_config, tag_to_objects)
+        return goal_config
+
+    @abstractmethod
+    def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Get the goal configuration of this specific subclass."""
         pass
 
-    def generate_walls(self, material: str, performer_position: Dict[str, Any],
+    def generate_walls(self, material: str, colors: List[str], performer_position: Dict[str, Any],
                        bounding_rects: List[List[Dict[str, float]]]) -> List[Dict[str, Any]]:
         wall_count = random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
         
@@ -163,7 +212,7 @@ class Goal(ABC):
         # Add bounding rects to walls
         all_bounding_rects = [bounding_rect.copy() for bounding_rect in bounding_rects] 
         for x in range(0, wall_count):
-            wall = generate_wall(material, performer_position, all_bounding_rects)
+            wall = generate_wall(material, colors, performer_position, all_bounding_rects)
 
             if wall is not None:
                 walls.append(wall)
@@ -185,11 +234,11 @@ class EmptyGoal(Goal):
     def __init__(self):
         super(EmptyGoal, self).__init__()
 
-    def compute_objects(self, wall_material_name: str) \
-        -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[List[Dict[str, float]]]]:
-        return [], [], []
+    def compute_objects(self, wall_material_name: str) -> \
+            Tuple[Dict[str, List[Dict[str, Any]]], List[List[Dict[str, float]]]]:
+        return { 'target': [] }, []
 
-    def get_config(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         return {}
 
     def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \

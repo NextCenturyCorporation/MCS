@@ -2,6 +2,10 @@
 #Names here are matching the object material types
 #I.R.: an object with the "Ceramic" property will use "CERAMIC_MATERIALS"
 
+NOVEL_COLOR_LIST = [
+    # TODO
+]
+
 BLOCK_BLANK_MATERIALS = [
     ("UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/blue_1x1", ["blue"]),
     ("UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/red_1x1", ["red"]),

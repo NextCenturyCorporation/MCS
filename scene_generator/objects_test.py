@@ -4,8 +4,8 @@ import random
 
 
 def test_create_occluder_normal():
-    wall_material = str(uuid.uuid4())
-    pole_material = str(uuid.uuid4())
+    wall_material = ['test_material_wall', ['white']]
+    pole_material = ['test_material_pole', ['brown']]
     x_position = random.uniform(-1, 1)
     x_scale = random.uniform(0.1, 2)
 
@@ -15,15 +15,19 @@ def test_create_occluder_normal():
     # make sure we got them back in the right order
     assert wall['type'] == 'cube'
     assert pole['type'] == 'cylinder'
-    assert wall['materials'] == [wall_material]
-    assert pole['materials'] == [pole_material]
+    assert wall['materials'] == ['test_material_wall']
+    assert pole['materials'] == ['test_material_pole']
+    assert wall['info'] == ['white']
+    assert pole['info'] == ['brown']
+    assert wall['info_string'] == 'white'
+    assert pole['info_string'] == 'brown'
     for x in wall, pole:
         assert x['shows'][0]['position']['x'] == x_position
 
         
 def test_create_occluder_sideways():
-    wall_material = str(uuid.uuid4())
-    pole_material = str(uuid.uuid4())
+    wall_material = ['test_material_wall', ['white']]
+    pole_material = ['test_material_pole', ['brown']]
     x_position = random.uniform(-1, 1)
     x_scale = random.uniform(0.1, 2)
 
@@ -33,8 +37,12 @@ def test_create_occluder_sideways():
     # make sure we got them back in the right order
     assert wall['type'] == 'cube'
     assert pole['type'] == 'cylinder'
-    assert wall['materials'] == [wall_material]
-    assert pole['materials'] == [pole_material]
+    assert wall['materials'] == ['test_material_wall']
+    assert pole['materials'] == ['test_material_pole']
+    assert wall['info'] == ['white']
+    assert pole['info'] == ['brown']
+    assert wall['info_string'] == 'white'
+    assert pole['info_string'] == 'brown'
 
     
 def test_get_all_object_defs():

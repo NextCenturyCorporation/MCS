@@ -1,3 +1,4 @@
+import copy
 import materials
 from geometry import ORIGIN
 from goals import *
@@ -6,20 +7,143 @@ from intphys_goals import IntPhysGoal
 from objects import OBJECTS_INTPHYS
 from util import instantiate_object, random_real
 
-
-def test_random_real():
-    n = random_real(0, 1, 0.1)
-    assert 0 <= n <= 1
-    # need to multiply by 10 and mod by 1 instead of 0.1 to avoid weird roundoff
-    assert n * 10 % 1 < 1e-8
-
+BODY_TEMPLATE = {
+  'name': '',
+  'ceilingMaterial': 'AI2-THOR/Materials/Walls/Drywall',
+  'floorMaterial': 'AI2-THOR/Materials/Fabrics/CarpetWhite 3',
+  'wallMaterial': 'AI2-THOR/Materials/Walls/DrywallBeige',
+  'wallColors': ['white'],
+  'performerStart': {
+    'position': {
+      'x': 0,
+      'y': 0,
+      'z': 0
+    },
+    'rotation': {
+      'x': 0,
+      'y': 0
+    }
+  },
+  'objects': [],
+  'goal': {},
+  'answer': {}
+}
 
 def test_GravityGoal_compute_objects():
     goal = GravityGoal()
-    target_objs, all_objs, rects = goal.compute_objects('dummy wall material')
-    assert len(target_objs) > 0
-    assert len(all_objs) > 0
+    tag_to_objects, rects = goal.compute_objects('dummy wall material')
+    assert len(tag_to_objects['target']) >= 1
+    assert len(tag_to_objects['distractor']) >= 0
+    assert len(tag_to_objects['background object']) >= 0
+    assert len(tag_to_objects['ramp']) >= 1
     assert len(rects) == 0
+    assert goal._last_step > 0
+
+
+def test_GravityGoal_update_body():
+    goal = GravityGoal()
+    body = goal.update_body(copy.deepcopy(BODY_TEMPLATE), False)
+    assert body['goal']['last_step'] > 0
+    assert body['goal']['action_list'] == [['Pass']] * body['goal']['last_step']
+    assert body['goal']['category'] == 'intphys'
+    assert body['goal']['domain_list'] == ['objects', 'object solidity', 'object motion', 'gravity']
+    assert 'passive' in body['goal']['type_list']
+    assert 'action none' in body['goal']['type_list']
+    assert 'intphys' in body['goal']['type_list']
+    assert 'gravity' in body['goal']['type_list']
+    assert ('ramp 30-degree' in body['goal']['type_list']) or ('ramp 45-degree' in body['goal']['type_list']) or \
+            ('ramp 90-degree' in body['goal']['type_list']) or \
+            ('ramp 30-degree-90-degree' in body['goal']['type_list']) or \
+            ('ramp 45-degree-90-degree' in body['goal']['type_list'])
+    assert body['answer']['choice'] == 'plausible'
+    assert len(body['objects']) >= 1
+
+
+def test_ObjectPermanenceGoal_compute_objects():
+    goal = ObjectPermanenceGoal()
+    tag_to_objects, rects = goal.compute_objects('dummy wall material')
+    assert len(tag_to_objects['target']) >= 1
+    assert len(tag_to_objects['distractor']) >= 0
+    assert len(tag_to_objects['background object']) >= 0
+    assert len(tag_to_objects['occluder']) >= 1
+    assert len(rects) == 0
+    assert (goal._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across) or \
+            (goal._object_creator == IntPhysGoal._get_objects_falling_down)
+    assert goal._last_step > 0
+
+
+def test_ObjectPermanenceGoal_update_body():
+    goal = ObjectPermanenceGoal()
+    body = goal.update_body(copy.deepcopy(BODY_TEMPLATE), False)
+    assert body['goal']['last_step'] > 0
+    assert body['goal']['action_list'] == [['Pass']] * body['goal']['last_step']
+    assert body['goal']['category'] == 'intphys'
+    assert body['goal']['domain_list'] == ['objects', 'object solidity', 'object motion', 'object permanence']
+    assert 'passive' in body['goal']['type_list']
+    assert 'action none' in body['goal']['type_list']
+    assert 'intphys' in body['goal']['type_list']
+    assert 'object permanence' in body['goal']['type_list']
+    assert ('move across' in body['goal']['type_list']) or ('fall down' in body['goal']['type_list'])
+    assert body['answer']['choice'] == 'plausible'
+    assert len(body['objects']) >= 1
+
+
+def test_ShapeConstancyGoal_compute_objects():
+    goal = ShapeConstancyGoal()
+    tag_to_objects, rects = goal.compute_objects('dummy wall material')
+    assert len(tag_to_objects['target']) >= 1
+    assert len(tag_to_objects['distractor']) >= 0
+    assert len(tag_to_objects['background object']) >= 0
+    assert len(tag_to_objects['occluder']) >= 1
+    assert len(rects) == 0
+    assert (goal._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across) or \
+            (goal._object_creator == IntPhysGoal._get_objects_falling_down)
+    assert goal._last_step > 0
+
+
+def test_ShapeConstancyGoal_update_body():
+    goal = ShapeConstancyGoal()
+    body = goal.update_body(copy.deepcopy(BODY_TEMPLATE), False)
+    assert body['goal']['last_step'] > 0
+    assert body['goal']['action_list'] == [['Pass']] * body['goal']['last_step']
+    assert body['goal']['category'] == 'intphys'
+    assert body['goal']['domain_list'] == ['objects', 'object solidity', 'object motion', 'object permanence']
+    assert 'passive' in body['goal']['type_list']
+    assert 'action none' in body['goal']['type_list']
+    assert 'intphys' in body['goal']['type_list']
+    assert 'shape constancy' in body['goal']['type_list']
+    assert ('move across' in body['goal']['type_list']) or ('fall down' in body['goal']['type_list'])
+    assert body['answer']['choice'] == 'plausible'
+    assert len(body['objects']) >= 1
+
+
+def test_SpatioTemporalContinuityGoal_compute_objects():
+    goal = SpatioTemporalContinuityGoal()
+    tag_to_objects, rects = goal.compute_objects('dummy wall material')
+    assert len(tag_to_objects['target']) >= 1
+    assert len(tag_to_objects['distractor']) >= 0
+    assert len(tag_to_objects['background object']) >= 0
+    assert len(tag_to_objects['occluder']) >= 1
+    assert len(rects) == 0
+    assert (goal._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across) or \
+            (goal._object_creator == IntPhysGoal._get_objects_falling_down)
+    assert goal._last_step > 0
+
+
+def test_SpatioTemporalContinuityGoal_update_body():
+    goal = SpatioTemporalContinuityGoal()
+    body = goal.update_body(copy.deepcopy(BODY_TEMPLATE), False)
+    assert body['goal']['last_step'] > 0
+    assert body['goal']['action_list'] == [['Pass']] * body['goal']['last_step']
+    assert body['goal']['category'] == 'intphys'
+    assert body['goal']['domain_list'] == ['objects', 'object solidity', 'object motion', 'object permanence']
+    assert 'passive' in body['goal']['type_list']
+    assert 'action none' in body['goal']['type_list']
+    assert 'intphys' in body['goal']['type_list']
+    assert 'spatio temporal continuity' in body['goal']['type_list']
+    assert ('move across' in body['goal']['type_list']) or ('fall down' in body['goal']['type_list'])
+    assert body['answer']['choice'] == 'plausible'
+    assert len(body['objects']) >= 1
 
 
 # test for MCS-214
@@ -62,7 +186,7 @@ def test_IntPhysGoal__get_objects_moving_across_collisions():
 
     goal = TestGoal()
     wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)[0]
-    objs = goal._get_objects_moving_across(wall_material, 55)
+    objs = goal._get_objects_moving_across(wall_material, 55, goal._object_defs)
     for obj in objs:
         x = obj['shows'][0]['position']['x']
         z = obj['shows'][0]['position']['z']
@@ -121,10 +245,10 @@ def test_mcs_209():
         pass
 
     goal = TestGoal()
-    objs = goal._get_objects_moving_across('dummy', 55)
+    objs = goal._get_objects_moving_across('dummy', 55, goal._object_defs)
     for obj in objs:
         assert obj['shows'][0]['stepBegin'] == obj['forces'][0]['stepBegin']
 
-    body = {'wallMaterial': 'dummy'}
+    body = {'wallMaterial': 'dummy', 'wallColors': ['color']}
     goal._scenery_count = 0
     goal.update_body(body, False)

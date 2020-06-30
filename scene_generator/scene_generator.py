@@ -28,12 +28,14 @@ OUTPUT_TEMPLATE_JSON = """
   "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
   "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
   "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+  "wallColors": ["white"],
   "performerStart": {
     "position": {
       "x": 0,
       "z": 0
     },
     "rotation": {
+      "x": 0,
       "y": 0
     }
   },
@@ -48,6 +50,7 @@ OUTPUT_TEMPLATE = json.loads(OUTPUT_TEMPLATE_JSON)
 
 def strip_debug_info(body: Dict[str, Any]) -> None:
     """Remove info that's only for our internal use (e.g., for debugging)"""
+    body.pop('wallColors', None)
     for obj in body['objects']:
         clean_object(obj)
     for goal_key in ('domain_list', 'type_list', 'task_list', 'info_list', 'series_id'):
@@ -63,11 +66,16 @@ def strip_debug_info(body: Dict[str, Any]) -> None:
 def clean_object(obj: Dict[str, Any]) -> None:
     """Remove properties we do not want TA1s to have access to."""
     obj.pop('info', None)
+    obj.pop('info_string', None)
     obj.pop('dimensions', None)
     obj.pop('intphys_option', None)
     obj.pop('materials_list', None)
     obj.pop('materialCategory', None)
     obj.pop('original_location', None)
+    obj.pop('novel_color', None)
+    obj.pop('novel_combination', None)
+    obj.pop('novel_shape', None)
+    obj.pop('shape', None)
     if 'shows' in obj:
         obj['shows'][0].pop('bounding_box', None)
 
@@ -79,6 +87,7 @@ def generate_body_template(name: str) -> Dict[str, Any]:
     ceil_wall_mat_choice = random.choice(CEILING_AND_WALL_MATERIALS)
     body['ceilingMaterial'] = ceil_wall_mat_choice[0]
     body['wallMaterial'] = ceil_wall_mat_choice[0]
+    body['wallColors'] = ceil_wall_mat_choice[1]
     body['floorMaterial'] = random.choice(FLOOR_MATERIALS)[0]
     return body
 
@@ -90,17 +99,10 @@ def generate_scene(name: str, goal_type: str, find_path: bool) -> Dict[str, Any]
     return body
 
 
-def generate_file(name: str, goal_type: str, find_path: bool) -> None:
-    """Create a new scenery file and a debug file. name must end with '.json'."""
-    body = generate_scene(name, goal_type, find_path)
-    write_file(name, body)
-
-
 def write_file(name: str, body: Dict[str, Any]) -> None:
-    debug_name = name[:-5] + '-debug.json'
-    write_scene(debug_name, body)
+    write_scene(name + '-debug.json', body)
     strip_debug_info(body)
-    write_scene(name, body)
+    write_scene(name + '.json', body)
 
 
 def write_scene(name: str, scene: Dict[str, Any]) -> None:
@@ -135,20 +137,27 @@ def wrap_with_json_no_indent(data: Dict[str, Any], prop_list: List[str]) -> None
             data[prop] = PrettyJsonNoIndent(data[prop])
 
 
-def generate_scene_fileset(prefix: str, count: int, goal_type: str, find_path: bool,
+def generate_name(prefix: str, count: int, scene: int = None) -> str:
+    if scene is not None:
+        return f'{prefix}-{count:04}-{scene}'
+    return f'{prefix}-{count:04}'
+
+
+def generate_single(prefix: str, count: int, goal_type: str, find_path: bool,
                            stop_on_error: bool) -> None:
     # skip existing files
     index = 1
 
     while count > 0:
         while True:
-            name = f'{prefix}-{index:04}.json'
-            file_exists = os.path.exists(name)
+            name = generate_name(prefix, index)
+            file_exists = os.path.exists(name + '.json')
             if not file_exists:
                 break
             index += 1
         try:
-            generate_file(name, goal_type, find_path)
+            body = generate_scene(name, goal_type, find_path)
+            write_file(name, body)
             count -= 1
         except (RuntimeError, ZeroDivisionError, TypeError, exceptions.SceneException, ValueError) as e:
             if stop_on_error:
@@ -156,15 +165,14 @@ def generate_scene_fileset(prefix: str, count: int, goal_type: str, find_path: b
             logging.warning(f'failed to create a file: {e}')
 
 
-def generate_quartet(prefix: str, index: int, quartet_name: str,
-                     find_path: bool, stop_on_error: bool) -> None:
+def generate_quartet(prefix: str, count: int, quartet_name: str, find_path: bool, stop_on_error: bool) -> None:
     template = generate_body_template('')
     quartet_class = quartets.get_quartet_class(quartet_name)
     quartet = quartet_class(template, find_path)
     quartet_id = str(uuid.uuid4())
     quartet_name = quartet.__class__.__name__.replace('Quartet', '').lower()
     for q in range(1, 5):
-        name = f'{prefix}-{index:04}-{q}.json'
+        name = generate_name(prefix, count, q)
         logging.debug(f'starting generation of\t{name}')
         while True:
             try:
@@ -181,13 +189,11 @@ def generate_quartet(prefix: str, index: int, quartet_name: str,
         logging.debug(f'end generation of\t{name}')
 
 
-def generate_quartets(prefix: str, count: int, quartet_name: str,
-                      find_path: bool, stop_on_error: bool) -> None:
+def generate_quartets(prefix: str, count: int, quartet_name: str, find_path: bool, stop_on_error: bool) -> None:
     index = 1
     while count > 0:
         while True:
-            name = f'{prefix}-{index:04}-1.json'
-            file_exists = os.path.exists(name)
+            file_exists = os.path.exists(generate_name(prefix, index, 1) + '.json')
             if not file_exists:
                 break
             index += 1
@@ -195,19 +201,14 @@ def generate_quartets(prefix: str, count: int, quartet_name: str,
         count -= 1
 
 
-def write_scene_of_pair(scenes: Tuple[Dict[str, Any], Dict[str, Any]],
-                        name_stem: str, index: int) -> None:
-    name = f'{name_stem}{index}.json'
-    scene = scenes[index - 1]
+def write_scene_of_pair(scene: Dict[str, Any], name: str) -> None:
     scene['name'] = name
     scene_copy = copy.deepcopy(scene)
     write_file(name, scene_copy)
 
 
-def generate_pair(prefix: str, count: int,
-                  find_path: bool, stop_on_error: bool) -> None:
+def generate_pair(prefix: str, count: int, find_path: bool, stop_on_error: bool) -> None:
     template = generate_body_template('')
-    name_stem = f'{prefix}-{count:04}-'
     pair_class = pairs.get_pair_class()
     pair = pair_class(template, find_path)
     pair_id = str(uuid.uuid4())
@@ -218,8 +219,8 @@ def generate_pair(prefix: str, count: int,
             scenes = pair.get_scenes()
             scenes[0]['goal']['series_id'] = 'pair_' + pair_name + '_' + pair_id
             scenes[1]['goal']['series_id'] = 'pair_' + pair_name + '_' + pair_id
-            write_scene_of_pair(scenes, name_stem, 1)
-            write_scene_of_pair(scenes, name_stem, 2)
+            write_scene_of_pair(scenes[0], generate_name(prefix, count, 1))
+            write_scene_of_pair(scenes[1], generate_name(prefix, count, 2))
             break
         except (RuntimeError, ZeroDivisionError, TypeError, exceptions.SceneException, ValueError) as e:
             if stop_on_error:
@@ -228,13 +229,11 @@ def generate_pair(prefix: str, count: int,
     logging.debug(f'end generation of scene pair #{count}')
 
 
-def generate_pair_fileset(prefix: str, count: int,
-                          find_path: bool, stop_on_error: bool) -> None:
+def generate_pairs(prefix: str, count: int, find_path: bool, stop_on_error: bool) -> None:
     index = 1
     while count > 0:
         while True:
-            name = f'{prefix}-{index:04}-1.json'
-            file_exists = os.path.exists(name)
+            file_exists = os.path.exists(generate_name(prefix, index, 1) + '.json')
             if not file_exists:
                 break
             index += 1
@@ -257,9 +256,9 @@ def generate_fileset(prefix: str, count: int, type_name: str, find_path: bool, s
     if fileset_type == FilesetType.QUARTET:
         generate_quartets(prefix, count, type_name, find_path, stop_on_error)
     elif fileset_type == FilesetType.PAIR:
-        generate_pair_fileset(prefix, count, find_path, stop_on_error)
+        generate_pairs(prefix, count, find_path, stop_on_error)
     elif fileset_type == FilesetType.SINGLE:
-        generate_scene_fileset(prefix, count, type_name, find_path, stop_on_error)
+        generate_single(prefix, count, type_name, find_path, stop_on_error)
 
 
 def main(argv):

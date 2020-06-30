@@ -405,7 +405,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
     "type": "racecar_red",
     "attributes": ["moveable", "pickupable"],
     "choose": [{
-        "info": ["tiny", "racecar"],
+        "info": ["tiny", "car"],
         "mass": 1,
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"],
@@ -426,7 +426,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
             "z": 0.75
         }
     }, {
-        "info": ["tiny", "racecar"],
+        "info": ["tiny", "car"],
         "mass": 2,
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"],
@@ -442,12 +442,12 @@ OBJECTS_PICKUPABLE_TOYS = [{
         },
         "position_y": 0.01,
         "scale": {
-            "x": 1,
-            "y": 1,
-            "z": 1
+            "x": 1.5,
+            "y": 1.5,
+            "z": 1.5
         }
     }, {
-        "info": ["small", "racecar"],
+        "info": ["small", "car"],
         "mass": 4,
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"],
@@ -1804,8 +1804,11 @@ OBJECTS_IMMOBILE = [{
     }]
 }]
 
+
 OCCLUDER_INSTANCE_NORMAL = [{
     "id": "occluder_wall_",
+    "info": [],
+    "info_string": "",
     "type": "cube",
     "kinematic": True,
     "structure": True,
@@ -1876,6 +1879,8 @@ OCCLUDER_INSTANCE_NORMAL = [{
     }]
 }, {
     "id": "occluder_pole_",
+    "info": [],
+    "info_string": "",
     "type": "cylinder",
     "kinematic": True,
     "structure": True,
@@ -1921,8 +1926,11 @@ OCCLUDER_INSTANCE_NORMAL = [{
     }]
 }]
 
+
 OCCLUDER_INSTANCE_SIDEWAYS = [{
     "id": "occluder_wall_",
+    "info": [],
+    "info_string": "",
     "type": "cube",
     "kinematic": True,
     "structure": True,
@@ -1993,6 +2001,8 @@ OCCLUDER_INSTANCE_SIDEWAYS = [{
     }]
 }, {
     "id": "occluder_pole_",
+    "info": [],
+    "info_string": "",
     "type": "cylinder",
     "kinematic": True,
     "structure": True,
@@ -3874,7 +3884,202 @@ OBJECTS_INTPHYS: List[Dict[str, Any]] = [{
 }]
 
 
-def create_occluder(wall_material: str, pole_material: str,
+OBJECTS_INTPHYS_NOVEL = [{
+    "type": "duck_on_wheels",
+    "novel_shape": True, # This is a novel shape for IntPhys scenes
+    "attributes": ["moveable", "pickupable"],
+    "info": ["tiny", "duck"],
+    "mass": 2,
+    "choose": [{
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"]
+    }, {
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"]
+    }],
+    "dimensions": {
+        "x": 0.21,
+        "y": 0.17,
+        "z": 0.065
+    },
+    "offset": {
+        "x": 0,
+        "y": 0.085,
+        "z": 0
+    },
+    "position_y": 0.01,
+    "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+    }
+}, {
+    "type": "duck_on_wheels",
+    "novel_shape": True, # This is a novel shape for IntPhys scenes
+    "attributes": ["moveable", "pickupable"],
+    "info": ["small", "duck"],
+    "mass": 4,
+    "choose": [{
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"]
+    }, {
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"]
+    }],
+    "dimensions": {
+        "x": 0.21 * 2.5,
+        "y": 0.17 * 2.5,
+        "z": 0.065 * 2.5
+    },
+    "offset": {
+        "x": 0,
+        "y": 0.085 * 2.5,
+        "z": 0
+    },
+    "position_y": 0.01,
+    "scale": {
+        "x": 2.5,
+        "y": 2.5,
+        "z": 2.5
+    }
+}, {
+    "type": "duck_on_wheels",
+    "novel_shape": True, # This is a novel shape for IntPhys scenes
+    "attributes": ["moveable", "pickupable"],
+    "info": ["medium", "duck"],
+    "mass": 8,
+    "choose": [{
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"]
+    }, {
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"]
+    }],
+    "dimensions": {
+        "x": 0.21 * 4,
+        "y": 0.17 * 4,
+        "z": 0.065 * 4
+    },
+    "offset": {
+        "x": 0,
+        "y": 0.085 * 4,
+        "z": 0
+    },
+    "position_y": 0.01,
+    "scale": {
+        "x": 4,
+        "y": 4,
+        "z": 4
+    }
+}, {
+    "type": "racecar_red",
+    "novel_shape": True, # This is a novel shape for IntPhys scenes
+    "attributes": ["moveable", "pickupable"],
+    "info": ["tiny", "car"],
+    "mass": 2,
+    "choose": [{
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"]
+    }, {
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"]
+    }],
+    "dimensions": {
+        # The X and Z dimensions here are switched due to the Y rotation that's configured below.
+        "x": 0.15 * 2,
+        "y": 0.06 * 2,
+        "z": 0.07 * 2
+    },
+    "offset": {
+        "x": 0,
+        "y": 0.03 * 2,
+        "z": 0
+    },
+    "rotation": {
+        "x": 0,
+        "y": 90,
+        "z": 0
+    },
+    "position_y": 0.01,
+    "scale": {
+        "x": 2,
+        "y": 2,
+        "z": 2
+    }
+}, {
+    "type": "racecar_red",
+    "novel_shape": True, # This is a novel shape for IntPhys scenes
+    "attributes": ["moveable", "pickupable"],
+    "info": ["small", "car"],
+    "mass": 4,
+    "choose": [{
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"]
+    }, {
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"]
+    }],
+    "dimensions": {
+        # The X and Z dimensions here are switched due to the Y rotation that's configured below.
+        "x": 0.15 * 3.5,
+        "y": 0.06 * 3.5,
+        "z": 0.07 * 3.5
+    },
+    "offset": {
+        "x": 0,
+        "y": 0.03 * 3.5,
+        "z": 0
+    },
+    "rotation": {
+        "x": 0,
+        "y": 90,
+        "z": 0
+    },
+    "position_y": 0.01,
+    "scale": {
+        "x": 3.5,
+        "y": 3.5,
+        "z": 3.5
+    }
+}, {
+    "type": "racecar_red",
+    "novel_shape": True, # This is a novel shape for IntPhys scenes
+    "attributes": ["moveable", "pickupable"],
+    "info": ["medium", "car"],
+    "mass": 4,
+    "choose": [{
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"]
+    }, {
+        "materialCategory": ["wood"],
+        "salientMaterials": ["wood"]
+    }],
+    "dimensions": {
+        # The X and Z dimensions here are switched due to the Y rotation that's configured below.
+        "x": 0.15 * 5,
+        "y": 0.06 * 5,
+        "z": 0.07 * 5
+    },
+    "offset": {
+        "x": 0,
+        "y": 0.03 * 5,
+        "z": 0
+    },
+    "rotation": {
+        "x": 0,
+        "y": 90,
+        "z": 0
+    },
+    "position_y": 0.01,
+    "scale": {
+        "x": 5,
+        "y": 5,
+        "z": 5
+    }
+}]
+
+
+def create_occluder(wall_material: Tuple[str, List[str]], pole_material: Tuple[str, List[str]],
                     x_position: float, x_scale: float, sideways: bool = False) \
         -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """Create an occluder pair of objects: (wall, pole)."""
@@ -3890,8 +4095,14 @@ def create_occluder(wall_material: str, pole_material: str,
     occluder[WALL]['id'] = occluder[WALL]['id'] + occluder_id
     occluder[POLE]['id'] = occluder[POLE]['id'] + occluder_id
 
-    occluder[WALL]['materials'] = [wall_material]
-    occluder[POLE]['materials'] = [pole_material]
+    occluder[WALL]['materials'] = [wall_material[0]]
+    occluder[POLE]['materials'] = [pole_material[0]]
+
+    occluder[WALL]['info'] = wall_material[1]
+    occluder[POLE]['info'] = pole_material[1]
+
+    occluder[WALL]['info_string'] = ' '.join(occluder[WALL]['info'])
+    occluder[POLE]['info_string'] = ' '.join(occluder[POLE]['info'])
 
     occluder[WALL]['shows'][0]['position']['x'] = x_position
     occluder[POLE]['shows'][0]['position']['x'] = x_position

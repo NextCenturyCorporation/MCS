@@ -366,104 +366,107 @@ def test_RetrievalGoal_get_goal():
     goal_obj = RetrievalGoal()
     obj = {
         'id': str(uuid.uuid4()),
-        'info': [str(uuid.uuid4())],
+        'info': ['blue', 'rubber', 'ball'],
+        'info_string': 'blue rubber ball',
         'type': 'sphere'
     }
-    object_list = [obj]
-    goal = goal_obj.get_config(object_list, object_list)
-    assert goal['info_list'] == obj['info']
+    goal = goal_obj.get_config([obj], { 'target': [obj] })
+    assert goal['description'] == 'Find and pick up the blue rubber ball.'
+    assert set(goal['info_list']) == {'target blue', 'target rubber', 'target ball', 'target blue rubber ball'}
     target = goal['metadata']['target']
     assert target['id'] == obj['id']
-    assert target['info'] == obj['info']
+    assert target['info'] == ['blue', 'rubber', 'ball']
 
 
 def test_TraversalGoal_get_goal():
     goal_obj = TraversalGoal()
     obj = {
         'id': str(uuid.uuid4()),
-        'info': [str(uuid.uuid4())],
+        'info': ['blue', 'rubber', 'ball'],
+        'info_string': 'blue rubber ball',
         'type': 'sphere'
     }
-    object_list = [obj]
-    goal = goal_obj.get_config(object_list, object_list)
-    assert goal['info_list'] == obj['info']
+    goal = goal_obj.get_config([obj], { 'target': [obj] })
+    assert goal['description'] == 'Find the blue rubber ball and move near it.'
+    assert set(goal['info_list']) == {'target blue', 'target rubber', 'target ball', 'target blue rubber ball'}
     target = goal['metadata']['target']
     assert target['id'] == obj['id']
-    assert target['info'] == obj['info']
+    assert target['info'] == ['blue', 'rubber', 'ball']
 
 
 def test_TransferralGoal_get_goal_argcount():
     goal_obj = TransferralGoal()
     with pytest.raises(ValueError):
-        goal_obj.get_config(['one object'], ['one object'])
+        goal_obj.get_config(['one object'], { 'target': ['one object'] })
 
 
 def test_TransferralGoal_get_goal_argvalid():
     goal_obj = TransferralGoal()
+    target_list = [{'attributes': ['']}, {'attributes': ['']}]
     with pytest.raises(ValueError):
-        goal_obj.get_config([{'attributes': ['']}, {'attributes': ['']}], [])
+        goal_obj.get_config(target_list, { 'target': target_list })
 
 
 def test__generate_transferral_goal():
     goal_obj = TransferralGoal()
-    extra_info = str(uuid.uuid4())
     pickupable_id = str(uuid.uuid4())
-    pickupable_info_item = str(uuid.uuid4())
     pickupable_obj = {
         'id': pickupable_id,
-        'info': [pickupable_info_item, extra_info],
+        'info': ['blue', 'rubber', 'ball'],
+        'info_string': 'blue rubber ball',
         'pickupable': True,
         'type': 'sphere'
     }
     other_id = str(uuid.uuid4())
-    other_info_item = str(uuid.uuid4())
     other_obj = {
         'id': other_id,
-        'info': [other_info_item, extra_info],
+        'info': ['yellow', 'wood', 'changing table'],
+        'info_string': 'yellow wood changing table',
         'attributes': [],
         'type': 'changing_table',
         'stackTarget': True
     }
-    obj_list = [pickupable_obj, other_obj]
-    goal = goal_obj.get_config(obj_list, obj_list)
+    goal = goal_obj.get_config([pickupable_obj, other_obj], { 'target': [pickupable_obj, other_obj] })
 
-    combined_info = goal['info_list']
-    assert set(combined_info) == {pickupable_info_item, other_info_item, extra_info}
+    assert set(goal['info_list']) == {'target blue', 'target rubber', 'target ball', 'target blue rubber ball', \
+            'target yellow', 'target wood', 'target changing table', 'target yellow wood changing table'}
 
     target1 = goal['metadata']['target_1']
     assert target1['id'] == pickupable_id
-    assert target1['info'] == [pickupable_info_item, extra_info]
+    assert target1['info'] == ['blue', 'rubber', 'ball']
     target2 = goal['metadata']['target_2']
     assert target2['id'] == other_id
-    assert target2['info'] == [other_info_item, extra_info]
+    assert target2['info'] == ['yellow', 'wood', 'changing table']
 
     relationship = goal['metadata']['relationship']
     relationship_type = relationship[1]
     assert relationship_type in [g.value for g in TransferralGoal.RelationshipType]
 
+    assert goal['description'] == 'Find and pick up the blue rubber ball and move it ' + \
+            relationship_type + ' the yellow wood changing table.'
+
 
 def test__generate_transferral_goal_with_nonstackable_goal():
     goal_obj = TransferralGoal()
-    extra_info = str(uuid.uuid4())
     pickupable_id = str(uuid.uuid4())
-    pickupable_info_item = str(uuid.uuid4())
     pickupable_obj = {
         'id': pickupable_id,
-        'info': [pickupable_info_item, extra_info],
+        'info': ['blue', 'rubber', 'ball'],
+        'info_string': 'blue rubber ball',
         'pickupable': True,
         'type': 'sphere',
         'attributes': ['pickupable']
     }
     other_id = str(uuid.uuid4())
-    other_info_item = str(uuid.uuid4())
     other_obj = {
         'id': other_id,
-        'info': [other_info_item, extra_info],
+        'info': ['yellow', 'wood', 'changing table'],
+        'info_string': 'yellow wood changing table',
         'type': 'changing_table',
         'attributes': []
     }
     with pytest.raises(ValueError) as excinfo:
-        goal = goal_obj.get_config([pickupable_obj, other_obj], [])
+        goal = goal_obj.get_config([pickupable_obj, other_obj], { 'target': [pickupable_obj, other_obj] })
     assert "second object must be" in str(excinfo.value)
 
 
@@ -475,6 +478,7 @@ def test_TransferralGoal_ensure_pickup_action():
         'ceilingMaterial': 'AI2-THOR/Materials/Walls/Drywall',
         'floorMaterial': 'AI2-THOR/Materials/Fabrics/CarpetWhite 3',
         'wallMaterial': 'AI2-THOR/Materials/Walls/DrywallBeige',
+        'wallColors': ['white'],
         'performerStart': {
             'position': {
                 'x': 0,
@@ -508,6 +512,7 @@ def test_TransferralGoal_navigate_near_objects():
         'ceilingMaterial': 'AI2-THOR/Materials/Walls/Drywall',
         'floorMaterial': 'AI2-THOR/Materials/Fabrics/CarpetWhite 3',
         'wallMaterial': 'AI2-THOR/Materials/Walls/DrywallBeige',
+        'wallColors': ['white'],
         'performerStart': {
             'position': {
                 'x': 0,

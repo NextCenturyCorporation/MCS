@@ -21,9 +21,9 @@ class MCS:
     MCS_Controller
     """
     @staticmethod
-    def create_controller(unity_app_file_path, debug=False, enable_noise=False):
+    def create_controller(unity_app_file_path, debug=False, enable_noise=False, seed=None):
         # TODO: Toggle between AI2-THOR and other controllers like ThreeDWorld?
-        return MCS_Controller_AI2THOR(unity_app_file_path, debug, enable_noise)
+        return MCS_Controller_AI2THOR(unity_app_file_path, debug, enable_noise, seed)
 
     """
     Loads the given JSON config file and returns its data.

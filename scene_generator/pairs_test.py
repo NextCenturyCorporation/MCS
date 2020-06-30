@@ -1,8 +1,11 @@
+from typing import Dict, Any
+
 import shapely
 
+import containers
 import geometry
 from geometry_test import are_adjacent
-from pairs import SimilarAdjacentPair, SimilarFarPair, ImmediatelyVisiblePair, HiddenBehindPair, OneEnclosedPair
+from pairs import ImmediatelyVisibleSimilarPair, SimilarAdjacentPair, SimilarFarPair, SimilarAdjacentFarPair, ImmediatelyVisiblePair, HiddenBehindPair, OneEnclosedPair
 
 
 def test_SimilarAdjacentPair():
@@ -47,6 +50,34 @@ def test_SimilarFarPair_get_scenes():
         assert not are_adjacent(target2, similar)
 
 
+def test_SimilarAdjacentFarPair():
+    pair = SimilarAdjacentFarPair({}, False)
+    assert pair is not None
+
+
+def test_SimilarAdjacentFarPair_get_scene():
+    pair = SimilarAdjacentFarPair({}, False)
+    scene1, scene2 = pair.get_scenes()
+    assert scene1 is not None
+    assert scene2 is not None
+    target, similar = scene1['objects'][0:2]
+    is_contained = 'locationParent' in target
+    assert is_contained == ('locationParent' in similar)
+    if is_contained:
+        assert target['locationParent'] == similar['locationParent']
+    else:
+        assert are_adjacent(target, similar)
+    
+    target2, similar2 = scene2['objects'][0:2]
+    if is_contained:
+        assert target2['locationParent'] != similar2['locationParent']
+        target2Parent = containers.get_parent(target2, scene2['objects'])
+        similar2Parent = containers.get_parent(similar2, scene2['objects'])
+        assert not are_adjacent(target2Parent, similar2Parent)
+    else:
+        assert not are_adjacent(target2, similar2)
+
+
 def test_ImmediatelyVisiblePair():
     pair = ImmediatelyVisiblePair({}, False)
     assert pair is not None
@@ -57,6 +88,26 @@ def test_ImmediatelyVisiblePair_get_scenes():
     scene1, scene2 = pair.get_scenes()
     assert scene1 is not None
     assert scene2 is not None
+
+
+def test_ImmediatelyVisibleSimilar():
+    pair = ImmediatelyVisibleSimilarPair({}, False)
+    assert pair is not None
+
+
+def is_contained(obj: Dict[str, Any]) -> bool:
+    return 'locationParent' in obj
+
+
+def test_ImmediatelyVisibleSimilar_get_scenes():
+    pair = ImmediatelyVisibleSimilarPair({}, False)
+    scene1, scene2 = pair.get_scenes()
+    assert scene1 is not None
+    assert scene2 is not None
+    target1, similar1 = scene1['objects'][0:2]
+    assert is_contained(target1) == is_contained(similar1)
+    target2, similar2 = scene2['objects'][0:2]
+    assert is_contained(target2) == is_contained(similar2)
 
 
 def test_HiddenBehindPair_get_scenes():

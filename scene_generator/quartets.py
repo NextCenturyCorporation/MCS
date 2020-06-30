@@ -11,20 +11,20 @@ import ramps
 import util
 
 
-def find_target(scene: Dict[str, Any]) -> Dict[str, Any]:
+def find_target(scene: Dict[str, Any], goal: goal.Goal) -> Dict[str, Any]:
     """Find a 'target' object in the scene. (IntPhys goals don't really
     have them, but they do have objects that may behave plausibly or
     implausibly.)
     """
-    return find_targets(scene, 1)[0]
+    return find_targets(scene, goal, 1)[0]
 
 
-def find_targets(scene: Dict[str, Any], num_targets: Optional[int] = None) -> List[Dict[str, Any]]:
+def find_targets(scene: Dict[str, Any], goal: goal.Goal, num_targets: Optional[int] = None) -> List[Dict[str, Any]]:
     """Find 'target' objects in the scene. (IntPhys goals don't really
     have them, but they do have objects that may behave plausibly or
     implausibly.)
     """
-    target_ids = scene['goal']['metadata']['objects'][:num_targets]
+    target_ids = [target['id'] for target in goal._targets[:num_targets]]
     # This isn't the most efficient way to do this, but since there
     # will only be 2-3 'target' objects and maybe a dozen total
     # objects, that's ok.
@@ -53,10 +53,13 @@ def get_position_step(target: Dict[str, Any], x_position: float,
 
 
 class Quartet(ABC):
-    def __init__(self, template: Dict[str, Any], find_path: bool):
+    def __init__(self, template: Dict[str, Any], find_path: bool, goal: intphys_goals.IntPhysGoal):
         self._template = template
         self._find_path = find_path
         self._scenes: List[Optional[Dict[str, Any]]] = [None]*4
+        self._scene_template = copy.deepcopy(self._template)
+        self._goal = goal
+        self._goal.update_body(self._scene_template, self._find_path)
 
     @abstractmethod
     def get_scene(self, q: int) -> Dict[str, Any]:
@@ -65,14 +68,11 @@ class Quartet(ABC):
 
 class ObjectPermanenceQuartet(Quartet):
     def __init__(self, template: Dict[str, Any], find_path: bool):
-        super(ObjectPermanenceQuartet, self).__init__(template, find_path)
-        self._goal = intphys_goals.ObjectPermanenceGoal()
-        self._scenes[0] = copy.deepcopy(self._template)
-        self._goal.update_body(self._scenes[0], self._find_path)
+        super(ObjectPermanenceQuartet, self).__init__(template, find_path, intphys_goals.ObjectPermanenceGoal())
         logging.debug(f'OPQ: setup = f{self._goal._object_creator}')
 
     def _appear_behind_occluder(self, body: Dict[str, Any]) -> None:
-        target = find_target(body)
+        target = find_target(body, self._goal)
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             implausible_event_index = target['intphys_option']['occluder_indices'][0]
             implausible_event_step = implausible_event_index + target['forces'][0]['stepBegin']
@@ -87,7 +87,7 @@ class ObjectPermanenceQuartet(Quartet):
         target['shows'][0]['stepBegin'] = implausible_event_step
 
     def _disappear_behind_occluder(self, body: Dict[str, Any]) -> None:
-        target = find_target(body)
+        target = find_target(body, self._goal)
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             implausible_event_step = target['intphys_option']['occluder_indices'][0] + \
                 target['forces'][0]['stepBegin']
@@ -103,46 +103,49 @@ class ObjectPermanenceQuartet(Quartet):
     def get_scene(self, q: int) -> Dict[str, Any]:
         if q < 1 or q > 4:
             raise ValueError(f'q must be between 1 and 4 (inclusive), not {q}')
-        scene = self._scenes[q - 1]
-        if scene is None:
-            scene = copy.deepcopy(self._scenes[0])
-            if q == 2:
-                # target moves behind occluder and disappears (implausible)
-                scene['answer']['choice'] = 'implausible'
-                self._disappear_behind_occluder(scene)
-            elif q == 3:
-                # target first appears from behind occluder (implausible)
-                scene['answer']['choice'] = 'implausible'
-                self._appear_behind_occluder(scene)
-            elif q == 4:
-                # target not in the scene (plausible)
-                target_id = scene['goal']['metadata']['objects'][0]
-                for i in range(len(scene['objects'])):
-                    obj = scene['objects'][i]
-                    if obj['id'] == target_id:
-                        del scene['objects'][i]
-                        break
-            self._scenes[q - 1] = scene
+        if self._scenes[q - 1]:
+            return self._scenes[q - 1]
+        scene = copy.deepcopy(self._scene_template)
+        if q == 1:
+            scene['goal']['type_list'].append('object permanence show object')
+        elif q == 2:
+            # target moves behind occluder and disappears (implausible)
+            scene['answer']['choice'] = 'implausible'
+            scene['goal']['type_list'].append('object permanence show then hide object')
+            self._disappear_behind_occluder(scene)
+        elif q == 3:
+            # target first appears from behind occluder (implausible)
+            scene['answer']['choice'] = 'implausible'
+            scene['goal']['type_list'].append('object permanence hide then show object')
+            self._appear_behind_occluder(scene)
+        elif q == 4:
+            # target not in the scene (plausible)
+            scene['goal']['type_list'].append('object permanence hide object')
+            target_id = self._goal._targets[0]['id']
+            for i in range(len(scene['objects'])):
+                obj = scene['objects'][i]
+                if obj['id'] == target_id:
+                    del scene['objects'][i]
+                    break
+        self._scenes[q - 1] = scene
         return scene
 
 
 class SpatioTemporalContinuityQuartet(Quartet):
     def __init__(self, template: Dict[str, Any], find_path: bool):
-        super(SpatioTemporalContinuityQuartet, self).__init__(template, find_path)
-        self._goal = intphys_goals.SpatioTemporalContinuityGoal()
-        self._scenes[0] = copy.deepcopy(self._template)
-        self._goal.update_body(self._scenes[0], self._find_path)
+        super(SpatioTemporalContinuityQuartet, self).__init__(template, find_path, \
+                intphys_goals.SpatioTemporalContinuityGoal())
+        logging.debug(f'STCQ: setup = f{self._goal._object_creator}')
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
+            self._check_stepBegin(self._scene_template)
 
-            self._check_stepBegin()
-
-    def _check_stepBegin(self) -> None:
-        target = find_target(self._scenes[0])
+    def _check_stepBegin(self, scene: Dict[str, Any]) -> None:
+        target = find_target(scene, self._goal)
         implausible_event_index1 = target['intphys_option']['occluder_indices'][0]
         implausible_event_index2 = target['intphys_option']['occluder_indices'][1]
         orig_stepBegin = target['shows'][0]['stepBegin']
         new_stepBegin = orig_stepBegin + abs(implausible_event_index1 - implausible_event_index2)
-        max_stepBegin = self._scenes[0]['goal']['last_step'] - len(target['intphys_option']['position_by_step'])
+        max_stepBegin = scene['goal']['last_step'] - len(target['intphys_option']['position_by_step'])
         if new_stepBegin > max_stepBegin:
             # need to adjust the original to accomodate what we need for scene #4
             diff = new_stepBegin - max_stepBegin
@@ -174,8 +177,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
         return other_occluder, other_object
 
     def _teleport_forward(self, scene: Dict[str, Any]) -> None:
-        scene['answer']['choice'] = 'implausible'
-        all_targets = find_targets(scene)
+        all_targets = find_targets(scene, self._goal)
         target = all_targets[0]
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             # go from the lower index to the higher one so we teleport forward
@@ -247,8 +249,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
             raise ValueError('unknown object creation function, cannot update scene')
 
     def _teleport_backward(self, scene: Dict[str, Any]) -> None:
-        target = find_targets(scene)[0]
-        scene['answer']['choice'] = 'implausible'
+        target = find_targets(scene, self._goal)[0]
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             # go from the higher index to the lower one so we teleport backward
             implausible_event_index1 = target['intphys_option']['occluder_indices'][0]
@@ -285,7 +286,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
                     'position': {
                         'x': other_object['shows'][0]['position']['x'],
                         'y': other_object['intphys_option']['position_y'],
-                        'z': other_object['shows'][0]['position']['x']
+                        'z': other_object['shows'][0]['position']['z']
                     }
                 }]
                 other_object['shows'][0]['position'] = original_position
@@ -302,9 +303,8 @@ class SpatioTemporalContinuityQuartet(Quartet):
         }]
 
     def _move_later(self, scene: Dict[str, Any]) -> None:
-        target = find_target(scene)
+        target = find_target(scene, self._goal)
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
-            scene['answer']['choice'] = 'implausible'
             implausible_event_index1 = target['intphys_option']['occluder_indices'][0]
             implausible_event_index2 = target['intphys_option']['occluder_indices'][1]
             adjustment = abs(implausible_event_index1 - implausible_event_index2)
@@ -330,16 +330,24 @@ class SpatioTemporalContinuityQuartet(Quartet):
     def get_scene(self, q: int) -> Dict[str, Any]:
         if q < 1 or q > 4:
             raise ValueError(f'q must be between 1 and 4 (inclusive), not {q}')
-        if self._scenes[q - 1] is None:
-            scene = copy.deepcopy(self._scenes[0])
-            if q == 2:
-                self._teleport_forward(scene)
-            elif q == 3:
-                self._teleport_backward(scene)
-            elif q == 4:
-                self._move_later(scene)
-            self._scenes[q - 1] = scene
-        return self._scenes[q - 1]
+        if self._scenes[q - 1]:
+            return self._scenes[q - 1]
+        scene = copy.deepcopy(self._scene_template)
+        if q == 1:
+            scene['goal']['type_list'].append('spatio temporal continuity move earlier')
+        elif q == 2:
+            scene['answer']['choice'] = 'implausible'
+            scene['goal']['type_list'].append('spatio temporal continuity teleport forward')
+            self._teleport_forward(scene)
+        elif q == 3:
+            scene['answer']['choice'] = 'implausible'
+            scene['goal']['type_list'].append('spatio temporal continuity teleport backward')
+            self._teleport_backward(scene)
+        elif q == 4:
+            scene['goal']['type_list'].append('spatio temporal continuity move later')
+            self._move_later(scene)
+        self._scenes[q - 1] = scene
+        return scene
 
 
 class ShapeConstancyQuartet(Quartet):
@@ -349,42 +357,32 @@ class ShapeConstancyQuartet(Quartet):
     """
 
     def __init__(self, template: Dict[str, Any], find_path: bool):
-        super(ShapeConstancyQuartet, self).__init__(template, find_path)
-        self._goal = intphys_goals.ShapeConstancyGoal()
-        self._scenes[0] = copy.deepcopy(self._template)
-        self._goal.update_body(self._scenes[0], self._find_path)
+        super(ShapeConstancyQuartet, self).__init__(template, find_path, intphys_goals.ShapeConstancyGoal())
         logging.debug(f'SCQ: setup = f{self._goal._object_creator}')
         # we need the b object for 3/4 of the scenes, so generate it now
-        self._b = self._create_b()
+        self._b = self._create_b(self._scene_template)
 
-    def _create_b(self) -> Dict[str, Any]:
-        a = self._scenes[0]['objects'][0]
+    def _create_b(self, scene: Dict[str, Any]) -> Dict[str, Any]:
+        a = scene['objects'][0]
         possible_defs = []
-        normalized_scale = a['shows'][0]['scale']
-        # cylinders have "special" scaling: scale.y is half what it is
-        # for other objects (because Unity automatically doubles the
-        # scale.y of cylinders)
-        if a['type'] == 'cylinder':
-            normalized_scale = normalized_scale.copy()
-            normalized_scale['y'] *= 2
-        for obj_def in objects.OBJECTS_INTPHYS:
+        # Use the X dimensions because the performer will always be facing that side of the object.
+        a_size = a['dimensions']['x']
+        for obj_def in self._goal._object_defs:
             if obj_def['type'] != a['type']:
-                def_scale = obj_def['scale']
-                if obj_def['type'] == 'cylinder':
-                    def_scale = def_scale.copy()
-                    def_scale['y'] *= 2
-                if def_scale == normalized_scale:
+                possible_b_size = obj_def['dimensions']['x']
+                if possible_b_size < (a_size + intphys_goals.MAX_SIZE_DIFFERENCE) and possible_b_size > \
+                        (a_size - intphys_goals.MAX_SIZE_DIFFERENCE):
                     possible_defs.append(obj_def)
         if len(possible_defs) == 0:
             raise goal.GoalException(f'no valid choices for "b" object. a = {a}')
         b_def = random.choice(possible_defs)
         b_def = util.finalize_object_definition(b_def)
         b = util.instantiate_object(b_def, a['original_location'], a['materials_list'])
+        b['id'] = a['id']
         logging.debug(f'a type: {a["type"]}\tb type: {b["type"]}')
         return b
 
     def _turn_a_into_b(self, scene: Dict[str, Any]) -> None:
-        scene['answer']['choice'] = 'implausible'
         a = scene['objects'][0]
         b = copy.deepcopy(self._b)
         if self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
@@ -409,7 +407,6 @@ class ShapeConstancyQuartet(Quartet):
         scene['objects'].append(b)
 
     def _turn_b_into_a(self, scene: Dict[str, Any]) -> None:
-        scene['answer']['choice'] = 'implausible'
         a = scene['objects'][0]
         b = copy.deepcopy(self._b)
         b['shows'][0]['position']['x'] = a['shows'][0]['position']['x']
@@ -437,7 +434,9 @@ class ShapeConstancyQuartet(Quartet):
     def _b_replaces_a(self, scene: Dict[str, Any]) -> None:
         a = scene['objects'][0]
         b = copy.deepcopy(self._b)
-        b['shows'] = a['shows']
+        # Don't accidentally copy the 'rotation' from the 'shows' list because it's unique per object.
+        b['shows'][0]['stepBegin'] = a['shows'][0]['stepBegin']
+        b['shows'][0]['position'] = a['shows'][0]['position']
         if 'forces' in a:
             b['forces'] = a['forces']
         scene['objects'][0] = b
@@ -445,27 +444,34 @@ class ShapeConstancyQuartet(Quartet):
     def get_scene(self, q: int) -> Dict[str, Any]:
         if q < 1 or q > 4:
             raise ValueError(f'q must be between 1 and 4 (exclusive), not {q}')
-        scene = self._scenes[q - 1]
-        if scene is None:
-            scene = copy.deepcopy(self._scenes[0])
-            if q == 2:
-                # Object A moves behind an occluder, then object B emerges
-                # from behind the occluder (implausible)
-                self._turn_a_into_b(scene)
-            elif q == 3:
-                # Object B moves behind an occluder (replacing object A's
-                # movement), then object A emerges from behind the
-                # occluder (implausible)
-                self._turn_b_into_a(scene)
-            elif q == 4:
-                # Object B moves normally (replacing object A's movement),
-                # object A is never added to the scene (plausible)
-                self._b_replaces_a(scene)
-            # May have added and/or deleted an object, so regenerate
-            # goal.info_list
-            del scene['goal']['info_list']
-            self._goal._update_goal_info_list(scene['goal'], scene['objects'])
-            self._scenes[q - 1] = scene
+        if self._scenes[q - 1]:
+            return self._scenes[q - 1]
+        scene = copy.deepcopy(self._scene_template)
+        if q == 1:
+            scene['goal']['type_list'].append('shape constancy object one')
+        elif q == 2:
+            # Object A moves behind an occluder, then object B emerges
+            # from behind the occluder (implausible)
+            scene['answer']['choice'] = 'implausible'
+            scene['goal']['type_list'].append('shape constancy object one into two')
+            self._turn_a_into_b(scene)
+        elif q == 3:
+            # Object B moves behind an occluder (replacing object A's
+            # movement), then object A emerges from behind the
+            # occluder (implausible)
+            scene['answer']['choice'] = 'implausible'
+            scene['goal']['type_list'].append('shape constancy object two into one')
+            self._turn_b_into_a(scene)
+        elif q == 4:
+            # Object B moves normally (replacing object A's movement),
+            # object A is never added to the scene (plausible)
+            scene['goal']['type_list'].append('shape constancy object two')
+            self._b_replaces_a(scene)
+        # May have added and/or deleted an object, so regenerate
+        # goal.info_list
+        del scene['goal']['info_list']
+        self._goal._update_goal_info_list(scene['goal'], self._goal._tag_to_objects)
+        self._scenes[q - 1] = scene
         logging.debug(f'get_scene: q={q}\thides? {scene["objects"][0].get("hides", None)}')
         return scene
 
@@ -485,22 +491,23 @@ class GravityQuartet(Quartet):
     RAMP_45_TOP_OFFSET = -1
 
     def __init__(self, template: Dict[str, Any], find_path: bool):
-        super(GravityQuartet, self).__init__(template, find_path)
-        self._goal = intphys_goals.GravityGoal(roll_down = False, use_fastest = True)
-        self._scenes[0] = copy.deepcopy(self._template)
-        self._goal.update_body(self._scenes[0], self._find_path)
+        super(GravityQuartet, self).__init__(template, find_path, \
+                intphys_goals.GravityGoal(roll_down = False, use_fastest = True))
 
     def get_scene(self, q: int) -> Dict[str, Any]:
-        if q > 0:
-            if self._scenes[q - 1] is None:
-                if self._goal.is_ramp_steep():
-                    self._scenes[q - 1] = self._get_steep_scene(q)
-                else:
-                    self._scenes[q - 1] = self._get_gentle_scene(q)
-        return self._scenes[q - 1]
+        if q < 1 or q > 4:
+            raise ValueError(f'q must be between 1 and 4 (exclusive), not {q}')
+        if self._scenes[q - 1]:
+            return self._scenes[q - 1]
+        scene = copy.deepcopy(self._scene_template)
+        if self._goal.is_ramp_steep():
+            scene = self._get_steep_scene(scene, q)
+        else:
+            scene = self._get_gentle_scene(scene, q)
+        self._scenes[q - 1] = scene
+        return scene
 
-    def _get_steep_scene(self, q: int) -> Dict[str, Any]:
-        scene = copy.deepcopy(self._scenes[0])
+    def _get_steep_scene(self, scene: Dict[str, Any], q: int) -> Dict[str, Any]:
         target = scene['objects'][0]
         if q == 2 or q == 4:
             # switch the target to use lowest force.x
@@ -529,17 +536,31 @@ class GravityQuartet(Quartet):
             new_force['vector']['y'] *= factor
             target['forces'].append(new_force)
             target['forces'][0]['stepEnd'] = implausible_step - 1
+
+        if q == 1:
+            scene['goal']['type_list'].append('gravity ramp fast further')
+        elif q == 2:
+            scene['goal']['type_list'].append('gravity ramp slow shorter')
+        elif q == 3:
+            scene['goal']['type_list'].append('gravity ramp fast shorter')
+        elif q == 4:
+            scene['goal']['type_list'].append('gravity ramp slow further')
+
         return scene
 
-    def _get_gentle_scene(self, q: int) -> Dict[str, Any]:
-        scene = copy.deepcopy(self._scenes[0])
-        if q == 2:
+    def _get_gentle_scene(self, scene: Dict[str, Any], q: int) -> Dict[str, Any]:
+        if q == 1:
+            scene['goal']['type_list'].append('gravity ramp up slower')
+        elif q == 2:
+            scene['goal']['type_list'].append('gravity ramp down faster')
             self._make_roll_down(scene)
         elif q == 3:
             scene['answer']['choice'] = 'implausible'
+            scene['goal']['type_list'].append('gravity ramp up faster')
             self._make_object_faster(scene)
         elif q == 4:
             scene['answer']['choice'] = 'implausible'
+            scene['goal']['type_list'].append('gravity ramp down slower')
             self._make_roll_down(scene)
             self._make_object_slower(scene)
         return scene
@@ -565,7 +586,7 @@ class GravityQuartet(Quartet):
         return bottom_offset, top_offset
 
     def _make_object_faster(self, scene: Dict[str, Any]) -> None:
-        target = find_target(scene)
+        target = find_target(scene, self._goal)
         bottom_offset, top_offset = self._get_ramp_offsets()
         implausible_x_start = target['intphys_option']['ramp_x_term'] + bottom_offset
         implausible_step = get_position_step(target, implausible_x_start,
@@ -579,7 +600,7 @@ class GravityQuartet(Quartet):
         target['forces'].append(new_force)
 
     def _make_object_slower(self, scene: Dict[str, Any]) -> None:
-        target = find_target(scene)
+        target = find_target(scene, self._goal)
         bottom_offset, top_offset = self._get_ramp_offsets()
         implausible_x_start = target['intphys_option']['ramp_x_term'] + top_offset
         implausible_step = get_position_step(target, implausible_x_start,
