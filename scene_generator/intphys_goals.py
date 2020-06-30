@@ -86,6 +86,7 @@ class IntPhysGoal(Goal, ABC):
 
     def __init__(self):
         super(IntPhysGoal, self).__init__()
+        self._object_creator = None
         self._object_defs = objects.OBJECTS_INTPHYS
 
     def compute_performer_start(self) -> Dict[str, Dict[str, float]]:
@@ -121,6 +122,11 @@ class IntPhysGoal(Goal, ABC):
         goal = copy.deepcopy(self.TEMPLATE)
         goal['last_step'] = self._last_step
         goal['action_list'] = [['Pass']] * goal['last_step']
+        if self._object_creator:
+            if self._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across:
+                goal['type_list'].append('move across')
+            elif self._object_creator == IntPhysGoal._get_objects_falling_down:
+                goal['type_list'].append('fall down')
         return goal
 
     def generate_walls(self, material: str, colors: List[str], performer_position: Dict[str, Any],
@@ -519,8 +525,8 @@ class IntPhysGoal(Goal, ABC):
 class GravityGoal(IntPhysGoal):
     TEMPLATE = {
         'category': 'intphys',
-        'domain_list': ['objects', 'object_solidity', 'object_motion', 'gravity'],
-        'type_list': ['passive', 'action_none', 'intphys', 'gravity'],
+        'domain_list': ['objects', 'object solidity', 'object motion', 'gravity'],
+        'type_list': ['passive', 'action none', 'intphys', 'gravity'],
         'task_list': ['choose'],
         'description': '',
         'metadata': {
@@ -641,12 +647,17 @@ class GravityGoal(IntPhysGoal):
 
         return ramp_type, left_to_right, ramp_objs, objs
 
+    def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+        goal = super(GravityGoal, self)._get_subclass_config(goal_objects)
+        goal['type_list'].append('ramp ' + self._ramp_type.value)
+        return goal
+
 
 class ObjectPermanenceGoal(IntPhysGoal):
     TEMPLATE = {
         'category': 'intphys',
-        'domain_list': ['objects', 'object_solidity', 'object_motion', 'object_permanence'],
-        'type_list': ['passive', 'action_none', 'intphys', 'object_permanence'],
+        'domain_list': ['objects', 'object solidity', 'object motion', 'object permanence'],
+        'type_list': ['passive', 'action none', 'intphys', 'object permanence'],
         'task_list': ['choose'],
         'description': '',
         'metadata': {}
@@ -659,8 +670,8 @@ class ObjectPermanenceGoal(IntPhysGoal):
 class ShapeConstancyGoal(IntPhysGoal):
     TEMPLATE = {
         'category': 'intphys',
-        'domain_list': ['objects', 'object_solidity', 'object_motion', 'object_permanence'],
-        'type_list': ['passive', 'action_none', 'intphys', 'shape_constancy'],
+        'domain_list': ['objects', 'object solidity', 'object motion', 'object permanence'],
+        'type_list': ['passive', 'action none', 'intphys', 'shape constancy'],
         'task_list': ['choose'],
         'description': '',
         'metadata': {}
@@ -673,8 +684,8 @@ class ShapeConstancyGoal(IntPhysGoal):
 class SpatioTemporalContinuityGoal(IntPhysGoal):
     TEMPLATE = {
         'category': 'intphys',
-        'domain_list': ['objects', 'object_solidity', 'object_motion', 'object_permanence'],
-        'type_list': ['passive', 'action_none', 'intphys', 'spatio_temporal_continuity'],
+        'domain_list': ['objects', 'object solidity', 'object motion', 'object permanence'],
+        'type_list': ['passive', 'action none', 'intphys', 'spatio temporal continuity'],
         'task_list': ['choose'],
         'description': '',
         'metadata': {}

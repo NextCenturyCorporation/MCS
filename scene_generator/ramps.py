@@ -3,7 +3,7 @@
 #
 
 import copy
-from enum import Enum, auto
+from enum import Enum
 import random
 import uuid
 from typing import Tuple, List, Dict, Any, Optional
@@ -295,11 +295,11 @@ RAMP_45_90_TEMPLATE = [{
 
 
 class Ramp(Enum):
-    RAMP_30 = auto()
-    RAMP_45 = auto()
-    RAMP_90 = auto()
-    RAMP_30_90 = auto()
-    RAMP_45_90 = auto()
+    RAMP_30 = '30-degree'
+    RAMP_45 = '45-degree'
+    RAMP_90 = '90-degree'
+    RAMP_30_90 = '30-degree-90-degree'
+    RAMP_45_90 = '45-degree-90-degree'
 
 
 _RAMP_TEMPLATE_INFO: Tuple[Dict[str, Any], int] = {
