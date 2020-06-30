@@ -238,7 +238,7 @@ The color of each object in the mask corresponds to the "color" property in its 
 
 ### pose : string
 
-Your current pose. Either "LIE", "CRAWL", "SQUAT", or "STAND".
+Your current pose. Either "LYING", "CRAWLING", or "STANDING".
 
 ### position : dict
 
@@ -607,7 +607,7 @@ Do nothing.
 
 ### LieDown
 
-Change pose to "LIE".
+Change pose to "LYING". Can help you to move underneath some objects compared to other poses.
 
 #### Parameters
 
@@ -622,39 +622,27 @@ If the rotation is not between [-360, 360], 0 will be used in place of the inval
 
 ### Crawl
 
-Change pose to "CRAWL".
+Change pose to "CRAWLING". Can help you to move underneath some objects compared to moving while lying down, or over some other objects compared to walking. May not be available to simulated babies of specific ages.
 
 #### Returns
 
 - "SUCCESSFUL"
 - "OBSTRUCTED"\
-If you cannot enter "CRAWL" pose because your path above you is obstructed.
+If you cannot enter "CRAWLING" pose because your path above you is obstructed.
 - "WRONG_POSE"\
-If you cannot enter "CRAWL" pose because you not in "LIE" pose face-down or are not in "CRAWL" or "STAND" pose.
-
-### Squat
-
-Change pose to "SQUAT".
-
-#### Returns
-
-- "SUCCESSFUL"
-- "OBSTRUCTED"\
-If you cannot enter "SQUAT" pose because your path above you is obstructed.
-- "WRONG_POSE"\
-If you cannot enter "SQUAT" pose because you are not in "CRAWL" or "STAND" pose.
+If you cannot enter "CRAWLING" pose because you not in "LYING" pose face-down or are not in "CRAWLING" or "STANDING" pose.
 
 ### Stand
 
-Change pose to "STAND".
+Change pose to "STANDING". Can help you to move over some objects compared with other poses. May not be available to simulated babies of specific ages.
 
 #### Returns
 
 - "SUCCESSFUL"
 - "OBSTRUCTED"\
-If you cannot enter "STAND" pose because your path above you is obstructed.
+If you cannot enter "STANDING" pose because your path above you is obstructed.
 - "WRONG_POSE"\
-If you cannot enter "STAND" pose because you are not in "SQUAT" pose.
+If you cannot enter "STANDING" pose because you are in "LYING" pose.
 
 ### RotateObject
 

@@ -18,7 +18,6 @@ class MCS_Action(Enum):
     ROTATE_LOOK = "RotateLook"
     # ROTATE_OBJECT = "RotateObject"
     # ROTATE_OBJECT_IN_HAND = "RotateObjectInHand"
-    # SQUAT = "Squat"
     # STAND = "Stand"
     THROW_OBJECT = "ThrowObject"
     # Pass should always be the last action in the enum.

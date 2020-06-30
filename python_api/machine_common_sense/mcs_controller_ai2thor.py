@@ -519,8 +519,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         ))
 
     def retrieve_pose(self, scene_event):
-        # TODO MCS-18 Return pose from Unity in step output object
-        return MCS_Pose.STAND.name
+        # TODO MCS-305 Return pose from Unity in step output object
+        return MCS_Pose.STANDING.name
 
     def retrieve_position(self, scene_event) -> dict:
         return scene_event.metadata['agent']['position']
