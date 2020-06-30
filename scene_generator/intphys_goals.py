@@ -551,19 +551,6 @@ class GravityGoal(IntPhysGoal):
             raise ValueError('cannot get ramp type before compute_objects is called')
         return self._ramp_type in (ramps.Ramp.RAMP_90, ramps.Ramp.RAMP_30_90, ramps.Ramp.RAMP_45_90)
 
-    def get_ramp_name(self) -> str:
-        if self._ramp_type == ramps.Ramp.RAMP_30:
-            return '30-degree'
-        elif self._ramp_type == ramps.Ramp.RAMP_45:
-            return '45-degree'
-        elif self._ramp_type == ramps.Ramp.RAMP_90:
-            return '90-degree'
-        elif self._ramp_type == ramps.Ramp.RAMP_30_90:
-            return '30-degree-90-degree'
-        elif self._ramp_type == ramps.Ramp.RAMP_45_90:
-            return '45-degree-90-degree'
-        return ''
-
     def get_ramp_type(self) -> ramps.Ramp:
         if self._ramp_type is None:
             raise ValueError('cannot get ramp type before compute_objects is called')
@@ -662,7 +649,7 @@ class GravityGoal(IntPhysGoal):
 
     def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         goal = super(GravityGoal, self)._get_subclass_config(goal_objects)
-        goal['type_list'].append('ramp ' + self.get_ramp_name())
+        goal['type_list'].append('ramp ' + self._ramp_type.value)
         return goal
 
 
