@@ -349,6 +349,82 @@ class HiddenBehindPair(InteractionPair):
         return scene1, scene2
     
 
+class OneEnclosedPair(InteractionPair):
+    """(7) Like pair (6), but, for each pair, randomly choose either the
+    Target Object or the Similar Object, and that object is inside a
+    container for both scenes, while the other object is inside a
+    container for neither scene. See MCS-234.
+    """
+    def __init__(self, template: Dict[str, Any], find_path: bool):
+        super(OneEnclosedPair, self).__init__(template, find_path)
+
+    def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        scene1 = self._get_empty_scene()
+        scene2 = self._get_empty_scene()
+        for _ in range(util.MAX_TRIES):
+            target_enclosed = random.choice((True, False))
+            target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
+            target_location = geometry.\
+                get_location_in_front_of_performer(self._performer_start, target_def)
+            if target_location is None:
+                continue
+            target = util.instantiate_object(target_def, target_location)
+            similar_def = util.get_similar_definition(target)
+            if similar_def is None:
+                continue
+            similar_def = util.finalize_object_definition(similar_def)
+            similar_location = geometry.\
+                get_location_behind_performer(self._performer_start, similar_def)
+            if similar_location is None:
+                continue
+            similar = util.instantiate_object(similar_def, similar_location)
+            if target_enclosed:
+                container_defs = containers.get_enclosable_container_defs((target,))
+                if len(container_defs) == 0:
+                    continue
+                container_def = util.finalize_object_definition(random.choice(container_defs))
+                container_location = geometry.\
+                    get_location_in_front_of_performer(self._performer_start, container_def)
+                containee = target
+            else:
+                container_defs = containers.get_enclosable_container_defs((similar,))
+                if len(container_defs) == 0:
+                    continue
+                container_def = util.finalize_object_definition(random.choice(container_defs))
+                container_location = geometry.\
+                    get_location_behind_performer(self._performer_start, container_def)
+                containee = similar
+            container = util.instantiate_object(container_def, container_location)
+            area_index, rotations = containers.how_can_contain(container_def, containee)
+            containers.put_object_in_container(containee, container, container_def, area_index, rotations[0])
+            scene1['objects'] = [target, similar, container]
+
+            target2 = copy.deepcopy(target)
+            similar2 = copy.deepcopy(similar)
+            target2_location = geometry.\
+                get_location_behind_performer(self._performer_start, target_def)
+            similar2_location = geometry.\
+                get_location_in_front_of_performer(self._performer_start, target_def)
+            if target2_location is None or similar2_location is None:
+                continue
+            if target_enclosed:
+                container_location2 = geometry.\
+                    get_location_behind_performer(self._performer_start, container_def)
+                containee2 = target2
+                move_to_location(similar_def, similar2, similar2_location)
+            else:
+                container_location2 = geometry.\
+                    get_location_in_front_of_performer(self._performer_start, container_def)
+                containee2 = similar2
+                move_to_location(similar_def, target2, target2_location)
+            container2 = util.instantiate_object(container_def, container_location2)
+            area_index2, rotations2 = containers.how_can_contain(container_def, containee2)
+            containers.put_object_in_container(containee2, container2, container_def, area_index2, rotations2[0])
+            scene2['objects'] = [target2, similar2, container2]
+            break
+        return scene1, scene2
+
+
 class SimilarAdjacentPair(InteractionPair):
     """(3A) The Target Object is positioned normally, without a Similar
     Object in the scene, OR (3B) with a Similar Object in the scene,
@@ -526,6 +602,9 @@ class SimilarAdjacentContainedPair(InteractionPair):
             target_location = geometry.calc_obj_pos(self._performer_start['position'], [], target_def)
             target = util.instantiate_object(target_def, target_location)
             similar_def = util.get_similar_definition(target)
+            if similar_def is None:
+                continue
+            similar_def = util.finalize_object_definition(similar_def)
             similar = util.instantiate_object(similar_def, geometry.ORIGIN_LOCATION)
             # find a container big enough for both of them
             valid_containments = containers.get_enclosable_containments((target, similar))
@@ -564,6 +643,7 @@ class SimilarAdjacentContainedPair(InteractionPair):
 _INTERACTION_PAIR_CLASSES = [
     HiddenBehindPair,
     ImmediatelyVisiblePair,
+    OneEnclosedPair,
     ImmediatelyVisibleSimilarPair,
     SimilarAdjacentPair,
     SimilarFarPair,

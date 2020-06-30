@@ -241,9 +241,13 @@ def get_location_behind_performer(performer_start: Dict[str, Dict[str, float]],
         # intersect a vertical line with the poly at that x
         vertical_line = shapely.geometry.LineString([[x, bounds[1]], [x, bounds[3]]])
         target_segment = vertical_line.intersection(performer_rear)
-        # pick a random value along that vertical line
-        fraction = random.random()
-        location = target_segment.interpolate(fraction, normalized=True)
+        # unlikely, but possible to get just a point here
+        if target_segment.geom_type == 'Point':
+            location = target_segment
+        else:
+            # pick a random value along that vertical line
+            fraction = random.random()
+            location = target_segment.interpolate(fraction, normalized=True)
         return location.x, location.y
 
     return calc_obj_pos(performer_start['position'], [], target_def, xz_func=compute_xz)

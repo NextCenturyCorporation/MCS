@@ -5,8 +5,7 @@ import shapely
 import containers
 import geometry
 from geometry_test import are_adjacent
-from pairs import ImmediatelyVisibleSimilarPair, SimilarAdjacentPair, SimilarFarPair, ImmediatelyVisiblePair, \
-    HiddenBehindPair, SimilarAdjacentFarPair
+from pairs import ImmediatelyVisibleSimilarPair, SimilarAdjacentPair, SimilarFarPair, SimilarAdjacentFarPair, ImmediatelyVisiblePair, HiddenBehindPair, OneEnclosedPair
 
 
 def test_SimilarAdjacentPair():
@@ -128,3 +127,15 @@ def test_HiddenBehindPair_get_scenes():
 
     occluder_poly = geometry.get_bounding_polygon(occluder)
     assert occluder_poly.intersects(line_to_target)
+
+
+def test_OneEnclosedPair_get_scenes():
+    pair = OneEnclosedPair({}, False)
+    scene1, scene2 = pair.get_scenes()
+    assert scene1 is not None
+    assert scene2 is not None
+    target, similar = scene1['objects'][0:2]
+    assert ('locationParent' in target) != ('locationParent' in similar)
+    target2, similar2 = scene2['objects'][0:2]
+    assert ('locationParent' in target2) != ('locationParent' in similar2)
+    assert ('locationParent' in target) == ('locationParent' in target2)
