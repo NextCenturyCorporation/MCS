@@ -4,7 +4,7 @@ import geometry
 import materials
 import objects
 from goals import *
-from util import finalize_object_definition, instantiate_object, check_same_and_different, get_similar_defs
+from util import finalize_object_definition, instantiate_object, check_same_and_different, get_similar_defs, random_real
 
 
 def test_random_real():
