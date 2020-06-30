@@ -1,11 +1,7 @@
 import sys
 import argparse
-#import importlib 
 import cmd
-import getch
-#import keyboard
-#from pynput import keyboard
-
+from machine_common_sense.getchHelper import getch
 
 from machine_common_sense.mcs import MCS
 from machine_common_sense.mcs_action import MCS_Action
@@ -27,10 +23,6 @@ class HumanInputShell(cmd.Cmd):
 
     prompt = '(command)->'
 
-    controller = None
-    previous_output = None
-    config_data = None 
-
     def __init__(self, input_controller, input_previous_output, input_config_data):
         super(HumanInputShell,self).__init__()
 
@@ -42,9 +34,6 @@ class HumanInputShell(cmd.Cmd):
         return line
 
     def postcmd(self, stopFlag, line) -> bool:
-        #userCommand = line.split(',')
-        #print('You entered command:')
-        #print(*userCommand)
         print('===============================================================================')
         return stopFlag
         
@@ -129,8 +118,8 @@ class HumanInputShell(cmd.Cmd):
         list_of_mcs_action_keys = [mcs_action_key.value for mcs_action_key in MCS_Action_Keys]
 
         while True:
-            char = getch.getch()
-            print('>',char)
+            char = getch.__call__()
+            print('\n(shortcut-command)->', char)
             if char == 'e': # exit shortcut key mode
                 break
             elif char in list_of_mcs_action_keys:
@@ -240,22 +229,3 @@ def main(argv):
 
 if __name__ == "__main__":
     main(sys.argv)
-
-
-class HumanInputShell(cmd.Cmd):
-    prompt = '>'
-    controller = None
-    previous_output = None
-    config_data = None 
-
-    def __init__(self, input_controller, input_previous_output, input_config_data):
-        print("In constructor")
-
-    def do_exit(self, args):
-        print("In Exit")
-
-    def do_help(self, args):
-        print("In help")
-
-    def do_reset(self, args):
-        print("In reset")
