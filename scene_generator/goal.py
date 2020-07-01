@@ -76,6 +76,19 @@ def generate_wall(wall_material: str, wall_colors: List[str], performer_position
         return new_object
     return None
 
+def generate_painting(painting_material: str, performer_position: Dict[str, float],
+                  other_rects: List[List[Dict[str, float]]]) -> Optional[Dict[str, Any]]:
+    # Chance to generate a painting in the room, that can only be hanged on a wall
+
+    # 1) Randomly grab x,y,z coordinate like generate_walls 
+    # 2) Make sure painting(to be generated) is close to any wall 
+    # 3) Make sure the painting is not intersecting any objects, is within the room
+    # 4) Create the painting if it is valid
+
+    print('Make paintings')
+
+    return None
+
 
 
 class Goal(ABC):
@@ -101,6 +114,8 @@ class Goal(ABC):
                 bounding_rects)
         if walls is not None:
             tag_to_objects['wall'] = walls
+
+        #TODO: paintings = self.generate_paintings()
 
         body['objects'] = [element for value in tag_to_objects.values() for element in value]
         body['goal'] = self.get_config(self._targets, tag_to_objects)
