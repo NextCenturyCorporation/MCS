@@ -160,6 +160,7 @@ def main(argv):
     
     #help(MCS)
 
+    #TODO: Maybe do a try{}catch{} block for MCS-211 bug
     controller = MCS.create_controller(sys.argv[1], debug=debug, enable_noise=enable_noise, seed=seed_val)
 
     config_file_path = sys.argv[2]

@@ -1,6 +1,27 @@
 import json
+import signal
+
+from contextlib import contextmanager
 
 from .mcs_controller_ai2thor import MCS_Controller_AI2THOR
+
+"""
+def signal_handler(signum, frame):
+    raise Exception("Create_controller is Hanging!")
+
+signal.signal(signal.SIGALRM, signal_handler)
+signal.alarm(10)   # Ten seconds
+"""
+@contextmanager
+def time_limit(seconds):
+    def signal_handler(signum, frame):
+        raise TimeoutException("Timed out!")
+    signal.signal(signal.SIGALRM, signal_handler)
+    signal.alarm(seconds)
+    try:
+        yield
+    finally:
+        signal.alarm(0)
 
 class MCS:
     """
@@ -23,7 +44,12 @@ class MCS:
     @staticmethod
     def create_controller(unity_app_file_path, debug=False, enable_noise=False, seed=None):
         # TODO: Toggle between AI2-THOR and other controllers like ThreeDWorld?
-        return MCS_Controller_AI2THOR(unity_app_file_path, debug, enable_noise, seed)
+        try:
+            with time_limit(10):
+                return MCS_Controller_AI2THOR(unity_app_file_path, debug, enable_noise, seed)
+        except Exception as Msg:
+            print("Timed out!")
+    
 
     """
     Loads the given JSON config file and returns its data.

@@ -115,7 +115,10 @@ class Goal(ABC):
         if walls is not None:
             tag_to_objects['wall'] = walls
 
-        #TODO: paintings = self.generate_paintings()
+        #TODO:
+        paintings = self.generate_paintings()
+        if paintings:
+            tag_to_objects['painting'] = paintings
 
         body['objects'] = [element for value in tag_to_objects.values() for element in value]
         body['goal'] = self.get_config(self._targets, tag_to_objects)
@@ -235,6 +238,9 @@ class Goal(ABC):
             else:
                 logging.warning('could not generate wall')
         return walls
+
+    def generate_paintings():
+
 
     @abstractmethod
     def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
