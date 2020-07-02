@@ -178,86 +178,100 @@ def trim_actions_to_reach(actions: List[Dict[str, Any]],
     return new_actions, (new_x, new_z)
 
 
-def move_to_container(target: Dict[str, Any], all_objects: List[Dict[str, Any]],
-                      bounding_rects: List[List[Dict[str, float]]], performer_position: Dict[str, float]) -> bool:
+def move_to_container(target: Dict[str, Any], bounding_rectangles: List[List[Dict[str, float]]],
+                      performer_position: Dict[str, float]) -> Dict[str, Any]:
     """Try to find a random container that target will fit in. If found, set the target's locationParent, and add
-    container to all_objects (and bounding_rects). Return True iff the target was put in a container."""
+    container to bounding_rectangles. Return the container, or None if the target was not put into a container."""
     shuffled_containers = objects.get_enclosed_containers().copy()
     random.shuffle(shuffled_containers)
-    for container_def in shuffled_containers:
-        container_def = finalize_object_definition(container_def)
-        containment = containers.how_can_contain(container_def, target)
+    for container_definition in shuffled_containers:
+        container_definition = finalize_object_definition(container_definition)
+        containment = containers.how_can_contain(container_definition, target)
         if containment is not None:
             # try to place the container before we accept it
-            container_location = geometry.calc_obj_pos(performer_position,
-                                                       bounding_rects, container_def)
+            container_location = geometry.calc_obj_pos(performer_position, bounding_rectangles, container_definition)
             if container_location is not None:
-                found_container = instantiate_object(container_def, container_location)
-                all_objects.append(found_container)
-                area_index, angles = containment
-                containers.put_object_in_container(target, found_container,
-                                                   container_def, area_index,
-                                                   angles[0])
-                return True
-    return False
+                container = instantiate_object(container_definition, container_location)
+                area, angles = containment
+                containers.put_object_in_container(target, container, container_definition, area, angles[0])
+                return container
+    return None
 
 
 class InteractionGoal(Goal, ABC):
     LAST_STEP = 600
+    MAX_DISTRACTORS = 10
+    OBJECT_RECEPTACLE_CHANCE = 0.5
 
-    OBJECT_CONTAINED_CHANCE = 0.5
-    """Chance that, if the target is in a container, a non-target pickupable object in the scene will be, too."""
-
-    def __init__(self):
+    def __init__(self, choose_target_definition):
         super(InteractionGoal, self).__init__()
         self._bounding_rects = []
 
-    def _set_performer_start(self) -> None:
-        self._performer_start = self.compute_performer_start()
+    def _choose_distractor_definition(self) -> Dict[str, Any]:
+        """Choose and return an object definition for a distractor object."""
+        target_shape_list = [target['info'][-1] for target in self._targets]
+        while True:
+            distractor_definition = self._choose_object_definition()
+            distractor_shape = distractor_definition['info'][-1]
+            if distractor_shape not in target_shape_list:
+                break
+        return distraction_definition
 
-    def _set_target_def(self) -> None:
-        """Chooses a pickupable object since most interaction goals require that."""
-        pickupable_defs = random.choice(objects.OBJECTS_PICKUPABLE_LISTS)
-        self._target_def = finalize_object_definition(random.choice(pickupable_defs))
+    def _choose_object_definition(self) -> Dict[str, Any]:
+        """Choose and return an object definition."""
+        object_definition_list = random.choices(
+            [objects.OBJECTS_PICKUPABLE, objects.OBJECTS_MOVEABLE, objects.OBJECTS_IMMOBILE],
+            [50, 25, 25]
+        )[0]
+        return finalize_object_definition(random.choice(object_definition_list))
 
-    def _set_target_location(self) -> None:
-        performer_position = self._performer_start['position']
-        self._target_location = geometry.calc_obj_pos(performer_position, self._bounding_rects, self._target_def)
-        if self._target_location is None:
-            raise GoalException(f'could not place target object (type={self._target_def["type"]})')
+    def _choose_target_definition(self, index: int) -> Dict[str, Any]:
+        """Choose and return an object definition for a target object at the given index."""
+        if index == 0:
+            object_definition_list = random.choice(objects.OBJECTS_PICKUPABLE_LISTS)
+            return finalize_object_definition(random.choice(object_definition_list))
+        return self._choose_object_definition()
 
-    def _generate_additional_target_objs(self) -> List[Dict[str, Any]]:
-        """Returns target objects required for the goal other than the first target, if any.
-        May update _bounding_rects."""
-        return []
+    def _generate_targets(self) -> List[Dict[str, Any]]:
+        """Returns a list of one or more target objects required for the goal. Will update _bounding_rects."""
+        target_definition = self._choose_target_definition(0)
+        target_location = geometry.calc_obj_pos(self._performer_start['position'], self._bounding_rects, \
+                target_definition)
+        if target_location is None:
+            raise GoalException(f'could not place target object (type={target_definition["type"]})')
+        target = instantiate_object(target_definition, target_location)
+        return [target]
 
-    def add_objects(self, all_objects: List[Dict[str, Any]], bounding_rects: List[List[Dict[str, float]]],
-                    performer_position: Dict[str, float]) -> None:
-        """Maybe add a container and put the target inside it. If so, maybe put other objects in other objects, too."""
-        if random.random() <= util.TARGET_CONTAINED_CHANCE:
-            if move_to_container(self._target, all_objects, bounding_rects, performer_position):
-                # maybe do it with other objects, too
-                super(InteractionGoal, self).add_objects(all_objects, bounding_rects, performer_position)
-                for obj in all_objects:
-                    if obj != self._target and obj.get('pickupable', False) \
-                            and random.random() <= self.OBJECT_CONTAINED_CHANCE:
-                        move_to_container(obj, all_objects, bounding_rects, performer_position)
+    def _generate_distractors(self) -> List[Dict[str, Any]]:
+        """Returns a list of zero or more random distractors. Will update _bounding_rects."""
+        distractor_count = random.randint(0, MAX_DISTRACTORS)
+        distractor_list = []
+        while len(distractor_list) < distractor_count:
+            distractor_definition = self._choose_distractor_definition()
+            distractor_location = geometry.calc_obj_pos(self._performer_start['position'], self._bounding_rects, \
+                    distractor_definition)
+            if distractor_location is not None:
+                distractor = util.instantiate_object(distractor_definition, distractor_location)
+                distractor_list.append(distractor)
+                if random.random() <= OBJECT_RECEPTACLE_CHANCE and distractor.get('pickupable', False)
+                    container = move_to_container(distractor, self._bounding_rects, self._performer_start['position'])
+                    if container:
+                        distractor_list.append(container)
 
     def compute_objects(self, room_wall_material_name: str) -> \
             Tuple[Dict[str, List[Dict[str, Any]]], List[List[Dict[str, float]]]]:
 
-        self._set_performer_start()
-        self._set_target_def()
-        self._set_target_location()
-        self._target = instantiate_object(self._target_def, self._target_location)
-        additional_target_objs = self._generate_additional_target_objs()
-        
-        target_objs = [self._target] + additional_target_objs
-        self.add_objects(target_objs, self._bounding_rects, self._performer_start['position'])
+        target_list = self._generate_targets()
+        distractor_list = self._generate_distractors()
+        for target in target_list:
+            if random.random() <= OBJECT_RECEPTACLE_CHANCE and target.get('pickupable', False):
+                container = move_to_container(target, self._bounding_rects, self._performer_start['position'])
+                if container:
+                    distractor_list.append(container)
 
         return {
-            'target': target_objs,
-            'distractor': []
+            'target': target_list,
+            'distractor': distractor_list
         }, self._bounding_rects
 
 
@@ -280,11 +294,10 @@ class RetrievalGoal(InteractionGoal):
             raise ValueError('need at least 1 object for this goal')
 
         target = goal_objects[0]
-        self._target = target
         target_image_obj = find_image_for_object(target)
         image_name = find_image_name(target)
 
-        goal = copy.deepcopy(self.TEMPLATE)
+        goal: Dict[str, Any] = copy.deepcopy(self.TEMPLATE)
         goal['metadata'] = {
             'target': {
                 'id': target['id'],
@@ -352,24 +365,27 @@ class TransferralGoal(InteractionGoal):
     def __init__(self):
         super(TransferralGoal, self).__init__()
 
-    def _generate_additional_target_objs(self) -> List[Dict[str, Any]]:
-        targets = objects.get_all_object_defs()
-        random.shuffle(targets)
-        target2_def = next((tgt for tgt in targets if 'stackTarget' in tgt.get('attributes', [])), None)
-        if target2_def is None:
-            raise ValueError(f'No stack targets found for transferral goal')
+    def _generate_targets(self) -> List[Dict[str, Any]]:
+        target_list = super(InteractionGoal, self)._generate_targets()
+        target1 = target_list[0]
+        object_definition_list = objects.get_all_object_defs()
+        random.shuffle(object_definition_list)
+        target2_defintion = next((definition for definition in object_definition_list \
+                if 'stackTarget' in definition.get('attributes', [])), None)
+        if target2_defintion is None:
+            raise ValueError(f'No stack target definitions found for transferral goal')
         # ensure the targets aren't too close together
         while True:
-            new_bounding_rects = self._bounding_rects.copy()
+            bounding_rectangles = self._bounding_rects.copy()
             target2_location = geometry.calc_obj_pos(self._performer_start['position'],
-                                                     new_bounding_rects, target2_def)
-            distance = geometry.position_distance(self._target['shows'][0]['position'],
+                                                     bounding_rectangles, target2_defintion)
+            distance = geometry.position_distance(target1['shows'][0]['position'],
                                                   target2_location['position'])
             if distance >= geometry.MINIMUM_TARGET_SEPARATION:
                 break
-        self._bounding_rects = new_bounding_rects
-        target2 = instantiate_object(target2_def, target2_location)
-        return [target2]
+        self._bounding_rects = bounding_rectangles
+        target2 = instantiate_object(target2_defintion, target2_location)
+        return target_list + [target2]
 
     def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         if len(goal_objects) < 2:
@@ -378,7 +394,7 @@ class TransferralGoal(InteractionGoal):
         if not target1.get('pickupable', False):
             raise ValueError(f'first object must be "pickupable": {target1}')
         if not target2.get('stackTarget', False):
-            raise ValueError(f'second object must be "stackable": {target2}')
+            raise ValueError(f'second object must be "stackTarget": {target2}')
         relationship = random.choice(list(self.RelationshipType))
 
         target1_image_obj = find_image_for_object(target1)
@@ -496,39 +512,27 @@ class TraversalGoal(Goal):
     def __init__(self):
         super(TraversalGoal, self).__init__()
 
-    def compute_objects(self, room_wall_material_name: str) -> \
-            Tuple[Dict[str, List[Dict[str, Any]]], List[List[Dict[str, float]]]]:
-
-        # add objects we need for the goal
-        target_def = self.choose_object_def()
-        performer_start = self.compute_performer_start()
-        performer_position = performer_start['position']
-        # make sure the target is far enough away from the performer start
+    def _generate_targets(self) -> List[Dict[str, Any]]:
+        target_definition = self._choose_object_definition()
         while True:
-            bounding_rects = []
-            target_location = geometry.calc_obj_pos(performer_position, bounding_rects, target_def)
+            bounding_rectangles = self._bounding_rects.copy()
+            target_location = geometry.calc_obj_pos(self._performer_start['position'], bounding_rectangles, \
+                    target_definition)
             if target_location is None:
-                raise GoalException('could not place target object')
+                raise GoalException(f'could not place target object (type={target_definition["type"]})')
             distance = geometry.position_distance(performer_start['position'],
                                                   target_location['position'])
             if distance >= geometry.MINIMUM_START_DIST_FROM_TARGET:
                 break
-
-        target = instantiate_object(target_def, target_location)
-        target_objs = [target]
-        self.add_objects(target_objs, bounding_rects, performer_position)
-
-        return {
-            'target': target_objs,
-            'distractor': []
-        }, bounding_rects
+        self._bounding_rects = bounding_rectangles
+        target = instantiate_object(target_definition, target_location)
+        return [target]
 
     def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         if len(goal_objects) < 1:
             raise ValueError('need at least 1 object for this goal')
 
         target = goal_objects[0]
-
         target_image_obj = find_image_for_object(target)
         image_name = find_image_name(target)
 
@@ -550,3 +554,4 @@ class TraversalGoal(Goal):
         # Goal should be a singleton... I hope
         # TODO: (maybe) look at actual object if it's inside a parent (future ticket)
         return get_navigation_actions(self._performer_start, goal_objects[0], all_objects)[0]
+
