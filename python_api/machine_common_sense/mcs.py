@@ -2,20 +2,14 @@ import json
 import signal
 
 from contextlib import contextmanager
-
 from .mcs_controller_ai2thor import MCS_Controller_AI2THOR
 
-"""
-def signal_handler(signum, frame):
-    raise Exception("Create_controller is Hanging!")
+TIME_LIMIT_SECONDS = 10
 
-signal.signal(signal.SIGALRM, signal_handler)
-signal.alarm(10)   # Ten seconds
-"""
 @contextmanager
 def time_limit(seconds):
     def signal_handler(signum, frame):
-        raise TimeoutException("Timed out!")
+        raise Exception("Time out!")
     signal.signal(signal.SIGALRM, signal_handler)
     signal.alarm(seconds)
     try:
@@ -45,10 +39,11 @@ class MCS:
     def create_controller(unity_app_file_path, debug=False, enable_noise=False, seed=None):
         # TODO: Toggle between AI2-THOR and other controllers like ThreeDWorld?
         try:
-            with time_limit(10):
+            with time_limit(TIME_LIMIT_SECONDS):
                 return MCS_Controller_AI2THOR(unity_app_file_path, debug, enable_noise, seed)
         except Exception as Msg:
-            print("Timed out!")
+            print("create_controller() is Hanging. ", Msg)
+            return None
     
 
     """

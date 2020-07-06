@@ -157,10 +157,7 @@ def main(argv):
     debug = args.debug
     enable_noise = args.noise
     seed_val = args.seed
-    
-    #help(MCS)
 
-    #TODO: Maybe do a try{}catch{} block for MCS-211 bug
     controller = MCS.create_controller(sys.argv[1], debug=debug, enable_noise=enable_noise, seed=seed_val)
 
     config_file_path = sys.argv[2]
@@ -169,7 +166,8 @@ def main(argv):
     if 'name' not in config_data.keys():
         config_data['name'] = config_file_name[0:config_file_name.find('.')]
 
-    run_scene(controller, config_data)
+    if controller != None:
+        run_scene(controller, config_data)
 
 if __name__ == "__main__":
     main(sys.argv)
