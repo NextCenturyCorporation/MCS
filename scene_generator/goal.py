@@ -77,6 +77,19 @@ def generate_wall(wall_material: str, wall_colors: List[str], performer_position
     return None
 
 
+def generate_painting(painting_material: str, performer_position: Dict[str, float],
+                  other_rects: List[List[Dict[str, float]]]) -> Optional[Dict[str, Any]]:
+    # Chance to generate a painting in the room, that can only be hanged on a wall
+
+    # 1) Randomly grab x,y,z coordinate like generate_walls 
+    # 2) Make sure painting(to be generated) is close to any wall 
+    # 3) Make sure the painting is not intersecting any objects, is within the room
+    # 4) Create the painting if it is valid
+
+    print('Make paintings')
+
+    return None
+    
 
 class Goal(ABC):
     """An abstract Goal. Subclasses must implement compute_objects and
