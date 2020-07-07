@@ -115,6 +115,11 @@ class Goal(ABC):
         if walls is not None:
             tag_to_objects['wall'] = walls
 
+        #TODO
+        paintings = self.generate_paintings(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], bounding_rects)
+        if paintings:
+            tag_to_objects['paintings'] = paintings
+
         body['objects'] = [element for value in tag_to_objects.values() for element in value]
         body['goal'] = self.get_config(self._targets, tag_to_objects)
 
@@ -233,6 +238,23 @@ class Goal(ABC):
             else:
                 logging.warning('could not generate wall')
         return walls
+
+    def generate_paintings(self, material: str, colors: List[str], performer_position: Dict[str, Any],
+                       bounding_rects: List[List[Dict[str, float]]]) -> List[Dict[str, Any]]:
+        painting_count = random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
+
+        paintings = []
+        all_bounding_rects = [bounding_rect.copy() for bounding_rect in bounding_rects] 
+        for x in range(0, painting_count):
+            painting = generate_painting(material, colors, performer_position, all_bounding_rects)
+
+            if painting is not None:
+                paintings.append(painting)
+                all_bounding_rects.append(painting['shows'][0]['bounding_box'])
+            else:
+                logging.warning('could not generate wall')
+        return paintings
+
 
     @abstractmethod
     def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
