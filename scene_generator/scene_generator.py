@@ -87,6 +87,8 @@ def generate_body_template(name: str) -> Dict[str, Any]:
     body = copy.deepcopy(OUTPUT_TEMPLATE)
     body['name'] = os.path.basename(name)
     ceil_wall_mat_choice = random.choice(CEILING_AND_WALL_MATERIALS)
+    #TODO: painting_choice random.choice(PAINTING_MATERIALS)
+    #      body['paintingMaterial'] = painting_choice
     body['ceilingMaterial'] = ceil_wall_mat_choice[0]
     body['wallMaterial'] = ceil_wall_mat_choice[0]
     body['wallColors'] = ceil_wall_mat_choice[1]

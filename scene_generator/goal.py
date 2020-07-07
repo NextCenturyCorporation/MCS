@@ -113,6 +113,16 @@ class Goal(ABC):
         self._tag_to_objects = self.compute_objects(body['wallMaterial'], body['wallColors'])
 
         body['performerStart'] = self._performer_start
+        walls = self.generate_walls(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], \
+                bounding_rects)
+        if walls is not None:
+            self._tag_to_objects['wall'] = walls
+
+        #TODO
+        paintings = self.generate_paintings(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], bounding_rects)
+        if paintings:
+            self._tag_to_objects['paintings'] = paintings
+
         body['objects'] = [element for value in self._tag_to_objects.values() for element in value]
         body['goal'] = self.get_config(self._tag_to_objects)
 
@@ -216,6 +226,40 @@ class Goal(ABC):
     def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Get the goal configuration of this specific subclass."""
         pass
+
+    def generate_walls(self, material: str, colors: List[str], performer_position: Dict[str, Any],
+                       bounding_rects: List[List[Dict[str, float]]]) -> List[Dict[str, Any]]:
+        wall_count = random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
+        
+        walls = [] 
+        # Add bounding rects to walls
+        all_bounding_rects = [bounding_rect.copy() for bounding_rect in bounding_rects] 
+        for x in range(0, wall_count):
+            wall = generate_wall(material, colors, performer_position, all_bounding_rects)
+
+            if wall is not None:
+                walls.append(wall)
+                all_bounding_rects.append(wall['shows'][0]['bounding_box'])
+            else:
+                logging.warning('could not generate wall')
+        return walls
+
+    def generate_paintings(self, material: str, colors: List[str], performer_position: Dict[str, Any],
+                       bounding_rects: List[List[Dict[str, float]]]) -> List[Dict[str, Any]]:
+        painting_count = random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
+
+        paintings = []
+        all_bounding_rects = [bounding_rect.copy() for bounding_rect in bounding_rects] 
+        for x in range(0, painting_count):
+            painting = generate_painting(material, colors, performer_position, all_bounding_rects)
+
+            if painting is not None:
+                paintings.append(painting)
+                all_bounding_rects.append(painting['shows'][0]['bounding_box'])
+            else:
+                logging.warning('could not generate wall')
+        return paintings
+
 
     @abstractmethod
     def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
