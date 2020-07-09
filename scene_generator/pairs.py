@@ -794,7 +794,7 @@ class SimilarAdjacentContainedPair(InteractionPair):
                 confusor_location = ConfusorLocationPairOption.CLOSE_CLOSE))
 
 
-_INTERACTION_PAIR_CLASSES = [
+INTERACTION_PAIR_CLASSES = [
     HiddenBehindPair,
     ImmediatelyVisiblePair,
     OneEnclosedPair,
@@ -805,5 +805,11 @@ _INTERACTION_PAIR_CLASSES = [
 ]
 
 
-def get_pair_class() -> Type[InteractionPair]:
-    return random.choice(_INTERACTION_PAIR_CLASSES)
+def get_pair_class(name: str) -> Type[InteractionPair]:
+    class_name = name + 'Pair'
+    klass = globals()[class_name]
+    return klass
+
+
+def get_pair_types() -> List[str]:
+    return [klass.__name__.replace('Pair', '') for klass in INTERACTION_PAIR_CLASSES]
