@@ -81,9 +81,9 @@ def collision(test_rect: List[Dict[str, float]], test_point: Dict[str, float]):
 
 
 def calc_obj_coords(position_x: float, position_z: float, delta_x: float, delta_z: float, offset_x: float,
-                    offset_z: float, rotation_y: float) -> List[Dict[str, float]]:
+                    offset_z: float, rotation: float) -> List[Dict[str, float]]:
     """Returns an array of points that are the coordinates of the rectangle """
-    radian_amount = math.pi * (2 - rotation_y / 180.0)
+    radian_amount = math.pi * (2 - rotation / 180.0)
 
     rotate_sin = math.sin(radian_amount)
     rotate_cos = math.cos(radian_amount)
@@ -157,7 +157,7 @@ def calc_obj_pos(performer_position: Dict[str, float],
             'rotation': {'x': rotation_x, 'y': rotation_y, 'z': rotation_z},
             'position':  {'x': new_x, 'y': obj_def.get('position_y', 0), 'z': new_z},
             'bounding_box': rect
-            }
+        }
         other_rects.append(rect)
         return new_object
 
@@ -189,7 +189,7 @@ def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
         -> shapely.geometry.LineString:
     """Get a line segment that should be visible to the performer
     (straight ahead and at least MIN_START_DISTANCE_AWAY but within
-    the room).
+    the room). Return None if no visible segment is possible.
     """
     max_dimension = max(ROOM_DIMENSIONS[0][1] - ROOM_DIMENSIONS[0][0],
                         ROOM_DIMENSIONS[1][1] - ROOM_DIMENSIONS[1][0])
@@ -202,7 +202,8 @@ def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
 
     target_segment = room.intersection(view_segment)
     if target_segment.is_empty:
-        raise exceptions.SceneException(f'performer too close to the wall, cannot place object in front of it (performer location={performer_start})')
+        logging.debug(f'performer too close to the wall, cannot place object in front of it (performer location={performer_start})')
+        return None
     return target_segment
 
 
@@ -211,6 +212,8 @@ def get_location_in_front_of_performer(performer_start: Dict[str, Dict[str, floa
                                        rotation_func: Callable[[], float] = random_rotation) \
                                        -> Optional[Dict[str, Any]]:
     visible_segment = get_visible_segment(performer_start)
+    if not visible_segment:
+        return None
 
     def segment_xz():
         fraction = random.random()
@@ -222,7 +225,7 @@ def get_location_in_front_of_performer(performer_start: Dict[str, Dict[str, floa
 
 
 def get_location_in_back_of_performer(performer_start: Dict[str, Dict[str, float]],
-                                  target_def: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+                                      target_def: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     # First, find the part of the the room that's behind the performer
     # (i.e., the 180 degree arc in the opposite direction from its
     # orientation)
@@ -311,6 +314,8 @@ def get_adjacent_location_on_side(obj_def: Dict[str, Any],
     performer = shapely.geometry.Point(performer_start['x'], performer_start['z'])
     room = get_room_box()
     if not bounding_box.intersects(performer) and room.contains(bounding_box):
+        offset_x = obj_def['offset']['x'] if 'offset' in obj_def else 0.0
+        offset_z = obj_def['offset']['z'] if 'offset' in obj_def else 0.0
         location = {
             'position': {
                 'x': x,
@@ -318,8 +323,11 @@ def get_adjacent_location_on_side(obj_def: Dict[str, Any],
                 'z': z
             },
             'rotation': {
-                'y': shows['rotation']['y']
-            }
+                'x': 0,
+                'y': shows['rotation']['y'],
+                'z': 0
+            },
+            'bounding_box': calc_obj_coords(x, z, dx, dz, offset_x, offset_z, shows['rotation']['y'])
         }
     else:
         location = None

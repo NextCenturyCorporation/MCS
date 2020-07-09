@@ -8,13 +8,31 @@ from geometry_test import are_adjacent
 from pairs import ImmediatelyVisibleSimilarPair, SimilarAdjacentPair, SimilarFarPair, SimilarAdjacentFarPair, ImmediatelyVisiblePair, HiddenBehindPair, OneEnclosedPair
 
 
+BODY_TEMPLATE = {
+    'wallMaterial': 'test_wall_material',
+    'wallColors': ['test_wall_color'],
+    'performerStart': {
+        'position': {
+            'x': 0,
+            'y': 0,
+            'z': 0
+        },
+        "rotation": {
+            'x': 0,
+            'y': 0,
+            'z': 0
+        }
+    }
+}
+
+
 def test_SimilarAdjacentPair():
-    pair = SimilarAdjacentPair({}, False)
+    pair = SimilarAdjacentPair(BODY_TEMPLATE, False)
     assert pair is not None
 
 
 def test_SimilarAdjacentPair_get_scenes():
-    pair = SimilarAdjacentPair({}, False)
+    pair = SimilarAdjacentPair(BODY_TEMPLATE, False)
     scene1, scene2 = pair.get_scenes()
     assert scene1 is not None
     assert scene2 is not None
@@ -29,12 +47,12 @@ def test_SimilarAdjacentPair_get_scenes():
 
 
 def test_SimilarFarPair():
-    pair = SimilarFarPair({}, False)
+    pair = SimilarFarPair(BODY_TEMPLATE, False)
     assert pair is not None
 
 
 def test_SimilarFarPair_get_scenes():
-    pair = SimilarFarPair({}, False)
+    pair = SimilarFarPair(BODY_TEMPLATE, False)
     scene1, scene2 = pair.get_scenes()
     assert scene1 is not None
     assert scene2 is not None
@@ -51,12 +69,12 @@ def test_SimilarFarPair_get_scenes():
 
 
 def test_SimilarAdjacentFarPair():
-    pair = SimilarAdjacentFarPair({}, False)
+    pair = SimilarAdjacentFarPair(BODY_TEMPLATE, False)
     assert pair is not None
 
 
 def test_SimilarAdjacentFarPair_get_scene():
-    pair = SimilarAdjacentFarPair({}, False)
+    pair = SimilarAdjacentFarPair(BODY_TEMPLATE, False)
     scene1, scene2 = pair.get_scenes()
     assert scene1 is not None
     assert scene2 is not None
@@ -79,19 +97,19 @@ def test_SimilarAdjacentFarPair_get_scene():
 
 
 def test_ImmediatelyVisiblePair():
-    pair = ImmediatelyVisiblePair({}, False)
+    pair = ImmediatelyVisiblePair(BODY_TEMPLATE, False)
     assert pair is not None
 
 
 def test_ImmediatelyVisiblePair_get_scenes():
-    pair = ImmediatelyVisiblePair({}, False)
+    pair = ImmediatelyVisiblePair(BODY_TEMPLATE, False)
     scene1, scene2 = pair.get_scenes()
     assert scene1 is not None
     assert scene2 is not None
 
 
 def test_ImmediatelyVisibleSimilar():
-    pair = ImmediatelyVisibleSimilarPair({}, False)
+    pair = ImmediatelyVisibleSimilarPair(BODY_TEMPLATE, False)
     assert pair is not None
 
 
@@ -100,7 +118,7 @@ def is_contained(obj: Dict[str, Any]) -> bool:
 
 
 def test_ImmediatelyVisibleSimilar_get_scenes():
-    pair = ImmediatelyVisibleSimilarPair({}, False)
+    pair = ImmediatelyVisibleSimilarPair(BODY_TEMPLATE, False)
     scene1, scene2 = pair.get_scenes()
     assert scene1 is not None
     assert scene2 is not None
@@ -111,7 +129,7 @@ def test_ImmediatelyVisibleSimilar_get_scenes():
 
 
 def test_HiddenBehindPair_get_scenes():
-    pair = HiddenBehindPair({}, False)
+    pair = HiddenBehindPair(BODY_TEMPLATE, False)
     scene1, scene2 = pair.get_scenes()
     assert scene1 is not None
     assert scene2 is not None
@@ -130,7 +148,7 @@ def test_HiddenBehindPair_get_scenes():
 
 
 def test_OneEnclosedPair_get_scenes():
-    pair = OneEnclosedPair({}, False)
+    pair = OneEnclosedPair(BODY_TEMPLATE, False)
     scene1, scene2 = pair.get_scenes()
     assert scene1 is not None
     assert scene2 is not None

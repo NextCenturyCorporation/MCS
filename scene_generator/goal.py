@@ -89,8 +89,9 @@ class Goal(ABC):
         object."""
         self._tag_to_objects = self.compute_objects(body['wallMaterial'], body['wallColors'])
 
-        body['objects'] = [element for value in tag_to_objects.values() for element in value]
-        body['goal'] = self.get_config(self._tag_to_objects['target'], tag_to_objects)
+        body['performerStart'] = self._performer_start
+        body['objects'] = [element for value in self._tag_to_objects.values() for element in value]
+        body['goal'] = self.get_config(self._tag_to_objects)
 
         if find_path:
             body['answer']['actions'] = self._find_optimal_path(self._tag_to_objects['target'], body['objects'])
@@ -104,17 +105,19 @@ class Goal(ABC):
             self._performer_start = {
                 'position': {
                     'x': round(random.uniform(
-                        ROOM_DIMENSIONS[0][0] + util.PERFORMER_HALF_WIDTH,
-                        ROOM_DIMENSIONS[0][1] - util.PERFORMER_HALF_WIDTH
+                        geometry.ROOM_DIMENSIONS[0][0] + util.PERFORMER_HALF_WIDTH,
+                        geometry.ROOM_DIMENSIONS[0][1] - util.PERFORMER_HALF_WIDTH
                     ), geometry.POSITION_DIGITS),
                     'y': 0,
                     'z': round(random.uniform(
-                        ROOM_DIMENSIONS[1][0] + util.PERFORMER_HALF_WIDTH,
-                        ROOM_DIMENSIONS[1][1] - util.PERFORMER_HALF_WIDTH
+                        geometry.ROOM_DIMENSIONS[1][0] + util.PERFORMER_HALF_WIDTH,
+                        geometry.ROOM_DIMENSIONS[1][1] - util.PERFORMER_HALF_WIDTH
                     ), geometry.POSITION_DIGITS)
                 },
                 'rotation': {
-                    'y': geometry.random_rotation()
+                    'x': 0,
+                    'y': geometry.random_rotation(),
+                    'z': 0
                 }
             }
         return self._performer_start
@@ -162,11 +165,9 @@ class Goal(ABC):
                 if new_tag not in goal['type_list']:
                     goal['type_list'].append(new_tag)
 
-    def get_config(self, goal_objects: List[Dict[str, Any]], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> \
-            Dict[str, Any]:
-        """Get the goal configuration. goal_objects is the objects required for the goal (as returned from
-        compute_objects)."""
-        goal_config = self._get_subclass_config(goal_objects)
+    def get_config(self, tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> Dict[str, Any]:
+        """Create and return the goal configuration."""
+        goal_config = self._get_subclass_config(tag_to_objects['target'])
         self._update_goal_tags(goal_config, tag_to_objects)
         return goal_config
 

@@ -81,11 +81,10 @@ def instantiate_object(object_def: Dict[str, Any],
         object_location['position']['z'] -= object_def['offset']['z']
 
     if not 'rotation' in object_def:
-        object_def['rotation'] = {
-            'x': 0,
-            'y': 0,
-            'z': 0
-        }
+        object_def['rotation'] = {'x': 0, 'y': 0, 'z': 0}
+
+    if not 'rotation' in object_location:
+        object_location['rotation'] = {'x': 0, 'y': 0, 'z': 0}
 
     object_location['rotation']['x'] = object_location['rotation']['x'] + object_def['rotation']['x']
     object_location['rotation']['y'] = object_location['rotation']['y'] + object_def['rotation']['y']

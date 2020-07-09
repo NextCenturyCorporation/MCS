@@ -116,11 +116,12 @@ def how_can_contain(container: Dict[str, Any],
         angles = []
         fits = True
         for target in targets:
-            angle = can_enclose(space, target)
-            if angle is None:
-                fits = False
-                break
-            angles.append(angle)
+            if target:
+                angle = can_enclose(space, target)
+                if angle is None:
+                    fits = False
+                    break
+                angles.append(angle)
         if fits:
             return i, angles
     return None
