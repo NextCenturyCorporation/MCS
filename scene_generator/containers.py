@@ -139,8 +139,9 @@ def get_enclosable_containments(objs: Sequence[Dict[str, Any]],
     for container_def in container_defs:
         containment = how_can_contain(container_def, *objs)
         if containment is not None:
+            new_def = util.finalize_object_definition(container_def)
             index, angles = containment
-            valid_containments.append((container_def, index, angles))
+            valid_containments.append((new_def, index, angles))
         elif 'choose' in container_def:
             # try choose
             for choice in container_def['choose']:
@@ -232,7 +233,8 @@ def can_contain_both(container_def: Dict[str, Any],
         if result is None:
             return None
         index, orientation, angle_a, angle_b = result
-        return container_def, index, orientation, angle_a, angle_b
+        new_def = util.finalize_object_definition(container_def)
+        return new_def, index, orientation, angle_a, angle_b
     elif 'choose' in container_def:
         found_choice = None
         for choice in container_def['choose']:

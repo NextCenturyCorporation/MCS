@@ -8,14 +8,11 @@ import exceptions
 import materials
 import objects
 
+
 MAX_TRIES = 200
 MIN_RANDOM_INTERVAL = 0.05
 PERFORMER_WIDTH = 0.1
 PERFORMER_HALF_WIDTH = PERFORMER_WIDTH / 2.0
-
-# TODO MCS-306 DELETE
-TARGET_CONTAINED_CHANCE = 0.5
-"""Chance that the target will be in a container"""
 
 
 def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
@@ -64,7 +61,9 @@ def instantiate_object(object_def: Dict[str, Any],
         'info': object_def['info'].copy(),
         'novel_color': object_def['novel_color'] if 'novel_color' in object_def else False,
         'novel_combination': object_def['novel_combination'] if 'novel_combination' in object_def else False,
-        'novel_shape': object_def['novel_shape'] if 'novel_shape' in object_def else False
+        'novel_shape': object_def['novel_shape'] if 'novel_shape' in object_def else False,
+        # TODO MCS-261 Each object definition should have a similarityScale
+        'similarityScale': object_def['similarityScale'] if 'similarityScale' in object_def else 1
     }
     if 'dimensions' in object_def:
         new_object['dimensions'] = object_def['dimensions']
@@ -81,8 +80,16 @@ def instantiate_object(object_def: Dict[str, Any],
         object_location['position']['x'] -= object_def['offset']['x']
         object_location['position']['z'] -= object_def['offset']['z']
 
-    if 'rotation' in object_def:
-        object_location['rotation'] = copy.deepcopy(object_def['rotation'])
+    if not 'rotation' in object_def:
+        object_def['rotation'] = {
+            'x': 0,
+            'y': 0,
+            'z': 0
+        }
+
+    object_location['rotation']['x'] = object_location['rotation']['x'] + object_def['rotation']['x']
+    object_location['rotation']['y'] = object_location['rotation']['y'] + object_def['rotation']['y']
+    object_location['rotation']['z'] = object_location['rotation']['z'] + object_def['rotation']['z']
 
     shows = [object_location]
     new_object['shows'] = shows

@@ -76,6 +76,7 @@ def clean_object(obj: Dict[str, Any]) -> None:
     obj.pop('novel_combination', None)
     obj.pop('novel_shape', None)
     obj.pop('shape', None)
+    obj.pop('similarityScale', None)
     if 'shows' in obj:
         obj['shows'][0].pop('bounding_box', None)
 

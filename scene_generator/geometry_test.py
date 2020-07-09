@@ -330,7 +330,7 @@ def test_get_visible_segment():
     assert segment == expected_segment
 
 
-def test_get_position_behind_performer():
+def test_get_position_in_back_of_performer():
     target_def = objects.OBJECTS_PICKUPABLE_BALLS[0]
     start = {
         'position': ORIGIN,
@@ -338,12 +338,12 @@ def test_get_position_behind_performer():
             'y': 90
         }
     }
-    negative_x = get_location_behind_performer(start, target_def)
+    negative_x = get_location_in_back_of_performer(start, target_def)
     assert 0 >= negative_x['position']['x'] >= ROOM_DIMENSIONS[0][0]
     assert ROOM_DIMENSIONS[1][1] >= negative_x['position']['z'] >= ROOM_DIMENSIONS[1][0]
 
     start['rotation']['y'] = 0
-    negative_z = get_location_behind_performer(start, target_def)
+    negative_z = get_location_in_back_of_performer(start, target_def)
     assert 0 >= negative_z['position']['z'] >= ROOM_DIMENSIONS[1][0]
     assert ROOM_DIMENSIONS[0][1] >= negative_z['position']['z'] >= ROOM_DIMENSIONS[0][0]
 

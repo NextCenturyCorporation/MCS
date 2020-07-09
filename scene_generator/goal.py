@@ -15,8 +15,6 @@ MIN_WALL_WIDTH = 1
 WALL_Y_POS = 1.5
 WALL_HEIGHT = 3
 WALL_DEPTH = 0.1
-WALL_COUNTS = [0, 1, 2, 3]
-WALL_PROBS = [60, 20, 10, 10]
 
 DIST_WALL_APART = 1
 SAFE_DIST_FROM_ROOM_WALL = 3.5
@@ -32,8 +30,8 @@ def generate_wall(wall_material: str, wall_colors: List[str], performer_position
     performer_poly = geometry.rect_to_poly(performer_rect)
     while tries < util.MAX_TRIES:
         rotation = random.choice((0, 90, 180, 270))
-        new_x = geometry.random_position()
-        new_z = geometry.random_position()
+        new_x = geometry.random_position_x()
+        new_z = geometry.random_position_z()
         new_x_size = round(random.uniform(MIN_WALL_WIDTH, MAX_WALL_WIDTH), geometry.POSITION_DIGITS)
         
         # Make sure the wall is not too close to the rooms 4 walls
@@ -76,7 +74,6 @@ def generate_wall(wall_material: str, wall_colors: List[str], performer_position
     return None
 
 
-
 class Goal(ABC):
     """An abstract Goal. Subclasses must implement compute_objects and
     get_config. Users of a goal object should normally only need to call 
@@ -84,40 +81,37 @@ class Goal(ABC):
 
     def __init__(self):
         self._performer_start = None
-        self._targets = []
+        self._compute_performer_start()
         self._tag_to_objects = []
 
     def update_body(self, body: Dict[str, Any], find_path: bool) -> Dict[str, Any]:
         """Helper method that calls other Goal methods to set performerStart, objects, and goal. Returns the goal body
         object."""
-        body['performerStart'] = self.compute_performer_start()
-
-        tag_to_objects, bounding_rects = self.compute_objects(body['wallMaterial'])
-        self._tag_to_objects = tag_to_objects
-        self._targets = tag_to_objects['target']
-
-        walls = self.generate_walls(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], \
-                bounding_rects)
-        if walls is not None:
-            tag_to_objects['wall'] = walls
+        self._tag_to_objects = self.compute_objects(body['wallMaterial'], body['wallColors'])
 
         body['objects'] = [element for value in tag_to_objects.values() for element in value]
-        body['goal'] = self.get_config(self._targets, tag_to_objects)
+        body['goal'] = self.get_config(self._tag_to_objects['target'], tag_to_objects)
 
         if find_path:
-            body['answer']['actions'] = self.find_optimal_path(self._targets, body['objects'])
+            body['answer']['actions'] = self._find_optimal_path(self._tag_to_objects['target'], body['objects'])
 
         return body
 
-    def compute_performer_start(self) -> Dict[str, Dict[str, float]]:
+    def _compute_performer_start(self) -> Dict[str, Dict[str, float]]:
         """Compute the starting location (position & rotation) for the performer. Must return the same thing on
         multiple calls. This default implementation chooses a random location."""
         if self._performer_start is None:
             self._performer_start = {
                 'position': {
-                    'x': geometry.random_position(),
+                    'x': round(random.uniform(
+                        ROOM_DIMENSIONS[0][0] + util.PERFORMER_HALF_WIDTH,
+                        ROOM_DIMENSIONS[0][1] - util.PERFORMER_HALF_WIDTH
+                    ), geometry.POSITION_DIGITS),
                     'y': 0,
-                    'z': geometry.random_position()
+                    'z': round(random.uniform(
+                        ROOM_DIMENSIONS[1][0] + util.PERFORMER_HALF_WIDTH,
+                        ROOM_DIMENSIONS[1][1] - util.PERFORMER_HALF_WIDTH
+                    ), geometry.POSITION_DIGITS)
                 },
                 'rotation': {
                     'y': geometry.random_rotation()
@@ -126,8 +120,7 @@ class Goal(ABC):
         return self._performer_start
 
     @abstractmethod
-    def compute_objects(self, wall_material_name: str) -> \
-            Tuple[Dict[str, List[Dict[str, Any]]], List[List[Dict[str, float]]]]:
+    def compute_objects(self, wall_material_name: str, wall_colors: List[str]) -> Dict[str, List[Dict[str, Any]]]:
         """Compute object instances for the scene. Returns a tuple:
         (dict that maps tag strings to object lists, bounding rectangles)"""
         pass
@@ -177,30 +170,23 @@ class Goal(ABC):
         self._update_goal_tags(goal_config, tag_to_objects)
         return goal_config
 
+    def get_performer_start(self) -> Dict[str, float]:
+        """Returns the performer start."""
+        return self._performer_start
+
+    def reset_performer_start(self) -> Dict[str, float]:
+        """Resets the performer start and returns the new performer start."""
+        self._performer_start = None
+        self._compute_performer_start()
+        return self._performer_start
+
     @abstractmethod
     def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Get the goal configuration of this specific subclass."""
         pass
 
-    def generate_walls(self, material: str, colors: List[str], performer_position: Dict[str, Any],
-                       bounding_rects: List[List[Dict[str, float]]]) -> List[Dict[str, Any]]:
-        wall_count = random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
-        
-        walls = [] 
-        # Add bounding rects to walls
-        all_bounding_rects = [bounding_rect.copy() for bounding_rect in bounding_rects] 
-        for x in range(0, wall_count):
-            wall = generate_wall(material, colors, performer_position, all_bounding_rects)
-
-            if wall is not None:
-                walls.append(wall)
-                all_bounding_rects.append(wall['shows'][0]['bounding_box'])
-            else:
-                logging.warning('could not generate wall')
-        return walls
-
     @abstractmethod
-    def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
+    def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
             List[Dict[str, Any]]:
         """Compute the optimal set of moves and update the body object"""
         pass
@@ -212,14 +198,13 @@ class EmptyGoal(Goal):
     def __init__(self):
         super(EmptyGoal, self).__init__()
 
-    def compute_objects(self, wall_material_name: str) -> \
-            Tuple[Dict[str, List[Dict[str, Any]]], List[List[Dict[str, float]]]]:
-        return { 'target': [] }, []
+    def compute_objects(self, wall_material_name: str, wall_colors: List[str]) -> Dict[str, List[Dict[str, Any]]]:
+        return { 'target': [] }
 
     def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         return {}
 
-    def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
+    def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
             List[Dict[str, Any]]:
         return []
 

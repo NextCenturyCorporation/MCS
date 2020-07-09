@@ -14,9 +14,6 @@ import objects
 import util
 from separating_axis_theorem import sat_entry
 
-# the following mins and maxes are inclusive
-MIN_PERFORMER_POSITION = -4.8 + util.PERFORMER_HALF_WIDTH
-MAX_PERFORMER_POSITION = 4.8 - util.PERFORMER_HALF_WIDTH
 POSITION_DIGITS = 2
 VALID_ROTATIONS = (0, 45, 90, 135, 180, 225, 270, 315)
 
@@ -48,8 +45,12 @@ ORIGIN_LOCATION = {
 MAX_ADJACENT_DISTANCE = 0.5
 
 
-def random_position() -> float:
-    return round(random.uniform(MIN_PERFORMER_POSITION, MAX_PERFORMER_POSITION), POSITION_DIGITS)
+def random_position_x() -> float:
+    return round(random.uniform(ROOM_DIMENSIONS[0][0], ROOM_DIMENSIONS[0][1]), POSITION_DIGITS)
+
+
+def random_position_z() -> float:
+    return round(random.uniform(ROOM_DIMENSIONS[1][0], ROOM_DIMENSIONS[1][1]), POSITION_DIGITS)
 
 
 def random_rotation() -> float:
@@ -80,9 +81,9 @@ def collision(test_rect: List[Dict[str, float]], test_point: Dict[str, float]):
 
 
 def calc_obj_coords(position_x: float, position_z: float, delta_x: float, delta_z: float, offset_x: float,
-                    offset_z: float, rotation: float) -> List[Dict[str, float]]:
+                    offset_z: float, rotation_y: float) -> List[Dict[str, float]]:
     """Returns an array of points that are the coordinates of the rectangle """
-    radian_amount = math.pi * (2 - rotation / 180.0)
+    radian_amount = math.pi * (2 - rotation_y / 180.0)
 
     rotate_sin = math.sin(radian_amount)
     rotate_cos = math.cos(radian_amount)
@@ -112,8 +113,8 @@ def rect_within_room(rect: List[Dict[str, float]]) -> bool:
 def calc_obj_pos(performer_position: Dict[str, float],
                  other_rects: List[List[Dict[str, float]]],
                  obj_def: Dict[str, Any],
-                 x_func: Callable[[], float] = random_position,
-                 z_func: Callable[[], float] = random_position,
+                 x_func: Callable[[], float] = random_position_x,
+                 z_func: Callable[[], float] = random_position_z,
                  rotation_func: Callable[[], float] = random_rotation,
                  xz_func: Callable[[], Tuple[float, float]] = None) \
                  -> Optional[Dict[str, Any]]:
@@ -136,14 +137,16 @@ def calc_obj_pos(performer_position: Dict[str, float],
     tries = 0
     collision_rects = other_rects + [performer_rect]
     while tries < util.MAX_TRIES:
-        rotation = rotation_func()
+        rotation_x = (obj_def['rotation']['x'] if 'rotation' in obj_def else 0)
+        rotation_y = (obj_def['rotation']['y'] if 'rotation' in obj_def else 0) + rotation_func()
+        rotation_z = (obj_def['rotation']['z'] if 'rotation' in obj_def else 0)
         if xz_func is not None:
             new_x, new_z = xz_func()
         else:
             new_x = x_func()
             new_z = z_func()
 
-        rect = calc_obj_coords(new_x, new_z, dx, dz, offset_x, offset_z, rotation)
+        rect = calc_obj_coords(new_x, new_z, dx, dz, offset_x, offset_z, rotation_y)
         if rect_within_room(rect) and \
            (len(other_rects) == 0 or not any(sat_entry(rect, other_rect) for other_rect in collision_rects)):
             break
@@ -151,7 +154,7 @@ def calc_obj_pos(performer_position: Dict[str, float],
 
     if tries < util.MAX_TRIES:
         new_object = {
-            'rotation': {'x': 0, 'y': rotation, 'z': 0},
+            'rotation': {'x': rotation_x, 'y': rotation_y, 'z': rotation_z},
             'position':  {'x': new_x, 'y': obj_def.get('position_y', 0), 'z': new_z},
             'bounding_box': rect
             }
@@ -218,7 +221,7 @@ def get_location_in_front_of_performer(performer_start: Dict[str, Dict[str, floa
                         xz_func=segment_xz, rotation_func=rotation_func)
 
 
-def get_location_behind_performer(performer_start: Dict[str, Dict[str, float]],
+def get_location_in_back_of_performer(performer_start: Dict[str, Dict[str, float]],
                                   target_def: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     # First, find the part of the the room that's behind the performer
     # (i.e., the 180 degree arc in the opposite direction from its
@@ -351,18 +354,22 @@ def get_wider_and_taller_defs(obj_def: Dict[str, Any]) \
     return bigger_defs
 
 
-def get_bounding_polygon(obj: Dict[str, Any]) -> shapely.geometry.Polygon:
-    show = obj['shows'][0]
-    if 'bounding_box' in show:
-        bb: List[Dict[str, float]] = show['bounding_box']
-        poly = rect_to_poly(bb)
+def get_bounding_polygon(object_or_location: Dict[str, Any]) -> shapely.geometry.Polygon:
+    if 'bounding_box' in object_or_location:
+        bounding_box: List[Dict[str, float]] = object_or_location['bounding_box']
+        poly = rect_to_poly(bounding_box)
     else:
-        x = show['position']['x']
-        z = show['position']['z']
-        dx = obj['dimensions']['x'] / 2.0
-        dz = obj['dimensions']['z'] / 2.0
-        poly = shapely.geometry.box(x - dx, z - dz, x + dx, z + dz)
-        poly = shapely.affinity.rotate(poly, -show['rotation']['y'])
+        show = object_or_location['shows'][0]
+        if 'bounding_box' in show:
+            bounding_box: List[Dict[str, float]] = show['bounding_box']
+            poly = rect_to_poly(bounding_box)
+        else:
+            x = show['position']['x']
+            z = show['position']['z']
+            dx = object_or_location['dimensions']['x'] / 2.0
+            dz = object_or_location['dimensions']['z'] / 2.0
+            poly = shapely.geometry.box(x - dx, z - dz, x + dx, z + dz)
+            poly = shapely.affinity.rotate(poly, -show['rotation']['y'])
     return poly
 
 
