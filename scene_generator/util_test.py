@@ -301,9 +301,10 @@ def test_check_same_and_different():
 def test_get_similar_defs():
     original_def = objects.OBJECTS_PICKUPABLE_BALLS[0]
     obj = instantiate_object(original_def, geometry.ORIGIN)
-    similar_defs = get_similar_defs(obj, ('type', 'materialCategory'), ('mass',))
+    similar_defs = get_similar_defs(obj, objects.get_all_object_defs(), ('type', 'materialCategory'), ('mass',))
     for obj_def in similar_defs:
-        assert check_same_and_different(obj_def, obj, ('type', 'materialCategory'), ('mass',))
+        obj_2 = instantiate_object(obj_def, geometry.ORIGIN)
+        assert check_same_and_different(obj_2, obj, ('type', 'materialCategory'), ('mass',))
 
 
 def test_instantiate_object_novel_color():

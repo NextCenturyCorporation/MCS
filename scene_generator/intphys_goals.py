@@ -14,7 +14,7 @@ import util
 from goal import Goal, GoalException
 from util import finalize_object_definition, instantiate_object
 
-MAX_SIZE_DIFFERENCE = 0.1
+
 MAX_WALL_WIDTH = 4
 MIN_WALL_WIDTH = 1
 WALL_Y_POS = 1.5

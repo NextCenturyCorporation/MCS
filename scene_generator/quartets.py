@@ -370,8 +370,8 @@ class ShapeConstancyQuartet(Quartet):
         for obj_def in self._goal._object_defs:
             if obj_def['type'] != a['type']:
                 possible_b_size = obj_def['dimensions']['x']
-                if possible_b_size < (a_size + intphys_goals.MAX_SIZE_DIFFERENCE) and possible_b_size > \
-                        (a_size - intphys_goals.MAX_SIZE_DIFFERENCE):
+                if possible_b_size < (a_size + util.MAX_SIZE_DIFFERENCE) and possible_b_size > \
+                        (a_size - util.MAX_SIZE_DIFFERENCE):
                     possible_defs.append(obj_def)
         if len(possible_defs) == 0:
             raise goal.GoalException(f'no valid choices for "b" object. a = {a}')

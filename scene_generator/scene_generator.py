@@ -78,7 +78,6 @@ def clean_object(obj: Dict[str, Any]) -> None:
     obj.pop('novel_combination', None)
     obj.pop('novel_shape', None)
     obj.pop('shape', None)
-    obj.pop('similarityScale', None)
     if 'shows' in obj:
         obj['shows'][0].pop('bounding_box', None)
 
@@ -215,13 +214,12 @@ def generate_pair(prefix: str, count: int, find_path: bool, stop_on_error: bool)
     pair_class = pairs.get_pair_class()
     pair = pair_class(template, find_path)
     pair_id = str(uuid.uuid4())
-    pair_name = pair.__class__.__name__.replace('Pair', '').lower()
     logging.debug(f'generating scene pair #{count}')
     while True:
         try:
             scenes = pair.get_scenes()
-            scenes[0]['goal']['series_id'] = 'pair_' + pair_name + '_' + pair_id
-            scenes[1]['goal']['series_id'] = 'pair_' + pair_name + '_' + pair_id
+            scenes[0]['goal']['series_id'] = 'pair_' + pair.get_name() + '_' + pair_id
+            scenes[1]['goal']['series_id'] = 'pair_' + pair.get_name() + '_' + pair_id
             write_scene_of_pair(scenes[0], generate_name(prefix, count, 1))
             write_scene_of_pair(scenes[1], generate_name(prefix, count, 2))
             break

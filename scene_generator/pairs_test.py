@@ -40,7 +40,8 @@ def test_SimilarAdjacentPair_get_scenes():
     assert len(scene2['objects']) >= 2
     target1 = scene1['objects'][0]
     in_container = 'locationParent' in target1
-    target2, similar = scene2['objects'][0:2]
+    target2 = scene2['objects'][0]
+    similar = pair._goal_2.get_distractor_list()[0]
     assert ('locationParent' in target2) == in_container
     assert ('locationParent' in similar) == in_container
     assert are_adjacent(target2, similar)
@@ -58,11 +59,12 @@ def test_SimilarFarPair_get_scenes():
     assert scene2 is not None
     target = scene1['objects'][0]
     in_container = 'locationParent' in target
-    target2, similar = scene2['objects'][0:2]
+    target2 = scene2['objects'][0]
+    similar = pair._goal_2.get_distractor_list()[0]
     assert target2 == target
     assert ('locationParent' in similar) == in_container
     if in_container:
-        container1, container2 = scene2['objects'][2:4]
+        container1, container2 = scene2['objects'][1:2]
         assert not are_adjacent(container1, container2)
     else:
         assert not are_adjacent(target2, similar)
@@ -86,7 +88,8 @@ def test_SimilarAdjacentFarPair_get_scene():
     else:
         assert are_adjacent(target, similar)
     
-    target2, similar2 = scene2['objects'][0:2]
+    target2 = scene2['objects'][0]
+    similar2 = pair._goal_2.get_distractor_list()[0]
     if is_contained:
         assert target2['locationParent'] != similar2['locationParent']
         target2Parent = containers.get_parent(target2, scene2['objects'])
@@ -124,7 +127,8 @@ def test_ImmediatelyVisibleSimilar_get_scenes():
     assert scene2 is not None
     target1, similar1 = scene1['objects'][0:2]
     assert is_contained(target1) == is_contained(similar1)
-    target2, similar2 = scene2['objects'][0:2]
+    target2 = scene2['objects'][0]
+    similar2 = pair._goal_2.get_distractor_list()[0]
     assert is_contained(target2) == is_contained(similar2)
 
 
@@ -133,18 +137,26 @@ def test_HiddenBehindPair_get_scenes():
     scene1, scene2 = pair.get_scenes()
     assert scene1 is not None
     assert scene2 is not None
-    # ensure the occluder is between the target and the performer
-    target, occluder = scene2['objects'][0:2]
-    assert target['dimensions']['x'] <= occluder['dimensions']['x']
-    assert target['dimensions']['y'] <= occluder['dimensions']['y']
+    # ensure the obstructor is between the target and the performer
+    target = scene2['objects'][0]
+    obstructor = pair._goal_2.get_distractor_list()[0]
+    assert (target['dimensions']['x'] <= obstructor['dimensions']['x'] or \
+            target['dimensions']['z'] <= obstructor['dimensions']['z'])
+    assert target['dimensions']['y'] <= obstructor['dimensions']['y']
     target_position = target['shows'][0]['position']
     target_coords = (target_position['x'], target_position['z'])
     performer_position = scene2['performerStart']['position']
     performer_coords = (performer_position['x'], performer_position['z'])
     line_to_target = shapely.geometry.LineString([performer_coords, target_coords])
 
-    occluder_poly = geometry.get_bounding_polygon(occluder)
-    assert occluder_poly.intersects(line_to_target)
+    print('performerStart')
+    print(scene2['performerStart'])
+    print('target')
+    print(target)
+    print('obstructor')
+    print(obstructor)
+    obstructor_poly = geometry.get_bounding_polygon(obstructor)
+    assert obstructor_poly.intersects(line_to_target)
 
 
 def test_OneEnclosedPair_get_scenes():
@@ -154,6 +166,8 @@ def test_OneEnclosedPair_get_scenes():
     assert scene2 is not None
     target, similar = scene1['objects'][0:2]
     assert ('locationParent' in target) != ('locationParent' in similar)
-    target2, similar2 = scene2['objects'][0:2]
+    target2 = scene2['objects'][0]
+    similar2 = pair._goal_2.get_distractor_list()[0]
     assert ('locationParent' in target2) != ('locationParent' in similar2)
     assert ('locationParent' in target) == ('locationParent' in target2)
+

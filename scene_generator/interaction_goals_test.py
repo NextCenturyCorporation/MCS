@@ -472,32 +472,18 @@ def test__generate_transferral_goal_with_nonstackable_goal():
 
 def test_TransferralGoal_ensure_pickup_action():
     """For MCS-270"""
-    goal_obj = TransferralGoal()
-    body: Dict[str, Any] = {
-        'name': '',
-        'ceilingMaterial': 'AI2-THOR/Materials/Walls/Drywall',
-        'floorMaterial': 'AI2-THOR/Materials/Fabrics/CarpetWhite 3',
-        'wallMaterial': 'AI2-THOR/Materials/Walls/DrywallBeige',
-        'wallColors': ['white'],
-        'performerStart': {
-            'position': {
-                'x': 0,
-                'z': 0
-            },
-            'rotation': {
-                'y': 0
-            }
-        },
-        'objects': [],
-        'goal': {},
-        'answer': {}
-    }
     for _ in range(MAX_TRIES):
-        try:
-            goal_obj.update_body(body, True)
+        goal_obj = TransferralGoal()
+        body: Dict[str, Any] = scene_generator.OUTPUT_TEMPLATE
+        for _ in range(MAX_TRIES):
+            try:
+                goal_obj.update_body(body, True)
+                break
+            except goal.GoalException:
+                pass
+        if 'actions' in body['answer']:
             break
-        except goal.GoalException:
-            pass
+
     # should have a PickupObject action
     assert any((action['action'] == 'PickupObject' for action in body['answer']['actions']))
     # last action one should be PutObject
@@ -506,27 +492,18 @@ def test_TransferralGoal_ensure_pickup_action():
 
 def test_TransferralGoal_navigate_near_objects():
     """For MCS-271"""
-    goal_obj = TransferralGoal()
-    body: Dict[str, Any] = {
-        'name': '',
-        'ceilingMaterial': 'AI2-THOR/Materials/Walls/Drywall',
-        'floorMaterial': 'AI2-THOR/Materials/Fabrics/CarpetWhite 3',
-        'wallMaterial': 'AI2-THOR/Materials/Walls/DrywallBeige',
-        'wallColors': ['white'],
-        'performerStart': {
-            'position': {
-                'x': 0,
-                'z': 0
-            },
-            'rotation': {
-                'y': 0
-            }
-        },
-        'objects': [],
-        'goal': {},
-        'answer': {}
-    }
-    goal_obj.update_body(body, True)
+    for _ in range(MAX_TRIES):
+        goal_obj = TransferralGoal()
+        body: Dict[str, Any] = scene_generator.OUTPUT_TEMPLATE
+        for _ in range(MAX_TRIES):
+            try:
+                goal_obj.update_body(body, True)
+                break
+            except goal.GoalException:
+                pass
+        if 'actions' in body['answer']:
+            break
+
     pickupable_id = body['goal']['metadata']['target_1']['id']
     container_id = body['goal']['metadata']['target_2']['id']
     pickupable_obj = next((obj for obj in body['objects'] if obj['id'] == pickupable_id))

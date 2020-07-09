@@ -80,7 +80,8 @@ class InteractionPair():
     """A pair of interactive scenes that each have the same goals, targets, distractors, walls, materials, and
     performer starts, except for specifically configured scene options."""
 
-    def __init__(self, template: Dict[str, Any], find_path: bool, options: SceneOptions):
+    def __init__(self, name: str, template: Dict[str, Any], find_path: bool, options: SceneOptions):
+        self._name = name
         self._scene_1 = copy.deepcopy(template)
         self._scene_2 = copy.deepcopy(template)
         self._options = options
@@ -89,7 +90,12 @@ class InteractionPair():
         self._goal_1.update_body(self._scene_1, find_path)
         self._goal_2.update_body(self._scene_2, find_path)
 
+    def get_name(self) -> str:
+        """Return the name of this pair."""
+        return self._name
+
     def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        """Return both scenes of this pair."""
         return self._scene_1, self._scene_2
 
     def _initialize_each_goal(self) -> None:
@@ -115,12 +121,19 @@ class InteractionPair():
         goal_1_target_list = self._goal_1.get_target_list()
         shared_bounds_list = self._goal_1.get_bounds_list()
 
-        # Choose a definition for the chosen target to use in both scenes.
-        target_definition = goal_1_target_rule_list[target_choice].choose_definition()
+        for _ in range(util.MAX_TRIES):
+            # Choose a definition for the chosen target to use in both scenes.
+            target_definition = goal_1_target_rule_list[target_choice].choose_definition()
 
-        # Create the target template now at a location, and later it'll move to its location for each scene.
-        # Assumes that both scenes have the same target (will this always be true in the future?)
-        target_template = util.instantiate_object(target_definition, geometry.ORIGIN_LOCATION)
+            # Create the target template now at a location, and later it'll move to its location for each scene.
+            # Assumes that both scenes have the same target (will this always be true in the future?)
+            target_template = util.instantiate_object(target_definition, geometry.ORIGIN_LOCATION)
+
+            # If we must containerize the target, ensure it's not too big for any of the containers.
+            must_redo = self._options.target_containerize != BoolPairOption.NO_NO and \
+                    containers.is_too_big_to_fit_any(target_template)
+            if not must_redo:
+                break
 
         confusor_definition = None
         confusor_template = None
@@ -136,9 +149,17 @@ class InteractionPair():
         # Create the confusor to use in either scene if needed.
         # Assumes that both scenes have the same confusor (will this always be true in the future?)
         if self._options.confusor != BoolPairOption.NO_NO:
-            confusor_definition = self._goal_1.get_confusor_rule(target_template).choose_definition()
-            # Create the confusor template now at a location, and later it'll move to its location for each scene.
-            confusor_template = util.instantiate_object(confusor_definition, geometry.ORIGIN_LOCATION)
+            for _ in range(util.MAX_TRIES):
+                confusor_definition = self._goal_1.get_confusor_rule(target_template).choose_definition()
+                # Create the confusor template now at a location, and later it'll move to its location for each scene.
+                confusor_template = util.instantiate_object(confusor_definition, geometry.ORIGIN_LOCATION)
+
+                # If we must containerize the confusor, ensure it's not too big for any of the containers.
+                must_redo = self._options.confusor_containerize != BoolPairOption.NO_NO and \
+                        containers.is_too_big_to_fit_any(confusor_template)
+                if not must_redo:
+                    break
+
 
         is_receptacle_needed = (self._options.target_containerize != BoolPairOption.NO_NO or \
                 self._options.confusor_containerize != BoolPairOption.NO_NO)
@@ -157,13 +178,13 @@ class InteractionPair():
                 receptacle_data = self._create_receptacle_around_both(target_definition, confusor_definition)
                 if not receptacle_data:
                     # TODO Recreate the target and/or confusor?
-                    raise exceptions.SceneException(f'cannot create enclosable receptacle around target={target_definition} AND confusor={confusor_definition}')
+                    raise exceptions.SceneException(f'{self._name} pair cannot create enclosable receptacle around target={target_definition} AND confusor={confusor_definition}')
                 receptacle_definition, area_index, target_rotation, confusor_rotation, orientation = receptacle_data
             else:
                 receptacle_data = self._create_receptacle_around_either(target_definition, confusor_definition)
                 if not receptacle_data:
                     # TODO Recreate the target and/or confusor?
-                    raise exceptions.SceneException(f'cannot create enclosable receptacle around target={target_definition} OR confusor={confusor_definition}')
+                    raise exceptions.SceneException(f'{self._name} pair cannot create enclosable receptacle around target={target_definition} OR confusor={confusor_definition}')
                 receptacle_definition, area_index, target_rotation, confusor_rotation = receptacle_data
             # Create the receptacle template now at a location, and later it'll move to its location for each scene.
             receptacle_template = util.instantiate_object(receptacle_definition, geometry.ORIGIN_LOCATION)
@@ -285,9 +306,9 @@ class InteractionPair():
         print('obstructor_1 ' + ((obstructor_1['id'] + ' ' + obstructor_1['type']) if obstructor_1 else 'None'))
         print('obstructor_2 ' + ((obstructor_2['id'] + ' ' + obstructor_2['type']) if obstructor_2 else 'None'))
 
-        distractor_list_1 = [instance for instance in [target_receptacle_1, confusor_1, confusor_receptacle_1, \
+        distractor_list_1 = [instance for instance in [confusor_1, target_receptacle_1, confusor_receptacle_1, \
                 obstructor_1] if instance]
-        distractor_list_2 = [instance for instance in [target_receptacle_2, confusor_2, confusor_receptacle_2, \
+        distractor_list_2 = [instance for instance in [confusor_2, target_receptacle_2, confusor_receptacle_2, \
                 obstructor_2] if instance]
 
         self._finalize_goal_1(target_1, distractor_list_1)
@@ -358,8 +379,9 @@ class InteractionPair():
             goal_2_distractor_list.pop(0)
 
         # Add the second version of each chosen object to the second goal.
+        distractor_list_2.reverse()
         for distractor in distractor_list_2:
-            goal_2_distractor_list.append(distractor)
+            goal_2_distractor_list.insert(0, distractor)
 
     def _finalize_target_confusor_position(self, target_definition: Dict[str, Any], target_template: Dict[str, Any], \
             target_location: Dict[str, Any], containerize_target: bool, show_confusor: bool, is_confusor_close: bool, \
@@ -497,10 +519,10 @@ class InteractionPair():
             performer_start = goal.reset_performer_start()
 
         if not generate_back and not location_front:
-            raise exceptions.SceneException(f'cannot position performer start in front of object={object_definition}')
+            raise exceptions.SceneException(f'{self._name} pair cannot position performer start in front of object={object_definition}')
 
         if generate_back and (not location_front or not location_back):
-            raise exceptions.SceneException(f'cannot position performer start in front of and in back of object={object_definition}')
+            raise exceptions.SceneException(f'{self._name} pair cannot position performer start in front of and in back of object={object_definition}')
 
         return location_front, location_back
 
@@ -512,7 +534,7 @@ class InteractionPair():
                 performer_start['position'])
         if not location_close:
             # TODO Reposition the target?
-            raise exceptions.SceneException(f'cannot position object={object_definition} close to target={target_instance}')
+            raise exceptions.SceneException(f'{self._name} pair cannot position object={object_definition} close to target={target_instance}')
         return location_close
 
     def _generate_location_far_from_object(self, object_definition: Dict[str, Any], target_location: Dict[str, float], \
@@ -525,7 +547,7 @@ class InteractionPair():
                 break
         if not location_far:
             # TODO Reposition the target?
-            raise exceptions.SceneException(f'cannot position object={object_definition} far from target={target_instance}')
+            raise exceptions.SceneException(f'{self._name} pair cannot position object={object_definition} far from target={target_instance}')
         return location_far
 
     def _generate_obstructor_location(self, show_obstructor: bool, original_target_location: Dict[str, float], \
@@ -540,7 +562,7 @@ class InteractionPair():
                     performer_start['position'], geometry.Side.BACK)
             if not target_location:
                 # TODO Reposition the obstructor?
-                raise exceptions.SceneException(f'cannot position target={target_definition} directly behind obstructor={obstructor_template}')
+                raise exceptions.SceneException(f'{self._name} pair cannot position target={target_definition} directly behind obstructor={obstructor_template}')
             return target_location, obstructor_location
 
         return original_target_location, None
@@ -556,7 +578,7 @@ class InteractionPair():
             if object_rule.validate_location(object_location, target_list, goal.get_performer_start()):
                 break
         if not object_location:
-            raise exceptions.SceneException(f'cannot randomly position object={object_definition}')
+            raise exceptions.SceneException(f'{self._name} pair cannot randomly position object={object_definition}')
         return object_location, object_location
 
     def _identify_front(self, object_definition: Dict[str, Any], object_rule: ObjectRule, \
@@ -595,10 +617,12 @@ class ImmediatelyVisiblePair(InteractionPair):
     container (like a box). See MCS-232.
     """
 
+    NAME = 'immediately_visible'
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
                 BoolPairOption.NO_NO
-        super(ImmediatelyVisiblePair, self).__init__(template, find_path, options = SceneOptions( \
+        super(ImmediatelyVisiblePair, self).__init__(self.NAME, template, find_path, options = SceneOptions( \
                 target_containerize = containerize, target_location = TargetLocationPairOption.FRONT_BACK))
 
 
@@ -612,10 +636,12 @@ class ImmediatelyVisibleSimilarPair(InteractionPair):
     used in that pair. See MCS-233.
     """
 
+    NAME = 'immediately_visible_similar'
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
                 BoolPairOption.NO_NO
-        super(ImmediatelyVisibleSimilarPair, self).__init__(template, find_path, options = SceneOptions( \
+        super(ImmediatelyVisibleSimilarPair, self).__init__(self.NAME, template, find_path, options = SceneOptions( \
                 target_containerize = containerize, target_location = TargetLocationPairOption.FRONT_BACK, \
                 confusor = BoolPairOption.YES_YES, confusor_containerize = containerize, \
                 confusor_location = ConfusorLocationPairOption.BACK_FRONT))
@@ -628,10 +654,12 @@ class HiddenBehindPair(InteractionPair):
     box). See MCS-239.
     """
 
+    NAME = 'hidden_behind'
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
                 BoolPairOption.NO_NO
-        super(HiddenBehindPair, self).__init__(template, find_path, options = SceneOptions( \
+        super(HiddenBehindPair, self).__init__(self.NAME, template, find_path, options = SceneOptions( \
                 target_containerize = containerize, target_location = TargetLocationPairOption.FRONT_FRONT, \
                 obstructor = BoolPairOption.NO_YES))
 
@@ -642,11 +670,14 @@ class OneEnclosedPair(InteractionPair):
     container for both scenes, while the other object is inside a
     container for neither scene. See MCS-234.
     """
+
+    NAME = 'one_enclosed'
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         containerize_target = random.choice((BoolPairOption.NO_NO, BoolPairOption.YES_YES))
         containerize_confusor = BoolPairOption.YES_YES if containerize_target == BoolPairOption.NO_NO else \
                 BoolPairOption.NO_NO
-        super(OneEnclosedPair, self).__init__(template, find_path, options = SceneOptions( \
+        super(OneEnclosedPair, self).__init__(self.NAME, template, find_path, options = SceneOptions( \
                 target_containerize = containerize_target, target_location = TargetLocationPairOption.FRONT_BACK, \
                 confusor = BoolPairOption.YES_YES, confusor_containerize = (not containerize_target), \
                 confusor_location = ConfusorLocationPairOption.BACK_FRONT))
@@ -661,10 +692,12 @@ class SimilarAdjacentPair(InteractionPair):
     that pair.
     """
 
+    NAME = 'similar_adjacent'
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
                 BoolPairOption.NO_NO
-        super(SimilarAdjacentPair, self).__init__(template, find_path, options = SceneOptions( \
+        super(SimilarAdjacentPair, self).__init__(self.NAME, template, find_path, options = SceneOptions( \
                 target_containerize = containerize, confusor = BoolPairOption.NO_YES, \
                 confusor_containerize = containerize, confusor_location = ConfusorLocationPairOption.NONE_CLOSE))
 
@@ -676,10 +709,12 @@ class SimilarFarPair(InteractionPair):
     containers, but only if the container is big enough to hold both
     individually; otherwise, no container will be used in that pair."""
 
+    NAME = 'similar_far'
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
                 BoolPairOption.NO_NO
-        super(SimilarFarPair, self).__init__(template, find_path, options = SceneOptions( \
+        super(SimilarFarPair, self).__init__(self.NAME, template, find_path, options = SceneOptions( \
                 target_containerize = containerize, confusor = BoolPairOption.NO_YES, \
                 confusor_containerize = containerize, confusor_location = ConfusorLocationPairOption.NONE_FAR))
 
@@ -692,10 +727,12 @@ class SimilarAdjacentFarPair(InteractionPair):
     container will be used in that pair.
     """
 
+    NAME = 'similar_adjacent_far'
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
                 BoolPairOption.NO_NO
-        super(SimilarAdjacentFarPair, self).__init__(template, find_path, options = SceneOptions( \
+        super(SimilarAdjacentFarPair, self).__init__(self.NAME, template, find_path, options = SceneOptions( \
                 target_containerize = containerize, confusor = BoolPairOption.YES_YES, \
                 confusor_containerize = containerize, confusor_location = ConfusorLocationPairOption.CLOSE_FAR))
 
@@ -707,8 +744,10 @@ class SimilarAdjacentContainedPair(InteractionPair):
     Object is inside a container. See MCS-238.
     """
 
+    NAME = 'similar_adjacent_contained'
+
     def __init__(self, template: Dict[str, Any], find_path: bool):
-        super(SimilarAdjacentContainedPair, self).__init__(template, find_path, options = SceneOptions( \
+        super(SimilarAdjacentContainedPair, self).__init__(self.NAME, template, find_path, options = SceneOptions( \
                 target_containerize = BoolPairOption.NO_YES, confusor = BoolPairOption.YES_YES, \
                 confusor_containerize = BoolPairOption.YES_NO, \
                 confusor_location = ConfusorLocationPairOption.CLOSE_CLOSE))

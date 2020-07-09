@@ -318,9 +318,9 @@ class ConfusorObjectRule(ObjectRule):
     def choose_definition(self) -> Dict[str, Any]:
         if not self._target_definition:
             raise exceptions.SceneException('cannot create a confusor with no target definition')
-        confusor_definition = util.get_similar_definition(self._target_definition)
+        confusor_definition = util.get_similar_definition(self._target_definition, objects.get_all_object_defs())
         if not confusor_definition:
-            raise exceptions.SceneException('cannot find a confusor to create')
+            raise exceptions.SceneException(f'cannot find a confusor to create with target={self._target_definition}')
         return util.finalize_object_definition(confusor_definition)
 
 
@@ -343,7 +343,7 @@ class ObstructorObjectRule(ObjectRule):
             if not obstructor_definition_list:
                 break
         if not obstructor_definition_list:
-            raise exceptions.SceneException('cannot find an obstructor to create')
+            raise exceptions.SceneException(f'cannot find an obstructor to create with target={self._target_definition}')
         obstructor_definition, obstructor_angle = random.choice(obstructor_definition_list)
         obstructor_definition = util.finalize_object_definition(obstructor_definition)
         if not 'rotation' in obstructor_definition:
@@ -417,7 +417,7 @@ class InteractionGoal(Goal, ABC):
                     self._wall_list.append(wall)
                     self._bounds_list.append(wall['shows'][0]['bounding_box'])
                 else:
-                    logging.warning('cannot generate wall object')
+                    logging.warning('cannot generate a dynamic wall object')
         return self._wall_list
 
     def get_bounds_list(self) -> List[List[Dict[str, float]]]:

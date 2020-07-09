@@ -285,3 +285,32 @@ def get_parent(obj: Dict[str, Any], all_objects: Iterable[Dict[str, Any]]) \
     parent_id = obj['locationParent']
     parent = next((o for o in all_objects if o['id'] == parent_id))
     return parent
+
+
+def is_too_big_to_fit_any(obj: Dict[str, Any]) -> bool:
+    """Return if the given object is too big to fit inside any available containers."""
+    valid_defs = []
+    for obj_def in objects.get_enclosed_containers():
+        if 'choose' in obj_def:
+            valid_choices = []
+            for choice in obj_def['choose']:
+                possible_obj_def = util.finalize_object_definition(copy.deepcopy(obj_def), choice)
+                for area in possible_obj_def['enclosed_areas']:
+                    if area['dimensions']['x'] >= obj['dimensions']['x'] and \
+                            area['dimensions']['y'] >= obj['dimensions']['y'] and \
+                            area['dimensions']['z'] >= obj['dimensions']['z']:
+                        valid_choices.append(choice)
+                        break
+            if len(valid_choices) > 0:
+                new_def = copy.deepcopy(obj_def)
+                new_def['choose'] = valid_choices
+                valid_defs.append(new_def)
+        else:
+            possible_obj_def = util.finalize_object_definition(copy.deepcopy(obj_def))
+            for area in possible_obj_def['enclosed_areas']:
+                if area['dimensions']['x'] >= obj['dimensions']['x'] and \
+                        area['dimensions']['y'] >= obj['dimensions']['y'] and \
+                        area['dimensions']['z'] >= obj['dimensions']['z']:
+                    valid_defs.append(obj_def)
+    return len(valid_defs) > 0
+
