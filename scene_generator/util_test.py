@@ -7,6 +7,30 @@ from goals import *
 from util import finalize_object_definition, instantiate_object, check_same_and_different, get_similar_defs, random_real
 
 
+PACIFIER = {
+    "type": "pacifier",
+    "info": ["tiny", "blue", "pacifier"],
+    "mass": 0.125,
+    "salientMaterials": ["plastic"],
+    "attributes": ["moveable", "pickupable"],
+    "dimensions": {
+        "x": 0.07,
+        "y": 0.04,
+        "z": 0.05
+    },
+    "offset": {
+        "x": 0,
+        "y": 0.02,
+        "z": 0
+    },
+    "position_y": 0.01,
+    "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+    }
+}
+
 def test_random_real():
     n = random_real(0, 1, 0.1)
     assert 0 <= n <= 1
@@ -296,6 +320,12 @@ def test_check_same_and_different():
     assert check_same_and_different(a, b, ('type', 'size'), ('color',)) is True
     assert check_same_and_different(a, b, ('type', 'color'), ('size',)) is False
     assert check_same_and_different(a, b, ('color', 'size'), ('type',)) is False
+
+
+def test_check_same_and_different_pacifier():
+    assert check_same_and_different(PACIFIER, PACIFIER, ('type', 'dimensions'), ('materialCategory',)) is False
+    assert check_same_and_different(PACIFIER, PACIFIER, ('type', 'materialCategory'), ('dimensions',)) is False
+    assert check_same_and_different(PACIFIER, PACIFIER, ('dimensions', 'materialCategory'), ('type',)) is False
 
 
 def test_get_similar_defs():

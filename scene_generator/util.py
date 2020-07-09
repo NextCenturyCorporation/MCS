@@ -206,7 +206,7 @@ def check_same_and_different(a: Dict[str, Any], b: Dict[str, Any],
                     b[prop]['z'] >= (a[prop]['z'] - MAX_SIZE_DIFFERENCE):
                 diff_ok = False
                 break
-        elif prop in a and prop in b and a[prop] == b[prop]:
+        elif (prop in a and prop in b and a[prop] == b[prop]) or (not prop in a and not prop in b):
             diff_ok = False
             break
     return diff_ok

@@ -4,6 +4,7 @@ import random
 from abc import ABC, abstractmethod
 from enum import Enum, auto
 from typing import Any, Dict, List, Optional, Tuple, Type
+import uuid
 
 import shapely
 
@@ -126,8 +127,8 @@ class InteractionPair():
         goal_1_target_list = self._goal_1.get_target_list()
         shared_bounds_list = self._goal_1.get_bounds_list()
 
-        should_containerize_target = self._options.target_containerize != BoolPairOption.NO_NO
-        should_containerize_confusor = self._options.confusor_containerize != BoolPairOption.NO_NO
+        must_containerize_target = self._options.target_containerize != BoolPairOption.NO_NO
+        must_containerize_confusor = self._options.confusor_containerize != BoolPairOption.NO_NO
 
         target_receptacle_definition_list = None
 
@@ -140,7 +141,7 @@ class InteractionPair():
             target_template = util.instantiate_object(target_definition, geometry.ORIGIN_LOCATION)
 
             # If we must containerize the target, ensure it's not too big for any of the containers.
-            if should_containerize_target:
+            if must_containerize_target:
                 target_receptacle_definition_list = containers.find_suitable_enclosable_list(target_template)
                 if len(target_receptacle_definition_list) > 0:
                     break
@@ -173,9 +174,9 @@ class InteractionPair():
                 confusor_template = util.instantiate_object(confusor_definition, geometry.ORIGIN_LOCATION)
 
                 # If we must containerize the confusor, ensure it's not too big for any of the containers.
-                if should_containerize_confusor:
+                if must_containerize_confusor:
                     confusor_receptacle_definition_list = containers.find_suitable_enclosable_list(confusor_template, \
-                            target_receptacle_definition_list if should_containerize_target else None)
+                            target_receptacle_definition_list if must_containerize_target else None)
                     if len(confusor_receptacle_definition_list) > 0:
                         break
                 else:
@@ -194,9 +195,16 @@ class InteractionPair():
 
         # Create the receptacle to use in either scene that will containerize the target and/or confusor if needed.
         # Assumes that both scenes have the same receptacle (will this always be true in the future?)
-        if should_containerize_target or should_containerize_confusor:
+        if must_containerize_target or must_containerize_confusor:
+            must_hold_both = (self._is_true_goal_1(self._options.confusor) and \
+                    self._is_true_goal_1(self._options.target_containerize) and \
+                    self._is_true_goal_1(self._options.confusor_containerize) and is_confusor_close_in_goal_1) or \
+                    (self._is_true_goal_2(self._options.confusor) and \
+                    self._is_true_goal_2(self._options.target_containerize) and \
+                    self._is_true_goal_2(self._options.confusor_containerize) and is_confusor_close_in_goal_2)
+
             # If the confusor will be close to the target in either scene, the receptacle must be able to hold both.
-            if confusor_template and (is_confusor_close_in_goal_1 or is_confusor_close_in_goal_2):
+            if must_hold_both:
                 receptacle_data = self._create_receptacle_around_both(target_definition, confusor_definition)
                 if not receptacle_data:
                     # TODO Recreate the target and/or confusor?
@@ -204,8 +212,8 @@ class InteractionPair():
                 receptacle_definition, area_index, target_rotation, confusor_rotation, orientation = receptacle_data
             # Else ensure that a receptacle can hold the target or confusor individually.
             else:
-                target_definition_if_containerize = target_definition if should_containerize_target else None
-                confusor_definition_if_containerize = confusor_definition if should_containerize_confusor else None
+                target_definition_if_containerize = target_definition if must_containerize_target else None
+                confusor_definition_if_containerize = confusor_definition if must_containerize_confusor else None
                 receptacle_data = self._create_receptacle_around_either(target_definition_if_containerize, \
                         confusor_definition_if_containerize)
                 if not receptacle_data:
@@ -226,8 +234,8 @@ class InteractionPair():
 
         # If an object is switched across the scenes (in the same position), use the larger object to generate the
         # location to avoid any collisions (if positioned inside a receptacle, the receptacle must be larger).
-        larger_of_target_or_receptacle = receptacle_template if should_containerize_target else target_template
-        larger_of_confusor_or_receptacle = receptacle_template if should_containerize_confusor else confusor_template
+        larger_of_target_or_receptacle = receptacle_template if must_containerize_target else target_template
+        larger_of_confusor_or_receptacle = receptacle_template if must_containerize_confusor else confusor_template
         larger_of_target_or_confusor = self._find_larger_object(larger_of_target_or_receptacle, \
                 larger_of_confusor_or_receptacle)
         larger_of_target_or_obstructor = self._find_larger_object(larger_of_target_or_receptacle, \
@@ -443,10 +451,12 @@ class InteractionPair():
             else:
                 move_to_location(target_definition, target_instance, target_location)
                 bounds_list.append(target_instance['shows'][0]['bounding_box'])
-            if confusor_instance and show_confusor:
+            if show_confusor:
                 if containerize_confusor:
                     # Use the confusor location for its receptacle, then position the confusor inside its receptacle.
                     confusor_receptacle_instance = copy.deepcopy(receptacle_template)
+                    # Create a new ID so it's not the same ID used in the target_receptacle_instance
+                    confusor_receptacle_instance['id'] = str(uuid.uuid4())
                     move_to_location(receptacle_definition, confusor_receptacle_instance, confusor_location)
                     containers.put_object_in_container(confusor_instance, confusor_receptacle_instance, \
                             receptacle_definition, area_index, confusor_rotation)
@@ -710,7 +720,7 @@ class OneEnclosedPair(InteractionPair):
                 BoolPairOption.NO_NO
         super(OneEnclosedPair, self).__init__(self.NAME, template, find_path, options = SceneOptions( \
                 target_containerize = containerize_target, target_location = TargetLocationPairOption.FRONT_BACK, \
-                confusor = BoolPairOption.YES_YES, confusor_containerize = (not containerize_target), \
+                confusor = BoolPairOption.YES_YES, confusor_containerize = containerize_confusor, \
                 confusor_location = ConfusorLocationPairOption.BACK_FRONT))
 
 
