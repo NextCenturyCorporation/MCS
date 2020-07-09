@@ -17,7 +17,7 @@ BODY_TEMPLATE = {
             'y': 0,
             'z': 0
         },
-        "rotation": {
+        'rotation': {
             'x': 0,
             'y': 0,
             'z': 0
@@ -64,7 +64,8 @@ def test_SimilarFarPair_get_scenes():
     assert target2 == target
     assert ('locationParent' in similar) == in_container
     if in_container:
-        container1, container2 = scene2['objects'][1:2]
+        container1 = containers.get_parent(target2, scene2['objects'])
+        container2 = containers.get_parent(similar, scene2['objects'])
         assert not are_adjacent(container1, container2)
     else:
         assert not are_adjacent(target2, similar)
@@ -148,13 +149,6 @@ def test_HiddenBehindPair_get_scenes():
     performer_position = scene2['performerStart']['position']
     performer_coords = (performer_position['x'], performer_position['z'])
     line_to_target = shapely.geometry.LineString([performer_coords, target_coords])
-
-    print('performerStart')
-    print(scene2['performerStart'])
-    print('target')
-    print(target)
-    print('obstructor')
-    print(obstructor)
     obstructor_poly = geometry.get_bounding_polygon(obstructor)
     assert obstructor_poly.intersects(line_to_target)
 

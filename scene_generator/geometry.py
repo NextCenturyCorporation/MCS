@@ -259,9 +259,8 @@ def get_location_in_back_of_performer(performer_start: Dict[str, Dict[str, float
     return calc_obj_pos(performer_start['position'], [], target_def, xz_func=compute_xz)
 
 
-def get_adjacent_location(obj_def: Dict[str, Any],
-                          target: Dict[str, Any],
-                          performer_start: Dict[str, float]) -> Optional[Dict[str, Any]]:
+def get_adjacent_location(obj_def: Dict[str, Any], target: Dict[str, Any], performer_start_position: Dict[str, float], \
+        behind: bool = False) -> Optional[Dict[str, Any]]:
     """Find a location such that, if obj_def is instantiated there, it
     will be next to target. Ensures that the object at the new
     location will not overlap the performer start, if necessary trying
@@ -270,9 +269,18 @@ def get_adjacent_location(obj_def: Dict[str, Any],
     sides = list(range(4))
     random.shuffle(sides)
     for side in sides:
-        location = get_adjacent_location_on_side(obj_def, target, performer_start, side)
-        if location is not None:
-            return location
+        location = get_adjacent_location_on_side(obj_def, target, performer_start_position, side)
+        if location:
+            # If behind, position the object so that the target is between it and the performer start.
+            if behind:
+                performer_start_coordinates = (performer_start_position['x'], performer_start_position['z'])
+                object_location_coordinates = (location['position']['x'], location['position']['z'])
+                line_to_object = shapely.geometry.LineString([performer_start_coordinates, object_location_coordinates])
+                target_poly = get_bounding_polygon(target)
+                if target_poly.intersects(line_to_object):
+                    return location
+            else:
+                return location
     return None
 
 
@@ -285,13 +293,13 @@ class Side(IntEnum):
 
 def get_adjacent_location_on_side(obj_def: Dict[str, Any],
                                   target: Dict[str, Any],
-                                  performer_start: Dict[str, float],
+                                  performer_start_position: Dict[str, float],
                                   side: Side) -> Optional[Dict[str, Any]]:
     """Get a location such that, if obj_def is instantiated there, it will
     be next to target. Side determines on which side of target to
     place it: 0 = right (positive x), 1 = behind (positive z), 2 =
     left (negative x) and 3 = in front (negative z). If the object
-    would overlap the performer_start or would be outside the room,
+    would overlap the performer_start_position or would be outside the room,
     None is returned."
     """
     GAP = 0.05
@@ -311,7 +319,7 @@ def get_adjacent_location_on_side(obj_def: Dict[str, Any],
     dz = obj_def['dimensions']['z'] / 2.0
     bounding_box = shapely.geometry.box(x - dx, z - dz, x + dx, z + dz)
     bounding_box = affinity.rotate(bounding_box, -shows['rotation']['y'], origin=(0, 0))
-    performer = shapely.geometry.Point(performer_start['x'], performer_start['z'])
+    performer = shapely.geometry.Point(performer_start_position['x'], performer_start_position['z'])
     room = get_room_box()
     if not bounding_box.intersects(performer) and room.contains(bounding_box):
         offset_x = obj_def['offset']['x'] if 'offset' in obj_def else 0.0

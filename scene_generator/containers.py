@@ -287,10 +287,13 @@ def get_parent(obj: Dict[str, Any], all_objects: Iterable[Dict[str, Any]]) \
     return parent
 
 
-def is_too_big_to_fit_any(obj: Dict[str, Any]) -> bool:
-    """Return if the given object is too big to fit inside any available containers."""
+def find_suitable_enclosable_list(obj: Dict[str, Any], container_defs: Sequence[Dict[str, Any]] = None) -> \
+        List[Dict[str, Any]]:
+    """Find and return the list of enclosable receptacle definitions into which the given object can fit."""
     valid_defs = []
-    for obj_def in objects.get_enclosed_containers():
+    if container_defs is None:
+        container_defs = objects.get_enclosed_containers()
+    for obj_def in container_defs:
         if 'choose' in obj_def:
             valid_choices = []
             for choice in obj_def['choose']:
@@ -300,7 +303,6 @@ def is_too_big_to_fit_any(obj: Dict[str, Any]) -> bool:
                             area['dimensions']['y'] >= obj['dimensions']['y'] and \
                             area['dimensions']['z'] >= obj['dimensions']['z']:
                         valid_choices.append(choice)
-                        break
             if len(valid_choices) > 0:
                 new_def = copy.deepcopy(obj_def)
                 new_def['choose'] = valid_choices
@@ -312,5 +314,5 @@ def is_too_big_to_fit_any(obj: Dict[str, Any]) -> bool:
                         area['dimensions']['y'] >= obj['dimensions']['y'] and \
                         area['dimensions']['z'] >= obj['dimensions']['z']:
                     valid_defs.append(obj_def)
-    return len(valid_defs) > 0
+    return valid_defs
 

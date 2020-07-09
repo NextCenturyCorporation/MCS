@@ -301,12 +301,13 @@ class DistractorObjectRule(ObjectRule):
 
     def choose_definition(self) -> Dict[str, Any]:
         target_shape_list = [target['info'][-1] for target in self._target_list]
-        while True:
+        for _ in range(util.MAX_TRIES):
             distractor_definition = super(DistractorObjectRule, self).choose_definition()
             distractor_shape = distractor_definition['info'][-1]
             # Cannot have the same shape as a target object, so we don't unintentionally generate a confusor.
             if distractor_shape not in target_shape_list:
                 break
+            distractor_definition = None
         return distractor_definition
 
 
@@ -334,14 +335,8 @@ class ObstructorObjectRule(ObjectRule):
     def choose_definition(self) -> Dict[str, Any]:
         if not self._target_definition:
             raise exceptions.SceneException('cannot create an obstructor with no target definition')
-        for _ in range(util.MAX_TRIES):
-            if self._obstruct_vision:
-                obstructor_definition_list = geometry.get_wider_and_taller_defs(self._target_definition)
-            else:
-                # TODO MCS-262
-                pass
-            if not obstructor_definition_list:
-                break
+        obstructor_definition_list = geometry.get_wider_and_taller_defs(self._target_definition) if \
+                self._obstruct_vision else [] # TODO MCS-262
         if not obstructor_definition_list:
             raise exceptions.SceneException(f'cannot find an obstructor to create with target={self._target_definition}')
         obstructor_definition, obstructor_angle = random.choice(obstructor_definition_list)
@@ -353,7 +348,7 @@ class ObstructorObjectRule(ObjectRule):
                 'z': 0
             }
         # Note that this rotation must be also modified with the final performer start Y.
-        obstructor_definition['rotation']['y'] = obstructor_definition['rotation']['y'] + obstructor_angle
+        obstructor_definition['rotation']['y'] += obstructor_angle
         return obstructor_definition
 
 
@@ -463,6 +458,7 @@ class InteractionGoal(Goal, ABC):
                         self._performer_start, self._bounds_list)
                 if rule.validate_location(object_location, target_list, self._performer_start):
                     break
+                object_location = None
             if not object_location:
                 raise exceptions.SceneException('cannot find a suitable object location')
             self._bounds_list = bounds_list_modified

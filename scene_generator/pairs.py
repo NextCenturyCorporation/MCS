@@ -121,6 +121,11 @@ class InteractionPair():
         goal_1_target_list = self._goal_1.get_target_list()
         shared_bounds_list = self._goal_1.get_bounds_list()
 
+        should_containerize_target = self._options.target_containerize != BoolPairOption.NO_NO
+        should_containerize_confusor = self._options.confusor_containerize != BoolPairOption.NO_NO
+
+        target_receptacle_definition_list = None
+
         for _ in range(util.MAX_TRIES):
             # Choose a definition for the chosen target to use in both scenes.
             target_definition = goal_1_target_rule_list[target_choice].choose_definition()
@@ -130,13 +135,21 @@ class InteractionPair():
             target_template = util.instantiate_object(target_definition, geometry.ORIGIN_LOCATION)
 
             # If we must containerize the target, ensure it's not too big for any of the containers.
-            must_redo = self._options.target_containerize != BoolPairOption.NO_NO and \
-                    containers.is_too_big_to_fit_any(target_template)
-            if not must_redo:
+            if should_containerize_target:
+                target_receptacle_definition_list = containers.find_suitable_enclosable_list(target_template)
+                if len(target_receptacle_definition_list) > 0:
+                    break
+            else:
                 break
+            target_defintion = None
+            target_template = None
+
+        if not target_definition or not target_template:
+            raise exceptions.SceneException(f'{self._name} pair cannot create good target (maybe all choices are too big?)')
 
         confusor_definition = None
         confusor_template = None
+        confusor_receptacle_definition_list = None
         obstructor_definition = None
         obstructor_template = None
         receptacle_definition = None
@@ -155,14 +168,18 @@ class InteractionPair():
                 confusor_template = util.instantiate_object(confusor_definition, geometry.ORIGIN_LOCATION)
 
                 # If we must containerize the confusor, ensure it's not too big for any of the containers.
-                must_redo = self._options.confusor_containerize != BoolPairOption.NO_NO and \
-                        containers.is_too_big_to_fit_any(confusor_template)
-                if not must_redo:
+                if should_containerize_confusor:
+                    confusor_receptacle_definition_list = containers.find_suitable_enclosable_list(confusor_template, \
+                            target_receptacle_definition_list if should_containerize_target else None)
+                    if len(confusor_receptacle_definition_list) > 0:
+                        break
+                else:
                     break
+                confusor_defintion = None
+                confusor_template = None
 
-
-        is_receptacle_needed = (self._options.target_containerize != BoolPairOption.NO_NO or \
-                self._options.confusor_containerize != BoolPairOption.NO_NO)
+            if not confusor_definition or not confusor_template:
+                raise exceptions.SceneException(f'{self._name} pair cannot create good confusor (maybe all choices are too big?)')
 
         is_confusor_close_in_goal_1 = (self._options.confusor_location == ConfusorLocationPairOption.CLOSE_CLOSE or \
                 self._options.confusor_location == ConfusorLocationPairOption.CLOSE_FAR)
@@ -172,19 +189,23 @@ class InteractionPair():
 
         # Create the receptacle to use in either scene that will containerize the target and/or confusor if needed.
         # Assumes that both scenes have the same receptacle (will this always be true in the future?)
-        if is_receptacle_needed:
+        if should_containerize_target or should_containerize_confusor:
             # If the confusor will be close to the target in either scene, the receptacle must be able to hold both.
             if confusor_template and (is_confusor_close_in_goal_1 or is_confusor_close_in_goal_2):
                 receptacle_data = self._create_receptacle_around_both(target_definition, confusor_definition)
                 if not receptacle_data:
                     # TODO Recreate the target and/or confusor?
-                    raise exceptions.SceneException(f'{self._name} pair cannot create enclosable receptacle around target={target_definition} AND confusor={confusor_definition}')
+                    raise exceptions.SceneException(f'{self._name} pair cannot create enclosable receptacle around both: target={target_definition} confusor={confusor_definition}')
                 receptacle_definition, area_index, target_rotation, confusor_rotation, orientation = receptacle_data
+            # Else ensure that a receptacle can hold the target or confusor individually.
             else:
-                receptacle_data = self._create_receptacle_around_either(target_definition, confusor_definition)
+                target_definition_if_containerize = target_definition if should_containerize_target else None
+                confusor_definition_if_containerize = confusor_definition if should_containerize_confusor else None
+                receptacle_data = self._create_receptacle_around_either(target_definition_if_containerize, \
+                        confusor_definition_if_containerize)
                 if not receptacle_data:
                     # TODO Recreate the target and/or confusor?
-                    raise exceptions.SceneException(f'{self._name} pair cannot create enclosable receptacle around target={target_definition} OR confusor={confusor_definition}')
+                    raise exceptions.SceneException(f'{self._name} pair cannot create enclosable receptacle around either: target={target_definition_if_containerize} confusor={confusor_definition_if_containerize}')
                 receptacle_definition, area_index, target_rotation, confusor_rotation = receptacle_data
             # Create the receptacle template now at a location, and later it'll move to its location for each scene.
             receptacle_template = util.instantiate_object(receptacle_definition, geometry.ORIGIN_LOCATION)
@@ -200,10 +221,8 @@ class InteractionPair():
 
         # If an object is switched across the scenes (in the same position), use the larger object to generate the
         # location to avoid any collisions (if positioned inside a receptacle, the receptacle must be larger).
-        larger_of_target_or_receptacle = receptacle_template if \
-                self._options.target_containerize != BoolPairOption.NO_NO else target_template
-        larger_of_confusor_or_receptacle = receptacle_template if \
-                self._options.confusor_containerize != BoolPairOption.NO_NO else confusor_template
+        larger_of_target_or_receptacle = receptacle_template if should_containerize_target else target_template
+        larger_of_confusor_or_receptacle = receptacle_template if should_containerize_confusor else confusor_template
         larger_of_target_or_confusor = self._find_larger_object(larger_of_target_or_receptacle, \
                 larger_of_confusor_or_receptacle)
         larger_of_target_or_obstructor = self._find_larger_object(larger_of_target_or_receptacle, \
@@ -325,6 +344,7 @@ class InteractionPair():
             valid_containment = containers.can_contain_both(receptacle_definition, target_instance, confusor_instance)
             if valid_containment:
                 break
+            valid_containment = None
         if valid_containment:
             receptacle_definition, area_index, orientation, target_rotation, confusor_rotation = valid_containment
             return receptacle_definition, area_index, target_rotation, confusor_rotation, orientation
@@ -516,6 +536,8 @@ class InteractionPair():
                     break
             elif location_front:
                 break
+            location_front = None
+            location_back = None
             performer_start = goal.reset_performer_start()
 
         if not generate_back and not location_front:
@@ -534,7 +556,7 @@ class InteractionPair():
                 performer_start['position'])
         if not location_close:
             # TODO Reposition the target?
-            raise exceptions.SceneException(f'{self._name} pair cannot position object={object_definition} close to target={target_instance}')
+            raise exceptions.SceneException(f'{self._name} pair cannot position close to target: object={object_definition} target={target_instance}')
         return location_close
 
     def _generate_location_far_from_object(self, object_definition: Dict[str, Any], target_location: Dict[str, float], \
@@ -545,9 +567,10 @@ class InteractionPair():
             location_far = geometry.calc_obj_pos(performer_start['position'], [], object_definition)
             if not geometry.are_adjacent(target_location, location_far):
                 break
+            location_far = None
         if not location_far:
             # TODO Reposition the target?
-            raise exceptions.SceneException(f'{self._name} pair cannot position object={object_definition} far from target={target_instance}')
+            raise exceptions.SceneException(f'{self._name} pair cannot position far from target: object={object_definition} target={target_instance}')
         return location_far
 
     def _generate_obstructor_location(self, show_obstructor: bool, original_target_location: Dict[str, float], \
@@ -558,11 +581,12 @@ class InteractionPair():
 
         if show_obstructor:
             obstructor_location = original_target_location
-            target_location = geometry.get_adjacent_location_on_side(target_definition, obstructor_template, \
-                    performer_start['position'], geometry.Side.BACK)
+            # Generate an adjacent location so that the obstructor is between the target and the performer start.
+            target_location = geometry.get_adjacent_location(target_definition, obstructor_template, \
+                    performer_start['position'], True)
             if not target_location:
                 # TODO Reposition the obstructor?
-                raise exceptions.SceneException(f'{self._name} pair cannot position target={target_definition} directly behind obstructor={obstructor_template}')
+                raise exceptions.SceneException(f'{self._name} pair cannot position target directly behind obstructor: performer_start={performer_start} target={target_definition} obstructor={obstructor_template}')
             return target_location, obstructor_location
 
         return original_target_location, None
@@ -577,6 +601,7 @@ class InteractionPair():
                     bounds_list)
             if object_rule.validate_location(object_location, target_list, goal.get_performer_start()):
                 break
+            object_location = None
         if not object_location:
             raise exceptions.SceneException(f'{self._name} pair cannot randomly position object={object_definition}')
         return object_location, object_location
@@ -589,6 +614,7 @@ class InteractionPair():
             location_front = geometry.get_location_in_front_of_performer(performer_start, object_definition)
             if location_front and object_rule.validate_location(location_front, [], performer_start):
                 break
+            location_front = None
         return location_front
 
     def _identify_back(self, object_definition: Dict[str, Any], object_rule: ObjectRule, \
@@ -599,6 +625,7 @@ class InteractionPair():
             location_back = geometry.get_location_in_back_of_performer(performer_start, object_definition)
             if location_back and object_rule.validate_location(location_back, [], performer_start):
                 break
+            location_back = None
         return location_back
 
     def _is_true_goal_1(self, bool_pair: BoolPairOption):
@@ -608,7 +635,6 @@ class InteractionPair():
     def _is_true_goal_2(self, bool_pair: BoolPairOption):
         """Return if the given scene options bool_pair is true in the second goal."""
         return bool_pair == BoolPairOption.NO_YES or bool_pair == BoolPairOption.YES_YES
-
 
 class ImmediatelyVisiblePair(InteractionPair):
     """(1A) The Target Object is immediately visible (starting in view of

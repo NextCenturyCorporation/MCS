@@ -85,9 +85,9 @@ def instantiate_object(object_def: Dict[str, Any],
     if not 'rotation' in object_location:
         object_location['rotation'] = {'x': 0, 'y': 0, 'z': 0}
 
-    object_location['rotation']['x'] = object_location['rotation']['x'] + object_def['rotation']['x']
-    object_location['rotation']['y'] = object_location['rotation']['y'] + object_def['rotation']['y']
-    object_location['rotation']['z'] = object_location['rotation']['z'] + object_def['rotation']['z']
+    object_location['rotation']['x'] += object_def['rotation']['x']
+    object_location['rotation']['y'] += object_def['rotation']['y']
+    object_location['rotation']['z'] += object_def['rotation']['z']
 
     shows = [object_location]
     new_object['shows'] = shows
@@ -261,3 +261,4 @@ def get_def_with_new_scale(obj: Dict[str, Any], all_defs: List[Dict[str, Any]]) 
     else:
         obj_def = None
     return obj_def
+
