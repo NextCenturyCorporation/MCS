@@ -85,10 +85,15 @@ class InteractionPair():
         self._scene_1 = copy.deepcopy(template)
         self._scene_2 = copy.deepcopy(template)
         self._options = options
-        self._goal_1 = goals.choose_goal('interaction')
-        self._initialize_each_goal()
-        self._goal_1.update_body(self._scene_1, find_path)
-        self._goal_2.update_body(self._scene_2, find_path)
+        while True:
+            try:
+                self._goal_1 = goals.choose_goal('interaction')
+                self._initialize_each_goal()
+                self._goal_1.update_body(self._scene_1, find_path)
+                self._goal_2.update_body(self._scene_2, find_path)
+                break
+            except exceptions.SceneException as e:
+                logging.error(e)
 
     def get_name(self) -> str:
         """Return the name of this pair."""
@@ -314,16 +319,16 @@ class InteractionPair():
         obstructor_2 = self._finalize_obstructor_position(self._is_true_goal_2(self._options.obstructor), \
                 obstructor_definition, obstructor_template, obstructor_location_2)
 
-        print('target_1 ' + target_1['id'] + ' ' + target_1['type'])
-        print('target_2 ' + target_2['id'] + ' ' + target_2['type'])
-        print('target_receptacle_1 ' + ((target_receptacle_1['id'] + ' ' + target_receptacle_1['type']) if target_receptacle_1 else 'None'))
-        print('target_receptacle_2 ' + ((target_receptacle_2['id'] + ' ' + target_receptacle_2['type']) if target_receptacle_2 else 'None'))
-        print('confusor_1 ' + ((confusor_1['id'] + ' ' + confusor_1['type']) if confusor_1 else 'None'))
-        print('confusor_2 ' + ((confusor_2['id'] + ' ' + confusor_2['type']) if confusor_2 else 'None'))
-        print('confusor_receptacle_1 ' + ((confusor_receptacle_1['id'] + ' ' + confusor_receptacle_1['type']) if confusor_receptacle_1 else 'None'))
-        print('confusor_receptacle_2 ' + ((confusor_receptacle_2['id'] + ' ' + confusor_receptacle_2['type']) if confusor_receptacle_2 else 'None'))
-        print('obstructor_1 ' + ((obstructor_1['id'] + ' ' + obstructor_1['type']) if obstructor_1 else 'None'))
-        print('obstructor_2 ' + ((obstructor_2['id'] + ' ' + obstructor_2['type']) if obstructor_2 else 'None'))
+        logging.debug('target_1 ' + target_1['id'] + ' ' + target_1['type'])
+        logging.debug('target_2 ' + target_2['id'] + ' ' + target_2['type'])
+        logging.debug('target_receptacle_1 ' + ((target_receptacle_1['id'] + ' ' + target_receptacle_1['type']) if target_receptacle_1 else 'None'))
+        logging.debug('target_receptacle_2 ' + ((target_receptacle_2['id'] + ' ' + target_receptacle_2['type']) if target_receptacle_2 else 'None'))
+        logging.debug('confusor_1 ' + ((confusor_1['id'] + ' ' + confusor_1['type']) if confusor_1 else 'None'))
+        logging.debug('confusor_2 ' + ((confusor_2['id'] + ' ' + confusor_2['type']) if confusor_2 else 'None'))
+        logging.debug('confusor_receptacle_1 ' + ((confusor_receptacle_1['id'] + ' ' + confusor_receptacle_1['type']) if confusor_receptacle_1 else 'None'))
+        logging.debug('confusor_receptacle_2 ' + ((confusor_receptacle_2['id'] + ' ' + confusor_receptacle_2['type']) if confusor_receptacle_2 else 'None'))
+        logging.debug('obstructor_1 ' + ((obstructor_1['id'] + ' ' + obstructor_1['type']) if obstructor_1 else 'None'))
+        logging.debug('obstructor_2 ' + ((obstructor_2['id'] + ' ' + obstructor_2['type']) if obstructor_2 else 'None'))
 
         distractor_list_1 = [instance for instance in [confusor_1, target_receptacle_1, confusor_receptacle_1, \
                 obstructor_1] if instance]
