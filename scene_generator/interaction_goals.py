@@ -202,9 +202,9 @@ def move_to_container(target: Dict[str, Any], bounds_list: List[List[Dict[str, f
 class ObjectRule():
     """Defines rules for how a specific object can be made and positioned as part of a specific goal."""
 
-    def __init__(self, position_in_receptacle = False, position_on_receptacle = False):
-        self.position_in_receptacle = position_in_receptacle
-        self.position_on_receptacle = position_on_receptacle
+    def __init__(self, is_position_in_receptacle = False, is_position_on_receptacle = False):
+        self.is_position_in_receptacle = is_position_in_receptacle
+        self.is_position_on_receptacle = is_position_on_receptacle
 
     def choose_definition(self) -> Dict[str, Any]:
         """Choose and return an object definition."""
@@ -230,8 +230,8 @@ class ObjectRule():
 
 
 class PickupableObjectRule(ObjectRule):
-    def __init__(self, position_in_receptacle = False, position_on_receptacle = False):
-        super(PickupableObjectRule, self).__init__(position_in_receptacle, position_on_receptacle)
+    def __init__(self, is_position_in_receptacle = False, is_position_on_receptacle = False):
+        super(PickupableObjectRule, self).__init__(is_position_in_receptacle, is_position_on_receptacle)
 
     def choose_definition(self) -> Dict[str, Any]:
         object_definition_list = random.choice(objects.OBJECTS_PICKUPABLE_LISTS)
@@ -239,8 +239,8 @@ class PickupableObjectRule(ObjectRule):
 
 
 class TransferToObjectRule(ObjectRule):
-    def __init__(self, position_in_receptacle = False, position_on_receptacle = False):
-        super(TransferToObjectRule, self).__init__(position_in_receptacle, position_on_receptacle)
+    def __init__(self, is_position_in_receptacle = False, is_position_on_receptacle = False):
+        super(TransferToObjectRule, self).__init__(is_position_in_receptacle, is_position_on_receptacle)
 
     def choose_definition(self) -> Dict[str, Any]:
         stack_targets_pickupable = [definition for definition in objects.OBJECTS_PICKUPABLE \
@@ -281,8 +281,8 @@ class TransferToObjectRule(ObjectRule):
 
 
 class FarOffObjectRule(ObjectRule):
-    def __init__(self, position_in_receptacle = False, position_on_receptacle = False):
-        super(FarOffObjectRule, self).__init__(position_in_receptacle, position_on_receptacle)
+    def __init__(self, is_position_in_receptacle = False, is_position_on_receptacle = False):
+        super(FarOffObjectRule, self).__init__(is_position_in_receptacle, is_position_on_receptacle)
 
     def validate_location(self, object_location: Dict[str, Any], target_list: List[Dict[str, Any]], \
             performer_start: Dict[str, Dict[str, float]]) -> bool:
@@ -294,9 +294,9 @@ class FarOffObjectRule(ObjectRule):
 
 
 class DistractorObjectRule(ObjectRule):
-    def __init__(self, target_list: List[Dict[str, Any]], position_in_receptacle = False, \
-            position_on_receptacle = False):
-        super(DistractorObjectRule, self).__init__(position_in_receptacle, position_on_receptacle)
+    def __init__(self, target_list: List[Dict[str, Any]], is_position_in_receptacle = False, \
+            is_position_on_receptacle = False):
+        super(DistractorObjectRule, self).__init__(is_position_in_receptacle, is_position_on_receptacle)
         self._target_list = target_list
 
     def choose_definition(self) -> Dict[str, Any]:
@@ -383,7 +383,7 @@ class InteractionGoal(Goal, ABC):
             # Automatically generate a random number of distractors with random parameters.
             distractor_rule_list = []
             for _ in range(random.randint(0, InteractionGoal.MAX_DISTRACTORS) + 1):
-                distractor_rule_list.append(self.get_distractor_rule(position_in_receptacle = \
+                distractor_rule_list.append(self.get_distractor_rule(is_position_in_receptacle = \
                         (random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE)))
             self.__generate_object_list(self._distractor_list, distractor_rule_list, self._target_list, \
                     self._distractor_list)
@@ -427,11 +427,11 @@ class InteractionGoal(Goal, ABC):
         """Returns the distractors in this goal."""
         return self._distractor_list
 
-    def get_distractor_rule(self, target_list: List[Dict[str, Any]] = None, position_in_receptacle: bool = False) -> \
-            ObjectRule:
+    def get_distractor_rule(self, target_list: List[Dict[str, Any]] = None, \
+            is_position_in_receptacle: bool = False) -> ObjectRule:
         """Returns the rule for any distractors compatible with this goal."""
         return DistractorObjectRule(target_list = (target_list if target_list is not None else self._target_list), \
-                position_in_receptacle = position_in_receptacle)
+                is_position_in_receptacle = is_position_in_receptacle)
 
     def get_obstructor_rule(self, target_definition: Dict[str, Any], obstruct_vision: bool = False) -> ObjectRule:
         """Returns the rule for any obstructors compatible with this goal."""
@@ -465,10 +465,10 @@ class InteractionGoal(Goal, ABC):
             object_instance = instantiate_object(object_definition, object_location)
             object_list.append(object_instance)
             receptacle_instance = None
-            if rule.position_in_receptacle:
+            if rule.is_position_in_receptacle:
                 receptacle_instance = self.__move_into_receptacle(object_instance, self._performer_start, \
                         self._bounds_list)
-            if rule.position_on_receptacle:
+            if rule.is_position_on_receptacle:
                 receptacle_instance = self.__move_onto_receptacle(object_instance, self._performer_start, \
                         self._bounds_list)
             if receptacle_instance:
@@ -507,7 +507,7 @@ class RetrievalGoal(InteractionGoal):
     def __init__(self):
         super(RetrievalGoal, self).__init__(target_rule_list = [
             PickupableObjectRule(
-                position_in_receptacle = (random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE)
+                is_position_in_receptacle = (random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE)
             )
         ])
 
@@ -587,7 +587,7 @@ class TransferralGoal(InteractionGoal):
     def __init__(self):
         super(TransferralGoal, self).__init__(target_rule_list = [
             PickupableObjectRule(
-                position_in_receptacle = (random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE)
+                is_position_in_receptacle = (random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE)
             ),
             TransferToObjectRule()
         ])
@@ -717,7 +717,7 @@ class TraversalGoal(InteractionGoal):
     def __init__(self):
         super(TraversalGoal, self).__init__(target_rule_list = [
             FarOffObjectRule(
-                position_in_receptacle = (random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE)
+                is_position_in_receptacle = (random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE)
             )
         ])
 
