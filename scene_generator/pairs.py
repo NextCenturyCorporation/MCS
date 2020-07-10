@@ -227,7 +227,7 @@ class InteractionPair():
                     break
             else:
                 break
-            target_defintion = None
+            target_definition = None
             target_template = None
 
         if not target_definition or not target_template:
@@ -261,7 +261,7 @@ class InteractionPair():
                         break
                 else:
                     break
-                confusor_defintion = None
+                confusor_definition = None
                 confusor_template = None
 
             if not confusor_definition or not confusor_template:
@@ -522,6 +522,8 @@ class InteractionPair():
             if containerize_target:
                 # Use the target location for its receptacle, then position the target inside its receptacle.
                 target_receptacle_instance = copy.deepcopy(receptacle_template)
+                # Update the Y position of the location to use the position_y from the receptacle definition.
+                target_location['position']['y'] = receptacle_definition.get('position_y', 0)
                 move_to_location(receptacle_definition, target_receptacle_instance, target_location)
                 containers.put_object_in_container(target_instance, target_receptacle_instance, \
                         receptacle_definition, area_index, target_rotation)
@@ -535,6 +537,8 @@ class InteractionPair():
                     confusor_receptacle_instance = copy.deepcopy(receptacle_template)
                     # Create a new ID so it's not the same ID used in the target_receptacle_instance
                     confusor_receptacle_instance['id'] = str(uuid.uuid4())
+                    # Update the Y position of the location to use the position_y from the receptacle definition.
+                    confusor_location['position']['y'] = receptacle_definition.get('position_y', 0)
                     move_to_location(receptacle_definition, confusor_receptacle_instance, confusor_location)
                     containers.put_object_in_container(confusor_instance, confusor_receptacle_instance, \
                             receptacle_definition, area_index, confusor_rotation)

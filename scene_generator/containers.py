@@ -14,7 +14,10 @@ def put_object_in_container(obj: Dict[str, Any],
                             rotation: Optional[float] = None) -> None:
     area = container_def['enclosed_areas'][area_index]
     obj['locationParent'] = container['id']
+    # Add the position_y from the object definition to the Y position of the container area.
+    position_y = obj['shows'][0]['position']['y']
     obj['shows'][0]['position'] = area['position'].copy()
+    obj['shows'][0]['position']['y'] += position_y
     if 'rotation' not in obj['shows'][0]:
         obj['shows'][0]['rotation'] = geometry.ORIGIN.copy()
     if rotation is not None:
