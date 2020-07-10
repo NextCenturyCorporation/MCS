@@ -209,9 +209,9 @@ def write_scene_of_pair(scene: Dict[str, Any], name: str) -> None:
     write_file(name, scene_copy)
 
 
-def generate_pair(prefix: str, count: int, find_path: bool, stop_on_error: bool) -> None:
+def generate_pair(prefix: str, count: int, pair_name: str, find_path: bool, stop_on_error: bool) -> None:
     template = generate_body_template('')
-    pair_class = pairs.get_pair_class()
+    pair_class = pairs.get_pair_class(pair_name)
     pair = pair_class(template, find_path)
     pair_id = str(uuid.uuid4())
     logging.debug(f'generating scene pair #{count}')
@@ -230,7 +230,7 @@ def generate_pair(prefix: str, count: int, find_path: bool, stop_on_error: bool)
     logging.debug(f'end generation of scene pair #{count}')
 
 
-def generate_pairs(prefix: str, count: int, find_path: bool, stop_on_error: bool) -> None:
+def generate_pairs(prefix: str, count: int, pair_name: str, find_path: bool, stop_on_error: bool) -> None:
     index = 1
     while count > 0:
         while True:
@@ -238,7 +238,7 @@ def generate_pairs(prefix: str, count: int, find_path: bool, stop_on_error: bool
             if not file_exists:
                 break
             index += 1
-        generate_pair(prefix, index, find_path, stop_on_error)
+        generate_pair(prefix, index, pair_name, find_path, stop_on_error)
         count -= 1
 
 
@@ -257,7 +257,7 @@ def generate_fileset(prefix: str, count: int, type_name: str, find_path: bool, s
     if fileset_type == FilesetType.QUARTET:
         generate_quartets(prefix, count, type_name, find_path, stop_on_error)
     elif fileset_type == FilesetType.PAIR:
-        generate_pairs(prefix, count, find_path, stop_on_error)
+        generate_pairs(prefix, count, type_name, find_path, stop_on_error)
     elif fileset_type == FilesetType.SINGLE:
         generate_single(prefix, count, type_name, find_path, stop_on_error)
 
@@ -272,10 +272,9 @@ def main(argv):
                        help='Generate a goal of the specified type [default is to not generate a goal]. Lowercase '
                        'goals are categories; capitalized goals are specific goals.')
     group.add_argument('--quartet', default=None, choices=quartets.get_quartet_types(),
-                       help='Generate a scene quartet for a goal of the specified type [default is to generate individual scenes]. Lowercase '
-                       'goals are categories; capitalized goals are specific goals.')
-    group.add_argument('--pair', default=False, action='store_true',
-                       help='Generate a scene pair for interaction tasks.')
+                       help='Generate a passive scene quartet of the specified type with random setups.')
+    group.add_argument('--pair', default=None, choices=pairs.get_pair_types(),
+                       help='Generate an interactive scene pair of the specified type with random goals.')
     parser.add_argument('--find_path', default=False, action='store_true',
                         help='Whether to run the pathfinding for interaction goals')
     parser.add_argument('--stop-on-error', default=False, action='store_true',
@@ -295,8 +294,8 @@ def main(argv):
     elif args.quartet is not None:
         type_name = args.quartet
         fileset_type = FilesetType.QUARTET
-    elif args.pair:
-        type_name = None
+    elif args.pair is not None:
+        type_name = args.pair
         fileset_type = FilesetType.PAIR
     else:
         type_name = None
