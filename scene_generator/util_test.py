@@ -306,35 +306,35 @@ def test_instantiate_object_size():
 
 def test_check_same_and_different():
     a = {
-        'type': 'ball',
+        'shape': 'ball',
         'color': 'blue',
         'size': 'tiny',
         'ignored': 'stuff'
     }
     b = {
-        'type': 'ball',
+        'shape': 'ball',
         'color': 'red',
         'size': 'tiny',
         'ignored': 42
     }
-    assert check_same_and_different(a, b, ('type', 'size'), ('color',)) is True
-    assert check_same_and_different(a, b, ('type', 'color'), ('size',)) is False
-    assert check_same_and_different(a, b, ('color', 'size'), ('type',)) is False
+    assert check_same_and_different(a, b, ('shape', 'size'), ('color',)) is True
+    assert check_same_and_different(a, b, ('shape', 'color'), ('size',)) is False
+    assert check_same_and_different(a, b, ('color', 'size'), ('shape',)) is False
 
 
 def test_check_same_and_different_pacifier():
-    assert check_same_and_different(PACIFIER, PACIFIER, ('type', 'dimensions'), ('materialCategory',)) is False
-    assert check_same_and_different(PACIFIER, PACIFIER, ('type', 'materialCategory'), ('dimensions',)) is False
-    assert check_same_and_different(PACIFIER, PACIFIER, ('dimensions', 'materialCategory'), ('type',)) is False
+    assert check_same_and_different(PACIFIER, PACIFIER, ('shape', 'dimensions'), ('materialCategory',)) is False
+    assert check_same_and_different(PACIFIER, PACIFIER, ('shape', 'materialCategory'), ('dimensions',)) is False
+    assert check_same_and_different(PACIFIER, PACIFIER, ('dimensions', 'materialCategory'), ('shape',)) is False
 
 
 def test_get_similar_defs():
     original_def = objects.OBJECTS_PICKUPABLE_BALLS[0]
     obj = instantiate_object(original_def, geometry.ORIGIN)
-    similar_defs = get_similar_defs(obj, objects.get_all_object_defs(), ('type', 'materialCategory'), ('mass',))
+    similar_defs = get_similar_defs(obj, objects.get_all_object_defs(), ('shape', 'materialCategory'), ('mass',))
     for obj_def in similar_defs:
         obj_2 = instantiate_object(obj_def, geometry.ORIGIN)
-        assert check_same_and_different(obj_2, obj, ('type', 'materialCategory'), ('mass',))
+        assert check_same_and_different(obj_2, obj, ('shape', 'materialCategory'), ('mass',))
 
 
 def test_instantiate_object_novel_color():
