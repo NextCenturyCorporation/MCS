@@ -30,6 +30,11 @@ overall type, or EmptyGoal if goal_type is None"""
             return klass()
 
 
+def get_goal_by_name(name: str) -> Goal:
+    """Return a new goal with the given name."""
+    return globals()[name + 'Goal']()
+
+
 def get_goal_types(generic_type: Optional[str] = None) -> List[str]:
     if generic_type is None:
         generic_types = GOAL_TYPES.keys()

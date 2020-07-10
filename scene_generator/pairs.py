@@ -81,14 +81,14 @@ class InteractionPair():
     """A pair of interactive scenes that each have the same goals, targets, distractors, walls, materials, and
     performer starts, except for specifically configured scene options."""
 
-    def __init__(self, number: int, template: Dict[str, Any], find_path: bool, options: SceneOptions):
+    def __init__(self, number: int, template: Dict[str, Any], goal_name: str, find_path: bool, options: SceneOptions):
         self._number = number
         self._scene_1 = copy.deepcopy(template)
         self._scene_2 = copy.deepcopy(template)
         self._options = options
         while True:
             try:
-                self._goal_1 = goals.choose_goal('interaction')
+                self._goal_1 = goals.get_goal_by_name(goal_name) if goal_name else goals.choose_goal('interaction')
                 self._initialize_each_goal()
                 self._goal_1.update_body(self._scene_1, find_path)
                 self._goal_2.update_body(self._scene_2, find_path)
@@ -735,10 +735,10 @@ class Pair1(InteractionPair):
     container (like a box). See MCS-232.
     """
 
-    def __init__(self, template: Dict[str, Any], find_path: bool):
+    def __init__(self, template: Dict[str, Any], goal_name: str = None, find_path: bool = False):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
                 BoolPairOption.NO_NO
-        super(Pair1, self).__init__(1, template, find_path, options = SceneOptions( \
+        super(Pair1, self).__init__(1, template, goal_name, find_path, options = SceneOptions( \
                 target_containerize = containerize, target_location = TargetLocationPairOption.FRONT_BACK))
 
 
@@ -752,10 +752,10 @@ class Pair6(InteractionPair):
     used in that pair. See MCS-233.
     """
 
-    def __init__(self, template: Dict[str, Any], find_path: bool):
+    def __init__(self, template: Dict[str, Any], goal_name: str = None, find_path: bool = False):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
                 BoolPairOption.NO_NO
-        super(Pair6, self).__init__(6, template, find_path, options = SceneOptions( \
+        super(Pair6, self).__init__(6, template, goal_name, find_path, options = SceneOptions( \
                 target_containerize = containerize, target_location = TargetLocationPairOption.FRONT_BACK, \
                 confusor = BoolPairOption.YES_YES, confusor_containerize = containerize, \
                 confusor_location = ConfusorLocationPairOption.BACK_FRONT))
@@ -768,10 +768,10 @@ class Pair2(InteractionPair):
     box). See MCS-239.
     """
 
-    def __init__(self, template: Dict[str, Any], find_path: bool):
+    def __init__(self, template: Dict[str, Any], goal_name: str = None, find_path: bool = False):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
                 BoolPairOption.NO_NO
-        super(Pair2, self).__init__(2, template, find_path, options = SceneOptions( \
+        super(Pair2, self).__init__(2, template, goal_name, find_path, options = SceneOptions( \
                 target_containerize = containerize, target_location = TargetLocationPairOption.FRONT_FRONT, \
                 obstructor = BoolPairOption.NO_YES))
 
@@ -783,11 +783,11 @@ class Pair7(InteractionPair):
     container for neither scene. See MCS-234.
     """
 
-    def __init__(self, template: Dict[str, Any], find_path: bool):
+    def __init__(self, template: Dict[str, Any], goal_name: str = None, find_path: bool = False):
         containerize_target = random.choice((BoolPairOption.NO_NO, BoolPairOption.YES_YES))
         containerize_confusor = BoolPairOption.YES_YES if containerize_target == BoolPairOption.NO_NO else \
                 BoolPairOption.NO_NO
-        super(Pair7, self).__init__(7, template, find_path, options = SceneOptions( \
+        super(Pair7, self).__init__(7, template, goal_name, find_path, options = SceneOptions( \
                 target_containerize = containerize_target, target_location = TargetLocationPairOption.FRONT_BACK, \
                 confusor = BoolPairOption.YES_YES, confusor_containerize = containerize_confusor, \
                 confusor_location = ConfusorLocationPairOption.BACK_FRONT))
@@ -802,10 +802,10 @@ class Pair3(InteractionPair):
     that pair.
     """
 
-    def __init__(self, template: Dict[str, Any], find_path: bool):
+    def __init__(self, template: Dict[str, Any], goal_name: str = None, find_path: bool = False):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
                 BoolPairOption.NO_NO
-        super(Pair3, self).__init__(3, template, find_path, options = SceneOptions( \
+        super(Pair3, self).__init__(3, template, goal_name, find_path, options = SceneOptions( \
                 target_containerize = containerize, confusor = BoolPairOption.NO_YES, \
                 confusor_containerize = containerize, confusor_location = ConfusorLocationPairOption.NONE_CLOSE))
 
@@ -817,10 +817,10 @@ class Pair4(InteractionPair):
     containers, but only if the container is big enough to hold both
     individually; otherwise, no container will be used in that pair."""
 
-    def __init__(self, template: Dict[str, Any], find_path: bool):
+    def __init__(self, template: Dict[str, Any], goal_name: str = None, find_path: bool = False):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
                 BoolPairOption.NO_NO
-        super(Pair4, self).__init__(4, template, find_path, options = SceneOptions( \
+        super(Pair4, self).__init__(4, template, goal_name, find_path, options = SceneOptions( \
                 target_containerize = containerize, confusor = BoolPairOption.NO_YES, \
                 confusor_containerize = containerize, confusor_location = ConfusorLocationPairOption.NONE_FAR))
 
@@ -833,10 +833,10 @@ class Pair5(InteractionPair):
     container will be used in that pair.
     """
 
-    def __init__(self, template: Dict[str, Any], find_path: bool):
+    def __init__(self, template: Dict[str, Any], goal_name: str = None, find_path: bool = False):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
                 BoolPairOption.NO_NO
-        super(Pair5, self).__init__(5, template, find_path, options = SceneOptions( \
+        super(Pair5, self).__init__(5, template, goal_name, find_path, options = SceneOptions( \
                 target_containerize = containerize, confusor = BoolPairOption.YES_YES, \
                 confusor_containerize = containerize, confusor_location = ConfusorLocationPairOption.CLOSE_FAR))
 
@@ -848,8 +848,8 @@ class Pair8(InteractionPair):
     Object is inside a container. See MCS-238.
     """
 
-    def __init__(self, template: Dict[str, Any], find_path: bool):
-        super(Pair8, self).__init__(8, template, find_path, options = SceneOptions( \
+    def __init__(self, template: Dict[str, Any], goal_name: str = None, find_path: bool = False):
+        super(Pair8, self).__init__(8, template, goal_name, find_path, options = SceneOptions( \
                 target_containerize = BoolPairOption.NO_YES, confusor = BoolPairOption.YES_YES, \
                 confusor_containerize = BoolPairOption.YES_NO, \
                 confusor_location = ConfusorLocationPairOption.CLOSE_CLOSE))

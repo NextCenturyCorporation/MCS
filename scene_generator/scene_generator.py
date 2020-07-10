@@ -167,9 +167,12 @@ def generate_single(prefix: str, count: int, goal_type: str, find_path: bool,
             logging.warning(f'failed to create a file: {e}')
 
 
-def generate_quartet(prefix: str, count: int, quartet_name: str, find_path: bool, stop_on_error: bool) -> None:
+def generate_quartet(prefix: str, count: int, quartet_name: str, goal_name: str, find_path: bool, \
+        stop_on_error: bool) -> None:
+
     template = generate_body_template('')
     quartet_class = quartets.get_quartet_class(quartet_name)
+    # TODO Use goal_name in quartet constructor
     quartet = quartet_class(template, find_path)
     quartet_id = str(uuid.uuid4())
     quartet_name = quartet.__class__.__name__.replace('Quartet', '').lower()
@@ -191,7 +194,9 @@ def generate_quartet(prefix: str, count: int, quartet_name: str, find_path: bool
         logging.debug(f'end generation of\t{name}')
 
 
-def generate_quartets(prefix: str, count: int, quartet_name: str, find_path: bool, stop_on_error: bool) -> None:
+def generate_quartets(prefix: str, count: int, quartet_name: str, goal_name: str, find_path: bool, \
+        stop_on_error: bool) -> None:
+
     index = 1
     while count > 0:
         while True:
@@ -199,7 +204,7 @@ def generate_quartets(prefix: str, count: int, quartet_name: str, find_path: boo
             if not file_exists:
                 break
             index += 1
-        generate_quartet(prefix, index, quartet_name, find_path, stop_on_error)
+        generate_quartet(prefix, index, quartet_name, goal_name, find_path, stop_on_error)
         count -= 1
 
 
@@ -209,10 +214,12 @@ def write_scene_of_pair(scene: Dict[str, Any], name: str) -> None:
     write_file(name, scene_copy)
 
 
-def generate_pair(prefix: str, count: int, pair_name: str, find_path: bool, stop_on_error: bool) -> None:
+def generate_pair(prefix: str, count: int, pair_name: str, goal_name: str, find_path: bool, \
+        stop_on_error: bool) -> None:
+
     template = generate_body_template('')
     pair_class = pairs.get_pair_class(pair_name)
-    pair = pair_class(template, find_path)
+    pair = pair_class(template, goal_name, find_path)
     pair_id = str(uuid.uuid4())
     logging.debug(f'generating scene pair #{count}')
     while True:
@@ -230,7 +237,9 @@ def generate_pair(prefix: str, count: int, pair_name: str, find_path: bool, stop
     logging.debug(f'end generation of scene pair #{count}')
 
 
-def generate_pairs(prefix: str, count: int, pair_name: str, find_path: bool, stop_on_error: bool) -> None:
+def generate_pairs(prefix: str, count: int, pair_name: str, goal_name: str, find_path: bool, \
+        stop_on_error: bool) -> None:
+
     index = 1
     while count > 0:
         while True:
@@ -238,7 +247,7 @@ def generate_pairs(prefix: str, count: int, pair_name: str, find_path: bool, sto
             if not file_exists:
                 break
             index += 1
-        generate_pair(prefix, index, pair_name, find_path, stop_on_error)
+        generate_pair(prefix, index, pair_name, goal_name, find_path, stop_on_error)
         count -= 1
 
 
@@ -248,18 +257,18 @@ class FilesetType(Enum):
     PAIR = auto()
 
 
-def generate_fileset(prefix: str, count: int, type_name: str, find_path: bool, stop_on_error: bool,
+def generate_fileset(prefix: str, count: int, type_name: str, goal_name: str, find_path: bool, stop_on_error: bool,
                      fileset_type: FilesetType) -> None:
     dirname = os.path.dirname(prefix)
     if dirname != '':
         os.makedirs(dirname, exist_ok=True)
 
     if fileset_type == FilesetType.QUARTET:
-        generate_quartets(prefix, count, type_name, find_path, stop_on_error)
+        generate_quartets(prefix, count, type_name, goal_name, find_path, stop_on_error)
     elif fileset_type == FilesetType.PAIR:
-        generate_pairs(prefix, count, type_name, find_path, stop_on_error)
+        generate_pairs(prefix, count, type_name, goal_name, find_path, stop_on_error)
     elif fileset_type == FilesetType.SINGLE:
-        generate_single(prefix, count, type_name, find_path, stop_on_error)
+        generate_single(prefix, count, goal_name, find_path, stop_on_error)
 
 
 def main(argv):
@@ -268,7 +277,7 @@ def main(argv):
     parser.add_argument('-c', '--count', type=int, default=1, help='How many scenes or quartets to generate [default=1]')
     parser.add_argument('--seed', type=int, default=None, help='Random number seed [default=None]')
     group = parser.add_mutually_exclusive_group()
-    group.add_argument('--goal', default=None, choices=goals.get_goal_types(),
+    parser.add_argument('--goal', default=None, choices=goals.get_goal_types(),
                        help='Generate a goal of the specified type [default is to not generate a goal]. Lowercase '
                        'goals are categories; capitalized goals are specific goals.')
     group.add_argument('--quartet', default=None, choices=quartets.get_quartet_types(),
@@ -288,20 +297,24 @@ def main(argv):
     if args.loglevel:
         logging.getLogger().setLevel(args.loglevel)
 
-    if args.goal is not None:
-        type_name = args.goal
-        fileset_type = FilesetType.SINGLE
-    elif args.quartet is not None:
+    if args.quartet is not None:
+        goal_name = args.goal
         type_name = args.quartet
         fileset_type = FilesetType.QUARTET
     elif args.pair is not None:
+        goal_name = args.goal
         type_name = args.pair
         fileset_type = FilesetType.PAIR
+    elif args.goal is not None:
+        goal_name = args.goal
+        type_name = None
+        fileset_type = FilesetType.SINGLE
     else:
+        goal_name = None
         type_name = None
         fileset_type = FilesetType.SINGLE
 
-    generate_fileset(args.prefix, args.count, type_name, args.find_path, args.stop_on_error, fileset_type)
+    generate_fileset(args.prefix, args.count, type_name, goal_name, args.find_path, args.stop_on_error, fileset_type)
 
 
 if __name__ == '__main__':
