@@ -143,9 +143,13 @@ class Goal(ABC):
 
     def _update_goal_tags(self, goal: Dict[str, Any], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> None:
         self._update_goal_tags_of_type(goal, tag_to_objects['target'], 'target')
+        if 'confusor' in tag_to_objects:
+            self._update_goal_tags_of_type(goal, tag_to_objects['confusor'], 'confusor')
         if 'distractor' in tag_to_objects:
             self._update_goal_tags_of_type(goal, tag_to_objects['distractor'], 'distractor')
-        for item in ['background object', 'distractor', 'occluder', 'target', 'wall']:
+        if 'obstructor' in tag_to_objects:
+            self._update_goal_tags_of_type(goal, tag_to_objects['obstructor'], 'obstructor')
+        for item in ['background object', 'confusor', 'distractor', 'obstructor', 'occluder', 'target', 'wall']:
             if item in tag_to_objects:
                 number = len(tag_to_objects[item])
                 if item == 'occluder':

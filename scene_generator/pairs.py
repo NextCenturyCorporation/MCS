@@ -416,13 +416,16 @@ class InteractionPair():
         logging.debug('obstructor_1 ' + ((obstructor_1['id'] + ' ' + obstructor_1['type']) if obstructor_1 else 'None'))
         logging.debug('obstructor_2 ' + ((obstructor_2['id'] + ' ' + obstructor_2['type']) if obstructor_2 else 'None'))
 
-        distractor_list_1 = [instance for instance in [confusor_1, target_receptacle_1, confusor_receptacle_1, \
-                obstructor_1] if instance]
-        distractor_list_2 = [instance for instance in [confusor_2, target_receptacle_2, confusor_receptacle_2, \
-                obstructor_2] if instance]
+        confusor_list_1 = [confusor_1] if confusor_1 else []
+        confusor_list_2 = [confusor_2] if confusor_2 else []
+        distractor_list_1 = [instance for instance in [target_receptacle_1, confusor_receptacle_1] if instance]
+        distractor_list_2 = [instance for instance in [target_receptacle_2, confusor_receptacle_2] if instance]
+        obstructor_list_1 = [obstructor_1] if obstructor_1 else []
+        obstructor_list_2 = [obstructor_2] if obstructor_2 else []
 
-        self._finalize_goal_1(target_1, distractor_list_1)
-        self._finalize_goal_2(target_choice, distractor_list_1, target_2, distractor_list_2)
+        self._finalize_goal_1(target_1, confusor_list_1, distractor_list_1, obstructor_list_1)
+        self._finalize_goal_2(target_choice, confusor_list_1, distractor_list_1, obstructor_list_1, target_2, \
+                confusor_list_2, distractor_list_2, obstructor_list_2)
 
     def _create_receptacle_around_both(self, target_instance: Dict[str, Any], confusor_instance: Dict[str, Any]) -> \
             Optional[Tuple[Dict[str, Any], int, float, float, containers.Orientation]]:
@@ -460,22 +463,31 @@ class InteractionPair():
         # The angles list should have a length of 2 if the confusor_instance is not None
         return receptacle_definition, area_index, angles[0], (angles[1] if len(angles) == 2 else None)
 
-    def _finalize_goal_1(self, target_1: Dict[str, Any], distractor_list: List[Dict[str, Any]]) -> None:
-        """Finalize the targets and other objects in the first goal."""
+    def _finalize_goal_1(self, target_1: Dict[str, Any], confusor_list: List[Dict[str, Any]], \
+            distractor_list: List[Dict[str, Any]], obstructor_list: List[Dict[str, Any]]) -> None:
+        """Finalize the target and other objects in the first goal."""
 
         # Add the first version of each chosen object to the first goal.
         goal_1_target_list = self._goal_1.get_target_list()
         goal_1_target_list.append(target_1)
+        goal_1_confusor_list = self._goal_1.get_confusor_list()
+        for confusor in confusor_list:
+            goal_1_confusor_list.append(confusor)
         goal_1_distractor_list = self._goal_1.get_distractor_list()
         for distractor in distractor_list:
             goal_1_distractor_list.append(distractor)
+        goal_1_obstructor_list = self._goal_1.get_obstructor_list()
+        for obstructor in obstructor_list:
+            goal_1_obstructor_list.append(obstructor)
 
         # Generate the other random objects in the first goal, then copy them to the second goal.
         self._goal_1.compute_objects(self._scene_1['wallMaterial'], self._scene_1['wallColors'])
 
-    def _finalize_goal_2(self, target_choice: int, distractor_list_1: List[Dict[str, Any]], target_2: Dict[str, Any], \
-            distractor_list_2: List[Dict[str, Any]]) -> None:
-        """Finalize the targets and other objects in the first goal."""
+    def _finalize_goal_2(self, target_choice: int, confusor_list_1: List[Dict[str, Any]], \
+            distractor_list_1: List[Dict[str, Any]], obstructor_list_1: List[Dict[str, Any]], \
+            target_2: Dict[str, Any], confusor_list_2: List[Dict[str, Any]], \
+            distractor_list_2: List[Dict[str, Any]], obstructor_list_2: List[Dict[str, Any]]) -> None:
+        """Finalize the target and other objects in the first goal."""
 
         # Copy the random objects from the first goal to the second goal.
         self._goal_2 = copy.deepcopy(self._goal_1)
@@ -484,15 +496,27 @@ class InteractionPair():
         goal_2_target_list = self._goal_2.get_target_list()
         goal_2_target_list[target_choice] = target_2
 
-        # Remove the first version of each distractor object from the copied list.
+        # Remove the first version of each chosen object in the lists that were copied from the first goal.
+        goal_2_confusor_list = self._goal_2.get_confusor_list()
+        for confusor in confusor_list_1:
+            goal_2_confusor_list.pop(0)
         goal_2_distractor_list = self._goal_2.get_distractor_list()
         for distractor in distractor_list_1:
             goal_2_distractor_list.pop(0)
+        goal_2_obstructor_list = self._goal_2.get_obstructor_list()
+        for obstructor in obstructor_list_1:
+            goal_2_obstructor_list.pop(0)
 
         # Add the second version of each chosen object to the second goal.
+        confusor_list_2.reverse()
+        for confusor in confusor_list_2:
+            goal_2_confusor_list.insert(0, confusor)
         distractor_list_2.reverse()
         for distractor in distractor_list_2:
             goal_2_distractor_list.insert(0, distractor)
+        obstructor_list_2.reverse()
+        for obstructor in obstructor_list_2:
+            goal_2_obstructor_list.insert(0, obstructor)
 
     def _finalize_target_confusor_position(self, target_definition: Dict[str, Any], target_template: Dict[str, Any], \
             target_location: Dict[str, Any], containerize_target: bool, show_confusor: bool, is_confusor_close: bool, \

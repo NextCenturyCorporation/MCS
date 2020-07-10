@@ -365,7 +365,9 @@ class InteractionGoal(Goal, ABC):
         self._target_rule_list = target_rule_list
         self._bounds_list = []
         self._target_list = []
+        self._confusor_list = []
         self._distractor_list = []
+        self._obstructor_list = []
         self._wall_list = None
         self._is_distractor_list_done = False
 
@@ -373,7 +375,9 @@ class InteractionGoal(Goal, ABC):
     def compute_objects(self, wall_material_name: str, wall_colors: List[str]) -> Dict[str, List[Dict[str, Any]]]:
         return {
             'target': self.generate_target_list(),
+            'confusor': self._confusor_list,
             'distractor': self.generate_distractor_list(),
+            'obstructor': self._obstructor_list,
             'wall': self.generate_wall_list(wall_material_name, wall_colors)
         }
 
@@ -419,6 +423,10 @@ class InteractionGoal(Goal, ABC):
         """Returns the bounding rectangles of all objects in this goal."""
         return self._bounds_list
 
+    def get_confusor_list(self) -> List[Dict[str, Any]]:
+        """Returns the confusors in this goal."""
+        return self._confusor_list
+
     def get_confusor_rule(self, target_definition: Dict[str, Any]) -> ObjectRule:
         """Returns the rule for any confusors compatible with this goal."""
         return ConfusorObjectRule(target_definition = target_definition)
@@ -432,6 +440,10 @@ class InteractionGoal(Goal, ABC):
         """Returns the rule for any distractors compatible with this goal."""
         return DistractorObjectRule(target_list = (target_list if target_list is not None else self._target_list), \
                 is_position_in_receptacle = is_position_in_receptacle)
+
+    def get_obstructor_list(self) -> List[Dict[str, Any]]:
+        """Returns the obstructors in this goal."""
+        return self._obstructor_list
 
     def get_obstructor_rule(self, target_definition: Dict[str, Any], obstruct_vision: bool = False) -> ObjectRule:
         """Returns the rule for any obstructors compatible with this goal."""
