@@ -16,6 +16,10 @@ WALL_Y_POS = 1.5
 WALL_HEIGHT = 3
 WALL_DEPTH = 0.1
 
+MAX_PAINTING_WIDTH = 1.5
+MIN_PAINTING_WIDTH = 0.5
+PAINTING_DEPTH = 0.05
+
 DIST_WALL_APART = 1
 SAFE_DIST_FROM_ROOM_WALL = 3.5
     
@@ -40,9 +44,9 @@ def generate_wall(wall_material: str, wall_colors: List[str], performer_position
             ((rotation == 90 or rotation == 270) and (new_x < -SAFE_DIST_FROM_ROOM_WALL or new_x > SAFE_DIST_FROM_ROOM_WALL)): 
             continue
 
-        rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, 0, 0, rotation)
+        rect = geometry.calc_obj_coords(new_x, new_z, 0, new_x_size, WALL_DEPTH, 0, 0, rotation)
         # barrier_rect is to allow parallel walls to be at least 1(DIST_WALL_APART) apart on the appropriate axis
-        barrier_rect = geometry.calc_obj_coords(new_x, new_z, new_x_size + DIST_WALL_APART, WALL_DEPTH + DIST_WALL_APART, 0, 0, rotation)
+        barrier_rect = geometry.calc_obj_coords(new_x, new_z, 0, new_x_size + DIST_WALL_APART, WALL_DEPTH + DIST_WALL_APART, 0, 0, rotation)
         wall_poly = geometry.rect_to_poly(rect)
         is_ok = not wall_poly.intersects(performer_poly) and geometry.rect_within_room(rect) and \
                 (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(barrier_rect, other_rect) \
@@ -81,8 +85,8 @@ def generate_wall(wall_material: str, wall_colors: List[str], performer_position
         return new_object
     return None
 
-
-def generate_painting(painting_material: str, performer_position: Dict[str, float],
+#TODO:
+def generate_painting(painting_material: str, wall_colors: List[str], performer_position: Dict[str, float],
                   other_rects: List[List[Dict[str, float]]]) -> Optional[Dict[str, Any]]:
     # Chance to generate a painting in the room, that can only be hanged on a wall
 
@@ -91,10 +95,61 @@ def generate_painting(painting_material: str, performer_position: Dict[str, floa
     # 3) Make sure the painting is not intersecting any objects, is within the room
     # 4) Create the painting if it is valid
 
-    print('Make paintings')
+    # First goal- Make sure I can generate a painting(mini-wall) won any of the rooms 4 walls
+    # Second goal- make sure I can generate a painting on generated_walls()
+
+    tries = 0
+    performer_rect = geometry.find_performer_rect(performer_position)
+    performer_poly = geometry.rect_to_poly(performer_rect)
+    while tries < util.MAX_TRIES:
+        rotation = random.choice((0, 90, 180, 270))
+        new_x = geometry.random_position()
+        new_z = geometry.random_position()
+        new_y = geometry.random_position()
+        new_x_size = round(random.uniform(MIN_PAINTING_WIDTH, MAX_PAINTING_WIDTH), geometry.POSITION_DIGITS)
+        painting_height = round(random.uniform(MIN_PAINTING_WIDTH, MAX_PAINTING_WIDTH), geometry.POSITION_DIGITS)
+
+        #Make sure painting(smaller wall) is in front of the rooms 4 walls
+        if (((rotation == 0 or rotation == 180) and (new_z < -SAFE_DIST_FROM_ROOM_WALL or new_z > SAFE_DIST_FROM_ROOM_WALL)) or \
+            ((rotation == 90 or rotation == 270) and (new_x < -SAFE_DIST_FROM_ROOM_WALL or new_x > SAFE_DIST_FROM_ROOM_WALL))) and \
+           (new_y > 0 and new_y + painting_height < SAFE_DIST_FROM_ROOM_WALL): # Don't want painting going thru floor && ceiling
+
+            
+            rect = geometry.calc_obj_coords(new_x, new_z, new_y, new_x_size, PAINTING_DEPTH, 0, 0, rotation)
+            barrier_rect = geometry.calc_obj_coords(new_x, new_z, new_y, new_x_size + DIST_WALL_APART, PAINTING_DEPTH + DIST_WALL_APART, 0, 0, rotation)
+            painting_poly = geometry.rect_to_poly(rect)
+            if not painting_poly.intersects(performer_poly) and \
+                    geometry.rect_within_room(rect) and \
+                    (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(barrier_rect, other_rect) for other_rect in other_rects)): 
+                break
+
+        tries += 1
+    
+    if tries < util.MAX_TRIES:
+        new_object = {
+            'id': 'painting_' + str(uuid.uuid4()), 
+            'materials': [painting_material],
+            'type': 'cube',
+            'kinematic': 'true',
+            'structure': 'true',
+            'mass': 100,
+            'info': wall_colors,
+            'info_string': ' '.join(wall_colors)
+        }
+        shows_object = {
+            'stepBegin': 0,
+            'scale': {'x': new_x_size, 'y': painting_height, 'z': PAINTING_DEPTH},
+            'rotation': {'x': 0, 'y': rotation, 'z': 0},
+            'position': {'x': new_x, 'y': new_y, 'z': new_z},
+            'bounding_box': rect
+        }
+        shows = [shows_object]
+        new_object['shows'] = shows
+
+        return new_object
 
     return None
-    
+
 
 class Goal(ABC):
     """An abstract Goal. Subclasses must implement compute_objects and
@@ -113,8 +168,13 @@ class Goal(ABC):
         self._tag_to_objects = self.compute_objects(body['wallMaterial'], body['wallColors'])
 
         body['performerStart'] = self._performer_start
-        walls = self.generate_walls(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], \
-                bounding_rects)
+        walls = self.generate_walls(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], bounding_rects)
+        print("walls: ", walls)
+        paintings = self.generate_paintings(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], bounding_rects)
+        print("paintings: ", paintings)
+        print("\n\n\n")
+        walls.extend(paintings)
+        
         if walls is not None:
             self._tag_to_objects['wall'] = walls
 
@@ -186,6 +246,7 @@ class Goal(ABC):
                 number = len(tag_to_objects[item])
                 if item == 'occluder':
                     number = (int)(number / 2)
+
                 goal['type_list'].append(item + 's ' + str(number))
         self._update_goal_info_list(goal, tag_to_objects)
 
@@ -244,12 +305,13 @@ class Goal(ABC):
                 logging.warning('could not generate wall')
         return walls
 
+    #TODO:
     def generate_paintings(self, material: str, colors: List[str], performer_position: Dict[str, Any],
                        bounding_rects: List[List[Dict[str, float]]]) -> List[Dict[str, Any]]:
-        painting_count = random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
+        painting_count = 1 #random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
 
         paintings = []
-        all_bounding_rects = [bounding_rect.copy() for bounding_rect in bounding_rects] 
+        all_bounding_rects = [bounding_rect.copy() for bounding_rect in bounding_rects]
         for x in range(0, painting_count):
             painting = generate_painting(material, colors, performer_position, all_bounding_rects)
 
@@ -259,7 +321,7 @@ class Goal(ABC):
             else:
                 logging.warning('could not generate wall')
         return paintings
-
+    
 
     @abstractmethod
     def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
