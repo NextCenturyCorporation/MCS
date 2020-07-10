@@ -109,15 +109,29 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
         new_x_size = round(random.uniform(MIN_PAINTING_WIDTH, MAX_PAINTING_WIDTH), geometry.POSITION_DIGITS)
         painting_height = round(random.uniform(MIN_PAINTING_WIDTH, MAX_PAINTING_WIDTH), geometry.POSITION_DIGITS)
 
-        #Make sure painting(smaller wall) is in front of the rooms 4 walls
+        # Painting(smaller wall) is in front of the rooms 4 walls
         if (((rotation == 0 or rotation == 180) and (new_z < -SAFE_DIST_FROM_ROOM_WALL or new_z > SAFE_DIST_FROM_ROOM_WALL)) or \
             ((rotation == 90 or rotation == 270) and (new_x < -SAFE_DIST_FROM_ROOM_WALL or new_x > SAFE_DIST_FROM_ROOM_WALL))) and \
-           (new_y > 0 and new_y + painting_height < SAFE_DIST_FROM_ROOM_WALL): # Don't want painting going thru floor && ceiling
+           (new_y > 0.5 and new_y + painting_height < SAFE_DIST_FROM_ROOM_WALL): # Don't want painting going thru floor && ceiling
 
-            
+            #TODO If statments to make sure the painting is right on the wall, instead of hovering in front of the wall
+            if (rotation == 0 or rotation == 180):
+                if new_z < 0:
+                    #print(new_z)
+                    new_z = -4.9
+                    #print(new_z)
+                else:
+                    new_z = 4.9
+            elif (rotation == 90 or rotation == 270):
+                if new_x < 0:
+                    new_x = -4.9
+                else:
+                    new_x = 4.9   
+
             rect = geometry.calc_obj_coords(new_x, new_z, new_y, new_x_size, PAINTING_DEPTH, 0, 0, rotation)
             barrier_rect = geometry.calc_obj_coords(new_x, new_z, new_y, new_x_size + DIST_WALL_APART, PAINTING_DEPTH + DIST_WALL_APART, 0, 0, rotation)
             painting_poly = geometry.rect_to_poly(rect)
+            #print(geometry.rect_within_room(rect))
             if not painting_poly.intersects(performer_poly) and \
                     geometry.rect_within_room(rect) and \
                     (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(barrier_rect, other_rect) for other_rect in other_rects)): 
@@ -169,8 +183,8 @@ class Goal(ABC):
 
         body['performerStart'] = self._performer_start
         walls = self.generate_walls(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], bounding_rects)
-        print("walls: ", walls)
-        paintings = self.generate_paintings(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], bounding_rects)
+        #print("walls: ", walls)
+        paintings = self.generate_paintings(body['paintingMaterial'], body['paintingColors'], body['performerStart']['position'], bounding_rects)
         print("paintings: ", paintings)
         print("\n\n\n")
         walls.extend(paintings)
@@ -319,7 +333,7 @@ class Goal(ABC):
                 paintings.append(painting)
                 all_bounding_rects.append(painting['shows'][0]['bounding_box'])
             else:
-                logging.warning('could not generate wall')
+                logging.warning('could not generate painting')
         return paintings
     
 
