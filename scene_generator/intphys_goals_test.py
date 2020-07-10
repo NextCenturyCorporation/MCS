@@ -154,7 +154,8 @@ def test_GravityGoal__get_ramp_and_objects():
 
 def test_IntPhysGoal__get_objects_and_occluders_moving_across():
     class TestGoal(IntPhysGoal):
-        pass
+        def __init__(self):
+            super(TestGoal, self).__init__('test')
 
     goal = TestGoal()
     wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)[0]
@@ -178,7 +179,8 @@ def test_IntPhysGoal__get_objects_and_occluders_moving_across():
 
 def test_IntPhysGoal__get_objects_moving_across_collisions():
     class TestGoal(IntPhysGoal):
-        pass
+        def __init__(self):
+            super(TestGoal, self).__init__('test')
 
     goal = TestGoal()
     wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)[0]
@@ -214,7 +216,8 @@ def test_IntPhysGoal__compute_scenery():
 
 def test__get_objects_falling_down():
     class TestGoal(IntPhysGoal):
-        pass
+        def __init__(self):
+            super(TestGoal, self).__init__('test')
 
     goal = TestGoal()
     wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)[0]
@@ -238,7 +241,8 @@ def test_mcs_209():
 
     class TestGoal(IntPhysGoal):
         TEMPLATE = {'type_list': [], 'metadata': {}}
-        pass
+        def __init__(self):
+            super(TestGoal, self).__init__('test')
 
     goal = TestGoal()
     objs = goal._get_objects_moving_across('dummy', 55, goal._object_defs)

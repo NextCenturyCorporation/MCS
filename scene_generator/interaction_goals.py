@@ -361,8 +361,7 @@ class InteractionGoal(Goal, ABC):
     WALL_WEIGHTS = [40, 30, 20, 10]
 
     def __init__(self, name: str, target_rule_list: List[ObjectRule]):
-        super(InteractionGoal, self).__init__()
-        self._name = name
+        super(InteractionGoal, self).__init__(name)
         self._target_rule_list = target_rule_list
         self._bounds_list = []
         self._target_list = []
@@ -433,10 +432,6 @@ class InteractionGoal(Goal, ABC):
         """Returns the rule for any distractors compatible with this goal."""
         return DistractorObjectRule(target_list = (target_list if target_list is not None else self._target_list), \
                 is_position_in_receptacle = is_position_in_receptacle)
-
-    def get_name(self) -> str:
-        """Returns the goal's name."""
-        return self._name
 
     def get_obstructor_rule(self, target_definition: Dict[str, Any], obstruct_vision: bool = False) -> ObjectRule:
         """Returns the rule for any obstructors compatible with this goal."""

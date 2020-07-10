@@ -79,7 +79,8 @@ class Goal(ABC):
     get_config. Users of a goal object should normally only need to call 
     update_body."""
 
-    def __init__(self):
+    def __init__(self, name: str):
+        self._name = name
         self._performer_start = None
         self._compute_performer_start()
         self._tag_to_objects = []
@@ -170,6 +171,10 @@ class Goal(ABC):
         goal_config = self._get_subclass_config(tag_to_objects['target'])
         self._update_goal_tags(goal_config, tag_to_objects)
         return goal_config
+
+    def get_name(self) -> str:
+        """Returns the name of this goal."""
+        return self._name
 
     def get_performer_start(self) -> Dict[str, float]:
         """Returns the performer start."""
