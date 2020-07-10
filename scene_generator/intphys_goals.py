@@ -14,7 +14,7 @@ import util
 from goal import Goal, GoalException
 from util import finalize_object_definition, instantiate_object
 
-MAX_SIZE_DIFFERENCE = 0.1
+
 MAX_WALL_WIDTH = 4
 MIN_WALL_WIDTH = 1
 WALL_Y_POS = 1.5
@@ -89,7 +89,7 @@ class IntPhysGoal(Goal, ABC):
         self._object_creator = None
         self._object_defs = objects.OBJECTS_INTPHYS
 
-    def compute_performer_start(self) -> Dict[str, Dict[str, float]]:
+    def _compute_performer_start(self) -> Dict[str, Dict[str, float]]:
         if self._performer_start is None:
             self._performer_start = {
                 'position': {
@@ -105,7 +105,7 @@ class IntPhysGoal(Goal, ABC):
 
     def update_body(self, body: Dict[str, Any], find_path: bool) -> Dict[str, Any]:
         body = super(IntPhysGoal, self).update_body(body, find_path)
-        for obj in self._targets:
+        for obj in self._tag_to_objects['target']:
             obj['torques'] = [IntPhysGoal.DEFAULT_TORQUE]
 
         body['observation'] = True
@@ -114,7 +114,7 @@ class IntPhysGoal(Goal, ABC):
         }
         return body
 
-    def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
+    def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
             List[Dict[str, Any]]:
         return []
 
@@ -129,18 +129,11 @@ class IntPhysGoal(Goal, ABC):
                 goal['type_list'].append('fall down')
         return goal
 
-    def generate_walls(self, material: str, colors: List[str], performer_position: Dict[str, Any],
-                       bounding_rects: List[List[Dict[str, float]]]) -> List[Dict[str, Any]]:
-        """IntPhys goals have no walls."""
-        return None
-
-    def compute_objects(self, room_wall_material_name: str) -> \
-            Tuple[Dict[str, List[Dict[str, Any]]], List[List[Dict[str, float]]]]:
-
+    def compute_objects(self, wall_material_name: str, wall_colors: List[str]) -> Dict[str, List[Dict[str, Any]]]:
         self._object_creator = random.choice([IntPhysGoal._get_objects_and_occluders_moving_across,
                                               IntPhysGoal._get_objects_falling_down])
         self._last_step = IntPhysGoal.LAST_STEP_FALL_DOWN
-        moving_objs, occluder_objs = self._object_creator(self, room_wall_material_name)
+        moving_objs, occluder_objs = self._object_creator(self, wall_material_name)
         background_objs = self._compute_scenery()
 
         return {
@@ -148,7 +141,7 @@ class IntPhysGoal(Goal, ABC):
             'distractor': moving_objs[1:],
             'background object': background_objs,
             'occluder': occluder_objs
-        }, []
+        }
 
     def _compute_scenery(self):
         MIN_VISIBLE_X = -6.5
@@ -561,10 +554,8 @@ class GravityGoal(IntPhysGoal):
             raise ValueError('cannot get left-to-right-ness before compute_objects is called')
         return self._left_to_right
 
-    def compute_objects(self, room_wall_material_name: str) -> \
-            Tuple[Dict[str, List[Dict[str, Any]]], List[List[Dict[str, float]]]]:
-
-        ramp_type, left_to_right, ramp_objs, moving_objs = self._get_ramp_and_objects(room_wall_material_name)
+    def compute_objects(self, wall_material_name: str, wall_colors: List[str]) -> Dict[str, List[Dict[str, Any]]]:
+        ramp_type, left_to_right, ramp_objs, moving_objs = self._get_ramp_and_objects(wall_material_name)
         self._ramp_type = ramp_type
         self._left_to_right = left_to_right
         background_objs = self._compute_scenery()
@@ -574,7 +565,7 @@ class GravityGoal(IntPhysGoal):
             'distractor': moving_objs[1:],
             'background object': background_objs,
             'ramp': ramp_objs
-        }, []
+        }
 
     def _create_random_ramp(self) -> Tuple[ramps.Ramp, bool, float, List[Dict[str, Any]]]:
         material_name = random.choice(materials.OCCLUDER_MATERIALS)[0]

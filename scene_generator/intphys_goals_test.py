@@ -31,12 +31,11 @@ BODY_TEMPLATE = {
 
 def test_GravityGoal_compute_objects():
     goal = GravityGoal()
-    tag_to_objects, rects = goal.compute_objects('dummy wall material')
+    tag_to_objects = goal.compute_objects('dummy wall material', 'dummy wall color')
     assert len(tag_to_objects['target']) >= 1
     assert len(tag_to_objects['distractor']) >= 0
     assert len(tag_to_objects['background object']) >= 0
     assert len(tag_to_objects['ramp']) >= 1
-    assert len(rects) == 0
     assert goal._last_step > 0
 
 
@@ -61,12 +60,11 @@ def test_GravityGoal_update_body():
 
 def test_ObjectPermanenceGoal_compute_objects():
     goal = ObjectPermanenceGoal()
-    tag_to_objects, rects = goal.compute_objects('dummy wall material')
+    tag_to_objects = goal.compute_objects('dummy wall material', 'dummy wall color')
     assert len(tag_to_objects['target']) >= 1
     assert len(tag_to_objects['distractor']) >= 0
     assert len(tag_to_objects['background object']) >= 0
     assert len(tag_to_objects['occluder']) >= 1
-    assert len(rects) == 0
     assert (goal._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across) or \
             (goal._object_creator == IntPhysGoal._get_objects_falling_down)
     assert goal._last_step > 0
@@ -90,12 +88,11 @@ def test_ObjectPermanenceGoal_update_body():
 
 def test_ShapeConstancyGoal_compute_objects():
     goal = ShapeConstancyGoal()
-    tag_to_objects, rects = goal.compute_objects('dummy wall material')
+    tag_to_objects = goal.compute_objects('dummy wall material', 'dummy wall color')
     assert len(tag_to_objects['target']) >= 1
     assert len(tag_to_objects['distractor']) >= 0
     assert len(tag_to_objects['background object']) >= 0
     assert len(tag_to_objects['occluder']) >= 1
-    assert len(rects) == 0
     assert (goal._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across) or \
             (goal._object_creator == IntPhysGoal._get_objects_falling_down)
     assert goal._last_step > 0
@@ -119,12 +116,11 @@ def test_ShapeConstancyGoal_update_body():
 
 def test_SpatioTemporalContinuityGoal_compute_objects():
     goal = SpatioTemporalContinuityGoal()
-    tag_to_objects, rects = goal.compute_objects('dummy wall material')
+    tag_to_objects = goal.compute_objects('dummy wall material', 'dummy wall color')
     assert len(tag_to_objects['target']) >= 1
     assert len(tag_to_objects['distractor']) >= 0
     assert len(tag_to_objects['background object']) >= 0
     assert len(tag_to_objects['occluder']) >= 1
-    assert len(rects) == 0
     assert (goal._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across) or \
             (goal._object_creator == IntPhysGoal._get_objects_falling_down)
     assert goal._last_step > 0

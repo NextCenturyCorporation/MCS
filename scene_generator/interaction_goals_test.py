@@ -9,6 +9,7 @@ import pytest
 import goal
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, MAX_REACH_DISTANCE
 
+import exceptions
 import geometry
 import objects
 import scene_generator
@@ -369,7 +370,7 @@ def test_RetrievalGoal_get_goal():
         'info_string': 'blue rubber ball',
         'type': 'sphere'
     }
-    goal = goal_obj.get_config([obj], { 'target': [obj] })
+    goal = goal_obj.get_config({ 'target': [obj] })
     assert goal['description'] == 'Find and pick up the blue rubber ball.'
     assert set(goal['info_list']) == {'target blue', 'target rubber', 'target ball', 'target blue rubber ball'}
     target = goal['metadata']['target']
@@ -385,7 +386,7 @@ def test_TraversalGoal_get_goal():
         'info_string': 'blue rubber ball',
         'type': 'sphere'
     }
-    goal = goal_obj.get_config([obj], { 'target': [obj] })
+    goal = goal_obj.get_config({ 'target': [obj] })
     assert goal['description'] == 'Find the blue rubber ball and move near it.'
     assert set(goal['info_list']) == {'target blue', 'target rubber', 'target ball', 'target blue rubber ball'}
     target = goal['metadata']['target']
@@ -395,15 +396,15 @@ def test_TraversalGoal_get_goal():
 
 def test_TransferralGoal_get_goal_argcount():
     goal_obj = TransferralGoal()
-    with pytest.raises(ValueError):
-        goal_obj.get_config(['one object'], { 'target': ['one object'] })
+    with pytest.raises(exceptions.SceneException):
+        goal_obj.get_config({ 'target': ['one object'] })
 
 
 def test_TransferralGoal_get_goal_argvalid():
     goal_obj = TransferralGoal()
     target_list = [{'attributes': ['']}, {'attributes': ['']}]
-    with pytest.raises(ValueError):
-        goal_obj.get_config(target_list, { 'target': target_list })
+    with pytest.raises(exceptions.SceneException):
+        goal_obj.get_config({ 'target': target_list })
 
 
 def test__generate_transferral_goal():
@@ -425,7 +426,7 @@ def test__generate_transferral_goal():
         'type': 'changing_table',
         'stackTarget': True
     }
-    goal = goal_obj.get_config([pickupable_obj, other_obj], { 'target': [pickupable_obj, other_obj] })
+    goal = goal_obj.get_config({ 'target': [pickupable_obj, other_obj] })
 
     assert set(goal['info_list']) == {'target blue', 'target rubber', 'target ball', 'target blue rubber ball', \
             'target yellow', 'target wood', 'target changing table', 'target yellow wood changing table'}
@@ -464,39 +465,23 @@ def test__generate_transferral_goal_with_nonstackable_goal():
         'type': 'changing_table',
         'attributes': []
     }
-    with pytest.raises(ValueError) as excinfo:
-        goal = goal_obj.get_config([pickupable_obj, other_obj], { 'target': [pickupable_obj, other_obj] })
+    with pytest.raises(exceptions.SceneException) as excinfo:
+        goal = goal_obj.get_config({ 'target': [pickupable_obj, other_obj] })
     assert "second object must be" in str(excinfo.value)
 
 
 def test_TransferralGoal_ensure_pickup_action():
     """For MCS-270"""
-    goal_obj = TransferralGoal()
-    body: Dict[str, Any] = {
-        'name': '',
-        'ceilingMaterial': 'AI2-THOR/Materials/Walls/Drywall',
-        'floorMaterial': 'AI2-THOR/Materials/Fabrics/CarpetWhite 3',
-        'wallMaterial': 'AI2-THOR/Materials/Walls/DrywallBeige',
-        'wallColors': ['white'],
-        'performerStart': {
-            'position': {
-                'x': 0,
-                'z': 0
-            },
-            'rotation': {
-                'y': 0
-            }
-        },
-        'objects': [],
-        'goal': {},
-        'answer': {}
-    }
     for _ in range(MAX_TRIES):
+        goal_obj = TransferralGoal()
+        body: Dict[str, Any] = scene_generator.OUTPUT_TEMPLATE
         try:
             goal_obj.update_body(body, True)
-            break
         except goal.GoalException:
             pass
+        if 'actions' in body['answer']:
+            break
+
     # should have a PickupObject action
     assert any((action['action'] == 'PickupObject' for action in body['answer']['actions']))
     # last action one should be PutObject
@@ -505,27 +490,16 @@ def test_TransferralGoal_ensure_pickup_action():
 
 def test_TransferralGoal_navigate_near_objects():
     """For MCS-271"""
-    goal_obj = TransferralGoal()
-    body: Dict[str, Any] = {
-        'name': '',
-        'ceilingMaterial': 'AI2-THOR/Materials/Walls/Drywall',
-        'floorMaterial': 'AI2-THOR/Materials/Fabrics/CarpetWhite 3',
-        'wallMaterial': 'AI2-THOR/Materials/Walls/DrywallBeige',
-        'wallColors': ['white'],
-        'performerStart': {
-            'position': {
-                'x': 0,
-                'z': 0
-            },
-            'rotation': {
-                'y': 0
-            }
-        },
-        'objects': [],
-        'goal': {},
-        'answer': {}
-    }
-    goal_obj.update_body(body, True)
+    for _ in range(MAX_TRIES):
+        goal_obj = TransferralGoal()
+        body: Dict[str, Any] = scene_generator.OUTPUT_TEMPLATE
+        try:
+            goal_obj.update_body(body, True)
+        except goal.GoalException:
+            pass
+        if 'actions' in body['answer']:
+            break
+
     pickupable_id = body['goal']['metadata']['target_1']['id']
     container_id = body['goal']['metadata']['target_2']['id']
     pickupable_obj = next((obj for obj in body['objects'] if obj['id'] == pickupable_id))
@@ -546,6 +520,7 @@ def test_TransferralGoal_navigate_near_objects():
     for action in body['answer']['actions']:
         if action['action'] == 'PickupObject':
             # should be near pickupable object
+            # TODO I think this needs to account for the dimensions of the pickupable object too?
             pickupable_distance = math.sqrt((x - pickupable_position['x'])**2 +
                                             (z - pickupable_position['z'])**2)
             assert pickupable_distance <= MAX_REACH_DISTANCE
@@ -632,7 +607,7 @@ def test_add_RotateLook_to_action_list_before_Pickup_or_Put_Object():
 
     goal_obj = RetrievalGoal()
     goal_obj._performer_start = scene['performerStart']
-    path = goal_obj.find_optimal_path(scene['objects'], scene['objects'])
+    path = goal_obj._find_optimal_path(scene['objects'], scene['objects'])
     print(path)
     # TODO: uncomment when this is fixed
     assert path[-1]['action'] == 'RotateLook'

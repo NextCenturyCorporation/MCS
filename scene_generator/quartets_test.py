@@ -3,6 +3,7 @@ import objects
 import pytest
 from quartets import GravityQuartet, ShapeConstancyQuartet, ObjectPermanenceQuartet, SpatioTemporalContinuityQuartet, \
         find_targets, get_position_step
+import util
 
 
 TEMPLATE = {'wallMaterial': 'dummy', 'wallColors': ['color']}
@@ -108,7 +109,7 @@ def test_ShapeConstancyQuartet():
     a = quartet._scene_template['objects'][0]
     assert a['type'] != quartet._b['type']
     assert a['id'] == quartet._b['id']
-    assert a['dimensions']['x'] == pytest.approx(quartet._b['dimensions']['x'], abs=intphys_goals.MAX_SIZE_DIFFERENCE)
+    assert a['dimensions']['x'] == pytest.approx(quartet._b['dimensions']['x'], abs=util.MAX_SIZE_DIFFERENCE)
     assert a['materials'] == quartet._b['materials']
 
 

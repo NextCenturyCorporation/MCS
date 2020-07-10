@@ -8,14 +8,12 @@ import exceptions
 import materials
 import objects
 
+
+MAX_SIZE_DIFFERENCE = 0.1
 MAX_TRIES = 200
 MIN_RANDOM_INTERVAL = 0.05
 PERFORMER_WIDTH = 0.1
 PERFORMER_HALF_WIDTH = PERFORMER_WIDTH / 2.0
-
-# TODO MCS-306 DELETE
-TARGET_CONTAINED_CHANCE = 0.5
-"""Chance that the target will be in a container"""
 
 
 def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
@@ -69,7 +67,7 @@ def instantiate_object(object_def: Dict[str, Any],
     if 'dimensions' in object_def:
         new_object['dimensions'] = object_def['dimensions']
     else:
-        logging.warning(f'object type "{object_def["type"]}" has no dimensions')
+        exceptions.SceneException(f'object definition of type "{object_def["type"]}" doesn\'t have any dimensions')
 
     for attribute in object_def['attributes']:
         new_object[attribute] = True
@@ -81,8 +79,15 @@ def instantiate_object(object_def: Dict[str, Any],
         object_location['position']['x'] -= object_def['offset']['x']
         object_location['position']['z'] -= object_def['offset']['z']
 
-    if 'rotation' in object_def:
-        object_location['rotation'] = copy.deepcopy(object_def['rotation'])
+    if not 'rotation' in object_def:
+        object_def['rotation'] = {'x': 0, 'y': 0, 'z': 0}
+
+    if not 'rotation' in object_location:
+        object_location['rotation'] = {'x': 0, 'y': 0, 'z': 0}
+
+    object_location['rotation']['x'] += object_def['rotation']['x']
+    object_location['rotation']['y'] += object_def['rotation']['y']
+    object_location['rotation']['z'] += object_def['rotation']['z']
 
     shows = [object_location]
     new_object['shows'] = shows
@@ -115,12 +120,12 @@ def instantiate_object(object_def: Dict[str, Any],
     new_object['info'] = new_object['info'][:1] + list(colors) + new_object['info'][1:]
 
     if 'pickupable' in object_def['attributes']:
-        size = 'light'
+        weight = 'light'
     elif 'moveable' in object_def['attributes']:
-        size = 'heavy'
+        weight = 'heavy'
     else:
-        size = 'massive'
-    new_object['info'] = new_object['info'][:1] + [size] + new_object['info'][1:]
+        weight = 'massive'
+    new_object['info'] = new_object['info'][:1] + [weight] + new_object['info'][1:]
 
     # Save a string of the joined info list that we can use to filter on the specific object in the UI.
     new_object['info_string'] = ' '.join(new_object['info'])
@@ -128,8 +133,9 @@ def instantiate_object(object_def: Dict[str, Any],
     # Use the object's goal_string for goal descriptions.
     new_object['goal_string'] = new_object['info_string']
 
-    # Save the object shape now before we add more new tags to the end of the info list.
+    # Save the object shape and size tags now before we add more tags to the end of the info list.
     new_object['shape'] = new_object['info'][-1]
+    new_object['size'] = new_object['info'][0]
 
     if new_object['novel_color']:
         new_object['info_string'] = '(novel color) ' + new_object['info_string']
@@ -152,7 +158,7 @@ def instantiate_object(object_def: Dict[str, Any],
     return new_object
 
 
-def get_similar_definition(obj: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+def get_similar_definition(obj: Dict[str, Any], all_defs: List[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
     """Get an object definition similar to obj but different in one of
     type, material, or scale. It is possible but unlikely that no such
     definition can be found, in which case it returns None.
@@ -161,11 +167,11 @@ def get_similar_definition(obj: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     random.shuffle(choices)
     for choice in choices:
         if choice == 1:
-            new_obj = get_def_with_new_type(obj)
+            new_obj = get_def_with_new_type(obj, all_defs)
         elif choice == 2:
-            new_obj = get_def_with_new_material(obj)
+            new_obj = get_def_with_new_material(obj, all_defs)
         else:
-            new_obj = get_def_with_new_scale(obj)
+            new_obj = get_def_with_new_scale(obj, all_defs)
         if new_obj is not None:
             return new_obj
     return None
@@ -177,48 +183,73 @@ def check_same_and_different(a: Dict[str, Any], b: Dict[str, Any],
     exist in b and have the same value, and for all properties in
     different that are in a, they exist in b and are different.
     """
+
+    a['shape'] = a['shape'] if 'shape' in a else a['info'][-1]
+    a['size'] = a['size'] if 'size' in a else a['info'][0]
+    b['shape'] = b['shape'] if 'shape' in b else b['info'][-1]
+    b['size'] = b['size'] if 'size' in b else b['info'][0]
+
     same_ok = True
     for prop in same:
-        if prop in a:
-            if prop not in b or a[prop] != b[prop]:
+        if prop == 'dimensions':
+            # Look at the dimensions as well as the size tag (tiny/small/medium/large/huge/etc.)
+            if b[prop]['x'] > (a[prop]['x'] + MAX_SIZE_DIFFERENCE) or \
+                    b[prop]['x'] < (a[prop]['x'] - MAX_SIZE_DIFFERENCE) or \
+                    b[prop]['z'] > (a[prop]['z'] + MAX_SIZE_DIFFERENCE) or \
+                    b[prop]['z'] < (a[prop]['z'] - MAX_SIZE_DIFFERENCE) or \
+                    a['size'] != b['size']:
                 same_ok = False
                 break
+        elif (prop in a and prop not in b) or (prop not in a and prop in b) or \
+                (prop in a and prop in b and a[prop] != b[prop]):
+            same_ok = False
+            break
     if not same_ok:
         return False
+
     diff_ok = True
     for prop in different:
-        if prop in a:
-            if prop not in b or a[prop] == b[prop]:
+        if prop == 'dimensions':
+            # Look at the dimensions as well as the size tag (tiny/small/medium/large/huge/etc.)
+            if b[prop]['x'] <= (a[prop]['x'] + MAX_SIZE_DIFFERENCE) and \
+                    b[prop]['x'] >= (a[prop]['x'] - MAX_SIZE_DIFFERENCE) and \
+                    b[prop]['z'] <= (a[prop]['z'] + MAX_SIZE_DIFFERENCE) and \
+                    b[prop]['z'] >= (a[prop]['z'] - MAX_SIZE_DIFFERENCE) and \
+                    a['size'] == b['size']:
                 diff_ok = False
                 break
+        elif (prop in a and prop in b and a[prop] == b[prop]) or (not prop in a and not prop in b):
+            diff_ok = False
+            break
     return diff_ok
 
     
-def get_similar_defs(obj: Dict[str, Any], same: Iterable[str],
+def get_similar_defs(obj: Dict[str, Any], all_defs: List[Dict[str, Any]], same: Iterable[str],
                      different: Iterable[str]) -> List[Dict[str, Any]]:
     """Return object definitions similar to obj: where properties from
     same are identical and from different are different.
     """
     valid_defs = []
-    for obj_def in objects.get_all_object_defs():
-        if check_same_and_different(obj_def, obj, same, different):
-            # now test the choose part if it's there
-            if 'choose' in obj_def:
-                valid_choices = [choice for choice in obj_def['choose']
-                                 if check_same_and_different(choice, obj, same, different)]
-                if len(valid_choices) != 0:
-                    new_def = copy.deepcopy(obj_def)
-                    new_def['choose'] = valid_choices
-                    valid_defs.append(new_def)
-            else:
+    for obj_def in all_defs:
+        if 'choose' in obj_def:
+            valid_choices = []
+            for choice in obj_def['choose']:
+                possible_obj_def = finalize_object_definition(copy.deepcopy(obj_def), choice)
+                if check_same_and_different(possible_obj_def, obj, same, different):
+                    valid_choices.append(choice)
+            if len(valid_choices) > 0:
+                new_def = copy.deepcopy(obj_def)
+                new_def['choose'] = valid_choices
+                valid_defs.append(new_def)
+        else:
+            possible_obj_def = finalize_object_definition(copy.deepcopy(obj_def))
+            if check_same_and_different(possible_obj_def, obj, same, different):
                 valid_defs.append(obj_def)
     return valid_defs
 
 
-def get_def_with_new_type(obj: Dict[str, Any]) -> Dict[str, Any]:
-    valid_defs = get_similar_defs(obj, ('materialCategory',
-                                        'similarityScale'),
-                                  ('type',))
+def get_def_with_new_type(obj: Dict[str, Any], all_defs: List[Dict[str, Any]]) -> Dict[str, Any]:
+    valid_defs = get_similar_defs(obj, all_defs, ('materialCategory', 'dimensions'), ('shape',))
     if len(valid_defs) > 0:
         obj_def = random.choice(valid_defs)
     else:
@@ -226,10 +257,8 @@ def get_def_with_new_type(obj: Dict[str, Any]) -> Dict[str, Any]:
     return obj_def
 
 
-def get_def_with_new_material(obj: Dict[str, Any]) -> Dict[str, Any]:
-    valid_defs = get_similar_defs(obj, ('type',
-                                        'similarityScale'),
-                                  ('materialCategory',))
+def get_def_with_new_material(obj: Dict[str, Any], all_defs: List[Dict[str, Any]]) -> Dict[str, Any]:
+    valid_defs = get_similar_defs(obj, all_defs, ('shape', 'dimensions'), ('materialCategory',))
     if len(valid_defs) > 0:
         obj_def = random.choice(valid_defs)
     else:
@@ -237,12 +266,11 @@ def get_def_with_new_material(obj: Dict[str, Any]) -> Dict[str, Any]:
     return obj_def
 
 
-def get_def_with_new_scale(obj: Dict[str, Any]) -> Dict[str, Any]:
-    valid_defs = get_similar_defs(obj, ('type',
-                                        'materialCategory'),
-                                  ('similarityScale',))
+def get_def_with_new_scale(obj: Dict[str, Any], all_defs: List[Dict[str, Any]]) -> Dict[str, Any]:
+    valid_defs = get_similar_defs(obj, all_defs, ('shape', 'materialCategory'), ('dimensions',))
     if len(valid_defs) > 0:
         obj_def = random.choice(valid_defs)
     else:
         obj_def = None
     return obj_def
+

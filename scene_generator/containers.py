@@ -116,11 +116,12 @@ def how_can_contain(container: Dict[str, Any],
         angles = []
         fits = True
         for target in targets:
-            angle = can_enclose(space, target)
-            if angle is None:
-                fits = False
-                break
-            angles.append(angle)
+            if target:
+                angle = can_enclose(space, target)
+                if angle is None:
+                    fits = False
+                    break
+                angles.append(angle)
         if fits:
             return i, angles
     return None
@@ -139,8 +140,9 @@ def get_enclosable_containments(objs: Sequence[Dict[str, Any]],
     for container_def in container_defs:
         containment = how_can_contain(container_def, *objs)
         if containment is not None:
+            new_def = util.finalize_object_definition(container_def)
             index, angles = containment
-            valid_containments.append((container_def, index, angles))
+            valid_containments.append((new_def, index, angles))
         elif 'choose' in container_def:
             # try choose
             for choice in container_def['choose']:
@@ -232,7 +234,8 @@ def can_contain_both(container_def: Dict[str, Any],
         if result is None:
             return None
         index, orientation, angle_a, angle_b = result
-        return container_def, index, orientation, angle_a, angle_b
+        new_def = util.finalize_object_definition(container_def)
+        return new_def, index, orientation, angle_a, angle_b
     elif 'choose' in container_def:
         found_choice = None
         for choice in container_def['choose']:
@@ -282,3 +285,34 @@ def get_parent(obj: Dict[str, Any], all_objects: Iterable[Dict[str, Any]]) \
     parent_id = obj['locationParent']
     parent = next((o for o in all_objects if o['id'] == parent_id))
     return parent
+
+
+def find_suitable_enclosable_list(obj: Dict[str, Any], container_defs: Sequence[Dict[str, Any]] = None) -> \
+        List[Dict[str, Any]]:
+    """Find and return the list of enclosable receptacle definitions into which the given object can fit."""
+    valid_defs = []
+    if container_defs is None:
+        container_defs = objects.get_enclosed_containers()
+    for obj_def in container_defs:
+        if 'choose' in obj_def:
+            valid_choices = []
+            for choice in obj_def['choose']:
+                possible_obj_def = util.finalize_object_definition(copy.deepcopy(obj_def), choice)
+                for area in possible_obj_def['enclosed_areas']:
+                    if area['dimensions']['x'] >= obj['dimensions']['x'] and \
+                            area['dimensions']['y'] >= obj['dimensions']['y'] and \
+                            area['dimensions']['z'] >= obj['dimensions']['z']:
+                        valid_choices.append(choice)
+            if len(valid_choices) > 0:
+                new_def = copy.deepcopy(obj_def)
+                new_def['choose'] = valid_choices
+                valid_defs.append(new_def)
+        else:
+            possible_obj_def = util.finalize_object_definition(copy.deepcopy(obj_def))
+            for area in possible_obj_def['enclosed_areas']:
+                if area['dimensions']['x'] >= obj['dimensions']['x'] and \
+                        area['dimensions']['y'] >= obj['dimensions']['y'] and \
+                        area['dimensions']['z'] >= obj['dimensions']['z']:
+                    valid_defs.append(obj_def)
+    return valid_defs
+

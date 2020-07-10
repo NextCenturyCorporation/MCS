@@ -24,7 +24,7 @@ def find_targets(scene: Dict[str, Any], goal: goal.Goal, num_targets: Optional[i
     have them, but they do have objects that may behave plausibly or
     implausibly.)
     """
-    target_ids = [target['id'] for target in goal._targets[:num_targets]]
+    target_ids = [target['id'] for target in goal._tag_to_objects['target'][:num_targets]]
     # This isn't the most efficient way to do this, but since there
     # will only be 2-3 'target' objects and maybe a dozen total
     # objects, that's ok.
@@ -121,7 +121,7 @@ class ObjectPermanenceQuartet(Quartet):
         elif q == 4:
             # target not in the scene (plausible)
             scene['goal']['type_list'].append('object permanence hide object')
-            target_id = self._goal._targets[0]['id']
+            target_id = self._goal._tag_to_objects['target'][0]['id']
             for i in range(len(scene['objects'])):
                 obj = scene['objects'][i]
                 if obj['id'] == target_id:
@@ -370,8 +370,8 @@ class ShapeConstancyQuartet(Quartet):
         for obj_def in self._goal._object_defs:
             if obj_def['type'] != a['type']:
                 possible_b_size = obj_def['dimensions']['x']
-                if possible_b_size < (a_size + intphys_goals.MAX_SIZE_DIFFERENCE) and possible_b_size > \
-                        (a_size - intphys_goals.MAX_SIZE_DIFFERENCE):
+                if possible_b_size < (a_size + util.MAX_SIZE_DIFFERENCE) and possible_b_size > \
+                        (a_size - util.MAX_SIZE_DIFFERENCE):
                     possible_defs.append(obj_def)
         if len(possible_defs) == 0:
             raise goal.GoalException(f'no valid choices for "b" object. a = {a}')
