@@ -18,7 +18,10 @@ def test_put_object_in_container():
 
     put_object_in_container(obj, container, container_def, 0)
     assert obj['locationParent'] == container['id']
-    assert container_def['enclosed_areas'][0]['position'] == obj['shows'][0]['position']
+    assert container_def['enclosed_areas'][0]['position']['x'] == obj['shows'][0]['position']['x']
+    assert container_def['enclosed_areas'][0]['position']['y'] == obj['shows'][0]['position']['y'] + \
+            obj_def.get('position_y', 0)
+    assert container_def['enclosed_areas'][0]['position']['z'] == obj['shows'][0]['position']['z']
 
 
 def test_put_objects_in_container():
