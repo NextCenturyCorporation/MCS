@@ -36,6 +36,7 @@ def generate_output_file_name(object_type, material_list):
 
 def generate_scene_configuration(object_definition, material_list): 
     scene_configuration = {
+        'name': 'screenshot',
         'screenshot': True,
         'objects': [{
             'id': 'test_' + object_definition['type'],

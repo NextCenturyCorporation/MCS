@@ -156,8 +156,9 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     # Write the history file
     def write_history_file(self, history_item):
-        with open(self.__scene_file, "a+") as history_file:
-            history_file.write(json.dumps(history_item))
+        if self.__scene_file:
+            with open(self.__scene_file, "a+") as history_file:
+                history_file.write(json.dumps(history_item))
 
     # Override
     def end_scene(self, classification, confidence):
@@ -177,7 +178,12 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         self.__step_number = 0
         self.__history_list = []
         self.__goal = self.retrieve_goal(self.__scene_configuration)
-        self.__scene_file = os.path.join(self.HISTORY_DIRECTORY, self.__scene_configuration['name'].replace('.json','') + "-" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
+        if 'screenshot' in config_data and config_data['screenshot']:
+            self.__scene_file = None
+        else:
+            self.__scene_file = os.path.join(self.HISTORY_DIRECTORY, \
+                    self.__scene_configuration['name'].replace('.json','') + "-" + \
+                    datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
         skip_preview_phase = True if 'goal' in config_data and 'skip_preview_phase' in config_data['goal'] else False
 
         if self.__debug_to_file and config_data['name'] is not None:
