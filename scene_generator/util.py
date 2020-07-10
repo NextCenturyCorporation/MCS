@@ -12,10 +12,9 @@ MAX_TRIES = 200
 MIN_RANDOM_INTERVAL = 0.05
 PERFORMER_WIDTH = 0.1
 PERFORMER_HALF_WIDTH = PERFORMER_WIDTH / 2.0
-TARGET_CONTAINED_CHANCE = 0.5
-"""Chance that the target will be in a container"""
 
-TARGET_CONTAINED_CHANCE = 0.25
+# TODO MCS-306 DELETE
+TARGET_CONTAINED_CHANCE = 0.5
 """Chance that the target will be in a container"""
 
 

@@ -15,7 +15,6 @@ MIN_WALL_WIDTH = 1
 WALL_Y_POS = 1.5
 WALL_HEIGHT = 3
 WALL_DEPTH = 0.1
-MAX_OBJECTS = 5
 WALL_COUNTS = [0, 1, 2, 3]
 WALL_PROBS = [60, 20, 10, 10]
 
@@ -126,33 +125,12 @@ class Goal(ABC):
             }
         return self._performer_start
 
-    def choose_object_def(self) -> Dict[str, Any]:
-        """Pick one object definition (to be added to the scene) and return a copy of it."""
-        object_def_list = random.choices([objects.OBJECTS_PICKUPABLE, objects.OBJECTS_MOVEABLE,
-                                          objects.OBJECTS_IMMOBILE],
-                                         [50, 25, 25])[0]
-        return util.finalize_object_definition(random.choice(object_def_list))
-
     @abstractmethod
     def compute_objects(self, wall_material_name: str) -> \
             Tuple[Dict[str, List[Dict[str, Any]]], List[List[Dict[str, float]]]]:
         """Compute object instances for the scene. Returns a tuple:
         (dict that maps tag strings to object lists, bounding rectangles)"""
         pass
-
-    def add_objects(self, object_list: List[Dict[str, Any]], rectangles: List[List[Dict[str, float]]],
-                    performer_position: Dict[str, float]) -> None:
-        """Add random objects to fill object_list to some random number of objects up to MAX_OBJECTS. If object_list
-        already has more than this randomly determined number, no new objects are added."""
-        object_count = random.randint(1, MAX_OBJECTS)
-        for i in range(len(object_list), object_count):
-            object_def = self.choose_object_def()
-            obj_location = geometry.calc_obj_pos(performer_position, rectangles, object_def)
-            obj_info = object_def['info'][-1]
-            targets_info = [tgt['info'][-1] for tgt in self._targets]
-            if obj_info not in targets_info and obj_location is not None:
-                obj = util.instantiate_object(object_def, obj_location)
-                object_list.append(obj)
 
     def _update_goal_info_list(self, goal: Dict[str, Any], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> None:
         info_set = set(goal.get('info_list', []))

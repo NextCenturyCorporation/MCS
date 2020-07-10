@@ -24,16 +24,15 @@ def test_move_to_container():
         obj_def = finalize_object_definition(obj_def)
         if 'tiny' in obj_def['info']:
             obj = instantiate_object(obj_def, geometry.ORIGIN_LOCATION)
-            all_objects = [obj]
             tries = 0
             while tries < 100:
-                if move_to_container(obj, all_objects, [], geometry.ORIGIN):
+                container = move_to_container(obj, [], geometry.ORIGIN)
+                if container:
                     break
                 tries += 1
             if tries == 100:
                 logging.error('could not put the object in any container')
-            container_id = all_objects[1]['id']
-            assert obj['locationParent'] == container_id
+            assert obj['locationParent'] == container['id']
             return
     assert False, 'could not find a tiny object'
 
