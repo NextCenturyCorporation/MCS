@@ -84,8 +84,8 @@ class IntPhysGoal(Goal, ABC):
         Position.LEFT_LAST_FAR: (-5.9, OBJECT_FAR_Z)
     }
 
-    def __init__(self):
-        super(IntPhysGoal, self).__init__()
+    def __init__(self, name: str):
+        super(IntPhysGoal, self).__init__(name)
         self._object_creator = None
         self._object_defs = objects.OBJECTS_INTPHYS
 
@@ -533,7 +533,7 @@ class GravityGoal(IntPhysGoal):
         will be made. In the case of steep ramps (i.e., with 90 degree
         angles), roll_down is ignored.
         """
-        super(GravityGoal, self).__init__()
+        super(GravityGoal, self).__init__('gravity')
         self._ramp_type: Optional[ramps.Ramp] = ramp_type
         self._roll_down = roll_down
         self._left_to_right: Optional[bool] = None
@@ -655,7 +655,7 @@ class ObjectPermanenceGoal(IntPhysGoal):
     }
 
     def __init__(self):
-        super(ObjectPermanenceGoal, self).__init__()
+        super(ObjectPermanenceGoal, self).__init__('object permanence')
 
 
 class ShapeConstancyGoal(IntPhysGoal):
@@ -669,7 +669,7 @@ class ShapeConstancyGoal(IntPhysGoal):
     }
 
     def __init__(self):
-        super(ShapeConstancyGoal, self).__init__()
+        super(ShapeConstancyGoal, self).__init__('shape constancy')
 
 
 class SpatioTemporalContinuityGoal(IntPhysGoal):
@@ -683,7 +683,7 @@ class SpatioTemporalContinuityGoal(IntPhysGoal):
     }
 
     def __init__(self):
-        super(SpatioTemporalContinuityGoal, self).__init__()
+        super(SpatioTemporalContinuityGoal, self).__init__('spatio temporal continuity')
 
     def _get_num_occluders(self) -> int:
         return random.choices((2, 3, 4), (40, 30, 30))[0]
