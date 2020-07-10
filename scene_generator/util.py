@@ -120,12 +120,12 @@ def instantiate_object(object_def: Dict[str, Any],
     new_object['info'] = new_object['info'][:1] + list(colors) + new_object['info'][1:]
 
     if 'pickupable' in object_def['attributes']:
-        size = 'light'
+        weight = 'light'
     elif 'moveable' in object_def['attributes']:
-        size = 'heavy'
+        weight = 'heavy'
     else:
-        size = 'massive'
-    new_object['info'] = new_object['info'][:1] + [size] + new_object['info'][1:]
+        weight = 'massive'
+    new_object['info'] = new_object['info'][:1] + [weight] + new_object['info'][1:]
 
     # Save a string of the joined info list that we can use to filter on the specific object in the UI.
     new_object['info_string'] = ' '.join(new_object['info'])
@@ -133,8 +133,9 @@ def instantiate_object(object_def: Dict[str, Any],
     # Use the object's goal_string for goal descriptions.
     new_object['goal_string'] = new_object['info_string']
 
-    # Save the object shape now before we add more new tags to the end of the info list.
+    # Save the object shape and size tags now before we add more tags to the end of the info list.
     new_object['shape'] = new_object['info'][-1]
+    new_object['size'] = new_object['info'][0]
 
     if new_object['novel_color']:
         new_object['info_string'] = '(novel color) ' + new_object['info_string']
@@ -182,13 +183,21 @@ def check_same_and_different(a: Dict[str, Any], b: Dict[str, Any],
     exist in b and have the same value, and for all properties in
     different that are in a, they exist in b and are different.
     """
+
+    a['shape'] = a['shape'] if 'shape' in a else a['info'][-1]
+    a['size'] = a['size'] if 'size' in a else a['info'][0]
+    b['shape'] = b['shape'] if 'shape' in b else b['info'][-1]
+    b['size'] = b['size'] if 'size' in b else b['info'][0]
+
     same_ok = True
     for prop in same:
         if prop == 'dimensions':
+            # Look at the dimensions as well as the size tag (tiny/small/medium/large/huge/etc.)
             if b[prop]['x'] > (a[prop]['x'] + MAX_SIZE_DIFFERENCE) or \
                     b[prop]['x'] < (a[prop]['x'] - MAX_SIZE_DIFFERENCE) or \
                     b[prop]['z'] > (a[prop]['z'] + MAX_SIZE_DIFFERENCE) or \
-                    b[prop]['z'] < (a[prop]['z'] - MAX_SIZE_DIFFERENCE):
+                    b[prop]['z'] < (a[prop]['z'] - MAX_SIZE_DIFFERENCE) or \
+                    a['size'] != b['size']:
                 same_ok = False
                 break
         elif (prop in a and prop not in b) or (prop not in a and prop in b) or \
@@ -197,13 +206,16 @@ def check_same_and_different(a: Dict[str, Any], b: Dict[str, Any],
             break
     if not same_ok:
         return False
+
     diff_ok = True
     for prop in different:
         if prop == 'dimensions':
+            # Look at the dimensions as well as the size tag (tiny/small/medium/large/huge/etc.)
             if b[prop]['x'] <= (a[prop]['x'] + MAX_SIZE_DIFFERENCE) and \
                     b[prop]['x'] >= (a[prop]['x'] - MAX_SIZE_DIFFERENCE) and \
                     b[prop]['z'] <= (a[prop]['z'] + MAX_SIZE_DIFFERENCE) and \
-                    b[prop]['z'] >= (a[prop]['z'] - MAX_SIZE_DIFFERENCE):
+                    b[prop]['z'] >= (a[prop]['z'] - MAX_SIZE_DIFFERENCE) and \
+                    a['size'] == b['size']:
                 diff_ok = False
                 break
         elif (prop in a and prop in b and a[prop] == b[prop]) or (not prop in a and not prop in b):
@@ -237,7 +249,7 @@ def get_similar_defs(obj: Dict[str, Any], all_defs: List[Dict[str, Any]], same: 
 
 
 def get_def_with_new_type(obj: Dict[str, Any], all_defs: List[Dict[str, Any]]) -> Dict[str, Any]:
-    valid_defs = get_similar_defs(obj, all_defs, ('materialCategory', 'dimensions'), ('type',))
+    valid_defs = get_similar_defs(obj, all_defs, ('materialCategory', 'dimensions'), ('shape',))
     if len(valid_defs) > 0:
         obj_def = random.choice(valid_defs)
     else:
@@ -246,7 +258,7 @@ def get_def_with_new_type(obj: Dict[str, Any], all_defs: List[Dict[str, Any]]) -
 
 
 def get_def_with_new_material(obj: Dict[str, Any], all_defs: List[Dict[str, Any]]) -> Dict[str, Any]:
-    valid_defs = get_similar_defs(obj, all_defs, ('type', 'dimensions'), ('materialCategory',))
+    valid_defs = get_similar_defs(obj, all_defs, ('shape', 'dimensions'), ('materialCategory',))
     if len(valid_defs) > 0:
         obj_def = random.choice(valid_defs)
     else:
@@ -255,7 +267,7 @@ def get_def_with_new_material(obj: Dict[str, Any], all_defs: List[Dict[str, Any]
 
 
 def get_def_with_new_scale(obj: Dict[str, Any], all_defs: List[Dict[str, Any]]) -> Dict[str, Any]:
-    valid_defs = get_similar_defs(obj, all_defs, ('type', 'materialCategory'), ('dimensions',))
+    valid_defs = get_similar_defs(obj, all_defs, ('shape', 'materialCategory'), ('dimensions',))
     if len(valid_defs) > 0:
         obj_def = random.choice(valid_defs)
     else:

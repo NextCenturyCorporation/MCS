@@ -132,7 +132,6 @@ def calc_obj_pos(performer_position: Dict[str, float],
 
     # reserve space around the performer
     performer_rect = find_performer_rect(performer_position)
-    logging.debug(f'performer_rect = {performer_rect}')
 
     tries = 0
     collision_rects = other_rects + [performer_rect]
@@ -147,8 +146,7 @@ def calc_obj_pos(performer_position: Dict[str, float],
             new_z = z_func()
 
         rect = calc_obj_coords(new_x, new_z, dx, dz, offset_x, offset_z, rotation_y)
-        if rect_within_room(rect) and \
-           (len(other_rects) == 0 or not any(sat_entry(rect, other_rect) for other_rect in collision_rects)):
+        if rect_within_room(rect) and not any(sat_entry(rect, other_rect) for other_rect in collision_rects):
             break
         tries += 1
 

@@ -360,8 +360,9 @@ class InteractionGoal(Goal, ABC):
     WALL_CHOICES = [0, 1, 2, 3]
     WALL_WEIGHTS = [40, 30, 20, 10]
 
-    def __init__(self, target_rule_list: List[ObjectRule]):
+    def __init__(self, name: str, target_rule_list: List[ObjectRule]):
         super(InteractionGoal, self).__init__()
+        self._name = name
         self._target_rule_list = target_rule_list
         self._bounds_list = []
         self._target_list = []
@@ -432,6 +433,10 @@ class InteractionGoal(Goal, ABC):
         """Returns the rule for any distractors compatible with this goal."""
         return DistractorObjectRule(target_list = (target_list if target_list is not None else self._target_list), \
                 is_position_in_receptacle = is_position_in_receptacle)
+
+    def get_name(self) -> str:
+        """Returns the goal's name."""
+        return self._name
 
     def get_obstructor_rule(self, target_definition: Dict[str, Any], obstruct_vision: bool = False) -> ObjectRule:
         """Returns the rule for any obstructors compatible with this goal."""
@@ -505,7 +510,7 @@ class RetrievalGoal(InteractionGoal):
     }
 
     def __init__(self):
-        super(RetrievalGoal, self).__init__(target_rule_list = [
+        super(RetrievalGoal, self).__init__('retrieval', [
             PickupableObjectRule(
                 is_position_in_receptacle = (random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE)
             )
@@ -585,7 +590,7 @@ class TransferralGoal(InteractionGoal):
     }
 
     def __init__(self):
-        super(TransferralGoal, self).__init__(target_rule_list = [
+        super(TransferralGoal, self).__init__('transferral', [
             PickupableObjectRule(
                 is_position_in_receptacle = (random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE)
             ),
@@ -715,7 +720,7 @@ class TraversalGoal(InteractionGoal):
     }
 
     def __init__(self):
-        super(TraversalGoal, self).__init__(target_rule_list = [
+        super(TraversalGoal, self).__init__('traversal', [
             FarOffObjectRule(
                 is_position_in_receptacle = (random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE)
             )

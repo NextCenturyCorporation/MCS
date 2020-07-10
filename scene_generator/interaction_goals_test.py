@@ -475,12 +475,10 @@ def test_TransferralGoal_ensure_pickup_action():
     for _ in range(MAX_TRIES):
         goal_obj = TransferralGoal()
         body: Dict[str, Any] = scene_generator.OUTPUT_TEMPLATE
-        for _ in range(MAX_TRIES):
-            try:
-                goal_obj.update_body(body, True)
-                break
-            except goal.GoalException:
-                pass
+        try:
+            goal_obj.update_body(body, True)
+        except goal.GoalException:
+            pass
         if 'actions' in body['answer']:
             break
 
@@ -495,12 +493,10 @@ def test_TransferralGoal_navigate_near_objects():
     for _ in range(MAX_TRIES):
         goal_obj = TransferralGoal()
         body: Dict[str, Any] = scene_generator.OUTPUT_TEMPLATE
-        for _ in range(MAX_TRIES):
-            try:
-                goal_obj.update_body(body, True)
-                break
-            except goal.GoalException:
-                pass
+        try:
+            goal_obj.update_body(body, True)
+        except goal.GoalException:
+            pass
         if 'actions' in body['answer']:
             break
 
