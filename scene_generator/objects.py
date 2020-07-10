@@ -23,6 +23,11 @@ OBJECTS_PICKUPABLE_BALLS = [{
         "mass": 0.25,
         "materialCategory": ["metal"],
         "salientMaterials": ["metal"]
+    }, {
+        "novel_combination": True,
+        "mass": 0.125,
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"]
     }],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -55,6 +60,11 @@ OBJECTS_PICKUPABLE_BALLS = [{
         "mass": 0.5,
         "materialCategory": ["metal"],
         "salientMaterials": ["metal"]
+    }, {
+        "novel_combination": True,
+        "mass": 0.25,
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"]
     }],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -87,6 +97,11 @@ OBJECTS_PICKUPABLE_BALLS = [{
         "mass": 1,
         "materialCategory": ["metal"],
         "salientMaterials": ["metal"]
+    }, {
+        "novel_combination": True,
+        "mass": 0.5,
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"]
     }],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -119,6 +134,11 @@ OBJECTS_PICKUPABLE_BALLS = [{
         "mass": 4,
         "materialCategory": ["metal"],
         "salientMaterials": ["metal"]
+    }, {
+        "novel_combination": True,
+        "mass": 2,
+        "materialCategory": ["block_blank"],
+        "salientMaterials": ["wood"]
     }],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
