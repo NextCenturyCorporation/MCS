@@ -781,20 +781,13 @@ class Pair2(InteractionPair):
 
 
 class Pair7(InteractionPair):
-    """(7) Like pair (6), but, for each pair, randomly choose either the
-    Target Object or the Similar Object, and that object is inside a
-    container for both scenes, while the other object is inside a
-    container for neither scene. See MCS-234.
-    """
+    """(7) Like pair (6), but the Target Object is always inside a container, and the Similar Object is never inside a
+    container."""
 
     def __init__(self, template: Dict[str, Any], goal_name: str = None, find_path: bool = False):
-        containerize_target = random.choice((BoolPairOption.NO_NO, BoolPairOption.YES_YES))
-        containerize_confusor = BoolPairOption.YES_YES if containerize_target == BoolPairOption.NO_NO else \
-                BoolPairOption.NO_NO
         super(Pair7, self).__init__(7, template, goal_name, find_path, options = SceneOptions( \
-                target_containerize = containerize_target, target_location = TargetLocationPairOption.FRONT_BACK, \
-                confusor = BoolPairOption.YES_YES, confusor_containerize = containerize_confusor, \
-                confusor_location = ConfusorLocationPairOption.BACK_FRONT))
+                target_containerize = BoolPairOption.YES_YES, target_location = TargetLocationPairOption.FRONT_BACK, \
+                confusor = BoolPairOption.YES_YES, confusor_location = ConfusorLocationPairOption.BACK_FRONT))
 
 
 class Pair3(InteractionPair):
@@ -846,28 +839,35 @@ class Pair5(InteractionPair):
 
 
 class Pair8(InteractionPair):
-    """(8A) The Target Object is positioned adjacent to a Similar Object,
-    but the Similar Object is inside a container OR (8B) the Target
-    Object is positioned adjacent to a Similar Object, but the Target
-    Object is inside a container. See MCS-238.
-    """
+    """(8A) The Target Object is positioned adjacent to a Similar Object OR (8B) the Target Object is positioned
+    adjacent to a Similar Object, but the Target Object is inside a container. See MCS-238."""
 
     def __init__(self, template: Dict[str, Any], goal_name: str = None, find_path: bool = False):
         super(Pair8, self).__init__(8, template, goal_name, find_path, options = SceneOptions( \
                 target_containerize = BoolPairOption.NO_YES, confusor = BoolPairOption.YES_YES, \
-                confusor_containerize = BoolPairOption.YES_NO, \
+                confusor_location = ConfusorLocationPairOption.CLOSE_CLOSE))
+
+
+class Pair11(InteractionPair):
+    """(11A) The Target Object and a Similar Object are positioned adjacent to each other and immediately visible OR
+    (11B) the Target Object and a Similar Object are positioned adjacent to each other and NOT immediately visible."""
+
+    def __init__(self, template: Dict[str, Any], goal_name: str = None, find_path: bool = False):
+        super(Pair11, self).__init__(11, template, goal_name, find_path, options = SceneOptions( \
+                target_location = TargetLocationPairOption.FRONT_BACK, confusor = BoolPairOption.YES_YES,
                 confusor_location = ConfusorLocationPairOption.CLOSE_CLOSE))
 
 
 INTERACTION_PAIR_CLASSES = [
     Pair1,
-    Pair2,
+    #Pair2, # TODO
     Pair3,
-    Pair4,
-    Pair5,
+    #Pair4, # Won't use
+    #Pair5, # Won't use
     Pair6,
     Pair7,
-    Pair8
+    Pair8,
+    Pair11
 ]
 
 
@@ -879,3 +879,4 @@ def get_pair_class(name: str) -> Type[InteractionPair]:
 
 def get_pair_types() -> List[str]:
     return [klass.__name__.replace('Pair', '') for klass in INTERACTION_PAIR_CLASSES]
+
