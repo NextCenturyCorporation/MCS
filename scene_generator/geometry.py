@@ -79,7 +79,7 @@ def collision(test_rect: List[Dict[str, float]], test_point: Dict[str, float]):
                 0 <= dot_prod_dict(vectorBC, vectorBM) <= dot_prod_dict(vectorBC, vectorBC))
 
 
-def calc_obj_coords(position_x: float, position_z: float, delta_x: float, delta_z: float, offset_x: float,
+def calc_obj_coords(position_x: float, position_z: float, position_y: float, delta_x: float, delta_z: float, offset_x: float,
                     offset_z: float, rotation: float) -> List[Dict[str, float]]:
     """Returns an array of points that are the coordinates of the rectangle """
     radian_amount = math.pi * (2 - rotation / 180.0)
@@ -91,10 +91,10 @@ def calc_obj_coords(position_x: float, position_z: float, delta_x: float, delta_
     z_plus = delta_z + offset_z
     z_minus = -delta_z + offset_z
     
-    a = {'x': position_x + x_plus * rotate_cos - z_plus * rotate_sin, 'y': 0, 'z': position_z + x_plus * rotate_sin + z_plus * rotate_cos}
-    b = {'x': position_x + x_plus * rotate_cos - z_minus * rotate_sin, 'y': 0, 'z': position_z + x_plus * rotate_sin + z_minus * rotate_cos}
-    c = {'x': position_x + x_minus * rotate_cos - z_minus * rotate_sin, 'y': 0, 'z': position_z + x_minus * rotate_sin + z_minus * rotate_cos}
-    d = {'x': position_x + x_minus * rotate_cos - z_plus * rotate_sin, 'y': 0, 'z': position_z + x_minus * rotate_sin + z_plus * rotate_cos}
+    a = {'x': position_x + x_plus * rotate_cos - z_plus * rotate_sin, 'y': position_y, 'z': position_z + x_plus * rotate_sin + z_plus * rotate_cos}
+    b = {'x': position_x + x_plus * rotate_cos - z_minus * rotate_sin, 'y': position_y, 'z': position_z + x_plus * rotate_sin + z_minus * rotate_cos}
+    c = {'x': position_x + x_minus * rotate_cos - z_minus * rotate_sin, 'y': position_y, 'z': position_z + x_minus * rotate_sin + z_minus * rotate_cos}
+    d = {'x': position_x + x_minus * rotate_cos - z_plus * rotate_sin, 'y': position_y, 'z': position_z + x_minus * rotate_sin + z_plus * rotate_cos}
 
     return [a, b, c, d]
 
@@ -102,6 +102,7 @@ def calc_obj_coords(position_x: float, position_z: float, delta_x: float, delta_
 def point_within_room(point: Dict[str, float]) -> bool:
     return ROOM_DIMENSIONS[0][0] <= point['x'] <= ROOM_DIMENSIONS[0][1] and \
            ROOM_DIMENSIONS[1][0] <= point['z'] <= ROOM_DIMENSIONS[1][1]
+           #TODO: ADD FOR Y dimension
 
 
 def rect_within_room(rect: List[Dict[str, float]]) -> bool:
