@@ -113,6 +113,8 @@ class InteractionPair():
         - Create the rest of the objects (targets, distractors, walls) in the goal for the first scene.
         - Copy the first scene's goal to make the second scene's goal and replace this pair's objects.
         """
+        logging.debug(f'pair {self._name} initialize goal {self._goal_1.get_name()}')
+
         # Use the first goal for the pair now, and later copy it and modify the copy that will be the second goal.
         goal_1_target_rule_list = self._goal_1.get_target_rule_list()
 
@@ -207,7 +209,6 @@ class InteractionPair():
             if must_hold_both:
                 receptacle_data = self._create_receptacle_around_both(target_definition, confusor_definition)
                 if not receptacle_data:
-                    # TODO Recreate the target and/or confusor?
                     raise exceptions.SceneException(f'{self._name} pair cannot create enclosable receptacle around both: target={target_definition} confusor={confusor_definition}')
                 receptacle_definition, area_index, target_rotation, confusor_rotation, orientation = receptacle_data
             # Else ensure that a receptacle can hold the target or confusor individually.
@@ -217,7 +218,6 @@ class InteractionPair():
                 receptacle_data = self._create_receptacle_around_either(target_definition_if_containerize, \
                         confusor_definition_if_containerize)
                 if not receptacle_data:
-                    # TODO Recreate the target and/or confusor?
                     raise exceptions.SceneException(f'{self._name} pair cannot create enclosable receptacle around either: target={target_definition_if_containerize} confusor={confusor_definition_if_containerize}')
                 receptacle_definition, area_index, target_rotation, confusor_rotation = receptacle_data
             # Create the receptacle template now at a location, and later it'll move to its location for each scene.
@@ -570,7 +570,6 @@ class InteractionPair():
         location_close = geometry.get_adjacent_location(object_definition, target_instance, \
                 performer_start['position'])
         if not location_close:
-            # TODO Reposition the target?
             raise exceptions.SceneException(f'{self._name} pair cannot position close to target: object={object_definition} target={target_instance}')
         return location_close
 
@@ -584,7 +583,6 @@ class InteractionPair():
                 break
             location_far = None
         if not location_far:
-            # TODO Reposition the target?
             raise exceptions.SceneException(f'{self._name} pair cannot position far from target: object={object_definition} target={target_instance}')
         return location_far
 
@@ -597,10 +595,10 @@ class InteractionPair():
         if show_obstructor:
             obstructor_location = original_target_location
             # Generate an adjacent location so that the obstructor is between the target and the performer start.
+            # TODO Use existing target bounds?
             target_location = geometry.get_adjacent_location(target_definition, obstructor_template, \
                     performer_start['position'], True)
             if not target_location:
-                # TODO Reposition the obstructor?
                 raise exceptions.SceneException(f'{self._name} pair cannot position target directly behind obstructor: performer_start={performer_start} target={target_definition} obstructor={obstructor_template}')
             return target_location, obstructor_location
 
@@ -612,6 +610,7 @@ class InteractionPair():
         """Generate a random location and return it twice."""
 
         for _ in range(util.MAX_TRIES):
+            # TODO Use existing target bounds?
             object_location, bounds = object_rule.choose_location(object_definition, goal.get_performer_start(), \
                     bounds_list)
             if object_rule.validate_location(object_location, target_list, goal.get_performer_start()):
