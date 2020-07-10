@@ -363,7 +363,7 @@ def test_instantiate_object_novel_color():
     obj = instantiate_object(object_def, object_location)
     assert obj['goal_string'] == 'huge massive blue yellow sofa'
     assert obj['info'] == ['huge', 'massive', 'blue', 'yellow', 'sofa', 'novel blue', 'novel yellow']
-    assert obj['info_string'] == '(novel color) huge massive blue yellow sofa'
+    assert obj['info_string'] == 'huge massive blue yellow sofa'
 
 
 def test_instantiate_object_novel_combination():
@@ -392,7 +392,7 @@ def test_instantiate_object_novel_combination():
     obj = instantiate_object(object_def, object_location)
     assert obj['goal_string'] == 'huge massive blue yellow sofa'
     assert obj['info'] == ['huge', 'massive', 'blue', 'yellow', 'sofa', 'novel blue sofa', 'novel yellow sofa']
-    assert obj['info_string'] == '(novel combination) huge massive blue yellow sofa'
+    assert obj['info_string'] == 'huge massive blue yellow sofa'
 
 
 def test_instantiate_object_novel_shape():
@@ -421,6 +421,6 @@ def test_instantiate_object_novel_shape():
     obj = instantiate_object(object_def, object_location)
     assert obj['goal_string'] == 'huge massive blue yellow sofa'
     assert obj['info'] == ['huge', 'massive', 'blue', 'yellow', 'sofa', 'novel sofa']
-    assert obj['info_string'] == '(novel shape) huge massive blue yellow sofa'
+    assert obj['info_string'] == 'huge massive blue yellow sofa'
 
 

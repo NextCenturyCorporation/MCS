@@ -138,12 +138,10 @@ def instantiate_object(object_def: Dict[str, Any],
     new_object['size'] = new_object['info'][0]
 
     if new_object['novel_color']:
-        new_object['info_string'] = '(novel color) ' + new_object['info_string']
         for color in list(colors):
             new_object['info'].append('novel ' + color)
 
     if new_object['novel_shape']:
-        new_object['info_string'] = '(novel shape) ' + new_object['info_string']
         new_object['info'].append('novel ' + new_object['shape'])
 
     # This object can't be marked as a novel combination if it's a novel color or a novel shape.
@@ -151,7 +149,6 @@ def instantiate_object(object_def: Dict[str, Any],
         new_object['novel_combination'] = False
 
     if new_object['novel_combination']:
-        new_object['info_string'] = '(novel combination) ' + new_object['info_string']
         for color in list(colors):
             new_object['info'].append('novel ' + color + ' ' + new_object['shape'])
 
