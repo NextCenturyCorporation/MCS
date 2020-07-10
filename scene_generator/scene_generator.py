@@ -218,8 +218,8 @@ def generate_pair(prefix: str, count: int, pair_name: str, find_path: bool, stop
     while True:
         try:
             scenes = pair.get_scenes()
-            scenes[0]['goal']['series_id'] = 'pair_' + pair.get_name() + '_' + pair_id
-            scenes[1]['goal']['series_id'] = 'pair_' + pair.get_name() + '_' + pair_id
+            scenes[0]['goal']['series_id'] = 'pair_' + pair.get_name().replace(' ', '_') + '_' + pair_id
+            scenes[1]['goal']['series_id'] = 'pair_' + pair.get_name().replace(' ', '_') + '_' + pair_id
             write_scene_of_pair(scenes[0], generate_name(prefix, count, 1))
             write_scene_of_pair(scenes[1], generate_name(prefix, count, 2))
             break

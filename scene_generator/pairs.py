@@ -3,7 +3,7 @@ import logging
 import random
 from abc import ABC, abstractmethod
 from enum import Enum, auto
-from typing import Any, Dict, List, Optional, Tuple, Type
+from typing import Any, Callable, Dict, List, Optional, Tuple, Type
 import uuid
 
 import shapely
@@ -92,6 +92,10 @@ class InteractionPair():
                 self._initialize_each_goal()
                 self._goal_1.update_body(self._scene_1, find_path)
                 self._goal_2.update_body(self._scene_2, find_path)
+                self._scene_1['goal']['type_list'] = self._scene_1['goal']['type_list'] + \
+                        self._get_goal_type_list_1(self._options)
+                self._scene_2['goal']['type_list'] = self._scene_2['goal']['type_list'] + \
+                        self._get_goal_type_list_2(self._options)
                 break
             except exceptions.SceneException as e:
                 logging.error(e)
@@ -103,6 +107,80 @@ class InteractionPair():
     def get_scenes(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """Return both scenes of this pair."""
         return self._scene_1, self._scene_2
+
+    def _get_both_goal_type_list(self, options: SceneOptions, number: int, \
+            is_true_func: Callable[[BoolPairOption], bool]) -> List[str]:
+        """Return the type list for a goal using the given scene options."""
+
+        type_list = ['pair ' + self._name]
+
+        if is_true_func(options.target_containerize):
+            type_list.append(f'pair scene {number} target is hidden inside receptacle')
+        else:
+            type_list.append(f'pair scene {number} target isn\'t hidden inside receptacle')
+
+        if is_true_func(options.confusor):
+            type_list.append(f'pair scene {number} confusor does exist')
+            if is_true_func(options.confusor_containerize):
+                type_list.append(f'pair scene {number} confusor is hidden inside receptacle')
+            else:
+                type_list.append(f'pair scene {number} confusor isn\'t hidden inside receptacle')
+        else:
+            type_list.append(f'pair scene {number} confusor doesn\'t exist')
+
+
+        if is_true_func(options.obstructor):
+            type_list.append(f'pair scene {number} obstructor does exist')
+            # TODO MCS-262 This will be a separate option.
+            type_list.append(f'pair scene {number} obstructor does obstruct vision')
+        else:
+            type_list.append(f'pair scene {number} obstructor doesn\'t exist')
+
+        return type_list
+
+    def _get_goal_type_list_1(self, options: SceneOptions) -> List[str]:
+        """Return the type list for goal 1 using the given scene options."""
+
+        type_list = self._get_both_goal_type_list(options, 1, self._is_true_goal_1)
+
+        if options.target_location == TargetLocationPairOption.FRONT_BACK or \
+                options.target_location == TargetLocationPairOption.FRONT_FRONT:
+            type_list.append('pair scene 1 target location in front of performer start')
+        else:
+            type_list.append('pair scene 1 target location random')
+
+        if self._is_true_goal_1(options.confusor):
+            if options.confusor_location == ConfusorLocationPairOption.BACK_FRONT:
+                type_list.append('pair scene 1 confusor location in back of performer start')
+            elif options.confusor_location == ConfusorLocationPairOption.CLOSE_CLOSE or \
+                    options.confusor_location == ConfusorLocationPairOption.CLOSE_FAR:
+                type_list.append('pair scene 1 confusor location very close to target')
+
+        return type_list
+
+    def _get_goal_type_list_2(self, options: SceneOptions) -> List[str]:
+        """Return the type list for goal 2 using the given scene options."""
+
+        type_list = self._get_both_goal_type_list(options, 2, self._is_true_goal_2)
+
+        if options.target_location == TargetLocationPairOption.FRONT_BACK:
+            type_list.append('pair scene 2 target location in back of performer start')
+        elif options.target_location == TargetLocationPairOption.FRONT_FRONT:
+            type_list.append('pair scene 2 target location in front of performer start')
+        else:
+            type_list.append('pair scene 2 target location random')
+
+        if self._is_true_goal_2(options.confusor):
+            if options.confusor_location == ConfusorLocationPairOption.BACK_FRONT:
+                type_list.append('pair scene 2 confusor location in front of performer start')
+            elif options.confusor_location == ConfusorLocationPairOption.CLOSE_CLOSE or \
+                    options.confusor_location == ConfusorLocationPairOption.NONE_CLOSE:
+                type_list.append('pair scene 2 confusor location very close to target')
+            elif options.confusor_location == ConfusorLocationPairOption.CLOSE_FAR or \
+                    options.confusor_location == ConfusorLocationPairOption.NONE_FAR:
+                type_list.append('pair scene 2 confusor location far away from target')
+
+        return type_list
 
     def _initialize_each_goal(self) -> None:
         """
@@ -657,7 +735,7 @@ class ImmediatelyVisiblePair(InteractionPair):
     container (like a box). See MCS-232.
     """
 
-    NAME = 'immediately_visible'
+    NAME = 'immediately visible'
 
     def __init__(self, template: Dict[str, Any], find_path: bool):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
@@ -676,7 +754,7 @@ class ImmediatelyVisibleSimilarPair(InteractionPair):
     used in that pair. See MCS-233.
     """
 
-    NAME = 'immediately_visible_similar'
+    NAME = 'immediately visible similar'
 
     def __init__(self, template: Dict[str, Any], find_path: bool):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
@@ -694,7 +772,7 @@ class HiddenBehindPair(InteractionPair):
     box). See MCS-239.
     """
 
-    NAME = 'hidden_behind'
+    NAME = 'hidden behind'
 
     def __init__(self, template: Dict[str, Any], find_path: bool):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
@@ -711,7 +789,7 @@ class OneEnclosedPair(InteractionPair):
     container for neither scene. See MCS-234.
     """
 
-    NAME = 'one_enclosed'
+    NAME = 'one enclosed'
 
     def __init__(self, template: Dict[str, Any], find_path: bool):
         containerize_target = random.choice((BoolPairOption.NO_NO, BoolPairOption.YES_YES))
@@ -732,7 +810,7 @@ class SimilarAdjacentPair(InteractionPair):
     that pair.
     """
 
-    NAME = 'similar_adjacent'
+    NAME = 'similar adjacent'
 
     def __init__(self, template: Dict[str, Any], find_path: bool):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
@@ -749,7 +827,7 @@ class SimilarFarPair(InteractionPair):
     containers, but only if the container is big enough to hold both
     individually; otherwise, no container will be used in that pair."""
 
-    NAME = 'similar_far'
+    NAME = 'similar far'
 
     def __init__(self, template: Dict[str, Any], find_path: bool):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
@@ -767,7 +845,7 @@ class SimilarAdjacentFarPair(InteractionPair):
     container will be used in that pair.
     """
 
-    NAME = 'similar_adjacent_far'
+    NAME = 'similar adjacent far'
 
     def __init__(self, template: Dict[str, Any], find_path: bool):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
@@ -784,7 +862,7 @@ class SimilarAdjacentContainedPair(InteractionPair):
     Object is inside a container. See MCS-238.
     """
 
-    NAME = 'similar_adjacent_contained'
+    NAME = 'similar adjacent contained'
 
     def __init__(self, template: Dict[str, Any], find_path: bool):
         super(SimilarAdjacentContainedPair, self).__init__(self.NAME, template, find_path, options = SceneOptions( \
