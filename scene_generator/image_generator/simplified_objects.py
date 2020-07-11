@@ -94,9 +94,28 @@ OBJECT_LIST = [{
         'z': 8
     }
 }, {
+    'type': 'block_blue_letter_c',
+    'materials_options': [
+        ['block_letter']
+    ],
+    'position': {
+        'x': 0,
+        'y': 0.3,
+        'z': 2
+    },
+    'rotation': {
+        'x': -30,
+        'y': 0,
+        'z': 0
+    },
+    'scale': {
+        'x': 8,
+        'y': 8,
+        'z': 8
+    }
+}, {
     'type': 'block_yellow_number_1',
     'materials_options': [
-        ['block_letter'],
         ['block_number']
     ],
     'position': {
