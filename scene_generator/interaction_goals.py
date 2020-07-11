@@ -14,7 +14,7 @@ import geometry
 import objects
 import util
 from geometry import POSITION_DIGITS
-from goal import GoalException, Goal, generate_wall
+from goal import Goal, generate_wall
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, MAX_REACH_DISTANCE, PERFORMER_CAMERA_Y
 from optimal_path import generatepath
 from util import finalize_object_definition, instantiate_object
@@ -124,7 +124,7 @@ def get_navigation_actions(start_location: Dict[str, Any],
     if 'locationParent' in goal_object:
         parent = next((obj for obj in all_objects if obj['id'] == goal_object['locationParent']), None)
         if parent is None:
-            raise GoalException(f'object {goal_object["id"]} has parent {goal_object["locationParent"]} that does not exist')
+            raise PathfindingException(f'object {goal_object["id"]} has parent {goal_object["locationParent"]} that does not exist')
         goal_object = parent
     goal = (goal_object['shows'][0]['position']['x'], goal_object['shows'][0]['position']['z'])
     hole_rects = []
@@ -134,7 +134,7 @@ def get_navigation_actions(start_location: Dict[str, Any],
                       and 'locationParent' not in object)
     path = generatepath(performer, goal, hole_rects)
     if path is None:
-        raise GoalException(f'could not find path to target {goal_object["id"]}')
+        raise PathfindingException(f'could not find path to target {goal_object["id"]}')
     for object in all_objects:
         if object['id'] == goal_object['id']:
             goal_boundary = object['shows'][0]['bounding_box']
@@ -220,7 +220,7 @@ class ObjectRule():
         """Choose and return the location for the given object definition. Will modify bounds_list."""
         object_location = geometry.calc_obj_pos(performer_start['position'], bounds_list, object_definition)
         if not object_location:
-            raise GoalException(f'cannot position object (type={object_definition["type"]})')
+            raise exceptions.SceneException(f'cannot position object (type={object_definition["type"]})')
         return object_location, bounds_list
 
     def validate_location(self, object_location: Dict[str, Any], target_list: List[Dict[str, Any]], \
@@ -677,21 +677,29 @@ class TransferralGoal(InteractionGoal):
                     'horizon': -1*round(elevation, POSITION_DIGITS)
                     }
                 })
-        hole_rects = []
-        hole_rects.extend(object['shows'][0]['bounding_box'] for object
-                          in all_objects if (object['id'] != goal_objects[0]['id']
-                                             and object['id'] != goal_objects[1]['id']
-                                             and 'locationParent' not in object))
+
+        ignore_object_ids = [goal_objects[0]['id'], goal_objects[1]['id']]
         if 'locationParent' in goal_objects[0]:
+            ignore_object_ids.append(goal_objects[0]['locationParent'])
             parent = next((obj for obj in all_objects if obj['id'] == goal_objects[0]['locationParent']))
             target = (parent['shows'][0]['position']['x'], parent['shows'][0]['position']['z'])
         else:
             target = (goal_objects[0]['shows'][0]['position']['x'], goal_objects[0]['shows'][0]['position']['z'])
-        goal = (goal_objects[1]['shows'][0]['position']['x'], goal_objects[1]['shows'][0]['position']['z'])
+        if 'locationParent' in goal_objects[1]:
+            ignore_object_ids.append(goal_objects[1]['locationParent'])
+            parent = next((obj for obj in all_objects if obj['id'] == goal_objects[1]['locationParent']))
+            goal = (parent['shows'][0]['position']['x'], parent['shows'][0]['position']['z'])
+        else:
+            goal = (goal_objects[1]['shows'][0]['position']['x'], goal_objects[1]['shows'][0]['position']['z'])
+
+        hole_rects = []
+        hole_rects.extend(object['shows'][0]['bounding_box'] for object
+                          in all_objects if (object['id'] not in ignore_object_ids and 'locationParent' not in object))
+
         logging.debug(f'TransferralGoal.f_o_p: target = {target}\tgoal = {goal}\tholes = {hole_rects}')
         path = generatepath(target, goal, hole_rects)
         if path is None:
-            raise GoalException('could not find path from target object to goal')
+            raise PathfindingException('could not find path from target object to goal')
         logging.debug(f'TransferralGoal.f_o_p: got path = {path}')
         for object in all_objects:
             if object['id'] == goal_objects[1]['id']:
@@ -759,4 +767,9 @@ class TraversalGoal(InteractionGoal):
         # Goal should be a singleton... I hope
         # TODO: (maybe) look at actual object if it's inside a parent (future ticket)
         return get_navigation_actions(self._performer_start, goal_objects[0], all_objects)[0]
+
+
+class PathfindingException(exceptions.SceneException):
+    def __init__(self, message=''):
+        super(PathfindingException, self).__init__(message)
 
