@@ -227,24 +227,35 @@ def get_location_in_back_of_performer(performer_start: Dict[str, Dict[str, float
     # First, find the part of the the room that's behind the performer
     # (i.e., the 180 degree arc in the opposite direction from its
     # orientation)
+    min_x = ROOM_DIMENSIONS[0][0]
+    max_x = ROOM_DIMENSIONS[0][1]
+    min_z = ROOM_DIMENSIONS[1][0]
+    max_z = ROOM_DIMENSIONS[1][1]
     max_dimension = max(ROOM_DIMENSIONS[0][1] - ROOM_DIMENSIONS[0][0],
                         ROOM_DIMENSIONS[1][1] - ROOM_DIMENSIONS[1][0])
     # if the performer were at the origin facing 0, this box would be behind it
-    base_rear = shapely.geometry.box(-max_dimension*2, -max_dimension*2,
-                                     max_dimension*2, 0)
+    base_rear = shapely.geometry.box(-(max_x - min_x)/2, -(max_z - min_z)/2, (max_x - min_x)/2, 0)
     performer_point = shapely.geometry.Point(performer_start['position']['x'],
                                              performer_start['position']['z'])
     translated_rear = affinity.translate(base_rear, performer_point.x, performer_point.y)
     performer_rear = affinity.rotate(translated_rear, -performer_start['rotation']['y'],
                                      origin=performer_point)
-    bounds = performer_rear.bounds
+    bounds = [
+        min(max_x, max(min_x, performer_rear.bounds[0])),
+        min(max_z, max(min_z, performer_rear.bounds[1])),
+        min(max_x, max(min_x, performer_rear.bounds[2])),
+        min(max_z, max(min_z, performer_rear.bounds[3]))
+    ]
 
     def compute_xz():
         # pick a random x within the polygon's bounding rectangle
-        x = util.random_real(bounds[0], bounds[2])
-        # intersect a vertical line with the poly at that x
-        vertical_line = shapely.geometry.LineString([[x, bounds[1]], [x, bounds[3]]])
-        target_segment = vertical_line.intersection(performer_rear)
+        while True:
+            x = util.random_real(bounds[0], bounds[2])
+            # intersect a vertical line with the poly at that x
+            vertical_line = shapely.geometry.LineString([[x, bounds[1]], [x, bounds[3]]])
+            target_segment = vertical_line.intersection(performer_rear)
+            if not target_segment.is_empty:
+                break
         # unlikely, but possible to get just a point here
         if target_segment.geom_type == 'Point':
             location = target_segment
