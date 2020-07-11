@@ -4,6 +4,7 @@ import random
 from abc import ABC, abstractmethod
 from typing import Dict, Any, List, Type, Optional, Tuple
 
+import exceptions
 import goal
 import intphys_goals
 import objects
@@ -49,7 +50,7 @@ def get_position_step(target: Dict[str, Any], x_position: float,
            not counting_up and pos < x_position:
             return i
     logging.error(f'left_to_right={left_to_right}\tforwards={forwards}\tpositions: {positions}')
-    raise goal.GoalException(f'cannot find step for position: {x_position}')
+    raise exceptions.SceneException(f'cannot find step for position: {x_position}')
 
 
 class Quartet(ABC):
@@ -151,7 +152,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
             diff = new_stepBegin - max_stepBegin
             if diff > orig_stepBegin:
                 print(f'new_sb={new_stepBegin}\tmax_sb={max_stepBegin}\torig_sb={orig_stepBegin}')
-                raise goal.GoalException('cannot fix start times for this goal, must start over')
+                raise exceptions.SceneException('cannot fix start times for this goal, must start over')
             target['shows'][0]['stepBegin'] -= diff
             if 'forces' in target:
                 target['forces'][0]['stepBegin'] -= diff
@@ -169,7 +170,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
                     other_object_id = occluded_id
                     break
         if other_occluder is None:
-            raise goal.GoalException('cannot find a second occluder, error generating scene')
+            raise exceptions.SceneException('cannot find a second occluder, error generating scene')
         if other_object_id is None:
             other_object = None
         else:
@@ -374,7 +375,7 @@ class ShapeConstancyQuartet(Quartet):
                         (a_size - util.MAX_SIZE_DIFFERENCE):
                     possible_defs.append(obj_def)
         if len(possible_defs) == 0:
-            raise goal.GoalException(f'no valid choices for "b" object. a = {a}')
+            raise exceptions.SceneException(f'no valid choices for "b" object. a = {a}')
         b_def = random.choice(possible_defs)
         b_def = util.finalize_object_definition(b_def)
         b = util.instantiate_object(b_def, a['original_location'], a['materials_list'])

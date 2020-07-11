@@ -6,7 +6,6 @@ from typing import Dict, Any
 
 import pytest
 
-import goal
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, MAX_REACH_DISTANCE
 
 import exceptions
@@ -15,7 +14,8 @@ import objects
 import scene_generator
 from geometry import POSITION_DIGITS
 from goals import *
-from interaction_goals import move_to_container, parse_path_section, get_navigation_actions, trim_actions_to_reach
+from interaction_goals import move_to_container, parse_path_section, get_navigation_actions, trim_actions_to_reach, \
+        PathfindingException
 from util import MAX_TRIES, finalize_object_definition, instantiate_object
 
 
@@ -477,7 +477,7 @@ def test_TransferralGoal_ensure_pickup_action():
         body: Dict[str, Any] = scene_generator.OUTPUT_TEMPLATE
         try:
             goal_obj.update_body(body, True)
-        except goal.GoalException:
+        except PathfindingException:
             pass
         if 'actions' in body['answer']:
             break
@@ -495,7 +495,7 @@ def test_TransferralGoal_navigate_near_objects():
         body: Dict[str, Any] = scene_generator.OUTPUT_TEMPLATE
         try:
             goal_obj.update_body(body, True)
-        except goal.GoalException:
+        except PathfindingException:
             pass
         if 'actions' in body['answer']:
             break

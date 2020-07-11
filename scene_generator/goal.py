@@ -4,7 +4,6 @@ import uuid
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Tuple, List, Optional
 
-import exceptions
 import geometry
 import objects
 import separating_axis_theorem
@@ -218,7 +217,3 @@ class EmptyGoal(Goal):
             List[Dict[str, Any]]:
         return []
 
-
-class GoalException(exceptions.SceneException):
-    def __init__(self, message=''):
-        super(GoalException, self).__init__(message)

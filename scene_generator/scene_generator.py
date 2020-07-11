@@ -221,7 +221,6 @@ def generate_pair(prefix: str, count: int, pair_name: str, goal_name: str, find_
     pair_class = pairs.get_pair_class(pair_name)
     pair = pair_class(template, goal_name, find_path)
     pair_id = str(uuid.uuid4())
-    logging.debug(f'generating scene pair #{count}')
     while True:
         try:
             scenes = pair.get_scenes()
@@ -234,21 +233,22 @@ def generate_pair(prefix: str, count: int, pair_name: str, goal_name: str, find_
             if stop_on_error:
                 raise
             logging.warning(f'failed to create a pair: {e}')
-    logging.debug(f'end generation of scene pair #{count}')
 
 
-def generate_pairs(prefix: str, count: int, pair_name: str, goal_name: str, find_path: bool, \
+def generate_pairs(prefix: str, total: int, pair_name: str, goal_name: str, find_path: bool, \
         stop_on_error: bool) -> None:
 
     index = 1
-    while count > 0:
+    count = 0
+    while count < total:
         while True:
             file_exists = os.path.exists(generate_name(prefix, index, 1) + '.json')
             if not file_exists:
                 break
             index += 1
+        count += 1
+        logging.debug(f'\n\ngenerate pair {count} / {total}\n')
         generate_pair(prefix, index, pair_name, goal_name, find_path, stop_on_error)
-        count -= 1
 
 
 class FilesetType(Enum):

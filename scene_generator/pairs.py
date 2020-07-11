@@ -83,12 +83,15 @@ class InteractionPair():
 
     def __init__(self, number: int, template: Dict[str, Any], goal_name: str, find_path: bool, options: SceneOptions):
         self._number = number
-        self._scene_1 = copy.deepcopy(template)
-        self._scene_2 = copy.deepcopy(template)
         self._options = options
+        tries = 0
         while True:
+            tries += 1
             try:
+                self._scene_1 = copy.deepcopy(template)
+                self._scene_2 = copy.deepcopy(template)
                 self._goal_1 = goals.get_goal_by_name(goal_name) if goal_name else goals.choose_goal('interaction')
+                logging.debug(f'\n\n{self.get_name()} initialize goal {self._goal_1.get_name()} (try {tries})\n')
                 self._initialize_each_goal()
                 self._goal_1.update_body(self._scene_1, find_path)
                 self._goal_2.update_body(self._scene_2, find_path)
@@ -96,6 +99,7 @@ class InteractionPair():
                         self._get_goal_type_list_1(self._options)
                 self._scene_2['goal']['type_list'] = self._scene_2['goal']['type_list'] + \
                         self._get_goal_type_list_2(self._options)
+                logging.debug(f'\n\n{self.get_name()} initialize goal {self._goal_1.get_name()} done\n')
                 break
             except exceptions.SceneException as e:
                 logging.error(e)
@@ -191,8 +195,6 @@ class InteractionPair():
         - Create the rest of the objects (targets, distractors, walls) in the goal for the first scene.
         - Copy the first scene's goal to make the second scene's goal and replace this pair's objects.
         """
-        logging.debug(f'{self.get_name()} initialize goal {self._goal_1.get_name()}')
-
         # Use the first goal for the pair now, and later copy it and modify the copy that will be the second goal.
         goal_1_target_rule_list = self._goal_1.get_target_rule_list()
 

@@ -5,13 +5,14 @@ from enum import Enum, auto
 import random
 from typing import Dict, Any, List, Iterable, Tuple, Optional
 
+import exceptions
 import geometry
 import materials
 import math
 import objects
 import ramps
 import util
-from goal import Goal, GoalException
+from goal import Goal
 from util import finalize_object_definition, instantiate_object
 
 
@@ -258,7 +259,7 @@ class IntPhysGoal(Goal, ABC):
                 occluder_list.extend(occluder_objs)
             else:
                 logging.warning('could not fit required occluder')
-                raise GoalException(f'Could not add minimum number of occluders ({num_paired_occluders})')
+                raise exceptions.SceneException(f'Could not add minimum number of occluders ({num_paired_occluders})')
         self._add_occluders(occluder_list, num_occluders - num_paired_occluders, non_room_wall_materials, False)
         return occluder_list
 
@@ -457,7 +458,7 @@ class IntPhysGoal(Goal, ABC):
                     found_space = True
                     break
             if not found_space:
-                raise GoalException(f'Could not place {i+1} objects to fall down')
+                raise exceptions.SceneException(f'Could not place {i+1} objects to fall down')
             location = {
                 'position': {
                     'x': x_position,
@@ -494,7 +495,7 @@ class IntPhysGoal(Goal, ABC):
                 distance = abs(occluder['shows'][0]['position']['x'] - x_position)
                 scale = 2 * (distance - occluder['shows'][0]['scale']['x'] / 2.0 - MIN_OCCLUDER_SEPARATION)
                 if scale < 0:
-                    raise GoalException(f'Placed objects too close together after all ({distance})')
+                    raise exceptions.SceneException(f'Placed objects too close together after all ({distance})')
                 if scale < max_scale:
                     max_scale = scale
             if max_scale <= min_scale:
@@ -702,7 +703,7 @@ class SpatioTemporalContinuityGoal(IntPhysGoal):
             occluder_objs = self._get_paired_occluder(target, occluder_list, non_room_wall_materials,
                                                       materials.METAL_MATERIALS)
             if occluder_objs is None:
-                raise GoalException(f'Could not add minimum number of occluders')
+                raise exceptions.SceneException(f'Could not add minimum number of occluders')
             occluder_list.extend(occluder_objs)
 
         self._add_occluders(occluder_list, num_occluders - 2, non_room_wall_materials, False)
