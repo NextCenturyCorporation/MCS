@@ -269,7 +269,7 @@ def get_location_in_back_of_performer(performer_start: Dict[str, Dict[str, float
 
 
 def get_adjacent_location(obj_def: Dict[str, Any], target: Dict[str, Any], performer_start_position: Dict[str, float], \
-        behind: bool = False) -> Optional[Dict[str, Any]]:
+        obstruct: bool = False) -> Optional[Dict[str, Any]]:
     """Find a location such that, if obj_def is instantiated there, it
     will be next to target. Ensures that the object at the new
     location will not overlap the performer start, if necessary trying
@@ -280,13 +280,13 @@ def get_adjacent_location(obj_def: Dict[str, Any], target: Dict[str, Any], perfo
     for side in sides:
         location = get_adjacent_location_on_side(obj_def, target, performer_start_position, side)
         if location:
-            # If behind, position the object so that the target is between it and the performer start.
-            if behind:
+            # If obstruct, position the target so that the object is between it and the performer start.
+            if obstruct:
                 performer_start_coordinates = (performer_start_position['x'], performer_start_position['z'])
-                object_location_coordinates = (location['position']['x'], location['position']['z'])
-                line_to_object = shapely.geometry.LineString([performer_start_coordinates, object_location_coordinates])
-                target_poly = get_bounding_polygon(target)
-                if target_poly.intersects(line_to_object):
+                target_location_coordinates = (target['shows'][0]['position']['x'], target['shows'][0]['position']['z'])
+                line_to_target = shapely.geometry.LineString([performer_start_coordinates, target_location_coordinates])
+                object_poly = get_bounding_polygon(location)
+                if object_poly.intersects(line_to_target):
                     return location
             else:
                 return location
@@ -351,31 +351,31 @@ def get_adjacent_location_on_side(obj_def: Dict[str, Any],
     return location
 
 
-def get_wider_and_taller_defs(obj_def: Dict[str, Any]) \
-        -> List[Tuple[Dict[str, Any], float]]:
+def get_wider_and_taller_defs(obj_def: Dict[str, Any], obstruct_vision: bool) -> List[Tuple[Dict[str, Any], float]]:
     """Return all object definitions both taller and either wider or
     deeper. If wider (x-axis), angle 0 is returned; if deeper
     (z-axis), 90 degrees is returned. Objects returned may be equal in
     dimensions, not just strictly greater.
     """
-    dims = obj_def['dimensions']
-    bigger_defs = []
-    for new_def in objects.get_all_object_defs():
-        if 'dimensions' in new_def:
-            if new_def['dimensions']['y'] >= dims['y']:
-                if new_def['dimensions']['x'] >= dims['x']:
-                    bigger_defs.append((new_def, 0))
-                elif new_def['dimensions']['z'] >= dims['x']:
-                    bigger_defs.append((new_def, 90))
-        elif 'choose' in new_def:
+    defs = copy.deepcopy(objects.get_all_object_defs())
+    random.shuffle(defs)
+    possible_defs = []
+    for new_def in defs:
+        if 'choose' in new_def:
             for choice in new_def['choose']:
-                if choice['dimensions']['y'] >= dims['y']:
-                    if choice['dimensions']['x'] >= dims['x']:
-                        bigger_def = util.finalize_object_definition(new_def, choice)
-                        bigger_defs.append((bigger_def, 0))
-                    elif choice['dimensions']['z'] >= dims['x']:
-                        bigger_def = util.finalize_object_definition(new_def, choice)
-                        bigger_defs.append((bigger_def, 90))
+                possible_defs.append(util.finalize_object_definition(copy.deepcopy(new_def), choice))
+        else:
+            possible_defs.append(util.finalize_object_definition(copy.deepcopy(new_def)))
+    bigger_defs = []
+    for new_def in possible_defs:
+        # Only look at definitions with the obstruct property.
+        if 'obstruct' in new_def and new_def['obstruct'] == ('vision' if obstruct_vision else 'navigation'):
+            # Only need a bigger Y dimension if the object must obstruct vision.
+            if new_def['obstruct'] == 'navigation' or new_def['dimensions']['y'] >= obj_def['dimensions']['y']:
+                if new_def['dimensions']['x'] >= obj_def['dimensions']['x']:
+                    bigger_defs.append((new_def, 0))
+                elif new_def['dimensions']['z'] >= obj_def['dimensions']['x']:
+                    bigger_defs.append((new_def, 90))
     return bigger_defs
 
 

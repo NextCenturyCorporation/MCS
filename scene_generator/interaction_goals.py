@@ -319,7 +319,8 @@ class ConfusorObjectRule(ObjectRule):
     def choose_definition(self) -> Dict[str, Any]:
         if not self._target_definition:
             raise exceptions.SceneException('cannot create a confusor with no target definition')
-        confusor_definition = util.get_similar_definition(self._target_definition, objects.get_all_object_defs())
+        confusor_definition = util.get_similar_definition(self._target_definition, \
+                copy.deepcopy(objects.get_all_object_defs()))
         if not confusor_definition:
             raise exceptions.SceneException(f'cannot find a confusor to create with target={self._target_definition}')
         return util.finalize_object_definition(confusor_definition)
@@ -327,7 +328,7 @@ class ConfusorObjectRule(ObjectRule):
 
 class ObstructorObjectRule(ObjectRule):
     def __init__(self, target_definition: Dict[str, Any], performer_start: Dict[str, Dict[str, float]], \
-            obstruct_vision: bool = False):
+            obstruct_vision: bool):
         super(ObstructorObjectRule, self).__init__()
         self._target_definition = target_definition
         self._obstruct_vision = obstruct_vision
@@ -335,8 +336,7 @@ class ObstructorObjectRule(ObjectRule):
     def choose_definition(self) -> Dict[str, Any]:
         if not self._target_definition:
             raise exceptions.SceneException('cannot create an obstructor with no target definition')
-        obstructor_definition_list = geometry.get_wider_and_taller_defs(self._target_definition) if \
-                self._obstruct_vision else [] # TODO MCS-262
+        obstructor_definition_list = geometry.get_wider_and_taller_defs(self._target_definition, self._obstruct_vision)
         if not obstructor_definition_list:
             raise exceptions.SceneException(f'cannot find an obstructor to create with target={self._target_definition}')
         obstructor_definition, obstructor_angle = random.choice(obstructor_definition_list)
@@ -445,7 +445,7 @@ class InteractionGoal(Goal, ABC):
         """Returns the obstructors in this goal."""
         return self._obstructor_list
 
-    def get_obstructor_rule(self, target_definition: Dict[str, Any], obstruct_vision: bool = False) -> ObjectRule:
+    def get_obstructor_rule(self, target_definition: Dict[str, Any], obstruct_vision: bool) -> ObjectRule:
         """Returns the rule for any obstructors compatible with this goal."""
         return ObstructorObjectRule(target_definition = target_definition, obstruct_vision = obstruct_vision, \
                 performer_start = self.get_performer_start())
