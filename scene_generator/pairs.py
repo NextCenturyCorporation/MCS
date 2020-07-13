@@ -303,21 +303,22 @@ class InteractionPair():
             # Create the receptacle template now at a location, and later it'll move to its location for each scene.
             receptacle_template = util.instantiate_object(receptacle_definition, geometry.ORIGIN_LOCATION)
 
-        # Create the obstructor to use in either scene if needed.
-        # Assumes that both scenes have the same obstructor (will this always be true in the future?)
-        if self._options.obstructor != BoolPairOption.NO_NO:
-            obstruct_vision = True # TODO MCS-262
-            obstructor_definition = self._goal_1.get_obstructor_rule(target_template, \
-                    obstruct_vision).choose_definition()
-            # Create the obstructor template now at a location, and later it'll move to its location for each scene.
-            obstructor_template = util.instantiate_object(obstructor_definition, geometry.ORIGIN_LOCATION)
-
         # If an object is switched across the scenes (in the same position), use the larger object to generate the
         # location to avoid any collisions (if positioned inside a receptacle, the receptacle must be larger).
         larger_of_target_or_receptacle = receptacle_template if must_containerize_target else target_template
         larger_of_confusor_or_receptacle = receptacle_template if must_containerize_confusor else confusor_template
         larger_of_target_or_confusor = self._find_larger_object(larger_of_target_or_receptacle, \
                 larger_of_confusor_or_receptacle)
+
+        # Create the obstructor to use in either scene if needed.
+        # Assumes that both scenes have the same obstructor (will this always be true in the future?)
+        if self._options.obstructor != BoolPairOption.NO_NO:
+            obstruct_vision = True # TODO MCS-262
+            obstructor_definition = self._goal_1.get_obstructor_rule(larger_of_target_or_receptacle, \
+                    obstruct_vision).choose_definition()
+            # Create the obstructor template now at a location, and later it'll move to its location for each scene.
+            obstructor_template = util.instantiate_object(obstructor_definition, geometry.ORIGIN_LOCATION)
+
         larger_of_target_or_obstructor = self._find_larger_object(larger_of_target_or_receptacle, \
                 obstructor_template)
         larger_object = self._find_larger_object(larger_of_target_or_confusor, larger_of_target_or_obstructor)
@@ -326,8 +327,6 @@ class InteractionPair():
         target_location_2 = None
         confusor_location_1 = None
         confusor_location_2 = None
-        obstructor_location_1 = None
-        obstructor_location_2 = None
 
         is_target_relative_to_performer_start = \
                 (self._options.target_location == TargetLocationPairOption.FRONT_BACK or \
@@ -365,17 +364,13 @@ class InteractionPair():
         # The performer_start shouldn't be modified past here.
         performer_start = self._goal_1.get_performer_start()
 
-        if obstructor_template:
-            # Must rotate obstructor relative to performer start rotation (save in definition to use later).
-            obstructor_definition['rotation']['y'] = obstructor_definition['rotation']['y'] + \
-                    performer_start['rotation']['y']
-            # Exchange the target with the obstructor, then position the target directly behind the obstructor.
-            target_location_1, obstructor_location_1 = self._generate_obstructor_location( \
-                    self._is_true_goal_1(self._options.obstructor), target_location_1, target_definition, \
-                    obstructor_template, performer_start)
-            target_location_2, obstructor_location_2 = self._generate_obstructor_location( \
-                    self._is_true_goal_2(self._options.obstructor), target_location_2, target_definition, \
-                    obstructor_template, performer_start)
+        # If needed, exchange the target with the obstructor, then position the target directly behind the obstructor.
+        target_location_1, obstructor_1 = self._finalize_obstructor_in_location( \
+                self._is_true_goal_1(self._options.obstructor), target_location_1, target_definition, \
+                obstructor_definition, obstructor_template, performer_start)
+        target_location_2, obstructor_2 = self._finalize_obstructor_in_location( \
+                self._is_true_goal_2(self._options.obstructor), target_location_2, target_definition, \
+                obstructor_definition, obstructor_template, performer_start)
 
         # If the confusor isn't positioned relative to the performer_start, it's positioned relative to the target.
         if confusor_template and not is_confusor_relative_to_performer_start:
@@ -401,11 +396,6 @@ class InteractionPair():
                 confusor_template, confusor_location_2, self._is_true_goal_2(self._options.confusor_containerize), \
                 receptacle_definition, receptacle_template, area_index, target_rotation, confusor_rotation, \
                 orientation, shared_bounds_list)
-
-        obstructor_1 = self._finalize_obstructor_position(self._is_true_goal_1(self._options.obstructor), \
-                obstructor_definition, obstructor_template, obstructor_location_1)
-        obstructor_2 = self._finalize_obstructor_position(self._is_true_goal_2(self._options.obstructor), \
-                obstructor_definition, obstructor_template, obstructor_location_2)
 
         logging.debug('target_1 ' + target_1['id'] + ' ' + target_1['type'])
         logging.debug('target_2 ' + target_2['id'] + ' ' + target_2['type'])
@@ -520,6 +510,36 @@ class InteractionPair():
         for obstructor in obstructor_list_2:
             goal_2_obstructor_list.insert(0, obstructor)
 
+    def _finalize_obstructor_in_location(self, show_obstructor: bool, original_target_location: Dict[str, float], \
+            target_definition: Dict[str, Any], obstructor_definition: Dict[str, Any], \
+            obstructor_template: Dict[str, Any], performer_start: Dict[str, Dict[str, float]]) -> \
+            Tuple[Dict[str, float], Dict[str, Any]]:
+        """If needed, move the obstructor's position to the target's position, then move the target directly behind the
+        obstructor. Return the target location and the obstructor instance."""
+
+        # Note from Chris Long: Rotate obstructor to "face" the performer. There's a chance that this rotation could
+        # cause the obstructor to intersect with the wall of the room, because it's different from the rotation
+        # returned by get_location_in_front_of_performer (which does check for that case). But it seems unlikely.
+
+        if show_obstructor and obstructor_template:
+            obstructor_location = copy.deepcopy(original_target_location)
+            # The obstructor location must have a Y rotation that's relative to the performer start (not random).
+            obstructor_location = geometry.set_location_rotation(obstructor_definition, obstructor_location, \
+                    (obstructor_definition['rotation']['y'] if 'rotation' in obstructor_definition else 0) + \
+                    performer_start['rotation']['y'])
+            # Create a instance of the obstructor with the proper location.
+            obstructor_instance = copy.deepcopy(obstructor_template)
+            move_to_location(obstructor_definition, obstructor_instance, obstructor_location)
+            # Generate an adjacent location so that the obstructor is between the target and the performer start.
+            # TODO Use existing target bounds?
+            target_location = geometry.get_adjacent_location(target_definition, obstructor_instance, \
+                    performer_start['position'], True)
+            if not target_location:
+                raise exceptions.SceneException(f'{self.get_name()} pair cannot position target directly behind obstructor: performer_start={performer_start} target={target_definition} obstructor={obstructor_instance}')
+            return target_location, obstructor_instance
+
+        return original_target_location, None
+
     def _finalize_target_confusor_position(self, target_definition: Dict[str, Any], target_template: Dict[str, Any], \
             target_location: Dict[str, Any], containerize_target: bool, show_confusor: bool, is_confusor_close: bool, \
             confusor_definition: Dict[str, Any], confusor_template: Dict[str, Any], \
@@ -574,20 +594,6 @@ class InteractionPair():
                     bounds_list.append(confusor_instance['shows'][0]['bounding_box'])
 
         return target_instance, confusor_instance, target_receptacle_instance, confusor_receptacle_instance
-
-    def _finalize_obstructor_position(self, show_obstructor: bool, obstructor_definition: Dict[str, Any], \
-            obstructor_template: Dict[str, Any], obstructor_location: Dict[str, Any]) -> Dict[str, Any]:
-        """Finalize the position and rotation of the obstructor and return the obstructor (if any)."""
-
-        # Note from Chris Long: Rotate obstructor to "face" the performer. There's a chance that this rotation could
-        # cause the obstructor to intersect with the wall of the room, because it's different from the rotation
-        # returned by get_location_in_front_of_performer (which does check for that case). But it seems unlikely.
-        obstructor_instance = copy.deepcopy(obstructor_template) if (obstructor_template and show_obstructor) else None
-        if obstructor_instance and obstructor_location:
-            # The obstructor must have a very specific Y rotation that isn't random.
-            obstructor_location['rotation']['y'] = obstructor_definition['rotation']['y']
-            move_to_location(obstructor_definition, obstructor_instance, obstructor_location)
-        return obstructor_instance
 
     def _find_larger_object(self, object_one: Dict[str, Any], object_two: Dict[str, Any]) -> Dict[str, Any]:
         """Return the larger of the two given objects."""
@@ -693,24 +699,6 @@ class InteractionPair():
         if not location_far:
             raise exceptions.SceneException(f'{self.get_name()} pair cannot position far from target: object={object_definition} target={target_instance}')
         return location_far
-
-    def _generate_obstructor_location(self, show_obstructor: bool, original_target_location: Dict[str, float], \
-            target_definition: Dict[str, Any], obstructor_template: Dict[str, Any], \
-            performer_start: Dict[str, Dict[str, float]]) -> Tuple[Dict[str, float], Dict[str, float]]:
-        """If needed, move the obstructor's position to the target's position, then move the target directly behind the
-        obstructor. Return the target and obstructor locations."""
-
-        if show_obstructor:
-            obstructor_location = original_target_location
-            # Generate an adjacent location so that the obstructor is between the target and the performer start.
-            # TODO Use existing target bounds?
-            target_location = geometry.get_adjacent_location(target_definition, obstructor_template, \
-                    performer_start['position'], True)
-            if not target_location:
-                raise exceptions.SceneException(f'{self.get_name()} pair cannot position target directly behind obstructor: performer_start={performer_start} target={target_definition} obstructor={obstructor_template}')
-            return target_location, obstructor_location
-
-        return original_target_location, None
 
     def _generate_random_location(self, goal: InteractionGoal, object_definition: Dict[str, Any], \
             object_rule: ObjectRule, target_list: List[Dict[str, Any]], \

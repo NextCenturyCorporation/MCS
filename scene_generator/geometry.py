@@ -422,3 +422,19 @@ def find_performer_rect(performer_position: Dict[str, float]) -> List[Dict[str, 
          'z': performer_position['z'] - util.PERFORMER_HALF_WIDTH}
     ]
 
+
+def set_location_rotation(definition: Dict[str, float], location: Dict[str, float], rotation_y: float) -> \
+        Dict[str, float]:
+    """Updates the Y rotation and the bounding box of the given location and returns the location."""
+    location['rotation']['y'] = rotation_y
+    x = location['position']['x']
+    z = location['position']['z']
+    dx = definition['dimensions']['x'] / 2.0
+    dz = definition['dimensions']['z'] / 2.0
+    offset_x = definition['offset']['x'] if 'offset' in definition else 0.0
+    offset_z = definition['offset']['z'] if 'offset' in definition else 0.0
+    poly = shapely.geometry.box(x - dx, z - dz, x + dx, z + dz)
+    poly = shapely.affinity.rotate(poly, -location['rotation']['y'])
+    location['bounding_box'] = calc_obj_coords(x, z, dx, dz, offset_x, offset_z, location['rotation']['y'])
+    return location
+

@@ -142,6 +142,11 @@ def test_HiddenBehindPair_get_scenes():
     assert scene2 is not None
     # ensure the obstructor is between the target and the performer
     target = pair._goal_2.get_target_list()[0]
+    if 'locationParent' in target:
+        for distractor in pair._goal_2.get_distractor_list():
+            if target['locationParent'] == distractor['id']:
+                target = distractor
+                break
     obstructor = pair._goal_2.get_obstructor_list()[0]
     assert (target['dimensions']['x'] <= obstructor['dimensions']['x'] or \
             target['dimensions']['z'] <= obstructor['dimensions']['z'])
