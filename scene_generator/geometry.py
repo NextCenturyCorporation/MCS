@@ -103,7 +103,6 @@ def calc_obj_coords(position_x: float, position_z: float, position_y: float, del
 def point_within_room(point: Dict[str, float]) -> bool:
     return ROOM_DIMENSIONS[0][0] <= point['x'] <= ROOM_DIMENSIONS[0][1] and \
            ROOM_DIMENSIONS[1][0] <= point['z'] <= ROOM_DIMENSIONS[1][1]
-           #TODO: ADD FOR Y dimension
 
 
 def rect_within_room(rect: List[Dict[str, float]]) -> bool:

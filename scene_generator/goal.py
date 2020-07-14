@@ -87,7 +87,7 @@ def generate_wall(wall_material: str, wall_colors: List[str], performer_position
 
 #TODO:
 def generate_painting(painting_material: str, wall_colors: List[str], performer_position: Dict[str, float],
-                  other_rects: List[List[Dict[str, float]]]) -> Optional[Dict[str, Any]]:
+                  other_rects: List[List[Dict[str, float]]], generated_wall_rects: List[List[Dict[str, float]]]) -> Optional[Dict[str, Any]]:
     # Chance to generate a painting in the room, that can only be hanged on a wall
 
     # 1) Randomly grab x,y,z coordinate like generate_walls 
@@ -109,32 +109,49 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
         new_x_size = round(random.uniform(MIN_PAINTING_WIDTH, MAX_PAINTING_WIDTH), geometry.POSITION_DIGITS)
         painting_height = round(random.uniform(MIN_PAINTING_WIDTH, MAX_PAINTING_WIDTH), geometry.POSITION_DIGITS)
 
-        # Painting(smaller wall) is in front of the rooms 4 walls
+
         if (((rotation == 0 or rotation == 180) and (new_z < -SAFE_DIST_FROM_ROOM_WALL or new_z > SAFE_DIST_FROM_ROOM_WALL)) or \
             ((rotation == 90 or rotation == 270) and (new_x < -SAFE_DIST_FROM_ROOM_WALL or new_x > SAFE_DIST_FROM_ROOM_WALL))) and \
-           (new_y > 0.5 and new_y + painting_height < SAFE_DIST_FROM_ROOM_WALL): # Don't want painting going thru floor && ceiling
+           (new_y > 0.5 and new_y + painting_height + 0.03 < SAFE_DIST_FROM_ROOM_WALL): # Don't want painting going thru floor && ceiling
 
-            #TODO If statments to make sure the painting is right on the wall, instead of hovering in front of the wall
-            if (rotation == 0 or rotation == 180):
-                if new_z < 0:
-                    #print(new_z)
-                    new_z = -4.9
-                    #print(new_z)
-                else:
-                    new_z = 4.9
+            cur_painting_obj = dict()
+            shows_object = {'bounding_box': geometry.calc_obj_coords(new_x, new_z, new_y, new_x_size, PAINTING_DEPTH, 0, 0, rotation)}
+            cur_painting_obj['shows'] = shows_object
+            if (rotation == 0 or rotation == 180): #Make sure the painting is on the wall, instead of hovering in front of the wall
+                
+                adj_to_generated_wall = False
+                for wall in generated_wall_rects:  #1st check if painting is near any generated wall, that can be placed on
+                    #print(wall['shows'][0]['rotation'])
+                    if (wall['shows'][0]['rotation']['y'] == 0 or wall['shows'][0]['rotation']['y'] == 180) and \
+                        geometry.are_adjacent(wall, cur_painting_obj):
+                        adj_to_generated_wall = True
+                        break
+
+                if not adj_to_generated_wall: #Place near 1 of the 4 room walls
+                    if new_z < 0:
+                        new_z = geometry.ROOM_DIMENSIONS[1][0] - 0.03 
+                    else:
+                        new_z = geometry.ROOM_DIMENSIONS[1][1] + 0.03 
             elif (rotation == 90 or rotation == 270):
-                if new_x < 0:
-                    new_x = -4.9
-                else:
-                    new_x = 4.9   
+
+                adj_to_generated_wall = False
+                for wall in generated_wall_rects:
+                    if (wall['shows'][0]['rotation']['y'] == 90 or wall['shows'][0]['rotation']['y'] == 270) and \
+                        geometry.are_adjacent(wall, cur_painting_obj):
+                        adj_to_generated_wall = True
+                        break
+                
+                if not adj_to_generated_wall:
+                    if new_x < 0:
+                        new_x = geometry.ROOM_DIMENSIONS[0][0] - 0.03 
+                    else:
+                        new_x = geometry.ROOM_DIMENSIONS[0][1] + 0.03 
+
 
             rect = geometry.calc_obj_coords(new_x, new_z, new_y, new_x_size, PAINTING_DEPTH, 0, 0, rotation)
-            barrier_rect = geometry.calc_obj_coords(new_x, new_z, new_y, new_x_size + DIST_WALL_APART, PAINTING_DEPTH + DIST_WALL_APART, 0, 0, rotation)
             painting_poly = geometry.rect_to_poly(rect)
-            #print(geometry.rect_within_room(rect))
             if not painting_poly.intersects(performer_poly) and \
-                    geometry.rect_within_room(rect) and \
-                    (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(barrier_rect, other_rect) for other_rect in other_rects)): 
+                    (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)): 
                 break
 
         tries += 1
@@ -184,16 +201,18 @@ class Goal(ABC):
         body['performerStart'] = self._performer_start
         walls = self.generate_walls(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], bounding_rects)
         #print("walls: ", walls)
-        paintings = self.generate_paintings(body['paintingMaterial'], body['paintingColors'], body['performerStart']['position'], bounding_rects)
-        print("paintings: ", paintings)
+        for wall in walls:
+            bounding_rects.append(wall['shows'][0]['bounding_box'])
+
+        paintings = self.generate_paintings(body['paintingMaterial'], body['paintingColors'], body['performerStart']['position'], bounding_rects, walls)
+        #print("paintings: ", paintings)
         print("\n\n\n")
-        walls.extend(paintings)
+
+        walls.extend(paintings) #FIXME: need to have seperate tag for paintings
         
         if walls is not None:
             self._tag_to_objects['wall'] = walls
 
-        #TODO
-        paintings = self.generate_paintings(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], bounding_rects)
         if paintings:
             self._tag_to_objects['paintings'] = paintings
 
@@ -319,15 +338,14 @@ class Goal(ABC):
                 logging.warning('could not generate wall')
         return walls
 
-    #TODO:
     def generate_paintings(self, material: str, colors: List[str], performer_position: Dict[str, Any],
-                       bounding_rects: List[List[Dict[str, float]]]) -> List[Dict[str, Any]]:
-        painting_count = 1 #random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
+                       bounding_rects: List[List[Dict[str, float]]], wall_bounding_rects=None) -> List[Dict[str, Any]]:
+        painting_count = random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0] # Using same probability as walls
 
         paintings = []
         all_bounding_rects = [bounding_rect.copy() for bounding_rect in bounding_rects]
         for x in range(0, painting_count):
-            painting = generate_painting(material, colors, performer_position, all_bounding_rects)
+            painting = generate_painting(material, colors, performer_position, all_bounding_rects, wall_bounding_rects)
 
             if painting is not None:
                 paintings.append(painting)
