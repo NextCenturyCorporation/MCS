@@ -12,7 +12,7 @@ import containers
 import exceptions
 import geometry
 import goals
-from interaction_goals import InteractionGoal, ObjectRule
+from interaction_goals import DistractorObjectRule, InteractionGoal, ObjectRule
 import objects
 import util
 
@@ -84,6 +84,17 @@ class SceneOptions():
         self.confusor_location = confusor_location
         # The obstructor is always for the target object, but we may want to change that in the future.
         self.obstructor = obstructor
+
+
+class DistractorNeverObstructsTargetObjectRule(DistractorObjectRule):
+    def validate_location(self, object_location: Dict[str, Any], target_list: List[Dict[str, Any]], \
+            performer_start: Dict[str, Dict[str, float]]) -> bool:
+        target = target_list[0]
+        target_location_coordinates = (target['shows'][0]['position']['x'], target['shows'][0]['position']['z'])
+        performer_start_coordinates = (performer_start['position']['x'], performer_start['position']['z'])
+        line_to_target = shapely.geometry.LineString([performer_start_coordinates, target_location_coordinates])
+        distractor_poly = geometry.get_bounding_polygon(object_location)
+        return not distractor_poly.intersects(line_to_target)
 
 
 class InteractionPair():
@@ -345,6 +356,10 @@ class InteractionPair():
                 self._options.target_location == TargetLocationPairOption.FRONT_FRONT)
         is_confusor_relative_to_performer_start = (confusor_template and self._options.confusor_location == \
                 ConfusorLocationPairOption.BACK_FRONT)
+
+        if is_target_relative_to_performer_start or is_confusor_relative_to_performer_start:
+            # Ensure that the random location of any distractors doesn't accidentally make them into obstructors.
+            self._goal_1.set_distractor_rule(DistractorNeverObstructsTargetObjectRule)
 
         # If the target must be positioned relative to the performer_start, find locations both in front of and in back
         # of the performer based on its position/rotation. Do this first because it may change the performer_start.

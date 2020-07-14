@@ -4,7 +4,7 @@ import math
 import random
 from abc import ABC
 from enum import Enum
-from typing import Dict, Any, AnyStr, List, Tuple, Sequence
+from typing import Any, AnyStr, Dict, List, Sequence, Tuple, Type
 
 from sympy import Segment, intersection
 
@@ -366,8 +366,11 @@ class InteractionGoal(Goal, ABC):
         self._bounds_list = []
         self._target_list = []
         self._confusor_list = []
+        self._confusor_rule = ConfusorObjectRule
         self._distractor_list = []
+        self._distractor_rule = DistractorObjectRule
         self._obstructor_list = []
+        self._obstructor_rule = ObstructorObjectRule
         self._wall_list = None
         self._is_distractor_list_done = False
 
@@ -429,7 +432,7 @@ class InteractionGoal(Goal, ABC):
 
     def get_confusor_rule(self, target_definition: Dict[str, Any]) -> ObjectRule:
         """Returns the rule for any confusors compatible with this goal."""
-        return ConfusorObjectRule(target_definition = target_definition)
+        return self._confusor_rule(target_definition = target_definition)
 
     def get_distractor_list(self) -> List[Dict[str, Any]]:
         """Returns the distractors in this goal."""
@@ -438,7 +441,7 @@ class InteractionGoal(Goal, ABC):
     def get_distractor_rule(self, target_list: List[Dict[str, Any]] = None, \
             is_position_in_receptacle: bool = False) -> ObjectRule:
         """Returns the rule for any distractors compatible with this goal."""
-        return DistractorObjectRule(target_list = (target_list if target_list is not None else self._target_list), \
+        return self._distractor_rule(target_list = (target_list if target_list is not None else self._target_list), \
                 is_position_in_receptacle = is_position_in_receptacle)
 
     def get_obstructor_list(self) -> List[Dict[str, Any]]:
@@ -447,7 +450,7 @@ class InteractionGoal(Goal, ABC):
 
     def get_obstructor_rule(self, target_definition: Dict[str, Any], obstruct_vision: bool) -> ObjectRule:
         """Returns the rule for any obstructors compatible with this goal."""
-        return ObstructorObjectRule(target_definition = target_definition, obstruct_vision = obstruct_vision, \
+        return self._obstructor_rule(target_definition = target_definition, obstruct_vision = obstruct_vision, \
                 performer_start = self.get_performer_start())
 
     def get_target_list(self) -> List[Dict[str, Any]]:
@@ -457,6 +460,10 @@ class InteractionGoal(Goal, ABC):
     def get_target_rule_list(self) -> List[ObjectRule]:
         """Returns the rules for the targets associated with this goal."""
         return self._target_rule_list
+
+    def set_distractor_rule(self, subclass: Type[ObjectRule]) -> None:
+        """Sets the ObjectRule subclass for creating distractors associated with this goal."""
+        self._distractor_rule = subclass
 
     def __generate_object_list(self, object_list: List[Dict[str, Any]], rule_list: List[ObjectRule], \
             target_list: List[Dict[str, Any]], distractor_list: List[Dict[str, Any]]) -> None:
