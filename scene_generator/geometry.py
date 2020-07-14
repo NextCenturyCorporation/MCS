@@ -278,7 +278,7 @@ def get_adjacent_location(obj_def: Dict[str, Any], target: Dict[str, Any], perfo
     sides = list(range(4))
     random.shuffle(sides)
     for side in sides:
-        location = get_adjacent_location_on_side(obj_def, target, performer_start_position, side)
+        location = get_adjacent_location_on_side(obj_def, target, performer_start_position, side, obstruct)
         if location:
             # If obstruct, position the target so that the object is between it and the performer start.
             if obstruct:
@@ -300,10 +300,8 @@ class Side(IntEnum):
     FRONT = 3
 
 
-def get_adjacent_location_on_side(obj_def: Dict[str, Any],
-                                  target: Dict[str, Any],
-                                  performer_start_position: Dict[str, float],
-                                  side: Side) -> Optional[Dict[str, Any]]:
+def get_adjacent_location_on_side(obj_def: Dict[str, Any], target: Dict[str, Any], \
+        performer_start_position: Dict[str, float], side: Side, obstruct: bool) -> Optional[Dict[str, Any]]:
     """Get a location such that, if obj_def is instantiated there, it will
     be next to target. Side determines on which side of target to
     place it: 0 = right (positive x), 1 = behind (positive z), 2 =
@@ -313,8 +311,16 @@ def get_adjacent_location_on_side(obj_def: Dict[str, Any],
     """
     GAP = 0.05
     distance_dim = 'x' if side in (0, 2) else 'z'
-    distance = obj_def['dimensions'][distance_dim]/2.0 + \
-        target['dimensions'][distance_dim]/2.0 + GAP
+
+    dimensions = obj_def['dimensions']
+    offset_x = obj_def['offset']['x'] if 'offset' in obj_def else 0.0
+    offset_z = obj_def['offset']['z'] if 'offset' in obj_def else 0.0
+    if obstruct and 'closed_dimensions' in obj_def:
+        dimensions = obj_def['closed_dimensions']
+        offset_x = obj_def['closed_offset']['x'] if 'closed_offset' in obj_def else offset_x
+        offset_z = obj_def['closed_offset']['z'] if 'closed_offset' in obj_def else offset_z
+
+    distance = dimensions[distance_dim]/2.0 + target['dimensions'][distance_dim]/2.0 + GAP
     separator_segment = shapely.geometry.LineString([[0, 0], [distance, 0]])
     shows = target['shows'][0]
     rotation = -shows['rotation']['y'] + 90 * side
@@ -324,15 +330,14 @@ def get_adjacent_location_on_side(obj_def: Dict[str, Any],
                                            shows['position']['z'])
     x = separator_segment.coords[1][0]
     z = separator_segment.coords[1][1]
-    dx = obj_def['dimensions']['x'] / 2.0
-    dz = obj_def['dimensions']['z'] / 2.0
+    dx = dimensions['x'] / 2.0
+    dz = dimensions['z'] / 2.0
     bounding_box = shapely.geometry.box(x - dx, z - dz, x + dx, z + dz)
     bounding_box = affinity.rotate(bounding_box, -shows['rotation']['y'], origin=(0, 0))
     performer = shapely.geometry.Point(performer_start_position['x'], performer_start_position['z'])
     room = get_room_box()
+
     if not bounding_box.intersects(performer) and room.contains(bounding_box):
-        offset_x = obj_def['offset']['x'] if 'offset' in obj_def else 0.0
-        offset_z = obj_def['offset']['z'] if 'offset' in obj_def else 0.0
         location = {
             'position': {
                 'x': x,
@@ -367,15 +372,17 @@ def get_wider_and_taller_defs(obj_def: Dict[str, Any], obstruct_vision: bool) ->
         else:
             possible_defs.append(util.finalize_object_definition(copy.deepcopy(new_def)))
     bigger_defs = []
-    for new_def in possible_defs:
+    for big_def in possible_defs:
         # Only look at definitions with the obstruct property.
-        if 'obstruct' in new_def and new_def['obstruct'] == ('vision' if obstruct_vision else 'navigation'):
+        if 'obstruct' in big_def and big_def['obstruct'] == ('vision' if obstruct_vision else 'navigation'):
+            obj_dimensions = obj_def['closed_dimensions'] if 'closed_dimensions' in obj_def else obj_def['dimensions']
+            big_dimensions = big_def['closed_dimensions'] if 'closed_dimensions' in big_def else big_def['dimensions']
             # Only need a bigger Y dimension if the object must obstruct vision.
-            if new_def['obstruct'] == 'navigation' or new_def['dimensions']['y'] >= obj_def['dimensions']['y']:
-                if new_def['dimensions']['x'] >= obj_def['dimensions']['x']:
-                    bigger_defs.append((new_def, 0))
-                elif new_def['dimensions']['z'] >= obj_def['dimensions']['x']:
-                    bigger_defs.append((new_def, 90))
+            if not obstruct_vision or big_dimensions['y'] >= obj_dimensions['y']:
+                if big_dimensions['x'] >= obj_dimensions['x']:
+                    bigger_defs.append((big_def, 0))
+                elif big_dimensions['z'] >= obj_dimensions['x']:
+                    bigger_defs.append((big_def, 90))
     return bigger_defs
 
 

@@ -148,9 +148,11 @@ def test_HiddenBehindPair_get_scenes():
                 target = distractor
                 break
     obstructor = pair._goal_2.get_obstructor_list()[0]
-    assert (target['dimensions']['x'] <= obstructor['dimensions']['x'] or \
-            target['dimensions']['z'] <= obstructor['dimensions']['z'])
-    assert target['dimensions']['y'] <= obstructor['dimensions']['y']
+    obstructor_dimensions = obstructor['closed_dimensions'] if 'closed_dimensions' in obstructor else \
+            obstructor['dimensions']
+    assert (target['dimensions']['x'] <= obstructor_dimensions['x'] or \
+            target['dimensions']['z'] <= obstructor_dimensions['z'])
+    assert target['dimensions']['y'] <= obstructor_dimensions['y']
     target_position = target['shows'][0]['position']
     target_coords = (target_position['x'], target_position['z'])
     performer_position = scene2['performerStart']['position']

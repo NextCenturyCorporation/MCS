@@ -2,8 +2,6 @@ import copy
 import uuid
 from typing import Tuple, Dict, Any, List
 
-BOX_FLAP_SIZE = 0.1
-
 OBJECTS_PICKUPABLE_BALLS = [{
     "type": "sphere",
     "info": ["tiny", "ball"],
@@ -1305,13 +1303,23 @@ OBJECTS_PICKUPABLE_MISC = [{
     }],
     "dimensions": {
         "x": 0.623 * 1.25,
-        "y": (0.381 - BOX_FLAP_SIZE) * 0.75,
+        "y": 0.381 * 0.75,
         "z": 0.567 * 1.25
     },
     "offset": {
         "x": -0.007 * 1.25,
         "y": 0 * 0.75,
         "z": -0.144 * 1.25
+    },
+    "closed_dimensions": {
+        "x": 0.31 * 1.25,
+        "y": 0.21 * 0.75,
+        "z": 0.36 * 1.25
+    },
+    "closed_offset": {
+        "x": 0,
+        "y": -0.08 * 0.75,
+        "z": -0.145 * 1.25
     },
     "position_y": 0.2 * 0.75,
     "scale": {
@@ -1340,13 +1348,23 @@ OBJECTS_PICKUPABLE_MISC = [{
     }],
     "dimensions": {
         "x": 0.623 * 0.75,
-        "y": (0.381 - BOX_FLAP_SIZE) * 0.75,
+        "y": 0.381 * 0.75,
         "z": 0.567 * 0.75
     },
     "offset": {
         "x": -0.007 * 0.75,
         "y": 0 * 0.75,
         "z": -0.144 * 0.75
+    },
+    "closed_dimensions": {
+        "x": 0.31 * 0.75,
+        "y": 0.21 * 0.75,
+        "z": 0.36 * 0.75
+    },
+    "closed_offset": {
+        "x": 0,
+        "y": -0.08 * 0.75,
+        "z": -0.145 * 0.75
     },
     "position_y": 0.2 * 0.75,
     "scale": {
@@ -1375,13 +1393,23 @@ OBJECTS_PICKUPABLE_MISC = [{
     }],
     "dimensions": {
         "x": 0.712,
-        "y": (0.5 - BOX_FLAP_SIZE) * 0.5,
+        "y": 0.5 * 0.5,
         "z": 0.503
     },
     "offset": {
         "x": 0.008,
         "y": -0.038 * 0.5,
         "z": -0.115
+    },
+    "closed_dimensions": {
+        "x": 0.41,
+        "y": 0.31 * 0.5,
+        "z": 0.34
+    },
+    "closed_offset": {
+        "x": 0,
+        "y": -0.125 * 0.5,
+        "z": -0.13
     },
     "position_y": 0.15,
     "scale": {
@@ -1410,13 +1438,23 @@ OBJECTS_PICKUPABLE_MISC = [{
     }],
     "dimensions": {
         "x": 0.712 * 0.5,
-        "y": (0.5 - BOX_FLAP_SIZE) * 0.5,
+        "y": 0.5 * 0.5,
         "z": 0.503 * 0.5
     },
     "offset": {
         "x": 0.008 * 0.5,
         "y": -0.038 * 0.5,
         "z": -0.115 * 0.5
+    },
+    "closed_dimensions": {
+        "x": 0.41 * 0.5,
+        "y": 0.31 * 0.5,
+        "z": 0.34 * 0.5
+    },
+    "closed_offset": {
+        "x": 0,
+        "y": -0.125 * 0.5,
+        "z": -0.13 * 0.5
     },
     "position_y": 0.15,
     "scale": {
@@ -1447,13 +1485,23 @@ OBJECTS_PICKUPABLE_MISC = [{
     }],
     "dimensions": {
         "x": 0.45,
-        "y": (0.491 - BOX_FLAP_SIZE) * 0.5,
+        "y": 0.491 * 0.5,
         "z": 0.46
     },
     "offset": {
         "x": 0.024,
         "y": -0.046 * 0.5,
         "z": -0.136
+    },
+    "closed_dimensions": {
+        "x": 0.3,
+        "y": 0.32 * 0.5,
+        "z": 0.34
+    },
+    "closed_offset": {
+        "x": 0,
+        "y": -0.125 * 0.5,
+        "z": -0.13
     },
     "position_y": 0.15,
     "scale": {
@@ -1484,13 +1532,23 @@ OBJECTS_PICKUPABLE_MISC = [{
     }],
     "dimensions": {
         "x": 0.45 * 0.5,
-        "y": (0.491 - BOX_FLAP_SIZE) * 0.5,
+        "y": 0.491 * 0.5,
         "z": 0.46 * 0.5
     },
     "offset": {
         "x": 0.024 * 0.5,
         "y": -0.046 * 0.5,
         "z": -0.136 * 0.5
+    },
+    "closed_dimensions": {
+        "x": 0.3 * 0.5,
+        "y": 0.32 * 0.5,
+        "z": 0.34 * 0.5
+    },
+    "closed_offset": {
+        "x": 0,
+        "y": -0.125 * 0.5,
+        "z": -0.13 * 0.5
     },
     "position_y": 0.15,
     "scale": {
@@ -1731,13 +1789,23 @@ OBJECTS_MOVEABLE = [{
         }],
         "dimensions": {
             "x": 0.623 * 1.25,
-            "y": (0.381 - BOX_FLAP_SIZE) * 1.25,
+            "y": 0.381 * 1.25,
             "z": 0.567 * 1.25
         },
         "offset": {
             "x": -0.007 * 1.25,
             "y": 0 * 1.25,
             "z": -0.144 * 1.25
+        },
+        "closed_dimensions": {
+            "x": 0.31 * 1.25,
+            "y": 0.21 * 1.25,
+            "z": 0.36 * 1.25
+        },
+        "closed_offset": {
+            "x": 0,
+            "y": -0.08 * 1.25,
+            "z": -0.145 * 1.25
         },
         "position_y": 0.2 * 1.25,
         "scale": {
@@ -1763,13 +1831,23 @@ OBJECTS_MOVEABLE = [{
         }],
         "dimensions": {
             "x": 0.623 * 1.75,
-            "y": (0.381 - BOX_FLAP_SIZE) * 1.75,
+            "y": 0.381 * 1.75,
             "z": 0.567 * 1.75
         },
         "offset": {
             "x": -0.007 * 1.75,
             "y": 0 * 1.75,
             "z": -0.144 * 1.75
+        },
+        "closed_dimensions": {
+            "x": 0.31 * 1.75,
+            "y": 0.21 * 1.75,
+            "z": 0.36 * 1.75
+        },
+        "closed_offset": {
+            "x": 0,
+            "y": -0.08 * 1.75,
+            "z": -0.145 * 1.75
         },
         "position_y": 0.2 * 1.75,
         "scale": {
@@ -1800,13 +1878,23 @@ OBJECTS_MOVEABLE = [{
         }],
         "dimensions": {
             "x": 0.712,
-            "y": (0.5 - BOX_FLAP_SIZE),
+            "y": 0.5,
             "z": 0.503
         },
         "offset": {
             "x": 0.008,
             "y": -0.038,
             "z": -0.115
+        },
+        "closed_dimensions": {
+            "x": 0.41,
+            "y": 0.31,
+            "z": 0.34
+        },
+        "closed_offset": {
+            "x": 0,
+            "y": -0.125,
+            "z": -0.13
         },
         "position_y": 0.3,
         "scale": {
@@ -1832,13 +1920,23 @@ OBJECTS_MOVEABLE = [{
         }],
         "dimensions": {
             "x": 0.712 * 1.5,
-            "y": (0.5 - BOX_FLAP_SIZE),
+            "y": 0.5,
             "z": 0.503 * 1.5
         },
         "offset": {
             "x": 0.008 * 1.5,
             "y": -0.038,
             "z": -0.115 * 1.5
+        },
+        "closed_dimensions": {
+            "x": 0.41 * 1.5,
+            "y": 0.31,
+            "z": 0.34 * 1.5
+        },
+        "closed_offset": {
+            "x": 0,
+            "y": -0.125,
+            "z": -0.13 * 1.5
         },
         "position_y": 0.3,
         "scale": {
@@ -1871,13 +1969,23 @@ OBJECTS_MOVEABLE = [{
         }],
         "dimensions": {
             "x": 0.45,
-            "y": (0.491 - BOX_FLAP_SIZE),
+            "y": 0.491,
             "z": 0.46
         },
         "offset": {
             "x": 0.024,
             "y": -0.046,
             "z": -0.136
+        },
+        "closed_dimensions": {
+            "x": 0.3,
+            "y": 0.32,
+            "z": 0.34
+        },
+        "closed_offset": {
+            "x": 0,
+            "y": -0.125,
+            "z": -0.13
         },
         "position_y": 0.3,
         "scale": {
@@ -1903,13 +2011,23 @@ OBJECTS_MOVEABLE = [{
         }],
         "dimensions": {
             "x": 0.45 * 1.5,
-            "y": (0.491 - BOX_FLAP_SIZE),
+            "y": 0.491,
             "z": 0.46 * 1.5
         },
         "offset": {
             "x": 0.024 * 1.5,
             "y": -0.046,
             "z": -0.136 * 1.5
+        },
+        "closed_dimensions": {
+            "x": 0.3 * 1.5,
+            "y": 0.32,
+            "z": 0.34 * 1.5
+        },
+        "closed_offset": {
+            "x": 0,
+            "y": -0.125,
+            "z": -0.13 * 1.5
         },
         "position_y": 0.3,
         "scale": {
@@ -2192,6 +2310,16 @@ OBJECTS_IMMOBILE = [{
         "x": -0.01,
         "y": 0.48,
         "z": 0.155
+    },
+    "closed_dimensions": {
+        "x": 1.1,
+        "y": 0.96,
+        "z": 0.58
+    },
+    "closed_offset": {
+        "x": 1.1,
+        "y": 0.96,
+        "z": 0
     },
     "position_y": 0,
     "scale": {
@@ -3052,14 +3180,24 @@ OBJECTS_IMMOBILE = [{
         # TODO
     ],
     "dimensions": {
-        "x": 1.145,
-        "y": 2.085,
-        "z": 0.565
+        "x": 1.07,
+        "y": 2.1,
+        "z": 0.49
     },
     "offset": {
         "x": 0,
-        "y": 1.745,
-        "z": -0.023
+        "y": 1.05,
+        "z": -0.09
+    },
+    "closed_dimensions": {
+        "x": 1.07,
+        "y": 2.1,
+        "z": 1
+    },
+    "closed_offset": {
+        "x": 0,
+        "y": 1.05,
+        "z": 0.17
     },
     "position_y": 0,
     "scale": {

@@ -409,9 +409,9 @@ class InteractionPair():
                 orientation, shared_bounds_list)
 
         obstructor_1 = self._finalize_obstructor(False, obstructor_definition, obstructor_template, \
-                obstructor_location_1)
+                obstructor_location_1, shared_bounds_list)
         obstructor_2 = self._finalize_obstructor((self._options.obstructor != ObstructorPairOption.NONE_NONE), \
-                obstructor_definition, obstructor_template, obstructor_location_2)
+                obstructor_definition, obstructor_template, obstructor_location_2, shared_bounds_list)
 
         logging.debug('target_1 ' + target_1['id'] + ' ' + target_1['type'])
         logging.debug('target_2 ' + target_2['id'] + ' ' + target_2['type'])
@@ -527,12 +527,14 @@ class InteractionPair():
             goal_2_obstructor_list.insert(0, obstructor)
 
     def _finalize_obstructor(self, show_obstructor: bool, obstructor_definition: Dict[str, Any], \
-            obstructor_template: Dict[str, Any], obstructor_location: Dict[str, float]) -> Dict[str, Any]:
-        """Finalize and return the obstructor object (if any)."""
+            obstructor_template: Dict[str, Any], obstructor_location: Dict[str, float], \
+            bounds_list: List[List[Dict[str, float]]]) -> Dict[str, Any]:
+        """Finalize the position of the obstructor object and return it (if any). Will modify the given bounds_list."""
 
         if show_obstructor:
             obstructor_instance = copy.deepcopy(obstructor_template)
             move_to_location(obstructor_definition, obstructor_instance, obstructor_location)
+            bounds_list.append(obstructor_instance['shows'][0]['bounding_box'])
             return obstructor_instance
 
         return None
