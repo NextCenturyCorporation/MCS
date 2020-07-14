@@ -16,12 +16,12 @@ def test_put_object_in_container():
     container_location = geometry.calc_obj_pos(geometry.ORIGIN, [], container_def)
     container = util.instantiate_object(container_def, container_location)
 
-    put_object_in_container(obj, container, container_def, 0)
+    put_object_in_container(obj_def, obj, container, container_def, 0)
     assert obj['locationParent'] == container['id']
-    assert container_def['enclosed_areas'][0]['position']['x'] == obj['shows'][0]['position']['x']
-    assert container_def['enclosed_areas'][0]['position']['y'] == obj['shows'][0]['position']['y'] + \
-            obj_def.get('position_y', 0)
-    assert container_def['enclosed_areas'][0]['position']['z'] == obj['shows'][0]['position']['z']
+    assert obj['shows'][0]['position']['x'] == container_def['enclosed_areas'][0]['position']['x']
+    assert obj['shows'][0]['position']['y'] == container_def['enclosed_areas'][0]['position']['y'] - \
+            (container_def['enclosed_areas'][0]['dimensions']['y'] / 2.0) + obj_def.get('position_y', 0)
+    assert obj['shows'][0]['position']['z'] == container_def['enclosed_areas'][0]['position']['z']
 
 
 def test_put_objects_in_container():
@@ -35,7 +35,7 @@ def test_put_objects_in_container():
     container_location = geometry.calc_obj_pos(geometry.ORIGIN, [], container_def)
     container = util.instantiate_object(container_def, container_location)
 
-    put_objects_in_container(obj_a, obj_b, container, container_def, 0,
+    put_objects_in_container(obj_a_def, obj_a, obj_b_def, obj_b, container, container_def, 0,
                              Orientation.SIDE_BY_SIDE, 0, 0)
     assert obj_a['locationParent'] == container['id']
     assert obj_b['locationParent'] == container['id']

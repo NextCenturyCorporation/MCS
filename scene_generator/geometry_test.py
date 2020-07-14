@@ -363,7 +363,7 @@ def test_get_adjacent_location():
     target = util.instantiate_object(target_def, ORIGIN_LOCATION)
     obj_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
 
-    location = get_adjacent_location(obj_def, target, ORIGIN)
+    location = get_adjacent_location(obj_def, target, ORIGIN_LOCATION)
     assert location is not None
 
     # check that their bounding boxes are near each other
@@ -378,7 +378,7 @@ def test_get_adjacent_location_on_side():
         target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
         target = util.instantiate_object(target_def, ORIGIN_LOCATION)
         obj_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
-        location = get_adjacent_location_on_side(obj_def, target, ORIGIN, side, False)
+        location = get_adjacent_location_on_side(obj_def, target, ORIGIN_LOCATION, side, False)
         assert location is not None
         angle = math.degrees(math.atan2(location['position']['z'], location['position']['x']))
         target_angle = target['shows'][0]['rotation']['y']

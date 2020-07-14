@@ -20,7 +20,6 @@ import util
 def move_to_location(obj_def: Dict[str, Any], obj: Dict[str, Any],
                      location: Dict[str, Any]):
     """Move the passed object to a new location"""
-    obj['original_location'] = copy.deepcopy(location)
     new_location = copy.deepcopy(location)
     if 'offset' in obj_def:
         new_location['position']['x'] -= obj_def['offset']['x']
@@ -573,8 +572,8 @@ class InteractionPair():
         if containerize_target and containerize_confusor and show_confusor and is_confusor_close:
             target_receptacle_instance = copy.deepcopy(receptacle_template)
             move_to_location(receptacle_definition, target_receptacle_instance, target_location)
-            containers.put_objects_in_container(target_instance, confusor_instance, \
-                    target_receptacle_instance, receptacle_definition, area_index, orientation, \
+            containers.put_objects_in_container(target_definition, target_instance, confusor_definition, \
+                    confusor_instance, target_receptacle_instance, receptacle_definition, area_index, orientation, \
                     target_rotation, confusor_rotation)
             bounds_list.append(target_receptacle_instance['shows'][0]['bounding_box'])
 
@@ -585,7 +584,7 @@ class InteractionPair():
                 # Update the Y position of the location to use the position_y from the receptacle definition.
                 target_location['position']['y'] = receptacle_definition.get('position_y', 0)
                 move_to_location(receptacle_definition, target_receptacle_instance, target_location)
-                containers.put_object_in_container(target_instance, target_receptacle_instance, \
+                containers.put_object_in_container(target_definition, target_instance, target_receptacle_instance, \
                         receptacle_definition, area_index, target_rotation)
                 bounds_list.append(target_receptacle_instance['shows'][0]['bounding_box'])
             else:
@@ -600,8 +599,8 @@ class InteractionPair():
                     # Update the Y position of the location to use the position_y from the receptacle definition.
                     confusor_location['position']['y'] = receptacle_definition.get('position_y', 0)
                     move_to_location(receptacle_definition, confusor_receptacle_instance, confusor_location)
-                    containers.put_object_in_container(confusor_instance, confusor_receptacle_instance, \
-                            receptacle_definition, area_index, confusor_rotation)
+                    containers.put_object_in_container(confusor_definition, confusor_instance, \
+                            confusor_receptacle_instance, receptacle_definition, area_index, confusor_rotation)
                     bounds_list.append(confusor_receptacle_instance['shows'][0]['bounding_box'])
                 else:
                     move_to_location(confusor_definition, confusor_instance, confusor_location)
@@ -695,8 +694,7 @@ class InteractionPair():
             performer_start: Dict[str, Dict[str, float]]) -> Dict[str, float]:
         """Generate and return a new location close to the given target_instance."""
         # TODO Use existing target bounds?
-        location_close = geometry.get_adjacent_location(object_definition, target_instance, \
-                performer_start['position'])
+        location_close = geometry.get_adjacent_location(object_definition, target_instance, performer_start)
         if not location_close:
             raise exceptions.SceneException(f'{self.get_name()} pair cannot position close to target: object={object_definition} target={target_instance}')
         return location_close
@@ -726,7 +724,7 @@ class InteractionPair():
             # Generate an adjacent location so that the obstructor is between the target and the performer start.
             # TODO Use existing target bounds?
             obstructor_location = geometry.get_adjacent_location(obstructor_definition, target_instance, \
-                    performer_start['position'], True)
+                    performer_start, True)
             if not obstructor_location:
                 raise exceptions.SceneException(f'{self.get_name()} pair cannot position target directly behind obstructor: performer_start={performer_start} target={target_instance} obstructor={obstructor_definition}')
             return obstructor_location

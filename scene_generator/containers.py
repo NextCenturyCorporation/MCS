@@ -7,17 +7,12 @@ import objects
 import util
 
 
-def put_object_in_container(obj: Dict[str, Any],
-                            container: Dict[str, Any],
-                            container_def: Dict[str, Any],
-                            area_index: int,
-                            rotation: Optional[float] = None) -> None:
+def put_object_in_container(obj_def: Dict[str, Any], obj: Dict[str, Any], container: Dict[str, Any], \
+        container_def: Dict[str, Any], area_index: int, rotation: Optional[float] = None) -> None:
     area = container_def['enclosed_areas'][area_index]
     obj['locationParent'] = container['id']
-    # Add the position_y from the object definition to the Y position of the container area.
-    position_y = obj['shows'][0]['position']['y']
     obj['shows'][0]['position'] = area['position'].copy()
-    obj['shows'][0]['position']['y'] += position_y
+    obj['shows'][0]['position']['y'] += -(area['dimensions']['y'] / 2.0) + obj_def.get('position_y', 0)
     if 'rotation' not in obj['shows'][0]:
         obj['shows'][0]['rotation'] = geometry.ORIGIN.copy()
     if rotation is not None:
@@ -31,14 +26,9 @@ class Orientation(Enum):
     FRONT_TO_BACK = auto()
 
 
-def put_objects_in_container(obj_a: Dict[str, Any],
-                             obj_b: Dict[str, Any],
-                             container: Dict[str, Any],
-                             container_def: Dict[str, Any],
-                             area_index: int,
-                             orientation: Orientation,
-                             rot_a: float,
-                             rot_b: float) -> None:
+def put_objects_in_container(obj_def_a: Dict[str, Any], obj_a: Dict[str, Any], obj_def_b: Dict[str, Any], \
+        obj_b: Dict[str, Any], container: Dict[str, Any], container_def: Dict[str, Any], area_index: int, \
+        orientation: Orientation, rot_a: float, rot_b: float) -> None:
     """Put two objects in the same enclosed area of a
     container. orientation determines how they are laid out with
     respect to each other within the container. rot_a and rot_b must
@@ -49,7 +39,7 @@ def put_objects_in_container(obj_a: Dict[str, Any],
     if rot_b not in (0, 90):
         raise ValueError('only 0 and 90 degree rotations supported for object b, not {rot_b}')
 
-    area_position = container_def['enclosed_areas'][area_index]['position']
+    area = container_def['enclosed_areas'][area_index]
     obj_a['locationParent'] = container['id']
     obj_b['locationParent'] = container['id']
     shows_a = obj_a['shows'][0]
@@ -59,27 +49,29 @@ def put_objects_in_container(obj_a: Dict[str, Any],
             width_a = obj_a['dimensions']['x']
         elif rot_a == 90:
             width_a = obj_a['dimensions']['z']
-        shows_a['position'] = area_position.copy()
+        shows_a['position'] = area['position'].copy()
         shows_a['position']['x'] -= width_a / 2.0
         if rot_b == 0:
             width_b = obj_b['dimensions']['x']
         elif rot_b == 90:
             width_b = obj_b['dimensions']['z']
-        shows_b['position'] = area_position.copy()
+        shows_b['position'] = area['position'].copy()
         shows_b['position']['x'] += width_b / 2.0
     elif orientation == Orientation.FRONT_TO_BACK:
         if rot_a == 0:
             height_a = obj_a['dimensions']['z']
         elif rot_a == 90:
             height_a = obj_a['dimensions']['x']
-        shows_a['position'] = area_position.copy()
+        shows_a['position'] = area['position'].copy()
         shows_a['position']['z'] -= height_a / 2.0
         if rot_b == 0:
             height_b = obj_b['dimensions']['z']
         elif rot_b == 90:
             height_b = obj_b['dimensions']['x']
-        shows_b['position'] = area_position.copy()
+        shows_b['position'] = area['position'].copy()
         shows_b['position']['z'] += height_b / 2.0
+    shows_a['position']['y'] += -(area['dimensions']['y'] / 2.0) + obj_def_a.get('position_y', 0)
+    shows_b['position']['y'] += -(area['dimensions']['y'] / 2.0) + obj_def_b.get('position_y', 0)
     shows_a['rotation'] = { 'y': rot_a }
     shows_b['rotation'] = { 'y': rot_b }
     # any bounding_box they may have had is not valid any more
@@ -87,19 +79,19 @@ def put_objects_in_container(obj_a: Dict[str, Any],
     shows_b.pop('bounding_box', None)
 
 
-def can_enclose(container: Dict[str, Any], target: Dict[str, Any]) -> Optional[float]:
-    """iff each 'dimensions' of container is >= the corresponding dimension
+def can_enclose(area: Dict[str, Any], target: Dict[str, Any]) -> Optional[float]:
+    """iff each 'dimensions' of area is >= the corresponding dimension
     of target, returns 0 (degrees). Otherwise it returns 90 if
-    target fits in container when it's rotated 90 degrees. Otherwise it
+    target fits in area when it's rotated 90 degrees. Otherwise it
     returns None.
     """
-    if container['dimensions']['x'] >= target['dimensions']['x'] and \
-            container['dimensions']['y'] >= target['dimensions']['y'] and \
-            container['dimensions']['z'] >= target['dimensions']['z']:
+    if area['dimensions']['x'] >= target['dimensions']['x'] and \
+            area['dimensions']['y'] >= target['dimensions']['y'] and \
+            area['dimensions']['z'] >= target['dimensions']['z']:
         return 0
-    elif container['dimensions']['x'] >= target['dimensions']['z'] and \
-            container['dimensions']['y'] >= target['dimensions']['y'] and \
-            container['dimensions']['z'] >= target['dimensions']['x']:
+    elif area['dimensions']['x'] >= target['dimensions']['z'] and \
+            area['dimensions']['y'] >= target['dimensions']['y'] and \
+            area['dimensions']['z'] >= target['dimensions']['x']:
         return 90
     else:
         return None

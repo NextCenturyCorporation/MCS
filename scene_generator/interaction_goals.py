@@ -179,8 +179,8 @@ def trim_actions_to_reach(actions: List[Dict[str, Any]],
     return new_actions, (new_x, new_z)
 
 
-def move_to_container(target: Dict[str, Any], bounds_list: List[List[Dict[str, float]]],
-                      performer_position: Dict[str, float]) -> Dict[str, Any]:
+def move_to_container(target_definition: Dict[str, Any], target: Dict[str, Any], \
+        bounds_list: List[List[Dict[str, float]]], performer_position: Dict[str, float]) -> Dict[str, Any]:
     """Try to find a random container that target will fit in. If found, set the target's locationParent, and add
     container to bounds_list. Return the container, or None if the target was not put into a container."""
     shuffled_containers = objects.get_enclosed_containers().copy()
@@ -194,7 +194,8 @@ def move_to_container(target: Dict[str, Any], bounds_list: List[List[Dict[str, f
             if container_location is not None:
                 container = instantiate_object(container_definition, container_location)
                 area, angles = containment
-                containers.put_object_in_container(target, container, container_definition, area, angles[0])
+                containers.put_object_in_container(target_definition, target, container, container_definition, area, \
+                        angles[0])
                 return container
     return None
 
@@ -485,23 +486,23 @@ class InteractionGoal(Goal, ABC):
             object_list.append(object_instance)
             receptacle_instance = None
             if rule.is_position_in_receptacle:
-                receptacle_instance = self.__move_into_receptacle(object_instance, self._performer_start, \
-                        self._bounds_list)
+                receptacle_instance = self.__move_into_receptacle(object_definition, object_instance, \
+                        self._performer_start, self._bounds_list)
             if rule.is_position_on_receptacle:
                 receptacle_instance = self.__move_onto_receptacle(object_instance, self._performer_start, \
                         self._bounds_list)
             if receptacle_instance:
                 distractor_list.append(receptacle_instance)
 
-    def __move_into_receptacle(self, object_instance: Dict[str, Any], performer_start: Dict[str, Dict[str, float]], \
-            bounds_list: List[List[Dict[str, float]]]) -> Dict[str, Any]:
+    def __move_into_receptacle(self, object_definition: Dict[str, Any], object_instance: Dict[str, Any], \
+            performer_start: Dict[str, Dict[str, float]], bounds_list: List[List[Dict[str, float]]]) -> Dict[str, Any]:
         """Create and return a receptacle object, moving the given object into the new receptacle. Will modify
         bounds_list."""
         receptacle = None
         # Only a pickupable object can be positioned inside a receptacle.
         if object_instance.get('pickupable', False):
             # Receptacles that can have objects positioned inside them are sometimes called "containers"
-            receptacle = move_to_container(object_instance, bounds_list, performer_start['position'])
+            receptacle = move_to_container(object_definition, object_instance, bounds_list, performer_start['position'])
         return receptacle
 
     def __move_onto_receptacle(self, object_instance: Dict[str, Any], performer_start: Dict[str, Dict[str, float]], \
