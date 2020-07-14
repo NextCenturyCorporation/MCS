@@ -1,3 +1,4 @@
+import copy
 import datetime
 import glob
 import json
@@ -30,6 +31,7 @@ from .mcs_object import MCS_Object
 from .mcs_pose import MCS_Pose
 from .mcs_return_status import MCS_Return_Status
 from .mcs_reward import MCS_Reward
+from .mcs_scene_history import MCS_Scene_History
 from .mcs_step_output import MCS_Step_Output
 from .mcs_util import MCS_Util
 
@@ -155,14 +157,14 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         return self.__seed
 
     # Write the history file
-    def write_history_file(self, history_item):
+    def write_history_file(self, history_string):
         if self.__scene_file:
             with open(self.__scene_file, "a+") as history_file:
-                history_file.write(json.dumps(history_item))
+                history_file.write(json.dumps(json.loads(history_string)) + '\n')
 
     # Override
     def end_scene(self, classification, confidence):
-        history_item = {"classification": classification, "confidence": confidence}
+        history_item = '{"classification": ' + classification + ', "confidence": ' + confidence + '}'
         self.__history_list.append(history_item)
         self.write_history_file(history_item)
 
@@ -354,15 +356,22 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         # Only call mcs_action_to_ai2thor_action AFTER calling validate_and_convert_params
         action = self.mcs_action_to_ai2thor_action(action)
 
-        history_item = {"step": self.__step_number, "action": action, "args": kwargs, "params": params}
-        self.__history_list.append(history_item)
-        self.write_history_file(history_item)
-
         if self.__goal.last_step is not None and self.__goal.last_step == self.__step_number:
             print("MCS Warning: This is your last step for this scene. All your future actions will be skipped. " + \
                     "Please call controller.end_scene() now.")
 
-        return self.wrap_output(self.__controller.step(self.wrap_step(action=action, **params)))
+        output = self.wrap_output(self.__controller.step(self.wrap_step(action=action, **params)))
+
+        output_copy = copy.deepcopy(output)
+        del output_copy.depth_mask_list
+        del output_copy.image_list
+        del output_copy.object_mask_list
+        history_item = MCS_Scene_History(step=self.__step_number, action=action, args=kwargs, params=params, \
+                output=output_copy)
+        self.__history_list.append(history_item)
+        self.write_history_file(str(history_item))
+
+        return output
 
     def mcs_action_to_ai2thor_action(self, action):
         if action == MCS_Action.CLOSE_OBJECT.value:
