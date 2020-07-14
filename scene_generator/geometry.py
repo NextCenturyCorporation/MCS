@@ -332,12 +332,13 @@ def get_adjacent_location_on_side(obj_def: Dict[str, Any], target: Dict[str, Any
     z = separator_segment.coords[1][1] + offset_z
     dx = dimensions['x'] / 2.0
     dz = dimensions['z'] / 2.0
-    bounding_box = shapely.geometry.box(x - dx, z - dz, x + dx, z + dz)
-    bounding_box = affinity.rotate(bounding_box, rotation, origin=(0, 0))
+    rect = calc_obj_coords(x, z, dx, dz, offset_x, offset_z, shows['rotation']['y'])
+    poly = rect_to_poly(rect)
     performer = shapely.geometry.Point(performer_start['position']['x'], performer_start['position']['z'])
+    target_bounds = get_bounding_polygon(target)
     room = get_room_box()
 
-    if not bounding_box.intersects(performer) and room.contains(bounding_box):
+    if not poly.intersects(performer) and not poly.intersects(target_bounds) and room.contains(poly):
         location = {
             'position': {
                 'x': x,
@@ -346,10 +347,10 @@ def get_adjacent_location_on_side(obj_def: Dict[str, Any], target: Dict[str, Any
             },
             'rotation': {
                 'x': 0,
-                'y': rotation,
+                'y': shows['rotation']['y'],
                 'z': 0
             },
-            'bounding_box': calc_obj_coords(x, z, dx, dz, offset_x, offset_z, rotation)
+            'bounding_box': rect
         }
     else:
         location = None
@@ -396,6 +397,7 @@ def get_bounding_polygon(object_or_location: Dict[str, Any]) -> shapely.geometry
             bounding_box: List[Dict[str, float]] = show['bounding_box']
             poly = rect_to_poly(bounding_box)
         else:
+            # TODO I think we need to consider the affect of the object's offsets on its poly here
             x = show['position']['x']
             z = show['position']['z']
             dx = object_or_location['dimensions']['x'] / 2.0
