@@ -356,10 +356,6 @@ class InteractionPair():
         is_confusor_relative_to_performer_start = (confusor_template and self._options.confusor_location == \
                 ConfusorLocationPairOption.BACK_FRONT)
 
-        if is_target_relative_to_performer_start or is_confusor_relative_to_performer_start:
-            # Ensure that the random location of any distractors doesn't accidentally make them into obstructors.
-            self._goal_1.set_distractor_rule(DistractorNeverObstructsTargetObjectRule)
-
         # If the target must be positioned relative to the performer_start, find locations both in front of and in back
         # of the performer based on its position/rotation. Do this first because it may change the performer_start.
         if is_target_relative_to_performer_start:
@@ -444,6 +440,11 @@ class InteractionPair():
         distractor_list_2 = [instance for instance in [target_receptacle_2, confusor_receptacle_2] if instance]
         obstructor_list_1 = [obstructor_1] if obstructor_1 else []
         obstructor_list_2 = [obstructor_2] if obstructor_2 else []
+
+        if is_target_relative_to_performer_start or is_confusor_relative_to_performer_start:
+            # Ensure that the random location of distractors or walls doesn't accidentally make them obstructors.
+            self._goal_1.set_distractor_rule(DistractorNeverObstructsTargetObjectRule)
+            self._goal_1.set_wall_target_list([target_1, target_2])
 
         self._finalize_goal_1(target_1, confusor_list_1, distractor_list_1, obstructor_list_1)
         self._finalize_goal_2(target_choice, confusor_list_1, distractor_list_1, obstructor_list_1, target_2, \

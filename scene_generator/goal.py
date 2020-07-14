@@ -1,5 +1,6 @@
 import logging
 import random
+import shapely
 import uuid
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Tuple, List, Optional
@@ -19,10 +20,11 @@ DIST_WALL_APART = 1
 SAFE_DIST_FROM_ROOM_WALL = 3.5
     
 
-def generate_wall(wall_material: str, wall_colors: List[str], performer_position: Dict[str, float],
-                  other_rects: List[List[Dict[str, float]]]) -> Optional[Dict[str, Any]]:
-    # Wanted to reuse written functions, but this is a bit more of a special snowflake
-    # Generates obstacle walls placed in the scene.
+def generate_wall(wall_material: str, wall_colors: List[str], performer_position: Dict[str, float], \
+        other_rects: List[List[Dict[str, float]]], target_list: List[Dict[str, Any]] = None) -> \
+        Optional[Dict[str, Any]]:
+    """Generates and returns a randomly positioned obstacle wall. If target_list is not None, the wall won't obstruct
+    the line between the performer_position and the target_list."""
 
     tries = 0
     performer_rect = geometry.find_performer_rect(performer_position)
@@ -37,14 +39,24 @@ def generate_wall(wall_material: str, wall_colors: List[str], performer_position
         if ((rotation == 0 or rotation == 180) and (new_z < -SAFE_DIST_FROM_ROOM_WALL or new_z > SAFE_DIST_FROM_ROOM_WALL)) or \
             ((rotation == 90 or rotation == 270) and (new_x < -SAFE_DIST_FROM_ROOM_WALL or new_x > SAFE_DIST_FROM_ROOM_WALL)): 
             continue
-        else:
-            rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, 0, 0, rotation)
-            # barrier_rect is to allow parallel walls to be at least 1(DIST_WALL_APART) apart on the appropriate axis
-            barrier_rect = geometry.calc_obj_coords(new_x, new_z, new_x_size + DIST_WALL_APART, WALL_DEPTH + DIST_WALL_APART, 0, 0, rotation)
-            wall_poly = geometry.rect_to_poly(rect)
-            if not wall_poly.intersects(performer_poly) and \
-                    geometry.rect_within_room(rect) and \
-                    (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(barrier_rect, other_rect) for other_rect in other_rects)): 
+
+        rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, 0, 0, rotation)
+        # barrier_rect is to allow parallel walls to be at least 1(DIST_WALL_APART) apart on the appropriate axis
+        barrier_rect = geometry.calc_obj_coords(new_x, new_z, new_x_size + DIST_WALL_APART, WALL_DEPTH + DIST_WALL_APART, 0, 0, rotation)
+        wall_poly = geometry.rect_to_poly(rect)
+        is_ok = not wall_poly.intersects(performer_poly) and geometry.rect_within_room(rect) and \
+                (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(barrier_rect, other_rect) \
+                for other_rect in other_rects))
+        if is_ok:
+            if target_list:
+                for target in target_list:
+                    performer_start_coords = (performer_position['x'], performer_position['z'])
+                    target_location_coords = (target['shows'][0]['position']['x'], target['shows'][0]['position']['z'])
+                    line_to_target = shapely.geometry.LineString([performer_start_coords, target_location_coords])
+                    if wall_poly.intersects(line_to_target):
+                        is_ok = False
+                        break
+            if is_ok:
                 break
         tries += 1
 

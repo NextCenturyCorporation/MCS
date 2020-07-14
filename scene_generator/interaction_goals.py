@@ -373,6 +373,7 @@ class InteractionGoal(Goal, ABC):
         self._obstructor_list = []
         self._obstructor_rule = ObstructorObjectRule
         self._wall_list = None
+        self._wall_target_list = None
         self._is_distractor_list_done = False
 
     # override
@@ -414,8 +415,9 @@ class InteractionGoal(Goal, ABC):
         if self._wall_list is None:
             self._wall_list = []
             for _ in range(random.choices(InteractionGoal.WALL_CHOICES, weights=InteractionGoal.WALL_WEIGHTS, k=1)[0]):
+                # TODO This should probably be an ObjectRule eventually
                 wall = generate_wall(wall_material_name, wall_colors, self._performer_start['position'], \
-                        self._bounds_list)
+                        self._bounds_list, self._wall_target_list)
                 if wall:
                     self._wall_list.append(wall)
                     self._bounds_list.append(wall['shows'][0]['bounding_box'])
@@ -465,6 +467,10 @@ class InteractionGoal(Goal, ABC):
     def set_distractor_rule(self, subclass: Type[ObjectRule]) -> None:
         """Sets the ObjectRule subclass for creating distractors associated with this goal."""
         self._distractor_rule = subclass
+
+    def set_wall_target_list(self, target_list: List[Dict[str, Any]]) -> None:
+        """Sets the target for the wall generation function. If set, new walls won't obstruct vision to the target."""
+        self._wall_target_list = target_list
 
     def __generate_object_list(self, object_list: List[Dict[str, Any]], rule_list: List[ObjectRule], \
             target_list: List[Dict[str, Any]], distractor_list: List[Dict[str, Any]]) -> None:
