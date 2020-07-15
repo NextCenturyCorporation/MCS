@@ -403,11 +403,14 @@ def get_bounding_polygon(object_or_location: Dict[str, Any]) -> shapely.geometry
     return poly
 
 
-def are_adjacent(obj_a: Dict[str, Any], obj_b: Dict[str, Any]) -> bool:
+def are_adjacent(obj_a: Dict[str, Any], obj_b: Dict[str, Any], max_adj_dist: float = None) -> bool:
     poly_a = get_bounding_polygon(obj_a)
     poly_b = get_bounding_polygon(obj_b)
     distance = poly_a.distance(poly_b)
-    return distance <= MAX_ADJACENT_DISTANCE
+    if max_adj_dist:
+        return distance <= max_adj_dist
+    else:
+        return distance <= MAX_ADJACENT_DISTANCE
 
 
 def rect_to_poly(rect: List[Dict[str, Any]]) -> shapely.geometry.Polygon:

@@ -116,15 +116,22 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
 
             cur_painting_obj = dict()
             shows_object = {'bounding_box': geometry.calc_obj_coords(new_x, new_z, new_y, new_x_size, PAINTING_DEPTH, 0, 0, rotation)}
-            cur_painting_obj['shows'] = shows_object
+            cur_painting_obj['shows'] = [shows_object]
+            temp_rect = geometry.calc_obj_coords(new_x, new_z, new_y, new_x_size, PAINTING_DEPTH, 0, 0, rotation)
+            adj_to_generated_wall = False
             if (rotation == 0 or rotation == 180): #Make sure the painting is on the wall, instead of hovering in front of the wall
                 
-                adj_to_generated_wall = False
-                for wall in generated_wall_rects:  #1st check if painting is near any generated wall, that can be placed on
-                    #print(wall['shows'][0]['rotation'])
+                for wall in generated_wall_rects:  #first check if painting is near any generated wall, that can be placed on
+                    left_z_boundary = wall['shows'][0]['bounding_box'][2]['z'] #wall['shows'][0]['position']['z']
+                    right_z_boundary = wall['shows'][0]['bounding_box'][0]['z'] #wall['shows'][0]['position']['z'] +  wall['shows'][0]['scale']['x']
+                    print("left:", left_z_boundary)
+                    print("temp left:", temp_rect[2]['z'])
+
                     if (wall['shows'][0]['rotation']['y'] == 0 or wall['shows'][0]['rotation']['y'] == 180) and \
-                        geometry.are_adjacent(wall, cur_painting_obj):
+                        geometry.are_adjacent(wall, cur_painting_obj, 0.3) and \
+                        left_z_boundary <= temp_rect[2]['z'] and right_z_boundary >= temp_rect[0]['z']:
                         adj_to_generated_wall = True
+                        print("GGGGGGGGGGGG")
                         break
 
                 if not adj_to_generated_wall: #Place near 1 of the 4 room walls
@@ -134,11 +141,15 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
                         new_z = geometry.ROOM_DIMENSIONS[1][1] + 0.03 
             elif (rotation == 90 or rotation == 270):
 
-                adj_to_generated_wall = False
                 for wall in generated_wall_rects:
+                    left_x_boundary = wall['shows'][0]['bounding_box'][3]['x'] #wall['shows'][0]['position']['z']
+                    right_x_boundary = wall['shows'][0]['bounding_box'][1]['x'] #wall['shows'][0]['position']['z'] +  wall['shows'][0]['scale']['x']
+
                     if (wall['shows'][0]['rotation']['y'] == 90 or wall['shows'][0]['rotation']['y'] == 270) and \
-                        geometry.are_adjacent(wall, cur_painting_obj):
+                        geometry.are_adjacent(wall, cur_painting_obj, 0.3) and \
+                        left_x_boundary <= temp_rect[3]['x'] and right_x_boundary >= temp_rect[1]['x']:
                         adj_to_generated_wall = True
+                        print("GGGGGGGGGGGG22222")
                         break
                 
                 if not adj_to_generated_wall:
@@ -206,6 +217,7 @@ class Goal(ABC):
 
         paintings = self.generate_paintings(body['paintingMaterial'], body['paintingColors'], body['performerStart']['position'], bounding_rects, walls)
         #print("paintings: ", paintings)
+        print("hit")
         print("\n\n\n")
 
         walls.extend(paintings) #FIXME: need to have seperate tag for paintings
@@ -323,7 +335,7 @@ class Goal(ABC):
 
     def generate_walls(self, material: str, colors: List[str], performer_position: Dict[str, Any],
                        bounding_rects: List[List[Dict[str, float]]]) -> List[Dict[str, Any]]:
-        wall_count = random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
+        wall_count = 3 #random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
         
         walls = [] 
         # Add bounding rects to walls
@@ -340,7 +352,7 @@ class Goal(ABC):
 
     def generate_paintings(self, material: str, colors: List[str], performer_position: Dict[str, Any],
                        bounding_rects: List[List[Dict[str, float]]], wall_bounding_rects=None) -> List[Dict[str, Any]]:
-        painting_count = random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0] # Using same probability as walls
+        painting_count = 3 #random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0] # Using same probability as walls
 
         paintings = []
         all_bounding_rects = [bounding_rect.copy() for bounding_rect in bounding_rects]
