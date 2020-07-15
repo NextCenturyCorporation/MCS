@@ -352,7 +352,6 @@ def get_wider_and_taller_defs(obj_def: Dict[str, Any]) \
 
 
 def get_bounding_polygon(obj: Dict[str, Any]) -> shapely.geometry.Polygon:
-    print(obj) #FIXME
     show = obj['shows'][0]
     if 'bounding_box' in show:
         bb: List[Dict[str, float]] = show['bounding_box']
@@ -367,11 +366,14 @@ def get_bounding_polygon(obj: Dict[str, Any]) -> shapely.geometry.Polygon:
     return poly
 
 
-def are_adjacent(obj_a: Dict[str, Any], obj_b: Dict[str, Any]) -> bool:
+def are_adjacent(obj_a: Dict[str, Any], obj_b: Dict[str, Any], max_adj_dist: float = None) -> bool:
     poly_a = get_bounding_polygon(obj_a)
     poly_b = get_bounding_polygon(obj_b)
     distance = poly_a.distance(poly_b)
-    return distance <= MAX_ADJACENT_DISTANCE
+    if max_adj_dist:
+        return distance <= max_adj_dist
+    else:
+        return distance <= MAX_ADJACENT_DISTANCE
 
 
 def rect_to_poly(rect: List[Dict[str, Any]]) -> shapely.geometry.Polygon:
