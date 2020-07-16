@@ -806,8 +806,8 @@ layouts:
       countByAggregation: true
       ignoreSelf: false
       limit: 10000
-    col: 1
-    row: 21
+    col: 5
+    row: 17
     sizex: 4
     sizey: 4
     type: "aggregation"
@@ -847,14 +847,14 @@ layouts:
       aggregationField: ""
       yField: ""
     col: 5
-    row: 17
+    row: 21
     sizex: 4
     sizey: 12
     type: "aggregation"
     
   - bindings:
       contributionKeys: []
-      title: "Object Info"
+      title: "Object Info for All Objects in Scene"
       type: "bar-h"
       xField: "scene.objects.info"
       tableKey: "es1.mcs_history.history"
@@ -887,7 +887,7 @@ layouts:
       aggregationField: ""
       yField: ""
     col: 9
-    row: 17
+    row: 21
     sizex: 4
     sizey: 12
     type: "aggregation"
@@ -1046,8 +1046,8 @@ layouts:
       yPercentage: 0.3
       aggregationField: "score.mse_loss"
       yField: ""
-    col: 1
-    row: 25
+    col: 9
+    row: 17
     sizex: 4
     sizey: 4
     type: "aggregation"
@@ -1087,7 +1087,7 @@ layouts:
       aggregationField: ""
       yField: ""
     col: 1
-    row: 29
+    row: 33
     sizex: 4
     sizey: 4
     type: "aggregation"
@@ -1127,7 +1127,7 @@ layouts:
       aggregationField: ""
       yField: ""
     col: 5
-    row: 29
+    row: 33
     sizex: 4
     sizey: 4
     type: "aggregation"
@@ -1167,19 +1167,19 @@ layouts:
       aggregationField: ""
       yField: ""
     col: 9
-    row: 29
+    row: 33
     sizex: 4
     sizey: 4
     type: "aggregation"
   
   - bindings:
       contributionKeys: []
-      title: "Goal String"
+      title: "Object Descriptors by Object"
       type: "bar-h"
-      xField: "scene.objects.goal_string"
+      xField: "scene.objects.descriptors"
       tableKey: "es1.mcs_history.history"
       dualView: ""
-      axisLabelX: "Novel Color"
+      axisLabelX: "Descriptors"
       axisLabelY: "Count"
       groupField: "performer"
       limit: 10000
@@ -1204,12 +1204,12 @@ layouts:
       showLegend: false
       sortByAggregation: false
       yPercentage: 0.3
-      aggregationField: "scene.objects.info"
+      aggregationField: ""
       yField: ""
     col: 1
-    row: 33
+    row: 21
     sizex: 4
-    sizey: 8
+    sizey: 12
     type: "aggregation"
 
   # - bindings:
@@ -1674,6 +1674,9 @@ datastores:
                 - columnName: scene.objects.novel_shape
                   prettyName: Object Novel Shape
                   type: boolean
+                - columnName: scene.objects.descriptors
+                  prettyName: Object Descriptors
+                  type: keyword
                 - columnName: scene.objects.shape
                   prettyName: Object Shape
                   type: keyword
