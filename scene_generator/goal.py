@@ -50,10 +50,7 @@ def generate_wall(wall_material: str, wall_colors: List[str], performer_position
         if is_ok:
             if target_list:
                 for target in target_list:
-                    performer_start_coords = (performer_position['x'], performer_position['z'])
-                    target_location_coords = (target['shows'][0]['position']['x'], target['shows'][0]['position']['z'])
-                    line_to_target = shapely.geometry.LineString([performer_start_coords, target_location_coords])
-                    if wall_poly.intersects(line_to_target):
+                    if geometry.does_obstruct_target(performer_position, target, wall_poly):
                         is_ok = False
                         break
             if is_ok:

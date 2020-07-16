@@ -282,11 +282,7 @@ def get_adjacent_location(obj_def: Dict[str, Any], target: Dict[str, Any], \
         if location:
             # If obstruct, position the target so that the object is between it and the performer start.
             if obstruct:
-                performer_start_coordinates = (performer_start['position']['x'], performer_start['position']['z'])
-                target_location_coordinates = (target['shows'][0]['position']['x'], target['shows'][0]['position']['z'])
-                line_to_target = shapely.geometry.LineString([performer_start_coordinates, target_location_coordinates])
-                object_poly = get_bounding_polygon(location)
-                if object_poly.intersects(line_to_target):
+                if does_obstruct_target(performer_start['position'], target, get_bounding_polygon(location)):
                     return location
             else:
                 return location
@@ -432,18 +428,39 @@ def find_performer_rect(performer_position: Dict[str, float]) -> List[Dict[str, 
     ]
 
 
-def set_location_rotation(definition: Dict[str, float], location: Dict[str, float], rotation_y: float) -> \
+def set_location_rotation(definition: Dict[str, Any], location: Dict[str, float], rotation_y: float) -> \
         Dict[str, float]:
     """Updates the Y rotation and the bounding box of the given location and returns the location."""
     location['rotation']['y'] = rotation_y
-    x = location['position']['x']
-    z = location['position']['z']
-    dx = definition['dimensions']['x'] / 2.0
-    dz = definition['dimensions']['z'] / 2.0
-    offset_x = definition['offset']['x'] if 'offset' in definition else 0.0
-    offset_z = definition['offset']['z'] if 'offset' in definition else 0.0
-    poly = shapely.geometry.box(x - dx, z - dz, x + dx, z + dz)
-    poly = shapely.affinity.rotate(poly, -location['rotation']['y'])
-    location['bounding_box'] = calc_obj_coords(x, z, dx, dz, offset_x, offset_z, location['rotation']['y'])
+    location['bounding_box'] = generate_object_bounds(definition['dimensions'], \
+            (definition['offset'] if 'offset' in definition else None), location['position'], location['rotation'])
     return location
+
+
+def generate_object_bounds(dimensions: Dict[str, float], offset: Dict[str, float], position: Dict[str, float], \
+        rotation: Dict[str, float]) -> List[Dict[str, float]]:
+    """Returns the bounds for the object with the given properties."""
+    x = position['x']
+    z = position['z']
+    dx = dimensions['x'] / 2.0
+    dz = dimensions['z'] / 2.0
+    offset_x = offset['x'] if offset else 0.0
+    offset_z = offset['z'] if offset else 0.0
+    return calc_obj_coords(x, z, dx, dz, offset_x, offset_z, rotation['y'])
+
+
+def does_obstruct_target(performer_start_position: Dict[str, float], target: Dict[str, Any], \
+        object_poly: shapely.geometry.Polygon) -> bool:
+    """Returns whether the given object_poly obstructs each line between the given performer_start_position and
+    all four corners of the given target object."""
+
+    obstruct = True
+    performer_start_coordinates = (performer_start_position['x'], performer_start_position['z'])
+    for corner in target['shows'][0]['bounding_box']:
+        target_corner_coordinates = (corner['x'], corner['z'])
+        line_to_target = shapely.geometry.LineString([performer_start_coordinates, target_corner_coordinates])
+        if not object_poly.intersects(line_to_target):
+            obstruct = False
+            break
+    return obstruct
 

@@ -88,12 +88,8 @@ class SceneOptions():
 class DistractorNeverObstructsTargetObjectRule(DistractorObjectRule):
     def validate_location(self, object_location: Dict[str, Any], target_list: List[Dict[str, Any]], \
             performer_start: Dict[str, Dict[str, float]]) -> bool:
-        target = target_list[0]
-        target_location_coordinates = (target['shows'][0]['position']['x'], target['shows'][0]['position']['z'])
-        performer_start_coordinates = (performer_start['position']['x'], performer_start['position']['z'])
-        line_to_target = shapely.geometry.LineString([performer_start_coordinates, target_location_coordinates])
-        distractor_poly = geometry.get_bounding_polygon(object_location)
-        return not distractor_poly.intersects(line_to_target)
+        return not geometry.does_obstruct_target(performer_start['position'], target_list[0], \
+                geometry.get_bounding_polygon(object_location))
 
 
 class InteractionPair():

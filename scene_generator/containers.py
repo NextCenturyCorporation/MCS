@@ -9,16 +9,24 @@ import util
 
 def put_object_in_container(obj_def: Dict[str, Any], obj: Dict[str, Any], container: Dict[str, Any], \
         container_def: Dict[str, Any], area_index: int, rotation: Optional[float] = None) -> None:
+
     area = container_def['enclosed_areas'][area_index]
     obj['locationParent'] = container['id']
+
     obj['shows'][0]['position'] = area['position'].copy()
     obj['shows'][0]['position']['y'] += -(area['dimensions']['y'] / 2.0) + obj_def.get('position_y', 0)
+
     if 'rotation' not in obj['shows'][0]:
         obj['shows'][0]['rotation'] = geometry.ORIGIN.copy()
     if rotation is not None:
         obj['shows'][0]['rotation']['y'] = rotation
+
     # if it had a bounding_box, it's not valid any more
     obj.pop('bounding_box', None)
+
+    obj['shows'][0]['bounding_box'] = geometry.generate_object_bounds(obj_def['dimensions'], \
+            (obj_def['offset'] if 'offset' in obj_def else None), obj['shows'][0]['position'], \
+            obj['shows'][0]['rotation'])
 
 
 class Orientation(Enum):
@@ -44,6 +52,7 @@ def put_objects_in_container(obj_def_a: Dict[str, Any], obj_a: Dict[str, Any], o
     obj_b['locationParent'] = container['id']
     shows_a = obj_a['shows'][0]
     shows_b = obj_b['shows'][0]
+
     if orientation == Orientation.SIDE_BY_SIDE:
         if rot_a == 0:
             width_a = obj_a['dimensions']['x']
@@ -57,6 +66,7 @@ def put_objects_in_container(obj_def_a: Dict[str, Any], obj_a: Dict[str, Any], o
             width_b = obj_b['dimensions']['z']
         shows_b['position'] = area['position'].copy()
         shows_b['position']['x'] += width_b / 2.0
+
     elif orientation == Orientation.FRONT_TO_BACK:
         if rot_a == 0:
             height_a = obj_a['dimensions']['z']
@@ -70,13 +80,22 @@ def put_objects_in_container(obj_def_a: Dict[str, Any], obj_a: Dict[str, Any], o
             height_b = obj_b['dimensions']['x']
         shows_b['position'] = area['position'].copy()
         shows_b['position']['z'] += height_b / 2.0
+
     shows_a['position']['y'] += -(area['dimensions']['y'] / 2.0) + obj_def_a.get('position_y', 0)
     shows_b['position']['y'] += -(area['dimensions']['y'] / 2.0) + obj_def_b.get('position_y', 0)
     shows_a['rotation'] = { 'y': rot_a }
     shows_b['rotation'] = { 'y': rot_b }
+
     # any bounding_box they may have had is not valid any more
     shows_a.pop('bounding_box', None)
     shows_b.pop('bounding_box', None)
+
+    shows_a['bounding_box'] = geometry.generate_object_bounds(obj_def_a['dimensions'], \
+            (obj_def_a['offset'] if 'offset' in obj_def_a else None), shows_a['position'], \
+            shows_a['rotation'])
+    shows_b['bounding_box'] = geometry.generate_object_bounds(obj_def_b['dimensions'], \
+            (obj_def_b['offset'] if 'offset' in obj_def_b else None), shows_b['position'], \
+            shows_b['rotation'])
 
 
 def can_enclose(area: Dict[str, Any], target: Dict[str, Any]) -> Optional[float]:

@@ -153,16 +153,12 @@ def test_HiddenBehindPair_get_scenes():
     assert (target['dimensions']['x'] <= obstructor_dimensions['x'] or \
             target['dimensions']['z'] <= obstructor_dimensions['z'])
     assert target['dimensions']['y'] <= obstructor_dimensions['y']
-    target_position = target['shows'][0]['position']
-    target_coords = (target_position['x'], target_position['z'])
-    performer_position = scene2['performerStart']['position']
-    performer_coords = (performer_position['x'], performer_position['z'])
-    line_to_target = shapely.geometry.LineString([performer_coords, target_coords])
-    obstructor_poly = geometry.get_bounding_polygon(obstructor)
-    assert obstructor_poly.intersects(line_to_target)
+    assert geometry.does_obstruct_target(scene2['performerStart']['position'], target, \
+            geometry.get_bounding_polygon(obstructor))
     for distractor in pair._goal_2.get_distractor_list():
-        distractor_poly = geometry.get_bounding_polygon(distractor)
-        assert not distractor_poly.intersects(line_to_target)
+        if distractor['id'] != target['id']:
+            assert not geometry.does_obstruct_target(scene2['performerStart']['position'], target, \
+                    geometry.get_bounding_polygon(distractor))
 
 
 def test_OneEnclosedPair_get_scenes():
