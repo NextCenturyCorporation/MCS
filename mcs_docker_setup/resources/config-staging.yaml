@@ -712,45 +712,45 @@ layouts:
     sizey: 8
     type: "aggregation"
 
-  - bindings:
-      contributionKeys: []
-      title: "Object Shape"
-      type: "bar-v"
-      xField: "scene.objects.shape"
-      tableKey: "es1.mcs_history.history"
-      dualView: ""
-      axisLabelX: "Object Shape"
-      axisLabelY: "Count"
-      groupField: "performer"
-      limit: 10000
-      customEventsToPublish: []
-      customEventsToReceive: []
-      hideUnfiltered: false
-      aggregation: "count"
-      countByAggregation: false
-      timeFill: false
-      granularity: "year"
-      notFilterable: false
-      requireAll: false
-      ignoreSelf: true
-      hideGridLines: false
-      hideGridTicks: false
-      lineCurveTension: 0.3
-      lineFillArea: false
-      logScaleX: false
-      logScaleY: false
-      savePrevious: false
-      showHeat: false
-      showLegend: false
-      sortByAggregation: false
-      yPercentage: 0.3
-      aggregationField: ""
-      yField: ""
-    col: 5
-    row: 21
-    sizex: 8
-    sizey: 4
-    type: "aggregation"
+  # - bindings:
+  #     contributionKeys: []
+  #     title: "Object Shape"
+  #     type: "bar-v"
+  #     xField: "scene.objects.shape"
+  #     tableKey: "es1.mcs_history.history"
+  #     dualView: ""
+  #     axisLabelX: "Object Shape"
+  #     axisLabelY: "Count"
+  #     groupField: "performer"
+  #     limit: 10000
+  #     customEventsToPublish: []
+  #     customEventsToReceive: []
+  #     hideUnfiltered: false
+  #     aggregation: "count"
+  #     countByAggregation: false
+  #     timeFill: false
+  #     granularity: "year"
+  #     notFilterable: false
+  #     requireAll: false
+  #     ignoreSelf: true
+  #     hideGridLines: false
+  #     hideGridTicks: false
+  #     lineCurveTension: 0.3
+  #     lineFillArea: false
+  #     logScaleX: false
+  #     logScaleY: false
+  #     savePrevious: false
+  #     showHeat: false
+  #     showLegend: false
+  #     sortByAggregation: false
+  #     yPercentage: 0.3
+  #     aggregationField: ""
+  #     yField: ""
+  #   col: 5
+  #   row: 21
+  #   sizex: 8
+  #   sizey: 4
+  #   type: "aggregation"
   
   - bindings:
       contributionKeys: []
@@ -794,38 +794,18 @@ layouts:
 
   - bindings:
       contributionKeys: []
-      title: "Amount Correct Pie"
-      type: "pie"
-      xField: "score.score"
+      title: "ROC Curve (with Adjusted Confidence)"
+      type: "line-xy"
       tableKey: "es1.mcs_history.history"
-      dualView: ""
-      axisLabelX: "Score"
-      axisLabelY: "Ground Truth"
+      xField: "score.adjusted_confidence"
+      yField: "score.ground_truth"
+      axisLabelX: "FPR"
+      axisLabelY: "TPR"
       groupField: "performer"
+      rocCurve: true
+      countByAggregation: true
+      ignoreSelf: false
       limit: 10000
-      customEventsToPublish: []
-      customEventsToReceive: []
-      hideUnfiltered: false
-      aggregation: "count"
-      countByAggregation: false
-      timeFill: false
-      granularity: "year"
-      notFilterable: false
-      requireAll: false
-      ignoreSelf: true
-      hideGridLines: false
-      hideGridTicks: false
-      lineCurveTension: 0.3
-      lineFillArea: false
-      logScaleX: false
-      logScaleY: false
-      savePrevious: false
-      showHeat: false
-      showLegend: false
-      sortByAggregation: false
-      yPercentage: 0.3
-      aggregationField: ""
-      yField: ""
     col: 1
     row: 21
     sizex: 4
@@ -835,7 +815,7 @@ layouts:
   - bindings:
       contributionKeys: []
       title: "Scene Type List"
-      type: "bar-v"
+      type: "bar-h"
       xField: "scene.type_list"
       tableKey: "es1.mcs_history.history"
       dualView: ""
@@ -868,14 +848,14 @@ layouts:
       yField: ""
     col: 5
     row: 17
-    sizex: 8
-    sizey: 4
+    sizex: 4
+    sizey: 12
     type: "aggregation"
     
   - bindings:
       contributionKeys: []
       title: "Object Info"
-      type: "bar-v"
+      type: "bar-h"
       xField: "scene.objects.info"
       tableKey: "es1.mcs_history.history"
       dualView: ""
@@ -906,10 +886,10 @@ layouts:
       yPercentage: 0.3
       aggregationField: ""
       yField: ""
-    col: 1
-    row: 29
-    sizex: 12
-    sizey: 4
+    col: 9
+    row: 17
+    sizex: 4
+    sizey: 12
     type: "aggregation"
 
   - bindings:
@@ -1034,9 +1014,49 @@ layouts:
 
   - bindings:
       contributionKeys: []
+      title: "Average MSE Loss"
+      type: "list"
+      xField: "performer"
+      tableKey: "es1.mcs_history.history"
+      dualView: ""
+      axisLabelX: "Loss"
+      axisLabelY: "Count"
+      groupField: ""
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "avg"
+      countByAggregation: true
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: false
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: "score.mse_loss"
+      yField: ""
+    col: 1
+    row: 25
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
       title: "Novel Color"
       type: "bar-v"
-      xField: "scene.objects.novel_color"
+      xField: "scene.has_novel_color"
       tableKey: "es1.mcs_history.history"
       dualView: ""
       axisLabelX: "Novel Color"
@@ -1067,7 +1087,7 @@ layouts:
       aggregationField: ""
       yField: ""
     col: 1
-    row: 25
+    row: 29
     sizex: 4
     sizey: 4
     type: "aggregation"
@@ -1076,7 +1096,7 @@ layouts:
       contributionKeys: []
       title: "Novel Shape"
       type: "bar-v"
-      xField: "scene.objects.novel_shape"
+      xField: "scene.has_novel_shape"
       tableKey: "es1.mcs_history.history"
       dualView: ""
       axisLabelX: "Novel Shape"
@@ -1107,7 +1127,7 @@ layouts:
       aggregationField: ""
       yField: ""
     col: 5
-    row: 25
+    row: 29
     sizex: 4
     sizey: 4
     type: "aggregation"
@@ -1116,7 +1136,7 @@ layouts:
       contributionKeys: []
       title: "Novel Combination"
       type: "bar-v"
-      xField: "scene.objects.novel_combination"
+      xField: "scene.has_novel_combination"
       tableKey: "es1.mcs_history.history"
       dualView: ""
       axisLabelX: "Novel Combination"
@@ -1147,10 +1167,170 @@ layouts:
       aggregationField: ""
       yField: ""
     col: 9
-    row: 25
+    row: 29
     sizex: 4
     sizey: 4
     type: "aggregation"
+  
+  - bindings:
+      contributionKeys: []
+      title: "Goal String"
+      type: "bar-h"
+      xField: "scene.objects.goal_string"
+      tableKey: "es1.mcs_history.history"
+      dualView: ""
+      axisLabelX: "Novel Color"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: false
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: "scene.objects.info"
+      yField: ""
+    col: 1
+    row: 33
+    sizex: 4
+    sizey: 8
+    type: "aggregation"
+
+  # - bindings:
+  #     contributionKeys: []
+  #     title: "Number of Interior walls"
+  #     type: "bar-v"
+  #     xField: "scene.num_interior_walls"
+  #     tableKey: "es1.mcs_history.history"
+  #     dualView: ""
+  #     axisLabelX: "Novel Color"
+  #     axisLabelY: "Count"
+  #     groupField: "performer"
+  #     limit: 10000
+  #     customEventsToPublish: []
+  #     customEventsToReceive: []
+  #     hideUnfiltered: false
+  #     aggregation: "count"
+  #     countByAggregation: false
+  #     timeFill: false
+  #     granularity: "year"
+  #     notFilterable: false
+  #     requireAll: false
+  #     ignoreSelf: true
+  #     hideGridLines: false
+  #     hideGridTicks: false
+  #     lineCurveTension: 0.3
+  #     lineFillArea: false
+  #     logScaleX: false
+  #     logScaleY: false
+  #     savePrevious: false
+  #     showHeat: false
+  #     showLegend: false
+  #     sortByAggregation: false
+  #     yPercentage: 0.3
+  #     aggregationField: ""
+  #     yField: ""
+  #   col: 1
+  #   row: 33
+  #   sizex: 4
+  #   sizey: 4
+  #   type: "aggregation"
+
+  # - bindings:
+  #     contributionKeys: []
+  #     title: "Number Confusors"
+  #     type: "bar-v"
+  #     xField: "scene.num_confusors"
+  #     tableKey: "es1.mcs_history.history"
+  #     dualView: ""
+  #     axisLabelX: "Novel Shape"
+  #     axisLabelY: "Count"
+  #     groupField: "performer"
+  #     limit: 10000
+  #     customEventsToPublish: []
+  #     customEventsToReceive: []
+  #     hideUnfiltered: false
+  #     aggregation: "count"
+  #     countByAggregation: false
+  #     timeFill: false
+  #     granularity: "year"
+  #     notFilterable: false
+  #     requireAll: false
+  #     ignoreSelf: true
+  #     hideGridLines: false
+  #     hideGridTicks: false
+  #     lineCurveTension: 0.3
+  #     lineFillArea: false
+  #     logScaleX: false
+  #     logScaleY: false
+  #     savePrevious: false
+  #     showHeat: false
+  #     showLegend: false
+  #     sortByAggregation: false
+  #     yPercentage: 0.3
+  #     aggregationField: ""
+  #     yField: ""
+  #   col: 5
+  #   row: 33
+  #   sizex: 4
+  #   sizey: 4
+  #   type: "aggregation"
+
+  # - bindings:
+  #     contributionKeys: []
+  #     title: "Number of Obstructors"
+  #     type: "bar-v"
+  #     xField: "scene.num_obstructors"
+  #     tableKey: "es1.mcs_history.history"
+  #     dualView: ""
+  #     axisLabelX: "Novel Combination"
+  #     axisLabelY: "Count"
+  #     groupField: "performer"
+  #     limit: 10000
+  #     customEventsToPublish: []
+  #     customEventsToReceive: []
+  #     hideUnfiltered: false
+  #     aggregation: "count"
+  #     countByAggregation: false
+  #     timeFill: false
+  #     granularity: "year"
+  #     notFilterable: false
+  #     requireAll: false
+  #     ignoreSelf: true
+  #     hideGridLines: false
+  #     hideGridTicks: false
+  #     lineCurveTension: 0.3
+  #     lineFillArea: false
+  #     logScaleX: false
+  #     logScaleY: false
+  #     savePrevious: false
+  #     showHeat: false
+  #     showLegend: false
+  #     sortByAggregation: false
+  #     yPercentage: 0.3
+  #     aggregationField: ""
+  #     yField: ""
+  #   col: 9
+  #   row: 33
+  #   sizex: 4
+  #   sizey: 4
+  #   type: "aggregation"
 
   - bindings:
       contributionKeys: []
@@ -1179,13 +1359,13 @@ layouts:
       - "scene.objects.type"
       - "scene.objects.info"
       - "scene.objects.shape"
-      - "scene.objects.novel_combination"
-      - "scene.objects.novel_color"
-      - "scene.objects.novel_shape"
+      - "scene.has_novel_combination"
+      - "scene.has_novel_color"
+      - "scene.has_novel_shape"
       sortField: "test"
       sortDescending: false
     col: 1
-    row: 33
+    row: 37
     sizex: 12
     sizey: 6
     type: "dataTable"
@@ -1409,16 +1589,7 @@ datastores:
           history:
             prettyName: "Data"
             mappings: {}
-            labelOptions: 
-              scene.objects.novel_color:
-                0: "False"
-                1: "True"
-              scene.objects.novel_shape:
-                0: "False"
-                1: "True"
-              scene.objects.novel_combination:
-                0: "False"
-                1: "True"
+            labelOptions: {}
             fields:
                 - columnName: eval
                   prettyName: Evaluation Name
@@ -1451,6 +1622,9 @@ datastores:
                   type: decimal
                 - columnName: score.adjusted_confidence
                   prettyName: Adjusted Confidence
+                  type: decimal
+                - columnName: score.mse_loss
+                  prettyName: MSE Loss
                   type: decimal
                 - columnName: scene.info_list
                   prettyName: Scene Info List
@@ -1503,6 +1677,27 @@ datastores:
                 - columnName: scene.objects.shape
                   prettyName: Object Shape
                   type: keyword
+                - columnName: scene.objects.goal_string
+                  prettyName: Object Shape
+                  type: keyword
+                - columnName: scene.has_novel_color
+                  prettyName: Scene has Novel Color
+                  type: keyword
+                - columnName: scene.has_novel_shape
+                  prettyName: Scene has Novel Shape
+                  type: keyword
+                - columnName: scene.has_novel_combination
+                  prettyName: Scene has Novel Combination
+                  type: keyword
+                - columnName: scene.num_interior_walls
+                  prettyName: Scene Interior Walls
+                  type: decimal
+                - columnName: scene.num_confusors
+                  prettyName: Scene Confusors
+                  type: decimal
+                - columnName: scene.num_obstructors
+                  prettyName: Scene Obstructors
+                  type: decimal
       mcs_scenes:
         prettyName: "MCS Evaluation 2 Scenes"
         tables:
