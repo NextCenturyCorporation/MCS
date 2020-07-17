@@ -391,7 +391,9 @@ class InteractionGoal(Goal, ABC):
         if not self._is_distractor_list_done:
             # Automatically generate a random number of distractors with random parameters.
             distractor_rule_list = []
-            for _ in range(random.randint(0, InteractionGoal.MAX_DISTRACTORS) + 1):
+            number = random.randint(0, InteractionGoal.MAX_DISTRACTORS)
+            logging.debug(f'{self.get_name()} goal generating {number} distractors...')
+            for _ in range(number + 1):
                 distractor_rule_list.append(self.get_distractor_rule(is_position_in_receptacle = \
                         (random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE)))
             self.__generate_object_list(self._distractor_list, distractor_rule_list, self._target_list, \
@@ -414,7 +416,9 @@ class InteractionGoal(Goal, ABC):
         """Generates and returns the walls (other than the room's starting walls) in this goal."""
         if self._wall_list is None:
             self._wall_list = []
-            for _ in range(random.choices(InteractionGoal.WALL_CHOICES, weights=InteractionGoal.WALL_WEIGHTS, k=1)[0]):
+            number = random.choices(InteractionGoal.WALL_CHOICES, weights=InteractionGoal.WALL_WEIGHTS, k=1)[0]
+            logging.debug(f'{self.get_name()} goal generating {number} walls...')
+            for _ in range(number + 1):
                 # TODO This should probably be an ObjectRule eventually
                 wall = generate_wall(wall_material_name, wall_colors, self._performer_start['position'], \
                         self._bounds_list, self._wall_target_list)

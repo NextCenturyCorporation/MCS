@@ -251,7 +251,9 @@ class InteractionPair():
             target_template = None
 
         if not target_definition or not target_template:
-            raise exceptions.SceneException(f'{self.get_name()} pair cannot create good target (maybe all choices are too big?)')
+            raise exceptions.SceneException(f'{self.get_name()} cannot create good target (maybe all choices are too big?)')
+
+        logging.debug(f'{self.get_name()} {self._goal_1.get_name()} target template: {target_template}')
 
         confusor_definition = None
         confusor_template = None
@@ -285,7 +287,9 @@ class InteractionPair():
                 confusor_template = None
 
             if not confusor_definition or not confusor_template:
-                raise exceptions.SceneException(f'{self.get_name()} pair cannot create good confusor (maybe all choices are too big?)')
+                raise exceptions.SceneException(f'{self.get_name()} cannot create good confusor (maybe all choices are too big?)')
+
+        logging.debug(f'{self.get_name()} {self._goal_1.get_name()} confusor template: {confusor_template}')
 
         is_confusor_close_in_goal_1 = (self._options.confusor_location == ConfusorLocationPairOption.CLOSE_CLOSE or \
                 self._options.confusor_location == ConfusorLocationPairOption.CLOSE_FAR)
@@ -307,7 +311,7 @@ class InteractionPair():
             if must_hold_both:
                 receptacle_data = self._create_receptacle_around_both(target_definition, confusor_definition)
                 if not receptacle_data:
-                    raise exceptions.SceneException(f'{self.get_name()} pair cannot create enclosable receptacle around both: target={target_definition} confusor={confusor_definition}')
+                    raise exceptions.SceneException(f'{self.get_name()} cannot create enclosable receptacle around both: target={target_definition} confusor={confusor_definition}')
                 receptacle_definition, area_index, target_rotation, confusor_rotation, orientation = receptacle_data
             # Else ensure that a receptacle can hold the target or confusor individually.
             else:
@@ -316,10 +320,12 @@ class InteractionPair():
                 receptacle_data = self._create_receptacle_around_either(target_definition_if_containerize, \
                         confusor_definition_if_containerize)
                 if not receptacle_data:
-                    raise exceptions.SceneException(f'{self.get_name()} pair cannot create enclosable receptacle around either: target={target_definition_if_containerize} confusor={confusor_definition_if_containerize}')
+                    raise exceptions.SceneException(f'{self.get_name()} cannot create enclosable receptacle around either: target={target_definition_if_containerize} confusor={confusor_definition_if_containerize}')
                 receptacle_definition, area_index, target_rotation, confusor_rotation = receptacle_data
             # Create the receptacle template now at a location, and later it'll move to its location for each scene.
             receptacle_template = util.instantiate_object(receptacle_definition, geometry.ORIGIN_LOCATION)
+
+        logging.debug(f'{self.get_name()} {self._goal_1.get_name()} receptacle template: {receptacle_template}')
 
         # If an object is switched across the scenes (in the same position), use the larger object to generate the
         # location to avoid any collisions (if positioned inside a receptacle, the receptacle must be larger).
@@ -336,6 +342,8 @@ class InteractionPair():
                     obstruct_vision).choose_definition()
             # Create the obstructor template now at a location, and later it'll move to its location for each scene.
             obstructor_template = util.instantiate_object(obstructor_definition, geometry.ORIGIN_LOCATION)
+
+        logging.debug(f'{self.get_name()} {self._goal_1.get_name()} obstructor template: {obstructor_template}')
 
         larger_of_target_or_obstructor = self._find_larger_object(larger_of_target_or_receptacle, \
                 obstructor_template)
@@ -382,6 +390,10 @@ class InteractionPair():
         # The performer_start shouldn't be modified past here.
         performer_start = self._goal_1.get_performer_start()
 
+        logging.debug(f'{self.get_name()} {self._goal_1.get_name()} performer start: {performer_start}')
+        logging.debug(f'{self.get_name()} {self._goal_1.get_name()} target location 1: {target_location_1}')
+        logging.debug(f'{self.get_name()} {self._goal_1.get_name()} target location 2: {target_location_2}')
+
         # If needed, exchange the target with the obstructor, then position the target directly behind the obstructor.
         obstructor_location_1 = self._generate_obstructor_location(False, target_definition, target_template, \
                 target_location_1, obstructor_definition, performer_start)
@@ -397,6 +409,11 @@ class InteractionPair():
             confusor_location_1, confusor_location_2 = self._generate_confusor_location(confusor_definition, \
                     target_definition, target_template, target_location_1, target_location_2, performer_start, \
                     is_confusor_close_in_goal_1, is_confusor_close_in_goal_2, is_target_location_same_in_both)
+
+        logging.debug(f'{self.get_name()} {self._goal_1.get_name()} confusor location 1: {confusor_location_1}')
+        logging.debug(f'{self.get_name()} {self._goal_1.get_name()} confusor location 2: {confusor_location_2}')
+        logging.debug(f'{self.get_name()} {self._goal_1.get_name()} obstructor location 1: {obstructor_location_1}')
+        logging.debug(f'{self.get_name()} {self._goal_1.get_name()} obstructor location 2: {obstructor_location_2}')
 
         # Finalize the position of the target and the confusor in both scenes (they may be inside a receptacle).
         target_1, confusor_1, target_receptacle_1, confusor_receptacle_1 = self._finalize_target_confusor_position( \
@@ -419,16 +436,14 @@ class InteractionPair():
         obstructor_2 = self._finalize_obstructor((self._options.obstructor != ObstructorPairOption.NONE_NONE), \
                 obstructor_definition, obstructor_template, obstructor_location_2, shared_bounds_list)
 
-        logging.debug('target_1 ' + target_1['id'] + ' ' + target_1['type'])
-        logging.debug('target_2 ' + target_2['id'] + ' ' + target_2['type'])
-        logging.debug('target_receptacle_1 ' + ((target_receptacle_1['id'] + ' ' + target_receptacle_1['type']) if target_receptacle_1 else 'None'))
-        logging.debug('target_receptacle_2 ' + ((target_receptacle_2['id'] + ' ' + target_receptacle_2['type']) if target_receptacle_2 else 'None'))
-        logging.debug('confusor_1 ' + ((confusor_1['id'] + ' ' + confusor_1['type']) if confusor_1 else 'None'))
-        logging.debug('confusor_2 ' + ((confusor_2['id'] + ' ' + confusor_2['type']) if confusor_2 else 'None'))
-        logging.debug('confusor_receptacle_1 ' + ((confusor_receptacle_1['id'] + ' ' + confusor_receptacle_1['type']) if confusor_receptacle_1 else 'None'))
-        logging.debug('confusor_receptacle_2 ' + ((confusor_receptacle_2['id'] + ' ' + confusor_receptacle_2['type']) if confusor_receptacle_2 else 'None'))
-        logging.debug('obstructor_1 ' + ((obstructor_1['id'] + ' ' + obstructor_1['type']) if obstructor_1 else 'None'))
-        logging.debug('obstructor_2 ' + ((obstructor_2['id'] + ' ' + obstructor_2['type']) if obstructor_2 else 'None'))
+        logging.info(f'{self.get_name()} {self._goal_1.get_name()} target_1 {target_1["type"]} {target_1["id"]}')
+        logging.info(f'{self.get_name()} {self._goal_1.get_name()} target_2 {target_2["type"]} {target_2["id"]}')
+        logging.info(f'{self.get_name()} {self._goal_1.get_name()} target_receptacle_1 {((target_receptacle_1["type"] + " " + target_receptacle_1["id"]) if target_receptacle_1 else "None")}')
+        logging.info(f'{self.get_name()} {self._goal_1.get_name()} target_receptacle_2 {((target_receptacle_2["type"] + " " + target_receptacle_2["id"]) if target_receptacle_2 else "None")}')
+        logging.info(f'{self.get_name()} {self._goal_1.get_name()} confusor_1 {((confusor_1["type"] + " " + confusor_1["id"]) if confusor_1 else "None")}')
+        logging.info(f'{self.get_name()} {self._goal_1.get_name()} confusor_2 {((confusor_2["type"] + " " + confusor_2["id"]) if confusor_2 else "None")}')
+        logging.info(f'{self.get_name()} {self._goal_1.get_name()} obstructor_1 {((obstructor_1["type"] + " " + obstructor_1["id"]) if obstructor_1 else "None")}')
+        logging.info(f'{self.get_name()} {self._goal_1.get_name()} obstructor_2 {((obstructor_2["type"] + " " + obstructor_2["id"]) if obstructor_2 else "None")}')
 
         confusor_list_1 = [confusor_1] if confusor_1 else []
         confusor_list_2 = [confusor_2] if confusor_2 else []
@@ -669,21 +684,22 @@ class InteractionPair():
         for _ in range(util.MAX_TRIES):
             # TODO Use existing target bounds?
             location_front = self._identify_front(object_definition, object_rule, performer_start)
-            if generate_back:
-                location_back = self._identify_back(object_definition, object_rule, performer_start)
-                if location_front and location_back:
+            if location_front:
+                if generate_back:
+                    location_back = self._identify_back(object_definition, object_rule, performer_start)
+                    if location_back:
+                        break
+                else:
                     break
-            elif location_front:
-                break
             location_front = None
             location_back = None
             performer_start = goal.reset_performer_start()
 
         if not generate_back and not location_front:
-            raise exceptions.SceneException(f'{self.get_name()} pair cannot position performer start in front of object={object_definition}')
+            raise exceptions.SceneException(f'{self.get_name()} cannot position performer start in front of object={object_definition}')
 
         if generate_back and (not location_front or not location_back):
-            raise exceptions.SceneException(f'{self.get_name()} pair cannot position performer start in front of and in back of object={object_definition}')
+            raise exceptions.SceneException(f'{self.get_name()} cannot position performer start in front of and in back of object={object_definition}')
 
         return location_front, location_back
 
@@ -693,7 +709,7 @@ class InteractionPair():
         # TODO Use existing target bounds?
         location_close = geometry.get_adjacent_location(object_definition, target_instance, performer_start)
         if not location_close:
-            raise exceptions.SceneException(f'{self.get_name()} pair cannot position close to target: object={object_definition} target={target_instance}')
+            raise exceptions.SceneException(f'{self.get_name()} cannot position close to target: object={object_definition} target={target_instance}')
         return location_close
 
     def _generate_location_far_from_object(self, object_definition: Dict[str, Any], target_location: Dict[str, float], \
@@ -706,7 +722,7 @@ class InteractionPair():
                 break
             location_far = None
         if not location_far:
-            raise exceptions.SceneException(f'{self.get_name()} pair cannot position far from target: object={object_definition} target={target_instance}')
+            raise exceptions.SceneException(f'{self.get_name()} cannot position far from target: object={object_definition} target={target_instance}')
         return location_far
 
     def _generate_obstructor_location(self, show_obstructor: bool, target_definition: Dict[str, Any], \
@@ -723,7 +739,7 @@ class InteractionPair():
             obstructor_location = geometry.get_adjacent_location(obstructor_definition, target_instance, \
                     performer_start, True)
             if not obstructor_location:
-                raise exceptions.SceneException(f'{self.get_name()} pair cannot position target directly behind obstructor: performer_start={performer_start} target={target_instance} obstructor={obstructor_definition}')
+                raise exceptions.SceneException(f'{self.get_name()} cannot position target directly behind obstructor: performer_start={performer_start} target={target_instance} obstructor={obstructor_definition}')
             return obstructor_location
 
         return None
@@ -741,7 +757,7 @@ class InteractionPair():
                 break
             object_location = None
         if not object_location:
-            raise exceptions.SceneException(f'{self.get_name()} pair cannot randomly position object={object_definition}')
+            raise exceptions.SceneException(f'{self.get_name()} cannot randomly position object={object_definition}')
         return object_location, object_location
 
     def _identify_front(self, object_definition: Dict[str, Any], object_rule: ObjectRule, \
@@ -817,6 +833,8 @@ class Pair2(InteractionPair):
     def __init__(self, template: Dict[str, Any], goal_name: str = None, find_path: bool = False):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
                 BoolPairOption.NO_NO
+        # TODO MCS-320 Let target be containerized
+        containerize = BoolPairOption.NO_NO
         super(Pair2, self).__init__(2, template, goal_name, find_path, options = SceneOptions( \
                 target_containerize = containerize, target_location = TargetLocationPairOption.FRONT_FRONT, \
                 obstructor = ObstructorPairOption.NONE_VISION))
@@ -900,6 +918,8 @@ class Pair9(InteractionPair):
     def __init__(self, template: Dict[str, Any], goal_name: str = None, find_path: bool = False):
         containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
                 BoolPairOption.NO_NO
+        # TODO MCS-320 Let target be containerized
+        containerize = BoolPairOption.NO_NO
         super(Pair9, self).__init__(9, template, goal_name, find_path, options = SceneOptions( \
                 target_containerize = containerize, target_location = TargetLocationPairOption.FRONT_FRONT, \
                 obstructor = ObstructorPairOption.NONE_NAVIGATION))
