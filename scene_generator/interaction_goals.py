@@ -4,7 +4,7 @@ import math
 import random
 from abc import ABC
 from enum import Enum
-from typing import Dict, Any, AnyStr, List, Tuple, Sequence
+from typing import Any, AnyStr, Dict, List, Sequence, Tuple, Type
 
 from sympy import Segment, intersection
 
@@ -179,8 +179,8 @@ def trim_actions_to_reach(actions: List[Dict[str, Any]],
     return new_actions, (new_x, new_z)
 
 
-def move_to_container(target: Dict[str, Any], bounds_list: List[List[Dict[str, float]]],
-                      performer_position: Dict[str, float]) -> Dict[str, Any]:
+def move_to_container(target_definition: Dict[str, Any], target: Dict[str, Any], \
+        bounds_list: List[List[Dict[str, float]]], performer_position: Dict[str, float]) -> Dict[str, Any]:
     """Try to find a random container that target will fit in. If found, set the target's locationParent, and add
     container to bounds_list. Return the container, or None if the target was not put into a container."""
     shuffled_containers = objects.get_enclosed_containers().copy()
@@ -194,7 +194,8 @@ def move_to_container(target: Dict[str, Any], bounds_list: List[List[Dict[str, f
             if container_location is not None:
                 container = instantiate_object(container_definition, container_location)
                 area, angles = containment
-                containers.put_object_in_container(target, container, container_definition, area, angles[0])
+                containers.put_object_in_container(target_definition, target, container, container_definition, area, \
+                        angles[0])
                 return container
     return None
 
@@ -319,7 +320,8 @@ class ConfusorObjectRule(ObjectRule):
     def choose_definition(self) -> Dict[str, Any]:
         if not self._target_definition:
             raise exceptions.SceneException('cannot create a confusor with no target definition')
-        confusor_definition = util.get_similar_definition(self._target_definition, objects.get_all_object_defs())
+        confusor_definition = util.get_similar_definition(self._target_definition, \
+                copy.deepcopy(objects.get_all_object_defs()))
         if not confusor_definition:
             raise exceptions.SceneException(f'cannot find a confusor to create with target={self._target_definition}')
         return util.finalize_object_definition(confusor_definition)
@@ -327,7 +329,7 @@ class ConfusorObjectRule(ObjectRule):
 
 class ObstructorObjectRule(ObjectRule):
     def __init__(self, target_definition: Dict[str, Any], performer_start: Dict[str, Dict[str, float]], \
-            obstruct_vision: bool = False):
+            obstruct_vision: bool):
         super(ObstructorObjectRule, self).__init__()
         self._target_definition = target_definition
         self._obstruct_vision = obstruct_vision
@@ -335,8 +337,7 @@ class ObstructorObjectRule(ObjectRule):
     def choose_definition(self) -> Dict[str, Any]:
         if not self._target_definition:
             raise exceptions.SceneException('cannot create an obstructor with no target definition')
-        obstructor_definition_list = geometry.get_wider_and_taller_defs(self._target_definition) if \
-                self._obstruct_vision else [] # TODO MCS-262
+        obstructor_definition_list = geometry.get_wider_and_taller_defs(self._target_definition, self._obstruct_vision)
         if not obstructor_definition_list:
             raise exceptions.SceneException(f'cannot find an obstructor to create with target={self._target_definition}')
         obstructor_definition, obstructor_angle = random.choice(obstructor_definition_list)
@@ -366,9 +367,13 @@ class InteractionGoal(Goal, ABC):
         self._bounds_list = []
         self._target_list = []
         self._confusor_list = []
+        self._confusor_rule = ConfusorObjectRule
         self._distractor_list = []
+        self._distractor_rule = DistractorObjectRule
         self._obstructor_list = []
+        self._obstructor_rule = ObstructorObjectRule
         self._wall_list = None
+        self._wall_target_list = None
         self._is_distractor_list_done = False
 
     # override
@@ -410,8 +415,9 @@ class InteractionGoal(Goal, ABC):
         if self._wall_list is None:
             self._wall_list = []
             for _ in range(random.choices(InteractionGoal.WALL_CHOICES, weights=InteractionGoal.WALL_WEIGHTS, k=1)[0]):
+                # TODO This should probably be an ObjectRule eventually
                 wall = generate_wall(wall_material_name, wall_colors, self._performer_start['position'], \
-                        self._bounds_list)
+                        self._bounds_list, self._wall_target_list)
                 if wall:
                     self._wall_list.append(wall)
                     self._bounds_list.append(wall['shows'][0]['bounding_box'])
@@ -429,7 +435,7 @@ class InteractionGoal(Goal, ABC):
 
     def get_confusor_rule(self, target_definition: Dict[str, Any]) -> ObjectRule:
         """Returns the rule for any confusors compatible with this goal."""
-        return ConfusorObjectRule(target_definition = target_definition)
+        return self._confusor_rule(target_definition = target_definition)
 
     def get_distractor_list(self) -> List[Dict[str, Any]]:
         """Returns the distractors in this goal."""
@@ -438,16 +444,16 @@ class InteractionGoal(Goal, ABC):
     def get_distractor_rule(self, target_list: List[Dict[str, Any]] = None, \
             is_position_in_receptacle: bool = False) -> ObjectRule:
         """Returns the rule for any distractors compatible with this goal."""
-        return DistractorObjectRule(target_list = (target_list if target_list is not None else self._target_list), \
+        return self._distractor_rule(target_list = (target_list if target_list is not None else self._target_list), \
                 is_position_in_receptacle = is_position_in_receptacle)
 
     def get_obstructor_list(self) -> List[Dict[str, Any]]:
         """Returns the obstructors in this goal."""
         return self._obstructor_list
 
-    def get_obstructor_rule(self, target_definition: Dict[str, Any], obstruct_vision: bool = False) -> ObjectRule:
+    def get_obstructor_rule(self, target_definition: Dict[str, Any], obstruct_vision: bool) -> ObjectRule:
         """Returns the rule for any obstructors compatible with this goal."""
-        return ObstructorObjectRule(target_definition = target_definition, obstruct_vision = obstruct_vision, \
+        return self._obstructor_rule(target_definition = target_definition, obstruct_vision = obstruct_vision, \
                 performer_start = self.get_performer_start())
 
     def get_target_list(self) -> List[Dict[str, Any]]:
@@ -457,6 +463,14 @@ class InteractionGoal(Goal, ABC):
     def get_target_rule_list(self) -> List[ObjectRule]:
         """Returns the rules for the targets associated with this goal."""
         return self._target_rule_list
+
+    def set_distractor_rule(self, subclass: Type[ObjectRule]) -> None:
+        """Sets the ObjectRule subclass for creating distractors associated with this goal."""
+        self._distractor_rule = subclass
+
+    def set_wall_target_list(self, target_list: List[Dict[str, Any]]) -> None:
+        """Sets the target for the wall generation function. If set, new walls won't obstruct vision to the target."""
+        self._wall_target_list = target_list
 
     def __generate_object_list(self, object_list: List[Dict[str, Any]], rule_list: List[ObjectRule], \
             target_list: List[Dict[str, Any]], distractor_list: List[Dict[str, Any]]) -> None:
@@ -478,23 +492,23 @@ class InteractionGoal(Goal, ABC):
             object_list.append(object_instance)
             receptacle_instance = None
             if rule.is_position_in_receptacle:
-                receptacle_instance = self.__move_into_receptacle(object_instance, self._performer_start, \
-                        self._bounds_list)
+                receptacle_instance = self.__move_into_receptacle(object_definition, object_instance, \
+                        self._performer_start, self._bounds_list)
             if rule.is_position_on_receptacle:
                 receptacle_instance = self.__move_onto_receptacle(object_instance, self._performer_start, \
                         self._bounds_list)
             if receptacle_instance:
                 distractor_list.append(receptacle_instance)
 
-    def __move_into_receptacle(self, object_instance: Dict[str, Any], performer_start: Dict[str, Dict[str, float]], \
-            bounds_list: List[List[Dict[str, float]]]) -> Dict[str, Any]:
+    def __move_into_receptacle(self, object_definition: Dict[str, Any], object_instance: Dict[str, Any], \
+            performer_start: Dict[str, Dict[str, float]], bounds_list: List[List[Dict[str, float]]]) -> Dict[str, Any]:
         """Create and return a receptacle object, moving the given object into the new receptacle. Will modify
         bounds_list."""
         receptacle = None
         # Only a pickupable object can be positioned inside a receptacle.
         if object_instance.get('pickupable', False):
             # Receptacles that can have objects positioned inside them are sometimes called "containers"
-            receptacle = move_to_container(object_instance, bounds_list, performer_start['position'])
+            receptacle = move_to_container(object_definition, object_instance, bounds_list, performer_start['position'])
         return receptacle
 
     def __move_onto_receptacle(self, object_instance: Dict[str, Any], performer_start: Dict[str, Dict[str, float]], \

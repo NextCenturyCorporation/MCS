@@ -27,7 +27,7 @@ def test_move_to_container():
             obj = instantiate_object(obj_def, geometry.ORIGIN_LOCATION)
             tries = 0
             while tries < 100:
-                container = move_to_container(obj, [], geometry.ORIGIN)
+                container = move_to_container(obj_def, obj, [], geometry.ORIGIN)
                 if container:
                     break
                 tries += 1
