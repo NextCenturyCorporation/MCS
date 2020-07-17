@@ -112,7 +112,7 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
 
         if (((rotation == 0 or rotation == 180) and (new_z < -SAFE_DIST_FROM_ROOM_WALL or new_z > SAFE_DIST_FROM_ROOM_WALL)) or \
             ((rotation == 90 or rotation == 270) and (new_x < -SAFE_DIST_FROM_ROOM_WALL or new_x > SAFE_DIST_FROM_ROOM_WALL))) and \
-           (new_y > 0.5 and new_y + painting_height + 0.03 < SAFE_DIST_FROM_ROOM_WALL): # Don't want painting going thru floor && ceiling
+           (new_y > 0.7 and new_y + painting_height + 0.03 < SAFE_DIST_FROM_ROOM_WALL): # Don't want painting going thru floor && ceiling
 
             """
             cur_painting_obj = dict()
@@ -123,97 +123,68 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
             adj_to_generated_wall = False
             cur_painting_obj = dict()
             if (rotation == 0 or rotation == 180): #Make sure the painting is on the wall, instead of hovering in front of the wall
-                """
-                for wall in generated_wall_rects:  #first check if painting is near any generated wall, that can be placed on
-                    z_list = [coord['z'] for coord in wall['shows'][0]['bounding_box']]
-                    z_list.sort()
-                    
-                    left_z_boundary = z_list[0]#wall['shows'][0]['bounding_box'][2]['z'] #wall['shows'][0]['position']['z']
-                    right_z_boundary = z_list[3]#wall['shows'][0]['bounding_box'][0]['z'] #wall['shows'][0]['position']['z'] +  wall['shows'][0]['scale']['x']
-                    #print("z left bound:", left_z_boundary, " |z right bound:", right_z_boundary)
-                    #print("old z:", wall['shows'][0]['position']['z'])
-                    new_z = wall['shows'][0]['position']['z'] + random.choice([2*WALL_DEPTH, -(2*WALL_DEPTH)])
-                    #print("new z val:", new_z)
-
-                    if (wall['shows'][0]['rotation']['y'] == 0 or wall['shows'][0]['rotation']['y'] == 180) and \
-                        geometry.are_adjacent(wall, cur_painting_obj, 0.3) and \
-                        left_z_boundary <= new_z and right_z_boundary >= new_z: 
-                        adj_to_generated_wall = True
-                        print("GGGGGGGGGGGG")
-                        break
-                """
+                
                 for wall in generated_wall_rects:
-                    x_list = [coord['x'] for coord in wall['shows'][0]['bounding_box']]
-                    x_list.sort()
-                    left_x_boundary = x_list[0]
-                    right_x_boundary = x_list[3] 
+                    if wall['shows'][0]['rotation']['y'] == 0 or wall['shows'][0]['rotation']['y'] == 180:
 
-                    new_z = wall['shows'][0]['position']['z'] + random.choice([2*WALL_DEPTH, -(2*WALL_DEPTH)]) # FIXME Test to see paintings on generated wall
-                    
-                    shows_object = {'bounding_box': geometry.calc_obj_coords(new_x, new_z, new_y, new_x_size, PAINTING_DEPTH, 0, 0, rotation)}
-                    cur_painting_obj['shows'] = [shows_object]
+                        x_list = [coord['x'] for coord in wall['shows'][0]['bounding_box']]
+                        x_list.sort()
+                        left_x_boundary = x_list[0]
+                        right_x_boundary = x_list[3] 
 
-                    painting_x_list = [coord['x'] for coord in cur_painting_obj['shows'][0]['bounding_box']] #boundaries for current painting
-                    painting_x_list.sort()
-                    painting_left_x_boundary = painting_x_list[0]
-                    painting_right_x_boundary = painting_x_list[3]
+                        new_z = wall['shows'][0]['position']['z'] + random.choice([WALL_DEPTH - 0.03, -WALL_DEPTH + 0.03]) # FIXME Test to see paintings on generated wall
+                        
+                        shows_object = {'bounding_box': geometry.calc_obj_coords(new_x, new_z, new_y, new_x_size, PAINTING_DEPTH, 0, 0, rotation)}
+                        cur_painting_obj['shows'] = [shows_object]
+                        
+                        painting_x_list = [coord['x'] for coord in cur_painting_obj['shows'][0]['bounding_box']] #boundaries for current painting
+                        painting_x_list.sort()
+                        painting_left_x_boundary = painting_x_list[0]
+                        painting_right_x_boundary = painting_x_list[3]
 
-                    if (wall['shows'][0]['rotation']['y'] == 0 or wall['shows'][0]['rotation']['y'] == 180) and \
-                        geometry.are_adjacent(wall, cur_painting_obj, 0.5) and \
-                        left_x_boundary <= new_x and right_x_boundary >= new_x: 
-                        adj_to_generated_wall = True
-                        print("GGGGGGGGGGGG")
-                        break
-
+                        if geometry.are_adjacent(wall, cur_painting_obj, 0.1) and \
+                            left_x_boundary <= painting_left_x_boundary and right_x_boundary >= painting_right_x_boundary: 
+                            adj_to_generated_wall = True
+                            print("x left bound:", left_x_boundary, " |x right bound:", right_x_boundary)
+                            print("painting x left:", painting_left_x_boundary, "|painting x right:", painting_right_x_boundary)
+                            print("GGGGGGGGGGGG")
+                            break
 
                 if not adj_to_generated_wall: #Place near 1 of the 4 room walls
                     if new_z < 0:
                         new_z = geometry.ROOM_DIMENSIONS[1][0] - 0.03 
                     else:
                         new_z = geometry.ROOM_DIMENSIONS[1][1] + 0.03 
+
             elif (rotation == 90 or rotation == 270):
-                """
+               
                 for wall in generated_wall_rects:
-                    x_list = [coord['x'] for coord in wall['shows'][0]['bounding_box']]
-                    x_list.sort()
+                    if wall['shows'][0]['rotation']['y'] == 90 or wall['shows'][0]['rotation']['y'] == 270:
 
-                    left_x_boundary = x_list[0] #wall['shows'][0]['bounding_box'][3]['x'] 
-                    right_x_boundary = x_list[3] #wall['shows'][0]['bounding_box'][1]['x'] 
-                    new_x = wall['shows'][0]['position']['x'] + random.choice([2*WALL_DEPTH, -(2*WALL_DEPTH)])
+                        z_list = [coord['z'] for coord in wall['shows'][0]['bounding_box']]
+                        z_list.sort()
+                        left_z_boundary = z_list[0]
+                        right_z_boundary = z_list[3]
 
-                    if (wall['shows'][0]['rotation']['y'] == 90 or wall['shows'][0]['rotation']['y'] == 270) and \
-                        geometry.are_adjacent(wall, cur_painting_obj, 0.3) and \
-                        left_x_boundary <= new_x and right_x_boundary >= new_x: 
-                        adj_to_generated_wall = True
-                        print("GGGGGGGGGGGG22222")
-                        break
-                """
-                for wall in generated_wall_rects:
-                    z_list = [coord['z'] for coord in wall['shows'][0]['bounding_box']]
-                    z_list.sort()
-                    left_z_boundary = z_list[0]
-                    right_z_boundary = z_list[3]
-                    #print("z left bound:", left_z_boundary, " |z right bound:", right_z_boundary)
-                    #print("old z:", wall['shows'][0]['position']['z'])
+                        new_x = wall['shows'][0]['position']['x'] + random.choice([WALL_DEPTH - 0.03, -WALL_DEPTH + 0.03]) # FIXME Test to see paintings on generated wall
+                        
+                        shows_object = {'bounding_box': geometry.calc_obj_coords(new_x, new_z, new_y, new_x_size, PAINTING_DEPTH, 0, 0, rotation)}
+                        cur_painting_obj['shows'] = [shows_object]
+                        
+                        painting_z_list = [coord['z'] for coord in cur_painting_obj['shows'][0]['bounding_box']] # boundaries for current painting
+                        painting_z_list.sort()
+                        painting_left_z_boundary = painting_z_list[0]
+                        painting_right_z_boundary = painting_z_list[3]
+                        
+                        #print("old z:", wall['shows'][0]['position']['z'])
 
-                    new_x = wall['shows'][0]['position']['x'] + random.choice([2*WALL_DEPTH, -(2*WALL_DEPTH)]) # FIXME Test to see paintings on generated wall
-                    
-                    shows_object = {'bounding_box': geometry.calc_obj_coords(new_x, new_z, new_y, new_x_size, PAINTING_DEPTH, 0, 0, rotation)}
-                    cur_painting_obj['shows'] = [shows_object]
-
-                    painting_z_list = [coord['z'] for coord in cur_painting_obj['shows'][0]['bounding_box']] # boundaries for current painting
-                    painting_x_list.sort()
-                    painting_left_z_boundary = painting_z_list[0]
-                    painting_right_z_boundary = painting_z_list[3]
-
-
-                    if (wall['shows'][0]['rotation']['y'] == 90 or wall['shows'][0]['rotation']['y'] == 270) and \
-                        geometry.are_adjacent(wall, cur_painting_obj, 0.5) and \
-                        left_z_boundary <= new_z and right_z_boundary >= new_z: 
-                        adj_to_generated_wall = True
-                        print("GGGGGGGGGGGG22222")
-                        break
-
+                        if geometry.are_adjacent(wall, cur_painting_obj, 0.1) and \
+                            left_z_boundary <= painting_left_z_boundary and right_z_boundary >= painting_right_z_boundary: 
+                            adj_to_generated_wall = True
+                            print("z left bound:", left_z_boundary, " |z right bound:", right_z_boundary)
+                            print("painting z left:", painting_left_z_boundary, "|painting z right:", painting_right_z_boundary)
+                            print("GGGGGGGGGGGG22222")
+                            break
                 
                 if not adj_to_generated_wall:
                     if new_x < 0:
@@ -226,7 +197,8 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
             painting_poly = geometry.rect_to_poly(rect)
 
             if adj_to_generated_wall: # FIXME Testing
-                print(not painting_poly.intersects(performer_poly))
+                print("poly intersects:",not painting_poly.intersects(performer_poly))
+                print("other rects intersects:", (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)))
 
             if not painting_poly.intersects(performer_poly) and \
                     (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)): 
@@ -279,8 +251,8 @@ class Goal(ABC):
         body['performerStart'] = self._performer_start
         walls = self.generate_walls(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], bounding_rects)
         #print("walls: ", walls)
-        for wall in walls:
-            bounding_rects.append(wall['shows'][0]['bounding_box'])
+        #for wall in walls: # DO NOT NEED B/C WALLS ALREADY NOT
+            #bounding_rects.append(wall['shows'][0]['bounding_box'])
 
         paintings = self.generate_paintings(body['paintingMaterial'], body['paintingColors'], body['performerStart']['position'], bounding_rects, walls)
         #print("paintings: ", paintings)
