@@ -1036,7 +1036,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "y": 0.055,
         "z": -0.002
     },
-    "position_y": 0.005,
+    "position_y": 0.01,
     "scale": {
         "x": 1,
         "y": 1,
@@ -1066,7 +1066,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "y": 0.027,
         "z": 0
     },
-    "position_y": 0.005,
+    "position_y": 0.01,
     "scale": {
         "x": 1,
         "y": 1,
@@ -1096,7 +1096,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "y": 0.052,
         "z": 0
     },
-    "position_y": 0.005,
+    "position_y": 0.01,
     "scale": {
         "x": 1,
         "y": 1,
@@ -1126,7 +1126,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "y": 0.064,
         "z": 0
     },
-    "position_y": 0.005,
+    "position_y": 0.01,
     "scale": {
         "x": 1,
         "y": 1,
@@ -1156,7 +1156,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "y": 0.072,
         "z": 0
     },
-    "position_y": 0.005,
+    "position_y": 0.01,
     "scale": {
         "x": 1,
         "y": 1,
@@ -1186,7 +1186,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "y": 0.046,
         "z": 0
     },
-    "position_y": 0.005,
+    "position_y": 0.01,
     "scale": {
         "x": 1,
         "y": 1,
@@ -1216,7 +1216,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "y": 0.057,
         "z": 0
     },
-    "position_y": 0.005,
+    "position_y": 0.01,
     "scale": {
         "x": 1,
         "y": 1,
@@ -1246,7 +1246,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "y": 0.098,
         "z": 0
     },
-    "position_y": 0.005,
+    "position_y": 0.01,
     "scale": {
         "x": 1,
         "y": 1,
@@ -1276,7 +1276,7 @@ OBJECTS_PICKUPABLE_MISC = [{
         "y": 0.053,
         "z": 0
     },
-    "position_y": 0.005,
+    "position_y": 0.01,
     "scale": {
         "x": 1,
         "y": 1,
