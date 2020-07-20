@@ -14,6 +14,7 @@ import geometry
 import goals
 from interaction_goals import DistractorObjectRule, InteractionGoal, ObjectRule
 import objects
+import tags
 import util
 
 
@@ -114,80 +115,72 @@ class InteractionPair():
         """Return both scenes of this pair."""
         return self._scene_1, self._scene_2
 
-    def _get_both_goal_type_list(self, options: SceneOptions, number: int, \
+    def _get_both_goal_type_list(self, options: SceneOptions, prefix: str, \
             is_true_func: Callable[[BoolPairOption], bool]) -> List[str]:
         """Return the type list for a goal using the given scene options."""
 
         type_list = [self.get_name()]
-
-        if is_true_func(options.target_containerize):
-            type_list.append(f'pair scene {number} target is hidden inside receptacle')
-        else:
-            type_list.append(f'pair scene {number} target isn\'t hidden inside receptacle')
+        type_list.append(f'{prefix} target {tags.get_containerize_tag(is_true_func(options.target_containerize))}')
+        type_list.append(f'{prefix} confusor {tags.get_exists_tag(is_true_func(options.confusor))}')
 
         if is_true_func(options.confusor):
-            type_list.append(f'pair scene {number} confusor does exist')
-            if is_true_func(options.confusor_containerize):
-                type_list.append(f'pair scene {number} confusor is hidden inside receptacle')
-            else:
-                type_list.append(f'pair scene {number} confusor isn\'t hidden inside receptacle')
-        else:
-            type_list.append(f'pair scene {number} confusor doesn\'t exist')
+            type_list.append( \
+                    f'{prefix} confusor {tags.get_containerize_tag(is_true_func(options.confusor_containerize))}')
 
         return type_list
 
     def _get_goal_type_list_1(self, options: SceneOptions) -> List[str]:
         """Return the type list for goal 1 using the given scene options."""
 
-        type_list = self._get_both_goal_type_list(options, 1, self._is_true_goal_1)
+        prefix = 'pair scene 1'
+        type_list = self._get_both_goal_type_list(options, prefix, self._is_true_goal_1)
 
         if options.target_location == TargetLocationPairOption.FRONT_BACK or \
                 options.target_location == TargetLocationPairOption.FRONT_FRONT:
-            type_list.append('pair scene 1 target location in front of performer start')
+            type_list.append(f'{prefix} target {tags.OBJECT_LOCATION_FRONT}')
         else:
-            type_list.append('pair scene 1 target location random')
+            type_list.append(f'{prefix} target {tags.OBJECT_LOCATION_RANDOM}')
 
         if self._is_true_goal_1(options.confusor):
             if options.confusor_location == ConfusorLocationPairOption.BACK_FRONT:
-                type_list.append('pair scene 1 confusor location in back of performer start')
+                type_list.append(f'{prefix} confusor {tags.OBJECT_LOCATION_BACK}')
             elif options.confusor_location == ConfusorLocationPairOption.CLOSE_CLOSE or \
                     options.confusor_location == ConfusorLocationPairOption.CLOSE_FAR:
-                type_list.append('pair scene 1 confusor location very close to target')
+                type_list.append(f'{prefix} confusor {tags.OBJECT_LOCATION_CLOSE}')
 
-        type_list.append(f'pair scene 1 obstructor doesn\'t exist')
+        type_list.append(f'{prefix} obstructor {tags.get_exists_tag(False)}')
 
         return type_list
 
     def _get_goal_type_list_2(self, options: SceneOptions) -> List[str]:
         """Return the type list for goal 2 using the given scene options."""
 
-        type_list = self._get_both_goal_type_list(options, 2, self._is_true_goal_2)
+        prefix = 'pair scene 2'
+        type_list = self._get_both_goal_type_list(options, prefix, self._is_true_goal_2)
 
         if options.target_location == TargetLocationPairOption.FRONT_BACK:
-            type_list.append('pair scene 2 target location in back of performer start')
+            type_list.append(f'{prefix} target {tags.OBJECT_LOCATION_BACK}')
         elif options.target_location == TargetLocationPairOption.FRONT_FRONT:
-            type_list.append('pair scene 2 target location in front of performer start')
+            type_list.append(f'{prefix} target {tags.OBJECT_LOCATION_FRONT}')
         else:
-            type_list.append('pair scene 2 target location random')
+            type_list.append(f'{prefix} target {tags.OBJECT_LOCATION_RANDOM}')
 
         if self._is_true_goal_2(options.confusor):
             if options.confusor_location == ConfusorLocationPairOption.BACK_FRONT:
-                type_list.append('pair scene 2 confusor location in front of performer start')
+                type_list.append(f'{prefix} confusor {tags.OBJECT_LOCATION_FRONT}')
             elif options.confusor_location == ConfusorLocationPairOption.CLOSE_CLOSE or \
                     options.confusor_location == ConfusorLocationPairOption.NONE_CLOSE:
-                type_list.append('pair scene 2 confusor location very close to target')
+                type_list.append(f'{prefix} confusor {tags.OBJECT_LOCATION_CLOSE}')
             elif options.confusor_location == ConfusorLocationPairOption.CLOSE_FAR or \
                     options.confusor_location == ConfusorLocationPairOption.NONE_FAR:
-                type_list.append('pair scene 2 confusor location far away from target')
+                type_list.append(f'{prefix} confusor {tags.OBJECT_LOCATION_FAR}')
 
-        if options.obstructor == ObstructorPairOption.NONE_NONE:
-            type_list.append(f'pair scene 2 obstructor doesn\'t exist')
-        else:
-            type_list.append(f'pair scene 2 obstructor does exist')
-            if options.obstructor == ObstructorPairOption.NONE_VISION:
-                type_list.append(f'pair scene 2 obstructor does obstruct vision')
-            else:
-                type_list.append(f'pair scene 2 obstructor doesn\'t obstruct vision')
+        type_list.append( \
+                f'{prefix} obstructor {tags.get_exists_tag(options.obstructor != ObstructorPairOption.NONE_NONE)}')
+
+        if options.obstructor != ObstructorPairOption.NONE_NONE:
+            obstruct_vision = (tags.get_obstruct_vision_tag(options.obstructor == ObstructorPairOption.NONE_VISION))
+            type_list.append(f'{prefix} obstructor {obstruct_vision}')
 
         return type_list
 

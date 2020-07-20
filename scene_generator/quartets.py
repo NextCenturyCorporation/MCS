@@ -9,6 +9,7 @@ import goal
 import intphys_goals
 import objects
 import ramps
+import tags
 import util
 
 
@@ -89,20 +90,20 @@ class ObjectPermanenceQuartet(Quartet):
             return self._scenes[q - 1]
         scene = copy.deepcopy(self._scene_template)
         if q == 1:
-            scene['goal']['type_list'].append('object permanence show object')
+            scene['goal']['type_list'].append(tags.INTPHYS_OBJECT_PERMANENCE_Q1)
         elif q == 2:
             # target moves behind occluder and disappears (implausible)
-            scene['answer']['choice'] = 'implausible'
-            scene['goal']['type_list'].append('object permanence show then hide object')
+            scene['answer']['choice'] = intphys_goals.IntPhysGoal.IMPLAUSIBLE
+            scene['goal']['type_list'].append(tags.INTPHYS_OBJECT_PERMANENCE_Q2)
             self._disappear_behind_occluder(scene)
         elif q == 3:
             # target first appears from behind occluder (implausible)
-            scene['answer']['choice'] = 'implausible'
-            scene['goal']['type_list'].append('object permanence hide then show object')
+            scene['answer']['choice'] = intphys_goals.IntPhysGoal.IMPLAUSIBLE
+            scene['goal']['type_list'].append(tags.INTPHYS_OBJECT_PERMANENCE_Q3)
             self._appear_behind_occluder(scene)
         elif q == 4:
             # target not in the scene (plausible)
-            scene['goal']['type_list'].append('object permanence hide object')
+            scene['goal']['type_list'].append(tags.INTPHYS_OBJECT_PERMANENCE_Q4)
             target_id = self._goal._tag_to_objects['target'][0]['id']
             for i in range(len(scene['objects'])):
                 obj = scene['objects'][i]
@@ -186,7 +187,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
                     'stepBegin': target['shows'][0]['stepBegin'] + destination_index + 1,
                     'position': position
                 })
-                scene['goal']['type_list'].append('teleport_delayed')
+                scene['goal']['type_list'].append(tags.INTPHYS_TELEPORT_DELAYED)
             else:
                 # teleport the target
                 target['teleports'] = [{
@@ -194,7 +195,7 @@ class SpatioTemporalContinuityQuartet(Quartet):
                     'stepEnd': implausible_event_step,
                     'position': position
                 }]
-                scene['goal']['type_list'].append('teleport_instantaneous')
+                scene['goal']['type_list'].append(tags.INTPHYS_TELEPORT_INSTANTANEOUS)
 
         elif self._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_falling_down:
             # 8 is enough for it to fall to the ground
@@ -316,17 +317,17 @@ class SpatioTemporalContinuityQuartet(Quartet):
             return self._scenes[q - 1]
         scene = copy.deepcopy(self._scene_template)
         if q == 1:
-            scene['goal']['type_list'].append('spatio temporal continuity move earlier')
+            scene['goal']['type_list'].append(tags.INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q1)
         elif q == 2:
-            scene['answer']['choice'] = 'implausible'
-            scene['goal']['type_list'].append('spatio temporal continuity teleport forward')
+            scene['answer']['choice'] = intphys_goals.IntPhysGoal.IMPLAUSIBLE
+            scene['goal']['type_list'].append(tags.INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q2)
             self._teleport_forward(scene)
         elif q == 3:
-            scene['answer']['choice'] = 'implausible'
-            scene['goal']['type_list'].append('spatio temporal continuity teleport backward')
+            scene['answer']['choice'] = intphys_goals.IntPhysGoal.IMPLAUSIBLE
+            scene['goal']['type_list'].append(tags.INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q3)
             self._teleport_backward(scene)
         elif q == 4:
-            scene['goal']['type_list'].append('spatio temporal continuity move later')
+            scene['goal']['type_list'].append(tags.INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q4)
             self._move_later(scene)
         self._scenes[q - 1] = scene
         return scene
@@ -430,29 +431,30 @@ class ShapeConstancyQuartet(Quartet):
             return self._scenes[q - 1]
         scene = copy.deepcopy(self._scene_template)
         if q == 1:
-            scene['goal']['type_list'].append('shape constancy object one')
+            scene['goal']['type_list'].append(tags.INTPHYS_SHAPE_CONSTANCY_Q1)
         elif q == 2:
             # Object A moves behind an occluder, then object B emerges
             # from behind the occluder (implausible)
-            scene['answer']['choice'] = 'implausible'
-            scene['goal']['type_list'].append('shape constancy object one into two')
+            scene['answer']['choice'] = intphys_goals.IntPhysGoal.IMPLAUSIBLE
+            scene['goal']['type_list'].append(tags.INTPHYS_SHAPE_CONSTANCY_Q2)
             self._turn_a_into_b(scene)
         elif q == 3:
             # Object B moves behind an occluder (replacing object A's
             # movement), then object A emerges from behind the
             # occluder (implausible)
-            scene['answer']['choice'] = 'implausible'
-            scene['goal']['type_list'].append('shape constancy object two into one')
+            scene['answer']['choice'] = intphys_goals.IntPhysGoal.IMPLAUSIBLE
+            scene['goal']['type_list'].append(tags.INTPHYS_SHAPE_CONSTANCY_Q3)
             self._turn_b_into_a(scene)
         elif q == 4:
             # Object B moves normally (replacing object A's movement),
             # object A is never added to the scene (plausible)
-            scene['goal']['type_list'].append('shape constancy object two')
+            scene['goal']['type_list'].append(tags.INTPHYS_SHAPE_CONSTANCY_Q4)
             self._b_replaces_a(scene)
         # May have added and/or deleted an object, so regenerate
         # goal.info_list
         del scene['goal']['info_list']
-        self._goal._update_goal_info_list(scene['goal'], self._goal._tag_to_objects)
+        scene['info_list'] = self._goal.update_goal_info_list(scene['goal'].get('info_list', []), \
+                self._goal._tag_to_objects)
         self._scenes[q - 1] = scene
         logging.debug(f'get_scene: q={q}\thides? {scene["objects"][0].get("hides", None)}')
         return scene
@@ -504,7 +506,7 @@ class GravityQuartet(Quartet):
             # all the 'position_by_step' values for the slow speed to
             # get the top-of-ramp value.
         if q == 3 or q == 4:
-            scene['answer']['choice'] = 'implausible'
+            scene['answer']['choice'] = intphys_goals.IntPhysGoal.IMPLAUSIBLE
             _, top_offset = self._get_ramp_offsets()
             logging.debug(f'top_offset={top_offset}')
             implausible_x_start = target['intphys_option']['ramp_x_term'] + top_offset
@@ -520,29 +522,29 @@ class GravityQuartet(Quartet):
             target['forces'][0]['stepEnd'] = implausible_step - 1
 
         if q == 1:
-            scene['goal']['type_list'].append('gravity ramp fast further')
+            scene['goal']['type_list'].append(tags.INTPHYS_GRAVITY_TRAJECTORY_Q1)
         elif q == 2:
-            scene['goal']['type_list'].append('gravity ramp slow shorter')
+            scene['goal']['type_list'].append(tags.INTPHYS_GRAVITY_TRAJECTORY_Q2)
         elif q == 3:
-            scene['goal']['type_list'].append('gravity ramp fast shorter')
+            scene['goal']['type_list'].append(tags.INTPHYS_GRAVITY_TRAJECTORY_Q3)
         elif q == 4:
-            scene['goal']['type_list'].append('gravity ramp slow further')
+            scene['goal']['type_list'].append(tags.INTPHYS_GRAVITY_TRAJECTORY_Q4)
 
         return scene
 
     def _get_gentle_scene(self, scene: Dict[str, Any], q: int) -> Dict[str, Any]:
         if q == 1:
-            scene['goal']['type_list'].append('gravity ramp up slower')
+            scene['goal']['type_list'].append(tags.INTPHYS_GRAVITY_ACCELERATION_Q1)
         elif q == 2:
-            scene['goal']['type_list'].append('gravity ramp down faster')
+            scene['goal']['type_list'].append(tags.INTPHYS_GRAVITY_ACCELERATION_Q2)
             self._make_roll_down(scene)
         elif q == 3:
-            scene['answer']['choice'] = 'implausible'
-            scene['goal']['type_list'].append('gravity ramp up faster')
+            scene['answer']['choice'] = intphys_goals.IntPhysGoal.IMPLAUSIBLE
+            scene['goal']['type_list'].append(tags.INTPHYS_GRAVITY_ACCELERATION_Q3)
             self._make_object_faster(scene)
         elif q == 4:
-            scene['answer']['choice'] = 'implausible'
-            scene['goal']['type_list'].append('gravity ramp down slower')
+            scene['answer']['choice'] = intphys_goals.IntPhysGoal.IMPLAUSIBLE
+            scene['goal']['type_list'].append(tags.INTPHYS_GRAVITY_ACCELERATION_Q4)
             self._make_roll_down(scene)
             self._make_object_slower(scene)
         return scene
