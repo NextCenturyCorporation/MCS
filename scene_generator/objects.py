@@ -1290,6 +1290,7 @@ OBJECTS_PICKUPABLE_MISC = [{
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosed_areas": [{
+        "id": "",
         "position": {
             "x": 0 * 1.25,
             "y": -0.075 * 0.75,
@@ -1335,6 +1336,7 @@ OBJECTS_PICKUPABLE_MISC = [{
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosed_areas": [{
+        "id": "",
         "position": {
             "x": 0 * 0.75,
             "y": -0.075 * 0.75,
@@ -1380,6 +1382,7 @@ OBJECTS_PICKUPABLE_MISC = [{
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosed_areas": [{
+        "id": "",
         "position": {
             "x": 0,
             "y": -0.117 * 0.5,
@@ -1425,6 +1428,7 @@ OBJECTS_PICKUPABLE_MISC = [{
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosed_areas": [{
+        "id": "",
         "position": {
             "x": 0,
             "y": -0.117 * 0.5,
@@ -1472,6 +1476,7 @@ OBJECTS_PICKUPABLE_MISC = [{
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosed_areas": [{
+        "id": "",
         "position": {
             "x": 0,
             "y": -0.125 * 0.5,
@@ -1519,6 +1524,7 @@ OBJECTS_PICKUPABLE_MISC = [{
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosed_areas": [{
+        "id": "",
         "position": {
             "x": 0,
             "y": -0.125 * 0.5,
@@ -1581,6 +1587,19 @@ OBJECTS_MOVEABLE = [{
         "salientMaterials": ["metal"]
     }],
     "attributes": ["moveable", "receptacle", "stackTarget"],
+    "open_areas": [{
+        "id": "",
+        "position": {
+            "x": 0.01,
+            "y": 0.5,
+            "z": -0.02
+        },
+        "dimensions": {
+            "x": 0.38,
+            "y": 0,
+            "z": 0.38
+        }
+    }],
     "dimensions": {
         "x": 0.54,
         "y": 1.04,
@@ -1617,6 +1636,19 @@ OBJECTS_MOVEABLE = [{
         "salientMaterials": ["metal"]
     }],
     "attributes": ["moveable", "receptacle", "stackTarget"],
+    "open_areas": [{
+        "id": "",
+        "position": {
+            "x": 0.01 * 0.5,
+            "y": 0.5 * 0.5,
+            "z": -0.02 * 0.5
+        },
+        "dimensions": {
+            "x": 0.38 * 0.5,
+            "y": 0,
+            "z": 0.38 * 0.5
+        }
+    }],
     "dimensions": {
         "x": 0.54 * 0.5,
         "y": 1.04 * 0.5,
@@ -1653,6 +1685,19 @@ OBJECTS_MOVEABLE = [{
         "salientMaterials": ["wood"]
     }],
     "attributes": ["moveable", "receptacle", "stackTarget"],
+    "open_areas": [{
+        "id": "",
+        "position": {
+            "x": 0,
+            "y": 0.75,
+            "z": 0
+        },
+        "dimensions": {
+            "x": 0.2,
+            "y": 0,
+            "z": 0.2
+        }
+    }],
     "dimensions": {
         "x": 0.3,
         "y": 0.75,
@@ -1689,6 +1734,19 @@ OBJECTS_MOVEABLE = [{
         "salientMaterials": ["wood"]
     }],
     "attributes": ["moveable", "receptacle", "stackTarget"],
+    "open_areas": [{
+        "id": "",
+        "position": {
+            "x": 0,
+            "y": 0.75 * 0.5,
+            "z": 0
+        },
+        "dimensions": {
+            "x": 0.2 * 0.5,
+            "y": 0,
+            "z": 0.2 * 0.5
+        }
+    }],
     "dimensions": {
         "x": 0.3 * 0.5,
         "y": 0.75 * 0.5,
@@ -1776,6 +1834,7 @@ OBJECTS_MOVEABLE = [{
         "mass": 1,
         "salientMaterials": ["paper"],
         "enclosed_areas": [{
+            "id": "",
             "position": {
                 "x": 0 * 1.25,
                 "y": -0.075 * 1.25,
@@ -1818,6 +1877,7 @@ OBJECTS_MOVEABLE = [{
         "mass": 3,
         "salientMaterials": ["paper"],
         "enclosed_areas": [{
+            "id": "",
             "position": {
                 "x": 0 * 1.75,
                 "y": -0.075 * 1.75,
@@ -1865,6 +1925,7 @@ OBJECTS_MOVEABLE = [{
         "mass": 1,
         "salientMaterials": ["paper"],
         "enclosed_areas": [{
+            "id": "",
             "position": {
                 "x": 0,
                 "y": -0.117,
@@ -1907,6 +1968,7 @@ OBJECTS_MOVEABLE = [{
         "mass": 3,
         "salientMaterials": ["paper"],
         "enclosed_areas": [{
+            "id": "",
             "position": {
                 "x": 0,
                 "y": -0.117,
@@ -1956,6 +2018,7 @@ OBJECTS_MOVEABLE = [{
         "mass": 1,
         "salientMaterials": ["paper"],
         "enclosed_areas": [{
+            "id": "",
             "position": {
                 "x": 0,
                 "y": -0.125,
@@ -1998,6 +2061,7 @@ OBJECTS_MOVEABLE = [{
         "mass": 0.25,
         "salientMaterials": ["paper"],
         "enclosed_areas": [{
+            "id": "",
             "position": {
                 "x": 0,
                 "y": -0.125,
@@ -2276,6 +2340,7 @@ OBJECTS_IMMOBILE = [{
     "attributes": ["receptacle", "openable"],
     "enclosed_areas": [{
 # Remove the top drawer for now.
+#        "id": "_drawer_top",
 #        "position": {
 #            "x": 0.165,
 #            "y": 0.47,
@@ -2287,6 +2352,7 @@ OBJECTS_IMMOBILE = [{
 #            "z": 0.41
 #            }
 #    }, {
+        "id": "_drawer_bottom",
         "position": {
             "x": 0.165,
             "y": 0.19,
@@ -2299,7 +2365,54 @@ OBJECTS_IMMOBILE = [{
         }
     }],
     "open_areas": [
-        # TODO
+# Remove the top shelves for now.
+#        "id": "",
+#        "position": {
+#            "x": 0,
+#            "y": 0.85,
+#            "z": 0
+#        },
+#        "dimensions": {
+#            "x": 1,
+#            "y": 0,
+#            "z": 0.55
+#            }
+#    }, {
+#        "id": "_shelf_top",
+#        "position": {
+#            "x": -0.01,
+#            "y": 0.725,
+#            "z": -0.05
+#        },
+#        "dimensions": {
+#            "x": 1.05,
+#            "y": 0.2,
+#            "z": 0.44
+#            }
+#    }, {
+#        "id": "_shelf_middle",
+#        "position": {
+#            "x": -0.375,
+#            "y": 0.475,
+#            "z": -0.05
+#        },
+#        "dimensions": {
+#            "x": 0.32,
+#            "y": 0.25,
+#            "z": 0.44
+#            }
+#    }, {
+        "id": "_shelf_bottom",
+        "position": {
+            "x": -0.375,
+            "y": 0.2,
+            "z": -0.05
+        },
+        "dimensions": {
+            "x": 0.32,
+            "y": 0.25,
+            "z": 0.44
+        }
     ],
     "dimensions": {
         "x": 1.1,
@@ -2317,8 +2430,8 @@ OBJECTS_IMMOBILE = [{
         "z": 0.58
     },
     "closed_offset": {
-        "x": 1.1,
-        "y": 0.96,
+        "x": -0.01,
+        "y": 0.48,
         "z": 0
     },
     "position_y": 0,
@@ -2357,22 +2470,33 @@ OBJECTS_IMMOBILE = [{
         "mass": 5,
         "materialCategory": ["wood", "wood"],
         "salientMaterials": ["wood"],
-        "open_areas": [
-            # TODO
-        ],
+# Remove for now because it's too high up.
+#        "open_areas": [{
+#            "id": "",
+#            "position": {
+#                "x": 0.065 * 1.175,
+#                "y": 0.88,
+#                "z": -0.07
+#            },
+#            "dimensions": {
+#                "x": 0.68 * 1.175,
+#                "y": 0,
+#                "z": 1.62
+#            }
+#        }],
         "dimensions": {
-            "x": 0.69,
+            "x": 0.69 * 1.175,
             "y": 0.88,
             "z": 1.63
         },
         "offset": {
-            "x": 0.067,
+            "x": 0.067 * 1.175,
             "y": 0.44,
             "z": -0.07
         },
         "position_y": 0,
         "scale": {
-            "x": 1,
+            "x": 1.175,
             "y": 1,
             "z": 1
         }
@@ -2380,16 +2504,27 @@ OBJECTS_IMMOBILE = [{
         "mass": 10,
         "materialCategory": ["wood", "wood"],
         "salientMaterials": ["wood"],
-        "open_areas": [
-            # TODO
-        ],
+# Remove for now because it's too high up.
+#        "open_areas": [{
+#            "id": "",
+#            "position": {
+#                "x": 0.065 * 2.35,
+#                "y": 0.88,
+#                "z": -0.07
+#            },
+#            "dimensions": {
+#                "x": 0.68 * 2.35,
+#                "y": 0,
+#                "z": 1.62
+#            }
+#        }],
         "dimensions": {
-            "x": 1.6215,
+            "x": 0.69 * 2.35,
             "y": 0.88,
             "z": 1.63
         },
         "offset": {
-            "x": 0.15745,
+            "x": 0.067 * 2.35,
             "y": 0.44,
             "z": -0.07
         },
@@ -2404,46 +2539,67 @@ OBJECTS_IMMOBILE = [{
         "mass": 2.5,
         "materialCategory": ["wood", "wood"],
         "salientMaterials": ["wood"],
-        "open_areas": [
-            # TODO
-        ],
+        "open_areas": [{
+            "id": "",
+            "position": {
+                "x": 0.065 * 0.5875,
+                "y": 0.88 * 0.5,
+                "z": -0.07 * 0.25
+            },
+            "dimensions": {
+                "x": 0.68 * 0.5875,
+                "y": 0,
+                "z": 1.62 * 0.25
+            }
+        }],
         "dimensions": {
-            "x": 0.69,
+            "x": 0.69 * 0.5875,
             "y": 0.88 * 0.5,
-            "z": 1.63
+            "z": 1.63 * 0.25
         },
         "offset": {
-            "x": 0.067,
+            "x": 0.067 * 0.5875,
             "y": 0.44 * 0.5,
-            "z": -0.07
+            "z": -0.07 * 0.25
         },
         "position_y": 0,
         "scale": {
-            "x": 1,
+            "x": 0.5875,
             "y": 0.5,
-            "z": 1
+            "z": 0.25
         }
     }, {
         "novel_combination": True,
         "mass": 10,
         "materialCategory": ["metal", "metal"],
         "salientMaterials": ["metal"],
-        "open_areas": [
-            # TODO
-        ],
+# Remove for now because it's too high up.
+#        "open_areas": [{
+#            "id": "",
+#            "position": {
+#                "x": 0.065 * 1.175,
+#                "y": 0.88,
+#                "z": -0.07
+#            },
+#            "dimensions": {
+#                "x": 0.68 * 1.175,
+#                "y": 0,
+#                "z": 1.62
+#            }
+#        }],
         "dimensions": {
-            "x": 0.69,
+            "x": 0.69 * 1.175,
             "y": 0.88,
             "z": 1.63
         },
         "offset": {
-            "x": 0.067,
+            "x": 0.067 * 1.175,
             "y": 0.44,
             "z": -0.07
         },
         "position_y": 0,
         "scale": {
-            "x": 1,
+            "x": 1.175,
             "y": 1,
             "z": 1
         }
@@ -2452,16 +2608,27 @@ OBJECTS_IMMOBILE = [{
         "mass": 20,
         "materialCategory": ["metal", "metal"],
         "salientMaterials": ["metal"],
-        "open_areas": [
-            # TODO
-        ],
+# Remove for now because it's too high up.
+#        "open_areas": [{
+#            "id": "",
+#            "position": {
+#                "x": 0.065 * 2.35,
+#                "y": 0.88,
+#                "z": -0.07
+#            },
+#            "dimensions": {
+#                "x": 0.68 * 2.35,
+#                "y": 0,
+#                "z": 1.62
+#            }
+#        }],
         "dimensions": {
-            "x": 1.6215,
+            "x": 0.69 * 2.35,
             "y": 0.88,
             "z": 1.63
         },
         "offset": {
-            "x": 0.15745,
+            "x": 0.067 * 2.35,
             "y": 0.44,
             "z": -0.07
         },
@@ -2477,24 +2644,34 @@ OBJECTS_IMMOBILE = [{
         "mass": 5,
         "materialCategory": ["metal", "metal"],
         "salientMaterials": ["metal"],
-        "open_areas": [
-            # TODO
-        ],
+        "open_areas": [{
+            "id": "",
+            "position": {
+                "x": 0.065 * 0.5875,
+                "y": 0.88 * 0.5,
+                "z": -0.07 * 0.25
+            },
+            "dimensions": {
+                "x": 0.68 * 0.5875,
+                "y": 0,
+                "z": 1.62 * 0.25
+            }
+        }],
         "dimensions": {
-            "x": 0.69,
+            "x": 0.69 * 0.5875,
             "y": 0.88 * 0.5,
-            "z": 1.63
+            "z": 1.63 * 0.25
         },
         "offset": {
-            "x": 0.067,
+            "x": 0.067 * 0.5875,
             "y": 0.44 * 0.5,
-            "z": -0.07
+            "z": -0.07 * 0.25
         },
         "position_y": 0,
         "scale": {
-            "x": 1,
+            "x": 0.5875,
             "y": 0.5,
-            "z": 1
+            "z": 0.25
         }
     }]
 }, {
@@ -2507,9 +2684,20 @@ OBJECTS_IMMOBILE = [{
         "mass": 2,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"],
-        "open_areas": [
-            # TODO
-        ],
+# Remove for now because it's too high up.
+#        "open_areas": [{
+#            "id": "",
+#            "position": {
+#                "x": 0,
+#                "y": 0.84,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 0.4,
+#                "y": 0,
+#                "z": 0.4
+#            }
+#        }],
         "dimensions": {
             "x": 0.573,
             "y": 1.018,
@@ -2531,9 +2719,19 @@ OBJECTS_IMMOBILE = [{
         "mass": 1,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"],
-        "open_areas": [
-            # TODO
-        ],
+        "open_areas": [{
+            "id": "",
+            "position": {
+                "x": 0,
+                "y": 0.84 * 0.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.4,
+                "y": 0,
+                "z": 0.4
+            }
+        }],
         "dimensions": {
             "x": 0.573,
             "y": 1.018 * 0.5,
@@ -2555,9 +2753,20 @@ OBJECTS_IMMOBILE = [{
         "mass": 4,
         "materialCategory": ["metal"],
         "salientMaterials": ["metal"],
-        "open_areas": [
-            # TODO
-        ],
+# Remove for now because it's too high up.
+#        "open_areas": [{
+#            "id": "",
+#            "position": {
+#                "x": 0,
+#                "y": 0.84,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 0.4,
+#                "y": 0,
+#                "z": 0.4
+#            }
+#        }],
         "dimensions": {
             "x": 0.573,
             "y": 1.018,
@@ -2579,9 +2788,19 @@ OBJECTS_IMMOBILE = [{
         "mass": 2,
         "materialCategory": ["metal"],
         "salientMaterials": ["metal"],
-        "open_areas": [
-            # TODO
-        ],
+        "open_areas": [{
+            "id": "",
+            "position": {
+                "x": 0,
+                "y": 0.84 * 0.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.4,
+                "y": 0,
+                "z": 0.4
+            }
+        }],
         "dimensions": {
             "x": 0.573,
             "y": 1.018 * 0.5,
@@ -2608,13 +2827,59 @@ OBJECTS_IMMOBILE = [{
         "mass": 20,
         "materialCategory": ["wood", "wood"],
         "salientMaterials": ["wood"],
-        "open_areas": [
-            # TODO
-        ],
+# Remove for now because it's too high up.
+#        "open_areas": [{
+#            "id": "",
+#            "position": {
+#                "x": -0.18 * 0.5,
+#                "y": 0.7,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 1.2 * 0.5,
+#                "y": 0,
+#                "z": 0.9 * 0.667
+#            }
+#        }],
+        "dimensions": {
+            "x": 1.2 * 0.5,
+            "y": 0.7,
+            "z": 0.9 * 0.667
+        },
+        "offset": {
+            "x": -0.18 * 0.5,
+            "y": 0.35,
+            "z": 0
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 0.5,
+            "y": 1,
+            "z": 0.667
+        }
+    }, {
+        "attributes": ["receptacle", "stackTarget"],
+        "mass": 10,
+        "materialCategory": ["wood", "wood"],
+        "salientMaterials": ["wood"],
+# Remove for now because it's too high up.
+#        "open_areas": [{
+#            "id": "",
+#            "position": {
+#                "x": -0.18,
+#                "y": 0.7,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 1.2,
+#                "y": 0,
+#                "z": 0.9 * 0.667
+#            }
+#        }],
         "dimensions": {
             "x": 1.2,
             "y": 0.7,
-            "z": 1.9
+            "z": 0.9 * 0.667
         },
         "offset": {
             "x": -0.18,
@@ -2625,31 +2890,41 @@ OBJECTS_IMMOBILE = [{
         "scale": {
             "x": 1,
             "y": 1,
-            "z": 1
+            "z": 0.667
         }
     }, {
         "attributes": ["receptacle", "stackTarget"],
         "mass": 10,
         "materialCategory": ["wood", "wood"],
         "salientMaterials": ["wood"],
-        "open_areas": [
-            # TODO
-        ],
+        "open_areas": [{
+            "id": "",
+            "position": {
+                "x": -0.18,
+                "y": 0.7 * 0.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 1.2,
+                "y": 0,
+                "z": 0.9 * 0.667
+            }
+        }],
         "dimensions": {
             "x": 1.2,
-            "y": 0.35,
-            "z": 1.9
+            "y": 0.7 * 0.5,
+            "z": 0.9 * 0.667
         },
         "offset": {
             "x": -0.18,
-            "y": 0.175,
+            "y": 0.35 * 0.5,
             "z": 0
         },
         "position_y": 0,
         "scale": {
             "x": 1,
             "y": 0.5,
-            "z": 1
+            "z": 0.667
         }
     }, {
         "novel_combination": True,
@@ -2657,24 +2932,35 @@ OBJECTS_IMMOBILE = [{
         "mass": 40,
         "materialCategory": ["metal", "metal"],
         "salientMaterials": ["metal"],
-        "open_areas": [
-            # TODO
-        ],
+# Remove for now because it's too high up.
+#        "open_areas": [{
+#            "id": "",
+#            "position": {
+#                "x": -0.18 * 0.5,
+#                "y": 0.7,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 1.2 * 0.5,
+#                "y": 0,
+#                "z": 0.9 * 0.667
+#            }
+#        }],
         "dimensions": {
-            "x": 1.2,
+            "x": 1.2 * 0.5,
             "y": 0.7,
-            "z": 1.9
+            "z": 0.9 * 0.667
         },
         "offset": {
-            "x": -0.18,
+            "x": -0.18 * 0.5,
             "y": 0.35,
             "z": 0
         },
         "position_y": 0,
         "scale": {
-            "x": 1,
+            "x": 0.5,
             "y": 1,
-            "z": 1
+            "z": 0.667
         }
     }, {
         "novel_combination": True,
@@ -2682,28 +2968,74 @@ OBJECTS_IMMOBILE = [{
         "mass": 20,
         "materialCategory": ["metal", "metal"],
         "salientMaterials": ["metal"],
-        "open_areas": [
-            # TODO
-        ],
+# Remove for now because it's too high up.
+#        "open_areas": [{
+#            "id": "",
+#            "position": {
+#                "x": -0.18,
+#                "y": 0.7,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 1.2,
+#                "y": 0,
+#                "z": 0.9 * 0.667
+#            }
+#        }],
         "dimensions": {
             "x": 1.2,
-            "y": 0.35,
-            "z": 1.9
+            "y": 0.7,
+            "z": 0.9 * 0.667
         },
         "offset": {
             "x": -0.18,
-            "y": 0.175,
+            "y": 0.35,
+            "z": 0
+        },
+        "position_y": 0,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 0.667
+        }
+    }, {
+        "novel_combination": True,
+        "attributes": ["receptacle", "stackTarget"],
+        "mass": 20,
+        "materialCategory": ["metal", "metal"],
+        "salientMaterials": ["metal"],
+        "open_areas": [{
+            "id": "",
+            "position": {
+                "x": -0.18,
+                "y": 0.7 * 0.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 1.2,
+                "y": 0,
+                "z": 0.9 * 0.667
+            }
+        }],
+        "dimensions": {
+            "x": 1.2,
+            "y": 0.7 * 0.5,
+            "z": 0.9 * 0.667
+        },
+        "offset": {
+            "x": -0.18,
+            "y": 0.35 * 0.5,
             "z": 0
         },
         "position_y": 0,
         "scale": {
             "x": 1,
             "y": 0.5,
-            "z": 1
+            "z": 0.667
         }
     }]
 }, {
-    "type": "table_6",
+    "type": "shelf_2",
     "obstruct": "navigation",
     "choose": [{
         "info": ["small", "shelf"],
@@ -2711,25 +3043,58 @@ OBJECTS_IMMOBILE = [{
         "mass": 5,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"],
-        "open_areas": [
-            # TODO
-        ],
+        "open_areas": [{
+            "id": "",
+            "position": {
+                "x": 0,
+                "y": 0.73,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.92 * 0.5,
+                "y": 0,
+                "z": 1.01 * 0.5
+            }
+        }, {
+            "id": "_middle_shelf",
+            "position": {
+                "x": 0,
+                "y": 0.52,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.65 * 0.5,
+                "y": 0.22,
+                "z": 0.87 * 0.5
+            }
+        }, {
+            "id": "_lower_shelf",
+            "position": {
+                "x": 0,
+                "y": 0.225,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.8 * 0.5,
+                "y": 0.235,
+                "z": 0.95 * 0.5
+            }
+        }],
         "dimensions": {
-            "x": 0.93,
-            "y": 0.75,
-            "z": 1.02
+            "x": 0.93 * 0.5,
+            "y": 0.73,
+            "z": 1.02 * 0.5
         },
         "offset": {
-            "x": 0.04,
-            "y": 0.35,
+            "x": 0,
+            "y": 0.355,
             "z": 0
         },
         "position_y": 0,
         "scale": {
-            # Final scale: 0.5, 0.5, 0.5
-            "x": 0.67451805685,
-            "y": 0.5,
-            "z": 0.22453039467
+            "x": 0.5,
+            "y": 1,
+            "z": 0.5
         }
     }, {
         "info": ["medium", "shelf"],
@@ -2737,25 +3102,59 @@ OBJECTS_IMMOBILE = [{
         "mass": 10,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"],
-        "open_areas": [
-            # TODO
-        ],
+        "open_areas": [{
+# Remove for now because it's too high up.
+#            "id": "",
+#            "position": {
+#                "x": 0,
+#                "y": 0.73 * 1.5,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 0.92 * 1.5,
+#                "y": 0,
+#                "z": 1.01 * 0.5
+#            }
+#        }, {
+            "id": "_middle_shelf",
+            "position": {
+                "x": 0,
+                "y": 0.52 * 1.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.65 * 1.5,
+                "y": 0.22 * 1.5,
+                "z": 0.87 * 0.5
+            }
+        }, {
+            "id": "_lower_shelf",
+            "position": {
+                "x": 0,
+                "y": 0.225 * 1.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.8 * 1.5,
+                "y": 0.235 * 1.5,
+                "z": 0.95 * 0.5
+            }
+        }],
         "dimensions": {
-            "x": 0.93,
-            "y": 0.75,
-            "z": 1.02
+            "x": 0.93 * 1.5,
+            "y": 0.73 * 1.5,
+            "z": 1.02 * 0.5
         },
         "offset": {
-            "x": 0.04,
-            "y": 0.35,
+            "x": 0,
+            "y": 0.355 * 1.5,
             "z": 0
         },
         "position_y": 0,
         "scale": {
-            # Final scale: 1, 1, 1
-            "x": 1.3490361137,
-            "y": 1,
-            "z": 0.44906078935,
+            "x": 1.5,
+            "y": 1.5,
+            "z": 0.5
         }
     }, {
         "info": ["huge", "shelf"],
@@ -2763,25 +3162,59 @@ OBJECTS_IMMOBILE = [{
         "mass": 15,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"],
-        "open_areas": [
-            # TODO
-        ],
+        "open_areas": [{
+# Remove for now because it's too high up.
+#            "id": "",
+#            "position": {
+#                "x": 0,
+#                "y": 0.73 * 3,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 0.92 * 3,
+#                "y": 0,
+#                "z": 1.01 * 0.5
+#            }
+#        }, {
+#            "id": "_middle_shelf",
+#            "position": {
+#                "x": 0,
+#                "y": 0.52 * 3,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 0.65 * 3,
+#                "y": 0.22 * 3,
+#                "z": 0.87 * 0.5
+#            }
+#        }, {
+            "id": "_lower_shelf",
+            "position": {
+                "x": 0,
+                "y": 0.225 * 3,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.8 * 3,
+                "y": 0.235 * 3,
+                "z": 0.95 * 0.5
+            }
+        }],
         "dimensions": {
-            "x": 0.465,
-            "y": 1.5,
-            "z": 2.04
+            "x": 0.93 * 3,
+            "y": 0.73 * 3,
+            "z": 1.02 * 0.5
         },
         "offset": {
-            "x": 0.02,
-            "y": 0.7,
+            "x": 0,
+            "y": 0.355 * 3,
             "z": 0
         },
         "position_y": 0,
         "scale": {
-            # Final scale: 0.5, 2, 2
-            "x": 0.67451805685,
-            "y": 2,
-            "z": 0.8981215787
+            "x": 3,
+            "y": 3,
+            "z": 0.5
         }
     }, {
         "novel_combination": True,
@@ -2790,25 +3223,58 @@ OBJECTS_IMMOBILE = [{
         "mass": 10,
         "materialCategory": ["metal"],
         "salientMaterials": ["metal"],
-        "open_areas": [
-            # TODO
-        ],
+        "open_areas": [{
+            "id": "",
+            "position": {
+                "x": 0,
+                "y": 0.73,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.92 * 0.5,
+                "y": 0,
+                "z": 1.01 * 0.5
+            }
+        }, {
+            "id": "_middle_shelf",
+            "position": {
+                "x": 0,
+                "y": 0.52,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.65 * 0.5,
+                "y": 0.22,
+                "z": 0.87 * 0.5
+            }
+        }, {
+            "id": "_lower_shelf",
+            "position": {
+                "x": 0,
+                "y": 0.225,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.8 * 0.5,
+                "y": 0.235,
+                "z": 0.95 * 0.5
+            }
+        }],
         "dimensions": {
-            "x": 0.93,
-            "y": 0.75,
-            "z": 1.02
+            "x": 0.93 * 0.5,
+            "y": 0.73,
+            "z": 1.02 * 0.5
         },
         "offset": {
-            "x": 0.04,
-            "y": 0.35,
+            "x": 0,
+            "y": 0.355,
             "z": 0
         },
         "position_y": 0,
         "scale": {
-            # Final scale: 0.5, 0.5, 0.5
-            "x": 0.67451805685,
-            "y": 0.5,
-            "z": 0.22453039467
+            "x": 0.5,
+            "y": 1,
+            "z": 0.5
         }
     }, {
         "novel_combination": True,
@@ -2817,25 +3283,59 @@ OBJECTS_IMMOBILE = [{
         "mass": 20,
         "materialCategory": ["metal"],
         "salientMaterials": ["metal"],
-        "open_areas": [
-            # TODO
-        ],
+        "open_areas": [{
+# Remove for now because it's too high up.
+#            "id": "",
+#            "position": {
+#                "x": 0,
+#                "y": 0.73 * 1.5,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 0.92 * 1.5,
+#                "y": 0,
+#                "z": 1.01 * 0.5
+#            }
+#        }, {
+            "id": "_middle_shelf",
+            "position": {
+                "x": 0,
+                "y": 0.52 * 1.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.65 * 1.5,
+                "y": 0.22 * 1.5,
+                "z": 0.87 * 0.5
+            }
+        }, {
+            "id": "_lower_shelf",
+            "position": {
+                "x": 0,
+                "y": 0.225 * 1.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.8 * 1.5,
+                "y": 0.235 * 1.5,
+                "z": 0.95 * 0.5
+            }
+        }],
         "dimensions": {
-            "x": 0.93,
-            "y": 0.75,
-            "z": 1.02
+            "x": 0.93 * 1.5,
+            "y": 0.73 * 1.5,
+            "z": 1.02 * 0.5
         },
         "offset": {
-            "x": 0.04,
-            "y": 0.35,
+            "x": 0,
+            "y": 0.355 * 1.5,
             "z": 0
         },
         "position_y": 0,
         "scale": {
-            # Final scale: 1, 1, 1
-            "x": 1.3490361137,
-            "y": 1,
-            "z": 0.44906078935,
+            "x": 1.5,
+            "y": 1.5,
+            "z": 0.5
         }
     }, {
         "novel_combination": True,
@@ -2844,25 +3344,59 @@ OBJECTS_IMMOBILE = [{
         "mass": 30,
         "materialCategory": ["metal"],
         "salientMaterials": ["metal"],
-        "open_areas": [
-            # TODO
-        ],
+        "open_areas": [{
+# Remove for now because it's too high up.
+#            "id": "",
+#            "position": {
+#                "x": 0,
+#                "y": 0.73 * 3,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 0.92 * 3,
+#                "y": 0,
+#                "z": 1.01 * 0.5
+#            }
+#        }, {
+#            "id": "_middle_shelf",
+#            "position": {
+#                "x": 0,
+#                "y": 0.52 * 3,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 0.65 * 3,
+#                "y": 0.22 * 3,
+#                "z": 0.87 * 0.5
+#            }
+#        }, {
+            "id": "_lower_shelf",
+            "position": {
+                "x": 0,
+                "y": 0.225 * 3,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.8 * 3,
+                "y": 0.235 * 3,
+                "z": 0.95 * 0.5
+            }
+        }],
         "dimensions": {
-            "x": 0.465,
-            "y": 1.5,
-            "z": 2.04
+            "x": 0.93 * 3,
+            "y": 0.73 * 3,
+            "z": 1.02 * 0.5
         },
         "offset": {
-            "x": 0.02,
-            "y": 0.7,
+            "x": 0,
+            "y": 0.355 * 3,
             "z": 0
         },
         "position_y": 0,
         "scale": {
-            # Final scale: 0.5, 2, 2
-            "x": 0.67451805685,
-            "y": 2,
-            "z": 0.8981215787
+            "x": 3,
+            "y": 3,
+            "z": 0.5
         }
     }]
 }, {
@@ -2873,17 +3407,75 @@ OBJECTS_IMMOBILE = [{
         "mass": 5,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"],
-        "open_areas": [
-            # TODO
-        ],
+        "open_areas": [{
+            "id": "",
+            "position": {
+                "x": 0,
+                "y": 0.78 * 0.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.77 * 0.5,
+                "y": 0,
+                "z": 0.39 * 0.5
+            }
+        }, {
+            "id": "_top_right_shelf",
+            "position": {
+                "x": 0.175 * 0.5,
+                "y": 0.56 * 0.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33 * 0.5,
+                "y": 0.33 * 0.5,
+                "z": 0.38 * 0.5
+            }
+        }, {
+            "id": "_top_left_shelf",
+            "position": {
+                "x": -0.175 * 0.5,
+                "y": 0.56 * 0.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33 * 0.5,
+                "y": 0.33 * 0.5,
+                "z": 0.38 * 0.5
+            }
+        }, {
+            "id": "_bottom_right_shelf",
+            "position": {
+                "x": 0.175 * 0.5,
+                "y": 0.21 * 0.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33 * 0.5,
+                "y": 0.33 * 0.5,
+                "z": 0.38 * 0.5
+            }
+        }, {
+            "id": "_bottom_left_shelf",
+            "position": {
+                "x": -0.175 * 0.5,
+                "y": 0.21 * 0.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33 * 0.5,
+                "y": 0.33 * 0.5,
+                "z": 0.38 * 0.5
+            }
+        }],
         "dimensions": {
-            "x": 0.39,
-            "y": 0.385,
-            "z": 0.2
+            "x": 0.78 * 0.5,
+            "y": 0.77 * 0.5,
+            "z": 0.4 * 0.5
         },
         "offset": {
             "x": 0,
-            "y": 0.195,
+            "y": 0.385 * 0.5,
             "z": 0
         },
         "position_y": 0,
@@ -2898,9 +3490,68 @@ OBJECTS_IMMOBILE = [{
         "mass": 10,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"],
-        "open_areas": [
-            # TODO
-        ],
+        "open_areas": [{
+# Remove for now because it's too high up.
+#            "id": "",
+#            "position": {
+#                "x": 0,
+#                "y": 0.78,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 0.77,
+#                "y": 0,
+#                "z": 0.39
+#            }
+#        }, {
+            "id": "_top_right_shelf",
+            "position": {
+                "x": 0.175,
+                "y": 0.56,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33,
+                "y": 0.33,
+                "z": 0.38
+            }
+        }, {
+            "id": "_top_left_shelf",
+            "position": {
+                "x": -0.175,
+                "y": 0.56,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33,
+                "y": 0.33,
+                "z": 0.38
+            }
+        }, {
+            "id": "_bottom_right_shelf",
+            "position": {
+                "x": 0.175,
+                "y": 0.21,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33,
+                "y": 0.33,
+                "z": 0.38
+            }
+        }, {
+            "id": "_bottom_left_shelf",
+            "position": {
+                "x": -0.175,
+                "y": 0.21,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33,
+                "y": 0.33,
+                "z": 0.38
+            }
+        }],
         "dimensions": {
             "x": 0.78,
             "y": 0.77,
@@ -2908,7 +3559,7 @@ OBJECTS_IMMOBILE = [{
         },
         "offset": {
             "x": 0,
-            "y": 0.39,
+            "y": 0.385,
             "z": 0
         },
         "position_y": 0,
@@ -2924,17 +3575,76 @@ OBJECTS_IMMOBILE = [{
         "mass": 15,
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"],
-        "open_areas": [
-            # TODO
-        ],
+        "open_areas": [{
+# Remove for now because it's too high up.
+#            "id": "",
+#            "position": {
+#                "x": 0,
+#                "y": 0.78 * 2,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 0.77 * 2,
+#                "y": 0,
+#                "z": 0.39 * 2
+#            }
+#        }, {
+#            "id": "_top_right_shelf",
+#            "position": {
+#                "x": 0.175 * 2,
+#                "y": 0.56 * 2,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 0.33 * 2,
+#                "y": 0.33 * 2,
+#                "z": 0.38 * 2
+#            }
+#        }, {
+#            "id": "_top_left_shelf",
+#            "position": {
+#                "x": -0.175 * 2,
+#                "y": 0.56 * 2,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 0.33 * 2,
+#                "y": 0.33 * 2,
+#                "z": 0.38 * 2
+#            }
+#        }, {
+            "id": "_bottom_right_shelf",
+            "position": {
+                "x": 0.175 * 2,
+                "y": 0.21 * 2,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33 * 2,
+                "y": 0.33 * 2,
+                "z": 0.38 * 2
+            }
+        }, {
+            "id": "_bottom_left_shelf",
+            "position": {
+                "x": -0.175 * 2,
+                "y": 0.21 * 2,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33 * 2,
+                "y": 0.33 * 2,
+                "z": 0.38 * 2
+            }
+        }],
         "dimensions": {
-            "x": 1.56,
-            "y": 1.54,
-            "z": 0.8
+            "x": 0.78 * 2,
+            "y": 0.77 * 2,
+            "z": 0.4 * 2
         },
         "offset": {
             "x": 0,
-            "y": 0.78,
+            "y": 0.385 * 2,
             "z": 0
         },
         "position_y": 0,
@@ -2950,17 +3660,75 @@ OBJECTS_IMMOBILE = [{
         "mass": 10,
         "materialCategory": ["metal"],
         "salientMaterials": ["metal"],
-        "open_areas": [
-            # TODO
-        ],
+        "open_areas": [{
+            "id": "",
+            "position": {
+                "x": 0,
+                "y": 0.78 * 0.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.77 * 0.5,
+                "y": 0,
+                "z": 0.39 * 0.5
+            }
+        }, {
+            "id": "_top_right_shelf",
+            "position": {
+                "x": 0.175 * 0.5,
+                "y": 0.56 * 0.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33 * 0.5,
+                "y": 0.33 * 0.5,
+                "z": 0.38 * 0.5
+            }
+        }, {
+            "id": "_top_left_shelf",
+            "position": {
+                "x": -0.175 * 0.5,
+                "y": 0.56 * 0.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33 * 0.5,
+                "y": 0.33 * 0.5,
+                "z": 0.38 * 0.5
+            }
+        }, {
+            "id": "_bottom_right_shelf",
+            "position": {
+                "x": 0.175 * 0.5,
+                "y": 0.21 * 0.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33 * 0.5,
+                "y": 0.33 * 0.5,
+                "z": 0.38 * 0.5
+            }
+        }, {
+            "id": "_bottom_left_shelf",
+            "position": {
+                "x": -0.175 * 0.5,
+                "y": 0.21 * 0.5,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33 * 0.5,
+                "y": 0.33 * 0.5,
+                "z": 0.38 * 0.5
+            }
+        }],
         "dimensions": {
-            "x": 0.39,
-            "y": 0.385,
-            "z": 0.2
+            "x": 0.78 * 0.5,
+            "y": 0.77 * 0.5,
+            "z": 0.4 * 0.5
         },
         "offset": {
             "x": 0,
-            "y": 0.195,
+            "y": 0.385 * 0.5,
             "z": 0
         },
         "position_y": 0,
@@ -2976,9 +3744,68 @@ OBJECTS_IMMOBILE = [{
         "mass": 20,
         "materialCategory": ["metal"],
         "salientMaterials": ["metal"],
-        "open_areas": [
-            # TODO
-        ],
+        "open_areas": [{
+# Remove for now because it's too high up.
+#            "id": "",
+#            "position": {
+#                "x": 0,
+#                "y": 0.78,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 0.77,
+#                "y": 0,
+#                "z": 0.39
+#            }
+#        }, {
+            "id": "_top_right_shelf",
+            "position": {
+                "x": 0.175,
+                "y": 0.56,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33,
+                "y": 0.33,
+                "z": 0.38
+            }
+        }, {
+            "id": "_top_left_shelf",
+            "position": {
+                "x": -0.175,
+                "y": 0.56,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33,
+                "y": 0.33,
+                "z": 0.38
+            }
+        }, {
+            "id": "_bottom_right_shelf",
+            "position": {
+                "x": 0.175,
+                "y": 0.21,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33,
+                "y": 0.33,
+                "z": 0.38
+            }
+        }, {
+            "id": "_bottom_left_shelf",
+            "position": {
+                "x": -0.175,
+                "y": 0.21,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33,
+                "y": 0.33,
+                "z": 0.38
+            }
+        }],
         "dimensions": {
             "x": 0.78,
             "y": 0.77,
@@ -2986,7 +3813,7 @@ OBJECTS_IMMOBILE = [{
         },
         "offset": {
             "x": 0,
-            "y": 0.39,
+            "y": 0.385,
             "z": 0
         },
         "position_y": 0,
@@ -3001,17 +3828,76 @@ OBJECTS_IMMOBILE = [{
         "mass": 30,
         "materialCategory": ["metal"],
         "salientMaterials": ["metal"],
-        "open_areas": [
-            # TODO
-        ],
+        "open_areas": [{
+# Remove for now because it's too high up.
+#            "id": "",
+#            "position": {
+#                "x": 0,
+#                "y": 0.78 * 2,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 0.77 * 2,
+#                "y": 0,
+#                "z": 0.39 * 2
+#            }
+#        }, {
+#            "id": "_top_right_shelf",
+#            "position": {
+#                "x": 0.175 * 2,
+#                "y": 0.56 * 2,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 0.33 * 2,
+#                "y": 0.33 * 2,
+#                "z": 0.38 * 2
+#            }
+#        }, {
+#            "id": "_top_left_shelf",
+#            "position": {
+#                "x": -0.175 * 2,
+#                "y": 0.56 * 2,
+#                "z": 0
+#            },
+#            "dimensions": {
+#                "x": 0.33 * 2,
+#                "y": 0.33 * 2,
+#                "z": 0.38 * 2
+#            }
+#        }, {
+            "id": "_bottom_right_shelf",
+            "position": {
+                "x": 0.175 * 2,
+                "y": 0.21 * 2,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33 * 2,
+                "y": 0.33 * 2,
+                "z": 0.38 * 2
+            }
+        }, {
+            "id": "_bottom_left_shelf",
+            "position": {
+                "x": -0.175 * 2,
+                "y": 0.21 * 2,
+                "z": 0
+            },
+            "dimensions": {
+                "x": 0.33 * 2,
+                "y": 0.33 * 2,
+                "z": 0.38 * 2
+            }
+        }],
         "dimensions": {
-            "x": 1.56,
-            "y": 1.54,
-            "z": 0.8
+            "x": 0.78 * 2,
+            "y": 0.77 * 2,
+            "z": 0.4 * 2
         },
         "offset": {
             "x": 0,
-            "y": 0.78,
+            "y": 0.385 * 2,
             "z": 0
         },
         "position_y": 0,
@@ -3027,9 +3913,19 @@ OBJECTS_IMMOBILE = [{
     "info": ["huge", "brown", "sofa"],
     "mass": 100,
     "attributes": ["receptacle", "stackTarget"],
-    "open_areas": [
-        # TODO
-    ],
+    "open_areas": [{
+        "id": "",
+        "position": {
+            "x": 0,
+            "y": 0.62,
+            "z": 0
+        },
+        "dimensions": {
+            "x": 1.95,
+            "y": 0,
+            "z": 0.63
+        }
+    }],
     "dimensions": {
         "x": 2.5,
         "y": 1.1,
@@ -3052,9 +3948,19 @@ OBJECTS_IMMOBILE = [{
     "info": ["huge", "grey", "sofa"],
     "mass": 100,
     "attributes": ["receptacle", "stackTarget"],
-    "open_areas": [
-        # TODO
-    ],
+    "open_areas": [{
+        "id": "",
+        "position": {
+            "x": 0,
+            "y": 0.59,
+            "z": 0.125
+        },
+        "dimensions": {
+            "x": 1.95,
+            "y": 0,
+            "z": 0.625
+        }
+    }],
     "dimensions": {
         "x": 2.5,
         "y": 1.1,
@@ -3077,9 +3983,19 @@ OBJECTS_IMMOBILE = [{
     "info": ["huge", "black", "sofa chair"],
     "mass": 50,
     "attributes": ["receptacle", "stackTarget"],
-    "open_areas": [
-        # TODO
-    ],
+    "open_areas": [{
+        "id": "",
+        "position": {
+            "x": -0.03
+            "y": 0.62,
+            "z": 0
+        },
+        "dimensions": {
+            "x": 0.77,
+            "y": 0,
+            "z": 0.63
+        }
+    }],
     "dimensions": {
         "x": 1.3,
         "y": 1.1,
@@ -3102,9 +4018,19 @@ OBJECTS_IMMOBILE = [{
     "info": ["huge", "grey", "sofa chair"],
     "mass": 50,
     "attributes": ["receptacle", "stackTarget"],
-    "open_areas": [
-        # TODO
-    ],
+    "open_areas": [{
+        "id": "",
+        "position": {
+            "x": 0.005
+            "y": 0.59,
+            "z": 0.125
+        },
+        "dimensions": {
+            "x": 0.975,
+            "y": 0,
+            "z": 0.65
+        }
+    }],
     "dimensions": {
         "x": 1.3,
         "y": 1.1,
@@ -3131,54 +4057,91 @@ OBJECTS_IMMOBILE = [{
     "attributes": ["receptacle", "openable"],
     "novel_shape": True,
     "enclosed_areas": [{
-# Remove the top drawers for now.
+# Remove the top drawers and shelves for now.
+#        "id": "_middle_shelf_right",
 #        "position": {
-#            "x": -0.264,
-#            "y": 0.178,
-#            "z": -0.071
+#            "x": 0.255,
+#            "y": 1.165,
+#            "z": -0.085
 #        },
 #        "dimensions": {
-#            "x": 0.453,
-#            "y": -0.04,
-#            "z": 0.441
+#            "x": 0.49,
+#            "y": 1.24,
+#            "z": 0.46
 #        }
 #    }, {
+#        "id": "_middle_shelf_left",
 #        "position": {
-#            "x": 0.264,
-#            "y": 0.178,
-#            "z": -0.071
+#            "x": -0.255,
+#            "y": 1.295,
+#            "z": -0.085
 #        },
 #        "dimensions": {
-#            "x": 0.453,
-#            "y": -0.04,
-#            "z": 0.441
+#            "x": 0.49,
+#            "y": 0.98,
+#            "z": 0.46
 #        }
 #    }, {
+#        "id": "_bottom_shelf_left",
+#        "position": {
+#            "x": -0.255,
+#            "y": 0.665,
+#            "z": -0.085
+#        },
+#        "dimensions": {
+#            "x": 0.49,
+#            "y": 0.24,
+#            "z": 0.46
+#        }
+#    }, {
+#        "id": "_lower_drawer_top_left",
+#        "position": {
+#            "x": -0.265,
+#            "y": 0.42,
+#            "z": -0.075
+#        },
+#        "dimensions": {
+#            "x": 0.445,
+#            "y": 0.16
+#            "z": 0.425
+#        }
+#    }, {
+#        "id": "_lower_drawer_top_right",
+#        "position": {
+#            "x": 0.265,
+#            "y": 0.42,
+#            "z": -0.075
+#        },
+#        "dimensions": {
+#            "x": 0.445,
+#            "y": 0.16
+#            "z": 0.425
+#        }
+#    }, {
+        "id": "_lower_drawer_bottom_left",
         "position": {
-            "x": -0.264,
-            "y": 0.178,
-            "z": -0.071
+            "x": -0.265,
+            "y": 0.21,
+            "z": -0.075
         },
         "dimensions": {
-            "x": 0.453,
-            "y": -0.072,
-            "z": 0.441
+            "x": 0.445,
+            "y": 0.16,
+            "z": 0.425
         }
     }, {
+        "id": "_lower_drawer_bottom_right",
         "position": {
-            "x": -0.264,
-            "y": 0.178,
-            "z": -0.071
+            "x": 0.265,
+            "y": 0.21,
+            "z": -0.075
         },
         "dimensions": {
-            "x": 0.453,
-            "y": -0.072,
-            "z": 0.441
+            "x": 0.445,
+            "y": 0.16,
+            "z": 0.425
         }
     }],
-    "open_areas": [
-        # TODO
-    ],
     "dimensions": {
         "x": 1.07,
         "y": 2.1,
