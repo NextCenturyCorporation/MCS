@@ -47,13 +47,12 @@ class HumanInputShell(cmd.Cmd):
         else:
             print('All actions are available during this step.')
 
-        """
+        
         if self.previous_output.action_list is not None and len(self.previous_output.action_list) == 1:
             print('Automatically selecting the only available action...')
             userInput = self.previous_output.action_list[1]
         else:
-        """
-        userInput = line.split(',')
+            userInput = line.split(',')
 
         # Check for shortcut key, if attempted shortcut key, map and check valid key
         try:
@@ -86,9 +85,6 @@ class HumanInputShell(cmd.Cmd):
 
         output = self.controller.step(action, **params)
         self.previous_output = output
-    
-    #def emptyline(self):
-        #pass
 
     def help_print(self):
         print("Prints all commands that the user can use.")
@@ -153,7 +149,11 @@ def print_commands():
     print("Enter 'print' to print the commands again.")
     print("Enter 'reset' to reset the scene.")
     print("Enter 'exit' to exit the program.")
+    print("Enter 'shortcut_key_mode' to be able to enter Commands without hitting enter.")
     print(" ")
+    print("----------------- Features -----------------------")
+    print("Up/Down arrow keys go through the command history")
+    print("Tab key is for auto completion of a command")
     print("------------------ End Commands ------------------")
     print(" ")
 
