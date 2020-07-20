@@ -271,3 +271,16 @@ def get_def_with_new_scale(obj: Dict[str, Any], all_defs: List[Dict[str, Any]]) 
         obj_def = None
     return obj_def
 
+
+def move_to_location(obj_def: Dict[str, Any], obj: Dict[str, Any], location: Dict[str, Any]) -> Dict[str, Any]:
+    """Move the given object to a new location and return the object."""
+    new_location = copy.deepcopy(location)
+    if 'offset' in obj_def:
+        new_location['position']['x'] -= obj_def['offset']['x']
+        new_location['position']['z'] -= obj_def['offset']['z']
+    obj['shows'][0]['position'] = new_location['position']
+    obj['shows'][0]['rotation'] = new_location['rotation']
+    if 'bounding_box' in new_location:
+        obj['shows'][0]['bounding_box'] = new_location['bounding_box']
+    return obj
+
