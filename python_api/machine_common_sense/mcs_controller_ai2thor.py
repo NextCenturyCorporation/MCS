@@ -397,9 +397,20 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         history_item = MCS_Scene_History(step=self.__step_number, action=action, args=kwargs, params=params, \
                 output=output_copy)
         self.__history_list.append(history_item)
-        self.write_history_file(str(history_item))
+        filtered_history_item = self.filter_history_images(history_item)
+        self.write_history_file(str(filtered_history_item))
 
         return output
+
+    def filter_history_images(self, history: MCS_Scene_History) -> MCS_Scene_History:
+        '''Remove the images from the history'''
+        if 'target' in history.output.goal.metadata.keys():
+            del history.output.goal.metadata['target']['image']
+        if 'target_1' in history.output.goal.metadata.keys():
+            del history.output.goal.metadata['target_1']['image']
+        if 'target_2' in history.output.goal.metadata.keys():
+            del history['output']['goal']['metadata']['target_2']['image']
+        return history
 
     def generate_time(self):
         return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
