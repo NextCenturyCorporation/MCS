@@ -193,7 +193,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     # Override
     def end_scene(self, classification, confidence):
-        history_item = '{"classification": ' + classification + ', "confidence": ' + confidence + '}'
+        history_item = '{"classification": ' + classification + ', "confidence": ' + str(confidence) + '}'
         self.__history_list.append(history_item)
         self.write_history_file(history_item)
 
@@ -409,7 +409,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         if 'target_1' in history.output.goal.metadata.keys():
             del history.output.goal.metadata['target_1']['image']
         if 'target_2' in history.output.goal.metadata.keys():
-            del history['output']['goal']['metadata']['target_2']['image']
+            del history.output.goal.metadata['target_2']['image']
         return history
 
     def generate_time(self):
