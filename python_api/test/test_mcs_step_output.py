@@ -24,10 +24,12 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
         "depth_mask_list": [],
         "goal": {
             "action_list": null,
+            "category": "",
+            "description": "",
+            "domain_list": [],
             "info_list": [],
             "last_preview_phase_step": 0,
             "last_step": null,
-            "task_list": [],
             "type_list": [],
             "metadata": {}
         },

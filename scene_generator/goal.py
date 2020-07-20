@@ -161,8 +161,10 @@ class Goal(ABC):
     def get_config(self, tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> Dict[str, Any]:
         """Create and return the goal configuration."""
         goal_config = self._get_subclass_config(tag_to_objects['target'])
-        goal_config['type_list'] = tags.append_object_tags(goal_config['type_list'], tag_to_objects)
+        goal_config['category'] = goal_config.get('category', '')
+        goal_config['type_list'] = tags.append_object_tags(goal_config.get('type_list', []), tag_to_objects)
         goal_config['info_list'] = self.update_goal_info_list(goal_config.get('info_list', []), tag_to_objects)
+        goal_config['metadata'] = goal_config.get('metadata', {})
         return goal_config
 
     def get_name(self) -> str:

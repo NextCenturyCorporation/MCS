@@ -7,7 +7,7 @@
 - [Python Class: MCS_Step_Output](#mcs_step_output)
 - [Actions](#actions)
 - [Future Actions (Not Yet Supported)](#future-actions)
-- [Goal Descriptions](#goal-description)
+- [Goal Descriptions](#goal-descriptions)
 - [Goal Metadata](#goal-metadata)
 - [Config File](#config-file)
 
@@ -92,9 +92,17 @@ The MCS scene output data object from after the action and the physics simulatio
 
 The list of actions that are available for the scene at each step (outer list index).  Each inner list item is a list of action strings. For example, ['MoveAhead','RotateLook,rotation=180'] restricts the actions to either 'MoveAhead' or 'RotateLook' with the 'rotation' parameter set to 180. An action_list of None means that all actions are always available. An empty inner list means that all actions are available for that specific step.
 
+### category : string
+
+The category that describes this goal and the properties in its `metadata`. Please see [Goal Metadata](#Goal-Metadata).
+
 ### description : string
 
 A human-readable sentence describing this goal and containing the target task(s) and object(s). Please see [Goal Descriptions](#Goal-Descriptions).
+
+### domain_list : list of strings
+
+The list of MCS "core domains" associated with this goal (for the visualization interface).
 
 ### info_list : list of strings
 
@@ -108,13 +116,9 @@ The last step of the Preview Phase in this scene, if any. Each step of a Preview
 
 The last step of this scene. This scene will automatically end following this step.
 
-### task_list : list of strings
-
-The list of tasks associated with this goal (for the visualization interface), secondary to its types.
-
 ### type_list : list of strings
 
-The list of types associated with this goal (for the visualization interface), including the relevant MCS core domains.
+The list of types associated with this goal (for the visualization interface).
 
 ### metadata : dict
 
@@ -807,7 +811,7 @@ Materials:
 
 ## Goal Metadata
 
-A goal's `metadata` property is a dict with a string `category` property and one or more other properties depending on the `category`.
+A goal's `metadata` property is a dict with one or more properties depending on the goal's `category` property.
 
 Categories:
 

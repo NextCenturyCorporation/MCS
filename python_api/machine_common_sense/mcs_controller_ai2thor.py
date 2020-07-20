@@ -467,15 +467,18 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     def retrieve_goal(self, scene_configuration):
         goal_config = scene_configuration['goal'] if 'goal' in scene_configuration else {}
         if 'category' in goal_config:
+            # Backwards compatibility
             goal_config['metadata']['category'] = goal_config['category']
 
         return self.restrict_goal_output_metadata(MCS_Goal(
             action_list=(goal_config['action_list'] if 'action_list' in goal_config else None),
+            category=(goal_config['category'] if 'category' in goal_config else ''),
+            description=(goal_config['description'] if 'description' in goal_config else ''),
+            domain_list=(goal_config['domain_list'] if 'domain_list' in goal_config else []),
             info_list=(goal_config['info_list'] if 'type_list' in goal_config else []),
             last_preview_phase_step=(goal_config['last_preview_phase_step'] if 'last_preview_phase_step' \
                     in goal_config else 0),
             last_step=(goal_config['last_step'] if 'last_step' in goal_config else None),
-            task_list=(goal_config['task_list'] if 'type_list' in goal_config else []),
             type_list=(goal_config['type_list'] if 'type_list' in goal_config else []),
             metadata=(goal_config['metadata'] if 'metadata' in goal_config else {})
         ))
