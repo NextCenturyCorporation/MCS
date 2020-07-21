@@ -552,7 +552,7 @@ layouts:
       contributionKeys: []
       title: "Test Types"
       type: "bar-v"
-      xField: "testType"
+      xField: "test_type"
       tableKey: "es1.mcs_history.history"
       dualView: ""
       axisLabelX: "Test Types"
@@ -1346,7 +1346,7 @@ layouts:
       showFields:
       - "performer"
       - "name"
-      - "testType"
+      - "test_type"
       - "score.classification"
       - "scene.answer_choice"
       - "score.score_description"
@@ -1362,6 +1362,7 @@ layouts:
       - "scene.has_novel_combination"
       - "scene.has_novel_color"
       - "scene.has_novel_shape"
+      - "url_string"
       sortField: "test"
       sortDescending: false
     col: 1
@@ -1485,13 +1486,13 @@ dashboards:
             name: 'MCS Evaluation 2 Overview'
             category: 'Select a dataset...'
             choices:
-                eval_2_scenes:
-                  name: "MCS Evaluation 2 Scenes"
-                  layout: "eval2_scenes"
-                  filters: []
-                  fields: {}
-                  tables:
-                    table_key_1: "es1.mcs_scenes.scenes"
+                # eval_2_scenes:
+                #   name: "MCS Evaluation 2 Scenes"
+                #   layout: "eval2_scenes"
+                #   filters: []
+                #   fields: {}
+                #   tables:
+                #     table_key_1: "es1.mcs_scenes.scenes"
                 eval_2_history:
                   name: "MCS Evaluation 2 Testing Results"
                   layout: "eval2_history"
@@ -1600,7 +1601,7 @@ datastores:
                 - columnName: name
                   prettyName: Scene Name
                   type: keyword
-                - columnName: testType
+                - columnName: test_type
                   prettyName: Test Type
                   type: keyword
                 - columnName: steps
@@ -1701,6 +1702,9 @@ datastores:
                 - columnName: scene.num_obstructors
                   prettyName: Scene Obstructors
                   type: decimal
+                - columnName: url_string
+                  prettyName: URL String
+                  type: keyword
       mcs_scenes:
         prettyName: "MCS Evaluation 2 Scenes"
         tables:
