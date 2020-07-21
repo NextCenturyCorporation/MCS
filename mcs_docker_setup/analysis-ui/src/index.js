@@ -7,7 +7,7 @@ import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
-console.log("uri", window.GRAPHQL_URL, "1002");
+//console.log("uri", window.GRAPHQL_URL, "1002");
 
 const httpLink = createHttpLink({
   uri: window.GRAPHQL_URL

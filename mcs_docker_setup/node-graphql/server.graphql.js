@@ -39,6 +39,33 @@ const typeDefs = `
     userName: String
   }
 
+  type History {
+    eval: String
+    performer: String
+    name: String
+    test_type: String
+    scene_num: String
+    scene_part_num: String
+    score: JSON
+    steps: JSON
+  }
+
+  type Scene {
+    name: String
+    ceilingMaterial: String
+    floorMaterial: String
+    wallMaterial: String
+    wallColors: JSON
+    performerStart: JSON
+    objects: JSON
+    goal: JSON
+    answer: JSON
+    eval: String
+    test_type: String
+    scene_num: String
+    scene_part_num: String
+  }
+
   type Bucket {
     key: String
     doc_count: Float
@@ -56,6 +83,8 @@ const typeDefs = `
 
   type Query {
     msc_eval: [Source]
+    getEvalHistory(testType: String, sceneNum: String) : [History]
+    getEvalScene(testType: String, sceneNum: String) : [Scene]
     getEvalByTest(test: String) : [Source]
     getEvalByBlock(block: String) : [Source]
     getEvalBySubmission(submission: String) : [Source]
@@ -64,6 +93,7 @@ const typeDefs = `
     getComments(test: String, block: String, submission: String, performer: String) : [Comment]
     getFieldAggregation(fieldName: String) : [Bucket]
     getSubmissionFieldAggregation: [SubmissionBucket]
+    getHistorySceneFieldAggregation(fieldName: String) : [Bucket]
   }
 
   type Mutation {
@@ -82,6 +112,19 @@ function getElasticSchema(fName, fieldValue) {
         "match": matchObj
       }
     };
+}
+
+function getHistorySceneSchema(testType, sceneNum) {
+  return {
+    "query": {
+      "bool": {
+        "must": [
+          {"match": {"test_type": testType}},
+          {"match": {"scene_num": sceneNum}}
+        ]
+      }
+    },
+  };
 }
 
 function getAnalysisSchema(testVal, blockVal, submissionVal, perfomerVal) {
@@ -105,7 +148,10 @@ function getFieldAggregationSchema(fieldName) {
         "full_name": {
           "terms": {
             "field": fieldName,
-            "size": 100000
+            "size": 100000,
+            "order": {
+              "_term": "asc"
+            }
           }
         }
       },
@@ -154,6 +200,29 @@ const resolvers = {
         .then(r => {
           let _source = r.body.hits.hits;
               _source.map((item, i) => _source[i] = item._source);
+          resolve(_source);
+        });
+    }),
+    getEvalHistory: (obj, args, context, infow) => new Promise((resolve, reject) => {
+      ElasticSearchClient('mcs_history', getHistorySceneSchema(args["testType"], args["sceneNum"]))
+        .then(r => {
+          let _source = r.body.hits.hits;
+              _source.map((item, i) => _source[i] = item._source);
+          resolve(_source);
+        });
+    }),
+    getEvalScene: (obj, args, context, infow) => new Promise((resolve, reject) => {
+      ElasticSearchClient('mcs_scenes', getHistorySceneSchema(args["testType"], args["sceneNum"]))
+        .then(r => {
+          let _source = r.body.hits.hits;
+              _source.map((item, i) => _source[i] = item._source);
+          resolve(_source);
+        });
+    }),
+    getHistorySceneFieldAggregation: (obj, args, context, infow) => new Promise((resolve, reject) => {
+      ElasticSearchClient('mcs_history', getFieldAggregationSchema(args["fieldName"]))
+        .then(r => {
+          let _source = r.body.aggregations.full_name.buckets;
           resolve(_source);
         });
     }),

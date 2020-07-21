@@ -1,6 +1,7 @@
 import React from 'react';
 import queryString from 'query-string';
 import Results from './results';
+import Scenes from './scenes';
 import EvalHeader from './header';
 import CommentsComponent from './comments'
 
@@ -19,7 +20,7 @@ export class App extends React.Component {
         super(props);
 
         this.state = queryString.parse(window.location.search);
-        this.state.showComments = (process.env.REACT_APP_COMMENTS_ON.toLowerCase() == 'true' || process.env.REACT_APP_COMMENTS_ON == '1');
+        this.state.showComments = (process.env.REACT_APP_COMMENTS_ON.toLowerCase() === 'true' || process.env.REACT_APP_COMMENTS_ON === '1');
     }
 
     render() {
@@ -30,8 +31,12 @@ export class App extends React.Component {
                     <EvalHeader state={this.state}/>
 
                     <div className="layout-board">
-                        <Results value={this.state}/>
-                        { this.state.showComments &&  <CommentsComponent state={this.state}/> }
+                        { (this.state.perf !== undefined && this.state.perf !== null) && 
+                            <div>
+                                <Results value={this.state}/>
+                                { this.state.showComments &&  <CommentsComponent state={this.state}/> }
+                            </div>}
+                        { (this.state.test_type !== undefined && this.state.test_type !== null) && <Scenes value={this.state}/> }
                     </div>
                 </div>
             </div>
