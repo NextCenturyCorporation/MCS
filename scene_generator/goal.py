@@ -85,7 +85,7 @@ def generate_wall(wall_material: str, wall_colors: List[str], performer_position
         return new_object
     return None
 
-#TODO:
+
 def generate_painting(painting_material: str, wall_colors: List[str], performer_position: Dict[str, float],
                   other_rects: List[List[Dict[str, float]]], generated_wall_rects: List[List[Dict[str, float]]]) -> Optional[Dict[str, Any]]:
     # Chance to generate a painting in the room, that can only be hanged on a wall
@@ -103,9 +103,9 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
     performer_poly = geometry.rect_to_poly(performer_rect)
     while tries < util.MAX_TRIES:
         rotation = random.choice((0, 90, 180, 270))
-        new_x = geometry.random_position()
-        new_z = geometry.random_position()
-        new_y = geometry.random_position()
+        new_x = geometry.random_position_x()
+        new_z = geometry.random_position_z()
+        new_y = geometry.random_position_x()
         new_x_size = round(random.uniform(MIN_PAINTING_WIDTH, MAX_PAINTING_WIDTH), geometry.POSITION_DIGITS)
         painting_height = round(random.uniform(MIN_PAINTING_WIDTH, MAX_PAINTING_WIDTH), geometry.POSITION_DIGITS)
 
@@ -237,7 +237,7 @@ class Goal(ABC):
     get_config. Users of a goal object should normally only need to call 
     update_body."""
 
-    def __init__(self, name: str):
+    def __init__(self, name: str=None):
         self._name = name
         self._performer_start = None
         self._compute_performer_start()
@@ -249,12 +249,12 @@ class Goal(ABC):
         self._tag_to_objects = self.compute_objects(body['wallMaterial'], body['wallColors'])
 
         body['performerStart'] = self._performer_start
-        walls = self.generate_walls(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], bounding_rects)
+        walls = self.generate_walls(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], [])
         #print("walls: ", walls)
         #for wall in walls: # DO NOT NEED B/C WALLS ALREADY NOT
             #bounding_rects.append(wall['shows'][0]['bounding_box'])
 
-        paintings = self.generate_paintings(body['paintingMaterial'], body['paintingColors'], body['performerStart']['position'], bounding_rects, walls)
+        paintings = self.generate_paintings(body['paintingMaterial'], body['paintingColors'], body['performerStart']['position'], [], walls)
         #print("paintings: ", paintings)
         print("hit")
         print("\n\n\n")
@@ -390,7 +390,7 @@ class Goal(ABC):
         return walls
 
     def generate_paintings(self, material: str, colors: List[str], performer_position: Dict[str, Any],
-                       bounding_rects: List[List[Dict[str, float]]], wall_bounding_rects=None) -> List[Dict[str, Any]]:
+                       bounding_rects: List[List[Dict[str, float]]], wall_bounding_rects: List[List[Dict[str, float]]]=None) -> List[Dict[str, Any]]:
         painting_count = 3 #random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0] # Using same probability as walls
 
         paintings = []

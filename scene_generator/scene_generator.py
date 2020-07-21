@@ -100,8 +100,12 @@ def generate_body_template(name: str) -> Dict[str, Any]:
 
 def generate_scene(name: str, goal_type: str, find_path: bool) -> Dict[str, Any]:
     body = generate_body_template(name)
+    print("Here1")
+    print(goal_type)
     goal_obj = goals.choose_goal(goal_type)
+    print("Here2")
     goal_obj.update_body(body, find_path)
+    print("Here3")
     return body
 
 
@@ -162,13 +166,17 @@ def generate_single(prefix: str, count: int, goal_type: str, find_path: bool,
                 break
             index += 1
         try:
+            print(name)
             body = generate_scene(name, goal_type, find_path)
+            print("Body is developed")
             write_file(name, body)
             count -= 1
         except (RuntimeError, ZeroDivisionError, TypeError, exceptions.SceneException, ValueError) as e:
+            print("DEAD")
             if stop_on_error:
                 raise
             logging.warning(f'failed to create a file: {e}')
+            sys.exit()
 
 
 def generate_quartet(prefix: str, count: int, quartet_name: str, goal_name: str, find_path: bool, \
