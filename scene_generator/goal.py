@@ -20,6 +20,10 @@ MAX_PAINTING_WIDTH = 1.5
 MIN_PAINTING_WIDTH = 0.5
 PAINTING_DEPTH = 0.05
 
+MAX_PAINTING_WIDTH = 1.5
+MIN_PAINTING_WIDTH = 0.5
+PAINTING_DEPTH = 0.05
+
 DIST_WALL_APART = 1
 SAFE_DIST_FROM_ROOM_WALL = 3.5
     
@@ -109,7 +113,7 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
         new_x_size = round(random.uniform(MIN_PAINTING_WIDTH, MAX_PAINTING_WIDTH), geometry.POSITION_DIGITS)
         painting_height = round(random.uniform(MIN_PAINTING_WIDTH, MAX_PAINTING_WIDTH), geometry.POSITION_DIGITS)
 
-
+        #TODO: add if statments for (geometry.ROOM_DIMENSIONS[1][0] - 0.03 -new_x_size) < -SAFE_DIST_FROM_ROOM_WALL
         if (((rotation == 0 or rotation == 180) and (new_z < -SAFE_DIST_FROM_ROOM_WALL or new_z > SAFE_DIST_FROM_ROOM_WALL)) or \
             ((rotation == 90 or rotation == 270) and (new_x < -SAFE_DIST_FROM_ROOM_WALL or new_x > SAFE_DIST_FROM_ROOM_WALL))) and \
            (new_y > 0.7 and new_y + painting_height + 0.03 < SAFE_DIST_FROM_ROOM_WALL): # Don't want painting going thru floor && ceiling
@@ -147,7 +151,9 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
                             adj_to_generated_wall = True
                             print("x left bound:", left_x_boundary, " |x right bound:", right_x_boundary)
                             print("painting x left:", painting_left_x_boundary, "|painting x right:", painting_right_x_boundary)
-                            print("GGGGGGGGGGGG")
+                            #print("z val:", new_z)
+                            print("wall rect",  wall['shows'][0]['bounding_box'])
+                            print("painting rect:", cur_painting_obj['shows'][0]['bounding_box'])
                             break
 
                 if not adj_to_generated_wall: #Place near 1 of the 4 room walls
@@ -183,7 +189,9 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
                             adj_to_generated_wall = True
                             print("z left bound:", left_z_boundary, " |z right bound:", right_z_boundary)
                             print("painting z left:", painting_left_z_boundary, "|painting z right:", painting_right_z_boundary)
-                            print("GGGGGGGGGGGG22222")
+                            #print("x val:", new_x)
+                            print("wall rect",  wall['shows'][0]['bounding_box'])
+                            print("painting rect:", cur_painting_obj['shows'][0]['bounding_box'])
                             break
                 
                 if not adj_to_generated_wall:
@@ -196,9 +204,9 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
             rect = geometry.calc_obj_coords(new_x, new_z, new_y, new_x_size, PAINTING_DEPTH, 0, 0, rotation)
             painting_poly = geometry.rect_to_poly(rect)
 
-            if adj_to_generated_wall: # FIXME Testing
-                print("poly intersects:",not painting_poly.intersects(performer_poly))
-                print("other rects intersects:", (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)))
+            #if adj_to_generated_wall: # FIXME Testing
+                #print("poly intersects:",not painting_poly.intersects(performer_poly))
+                #print("other rects intersects:", (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)))
 
             if not painting_poly.intersects(performer_poly) and \
                     (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)): 
@@ -250,16 +258,14 @@ class Goal(ABC):
 
         body['performerStart'] = self._performer_start
         walls = self.generate_walls(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], [])
-        #print("walls: ", walls)
         #for wall in walls: # DO NOT NEED B/C WALLS ALREADY NOT
             #bounding_rects.append(wall['shows'][0]['bounding_box'])
 
         paintings = self.generate_paintings(body['paintingMaterial'], body['paintingColors'], body['performerStart']['position'], [], walls)
-        #print("paintings: ", paintings)
         print("hit")
         print("\n\n\n")
 
-        walls.extend(paintings) #FIXME: need to have seperate tag for paintings
+        walls.extend(paintings) #FIXME: need to have seperate tag for paintings. Will remove later.
         
         if walls is not None:
             self._tag_to_objects['wall'] = walls
@@ -325,6 +331,7 @@ class Goal(ABC):
             self._update_goal_tags_of_type(goal, tag_to_objects['distractor'], 'distractor')
         if 'obstructor' in tag_to_objects:
             self._update_goal_tags_of_type(goal, tag_to_objects['obstructor'], 'obstructor')
+        goal['type_list'] = []
         for item in ['background object', 'confusor', 'distractor', 'obstructor', 'occluder', 'target', 'wall']:
             if item in tag_to_objects:
                 number = len(tag_to_objects[item])
@@ -374,7 +381,7 @@ class Goal(ABC):
 
     def generate_walls(self, material: str, colors: List[str], performer_position: Dict[str, Any],
                        bounding_rects: List[List[Dict[str, float]]]) -> List[Dict[str, Any]]:
-        wall_count = 3 #random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
+        wall_count = 3 #random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0] #FIXME want more walls to test
         
         walls = [] 
         # Add bounding rects to walls
@@ -391,7 +398,7 @@ class Goal(ABC):
 
     def generate_paintings(self, material: str, colors: List[str], performer_position: Dict[str, Any],
                        bounding_rects: List[List[Dict[str, float]]], wall_bounding_rects: List[List[Dict[str, float]]]=None) -> List[Dict[str, Any]]:
-        painting_count = 3 #random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0] # Using same probability as walls
+        painting_count = 3 #random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0] # Using same probability as walls #FIXME want more paintings to test
 
         paintings = []
         all_bounding_rects = [bounding_rect.copy() for bounding_rect in bounding_rects]
