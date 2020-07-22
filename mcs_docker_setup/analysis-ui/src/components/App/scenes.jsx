@@ -211,7 +211,7 @@ class Scenes extends React.Component {
                                                                 <th>Score</th>
                                                                 <th>Adjusted Confidence</th>
                                                                 <th>Confidence</th>
-                                                                <th>MSE Loss</th>
+                                                                <th>MSE</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
