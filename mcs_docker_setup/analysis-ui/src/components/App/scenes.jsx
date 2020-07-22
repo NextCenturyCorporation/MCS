@@ -49,7 +49,7 @@ class Scenes extends React.Component {
         this.state = {
             currentPerformerKey: 0,
             currentPerformer: "",
-            currentSceneNum: 0,
+            currentSceneNum: props.value.scene_part_num !== undefined ? parseInt(props.value.scene_part_num) - 1 : 0,
             currentObjectNum: 0
         };
     }
@@ -71,12 +71,6 @@ class Scenes extends React.Component {
     }
 
     changeScene = (sceneNum) => {
-        $('#scene_btn_' + this.state.currentSceneNum ).toggleClass( "btn-primary" );
-        $('#scene_btn_' + this.state.currentSceneNum ).toggleClass( "btn-secondary" );
-        
-        $('#scene_btn_' + sceneNum ).toggleClass( "btn-secondary" );
-        $('#scene_btn_' + sceneNum).toggleClass( "btn-primary" );
-
         this.setState({ currentSceneNum: sceneNum});
     }
 
@@ -238,10 +232,10 @@ class Scenes extends React.Component {
                                                     <h3>Scenes</h3>
                                                 </div>
                                                 <div className="scene-group btn-group" role="group">
-                                                    <button className="btn btn-primary active" id="scene_btn_0" type="button" onClick={() => this.changeScene(0)}>Scene 1</button>
-                                                    <button className="btn btn-secondary" id="scene_btn_1" type="button" onClick={() => this.changeScene(1)}>Scene 2</button>
-                                                    <button className="btn btn-secondary" id="scene_btn_2" type="button" onClick={() => this.changeScene(2)}>Scene 3</button>
-                                                    <button className="btn btn-secondary" id="scene_btn_3" type="button" onClick={() => this.changeScene(3)}>Scene 4</button>
+                                                    <button className={this.state.currentSceneNum === 0 ? 'btn btn-primary active' : 'btn btn-secondary'} id="scene_btn_0" type="button" onClick={() => this.changeScene(0)}>Scene 1</button>
+                                                    <button className={this.state.currentSceneNum === 1 ? 'btn btn-primary active' : 'btn btn-secondary'} id="scene_btn_1" type="button" onClick={() => this.changeScene(1)}>Scene 2</button>
+                                                    <button className={this.state.currentSceneNum === 2 ? 'btn btn-primary active' : 'btn btn-secondary'} id="scene_btn_2" type="button" onClick={() => this.changeScene(2)}>Scene 3</button>
+                                                    <button className={this.state.currentSceneNum === 3 ? 'btn btn-primary active' : 'btn btn-secondary'} id="scene_btn_3" type="button" onClick={() => this.changeScene(3)}>Scene 4</button>
                                                 </div>
                                                 <div className="scene-table-div">
                                                     <table>
