@@ -20,6 +20,10 @@ MAX_PAINTING_WIDTH = 1.5
 MIN_PAINTING_WIDTH = 0.5
 PAINTING_DEPTH = 0.05
 
+MAX_PAINTING_WIDTH = 1.5
+MIN_PAINTING_WIDTH = 0.5
+PAINTING_DEPTH = 0.05
+
 DIST_WALL_APART = 1
 SAFE_DIST_FROM_ROOM_WALL = 3.5
     
@@ -325,6 +329,7 @@ class Goal(ABC):
             self._update_goal_tags_of_type(goal, tag_to_objects['distractor'], 'distractor')
         if 'obstructor' in tag_to_objects:
             self._update_goal_tags_of_type(goal, tag_to_objects['obstructor'], 'obstructor')
+        goal['type_list'] = []
         for item in ['background object', 'confusor', 'distractor', 'obstructor', 'occluder', 'target', 'wall']:
             if item in tag_to_objects:
                 number = len(tag_to_objects[item])
