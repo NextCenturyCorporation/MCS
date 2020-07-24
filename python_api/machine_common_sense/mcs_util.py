@@ -170,17 +170,21 @@ class MCS_Util:
     def value_to_str(input_value, depth=0):
         this_indent = " " * MCS_Util.NUMBER_OF_SPACES * depth
         next_indent = " " * MCS_Util.NUMBER_OF_SPACES * (depth + 1)
+        if input_value is None:
+            return "null"
         if isinstance(input_value, dict):
             text_list = []
             for dict_key, dict_value in input_value.items():
                 text_list.append(next_indent + "\"" + dict_key + "\": " + MCS_Util.value_to_str(dict_value, depth + 1))
             return "{}" if len(text_list) == 0 else "{\n" + (",\n").join(text_list) + "\n" + this_indent + "}"
-        if isinstance(input_value, list):
+        if isinstance(input_value, list) or isinstance(input_value, tuple):
             text_list = []
-            for list_item in input_value:
+            for list_item in list(input_value):
                 text_list.append(next_indent + MCS_Util.value_to_str(list_item, depth + 1))
             return "[]" if len(text_list) == 0 else "[\n" + (",\n").join(text_list) + "\n" + this_indent + "]"
-        elif isinstance(input_value, str):
+        if isinstance(input_value, bool):
+            return "true" if input_value else "false"
+        if isinstance(input_value, str):
             return "\"" + input_value.replace("\"", "\\\"") + "\""
         return str(input_value).replace("\n", "\n" + this_indent)
 

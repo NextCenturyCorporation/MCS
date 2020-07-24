@@ -330,7 +330,7 @@ def test_get_visible_segment():
     assert segment == expected_segment
 
 
-def test_get_position_behind_performer():
+def test_get_position_in_back_of_performer():
     target_def = objects.OBJECTS_PICKUPABLE_BALLS[0]
     start = {
         'position': ORIGIN,
@@ -338,12 +338,12 @@ def test_get_position_behind_performer():
             'y': 90
         }
     }
-    negative_x = get_location_behind_performer(start, target_def)
+    negative_x = get_location_in_back_of_performer(start, target_def)
     assert 0 >= negative_x['position']['x'] >= ROOM_DIMENSIONS[0][0]
     assert ROOM_DIMENSIONS[1][1] >= negative_x['position']['z'] >= ROOM_DIMENSIONS[1][0]
 
     start['rotation']['y'] = 0
-    negative_z = get_location_behind_performer(start, target_def)
+    negative_z = get_location_in_back_of_performer(start, target_def)
     assert 0 >= negative_z['position']['z'] >= ROOM_DIMENSIONS[1][0]
     assert ROOM_DIMENSIONS[0][1] >= negative_z['position']['z'] >= ROOM_DIMENSIONS[0][0]
 
@@ -363,7 +363,7 @@ def test_get_adjacent_location():
     target = util.instantiate_object(target_def, ORIGIN_LOCATION)
     obj_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
 
-    location = get_adjacent_location(obj_def, target, ORIGIN)
+    location = get_adjacent_location(obj_def, target, ORIGIN_LOCATION)
     assert location is not None
 
     # check that their bounding boxes are near each other
@@ -378,7 +378,7 @@ def test_get_adjacent_location_on_side():
         target_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
         target = util.instantiate_object(target_def, ORIGIN_LOCATION)
         obj_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
-        location = get_adjacent_location_on_side(obj_def, target, ORIGIN, side)
+        location = get_adjacent_location_on_side(obj_def, target, ORIGIN_LOCATION, side, False)
         assert location is not None
         angle = math.degrees(math.atan2(location['position']['z'], location['position']['x']))
         target_angle = target['shows'][0]['rotation']['y']
@@ -392,16 +392,17 @@ def test_get_adjacent_location_on_side():
 
 def test_get_wider_and_taller_defs():
     obj_def = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
-    dims = obj_def['dimensions']
-    wt_defs = get_wider_and_taller_defs(obj_def)
-    for wt_def_pair in wt_defs:
-        wt_def, angle = wt_def_pair
-        wt_def = util.finalize_object_definition(wt_def)
-        assert wt_def['dimensions']['y'] >= dims['y']
+    obj_dim = obj_def['closed_dimensions'] if 'closed_dimensions' in obj_def else obj_def['dimensions']
+    big_defs = get_wider_and_taller_defs(obj_def, True)
+    for big_def_tuple in big_defs:
+        big_def, angle = big_def_tuple
+        big_def = util.finalize_object_definition(big_def)
+        big_dim = big_def['closed_dimensions'] if 'closed_dimensions' in big_def else big_def['dimensions']
+        assert big_dim['y'] >= obj_dim['y']
         if angle == 0:
-            assert wt_def['dimensions']['x'] >= dims['x']
+            assert big_dim['x'] >= obj_dim['x']
         else:
-            assert wt_def['dimensions']['z'] >= dims['x']
+            assert big_dim['z'] >= obj_dim['x']
 
 
 def test_rect_to_poly():

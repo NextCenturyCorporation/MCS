@@ -55,7 +55,7 @@ class Test_MCS_Util(unittest.TestCase):
 
     def test_class_to_str_with_class(self):
         self.maxDiff = 10000
-        expected = "{\n    \"my_boolean\": True,\n    \"my_float\": 1.234,\n    \"my_integer\": 0,\n    \"my_string\": \"a\",\n    \"my_list\": [\n        1,\n        \"b\",\n        {\n            \"my_integer\": 2,\n            \"my_string\": \"c\",\n            \"my_list\": [\n                3,\n                \"d\"\n            ]\n        }\n    ],\n    \"my_dict\": {\n        \"my_integer\": 4,\n        \"my_string\": \"e\",\n        \"my_list\": [\n            5,\n            \"f\"\n        ],\n        \"my_dict\": {\n            \"my_integer\": 6,\n            \"my_string\": \"g\"\n        }\n    },\n    \"my_list_empty\": [],\n    \"my_dict_empty\": {},\n    \"my_subclass\": {\n        \"my_integer\": 7,\n        \"my_string\": \"h\",\n        \"my_list\": [\n            8,\n            \"i\"\n        ],\n        \"my_dict\": {\n            \"my_integer\": 9,\n            \"my_string\": \"j\"\n        }\n    }\n}"
+        expected = "{\n    \"my_boolean\": true,\n    \"my_float\": 1.234,\n    \"my_integer\": 0,\n    \"my_string\": \"a\",\n    \"my_list\": [\n        1,\n        \"b\",\n        {\n            \"my_integer\": 2,\n            \"my_string\": \"c\",\n            \"my_list\": [\n                3,\n                \"d\"\n            ]\n        }\n    ],\n    \"my_dict\": {\n        \"my_integer\": 4,\n        \"my_string\": \"e\",\n        \"my_list\": [\n            5,\n            \"f\"\n        ],\n        \"my_dict\": {\n            \"my_integer\": 6,\n            \"my_string\": \"g\"\n        }\n    },\n    \"my_list_empty\": [],\n    \"my_dict_empty\": {},\n    \"my_subclass\": {\n        \"my_integer\": 7,\n        \"my_string\": \"h\",\n        \"my_list\": [\n            8,\n            \"i\"\n        ],\n        \"my_dict\": {\n            \"my_integer\": 9,\n            \"my_string\": \"j\"\n        }\n    }\n}"
         self.assertEqual(MCS_Util.class_to_str(My_Class()), expected)
 
     def test_class_to_str_with_empty_class(self):
@@ -159,8 +159,8 @@ class Test_MCS_Util(unittest.TestCase):
         self.assertEqual(MCS_Util.is_number('asdf'), False)
 
     def test_value_to_str_with_boolean(self):
-        self.assertEqual(MCS_Util.value_to_str(True), "True")
-        self.assertEqual(MCS_Util.value_to_str(False), "False")
+        self.assertEqual(MCS_Util.value_to_str(True), "true")
+        self.assertEqual(MCS_Util.value_to_str(False), "false")
 
     def test_value_to_str_with_dict(self):
         self.assertEqual(MCS_Util.value_to_str({}), "{}")
