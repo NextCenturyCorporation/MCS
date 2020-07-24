@@ -1,12 +1,14 @@
 import copy
 import datetime
 import glob
+import io
 import json
 import math
 import numpy
 import os
-import yaml
 import random
+import sys
+import yaml
 from PIL import Image
 
 import ai2thor.controller
@@ -102,11 +104,22 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     HISTORY_DIRECTORY = "SCENE_HISTORY"
 
     CONFIG_FILE = os.getenv('MCS_CONFIG_FILE_PATH', './mcs_config.yaml')
+
+    AWS_CREDENTIALS_FOLDER = os.path.expanduser('~') + '/.aws/'
+    AWS_CREDENTIALS_FILE = os.path.expanduser('~') + '/.aws/credentials'
+    AWS_ACCESS_KEY_ID = 'aws_access_key_id'
+    AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
+
+    CONFIG_AWS_ACCESS_KEY_ID = 'aws_access_key_id'
+    CONFIG_AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
     CONFIG_METADATA_MODE = 'metadata'
     CONFIG_METADATA_MODE_FULL = 'full' # Normal metadata plus metadata for all hidden objects
     CONFIG_METADATA_MODE_NO_NAVIGATION = 'no_navigation' # No navigation metadata like 3D coordinates
     CONFIG_METADATA_MODE_NO_VISION = 'no_vision' # No vision (image feature) metadata, except for the images
     CONFIG_METADATA_MODE_NONE = 'none' # No metadata, except for the images and haptic/audio feedback
+    CONFIG_SAVE_IMAGES_TO_S3_BUCKET = 'save_images_to_s3_bucket'
+    CONFIG_SAVE_IMAGES_TO_S3_FOLDER = 'save_images_to_s3_folder'
+    CONFIG_TEAM = 'team'
 
     def __init__(self, unity_app_file_path, debug=False, enable_noise=False, seed=None):
         super().__init__()
@@ -148,11 +161,27 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         self.__scene_configuration = None
         self.__scene_history_file = None
         self.__step_number = 0
+        self.__s3_client = None
 
         if not os.path.exists(self.HISTORY_DIRECTORY):
             os.makedirs(self.HISTORY_DIRECTORY)
 
         self._config = self.read_config_file()
+
+        if self.CONFIG_AWS_ACCESS_KEY_ID in self._config and self.CONFIG_AWS_SECRET_ACCESS_KEY in self._config:
+            if not os.path.exists(self.AWS_CREDENTIALS_FOLDER):
+                os.makedirs(self.AWS_CREDENTIALS_FOLDER)
+            # From https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html
+            with open(self.AWS_CREDENTIALS_FILE, 'w') as credentials_file:
+                credentials_file.write('[default]\n' + self.AWS_ACCESS_KEY_ID + ' = ' + \
+                        self._config[self.CONFIG_AWS_ACCESS_KEY_ID] + '\n' + self.AWS_SECRET_ACCESS_KEY + ' = ' + \
+                        self._config[self.CONFIG_AWS_SECRET_ACCESS_KEY] + '\n')
+
+        if self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET in self._config:
+            if 'boto3' not in sys.modules:
+                import boto3
+                from botocore.exceptions import ClientError
+                self.__s3_client = boto3.client('s3')
 
 
     def get_seed_value(self):
@@ -166,7 +195,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     # Override
     def end_scene(self, classification, confidence):
-        history_item = '{"classification": ' + classification + ', "confidence": ' + confidence + '}'
+        history_item = '{"classification": ' + classification + ', "confidence": ' + str(confidence) + '}'
         self.__history_list.append(history_item)
         self.write_history_file(history_item)
 
@@ -185,9 +214,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         if 'screenshot' in config_data and config_data['screenshot']:
             self.__scene_history_file = None
         else:
-            self.__scene_history_file = os.path.join(self.HISTORY_DIRECTORY, \
-                    self.__scene_configuration['name'].replace('.json','') + "-" + \
-                    datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
+            self.__scene_history_file = os.path.join(self.HISTORY_DIRECTORY, config_data['name'].replace('.json','') + "-" + \
+                    self.generate_time() + ".txt")
         skip_preview_phase = True if 'goal' in config_data and 'skip_preview_phase' in config_data['goal'] else False
 
         if self.__debug_to_file and config_data['name'] is not None:
@@ -374,9 +402,23 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         history_item = MCS_Scene_History(step=self.__step_number, action=action, args=kwargs, params=params, \
                 output=output_copy)
         self.__history_list.append(history_item)
-        self.write_history_file(str(history_item))
+        filtered_history_item = self.filter_history_images(history_item)
+        self.write_history_file(str(filtered_history_item))
 
         return output
+
+    def filter_history_images(self, history: MCS_Scene_History) -> MCS_Scene_History:
+        '''Remove the images from the history'''
+        if 'target' in history.output.goal.metadata.keys():
+            del history.output.goal.metadata['target']['image']
+        if 'target_1' in history.output.goal.metadata.keys():
+            del history.output.goal.metadata['target_1']['image']
+        if 'target_2' in history.output.goal.metadata.keys():
+            del history.output.goal.metadata['target_2']['image']
+        return history
+
+    def generate_time(self):
+        return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
     def mcs_action_to_ai2thor_action(self, action):
         if action == MCS_Action.CLOSE_OBJECT.value:
@@ -593,6 +635,19 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 scene_image.save(fp=self.__output_folder + 'frame_image' + suffix)
                 depth_mask.save(fp=self.__output_folder + 'depth_mask' + suffix)
                 object_mask.save(fp=self.__output_folder + 'object_mask' + suffix)
+
+            if self.__s3_client:
+                in_memory_file = io.BytesIO()
+                scene_image.save(fp=in_memory_file, format='png')
+                in_memory_file.seek(0)
+                s3_folder = (self._config[self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER] + '/') if \
+                        self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER in self._config else ''
+                team_prefix = (self._config[self.CONFIG_TEAM] + '_') if self.CONFIG_TEAM in self._config else ''
+                s3_file_name = s3_folder + team_prefix + self.__scene_configuration['name'].replace('.json', '') + \
+                        '_' + str(self.__step_number) + '_' + str(index + 1) + '_' + self.generate_time() + '.png'
+                print('SAVE TO S3 BUCKET ' + self._config[self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET] + ': ' + s3_file_name)
+                self.__s3_client.upload_fileobj(in_memory_file, self._config[self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET], \
+                        s3_file_name, ExtraArgs={'ACL': 'public-read', 'ContentType': 'image/png'})
 
         return image_list, depth_mask_list, object_mask_list
 
