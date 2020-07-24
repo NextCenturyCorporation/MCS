@@ -3,11 +3,13 @@ import random
 import shapely
 import uuid
 from abc import ABC, abstractmethod
+from enum import Enum
 from typing import Dict, Any, Tuple, List, Optional
 
 import geometry
 import objects
 import separating_axis_theorem
+import tags
 import util
 
 MAX_WALL_WIDTH = 4
@@ -82,6 +84,14 @@ def generate_wall(wall_material: str, wall_colors: List[str], performer_position
     return None
 
 
+class GoalCategory(Enum):
+    """String for the goal's JSON config "category" property. Should all be listed in the API documentation."""
+    INTPHYS = 'intphys'
+    RETRIEVAL = 'retrieval'
+    TRANSFERRAL = 'transferral'
+    TRAVERSAL = 'traversal'
+
+
 class Goal(ABC):
     """An abstract Goal. Subclasses must implement compute_objects and
     get_config. Users of a goal object should normally only need to call 
@@ -91,7 +101,7 @@ class Goal(ABC):
         self._name = name
         self._performer_start = None
         self._compute_performer_start()
-        self._tag_to_objects = []
+        self._tag_to_objects = {}
 
     def update_body(self, body: Dict[str, Any], find_path: bool) -> Dict[str, Any]:
         """Helper method that calls other Goal methods to set performerStart, objects, and goal. Returns the goal body
@@ -137,51 +147,24 @@ class Goal(ABC):
         (dict that maps tag strings to object lists, bounding rectangles)"""
         pass
 
-    def _update_goal_info_list(self, goal: Dict[str, Any], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> None:
-        info_set = set(goal.get('info_list', []))
-
+    def update_goal_info_list(self, info_list: List[str], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> List[str]:
+        """Update and return the given info_list with the info from all objects in this goal."""
+        info_set = set(info_list)
         for key, value in tag_to_objects.items():
             for obj in value:
                 info_list = obj.get('info', []).copy()
                 if 'info_string' in obj:
                     info_list.append(obj['info_string'])
                 info_set |= set([(key + ' ' + info) for info in info_list])
-
-        goal['info_list'] = list(info_set)
-
-    def _update_goal_tags(self, goal: Dict[str, Any], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> None:
-        self._update_goal_tags_of_type(goal, tag_to_objects['target'], 'target')
-        if 'confusor' in tag_to_objects:
-            self._update_goal_tags_of_type(goal, tag_to_objects['confusor'], 'confusor')
-        if 'distractor' in tag_to_objects:
-            self._update_goal_tags_of_type(goal, tag_to_objects['distractor'], 'distractor')
-        if 'obstructor' in tag_to_objects:
-            self._update_goal_tags_of_type(goal, tag_to_objects['obstructor'], 'obstructor')
-        for item in ['background object', 'confusor', 'distractor', 'obstructor', 'occluder', 'target', 'wall']:
-            if item in tag_to_objects:
-                number = len(tag_to_objects[item])
-                if item == 'occluder':
-                    number = (int)(number / 2)
-                goal['type_list'].append(item + 's ' + str(number))
-        self._update_goal_info_list(goal, tag_to_objects)
-
-    def _update_goal_tags_of_type(self, goal: Dict[str, Any], objs: List[Dict[str, Any]], name: str) -> None:
-        for obj in objs:
-            enclosed_tag = (name + ' not enclosed') if obj.get('locationParent', None) is None else (name + ' enclosed')
-            novel_color_tag = (name + ' novel color') if 'novel_color' in obj and obj['novel_color'] else \
-                    (name + ' not novel color')
-            novel_combination_tag = (name + ' novel combination') if 'novel_combination' in obj and \
-                    obj['novel_combination'] else (name + ' not novel combination')
-            novel_shape_tag = (name + ' novel shape') if 'novel_shape' in obj and obj['novel_shape'] else \
-                    (name + ' not novel shape')
-            for new_tag in [enclosed_tag, novel_color_tag, novel_combination_tag, novel_shape_tag]:
-                if new_tag not in goal['type_list']:
-                    goal['type_list'].append(new_tag)
+        return list(info_set)
 
     def get_config(self, tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> Dict[str, Any]:
         """Create and return the goal configuration."""
         goal_config = self._get_subclass_config(tag_to_objects['target'])
-        self._update_goal_tags(goal_config, tag_to_objects)
+        goal_config['category'] = goal_config.get('category', '')
+        goal_config['type_list'] = tags.append_object_tags(goal_config.get('type_list', []), tag_to_objects)
+        goal_config['info_list'] = self.update_goal_info_list(goal_config.get('info_list', []), tag_to_objects)
+        goal_config['metadata'] = goal_config.get('metadata', {})
         return goal_config
 
     def get_name(self) -> str:

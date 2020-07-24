@@ -31,7 +31,8 @@ def test_STCQ_get_scene():
         assert scene['goal']['last_step'] == scene_1['goal']['last_step']
         assert scene['goal']['action_list'] == [['Pass']] * scene['goal']['last_step']
         assert scene['goal']['category'] == 'intphys'
-        assert scene['goal']['domain_list'] == ['objects', 'object solidity', 'object motion', 'object permanence']
+        assert set(scene['goal']['domain_list']) == set(['objects', 'object solidity', 'object motion', \
+                'object permanence'])
         assert 'passive' in scene['goal']['type_list']
         assert 'action none' in scene['goal']['type_list']
         assert 'intphys' in scene['goal']['type_list']
@@ -126,7 +127,8 @@ def test_ShapeConstancyQuartet_get_scene():
         assert scene['goal']['last_step'] == scene_1['goal']['last_step']
         assert scene['goal']['action_list'] == [['Pass']] * scene['goal']['last_step']
         assert scene['goal']['category'] == 'intphys'
-        assert scene['goal']['domain_list'] == ['objects', 'object solidity', 'object motion', 'object permanence']
+        assert set(scene['goal']['domain_list']) == set(['objects', 'object solidity', 'object motion', \
+                'object permanence'])
         assert 'passive' in scene['goal']['type_list']
         assert 'action none' in scene['goal']['type_list']
         assert 'intphys' in scene['goal']['type_list']
@@ -204,7 +206,8 @@ def test_ObjectPermanenceQuartet_get_scene():
         assert scene['goal']['last_step'] == scene_1['goal']['last_step']
         assert scene['goal']['action_list'] == [['Pass']] * scene['goal']['last_step']
         assert scene['goal']['category'] == 'intphys'
-        assert scene['goal']['domain_list'] == ['objects', 'object solidity', 'object motion', 'object permanence']
+        assert set(scene['goal']['domain_list']) == set(['objects', 'object solidity', 'object motion', \
+                'object permanence'])
         assert 'passive' in scene['goal']['type_list']
         assert 'action none' in scene['goal']['type_list']
         assert 'intphys' in scene['goal']['type_list']
@@ -263,7 +266,7 @@ def test_GravityQuartet_get_scene():
         assert scene['goal']['last_step'] == scene_1['goal']['last_step']
         assert scene['goal']['action_list'] == [['Pass']] * scene['goal']['last_step']
         assert scene['goal']['category'] == 'intphys'
-        assert scene['goal']['domain_list'] == ['objects', 'object solidity', 'object motion', 'gravity']
+        assert set(scene['goal']['domain_list']) == set(['objects', 'object solidity', 'object motion', 'gravity'])
         assert 'passive' in scene['goal']['type_list']
         assert 'action none' in scene['goal']['type_list']
         assert 'intphys' in scene['goal']['type_list']

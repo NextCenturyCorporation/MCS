@@ -601,9 +601,11 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
     def test_retrieve_goal(self):
         goal_1 = self.controller.retrieve_goal({})
         self.assertEqual(goal_1.action_list, None)
+        self.assertEqual(goal_1.category, '')
+        self.assertEqual(goal_1.description, '')
+        self.assertEqual(goal_1.domain_list, [])
         self.assertEqual(goal_1.info_list, [])
         self.assertEqual(goal_1.last_step, None)
-        self.assertEqual(goal_1.task_list, [])
         self.assertEqual(goal_1.type_list, [])
         self.assertEqual(goal_1.metadata, {})
 
@@ -612,18 +614,22 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             }
         })
         self.assertEqual(goal_2.action_list, None)
+        self.assertEqual(goal_2.category, '')
+        self.assertEqual(goal_2.description, '')
+        self.assertEqual(goal_2.domain_list, [])
         self.assertEqual(goal_2.info_list, [])
         self.assertEqual(goal_2.last_step, None)
-        self.assertEqual(goal_2.task_list, [])
         self.assertEqual(goal_2.type_list, [])
         self.assertEqual(goal_2.metadata, {})
 
         goal_3 = self.controller.retrieve_goal({
             "goal": {
                 "action_list": [["action1"], [], ["action2", "action3", "action4"]],
+                "category": "test category",
+                "description": "test description",
+                "domain_list": ["domain1", "domain2"],
                 "info_list": ["info1", "info2", 12.34],
                 "last_step": 10,
-                "task_list": ["task1", "task2"],
                 "type_list": ["type1", "type2"],
                 "metadata": {
                     "key": "value"
@@ -631,11 +637,14 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             }
         })
         self.assertEqual(goal_3.action_list, [["action1"], [], ["action2", "action3", "action4"]])
+        self.assertEqual(goal_3.category, "test category")
+        self.assertEqual(goal_3.description, "test description")
+        self.assertEqual(goal_3.domain_list, ["domain1", "domain2"])
         self.assertEqual(goal_3.info_list, ["info1", "info2", 12.34])
         self.assertEqual(goal_3.last_step, 10)
-        self.assertEqual(goal_3.task_list, ["task1", "task2"])
         self.assertEqual(goal_3.type_list, ["type1", "type2"])
         self.assertEqual(goal_3.metadata, {
+            "category": "test category",
             "key": "value"
         })
 

@@ -12,9 +12,10 @@ import containers
 import exceptions
 import geometry
 import objects
+import tags
 import util
 from geometry import POSITION_DIGITS
-from goal import Goal, generate_wall
+from goal import Goal, GoalCategory, generate_wall
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, MAX_REACH_DISTANCE, PERFORMER_CAMERA_Y
 from optimal_path import generatepath
 from util import finalize_object_definition, instantiate_object
@@ -527,10 +528,19 @@ class RetrievalGoal(InteractionGoal):
     """Going to a specified object and picking it up."""
 
     TEMPLATE = {
-        'category': 'retrieval',
-        'domain_list': ['objects', 'places', 'object_solidity', 'navigation', 'localization'],
-        'type_list': ['interactive', 'action_full', 'retrieval'],
-        'task_list': ['navigate', 'localize', 'identify', 'retrieve'],
+        'category': GoalCategory.RETRIEVAL.value,
+        'domain_list': [
+            tags.DOMAIN_OBJECTS,
+            tags.DOMAIN_OBJECTS_SOLIDITY,
+            tags.DOMAIN_PLACES,
+            tags.DOMAIN_PLACES_LOCALIZATION,
+            tags.DOMAIN_PLACES_NAVIGATION
+        ],
+        'type_list': [
+            tags.INTERACTIVE,
+            tags.ACTION_FULL,
+            GoalCategory.RETRIEVAL.value
+        ],
         'last_step': InteractionGoal.LAST_STEP
     }
 
@@ -607,10 +617,19 @@ class TransferralGoal(InteractionGoal):
         ON_TOP_OF = 'on top of'
 
     TEMPLATE = {
-        'category': 'transferral',
-        'domain_list': ['objects', 'places', 'object_solidity', 'navigation', 'localization'],
-        'type_list': ['interactive', 'action_full', 'transferral'],
-        'task_list': ['navigate', 'localize', 'identify', 'retrieve', 'transfer'],
+        'category': GoalCategory.TRANSFERRAL.value,
+        'domain_list': [
+            tags.DOMAIN_OBJECTS,
+            tags.DOMAIN_OBJECTS_SOLIDITY,
+            tags.DOMAIN_PLACES,
+            tags.DOMAIN_PLACES_LOCALIZATION,
+            tags.DOMAIN_PLACES_NAVIGATION
+        ],
+        'type_list': [
+            tags.INTERACTIVE,
+            tags.ACTION_FULL,
+            GoalCategory.TRANSFERRAL.value
+        ],
         'last_step': InteractionGoal.LAST_STEP
     }
 
@@ -745,10 +764,19 @@ class TraversalGoal(InteractionGoal):
     """Locating and navigating to a specified object."""
 
     TEMPLATE = {
-        'category': 'traversal',
-        'domain_list': ['objects', 'places', 'object_solidity', 'navigation', 'localization'],
-        'type_list': ['interactive', 'action_full', 'traversal'],
-        'task_list': ['navigate', 'localize', 'identify'],
+        'category': GoalCategory.TRAVERSAL.value,
+        'domain_list': [
+            tags.DOMAIN_OBJECTS,
+            tags.DOMAIN_OBJECTS_SOLIDITY,
+            tags.DOMAIN_PLACES,
+            tags.DOMAIN_PLACES_LOCALIZATION,
+            tags.DOMAIN_PLACES_NAVIGATION
+        ],
+        'type_list': [
+            tags.INTERACTIVE,
+            tags.ACTION_FULL,
+            GoalCategory.TRAVERSAL.value
+        ],
         'last_step': InteractionGoal.LAST_STEP
     }
 
