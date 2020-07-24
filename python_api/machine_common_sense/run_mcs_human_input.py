@@ -1,6 +1,7 @@
 import sys
 import argparse
-#import importlib 
+import cmd
+from machine_common_sense.getchHelper import getch
 
 from machine_common_sense.mcs import MCS
 from machine_common_sense.mcs_action import MCS_Action
@@ -17,6 +18,110 @@ class command:
         self.name = name
         self.key = key
         self.desc = desc
+
+class HumanInputShell(cmd.Cmd):
+
+    prompt = '(command)->'
+
+    def __init__(self, input_controller, input_previous_output, input_config_data):
+        super(HumanInputShell,self).__init__()
+
+        self.controller = input_controller
+        self.previous_output = input_previous_output
+        self.config_data = input_config_data
+
+    def precmd(self, line):
+        return line
+
+    def postcmd(self, stopFlag, line) -> bool:
+        print('===============================================================================')
+        return stopFlag
+        
+
+    def default(self, line):
+
+        if self.previous_output.action_list is not None and len(self.previous_output.action_list) < len(commandList):
+            print('Only actions available during this step:')
+            for action in self.previous_output.action_list:
+                print('  ' + action)
+        else:
+            print('All actions are available during this step.')
+
+        if self.previous_output.action_list is not None and len(self.previous_output.action_list) == 1:
+            print('Automatically selecting the only available action...')
+            userInput = self.previous_output.action_list[1]
+        else:
+            userInput = line.split(',')
+
+        # Check for shortcut key, if attempted shortcut key, map and check valid key
+        try:
+            if len(userInput[0]) == 1:
+                userInput[0] = MCS_Action[MCS_Action_Keys(userInput[0] ).name].value
+        except:
+            print("You entered an invalid shortcut key, please try again. (Type 'help' to display commands again)")
+            print("You entered: " + userInput[0])
+            return
+
+        if userInput and userInput[0].lower() == 'exit':
+            self.do_exit(line)
+            return 
+        if userInput and userInput[0].lower() == 'help':
+            self.do_help(line)
+            return
+        if userInput and userInput[0].lower() == 'reset':
+            self.do_reset(line)
+            return 
+            
+        action, params = MCS_Util.input_to_action_and_params(','.join(userInput))
+
+        if action is None:
+            print("You entered an invalid command, please try again.  (Type 'help' to display commands again)")
+            return
+
+        if params is None:
+            print("ERROR: Parameters should be separated by commas, and look like this example: rotation=45")
+            return
+
+        output = self.controller.step(action, **params)
+        self.previous_output = output
+
+    def help_print(self):
+        print("Prints all commands that the user can use.")
+
+    def help_exit(self):
+        print("Exits out of the MCS Human Input program.")
+
+    def help_reset(self):
+        print("Resets the scene.")
+
+    def help_shortcut_key_mode(self):
+        print("Toggles on mode where the user can execute single key commands without hitting enter.")
+
+    def do_exit(self, args) -> bool:
+        print("Exiting Human Input Mode\n")
+        return True
+
+    def do_print(self, args):
+        print_commands()
+
+    def do_reset(self, args):
+        self.previous_output = (self.controller).start_scene(self.config_data)
+
+    def do_shortcut_key_mode(self, args):
+        print("Entering shortcut mode...")
+        print("Press key 'e' to exit\n")
+        list_of_mcs_action_keys = [mcs_action_key.value for mcs_action_key in MCS_Action_Keys]
+
+        while True:
+            char = getch.__call__()
+            print('\n(shortcut-command)->', char)
+            if char == 'e': # exit shortcut key mode
+                break
+            elif char in list_of_mcs_action_keys:
+                self.default(char)
+        
+
+
 
 # Define all the possible human input commands
 def build_commands():
@@ -40,69 +145,18 @@ def print_commands():
     print(" ")
     print("----------------- Other Commands -----------------")
     print(" ")
-    print("Enter 'help' to print the commands again.")
+    print("Enter 'print' to print the commands again.")
     print("Enter 'reset' to reset the scene.")
     print("Enter 'exit' to exit the program.")
+    print("Enter 'shortcut_key_mode' to be able to enter Commands without hitting enter.")
     print(" ")
+    print("----------------- Features -----------------------")
+    print("Up/Down arrow keys go through the command history")
+    print("Tab key is for auto completion of a command")
     print("------------------ End Commands ------------------")
     print(" ")
 
-# Execute Input Commands until the user exits the system
-def input_commands(controller, previous_output, config_data):
-    if previous_output.action_list is not None and len(previous_output.action_list) < len(commandList):
-        print('Only actions available during this step:')
-        for action in previous_output.action_list:
-            print('  ' + action)
-    else:
-        print('All actions available during this step.')
-
-    if previous_output.action_list is not None and len(previous_output.action_list) == 1:
-        print('Automatically selecting the only available action...')
-        userInput = previous_output.action_list[1]
-    else:
-        print('Enter your command:')
-        userInput = input().split(',')
-
-    if(userInput[0].lower() == 'exit'):
-        print("Exiting Human Input Mode")
-        return
-
-    if(userInput[0].lower() == 'help'):
-        print_commands()
-        return input_commands(controller, previous_output, config_data)
-
-    if(userInput[0].lower() == 'reset'):
-        output = controller.start_scene(config_data)
-        return input_commands(controller, output, config_data)
-
-    # Check for shortcut key, if attempted shortcut key, map and check valid key
-    try:
-        if len(userInput[0]) == 1:
-            userInput[0] = MCS_Action[MCS_Action_Keys(userInput[0] ).name].value
-    except:
-        print("You entered an invalid shortcut key, please try again. (Type 'help' to display commands again)")
-        print("You entered: " + userInput[0])
-        return input_commands(controller, previous_output, config_data)
-
-    print('You entered command:')
-    print(*userInput)
-
-    action, params = MCS_Util.input_to_action_and_params(','.join(userInput))
-
-    if action is None:
-        print("You entered an invalid command, please try again.  (Type 'help' to display commands again)")
-        return input_commands(controller, previous_output, config_data)
-
-    if params is None:
-        print("ERROR: Parameters should be separated by commas, and look like this example: rotation=45")
-        return input_commands(controller, previous_output, config_data)
-
-    output = controller.step(action, **params);
-
-    print('===============================================================================')
-
-    return input_commands(controller, output, config_data)
-
+        
 # Run scene loaded in the config data
 def run_scene(controller, config_data):
     build_commands()
@@ -110,9 +164,11 @@ def run_scene(controller, config_data):
 
     output = controller.start_scene(config_data)
 
-    input_commands(controller, output, config_data)
+    input_commands = HumanInputShell(controller, output, config_data)
+    input_commands.cmdloop()
 
     sys.exit()
+
 
 def main(argv): 
     
@@ -171,4 +227,3 @@ def main(argv):
 
 if __name__ == "__main__":
     main(sys.argv)
-

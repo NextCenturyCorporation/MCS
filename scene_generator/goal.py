@@ -1,10 +1,10 @@
 import logging
 import random
+import shapely
 import uuid
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Tuple, List, Optional
 
-import exceptions
 import geometry
 import objects
 import separating_axis_theorem
@@ -15,40 +15,45 @@ MIN_WALL_WIDTH = 1
 WALL_Y_POS = 1.5
 WALL_HEIGHT = 3
 WALL_DEPTH = 0.1
-MAX_OBJECTS = 5
-WALL_COUNTS = [0, 1, 2, 3]
-WALL_PROBS = [60, 20, 10, 10]
 
 DIST_WALL_APART = 1
 SAFE_DIST_FROM_ROOM_WALL = 3.5
     
 
-def generate_wall(wall_material: str, wall_colors: List[str], performer_position: Dict[str, float],
-                  other_rects: List[List[Dict[str, float]]]) -> Optional[Dict[str, Any]]:
-    # Wanted to reuse written functions, but this is a bit more of a special snowflake
-    # Generates obstacle walls placed in the scene.
+def generate_wall(wall_material: str, wall_colors: List[str], performer_position: Dict[str, float], \
+        other_rects: List[List[Dict[str, float]]], target_list: List[Dict[str, Any]] = None) -> \
+        Optional[Dict[str, Any]]:
+    """Generates and returns a randomly positioned obstacle wall. If target_list is not None, the wall won't obstruct
+    the line between the performer_position and the target_list."""
 
     tries = 0
     performer_rect = geometry.find_performer_rect(performer_position)
     performer_poly = geometry.rect_to_poly(performer_rect)
     while tries < util.MAX_TRIES:
         rotation = random.choice((0, 90, 180, 270))
-        new_x = geometry.random_position()
-        new_z = geometry.random_position()
+        new_x = geometry.random_position_x()
+        new_z = geometry.random_position_z()
         new_x_size = round(random.uniform(MIN_WALL_WIDTH, MAX_WALL_WIDTH), geometry.POSITION_DIGITS)
         
         # Make sure the wall is not too close to the rooms 4 walls
         if ((rotation == 0 or rotation == 180) and (new_z < -SAFE_DIST_FROM_ROOM_WALL or new_z > SAFE_DIST_FROM_ROOM_WALL)) or \
             ((rotation == 90 or rotation == 270) and (new_x < -SAFE_DIST_FROM_ROOM_WALL or new_x > SAFE_DIST_FROM_ROOM_WALL)): 
             continue
-        else:
-            rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, 0, 0, rotation)
-            # barrier_rect is to allow parallel walls to be at least 1(DIST_WALL_APART) apart on the appropriate axis
-            barrier_rect = geometry.calc_obj_coords(new_x, new_z, new_x_size + DIST_WALL_APART, WALL_DEPTH + DIST_WALL_APART, 0, 0, rotation)
-            wall_poly = geometry.rect_to_poly(rect)
-            if not wall_poly.intersects(performer_poly) and \
-                    geometry.rect_within_room(rect) and \
-                    (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(barrier_rect, other_rect) for other_rect in other_rects)): 
+
+        rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, 0, 0, rotation)
+        # barrier_rect is to allow parallel walls to be at least 1(DIST_WALL_APART) apart on the appropriate axis
+        barrier_rect = geometry.calc_obj_coords(new_x, new_z, new_x_size + DIST_WALL_APART, WALL_DEPTH + DIST_WALL_APART, 0, 0, rotation)
+        wall_poly = geometry.rect_to_poly(rect)
+        is_ok = not wall_poly.intersects(performer_poly) and geometry.rect_within_room(rect) and \
+                (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(barrier_rect, other_rect) \
+                for other_rect in other_rects))
+        if is_ok:
+            if target_list:
+                for target in target_list:
+                    if geometry.does_obstruct_target(performer_position, target, wall_poly):
+                        is_ok = False
+                        break
+            if is_ok:
                 break
         tries += 1
 
@@ -82,76 +87,55 @@ class Goal(ABC):
     get_config. Users of a goal object should normally only need to call 
     update_body."""
 
-    def __init__(self):
+    def __init__(self, name: str):
+        self._name = name
         self._performer_start = None
-        self._targets = []
+        self._compute_performer_start()
         self._tag_to_objects = []
 
     def update_body(self, body: Dict[str, Any], find_path: bool) -> Dict[str, Any]:
         """Helper method that calls other Goal methods to set performerStart, objects, and goal. Returns the goal body
         object."""
-        body['performerStart'] = self.compute_performer_start()
+        self._tag_to_objects = self.compute_objects(body['wallMaterial'], body['wallColors'])
 
-        tag_to_objects, bounding_rects = self.compute_objects(body['wallMaterial'])
-        self._tag_to_objects = tag_to_objects
-        self._targets = tag_to_objects['target']
-
-        walls = self.generate_walls(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], \
-                bounding_rects)
-        if walls is not None:
-            tag_to_objects['wall'] = walls
-
-        body['objects'] = [element for value in tag_to_objects.values() for element in value]
-        body['goal'] = self.get_config(self._targets, tag_to_objects)
+        body['performerStart'] = self._performer_start
+        body['objects'] = [element for value in self._tag_to_objects.values() for element in value]
+        body['goal'] = self.get_config(self._tag_to_objects)
 
         if find_path:
-            body['answer']['actions'] = self.find_optimal_path(self._targets, body['objects'])
+            body['answer']['actions'] = self._find_optimal_path(self._tag_to_objects['target'], body['objects'])
 
         return body
 
-    def compute_performer_start(self) -> Dict[str, Dict[str, float]]:
+    def _compute_performer_start(self) -> Dict[str, Dict[str, float]]:
         """Compute the starting location (position & rotation) for the performer. Must return the same thing on
         multiple calls. This default implementation chooses a random location."""
         if self._performer_start is None:
             self._performer_start = {
                 'position': {
-                    'x': geometry.random_position(),
+                    'x': round(random.uniform(
+                        geometry.ROOM_DIMENSIONS[0][0] + util.PERFORMER_HALF_WIDTH,
+                        geometry.ROOM_DIMENSIONS[0][1] - util.PERFORMER_HALF_WIDTH
+                    ), geometry.POSITION_DIGITS),
                     'y': 0,
-                    'z': geometry.random_position()
+                    'z': round(random.uniform(
+                        geometry.ROOM_DIMENSIONS[1][0] + util.PERFORMER_HALF_WIDTH,
+                        geometry.ROOM_DIMENSIONS[1][1] - util.PERFORMER_HALF_WIDTH
+                    ), geometry.POSITION_DIGITS)
                 },
                 'rotation': {
-                    'y': geometry.random_rotation()
+                    'x': 0,
+                    'y': geometry.random_rotation(),
+                    'z': 0
                 }
             }
         return self._performer_start
 
-    def choose_object_def(self) -> Dict[str, Any]:
-        """Pick one object definition (to be added to the scene) and return a copy of it."""
-        object_def_list = random.choices([objects.OBJECTS_PICKUPABLE, objects.OBJECTS_MOVEABLE,
-                                          objects.OBJECTS_IMMOBILE],
-                                         [50, 25, 25])[0]
-        return util.finalize_object_definition(random.choice(object_def_list))
-
     @abstractmethod
-    def compute_objects(self, wall_material_name: str) -> \
-            Tuple[Dict[str, List[Dict[str, Any]]], List[List[Dict[str, float]]]]:
+    def compute_objects(self, wall_material_name: str, wall_colors: List[str]) -> Dict[str, List[Dict[str, Any]]]:
         """Compute object instances for the scene. Returns a tuple:
         (dict that maps tag strings to object lists, bounding rectangles)"""
         pass
-
-    def add_objects(self, object_list: List[Dict[str, Any]], rectangles: List[List[Dict[str, float]]],
-                    performer_position: Dict[str, float]) -> None:
-        """Add random objects to fill object_list to some random number of objects up to MAX_OBJECTS. If object_list
-        already has more than this randomly determined number, no new objects are added."""
-        object_count = random.randint(1, MAX_OBJECTS)
-        for i in range(len(object_list), object_count):
-            object_def = self.choose_object_def()
-            obj_location = geometry.calc_obj_pos(performer_position, rectangles, object_def)
-            obj_info = object_def['info'][-1]
-            targets_info = [tgt['info'][-1] for tgt in self._targets]
-            if obj_info not in targets_info and obj_location is not None:
-                obj = util.instantiate_object(object_def, obj_location)
-                object_list.append(obj)
 
     def _update_goal_info_list(self, goal: Dict[str, Any], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> None:
         info_set = set(goal.get('info_list', []))
@@ -167,9 +151,13 @@ class Goal(ABC):
 
     def _update_goal_tags(self, goal: Dict[str, Any], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> None:
         self._update_goal_tags_of_type(goal, tag_to_objects['target'], 'target')
+        if 'confusor' in tag_to_objects:
+            self._update_goal_tags_of_type(goal, tag_to_objects['confusor'], 'confusor')
         if 'distractor' in tag_to_objects:
             self._update_goal_tags_of_type(goal, tag_to_objects['distractor'], 'distractor')
-        for item in ['background object', 'distractor', 'occluder', 'target', 'wall']:
+        if 'obstructor' in tag_to_objects:
+            self._update_goal_tags_of_type(goal, tag_to_objects['obstructor'], 'obstructor')
+        for item in ['background object', 'confusor', 'distractor', 'obstructor', 'occluder', 'target', 'wall']:
             if item in tag_to_objects:
                 number = len(tag_to_objects[item])
                 if item == 'occluder':
@@ -190,39 +178,33 @@ class Goal(ABC):
                 if new_tag not in goal['type_list']:
                     goal['type_list'].append(new_tag)
 
-    def get_config(self, goal_objects: List[Dict[str, Any]], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> \
-            Dict[str, Any]:
-        """Get the goal configuration. goal_objects is the objects required for the goal (as returned from
-        compute_objects)."""
-        goal_config = self._get_subclass_config(goal_objects)
+    def get_config(self, tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> Dict[str, Any]:
+        """Create and return the goal configuration."""
+        goal_config = self._get_subclass_config(tag_to_objects['target'])
         self._update_goal_tags(goal_config, tag_to_objects)
         return goal_config
+
+    def get_name(self) -> str:
+        """Returns the name of this goal."""
+        return self._name
+
+    def get_performer_start(self) -> Dict[str, float]:
+        """Returns the performer start."""
+        return self._performer_start
+
+    def reset_performer_start(self) -> Dict[str, float]:
+        """Resets the performer start and returns the new performer start."""
+        self._performer_start = None
+        self._compute_performer_start()
+        return self._performer_start
 
     @abstractmethod
     def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Get the goal configuration of this specific subclass."""
         pass
 
-    def generate_walls(self, material: str, colors: List[str], performer_position: Dict[str, Any],
-                       bounding_rects: List[List[Dict[str, float]]]) -> List[Dict[str, Any]]:
-        wall_count = random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0]
-        
-        walls = [] 
-        # Add bounding rects to walls
-        all_bounding_rects = [bounding_rect.copy() for bounding_rect in bounding_rects] 
-        for x in range(0, wall_count):
-            wall = generate_wall(material, colors, performer_position, all_bounding_rects)
-
-            if wall is not None:
-                walls.append(wall)
-                all_bounding_rects.append(wall['shows'][0]['bounding_box'])
-            else:
-                logging.warning('could not generate wall')
-        return walls
-
-
     @abstractmethod
-    def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
+    def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
             List[Dict[str, Any]]:
         """Compute the optimal set of moves and update the body object"""
         pass
@@ -234,18 +216,13 @@ class EmptyGoal(Goal):
     def __init__(self):
         super(EmptyGoal, self).__init__()
 
-    def compute_objects(self, wall_material_name: str) -> \
-            Tuple[Dict[str, List[Dict[str, Any]]], List[List[Dict[str, float]]]]:
-        return { 'target': [] }, []
+    def compute_objects(self, wall_material_name: str, wall_colors: List[str]) -> Dict[str, List[Dict[str, Any]]]:
+        return { 'target': [] }
 
     def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         return {}
 
-    def find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
+    def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
             List[Dict[str, Any]]:
         return []
 
-
-class GoalException(exceptions.SceneException):
-    def __init__(self, message=''):
-        super(GoalException, self).__init__(message)

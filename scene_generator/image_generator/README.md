@@ -12,13 +12,13 @@
 python image_generator.py <unity_app_file_path> <output_folder=../images/>
 ```
 
-4. TAR all the output object images:
+4. TAR all the output object pixel array files:
 
 ```
-tar -czvf <name>.tar.gz *.png
+tar -czvf <name>.tar.gz *.txt
 ```
 
-5. Upload the output `images.py` file and the object images TAR file to our S3:  https://s3.console.aws.amazon.com/s3/buckets/mcs-unity-images/?region=us-east-1
+5. Upload the object pixel array TAR file to our S3:  https://s3.console.aws.amazon.com/s3/buckets/mcs-unity-images/?region=us-east-1
 
 ## Tests
 

@@ -4,65 +4,6 @@ from goals import *
 from util import instantiate_object
 
 
-def test_Goal_duplicate_object():
-    goal_obj = RetrievalGoal()
-    obj = {
-        'id': str(uuid.uuid4()),
-        'info': [str(uuid.uuid4())],
-        'type': 'sphere',
-        "choose": [{
-            "mass": 0.25,
-            "materialCategory": ["plastic"],
-            "salientMaterials": ["plastic", "hollow"]
-        }, {
-            "mass": 0.5625,
-            "materialCategory": ["rubber"],
-            "salientMaterials": ["rubber"]
-        }, {
-            "mass": 0.5625,
-            "materialCategory": ["block_blank"],
-            "salientMaterials": ["wood"]
-        }, {
-            "mass": 0.5625,
-            "materialCategory": ["wood"],
-            "salientMaterials": ["wood"]
-        }, {
-            "mass": 1,
-            "materialCategory": ["metal"],
-            "salientMaterials": ["metal"]
-        }],
-        "attributes": ["moveable", "pickupable"],
-        "dimensions": {
-            "x": 0.1,
-            "y": 0.1,
-            "z": 0.1
-        },
-        "position_y": 0.05,
-        "scale": {
-            "x": 0.1,
-            "y": 0.1,
-            "z": 0.1
-        }
-    }
-    object_location = {
-        'position': {
-            'x': 0.0,
-            'y': 0.0,
-            'z': 0.0
-        },
-        'rotation': {
-            'x': 0.0,
-            'y': 0.0,
-            'z': 0.0
-        }
-    }
-    sphere = instantiate_object(obj, object_location)
-    bounding_rect = [[{'x': 3.7346446609406727, 'y': 0, 'z': 4.23}, {'x': 3.77, 'y': 0, 'z': 4.265355339059328}, {'x': 3.8053553390593273, 'y': 0, 'z': 4.23}, {'x': 3.77, 'y': 0, 'z': 4.194644660940673}], [{'x': 3.846, 'y': 0, 'z': -1.9685000000000001}, {'x': 3.846, 'y': 0, 'z': -2.4715000000000003}, {'x': 3.1340000000000003, 'y': 0, 'z': -2.4715000000000003}, {'x': 3.1340000000000003, 'y': 0, 'z': -1.9685000000000001}]]
-    performer_position = {'x': 0.77, 'y': 0, 'z': -0.41}
-    goal = goal_obj.get_config([sphere], { 'target': [sphere] })
-    goal_obj.add_objects([sphere], bounding_rect, performer_position)
-
-
 def create_tags_test_object_1():
     return {
         'id': 'test_sphere',
@@ -128,7 +69,7 @@ def create_tags_test_object_2():
 def test_Goal_tags():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
-    goal = goal_object.get_config([target], { 'target': [target] })
+    goal = goal_object.get_config({ 'target': [target] })
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -169,7 +110,7 @@ def test_Goal_tags_multiple_target():
     goal_object = RetrievalGoal()
     target_1 = create_tags_test_object_1()
     target_2 = create_tags_test_object_2()
-    goal = goal_object.get_config([target_1, target_2], { 'target': [target_1, target_2] })
+    goal = goal_object.get_config({ 'target': [target_1, target_2] })
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -193,7 +134,7 @@ def test_Goal_tags_with_distractor():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
     distractor = create_tags_test_object_2()
-    goal = goal_object.get_config([target], { 'target': [target], 'distractor': [distractor] })
+    goal = goal_object.get_config({ 'target': [target], 'distractor': [distractor] })
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -226,7 +167,7 @@ def test_Goal_tags_multiple_target_multiple_distractor():
     target_2 = create_tags_test_object_1()
     distractor_1 = create_tags_test_object_2()
     distractor_2 = create_tags_test_object_2()
-    goal = goal_object.get_config([target_1, target_2], { 'target': [target_1, target_2], \
+    goal = goal_object.get_config({ 'target': [target_1, target_2], \
             'distractor': [distractor_1, distractor_2] })
     assert set(goal['info_list']) == {
         'target tiny',
@@ -259,7 +200,7 @@ def test_Goal_tags_with_occluder():
     target = create_tags_test_object_1()
     occluder_wall = { 'info': ['white'] }
     occluder_pole = { 'info': ['brown'] }
-    goal = goal_object.get_config([target], { 'target': [target], 'occluder': [occluder_wall, occluder_pole] })
+    goal = goal_object.get_config({ 'target': [target], 'occluder': [occluder_wall, occluder_pole] })
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -282,7 +223,7 @@ def test_Goal_tags_with_wall():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
     wall = { 'info': ['white'] }
-    goal = goal_object.get_config([target], { 'target': [target], 'wall': [wall] })
+    goal = goal_object.get_config({ 'target': [target], 'wall': [wall] })
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -304,7 +245,7 @@ def test_Goal_tags_with_background_object():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
     background_object = { 'info': ['red'] }
-    goal = goal_object.get_config([target], { 'target': [target], 'background object': [background_object] })
+    goal = goal_object.get_config({ 'target': [target], 'background object': [background_object] })
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -326,7 +267,7 @@ def test_Goal_tags_target_enclosed():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
     target['locationParent'] = 'parent'
-    goal = goal_object.get_config([target], { 'target': [target] })
+    goal = goal_object.get_config({ 'target': [target] })
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -346,7 +287,7 @@ def test_Goal_tags_target_novel_color():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
     target['novel_color'] = True
-    goal = goal_object.get_config([target], { 'target': [target] })
+    goal = goal_object.get_config({ 'target': [target] })
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -366,7 +307,7 @@ def test_Goal_tags_target_novel_combination():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
     target['novel_combination'] = True
-    goal = goal_object.get_config([target], { 'target': [target] })
+    goal = goal_object.get_config({ 'target': [target] })
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -386,7 +327,7 @@ def test_Goal_tags_target_novel_shape():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
     target['novel_shape'] = True
-    goal = goal_object.get_config([target], { 'target': [target] })
+    goal = goal_object.get_config({ 'target': [target] })
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -408,7 +349,7 @@ def test_Goal_tags_target_enclosed_novel_color_novel_shape():
     target['locationParent'] = 'parent'
     target['novel_color'] = True
     target['novel_shape'] = True
-    goal = goal_object.get_config([target], { 'target': [target] })
+    goal = goal_object.get_config({ 'target': [target] })
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -429,7 +370,7 @@ def test_Goal_tags_distractor_enclosed():
     target = create_tags_test_object_1()
     distractor = create_tags_test_object_2()
     distractor['locationParent'] = 'parent'
-    goal = goal_object.get_config([target], { 'target': [target], 'distractor': [distractor] })
+    goal = goal_object.get_config({ 'target': [target], 'distractor': [distractor] })
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -461,7 +402,7 @@ def test_Goal_tags_distractor_novel_color():
     target = create_tags_test_object_1()
     distractor = create_tags_test_object_2()
     distractor['novel_color'] = True
-    goal = goal_object.get_config([target], { 'target': [target], 'distractor': [distractor] })
+    goal = goal_object.get_config({ 'target': [target], 'distractor': [distractor] })
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -493,7 +434,7 @@ def test_Goal_tags_distractor_novel_combination():
     target = create_tags_test_object_1()
     distractor = create_tags_test_object_2()
     distractor['novel_combination'] = True
-    goal = goal_object.get_config([target], { 'target': [target], 'distractor': [distractor] })
+    goal = goal_object.get_config({ 'target': [target], 'distractor': [distractor] })
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -525,7 +466,7 @@ def test_Goal_tags_distractor_novel_shape():
     target = create_tags_test_object_1()
     distractor = create_tags_test_object_2()
     distractor['novel_shape'] = True
-    goal = goal_object.get_config([target], { 'target': [target], 'distractor': [distractor] })
+    goal = goal_object.get_config({ 'target': [target], 'distractor': [distractor] })
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -559,7 +500,7 @@ def test_Goal_tags_distractor_enclosed_novel_color_novel_shape():
     distractor['locationParent'] = 'parent'
     distractor['novel_color'] = True
     distractor['novel_shape'] = True
-    goal = goal_object.get_config([target], { 'target': [target], 'distractor': [distractor] })
+    goal = goal_object.get_config({ 'target': [target], 'distractor': [distractor] })
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -596,7 +537,7 @@ def test_Goal_tags_target_distractor_enclosed_novel_color_novel_shape():
     distractor['locationParent'] = 'parent'
     distractor['novel_color'] = True
     distractor['novel_shape'] = True
-    goal = goal_object.get_config([target], { 'target': [target], 'distractor': [distractor] })
+    goal = goal_object.get_config({ 'target': [target], 'distractor': [distractor] })
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',

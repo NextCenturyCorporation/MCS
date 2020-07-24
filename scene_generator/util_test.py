@@ -7,6 +7,30 @@ from goals import *
 from util import finalize_object_definition, instantiate_object, check_same_and_different, get_similar_defs, random_real
 
 
+PACIFIER = {
+    "type": "pacifier",
+    "info": ["tiny", "blue", "pacifier"],
+    "mass": 0.125,
+    "salientMaterials": ["plastic"],
+    "attributes": ["moveable", "pickupable"],
+    "dimensions": {
+        "x": 0.07,
+        "y": 0.04,
+        "z": 0.05
+    },
+    "offset": {
+        "x": 0,
+        "y": 0.02,
+        "z": 0
+    },
+    "position_y": 0.01,
+    "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+    }
+}
+
 def test_random_real():
     n = random_real(0, 1, 0.1)
     assert 0 <= n <= 1
@@ -282,28 +306,35 @@ def test_instantiate_object_size():
 
 def test_check_same_and_different():
     a = {
-        'type': 'ball',
+        'shape': 'ball',
         'color': 'blue',
         'size': 'tiny',
         'ignored': 'stuff'
     }
     b = {
-        'type': 'ball',
+        'shape': 'ball',
         'color': 'red',
         'size': 'tiny',
         'ignored': 42
     }
-    assert check_same_and_different(a, b, ('type', 'size'), ('color',)) is True
-    assert check_same_and_different(a, b, ('type', 'color'), ('size',)) is False
-    assert check_same_and_different(a, b, ('color', 'size'), ('type',)) is False
+    assert check_same_and_different(a, b, ('shape', 'size'), ('color',)) is True
+    assert check_same_and_different(a, b, ('shape', 'color'), ('size',)) is False
+    assert check_same_and_different(a, b, ('color', 'size'), ('shape',)) is False
+
+
+def test_check_same_and_different_pacifier():
+    assert check_same_and_different(PACIFIER, PACIFIER, ('shape', 'dimensions'), ('materialCategory',)) is False
+    assert check_same_and_different(PACIFIER, PACIFIER, ('shape', 'materialCategory'), ('dimensions',)) is False
+    assert check_same_and_different(PACIFIER, PACIFIER, ('dimensions', 'materialCategory'), ('shape',)) is False
 
 
 def test_get_similar_defs():
     original_def = objects.OBJECTS_PICKUPABLE_BALLS[0]
     obj = instantiate_object(original_def, geometry.ORIGIN)
-    similar_defs = get_similar_defs(obj, ('type', 'materialCategory'), ('mass',))
+    similar_defs = get_similar_defs(obj, objects.get_all_object_defs(), ('shape', 'materialCategory'), ('mass',))
     for obj_def in similar_defs:
-        assert check_same_and_different(obj_def, obj, ('type', 'materialCategory'), ('mass',))
+        obj_2 = instantiate_object(obj_def, geometry.ORIGIN)
+        assert check_same_and_different(obj_2, obj, ('shape', 'materialCategory'), ('mass',))
 
 
 def test_instantiate_object_novel_color():
@@ -332,7 +363,7 @@ def test_instantiate_object_novel_color():
     obj = instantiate_object(object_def, object_location)
     assert obj['goal_string'] == 'huge massive blue yellow sofa'
     assert obj['info'] == ['huge', 'massive', 'blue', 'yellow', 'sofa', 'novel blue', 'novel yellow']
-    assert obj['info_string'] == '(novel color) huge massive blue yellow sofa'
+    assert obj['info_string'] == 'huge massive blue yellow sofa'
 
 
 def test_instantiate_object_novel_combination():
@@ -361,7 +392,7 @@ def test_instantiate_object_novel_combination():
     obj = instantiate_object(object_def, object_location)
     assert obj['goal_string'] == 'huge massive blue yellow sofa'
     assert obj['info'] == ['huge', 'massive', 'blue', 'yellow', 'sofa', 'novel blue sofa', 'novel yellow sofa']
-    assert obj['info_string'] == '(novel combination) huge massive blue yellow sofa'
+    assert obj['info_string'] == 'huge massive blue yellow sofa'
 
 
 def test_instantiate_object_novel_shape():
@@ -390,6 +421,6 @@ def test_instantiate_object_novel_shape():
     obj = instantiate_object(object_def, object_location)
     assert obj['goal_string'] == 'huge massive blue yellow sofa'
     assert obj['info'] == ['huge', 'massive', 'blue', 'yellow', 'sofa', 'novel sofa']
-    assert obj['info_string'] == '(novel shape) huge massive blue yellow sofa'
+    assert obj['info_string'] == 'huge massive blue yellow sofa'
 
 

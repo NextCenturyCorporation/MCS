@@ -2,7 +2,8 @@ import intphys_goals
 import objects
 import pytest
 from quartets import GravityQuartet, ShapeConstancyQuartet, ObjectPermanenceQuartet, SpatioTemporalContinuityQuartet, \
-        find_targets, get_position_step
+        get_position_step
+import util
 
 
 TEMPLATE = {'wallMaterial': 'dummy', 'wallColors': ['color']}
@@ -45,7 +46,7 @@ def test_STCQ_get_scene():
 def test_STCQ_get_scene_1():
     quartet = SpatioTemporalContinuityQuartet(TEMPLATE, False)
     scene = quartet.get_scene(1)
-    target = find_targets(scene, quartet._goal)[0]
+    target = quartet._goal._tag_to_objects['target'][0]
     assert scene['answer']['choice'] == 'plausible'
     assert 'spatio temporal continuity move earlier' in scene['goal']['type_list']
     assert 'hides' not in target
@@ -56,7 +57,7 @@ def test_STCQ_get_scene_1():
 def test_STCQ_get_scene_2_teleport_forward():
     quartet = SpatioTemporalContinuityQuartet(TEMPLATE, False)
     scene = quartet.get_scene(2)
-    target = find_targets(scene, quartet._goal)[0]
+    target = quartet._goal._tag_to_objects['target'][0]
     assert scene['answer']['choice'] == 'implausible'
     assert 'spatio temporal continuity teleport forward' in scene['goal']['type_list']
     assert ('teleports' in target) or ('hides' in target)
@@ -74,7 +75,7 @@ def test_STCQ_get_scene_2_teleport_forward():
 def test_STCQ_get_scene_3_teleport_backward():
     quartet = SpatioTemporalContinuityQuartet(TEMPLATE, False)
     scene = quartet.get_scene(3)
-    target = find_targets(scene, quartet._goal)[0]
+    target = quartet._goal._tag_to_objects['target'][0]
     assert scene['answer']['choice'] == 'implausible'
     assert 'spatio temporal continuity teleport backward' in scene['goal']['type_list']
     assert 'teleports' in target
@@ -90,16 +91,16 @@ def test_STCQ_get_scene_3_teleport_backward():
 def test_STCQ_get_scene_4_move_later():
     quartet = SpatioTemporalContinuityQuartet(TEMPLATE, False)
     scene = quartet.get_scene(4)
-    target = find_targets(scene, quartet._goal)[0]
+    target = quartet._goal._tag_to_objects['target'][0]
     assert scene['answer']['choice'] == 'plausible'
     assert 'spatio temporal continuity move later' in scene['goal']['type_list']
     assert 'hides' not in target
     assert 'teleports' not in target
     if quartet._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
         later_step_begin = target['shows'][0]['stepBegin']
-        orig_target = find_targets(quartet.get_scene(1), quartet._goal)[0]
+        orig_target = quartet._goal._tag_to_objects['target'][0]
         orig_step_begin = orig_target['shows'][0]['stepBegin']
-        assert later_step_begin > orig_step_begin
+        assert later_step_begin >= orig_step_begin
 
 
 def test_ShapeConstancyQuartet():
@@ -108,7 +109,7 @@ def test_ShapeConstancyQuartet():
     a = quartet._scene_template['objects'][0]
     assert a['type'] != quartet._b['type']
     assert a['id'] == quartet._b['id']
-    assert a['dimensions']['x'] == pytest.approx(quartet._b['dimensions']['x'], abs=intphys_goals.MAX_SIZE_DIFFERENCE)
+    assert a['dimensions']['x'] == pytest.approx(quartet._b['dimensions']['x'], abs=util.MAX_SIZE_DIFFERENCE)
     assert a['materials'] == quartet._b['materials']
 
 

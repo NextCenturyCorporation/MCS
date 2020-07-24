@@ -11,16 +11,22 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
 
     str_output = '''    {
         "action_list": [],
-        "camera_aspect_ratio": (0.0, 0.0),
-        "camera_clipping_planes": (0.0, 0.0),
+        "camera_aspect_ratio": [
+            0.0,
+            0.0
+        ],
+        "camera_clipping_planes": [
+            0.0,
+            0.0
+        ],
         "camera_field_of_view": 0.0,
         "camera_height": 0.0,
         "depth_mask_list": [],
         "goal": {
-            "action_list": None,
+            "action_list": null,
             "info_list": [],
             "last_preview_phase_step": 0,
-            "last_step": None,
+            "last_step": null,
             "task_list": [],
             "type_list": [],
             "metadata": {}
@@ -29,9 +35,9 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
         "image_list": [],
         "object_list": [],
         "object_mask_list": [],
-        "pose": MCS_Pose.UNDEFINED,
+        "pose": "UNDEFINED",
         "position": {},
-        "return_status": MCS_Return_Status.UNDEFINED,
+        "return_status": "UNDEFINED",
         "reward": 0,
         "rotation": 0.0,
         "step_number": 0,
@@ -87,15 +93,15 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
         self.assertIsInstance(self.mcs_step_output.object_mask_list, list)
 
     def test_pose(self):
-        self.assertEqual(self.mcs_step_output.pose, MCS_Pose.UNDEFINED)
-        self.assertIsInstance(self.mcs_step_output.pose, MCS_Pose)
+        self.assertEqual(self.mcs_step_output.pose, MCS_Pose.UNDEFINED.value)
+        self.assertIsInstance(self.mcs_step_output.pose, str)
 
     def test_position(self):
         self.assertIsInstance(self.mcs_step_output.position, dict)
 
     def test_return_status(self):
-        self.assertEqual(self.mcs_step_output.return_status, MCS_Return_Status.UNDEFINED)
-        self.assertIsInstance(self.mcs_step_output.return_status, MCS_Return_Status)
+        self.assertEqual(self.mcs_step_output.return_status, MCS_Return_Status.UNDEFINED.value)
+        self.assertIsInstance(self.mcs_step_output.return_status, str)
 
     def test_reward(self):
         self.assertEqual(self.mcs_step_output.reward, 0)
