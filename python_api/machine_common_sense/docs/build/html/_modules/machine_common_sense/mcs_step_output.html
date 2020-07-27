@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>machine_common_sense.mcs_step_output &#8212; Machine Common Sense  documentation</title>
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Machine Common Sense  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">machine_common_sense.mcs_step_output</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for machine_common_sense.mcs_step_output</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.mcs_goal</span> <span class="kn">import</span> <span class="n">MCS_Goal</span>
+<span class="kn">from</span> <span class="nn">.mcs_pose</span> <span class="kn">import</span> <span class="n">MCS_Pose</span>
+<span class="kn">from</span> <span class="nn">.mcs_return_status</span> <span class="kn">import</span> <span class="n">MCS_Return_Status</span>
+<span class="kn">from</span> <span class="nn">.mcs_util</span> <span class="kn">import</span> <span class="n">MCS_Util</span>
+
+<div class="viewcode-block" id="MCS_Step_Output"><a class="viewcode-back" href="../../index.html#machine_common_sense.mcs_step_output.MCS_Step_Output">[docs]</a><span class="k">class</span> <span class="nc">MCS_Step_Output</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines attributes of the output from a single step in the MCS 3D environment.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    action_list : list of strings</span>
+<span class="sd">        The list of all actions that are available for the next step. May be a subset of all possible actions. See</span>
+<span class="sd">        MCS_Action.</span>
+<span class="sd">    camera_aspect_ratio : (float, float)</span>
+<span class="sd">        The player camera&#39;s aspect ratio. This will remain constant for the whole scene.</span>
+<span class="sd">    camera_clipping_planes : (float, float)</span>
+<span class="sd">        The player camera&#39;s near and far clipping planes. This will remain constant for the whole scene.</span>
+<span class="sd">    camera_field_of_view : float</span>
+<span class="sd">        The player camera&#39;s field of view. This will remain constant for the whole scene.</span>
+<span class="sd">    camera_height : float</span>
+<span class="sd">        The player camera&#39;s height. This will change if the player uses actions like &quot;LieDown&quot;, &quot;Sit&quot;, or &quot;Crouch&quot;.</span>
+<span class="sd">    depth_mask_list : list of Pillow.Image objects</span>
+<span class="sd">        The list of depth mask images from the scene after the last action and physics simulation were run.</span>
+<span class="sd">        This is normally a list with five images, where the physics simulation has unpaused and paused again</span>
+<span class="sd">        for a little bit between each image, and the final image is the state of the environment before your</span>
+<span class="sd">        next action. The MCS_Step_Output object returned from a call to controller.start_scene will normally</span>
+<span class="sd">        have a list with only one image, except for a scene with a scripted Preview Phase. A pixel value of</span>
+<span class="sd">        255 translates to 25 (the far clipping plane) in the environment&#39;s global coordinate system.</span>
+<span class="sd">    goal : MCS_Goal or None</span>
+<span class="sd">        The goal for the whole scene.  Will be None in &quot;Exploration&quot; scenes.</span>
+<span class="sd">    head_tilt : float</span>
+<span class="sd">        How far your head is tilted up/down in degrees (between 90 and -90).  Changed by setting the horizon parameter</span>
+<span class="sd">        in a &quot;RotateLook&quot; action.</span>
+<span class="sd">    image_list : list of Pillow.Image objects</span>
+<span class="sd">        The list of images from the scene after the last action and physics simulation were run. This is</span>
+<span class="sd">        normally a list with five images, where the physics simulation has unpaused and paused again for a</span>
+<span class="sd">        little bit between each image, and the final image is the state of the environment before your next</span>
+<span class="sd">        action. The MCS_Step_Output object returned from a call to controller.start_scene will normally have</span>
+<span class="sd">        a list with only one image, except for a scene with a scripted Preview Phase.</span>
+<span class="sd">    object_list : list of MCS_Object objects</span>
+<span class="sd">        The list of metadata for all the interactive objects in the scene. For metadata on structural objects like</span>
+<span class="sd">        walls, please see structural_object_list</span>
+<span class="sd">    object_mask_list : list of Pillow.Image objects</span>
+<span class="sd">        The list of object mask (instance segmentation) images from the scene after the last action and</span>
+<span class="sd">        physics simulation were run. This is normally a list with five images, where the physics simulation</span>
+<span class="sd">        has unpaused and paused again for a little bit between each image, and the final image is the state</span>
+<span class="sd">        of the environment before your next action. The MCS_Step_Output object returned from a call to</span>
+<span class="sd">        controller.start_scene will normally have a list with only one image, except for a scene with a</span>
+<span class="sd">        scripted Preview Phase. The color of each object in the mask corresponds to the &quot;color&quot; property</span>
+<span class="sd">        in its MCS_Object object.</span>
+<span class="sd">    pose : string</span>
+<span class="sd">        Your current pose.  See MCS_Pose.</span>
+<span class="sd">    position : dict</span>
+<span class="sd">        The &quot;x&quot;, &quot;y&quot;, and &quot;z&quot; coordinates for your global position.</span>
+<span class="sd">    return_status : string</span>
+<span class="sd">        The return status from your last action.  See MCS_Return_Status.</span>
+<span class="sd">    reward : integer</span>
+<span class="sd">        Reward is 1 on successful completion of a task, 0 otherwise.</span>
+<span class="sd">    rotation : float</span>
+<span class="sd">        Your current rotation angle in degrees.</span>
+<span class="sd">    step_number : integer</span>
+<span class="sd">        The step number of your last action, recorded since you started the current scene.</span>
+<span class="sd">    structural_object_list : list of MCS_Object objects</span>
+<span class="sd">        The list of metadata for all the structural objects (like walls) in the scene.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">action_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">camera_aspect_ratio</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">camera_clipping_planes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">camera_field_of_view</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">camera_height</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">depth_mask_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">goal</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">head_tilt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">image_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">object_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">object_mask_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">pose</span><span class="o">=</span><span class="n">MCS_Pose</span><span class="o">.</span><span class="n">UNDEFINED</span><span class="p">,</span>
+        <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">return_status</span><span class="o">=</span><span class="n">MCS_Return_Status</span><span class="o">.</span><span class="n">UNDEFINED</span><span class="p">,</span>
+        <span class="n">reward</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">rotation</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">step_number</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">structural_object_list</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">action_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">action_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera_aspect_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">if</span> <span class="n">camera_aspect_ratio</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">camera_aspect_ratio</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera_clipping_planes</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">if</span> <span class="n">camera_clipping_planes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">camera_clipping_planes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera_field_of_view</span> <span class="o">=</span> <span class="n">camera_field_of_view</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera_height</span> <span class="o">=</span> <span class="n">camera_height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">depth_mask_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">depth_mask_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">depth_mask_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">goal</span> <span class="o">=</span> <span class="n">MCS_Goal</span><span class="p">()</span> <span class="k">if</span> <span class="n">goal</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">goal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head_tilt</span> <span class="o">=</span> <span class="n">head_tilt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">image_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">image_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">object_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">object_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">object_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">object_mask_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">object_mask_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">object_mask_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="n">pose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">position</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">return_status</span> <span class="o">=</span> <span class="n">return_status</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reward</span> <span class="o">=</span> <span class="n">reward</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span> <span class="o">=</span> <span class="n">rotation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">step_number</span> <span class="o">=</span> <span class="n">step_number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">structural_object_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">structural_object_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">structural_object_list</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">MCS_Util</span><span class="o">.</span><span class="n">class_to_str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Machine Common Sense  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">machine_common_sense.mcs_step_output</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, DARPA.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
+    </div>
+  </body>
+</html>

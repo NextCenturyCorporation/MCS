@@ -22,21 +22,16 @@ class MCS:
     Defines utility functions for machine learning modules to create MCS controllers and handle config data files.
     """
 
-    """
-    Creates and returns a new MCS_Controller object.
-
-    Parameters
-    ----------
-    unity_app_file_path : str
-        The file path to your MCS Unity application.
-    debug : boolean, optional
-
-    Returns
-    -------
-    MCS_Controller
-    """
     @staticmethod
     def create_controller(unity_app_file_path, debug=False, enable_noise=False, seed=None):
+        """
+            **static create_controller(unity_app_file_path)**
+            Creates and returns an MCS Controller object using the Unity application at the given file path.
+            :param unity_app_file_path : The file path to the MCS Unity application. The TA2 team will give you this application.
+            :type unity_app_file_path: string
+            :return: The MCS controller object.
+            :type: MCS_Controller
+        """
         # TODO: Toggle between AI2-THOR and other controllers like ThreeDWorld?
         try:
             with time_limit(TIME_LIMIT_SECONDS):
