@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>machine_common_sense.mcs_action &#8212; Machine Common Sense  documentation</title>
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Machine Common Sense  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">machine_common_sense.mcs_action</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for machine_common_sense.mcs_action</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">unique</span>
+
+<div class="viewcode-block" id="MCS_Action"><a class="viewcode-back" href="../../index.html#machine_common_sense.mcs_action.MCS_Action">[docs]</a><span class="nd">@unique</span>
+<span class="k">class</span> <span class="nc">MCS_Action</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">CLOSE_OBJECT</span> <span class="o">=</span> <span class="s2">&quot;CloseObject&quot;</span>
+    <span class="c1"># CRAWL = &quot;Crawl&quot;</span>
+    <span class="n">DROP_OBJECT</span> <span class="o">=</span> <span class="s2">&quot;DropObject&quot;</span>
+    <span class="c1"># LIE_DOWN = &quot;LieDown&quot;</span>
+    <span class="n">MOVE_AHEAD</span> <span class="o">=</span> <span class="s2">&quot;MoveAhead&quot;</span>
+    <span class="n">MOVE_BACK</span> <span class="o">=</span> <span class="s2">&quot;MoveBack&quot;</span>
+    <span class="n">MOVE_LEFT</span> <span class="o">=</span> <span class="s2">&quot;MoveLeft&quot;</span>
+    <span class="n">MOVE_RIGHT</span> <span class="o">=</span> <span class="s2">&quot;MoveRight&quot;</span>
+    <span class="n">OPEN_OBJECT</span> <span class="o">=</span> <span class="s2">&quot;OpenObject&quot;</span>
+    <span class="n">PICKUP_OBJECT</span> <span class="o">=</span> <span class="s2">&quot;PickupObject&quot;</span>
+    <span class="n">PULL_OBJECT</span> <span class="o">=</span> <span class="s2">&quot;PullObject&quot;</span>
+    <span class="n">PUSH_OBJECT</span> <span class="o">=</span> <span class="s2">&quot;PushObject&quot;</span>
+    <span class="n">PUT_OBJECT</span> <span class="o">=</span> <span class="s2">&quot;PutObject&quot;</span>
+    <span class="n">ROTATE_LOOK</span> <span class="o">=</span> <span class="s2">&quot;RotateLook&quot;</span>
+    <span class="c1"># ROTATE_OBJECT = &quot;RotateObject&quot;</span>
+    <span class="c1"># ROTATE_OBJECT_IN_HAND = &quot;RotateObjectInHand&quot;</span>
+    <span class="c1"># SQUAT = &quot;Squat&quot;</span>
+    <span class="c1"># STAND = &quot;Stand&quot;</span>
+    <span class="n">THROW_OBJECT</span> <span class="o">=</span> <span class="s2">&quot;ThrowObject&quot;</span>
+    <span class="c1"># Pass should always be the last action in the enum.</span>
+    <span class="n">PASS</span> <span class="o">=</span> <span class="s2">&quot;Pass&quot;</span></div>
+
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Machine Common Sense  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">machine_common_sense.mcs_action</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, DARPA.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
+    </div>
+  </body>
+</html>
