@@ -441,8 +441,8 @@ layouts:
       idField: "_id_key"
       limit: 100
       ignoreSelf: false
-      #linkPrefix: "http://ec2-54-157-23-98.compute-1.amazonaws.com:3000/?"
-      linkPrefix: "http://localhost:3000/?"
+      linkPrefix: "http://ec2-54-157-23-98.compute-1.amazonaws.com:3000/?"
+      #linkPrefix: "http://localhost:3000/?"
       linkFields:
       - "url_string"
       showFields:

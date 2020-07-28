@@ -12,16 +12,21 @@ from shapely.geometry import LineString
 import exceptions
 import objects
 import util
+from machine_common_sense.mcs_controller_ai2thor import PERFORMER_CAMERA_Y
 from separating_axis_theorem import sat_entry
 
 POSITION_DIGITS = 2
 VALID_ROTATIONS = (0, 45, 90, 135, 180, 225, 270, 315)
 
-ROOM_DIMENSIONS = ((-4.95, 4.95), (-4.95, 4.95))
+ROOM_X_MIN = -4.95
+ROOM_Z_MIN = -4.95
+ROOM_X_MAX = 4.95
+ROOM_Z_MAX = 4.95
 
 MINIMUM_START_DIST_FROM_TARGET = 2
 MINIMUM_TARGET_SEPARATION = 2
 MIN_START_DISTANCE_AWAY = 1
+MIN_GAP = 0.05
 
 ORIGIN = {
     "x": 0.0,
@@ -46,11 +51,11 @@ MAX_ADJACENT_DISTANCE = 0.5
 
 
 def random_position_x() -> float:
-    return round(random.uniform(ROOM_DIMENSIONS[0][0], ROOM_DIMENSIONS[0][1]), POSITION_DIGITS)
+    return round(random.uniform(ROOM_X_MIN, ROOM_X_MAX), POSITION_DIGITS)
 
 
 def random_position_z() -> float:
-    return round(random.uniform(ROOM_DIMENSIONS[1][0], ROOM_DIMENSIONS[1][1]), POSITION_DIGITS)
+    return round(random.uniform(ROOM_Z_MIN, ROOM_Z_MAX), POSITION_DIGITS)
 
 
 def random_rotation() -> float:
@@ -101,8 +106,7 @@ def calc_obj_coords(position_x: float, position_z: float, delta_x: float, delta_
 
 
 def point_within_room(point: Dict[str, float]) -> bool:
-    return ROOM_DIMENSIONS[0][0] <= point['x'] <= ROOM_DIMENSIONS[0][1] and \
-           ROOM_DIMENSIONS[1][0] <= point['z'] <= ROOM_DIMENSIONS[1][1]
+    return ROOM_X_MIN <= point['x'] <= ROOM_X_MAX and ROOM_Z_MIN <= point['z'] <= ROOM_Z_MAX
 
 
 def rect_within_room(rect: List[Dict[str, float]]) -> bool:
@@ -145,9 +149,10 @@ def calc_obj_pos(performer_position: Dict[str, float],
             new_x = x_func()
             new_z = z_func()
 
-        rect = calc_obj_coords(new_x, new_z, dx, dz, offset_x, offset_z, rotation_y)
-        if rect_within_room(rect) and not any(sat_entry(rect, other_rect) for other_rect in collision_rects):
-            break
+        if new_x is not None and new_z is not None:
+            rect = calc_obj_coords(new_x, new_z, dx, dz, offset_x, offset_z, rotation_y)
+            if rect_within_room(rect) and not any(sat_entry(rect, other_rect) for other_rect in collision_rects):
+                break
         tries += 1
 
     if tries < util.MAX_TRIES:
@@ -178,8 +183,7 @@ def position_distance(a: Dict[str, float], b: Dict[str, float]) -> float:
 
 
 def get_room_box() -> shapely.geometry.Polygon:
-    room = shapely.geometry.box(ROOM_DIMENSIONS[0][0], ROOM_DIMENSIONS[1][0],
-                                ROOM_DIMENSIONS[0][1], ROOM_DIMENSIONS[1][1])
+    room = shapely.geometry.box(ROOM_X_MIN, ROOM_Z_MIN, ROOM_X_MAX, ROOM_Z_MAX)
     return room
 
 
@@ -189,8 +193,7 @@ def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
     (straight ahead and at least MIN_START_DISTANCE_AWAY but within
     the room). Return None if no visible segment is possible.
     """
-    max_dimension = max(ROOM_DIMENSIONS[0][1] - ROOM_DIMENSIONS[0][0],
-                        ROOM_DIMENSIONS[1][1] - ROOM_DIMENSIONS[1][0])
+    max_dimension = max(ROOM_X_MAX - ROOM_X_MIN, ROOM_Z_MAX - ROOM_Z_MIN)
     # make it long enough for the far end to be outside the room
     view_segment = shapely.geometry.LineString([[0, MIN_START_DISTANCE_AWAY], [0, max_dimension * 2]])
     view_segment = affinity.rotate(view_segment, -performer_start['rotation']['y'], origin=(0, 0))
@@ -225,39 +228,35 @@ def get_location_in_front_of_performer(performer_start: Dict[str, Dict[str, floa
 def get_location_in_back_of_performer(performer_start: Dict[str, Dict[str, float]],
                                       target_def: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     # First, find the part of the the room that's behind the performer
-    # (i.e., the 180 degree arc in the opposite direction from its
-    # orientation)
-    min_x = ROOM_DIMENSIONS[0][0]
-    max_x = ROOM_DIMENSIONS[0][1]
-    min_z = ROOM_DIMENSIONS[1][0]
-    max_z = ROOM_DIMENSIONS[1][1]
-    max_dimension = max(ROOM_DIMENSIONS[0][1] - ROOM_DIMENSIONS[0][0],
-                        ROOM_DIMENSIONS[1][1] - ROOM_DIMENSIONS[1][0])
+    # (i.e., the 180 degree arc in the opposite direction from its orientation)
     # if the performer were at the origin facing 0, this box would be behind it
-    base_rear = shapely.geometry.box(-(max_x - min_x)/2, -(max_z - min_z)/2, (max_x - min_x)/2, 0)
-    performer_point = shapely.geometry.Point(performer_start['position']['x'],
-                                             performer_start['position']['z'])
-    translated_rear = affinity.translate(base_rear, performer_point.x, performer_point.y)
-    performer_rear = affinity.rotate(translated_rear, -performer_start['rotation']['y'],
-                                     origin=performer_point)
-    bounds = [
-        min(max_x, max(min_x, performer_rear.bounds[0])),
-        min(max_z, max(min_z, performer_rear.bounds[1])),
-        min(max_x, max(min_x, performer_rear.bounds[2])),
-        min(max_z, max(min_z, performer_rear.bounds[3]))
-    ]
+    rear_poly = shapely.geometry.box(-(ROOM_X_MAX - ROOM_X_MIN) / 2.0, -(ROOM_Z_MAX - ROOM_Z_MIN) / 2.0, \
+            (ROOM_X_MAX - ROOM_X_MIN) / 2.0, 0)
+    performer_point = shapely.geometry.Point(performer_start['position']['x'], performer_start['position']['z'])
+    rear_poly = affinity.translate(rear_poly, performer_point.x, performer_point.y)
+    rear_poly = affinity.rotate(rear_poly, -performer_start['rotation']['y'], origin=performer_point)
+
+    # Restrict the rear bounds to the room's dimensions.
+    rear_min_x = min(ROOM_X_MAX, max(ROOM_X_MIN, rear_poly.bounds[0]))
+    rear_min_z = min(ROOM_Z_MAX, max(ROOM_Z_MIN, rear_poly.bounds[1]))
+    rear_max_x = min(ROOM_X_MAX, max(ROOM_X_MIN, rear_poly.bounds[2]))
+    rear_max_z = min(ROOM_Z_MAX, max(ROOM_Z_MIN, rear_poly.bounds[3]))
+    rear_poly = shapely.geometry.box(rear_min_x, rear_min_z, rear_max_x, rear_max_z)
 
     def compute_xz():
         # pick a random x within the polygon's bounding rectangle
-        while True:
-            x = util.random_real(bounds[0], bounds[2])
+        for _ in range(util.MAX_TRIES):
+            x = util.random_real(rear_min_x, rear_max_x)
             # intersect a vertical line with the poly at that x
-            vertical_line = shapely.geometry.LineString([[x, bounds[1]], [x, bounds[3]]])
-            target_segment = vertical_line.intersection(performer_rear)
+            vertical_line = shapely.geometry.LineString([[x, rear_min_z], [x, rear_max_z]])
+            target_segment = vertical_line.intersection(rear_poly)
             if not target_segment.is_empty:
                 break
+            target_segment = None
+        if not target_segment or target_segment.is_empty:
+            return None, None
         # unlikely, but possible to get just a point here
-        if target_segment.geom_type == 'Point':
+        elif target_segment.geom_type == 'Point':
             location = target_segment
         else:
             # pick a random value along that vertical line
@@ -268,7 +267,7 @@ def get_location_in_back_of_performer(performer_start: Dict[str, Dict[str, float
     return calc_obj_pos(performer_start['position'], [], target_def, xz_func=compute_xz)
 
 
-def get_adjacent_location(obj_def: Dict[str, Any], target: Dict[str, Any], \
+def get_adjacent_location(obj_def: Dict[str, Any], target_definition: Dict[str, Any], target_location: Dict[str, Any], \
         performer_start: Dict[str, Dict[str, float]], obstruct: bool = False) -> Optional[Dict[str, Any]]:
     """Find a location such that, if obj_def is instantiated there, it
     will be next to target. Ensures that the object at the new
@@ -278,11 +277,13 @@ def get_adjacent_location(obj_def: Dict[str, Any], target: Dict[str, Any], \
     sides = list(range(4))
     random.shuffle(sides)
     for side in sides:
-        location = get_adjacent_location_on_side(obj_def, target, performer_start, side, obstruct)
+        location = get_adjacent_location_on_side(obj_def, target_definition, target_location, performer_start, side, \
+                obstruct)
         if location:
             # If obstruct, position the target so that the object is between it and the performer start.
             if obstruct:
-                if does_obstruct_target(performer_start['position'], target, get_bounding_polygon(location)):
+                location_poly = get_bounding_polygon(location)
+                if does_fully_obstruct_target(performer_start['position'], target_location, location_poly):
                     return location
             else:
                 return location
@@ -296,54 +297,55 @@ class Side(IntEnum):
     FRONT = 3
 
 
-def get_adjacent_location_on_side(obj_def: Dict[str, Any], target: Dict[str, Any], \
-        performer_start: Dict[str, Dict[str, float]], side: Side, obstruct: bool) -> Optional[Dict[str, Any]]:
-    """Get a location such that, if obj_def is instantiated there, it will
+def get_adjacent_location_on_side(object_definition: Dict[str, Any], target_definition: Dict[str, Any], \
+        target_location: Dict[str, Any], performer_start: Dict[str, Dict[str, float]], side: Side, obstruct: bool) -> \
+        Optional[Dict[str, Any]]:
+    """Get a location such that, if object_definition is instantiated there, it will
     be next to target. Side determines on which side of target to
     place it: 0 = right (positive x), 1 = behind (positive z), 2 =
     left (negative x) and 3 = in front (negative z). If the object
     would overlap the performer_start or would be outside the room,
     None is returned."
     """
-    GAP = 0.05
-    distance_dim = 'x' if side in (0, 2) else 'z'
+    object_dimensions = object_definition['dimensions']
+    object_offset = object_definition['offset'] if 'offset' in object_definition else {'x': 0, 'z': 0}
+    if obstruct and 'closed_dimensions' in object_definition:
+        object_dimensions = object_definition['closed_dimensions']
+        object_offset = object_definition['closed_offset'] if 'closed_offset' in object_definition else object_offset
+    target_offset = target_definition['offset'] if 'offset' in target_definition else {'x': 0, 'z': 0}
 
-    dimensions = obj_def['dimensions']
-    offset_x = obj_def['offset']['x'] if 'offset' in obj_def else 0.0
-    offset_z = obj_def['offset']['z'] if 'offset' in obj_def else 0.0
-    if obstruct and 'closed_dimensions' in obj_def:
-        dimensions = obj_def['closed_dimensions']
-        offset_x = obj_def['closed_offset']['x'] if 'closed_offset' in obj_def else offset_x
-        offset_z = obj_def['closed_offset']['z'] if 'closed_offset' in obj_def else offset_z
+    distance_prop = 'x' if side in (0, 2) else 'z'
+    distance = object_dimensions[distance_prop] / 2.0 + target_definition['dimensions'][distance_prop] / 2.0 + MIN_GAP
 
-    distance = dimensions[distance_dim]/2.0 + target['dimensions'][distance_dim]/2.0 + GAP
+    # Create a line pointing from the origin to the right, then rotate that line using the given side.
     separator_segment = shapely.geometry.LineString([[0, 0], [distance, 0]])
-    shows = target['shows'][0]
-    rotation = -shows['rotation']['y'] + 90 * side
-    separator_segment = affinity.rotate(separator_segment, rotation, origin=(0, 0))
-    separator_segment = affinity.translate(separator_segment,
-                                           shows['position']['x'],
-                                           shows['position']['z'])
-    x = separator_segment.coords[1][0] + offset_x
-    z = separator_segment.coords[1][1] + offset_z
-    dx = dimensions['x'] / 2.0
-    dz = dimensions['z'] / 2.0
-    rect = calc_obj_coords(x, z, dx, dz, offset_x, offset_z, shows['rotation']['y'])
+    separator_segment_rotation = -target_location['rotation']['y'] + 90 * side
+    separator_segment = affinity.rotate(separator_segment, -separator_segment_rotation, origin=(0, 0))
+    separator_segment = affinity.translate(separator_segment, (target_location['position']['x'] + target_offset['x']), \
+            (target_location['position']['z'] + target_offset['z']))
+
+    x = separator_segment.coords[1][0] - object_offset['x']
+    z = separator_segment.coords[1][1] - object_offset['z']
+    dx = object_dimensions['x'] / 2.0
+    dz = object_dimensions['z'] / 2.0
+    rect = calc_obj_coords(x, z, dx, dz, object_offset['x'], object_offset['z'], target_location['rotation']['y'])
     poly = rect_to_poly(rect)
     performer = shapely.geometry.Point(performer_start['position']['x'], performer_start['position']['z'])
-    target_bounds = get_bounding_polygon(target)
+    target_rect = generate_object_bounds(target_definition['dimensions'], target_offset, \
+            target_location['position'], target_location['rotation'])
+    target_poly = rect_to_poly(target_rect)
     room = get_room_box()
 
-    if not poly.intersects(performer) and not poly.intersects(target_bounds) and room.contains(poly):
+    if not poly.intersects(performer) and not poly.intersects(target_poly) and room.contains(poly):
         location = {
             'position': {
                 'x': x,
-                'y': obj_def.get('position_y', 0),
+                'y': object_definition.get('position_y', 0),
                 'z': z
             },
             'rotation': {
                 'x': 0,
-                'y': shows['rotation']['y'],
+                'y': target_location['rotation']['y'],
                 'z': 0
             },
             'bounding_box': rect
@@ -374,8 +376,9 @@ def get_wider_and_taller_defs(obj_def: Dict[str, Any], obstruct_vision: bool) ->
         if 'obstruct' in big_def and big_def['obstruct'] == ('vision' if obstruct_vision else 'navigation'):
             obj_dimensions = obj_def['closed_dimensions'] if 'closed_dimensions' in obj_def else obj_def['dimensions']
             big_dimensions = big_def['closed_dimensions'] if 'closed_dimensions' in big_def else big_def['dimensions']
+            cannot_walk_over = big_dimensions['y'] >= (PERFORMER_CAMERA_Y / 2.0)
             # Only need a bigger Y dimension if the object must obstruct vision.
-            if (not obstruct_vision or big_dimensions['y'] >= obj_dimensions['y']):
+            if cannot_walk_over and (not obstruct_vision or big_dimensions['y'] >= obj_dimensions['y']):
                 if big_dimensions['x'] >= obj_dimensions['x']:
                     bigger_defs.append((big_def, 0))
                 elif big_dimensions['z'] >= obj_dimensions['x']:
@@ -449,18 +452,33 @@ def generate_object_bounds(dimensions: Dict[str, float], offset: Dict[str, float
     return calc_obj_coords(x, z, dx, dz, offset_x, offset_z, rotation['y'])
 
 
-def does_obstruct_target(performer_start_position: Dict[str, float], target: Dict[str, Any], \
+def does_fully_obstruct_target(performer_start_position: Dict[str, float], target_or_location: Dict[str, Any], \
         object_poly: shapely.geometry.Polygon) -> bool:
     """Returns whether the given object_poly obstructs each line between the given performer_start_position and
-    all four corners of the given target object."""
+    all four corners of the given target object or location."""
 
-    obstruct = True
+    return _does_obstruct_target_helper(performer_start_position, target_or_location, object_poly, fully=True)
+
+
+def does_partly_obstruct_target(performer_start_position: Dict[str, float], target_or_location: Dict[str, Any], \
+        object_poly: shapely.geometry.Polygon) -> bool:
+    """Returns whether the given object_poly obstructs one line between the given performer_start_position and
+    the four corners of the given target object or location."""
+
+    return _does_obstruct_target_helper(performer_start_position, target_or_location, object_poly, fully=False)
+
+
+def _does_obstruct_target_helper(performer_start_position: Dict[str, float], target_or_location: Dict[str, Any], \
+        object_poly: shapely.geometry.Polygon, fully: bool = False) -> bool:
+
+    obstructing_corners = 0
     performer_start_coordinates = (performer_start_position['x'], performer_start_position['z'])
-    for corner in target['shows'][0]['bounding_box']:
+    bounds = target_or_location['bounding_box'] if 'bounding_box' in target_or_location else \
+            (target_or_location['shows'][0]['bounding_box'] if 'shows' in target_or_location else [])
+    for corner in bounds:
         target_corner_coordinates = (corner['x'], corner['z'])
         line_to_target = shapely.geometry.LineString([performer_start_coordinates, target_corner_coordinates])
-        if not object_poly.intersects(line_to_target):
-            obstruct = False
-            break
-    return obstruct
+        if object_poly.intersects(line_to_target):
+            obstructing_corners += 1
+    return obstructing_corners == 4 if fully else obstructing_corners > 0
 
