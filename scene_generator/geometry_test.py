@@ -405,73 +405,74 @@ def test_get_visible_segment():
 
 
 def test_get_position_in_front_of_performer():
-    # This test should work with ANY pickupable object
-    target_definition = util.finalize_object_definition(random.choice(objects.OBJECTS_PICKUPABLE))
-    target_half_size_x = target_definition['dimensions']['x'] / 2.0
-    target_half_size_z = target_definition['dimensions']['z'] / 2.0
     performer_start = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'y': 0}}
 
-    performer_start['rotation']['y'] = 0
-    positive_z = get_location_in_front_of_performer(performer_start, target_definition)
-    assert 0 <= positive_z['position']['z'] <= ROOM_Z_MAX
-    assert -target_half_size_x <= positive_z['position']['x'] <= target_half_size_x
+    for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+        target_half_size_x = target_definition['dimensions']['x'] / 2.0
+        target_half_size_z = target_definition['dimensions']['z'] / 2.0
 
-    performer_start['rotation']['y'] = 90
-    positive_x = get_location_in_front_of_performer(performer_start, target_definition)
-    assert 0 <= positive_x['position']['x'] <= ROOM_X_MAX
-    assert -target_half_size_z <= positive_x['position']['z'] <= target_half_size_z
+        performer_start['rotation']['y'] = 0
+        positive_z = get_location_in_front_of_performer(performer_start, target_definition)
+        assert 0 <= positive_z['position']['z'] <= ROOM_Z_MAX
+        assert -target_half_size_x <= positive_z['position']['x'] <= target_half_size_x
 
-    performer_start['rotation']['y'] = 180
-    negative_z = get_location_in_front_of_performer(performer_start, target_definition)
-    assert ROOM_Z_MIN <= negative_z['position']['z'] <= 0
-    assert -target_half_size_x <= negative_z['position']['x'] <= target_half_size_x
+        performer_start['rotation']['y'] = 90
+        positive_x = get_location_in_front_of_performer(performer_start, target_definition)
+        assert 0 <= positive_x['position']['x'] <= ROOM_X_MAX
+        assert -target_half_size_z <= positive_x['position']['z'] <= target_half_size_z
 
-    performer_start['rotation']['y'] = 270
-    negative_x = get_location_in_front_of_performer(performer_start, target_definition)
-    assert ROOM_X_MIN <= negative_x['position']['x'] <= 0
-    assert -target_half_size_z <= negative_x['position']['z'] <= target_half_size_z
+        performer_start['rotation']['y'] = 180
+        negative_z = get_location_in_front_of_performer(performer_start, target_definition)
+        assert ROOM_Z_MIN <= negative_z['position']['z'] <= 0
+        assert -target_half_size_x <= negative_z['position']['x'] <= target_half_size_x
+
+        performer_start['rotation']['y'] = 270
+        negative_x = get_location_in_front_of_performer(performer_start, target_definition)
+        assert ROOM_X_MIN <= negative_x['position']['x'] <= 0
+        assert -target_half_size_z <= negative_x['position']['z'] <= target_half_size_z
 
 
 def test_get_position_in_front_of_performer_next_to_room_wall():
-    target_definition = util.finalize_object_definition(random.choice(objects.OBJECTS_PICKUPABLE))
     performer_start = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'y': 0}}
-    performer_start['position']['z'] = ROOM_Z_MAX
-    location = get_location_in_front_of_performer(performer_start, target_definition)
-    assert location is None
+
+    for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+        performer_start['position']['z'] = ROOM_Z_MAX
+        location = get_location_in_front_of_performer(performer_start, target_definition)
+        assert location is None
 
 
 def test_get_position_in_back_of_performer():
-    # This test should work with ANY pickupable object
-    target_definition = util.finalize_object_definition(random.choice(objects.OBJECTS_PICKUPABLE))
     performer_start = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'y': 0}}
 
-    performer_start['rotation']['y'] = 0
-    negative_z = get_location_in_back_of_performer(performer_start, target_definition)
-    assert 0 >= negative_z['position']['z'] >= ROOM_Z_MIN
-    assert ROOM_X_MAX >= negative_z['position']['x'] >= ROOM_X_MIN
+    for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+        performer_start['rotation']['y'] = 0
+        negative_z = get_location_in_back_of_performer(performer_start, target_definition)
+        assert 0 >= negative_z['position']['z'] >= ROOM_Z_MIN
+        assert ROOM_X_MAX >= negative_z['position']['x'] >= ROOM_X_MIN
 
-    performer_start['rotation']['y'] = 90
-    negative_x = get_location_in_back_of_performer(performer_start, target_definition)
-    assert 0 >= negative_x['position']['x'] >= ROOM_X_MIN
-    assert ROOM_Z_MAX >= negative_x['position']['z'] >= ROOM_Z_MIN
+        performer_start['rotation']['y'] = 90
+        negative_x = get_location_in_back_of_performer(performer_start, target_definition)
+        assert 0 >= negative_x['position']['x'] >= ROOM_X_MIN
+        assert ROOM_Z_MAX >= negative_x['position']['z'] >= ROOM_Z_MIN
 
-    performer_start['rotation']['y'] = 180
-    positive_z = get_location_in_back_of_performer(performer_start, target_definition)
-    assert ROOM_Z_MAX >= positive_z['position']['z'] >= 0
-    assert ROOM_X_MAX >= positive_z['position']['x'] >= ROOM_X_MIN
+        performer_start['rotation']['y'] = 180
+        positive_z = get_location_in_back_of_performer(performer_start, target_definition)
+        assert ROOM_Z_MAX >= positive_z['position']['z'] >= 0
+        assert ROOM_X_MAX >= positive_z['position']['x'] >= ROOM_X_MIN
 
-    performer_start['rotation']['y'] = 270
-    positive_x = get_location_in_back_of_performer(performer_start, target_definition)
-    assert ROOM_X_MAX >= positive_x['position']['x'] >= 0
-    assert ROOM_Z_MAX >= positive_x['position']['z'] >= ROOM_Z_MIN
+        performer_start['rotation']['y'] = 270
+        positive_x = get_location_in_back_of_performer(performer_start, target_definition)
+        assert ROOM_X_MAX >= positive_x['position']['x'] >= 0
+        assert ROOM_Z_MAX >= positive_x['position']['z'] >= ROOM_Z_MIN
 
 
 def test_get_position_in_back_of_performer_next_to_room_wall():
-    target_definition = util.finalize_object_definition(random.choice(objects.OBJECTS_PICKUPABLE))
     performer_start = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'y': 0}}
-    performer_start['position']['z'] = ROOM_Z_MIN
-    location = get_location_in_back_of_performer(performer_start, target_definition)
-    assert location is None
+
+    for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+        performer_start['position']['z'] = ROOM_Z_MIN
+        location = get_location_in_back_of_performer(performer_start, target_definition)
+        assert location is None
 
 
 def test_are_adjacent():
@@ -618,43 +619,43 @@ def test_are_adjacent_with_offset():
 
 
 def test_get_adjacent_location():
-    target_definition = util.finalize_object_definition(random.choice(objects.OBJECTS_PICKUPABLE))
-    target_location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    target_location['bounding_box'] = generate_object_bounds(target_definition['dimensions'], \
-            (target_definition['offset'] if 'offset' in target_definition else None), target_location['position'], \
-            target_location['rotation'])
-    target_poly = get_bounding_polygon(target_location)
-    object_definition = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
-
     # Set the performer start out-of-the-way.
     performer_start = {'position': {'x': ROOM_X_MAX, 'y': 0, 'z': ROOM_Z_MAX}, 'rotation': {'y': 0}}
 
-    location = get_adjacent_location(object_definition, target_definition, target_location, performer_start)
-    assert location
-    object_poly = get_bounding_polygon(location)
-    assert object_poly.distance(target_poly) < 0.5
+    for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+        target_location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
+        target_location['bounding_box'] = generate_object_bounds(target_definition['dimensions'], \
+                (target_definition['offset'] if 'offset' in target_definition else None), target_location['position'], \
+                target_location['rotation'])
+        target_poly = get_bounding_polygon(target_location)
+
+        for object_definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
+            location = get_adjacent_location(object_definition, target_definition, target_location, performer_start)
+            assert location
+            object_poly = get_bounding_polygon(location)
+            assert object_poly.distance(target_poly) < 0.5
 
 
 def test_get_adjacent_location_with_obstruct():
-    target_definition = util.finalize_object_definition(random.choice(objects.OBJECTS_PICKUPABLE))
-    target_location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    target_location['bounding_box'] = generate_object_bounds(target_definition['dimensions'], \
-            (target_definition['offset'] if 'offset' in target_definition else None), target_location['position'], \
-            target_location['rotation'])
-    target_poly = get_bounding_polygon(target_location)
-
-    # Use the sofa here because it should obstruct any possible pickupable object.
-    sofa_list = [item for item in objects.get_all_object_defs() if 'type' in item and item['type'] == 'sofa_1']
-    object_definition = util.finalize_object_definition(sofa_list[0])
-
     # Set the performer start in the back of the room facing inward.
     performer_start = {'position': {'x': 0, 'y': 0, 'z': ROOM_Z_MIN}, 'rotation': {'y': 0}}
 
-    location = get_adjacent_location(object_definition, target_definition, target_location, performer_start, True)
-    assert location
-    object_poly = get_bounding_polygon(location)
-    assert object_poly.distance(target_poly) < 0.5
-    assert does_fully_obstruct_target(performer_start['position'], target_location, object_poly)
+    # Use the sofa in this test because it should obstruct any possible pickupable object.
+    sofa_list = [item for item in objects.get_all_object_defs() if 'type' in item and item['type'] == 'sofa_1']
+    object_definition = util.finalize_object_definition(sofa_list[0])
+
+    for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+        target_location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
+        target_location['bounding_box'] = generate_object_bounds(target_definition['dimensions'], \
+                (target_definition['offset'] if 'offset' in target_definition else None), target_location['position'], \
+                target_location['rotation'])
+        target_poly = get_bounding_polygon(target_location)
+
+        location = get_adjacent_location(object_definition, target_definition, target_location, performer_start, True)
+        assert location
+        object_poly = get_bounding_polygon(location)
+        assert object_poly.distance(target_poly) < 0.5
+        assert does_fully_obstruct_target(performer_start['position'], target_location, object_poly)
 
 
 def get_min_and_max_in_bounds(bounds):
@@ -662,118 +663,119 @@ def get_min_and_max_in_bounds(bounds):
 
 
 def test_get_adjacent_location_on_side():
-    target_definition = util.finalize_object_definition(random.choice(objects.OBJECTS_PICKUPABLE))
-    target_offset = target_definition['offset'] if 'offset' in target_definition else {'x': 0, 'z': 0}
-    target_location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    target_location['bounding_box'] = generate_object_bounds(target_definition['dimensions'], target_offset, \
-            target_location['position'], target_location['rotation'])
-    target_poly = get_bounding_polygon(target_location)
-
-    target_x_min, target_x_max, target_z_min, target_z_max = get_min_and_max_in_bounds(target_location['bounding_box'])
-
-    object_definition = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
-    object_offset = object_definition['offset'] if 'offset' in object_definition else {'x': 0, 'z': 0}
-
     # Set the performer start out-of-the-way.
     performer_start = {'position': {'x': ROOM_X_MAX, 'y': 0, 'z': ROOM_Z_MAX}, 'rotation': {'y': 0}}
 
-    location = get_adjacent_location_on_side(object_definition, target_definition, target_location, performer_start, \
-            Side.RIGHT, False)
-    assert location
-    x_min, x_max, z_min, z_max = get_min_and_max_in_bounds(location['bounding_box'])
-    assert target_x_max <= x_min <= ROOM_X_MAX
-    assert target_x_max <= x_max <= ROOM_X_MAX
-    assert target_location['position']['z'] + target_offset['z'] == \
-            pytest.approx(location['position']['z'] + object_offset['z'])
-    object_poly = get_bounding_polygon(location)
-    assert object_poly.distance(target_poly) < 0.5
+    for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+        target_offset = target_definition['offset'] if 'offset' in target_definition else {'x': 0, 'z': 0}
+        target_location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
+        target_location['bounding_box'] = generate_object_bounds(target_definition['dimensions'], target_offset, \
+                target_location['position'], target_location['rotation'])
+        target_poly = get_bounding_polygon(target_location)
 
-    location = get_adjacent_location_on_side(object_definition, target_definition, target_location, performer_start, \
-            Side.LEFT, False)
-    assert location
-    x_min, x_max, z_min, z_max = get_min_and_max_in_bounds(location['bounding_box'])
-    assert ROOM_X_MIN <= x_min <= target_x_min
-    assert ROOM_X_MIN <= x_max <= target_x_min
-    assert target_location['position']['z'] + target_offset['z'] == \
-            pytest.approx(location['position']['z'] + object_offset['z'])
-    object_poly = get_bounding_polygon(location)
-    assert object_poly.distance(target_poly) < 0.5
+        target_x_min, target_x_max, target_z_min, target_z_max = get_min_and_max_in_bounds( \
+                target_location['bounding_box'])
 
-    location = get_adjacent_location_on_side(object_definition, target_definition, target_location, performer_start, \
-            Side.FRONT, False)
-    assert location
-    x_min, x_max, z_min, z_max = get_min_and_max_in_bounds(location['bounding_box'])
-    assert target_z_max <= z_min <= ROOM_Z_MAX
-    assert target_z_max <= z_max <= ROOM_Z_MAX
-    assert target_location['position']['x'] + target_offset['x'] == \
-            pytest.approx(location['position']['x'] + object_offset['x'])
-    object_poly = get_bounding_polygon(location)
-    assert object_poly.distance(target_poly) < 0.5
+        for object_definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
+            object_offset = object_definition['offset'] if 'offset' in object_definition else {'x': 0, 'z': 0}
 
-    location = get_adjacent_location_on_side(object_definition, target_definition, target_location, performer_start, \
-            Side.BACK, False)
-    assert location
-    x_min, x_max, z_min, z_max = get_min_and_max_in_bounds(location['bounding_box'])
-    assert ROOM_Z_MIN <= z_min <= target_z_min
-    assert ROOM_Z_MIN <= z_max <= target_z_min
-    assert target_location['position']['x'] + target_offset['x'] == \
-            pytest.approx(location['position']['x'] + object_offset['x'])
-    object_poly = get_bounding_polygon(location)
-    assert object_poly.distance(target_poly) < 0.5
+            location = get_adjacent_location_on_side(object_definition, target_definition, target_location, \
+                    performer_start, Side.RIGHT, False)
+            assert location
+            x_min, x_max, z_min, z_max = get_min_and_max_in_bounds(location['bounding_box'])
+            assert target_x_max <= x_min <= ROOM_X_MAX
+            assert target_x_max <= x_max <= ROOM_X_MAX
+            assert target_location['position']['z'] + target_offset['z'] == \
+                    pytest.approx(location['position']['z'] + object_offset['z'])
+            object_poly = get_bounding_polygon(location)
+            assert object_poly.distance(target_poly) < 0.5
+
+            location = get_adjacent_location_on_side(object_definition, target_definition, target_location, \
+                    performer_start, Side.LEFT, False)
+            assert location
+            x_min, x_max, z_min, z_max = get_min_and_max_in_bounds(location['bounding_box'])
+            assert ROOM_X_MIN <= x_min <= target_x_min
+            assert ROOM_X_MIN <= x_max <= target_x_min
+            assert target_location['position']['z'] + target_offset['z'] == \
+                    pytest.approx(location['position']['z'] + object_offset['z'])
+            object_poly = get_bounding_polygon(location)
+            assert object_poly.distance(target_poly) < 0.5
+
+            location = get_adjacent_location_on_side(object_definition, target_definition, target_location, \
+                    performer_start, Side.FRONT, False)
+            assert location
+            x_min, x_max, z_min, z_max = get_min_and_max_in_bounds(location['bounding_box'])
+            assert target_z_max <= z_min <= ROOM_Z_MAX
+            assert target_z_max <= z_max <= ROOM_Z_MAX
+            assert target_location['position']['x'] + target_offset['x'] == \
+                    pytest.approx(location['position']['x'] + object_offset['x'])
+            object_poly = get_bounding_polygon(location)
+            assert object_poly.distance(target_poly) < 0.5
+
+            location = get_adjacent_location_on_side(object_definition, target_definition, target_location, \
+                    performer_start, Side.BACK, False)
+            assert location
+            x_min, x_max, z_min, z_max = get_min_and_max_in_bounds(location['bounding_box'])
+            assert ROOM_Z_MIN <= z_min <= target_z_min
+            assert ROOM_Z_MIN <= z_max <= target_z_min
+            assert target_location['position']['x'] + target_offset['x'] == \
+                    pytest.approx(location['position']['x'] + object_offset['x'])
+            object_poly = get_bounding_polygon(location)
+            assert object_poly.distance(target_poly) < 0.5
 
 
 def test_get_adjacent_location_on_side_next_to_room_wall():
-    target_definition = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
-    target_offset = target_definition['offset'] if 'offset' in target_definition else {'x': 0, 'z': 0}
-    target_location = {'position': {'x': ROOM_X_MAX, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    target_location['bounding_box'] = generate_object_bounds(target_definition['dimensions'], target_offset, \
-            target_location['position'], target_location['rotation'])
-    object_definition = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
-
     # Set the performer start out-of-the-way.
     performer_start = {'position': {'x': ROOM_X_MAX, 'y': 0, 'z': ROOM_Z_MAX}, 'rotation': {'y': 0}}
 
-    location = get_adjacent_location_on_side(object_definition, target_definition, target_location, performer_start, \
-            Side.RIGHT, False)
-    assert not location
+    for target_definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
+        target_offset = target_definition['offset'] if 'offset' in target_definition else {'x': 0, 'z': 0}
+        target_location = {'position': {'x': ROOM_X_MAX, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
+        target_location['bounding_box'] = generate_object_bounds(target_definition['dimensions'], target_offset, \
+                target_location['position'], target_location['rotation'])
+
+        for object_definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
+            location = get_adjacent_location_on_side(object_definition, target_definition, target_location, \
+                    performer_start, Side.RIGHT, False)
+            assert not location
 
 
 def test_get_wider_and_taller_defs():
-    object_definition = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
-    object_dimensions = object_definition['closed_dimensions'] if 'closed_dimensions' in object_definition else \
-            object_definition['dimensions']
-    bigger_definition_list = get_wider_and_taller_defs(object_definition, False)
-    for bigger_definition_result in bigger_definition_list:
-        bigger_definition, angle = bigger_definition_result
-        bigger_definition = util.finalize_object_definition(bigger_definition)
-        bigger_dimensions = bigger_definition['closed_dimensions'] if 'closed_dimensions' in bigger_definition else \
-                bigger_definition['dimensions']
-        assert bigger_definition['obstruct'] == 'navigation'
-        assert bigger_dimensions['y'] >= 0.2
-        if angle == 0:
-            assert bigger_dimensions['x'] >= object_dimensions['x']
-        else:
-            # We rotate the bigger object so compare its side to the original object's front.
-            assert bigger_dimensions['z'] >= object_dimensions['x']
+    for object_definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
+        object_dimensions = object_definition['closed_dimensions'] if 'closed_dimensions' in object_definition else \
+                object_definition['dimensions']
+        bigger_definition_list = get_wider_and_taller_defs(object_definition, False)
+        for bigger_definition_result in bigger_definition_list:
+            bigger_definition, angle = bigger_definition_result
+            bigger_definition = util.finalize_object_definition(bigger_definition)
+            bigger_dimensions = bigger_definition['closed_dimensions'] if 'closed_dimensions' in bigger_definition \
+                    else bigger_definition['dimensions']
+            assert bigger_definition['obstruct'] == 'navigation'
+            assert bigger_dimensions['y'] >= 0.2
+            if angle == 0:
+                assert bigger_dimensions['x'] >= object_dimensions['x']
+            else:
+                # We rotate the bigger object so compare its side to the original object's front.
+                assert bigger_dimensions['z'] >= object_dimensions['x']
 
 
 def test_get_wider_and_taller_defs_obstruct_vision():
-    object_definition = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
-    object_dimensions = object_definition['closed_dimensions'] if 'closed_dimensions' in object_definition else \
-            object_definition['dimensions']
-    bigger_definition_list = get_wider_and_taller_defs(object_definition, True)
-    for bigger_definition_result in bigger_definition_list:
-        bigger_definition, angle = bigger_definition_result
-        bigger_definition = util.finalize_object_definition(bigger_definition)
-        bigger_dimensions = bigger_definition['closed_dimensions'] if 'closed_dimensions' in bigger_definition else \
-                bigger_definition['dimensions']
-        assert bigger_definition['obstruct'] == 'vision'
-        assert bigger_dimensions['y'] >= object_dimensions['y']
-        if angle == 0:
-            assert bigger_dimensions['x'] >= object_dimensions['x']
-        else:
-            # We rotate the bigger object so compare its side to the original object's front.
-            assert bigger_dimensions['z'] >= object_dimensions['x']
+    for object_definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
+        object_dimensions = object_definition['closed_dimensions'] if 'closed_dimensions' in object_definition else \
+                object_definition['dimensions']
+        bigger_definition_list = get_wider_and_taller_defs(object_definition, True)
+        for bigger_definition_result in bigger_definition_list:
+            bigger_definition, angle = bigger_definition_result
+            bigger_definition = util.finalize_object_definition(bigger_definition)
+            bigger_dimensions = bigger_definition['closed_dimensions'] if 'closed_dimensions' in bigger_definition \
+                    else bigger_definition['dimensions']
+            assert bigger_definition['obstruct'] == 'vision'
+            assert bigger_dimensions['y'] >= object_dimensions['y']
+            if angle == 0:
+                assert bigger_dimensions['x'] >= object_dimensions['x']
+            else:
+                # We rotate the bigger object so compare its side to the original object's front.
+                assert bigger_dimensions['z'] >= object_dimensions['x']
 
 
 def test_get_bounding_poly():
@@ -799,56 +801,56 @@ def test_find_performer_rect():
 
 
 def test_set_location_rotation():
-    definition = util.finalize_object_definition(random.choice(objects.get_all_object_defs()))
-    offset = definition['offset'] if 'offset' in definition else {'x': 0, 'z': 0}
+    for definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
+        offset = definition['offset'] if 'offset' in definition else {'x': 0, 'z': 0}
 
-    location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    location = set_location_rotation(definition, location, 0)
-    assert location['rotation']['y'] == 0
-    assert location['bounding_box'][0]['x'] == pytest.approx(definition['dimensions']['x'] / 2 + offset['x'])
-    assert location['bounding_box'][0]['z'] == pytest.approx(definition['dimensions']['z'] / 2 + offset['z'])
-    assert location['bounding_box'][1]['x'] == pytest.approx(definition['dimensions']['x'] / 2 + offset['x'])
-    assert location['bounding_box'][1]['z'] == pytest.approx(-definition['dimensions']['z'] / 2 + offset['z'])
-    assert location['bounding_box'][2]['x'] == pytest.approx(-definition['dimensions']['x'] / 2 + offset['x'])
-    assert location['bounding_box'][2]['z'] == pytest.approx(-definition['dimensions']['z'] / 2 + offset['z'])
-    assert location['bounding_box'][3]['x'] == pytest.approx(-definition['dimensions']['x'] / 2 + offset['x'])
-    assert location['bounding_box'][3]['z'] == pytest.approx(definition['dimensions']['z'] / 2 + offset['z'])
+        location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
+        location = set_location_rotation(definition, location, 0)
+        assert location['rotation']['y'] == 0
+        assert location['bounding_box'][0]['x'] == pytest.approx(definition['dimensions']['x'] / 2 + offset['x'])
+        assert location['bounding_box'][0]['z'] == pytest.approx(definition['dimensions']['z'] / 2 + offset['z'])
+        assert location['bounding_box'][1]['x'] == pytest.approx(definition['dimensions']['x'] / 2 + offset['x'])
+        assert location['bounding_box'][1]['z'] == pytest.approx(-definition['dimensions']['z'] / 2 + offset['z'])
+        assert location['bounding_box'][2]['x'] == pytest.approx(-definition['dimensions']['x'] / 2 + offset['x'])
+        assert location['bounding_box'][2]['z'] == pytest.approx(-definition['dimensions']['z'] / 2 + offset['z'])
+        assert location['bounding_box'][3]['x'] == pytest.approx(-definition['dimensions']['x'] / 2 + offset['x'])
+        assert location['bounding_box'][3]['z'] == pytest.approx(definition['dimensions']['z'] / 2 + offset['z'])
 
-    location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    location = set_location_rotation(definition, location, 90)
-    assert location['rotation']['y'] == 90
-    assert location['bounding_box'][0]['x'] == pytest.approx(definition['dimensions']['z'] / 2 + offset['z'])
-    assert location['bounding_box'][0]['z'] == pytest.approx(-definition['dimensions']['x'] / 2 - offset['x'])
-    assert location['bounding_box'][1]['x'] == pytest.approx(-definition['dimensions']['z'] / 2 + offset['z'])
-    assert location['bounding_box'][1]['z'] == pytest.approx(-definition['dimensions']['x'] / 2 - offset['x'])
-    assert location['bounding_box'][2]['x'] == pytest.approx(-definition['dimensions']['z'] / 2 + offset['z'])
-    assert location['bounding_box'][2]['z'] == pytest.approx(definition['dimensions']['x'] / 2 - offset['x'])
-    assert location['bounding_box'][3]['x'] == pytest.approx(definition['dimensions']['z'] / 2 + offset['z'])
-    assert location['bounding_box'][3]['z'] == pytest.approx(definition['dimensions']['x'] / 2 - offset['x'])
+        location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
+        location = set_location_rotation(definition, location, 90)
+        assert location['rotation']['y'] == 90
+        assert location['bounding_box'][0]['x'] == pytest.approx(definition['dimensions']['z'] / 2 + offset['z'])
+        assert location['bounding_box'][0]['z'] == pytest.approx(-definition['dimensions']['x'] / 2 - offset['x'])
+        assert location['bounding_box'][1]['x'] == pytest.approx(-definition['dimensions']['z'] / 2 + offset['z'])
+        assert location['bounding_box'][1]['z'] == pytest.approx(-definition['dimensions']['x'] / 2 - offset['x'])
+        assert location['bounding_box'][2]['x'] == pytest.approx(-definition['dimensions']['z'] / 2 + offset['z'])
+        assert location['bounding_box'][2]['z'] == pytest.approx(definition['dimensions']['x'] / 2 - offset['x'])
+        assert location['bounding_box'][3]['x'] == pytest.approx(definition['dimensions']['z'] / 2 + offset['z'])
+        assert location['bounding_box'][3]['z'] == pytest.approx(definition['dimensions']['x'] / 2 - offset['x'])
 
-    location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    location = set_location_rotation(definition, location, 180)
-    assert location['rotation']['y'] == 180
-    assert location['bounding_box'][0]['x'] == pytest.approx(-definition['dimensions']['x'] / 2 - offset['x'])
-    assert location['bounding_box'][0]['z'] == pytest.approx(-definition['dimensions']['z'] / 2 - offset['z'])
-    assert location['bounding_box'][1]['x'] == pytest.approx(-definition['dimensions']['x'] / 2 - offset['x'])
-    assert location['bounding_box'][1]['z'] == pytest.approx(definition['dimensions']['z'] / 2 - offset['z'])
-    assert location['bounding_box'][2]['x'] == pytest.approx(definition['dimensions']['x'] / 2 - offset['x'])
-    assert location['bounding_box'][2]['z'] == pytest.approx(definition['dimensions']['z'] / 2 - offset['z'])
-    assert location['bounding_box'][3]['x'] == pytest.approx(definition['dimensions']['x'] / 2 - offset['x'])
-    assert location['bounding_box'][3]['z'] == pytest.approx(-definition['dimensions']['z'] / 2 - offset['z'])
+        location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
+        location = set_location_rotation(definition, location, 180)
+        assert location['rotation']['y'] == 180
+        assert location['bounding_box'][0]['x'] == pytest.approx(-definition['dimensions']['x'] / 2 - offset['x'])
+        assert location['bounding_box'][0]['z'] == pytest.approx(-definition['dimensions']['z'] / 2 - offset['z'])
+        assert location['bounding_box'][1]['x'] == pytest.approx(-definition['dimensions']['x'] / 2 - offset['x'])
+        assert location['bounding_box'][1]['z'] == pytest.approx(definition['dimensions']['z'] / 2 - offset['z'])
+        assert location['bounding_box'][2]['x'] == pytest.approx(definition['dimensions']['x'] / 2 - offset['x'])
+        assert location['bounding_box'][2]['z'] == pytest.approx(definition['dimensions']['z'] / 2 - offset['z'])
+        assert location['bounding_box'][3]['x'] == pytest.approx(definition['dimensions']['x'] / 2 - offset['x'])
+        assert location['bounding_box'][3]['z'] == pytest.approx(-definition['dimensions']['z'] / 2 - offset['z'])
 
-    location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    location = set_location_rotation(definition, location, 270)
-    assert location['rotation']['y'] == 270
-    assert location['bounding_box'][0]['x'] == pytest.approx(-definition['dimensions']['z'] / 2 - offset['z'])
-    assert location['bounding_box'][0]['z'] == pytest.approx(definition['dimensions']['x'] / 2 + offset['x'])
-    assert location['bounding_box'][1]['x'] == pytest.approx(definition['dimensions']['z'] / 2 - offset['z'])
-    assert location['bounding_box'][1]['z'] == pytest.approx(definition['dimensions']['x'] / 2 + offset['x'])
-    assert location['bounding_box'][2]['x'] == pytest.approx(definition['dimensions']['z'] / 2 - offset['z'])
-    assert location['bounding_box'][2]['z'] == pytest.approx(-definition['dimensions']['x'] / 2 + offset['x'])
-    assert location['bounding_box'][3]['x'] == pytest.approx(-definition['dimensions']['z'] / 2 - offset['z'])
-    assert location['bounding_box'][3]['z'] == pytest.approx(-definition['dimensions']['x'] / 2 + offset['x'])
+        location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
+        location = set_location_rotation(definition, location, 270)
+        assert location['rotation']['y'] == 270
+        assert location['bounding_box'][0]['x'] == pytest.approx(-definition['dimensions']['z'] / 2 - offset['z'])
+        assert location['bounding_box'][0]['z'] == pytest.approx(definition['dimensions']['x'] / 2 + offset['x'])
+        assert location['bounding_box'][1]['x'] == pytest.approx(definition['dimensions']['z'] / 2 - offset['z'])
+        assert location['bounding_box'][1]['z'] == pytest.approx(definition['dimensions']['x'] / 2 + offset['x'])
+        assert location['bounding_box'][2]['x'] == pytest.approx(definition['dimensions']['z'] / 2 - offset['z'])
+        assert location['bounding_box'][2]['z'] == pytest.approx(-definition['dimensions']['x'] / 2 + offset['x'])
+        assert location['bounding_box'][3]['x'] == pytest.approx(-definition['dimensions']['z'] / 2 - offset['z'])
+        assert location['bounding_box'][3]['z'] == pytest.approx(-definition['dimensions']['x'] / 2 + offset['x'])
 
 
 def test_does_fully_obstruct_target():

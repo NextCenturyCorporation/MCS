@@ -5,7 +5,7 @@ import materials
 import objects
 from goals import *
 from util import finalize_object_definition, instantiate_object, check_same_and_different, get_similar_defs, \
-        random_real, move_to_location
+        random_real, move_to_location, retrieve_full_object_definition_list
 
 
 PACIFIER = {
@@ -406,17 +406,35 @@ def test_check_same_and_different():
         'shape': 'ball',
         'color': 'blue',
         'size': 'tiny',
-        'ignored': 'stuff'
+        'ignore': 'prop'
     }
     b = {
         'shape': 'ball',
-        'color': 'red',
+        'color': 'yellow',
         'size': 'tiny',
-        'ignored': 42
+        'ignore': 42
     }
+    assert check_same_and_different(a, b, [], []) is True
     assert check_same_and_different(a, b, ('shape', 'size'), ('color',)) is True
     assert check_same_and_different(a, b, ('shape', 'color'), ('size',)) is False
     assert check_same_and_different(a, b, ('color', 'size'), ('shape',)) is False
+
+
+def test_check_same_and_different_with_list():
+    a = {
+        'shape': ['ball'],
+        'color': ['blue'],
+        'size': 'tiny',
+        'ignore': 'prop'
+    }
+    b = {
+        'shape': ['ball'],
+        'color': ['yellow'],
+        'size': 'tiny',
+        'ignore': 42
+    }
+    assert check_same_and_different(a, b, ('shape'), ('color',)) is True
+    assert check_same_and_different(a, b, ('color'), ('shape',)) is False
 
 
 def test_check_same_and_different_with_dimensions():
@@ -481,30 +499,30 @@ def test_check_same_and_different_pacifier():
 
 
 def test_get_similar_defs_color():
-    object_list = objects.get_all_object_defs()
-    for object_definition in object_list:
+    object_definition_list = retrieve_full_object_definition_list(objects.get_all_object_defs())
+    for object_definition in object_definition_list:
         object_instance = instantiate_object(object_definition, geometry.ORIGIN_LOCATION)
-        similar_list = get_similar_defs(object_instance, object_list, ('dimensions', 'shape'), ('color',))
+        similar_list = get_similar_defs(object_instance, object_definition_list, ('dimensions', 'shape'), ('color',))
         for similar_definition in similar_list:
             similar_instance = instantiate_object(similar_definition, geometry.ORIGIN_LOCATION)
             assert check_same_and_different(similar_instance, object_instance, ('dimensions', 'shape'), ('color',))
 
 
 def test_get_similar_defs_shape():
-    object_list = objects.get_all_object_defs()
-    for object_definition in object_list:
+    object_definition_list = retrieve_full_object_definition_list(objects.get_all_object_defs())
+    for object_definition in object_definition_list:
         object_instance = instantiate_object(object_definition, geometry.ORIGIN_LOCATION)
-        similar_list = get_similar_defs(object_instance, object_list, ('color', 'dimensions'), ('shape',))
+        similar_list = get_similar_defs(object_instance, object_definition_list, ('color', 'dimensions'), ('shape',))
         for similar_definition in similar_list:
             similar_instance = instantiate_object(similar_definition, geometry.ORIGIN_LOCATION)
             assert check_same_and_different(similar_instance, object_instance, ('color', 'dimensions'), ('shape',))
 
 
 def test_get_similar_defs_size():
-    object_list = objects.get_all_object_defs()
-    for object_definition in object_list:
+    object_definition_list = retrieve_full_object_definition_list(objects.get_all_object_defs())
+    for object_definition in object_definition_list:
         object_instance = instantiate_object(object_definition, geometry.ORIGIN_LOCATION)
-        similar_list = get_similar_defs(object_instance, object_list, ('color', 'shape'), ('dimensions',))
+        similar_list = get_similar_defs(object_instance, object_definition_list, ('color', 'shape'), ('dimensions',))
         for similar_definition in similar_list:
             similar_instance = instantiate_object(similar_definition, geometry.ORIGIN_LOCATION)
             assert check_same_and_different(similar_instance, object_instance, ('color', 'shape'), ('dimensions',))
@@ -621,4 +639,28 @@ def test_move_to_location():
     assert instance['shows'][0]['rotation'] == {'x': 0, 'y': 0, 'z': 0}
     assert instance['shows'][0]['bounding_box'] == [{'x': 3, 'z': 3}, {'x': 3, 'z': 1}, {'x': 1, 'z': 1}, \
             {'x': 1, 'z': 3}]
+
+
+def test_retrieve_full_object_definition_list():
+    list_1 = [{ 'type': 'ball', 'mass': 1 }]
+    actual_1 = retrieve_full_object_definition_list(list_1)
+    assert len(actual_1) == 1
+
+    list_2 = [{ 'type': 'ball', 'choose': [{ 'mass': 1 }, { 'mass': 2 }] }]
+    actual_2 = retrieve_full_object_definition_list(list_2)
+    assert len(actual_2) == 2
+
+    list_3 = [
+        { 'type': 'sofa' },
+        { 'type': 'ball', 'choose': [{ 'mass': 1 }, { 'mass': 2 }] }
+    ]
+    actual_3 = retrieve_full_object_definition_list(list_3)
+    assert len(actual_3) == 3
+
+    list_4 = [
+        { 'type': 'sofa', 'choose': [{ 'mass': 1 }, { 'mass': 3 }] },
+        { 'type': 'ball', 'choose': [{ 'mass': 1 }, { 'mass': 2 }] }
+    ]
+    actual_4 = retrieve_full_object_definition_list(list_4)
+    assert len(actual_4) == 4
 

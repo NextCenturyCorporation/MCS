@@ -345,3 +345,16 @@ def move_to_location(obj_def: Dict[str, Any], obj: Dict[str, Any], location: Dic
         obj['shows'][0]['bounding_box'] = new_location['bounding_box']
     return obj
 
+
+def retrieve_full_object_definition_list(base_definition_list: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Return the given object definition list in which finalize_object_definition was called on each definition with
+    each possible choice."""
+    object_definition_list = []
+    for base_object_definition in base_definition_list:
+        if 'choose' in base_object_definition:
+            for choice in base_object_definition['choose']:
+                object_definition_list.append(finalize_object_definition(base_object_definition, choice))
+        else:
+            object_definition_list.append(finalize_object_definition(base_object_definition))
+    return object_definition_list
+

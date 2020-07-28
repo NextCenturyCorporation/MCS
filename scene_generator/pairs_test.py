@@ -39,7 +39,8 @@ def verify_confusor(target, confusor):
     assert target['id'] != confusor['id']
     is_same_color = set(target['color']) == set(confusor['color'])
     is_same_shape = target['shape'] == confusor['shape']
-    is_same_size = (target['dimensions']['x'] - util.MAX_SIZE_DIFFERENCE) <= confusor['dimensions']['x'] <= \
+    is_same_size = target['size'] == confusor['size'] and \
+            (target['dimensions']['x'] - util.MAX_SIZE_DIFFERENCE) <= confusor['dimensions']['x'] <= \
             (target['dimensions']['x'] + util.MAX_SIZE_DIFFERENCE) and \
             (target['dimensions']['y'] - util.MAX_SIZE_DIFFERENCE) <= confusor['dimensions']['y'] <= \
             (target['dimensions']['y'] + util.MAX_SIZE_DIFFERENCE) and \

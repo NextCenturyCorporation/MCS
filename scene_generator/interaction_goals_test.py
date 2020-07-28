@@ -441,15 +441,15 @@ def test_ConfusorObjectRule_choose_definition():
     definition = rule.choose_definition()
     assert definition
 
-    is_same_size = definition['info'][0] == target_definition['info'][0] and \
+    is_same_color = set(definition['color']) == set(target_definition['color'])
+    is_same_shape = definition['shape'] == target_definition['shape']
+    is_same_size = definition['size'] == target_definition['size'] and \
             (definition['dimensions']['x'] >= target_definition['dimensions']['x'] - MAX_SIZE_DIFFERENCE) and \
             (definition['dimensions']['x'] <= target_definition['dimensions']['x'] + MAX_SIZE_DIFFERENCE) and \
+            (definition['dimensions']['y'] >= target_definition['dimensions']['y'] - MAX_SIZE_DIFFERENCE) and \
+            (definition['dimensions']['y'] <= target_definition['dimensions']['y'] + MAX_SIZE_DIFFERENCE) and \
             (definition['dimensions']['z'] >= target_definition['dimensions']['z'] - MAX_SIZE_DIFFERENCE) and \
             (definition['dimensions']['z'] <= target_definition['dimensions']['z'] + MAX_SIZE_DIFFERENCE)
-    is_same_shape = definition['info'][-1] == target_definition['info'][-1]
-    is_same_color = ('materialCategory' not in definition and 'materialCategory' not in target_definition and \
-            definition['type'] == target_definition['type']) or \
-            (definition['materialCategory'] == target_definition['materialCategory'])
     assert (is_same_size and is_same_shape and not is_same_color) or \
             (is_same_size and is_same_color and not is_same_shape) or \
             (is_same_shape and is_same_color and not is_same_size)
