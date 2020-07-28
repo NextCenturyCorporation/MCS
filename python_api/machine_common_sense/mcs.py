@@ -4,7 +4,7 @@ import signal
 from contextlib import contextmanager
 from .mcs_controller_ai2thor import MCS_Controller_AI2THOR
 
-TIME_LIMIT_SECONDS = 10
+TIME_LIMIT_SECONDS = 60
 
 @contextmanager
 def time_limit(seconds):
