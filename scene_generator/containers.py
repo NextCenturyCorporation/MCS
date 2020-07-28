@@ -47,6 +47,8 @@ def put_objects_in_container(obj_def_a: Dict[str, Any], obj_a: Dict[str, Any], o
     if rot_b not in (0, 90):
         raise ValueError('only 0 and 90 degree rotations supported for object b, not {rot_b}')
 
+    # TODO This function should probably verify that both objects can fit together inside the container...
+
     area = container_def['enclosed_areas'][area_index]
     obj_a['locationParent'] = container['id']
     obj_b['locationParent'] = container['id']
@@ -263,44 +265,7 @@ def can_contain_both(container_def: Dict[str, Any],
     return None
 
 
-def get_enclosable_container_defs(objs: Sequence[Dict[str, Any]],
-                                  container_defs: Sequence[Dict[str, Any]] = None) \
-                                  -> List[Dict[str, Any]]:
-    """Return a list of object definitions for containers that can enclose
-    all the passed objects objs. If container_defs is None, use
-    objects.get_enclosed_containers().
-    """
-    if container_defs is None:
-        container_defs = objects.get_enclosed_containers()
-    valid_container_defs = []
-    for container_def in container_defs:
-        containment = how_can_contain(container_def, *objs)
-        if containment is not None:
-            valid_container_defs.append(container_def)
-        elif 'choose' in container_def:
-            # try choose
-            valid_choices = []
-            for choice in container_def['choose']:
-                containment = how_can_contain(choice, *objs)
-                if containment is not None:
-                    valid_choices.append(choice)
-            if len(valid_choices) > 0:
-                if len(valid_choices) == len(container_def['choose']):
-                    valid_container_defs.append(container_def)
-                else:
-                    new_def = copy.deepcopy(container_def)
-                    new_def['choose'] = valid_choices
-                    valid_container_defs.append(new_def)
-    return valid_container_defs
-
-
-def get_parent(obj: Dict[str, Any], all_objects: Iterable[Dict[str, Any]]) \
-        -> Dict[str, Any]:
-    parent_id = obj['locationParent']
-    parent = next((o for o in all_objects if o['id'] == parent_id))
-    return parent
-
-
+# TODO Can we delete this function and just use get_enclosable_containments instead?
 def find_suitable_enclosable_list(obj: Dict[str, Any], container_defs: Sequence[Dict[str, Any]] = None) -> \
         List[Dict[str, Any]]:
     """Find and return the list of enclosable receptacle definitions into which the given object can fit."""

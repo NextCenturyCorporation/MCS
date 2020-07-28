@@ -22,7 +22,7 @@ from util import finalize_object_definition, instantiate_object
 
 
 def generate_image_file_name(target: Dict[str, Any]) -> str:
-    if 'materials' not in target:
+    if 'materials' not in target or not target['materials']:
         return target['type']
 
     material_name_list = [item[(item.rfind('/') + 1):].lower().replace(' ', '_') for item in target['materials']]
@@ -554,8 +554,10 @@ class RetrievalGoal(InteractionGoal):
     def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         if len(goal_objects) < 1:
             raise exceptions.SceneException('need at least 1 object for this goal')
-
         target = goal_objects[0]
+        if not target.get('pickupable', False):
+            raise exceptions.SceneException(f'first object must be "pickupable": {target}')
+
         target_image_obj = find_image_for_object(target)
         image_name = find_image_name(target)
 

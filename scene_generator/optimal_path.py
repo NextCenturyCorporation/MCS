@@ -6,13 +6,8 @@ from shapely.geometry import Polygon, Point
 from shapely.ops import unary_union
 
 from extremitypathfinder.extremitypathfinder import PolygonEnvironment as Environment
-from geometry import ROOM_DIMENSIONS
+from geometry import ROOM_X_MIN, ROOM_X_MAX, ROOM_Z_MIN, ROOM_Z_MAX
 from util import PERFORMER_WIDTH
-
-MIN_X = ROOM_DIMENSIONS[0][0]
-MAX_X = ROOM_DIMENSIONS[0][1]
-MIN_Z = ROOM_DIMENSIONS[1][0]
-MAX_Z = ROOM_DIMENSIONS[1][1]
 
 
 def _dilate_polygons(rects: List[List[Dict[str, float]]], dilation: float,
@@ -78,10 +73,10 @@ def generatepath(source_loc: Tuple[float, float],
     poly_coords = _unify_and_clean_polygons(polygons)
 
     environment = Environment()
-    boundary_coordinates = [(MAX_X - dilation, MAX_Z - dilation),
-                            (MIN_X + dilation, MAX_Z - dilation),
-                            (MIN_X + dilation, MIN_Z + dilation),
-                            (MAX_X - dilation, MIN_Z + dilation)]
+    boundary_coordinates = [(ROOM_X_MAX - dilation, ROOM_Z_MAX - dilation),
+                            (ROOM_X_MIN + dilation, ROOM_Z_MAX - dilation),
+                            (ROOM_X_MIN + dilation, ROOM_Z_MIN + dilation),
+                            (ROOM_X_MAX - dilation, ROOM_Z_MIN + dilation)]
     try:
         environment.store(boundary_coordinates, poly_coords, validate=True)
         environment.prepare()
