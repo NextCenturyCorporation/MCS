@@ -409,8 +409,10 @@ OBJECTS_PICKUPABLE_TOYS = [{
     }]
 }, {
     "type": "pacifier",
-    "info": ["tiny", "blue", "pacifier"],
+    "info": ["tiny", "pacifier"],
+    "color": ["blue"],
     "mass": 0.125,
+    "materialCategory": [],
     "salientMaterials": ["plastic"],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -433,9 +435,11 @@ OBJECTS_PICKUPABLE_TOYS = [{
     "chooseMaterial": [{
         # TODO
         "type": "crayon_blue",
-        "info": ["tiny", "blue", "crayon"]
+        "info": ["tiny", "crayon"],
+        "color": ["blue"]
     }],
     "mass": 0.125,
+    "materialCategory": [],
     "salientMaterials": ["wax"],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -596,8 +600,10 @@ OBJECTS_PICKUPABLE_TOYS = [{
 
 OBJECTS_PICKUPABLE_MISC = [{
     "type": "apple_1",
-    "info": ["tiny", "red", "apple"],
+    "info": ["tiny", "apple"],
+    "color": ["red"],
     "mass": 0.5,
+    "materialCategory": [],
     "salientMaterials": ["food"],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -618,8 +624,10 @@ OBJECTS_PICKUPABLE_MISC = [{
     }
 }, {
     "type": "apple_2",
-    "info": ["tiny", "green", "apple"],
+    "info": ["tiny", "apple"],
+    "color": ["green"],
     "mass": 0.5,
+    "materialCategory": [],
     "salientMaterials": ["food"],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -911,8 +919,10 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_2",
     "obstruct": "vision",
-    "info": ["small", "brown", "box"],
+    "info": ["small", "box"],
+    "color": ["brown"],
     "mass": 0.5,
+    "materialCategory": [],
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosedAreas": [{
@@ -957,8 +967,10 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_2",
     "obstruct": "vision",
-    "info": ["tiny", "brown", "box"],
+    "info": ["tiny", "box"],
+    "color": ["brown"],
     "mass": 0.25,
+    "materialCategory": [],
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosedAreas": [{
@@ -1003,8 +1015,10 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_3",
     "obstruct": "vision",
-    "info": ["small", "brown", "box"],
+    "info": ["small", "box"],
+    "color": ["brown"],
     "mass": 0.5,
+    "materialCategory": [],
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosedAreas": [{
@@ -1049,8 +1063,10 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_3",
     "obstruct": "vision",
-    "info": ["tiny", "brown", "box"],
+    "info": ["tiny", "box"],
+    "color": ["brown"],
     "mass": 0.25,
+    "materialCategory": [],
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosedAreas": [{
@@ -1095,8 +1111,10 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_4",
     "obstruct": "vision",
-    "info": ["small", "grey", "box"],
+    "info": ["small", "box"],
+    "color": ["grey"],
     "mass": 0.5,
+    "materialCategory": [],
     "novelColor": True,
     "novelShape": True,
     "salientMaterials": ["paper"],
@@ -1143,8 +1161,10 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_4",
     "obstruct": "vision",
-    "info": ["tiny", "grey", "box"],
+    "info": ["tiny", "box"],
+    "color": ["grey"],
     "mass": 0.25,
+    "materialCategory": [],
     "novelColor": True,
     "novelShape": True,
     "salientMaterials": ["paper"],
@@ -1421,12 +1441,14 @@ OBJECTS_MOVEABLE = [{
     }
 }, {
     "type": "box_2",
+    "color": ["brown"],
     "obstruct": "vision",
     "attributes": ["moveable", "receptacle", "openable"],
+    "materialCategory": [],
+    "salientMaterials": ["paper"],
     "chooseSize": [{
-        "info": ["small", "brown", "box"],
+        "info": ["small", "box"],
         "mass": 1,
-        "salientMaterials": ["paper"],
         "enclosedAreas": [{
             "id": "",
             "position": {
@@ -1467,9 +1489,8 @@ OBJECTS_MOVEABLE = [{
             "z": 1.25
         }
     }, {
-        "info": ["medium", "brown", "box"],
+        "info": ["medium", "box"],
         "mass": 3,
-        "salientMaterials": ["paper"],
         "enclosedAreas": [{
             "id": "",
             "position": {
@@ -1512,12 +1533,14 @@ OBJECTS_MOVEABLE = [{
     }]
 }, {
     "type": "box_3",
+    "color": ["brown"],
     "obstruct": "vision",
     "attributes": ["moveable", "receptacle", "openable"],
+    "materialCategory": [],
+    "salientMaterials": ["paper"],
     "chooseSize": [{
-        "info": ["small", "brown", "box"],
+        "info": ["small", "box"],
         "mass": 1,
-        "salientMaterials": ["paper"],
         "enclosedAreas": [{
             "id": "",
             "position": {
@@ -1558,9 +1581,8 @@ OBJECTS_MOVEABLE = [{
             "z": 1
         }
     }, {
-        "info": ["medium", "brown", "box"],
+        "info": ["medium", "box"],
         "mass": 3,
-        "salientMaterials": ["paper"],
         "enclosedAreas": [{
             "id": "",
             "position": {
@@ -1603,14 +1625,16 @@ OBJECTS_MOVEABLE = [{
     }]
 }, {
     "type": "box_4",
+    "color": ["grey"],
     "obstruct": "vision",
     "attributes": ["moveable", "receptacle", "openable"],
+    "materialCategory": [],
+    "salientMaterials": ["paper"],
     "novelColor": True,
     "novelShape": True,
     "chooseSize": [{
-        "info": ["small", "grey", "box"],
+        "info": ["small", "box"],
         "mass": 1,
-        "salientMaterials": ["paper"],
         "enclosedAreas": [{
             "id": "",
             "position": {
@@ -1651,9 +1675,8 @@ OBJECTS_MOVEABLE = [{
             "z": 1
         }
     }, {
-        "info": ["tiny", "grey", "box"],
+        "info": ["tiny", "box"],
         "mass": 0.25,
-        "salientMaterials": ["paper"],
         "enclosedAreas": [{
             "id": "",
             "position": {
@@ -1697,10 +1720,12 @@ OBJECTS_MOVEABLE = [{
 }, {
     "info": ["medium", "potted plant"],
     "mass": 2.5,
+    "materialCategory": [],
     "salientMaterials": ["organic", "ceramic"],
     "attributes": ["moveable"],
     "chooseType": [{
         "type": "plant_1",
+        "color": ["green", "brown"],
         "dimensions": {
             "x": 0.931,
             "y": 0.807,
@@ -1719,6 +1744,7 @@ OBJECTS_MOVEABLE = [{
         }
     }, {
         "type": "plant_5",
+        "color": ["green", "grey", "brown"],
         "dimensions": {
             "x": 0.522,
             "y": 0.656,
@@ -1737,6 +1763,7 @@ OBJECTS_MOVEABLE = [{
         }
     }, {
         "type": "plant_7",
+        "color": ["green", "brown"],
         "dimensions": {
             "x": 0.72,
             "y": 1.094,
@@ -1755,6 +1782,7 @@ OBJECTS_MOVEABLE = [{
         }
     }, {
         "type": "plant_9",
+        "color": ["green", "grey", "brown"],
         "dimensions": {
             "x": 0.679,
             "y": 0.859,
@@ -1773,6 +1801,7 @@ OBJECTS_MOVEABLE = [{
         }
     }, {
         "type": "plant_14",
+        "color": ["red", "brown"],
         "dimensions": {
             "x": 0.508,
             "y": 0.815,
@@ -1791,6 +1820,7 @@ OBJECTS_MOVEABLE = [{
         }
     }, {
         "type": "plant_16",
+        "color": ["green", "brown"],
         "dimensions": {
             "x": 0.702,
             "y": 1.278,
@@ -1811,10 +1841,12 @@ OBJECTS_MOVEABLE = [{
 }, {
     "info": ["small", "potted plant"],
     "mass": 1,
+    "materialCategory": [],
     "salientMaterials": ["organic", "ceramic"],
     "attributes": ["moveable"],
     "chooseType": [{
         "type": "plant_1",
+        "color": ["green", "brown"],
         "dimensions": {
             "x": 0.931 / 0.5,
             "y": 0.807 / 0.5,
@@ -1833,6 +1865,7 @@ OBJECTS_MOVEABLE = [{
         }
     }, {
         "type": "plant_5",
+        "color": ["green", "grey", "brown"],
         "dimensions": {
             "x": 0.522 / 0.5,
             "y": 0.656 / 0.5,
@@ -1851,6 +1884,7 @@ OBJECTS_MOVEABLE = [{
         }
     }, {
         "type": "plant_7",
+        "color": ["green", "brown"],
         "dimensions": {
             "x": 0.72 / 0.5,
             "y": 1.094 / 0.5,
@@ -1869,6 +1903,7 @@ OBJECTS_MOVEABLE = [{
         }
     }, {
         "type": "plant_9",
+        "color": ["green", "grey", "brown"],
         "dimensions": {
             "x": 0.679 / 0.5,
             "y": 0.859 / 0.5,
@@ -1887,6 +1922,7 @@ OBJECTS_MOVEABLE = [{
         }
     }, {
         "type": "plant_14",
+        "color": ["red", "brown"],
         "dimensions": {
             "x": 0.508 / 0.5,
             "y": 0.815 / 0.5,
@@ -1905,6 +1941,7 @@ OBJECTS_MOVEABLE = [{
         }
     }, {
         "type": "plant_16",
+        "color": ["green", "brown"],
         "dimensions": {
             "x": 0.702 / 0.5,
             "y": 1.278 / 0.5,
@@ -2038,6 +2075,7 @@ OBJECTS_IMMOBILE = [{
     "type": "crib",
     "info": ["huge", "crib"],
     "materialCategory": ["wood"],
+    "salientMaterials": ["wood"],
     "mass": 25,
     "attributes": [],
     "dimensions": {
@@ -2810,8 +2848,11 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "sofa_1",
     "obstruct": "vision",
-    "info": ["huge", "brown", "sofa"],
+    "info": ["huge", "sofa"],
+    "color": ["brown"],
     "mass": 100,
+    "materialCategory": [],
+    "salientMaterials": ["fabric"],
     "attributes": ["receptacle", "stackTarget"],
     "openAreas": [{
         "id": "",
@@ -2845,8 +2886,11 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "sofa_2",
     "obstruct": "vision",
-    "info": ["huge", "grey", "sofa"],
+    "info": ["huge", "sofa"],
+    "color": ["grey"],
     "mass": 100,
+    "materialCategory": [],
+    "salientMaterials": ["fabric"],
     "attributes": ["receptacle", "stackTarget"],
     "openAreas": [{
         "id": "",
@@ -2880,8 +2924,11 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "sofa_chair_1",
     "obstruct": "vision",
-    "info": ["huge", "black", "sofa chair"],
+    "info": ["huge", "sofa chair"],
+    "color": ["black"],
     "mass": 50,
+    "materialCategory": [],
+    "salientMaterials": ["fabric"],
     "attributes": ["receptacle", "stackTarget"],
     "openAreas": [{
         "id": "",
@@ -2915,8 +2962,11 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "sofa_chair_2",
     "obstruct": "vision",
-    "info": ["huge", "grey", "sofa chair"],
+    "info": ["huge", "sofa chair"],
+    "color": ["grey"],
     "mass": 50,
+    "materialCategory": [],
+    "salientMaterials": ["fabric"],
     "attributes": ["receptacle", "stackTarget"],
     "openAreas": [{
         "id": "",
@@ -3071,10 +3121,12 @@ OBJECTS_IMMOBILE = [{
 }, {
     "info": ["large", "potted plant"],
     "mass": 5,
+    "materialCategory": [],
     "salientMaterials": ["organic", "ceramic"],
     "attributes": [],
     "chooseType": [{
         "type": "plant_1",
+        "color": ["green", "brown"],
         "dimensions": {
             "x": 0.931 * 2,
             "y": 0.807 * 2,
@@ -3093,6 +3145,7 @@ OBJECTS_IMMOBILE = [{
         }
     }, {
         "type": "plant_5",
+        "color": ["green", "grey", "brown"],
         "dimensions": {
             "x": 0.522 * 2,
             "y": 0.656 * 2,
@@ -3111,6 +3164,7 @@ OBJECTS_IMMOBILE = [{
         }
     }, {
         "type": "plant_7",
+        "color": ["green", "brown"],
         "dimensions": {
             "x": 0.72 * 2,
             "y": 1.094 * 2,
@@ -3129,6 +3183,7 @@ OBJECTS_IMMOBILE = [{
         }
     }, {
         "type": "plant_9",
+        "color": ["green", "grey", "brown"],
         "dimensions": {
             "x": 0.679 * 2,
             "y": 0.859 * 2,
@@ -3147,6 +3202,7 @@ OBJECTS_IMMOBILE = [{
         }
     }, {
         "type": "plant_14",
+        "color": ["red", "brown"],
         "dimensions": {
             "x": 0.508 * 2,
             "y": 0.815 * 2,
@@ -3165,6 +3221,7 @@ OBJECTS_IMMOBILE = [{
         }
     }, {
         "type": "plant_16",
+        "color": ["green", "brown"],
         "dimensions": {
             "x": 0.702 * 2,
             "y": 1.278 * 2,

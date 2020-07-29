@@ -79,21 +79,18 @@ def finalize_object_materials_and_colors(object_definition: Dict[str, Any], \
 
     materials_lists = [override_materials_list] if override_materials_list else []
 
-    if not 'materialCategory' in object_definition or not object_definition['materialCategory']:
-        # TODO MCS-327 Uncomment
-        # raise exceptions.SceneException(f'object definition "{object_definition["type"]}" doesn\'t have material category')
+    if not 'materialCategory' in object_definition:
         object_definition['materialCategory'] = []
 
     if not materials_lists:
         materials_lists = generate_materials_lists(object_definition['materialCategory'], [])
 
     if not materials_lists:
-        # TODO MCS-327 Uncomment
-        # raise exceptions.SceneException(f'object definition "{object_definition["type"]}" doesn\'t have materials')
         object_definition_copy = copy.deepcopy(object_definition)
         object_definition_copy['color'] = object_definition_copy['color'] if 'color' in object_definition_copy else []
         object_definition_copy['materials_list'] = []
-        object_definition_copy['materials'] = None
+        object_definition_copy['materials'] = object_definition_copy['materials'] if 'materials' in \
+                object_definition_copy else []
         return [object_definition_copy]
 
     object_definition_list = []
@@ -170,7 +167,6 @@ def instantiate_object(object_def: Dict[str, Any],
     if 'color' not in object_def or 'materials' not in object_def:
         object_def = random.choice(finalize_object_materials_and_colors(object_def, materials_list))
 
-    new_object['materialCategory'] = object_def['materialCategory']
     # need the materials list for quartets
     new_object['materials_list'] = object_def['materials_list']
     new_object['materials'] = object_def['materials']
