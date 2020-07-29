@@ -30,12 +30,12 @@ def test_put_object_in_container():
             put_object_in_container(obj_def, obj, container, container_def, area_index, rotations[0])
 
             assert obj['locationParent'] == container['id']
-            assert obj['shows'][0]['position']['x'] == container_def['enclosed_areas'][0]['position']['x']
-            expected_position_y = container_def['enclosed_areas'][0]['position']['y'] - \
-                    (container_def['enclosed_areas'][area_index]['dimensions']['y'] / 2.0) + \
-                    obj_def.get('position_y', 0)
+            assert obj['shows'][0]['position']['x'] == container_def['enclosedAreas'][0]['position']['x']
+            expected_position_y = container_def['enclosedAreas'][0]['position']['y'] - \
+                    (container_def['enclosedAreas'][area_index]['dimensions']['y'] / 2.0) + \
+                    obj_def.get('positionY', 0)
             assert obj['shows'][0]['position']['y'] == pytest.approx(expected_position_y)
-            assert obj['shows'][0]['position']['z'] == container_def['enclosed_areas'][0]['position']['z']
+            assert obj['shows'][0]['position']['z'] == container_def['enclosedAreas'][0]['position']['z']
             assert obj['shows'][0]['rotation']
             assert obj['shows'][0]['bounding_box']
             assert obj['shows'][0]['bounding_box'] != obj_bounds

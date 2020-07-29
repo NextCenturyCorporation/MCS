@@ -530,7 +530,7 @@ def test_RetrievalGoal_get_config():
     obj = {
         'id': str(uuid.uuid4()),
         'info': ['blue', 'rubber', 'ball'],
-        'info_string': 'blue rubber ball',
+        'goal_string': 'blue rubber ball',
         'pickupable': True,
         'type': 'sphere'
     }
@@ -570,7 +570,7 @@ def test_TraversalGoal_get_config():
     obj = {
         'id': str(uuid.uuid4()),
         'info': ['blue', 'rubber', 'ball'],
-        'info_string': 'blue rubber ball',
+        'goal_string': 'blue rubber ball',
         'type': 'sphere'
     }
     goal = goal_obj._get_config({ 'target': [obj] })
@@ -628,7 +628,7 @@ def test_TransferralGoal_get_config():
     pickupable_obj = {
         'id': pickupable_id,
         'info': ['blue', 'rubber', 'ball'],
-        'info_string': 'blue rubber ball',
+        'goal_string': 'blue rubber ball',
         'pickupable': True,
         'type': 'sphere'
     }
@@ -636,7 +636,7 @@ def test_TransferralGoal_get_config():
     other_obj = {
         'id': other_id,
         'info': ['yellow', 'wood', 'changing table'],
-        'info_string': 'yellow wood changing table',
+        'goal_string': 'yellow wood changing table',
         'attributes': [],
         'type': 'changing_table',
         'stackTarget': True

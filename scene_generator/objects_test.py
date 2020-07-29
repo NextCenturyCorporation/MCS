@@ -19,12 +19,10 @@ def test_create_occluder_normal():
     assert pole['materials'] == ['test_material_pole']
     assert wall['info'] == ['white']
     assert pole['info'] == ['brown']
-    assert wall['info_string'] == 'white'
-    assert pole['info_string'] == 'brown'
     for x in wall, pole:
         assert x['shows'][0]['position']['x'] == x_position
 
-        
+
 def test_create_occluder_sideways():
     wall_material = ['test_material_wall', ['white']]
     pole_material = ['test_material_pole', ['brown']]
@@ -41,10 +39,8 @@ def test_create_occluder_sideways():
     assert pole['materials'] == ['test_material_pole']
     assert wall['info'] == ['white']
     assert pole['info'] == ['brown']
-    assert wall['info_string'] == 'white'
-    assert pole['info_string'] == 'brown'
 
-    
+
 def test_get_all_object_defs():
     all = get_all_object_defs()
     dup = get_all_object_defs()
@@ -56,5 +52,6 @@ def test_get_all_object_defs():
 def test_get_enclosed_containers():
     containers = get_enclosed_containers()
     for container in containers:
-        assert 'enclosed_areas' in container or 'chooseSize' in container \
-            and 'enclosed_areas' in container['chooseSize'][0]
+        assert 'enclosedAreas' in container or 'chooseSize' in container \
+            and 'enclosedAreas' in container['chooseSize'][0]
+

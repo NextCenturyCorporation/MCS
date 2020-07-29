@@ -14,7 +14,6 @@ PACIFIER = {
     "color": "blue",
     "shape": "pacifier",
     "size": "tiny",
-    "mass": 0.125,
     "salientMaterials": ["plastic"],
     "attributes": ["moveable", "pickupable"],
     "dimensions": {
@@ -22,12 +21,13 @@ PACIFIER = {
         "y": 0.04,
         "z": 0.05
     },
+    "mass": 0.125,
     "offset": {
         "x": 0,
         "y": 0.02,
         "z": 0
     },
-    "position_y": 0.01,
+    "positionY": 0.01,
     "scale": {
         "x": 1,
         "y": 1,
@@ -94,11 +94,10 @@ def test_instantiate_object():
     assert obj['dimensions'] == object_def['dimensions']
     assert obj['goal_string'] == 'huge massive sofa'
     assert obj['info'] == ['huge', 'massive', 'sofa']
-    assert obj['info_string'] == 'huge massive sofa'
     assert obj['mass'] == 12.34
-    assert obj['novel_color'] is False
-    assert obj['novel_combination'] is False
-    assert obj['novel_shape'] is False
+    assert obj['novelColor'] is False
+    assert obj['novelCombination'] is False
+    assert obj['novelShape'] is False
     assert obj['shape'] == 'sofa'
     assert obj['size'] == 'huge'
     assert obj['foo'] is True
@@ -113,7 +112,7 @@ def test_instantiate_object_choose():
     object_def = {
         'type': 'sofa_1',
         'chooseSize': [{
-            'novel_shape': True,
+            'novelShape': True,
             'info': ['medium', 'sofa'],
             'attributes': ['moveable'],
             'dimensions': {'x': 0.5, 'y': 0.25, 'z': 0.25},
@@ -143,18 +142,16 @@ def test_instantiate_object_choose():
     assert obj['size'] == 'medium' or obj['size'] == 'huge'
     if obj['size'] == 'medium':
         assert obj['moveable']
-        assert obj['novel_shape']
+        assert obj['novelShape']
         assert obj['info'] == ['medium', 'heavy', 'sofa', 'novel sofa']
-        assert obj['info_string'] == 'medium heavy sofa'
         assert obj['goal_string'] == 'medium heavy sofa'
         assert obj['dimensions'] == {'x': 0.5, 'y': 0.25, 'z': 0.25}
         assert obj['mass'] == 12.34
         assert obj['shows'][0]['scale'] == {'x': 0.5, 'y': 0.5, 'z': 0.5}
     if obj['size'] == 'huge':
         assert 'moveable' not in obj
-        assert not obj['novel_shape']
+        assert not obj['novelShape']
         assert obj['info'] == ['huge', 'massive', 'sofa']
-        assert obj['info_string'] == 'huge massive sofa'
         assert obj['goal_string'] == 'huge massive sofa'
         assert obj['dimensions'] == {'x': 1, 'y': 0.5, 'z': 0.5}
         assert obj['mass'] == 56.78
@@ -185,7 +182,6 @@ def test_instantiate_object_heavy_moveable():
     obj = instantiate_object(object_def, object_location)
     assert obj['goal_string'] == 'huge heavy sofa'
     assert obj['info'] == ['huge', 'heavy', 'sofa']
-    assert obj['info_string'] == 'huge heavy sofa'
     assert obj['moveable'] is True
 
 
@@ -213,7 +209,6 @@ def test_instantiate_object_light_pickupable():
     obj = instantiate_object(object_def, object_location)
     assert obj['goal_string'] == 'huge light sofa'
     assert obj['info'] == ['huge', 'light', 'sofa']
-    assert obj['info_string'] == 'huge light sofa'
     assert obj['moveable'] is True
     assert obj['pickupable'] is True
 
@@ -306,7 +301,6 @@ def test_instantiate_object_materials():
     assert obj['color'] == ['blue', 'yellow']
     assert obj['goal_string'] == 'huge massive blue yellow sofa'
     assert obj['info'] == ['huge', 'massive', 'blue', 'yellow', 'sofa']
-    assert obj['info_string'] == 'huge massive blue yellow sofa'
 
 
 def test_instantiate_object_multiple_materials():
@@ -338,7 +332,6 @@ def test_instantiate_object_multiple_materials():
     assert obj['color'] == ['blue', 'yellow']
     assert obj['goal_string'] == 'huge massive blue yellow sofa'
     assert obj['info'] == ['huge', 'massive', 'blue', 'yellow', 'sofa']
-    assert obj['info_string'] == 'huge massive blue yellow sofa'
 
 
 def test_instantiate_object_salient_materials():
@@ -367,7 +360,6 @@ def test_instantiate_object_salient_materials():
     assert obj['salientMaterials'] == ['fabric', 'wood']
     assert obj['goal_string'] == 'huge massive fabric wood sofa'
     assert obj['info'] == ['huge', 'massive', 'fabric', 'wood', 'sofa']
-    assert obj['info_string'] == 'huge massive fabric wood sofa'
 
 
 def test_instantiate_object_size():
@@ -535,7 +527,7 @@ def test_instantiate_object_novel_color():
     object_def = {
         'type': 'sofa_1',
         'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
-        'novel_color': True,
+        'novelColor': True,
         'info': ['huge', 'sofa'],
         'mass': 12.34,
         'scale': 1.0,
@@ -557,7 +549,6 @@ def test_instantiate_object_novel_color():
     obj = instantiate_object(object_def, object_location)
     assert obj['goal_string'] == 'huge massive blue yellow sofa'
     assert obj['info'] == ['huge', 'massive', 'blue', 'yellow', 'sofa', 'novel blue', 'novel yellow']
-    assert obj['info_string'] == 'huge massive blue yellow sofa'
 
 
 def test_instantiate_object_novel_combination():
@@ -565,7 +556,7 @@ def test_instantiate_object_novel_combination():
     object_def = {
         'type': 'sofa_1',
         'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
-        'novel_combination': True,
+        'novelCombination': True,
         'info': ['huge', 'sofa'],
         'mass': 12.34,
         'scale': 1.0,
@@ -587,7 +578,6 @@ def test_instantiate_object_novel_combination():
     obj = instantiate_object(object_def, object_location)
     assert obj['goal_string'] == 'huge massive blue yellow sofa'
     assert obj['info'] == ['huge', 'massive', 'blue', 'yellow', 'sofa', 'novel blue sofa', 'novel yellow sofa']
-    assert obj['info_string'] == 'huge massive blue yellow sofa'
 
 
 def test_instantiate_object_novel_shape():
@@ -595,7 +585,7 @@ def test_instantiate_object_novel_shape():
     object_def = {
         'type': 'sofa_1',
         'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
-        'novel_shape': True,
+        'novelShape': True,
         'info': ['huge', 'sofa'],
         'mass': 12.34,
         'scale': 1.0,
@@ -617,7 +607,6 @@ def test_instantiate_object_novel_shape():
     obj = instantiate_object(object_def, object_location)
     assert obj['goal_string'] == 'huge massive blue yellow sofa'
     assert obj['info'] == ['huge', 'massive', 'blue', 'yellow', 'sofa', 'novel sofa']
-    assert obj['info_string'] == 'huge massive blue yellow sofa'
 
 
 def test_move_to_location():

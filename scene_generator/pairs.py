@@ -566,8 +566,8 @@ class InteractionPair():
         # If needed, position both the target and confusor together inside a receptacle.
         if containerize_target and containerize_confusor and show_confusor and is_confusor_close:
             target_receptacle_instance = copy.deepcopy(receptacle_template)
-            # Update the Y position of the location to use the position_y from the receptacle definition.
-            target_location['position']['y'] = receptacle_definition.get('position_y', 0)
+            # Update the Y position of the location to use the positionY from the receptacle definition.
+            target_location['position']['y'] = receptacle_definition.get('positionY', 0)
             util.move_to_location(receptacle_definition, target_receptacle_instance, target_location)
             containers.put_objects_in_container(target_definition, target_instance, confusor_definition, \
                     confusor_instance, target_receptacle_instance, receptacle_definition, area_index, orientation, \
@@ -578,8 +578,8 @@ class InteractionPair():
             if containerize_target:
                 # Use the target location for its receptacle, then position the target inside its receptacle.
                 target_receptacle_instance = copy.deepcopy(receptacle_template)
-                # Update the Y position of the location to use the position_y from the receptacle definition.
-                target_location['position']['y'] = receptacle_definition.get('position_y', 0)
+                # Update the Y position of the location to use the positionY from the receptacle definition.
+                target_location['position']['y'] = receptacle_definition.get('positionY', 0)
                 util.move_to_location(receptacle_definition, target_receptacle_instance, target_location)
                 containers.put_object_in_container(target_definition, target_instance, target_receptacle_instance, \
                         receptacle_definition, area_index, target_rotation)
@@ -591,8 +591,8 @@ class InteractionPair():
                 if containerize_confusor:
                     # Use the confusor location for its receptacle, then position the confusor inside its receptacle.
                     confusor_receptacle_instance = copy.deepcopy(receptacle_template)
-                    # Update the Y position of the location to use the position_y from the receptacle definition.
-                    confusor_location['position']['y'] = receptacle_definition.get('position_y', 0)
+                    # Update the Y position of the location to use the positionY from the receptacle definition.
+                    confusor_location['position']['y'] = receptacle_definition.get('positionY', 0)
                     confusor_receptacle_instance['id'] = confusor_receptacle_id
                     util.move_to_location(receptacle_definition, confusor_receptacle_instance, confusor_location)
                     containers.put_object_in_container(confusor_definition, confusor_instance, \

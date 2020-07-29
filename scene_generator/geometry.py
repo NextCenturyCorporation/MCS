@@ -158,7 +158,7 @@ def calc_obj_pos(performer_position: Dict[str, float],
     if tries < util.MAX_TRIES:
         new_object = {
             'rotation': {'x': rotation_x, 'y': rotation_y, 'z': rotation_z},
-            'position':  {'x': new_x, 'y': obj_def.get('position_y', 0), 'z': new_z},
+            'position':  {'x': new_x, 'y': obj_def.get('positionY', 0), 'z': new_z},
             'bounding_box': rect
         }
         other_rects.append(rect)
@@ -309,9 +309,9 @@ def get_adjacent_location_on_side(object_definition: Dict[str, Any], target_defi
     """
     object_dimensions = object_definition['dimensions']
     object_offset = object_definition['offset'] if 'offset' in object_definition else {'x': 0, 'z': 0}
-    if obstruct and 'closed_dimensions' in object_definition:
-        object_dimensions = object_definition['closed_dimensions']
-        object_offset = object_definition['closed_offset'] if 'closed_offset' in object_definition else object_offset
+    if obstruct and 'closedDimensions' in object_definition:
+        object_dimensions = object_definition['closedDimensions']
+        object_offset = object_definition['closedOffset'] if 'closedOffset' in object_definition else object_offset
     target_offset = target_definition['offset'] if 'offset' in target_definition else {'x': 0, 'z': 0}
 
     distance_prop = 'x' if side in (0, 2) else 'z'
@@ -340,7 +340,7 @@ def get_adjacent_location_on_side(object_definition: Dict[str, Any], target_defi
         location = {
             'position': {
                 'x': x,
-                'y': object_definition.get('position_y', 0),
+                'y': object_definition.get('positionY', 0),
                 'z': z
             },
             'rotation': {
@@ -368,8 +368,8 @@ def get_wider_and_taller_defs(obj_def: Dict[str, Any], obstruct_vision: bool) ->
     for big_def in possible_defs:
         # Only look at definitions with the obstruct property.
         if 'obstruct' in big_def and big_def['obstruct'] == ('vision' if obstruct_vision else 'navigation'):
-            obj_dimensions = obj_def['closed_dimensions'] if 'closed_dimensions' in obj_def else obj_def['dimensions']
-            big_dimensions = big_def['closed_dimensions'] if 'closed_dimensions' in big_def else big_def['dimensions']
+            obj_dimensions = obj_def['closedDimensions'] if 'closedDimensions' in obj_def else obj_def['dimensions']
+            big_dimensions = big_def['closedDimensions'] if 'closedDimensions' in big_def else big_def['dimensions']
             cannot_walk_over = big_dimensions['y'] >= (PERFORMER_CAMERA_Y / 2.0)
             # Only need a bigger Y dimension if the object must obstruct vision.
             if cannot_walk_over and (not obstruct_vision or big_dimensions['y'] >= obj_dimensions['y']):

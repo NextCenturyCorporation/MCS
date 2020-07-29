@@ -742,13 +742,13 @@ def test_get_adjacent_location_on_side_next_to_room_wall():
 
 def test_get_wider_and_taller_defs():
     for object_definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
-        object_dimensions = object_definition['closed_dimensions'] if 'closed_dimensions' in object_definition else \
+        object_dimensions = object_definition['closedDimensions'] if 'closedDimensions' in object_definition else \
                 object_definition['dimensions']
         bigger_definition_list = get_wider_and_taller_defs(object_definition, False)
         for bigger_definition_result in bigger_definition_list:
             bigger_definition, angle = bigger_definition_result
             bigger_definition = util.finalize_object_definition(bigger_definition)
-            bigger_dimensions = bigger_definition['closed_dimensions'] if 'closed_dimensions' in bigger_definition \
+            bigger_dimensions = bigger_definition['closedDimensions'] if 'closedDimensions' in bigger_definition \
                     else bigger_definition['dimensions']
             assert bigger_definition['obstruct'] == 'navigation'
             assert bigger_dimensions['y'] >= 0.2
@@ -761,13 +761,13 @@ def test_get_wider_and_taller_defs():
 
 def test_get_wider_and_taller_defs_obstruct_vision():
     for object_definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
-        object_dimensions = object_definition['closed_dimensions'] if 'closed_dimensions' in object_definition else \
+        object_dimensions = object_definition['closedDimensions'] if 'closedDimensions' in object_definition else \
                 object_definition['dimensions']
         bigger_definition_list = get_wider_and_taller_defs(object_definition, True)
         for bigger_definition_result in bigger_definition_list:
             bigger_definition, angle = bigger_definition_result
             bigger_definition = util.finalize_object_definition(bigger_definition)
-            bigger_dimensions = bigger_definition['closed_dimensions'] if 'closed_dimensions' in bigger_definition \
+            bigger_dimensions = bigger_definition['closedDimensions'] if 'closedDimensions' in bigger_definition \
                     else bigger_definition['dimensions']
             assert bigger_definition['obstruct'] == 'vision'
             assert bigger_dimensions['y'] >= object_dimensions['y']

@@ -104,7 +104,7 @@ def finalize_object_materials_and_colors(object_definition: Dict[str, Any], \
         object_definition_copy['materials'] = [material_and_color[0] for material_and_color in materials_list]
         for material_and_color in materials_list:
             if material_and_color[0] in materials.NOVEL_COLOR_LIST:
-                object_definition_copy['novel_color'] = True
+                object_definition_copy['novelColor'] = True
             for color in material_and_color[1]:
                 if color not in object_definition_copy['color']:
                     object_definition_copy['color'].append(color)
@@ -133,9 +133,9 @@ def instantiate_object(object_def: Dict[str, Any],
         'type': object_def['type'],
         'mass': object_def['mass'] * (object_def['massMultiplier'] if 'massMultiplier' in object_def else 1),
         'info': object_def['info'].copy(),
-        'novel_color': object_def['novel_color'] if 'novel_color' in object_def else False,
-        'novel_combination': object_def['novel_combination'] if 'novel_combination' in object_def else False,
-        'novel_shape': object_def['novel_shape'] if 'novel_shape' in object_def else False
+        'novelColor': object_def['novelColor'] if 'novelColor' in object_def else False,
+        'novelCombination': object_def['novelCombination'] if 'novelCombination' in object_def else False,
+        'novelShape': object_def['novelShape'] if 'novelShape' in object_def else False
     }
     if 'dimensions' in object_def:
         new_object['dimensions'] = object_def['dimensions']
@@ -175,8 +175,8 @@ def instantiate_object(object_def: Dict[str, Any],
     new_object['materials_list'] = object_def['materials_list']
     new_object['materials'] = object_def['materials']
     new_object['color'] = object_def['color']
-    new_object['novel_color'] = (object_def['novel_color'] if 'novel_color' in object_def else False) or \
-            new_object['novel_color']
+    new_object['novelColor'] = (object_def['novelColor'] if 'novelColor' in object_def else False) or \
+            new_object['novelColor']
 
     # The info list contains words that we can use to filter on specific object tags in the UI.
     # Start with this specific ordering of object tags in the info list needed for making the goal_string:
@@ -196,28 +196,25 @@ def instantiate_object(object_def: Dict[str, Any],
         weight = 'massive'
     new_object['info'] = new_object['info'][:1] + [weight] + new_object['info'][1:]
 
-    # Save a string of the joined info list that we can use to filter on the specific object in the UI.
-    new_object['info_string'] = ' '.join(new_object['info'])
-
     # Use the object's goal_string for goal descriptions.
-    new_object['goal_string'] = new_object['info_string']
+    new_object['goal_string'] = ' '.join(new_object['info'])
 
     # Save the object shape and size tags now before we add more tags to the end of the info list.
     new_object['shape'] = new_object['info'][-1]
     new_object['size'] = new_object['info'][0]
 
-    if new_object['novel_color']:
+    if new_object['novelColor']:
         for color in list(new_object['color']):
             new_object['info'].append('novel ' + color)
 
-    if new_object['novel_shape']:
+    if new_object['novelShape']:
         new_object['info'].append('novel ' + new_object['shape'])
 
     # This object can't be marked as a novel combination if it's a novel color or a novel shape.
-    if new_object['novel_combination'] and (new_object['novel_color'] or new_object['novel_shape']):
-        new_object['novel_combination'] = False
+    if new_object['novelCombination'] and (new_object['novelColor'] or new_object['novelShape']):
+        new_object['novelCombination'] = False
 
-    if new_object['novel_combination']:
+    if new_object['novelCombination']:
         for color in list(new_object['color']):
             new_object['info'].append('novel ' + color + ' ' + new_object['shape'])
 

@@ -16,11 +16,11 @@ def test_clean_object():
             'z': 42
         },
         'info': ['a', 'b', 'c', 'd'],
-        'info_string': 'abcd',
-        'intphys_option': 'stuff',
-        'novel_color': True,
-        'novel_combination': False,
-        'novel_shape': True,
+        'goal_string': 'abcd',
+        'intphysOption': 'stuff',
+        'novelColor': True,
+        'novelCombination': False,
+        'novelShape': True,
         'shape': 'shape',
         'shows': [{
             'stepBegin': 0,

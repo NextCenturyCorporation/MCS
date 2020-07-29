@@ -68,15 +68,15 @@ def strip_debug_info(body: Dict[str, Any]) -> None:
 def clean_object(obj: Dict[str, Any]) -> None:
     """Remove properties we do not want TA1s to have access to."""
     obj.pop('info', None)
-    obj.pop('info_string', None)
+    obj.pop('goal_string', None)
     obj.pop('dimensions', None)
-    obj.pop('intphys_option', None)
+    obj.pop('intphysOption', None)
     obj.pop('materials_list', None)
     obj.pop('materialCategory', None)
     obj.pop('original_location', None)
-    obj.pop('novel_color', None)
-    obj.pop('novel_combination', None)
-    obj.pop('novel_shape', None)
+    obj.pop('novelColor', None)
+    obj.pop('novelCombination', None)
+    obj.pop('novelShape', None)
     obj.pop('shape', None)
     if 'shows' in obj:
         obj['shows'][0].pop('bounding_box', None)

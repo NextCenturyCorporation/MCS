@@ -574,7 +574,7 @@ class RetrievalGoal(InteractionGoal):
                 'image_name': image_name
             }
         }
-        goal['description'] = f'Find and pick up the {target["info_string"]}.'
+        goal['description'] = f'Find and pick up the {target["goal_string"]}.'
         return goal
 
     def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
@@ -680,8 +680,8 @@ class TransferralGoal(InteractionGoal):
             },
             'relationship': ['target_1', relationship.value, 'target_2']
         }
-        goal['description'] = f'Find and pick up the {target1["info_string"]} and move it {relationship.value} ' \
-            f'the {target2["info_string"]}.'
+        goal['description'] = f'Find and pick up the {target1["goal_string"]} and move it {relationship.value} ' \
+            f'the {target2["goal_string"]}.'
         return goal
 
     def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
@@ -810,7 +810,7 @@ class TraversalGoal(InteractionGoal):
                 'image_name': image_name
             }
         }
-        goal['description'] = f'Find the {target["info_string"]} and move near it.'
+        goal['description'] = f'Find the {target["goal_string"]} and move near it.'
         return goal
 
     def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
