@@ -154,19 +154,12 @@ def get_enclosable_containments(objs: Sequence[Dict[str, Any]],
         container_defs = objects.get_enclosed_containers()
     valid_containments = []
     for container_def in container_defs:
-        containment = how_can_contain(container_def, *objs)
-        if containment is not None:
-            new_def = util.finalize_object_definition(container_def)
-            index, angles = containment
-            valid_containments.append((new_def, index, angles))
-        elif 'choose' in container_def:
-            # try choose
-            for choice in container_def['choose']:
-                containment = how_can_contain(choice, *objs)
-                if containment is not None:
-                    new_def = util.finalize_object_definition(container_def, choice)
-                    index, angles = containment
-                    valid_containments.append((new_def, index, angles))
+        possible_enclosable_definition_list = util.finalize_each_object_definition_choice(container_def)
+        for possible_enclosable_definition in possible_enclosable_definition_list:
+            containment = how_can_contain(possible_enclosable_definition, *objs)
+            if containment:
+                index, angles = containment
+                valid_containments.append((possible_enclosable_definition, index, angles))
     return valid_containments
 
 
@@ -242,26 +235,15 @@ def _eas_can_contain_both(enclosed_areas: Sequence[Dict[str, Any]],
     return None
 
 
-def can_contain_both(container_def: Dict[str, Any],
-                     obj_a: Dict[str, Any], obj_b: Dict[str, Any]) \
-                     -> Optional[Tuple[Dict[str, Any], int, Orientation, float, float]]:
-    if 'enclosed_areas' in container_def:
-        result = _eas_can_contain_both(container_def['enclosed_areas'], obj_a, obj_b)
-        if result is None:
-            return None
-        index, orientation, angle_a, angle_b = result
-        new_def = util.finalize_object_definition(container_def)
-        return new_def, index, orientation, angle_a, angle_b
-    elif 'choose' in container_def:
-        found_choice = None
-        for choice in container_def['choose']:
-            if 'enclosed_areas' in choice:
-                result = _eas_can_contain_both(choice['enclosed_areas'],
-                                               obj_a, obj_b)
-                if result is not None:
-                    index, orientation, angle_a, angle_b = result
-                    new_def = util.finalize_object_definition(container_def, choice)
-                    return new_def, index, orientation, angle_a, angle_b
+def can_contain_both(container_def: Dict[str, Any], obj_a: Dict[str, Any], obj_b: Dict[str, Any]) \
+        -> Optional[Tuple[Dict[str, Any], int, Orientation, float, float]]:
+    possible_enclosable_definition_list = util.finalize_each_object_definition_choice(container_def)
+    for possible_enclosable_definition in possible_enclosable_definition_list:
+        result = _eas_can_contain_both(possible_enclosable_definition['enclosed_areas'], obj_a, obj_b)
+        if result:
+            index, orientation, angle_a, angle_b = result
+            new_def = util.finalize_object_definition(container_def)
+            return new_def, index, orientation, angle_a, angle_b
     return None
 
 
@@ -273,25 +255,12 @@ def find_suitable_enclosable_list(obj: Dict[str, Any], container_defs: Sequence[
     if container_defs is None:
         container_defs = objects.get_enclosed_containers()
     for obj_def in container_defs:
-        if 'choose' in obj_def:
-            valid_choices = []
-            for choice in obj_def['choose']:
-                possible_obj_def = util.finalize_object_definition(copy.deepcopy(obj_def), choice)
-                for area in possible_obj_def['enclosed_areas']:
-                    if area['dimensions']['x'] >= obj['dimensions']['x'] and \
-                            area['dimensions']['y'] >= obj['dimensions']['y'] and \
-                            area['dimensions']['z'] >= obj['dimensions']['z']:
-                        valid_choices.append(choice)
-            if len(valid_choices) > 0:
-                new_def = copy.deepcopy(obj_def)
-                new_def['choose'] = valid_choices
-                valid_defs.append(new_def)
-        else:
-            possible_obj_def = util.finalize_object_definition(copy.deepcopy(obj_def))
-            for area in possible_obj_def['enclosed_areas']:
-                if area['dimensions']['x'] >= obj['dimensions']['x'] and \
+        possible_enclosable_definition_list = util.finalize_each_object_definition_choice(obj_def)
+        for possible_enclosable_definition in possible_enclosable_definition_list:
+            for area in possible_enclosable_definition['enclosed_areas']:
+                if (area['dimensions']['x'] >= obj['dimensions']['x'] and \
                         area['dimensions']['y'] >= obj['dimensions']['y'] and \
-                        area['dimensions']['z'] >= obj['dimensions']['z']:
-                    valid_defs.append(obj_def)
+                        area['dimensions']['z'] >= obj['dimensions']['z']):
+                    valid_defs.append(possible_enclosable_definition)
     return valid_defs
 

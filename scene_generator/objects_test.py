@@ -56,5 +56,5 @@ def test_get_all_object_defs():
 def test_get_enclosed_containers():
     containers = get_enclosed_containers()
     for container in containers:
-        assert 'enclosed_areas' in container or 'choose' in container \
-            and 'enclosed_areas' in container['choose'][0]
+        assert 'enclosed_areas' in container or 'chooseSize' in container \
+            and 'enclosed_areas' in container['chooseSize'][0]

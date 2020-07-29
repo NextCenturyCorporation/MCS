@@ -361,16 +361,10 @@ def get_wider_and_taller_defs(obj_def: Dict[str, Any], obstruct_vision: bool) ->
     (z-axis), 90 degrees is returned. Objects returned may be equal in
     dimensions, not just strictly greater.
     """
-    defs = copy.deepcopy(objects.get_all_object_defs())
-    random.shuffle(defs)
     possible_defs = []
-    for new_def in defs:
-        if 'choose' in new_def:
-            for choice in new_def['choose']:
-                possible_defs.append(util.finalize_object_definition(copy.deepcopy(new_def), choice))
-        else:
-            possible_defs.append(util.finalize_object_definition(copy.deepcopy(new_def)))
     bigger_defs = []
+    for new_def in objects.get_all_object_defs():
+        possible_defs = possible_defs + util.finalize_each_object_definition_choice(new_def)
     for big_def in possible_defs:
         # Only look at definitions with the obstruct property.
         if 'obstruct' in big_def and big_def['obstruct'] == ('vision' if obstruct_vision else 'navigation'):

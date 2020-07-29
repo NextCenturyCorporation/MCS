@@ -44,22 +44,24 @@ def test_random_real():
 
 
 def test_finalize_object_definition():
-    object_type = 'type1'
+    dimensions = {'x': 1, 'y': 1, 'z': 1}
     mass = 12.34
     material_category = ['plastic']
     salient_materials = ['plastic', 'hollow']
     object_def = {
-        'type': 'type2',
+        'type': 'type1',
         'mass': 56.78,
-        'choose': [{
-            'type': object_type,
-            'mass': mass,
+        'chooseMaterial': [{
             'materialCategory': material_category,
             'salientMaterials': salient_materials
+        }],
+        'chooseSize': [{
+            'dimensions': dimensions,
+            'mass': mass
         }]
     }
     obj = finalize_object_definition(object_def)
-    assert obj['type'] == object_type
+    assert obj['dimensions'] == dimensions
     assert obj['mass'] == mass
     assert obj['materialCategory'] == material_category
     assert obj['salientMaterials'] == salient_materials
@@ -110,7 +112,7 @@ def test_instantiate_object():
 def test_instantiate_object_choose():
     object_def = {
         'type': 'sofa_1',
-        'choose': [{
+        'chooseSize': [{
             'novel_shape': True,
             'info': ['medium', 'sofa'],
             'attributes': ['moveable'],
@@ -646,20 +648,20 @@ def test_retrieve_full_object_definition_list():
     actual_1 = retrieve_full_object_definition_list(list_1)
     assert len(actual_1) == 1
 
-    list_2 = [{ 'type': 'ball', 'choose': [{ 'mass': 1 }, { 'mass': 2 }] }]
+    list_2 = [{ 'type': 'ball', 'chooseSize': [{ 'mass': 1 }, { 'mass': 2 }] }]
     actual_2 = retrieve_full_object_definition_list(list_2)
     assert len(actual_2) == 2
 
     list_3 = [
         { 'type': 'sofa' },
-        { 'type': 'ball', 'choose': [{ 'mass': 1 }, { 'mass': 2 }] }
+        { 'type': 'ball', 'chooseSize': [{ 'mass': 1 }, { 'mass': 2 }] }
     ]
     actual_3 = retrieve_full_object_definition_list(list_3)
     assert len(actual_3) == 3
 
     list_4 = [
-        { 'type': 'sofa', 'choose': [{ 'mass': 1 }, { 'mass': 3 }] },
-        { 'type': 'ball', 'choose': [{ 'mass': 1 }, { 'mass': 2 }] }
+        { 'type': 'sofa', 'chooseSize': [{ 'mass': 1 }, { 'mass': 3 }] },
+        { 'type': 'ball', 'chooseSize': [{ 'mass': 1 }, { 'mass': 2 }] }
     ]
     actual_4 = retrieve_full_object_definition_list(list_4)
     assert len(actual_4) == 4

@@ -26,19 +26,33 @@ def random_real(a: float, b: float, step: float = MIN_RANDOM_INTERVAL) -> float:
     return a + (n * step)
 
 
-def finalize_object_definition(object_def: Dict[str, Any],
-                               choice: Optional[Dict[str, Any]] = None) \
-                               -> Dict[str, Any]:
+def finalize_object_definition(object_def: Dict[str, Any], choice_material: Optional[Dict[str, Any]] = None, \
+        choice_size: Optional[Dict[str, Any]] = None, choice_type: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     object_def_copy = copy.deepcopy(object_def)
 
-    # get choice if available and none provided
-    if choice is None and 'choose' in object_def_copy:
-        choice = random.choice(object_def_copy['choose'])
+    if choice_material is None and 'chooseMaterial' in object_def_copy:
+        choice_material = random.choice(object_def_copy['chooseMaterial'])
 
-    if choice is not None:
-        for key in choice:
-            object_def_copy[key] = choice[key]
-        object_def_copy.pop('choose', None)
+    if choice_size is None and 'chooseSize' in object_def_copy:
+        choice_size = random.choice(object_def_copy['chooseSize'])
+
+    if choice_type is None and 'chooseType' in object_def_copy:
+        choice_type = random.choice(object_def_copy['chooseType'])
+
+    if choice_material:
+        for key in choice_material:
+            object_def_copy[key] = choice_material[key]
+        object_def_copy.pop('chooseMaterial', None)
+
+    if choice_size:
+        for key in choice_size:
+            object_def_copy[key] = choice_size[key]
+        object_def_copy.pop('chooseSize', None)
+
+    if choice_type:
+        for key in choice_type:
+            object_def_copy[key] = choice_type[key]
+        object_def_copy.pop('chooseType', None)
 
     return object_def_copy
 
@@ -111,10 +125,13 @@ def instantiate_object(object_def: Dict[str, Any],
     # Call the finalize function here in case it wasn't called before now (calling it twice shouldn't hurt anything).
     object_def = finalize_object_definition(object_def)
 
+    if not 'mass' in object_def:
+        print(f'mass missing {object_def}')
+
     new_object = {
         'id': str(uuid.uuid4()),
         'type': object_def['type'],
-        'mass': object_def['mass'],
+        'mass': object_def['mass'] * (object_def['massMultiplier'] if 'massMultiplier' in object_def else 1),
         'info': object_def['info'].copy(),
         'novel_color': object_def['novel_color'] if 'novel_color' in object_def else False,
         'novel_combination': object_def['novel_combination'] if 'novel_combination' in object_def else False,
@@ -278,7 +295,37 @@ def check_same_and_different(a: Dict[str, Any], b: Dict[str, Any],
             break
     return diff_ok
 
-    
+
+def finalize_each_object_definition_choice(object_definition: Dict[str, Any]) -> List[Dict[str, Any]]:
+    choice_list = []
+    for prop in ['chooseMaterial', 'chooseSize', 'chooseType']:
+        if prop in object_definition and len(object_definition[prop]) > 0:
+            previous_choice_list = copy.deepcopy(choice_list)
+            next_choice_list = []
+            for choice_string in object_definition[prop]:
+                if not previous_choice_list:
+                    choice_dict = {'chooseMaterial': None, 'chooseSize': None, 'chooseType': None}
+                    choice_dict[prop] = choice_string
+                    next_choice_list.append(choice_dict)
+                else:
+                    for previous_choice_dict in previous_choice_list:
+                        choice_dict = copy.deepcopy(previous_choice_dict)
+                        choice_dict[prop] = choice_string
+                        next_choice_list.append(choice_dict)
+            choice_list = next_choice_list
+
+    if not choice_list:
+        return [finalize_object_definition(copy.deepcopy(object_definition))]
+
+    output_list = []
+    for choice_dict in choice_list:
+        output_list.append(finalize_object_definition(copy.deepcopy(object_definition), \
+                choice_material = choice_dict['chooseMaterial'], choice_size = choice_dict['chooseSize'], \
+                choice_type = choice_dict['chooseType']))
+    random.shuffle(output_list)
+    return output_list
+
+
 def get_similar_defs(obj: Dict[str, Any], all_defs: List[Dict[str, Any]], same: Iterable[str],
                      different: Iterable[str]) -> List[Dict[str, Any]]:
     """Return object definitions similar to obj: where properties from
@@ -287,15 +334,8 @@ def get_similar_defs(obj: Dict[str, Any], all_defs: List[Dict[str, Any]], same: 
 
     valid_defs = []
     for obj_def in all_defs:
-        if 'choose' in obj_def:
-            for choice in obj_def['choose']:
-                possible_obj_def_template = finalize_object_definition(copy.deepcopy(obj_def), choice)
-                possible_obj_def_list = finalize_object_materials_and_colors(possible_obj_def_template)
-                for possible_obj_def in possible_obj_def_list:
-                    if check_same_and_different(possible_obj_def, obj, same, different):
-                        valid_defs.append(possible_obj_def)
-        else:
-            possible_obj_def_template = finalize_object_definition(copy.deepcopy(obj_def))
+        possible_obj_defs = finalize_each_object_definition_choice(obj_def)
+        for possible_obj_def_template in possible_obj_defs:
             possible_obj_def_list = finalize_object_materials_and_colors(possible_obj_def_template)
             for possible_obj_def in possible_obj_def_list:
                 if check_same_and_different(possible_obj_def, obj, same, different):
@@ -351,10 +391,6 @@ def retrieve_full_object_definition_list(base_definition_list: List[Dict[str, An
     each possible choice."""
     object_definition_list = []
     for base_object_definition in base_definition_list:
-        if 'choose' in base_object_definition:
-            for choice in base_object_definition['choose']:
-                object_definition_list.append(finalize_object_definition(base_object_definition, choice))
-        else:
-            object_definition_list.append(finalize_object_definition(base_object_definition))
+        object_definition_list = object_definition_list + finalize_each_object_definition_choice(base_object_definition)
     return object_definition_list
 
