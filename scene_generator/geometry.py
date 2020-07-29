@@ -363,7 +363,7 @@ def get_wider_and_taller_defs(obj_def: Dict[str, Any], obstruct_vision: bool) ->
     """
     possible_defs = []
     bigger_defs = []
-    for new_def in objects.get_all_object_defs():
+    for new_def in objects.get('ALL'):
         possible_defs = possible_defs + util.finalize_each_object_definition_choice(new_def)
     for big_def in possible_defs:
         # Only look at definitions with the obstruct property.

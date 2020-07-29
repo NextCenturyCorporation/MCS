@@ -4,7 +4,8 @@ import geometry
 import objects
 import util
 from containers import put_object_in_container, put_objects_in_container, Orientation, can_enclose, \
-    can_contain_both, how_can_contain, get_enclosable_containments, find_suitable_enclosable_list
+    can_contain_both, how_can_contain, get_enclosable_containments, find_suitable_enclosable_list, \
+    retrieve_enclosable_object_definition_list
 from geometry_test import are_adjacent
 
 
@@ -12,7 +13,7 @@ PICKUPABLE_OBJECTS_WITHOUT_CONTAINMENTS = ['duck_on_wheels', 'box_2', 'box_3']
 
 
 def test_put_object_in_container():
-    for obj_def in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+    for obj_def in util.retrieve_full_object_definition_list(objects.get('PICKUPABLE')):
         obj_location = geometry.calc_obj_pos({'x': 1, 'y': 0, 'z': 1}, [], obj_def)
         obj = util.instantiate_object(obj_def, obj_location)
         obj_bounds = obj['shows'][0]['bounding_box']
@@ -42,12 +43,12 @@ def test_put_object_in_container():
 
 
 def test_put_objects_in_container():
-    for obj_a_def in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+    for obj_a_def in util.retrieve_full_object_definition_list(objects.get('PICKUPABLE')):
         obj_a_location = geometry.calc_obj_pos(geometry.ORIGIN, [], obj_a_def)
         obj_a = util.instantiate_object(obj_a_def, obj_a_location)
         obj_a_bounds = obj_a['shows'][0]['bounding_box']
 
-        for obj_b_def in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+        for obj_b_def in util.retrieve_full_object_definition_list(objects.get('PICKUPABLE')):
             obj_b_location = geometry.calc_obj_pos(geometry.ORIGIN, [], obj_b_def)
             obj_b = util.instantiate_object(obj_b_def, obj_b_location)
             obj_b_bounds = obj_b['shows'][0]['bounding_box']
@@ -108,7 +109,7 @@ def test_how_can_contain():
             'z': 42
         }
     }
-    container_def = util.finalize_object_definition(objects.get_enclosed_containers()[0])
+    container_def = util.finalize_object_definition(retrieve_enclosable_object_definition_list()[0])
     assert how_can_contain(container_def, small) is not None
     assert how_can_contain(container_def, big) is None
     assert how_can_contain(container_def, small, big) is None
@@ -136,13 +137,13 @@ def test_can_contain_both():
             'z': 42
         }
     }
-    container_def = util.finalize_object_definition(objects.get_enclosed_containers()[0])
+    container_def = util.finalize_object_definition(retrieve_enclosable_object_definition_list()[0])
     assert can_contain_both(container_def, small1, small2) is not None
     assert can_contain_both(container_def, small1, big) is None
 
 
 def test_get_enclosable_containments():
-    for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+    for target_definition in util.retrieve_full_object_definition_list(objects.get('PICKUPABLE')):
         containments = get_enclosable_containments([target_definition])
         if len(containments) == 0 and target_definition['type'] not in PICKUPABLE_OBJECTS_WITHOUT_CONTAINMENTS:
             print(f'pickupable object should have at least one containment: {target_definition}')
@@ -179,7 +180,7 @@ def test_get_enclosable_containments_multiple_object():
 
 
 def test_find_suitable_enclosable_list():
-    for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+    for target_definition in util.retrieve_full_object_definition_list(objects.get('PICKUPABLE')):
         enclosable_list = find_suitable_enclosable_list(target_definition)
         if len(enclosable_list) == 0 and target_definition['type'] not in PICKUPABLE_OBJECTS_WITHOUT_CONTAINMENTS:
             print(f'pickupable object should have at least one enclosable: {target_definition}')

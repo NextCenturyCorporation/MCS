@@ -1,10 +1,10 @@
 import copy
 import materials
+import objects
 from geometry import ORIGIN
 from goals import *
 
 from intphys_goals import IntPhysGoal
-from objects import OBJECTS_INTPHYS
 from util import instantiate_object, random_real
 
 BODY_TEMPLATE = {
@@ -233,7 +233,7 @@ def test__get_objects_falling_down():
 
 
 def test_mcs_209():
-    obj_defs = OBJECTS_INTPHYS.copy()
+    obj_defs = objects.get('INTPHYS')
     random.shuffle(obj_defs)
     obj_def = next((od for od in obj_defs if 'rotation' in od))
     obj = instantiate_object(obj_def, {'position': ORIGIN})

@@ -503,7 +503,7 @@ def test_check_same_and_different_pacifier():
 
 
 def test_get_similar_defs_color():
-    object_definition_list = retrieve_full_object_definition_list(objects.get_all_object_defs())
+    object_definition_list = retrieve_full_object_definition_list(objects.get('ALL'))
     for object_definition in object_definition_list:
         object_instance = instantiate_object(object_definition, geometry.ORIGIN_LOCATION)
         similar_list = get_similar_defs(object_instance, object_definition_list, ('dimensions', 'shape'), ('color',))
@@ -513,7 +513,7 @@ def test_get_similar_defs_color():
 
 
 def test_get_similar_defs_shape():
-    object_definition_list = retrieve_full_object_definition_list(objects.get_all_object_defs())
+    object_definition_list = retrieve_full_object_definition_list(objects.get('ALL'))
     for object_definition in object_definition_list:
         object_instance = instantiate_object(object_definition, geometry.ORIGIN_LOCATION)
         similar_list = get_similar_defs(object_instance, object_definition_list, ('color', 'dimensions'), ('shape',))
@@ -523,7 +523,7 @@ def test_get_similar_defs_shape():
 
 
 def test_get_similar_defs_size():
-    object_definition_list = retrieve_full_object_definition_list(objects.get_all_object_defs())
+    object_definition_list = retrieve_full_object_definition_list(objects.get('ALL'))
     for object_definition in object_definition_list:
         object_instance = instantiate_object(object_definition, geometry.ORIGIN_LOCATION)
         similar_list = get_similar_defs(object_instance, object_definition_list, ('color', 'shape'), ('dimensions',))
