@@ -70,6 +70,11 @@ def clean_object(obj: Dict[str, Any]) -> None:
     obj.pop('info', None)
     obj.pop('goal_string', None)
     obj.pop('dimensions', None)
+    obj.pop('offset', None)
+    obj.pop('closedDimensions', None)
+    obj.pop('closedOffset', None)
+    obj.pop('enclosedAreas', None)
+    obj.pop('openAreas', None)
     obj.pop('intphysOption', None)
     obj.pop('materials_list', None)
     obj.pop('materialCategory', None)
@@ -77,7 +82,9 @@ def clean_object(obj: Dict[str, Any]) -> None:
     obj.pop('novelColor', None)
     obj.pop('novelCombination', None)
     obj.pop('novelShape', None)
+    obj.pop('color', None)
     obj.pop('shape', None)
+    obj.pop('size', None)
     if 'shows' in obj:
         obj['shows'][0].pop('bounding_box', None)
 

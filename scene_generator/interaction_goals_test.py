@@ -24,7 +24,7 @@ def test_move_to_container():
     # find a tiny object so we know it will fit in *something*
     for obj_def in objects.OBJECTS_PICKUPABLE:
         obj_def = finalize_object_definition(obj_def)
-        if 'tiny' in obj_def['info']:
+        if obj_def['size'] == 'tiny':
             obj = instantiate_object(obj_def, geometry.ORIGIN_LOCATION)
             tries = 0
             while tries < 100:
@@ -429,7 +429,7 @@ def test_DistractorObjectRule_choose_definition():
     rule = DistractorObjectRule([target])
     definition = rule.choose_definition()
     assert definition
-    assert definition['info'][-1] != target['info'][-1]
+    assert definition['shape'] != target['shape']
 
 
 def test_ConfusorObjectRule_choose_definition():

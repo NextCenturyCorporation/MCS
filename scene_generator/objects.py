@@ -4,7 +4,7 @@ from typing import Tuple, Dict, Any, List
 
 OBJECTS_PICKUPABLE_BALLS = [{
     "type": "sphere",
-    "info": ["tiny", "ball"],
+    "shape": ["ball"],
     "attributes": ["moveable", "pickupable"],
     "chooseMaterial": [{
         "massMultiplier": 0.5,
@@ -26,6 +26,7 @@ OBJECTS_PICKUPABLE_BALLS = [{
         "salientMaterials": ["wood"]
     }],
     "chooseSize": [{
+        "size": "tiny",
         "dimensions": {
             "x": 0.025,
             "y": 0.025,
@@ -39,6 +40,7 @@ OBJECTS_PICKUPABLE_BALLS = [{
             "z": 0.025
         }
     }, {
+        "size": "tiny",
         "dimensions": {
             "x": 0.05,
             "y": 0.05,
@@ -52,6 +54,7 @@ OBJECTS_PICKUPABLE_BALLS = [{
             "z": 0.05
         }
     }, {
+        "size": "tiny",
         "dimensions": {
             "x": 0.1,
             "y": 0.1,
@@ -65,7 +68,7 @@ OBJECTS_PICKUPABLE_BALLS = [{
             "z": 0.1
         }
     }, {
-        "info": ["small", "ball"],
+        "size": "small",
         "dimensions": {
             "x": 0.25,
             "y": 0.25,
@@ -84,7 +87,7 @@ OBJECTS_PICKUPABLE_BALLS = [{
 OBJECTS_PICKUPABLE_BLOCKS = [{
     "type": "block_blank_wood_cube",
     "obstruct": "vision",
-    "info": ["tiny", "blank block", "cube"],
+    "shape": ["blank block", "cube"],
     "attributes": ["moveable", "pickupable", "stackTarget"],
     "chooseMaterial": [{
         "materialCategory": ["block_blank"],
@@ -95,6 +98,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
         "salientMaterials": ["wood"]
     }],
     "chooseSize": [{
+        "size": "tiny",
         "dimensions": {
             "x": 0.1,
             "y": 0.1,
@@ -113,6 +117,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
             "z": 1
         }
     }, {
+        "size": "tiny",
         "dimensions": {
             "x": 0.1,
             "y": 0.2,
@@ -131,6 +136,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
             "z": 1
         }
     }, {
+        "size": "tiny",
         "dimensions": {
             "x": 0.2,
             "y": 0.1,
@@ -152,7 +158,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
 }, {
     "type": "block_blank_wood_cylinder",
     "obstruct": "vision",
-    "info": ["tiny", "blank block", "cylinder"],
+    "shape": ["blank block", "cylinder"],
     "attributes": ["moveable", "pickupable"],
     "chooseMaterial": [{
         "materialCategory": ["block_blank"],
@@ -163,6 +169,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
         "salientMaterials": ["wood"]
     }],
     "chooseSize": [{
+        "size": "tiny",
         "dimensions": {
             "x": 0.1,
             "y": 0.1,
@@ -181,6 +188,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
             "z": 1
         }
     }, {
+        "size": "tiny",
         "dimensions": {
             "x": 0.1,
             "y": 0.2,
@@ -199,6 +207,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
             "z": 1
         }
     }, {
+        "size": "tiny",
         "dimensions": {
             "x": 0.2,
             "y": 0.1,
@@ -221,7 +230,8 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
     # Readers, please ignore the "blue letter c" in the type: the object's chosen material will change this design.
     "type": "block_blue_letter_c",
     "obstruct": "vision",
-    "info": ["tiny", "letter block", "cube"],
+    "shape": ["letter block", "cube"],
+    "size": "tiny",
     "mass": 0.66,
     "materialCategory": ["block_letter"],
     "salientMaterials": ["wood"],
@@ -246,7 +256,8 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
     # Readers, please ignore the "yellow number 1" in the type: the object's chosen material will change this design.
     "type": "block_yellow_number_1",
     "obstruct": "vision",
-    "info": ["tiny", "number block", "cube"],
+    "shape": ["number block", "cube"],
+    "size": "tiny",
     "mass": 0.66,
     "materialCategory": ["block_number"],
     "salientMaterials": ["wood"],
@@ -271,6 +282,7 @@ OBJECTS_PICKUPABLE_BLOCKS = [{
 
 OBJECTS_PICKUPABLE_TOYS = [{
     "type": "duck_on_wheels",
+    "shape": ["duck"],
     "attributes": ["moveable", "pickupable"],
     "chooseMaterial": [{
         "materialCategory": ["block_blank"],
@@ -281,7 +293,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
         "salientMaterials": ["wood"]
     }],
     "chooseSize": [{
-        "info": ["tiny", "duck"],
+        "size": "tiny",
         "dimensions": {
             "x": 0.105,
             "y": 0.085,
@@ -300,7 +312,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
             "z": 0.5
         }
     }, {
-        "info": ["tiny", "duck"],
+        "size": "tiny",
         "dimensions": {
             "x": 0.21,
             "y": 0.17,
@@ -319,7 +331,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
             "z": 1
         }
     }, {
-        "info": ["small", "duck"],
+        "size": "small",
         "dimensions": {
             "x": 0.42,
             "y": 0.34,
@@ -340,6 +352,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
     }]
 }, {
     "type": "racecar_red",
+    "shape": ["car"],
     "attributes": ["moveable", "pickupable"],
     "chooseMaterial": [{
         "materialCategory": ["block_blank"],
@@ -350,7 +363,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
         "salientMaterials": ["wood"]
     }],
     "chooseSize": [{
-        "info": ["tiny", "car"],
+        "size": "tiny",
         "dimensions": {
             "x": 0.0525,
             "y": 0.045,
@@ -369,7 +382,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
             "z": 0.75
         }
     }, {
-        "info": ["tiny", "car"],
+        "size": "tiny",
         "dimensions": {
             "x": 0.105,
             "y": 0.09,
@@ -388,7 +401,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
             "z": 1.5
         }
     }, {
-        "info": ["small", "car"],
+        "size": "small",
         "dimensions": {
             "x": 0.21,
             "y": 0.18,
@@ -409,7 +422,8 @@ OBJECTS_PICKUPABLE_TOYS = [{
     }]
 }, {
     "type": "pacifier",
-    "info": ["tiny", "pacifier"],
+    "shape": ["pacifier"],
+    "size": "tiny",
     "color": ["blue"],
     "mass": 0.125,
     "materialCategory": [],
@@ -435,9 +449,10 @@ OBJECTS_PICKUPABLE_TOYS = [{
     "chooseMaterial": [{
         # TODO
         "type": "crayon_blue",
-        "info": ["tiny", "crayon"],
         "color": ["blue"]
     }],
+    "shape": ["crayon"],
+    "size": "tiny",
     "mass": 0.125,
     "materialCategory": [],
     "salientMaterials": ["wax"],
@@ -460,6 +475,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
     }
 }, {
     "type": "turtle_on_wheels",
+    "shape": ["turtle"],
     "attributes": ["moveable", "pickupable"],
     "novelShape": True,
     "chooseMaterial": [{
@@ -470,7 +486,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
         "salientMaterials": ["wood"]
     }],
     "chooseSize": [{
-        "info": ["tiny", "turtle"],
+        "size": "tiny",
         "dimensions": {
             "x": 0.24 * 0.5,
             "y": 0.14 * 0.5,
@@ -489,7 +505,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
             "z": 0.5
         }
     }, {
-        "info": ["tiny", "turtle"],
+        "size": "tiny",
         "dimensions": {
             "x": 0.24,
             "y": 0.14,
@@ -508,7 +524,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
             "z": 1
         }
     }, {
-        "info": ["small", "turtle"],
+        "size": "small",
         "dimensions": {
             "x": 0.24 * 2,
             "y": 0.14 * 2,
@@ -529,6 +545,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
     }]
 }, {
     "type": "car_1",
+    "shape": ["car"],
     "attributes": ["moveable", "pickupable"],
     "novelShape": True,
     "chooseMaterial": [{
@@ -539,7 +556,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
         "salientMaterials": ["wood"]
     }],
     "chooseSize": [{
-        "info": ["tiny", "car"],
+        "size": "tiny",
         "dimensions": {
             "x": 0.075 * 0.75,
             "y": 0.065 * 0.75,
@@ -558,7 +575,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
             "z": 0.75
         }
     }, {
-        "info": ["tiny", "car"],
+        "size": "tiny",
         "dimensions": {
             "x": 0.075 * 1.5,
             "y": 0.065 * 1.5,
@@ -577,7 +594,7 @@ OBJECTS_PICKUPABLE_TOYS = [{
             "z": 1.5
         }
     }, {
-        "info": ["small", "car"],
+        "size": "small",
         "dimensions": {
             "x": 0.075 * 3,
             "y": 0.065 * 3,
@@ -600,8 +617,9 @@ OBJECTS_PICKUPABLE_TOYS = [{
 
 OBJECTS_PICKUPABLE_MISC = [{
     "type": "apple_1",
-    "info": ["tiny", "apple"],
     "color": ["red"],
+    "shape": ["apple"],
+    "size": "tiny",
     "mass": 0.5,
     "materialCategory": [],
     "salientMaterials": ["food"],
@@ -624,8 +642,9 @@ OBJECTS_PICKUPABLE_MISC = [{
     }
 }, {
     "type": "apple_2",
-    "info": ["tiny", "apple"],
     "color": ["green"],
+    "shape": ["apple"],
+    "size": "tiny",
     "mass": 0.5,
     "materialCategory": [],
     "salientMaterials": ["food"],
@@ -648,7 +667,8 @@ OBJECTS_PICKUPABLE_MISC = [{
     }
 }, {
     "type": "bowl_3",
-    "info": ["tiny", "bowl"],
+    "shape": ["bowl"],
+    "size": "tiny",
     "chooseMaterial": [{
         "massMultiplier": 0.5,
         "materialCategory": ["plastic"],
@@ -678,7 +698,8 @@ OBJECTS_PICKUPABLE_MISC = [{
     }
 }, {
     "type": "bowl_4",
-    "info": ["tiny", "bowl"],
+    "shape": ["bowl"],
+    "size": "tiny",
     "chooseMaterial": [{
         "massMultiplier": 0.5,
         "materialCategory": ["plastic"],
@@ -708,7 +729,8 @@ OBJECTS_PICKUPABLE_MISC = [{
     }
 }, {
     "type": "bowl_6",
-    "info": ["tiny", "bowl"],
+    "shape": ["bowl"],
+    "size": "tiny",
     "novelShape": True,
     "chooseMaterial": [{
         "massMultiplier": 0.5,
@@ -738,7 +760,8 @@ OBJECTS_PICKUPABLE_MISC = [{
     }
 }, {
     "type": "cup_2",
-    "info": ["tiny", "cup"],
+    "shape": ["cup"],
+    "size": "tiny",
     "chooseMaterial": [{
         "massMultiplier": 0.25,
         "materialCategory": ["plastic"],
@@ -768,7 +791,8 @@ OBJECTS_PICKUPABLE_MISC = [{
     }
 }, {
     "type": "cup_3",
-    "info": ["tiny", "cup"],
+    "shape": ["cup"],
+    "size": "tiny",
     "novelShape": True,
     "chooseMaterial": [{
         "massMultiplier": 0.5,
@@ -798,7 +822,8 @@ OBJECTS_PICKUPABLE_MISC = [{
     }
 }, {
     "type": "cup_6",
-    "info": ["tiny", "cup"],
+    "shape": ["cup"],
+    "size": "tiny",
     "chooseMaterial": [{
         "massMultiplier": 0.5,
         "materialCategory": ["plastic"],
@@ -828,7 +853,8 @@ OBJECTS_PICKUPABLE_MISC = [{
     }
 }, {
     "type": "plate_1",
-    "info": ["tiny", "plate"],
+    "shape": ["plate"],
+    "size": "tiny",
     "chooseMaterial": [{
         "massMultiplier": 0.5,
         "materialCategory": ["plastic"],
@@ -858,7 +884,8 @@ OBJECTS_PICKUPABLE_MISC = [{
     }
 }, {
     "type": "plate_3",
-    "info": ["tiny", "plate"],
+    "shape": ["plate"],
+    "size": "tiny",
     "chooseMaterial": [{
         "massMultiplier": 0.5,
         "materialCategory": ["plastic"],
@@ -888,7 +915,8 @@ OBJECTS_PICKUPABLE_MISC = [{
     }
 }, {
     "type": "plate_4",
-    "info": ["tiny", "plate"],
+    "shape": ["plate"],
+    "size": "tiny",
     "novelShape": True,
     "chooseMaterial": [{
         "massMultiplier": 0.5,
@@ -919,8 +947,9 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_2",
     "obstruct": "vision",
-    "info": ["small", "box"],
     "color": ["brown"],
+    "shape": ["box"],
+    "size": "small",
     "mass": 0.5,
     "materialCategory": [],
     "salientMaterials": ["paper"],
@@ -967,8 +996,9 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_2",
     "obstruct": "vision",
-    "info": ["tiny", "box"],
     "color": ["brown"],
+    "shape": ["box"],
+    "size": "tiny",
     "mass": 0.25,
     "materialCategory": [],
     "salientMaterials": ["paper"],
@@ -1015,8 +1045,9 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_3",
     "obstruct": "vision",
-    "info": ["small", "box"],
     "color": ["brown"],
+    "shape": ["box"],
+    "size": "small",
     "mass": 0.5,
     "materialCategory": [],
     "salientMaterials": ["paper"],
@@ -1063,8 +1094,9 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_3",
     "obstruct": "vision",
-    "info": ["tiny", "box"],
     "color": ["brown"],
+    "shape": ["box"],
+    "size": "tiny",
     "mass": 0.25,
     "materialCategory": [],
     "salientMaterials": ["paper"],
@@ -1111,8 +1143,9 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_4",
     "obstruct": "vision",
-    "info": ["small", "box"],
     "color": ["grey"],
+    "shape": ["box"],
+    "size": "small",
     "mass": 0.5,
     "materialCategory": [],
     "novelColor": True,
@@ -1161,8 +1194,9 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_4",
     "obstruct": "vision",
-    "info": ["tiny", "box"],
     "color": ["grey"],
+    "shape": ["box"],
+    "size": "tiny",
     "mass": 0.25,
     "materialCategory": [],
     "novelColor": True,
@@ -1216,7 +1250,7 @@ OBJECTS_PICKUPABLE = [item for sublist in OBJECTS_PICKUPABLE_LISTS for item in s
 
 OBJECTS_MOVEABLE = [{
     "type": "chair_1",
-    "info": ["medium", "chair"],
+    "shape": ["chair"],
     "attributes": ["moveable", "receptacle", "stackTarget"],
     "chooseMaterial": [{
         "materialCategory": ["wood"],
@@ -1233,6 +1267,7 @@ OBJECTS_MOVEABLE = [{
         "salientMaterials": ["metal"]
     }],
     "chooseSize": [{
+        "size": "medium",
         "openAreas": [{
             "id": "",
             "position": {
@@ -1264,7 +1299,7 @@ OBJECTS_MOVEABLE = [{
             "z": 1
         }
     }, {
-        "info": ["small", "chair"],
+        "size": "small",
         "openAreas": [{
             "id": "",
             "position": {
@@ -1298,8 +1333,8 @@ OBJECTS_MOVEABLE = [{
     }]
 }, {
     "type": "chair_2",
+    "shape": ["stool"],
     "obstruct": "navigation",
-    "info": ["medium", "stool"],
     "attributes": ["moveable", "receptacle", "stackTarget"],
     "chooseMaterial": [{
         "massMultiplier": 0.5,
@@ -1316,6 +1351,7 @@ OBJECTS_MOVEABLE = [{
         "salientMaterials": ["wood"]
     }],
     "chooseSize": [{
+        "size": "medium",
         "openAreas": [{
             "id": "",
             "position": {
@@ -1347,7 +1383,7 @@ OBJECTS_MOVEABLE = [{
             "z": 1
         }
     }, {
-        "info": ["small", "stool"],
+        "size": "small",
         "openAreas": [{
             "id": "",
             "position": {
@@ -1382,7 +1418,8 @@ OBJECTS_MOVEABLE = [{
 }, {
     "type": "block_blank_wood_cube",
     "obstruct": "vision",
-    "info": ["small", "blank block", "cube"],
+    "shape": ["blank block", "cube"],
+    "size": "small",
     "chooseMaterial": [{
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
@@ -1412,7 +1449,8 @@ OBJECTS_MOVEABLE = [{
 }, {
     "type": "block_blank_wood_cylinder",
     "obstruct": "vision",
-    "info": ["small", "blank block", "cylinder"],
+    "shape": ["blank block", "cylinder"],
+    "size": "small",
     "chooseMaterial": [{
         "materialCategory": ["block_blank"],
         "salientMaterials": ["wood"]
@@ -1442,12 +1480,13 @@ OBJECTS_MOVEABLE = [{
 }, {
     "type": "box_2",
     "color": ["brown"],
+    "shape": ["box"],
     "obstruct": "vision",
     "attributes": ["moveable", "receptacle", "openable"],
     "materialCategory": [],
     "salientMaterials": ["paper"],
     "chooseSize": [{
-        "info": ["small", "box"],
+        "size": "small",
         "mass": 1,
         "enclosedAreas": [{
             "id": "",
@@ -1489,7 +1528,7 @@ OBJECTS_MOVEABLE = [{
             "z": 1.25
         }
     }, {
-        "info": ["medium", "box"],
+        "size": "medium",
         "mass": 3,
         "enclosedAreas": [{
             "id": "",
@@ -1534,12 +1573,13 @@ OBJECTS_MOVEABLE = [{
 }, {
     "type": "box_3",
     "color": ["brown"],
+    "shape": ["box"],
     "obstruct": "vision",
     "attributes": ["moveable", "receptacle", "openable"],
     "materialCategory": [],
     "salientMaterials": ["paper"],
     "chooseSize": [{
-        "info": ["small", "box"],
+        "size": "small",
         "mass": 1,
         "enclosedAreas": [{
             "id": "",
@@ -1581,7 +1621,7 @@ OBJECTS_MOVEABLE = [{
             "z": 1
         }
     }, {
-        "info": ["medium", "box"],
+        "size": "medium",
         "mass": 3,
         "enclosedAreas": [{
             "id": "",
@@ -1626,6 +1666,7 @@ OBJECTS_MOVEABLE = [{
 }, {
     "type": "box_4",
     "color": ["grey"],
+    "shape": ["box"],
     "obstruct": "vision",
     "attributes": ["moveable", "receptacle", "openable"],
     "materialCategory": [],
@@ -1633,7 +1674,7 @@ OBJECTS_MOVEABLE = [{
     "novelColor": True,
     "novelShape": True,
     "chooseSize": [{
-        "info": ["small", "box"],
+        "size": "small",
         "mass": 1,
         "enclosedAreas": [{
             "id": "",
@@ -1675,7 +1716,7 @@ OBJECTS_MOVEABLE = [{
             "z": 1
         }
     }, {
-        "info": ["tiny", "box"],
+        "size": "medium",
         "mass": 0.25,
         "enclosedAreas": [{
             "id": "",
@@ -1718,7 +1759,8 @@ OBJECTS_MOVEABLE = [{
         }
     }]
 }, {
-    "info": ["medium", "potted plant"],
+    "shape": ["potted plant"],
+    "size": "medium",
     "mass": 2.5,
     "materialCategory": [],
     "salientMaterials": ["organic", "ceramic"],
@@ -1839,7 +1881,8 @@ OBJECTS_MOVEABLE = [{
         }
     }]
 }, {
-    "info": ["small", "potted plant"],
+    "shape": ["potted plant"],
+    "size": "small",
     "mass": 1,
     "materialCategory": [],
     "salientMaterials": ["organic", "ceramic"],
@@ -1964,7 +2007,8 @@ OBJECTS_MOVEABLE = [{
 OBJECTS_IMMOBILE = [{
     "type": "changing_table",
     "obstruct": "vision",
-    "info": ["huge", "changing table"],
+    "shape": ["changing table"],
+    "size": "huge",
     "mass": 100,
     "materialCategory": ["wood"],
     "salientMaterials": ["wood"],
@@ -2073,7 +2117,8 @@ OBJECTS_IMMOBILE = [{
     }
 }, {
     "type": "crib",
-    "info": ["huge", "crib"],
+    "shape": ["crib"],
+    "size": "huge",
     "materialCategory": ["wood"],
     "salientMaterials": ["wood"],
     "mass": 25,
@@ -2096,6 +2141,7 @@ OBJECTS_IMMOBILE = [{
     }
 }, {
     "type": "table_1",
+    "shape": ["table"],
     "attributes": ["receptacle"],
     "chooseMaterial": [{
         "materialCategory": ["wood", "wood"],
@@ -2107,7 +2153,7 @@ OBJECTS_IMMOBILE = [{
         "salientMaterials": ["metal"],
     }],
     "chooseSize": [{
-        "info": ["huge", "table"],
+        "size": "huge",
 # Remove for now because it's too high up.
 #        "openAreas": [{
 #            "id": "",
@@ -2140,7 +2186,7 @@ OBJECTS_IMMOBILE = [{
             "z": 1
         }
     }, {
-        "info": ["large", "table"],
+        "size": "large",
 # Remove for now because it's too high up.
 #        "openAreas": [{
 #            "id": "",
@@ -2173,7 +2219,7 @@ OBJECTS_IMMOBILE = [{
             "z": 1
         }
     }, {
-        "info": ["medium", "table"],
+        "size": "medium",
         "obstruct": "navigation",
         "openAreas": [{
             "id": "",
@@ -2208,6 +2254,7 @@ OBJECTS_IMMOBILE = [{
     }]
 }, {
     "type": "table_3",
+    "shape": ["table"],
     "obstruct": "navigation",
     "novelShape": True,
     "chooseMaterial": [{
@@ -2220,7 +2267,7 @@ OBJECTS_IMMOBILE = [{
         "salientMaterials": ["metal"],
     }],
     "chooseSize": [{
-        "info": ["large", "table"],
+        "size": "large",
         "attributes": ["moveable", "receptacle"],
 # Remove for now because it's too high up.
 #        "openAreas": [{
@@ -2254,7 +2301,7 @@ OBJECTS_IMMOBILE = [{
             "z": 1
         }
     }, {
-        "info": ["medium", "table"],
+        "size": "medium",
         "attributes": ["moveable", "receptacle", "stackTarget"],
         "openAreas": [{
             "id": "",
@@ -2289,6 +2336,7 @@ OBJECTS_IMMOBILE = [{
     }]
 }, {
     "type": "table_5",
+    "shape": ["table"],
     "obstruct": "navigation",
     "chooseMaterial": [{
         "materialCategory": ["wood", "wood"],
@@ -2301,7 +2349,7 @@ OBJECTS_IMMOBILE = [{
     }],
     "chooseSize": [{
         "attributes": ["receptacle"],
-        "info": ["large", "table"],
+        "size": "large",
 # Remove for now because it's too high up.
 #        "openAreas": [{
 #            "id": "",
@@ -2335,7 +2383,7 @@ OBJECTS_IMMOBILE = [{
         }
     }, {
         "attributes": ["receptacle", "stackTarget"],
-        "info": ["huge", "table"],
+        "size": "huge",
 # Remove for now because it's too high up.
 #        "openAreas": [{
 #            "id": "",
@@ -2369,7 +2417,7 @@ OBJECTS_IMMOBILE = [{
         }
     }, {
         "attributes": ["receptacle", "stackTarget"],
-        "info": ["large", "table"],
+        "size": "large",
         "openAreas": [{
             "id": "",
             "position": {
@@ -2403,6 +2451,7 @@ OBJECTS_IMMOBILE = [{
     }]
 }, {
     "type": "shelf_2",
+    "shape": ["shelf"],
     "obstruct": "navigation",
     "chooseMaterial": [{
         "materialCategory": ["wood"],
@@ -2414,7 +2463,7 @@ OBJECTS_IMMOBILE = [{
         "salientMaterials": ["metal"],
     }],
     "chooseSize": [{
-        "info": ["small", "shelf"],
+        "size": "small",
         "attributes": ["receptacle", "stackTarget"],
         "openAreas": [{
             "id": "",
@@ -2471,7 +2520,7 @@ OBJECTS_IMMOBILE = [{
             "z": 0.5
         }
     }, {
-        "info": ["medium", "shelf"],
+        "size": "medium",
         "attributes": ["receptacle"],
         "openAreas": [{
 # Remove for now because it's too high up.
@@ -2529,7 +2578,7 @@ OBJECTS_IMMOBILE = [{
             "z": 0.5
         }
     }, {
-        "info": ["huge", "shelf"],
+        "size": "huge",
         "attributes": ["receptacle"],
         "openAreas": [{
 # Remove for now because it's too high up.
@@ -2589,6 +2638,7 @@ OBJECTS_IMMOBILE = [{
     }]
 }, {
     "type": "shelf_1",
+    "shape": ["shelf"],
     "chooseMaterial": [{
         "materialCategory": ["wood"],
         "salientMaterials": ["wood"],
@@ -2599,7 +2649,7 @@ OBJECTS_IMMOBILE = [{
         "salientMaterials": ["metal"],
     }],
     "chooseSize": [{
-        "info": ["small", "shelf"],
+        "size": "small",
         "attributes": ["receptacle", "stackTarget"],
         "openAreas": [{
             "id": "",
@@ -2680,7 +2730,7 @@ OBJECTS_IMMOBILE = [{
             "z": 0.5
         }
     }, {
-        "info": ["medium", "shelf"],
+        "size": "medium",
         "attributes": ["receptacle"],
         "openAreas": [{
 # Remove for now because it's too high up.
@@ -2763,7 +2813,7 @@ OBJECTS_IMMOBILE = [{
         }
     }, {
         "novelCombination": True,
-        "info": ["huge", "shelf"],
+        "size": "huge",
         "attributes": ["receptacle"],
         "openAreas": [{
 # Remove for now because it's too high up.
@@ -2848,8 +2898,9 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "sofa_1",
     "obstruct": "vision",
-    "info": ["huge", "sofa"],
     "color": ["brown"],
+    "shape": ["sofa"],
+    "size": "huge",
     "mass": 100,
     "materialCategory": [],
     "salientMaterials": ["fabric"],
@@ -2886,8 +2937,9 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "sofa_2",
     "obstruct": "vision",
-    "info": ["huge", "sofa"],
     "color": ["grey"],
+    "shape": ["sofa"],
+    "size": "huge",
     "mass": 100,
     "materialCategory": [],
     "salientMaterials": ["fabric"],
@@ -2924,8 +2976,9 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "sofa_chair_1",
     "obstruct": "vision",
-    "info": ["huge", "sofa chair"],
     "color": ["black"],
+    "shape": ["sofa chair"],
+    "size": "huge",
     "mass": 50,
     "materialCategory": [],
     "salientMaterials": ["fabric"],
@@ -2962,8 +3015,9 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "sofa_chair_2",
     "obstruct": "vision",
-    "info": ["huge", "sofa chair"],
     "color": ["grey"],
+    "shape": ["sofa chair"],
+    "size": "huge",
     "mass": 50,
     "materialCategory": [],
     "salientMaterials": ["fabric"],
@@ -3000,7 +3054,8 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "wardrobe",
     "obstruct": "vision",
-    "info": ["huge", "wardrobe"],
+    "shape": ["wardrobe"],
+    "size": "huge",
     "mass": 100,
     "materialCategory": ["wood"],
     "salientMaterials": ["wood"],
@@ -3119,7 +3174,8 @@ OBJECTS_IMMOBILE = [{
         "z": 1
     }
 }, {
-    "info": ["large", "potted plant"],
+    "shape": ["potted plant"],
+    "size": "large",
     "mass": 5,
     "materialCategory": [],
     "salientMaterials": ["organic", "ceramic"],
@@ -3244,7 +3300,8 @@ OBJECTS_IMMOBILE = [{
 
 OCCLUDER_INSTANCE_NORMAL = [{
     "id": "occluder_wall_",
-    "info": [],
+    "shape": ["wall"],
+    "size": "huge",
     "type": "cube",
     "kinematic": True,
     "structure": True,
@@ -3315,7 +3372,8 @@ OCCLUDER_INSTANCE_NORMAL = [{
     }]
 }, {
     "id": "occluder_pole_",
-    "info": [],
+    "shape": ["pole"],
+    "size": "medium",
     "type": "cylinder",
     "kinematic": True,
     "structure": True,
@@ -3364,7 +3422,8 @@ OCCLUDER_INSTANCE_NORMAL = [{
 
 OCCLUDER_INSTANCE_SIDEWAYS = [{
     "id": "occluder_wall_",
-    "info": [],
+    "shape": ["wall"],
+    "size": "huge",
     "type": "cube",
     "kinematic": True,
     "structure": True,
@@ -3435,7 +3494,8 @@ OCCLUDER_INSTANCE_SIDEWAYS = [{
     }]
 }, {
     "id": "occluder_pole_",
-    "info": [],
+    "shape": ["pole"],
+    "size": "medium",
     "type": "cylinder",
     "kinematic": True,
     "structure": True,
@@ -3489,7 +3549,8 @@ OCCLUDER_INSTANCE_SIDEWAYS = [{
 
 OBJECTS_INTPHYS: List[Dict[str, Any]] = [{
     "type": "sphere",
-    "info": ["medium", "ball"],
+    "shape": ["ball"],
+    "size": "medium",
     "mass": 0.75,
     "chooseMaterial": [{
         "materialCategory": ["plastic"],
@@ -3686,7 +3747,8 @@ OBJECTS_INTPHYS: List[Dict[str, Any]] = [{
     }]
 }, {
     "type": "sphere",
-    "info": ["small", "ball"],
+    "shape": ["ball"],
+    "size": "small",
     "mass": 0.5,
     "chooseMaterial": [{
         "materialCategory": ["plastic"],
@@ -3882,7 +3944,8 @@ OBJECTS_INTPHYS: List[Dict[str, Any]] = [{
     }]
 }, {
     "type": "sphere",
-    "info": ["tiny", "ball"],
+    "shape": ["ball"],
+    "size": "tiny",
     "mass": 0.25,
     "chooseMaterial": [{
         "materialCategory": ["plastic"],
@@ -4076,7 +4139,8 @@ OBJECTS_INTPHYS: List[Dict[str, Any]] = [{
     }]
 }, {
     "type": "cube",
-    "info": ["medium", "cube"],
+    "shape": ["cube"],
+    "size": "medium",
     "mass": 0.75,
     "chooseMaterial": [{
         "materialCategory": ["plastic"],
@@ -4289,7 +4353,8 @@ OBJECTS_INTPHYS: List[Dict[str, Any]] = [{
     }]
 }, {
     "type": "cube",
-    "info": ["small", "cube"],
+    "shape": ["cube"],
+    "size": "small",
     "mass": 0.5,
     "chooseMaterial": [{
         "materialCategory": ["plastic"],
@@ -4500,7 +4565,8 @@ OBJECTS_INTPHYS: List[Dict[str, Any]] = [{
     }]
 }, {
     "type": "cube",
-    "info": ["tiny", "cube"],
+    "shape": ["cube"],
+    "size": "tiny",
     "mass": 0.25,
     "chooseMaterial": [{
         "materialCategory": ["plastic"],
@@ -4709,7 +4775,8 @@ OBJECTS_INTPHYS: List[Dict[str, Any]] = [{
     }]
 }, {
     "type": "cylinder",
-    "info": ["medium", "cylinder"],
+    "shape": ["cylinder"],
+    "size": "medium",
     "mass": 0.75,
     "chooseMaterial": [{
         "materialCategory": ["plastic"],
@@ -4913,7 +4980,8 @@ OBJECTS_INTPHYS: List[Dict[str, Any]] = [{
     }]
 }, {
     "type": "cylinder",
-    "info": ["small", "cylinder"],
+    "shape": ["cylinder"],
+    "size": "small",
     "mass": 0.5,
     "chooseMaterial": [{
         "materialCategory": ["plastic"],
@@ -5115,7 +5183,8 @@ OBJECTS_INTPHYS: List[Dict[str, Any]] = [{
     }]
 }, {
     "type": "cylinder",
-    "info": ["tiny", "cylinder"],
+    "shape": ["cylinder"],
+    "size": "tiny",
     "mass": 0.25,
     "chooseMaterial": [{
         "materialCategory": ["plastic"],
@@ -5321,7 +5390,8 @@ OBJECTS_INTPHYS_NOVEL = [{
     "type": "duck_on_wheels",
     "novelShape": True, # This is a novel shape for IntPhys scenes
     "attributes": ["moveable", "pickupable"],
-    "info": ["tiny", "duck"],
+    "shape": ["duck"],
+    "size": "tiny",
     "mass": 2,
     "chooseMaterial": [{
         "materialCategory": ["block_blank"],
@@ -5350,7 +5420,8 @@ OBJECTS_INTPHYS_NOVEL = [{
     "type": "duck_on_wheels",
     "novelShape": True, # This is a novel shape for IntPhys scenes
     "attributes": ["moveable", "pickupable"],
-    "info": ["small", "duck"],
+    "shape": ["duck"],
+    "size": "small",
     "mass": 4,
     "chooseMaterial": [{
         "materialCategory": ["block_blank"],
@@ -5379,7 +5450,8 @@ OBJECTS_INTPHYS_NOVEL = [{
     "type": "duck_on_wheels",
     "novelShape": True, # This is a novel shape for IntPhys scenes
     "attributes": ["moveable", "pickupable"],
-    "info": ["medium", "duck"],
+    "shape": ["duck"],
+    "size": "medium",
     "mass": 8,
     "chooseMaterial": [{
         "materialCategory": ["block_blank"],
@@ -5408,7 +5480,8 @@ OBJECTS_INTPHYS_NOVEL = [{
     "type": "racecar_red",
     "novelShape": True, # This is a novel shape for IntPhys scenes
     "attributes": ["moveable", "pickupable"],
-    "info": ["tiny", "car"],
+    "shape": ["car"],
+    "size": "tiny",
     "mass": 2,
     "chooseMaterial": [{
         "materialCategory": ["block_blank"],
@@ -5443,7 +5516,8 @@ OBJECTS_INTPHYS_NOVEL = [{
     "type": "racecar_red",
     "novelShape": True, # This is a novel shape for IntPhys scenes
     "attributes": ["moveable", "pickupable"],
-    "info": ["small", "car"],
+    "shape": ["car"],
+    "size": "small",
     "mass": 4,
     "chooseMaterial": [{
         "materialCategory": ["block_blank"],
@@ -5478,7 +5552,8 @@ OBJECTS_INTPHYS_NOVEL = [{
     "type": "racecar_red",
     "novelShape": True, # This is a novel shape for IntPhys scenes
     "attributes": ["moveable", "pickupable"],
-    "info": ["medium", "car"],
+    "shape": ["car"],
+    "size": "medium",
     "mass": 4,
     "chooseMaterial": [{
         "materialCategory": ["block_blank"],
@@ -5531,6 +5606,10 @@ def create_occluder(wall_material: Tuple[str, List[str]], pole_material: Tuple[s
     occluder[WALL]['materials'] = [wall_material[0]]
     occluder[POLE]['materials'] = [pole_material[0]]
 
+    occluder[WALL]['color'] = wall_material[1]
+    occluder[POLE]['color'] = pole_material[1]
+
+    # Just set the occluder's info to its color for now.
     occluder[WALL]['info'] = wall_material[1]
     occluder[POLE]['info'] = pole_material[1]
 

@@ -129,7 +129,9 @@ def instantiate_object(object_def: Dict[str, Any],
         'id': str(uuid.uuid4()),
         'type': object_def['type'],
         'mass': object_def['mass'] * (object_def['massMultiplier'] if 'massMultiplier' in object_def else 1),
-        'info': object_def['info'].copy(),
+        'info': [object_def['size']],
+        'shape': object_def['shape'] if isinstance(object_def['shape'], list) else [object_def['shape']],
+        'size': object_def['size'],
         'novelColor': object_def['novelColor'] if 'novelColor' in object_def else False,
         'novelCombination': object_def['novelCombination'] if 'novelCombination' in object_def else False,
         'novelShape': object_def['novelShape'] if 'novelShape' in object_def else False
@@ -177,34 +179,32 @@ def instantiate_object(object_def: Dict[str, Any],
     # The info list contains words that we can use to filter on specific object tags in the UI.
     # Start with this specific ordering of object tags in the info list needed for making the goal_string:
     # size weight color(s) material(s) shape
-    if 'salientMaterials' in object_def:
-        salient_materials = object_def['salientMaterials']
-        new_object['salientMaterials'] = salient_materials
-        new_object['info'] = new_object['info'][:1] + salient_materials + new_object['info'][1:]
-
-    new_object['info'] = new_object['info'][:1] + list(new_object['color']) + new_object['info'][1:]
-
     if 'pickupable' in object_def['attributes']:
         weight = 'light'
     elif 'moveable' in object_def['attributes']:
         weight = 'heavy'
     else:
         weight = 'massive'
-    new_object['info'] = new_object['info'][:1] + [weight] + new_object['info'][1:]
+    new_object['info'] = new_object['info'] + [weight]
+
+    new_object['info'] = new_object['info'] + list(new_object['color'])
+
+    if 'salientMaterials' in object_def:
+        salient_materials = object_def['salientMaterials']
+        new_object['salientMaterials'] = salient_materials
+        new_object['info'] = new_object['info'] + salient_materials
+
+    new_object['info'] = new_object['info'] + new_object['shape']
 
     # Use the object's goal_string for goal descriptions.
     new_object['goal_string'] = ' '.join(new_object['info'])
-
-    # Save the object shape and size tags now before we add more tags to the end of the info list.
-    new_object['shape'] = new_object['info'][-1]
-    new_object['size'] = new_object['info'][0]
 
     if new_object['novelColor']:
         for color in list(new_object['color']):
             new_object['info'].append('novel ' + color)
 
     if new_object['novelShape']:
-        new_object['info'].append('novel ' + new_object['shape'])
+        new_object['info'].append('novel ' + ' '.join(new_object['shape']))
 
     # This object can't be marked as a novel combination if it's a novel color or a novel shape.
     if new_object['novelCombination'] and (new_object['novelColor'] or new_object['novelShape']):
@@ -212,7 +212,7 @@ def instantiate_object(object_def: Dict[str, Any],
 
     if new_object['novelCombination']:
         for color in list(new_object['color']):
-            new_object['info'].append('novel ' + color + ' ' + new_object['shape'])
+            new_object['info'].append('novel ' + color + ' ' + ' '.join(new_object['shape']))
 
     return new_object
 
@@ -242,12 +242,6 @@ def check_same_and_different(a: Dict[str, Any], b: Dict[str, Any],
     exist in b and have the same value, and for all properties in
     different that are in a, they exist in b and are different.
     """
-
-    # TODO MCS-328 Remove
-    a['shape'] = a['shape'] if 'shape' in a else a['info'][-1]
-    a['size'] = a['size'] if 'size' in a else a['info'][0]
-    b['shape'] = b['shape'] if 'shape' in b else b['info'][-1]
-    b['size'] = b['size'] if 'size' in b else b['info'][0]
 
     same_ok = True
     for prop in same:

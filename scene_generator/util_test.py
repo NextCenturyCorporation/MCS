@@ -10,7 +10,6 @@ from util import finalize_object_definition, instantiate_object, check_same_and_
 
 PACIFIER = {
     "type": "pacifier",
-    "info": ["tiny", "blue", "pacifier"],
     "color": "blue",
     "shape": "pacifier",
     "size": "tiny",
@@ -71,7 +70,8 @@ def test_instantiate_object():
     object_def = {
         'type': 'sofa_1',
         'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
-        'info': ['huge', 'sofa'],
+        'shape': 'sofa',
+        'size': 'huge',
         'mass': 12.34,
         'attributes': ['foo', 'bar'],
         'scale': {'x': 1, 'y': 1, 'z': 1}
@@ -98,7 +98,7 @@ def test_instantiate_object():
     assert obj['novelColor'] is False
     assert obj['novelCombination'] is False
     assert obj['novelShape'] is False
-    assert obj['shape'] == 'sofa'
+    assert obj['shape'] == ['sofa']
     assert obj['size'] == 'huge'
     assert obj['foo'] is True
     assert obj['bar'] is True
@@ -113,13 +113,15 @@ def test_instantiate_object_choose():
         'type': 'sofa_1',
         'chooseSize': [{
             'novelShape': True,
-            'info': ['medium', 'sofa'],
+            'shape': 'sofa',
+            'size': 'medium',
             'attributes': ['moveable'],
             'dimensions': {'x': 0.5, 'y': 0.25, 'z': 0.25},
             'mass': 12.34,
             'scale': {'x': 0.5, 'y': 0.5, 'z': 0.5}
         }, {
-            'info': ['huge', 'sofa'],
+            'shape': 'sofa',
+            'size': 'huge',
             'attributes': [],
             'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
             'mass': 56.78,
@@ -162,7 +164,8 @@ def test_instantiate_object_heavy_moveable():
     object_def = {
         'type': 'sofa_1',
         'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
-        'info': ['huge', 'sofa'],
+        'shape': 'sofa',
+        'size': 'huge',
         'mass': 12.34,
         'attributes': ['moveable'],
         'scale': {'x': 1, 'y': 1, 'z': 1}
@@ -189,7 +192,8 @@ def test_instantiate_object_light_pickupable():
     object_def = {
         'type': 'sofa_1',
         'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
-        'info': ['huge', 'sofa'],
+        'shape': 'sofa',
+        'size': 'huge',
         'mass': 12.34,
         'attributes': ['moveable', 'pickupable'],
         'scale': {'x': 1, 'y': 1, 'z': 1}
@@ -221,7 +225,8 @@ def test_instantiate_object_offset():
     object_def = {
         'type': 'sofa_1',
         'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
-        'info': ['huge', 'sofa'],
+        'shape': 'sofa',
+        'size': 'huge',
         'mass': 12.34,
         'scale': {'x': 1, 'y': 1, 'z': 1},
         'attributes': [],
@@ -251,7 +256,8 @@ def test_instantiate_object_rotation():
     object_def = {
         'type': 'sofa_1',
         'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
-        'info': ['huge', 'sofa'],
+        'shape': 'sofa',
+        'size': 'huge',
         'mass': 12.34,
         'scale': {'x': 1, 'y': 1, 'z': 1},
         'attributes': [],
@@ -278,7 +284,8 @@ def test_instantiate_object_materials():
     object_def = {
         'type': 'sofa_1',
         'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
-        'info': ['huge', 'sofa'],
+        'shape': 'sofa',
+        'size': 'huge',
         'mass': 12.34,
         'scale': {'x': 1, 'y': 1, 'z': 1},
         'attributes': [],
@@ -309,7 +316,8 @@ def test_instantiate_object_multiple_materials():
     object_def = {
         'type': 'sofa_1',
         'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
-        'info': ['huge', 'sofa'],
+        'shape': 'sofa',
+        'size': 'huge',
         'mass': 12.34,
         'scale': {'x': 1, 'y': 1, 'z': 1},
         'attributes': [],
@@ -338,7 +346,8 @@ def test_instantiate_object_salient_materials():
     object_def = {
         'type': 'sofa_1',
         'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
-        'info': ['huge', 'sofa'],
+        'shape': 'sofa',
+        'size': 'huge',
         'mass': 12.34,
         'scale': {'x': 1, 'y': 1, 'z': 1},
         'attributes': [],
@@ -366,7 +375,8 @@ def test_instantiate_object_size():
     object_def = {
         'type': 'sofa_1',
         'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
-        'info': ['huge', 'sofa'],
+        'shape': 'sofa',
+        'size': 'huge',
         'mass': 12.34,
         'scale': {'x': 1, 'y': 1, 'z': 1},
         'attributes': [],
@@ -528,7 +538,8 @@ def test_instantiate_object_novel_color():
         'type': 'sofa_1',
         'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
         'novelColor': True,
-        'info': ['huge', 'sofa'],
+        'shape': 'sofa',
+        'size': 'huge',
         'mass': 12.34,
         'scale': 1.0,
         'attributes': [],
@@ -557,7 +568,8 @@ def test_instantiate_object_novel_combination():
         'type': 'sofa_1',
         'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
         'novelCombination': True,
-        'info': ['huge', 'sofa'],
+        'shape': 'sofa',
+        'size': 'huge',
         'mass': 12.34,
         'scale': 1.0,
         'attributes': [],
@@ -586,7 +598,8 @@ def test_instantiate_object_novel_shape():
         'type': 'sofa_1',
         'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
         'novelShape': True,
-        'info': ['huge', 'sofa'],
+        'shape': 'sofa',
+        'size': 'huge',
         'mass': 12.34,
         'scale': 1.0,
         'attributes': [],

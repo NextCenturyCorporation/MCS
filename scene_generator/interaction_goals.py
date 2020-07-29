@@ -305,10 +305,11 @@ class DistractorObjectRule(ObjectRule):
         self._target_list = target_list
 
     def choose_definition(self) -> Dict[str, Any]:
-        target_shape_list = [target['info'][-1] for target in self._target_list]
+        target_shape_list = [target['shape'][-1] for target in self._target_list]
         for _ in range(util.MAX_TRIES):
             distractor_definition = super(DistractorObjectRule, self).choose_definition()
-            distractor_shape = distractor_definition['info'][-1]
+            distractor_shape = distractor_definition['shape'][-1] if isinstance(distractor_definition['shape'], list) \
+                    else distractor_definition['shape']
             # Cannot have the same shape as a target object, so we don't unintentionally generate a confusor.
             if distractor_shape not in target_shape_list:
                 break
