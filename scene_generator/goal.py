@@ -48,9 +48,9 @@ def generate_wall(wall_material: str, wall_colors: List[str], performer_position
             ((rotation == 90 or rotation == 270) and (new_x < -SAFE_DIST_FROM_ROOM_WALL or new_x > SAFE_DIST_FROM_ROOM_WALL)): 
             continue
 
-        rect = geometry.calc_obj_coords(new_x, new_z, 0, new_x_size, WALL_DEPTH, 0, 0, rotation)
+        rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, WALL_DEPTH, 0, 0, rotation, position_y=0)
         # barrier_rect is to allow parallel walls to be at least 1(DIST_WALL_APART) apart on the appropriate axis
-        barrier_rect = geometry.calc_obj_coords(new_x, new_z, 0, new_x_size + DIST_WALL_APART, WALL_DEPTH + DIST_WALL_APART, 0, 0, rotation)
+        barrier_rect = geometry.calc_obj_coords(new_x, new_z, new_x_size + DIST_WALL_APART, WALL_DEPTH + DIST_WALL_APART, 0, 0, rotation, position_y=0)
         wall_poly = geometry.rect_to_poly(rect)
         is_ok = not wall_poly.intersects(performer_poly) and geometry.rect_within_room(rect) and \
                 (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(barrier_rect, other_rect) \
@@ -138,7 +138,7 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
 
                         new_z = wall['shows'][0]['position']['z'] + random.choice([WALL_DEPTH - 0.03, -WALL_DEPTH + 0.03]) # FIXME Test to see paintings on generated wall
                         
-                        shows_object = {'bounding_box': geometry.calc_obj_coords(new_x, new_z, new_y, new_x_size, PAINTING_DEPTH, 0, 0, rotation)}
+                        shows_object = {'bounding_box': geometry.calc_obj_coords(new_x, new_z, new_x_size, PAINTING_DEPTH, 0, 0, rotation, position_y=new_y)}
                         cur_painting_obj['shows'] = [shows_object]
                         
                         painting_x_list = [coord['x'] for coord in cur_painting_obj['shows'][0]['bounding_box']] #boundaries for current painting
@@ -174,7 +174,7 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
 
                         new_x = wall['shows'][0]['position']['x'] + random.choice([WALL_DEPTH - 0.03, -WALL_DEPTH + 0.03]) # FIXME Test to see paintings on generated wall
                         
-                        shows_object = {'bounding_box': geometry.calc_obj_coords(new_x, new_z, new_y, new_x_size, PAINTING_DEPTH, 0, 0, rotation)}
+                        shows_object = {'bounding_box': geometry.calc_obj_coords(new_x, new_z, new_x_size, PAINTING_DEPTH, 0, 0, rotation, position_y=new_y)}
                         cur_painting_obj['shows'] = [shows_object]
                         
                         painting_z_list = [coord['z'] for coord in cur_painting_obj['shows'][0]['bounding_box']] # boundaries for current painting
@@ -201,7 +201,7 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
                         new_x = geometry.ROOM_DIMENSIONS[0][1] + 0.03 
 
 
-            rect = geometry.calc_obj_coords(new_x, new_z, new_y, new_x_size, PAINTING_DEPTH, 0, 0, rotation)
+            rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, PAINTING_DEPTH, 0, 0, rotation, position_y=new_y)
             painting_poly = geometry.rect_to_poly(rect)
 
             #if adj_to_generated_wall: # FIXME Testing

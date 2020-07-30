@@ -80,8 +80,8 @@ def collision(test_rect: List[Dict[str, float]], test_point: Dict[str, float]):
                 0 <= dot_prod_dict(vectorBC, vectorBM) <= dot_prod_dict(vectorBC, vectorBC))
 
 
-def calc_obj_coords(position_x: float, position_z: float, position_y: float, delta_x: float, delta_z: float, offset_x: float,
-                    offset_z: float, rotation: float) -> List[Dict[str, float]]:
+def calc_obj_coords(position_x: float, position_z: float, delta_x: float, delta_z: float, offset_x: float,
+                    offset_z: float, rotation: float, position_y: float = 0) -> List[Dict[str, float]]:
     """Returns an array of points that are the coordinates of the rectangle """
     radian_amount = math.pi * (2 - rotation / 180.0)
 
@@ -407,10 +407,8 @@ def are_adjacent(obj_a: Dict[str, Any], obj_b: Dict[str, Any], max_adj_dist: flo
     poly_a = get_bounding_polygon(obj_a)
     poly_b = get_bounding_polygon(obj_b)
     distance = poly_a.distance(poly_b)
-    if max_adj_dist:
-        return distance <= max_adj_dist
-    else:
-        return distance <= MAX_ADJACENT_DISTANCE
+    
+    return distance <= max_adj_dist if max_adj_dist is not None else distance <= MAX_ADJACENT_DISTANCE
 
 
 def rect_to_poly(rect: List[Dict[str, Any]]) -> shapely.geometry.Polygon:
