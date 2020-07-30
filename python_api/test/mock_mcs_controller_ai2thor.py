@@ -3,6 +3,8 @@ import numpy
 
 from machine_common_sense.mcs_controller_ai2thor import MCS_Controller_AI2THOR
 from machine_common_sense.mcs_step_output import MCS_Step_Output
+from machine_common_sense.mcs_pose import MCS_Pose
+from machine_common_sense.mcs_action import MCS_Action
 
 MOCK_VARIABLES = {
     'event_count': 5,
@@ -21,6 +23,7 @@ MOCK_VARIABLES = {
                 'y': 0.0
             }
         },
+        'pose': MCS_Pose.STANDING.name,
         'lastActionStatus': 'SUCCESSFUL',
         'objects': [],
         'screenHeight': 400,
@@ -32,11 +35,14 @@ MOCK_VARIABLES = {
 class Mock_AI2THOR_Controller():
     def __init__(self):
         self.__last_step_data = None
+        self.__last_metadata = MOCK_VARIABLES['metadata'].copy()
         pass
 
     def step(self, data):
         self.__last_step_data = data
-        metadata = MOCK_VARIABLES['metadata'].copy()
+        self.update_metadata(data)
+        metadata = self.__last_metadata
+        
         event = ai2thor.server.Event(metadata)
         event.frame = MOCK_VARIABLES['frame'].copy()
         event.depth_frame = MOCK_VARIABLES['depth_frame'].copy()
@@ -46,6 +52,16 @@ class Mock_AI2THOR_Controller():
 
     def get_last_step_data(self):
         return self.__last_step_data
+
+    def update_metadata(self, data: dict) -> dict:
+        
+        if data['action'] == MCS_Action.CRAWL.value:
+            self.__last_metadata['pose'] = MCS_Pose.CRAWLING.name
+        elif data['action'] == MCS_Action.STAND.value and self.__last_metadata['pose'] != MCS_Pose.LYING.name:
+            self.__last_metadata['pose'] = MCS_Pose.STANDING.name
+        elif data['action'] == MCS_Action.LIE_DOWN.value:
+            self.__last_metadata['pose'] = MCS_Pose.LYING.name
+
 
 class Mock_MCS_Controller_AI2THOR(MCS_Controller_AI2THOR):
 

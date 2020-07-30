@@ -583,15 +583,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             visible=(object_metadata['visibleInCamera'] or object_metadata['isPickedUp'])
         ))
 
-    def retrieve_pose(self, scene_event):
-        # TODO MCS-305 Return pose from Unity in step output object
-        print("SCENE EVENT METADATA.keys(): ", scene_event.metadata.keys())
-        print("\n")
-        #print('--->: ', scene_event.metadata['screenHeight'])
-        print('CAMERA POS: ', scene_event.metadata['cameraPosition'])
-        #print("\n\n")
-        #print(scene_event.pose)
-        return MCS_Pose.STANDING.name
+    def retrieve_pose(self, scene_event) -> str:
+        # Return Agents pose from Unity in step output object
+        return scene_event.metadata['pose'] 
+        
 
     def retrieve_position(self, scene_event) -> dict:
         return scene_event.metadata['agent']['position']

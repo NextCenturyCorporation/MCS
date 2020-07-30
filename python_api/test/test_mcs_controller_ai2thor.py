@@ -154,6 +154,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                 "clippingPlaneFar": 25,
                 "clippingPlaneNear": 0,
                 "fov": 42.5,
+                "pose": MCS_Pose.STANDING.name,
                 "lastActionStatus": "SUCCESSFUL",
                 "lastActionSuccess": True,
                 "objects": [{
@@ -1185,8 +1186,78 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[1].visible, True)
 
     def test_retrieve_pose(self):
-        # TODO MCS-305
-        pass
+        # Check function calls
+        mock_scene_event_data = { 
+            "metadata": {
+                "pose": MCS_Pose.STANDING.name
+            }
+        }
+        ret_status = self.controller.retrieve_pose(self.create_mock_scene_event(mock_scene_event_data))
+        self.assertEqual(ret_status, MCS_Pose.STANDING.name)
+
+        mock_scene_event_data = {
+            "metadata": {
+                "pose": MCS_Pose.CRAWLING.name
+            }
+        }
+        ret_status = self.controller.retrieve_pose(self.create_mock_scene_event(mock_scene_event_data))
+        self.assertEqual(ret_status, MCS_Pose.CRAWLING.name)
+
+        mock_scene_event_data = {
+            "metadata": {
+                "pose": MCS_Pose.LYING.name
+            }
+        }
+        ret_status = self.controller.retrieve_pose(self.create_mock_scene_event(mock_scene_event_data))
+        self.assertEqual(ret_status, MCS_Pose.LYING.name)
+
+        # Testing retrieving proper pose depending on action made
+        #Check basics
+        output = self.controller.step(action='Stand')
+        self.assertEqual(output.pose, MCS_Pose.STANDING.name)
+
+        output = self.controller.step(action='LieDown')
+        self.assertEqual(output.pose, MCS_Pose.LYING.name)
+
+        output = self.controller.step(action='Crawl')
+        self.assertEqual(output.pose, MCS_Pose.CRAWLING.name)
+
+        #Check movement within crawling pose
+        output = self.controller.step(action='MoveAhead') 
+        self.assertEqual(output.pose, MCS_Pose.CRAWLING.name)
+        self.controller.step(action='MoveBack')
+
+        self.controller.step(action='Stand')
+        output = self.controller.step(action='MoveBack')
+        self.assertEqual(output.pose, MCS_Pose.STANDING.name)
+
+        #Check stand->lying->crawl->stand 
+        output = self.controller.step(action='LieDown')
+        self.assertEqual(output.pose, MCS_Pose.LYING.name)
+        output = self.controller.step(action='Crawl')
+        self.assertEqual(output.pose, MCS_Pose.CRAWLING.name)
+        output = self.controller.step(action='Stand')
+        self.assertEqual(output.pose, MCS_Pose.STANDING.name)
+
+        #Check stand->crawl->Lying->crawl->lying->crawl->stand
+        self.controller.step(action='Crawl')
+        output = self.controller.step(action='LieDown')
+        self.assertEqual(output.pose, MCS_Pose.LYING.name)
+        self.controller.step(action='Crawl')
+        output = self.controller.step(action='LieDown')
+        self.assertEqual(output.pose, MCS_Pose.LYING.name)
+        self.controller.step(action='Crawl')
+        output = self.controller.step(action='Stand')
+        self.assertEqual(output.pose, MCS_Pose.STANDING.name)
+
+        #Check stand->Lying (!= ->) stand
+        self.controller.step(action='LieDown')
+        output = self.controller.step(action='Stand')
+        self.assertNotEqual(output.pose, MCS_Pose.STANDING.name)
+
+        self.controller.step(action='Crawl')
+        output = self.controller.step(action='Stand')
+        self.assertEqual(output.pose, MCS_Pose.STANDING.name)
 
     def test_retrieve_return_status(self):
         mock_scene_event_data = {
