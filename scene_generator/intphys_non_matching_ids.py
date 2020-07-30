@@ -14,7 +14,7 @@ def non_matching_ids():
     assert os.path.exists(user_input), "No file at, "+str(user_input)
     file_names = os.listdir(user_input)
 
-    for file in os.listdir(user_input):
+    for file in file_names:
         found_match = False
         file_to_open = os.path.join(user_input,file)
         with open(file_to_open, 'r') as file_data:
@@ -34,7 +34,7 @@ def non_matching_ids():
                         found_match = True
 
         if found_match:
-            new_scene_file = os.path.join(user_input, 'legacy.' + file)
+            new_scene_file = os.path.join(user_input, 'new.' + file)
             files.append(new_scene_file)
             with open(new_scene_file, 'w') as json_file:
                 json.dump(scene_data, json_file, indent=2)
