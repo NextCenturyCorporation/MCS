@@ -23,10 +23,10 @@ SAFE_DIST_FROM_ROOM_WALL = 3.5
     
 
 def generate_wall(wall_material: str, wall_colors: List[str], performer_position: Dict[str, float], \
-        other_rects: List[List[Dict[str, float]]], target_list: List[Dict[str, Any]] = None) -> \
+        other_rects: List[List[Dict[str, float]]], dont_obstruct_list: List[Dict[str, Any]] = None) -> \
         Optional[Dict[str, Any]]:
-    """Generates and returns a randomly positioned obstacle wall. If target_list is not None, the wall won't obstruct
-    the line between the performer_position and the target_list."""
+    """Generates and returns a randomly positioned obstacle wall. If dont_obstruct_list is not None, the wall won't
+    obstruct the line between the performer_position and the objects in dont_obstruct_list."""
 
     tries = 0
     performer_rect = geometry.find_performer_rect(performer_position)
@@ -50,9 +50,10 @@ def generate_wall(wall_material: str, wall_colors: List[str], performer_position
                 (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(barrier_rect, other_rect) \
                 for other_rect in other_rects))
         if is_ok:
-            if target_list:
-                for target in target_list:
-                    if geometry.does_fully_obstruct_target(performer_position, target, wall_poly):
+            if dont_obstruct_list:
+                for dont_obstruct_object in dont_obstruct_list:
+                    if 'locationParent' not in dont_obstruct_object and geometry.does_fully_obstruct_target( \
+                            performer_position, dont_obstruct_object, wall_poly):
                         is_ok = False
                         break
             if is_ok:
