@@ -17,7 +17,7 @@ from separating_axis_theorem import sat_entry
 POSITION_DIGITS = 2
 VALID_ROTATIONS = (0, 45, 90, 135, 180, 225, 270, 315)
 
-ROOM_DIMENSIONS = ((-4.95, 4.95), (-4.95, 4.95))
+ROOM_DIMENSIONS = ((-4.95, 4.95), (-4.95, 4.95), (-4.95, 4.95))
 
 MINIMUM_START_DIST_FROM_TARGET = 2
 MINIMUM_TARGET_SEPARATION = 2
@@ -52,6 +52,8 @@ def random_position_x() -> float:
 def random_position_z() -> float:
     return round(random.uniform(ROOM_DIMENSIONS[1][0], ROOM_DIMENSIONS[1][1]), POSITION_DIGITS)
 
+def random_position_y() -> float:
+    return round(random.uniform(ROOM_DIMENSIONS[2][0], ROOM_DIMENSIONS[2][1]), POSITION_DIGITS)
 
 def random_rotation() -> float:
     return random.choice(VALID_ROTATIONS)
