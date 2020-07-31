@@ -54,8 +54,6 @@ def verify_confusor(target, confusor):
 
 
 def verify_immediately_visible(performer_start, object_list, target, name = 'target'):
-    performer_point = shapely.geometry.Point(performer_start['position']['x'], performer_start['position']['z'])
-
     target_or_parent = get_parent(target, object_list) if 'locationParent' in target else target
     target_poly = geometry.get_bounding_polygon(target_or_parent)
 
@@ -161,6 +159,13 @@ def verify_pair(pair, scene_1, scene_2, target_same_position = True, confusor_sa
     if performer_start_1 != performer_start_2:
         print(f'performer_start should be the same: {performer_start_1} != {performer_start_2}')
         return False
+
+    performer_start_poly = geometry.rect_to_poly(geometry.find_performer_rect(performer_start_1['position']))
+    for object_instance in scene_1['objects']:
+        object_poly = geometry.get_bounding_polygon(object_instance)
+        if object_poly.intersects(performer_start_poly):
+            print(f'performer_start should not be inside an object:\nperformer_start_poly={performer_start_poly}\nobject_poly={object_poly}')
+            return False
 
     # Ensure the target object in each scene is the same, except for expected differences.
     target_1 = pair._goal_1.get_target_list()[0]
