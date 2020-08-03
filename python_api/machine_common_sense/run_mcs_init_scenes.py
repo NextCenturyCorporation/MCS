@@ -7,6 +7,8 @@ if len(sys.argv) < 4:
     sys.exit()
 
 if __name__ == "__main__":
+    output_folder = sys.argv[3] + '/'
+
     json_file_list = glob.glob(sys.argv[2] + '/*.json')
 
     controller = MCS.create_controller(sys.argv[1], debug=False)
@@ -24,7 +26,10 @@ if __name__ == "__main__":
 
         output = controller.start_scene(config_data)
 
-        print('Saving first image of JSON config file ' + config_data['name'])
+        print('Saving initialization output (scene image and metadata) of JSON config file ' + config_data['name'])
 
-        output.image_list[0].save(fp=sys.argv[3] + config_data['name'] + '.png')
+        with open(output_folder + config_data['name'] + '.json', 'w') as output_json_file:
+            output_json_file.write(str(output))
+
+        output.image_list[0].save(fp=output_folder + config_data['name'] + '.png')
 
