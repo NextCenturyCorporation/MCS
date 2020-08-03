@@ -109,7 +109,6 @@ def finalize_object_materials_and_colors(object_definition: Dict[str, Any], \
     return object_definition_list
 
 
-
 def instantiate_object(object_def: Dict[str, Any],
                        object_location: Dict[str, Any],
                        materials_list: Optional[List[Tuple[str, List[str]]]] = None) \
@@ -122,14 +121,12 @@ def instantiate_object(object_def: Dict[str, Any],
     # Call the finalize function here in case it wasn't called before now (calling it twice shouldn't hurt anything).
     object_def = finalize_object_definition(object_def)
 
-    if not 'mass' in object_def:
-        print(f'mass missing {object_def}')
-
     new_object = {
         'id': str(uuid.uuid4()),
         'type': object_def['type'],
-        'mass': object_def['mass'] * (object_def['massMultiplier'] if 'massMultiplier' in object_def else 1),
+        'role': '',
         'info': [object_def['size']],
+        'mass': object_def['mass'] * (object_def['massMultiplier'] if 'massMultiplier' in object_def else 1),
         'shape': object_def['shape'] if isinstance(object_def['shape'], list) else [object_def['shape']],
         'size': object_def['size'],
         'novelColor': object_def['novelColor'] if 'novelColor' in object_def else False,
@@ -150,6 +147,8 @@ def instantiate_object(object_def: Dict[str, Any],
     if 'offset' in object_def:
         object_location['position']['x'] -= object_def['offset']['x']
         object_location['position']['z'] -= object_def['offset']['z']
+
+    new_object['offset'] = object_def['offset'] if 'offset' in object_def else {'x': 0, 'y': 0, 'z': 0}
 
     if not 'rotation' in object_def:
         object_def['rotation'] = {'x': 0, 'y': 0, 'z': 0}

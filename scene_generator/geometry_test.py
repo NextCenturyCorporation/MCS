@@ -393,15 +393,102 @@ def test__object_collision():
 
 
 def test_get_visible_segment():
-    start = {
-        'position': ORIGIN,
-        'rotation': {
-            'y': 0
-        }
-    }
-    segment = get_visible_segment(start)
-    expected_segment = shapely.geometry.LineString([[0, 1], [0, ROOM_X_MAX]])
-    assert segment == expected_segment
+    actual = get_visible_segment({'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'y': 0}})
+    expected = shapely.geometry.LineString([[0, 1], [0, ROOM_Z_MAX]])
+    actual_coords = list(actual.coords)
+    expected_coords = list(expected.coords)
+    assert actual_coords[0][0] == pytest.approx(expected_coords[0][0])
+    assert actual_coords[0][1] == pytest.approx(expected_coords[0][1])
+    assert actual_coords[1][0] == pytest.approx(expected_coords[1][0])
+    assert actual_coords[1][1] == pytest.approx(expected_coords[1][1])
+
+    actual = get_visible_segment({'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'y': 45}})
+    expected = shapely.geometry.LineString([[math.sqrt(2) / 2.0, math.sqrt(2) / 2.0], [ROOM_X_MAX, ROOM_Z_MAX]])
+    actual_coords = list(actual.coords)
+    expected_coords = list(expected.coords)
+    assert actual_coords[0][0] == pytest.approx(expected_coords[0][0])
+    assert actual_coords[0][1] == pytest.approx(expected_coords[0][1])
+    assert actual_coords[1][0] == pytest.approx(expected_coords[1][0])
+    assert actual_coords[1][1] == pytest.approx(expected_coords[1][1])
+
+    actual = get_visible_segment({'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'y': 90}})
+    expected = shapely.geometry.LineString([[1, 0], [ROOM_X_MAX, 0]])
+    actual_coords = list(actual.coords)
+    expected_coords = list(expected.coords)
+    assert actual_coords[0][0] == pytest.approx(expected_coords[0][0])
+    assert actual_coords[0][1] == pytest.approx(expected_coords[0][1])
+    assert actual_coords[1][0] == pytest.approx(expected_coords[1][0])
+    assert actual_coords[1][1] == pytest.approx(expected_coords[1][1])
+
+    actual = get_visible_segment({'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'y': 135}})
+    expected = shapely.geometry.LineString([[math.sqrt(2) / 2.0, -math.sqrt(2) / 2.0], [ROOM_X_MAX, -ROOM_Z_MAX]])
+    actual_coords = list(actual.coords)
+    expected_coords = list(expected.coords)
+    assert actual_coords[0][0] == pytest.approx(expected_coords[0][0])
+    assert actual_coords[0][1] == pytest.approx(expected_coords[0][1])
+    assert actual_coords[1][0] == pytest.approx(expected_coords[1][0])
+    assert actual_coords[1][1] == pytest.approx(expected_coords[1][1])
+
+    actual = get_visible_segment({'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'y': 180}})
+    expected = shapely.geometry.LineString([[0, -1], [0, -ROOM_Z_MAX]])
+    actual_coords = list(actual.coords)
+    expected_coords = list(expected.coords)
+    assert actual_coords[0][0] == pytest.approx(expected_coords[0][0])
+    assert actual_coords[0][1] == pytest.approx(expected_coords[0][1])
+    assert actual_coords[1][0] == pytest.approx(expected_coords[1][0])
+    assert actual_coords[1][1] == pytest.approx(expected_coords[1][1])
+
+    actual = get_visible_segment({'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'y': 225}})
+    expected = shapely.geometry.LineString([[-math.sqrt(2) / 2.0, -math.sqrt(2) / 2.0], [-ROOM_X_MAX, -ROOM_Z_MAX]])
+    actual_coords = list(actual.coords)
+    expected_coords = list(expected.coords)
+    assert actual_coords[0][0] == pytest.approx(expected_coords[0][0])
+    assert actual_coords[0][1] == pytest.approx(expected_coords[0][1])
+    assert actual_coords[1][0] == pytest.approx(expected_coords[1][0])
+    assert actual_coords[1][1] == pytest.approx(expected_coords[1][1])
+
+    actual = get_visible_segment({'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'y': 270}})
+    expected = shapely.geometry.LineString([[-1, 0], [-ROOM_X_MAX, 0]])
+    actual_coords = list(actual.coords)
+    expected_coords = list(expected.coords)
+    assert actual_coords[0][0] == pytest.approx(expected_coords[0][0])
+    assert actual_coords[0][1] == pytest.approx(expected_coords[0][1])
+    assert actual_coords[1][0] == pytest.approx(expected_coords[1][0])
+    assert actual_coords[1][1] == pytest.approx(expected_coords[1][1])
+
+    actual = get_visible_segment({'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'y': 315}})
+    expected = shapely.geometry.LineString([[-math.sqrt(2) / 2.0, math.sqrt(2) / 2.0], [-ROOM_X_MAX, ROOM_Z_MAX]])
+    actual_coords = list(actual.coords)
+    expected_coords = list(expected.coords)
+    assert actual_coords[0][0] == pytest.approx(expected_coords[0][0])
+    assert actual_coords[0][1] == pytest.approx(expected_coords[0][1])
+    assert actual_coords[1][0] == pytest.approx(expected_coords[1][0])
+    assert actual_coords[1][1] == pytest.approx(expected_coords[1][1])
+
+
+def test_get_visible_segment_with_position():
+    actual = get_visible_segment({'position': {'x': 1, 'y': 0, 'z': 1}, 'rotation': {'y': 45}})
+    expected = shapely.geometry.LineString([[math.sqrt(2) / 2.0 + 1, math.sqrt(2) / 2.0 + 1], [ROOM_X_MAX, ROOM_Z_MAX]])
+    actual_coords = list(actual.coords)
+    expected_coords = list(expected.coords)
+    assert actual_coords[0][0] == pytest.approx(expected_coords[0][0])
+    assert actual_coords[0][1] == pytest.approx(expected_coords[0][1])
+    assert actual_coords[1][0] == pytest.approx(expected_coords[1][0])
+    assert actual_coords[1][1] == pytest.approx(expected_coords[1][1])
+
+    actual = get_visible_segment({'position': {'x': -5, 'y': 0, 'z': -5}, 'rotation': {'y': 45}})
+    expected = shapely.geometry.LineString([[math.sqrt(2) / 2.0 - 5, math.sqrt(2) / 2.0 - 5], [ROOM_X_MAX, ROOM_Z_MAX]])
+    actual_coords = list(actual.coords)
+    expected_coords = list(expected.coords)
+    assert actual_coords[0][0] == pytest.approx(expected_coords[0][0])
+    assert actual_coords[0][1] == pytest.approx(expected_coords[0][1])
+    assert actual_coords[1][0] == pytest.approx(expected_coords[1][0])
+    assert actual_coords[1][1] == pytest.approx(expected_coords[1][1])
+
+    assert get_visible_segment({'position': {'x': 4.5, 'y': 0, 'z': 0}, 'rotation': {'y': 45}}) is None
+    assert get_visible_segment({'position': {'x': 0, 'y': 0, 'z': 4.5}, 'rotation': {'y': 45}}) is None
+    assert get_visible_segment({'position': {'x': 4.5, 'y': 0, 'z': 4.5}, 'rotation': {'y': 45}}) is None
+    assert get_visible_segment({'position': {'x': 5, 'y': 0, 'z': 0}, 'rotation': {'y': 45}}) is None
 
 
 def test_get_position_in_front_of_performer():
@@ -415,21 +502,25 @@ def test_get_position_in_front_of_performer():
         positive_z = get_location_in_front_of_performer(performer_start, target_definition)
         assert 0 <= positive_z['position']['z'] <= ROOM_Z_MAX
         assert -target_half_size_x <= positive_z['position']['x'] <= target_half_size_x
+        assert get_bounding_polygon(positive_z).intersection(shapely.geometry.LineString([[0, 1], [0, ROOM_Z_MAX]]))
 
         performer_start['rotation']['y'] = 90
         positive_x = get_location_in_front_of_performer(performer_start, target_definition)
         assert 0 <= positive_x['position']['x'] <= ROOM_X_MAX
         assert -target_half_size_z <= positive_x['position']['z'] <= target_half_size_z
+        assert get_bounding_polygon(positive_x).intersection(shapely.geometry.LineString([[1, 0], [ROOM_X_MAX, 0]]))
 
         performer_start['rotation']['y'] = 180
         negative_z = get_location_in_front_of_performer(performer_start, target_definition)
         assert ROOM_Z_MIN <= negative_z['position']['z'] <= 0
         assert -target_half_size_x <= negative_z['position']['x'] <= target_half_size_x
+        assert get_bounding_polygon(negative_z).intersection(shapely.geometry.LineString([[0, -1], [0, -ROOM_Z_MAX]]))
 
         performer_start['rotation']['y'] = 270
         negative_x = get_location_in_front_of_performer(performer_start, target_definition)
         assert ROOM_X_MIN <= negative_x['position']['x'] <= 0
         assert -target_half_size_z <= negative_x['position']['z'] <= target_half_size_z
+        assert get_bounding_polygon(negative_x).intersection(shapely.geometry.LineString([[-1, 0], [-ROOM_X_MAX, 0]]))
 
 
 def test_get_position_in_front_of_performer_next_to_room_wall():

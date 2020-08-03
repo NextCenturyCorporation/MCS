@@ -57,20 +57,25 @@ class ObstructorPairOption(Enum):
 
 
 class SceneOptions():
-    def __init__(self, target_containerize: BoolPairOption = BoolPairOption.NO_NO, \
+    def __init__(self, target_definition: Dict[str, Any] = None, \
+            target_containerize: BoolPairOption = BoolPairOption.NO_NO, \
             target_location: TargetLocationPairOption = TargetLocationPairOption.RANDOM, \
-            confusor: BoolPairOption = BoolPairOption.NO_NO, \
+            confusor: BoolPairOption = BoolPairOption.NO_NO, confusor_definition: Dict[str, Any] = None,
             confusor_containerize: BoolPairOption = BoolPairOption.NO_NO, \
             confusor_location: ConfusorLocationPairOption = ConfusorLocationPairOption.CLOSE_CLOSE, \
-            obstructor: ObstructorPairOption = ObstructorPairOption.NONE_NONE):
+            obstructor: ObstructorPairOption = ObstructorPairOption.NONE_NONE, \
+            obstructor_definition: Dict[str, Any] = None):
+        self.target_definition = target_definition
         self.target_containerize = target_containerize
         self.target_location = target_location
         # The confusor is always for the target object, but we may want to change that in the future.
         self.confusor = confusor
+        self.confusor_definition = confusor_definition
         self.confusor_containerize = confusor_containerize
         self.confusor_location = confusor_location
         # The obstructor is always for the target object, but we may want to change that in the future.
         self.obstructor = obstructor
+        self.obstructor_definition = obstructor_definition
 
 
 class DistractorNeverObstructsTargetObjectRule(DistractorObjectRule):
@@ -214,7 +219,8 @@ class InteractionPair():
 
         for _ in range(util.MAX_TRIES):
             # Choose a definition for the chosen target to use in both scenes.
-            target_definition = goal_1_target_rule_list[target_choice].choose_definition()
+            target_definition = self._options.target_definition if self._options.target_definition else \
+                    goal_1_target_rule_list[target_choice].choose_definition()
 
             # Create the target template now at a location, and later it'll move to its location for each scene.
             # Assumes that both scenes have the same target (will this always be true in the future?)
@@ -251,7 +257,8 @@ class InteractionPair():
         # Assumes that both scenes have the same confusor (will this always be true in the future?)
         if self._options.confusor != BoolPairOption.NO_NO:
             for _ in range(util.MAX_TRIES):
-                confusor_definition = self._goal_1.get_confusor_rule(target_template).choose_definition()
+                confusor_definition = self._options.confusor_definition if self._options.confusor_definition else \
+                        self._goal_1.get_confusor_rule(target_template).choose_definition()
                 # Create the confusor template now at a location, and later it'll move to its location for each scene.
                 confusor_template = util.instantiate_object(confusor_definition, geometry.ORIGIN_LOCATION)
 
@@ -318,7 +325,8 @@ class InteractionPair():
         # Assumes that both scenes have the same obstructor (will this always be true in the future?)
         if self._options.obstructor != ObstructorPairOption.NONE_NONE:
             obstruct_vision = (self._options.obstructor == ObstructorPairOption.NONE_VISION)
-            obstructor_definition = self._goal_1.get_obstructor_rule(larger_of_target_or_receptacle, \
+            obstructor_definition = self._options.obstructor_definition if self._options.obstructor_definition else \
+                    self._goal_1.get_obstructor_rule(larger_of_target_or_receptacle, \
                     obstruct_vision).choose_definition()
             # Create the obstructor template now at a location, and later it'll move to its location for each scene.
             obstructor_template = util.instantiate_object(obstructor_definition, geometry.ORIGIN_LOCATION)

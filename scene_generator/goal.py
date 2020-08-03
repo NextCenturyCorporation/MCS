@@ -106,6 +106,9 @@ class Goal(ABC):
         """Helper method that calls other Goal methods to set performerStart, objects, and goal. Returns the goal body
         object."""
         self._tag_to_objects = self.compute_objects(body['wallMaterial'], body['wallColors'])
+        for tag in self._tag_to_objects:
+            for object_instance in self._tag_to_objects[tag]:
+                object_instance['role'] = tag
 
         body['performerStart'] = self._performer_start
         body['objects'] = [element for value in self._tag_to_objects.values() for element in value]
