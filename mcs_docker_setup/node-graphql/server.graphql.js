@@ -1,5 +1,5 @@
 
-const {ElasticSearchClient, ElasticSaveClient} = require('./server.elasticsearch');
+const {ElasticSearchClient, ElasticSaveClient, ElasticUpdateClient} = require('./server.elasticsearch');
 const elasticSearchSchema = require('./server.es.schema');
 const {makeExecutableSchema} = require('graphql-tools');
 const _ = require('lodash');
@@ -39,6 +39,15 @@ const typeDefs = `
     userName: String
   }
 
+  type NewComment {
+    id: String
+    test_type: String
+    scene_num: String
+    createdDate: String
+    text: String
+    userName: String
+  }
+
   type History {
     eval: String
     performer: String
@@ -48,6 +57,8 @@ const typeDefs = `
     scene_part_num: String
     score: JSON
     steps: JSON
+    flags: JSON
+    step_counter: Float
   }
 
   type Scene {
@@ -81,6 +92,12 @@ const typeDefs = `
     submission: String
   }
 
+  type updateObject {
+    total: Float,
+    updated: Float,
+    failures: JSON
+  }
+
   type Query {
     msc_eval: [Source]
     getEvalHistory(testType: String, sceneNum: String) : [History]
@@ -91,6 +108,7 @@ const typeDefs = `
     getEvalByPerformer(performer: String) : [Source]
     getEvalAnalysis(test: String, block: String, submission: String, performer: String) : [Source]
     getComments(test: String, block: String, submission: String, performer: String) : [Comment]
+    getCommentsByTestAndScene(testType: String, sceneNum: String) : [NewComment]
     getFieldAggregation(fieldName: String) : [Bucket]
     getSubmissionFieldAggregation: [SubmissionBucket]
     getHistorySceneFieldAggregation(fieldName: String) : [Bucket]
@@ -98,6 +116,8 @@ const typeDefs = `
 
   type Mutation {
     saveComment(test: String, block: String, submission: String, performer: String, createdDate: String, text: String, userName: String) : Comment
+    saveCommentByTestAndScene(testType: String, sceneNum: String, createdDate: String, text: String, userName: String) : NewComment
+    updateSceneHistoryFlags(testType: String, sceneNum: String, flagRemove: Boolean, flagInterest: Boolean) : updateObject
   }
 `;
 
@@ -274,6 +294,14 @@ const resolvers = {
           resolve(_source);
         });
     }),
+    getCommentsByTestAndScene: (obj, args, context, infow) => new Promise((resolve, reject) => {
+      ElasticSearchClient('comments', getHistorySceneSchema(args["testType"], args["sceneNum"]))
+        .then(r => {
+          let _source = r.body.hits.hits;
+              _source.map((item, i) => _source[i] = item._source);
+          resolve(_source);
+        });
+    }),
     getFieldAggregation: (obj, args, context, infow) => new Promise((resolve, reject) => {
       ElasticSearchClient('msc_eval', getFieldAggregationSchema(args["fieldName"]))
         .then(r => {
@@ -300,6 +328,31 @@ const resolvers = {
         text: args["text"],
         createdDate: args["createdDate"],
         userName: args["userName"]
+      });
+    },
+    saveCommentByTestAndScene: async (obj, args, context, infow) => {
+      return await ElasticSaveClient('comments', 'comment', {
+        id: generateUUID(),
+        test_type: args["testType"],
+        scene_num: args["sceneNum"],
+        text: args["text"],
+        createdDate: args["createdDate"],
+        userName: args["userName"]
+      });
+    },
+    updateSceneHistoryFlags: async (obj, args, context, infow) => {
+      return await ElasticUpdateClient('mcs_history', 'history', {
+        'script': {
+          source: 'ctx._source["flags"]["remove"] = ' + args["flagRemove"] + '; ctx._source["flags"]["interest"] = ' + args["flagInterest"]
+        },
+        "query": {
+          "bool": {
+            "must": [
+              {"match": {"test_type": args["testType"]}},
+              {"match": {"scene_num":  args["sceneNum"]}}
+            ]
+          }
+        }
       });
     }
   }

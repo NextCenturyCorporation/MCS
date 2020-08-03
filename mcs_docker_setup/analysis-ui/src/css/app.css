@@ -315,6 +315,21 @@ ol, ul {
     width: 100%;
 }
 
+.object-nav .nav-item {
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
 .object-nav .nav-tabs, .object-nav .li, .object-nav button {
     color: black !important;
+}
+
+.flags-holder {
+    position: absolute;
+}
+
+.checkbox-holder {
+    display: block;
+    margin-left: 20px;
+    margin-top: 10px;
 }

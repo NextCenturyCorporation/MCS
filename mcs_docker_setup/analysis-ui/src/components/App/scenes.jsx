@@ -1,5 +1,5 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { Query, useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import _ from "lodash";
 import $ from 'jquery';
@@ -8,6 +8,8 @@ const historyQueryName = "getEvalHistory";
 const sceneQueryName = "getEvalScene";
 const moviesBucket = "https://evaluation-images.s3.amazonaws.com/eval-2-inphys-videos/"
 const movieExtension = ".mp4"
+
+let currentState = {};
 
 const mcs_history = gql`
     query getEvalHistory($testType: String!, $sceneNum: String!){
@@ -20,6 +22,8 @@ const mcs_history = gql`
             scene_part_num
             score
             steps
+            flags
+            step_counter
         }
   }`;
 
@@ -42,6 +46,59 @@ const mcs_scene= gql`
         }
   }`;
 
+const flagMutation = gql`
+    mutation updateSceneHistoryFlags($testType: String!, $sceneNum: String!, $flagRemove: Boolean!, $flagInterest: Boolean!) {
+        updateSceneHistoryFlags(testType: $testType, sceneNum: $sceneNum, flagRemove: $flagRemove, flagInterest: $flagInterest) {
+            total
+        }
+    }
+`;
+
+const FlagCheckboxMutation = ({state}) => {
+    const [updateFlags] = useMutation(flagMutation);
+
+    const updateRemoveFlag = (evt) => {
+        state.flagRemove = state.flagRemove  ? false : true;
+        mutateFlagUpdate();
+    }
+
+    const updateInterestFlag = (evt) => {
+        state.flagInterest = state.flagInterest ? false : true;
+        mutateFlagUpdate();
+    }
+
+    const mutateFlagUpdate = () => {
+        updateFlags({
+                variables: {
+                    testType: state.testType,
+                    sceneNum: state.sceneNum,
+                    flagRemove: state.flagRemove,
+                    flagInterest: state.flagInterest  
+            }, refetchQueries: { 
+                query: mcs_history, 
+                variables:{"testType": currentState.testType, "sceneNum": currentState.sceneNum}
+            }
+        });
+    }
+
+    return (
+        <div className="checkbox-holder">
+              <div className="form-check">
+                  <label className="form-check-label">
+                      <input type="checkbox" id="flagCheckRemove" className="form-check-input" name="Flag for removal" checked={state.flagRemove} onChange={updateRemoveFlag}/>
+                      Flag for removal
+                  </label>
+              </div>
+              <div className="form-check">
+                  <label className="form-check-label">
+                      <input type="checkbox" id="flagCheckInterest" className="form-check-input" mame="Flag for interest" checked={state.flagInterest} onChange={updateInterestFlag}/>
+                      Flag for interest
+                  </label>
+              </div>
+        </div>
+    )
+}
+
 class Scenes extends React.Component {
 
     constructor(props) {
@@ -50,13 +107,21 @@ class Scenes extends React.Component {
             currentPerformerKey: 0,
             currentPerformer: "",
             currentSceneNum: props.value.scene_part_num !== undefined ? parseInt(props.value.scene_part_num) - 1 : 0,
-            currentObjectNum: 0
+            currentObjectNum: 0,
+            flagRemove: false,
+            flagInterest: false,
+            testType: props.value.test_type,
+            sceneNum: props.value.scene_num
         };
     }
 
-    setInitialPerformer = (performer) => {
+    setInitialPerformer = (performer, firstEval) => {
         if(this.state.currentPerformer === "") {
-            this.setState({currentPerformer: performer});
+            this.setState({
+                currentPerformer: performer,
+                flagRemove: firstEval["flags"]["remove"],
+                flagInterest: firstEval["flags"]["interest"]
+            });
         }
     }
 
@@ -152,7 +217,7 @@ class Scenes extends React.Component {
             <Query query={mcs_history} variables={
                 {"testType": this.props.value.test_type, 
                 "sceneNum": this.props.value.scene_num
-                }}>
+                }} fetchPolicy='network-only'>
             {
                 ({ loading, error, data }) => {
                     if (loading) return <div>Loading ...</div> 
@@ -162,7 +227,7 @@ class Scenes extends React.Component {
                     let scenesByPerformer = _.sortBy(evals, "scene_part_num");
                     scenesByPerformer = _.groupBy(scenesByPerformer, "performer");
                     let performerList = Object.keys(scenesByPerformer);
-                    this.setInitialPerformer(performerList[0]);
+                    this.setInitialPerformer(performerList[0], evals[0]);
 
                     if(performerList.length > 0) {
                         return (
@@ -181,6 +246,9 @@ class Scenes extends React.Component {
                                     if(scenesInOrder.length > 0) {
                                         return (
                                             <div>
+                                                <div className="flags-holder">
+                                                    <FlagCheckboxMutation state={this.state}/>
+                                                </div>
                                                 <div className="movie-holder">
                                                     <div className="movie-left-right">
                                                         <div className="movie-text"><b>Scene 1:</b>&nbsp;&nbsp;{scenesInOrder[0].answer.choice}</div>

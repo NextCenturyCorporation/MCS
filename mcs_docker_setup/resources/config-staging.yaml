@@ -542,7 +542,55 @@ layouts:
       yPercentage: 0.3
       aggregationField: ""
       yField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
     col: 1
+    row: 1
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Category"
+      type: "bar-v"
+      xField: "category"
+      tableKey: "es1.mcs_history.history"
+      dualView: ""
+      axisLabelX: "Category"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: true
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
+    col: 5
     row: 1
     sizex: 4
     sizey: 4
@@ -552,7 +600,7 @@ layouts:
       contributionKeys: []
       title: "Test Types"
       type: "bar-v"
-      xField: "test_type"
+      xField: "category_type"
       tableKey: "es1.mcs_history.history"
       dualView: ""
       axisLabelX: "Test Types"
@@ -582,46 +630,10 @@ layouts:
       yPercentage: 0.3
       aggregationField: ""
       yField: ""
-    col: 5
-    row: 1
-    sizex: 4
-    sizey: 4
-    type: "aggregation"
-
-  - bindings:
-      contributionKeys: []
-      title: "Number of Objects"
-      type: "bar-v"
-      xField: "scene.num_objects"
-      tableKey: "es1.mcs_history.history"
-      dualView: ""
-      axisLabelX: "Number of Objects"
-      axisLabelY: "Count"
-      groupField: "performer"
-      limit: 10000
-      customEventsToPublish: []
-      customEventsToReceive: []
-      hideUnfiltered: false
-      aggregation: "count"
-      countByAggregation: false
-      timeFill: false
-      granularity: "year"
-      notFilterable: false
-      requireAll: false
-      ignoreSelf: true
-      hideGridLines: false
-      hideGridTicks: false
-      lineCurveTension: 0.3
-      lineFillArea: false
-      logScaleX: false
-      logScaleY: false
-      savePrevious: false
-      showHeat: false
-      showLegend: false
-      sortByAggregation: false
-      yPercentage: 0.3
-      aggregationField: ""
-      yField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
     col: 9
     row: 1
     sizex: 4
@@ -630,12 +642,12 @@ layouts:
 
   - bindings:
       contributionKeys: []
-      title: "Number of Occluders"
+      title: "Scene Number (Interactive 1=A, 2=B)"
       type: "bar-v"
-      xField: "scene.num_occluders"
+      xField: "scene_part_num"
       tableKey: "es1.mcs_history.history"
       dualView: ""
-      axisLabelX: "Number of Occluders"
+      axisLabelX: "Scene Number"
       axisLabelY: "Count"
       groupField: "performer"
       limit: 10000
@@ -643,7 +655,7 @@ layouts:
       customEventsToReceive: []
       hideUnfiltered: false
       aggregation: "count"
-      countByAggregation: false
+      countByAggregation: true
       timeFill: false
       granularity: "year"
       notFilterable: false
@@ -662,8 +674,188 @@ layouts:
       yPercentage: 0.3
       aggregationField: ""
       yField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
+    col: 1
+    row: 5
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Number of Steps"
+      type: "bar-v"
+      xField: "step_counter"
+      tableKey: "es1.mcs_history.history"
+      dualView: ""
+      axisLabelX: "Number of Steps"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: true
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
+    col: 5
+    row: 5
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Pairs"
+      type: "bar-v"
+      xField: "category_pair"
+      tableKey: "es1.mcs_history.history"
+      dualView: ""
+      axisLabelX: "Pairs"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: true
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
     col: 9
     row: 5
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Score"
+      type: "bar-v"
+      xField: "score.score_description"
+      tableKey: "es1.mcs_history.history"
+      dualView: ""
+      axisLabelX: "Score"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: false
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
+    col: 1
+    row: 9
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+  
+  - bindings:
+      contributionKeys: []
+      title: "Performer Answer"
+      type: "bar-v"
+      xField: "score.classification"
+      tableKey: "es1.mcs_history.history"
+      dualView: ""
+      axisLabelX: "Performer Answer"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: false
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
+    col: 1
+    row: 13
     sizex: 4
     sizey: 4
     type: "aggregation"
@@ -706,60 +898,24 @@ layouts:
       sortByAggregation: false
       yPercentage: 0.3
       aggregationField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
     col: 5
-    row: 5
+    row: 9
     sizex: 4
     sizey: 8
     type: "aggregation"
 
-  # - bindings:
-  #     contributionKeys: []
-  #     title: "Object Shape"
-  #     type: "bar-v"
-  #     xField: "scene.objects.shape"
-  #     tableKey: "es1.mcs_history.history"
-  #     dualView: ""
-  #     axisLabelX: "Object Shape"
-  #     axisLabelY: "Count"
-  #     groupField: "performer"
-  #     limit: 10000
-  #     customEventsToPublish: []
-  #     customEventsToReceive: []
-  #     hideUnfiltered: false
-  #     aggregation: "count"
-  #     countByAggregation: false
-  #     timeFill: false
-  #     granularity: "year"
-  #     notFilterable: false
-  #     requireAll: false
-  #     ignoreSelf: true
-  #     hideGridLines: false
-  #     hideGridTicks: false
-  #     lineCurveTension: 0.3
-  #     lineFillArea: false
-  #     logScaleX: false
-  #     logScaleY: false
-  #     savePrevious: false
-  #     showHeat: false
-  #     showLegend: false
-  #     sortByAggregation: false
-  #     yPercentage: 0.3
-  #     aggregationField: ""
-  #     yField: ""
-  #   col: 5
-  #   row: 21
-  #   sizex: 8
-  #   sizey: 4
-  #   type: "aggregation"
-  
   - bindings:
       contributionKeys: []
-      title: "Score"
+      title: "Number of Objects"
       type: "bar-v"
-      xField: "score.score_description"
+      xField: "scene.num_objects"
       tableKey: "es1.mcs_history.history"
       dualView: ""
-      axisLabelX: "Score"
+      axisLabelX: "Number of Objects"
       axisLabelY: "Count"
       groupField: "performer"
       limit: 10000
@@ -786,7 +942,11 @@ layouts:
       yPercentage: 0.3
       aggregationField: ""
       yField: ""
-    col: 1
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
+    col: 9
     row: 9
     sizex: 4
     sizey: 4
@@ -794,112 +954,12 @@ layouts:
 
   - bindings:
       contributionKeys: []
-      title: "ROC Curve (with Adjusted Confidence)"
-      type: "line-xy"
-      tableKey: "es1.mcs_history.history"
-      xField: "score.adjusted_confidence"
-      yField: "score.ground_truth"
-      axisLabelX: "FPR"
-      axisLabelY: "TPR"
-      groupField: "performer"
-      rocCurve: true
-      countByAggregation: true
-      ignoreSelf: false
-      limit: 10000
-    col: 5
-    row: 17
-    sizex: 4
-    sizey: 4
-    type: "aggregation"
-
-  - bindings:
-      contributionKeys: []
-      title: "Scene Type List"
-      type: "bar-h"
-      xField: "scene.type_list"
-      tableKey: "es1.mcs_history.history"
-      dualView: ""
-      axisLabelX: "Scene Type List"
-      axisLabelY: "Count"
-      groupField: "performer"
-      limit: 10000
-      customEventsToPublish: []
-      customEventsToReceive: []
-      hideUnfiltered: false
-      aggregation: "count"
-      countByAggregation: false
-      timeFill: false
-      granularity: "year"
-      notFilterable: false
-      requireAll: false
-      ignoreSelf: true
-      hideGridLines: false
-      hideGridTicks: false
-      lineCurveTension: 0.3
-      lineFillArea: false
-      logScaleX: false
-      logScaleY: false
-      savePrevious: false
-      showHeat: false
-      showLegend: false
-      sortByAggregation: false
-      yPercentage: 0.3
-      aggregationField: ""
-      yField: ""
-    col: 5
-    row: 21
-    sizex: 4
-    sizey: 12
-    type: "aggregation"
-    
-  - bindings:
-      contributionKeys: []
-      title: "Object Info for All Objects in Scene"
-      type: "bar-h"
-      xField: "scene.objects.info"
-      tableKey: "es1.mcs_history.history"
-      dualView: ""
-      axisLabelX: "Object Info"
-      axisLabelY: "Count"
-      groupField: "performer"
-      limit: 10000
-      customEventsToPublish: []
-      customEventsToReceive: []
-      hideUnfiltered: false
-      aggregation: "count"
-      countByAggregation: false
-      timeFill: false
-      granularity: "year"
-      notFilterable: false
-      requireAll: false
-      ignoreSelf: true
-      hideGridLines: false
-      hideGridTicks: false
-      lineCurveTension: 0.3
-      lineFillArea: false
-      logScaleX: false
-      logScaleY: false
-      savePrevious: false
-      showHeat: false
-      showLegend: false
-      sortByAggregation: false
-      yPercentage: 0.3
-      aggregationField: ""
-      yField: ""
-    col: 9
-    row: 21
-    sizex: 4
-    sizey: 12
-    type: "aggregation"
-
-  - bindings:
-      contributionKeys: []
-      title: "Performer Answer"
+      title: "Number of Occluders"
       type: "bar-v"
-      xField: "score.classification"
+      xField: "scene.num_occluders"
       tableKey: "es1.mcs_history.history"
       dualView: ""
-      axisLabelX: "Performer Answer"
+      axisLabelX: "Number of Occluders"
       axisLabelY: "Count"
       groupField: "performer"
       limit: 10000
@@ -926,7 +986,11 @@ layouts:
       yPercentage: 0.3
       aggregationField: ""
       yField: ""
-    col: 1
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
+    col: 9
     row: 13
     sizex: 4
     sizey: 4
@@ -966,7 +1030,35 @@ layouts:
       yPercentage: 0.3
       aggregationField: ""
       yField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
     col: 1
+    row: 17
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "ROC Curve (with Adjusted Confidence)"
+      type: "line-xy"
+      tableKey: "es1.mcs_history.history"
+      xField: "score.adjusted_confidence"
+      yField: "score.ground_truth"
+      axisLabelX: "FPR"
+      axisLabelY: "TPR"
+      groupField: "performer"
+      rocCurve: true
+      countByAggregation: true
+      ignoreSelf: false
+      limit: 10000
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
+    col: 5
     row: 17
     sizex: 4
     sizey: 4
@@ -1006,10 +1098,102 @@ layouts:
       yPercentage: 0.3
       aggregationField: ""
       yField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
     col: 9
-    row: 13
+    row: 17
     sizex: 4
     sizey: 4
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Object Descriptors by Object"
+      type: "bar-h"
+      xField: "scene.objects.descriptors"
+      tableKey: "es1.mcs_history.history"
+      dualView: ""
+      axisLabelX: "Descriptors"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: false
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
+    col: 1
+    row: 21
+    sizex: 4
+    sizey: 12
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Scene Type List"
+      type: "bar-h"
+      xField: "scene.type_list"
+      tableKey: "es1.mcs_history.history"
+      dualView: ""
+      axisLabelX: "Scene Type List"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: false
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
+    col: 5
+    row: 21
+    sizex: 4
+    sizey: 12
     type: "aggregation"
 
   - bindings:
@@ -1046,8 +1230,176 @@ layouts:
       yPercentage: 0.3
       aggregationField: "score.mse_loss"
       yField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
     col: 9
-    row: 17
+    row: 21
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+  
+  - bindings:
+      contributionKeys: []
+      title: "Object Info for All Objects in Scene"
+      type: "bar-h"
+      xField: "scene.objects.info"
+      tableKey: "es1.mcs_history.history"
+      dualView: ""
+      axisLabelX: "Object Info"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: false
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
+    col: 9
+    row: 25
+    sizex: 4
+    sizey: 8
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Number of Interior walls"
+      type: "bar-v"
+      xField: "scene.num_interior_walls"
+      tableKey: "es1.mcs_history.history"
+      dualView: ""
+      axisLabelX: "Number Interior Walls"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: false
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+    col: 1
+    row: 33
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Number Confusors"
+      type: "bar-v"
+      xField: "scene.num_confusors"
+      tableKey: "es1.mcs_history.history"
+      dualView: ""
+      axisLabelX: "Number Confusors"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: false
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+    col: 5
+    row: 33
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
+
+  - bindings:
+      contributionKeys: []
+      title: "Number of Obstructors"
+      type: "bar-v"
+      xField: "scene.num_obstructors"
+      tableKey: "es1.mcs_history.history"
+      dualView: ""
+      axisLabelX: "Number Obstructors"
+      axisLabelY: "Count"
+      groupField: "performer"
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: false
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      aggregationField: ""
+      yField: ""
+    col: 9
+    row: 33
     sizex: 4
     sizey: 4
     type: "aggregation"
@@ -1086,8 +1438,12 @@ layouts:
       yPercentage: 0.3
       aggregationField: ""
       yField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
     col: 1
-    row: 33
+    row: 37
     sizex: 4
     sizey: 4
     type: "aggregation"
@@ -1126,8 +1482,12 @@ layouts:
       yPercentage: 0.3
       aggregationField: ""
       yField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
     col: 5
-    row: 33
+    row: 37
     sizex: 4
     sizey: 4
     type: "aggregation"
@@ -1166,28 +1526,69 @@ layouts:
       yPercentage: 0.3
       aggregationField: ""
       yField: ""
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
     col: 9
-    row: 33
+    row: 37
     sizex: 4
     sizey: 4
     type: "aggregation"
-  
+
   - bindings:
       contributionKeys: []
-      title: "Object Descriptors by Object"
-      type: "bar-h"
-      xField: "scene.objects.descriptors"
+      title: "User Comments"
+      tableKey: "es1.comments.comment"
+      idField: "_id"
+      titleContentField: "text"
+      contentFields:
+          - "test_type"
+          - "scene_num"
+          - "text"
+      contentLabels:
+          - "Test Type"
+          - "Test Number"
+          - "Comment"
+      dateField: "createdDate"
+      sortDescending: true
+      filterField: ""
+      limit: 100
+      hideUnfiltered: false
+      applyPreviousFilter: false
+      multiOpen: true
+      multiLineTitle: false
+      startOpen: false
+      ignoreSelf: false
+      delimiter: ","
+      linkPrefix: ""
+      toggleFiltered: false
+      typeMap: {}
+      linkField: ""
+      typeField: ""
+    col: 1
+    row: 41
+    sizex: 4
+    sizey: 4
+    type: "newsFeed"
+
+  - bindings:
+      contributionKeys: []
+      title: "Flagged for Removal"
+      type: "list"
+      listWrap: true
+      xField: "name"
       tableKey: "es1.mcs_history.history"
       dualView: ""
-      axisLabelX: "Descriptors"
+      axisLabelX: "Test"
       axisLabelY: "Count"
-      groupField: "performer"
+      groupField: ""
       limit: 10000
       customEventsToPublish: []
       customEventsToReceive: []
       hideUnfiltered: false
       aggregation: "count"
-      countByAggregation: false
+      countByAggregation: true
       timeFill: false
       granularity: "year"
       notFilterable: false
@@ -1204,133 +1605,58 @@ layouts:
       showLegend: false
       sortByAggregation: false
       yPercentage: 0.3
-      aggregationField: ""
-      yField: ""
-    col: 1
-    row: 21
+      filter:
+        lhs: "flags.remove"
+        operator: "="
+        rhs: true
+    col: 5
+    row: 41
     sizex: 4
-    sizey: 12
+    sizey: 4
     type: "aggregation"
 
-  # - bindings:
-  #     contributionKeys: []
-  #     title: "Number of Interior walls"
-  #     type: "bar-v"
-  #     xField: "scene.num_interior_walls"
-  #     tableKey: "es1.mcs_history.history"
-  #     dualView: ""
-  #     axisLabelX: "Novel Color"
-  #     axisLabelY: "Count"
-  #     groupField: "performer"
-  #     limit: 10000
-  #     customEventsToPublish: []
-  #     customEventsToReceive: []
-  #     hideUnfiltered: false
-  #     aggregation: "count"
-  #     countByAggregation: false
-  #     timeFill: false
-  #     granularity: "year"
-  #     notFilterable: false
-  #     requireAll: false
-  #     ignoreSelf: true
-  #     hideGridLines: false
-  #     hideGridTicks: false
-  #     lineCurveTension: 0.3
-  #     lineFillArea: false
-  #     logScaleX: false
-  #     logScaleY: false
-  #     savePrevious: false
-  #     showHeat: false
-  #     showLegend: false
-  #     sortByAggregation: false
-  #     yPercentage: 0.3
-  #     aggregationField: ""
-  #     yField: ""
-  #   col: 1
-  #   row: 33
-  #   sizex: 4
-  #   sizey: 4
-  #   type: "aggregation"
-
-  # - bindings:
-  #     contributionKeys: []
-  #     title: "Number Confusors"
-  #     type: "bar-v"
-  #     xField: "scene.num_confusors"
-  #     tableKey: "es1.mcs_history.history"
-  #     dualView: ""
-  #     axisLabelX: "Novel Shape"
-  #     axisLabelY: "Count"
-  #     groupField: "performer"
-  #     limit: 10000
-  #     customEventsToPublish: []
-  #     customEventsToReceive: []
-  #     hideUnfiltered: false
-  #     aggregation: "count"
-  #     countByAggregation: false
-  #     timeFill: false
-  #     granularity: "year"
-  #     notFilterable: false
-  #     requireAll: false
-  #     ignoreSelf: true
-  #     hideGridLines: false
-  #     hideGridTicks: false
-  #     lineCurveTension: 0.3
-  #     lineFillArea: false
-  #     logScaleX: false
-  #     logScaleY: false
-  #     savePrevious: false
-  #     showHeat: false
-  #     showLegend: false
-  #     sortByAggregation: false
-  #     yPercentage: 0.3
-  #     aggregationField: ""
-  #     yField: ""
-  #   col: 5
-  #   row: 33
-  #   sizex: 4
-  #   sizey: 4
-  #   type: "aggregation"
-
-  # - bindings:
-  #     contributionKeys: []
-  #     title: "Number of Obstructors"
-  #     type: "bar-v"
-  #     xField: "scene.num_obstructors"
-  #     tableKey: "es1.mcs_history.history"
-  #     dualView: ""
-  #     axisLabelX: "Novel Combination"
-  #     axisLabelY: "Count"
-  #     groupField: "performer"
-  #     limit: 10000
-  #     customEventsToPublish: []
-  #     customEventsToReceive: []
-  #     hideUnfiltered: false
-  #     aggregation: "count"
-  #     countByAggregation: false
-  #     timeFill: false
-  #     granularity: "year"
-  #     notFilterable: false
-  #     requireAll: false
-  #     ignoreSelf: true
-  #     hideGridLines: false
-  #     hideGridTicks: false
-  #     lineCurveTension: 0.3
-  #     lineFillArea: false
-  #     logScaleX: false
-  #     logScaleY: false
-  #     savePrevious: false
-  #     showHeat: false
-  #     showLegend: false
-  #     sortByAggregation: false
-  #     yPercentage: 0.3
-  #     aggregationField: ""
-  #     yField: ""
-  #   col: 9
-  #   row: 33
-  #   sizex: 4
-  #   sizey: 4
-  #   type: "aggregation"
+  - bindings:
+      contributionKeys: []
+      title: "Flagged for Interest"
+      type: "list"
+      listWrap: true
+      xField: "name"
+      tableKey: "es1.mcs_history.history"
+      dualView: ""
+      axisLabelX: "Test"
+      axisLabelY: "Count"
+      groupField: ""
+      limit: 10000
+      customEventsToPublish: []
+      customEventsToReceive: []
+      hideUnfiltered: false
+      aggregation: "count"
+      countByAggregation: true
+      timeFill: false
+      granularity: "year"
+      notFilterable: false
+      requireAll: false
+      ignoreSelf: true
+      hideGridLines: false
+      hideGridTicks: false
+      lineCurveTension: 0.3
+      lineFillArea: false
+      logScaleX: false
+      logScaleY: false
+      savePrevious: false
+      showHeat: false
+      showLegend: false
+      sortByAggregation: false
+      yPercentage: 0.3
+      filter:
+        lhs: "flags.interest"
+        operator: "="
+        rhs: true
+    col: 9
+    row: 41
+    sizex: 4
+    sizey: 4
+    type: "aggregation"
 
   - bindings:
       contributionKeys: []
@@ -1365,53 +1691,15 @@ layouts:
       - "url_string"
       sortField: "test"
       sortDescending: false
+      filter:
+        lhs: flags.remove
+        operator: =
+        rhs: false
     col: 1
-    row: 37
+    row: 45
     sizex: 12
-    sizey: 6
+    sizey: 8
     type: "dataTable"
-
-
-#  - bindings:
-#      contributionKeys: []
-#      title: "User Comments"
-#      tableKey: "es1.comments.comment"
-#      idField: "_id"
-#      titleContentField: "text"
-#      contentFields:
-#          - "performer"
-#          - "submission"
-#          - "block"
-#          - "test"
-#          - "text"
-#      contentLabels:
-#          - "Performer"
-#          - "Submission"
-#          - "Block"
-#          - "Test"
-#          - "Comment"
-#      dateField: "createdDate"
-#      sortField: "createdDate"
-#      sortDescending: true
-#      filterField: ""
-#      limit: 100
-#      hideUnfiltered: false
-#      applyPreviousFilter: false
-#      multiOpen: true
-#      multiLineTitle: false
-#      startOpen: false
-#      ignoreSelf: false
-#      delimiter: ","
-#      linkPrefix: ""
-#      toggleFiltered: false
-#      typeMap: {}
-#      linkField: ""
-#      typeField: ""
-#    col: 9
-#    row: 13
-#    sizex: 4
-#    sizey: 4
-#    type: "newsFeed"
 
 
 dashboards:
@@ -1425,14 +1713,6 @@ dashboards:
           tables:
             table_key_1: "es1.msc_eval.eval1"
           relations:
-            - - es1.msc_eval.eval1.performer
-              - es1.comments.comment.performer
-            - - es1.msc_eval.eval1.submission
-              - es1.comments.comment.submission
-            - - es1.msc_eval.eval1.block
-              - es1.comments.comment.block
-            - - es1.msc_eval.eval1.test
-              - es1.comments.comment.test
           options:
             hideFilterValues: true
             connectOnLoad: true
@@ -1601,11 +1881,30 @@ datastores:
                 - columnName: name
                   prettyName: Scene Name
                   type: keyword
+                - columnName: scene_part_num
+                  prettyName: Scene Number
+                  type: keyword
                 - columnName: test_type
                   prettyName: Test Type
                   type: keyword
-                - columnName: steps
-                  hide: true
+                - columnName: category
+                  prettyName: Category
+                  type: keyword
+                - columnName: category_type
+                  prettyName: Category Type
+                  type: keyword
+                - columnName: category_pair
+                  prettyName: Category Pair
+                  type: keyword
+                - columnName: flags.remove
+                  prettyName: Flag Removal
+                  type: boolean
+                - columnName: flags.interest
+                  prettyName: Flag Interest
+                  type: boolean
+                - columnName: step_counter
+                  prettyName: Number of Steps
+                  type: decimal
                 - columnName: score.classification
                   prettyName: Classification
                   type: keyword
@@ -1910,11 +2209,23 @@ datastores:
                   type: text
                 - columnName: objects.materialCategory
                   type: keyword
-      # comments:
-      #   prettyName: "MCS Evaluation 1 Comments"
-      #   tables:
-      #     comment:
-      #       prettyName: "Data"
-      #       mappings: {}
-      #       labelOptions: {}
-      #       fields:
+      comments:
+        prettyName: "MCS Evaluation Comments"
+        tables:
+          comment:
+            prettyName: "Data"
+            mappings: {}
+            labelOptions: {}
+            fields:
+                - columnName: test_type
+                  prettyName: Test Type
+                  type: keyword
+                - columnName: scene_num
+                  prettyName: Test Number
+                  type: keyword
+                - columnName: text
+                  prettyName: Text
+                  type: keyword
+                - columnName: createdDate
+                  prettyName: Created Date
+                  type: keyword

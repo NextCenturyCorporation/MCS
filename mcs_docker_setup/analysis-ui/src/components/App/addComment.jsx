@@ -7,10 +7,17 @@ let commentState = {};
 let setNeedToRefetch = null;
 
 const AddComment = ({ mutate }) => {
-    const submitComment = (evt) => {
-        evt.persist();
-        mutate({
-            variables: { 
+     const getMutationVariables = function() {
+        if(commentState.test_type !== undefined && commentState.test_type !== null) {
+            return {
+                testType: commentState.test_type,
+                sceneNum: commentState.scene_num,
+                createdDate: (new Date()).toISOString(),
+                text: document.getElementById("commentTextArea").value,
+                userName: document.getElementById("commentUserName").value
+            };
+        } else {
+            return {
                 test: commentState.test,
                 block: commentState.block,
                 submission: commentState.subm,
@@ -18,7 +25,14 @@ const AddComment = ({ mutate }) => {
                 createdDate: (new Date()).toISOString(),
                 text: document.getElementById("commentTextArea").value,
                 userName: document.getElementById("commentUserName").value
-            }
+            };
+        }
+    }
+
+    const submitComment = (evt) => {
+        evt.persist();
+        mutate({
+            variables: getMutationVariables()
         }).then( res => {
             document.getElementById("commentTextArea").value = '';
             document.getElementById("commentUserName").value = '';
@@ -50,7 +64,28 @@ const addCommentMutation = gql`
     }
 `;
 
+const addCommentTestTypeMutation = gql`
+    mutation saveCommentByTestAndScene($testType: String!, $sceneNum: String!, $createdDate: String!, $text: String!, $userName: String!) {
+        saveCommentByTestAndScene(testType: $testType, sceneNum: $sceneNum, createdDate: $createdDate, text: $text, userName: $userName) {
+            text
+        }
+    }
+`;
+
 const AddCommentWithMutation = graphql(addCommentMutation)(AddComment);
+const AddCommentTestTypeWithMutation = graphql(addCommentTestTypeMutation)(AddComment);
+
+const AddCommentHolder = () => {
+    if(commentState.test_type !== undefined && commentState.test_type !== null) {
+        return (
+            <AddCommentTestTypeWithMutation/>
+        )
+    } else {
+        return (
+            <AddCommentWithMutation/>
+        )
+    }
+}
 
 class AddCommentBlock extends React.Component {
     render() {
@@ -58,7 +93,7 @@ class AddCommentBlock extends React.Component {
         setNeedToRefetch = this.props.setNeedToRefetch;
 
         return(
-            <AddCommentWithMutation/>
+            <AddCommentHolder/>
         )
     }
 }

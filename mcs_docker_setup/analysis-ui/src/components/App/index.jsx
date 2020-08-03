@@ -31,12 +31,9 @@ export class App extends React.Component {
                     <EvalHeader state={this.state}/>
 
                     <div className="layout-board">
-                        { (this.state.perf !== undefined && this.state.perf !== null) && 
-                            <div>
-                                <Results value={this.state}/>
-                                { this.state.showComments &&  <CommentsComponent state={this.state}/> }
-                            </div>}
+                        { (this.state.perf !== undefined && this.state.perf !== null) && <Results value={this.state}/>}
                         { (this.state.test_type !== undefined && this.state.test_type !== null) && <Scenes value={this.state}/> }
+                        { this.state.showComments &&  <CommentsComponent state={this.state}/> }
                     </div>
                 </div>
             </div>
