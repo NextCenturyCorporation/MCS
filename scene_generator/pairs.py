@@ -81,8 +81,11 @@ class SceneOptions():
 class DistractorNeverObstructsTargetObjectRule(DistractorObjectRule):
     def validate_location(self, object_location: Dict[str, Any], target_list: List[Dict[str, Any]], \
             performer_start: Dict[str, Dict[str, float]]) -> bool:
-        return not geometry.does_fully_obstruct_target(performer_start['position'], target_list[0], \
-                geometry.get_bounding_polygon(object_location))
+        for target_or_confusor in self._target_confusor_list:
+            if geometry.does_fully_obstruct_target(performer_start['position'], target_or_confusor, \
+                    geometry.get_bounding_polygon(object_location)):
+                return False
+        return True
 
 
 class InteractionPair():
