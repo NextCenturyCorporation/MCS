@@ -1198,12 +1198,12 @@ layouts:
 
   - bindings:
       contributionKeys: []
-      title: "Average MSE Loss"
+      title: "Average MSE"
       type: "list"
       xField: "performer"
       tableKey: "es1.mcs_history.history"
       dualView: ""
-      axisLabelX: "Loss"
+      axisLabelX: "MSE"
       axisLabelY: "Count"
       groupField: ""
       limit: 10000
@@ -1228,7 +1228,7 @@ layouts:
       showLegend: false
       sortByAggregation: false
       yPercentage: 0.3
-      aggregationField: "score.mse_loss"
+      aggregationField: "score.mse"
       yField: ""
       filter:
         lhs: flags.remove
@@ -1923,8 +1923,8 @@ datastores:
                 - columnName: score.adjusted_confidence
                   prettyName: Adjusted Confidence
                   type: decimal
-                - columnName: score.mse_loss
-                  prettyName: MSE Loss
+                - columnName: score.mse
+                  prettyName: MSE
                   type: decimal
                 - columnName: scene.info_list
                   prettyName: Scene Info List
