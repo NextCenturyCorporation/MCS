@@ -1285,8 +1285,9 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_2",
     "obstruct": "vision",
-    "info": ["small", "brown", "box"],
+    "info": ["small", "box"],
     "mass": 0.5,
+    "materialCategory": ["cardboard"],
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosed_areas": [{
@@ -1331,8 +1332,9 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_2",
     "obstruct": "vision",
-    "info": ["tiny", "brown", "box"],
+    "info": ["tiny", "box"],
     "mass": 0.25,
+    "materialCategory": ["cardboard"],
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosed_areas": [{
@@ -1377,8 +1379,9 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_3",
     "obstruct": "vision",
-    "info": ["small", "brown", "box"],
+    "info": ["small", "box"],
     "mass": 0.5,
+    "materialCategory": ["cardboard"],
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosed_areas": [{
@@ -1423,8 +1426,9 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_3",
     "obstruct": "vision",
-    "info": ["tiny", "brown", "box"],
+    "info": ["tiny", "box"],
     "mass": 0.25,
+    "materialCategory": ["cardboard"],
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosed_areas": [{
@@ -1469,8 +1473,9 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_4",
     "obstruct": "vision",
-    "info": ["small", "grey", "box"],
+    "info": ["small", "box"],
     "mass": 0.5,
+    "materialCategory": ["cardboard"],
     "novel_color": True,
     "novel_shape": True,
     "salientMaterials": ["paper"],
@@ -1517,8 +1522,9 @@ OBJECTS_PICKUPABLE_MISC = [{
 }, {
     "type": "box_4",
     "obstruct": "vision",
-    "info": ["tiny", "grey", "box"],
+    "info": ["tiny", "box"],
     "mass": 0.25,
+    "materialCategory": ["cardboard"],
     "novel_color": True,
     "novel_shape": True,
     "salientMaterials": ["paper"],
@@ -2364,7 +2370,7 @@ OBJECTS_IMMOBILE = [{
             "z": 0.41
         }
     }],
-    "open_areas": [
+    "open_areas": [{
 # Remove the top shelves for now.
 #        "id": "",
 #        "position": {
@@ -2413,7 +2419,7 @@ OBJECTS_IMMOBILE = [{
             "y": 0.25,
             "z": 0.44
         }
-    ],
+    }],
     "dimensions": {
         "x": 1.1,
         "y": 0.96,
@@ -3986,7 +3992,7 @@ OBJECTS_IMMOBILE = [{
     "open_areas": [{
         "id": "",
         "position": {
-            "x": -0.03
+            "x": -0.03,
             "y": 0.62,
             "z": 0
         },
@@ -4021,7 +4027,7 @@ OBJECTS_IMMOBILE = [{
     "open_areas": [{
         "id": "",
         "position": {
-            "x": 0.005
+            "x": 0.005,
             "y": 0.59,
             "z": 0.125
         },

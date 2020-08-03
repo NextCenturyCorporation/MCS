@@ -50,6 +50,12 @@ BLOCK_NUMBER_MATERIALS = [
     ("UnityAssetStore/KD_NumberBlocks/Assets/Textures/Yellow/TOYBlocks_NumberBlock_6_Yellow_1K/NumberBlockYellow_6", ["yellow", "brown"])
 ]
 
+CARDBOARD_MATERIALS = [
+    ("AI2-THOR/Materials/Misc/Cardboard_Brown", ["brown"]),
+    ("AI2-THOR/Materials/Misc/Cardboard_Tan", ["brown"]),
+    ("AI2-THOR/Materials/Misc/Cardboard_White", ["grey"])
+]
+
 CERAMIC_MATERIALS = [
     ("AI2-THOR/Materials/Ceramics/BrownMarbleFake 1", ["brown"]),
     ("AI2-THOR/Materials/Ceramics/ConcreteBoards1", ["grey"]),
