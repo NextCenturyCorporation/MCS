@@ -360,17 +360,20 @@ def get_def_with_new_size(obj: Dict[str, Any], all_defs: List[Dict[str, Any]]) -
     return obj_def
 
 
-def move_to_location(obj_def: Dict[str, Any], obj: Dict[str, Any], location: Dict[str, Any]) -> Dict[str, Any]:
+def move_to_location(object_definition: Dict[str, Any], object_instance: Dict[str, Any], location: Dict[str, Any], \
+        object_bounds: List[Dict[str, float]], previous_definition: Dict[str, Any]) -> Dict[str, Any]:
     """Move the given object to a new location and return the object."""
     new_location = copy.deepcopy(location)
-    if 'offset' in obj_def:
-        new_location['position']['x'] -= obj_def['offset']['x']
-        new_location['position']['z'] -= obj_def['offset']['z']
-    obj['shows'][0]['position'] = new_location['position']
-    obj['shows'][0]['rotation'] = new_location['rotation']
-    if 'bounding_box' in new_location:
-        obj['shows'][0]['bounding_box'] = new_location['bounding_box']
-    return obj
+    if previous_definition and 'offset' in previous_definition:
+        new_location['position']['x'] += previous_definition['offset']['x']
+        new_location['position']['z'] += previous_definition['offset']['z']
+    if 'offset' in object_definition:
+        new_location['position']['x'] -= object_definition['offset']['x']
+        new_location['position']['z'] -= object_definition['offset']['z']
+    object_instance['shows'][0]['position'] = new_location['position']
+    object_instance['shows'][0]['rotation'] = new_location['rotation']
+    object_instance['shows'][0]['bounding_box'] = object_bounds
+    return object_instance
 
 
 def retrieve_full_object_definition_list(base_definition_list: List[Dict[str, Any]]) -> List[Dict[str, Any]]:

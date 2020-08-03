@@ -542,7 +542,10 @@ class InteractionPair():
 
         if show_obstructor:
             obstructor_instance = copy.deepcopy(obstructor_template)
-            util.move_to_location(obstructor_definition, obstructor_instance, obstructor_location)
+            util.move_to_location(obstructor_definition, obstructor_instance, obstructor_location, \
+                    geometry.generate_object_bounds(obstructor_definition['dimensions'], \
+                    obstructor_definition['offset'] if 'offset' in obstructor_definition else None,
+                    obstructor_location['position'], obstructor_location['rotation']), obstructor_definition)
             bounds_list.append(obstructor_instance['shows'][0]['bounding_box'])
             return obstructor_instance
 
@@ -568,7 +571,10 @@ class InteractionPair():
             target_receptacle_instance = copy.deepcopy(receptacle_template)
             # Update the Y position of the location to use the positionY from the receptacle definition.
             target_location['position']['y'] = receptacle_definition.get('positionY', 0)
-            util.move_to_location(receptacle_definition, target_receptacle_instance, target_location)
+            util.move_to_location(receptacle_definition, target_receptacle_instance, target_location, \
+                    geometry.generate_object_bounds(receptacle_definition['dimensions'], \
+                    receptacle_definition['offset'] if 'offset' in receptacle_definition else None, \
+                    target_location['position'], target_location['rotation']), target_definition)
             containers.put_objects_in_container(target_definition, target_instance, confusor_definition, \
                     confusor_instance, target_receptacle_instance, receptacle_definition, area_index, orientation, \
                     target_rotation, confusor_rotation)
@@ -580,12 +586,18 @@ class InteractionPair():
                 target_receptacle_instance = copy.deepcopy(receptacle_template)
                 # Update the Y position of the location to use the positionY from the receptacle definition.
                 target_location['position']['y'] = receptacle_definition.get('positionY', 0)
-                util.move_to_location(receptacle_definition, target_receptacle_instance, target_location)
+                util.move_to_location(receptacle_definition, target_receptacle_instance, target_location, \
+                    geometry.generate_object_bounds(receptacle_definition['dimensions'], \
+                    receptacle_definition['offset'] if 'offset' in receptacle_definition else None, \
+                    target_location['position'], target_location['rotation']), target_definition)
                 containers.put_object_in_container(target_definition, target_instance, target_receptacle_instance, \
                         receptacle_definition, area_index, target_rotation)
                 bounds_list.append(target_receptacle_instance['shows'][0]['bounding_box'])
             else:
-                util.move_to_location(target_definition, target_instance, target_location)
+                util.move_to_location(target_definition, target_instance, target_location, \
+                    geometry.generate_object_bounds(target_definition['dimensions'], \
+                    target_definition['offset'] if 'offset' in target_definition else None, \
+                    target_location['position'], target_location['rotation']), target_definition)
                 bounds_list.append(target_instance['shows'][0]['bounding_box'])
             if show_confusor:
                 if containerize_confusor:
@@ -594,12 +606,18 @@ class InteractionPair():
                     # Update the Y position of the location to use the positionY from the receptacle definition.
                     confusor_location['position']['y'] = receptacle_definition.get('positionY', 0)
                     confusor_receptacle_instance['id'] = confusor_receptacle_id
-                    util.move_to_location(receptacle_definition, confusor_receptacle_instance, confusor_location)
+                    util.move_to_location(receptacle_definition, confusor_receptacle_instance, confusor_location, \
+                        geometry.generate_object_bounds(receptacle_definition['dimensions'], \
+                        receptacle_definition['offset'] if 'offset' in receptacle_definition else None, \
+                        confusor_location['position'], confusor_location['rotation']), confusor_definition)
                     containers.put_object_in_container(confusor_definition, confusor_instance, \
                             confusor_receptacle_instance, receptacle_definition, area_index, confusor_rotation)
                     bounds_list.append(confusor_receptacle_instance['shows'][0]['bounding_box'])
                 else:
-                    util.move_to_location(confusor_definition, confusor_instance, confusor_location)
+                    util.move_to_location(confusor_definition, confusor_instance, confusor_location, \
+                        geometry.generate_object_bounds(confusor_definition['dimensions'], \
+                        confusor_definition['offset'] if 'offset' in confusor_definition else None, \
+                        confusor_location['position'], confusor_location['rotation']), confusor_definition)
                     bounds_list.append(confusor_instance['shows'][0]['bounding_box'])
 
         return target_instance, confusor_instance, target_receptacle_instance, confusor_receptacle_instance
