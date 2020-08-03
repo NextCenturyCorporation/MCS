@@ -597,18 +597,6 @@ If you cannot close the object because you are out of reach.
 - "OBSTRUCTED"\
 If you cannot close the object because you are obstructed.
 
-### Pass
-
-Do nothing.
-
-#### Returns
-
-- "SUCCESSFUL"
-
-## Future Actions
-
-(Not Yet Supported)
-
 ### LieDown
 
 Change pose to "LYING". Can help you to move underneath some objects compared to other poses.
@@ -647,6 +635,18 @@ Change pose to "STANDING". Can help you to move over some objects compared with 
 If you cannot enter "STANDING" pose because your path above you is obstructed.
 - "WRONG_POSE"\
 If you cannot enter "STANDING" pose because you are in "LYING" pose.
+
+### Pass
+
+Do nothing.
+
+#### Returns
+
+- "SUCCESSFUL"
+
+## Future Actions
+
+(Not Yet Supported)
 
 ### RotateObject
 
