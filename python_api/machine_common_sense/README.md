@@ -14,7 +14,18 @@
 ```
 pip install ai2thor
 pip install Pillow
+pip install numpy
+pip install autopep8
+pip install flake8
+pip install pre-commit
 ```
+
+3. Run pre-commit install to set up git hook
+
+```
+pre-commit install
+```
+
 
 ## Running
 
