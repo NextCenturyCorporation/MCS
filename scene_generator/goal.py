@@ -122,40 +122,11 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
             adj_to_generated_wall = False
             bounding_rect = dict()
             
-            #START***********************************************************************************************************************************
-            for wall in generated_wall_rects:
-
-                if (rotation == 0 or rotation == 180) and (wall['shows'][0]['rotation']['y'] == 0 or wall['shows'][0]['rotation']['y'] == 180):
-                    print("here1")
-
-                elif (rotation == 90 or rotation == 270) and (wall['shows'][0]['rotation']['y'] == 90 or wall['shows'][0]['rotation']['y'] == 270):
-                    print("here2")
-            
-
-            if (rotation == 0 or rotation == 180) and not adj_to_generated_wall:
-                if new_z < 0:
-                        new_z = geometry.ROOM_DIMENSIONS[1][0] - 0.03 
-                else:
-                    new_z = geometry.ROOM_DIMENSIONS[1][1] + 0.03 
-            elif (rotation == 90 or rotation == 270) and not adj_to_generated_wall:
-                if new_x < 0:
-                        new_x = geometry.ROOM_DIMENSIONS[0][0] - 0.03 
-                else:
-                    new_x = geometry.ROOM_DIMENSIONS[0][1] + 0.03
-
-            rect = geometry.calc_obj_coords(new_x, new_z, new_x_size, PAINTING_DEPTH, 0, 0, rotation, position_y=new_y)
-            painting_poly = geometry.rect_to_poly(rect)
-
-            if not painting_poly.intersects(performer_poly) and \
-                    (len(other_rects) == 0 or not any(separating_axis_theorem.sat_entry(rect, other_rect) for other_rect in other_rects)): 
-                break
-
-            #END**************************************************************************************************************************************
             if (rotation == 0 or rotation == 180): #Make sure the painting is on the wall, instead of hovering in front of the wall
-                
+        
                 for wall in generated_wall_rects:
                     if wall['shows'][0]['rotation']['y'] == 0 or wall['shows'][0]['rotation']['y'] == 180:
-
+                        
                         x_list = [coord['x'] for coord in wall['shows'][0]['bounding_box']]
                         x_list.sort()
                         left_x_boundary = x_list[0]
@@ -173,6 +144,7 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
                         if geometry.are_adjacent(wall, bounding_rect, 0.1) and \
                             left_x_boundary <= painting_left_x_boundary and right_x_boundary >= painting_right_x_boundary: 
                             adj_to_generated_wall = True
+                            
                             print("x left bound:", left_x_boundary, " |x right bound:", right_x_boundary)
                             print("painting x left:", painting_left_x_boundary, "|painting x right:", painting_right_x_boundary)
                             #print("z val:", new_z)
@@ -210,6 +182,7 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
                         if geometry.are_adjacent(wall, bounding_rect, 0.1) and \
                             left_z_boundary <= painting_left_z_boundary and right_z_boundary >= painting_right_z_boundary: 
                             adj_to_generated_wall = True
+                            
                             print("z left bound:", left_z_boundary, " |z right bound:", right_z_boundary)
                             print("painting z left:", painting_left_z_boundary, "|painting z right:", painting_right_z_boundary)
                             #print("x val:", new_x)
@@ -273,6 +246,11 @@ class Goal(ABC):
         self._performer_start = None
         self._compute_performer_start()
         self._tag_to_objects = []
+        self._bounds_list = []
+
+    def get_bounds_list(self) -> List[List[Dict[str, float]]]:
+        """Returns the bounding rectangles of all objects in this goal."""
+        return self._bounds_list
 
     def update_body(self, body: Dict[str, Any], find_path: bool) -> Dict[str, Any]:
         """Helper method that calls other Goal methods to set performerStart, objects, and goal. Returns the goal body
@@ -281,9 +259,42 @@ class Goal(ABC):
 
         body['performerStart'] = self._performer_start
         walls = self.generate_walls(body['wallMaterial'], body['wallColors'], body['performerStart']['position'], [])
+        
+        #Create Walls for the rooms 4 bounding walls
+        rooms_walls = [] 
+        x_positions = [0, 0, 5.5, -5.5]
+        z_positions = [5.5, -5.5, 0, 0]
+        x_deltas = [1, 1, 1, 1]
+        z_deltas = [1, 1, 1, 1]
+        x_offsets = [0, 0, 0, 0]
+        z_offsets = [0, 0, 0, 0]
+        rotations = [0, 0, 90, 90]
 
-        paintings = self.generate_paintings(body['paintingMaterial'], body['paintingColors'], body['performerStart']['position'], [], walls)
-        print("hit")
+        for i in range(0, 4):
+            new_object = {
+                'id': 'wall_' + str(uuid.uuid4()),
+                'materials': [body['wallMaterial']],
+                'type': 'cube',
+                'kinematic': 'true',
+                'structure': 'true',
+                'mass': 100,
+                'info': body['wallColors'],
+                'info_string': ' '.join(body['wallColors'])
+            }
+            shows_object = {
+                'stepBegin': 0,
+                'scale': {'x': x_deltas[i], 'y': WALL_HEIGHT, 'z': z_deltas},
+                'rotation': {'x': 0, 'y': rotations[i], 'z': 0},
+                'position': {'x': x_positions[i], 'y': WALL_Y_POS, 'z': z_positions[i]},
+                'bounding_box': geometry.calc_obj_coords(x_positions[i], z_positions[i], x_deltas[i], z_deltas[i], x_offsets[i], z_offsets[i], rotations[i])
+            }
+            new_object['shows'] = [shows_object]
+            rooms_walls.append(new_object)
+        
+        all_walls = walls + rooms_walls
+       
+        paintings = self.generate_paintings(body['paintingMaterial'], body['paintingColors'], body['performerStart']['position'], self.get_bounds_list(), all_walls)
+        #print("hit")
         print("\n\n\n")
         
         if walls is not None:
