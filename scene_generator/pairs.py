@@ -726,7 +726,8 @@ class InteractionPair():
         for _ in range(util.MAX_TRIES):
             # TODO Use existing target bounds?
             location_far = geometry.calc_obj_pos(performer_start['position'], [], object_definition)
-            if not geometry.are_adjacent(target_location, location_far):
+            if not geometry.are_adjacent(target_location, location_far, distance = \
+                    geometry.MIN_OBJECTS_SEPARATION_DISTANCE):
                 break
             location_far = None
         if not location_far:

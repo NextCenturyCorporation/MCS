@@ -272,7 +272,7 @@ class TransferToObjectRule(ObjectRule):
         distance = geometry.position_distance(target_1_position, object_location['position'])
 
         # Cannot be positioned too close to the existing target object.
-        return distance >= geometry.MINIMUM_TARGET_SEPARATION
+        return distance >= geometry.MIN_OBJECTS_SEPARATION_DISTANCE
 
 
 class FarOffObjectRule(ObjectRule):
@@ -285,7 +285,7 @@ class FarOffObjectRule(ObjectRule):
         distance = geometry.position_distance(performer_start['position'], object_location['position'])
 
         # Cannot be positioned too close to the performer.
-        return distance >= geometry.MINIMUM_START_DIST_FROM_TARGET
+        return distance >= geometry.MIN_OBJECTS_SEPARATION_DISTANCE
 
 
 class DistractorObjectRule(ObjectRule):
