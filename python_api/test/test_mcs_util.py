@@ -3,10 +3,12 @@ import unittest
 from machine_common_sense.mcs_object import MCS_Object
 from machine_common_sense.mcs_util import MCS_Util
 
+
 class My_Emptyclass:
 
     def __init__(self):
         pass
+
 
 class My_Subclass:
 
@@ -21,6 +23,7 @@ class My_Subclass:
 
     def __str__(self):
         return MCS_Util.class_to_str(self)
+
 
 class My_Class:
 
@@ -51,11 +54,12 @@ class My_Class:
     def my_function():
         pass
 
+
 class Test_MCS_Util(unittest.TestCase):
 
     def test_class_to_str_with_class(self):
         self.maxDiff = 10000
-        expected = "{\n    \"my_boolean\": true,\n    \"my_float\": 1.234,\n    \"my_integer\": 0,\n    \"my_string\": \"a\",\n    \"my_list\": [\n        1,\n        \"b\",\n        {\n            \"my_integer\": 2,\n            \"my_string\": \"c\",\n            \"my_list\": [\n                3,\n                \"d\"\n            ]\n        }\n    ],\n    \"my_dict\": {\n        \"my_integer\": 4,\n        \"my_string\": \"e\",\n        \"my_list\": [\n            5,\n            \"f\"\n        ],\n        \"my_dict\": {\n            \"my_integer\": 6,\n            \"my_string\": \"g\"\n        }\n    },\n    \"my_list_empty\": [],\n    \"my_dict_empty\": {},\n    \"my_subclass\": {\n        \"my_integer\": 7,\n        \"my_string\": \"h\",\n        \"my_list\": [\n            8,\n            \"i\"\n        ],\n        \"my_dict\": {\n            \"my_integer\": 9,\n            \"my_string\": \"j\"\n        }\n    }\n}"
+        expected = "{\n    \"my_boolean\": true,\n    \"my_float\": 1.234,\n    \"my_integer\": 0,\n    \"my_string\": \"a\",\n    \"my_list\": [\n        1,\n        \"b\",\n        {\n            \"my_integer\": 2,\n            \"my_string\": \"c\",\n            \"my_list\": [\n                3,\n                \"d\"\n            ]\n        }\n    ],\n    \"my_dict\": {\n        \"my_integer\": 4,\n        \"my_string\": \"e\",\n        \"my_list\": [\n            5,\n            \"f\"\n        ],\n        \"my_dict\": {\n            \"my_integer\": 6,\n            \"my_string\": \"g\"\n        }\n    },\n    \"my_list_empty\": [],\n    \"my_dict_empty\": {},\n    \"my_subclass\": {\n        \"my_integer\": 7,\n        \"my_string\": \"h\",\n        \"my_list\": [\n            8,\n            \"i\"\n        ],\n        \"my_dict\": {\n            \"my_integer\": 9,\n            \"my_string\": \"j\"\n        }\n    }\n}"  # noqa: E501
         self.assertEqual(MCS_Util.class_to_str(My_Class()), expected)
 
     def test_class_to_str_with_empty_class(self):
@@ -97,25 +101,32 @@ class Test_MCS_Util(unittest.TestCase):
             )
         ]
         self.assertEqual(MCS_Util.generate_pretty_object_output(object_list), [
-            'OBJECT ID        SHAPE  COLORS        HELD   POSITION (WORLD)  DIMENSIONS (WORLD)  DISTANCE (WORLD)     DIRECTION (WORLD)  ',
-            'id1                                   True   None              None                0                    None               ',
-            'really_long_id2  sofa   black, white  False  (1,2,3)           (4,5,6)             1234567890987654321  (10000,20000,30000)'
+            'OBJECT ID        SHAPE  COLORS        HELD   POSITION (WORLD)  DIMENSIONS (WORLD)  DISTANCE (WORLD)     DIRECTION (WORLD)  ',  # noqa: E501
+            'id1                                   True   None              None                0                    None               ',  # noqa: E501
+            'really_long_id2  sofa   black, white  False  (1,2,3)           (4,5,6)             1234567890987654321  (10000,20000,30000)'  # noqa: E501
         ])
 
     def test_input_to_action_and_params(self):
-        self.assertEqual(MCS_Util.input_to_action_and_params('MoveBack'), ('MoveBack', {}))
-        self.assertEqual(MCS_Util.input_to_action_and_params('RotateLook,rotation=12.34'), ('RotateLook', {
-            'rotation': 12.34
-        }))
-        self.assertEqual(MCS_Util.input_to_action_and_params('PickupObject,objectId=testId'), ('PickupObject', {
-            'objectId': 'testId'
-        }))
-        self.assertEqual(MCS_Util.input_to_action_and_params('PushObject,objectId=testId,force=12.34'), ('PushObject', {
-            'objectId': 'testId',
-            'force': 12.34
-        }))
-        self.assertEqual(MCS_Util.input_to_action_and_params('Foobar'), (None, {}))
-        self.assertEqual(MCS_Util.input_to_action_and_params('MoveBack,key:value'), ('MoveBack', None))
+        self.assertEqual(MCS_Util.input_to_action_and_params(
+            'MoveBack'), ('MoveBack', {}))
+        self.assertEqual(MCS_Util.input_to_action_and_params(
+            'RotateLook,rotation=12.34'), ('RotateLook', {'rotation': 12.34}))
+        self.assertEqual(
+            MCS_Util.input_to_action_and_params(
+                'PickupObject,objectId=testId'
+            ),
+            ('PickupObject', {'objectId': 'testId'})
+        )
+        self.assertEqual(
+            MCS_Util.input_to_action_and_params(
+                'PushObject,objectId=testId,force=12.34'
+            ),
+            ('PushObject', {'objectId': 'testId', 'force': 12.34})
+        )
+        self.assertEqual(
+            MCS_Util.input_to_action_and_params('Foobar'), (None, {}))
+        self.assertEqual(MCS_Util.input_to_action_and_params(
+            'MoveBack,key:value'), ('MoveBack', None))
 
     def test_is_in_range(self):
         self.assertEqual(MCS_Util.is_in_range(0, 0, 1, 1234), 0)
@@ -179,7 +190,8 @@ class Test_MCS_Util(unittest.TestCase):
 
     def test_value_to_str_with_list(self):
         self.assertEqual(MCS_Util.value_to_str([]), "[]")
-        self.assertEqual(MCS_Util.value_to_str([1, "a"]), "[\n    1,\n    \"a\"\n]")
+        self.assertEqual(MCS_Util.value_to_str(
+            [1, "a"]), "[\n    1,\n    \"a\"\n]")
 
     def test_value_to_str_with_string(self):
         self.assertEqual(MCS_Util.value_to_str(""), "\"\"")
@@ -198,4 +210,3 @@ class Test_MCS_Util(unittest.TestCase):
         self.assertEqual(MCS_Util.verify_material_enum_string('Plastic'), True)
         self.assertEqual(MCS_Util.verify_material_enum_string('Foobar'), False)
         self.assertEqual(MCS_Util.verify_material_enum_string(''), False)
-

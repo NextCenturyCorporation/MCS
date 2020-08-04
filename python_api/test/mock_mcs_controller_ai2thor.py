@@ -2,7 +2,6 @@ import ai2thor.server
 import numpy
 
 from machine_common_sense.mcs_controller_ai2thor import MCS_Controller_AI2THOR
-from machine_common_sense.mcs_step_output import MCS_Step_Output
 
 MOCK_VARIABLES = {
     'event_count': 5,
@@ -29,6 +28,7 @@ MOCK_VARIABLES = {
     }
 }
 
+
 class Mock_AI2THOR_Controller():
     def __init__(self):
         self.__last_step_data = None
@@ -40,12 +40,16 @@ class Mock_AI2THOR_Controller():
         event = ai2thor.server.Event(metadata)
         event.frame = MOCK_VARIABLES['frame'].copy()
         event.depth_frame = MOCK_VARIABLES['depth_frame'].copy()
-        event.instance_segmentation_frame = MOCK_VARIABLES['instance_segmentation_frame'].copy()
-        output = ai2thor.server.MultiAgentEvent(0, [event for _ in range(0, MOCK_VARIABLES['event_count'])])
+        event.instance_segmentation_frame = MOCK_VARIABLES[
+            'instance_segmentation_frame'
+        ].copy()
+        output = ai2thor.server.MultiAgentEvent(
+            0, [event for _ in range(0, MOCK_VARIABLES['event_count'])])
         return output
 
     def get_last_step_data(self):
         return self.__last_step_data
+
 
 class Mock_MCS_Controller_AI2THOR(MCS_Controller_AI2THOR):
 
@@ -62,4 +66,3 @@ class Mock_MCS_Controller_AI2THOR(MCS_Controller_AI2THOR):
 
     def set_goal(self, goal):
         self._goal = goal
-

@@ -1,5 +1,6 @@
 from enum import Enum, unique
 
+
 @unique
 class MCS_Material(Enum):
     CERAMIC = "CERAMIC"
@@ -17,4 +18,3 @@ class MCS_Material(Enum):
     UNDEFINED = "UNDEFINED"
     WAX = "WAX"
     WOOD = "WOOD"
-

@@ -49,7 +49,7 @@ class Test_Default_MCS_Goal(unittest.TestCase):
 
     def test_last_step(self):
         self.assertIsNone(self.goal.last_step)
-        
+
     def test_type_list(self):
         self.assertEqual(len(self.goal.type_list), 0)
         self.assertIsInstance(self.goal.type_list, list)

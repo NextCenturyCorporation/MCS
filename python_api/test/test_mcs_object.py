@@ -2,7 +2,6 @@ import unittest
 import textwrap
 
 from machine_common_sense.mcs_object import MCS_Object
-from machine_common_sense.mcs_material import MCS_Material
 
 
 class Test_Default_MCS_Object(unittest.TestCase):
@@ -41,7 +40,7 @@ class Test_Default_MCS_Object(unittest.TestCase):
     def test_color(self):
         self.assertFalse(self.mcs_object.color)
         self.assertIsInstance(self.mcs_object.color, dict)
-        
+
     def test_dimensions(self):
         self.assertFalse(self.mcs_object.dimensions)
         self.assertIsInstance(self.mcs_object.dimensions, dict)
@@ -95,5 +94,5 @@ class Test_Default_MCS_Object(unittest.TestCase):
         self.assertFalse(self.mcs_object.visible)
 
     def test_str(self):
-        self.assertEqual(str(self.mcs_object), textwrap.dedent(self.str_output))
-
+        self.assertEqual(str(self.mcs_object),
+                         textwrap.dedent(self.str_output))
