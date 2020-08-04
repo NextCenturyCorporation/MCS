@@ -134,6 +134,19 @@ WOOD_MATERIALS = [
     ("UnityAssetStore/Baby_Room/Models/Materials/wood 1", ["brown"])
 ]
 
+SOFA_1_MATERIALS = [
+    ("AI2-THOR/Materials/Fabrics/Sofa1_Brown", ["brown"])
+]
+
+SOFA_CHAIR_1_MATERIALS = [
+    ("AI2-THOR/Materials/Fabrics/SofaChair1_Black", ["black"]),
+    ("AI2-THOR/Materials/Fabrics/SofaChair1_Brown", ["brown"])
+]
+
+SOFA_2_MATERIALS = [
+    ("AI2-THOR/Materials/Fabrics/Sofa2_Grey", ["grey"])
+]
+
 CEILING_AND_WALL_MATERIALS = CERAMIC_MATERIALS + METAL_MATERIALS + WALL_MATERIALS + WOOD_MATERIALS
 
 OCCLUDER_MATERIALS = CERAMIC_MATERIALS + METAL_MATERIALS + WALL_MATERIALS + WOOD_MATERIALS

@@ -3916,8 +3916,9 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "sofa_1",
     "obstruct": "vision",
-    "info": ["huge", "brown", "sofa"],
+    "info": ["huge", "sofa"],
     "mass": 100,
+    "materialCategory": ["sofa_1"],
     "attributes": ["receptacle", "stackTarget"],
     "open_areas": [{
         "id": "",
@@ -3951,8 +3952,9 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "sofa_2",
     "obstruct": "vision",
-    "info": ["huge", "grey", "sofa"],
+    "info": ["huge", "sofa"],
     "mass": 100,
+    "materialCategory": ["sofa_2"],
     "attributes": ["receptacle", "stackTarget"],
     "open_areas": [{
         "id": "",
@@ -3986,8 +3988,9 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "sofa_chair_1",
     "obstruct": "vision",
-    "info": ["huge", "black", "sofa chair"],
+    "info": ["huge", "sofa chair"],
     "mass": 50,
+    "materialCategory": ["sofa_chair_1"],
     "attributes": ["receptacle", "stackTarget"],
     "open_areas": [{
         "id": "",
@@ -4021,8 +4024,9 @@ OBJECTS_IMMOBILE = [{
 }, {
     "type": "sofa_chair_2",
     "obstruct": "vision",
-    "info": ["huge", "grey", "sofa chair"],
+    "info": ["huge", "sofa chair"],
     "mass": 50,
+    "materialCategory": ["sofa_2"],
     "attributes": ["receptacle", "stackTarget"],
     "open_areas": [{
         "id": "",
