@@ -59,6 +59,9 @@ const typeDefs = `
     steps: JSON
     flags: JSON
     step_counter: Float
+    category: String
+    category_type: String
+    category_pair: String
   }
 
   type Scene {

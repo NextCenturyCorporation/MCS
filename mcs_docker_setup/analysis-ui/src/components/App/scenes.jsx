@@ -24,6 +24,9 @@ const mcs_history = gql`
             steps
             flags
             step_counter
+            category
+            category_type
+            category_pair
         }
   }`;
 
@@ -246,22 +249,26 @@ class Scenes extends React.Component {
                                     if(scenesInOrder.length > 0) {
                                         return (
                                             <div>
-                                                <div className="flags-holder">
-                                                    <FlagCheckboxMutation state={this.state}/>
-                                                </div>
-                                                <div className="movie-holder">
-                                                    <div className="movie-left-right">
-                                                        <div className="movie-text"><b>Scene 1:</b>&nbsp;&nbsp;{scenesInOrder[0].answer.choice}</div>
-                                                        <div className="movie-text"><b>Scene 3:</b>&nbsp;&nbsp;{scenesInOrder[2].answer.choice}</div>
-                                                    </div>
-                                                    <div className="movie-center">
-                                                        <video src={moviesBucket + this.props.value.test_type + "-" + this.props.value.scene_num + movieExtension} width="600" height="400" controls="controls" autoPlay={false} />
-                                                    </div>
-                                                    <div className="movie-left-right">
-                                                        <div className="movie-text"><b>Scene 2:</b>&nbsp;&nbsp;{scenesInOrder[1].answer.choice}</div>
-                                                        <div className="movie-text"><b>Scene 4:</b>&nbsp;&nbsp;{scenesInOrder[3].answer.choice}</div>
-                                                    </div>
-                                                </div>
+                                                { (scenesByPerformer[this.state.currentPerformer][0]["category"] === "observation") && 
+                                                    <div>
+                                                        <div className="flags-holder">
+                                                            <FlagCheckboxMutation state={this.state}/>
+                                                        </div>
+                                                        <div className="movie-holder">
+                                                            <div className="movie-left-right">
+                                                                <div className="movie-text"><b>Scene 1:</b>&nbsp;&nbsp;{scenesInOrder[0].answer.choice}</div>
+                                                                <div className="movie-text"><b>Scene 3:</b>&nbsp;&nbsp;{scenesInOrder[2].answer.choice}</div>
+                                                            </div>
+                                                            <div className="movie-center">
+                                                                <video src={moviesBucket + this.props.value.test_type + "-" + this.props.value.scene_num + movieExtension} width="600" height="400" controls="controls" autoPlay={false} />
+                                                            </div>
+                                                            <div className="movie-left-right">
+                                                                <div className="movie-text"><b>Scene 2:</b>&nbsp;&nbsp;{scenesInOrder[1].answer.choice}</div>
+                                                                <div className="movie-text"><b>Scene 4:</b>&nbsp;&nbsp;{scenesInOrder[3].answer.choice}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div> 
+                                                }
                                                 <div className="scores_header">
                                                     <h3>Scores</h3>
                                                 </div>
