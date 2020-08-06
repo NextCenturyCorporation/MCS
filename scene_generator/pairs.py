@@ -543,7 +543,7 @@ class InteractionPair():
         if show_obstructor:
             obstructor_instance = copy.deepcopy(obstructor_template)
             util.move_to_location(obstructor_definition, obstructor_instance, obstructor_location)
-            bounds_list.append(obstructor_instance['shows'][0]['bounding_box'])
+            bounds_list.append(obstructor_instance['shows'][0]['boundingBox'])
             return obstructor_instance
 
         return None
@@ -572,7 +572,7 @@ class InteractionPair():
             containers.put_objects_in_container(target_definition, target_instance, confusor_definition, \
                     confusor_instance, target_receptacle_instance, receptacle_definition, area_index, orientation, \
                     target_rotation, confusor_rotation)
-            bounds_list.append(target_receptacle_instance['shows'][0]['bounding_box'])
+            bounds_list.append(target_receptacle_instance['shows'][0]['boundingBox'])
 
         else:
             if containerize_target:
@@ -583,10 +583,10 @@ class InteractionPair():
                 util.move_to_location(receptacle_definition, target_receptacle_instance, target_location)
                 containers.put_object_in_container(target_definition, target_instance, target_receptacle_instance, \
                         receptacle_definition, area_index, target_rotation)
-                bounds_list.append(target_receptacle_instance['shows'][0]['bounding_box'])
+                bounds_list.append(target_receptacle_instance['shows'][0]['boundingBox'])
             else:
                 util.move_to_location(target_definition, target_instance, target_location)
-                bounds_list.append(target_instance['shows'][0]['bounding_box'])
+                bounds_list.append(target_instance['shows'][0]['boundingBox'])
             if show_confusor:
                 if containerize_confusor:
                     # Use the confusor location for its receptacle, then position the confusor inside its receptacle.
@@ -597,10 +597,10 @@ class InteractionPair():
                     util.move_to_location(receptacle_definition, confusor_receptacle_instance, confusor_location)
                     containers.put_object_in_container(confusor_definition, confusor_instance, \
                             confusor_receptacle_instance, receptacle_definition, area_index, confusor_rotation)
-                    bounds_list.append(confusor_receptacle_instance['shows'][0]['bounding_box'])
+                    bounds_list.append(confusor_receptacle_instance['shows'][0]['boundingBox'])
                 else:
                     util.move_to_location(confusor_definition, confusor_instance, confusor_location)
-                    bounds_list.append(confusor_instance['shows'][0]['bounding_box'])
+                    bounds_list.append(confusor_instance['shows'][0]['boundingBox'])
 
         return target_instance, confusor_instance, target_receptacle_instance, confusor_receptacle_instance
 

@@ -12,7 +12,7 @@ def test_clean_object():
     obj = {
         'id': 'thing1',
         'info': ['a', 'b', 'c', 'd'],
-        'goal_string': 'abcd',
+        'goalString': 'abcd',
         'materialCategory': ['wood'],
         'dimensions': { 'x': 13, 'z': 42 },
         'offset': { 'x': 13, 'z': 42 },
@@ -29,7 +29,7 @@ def test_clean_object():
         'size': 'medium',
         'shows': [{
             'stepBegin': 0,
-            'bounding_box': 'dummy'
+            'boundingBox': 'dummy'
         }]
     }
     expected = {

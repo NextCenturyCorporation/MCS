@@ -15,7 +15,7 @@ def test_put_object_in_container():
     for obj_def in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
         obj_location = geometry.calc_obj_pos({'x': 1, 'y': 0, 'z': 1}, [], obj_def)
         obj = util.instantiate_object(obj_def, obj_location)
-        obj_bounds = obj['shows'][0]['bounding_box']
+        obj_bounds = obj['shows'][0]['boundingBox']
 
         containments = get_enclosable_containments([obj_def])
         if len(containments) == 0 and obj_def['type'] not in PICKUPABLE_OBJECTS_WITHOUT_CONTAINMENTS:
@@ -37,20 +37,20 @@ def test_put_object_in_container():
             assert obj['shows'][0]['position']['y'] == pytest.approx(expected_position_y)
             assert obj['shows'][0]['position']['z'] == container_def['enclosedAreas'][0]['position']['z']
             assert obj['shows'][0]['rotation']
-            assert obj['shows'][0]['bounding_box']
-            assert obj['shows'][0]['bounding_box'] != obj_bounds
+            assert obj['shows'][0]['boundingBox']
+            assert obj['shows'][0]['boundingBox'] != obj_bounds
 
 
 def test_put_objects_in_container():
     for obj_a_def in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
         obj_a_location = geometry.calc_obj_pos(geometry.ORIGIN, [], obj_a_def)
         obj_a = util.instantiate_object(obj_a_def, obj_a_location)
-        obj_a_bounds = obj_a['shows'][0]['bounding_box']
+        obj_a_bounds = obj_a['shows'][0]['boundingBox']
 
         for obj_b_def in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
             obj_b_location = geometry.calc_obj_pos(geometry.ORIGIN, [], obj_b_def)
             obj_b = util.instantiate_object(obj_b_def, obj_b_location)
-            obj_b_bounds = obj_b['shows'][0]['bounding_box']
+            obj_b_bounds = obj_b['shows'][0]['boundingBox']
 
             containments = get_enclosable_containments([obj_a_def, obj_b_def])
             if len(containments) == 0 and obj_a_def['type'] not in PICKUPABLE_OBJECTS_WITHOUT_CONTAINMENTS and \
@@ -67,10 +67,10 @@ def test_put_objects_in_container():
                                          Orientation.SIDE_BY_SIDE, rotations[0], rotations[1])
                 assert obj_a['locationParent'] == container['id']
                 assert obj_b['locationParent'] == container['id']
-                assert obj_a['shows'][0]['bounding_box']
-                assert obj_b['shows'][0]['bounding_box']
-                assert obj_a['shows'][0]['bounding_box'] != obj_a_bounds
-                assert obj_b['shows'][0]['bounding_box'] != obj_b_bounds
+                assert obj_a['shows'][0]['boundingBox']
+                assert obj_b['shows'][0]['boundingBox']
+                assert obj_a['shows'][0]['boundingBox'] != obj_a_bounds
+                assert obj_b['shows'][0]['boundingBox'] != obj_b_bounds
                 assert are_adjacent(obj_a, obj_b)
 
 

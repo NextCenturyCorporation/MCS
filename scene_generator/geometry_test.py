@@ -479,70 +479,70 @@ def test_are_adjacent():
     dimensions = {'x': 2, 'y': 2, 'z': 2}
 
     center = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    center['bounding_box'] = generate_object_bounds(dimensions, None, center['position'], center['rotation'])
+    center['boundingBox'] = generate_object_bounds(dimensions, None, center['position'], center['rotation'])
 
     good_1 = {'position': {'x': 2, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    good_1['bounding_box'] = generate_object_bounds(dimensions, None, good_1['position'], good_1['rotation'])
+    good_1['boundingBox'] = generate_object_bounds(dimensions, None, good_1['position'], good_1['rotation'])
     assert are_adjacent(center, good_1)
 
     good_2 = {'position': {'x': -2, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    good_2['bounding_box'] = generate_object_bounds(dimensions, None, good_2['position'], good_2['rotation'])
+    good_2['boundingBox'] = generate_object_bounds(dimensions, None, good_2['position'], good_2['rotation'])
     assert are_adjacent(center, good_2)
 
     good_3 = {'position': {'x': 0, 'y': 0, 'z': 2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    good_3['bounding_box'] = generate_object_bounds(dimensions, None, good_3['position'], good_3['rotation'])
+    good_3['boundingBox'] = generate_object_bounds(dimensions, None, good_3['position'], good_3['rotation'])
     assert are_adjacent(center, good_3)
 
     good_4 = {'position': {'x': 0, 'y': 0, 'z': -2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    good_4['bounding_box'] = generate_object_bounds(dimensions, None, good_4['position'], good_4['rotation'])
+    good_4['boundingBox'] = generate_object_bounds(dimensions, None, good_4['position'], good_4['rotation'])
     assert are_adjacent(center, good_4)
 
     good_5 = {'position': {'x': 2, 'y': 0, 'z': 2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    good_5['bounding_box'] = generate_object_bounds(dimensions, None, good_5['position'], good_5['rotation'])
+    good_5['boundingBox'] = generate_object_bounds(dimensions, None, good_5['position'], good_5['rotation'])
     assert are_adjacent(center, good_5)
 
     good_6 = {'position': {'x': 2, 'y': 0, 'z': -2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    good_6['bounding_box'] = generate_object_bounds(dimensions, None, good_6['position'], good_6['rotation'])
+    good_6['boundingBox'] = generate_object_bounds(dimensions, None, good_6['position'], good_6['rotation'])
     assert are_adjacent(center, good_6)
 
     good_7 = {'position': {'x': -2, 'y': 0, 'z': 2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    good_7['bounding_box'] = generate_object_bounds(dimensions, None, good_7['position'], good_7['rotation'])
+    good_7['boundingBox'] = generate_object_bounds(dimensions, None, good_7['position'], good_7['rotation'])
     assert are_adjacent(center, good_7)
 
     good_8 = {'position': {'x': -2, 'y': 0, 'z': -2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    good_8['bounding_box'] = generate_object_bounds(dimensions, None, good_8['position'], good_8['rotation'])
+    good_8['boundingBox'] = generate_object_bounds(dimensions, None, good_8['position'], good_8['rotation'])
     assert are_adjacent(center, good_8)
 
     bad_1 = {'position': {'x': 3, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    bad_1['bounding_box'] = generate_object_bounds(dimensions, None, bad_1['position'], bad_1['rotation'])
+    bad_1['boundingBox'] = generate_object_bounds(dimensions, None, bad_1['position'], bad_1['rotation'])
     assert not are_adjacent(center, bad_1)
 
     bad_2 = {'position': {'x': -3, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    bad_2['bounding_box'] = generate_object_bounds(dimensions, None, bad_2['position'], bad_2['rotation'])
+    bad_2['boundingBox'] = generate_object_bounds(dimensions, None, bad_2['position'], bad_2['rotation'])
     assert not are_adjacent(center, bad_2)
 
     bad_3 = {'position': {'x': 0, 'y': 0, 'z': 3}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    bad_3['bounding_box'] = generate_object_bounds(dimensions, None, bad_3['position'], bad_3['rotation'])
+    bad_3['boundingBox'] = generate_object_bounds(dimensions, None, bad_3['position'], bad_3['rotation'])
     assert not are_adjacent(center, bad_3)
 
     bad_4 = {'position': {'x': 0, 'y': 0, 'z': -3}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    bad_4['bounding_box'] = generate_object_bounds(dimensions, None, bad_4['position'], bad_4['rotation'])
+    bad_4['boundingBox'] = generate_object_bounds(dimensions, None, bad_4['position'], bad_4['rotation'])
     assert not are_adjacent(center, bad_4)
 
     bad_5 = {'position': {'x': 2.5, 'y': 0, 'z': 2.5}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    bad_5['bounding_box'] = generate_object_bounds(dimensions, None, bad_5['position'], bad_5['rotation'])
+    bad_5['boundingBox'] = generate_object_bounds(dimensions, None, bad_5['position'], bad_5['rotation'])
     assert not are_adjacent(center, bad_5)
 
     bad_6 = {'position': {'x': 2.5, 'y': 0, 'z': -2.5}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    bad_6['bounding_box'] = generate_object_bounds(dimensions, None, bad_6['position'], bad_6['rotation'])
+    bad_6['boundingBox'] = generate_object_bounds(dimensions, None, bad_6['position'], bad_6['rotation'])
     assert not are_adjacent(center, bad_6)
 
     bad_7 = {'position': {'x': -2.5, 'y': 0, 'z': 2.5}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    bad_7['bounding_box'] = generate_object_bounds(dimensions, None, bad_7['position'], bad_7['rotation'])
+    bad_7['boundingBox'] = generate_object_bounds(dimensions, None, bad_7['position'], bad_7['rotation'])
     assert not are_adjacent(center, bad_7)
 
     bad_8 = {'position': {'x': -2.5, 'y': 0, 'z': -2.5}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    bad_8['bounding_box'] = generate_object_bounds(dimensions, None, bad_8['position'], bad_8['rotation'])
+    bad_8['boundingBox'] = generate_object_bounds(dimensions, None, bad_8['position'], bad_8['rotation'])
     assert not are_adjacent(center, bad_8)
 
 
@@ -551,70 +551,70 @@ def test_are_adjacent_with_offset():
     offset = {'x': -1, 'y': 0, 'z': 1}
 
     center = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    center['bounding_box'] = generate_object_bounds(dimensions, None, center['position'], center['rotation'])
+    center['boundingBox'] = generate_object_bounds(dimensions, None, center['position'], center['rotation'])
 
     good_1 = {'position': {'x': 3, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    good_1['bounding_box'] = generate_object_bounds(dimensions, offset, good_1['position'], good_1['rotation'])
+    good_1['boundingBox'] = generate_object_bounds(dimensions, offset, good_1['position'], good_1['rotation'])
     assert are_adjacent(center, good_1)
 
     good_2 = {'position': {'x': -1, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    good_2['bounding_box'] = generate_object_bounds(dimensions, offset, good_2['position'], good_2['rotation'])
+    good_2['boundingBox'] = generate_object_bounds(dimensions, offset, good_2['position'], good_2['rotation'])
     assert are_adjacent(center, good_2)
 
     good_3 = {'position': {'x': 0, 'y': 0, 'z': 1}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    good_3['bounding_box'] = generate_object_bounds(dimensions, offset, good_3['position'], good_3['rotation'])
+    good_3['boundingBox'] = generate_object_bounds(dimensions, offset, good_3['position'], good_3['rotation'])
     assert are_adjacent(center, good_3)
 
     good_4 = {'position': {'x': 0, 'y': 0, 'z': -3}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    good_4['bounding_box'] = generate_object_bounds(dimensions, offset, good_4['position'], good_4['rotation'])
+    good_4['boundingBox'] = generate_object_bounds(dimensions, offset, good_4['position'], good_4['rotation'])
     assert are_adjacent(center, good_4)
 
     good_5 = {'position': {'x': 3, 'y': 0, 'z': 1}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    good_5['bounding_box'] = generate_object_bounds(dimensions, offset, good_5['position'], good_5['rotation'])
+    good_5['boundingBox'] = generate_object_bounds(dimensions, offset, good_5['position'], good_5['rotation'])
     assert are_adjacent(center, good_5)
 
     good_6 = {'position': {'x': 3, 'y': 0, 'z': -3}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    good_6['bounding_box'] = generate_object_bounds(dimensions, offset, good_6['position'], good_6['rotation'])
+    good_6['boundingBox'] = generate_object_bounds(dimensions, offset, good_6['position'], good_6['rotation'])
     assert are_adjacent(center, good_6)
 
     good_7 = {'position': {'x': -1, 'y': 0, 'z': 1}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    good_7['bounding_box'] = generate_object_bounds(dimensions, offset, good_7['position'], good_7['rotation'])
+    good_7['boundingBox'] = generate_object_bounds(dimensions, offset, good_7['position'], good_7['rotation'])
     assert are_adjacent(center, good_7)
 
     good_8 = {'position': {'x': -1, 'y': 0, 'z': -3}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    good_8['bounding_box'] = generate_object_bounds(dimensions, offset, good_8['position'], good_8['rotation'])
+    good_8['boundingBox'] = generate_object_bounds(dimensions, offset, good_8['position'], good_8['rotation'])
     assert are_adjacent(center, good_8)
 
     bad_1 = {'position': {'x': 4, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    bad_1['bounding_box'] = generate_object_bounds(dimensions, offset, bad_1['position'], bad_1['rotation'])
+    bad_1['boundingBox'] = generate_object_bounds(dimensions, offset, bad_1['position'], bad_1['rotation'])
     assert not are_adjacent(center, bad_1)
 
     bad_2 = {'position': {'x': -2, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    bad_2['bounding_box'] = generate_object_bounds(dimensions, offset, bad_2['position'], bad_2['rotation'])
+    bad_2['boundingBox'] = generate_object_bounds(dimensions, offset, bad_2['position'], bad_2['rotation'])
     assert not are_adjacent(center, bad_2)
 
     bad_3 = {'position': {'x': 0, 'y': 0, 'z': 2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    bad_3['bounding_box'] = generate_object_bounds(dimensions, offset, bad_3['position'], bad_3['rotation'])
+    bad_3['boundingBox'] = generate_object_bounds(dimensions, offset, bad_3['position'], bad_3['rotation'])
     assert not are_adjacent(center, bad_3)
 
     bad_4 = {'position': {'x': 0, 'y': 0, 'z': -4}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    bad_4['bounding_box'] = generate_object_bounds(dimensions, offset, bad_4['position'], bad_4['rotation'])
+    bad_4['boundingBox'] = generate_object_bounds(dimensions, offset, bad_4['position'], bad_4['rotation'])
     assert not are_adjacent(center, bad_4)
 
     bad_5 = {'position': {'x': 3.5, 'y': 0, 'z': 1.5}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    bad_5['bounding_box'] = generate_object_bounds(dimensions, offset, bad_5['position'], bad_5['rotation'])
+    bad_5['boundingBox'] = generate_object_bounds(dimensions, offset, bad_5['position'], bad_5['rotation'])
     assert not are_adjacent(center, bad_5)
 
     bad_6 = {'position': {'x': 3.5, 'y': 0, 'z': -3.5}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    bad_6['bounding_box'] = generate_object_bounds(dimensions, offset, bad_6['position'], bad_6['rotation'])
+    bad_6['boundingBox'] = generate_object_bounds(dimensions, offset, bad_6['position'], bad_6['rotation'])
     assert not are_adjacent(center, bad_6)
 
     bad_7 = {'position': {'x': -1.5, 'y': 0, 'z': 1.5}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    bad_7['bounding_box'] = generate_object_bounds(dimensions, offset, bad_7['position'], bad_7['rotation'])
+    bad_7['boundingBox'] = generate_object_bounds(dimensions, offset, bad_7['position'], bad_7['rotation'])
     assert not are_adjacent(center, bad_7)
 
     bad_8 = {'position': {'x': -1.5, 'y': 0, 'z': -3.5}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    bad_8['bounding_box'] = generate_object_bounds(dimensions, offset, bad_8['position'], bad_8['rotation'])
+    bad_8['boundingBox'] = generate_object_bounds(dimensions, offset, bad_8['position'], bad_8['rotation'])
     assert not are_adjacent(center, bad_8)
 
 
@@ -624,7 +624,7 @@ def test_get_adjacent_location():
 
     for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
         target_location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-        target_location['bounding_box'] = generate_object_bounds(target_definition['dimensions'], \
+        target_location['boundingBox'] = generate_object_bounds(target_definition['dimensions'], \
                 (target_definition['offset'] if 'offset' in target_definition else None), target_location['position'], \
                 target_location['rotation'])
         target_poly = get_bounding_polygon(target_location)
@@ -646,7 +646,7 @@ def test_get_adjacent_location_with_obstruct():
 
     for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
         target_location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-        target_location['bounding_box'] = generate_object_bounds(target_definition['dimensions'], \
+        target_location['boundingBox'] = generate_object_bounds(target_definition['dimensions'], \
                 (target_definition['offset'] if 'offset' in target_definition else None), target_location['position'], \
                 target_location['rotation'])
         target_poly = get_bounding_polygon(target_location)
@@ -669,12 +669,12 @@ def test_get_adjacent_location_on_side():
     for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
         target_offset = target_definition['offset'] if 'offset' in target_definition else {'x': 0, 'z': 0}
         target_location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-        target_location['bounding_box'] = generate_object_bounds(target_definition['dimensions'], target_offset, \
+        target_location['boundingBox'] = generate_object_bounds(target_definition['dimensions'], target_offset, \
                 target_location['position'], target_location['rotation'])
         target_poly = get_bounding_polygon(target_location)
 
         target_x_min, target_x_max, target_z_min, target_z_max = get_min_and_max_in_bounds( \
-                target_location['bounding_box'])
+                target_location['boundingBox'])
 
         for object_definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
             object_offset = object_definition['offset'] if 'offset' in object_definition else {'x': 0, 'z': 0}
@@ -682,7 +682,7 @@ def test_get_adjacent_location_on_side():
             location = get_adjacent_location_on_side(object_definition, target_definition, target_location, \
                     performer_start, Side.RIGHT, False)
             assert location
-            x_min, x_max, z_min, z_max = get_min_and_max_in_bounds(location['bounding_box'])
+            x_min, x_max, z_min, z_max = get_min_and_max_in_bounds(location['boundingBox'])
             assert target_x_max <= x_min <= ROOM_X_MAX
             assert target_x_max <= x_max <= ROOM_X_MAX
             assert target_location['position']['z'] + target_offset['z'] == \
@@ -693,7 +693,7 @@ def test_get_adjacent_location_on_side():
             location = get_adjacent_location_on_side(object_definition, target_definition, target_location, \
                     performer_start, Side.LEFT, False)
             assert location
-            x_min, x_max, z_min, z_max = get_min_and_max_in_bounds(location['bounding_box'])
+            x_min, x_max, z_min, z_max = get_min_and_max_in_bounds(location['boundingBox'])
             assert ROOM_X_MIN <= x_min <= target_x_min
             assert ROOM_X_MIN <= x_max <= target_x_min
             assert target_location['position']['z'] + target_offset['z'] == \
@@ -704,7 +704,7 @@ def test_get_adjacent_location_on_side():
             location = get_adjacent_location_on_side(object_definition, target_definition, target_location, \
                     performer_start, Side.FRONT, False)
             assert location
-            x_min, x_max, z_min, z_max = get_min_and_max_in_bounds(location['bounding_box'])
+            x_min, x_max, z_min, z_max = get_min_and_max_in_bounds(location['boundingBox'])
             assert target_z_max <= z_min <= ROOM_Z_MAX
             assert target_z_max <= z_max <= ROOM_Z_MAX
             assert target_location['position']['x'] + target_offset['x'] == \
@@ -715,7 +715,7 @@ def test_get_adjacent_location_on_side():
             location = get_adjacent_location_on_side(object_definition, target_definition, target_location, \
                     performer_start, Side.BACK, False)
             assert location
-            x_min, x_max, z_min, z_max = get_min_and_max_in_bounds(location['bounding_box'])
+            x_min, x_max, z_min, z_max = get_min_and_max_in_bounds(location['boundingBox'])
             assert ROOM_Z_MIN <= z_min <= target_z_min
             assert ROOM_Z_MIN <= z_max <= target_z_min
             assert target_location['position']['x'] + target_offset['x'] == \
@@ -731,7 +731,7 @@ def test_get_adjacent_location_on_side_next_to_room_wall():
     for target_definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
         target_offset = target_definition['offset'] if 'offset' in target_definition else {'x': 0, 'z': 0}
         target_location = {'position': {'x': ROOM_X_MAX, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-        target_location['bounding_box'] = generate_object_bounds(target_definition['dimensions'], target_offset, \
+        target_location['boundingBox'] = generate_object_bounds(target_definition['dimensions'], target_offset, \
                 target_location['position'], target_location['rotation'])
 
         for object_definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
@@ -807,77 +807,77 @@ def test_set_location_rotation():
         location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
         location = set_location_rotation(definition, location, 0)
         assert location['rotation']['y'] == 0
-        assert location['bounding_box'][0]['x'] == pytest.approx(definition['dimensions']['x'] / 2 + offset['x'])
-        assert location['bounding_box'][0]['z'] == pytest.approx(definition['dimensions']['z'] / 2 + offset['z'])
-        assert location['bounding_box'][1]['x'] == pytest.approx(definition['dimensions']['x'] / 2 + offset['x'])
-        assert location['bounding_box'][1]['z'] == pytest.approx(-definition['dimensions']['z'] / 2 + offset['z'])
-        assert location['bounding_box'][2]['x'] == pytest.approx(-definition['dimensions']['x'] / 2 + offset['x'])
-        assert location['bounding_box'][2]['z'] == pytest.approx(-definition['dimensions']['z'] / 2 + offset['z'])
-        assert location['bounding_box'][3]['x'] == pytest.approx(-definition['dimensions']['x'] / 2 + offset['x'])
-        assert location['bounding_box'][3]['z'] == pytest.approx(definition['dimensions']['z'] / 2 + offset['z'])
+        assert location['boundingBox'][0]['x'] == pytest.approx(definition['dimensions']['x'] / 2 + offset['x'])
+        assert location['boundingBox'][0]['z'] == pytest.approx(definition['dimensions']['z'] / 2 + offset['z'])
+        assert location['boundingBox'][1]['x'] == pytest.approx(definition['dimensions']['x'] / 2 + offset['x'])
+        assert location['boundingBox'][1]['z'] == pytest.approx(-definition['dimensions']['z'] / 2 + offset['z'])
+        assert location['boundingBox'][2]['x'] == pytest.approx(-definition['dimensions']['x'] / 2 + offset['x'])
+        assert location['boundingBox'][2]['z'] == pytest.approx(-definition['dimensions']['z'] / 2 + offset['z'])
+        assert location['boundingBox'][3]['x'] == pytest.approx(-definition['dimensions']['x'] / 2 + offset['x'])
+        assert location['boundingBox'][3]['z'] == pytest.approx(definition['dimensions']['z'] / 2 + offset['z'])
 
         location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
         location = set_location_rotation(definition, location, 90)
         assert location['rotation']['y'] == 90
-        assert location['bounding_box'][0]['x'] == pytest.approx(definition['dimensions']['z'] / 2 + offset['z'])
-        assert location['bounding_box'][0]['z'] == pytest.approx(-definition['dimensions']['x'] / 2 - offset['x'])
-        assert location['bounding_box'][1]['x'] == pytest.approx(-definition['dimensions']['z'] / 2 + offset['z'])
-        assert location['bounding_box'][1]['z'] == pytest.approx(-definition['dimensions']['x'] / 2 - offset['x'])
-        assert location['bounding_box'][2]['x'] == pytest.approx(-definition['dimensions']['z'] / 2 + offset['z'])
-        assert location['bounding_box'][2]['z'] == pytest.approx(definition['dimensions']['x'] / 2 - offset['x'])
-        assert location['bounding_box'][3]['x'] == pytest.approx(definition['dimensions']['z'] / 2 + offset['z'])
-        assert location['bounding_box'][3]['z'] == pytest.approx(definition['dimensions']['x'] / 2 - offset['x'])
+        assert location['boundingBox'][0]['x'] == pytest.approx(definition['dimensions']['z'] / 2 + offset['z'])
+        assert location['boundingBox'][0]['z'] == pytest.approx(-definition['dimensions']['x'] / 2 - offset['x'])
+        assert location['boundingBox'][1]['x'] == pytest.approx(-definition['dimensions']['z'] / 2 + offset['z'])
+        assert location['boundingBox'][1]['z'] == pytest.approx(-definition['dimensions']['x'] / 2 - offset['x'])
+        assert location['boundingBox'][2]['x'] == pytest.approx(-definition['dimensions']['z'] / 2 + offset['z'])
+        assert location['boundingBox'][2]['z'] == pytest.approx(definition['dimensions']['x'] / 2 - offset['x'])
+        assert location['boundingBox'][3]['x'] == pytest.approx(definition['dimensions']['z'] / 2 + offset['z'])
+        assert location['boundingBox'][3]['z'] == pytest.approx(definition['dimensions']['x'] / 2 - offset['x'])
 
         location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
         location = set_location_rotation(definition, location, 180)
         assert location['rotation']['y'] == 180
-        assert location['bounding_box'][0]['x'] == pytest.approx(-definition['dimensions']['x'] / 2 - offset['x'])
-        assert location['bounding_box'][0]['z'] == pytest.approx(-definition['dimensions']['z'] / 2 - offset['z'])
-        assert location['bounding_box'][1]['x'] == pytest.approx(-definition['dimensions']['x'] / 2 - offset['x'])
-        assert location['bounding_box'][1]['z'] == pytest.approx(definition['dimensions']['z'] / 2 - offset['z'])
-        assert location['bounding_box'][2]['x'] == pytest.approx(definition['dimensions']['x'] / 2 - offset['x'])
-        assert location['bounding_box'][2]['z'] == pytest.approx(definition['dimensions']['z'] / 2 - offset['z'])
-        assert location['bounding_box'][3]['x'] == pytest.approx(definition['dimensions']['x'] / 2 - offset['x'])
-        assert location['bounding_box'][3]['z'] == pytest.approx(-definition['dimensions']['z'] / 2 - offset['z'])
+        assert location['boundingBox'][0]['x'] == pytest.approx(-definition['dimensions']['x'] / 2 - offset['x'])
+        assert location['boundingBox'][0]['z'] == pytest.approx(-definition['dimensions']['z'] / 2 - offset['z'])
+        assert location['boundingBox'][1]['x'] == pytest.approx(-definition['dimensions']['x'] / 2 - offset['x'])
+        assert location['boundingBox'][1]['z'] == pytest.approx(definition['dimensions']['z'] / 2 - offset['z'])
+        assert location['boundingBox'][2]['x'] == pytest.approx(definition['dimensions']['x'] / 2 - offset['x'])
+        assert location['boundingBox'][2]['z'] == pytest.approx(definition['dimensions']['z'] / 2 - offset['z'])
+        assert location['boundingBox'][3]['x'] == pytest.approx(definition['dimensions']['x'] / 2 - offset['x'])
+        assert location['boundingBox'][3]['z'] == pytest.approx(-definition['dimensions']['z'] / 2 - offset['z'])
 
         location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
         location = set_location_rotation(definition, location, 270)
         assert location['rotation']['y'] == 270
-        assert location['bounding_box'][0]['x'] == pytest.approx(-definition['dimensions']['z'] / 2 - offset['z'])
-        assert location['bounding_box'][0]['z'] == pytest.approx(definition['dimensions']['x'] / 2 + offset['x'])
-        assert location['bounding_box'][1]['x'] == pytest.approx(definition['dimensions']['z'] / 2 - offset['z'])
-        assert location['bounding_box'][1]['z'] == pytest.approx(definition['dimensions']['x'] / 2 + offset['x'])
-        assert location['bounding_box'][2]['x'] == pytest.approx(definition['dimensions']['z'] / 2 - offset['z'])
-        assert location['bounding_box'][2]['z'] == pytest.approx(-definition['dimensions']['x'] / 2 + offset['x'])
-        assert location['bounding_box'][3]['x'] == pytest.approx(-definition['dimensions']['z'] / 2 - offset['z'])
-        assert location['bounding_box'][3]['z'] == pytest.approx(-definition['dimensions']['x'] / 2 + offset['x'])
+        assert location['boundingBox'][0]['x'] == pytest.approx(-definition['dimensions']['z'] / 2 - offset['z'])
+        assert location['boundingBox'][0]['z'] == pytest.approx(definition['dimensions']['x'] / 2 + offset['x'])
+        assert location['boundingBox'][1]['x'] == pytest.approx(definition['dimensions']['z'] / 2 - offset['z'])
+        assert location['boundingBox'][1]['z'] == pytest.approx(definition['dimensions']['x'] / 2 + offset['x'])
+        assert location['boundingBox'][2]['x'] == pytest.approx(definition['dimensions']['z'] / 2 - offset['z'])
+        assert location['boundingBox'][2]['z'] == pytest.approx(-definition['dimensions']['x'] / 2 + offset['x'])
+        assert location['boundingBox'][3]['x'] == pytest.approx(-definition['dimensions']['z'] / 2 - offset['z'])
+        assert location['boundingBox'][3]['z'] == pytest.approx(-definition['dimensions']['x'] / 2 + offset['x'])
 
 
 def test_does_fully_obstruct_target():
     target_location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    target_location['bounding_box'] = generate_object_bounds({'x': 1, 'z': 1}, None, \
+    target_location['boundingBox'] = generate_object_bounds({'x': 1, 'z': 1}, None, \
             target_location['position'], target_location['rotation'])
 
     obstructor_location = {'position': {'x': -2, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert does_fully_obstruct_target({'x': ROOM_X_MIN, 'y': 0, 'z': 0}, target_location, obstructor_poly)
 
     obstructor_location = {'position': {'x': 2, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert does_fully_obstruct_target({'x': ROOM_X_MAX, 'y': 0, 'z': 0}, target_location, obstructor_poly)
 
     obstructor_location = {'position': {'x': 0, 'y': 0, 'z': -2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert does_fully_obstruct_target({'x': 0, 'y': 0, 'z': ROOM_Z_MIN}, target_location, obstructor_poly)
 
     obstructor_location = {'position': {'x': 0, 'y': 0, 'z': 2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert does_fully_obstruct_target({'x': 0, 'y': 0, 'z': ROOM_Z_MAX}, target_location, obstructor_poly)
@@ -885,29 +885,29 @@ def test_does_fully_obstruct_target():
 
 def test_does_fully_obstruct_target_returns_false_too_small():
     target_location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    target_location['bounding_box'] = generate_object_bounds({'x': 1, 'z': 1}, None, \
+    target_location['boundingBox'] = generate_object_bounds({'x': 1, 'z': 1}, None, \
             target_location['position'], target_location['rotation'])
 
     obstructor_location = {'position': {'x': -2, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 0.5, 'z': 0.5}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 0.5, 'z': 0.5}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert not does_fully_obstruct_target({'x': ROOM_X_MIN, 'y': 0, 'z': 0}, target_location, obstructor_poly)
 
     obstructor_location = {'position': {'x': 2, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 0.5, 'z': 0.5}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 0.5, 'z': 0.5}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert not does_fully_obstruct_target({'x': ROOM_X_MAX, 'y': 0, 'z': 0}, target_location, obstructor_poly)
 
     obstructor_location = {'position': {'x': 0, 'y': 0, 'z': -2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 0.5, 'z': 0.5}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 0.5, 'z': 0.5}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert not does_fully_obstruct_target({'x': 0, 'y': 0, 'z': ROOM_Z_MIN}, target_location, obstructor_poly)
 
     obstructor_location = {'position': {'x': 0, 'y': 0, 'z': 2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 0.5, 'z': 0.5}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 0.5, 'z': 0.5}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert not does_fully_obstruct_target({'x': 0, 'y': 0, 'z': ROOM_Z_MAX}, target_location, obstructor_poly)
@@ -915,11 +915,11 @@ def test_does_fully_obstruct_target_returns_false_too_small():
 
 def test_does_fully_obstruct_target_returns_false_performer_start():
     target_location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    target_location['bounding_box'] = generate_object_bounds({'x': 1, 'z': 1}, None, \
+    target_location['boundingBox'] = generate_object_bounds({'x': 1, 'z': 1}, None, \
             target_location['position'], target_location['rotation'])
 
     obstructor_location = {'position': {'x': -2, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert not does_fully_obstruct_target({'x': ROOM_X_MAX, 'y': 0, 'z': 0}, target_location, obstructor_poly)
@@ -929,7 +929,7 @@ def test_does_fully_obstruct_target_returns_false_performer_start():
     assert not does_fully_obstruct_target({'x': ROOM_X_MIN, 'y': 0, 'z': ROOM_Z_MAX}, target_location, obstructor_poly)
 
     obstructor_location = {'position': {'x': 2, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert not does_fully_obstruct_target({'x': ROOM_X_MIN, 'y': 0, 'z': 0}, target_location, obstructor_poly)
@@ -939,7 +939,7 @@ def test_does_fully_obstruct_target_returns_false_performer_start():
     assert not does_fully_obstruct_target({'x': ROOM_X_MAX, 'y': 0, 'z': ROOM_Z_MAX}, target_location, obstructor_poly)
 
     obstructor_location = {'position': {'x': 0, 'y': 0, 'z': -2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert not does_fully_obstruct_target({'x': 0, 'y': 0, 'z': ROOM_Z_MAX}, target_location, obstructor_poly)
@@ -949,7 +949,7 @@ def test_does_fully_obstruct_target_returns_false_performer_start():
     assert not does_fully_obstruct_target({'x': ROOM_X_MAX, 'y': 0, 'z': ROOM_Z_MIN}, target_location, obstructor_poly)
 
     obstructor_location = {'position': {'x': 0, 'y': 0, 'z': 2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert not does_fully_obstruct_target({'x': 0, 'y': 0, 'z': ROOM_Z_MIN}, target_location, obstructor_poly)
@@ -961,53 +961,53 @@ def test_does_fully_obstruct_target_returns_false_performer_start():
 
 def test_does_fully_obstruct_target_returns_false_visible_corners():
     target_location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    target_location['bounding_box'] = generate_object_bounds({'x': 1, 'z': 1}, None, \
+    target_location['boundingBox'] = generate_object_bounds({'x': 1, 'z': 1}, None, \
             target_location['position'], target_location['rotation'])
 
     obstructor_location = {'position': {'x': -2, 'y': 0, 'z': 1}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert not does_fully_obstruct_target({'x': ROOM_X_MIN, 'y': 0, 'z': 0}, target_location, obstructor_poly)
 
     obstructor_location = {'position': {'x': -2, 'y': 0, 'z': -1}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert not does_fully_obstruct_target({'x': ROOM_X_MIN, 'y': 0, 'z': 0}, target_location, obstructor_poly)
 
     obstructor_location = {'position': {'x': 2, 'y': 0, 'z': 1}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert not does_fully_obstruct_target({'x': ROOM_X_MAX, 'y': 0, 'z': 0}, target_location, obstructor_poly)
 
     obstructor_location = {'position': {'x': 2, 'y': 0, 'z': -1}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert not does_fully_obstruct_target({'x': ROOM_X_MAX, 'y': 0, 'z': 0}, target_location, obstructor_poly)
 
     obstructor_location = {'position': {'x': 1, 'y': 0, 'z': -2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert not does_fully_obstruct_target({'x': 0, 'y': 0, 'z': ROOM_Z_MIN}, target_location, obstructor_poly)
 
     obstructor_location = {'position': {'x': -1, 'y': 0, 'z': -2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert not does_fully_obstruct_target({'x': 0, 'y': 0, 'z': ROOM_Z_MIN}, target_location, obstructor_poly)
 
     obstructor_location = {'position': {'x': 1, 'y': 0, 'z': 2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert not does_fully_obstruct_target({'x': 0, 'y': 0, 'z': ROOM_Z_MAX}, target_location, obstructor_poly)
 
     obstructor_location = {'position': {'x': -1, 'y': 0, 'z': 2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
-    obstructor_location['bounding_box'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
+    obstructor_location['boundingBox'] = generate_object_bounds({'x': 2, 'z': 2}, None, \
             obstructor_location['position'], obstructor_location['rotation'])
     obstructor_poly = get_bounding_polygon(obstructor_location)
     assert not does_fully_obstruct_target({'x': 0, 'y': 0, 'z': ROOM_Z_MAX}, target_location, obstructor_poly)

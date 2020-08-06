@@ -88,7 +88,7 @@ def finalize_object_materials_and_colors(object_definition: Dict[str, Any], \
     if not materials_lists:
         object_definition_copy = copy.deepcopy(object_definition)
         object_definition_copy['color'] = object_definition_copy['color'] if 'color' in object_definition_copy else []
-        object_definition_copy['materials_list'] = []
+        object_definition_copy['materialsList'] = []
         object_definition_copy['materials'] = object_definition_copy['materials'] if 'materials' in \
                 object_definition_copy else []
         return [object_definition_copy]
@@ -97,7 +97,7 @@ def finalize_object_materials_and_colors(object_definition: Dict[str, Any], \
     for materials_list in materials_lists:
         object_definition_copy = copy.deepcopy(object_definition)
         object_definition_copy['color'] = []
-        object_definition_copy['materials_list'] = materials_list
+        object_definition_copy['materialsList'] = materials_list
         object_definition_copy['materials'] = [material_and_color[0] for material_and_color in materials_list]
         for material_and_color in materials_list:
             if material_and_color[0] in materials.NOVEL_COLOR_LIST:
@@ -145,7 +145,7 @@ def instantiate_object(object_def: Dict[str, Any],
         new_object[attribute] = True
 
     # need the original position for quartets
-    new_object['original_location'] = copy.deepcopy(object_location)
+    new_object['originalLocation'] = copy.deepcopy(object_location)
     object_location = copy.deepcopy(object_location)
     if 'offset' in object_def:
         object_location['position']['x'] -= object_def['offset']['x']
@@ -170,14 +170,14 @@ def instantiate_object(object_def: Dict[str, Any],
         object_def = random.choice(finalize_object_materials_and_colors(object_def, materials_list))
 
     # need the materials list for quartets
-    new_object['materials_list'] = object_def['materials_list']
+    new_object['materialsList'] = object_def['materialsList']
     new_object['materials'] = object_def['materials']
     new_object['color'] = object_def['color']
     new_object['novelColor'] = (object_def['novelColor'] if 'novelColor' in object_def else False) or \
             new_object['novelColor']
 
     # The info list contains words that we can use to filter on specific object tags in the UI.
-    # Start with this specific ordering of object tags in the info list needed for making the goal_string:
+    # Start with this specific ordering of object tags in the info list needed for making the goalString:
     # size weight color(s) material(s) shape
     if 'pickupable' in object_def['attributes']:
         weight = 'light'
@@ -196,8 +196,8 @@ def instantiate_object(object_def: Dict[str, Any],
 
     new_object['info'] = new_object['info'] + new_object['shape']
 
-    # Use the object's goal_string for goal descriptions.
-    new_object['goal_string'] = ' '.join(new_object['info'])
+    # Use the object's goalString for goal descriptions.
+    new_object['goalString'] = ' '.join(new_object['info'])
 
     if new_object['novelColor']:
         for color in list(new_object['color']):
@@ -368,8 +368,8 @@ def move_to_location(obj_def: Dict[str, Any], obj: Dict[str, Any], location: Dic
         new_location['position']['z'] -= obj_def['offset']['z']
     obj['shows'][0]['position'] = new_location['position']
     obj['shows'][0]['rotation'] = new_location['rotation']
-    if 'bounding_box' in new_location:
-        obj['shows'][0]['bounding_box'] = new_location['bounding_box']
+    if 'boundingBox' in new_location:
+        obj['shows'][0]['boundingBox'] = new_location['boundingBox']
     return obj
 
 

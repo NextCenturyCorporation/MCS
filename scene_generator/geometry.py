@@ -159,7 +159,7 @@ def calc_obj_pos(performer_position: Dict[str, float],
         new_object = {
             'rotation': {'x': rotation_x, 'y': rotation_y, 'z': rotation_z},
             'position':  {'x': new_x, 'y': obj_def.get('positionY', 0), 'z': new_z},
-            'bounding_box': rect
+            'boundingBox': rect
         }
         other_rects.append(rect)
         return new_object
@@ -348,7 +348,7 @@ def get_adjacent_location_on_side(object_definition: Dict[str, Any], target_defi
                 'y': target_location['rotation']['y'],
                 'z': 0
             },
-            'bounding_box': rect
+            'boundingBox': rect
         }
     else:
         location = None
@@ -381,13 +381,13 @@ def get_wider_and_taller_defs(obj_def: Dict[str, Any], obstruct_vision: bool) ->
 
 
 def get_bounding_polygon(object_or_location: Dict[str, Any]) -> shapely.geometry.Polygon:
-    if 'bounding_box' in object_or_location:
-        bounding_box: List[Dict[str, float]] = object_or_location['bounding_box']
+    if 'boundingBox' in object_or_location:
+        bounding_box: List[Dict[str, float]] = object_or_location['boundingBox']
         poly = rect_to_poly(bounding_box)
     else:
         show = object_or_location['shows'][0]
-        if 'bounding_box' in show:
-            bounding_box: List[Dict[str, float]] = show['bounding_box']
+        if 'boundingBox' in show:
+            bounding_box: List[Dict[str, float]] = show['boundingBox']
             poly = rect_to_poly(bounding_box)
         else:
             # TODO I think we need to consider the affect of the object's offsets on its poly here
@@ -429,7 +429,7 @@ def set_location_rotation(definition: Dict[str, Any], location: Dict[str, float]
         Dict[str, float]:
     """Updates the Y rotation and the bounding box of the given location and returns the location."""
     location['rotation']['y'] = rotation_y
-    location['bounding_box'] = generate_object_bounds(definition['dimensions'], \
+    location['boundingBox'] = generate_object_bounds(definition['dimensions'], \
             (definition['offset'] if 'offset' in definition else None), location['position'], location['rotation'])
     return location
 
@@ -467,8 +467,8 @@ def _does_obstruct_target_helper(performer_start_position: Dict[str, float], tar
 
     obstructing_corners = 0
     performer_start_coordinates = (performer_start_position['x'], performer_start_position['z'])
-    bounds = target_or_location['bounding_box'] if 'bounding_box' in target_or_location else \
-            (target_or_location['shows'][0]['bounding_box'] if 'shows' in target_or_location else [])
+    bounds = target_or_location['boundingBox'] if 'boundingBox' in target_or_location else \
+            (target_or_location['shows'][0]['boundingBox'] if 'shows' in target_or_location else [])
     for corner in bounds:
         target_corner_coordinates = (corner['x'], corner['z'])
         line_to_target = shapely.geometry.LineString([performer_start_coordinates, target_corner_coordinates])

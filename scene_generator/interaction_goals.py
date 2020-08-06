@@ -130,7 +130,7 @@ def get_navigation_actions(start_location: Dict[str, Any],
     goal = (goal_object['shows'][0]['position']['x'], goal_object['shows'][0]['position']['z'])
     hole_rects = []
 
-    hole_rects.extend(object['shows'][0]['bounding_box'] for object
+    hole_rects.extend(object['shows'][0]['boundingBox'] for object
                       in all_objects if object['id'] != goal_object['id']
                       and 'locationParent' not in object)
     path = generatepath(performer, goal, hole_rects)
@@ -138,7 +138,7 @@ def get_navigation_actions(start_location: Dict[str, Any],
         raise PathfindingException(f'could not find path to target {goal_object["id"]}')
     for object in all_objects:
         if object['id'] == goal_object['id']:
-            goal_boundary = object['shows'][0]['bounding_box']
+            goal_boundary = object['shows'][0]['boundingBox']
             break
     actions = []
     current_heading = 90 - start_location['rotation']['y']
@@ -429,7 +429,7 @@ class InteractionGoal(Goal, ABC):
                         self._bounds_list, self._wall_target_list)
                 if wall:
                     self._wall_list.append(wall)
-                    self._bounds_list.append(wall['shows'][0]['bounding_box'])
+                    self._bounds_list.append(wall['shows'][0]['boundingBox'])
                 else:
                     logging.warning('cannot generate a dynamic wall object')
         return self._wall_list
@@ -575,7 +575,7 @@ class RetrievalGoal(InteractionGoal):
                 'image_name': image_name
             }
         }
-        goal['description'] = f'Find and pick up the {target["goal_string"]}.'
+        goal['description'] = f'Find and pick up the {target["goalString"]}.'
         return goal
 
     def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
@@ -681,8 +681,8 @@ class TransferralGoal(InteractionGoal):
             },
             'relationship': ['target_1', relationship.value, 'target_2']
         }
-        goal['description'] = f'Find and pick up the {target1["goal_string"]} and move it {relationship.value} ' \
-            f'the {target2["goal_string"]}.'
+        goal['description'] = f'Find and pick up the {target1["goalString"]} and move it {relationship.value} ' \
+            f'the {target2["goalString"]}.'
         return goal
 
     def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
@@ -736,7 +736,7 @@ class TransferralGoal(InteractionGoal):
             goal = (goal_objects[1]['shows'][0]['position']['x'], goal_objects[1]['shows'][0]['position']['z'])
 
         hole_rects = []
-        hole_rects.extend(object['shows'][0]['bounding_box'] for object
+        hole_rects.extend(object['shows'][0]['boundingBox'] for object
                           in all_objects if (object['id'] not in ignore_object_ids and 'locationParent' not in object))
 
         logging.debug(f'TransferralGoal.f_o_p: target = {target}\tgoal = {goal}\tholes = {hole_rects}')
@@ -746,7 +746,7 @@ class TransferralGoal(InteractionGoal):
         logging.debug(f'TransferralGoal.f_o_p: got path = {path}')
         for object in all_objects:
             if object['id'] == goal_objects[1]['id']:
-                goal_boundary = object['shows'][0]['bounding_box']
+                goal_boundary = object['shows'][0]['boundingBox']
                 break
         current_heading = heading
         for indx in range(len(path)-1):
@@ -811,7 +811,7 @@ class TraversalGoal(InteractionGoal):
                 'image_name': image_name
             }
         }
-        goal['description'] = f'Find the {target["goal_string"]} and move near it.'
+        goal['description'] = f'Find the {target["goalString"]} and move near it.'
         return goal
 
     def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
