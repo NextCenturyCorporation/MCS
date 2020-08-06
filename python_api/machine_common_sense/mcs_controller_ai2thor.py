@@ -25,17 +25,19 @@ MAX_MOVE_DISTANCE = 0.5
 # Performer camera 'y' position
 PERFORMER_CAMERA_Y = 0.4625
 
-from .mcs_action import MCS_Action
+import machine_common_sense as mcs
+# from .mcs_action import MCS_Action
 from .mcs_controller import MCS_Controller
-from .mcs_goal import MCS_Goal
-from .mcs_goal_category import MCS_Goal_Category
-from .mcs_object import MCS_Object
-from .mcs_pose import MCS_Pose
-from .mcs_return_status import MCS_Return_Status
-from .mcs_reward import MCS_Reward
-from .mcs_scene_history import MCS_Scene_History
-from .mcs_step_output import MCS_Step_Output
-from .mcs_util import MCS_Util
+# from .mcs_goal import MCS_Goal
+# from .mcs_goal_category import MCS_Goal_Category
+# from .mcs_object import MCS_Object
+# from .mcs_pose import MCS_Pose
+# from .mcs_return_status import MCS_Return_Status
+# from .mcs_reward import MCS_Reward
+# from .mcs_scene_history import MCS_Scene_History
+# from .mcs_step_output import MCS_Step_Output
+# from .mcs_util import MCS_Util
+
 
 # From https://github.com/NextCenturyCorporation/ai2thor/blob/master/ai2thor/server.py#L232-L240
 def __image_depth_override(self, image_depth_data, **kwargs):
@@ -53,7 +55,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     https://ai2thor.allenai.org/ithor/documentation/
     """
 
-    ACTION_LIST = [item.value for item in MCS_Action]
+    ACTION_LIST = [item.value for item in mcs.Action]
 
     # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built on this assumption.
     SCREEN_HEIGHT = 400
@@ -154,7 +156,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         if self.__seed:
             random.seed(self.__seed)
 
-        self._goal = MCS_Goal()
+        self._goal = mcs.Goal()
         self.__head_tilt = 0.0
         self.__history_list = []
         self.__output_folder = None # Save output image files to debug
@@ -275,47 +277,47 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         receptacleObjectDirectionZ = kwargs.get(self.RECEPTACLE_DIRECTION_Z, self.DEFAULT_DIRECTION)
 
         # Check params that should be numbers
-        if not MCS_Util.is_number(rotation, self.ROTATION_KEY):
+        if not mcs.Util.is_number(rotation, self.ROTATION_KEY):
             rotation = self.DEFAULT_ROTATION
 
-        if not MCS_Util.is_number(horizon, self.HORIZON_KEY):
+        if not mcs.Util.is_number(horizon, self.HORIZON_KEY):
             horizon = self.DEFAULT_HORIZON
 
-        if not MCS_Util.is_number(amount, self.AMOUNT_KEY):
+        if not mcs.Util.is_number(amount, self.AMOUNT_KEY):
             # The default for open/close is 1, the default for "Move" actions is 0.5
             if action in self.OBJECT_MOVE_ACTIONS:
                 amount = self.DEFAULT_OBJECT_MOVE_AMOUNT
             else:
                 amount = self.DEFAULT_AMOUNT
 
-        if not MCS_Util.is_number(force, self.FORCE_KEY):
+        if not mcs.Util.is_number(force, self.FORCE_KEY):
             force = self.DEFAULT_FORCE
 
         # Check object directions are numbers
-        if not MCS_Util.is_number(objectDirectionX, self.OBJECT_DIRECTION_X_KEY):
+        if not mcs.Util.is_number(objectDirectionX, self.OBJECT_DIRECTION_X_KEY):
             objectDirectionX = self.DEFAULT_DIRECTION
 
-        if not MCS_Util.is_number(objectDirectionY, self.OBJECT_DIRECTION_Y_KEY):
+        if not mcs.Util.is_number(objectDirectionY, self.OBJECT_DIRECTION_Y_KEY):
             objectDirectionY = self.DEFAULT_DIRECTION
 
-        if not MCS_Util.is_number(objectDirectionZ, self.OBJECT_DIRECTION_Z_KEY):
+        if not mcs.Util.is_number(objectDirectionZ, self.OBJECT_DIRECTION_Z_KEY):
             objectDirectionZ = self.DEFAULT_DIRECTION
 
         # Check receptacle directions are numbers
-        if not MCS_Util.is_number(receptacleObjectDirectionX, self.RECEPTACLE_DIRECTION_X):
+        if not mcs.Util.is_number(receptacleObjectDirectionX, self.RECEPTACLE_DIRECTION_X):
             receptacleObjectDirectionX = self.DEFAULT_DIRECTION
 
-        if not MCS_Util.is_number(receptacleObjectDirectionY, self.RECEPTACLE_DIRECTION_Y):
+        if not mcs.Util.is_number(receptacleObjectDirectionY, self.RECEPTACLE_DIRECTION_Y):
             receptacleObjectDirectionY = self.DEFAULT_DIRECTION
 
-        if not MCS_Util.is_number(receptacleObjectDirectionZ, self.RECEPTACLE_DIRECTION_Z):
+        if not mcs.Util.is_number(receptacleObjectDirectionZ, self.RECEPTACLE_DIRECTION_Z):
             receptacleObjectDirectionZ = self.DEFAULT_DIRECTION
 
         # Check that params that should fall in a range are in that range
-        horizon = MCS_Util.is_in_range(horizon, self.MIN_HORIZON, self.MAX_HORIZON, self.DEFAULT_HORIZON, \
+        horizon = mcs.Util.is_in_range(horizon, self.MIN_HORIZON, self.MAX_HORIZON, self.DEFAULT_HORIZON, \
                 self.HORIZON_KEY)
-        amount = MCS_Util.is_in_range(amount, self.MIN_AMOUNT, self.MAX_AMOUNT, self.DEFAULT_AMOUNT, self.AMOUNT_KEY)
-        force = MCS_Util.is_in_range(force, self.MIN_FORCE, self.MAX_FORCE, self.DEFAULT_FORCE, self.FORCE_KEY)
+        amount = mcs.Util.is_in_range(amount, self.MIN_AMOUNT, self.MAX_AMOUNT, self.DEFAULT_AMOUNT, self.AMOUNT_KEY)
+        force = mcs.Util.is_in_range(force, self.MIN_FORCE, self.MAX_FORCE, self.DEFAULT_FORCE, self.FORCE_KEY)
 
         # TODO Consider the current "head tilt" value while validating the input "horizon" value.
 
@@ -368,7 +370,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             return None
 
         if ',' in action:
-            action, kwargs = MCS_Util.input_to_action_and_params(action)
+            action, kwargs = mcs.Util.input_to_action_and_params(action)
 
         action_list = self.retrieve_action_list(self._goal, self.__step_number)
         if not action in action_list:
@@ -399,7 +401,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         del output_copy.depth_mask_list
         del output_copy.image_list
         del output_copy.object_mask_list
-        history_item = MCS_Scene_History(step=self.__step_number, action=action, args=kwargs, params=params, \
+        history_item = mcs.Scene_History(step=self.__step_number, action=action, args=kwargs, params=params, \
                 output=output_copy)
         self.__history_list.append(history_item)
         filtered_history_item = self.filter_history_images(history_item)
@@ -407,7 +409,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         return output
 
-    def filter_history_images(self, history: MCS_Scene_History) -> MCS_Scene_History:
+    def filter_history_images(self, history: mcs.Scene_History) -> mcs.Scene_History:
         '''Remove the images from the history'''
         if 'target' in history.output.goal.metadata.keys():
             del history.output.goal.metadata['target']['image']
@@ -421,20 +423,20 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
     def mcs_action_to_ai2thor_action(self, action):
-        if action == MCS_Action.CLOSE_OBJECT.value:
+        if action == mcs.Action.CLOSE_OBJECT.value:
             # The AI2-THOR Python library has buggy error checking specifically for the CloseObject action,
             # so just use our own custom action here.
             return "MCSCloseObject"
 
-        if action == MCS_Action.DROP_OBJECT.value:
+        if action == mcs.Action.DROP_OBJECT.value:
             return "DropHandObject"
 
-        if action == MCS_Action.OPEN_OBJECT.value:
+        if action == mcs.Action.OPEN_OBJECT.value:
             # The AI2-THOR Python library has buggy error checking specifically for the OpenObject action,
             # so just use our own custom action here.
             return "MCSOpenObject"
 
-        # if action == MCS_Action.ROTATE_OBJECT_IN_HAND.value:
+        # if action == mcs.Action.ROTATE_OBJECT_IN_HAND.value:
         #     return "RotateHand"
 
         return action
@@ -517,7 +519,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             # Backwards compatibility
             goal_config['metadata']['category'] = goal_config['category']
 
-        return self.restrict_goal_output_metadata(MCS_Goal(
+        return self.restrict_goal_output_metadata(mcs.Goal(
             action_list=(goal_config['action_list'] if 'action_list' in goal_config else None),
             category=(goal_config['category'] if 'category' in goal_config else ''),
             description=(goal_config['description'] if 'description' in goal_config else ''),
@@ -552,7 +554,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 object_metadata['isPickedUp']], key=lambda x: x.uuid)
 
     def retrieve_object_output(self, object_metadata, object_id_to_color):
-        material_list = list(filter(MCS_Util.verify_material_enum_string, [material.upper() for material in \
+        material_list = list(filter(mcs.Util.verify_material_enum_string, [material.upper() for material in \
                 object_metadata['salientMaterials']])) if object_metadata['salientMaterials'] is not None else []
 
         rgb = object_id_to_color[object_metadata['objectId']] if object_metadata['objectId'] in object_id_to_color \
@@ -561,7 +563,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         bounds = object_metadata['objectBounds'] if 'objectBounds' in object_metadata and \
             object_metadata['objectBounds'] is not None else {}
 
-        return self.restrict_object_output_metadata(MCS_Object(
+        return self.restrict_object_output_metadata(mcs.Object(
             uuid=object_metadata['objectId'],
             color={
                 'r': rgb[0],
@@ -585,18 +587,18 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     def retrieve_pose(self, scene_event):
         # TODO MCS-305 Return pose from Unity in step output object
-        return MCS_Pose.STANDING.name
+        return mcs.Pose.STANDING.name
 
     def retrieve_position(self, scene_event) -> dict:
         return scene_event.metadata['agent']['position']
 
     def retrieve_return_status(self, scene_event):
         # TODO MCS-47 Need to implement all proper step statuses on the Unity side
-        return_status = MCS_Return_Status.UNDEFINED.name
+        return_status = mcs.Return_Status.UNDEFINED.name
 
         try:
             if scene_event.metadata['lastActionStatus']:
-                return_status = MCS_Return_Status[scene_event.metadata['lastActionStatus']].name
+                return_status = mcs.Return_Status[scene_event.metadata['lastActionStatus']].name
         except KeyError:
             print("Return status " + scene_event.metadata['lastActionStatus'] + " is not currently supported.")
         finally:
@@ -662,7 +664,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
         objects = scene_event.metadata.get('objects', None)
         agent = scene_event.metadata.get('agent', None)
-        step_output = self.restrict_step_output_metadata(MCS_Step_Output(
+        step_output = self.restrict_step_output_metadata(mcs.Step_Output(
             action_list=self.retrieve_action_list(self._goal, self.__step_number),
             camera_aspect_ratio=(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
             camera_clipping_planes=(scene_event.metadata.get('clippingPlaneNear', 0.0), \
@@ -678,7 +680,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             pose=self.retrieve_pose(scene_event),
             position=self.retrieve_position(scene_event),
             return_status=self.retrieve_return_status(scene_event),
-            reward=MCS_Reward.calculate_reward(self._goal, objects, agent),
+            reward=mcs.Reward.calculate_reward(self._goal, objects, agent),
             rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number,
             structural_object_list=self.retrieve_structural_object_list(scene_event)
@@ -690,7 +692,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             print("RETURN STATUS: " + step_output.return_status)
             print("OBJECTS: " + str(len(step_output.object_list)) + " TOTAL")
             if len(step_output.object_list) > 0:
-                for line in MCS_Util.generate_pretty_object_output(step_output.object_list):
+                for line in mcs.Util.generate_pretty_object_output(step_output.object_list):
                     print("    " + line)
 
         if self.__debug_to_file and self.__output_folder is not None:

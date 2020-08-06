@@ -4,10 +4,10 @@ import cmd
 from machine_common_sense.getchHelper import getch
 
 from machine_common_sense.mcs import MCS
-from machine_common_sense.mcs_action import MCS_Action
-from machine_common_sense.mcs_action_api_desc import MCS_Action_API_DESC
-from machine_common_sense.mcs_action_keys import MCS_Action_Keys
-from machine_common_sense.mcs_util import MCS_Util
+from machine_common_sense.mcs_action import Action
+from machine_common_sense.mcs_action_api_desc import Action_API_DESC
+from machine_common_sense.mcs_action_keys import Action_Keys
+from machine_common_sense.mcs_util import Util
 
 # variables
 commandList = []
@@ -56,7 +56,7 @@ class HumanInputShell(cmd.Cmd):
         # Check for shortcut key, if attempted shortcut key, map and check valid key
         try:
             if len(userInput[0]) == 1:
-                userInput[0] = MCS_Action[MCS_Action_Keys(userInput[0] ).name].value
+                userInput[0] = Action[Action_Keys(userInput[0] ).name].value
         except:
             print("You entered an invalid shortcut key, please try again. (Type 'help' to display commands again)")
             print("You entered: " + userInput[0])
@@ -72,7 +72,7 @@ class HumanInputShell(cmd.Cmd):
             self.do_reset(line)
             return 
             
-        action, params = MCS_Util.input_to_action_and_params(','.join(userInput))
+        action, params = Util.input_to_action_and_params(','.join(userInput))
 
         if action is None:
             print("You entered an invalid command, please try again.  (Type 'help' to display commands again)")
@@ -110,14 +110,14 @@ class HumanInputShell(cmd.Cmd):
     def do_shortcut_key_mode(self, args):
         print("Entering shortcut mode...")
         print("Press key 'e' to exit\n")
-        list_of_mcs_action_keys = [mcs_action_key.value for mcs_action_key in MCS_Action_Keys]
+        list_of_action_keys = [action_key.value for action_key in Action_Keys]
 
         while True:
             char = getch.__call__()
             print('\n(shortcut-command)->', char)
             if char == 'e': # exit shortcut key mode
                 break
-            elif char in list_of_mcs_action_keys:
+            elif char in list_of_action_keys:
                 self.default(char)
         
 
@@ -125,8 +125,8 @@ class HumanInputShell(cmd.Cmd):
 
 # Define all the possible human input commands
 def build_commands():
-    for action in MCS_Action:
-        commandList.append(command(action.value, MCS_Action_Keys[action.name].value, MCS_Action_API_DESC[action.name].value))
+    for action in Action:
+        commandList.append(command(action.value, Action_Keys[action.name].value, Action_API_DESC[action.name].value))
 
 # Display all the possible commands to the user along with key mappings
 def print_commands():
