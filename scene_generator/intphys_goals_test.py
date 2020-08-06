@@ -45,7 +45,7 @@ def test_GravityGoal_update_body():
     assert body['goal']['last_step'] > 0
     assert body['goal']['action_list'] == [['Pass']] * body['goal']['last_step']
     assert body['goal']['category'] == 'intphys'
-    assert body['goal']['domain_list'] == ['objects', 'object solidity', 'object motion', 'gravity']
+    assert set(body['goal']['domain_list']) == set(['objects', 'object solidity', 'object motion', 'gravity'])
     assert 'passive' in body['goal']['type_list']
     assert 'action none' in body['goal']['type_list']
     assert 'intphys' in body['goal']['type_list']
@@ -76,7 +76,7 @@ def test_ObjectPermanenceGoal_update_body():
     assert body['goal']['last_step'] > 0
     assert body['goal']['action_list'] == [['Pass']] * body['goal']['last_step']
     assert body['goal']['category'] == 'intphys'
-    assert body['goal']['domain_list'] == ['objects', 'object solidity', 'object motion', 'object permanence']
+    assert set(body['goal']['domain_list']) == set(['objects', 'object solidity', 'object motion', 'object permanence'])
     assert 'passive' in body['goal']['type_list']
     assert 'action none' in body['goal']['type_list']
     assert 'intphys' in body['goal']['type_list']
@@ -104,7 +104,7 @@ def test_ShapeConstancyGoal_update_body():
     assert body['goal']['last_step'] > 0
     assert body['goal']['action_list'] == [['Pass']] * body['goal']['last_step']
     assert body['goal']['category'] == 'intphys'
-    assert body['goal']['domain_list'] == ['objects', 'object solidity', 'object motion', 'object permanence']
+    assert set(body['goal']['domain_list']) == set(['objects', 'object solidity', 'object motion', 'object permanence'])
     assert 'passive' in body['goal']['type_list']
     assert 'action none' in body['goal']['type_list']
     assert 'intphys' in body['goal']['type_list']
@@ -132,7 +132,7 @@ def test_SpatioTemporalContinuityGoal_update_body():
     assert body['goal']['last_step'] > 0
     assert body['goal']['action_list'] == [['Pass']] * body['goal']['last_step']
     assert body['goal']['category'] == 'intphys'
-    assert body['goal']['domain_list'] == ['objects', 'object solidity', 'object motion', 'object permanence']
+    assert set(body['goal']['domain_list']) == set(['objects', 'object solidity', 'object motion', 'object permanence'])
     assert 'passive' in body['goal']['type_list']
     assert 'action none' in body['goal']['type_list']
     assert 'intphys' in body['goal']['type_list']

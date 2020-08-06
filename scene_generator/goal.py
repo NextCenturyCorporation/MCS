@@ -3,11 +3,13 @@ import random
 import shapely
 import uuid
 from abc import ABC, abstractmethod
+from enum import Enum
 from typing import Dict, Any, Tuple, List, Optional
 
 import geometry
 import objects
 import separating_axis_theorem
+import tags
 import util
 
 MAX_WALL_WIDTH = 4
@@ -232,6 +234,14 @@ def generate_painting(painting_material: str, wall_colors: List[str], performer_
 
     return None
 
+  
+class GoalCategory(Enum):
+    """String for the goal's JSON config "category" property. Should all be listed in the API documentation."""
+    INTPHYS = 'intphys'
+    RETRIEVAL = 'retrieval'
+    TRANSFERRAL = 'transferral'
+    TRAVERSAL = 'traversal'
+
 
 class Goal(ABC):
     """An abstract Goal. Subclasses must implement compute_objects and
@@ -242,7 +252,7 @@ class Goal(ABC):
         self._name = name
         self._performer_start = None
         self._compute_performer_start()
-        self._tag_to_objects = []
+        self._tag_to_objects = {}
         self._bounds_list = []
 
     def get_bounds_list(self) -> List[List[Dict[str, float]]]:
@@ -338,17 +348,18 @@ class Goal(ABC):
         (dict that maps tag strings to object lists, bounding rectangles)"""
         pass
 
-    def _update_goal_info_list(self, goal: Dict[str, Any], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> None:
-        info_set = set(goal.get('info_list', []))
-
+    def _update_goal_info_list(self, info_list: List[str], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> List[str]:
+        """Update and return the given info_list with the info from all objects in this goal."""
+        info_set = set(info_list)
         for key, value in tag_to_objects.items():
             for obj in value:
                 info_list = obj.get('info', []).copy()
                 if 'info_string' in obj:
                     info_list.append(obj['info_string'])
                 info_set |= set([(key + ' ' + info) for info in info_list])
-
-        goal['info_list'] = list(info_set)
+                
+        #goal['info_list'] = list(info_set)
+        return list(info_set)
 
     def _update_goal_tags(self, goal: Dict[str, Any], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> None:
         self._update_goal_tags_of_type(goal, tag_to_objects['target'], 'target')
@@ -384,7 +395,10 @@ class Goal(ABC):
     def get_config(self, tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> Dict[str, Any]:
         """Create and return the goal configuration."""
         goal_config = self._get_subclass_config(tag_to_objects['target'])
-        self._update_goal_tags(goal_config, tag_to_objects)
+        goal_config['category'] = goal_config.get('category', '')
+        goal_config['type_list'] = tags.append_object_tags(goal_config.get('type_list', []), tag_to_objects)
+        goal_config['info_list'] = self._update_goal_info_list(goal_config.get('info_list', []), tag_to_objects)
+        goal_config['metadata'] = goal_config.get('metadata', {})
         return goal_config
 
     def get_name(self) -> str:
@@ -408,7 +422,7 @@ class Goal(ABC):
 
     def generate_walls(self, material: str, colors: List[str], performer_position: Dict[str, Any],
                        bounding_rects: List[List[Dict[str, float]]]) -> List[Dict[str, Any]]:
-        wall_count = 3 #random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0] #FIXME want more walls to test
+        wall_count = 3 #random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0] #FIXME Uncomment random.choices(). Wanted more walls to test
         
         walls = [] 
         # Add bounding rects to walls
@@ -425,7 +439,7 @@ class Goal(ABC):
 
     def generate_paintings(self, material: str, colors: List[str], performer_position: Dict[str, Any],
                        bounding_rects: List[List[Dict[str, float]]], wall_bounding_rects: List[List[Dict[str, float]]]=None) -> List[Dict[str, Any]]:
-        painting_count = 3 #random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0] # Using same probability as walls #FIXME want more paintings to test
+        painting_count = 3 #random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0] # Using same probability as walls #FIXME Uncomment random.choices()
 
         paintings = []
         all_bounding_rects = [bounding_rect.copy() for bounding_rect in bounding_rects]

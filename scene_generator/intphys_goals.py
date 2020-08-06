@@ -11,8 +11,9 @@ import materials
 import math
 import objects
 import ramps
+import tags
 import util
-from goal import Goal
+from goal import Goal, GoalCategory
 from util import finalize_object_definition, instantiate_object
 
 
@@ -25,6 +26,9 @@ WALL_DEPTH = 0.1
 
 class IntPhysGoal(Goal, ABC):
     """Base class for Intuitive Physics goals. Subclasses must set TEMPLATE variable (for use in get_config)."""
+
+    PLAUSIBLE = 'plausible'
+    IMPLAUSIBLE = 'implausible'
 
     # The 3.55 or 4.2 is the position at which the object will leave the camera's viewport, and is dependent on the
     # object's Z position (either 1.6 or 2.7). The * 1.2 is to account for the camera's perspective.
@@ -111,7 +115,7 @@ class IntPhysGoal(Goal, ABC):
 
         body['observation'] = True
         body['answer'] = {
-            'choice': 'plausible'
+            'choice': IntPhysGoal.PLAUSIBLE
         }
         return body
 
@@ -125,9 +129,9 @@ class IntPhysGoal(Goal, ABC):
         goal['action_list'] = [['Pass']] * goal['last_step']
         if self._object_creator:
             if self._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across:
-                goal['type_list'].append('move across')
+                goal['type_list'].append(tags.INTPHYS_MOVE_ACROSS)
             elif self._object_creator == IntPhysGoal._get_objects_falling_down:
-                goal['type_list'].append('fall down')
+                goal['type_list'].append(tags.INTPHYS_FALL_DOWN)
         return goal
 
     def compute_objects(self, wall_material_name: str, wall_colors: List[str]) -> Dict[str, List[Dict[str, Any]]]:
@@ -518,13 +522,22 @@ class IntPhysGoal(Goal, ABC):
 
 class GravityGoal(IntPhysGoal):
     TEMPLATE = {
-        'category': 'intphys',
-        'domain_list': ['objects', 'object solidity', 'object motion', 'gravity'],
-        'type_list': ['passive', 'action none', 'intphys', 'gravity'],
-        'task_list': ['choose'],
+        'category': GoalCategory.INTPHYS.value,
+        'domain_list': [
+            tags.DOMAIN_OBJECTS,
+            tags.DOMAIN_OBJECTS_GRAVITY,
+            tags.DOMAIN_OBJECTS_MOTION,
+            tags.DOMAIN_OBJECTS_SOLIDITY
+        ],
+        'type_list': [
+            tags.PASSIVE,
+            tags.ACTION_NONE,
+            GoalCategory.INTPHYS.value,
+            tags.INTPHYS_GRAVITY
+        ],
         'description': '',
         'metadata': {
-            'choose': ['plausible', 'implausible']
+            'choose': [IntPhysGoal.PLAUSIBLE, IntPhysGoal.IMPLAUSIBLE]
         }
     }
 
@@ -641,18 +654,29 @@ class GravityGoal(IntPhysGoal):
 
     def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         goal = super(GravityGoal, self)._get_subclass_config(goal_objects)
-        goal['type_list'].append('ramp ' + self._ramp_type.value)
+        goal['type_list'].append(tags.get_ramp_tag(self._ramp_type.value))
         return goal
 
 
 class ObjectPermanenceGoal(IntPhysGoal):
     TEMPLATE = {
-        'category': 'intphys',
-        'domain_list': ['objects', 'object solidity', 'object motion', 'object permanence'],
-        'type_list': ['passive', 'action none', 'intphys', 'object permanence'],
-        'task_list': ['choose'],
+        'category': GoalCategory.INTPHYS.value,
+        'domain_list': [
+            tags.DOMAIN_OBJECTS,
+            tags.DOMAIN_OBJECTS_MOTION,
+            tags.DOMAIN_OBJECTS_PERMANENCE,
+            tags.DOMAIN_OBJECTS_SOLIDITY
+        ],
+        'type_list': [
+            tags.PASSIVE,
+            tags.ACTION_NONE,
+            GoalCategory.INTPHYS.value,
+            tags.INTPHYS_OBJECT_PERMANENCE
+        ],
         'description': '',
-        'metadata': {}
+        'metadata': {
+            'choose': [IntPhysGoal.PLAUSIBLE, IntPhysGoal.IMPLAUSIBLE]
+        }
     }
 
     def __init__(self):
@@ -661,12 +685,23 @@ class ObjectPermanenceGoal(IntPhysGoal):
 
 class ShapeConstancyGoal(IntPhysGoal):
     TEMPLATE = {
-        'category': 'intphys',
-        'domain_list': ['objects', 'object solidity', 'object motion', 'object permanence'],
-        'type_list': ['passive', 'action none', 'intphys', 'shape constancy'],
-        'task_list': ['choose'],
+        'category': GoalCategory.INTPHYS.value,
+        'domain_list': [
+            tags.DOMAIN_OBJECTS,
+            tags.DOMAIN_OBJECTS_MOTION,
+            tags.DOMAIN_OBJECTS_PERMANENCE,
+            tags.DOMAIN_OBJECTS_SOLIDITY
+        ],
+        'type_list': [
+            tags.PASSIVE,
+            tags.ACTION_NONE,
+            GoalCategory.INTPHYS.value,
+            tags.INTPHYS_SHAPE_CONSTANCY
+        ],
         'description': '',
-        'metadata': {}
+        'metadata': {
+            'choose': [IntPhysGoal.PLAUSIBLE, IntPhysGoal.IMPLAUSIBLE]
+        }
     }
 
     def __init__(self):
@@ -675,12 +710,23 @@ class ShapeConstancyGoal(IntPhysGoal):
 
 class SpatioTemporalContinuityGoal(IntPhysGoal):
     TEMPLATE = {
-        'category': 'intphys',
-        'domain_list': ['objects', 'object solidity', 'object motion', 'object permanence'],
-        'type_list': ['passive', 'action none', 'intphys', 'spatio temporal continuity'],
-        'task_list': ['choose'],
+        'category': GoalCategory.INTPHYS.value,
+        'domain_list': [
+            tags.DOMAIN_OBJECTS,
+            tags.DOMAIN_OBJECTS_MOTION,
+            tags.DOMAIN_OBJECTS_PERMANENCE,
+            tags.DOMAIN_OBJECTS_SOLIDITY
+        ],
+        'type_list': [
+            tags.PASSIVE,
+            tags.ACTION_NONE,
+            GoalCategory.INTPHYS.value,
+            tags.INTPHYS_SPATIO_TEMPORAL_CONTINUITY
+        ],
         'description': '',
-        'metadata': {}
+        'metadata': {
+            'choose': [IntPhysGoal.PLAUSIBLE, IntPhysGoal.IMPLAUSIBLE]
+        }
     }
 
     def __init__(self):

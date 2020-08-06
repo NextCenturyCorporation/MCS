@@ -1,12 +1,14 @@
 import copy
 import datetime
 import glob
+import io
 import json
 import math
 import numpy
 import os
-import yaml
 import random
+import sys
+import yaml
 from PIL import Image
 
 import ai2thor.controller
@@ -102,16 +104,27 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     HISTORY_DIRECTORY = "SCENE_HISTORY"
 
     CONFIG_FILE = os.getenv('MCS_CONFIG_FILE_PATH', './mcs_config.yaml')
+
+    AWS_CREDENTIALS_FOLDER = os.path.expanduser('~') + '/.aws/'
+    AWS_CREDENTIALS_FILE = os.path.expanduser('~') + '/.aws/credentials'
+    AWS_ACCESS_KEY_ID = 'aws_access_key_id'
+    AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
+
+    CONFIG_AWS_ACCESS_KEY_ID = 'aws_access_key_id'
+    CONFIG_AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
     CONFIG_METADATA_MODE = 'metadata'
     CONFIG_METADATA_MODE_FULL = 'full' # Normal metadata plus metadata for all hidden objects
     CONFIG_METADATA_MODE_NO_NAVIGATION = 'no_navigation' # No navigation metadata like 3D coordinates
     CONFIG_METADATA_MODE_NO_VISION = 'no_vision' # No vision (image feature) metadata, except for the images
     CONFIG_METADATA_MODE_NONE = 'none' # No metadata, except for the images and haptic/audio feedback
+    CONFIG_SAVE_IMAGES_TO_S3_BUCKET = 'save_images_to_s3_bucket'
+    CONFIG_SAVE_IMAGES_TO_S3_FOLDER = 'save_images_to_s3_folder'
+    CONFIG_TEAM = 'team'
 
     def __init__(self, unity_app_file_path, debug=False, enable_noise=False, seed=None):
         super().__init__()
         
-        self.__controller = ai2thor.controller.Controller(
+        self._controller = ai2thor.controller.Controller(
             quality='Medium',
             fullscreen=False,
             # The headless flag does not work for me
@@ -141,16 +154,34 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         if self.__seed:
             random.seed(self.__seed)
 
-        self.__scene_configuration = None
-        self.__head_tilt = 0
+        self._goal = MCS_Goal()
+        self.__head_tilt = 0.0
+        self.__history_list = []
         self.__output_folder = None # Save output image files to debug
+        self.__scene_configuration = None
+        self.__scene_history_file = None
         self.__step_number = 0
-        self.__goal = None
+        self.__s3_client = None
 
         if not os.path.exists(self.HISTORY_DIRECTORY):
             os.makedirs(self.HISTORY_DIRECTORY)
 
         self._config = self.read_config_file()
+
+        if self.CONFIG_AWS_ACCESS_KEY_ID in self._config and self.CONFIG_AWS_SECRET_ACCESS_KEY in self._config:
+            if not os.path.exists(self.AWS_CREDENTIALS_FOLDER):
+                os.makedirs(self.AWS_CREDENTIALS_FOLDER)
+            # From https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html
+            with open(self.AWS_CREDENTIALS_FILE, 'w') as credentials_file:
+                credentials_file.write('[default]\n' + self.AWS_ACCESS_KEY_ID + ' = ' + \
+                        self._config[self.CONFIG_AWS_ACCESS_KEY_ID] + '\n' + self.AWS_SECRET_ACCESS_KEY + ' = ' + \
+                        self._config[self.CONFIG_AWS_SECRET_ACCESS_KEY] + '\n')
+
+        if self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET in self._config:
+            if 'boto3' not in sys.modules:
+                import boto3
+                from botocore.exceptions import ClientError
+                self.__s3_client = boto3.client('s3')
 
 
     def get_seed_value(self):
@@ -158,13 +189,13 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     # Write the history file
     def write_history_file(self, history_string):
-        if self.__scene_file:
-            with open(self.__scene_file, "a+") as history_file:
+        if self.__scene_history_file:
+            with open(self.__scene_history_file, "a+") as history_file:
                 history_file.write(json.dumps(json.loads(history_string)) + '\n')
 
     # Override
     def end_scene(self, classification, confidence):
-        history_item = '{"classification": ' + classification + ', "confidence": ' + confidence + '}'
+        history_item = '{"classification": ' + classification + ', "confidence": ' + str(confidence) + '}'
         self.__history_list.append(history_item)
         self.write_history_file(history_item)
 
@@ -179,13 +210,12 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         self.__scene_configuration = config_data
         self.__step_number = 0
         self.__history_list = []
-        self.__goal = self.retrieve_goal(self.__scene_configuration)
+        self._goal = self.retrieve_goal(self.__scene_configuration)
         if 'screenshot' in config_data and config_data['screenshot']:
-            self.__scene_file = None
+            self.__scene_history_file = None
         else:
-            self.__scene_file = os.path.join(self.HISTORY_DIRECTORY, \
-                    self.__scene_configuration['name'].replace('.json','') + "-" + \
-                    datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
+            self.__scene_history_file = os.path.join(self.HISTORY_DIRECTORY, config_data['name'].replace('.json','') + "-" + \
+                    self.generate_time() + ".txt")
         skip_preview_phase = True if 'goal' in config_data and 'skip_preview_phase' in config_data['goal'] else False
 
         if self.__debug_to_file and config_data['name'] is not None:
@@ -195,10 +225,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             for file_path in file_list:
                 os.remove(file_path)
 
-        output = self.wrap_output(self.__controller.step(self.wrap_step(action='Initialize', sceneConfig=config_data)))
+        output = self.wrap_output(self._controller.step(self.wrap_step(action='Initialize', sceneConfig=config_data)))
 
         if not skip_preview_phase:
-            if self.__goal is not None and self.__goal.last_preview_phase_step > 0:
+            if self._goal is not None and self._goal.last_preview_phase_step > 0:
                 image_list = output.image_list
                 depth_mask_list = output.depth_mask_list
                 object_mask_list = output.object_mask_list
@@ -206,7 +236,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 if self.__debug_to_terminal:
                     print('STARTING PREVIEW PHASE...')
 
-                for i in range(0, self.__goal.last_preview_phase_step):
+                for i in range(0, self._goal.last_preview_phase_step):
                     output = self.step('Pass')
                     image_list = image_list + output.image_list
                     depth_mask_list = depth_mask_list + output.depth_mask_list
@@ -332,17 +362,20 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     def step(self, action, **kwargs):
         super().step(action, **kwargs)
 
-        if self.__goal.last_step is not None and self.__goal.last_step == self.__step_number:
-            print("MCS Warning: You have passed the last step for this scene. Skipping your action. " + \
+        if self._goal.last_step is not None and self._goal.last_step == self.__step_number:
+            print("MCS Warning: You have passed the last step for this scene. Ignoring your action. " + \
                     "Please call controller.end_scene() now.")
             return None
 
         if ',' in action:
             action, kwargs = MCS_Util.input_to_action_and_params(action)
 
-        if not action in self.ACTION_LIST:
-            print("MCS Warning: The given action '" + action + "' is not valid. Exchanging it with the 'Pass' action.")
-            action = "Pass"
+        action_list = self.retrieve_action_list(self._goal, self.__step_number)
+        if not action in action_list:
+            print("MCS Warning: The given action '" + action + "' is not valid. Ignoring your action. " + \
+                    "Please call controller.step() with a valid action.")
+            print("Actions (Step " + str(self.__step_number) + "): " + ", ".join(action_list))
+            return None
 
         self.__step_number += 1
 
@@ -356,11 +389,11 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         # Only call mcs_action_to_ai2thor_action AFTER calling validate_and_convert_params
         action = self.mcs_action_to_ai2thor_action(action)
 
-        if self.__goal.last_step is not None and self.__goal.last_step == self.__step_number:
+        if self._goal.last_step is not None and self._goal.last_step == self.__step_number:
             print("MCS Warning: This is your last step for this scene. All your future actions will be skipped. " + \
                     "Please call controller.end_scene() now.")
 
-        output = self.wrap_output(self.__controller.step(self.wrap_step(action=action, **params)))
+        output = self.wrap_output(self._controller.step(self.wrap_step(action=action, **params)))
 
         output_copy = copy.deepcopy(output)
         del output_copy.depth_mask_list
@@ -369,9 +402,23 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         history_item = MCS_Scene_History(step=self.__step_number, action=action, args=kwargs, params=params, \
                 output=output_copy)
         self.__history_list.append(history_item)
-        self.write_history_file(str(history_item))
+        filtered_history_item = self.filter_history_images(history_item)
+        self.write_history_file(str(filtered_history_item))
 
         return output
+
+    def filter_history_images(self, history: MCS_Scene_History) -> MCS_Scene_History:
+        '''Remove the images from the history'''
+        if 'target' in history.output.goal.metadata.keys():
+            del history.output.goal.metadata['target']['image']
+        if 'target_1' in history.output.goal.metadata.keys():
+            del history.output.goal.metadata['target_1']['image']
+        if 'target_2' in history.output.goal.metadata.keys():
+            del history.output.goal.metadata['target_2']['image']
+        return history
+
+    def generate_time(self):
+        return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
     def mcs_action_to_ai2thor_action(self, action):
         if action == MCS_Action.CLOSE_OBJECT.value:
@@ -467,15 +514,18 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     def retrieve_goal(self, scene_configuration):
         goal_config = scene_configuration['goal'] if 'goal' in scene_configuration else {}
         if 'category' in goal_config:
+            # Backwards compatibility
             goal_config['metadata']['category'] = goal_config['category']
 
         return self.restrict_goal_output_metadata(MCS_Goal(
             action_list=(goal_config['action_list'] if 'action_list' in goal_config else None),
+            category=(goal_config['category'] if 'category' in goal_config else ''),
+            description=(goal_config['description'] if 'description' in goal_config else ''),
+            domain_list=(goal_config['domain_list'] if 'domain_list' in goal_config else []),
             info_list=(goal_config['info_list'] if 'type_list' in goal_config else []),
             last_preview_phase_step=(goal_config['last_preview_phase_step'] if 'last_preview_phase_step' \
                     in goal_config else 0),
             last_step=(goal_config['last_step'] if 'last_step' in goal_config else None),
-            task_list=(goal_config['task_list'] if 'type_list' in goal_config else []),
             type_list=(goal_config['type_list'] if 'type_list' in goal_config else []),
             metadata=(goal_config['metadata'] if 'metadata' in goal_config else {})
         ))
@@ -586,6 +636,19 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 depth_mask.save(fp=self.__output_folder + 'depth_mask' + suffix)
                 object_mask.save(fp=self.__output_folder + 'object_mask' + suffix)
 
+            if self.__s3_client:
+                in_memory_file = io.BytesIO()
+                scene_image.save(fp=in_memory_file, format='png')
+                in_memory_file.seek(0)
+                s3_folder = (self._config[self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER] + '/') if \
+                        self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER in self._config else ''
+                team_prefix = (self._config[self.CONFIG_TEAM] + '_') if self.CONFIG_TEAM in self._config else ''
+                s3_file_name = s3_folder + team_prefix + self.__scene_configuration['name'].replace('.json', '') + \
+                        '_' + str(self.__step_number) + '_' + str(index + 1) + '_' + self.generate_time() + '.png'
+                print('SAVE TO S3 BUCKET ' + self._config[self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET] + ': ' + s3_file_name)
+                self.__s3_client.upload_fileobj(in_memory_file, self._config[self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET], \
+                        s3_file_name, ExtraArgs={'ACL': 'public-read', 'ContentType': 'image/png'})
+
         return image_list, depth_mask_list, object_mask_list
 
     def wrap_output(self, scene_event):
@@ -600,14 +663,14 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         objects = scene_event.metadata.get('objects', None)
         agent = scene_event.metadata.get('agent', None)
         step_output = self.restrict_step_output_metadata(MCS_Step_Output(
-            action_list=self.retrieve_action_list(self.__goal, self.__step_number),
+            action_list=self.retrieve_action_list(self._goal, self.__step_number),
             camera_aspect_ratio=(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            camera_clipping_planes=(scene_event.metadata.get('clippingPlaneNear', 0), \
-                    scene_event.metadata.get('clippingPlaneFar', 0)),
-            camera_field_of_view=scene_event.metadata.get('fov', 0),
-            camera_height=scene_event.metadata.get('cameraPosition', {}).get('y', 0),
+            camera_clipping_planes=(scene_event.metadata.get('clippingPlaneNear', 0.0), \
+                    scene_event.metadata.get('clippingPlaneFar', 0.0)),
+            camera_field_of_view=scene_event.metadata.get('fov', 0.0),
+            camera_height=scene_event.metadata.get('cameraPosition', {}).get('y', 0.0),
             depth_mask_list=depth_mask_list,
-            goal=self.__goal,
+            goal=self._goal,
             head_tilt=self.retrieve_head_tilt(scene_event),
             image_list=image_list,
             object_list=self.retrieve_object_list(scene_event),
@@ -615,7 +678,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             pose=self.retrieve_pose(scene_event),
             position=self.retrieve_position(scene_event),
             return_status=self.retrieve_return_status(scene_event),
-            reward=MCS_Reward.calculate_reward(self.__goal, objects, agent),
+            reward=MCS_Reward.calculate_reward(self._goal, objects, agent),
             rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number,
             structural_object_list=self.retrieve_structural_object_list(scene_event)
