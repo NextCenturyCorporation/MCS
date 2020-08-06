@@ -951,7 +951,7 @@ OBJECTS_PICKUPABLE_MISC = [{
     "shape": ["box"],
     "size": "small",
     "mass": 0.5,
-    "materialCategory": [],
+    "materialCategory": ["cardboard"],
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosedAreas": [{
@@ -1000,7 +1000,7 @@ OBJECTS_PICKUPABLE_MISC = [{
     "shape": ["box"],
     "size": "tiny",
     "mass": 0.25,
-    "materialCategory": [],
+    "materialCategory": ["cardboard"],
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosedAreas": [{
@@ -1049,7 +1049,7 @@ OBJECTS_PICKUPABLE_MISC = [{
     "shape": ["box"],
     "size": "small",
     "mass": 0.5,
-    "materialCategory": [],
+    "materialCategory": ["cardboard"],
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosedAreas": [{
@@ -1098,7 +1098,7 @@ OBJECTS_PICKUPABLE_MISC = [{
     "shape": ["box"],
     "size": "tiny",
     "mass": 0.25,
-    "materialCategory": [],
+    "materialCategory": ["cardboard"],
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "enclosedAreas": [{
@@ -1147,7 +1147,7 @@ OBJECTS_PICKUPABLE_MISC = [{
     "shape": ["box"],
     "size": "small",
     "mass": 0.5,
-    "materialCategory": [],
+    "materialCategory": ["cardboard"],
     "novelColor": True,
     "novelShape": True,
     "salientMaterials": ["paper"],
@@ -1198,7 +1198,7 @@ OBJECTS_PICKUPABLE_MISC = [{
     "shape": ["box"],
     "size": "tiny",
     "mass": 0.25,
-    "materialCategory": [],
+    "materialCategory": ["cardboard"],
     "novelColor": True,
     "novelShape": True,
     "salientMaterials": ["paper"],
@@ -1483,7 +1483,7 @@ OBJECTS_MOVEABLE = [{
     "shape": ["box"],
     "obstruct": "vision",
     "attributes": ["moveable", "receptacle", "openable"],
-    "materialCategory": [],
+    "materialCategory": ["cardboard"],
     "salientMaterials": ["paper"],
     "chooseSize": [{
         "size": "small",
@@ -1576,7 +1576,7 @@ OBJECTS_MOVEABLE = [{
     "shape": ["box"],
     "obstruct": "vision",
     "attributes": ["moveable", "receptacle", "openable"],
-    "materialCategory": [],
+    "materialCategory": ["cardboard"],
     "salientMaterials": ["paper"],
     "chooseSize": [{
         "size": "small",
@@ -1669,7 +1669,7 @@ OBJECTS_MOVEABLE = [{
     "shape": ["box"],
     "obstruct": "vision",
     "attributes": ["moveable", "receptacle", "openable"],
-    "materialCategory": [],
+    "materialCategory": ["cardboard"],
     "salientMaterials": ["paper"],
     "novelColor": True,
     "novelShape": True,
@@ -2902,7 +2902,7 @@ OBJECTS_IMMOBILE = [{
     "shape": ["sofa"],
     "size": "huge",
     "mass": 100,
-    "materialCategory": [],
+    "materialCategory": ["sofa_1"],
     "salientMaterials": ["fabric"],
     "attributes": ["receptacle", "stackTarget"],
     "openAreas": [{
@@ -2941,7 +2941,7 @@ OBJECTS_IMMOBILE = [{
     "shape": ["sofa"],
     "size": "huge",
     "mass": 100,
-    "materialCategory": [],
+    "materialCategory": ["sofa_2"],
     "salientMaterials": ["fabric"],
     "attributes": ["receptacle", "stackTarget"],
     "openAreas": [{
@@ -2980,7 +2980,7 @@ OBJECTS_IMMOBILE = [{
     "shape": ["sofa chair"],
     "size": "huge",
     "mass": 50,
-    "materialCategory": [],
+    "materialCategory": ["sofa_chair_1"],
     "salientMaterials": ["fabric"],
     "attributes": ["receptacle", "stackTarget"],
     "openAreas": [{
@@ -3019,7 +3019,7 @@ OBJECTS_IMMOBILE = [{
     "shape": ["sofa chair"],
     "size": "huge",
     "mass": 50,
-    "materialCategory": [],
+    "materialCategory": ["sofa_2"],
     "salientMaterials": ["fabric"],
     "attributes": ["receptacle", "stackTarget"],
     "openAreas": [{
