@@ -306,6 +306,33 @@ ol, ul {
     margin: 40px 10px 0px 35px;
 }
 
+.movie-steps-holder{
+    display: flex;
+    margin: 20px 35px;
+}
+
+.interactive-movie-holder {
+    width: 600px;
+    display: inline-block;
+    height: 400px;
+    margin: 10px;
+}
+
+.steps-holder {
+    width: 500px;
+    display: inline-block;
+    height: 400px;
+    margin: 10px;
+}
+
+.steps-container {
+    width: 470px;
+    height: 360px;
+    overflow-y: auto;
+    padding: 20px;
+    border: 1px solid #000;
+}
+
 .object-nav, .object-contents {
     display: flex;
     margin: 10px 50px;
@@ -326,6 +353,7 @@ ol, ul {
 
 .flags-holder {
     position: absolute;
+    right: 25px;
 }
 
 .checkbox-holder {

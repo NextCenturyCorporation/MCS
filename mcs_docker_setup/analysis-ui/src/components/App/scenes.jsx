@@ -1,15 +1,23 @@
 import React from 'react';
-import { Query, useMutation } from 'react-apollo';
+import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import _ from "lodash";
 import $ from 'jquery';
+import FlagCheckboxMutation from './flagCheckboxMutation';
 
 const historyQueryName = "getEvalHistory";
 const sceneQueryName = "getEvalScene";
 const moviesBucket = "https://evaluation-images.s3.amazonaws.com/eval-2-inphys-videos/"
+const interactiveMoviesBucket = "https://evaluation-images.s3.amazonaws.com/eval-2/"
 const movieExtension = ".mp4"
 
 let currentState = {};
+
+const PERFORMER_PREFIX_MAPPING = {
+    "IBM-MIT-Harvard-Stanford": "mitibm_",
+    "OPICS (OSU, UU, NYU)": "opics_",
+    "MESS-UCBerkeley": "mess_"
+};
 
 const mcs_history = gql`
     query getEvalHistory($testType: String!, $sceneNum: String!){
@@ -48,67 +56,13 @@ const mcs_scene= gql`
             scene_part_num
         }
   }`;
-
-const flagMutation = gql`
-    mutation updateSceneHistoryFlags($testType: String!, $sceneNum: String!, $flagRemove: Boolean!, $flagInterest: Boolean!) {
-        updateSceneHistoryFlags(testType: $testType, sceneNum: $sceneNum, flagRemove: $flagRemove, flagInterest: $flagInterest) {
-            total
-        }
-    }
-`;
-
-const FlagCheckboxMutation = ({state}) => {
-    const [updateFlags] = useMutation(flagMutation);
-
-    const updateRemoveFlag = (evt) => {
-        state.flagRemove = state.flagRemove  ? false : true;
-        mutateFlagUpdate();
-    }
-
-    const updateInterestFlag = (evt) => {
-        state.flagInterest = state.flagInterest ? false : true;
-        mutateFlagUpdate();
-    }
-
-    const mutateFlagUpdate = () => {
-        updateFlags({
-                variables: {
-                    testType: state.testType,
-                    sceneNum: state.sceneNum,
-                    flagRemove: state.flagRemove,
-                    flagInterest: state.flagInterest  
-            }, refetchQueries: { 
-                query: mcs_history, 
-                variables:{"testType": currentState.testType, "sceneNum": currentState.sceneNum}
-            }
-        });
-    }
-
-    return (
-        <div className="checkbox-holder">
-              <div className="form-check">
-                  <label className="form-check-label">
-                      <input type="checkbox" id="flagCheckRemove" className="form-check-input" name="Flag for removal" checked={state.flagRemove} onChange={updateRemoveFlag}/>
-                      Flag for removal
-                  </label>
-              </div>
-              <div className="form-check">
-                  <label className="form-check-label">
-                      <input type="checkbox" id="flagCheckInterest" className="form-check-input" mame="Flag for interest" checked={state.flagInterest} onChange={updateInterestFlag}/>
-                      Flag for interest
-                  </label>
-              </div>
-        </div>
-    )
-}
-
 class Scenes extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             currentPerformerKey: 0,
-            currentPerformer: "",
+            currentPerformer: props.value.performer !== undefined ? props.value.performer : "",
             currentSceneNum: props.value.scene_part_num !== undefined ? parseInt(props.value.scene_part_num) - 1 : 0,
             currentObjectNum: 0,
             flagRemove: false,
@@ -121,7 +75,12 @@ class Scenes extends React.Component {
     setInitialPerformer = (performer, firstEval) => {
         if(this.state.currentPerformer === "") {
             this.setState({
-                currentPerformer: performer,
+                currentPerformer: performer
+            });
+        }
+
+        if(this.state.currentPerformer === "" && firstEval !== null && firstEval !== undefined) {
+            this.setState({
                 flagRemove: firstEval["flags"]["remove"],
                 flagInterest: firstEval["flags"]["interest"]
             });
@@ -129,12 +88,6 @@ class Scenes extends React.Component {
     }
 
     changePerformer = (performerKey, performer) => {
-        $('#toggle_performer_' + this.state.currentPerformerKey ).toggleClass( "btn-primary" );
-        $('#toggle_performer_' + this.state.currentPerformerKey ).toggleClass( "btn-secondary" );
-        
-        $('#toggle_performer_' + performerKey ).toggleClass( "btn-secondary" );
-        $('#toggle_performer_' + performerKey).toggleClass( "btn-primary" );
-
         this.setState({ currentPerformerKey: performerKey, currentPerformer: performer});
     }
 
@@ -215,6 +168,22 @@ class Scenes extends React.Component {
         return sceneObject.type;
     }
 
+    checkSceneObjectKey = (scene, objectKey, key, labelPrefix = "") => {
+        if(objectKey !== 'objects' && objectKey !== 'goal') {
+            return (
+                <tr key={'scene_prop_' + key}>
+                    <td className="bold-label">{labelPrefix + objectKey}:</td>
+                    <td className="scene-text">{this.convertValueToString(scene[objectKey])}</td>
+                </tr>
+            );
+        } else if( objectKey === 'goal') {
+            return (
+                Object.keys(scene["goal"]).map((goalObjectKey, goalKey) => 
+                    this.checkSceneObjectKey(scene["goal"], goalObjectKey, goalKey, "goal."))
+            );
+        }
+    }
+
     render() {
         return (
             <Query query={mcs_history} variables={
@@ -249,11 +218,11 @@ class Scenes extends React.Component {
                                     if(scenesInOrder.length > 0) {
                                         return (
                                             <div>
+                                                <div className="flags-holder">
+                                                    <FlagCheckboxMutation state={this.state} currentState={currentState}/>
+                                                </div>
                                                 { (scenesByPerformer[this.state.currentPerformer][0]["category"] === "observation") && 
                                                     <div>
-                                                        <div className="flags-holder">
-                                                            <FlagCheckboxMutation state={this.state}/>
-                                                        </div>
                                                         <div className="movie-holder">
                                                             <div className="movie-left-right">
                                                                 <div className="movie-text"><b>Scene 1:</b>&nbsp;&nbsp;{scenesInOrder[0].answer.choice}</div>
@@ -274,7 +243,7 @@ class Scenes extends React.Component {
                                                 </div>
                                                 <div className="performer-group btn-group" role="group">
                                                     {performerList.map((performer, key) =>
-                                                        <button className={key === 0 ? 'btn btn-primary active' : 'btn btn-secondary'} id={'toggle_performer_' + key} key={'toggle_' + performer} type="button" onClick={() => this.changePerformer(key, performer)}>{performer}</button>
+                                                        <button className={performer === this.state.currentPerformer ? 'btn btn-primary active' : 'btn btn-secondary'} id={'toggle_performer_' + key} key={'toggle_' + performer} type="button" onClick={() => this.changePerformer(key, performer)}>{performer}</button>
                                                     )}
                                                 </div>
                                                 <div className="score-table-div">
@@ -307,60 +276,32 @@ class Scenes extends React.Component {
                                                     <h3>Scenes</h3>
                                                 </div>
                                                 <div className="scene-group btn-group" role="group">
-                                                    <button className={this.state.currentSceneNum === 0 ? 'btn btn-primary active' : 'btn btn-secondary'} id="scene_btn_0" type="button" onClick={() => this.changeScene(0)}>Scene 1</button>
-                                                    <button className={this.state.currentSceneNum === 1 ? 'btn btn-primary active' : 'btn btn-secondary'} id="scene_btn_1" type="button" onClick={() => this.changeScene(1)}>Scene 2</button>
-                                                    <button className={this.state.currentSceneNum === 2 ? 'btn btn-primary active' : 'btn btn-secondary'} id="scene_btn_2" type="button" onClick={() => this.changeScene(2)}>Scene 3</button>
-                                                    <button className={this.state.currentSceneNum === 3 ? 'btn btn-primary active' : 'btn btn-secondary'} id="scene_btn_3" type="button" onClick={() => this.changeScene(3)}>Scene 4</button>
+                                                    {scenesInOrder.map((scene, key) =>
+                                                        <button key={"scene_button_" + key} className={this.state.currentSceneNum === key ? 'btn btn-primary active' : 'btn btn-secondary'} id={"scene_btn_" + key} type="button" onClick={() => this.changeScene(key)}>Scene {key+1}</button>
+                                                    )}
                                                 </div>
+                                                    { (scenesByPerformer[this.state.currentPerformer][0]["category"] === "interactive") && 
+                                                        <div className="movie-steps-holder">
+                                                            <div className="interactive-movie-holder">
+                                                                <video src={interactiveMoviesBucket + PERFORMER_PREFIX_MAPPING[this.state.currentPerformer] + this.props.value.test_type + "-" + this.props.value.scene_num + "-" + (this.state.currentSceneNum+1) + movieExtension} width="600" height="400" controls="controls" autoPlay={false} />
+                                                            </div>
+                                                            <div className="steps-holder">
+                                                                <h5>Peformer Steps:</h5>
+                                                                <div className="steps-container">
+                                                                    {scenesByPerformer[this.state.currentPerformer][this.state.currentSceneNum].steps.map((stepObject, key) => 
+                                                                        <div key={"step_div_" + key}>
+                                                                            {stepObject.stepNumber + ": " + stepObject.action + " (" + this.convertValueToString(stepObject.args) + ") - " + stepObject.output.return_status}
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+                                                    }
                                                 <div className="scene-table-div">
                                                     <table>
                                                         <tbody>
-                                                            <tr>
-                                                                <td className="bold-label">Ceiling Material:</td>
-                                                                <td className="scene-text">{scenesInOrder[this.state.currentSceneNum].ceilingMaterial}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="bold-label">Floor Material:</td>
-                                                                <td className="scene-text">{scenesInOrder[this.state.currentSceneNum].floorMaterial}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="bold-label">Wall Material:</td>
-                                                                <td className="scene-text">{scenesInOrder[this.state.currentSceneNum].wallMaterial}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="bold-label">Wall Colors:</td>
-                                                                <td className="scene-text">{this.convertArrayToString(scenesInOrder[this.state.currentSceneNum].wallColors)}</td>
-                                                            </tr>
-                                                            <tr>   
-                                                                <td className="bold-label">Performer Start:</td>
-                                                                <td className="scene-text">Position (x: {scenesInOrder[this.state.currentSceneNum].performerStart.position.x}, 
-                                                                    y: {scenesInOrder[this.state.currentSceneNum].performerStart.position.y}, z: {scenesInOrder[this.state.currentSceneNum].performerStart.position.z}), 
-                                                                    Rotation: (y: {scenesInOrder[this.state.currentSceneNum].performerStart.rotation.y})</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="bold-label">Category:</td>
-                                                                <td className="scene-text">{scenesInOrder[this.state.currentSceneNum].goal.category}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="bold-label">Domain List:</td>
-                                                                <td className="scene-text">{this.convertArrayToString(scenesInOrder[this.state.currentSceneNum].goal.domain_list)}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="bold-label">Type List:</td>
-                                                                <td className="scene-text">{this.convertArrayToString(scenesInOrder[this.state.currentSceneNum].goal.type_list)}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="bold-label">Task List:</td>
-                                                                <td className="scene-text">{this.convertArrayToString(scenesInOrder[this.state.currentSceneNum].goal.task_list)}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="bold-label">Info List:</td>
-                                                                <td className="scene-text">{this.convertArrayToString(scenesInOrder[this.state.currentSceneNum].goal.info_list)}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="bold-label">Correct Answer:</td>
-                                                                <td className="scene-text">{scenesInOrder[this.state.currentSceneNum].answer.choice}</td>
-                                                            </tr>
+                                                            {Object.keys(scenesInOrder[this.state.currentSceneNum]).map((objectKey, key) => 
+                                                                this.checkSceneObjectKey(scenesInOrder[this.state.currentSceneNum], objectKey, key))}
                                                         </tbody>
                                                     </table>
                                                     <div className="objects_scenes_header">
