@@ -74,8 +74,8 @@ See https://numpydoc.readthedocs.io/en/latest/format.html
 ## Linting
 
 We are currently using [flake8](https://flake8.pycqa.org/en/latest/) and [autopep8](https://pypi.org/project/autopep8/) for linting and formatting our Python code. This is only enforced within the python_api project for now. Both are [PEP 8](https://www.python.org/dev/peps/pep-0008/) compliant, although we are ignoring the following rules:
-**E402**: Module level import not at top of file
-**W504**: Line break occurred after a binary operator
+- **E402**: Module level import not at top of file
+- **W504**: Line break occurred after a binary operator
 
 A full list of error codes and warnings enforced can be found [here](https://flake8.pycqa.org/en/latest/user/error-codes.html)
 
