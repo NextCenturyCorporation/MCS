@@ -1,27 +1,33 @@
-import mock
 import numpy
-from PIL import Image
 from types import SimpleNamespace
 import unittest
 
-from machine_common_sense.mcs_action import MCS_Action
-from machine_common_sense.mcs_controller_ai2thor import MCS_Controller_AI2THOR, MAX_MOVE_DISTANCE, MAX_REACH_DISTANCE
+from machine_common_sense.mcs_controller_ai2thor import (
+    MCS_Controller_AI2THOR,
+    MAX_MOVE_DISTANCE,
+    MAX_REACH_DISTANCE
+)
 from machine_common_sense.mcs_goal import MCS_Goal
 from machine_common_sense.mcs_object import MCS_Object
 from machine_common_sense.mcs_pose import MCS_Pose
 from machine_common_sense.mcs_return_status import MCS_Return_Status
 from machine_common_sense.mcs_step_output import MCS_Step_Output
-from .mock_mcs_controller_ai2thor import Mock_MCS_Controller_AI2THOR, MOCK_VARIABLES
+from .mock_mcs_controller_ai2thor import (
+    Mock_MCS_Controller_AI2THOR,
+    MOCK_VARIABLES
+)
+
 
 class Test_MCS_Controller_AI2THOR(unittest.TestCase):
 
     def setUp(self):
         self.controller = Mock_MCS_Controller_AI2THOR()
-        self.controller.set_config({ 'metadata': '' })
+        self.controller.set_config({'metadata': ''})
 
     def create_mock_scene_event(self, mock_scene_event_data):
-        # Wrap the dict in a SimpleNamespace object to permit property access with dotted notation since the actual
-        # variable is a class, not a dict.
+        # Wrap the dict in a SimpleNamespace object to permit property access
+        # with dotted notation since the actual variable is a class, not a
+        # dict.
         return SimpleNamespace(**mock_scene_event_data)
 
     def create_retrieve_object_list_scene_event(self):
@@ -71,7 +77,16 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                     "isPickedUp": False,
                     "mass": 12.34,
                     "objectBounds": {
-                        "objectBoundsCorners": ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"]
+                        "objectBoundsCorners": [
+                            "p1",
+                            "p2",
+                            "p3",
+                            "p4",
+                            "p5",
+                            "p6",
+                            "p7",
+                            "p8",
+                        ]
                     },
                     "objectId": "testId2",
                     "position": {
@@ -99,7 +114,16 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                     "isPickedUp": False,
                     "mass": 34.56,
                     "objectBounds": {
-                        "objectBoundsCorners": ["pA", "pB", "pC", "pD", "pE", "pF", "pG", "pH"]
+                        "objectBoundsCorners": [
+                            "pA",
+                            "pB",
+                            "pC",
+                            "pD",
+                            "pE",
+                            "pF",
+                            "pG",
+                            "pH",
+                        ]
                     },
                     "objectId": "testId3",
                     "position": {
@@ -168,7 +192,16 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                     "isPickedUp": False,
                     "mass": 12.34,
                     "objectBounds": {
-                        "objectBoundsCorners": ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"]
+                        "objectBoundsCorners": [
+                            "p1",
+                            "p2",
+                            "p3",
+                            "p4",
+                            "p5",
+                            "p6",
+                            "p7",
+                            "p8",
+                        ]
                     },
                     "objectId": "testId",
                     "position": {
@@ -196,7 +229,16 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                     "isPickedUp": False,
                     "mass": 34.56,
                     "objectBounds": {
-                        "objectBoundsCorners": ["pA", "pB", "pC", "pD", "pE", "pF", "pG", "pH"]
+                        "objectBoundsCorners": [
+                            "pA",
+                            "pB",
+                            "pC",
+                            "pD",
+                            "pE",
+                            "pF",
+                            "pG",
+                            "pH",
+                        ]
                     },
                     "objectId": "testIdHidden",
                     "position": {
@@ -225,7 +267,16 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                     "isPickedUp": False,
                     "mass": 56.78,
                     "objectBounds": {
-                        "objectBoundsCorners": ["p11", "p12", "p13", "p14", "p15", "p16", "p17", "p18"]
+                        "objectBoundsCorners": [
+                            "p11",
+                            "p12",
+                            "p13",
+                            "p14",
+                            "p15",
+                            "p16",
+                            "p17",
+                            "p18",
+                        ]
                     },
                     "objectId": "testWallId",
                     "position": {
@@ -253,7 +304,16 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                     "isPickedUp": False,
                     "mass": 78.90,
                     "objectBounds": {
-                        "objectBoundsCorners": ["pAA", "pBB", "pCC", "pDD", "pEE", "pFF", "pGG", "pHH"]
+                        "objectBoundsCorners": [
+                            "pAA",
+                            "pBB",
+                            "pCC",
+                            "pDD",
+                            "pEE",
+                            "pFF",
+                            "pGG",
+                            "pHH",
+                        ]
                     },
                     "objectId": "testWallIdHidden",
                     "position": {
@@ -302,73 +362,116 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
     def test_start_scene(self):
         output = self.controller.start_scene({'name': 'test name'})
         self.assertIsNotNone(output)
-        self.assertEqual(output.action_list, MCS_Controller_AI2THOR.ACTION_LIST)
-        self.assertEqual(output.return_status, MOCK_VARIABLES['metadata']['lastActionStatus'])
+        self.assertEqual(
+            output.action_list,
+            MCS_Controller_AI2THOR.ACTION_LIST)
+        self.assertEqual(output.return_status,
+                         MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, 0)
         self.assertEqual(output.step_number, 0)
         self.assertEqual(str(output.goal), str(MCS_Goal()))
         self.assertEqual(len(output.image_list), MOCK_VARIABLES['event_count'])
-        self.assertEqual(len(output.depth_mask_list), MOCK_VARIABLES['event_count'])
-        self.assertEqual(len(output.object_mask_list), MOCK_VARIABLES['event_count'])
-        self.assertEqual(len(output.object_list), len(MOCK_VARIABLES['metadata']['objects']))
-        self.assertEqual(len(output.structural_object_list), len(MOCK_VARIABLES['metadata']['structuralObjects']))
+        self.assertEqual(len(output.depth_mask_list),
+                         MOCK_VARIABLES['event_count'])
+        self.assertEqual(len(output.object_mask_list),
+                         MOCK_VARIABLES['event_count'])
+        self.assertEqual(len(output.object_list),
+                         len(MOCK_VARIABLES['metadata']['objects']))
+        self.assertEqual(len(output.structural_object_list),
+                         len(MOCK_VARIABLES['metadata']['structuralObjects']))
 
         output = self.controller.start_scene({'name': 'test name'})
         self.assertIsNotNone(output)
-        self.assertEqual(output.action_list, MCS_Controller_AI2THOR.ACTION_LIST)
-        self.assertEqual(output.return_status, MOCK_VARIABLES['metadata']['lastActionStatus'])
+        self.assertEqual(
+            output.action_list,
+            MCS_Controller_AI2THOR.ACTION_LIST)
+        self.assertEqual(output.return_status,
+                         MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, 0)
         self.assertEqual(output.step_number, 0)
         self.assertEqual(str(output.goal), str(MCS_Goal()))
         self.assertEqual(len(output.image_list), MOCK_VARIABLES['event_count'])
-        self.assertEqual(len(output.depth_mask_list), MOCK_VARIABLES['event_count'])
-        self.assertEqual(len(output.object_mask_list), MOCK_VARIABLES['event_count'])
-        self.assertEqual(len(output.object_list), len(MOCK_VARIABLES['metadata']['objects']))
-        self.assertEqual(len(output.structural_object_list), len(MOCK_VARIABLES['metadata']['structuralObjects']))
+        self.assertEqual(len(output.depth_mask_list),
+                         MOCK_VARIABLES['event_count'])
+        self.assertEqual(len(output.object_mask_list),
+                         MOCK_VARIABLES['event_count'])
+        self.assertEqual(len(output.object_list),
+                         len(MOCK_VARIABLES['metadata']['objects']))
+        self.assertEqual(len(output.structural_object_list),
+                         len(MOCK_VARIABLES['metadata']['structuralObjects']))
 
     def test_start_scene_preview_phase(self):
         last_preview_phase_step = 5
         output = self.controller.start_scene({'name': 'test name', 'goal': {
-            'last_preview_phase_step': last_preview_phase_step }
+            'last_preview_phase_step': last_preview_phase_step}
         })
         self.assertIsNotNone(output)
-        self.assertEqual(output.action_list, MCS_Controller_AI2THOR.ACTION_LIST)
-        self.assertEqual(output.return_status, MOCK_VARIABLES['metadata']['lastActionStatus'])
+        self.assertEqual(
+            output.action_list,
+            MCS_Controller_AI2THOR.ACTION_LIST)
+        self.assertEqual(output.return_status,
+                         MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, 0)
         self.assertEqual(output.step_number, 5)
-        self.assertEqual(str(output.goal), str(MCS_Goal(last_preview_phase_step=5)))
-        self.assertEqual(len(output.image_list), MOCK_VARIABLES['event_count'] * (last_preview_phase_step + 1))
-        self.assertEqual(len(output.depth_mask_list), MOCK_VARIABLES['event_count'] * (last_preview_phase_step + 1))
-        self.assertEqual(len(output.object_mask_list), MOCK_VARIABLES['event_count'] * (last_preview_phase_step + 1))
-        self.assertEqual(len(output.object_list), len(MOCK_VARIABLES['metadata']['objects']))
-        self.assertEqual(len(output.structural_object_list), len(MOCK_VARIABLES['metadata']['structuralObjects']))
+        self.assertEqual(str(output.goal), str(
+            MCS_Goal(last_preview_phase_step=5)))
+        self.assertEqual(
+            len(output.image_list),
+            MOCK_VARIABLES['event_count'] * (last_preview_phase_step + 1),
+        )
+        self.assertEqual(
+            len(output.depth_mask_list),
+            MOCK_VARIABLES['event_count'] * (last_preview_phase_step + 1),
+        )
+        self.assertEqual(
+            len(output.object_mask_list),
+            MOCK_VARIABLES['event_count'] * (last_preview_phase_step + 1),
+        )
+        self.assertEqual(len(output.object_list),
+                         len(MOCK_VARIABLES['metadata']['objects']))
+        self.assertEqual(len(output.structural_object_list),
+                         len(MOCK_VARIABLES['metadata']['structuralObjects']))
 
     def test_step(self):
         output = self.controller.step('MoveAhead')
         self.assertIsNotNone(output)
-        self.assertEqual(output.action_list, MCS_Controller_AI2THOR.ACTION_LIST)
-        self.assertEqual(output.return_status, MOCK_VARIABLES['metadata']['lastActionStatus'])
+        self.assertEqual(
+            output.action_list,
+            MCS_Controller_AI2THOR.ACTION_LIST)
+        self.assertEqual(output.return_status,
+                         MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, 0)
         self.assertEqual(output.step_number, 1)
         self.assertEqual(str(output.goal), str(MCS_Goal()))
         self.assertEqual(len(output.image_list), MOCK_VARIABLES['event_count'])
-        self.assertEqual(len(output.depth_mask_list), MOCK_VARIABLES['event_count'])
-        self.assertEqual(len(output.object_mask_list), MOCK_VARIABLES['event_count'])
-        self.assertEqual(len(output.object_list), len(MOCK_VARIABLES['metadata']['objects']))
-        self.assertEqual(len(output.structural_object_list), len(MOCK_VARIABLES['metadata']['structuralObjects']))
+        self.assertEqual(len(output.depth_mask_list),
+                         MOCK_VARIABLES['event_count'])
+        self.assertEqual(len(output.object_mask_list),
+                         MOCK_VARIABLES['event_count'])
+        self.assertEqual(len(output.object_list),
+                         len(MOCK_VARIABLES['metadata']['objects']))
+        self.assertEqual(len(output.structural_object_list),
+                         len(MOCK_VARIABLES['metadata']['structuralObjects']))
 
         output = self.controller.step('MoveAhead')
         self.assertIsNotNone(output)
-        self.assertEqual(output.action_list, MCS_Controller_AI2THOR.ACTION_LIST)
-        self.assertEqual(output.return_status, MOCK_VARIABLES['metadata']['lastActionStatus'])
+        self.assertEqual(
+            output.action_list,
+            MCS_Controller_AI2THOR.ACTION_LIST)
+        self.assertEqual(output.return_status,
+                         MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, 0)
         self.assertEqual(output.step_number, 2)
         self.assertEqual(str(output.goal), str(MCS_Goal()))
         self.assertEqual(len(output.image_list), MOCK_VARIABLES['event_count'])
-        self.assertEqual(len(output.depth_mask_list), MOCK_VARIABLES['event_count'])
-        self.assertEqual(len(output.object_mask_list), MOCK_VARIABLES['event_count'])
-        self.assertEqual(len(output.object_list), len(MOCK_VARIABLES['metadata']['objects']))
-        self.assertEqual(len(output.structural_object_list), len(MOCK_VARIABLES['metadata']['structuralObjects']))
+        self.assertEqual(len(output.depth_mask_list),
+                         MOCK_VARIABLES['event_count'])
+        self.assertEqual(len(output.object_mask_list),
+                         MOCK_VARIABLES['event_count'])
+        self.assertEqual(len(output.object_list),
+                         len(MOCK_VARIABLES['metadata']['objects']))
+        self.assertEqual(len(output.structural_object_list),
+                         len(MOCK_VARIABLES['metadata']['structuralObjects']))
 
     def test_step_last_step(self):
         self.controller.set_goal(MCS_Goal(last_step=0))
@@ -393,7 +496,11 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         output = self.controller.step('MoveAhead')
         self.assertIsNone(output)
 
-        self.controller.set_goal(MCS_Goal(action_list=[['MoveAhead'], ['MoveBack']]))
+        self.controller.set_goal(
+            MCS_Goal(
+                action_list=[
+                    ['MoveAhead'],
+                    ['MoveBack']]))
         output = self.controller.step('MoveAhead')
         self.assertIsNotNone(output)
         output = self.controller.step('MoveAhead')
@@ -401,210 +508,307 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
 
     def test_step_validate_parameters_move(self):
         self.controller.step('MoveAhead', amount=1)
-        self.assertEquals(self.controller.get_last_step_data(), self.create_step_data(action='MoveAhead', \
+        self.assertEquals(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='MoveAhead',
                 moveMagnitude=MAX_MOVE_DISTANCE))
 
         self.controller.step('MoveAhead', amount=0.1)
-        self.assertEquals(self.controller.get_last_step_data(), self.create_step_data(action='MoveAhead', \
-                moveMagnitude=0.1 * MAX_MOVE_DISTANCE))
+        self.assertEquals(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='MoveAhead',
+                moveMagnitude=0.1 *
+                MAX_MOVE_DISTANCE))
 
         self.controller.step('MoveAhead', amount=1.5)
-        self.assertEquals(self.controller.get_last_step_data(), self.create_step_data(action='MoveAhead', \
-                moveMagnitude=MCS_Controller_AI2THOR.DEFAULT_AMOUNT * MAX_MOVE_DISTANCE))
+        self.assertEquals(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='MoveAhead',
+                moveMagnitude=MCS_Controller_AI2THOR.DEFAULT_AMOUNT *
+                MAX_MOVE_DISTANCE))
 
         self.controller.step('MoveAhead', amount=-1)
-        self.assertEquals(self.controller.get_last_step_data(), self.create_step_data(action='MoveAhead', \
-                moveMagnitude=MCS_Controller_AI2THOR.DEFAULT_AMOUNT * MAX_MOVE_DISTANCE))
+        self.assertEquals(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='MoveAhead',
+                moveMagnitude=MCS_Controller_AI2THOR.DEFAULT_AMOUNT *
+                MAX_MOVE_DISTANCE))
 
     def test_step_validate_parameters_rotate(self):
         self.controller.step('RotateLook', rotation=12, horizon=34)
-        self.assertEquals(self.controller.get_last_step_data(), self.create_step_data(action='RotateLook', \
-                horizon=34, rotation={'y': 12}))
+        self.assertEquals(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='RotateLook',
+                horizon=34,
+                rotation={
+                    'y': 12}))
 
         self.controller.step('RotateLook', rotation=-12, horizon=-34)
-        self.assertEquals(self.controller.get_last_step_data(), self.create_step_data(action='RotateLook', \
-                horizon=-34, rotation={'y': -12}))
+        self.assertEquals(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='RotateLook',
+                horizon=-34,
+                rotation={
+                    'y': -12}))
 
     def test_step_validate_parameters_force_object(self):
         self.controller.step('PushObject', force=1, objectId='test_id_1')
-        self.assertEquals(self.controller.get_last_step_data(), self.create_step_data(action='PushObject', \
-                moveMagnitude=MCS_Controller_AI2THOR.MAX_BABY_FORCE, objectId='test_id_1'))
+        self.assertEquals(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='PushObject',
+                moveMagnitude=MCS_Controller_AI2THOR.MAX_BABY_FORCE,
+                objectId='test_id_1'))
 
         self.controller.step('PushObject', force=0.1, objectId='test_id_1')
-        self.assertEquals(self.controller.get_last_step_data(), self.create_step_data(action='PushObject', \
-                moveMagnitude=0.1 * MCS_Controller_AI2THOR.MAX_BABY_FORCE, objectId='test_id_1'))
+        self.assertEquals(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='PushObject',
+                moveMagnitude=0.1 *
+                MCS_Controller_AI2THOR.MAX_BABY_FORCE,
+                objectId='test_id_1'))
 
         self.controller.step('PushObject', force=1.5, objectId='test_id_1')
-        self.assertEquals(self.controller.get_last_step_data(), self.create_step_data(action='PushObject', \
-                moveMagnitude=MCS_Controller_AI2THOR.DEFAULT_AMOUNT * MCS_Controller_AI2THOR.MAX_BABY_FORCE, \
+        self.assertEquals(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='PushObject',
+                moveMagnitude=MCS_Controller_AI2THOR.DEFAULT_AMOUNT *
+                MCS_Controller_AI2THOR.MAX_BABY_FORCE,
                 objectId='test_id_1'))
 
         self.controller.step('PushObject', force=-1, objectId='test_id_1')
-        self.assertEquals(self.controller.get_last_step_data(), self.create_step_data(action='PushObject', \
-                moveMagnitude=MCS_Controller_AI2THOR.DEFAULT_AMOUNT * MCS_Controller_AI2THOR.MAX_BABY_FORCE, \
+        self.assertEquals(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='PushObject',
+                moveMagnitude=MCS_Controller_AI2THOR.DEFAULT_AMOUNT *
+                MCS_Controller_AI2THOR.MAX_BABY_FORCE,
                 objectId='test_id_1'))
 
-        self.controller.step('PushObject', force=1, objectDirectionX=1, objectDirectionY=2, objectDirectionZ=3)
-        self.assertEquals(self.controller.get_last_step_data(), self.create_step_data(action='PushObject', \
-                moveMagnitude=MCS_Controller_AI2THOR.MAX_BABY_FORCE, objectDirection={'x': 1, 'y': 2, 'z': 3}))
+        self.controller.step(
+            'PushObject',
+            force=1,
+            objectDirectionX=1,
+            objectDirectionY=2,
+            objectDirectionZ=3)
+        self.assertEquals(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='PushObject',
+                moveMagnitude=MCS_Controller_AI2THOR.MAX_BABY_FORCE,
+                objectDirection={
+                    'x': 1,
+                    'y': 2,
+                    'z': 3}))
 
     def test_step_validate_parameters_open_close(self):
-        self.controller.step('OpenObject', amount=1, objectId='test_id_1', receptacleObjectId='test_id_2')
-        self.assertEquals(self.controller.get_last_step_data(), self.create_step_data(action='MCSOpenObject', \
-                moveMagnitude=1, objectId='test_id_1', receptacleObjectId='test_id_2'))
-
-        self.controller.step('OpenObject', amount=0.1, objectId='test_id_1', receptacleObjectId='test_id_2')
-        self.assertEquals(self.controller.get_last_step_data(), self.create_step_data(action='MCSOpenObject', \
-                moveMagnitude=0.1, objectId='test_id_1', receptacleObjectId='test_id_2'))
-
-        self.controller.step('OpenObject', amount=1.5, objectId='test_id_1', receptacleObjectId='test_id_2')
-        self.assertEquals(self.controller.get_last_step_data(), self.create_step_data(action='MCSOpenObject', \
-                moveMagnitude=MCS_Controller_AI2THOR.DEFAULT_AMOUNT, objectId='test_id_1', \
+        self.controller.step(
+            'OpenObject',
+            amount=1,
+            objectId='test_id_1',
+            receptacleObjectId='test_id_2')
+        self.assertEquals(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='MCSOpenObject',
+                moveMagnitude=1,
+                objectId='test_id_1',
                 receptacleObjectId='test_id_2'))
 
-        self.controller.step('OpenObject', amount=-1, objectId='test_id_1', receptacleObjectId='test_id_2')
-        self.assertEquals(self.controller.get_last_step_data(), self.create_step_data(action='MCSOpenObject', \
-                moveMagnitude=MCS_Controller_AI2THOR.DEFAULT_AMOUNT, objectId='test_id_1', \
+        self.controller.step(
+            'OpenObject',
+            amount=0.1,
+            objectId='test_id_1',
+            receptacleObjectId='test_id_2')
+        self.assertEquals(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='MCSOpenObject',
+                moveMagnitude=0.1,
+                objectId='test_id_1',
                 receptacleObjectId='test_id_2'))
 
-        self.controller.step('OpenObject', amount=1, objectDirectionX=1, objectDirectionY=2, objectDirectionZ=3, \
-                receptacleObjectDirectionX=4, receptacleObjectDirectionY=5, receptacleObjectDirectionZ=6)
-        self.assertEquals(self.controller.get_last_step_data(), self.create_step_data(action='MCSOpenObject', \
-                moveMagnitude=1, objectDirection={'x': 1, 'y': 2, 'z': 3}, \
-                receptacleObjectDirection={'x': 4, 'y': 5, 'z': 6}))
+        self.controller.step(
+            'OpenObject',
+            amount=1.5,
+            objectId='test_id_1',
+            receptacleObjectId='test_id_2')
+        self.assertEquals(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='MCSOpenObject',
+                moveMagnitude=MCS_Controller_AI2THOR.DEFAULT_AMOUNT,
+                objectId='test_id_1',
+                receptacleObjectId='test_id_2'))
+
+        self.controller.step(
+            'OpenObject',
+            amount=-1,
+            objectId='test_id_1',
+            receptacleObjectId='test_id_2')
+        self.assertEquals(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='MCSOpenObject',
+                moveMagnitude=MCS_Controller_AI2THOR.DEFAULT_AMOUNT,
+                objectId='test_id_1',
+                receptacleObjectId='test_id_2'))
+
+        self.controller.step(
+            'OpenObject',
+            amount=1,
+            objectDirectionX=1,
+            objectDirectionY=2,
+            objectDirectionZ=3,
+            receptacleObjectDirectionX=4,
+            receptacleObjectDirectionY=5,
+            receptacleObjectDirectionZ=6)
+        self.assertEquals(
+            self.controller.get_last_step_data(), self.create_step_data(
+                action='MCSOpenObject', moveMagnitude=1, objectDirection={
+                    'x': 1, 'y': 2, 'z': 3}, receptacleObjectDirection={
+                    'x': 4, 'y': 5, 'z': 6}))
 
     def test_restrict_goal_output_metadata(self):
         goal = MCS_Goal(metadata={
-            'target': { 'image': [0] },
-            'target_1': { 'image': [1] },
-            'target_2': { 'image': [2] }
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
         })
         actual = self.controller.restrict_goal_output_metadata(goal)
         self.assertEqual(actual.metadata, {
-            'target': { 'image': [0] },
-            'target_1': { 'image': [1] },
-            'target_2': { 'image': [2] }
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
         })
 
     def test_restrict_goal_output_metadata_full(self):
-        self.controller.set_config({ 'metadata': 'full' })
+        self.controller.set_config({'metadata': 'full'})
         goal = MCS_Goal(metadata={
-            'target': { 'image': [0] },
-            'target_1': { 'image': [1] },
-            'target_2': { 'image': [2] }
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
         })
         actual = self.controller.restrict_goal_output_metadata(goal)
         self.assertEqual(actual.metadata, {
-            'target': { 'image': [0] },
-            'target_1': { 'image': [1] },
-            'target_2': { 'image': [2] }
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
         })
 
     def test_restrict_goal_output_metadata_no_navigation(self):
-        self.controller.set_config({ 'metadata': 'no_navigation' })
+        self.controller.set_config({'metadata': 'no_navigation'})
         goal = MCS_Goal(metadata={
-            'target': { 'image': [0] },
-            'target_1': { 'image': [1] },
-            'target_2': { 'image': [2] }
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
         })
         actual = self.controller.restrict_goal_output_metadata(goal)
         self.assertEqual(actual.metadata, {
-            'target': { 'image': [0] },
-            'target_1': { 'image': [1] },
-            'target_2': { 'image': [2] }
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
         })
 
     def test_restrict_goal_output_metadata_no_vision(self):
-        self.controller.set_config({ 'metadata': 'no_vision' })
+        self.controller.set_config({'metadata': 'no_vision'})
         goal = MCS_Goal(metadata={
-            'target': { 'image': [0] },
-            'target_1': { 'image': [1] },
-            'target_2': { 'image': [2] }
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
         })
         actual = self.controller.restrict_goal_output_metadata(goal)
         self.assertEqual(actual.metadata, {
-            'target': { 'image': None },
-            'target_1': { 'image': None },
-            'target_2': { 'image': None }
+            'target': {'image': None},
+            'target_1': {'image': None},
+            'target_2': {'image': None}
         })
 
     def test_restrict_goal_output_metadata_none(self):
-        self.controller.set_config({ 'metadata': 'none' })
+        self.controller.set_config({'metadata': 'none'})
         goal = MCS_Goal(metadata={
-            'target': { 'image': [0] },
-            'target_1': { 'image': [1] },
-            'target_2': { 'image': [2] }
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
         })
         actual = self.controller.restrict_goal_output_metadata(goal)
         self.assertEqual(actual.metadata, {
-            'target': { 'image': None },
-            'target_1': { 'image': None },
-            'target_2': { 'image': None }
+            'target': {'image': None},
+            'target_1': {'image': None},
+            'target_2': {'image': None}
         })
 
     def test_restrict_object_output_metadata(self):
         test_object = MCS_Object(
-            color={ 'r': 1, 'g': 2, 'b': 3 },
-            dimensions={ 'x': 1, 'y': 2, 'z': 3 },
+            color={'r': 1, 'g': 2, 'b': 3},
+            dimensions={'x': 1, 'y': 2, 'z': 3},
             distance=12.34,
             distance_in_steps=34.56,
             distance_in_world=56.78,
-            position={ 'x': 4, 'y': 5, 'z': 6 },
-            rotation={ 'x': 7, 'y': 8, 'z': 9 },
+            position={'x': 4, 'y': 5, 'z': 6},
+            rotation={'x': 7, 'y': 8, 'z': 9},
             shape='sofa',
             texture_color_list=['c1', 'c2']
         )
         actual = self.controller.restrict_object_output_metadata(test_object)
-        self.assertEqual(actual.color, { 'r': 1, 'g': 2, 'b': 3 })
-        self.assertEqual(actual.dimensions, { 'x': 1, 'y': 2, 'z': 3 })
+        self.assertEqual(actual.color, {'r': 1, 'g': 2, 'b': 3})
+        self.assertEqual(actual.dimensions, {'x': 1, 'y': 2, 'z': 3})
         self.assertEqual(actual.distance, 12.34)
         self.assertEqual(actual.distance_in_steps, 34.56)
         self.assertEqual(actual.distance_in_world, 56.78)
-        self.assertEqual(actual.position, { 'x': 4, 'y': 5, 'z': 6 })
-        self.assertEqual(actual.rotation, { 'x': 7, 'y': 8, 'z': 9 })
+        self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
+        self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
         self.assertEqual(actual.shape, 'sofa')
         self.assertEqual(actual.texture_color_list, ['c1', 'c2'])
 
     def test_restrict_object_output_metadata_full(self):
-        self.controller.set_config({ 'metadata': 'full' })
+        self.controller.set_config({'metadata': 'full'})
         test_object = MCS_Object(
-            color={ 'r': 1, 'g': 2, 'b': 3 },
-            dimensions={ 'x': 1, 'y': 2, 'z': 3 },
+            color={'r': 1, 'g': 2, 'b': 3},
+            dimensions={'x': 1, 'y': 2, 'z': 3},
             distance=12.34,
             distance_in_steps=34.56,
             distance_in_world=56.78,
-            position={ 'x': 4, 'y': 5, 'z': 6 },
-            rotation={ 'x': 7, 'y': 8, 'z': 9 },
+            position={'x': 4, 'y': 5, 'z': 6},
+            rotation={'x': 7, 'y': 8, 'z': 9},
             shape='sofa',
             texture_color_list=['c1', 'c2']
         )
         actual = self.controller.restrict_object_output_metadata(test_object)
-        self.assertEqual(actual.color, { 'r': 1, 'g': 2, 'b': 3 })
-        self.assertEqual(actual.dimensions, { 'x': 1, 'y': 2, 'z': 3 })
+        self.assertEqual(actual.color, {'r': 1, 'g': 2, 'b': 3})
+        self.assertEqual(actual.dimensions, {'x': 1, 'y': 2, 'z': 3})
         self.assertEqual(actual.distance, 12.34)
         self.assertEqual(actual.distance_in_steps, 34.56)
         self.assertEqual(actual.distance_in_world, 56.78)
-        self.assertEqual(actual.position, { 'x': 4, 'y': 5, 'z': 6 })
-        self.assertEqual(actual.rotation, { 'x': 7, 'y': 8, 'z': 9 })
+        self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
+        self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
         self.assertEqual(actual.shape, 'sofa')
         self.assertEqual(actual.texture_color_list, ['c1', 'c2'])
 
     def test_restrict_object_output_metadata_no_navigation(self):
-        self.controller.set_config({ 'metadata': 'no_navigation' })
+        self.controller.set_config({'metadata': 'no_navigation'})
         test_object = MCS_Object(
-            color={ 'r': 1, 'g': 2, 'b': 3 },
-            dimensions={ 'x': 1, 'y': 2, 'z': 3 },
+            color={'r': 1, 'g': 2, 'b': 3},
+            dimensions={'x': 1, 'y': 2, 'z': 3},
             distance=12.34,
             distance_in_steps=34.56,
             distance_in_world=56.78,
-            position={ 'x': 4, 'y': 5, 'z': 6 },
-            rotation={ 'x': 7, 'y': 8, 'z': 9 },
+            position={'x': 4, 'y': 5, 'z': 6},
+            rotation={'x': 7, 'y': 8, 'z': 9},
             shape='sofa',
             texture_color_list=['c1', 'c2']
         )
         actual = self.controller.restrict_object_output_metadata(test_object)
-        self.assertEqual(actual.color, { 'r': 1, 'g': 2, 'b': 3 })
-        self.assertEqual(actual.dimensions, { 'x': 1, 'y': 2, 'z': 3 })
+        self.assertEqual(actual.color, {'r': 1, 'g': 2, 'b': 3})
+        self.assertEqual(actual.dimensions, {'x': 1, 'y': 2, 'z': 3})
         self.assertEqual(actual.distance, 12.34)
         self.assertEqual(actual.distance_in_steps, 34.56)
         self.assertEqual(actual.distance_in_world, 56.78)
@@ -614,15 +818,15 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.texture_color_list, ['c1', 'c2'])
 
     def test_restrict_object_output_metadata_no_vision(self):
-        self.controller.set_config({ 'metadata': 'no_vision' })
+        self.controller.set_config({'metadata': 'no_vision'})
         test_object = MCS_Object(
-            color={ 'r': 1, 'g': 2, 'b': 3 },
-            dimensions={ 'x': 1, 'y': 2, 'z': 3 },
+            color={'r': 1, 'g': 2, 'b': 3},
+            dimensions={'x': 1, 'y': 2, 'z': 3},
             distance=12.34,
             distance_in_steps=34.56,
             distance_in_world=56.78,
-            position={ 'x': 4, 'y': 5, 'z': 6 },
-            rotation={ 'x': 7, 'y': 8, 'z': 9 },
+            position={'x': 4, 'y': 5, 'z': 6},
+            rotation={'x': 7, 'y': 8, 'z': 9},
             shape='sofa',
             texture_color_list=['c1', 'c2']
         )
@@ -632,21 +836,21 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.distance, None)
         self.assertEqual(actual.distance_in_steps, None)
         self.assertEqual(actual.distance_in_world, None)
-        self.assertEqual(actual.position, { 'x': 4, 'y': 5, 'z': 6 })
-        self.assertEqual(actual.rotation, { 'x': 7, 'y': 8, 'z': 9 })
+        self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
+        self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
         self.assertEqual(actual.shape, None)
         self.assertEqual(actual.texture_color_list, None)
 
     def test_restrict_object_output_metadata_none(self):
-        self.controller.set_config({ 'metadata': 'none' })
+        self.controller.set_config({'metadata': 'none'})
         test_object = MCS_Object(
-            color={ 'r': 1, 'g': 2, 'b': 3 },
-            dimensions={ 'x': 1, 'y': 2, 'z': 3 },
+            color={'r': 1, 'g': 2, 'b': 3},
+            dimensions={'x': 1, 'y': 2, 'z': 3},
             distance=12.34,
             distance_in_steps=34.56,
             distance_in_world=56.78,
-            position={ 'x': 4, 'y': 5, 'z': 6 },
-            rotation={ 'x': 7, 'y': 8, 'z': 9 },
+            position={'x': 4, 'y': 5, 'z': 6},
+            rotation={'x': 7, 'y': 8, 'z': 9},
             shape='sofa',
             texture_color_list=['c1', 'c2']
         )
@@ -669,8 +873,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             camera_height=6,
             depth_mask_list=[7],
             object_mask_list=[8],
-            position={ 'x': 4, 'y': 5, 'z': 6 },
-            rotation={ 'x': 7, 'y': 8, 'z': 9 }
+            position={'x': 4, 'y': 5, 'z': 6},
+            rotation={'x': 7, 'y': 8, 'z': 9}
         )
         actual = self.controller.restrict_step_output_metadata(step)
         self.assertEqual(actual.camera_aspect_ratio, (1, 2))
@@ -679,11 +883,11 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.camera_height, 6)
         self.assertEqual(actual.depth_mask_list, [7])
         self.assertEqual(actual.object_mask_list, [8])
-        self.assertEqual(actual.position, { 'x': 4, 'y': 5, 'z': 6 })
-        self.assertEqual(actual.rotation, { 'x': 7, 'y': 8, 'z': 9 })
+        self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
+        self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
 
     def test_restrict_step_output_metadata_full(self):
-        self.controller.set_config({ 'metadata': 'full' })
+        self.controller.set_config({'metadata': 'full'})
         step = MCS_Step_Output(
             camera_aspect_ratio=(1, 2),
             camera_clipping_planes=(3, 4),
@@ -691,8 +895,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             camera_height=6,
             depth_mask_list=[7],
             object_mask_list=[8],
-            position={ 'x': 4, 'y': 5, 'z': 6 },
-            rotation={ 'x': 7, 'y': 8, 'z': 9 }
+            position={'x': 4, 'y': 5, 'z': 6},
+            rotation={'x': 7, 'y': 8, 'z': 9}
         )
         actual = self.controller.restrict_step_output_metadata(step)
         self.assertEqual(actual.camera_aspect_ratio, (1, 2))
@@ -701,11 +905,11 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.camera_height, 6)
         self.assertEqual(actual.depth_mask_list, [7])
         self.assertEqual(actual.object_mask_list, [8])
-        self.assertEqual(actual.position, { 'x': 4, 'y': 5, 'z': 6 })
-        self.assertEqual(actual.rotation, { 'x': 7, 'y': 8, 'z': 9 })
+        self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
+        self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
 
     def test_restrict_step_output_metadata_no_navigation(self):
-        self.controller.set_config({ 'metadata': 'no_navigation' })
+        self.controller.set_config({'metadata': 'no_navigation'})
         step = MCS_Step_Output(
             camera_aspect_ratio=(1, 2),
             camera_clipping_planes=(3, 4),
@@ -713,8 +917,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             camera_height=6,
             depth_mask_list=[7],
             object_mask_list=[8],
-            position={ 'x': 4, 'y': 5, 'z': 6 },
-            rotation={ 'x': 7, 'y': 8, 'z': 9 }
+            position={'x': 4, 'y': 5, 'z': 6},
+            rotation={'x': 7, 'y': 8, 'z': 9}
         )
         actual = self.controller.restrict_step_output_metadata(step)
         self.assertEqual(actual.camera_aspect_ratio, (1, 2))
@@ -727,7 +931,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.rotation, None)
 
     def test_restrict_step_output_metadata_no_vision(self):
-        self.controller.set_config({ 'metadata': 'no_vision' })
+        self.controller.set_config({'metadata': 'no_vision'})
         step = MCS_Step_Output(
             camera_aspect_ratio=(1, 2),
             camera_clipping_planes=(3, 4),
@@ -735,8 +939,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             camera_height=6,
             depth_mask_list=[7],
             object_mask_list=[8],
-            position={ 'x': 4, 'y': 5, 'z': 6 },
-            rotation={ 'x': 7, 'y': 8, 'z': 9 }
+            position={'x': 4, 'y': 5, 'z': 6},
+            rotation={'x': 7, 'y': 8, 'z': 9}
         )
         actual = self.controller.restrict_step_output_metadata(step)
         self.assertEqual(actual.camera_aspect_ratio, None)
@@ -745,11 +949,11 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.camera_height, None)
         self.assertEqual(actual.depth_mask_list, [])
         self.assertEqual(actual.object_mask_list, [])
-        self.assertEqual(actual.position, { 'x': 4, 'y': 5, 'z': 6 })
-        self.assertEqual(actual.rotation, { 'x': 7, 'y': 8, 'z': 9 })
+        self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
+        self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
 
     def test_restrict_step_output_metadata_none(self):
-        self.controller.set_config({ 'metadata': 'none' })
+        self.controller.set_config({'metadata': 'none'})
         step = MCS_Step_Output(
             camera_aspect_ratio=(1, 2),
             camera_clipping_planes=(3, 4),
@@ -757,8 +961,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             camera_height=6,
             depth_mask_list=[7],
             object_mask_list=[8],
-            position={ 'x': 4, 'y': 5, 'z': 6 },
-            rotation={ 'x': 7, 'y': 8, 'z': 9 }
+            position={'x': 4, 'y': 5, 'z': 6},
+            rotation={'x': 7, 'y': 8, 'z': 9}
         )
         actual = self.controller.restrict_step_output_metadata(step)
         self.assertEqual(actual.camera_aspect_ratio, None)
@@ -771,21 +975,66 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.rotation, None)
 
     def test_retrieve_action_list(self):
-        self.assertEqual(self.controller.retrieve_action_list(MCS_Goal(), 0), self.controller.ACTION_LIST)
-        self.assertEqual(self.controller.retrieve_action_list(MCS_Goal(action_list=[]), 0), \
-                self.controller.ACTION_LIST)
-        self.assertEqual(self.controller.retrieve_action_list(MCS_Goal(action_list=[[]]), 0), \
-                self.controller.ACTION_LIST)
-        self.assertEqual(self.controller.retrieve_action_list(MCS_Goal(action_list=[['MoveAhead',\
-                'RotateLook,rotation=180']]), 0), ['MoveAhead', 'RotateLook,rotation=180'])
-        self.assertEqual(self.controller.retrieve_action_list(MCS_Goal(action_list=[['MoveAhead',\
-                'RotateLook,rotation=180']]), 1), self.controller.ACTION_LIST)
-        self.assertEqual(self.controller.retrieve_action_list(MCS_Goal(action_list=[['MoveAhead',\
-                'RotateLook,rotation=180'], []]), 1), self.controller.ACTION_LIST)
-        self.assertEqual(self.controller.retrieve_action_list(MCS_Goal(action_list=[[],['MoveAhead',\
-                'RotateLook,rotation=180']]), 0), self.controller.ACTION_LIST)
-        self.assertEqual(self.controller.retrieve_action_list(MCS_Goal(action_list=[[],['MoveAhead',\
-                'RotateLook,rotation=180']]), 1), ['MoveAhead', 'RotateLook,rotation=180'])
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                MCS_Goal(), 0), self.controller.ACTION_LIST)
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                MCS_Goal(
+                    action_list=[]),
+                0),
+            self.controller.ACTION_LIST)
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                MCS_Goal(
+                    action_list=[[]]),
+                0),
+            self.controller.ACTION_LIST)
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                MCS_Goal(
+                    action_list=[['MoveAhead', 'RotateLook,rotation=180']]
+                ),
+                0,
+            ),
+            ['MoveAhead', 'RotateLook,rotation=180']
+        )
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                MCS_Goal(
+                    action_list=[['MoveAhead', 'RotateLook,rotation=180']]
+                ),
+                1,
+            ),
+            self.controller.ACTION_LIST
+        )
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                MCS_Goal(
+                    action_list=[['MoveAhead', 'RotateLook,rotation=180'], []]
+                ),
+                1,
+            ),
+            self.controller.ACTION_LIST
+        )
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                MCS_Goal(
+                    action_list=[[], ['MoveAhead', 'RotateLook,rotation=180']]
+                ),
+                0,
+            ),
+            self.controller.ACTION_LIST
+        )
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                MCS_Goal(
+                    action_list=[[], ['MoveAhead', 'RotateLook,rotation=180']]
+                ),
+                1,
+            ),
+            ['MoveAhead', 'RotateLook,rotation=180']
+        )
 
     def test_retrieve_goal(self):
         goal_1 = self.controller.retrieve_goal({})
@@ -813,7 +1062,11 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
 
         goal_3 = self.controller.retrieve_goal({
             "goal": {
-                "action_list": [["action1"], [], ["action2", "action3", "action4"]],
+                "action_list": [
+                    ["action1"],
+                    [],
+                    ["action2", "action3", "action4"]
+                ],
                 "category": "test category",
                 "description": "test description",
                 "domain_list": ["domain1", "domain2"],
@@ -825,7 +1078,10 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                 }
             }
         })
-        self.assertEqual(goal_3.action_list, [["action1"], [], ["action2", "action3", "action4"]])
+        self.assertEqual(
+            goal_3.action_list, [
+                ["action1"], [], [
+                    "action2", "action3", "action4"]])
         self.assertEqual(goal_3.category, "test category")
         self.assertEqual(goal_3.description, "test description")
         self.assertEqual(goal_3.domain_list, ["domain1", "domain2"])
@@ -838,68 +1094,68 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         })
 
     def test_retrieve_goal_with_config_metadata(self):
-        self.controller.set_config({ 'metadata': 'full' })
+        self.controller.set_config({'metadata': 'full'})
         actual = self.controller.retrieve_goal({
             'goal': {
                 'metadata': {
-                    'target': { 'image': [0] },
-                    'target_1': { 'image': [1] },
-                    'target_2': { 'image': [2] }
+                    'target': {'image': [0]},
+                    'target_1': {'image': [1]},
+                    'target_2': {'image': [2]}
                 }
             }
         })
         self.assertEqual(actual.metadata, {
-            'target': { 'image': [0] },
-            'target_1': { 'image': [1] },
-            'target_2': { 'image': [2] }
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
         })
 
-        self.controller.set_config({ 'metadata': 'no_navigation' })
+        self.controller.set_config({'metadata': 'no_navigation'})
         actual = self.controller.retrieve_goal({
             'goal': {
                 'metadata': {
-                    'target': { 'image': [0] },
-                    'target_1': { 'image': [1] },
-                    'target_2': { 'image': [2] }
+                    'target': {'image': [0]},
+                    'target_1': {'image': [1]},
+                    'target_2': {'image': [2]}
                 }
             }
         })
         self.assertEqual(actual.metadata, {
-            'target': { 'image': [0] },
-            'target_1': { 'image': [1] },
-            'target_2': { 'image': [2] }
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
         })
 
-        self.controller.set_config({ 'metadata': 'no_vision' })
+        self.controller.set_config({'metadata': 'no_vision'})
         actual = self.controller.retrieve_goal({
             'goal': {
                 'metadata': {
-                    'target': { 'image': [0] },
-                    'target_1': { 'image': [1] },
-                    'target_2': { 'image': [2] }
+                    'target': {'image': [0]},
+                    'target_1': {'image': [1]},
+                    'target_2': {'image': [2]}
                 }
             }
         })
         self.assertEqual(actual.metadata, {
-            'target': { 'image': None },
-            'target_1': { 'image': None },
-            'target_2': { 'image': None }
+            'target': {'image': None},
+            'target_1': {'image': None},
+            'target_2': {'image': None}
         })
 
-        self.controller.set_config({ 'metadata': 'none' })
+        self.controller.set_config({'metadata': 'none'})
         actual = self.controller.retrieve_goal({
             'goal': {
                 'metadata': {
-                    'target': { 'image': [0] },
-                    'target_1': { 'image': [1] },
-                    'target_2': { 'image': [2] }
+                    'target': {'image': [0]},
+                    'target_1': {'image': [1]},
+                    'target_2': {'image': [2]}
                 }
             }
         })
         self.assertEqual(actual.metadata, {
-            'target': { 'image': None },
-            'target_1': { 'image': None },
-            'target_2': { 'image': None }
+            'target': {'image': None},
+            'target_1': {'image': None},
+            'target_2': {'image': None}
         })
 
     def test_retrieve_head_tilt(self):
@@ -910,7 +1166,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                 }
             }
         }
-        actual = self.controller.retrieve_head_tilt(self.create_mock_scene_event(mock_scene_event_data))
+        actual = self.controller.retrieve_head_tilt(
+            self.create_mock_scene_event(mock_scene_event_data))
         self.assertEqual(actual, 12.34)
 
         mock_scene_event_data = {
@@ -920,12 +1177,14 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                 }
             }
         }
-        actual = self.controller.retrieve_head_tilt(self.create_mock_scene_event(mock_scene_event_data))
+        actual = self.controller.retrieve_head_tilt(
+            self.create_mock_scene_event(mock_scene_event_data))
         self.assertEqual(actual, -56.78)
 
     def test_retrieve_object_list(self):
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
-        actual = self.controller.retrieve_object_list(self.create_mock_scene_event(mock_scene_event_data))
+        actual = self.controller.retrieve_object_list(
+            self.create_mock_scene_event(mock_scene_event_data))
         self.assertEqual(len(actual), 2)
 
         self.assertEqual(actual[0].uuid, "testId1")
@@ -946,8 +1205,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[0].held, True)
         self.assertEqual(actual[0].mass, 1)
         self.assertEqual(actual[0].material_list, [])
-        self.assertEqual(actual[0].position, { "x": 1, "y": 1, "z": 2 })
-        self.assertEqual(actual[0].rotation, { "x": 1, "y": 2, "z": 3 })
+        self.assertEqual(actual[0].position, {"x": 1, "y": 1, "z": 2})
+        self.assertEqual(actual[0].rotation, {"x": 1, "y": 2, "z": 3})
         self.assertEqual(actual[0].shape, 'shape1')
         self.assertEqual(actual[0].texture_color_list, ['c1'])
         self.assertEqual(actual[0].visible, True)
@@ -958,7 +1217,9 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "g": 76,
             "b": 54
         })
-        self.assertEqual(actual[1].dimensions, ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
+        self.assertEqual(
+            actual[1].dimensions, [
+                "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
         self.assertEqual(actual[1].direction, {
             "x": 90,
             "y": -30,
@@ -970,16 +1231,17 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[1].held, False)
         self.assertEqual(actual[1].mass, 12.34)
         self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
-        self.assertEqual(actual[1].position, { "x": 1, "y": 2, "z": 3 })
-        self.assertEqual(actual[1].rotation, { "x": 1, "y": 2, "z": 3 })
+        self.assertEqual(actual[1].position, {"x": 1, "y": 2, "z": 3})
+        self.assertEqual(actual[1].rotation, {"x": 1, "y": 2, "z": 3})
         self.assertEqual(actual[1].shape, 'shape2')
         self.assertEqual(actual[1].texture_color_list, ['c2', 'c3'])
         self.assertEqual(actual[1].visible, True)
 
     def test_retrieve_object_list_with_config_metadata_full(self):
-        self.controller.set_config({ 'metadata': 'full' })
+        self.controller.set_config({'metadata': 'full'})
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
-        actual = self.controller.retrieve_object_list(self.create_mock_scene_event(mock_scene_event_data))
+        actual = self.controller.retrieve_object_list(
+            self.create_mock_scene_event(mock_scene_event_data))
         self.assertEqual(len(actual), 3)
 
         self.assertEqual(actual[0].uuid, "testId1")
@@ -1000,8 +1262,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[0].held, True)
         self.assertEqual(actual[0].mass, 1)
         self.assertEqual(actual[0].material_list, [])
-        self.assertEqual(actual[0].position, { "x": 1, "y": 1, "z": 2 })
-        self.assertEqual(actual[0].rotation, { "x": 1, "y": 2, "z": 3 })
+        self.assertEqual(actual[0].position, {"x": 1, "y": 1, "z": 2})
+        self.assertEqual(actual[0].rotation, {"x": 1, "y": 2, "z": 3})
         self.assertEqual(actual[0].shape, 'shape1')
         self.assertEqual(actual[0].texture_color_list, ['c1'])
         self.assertEqual(actual[0].visible, True)
@@ -1012,7 +1274,9 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "g": 76,
             "b": 54
         })
-        self.assertEqual(actual[1].dimensions, ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
+        self.assertEqual(
+            actual[1].dimensions, [
+                "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
         self.assertEqual(actual[1].direction, {
             "x": 90,
             "y": -30,
@@ -1024,8 +1288,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[1].held, False)
         self.assertEqual(actual[1].mass, 12.34)
         self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
-        self.assertEqual(actual[1].position, { "x": 1, "y": 2, "z": 3 })
-        self.assertEqual(actual[1].rotation, { "x": 1, "y": 2, "z": 3 })
+        self.assertEqual(actual[1].position, {"x": 1, "y": 2, "z": 3})
+        self.assertEqual(actual[1].rotation, {"x": 1, "y": 2, "z": 3})
         self.assertEqual(actual[1].shape, 'shape2')
         self.assertEqual(actual[1].texture_color_list, ['c2', 'c3'])
         self.assertEqual(actual[1].visible, True)
@@ -1036,7 +1300,9 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "g": 102,
             "b": 103
         })
-        self.assertEqual(actual[2].dimensions, ["pA", "pB", "pC", "pD", "pE", "pF", "pG", "pH"])
+        self.assertEqual(
+            actual[2].dimensions, [
+                "pA", "pB", "pC", "pD", "pE", "pF", "pG", "pH"])
         self.assertEqual(actual[2].direction, {
             "x": -90,
             "y": 180,
@@ -1048,16 +1314,17 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[2].held, False)
         self.assertEqual(actual[2].mass, 34.56)
         self.assertEqual(actual[2].material_list, ["WOOD"])
-        self.assertEqual(actual[2].position, { "x": -3, "y": -2, "z": -1 })
-        self.assertEqual(actual[2].rotation ,{ "x": 11, "y": 12, "z": 13 })
+        self.assertEqual(actual[2].position, {"x": -3, "y": -2, "z": -1})
+        self.assertEqual(actual[2].rotation, {"x": 11, "y": 12, "z": 13})
         self.assertEqual(actual[2].shape, 'shape3')
         self.assertEqual(actual[2].texture_color_list, [])
         self.assertEqual(actual[2].visible, False)
 
     def test_retrieve_object_list_with_config_metadata_no_navigation(self):
-        self.controller.set_config({ 'metadata': 'no_navigation' })
+        self.controller.set_config({'metadata': 'no_navigation'})
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
-        actual = self.controller.retrieve_object_list(self.create_mock_scene_event(mock_scene_event_data))
+        actual = self.controller.retrieve_object_list(
+            self.create_mock_scene_event(mock_scene_event_data))
         self.assertEqual(len(actual), 2)
 
         self.assertEqual(actual[0].uuid, "testId1")
@@ -1090,7 +1357,9 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "g": 76,
             "b": 54
         })
-        self.assertEqual(actual[1].dimensions, ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
+        self.assertEqual(
+            actual[1].dimensions, [
+                "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
         self.assertEqual(actual[1].direction, {
             "x": 90,
             "y": -30,
@@ -1109,9 +1378,10 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[1].visible, True)
 
     def test_retrieve_object_list_with_config_metadata_no_vision(self):
-        self.controller.set_config({ 'metadata': 'no_vision' })
+        self.controller.set_config({'metadata': 'no_vision'})
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
-        actual = self.controller.retrieve_object_list(self.create_mock_scene_event(mock_scene_event_data))
+        actual = self.controller.retrieve_object_list(
+            self.create_mock_scene_event(mock_scene_event_data))
         self.assertEqual(len(actual), 2)
 
         self.assertEqual(actual[0].uuid, "testId1")
@@ -1124,8 +1394,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[0].held, True)
         self.assertEqual(actual[0].mass, 1)
         self.assertEqual(actual[0].material_list, [])
-        self.assertEqual(actual[0].position, { "x": 1, "y": 1, "z": 2 })
-        self.assertEqual(actual[0].rotation, { "x": 1, "y": 2, "z": 3 })
+        self.assertEqual(actual[0].position, {"x": 1, "y": 1, "z": 2})
+        self.assertEqual(actual[0].rotation, {"x": 1, "y": 2, "z": 3})
         self.assertEqual(actual[0].shape, None)
         self.assertEqual(actual[0].texture_color_list, None)
         self.assertEqual(actual[0].visible, True)
@@ -1140,16 +1410,17 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[1].held, False)
         self.assertEqual(actual[1].mass, 12.34)
         self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
-        self.assertEqual(actual[1].position, { "x": 1, "y": 2, "z": 3 })
-        self.assertEqual(actual[1].rotation, { "x": 1, "y": 2, "z": 3 })
+        self.assertEqual(actual[1].position, {"x": 1, "y": 2, "z": 3})
+        self.assertEqual(actual[1].rotation, {"x": 1, "y": 2, "z": 3})
         self.assertEqual(actual[1].shape, None)
         self.assertEqual(actual[1].texture_color_list, None)
         self.assertEqual(actual[1].visible, True)
 
     def test_retrieve_object_list_with_config_metadata_none(self):
-        self.controller.set_config({ 'metadata': 'none' })
+        self.controller.set_config({'metadata': 'none'})
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
-        actual = self.controller.retrieve_object_list(self.create_mock_scene_event(mock_scene_event_data))
+        actual = self.controller.retrieve_object_list(
+            self.create_mock_scene_event(mock_scene_event_data))
         self.assertEqual(len(actual), 2)
 
         self.assertEqual(actual[0].uuid, "testId1")
@@ -1195,7 +1466,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             }
         }
 
-        actual = self.controller.retrieve_return_status(self.create_mock_scene_event(mock_scene_event_data))
+        actual = self.controller.retrieve_return_status(
+            self.create_mock_scene_event(mock_scene_event_data))
         self.assertEqual(actual, MCS_Return_Status.SUCCESSFUL.name)
 
         mock_scene_event_data = {
@@ -1204,7 +1476,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             }
         }
 
-        actual = self.controller.retrieve_return_status(self.create_mock_scene_event(mock_scene_event_data))
+        actual = self.controller.retrieve_return_status(
+            self.create_mock_scene_event(mock_scene_event_data))
         self.assertEqual(actual, MCS_Return_Status.FAILED.name)
 
         mock_scene_event_data = {
@@ -1213,7 +1486,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             }
         }
 
-        actual = self.controller.retrieve_return_status(self.create_mock_scene_event(mock_scene_event_data))
+        actual = self.controller.retrieve_return_status(
+            self.create_mock_scene_event(mock_scene_event_data))
         self.assertEqual(actual, MCS_Return_Status.UNDEFINED.name)
 
         mock_scene_event_data = {
@@ -1222,7 +1496,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             }
         }
 
-        actual = self.controller.retrieve_return_status(self.create_mock_scene_event(mock_scene_event_data))
+        actual = self.controller.retrieve_return_status(
+            self.create_mock_scene_event(mock_scene_event_data))
         self.assertEqual(actual, MCS_Return_Status.UNDEFINED.name)
 
     def test_save_images(self):
@@ -1238,8 +1513,13 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             })]
         }
 
-        image_list, depth_mask_list, object_mask_list = self.controller.save_images(self.create_mock_scene_event(
-            mock_scene_event_data))
+        (
+            image_list,
+            depth_mask_list,
+            object_mask_list,
+        ) = self.controller.save_images(
+            self.create_mock_scene_event(mock_scene_event_data)
+        )
 
         self.assertEqual(len(image_list), 1)
         self.assertEqual(len(depth_mask_list), 1)
@@ -1270,9 +1550,13 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             })]
         }
 
-        image_list, depth_mask_list, object_mask_list = self.controller.save_images(self.create_mock_scene_event(
-            mock_scene_event_data))
-
+        (
+            image_list,
+            depth_mask_list,
+            object_mask_list
+        ) = self.controller.save_images(
+            self.create_mock_scene_event(mock_scene_event_data)
+        )
         self.assertEqual(len(image_list), 2)
         self.assertEqual(len(depth_mask_list), 2)
         self.assertEqual(len(object_mask_list), 2)
@@ -1286,8 +1570,14 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(numpy.array(object_mask_list[1]), object_mask_data_2)
 
     def test_wrap_output(self):
-        mock_scene_event_data, image_data, depth_mask_data, object_mask_data = self.create_wrap_output_scene_event()
-        actual = self.controller.wrap_output(self.create_mock_scene_event(mock_scene_event_data))
+        (
+            mock_scene_event_data,
+            image_data,
+            depth_mask_data,
+            object_mask_data
+        ) = self.create_wrap_output_scene_event()
+        actual = self.controller.wrap_output(
+            self.create_mock_scene_event(mock_scene_event_data))
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
@@ -1297,9 +1587,11 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(str(actual.goal), str(MCS_Goal()))
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, MCS_Pose.STANDING.value)
-        self.assertEqual(actual.position, { 'x': 0.12, 'y': -0.23, 'z': 4.5 })
+        self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
         self.assertEqual(actual.rotation, 2.222)
-        self.assertEqual(actual.return_status, MCS_Return_Status.SUCCESSFUL.value)
+        self.assertEqual(
+            actual.return_status,
+            MCS_Return_Status.SUCCESSFUL.value)
         self.assertEqual(actual.step_number, 0)
 
         self.assertEqual(len(actual.object_list), 1)
@@ -1309,7 +1601,9 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "g": 34,
             "b": 56
         })
-        self.assertEqual(actual.object_list[0].dimensions, ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
+        self.assertEqual(
+            actual.object_list[0].dimensions, [
+                "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
         self.assertEqual(actual.object_list[0].direction, {
             "x": 90,
             "y": -30,
@@ -1321,8 +1615,12 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.object_list[0].held, False)
         self.assertEqual(actual.object_list[0].mass, 12.34)
         self.assertEqual(actual.object_list[0].material_list, ["WOOD"])
-        self.assertEqual(actual.object_list[0].position, { "x": 10, "y": 11, "z": 12 })
-        self.assertEqual(actual.object_list[0].rotation, { "x": 1, "y": 2, "z": 3 })
+        self.assertEqual(
+            actual.object_list[0].position, {
+                "x": 10, "y": 11, "z": 12})
+        self.assertEqual(
+            actual.object_list[0].rotation, {
+                "x": 1, "y": 2, "z": 3})
         self.assertEqual(actual.object_list[0].shape, 'shape')
         self.assertEqual(actual.object_list[0].texture_color_list, ['c1'])
         self.assertEqual(actual.object_list[0].visible, True)
@@ -1334,35 +1632,60 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "g": 102,
             "b": 103
         })
-        self.assertEqual(actual.structural_object_list[0].dimensions, ["p11", "p12", "p13", "p14", "p15", "p16", "p17", "p18"])
+        self.assertEqual(
+            actual.structural_object_list[0].dimensions,
+            ["p11", "p12", "p13", "p14", "p15", "p16", "p17", "p18"]
+        )
         self.assertEqual(actual.structural_object_list[0].direction, {
             "x": 180,
             "y": -60,
             "z": 0
         })
         self.assertEqual(actual.structural_object_list[0].distance, 4.4)
-        self.assertEqual(actual.structural_object_list[0].distance_in_steps, 4.4)
-        self.assertEqual(actual.structural_object_list[0].distance_in_world, 2.5)
+        self.assertEqual(
+            actual.structural_object_list[0].distance_in_steps, 4.4)
+        self.assertEqual(
+            actual.structural_object_list[0].distance_in_world, 2.5)
         self.assertEqual(actual.structural_object_list[0].held, False)
         self.assertEqual(actual.structural_object_list[0].mass, 56.78)
-        self.assertEqual(actual.structural_object_list[0].material_list, ["CERAMIC"])
-        self.assertEqual(actual.structural_object_list[0].position, { "x": 20, "y": 21, "z": 22 })
-        self.assertEqual(actual.structural_object_list[0].rotation, { "x": 4, "y": 5, "z": 6 })
+        self.assertEqual(
+            actual.structural_object_list[0].material_list,
+            ["CERAMIC"])
+        self.assertEqual(
+            actual.structural_object_list[0].position, {
+                "x": 20, "y": 21, "z": 22})
+        self.assertEqual(
+            actual.structural_object_list[0].rotation, {
+                "x": 4, "y": 5, "z": 6})
         self.assertEqual(actual.structural_object_list[0].shape, 'structure')
-        self.assertEqual(actual.structural_object_list[0].texture_color_list, ['c2'])
+        self.assertEqual(
+            actual.structural_object_list[0].texture_color_list,
+            ['c2'])
         self.assertEqual(actual.structural_object_list[0].visible, True)
 
         self.assertEqual(len(actual.depth_mask_list), 1)
         self.assertEqual(len(actual.image_list), 1)
         self.assertEqual(len(actual.object_mask_list), 1)
-        self.assertEqual(numpy.array(actual.depth_mask_list[0]), depth_mask_data)
+        self.assertEqual(
+            numpy.array(
+                actual.depth_mask_list[0]),
+            depth_mask_data)
         self.assertEqual(numpy.array(actual.image_list[0]), image_data)
-        self.assertEqual(numpy.array(actual.object_mask_list[0]), object_mask_data)
+        self.assertEqual(
+            numpy.array(
+                actual.object_mask_list[0]),
+            object_mask_data)
 
     def test_wrap_output_with_config_metadata_full(self):
-        self.controller.set_config({ 'metadata': 'full' })
-        mock_scene_event_data, image_data, depth_mask_data, object_mask_data = self.create_wrap_output_scene_event()
-        actual = self.controller.wrap_output(self.create_mock_scene_event(mock_scene_event_data))
+        self.controller.set_config({'metadata': 'full'})
+        (
+            mock_scene_event_data,
+            image_data,
+            depth_mask_data,
+            object_mask_data
+        ) = self.create_wrap_output_scene_event()
+        actual = self.controller.wrap_output(
+            self.create_mock_scene_event(mock_scene_event_data))
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
@@ -1372,9 +1695,11 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(str(actual.goal), str(MCS_Goal()))
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, MCS_Pose.STANDING.value)
-        self.assertEqual(actual.position, { 'x': 0.12, 'y': -0.23, 'z': 4.5 })
+        self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
         self.assertEqual(actual.rotation, 2.222)
-        self.assertEqual(actual.return_status, MCS_Return_Status.SUCCESSFUL.value)
+        self.assertEqual(
+            actual.return_status,
+            MCS_Return_Status.SUCCESSFUL.value)
         self.assertEqual(actual.step_number, 0)
 
         # Correct object metadata properties tested elsewhere
@@ -1384,14 +1709,26 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(len(actual.depth_mask_list), 1)
         self.assertEqual(len(actual.image_list), 1)
         self.assertEqual(len(actual.object_mask_list), 1)
-        self.assertEqual(numpy.array(actual.depth_mask_list[0]), depth_mask_data)
+        self.assertEqual(
+            numpy.array(
+                actual.depth_mask_list[0]),
+            depth_mask_data)
         self.assertEqual(numpy.array(actual.image_list[0]), image_data)
-        self.assertEqual(numpy.array(actual.object_mask_list[0]), object_mask_data)
+        self.assertEqual(
+            numpy.array(
+                actual.object_mask_list[0]),
+            object_mask_data)
 
     def test_wrap_output_with_config_metadata_no_navigation(self):
-        self.controller.set_config({ 'metadata': 'no_navigation' })
-        mock_scene_event_data, image_data, depth_mask_data, object_mask_data = self.create_wrap_output_scene_event()
-        actual = self.controller.wrap_output(self.create_mock_scene_event(mock_scene_event_data))
+        self.controller.set_config({'metadata': 'no_navigation'})
+        (
+            mock_scene_event_data,
+            image_data,
+            depth_mask_data,
+            object_mask_data
+        ) = self.create_wrap_output_scene_event()
+        actual = self.controller.wrap_output(
+            self.create_mock_scene_event(mock_scene_event_data))
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
@@ -1403,7 +1740,9 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.pose, MCS_Pose.STANDING.value)
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
-        self.assertEqual(actual.return_status, MCS_Return_Status.SUCCESSFUL.value)
+        self.assertEqual(
+            actual.return_status,
+            MCS_Return_Status.SUCCESSFUL.value)
         self.assertEqual(actual.step_number, 0)
 
         # Correct object metadata properties tested elsewhere
@@ -1413,14 +1752,26 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(len(actual.depth_mask_list), 1)
         self.assertEqual(len(actual.image_list), 1)
         self.assertEqual(len(actual.object_mask_list), 1)
-        self.assertEqual(numpy.array(actual.depth_mask_list[0]), depth_mask_data)
+        self.assertEqual(
+            numpy.array(
+                actual.depth_mask_list[0]),
+            depth_mask_data)
         self.assertEqual(numpy.array(actual.image_list[0]), image_data)
-        self.assertEqual(numpy.array(actual.object_mask_list[0]), object_mask_data)
+        self.assertEqual(
+            numpy.array(
+                actual.object_mask_list[0]),
+            object_mask_data)
 
     def test_wrap_output_with_config_metadata_no_vision(self):
-        self.controller.set_config({ 'metadata': 'no_vision' })
-        mock_scene_event_data, image_data, depth_mask_data, object_mask_data = self.create_wrap_output_scene_event()
-        actual = self.controller.wrap_output(self.create_mock_scene_event(mock_scene_event_data))
+        self.controller.set_config({'metadata': 'no_vision'})
+        (
+            mock_scene_event_data,
+            image_data,
+            depth_mask_data,
+            object_mask_data
+        ) = self.create_wrap_output_scene_event()
+        actual = self.controller.wrap_output(
+            self.create_mock_scene_event(mock_scene_event_data))
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, None)
@@ -1430,9 +1781,11 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(str(actual.goal), str(MCS_Goal()))
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, MCS_Pose.STANDING.value)
-        self.assertEqual(actual.position, { 'x': 0.12, 'y': -0.23, 'z': 4.5 })
+        self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
         self.assertEqual(actual.rotation, 2.222)
-        self.assertEqual(actual.return_status, MCS_Return_Status.SUCCESSFUL.value)
+        self.assertEqual(
+            actual.return_status,
+            MCS_Return_Status.SUCCESSFUL.value)
         self.assertEqual(actual.step_number, 0)
 
         # Correct object metadata properties tested elsewhere
@@ -1444,9 +1797,15 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(len(actual.object_mask_list), 0)
 
     def test_wrap_output_with_config_metadata_none(self):
-        self.controller.set_config({ 'metadata': 'none' })
-        mock_scene_event_data, image_data, depth_mask_data, object_mask_data = self.create_wrap_output_scene_event()
-        actual = self.controller.wrap_output(self.create_mock_scene_event(mock_scene_event_data))
+        self.controller.set_config({'metadata': 'none'})
+        (
+            mock_scene_event_data,
+            image_data,
+            depth_mask_data,
+            object_mask_data
+        ) = self.create_wrap_output_scene_event()
+        actual = self.controller.wrap_output(
+            self.create_mock_scene_event(mock_scene_event_data))
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, None)
@@ -1458,7 +1817,9 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.pose, MCS_Pose.STANDING.value)
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
-        self.assertEqual(actual.return_status, MCS_Return_Status.SUCCESSFUL.value)
+        self.assertEqual(
+            actual.return_status,
+            MCS_Return_Status.SUCCESSFUL.value)
         self.assertEqual(actual.step_number, 0)
 
         # Correct object metadata properties tested elsewhere
@@ -1470,7 +1831,10 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(len(actual.object_mask_list), 0)
 
     def test_wrap_step(self):
-        actual = self.controller.wrap_step(action="TestAction", numberProperty=1234, stringProperty="test_property")
+        actual = self.controller.wrap_step(
+            action="TestAction",
+            numberProperty=1234,
+            stringProperty="test_property")
         expected = {
             "action": "TestAction",
             "continuous": True,
@@ -1494,4 +1858,3 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
 
         currentNoise = self.controller.generate_noise()
         self.assertTrue(minValue <= currentNoise <= maxValue)
-

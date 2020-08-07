@@ -1,5 +1,6 @@
 from enum import Enum, unique
 
+
 @unique
 class MCS_Action_Keys(Enum):
     CLOSE_OBJECT = "1"
