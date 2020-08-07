@@ -1,7 +1,8 @@
 import unittest
 import textwrap
 
-from machine_common_sense.mcs_goal import MCS_Goal
+#from machine_common_sense.mcs_goal import MCS_Goal
+import machine_common_sense as mcs
 
 
 class Test_Default_MCS_Goal(unittest.TestCase):
@@ -20,7 +21,7 @@ class Test_Default_MCS_Goal(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.goal = MCS_Goal()
+        cls.goal = mcs.Goal()
 
     @classmethod
     def tearDownClass(cls):

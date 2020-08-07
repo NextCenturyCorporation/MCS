@@ -5,7 +5,8 @@ from typing import Tuple
 from shapely import geometry
 
 from machine_common_sense.mcs_reward import MCS_Reward
-from machine_common_sense.mcs_goal import MCS_Goal
+#from machine_common_sense.mcs_goal import MCS_Goal
+import machine_common_sense as mcs
 
 
 class Test_MCS_Reward(unittest.TestCase):
@@ -18,7 +19,7 @@ class Test_MCS_Reward(unittest.TestCase):
         print(f"{self.id()} ({round(elapsed,2)}s)")
 
     def test_default_reward(self):
-        goal = MCS_Goal()
+        goal = mcs.Goal()
         reward = MCS_Reward.calculate_reward(goal, objects={}, agent={})
         self.assertEqual(reward, 0)
         self.assertIsInstance(reward, int)
@@ -129,7 +130,7 @@ class Test_MCS_Reward(unittest.TestCase):
         self.assertIsInstance(list(polygon.exterior.coords)[0], Tuple)
 
     def test_retrieval_reward(self):
-        goal = MCS_Goal()
+        goal = mcs.Goal()
         goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
@@ -140,7 +141,7 @@ class Test_MCS_Reward(unittest.TestCase):
         self.assertIsInstance(reward, int)
 
     def test_retrieval_reward_nothing_pickedup(self):
-        goal = MCS_Goal()
+        goal = mcs.Goal()
         goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
@@ -151,7 +152,7 @@ class Test_MCS_Reward(unittest.TestCase):
         self.assertIsInstance(reward, int)
 
     def test_traversal_reward(self):
-        goal = MCS_Goal()
+        goal = mcs.Goal()
         goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
@@ -187,7 +188,7 @@ class Test_MCS_Reward(unittest.TestCase):
         self.assertIsInstance(reward, int)
 
     def test_traversal_reward_large_object_inside(self):
-        goal = MCS_Goal()
+        goal = mcs.Goal()
         goal.metadata['target'] = {'id': '0'}
         obj = {"objectId": str(0), "objectBounds": {"objectBoundsCorners": []}}
         # create lower plane (y = 0)
@@ -218,7 +219,7 @@ class Test_MCS_Reward(unittest.TestCase):
         self.assertIsInstance(reward, int)
 
     def test_traversal_reward_large_object_long_side(self):
-        goal = MCS_Goal()
+        goal = mcs.Goal()
         goal.metadata['target'] = {'id': '0'}
         obj = {"objectId": str(0), "objectBounds": {"objectBoundsCorners": []}}
         # create lower plane (y = 0)
@@ -249,7 +250,7 @@ class Test_MCS_Reward(unittest.TestCase):
         self.assertIsInstance(reward, int)
 
     def test_traversal_reward_large_object_long_side_out_of_reach(self):
-        goal = MCS_Goal()
+        goal = mcs.Goal()
         goal.metadata['target'] = {'id': '0'}
         obj = {"objectId": str(0), "objectBounds": {"objectBoundsCorners": []}}
         # create lower plane (y = 0)
@@ -280,7 +281,7 @@ class Test_MCS_Reward(unittest.TestCase):
         self.assertIsInstance(reward, int)
 
     def test_traversal_reward_large_object_short_side(self):
-        goal = MCS_Goal()
+        goal = mcs.Goal()
         goal.metadata['target'] = {'id': '0'}
         obj = {"objectId": str(0), "objectBounds": {"objectBoundsCorners": []}}
         # create lower plane (y = 0)
@@ -311,7 +312,7 @@ class Test_MCS_Reward(unittest.TestCase):
         self.assertIsInstance(reward, int)
 
     def test_traversal_reward_large_object_short_side_out_of_reach(self):
-        goal = MCS_Goal()
+        goal = mcs.Goal()
         goal.metadata['target'] = {'id': '0'}
         obj = {"objectId": str(0), "objectBounds": {"objectBoundsCorners": []}}
         # create lower plane (y = 0)
@@ -342,7 +343,7 @@ class Test_MCS_Reward(unittest.TestCase):
         self.assertIsInstance(reward, int)
 
     def test_traversal_reward_outside_agent_reach(self):
-        goal = MCS_Goal()
+        goal = mcs.Goal()
         goal.metadata['target'] = {'id': '0'}
         obj_list = []
         agent = {'position': {'x': -0.9, 'y': 0.5, 'z': -1.0}}
@@ -351,7 +352,7 @@ class Test_MCS_Reward(unittest.TestCase):
         self.assertIsInstance(reward, int)
 
     def test_traversal_reward_with_missing_target(self):
-        goal = MCS_Goal()
+        goal = mcs.Goal()
         goal.metadata['target'] = {'id': '111'}  # missing target
         obj_list = []
         agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
@@ -360,7 +361,7 @@ class Test_MCS_Reward(unittest.TestCase):
         self.assertIsInstance(reward, int)
 
     def test_transferral_reward_with_missing_relationship(self):
-        goal = MCS_Goal()
+        goal = mcs.Goal()
         goal.metadata['target_1'] = {'id': '0'}
         goal.metadata['target_2'] = {'id': '1'}
         goal.metadata['relationship'] = []
@@ -396,7 +397,7 @@ class Test_MCS_Reward(unittest.TestCase):
         self.assertIsInstance(reward, int)
 
     def test_transferral_reward_next_to(self):
-        goal = MCS_Goal()
+        goal = mcs.Goal()
         goal.metadata['target_1'] = {'id': '0'}
         goal.metadata['target_2'] = {'id': '1'}
         goal.metadata['relationship'] = ['target_1', 'next to', 'target_2']
@@ -432,7 +433,7 @@ class Test_MCS_Reward(unittest.TestCase):
         self.assertIsInstance(reward, int)
 
     def test_transferral_reward_next_to_with_pickedup_object(self):
-        goal = MCS_Goal()
+        goal = mcs.Goal()
         goal.metadata['target_1'] = {'id': '0'}
         goal.metadata['target_2'] = {'id': '1'}
         goal.metadata['relationship'] = ['target_1', 'next to', 'target_2']
@@ -469,7 +470,7 @@ class Test_MCS_Reward(unittest.TestCase):
         self.assertIsInstance(reward, int)
 
     def test_transferral_reward_on_top_of(self):
-        goal = MCS_Goal()
+        goal = mcs.Goal()
         goal.metadata['target_1'] = {'id': '1'}
         goal.metadata['target_2'] = {'id': '0'}
         goal.metadata['relationship'] = ['target_1', 'on top of', 'target_2']
@@ -505,7 +506,7 @@ class Test_MCS_Reward(unittest.TestCase):
         self.assertIsInstance(reward, int)
 
     def test_transferral_reward_on_top_of_with_pickedup_object(self):
-        goal = MCS_Goal()
+        goal = mcs.Goal()
         goal.metadata['target_1'] = {'id': '0'}
         goal.metadata['target_2'] = {'id': '1'}
         goal.metadata['relationship'] = ['target_1', 'on top of', 'target_2']

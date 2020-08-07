@@ -1,6 +1,7 @@
-from .mcs_action import MCS_Action
+#from .mcs_action import MCS_Action
 from .mcs_material import MCS_Material
 
+import machine_common_sense as mcs
 
 class MCS_Util:
     """
@@ -111,7 +112,7 @@ class MCS_Util:
         action = input_split[0]
 
         try:
-            validate_action = MCS_Action(action).name  # noqa: F841
+            validate_action = mcs.Action(action).name  # noqa: F841
         except BaseException:
             return None, {}
 

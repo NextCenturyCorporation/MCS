@@ -1,8 +1,9 @@
-from .mcs_goal import MCS_Goal
+#from .mcs_goal import MCS_Goal
 from .mcs_pose import MCS_Pose
 from .mcs_return_status import MCS_Return_Status
 from .mcs_util import MCS_Util
 
+import machine_common_sense as mcs
 
 class MCS_Step_Output:
     """
@@ -118,7 +119,7 @@ class MCS_Step_Output:
         self.depth_mask_list = (
             [] if depth_mask_list is None else depth_mask_list
         )
-        self.goal = MCS_Goal() if goal is None else goal
+        self.goal = mcs.Goal() if goal is None else goal
         self.head_tilt = head_tilt
         self.image_list = [] if image_list is None else image_list
         self.object_list = [] if object_list is None else object_list

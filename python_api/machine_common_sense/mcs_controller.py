@@ -2,7 +2,7 @@ from .mcs_step_output import MCS_Step_Output
 import random
 
 
-class MCS_Controller:
+class Controller:
     """
     Starts and ends scenes, runs actions on each step, and returns scene
     output data.

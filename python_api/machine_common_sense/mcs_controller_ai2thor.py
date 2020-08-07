@@ -25,9 +25,9 @@ MAX_MOVE_DISTANCE = 0.5
 # Performer camera 'y' position
 PERFORMER_CAMERA_Y = 0.4625
 
-from .mcs_action import MCS_Action
-from .mcs_controller import MCS_Controller
-from .mcs_goal import MCS_Goal
+#from .mcs_action import MCS_Action
+#from .mcs_controller import MCS_Controller
+#from .mcs_goal import MCS_Goal
 from .mcs_object import MCS_Object
 from .mcs_pose import MCS_Pose
 from .mcs_return_status import MCS_Return_Status
@@ -35,6 +35,8 @@ from .mcs_reward import MCS_Reward
 from .mcs_scene_history import MCS_Scene_History
 from .mcs_step_output import MCS_Step_Output
 from .mcs_util import MCS_Util
+
+import machine_common_sense as mcs
 
 # From https://github.com/NextCenturyCorporation/ai2thor/blob/master/ai2thor/server.py#L232-L240 # noqa: E501
 
@@ -51,14 +53,14 @@ def __image_depth_override(self, image_depth_data, **kwargs):
 ai2thor.server.Event._image_depth = __image_depth_override
 
 
-class MCS_Controller_AI2THOR(MCS_Controller):
+class MCS_Controller_AI2THOR(mcs.Controller):
     """
     MCS Controller class implementation for the AI2-THOR library.
 
     https://ai2thor.allenai.org/ithor/documentation/
     """
 
-    ACTION_LIST = [item.value for item in MCS_Action]
+    ACTION_LIST = [item.value for item in mcs.Action]
 
     # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built
     # on this assumption.
@@ -174,7 +176,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         if self.__seed:
             random.seed(self.__seed)
 
-        self._goal = MCS_Goal()
+        self._goal = mcs.Goal() #MCS_Goal()
         self.__head_tilt = 0.0
         self.__history_list = []
         self.__output_folder = None  # Save output image files to debug
@@ -518,16 +520,16 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
     def mcs_action_to_ai2thor_action(self, action):
-        if action == MCS_Action.CLOSE_OBJECT.value:
+        if action == mcs.Action.CLOSE_OBJECT.value:
             # The AI2-THOR Python library has buggy error checking
             # specifically for the CloseObject action,
             # so just use our own custom action here.
             return "MCSCloseObject"
 
-        if action == MCS_Action.DROP_OBJECT.value:
+        if action == mcs.Action.DROP_OBJECT.value:
             return "DropHandObject"
 
-        if action == MCS_Action.OPEN_OBJECT.value:
+        if action == mcs.Action.OPEN_OBJECT.value:
             # The AI2-THOR Python library has buggy error checking
             # specifically for the OpenObject action,
             # so just use our own custom action here.
@@ -657,7 +659,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             # Backwards compatibility
             goal_config['metadata']['category'] = goal_config['category']
 
-        return self.restrict_goal_output_metadata(MCS_Goal(
+        return self.restrict_goal_output_metadata(mcs.Goal(
             action_list=(goal_config['action_list']
                          if 'action_list' in goal_config else None),
             category=(goal_config['category']

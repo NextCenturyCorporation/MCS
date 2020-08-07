@@ -1,7 +1,7 @@
 from .mcs_util import MCS_Util
 
 
-class MCS_Goal:
+class Goal:
     """
     Defines attributes of an MCS goal.
 

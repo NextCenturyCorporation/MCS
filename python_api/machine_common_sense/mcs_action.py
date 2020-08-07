@@ -2,7 +2,7 @@ from enum import Enum, unique
 
 
 @unique
-class MCS_Action(Enum):
+class Action(Enum):
     CLOSE_OBJECT = "CloseObject"
     # CRAWL = "Crawl"
     DROP_OBJECT = "DropObject"

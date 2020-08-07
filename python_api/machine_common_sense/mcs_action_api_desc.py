@@ -2,7 +2,7 @@ from enum import Enum, unique
 
 
 @unique
-class MCS_Action_API_DESC(Enum):
+class Action_API_DESC(Enum):
     CLOSE_OBJECT = "Close a nearby object. (objectId=string, amount=float " \
         "(default:1), objectDirectionX=float, objectDirectionY=float, " \
         "objectDirectionZ=float)"

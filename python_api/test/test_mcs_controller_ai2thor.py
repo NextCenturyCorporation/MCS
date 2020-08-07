@@ -7,7 +7,7 @@ from machine_common_sense.mcs_controller_ai2thor import (
     MAX_MOVE_DISTANCE,
     MAX_REACH_DISTANCE
 )
-from machine_common_sense.mcs_goal import MCS_Goal
+#from machine_common_sense.mcs_goal import MCS_Goal
 from machine_common_sense.mcs_object import MCS_Object
 from machine_common_sense.mcs_pose import MCS_Pose
 from machine_common_sense.mcs_return_status import MCS_Return_Status
@@ -16,6 +16,8 @@ from .mock_mcs_controller_ai2thor import (
     Mock_MCS_Controller_AI2THOR,
     MOCK_VARIABLES
 )
+
+import machine_common_sense as mcs
 
 
 class Test_MCS_Controller_AI2THOR(unittest.TestCase):
@@ -369,7 +371,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, 0)
         self.assertEqual(output.step_number, 0)
-        self.assertEqual(str(output.goal), str(MCS_Goal()))
+        self.assertEqual(str(output.goal), str(mcs.Goal()))
         self.assertEqual(len(output.image_list), MOCK_VARIABLES['event_count'])
         self.assertEqual(len(output.depth_mask_list),
                          MOCK_VARIABLES['event_count'])
@@ -389,7 +391,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, 0)
         self.assertEqual(output.step_number, 0)
-        self.assertEqual(str(output.goal), str(MCS_Goal()))
+        self.assertEqual(str(output.goal), str(mcs.Goal()))
         self.assertEqual(len(output.image_list), MOCK_VARIABLES['event_count'])
         self.assertEqual(len(output.depth_mask_list),
                          MOCK_VARIABLES['event_count'])
@@ -414,7 +416,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(output.reward, 0)
         self.assertEqual(output.step_number, 5)
         self.assertEqual(str(output.goal), str(
-            MCS_Goal(last_preview_phase_step=5)))
+            mcs.Goal(last_preview_phase_step=5)))
         self.assertEqual(
             len(output.image_list),
             MOCK_VARIABLES['event_count'] * (last_preview_phase_step + 1),
@@ -442,7 +444,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, 0)
         self.assertEqual(output.step_number, 1)
-        self.assertEqual(str(output.goal), str(MCS_Goal()))
+        self.assertEqual(str(output.goal), str(mcs.Goal()))
         self.assertEqual(len(output.image_list), MOCK_VARIABLES['event_count'])
         self.assertEqual(len(output.depth_mask_list),
                          MOCK_VARIABLES['event_count'])
@@ -462,7 +464,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, 0)
         self.assertEqual(output.step_number, 2)
-        self.assertEqual(str(output.goal), str(MCS_Goal()))
+        self.assertEqual(str(output.goal), str(mcs.Goal()))
         self.assertEqual(len(output.image_list), MOCK_VARIABLES['event_count'])
         self.assertEqual(len(output.depth_mask_list),
                          MOCK_VARIABLES['event_count'])
@@ -474,11 +476,11 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                          len(MOCK_VARIABLES['metadata']['structuralObjects']))
 
     def test_step_last_step(self):
-        self.controller.set_goal(MCS_Goal(last_step=0))
+        self.controller.set_goal(mcs.Goal(last_step=0))
         output = self.controller.step('MoveAhead')
         self.assertIsNone(output)
 
-        self.controller.set_goal(MCS_Goal(last_step=1))
+        self.controller.set_goal(mcs.Goal(last_step=1))
         output = self.controller.step('MoveAhead')
         self.assertIsNotNone(output)
         output = self.controller.step('MoveAhead')
@@ -492,12 +494,12 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         output = self.controller.step('Foobar')
         self.assertIsNone(output)
 
-        self.controller.set_goal(MCS_Goal(action_list=[['Pass']]))
+        self.controller.set_goal(mcs.Goal(action_list=[['Pass']]))
         output = self.controller.step('MoveAhead')
         self.assertIsNone(output)
 
         self.controller.set_goal(
-            MCS_Goal(
+            mcs.Goal(
                 action_list=[
                     ['MoveAhead'],
                     ['MoveBack']]))
@@ -678,7 +680,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                     'x': 4, 'y': 5, 'z': 6}))
 
     def test_restrict_goal_output_metadata(self):
-        goal = MCS_Goal(metadata={
+        goal = mcs.Goal(metadata={
             'target': {'image': [0]},
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
@@ -692,7 +694,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
 
     def test_restrict_goal_output_metadata_full(self):
         self.controller.set_config({'metadata': 'full'})
-        goal = MCS_Goal(metadata={
+        goal = mcs.Goal(metadata={
             'target': {'image': [0]},
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
@@ -706,7 +708,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
 
     def test_restrict_goal_output_metadata_no_navigation(self):
         self.controller.set_config({'metadata': 'no_navigation'})
-        goal = MCS_Goal(metadata={
+        goal = mcs.Goal(metadata={
             'target': {'image': [0]},
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
@@ -720,7 +722,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
 
     def test_restrict_goal_output_metadata_no_vision(self):
         self.controller.set_config({'metadata': 'no_vision'})
-        goal = MCS_Goal(metadata={
+        goal = mcs.Goal(metadata={
             'target': {'image': [0]},
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
@@ -734,7 +736,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
 
     def test_restrict_goal_output_metadata_none(self):
         self.controller.set_config({'metadata': 'none'})
-        goal = MCS_Goal(metadata={
+        goal = mcs.Goal(metadata={
             'target': {'image': [0]},
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
@@ -977,22 +979,22 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
     def test_retrieve_action_list(self):
         self.assertEqual(
             self.controller.retrieve_action_list(
-                MCS_Goal(), 0), self.controller.ACTION_LIST)
+                mcs.Goal(), 0), self.controller.ACTION_LIST)
         self.assertEqual(
             self.controller.retrieve_action_list(
-                MCS_Goal(
+                mcs.Goal(
                     action_list=[]),
                 0),
             self.controller.ACTION_LIST)
         self.assertEqual(
             self.controller.retrieve_action_list(
-                MCS_Goal(
+                mcs.Goal(
                     action_list=[[]]),
                 0),
             self.controller.ACTION_LIST)
         self.assertEqual(
             self.controller.retrieve_action_list(
-                MCS_Goal(
+                mcs.Goal(
                     action_list=[['MoveAhead', 'RotateLook,rotation=180']]
                 ),
                 0,
@@ -1001,7 +1003,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         )
         self.assertEqual(
             self.controller.retrieve_action_list(
-                MCS_Goal(
+                mcs.Goal(
                     action_list=[['MoveAhead', 'RotateLook,rotation=180']]
                 ),
                 1,
@@ -1010,7 +1012,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         )
         self.assertEqual(
             self.controller.retrieve_action_list(
-                MCS_Goal(
+                mcs.Goal(
                     action_list=[['MoveAhead', 'RotateLook,rotation=180'], []]
                 ),
                 1,
@@ -1019,7 +1021,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         )
         self.assertEqual(
             self.controller.retrieve_action_list(
-                MCS_Goal(
+                mcs.Goal(
                     action_list=[[], ['MoveAhead', 'RotateLook,rotation=180']]
                 ),
                 0,
@@ -1028,7 +1030,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         )
         self.assertEqual(
             self.controller.retrieve_action_list(
-                MCS_Goal(
+                mcs.Goal(
                     action_list=[[], ['MoveAhead', 'RotateLook,rotation=180']]
                 ),
                 1,
@@ -1584,7 +1586,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.camera_clipping_planes, (0, 25))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
-        self.assertEqual(str(actual.goal), str(MCS_Goal()))
+        self.assertEqual(str(actual.goal), str(mcs.Goal()))
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, MCS_Pose.STANDING.value)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
@@ -1692,7 +1694,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.camera_clipping_planes, (0, 25))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
-        self.assertEqual(str(actual.goal), str(MCS_Goal()))
+        self.assertEqual(str(actual.goal), str(mcs.Goal()))
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, MCS_Pose.STANDING.value)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
@@ -1735,7 +1737,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.camera_clipping_planes, (0, 25))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
-        self.assertEqual(str(actual.goal), str(MCS_Goal()))
+        self.assertEqual(str(actual.goal), str(mcs.Goal()))
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, MCS_Pose.STANDING.value)
         self.assertEqual(actual.position, None)
@@ -1778,7 +1780,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.camera_clipping_planes, None)
         self.assertEqual(actual.camera_field_of_view, None)
         self.assertEqual(actual.camera_height, None)
-        self.assertEqual(str(actual.goal), str(MCS_Goal()))
+        self.assertEqual(str(actual.goal), str(mcs.Goal()))
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, MCS_Pose.STANDING.value)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
@@ -1812,7 +1814,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.camera_clipping_planes, None)
         self.assertEqual(actual.camera_field_of_view, None)
         self.assertEqual(actual.camera_height, None)
-        self.assertEqual(str(actual.goal), str(MCS_Goal()))
+        self.assertEqual(str(actual.goal), str(mcs.Goal()))
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, MCS_Pose.STANDING.value)
         self.assertEqual(actual.position, None)

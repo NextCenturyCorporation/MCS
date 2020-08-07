@@ -4,10 +4,12 @@ import cmd
 from machine_common_sense.getchHelper import getch
 
 from machine_common_sense.mcs import MCS
-from machine_common_sense.mcs_action import MCS_Action
-from machine_common_sense.mcs_action_api_desc import MCS_Action_API_DESC
+#from machine_common_sense.mcs_action import MCS_Action
+#from machine_common_sense.mcs_action_api_desc import MCS_Action_API_DESC
 from machine_common_sense.mcs_action_keys import MCS_Action_Keys
 from machine_common_sense.mcs_util import MCS_Util
+
+import machine_common_sense as mcs
 
 # variables
 commandList = []
@@ -66,7 +68,7 @@ class HumanInputShell(cmd.Cmd):
         # valid key
         try:
             if len(userInput[0]) == 1:
-                userInput[0] = MCS_Action[MCS_Action_Keys(
+                userInput[0] = mcs.Action[MCS_Action_Keys(
                     userInput[0]).name].value
         except BaseException:
             print(
@@ -143,10 +145,10 @@ class HumanInputShell(cmd.Cmd):
 
 # Define all the possible human input commands
 def build_commands():
-    for action in MCS_Action:
+    for action in mcs.Action:
         commandList.append(command(action.value,
                                    MCS_Action_Keys[action.name].value,
-                                   MCS_Action_API_DESC[action.name].value))
+                                   mcs.Action_API_DESC[action.name].value))
 
 # Display all the possible commands to the user along with key mappings
 

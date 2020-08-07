@@ -2,9 +2,11 @@ from typing import List, Dict
 
 from shapely import geometry
 
-from .mcs_goal import MCS_Goal
+#from .mcs_goal import MCS_Goal
 from .mcs_goal_category import MCS_Goal_Category
 from .mcs_controller_ai2thor import MAX_REACH_DISTANCE, MAX_MOVE_DISTANCE
+
+import machine_common_sense as mcs
 
 GOAL_ACHIEVED = 1
 GOAL_NOT_ACHIEVED = 0
@@ -49,7 +51,7 @@ class MCS_Reward(object):
 
     @staticmethod
     def _calc_retrieval_reward(
-            goal: MCS_Goal,
+            goal: mcs.Goal,
             objects: Dict,
             agent: Dict) -> int:
         '''
@@ -76,7 +78,7 @@ class MCS_Reward(object):
 
     @staticmethod
     def _calc_traversal_reward(
-            goal: MCS_Goal,
+            goal: mcs.Goal,
             objects: Dict,
             agent: Dict) -> int:
         '''
@@ -111,7 +113,7 @@ class MCS_Reward(object):
 
     @staticmethod
     def _calc_transferral_reward(
-            goal: MCS_Goal,
+            goal: mcs.Goal,
             objects: Dict,
             agent: Dict) -> int:
         '''
@@ -175,14 +177,14 @@ class MCS_Reward(object):
 
     @staticmethod
     def _calculate_default_reward(
-            goal: MCS_Goal,
+            goal: mcs.Goal,
             objects: Dict,
             agent: Dict) -> int:
         '''Returns the default reward of 0; not achieved.'''
         return GOAL_NOT_ACHIEVED
 
     @staticmethod
-    def calculate_reward(goal: MCS_Goal, objects: Dict, agent: Dict) -> int:
+    def calculate_reward(goal: mcs.Goal, objects: Dict, agent: Dict) -> int:
         '''
         Determine if the agent achieved the objective/task/goal.
 
