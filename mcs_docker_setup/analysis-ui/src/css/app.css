@@ -333,6 +333,23 @@ ol, ul {
     border: 1px solid #000;
 }
 
+.steps-container {
+    width: 100%;
+}
+
+.step-div.pointer {
+    cursor: pointer;
+}
+
+.step-div:hover {
+    background-color: #FFFF66;
+    cursor: pointer;
+}
+
+.step-highlight {
+    background-color: #add8e6;
+}
+
 .object-nav, .object-contents {
     display: flex;
     margin: 10px 50px;

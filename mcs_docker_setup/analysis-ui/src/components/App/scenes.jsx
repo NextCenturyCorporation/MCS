@@ -12,6 +12,7 @@ const interactiveMoviesBucket = "https://evaluation-images.s3.amazonaws.com/eval
 const movieExtension = ".mp4"
 
 let currentState = {};
+let currentStep = 0;
 
 const PERFORMER_PREFIX_MAPPING = {
     "IBM-MIT-Harvard-Stanford": "mitibm_",
@@ -184,6 +185,37 @@ class Scenes extends React.Component {
         }
     }
 
+    highlightStep = (e) => {
+        // First one is at 0.2 
+        let currentTimeNum = Math.floor(document.getElementById("interactiveMoviePlayer").currentTime + 0.8);
+        if(currentTimeNum !== currentStep) {
+            $('#stepHolder' + currentStep ).toggleClass( "step-highlight" );
+            currentStep = currentTimeNum;
+            $('#stepHolder' + currentStep ).toggleClass( "step-highlight" );
+            if(document.getElementById("stepHolder" + currentStep) !== null) {
+                document.getElementById("stepHolder" + currentStep).scrollIntoView({behavior: "smooth", block: "nearest", inline: "start"});
+            }
+        }
+    }
+
+    initializeStepView = () => {
+        $('#stepHolder' + currentStep ).toggleClass( "step-highlight" );
+        currentStep = 0;
+        $('#stepHolder' + currentStep ).toggleClass( "step-highlight" );
+        if(document.getElementById("stepHolder" + currentStep) !== null) {
+            document.getElementById("stepHolder" + currentStep).scrollIntoView({behavior: "smooth", block: "nearest", inline: "start"});
+        }
+    }
+
+    goToVideoLocation = (jumpTime) => {
+        if( document.getElementById("interactiveMoviePlayer") !== null) {
+            $('#stepHolder' + currentStep ).toggleClass( "step-highlight" );
+            currentStep = jumpTime;
+            document.getElementById("interactiveMoviePlayer").currentTime = jumpTime;
+            $('#stepHolder' + currentStep ).toggleClass( "step-highlight" );
+        }
+    }
+
     render() {
         return (
             <Query query={mcs_history} variables={
@@ -214,6 +246,7 @@ class Scenes extends React.Component {
                                     
                                     const scenes = data[sceneQueryName];
                                     const scenesInOrder = _.sortBy(scenes, "scene_part_num");
+                                    this.initializeStepView();
 
                                     if(scenesInOrder.length > 0) {
                                         return (
@@ -283,13 +316,14 @@ class Scenes extends React.Component {
                                                     { (scenesByPerformer[this.state.currentPerformer][0]["category"] === "interactive") && 
                                                         <div className="movie-steps-holder">
                                                             <div className="interactive-movie-holder">
-                                                                <video src={interactiveMoviesBucket + PERFORMER_PREFIX_MAPPING[this.state.currentPerformer] + this.props.value.test_type + "-" + this.props.value.scene_num + "-" + (this.state.currentSceneNum+1) + movieExtension} width="600" height="400" controls="controls" autoPlay={false} />
+                                                                <video id="interactiveMoviePlayer" src={interactiveMoviesBucket + PERFORMER_PREFIX_MAPPING[this.state.currentPerformer] + this.props.value.test_type + "-" + this.props.value.scene_num + "-" + (this.state.currentSceneNum+1) + movieExtension} width="600" height="400" controls="controls" autoPlay={false} onTimeUpdate={this.highlightStep}/>
                                                             </div>
                                                             <div className="steps-holder">
                                                                 <h5>Peformer Steps:</h5>
                                                                 <div className="steps-container">
+                                                                        <div id="stepHolder0" className="step-div step-highlight" onClick={() => this.goToVideoLocation(0)}>0: Starting Position</div>
                                                                     {scenesByPerformer[this.state.currentPerformer][this.state.currentSceneNum].steps.map((stepObject, key) => 
-                                                                        <div key={"step_div_" + key}>
+                                                                        <div key={"step_div_" + key} id={"stepHolder" + (key+1)} className="step-div" onClick={() => this.goToVideoLocation(key+1)}>
                                                                             {stepObject.stepNumber + ": " + stepObject.action + " (" + this.convertValueToString(stepObject.args) + ") - " + stepObject.output.return_status}
                                                                         </div>
                                                                     )}
