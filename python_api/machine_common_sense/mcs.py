@@ -4,7 +4,8 @@ import signal
 from contextlib import contextmanager
 from .mcs_controller_ai2thor import MCS_Controller_AI2THOR
 
-TIME_LIMIT_SECONDS = 10
+TIME_LIMIT_SECONDS = 60
+
 
 @contextmanager
 def time_limit(seconds):
@@ -17,9 +18,11 @@ def time_limit(seconds):
     finally:
         signal.alarm(0)
 
+
 class MCS:
     """
-    Defines utility functions for machine learning modules to create MCS controllers and handle config data files.
+    Defines utility functions for machine learning modules to create MCS
+    controllers and handle config data files.
     """
 
     """
@@ -36,15 +39,19 @@ class MCS:
     MCS_Controller
     """
     @staticmethod
-    def create_controller(unity_app_file_path, debug=False, enable_noise=False, seed=None):
+    def create_controller(
+            unity_app_file_path,
+            debug=False,
+            enable_noise=False,
+            seed=None):
         # TODO: Toggle between AI2-THOR and other controllers like ThreeDWorld?
         try:
             with time_limit(TIME_LIMIT_SECONDS):
-                return MCS_Controller_AI2THOR(unity_app_file_path, debug, enable_noise, seed)
+                return MCS_Controller_AI2THOR(
+                    unity_app_file_path, debug, enable_noise, seed)
         except Exception as Msg:
             print("create_controller() is Hanging. ", Msg)
             return None
-    
 
     """
     Loads the given JSON config file and returns its data.
@@ -64,11 +71,13 @@ class MCS:
     @staticmethod
     def load_config_json_file(config_json_file_path):
         try:
-            with open(config_json_file_path, encoding='utf-8-sig') as config_json_file_object:
+            with open(config_json_file_path, encoding='utf-8-sig') \
+                    as config_json_file_object:
                 try:
                     return json.load(config_json_file_object), None
                 except ValueError:
-                    return {}, "The given file '" + config_json_file_path + "' does not contain valid JSON."
+                    return {}, "The given file '" + config_json_file_path + \
+                        "' does not contain valid JSON."
         except IOError:
-            return {}, "The given file '" + config_json_file_path + "' cannot be found."
-
+            return {}, "The given file '" + config_json_file_path + \
+                "' cannot be found."

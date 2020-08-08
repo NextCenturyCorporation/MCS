@@ -872,7 +872,7 @@ _BOX_SMALL_XZ_TINY_Y = {
     "shape": ["box"],
     "size": "small",
     "mass": 0.5,
-    "materialCategory": [],
+    "materialCategory": ["cardboard"],
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "chooseType": [{
@@ -1012,7 +1012,7 @@ _BOX_TINY = {
     "shape": ["box"],
     "size": "tiny",
     "mass": 0.25,
-    "materialCategory": [],
+    "materialCategory": ["cardboard"],
     "salientMaterials": ["paper"],
     "attributes": ["moveable", "pickupable", "receptacle", "openable"],
     "chooseType": [{
@@ -1383,7 +1383,7 @@ _BOX_SMALL = {
     "mass": 1,
     "obstruct": "vision",
     "attributes": ["moveable", "receptacle", "openable"],
-    "materialCategory": [],
+    "materialCategory": ["cardboard"],
     "salientMaterials": ["paper"],
     "chooseType": [{
         "type": "box_2",
@@ -1523,7 +1523,7 @@ _BOX_MEDIUM_XZ_SMALL_Y = {
     "mass": 3,
     "obstruct": "vision",
     "attributes": ["moveable", "receptacle", "openable"],
-    "materialCategory": [],
+    "materialCategory": ["cardboard"],
     "salientMaterials": ["paper"],
     "chooseType": [{
         "type": "box_2",
@@ -2826,7 +2826,7 @@ _SOFA_1 = {
     "shape": ["sofa"],
     "size": "huge",
     "mass": 100,
-    "materialCategory": [],
+    "materialCategory": ["sofa_1"],
     "salientMaterials": ["fabric"],
     "attributes": ["receptacle", "stackTarget"],
     "openAreas": [{
@@ -2868,7 +2868,7 @@ _SOFA_2 = {
     "shape": ["sofa"],
     "size": "huge",
     "mass": 100,
-    "materialCategory": [],
+    "materialCategory": ["sofa_2"],
     "salientMaterials": ["fabric"],
     "attributes": ["receptacle", "stackTarget"],
     "openAreas": [{
@@ -2910,7 +2910,7 @@ _SOFA_CHAIR_1 = {
     "shape": ["sofa chair"],
     "size": "huge",
     "mass": 50,
-    "materialCategory": [],
+    "materialCategory": ["sofa_chair_1"],
     "salientMaterials": ["fabric"],
     "attributes": ["receptacle", "stackTarget"],
     "openAreas": [{
@@ -2952,7 +2952,7 @@ _SOFA_CHAIR_2 = {
     "shape": ["sofa chair"],
     "size": "huge",
     "mass": 50,
-    "materialCategory": [],
+    "materialCategory": ["sofa_2"],
     "salientMaterials": ["fabric"],
     "attributes": ["receptacle", "stackTarget"],
     "openAreas": [{

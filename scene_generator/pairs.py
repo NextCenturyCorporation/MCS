@@ -557,7 +557,7 @@ class InteractionPair():
                     geometry.generate_object_bounds(obstructor_definition['dimensions'], \
                     obstructor_definition['offset'] if 'offset' in obstructor_definition else None,
                     obstructor_location['position'], obstructor_location['rotation']), obstructor_definition)
-            bounds_list.append(obstructor_instance['shows'][0]['bounding_box'])
+            bounds_list.append(obstructor_instance['shows'][0]['boundingBox'])
             return obstructor_instance
 
         return None
@@ -589,7 +589,7 @@ class InteractionPair():
             containers.put_objects_in_container(target_definition, target_instance, confusor_definition, \
                     confusor_instance, target_receptacle_instance, receptacle_definition, area_index, orientation, \
                     target_rotation, confusor_rotation)
-            bounds_list.append(target_receptacle_instance['shows'][0]['bounding_box'])
+            bounds_list.append(target_receptacle_instance['shows'][0]['boundingBox'])
 
         else:
             if containerize_target:
@@ -603,13 +603,13 @@ class InteractionPair():
                     target_location['position'], target_location['rotation']), target_definition)
                 containers.put_object_in_container(target_definition, target_instance, target_receptacle_instance, \
                         receptacle_definition, area_index, target_rotation)
-                bounds_list.append(target_receptacle_instance['shows'][0]['bounding_box'])
+                bounds_list.append(target_receptacle_instance['shows'][0]['boundingBox'])
             else:
                 util.move_to_location(target_definition, target_instance, target_location, \
                     geometry.generate_object_bounds(target_definition['dimensions'], \
                     target_definition['offset'] if 'offset' in target_definition else None, \
                     target_location['position'], target_location['rotation']), target_definition)
-                bounds_list.append(target_instance['shows'][0]['bounding_box'])
+                bounds_list.append(target_instance['shows'][0]['boundingBox'])
             if show_confusor:
                 if containerize_confusor:
                     # Use the confusor location for its receptacle, then position the confusor inside its receptacle.
@@ -623,13 +623,13 @@ class InteractionPair():
                         confusor_location['position'], confusor_location['rotation']), confusor_definition)
                     containers.put_object_in_container(confusor_definition, confusor_instance, \
                             confusor_receptacle_instance, receptacle_definition, area_index, confusor_rotation)
-                    bounds_list.append(confusor_receptacle_instance['shows'][0]['bounding_box'])
+                    bounds_list.append(confusor_receptacle_instance['shows'][0]['boundingBox'])
                 else:
                     util.move_to_location(confusor_definition, confusor_instance, confusor_location, \
                         geometry.generate_object_bounds(confusor_definition['dimensions'], \
                         confusor_definition['offset'] if 'offset' in confusor_definition else None, \
                         confusor_location['position'], confusor_location['rotation']), confusor_definition)
-                    bounds_list.append(confusor_instance['shows'][0]['bounding_box'])
+                    bounds_list.append(confusor_instance['shows'][0]['boundingBox'])
 
         return target_instance, confusor_instance, target_receptacle_instance, confusor_receptacle_instance
 

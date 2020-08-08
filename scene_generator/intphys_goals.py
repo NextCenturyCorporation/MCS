@@ -175,7 +175,7 @@ class IntPhysGoal(Goal, ABC):
                                                  random_x, random_z)
                 if location is not None:
                     # check that the bounds are valid
-                    for point in location['bounding_box']:
+                    for point in location['boundingBox']:
                         x = point['x']
                         z = point['z']
                         if x < MIN_VISIBLE_X or x > MAX_VISIBLE_X or \

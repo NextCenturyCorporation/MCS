@@ -21,10 +21,10 @@ def put_object_in_container(obj_def: Dict[str, Any], obj: Dict[str, Any], contai
     if rotation is not None:
         obj['shows'][0]['rotation']['y'] = rotation
 
-    # if it had a bounding_box, it's not valid any more
-    obj.pop('bounding_box', None)
+    # if it had a boundingBox, it's not valid any more
+    obj.pop('boundingBox', None)
 
-    obj['shows'][0]['bounding_box'] = geometry.generate_object_bounds(obj_def['dimensions'], \
+    obj['shows'][0]['boundingBox'] = geometry.generate_object_bounds(obj_def['dimensions'], \
             (obj_def['offset'] if 'offset' in obj_def else None), obj['shows'][0]['position'], \
             obj['shows'][0]['rotation'])
 
@@ -88,14 +88,14 @@ def put_objects_in_container(obj_def_a: Dict[str, Any], obj_a: Dict[str, Any], o
     shows_a['rotation'] = { 'y': rot_a }
     shows_b['rotation'] = { 'y': rot_b }
 
-    # any bounding_box they may have had is not valid any more
-    shows_a.pop('bounding_box', None)
-    shows_b.pop('bounding_box', None)
+    # any boundingBox they may have had is not valid any more
+    shows_a.pop('boundingBox', None)
+    shows_b.pop('boundingBox', None)
 
-    shows_a['bounding_box'] = geometry.generate_object_bounds(obj_def_a['dimensions'], \
+    shows_a['boundingBox'] = geometry.generate_object_bounds(obj_def_a['dimensions'], \
             (obj_def_a['offset'] if 'offset' in obj_def_a else None), shows_a['position'], \
             shows_a['rotation'])
-    shows_b['bounding_box'] = geometry.generate_object_bounds(obj_def_b['dimensions'], \
+    shows_b['boundingBox'] = geometry.generate_object_bounds(obj_def_b['dimensions'], \
             (obj_def_b['offset'] if 'offset' in obj_def_b else None), shows_b['position'], \
             shows_b['rotation'])
 

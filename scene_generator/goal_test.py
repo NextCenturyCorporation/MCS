@@ -16,7 +16,7 @@ def create_tags_test_object_1():
             'z': 0.1
         },
         'info': ['tiny', 'light', 'blue', 'plastic', 'ball'],
-        'goal_string': 'tiny light blue plastic ball',
+        'goalString': 'tiny light blue plastic ball',
         'mass': 0.5,
         'materials': ['test_material'],
         'materialCategory': ['plastic'],
@@ -47,7 +47,7 @@ def create_tags_test_object_2():
             'z': 0.5
         },
         'info': ['medium', 'light', 'yellow', 'plastic', 'cube'],
-        'goal_string': 'medium light yellow plastic cube',
+        'goalString': 'medium light yellow plastic cube',
         'mass': 2.5,
         'materials': ['test_material'],
         'materialCategory': ['plastic'],
@@ -91,7 +91,7 @@ def test_generate_wall():
     assert wall['shows'][0]['position']['x'] is not None
     assert wall['shows'][0]['position']['y'] == WALL_Y_POS
     assert wall['shows'][0]['position']['z'] is not None
-    assert wall['shows'][0]['bounding_box'] is not None
+    assert wall['shows'][0]['boundingBox'] is not None
 
     assert not 'hides' in wall
     assert not 'moves' in wall
@@ -100,16 +100,16 @@ def test_generate_wall():
 
     player_rect = geometry.find_performer_rect(geometry.ORIGIN)
     player_poly = geometry.rect_to_poly(player_rect)
-    wall_poly = geometry.rect_to_poly(wall['shows'][0]['bounding_box'])
+    wall_poly = geometry.rect_to_poly(wall['shows'][0]['boundingBox'])
     assert not wall_poly.intersects(player_poly)
-    assert geometry.rect_within_room(wall['shows'][0]['bounding_box'])
+    assert geometry.rect_within_room(wall['shows'][0]['boundingBox'])
 
 
 def test_generate_wall_multiple():
     wall_1 = generate_wall('test_material', [], geometry.ORIGIN, [])
-    wall_2 = generate_wall('test_material', [], geometry.ORIGIN, [wall_1['shows'][0]['bounding_box']])
-    wall_1_poly = geometry.rect_to_poly(wall_1['shows'][0]['bounding_box'])
-    wall_2_poly = geometry.rect_to_poly(wall_2['shows'][0]['bounding_box'])
+    wall_2 = generate_wall('test_material', [], geometry.ORIGIN, [wall_1['shows'][0]['boundingBox']])
+    wall_1_poly = geometry.rect_to_poly(wall_1['shows'][0]['boundingBox'])
+    wall_2_poly = geometry.rect_to_poly(wall_2['shows'][0]['boundingBox'])
     assert not wall_1_poly.intersects(wall_2_poly)
 
 
@@ -117,15 +117,15 @@ def test_generate_wall_with_bounds_list():
     bounds = [{'x': 4, 'y': 0, 'z': 4}, {'x': 4, 'y': 0, 'z': 1}, {'x': 1, 'y': 0, 'z': 1}, {'x': 1, 'y': 0, 'z': 4}]
     wall = generate_wall('test_material', [], geometry.ORIGIN, [bounds])
     poly = geometry.rect_to_poly(bounds)
-    wall_poly = geometry.rect_to_poly(wall['shows'][0]['bounding_box'])
+    wall_poly = geometry.rect_to_poly(wall['shows'][0]['boundingBox'])
     assert not wall_poly.intersects(poly)
 
 
 def test_generate_wall_with_target_list():
     bounds = [{'x': 4, 'y': 0, 'z': 4}, {'x': 4, 'y': 0, 'z': 3}, {'x': 3, 'y': 0, 'z': 3}, {'x': 3, 'y': 0, 'z': 4}]
-    target = {'shows': [{'bounding_box': bounds}]}
+    target = {'shows': [{'boundingBox': bounds}]}
     wall = generate_wall('test_material', [], geometry.ORIGIN, [bounds], [target])
-    wall_poly = geometry.rect_to_poly(wall['shows'][0]['bounding_box'])
+    wall_poly = geometry.rect_to_poly(wall['shows'][0]['boundingBox'])
     assert not geometry.does_fully_obstruct_target(geometry.ORIGIN, target, wall_poly)
 
 

@@ -6,6 +6,7 @@ if len(sys.argv) < 2:
     print('Usage: python run_mcs_intphys_samples.py <mcs_unity_build_file>')
     sys.exit()
 
+
 def run_scene(file_name):
     config_data, status = MCS.load_config_json_file(file_name)
 
@@ -14,7 +15,7 @@ def run_scene(file_name):
         return
 
     config_file_path = file_name
-    config_file_name = config_file_path[config_file_path.rfind('/')+1:]
+    config_file_name = config_file_path[config_file_path.rfind('/') + 1:]
 
     if 'name' not in config_data.keys():
         config_data['name'] = config_file_name[0:config_file_name.find('.')]
@@ -30,6 +31,7 @@ def run_scene(file_name):
         action = output.action_list[len(output.action_list) - 1]
         output = controller.step(action)
 
+
 if __name__ == "__main__":
     controller = MCS.create_controller(sys.argv[1], debug=True)
 
@@ -39,12 +41,12 @@ if __name__ == "__main__":
     run_scene('../scenes/intphys_gravity_quartet_1D_implausible.json')
     run_scene('../scenes/intphys_object_permanence_quartet_1A_plausible.json')
     run_scene('../scenes/intphys_object_permanence_quartet_1B_plausible.json')
-    run_scene('../scenes/intphys_object_permanence_quartet_1C_implausible.json')
-    run_scene('../scenes/intphys_object_permanence_quartet_1D_implausible.json')
+    run_scene('../scenes/intphys_object_permanence_quartet_1C_implausible.json')  # noqa: E501
+    run_scene('../scenes/intphys_object_permanence_quartet_1D_implausible.json')  # noqa: E501
     run_scene('../scenes/intphys_object_permanence_quartet_2A_plausible.json')
     run_scene('../scenes/intphys_object_permanence_quartet_2B_plausible.json')
-    run_scene('../scenes/intphys_object_permanence_quartet_2C_implausible.json')
-    run_scene('../scenes/intphys_object_permanence_quartet_2D_implausible.json')
+    run_scene('../scenes/intphys_object_permanence_quartet_2C_implausible.json')  # noqa: E501
+    run_scene('../scenes/intphys_object_permanence_quartet_2D_implausible.json')  # noqa: E501
     run_scene('../scenes/intphys_shape_constancy_quartet_1A_plausible.json')
     run_scene('../scenes/intphys_shape_constancy_quartet_1B_plausible.json')
     run_scene('../scenes/intphys_shape_constancy_quartet_1C_implausible.json')
@@ -53,12 +55,19 @@ if __name__ == "__main__":
     run_scene('../scenes/intphys_shape_constancy_quartet_2B_plausible.json')
     run_scene('../scenes/intphys_shape_constancy_quartet_2C_implausible.json')
     run_scene('../scenes/intphys_shape_constancy_quartet_2D_implausible.json')
-    run_scene('../scenes/intphys_spatio_temporal_continuity_quartet_1A_plausible.json')
-    run_scene('../scenes/intphys_spatio_temporal_continuity_quartet_1B_plausible.json')
-    run_scene('../scenes/intphys_spatio_temporal_continuity_quartet_1C_implausible.json')
-    run_scene('../scenes/intphys_spatio_temporal_continuity_quartet_1D_implausible.json')
-    run_scene('../scenes/intphys_spatio_temporal_continuity_quartet_2A_plausible.json')
-    run_scene('../scenes/intphys_spatio_temporal_continuity_quartet_2B_plausible.json')
-    run_scene('../scenes/intphys_spatio_temporal_continuity_quartet_2C_implausible.json')
-    run_scene('../scenes/intphys_spatio_temporal_continuity_quartet_2D_implausible.json')
-
+    run_scene(
+        '../scenes/intphys_spatio_temporal_continuity_quartet_1A_plausible.json')  # noqa: E501
+    run_scene(
+        '../scenes/intphys_spatio_temporal_continuity_quartet_1B_plausible.json')  # noqa: E501
+    run_scene(
+        '../scenes/intphys_spatio_temporal_continuity_quartet_1C_implausible.json')  # noqa: E501
+    run_scene(
+        '../scenes/intphys_spatio_temporal_continuity_quartet_1D_implausible.json')  # noqa: E501
+    run_scene(
+        '../scenes/intphys_spatio_temporal_continuity_quartet_2A_plausible.json')  # noqa: E501
+    run_scene(
+        '../scenes/intphys_spatio_temporal_continuity_quartet_2B_plausible.json')  # noqa: E501
+    run_scene(
+        '../scenes/intphys_spatio_temporal_continuity_quartet_2C_implausible.json')  # noqa: E501
+    run_scene(
+        '../scenes/intphys_spatio_temporal_continuity_quartet_2D_implausible.json')  # noqa: E501

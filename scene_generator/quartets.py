@@ -360,7 +360,7 @@ class ShapeConstancyQuartet(Quartet):
             raise exceptions.SceneException(f'no valid choices for "b" object. a = {a}')
         b_def = random.choice(possible_defs)
         b_def = util.finalize_object_definition(b_def)
-        b = util.instantiate_object(b_def, a['original_location'], a['materials_list'])
+        b = util.instantiate_object(b_def, a['originalLocation'], a['materialsList'])
         b['id'] = a['id']
         logging.debug(f'a type: {a["type"]}\tb type: {b["type"]}')
         return b

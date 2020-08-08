@@ -63,7 +63,8 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
         self.assertIsInstance(self.mcs_step_output.camera_aspect_ratio, tuple)
 
     def test_camera_clipping_planes(self):
-        self.assertIsInstance(self.mcs_step_output.camera_clipping_planes, tuple)
+        self.assertIsInstance(
+            self.mcs_step_output.camera_clipping_planes, tuple)
 
     def test_camera_field_of_view(self):
         self.assertIsInstance(self.mcs_step_output.camera_field_of_view, float)
@@ -77,7 +78,7 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
 
     def test_goal(self):
         self.assertIsInstance(self.mcs_step_output.goal, MCS_Goal)
-    
+
     def test_head_tilt(self):
         self.assertAlmostEqual(self.mcs_step_output.head_tilt, 0.0)
         self.assertIsInstance(self.mcs_step_output.head_tilt, float)
@@ -102,13 +103,15 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
         self.assertIsInstance(self.mcs_step_output.position, dict)
 
     def test_return_status(self):
-        self.assertEqual(self.mcs_step_output.return_status, MCS_Return_Status.UNDEFINED.value)
+        self.assertEqual(
+            self.mcs_step_output.return_status,
+            MCS_Return_Status.UNDEFINED.value)
         self.assertIsInstance(self.mcs_step_output.return_status, str)
 
     def test_reward(self):
         self.assertEqual(self.mcs_step_output.reward, 0)
         self.assertIsInstance(self.mcs_step_output.reward, int)
-        
+
     def test_rotation(self):
         self.assertAlmostEqual(self.mcs_step_output.rotation, 0.0)
         self.assertIsInstance(self.mcs_step_output.rotation, float)
@@ -119,7 +122,9 @@ class Test_Default_MCS_Step_Output(unittest.TestCase):
 
     def test_structural_object_list(self):
         self.assertFalse(self.mcs_step_output.structural_object_list)
-        self.assertIsInstance(self.mcs_step_output.structural_object_list, list)
+        self.assertIsInstance(
+            self.mcs_step_output.structural_object_list, list)
 
     def test_str(self):
-        self.assertEqual(str(self.mcs_step_output), textwrap.dedent(self.str_output))
+        self.assertEqual(str(self.mcs_step_output),
+                         textwrap.dedent(self.str_output))

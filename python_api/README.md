@@ -11,7 +11,7 @@ The latest release of the MCS Python library is `0.0.10`. We will accept Evaluat
 1. Install the required third-party Python libraries:
 
 ```
-pip3 install ai2thor==2.2.0 numpy Pillow
+pip3 install -r requirements.txt
 ```
 
 2. Ensure you've installed `ai2thor` version `2.2.0`:
