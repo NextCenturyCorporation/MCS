@@ -4,12 +4,16 @@ import geometry
 import materials
 import objects
 from goals import *
-from util import finalize_object_definition, instantiate_object, check_same_and_different, get_similar_defs, random_real
+from util import finalize_object_definition, instantiate_object, check_same_and_different, get_similar_defs, \
+        random_real, move_to_location, retrieve_full_object_definition_list
 
 
 PACIFIER = {
     "type": "pacifier",
     "info": ["tiny", "blue", "pacifier"],
+    "color": "blue",
+    "shape": "pacifier",
+    "size": "tiny",
     "mass": 0.125,
     "salientMaterials": ["plastic"],
     "attributes": ["moveable", "pickupable"],
@@ -30,6 +34,7 @@ PACIFIER = {
         "z": 1
     }
 }
+
 
 def test_random_real():
     n = random_real(0, 1, 0.1)
@@ -63,10 +68,11 @@ def test_finalize_object_definition():
 def test_instantiate_object():
     object_def = {
         'type': 'sofa_1',
+        'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
         'info': ['huge', 'sofa'],
         'mass': 12.34,
         'attributes': ['foo', 'bar'],
-        'scale': 1.0
+        'scale': {'x': 1, 'y': 1, 'z': 1}
     }
     object_location = {
         'position': {
@@ -83,6 +89,7 @@ def test_instantiate_object():
     obj = instantiate_object(object_def, object_location)
     assert type(obj['id']) is str
     assert obj['type'] == 'sofa_1'
+    assert obj['dimensions'] == object_def['dimensions']
     assert obj['goal_string'] == 'huge massive sofa'
     assert obj['info'] == ['huge', 'massive', 'sofa']
     assert obj['info_string'] == 'huge massive sofa'
@@ -91,19 +98,75 @@ def test_instantiate_object():
     assert obj['novel_combination'] is False
     assert obj['novel_shape'] is False
     assert obj['shape'] == 'sofa'
+    assert obj['size'] == 'huge'
     assert obj['foo'] is True
     assert obj['bar'] is True
+    assert obj['shows'][0]['stepBegin'] == 0
     assert obj['shows'][0]['position'] == object_location['position']
     assert obj['shows'][0]['rotation'] == object_location['rotation']
+    assert obj['shows'][0]['scale'] == object_def['scale']
+
+
+def test_instantiate_object_choose():
+    object_def = {
+        'type': 'sofa_1',
+        'choose': [{
+            'novel_shape': True,
+            'info': ['medium', 'sofa'],
+            'attributes': ['moveable'],
+            'dimensions': {'x': 0.5, 'y': 0.25, 'z': 0.25},
+            'mass': 12.34,
+            'scale': {'x': 0.5, 'y': 0.5, 'z': 0.5}
+        }, {
+            'info': ['huge', 'sofa'],
+            'attributes': [],
+            'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
+            'mass': 56.78,
+            'scale': {'x': 1, 'y': 1, 'z': 1}
+        }]
+    }
+    object_location = {
+        'position': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        },
+        'rotation': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        }
+    }
+    obj = instantiate_object(object_def, object_location)
+    assert obj['size'] == 'medium' or obj['size'] == 'huge'
+    if obj['size'] == 'medium':
+        assert obj['moveable']
+        assert obj['novel_shape']
+        assert obj['info'] == ['medium', 'heavy', 'sofa', 'novel sofa']
+        assert obj['info_string'] == 'medium heavy sofa'
+        assert obj['goal_string'] == 'medium heavy sofa'
+        assert obj['dimensions'] == {'x': 0.5, 'y': 0.25, 'z': 0.25}
+        assert obj['mass'] == 12.34
+        assert obj['shows'][0]['scale'] == {'x': 0.5, 'y': 0.5, 'z': 0.5}
+    if obj['size'] == 'huge':
+        assert 'moveable' not in obj
+        assert not obj['novel_shape']
+        assert obj['info'] == ['huge', 'massive', 'sofa']
+        assert obj['info_string'] == 'huge massive sofa'
+        assert obj['goal_string'] == 'huge massive sofa'
+        assert obj['dimensions'] == {'x': 1, 'y': 0.5, 'z': 0.5}
+        assert obj['mass'] == 56.78
+        assert obj['shows'][0]['scale'] == {'x': 1, 'y': 1, 'z': 1}
 
 
 def test_instantiate_object_heavy_moveable():
     object_def = {
         'type': 'sofa_1',
+        'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
         'info': ['huge', 'sofa'],
         'mass': 12.34,
         'attributes': ['moveable'],
-        'scale': 1.0
+        'scale': {'x': 1, 'y': 1, 'z': 1}
     }
     object_location = {
         'position': {
@@ -127,10 +190,11 @@ def test_instantiate_object_heavy_moveable():
 def test_instantiate_object_light_pickupable():
     object_def = {
         'type': 'sofa_1',
+        'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
         'info': ['huge', 'sofa'],
         'mass': 12.34,
         'attributes': ['moveable', 'pickupable'],
-        'scale': 1.0
+        'scale': {'x': 1, 'y': 1, 'z': 1}
     }
     object_location = {
         'position': {
@@ -159,9 +223,10 @@ def test_instantiate_object_offset():
     }
     object_def = {
         'type': 'sofa_1',
+        'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
         'info': ['huge', 'sofa'],
         'mass': 12.34,
-        'scale': 1.0,
+        'scale': {'x': 1, 'y': 1, 'z': 1},
         'attributes': [],
         'offset': offset
     }
@@ -185,13 +250,40 @@ def test_instantiate_object_offset():
     assert position['z'] == z - offset['z']
 
 
+def test_instantiate_object_rotation():
+    object_def = {
+        'type': 'sofa_1',
+        'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
+        'info': ['huge', 'sofa'],
+        'mass': 12.34,
+        'scale': {'x': 1, 'y': 1, 'z': 1},
+        'attributes': [],
+        'rotation': {'x': 1, 'y': 2, 'z': 3}
+    }
+    object_location = {
+        'position': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0
+        },
+        'rotation': {
+            'x': 30.0,
+            'y': 60.0,
+            'z': 90.0
+        }
+    }
+    obj = instantiate_object(object_def, object_location)
+    assert obj['shows'][0]['rotation'] == {'x': 31.0, 'y': 62.0, 'z': 93.0}
+
+
 def test_instantiate_object_materials():
     materials.TEST_MATERIALS = [('test_material', ['blue', 'yellow'])]
     object_def = {
         'type': 'sofa_1',
+        'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
         'info': ['huge', 'sofa'],
         'mass': 12.34,
-        'scale': 1.0,
+        'scale': {'x': 1, 'y': 1, 'z': 1},
         'attributes': [],
         'materialCategory': ['test']
     }
@@ -209,6 +301,7 @@ def test_instantiate_object_materials():
     }
     obj = instantiate_object(object_def, object_location)
     assert obj['materials'] == ['test_material']
+    assert obj['color'] == ['blue', 'yellow']
     assert obj['goal_string'] == 'huge massive blue yellow sofa'
     assert obj['info'] == ['huge', 'massive', 'blue', 'yellow', 'sofa']
     assert obj['info_string'] == 'huge massive blue yellow sofa'
@@ -219,9 +312,10 @@ def test_instantiate_object_multiple_materials():
     materials.TEST2_MATERIALS = [('test_material_2', ['yellow'])]
     object_def = {
         'type': 'sofa_1',
+        'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
         'info': ['huge', 'sofa'],
         'mass': 12.34,
-        'scale': 1.0,
+        'scale': {'x': 1, 'y': 1, 'z': 1},
         'attributes': [],
         'materialCategory': ['test1', 'test2']
     }
@@ -239,6 +333,7 @@ def test_instantiate_object_multiple_materials():
     }
     obj = instantiate_object(object_def, object_location)
     assert obj['materials'] == ['test_material_1', 'test_material_2']
+    assert obj['color'] == ['blue', 'yellow']
     assert obj['goal_string'] == 'huge massive blue yellow sofa'
     assert obj['info'] == ['huge', 'massive', 'blue', 'yellow', 'sofa']
     assert obj['info_string'] == 'huge massive blue yellow sofa'
@@ -247,9 +342,10 @@ def test_instantiate_object_multiple_materials():
 def test_instantiate_object_salient_materials():
     object_def = {
         'type': 'sofa_1',
+        'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
         'info': ['huge', 'sofa'],
         'mass': 12.34,
-        'scale': 1.0,
+        'scale': {'x': 1, 'y': 1, 'z': 1},
         'attributes': [],
         'salientMaterials': ['fabric', 'wood']
     }
@@ -275,9 +371,10 @@ def test_instantiate_object_salient_materials():
 def test_instantiate_object_size():
     object_def = {
         'type': 'sofa_1',
+        'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
         'info': ['huge', 'sofa'],
         'mass': 12.34,
-        'scale': 1.0,
+        'scale': {'x': 1, 'y': 1, 'z': 1},
         'attributes': [],
     }
     object_location = {
@@ -309,17 +406,90 @@ def test_check_same_and_different():
         'shape': 'ball',
         'color': 'blue',
         'size': 'tiny',
-        'ignored': 'stuff'
+        'ignore': 'prop'
     }
     b = {
         'shape': 'ball',
-        'color': 'red',
+        'color': 'yellow',
         'size': 'tiny',
-        'ignored': 42
+        'ignore': 42
     }
+    assert check_same_and_different(a, b, [], []) is True
     assert check_same_and_different(a, b, ('shape', 'size'), ('color',)) is True
     assert check_same_and_different(a, b, ('shape', 'color'), ('size',)) is False
     assert check_same_and_different(a, b, ('color', 'size'), ('shape',)) is False
+
+
+def test_check_same_and_different_with_list():
+    a = {
+        'shape': ['ball'],
+        'color': ['blue'],
+        'size': 'tiny',
+        'ignore': 'prop'
+    }
+    b = {
+        'shape': ['ball'],
+        'color': ['yellow'],
+        'size': 'tiny',
+        'ignore': 42
+    }
+    assert check_same_and_different(a, b, ('shape'), ('color',)) is True
+    assert check_same_and_different(a, b, ('color'), ('shape',)) is False
+
+
+def test_check_same_and_different_with_dimensions():
+    object_1 = {
+        'id': 'object_1',
+        'shape': 'ball',
+        'color': 'blue',
+        'dimensions': {'x': 1, 'y': 1, 'z': 1},
+        'size': 'medium'
+    }
+    object_2 = {
+        'id': 'object_2',
+        'shape': 'ball',
+        'color': 'blue',
+        'dimensions': {'x': 1, 'y': 1, 'z': 1},
+        'size': 'medium'
+    }
+    object_3 = {
+        'id': 'object_3',
+        'shape': 'ball',
+        'color': 'blue',
+        'dimensions': {'x': 1.1, 'y': 1.1, 'z': 1.1},
+        'size': 'medium'
+    }
+    object_4 = {
+        'id': 'object_4',
+        'shape': 'ball',
+        'color': 'blue',
+        'dimensions': {'x': 0.9, 'y': 0.9, 'z': 0.9},
+        'size': 'medium'
+    }
+    object_5 = {
+        'id': 'object_5',
+        'shape': 'ball',
+        'color': 'blue',
+        'dimensions': {'x': 1.2, 'y': 1.2, 'z': 1.2},
+        'size': 'medium'
+    }
+    object_6 = {
+        'id': 'object_6',
+        'shape': 'ball',
+        'color': 'blue',
+        'dimensions': {'x': 0.8, 'y': 0.8, 'z': 0.8},
+        'size': 'medium'
+    }
+    assert check_same_and_different(object_1, object_2, ('shape','dimensions'), ('id',)) is True
+    assert check_same_and_different(object_1, object_3, ('shape','dimensions'), ('id',)) is True
+    assert check_same_and_different(object_1, object_4, ('shape','dimensions'), ('id',)) is True
+    assert check_same_and_different(object_1, object_5, ('shape','dimensions'), ('id',)) is False
+    assert check_same_and_different(object_1, object_6, ('shape','dimensions'), ('id',)) is False
+    assert check_same_and_different(object_1, object_2, ('shape',), ('id','dimensions')) is False
+    assert check_same_and_different(object_1, object_3, ('shape',), ('id','dimensions')) is False
+    assert check_same_and_different(object_1, object_4, ('shape',), ('id','dimensions')) is False
+    assert check_same_and_different(object_1, object_5, ('shape',), ('id','dimensions')) is True
+    assert check_same_and_different(object_1, object_6, ('shape',), ('id','dimensions')) is True
 
 
 def test_check_same_and_different_pacifier():
@@ -328,19 +498,41 @@ def test_check_same_and_different_pacifier():
     assert check_same_and_different(PACIFIER, PACIFIER, ('dimensions', 'materialCategory'), ('shape',)) is False
 
 
-def test_get_similar_defs():
-    original_def = objects.OBJECTS_PICKUPABLE_BALLS[0]
-    obj = instantiate_object(original_def, geometry.ORIGIN)
-    similar_defs = get_similar_defs(obj, objects.get_all_object_defs(), ('shape', 'materialCategory'), ('mass',))
-    for obj_def in similar_defs:
-        obj_2 = instantiate_object(obj_def, geometry.ORIGIN)
-        assert check_same_and_different(obj_2, obj, ('shape', 'materialCategory'), ('mass',))
+def test_get_similar_defs_color():
+    object_definition_list = retrieve_full_object_definition_list(objects.get_all_object_defs())
+    for object_definition in object_definition_list:
+        object_instance = instantiate_object(object_definition, geometry.ORIGIN_LOCATION)
+        similar_list = get_similar_defs(object_instance, object_definition_list, ('dimensions', 'shape'), ('color',))
+        for similar_definition in similar_list:
+            similar_instance = instantiate_object(similar_definition, geometry.ORIGIN_LOCATION)
+            assert check_same_and_different(similar_instance, object_instance, ('dimensions', 'shape'), ('color',))
+
+
+def test_get_similar_defs_shape():
+    object_definition_list = retrieve_full_object_definition_list(objects.get_all_object_defs())
+    for object_definition in object_definition_list:
+        object_instance = instantiate_object(object_definition, geometry.ORIGIN_LOCATION)
+        similar_list = get_similar_defs(object_instance, object_definition_list, ('color', 'dimensions'), ('shape',))
+        for similar_definition in similar_list:
+            similar_instance = instantiate_object(similar_definition, geometry.ORIGIN_LOCATION)
+            assert check_same_and_different(similar_instance, object_instance, ('color', 'dimensions'), ('shape',))
+
+
+def test_get_similar_defs_size():
+    object_definition_list = retrieve_full_object_definition_list(objects.get_all_object_defs())
+    for object_definition in object_definition_list:
+        object_instance = instantiate_object(object_definition, geometry.ORIGIN_LOCATION)
+        similar_list = get_similar_defs(object_instance, object_definition_list, ('color', 'shape'), ('dimensions',))
+        for similar_definition in similar_list:
+            similar_instance = instantiate_object(similar_definition, geometry.ORIGIN_LOCATION)
+            assert check_same_and_different(similar_instance, object_instance, ('color', 'shape'), ('dimensions',))
 
 
 def test_instantiate_object_novel_color():
     materials.TEST_MATERIALS = [('test_material', ['blue', 'yellow'])]
     object_def = {
         'type': 'sofa_1',
+        'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
         'novel_color': True,
         'info': ['huge', 'sofa'],
         'mass': 12.34,
@@ -370,6 +562,7 @@ def test_instantiate_object_novel_combination():
     materials.TEST_MATERIALS = [('test_material', ['blue', 'yellow'])]
     object_def = {
         'type': 'sofa_1',
+        'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
         'novel_combination': True,
         'info': ['huge', 'sofa'],
         'mass': 12.34,
@@ -399,6 +592,7 @@ def test_instantiate_object_novel_shape():
     materials.TEST_MATERIALS = [('test_material', ['blue', 'yellow'])]
     object_def = {
         'type': 'sofa_1',
+        'dimensions': {'x': 1, 'y': 0.5, 'z': 0.5},
         'novel_shape': True,
         'info': ['huge', 'sofa'],
         'mass': 12.34,
@@ -423,4 +617,50 @@ def test_instantiate_object_novel_shape():
     assert obj['info'] == ['huge', 'massive', 'blue', 'yellow', 'sofa', 'novel sofa']
     assert obj['info_string'] == 'huge massive blue yellow sofa'
 
+
+def test_move_to_location():
+    instance = {'shows': [{'position': {'x': -1, 'y': 0, 'z': -1}, 'rotation': {'x': 0, 'y': 90, 'z': 0}}]}
+    location = {
+        'position': {'x': 2, 'y': 0, 'z': 2},
+        'rotation': {'x': 0, 'y': 0, 'z': 0},
+        'bounding_box': [{'x': 3, 'z': 3}, {'x': 3, 'z': 1}, {'x': 1, 'z': 1}, {'x': 1, 'z': 3}]
+    }
+    actual = move_to_location({}, instance, location)
+    assert actual == instance
+    assert instance['shows'][0]['position'] == {'x': 2, 'y': 0, 'z': 2}
+    assert instance['shows'][0]['rotation'] == {'x': 0, 'y': 0, 'z': 0}
+    assert instance['shows'][0]['bounding_box'] == [{'x': 3, 'z': 3}, {'x': 3, 'z': 1}, {'x': 1, 'z': 1}, \
+            {'x': 1, 'z': 3}]
+
+    definition = {'offset': {'x': 0.1, 'z': -0.5}}
+    actual = move_to_location(definition, instance, location)
+    assert actual == instance
+    assert instance['shows'][0]['position'] == {'x': 1.9, 'y': 0, 'z': 2.5}
+    assert instance['shows'][0]['rotation'] == {'x': 0, 'y': 0, 'z': 0}
+    assert instance['shows'][0]['bounding_box'] == [{'x': 3, 'z': 3}, {'x': 3, 'z': 1}, {'x': 1, 'z': 1}, \
+            {'x': 1, 'z': 3}]
+
+
+def test_retrieve_full_object_definition_list():
+    list_1 = [{ 'type': 'ball', 'mass': 1 }]
+    actual_1 = retrieve_full_object_definition_list(list_1)
+    assert len(actual_1) == 1
+
+    list_2 = [{ 'type': 'ball', 'choose': [{ 'mass': 1 }, { 'mass': 2 }] }]
+    actual_2 = retrieve_full_object_definition_list(list_2)
+    assert len(actual_2) == 2
+
+    list_3 = [
+        { 'type': 'sofa' },
+        { 'type': 'ball', 'choose': [{ 'mass': 1 }, { 'mass': 2 }] }
+    ]
+    actual_3 = retrieve_full_object_definition_list(list_3)
+    assert len(actual_3) == 3
+
+    list_4 = [
+        { 'type': 'sofa', 'choose': [{ 'mass': 1 }, { 'mass': 3 }] },
+        { 'type': 'ball', 'choose': [{ 'mass': 1 }, { 'mass': 2 }] }
+    ]
+    actual_4 = retrieve_full_object_definition_list(list_4)
+    assert len(actual_4) == 4
 

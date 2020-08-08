@@ -18,11 +18,11 @@ from geometry import POSITION_DIGITS
 from goal import Goal, GoalCategory, generate_wall
 from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, MAX_REACH_DISTANCE, PERFORMER_CAMERA_Y
 from optimal_path import generatepath
-from util import finalize_object_definition, instantiate_object
+from util import finalize_object_definition, finalize_object_materials_and_colors, instantiate_object
 
 
 def generate_image_file_name(target: Dict[str, Any]) -> str:
-    if 'materials' not in target:
+    if 'materials' not in target or not target['materials']:
         return target['type']
 
     material_name_list = [item[(item.rfind('/') + 1):].lower().replace(' ', '_') for item in target['materials']]
@@ -215,7 +215,8 @@ class ObjectRule():
             [objects.OBJECTS_PICKUPABLE, objects.OBJECTS_MOVEABLE, objects.OBJECTS_IMMOBILE]
         )
         # Same chance to pick each object definition from the list.
-        return finalize_object_definition(random.choice(object_definition_list))
+        object_definition = finalize_object_definition(random.choice(object_definition_list))
+        return random.choice(finalize_object_materials_and_colors(object_definition))
 
     def choose_location(self, object_definition: Dict[str, Any], performer_start: Dict[str, Dict[str, float]], \
             bounds_list: List[List[Dict[str, float]]]) -> Tuple[Dict[str, Any], List[List[Dict[str, float]]]]:
@@ -237,7 +238,8 @@ class PickupableObjectRule(ObjectRule):
 
     def choose_definition(self) -> Dict[str, Any]:
         object_definition_list = random.choice(objects.OBJECTS_PICKUPABLE_LISTS)
-        return finalize_object_definition(random.choice(object_definition_list))
+        object_definition = finalize_object_definition(random.choice(object_definition_list))
+        return random.choice(finalize_object_materials_and_colors(object_definition))
 
 
 class TransferToObjectRule(ObjectRule):
@@ -266,7 +268,8 @@ class TransferToObjectRule(ObjectRule):
         # Same chance to pick each list.
         object_definition_list = random.choice(choice_list)
         # Same chance to pick each object definition from the list.
-        return finalize_object_definition(random.choice(object_definition_list))
+        object_definition = finalize_object_definition(random.choice(object_definition_list))
+        return random.choice(finalize_object_materials_and_colors(object_definition))
 
     def validate_location(self, object_location: Dict[str, Any], target_list: List[Dict[str, Any]], \
             performer_start: Dict[str, Dict[str, float]]) -> bool:
@@ -325,7 +328,7 @@ class ConfusorObjectRule(ObjectRule):
                 copy.deepcopy(objects.get_all_object_defs()))
         if not confusor_definition:
             raise exceptions.SceneException(f'cannot find a confusor to create with target={self._target_definition}')
-        return util.finalize_object_definition(confusor_definition)
+        return confusor_definition
 
 
 class ObstructorObjectRule(ObjectRule):
@@ -554,8 +557,10 @@ class RetrievalGoal(InteractionGoal):
     def _get_subclass_config(self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         if len(goal_objects) < 1:
             raise exceptions.SceneException('need at least 1 object for this goal')
-
         target = goal_objects[0]
+        if not target.get('pickupable', False):
+            raise exceptions.SceneException(f'first object must be "pickupable": {target}')
+
         target_image_obj = find_image_for_object(target)
         image_name = find_image_name(target)
 
