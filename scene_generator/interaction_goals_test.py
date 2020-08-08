@@ -24,7 +24,7 @@ def test_move_to_container():
     # find a tiny object so we know it will fit in *something*
     for obj_def in objects.OBJECTS_PICKUPABLE:
         obj_def = finalize_object_definition(obj_def)
-        if 'tiny' in obj_def['info']:
+        if obj_def['size'] == 'tiny':
             obj = instantiate_object(obj_def, geometry.ORIGIN_LOCATION)
             tries = 0
             while tries < 100:
@@ -122,7 +122,7 @@ def test_get_navigation_action():
                 'y': 0.5,
                 'z': 0.1
             },
-            'bounding_box': [
+            'boundingBox': [
                 {
                     'x': 0.11,
                     'y': 0.5,
@@ -181,7 +181,7 @@ def test_get_navigation_action_with_locationParent():
                 'y': 0,
                 'z': 0.1
             },
-            'bounding_box': [
+            'boundingBox': [
                 {
                     'x': 0.11,
                     'y': 0,
@@ -251,7 +251,7 @@ def test_get_navigation_action_with_turning():
                 'y': 0,
                 'z': 3
             },
-            'bounding_box': [
+            'boundingBox': [
                 {
                     'x': 0.1,
                     'y': 0,
@@ -283,7 +283,7 @@ def test_get_navigation_action_with_turning():
                 'y': 0,
                 'z': 1.5
             },
-            'bounding_box': [
+            'boundingBox': [
                 {
                     'x': 2,
                     'y': 0,
@@ -429,7 +429,7 @@ def test_DistractorObjectRule_choose_definition():
     rule = DistractorObjectRule([target])
     definition = rule.choose_definition()
     assert definition
-    assert definition['info'][-1] != target['info'][-1]
+    assert definition['shape'] != target['shape']
 
 
 def test_ConfusorObjectRule_choose_definition():
@@ -522,7 +522,7 @@ def test_RetrievalGoal_update_body():
     target = body['objects'][0]
     assert target['pickupable']
     assert target['id'] == body['goal']['metadata']['target']['id']
-    assert body['goal']['description'] == ('Find and pick up the ' + target['goal_string'] + '.')
+    assert body['goal']['description'] == ('Find and pick up the ' + target['goalString'] + '.')
 
 
 def test_RetrievalGoal_get_config():
@@ -530,7 +530,7 @@ def test_RetrievalGoal_get_config():
     obj = {
         'id': str(uuid.uuid4()),
         'info': ['blue', 'rubber', 'ball'],
-        'info_string': 'blue rubber ball',
+        'goalString': 'blue rubber ball',
         'pickupable': True,
         'type': 'sphere'
     }
@@ -562,7 +562,7 @@ def test_TraversalGoal_update_body():
 
     target = body['objects'][0]
     assert target['id'] == body['goal']['metadata']['target']['id']
-    assert body['goal']['description'] == ('Find the ' + target['goal_string'] + ' and move near it.')
+    assert body['goal']['description'] == ('Find the ' + target['goalString'] + ' and move near it.')
 
 
 def test_TraversalGoal_get_config():
@@ -570,7 +570,7 @@ def test_TraversalGoal_get_config():
     obj = {
         'id': str(uuid.uuid4()),
         'info': ['blue', 'rubber', 'ball'],
-        'info_string': 'blue rubber ball',
+        'goalString': 'blue rubber ball',
         'type': 'sphere'
     }
     goal = goal_obj._get_config({ 'target': [obj] })
@@ -600,8 +600,8 @@ def test_TransferralGoal_update_body():
     assert target_2['stackTarget']
     assert target_1['id'] == body['goal']['metadata']['target_1']['id']
     assert target_2['id'] == body['goal']['metadata']['target_2']['id']
-    assert body['goal']['description'] == ('Find and pick up the ' + target_1['goal_string'] + ' and move it ' + \
-            body['goal']['metadata']['relationship'][1] + ' the ' + target_2['goal_string'] + '.')
+    assert body['goal']['description'] == ('Find and pick up the ' + target_1['goalString'] + ' and move it ' + \
+            body['goal']['metadata']['relationship'][1] + ' the ' + target_2['goalString'] + '.')
 
 
 def test_TransferralGoal_get_config_arg_count():
@@ -628,7 +628,7 @@ def test_TransferralGoal_get_config():
     pickupable_obj = {
         'id': pickupable_id,
         'info': ['blue', 'rubber', 'ball'],
-        'info_string': 'blue rubber ball',
+        'goalString': 'blue rubber ball',
         'pickupable': True,
         'type': 'sphere'
     }
@@ -636,7 +636,7 @@ def test_TransferralGoal_get_config():
     other_obj = {
         'id': other_id,
         'info': ['yellow', 'wood', 'changing table'],
-        'info_string': 'yellow wood changing table',
+        'goalString': 'yellow wood changing table',
         'attributes': [],
         'type': 'changing_table',
         'stackTarget': True
@@ -770,7 +770,7 @@ def test_add_RotateLook_to_action_list_before_Pickup_or_Put_Object():
                     'y': 0.02,
                     'z': 0.02
                 },
-                'bounding_box': [
+                'boundingBox': [
                     {
                         'x': 0.01,
                         'y': 0,

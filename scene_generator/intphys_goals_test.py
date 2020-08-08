@@ -148,7 +148,7 @@ def test_GravityGoal__get_ramp_and_objects():
     ramp_type, left_to_right, ramp_objs, object_list = goal._get_ramp_and_objects('dummy')
     assert len(ramp_objs) >= 1
     for obj in object_list:
-        assert obj['intphys_option']['y'] == 0
+        assert obj['intphysOption']['y'] == 0
         assert obj['type'] != 'cube'
 
 
@@ -167,7 +167,7 @@ def test_IntPhysGoal__get_objects_and_occluders_moving_across():
     first_obj = objs[0]
     found = False
     multiplier = 0.9 if first_obj['shows'][0]['position']['z'] == 1.6 else 0.8
-    for position in first_obj['intphys_option']['position_by_step']:
+    for position in first_obj['intphysOption']['position_by_step']:
         adjusted_x = position * multiplier
         if adjusted_x == occluder_x:
             found = True
@@ -194,8 +194,8 @@ def test_IntPhysGoal__get_objects_moving_across_collisions():
             other_z = other['shows'][0]['position']['z']
             # could other catch up to obj?
             if other_z == z and abs(other_x) > abs(x):
-                obj_a = obj['intphys_option']['force']['x'] / obj['mass']
-                other_a = other['intphys_option']['force']['x'] / obj['mass']
+                obj_a = obj['intphysOption']['force']['x'] / obj['mass']
+                other_a = other['intphysOption']['force']['x'] / obj['mass']
                 assert abs(other_a) <= abs(obj_a)
 
     
@@ -209,7 +209,7 @@ def test_IntPhysGoal__compute_scenery():
         assert 0 <= len(scenery_list) <= 5
         scenery_generated = len(scenery_list) > 0
         for scenery in scenery_list:
-            for point in scenery['shows'][0]['bounding_box']:
+            for point in scenery['shows'][0]['boundingBox']:
                 assert -6.5 <= point['x'] <= 6.5
                 assert 3.25 <= point['z'] <= 4.95
 

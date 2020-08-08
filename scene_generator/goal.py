@@ -67,15 +67,14 @@ def generate_wall(wall_material: str, wall_colors: List[str], performer_position
             'kinematic': 'true',
             'structure': 'true',
             'mass': 200,
-            'info': wall_colors,
-            'info_string': ' '.join(wall_colors)
+            'info': wall_colors
         }
         shows_object = {
             'stepBegin': 0,
             'scale': {'x': new_x_size, 'y': WALL_HEIGHT, 'z': WALL_DEPTH},
             'rotation': {'x': 0, 'y': rotation, 'z': 0},
             'position': {'x': new_x, 'y': WALL_Y_POS, 'z': new_z},
-            'bounding_box': rect
+            'boundingBox': rect
         }
         shows = [shows_object]
         new_object['shows'] = shows
@@ -152,8 +151,8 @@ class Goal(ABC):
         for key, value in tag_to_objects.items():
             for obj in value:
                 info_list = obj.get('info', []).copy()
-                if 'info_string' in obj:
-                    info_list.append(obj['info_string'])
+                if 'goalString' in obj:
+                    info_list.append(obj['goalString'])
                 info_set |= set([(key + ' ' + info) for info in info_list])
         return list(info_set)
 

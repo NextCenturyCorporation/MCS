@@ -175,7 +175,7 @@ class IntPhysGoal(Goal, ABC):
                                                  random_x, random_z)
                 if location is not None:
                     # check that the bounds are valid
-                    for point in location['bounding_box']:
+                    for point in location['boundingBox']:
                         x = point['x']
                         z = point['z']
                         if x < MIN_VISIBLE_X or x > MAX_VISIBLE_X or \
@@ -204,7 +204,7 @@ class IntPhysGoal(Goal, ABC):
                             IntPhysGoal.MAX_OCCLUDER_SCALE)
             # object could be a cube on its corner, so use the diagonal distance
             x_scale = util.random_real(min_scale, IntPhysGoal.MAX_OCCLUDER_SCALE, util.MIN_RANDOM_INTERVAL)
-            position_by_step = paired_obj['intphys_option']['position_by_step']
+            position_by_step = paired_obj['intphysOption']['position_by_step']
             paired_z = paired_obj['shows'][0]['position']['z']
             min_paired_x_position = -3 + x_scale / 2
             max_paired_x_position = 3 - x_scale / 2
@@ -227,9 +227,9 @@ class IntPhysGoal(Goal, ABC):
                     break
             if not found_collision:
                 # occluder_indices are needed by quartets
-                occluder_indices = paired_obj['intphys_option'].get('occluder_indices', [])
+                occluder_indices = paired_obj['intphysOption'].get('occluder_indices', [])
                 occluder_indices.append(position_index)
-                paired_obj['intphys_option']['occluder_indices'] = occluder_indices
+                paired_obj['intphysOption']['occluder_indices'] = occluder_indices
                 occluder_fits = True
                 break
         if occluder_fits:
@@ -348,7 +348,7 @@ class IntPhysGoal(Goal, ABC):
             for loc in exclusions[location]:
                 available_locations.discard(loc)
             obj_def = finalize_object_definition(random.choice(valid_defs))
-            remaining_intphys_options = obj_def['intphys_options'].copy()
+            remaining_intphys_options = obj_def['intphysOptions'].copy()
             while len(remaining_intphys_options) > 0:
                 intphys_option = random.choice(remaining_intphys_options)
                 if location in acceleration_ordering and \
@@ -356,7 +356,7 @@ class IntPhysGoal(Goal, ABC):
                     # ensure the objects won't collide
                     acceleration = abs(intphys_option['force']['x'] / obj_def['mass'])
                     other_obj = location_assignments[acceleration_ordering[location]]
-                    other_acceleration = abs(other_obj['intphys_option']['force']['x'] / other_obj['mass'])
+                    other_acceleration = abs(other_obj['intphysOption']['force']['x'] / other_obj['mass'])
 
                     collision = acceleration > other_acceleration
                     if not collision:
@@ -374,7 +374,7 @@ class IntPhysGoal(Goal, ABC):
             object_location = {
                 'position': {
                     'x': IntPhysGoal.OBJECT_POSITIONS[location][0],
-                    'y': intphys_option['y'] + obj_def['position_y'],
+                    'y': intphys_option['y'] + obj_def['positionY'],
                     'z': IntPhysGoal.OBJECT_POSITIONS[location][1]
                 }
             }
@@ -417,8 +417,8 @@ class IntPhysGoal(Goal, ABC):
             }]
             if location in (IntPhysGoal.Position.RIGHT_FIRST_NEAR, IntPhysGoal.Position.RIGHT_LAST_NEAR, IntPhysGoal.Position.RIGHT_FIRST_FAR, IntPhysGoal.Position.RIGHT_LAST_FAR):
                 obj['forces'][0]['vector']['x'] *= -1
-            intphys_option['position_y'] = obj_def['position_y']
-            obj['intphys_option'] = intphys_option
+            intphys_option['positionY'] = obj_def['positionY']
+            obj['intphysOption'] = intphys_option
             new_objects.append(obj)
             if positions is not None:
                 positions.append(location)
@@ -474,8 +474,8 @@ class IntPhysGoal(Goal, ABC):
             obj = instantiate_object(obj_def, location)
             obj['shows'][0]['stepBegin'] = random.randint(IntPhysGoal.EARLIEST_ACTION_START_STEP,
                                                           IntPhysGoal.LATEST_ACTION_FALL_DOWN_START_STEP)
-            obj['intphys_option'] = {
-                'position_y': obj_def['position_y']
+            obj['intphysOption'] = {
+                'positionY': obj_def['positionY']
             }
             object_list.append(obj)
         # place required occluders, then (maybe) some random ones
@@ -511,9 +511,9 @@ class IntPhysGoal(Goal, ABC):
                                                     random.choice(materials.METAL_MATERIALS),
                                                     adjusted_x, x_scale, True)
             # occluded_id needed by SpatioTemporalContinuityQuartet
-            if 'intphys_option' not in occluder_pair[0]:
-                occluder_pair[0]['intphys_option'] = {}
-            occluder_pair[0]['intphys_option']['occluded_id'] = paired_obj['id']
+            if 'intphysOption' not in occluder_pair[0]:
+                occluder_pair[0]['intphysOption'] = {}
+            occluder_pair[0]['intphysOption']['occluded_id'] = paired_obj['id']
             occluders.extend(occluder_pair)
         self._add_occluders(occluders, num_occluders - num_objects, non_room_wall_materials, True)
 
@@ -599,14 +599,14 @@ class GravityGoal(IntPhysGoal):
             # Want to avoid cubes in the gravity tests at this time MCS-269
             if obj_def['type'] != 'cube':
                 new_od = obj_def.copy()
-                valid_intphys = [intphys for intphys in obj_def['intphys_options'] if intphys['y'] == 0]
+                valid_intphys = [intphys for intphys in obj_def['intphysOptions'] if intphys['y'] == 0]
                 if len(valid_intphys) != 0:
                     new_od['saved_intphys_options'] = copy.deepcopy(valid_intphys)
                     if self.is_ramp_steep() and self._use_fastest:
                         # use the intphys with the highest force.x for each object
                         sorted_intphys = sorted(valid_intphys, key=lambda intphys: intphys['force']['x'])
                         valid_intphys = [sorted_intphys[-1]]
-                    new_od['intphys_options'] = valid_intphys
+                    new_od['intphysOptions'] = valid_intphys
                     valid_defs.append(new_od)
         if self.is_ramp_steep():
             # Don't put objects in places where they'd have to roll up
@@ -636,8 +636,8 @@ class GravityGoal(IntPhysGoal):
         # adjust height to be on top of ramp if necessary
         for i in range(len(objs)):
             obj = objs[i]
-            obj['intphys_option']['moving_object'] = True
-            obj['intphys_option']['ramp_x_term'] = x_term
+            obj['intphysOption']['moving_object'] = True
+            obj['intphysOption']['ramp_x_term'] = x_term
             position = positions[i]
             # Add a downward force to all objects moving down the
             # ramps so that they will move more realistically.
