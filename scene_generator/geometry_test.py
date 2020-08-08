@@ -407,7 +407,7 @@ def test_get_visible_segment():
 def test_get_position_in_front_of_performer():
     performer_start = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'y': 0}}
 
-    for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+    for target_definition in util.retrieve_full_object_definition_list(objects.get('PICKUPABLE')):
         target_half_size_x = target_definition['dimensions']['x'] / 2.0
         target_half_size_z = target_definition['dimensions']['z'] / 2.0
 
@@ -435,7 +435,7 @@ def test_get_position_in_front_of_performer():
 def test_get_position_in_front_of_performer_next_to_room_wall():
     performer_start = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'y': 0}}
 
-    for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+    for target_definition in util.retrieve_full_object_definition_list(objects.get('PICKUPABLE')):
         performer_start['position']['z'] = ROOM_Z_MAX
         location = get_location_in_front_of_performer(performer_start, target_definition)
         assert location is None
@@ -444,7 +444,7 @@ def test_get_position_in_front_of_performer_next_to_room_wall():
 def test_get_position_in_back_of_performer():
     performer_start = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'y': 0}}
 
-    for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+    for target_definition in util.retrieve_full_object_definition_list(objects.get('PICKUPABLE')):
         performer_start['rotation']['y'] = 0
         negative_z = get_location_in_back_of_performer(performer_start, target_definition)
         assert 0 >= negative_z['position']['z'] >= ROOM_Z_MIN
@@ -469,7 +469,7 @@ def test_get_position_in_back_of_performer():
 def test_get_position_in_back_of_performer_next_to_room_wall():
     performer_start = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'y': 0}}
 
-    for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+    for target_definition in util.retrieve_full_object_definition_list(objects.get('PICKUPABLE')):
         performer_start['position']['z'] = ROOM_Z_MIN
         location = get_location_in_back_of_performer(performer_start, target_definition)
         assert location is None
@@ -622,14 +622,14 @@ def test_get_adjacent_location():
     # Set the performer start out-of-the-way.
     performer_start = {'position': {'x': ROOM_X_MAX, 'y': 0, 'z': ROOM_Z_MAX}, 'rotation': {'y': 0}}
 
-    for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+    for target_definition in util.retrieve_full_object_definition_list(objects.get('PICKUPABLE')):
         target_location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
         target_location['boundingBox'] = generate_object_bounds(target_definition['dimensions'], \
                 (target_definition['offset'] if 'offset' in target_definition else None), target_location['position'], \
                 target_location['rotation'])
         target_poly = get_bounding_polygon(target_location)
 
-        for object_definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
+        for object_definition in util.retrieve_full_object_definition_list(objects.get('ALL')):
             location = get_adjacent_location(object_definition, target_definition, target_location, performer_start)
             assert location
             object_poly = get_bounding_polygon(location)
@@ -641,10 +641,10 @@ def test_get_adjacent_location_with_obstruct():
     performer_start = {'position': {'x': 0, 'y': 0, 'z': ROOM_Z_MIN}, 'rotation': {'y': 0}}
 
     # Use the sofa in this test because it should obstruct any possible pickupable object.
-    sofa_list = [item for item in objects.get_all_object_defs() if 'type' in item and item['type'] == 'sofa_1']
+    sofa_list = [item for item in objects.get('ALL') if 'type' in item and item['type'] == 'sofa_1']
     object_definition = util.finalize_object_definition(sofa_list[0])
 
-    for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+    for target_definition in util.retrieve_full_object_definition_list(objects.get('PICKUPABLE')):
         target_location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
         target_location['boundingBox'] = generate_object_bounds(target_definition['dimensions'], \
                 (target_definition['offset'] if 'offset' in target_definition else None), target_location['position'], \
@@ -666,7 +666,7 @@ def test_get_adjacent_location_on_side():
     # Set the performer start out-of-the-way.
     performer_start = {'position': {'x': ROOM_X_MAX, 'y': 0, 'z': ROOM_Z_MAX}, 'rotation': {'y': 0}}
 
-    for target_definition in util.retrieve_full_object_definition_list(objects.OBJECTS_PICKUPABLE):
+    for target_definition in util.retrieve_full_object_definition_list(objects.get('PICKUPABLE')):
         target_offset = target_definition['offset'] if 'offset' in target_definition else {'x': 0, 'z': 0}
         target_location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
         target_location['boundingBox'] = generate_object_bounds(target_definition['dimensions'], target_offset, \
@@ -676,7 +676,7 @@ def test_get_adjacent_location_on_side():
         target_x_min, target_x_max, target_z_min, target_z_max = get_min_and_max_in_bounds( \
                 target_location['boundingBox'])
 
-        for object_definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
+        for object_definition in util.retrieve_full_object_definition_list(objects.get('ALL')):
             object_offset = object_definition['offset'] if 'offset' in object_definition else {'x': 0, 'z': 0}
 
             location = get_adjacent_location_on_side(object_definition, target_definition, target_location, \
@@ -728,20 +728,20 @@ def test_get_adjacent_location_on_side_next_to_room_wall():
     # Set the performer start out-of-the-way.
     performer_start = {'position': {'x': ROOM_X_MAX, 'y': 0, 'z': ROOM_Z_MAX}, 'rotation': {'y': 0}}
 
-    for target_definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
+    for target_definition in util.retrieve_full_object_definition_list(objects.get('ALL')):
         target_offset = target_definition['offset'] if 'offset' in target_definition else {'x': 0, 'z': 0}
         target_location = {'position': {'x': ROOM_X_MAX, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
         target_location['boundingBox'] = generate_object_bounds(target_definition['dimensions'], target_offset, \
                 target_location['position'], target_location['rotation'])
 
-        for object_definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
+        for object_definition in util.retrieve_full_object_definition_list(objects.get('ALL')):
             location = get_adjacent_location_on_side(object_definition, target_definition, target_location, \
                     performer_start, Side.RIGHT, False)
             assert not location
 
 
 def test_get_wider_and_taller_defs():
-    for object_definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
+    for object_definition in util.retrieve_full_object_definition_list(objects.get('ALL')):
         object_dimensions = object_definition['closedDimensions'] if 'closedDimensions' in object_definition else \
                 object_definition['dimensions']
         bigger_definition_list = get_wider_and_taller_defs(object_definition, False)
@@ -760,7 +760,7 @@ def test_get_wider_and_taller_defs():
 
 
 def test_get_wider_and_taller_defs_obstruct_vision():
-    for object_definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
+    for object_definition in util.retrieve_full_object_definition_list(objects.get('ALL')):
         object_dimensions = object_definition['closedDimensions'] if 'closedDimensions' in object_definition else \
                 object_definition['dimensions']
         bigger_definition_list = get_wider_and_taller_defs(object_definition, True)
@@ -801,7 +801,7 @@ def test_find_performer_rect():
 
 
 def test_set_location_rotation():
-    for definition in util.retrieve_full_object_definition_list(objects.get_all_object_defs()):
+    for definition in util.retrieve_full_object_definition_list(objects.get('ALL')):
         offset = definition['offset'] if 'offset' in definition else {'x': 0, 'z': 0}
 
         location = {'position': {'x': 0, 'y': 0, 'z': 0}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}

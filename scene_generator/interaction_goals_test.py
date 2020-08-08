@@ -22,7 +22,7 @@ from util import MAX_SIZE_DIFFERENCE, MAX_TRIES, finalize_object_definition, ins
 
 def test_move_to_container():
     # find a tiny object so we know it will fit in *something*
-    for obj_def in objects.OBJECTS_PICKUPABLE:
+    for obj_def in objects.get('PICKUPABLE'):
         obj_def = finalize_object_definition(obj_def)
         if obj_def['size'] == 'tiny':
             obj = instantiate_object(obj_def, geometry.ORIGIN_LOCATION)

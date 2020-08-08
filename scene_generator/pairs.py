@@ -449,7 +449,7 @@ class InteractionPair():
         """Create and return a receptacle that encloses the target and confusor together. If impossible return None."""
 
         # Find an enclosable receptacle that can hold both the target and the confusor together.
-        receptacle_definition_list = objects.get_enclosed_containers().copy()
+        receptacle_definition_list = containers.retrieve_enclosable_object_definition_list().copy()
         random.shuffle(receptacle_definition_list)
         for receptacle_definition in receptacle_definition_list:
             valid_containment = containers.can_contain_both(receptacle_definition, target_instance, confusor_instance)
@@ -466,7 +466,7 @@ class InteractionPair():
         """Create and return a receptacle that encloses the target or confusor alone. If impossible return None."""
 
         # Find an enclosable receptacle that can hold either the target or the confusor individually.
-        receptacle_definition_list = objects.get_enclosed_containers().copy()
+        receptacle_definition_list = containers.retrieve_enclosable_object_definition_list().copy()
         random.shuffle(receptacle_definition_list)
         valid_containment_list = containers.get_enclosable_containments((target_instance, confusor_instance), \
                 receptacle_definition_list)

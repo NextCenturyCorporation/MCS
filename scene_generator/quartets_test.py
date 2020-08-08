@@ -10,7 +10,7 @@ TEMPLATE = {'wallMaterial': 'dummy', 'wallColors': ['color']}
 
 def test_get_position_step():
     target = {
-        'intphysOption': objects.OBJECTS_INTPHYS[0]['intphysOptions'][0]
+        'intphysOption': objects.get('INTPHYS')[0]['intphysOptions'][0]
     }
     x = 1.0
     expected_step = 2

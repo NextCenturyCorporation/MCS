@@ -146,12 +146,9 @@ def how_can_contain(container: Dict[str, Any],
 def get_enclosable_containments(objs: Sequence[Dict[str, Any]],
                                 container_defs: Sequence[Dict[str, Any]] = None) \
                                 -> List[Tuple[Dict[str, Any], int, List[float]]]:
-    """Return a list of object definitions for containers that can enclose
-    all the pass objects objs. If container_defs is None, use
-    objects.get_enclosed_containers().
-    """
+    """Return a list of object definitions for containers that can enclose all the pass objects objs."""
     if container_defs is None:
-        container_defs = objects.get_enclosed_containers()
+        container_defs = retrieve_enclosable_object_definition_list()
     valid_containments = []
     for container_def in container_defs:
         possible_enclosable_definition_list = util.finalize_each_object_definition_choice(container_def)
@@ -253,7 +250,7 @@ def find_suitable_enclosable_list(obj: Dict[str, Any], container_defs: Sequence[
     """Find and return the list of enclosable receptacle definitions into which the given object can fit."""
     valid_defs = []
     if container_defs is None:
-        container_defs = objects.get_enclosed_containers()
+        container_defs = retrieve_enclosable_object_definition_list()
     for obj_def in container_defs:
         possible_enclosable_definition_list = util.finalize_each_object_definition_choice(obj_def)
         for possible_enclosable_definition in possible_enclosable_definition_list:
@@ -263,4 +260,12 @@ def find_suitable_enclosable_list(obj: Dict[str, Any], container_defs: Sequence[
                         area['dimensions']['z'] >= obj['dimensions']['z']):
                     valid_defs.append(possible_enclosable_definition)
     return valid_defs
+
+
+def retrieve_enclosable_object_definition_list() -> List[Dict[str, Any]]:
+    output_list = []
+    for object_definition in util.retrieve_full_object_definition_list(objects.get('ALL')):
+        if 'enclosedAreas' in object_definition and len(object_definition['enclosedAreas']) > 0:
+            output_list.append(object_definition)
+    return output_list
 

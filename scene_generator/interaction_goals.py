@@ -184,7 +184,7 @@ def move_to_container(target_definition: Dict[str, Any], target: Dict[str, Any],
         bounds_list: List[List[Dict[str, float]]], performer_position: Dict[str, float]) -> Dict[str, Any]:
     """Try to find a random container that target will fit in. If found, set the target's locationParent, and add
     container to bounds_list. Return the container, or None if the target was not put into a container."""
-    shuffled_containers = objects.get_enclosed_containers().copy()
+    shuffled_containers = containers.retrieve_enclosable_object_definition_list().copy()
     random.shuffle(shuffled_containers)
     for container_definition in shuffled_containers:
         container_definition = finalize_object_definition(container_definition)
@@ -211,9 +211,7 @@ class ObjectRule():
     def choose_definition(self) -> Dict[str, Any]:
         """Choose and return an object definition."""
         # Same chance to pick each list.
-        object_definition_list = random.choice(
-            [objects.OBJECTS_PICKUPABLE, objects.OBJECTS_MOVEABLE, objects.OBJECTS_IMMOBILE]
-        )
+        object_definition_list = random.choice(objects.get('ALL_LISTS'))
         # Same chance to pick each object definition from the list.
         object_definition = finalize_object_definition(random.choice(object_definition_list))
         return random.choice(finalize_object_materials_and_colors(object_definition))
@@ -237,7 +235,7 @@ class PickupableObjectRule(ObjectRule):
         super(PickupableObjectRule, self).__init__(is_position_in_receptacle, is_position_on_receptacle)
 
     def choose_definition(self) -> Dict[str, Any]:
-        object_definition_list = random.choice(objects.OBJECTS_PICKUPABLE_LISTS)
+        object_definition_list = random.choice(objects.get('PICKUPABLE_LISTS'))
         object_definition = finalize_object_definition(random.choice(object_definition_list))
         return random.choice(finalize_object_materials_and_colors(object_definition))
 
@@ -247,20 +245,12 @@ class TransferToObjectRule(ObjectRule):
         super(TransferToObjectRule, self).__init__(is_position_in_receptacle, is_position_on_receptacle)
 
     def choose_definition(self) -> Dict[str, Any]:
-        stack_targets_pickupable = [definition for definition in objects.OBJECTS_PICKUPABLE \
-                if 'stackTarget' in definition.get('attributes', [])]
-        stack_targets_moveable = [definition for definition in objects.OBJECTS_MOVEABLE \
-                if 'stackTarget' in definition.get('attributes', [])]
-        stack_targets_immobile = [definition for definition in objects.OBJECTS_IMMOBILE \
-                if 'stackTarget' in definition.get('attributes', [])]
-
         choice_list = []
-        if len(stack_targets_pickupable) > 0:
-            choice_list.append(stack_targets_pickupable)
-        if len(stack_targets_moveable) > 0:
-            choice_list.append(stack_targets_moveable)
-        if len(stack_targets_immobile) > 0:
-            choice_list.append(stack_targets_immobile)
+        for possible_list in objects.get('ALL_LISTS'):
+            stack_targets = [definition for definition in possible_list \
+                    if 'stackTarget' in definition.get('attributes', [])]
+            if len(stack_targets) > 0:
+                choice_list.append(stack_targets)
 
         if len(choice_list) == 0:
             raise exceptions.SceneException('cannot find any stack target definition')
@@ -325,8 +315,7 @@ class ConfusorObjectRule(ObjectRule):
     def choose_definition(self) -> Dict[str, Any]:
         if not self._target_definition:
             raise exceptions.SceneException('cannot create a confusor with no target definition')
-        confusor_definition = util.get_similar_definition(self._target_definition, \
-                copy.deepcopy(objects.get_all_object_defs()))
+        confusor_definition = util.get_similar_definition(self._target_definition, objects.get('ALL'))
         if not confusor_definition:
             raise exceptions.SceneException(f'cannot find a confusor to create with target={self._target_definition}')
         return confusor_definition

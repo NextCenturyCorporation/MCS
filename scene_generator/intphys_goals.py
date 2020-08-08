@@ -92,7 +92,7 @@ class IntPhysGoal(Goal, ABC):
     def __init__(self, name: str):
         super(IntPhysGoal, self).__init__(name)
         self._object_creator = None
-        self._object_defs = objects.OBJECTS_INTPHYS
+        self._object_defs = objects.get('INTPHYS')
 
     def _compute_performer_start(self) -> Dict[str, Dict[str, float]]:
         if self._performer_start is None:
@@ -166,7 +166,7 @@ class IntPhysGoal(Goal, ABC):
                                              (50, 10, 10, 10, 10, 10))[0]
         scenery_list = []
         scenery_rects = []
-        scenery_defs = objects.OBJECTS_MOVEABLE + objects.OBJECTS_IMMOBILE
+        scenery_defs = objects.get('MOVEABLE') + objects.get('IMMOBILE')
         for _ in range(scenery_count):
             location = None
             while location is None:
@@ -433,7 +433,7 @@ class IntPhysGoal(Goal, ABC):
         MIN_OCCLUDER_SEPARATION = 0.5
         # Choose between traditional and novel objects.
         # Only use novel objects in "falling down" scenes for now, since we don't have their intphys_options yet.
-        self._object_defs = objects.OBJECTS_INTPHYS + objects.OBJECTS_INTPHYS_NOVEL
+        self._object_defs = objects.get('INTPHYS') + objects.get('INTPHYS_NOVEL')
 
         # min scale for each occluder / 2, plus 0.5 separation
         # divided by the smaller scale factor for distance from viewpoint

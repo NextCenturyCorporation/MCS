@@ -42,29 +42,8 @@ def test_create_occluder_sideways():
     assert pole['info'] == ['brown']
 
 
-def test_get_all_object_defs():
-    all = get_all_object_defs()
-    dup = get_all_object_defs()
-    assert all is dup
-    for obj_def in all:
-        assert type(obj_def) is type({})
-
-
-def test_get_enclosed_containers():
-    containers = get_enclosed_containers()
-    for container in containers:
-        assert 'enclosedAreas' in container or 'chooseSize' in container \
-            and 'enclosedAreas' in container['chooseSize'][0]
-
-
-def test_get_intphys_objects():
-    objs = get_intphys_objects()
-    for obj in objs:
-        assert 'intphysOptions' in obj
-
-
 def test_all_objects_have_expected_properties():
-    for object_definition in retrieve_full_object_definition_list(get_all_object_defs()):
+    for object_definition in retrieve_full_object_definition_list(get('ALL')):
         print(f'{object_definition["type"]}')
         assert 'type' in object_definition
         assert 'size' in object_definition
@@ -77,4 +56,10 @@ def test_all_objects_have_expected_properties():
         if len(object_definition['materialCategory']) == 0:
             assert 'color' in object_definition
         assert 'info' not in object_definition
+
+def test_get():
+    list_1 = get('ALL')
+    list_2 = get('ALL')
+    assert not (list_1 is list_2)
+    assert list_1 == list_2
 
