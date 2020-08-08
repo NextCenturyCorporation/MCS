@@ -10,21 +10,21 @@ import util
 def put_object_in_container(obj_def: Dict[str, Any], obj: Dict[str, Any], container: Dict[str, Any], \
         container_def: Dict[str, Any], area_index: int, rotation: Optional[float] = None) -> None:
 
-    area = container_def['enclosed_areas'][area_index]
+    area = container_def['enclosedAreas'][area_index]
     obj['locationParent'] = container['id']
 
     obj['shows'][0]['position'] = area['position'].copy()
-    obj['shows'][0]['position']['y'] += -(area['dimensions']['y'] / 2.0) + obj_def.get('position_y', 0)
+    obj['shows'][0]['position']['y'] += -(area['dimensions']['y'] / 2.0) + obj_def.get('positionY', 0)
 
     if 'rotation' not in obj['shows'][0]:
         obj['shows'][0]['rotation'] = geometry.ORIGIN.copy()
     if rotation is not None:
         obj['shows'][0]['rotation']['y'] = rotation
 
-    # if it had a bounding_box, it's not valid any more
-    obj.pop('bounding_box', None)
+    # if it had a boundingBox, it's not valid any more
+    obj.pop('boundingBox', None)
 
-    obj['shows'][0]['bounding_box'] = geometry.generate_object_bounds(obj_def['dimensions'], \
+    obj['shows'][0]['boundingBox'] = geometry.generate_object_bounds(obj_def['dimensions'], \
             (obj_def['offset'] if 'offset' in obj_def else None), obj['shows'][0]['position'], \
             obj['shows'][0]['rotation'])
 
@@ -49,7 +49,7 @@ def put_objects_in_container(obj_def_a: Dict[str, Any], obj_a: Dict[str, Any], o
 
     # TODO This function should probably verify that both objects can fit together inside the container...
 
-    area = container_def['enclosed_areas'][area_index]
+    area = container_def['enclosedAreas'][area_index]
     obj_a['locationParent'] = container['id']
     obj_b['locationParent'] = container['id']
     shows_a = obj_a['shows'][0]
@@ -83,19 +83,19 @@ def put_objects_in_container(obj_def_a: Dict[str, Any], obj_a: Dict[str, Any], o
         shows_b['position'] = area['position'].copy()
         shows_b['position']['z'] += height_b / 2.0
 
-    shows_a['position']['y'] += -(area['dimensions']['y'] / 2.0) + obj_def_a.get('position_y', 0)
-    shows_b['position']['y'] += -(area['dimensions']['y'] / 2.0) + obj_def_b.get('position_y', 0)
+    shows_a['position']['y'] += -(area['dimensions']['y'] / 2.0) + obj_def_a.get('positionY', 0)
+    shows_b['position']['y'] += -(area['dimensions']['y'] / 2.0) + obj_def_b.get('positionY', 0)
     shows_a['rotation'] = { 'y': rot_a }
     shows_b['rotation'] = { 'y': rot_b }
 
-    # any bounding_box they may have had is not valid any more
-    shows_a.pop('bounding_box', None)
-    shows_b.pop('bounding_box', None)
+    # any boundingBox they may have had is not valid any more
+    shows_a.pop('boundingBox', None)
+    shows_b.pop('boundingBox', None)
 
-    shows_a['bounding_box'] = geometry.generate_object_bounds(obj_def_a['dimensions'], \
+    shows_a['boundingBox'] = geometry.generate_object_bounds(obj_def_a['dimensions'], \
             (obj_def_a['offset'] if 'offset' in obj_def_a else None), shows_a['position'], \
             shows_a['rotation'])
-    shows_b['bounding_box'] = geometry.generate_object_bounds(obj_def_b['dimensions'], \
+    shows_b['boundingBox'] = geometry.generate_object_bounds(obj_def_b['dimensions'], \
             (obj_def_b['offset'] if 'offset' in obj_def_b else None), shows_b['position'], \
             shows_b['rotation'])
 
@@ -120,15 +120,15 @@ def can_enclose(area: Dict[str, Any], target: Dict[str, Any]) -> Optional[float]
 
 def how_can_contain(container: Dict[str, Any],
                     *targets: Dict[str, Any]) -> Optional[Tuple[int, List[float]]]:
-    """Return the index of the container's "enclosed_areas" that all
+    """Return the index of the container's "enclosedAreas" that all
      targets fit in, or None if they all do not fit in any of the
-     enclosed_areas (or if the container doesn't have any). Does not
+     enclosedAreas (or if the container doesn't have any). Does not
      try any rotation to see if that makes it possible to fit.
     """
-    if 'enclosed_areas' not in container:
+    if 'enclosedAreas' not in container:
         return None
-    for i in range(len(container['enclosed_areas'])):
-        space = container['enclosed_areas'][i]
+    for i in range(len(container['enclosedAreas'])):
+        space = container['enclosedAreas'][i]
         angles = []
         fits = True
         for target in targets:
@@ -146,27 +146,17 @@ def how_can_contain(container: Dict[str, Any],
 def get_enclosable_containments(objs: Sequence[Dict[str, Any]],
                                 container_defs: Sequence[Dict[str, Any]] = None) \
                                 -> List[Tuple[Dict[str, Any], int, List[float]]]:
-    """Return a list of object definitions for containers that can enclose
-    all the pass objects objs. If container_defs is None, use
-    objects.get_enclosed_containers().
-    """
+    """Return a list of object definitions for containers that can enclose all the pass objects objs."""
     if container_defs is None:
-        container_defs = objects.get_enclosed_containers()
+        container_defs = retrieve_enclosable_object_definition_list()
     valid_containments = []
     for container_def in container_defs:
-        containment = how_can_contain(container_def, *objs)
-        if containment is not None:
-            new_def = util.finalize_object_definition(container_def)
-            index, angles = containment
-            valid_containments.append((new_def, index, angles))
-        elif 'choose' in container_def:
-            # try choose
-            for choice in container_def['choose']:
-                containment = how_can_contain(choice, *objs)
-                if containment is not None:
-                    new_def = util.finalize_object_definition(container_def, choice)
-                    index, angles = containment
-                    valid_containments.append((new_def, index, angles))
+        possible_enclosable_definition_list = util.finalize_each_object_definition_choice(container_def)
+        for possible_enclosable_definition in possible_enclosable_definition_list:
+            containment = how_can_contain(possible_enclosable_definition, *objs)
+            if containment:
+                index, angles = containment
+                valid_containments.append((possible_enclosable_definition, index, angles))
     return valid_containments
 
 
@@ -242,26 +232,15 @@ def _eas_can_contain_both(enclosed_areas: Sequence[Dict[str, Any]],
     return None
 
 
-def can_contain_both(container_def: Dict[str, Any],
-                     obj_a: Dict[str, Any], obj_b: Dict[str, Any]) \
-                     -> Optional[Tuple[Dict[str, Any], int, Orientation, float, float]]:
-    if 'enclosed_areas' in container_def:
-        result = _eas_can_contain_both(container_def['enclosed_areas'], obj_a, obj_b)
-        if result is None:
-            return None
-        index, orientation, angle_a, angle_b = result
-        new_def = util.finalize_object_definition(container_def)
-        return new_def, index, orientation, angle_a, angle_b
-    elif 'choose' in container_def:
-        found_choice = None
-        for choice in container_def['choose']:
-            if 'enclosed_areas' in choice:
-                result = _eas_can_contain_both(choice['enclosed_areas'],
-                                               obj_a, obj_b)
-                if result is not None:
-                    index, orientation, angle_a, angle_b = result
-                    new_def = util.finalize_object_definition(container_def, choice)
-                    return new_def, index, orientation, angle_a, angle_b
+def can_contain_both(container_def: Dict[str, Any], obj_a: Dict[str, Any], obj_b: Dict[str, Any]) \
+        -> Optional[Tuple[Dict[str, Any], int, Orientation, float, float]]:
+    possible_enclosable_definition_list = util.finalize_each_object_definition_choice(container_def)
+    for possible_enclosable_definition in possible_enclosable_definition_list:
+        result = _eas_can_contain_both(possible_enclosable_definition['enclosedAreas'], obj_a, obj_b)
+        if result:
+            index, orientation, angle_a, angle_b = result
+            new_def = util.finalize_object_definition(container_def)
+            return new_def, index, orientation, angle_a, angle_b
     return None
 
 
@@ -271,27 +250,22 @@ def find_suitable_enclosable_list(obj: Dict[str, Any], container_defs: Sequence[
     """Find and return the list of enclosable receptacle definitions into which the given object can fit."""
     valid_defs = []
     if container_defs is None:
-        container_defs = objects.get_enclosed_containers()
+        container_defs = retrieve_enclosable_object_definition_list()
     for obj_def in container_defs:
-        if 'choose' in obj_def:
-            valid_choices = []
-            for choice in obj_def['choose']:
-                possible_obj_def = util.finalize_object_definition(copy.deepcopy(obj_def), choice)
-                for area in possible_obj_def['enclosed_areas']:
-                    if area['dimensions']['x'] >= obj['dimensions']['x'] and \
-                            area['dimensions']['y'] >= obj['dimensions']['y'] and \
-                            area['dimensions']['z'] >= obj['dimensions']['z']:
-                        valid_choices.append(choice)
-            if len(valid_choices) > 0:
-                new_def = copy.deepcopy(obj_def)
-                new_def['choose'] = valid_choices
-                valid_defs.append(new_def)
-        else:
-            possible_obj_def = util.finalize_object_definition(copy.deepcopy(obj_def))
-            for area in possible_obj_def['enclosed_areas']:
-                if area['dimensions']['x'] >= obj['dimensions']['x'] and \
+        possible_enclosable_definition_list = util.finalize_each_object_definition_choice(obj_def)
+        for possible_enclosable_definition in possible_enclosable_definition_list:
+            for area in possible_enclosable_definition['enclosedAreas']:
+                if (area['dimensions']['x'] >= obj['dimensions']['x'] and \
                         area['dimensions']['y'] >= obj['dimensions']['y'] and \
-                        area['dimensions']['z'] >= obj['dimensions']['z']:
-                    valid_defs.append(obj_def)
+                        area['dimensions']['z'] >= obj['dimensions']['z']):
+                    valid_defs.append(possible_enclosable_definition)
     return valid_defs
+
+
+def retrieve_enclosable_object_definition_list() -> List[Dict[str, Any]]:
+    output_list = []
+    for object_definition in util.retrieve_full_object_definition_list(objects.get('ALL')):
+        if 'enclosedAreas' in object_definition and len(object_definition['enclosedAreas']) > 0:
+            output_list.append(object_definition)
+    return output_list
 

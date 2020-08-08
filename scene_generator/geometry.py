@@ -158,8 +158,8 @@ def calc_obj_pos(performer_position: Dict[str, float],
     if tries < util.MAX_TRIES:
         new_object = {
             'rotation': {'x': rotation_x, 'y': rotation_y, 'z': rotation_z},
-            'position':  {'x': new_x, 'y': obj_def.get('position_y', 0), 'z': new_z},
-            'bounding_box': rect
+            'position':  {'x': new_x, 'y': obj_def.get('positionY', 0), 'z': new_z},
+            'boundingBox': rect
         }
         other_rects.append(rect)
         return new_object
@@ -309,9 +309,9 @@ def get_adjacent_location_on_side(object_definition: Dict[str, Any], target_defi
     """
     object_dimensions = object_definition['dimensions']
     object_offset = object_definition['offset'] if 'offset' in object_definition else {'x': 0, 'z': 0}
-    if obstruct and 'closed_dimensions' in object_definition:
-        object_dimensions = object_definition['closed_dimensions']
-        object_offset = object_definition['closed_offset'] if 'closed_offset' in object_definition else object_offset
+    if obstruct and 'closedDimensions' in object_definition:
+        object_dimensions = object_definition['closedDimensions']
+        object_offset = object_definition['closedOffset'] if 'closedOffset' in object_definition else object_offset
     target_offset = target_definition['offset'] if 'offset' in target_definition else {'x': 0, 'z': 0}
 
     distance_prop = 'x' if side in (0, 2) else 'z'
@@ -340,7 +340,7 @@ def get_adjacent_location_on_side(object_definition: Dict[str, Any], target_defi
         location = {
             'position': {
                 'x': x,
-                'y': object_definition.get('position_y', 0),
+                'y': object_definition.get('positionY', 0),
                 'z': z
             },
             'rotation': {
@@ -348,7 +348,7 @@ def get_adjacent_location_on_side(object_definition: Dict[str, Any], target_defi
                 'y': target_location['rotation']['y'],
                 'z': 0
             },
-            'bounding_box': rect
+            'boundingBox': rect
         }
     else:
         location = None
@@ -361,21 +361,15 @@ def get_wider_and_taller_defs(obj_def: Dict[str, Any], obstruct_vision: bool) ->
     (z-axis), 90 degrees is returned. Objects returned may be equal in
     dimensions, not just strictly greater.
     """
-    defs = copy.deepcopy(objects.get_all_object_defs())
-    random.shuffle(defs)
     possible_defs = []
-    for new_def in defs:
-        if 'choose' in new_def:
-            for choice in new_def['choose']:
-                possible_defs.append(util.finalize_object_definition(copy.deepcopy(new_def), choice))
-        else:
-            possible_defs.append(util.finalize_object_definition(copy.deepcopy(new_def)))
     bigger_defs = []
+    for new_def in objects.get('ALL'):
+        possible_defs = possible_defs + util.finalize_each_object_definition_choice(new_def)
     for big_def in possible_defs:
         # Only look at definitions with the obstruct property.
         if 'obstruct' in big_def and big_def['obstruct'] == ('vision' if obstruct_vision else 'navigation'):
-            obj_dimensions = obj_def['closed_dimensions'] if 'closed_dimensions' in obj_def else obj_def['dimensions']
-            big_dimensions = big_def['closed_dimensions'] if 'closed_dimensions' in big_def else big_def['dimensions']
+            obj_dimensions = obj_def['closedDimensions'] if 'closedDimensions' in obj_def else obj_def['dimensions']
+            big_dimensions = big_def['closedDimensions'] if 'closedDimensions' in big_def else big_def['dimensions']
             cannot_walk_over = big_dimensions['y'] >= (PERFORMER_CAMERA_Y / 2.0)
             # Only need a bigger Y dimension if the object must obstruct vision.
             if cannot_walk_over and (not obstruct_vision or big_dimensions['y'] >= obj_dimensions['y']):
@@ -387,13 +381,13 @@ def get_wider_and_taller_defs(obj_def: Dict[str, Any], obstruct_vision: bool) ->
 
 
 def get_bounding_polygon(object_or_location: Dict[str, Any]) -> shapely.geometry.Polygon:
-    if 'bounding_box' in object_or_location:
-        bounding_box: List[Dict[str, float]] = object_or_location['bounding_box']
+    if 'boundingBox' in object_or_location:
+        bounding_box: List[Dict[str, float]] = object_or_location['boundingBox']
         poly = rect_to_poly(bounding_box)
     else:
         show = object_or_location['shows'][0]
-        if 'bounding_box' in show:
-            bounding_box: List[Dict[str, float]] = show['bounding_box']
+        if 'boundingBox' in show:
+            bounding_box: List[Dict[str, float]] = show['boundingBox']
             poly = rect_to_poly(bounding_box)
         else:
             # TODO I think we need to consider the affect of the object's offsets on its poly here
@@ -435,7 +429,7 @@ def set_location_rotation(definition: Dict[str, Any], location: Dict[str, float]
         Dict[str, float]:
     """Updates the Y rotation and the bounding box of the given location and returns the location."""
     location['rotation']['y'] = rotation_y
-    location['bounding_box'] = generate_object_bounds(definition['dimensions'], \
+    location['boundingBox'] = generate_object_bounds(definition['dimensions'], \
             (definition['offset'] if 'offset' in definition else None), location['position'], location['rotation'])
     return location
 
@@ -473,8 +467,8 @@ def _does_obstruct_target_helper(performer_start_position: Dict[str, float], tar
 
     obstructing_corners = 0
     performer_start_coordinates = (performer_start_position['x'], performer_start_position['z'])
-    bounds = target_or_location['bounding_box'] if 'bounding_box' in target_or_location else \
-            (target_or_location['shows'][0]['bounding_box'] if 'shows' in target_or_location else [])
+    bounds = target_or_location['boundingBox'] if 'boundingBox' in target_or_location else \
+            (target_or_location['shows'][0]['boundingBox'] if 'shows' in target_or_location else [])
     for corner in bounds:
         target_corner_coordinates = (corner['x'], corner['z'])
         line_to_target = shapely.geometry.LineString([performer_start_coordinates, target_corner_coordinates])

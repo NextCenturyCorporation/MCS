@@ -130,7 +130,7 @@ def get_navigation_actions(start_location: Dict[str, Any],
     goal = (goal_object['shows'][0]['position']['x'], goal_object['shows'][0]['position']['z'])
     hole_rects = []
 
-    hole_rects.extend(object['shows'][0]['bounding_box'] for object
+    hole_rects.extend(object['shows'][0]['boundingBox'] for object
                       in all_objects if object['id'] != goal_object['id']
                       and 'locationParent' not in object)
     path = generatepath(performer, goal, hole_rects)
@@ -138,7 +138,7 @@ def get_navigation_actions(start_location: Dict[str, Any],
         raise PathfindingException(f'could not find path to target {goal_object["id"]}')
     for object in all_objects:
         if object['id'] == goal_object['id']:
-            goal_boundary = object['shows'][0]['bounding_box']
+            goal_boundary = object['shows'][0]['boundingBox']
             break
     actions = []
     current_heading = 90 - start_location['rotation']['y']
@@ -184,7 +184,7 @@ def move_to_container(target_definition: Dict[str, Any], target: Dict[str, Any],
         bounds_list: List[List[Dict[str, float]]], performer_position: Dict[str, float]) -> Dict[str, Any]:
     """Try to find a random container that target will fit in. If found, set the target's locationParent, and add
     container to bounds_list. Return the container, or None if the target was not put into a container."""
-    shuffled_containers = objects.get_enclosed_containers().copy()
+    shuffled_containers = containers.retrieve_enclosable_object_definition_list().copy()
     random.shuffle(shuffled_containers)
     for container_definition in shuffled_containers:
         container_definition = finalize_object_definition(container_definition)
@@ -211,9 +211,7 @@ class ObjectRule():
     def choose_definition(self) -> Dict[str, Any]:
         """Choose and return an object definition."""
         # Same chance to pick each list.
-        object_definition_list = random.choice(
-            [objects.OBJECTS_PICKUPABLE, objects.OBJECTS_MOVEABLE, objects.OBJECTS_IMMOBILE]
-        )
+        object_definition_list = random.choice(objects.get('ALL_LISTS'))
         # Same chance to pick each object definition from the list.
         object_definition = finalize_object_definition(random.choice(object_definition_list))
         return random.choice(finalize_object_materials_and_colors(object_definition))
@@ -237,7 +235,7 @@ class PickupableObjectRule(ObjectRule):
         super(PickupableObjectRule, self).__init__(is_position_in_receptacle, is_position_on_receptacle)
 
     def choose_definition(self) -> Dict[str, Any]:
-        object_definition_list = random.choice(objects.OBJECTS_PICKUPABLE_LISTS)
+        object_definition_list = random.choice(objects.get('PICKUPABLE_LISTS'))
         object_definition = finalize_object_definition(random.choice(object_definition_list))
         return random.choice(finalize_object_materials_and_colors(object_definition))
 
@@ -247,20 +245,12 @@ class TransferToObjectRule(ObjectRule):
         super(TransferToObjectRule, self).__init__(is_position_in_receptacle, is_position_on_receptacle)
 
     def choose_definition(self) -> Dict[str, Any]:
-        stack_targets_pickupable = [definition for definition in objects.OBJECTS_PICKUPABLE \
-                if 'stackTarget' in definition.get('attributes', [])]
-        stack_targets_moveable = [definition for definition in objects.OBJECTS_MOVEABLE \
-                if 'stackTarget' in definition.get('attributes', [])]
-        stack_targets_immobile = [definition for definition in objects.OBJECTS_IMMOBILE \
-                if 'stackTarget' in definition.get('attributes', [])]
-
         choice_list = []
-        if len(stack_targets_pickupable) > 0:
-            choice_list.append(stack_targets_pickupable)
-        if len(stack_targets_moveable) > 0:
-            choice_list.append(stack_targets_moveable)
-        if len(stack_targets_immobile) > 0:
-            choice_list.append(stack_targets_immobile)
+        for possible_list in objects.get('ALL_LISTS'):
+            stack_targets = [definition for definition in possible_list \
+                    if 'stackTarget' in definition.get('attributes', [])]
+            if len(stack_targets) > 0:
+                choice_list.append(stack_targets)
 
         if len(choice_list) == 0:
             raise exceptions.SceneException('cannot find any stack target definition')
@@ -305,10 +295,11 @@ class DistractorObjectRule(ObjectRule):
         self._target_list = target_list
 
     def choose_definition(self) -> Dict[str, Any]:
-        target_shape_list = [target['info'][-1] for target in self._target_list]
+        target_shape_list = [target['shape'][-1] for target in self._target_list]
         for _ in range(util.MAX_TRIES):
             distractor_definition = super(DistractorObjectRule, self).choose_definition()
-            distractor_shape = distractor_definition['info'][-1]
+            distractor_shape = distractor_definition['shape'][-1] if isinstance(distractor_definition['shape'], list) \
+                    else distractor_definition['shape']
             # Cannot have the same shape as a target object, so we don't unintentionally generate a confusor.
             if distractor_shape not in target_shape_list:
                 break
@@ -324,8 +315,7 @@ class ConfusorObjectRule(ObjectRule):
     def choose_definition(self) -> Dict[str, Any]:
         if not self._target_definition:
             raise exceptions.SceneException('cannot create a confusor with no target definition')
-        confusor_definition = util.get_similar_definition(self._target_definition, \
-                copy.deepcopy(objects.get_all_object_defs()))
+        confusor_definition = util.get_similar_definition(self._target_definition, objects.get('ALL'))
         if not confusor_definition:
             raise exceptions.SceneException(f'cannot find a confusor to create with target={self._target_definition}')
         return confusor_definition
@@ -428,7 +418,7 @@ class InteractionGoal(Goal, ABC):
                         self._bounds_list, self._wall_target_list)
                 if wall:
                     self._wall_list.append(wall)
-                    self._bounds_list.append(wall['shows'][0]['bounding_box'])
+                    self._bounds_list.append(wall['shows'][0]['boundingBox'])
                 else:
                     logging.warning('cannot generate a dynamic wall object')
         return self._wall_list
@@ -574,7 +564,7 @@ class RetrievalGoal(InteractionGoal):
                 'image_name': image_name
             }
         }
-        goal['description'] = f'Find and pick up the {target["info_string"]}.'
+        goal['description'] = f'Find and pick up the {target["goalString"]}.'
         return goal
 
     def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
@@ -680,8 +670,8 @@ class TransferralGoal(InteractionGoal):
             },
             'relationship': ['target_1', relationship.value, 'target_2']
         }
-        goal['description'] = f'Find and pick up the {target1["info_string"]} and move it {relationship.value} ' \
-            f'the {target2["info_string"]}.'
+        goal['description'] = f'Find and pick up the {target1["goalString"]} and move it {relationship.value} ' \
+            f'the {target2["goalString"]}.'
         return goal
 
     def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
@@ -735,7 +725,7 @@ class TransferralGoal(InteractionGoal):
             goal = (goal_objects[1]['shows'][0]['position']['x'], goal_objects[1]['shows'][0]['position']['z'])
 
         hole_rects = []
-        hole_rects.extend(object['shows'][0]['bounding_box'] for object
+        hole_rects.extend(object['shows'][0]['boundingBox'] for object
                           in all_objects if (object['id'] not in ignore_object_ids and 'locationParent' not in object))
 
         logging.debug(f'TransferralGoal.f_o_p: target = {target}\tgoal = {goal}\tholes = {hole_rects}')
@@ -745,7 +735,7 @@ class TransferralGoal(InteractionGoal):
         logging.debug(f'TransferralGoal.f_o_p: got path = {path}')
         for object in all_objects:
             if object['id'] == goal_objects[1]['id']:
-                goal_boundary = object['shows'][0]['bounding_box']
+                goal_boundary = object['shows'][0]['boundingBox']
                 break
         current_heading = heading
         for indx in range(len(path)-1):
@@ -810,7 +800,7 @@ class TraversalGoal(InteractionGoal):
                 'image_name': image_name
             }
         }
-        goal['description'] = f'Find the {target["info_string"]} and move near it.'
+        goal['description'] = f'Find the {target["goalString"]} and move near it.'
         return goal
 
     def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \

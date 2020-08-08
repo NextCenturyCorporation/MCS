@@ -449,7 +449,7 @@ class InteractionPair():
         """Create and return a receptacle that encloses the target and confusor together. If impossible return None."""
 
         # Find an enclosable receptacle that can hold both the target and the confusor together.
-        receptacle_definition_list = objects.get_enclosed_containers().copy()
+        receptacle_definition_list = containers.retrieve_enclosable_object_definition_list().copy()
         random.shuffle(receptacle_definition_list)
         for receptacle_definition in receptacle_definition_list:
             valid_containment = containers.can_contain_both(receptacle_definition, target_instance, confusor_instance)
@@ -466,7 +466,7 @@ class InteractionPair():
         """Create and return a receptacle that encloses the target or confusor alone. If impossible return None."""
 
         # Find an enclosable receptacle that can hold either the target or the confusor individually.
-        receptacle_definition_list = objects.get_enclosed_containers().copy()
+        receptacle_definition_list = containers.retrieve_enclosable_object_definition_list().copy()
         random.shuffle(receptacle_definition_list)
         valid_containment_list = containers.get_enclosable_containments((target_instance, confusor_instance), \
                 receptacle_definition_list)
@@ -543,7 +543,7 @@ class InteractionPair():
         if show_obstructor:
             obstructor_instance = copy.deepcopy(obstructor_template)
             util.move_to_location(obstructor_definition, obstructor_instance, obstructor_location)
-            bounds_list.append(obstructor_instance['shows'][0]['bounding_box'])
+            bounds_list.append(obstructor_instance['shows'][0]['boundingBox'])
             return obstructor_instance
 
         return None
@@ -566,41 +566,41 @@ class InteractionPair():
         # If needed, position both the target and confusor together inside a receptacle.
         if containerize_target and containerize_confusor and show_confusor and is_confusor_close:
             target_receptacle_instance = copy.deepcopy(receptacle_template)
-            # Update the Y position of the location to use the position_y from the receptacle definition.
-            target_location['position']['y'] = receptacle_definition.get('position_y', 0)
+            # Update the Y position of the location to use the positionY from the receptacle definition.
+            target_location['position']['y'] = receptacle_definition.get('positionY', 0)
             util.move_to_location(receptacle_definition, target_receptacle_instance, target_location)
             containers.put_objects_in_container(target_definition, target_instance, confusor_definition, \
                     confusor_instance, target_receptacle_instance, receptacle_definition, area_index, orientation, \
                     target_rotation, confusor_rotation)
-            bounds_list.append(target_receptacle_instance['shows'][0]['bounding_box'])
+            bounds_list.append(target_receptacle_instance['shows'][0]['boundingBox'])
 
         else:
             if containerize_target:
                 # Use the target location for its receptacle, then position the target inside its receptacle.
                 target_receptacle_instance = copy.deepcopy(receptacle_template)
-                # Update the Y position of the location to use the position_y from the receptacle definition.
-                target_location['position']['y'] = receptacle_definition.get('position_y', 0)
+                # Update the Y position of the location to use the positionY from the receptacle definition.
+                target_location['position']['y'] = receptacle_definition.get('positionY', 0)
                 util.move_to_location(receptacle_definition, target_receptacle_instance, target_location)
                 containers.put_object_in_container(target_definition, target_instance, target_receptacle_instance, \
                         receptacle_definition, area_index, target_rotation)
-                bounds_list.append(target_receptacle_instance['shows'][0]['bounding_box'])
+                bounds_list.append(target_receptacle_instance['shows'][0]['boundingBox'])
             else:
                 util.move_to_location(target_definition, target_instance, target_location)
-                bounds_list.append(target_instance['shows'][0]['bounding_box'])
+                bounds_list.append(target_instance['shows'][0]['boundingBox'])
             if show_confusor:
                 if containerize_confusor:
                     # Use the confusor location for its receptacle, then position the confusor inside its receptacle.
                     confusor_receptacle_instance = copy.deepcopy(receptacle_template)
-                    # Update the Y position of the location to use the position_y from the receptacle definition.
-                    confusor_location['position']['y'] = receptacle_definition.get('position_y', 0)
+                    # Update the Y position of the location to use the positionY from the receptacle definition.
+                    confusor_location['position']['y'] = receptacle_definition.get('positionY', 0)
                     confusor_receptacle_instance['id'] = confusor_receptacle_id
                     util.move_to_location(receptacle_definition, confusor_receptacle_instance, confusor_location)
                     containers.put_object_in_container(confusor_definition, confusor_instance, \
                             confusor_receptacle_instance, receptacle_definition, area_index, confusor_rotation)
-                    bounds_list.append(confusor_receptacle_instance['shows'][0]['bounding_box'])
+                    bounds_list.append(confusor_receptacle_instance['shows'][0]['boundingBox'])
                 else:
                     util.move_to_location(confusor_definition, confusor_instance, confusor_location)
-                    bounds_list.append(confusor_instance['shows'][0]['bounding_box'])
+                    bounds_list.append(confusor_instance['shows'][0]['boundingBox'])
 
         return target_instance, confusor_instance, target_receptacle_instance, confusor_receptacle_instance
 

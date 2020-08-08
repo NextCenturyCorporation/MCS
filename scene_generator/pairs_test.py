@@ -90,7 +90,7 @@ def verify_obstructor(goal, scene, obstruct_vision = False):
     performer_start = goal.get_performer_start()
     target = goal.get_target_list()[0]
     obstructor = goal.get_obstructor_list()[0]
-    dimensions = obstructor['closed_dimensions'] if 'closed_dimensions' in obstructor else obstructor['dimensions']
+    dimensions = obstructor['closedDimensions'] if 'closedDimensions' in obstructor else obstructor['dimensions']
 
     is_bigger = (target['dimensions']['x'] <= dimensions['x'] or target['dimensions']['z'] <= dimensions['z']) and \
             (not obstruct_vision or target['dimensions']['y'] <= dimensions['y'])

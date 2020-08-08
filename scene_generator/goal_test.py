@@ -16,15 +16,15 @@ def create_tags_test_object_1():
             'z': 0.1
         },
         'info': ['tiny', 'light', 'blue', 'plastic', 'ball'],
-        'info_string': 'tiny light blue plastic ball',
+        'goalString': 'tiny light blue plastic ball',
         'mass': 0.5,
         'materials': ['test_material'],
         'materialCategory': ['plastic'],
         'salientMaterials': ['plastic'],
         'moveable': True,
-        'novel_color': False,
-        'novel_combination': False,
-        'novel_shape': False,
+        'novelColor': False,
+        'novelCombination': False,
+        'novelShape': False,
         'pickupable': True,
         'shows': [{
             'stepBegin': 0,
@@ -47,15 +47,15 @@ def create_tags_test_object_2():
             'z': 0.5
         },
         'info': ['medium', 'light', 'yellow', 'plastic', 'cube'],
-        'info_string': 'medium light yellow plastic cube',
+        'goalString': 'medium light yellow plastic cube',
         'mass': 2.5,
         'materials': ['test_material'],
         'materialCategory': ['plastic'],
         'salientMaterials': ['plastic'],
         'moveable': True,
-        'novel_color': False,
-        'novel_combination': False,
-        'novel_shape': False,
+        'novelColor': False,
+        'novelCombination': False,
+        'novelShape': False,
         'pickupable': True,
         'shows': [{
             'stepBegin': 0,
@@ -79,7 +79,6 @@ def test_generate_wall():
     assert wall['structure'] == 'true'
     assert wall['mass'] == 200
     assert wall['info'] == ['test_color_1', 'test_color_2']
-    assert wall['info_string'] == 'test_color_1 test_color_2'
 
     assert len(wall['shows']) == 1
     assert wall['shows'][0]['stepBegin'] == 0
@@ -92,7 +91,7 @@ def test_generate_wall():
     assert wall['shows'][0]['position']['x'] is not None
     assert wall['shows'][0]['position']['y'] == WALL_Y_POS
     assert wall['shows'][0]['position']['z'] is not None
-    assert wall['shows'][0]['bounding_box'] is not None
+    assert wall['shows'][0]['boundingBox'] is not None
 
     assert not 'hides' in wall
     assert not 'moves' in wall
@@ -101,16 +100,16 @@ def test_generate_wall():
 
     player_rect = geometry.find_performer_rect(geometry.ORIGIN)
     player_poly = geometry.rect_to_poly(player_rect)
-    wall_poly = geometry.rect_to_poly(wall['shows'][0]['bounding_box'])
+    wall_poly = geometry.rect_to_poly(wall['shows'][0]['boundingBox'])
     assert not wall_poly.intersects(player_poly)
-    assert geometry.rect_within_room(wall['shows'][0]['bounding_box'])
+    assert geometry.rect_within_room(wall['shows'][0]['boundingBox'])
 
 
 def test_generate_wall_multiple():
     wall_1 = generate_wall('test_material', [], geometry.ORIGIN, [])
-    wall_2 = generate_wall('test_material', [], geometry.ORIGIN, [wall_1['shows'][0]['bounding_box']])
-    wall_1_poly = geometry.rect_to_poly(wall_1['shows'][0]['bounding_box'])
-    wall_2_poly = geometry.rect_to_poly(wall_2['shows'][0]['bounding_box'])
+    wall_2 = generate_wall('test_material', [], geometry.ORIGIN, [wall_1['shows'][0]['boundingBox']])
+    wall_1_poly = geometry.rect_to_poly(wall_1['shows'][0]['boundingBox'])
+    wall_2_poly = geometry.rect_to_poly(wall_2['shows'][0]['boundingBox'])
     assert not wall_1_poly.intersects(wall_2_poly)
 
 
@@ -118,15 +117,15 @@ def test_generate_wall_with_bounds_list():
     bounds = [{'x': 4, 'y': 0, 'z': 4}, {'x': 4, 'y': 0, 'z': 1}, {'x': 1, 'y': 0, 'z': 1}, {'x': 1, 'y': 0, 'z': 4}]
     wall = generate_wall('test_material', [], geometry.ORIGIN, [bounds])
     poly = geometry.rect_to_poly(bounds)
-    wall_poly = geometry.rect_to_poly(wall['shows'][0]['bounding_box'])
+    wall_poly = geometry.rect_to_poly(wall['shows'][0]['boundingBox'])
     assert not wall_poly.intersects(poly)
 
 
 def test_generate_wall_with_target_list():
     bounds = [{'x': 4, 'y': 0, 'z': 4}, {'x': 4, 'y': 0, 'z': 3}, {'x': 3, 'y': 0, 'z': 3}, {'x': 3, 'y': 0, 'z': 4}]
-    target = {'shows': [{'bounding_box': bounds}]}
+    target = {'shows': [{'boundingBox': bounds}]}
     wall = generate_wall('test_material', [], geometry.ORIGIN, [bounds], [target])
-    wall_poly = geometry.rect_to_poly(wall['shows'][0]['bounding_box'])
+    wall_poly = geometry.rect_to_poly(wall['shows'][0]['boundingBox'])
     assert not geometry.does_fully_obstruct_target(geometry.ORIGIN, target, wall_poly)
 
 
@@ -389,7 +388,7 @@ def test_Goal_tags_target_enclosed():
 def test_Goal_tags_target_novel_color():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
-    target['novel_color'] = True
+    target['novelColor'] = True
     goal = goal_object._get_config({ 'target': [target] })
     assert set(goal['info_list']) == {
         'target tiny',
@@ -409,7 +408,7 @@ def test_Goal_tags_target_novel_color():
 def test_Goal_tags_target_novel_combination():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
-    target['novel_combination'] = True
+    target['novelCombination'] = True
     goal = goal_object._get_config({ 'target': [target] })
     assert set(goal['info_list']) == {
         'target tiny',
@@ -429,7 +428,7 @@ def test_Goal_tags_target_novel_combination():
 def test_Goal_tags_target_novel_shape():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
-    target['novel_shape'] = True
+    target['novelShape'] = True
     goal = goal_object._get_config({ 'target': [target] })
     assert set(goal['info_list']) == {
         'target tiny',
@@ -450,8 +449,8 @@ def test_Goal_tags_target_enclosed_novel_color_novel_shape():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
     target['locationParent'] = 'parent'
-    target['novel_color'] = True
-    target['novel_shape'] = True
+    target['novelColor'] = True
+    target['novelShape'] = True
     goal = goal_object._get_config({ 'target': [target] })
     assert set(goal['info_list']) == {
         'target tiny',
@@ -504,7 +503,7 @@ def test_Goal_tags_distractor_novel_color():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
     distractor = create_tags_test_object_2()
-    distractor['novel_color'] = True
+    distractor['novelColor'] = True
     goal = goal_object._get_config({ 'target': [target], 'distractor': [distractor] })
     assert set(goal['info_list']) == {
         'target tiny',
@@ -536,7 +535,7 @@ def test_Goal_tags_distractor_novel_combination():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
     distractor = create_tags_test_object_2()
-    distractor['novel_combination'] = True
+    distractor['novelCombination'] = True
     goal = goal_object._get_config({ 'target': [target], 'distractor': [distractor] })
     assert set(goal['info_list']) == {
         'target tiny',
@@ -568,7 +567,7 @@ def test_Goal_tags_distractor_novel_shape():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
     distractor = create_tags_test_object_2()
-    distractor['novel_shape'] = True
+    distractor['novelShape'] = True
     goal = goal_object._get_config({ 'target': [target], 'distractor': [distractor] })
     assert set(goal['info_list']) == {
         'target tiny',
@@ -601,8 +600,8 @@ def test_Goal_tags_distractor_enclosed_novel_color_novel_shape():
     target = create_tags_test_object_1()
     distractor = create_tags_test_object_2()
     distractor['locationParent'] = 'parent'
-    distractor['novel_color'] = True
-    distractor['novel_shape'] = True
+    distractor['novelColor'] = True
+    distractor['novelShape'] = True
     goal = goal_object._get_config({ 'target': [target], 'distractor': [distractor] })
     assert set(goal['info_list']) == {
         'target tiny',
@@ -634,12 +633,12 @@ def test_Goal_tags_target_distractor_enclosed_novel_color_novel_shape():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
     target['locationParent'] = 'parent'
-    target['novel_color'] = True
-    target['novel_shape'] = True
+    target['novelColor'] = True
+    target['novelShape'] = True
     distractor = create_tags_test_object_2()
     distractor['locationParent'] = 'parent'
-    distractor['novel_color'] = True
-    distractor['novel_shape'] = True
+    distractor['novelColor'] = True
+    distractor['novelShape'] = True
     goal = goal_object._get_config({ 'target': [target], 'distractor': [distractor] })
     assert set(goal['info_list']) == {
         'target tiny',

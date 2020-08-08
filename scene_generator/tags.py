@@ -86,11 +86,11 @@ def append_object_tags(tags: List[str], tag_to_objects: Dict[str, List[Dict[str,
 def append_object_tags_of_type(tags: List[str], objs: List[Dict[str, Any]], name: str) -> List[str]:
     for obj in objs:
         enclosed_tag = (name + ' not enclosed') if obj.get('locationParent', None) is None else (name + ' enclosed')
-        novel_color_tag = (name + ' novel color') if 'novel_color' in obj and obj['novel_color'] else \
+        novel_color_tag = (name + ' novel color') if 'novelColor' in obj and obj['novelColor'] else \
                 (name + ' not novel color')
-        novel_combination_tag = (name + ' novel combination') if 'novel_combination' in obj and \
-                obj['novel_combination'] else (name + ' not novel combination')
-        novel_shape_tag = (name + ' novel shape') if 'novel_shape' in obj and obj['novel_shape'] else \
+        novel_combination_tag = (name + ' novel combination') if 'novelCombination' in obj and \
+                obj['novelCombination'] else (name + ' not novel combination')
+        novel_shape_tag = (name + ' novel shape') if 'novelShape' in obj and obj['novelShape'] else \
                 (name + ' not novel shape')
         for new_tag in [enclosed_tag, novel_color_tag, novel_combination_tag, novel_shape_tag]:
             if new_tag not in tags:
