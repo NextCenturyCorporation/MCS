@@ -50,6 +50,12 @@ BLOCK_NUMBER_MATERIALS = [
     ("UnityAssetStore/KD_NumberBlocks/Assets/Textures/Yellow/TOYBlocks_NumberBlock_6_Yellow_1K/NumberBlockYellow_6", ["yellow", "brown"])
 ]
 
+CARDBOARD_MATERIALS = [
+    ("AI2-THOR/Materials/Misc/Cardboard_Brown", ["brown"]),
+    ("AI2-THOR/Materials/Misc/Cardboard_Tan", ["brown"]),
+    ("AI2-THOR/Materials/Misc/Cardboard_White", ["grey"])
+]
+
 CERAMIC_MATERIALS = [
     ("AI2-THOR/Materials/Ceramics/BrownMarbleFake 1", ["brown"]),
     ("AI2-THOR/Materials/Ceramics/ConcreteBoards1", ["grey"]),
@@ -126,6 +132,19 @@ WOOD_MATERIALS = [
     ("UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 3", ["green"]),
     ("UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 4", ["yellow"]),
     ("UnityAssetStore/Baby_Room/Models/Materials/wood 1", ["brown"])
+]
+
+SOFA_1_MATERIALS = [
+    ("AI2-THOR/Materials/Fabrics/Sofa1_Brown", ["brown"])
+]
+
+SOFA_CHAIR_1_MATERIALS = [
+    ("AI2-THOR/Materials/Fabrics/SofaChair1_Black", ["black"]),
+    ("AI2-THOR/Materials/Fabrics/SofaChair1_Brown", ["brown"])
+]
+
+SOFA_2_MATERIALS = [
+    ("AI2-THOR/Materials/Fabrics/Sofa2_Grey", ["grey"])
 ]
 
 CEILING_AND_WALL_MATERIALS = CERAMIC_MATERIALS + METAL_MATERIALS + WALL_MATERIALS + WOOD_MATERIALS

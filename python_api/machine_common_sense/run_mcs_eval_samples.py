@@ -6,6 +6,7 @@ if len(sys.argv) < 2:
     print('Usage: python run_mcs_eval_samples.py <mcs_unity_build_file>')
     sys.exit()
 
+
 def run_scene(file_name, action_list):
     config_data, status = MCS.load_config_json_file(file_name)
 
@@ -14,7 +15,7 @@ def run_scene(file_name, action_list):
         return
 
     config_file_path = file_name
-    config_file_name = config_file_path[config_file_path.rfind('/')+1:]
+    config_file_name = config_file_path[config_file_path.rfind('/') + 1:]
 
     if 'name' not in config_data.keys():
         config_data['name'] = config_file_name[0:config_file_name.find('.')]
@@ -24,7 +25,8 @@ def run_scene(file_name, action_list):
     output = controller.step('Pass')
 
     for action in action_list:
-        output = controller.step(action)
+        output = controller.step(action)  # noqa: F841
+
 
 if __name__ == "__main__":
     controller = MCS.create_controller(sys.argv[1], debug=True)
@@ -123,4 +125,3 @@ if __name__ == "__main__":
         'RotateLook,horizon=30',
         'PickupObject,objectId=bowl_1'
     ])
-

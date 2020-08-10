@@ -11,20 +11,25 @@ def find_object(id, obj_list):
 def test_clean_object():
     obj = {
         'id': 'thing1',
-        'dimensions': {
-            'x': 13,
-            'z': 42
-        },
         'info': ['a', 'b', 'c', 'd'],
-        'info_string': 'abcd',
-        'intphys_option': 'stuff',
-        'novel_color': True,
-        'novel_combination': False,
-        'novel_shape': True,
+        'goalString': 'abcd',
+        'materialCategory': ['wood'],
+        'dimensions': { 'x': 13, 'z': 42 },
+        'offset': { 'x': 13, 'z': 42 },
+        'closedDimensions': { 'x': 13, 'z': 42 },
+        'closedOffset': { 'x': 13, 'z': 42 },
+        'enclosedAreas': [{}],
+        'openAreas': [{}],
+        'intphysOption': 'stuff',
+        'novelColor': True,
+        'novelCombination': False,
+        'novelShape': True,
+        'color': ['black', 'white'],
         'shape': 'shape',
+        'size': 'medium',
         'shows': [{
             'stepBegin': 0,
-            'bounding_box': 'dummy'
+            'boundingBox': 'dummy'
         }]
     }
     expected = {
@@ -35,3 +40,4 @@ def test_clean_object():
     }
     clean_object(obj)
     assert obj == expected
+
