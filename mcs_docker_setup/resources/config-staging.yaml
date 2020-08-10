@@ -2000,6 +2000,12 @@ datastores:
                 - columnName: scene.num_obstructors
                   prettyName: Scene Obstructors
                   type: decimal
+                - columnName: steps.action
+                  prettyName: Step Action
+                  type: keyword
+                - columnName: steps.args.amount
+                  prettyName: Step Action Amount
+                  type: decimal
                 - columnName: url_string
                   prettyName: URL String
                   type: keyword
