@@ -6,13 +6,17 @@ from PIL import Image
 import image_generator
 from materials import *
 
+
 def mock_get_global_material_list(material):
     return [(material + '_1', 'white'), (material + '_2', 'black')]
 
+
 class Test_Image_Generator(unittest.TestCase):
 
-    @mock.patch('image_generator.get_global_material_list', side_effect=mock_get_global_material_list)
-    def test_generate_materials_lists_single_list_single_material(self, mock_function):
+    @mock.patch('image_generator.get_global_material_list',
+                side_effect=mock_get_global_material_list)
+    def test_generate_materials_lists_single_list_single_material(
+            self, mock_function):
         materials_options = [
             ['plastic']
         ]
@@ -20,8 +24,10 @@ class Test_Image_Generator(unittest.TestCase):
         expected = [['plastic_1'], ['plastic_2']]
         self.assertEqual(actual, expected)
 
-    @mock.patch('image_generator.get_global_material_list', side_effect=mock_get_global_material_list)
-    def test_generate_materials_lists_single_list_multiple_material(self, mock_function):
+    @mock.patch('image_generator.get_global_material_list',
+                side_effect=mock_get_global_material_list)
+    def test_generate_materials_lists_single_list_multiple_material(
+            self, mock_function):
         materials_options = [
             ['plastic', 'metal']
         ]
@@ -34,8 +40,10 @@ class Test_Image_Generator(unittest.TestCase):
         ]
         self.assertEqual(actual, expected)
 
-    @mock.patch('image_generator.get_global_material_list', side_effect=mock_get_global_material_list)
-    def test_generate_materials_lists_multiple_list_single_material(self, mock_function):
+    @mock.patch('image_generator.get_global_material_list',
+                side_effect=mock_get_global_material_list)
+    def test_generate_materials_lists_multiple_list_single_material(
+            self, mock_function):
         materials_options = [
             ['metal'],
             ['plastic']
@@ -49,8 +57,10 @@ class Test_Image_Generator(unittest.TestCase):
         ]
         self.assertEqual(actual, expected)
 
-    @mock.patch('image_generator.get_global_material_list', side_effect=mock_get_global_material_list)
-    def test_generate_materials_lists_multiple_list_multiple_material(self, mock_function):
+    @mock.patch('image_generator.get_global_material_list',
+                side_effect=mock_get_global_material_list)
+    def test_generate_materials_lists_multiple_list_multiple_material(
+            self, mock_function):
         materials_options = [
             ['plastic', 'metal'],
             ['wood', 'wood']
@@ -69,10 +79,19 @@ class Test_Image_Generator(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_generate_output_file_name(self):
-        self.assertEqual(image_generator.generate_output_file_name('test_type', []), 'test_type')
-        self.assertEqual(image_generator.generate_output_file_name('test_type', ['a']), 'test_type_a')
-        self.assertEqual(image_generator.generate_output_file_name('test_type', ['a', 'b']), 'test_type_a_b')
-        self.assertEqual(image_generator.generate_output_file_name('test_type', ['A']), 'test_type_a')
+        self.assertEqual(
+            image_generator.generate_output_file_name(
+                'test_type', []), 'test_type')
+        self.assertEqual(
+            image_generator.generate_output_file_name(
+                'test_type', ['a']), 'test_type_a')
+        self.assertEqual(
+            image_generator.generate_output_file_name(
+                'test_type', [
+                    'a', 'b']), 'test_type_a_b')
+        self.assertEqual(
+            image_generator.generate_output_file_name(
+                'test_type', ['A']), 'test_type_a')
 
     def test_generate_scene_configuration(self):
         object_definition = {
@@ -88,7 +107,8 @@ class Test_Image_Generator(unittest.TestCase):
                 'z': 1
             }
         }
-        actual = image_generator.generate_scene_configuration(object_definition, None)
+        actual = image_generator.generate_scene_configuration(
+            object_definition, None)
         expected = {
             'screenshot': True,
             'objects': [{
@@ -126,7 +146,8 @@ class Test_Image_Generator(unittest.TestCase):
                 'z': 1
             }
         }
-        actual = image_generator.generate_scene_configuration(object_definition, ['test_material'])
+        actual = image_generator.generate_scene_configuration(
+            object_definition, ['test_material'])
         expected = {
             'screenshot': True,
             'objects': [{
@@ -151,7 +172,8 @@ class Test_Image_Generator(unittest.TestCase):
         }
         self.assertEqual(actual, expected)
 
-    @mock.patch('image_generator.get_global_material_list', side_effect=mock_get_global_material_list)
+    @mock.patch('image_generator.get_global_material_list',
+                side_effect=mock_get_global_material_list)
     def test_generate_scene_configuration_list(self, mock_function):
         self.maxDiff = None
         object_list = [{
@@ -292,13 +314,16 @@ class Test_Image_Generator(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_get_global_material_list(self):
-        self.assertEqual(METAL_MATERIALS, image_generator.get_global_material_list('metal'))
-        self.assertEqual(PLASTIC_MATERIALS, image_generator.get_global_material_list('plastic'))
+        self.assertEqual(
+            METAL_MATERIALS,
+            image_generator.get_global_material_list('metal'))
+        self.assertEqual(
+            PLASTIC_MATERIALS,
+            image_generator.get_global_material_list('plastic'))
 
     def test_retrieve_image_pixel_list(self):
-        object_screenshot = Image.fromarray(numpy.array([[(1, 2, 3), (4, 5, 6)], [(7, 8, 9), (10, 11, 12)]], \
-            dtype=numpy.uint8))
+        object_screenshot = Image.fromarray(numpy.array(
+            [[(1, 2, 3), (4, 5, 6)], [(7, 8, 9), (10, 11, 12)]], dtype=numpy.uint8))
         actual = image_generator.retrieve_image_pixel_list(object_screenshot)
         expected = [[(1, 2, 3), (4, 5, 6)], [(7, 8, 9), (10, 11, 12)]]
         self.assertEqual(actual, expected)
-

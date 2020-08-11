@@ -234,7 +234,8 @@ _BLOCK_BLANK_CYLINDER = {
 
 
 _BLOCK_LETTER = {
-    # Readers, please ignore the "blue letter c" in the type: the object's chosen material will change this design.
+    # Readers, please ignore the "blue letter c" in the type: the object's
+    # chosen material will change this design.
     "type": "block_blue_letter_c",
     "obstruct": "vision",
     "shape": ["letter block", "cube"],
@@ -263,7 +264,8 @@ _BLOCK_LETTER = {
 
 
 _BLOCK_NUMBER = {
-    # Readers, please ignore the "yellow number 1" in the type: the object's chosen material will change this design.
+    # Readers, please ignore the "yellow number 1" in the type: the object's
+    # chosen material will change this design.
     "type": "block_yellow_number_1",
     "obstruct": "vision",
     "shape": ["number block", "cube"],
@@ -1917,19 +1919,19 @@ _CHANGING_TABLE = {
     "salientMaterials": ["wood"],
     "attributes": ["receptacle", "openable"],
     "enclosedAreas": [{
-# Remove the top drawer for now.
-#        "id": "_drawer_top",
-#        "position": {
-#            "x": 0.165,
-#            "y": 0.47,
-#            "z": -0.03
-#        },
-#        "dimensions": {
-#            "x": 0.68,
-#            "y": 0.22,
-#            "z": 0.41
-#            }
-#    }, {
+        # Remove the top drawer for now.
+        #        "id": "_drawer_top",
+        #        "position": {
+        #            "x": 0.165,
+        #            "y": 0.47,
+        #            "z": -0.03
+        #        },
+        #        "dimensions": {
+        #            "x": 0.68,
+        #            "y": 0.22,
+        #            "z": 0.41
+        #            }
+        #    }, {
         "id": "_drawer_bottom",
         "position": {
             "x": 0.165,
@@ -1943,43 +1945,43 @@ _CHANGING_TABLE = {
         }
     }],
     "openAreas": [{
-# Remove the top shelves for now.
-#        "id": "",
-#        "position": {
-#            "x": 0,
-#            "y": 0.85,
-#            "z": 0
-#        },
-#        "dimensions": {
-#            "x": 1,
-#            "y": 0,
-#            "z": 0.55
-#            }
-#    }, {
-#        "id": "_shelf_top",
-#        "position": {
-#            "x": -0.01,
-#            "y": 0.725,
-#            "z": -0.05
-#        },
-#        "dimensions": {
-#            "x": 1.05,
-#            "y": 0.2,
-#            "z": 0.44
-#            }
-#    }, {
-#        "id": "_shelf_middle",
-#        "position": {
-#            "x": -0.375,
-#            "y": 0.475,
-#            "z": -0.05
-#        },
-#        "dimensions": {
-#            "x": 0.32,
-#            "y": 0.25,
-#            "z": 0.44
-#            }
-#    }, {
+        # Remove the top shelves for now.
+        #        "id": "",
+        #        "position": {
+        #            "x": 0,
+        #            "y": 0.85,
+        #            "z": 0
+        #        },
+        #        "dimensions": {
+        #            "x": 1,
+        #            "y": 0,
+        #            "z": 0.55
+        #            }
+        #    }, {
+        #        "id": "_shelf_top",
+        #        "position": {
+        #            "x": -0.01,
+        #            "y": 0.725,
+        #            "z": -0.05
+        #        },
+        #        "dimensions": {
+        #            "x": 1.05,
+        #            "y": 0.2,
+        #            "z": 0.44
+        #            }
+        #    }, {
+        #        "id": "_shelf_middle",
+        #        "position": {
+        #            "x": -0.375,
+        #            "y": 0.475,
+        #            "z": -0.05
+        #        },
+        #        "dimensions": {
+        #            "x": 0.32,
+        #            "y": 0.25,
+        #            "z": 0.44
+        #            }
+        #    }, {
         "id": "_shelf_bottom",
         "position": {
             "x": -0.375,
@@ -2063,20 +2065,20 @@ _TABLE_LONG = {
     }],
     "chooseSize": [{
         "size": "huge",
-# Remove for now because it's too high up.
-#        "openAreas": [{
-#            "id": "",
-#            "position": {
-#                "x": 0.065 * 1.175,
-#                "y": 0.88,
-#                "z": -0.07
-#            },
-#            "dimensions": {
-#                "x": 0.68 * 1.175,
-#                "y": 0,
-#                "z": 1.62
-#            }
-#        }],
+        # Remove for now because it's too high up.
+        #        "openAreas": [{
+        #            "id": "",
+        #            "position": {
+        #                "x": 0.065 * 1.175,
+        #                "y": 0.88,
+        #                "z": -0.07
+        #            },
+        #            "dimensions": {
+        #                "x": 0.68 * 1.175,
+        #                "y": 0,
+        #                "z": 1.62
+        #            }
+        #        }],
         "dimensions": {
             "x": 0.69 * 1.175,
             "y": 0.88,
@@ -2096,20 +2098,20 @@ _TABLE_LONG = {
         }
     }, {
         "size": "large",
-# Remove for now because it's too high up.
-#        "openAreas": [{
-#            "id": "",
-#            "position": {
-#                "x": 0.065 * 2.35,
-#                "y": 0.88,
-#                "z": -0.07
-#            },
-#            "dimensions": {
-#                "x": 0.68 * 2.35,
-#                "y": 0,
-#                "z": 1.62
-#            }
-#        }],
+        # Remove for now because it's too high up.
+        #        "openAreas": [{
+        #            "id": "",
+        #            "position": {
+        #                "x": 0.065 * 2.35,
+        #                "y": 0.88,
+        #                "z": -0.07
+        #            },
+        #            "dimensions": {
+        #                "x": 0.68 * 2.35,
+        #                "y": 0,
+        #                "z": 1.62
+        #            }
+        #        }],
         "dimensions": {
             "x": 0.69 * 2.35,
             "y": 0.88,
@@ -2181,20 +2183,20 @@ _TABLE_TRAY = {
     "chooseSize": [{
         "size": "large",
         "attributes": ["moveable", "receptacle"],
-# Remove for now because it's too high up.
-#        "openAreas": [{
-#            "id": "",
-#            "position": {
-#                "x": 0,
-#                "y": 0.84,
-#                "z": 0
-#            },
-#            "dimensions": {
-#                "x": 0.4,
-#                "y": 0,
-#                "z": 0.4
-#            }
-#        }],
+        # Remove for now because it's too high up.
+        #        "openAreas": [{
+        #            "id": "",
+        #            "position": {
+        #                "x": 0,
+        #                "y": 0.84,
+        #                "z": 0
+        #            },
+        #            "dimensions": {
+        #                "x": 0.4,
+        #                "y": 0,
+        #                "z": 0.4
+        #            }
+        #        }],
         "dimensions": {
             "x": 0.573,
             "y": 1.018,
@@ -2265,20 +2267,20 @@ _TABLE_COFFEE = {
     "chooseSize": [{
         "attributes": ["receptacle"],
         "size": "large",
-# Remove for now because it's too high up.
-#        "openAreas": [{
-#            "id": "",
-#            "position": {
-#                "x": -0.18 * 0.5,
-#                "y": 0.7,
-#                "z": 0
-#            },
-#            "dimensions": {
-#                "x": 1.2 * 0.5,
-#                "y": 0,
-#                "z": 0.9 * 0.667
-#            }
-#        }],
+        # Remove for now because it's too high up.
+        #        "openAreas": [{
+        #            "id": "",
+        #            "position": {
+        #                "x": -0.18 * 0.5,
+        #                "y": 0.7,
+        #                "z": 0
+        #            },
+        #            "dimensions": {
+        #                "x": 1.2 * 0.5,
+        #                "y": 0,
+        #                "z": 0.9 * 0.667
+        #            }
+        #        }],
         "dimensions": {
             "x": 1.2 * 0.5,
             "y": 0.7,
@@ -2299,20 +2301,20 @@ _TABLE_COFFEE = {
     }, {
         "attributes": ["receptacle", "stackTarget"],
         "size": "huge",
-# Remove for now because it's too high up.
-#        "openAreas": [{
-#            "id": "",
-#            "position": {
-#                "x": -0.18,
-#                "y": 0.7,
-#                "z": 0
-#            },
-#            "dimensions": {
-#                "x": 1.2,
-#                "y": 0,
-#                "z": 0.9 * 0.667
-#            }
-#        }],
+        # Remove for now because it's too high up.
+        #        "openAreas": [{
+        #            "id": "",
+        #            "position": {
+        #                "x": -0.18,
+        #                "y": 0.7,
+        #                "z": 0
+        #            },
+        #            "dimensions": {
+        #                "x": 1.2,
+        #                "y": 0,
+        #                "z": 0.9 * 0.667
+        #            }
+        #        }],
         "dimensions": {
             "x": 1.2,
             "y": 0.7,
@@ -2441,19 +2443,19 @@ _SHELF_CUBBY = {
         "size": "medium",
         "attributes": ["receptacle"],
         "openAreas": [{
-# Remove for now because it's too high up.
-#            "id": "",
-#            "position": {
-#                "x": 0,
-#                "y": 0.73 * 1.5,
-#                "z": 0
-#            },
-#            "dimensions": {
-#                "x": 0.92 * 1.5,
-#                "y": 0,
-#                "z": 1.01 * 0.5
-#            }
-#        }, {
+            # Remove for now because it's too high up.
+            #            "id": "",
+            #            "position": {
+            #                "x": 0,
+            #                "y": 0.73 * 1.5,
+            #                "z": 0
+            #            },
+            #            "dimensions": {
+            #                "x": 0.92 * 1.5,
+            #                "y": 0,
+            #                "z": 1.01 * 0.5
+            #            }
+            #        }, {
             "id": "_middle_shelf",
             "position": {
                 "x": 0,
@@ -2499,31 +2501,31 @@ _SHELF_CUBBY = {
         "size": "huge",
         "attributes": ["receptacle"],
         "openAreas": [{
-# Remove for now because it's too high up.
-#            "id": "",
-#            "position": {
-#                "x": 0,
-#                "y": 0.73 * 3,
-#                "z": 0
-#            },
-#            "dimensions": {
-#                "x": 0.92 * 3,
-#                "y": 0,
-#                "z": 1.01 * 0.5
-#            }
-#        }, {
-#            "id": "_middle_shelf",
-#            "position": {
-#                "x": 0,
-#                "y": 0.52 * 3,
-#                "z": 0
-#            },
-#            "dimensions": {
-#                "x": 0.65 * 3,
-#                "y": 0.22 * 3,
-#                "z": 0.87 * 0.5
-#            }
-#        }, {
+            # Remove for now because it's too high up.
+            #            "id": "",
+            #            "position": {
+            #                "x": 0,
+            #                "y": 0.73 * 3,
+            #                "z": 0
+            #            },
+            #            "dimensions": {
+            #                "x": 0.92 * 3,
+            #                "y": 0,
+            #                "z": 1.01 * 0.5
+            #            }
+            #        }, {
+            #            "id": "_middle_shelf",
+            #            "position": {
+            #                "x": 0,
+            #                "y": 0.52 * 3,
+            #                "z": 0
+            #            },
+            #            "dimensions": {
+            #                "x": 0.65 * 3,
+            #                "y": 0.22 * 3,
+            #                "z": 0.87 * 0.5
+            #            }
+            #        }, {
             "id": "_lower_shelf",
             "position": {
                 "x": 0,
@@ -2654,19 +2656,19 @@ _SHELF_TABLE = {
         "size": "medium",
         "attributes": ["receptacle"],
         "openAreas": [{
-# Remove for now because it's too high up.
-#            "id": "",
-#            "position": {
-#                "x": 0,
-#                "y": 0.78,
-#                "z": 0
-#            },
-#            "dimensions": {
-#                "x": 0.77,
-#                "y": 0,
-#                "z": 0.39
-#            }
-#        }, {
+            # Remove for now because it's too high up.
+            #            "id": "",
+            #            "position": {
+            #                "x": 0,
+            #                "y": 0.78,
+            #                "z": 0
+            #            },
+            #            "dimensions": {
+            #                "x": 0.77,
+            #                "y": 0,
+            #                "z": 0.39
+            #            }
+            #        }, {
             "id": "_top_right_shelf",
             "position": {
                 "x": 0.175,
@@ -2737,43 +2739,43 @@ _SHELF_TABLE = {
         "size": "huge",
         "attributes": ["receptacle"],
         "openAreas": [{
-# Remove for now because it's too high up.
-#            "id": "",
-#            "position": {
-#                "x": 0,
-#                "y": 0.78 * 2,
-#                "z": 0
-#            },
-#            "dimensions": {
-#                "x": 0.77 * 2,
-#                "y": 0,
-#                "z": 0.39 * 2
-#            }
-#        }, {
-#            "id": "_top_right_shelf",
-#            "position": {
-#                "x": 0.175 * 2,
-#                "y": 0.56 * 2,
-#                "z": 0
-#            },
-#            "dimensions": {
-#                "x": 0.33 * 2,
-#                "y": 0.33 * 2,
-#                "z": 0.38 * 2
-#            }
-#        }, {
-#            "id": "_top_left_shelf",
-#            "position": {
-#                "x": -0.175 * 2,
-#                "y": 0.56 * 2,
-#                "z": 0
-#            },
-#            "dimensions": {
-#                "x": 0.33 * 2,
-#                "y": 0.33 * 2,
-#                "z": 0.38 * 2
-#            }
-#        }, {
+            # Remove for now because it's too high up.
+            #            "id": "",
+            #            "position": {
+            #                "x": 0,
+            #                "y": 0.78 * 2,
+            #                "z": 0
+            #            },
+            #            "dimensions": {
+            #                "x": 0.77 * 2,
+            #                "y": 0,
+            #                "z": 0.39 * 2
+            #            }
+            #        }, {
+            #            "id": "_top_right_shelf",
+            #            "position": {
+            #                "x": 0.175 * 2,
+            #                "y": 0.56 * 2,
+            #                "z": 0
+            #            },
+            #            "dimensions": {
+            #                "x": 0.33 * 2,
+            #                "y": 0.33 * 2,
+            #                "z": 0.38 * 2
+            #            }
+            #        }, {
+            #            "id": "_top_left_shelf",
+            #            "position": {
+            #                "x": -0.175 * 2,
+            #                "y": 0.56 * 2,
+            #                "z": 0
+            #            },
+            #            "dimensions": {
+            #                "x": 0.33 * 2,
+            #                "y": 0.33 * 2,
+            #                "z": 0.38 * 2
+            #            }
+            #        }, {
             "id": "_bottom_right_shelf",
             "position": {
                 "x": 0.175 * 2,
@@ -2998,67 +3000,67 @@ _WARDROBE = {
     "attributes": ["receptacle", "openable"],
     "novelShape": True,
     "enclosedAreas": [{
-# Remove the top drawers and shelves for now.
-#        "id": "_middle_shelf_right",
-#        "position": {
-#            "x": 0.255,
-#            "y": 1.165,
-#            "z": -0.085
-#        },
-#        "dimensions": {
-#            "x": 0.49,
-#            "y": 1.24,
-#            "z": 0.46
-#        }
-#    }, {
-#        "id": "_middle_shelf_left",
-#        "position": {
-#            "x": -0.255,
-#            "y": 1.295,
-#            "z": -0.085
-#        },
-#        "dimensions": {
-#            "x": 0.49,
-#            "y": 0.98,
-#            "z": 0.46
-#        }
-#    }, {
-#        "id": "_bottom_shelf_left",
-#        "position": {
-#            "x": -0.255,
-#            "y": 0.665,
-#            "z": -0.085
-#        },
-#        "dimensions": {
-#            "x": 0.49,
-#            "y": 0.24,
-#            "z": 0.46
-#        }
-#    }, {
-#        "id": "_lower_drawer_top_left",
-#        "position": {
-#            "x": -0.265,
-#            "y": 0.42,
-#            "z": -0.075
-#        },
-#        "dimensions": {
-#            "x": 0.445,
-#            "y": 0.16
-#            "z": 0.425
-#        }
-#    }, {
-#        "id": "_lower_drawer_top_right",
-#        "position": {
-#            "x": 0.265,
-#            "y": 0.42,
-#            "z": -0.075
-#        },
-#        "dimensions": {
-#            "x": 0.445,
-#            "y": 0.16
-#            "z": 0.425
-#        }
-#    }, {
+        # Remove the top drawers and shelves for now.
+        #        "id": "_middle_shelf_right",
+        #        "position": {
+        #            "x": 0.255,
+        #            "y": 1.165,
+        #            "z": -0.085
+        #        },
+        #        "dimensions": {
+        #            "x": 0.49,
+        #            "y": 1.24,
+        #            "z": 0.46
+        #        }
+        #    }, {
+        #        "id": "_middle_shelf_left",
+        #        "position": {
+        #            "x": -0.255,
+        #            "y": 1.295,
+        #            "z": -0.085
+        #        },
+        #        "dimensions": {
+        #            "x": 0.49,
+        #            "y": 0.98,
+        #            "z": 0.46
+        #        }
+        #    }, {
+        #        "id": "_bottom_shelf_left",
+        #        "position": {
+        #            "x": -0.255,
+        #            "y": 0.665,
+        #            "z": -0.085
+        #        },
+        #        "dimensions": {
+        #            "x": 0.49,
+        #            "y": 0.24,
+        #            "z": 0.46
+        #        }
+        #    }, {
+        #        "id": "_lower_drawer_top_left",
+        #        "position": {
+        #            "x": -0.265,
+        #            "y": 0.42,
+        #            "z": -0.075
+        #        },
+        #        "dimensions": {
+        #            "x": 0.445,
+        #            "y": 0.16
+        #            "z": 0.425
+        #        }
+        #    }, {
+        #        "id": "_lower_drawer_top_right",
+        #        "position": {
+        #            "x": 0.265,
+        #            "y": 0.42,
+        #            "z": -0.075
+        #        },
+        #        "dimensions": {
+        #            "x": 0.445,
+        #            "y": 0.16
+        #            "z": 0.425
+        #        }
+        #    }, {
         "id": "_lower_drawer_bottom_left",
         "position": {
             "x": -0.265,
@@ -4744,7 +4746,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
     },
     "scale": {
         "x": 0.75,
-        "y": 0.375, # Must be half
+        "y": 0.375,  # Must be half
         "z": 0.75
     },
     "intphysOptions": [{
@@ -4949,7 +4951,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
     },
     "scale": {
         "x": 0.5,
-        "y": 0.25, # Must be half
+        "y": 0.25,  # Must be half
         "z": 0.5
     },
     "intphysOptions": [{
@@ -5152,7 +5154,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
     },
     "scale": {
         "x": 0.25,
-        "y": 0.125, # Must be half
+        "y": 0.125,  # Must be half
         "z": 0.25
     },
     "intphysOptions": [{
@@ -5327,7 +5329,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
 
 _INTPHYS_NOVEL = [{
     "type": "duck_on_wheels",
-    "novelShape": True, # This is a novel shape for IntPhys scenes
+    "novelShape": True,  # This is a novel shape for IntPhys scenes
     "attributes": ["moveable", "pickupable"],
     "shape": ["duck"],
     "size": "tiny",
@@ -5357,7 +5359,7 @@ _INTPHYS_NOVEL = [{
     }
 }, {
     "type": "duck_on_wheels",
-    "novelShape": True, # This is a novel shape for IntPhys scenes
+    "novelShape": True,  # This is a novel shape for IntPhys scenes
     "attributes": ["moveable", "pickupable"],
     "shape": ["duck"],
     "size": "small",
@@ -5387,7 +5389,7 @@ _INTPHYS_NOVEL = [{
     }
 }, {
     "type": "duck_on_wheels",
-    "novelShape": True, # This is a novel shape for IntPhys scenes
+    "novelShape": True,  # This is a novel shape for IntPhys scenes
     "attributes": ["moveable", "pickupable"],
     "shape": ["duck"],
     "size": "medium",
@@ -5417,7 +5419,7 @@ _INTPHYS_NOVEL = [{
     }
 }, {
     "type": "racecar_red",
-    "novelShape": True, # This is a novel shape for IntPhys scenes
+    "novelShape": True,  # This is a novel shape for IntPhys scenes
     "attributes": ["moveable", "pickupable"],
     "shape": ["car"],
     "size": "tiny",
@@ -5430,7 +5432,8 @@ _INTPHYS_NOVEL = [{
         "salientMaterials": ["wood"]
     }],
     "dimensions": {
-        # The X and Z dimensions here are switched due to the Y rotation that's configured below.
+        # The X and Z dimensions here are switched due to the Y rotation that's
+        # configured below.
         "x": 0.15 * 2,
         "y": 0.06 * 2,
         "z": 0.07 * 2
@@ -5453,7 +5456,7 @@ _INTPHYS_NOVEL = [{
     }
 }, {
     "type": "racecar_red",
-    "novelShape": True, # This is a novel shape for IntPhys scenes
+    "novelShape": True,  # This is a novel shape for IntPhys scenes
     "attributes": ["moveable", "pickupable"],
     "shape": ["car"],
     "size": "small",
@@ -5466,7 +5469,8 @@ _INTPHYS_NOVEL = [{
         "salientMaterials": ["wood"]
     }],
     "dimensions": {
-        # The X and Z dimensions here are switched due to the Y rotation that's configured below.
+        # The X and Z dimensions here are switched due to the Y rotation that's
+        # configured below.
         "x": 0.15 * 3.5,
         "y": 0.06 * 3.5,
         "z": 0.07 * 3.5
@@ -5489,7 +5493,7 @@ _INTPHYS_NOVEL = [{
     }
 }, {
     "type": "racecar_red",
-    "novelShape": True, # This is a novel shape for IntPhys scenes
+    "novelShape": True,  # This is a novel shape for IntPhys scenes
     "attributes": ["moveable", "pickupable"],
     "shape": ["car"],
     "size": "medium",
@@ -5502,7 +5506,8 @@ _INTPHYS_NOVEL = [{
         "salientMaterials": ["wood"]
     }],
     "dimensions": {
-        # The X and Z dimensions here are switched due to the Y rotation that's configured below.
+        # The X and Z dimensions here are switched due to the Y rotation that's
+        # configured below.
         "x": 0.15 * 5,
         "y": 0.06 * 5,
         "z": 0.07 * 5
@@ -5526,9 +5531,16 @@ _INTPHYS_NOVEL = [{
 }]
 
 
-def create_occluder(wall_material: Tuple[str, List[str]], pole_material: Tuple[str, List[str]],
-                    x_position: float, x_scale: float, sideways: bool = False) \
-        -> Tuple[Dict[str, Any], Dict[str, Any]]:
+def create_occluder(wall_material: Tuple[str,
+                                         List[str]],
+                    pole_material: Tuple[str,
+                                         List[str]],
+                    x_position: float,
+                    x_scale: float,
+                    sideways: bool = False) -> Tuple[Dict[str,
+                                                          Any],
+                                                     Dict[str,
+                                                          Any]]:
     """Create an occluder pair of objects: (wall, pole)."""
     if sideways:
         occluder = copy.deepcopy(_OCCLUDER_INSTANCE_SIDEWAYS)
@@ -5564,9 +5576,11 @@ def create_occluder(wall_material: Tuple[str, List[str]], pole_material: Tuple[s
 
     if sideways:
         if x_position > 0:
-            occluder[POLE]['shows'][0]['position']['x'] = 3 + x_position + x_scale / 2
+            occluder[POLE]['shows'][0]['position']['x'] = 3 + \
+                x_position + x_scale / 2
         else:
-            occluder[POLE]['shows'][0]['position']['x'] = -3 + x_position - x_scale / 2
+            occluder[POLE]['shows'][0]['position']['x'] = - \
+                3 + x_position - x_scale / 2
     elif x_position > 0:
         for rot in occluder[WALL]['rotates']:
             rot['vector']['y'] *= -1
@@ -5575,7 +5589,11 @@ def create_occluder(wall_material: Tuple[str, List[str]], pole_material: Tuple[s
 
 
 _PICKUPABLE_BALLS = [_BALL]
-_PICKUPABLE_BLOCKS = [_BLOCK_BLANK_CUBE, _BLOCK_BLANK_CYLINDER, _BLOCK_LETTER, _BLOCK_NUMBER]
+_PICKUPABLE_BLOCKS = [
+    _BLOCK_BLANK_CUBE,
+    _BLOCK_BLANK_CYLINDER,
+    _BLOCK_LETTER,
+    _BLOCK_NUMBER]
 _PICKUPABLE_TOYS = [
     _TOY_CAR,
     _TOY_RACECAR,
@@ -5596,7 +5614,8 @@ _PICKUPABLE_MISC = [
 
 # Moveable (push/pull) but not pickupable
 _MOVEABLE = [
-    # TODO Change definitions to CHAIR_SMALL and CHAIR_MEDIUM when their novel targs are no longer needed
+    # TODO Change definitions to CHAIR_SMALL and CHAIR_MEDIUM when their novel
+    # targs are no longer needed
     _CHAIR_BASIC,
     _CHAIR_STOOL,
     _BLOCK_NOT_PICKUPABLE,
@@ -5625,13 +5644,18 @@ _IMMOBILE = [
 ]
 
 
-_PICKUPABLE_LISTS = [_PICKUPABLE_BALLS, _PICKUPABLE_BLOCKS, _PICKUPABLE_TOYS, _PICKUPABLE_MISC]
-_PICKUPABLE = [item for object_list in _PICKUPABLE_LISTS for item in object_list]
+_PICKUPABLE_LISTS = [
+    _PICKUPABLE_BALLS,
+    _PICKUPABLE_BLOCKS,
+    _PICKUPABLE_TOYS,
+    _PICKUPABLE_MISC]
+_PICKUPABLE = [
+    item for object_list in _PICKUPABLE_LISTS for item in object_list]
 _ALL_LISTS = [_PICKUPABLE, _MOVEABLE, _IMMOBILE]
 _ALL = [item for object_list in _ALL_LISTS for item in object_list]
+
 
 def get(prop: str) -> Union[Dict[str, Any], List[Dict[str, Any]]]:
     """Returns a deep copy of the global property with the given name (normally either an object definition or an object
     definition list)."""
     return copy.deepcopy(globals()['_' + prop])
-

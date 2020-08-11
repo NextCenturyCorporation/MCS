@@ -9,11 +9,18 @@ from goal import Goal, EmptyGoal
 from interaction_goals import RetrievalGoal, TransferralGoal, TraversalGoal
 from intphys_goals import GravityGoal, ObjectPermanenceGoal, ShapeConstancyGoal, SpatioTemporalContinuityGoal
 
-# Note: the names of all goal classes in GOAL_TYPES must end in "Goal" or choose_goal will not work
+# Note: the names of all goal classes in GOAL_TYPES must end in "Goal" or
+# choose_goal will not work
 GOAL_TYPES = {
-    'interaction': [RetrievalGoal, TransferralGoal, TraversalGoal],
-    'intphys': [GravityGoal, ObjectPermanenceGoal, ShapeConstancyGoal, SpatioTemporalContinuityGoal]
-}
+    'interaction': [
+        RetrievalGoal,
+        TransferralGoal,
+        TraversalGoal],
+    'intphys': [
+        GravityGoal,
+        ObjectPermanenceGoal,
+        ShapeConstancyGoal,
+        SpatioTemporalContinuityGoal]}
 
 
 def choose_goal(goal_type: Optional[str]) -> Goal:
@@ -38,8 +45,14 @@ def get_goal_by_name(name: str) -> Goal:
 def get_goal_types(generic_type: Optional[str] = None) -> List[str]:
     if generic_type is None:
         generic_types = GOAL_TYPES.keys()
-        specific_types = [klass.__name__.replace('Goal', '') for classes in GOAL_TYPES.values() for klass in classes]
+        specific_types = [
+            klass.__name__.replace(
+                'Goal',
+                '') for classes in GOAL_TYPES.values() for klass in classes]
         return list(generic_types) + specific_types
     else:
-        specific_types = [klass.__name__.replace('Goal', '') for klass in GOAL_TYPES[generic_type]]
+        specific_types = [
+            klass.__name__.replace(
+                'Goal',
+                '') for klass in GOAL_TYPES[generic_type]]
         return [generic_type] + specific_types
