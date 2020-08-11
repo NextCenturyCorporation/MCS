@@ -624,12 +624,10 @@ def test_instantiate_object_novel_shape():
 
 def test_move_to_location():
     instance = {'shows': [{'position': {'x': -1, 'y': 0, 'z': -1}, 'rotation': {'x': 0, 'y': 90, 'z': 0}}]}
-    location = {
-        'position': {'x': 2, 'y': 0, 'z': 2},
-        'rotation': {'x': 0, 'y': 0, 'z': 0},
-        'boundingBox': [{'x': 3, 'z': 3}, {'x': 3, 'z': 1}, {'x': 1, 'z': 1}, {'x': 1, 'z': 3}]
-    }
-    actual = move_to_location({}, instance, location)
+    bounds = [{'x': 3, 'z': 3}, {'x': 3, 'z': 1}, {'x': 1, 'z': 1}, {'x': 1, 'z': 3}]
+    location = {'position': {'x': 2, 'y': 0, 'z': 2}, 'rotation': {'x': 0, 'y': 0, 'z': 0}}
+
+    actual = move_to_location({}, instance, location, bounds, {})
     assert actual == instance
     assert instance['shows'][0]['position'] == {'x': 2, 'y': 0, 'z': 2}
     assert instance['shows'][0]['rotation'] == {'x': 0, 'y': 0, 'z': 0}
@@ -637,9 +635,26 @@ def test_move_to_location():
             {'x': 1, 'z': 3}]
 
     definition = {'offset': {'x': 0.1, 'z': -0.5}}
-    actual = move_to_location(definition, instance, location)
+
+    actual = move_to_location(definition, instance, location, bounds, {})
     assert actual == instance
     assert instance['shows'][0]['position'] == {'x': 1.9, 'y': 0, 'z': 2.5}
+    assert instance['shows'][0]['rotation'] == {'x': 0, 'y': 0, 'z': 0}
+    assert instance['shows'][0]['boundingBox'] == [{'x': 3, 'z': 3}, {'x': 3, 'z': 1}, {'x': 1, 'z': 1}, \
+            {'x': 1, 'z': 3}]
+
+    previous = {'offset': {'x': 0.2, 'z': -0.4}}
+
+    actual = move_to_location({}, instance, location, bounds, previous)
+    assert actual == instance
+    assert instance['shows'][0]['position'] == {'x': 2.2, 'y': 0, 'z': 1.6}
+    assert instance['shows'][0]['rotation'] == {'x': 0, 'y': 0, 'z': 0}
+    assert instance['shows'][0]['boundingBox'] == [{'x': 3, 'z': 3}, {'x': 3, 'z': 1}, {'x': 1, 'z': 1}, \
+            {'x': 1, 'z': 3}]
+
+    actual = move_to_location(definition, instance, location, bounds, previous)
+    assert actual == instance
+    assert instance['shows'][0]['position'] == {'x': 2.1, 'y': 0, 'z': 2.1}
     assert instance['shows'][0]['rotation'] == {'x': 0, 'y': 0, 'z': 0}
     assert instance['shows'][0]['boundingBox'] == [{'x': 3, 'z': 3}, {'x': 3, 'z': 1}, {'x': 1, 'z': 1}, \
             {'x': 1, 'z': 3}]

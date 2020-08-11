@@ -405,7 +405,7 @@ def test_TransferToObjectRule_validate_location():
     definition = rule.choose_definition()
     location, bounds_list = rule.choose_location(definition, performer_start, bounds_list)
     assert rule.validate_location(location, [target], performer_start) == (geometry.position_distance( \
-            target_location['position'], location['position']) >= geometry.MINIMUM_TARGET_SEPARATION)
+            target_location['position'], location['position']) >= geometry.MIN_OBJECTS_SEPARATION_DISTANCE)
 
 
 def test_FarOffObjectRule_validate_location():
@@ -414,7 +414,7 @@ def test_FarOffObjectRule_validate_location():
     definition = rule.choose_definition()
     location, bounds_list = rule.choose_location(definition, performer_start, [])
     assert rule.validate_location(location, [], performer_start) == (geometry.position_distance( \
-            performer_start['position'], location['position']) >= geometry.MINIMUM_START_DIST_FROM_TARGET)
+            performer_start['position'], location['position']) >= geometry.MIN_OBJECTS_SEPARATION_DISTANCE)
 
 
 def test_DistractorObjectRule_choose_definition():
@@ -817,7 +817,7 @@ def test_TraversalGoal_performer_start_not_close_to_target():
     target_position = target['shows'][0]['position']
     performer_start = body['performerStart']['position']
     dist = geometry.position_distance(target_position, performer_start)
-    assert dist >= geometry.MINIMUM_START_DIST_FROM_TARGET
+    assert dist >= geometry.MIN_OBJECTS_SEPARATION_DISTANCE
 
 
 def test_TransferralGoal_targets_not_close_to_each_other():
@@ -833,5 +833,5 @@ def test_TransferralGoal_targets_not_close_to_each_other():
     target2 = next((obj for obj in body['objects'] if obj['id'] == target2_id))
     distance = geometry.position_distance(target1['shows'][0]['position'],
                                           target2['shows'][0]['position'])
-    assert distance >= geometry.MINIMUM_TARGET_SEPARATION
+    assert distance >= geometry.MIN_OBJECTS_SEPARATION_DISTANCE
 

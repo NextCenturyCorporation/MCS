@@ -23,9 +23,9 @@ ROOM_Z_MIN = -4.95
 ROOM_X_MAX = 4.95
 ROOM_Z_MAX = 4.95
 
-MINIMUM_START_DIST_FROM_TARGET = 2
-MINIMUM_TARGET_SEPARATION = 2
-MIN_START_DISTANCE_AWAY = 1
+MAX_OBJECTS_ADJACENT_DISTANCE = 0.5
+MIN_OBJECTS_SEPARATION_DISTANCE = 2
+MIN_FORWARD_VISIBILITY_DISTANCE = 1.25
 MIN_GAP = 0.05
 
 ORIGIN = {
@@ -46,8 +46,6 @@ ORIGIN_LOCATION = {
         'z': 0.0
     }
 }
-
-MAX_ADJACENT_DISTANCE = 0.5
 
 
 def random_position_x() -> float:
@@ -190,12 +188,12 @@ def get_room_box() -> shapely.geometry.Polygon:
 def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
         -> shapely.geometry.LineString:
     """Get a line segment that should be visible to the performer
-    (straight ahead and at least MIN_START_DISTANCE_AWAY but within
+    (straight ahead and at least MIN_FORWARD_VISIBILITY_DISTANCE but within
     the room). Return None if no visible segment is possible.
     """
     max_dimension = max(ROOM_X_MAX - ROOM_X_MIN, ROOM_Z_MAX - ROOM_Z_MIN)
     # make it long enough for the far end to be outside the room
-    view_segment = shapely.geometry.LineString([[0, MIN_START_DISTANCE_AWAY], [0, max_dimension * 2]])
+    view_segment = shapely.geometry.LineString([[0, MIN_FORWARD_VISIBILITY_DISTANCE], [0, max_dimension * 2]])
     view_segment = affinity.rotate(view_segment, -performer_start['rotation']['y'], origin=(0, 0))
     view_segment = affinity.translate(view_segment, performer_start['position']['x'],
                                       performer_start['position']['z'])
@@ -400,11 +398,11 @@ def get_bounding_polygon(object_or_location: Dict[str, Any]) -> shapely.geometry
     return poly
 
 
-def are_adjacent(obj_a: Dict[str, Any], obj_b: Dict[str, Any]) -> bool:
+def are_adjacent(obj_a: Dict[str, Any], obj_b: Dict[str, Any], distance: float = MAX_OBJECTS_ADJACENT_DISTANCE) -> bool:
     poly_a = get_bounding_polygon(obj_a)
     poly_b = get_bounding_polygon(obj_b)
-    distance = poly_a.distance(poly_b)
-    return distance <= MAX_ADJACENT_DISTANCE
+    actual_distance = poly_a.distance(poly_b)
+    return actual_distance <= distance
 
 
 def rect_to_poly(rect: List[Dict[str, Any]]) -> shapely.geometry.Polygon:

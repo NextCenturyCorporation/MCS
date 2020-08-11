@@ -272,7 +272,7 @@ class TransferToObjectRule(ObjectRule):
         distance = geometry.position_distance(target_1_position, object_location['position'])
 
         # Cannot be positioned too close to the existing target object.
-        return distance >= geometry.MINIMUM_TARGET_SEPARATION
+        return distance >= geometry.MIN_OBJECTS_SEPARATION_DISTANCE
 
 
 class FarOffObjectRule(ObjectRule):
@@ -285,23 +285,24 @@ class FarOffObjectRule(ObjectRule):
         distance = geometry.position_distance(performer_start['position'], object_location['position'])
 
         # Cannot be positioned too close to the performer.
-        return distance >= geometry.MINIMUM_START_DIST_FROM_TARGET
+        return distance >= geometry.MIN_OBJECTS_SEPARATION_DISTANCE
 
 
 class DistractorObjectRule(ObjectRule):
-    def __init__(self, target_list: List[Dict[str, Any]], is_position_in_receptacle = False, \
+    def __init__(self, target_confusor_list: List[Dict[str, Any]], is_position_in_receptacle = False, \
             is_position_on_receptacle = False):
         super(DistractorObjectRule, self).__init__(is_position_in_receptacle, is_position_on_receptacle)
-        self._target_list = target_list
+        # Don't use the shape of objects like targets or confusors.
+        self._target_confusor_list = target_confusor_list
 
     def choose_definition(self) -> Dict[str, Any]:
-        target_shape_list = [target['shape'][-1] for target in self._target_list]
+        shape_list = [object['shape'][-1] for object in self._target_confusor_list]
         for _ in range(util.MAX_TRIES):
             distractor_definition = super(DistractorObjectRule, self).choose_definition()
             distractor_shape = distractor_definition['shape'][-1] if isinstance(distractor_definition['shape'], list) \
                     else distractor_definition['shape']
-            # Cannot have the same shape as a target object, so we don't unintentionally generate a confusor.
-            if distractor_shape not in target_shape_list:
+            # Cannot have the same shape as a goal object, so we don't unintentionally generate a confusor.
+            if distractor_shape not in shape_list:
                 break
             distractor_definition = None
         return distractor_definition
@@ -367,8 +368,8 @@ class InteractionGoal(Goal, ABC):
         self._obstructor_list = []
         self._obstructor_rule = ObstructorObjectRule
         self._wall_list = None
-        self._wall_target_list = None
         self._is_distractor_list_done = False
+        self._no_random_obstructor = False
 
     # override
     def compute_objects(self, wall_material_name: str, wall_colors: List[str]) -> Dict[str, List[Dict[str, Any]]]:
@@ -412,10 +413,11 @@ class InteractionGoal(Goal, ABC):
             self._wall_list = []
             number = random.choices(InteractionGoal.WALL_CHOICES, weights=InteractionGoal.WALL_WEIGHTS, k=1)[0]
             logging.debug(f'{self.get_name()} goal generating {number} walls...')
+            dont_obstruct_list = self.__retrieve_target_confusor_list() if self._no_random_obstructor else None
             for _ in range(number + 1):
                 # TODO This should probably be an ObjectRule eventually
                 wall = generate_wall(wall_material_name, wall_colors, self._performer_start['position'], \
-                        self._bounds_list, self._wall_target_list)
+                        self._bounds_list, dont_obstruct_list = dont_obstruct_list)
                 if wall:
                     self._wall_list.append(wall)
                     self._bounds_list.append(wall['shows'][0]['boundingBox'])
@@ -439,10 +441,9 @@ class InteractionGoal(Goal, ABC):
         """Returns the distractors in this goal."""
         return self._distractor_list
 
-    def get_distractor_rule(self, target_list: List[Dict[str, Any]] = None, \
-            is_position_in_receptacle: bool = False) -> ObjectRule:
+    def get_distractor_rule(self, is_position_in_receptacle: bool = False) -> ObjectRule:
         """Returns the rule for any distractors compatible with this goal."""
-        return self._distractor_rule(target_list = (target_list if target_list is not None else self._target_list), \
+        return self._distractor_rule(target_confusor_list = self.__retrieve_target_confusor_list(), \
                 is_position_in_receptacle = is_position_in_receptacle)
 
     def get_obstructor_list(self) -> List[Dict[str, Any]]:
@@ -466,9 +467,9 @@ class InteractionGoal(Goal, ABC):
         """Sets the ObjectRule subclass for creating distractors associated with this goal."""
         self._distractor_rule = subclass
 
-    def set_wall_target_list(self, target_list: List[Dict[str, Any]]) -> None:
-        """Sets the target for the wall generation function. If set, new walls won't obstruct vision to the target."""
-        self._wall_target_list = target_list
+    def set_no_random_obstructor(self) -> None:
+        """If called, the randomly positioned distractors/walls won't obstruct vision to the targets/confusors."""
+        self._no_random_obstructor = True
 
     def __generate_object_list(self, object_list: List[Dict[str, Any]], rule_list: List[ObjectRule], \
             target_list: List[Dict[str, Any]], distractor_list: List[Dict[str, Any]]) -> None:
@@ -516,6 +517,15 @@ class InteractionGoal(Goal, ABC):
         # TODO MCS-146 Position objects on top of receptacles.
         return None
 
+    def __retrieve_target_confusor_list(self) -> List[Dict[str, Any]]:
+        """Return a list of objects containing the target(s), the confusor(s), and their parent object(s), if any."""
+        object_list = self._target_list + self._confusor_list
+        for object_instance in object_list:
+            if 'locationParent' in object_instance:
+                for distractor in self._distractor_list:
+                    if object_instance['locationParent'] == distractor['id']:
+                        object_list.append(distractor)
+        return object_list
 
 class RetrievalGoal(InteractionGoal):
     """Going to a specified object and picking it up."""
