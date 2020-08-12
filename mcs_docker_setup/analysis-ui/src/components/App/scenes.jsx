@@ -10,6 +10,8 @@ const sceneQueryName = "getEvalScene";
 const moviesBucket = "https://evaluation-images.s3.amazonaws.com/eval-2-inphys-videos/"
 const interactiveMoviesBucket = "https://evaluation-images.s3.amazonaws.com/eval-2/"
 const movieExtension = ".mp4"
+const sceneBucket = "https://evaluation-images.s3.amazonaws.com/eval-2-scenes/"
+const sceneExtension = "-debug.json"
 
 let currentState = {};
 let currentStep = 0;
@@ -170,17 +172,24 @@ class Scenes extends React.Component {
     }
 
     checkSceneObjectKey = (scene, objectKey, key, labelPrefix = "") => {
-        if(objectKey !== 'objects' && objectKey !== 'goal') {
+        if(objectKey !== 'objects' && objectKey !== 'goal' && objectKey !== 'name') {
             return (
                 <tr key={'scene_prop_' + key}>
                     <td className="bold-label">{labelPrefix + objectKey}:</td>
                     <td className="scene-text">{this.convertValueToString(scene[objectKey])}</td>
                 </tr>
             );
-        } else if( objectKey === 'goal') {
+        } else if(objectKey === 'goal') {
             return (
                 Object.keys(scene["goal"]).map((goalObjectKey, goalKey) => 
                     this.checkSceneObjectKey(scene["goal"], goalObjectKey, goalKey, "goal."))
+            );
+        } else if(objectKey === 'name') {
+            return (
+                <tr key={'scene_prop_' + key}>
+                    <td className="bold-label">{labelPrefix + objectKey}:</td>
+                    <td className="scene-text">{this.convertValueToString(scene[objectKey])} (<a href={sceneBucket + scene[objectKey] + sceneExtension} download>Download Scene File</a>)</td>
+                </tr>
             );
         }
     }
