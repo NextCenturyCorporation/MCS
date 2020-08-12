@@ -442,8 +442,8 @@ layouts:
       idField: "_id_key"
       limit: 100
       ignoreSelf: false
-      #linkPrefix: "http://ec2-54-157-23-98.compute-1.amazonaws.com:3000/?"
-      linkPrefix: "http://localhost:2000/?"
+      linkPrefix: "http://ec2-54-157-23-98.compute-1.amazonaws.com:3000/?"
+      #linkPrefix: "http://localhost:2000/?"
       linkFields:
       - "url_string"
       showFields:
@@ -509,7 +509,7 @@ layouts:
 
   eval2_history:
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_performer_ibm", "eval2_performer_mess", "eval2_performer_opics"]
       title: "Performers"
       type: "bar-v"
       xField: "performer"
@@ -553,7 +553,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_category"]
       title: "Category"
       type: "bar-v"
       xField: "category"
@@ -597,7 +597,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_test_type"]
       title: "Test Types"
       type: "bar-v"
       xField: "category_type"
@@ -641,7 +641,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_scene_number"]
       title: "Scene Number (Interactive 1=A, 2=B)"
       type: "bar-v"
       xField: "scene_part_num"
@@ -685,7 +685,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_step_count"]
       title: "Number of Steps"
       type: "bar-v"
       xField: "step_counter"
@@ -729,7 +729,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_pair1", "eval2_pair2", "eval2_pair3", "eval2_pair6", "eval2_pair7", "eval2_pair8", "eval2_pair9", "eval2_pair11"]
       title: "Pairs"
       type: "bar-v"
       xField: "category_pair"
@@ -861,7 +861,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_score"]
       title: "Ground Truth vs Adjusted Confidence"
       type: "scatter-xy"
       xField: "score.ground_truth"
@@ -909,7 +909,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_objects"]
       title: "Number of Objects"
       type: "bar-v"
       xField: "scene.num_objects"
@@ -953,7 +953,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_objects"]
       title: "Number of Occluders"
       type: "bar-v"
       xField: "scene.num_occluders"
@@ -1041,7 +1041,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_score"]
       title: "ROC Curve (with Adjusted Confidence)"
       type: "line-xy"
       tableKey: "es1.mcs_history.history"
@@ -1065,7 +1065,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_objects"]
       title: "Number of Context Objects"
       type: "bar-v"
       xField: "scene.num_context_objects"
@@ -1109,7 +1109,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_tags"]
       title: "Object Descriptors by Object"
       type: "bar-h"
       xField: "scene.objects.descriptors"
@@ -1153,7 +1153,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_tags"]
       title: "Scene Type List"
       type: "bar-h"
       xField: "scene.type_list"
@@ -1197,13 +1197,13 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
-      title: "Average MSE Loss"
+      contributionKeys: ["eval2_score"]
+      title: "Average MSE"
       type: "list"
       xField: "performer"
       tableKey: "es1.mcs_history.history"
       dualView: ""
-      axisLabelX: "Loss"
+      axisLabelX: "MSE"
       axisLabelY: "Count"
       groupField: ""
       limit: 10000
@@ -1228,7 +1228,7 @@ layouts:
       showLegend: false
       sortByAggregation: false
       yPercentage: 0.3
-      aggregationField: "score.mse_loss"
+      aggregationField: "score.mse"
       yField: ""
       filter:
         lhs: flags.remove
@@ -1241,7 +1241,7 @@ layouts:
     type: "aggregation"
   
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_tags"]
       title: "Object Info for All Objects in Scene"
       type: "bar-h"
       xField: "scene.objects.info"
@@ -1285,7 +1285,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_objects"]
       title: "Number of Interior walls"
       type: "bar-v"
       xField: "scene.num_interior_walls"
@@ -1325,7 +1325,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_objects"]
       title: "Number Confusors"
       type: "bar-v"
       xField: "scene.num_confusors"
@@ -1365,7 +1365,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_objects"]
       title: "Number of Obstructors"
       type: "bar-v"
       xField: "scene.num_obstructors"
@@ -1405,7 +1405,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_novel"]
       title: "Novel Color"
       type: "bar-v"
       xField: "scene.has_novel_color"
@@ -1449,7 +1449,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_novel"]
       title: "Novel Shape"
       type: "bar-v"
       xField: "scene.has_novel_shape"
@@ -1493,7 +1493,7 @@ layouts:
     type: "aggregation"
 
   - bindings:
-      contributionKeys: []
+      contributionKeys: ["eval2_novel"]
       title: "Novel Combination"
       type: "bar-v"
       xField: "scene.has_novel_combination"
@@ -1665,8 +1665,8 @@ layouts:
       idField: "_id_key"
       limit: 100
       ignoreSelf: false
-      #linkPrefix: "http://ec2-54-157-23-98.compute-1.amazonaws.com:3000/?"
-      linkPrefix: "http://localhost:2000/?"
+      linkPrefix: "http://ec2-54-157-23-98.compute-1.amazonaws.com:2000/?"
+      #linkPrefix: "http://localhost:2000/?"
       linkFields:
       - "url_string"
       showFields:
@@ -1789,7 +1789,85 @@ dashboards:
                             "IBM-MIT-Harvard-Stanford": "#5E508F"
                             "OPICS (OSU, UU, NYU)": "#FF8737"
                             "MESS-UCBerkeley": "#B34F92"
-                    visualizationTitles: {}
+                  contributors:
+                      eval2_performer_ibm:
+                          orgName: IBM-MIT-Harvard-Stanford Metadata Used (Eval 2)
+                          abbreviation: IBM/MIT
+                          description: "Visible object metadata provided in the object list field. This includes object position, uuid, and dimension. Goal Metadata, which includes category, relationship and target object uuid. Visible structure object metadata provided in structural_object_list. This includes object position, uuid, and dimension. Agent position and orientation. Action return status and reward."
+                      eval2_performer_mess:
+                          orgName: MESS (UC Berkeley) Metadata Used (Eval 2)
+                          abbreviation: MESS
+                          description: "1. obs.reward 2. obs.goal. (metadata['category'], metadata['relationship'], metadata['id']) 3. obs.return_status 4. obs.camera_aspect_ratio, obs.camera_field_of_view, obs.position, obs.head_tilt, obs.rotation 5. obs.depth_mask_list, obs.object_mask_list, obs.image_list 6. obs.action_list 7. obs.object_list (uuid, color)."
+                      eval2_performer_opics:
+                          orgName: OPICS (OSU, UU, NYU) Metadata Used (Eval 2)
+                          abbreviation: OPICS
+                          description: "Interaction scenes: Agent: Position, headtilt, rotation. Object: uuid, bonding_box, position. Action return status. Goal metadata: Goal type, target object id, relationships. Intphy scenes: Object: uuid, bonding_box, position depth_frames, object_mask_frames."
+                      eval2_category:
+                          orgName: MCS Categories (Eval 2)
+                          abbreviation: More Info
+                          description: The Interactive Tests have the performer move and interact with objects in order to accomplish a specific Goal, while the Passive (previously Observation) Tests have the performer stand in place and watch an event occur and then make a decision or classification.
+                      eval2_test_type:
+                          orgName: MCS Test Types (Eval 2)
+                          abbreviation: More Info
+                          description: "Interactive Tests: Traversal, Retrieval, Transferral. Passive Tests: Object Permanence, Shape Constancy, Spatio Temporal Continuity"
+                          website: https://github.com/NextCenturyCorporation/MCS/blob/master/python_api/API.md#goal-metadata
+                      eval2_scene_number:
+                          orgName: MCS Scene Numbers (Eval 2)
+                          abbreviation: More Info
+                          description: Passive Tests are generated as quartets of 4 related Scenes. Interactive Tests are generated as pairs of 2 related Scenes.
+                      eval2_step_count:
+                          orgName: MCS Steps (Eval 2)
+                          abbreviation: More Info
+                          description: All Tests are limited to a specific number of steps (performer actions). Interactive Tests are limited to 600 steps. Passive Tests are limited to either 60 steps (for objects moving across) or 40 steps (for objects falling down).
+                      eval2_pair1:
+                          orgName: MCS Pair 1 (Eval 2)
+                          abbreviation: Pair 1
+                          description: (A) The Target Object is immediately visible (starting in view of the camera) OR (B) behind the camera (must rotate to see the object).  For each pair, the object may or may not be inside a container (like a box).
+                      eval2_pair2:
+                          orgName: MCS Pair 2 (Eval 2)
+                          abbreviation: Pair 2
+                          description: (A) The Target Object is immediately visible OR (B) is hidden behind a larger object that itself is immediately visible.  For each pair, the object may or may not be inside a container (like a box).
+                      eval2_pair3:
+                          orgName: MCS Pair 3 (Eval 2)
+                          abbreviation: Pair 3
+                          description: (A) The Target Object is positioned normally, without a Confusor Object in the scene, OR (B) with a Confusor Object in the scene, and directly adjacent to it.  For each pair, the objects may or may not be inside a container, but only if the container is big enough to hold both together; otherwise, no container will be used in that pair.
+                      eval2_pair6:
+                          orgName: MCS Pair 6 (Eval 2)
+                          abbreviation: Pair 6
+                          description: (A) The Target Object is positioned immediately visible and a Confusor Object is not immediately visible OR (B) the Target Object is positioned not immediately visible and a Confusor Object is immediately visible.  For each pair, the objects may or may not be inside identical containers, but only if the container is big enough to hold both individually; otherwise, no container will be used in that pair.
+                      eval2_pair7:
+                          orgName: MCS Pair 7 (Eval 2)
+                          abbreviation: Pair 7
+                          description: (A) The Target Object is positioned immediately visible and a Confusor Object is not immediately visible OR (B) the Target Object is positioned not immediately visible and a Confusor Object is immediately visible.  The Target Object is always inside a container, and the Confusor Object is never inside a container.
+                      eval2_pair8:
+                          orgName: MCS Pair 8 (Eval 2)
+                          abbreviation: Pair 8
+                          description: (A) The Target Object is positioned adjacent to a Confusor Object OR (B) the Target Object is positioned adjacent to a Confusor Object, but the Target Object is inside a container.
+                      eval2_pair9:
+                          orgName: MCS Pair 9 (Eval 2)
+                          abbreviation: Pair 9
+                          description: (A) The Target Object is immediately visible and can be approached in a relatively direct line OR (B) the Target Object is immediately visible but getting to it would require navigating around a large piece of furniture (or some other obstacle). For instance, from the AIs vantage point, it can see the target object positioned beyond the coffee table, so to get to it, the AI would need to maneuver around the coffee table.  For each pair, the object may or may not be inside an open container (like a box).
+                      eval2_pair11:
+                          orgName: MCS Pair 11 (Eval 2)
+                          abbreviation: Pair 11
+                          description: (A) The Target Object and a Confusor Object are positioned adjacent to each other and immediately visible OR (B) the Target Object and a Confusor Object are positioned adjacent to each other and NOT immediately visible.
+                      eval2_objects:
+                          orgName: MCS Objects (Eval 2)
+                          abbreviation: More Info
+                          description: The objects in a Scene are categorized as either Targets, Confusors, Distractors, Obstructors, Occluders, Context Objects, or Interior Walls. Targets in Interactive Tests are used by the Test's Goal. Targets in Passive Tests are used in the Implausible Event of the corresponding Quartet's Implausible Scenes. Confusors are objects used in some Interactive Pairs that look almost identical to a specific Target except for one aspect (color, shape, or size). Distractors are any objects in Interactive Tests that aren't Targets, Confusors, Obstructors, or Walls. Obstructors are objects used in some Interactive Pairs that are intentionally positioned between the performer and a specific Target to obstruct performer navigation and/or vision. Occluders are moving and rotating wall-and-pole objects used in Passive IntPhys Tests. Context Objects are static objects positioned on the rear wall in the background of some Passive IntPhys Tests (intended to be confusing or distracting).
+                      eval2_tags:
+                          orgName: MCS Tags (Eval 2)
+                          abbreviation: More Info
+                          description: Tags apply to the whole Scene. For example, filtering on 'blue ball' shows all the Scenes containing a blue ball, and filtering on both 'blue ball' and 'red car' shows all the Scenes containing either a blue ball OR a red car. CTRL+click to add multiple filters.
+                          website: https://nextcentury.atlassian.net/wiki/spaces/MCSC/pages/1220050963/TA2+Evaluation+Dashboard+Tags
+                      eval2_novel:
+                          orgName: MCS Novelty (Eval 2)
+                          abbreviation: More Info
+                          description: Novel objects are objects that were not present in the training data but present in the evaluation data. A novel object can have either a novel shape, a novel color, or a novel color/shape combination.
+                      eval2_score:
+                          orgName: MCS Scoring (Eval 2)
+                          abbreviation: More Info
+                          description: The ROC Curves and Scatter Graphs plot Adjusted Confidence against Ground Truth. The Ground Truth of Passive IntPhys Tests is either Implausible=0 or Plausible=1. The Adjusted Confidence of Passive IntPhys Test Results either is the performer's confidence or, if the performer's answer is Implausible and the performer's confidence is greater than 0.5, is 1 minus the performer's confidence. The MSE of a scene is the Ground Truth minus the Adjusted Confidence, squared.
 
 
 datastores:
@@ -1922,8 +2000,8 @@ datastores:
                 - columnName: score.adjusted_confidence
                   prettyName: Adjusted Confidence
                   type: decimal
-                - columnName: score.mse_loss
-                  prettyName: MSE Loss
+                - columnName: score.mse
+                  prettyName: MSE
                   type: decimal
                 - columnName: scene.info_list
                   prettyName: Scene Info List
@@ -2004,7 +2082,28 @@ datastores:
                   prettyName: Step Action
                   type: keyword
                 - columnName: steps.args.amount
-                  prettyName: Step Action Amount
+                  prettyName: Step Args Amount
+                  type: decimal
+                - columnName: steps.args.horizon
+                  prettyName: Step Action Horizon
+                  type: keyword
+                - columnName: steps.args.objectId
+                  prettyName: Step Args Object ID
+                  type: decimal
+                - columnName: steps.args.receptacleObjectId
+                  prettyName: Step Args Receptacle Object ID
+                  type: decimal
+                - columnName: steps.args.rotation
+                  prettyName: Step Args Rotation
+                  type: decimal
+                - columnName: steps.output.return_status
+                  prettyName: Step Output Return Status
+                  type: decimal
+                - columnName: steps.output.reward
+                  prettyName: Step Output Reward
+                  type: decimal
+                - columnName: steps.output.stepNumber
+                  prettyName: Step Number
                   type: decimal
                 - columnName: url_string
                   prettyName: URL String
