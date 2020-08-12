@@ -1947,7 +1947,12 @@ datastores:
           history:
             prettyName: "Data"
             mappings: {}
-            labelOptions: {}
+            labelOptions: 
+              category:
+                observation: passive
+              score.classification:
+                classification: interactive
+                end: interactive
             fields:
                 - columnName: eval
                   prettyName: Evaluation Name

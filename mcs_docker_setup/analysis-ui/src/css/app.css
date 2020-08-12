@@ -312,22 +312,28 @@ ol, ul {
 }
 
 .interactive-movie-holder {
-    width: 600px;
+    width: 500px;
     display: inline-block;
-    height: 400px;
+    height: 350px;
     margin: 10px;
 }
 
 .steps-holder {
-    width: 500px;
+    width: 400px;
     display: inline-block;
-    height: 400px;
+    height: 350px;
     margin: 10px;
 }
 
+.top-down-holder {
+    width: 500px;
+    display: inline-block;
+    height: 350px;
+}
+
 .steps-container {
-    width: 470px;
-    height: 360px;
+    width: 370px;
+    height: 310px;
     overflow-y: auto;
     padding: 20px;
     border: 1px solid #000;

@@ -9,6 +9,7 @@ const historyQueryName = "getEvalHistory";
 const sceneQueryName = "getEvalScene";
 const moviesBucket = "https://evaluation-images.s3.amazonaws.com/eval-2-inphys-videos/"
 const interactiveMoviesBucket = "https://evaluation-images.s3.amazonaws.com/eval-2/"
+const topDownMoviesBucket = "https://evaluation-images.s3.amazonaws.com/eval-2-top-down/"
 const movieExtension = ".mp4"
 const sceneBucket = "https://evaluation-images.s3.amazonaws.com/eval-2-scenes/"
 const sceneExtension = "-debug.json"
@@ -325,7 +326,7 @@ class Scenes extends React.Component {
                                                     { (scenesByPerformer[this.state.currentPerformer][0]["category"] === "interactive") && 
                                                         <div className="movie-steps-holder">
                                                             <div className="interactive-movie-holder">
-                                                                <video id="interactiveMoviePlayer" src={interactiveMoviesBucket + PERFORMER_PREFIX_MAPPING[this.state.currentPerformer] + this.props.value.test_type + "-" + this.props.value.scene_num + "-" + (this.state.currentSceneNum+1) + movieExtension} width="600" height="400" controls="controls" autoPlay={false} onTimeUpdate={this.highlightStep}/>
+                                                                <video id="interactiveMoviePlayer" src={interactiveMoviesBucket + PERFORMER_PREFIX_MAPPING[this.state.currentPerformer] + this.props.value.test_type + "-" + this.props.value.scene_num + "-" + (this.state.currentSceneNum+1) + movieExtension} width="500" height="350" controls="controls" autoPlay={false} onTimeUpdate={this.highlightStep}/>
                                                             </div>
                                                             <div className="steps-holder">
                                                                 <h5>Peformer Steps:</h5>
@@ -337,6 +338,9 @@ class Scenes extends React.Component {
                                                                         </div>
                                                                     )}
                                                                 </div>
+                                                            </div>
+                                                            <div className="top-down-holder">
+                                                                <video id="interactiveMoviePlayer" src={topDownMoviesBucket + PERFORMER_PREFIX_MAPPING[this.state.currentPerformer] + this.props.value.test_type + "-" + this.props.value.scene_num + "-" + (this.state.currentSceneNum+1) + movieExtension} width="500" height="350" controls="controls" autoPlay={false}/>
                                                             </div>
                                                         </div> 
                                                     }
