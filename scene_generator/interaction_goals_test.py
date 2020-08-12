@@ -6,18 +6,36 @@ from typing import Dict, Any
 
 import pytest
 
-from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, MAX_REACH_DISTANCE
-
+from machine_common_sense.mcs_controller_ai2thor import (
+    MAX_MOVE_DISTANCE,
+    MAX_REACH_DISTANCE
+)
 import exceptions
 import geometry
 import objects
 import scene_generator
 from geometry import POSITION_DIGITS
-from goals import *
-from interaction_goals import move_to_container, parse_path_section, get_navigation_actions, trim_actions_to_reach, \
-    PathfindingException, ObjectRule, PickupableObjectRule, TransferToObjectRule, FarOffObjectRule, \
-    DistractorObjectRule, ConfusorObjectRule, ObstructorObjectRule
-from util import MAX_SIZE_DIFFERENCE, MAX_TRIES, finalize_object_definition, instantiate_object
+from goals import RetrievalGoal, TransferralGoal, TraversalGoal
+from interaction_goals import (
+    move_to_container,
+    parse_path_section,
+    get_navigation_actions,
+    trim_actions_to_reach,
+    PathfindingException,
+    ObjectRule,
+    PickupableObjectRule,
+    TransferToObjectRule,
+    FarOffObjectRule,
+    DistractorObjectRule,
+    ConfusorObjectRule,
+    ObstructorObjectRule
+)
+from util import (
+    MAX_SIZE_DIFFERENCE,
+    MAX_TRIES,
+    finalize_object_definition,
+    instantiate_object
+)
 
 
 def test_move_to_container():
@@ -301,17 +319,24 @@ def test_get_navigation_action_with_turning():
             ]
         }]
     }
-    expected_actions = [{'action': 'RotateLook', 'params': {'rotation': 315.0, 'horizon': 0.0}},
+    expected_actions = [{'action': 'RotateLook', 'params': {'rotation': 315.0,
+                                                            'horizon': 0.0}},
                         {'action': 'MoveAhead', 'params': {'amount': 1}},
                         {'action': 'MoveAhead', 'params': {'amount': 1}},
                         {'action': 'MoveAhead', 'params': {'amount': 0.83}},
-                        {'action': 'RotateLook', 'params': {'rotation': 45.0, 'horizon': 0.0}},
+                        {'action': 'RotateLook', 'params': {'rotation': 45.0,
+                                                            'horizon': 0.0}},
                         {'action': 'MoveAhead', 'params': {'amount': 1}},
                         {'action': 'MoveAhead', 'params': {'amount': 1}},
-                        {'action': 'RotateLook', 'params': {'rotation': 45.0, 'horizon': 0.0}},
+                        {'action': 'RotateLook', 'params': {'rotation': 45.0,
+                                                            'horizon': 0.0}},
                         {'action': 'MoveAhead', 'params': {'amount': 1}},
                         {'action': 'MoveAhead', 'params': {'amount': 1}},
-                        {'action': 'MoveAhead', 'params': {'amount': round((.9 * math.sqrt(2) - 1) / MAX_MOVE_DISTANCE, POSITION_DIGITS)}}]
+                        {'action': 'MoveAhead', 'params': {
+                            'amount': round(
+                                (0.9 * math.sqrt(2) - 1) / MAX_MOVE_DISTANCE,
+                                POSITION_DIGITS
+                            )}}]
     all_objs = [goal_obj, obstacle_obj]
     actions, performer, heading = get_navigation_actions(
         start, goal_obj, all_objs)
@@ -454,19 +479,28 @@ def test_ConfusorObjectRule_choose_definition():
 
     is_same_color = set(definition['color']) == set(target_definition['color'])
     is_same_shape = definition['shape'] == target_definition['shape']
-    is_same_size = definition['size'] == target_definition['size'] and (
-        definition['dimensions']['x'] >= target_definition['dimensions']['x'] -
-        MAX_SIZE_DIFFERENCE) and (
-        definition['dimensions']['x'] <= target_definition['dimensions']['x'] +
-        MAX_SIZE_DIFFERENCE) and (
-            definition['dimensions']['y'] >= target_definition['dimensions']['y'] -
-            MAX_SIZE_DIFFERENCE) and (
-                definition['dimensions']['y'] <= target_definition['dimensions']['y'] +
-                MAX_SIZE_DIFFERENCE) and (
-                    definition['dimensions']['z'] >= target_definition['dimensions']['z'] -
-                    MAX_SIZE_DIFFERENCE) and (
-                        definition['dimensions']['z'] <= target_definition['dimensions']['z'] +
-        MAX_SIZE_DIFFERENCE)
+    is_same_size = (
+        definition['size'] == target_definition['size'] and
+        (
+            definition['dimensions']['x'] >=
+            target_definition['dimensions']['x'] - MAX_SIZE_DIFFERENCE
+        ) and (
+            definition['dimensions']['x'] <=
+            target_definition['dimensions']['x'] + MAX_SIZE_DIFFERENCE
+        ) and (
+            definition['dimensions']['y'] >=
+            target_definition['dimensions']['y'] - MAX_SIZE_DIFFERENCE
+        ) and (
+            definition['dimensions']['y'] <=
+            target_definition['dimensions']['y'] + MAX_SIZE_DIFFERENCE
+        ) and (
+            definition['dimensions']['z'] >=
+            target_definition['dimensions']['z'] - MAX_SIZE_DIFFERENCE
+        ) and (
+            definition['dimensions']['z'] <=
+            target_definition['dimensions']['z'] + MAX_SIZE_DIFFERENCE
+        )
+    )
     assert (is_same_size and is_same_shape and not is_same_color) or \
         (is_same_size and is_same_color and not is_same_shape) or \
         (is_same_shape and is_same_color and not is_same_size)
@@ -486,12 +520,14 @@ def test_ObstructorObjectRule_choose_definition():
 
     if definition['rotation']['y'] == 0:
         assert (
-            definition['dimensions']['x'] >= target_definition['dimensions']['x'] -
-            MAX_SIZE_DIFFERENCE)
+            definition['dimensions']['x'] >=
+            target_definition['dimensions']['x'] - MAX_SIZE_DIFFERENCE
+        )
     elif definition['rotation']['y'] == 90:
         assert (
-            definition['dimensions']['z'] >= target_definition['dimensions']['z'] -
-            MAX_SIZE_DIFFERENCE)
+            definition['dimensions']['z'] >=
+            target_definition['dimensions']['z'] - MAX_SIZE_DIFFERENCE
+        )
     else:
         assert False
 
@@ -513,11 +549,13 @@ def test_ObstructorObjectRule_choose_definition_obstruct_vision():
 
     if definition['rotation']['y'] == 0:
         assert (
-            definition['dimensions']['x'] >= target_definition['dimensions']['x'] -
+            definition['dimensions']['x'] >=
+            target_definition['dimensions']['x'] -
             MAX_SIZE_DIFFERENCE)
     elif definition['rotation']['y'] == 90:
         assert (
-            definition['dimensions']['z'] >= target_definition['dimensions']['z'] -
+            definition['dimensions']['z'] >=
+            target_definition['dimensions']['z'] -
             MAX_SIZE_DIFFERENCE)
     else:
         assert False
@@ -717,7 +755,8 @@ def test_TransferralGoal_get_config():
         g.value for g in TransferralGoal.RelationshipType]
 
     assert goal['category'] == 'transferral'
-    assert goal['description'] == 'Find and pick up the blue rubber ball and move it ' + \
+    assert goal['description'] == 'Find and pick up the blue rubber ball ' \
+        'and move it ' + \
         relationship_type + ' the yellow wood changing table.'
 
 
@@ -735,7 +774,11 @@ def test_TransferralGoal_ensure_pickup_action():
 
     # should have a PickupObject action
     assert any(
-        (action['action'] == 'PickupObject' for action in body['answer']['actions']))
+        (
+            action['action'] == 'PickupObject'
+            for action in body['answer']['actions']
+        )
+    )
     # last action one should be PutObject
     assert body['answer']['actions'][-1]['action'] == 'PutObject'
 
@@ -760,7 +803,12 @@ def test_TransferralGoal_navigate_near_objects():
         (obj for obj in body['objects'] if obj['id'] == container_id))
     if 'locationParent' in pickupable_obj:
         parent = next(
-            (obj for obj in body['objects'] if obj['id'] == pickupable_obj['locationParent']))
+            (
+                obj
+                for obj in body['objects']
+                if obj['id'] == pickupable_obj['locationParent']
+            )
+        )
         pickupable_position = parent['shows'][0]['position']
         pass
     else:
