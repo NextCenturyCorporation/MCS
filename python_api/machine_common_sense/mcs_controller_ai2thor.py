@@ -224,8 +224,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     # Override
     def end_scene(self, classification, confidence):
-        history_item = '{"classification": ' + classification + \
-            ', "confidence": ' + str(confidence) + '}'
+        history_item = '{"classification": "' + classification + \
+            '", "confidence": ' + str(confidence) + '}'
         self.__history_list.append(history_item)
         self.write_history_file(history_item)
 
