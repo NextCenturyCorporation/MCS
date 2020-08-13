@@ -3,6 +3,7 @@ import unittest
 import machine_common_sense as mcs
 
 
+
 class My_Emptyclass:
 
     def __init__(self):
@@ -22,6 +23,7 @@ class My_Subclass:
 
     def __str__(self):
         return mcs.Util.class_to_str(self)
+
 
 
 class My_Class:

@@ -1,5 +1,6 @@
 from .util import Util
 
+
 class Goal:
     """
     Defines attributes of an MCS goal.
@@ -7,24 +8,34 @@ class Goal:
     Attributes
     ----------
     action_list : list of lists of strings, or None
-        The list of actions that are available for the scene at each step (outer list index).  Each inner list item is
-        a list of action strings. For example, ['MoveAhead','RotateLook,rotation=180'] restricts the actions to either
-        'MoveAhead' or 'RotateLook' with the 'rotation' parameter set to 180. An action_list of None means that all
-        actions are always available. An empty inner list means that all actions are available for that specific step.
+        The list of actions that are available for the scene at each step
+        (outer list index).  Each inner list item is a list of action strings.
+        For example, ['MoveAhead','RotateLook,rotation=180'] restricts the
+        actions to either 'MoveAhead' or 'RotateLook' with the 'rotation'
+        parameter set to 180. An action_list of None means that all
+        actions are always available. An empty inner list means that all
+        actions are available for that specific step.
     category : string
-        The category that describes this goal and the properties in its metadata.
+        The category that describes this goal and the properties in its
+        metadata.
     description : string
-        A human-readable sentence describing this goal and containing the target task(s) and object(s).
+        A human-readable sentence describing this goal and containing
+        the target task(s) and object(s).
     domain_list : list of strings
-        The list of MCS "core domains" associated with this goal (for the visualization interface).
+        The list of MCS "core domains" associated with this goal (for the
+        visualization interface).
     info_list : list
-        The list of information for the visualization interface associated with this goal.
+        The list of information for the visualization interface associated
+        with this goal.
     last_preview_phase_step : integer
-        The last step of the preview phase of this scene (scripted in its configuration), if any. Default: 0
+        The last step of the preview phase of this scene (scripted in its
+        configuration), if any. Default: 0
     last_step : integer
-        The last step of this scene. This scene will automatically end following this step.
+        The last step of this scene. This scene will automatically end
+        following this step.
     type_list : list of strings
-        The list of types associated with this goal (for the visualization interface).
+        The list of types associated with this goal (for the
+        visualization interface).
     metadata : dict
         The metadata specific to this goal.
     """
@@ -54,5 +65,9 @@ class Goal:
         self.metadata = {} if metadata is None else metadata
 
     def __str__(self):
+<<<<<<< HEAD:python_api/machine_common_sense/goal.py
         return Util.class_to_str(self)
 
+=======
+        return MCS_Util.class_to_str(self)
+>>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1:python_api/machine_common_sense/mcs_goal.py

@@ -1,5 +1,6 @@
 from enum import Enum, unique
 
+
 @unique
 class Action(Enum):
     CLOSE_OBJECT = "CloseObject"
@@ -22,4 +23,3 @@ class Action(Enum):
     THROW_OBJECT = "ThrowObject"
     # Pass should always be the last action in the enum.
     PASS = "Pass"
-

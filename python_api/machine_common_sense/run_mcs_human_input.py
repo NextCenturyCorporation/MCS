@@ -9,22 +9,31 @@ from machine_common_sense.mcs_action_api_desc import Action_API_DESC
 from machine_common_sense.mcs_action_keys import Action_Keys
 from machine_common_sense.mcs_util import Util
 
+import machine_common_sense as mcs
+
 # variables
 commandList = []
 
 # class to contain possible commands and keys
+
+
 class command:
     def __init__(self, name, key, desc):
         self.name = name
         self.key = key
         self.desc = desc
 
+
 class HumanInputShell(cmd.Cmd):
 
     prompt = '(command)->'
 
-    def __init__(self, input_controller, input_previous_output, input_config_data):
-        super(HumanInputShell,self).__init__()
+    def __init__(
+            self,
+            input_controller,
+            input_previous_output,
+            input_config_data):
+        super(HumanInputShell, self).__init__()
 
         self.controller = input_controller
         self.previous_output = input_previous_output
@@ -34,52 +43,75 @@ class HumanInputShell(cmd.Cmd):
         return line
 
     def postcmd(self, stopFlag, line) -> bool:
-        print('===============================================================================')
+        print('================================================='
+              '==============================')
         return stopFlag
-        
 
     def default(self, line):
 
-        if self.previous_output.action_list is not None and len(self.previous_output.action_list) < len(commandList):
+        if self.previous_output.action_list is not None and len(
+                self.previous_output.action_list) < len(commandList):
             print('Only actions available during this step:')
             for action in self.previous_output.action_list:
                 print('  ' + action)
         else:
             print('All actions are available during this step.')
 
-        if self.previous_output.action_list is not None and len(self.previous_output.action_list) == 1:
+        if self.previous_output.action_list is not None and len(
+                self.previous_output.action_list) == 1:
             print('Automatically selecting the only available action...')
             userInput = self.previous_output.action_list[1]
         else:
             userInput = line.split(',')
 
-        # Check for shortcut key, if attempted shortcut key, map and check valid key
+        # Check for shortcut key, if attempted shortcut key, map and check
+        # valid key
         try:
             if len(userInput[0]) == 1:
+<<<<<<< HEAD
                 userInput[0] = Action[Action_Keys(userInput[0] ).name].value
         except:
             print("You entered an invalid shortcut key, please try again. (Type 'help' to display commands again)")
+=======
+                userInput[0] = mcs.Action[MCS_Action_Keys(
+                    userInput[0]).name].value
+        except BaseException:
+            print(
+                "You entered an invalid shortcut key, please try again. "
+                "(Type 'help' to display commands again)")
+>>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1
             print("You entered: " + userInput[0])
             return
 
         if userInput and userInput[0].lower() == 'exit':
             self.do_exit(line)
-            return 
+            return
         if userInput and userInput[0].lower() == 'help':
             self.do_help(line)
             return
         if userInput and userInput[0].lower() == 'reset':
             self.do_reset(line)
+<<<<<<< HEAD
             return 
             
         action, params = Util.input_to_action_and_params(','.join(userInput))
+=======
+            return
+
+        action, params = MCS_Util.input_to_action_and_params(
+            ','.join(userInput))
+>>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1
 
         if action is None:
-            print("You entered an invalid command, please try again.  (Type 'help' to display commands again)")
+            print(
+                "You entered an invalid command, please try again.  "
+                "(Type 'help' to display commands again)")
             return
 
         if params is None:
-            print("ERROR: Parameters should be separated by commas, and look like this example: rotation=45")
+            print(
+                "ERROR: Parameters should be separated by commas, and "
+                "look like this example: rotation=45")
             return
 
         output = self.controller.step(action, **params)
@@ -95,7 +127,8 @@ class HumanInputShell(cmd.Cmd):
         print("Resets the scene.")
 
     def help_shortcut_key_mode(self):
-        print("Toggles on mode where the user can execute single key commands without hitting enter.")
+        print("Toggles on mode where the user can execute single key "
+              "commands without hitting enter.")
 
     def do_exit(self, args) -> bool:
         print("Exiting Human Input Mode\n")
@@ -110,32 +143,50 @@ class HumanInputShell(cmd.Cmd):
     def do_shortcut_key_mode(self, args):
         print("Entering shortcut mode...")
         print("Press key 'e' to exit\n")
+<<<<<<< HEAD
         list_of_action_keys = [action_key.value for action_key in Action_Keys]
+=======
+        list_of_mcs_action_keys = [
+            mcs_action_key.value for mcs_action_key in MCS_Action_Keys]
+>>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1
 
         while True:
             char = getch.__call__()
             print('\n(shortcut-command)->', char)
-            if char == 'e': # exit shortcut key mode
+            if char == 'e':  # exit shortcut key mode
                 break
             elif char in list_of_action_keys:
                 self.default(char)
-        
-
 
 
 # Define all the possible human input commands
 def build_commands():
+<<<<<<< HEAD
     for action in Action:
         commandList.append(command(action.value, Action_Keys[action.name].value, Action_API_DESC[action.name].value))
+=======
+    for action in mcs.Action:
+        commandList.append(command(action.value,
+                                   MCS_Action_Keys[action.name].value,
+                                   mcs.Action_API_DESC[action.name].value))
+>>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1
 
 # Display all the possible commands to the user along with key mappings
+
+
 def print_commands():
     print(" ")
     print("--------------- Available Commands ---------------")
     print(" ")
 
     for commandListItem in commandList:
-        print("- " + commandListItem.name + " (ShortcutKey=" + commandListItem.key + "): " + commandListItem.desc)
+        print(
+            "- " +
+            commandListItem.name +
+            " (ShortcutKey=" +
+            commandListItem.key +
+            "): " +
+            commandListItem.desc)
 
     print(" ")
     print("---------------- Example Commands ----------------")
@@ -148,7 +199,8 @@ def print_commands():
     print("Enter 'print' to print the commands again.")
     print("Enter 'reset' to reset the scene.")
     print("Enter 'exit' to exit the program.")
-    print("Enter 'shortcut_key_mode' to be able to enter Commands without hitting enter.")
+    print("Enter 'shortcut_key_mode' to be able to enter Commands "
+          "without hitting enter.")
     print(" ")
     print("----------------- Features -----------------------")
     print("Up/Down arrow keys go through the command history")
@@ -156,7 +208,7 @@ def print_commands():
     print("------------------ End Commands ------------------")
     print(" ")
 
-        
+
 # Run scene loaded in the config data
 def run_scene(controller, config_data):
     build_commands()
@@ -170,19 +222,36 @@ def run_scene(controller, config_data):
     sys.exit()
 
 
-def main(argv): 
-    
+def main(argv):
+
     parser = argparse.ArgumentParser(description='Run MCS')
     required_group = parser.add_argument_group(title='required arguments')
 
-    required_group.add_argument('mcs_unity_build_file', help='Path to MCS unity build file')
-    required_group.add_argument('mcs_config_json_file', help='MCS JSON scene configuration file to load')
+    required_group.add_argument(
+        'mcs_unity_build_file',
+        help='Path to MCS unity build file')
+    required_group.add_argument(
+        'mcs_config_json_file',
+        help='MCS JSON scene configuration file to load')
 
-    parser.add_argument('-d','--debug', default=True, help='True or False on whether to debug files [default=True]')
-    parser.add_argument('-n','--noise', default=False, help='True or False on whether to enable noise in MCS [default=True]')
-    parser.add_argument('-s','--seed', type=int, default=None, help='Seed(integer) for the random number generator [default=None]')
+    parser.add_argument(
+        '-d',
+        '--debug',
+        default=True,
+        help='True or False on whether to debug files [default=True]')
+    parser.add_argument(
+        '-n',
+        '--noise',
+        default=False,
+        help='True or False on whether to enable noise in MCS [default=True]')
+    parser.add_argument(
+        '-s',
+        '--seed',
+        type=int,
+        default=None,
+        help='Seed(integer) for the random number generator [default=None]')
     args = parser.parse_args(argv[1:])
-    
+
     if not isinstance(args.debug, bool):
         if args.debug.lower() != 'true' and args.debug.lower() != 'false':
             print('Debug files must be <True> or <False>')
@@ -192,7 +261,6 @@ def main(argv):
                 args.debug = False
             else:
                 args.debug = True
-
 
     if not isinstance(args.noise, bool):
         if args.noise.lower() != 'true' and args.noise.lower() != 'false':
@@ -214,16 +282,21 @@ def main(argv):
     enable_noise = args.noise
     seed_val = args.seed
 
-    controller = MCS.create_controller(sys.argv[1], debug=debug, enable_noise=enable_noise, seed=seed_val)
+    controller = MCS.create_controller(
+        sys.argv[1],
+        debug=debug,
+        enable_noise=enable_noise,
+        seed=seed_val)
 
     config_file_path = sys.argv[2]
-    config_file_name = config_file_path[config_file_path.rfind('/')+1:]
+    config_file_name = config_file_path[config_file_path.rfind('/') + 1:]
 
     if 'name' not in config_data.keys():
         config_data['name'] = config_file_name[0:config_file_name.find('.')]
 
-    if controller != None:
+    if controller is not None:
         run_scene(controller, config_data)
+
 
 if __name__ == "__main__":
     main(sys.argv)
