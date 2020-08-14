@@ -20,7 +20,8 @@ let currentStep = 0;
 const PERFORMER_PREFIX_MAPPING = {
     "IBM-MIT-Harvard-Stanford": "mitibm_",
     "OPICS (OSU, UU, NYU)": "opics_",
-    "MESS-UCBerkeley": "mess_"
+    "MESS-UCBerkeley": "mess_",
+    "IBM-MIT-Harvard-Stanford-2": "mitibm2_"
 };
 
 const mcs_history = gql`
