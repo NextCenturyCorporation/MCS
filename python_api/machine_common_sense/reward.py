@@ -1,11 +1,8 @@
 from typing import List, Dict
-
 from shapely import geometry
 
-import machine_common_sense as mcs
-from .mcs_controller_ai2thor import MAX_REACH_DISTANCE, MAX_MOVE_DISTANCE
-
-import machine_common_sense as mcs
+from .mcs_controller import MAX_REACH_DISTANCE, MAX_MOVE_DISTANCE
+from .goal import Goal, GoalCategory
 
 GOAL_ACHIEVED = 1
 GOAL_NOT_ACHIEVED = 0
@@ -49,21 +46,17 @@ class Reward(object):
         return polygon
 
     @staticmethod
-<<<<<<< HEAD:python_api/machine_common_sense/reward.py
-    def _calc_retrieval_reward(goal: mcs.Goal, objects: Dict, agent: Dict) -> int:
-=======
     def _calc_retrieval_reward(
-            goal: mcs.Goal,
+            goal: Goal,
             objects: Dict,
             agent: Dict) -> int:
->>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1:python_api/machine_common_sense/mcs_reward.py
         '''
         Calculate the reward for the retrieval goal.
 
         The goal object must be in the agent's hand.
 
         Args:
-            goal: mcs.Goal
+            goal: Goal
             objects: Dict
             agent: Dict
 
@@ -73,21 +66,17 @@ class Reward(object):
         '''
         reward = GOAL_NOT_ACHIEVED
         goal_id = goal.metadata['target'].get('id', None)
-        goal_object = mcs.Reward.__get_object_from_list(objects, goal_id)
+        goal_object = Reward.__get_object_from_list(objects, goal_id)
 
         if goal_object and goal_object.get('isPickedUp', False):
             reward = GOAL_ACHIEVED
         return reward
 
     @staticmethod
-<<<<<<< HEAD:python_api/machine_common_sense/reward.py
-    def _calc_traversal_reward(goal: mcs.Goal, objects: Dict, agent: Dict) -> int:
-=======
     def _calc_traversal_reward(
-            goal: mcs.Goal,
+            goal: Goal,
             objects: Dict,
             agent: Dict) -> int:
->>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1:python_api/machine_common_sense/mcs_reward.py
         '''
         Calculate the reward for the traversal goal.
 
@@ -95,7 +84,7 @@ class Reward(object):
         considered near.
 
         Args:
-            goal: mcs.Goal
+            goal: Goal
             objects: Dict
             agent: Dict
 
@@ -105,32 +94,24 @@ class Reward(object):
         '''
         reward = GOAL_NOT_ACHIEVED
         goal_id = goal.metadata['target'].get('id', None)
-        goal_object = mcs.Reward.__get_object_from_list(objects, goal_id)
+        goal_object = Reward.__get_object_from_list(objects, goal_id)
 
         agent_pos = agent['position']
         agent_xz = geometry.Point(agent_pos['x'], agent_pos['z'])
 
         if goal_object is not None:
-<<<<<<< HEAD:python_api/machine_common_sense/reward.py
-            goal_polygon = mcs.Reward._convert_object_to_planar_polygon(goal_object)
-=======
-            goal_polygon = MCS_Reward._convert_object_to_planar_polygon(
+            goal_polygon = Reward._convert_object_to_planar_polygon(
                 goal_object)
->>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1:python_api/machine_common_sense/mcs_reward.py
             polygonal_distance = agent_xz.distance(goal_polygon)
             reward = int(polygonal_distance <= MAX_REACH_DISTANCE)
 
         return reward
 
     @staticmethod
-<<<<<<< HEAD:python_api/machine_common_sense/reward.py
-    def _calc_transferral_reward(goal: mcs.Goal, objects: Dict, agent: Dict) -> int:
-=======
     def _calc_transferral_reward(
-            goal: mcs.Goal,
+            goal: Goal,
             objects: Dict,
             agent: Dict) -> int:
->>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1:python_api/machine_common_sense/mcs_reward.py
         '''
         Calculate the reward for the transferral goal.
 
@@ -138,7 +119,7 @@ class Reward(object):
         depends on the relationship action verb.
 
         Args:
-            goal: mcs.Goal
+            goal: Goal
             objects: Dict
             agent: Dict
 
@@ -160,15 +141,9 @@ class Reward(object):
         goal_id = goal_target.get('id', None)
         action = action.lower()
 
-<<<<<<< HEAD:python_api/machine_common_sense/reward.py
-        #objects = scene_metadata['objects']
-        action_object = mcs.Reward.__get_object_from_list(objects, action_id)
-        goal_object = mcs.Reward.__get_object_from_list(objects, goal_id)
-=======
         # objects = scene_metadata['objects']
-        action_object = MCS_Reward.__get_object_from_list(objects, action_id)
-        goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
->>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1:python_api/machine_common_sense/mcs_reward.py
+        action_object = Reward.__get_object_from_list(objects, action_id)
+        goal_object = Reward.__get_object_from_list(objects, goal_id)
 
         if goal_object is None or goal_object.get('isPickedUp', False):
             return GOAL_NOT_ACHIEVED
@@ -176,15 +151,10 @@ class Reward(object):
         if action_object is None or action_object.get('isPickedUp', False):
             return GOAL_NOT_ACHIEVED
 
-<<<<<<< HEAD:python_api/machine_common_sense/reward.py
-        goal_polygon = mcs.Reward._convert_object_to_planar_polygon(goal_object)
-        action_polygon = mcs.Reward._convert_object_to_planar_polygon(action_object)
-=======
-        goal_polygon = MCS_Reward._convert_object_to_planar_polygon(
+        goal_polygon = Reward._convert_object_to_planar_polygon(
             goal_object)
-        action_polygon = MCS_Reward._convert_object_to_planar_polygon(
+        action_polygon = Reward._convert_object_to_planar_polygon(
             action_object)
->>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1:python_api/machine_common_sense/mcs_reward.py
 
         # actions are next_to or on_top_of (ie; action obj next to goal obj)
         if action == 'next to':
@@ -202,24 +172,20 @@ class Reward(object):
         return reward
 
     @staticmethod
-<<<<<<< HEAD:python_api/machine_common_sense/reward.py
-    def _calculate_default_reward(goal: mcs.Goal, objects: Dict, agent: Dict) -> int:
-=======
     def _calculate_default_reward(
-            goal: mcs.Goal,
+            goal: Goal,
             objects: Dict,
             agent: Dict) -> int:
->>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1:python_api/machine_common_sense/mcs_reward.py
         '''Returns the default reward of 0; not achieved.'''
         return GOAL_NOT_ACHIEVED
 
     @staticmethod
-    def calculate_reward(goal: mcs.Goal, objects: Dict, agent: Dict) -> int:
+    def calculate_reward(goal: Goal, objects: Dict, agent: Dict) -> int:
         '''
         Determine if the agent achieved the objective/task/goal.
 
         Args:
-            goal: mcs.Goal
+            goal: Goal
             objects: Dict
             agent: Dict
 
@@ -233,22 +199,11 @@ class Reward(object):
             category = goal.metadata.get('category', None)
 
         switch = {
-<<<<<<< HEAD:python_api/machine_common_sense/reward.py
-            mcs.Goal_Category.RETRIEVAL.value: mcs.Reward._calc_retrieval_reward,
-            mcs.Goal_Category.TRANSFERRAL.value: mcs.Reward._calc_transferral_reward,
-            mcs.Goal_Category.TRAVERSAL.value: mcs.Reward._calc_traversal_reward,
+            GoalCategory.RETRIEVAL.value: Reward._calc_retrieval_reward,  # noqa: E501
+            GoalCategory.TRANSFERRAL.value: Reward._calc_transferral_reward,  # noqa: E501
+            GoalCategory.TRAVERSAL.value: Reward._calc_traversal_reward,  # noqa: E501
         }
 
         return switch.get(category,
-                          mcs.Reward._calculate_default_reward)(goal,
-                                                               objects, agent)
-=======
-            MCS_Goal_Category.RETRIEVAL.value: MCS_Reward._calc_retrieval_reward,  # noqa: E501
-            MCS_Goal_Category.TRANSFERRAL.value: MCS_Reward._calc_transferral_reward,  # noqa: E501
-            MCS_Goal_Category.TRAVERSAL.value: MCS_Reward._calc_traversal_reward,  # noqa: E501
-        }
-
-        return switch.get(category,
-                          MCS_Reward._calculate_default_reward)(goal,
+                          Reward._calculate_default_reward)(goal,
                                                                 objects, agent)
->>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1:python_api/machine_common_sense/mcs_reward.py

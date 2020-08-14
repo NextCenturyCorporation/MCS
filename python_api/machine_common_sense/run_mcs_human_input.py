@@ -1,23 +1,17 @@
 import sys
 import argparse
 import cmd
+
 from machine_common_sense.getchHelper import getch
-
 from machine_common_sense.mcs import MCS
-from machine_common_sense.mcs_action import Action
-from machine_common_sense.mcs_action_api_desc import Action_API_DESC
-from machine_common_sense.mcs_action_keys import Action_Keys
-from machine_common_sense.mcs_util import Util
+from machine_common_sense.action import Action, ActionApiDescription, ActionKeys
+from machine_common_sense.util import Util
 
-import machine_common_sense as mcs
 
-# variables
 commandList = []
 
-# class to contain possible commands and keys
-
-
 class command:
+    '''class to contain possible commands and keys'''
     def __init__(self, name, key, desc):
         self.name = name
         self.key = key
@@ -68,18 +62,12 @@ class HumanInputShell(cmd.Cmd):
         # valid key
         try:
             if len(userInput[0]) == 1:
-<<<<<<< HEAD
-                userInput[0] = Action[Action_Keys(userInput[0] ).name].value
-        except:
-            print("You entered an invalid shortcut key, please try again. (Type 'help' to display commands again)")
-=======
-                userInput[0] = mcs.Action[MCS_Action_Keys(
+                userInput[0] = Action[ActionKeys(
                     userInput[0]).name].value
         except BaseException:
             print(
                 "You entered an invalid shortcut key, please try again. "
                 "(Type 'help' to display commands again)")
->>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1
             print("You entered: " + userInput[0])
             return
 
@@ -91,16 +79,10 @@ class HumanInputShell(cmd.Cmd):
             return
         if userInput and userInput[0].lower() == 'reset':
             self.do_reset(line)
-<<<<<<< HEAD
-            return 
-            
-        action, params = Util.input_to_action_and_params(','.join(userInput))
-=======
             return
 
-        action, params = MCS_Util.input_to_action_and_params(
+        action, params = Util.input_to_action_and_params(
             ','.join(userInput))
->>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1
 
         if action is None:
             print(
@@ -143,12 +125,8 @@ class HumanInputShell(cmd.Cmd):
     def do_shortcut_key_mode(self, args):
         print("Entering shortcut mode...")
         print("Press key 'e' to exit\n")
-<<<<<<< HEAD
-        list_of_action_keys = [action_key.value for action_key in Action_Keys]
-=======
         list_of_mcs_action_keys = [
-            mcs_action_key.value for mcs_action_key in MCS_Action_Keys]
->>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1
+            action_key.value for action_key in Action_Keys]
 
         while True:
             char = getch.__call__()
@@ -159,22 +137,16 @@ class HumanInputShell(cmd.Cmd):
                 self.default(char)
 
 
-# Define all the possible human input commands
 def build_commands():
-<<<<<<< HEAD
+    '''Define all the possible human input commands'''
     for action in Action:
-        commandList.append(command(action.value, Action_Keys[action.name].value, Action_API_DESC[action.name].value))
-=======
-    for action in mcs.Action:
         commandList.append(command(action.value,
-                                   MCS_Action_Keys[action.name].value,
-                                   mcs.Action_API_DESC[action.name].value))
->>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1
-
-# Display all the possible commands to the user along with key mappings
+                                   ActionKeys[action.name].value,
+                                   ActionApiDescription[action.name].value))
 
 
 def print_commands():
+    '''Display all the possible commands to the user along with key mappings'''
     print(" ")
     print("--------------- Available Commands ---------------")
     print(" ")
@@ -209,8 +181,8 @@ def print_commands():
     print(" ")
 
 
-# Run scene loaded in the config data
 def run_scene(controller, config_data):
+    '''Run scene loaded in the config data'''
     build_commands()
     print_commands()
 

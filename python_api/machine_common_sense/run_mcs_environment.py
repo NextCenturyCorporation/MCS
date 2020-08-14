@@ -1,6 +1,7 @@
 import sys
 from machine_common_sense.mcs import MCS
 
+
 if len(sys.argv) < 3:
     print('Usage: python run_mcs_environment.py <mcs_unity_build_file> '
           '<mcs_config_json_file>')

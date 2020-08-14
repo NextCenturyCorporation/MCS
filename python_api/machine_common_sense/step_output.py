@@ -1,9 +1,10 @@
 from .goal import Goal
 from .pose import Pose
-from .return_status import Return_Status
+from .return_status import ReturnStatus
+from .util import Util
 
 
-class Step_Output:
+class StepOutput:
     """
     Defines attributes of the output from a single step in the MCS 3D
     environment.
@@ -12,7 +13,7 @@ class Step_Output:
     ----------
     action_list : list of strings
         The list of all actions that are available for the next step.
-        May be a subset of all possible actions. See MCS_Action.
+        May be a subset of all possible actions. See Action.
     camera_aspect_ratio : (float, float)
         The player camera's aspect ratio. This will remain constant for the
         whole scene.
@@ -36,7 +37,7 @@ class Step_Output:
         except for a scene with a scripted Preview Phase. A pixel value of
         255 translates to 25 (the far clipping plane) in the environment's
         global coordinate system.
-    goal : MCS_Goal or None
+    goal : Goal or None
         The goal for the whole scene.  Will be None in "Exploration" scenes.
     head_tilt : float
         How far your head is tilted up/down in degrees (between 90 and -90).
@@ -50,7 +51,7 @@ class Step_Output:
         returned from a call to controller.start_scene will normally have a
         listwith only one image, except for a scene with a scripted Preview
         Phase.
-    object_list : list of MCS_Object objects
+    object_list : list of Object objects
         The list of metadata for all the interactive objects in the scene. For
         metadata on structural objects like walls, please see
         structural_object_list
@@ -64,13 +65,13 @@ class Step_Output:
         controller.start_scene will normally have a list with only one image,
         except for a scene with a scripted Preview Phase. The color of each
         object in the mask corresponds to the "color" property in its
-        MCS_Object object.
+        Object object.
     pose : string
         Your current pose.  See Pose.
     position : dict
         The "x", "y", and "z" coordinates for your global position.
     return_status : string
-        The return status from your last action.  See Return_Status.
+        The return status from your last action.  See ReturnStatus.
     reward : integer
         Reward is 1 on successful completion of a task, 0 otherwise.
     rotation : float
@@ -78,7 +79,7 @@ class Step_Output:
     step_number : integer
         The step number of your last action, recorded since you started the
         current scene.
-    structural_object_list : list of MCS_Object objects
+    structural_object_list : list of Object objects
         The list of metadata for all the structural objects (like walls) in
         the scene.
     """
@@ -98,7 +99,7 @@ class Step_Output:
         object_mask_list=None,
         pose=Pose.UNDEFINED.value,
         position=None,
-        return_status=Return_Status.UNDEFINED.value,
+        return_status=ReturnStatus.UNDEFINED.value,
         reward=0,
         rotation=0.0,
         step_number=0,

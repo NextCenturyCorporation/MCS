@@ -5,6 +5,7 @@ import time
 
 from machine_common_sense.mcs import MCS
 
+
 DEFAULT_STEP_COUNT = 20
 
 

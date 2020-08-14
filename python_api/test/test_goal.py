@@ -1,11 +1,10 @@
 import unittest
 import textwrap
 
-#from machine_common_sense.mcs_goal import MCS_Goal
 import machine_common_sense as mcs
 
 
-class Test_Default_MCS_Goal(unittest.TestCase):
+class TestDefaultGoal(unittest.TestCase):
 
     str_output = '''    {
         "action_list": null,

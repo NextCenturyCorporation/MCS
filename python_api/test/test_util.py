@@ -3,7 +3,6 @@ import unittest
 import machine_common_sense as mcs
 
 
-
 class My_Emptyclass:
 
     def __init__(self):
@@ -56,7 +55,7 @@ class My_Class:
         pass
 
 
-class Test_Util(unittest.TestCase):
+class TestUtil(unittest.TestCase):
 
     def test_class_to_str_with_class(self):
         self.maxDiff = 10000

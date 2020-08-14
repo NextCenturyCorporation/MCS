@@ -1,6 +1,8 @@
 import glob
 import sys
+
 from machine_common_sense.mcs import MCS
+
 
 if len(sys.argv) < 4:
     print('Usage: python run_mcs_init_scenes.py <mcs_unity_build_file> '

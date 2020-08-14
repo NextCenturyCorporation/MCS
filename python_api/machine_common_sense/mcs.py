@@ -2,7 +2,7 @@ import json
 import signal
 
 from contextlib import contextmanager
-from .mcs_controller_ai2thor import MCS_Controller_AI2THOR
+from .mcs_controller import McsController
 
 TIME_LIMIT_SECONDS = 60
 

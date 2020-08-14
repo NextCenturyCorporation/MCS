@@ -1,7 +1,8 @@
 import ai2thor.server
 import numpy
 
-from machine_common_sense.mcs_controller_ai2thor import MCS_Controller_AI2THOR
+from machine_common_sense.mcs_controller import McsController
+
 
 MOCK_VARIABLES = {
     'event_count': 5,
@@ -29,7 +30,7 @@ MOCK_VARIABLES = {
 }
 
 
-class Mock_AI2THOR_Controller():
+class MockMcsController():
     def __init__(self):
         self.__last_step_data = None
         pass
@@ -51,11 +52,11 @@ class Mock_AI2THOR_Controller():
         return self.__last_step_data
 
 
-class Mock_MCS_Controller_AI2THOR(MCS_Controller_AI2THOR):
+class Mock_McsController(McsController):
 
     def __init__(self):
         # Do NOT call superclass __init__ function
-        self._controller = Mock_AI2THOR_Controller()
+        self._controller = MockMcsController()
         self.on_init()
 
     def get_last_step_data(self):

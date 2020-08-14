@@ -3,7 +3,7 @@ import unittest
 from machine_common_sense.mcs import MCS
 
 
-class Test_MCS(unittest.TestCase):
+class TestMcs(unittest.TestCase):
 
     def test_create_controller(self):
         # TODO How do we test this without starting the whole app?

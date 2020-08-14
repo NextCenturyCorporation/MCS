@@ -1,4 +1,14 @@
+from enum import Enum, unique
+
 from .util import Util
+
+
+@unique
+class GoalCategory(Enum):
+    RETRIEVAL = "retrieval"
+    TRANSFERRAL = "transferral"
+    TRAVERSAL = "traversal"
+    INTPHYS = "intphys"
 
 
 class Goal:
@@ -65,9 +75,4 @@ class Goal:
         self.metadata = {} if metadata is None else metadata
 
     def __str__(self):
-<<<<<<< HEAD:python_api/machine_common_sense/goal.py
         return Util.class_to_str(self)
-
-=======
-        return MCS_Util.class_to_str(self)
->>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1:python_api/machine_common_sense/mcs_goal.py

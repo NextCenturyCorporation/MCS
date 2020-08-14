@@ -4,12 +4,10 @@ import time
 from typing import Tuple
 from shapely import geometry
 
-from machine_common_sense.mcs_reward import MCS_Reward
-#from machine_common_sense.mcs_goal import MCS_Goal
 import machine_common_sense as mcs
 
 
-class Test_MCS_Reward(unittest.TestCase):
+class TestReward(unittest.TestCase):
 
     def setUp(self):
         self._start_at = time.time()
@@ -20,13 +18,13 @@ class Test_MCS_Reward(unittest.TestCase):
 
     def test_default_reward(self):
         goal = mcs.Goal()
-        reward = MCS_Reward.calculate_reward(goal, objects={}, agent={})
+        reward = mcs.Reward.calculate_reward(goal, objects={}, agent={})
         self.assertEqual(reward, 0)
         self.assertIsInstance(reward, int)
 
     def test_none_goal(self):
         goal = None
-        reward = MCS_Reward.calculate_reward(goal, objects={}, agent={})
+        reward = mcs.Reward.calculate_reward(goal, objects={}, agent={})
         self.assertEqual(reward, 0)
         self.assertIsInstance(reward, int)
 
@@ -34,7 +32,7 @@ class Test_MCS_Reward(unittest.TestCase):
         obj_list = []
         target_id = ''
         self.assertIsNone(
-            MCS_Reward._MCS_Reward__get_object_from_list(
+            mcs.Reward._Reward__get_object_from_list(
                 obj_list, target_id))
 
     def test_target_in_object_list(self):
@@ -43,7 +41,7 @@ class Test_MCS_Reward(unittest.TestCase):
             obj = {"objectId": str(i)}
             obj_list.append(obj)
         target_id = '7'
-        results = MCS_Reward._MCS_Reward__get_object_from_list(
+        results = mcs.Reward._Reward__get_object_from_list(
             obj_list, target_id)
         self.assertTrue(results)
         self.assertIsInstance(results, dict)
@@ -54,7 +52,7 @@ class Test_MCS_Reward(unittest.TestCase):
         for i in range(10):
             obj_list.append({"objectId": str(i)})
         target_id = '111'  # not in list
-        results = MCS_Reward._MCS_Reward__get_object_from_list(
+        results = mcs.Reward._Reward__get_object_from_list(
             obj_list, target_id)
         self.assertIsNone(results)
 
@@ -65,7 +63,7 @@ class Test_MCS_Reward(unittest.TestCase):
         # add duplicate object
         obj_list.append({"objectId": '7', "duplicate": True})
         target_id = '7'
-        results = MCS_Reward._MCS_Reward__get_object_from_list(
+        results = mcs.Reward._Reward__get_object_from_list(
             obj_list, target_id)
         self.assertTrue(results)
         self.assertIsInstance(results, dict)
@@ -95,7 +93,7 @@ class Test_MCS_Reward(unittest.TestCase):
         goal_object['objectBounds']['objectBoundsCorners'].append(
             {'x': 0.0, 'y': 1.0, 'z': 1.0})
 
-        polygon = MCS_Reward._convert_object_to_planar_polygon(goal_object)
+        polygon = mcs.Reward._convert_object_to_planar_polygon(goal_object)
 
         self.assertIsInstance(polygon, geometry.Polygon)
         self.assertEqual(len(list(polygon.exterior.coords)), 5)
@@ -123,7 +121,7 @@ class Test_MCS_Reward(unittest.TestCase):
         goal_object['objectBounds']['objectBoundsCorners'].append(
             {'x': 1.0, 'y': 1.0, 'z': 2.0})
 
-        polygon = MCS_Reward._convert_object_to_planar_polygon(goal_object)
+        polygon = mcs.Reward._convert_object_to_planar_polygon(goal_object)
 
         self.assertIsInstance(polygon, geometry.Polygon)
         self.assertEqual(len(list(polygon.exterior.coords)), 7)
@@ -136,7 +134,7 @@ class Test_MCS_Reward(unittest.TestCase):
         for i in range(10):
             obj = {"objectId": str(i), 'isPickedUp': not i}
             obj_list.append(obj)
-        reward = MCS_Reward._calc_retrieval_reward(goal, obj_list, agent={})
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={})
         self.assertEqual(reward, 1)
         self.assertIsInstance(reward, int)
 
@@ -147,7 +145,7 @@ class Test_MCS_Reward(unittest.TestCase):
         for i in range(10):
             obj = {"objectId": str(i), 'isPickedUp': False}
             obj_list.append(obj)
-        reward = MCS_Reward._calc_retrieval_reward(goal, obj_list, agent={})
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={})
         self.assertEqual(reward, 0)
         self.assertIsInstance(reward, int)
 
@@ -183,7 +181,7 @@ class Test_MCS_Reward(unittest.TestCase):
             obj_list.append(obj)
 
         agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
-        reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
+        reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent)
         self.assertEqual(reward, 1)
         self.assertIsInstance(reward, int)
 
@@ -214,7 +212,7 @@ class Test_MCS_Reward(unittest.TestCase):
         obj_list.append(obj)
 
         agent = {'position': {'x': 5.0, 'y': 0.5, 'z': 5.0}}
-        reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
+        reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent)
         self.assertEqual(reward, 1)
         self.assertIsInstance(reward, int)
 
@@ -245,7 +243,7 @@ class Test_MCS_Reward(unittest.TestCase):
         obj_list.append(obj)
 
         agent = {'position': {'x': 10.1, 'y': 0.5, 'z': 1.1}}
-        reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
+        reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent)
         self.assertEqual(reward, 1)
         self.assertIsInstance(reward, int)
 
@@ -276,7 +274,7 @@ class Test_MCS_Reward(unittest.TestCase):
         obj_list.append(obj)
 
         agent = {'position': {'x': 11.1, 'y': 0.5, 'z': 1.1}}
-        reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
+        reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent)
         self.assertEqual(reward, 0)
         self.assertIsInstance(reward, int)
 
@@ -307,7 +305,7 @@ class Test_MCS_Reward(unittest.TestCase):
         obj_list.append(obj)
 
         agent = {'position': {'x': -0.5, 'y': 0.5, 'z': 0.0}}
-        reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
+        reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent)
         self.assertEqual(reward, 1)
         self.assertIsInstance(reward, int)
 
@@ -338,7 +336,7 @@ class Test_MCS_Reward(unittest.TestCase):
         obj_list.append(obj)
 
         agent = {'position': {'x': -1.5, 'y': 0.5, 'z': 0.0}}
-        reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
+        reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent)
         self.assertEqual(reward, 0)
         self.assertIsInstance(reward, int)
 
@@ -347,7 +345,7 @@ class Test_MCS_Reward(unittest.TestCase):
         goal.metadata['target'] = {'id': '0'}
         obj_list = []
         agent = {'position': {'x': -0.9, 'y': 0.5, 'z': -1.0}}
-        reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
+        reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent)
         self.assertEqual(reward, 0)
         self.assertIsInstance(reward, int)
 
@@ -356,7 +354,7 @@ class Test_MCS_Reward(unittest.TestCase):
         goal.metadata['target'] = {'id': '111'}  # missing target
         obj_list = []
         agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
-        reward = MCS_Reward._calc_traversal_reward(goal, obj_list, agent)
+        reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent)
         self.assertEqual(reward, 0)
         self.assertIsInstance(reward, int)
 
@@ -392,7 +390,7 @@ class Test_MCS_Reward(unittest.TestCase):
             obj['position'] = {'x': 0.5 + i, 'z': 0.5}
             obj_list.append(obj)
         agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
-        reward = MCS_Reward._calc_transferral_reward(goal, obj_list, agent)
+        reward = mcs.Reward._calc_transferral_reward(goal, obj_list, agent)
         self.assertEqual(reward, 0)
         self.assertIsInstance(reward, int)
 
@@ -428,7 +426,7 @@ class Test_MCS_Reward(unittest.TestCase):
             obj['position'] = {'x': 0.5 + i, 'z': 0.5}
             obj_list.append(obj)
         agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
-        reward = MCS_Reward._calc_transferral_reward(goal, obj_list, agent)
+        reward = mcs.Reward._calc_transferral_reward(goal, obj_list, agent)
         self.assertEqual(reward, 1)
         self.assertIsInstance(reward, int)
 
@@ -465,7 +463,7 @@ class Test_MCS_Reward(unittest.TestCase):
             obj['position'] = {'x': 0.5 + i, 'z': 0.5}
             obj_list.append(obj)
         agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
-        reward = MCS_Reward._calc_transferral_reward(goal, obj_list, agent)
+        reward = mcs.Reward._calc_transferral_reward(goal, obj_list, agent)
         self.assertEqual(reward, 0)
         self.assertIsInstance(reward, int)
 
@@ -501,7 +499,7 @@ class Test_MCS_Reward(unittest.TestCase):
             obj['position'] = {'x': 0.5, 'y': 0.0 + i, 'z': 0.5}
             obj_list.append(obj)
         agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
-        reward = MCS_Reward._calc_transferral_reward(goal, obj_list, agent)
+        reward = mcs.Reward._calc_transferral_reward(goal, obj_list, agent)
         self.assertEqual(reward, 1)
         self.assertIsInstance(reward, int)
 
@@ -538,6 +536,6 @@ class Test_MCS_Reward(unittest.TestCase):
             obj['position'] = {'x': 0.5, 'y': 0.0 + i, 'z': 0.5}
             obj_list.append(obj)
         agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
-        reward = MCS_Reward._calc_transferral_reward(goal, obj_list, agent)
+        reward = mcs.Reward._calc_transferral_reward(goal, obj_list, agent)
         self.assertEqual(reward, 0)
         self.assertIsInstance(reward, int)

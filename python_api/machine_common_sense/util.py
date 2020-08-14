@@ -1,6 +1,8 @@
+# from object import Object # circular import
+from typing import List, Dict, Tuple, Any
 
-
-from typing import List, Dict, Any
+from .material import Material
+from .action import Action
 
 
 class Util:
@@ -37,7 +39,7 @@ class Util:
 
 
     @staticmethod
-    def generate_pretty_object_output(object_list: List[Object]) -> List[str]:
+    def generate_pretty_object_output(object_list: List) -> List[str]:
         """Transforms the given list of Object objects into a list of strings.
 
         Parameters
@@ -80,6 +82,8 @@ class Util:
 
         try:
             validate_action = Action(action).name
+            # TODO catch specific exception
+            # Action wasn't defined through import and was return None
         except:
             return None, {}
 

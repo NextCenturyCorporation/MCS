@@ -12,7 +12,7 @@ class Object(object):
         The unique ID of this object, used with some actions.
     color : dict
         The "r", "g", and "b" pixel values of this object in images from the
-        MCS_Step_Output's "object_mask_list".
+        StepOutput's "object_mask_list".
     dimensions : dict
         The dimensions of this object in the environment's 3D global
         coordinate system as a list of 8 points (dicts with "x", "y", and "z").
@@ -35,7 +35,7 @@ class Object(object):
     mass : float
         Haptic feedback.  The mass of this object.
     material_list : list of strings
-        Haptic feedback.  The material(s) of this object.  See MCS_Material.
+        Haptic feedback.  The material(s) of this object.  See Material.
     position : dict
         The "x", "y", and "z" coordinates for the global position of the
         center of this object's 3D model.
@@ -87,9 +87,5 @@ class Object(object):
         self.visible = visible
 
     def __str__(self):
-<<<<<<< HEAD:python_api/machine_common_sense/object.py
         return Util.class_to_str(self)
 
-=======
-        return MCS_Util.class_to_str(self)
->>>>>>> 5f4454c6154f8f0b599e6d944915db6a28a980a1:python_api/machine_common_sense/mcs_object.py
