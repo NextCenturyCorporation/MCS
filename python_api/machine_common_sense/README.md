@@ -89,11 +89,11 @@ flake8
 and
 
 ```
-autopep8 --in-place --aggressive --aggressive --recursive <directory>
+autopep8 --in-place --aggressive --recursive <directory>
 ```
 or
 ```
-autopep8 --in-place --aggressive --aggressive <file>
+autopep8 --in-place --aggressive <file>
 ```
 
 ## Making GIFs
