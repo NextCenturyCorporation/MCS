@@ -2,12 +2,16 @@ from _ctypes import PyObj_FromPtr
 import json
 import re
 
-# From https://stackoverflow.com/questions/13249415/how-to-implement-custom-indentation-when-pretty-printing-with-the-json-module
+# From
+# https://stackoverflow.com/questions/13249415/how-to-implement-custom-indentation-when-pretty-printing-with-the-json-module
+
 
 class PrettyJsonNoIndent(object):
     """ Value wrapper. """
+
     def __init__(self, value):
         self.value = value
+
 
 class PrettyJsonEncoder(json.JSONEncoder):
     FORMAT_SPEC = '@@{}@@'
@@ -33,11 +37,19 @@ class PrettyJsonEncoder(json.JSONEncoder):
             # see https://stackoverflow.com/a/15012814/355230
             id = int(match.group(1))
             no_indent = PyObj_FromPtr(id)
-            json_obj_repr = json.dumps(no_indent.value, cls=PrettyJsonEncoder, sort_keys=self.__sort_keys, separators=(',', ':'))
+            json_obj_repr = json.dumps(
+                no_indent.value,
+                cls=PrettyJsonEncoder,
+                sort_keys=self.__sort_keys,
+                separators=(
+                    ',',
+                    ':'))
 
             # Replace the matched id string with json formatted representation
             # of the corresponding Python object.
-            json_repr = json_repr.replace('"{}"'.format(format_spec.format(id)), json_obj_repr)
+            json_repr = json_repr.replace(
+                '"{}"'.format(
+                    format_spec.format(id)),
+                json_obj_repr)
 
         return json_repr
-        

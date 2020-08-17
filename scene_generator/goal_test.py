@@ -69,7 +69,9 @@ def create_tags_test_object_2():
 
 
 def test_generate_wall():
-    wall = generate_wall('test_material', ['test_color_1', 'test_color_2'], geometry.ORIGIN, [])
+    wall = generate_wall(
+        'test_material', [
+            'test_color_1', 'test_color_2'], geometry.ORIGIN, [])
 
     assert wall
     assert wall['id']
@@ -107,14 +109,17 @@ def test_generate_wall():
 
 def test_generate_wall_multiple():
     wall_1 = generate_wall('test_material', [], geometry.ORIGIN, [])
-    wall_2 = generate_wall('test_material', [], geometry.ORIGIN, [wall_1['shows'][0]['boundingBox']])
+    wall_2 = generate_wall(
+        'test_material', [], geometry.ORIGIN, [
+            wall_1['shows'][0]['boundingBox']])
     wall_1_poly = geometry.rect_to_poly(wall_1['shows'][0]['boundingBox'])
     wall_2_poly = geometry.rect_to_poly(wall_2['shows'][0]['boundingBox'])
     assert not wall_1_poly.intersects(wall_2_poly)
 
 
 def test_generate_wall_with_bounds_list():
-    bounds = [{'x': 4, 'y': 0, 'z': 4}, {'x': 4, 'y': 0, 'z': 1}, {'x': 1, 'y': 0, 'z': 1}, {'x': 1, 'y': 0, 'z': 4}]
+    bounds = [{'x': 4, 'y': 0, 'z': 4}, {'x': 4, 'y': 0, 'z': 1},
+              {'x': 1, 'y': 0, 'z': 1}, {'x': 1, 'y': 0, 'z': 4}]
     wall = generate_wall('test_material', [], geometry.ORIGIN, [bounds])
     poly = geometry.rect_to_poly(bounds)
     wall_poly = geometry.rect_to_poly(wall['shows'][0]['boundingBox'])
@@ -122,11 +127,18 @@ def test_generate_wall_with_bounds_list():
 
 
 def test_generate_wall_with_target_list():
-    bounds = [{'x': 4, 'y': 0, 'z': 4}, {'x': 4, 'y': 0, 'z': 3}, {'x': 3, 'y': 0, 'z': 3}, {'x': 3, 'y': 0, 'z': 4}]
+    bounds = [{'x': 4, 'y': 0, 'z': 4}, {'x': 4, 'y': 0, 'z': 3},
+              {'x': 3, 'y': 0, 'z': 3}, {'x': 3, 'y': 0, 'z': 4}]
     target = {'shows': [{'boundingBox': bounds}]}
-    wall = generate_wall('test_material', [], geometry.ORIGIN, [bounds], [target])
+    wall = generate_wall(
+        'test_material',
+        [],
+        geometry.ORIGIN,
+        [bounds],
+        [target])
     wall_poly = geometry.rect_to_poly(wall['shows'][0]['boundingBox'])
-    assert not geometry.does_fully_obstruct_target(geometry.ORIGIN, target, wall_poly)
+    assert not geometry.does_fully_obstruct_target(
+        geometry.ORIGIN, target, wall_poly)
 
 
 def test_Goal_update_goal_info_list():
@@ -138,25 +150,30 @@ def test_Goal_update_goal_info_list():
     info_list = goal_object.update_goal_info_list([], {'target': []})
     assert info_list == []
 
-    info_list = goal_object.update_goal_info_list([], {'target': [{'info': []}]})
+    info_list = goal_object.update_goal_info_list(
+        [], {'target': [{'info': []}]})
     assert info_list == []
 
-    info_list = goal_object.update_goal_info_list([], {'target': [{'info': ['a', 'b']}]})
+    info_list = goal_object.update_goal_info_list(
+        [], {'target': [{'info': ['a', 'b']}]})
     assert set(info_list) == set(['target a', 'target b'])
 
-    info_list = goal_object.update_goal_info_list(['target a'], {'target': [{'info': ['a', 'b']}]})
+    info_list = goal_object.update_goal_info_list(
+        ['target a'], {'target': [{'info': ['a', 'b']}]})
     assert set(info_list) == set(['target a', 'target b'])
 
-    info_list = goal_object.update_goal_info_list(['target a'], {'target': [{'info': ['b', 'c']}]})
+    info_list = goal_object.update_goal_info_list(
+        ['target a'], {'target': [{'info': ['b', 'c']}]})
     assert set(info_list) == set(['target a', 'target b', 'target c'])
 
-    info_list = goal_object.update_goal_info_list(['target a'], {'target': [{'info': ['a', 'b']}, \
-            {'info': ['b', 'c']}]})
+    info_list = goal_object.update_goal_info_list(['target a'], {'target': [{'info': ['a', 'b']},
+                                                                            {'info': ['b', 'c']}]})
     assert set(info_list) == set(['target a', 'target b', 'target c'])
 
-    info_list = goal_object.update_goal_info_list(['target a', 'distractor b'], {'target': [{'info': ['a', 'b']}], \
-            'distractor': [{'info': ['b', 'c']}]})
-    assert set(info_list) == set(['target a', 'target b', 'distractor b', 'distractor c'])
+    info_list = goal_object.update_goal_info_list(['target a', 'distractor b'], {'target': [{'info': ['a', 'b']}],
+                                                                                 'distractor': [{'info': ['b', 'c']}]})
+    assert set(info_list) == set(
+        ['target a', 'target b', 'distractor b', 'distractor c'])
 
 
 def test_Goal_reset_performer_start():
@@ -171,7 +188,7 @@ def test_Goal_reset_performer_start():
 def test_Goal_tags():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
-    goal = goal_object._get_config({ 'target': [target] })
+    goal = goal_object._get_config({'target': [target]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -212,7 +229,7 @@ def test_Goal_tags_multiple_target():
     goal_object = RetrievalGoal()
     target_1 = create_tags_test_object_1()
     target_2 = create_tags_test_object_2()
-    goal = goal_object._get_config({ 'target': [target_1, target_2] })
+    goal = goal_object._get_config({'target': [target_1, target_2]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -236,7 +253,8 @@ def test_Goal_tags_with_distractor():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
     distractor = create_tags_test_object_2()
-    goal = goal_object._get_config({ 'target': [target], 'distractor': [distractor] })
+    goal = goal_object._get_config(
+        {'target': [target], 'distractor': [distractor]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -269,8 +287,8 @@ def test_Goal_tags_multiple_target_multiple_distractor():
     target_2 = create_tags_test_object_1()
     distractor_1 = create_tags_test_object_2()
     distractor_2 = create_tags_test_object_2()
-    goal = goal_object._get_config({ 'target': [target_1, target_2], \
-            'distractor': [distractor_1, distractor_2] })
+    goal = goal_object._get_config({'target': [target_1, target_2],
+                                    'distractor': [distractor_1, distractor_2]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -300,9 +318,10 @@ def test_Goal_tags_multiple_target_multiple_distractor():
 def test_Goal_tags_with_occluder():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
-    occluder_wall = { 'info': ['white'] }
-    occluder_pole = { 'info': ['brown'] }
-    goal = goal_object._get_config({ 'target': [target], 'occluder': [occluder_wall, occluder_pole] })
+    occluder_wall = {'info': ['white']}
+    occluder_pole = {'info': ['brown']}
+    goal = goal_object._get_config(
+        {'target': [target], 'occluder': [occluder_wall, occluder_pole]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -324,8 +343,8 @@ def test_Goal_tags_with_occluder():
 def test_Goal_tags_with_wall():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
-    wall = { 'info': ['white'] }
-    goal = goal_object._get_config({ 'target': [target], 'wall': [wall] })
+    wall = {'info': ['white']}
+    goal = goal_object._get_config({'target': [target], 'wall': [wall]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -346,8 +365,9 @@ def test_Goal_tags_with_wall():
 def test_Goal_tags_with_background_object():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
-    background_object = { 'info': ['red'] }
-    goal = goal_object._get_config({ 'target': [target], 'background object': [background_object] })
+    background_object = {'info': ['red']}
+    goal = goal_object._get_config(
+        {'target': [target], 'background object': [background_object]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -369,7 +389,7 @@ def test_Goal_tags_target_enclosed():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
     target['locationParent'] = 'parent'
-    goal = goal_object._get_config({ 'target': [target] })
+    goal = goal_object._get_config({'target': [target]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -389,7 +409,7 @@ def test_Goal_tags_target_novel_color():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
     target['novelColor'] = True
-    goal = goal_object._get_config({ 'target': [target] })
+    goal = goal_object._get_config({'target': [target]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -409,7 +429,7 @@ def test_Goal_tags_target_novel_combination():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
     target['novelCombination'] = True
-    goal = goal_object._get_config({ 'target': [target] })
+    goal = goal_object._get_config({'target': [target]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -429,7 +449,7 @@ def test_Goal_tags_target_novel_shape():
     goal_object = RetrievalGoal()
     target = create_tags_test_object_1()
     target['novelShape'] = True
-    goal = goal_object._get_config({ 'target': [target] })
+    goal = goal_object._get_config({'target': [target]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -451,7 +471,7 @@ def test_Goal_tags_target_enclosed_novel_color_novel_shape():
     target['locationParent'] = 'parent'
     target['novelColor'] = True
     target['novelShape'] = True
-    goal = goal_object._get_config({ 'target': [target] })
+    goal = goal_object._get_config({'target': [target]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -472,7 +492,8 @@ def test_Goal_tags_distractor_enclosed():
     target = create_tags_test_object_1()
     distractor = create_tags_test_object_2()
     distractor['locationParent'] = 'parent'
-    goal = goal_object._get_config({ 'target': [target], 'distractor': [distractor] })
+    goal = goal_object._get_config(
+        {'target': [target], 'distractor': [distractor]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -504,7 +525,8 @@ def test_Goal_tags_distractor_novel_color():
     target = create_tags_test_object_1()
     distractor = create_tags_test_object_2()
     distractor['novelColor'] = True
-    goal = goal_object._get_config({ 'target': [target], 'distractor': [distractor] })
+    goal = goal_object._get_config(
+        {'target': [target], 'distractor': [distractor]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -536,7 +558,8 @@ def test_Goal_tags_distractor_novel_combination():
     target = create_tags_test_object_1()
     distractor = create_tags_test_object_2()
     distractor['novelCombination'] = True
-    goal = goal_object._get_config({ 'target': [target], 'distractor': [distractor] })
+    goal = goal_object._get_config(
+        {'target': [target], 'distractor': [distractor]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -568,7 +591,8 @@ def test_Goal_tags_distractor_novel_shape():
     target = create_tags_test_object_1()
     distractor = create_tags_test_object_2()
     distractor['novelShape'] = True
-    goal = goal_object._get_config({ 'target': [target], 'distractor': [distractor] })
+    goal = goal_object._get_config(
+        {'target': [target], 'distractor': [distractor]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -602,7 +626,8 @@ def test_Goal_tags_distractor_enclosed_novel_color_novel_shape():
     distractor['locationParent'] = 'parent'
     distractor['novelColor'] = True
     distractor['novelShape'] = True
-    goal = goal_object._get_config({ 'target': [target], 'distractor': [distractor] })
+    goal = goal_object._get_config(
+        {'target': [target], 'distractor': [distractor]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -639,7 +664,8 @@ def test_Goal_tags_target_distractor_enclosed_novel_color_novel_shape():
     distractor['locationParent'] = 'parent'
     distractor['novelColor'] = True
     distractor['novelShape'] = True
-    goal = goal_object._get_config({ 'target': [target], 'distractor': [distractor] })
+    goal = goal_object._get_config(
+        {'target': [target], 'distractor': [distractor]})
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',
@@ -664,4 +690,3 @@ def test_Goal_tags_target_distractor_enclosed_novel_color_novel_shape():
     assert 'distractor enclosed' in goal['type_list']
     assert 'targets 1' in goal['type_list']
     assert 'distractors 1' in goal['type_list']
-

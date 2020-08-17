@@ -2,11 +2,12 @@ import intphys_goals
 import objects
 import pytest
 from quartets import GravityQuartet, ShapeConstancyQuartet, ObjectPermanenceQuartet, SpatioTemporalContinuityQuartet, \
-        get_position_step
+    get_position_step
 import util
 
 
 TEMPLATE = {'wallMaterial': 'dummy', 'wallColors': ['color']}
+
 
 def test_get_position_step():
     target = {
@@ -29,10 +30,11 @@ def test_STCQ_get_scene():
         scene = quartet.get_scene(q)
         assert scene is not None
         assert scene['goal']['last_step'] == scene_1['goal']['last_step']
-        assert scene['goal']['action_list'] == [['Pass']] * scene['goal']['last_step']
+        assert scene['goal']['action_list'] == [
+            ['Pass']] * scene['goal']['last_step']
         assert scene['goal']['category'] == 'intphys'
-        assert set(scene['goal']['domain_list']) == set(['objects', 'object solidity', 'object motion', \
-                'object permanence'])
+        assert set(scene['goal']['domain_list']) == set(['objects', 'object solidity', 'object motion',
+                                                         'object permanence'])
         assert 'passive' in scene['goal']['type_list']
         assert 'action none' in scene['goal']['type_list']
         assert 'intphys' in scene['goal']['type_list']
@@ -67,7 +69,9 @@ def test_STCQ_get_scene_2_teleport_forward():
         if quartet._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
             implausible_event_index1 = target['intphysOption']['occluder_indices'][0]
             implausible_event_index2 = target['intphysOption']['occluder_indices'][1]
-            assert target['teleports'][0]['stepBegin'] == min(implausible_event_index1, implausible_event_index2) + target['forces'][0]['stepBegin']
+            assert target['teleports'][0]['stepBegin'] == min(
+                implausible_event_index1,
+                implausible_event_index2) + target['forces'][0]['stepBegin']
         else:
             assert target['teleports'][0]['stepBegin'] >= 8
     # TODO MCS-82 Test behavior if 'hides' in target
@@ -84,7 +88,9 @@ def test_STCQ_get_scene_3_teleport_backward():
     if quartet._goal._object_creator == intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across:
         implausible_event_index1 = target['intphysOption']['occluder_indices'][0]
         implausible_event_index2 = target['intphysOption']['occluder_indices'][1]
-        assert target['teleports'][0]['stepBegin'] == max(implausible_event_index1, implausible_event_index2) + target['forces'][0]['stepBegin']
+        assert target['teleports'][0]['stepBegin'] == max(
+            implausible_event_index1,
+            implausible_event_index2) + target['forces'][0]['stepBegin']
     else:
         assert target['teleports'][0]['stepBegin'] >= 8
 
@@ -110,7 +116,8 @@ def test_ShapeConstancyQuartet():
     a = quartet._scene_template['objects'][0]
     assert a['type'] != quartet._b['type']
     assert a['id'] == quartet._b['id']
-    assert a['dimensions']['x'] == pytest.approx(quartet._b['dimensions']['x'], abs=util.MAX_SIZE_DIFFERENCE)
+    assert a['dimensions']['x'] == pytest.approx(
+        quartet._b['dimensions']['x'], abs=util.MAX_SIZE_DIFFERENCE)
     assert a['materials'] == quartet._b['materials']
 
 
@@ -125,10 +132,11 @@ def test_ShapeConstancyQuartet_get_scene():
         scene = quartet.get_scene(q)
         assert scene is not None
         assert scene['goal']['last_step'] == scene_1['goal']['last_step']
-        assert scene['goal']['action_list'] == [['Pass']] * scene['goal']['last_step']
+        assert scene['goal']['action_list'] == [
+            ['Pass']] * scene['goal']['last_step']
         assert scene['goal']['category'] == 'intphys'
-        assert set(scene['goal']['domain_list']) == set(['objects', 'object solidity', 'object motion', \
-                'object permanence'])
+        assert set(scene['goal']['domain_list']) == set(['objects', 'object solidity', 'object motion',
+                                                         'object permanence'])
         assert 'passive' in scene['goal']['type_list']
         assert 'action none' in scene['goal']['type_list']
         assert 'intphys' in scene['goal']['type_list']
@@ -204,10 +212,11 @@ def test_ObjectPermanenceQuartet_get_scene():
         scene = quartet.get_scene(q)
         assert scene is not None
         assert scene['goal']['last_step'] == scene_1['goal']['last_step']
-        assert scene['goal']['action_list'] == [['Pass']] * scene['goal']['last_step']
+        assert scene['goal']['action_list'] == [
+            ['Pass']] * scene['goal']['last_step']
         assert scene['goal']['category'] == 'intphys'
-        assert set(scene['goal']['domain_list']) == set(['objects', 'object solidity', 'object motion', \
-                'object permanence'])
+        assert set(scene['goal']['domain_list']) == set(['objects', 'object solidity', 'object motion',
+                                                         'object permanence'])
         assert 'passive' in scene['goal']['type_list']
         assert 'action none' in scene['goal']['type_list']
         assert 'intphys' in scene['goal']['type_list']
@@ -264,18 +273,20 @@ def test_GravityQuartet_get_scene():
         scene = quartet.get_scene(q)
         assert scene is not None
         assert scene['goal']['last_step'] == scene_1['goal']['last_step']
-        assert scene['goal']['action_list'] == [['Pass']] * scene['goal']['last_step']
+        assert scene['goal']['action_list'] == [
+            ['Pass']] * scene['goal']['last_step']
         assert scene['goal']['category'] == 'intphys'
-        assert set(scene['goal']['domain_list']) == set(['objects', 'object solidity', 'object motion', 'gravity'])
+        assert set(scene['goal']['domain_list']) == set(
+            ['objects', 'object solidity', 'object motion', 'gravity'])
         assert 'passive' in scene['goal']['type_list']
         assert 'action none' in scene['goal']['type_list']
         assert 'intphys' in scene['goal']['type_list']
         assert 'gravity' in scene['goal']['type_list']
         assert ('ramp 30-degree' in scene['goal']['type_list']) or \
-                ('ramp 45-degree' in scene['goal']['type_list']) or \
-                ('ramp 90-degree' in scene['goal']['type_list']) or \
-                ('ramp 30-degree-90-degree' in scene['goal']['type_list']) or \
-                ('ramp 45-degree-90-degree' in scene['goal']['type_list'])
+            ('ramp 45-degree' in scene['goal']['type_list']) or \
+            ('ramp 90-degree' in scene['goal']['type_list']) or \
+            ('ramp 30-degree-90-degree' in scene['goal']['type_list']) or \
+            ('ramp 45-degree-90-degree' in scene['goal']['type_list'])
         assert len(scene['objects']) >= 1
 
 
@@ -284,7 +295,7 @@ def test_GravityQuartet_get_scene_1():
     scene = quartet.get_scene(1)
     assert scene['answer']['choice'] == 'plausible'
     assert ('gravity ramp fast further' in scene['goal']['type_list']) or \
-            ('gravity ramp up slower' in scene['goal']['type_list'])
+        ('gravity ramp up slower' in scene['goal']['type_list'])
     # TODO MCS-82 More asserts to test specific behavior
 
 
@@ -293,7 +304,7 @@ def test_GravityQuartet_get_scene_2():
     scene = quartet.get_scene(2)
     assert scene['answer']['choice'] == 'plausible'
     assert ('gravity ramp slow shorter' in scene['goal']['type_list']) or \
-            ('gravity ramp down faster' in scene['goal']['type_list'])
+        ('gravity ramp down faster' in scene['goal']['type_list'])
     # TODO MCS-82 More asserts to test specific behavior
 
 
@@ -302,7 +313,7 @@ def test_GravityQuartet_get_scene_3():
     scene = quartet.get_scene(3)
     assert scene['answer']['choice'] == 'implausible'
     assert ('gravity ramp fast shorter' in scene['goal']['type_list']) or \
-            ('gravity ramp up faster' in scene['goal']['type_list'])
+        ('gravity ramp up faster' in scene['goal']['type_list'])
     # TODO MCS-82 More asserts to test specific behavior
 
 
@@ -311,7 +322,5 @@ def test_GravityQuartet_get_scene_4():
     scene = quartet.get_scene(4)
     assert scene['answer']['choice'] == 'implausible'
     assert ('gravity ramp slow further' in scene['goal']['type_list']) or \
-            ('gravity ramp down slower' in scene['goal']['type_list'])
+        ('gravity ramp down slower' in scene['goal']['type_list'])
     # TODO MCS-82 More asserts to test specific behavior
-
-

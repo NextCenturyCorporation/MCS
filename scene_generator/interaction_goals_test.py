@@ -15,8 +15,8 @@ import scene_generator
 from geometry import POSITION_DIGITS
 from goals import *
 from interaction_goals import move_to_container, parse_path_section, get_navigation_actions, trim_actions_to_reach, \
-        PathfindingException, ObjectRule, PickupableObjectRule, TransferToObjectRule, FarOffObjectRule, \
-        DistractorObjectRule, ConfusorObjectRule, ObstructorObjectRule
+    PathfindingException, ObjectRule, PickupableObjectRule, TransferToObjectRule, FarOffObjectRule, \
+    DistractorObjectRule, ConfusorObjectRule, ObstructorObjectRule
 from util import MAX_SIZE_DIFFERENCE, MAX_TRIES, finalize_object_definition, instantiate_object
 
 
@@ -28,7 +28,8 @@ def test_move_to_container():
             obj = instantiate_object(obj_def, geometry.ORIGIN_LOCATION)
             tries = 0
             while tries < 100:
-                container = move_to_container(obj_def, obj, [], geometry.ORIGIN)
+                container = move_to_container(
+                    obj_def, obj, [], geometry.ORIGIN)
                 if container:
                     break
                 tries += 1
@@ -53,7 +54,8 @@ def test_parse_path_section():
             'amount': round(math.sqrt(2 * 0.1**2) / MAX_MOVE_DISTANCE, POSITION_DIGITS)
         }
     }]
-    actions, new_heading, performer = parse_path_section(path_section, 0, (0, 0), [])
+    actions, new_heading, performer = parse_path_section(
+        path_section, 0, (0, 0), [])
     assert actions == expected_actions
 
 
@@ -87,7 +89,8 @@ def test_parse_path_section_fractional():
             'amount': round(0.4 / MAX_MOVE_DISTANCE, POSITION_DIGITS)
         }
     }]
-    actions, new_heading, performer = parse_path_section(path_section, 0, (0, 0), goal_boundary)
+    actions, new_heading, performer = parse_path_section(
+        path_section, 0, (0, 0), goal_boundary)
     assert actions == expected_actions
 
 
@@ -146,7 +149,8 @@ def test_get_navigation_action():
             ]
         }]
     }
-    actions, performer, heading = get_navigation_actions(start, goal_object, [goal_object])
+    actions, performer, heading = get_navigation_actions(
+        start, goal_object, [goal_object])
     assert actions == expected_actions
 
 
@@ -216,7 +220,8 @@ def test_get_navigation_action_with_locationParent():
             }
         }]
     }
-    actions, performer, heading = get_navigation_actions(start, goal_object, [container_object, goal_object])
+    actions, performer, heading = get_navigation_actions(
+        start, goal_object, [container_object, goal_object])
     assert actions == expected_actions
 
 
@@ -304,23 +309,26 @@ def test_get_navigation_action_with_turning():
                     'y': 0,
                     'z': 2
                 },
-                
+
             ]
         }]
     }
     expected_actions = [{'action': 'RotateLook', 'params': {'rotation': 315.0, 'horizon': 0.0}},
-                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
-                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
+                        {'action': 'MoveAhead', 'params': {'amount': 1}},
+                        {'action': 'MoveAhead', 'params': {'amount': 1}},
                         {'action': 'MoveAhead', 'params': {'amount': 0.83}},
-                        {'action': 'RotateLook', 'params': {'rotation': 45.0, 'horizon': 0.0}},
-                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
-                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
-                        {'action': 'RotateLook', 'params': {'rotation': 45.0, 'horizon': 0.0}},
-                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
-                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
-                        {'action': 'MoveAhead', 'params': {'amount': round((.9*math.sqrt(2)-1)/MAX_MOVE_DISTANCE, POSITION_DIGITS)}}]
+                        {'action': 'RotateLook', 'params': {
+                            'rotation': 45.0, 'horizon': 0.0}},
+                        {'action': 'MoveAhead', 'params': {'amount': 1}},
+                        {'action': 'MoveAhead', 'params': {'amount': 1}},
+                        {'action': 'RotateLook', 'params': {
+                            'rotation': 45.0, 'horizon': 0.0}},
+                        {'action': 'MoveAhead', 'params': {'amount': 1}},
+                        {'action': 'MoveAhead', 'params': {'amount': 1}},
+                        {'action': 'MoveAhead', 'params': {'amount': round((.9 * math.sqrt(2) - 1) / MAX_MOVE_DISTANCE, POSITION_DIGITS)}}]
     all_objs = [goal_obj, obstacle_obj]
-    actions, performer, heading = get_navigation_actions(start, goal_obj, all_objs)
+    actions, performer, heading = get_navigation_actions(
+        start, goal_obj, all_objs)
     assert actions == expected_actions
 
 
@@ -349,7 +357,8 @@ def test_trim_actions_to_reach():
             'amount': 1
         }
     }]
-    actions, new_heading, performer = parse_path_section(path_section, 0, (0, 0), goal_boundary)
+    actions, new_heading, performer = parse_path_section(
+        path_section, 0, (0, 0), goal_boundary)
     target = {
         'shows': [{
             'position': {
@@ -359,7 +368,8 @@ def test_trim_actions_to_reach():
             }
         }]
     }
-    actions, performer = trim_actions_to_reach(actions, performer, new_heading, target)
+    actions, performer = trim_actions_to_reach(
+        actions, performer, new_heading, target)
     assert actions == expected_actions
 
 
@@ -373,7 +383,8 @@ def test_ObjectRule_choose_location():
     performer_start = geometry.ORIGIN_LOCATION
     rule = ObjectRule()
     definition = rule.choose_definition()
-    location, bounds_list = rule.choose_location(definition, performer_start, [])
+    location, bounds_list = rule.choose_location(
+        definition, performer_start, [])
     assert location
     assert len(bounds_list) == 1
 
@@ -397,24 +408,27 @@ def test_TransferToObjectRule_validate_location():
 
     target_rule = ObjectRule()
     target_definition = target_rule.choose_definition()
-    target_location, bounds_list = target_rule.choose_location(target_definition, performer_start, [])
+    target_location, bounds_list = target_rule.choose_location(
+        target_definition, performer_start, [])
     target = instantiate_object(target_definition, target_location)
     assert target
 
     rule = TransferToObjectRule()
     definition = rule.choose_definition()
-    location, bounds_list = rule.choose_location(definition, performer_start, bounds_list)
-    assert rule.validate_location(location, [target], performer_start) == (geometry.position_distance( \
-            target_location['position'], location['position']) >= geometry.MIN_OBJECTS_SEPARATION_DISTANCE)
+    location, bounds_list = rule.choose_location(
+        definition, performer_start, bounds_list)
+    assert rule.validate_location(location, [target], performer_start) == (geometry.position_distance(
+        target_location['position'], location['position']) >= geometry.MIN_OBJECTS_SEPARATION_DISTANCE)
 
 
 def test_FarOffObjectRule_validate_location():
     performer_start = geometry.ORIGIN_LOCATION
     rule = FarOffObjectRule()
     definition = rule.choose_definition()
-    location, bounds_list = rule.choose_location(definition, performer_start, [])
-    assert rule.validate_location(location, [], performer_start) == (geometry.position_distance( \
-            performer_start['position'], location['position']) >= geometry.MIN_OBJECTS_SEPARATION_DISTANCE)
+    location, bounds_list = rule.choose_location(
+        definition, performer_start, [])
+    assert rule.validate_location(location, [], performer_start) == (geometry.position_distance(
+        performer_start['position'], location['position']) >= geometry.MIN_OBJECTS_SEPARATION_DISTANCE)
 
 
 def test_DistractorObjectRule_choose_definition():
@@ -422,7 +436,8 @@ def test_DistractorObjectRule_choose_definition():
 
     target_rule = ObjectRule()
     target_definition = target_rule.choose_definition()
-    target_location, bounds_list = target_rule.choose_location(target_definition, performer_start, [])
+    target_location, bounds_list = target_rule.choose_location(
+        target_definition, performer_start, [])
     target = instantiate_object(target_definition, target_location)
     assert target
 
@@ -444,15 +459,16 @@ def test_ConfusorObjectRule_choose_definition():
     is_same_color = set(definition['color']) == set(target_definition['color'])
     is_same_shape = definition['shape'] == target_definition['shape']
     is_same_size = definition['size'] == target_definition['size'] and \
-            (definition['dimensions']['x'] >= target_definition['dimensions']['x'] - MAX_SIZE_DIFFERENCE) and \
-            (definition['dimensions']['x'] <= target_definition['dimensions']['x'] + MAX_SIZE_DIFFERENCE) and \
-            (definition['dimensions']['y'] >= target_definition['dimensions']['y'] - MAX_SIZE_DIFFERENCE) and \
-            (definition['dimensions']['y'] <= target_definition['dimensions']['y'] + MAX_SIZE_DIFFERENCE) and \
-            (definition['dimensions']['z'] >= target_definition['dimensions']['z'] - MAX_SIZE_DIFFERENCE) and \
-            (definition['dimensions']['z'] <= target_definition['dimensions']['z'] + MAX_SIZE_DIFFERENCE)
+        (definition['dimensions']['x'] >= target_definition['dimensions']['x'] - MAX_SIZE_DIFFERENCE) and \
+        (definition['dimensions']['x'] <= target_definition['dimensions']['x'] + MAX_SIZE_DIFFERENCE) and \
+        (definition['dimensions']['y'] >= target_definition['dimensions']['y'] - MAX_SIZE_DIFFERENCE) and \
+        (definition['dimensions']['y'] <= target_definition['dimensions']['y'] + MAX_SIZE_DIFFERENCE) and \
+        (definition['dimensions']['z'] >= target_definition['dimensions']['z'] - MAX_SIZE_DIFFERENCE) and \
+        (definition['dimensions']['z'] <=
+         target_definition['dimensions']['z'] + MAX_SIZE_DIFFERENCE)
     assert (is_same_size and is_same_shape and not is_same_color) or \
-            (is_same_size and is_same_color and not is_same_shape) or \
-            (is_same_shape and is_same_color and not is_same_size)
+        (is_same_size and is_same_color and not is_same_shape) or \
+        (is_same_shape and is_same_color and not is_same_size)
 
 
 def test_ObstructorObjectRule_choose_definition():
@@ -468,9 +484,13 @@ def test_ObstructorObjectRule_choose_definition():
     assert definition['obstruct'] == 'navigation'
 
     if definition['rotation']['y'] == 0:
-        assert (definition['dimensions']['x'] >= target_definition['dimensions']['x'] - MAX_SIZE_DIFFERENCE)
+        assert (
+            definition['dimensions']['x'] >= target_definition['dimensions']['x'] -
+            MAX_SIZE_DIFFERENCE)
     elif definition['rotation']['y'] == 90:
-        assert (definition['dimensions']['z'] >= target_definition['dimensions']['z'] - MAX_SIZE_DIFFERENCE)
+        assert (
+            definition['dimensions']['z'] >= target_definition['dimensions']['z'] -
+            MAX_SIZE_DIFFERENCE)
     else:
         assert False
 
@@ -486,12 +506,18 @@ def test_ObstructorObjectRule_choose_definition_obstruct_vision():
     definition = rule.choose_definition()
     assert definition
     assert definition['obstruct'] == 'vision'
-    assert (definition['dimensions']['y'] >= target_definition['dimensions']['y'] - MAX_SIZE_DIFFERENCE)
+    assert (
+        definition['dimensions']['y'] >= target_definition['dimensions']['y'] -
+        MAX_SIZE_DIFFERENCE)
 
     if definition['rotation']['y'] == 0:
-        assert (definition['dimensions']['x'] >= target_definition['dimensions']['x'] - MAX_SIZE_DIFFERENCE)
+        assert (
+            definition['dimensions']['x'] >= target_definition['dimensions']['x'] -
+            MAX_SIZE_DIFFERENCE)
     elif definition['rotation']['y'] == 90:
-        assert (definition['dimensions']['z'] >= target_definition['dimensions']['z'] - MAX_SIZE_DIFFERENCE)
+        assert (
+            definition['dimensions']['z'] >= target_definition['dimensions']['z'] -
+            MAX_SIZE_DIFFERENCE)
     else:
         assert False
 
@@ -510,7 +536,8 @@ def test_RetrievalGoal_get_config_arg_invalid():
 
 def test_RetrievalGoal_update_body():
     goal = RetrievalGoal()
-    body = goal.update_body({'wallMaterial': 'test_material', 'wallColors': []}, False)
+    body = goal.update_body(
+        {'wallMaterial': 'test_material', 'wallColors': []}, False)
     assert body['performerStart'] == goal.get_performer_start()
     assert body['goal']['category'] == 'retrieval'
     assert body['goal']['metadata']['target']
@@ -522,7 +549,8 @@ def test_RetrievalGoal_update_body():
     target = body['objects'][0]
     assert target['pickupable']
     assert target['id'] == body['goal']['metadata']['target']['id']
-    assert body['goal']['description'] == ('Find and pick up the ' + target['goalString'] + '.')
+    assert body['goal']['description'] == (
+        'Find and pick up the ' + target['goalString'] + '.')
 
 
 def test_RetrievalGoal_get_config():
@@ -534,10 +562,15 @@ def test_RetrievalGoal_get_config():
         'pickupable': True,
         'type': 'sphere'
     }
-    goal = goal_obj._get_config({ 'target': [obj] })
+    goal = goal_obj._get_config({'target': [obj]})
     assert goal['category'] == 'retrieval'
     assert goal['description'] == 'Find and pick up the blue rubber ball.'
-    assert set(goal['info_list']) == {'target blue', 'target rubber', 'target ball', 'target blue rubber ball'}
+    assert set(
+        goal['info_list']) == {
+        'target blue',
+        'target rubber',
+        'target ball',
+        'target blue rubber ball'}
     target = goal['metadata']['target']
     assert target['id'] == obj['id']
     assert target['info'] == ['blue', 'rubber', 'ball']
@@ -551,7 +584,8 @@ def test_TraversalGoal_get_config_arg_count():
 
 def test_TraversalGoal_update_body():
     goal = TraversalGoal()
-    body = goal.update_body({'wallMaterial': 'test_material', 'wallColors': []}, False)
+    body = goal.update_body(
+        {'wallMaterial': 'test_material', 'wallColors': []}, False)
     assert body['performerStart'] == goal.get_performer_start()
     assert body['goal']['category'] == 'traversal'
     assert body['goal']['metadata']['target']
@@ -562,7 +596,8 @@ def test_TraversalGoal_update_body():
 
     target = body['objects'][0]
     assert target['id'] == body['goal']['metadata']['target']['id']
-    assert body['goal']['description'] == ('Find the ' + target['goalString'] + ' and move near it.')
+    assert body['goal']['description'] == (
+        'Find the ' + target['goalString'] + ' and move near it.')
 
 
 def test_TraversalGoal_get_config():
@@ -573,10 +608,15 @@ def test_TraversalGoal_get_config():
         'goalString': 'blue rubber ball',
         'type': 'sphere'
     }
-    goal = goal_obj._get_config({ 'target': [obj] })
+    goal = goal_obj._get_config({'target': [obj]})
     assert goal['category'] == 'traversal'
     assert goal['description'] == 'Find the blue rubber ball and move near it.'
-    assert set(goal['info_list']) == {'target blue', 'target rubber', 'target ball', 'target blue rubber ball'}
+    assert set(
+        goal['info_list']) == {
+        'target blue',
+        'target rubber',
+        'target ball',
+        'target blue rubber ball'}
     target = goal['metadata']['target']
     assert target['id'] == obj['id']
     assert target['info'] == ['blue', 'rubber', 'ball']
@@ -584,7 +624,8 @@ def test_TraversalGoal_get_config():
 
 def test_TransferralGoal_update_body():
     goal = TransferralGoal()
-    body = goal.update_body({'wallMaterial': 'test_material', 'wallColors': []}, False)
+    body = goal.update_body(
+        {'wallMaterial': 'test_material', 'wallColors': []}, False)
     assert body['performerStart'] == goal.get_performer_start()
     assert body['goal']['category'] == 'transferral'
     assert body['goal']['metadata']['target_1']
@@ -600,8 +641,8 @@ def test_TransferralGoal_update_body():
     assert target_2['stackTarget']
     assert target_1['id'] == body['goal']['metadata']['target_1']['id']
     assert target_2['id'] == body['goal']['metadata']['target_2']['id']
-    assert body['goal']['description'] == ('Find and pick up the ' + target_1['goalString'] + ' and move it ' + \
-            body['goal']['metadata']['relationship'][1] + ' the ' + target_2['goalString'] + '.')
+    assert body['goal']['description'] == ('Find and pick up the ' + target_1['goalString'] + ' and move it ' +
+                                           body['goal']['metadata']['relationship'][1] + ' the ' + target_2['goalString'] + '.')
 
 
 def test_TransferralGoal_get_config_arg_count():
@@ -613,13 +654,15 @@ def test_TransferralGoal_get_config_arg_count():
 def test_TransferralGoal_get_config_arg_invalid_1():
     goal_obj = TransferralGoal()
     with pytest.raises(exceptions.SceneException):
-        goal_obj._get_config({'target': [{'pickupable': False}, {'stackTarget': True}]})
+        goal_obj._get_config(
+            {'target': [{'pickupable': False}, {'stackTarget': True}]})
 
 
 def test_TransferralGoal_get_config_arg_invalid_2():
     goal_obj = TransferralGoal()
     with pytest.raises(exceptions.SceneException):
-        goal_obj._get_config({'target': [{'pickupable': True}, {'stackTarget': False}]})
+        goal_obj._get_config(
+            {'target': [{'pickupable': True}, {'stackTarget': False}]})
 
 
 def test_TransferralGoal_get_config():
@@ -641,10 +684,10 @@ def test_TransferralGoal_get_config():
         'type': 'changing_table',
         'stackTarget': True
     }
-    goal = goal_obj._get_config({ 'target': [pickupable_obj, other_obj] })
+    goal = goal_obj._get_config({'target': [pickupable_obj, other_obj]})
 
-    assert set(goal['info_list']) == {'target blue', 'target rubber', 'target ball', 'target blue rubber ball', \
-            'target yellow', 'target wood', 'target changing table', 'target yellow wood changing table'}
+    assert set(goal['info_list']) == {'target blue', 'target rubber', 'target ball', 'target blue rubber ball',
+                                      'target yellow', 'target wood', 'target changing table', 'target yellow wood changing table'}
 
     target1 = goal['metadata']['target_1']
     assert target1['id'] == pickupable_id
@@ -655,11 +698,12 @@ def test_TransferralGoal_get_config():
 
     relationship = goal['metadata']['relationship']
     relationship_type = relationship[1]
-    assert relationship_type in [g.value for g in TransferralGoal.RelationshipType]
+    assert relationship_type in [
+        g.value for g in TransferralGoal.RelationshipType]
 
     assert goal['category'] == 'transferral'
     assert goal['description'] == 'Find and pick up the blue rubber ball and move it ' + \
-            relationship_type + ' the yellow wood changing table.'
+        relationship_type + ' the yellow wood changing table.'
 
 
 def test_TransferralGoal_ensure_pickup_action():
@@ -675,7 +719,8 @@ def test_TransferralGoal_ensure_pickup_action():
             break
 
     # should have a PickupObject action
-    assert any((action['action'] == 'PickupObject' for action in body['answer']['actions']))
+    assert any(
+        (action['action'] == 'PickupObject' for action in body['answer']['actions']))
     # last action one should be PutObject
     assert body['answer']['actions'][-1]['action'] == 'PutObject'
 
@@ -694,10 +739,13 @@ def test_TransferralGoal_navigate_near_objects():
 
     pickupable_id = body['goal']['metadata']['target_1']['id']
     container_id = body['goal']['metadata']['target_2']['id']
-    pickupable_obj = next((obj for obj in body['objects'] if obj['id'] == pickupable_id))
-    container_obj = next((obj for obj in body['objects'] if obj['id'] == container_id))
+    pickupable_obj = next(
+        (obj for obj in body['objects'] if obj['id'] == pickupable_id))
+    container_obj = next(
+        (obj for obj in body['objects'] if obj['id'] == container_id))
     if 'locationParent' in pickupable_obj:
-        parent = next((obj for obj in body['objects'] if obj['id'] == pickupable_obj['locationParent']))
+        parent = next(
+            (obj for obj in body['objects'] if obj['id'] == pickupable_obj['locationParent']))
         pickupable_position = parent['shows'][0]['position']
         pass
     else:
@@ -712,7 +760,8 @@ def test_TransferralGoal_navigate_near_objects():
     for action in body['answer']['actions']:
         if action['action'] == 'PickupObject':
             # should be near pickupable object
-            # TODO I think this needs to account for the dimensions of the pickupable object too?
+            # TODO I think this needs to account for the dimensions of the
+            # pickupable object too?
             pickupable_distance = math.sqrt((x - pickupable_position['x'])**2 +
                                             (z - pickupable_position['z'])**2)
             assert pickupable_distance <= MAX_REACH_DISTANCE
@@ -834,4 +883,3 @@ def test_TransferralGoal_targets_not_close_to_each_other():
     distance = geometry.position_distance(target1['shows'][0]['position'],
                                           target2['shows'][0]['position'])
     assert distance >= geometry.MIN_OBJECTS_SEPARATION_DISTANCE
-
