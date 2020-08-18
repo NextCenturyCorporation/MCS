@@ -3,8 +3,9 @@ import pytest
 import geometry
 import objects
 import util
-from containers import put_object_in_container, put_objects_in_container, Orientation, can_enclose, \
-    can_contain_both, how_can_contain, get_enclosable_containments, find_suitable_enclosable_list, \
+from containers import put_object_in_container, put_objects_in_container, \
+    Orientation, can_enclose, can_contain_both, how_can_contain, \
+    get_enclosable_containments, find_suitable_enclosable_list, \
     retrieve_enclosable_object_definition_list
 from geometry_test import are_adjacent
 
@@ -21,10 +22,14 @@ def test_put_object_in_container():
         obj_bounds = obj['shows'][0]['boundingBox']
 
         containments = get_enclosable_containments([obj_def])
-        if len(
-                containments) == 0 and obj_def['type'] not in PICKUPABLE_OBJECTS_WITHOUT_CONTAINMENTS:
+        if (
+            len(containments) == 0 and
+            obj_def['type'] not in PICKUPABLE_OBJECTS_WITHOUT_CONTAINMENTS
+        ):
             print(
-                f'pickupable object should have at least one containment: {obj_def}')
+                f'pickupable object should have at least one containment: '
+                f'{obj_def}'
+            )
             assert False
 
         for containment in containments:
@@ -43,13 +48,21 @@ def test_put_object_in_container():
                 rotations[0])
 
             assert obj['locationParent'] == container['id']
-            assert obj['shows'][0]['position']['x'] == container_def['enclosedAreas'][0]['position']['x']
-            expected_position_y = container_def['enclosedAreas'][0]['position']['y'] - \
-                (container_def['enclosedAreas'][area_index]['dimensions']['y'] / 2.0) + \
+            assert (
+                obj['shows'][0]['position']['x'] ==
+                container_def['enclosedAreas'][0]['position']['x']
+            )
+            expected_position_y = (
+                container_def['enclosedAreas'][0]['position']['y'] -
+                (container_def['enclosedAreas'][area_index]['dimensions']['y'] / 2.0) +  # noqa: E501
                 obj_def.get('positionY', 0)
+            )
             assert obj['shows'][0]['position']['y'] == pytest.approx(
                 expected_position_y)
-            assert obj['shows'][0]['position']['z'] == container_def['enclosedAreas'][0]['position']['z']
+            assert (
+                obj['shows'][0]['position']['z'] ==
+                container_def['enclosedAreas'][0]['position']['z']
+            )
             assert obj['shows'][0]['rotation']
             assert obj['shows'][0]['boundingBox']
             assert obj['shows'][0]['boundingBox'] != obj_bounds
@@ -70,10 +83,17 @@ def test_put_objects_in_container():
             obj_b_bounds = obj_b['shows'][0]['boundingBox']
 
             containments = get_enclosable_containments([obj_a_def, obj_b_def])
-            if len(containments) == 0 and obj_a_def['type'] not in PICKUPABLE_OBJECTS_WITHOUT_CONTAINMENTS and \
-                    obj_b_def['type'] not in PICKUPABLE_OBJECTS_WITHOUT_CONTAINMENTS:
+            if (
+                len(containments) == 0 and
+                obj_a_def['type'] not in
+                PICKUPABLE_OBJECTS_WITHOUT_CONTAINMENTS and
+                obj_b_def['type'] not in
+                PICKUPABLE_OBJECTS_WITHOUT_CONTAINMENTS
+            ):
                 print(
-                    f'pair of pickupable objects should have at least one containment:\nobject_a={obj_a_def}\nobject_b={obj_b_def}')
+                    f'pair of pickupable objects should have at least one '
+                    f'containment:\nobject_a={obj_a_def}\n'
+                    f'object_b={obj_b_def}')
                 assert False
 
             for containment in containments:
@@ -83,8 +103,10 @@ def test_put_objects_in_container():
                 container = util.instantiate_object(
                     container_def, container_location)
 
-                put_objects_in_container(obj_a_def, obj_a, obj_b_def, obj_b, container, container_def, area_index,
-                                         Orientation.SIDE_BY_SIDE, rotations[0], rotations[1])
+                put_objects_in_container(obj_a_def, obj_a, obj_b_def, obj_b,
+                                         container, container_def, area_index,
+                                         Orientation.SIDE_BY_SIDE,
+                                         rotations[0], rotations[1])
                 assert obj_a['locationParent'] == container['id']
                 assert obj_b['locationParent'] == container['id']
                 assert obj_a['shows'][0]['boundingBox']
@@ -167,10 +189,15 @@ def test_get_enclosable_containments():
     for target_definition in util.retrieve_full_object_definition_list(
             objects.get('PICKUPABLE')):
         containments = get_enclosable_containments([target_definition])
-        if len(
-                containments) == 0 and target_definition['type'] not in PICKUPABLE_OBJECTS_WITHOUT_CONTAINMENTS:
+        if (
+            len(containments) == 0 and
+            target_definition['type'] not in
+            PICKUPABLE_OBJECTS_WITHOUT_CONTAINMENTS
+        ):
             print(
-                f'pickupable object should have at least one containment: {target_definition}')
+                f'pickupable object should have at least one '
+                f'containment: {target_definition}'
+            )
             assert False
         for containment in containments:
             definition, index, angles = containment
@@ -208,9 +235,13 @@ def test_find_suitable_enclosable_list():
     for target_definition in util.retrieve_full_object_definition_list(
             objects.get('PICKUPABLE')):
         enclosable_list = find_suitable_enclosable_list(target_definition)
-        if len(
-                enclosable_list) == 0 and target_definition['type'] not in PICKUPABLE_OBJECTS_WITHOUT_CONTAINMENTS:
+        if (
+            len(enclosable_list) == 0 and
+            target_definition['type'] not in
+            PICKUPABLE_OBJECTS_WITHOUT_CONTAINMENTS
+        ):
             print(
-                f'pickupable object should have at least one enclosable: {target_definition}')
+                f'pickupable object should have at least one enclosable: '
+                f'{target_definition}')
             assert False
         assert True
