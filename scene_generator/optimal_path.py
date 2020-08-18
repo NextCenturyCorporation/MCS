@@ -22,10 +22,12 @@ def _dilate_polygons(rects: List[List[Dict[str, float]]], dilation: float,
         poly = Polygon([(point['x'], point['z']) for point in rect])
         poly.buffer(dilation, resolution=4)
         if poly.contains(source):
-            logging.debug(f'source is inside something: source={source}\tpoly={poly}')
+            logging.debug(
+                f'source is inside something: source={source}\tpoly={poly}')
             return None
         if poly.contains(target):
-            logging.debug(f'target is inside something: target={target}\tpoly={poly}')
+            logging.debug(
+                f'target is inside something: target={target}\tpoly={poly}')
             return None
         polygons.append(poly)
     return polygons
@@ -49,7 +51,8 @@ def _unify_and_clean_polygons(polygons: List[Polygon]) \
         num_unified_points += len(coords)
         if coords[0] == coords[-1]:
             del coords[-1]
-    logging.debug(f'unified polygons: {len(poly_coords)}\tunified points: {num_unified_points}')
+    logging.debug(
+        f'unified polygons: {len(poly_coords)}\tunified points: {num_unified_points}')
 
     return poly_coords
 
@@ -65,7 +68,13 @@ def generatepath(source_loc: Tuple[float, float],
     """Boundary has to be CCW, Holes CW"""
     # dilate all the polygons based on the agent width
     dilation = agent_width / 2.0
-    polygons = _dilate_polygons(other_rects, dilation, Point(*source_loc), Point(*target_loc))
+    polygons = _dilate_polygons(
+        other_rects,
+        dilation,
+        Point(
+            *source_loc),
+        Point(
+            *target_loc))
     if polygons is None:
         return None
 

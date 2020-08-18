@@ -14,10 +14,10 @@ def test_clean_object():
         'info': ['a', 'b', 'c', 'd'],
         'goalString': 'abcd',
         'materialCategory': ['wood'],
-        'dimensions': { 'x': 13, 'z': 42 },
-        'offset': { 'x': 13, 'z': 42 },
-        'closedDimensions': { 'x': 13, 'z': 42 },
-        'closedOffset': { 'x': 13, 'z': 42 },
+        'dimensions': {'x': 13, 'z': 42},
+        'offset': {'x': 13, 'z': 42},
+        'closedDimensions': {'x': 13, 'z': 42},
+        'closedOffset': {'x': 13, 'z': 42},
         'enclosedAreas': [{}],
         'openAreas': [{}],
         'intphysOption': 'stuff',
@@ -40,4 +40,3 @@ def test_clean_object():
     }
     clean_object(obj)
     assert obj == expected
-

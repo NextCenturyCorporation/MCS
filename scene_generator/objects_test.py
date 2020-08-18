@@ -10,7 +10,11 @@ def test_create_occluder_normal():
     x_position = random.uniform(-1, 1)
     x_scale = random.uniform(0.1, 2)
 
-    occluder = create_occluder(wall_material, pole_material, x_position, x_scale)
+    occluder = create_occluder(
+        wall_material,
+        pole_material,
+        x_position,
+        x_scale)
     assert len(occluder) == 2
     wall, pole = occluder
     # make sure we got them back in the right order
@@ -30,7 +34,12 @@ def test_create_occluder_sideways():
     x_position = random.uniform(-1, 1)
     x_scale = random.uniform(0.1, 2)
 
-    occluder = create_occluder(wall_material, pole_material, x_position, x_scale, True)
+    occluder = create_occluder(
+        wall_material,
+        pole_material,
+        x_position,
+        x_scale,
+        True)
     assert len(occluder) == 2
     wall, pole = occluder
     # make sure we got them back in the right order
@@ -57,9 +66,9 @@ def test_all_objects_have_expected_properties():
             assert 'color' in object_definition
         assert 'info' not in object_definition
 
+
 def test_get():
     list_1 = get('ALL')
     list_2 = get('ALL')
     assert not (list_1 is list_2)
     assert list_1 == list_2
-
