@@ -1,19 +1,15 @@
 import copy
 import logging
 import random
-from abc import ABC, abstractmethod
 from enum import Enum, auto
 from typing import Any, Callable, Dict, List, Optional, Tuple, Type
 import uuid
-
-import shapely
 
 import containers
 import exceptions
 import geometry
 import goals
 from interaction_goals import DistractorObjectRule, InteractionGoal, ObjectRule
-import objects
 import tags
 import util
 
@@ -1153,41 +1149,65 @@ class InteractionPair():
         is_confusor_close_in_goal_2: bool,
         is_target_location_same_in_both: bool
     ) -> Tuple[Dict[str, float], Dict[str, float]]:
-        """Generate and return the location for the confusor in both scenes positioned relative to the target."""
+        """Generate and return the location for the confusor in both scenes
+        positioned relative to the target."""
 
         # If the target location is the same in both scenes, just generate the
         # confusor location once.
-        if is_confusor_close_in_goal_1 and is_confusor_close_in_goal_2 and is_target_location_same_in_both:
-            confusor_location = self._generate_location_close_to_object(confusor_definition, target_definition,
-                                                                        target_location_1, performer_start)
+        if (
+            is_confusor_close_in_goal_1 and
+            is_confusor_close_in_goal_2 and
+            is_target_location_same_in_both
+        ):
+            confusor_location = self._generate_location_close_to_object(
+                confusor_definition,
+                target_definition,
+                target_location_1,
+                performer_start
+            )
             return confusor_location, confusor_location
 
         confusor_location_1 = None
         confusor_location_2 = None
 
         if is_confusor_close_in_goal_1:
-            confusor_location_1 = self._generate_location_close_to_object(confusor_definition, target_definition,
-                                                                          target_location_1, performer_start)
+            confusor_location_1 = self._generate_location_close_to_object(
+                confusor_definition,
+                target_definition,
+                target_location_1,
+                performer_start
+            )
         else:
-            confusor_location_1 = self._generate_location_far_from_object(confusor_definition, target_location_1,
-                                                                          performer_start)
+            confusor_location_1 = self._generate_location_far_from_object(
+                confusor_definition, target_location_1, performer_start
+            )
 
         if is_confusor_close_in_goal_2:
-            confusor_location_2 = self._generate_location_close_to_object(confusor_definition, target_definition,
-                                                                          target_location_2, performer_start)
+            confusor_location_2 = self._generate_location_close_to_object(
+                confusor_definition,
+                target_definition,
+                target_location_2,
+                performer_start
+            )
         else:
-            confusor_location_2 = self._generate_location_far_from_object(confusor_definition, target_location_2,
-                                                                          performer_start)
+            confusor_location_2 = self._generate_location_far_from_object(
+                confusor_definition, target_location_2, performer_start
+            )
 
         # Add more confusor location scene options here if needed in the
         # future.
 
         return confusor_location_1, confusor_location_2
 
-    def _generate_front_and_back(self, goal: InteractionGoal, object_definition: Dict[str, Any],
-                                 object_rule: ObjectRule, generate_back: bool) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-        """Generate a location both in front of and in back of the performer_start. Will modify the performer_start
-        in the given goal if needed to generate the two locations. Return the front and back locations."""
+    def _generate_front_and_back(self, goal: InteractionGoal,
+                                 object_definition: Dict[str, Any],
+                                 object_rule: ObjectRule,
+                                 generate_back: bool) \
+            -> Tuple[Dict[str, Any], Dict[str, Any]]:
+        """Generate a location both in front of and in back of the
+        performer_start. Will modify the performer_start
+        in the given goal if needed to generate the two locations.
+        Return the front and back locations."""
 
         performer_start = goal.get_performer_start()
         location_front = None
@@ -1211,77 +1231,119 @@ class InteractionPair():
 
         if not generate_back and not location_front:
             raise exceptions.SceneException(
-                f'{self.get_name()} cannot position performer start in front of object={object_definition}')
+                f'{self.get_name()} cannot position performer start in '
+                f'front of object={object_definition}')
 
         if generate_back and (not location_front or not location_back):
             raise exceptions.SceneException(
-                f'{self.get_name()} cannot position performer start in front of and in back of object={object_definition}')
+                f'{self.get_name()} cannot position performer start in '
+                f'front of and in back of object={object_definition}')
 
         return location_front, location_back
 
-    def _generate_location_close_to_object(self, object_definition: Dict[str, Any], target_definition: Dict[str, Any],
-                                           target_location: Dict[str, float], performer_start: Dict[str, Dict[str, float]]) -> Dict[str, float]:
-        """Generate and return a new location close to the given target_location."""
+    def _generate_location_close_to_object(
+        self,
+        object_definition: Dict[str, Any],
+        target_definition: Dict[str, Any],
+        target_location: Dict[str, float],
+        performer_start: Dict[str, Dict[str, float]]
+    ) -> Dict[str, float]:
+        """Generate and return a new location close to the given
+        target_location."""
         # TODO Use existing target bounds?
-        location_close = geometry.get_adjacent_location(object_definition, target_definition, target_location,
-                                                        performer_start)
+        location_close = geometry.get_adjacent_location(
+            object_definition,
+            target_definition,
+            target_location,
+            performer_start
+        )
         if not location_close:
             raise exceptions.SceneException(
-                f'{self.get_name()} cannot position close to target: object={object_definition} target={target_definition}')
+                f'{self.get_name()} cannot position close to target: '
+                f'object={object_definition} target={target_definition}')
         return location_close
 
-    def _generate_location_far_from_object(self, object_definition: Dict[str, Any], target_location: Dict[str, float],
-                                           performer_start: Dict[str, Dict[str, float]]) -> Dict[str, float]:
-        """Generate and return a new location far away the given target location."""
+    def _generate_location_far_from_object(
+        self, object_definition: Dict[str, Any],
+        target_location: Dict[str, float],
+        performer_start: Dict[str, Dict[str, float]]
+    ) -> Dict[str, float]:
+        """Generate and return a new location far away the given
+        target location."""
         for _ in range(util.MAX_TRIES):
             # TODO Use existing target bounds?
             location_far = geometry.calc_obj_pos(
                 performer_start['position'], [], object_definition)
             if not geometry.are_adjacent(
-                    target_location, location_far, distance=geometry.MIN_OBJECTS_SEPARATION_DISTANCE):
+                    target_location, location_far,
+                    distance=geometry.MIN_OBJECTS_SEPARATION_DISTANCE):
                 break
             location_far = None
         if not location_far:
             raise exceptions.SceneException(
-                f'{self.get_name()} cannot position far from target: object={object_definition} target={target_location}')
+                f'{self.get_name()} cannot position far from target: '
+                f'object={object_definition} target={target_location}')
         return location_far
 
-    def _generate_obstructor_location(self, show_obstructor: bool, target_definition: Dict[str, Any],
-                                      target_location: Dict[str, float], obstructor_definition: Dict[str, Any],
-                                      performer_start: Dict[str, Dict[str, float]]) -> Dict[str, float]:
-        """If needed, find and return a location for the given obstructor directly in front of the given target."""
+    def _generate_obstructor_location(
+        self,
+        show_obstructor: bool,
+        target_definition: Dict[str, Any],
+        target_location: Dict[str, float],
+        obstructor_definition: Dict[str, Any],
+        performer_start: Dict[str, Dict[str, float]]
+    ) -> Dict[str, float]:
+        """If needed, find and return a location for the given obstructor
+        directly in front of the given target."""
 
         if show_obstructor and obstructor_definition:
-            # Generate an adjacent location so that the obstructor is between the target and the performer start.
+            # Generate an adjacent location so that the obstructor is
+            # between the target and the performer start.
             # TODO Use existing target bounds?
-            obstructor_location = geometry.get_adjacent_location(obstructor_definition, target_definition,
-                                                                 target_location, performer_start, True)
+            obstructor_location = geometry.get_adjacent_location(
+                obstructor_definition,
+                target_definition,
+                target_location,
+                performer_start,
+                True
+            )
             if not obstructor_location:
                 raise exceptions.SceneException(
-                    f'{self.get_name()} cannot position target directly behind obstructor: performer_start={performer_start} target={target_definition} obstructor={obstructor_definition}')
+                    f'{self.get_name()} cannot position target directly '
+                    f'behind obstructor: performer_start={performer_start} '
+                    f'target={target_definition} '
+                    f'obstructor={obstructor_definition}')
             return obstructor_location
 
         return None
 
-    def _generate_random_location(self, goal: InteractionGoal, object_definition: Dict[str, Any],
-                                  object_rule: ObjectRule, target_list: List[Dict[str, Any]],
-                                  bounds_list: List[List[Dict[str, float]]]) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    def _generate_random_location(
+        self,
+        goal: InteractionGoal,
+        object_definition: Dict[str, Any],
+        object_rule: ObjectRule,
+        target_list: List[Dict[str, Any]],
+        bounds_list: List[List[Dict[str, float]]]
+    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """Generate a random location and return it twice."""
 
         for _ in range(util.MAX_TRIES):
             # TODO Use existing target bounds?
-            object_location, bounds = object_rule.choose_location(object_definition, goal.get_performer_start(),
-                                                                  bounds_list)
+            object_location, bounds = object_rule.choose_location(
+                object_definition, goal.get_performer_start(), bounds_list
+            )
             if object_rule.validate_location(
                     object_location, target_list, goal.get_performer_start()):
                 break
             object_location = None
         if not object_location:
             raise exceptions.SceneException(
-                f'{self.get_name()} cannot randomly position object={object_definition}')
+                f'{self.get_name()} cannot randomly position '
+                f'object={object_definition}')
         return object_location, object_location
 
-    def _identify_front(self, object_definition: Dict[str, Any], object_rule: ObjectRule,
+    def _identify_front(self, object_definition: Dict[str, Any],
+                        object_rule: ObjectRule,
                         performer_start: Dict[str, float]) -> Dict[str, Any]:
         """Find and return a location in front of the given performer_start."""
 
@@ -1294,7 +1356,8 @@ class InteractionPair():
             location_front = None
         return location_front
 
-    def _identify_back(self, object_definition: Dict[str, Any], object_rule: ObjectRule,
+    def _identify_back(self, object_definition: Dict[str, Any],
+                       object_rule: ObjectRule,
                        performer_start: Dict[str, float]) -> Dict[str, Any]:
         """Find and return a location in back of the given performer_start."""
 
@@ -1308,12 +1371,20 @@ class InteractionPair():
         return location_back
 
     def _is_true_goal_1(self, bool_pair: BoolPairOption):
-        """Return if the given scene options bool_pair is true in the first goal."""
-        return bool_pair == BoolPairOption.YES_NO or bool_pair == BoolPairOption.YES_YES
+        """Return if the given scene options bool_pair is true in
+        the first goal."""
+        return (
+            bool_pair == BoolPairOption.YES_NO or
+            bool_pair == BoolPairOption.YES_YES
+        )
 
     def _is_true_goal_2(self, bool_pair: BoolPairOption):
-        """Return if the given scene options bool_pair is true in the second goal."""
-        return bool_pair == BoolPairOption.NO_YES or bool_pair == BoolPairOption.YES_YES
+        """Return if the given scene options bool_pair is true in
+        the second goal."""
+        return (
+            bool_pair == BoolPairOption.NO_YES or
+            bool_pair == BoolPairOption.YES_YES
+        )
 
 
 class Pair1(InteractionPair):
@@ -1323,12 +1394,27 @@ class Pair1(InteractionPair):
     container (like a box). See MCS-232.
     """
 
-    def __init__(self, template: Dict[str, Any],
-                 goal_name: str = None, find_path: bool = False):
-        containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
-            BoolPairOption.NO_NO
-        super(Pair1, self).__init__(1, template, goal_name, find_path, options=SceneOptions(
-            target_containerize=containerize, target_location=TargetLocationPairOption.FRONT_BACK))
+    def __init__(
+        self,
+        template: Dict[str, Any],
+        goal_name: str = None,
+        find_path: bool = False
+    ):
+        containerize = (
+            BoolPairOption.YES_YES
+            if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE
+            else BoolPairOption.NO_NO
+        )
+        super(Pair1, self).__init__(
+            1,
+            template,
+            goal_name,
+            find_path,
+            options=SceneOptions(
+                target_containerize=containerize,
+                target_location=TargetLocationPairOption.FRONT_BACK
+            )
+        )
 
 
 class Pair6(InteractionPair):
@@ -1341,14 +1427,30 @@ class Pair6(InteractionPair):
     used in that pair. See MCS-233.
     """
 
-    def __init__(self, template: Dict[str, Any],
-                 goal_name: str = None, find_path: bool = False):
-        containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
-            BoolPairOption.NO_NO
-        super(Pair6, self).__init__(6, template, goal_name, find_path, options=SceneOptions(
-            target_containerize=containerize, target_location=TargetLocationPairOption.FRONT_BACK,
-            confusor=BoolPairOption.YES_YES, confusor_containerize=containerize,
-            confusor_location=ConfusorLocationPairOption.BACK_FRONT))
+    def __init__(
+        self,
+        template: Dict[str, Any],
+        goal_name: str = None,
+        find_path: bool = False
+    ):
+        containerize = (
+            BoolPairOption.YES_YES
+            if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE
+            else BoolPairOption.NO_NO
+        )
+        super(Pair6, self).__init__(
+            6,
+            template,
+            goal_name,
+            find_path,
+            options=SceneOptions(
+                target_containerize=containerize,
+                target_location=TargetLocationPairOption.FRONT_BACK,
+                confusor=BoolPairOption.YES_YES,
+                confusor_containerize=containerize,
+                confusor_location=ConfusorLocationPairOption.BACK_FRONT
+            )
+        )
 
 
 class Pair2(InteractionPair):
@@ -1358,26 +1460,54 @@ class Pair2(InteractionPair):
     box). See MCS-239.
     """
 
-    def __init__(self, template: Dict[str, Any],
-                 goal_name: str = None, find_path: bool = False):
-        containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
-            BoolPairOption.NO_NO
+    def __init__(
+        self,
+        template: Dict[str, Any],
+        goal_name: str = None,
+        find_path: bool = False
+    ):
+        containerize = (
+            BoolPairOption.YES_YES
+            if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE
+            else BoolPairOption.NO_NO
+        )
         # TODO MCS-320 Let target be containerized
         containerize = BoolPairOption.NO_NO
-        super(Pair2, self).__init__(2, template, goal_name, find_path, options=SceneOptions(
-            target_containerize=containerize, target_location=TargetLocationPairOption.FRONT_FRONT,
-            obstructor=ObstructorPairOption.NONE_VISION))
+        super(Pair2, self).__init__(
+            2,
+            template,
+            goal_name,
+            find_path,
+            options=SceneOptions(
+                target_containerize=containerize,
+                target_location=TargetLocationPairOption.FRONT_FRONT,
+                obstructor=ObstructorPairOption.NONE_VISION
+            )
+        )
 
 
 class Pair7(InteractionPair):
-    """(7) Like pair (6), but the Target Object is always inside a container, and the Similar Object is never inside a
-    container."""
+    """(7) Like pair (6), but the Target Object is always inside a container,
+    and the Similar Object is never inside a container."""
 
-    def __init__(self, template: Dict[str, Any],
-                 goal_name: str = None, find_path: bool = False):
-        super(Pair7, self).__init__(7, template, goal_name, find_path, options=SceneOptions(
-            target_containerize=BoolPairOption.YES_YES, target_location=TargetLocationPairOption.FRONT_BACK,
-            confusor=BoolPairOption.YES_YES, confusor_location=ConfusorLocationPairOption.BACK_FRONT))
+    def __init__(
+        self,
+        template: Dict[str, Any],
+        goal_name: str = None,
+        find_path: bool = False
+    ):
+        super(Pair7, self).__init__(
+            7,
+            template,
+            goal_name,
+            find_path,
+            options=SceneOptions(
+                target_containerize=BoolPairOption.YES_YES,
+                target_location=TargetLocationPairOption.FRONT_BACK,
+                confusor=BoolPairOption.YES_YES,
+                confusor_location=ConfusorLocationPairOption.BACK_FRONT
+            )
+        )
 
 
 class Pair3(InteractionPair):
@@ -1389,13 +1519,29 @@ class Pair3(InteractionPair):
     that pair.
     """
 
-    def __init__(self, template: Dict[str, Any],
-                 goal_name: str = None, find_path: bool = False):
-        containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
-            BoolPairOption.NO_NO
-        super(Pair3, self).__init__(3, template, goal_name, find_path, options=SceneOptions(
-            target_containerize=containerize, confusor=BoolPairOption.NO_YES,
-            confusor_containerize=containerize, confusor_location=ConfusorLocationPairOption.NONE_CLOSE))
+    def __init__(
+        self,
+        template: Dict[str, Any],
+        goal_name: str = None,
+        find_path: bool = False
+    ):
+        containerize = (
+            BoolPairOption.YES_YES
+            if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE
+            else BoolPairOption.NO_NO
+        )
+        super(Pair3, self).__init__(
+            3,
+            template,
+            goal_name,
+            find_path,
+            options=SceneOptions(
+                target_containerize=containerize,
+                confusor=BoolPairOption.NO_YES,
+                confusor_containerize=containerize,
+                confusor_location=ConfusorLocationPairOption.NONE_CLOSE
+            )
+        )
 
 
 class Pair4(InteractionPair):
@@ -1405,13 +1551,29 @@ class Pair4(InteractionPair):
     containers, but only if the container is big enough to hold both
     individually; otherwise, no container will be used in that pair."""
 
-    def __init__(self, template: Dict[str, Any],
-                 goal_name: str = None, find_path: bool = False):
-        containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
-            BoolPairOption.NO_NO
-        super(Pair4, self).__init__(4, template, goal_name, find_path, options=SceneOptions(
-            target_containerize=containerize, confusor=BoolPairOption.NO_YES,
-            confusor_containerize=containerize, confusor_location=ConfusorLocationPairOption.NONE_FAR))
+    def __init__(
+        self,
+        template: Dict[str, Any],
+        goal_name: str = None,
+        find_path: bool = False,
+    ):
+        containerize = (
+            BoolPairOption.YES_YES
+            if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE
+            else BoolPairOption.NO_NO
+        )
+        super(Pair4, self).__init__(
+            4,
+            template,
+            goal_name,
+            find_path,
+            options=SceneOptions(
+                target_containerize=containerize,
+                confusor=BoolPairOption.NO_YES,
+                confusor_containerize=containerize,
+                confusor_location=ConfusorLocationPairOption.NONE_FAR
+            )
+        )
 
 
 class Pair5(InteractionPair):
@@ -1422,53 +1584,114 @@ class Pair5(InteractionPair):
     container will be used in that pair.
     """
 
-    def __init__(self, template: Dict[str, Any],
-                 goal_name: str = None, find_path: bool = False):
-        containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
-            BoolPairOption.NO_NO
-        super(Pair5, self).__init__(5, template, goal_name, find_path, options=SceneOptions(
-            target_containerize=containerize, confusor=BoolPairOption.YES_YES,
-            confusor_containerize=containerize, confusor_location=ConfusorLocationPairOption.CLOSE_FAR))
+    def __init__(
+        self,
+        template: Dict[str, Any],
+        goal_name: str = None,
+        find_path: bool = False
+    ):
+        containerize = (
+            BoolPairOption.YES_YES
+            if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE
+            else BoolPairOption.NO_NO
+        )
+        super(Pair5, self).__init__(
+            5,
+            template,
+            goal_name,
+            find_path,
+            options=SceneOptions(
+                target_containerize=containerize,
+                confusor=BoolPairOption.YES_YES,
+                confusor_containerize=containerize,
+                confusor_location=ConfusorLocationPairOption.CLOSE_FAR
+            )
+        )
 
 
 class Pair8(InteractionPair):
-    """(8A) The Target Object is positioned adjacent to a Similar Object OR (8B) the Target Object is positioned
-    adjacent to a Similar Object, but the Target Object is inside a container. See MCS-238."""
+    """(8A) The Target Object is positioned adjacent to a Similar Object
+    OR (8B) the Target Object is positioned adjacent to a Similar Object,
+    but the Target Object is inside a container. See MCS-238."""
 
-    def __init__(self, template: Dict[str, Any],
-                 goal_name: str = None, find_path: bool = False):
-        super(Pair8, self).__init__(8, template, goal_name, find_path, options=SceneOptions(
-            target_containerize=BoolPairOption.NO_YES, confusor=BoolPairOption.YES_YES,
-            confusor_location=ConfusorLocationPairOption.CLOSE_CLOSE))
+    def __init__(
+        self,
+        template: Dict[str, Any],
+        goal_name: str = None,
+        find_path: bool = False
+    ):
+        super(Pair8, self).__init__(
+            8,
+            template,
+            goal_name,
+            find_path,
+            options=SceneOptions(
+                target_containerize=BoolPairOption.NO_YES,
+                confusor=BoolPairOption.YES_YES,
+                confusor_location=ConfusorLocationPairOption.CLOSE_CLOSE
+            )
+        )
 
 
 class Pair9(InteractionPair):
-    """(9A) The Target Object is immediately visible and can be approached in a relatively direct line OR (9B) the
-    Target Object is immediately visible but getting to it would require navigating around a large piece of furniture
-    (or some other obstacle). For instance, from the AIs vantage point, it can see the target object positioned beyond
-    the coffee table, so to get to it, the AI would need to maneuver around the coffee table.  For each pair, the
-    object may or may not be inside an open container (like a box)."""
+    """(9A) The Target Object is immediately visible and can be approached
+    in a relatively direct line OR (9B) the Target Object is immediately
+    visible but getting to it would require navigating around a large
+    piece of furniture (or some other obstacle). For instance, from the
+    AIs vantage point, it can see the target object positioned beyond
+    the coffee table, so to get to it, the AI would need to maneuver
+    around the coffee table.  For each pair, the object may or may not
+    be inside an open container (like a box)."""
 
-    def __init__(self, template: Dict[str, Any],
-                 goal_name: str = None, find_path: bool = False):
-        containerize = BoolPairOption.YES_YES if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE else \
-            BoolPairOption.NO_NO
+    def __init__(
+        self,
+        template: Dict[str, Any],
+        goal_name: str = None,
+        find_path: bool = False
+    ):
+        containerize = (
+            BoolPairOption.YES_YES
+            if random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE
+            else BoolPairOption.NO_NO
+        )
         # TODO MCS-320 Let target be containerized
         containerize = BoolPairOption.NO_NO
-        super(Pair9, self).__init__(9, template, goal_name, find_path, options=SceneOptions(
-            target_containerize=containerize, target_location=TargetLocationPairOption.FRONT_FRONT,
-            obstructor=ObstructorPairOption.NONE_NAVIGATION))
+        super(Pair9, self).__init__(
+            9,
+            template,
+            goal_name,
+            find_path,
+            options=SceneOptions(
+                target_containerize=containerize,
+                target_location=TargetLocationPairOption.FRONT_FRONT,
+                obstructor=ObstructorPairOption.NONE_NAVIGATION
+            )
+        )
 
 
 class Pair11(InteractionPair):
-    """(11A) The Target Object and a Similar Object are positioned adjacent to each other and immediately visible OR
-    (11B) the Target Object and a Similar Object are positioned adjacent to each other and NOT immediately visible."""
+    """(11A) The Target Object and a Similar Object are positioned
+    adjacent to each other and immediately visible OR
+    (11B) the Target Object and a Similar Object are positioned
+    adjacent to each other and NOT immediately visible."""
 
-    def __init__(self, template: Dict[str, Any],
-                 goal_name: str = None, find_path: bool = False):
-        super(Pair11, self).__init__(11, template, goal_name, find_path, options=SceneOptions(
-            target_location=TargetLocationPairOption.FRONT_BACK, confusor=BoolPairOption.YES_YES,
-            confusor_location=ConfusorLocationPairOption.CLOSE_CLOSE))
+    def __init__(
+        self,
+        template: Dict[str, Any],
+        goal_name: str = None,
+        find_path: bool = False
+    ):
+        super(Pair11, self).__init__(
+            11,
+            template,
+            goal_name,
+            find_path,
+            options=SceneOptions(
+                target_location=TargetLocationPairOption.FRONT_BACK,
+                confusor=BoolPairOption.YES_YES,
+                confusor_location=ConfusorLocationPairOption.CLOSE_CLOSE
+            )
+        )
 
 
 INTERACTION_PAIR_CLASSES = [
