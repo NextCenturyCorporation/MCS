@@ -172,7 +172,7 @@ class IntPhysGoal(Goal, ABC):
                                        (50, 10, 10, 10, 10, 10))[0]
         scenery_list = []
         scenery_rects = []
-        scenery_defs = objects.get('MOVEABLE') + objects.get('IMMOBILE')
+        scenery_defs = objects.get('NOT_PICKUPABLE')
         for _ in range(scenery_count):
             location = None
             while location is None:
