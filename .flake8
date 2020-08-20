@@ -1,3 +1,5 @@
 [flake8]
 ignore = E402, W504
 exclude = python_api/machine_common_sense/__init__.py,scene_generator/pretty_json/__init__.py,scene_generator,validation,truthing,masks,occluder,hotfix,setup.py,template_playroom.py
+per-file-ignores =
+	scene_generator/materials.py:E501
