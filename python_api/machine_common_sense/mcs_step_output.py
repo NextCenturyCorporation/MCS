@@ -103,7 +103,8 @@ class MCS_Step_Output:
         reward=0,
         rotation=0.0,
         step_number=0,
-        structural_object_list=None
+        structural_object_list=None,
+        third_party_camera_list=None
     ):
         self.action_list = [] if action_list is None else action_list
         self.camera_aspect_ratio = (
@@ -133,6 +134,7 @@ class MCS_Step_Output:
         self.step_number = step_number
         self.structural_object_list = [
         ] if structural_object_list is None else structural_object_list
+        self.third_party_camera_list = [] if third_party_camera_list is None else third_party_camera_list
 
     def __str__(self):
         return MCS_Util.class_to_str(self)

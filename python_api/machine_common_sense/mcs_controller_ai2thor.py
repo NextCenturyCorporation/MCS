@@ -268,6 +268,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 image_list = output.image_list
                 depth_mask_list = output.depth_mask_list
                 object_mask_list = output.object_mask_list
+                third_party_camera_list = output.third_party_camera_list
 
                 if self.__debug_to_terminal:
                     print('STARTING PREVIEW PHASE...')
@@ -278,6 +279,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                     depth_mask_list = depth_mask_list + output.depth_mask_list
                     object_mask_list = (object_mask_list +
                                         output.object_mask_list)
+                    third_party_camera_list = (third_party_camera_list + 
+                                            output.third_party_camera_list)
 
                 if self.__debug_to_terminal:
                     print('ENDING PREVIEW PHASE')
@@ -285,6 +288,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 output.image_list = image_list
                 output.depth_mask_list = depth_mask_list
                 output.object_mask_list = object_mask_list
+                third_party_camera_list = output.third_party_camera_list
             elif self.__debug_to_terminal:
                 print('NO PREVIEW PHASE')
 
@@ -490,6 +494,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         del output_copy.depth_mask_list
         del output_copy.image_list
         del output_copy.object_mask_list
+        del output_copy.third_party_camera_list
         history_item = MCS_Scene_History(
             step=self.__step_number,
             action=action,
@@ -847,6 +852,20 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         image_list = []
         depth_mask_list = []
         object_mask_list = []
+        third_party_camera_list = []
+
+        '''
+        pseudo code because ai2thor page on recieving images doesn't exist---
+
+        third_party_camera_list = []
+        event = self.add_third_party_camera()
+        third_party_camera_list = event.third_party_camera_frames()
+
+        from ai2thor documentation---third_party_camera_frames() is supposed to return:
+        (List of current RGB images from any third party cameras in the scene)
+
+        The problem is that event is calling step which is calling this method
+        '''
 
         for index, event in enumerate(scene_event.events):
             scene_image = Image.fromarray(event.frame)
@@ -859,6 +878,11 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             object_mask = Image.fromarray(event.instance_segmentation_frame)
             object_mask_list.append(object_mask)
 
+            #this is just here for now to show that the images will export
+            #have to somehow get them from the camera though
+            third_party_camera_scene_image = Image.fromarray(event.frame)
+            third_party_camera_list.append(third_party_camera_scene_image)
+
             if self.__debug_to_file and self.__output_folder is not None:
                 step_plus_substep_index = 0 if self.__step_number == 0 else (
                     (self.__step_number - 1) * 5) + (index + 1)
@@ -869,6 +893,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                                 'depth_mask' + suffix)
                 object_mask.save(fp=self.__output_folder +
                                  'object_mask' + suffix)
+                third_party_camera_scene_image.save(fp=self.__output_folder +
+                                 'third_party_camera_image' + suffix)
 
             if self.__s3_client:
                 in_memory_file = io.BytesIO()
@@ -898,7 +924,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                     }
                 )
 
-        return image_list, depth_mask_list, object_mask_list
+        return image_list, depth_mask_list, object_mask_list, third_party_camera_list
 
     def wrap_output(self, scene_event):
         if self.__debug_to_file and self.__output_folder is not None:
@@ -908,7 +934,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                     "metadata": scene_event.metadata
                 }, json_file, sort_keys=True, indent=4)
 
-        image_list, depth_mask_list, object_mask_list = self.save_images(
+        image_list, depth_mask_list, object_mask_list, third_party_camera_list = self.save_images(
             scene_event)
 
         objects = scene_event.metadata.get('objects', None)
@@ -937,7 +963,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number,
             structural_object_list=self.retrieve_structural_object_list(
-                scene_event)
+                scene_event),
+            third_party_camera_list=third_party_camera_list,
         ))
 
         self.__head_tilt = step_output.head_tilt
@@ -977,3 +1004,11 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 json.dump(step_data, json_file, sort_keys=True, indent=4)
 
         return step_data
+
+    def add_third_party_camera(self):
+        #this is a top down view
+        return self.step('AddThirdPartyCamera', 
+            rotation=dict(x=0, y=4, z=0), 
+            position=dict(x=90, y=0, z=-0),
+            fieldOfView=75
+            )

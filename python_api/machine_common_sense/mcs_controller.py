@@ -88,3 +88,12 @@ class MCS_Controller:
 
     def generate_noise(self):
         return random.uniform(-0.5, 0.5)
+
+    def add_third_party_camera(self):
+        #this is a top down view
+        return self.step('AddThirdPartyCamera', 
+            rotation=dict(x=0, y=4, z=0), 
+            position=dict(x=90, y=0, z=-0),
+            fieldOfView=75
+            )
+
