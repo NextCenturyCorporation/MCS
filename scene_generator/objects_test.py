@@ -1,5 +1,4 @@
-from objects import *
-import uuid
+import objects
 import random
 from util import retrieve_full_object_definition_list
 
@@ -10,7 +9,7 @@ def test_create_occluder_normal():
     x_position = random.uniform(-1, 1)
     x_scale = random.uniform(0.1, 2)
 
-    occluder = create_occluder(
+    occluder = objects.create_occluder(
         wall_material,
         pole_material,
         x_position,
@@ -34,7 +33,7 @@ def test_create_occluder_sideways():
     x_position = random.uniform(-1, 1)
     x_scale = random.uniform(0.1, 2)
 
-    occluder = create_occluder(
+    occluder = objects.create_occluder(
         wall_material,
         pole_material,
         x_position,
@@ -52,7 +51,9 @@ def test_create_occluder_sideways():
 
 
 def test_all_objects_have_expected_properties():
-    for object_definition in retrieve_full_object_definition_list(get('ALL')):
+    for object_definition in retrieve_full_object_definition_list(
+        objects.get('ALL')
+    ):
         print(f'{object_definition["type"]}')
         assert 'type' in object_definition
         assert 'size' in object_definition
@@ -68,7 +69,7 @@ def test_all_objects_have_expected_properties():
 
 
 def test_get():
-    list_1 = get('ALL')
-    list_2 = get('ALL')
+    list_1 = objects.get('ALL')
+    list_2 = objects.get('ALL')
     assert not (list_1 is list_2)
     assert list_1 == list_2
