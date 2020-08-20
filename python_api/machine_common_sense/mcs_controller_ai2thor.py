@@ -62,8 +62,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built
     # on this assumption.
-    SCREEN_HEIGHT = 400
-    SCREEN_WIDTH = 600
+    SCREEN_WIDTH_DEFAULT = 600
+    SCREEN_WIDTH_MIN = 450
 
     # AI2-THOR creates a square grid across the scene that is
     # uses for "snap-to-grid" movement. (This value may not
@@ -138,8 +138,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     CONFIG_TEAM = 'team'
 
     def __init__(self, unity_app_file_path, debug=False,
-                 enable_noise=False, seed=None, no_depth_masks=False,
-                 no_object_masks=False):
+                 enable_noise=False, seed=None, size=None,
+                 no_depth_masks=False, no_object_masks=False):
         super().__init__()
 
         self._controller = ai2thor.controller.Controller(
@@ -148,8 +148,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             # The headless flag does not work for me
             headless=False,
             local_executable_path=unity_app_file_path,
-            width=self.SCREEN_WIDTH,
-            height=self.SCREEN_HEIGHT,
+            width=self.SCREEN_WIDTH_DEFAULT,
+            height=(self.SCREEN_WIDTH_DEFAULT / 3 * 2),
             # Set the name of our Scene in our Unity app
             scene='MCS',
             logs=True,
@@ -160,10 +160,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             }
         )
 
-        self.on_init(debug, enable_noise, seed, no_depth_masks,
+        self.on_init(debug, enable_noise, seed, size, no_depth_masks,
                      no_object_masks)
 
-    def on_init(self, debug=False, enable_noise=False, seed=None,
+    def on_init(self, debug=False, enable_noise=False, seed=None, size=None,
                 no_depth_masks=False, no_object_masks=False):
 
         self.__debug_to_file = True if (
@@ -175,6 +175,12 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         self.__no_depth_masks = no_depth_masks
         self.__no_object_masks = no_object_masks
         self.__seed = seed
+
+        self.__screen_width = self.SCREEN_WIDTH_DEFAULT
+        self.__screen_height = self.SCREEN_WIDTH_DEFAULT / 3 * 2
+        if size and size >= self.SCREEN_WIDTH_MIN:
+            self.__screen_width = size
+            self.__screen_height = size / 3 * 2
 
         if self.__seed:
             random.seed(self.__seed)
@@ -934,7 +940,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         step_output = self.restrict_step_output_metadata(MCS_Step_Output(
             action_list=self.retrieve_action_list(
                 self._goal, self.__step_number),
-            camera_aspect_ratio=(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            camera_aspect_ratio=(self.__screen_width, self.__screen_height),
             camera_clipping_planes=(
                 scene_event.metadata.get('clippingPlaneNear', 0.0),
                 scene_event.metadata.get('clippingPlaneFar', 0.0),

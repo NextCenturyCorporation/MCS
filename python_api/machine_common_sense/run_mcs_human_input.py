@@ -226,7 +226,12 @@ def main(argv):
         '--seed',
         type=int,
         default=None,
-        help='Seed(integer) for the random number generator [default=None]')
+        help='Python random seed [default=None]')
+    parser.add_argument(
+        '--size',
+        type=int,
+        default=None,
+        help='Screen width of 450+ (height = width * 2/3) [default=600]')
     parser.add_argument(
         '--no_depth_masks',
         default=False,
