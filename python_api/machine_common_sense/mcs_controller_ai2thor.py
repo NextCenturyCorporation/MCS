@@ -138,7 +138,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     CONFIG_TEAM = 'team'
 
     def __init__(self, unity_app_file_path, debug=False,
-                 enable_noise=False, seed=None):
+                 enable_noise=False, seed=None, no_depth_masks=False,
+                 no_object_masks=False):
         super().__init__()
 
         self._controller = ai2thor.controller.Controller(
@@ -159,9 +160,11 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             }
         )
 
-        self.on_init(debug, enable_noise, seed)
+        self.on_init(debug, enable_noise, seed, no_depth_masks,
+                     no_object_masks)
 
-    def on_init(self, debug=False, enable_noise=False, seed=None):
+    def on_init(self, debug=False, enable_noise=False, seed=None,
+                no_depth_masks=False, no_object_masks=False):
 
         self.__debug_to_file = True if (
             debug is True or debug == 'file') else False
@@ -169,6 +172,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             debug is True or debug == 'terminal') else False
 
         self.__enable_noise = enable_noise
+        self.__no_depth_masks = no_depth_masks
+        self.__no_object_masks = no_object_masks
         self.__seed = seed
 
         if self.__seed:
@@ -784,9 +789,17 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         )
 
     def retrieve_pose(self, scene_event) -> str:
-        # Return Agents pose from Unity in step output object
-        return scene_event.metadata['pose'] 
-        
+        pose = MCS_Pose.UNDEFINED.name
+
+        try:
+            pose = MCS_Pose[scene_event.metadata['pose']].name
+        except KeyError:
+            print(
+                "Pose " +
+                scene_event.metadata['pose'] +
+                " is not currently supported.")
+        finally:
+            return pose
 
     def retrieve_position(self, scene_event) -> dict:
         return scene_event.metadata['agent']['position']
@@ -852,12 +865,15 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             scene_image = Image.fromarray(event.frame)
             image_list.append(scene_image)
 
-            depth_mask = Image.fromarray(event.depth_frame)
-            depth_mask = depth_mask.convert('L')
-            depth_mask_list.append(depth_mask)
+            if not self.__no_depth_masks:
+                depth_mask = Image.fromarray(event.depth_frame)
+                depth_mask = depth_mask.convert('L')
+                depth_mask_list.append(depth_mask)
 
-            object_mask = Image.fromarray(event.instance_segmentation_frame)
-            object_mask_list.append(object_mask)
+            if not self.__no_object_masks:
+                object_mask = Image.fromarray(
+                    event.instance_segmentation_frame)
+                object_mask_list.append(object_mask)
 
             if self.__debug_to_file and self.__output_folder is not None:
                 step_plus_substep_index = 0 if self.__step_number == 0 else (
@@ -865,10 +881,12 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 suffix = '_' + str(step_plus_substep_index) + '.png'
                 scene_image.save(fp=self.__output_folder +
                                  'frame_image' + suffix)
-                depth_mask.save(fp=self.__output_folder +
-                                'depth_mask' + suffix)
-                object_mask.save(fp=self.__output_folder +
-                                 'object_mask' + suffix)
+                if not self.__no_depth_masks:
+                    depth_mask.save(fp=self.__output_folder +
+                                    'depth_mask' + suffix)
+                if not self.__no_object_masks:
+                    object_mask.save(fp=self.__output_folder +
+                                     'object_mask' + suffix)
 
             if self.__s3_client:
                 in_memory_file = io.BytesIO()
@@ -963,8 +981,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             continuous=True,
             gridSize=self.GRID_SIZE,
             logs=True,
-            renderDepthImage=True,
-            renderObjectImage=True,
+            renderDepthImage=(not self.__no_depth_masks),
+            renderObjectImage=(not self.__no_object_masks),
             # Yes, in AI2-THOR, the player's reach appears to be
             # governed by the "visibilityDistance", confusingly...
             visibilityDistance=MAX_REACH_DISTANCE,

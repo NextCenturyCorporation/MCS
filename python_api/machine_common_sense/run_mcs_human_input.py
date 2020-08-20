@@ -212,21 +212,33 @@ def main(argv):
         help='MCS JSON scene configuration file to load')
 
     parser.add_argument(
-        '-d',
         '--debug',
-        default=True,
-        help='True or False on whether to debug files [default=True]')
+        default=False,
+        action='store_true',
+        help='Generate MCS debug files [default=False]')
     parser.add_argument(
-        '-n',
         '--noise',
         default=False,
-        help='True or False on whether to enable noise in MCS [default=True]')
+        action='store_true',
+        help='Add random noise to action paramenters ' +
+        '(currently only movement/rotation) [default=False]')
     parser.add_argument(
-        '-s',
         '--seed',
         type=int,
         default=None,
         help='Seed(integer) for the random number generator [default=None]')
+    parser.add_argument(
+        '--no_depth_masks',
+        default=False,
+        action='store_true',
+        help='Don\'t render or return depth masks ' +
+        '(should slightly increase performance) [default=False]')
+    parser.add_argument(
+        '--no_object_masks',
+        default=False,
+        action='store_true',
+        help='Don\'t render or return object (instance segmentation) masks ' +
+        '(should significantly increase performance) [default=False]')
     args = parser.parse_args(argv[1:])
 
     if not isinstance(args.debug, bool):
@@ -255,15 +267,10 @@ def main(argv):
         print(status)
         exit()
 
-    debug = args.debug
-    enable_noise = args.noise
-    seed_val = args.seed
-
-    controller = MCS.create_controller(
-        sys.argv[1],
-        debug=debug,
-        enable_noise=enable_noise,
-        seed=seed_val)
+    controller = MCS.create_controller(sys.argv[1], debug=args.debug,
+                                       enable_noise=args.noise, seed=args.seed,
+                                       no_depth_masks=args.no_depth_masks,
+                                       no_object_masks=args.no_object_masks)
 
     config_file_path = sys.argv[2]
     config_file_name = config_file_path[config_file_path.rfind('/') + 1:]

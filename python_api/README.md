@@ -115,10 +115,15 @@ for config_json_file_path in config_json_file_list:
 To start the Unity application and enter your actions and parameters from the terminal, you can run the `mcs_run_in_human_input_mode` script that was installed in the package with the MCS Python Library (the `mcs_unity_build_file` is the executable):
 
 ```
-mcs_run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file> <debug=False> <enable_noise=False>
+mcs_run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file>
 ```
 
-If you want the script to save the input and output data in a new folder named after the scene, add `true` to the end of the above console command.
+Run options:
+- `--debug`
+- `--noise`
+- `--no_depth_masks`
+- `--no_object_masks`
+- `--seed <python_random_seed>`
 
 ## Run with Scene Timer
 
