@@ -1,5 +1,6 @@
 # This code performs collision testing of convex 2D polyedra by means
-# of the Hyperplane separation theorem, also known as Separating axis theorem (SAT).
+# of the Hyperplane separation theorem, also known as Separating axis
+# theorem (SAT).
 #
 # For more information visit:
 # https://en.wikipedia.org/wiki/Hyperplane_separation_theorem

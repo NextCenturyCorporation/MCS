@@ -5,7 +5,9 @@ from typing import List, Dict, Tuple, Optional
 from shapely.geometry import Polygon, Point
 from shapely.ops import unary_union
 
-from extremitypathfinder.extremitypathfinder import PolygonEnvironment as Environment
+from extremitypathfinder.extremitypathfinder import (
+    PolygonEnvironment as Environment
+)
 from geometry import ROOM_X_MIN, ROOM_X_MAX, ROOM_Z_MIN, ROOM_Z_MAX
 from util import PERFORMER_WIDTH
 
@@ -52,13 +54,15 @@ def _unify_and_clean_polygons(polygons: List[Polygon]) \
         if coords[0] == coords[-1]:
             del coords[-1]
     logging.debug(
-        f'unified polygons: {len(poly_coords)}\tunified points: {num_unified_points}')
+        f'unified polygons: {len(poly_coords)}\t'
+        f'unified points: {num_unified_points}')
 
     return poly_coords
 
 
 # passing the other_rects from my  calculations previously
-# This is the source for extremitypathfinder: https://github.com/MrMinimal64/extremitypathfinder
+# This is the source for extremitypathfinder:
+# https://github.com/MrMinimal64/extremitypathfinder
 # target_loc will probably contain the target- we'll see
 def generatepath(source_loc: Tuple[float, float],
                  target_loc: Tuple[float, float],

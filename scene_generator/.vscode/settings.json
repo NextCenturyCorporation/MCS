@@ -4,7 +4,9 @@
     "python.linting.lintOnSave": true,
     "python.linting.flake8Args": [
         "--ignore",
-        "E402,W504"
+        "E402,W504",
+        "--exclude",
+        "pretty_json/__init__.py"
     ],
     "python.formatting.provider": "autopep8",
     "python.formatting.autopep8Args": [
