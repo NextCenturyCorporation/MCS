@@ -14,11 +14,13 @@ If you want to have an image pixel array for each target object in the interacti
 
 Pixels (for the scene generator):
 
-https://mcs-unity-images.s3.amazonaws.com/mcs-training-pixels-spring-2020.tar.gz
+https://mcs-unity-images.s3.amazonaws.com/mcs-evaluation-pixels-summer-2020.tar.gz
+
+Untar this file so it populates a folder called `images` inside this folder (`scene_generator`).
 
 Images (for viewing):
 
-https://mcs-unity-images.s3.amazonaws.com/mcs-training-images-spring-2020.tar.gz
+https://mcs-unity-images.s3.amazonaws.com/mcs-evaluation-images-summer-2020.tar.gz
 
 ## Running
 

@@ -18,6 +18,5 @@ class MCS_Action_Keys(Enum):
     PUT_OBJECT = "7"
     ROTATE_LOOK = "r"
     ROTATE_OBJECT_IN_HAND = "t"
-    SQUAT = "y"
     STAND = "u"
     THROW_OBJECT = "q"

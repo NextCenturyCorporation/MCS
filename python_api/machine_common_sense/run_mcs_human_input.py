@@ -1,4 +1,6 @@
 import sys
+import argparse
+#import importlib 
 
 from machine_common_sense.mcs import MCS
 from machine_common_sense.mcs_action import MCS_Action
@@ -112,26 +114,53 @@ def run_scene(controller, config_data):
 
     sys.exit()
 
-def main():
-    if len(sys.argv) < 3:
-        print('Usage: python run_mcs_human_input.py <mcs_unity_build_file> <mcs_config_json_file> <debug_files> <enable_noise>')
-        sys.exit()
+def main(argv): 
+    
+    parser = argparse.ArgumentParser(description='Run MCS')
+    required_group = parser.add_argument_group(title='required arguments')
 
-    config_data, status = MCS.load_config_json_file(sys.argv[2])
+    required_group.add_argument('mcs_unity_build_file', help='Path to MCS unity build file')
+    required_group.add_argument('mcs_config_json_file', help='MCS JSON scene configuration file to load')
+
+    parser.add_argument('-d','--debug', default=True, help='True or False on whether to debug files [default=True]')
+    parser.add_argument('-n','--noise', default=False, help='True or False on whether to enable noise in MCS [default=True]')
+    parser.add_argument('-s','--seed', type=int, default=None, help='Seed(integer) for the random number generator [default=None]')
+    args = parser.parse_args(argv[1:])
+    
+    if not isinstance(args.debug, bool):
+        if args.debug.lower() != 'true' and args.debug.lower() != 'false':
+            print('Debug files must be <True> or <False>')
+            exit()
+        else:
+            if args.debug.lower() == 'false':
+                args.debug = False
+            else:
+                args.debug = True
+
+
+    if not isinstance(args.noise, bool):
+        if args.noise.lower() != 'true' and args.noise.lower() != 'false':
+            print('Enabling Noise must be <True> or <False>')
+            exit()
+        else:
+            if args.noise.lower() == 'true':
+                args.noise = True
+            else:
+                args.noise = False
+
+    config_data, status = MCS.load_config_json_file(args.mcs_config_json_file)
 
     if status is not None:
         print(status)
         exit()
 
-    debug = True
-    if len(sys.argv) >= 4:
-        debug = sys.argv[3].lower() == 'true'
+    debug = args.debug
+    enable_noise = args.noise
+    seed_val = args.seed
+    
+    #help(MCS)
 
-    enable_noise = False
-    if len(sys.argv) >= 5:
-        enable_noise = sys.argv[4].lower() == 'true'
-
-    controller = MCS.create_controller(sys.argv[1], debug=debug, enable_noise=enable_noise)
+    controller = MCS.create_controller(sys.argv[1], debug=debug, enable_noise=enable_noise, seed=seed_val)
 
     config_file_path = sys.argv[2]
     config_file_name = config_file_path[config_file_path.rfind('/')+1:]
@@ -142,5 +171,5 @@ def main():
     run_scene(controller, config_data)
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv)
 

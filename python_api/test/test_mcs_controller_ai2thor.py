@@ -987,7 +987,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual[1].visible, True)
 
     def test_retrieve_pose(self):
-        # TODO MCS-18
+        # TODO MCS-305
         pass
 
     def test_retrieve_return_status(self):
@@ -1102,7 +1102,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.camera_height, 0.1234)
         # self.assertEqual(actual.goal, MCS_Goal()) # TODO MCS-15
         self.assertEqual(actual.head_tilt, 12.34)
-        self.assertEqual(actual.pose, MCS_Pose.STAND.value) # TODO MCS-18
+        self.assertEqual(actual.pose, MCS_Pose.STANDING.value)
         self.assertEqual(actual.position, { 'x': 0.12, 'y': -0.23, 'z': 4.5 })
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(actual.return_status, MCS_Return_Status.SUCCESSFUL.value)
@@ -1177,7 +1177,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.camera_height, 0.1234)
         # self.assertEqual(actual.goal, MCS_Goal()) # TODO MCS-15
         self.assertEqual(actual.head_tilt, 12.34)
-        self.assertEqual(actual.pose, MCS_Pose.STAND.value) # TODO MCS-18
+        self.assertEqual(actual.pose, MCS_Pose.STANDING.value)
         self.assertEqual(actual.position, { 'x': 0.12, 'y': -0.23, 'z': 4.5 })
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(actual.return_status, MCS_Return_Status.SUCCESSFUL.value)
@@ -1206,7 +1206,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.camera_height, 0.1234)
         # self.assertEqual(actual.goal, MCS_Goal()) # TODO MCS-15
         self.assertEqual(actual.head_tilt, 12.34)
-        self.assertEqual(actual.pose, MCS_Pose.STAND.value) # TODO MCS-18
+        self.assertEqual(actual.pose, MCS_Pose.STANDING.value)
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
         self.assertEqual(actual.return_status, MCS_Return_Status.SUCCESSFUL.value)
@@ -1235,7 +1235,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.camera_height, None)
         # self.assertEqual(actual.goal, MCS_Goal()) # TODO MCS-15
         self.assertEqual(actual.head_tilt, 12.34)
-        self.assertEqual(actual.pose, MCS_Pose.STAND.value) # TODO MCS-18
+        self.assertEqual(actual.pose, MCS_Pose.STANDING.value)
         self.assertEqual(actual.position, { 'x': 0.12, 'y': -0.23, 'z': 4.5 })
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(actual.return_status, MCS_Return_Status.SUCCESSFUL.value)
@@ -1261,7 +1261,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual.camera_height, None)
         # self.assertEqual(actual.goal, MCS_Goal()) # TODO MCS-15
         self.assertEqual(actual.head_tilt, 12.34)
-        self.assertEqual(actual.pose, MCS_Pose.STAND.value) # TODO MCS-18
+        self.assertEqual(actual.pose, MCS_Pose.STANDING.value)
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
         self.assertEqual(actual.return_status, MCS_Return_Status.SUCCESSFUL.value)

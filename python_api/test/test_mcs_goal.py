@@ -7,10 +7,10 @@ from machine_common_sense.mcs_goal import MCS_Goal
 class Test_Default_MCS_Goal(unittest.TestCase):
 
     str_output = '''    {
-        "action_list": None,
+        "action_list": null,
         "info_list": [],
         "last_preview_phase_step": 0,
-        "last_step": None,
+        "last_step": null,
         "task_list": [],
         "type_list": [],
         "metadata": {}

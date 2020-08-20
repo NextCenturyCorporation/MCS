@@ -2,16 +2,21 @@ import logging
 import uuid
 
 import math
-import pytest
-from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE
+from typing import Dict, Any
 
+import pytest
+
+from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, MAX_REACH_DISTANCE
+
+import exceptions
 import geometry
 import objects
 import scene_generator
 from geometry import POSITION_DIGITS
 from goals import *
-from interaction_goals import move_to_container, parse_path_section, get_navigation_actions
-from util import finalize_object_definition, instantiate_object
+from interaction_goals import move_to_container, parse_path_section, get_navigation_actions, trim_actions_to_reach, \
+        PathfindingException
+from util import MAX_TRIES, finalize_object_definition, instantiate_object
 
 
 def test_move_to_container():
@@ -20,16 +25,15 @@ def test_move_to_container():
         obj_def = finalize_object_definition(obj_def)
         if 'tiny' in obj_def['info']:
             obj = instantiate_object(obj_def, geometry.ORIGIN_LOCATION)
-            all_objects = [obj]
             tries = 0
             while tries < 100:
-                if move_to_container(obj, all_objects, [], geometry.ORIGIN):
+                container = move_to_container(obj, [], geometry.ORIGIN)
+                if container:
                     break
                 tries += 1
             if tries == 100:
                 logging.error('could not put the object in any container')
-            container_id = all_objects[1]['id']
-            assert obj['locationParent'] == container_id
+            assert obj['locationParent'] == container['id']
             return
     assert False, 'could not find a tiny object'
 
@@ -73,7 +77,9 @@ def test_parse_path_section_fractional():
     }]
     expected_actions = [{
         'action': 'MoveAhead',
-        'params': {}
+        'params': {
+            'amount': 1
+        }
     }, {
         'action': 'MoveAhead',
         'params': {
@@ -88,7 +94,7 @@ def test_get_navigation_action():
     expected_actions = [{
         'action': 'RotateLook',
         'params': {
-            'rotation': 315.0,
+            'rotation': 45.0,
             'horizon': 0.0
         }
     }, {
@@ -139,7 +145,7 @@ def test_get_navigation_action():
             ]
         }]
     }
-    actions, performer = get_navigation_actions(start, goal_object, [goal_object])
+    actions, performer, heading = get_navigation_actions(start, goal_object, [goal_object])
     assert actions == expected_actions
 
 
@@ -147,7 +153,7 @@ def test_get_navigation_action_with_locationParent():
     expected_actions = [{
         'action': 'RotateLook',
         'params': {
-            'rotation': 315.0,
+            'rotation': 45.0,
             'horizon': 0.0
         }
     }, {
@@ -209,7 +215,7 @@ def test_get_navigation_action_with_locationParent():
             }
         }]
     }
-    actions, performer = get_navigation_actions(start, goal_object, [container_object, goal_object])
+    actions, performer, heading = get_navigation_actions(start, goal_object, [container_object, goal_object])
     assert actions == expected_actions
 
 
@@ -301,16 +307,58 @@ def test_get_navigation_action_with_turning():
             ]
         }]
     }
-    expected_actions = [{'action': 'RotateLook', 'params': {'rotation': 225.0, 'horizon': 0.0}},
-                        {'action': 'MoveAhead', 'params': {}}, {'action': 'MoveAhead', 'params': {}},
+    expected_actions = [{'action': 'RotateLook', 'params': {'rotation': 315.0, 'horizon': 0.0}},
+                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
+                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
                         {'action': 'MoveAhead', 'params': {'amount': 0.83}},
                         {'action': 'RotateLook', 'params': {'rotation': 45.0, 'horizon': 0.0}},
-                        {'action': 'MoveAhead', 'params': {}}, {'action': 'MoveAhead', 'params': {}},
+                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
+                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
                         {'action': 'RotateLook', 'params': {'rotation': 45.0, 'horizon': 0.0}},
-                        {'action': 'MoveAhead', 'params': {}}, {'action': 'MoveAhead', 'params': {}},
+                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
+                        {'action': 'MoveAhead', 'params': { 'amount': 1 }},
                         {'action': 'MoveAhead', 'params': {'amount': round((.9*math.sqrt(2)-1)/MAX_MOVE_DISTANCE, POSITION_DIGITS)}}]
     all_objs = [goal_obj, obstacle_obj]
-    actions, performer = get_navigation_actions(start, goal_obj, all_objs)
+    actions, performer, heading = get_navigation_actions(start, goal_obj, all_objs)
+    assert actions == expected_actions
+
+
+def test_trim_actions_to_reach():
+    path_section = ((0, 0), (1, 0))
+    goal_boundary = [{
+        'x': 1.1,
+        'y': 0,
+        'z': 0.1
+    }, {
+        'x': 1.1,
+        'y': 0,
+        'z': -0.1
+    }, {
+        'x': 0.9,
+        'y': 0,
+        'z': -0.1
+    }, {
+        'x': 0.9,
+        'y': 0,
+        'z': 0.1
+    }]
+    expected_actions = [{
+        'action': 'MoveAhead',
+        'params': {
+            'amount': 1
+        }
+    }]
+    actions, new_heading, performer = parse_path_section(path_section, 0, (0, 0), goal_boundary)
+    target = {
+        'shows': [{
+            'position': {
+                'x': 1,
+                'y': 0,
+                'z': 0
+            }
+        }]
+    }
+    actions, performer = trim_actions_to_reach(actions, performer, new_heading, target)
     assert actions == expected_actions
 
 
@@ -318,109 +366,184 @@ def test_RetrievalGoal_get_goal():
     goal_obj = RetrievalGoal()
     obj = {
         'id': str(uuid.uuid4()),
-        'info': [str(uuid.uuid4())],
+        'info': ['blue', 'rubber', 'ball'],
+        'info_string': 'blue rubber ball',
         'type': 'sphere'
     }
-    object_list = [obj]
-    goal = goal_obj.get_config(object_list, object_list)
-    assert goal['info_list'] == obj['info']
+    goal = goal_obj.get_config({ 'target': [obj] })
+    assert goal['description'] == 'Find and pick up the blue rubber ball.'
+    assert set(goal['info_list']) == {'target blue', 'target rubber', 'target ball', 'target blue rubber ball'}
     target = goal['metadata']['target']
     assert target['id'] == obj['id']
-    assert target['info'] == obj['info']
+    assert target['info'] == ['blue', 'rubber', 'ball']
 
 
 def test_TraversalGoal_get_goal():
     goal_obj = TraversalGoal()
     obj = {
         'id': str(uuid.uuid4()),
-        'info': [str(uuid.uuid4())],
+        'info': ['blue', 'rubber', 'ball'],
+        'info_string': 'blue rubber ball',
         'type': 'sphere'
     }
-    object_list = [obj]
-    goal = goal_obj.get_config(object_list, object_list)
-    assert goal['info_list'] == obj['info']
+    goal = goal_obj.get_config({ 'target': [obj] })
+    assert goal['description'] == 'Find the blue rubber ball and move near it.'
+    assert set(goal['info_list']) == {'target blue', 'target rubber', 'target ball', 'target blue rubber ball'}
     target = goal['metadata']['target']
     assert target['id'] == obj['id']
-    assert target['info'] == obj['info']
+    assert target['info'] == ['blue', 'rubber', 'ball']
 
 
 def test_TransferralGoal_get_goal_argcount():
     goal_obj = TransferralGoal()
-    with pytest.raises(ValueError):
-        goal_obj.get_config(['one object'], ['one object'])
+    with pytest.raises(exceptions.SceneException):
+        goal_obj.get_config({ 'target': ['one object'] })
 
 
 def test_TransferralGoal_get_goal_argvalid():
     goal_obj = TransferralGoal()
-    with pytest.raises(ValueError):
-        goal_obj.get_config([{'attributes': ['']}, {'attributes': ['']}], [])
+    target_list = [{'attributes': ['']}, {'attributes': ['']}]
+    with pytest.raises(exceptions.SceneException):
+        goal_obj.get_config({ 'target': target_list })
 
 
 def test__generate_transferral_goal():
     goal_obj = TransferralGoal()
-    extra_info = str(uuid.uuid4())
     pickupable_id = str(uuid.uuid4())
-    pickupable_info_item = str(uuid.uuid4())
     pickupable_obj = {
         'id': pickupable_id,
-        'info': [pickupable_info_item, extra_info],
+        'info': ['blue', 'rubber', 'ball'],
+        'info_string': 'blue rubber ball',
         'pickupable': True,
         'type': 'sphere'
     }
     other_id = str(uuid.uuid4())
-    other_info_item = str(uuid.uuid4())
     other_obj = {
         'id': other_id,
-        'info': [other_info_item, extra_info],
+        'info': ['yellow', 'wood', 'changing table'],
+        'info_string': 'yellow wood changing table',
         'attributes': [],
         'type': 'changing_table',
         'stackTarget': True
     }
-    obj_list = [pickupable_obj, other_obj]
-    goal = goal_obj.get_config(obj_list, obj_list)
+    goal = goal_obj.get_config({ 'target': [pickupable_obj, other_obj] })
 
-    combined_info = goal['info_list']
-    assert set(combined_info) == {pickupable_info_item, other_info_item, extra_info}
+    assert set(goal['info_list']) == {'target blue', 'target rubber', 'target ball', 'target blue rubber ball', \
+            'target yellow', 'target wood', 'target changing table', 'target yellow wood changing table'}
 
     target1 = goal['metadata']['target_1']
     assert target1['id'] == pickupable_id
-    assert target1['info'] == [pickupable_info_item, extra_info]
+    assert target1['info'] == ['blue', 'rubber', 'ball']
     target2 = goal['metadata']['target_2']
     assert target2['id'] == other_id
-    assert target2['info'] == [other_info_item, extra_info]
+    assert target2['info'] == ['yellow', 'wood', 'changing table']
 
     relationship = goal['metadata']['relationship']
     relationship_type = relationship[1]
     assert relationship_type in [g.value for g in TransferralGoal.RelationshipType]
 
+    assert goal['description'] == 'Find and pick up the blue rubber ball and move it ' + \
+            relationship_type + ' the yellow wood changing table.'
+
 
 def test__generate_transferral_goal_with_nonstackable_goal():
     goal_obj = TransferralGoal()
-    extra_info = str(uuid.uuid4())
     pickupable_id = str(uuid.uuid4())
-    pickupable_info_item = str(uuid.uuid4())
     pickupable_obj = {
         'id': pickupable_id,
-        'info': [pickupable_info_item, extra_info],
+        'info': ['blue', 'rubber', 'ball'],
+        'info_string': 'blue rubber ball',
         'pickupable': True,
         'type': 'sphere',
         'attributes': ['pickupable']
     }
     other_id = str(uuid.uuid4())
-    other_info_item = str(uuid.uuid4())
     other_obj = {
         'id': other_id,
-        'info': [other_info_item, extra_info],
+        'info': ['yellow', 'wood', 'changing table'],
+        'info_string': 'yellow wood changing table',
         'type': 'changing_table',
         'attributes': []
     }
-    with pytest.raises(ValueError) as excinfo:
-        goal = goal_obj.get_config([pickupable_obj, other_obj], [])
+    with pytest.raises(exceptions.SceneException) as excinfo:
+        goal = goal_obj.get_config({ 'target': [pickupable_obj, other_obj] })
     assert "second object must be" in str(excinfo.value)
 
 
-def test_add_RotateLook_to_action_list_before_Pickup_or_Put_Object():
+def test_TransferralGoal_ensure_pickup_action():
+    """For MCS-270"""
+    for _ in range(MAX_TRIES):
+        goal_obj = TransferralGoal()
+        body: Dict[str, Any] = scene_generator.OUTPUT_TEMPLATE
+        try:
+            goal_obj.update_body(body, True)
+        except PathfindingException:
+            pass
+        if 'actions' in body['answer']:
+            break
 
+    # should have a PickupObject action
+    assert any((action['action'] == 'PickupObject' for action in body['answer']['actions']))
+    # last action one should be PutObject
+    assert body['answer']['actions'][-1]['action'] == 'PutObject'
+
+
+def test_TransferralGoal_navigate_near_objects():
+    """For MCS-271"""
+    for _ in range(MAX_TRIES):
+        goal_obj = TransferralGoal()
+        body: Dict[str, Any] = scene_generator.OUTPUT_TEMPLATE
+        try:
+            goal_obj.update_body(body, True)
+        except PathfindingException:
+            pass
+        if 'actions' in body['answer']:
+            break
+
+    pickupable_id = body['goal']['metadata']['target_1']['id']
+    container_id = body['goal']['metadata']['target_2']['id']
+    pickupable_obj = next((obj for obj in body['objects'] if obj['id'] == pickupable_id))
+    container_obj = next((obj for obj in body['objects'] if obj['id'] == container_id))
+    if 'locationParent' in pickupable_obj:
+        parent = next((obj for obj in body['objects'] if obj['id'] == pickupable_obj['locationParent']))
+        pickupable_position = parent['shows'][0]['position']
+        pass
+    else:
+        pickupable_position = pickupable_obj['shows'][0]['position']
+    container_position = container_obj['shows'][0]['position']
+
+    position = body['performerStart']['position']
+    x = position['x']
+    z = position['z']
+    # 0 at start faces positive z, and rotations are clockwise
+    heading = 90 - body['performerStart']['rotation']['y']
+    for action in body['answer']['actions']:
+        if action['action'] == 'PickupObject':
+            # should be near pickupable object
+            # TODO I think this needs to account for the dimensions of the pickupable object too?
+            pickupable_distance = math.sqrt((x - pickupable_position['x'])**2 +
+                                            (z - pickupable_position['z'])**2)
+            assert pickupable_distance <= MAX_REACH_DISTANCE
+        elif action['action'] == 'PutObject':
+            # should be near container
+            container_distance = math.sqrt((x - container_position['x'])**2 +
+                                           (z - container_position['z'])**2)
+            assert container_distance <= MAX_REACH_DISTANCE
+        elif action['action'] == 'RotateLook':
+            # subtract because rotations are clockwise
+            heading = (heading - action['params']['rotation']) % 360.0
+        elif action['action'] == 'MoveAhead':
+            amount = action['params'].get('amount', 1)
+            distance = amount * MAX_MOVE_DISTANCE
+            radians = math.radians(heading)
+            x += distance * math.cos(radians)
+            z += distance * math.sin(radians)
+        else:
+            logging.error(f'unknown action "{action["action"]}"')
+            assert False
+
+
+def test_add_RotateLook_to_action_list_before_Pickup_or_Put_Object():
     """For MCS-161"""
     # make scene with a small target object
     scene = {
@@ -484,7 +607,7 @@ def test_add_RotateLook_to_action_list_before_Pickup_or_Put_Object():
 
     goal_obj = RetrievalGoal()
     goal_obj._performer_start = scene['performerStart']
-    path = goal_obj.find_optimal_path(scene['objects'], scene['objects'])
+    path = goal_obj._find_optimal_path(scene['objects'], scene['objects'])
     print(path)
     # TODO: uncomment when this is fixed
     assert path[-1]['action'] == 'RotateLook'

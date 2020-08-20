@@ -30,13 +30,9 @@ const getPresignedPostData = selectedFile => {
  */
 const uploadFileToS3 = (presignedPostData, file) => {
     return new Promise((resolve, reject) => {
-        const formData = new FormData();
-
-        formData.append("file", file);
-
         const xhr = new XMLHttpRequest();
         xhr.open("PUT", presignedPostData.url, true);
-        xhr.setRequestHeader("Content-Type", "multipart/form-data");
+        xhr.setRequestHeader("Content-Type", "application/octet-stream");
         xhr.onload = function () {
             this.status === 200 ? resolve() : reject(this.responseText);
         };
@@ -44,7 +40,7 @@ const uploadFileToS3 = (presignedPostData, file) => {
             $("#fileUploadStatus").text(error);
             console.log("An error occurred during the upload!");
         };
-        xhr.send(formData); 
+        xhr.send(file); 
     });
 };
 
@@ -64,6 +60,11 @@ class FileUploadButton extends React.Component {
         $("#fileUploadStatus").text("");
         
         try {
+            Object.defineProperty(this.state.file, 'name', {
+                writable: true,
+                value: (new Date).toISOString() + "_" + this.state.file.name
+            });
+
             getPresignedPostData(this.state.file)
                 .then( response => {
                     uploadFileToS3(response, this.state.file)
@@ -79,7 +80,7 @@ class FileUploadButton extends React.Component {
     }
 
     handleChange(e) {
-        this.setState({ file: e.target.files[0], fileName: e.target.files[0].name })
+        this.setState({ file: e.target.files[0], fileName: e.target.files[0].name });
     }
 
     render() {

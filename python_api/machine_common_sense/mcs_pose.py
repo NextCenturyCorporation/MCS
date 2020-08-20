@@ -2,9 +2,8 @@ from enum import Enum, unique
 
 @unique
 class MCS_Pose(Enum):
-    CRAWL = "CRAWL"
-    LIE = "LIE"
-    SQUAT = "SQUAT"
-    STAND = "STAND"
+    CRAWLING = "CRAWLING"
+    LYING = "LYING"
+    STANDING = "STANDING"
     UNDEFINED = "UNDEFINED"
 

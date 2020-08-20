@@ -15,14 +15,14 @@ class Test_Default_MCS_Object(unittest.TestCase):
         "distance": -1.0,
         "distance_in_steps": -1.0,
         "distance_in_world": -1.0,
-        "held": False,
+        "held": false,
         "mass": 0.0,
         "material_list": [],
         "position": {},
         "rotation": {},
         "shape": "",
         "texture_color_list": [],
-        "visible": False
+        "visible": false
     }'''
 
     @classmethod

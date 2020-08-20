@@ -17,7 +17,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES},display
 
 # --build-arg mcsversion=0.0.x to override default in docker build command
-ARG mcsversion=0.0.8
+ARG mcsversion=0.0.10
 
 WORKDIR /mcs
 
