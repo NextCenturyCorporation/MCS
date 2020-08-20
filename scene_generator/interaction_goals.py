@@ -16,9 +16,17 @@ import tags
 import util
 from geometry import POSITION_DIGITS
 from goal import Goal, GoalCategory, generate_wall
-from machine_common_sense.mcs_controller_ai2thor import MAX_MOVE_DISTANCE, MAX_REACH_DISTANCE, PERFORMER_CAMERA_Y
+from machine_common_sense.mcs_controller_ai2thor import (
+    MAX_MOVE_DISTANCE,
+    MAX_REACH_DISTANCE,
+    PERFORMER_CAMERA_Y
+)
 from optimal_path import generatepath
-from util import finalize_object_definition, finalize_object_materials_and_colors, instantiate_object
+from util import (
+    finalize_object_definition,
+    finalize_object_materials_and_colors,
+    instantiate_object
+)
 
 
 def generate_image_file_name(target: Dict[str, Any]) -> str:
@@ -27,8 +35,8 @@ def generate_image_file_name(target: Dict[str, Any]) -> str:
 
     material_name_list = [item[(item.rfind(
         '/') + 1):].lower().replace(' ', '_') for item in target['materials']]
-    return target['type'] + ('_' if len(material_name_list)
-                             > 0 else '') + ('_'.join(material_name_list))
+    return target['type'] + ('_' if len(material_name_list) >
+                             0 else '') + ('_'.join(material_name_list))
 
 
 def find_image_for_object(object_def: Dict[str, Any]) -> AnyStr:
@@ -44,8 +52,8 @@ def find_image_for_object(object_def: Dict[str, Any]) -> AnyStr:
         return target_image
     except BaseException:
         logging.warning(
-            'Image object could not be found, make sure you generated the image: ' +
-            image_file_name)
+            'Image object could not be found, make sure you generated ' +
+            ' the image: ' + image_file_name)
 
 
 def find_image_name(target: Dict[str, Any]) -> str:
@@ -58,14 +66,16 @@ def parse_path_section(path_section: Sequence[Sequence[float]],
                        goal_boundary: List[Dict[str, float]]) -> \
         Tuple[List[Dict[str, Any]], float, Tuple[float, float]]:
     """Compute the actions for one path section, starting with
-    current_heading. Returns a tuple: (list of actions, new heading, performer position)"""
+    current_heading. Returns a tuple: (list of actions, new heading,
+    performer position)"""
     actions = []
     dx = path_section[1][0] - performer[0]
     dz = path_section[1][1] - performer[1]
     theta = math.degrees(math.atan2(dz, dx))
 
     # IF my calculations are correct, this should be right no matter what
-    # I'm assuming a positive angle is a clockwise rotation- so this should work
+    # I'm assuming a positive angle is a clockwise rotation- so this
+    # should work
     # I think
 
     delta_t = (current_heading - theta) % 360
@@ -85,8 +95,13 @@ def parse_path_section(path_section: Sequence[Sequence[float]],
     distance = None
 
     for indx in range(len(goal_boundary)):
-        intersect_point = intersection(performer_seg, Segment((goal_boundary[indx - 1]['x'], goal_boundary[indx - 1]['z']),
-                                                              (goal_boundary[indx]['x'], goal_boundary[indx]['z'])))
+        intersect_point = intersection(
+            performer_seg,
+            Segment(
+                (goal_boundary[indx - 1]['x'], goal_boundary[indx - 1]['z']),
+                (goal_boundary[indx]['x'], goal_boundary[indx]['z'])
+            )
+        )
         if intersect_point:
             distance = float(intersect_point[0].distance(performer))
             break
@@ -131,20 +146,21 @@ def get_navigation_actions(start_location: Dict[str, Any],
         start_location['position']['z'])
     if 'locationParent' in goal_object:
         parent = next(
-            (obj for obj in all_objects if obj['id']
-             == goal_object['locationParent']),
+            (obj for obj in all_objects if obj['id'] ==
+             goal_object['locationParent']),
             None)
         if parent is None:
             raise PathfindingException(
-                f'object {goal_object["id"]} has parent {goal_object["locationParent"]} that does not exist')
+                f'object {goal_object["id"]} has parent '
+                f'{goal_object["locationParent"]} that does not exist')
         goal_object = parent
     goal = (goal_object['shows'][0]['position']['x'],
             goal_object['shows'][0]['position']['z'])
     hole_rects = []
 
     hole_rects.extend(object['shows'][0]['boundingBox'] for object
-                      in all_objects if object['id'] != goal_object['id']
-                      and 'locationParent' not in object)
+                      in all_objects if object['id'] != goal_object['id'] and
+                      'locationParent' not in object)
     path = generatepath(performer, goal, hole_rects)
     if path is None:
         raise PathfindingException(
@@ -174,7 +190,9 @@ def trim_actions_to_reach(actions: List[Dict[str, Any]],
     """
     goal_position = goal_obj['shows'][0]['position']
     total_distance = math.sqrt(
-        (performer[0] - goal_position['x'])**2 + (performer[1] - goal_position['z'])**2)
+        (performer[0] - goal_position['x']) ** 2 +
+        (performer[1] - goal_position['z']) ** 2
+    )
 
     i = len(actions)
     step_dist = 0
@@ -195,11 +213,19 @@ def trim_actions_to_reach(actions: List[Dict[str, Any]],
     return new_actions, (new_x, new_z)
 
 
-def move_to_container(target_definition: Dict[str, Any], target: Dict[str, Any],
-                      bounds_list: List[List[Dict[str, float]]], performer_position: Dict[str, float]) -> Dict[str, Any]:
-    """Try to find a random container that target will fit in. If found, set the target's locationParent, and add
-    container to bounds_list. Return the container, or None if the target was not put into a container."""
-    shuffled_containers = containers.retrieve_enclosable_object_definition_list().copy()
+def move_to_container(
+    target_definition: Dict[str, Any],
+    target: Dict[str, Any],
+    bounds_list: List[List[Dict[str, float]]],
+    performer_position: Dict[str, float]
+) -> Dict[str, Any]:
+    """Try to find a random container that target will fit in. If found, set
+    the target's locationParent, and add
+    container to bounds_list. Return the container, or None if the target
+    was not put into a container."""
+    shuffled_containers = (
+        containers.retrieve_enclosable_object_definition_list().copy()
+    )
     random.shuffle(shuffled_containers)
     for container_definition in shuffled_containers:
         container_definition = finalize_object_definition(container_definition)
@@ -212,14 +238,21 @@ def move_to_container(target_definition: Dict[str, Any], target: Dict[str, Any],
                 container = instantiate_object(
                     container_definition, container_location)
                 area, angles = containment
-                containers.put_object_in_container(target_definition, target, container, container_definition, area,
-                                                   angles[0])
+                containers.put_object_in_container(
+                    target_definition,
+                    target,
+                    container,
+                    container_definition,
+                    area,
+                    angles[0]
+                )
                 return container
     return None
 
 
 class ObjectRule():
-    """Defines rules for how a specific object can be made and positioned as part of a specific goal."""
+    """Defines rules for how a specific object can be made and positioned as
+    part of a specific goal."""
 
     def __init__(self, is_position_in_receptacle=False,
                  is_position_on_receptacle=False):
@@ -236,9 +269,14 @@ class ObjectRule():
         return random.choice(
             finalize_object_materials_and_colors(object_definition))
 
-    def choose_location(self, object_definition: Dict[str, Any], performer_start: Dict[str, Dict[str, float]],
-                        bounds_list: List[List[Dict[str, float]]]) -> Tuple[Dict[str, Any], List[List[Dict[str, float]]]]:
-        """Choose and return the location for the given object definition. Will modify bounds_list."""
+    def choose_location(
+        self,
+        object_definition: Dict[str, Any],
+        performer_start: Dict[str, Dict[str, float]],
+        bounds_list: List[List[Dict[str, float]]]
+    ) -> Tuple[Dict[str, Any], List[List[Dict[str, float]]]]:
+        """Choose and return the location for the given object definition.
+        Will modify bounds_list."""
         object_location = geometry.calc_obj_pos(
             performer_start['position'], bounds_list, object_definition)
         if not object_location:
@@ -246,8 +284,12 @@ class ObjectRule():
                 f'cannot position object (type={object_definition["type"]})')
         return object_location, bounds_list
 
-    def validate_location(self, object_location: Dict[str, Any], target_list: List[Dict[str, Any]],
-                          performer_start: Dict[str, Dict[str, float]]) -> bool:
+    def validate_location(
+        self,
+        object_location: Dict[str, Any],
+        target_list: List[Dict[str, Any]],
+        performer_start: Dict[str, Dict[str, float]]
+    ) -> bool:
         """Returns if the given object location is valid."""
         return True
 
@@ -281,8 +323,11 @@ class TransferToObjectRule(ObjectRule):
     def choose_definition(self) -> Dict[str, Any]:
         choice_list = []
         for possible_list in objects.get('ALL_LISTS'):
-            stack_targets = [definition for definition in possible_list
-                             if 'stackTarget' in definition.get('attributes', [])]
+            stack_targets = [
+                definition
+                for definition in possible_list
+                if 'stackTarget' in definition.get('attributes', [])
+            ]
             if len(stack_targets) > 0:
                 choice_list.append(stack_targets)
 
@@ -298,8 +343,12 @@ class TransferToObjectRule(ObjectRule):
         return random.choice(
             finalize_object_materials_and_colors(object_definition))
 
-    def validate_location(self, object_location: Dict[str, Any], target_list: List[Dict[str, Any]],
-                          performer_start: Dict[str, Dict[str, float]]) -> bool:
+    def validate_location(
+        self,
+        object_location: Dict[str, Any],
+        target_list: List[Dict[str, Any]],
+        performer_start: Dict[str, Dict[str, float]]
+    ) -> bool:
 
         if len(target_list) == 0:
             raise exceptions.SceneException(
@@ -323,8 +372,12 @@ class FarOffObjectRule(ObjectRule):
             is_position_in_receptacle,
             is_position_on_receptacle)
 
-    def validate_location(self, object_location: Dict[str, Any], target_list: List[Dict[str, Any]],
-                          performer_start: Dict[str, Dict[str, float]]) -> bool:
+    def validate_location(
+        self,
+        object_location: Dict[str, Any],
+        target_list: List[Dict[str, Any]],
+        performer_start: Dict[str, Dict[str, float]]
+    ) -> bool:
 
         distance = geometry.position_distance(
             performer_start['position'],
@@ -335,8 +388,12 @@ class FarOffObjectRule(ObjectRule):
 
 
 class DistractorObjectRule(ObjectRule):
-    def __init__(self, target_confusor_list: List[Dict[str, Any]], is_position_in_receptacle=False,
-                 is_position_on_receptacle=False):
+    def __init__(
+        self,
+        target_confusor_list: List[Dict[str, Any]],
+        is_position_in_receptacle=False,
+        is_position_on_receptacle=False
+    ):
         super(
             DistractorObjectRule,
             self).__init__(
@@ -350,9 +407,13 @@ class DistractorObjectRule(ObjectRule):
                       for object in self._target_confusor_list]
         for _ in range(util.MAX_TRIES):
             distractor_definition = super(
-                DistractorObjectRule, self).choose_definition()
-            distractor_shape = distractor_definition['shape'][-1] if isinstance(distractor_definition['shape'], list) \
+                DistractorObjectRule, self
+            ).choose_definition()
+            distractor_shape = (
+                distractor_definition['shape'][-1]
+                if isinstance(distractor_definition['shape'], list)
                 else distractor_definition['shape']
+            )
             # Cannot have the same shape as a goal object, so we don't
             # unintentionally generate a confusor.
             if distractor_shape not in shape_list:
@@ -374,13 +435,18 @@ class ConfusorObjectRule(ObjectRule):
             self._target_definition, objects.get('ALL'))
         if not confusor_definition:
             raise exceptions.SceneException(
-                f'cannot find a confusor to create with target={self._target_definition}')
+                f'cannot find a confusor to create with '
+                f'target={self._target_definition}')
         return confusor_definition
 
 
 class ObstructorObjectRule(ObjectRule):
-    def __init__(self, target_definition: Dict[str, Any], performer_start: Dict[str, Dict[str, float]],
-                 obstruct_vision: bool):
+    def __init__(
+        self,
+        target_definition: Dict[str, Any],
+        performer_start: Dict[str, Dict[str, float]],
+        obstruct_vision: bool
+    ):
         super(ObstructorObjectRule, self).__init__()
         self._target_definition = target_definition
         self._obstruct_vision = obstruct_vision
@@ -393,12 +459,13 @@ class ObstructorObjectRule(ObjectRule):
             self._target_definition, self._obstruct_vision)
         if not obstructor_definition_list:
             raise exceptions.SceneException(
-                f'cannot find an obstructor to create with target={self._target_definition}')
+                f'cannot find an obstructor to create with '
+                f'target={self._target_definition}')
         obstructor_definition, obstructor_angle = random.choice(
             obstructor_definition_list)
         obstructor_definition = util.finalize_object_definition(
             obstructor_definition)
-        if not 'rotation' in obstructor_definition:
+        if 'rotation' not in obstructor_definition:
             obstructor_definition['rotation'] = {
                 'x': 0,
                 'y': 0,
@@ -436,7 +503,8 @@ class InteractionGoal(Goal, ABC):
 
     # override
     def compute_objects(self, wall_material_name: str,
-                        wall_colors: List[str]) -> Dict[str, List[Dict[str, Any]]]:
+                        wall_colors: List[str]) \
+            -> Dict[str, List[Dict[str, Any]]]:
         return {
             'target': self.generate_target_list(),
             'confusor': self._confusor_list,
@@ -458,15 +526,22 @@ class InteractionGoal(Goal, ABC):
                 distractor_rule_list.append(
                     self.get_distractor_rule(
                         is_position_in_receptacle=(
-                            random.random() < InteractionGoal.OBJECT_RECEPTACLE_CHANCE)))
-            self.__generate_object_list(self._distractor_list, distractor_rule_list, self._target_list,
+                            random.random() <
+                            InteractionGoal.OBJECT_RECEPTACLE_CHANCE
+                        )
+                    )
+                )
+            self.__generate_object_list(self._distractor_list,
+                                        distractor_rule_list,
+                                        self._target_list,
                                         self._distractor_list)
             self._is_distractor_list_done = True
         return self._distractor_list
 
     def generate_target_list(
             self, end_index: int = None) -> List[Dict[str, Any]]:
-        """Generates and returns the targets in this goal (or up to the end_index, if given)."""
+        """Generates and returns the targets in this goal (or up to the
+        end_index, if given)."""
         # Only generate each target up to the given end_index, or generate all
         # targets if no end_index was given.
         end_index_to_generate = (
@@ -477,13 +552,16 @@ class InteractionGoal(Goal, ABC):
             # yet exist.
             incomplete_target_rule_list = self._target_rule_list[len(
                 self._target_list):end_index_to_generate]
-            self.__generate_object_list(self._target_list, incomplete_target_rule_list, self._target_list,
+            self.__generate_object_list(self._target_list,
+                                        incomplete_target_rule_list,
+                                        self._target_list,
                                         self._distractor_list)
         return self._target_list
 
     def generate_wall_list(self, wall_material_name: str,
                            wall_colors: List[str]) -> List[Dict[str, Any]]:
-        """Generates and returns the walls (other than the room's starting walls) in this goal."""
+        """Generates and returns the walls (other than the room's starting
+        walls) in this goal."""
         if self._wall_list is None:
             self._wall_list = []
             number = random.choices(
@@ -496,8 +574,13 @@ class InteractionGoal(Goal, ABC):
             ) if self._no_random_obstructor else None
             for _ in range(number + 1):
                 # TODO This should probably be an ObjectRule eventually
-                wall = generate_wall(wall_material_name, wall_colors, self._performer_start['position'],
-                                     self._bounds_list, dont_obstruct_list=dont_obstruct_list)
+                wall = generate_wall(
+                    wall_material_name,
+                    wall_colors,
+                    self._performer_start['position'],
+                    self._bounds_list,
+                    dont_obstruct_list=dont_obstruct_list
+                )
                 if wall:
                     self._wall_list.append(wall)
                     self._bounds_list.append(wall['shows'][0]['boundingBox'])
@@ -523,20 +606,27 @@ class InteractionGoal(Goal, ABC):
         return self._distractor_list
 
     def get_distractor_rule(
-            self, is_position_in_receptacle: bool = False) -> ObjectRule:
+        self, is_position_in_receptacle: bool = False
+    ) -> ObjectRule:
         """Returns the rule for any distractors compatible with this goal."""
-        return self._distractor_rule(target_confusor_list=self.__retrieve_target_confusor_list(),
-                                     is_position_in_receptacle=is_position_in_receptacle)
+        return self._distractor_rule(
+            target_confusor_list=self.__retrieve_target_confusor_list(),
+            is_position_in_receptacle=is_position_in_receptacle,
+        )
 
     def get_obstructor_list(self) -> List[Dict[str, Any]]:
         """Returns the obstructors in this goal."""
         return self._obstructor_list
 
     def get_obstructor_rule(
-            self, target_definition: Dict[str, Any], obstruct_vision: bool) -> ObjectRule:
+        self, target_definition: Dict[str, Any], obstruct_vision: bool
+    ) -> ObjectRule:
         """Returns the rule for any obstructors compatible with this goal."""
-        return self._obstructor_rule(target_definition=target_definition, obstruct_vision=obstruct_vision,
-                                     performer_start=self.get_performer_start())
+        return self._obstructor_rule(
+            target_definition=target_definition,
+            obstruct_vision=obstruct_vision,
+            performer_start=self.get_performer_start(),
+        )
 
     def get_target_list(self) -> List[Dict[str, Any]]:
         """Returns the targets in this goal."""
@@ -547,23 +637,32 @@ class InteractionGoal(Goal, ABC):
         return self._target_rule_list
 
     def set_distractor_rule(self, subclass: Type[ObjectRule]) -> None:
-        """Sets the ObjectRule subclass for creating distractors associated with this goal."""
+        """Sets the ObjectRule subclass for creating distractors associated
+        with this goal."""
         self._distractor_rule = subclass
 
     def set_no_random_obstructor(self) -> None:
-        """If called, the randomly positioned distractors/walls won't obstruct vision to the targets/confusors."""
+        """If called, the randomly positioned distractors/walls won't
+        obstruct vision to the targets/confusors."""
         self._no_random_obstructor = True
 
-    def __generate_object_list(self, object_list: List[Dict[str, Any]], rule_list: List[ObjectRule],
-                               target_list: List[Dict[str, Any]], distractor_list: List[Dict[str, Any]]) -> None:
-        """Generates new objects using the given rule_list and saves them in the given object_list. Will modify the
+    def __generate_object_list(
+        self,
+        object_list: List[Dict[str, Any]],
+        rule_list: List[ObjectRule],
+        target_list: List[Dict[str, Any]],
+        distractor_list: List[Dict[str, Any]]
+    ) -> None:
+        """Generates new objects using the given rule_list and saves them in
+        the given object_list. Will modify the
         given distractor_list and self._bounds_list"""
 
         for rule in rule_list:
             object_definition = rule.choose_definition()
             for _ in range(util.MAX_TRIES):
-                object_location, bounds_list_modified = rule.choose_location(object_definition,
-                                                                             self._performer_start, self._bounds_list)
+                object_location, bounds_list_modified = rule.choose_location(
+                    object_definition, self._performer_start, self._bounds_list
+                )
                 if rule.validate_location(
                         object_location, target_list, self._performer_start):
                     break
@@ -577,18 +676,28 @@ class InteractionGoal(Goal, ABC):
             object_list.append(object_instance)
             receptacle_instance = None
             if rule.is_position_in_receptacle:
-                receptacle_instance = self.__move_into_receptacle(object_definition, object_instance,
-                                                                  self._performer_start, self._bounds_list)
+                receptacle_instance = self.__move_into_receptacle(
+                    object_definition,
+                    object_instance,
+                    self._performer_start,
+                    self._bounds_list
+                )
             if rule.is_position_on_receptacle:
-                receptacle_instance = self.__move_onto_receptacle(object_instance, self._performer_start,
-                                                                  self._bounds_list)
+                receptacle_instance = self.__move_onto_receptacle(
+                    object_instance, self._performer_start, self._bounds_list
+                )
             if receptacle_instance:
                 distractor_list.append(receptacle_instance)
 
-    def __move_into_receptacle(self, object_definition: Dict[str, Any], object_instance: Dict[str, Any],
-                               performer_start: Dict[str, Dict[str, float]], bounds_list: List[List[Dict[str, float]]]) -> Dict[str, Any]:
-        """Create and return a receptacle object, moving the given object into the new receptacle. Will modify
-        bounds_list."""
+    def __move_into_receptacle(
+        self,
+        object_definition: Dict[str, Any],
+        object_instance: Dict[str, Any],
+        performer_start: Dict[str, Dict[str, float]],
+        bounds_list: List[List[Dict[str, float]]]
+    ) -> Dict[str, Any]:
+        """Create and return a receptacle object, moving the given object into
+        the new receptacle. Will modify bounds_list."""
         receptacle = None
         # Only a pickupable object can be positioned inside a receptacle.
         if object_instance.get('pickupable', False):
@@ -601,15 +710,20 @@ class InteractionGoal(Goal, ABC):
                 performer_start['position'])
         return receptacle
 
-    def __move_onto_receptacle(self, object_instance: Dict[str, Any], performer_start: Dict[str, Dict[str, float]],
-                               bounds_list: List[List[Dict[str, float]]]) -> Dict[str, Any]:
-        """Create and return a receptacle object, moving the given object onto the new receptacle. Will modify
-        bounds_list."""
+    def __move_onto_receptacle(
+        self,
+        object_instance: Dict[str, Any],
+        performer_start: Dict[str, Dict[str, float]],
+        bounds_list: List[List[Dict[str, float]]]
+    ) -> Dict[str, Any]:
+        """Create and return a receptacle object, moving the given object onto
+        the new receptacle. Will modify bounds_list."""
         # TODO MCS-146 Position objects on top of receptacles.
         return None
 
     def __retrieve_target_confusor_list(self) -> List[Dict[str, Any]]:
-        """Return a list of objects containing the target(s), the confusor(s), and their parent object(s), if any."""
+        """Return a list of objects containing the target(s), the confusor(s),
+        and their parent object(s), if any."""
         object_list = self._target_list + self._confusor_list
         for object_instance in object_list:
             if 'locationParent' in object_instance:
@@ -673,8 +787,11 @@ class RetrievalGoal(InteractionGoal):
         goal['description'] = f'Find and pick up the {target["goalString"]}.'
         return goal
 
-    def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
-            List[Dict[str, Any]]:
+    def _find_optimal_path(
+        self,
+        goal_objects: List[Dict[str, Any]],
+        all_objects: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
         # Goal should be a singleton... I hope
         actions, performer, heading = get_navigation_actions(
             self._performer_start, goal_objects[0], all_objects)
@@ -682,8 +799,12 @@ class RetrievalGoal(InteractionGoal):
             actions, performer, heading, goal_objects[0])
 
         # Do I have to look down to see the object????
-        plane_dist = math.sqrt((goal_objects[0]['shows'][0]['position']['x'] - performer[0]) ** 2 +
-                               (goal_objects[0]['shows'][0]['position']['z'] - performer[1]) ** 2)
+        plane_dist = math.sqrt(
+            (goal_objects[0]['shows'][0]['position']['x'] -
+                performer[0]) ** 2 +
+            (goal_objects[0]['shows'][0]['position']['z'] -
+                performer[1]) ** 2
+        )
         height_dist = PERFORMER_CAMERA_Y - \
             goal_objects[0]['shows'][0]['position']['y']
         elevation = math.degrees(math.atan2(height_dist, plane_dist))
@@ -750,7 +871,8 @@ class TransferralGoal(InteractionGoal):
             self, goal_objects: List[Dict[str, Any]]) -> Dict[str, Any]:
         if len(goal_objects) < 2:
             raise exceptions.SceneException(
-                f'need at least 2 objects for this goal, was given {len(goal_objects)}')
+                f'need at least 2 objects for this goal, '
+                f'was given {len(goal_objects)}')
         target1, target2 = goal_objects[0:2]
         if not target1.get('pickupable', False):
             raise exceptions.SceneException(
@@ -784,22 +906,30 @@ class TransferralGoal(InteractionGoal):
             },
             'relationship': ['target_1', relationship.value, 'target_2']
         }
-        goal['description'] = f'Find and pick up the {target1["goalString"]} and move it {relationship.value} ' \
+        goal['description'] = f'Find and pick up the ' \
+            f'{target1["goalString"]} ' \
+            f'and move it {relationship.value} ' \
             f'the {target2["goalString"]}.'
         return goal
 
-    def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
-            List[Dict[str, Any]]:
+    def _find_optimal_path(
+        self,
+        goal_objects: List[Dict[str, Any]],
+        all_objects: List[Dict[str, Any]],
+    ) -> List[Dict[str, Any]]:
         # Goal should be a singleton... I hope
-        actions, performer, heading = get_navigation_actions(self._performer_start,
-                                                             goal_objects[0],
-                                                             all_objects)
+        actions, performer, heading = get_navigation_actions(
+            self._performer_start, goal_objects[0], all_objects
+        )
         actions, performer = trim_actions_to_reach(
             actions, performer, heading, goal_objects[0])
 
         # Do I have to look down to see the object????
-        plane_dist = math.sqrt((goal_objects[0]['shows'][0]['position']['x'] - performer[0]) ** 2 +
-                               (goal_objects[0]['shows'][0]['position']['z'] - performer[1]) ** 2)
+        plane_dist = math.sqrt(
+            (goal_objects[0]['shows'][0]['position']['x'] - performer[0]) **
+            2 +
+            (goal_objects[0]['shows'][0]['position']['z'] - performer[1]) ** 2
+        )
         height_dist = PERFORMER_CAMERA_Y - \
             goal_objects[0]['shows'][0]['position']['y']
         elevation = math.degrees(math.atan2(height_dist, plane_dist))
@@ -830,7 +960,12 @@ class TransferralGoal(InteractionGoal):
         if 'locationParent' in goal_objects[0]:
             ignore_object_ids.append(goal_objects[0]['locationParent'])
             parent = next(
-                (obj for obj in all_objects if obj['id'] == goal_objects[0]['locationParent']))
+                (
+                    obj
+                    for obj in all_objects
+                    if obj['id'] == goal_objects[0]['locationParent']
+                )
+            )
             target = (
                 parent['shows'][0]['position']['x'],
                 parent['shows'][0]['position']['z'])
@@ -841,7 +976,12 @@ class TransferralGoal(InteractionGoal):
         if 'locationParent' in goal_objects[1]:
             ignore_object_ids.append(goal_objects[1]['locationParent'])
             parent = next(
-                (obj for obj in all_objects if obj['id'] == goal_objects[1]['locationParent']))
+                (
+                    obj
+                    for obj in all_objects
+                    if obj['id'] == goal_objects[1]['locationParent']
+                )
+            )
             goal = (parent['shows'][0]['position']['x'],
                     parent['shows'][0]['position']['z'])
         else:
@@ -850,11 +990,18 @@ class TransferralGoal(InteractionGoal):
                 goal_objects[1]['shows'][0]['position']['z'])
 
         hole_rects = []
-        hole_rects.extend(object['shows'][0]['boundingBox'] for object
-                          in all_objects if (object['id'] not in ignore_object_ids and 'locationParent' not in object))
+        hole_rects.extend(
+            object['shows'][0]['boundingBox']
+            for object in all_objects
+            if (
+                object['id'] not in ignore_object_ids and
+                'locationParent' not in object
+            )
+        )
 
         logging.debug(
-            f'TransferralGoal.f_o_p: target = {target}\tgoal = {goal}\tholes = {hole_rects}')
+            f'TransferralGoal.f_o_p: target = {target}\tgoal = {goal}\t'
+            f'holes = {hole_rects}')
         path = generatepath(target, goal, hole_rects)
         if path is None:
             raise PathfindingException(
@@ -933,11 +1080,14 @@ class TraversalGoal(InteractionGoal):
                 'image_name': image_name
             }
         }
-        goal['description'] = f'Find the {target["goalString"]} and move near it.'
+        goal['description'] = f'Find the {target["goalString"]} and move near it.'  # noqa: E501
         return goal
 
-    def _find_optimal_path(self, goal_objects: List[Dict[str, Any]], all_objects: List[Dict[str, Any]]) -> \
-            List[Dict[str, Any]]:
+    def _find_optimal_path(
+        self,
+        goal_objects: List[Dict[str, Any]],
+        all_objects: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
         # Goal should be a singleton... I hope
         # TODO: (maybe) look at actual object if it's inside a parent (future
         # ticket)
