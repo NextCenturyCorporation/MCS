@@ -7,7 +7,7 @@ from containers import put_object_in_container, put_objects_in_container, \
     Orientation, can_enclose, can_contain_both, how_can_contain, \
     get_enclosable_containments, find_suitable_enclosable_list, \
     retrieve_enclosable_object_definition_list
-from geometry_test import are_adjacent
+from geometry import are_adjacent
 
 
 PICKUPABLE_OBJECTS_WITHOUT_CONTAINMENTS = ['duck_on_wheels', 'box_2', 'box_3']
