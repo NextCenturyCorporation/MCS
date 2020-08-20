@@ -142,14 +142,20 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                  no_depth_masks=False, no_object_masks=False):
         super().__init__()
 
+        self.__screen_width = self.SCREEN_WIDTH_DEFAULT
+        self.__screen_height = self.SCREEN_WIDTH_DEFAULT / 3 * 2
+        if size and size >= self.SCREEN_WIDTH_MIN:
+            self.__screen_width = size
+            self.__screen_height = size / 3 * 2
+
         self._controller = ai2thor.controller.Controller(
             quality='Medium',
             fullscreen=False,
             # The headless flag does not work for me
             headless=False,
             local_executable_path=unity_app_file_path,
-            width=self.SCREEN_WIDTH_DEFAULT,
-            height=(self.SCREEN_WIDTH_DEFAULT / 3 * 2),
+            width=self.__screen_width,
+            height=self.__screen_height,
             # Set the name of our Scene in our Unity app
             scene='MCS',
             logs=True,
@@ -160,10 +166,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             }
         )
 
-        self.on_init(debug, enable_noise, seed, size, no_depth_masks,
+        self.on_init(debug, enable_noise, seed, no_depth_masks,
                      no_object_masks)
 
-    def on_init(self, debug=False, enable_noise=False, seed=None, size=None,
+    def on_init(self, debug=False, enable_noise=False, seed=None,
                 no_depth_masks=False, no_object_masks=False):
 
         self.__debug_to_file = True if (
@@ -175,12 +181,6 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         self.__no_depth_masks = no_depth_masks
         self.__no_object_masks = no_object_masks
         self.__seed = seed
-
-        self.__screen_width = self.SCREEN_WIDTH_DEFAULT
-        self.__screen_height = self.SCREEN_WIDTH_DEFAULT / 3 * 2
-        if size and size >= self.SCREEN_WIDTH_MIN:
-            self.__screen_width = size
-            self.__screen_height = size / 3 * 2
 
         if self.__seed:
             random.seed(self.__seed)

@@ -124,6 +124,7 @@ Run options:
 - `--no_depth_masks`
 - `--no_object_masks`
 - `--seed <python_random_seed>`
+- `--size <screen_width_450_or_more>`
 
 ## Run with Scene Timer
 

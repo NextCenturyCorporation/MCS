@@ -246,26 +246,6 @@ def main(argv):
         '(should significantly increase performance) [default=False]')
     args = parser.parse_args(argv[1:])
 
-    if not isinstance(args.debug, bool):
-        if args.debug.lower() != 'true' and args.debug.lower() != 'false':
-            print('Debug files must be <True> or <False>')
-            exit()
-        else:
-            if args.debug.lower() == 'false':
-                args.debug = False
-            else:
-                args.debug = True
-
-    if not isinstance(args.noise, bool):
-        if args.noise.lower() != 'true' and args.noise.lower() != 'false':
-            print('Enabling Noise must be <True> or <False>')
-            exit()
-        else:
-            if args.noise.lower() == 'true':
-                args.noise = True
-            else:
-                args.noise = False
-
     config_data, status = MCS.load_config_json_file(args.mcs_config_json_file)
 
     if status is not None:
@@ -274,6 +254,7 @@ def main(argv):
 
     controller = MCS.create_controller(sys.argv[1], debug=args.debug,
                                        enable_noise=args.noise, seed=args.seed,
+                                       size=args.size,
                                        no_depth_masks=args.no_depth_masks,
                                        no_object_masks=args.no_object_masks)
 
