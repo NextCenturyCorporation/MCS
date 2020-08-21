@@ -1,27 +1,25 @@
 # MCS Sphinx Documentation
 
-- Good Tutorial for Sphinx Clarity: https://medium.com/@richdayandnight/a-simple-tutorial-on-how-to-document-your-python-project-using-sphinx-and-rinohtype-177c22a15b5b
+- Good Sphinx Tutorial: https://medium.com/@richdayandnight/a-simple-tutorial-on-how-to-document-your-python-project-using-sphinx-and-rinohtype-177c22a15b5b
 - Markdown Builder: https://pypi.org/project/sphinx-markdown-builder/
 
 - Sphinx: https://www.sphinx-doc.org/en/master/
 - Sphinx's own Tutorial: https://www.sphinx-doc.org/en/master/usage/quickstart.html
 
-
 ## Setup
-1. Cd to `python_api` to make a virtual enviornment inside the folder: `virtualenv -p python3 <name of virtualenv>` 
 
-2. Switch to the virtual enviornment: `source <name of virtualenv>/bin/activate`
+1. Install Python virtual environment: `sudo apt-get install python3-venv`
+2. Switch to the python_api folder: `cd <mcs>/python_api`
+3. Create a virtual environment: `python3 -m venv sphinx_venv`
+4. Activate the virtual environment: `. sphinx_venv/bin/activate`
+5. Update pip: `pip3 install --upgrade pip setuptools wheel`
+6. Install the MCS Python library: `cd ..; pip install -e .; cd python_api`
+7. Install other dependencies: `pip install -r machine_common_sense/requirements.txt`
+8. Create a docs folder: `mkdir docs; cd docs`
+9. Initialize Sphinx: `sphinx-quickstart`
+10. Overwrite the auto-generated conf.py file with:
 
-3. pip install the requirements.txt
-
-4. pip3 install sphinx-markdown-builder
-
-5. mkdir docs --- cd docs
-
-6. sphinx-quickstart
-
-7. within docs open folder `source`. Copy paste this to the conf.py:
-
+```
 # -*- coding: utf-8 -*-
 #
 import os
@@ -37,8 +35,8 @@ sys.path.insert(0, os.path.abspath('../../'))
 # -- Project information -----------------------------------------------------
 
 project = 'Machine Common Sense'
-copyright = '2020, DARPA'
-author = 'DARPA'
+copyright = '2020, CACI'
+author = 'CACI'
 
 # The short X.Y version
 version = ''
@@ -95,11 +93,11 @@ html_static_path = ['_static']
 
 # html_sidebars = {}
 html_theme = 'classic'
+```
 
--------------------------------------------------------------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------------------------------------------------
-8. copy paste this into index.rst:
+11. Overwrite the auto-generated index.rst file with:
 
+```
 .. MCS documentation master file, created by
    sphinx-quickstart
    You can adapt this file completely to your liking, but it should at least
@@ -246,19 +244,11 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+```
 
+12. Generate the markdown docs in the build folder: `make markdown` (or the HTML docs: `make html`)
 
--------------------------------------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------------------------------------
+There are usually errors, if you cannot build you are missing exstentions. Copy paste the error and google it. Do what the internet says.
 
-
-8. In docs run: `make html` or....
-
-9. In docs run: `make markdown`
-
-10. There are usually errors, if you cannot build you are missing exstentions. Copy paste the error and google it. Do what the internet says.
-
-11. Navigate to build folder in docs. There is a markdown folder. Open the .md ........or............
-
-12. Navigate to build folder in docs. There is an html folder which has `index`. Open that for html
+Finally, to exit your virtual environment: `deactivate`
 
