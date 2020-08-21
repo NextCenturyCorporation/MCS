@@ -1,4 +1,3 @@
-from .mcs_material import MCS_Material
 from .mcs_util import MCS_Util
 
 
@@ -11,19 +10,25 @@ class MCS_Object(object):
     uuid : string
         The unique ID of this object, used with some actions.
     color : dict
-        The "r", "g", and "b" pixel values of this object in images from the MCS_Step_Output's "object_mask_list".
+        The "r", "g", and "b" pixel values of this object in images from the
+        MCS_Step_Output's "object_mask_list".
     dimensions : dict
-        The dimensions of this object in the environment's 3D global coordinate system as a list of 8 points (dicts
-        with "x", "y", and "z").
+        The dimensions of this object in the environment's 3D global
+        coordinate system as a list of 8 points (dicts with "x", "y", and "z").
     direction : dict
-        The normalized direction vector of "x", "y", and "z" degrees between your position and this object's.
-        Use "x" and "y" as "rotation" and "horizon" params (respectively) in a "RotateLook" action to face this object.
+        The normalized direction vector of "x", "y", and "z" degrees between
+        your position and this object's.
+        Use "x" and "y" as "rotation" and "horizon" params (respectively) in
+        a "RotateLook" action to face this object.
     distance : float
-        DEPRECATED. Same as distance_in_steps. Please use distance_in_steps or distance_in_world.
+        DEPRECATED. Same as distance_in_steps. Please use distance_in_steps
+        or distance_in_world.
     distance_in_steps : float
-        The distance from you to this object in number of steps ("Move" actions) on the 2D X/Z movement grid.
+        The distance from you to this object in number of steps ("Move"
+        actions) on the 2D X/Z movement grid.
     distance_in_world : float
-        The distance from you to this object in the environment's 3D global coordinate system.
+        The distance from you to this object in the environment's 3D global
+        coordinate system.
     held : boolean
         Whether you are holding this object.
     mass : float
@@ -31,9 +36,11 @@ class MCS_Object(object):
     material_list : list of strings
         Haptic feedback.  The material(s) of this object.  See MCS_Material.
     position : dict
-        The "x", "y", and "z" coordinates for the global position of the center of this object's 3D model.
+        The "x", "y", and "z" coordinates for the global position of the
+        center of this object's 3D model.
     rotation : dict
-        This object's rotation angles around the "x", "y", and "z" axes in degrees.
+        This object's rotation angles around the "x", "y", and "z" axes
+        in degrees.
     shape : string
         This object's shape in plain English.
     texture_color_list : list of strings
@@ -73,9 +80,10 @@ class MCS_Object(object):
         self.position = {} if position is None else position
         self.rotation = {} if rotation is None else rotation
         self.shape = shape
-        self.texture_color_list = [] if texture_color_list is None else texture_color_list
+        self.texture_color_list = (
+            [] if texture_color_list is None else texture_color_list
+        )
         self.visible = visible
 
     def __str__(self):
         return MCS_Util.class_to_str(self)
-

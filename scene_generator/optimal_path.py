@@ -6,13 +6,8 @@ from shapely.geometry import Polygon, Point
 from shapely.ops import unary_union
 
 from extremitypathfinder.extremitypathfinder import PolygonEnvironment as Environment
-from geometry import ROOM_DIMENSIONS
+from geometry import ROOM_X_MIN, ROOM_X_MAX, ROOM_Z_MIN, ROOM_Z_MAX
 from util import PERFORMER_WIDTH
-
-MIN_X = ROOM_DIMENSIONS[0][0]
-MAX_X = ROOM_DIMENSIONS[0][1]
-MIN_Z = ROOM_DIMENSIONS[1][0]
-MAX_Z = ROOM_DIMENSIONS[1][1]
 
 
 def _dilate_polygons(rects: List[List[Dict[str, float]]], dilation: float,
@@ -27,10 +22,12 @@ def _dilate_polygons(rects: List[List[Dict[str, float]]], dilation: float,
         poly = Polygon([(point['x'], point['z']) for point in rect])
         poly.buffer(dilation, resolution=4)
         if poly.contains(source):
-            logging.debug(f'source is inside something: source={source}\tpoly={poly}')
+            logging.debug(
+                f'source is inside something: source={source}\tpoly={poly}')
             return None
         if poly.contains(target):
-            logging.debug(f'target is inside something: target={target}\tpoly={poly}')
+            logging.debug(
+                f'target is inside something: target={target}\tpoly={poly}')
             return None
         polygons.append(poly)
     return polygons
@@ -54,7 +51,8 @@ def _unify_and_clean_polygons(polygons: List[Polygon]) \
         num_unified_points += len(coords)
         if coords[0] == coords[-1]:
             del coords[-1]
-    logging.debug(f'unified polygons: {len(poly_coords)}\tunified points: {num_unified_points}')
+    logging.debug(
+        f'unified polygons: {len(poly_coords)}\tunified points: {num_unified_points}')
 
     return poly_coords
 
@@ -70,7 +68,13 @@ def generatepath(source_loc: Tuple[float, float],
     """Boundary has to be CCW, Holes CW"""
     # dilate all the polygons based on the agent width
     dilation = agent_width / 2.0
-    polygons = _dilate_polygons(other_rects, dilation, Point(*source_loc), Point(*target_loc))
+    polygons = _dilate_polygons(
+        other_rects,
+        dilation,
+        Point(
+            *source_loc),
+        Point(
+            *target_loc))
     if polygons is None:
         return None
 
@@ -78,10 +82,10 @@ def generatepath(source_loc: Tuple[float, float],
     poly_coords = _unify_and_clean_polygons(polygons)
 
     environment = Environment()
-    boundary_coordinates = [(MAX_X - dilation, MAX_Z - dilation),
-                            (MIN_X + dilation, MAX_Z - dilation),
-                            (MIN_X + dilation, MIN_Z + dilation),
-                            (MAX_X - dilation, MIN_Z + dilation)]
+    boundary_coordinates = [(ROOM_X_MAX - dilation, ROOM_Z_MAX - dilation),
+                            (ROOM_X_MIN + dilation, ROOM_Z_MAX - dilation),
+                            (ROOM_X_MIN + dilation, ROOM_Z_MIN + dilation),
+                            (ROOM_X_MAX - dilation, ROOM_Z_MIN + dilation)]
     try:
         environment.store(boundary_coordinates, poly_coords, validate=True)
         environment.prepare()

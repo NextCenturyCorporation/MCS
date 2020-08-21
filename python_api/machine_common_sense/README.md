@@ -12,9 +12,15 @@
 2. Install the Python dependencies (I tested on Python v3.6.5)
 
 ```
-pip install ai2thor
-pip install Pillow
+pip install -r ../requirements.txt
 ```
+
+3. Run pre-commit install to set up git hook
+
+```
+pre-commit install
+```
+
 
 ## Running
 
@@ -64,6 +70,31 @@ Packaging the project is done with the [setup.py](../../setup.py) file located i
 ## Documentation Style Guide
 
 See https://numpydoc.readthedocs.io/en/latest/format.html
+
+## Linting
+
+We are currently using [flake8](https://flake8.pycqa.org/en/latest/) and [autopep8](https://pypi.org/project/autopep8/) for linting and formatting our Python code. This is only enforced within the python_api project for now. Both are [PEP 8](https://www.python.org/dev/peps/pep-0008/) compliant, although we are ignoring the following rules:
+- **E402**: Module level import not at top of file
+- **W504**: Line break occurred after a binary operator
+
+A full list of error codes and warnings enforced can be found [here](https://flake8.pycqa.org/en/latest/user/error-codes.html)
+
+Both have settings so that they should run on save within Visual Studio Code [settings.json](../.vscode/settings.json) as well as on commit after running `pre-commit install` (see [.pre-commit-config.yaml](../../.pre-commit-config.yaml) and [.flake8](../../.flake8)), but can also be run on the command line:
+
+
+```
+flake8
+```
+
+and
+
+```
+autopep8 --in-place --aggressive --recursive <directory>
+```
+or
+```
+autopep8 --in-place --aggressive <file>
+```
 
 ## Making GIFs
 

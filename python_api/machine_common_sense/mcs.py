@@ -4,7 +4,8 @@ import signal
 from contextlib import contextmanager
 from .mcs_controller_ai2thor import MCS_Controller_AI2THOR
 
-TIME_LIMIT_SECONDS = 10
+TIME_LIMIT_SECONDS = 60
+
 
 @contextmanager
 def time_limit(seconds):
@@ -17,29 +18,40 @@ def time_limit(seconds):
     finally:
         signal.alarm(0)
 
+
 class MCS:
     """
-    Defines utility functions for machine learning modules to create MCS controllers and handle config data files.
+    Defines utility functions for machine learning modules to create MCS
+    controllers and handle config data files.
     """
 
+    """
+    Creates and returns a new MCS_Controller object.
+
+    Parameters
+    ----------
+    unity_app_file_path : str
+        The file path to your MCS Unity application.
+    debug : boolean, optional
+
+    Returns
+    -------
+    MCS_Controller
+    """
     @staticmethod
-    def create_controller(unity_app_file_path, debug=False, enable_noise=False, seed=None):
-        """
-            **static create_controller(unity_app_file_path)**
-            Creates and returns an MCS Controller object using the Unity application at the given file path.
-            :param unity_app_file_path : The file path to the MCS Unity application. The TA2 team will give you this application.
-            :type unity_app_file_path: string
-            :return: The MCS controller object.
-            :type: MCS_Controller
-        """
+    def create_controller(
+            unity_app_file_path,
+            debug=False,
+            enable_noise=False,
+            seed=None):
         # TODO: Toggle between AI2-THOR and other controllers like ThreeDWorld?
         try:
             with time_limit(TIME_LIMIT_SECONDS):
-                return MCS_Controller_AI2THOR(unity_app_file_path, debug, enable_noise, seed)
+                return MCS_Controller_AI2THOR(
+                    unity_app_file_path, debug, enable_noise, seed)
         except Exception as Msg:
             print("create_controller() is Hanging. ", Msg)
             return None
-    
 
     """
     Loads the given JSON config file and returns its data.
@@ -59,11 +71,13 @@ class MCS:
     @staticmethod
     def load_config_json_file(config_json_file_path):
         try:
-            with open(config_json_file_path, encoding='utf-8-sig') as config_json_file_object:
+            with open(config_json_file_path, encoding='utf-8-sig') \
+                    as config_json_file_object:
                 try:
                     return json.load(config_json_file_object), None
                 except ValueError:
-                    return {}, "The given file '" + config_json_file_path + "' does not contain valid JSON."
+                    return {}, "The given file '" + config_json_file_path + \
+                        "' does not contain valid JSON."
         except IOError:
-            return {}, "The given file '" + config_json_file_path + "' cannot be found."
-
+            return {}, "The given file '" + config_json_file_path + \
+                "' cannot be found."
