@@ -3,7 +3,7 @@ from .mcs_util import MCS_Util
 
 class MCS_Object(object):
     """
-    Defines attributes of an object in the MCS 3D environment.
+    Defines output from an object in the MCS 3D environment.
 
     Attributes
     ----------
@@ -16,10 +16,11 @@ class MCS_Object(object):
         The dimensions of this object in the environment's 3D global
         coordinate system as a list of 8 points (dicts with "x", "y", and "z").
     direction : dict
-        The normalized direction vector of "x", "y", and "z" degrees between
-        your position and this object's.
-        Use "x" and "y" as "rotation" and "horizon" params (respectively) in
-        a "RotateLook" action to face this object.
+        The direction vector of "x", "y", and "z" degrees between your position
+        and this object's position (the difference in the two positions),
+        normalized to 1. You can use the "x" and "y" as the "rotation" and
+        "horizon" parameters (respectively) in a "RotateLook" action to face
+        this object.
     distance : float
         DEPRECATED. Same as distance_in_steps. Please use distance_in_steps
         or distance_in_world.
@@ -32,9 +33,10 @@ class MCS_Object(object):
     held : boolean
         Whether you are holding this object.
     mass : float
-        Haptic feedback.  The mass of this object.
+        Haptic feedback. The mass of this object.
     material_list : list of strings
-        Haptic feedback.  The material(s) of this object.  See MCS_Material.
+        Haptic feedback. The material(s) of this object.
+        See [Materials](#Materials).
     position : dict
         The "x", "y", and "z" coordinates for the global position of the
         center of this object's 3D model.

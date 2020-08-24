@@ -25,25 +25,35 @@ class MCS:
     controllers and handle config data files.
     """
 
-    """
-    Creates and returns a new MCS_Controller object.
-
-    Parameters
-    ----------
-    unity_app_file_path : str
-        The file path to your MCS Unity application.
-    debug : boolean, optional
-
-    Returns
-    -------
-    MCS_Controller
-    """
     @staticmethod
     def create_controller(
             unity_app_file_path,
             debug=False,
             enable_noise=False,
             seed=None):
+        """
+        Creates and returns a new MCS Controller object.
+
+        Parameters
+        ----------
+        unity_app_file_path : str
+            The file path to your MCS Unity application.
+        debug : boolean, optional
+            Whether to save MCS output debug files in this folder.
+            (default False)
+        enable_noise : boolean, optional
+            Whether to add random noise to the numerical amounts in movement
+            and object interaction action parameters.
+            (default False)
+        seed : int, optional
+            A seed for the Python random number generator.
+            (default None)
+
+        Returns
+        -------
+        MCS_Controller
+            The MCS Controller object.
+        """
         # TODO: Toggle between AI2-THOR and other controllers like ThreeDWorld?
         try:
             with time_limit(TIME_LIMIT_SECONDS):
@@ -53,23 +63,23 @@ class MCS:
             print("create_controller() is Hanging. ", Msg)
             return None
 
-    """
-    Loads the given JSON config file and returns its data.
-
-    Parameters
-    ----------
-    config_json_file_path : str
-        The file path to your MCS JSON scene configuration file.
-
-    Returns
-    -------
-    dict
-        The MCS scene configuration data from the given JSON file.
-    None or string
-        The error status (if any).
-    """
     @staticmethod
     def load_config_json_file(config_json_file_path):
+        """
+        Loads the given JSON config file and returns its data.
+
+        Parameters
+        ----------
+        config_json_file_path : str
+            The file path to your MCS JSON scene configuration file.
+
+        Returns
+        -------
+        dict
+            The MCS scene configuration data from the given JSON file.
+        None or string
+            The error status (if any).
+        """
         try:
             with open(config_json_file_path, encoding='utf-8-sig') \
                     as config_json_file_object:

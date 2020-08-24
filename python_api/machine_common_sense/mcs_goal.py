@@ -3,7 +3,7 @@ from .mcs_util import MCS_Util
 
 class MCS_Goal:
     """
-    Defines attributes of an MCS goal.
+    Defines an MCS goal.
 
     Attributes
     ----------
@@ -17,10 +17,28 @@ class MCS_Goal:
         actions are available for that specific step.
     category : string
         The category that describes this goal and the properties in its
-        metadata.
+        metadata. See [Goals](#Goals).
     description : string
         A human-readable sentence describing this goal and containing
         the target task(s) and object(s).
+
+        Sizes:
+        - tiny: near the size of a baseball
+        - small: near the size of a baby
+        - medium: near the size of a child
+        - large: near the size of an adult
+        - huge: near the size of a sofa
+
+        Weights:
+        - light: can be held by a baby
+        - heavy: cannot be held by a baby, but can be pushed or pulled
+        - massive: cannot be moved by a baby
+
+        Colors:
+        black, blue, brown, green, grey, orange, purple, red, white, yellow
+
+        Materials:
+        See [Materials](#Materials).
     domain_list : list of strings
         The list of MCS "core domains" associated with this goal (for the
         visualization interface).
@@ -28,8 +46,11 @@ class MCS_Goal:
         The list of information for the visualization interface associated
         with this goal.
     last_preview_phase_step : integer
-        The last step of the preview phase of this scene (scripted in its
-        configuration), if any. Default: 0
+        The last step of the Preview Phase of this scene, if a Preview Phase is
+        scripted in the scene configuration. Each step of a Preview Phase
+        normally has a single specific action defined in this goal's
+        action_list property for the performer to choose, like ['Pass'].
+        Default: 0 (no Preview Phase)
     last_step : integer
         The last step of this scene. This scene will automatically end
         following this step.
@@ -37,7 +58,7 @@ class MCS_Goal:
         The list of types associated with this goal (for the
         visualization interface).
     metadata : dict
-        The metadata specific to this goal.
+        The metadata specific to this goal. See [Goals](#Goals).
     """
 
     def __init__(
@@ -49,7 +70,6 @@ class MCS_Goal:
         info_list=None,
         last_preview_phase_step=0,
         last_step=None,
-        task_list=None,
         type_list=None,
         metadata=None
     ):

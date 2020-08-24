@@ -29,7 +29,6 @@ from .mcs_action import MCS_Action
 from .mcs_controller import MCS_Controller
 from .mcs_goal import MCS_Goal
 from .mcs_object import MCS_Object
-from .mcs_pose import MCS_Pose
 from .mcs_return_status import MCS_Return_Status
 from .mcs_reward import MCS_Reward
 from .mcs_scene_history import MCS_Scene_History
@@ -53,9 +52,23 @@ ai2thor.server.Event._image_depth = __image_depth_override
 
 class MCS_Controller_AI2THOR(MCS_Controller):
     """
-    MCS Controller class implementation for the AI2-THOR library.
+    MCS Controller class implementation for the MCS wrapper of the AI2-THOR
+    library.
 
     https://ai2thor.allenai.org/ithor/documentation/
+
+    Parameters
+    ----------
+    debug : boolean, optional
+        Whether to save MCS output debug files in this folder.
+        (default False)
+    enable_noise : boolean, optional
+        Whether to add random noise to the numerical amounts in movement
+        and object interaction action parameters.
+        (default False)
+    seed : int, optional
+        A seed for the Python random number generator.
+        (default None)
     """
 
     ACTION_LIST = [item.value for item in MCS_Action]
@@ -223,19 +236,47 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                     json.loads(history_string)) + '\n')
 
     # Override
-    def end_scene(self, classification, confidence):
-        history_item = '{"classification": "' + classification + \
+    def end_scene(self, choice, confidence=1.0):
+        """
+        Ends the current scene.
+
+        Parameters
+        ----------
+        choice : string, optional
+            The selected choice required for ending scenes with
+            violation-of-expectation or classification goals.
+            Is not required for other goals. (default None)
+        confidence : float, optional
+            The choice confidence between 0 and 1 required for ending scenes
+            with violation-of-expectation or classification goals.
+            Is not required for other goals. (default None)
+        """
+
+        super().end_scene(choice, confidence)
+
+        history_item = '{"classification": "' + choice + \
             '", "confidence": ' + str(confidence) + '}'
         self.__history_list.append(history_item)
         self.write_history_file(history_item)
 
-        super().end_scene(classification, confidence)
-        # TODO MCS-54 Save classification, confidence, and list of actions
-        # (steps) taken in this scene for scoring (maybe save to file?)
-        pass
-
     # Override
     def start_scene(self, config_data):
+        """
+        Starts a new scene using the given scene configuration data dict and
+        returns the scene output data object.
+
+        Parameters
+        ----------
+        config_data : dict
+            The MCS scene configuration data for the scene to start.
+
+        Returns
+        -------
+        MCS_Step_Output
+            The output data object from the start of the scene (the output from
+            an "Initialize" action).
+        """
+
         super().start_scene(config_data)
 
         self.__scene_configuration = config_data
@@ -437,6 +478,25 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     # Override
     def step(self, action, **kwargs):
+        """
+        Runs the given action within the current scene and unpauses the scene's
+        physics simulation for a few frames.
+
+        Parameters
+        ----------
+        action : string
+            A selected action string from the list of available actions.
+        **kwargs
+            Zero or more key-and-value parameters for the action.
+
+        Returns
+        -------
+        MCS_Step_Output
+            The MCS output data object from after the selected action and the
+            physics simulation were run. Returns None if you have passed the
+            "last_step" of this scene.
+        """
+
         super().step(action, **kwargs)
 
         if (self._goal.last_step is not None and
@@ -505,7 +565,6 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     def filter_history_images(
             self,
             history: MCS_Scene_History) -> MCS_Scene_History:
-        '''Remove the images from the history'''
         if 'target' in history.output.goal.metadata.keys():
             del history.output.goal.metadata['target']['image']
         if 'target_1' in history.output.goal.metadata.keys():
@@ -785,8 +844,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     def retrieve_pose(self, scene_event) -> str:
         # Return Agents pose from Unity in step output object
-        return scene_event.metadata['pose'] 
-        
+        return scene_event.metadata['pose']
 
     def retrieve_position(self, scene_event) -> dict:
         return scene_event.metadata['agent']['position']
