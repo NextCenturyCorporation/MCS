@@ -69,7 +69,8 @@ Example importing the MCS library:
 from machine_common_sense import MCS
 
 # We will give you the Unity app file.
-controller = MCS.create_controller(unity_app_file_path)
+controller = MCS.create_controller(unity_app_file_path, depth_masks=True,
+                                   object_masks=True)
 
 # Either load the config data dict from an MCS config JSON file or create your own.
 # We will give you the training config JSON files and the format to make your own.
@@ -98,7 +99,8 @@ Example running multiple scenes sequentially:
 from machine_common_sense import MCS
 
 # Only create the MCS controller ONCE!
-controller = MCS.create_controller(unity_app_file_path)
+controller = MCS.create_controller(unity_app_file_path, depth_masks=True,
+                                   object_masks=True)
 
 for config_json_file_path in config_json_file_list:
     config_data = MCS.load_config_json_file(config_json_file_path)
@@ -120,9 +122,9 @@ mcs_run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file>
 
 Run options:
 - `--debug`
+- `--depth_masks`
 - `--noise`
-- `--no_depth_masks`
-- `--no_object_masks`
+- `--object_masks`
 - `--seed <python_random_seed>`
 - `--size <screen_width_450_or_more>`
 

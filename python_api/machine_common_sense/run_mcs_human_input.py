@@ -233,17 +233,17 @@ def main(argv):
         default=None,
         help='Screen width of 450+ (height = width * 2/3) [default=600]')
     parser.add_argument(
-        '--no_depth_masks',
+        '--depth_masks',
         default=False,
         action='store_true',
-        help='Don\'t render or return depth masks ' +
-        '(should slightly increase performance) [default=False]')
+        help='Render and return depth masks of each scene ' +
+        '(will slightly decrease performance) [default=False]')
     parser.add_argument(
-        '--no_object_masks',
+        '--object_masks',
         default=False,
         action='store_true',
-        help='Don\'t render or return object (instance segmentation) masks ' +
-        '(should significantly increase performance) [default=False]')
+        help='Render and return object (instance segmentation) masks of ' +
+        'each scene (will significantly decrease performance) [default=False]')
     args = parser.parse_args(argv[1:])
 
     config_data, status = MCS.load_config_json_file(args.mcs_config_json_file)
@@ -255,8 +255,8 @@ def main(argv):
     controller = MCS.create_controller(sys.argv[1], debug=args.debug,
                                        enable_noise=args.noise, seed=args.seed,
                                        size=args.size,
-                                       no_depth_masks=args.no_depth_masks,
-                                       no_object_masks=args.no_object_masks)
+                                       depth_masks=args.depth_masks,
+                                       object_masks=args.object_masks)
 
     config_file_path = sys.argv[2]
     config_file_name = config_file_path[config_file_path.rfind('/') + 1:]

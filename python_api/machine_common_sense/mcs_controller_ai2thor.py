@@ -139,7 +139,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     def __init__(self, unity_app_file_path, debug=False,
                  enable_noise=False, seed=None, size=None,
-                 no_depth_masks=False, no_object_masks=False):
+                 depth_masks=False, object_masks=False):
         super().__init__()
 
         self.__screen_width = self.SCREEN_WIDTH_DEFAULT
@@ -166,11 +166,11 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             }
         )
 
-        self.on_init(debug, enable_noise, seed, no_depth_masks,
-                     no_object_masks)
+        self.on_init(debug, enable_noise, seed, depth_masks,
+                     object_masks)
 
     def on_init(self, debug=False, enable_noise=False, seed=None,
-                no_depth_masks=False, no_object_masks=False):
+                depth_masks=False, object_masks=False):
 
         self.__debug_to_file = True if (
             debug is True or debug == 'file') else False
@@ -178,8 +178,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             debug is True or debug == 'terminal') else False
 
         self.__enable_noise = enable_noise
-        self.__no_depth_masks = no_depth_masks
-        self.__no_object_masks = no_object_masks
+        self.__depth_masks = depth_masks
+        self.__object_masks = object_masks
         self.__seed = seed
 
         if self.__seed:
@@ -871,12 +871,12 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             scene_image = Image.fromarray(event.frame)
             image_list.append(scene_image)
 
-            if not self.__no_depth_masks:
+            if self.__depth_masks:
                 depth_mask = Image.fromarray(event.depth_frame)
                 depth_mask = depth_mask.convert('L')
                 depth_mask_list.append(depth_mask)
 
-            if not self.__no_object_masks:
+            if self.__object_masks:
                 object_mask = Image.fromarray(
                     event.instance_segmentation_frame)
                 object_mask_list.append(object_mask)
@@ -887,10 +887,10 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 suffix = '_' + str(step_plus_substep_index) + '.png'
                 scene_image.save(fp=self.__output_folder +
                                  'frame_image' + suffix)
-                if not self.__no_depth_masks:
+                if self.__depth_masks:
                     depth_mask.save(fp=self.__output_folder +
                                     'depth_mask' + suffix)
-                if not self.__no_object_masks:
+                if self.__object_masks:
                     object_mask.save(fp=self.__output_folder +
                                      'object_mask' + suffix)
 
@@ -987,8 +987,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             continuous=True,
             gridSize=self.GRID_SIZE,
             logs=True,
-            renderDepthImage=(not self.__no_depth_masks),
-            renderObjectImage=(not self.__no_object_masks),
+            renderDepthImage=self.__depth_masks,
+            renderObjectImage=self.__object_masks,
             # Yes, in AI2-THOR, the player's reach appears to be
             # governed by the "visibilityDistance", confusingly...
             visibilityDistance=MAX_REACH_DISTANCE,
