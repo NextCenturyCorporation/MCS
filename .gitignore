@@ -37,8 +37,8 @@ python_api/scenes/images/*.gif
 **/SCENE_HISTORY
 
 # python docs
-python_api/docs
-python_api/sphinx_venv
+python_api/machine_common_sense/docs
+python_api/machine_common_sense/sphinx_venv
 
 # scene runtime debug files
 python_api/machine_common_sense/**/*.gif
