@@ -1,10 +1,9 @@
-import uuid
-
+import random
 import geometry
 import materials
 import objects
-from goals import *
-from util import finalize_object_definition, instantiate_object, check_same_and_different, get_similar_defs, \
+from util import finalize_object_definition, instantiate_object, \
+    check_same_and_different, get_similar_defs, \
     random_real, move_to_location, retrieve_full_object_definition_list
 
 
@@ -512,11 +511,14 @@ def test_check_same_and_different_with_dimensions():
 
 def test_check_same_and_different_pacifier():
     assert check_same_and_different(
-        PACIFIER, PACIFIER, ('shape', 'dimensions'), ('materialCategory',)) is False
+        PACIFIER, PACIFIER, ('shape', 'dimensions'), ('materialCategory',)
+    ) is False
     assert check_same_and_different(
-        PACIFIER, PACIFIER, ('shape', 'materialCategory'), ('dimensions',)) is False
+        PACIFIER, PACIFIER, ('shape', 'materialCategory'), ('dimensions',)
+    ) is False
     assert check_same_and_different(
-        PACIFIER, PACIFIER, ('dimensions', 'materialCategory'), ('shape',)) is False
+        PACIFIER, PACIFIER, ('dimensions', 'materialCategory'), ('shape',)
+    ) is False
 
 
 def test_get_similar_defs_color():
@@ -526,12 +528,14 @@ def test_get_similar_defs_color():
         object_instance = instantiate_object(
             object_definition, geometry.ORIGIN_LOCATION)
         similar_list = get_similar_defs(
-            object_instance, object_definition_list, ('dimensions', 'shape'), ('color',))
+            object_instance, object_definition_list,
+            ('dimensions', 'shape'), ('color',))
         for similar_definition in similar_list:
             similar_instance = instantiate_object(
                 similar_definition, geometry.ORIGIN_LOCATION)
             assert check_same_and_different(
-                similar_instance, object_instance, ('dimensions', 'shape'), ('color',))
+                similar_instance, object_instance,
+                ('dimensions', 'shape'), ('color',))
 
 
 def test_get_similar_defs_shape():
@@ -541,12 +545,14 @@ def test_get_similar_defs_shape():
         object_instance = instantiate_object(
             object_definition, geometry.ORIGIN_LOCATION)
         similar_list = get_similar_defs(
-            object_instance, object_definition_list, ('color', 'dimensions'), ('shape',))
+            object_instance, object_definition_list,
+            ('color', 'dimensions'), ('shape',))
         for similar_definition in similar_list:
             similar_instance = instantiate_object(
                 similar_definition, geometry.ORIGIN_LOCATION)
             assert check_same_and_different(
-                similar_instance, object_instance, ('color', 'dimensions'), ('shape',))
+                similar_instance, object_instance,
+                ('color', 'dimensions'), ('shape',))
 
 
 def test_get_similar_defs_size():
@@ -556,12 +562,14 @@ def test_get_similar_defs_size():
         object_instance = instantiate_object(
             object_definition, geometry.ORIGIN_LOCATION)
         similar_list = get_similar_defs(
-            object_instance, object_definition_list, ('color', 'shape'), ('dimensions',))
+            object_instance, object_definition_list,
+            ('color', 'shape'), ('dimensions',))
         for similar_definition in similar_list:
             similar_instance = instantiate_object(
                 similar_definition, geometry.ORIGIN_LOCATION)
             assert check_same_and_different(
-                similar_instance, object_instance, ('color', 'shape'), ('dimensions',))
+                similar_instance, object_instance,
+                ('color', 'shape'), ('dimensions',))
 
 
 def test_instantiate_object_novel_color():
@@ -675,8 +683,14 @@ def test_instantiate_object_novel_shape():
 
 
 def test_move_to_location():
-    instance = {'shows': [{'position': {'x': -1, 'y': 0,
-                                        'z': -1}, 'rotation': {'x': 0, 'y': 90, 'z': 0}}]}
+    instance = {
+        'shows': [
+            {
+                'position': {'x': -1, 'y': 0, 'z': -1},
+                'rotation': {'x': 0, 'y': 90, 'z': 0}
+            }
+        ]
+    }
     bounds = [{'x': 3, 'z': 3}, {'x': 3, 'z': 1},
               {'x': 1, 'z': 1}, {'x': 1, 'z': 3}]
     location = {
@@ -688,8 +702,12 @@ def test_move_to_location():
     assert actual == instance
     assert instance['shows'][0]['position'] == {'x': 2, 'y': 0, 'z': 2}
     assert instance['shows'][0]['rotation'] == {'x': 0, 'y': 0, 'z': 0}
-    assert instance['shows'][0]['boundingBox'] == [{'x': 3, 'z': 3}, {'x': 3, 'z': 1}, {'x': 1, 'z': 1},
-                                                   {'x': 1, 'z': 3}]
+    assert instance['shows'][0]['boundingBox'] == [
+        {'x': 3, 'z': 3},
+        {'x': 3, 'z': 1},
+        {'x': 1, 'z': 1},
+        {'x': 1, 'z': 3}
+    ]
 
     definition = {'offset': {'x': 0.1, 'z': -0.5}}
 
@@ -697,8 +715,12 @@ def test_move_to_location():
     assert actual == instance
     assert instance['shows'][0]['position'] == {'x': 1.9, 'y': 0, 'z': 2.5}
     assert instance['shows'][0]['rotation'] == {'x': 0, 'y': 0, 'z': 0}
-    assert instance['shows'][0]['boundingBox'] == [{'x': 3, 'z': 3}, {'x': 3, 'z': 1}, {'x': 1, 'z': 1},
-                                                   {'x': 1, 'z': 3}]
+    assert instance['shows'][0]['boundingBox'] == [
+        {'x': 3, 'z': 3},
+        {'x': 3, 'z': 1},
+        {'x': 1, 'z': 1},
+        {'x': 1, 'z': 3}
+    ]
 
     previous = {'offset': {'x': 0.2, 'z': -0.4}}
 
@@ -706,15 +728,23 @@ def test_move_to_location():
     assert actual == instance
     assert instance['shows'][0]['position'] == {'x': 2.2, 'y': 0, 'z': 1.6}
     assert instance['shows'][0]['rotation'] == {'x': 0, 'y': 0, 'z': 0}
-    assert instance['shows'][0]['boundingBox'] == [{'x': 3, 'z': 3}, {'x': 3, 'z': 1}, {'x': 1, 'z': 1},
-                                                   {'x': 1, 'z': 3}]
+    assert instance['shows'][0]['boundingBox'] == [
+        {'x': 3, 'z': 3},
+        {'x': 3, 'z': 1},
+        {'x': 1, 'z': 1},
+        {'x': 1, 'z': 3}
+    ]
 
     actual = move_to_location(definition, instance, location, bounds, previous)
     assert actual == instance
     assert instance['shows'][0]['position'] == {'x': 2.1, 'y': 0, 'z': 2.1}
     assert instance['shows'][0]['rotation'] == {'x': 0, 'y': 0, 'z': 0}
-    assert instance['shows'][0]['boundingBox'] == [{'x': 3, 'z': 3}, {'x': 3, 'z': 1}, {'x': 1, 'z': 1},
-                                                   {'x': 1, 'z': 3}]
+    assert instance['shows'][0]['boundingBox'] == [
+        {'x': 3, 'z': 3},
+        {'x': 3, 'z': 1},
+        {'x': 1, 'z': 1},
+        {'x': 1, 'z': 3}
+    ]
 
 
 def test_retrieve_full_object_definition_list():
