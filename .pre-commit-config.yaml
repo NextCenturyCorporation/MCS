@@ -14,3 +14,10 @@ repos:
     rev: v1.5.4
     hooks:
     -   id: autopep8
+-   repo: local
+    hooks:
+    -   id: sphinx
+        name: sphinx
+        entry: ./python_api/machine_common_sense/generate_sphinx_docs.sh
+        language: script
+        verbose: true
