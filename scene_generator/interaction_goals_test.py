@@ -16,12 +16,12 @@ import geometry
 import objects
 import scene_generator
 from geometry import POSITION_DIGITS
-from goals import *
 from interaction_goals import move_to_container, parse_path_section, \
     get_navigation_actions, trim_actions_to_reach, \
     PathfindingException, ObjectRule, PickupableObjectRule, \
     TransferToObjectRule, FarOffObjectRule, \
-    DistractorObjectRule, ConfusorObjectRule, ObstructorObjectRule
+    DistractorObjectRule, ConfusorObjectRule, ObstructorObjectRule, \
+    RetrievalGoal, TransferralGoal, TraversalGoal
 from util import MAX_SIZE_DIFFERENCE, MAX_TRIES, finalize_object_definition, \
     instantiate_object
 
