@@ -10,12 +10,12 @@ import copy
 import random
 import uuid
 from enum import Enum, auto
-from typing import Dict, Any, List, Tuple
+from typing import Dict, Any, List
 
 import exceptions
 import pairs
 import quartets
-from materials import *
+import materials
 from pretty_json.pretty_json import PrettyJsonEncoder, PrettyJsonNoIndent
 import goals
 
@@ -94,11 +94,11 @@ def generate_body_template(name: str) -> Dict[str, Any]:
     global OUTPUT_TEMPLATE
     body = copy.deepcopy(OUTPUT_TEMPLATE)
     body['name'] = os.path.basename(name)
-    ceil_wall_mat_choice = random.choice(CEILING_AND_WALL_MATERIALS)
+    ceil_wall_mat_choice = random.choice(materials.CEILING_AND_WALL_MATERIALS)
     body['ceilingMaterial'] = ceil_wall_mat_choice[0]
     body['wallMaterial'] = ceil_wall_mat_choice[0]
     body['wallColors'] = ceil_wall_mat_choice[1]
-    body['floorMaterial'] = random.choice(FLOOR_MATERIALS)[0]
+    body['floorMaterial'] = random.choice(materials.FLOOR_MATERIALS)[0]
     return body
 
 
@@ -127,7 +127,8 @@ def write_scene(name: str, scene: Dict[str, Any]) -> None:
     # module spaces them out far too much.
     wrap_with_json_no_indent(
         body['goal'], [
-            'action_list', 'domain_list', 'type_list', 'task_list', 'info_list'])
+            'action_list', 'domain_list', 'type_list',
+            'task_list', 'info_list'])
     if 'metadata' in body['goal']:
         for target in ['target', 'target_1', 'target_2']:
             if target in body['goal']['metadata']:
@@ -178,13 +179,15 @@ def generate_single(prefix: str, count: int, goal_type: str, find_path: bool,
             body = generate_scene(name, goal_type, find_path)
             write_file(name, body)
             count -= 1
-        except (RuntimeError, ZeroDivisionError, TypeError, exceptions.SceneException, ValueError) as e:
+        except (RuntimeError, ZeroDivisionError, TypeError,
+                exceptions.SceneException, ValueError) as e:
             if stop_on_error:
                 raise
             logging.warning(f'failed to create a file: {e}')
 
 
-def generate_quartet(prefix: str, count: int, quartet_name: str, goal_name: str, find_path: bool,
+def generate_quartet(prefix: str, count: int, quartet_name: str,
+                     goal_name: str, find_path: bool,
                      stop_on_error: bool) -> None:
 
     template = generate_body_template('')
@@ -205,14 +208,16 @@ def generate_quartet(prefix: str, count: int, quartet_name: str, goal_name: str,
                 scene_copy = copy.deepcopy(scene)
                 write_file(name, scene_copy)
                 break
-            except (RuntimeError, ZeroDivisionError, TypeError, exceptions.SceneException, ValueError) as e:
+            except (RuntimeError, ZeroDivisionError, TypeError,
+                    exceptions.SceneException, ValueError) as e:
                 if stop_on_error:
                     raise
                 logging.warning(f'failed to create a quartet member: {e}')
         logging.debug(f'end generation of\t{name}')
 
 
-def generate_quartets(prefix: str, count: int, quartet_name: str, goal_name: str, find_path: bool,
+def generate_quartets(prefix: str, count: int, quartet_name: str,
+                      goal_name: str, find_path: bool,
                       stop_on_error: bool) -> None:
 
     index = 1
@@ -239,7 +244,8 @@ def write_scene_of_pair(scene: Dict[str, Any], name: str) -> None:
     write_file(name, scene_copy)
 
 
-def generate_pair(prefix: str, count: int, pair_name: str, goal_name: str, find_path: bool,
+def generate_pair(prefix: str, count: int, pair_name: str,
+                  goal_name: str, find_path: bool,
                   stop_on_error: bool) -> None:
 
     template = generate_body_template('')
@@ -256,13 +262,15 @@ def generate_pair(prefix: str, count: int, pair_name: str, goal_name: str, find_
             write_scene_of_pair(scenes[0], generate_name(prefix, count, 1))
             write_scene_of_pair(scenes[1], generate_name(prefix, count, 2))
             break
-        except (RuntimeError, ZeroDivisionError, TypeError, exceptions.SceneException, ValueError) as e:
+        except (RuntimeError, ZeroDivisionError, TypeError,
+                exceptions.SceneException, ValueError) as e:
             if stop_on_error:
                 raise
             logging.warning(f'failed to create a pair: {e}')
 
 
-def generate_pairs(prefix: str, total: int, pair_name: str, goal_name: str, find_path: bool,
+def generate_pairs(prefix: str, total: int, pair_name: str,
+                   goal_name: str, find_path: bool,
                    stop_on_error: bool) -> None:
 
     index = 1
@@ -291,7 +299,8 @@ class FilesetType(Enum):
     PAIR = auto()
 
 
-def generate_fileset(prefix: str, count: int, type_name: str, goal_name: str, find_path: bool, stop_on_error: bool,
+def generate_fileset(prefix: str, count: int, type_name: str, goal_name: str,
+                     find_path: bool, stop_on_error: bool,
                      fileset_type: FilesetType) -> None:
     dirname = os.path.dirname(prefix)
     if dirname != '':
@@ -337,16 +346,22 @@ def main(argv):
         help='Random number seed [default=None]')
     group = parser.add_mutually_exclusive_group()
     parser.add_argument('--goal', default=None, choices=goals.get_goal_types(),
-                        help='Generate a goal of the specified type [default is to not generate a goal]. Lowercase '
-                        'goals are categories; capitalized goals are specific goals.')
-    group.add_argument('--quartet', default=None, choices=quartets.get_quartet_types(),
-                       help='Generate a passive scene quartet of the specified type with random setups.')
+                        help='Generate a goal of the specified type [default '
+                        'is to not generate a goal]. Lowercase goals are '
+                        'categories; capitalized goals are specific goals.')
+    group.add_argument('--quartet', default=None,
+                       choices=quartets.get_quartet_types(),
+                       help='Generate a passive scene quartet of the '
+                       'specified type with random setups.')
     group.add_argument('--pair', default=None, choices=pairs.get_pair_types(),
-                       help='Generate an interactive scene pair of the specified type with random goals.')
+                       help='Generate an interactive scene pair of the '
+                       'specified type with random goals.')
     parser.add_argument('--find_path', default=False, action='store_true',
-                        help='Whether to run the pathfinding for interaction goals')
+                        help='Whether to run the pathfinding for '
+                        'interaction goals')
     parser.add_argument('--stop-on-error', default=False, action='store_true',
-                        help='Stop immediately if there is an error generating a file [default is print a warning but '
+                        help='Stop immediately if there is an error generating'
+                             ' a file [default is print a warning but '
                              'do not stop]')
     parser.add_argument(
         '--loglevel',
