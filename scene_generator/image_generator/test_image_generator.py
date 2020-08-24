@@ -4,7 +4,7 @@ import numpy
 from PIL import Image
 
 import image_generator
-from materials import *
+import materials
 
 
 def mock_get_global_material_list(material):
@@ -315,15 +315,19 @@ class Test_Image_Generator(unittest.TestCase):
 
     def test_get_global_material_list(self):
         self.assertEqual(
-            METAL_MATERIALS,
+            materials.METAL_MATERIALS,
             image_generator.get_global_material_list('metal'))
         self.assertEqual(
-            PLASTIC_MATERIALS,
+            materials.PLASTIC_MATERIALS,
             image_generator.get_global_material_list('plastic'))
 
     def test_retrieve_image_pixel_list(self):
-        object_screenshot = Image.fromarray(numpy.array([[(1, 2, 3), (4, 5, 6)], [(7, 8, 9), (10, 11, 12)]],
-                                                        dtype=numpy.uint8))
+        object_screenshot = Image.fromarray(
+            numpy.array(
+                [[(1, 2, 3), (4, 5, 6)], [(7, 8, 9), (10, 11, 12)]],
+                dtype=numpy.uint8
+            )
+        )
         actual = image_generator.retrieve_image_pixel_list(object_screenshot)
         expected = [[(1, 2, 3), (4, 5, 6)], [(7, 8, 9), (10, 11, 12)]]
         self.assertEqual(actual, expected)
