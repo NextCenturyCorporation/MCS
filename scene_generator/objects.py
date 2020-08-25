@@ -698,7 +698,7 @@ _BOWL = {
         "offset": {
             "x": 0,
             "y": 0.055,
-            "z": -0.002
+            "z": 0
         }
     }, {
         "type": "bowl_4",
@@ -708,7 +708,7 @@ _BOWL = {
             "z": 0.206
         },
         "offset": {
-            "x": 0.001,
+            "x": 0,
             "y": 0.027,
             "z": 0
         },
@@ -883,37 +883,27 @@ _BOX_SMALL_XZ_TINY_Y = {
         "enclosedAreas": [{
             "id": "",
             "position": {
-                "x": 0 * 1.25,
-                "y": -0.075 * 0.75,
-                "z": -0.145 * 1.25
+                "x": 0,
+                "y": 0.103 * 0.75,
+                "z": 0
             },
             "dimensions": {
                 "x": 0.296 * 1.25,
-                "y": 0.193 * 0.75,
+                "y": 0.203 * 0.75,
                 "z": 0.339 * 1.25
             }
         }],
         "dimensions": {
-            "x": 0.623 * 1.25,
-            "y": 0.381 * 0.75,
-            "z": 0.567 * 1.25
-        },
-        "offset": {
-            "x": -0.007 * 1.25,
-            "y": 0 * 0.75,
-            "z": -0.144 * 1.25
-        },
-        "closedDimensions": {
-            "x": 0.31 * 1.25,
+            "x": 0.32 * 1.25,
             "y": 0.21 * 0.75,
             "z": 0.36 * 1.25
         },
-        "closedOffset": {
+        "offset": {
             "x": 0,
-            "y": -0.08 * 0.75,
-            "z": -0.145 * 1.25
+            "y": 0,
+            "z": 0
         },
-        "positionY": 0.2 * 0.75,
+        "positionY": 0.105 * 0.75,
         "scale": {
             "x": 1.25,
             "y": 0.75,
@@ -926,8 +916,8 @@ _BOX_SMALL_XZ_TINY_Y = {
             "id": "",
             "position": {
                 "x": 0,
-                "y": -0.117 * 0.5,
-                "z": -0.131
+                "y": 0.163 * 0.5,
+                "z": 0
             },
             "dimensions": {
                 "x": 0.399,
@@ -936,26 +926,16 @@ _BOX_SMALL_XZ_TINY_Y = {
             }
         }],
         "dimensions": {
-            "x": 0.712,
-            "y": 0.5 * 0.5,
-            "z": 0.503
-        },
-        "offset": {
-            "x": 0.008,
-            "y": -0.038 * 0.5,
-            "z": -0.115
-        },
-        "closedDimensions": {
-            "x": 0.41,
-            "y": 0.31 * 0.5,
+            "x": 0.42,
+            "y": 0.32 * 0.5,
             "z": 0.34
         },
-        "closedOffset": {
+        "offset": {
             "x": 0,
-            "y": -0.125 * 0.5,
-            "z": -0.13
+            "y": 0,
+            "z": 0
         },
-        "positionY": 0.15,
+        "positionY": 0.16 * 0.5,
         "scale": {
             "x": 1,
             "y": 0.5,
@@ -970,8 +950,8 @@ _BOX_SMALL_XZ_TINY_Y = {
             "id": "",
             "position": {
                 "x": 0,
-                "y": -0.125 * 0.5,
-                "z": -0.132
+                "y": 0.16 * 0.5,
+                "z": 0
             },
             "dimensions": {
                 "x": 0.272,
@@ -980,26 +960,16 @@ _BOX_SMALL_XZ_TINY_Y = {
             }
         }],
         "dimensions": {
-            "x": 0.45,
-            "y": 0.491 * 0.5,
-            "z": 0.46
-        },
-        "offset": {
-            "x": 0.024,
-            "y": -0.046 * 0.5,
-            "z": -0.136
-        },
-        "closedDimensions": {
             "x": 0.3,
             "y": 0.32 * 0.5,
             "z": 0.34
         },
-        "closedOffset": {
+        "offset": {
             "x": 0,
-            "y": -0.125 * 0.5,
-            "z": -0.13
+            "y": 0,
+            "z": 0
         },
-        "positionY": 0.15,
+        "positionY": 0.16 * 0.5,
         "scale": {
             "x": 1,
             "y": 0.5,
@@ -1023,37 +993,27 @@ _BOX_TINY = {
         "enclosedAreas": [{
             "id": "",
             "position": {
-                "x": 0 * 0.75,
-                "y": -0.075 * 0.75,
-                "z": -0.145 * 0.75
+                "x": 0,
+                "y": 0.103 * 0.75,
+                "z": 0
             },
             "dimensions": {
                 "x": 0.296 * 0.75,
-                "y": 0.193 * 0.75,
+                "y": 0.203 * 0.75,
                 "z": 0.339 * 0.75
             }
         }],
         "dimensions": {
-            "x": 0.623 * 0.75,
-            "y": 0.381 * 0.75,
-            "z": 0.567 * 0.75
-        },
-        "offset": {
-            "x": -0.007 * 0.75,
-            "y": 0 * 0.75,
-            "z": -0.144 * 0.75
-        },
-        "closedDimensions": {
-            "x": 0.31 * 0.75,
+            "x": 0.32 * 0.75,
             "y": 0.21 * 0.75,
             "z": 0.36 * 0.75
         },
-        "closedOffset": {
+        "offset": {
             "x": 0,
-            "y": -0.08 * 0.75,
-            "z": -0.145 * 0.75
+            "y": 0,
+            "z": 0
         },
-        "positionY": 0.2 * 0.75,
+        "positionY": 0.105 * 0.75,
         "scale": {
             "x": 0.75,
             "y": 0.75,
@@ -1066,8 +1026,8 @@ _BOX_TINY = {
             "id": "",
             "position": {
                 "x": 0,
-                "y": -0.117 * 0.5,
-                "z": -0.131 * 0.5
+                "y": 0.163 * 0.5,
+                "z": 0
             },
             "dimensions": {
                 "x": 0.399 * 0.5,
@@ -1076,26 +1036,16 @@ _BOX_TINY = {
             }
         }],
         "dimensions": {
-            "x": 0.712 * 0.5,
-            "y": 0.5 * 0.5,
-            "z": 0.503 * 0.5
-        },
-        "offset": {
-            "x": 0.008 * 0.5,
-            "y": -0.038 * 0.5,
-            "z": -0.115 * 0.5
-        },
-        "closedDimensions": {
-            "x": 0.41 * 0.5,
-            "y": 0.31 * 0.5,
+            "x": 0.42 * 0.5,
+            "y": 0.32 * 0.5,
             "z": 0.34 * 0.5
         },
-        "closedOffset": {
+        "offset": {
             "x": 0,
-            "y": -0.125 * 0.5,
-            "z": -0.13 * 0.5
+            "y": 0,
+            "z": 0
         },
-        "positionY": 0.15,
+        "positionY": 0.16 * 0.5,
         "scale": {
             "x": 0.5,
             "y": 0.5,
@@ -1110,8 +1060,8 @@ _BOX_TINY = {
             "id": "",
             "position": {
                 "x": 0,
-                "y": -0.125 * 0.5,
-                "z": -0.132 * 0.5
+                "y": 0.16 * 0.5,
+                "z": 0
             },
             "dimensions": {
                 "x": 0.272 * 0.5,
@@ -1120,26 +1070,16 @@ _BOX_TINY = {
             }
         }],
         "dimensions": {
-            "x": 0.45 * 0.5,
-            "y": 0.491 * 0.5,
-            "z": 0.46 * 0.5
-        },
-        "offset": {
-            "x": 0.024 * 0.5,
-            "y": -0.046 * 0.5,
-            "z": -0.136 * 0.5
-        },
-        "closedDimensions": {
             "x": 0.3 * 0.5,
             "y": 0.32 * 0.5,
             "z": 0.34 * 0.5
         },
-        "closedOffset": {
+        "offset": {
             "x": 0,
-            "y": -0.125 * 0.5,
-            "z": -0.13 * 0.5
+            "y": 0,
+            "z": 0
         },
-        "positionY": 0.15,
+        "positionY": 0.16 * 0.5,
         "scale": {
             "x": 0.5,
             "y": 0.5,
@@ -1191,7 +1131,7 @@ _CHAIR_BASIC = {
         "offset": {
             "x": 0,
             "y": 0.51,
-            "z": -0.02
+            "z": 0
         },
         "positionY": 0,
         "scale": {
@@ -1223,7 +1163,7 @@ _CHAIR_BASIC = {
         "offset": {
             "x": 0,
             "y": 0.51 * 0.5,
-            "z": -0.02 * 0.5
+            "z": 0
         },
         "positionY": 0,
         "scale": {
@@ -1393,37 +1333,27 @@ _BOX_SMALL = {
         "enclosedAreas": [{
             "id": "",
             "position": {
-                "x": 0 * 1.25,
-                "y": -0.075 * 1.25,
-                "z": -0.145 * 1.25
+                "x": 0,
+                "y": 0.103 * 1.25,
+                "z": 0
             },
             "dimensions": {
                 "x": 0.296 * 1.25,
-                "y": 0.193 * 1.25,
+                "y": 0.203 * 1.25,
                 "z": 0.339 * 1.25
             }
         }],
         "dimensions": {
-            "x": 0.623 * 1.25,
-            "y": 0.381 * 1.25,
-            "z": 0.567 * 1.25
-        },
-        "offset": {
-            "x": -0.007 * 1.25,
-            "y": 0 * 1.25,
-            "z": -0.144 * 1.25
-        },
-        "closedDimensions": {
-            "x": 0.31 * 1.25,
+            "x": 0.32 * 1.25,
             "y": 0.21 * 1.25,
             "z": 0.36 * 1.25
         },
-        "closedOffset": {
+        "offset": {
             "x": 0,
-            "y": -0.08 * 1.25,
-            "z": -0.145 * 1.25
+            "y": 0,
+            "z": 0
         },
-        "positionY": 0.2 * 1.25,
+        "positionY": 0.105 * 1.25,
         "scale": {
             "x": 1.25,
             "y": 1.25,
@@ -1436,8 +1366,8 @@ _BOX_SMALL = {
             "id": "",
             "position": {
                 "x": 0,
-                "y": -0.117,
-                "z": -0.131
+                "y": 0.163,
+                "z": 0
             },
             "dimensions": {
                 "x": 0.399,
@@ -1446,26 +1376,16 @@ _BOX_SMALL = {
             }
         }],
         "dimensions": {
-            "x": 0.712,
-            "y": 0.5,
-            "z": 0.503
-        },
-        "offset": {
-            "x": 0.008,
-            "y": -0.038,
-            "z": -0.115
-        },
-        "closedDimensions": {
-            "x": 0.41,
-            "y": 0.31,
+            "x": 0.42,
+            "y": 0.32,
             "z": 0.34
         },
-        "closedOffset": {
+        "offset": {
             "x": 0,
-            "y": -0.125,
-            "z": -0.13
+            "y": 0,
+            "z": 0
         },
-        "positionY": 0.3,
+        "positionY": 0.16,
         "scale": {
             "x": 1,
             "y": 1,
@@ -1480,8 +1400,8 @@ _BOX_SMALL = {
             "id": "",
             "position": {
                 "x": 0,
-                "y": -0.125,
-                "z": -0.132
+                "y": 0.16,
+                "z": 0
             },
             "dimensions": {
                 "x": 0.272,
@@ -1490,26 +1410,16 @@ _BOX_SMALL = {
             }
         }],
         "dimensions": {
-            "x": 0.45,
-            "y": 0.491,
-            "z": 0.46
-        },
-        "offset": {
-            "x": 0.024,
-            "y": -0.046,
-            "z": -0.136
-        },
-        "closedDimensions": {
             "x": 0.3,
             "y": 0.32,
             "z": 0.34
         },
-        "closedOffset": {
+        "offset": {
             "x": 0,
-            "y": -0.125,
-            "z": -0.13
+            "y": 0,
+            "z": 0
         },
-        "positionY": 0.3,
+        "positionY": 0.16,
         "scale": {
             "x": 1,
             "y": 1,
@@ -1533,40 +1443,30 @@ _BOX_MEDIUM_XZ_SMALL_Y = {
         "enclosedAreas": [{
             "id": "",
             "position": {
-                "x": 0 * 1.75,
-                "y": -0.075 * 1.75,
-                "z": -0.145 * 1.75
+                "x": 0,
+                "y": 0.103 * 1.25,
+                "z": 0
             },
             "dimensions": {
                 "x": 0.296 * 1.75,
-                "y": 0.193 * 1.75,
+                "y": 0.203 * 1.25,
                 "z": 0.339 * 1.75
             }
         }],
         "dimensions": {
-            "x": 0.623 * 1.75,
-            "y": 0.381 * 1.75,
-            "z": 0.567 * 1.75
-        },
-        "offset": {
-            "x": -0.007 * 1.75,
-            "y": 0 * 1.75,
-            "z": -0.144 * 1.75
-        },
-        "closedDimensions": {
-            "x": 0.31 * 1.75,
-            "y": 0.21 * 1.75,
+            "x": 0.32 * 1.75,
+            "y": 0.21 * 1.25,
             "z": 0.36 * 1.75
         },
-        "closedOffset": {
+        "offset": {
             "x": 0,
-            "y": -0.08 * 1.75,
-            "z": -0.145 * 1.75
+            "y": 0,
+            "z": 0
         },
-        "positionY": 0.2 * 1.75,
+        "positionY": 0.105 * 1.25,
         "scale": {
             "x": 1.75,
-            "y": 1.75,
+            "y": 1.25,
             "z": 1.75
         }
     }, {
@@ -1576,8 +1476,8 @@ _BOX_MEDIUM_XZ_SMALL_Y = {
             "id": "",
             "position": {
                 "x": 0,
-                "y": -0.117,
-                "z": -0.131 * 1.5
+                "y": 0.163,
+                "z": 0
             },
             "dimensions": {
                 "x": 0.399 * 1.5,
@@ -1586,26 +1486,16 @@ _BOX_MEDIUM_XZ_SMALL_Y = {
             }
         }],
         "dimensions": {
-            "x": 0.712 * 1.5,
-            "y": 0.5,
-            "z": 0.503 * 1.5
-        },
-        "offset": {
-            "x": 0.008 * 1.5,
-            "y": -0.038,
-            "z": -0.115 * 1.5
-        },
-        "closedDimensions": {
-            "x": 0.41 * 1.5,
-            "y": 0.31,
+            "x": 0.42 * 1.5,
+            "y": 0.32,
             "z": 0.34 * 1.5
         },
-        "closedOffset": {
+        "offset": {
             "x": 0,
-            "y": -0.125,
-            "z": -0.13 * 1.5
+            "y": 0,
+            "z": 0
         },
-        "positionY": 0.3,
+        "positionY": 0.16 * 1.5,
         "scale": {
             "x": 1.5,
             "y": 1,
@@ -1620,8 +1510,8 @@ _BOX_MEDIUM_XZ_SMALL_Y = {
             "id": "",
             "position": {
                 "x": 0,
-                "y": -0.125,
-                "z": -0.132 * 1.5
+                "y": 0.16,
+                "z": 0
             },
             "dimensions": {
                 "x": 0.272 * 1.5,
@@ -1630,26 +1520,16 @@ _BOX_MEDIUM_XZ_SMALL_Y = {
             }
         }],
         "dimensions": {
-            "x": 0.45 * 1.5,
-            "y": 0.491,
-            "z": 0.46 * 1.5
-        },
-        "offset": {
-            "x": 0.024 * 1.5,
-            "y": -0.046,
-            "z": -0.136 * 1.5
-        },
-        "closedDimensions": {
             "x": 0.3 * 1.5,
             "y": 0.32,
             "z": 0.34 * 1.5
         },
-        "closedOffset": {
+        "offset": {
             "x": 0,
-            "y": -0.125,
-            "z": -0.13 * 1.5
+            "y": 0,
+            "z": 0
         },
-        "positionY": 0.3,
+        "positionY": 0.16,
         "scale": {
             "x": 1.5,
             "y": 1,
@@ -1934,7 +1814,7 @@ _CHANGING_TABLE = {
         #    }, {
         "id": "_drawer_bottom",
         "position": {
-            "x": 0.165,
+            "x": 0.175,
             "y": 0.19,
             "z": -0.03
         },
@@ -1960,7 +1840,7 @@ _CHANGING_TABLE = {
         #    }, {
         #        "id": "_shelf_top",
         #        "position": {
-        #            "x": -0.01,
+        #            "x": 0,
         #            "y": 0.725,
         #            "z": -0.05
         #        },
@@ -1972,7 +1852,7 @@ _CHANGING_TABLE = {
         #    }, {
         #        "id": "_shelf_middle",
         #        "position": {
-        #            "x": -0.375,
+        #            "x": -0.365,
         #            "y": 0.475,
         #            "z": -0.05
         #        },
@@ -1984,7 +1864,7 @@ _CHANGING_TABLE = {
         #    }, {
         "id": "_shelf_bottom",
         "position": {
-            "x": -0.375,
+            "x": -0.365,
             "y": 0.2,
             "z": -0.05
         },
@@ -2000,7 +1880,7 @@ _CHANGING_TABLE = {
         "z": 0.89
     },
     "offset": {
-        "x": -0.01,
+        "x": 0,
         "y": 0.48,
         "z": 0.155
     },
@@ -2010,7 +1890,7 @@ _CHANGING_TABLE = {
         "z": 0.58
     },
     "closedOffset": {
-        "x": -0.01,
+        "x": 0,
         "y": 0.48,
         "z": 0
     },
@@ -2086,9 +1966,9 @@ _TABLE_LONG = {
         },
         "mass": 5,
         "offset": {
-            "x": 0.067 * 1.175,
+            "x": 0,
             "y": 0.44,
-            "z": -0.07
+            "z": 0
         },
         "positionY": 0,
         "scale": {
@@ -2119,9 +1999,9 @@ _TABLE_LONG = {
         },
         "mass": 10,
         "offset": {
-            "x": 0.067 * 2.35,
+            "x": 0,
             "y": 0.44,
-            "z": -0.07
+            "z": 0
         },
         "positionY": 0,
         "scale": {
@@ -2152,9 +2032,9 @@ _TABLE_LONG = {
         },
         "mass": 2.5,
         "offset": {
-            "x": 0.067 * 0.5875,
+            "x": 0,
             "y": 0.44 * 0.5,
-            "z": -0.07 * 0.25
+            "z": 0
         },
         "positionY": 0,
         "scale": {
@@ -2288,7 +2168,7 @@ _TABLE_COFFEE = {
         },
         "mass": 10,
         "offset": {
-            "x": -0.18 * 0.5,
+            "x": 0,
             "y": 0.35,
             "z": 0
         },
@@ -2322,7 +2202,7 @@ _TABLE_COFFEE = {
         },
         "mass": 20,
         "offset": {
-            "x": -0.18,
+            "x": 0,
             "y": 0.35,
             "z": 0
         },
@@ -2355,7 +2235,7 @@ _TABLE_COFFEE = {
             "z": 0.9 * 0.667
         },
         "offset": {
-            "x": -0.18,
+            "x": 0,
             "y": 0.35 * 0.5,
             "z": 0
         },
@@ -2836,23 +2716,23 @@ _SOFA_1 = {
         "position": {
             "x": 0,
             "y": 0.62,
-            "z": 0
+            "z": 0.24
         },
         "dimensions": {
             "x": 1.95,
             "y": 0,
-            "z": 0.63
+            "z": 0.6
         }
     }],
     "dimensions": {
-        "x": 2.5,
-        "y": 1.1,
-        "z": 1.1
+        "x": 2.64,
+        "y": 1.15,
+        "z": 1.23
     },
     "offset": {
         "x": 0,
-        "y": 0.55,
-        "z": -0.025
+        "y": 0.575,
+        "z": 0
     },
     "positionY": 0,
     "scale": {
@@ -2878,7 +2758,7 @@ _SOFA_2 = {
         "position": {
             "x": 0,
             "y": 0.59,
-            "z": 0.125
+            "z": 0.15
         },
         "dimensions": {
             "x": 1.95,
@@ -2887,14 +2767,14 @@ _SOFA_2 = {
         }
     }],
     "dimensions": {
-        "x": 2.5,
-        "y": 1.1,
-        "z": 1.1
+        "x": 2.55,
+        "y": 1.25,
+        "z": 0.95
     },
     "offset": {
         "x": 0,
-        "y": 0.55,
-        "z": -0.025
+        "y": 0.625,
+        "z": 0
     },
     "positionY": 0,
     "scale": {
@@ -2918,25 +2798,25 @@ _SOFA_CHAIR_1 = {
     "openAreas": [{
         "id": "",
         "position": {
-            "x": -0.03,
+            "x": 0,
             "y": 0.62,
-            "z": 0
+            "z": 0.24
         },
         "dimensions": {
             "x": 0.77,
             "y": 0,
-            "z": 0.63
+            "z": 0.6
         }
     }],
     "dimensions": {
-        "x": 1.3,
-        "y": 1.1,
-        "z": 1.1
+        "x": 1.43,
+        "y": 1.15,
+        "z": 1.23
     },
     "offset": {
-        "x": -0.025,
-        "y": 0.55,
-        "z": -0.025
+        "x": 0,
+        "y": 0.575,
+        "z": 0
     },
     "positionY": 0,
     "scale": {
@@ -2960,9 +2840,9 @@ _SOFA_CHAIR_2 = {
     "openAreas": [{
         "id": "",
         "position": {
-            "x": 0.005,
+            "x": 0,
             "y": 0.59,
-            "z": 0.125
+            "z": 0.15
         },
         "dimensions": {
             "x": 0.975,
@@ -2971,14 +2851,14 @@ _SOFA_CHAIR_2 = {
         }
     }],
     "dimensions": {
-        "x": 1.3,
-        "y": 1.1,
-        "z": 1.1
+        "x": 1.425,
+        "y": 1.25,
+        "z": 0.95
     },
     "offset": {
-        "x": -0.025,
-        "y": 0.55,
-        "z": -0.025
+        "x": 0,
+        "y": 0.625,
+        "z": 0
     },
     "positionY": 0,
     "scale": {
@@ -3005,7 +2885,7 @@ _WARDROBE = {
         #        "position": {
         #            "x": 0.255,
         #            "y": 1.165,
-        #            "z": -0.085
+        #            "z": 0.005
         #        },
         #        "dimensions": {
         #            "x": 0.49,
@@ -3017,7 +2897,7 @@ _WARDROBE = {
         #        "position": {
         #            "x": -0.255,
         #            "y": 1.295,
-        #            "z": -0.085
+        #            "z": 0.005
         #        },
         #        "dimensions": {
         #            "x": 0.49,
@@ -3029,7 +2909,7 @@ _WARDROBE = {
         #        "position": {
         #            "x": -0.255,
         #            "y": 0.665,
-        #            "z": -0.085
+        #            "z": 0.005
         #        },
         #        "dimensions": {
         #            "x": 0.49,
@@ -3041,7 +2921,7 @@ _WARDROBE = {
         #        "position": {
         #            "x": -0.265,
         #            "y": 0.42,
-        #            "z": -0.075
+        #            "z": 0.015
         #        },
         #        "dimensions": {
         #            "x": 0.445,
@@ -3053,7 +2933,7 @@ _WARDROBE = {
         #        "position": {
         #            "x": 0.265,
         #            "y": 0.42,
-        #            "z": -0.075
+        #            "z": 0.015
         #        },
         #        "dimensions": {
         #            "x": 0.445,
@@ -3065,7 +2945,7 @@ _WARDROBE = {
         "position": {
             "x": -0.265,
             "y": 0.21,
-            "z": -0.075
+            "z": 0.015
         },
         "dimensions": {
             "x": 0.445,
@@ -3077,7 +2957,7 @@ _WARDROBE = {
         "position": {
             "x": 0.265,
             "y": 0.21,
-            "z": -0.075
+            "z": 0.015
         },
         "dimensions": {
             "x": 0.445,
@@ -3088,22 +2968,22 @@ _WARDROBE = {
     "dimensions": {
         "x": 1.07,
         "y": 2.1,
-        "z": 0.49
+        "z": 1
     },
     "offset": {
         "x": 0,
         "y": 1.05,
-        "z": -0.09
+        "z": 0.17
     },
     "closedDimensions": {
         "x": 1.07,
         "y": 2.1,
-        "z": 1
+        "z": 0.49
     },
     "closedOffset": {
         "x": 0,
         "y": 1.05,
-        "z": 0.17
+        "z": 0
     },
     "positionY": 0,
     "scale": {
@@ -5615,9 +5495,10 @@ _MOVEABLE = [
     _CHAIR_STOOL,
     _BLOCK_NOT_PICKUPABLE,
     _BOX_SMALL,
-    _BOX_MEDIUM_XZ_SMALL_Y,
-    _POTTED_PLANT_MEDIUM,
-    _POTTED_PLANT_SMALL
+    _BOX_MEDIUM_XZ_SMALL_Y
+    # Don't use plants (we don't need them and they're hard to maintain)
+    # _POTTED_PLANT_MEDIUM,
+    # _POTTED_PLANT_SMALL
 ]
 
 
@@ -5634,8 +5515,9 @@ _IMMOBILE = [
     _SOFA_2,
     _SOFA_CHAIR_1,
     _SOFA_CHAIR_2,
-    _WARDROBE,
-    _POTTED_PLANT_LARGE
+    _WARDROBE
+    # Don't use plants (we don't need them and they're hard to maintain)
+    # _POTTED_PLANT_LARGE
 ]
 
 
@@ -5646,7 +5528,8 @@ _PICKUPABLE_LISTS = [
     _PICKUPABLE_MISC]
 _PICKUPABLE = [
     item for object_list in _PICKUPABLE_LISTS for item in object_list]
-_ALL_LISTS = [_PICKUPABLE, _MOVEABLE, _IMMOBILE]
+_NOT_PICKUPABLE = _MOVEABLE + _IMMOBILE
+_ALL_LISTS = [_PICKUPABLE, _NOT_PICKUPABLE]
 _ALL = [item for object_list in _ALL_LISTS for item in object_list]
 
 

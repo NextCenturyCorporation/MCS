@@ -28,6 +28,8 @@ Example:
 
 ```json
 {
+    "name": "Example MCS Scene Configuration",
+    "verison": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
     "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
@@ -79,7 +81,8 @@ Example:
 
 Each **scene config** has the following properties:
 
-- `name` (string, optional): A unique name for the scene used for our logs. Default: none
+- `name` (string, optional): A unique name for the scene used for our logs. Default: the filename
+- `version` (int, optional): The version of this scene configuration. Default: the latest version
 - `ceilingMaterial` (string, optional): The material (color/texture) for the room's ceiling. See the [Material List](#material-list) for options. Default (v0.0.3+): `"AI2-THOR/Materials/Walls/Drywall"`
 - `floorMaterial` (string, optional): The material (color/texture) for the room's floor. See the [Material List](#material-list) for options. Default (v0.0.3+): `"AI2-THOR/Materials/Fabrics/CarpetWhite 3"`
 - `wallMaterial` (string, optional): The material (color/texture) for the room's four outer walls. See the [Material List](#material-list) for options. Default (v0.0.3+): `"AI2-THOR/Materials/Walls/DrywallBeige"`
