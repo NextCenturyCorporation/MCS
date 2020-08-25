@@ -56,7 +56,7 @@ Both have settings so that they should run on save within Visual Studio Code [se
 
 
 ```
-flake8 --ignore=E402,W504 --per-file-ignores="materials.py:E501"
+flake8 --per-file-ignores="materials.py:E501"
 ```
 
 and

@@ -29,7 +29,6 @@ from .mcs_action import MCS_Action
 from .mcs_controller import MCS_Controller
 from .mcs_goal import MCS_Goal
 from .mcs_object import MCS_Object
-from .mcs_pose import MCS_Pose
 from .mcs_return_status import MCS_Return_Status
 from .mcs_reward import MCS_Reward
 from .mcs_scene_history import MCS_Scene_History
@@ -785,8 +784,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     def retrieve_pose(self, scene_event) -> str:
         # Return Agents pose from Unity in step output object
-        return scene_event.metadata['pose'] 
-        
+        return scene_event.metadata['pose']
 
     def retrieve_position(self, scene_event) -> dict:
         return scene_event.metadata['agent']['position']

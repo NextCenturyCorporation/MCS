@@ -83,7 +83,7 @@ Both have settings so that they should run on save within Visual Studio Code [se
 
 
 ```
-flake8 --ignore=E402,W504
+flake8
 ```
 
 and
