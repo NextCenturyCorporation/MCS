@@ -4,8 +4,6 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../../'))
 
-from recommonmark.transform import AutoStructify
-
 # -- Project information -----------------------------------------------------
 
 project = 'Machine Common Sense'
@@ -27,12 +25,12 @@ release = ''
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.todo',
-    'sphinx.ext.githubpages',
     'sphinx.ext.autodoc',
+    'sphinx.ext.githubpages',
     'sphinx.ext.intersphinx',
     'sphinx.ext.ifconfig',
     'sphinx.ext.napoleon',
+    'sphinx.ext.todo',
     'sphinx.ext.viewcode',
     'recommonmark'
 ]
@@ -44,6 +42,7 @@ templates_path = ['_templates']
 # You can specify multiple suffix as a list of string:
 #
 # source_suffix = ['.rst', '.md']
+
 source_suffix = {
     '.rst': 'restructuredtext',
     '.txt': 'markdown',
@@ -63,15 +62,11 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
-html_static_path = ['_static']
-
+# html_static_path = ['_static']
 # html_sidebars = {}
 html_theme = 'classic'
 
+napoleon_use_ivar = True
 
 def setup(app):
-    # https://recommonmark.readthedocs.io/en/latest/auto_structify.html
-    app.add_config_value('recommonmark_config', {
-        'auto_toc_tree_section': 'Contents',
-    }, True)
-    app.add_transform(AutoStructify)
+    pass

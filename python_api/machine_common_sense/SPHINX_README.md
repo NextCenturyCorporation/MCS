@@ -8,8 +8,8 @@
 
 ## Setup
 
-1. Install Python virtual environment: `sudo apt-get install python3-venv`
-2. Switch to the python_api folder: `cd <mcs>/python_api`
+1. Install Python virtual environment: `pip3 install virtualenv` OR `sudo apt-get install python3-venv`
+2. Switch to the python_api folder: `cd <mcs>/python_api/machine_common_sense/`
 3. Create a virtual environment: `python3 -m venv sphinx_venv`
 4. Activate the virtual environment: `source sphinx_venv/bin/activate`
 5. Update pip: `pip3 install --upgrade pip setuptools wheel`
@@ -19,4 +19,3 @@
 9. Generate the markdown docs in the build folder: `make markdown` (or the HTML docs: `make html`)
 10. Finally, to exit your virtual environment: `deactivate`
 
-Note that you may see the following warning: `WARNING: The config value `source_suffix' has type `dict', defaults to `list'.`
