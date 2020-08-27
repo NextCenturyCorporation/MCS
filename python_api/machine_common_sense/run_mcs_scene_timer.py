@@ -4,9 +4,9 @@ import sys
 import time
 
 from machine_common_sense.mcs import MCS
-from machine_common_sense.mcs import MCS
 
 DEFAULT_STEP_COUNT = 20
+
 
 def run_scene(controller, file_name):
     config_data, status = MCS.load_config_json_file(file_name)
@@ -16,7 +16,7 @@ def run_scene(controller, file_name):
         return
 
     config_file_path = file_name
-    config_file_name = config_file_path[config_file_path.rfind('/')+1:]
+    config_file_name = config_file_path[config_file_path.rfind('/') + 1:]
 
     if 'name' not in config_data.keys():
         config_data['name'] = config_file_name[0:config_file_name.find('.')]
@@ -40,19 +40,30 @@ def run_scene(controller, file_name):
 
     return step_time_list
 
+
 def main():
     if len(sys.argv) < 3:
-        print('Usage: python mcs_run_scene_timer.py <mcs_unity_build_file> <scene_configuration_dir> <debug=False>')
+        print('Usage: python run_mcs_scene_timer.py <mcs_unity_build_file> '
+              '<scene_configuration_dir> <debug=False>')
         sys.exit()
 
-    file_list = [os.path.join(sys.argv[2], file_name) for file_name in os.listdir(sys.argv[2]) if \
-            os.path.isfile(os.path.join(sys.argv[2], file_name)) and os.path.splitext(file_name)[1] == '.json']
-    file_list.sort()
+    file_list = sorted(
+        [
+            os.path.join(sys.argv[2], file_name)
+            for file_name in os.listdir(sys.argv[2])
+            if os.path.isfile(os.path.join(sys.argv[2], file_name)) and
+            os.path.splitext(file_name)[1] == '.json'
+        ]
+    )
 
     debug = sys.argv[3] if len(sys.argv) > 3 else False
 
-    print(f'FOUND {len(file_list)} SCENE CONFIGURATION FILES... STARTING THE MCS UNITY APP...')
-    controller = MCS.create_controller(sys.argv[1], debug=(True if debug == 'true' else debug))
+    print(
+        f'FOUND {len(file_list)} SCENE CONFIGURATION FILES... '
+        f'STARTING THE MCS UNITY APP...')
+    controller = MCS.create_controller(
+        sys.argv[1], debug=(
+            True if debug == 'true' else debug))
 
     scene_time_list = []
     step_time_list_list = []
@@ -63,7 +74,8 @@ def main():
     step_time_sum_list = []
 
     for i in range(0, len(file_list)):
-        print('================================================================================')
+        print('========================================================='
+              '=======================')
         print(f'RUNNING FILE {(i + 1)}: {file_list[i]}')
         start = time.perf_counter()
         step_time_list = run_scene(controller, file_list[i])
@@ -76,15 +88,21 @@ def main():
         step_time_min_list.append(min(step_time_list))
         step_time_sum_list.append(sum(step_time_list))
 
-    print('================================================================================')
-    print(f'RAN {len(file_list)} SCENES WITH {sum(step_time_len_list)} TOTAL STEPS IN {sum(scene_time_list):0.4f} SECONDS')
-    print(f'Average single step took {statistics.mean(step_time_avg_list):0.4f} seconds')
+    print('===================================================='
+          '============================')
+    print(f'RAN {len(file_list)} SCENES WITH {sum(step_time_len_list)} '
+          f'TOTAL STEPS IN {sum(scene_time_list):0.4f} SECONDS')
+    print(
+        f'Average single step took {statistics.mean(step_time_avg_list):0.4f} '
+        f'seconds')
     print(f'Longest single step took {max(step_time_max_list):0.4f} seconds')
     print(f'Shortest single step took {min(step_time_min_list):0.4f} seconds')
-    print(f'Average single scene took {statistics.mean(scene_time_list):0.4f} seconds')
+    print(
+        f'Average single scene took {statistics.mean(scene_time_list):0.4f} '
+        f'seconds')
     print(f'Longest single scene took {max(scene_time_list):0.4f} seconds')
     print(f'Shortest single scene took {min(scene_time_list):0.4f} seconds')
 
+
 if __name__ == "__main__":
     main()
-

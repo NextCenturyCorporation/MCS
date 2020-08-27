@@ -1,10 +1,9 @@
-from typing import List, Dict, Tuple
+from typing import List, Dict
 
 from shapely import geometry
 
 from .mcs_goal import MCS_Goal
 from .mcs_goal_category import MCS_Goal_Category
-from .mcs_object import MCS_Object
 from .mcs_controller_ai2thor import MAX_REACH_DISTANCE, MAX_MOVE_DISTANCE
 
 GOAL_ACHIEVED = 1
@@ -30,7 +29,8 @@ class MCS_Reward(object):
         return next((o for o in objects if o['objectId'] == target_id), None)
 
     @staticmethod
-    def _convert_object_to_planar_polygon(goal_object: Dict) -> geometry.Polygon:
+    def _convert_object_to_planar_polygon(
+            goal_object: Dict) -> geometry.Polygon:
         '''
         Project goal object bounds (x,y,z) to an XZ planar polygon.
 
@@ -48,7 +48,10 @@ class MCS_Reward(object):
         return polygon
 
     @staticmethod
-    def _calc_retrieval_reward(goal: MCS_Goal, objects: Dict, agent: Dict) -> int:
+    def _calc_retrieval_reward(
+            goal: MCS_Goal,
+            objects: Dict,
+            agent: Dict) -> int:
         '''
         Calculate the reward for the retrieval goal.
 
@@ -72,11 +75,15 @@ class MCS_Reward(object):
         return reward
 
     @staticmethod
-    def _calc_traversal_reward(goal: MCS_Goal, objects: Dict, agent: Dict) -> int:
+    def _calc_traversal_reward(
+            goal: MCS_Goal,
+            objects: Dict,
+            agent: Dict) -> int:
         '''
         Calculate the reward for the traversal goal.
 
-        Agent must be within reach distance of an object edge to be considered near.
+        Agent must be within reach distance of an object edge to be
+        considered near.
 
         Args:
             goal: MCS_Goal
@@ -93,16 +100,20 @@ class MCS_Reward(object):
 
         agent_pos = agent['position']
         agent_xz = geometry.Point(agent_pos['x'], agent_pos['z'])
-        
+
         if goal_object is not None:
-            goal_polygon = MCS_Reward._convert_object_to_planar_polygon(goal_object)
+            goal_polygon = MCS_Reward._convert_object_to_planar_polygon(
+                goal_object)
             polygonal_distance = agent_xz.distance(goal_polygon)
             reward = int(polygonal_distance <= MAX_REACH_DISTANCE)
 
         return reward
 
     @staticmethod
-    def _calc_transferral_reward(goal: MCS_Goal, objects: Dict, agent: Dict) -> int:
+    def _calc_transferral_reward(
+            goal: MCS_Goal,
+            objects: Dict,
+            agent: Dict) -> int:
         '''
         Calculate the reward for the transferral goal.
 
@@ -132,35 +143,41 @@ class MCS_Reward(object):
         goal_id = goal_target.get('id', None)
         action = action.lower()
 
-        #objects = scene_metadata['objects']
+        # objects = scene_metadata['objects']
         action_object = MCS_Reward.__get_object_from_list(objects, action_id)
         goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
 
         if goal_object is None or goal_object.get('isPickedUp', False):
             return GOAL_NOT_ACHIEVED
-        
+
         if action_object is None or action_object.get('isPickedUp', False):
             return GOAL_NOT_ACHIEVED
 
-        goal_polygon = MCS_Reward._convert_object_to_planar_polygon(goal_object)
-        action_polygon = MCS_Reward._convert_object_to_planar_polygon(action_object)
+        goal_polygon = MCS_Reward._convert_object_to_planar_polygon(
+            goal_object)
+        action_polygon = MCS_Reward._convert_object_to_planar_polygon(
+            action_object)
 
         # actions are next_to or on_top_of (ie; action obj next to goal obj)
         if action == 'next to':
             polygonal_distance = action_polygon.distance(goal_polygon)
             reward = int(polygonal_distance <= MAX_MOVE_DISTANCE)
         elif action == 'on top of':
-            # check that the action object center intersects the goal object bounds
-            # and the y dimension of the target is above the goal
+            # check that the action object center intersects the goal object
+            # bounds and the y dimension of the target is above the goal
             action_obj_within_goal = action_polygon.intersects(goal_polygon)
-            action_obj_above_goal = action_object['position']['y'] > goal_object['position']['y']
+            action_obj_above_goal = (action_object['position']['y'] >
+                                     goal_object['position']['y'])
             if action_obj_within_goal and action_obj_above_goal:
                 reward = GOAL_ACHIEVED
 
         return reward
 
     @staticmethod
-    def _calculate_default_reward(goal: MCS_Goal, objects: Dict, agent: Dict) -> int:
+    def _calculate_default_reward(
+            goal: MCS_Goal,
+            objects: Dict,
+            agent: Dict) -> int:
         '''Returns the default reward of 0; not achieved.'''
         return GOAL_NOT_ACHIEVED
 
@@ -178,17 +195,17 @@ class MCS_Reward(object):
             int: reward is 1 if goal achieved, 0 otherwise
 
         '''
-        
+
         category = None
         if goal is not None and goal.metadata:
             category = goal.metadata.get('category', None)
 
         switch = {
-            MCS_Goal_Category.RETRIEVAL.value: MCS_Reward._calc_retrieval_reward,
-            MCS_Goal_Category.TRANSFERRAL.value: MCS_Reward._calc_transferral_reward,
-            MCS_Goal_Category.TRAVERSAL.value: MCS_Reward._calc_traversal_reward,
+            MCS_Goal_Category.RETRIEVAL.value: MCS_Reward._calc_retrieval_reward,  # noqa: E501
+            MCS_Goal_Category.TRANSFERRAL.value: MCS_Reward._calc_transferral_reward,  # noqa: E501
+            MCS_Goal_Category.TRAVERSAL.value: MCS_Reward._calc_traversal_reward,  # noqa: E501
         }
 
         return switch.get(category,
                           MCS_Reward._calculate_default_reward)(goal,
-                                                               objects, agent)
+                                                                objects, agent)

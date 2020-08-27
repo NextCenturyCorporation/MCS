@@ -1,10 +1,12 @@
 -i https://pypi.org/simple
 ./..
 ai2thor==2.2.0
+autopep8==1.5.4
 certifi==2020.4.5.1
 chardet==3.0.4
 click==7.1.2
 extremitypathfinder==1.1.0
+flake8==3.8.3
 flask==1.1.2
 idna==2.9
 itsdangerous==1.1.0
@@ -15,6 +17,7 @@ mpmath==1.1.0
 msgpack==1.0.0
 numpy==1.18.5
 pillow==7.1.2
+pre-commit==2.6.0
 progressbar2==3.51.3
 python-utils==2.4.0
 pyyaml==5.3.1

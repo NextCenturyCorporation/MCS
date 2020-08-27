@@ -40,9 +40,9 @@ INTPHYS_SHAPE_CONSTANCY_Q3 = 'shape constancy object two into one'
 INTPHYS_SHAPE_CONSTANCY_Q4 = 'shape constancy object two'
 
 INTPHYS_SPATIO_TEMPORAL_CONTINUITY = 'spatio temporal continuity'
-INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q1 = 'spatio temporal continuity move earlier'
-INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q2 = 'spatio temporal continuity teleport forward'
-INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q3 = 'spatio temporal continuity teleport backward'
+INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q1 = 'spatio temporal continuity move earlier'  # noqa: E501
+INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q2 = 'spatio temporal continuity teleport forward'  # noqa: E501
+INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q3 = 'spatio temporal continuity teleport backward'  # noqa: E501
 INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q4 = 'spatio temporal continuity move later'
 
 # MCS CORE DOMAIN TAGS
@@ -66,15 +66,21 @@ OBJECT_LOCATION_FRONT = 'location in front of performer start'
 OBJECT_LOCATION_RANDOM = 'location random'
 
 
-def append_object_tags(tags: List[str], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> List[str]:
+def append_object_tags(
+    tags: List[str], tag_to_objects: Dict[str, List[Dict[str, Any]]]
+) -> List[str]:
     append_object_tags_of_type(tags, tag_to_objects['target'], 'target')
     if 'confusor' in tag_to_objects:
-        append_object_tags_of_type(tags, tag_to_objects['confusor'], 'confusor')
+        append_object_tags_of_type(
+            tags, tag_to_objects['confusor'], 'confusor')
     if 'distractor' in tag_to_objects:
-        append_object_tags_of_type(tags, tag_to_objects['distractor'], 'distractor')
+        append_object_tags_of_type(
+            tags, tag_to_objects['distractor'], 'distractor')
     if 'obstructor' in tag_to_objects:
-        append_object_tags_of_type(tags, tag_to_objects['obstructor'], 'obstructor')
-    for item in ['background object', 'confusor', 'distractor', 'obstructor', 'occluder', 'target', 'wall']:
+        append_object_tags_of_type(
+            tags, tag_to_objects['obstructor'], 'obstructor')
+    for item in ['background object', 'confusor', 'distractor',
+                 'obstructor', 'occluder', 'target', 'wall']:
         if item in tag_to_objects:
             number = len(tag_to_objects[item])
             if item == 'occluder':
@@ -83,16 +89,33 @@ def append_object_tags(tags: List[str], tag_to_objects: Dict[str, List[Dict[str,
     return tags
 
 
-def append_object_tags_of_type(tags: List[str], objs: List[Dict[str, Any]], name: str) -> List[str]:
+def append_object_tags_of_type(
+        tags: List[str], objs: List[Dict[str, Any]], name: str) -> List[str]:
     for obj in objs:
-        enclosed_tag = (name + ' not enclosed') if obj.get('locationParent', None) is None else (name + ' enclosed')
-        novel_color_tag = (name + ' novel color') if 'novel_color' in obj and obj['novel_color'] else \
-                (name + ' not novel color')
-        novel_combination_tag = (name + ' novel combination') if 'novel_combination' in obj and \
-                obj['novel_combination'] else (name + ' not novel combination')
-        novel_shape_tag = (name + ' novel shape') if 'novel_shape' in obj and obj['novel_shape'] else \
-                (name + ' not novel shape')
-        for new_tag in [enclosed_tag, novel_color_tag, novel_combination_tag, novel_shape_tag]:
+        enclosed_tag = (
+            name +
+            ' not enclosed') if obj.get(
+            'locationParent',
+            None) is None else (
+            name +
+            ' enclosed')
+        novel_color_tag = (
+            (name + ' novel color')
+            if 'novelColor' in obj and obj['novelColor']
+            else (name + ' not novel color')
+        )
+        novel_combination_tag = (
+            (name + ' novel combination')
+            if 'novelCombination' in obj and obj['novelCombination']
+            else (name + ' not novel combination')
+        )
+        novel_shape_tag = (
+            (name + ' novel shape')
+            if 'novelShape' in obj and obj['novelShape']
+            else (name + ' not novel shape')
+        )
+        for new_tag in [enclosed_tag, novel_color_tag,
+                        novel_combination_tag, novel_shape_tag]:
             if new_tag not in tags:
                 tags.append(new_tag)
     return tags
@@ -112,4 +135,3 @@ def get_obstruct_vision_tag(obstruct_vision: bool) -> str:
 
 def get_ramp_tag(ramp_type_string: str) -> str:
     return 'ramp ' + ramp_type_string
-

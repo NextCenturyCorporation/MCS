@@ -1,5 +1,6 @@
 # This code performs collision testing of convex 2D polyedra by means
-# of the Hyperplane separation theorem, also known as Separating axis theorem (SAT).
+# of the Hyperplane separation theorem, also known as Separating axis
+# theorem (SAT).
 #
 # For more information visit:
 # https://en.wikipedia.org/wiki/Hyperplane_separation_theorem
@@ -19,7 +20,8 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-# Copied from https://github.com/JuantAldea/Separating-Axis-Theorem/blob/master/python/separation_axis_theorem.py
+# Copied from
+# https://github.com/JuantAldea/Separating-Axis-Theorem/blob/master/python/separation_axis_theorem.py
 
 # Rewriting things to handle our dict format
 from typing import List, Dict
@@ -44,7 +46,7 @@ def orthogonal(v):
 
 
 def vertices_to_edges(vertices):
-    return [edge_direction(vertices[i], vertices[(i + 1) % len(vertices)]) \
+    return [edge_direction(vertices[i], vertices[(i + 1) % len(vertices)])
             for i in range(len(vertices))]
 
 

@@ -1,5 +1,6 @@
 from enum import Enum, unique
 
+
 @unique
 class MCS_Return_Status(Enum):
     HAND_IS_FULL = "HAND_IS_FULL"
@@ -18,4 +19,3 @@ class MCS_Return_Status(Enum):
     UNDEFINED = "UNDEFINED"
     WRONG_POSE = "WRONG_POSE"
     FAILED = "FAILED"
-

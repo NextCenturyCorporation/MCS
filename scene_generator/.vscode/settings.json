@@ -1,0 +1,22 @@
+{
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.lintOnSave": true,
+    "python.linting.flake8Args": [
+        "--ignore",
+        "E402,W504",
+        "--exclude",
+        "pretty_json/__init__.py",
+        "--per-file-ignores",
+        "materials.py:E501"
+    ],
+    "python.formatting.provider": "autopep8",
+    "python.formatting.autopep8Args": [
+        "--aggressive",
+        "--ignore",
+        "E402"
+    ],
+    "[python]": {
+        "editor.formatOnSave": true
+    }
+}
