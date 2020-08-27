@@ -5531,8 +5531,10 @@ _INTPHYS_NOVEL = [{
 }]
 
 
-def create_occluder(wall_material: Tuple[str, List[str]], pole_material: Tuple[str, List[str]],
-                    x_position: float, x_scale: float, sideways: bool = False) \
+def create_occluder(wall_material: Tuple[str, List[str]],
+                    pole_material: Tuple[str, List[str]],
+                    x_position: float, x_scale: float,
+                    sideways: bool = False) \
         -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """Create an occluder pair of objects: (wall, pole)."""
     if sideways:
@@ -5649,6 +5651,7 @@ _ALL = [item for object_list in _ALL_LISTS for item in object_list]
 
 
 def get(prop: str) -> Union[Dict[str, Any], List[Dict[str, Any]]]:
-    """Returns a deep copy of the global property with the given name (normally either an object definition or an object
+    """Returns a deep copy of the global property with the given name
+    (normally either an object definition or an object
     definition list)."""
     return copy.deepcopy(globals()['_' + prop])

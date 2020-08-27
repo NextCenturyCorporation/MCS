@@ -333,7 +333,8 @@ def create_ramp(material_string: str, x_position_percent: float,
     """
     if x_position_percent < 0 or x_position_percent > 1:
         raise ValueError(
-            f'x_position_percent must be between 0 and 1 (inclusive), was {x_position_percent}')
+            f'x_position_percent must be between 0 and 1 (inclusive), '
+            f'was {x_position_percent}')
     if ramp_type is None:
         ramp_type = random.choice(list(Ramp))
     template_info = _RAMP_TEMPLATE_INFO[ramp_type]

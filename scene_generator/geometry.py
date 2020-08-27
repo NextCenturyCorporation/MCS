@@ -1,4 +1,3 @@
-import copy
 import logging
 import math
 import random
@@ -7,9 +6,7 @@ from typing import List, Dict, Any, Optional, Callable, Tuple
 
 import shapely
 from shapely import affinity
-from shapely.geometry import LineString
 
-import exceptions
 import objects
 import util
 from machine_common_sense.mcs_controller_ai2thor import PERFORMER_CAMERA_Y
@@ -65,7 +62,8 @@ def dot_prod_dict(v1: Dict[Any, float], v2: Dict[Any, float]) -> float:
 
 
 def collision(test_rect: List[Dict[str, float]], test_point: Dict[str, float]):
-    # assuming test_rect is an array4 points in order... Clockwise or CCW does not matter
+    # assuming test_rect is an array4 points in order... Clockwise or CCW does
+    # not matter
     # points are {x,y,z}
     #
     # From https://math.stackexchange.com/a/190373
@@ -91,13 +89,23 @@ def collision(test_rect: List[Dict[str, float]], test_point: Dict[str, float]):
         'y': test_point['y'] - B['y'],
         'z': test_point['z'] - B['z']}
 
-    return (0 <= dot_prod_dict(vectorAB, vectorAM) <= dot_prod_dict(vectorAB, vectorAB)) & (
-        0 <= dot_prod_dict(vectorBC, vectorBM) <= dot_prod_dict(vectorBC, vectorBC))
+    return (
+        0 <=
+        dot_prod_dict(vectorAB, vectorAM) <=
+        dot_prod_dict(vectorAB, vectorAB)
+    ) & (
+        0 <=
+        dot_prod_dict(vectorBC, vectorBM) <=
+        dot_prod_dict(vectorBC, vectorBC)
+    )
 
 
-def calc_obj_coords(position_x: float, position_z: float, delta_x: float, delta_z: float, offset_x: float,
-                    offset_z: float, rotation: float) -> List[Dict[str, float]]:
-    """Returns an array of points that are the coordinates of the rectangle """
+def calc_obj_coords(position_x: float, position_z: float, delta_x: float,
+                    delta_z: float, offset_x: float,
+                    offset_z: float, rotation: float) \
+        -> List[Dict[str, float]]:
+    """Returns an array of points that are the coordinates of the
+    rectangle """
     radian_amount = math.pi * (2 - rotation / 180.0)
 
     rotate_sin = math.sin(radian_amount)
@@ -120,11 +128,15 @@ def calc_obj_coords(position_x: float, position_z: float, delta_x: float, delta_
 
 
 def point_within_room(point: Dict[str, float]) -> bool:
-    return ROOM_X_MIN <= point['x'] <= ROOM_X_MAX and ROOM_Z_MIN <= point['z'] <= ROOM_Z_MAX
+    return (
+        ROOM_X_MIN <= point['x'] <= ROOM_X_MAX and
+        ROOM_Z_MIN <= point['z'] <= ROOM_Z_MAX
+    )
 
 
 def rect_within_room(rect: List[Dict[str, float]]) -> bool:
-    """Return True iff the passed rectangle is entirely within the bounds of the room."""
+    """Return True iff the passed rectangle is entirely within the bounds of
+    the room."""
     return all(point_within_room(point) for point in rect)
 
 
@@ -168,14 +180,19 @@ def calc_obj_pos(performer_position: Dict[str, float],
             rect = calc_obj_coords(
                 new_x, new_z, dx, dz, offset_x, offset_z, rotation_y)
             if rect_within_room(rect) and not any(
-                    sat_entry(rect, other_rect) for other_rect in collision_rects):
+                    sat_entry(rect, other_rect) for other_rect in
+                    collision_rects):
                 break
         tries += 1
 
     if tries < util.MAX_TRIES:
         new_object = {
             'rotation': {'x': rotation_x, 'y': rotation_y, 'z': rotation_z},
-            'position': {'x': new_x, 'y': obj_def.get('positionY', 0), 'z': new_z},
+            'position': {
+                'x': new_x,
+                'y': obj_def.get('positionY', 0),
+                'z': new_z
+            },
             'boundingBox': rect
         }
         other_rects.append(rect)
@@ -218,22 +235,27 @@ def get_visible_segment(performer_start: Dict[str, Dict[str, float]]) \
         [[0, MIN_FORWARD_VISIBILITY_DISTANCE], [0, max_dimension * 2]])
     view_segment = affinity.rotate(
         view_segment, -performer_start['rotation']['y'], origin=(0, 0))
-    view_segment = affinity.translate(view_segment, performer_start['position']['x'],
-                                      performer_start['position']['z'])
+    view_segment = affinity.translate(
+        view_segment,
+        performer_start['position']['x'],
+        performer_start['position']['z']
+    )
     room = get_room_box()
 
     target_segment = room.intersection(view_segment)
     if target_segment.is_empty:
         logging.debug(
-            f'performer too close to the wall, cannot place object in front of it (performer location={performer_start})')
+            f'performer too close to the wall, cannot place object in front '
+            f'of it (performer location={performer_start})')
         return None
     return target_segment
 
 
-def get_location_in_front_of_performer(performer_start: Dict[str, Dict[str, float]],
-                                       target_def: Dict[str, Any],
-                                       rotation_func: Callable[[], float] = random_rotation) \
-        -> Optional[Dict[str, Any]]:
+def get_location_in_front_of_performer(
+    performer_start: Dict[str, Dict[str, float]],
+    target_def: Dict[str, Any],
+    rotation_func: Callable[[], float] = random_rotation
+) -> Optional[Dict[str, Any]]:
     visible_segment = get_visible_segment(performer_start)
     if not visible_segment:
         return None
@@ -247,13 +269,18 @@ def get_location_in_front_of_performer(performer_start: Dict[str, Dict[str, floa
                         xz_func=segment_xz, rotation_func=rotation_func)
 
 
-def get_location_in_back_of_performer(performer_start: Dict[str, Dict[str, float]],
-                                      target_def: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+def get_location_in_back_of_performer(
+    performer_start: Dict[str, Dict[str, float]], target_def: Dict[str, Any]
+) -> Optional[Dict[str, Any]]:
     # First, find the part of the the room that's behind the performer
     # (i.e., the 180 degree arc in the opposite direction from its orientation)
     # if the performer were at the origin facing 0, this box would be behind it
-    rear_poly = shapely.geometry.box(-(ROOM_X_MAX - ROOM_X_MIN) / 2.0, -(ROOM_Z_MAX - ROOM_Z_MIN) / 2.0,
-                                     (ROOM_X_MAX - ROOM_X_MIN) / 2.0, 0)
+    rear_poly = shapely.geometry.box(
+        -(ROOM_X_MAX - ROOM_X_MIN) / 2.0,
+        -(ROOM_Z_MAX - ROOM_Z_MIN) / 2.0,
+        (ROOM_X_MAX - ROOM_X_MIN) / 2.0,
+        0
+    )
     performer_point = shapely.geometry.Point(
         performer_start['position']['x'],
         performer_start['position']['z'])
@@ -298,8 +325,11 @@ def get_location_in_back_of_performer(performer_start: Dict[str, Dict[str, float
     ], target_def, xz_func=compute_xz)
 
 
-def get_adjacent_location(obj_def: Dict[str, Any], target_definition: Dict[str, Any], target_location: Dict[str, Any],
-                          performer_start: Dict[str, Dict[str, float]], obstruct: bool = False) -> Optional[Dict[str, Any]]:
+def get_adjacent_location(obj_def: Dict[str, Any],
+                          target_definition: Dict[str, Any],
+                          target_location: Dict[str, Any],
+                          performer_start: Dict[str, Dict[str, float]],
+                          obstruct: bool = False) -> Optional[Dict[str, Any]]:
     """Find a location such that, if obj_def is instantiated there, it
     will be next to target. Ensures that the object at the new
     location will not overlap the performer start, if necessary trying
@@ -308,7 +338,9 @@ def get_adjacent_location(obj_def: Dict[str, Any], target_definition: Dict[str, 
     sides = list(range(4))
     random.shuffle(sides)
     for side in sides:
-        location = get_adjacent_location_on_side(obj_def, target_definition, target_location, performer_start, side,
+        location = get_adjacent_location_on_side(obj_def, target_definition,
+                                                 target_location,
+                                                 performer_start, side,
                                                  obstruct)
         if location:
             # If obstruct, position the target so that the object is between it
@@ -316,7 +348,8 @@ def get_adjacent_location(obj_def: Dict[str, Any], target_definition: Dict[str, 
             if obstruct:
                 location_poly = get_bounding_polygon(location)
                 if does_fully_obstruct_target(
-                        performer_start['position'], target_location, location_poly):
+                        performer_start['position'], target_location,
+                        location_poly):
                     return location
             else:
                 return location
@@ -330,24 +363,37 @@ class Side(IntEnum):
     FRONT = 3
 
 
-def get_adjacent_location_on_side(object_definition: Dict[str, Any], target_definition: Dict[str, Any],
-                                  target_location: Dict[str, Any], performer_start: Dict[str, Dict[str, float]], side: Side, obstruct: bool) -> \
-        Optional[Dict[str, Any]]:
-    """Get a location such that, if object_definition is instantiated there, it will
-    be next to target. Side determines on which side of target to
+def get_adjacent_location_on_side(object_definition: Dict[str, Any],
+                                  target_definition: Dict[str, Any],
+                                  target_location: Dict[str, Any],
+                                  performer_start: Dict[str, Dict[str, float]],
+                                  side: Side, obstruct: bool) \
+        -> Optional[Dict[str, Any]]:
+    """Get a location such that, if object_definition is instantiated there,
+    it will be next to target. Side determines on which side of target to
     place it: 0 = right (positive x), 1 = behind (positive z), 2 =
     left (negative x) and 3 = in front (negative z). If the object
     would overlap the performer_start or would be outside the room,
     None is returned."
     """
     object_dimensions = object_definition['dimensions']
-    object_offset = object_definition['offset'] if 'offset' in object_definition else {
-        'x': 0, 'z': 0}
+    object_offset = (
+        object_definition['offset']
+        if 'offset' in object_definition
+        else {'x': 0, 'z': 0}
+    )
     if obstruct and 'closedDimensions' in object_definition:
         object_dimensions = object_definition['closedDimensions']
-        object_offset = object_definition['closedOffset'] if 'closedOffset' in object_definition else object_offset
-    target_offset = target_definition['offset'] if 'offset' in target_definition else {
-        'x': 0, 'z': 0}
+        object_offset = (
+            object_definition['closedOffset']
+            if 'closedOffset' in object_definition
+            else object_offset
+        )
+    target_offset = (
+        target_definition['offset']
+        if 'offset' in target_definition
+        else {'x': 0, 'z': 0}
+    )
 
     distance_prop = 'x' if side in (0, 2) else 'z'
     distance = object_dimensions[distance_prop] / 2.0 + \
@@ -359,9 +405,11 @@ def get_adjacent_location_on_side(object_definition: Dict[str, Any], target_defi
     separator_segment_rotation = -target_location['rotation']['y'] + 90 * side
     separator_segment = affinity.rotate(
         separator_segment, -separator_segment_rotation, origin=(0, 0))
-    separator_segment = affinity.translate(separator_segment, (target_location['position']['x'] + target_offset['x']),
-                                           (target_location['position']['z'] + target_offset['z']))
-
+    separator_segment = affinity.translate(
+        separator_segment,
+        (target_location['position']['x'] + target_offset['x']),
+        (target_location['position']['z'] + target_offset['z'])
+    )
     x = separator_segment.coords[1][0] - object_offset['x']
     z = separator_segment.coords[1][1] - object_offset['z']
     dx = object_dimensions['x'] / 2.0
@@ -378,8 +426,10 @@ def get_adjacent_location_on_side(object_definition: Dict[str, Any], target_defi
     performer = shapely.geometry.Point(
         performer_start['position']['x'],
         performer_start['position']['z'])
-    target_rect = generate_object_bounds(target_definition['dimensions'], target_offset,
-                                         target_location['position'], target_location['rotation'])
+    target_rect = generate_object_bounds(target_definition['dimensions'],
+                                         target_offset,
+                                         target_location['position'],
+                                         target_location['rotation'])
     target_poly = rect_to_poly(target_rect)
     room = get_room_box()
 
@@ -404,7 +454,8 @@ def get_adjacent_location_on_side(object_definition: Dict[str, Any], target_defi
 
 
 def get_wider_and_taller_defs(
-        obj_def: Dict[str, Any], obstruct_vision: bool) -> List[Tuple[Dict[str, Any], float]]:
+    obj_def: Dict[str, Any], obstruct_vision: bool
+) -> List[Tuple[Dict[str, Any], float]]:
     """Return all object definitions both taller and either wider or
     deeper. If wider (x-axis), angle 0 is returned; if deeper
     (z-axis), 90 degrees is returned. Objects returned may be equal in
@@ -419,14 +470,24 @@ def get_wider_and_taller_defs(
         # Only look at definitions with the obstruct property.
         if 'obstruct' in big_def and big_def['obstruct'] == (
                 'vision' if obstruct_vision else 'navigation'):
-            obj_dimensions = obj_def['closedDimensions'] if 'closedDimensions' in obj_def else obj_def['dimensions']
-            big_dimensions = big_def['closedDimensions'] if 'closedDimensions' in big_def else big_def['dimensions']
+            obj_dimensions = (
+                obj_def['closedDimensions']
+                if 'closedDimensions' in obj_def
+                else obj_def['dimensions']
+            )
+            big_dimensions = (
+                big_def['closedDimensions']
+                if 'closedDimensions' in big_def
+                else big_def['dimensions']
+            )
             cannot_walk_over = big_dimensions['y'] >= (
                 PERFORMER_CAMERA_Y / 2.0)
             # Only need a bigger Y dimension if the object must obstruct
             # vision.
             if cannot_walk_over and (
-                    not obstruct_vision or big_dimensions['y'] >= obj_dimensions['y']):
+                not obstruct_vision or
+                big_dimensions['y'] >= obj_dimensions['y']
+            ):
                 if big_dimensions['x'] >= obj_dimensions['x']:
                     bigger_defs.append((big_def, 0))
                 elif big_dimensions['z'] >= obj_dimensions['x']:
@@ -484,17 +545,26 @@ def find_performer_rect(
     ]
 
 
-def set_location_rotation(definition: Dict[str, Any], location: Dict[str, float], rotation_y: float) -> \
-        Dict[str, float]:
-    """Updates the Y rotation and the bounding box of the given location and returns the location."""
+def set_location_rotation(definition: Dict[str, Any],
+                          location: Dict[str, float], rotation_y: float) \
+        -> Dict[str, float]:
+    """Updates the Y rotation and the bounding box of the given location and
+    returns the location."""
     location['rotation']['y'] = rotation_y
-    location['boundingBox'] = generate_object_bounds(definition['dimensions'],
-                                                     (definition['offset'] if 'offset' in definition else None), location['position'], location['rotation'])
+    location['boundingBox'] = generate_object_bounds(
+        definition['dimensions'],
+        (definition['offset'] if 'offset' in definition else None),
+        location['position'],
+        location['rotation']
+    )
     return location
 
 
-def generate_object_bounds(dimensions: Dict[str, float], offset: Dict[str, float], position: Dict[str, float],
-                           rotation: Dict[str, float]) -> List[Dict[str, float]]:
+def generate_object_bounds(dimensions: Dict[str, float],
+                           offset: Dict[str, float],
+                           position: Dict[str, float],
+                           rotation: Dict[str, float]) \
+        -> List[Dict[str, float]]:
     """Returns the bounds for the object with the given properties."""
     x = position['x']
     z = position['z']
@@ -505,34 +575,46 @@ def generate_object_bounds(dimensions: Dict[str, float], offset: Dict[str, float
     return calc_obj_coords(x, z, dx, dz, offset_x, offset_z, rotation['y'])
 
 
-def does_fully_obstruct_target(performer_start_position: Dict[str, float], target_or_location: Dict[str, Any],
+def does_fully_obstruct_target(performer_start_position: Dict[str, float],
+                               target_or_location: Dict[str, Any],
                                object_poly: shapely.geometry.Polygon) -> bool:
-    """Returns whether the given object_poly obstructs each line between the given performer_start_position and
+    """Returns whether the given object_poly obstructs each line between the
+    given performer_start_position and
     all four corners of the given target object or location."""
 
     return _does_obstruct_target_helper(
         performer_start_position, target_or_location, object_poly, fully=True)
 
 
-def does_partly_obstruct_target(performer_start_position: Dict[str, float], target_or_location: Dict[str, Any],
+def does_partly_obstruct_target(performer_start_position: Dict[str, float],
+                                target_or_location: Dict[str, Any],
                                 object_poly: shapely.geometry.Polygon) -> bool:
-    """Returns whether the given object_poly obstructs one line between the given performer_start_position and
+    """Returns whether the given object_poly obstructs one line between the
+    given performer_start_position and
     the four corners of the given target object or location."""
 
     return _does_obstruct_target_helper(
         performer_start_position, target_or_location, object_poly, fully=False)
 
 
-def _does_obstruct_target_helper(performer_start_position: Dict[str, float], target_or_location: Dict[str, Any],
-                                 object_poly: shapely.geometry.Polygon, fully: bool = False) -> bool:
+def _does_obstruct_target_helper(performer_start_position: Dict[str, float],
+                                 target_or_location: Dict[str, Any],
+                                 object_poly: shapely.geometry.Polygon,
+                                 fully: bool = False) -> bool:
 
     obstructing_corners = 0
     performer_start_coordinates = (
         performer_start_position['x'],
         performer_start_position['z'])
-    bounds = target_or_location['boundingBox'] if 'boundingBox' in target_or_location else \
-        (target_or_location['shows'][0]['boundingBox']
-         if 'shows' in target_or_location else [])
+    bounds = (
+        target_or_location['boundingBox']
+        if 'boundingBox' in target_or_location
+        else (
+            target_or_location['shows'][0]['boundingBox']
+            if 'shows' in target_or_location
+            else []
+        )
+    )
     for corner in bounds:
         target_corner_coordinates = (corner['x'], corner['z'])
         line_to_target = shapely.geometry.LineString(

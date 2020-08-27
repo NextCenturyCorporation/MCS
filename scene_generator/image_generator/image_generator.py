@@ -2,12 +2,11 @@
 
 import itertools
 import json
-import numpy
 import os
 import sys
 
 from machine_common_sense.mcs import MCS
-from PIL import Image, ImageOps
+from PIL import ImageOps
 
 import materials
 import simplified_objects
@@ -39,9 +38,11 @@ def generate_materials_lists(materials_options):
 
 def generate_output_file_name(object_type, material_list):
     material_name_list = [
-        item[(item.rfind('/') + 1):].lower().replace(' ', '_') for item in material_list]
-    return object_type + ('_' if len(material_name_list)
-                          > 0 else '') + ('_'.join(material_name_list))
+        item[(item.rfind('/') + 1):].lower().replace(' ', '_')
+        for item in material_list
+    ]
+    return object_type + ('_' if len(material_name_list) >
+                          0 else '') + ('_'.join(material_name_list))
 
 
 def generate_scene_configuration(object_definition, material_list):
@@ -60,7 +61,9 @@ def generate_scene_configuration(object_definition, material_list):
         }]
     }
     if 'rotation' in object_definition:
-        scene_configuration['objects'][0]['shows'][0]['rotation'] = object_definition['rotation']
+        scene_configuration['objects'][0]['shows'][0][
+            'rotation'
+        ] = object_definition['rotation']
     if material_list is not None:
         scene_configuration['objects'][0]['materials'] = material_list
     return scene_configuration
@@ -69,8 +72,11 @@ def generate_scene_configuration(object_definition, material_list):
 def generate_scene_configuration_list(object_list):
     scene_configuration_list = []
     for object_definition in object_list:
-        materials_lists = generate_materials_lists(object_definition['materials_options']) if 'materials_options' \
-            in object_definition else [None]
+        materials_lists = (
+            generate_materials_lists(object_definition['materials_options'])
+            if 'materials_options' in object_definition
+            else [None]
+        )
         for material_list in materials_lists:
             scene_configuration_data = generate_scene_configuration(
                 object_definition, material_list)
@@ -91,7 +97,8 @@ def retrieve_image_pixel_list(object_screenshot):
 
 def main(args):
     if len(args) < 2:
-        print('Usage: python image_generator.py <unity_app_file_path> <output_folder=../images/>')
+        print('Usage: python image_generator.py <unity_app_file_path> '
+              '<output_folder=../images/>')
         exit()
 
     controller = MCS.create_controller(args[1])
@@ -107,8 +114,9 @@ def main(args):
     for scene_configuration in scene_configuration_list:
         object_config = scene_configuration['objects'][0]
         object_type = object_config['type']
-        material_list = object_config['materials'] if 'materials' in object_config else [
-        ]
+        material_list = (
+            object_config['materials'] if 'materials' in object_config else []
+        )
 
         print(
             'type = ' +

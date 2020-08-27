@@ -40,9 +40,9 @@ INTPHYS_SHAPE_CONSTANCY_Q3 = 'shape constancy object two into one'
 INTPHYS_SHAPE_CONSTANCY_Q4 = 'shape constancy object two'
 
 INTPHYS_SPATIO_TEMPORAL_CONTINUITY = 'spatio temporal continuity'
-INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q1 = 'spatio temporal continuity move earlier'
-INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q2 = 'spatio temporal continuity teleport forward'
-INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q3 = 'spatio temporal continuity teleport backward'
+INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q1 = 'spatio temporal continuity move earlier'  # noqa: E501
+INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q2 = 'spatio temporal continuity teleport forward'  # noqa: E501
+INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q3 = 'spatio temporal continuity teleport backward'  # noqa: E501
 INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q4 = 'spatio temporal continuity move later'
 
 # MCS CORE DOMAIN TAGS
@@ -67,7 +67,8 @@ OBJECT_LOCATION_RANDOM = 'location random'
 
 
 def append_object_tags(
-        tags: List[str], tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> List[str]:
+    tags: List[str], tag_to_objects: Dict[str, List[Dict[str, Any]]]
+) -> List[str]:
     append_object_tags_of_type(tags, tag_to_objects['target'], 'target')
     if 'confusor' in tag_to_objects:
         append_object_tags_of_type(
@@ -98,12 +99,21 @@ def append_object_tags_of_type(
             None) is None else (
             name +
             ' enclosed')
-        novel_color_tag = (name + ' novel color') if 'novelColor' in obj and obj['novelColor'] else \
-            (name + ' not novel color')
-        novel_combination_tag = (name + ' novel combination') if 'novelCombination' in obj and \
-            obj['novelCombination'] else (name + ' not novel combination')
-        novel_shape_tag = (name + ' novel shape') if 'novelShape' in obj and obj['novelShape'] else \
-            (name + ' not novel shape')
+        novel_color_tag = (
+            (name + ' novel color')
+            if 'novelColor' in obj and obj['novelColor']
+            else (name + ' not novel color')
+        )
+        novel_combination_tag = (
+            (name + ' novel combination')
+            if 'novelCombination' in obj and obj['novelCombination']
+            else (name + ' not novel combination')
+        )
+        novel_shape_tag = (
+            (name + ' novel shape')
+            if 'novelShape' in obj and obj['novelShape']
+            else (name + ' not novel shape')
+        )
         for new_tag in [enclosed_tag, novel_color_tag,
                         novel_combination_tag, novel_shape_tag]:
             if new_tag not in tags:

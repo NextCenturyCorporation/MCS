@@ -1,4 +1,4 @@
-from scene_generator import generate_scene, clean_object
+from scene_generator import clean_object
 
 
 def find_object(id, obj_list):

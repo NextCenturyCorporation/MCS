@@ -1,11 +1,13 @@
 import copy
 import materials
 import objects
+import random
 from geometry import ORIGIN
-from goals import *
-
-from intphys_goals import IntPhysGoal
-from util import instantiate_object, random_real
+from intphys_goals import (
+    GravityGoal, IntPhysGoal, ObjectPermanenceGoal,
+    ShapeConstancyGoal, SpatioTemporalContinuityGoal
+)
+from util import instantiate_object
 
 BODY_TEMPLATE = {
     'name': '',
@@ -54,7 +56,8 @@ def test_GravityGoal_update_body():
     assert 'action none' in body['goal']['type_list']
     assert 'intphys' in body['goal']['type_list']
     assert 'gravity' in body['goal']['type_list']
-    assert ('ramp 30-degree' in body['goal']['type_list']) or ('ramp 45-degree' in body['goal']['type_list']) or \
+    assert ('ramp 30-degree' in body['goal']['type_list']) or \
+        ('ramp 45-degree' in body['goal']['type_list']) or \
         ('ramp 90-degree' in body['goal']['type_list']) or \
         ('ramp 30-degree-90-degree' in body['goal']['type_list']) or \
         ('ramp 45-degree-90-degree' in body['goal']['type_list'])
@@ -70,7 +73,8 @@ def test_ObjectPermanenceGoal_compute_objects():
     assert len(tag_to_objects['distractor']) >= 0
     assert len(tag_to_objects['background object']) >= 0
     assert len(tag_to_objects['occluder']) >= 1
-    assert (goal._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across) or \
+    assert (goal._object_creator ==
+            IntPhysGoal._get_objects_and_occluders_moving_across) or \
         (goal._object_creator == IntPhysGoal._get_objects_falling_down)
     assert goal._last_step > 0
 
@@ -102,7 +106,8 @@ def test_ShapeConstancyGoal_compute_objects():
     assert len(tag_to_objects['distractor']) >= 0
     assert len(tag_to_objects['background object']) >= 0
     assert len(tag_to_objects['occluder']) >= 1
-    assert (goal._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across) or \
+    assert (goal._object_creator ==
+            IntPhysGoal._get_objects_and_occluders_moving_across) or \
         (goal._object_creator == IntPhysGoal._get_objects_falling_down)
     assert goal._last_step > 0
 
@@ -134,7 +139,8 @@ def test_SpatioTemporalContinuityGoal_compute_objects():
     assert len(tag_to_objects['distractor']) >= 0
     assert len(tag_to_objects['background object']) >= 0
     assert len(tag_to_objects['occluder']) >= 1
-    assert (goal._object_creator == IntPhysGoal._get_objects_and_occluders_moving_across) or \
+    assert (goal._object_creator ==
+            IntPhysGoal._get_objects_and_occluders_moving_across) or \
         (goal._object_creator == IntPhysGoal._get_objects_falling_down)
     assert goal._last_step > 0
 
@@ -161,8 +167,12 @@ def test_SpatioTemporalContinuityGoal_update_body():
 # test for MCS-214
 def test_GravityGoal__get_ramp_and_objects():
     goal = GravityGoal()
-    ramp_type, left_to_right, ramp_objs, object_list = goal._get_ramp_and_objects(
-        'dummy')
+    (
+        ramp_type,
+        left_to_right,
+        ramp_objs,
+        object_list
+    ) = goal._get_ramp_and_objects('dummy')
     assert len(ramp_objs) >= 1
     for obj in object_list:
         assert obj['intphysOption']['y'] == 0

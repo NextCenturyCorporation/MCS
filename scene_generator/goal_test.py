@@ -1,9 +1,8 @@
 import geometry
-import uuid
 
-from goal import generate_wall, MAX_WALL_WIDTH, MIN_WALL_WIDTH, WALL_DEPTH, WALL_HEIGHT, WALL_Y_POS
-from goals import *
-from util import instantiate_object
+from goal import generate_wall, MAX_WALL_WIDTH, MIN_WALL_WIDTH, \
+    WALL_DEPTH, WALL_HEIGHT, WALL_Y_POS
+from interaction_goals import RetrievalGoal
 
 
 def create_tags_test_object_1():
@@ -84,7 +83,8 @@ def test_generate_wall():
 
     assert len(wall['shows']) == 1
     assert wall['shows'][0]['stepBegin'] == 0
-    assert wall['shows'][0]['scale']['x'] >= MIN_WALL_WIDTH and wall['shows'][0]['scale']['x'] <= MAX_WALL_WIDTH
+    assert wall['shows'][0]['scale']['x'] >= MIN_WALL_WIDTH and \
+        wall['shows'][0]['scale']['x'] <= MAX_WALL_WIDTH
     assert wall['shows'][0]['scale']['y'] == WALL_HEIGHT
     assert wall['shows'][0]['scale']['z'] == WALL_DEPTH
     assert wall['shows'][0]['rotation']['x'] == 0
@@ -95,10 +95,10 @@ def test_generate_wall():
     assert wall['shows'][0]['position']['z'] is not None
     assert wall['shows'][0]['boundingBox'] is not None
 
-    assert not 'hides' in wall
-    assert not 'moves' in wall
-    assert not 'rotates' in wall
-    assert not 'teleports' in wall
+    assert 'hides' not in wall
+    assert 'moves' not in wall
+    assert 'rotates' not in wall
+    assert 'teleports' not in wall
 
     player_rect = geometry.find_performer_rect(geometry.ORIGIN)
     player_poly = geometry.rect_to_poly(player_rect)
@@ -166,12 +166,18 @@ def test_Goal_update_goal_info_list():
         ['target a'], {'target': [{'info': ['b', 'c']}]})
     assert set(info_list) == set(['target a', 'target b', 'target c'])
 
-    info_list = goal_object.update_goal_info_list(['target a'], {'target': [{'info': ['a', 'b']},
-                                                                            {'info': ['b', 'c']}]})
+    info_list = goal_object.update_goal_info_list(
+        ['target a'], {'target': [{'info': ['a', 'b']}, {'info': ['b', 'c']}]}
+    )
     assert set(info_list) == set(['target a', 'target b', 'target c'])
 
-    info_list = goal_object.update_goal_info_list(['target a', 'distractor b'], {'target': [{'info': ['a', 'b']}],
-                                                                                 'distractor': [{'info': ['b', 'c']}]})
+    info_list = goal_object.update_goal_info_list(
+        ['target a', 'distractor b'],
+        {
+            'target': [{'info': ['a', 'b']}],
+            'distractor': [{'info': ['b', 'c']}]
+        }
+    )
     assert set(info_list) == set(
         ['target a', 'target b', 'distractor b', 'distractor c'])
 
@@ -287,8 +293,12 @@ def test_Goal_tags_multiple_target_multiple_distractor():
     target_2 = create_tags_test_object_1()
     distractor_1 = create_tags_test_object_2()
     distractor_2 = create_tags_test_object_2()
-    goal = goal_object._get_config({'target': [target_1, target_2],
-                                    'distractor': [distractor_1, distractor_2]})
+    goal = goal_object._get_config(
+        {
+            'target': [target_1, target_2],
+            'distractor': [distractor_1, distractor_2]
+        }
+    )
     assert set(goal['info_list']) == {
         'target tiny',
         'target light',

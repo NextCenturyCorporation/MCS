@@ -1,12 +1,10 @@
 import copy
-import logging
 import random
 import uuid
 from typing import Dict, Any, Optional, List, Tuple, Iterable
 
 import exceptions
 import materials
-import objects
 
 
 MAX_SIZE_DIFFERENCE = 0.1
@@ -18,7 +16,8 @@ PERFORMER_HALF_WIDTH = PERFORMER_WIDTH / 2.0
 
 def random_real(a: float, b: float,
                 step: float = MIN_RANDOM_INTERVAL) -> float:
-    """Return a random real number N where a <= N <= b and N - a is divisible by step."""
+    """Return a random real number N where a <= N <= b and N - a is
+    divisible by step."""
     steps = int((b - a) / step)
     try:
         n = random.randint(0, steps)
@@ -27,8 +26,12 @@ def random_real(a: float, b: float,
     return a + (n * step)
 
 
-def finalize_object_definition(object_def: Dict[str, Any], choice_material: Optional[Dict[str, Any]] = None,
-                               choice_size: Optional[Dict[str, Any]] = None, choice_type: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+def finalize_object_definition(
+    object_def: Dict[str, Any],
+    choice_material: Optional[Dict[str, Any]] = None,
+    choice_size: Optional[Dict[str, Any]] = None,
+    choice_type: Optional[Dict[str, Any]] = None
+) -> Dict[str, Any]:
     object_def_copy = copy.deepcopy(object_def)
 
     if choice_material is None and 'chooseMaterial' in object_def_copy:
@@ -76,15 +79,18 @@ def generate_materials_lists(material_category_list, previous_materials_lists):
         material_category_list[1:], output_materials_lists)
 
 
-def finalize_object_materials_and_colors(object_definition: Dict[str, Any],
-                                         override_materials_list: Optional[List[Tuple[str, List[str]]]] = None) -> List[Dict[str, Any]]:
-    """Finalizes each possible choice of materials (patterns/textures) and colors as a copy of the given object
+def finalize_object_materials_and_colors(
+    object_definition: Dict[str, Any],
+    override_materials_list: Optional[List[Tuple[str, List[str]]]] = None
+) -> List[Dict[str, Any]]:
+    """Finalizes each possible choice of materials (patterns/textures)
+    and colors as a copy of the given object
     definition and returns the list."""
 
     materials_lists = [
         override_materials_list] if override_materials_list else []
 
-    if not 'materialCategory' in object_definition:
+    if 'materialCategory' not in object_definition:
         object_definition['materialCategory'] = []
 
     if not materials_lists:
@@ -93,11 +99,17 @@ def finalize_object_materials_and_colors(object_definition: Dict[str, Any],
 
     if not materials_lists:
         object_definition_copy = copy.deepcopy(object_definition)
-        object_definition_copy['color'] = object_definition_copy['color'] if 'color' in object_definition_copy else [
-        ]
+        object_definition_copy['color'] = (
+            object_definition_copy['color']
+            if 'color' in object_definition_copy
+            else []
+        )
         object_definition_copy['materialsList'] = []
-        object_definition_copy['materials'] = object_definition_copy['materials'] if 'materials' in \
-            object_definition_copy else []
+        object_definition_copy['materials'] = (
+            object_definition_copy['materials']
+            if 'materials' in object_definition_copy
+            else []
+        )
         return [object_definition_copy]
 
     object_definition_list = []
@@ -117,12 +129,13 @@ def finalize_object_materials_and_colors(object_definition: Dict[str, Any],
     return object_definition_list
 
 
-def instantiate_object(object_def: Dict[str, Any],
-                       object_location: Dict[str, Any],
-                       materials_list: Optional[List[Tuple[str, List[str]]]] = None) \
-        -> Dict[str, Any]:
-    """Create a new object from an object definition (as from the objects.json file). object_location will be modified
-    by this function."""
+def instantiate_object(
+    object_def: Dict[str, Any],
+    object_location: Dict[str, Any],
+    materials_list: Optional[List[Tuple[str, List[str]]]] = None
+) -> Dict[str, Any]:
+    """Create a new object from an object definition (as from the objects.json
+    file). object_location will be modified by this function."""
     if object_def is None or object_location is None:
         raise ValueError('instantiate_object cannot take None parameters')
 
@@ -135,18 +148,32 @@ def instantiate_object(object_def: Dict[str, Any],
         'type': object_def['type'],
         'role': '',
         'info': [object_def['size']],
-        'mass': object_def['mass'] * (object_def['massMultiplier'] if 'massMultiplier' in object_def else 1),
-        'shape': object_def['shape'] if isinstance(object_def['shape'], list) else [object_def['shape']],
+        'mass': object_def['mass'] *
+        (
+            object_def['massMultiplier']
+            if 'massMultiplier' in object_def
+            else 1
+        ),
+        'shape': object_def['shape']
+        if isinstance(object_def['shape'], list)
+        else [object_def['shape']],
         'size': object_def['size'],
-        'novelColor': object_def['novelColor'] if 'novelColor' in object_def else False,
-        'novelCombination': object_def['novelCombination'] if 'novelCombination' in object_def else False,
-        'novelShape': object_def['novelShape'] if 'novelShape' in object_def else False
+        'novelColor': object_def['novelColor']
+        if 'novelColor' in object_def
+        else False,
+        'novelCombination': object_def['novelCombination']
+        if 'novelCombination' in object_def
+        else False,
+        'novelShape': object_def['novelShape']
+        if 'novelShape' in object_def
+        else False
     }
     if 'dimensions' in object_def:
         new_object['dimensions'] = object_def['dimensions']
     else:
         raise exceptions.SceneException(
-            f'object definition "{object_def["type"]}" doesn\'t have dimensions')
+            f'object definition "{object_def["type"]}" doesn\'t have '
+            f'dimensions')
 
     for attribute in object_def['attributes']:
         new_object[attribute] = True
@@ -158,13 +185,16 @@ def instantiate_object(object_def: Dict[str, Any],
         object_location['position']['x'] -= object_def['offset']['x']
         object_location['position']['z'] -= object_def['offset']['z']
 
-    new_object['offset'] = object_def['offset'] if 'offset' in object_def else {
-        'x': 0, 'y': 0, 'z': 0}
+    new_object['offset'] = (
+        object_def['offset']
+        if 'offset' in object_def
+        else {'x': 0, 'y': 0, 'z': 0}
+    )
 
-    if not 'rotation' in object_def:
+    if 'rotation' not in object_def:
         object_def['rotation'] = {'x': 0, 'y': 0, 'z': 0}
 
-    if not 'rotation' in object_location:
+    if 'rotation' not in object_location:
         object_location['rotation'] = {'x': 0, 'y': 0, 'z': 0}
 
     object_location['rotation']['x'] += object_def['rotation']['x']
@@ -185,11 +215,13 @@ def instantiate_object(object_def: Dict[str, Any],
     new_object['materialsList'] = object_def['materialsList']
     new_object['materials'] = object_def['materials']
     new_object['color'] = object_def['color']
-    new_object['novelColor'] = (object_def['novelColor'] if 'novelColor' in object_def else False) or \
-        new_object['novelColor']
+    new_object['novelColor'] = (
+        object_def['novelColor'] if 'novelColor' in object_def else False
+    ) or new_object['novelColor']
 
-    # The info list contains words that we can use to filter on specific object tags in the UI.
-    # Start with this specific ordering of object tags in the info list needed for making the goalString:
+    # The info list contains words that we can use to filter on specific
+    # object tags in the UI. Start with this specific ordering of object
+    # tags in the info list needed for making the goalString:
     # size weight color(s) material(s) shape
     if 'pickupable' in object_def['attributes']:
         weight = 'light'
@@ -237,7 +269,8 @@ def instantiate_object(object_def: Dict[str, Any],
 
 
 def get_similar_definition(
-        obj: Dict[str, Any], all_defs: List[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
+    obj: Dict[str, Any], all_defs: List[Dict[str, Any]]
+) -> Optional[Dict[str, Any]]:
     """Get an object definition similar to obj but different in one of
     type, material, or scale. It is possible but unlikely that no such
     definition can be found, in which case it returns None.
@@ -256,8 +289,10 @@ def get_similar_definition(
     return None
 
 
-def check_same_and_different(a: Dict[str, Any], b: Dict[str, Any],
-                             same: Iterable[str], different: Iterable[str]) -> bool:
+def check_same_and_different(
+    a: Dict[str, Any], b: Dict[str, Any],
+    same: Iterable[str], different: Iterable[str]
+) -> bool:
     """Return true iff for all properties in same that are in a, they
     exist in b and have the same value, and for all properties in
     different that are in a, they exist in b and are different.
@@ -277,8 +312,11 @@ def check_same_and_different(a: Dict[str, Any], b: Dict[str, Any],
                     a['size'] != b['size']:
                 same_ok = False
                 break
-        elif (prop in a and prop not in b) or (prop not in a and prop in b) or \
-                (prop in a and prop in b and a[prop] != b[prop]):
+        elif (
+            (prop in a and prop not in b) or
+            (prop not in a and prop in b) or
+            (prop in a and prop in b and a[prop] != b[prop])
+        ):
             same_ok = False
             break
     if not same_ok:
@@ -298,8 +336,9 @@ def check_same_and_different(a: Dict[str, Any], b: Dict[str, Any],
                     a['size'] == b['size']:
                 diff_ok = False
                 break
-        elif (prop in a and prop in b and a[prop] == b[prop]) or \
-                (not prop in a and not prop in b and a['type'] == b['type']):
+        elif (prop in a and prop in b and a[prop] == b[prop]) or (
+            prop not in a and prop not in b and a['type'] == b['type']
+        ):
             diff_ok = False
             break
     return diff_ok
@@ -332,15 +371,20 @@ def finalize_each_object_definition_choice(
 
     output_list = []
     for choice_dict in choice_list:
-        output_list.append(finalize_object_definition(copy.deepcopy(object_definition),
-                                                      choice_material=choice_dict[
-                                                          'chooseMaterial'], choice_size=choice_dict['chooseSize'],
-                                                      choice_type=choice_dict['chooseType']))
+        output_list.append(
+            finalize_object_definition(
+                copy.deepcopy(object_definition),
+                choice_material=choice_dict['chooseMaterial'],
+                choice_size=choice_dict['chooseSize'],
+                choice_type=choice_dict['chooseType']
+            )
+        )
     random.shuffle(output_list)
     return output_list
 
 
-def get_similar_defs(obj: Dict[str, Any], all_defs: List[Dict[str, Any]], same: Iterable[str],
+def get_similar_defs(obj: Dict[str, Any], all_defs: List[Dict[str, Any]],
+                     same: Iterable[str],
                      different: Iterable[str]) -> List[Dict[str, Any]]:
     """Return object definitions similar to obj: where properties from
     same are identical and from different are different.
@@ -395,8 +439,13 @@ def get_def_with_new_size(
     return obj_def
 
 
-def move_to_location(object_definition: Dict[str, Any], object_instance: Dict[str, Any], location: Dict[str, Any],
-                     object_bounds: List[Dict[str, float]], previous_definition: Dict[str, Any]) -> Dict[str, Any]:
+def move_to_location(
+    object_definition: Dict[str, Any],
+    object_instance: Dict[str, Any],
+    location: Dict[str, Any],
+    object_bounds: List[Dict[str, float]],
+    previous_definition: Dict[str, Any]
+) -> Dict[str, Any]:
     """Move the given object to a new location and return the object."""
     new_location = copy.deepcopy(location)
     if previous_definition and 'offset' in previous_definition:
@@ -413,7 +462,8 @@ def move_to_location(object_definition: Dict[str, Any], object_instance: Dict[st
 
 def retrieve_full_object_definition_list(
         base_definition_list: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Return the given object definition list in which finalize_object_definition was called on each definition with
+    """Return the given object definition list in which
+    finalize_object_definition was called on each definition with
     each possible choice."""
     object_definition_list = []
     for base_object_definition in base_definition_list:

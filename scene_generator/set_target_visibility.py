@@ -25,8 +25,11 @@ def update_file(controller, filename, keep_backups):
     output = controller.start_scene(config_data)
 
     metadata = config_data['goal']['metadata']
-    target_ids = [metadata[key]['id']
-                  for key in ('target', 'target_1', 'target_2') if key in metadata]
+    target_ids = [
+        metadata[key]['id']
+        for key in ('target', 'target_1', 'target_2')
+        if key in metadata
+    ]
     logging.debug(f'target_ids: {target_ids}')
     logging.debug(f'num objects = {len(output.object_list)}')
 

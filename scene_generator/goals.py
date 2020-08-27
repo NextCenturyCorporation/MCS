@@ -7,13 +7,17 @@ from typing import List, Optional
 
 from goal import Goal, EmptyGoal
 from interaction_goals import RetrievalGoal, TransferralGoal, TraversalGoal
-from intphys_goals import GravityGoal, ObjectPermanenceGoal, ShapeConstancyGoal, SpatioTemporalContinuityGoal
+from intphys_goals import (
+    GravityGoal, ObjectPermanenceGoal, ShapeConstancyGoal,
+    SpatioTemporalContinuityGoal
+)
 
 # Note: the names of all goal classes in GOAL_TYPES must end in "Goal" or
 # choose_goal will not work
 GOAL_TYPES = {
     'interaction': [RetrievalGoal, TransferralGoal, TraversalGoal],
-    'intphys': [GravityGoal, ObjectPermanenceGoal, ShapeConstancyGoal, SpatioTemporalContinuityGoal]
+    'intphys': [GravityGoal, ObjectPermanenceGoal, ShapeConstancyGoal,
+                SpatioTemporalContinuityGoal]
 }
 
 

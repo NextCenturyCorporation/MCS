@@ -1,6 +1,5 @@
 import argparse
 import subprocess
-import sys
 import os
 import pathlib
 import shutil
@@ -76,7 +75,8 @@ def main():
     output_dir = pathlib.Path(args.output)
     controller = MCS.create_controller(args.engine, debug=True)
 
-    # object_permanence, shape_constancy, spatio_temporal_continuity - {0001 - 0100} - {1 - 4}
+    # object_permanence, shape_constancy, spatio_temporal_continuity -
+    # {0001 - 0100} - {1 - 4}
     for quartet in quartets:
         for q in quartet:
             run_scene(controller, str(q))
@@ -91,9 +91,9 @@ def main():
                             '-i', f'{str(quartet[1].stem)}/frame_image_%d.png',
                             '-i', f'{str(quartet[2].stem)}/frame_image_%d.png',
                             '-i', f'{str(quartet[3].stem)}/frame_image_%d.png',
-                            '-filter_complex', 'nullsrc=size=640x480 [base]; [0:v] setpts=PTS-STARTPTS, scale=320x240 [upperleft]; [1:v] setpts=PTS-STARTPTS, scale=320x240 [upperright]; [2:v] setpts=PTS-STARTPTS, scale=320x240 [lowerleft]; [3:v] setpts=PTS-STARTPTS, scale=320x240 [lowerright]; [base][upperleft] overlay=shortest=1 [tmp1]; [tmp1][upperright] overlay=shortest=1:x=320 [tmp2]; [tmp2][lowerleft] overlay=shortest=1:y=240 [tmp3]; [tmp3][lowerright] overlay=shortest=1:x=320:y=240',
+                            '-filter_complex', 'nullsrc=size=640x480 [base]; [0:v] setpts=PTS-STARTPTS, scale=320x240 [upperleft]; [1:v] setpts=PTS-STARTPTS, scale=320x240 [upperright]; [2:v] setpts=PTS-STARTPTS, scale=320x240 [lowerleft]; [3:v] setpts=PTS-STARTPTS, scale=320x240 [lowerright]; [base][upperleft] overlay=shortest=1 [tmp1]; [tmp1][upperright] overlay=shortest=1:x=320 [tmp2]; [tmp2][lowerleft] overlay=shortest=1:y=240 [tmp3]; [tmp3][lowerright] overlay=shortest=1:x=320:y=240',  # noqa: E501
                             '-c:v', 'libx264', output_dir / f'{basename}.mp4'
-            ])
+                            ])
             # yapf: enable
         except OSError as e:
             if e.errno == os.errno.ENOENT:

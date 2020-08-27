@@ -1,14 +1,15 @@
-import copy
 from enum import Enum, auto
-from typing import Dict, Any, Optional, Tuple, Sequence, List, Iterable
+from typing import Dict, Any, Optional, Tuple, Sequence, List
 
 import geometry
 import objects
 import util
 
 
-def put_object_in_container(obj_def: Dict[str, Any], obj: Dict[str, Any], container: Dict[str, Any],
-                            container_def: Dict[str, Any], area_index: int, rotation: Optional[float] = None) -> None:
+def put_object_in_container(obj_def: Dict[str, Any], obj: Dict[str, Any],
+                            container: Dict[str, Any],
+                            container_def: Dict[str, Any], area_index: int,
+                            rotation: Optional[float] = None) -> None:
 
     area = container_def['enclosedAreas'][area_index]
     obj['locationParent'] = container['id']
@@ -25,10 +26,12 @@ def put_object_in_container(obj_def: Dict[str, Any], obj: Dict[str, Any], contai
     # if it had a boundingBox, it's not valid any more
     obj.pop('boundingBox', None)
 
-    obj['shows'][0]['boundingBox'] = geometry.generate_object_bounds(obj_def['dimensions'],
-                                                                     (
-        obj_def['offset'] if 'offset' in obj_def else None), obj['shows'][0]['position'],
-        obj['shows'][0]['rotation'])
+    obj['shows'][0]['boundingBox'] = geometry.generate_object_bounds(
+        obj_def['dimensions'],
+        (obj_def['offset'] if 'offset' in obj_def else None),
+        obj['shows'][0]['position'],
+        obj['shows'][0]['rotation']
+    )
 
 
 class Orientation(Enum):
@@ -36,9 +39,12 @@ class Orientation(Enum):
     FRONT_TO_BACK = auto()
 
 
-def put_objects_in_container(obj_def_a: Dict[str, Any], obj_a: Dict[str, Any], obj_def_b: Dict[str, Any],
-                             obj_b: Dict[str, Any], container: Dict[str, Any], container_def: Dict[str, Any], area_index: int,
-                             orientation: Orientation, rot_a: float, rot_b: float) -> None:
+def put_objects_in_container(obj_def_a: Dict[str, Any], obj_a: Dict[str, Any],
+                             obj_def_b: Dict[str, Any], obj_b: Dict[str, Any],
+                             container: Dict[str, Any],
+                             container_def: Dict[str, Any], area_index: int,
+                             orientation: Orientation, rot_a: float,
+                             rot_b: float) -> None:
     """Put two objects in the same enclosed area of a
     container. orientation determines how they are laid out with
     respect to each other within the container. rot_a and rot_b must
@@ -46,10 +52,12 @@ def put_objects_in_container(obj_def_a: Dict[str, Any], obj_a: Dict[str, Any], o
     """
     if rot_a not in (0, 90):
         raise ValueError(
-            'only 0 and 90 degree rotations supported for object a, not {rot_a}')
+            f'only 0 and 90 degree rotations supported for object a, '
+            f'not {rot_a}')
     if rot_b not in (0, 90):
         raise ValueError(
-            'only 0 and 90 degree rotations supported for object b, not {rot_b}')
+            f'only 0 and 90 degree rotations supported for object b, '
+            f'not {rot_b}')
 
     # TODO This function should probably verify that both objects can fit
     # together inside the container...
@@ -99,14 +107,18 @@ def put_objects_in_container(obj_def_a: Dict[str, Any], obj_a: Dict[str, Any], o
     shows_a.pop('boundingBox', None)
     shows_b.pop('boundingBox', None)
 
-    shows_a['boundingBox'] = geometry.generate_object_bounds(obj_def_a['dimensions'],
-                                                             (
-        obj_def_a['offset'] if 'offset' in obj_def_a else None), shows_a['position'],
-        shows_a['rotation'])
-    shows_b['boundingBox'] = geometry.generate_object_bounds(obj_def_b['dimensions'],
-                                                             (
-        obj_def_b['offset'] if 'offset' in obj_def_b else None), shows_b['position'],
-        shows_b['rotation'])
+    shows_a['boundingBox'] = geometry.generate_object_bounds(
+        obj_def_a['dimensions'],
+        (obj_def_a['offset'] if 'offset' in obj_def_a else None),
+        shows_a['position'],
+        shows_a['rotation']
+    )
+    shows_b['boundingBox'] = geometry.generate_object_bounds(
+        obj_def_b['dimensions'],
+        (obj_def_b['offset'] if 'offset' in obj_def_b else None),
+        shows_b['position'],
+        shows_b['rotation']
+    )
 
 
 def can_enclose(area: Dict[str, Any],
@@ -129,7 +141,8 @@ def can_enclose(area: Dict[str, Any],
 
 
 def how_can_contain(container: Dict[str, Any],
-                    *targets: Dict[str, Any]) -> Optional[Tuple[int, List[float]]]:
+                    *targets: Dict[str, Any]) \
+        -> Optional[Tuple[int, List[float]]]:
     """Return the index of the container's "enclosedAreas" that all
      targets fit in, or None if they all do not fit in any of the
      enclosedAreas (or if the container doesn't have any). Does not
@@ -154,16 +167,20 @@ def how_can_contain(container: Dict[str, Any],
 
 
 def get_enclosable_containments(objs: Sequence[Dict[str, Any]],
-                                container_defs: Sequence[Dict[str, Any]] = None) \
+                                container_defs: Sequence[
+                                    Dict[str, Any]] = None) \
         -> List[Tuple[Dict[str, Any], int, List[float]]]:
-    """Return a list of object definitions for containers that can enclose all the pass objects objs."""
+    """Return a list of object definitions for containers that can enclose all
+    the pass objects objs."""
     if container_defs is None:
         container_defs = retrieve_enclosable_object_definition_list()
     valid_containments = []
     for container_def in container_defs:
-        possible_enclosable_definition_list = util.finalize_each_object_definition_choice(
+        possible_enclosable_definition_list = util.finalize_each_object_definition_choice(  # noqa: E501
             container_def)
-        for possible_enclosable_definition in possible_enclosable_definition_list:
+        for (
+            possible_enclosable_definition
+        ) in possible_enclosable_definition_list:
             containment = how_can_contain(
                 possible_enclosable_definition, *objs)
             if containment:
@@ -245,9 +262,10 @@ def _eas_can_contain_both(enclosed_areas: Sequence[Dict[str, Any]],
     return None
 
 
-def can_contain_both(container_def: Dict[str, Any], obj_a: Dict[str, Any], obj_b: Dict[str, Any]) \
+def can_contain_both(container_def: Dict[str, Any], obj_a: Dict[str, Any],
+                     obj_b: Dict[str, Any]) \
         -> Optional[Tuple[Dict[str, Any], int, Orientation, float, float]]:
-    possible_enclosable_definition_list = util.finalize_each_object_definition_choice(
+    possible_enclosable_definition_list = util.finalize_each_object_definition_choice(  # noqa: E501
         container_def)
     for possible_enclosable_definition in possible_enclosable_definition_list:
         result = _eas_can_contain_both(
@@ -261,16 +279,21 @@ def can_contain_both(container_def: Dict[str, Any], obj_a: Dict[str, Any], obj_b
 
 # TODO Can we delete this function and just use
 # get_enclosable_containments instead?
-def find_suitable_enclosable_list(obj: Dict[str, Any], container_defs: Sequence[Dict[str, Any]] = None) -> \
+def find_suitable_enclosable_list(obj: Dict[str, Any],
+                                  container_defs: Sequence[
+                                      Dict[str, Any]] = None) -> \
         List[Dict[str, Any]]:
-    """Find and return the list of enclosable receptacle definitions into which the given object can fit."""
+    """Find and return the list of enclosable receptacle definitions into
+    which the given object can fit."""
     valid_defs = []
     if container_defs is None:
         container_defs = retrieve_enclosable_object_definition_list()
     for obj_def in container_defs:
-        possible_enclosable_definition_list = util.finalize_each_object_definition_choice(
+        possible_enclosable_definition_list = util.finalize_each_object_definition_choice(  # noqa: E501
             obj_def)
-        for possible_enclosable_definition in possible_enclosable_definition_list:
+        for (
+            possible_enclosable_definition
+        ) in possible_enclosable_definition_list:
             for area in possible_enclosable_definition['enclosedAreas']:
                 if (area['dimensions']['x'] >= obj['dimensions']['x'] and
                         area['dimensions']['y'] >= obj['dimensions']['y'] and
