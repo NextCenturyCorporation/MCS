@@ -192,152 +192,137 @@ physics simulation for a few frames.
 Defines an MCS goal.
 
 
-#### action_list()
-*list of lists of strings, or None* – The list of actions that are available for the scene at each step
-(outer list index).  Each inner list item is a list of action strings.
-For example, [‘MoveAhead’,’RotateLook,rotation=180’] restricts the
-actions to either ‘MoveAhead’ or ‘RotateLook’ with the ‘rotation’
-parameter set to 180. An action_list of None means that all
-actions are always available. An empty inner list means that all
-actions are available for that specific step.
+* **Variables**
+
+    
+    * **action_list** (*list of lists of strings**, or **None*) – The list of actions that are available for the scene at each step
+    (outer list index).  Each inner list item is a list of action strings.
+    For example, [‘MoveAhead’,’RotateLook,rotation=180’] restricts the
+    actions to either ‘MoveAhead’ or ‘RotateLook’ with the ‘rotation’
+    parameter set to 180. An action_list of None means that all
+    actions are always available. An empty inner list means that all
+    actions are available for that specific step.
 
 
-#### category()
-*string* – The category that describes this goal and the properties in its
-metadata. See [Goals](#Goals).
+    * **category** (*string*) – The category that describes this goal and the properties in its
+    metadata. See [Goals](#Goals).
 
 
-#### description()
-*string* – A human-readable sentence describing this goal and containing
-the target task(s) and object(s).
+    * **description** (*string*) – A human-readable sentence describing this goal and containing
+    the target task(s) and object(s).
 
-Sizes:
-- tiny: near the size of a baseball
-- small: near the size of a baby
-- medium: near the size of a child
-- large: near the size of an adult
-- huge: near the size of a sofa
+    Sizes:
+    - tiny: near the size of a baseball
+    - small: near the size of a baby
+    - medium: near the size of a child
+    - large: near the size of an adult
+    - huge: near the size of a sofa
 
-Weights:
-- light: can be held by a baby
-- heavy: cannot be held by a baby, but can be pushed or pulled
-- massive: cannot be moved by a baby
+    Weights:
+    - light: can be held by a baby
+    - heavy: cannot be held by a baby, but can be pushed or pulled
+    - massive: cannot be moved by a baby
 
-Colors:
-black, blue, brown, green, grey, orange, purple, red, white, yellow
+    Colors:
+    black, blue, brown, green, grey, orange, purple, red, white, yellow
 
-Materials:
-See [Materials](#Materials).
-
-
-#### domain_list()
-*list of strings* – The list of MCS “core domains” associated with this goal (for the
-visualization interface).
+    Materials:
+    See [Materials](#Materials).
 
 
-#### info_list()
-*list* – The list of information for the visualization interface associated
-with this goal.
+
+    * **domain_list** (*list of strings*) – The list of MCS “core domains” associated with this goal (for the
+    visualization interface).
 
 
-#### last_preview_phase_step()
-*integer* – The last step of the Preview Phase of this scene, if a Preview Phase is
-scripted in the scene configuration. Each step of a Preview Phase
-normally has a single specific action defined in this goal’s
-action_list property for the performer to choose, like [‘Pass’].
-Default: 0 (no Preview Phase)
+    * **info_list** (*list*) – The list of information for the visualization interface associated
+    with this goal.
 
 
-#### last_step()
-*integer* – The last step of this scene. This scene will automatically end
-following this step.
+    * **last_preview_phase_step** (*integer*) – The last step of the Preview Phase of this scene, if a Preview Phase is
+    scripted in the scene configuration. Each step of a Preview Phase
+    normally has a single specific action defined in this goal’s
+    action_list property for the performer to choose, like [‘Pass’].
+    Default: 0 (no Preview Phase)
 
 
-#### type_list()
-*list of strings* – The list of types associated with this goal (for the
-visualization interface).
+    * **last_step** (*integer*) – The last step of this scene. This scene will automatically end
+    following this step.
 
 
-#### metadata()
-*dict* – The metadata specific to this goal. See [Goals](#Goals).
+    * **type_list** (*list of strings*) – The list of types associated with this goal (for the
+    visualization interface).
+
+
+    * **metadata** (*dict*) – The metadata specific to this goal. See [Goals](#Goals).
+
 
 ## MCS_Object
 
 
-### class machine_common_sense.mcs_object.MCS_Object(uuid='', color=None, dimensions=None, direction=None, distance=-1.0, distance_in_steps=-1.0, distance_in_world=-1.0, held=False, mass=0.0, material_list=None, position=None, rotation=None, shape='', texture_color_list=None, visible=False)
+### class machine_common_sense.mcs_object.MCS_Object(uuid='', color=None, dimensions=None, direction=None, distance=- 1.0, distance_in_steps=- 1.0, distance_in_world=- 1.0, held=False, mass=0.0, material_list=None, position=None, rotation=None, shape='', texture_color_list=None, visible=False)
 Defines output from an object in the MCS 3D environment.
 
 
-#### uuid()
-*string* – The unique ID of this object, used with some actions.
+* **Variables**
+
+    
+    * **uuid** (*string*) – The unique ID of this object, used with some actions.
 
 
-#### color()
-*dict* – The “r”, “g”, and “b” pixel values of this object in images from the
-MCS_Step_Output’s “object_mask_list”.
+    * **color** (*dict*) – The “r”, “g”, and “b” pixel values of this object in images from the
+    MCS_Step_Output’s “object_mask_list”.
 
 
-#### dimensions()
-*dict* – The dimensions of this object in the environment’s 3D global
-coordinate system as a list of 8 points (dicts with “x”, “y”, and “z”).
+    * **dimensions** (*dict*) – The dimensions of this object in the environment’s 3D global
+    coordinate system as a list of 8 points (dicts with “x”, “y”, and “z”).
 
 
-#### direction()
-*dict* – The direction vector of “x”, “y”, and “z” degrees between your position
-and this object’s position (the difference in the two positions),
-normalized to 1. You can use the “x” and “y” as the “rotation” and
-“horizon” parameters (respectively) in a “RotateLook” action to face
-this object.
+    * **direction** (*dict*) – The direction vector of “x”, “y”, and “z” degrees between your position
+    and this object’s position (the difference in the two positions),
+    normalized to 1. You can use the “x” and “y” as the “rotation” and
+    “horizon” parameters (respectively) in a “RotateLook” action to face
+    this object.
 
 
-#### distance()
-*float* – DEPRECATED. Same as distance_in_steps. Please use distance_in_steps
-or distance_in_world.
+    * **distance** (*float*) – DEPRECATED. Same as distance_in_steps. Please use distance_in_steps
+    or distance_in_world.
 
 
-#### distance_in_steps()
-*float* – The distance from you to this object in number of steps (“Move”
-actions) on the 2D X/Z movement grid.
+    * **distance_in_steps** (*float*) – The distance from you to this object in number of steps (“Move”
+    actions) on the 2D X/Z movement grid.
 
 
-#### distance_in_world()
-*float* – The distance from you to this object in the environment’s 3D global
-coordinate system.
+    * **distance_in_world** (*float*) – The distance from you to this object in the environment’s 3D global
+    coordinate system.
 
 
-#### held()
-*boolean* – Whether you are holding this object.
+    * **held** (*boolean*) – Whether you are holding this object.
 
 
-#### mass()
-*float* – Haptic feedback. The mass of this object.
+    * **mass** (*float*) – Haptic feedback. The mass of this object.
 
 
-#### material_list()
-*list of strings* – Haptic feedback. The material(s) of this object.
-See [Materials](#Materials).
+    * **material_list** (*list of strings*) – Haptic feedback. The material(s) of this object.
+    See [Materials](#Materials).
 
 
-#### position()
-*dict* – The “x”, “y”, and “z” coordinates for the global position of the
-center of this object’s 3D model.
+    * **position** (*dict*) – The “x”, “y”, and “z” coordinates for the global position of the
+    center of this object’s 3D model.
 
 
-#### rotation()
-*dict* – This object’s rotation angles around the “x”, “y”, and “z” axes
-in degrees.
+    * **rotation** (*dict*) – This object’s rotation angles around the “x”, “y”, and “z” axes
+    in degrees.
 
 
-#### shape()
-*string* – This object’s shape in plain English.
+    * **shape** (*string*) – This object’s shape in plain English.
 
 
-#### texture_color_list()
-*list of strings* – This object’s colors, derived from its textures, in plain English.
+    * **texture_color_list** (*list of strings*) – This object’s colors, derived from its textures, in plain English.
 
 
-#### visible()
-*boolean* – Whether you can see this object in your camera viewport.
+    * **visible** (*boolean*) – Whether you can see this object in your camera viewport.
+
 
 ## MCS_Step_Output
 
@@ -346,120 +331,106 @@ in degrees.
 Defines output from a single action step in the MCS 3D environment.
 
 
-#### action_list()
-*list of strings* – The list of all actions that are available for the next step.
-May be a subset of all possible actions. See [Actions](#Actions).
+* **Variables**
+
+    
+    * **action_list** (*list of strings*) – The list of all actions that are available for the next step.
+    May be a subset of all possible actions. See [Actions](#Actions).
 
 
-#### camera_aspect_ratio()
-*(float, float)* – The player camera’s aspect ratio. This will remain constant for the
-whole scene.
+    * **camera_aspect_ratio** (*(**float**, **float**)*) – The player camera’s aspect ratio. This will remain constant for the
+    whole scene.
 
 
-#### camera_clipping_planes()
-*(float, float)* – The player camera’s near and far clipping planes. This will remain
-constant for the whole scene.
+    * **camera_clipping_planes** (*(**float**, **float**)*) – The player camera’s near and far clipping planes. This will remain
+    constant for the whole scene.
 
 
-#### camera_field_of_view()
-*float* – The player camera’s field of view. This will remain constant for
-the whole scene.
+    * **camera_field_of_view** (*float*) – The player camera’s field of view. This will remain constant for
+    the whole scene.
 
 
-#### camera_height()
-*float* – The player camera’s height. This will change if the player uses
-actions like “LieDown”, “Stand”, or “Crawl”.
+    * **camera_height** (*float*) – The player camera’s height. This will change if the player uses
+    actions like “LieDown”, “Stand”, or “Crawl”.
 
 
-#### depth_mask_list()
-*list of Pillow.Image objects* – The list of depth mask images from the scene after the last
-action and physics simulation were run.
-This is normally a list with five images, where the physics simulation
-has unpaused and paused again for a little bit between each image,
-and the final image is the state of the environment before your
-next action. The MCS_Step_Output object returned from a call to
-controller.start_scene will normally have a list with only one image,
-except for a scene with a scripted Preview Phase. A pixel value of
-255 translates to 25 (the far clipping plane) in the environment’s
-global coordinate system.
+    * **depth_mask_list** (*list of Pillow.Image objects*) – The list of depth mask images from the scene after the last
+    action and physics simulation were run.
+    This is normally a list with five images, where the physics simulation
+    has unpaused and paused again for a little bit between each image,
+    and the final image is the state of the environment before your
+    next action. The MCS_Step_Output object returned from a call to
+    controller.start_scene will normally have a list with only one image,
+    except for a scene with a scripted Preview Phase. A pixel value of
+    255 translates to 25 (the far clipping plane) in the environment’s
+    global coordinate system.
 
 
-#### goal()
-*MCS_Goal or None* – The goal for the whole scene. Will be None in “Exploration” scenes.
+    * **goal** (*MCS_Goal** or **None*) – The goal for the whole scene. Will be None in “Exploration” scenes.
 
 
-#### head_tilt()
-*float* – How far your head is tilted up/down in degrees (between 90 and -90).
-Changed by setting the “horizon” parameter in a “RotateLook” action.
+    * **head_tilt** (*float*) – How far your head is tilted up/down in degrees (between 90 and -90).
+    Changed by setting the “horizon” parameter in a “RotateLook” action.
 
 
-#### image_list()
-*list of Pillow.Image objects* – The list of images from the scene after the last action and physics
-simulation were run. This is normally a list with five images, where
-the physics simulation has unpaused and paused again for a little
-bit between each image, and the final image is the state of the
-environment before your next action. The MCS_Step_Output object
-returned from a call to controller.start_scene will normally have a
-listwith only one image, except for a scene with a scripted Preview
-Phase.
+    * **image_list** (*list of Pillow.Image objects*) – The list of images from the scene after the last action and physics
+    simulation were run. This is normally a list with five images, where
+    the physics simulation has unpaused and paused again for a little
+    bit between each image, and the final image is the state of the
+    environment before your next action. The MCS_Step_Output object
+    returned from a call to controller.start_scene will normally have a
+    listwith only one image, except for a scene with a scripted Preview
+    Phase.
 
 
-#### object_list()
-*list of MCS_Object objects* – The list of metadata for all the visible interactive objects in the
-scene. For metadata on structural objects like walls, please see
-structural_object_list
+    * **object_list** (*list of MCS_Object objects*) – The list of metadata for all the visible interactive objects in the
+    scene. For metadata on structural objects like walls, please see
+    structural_object_list
 
 
-#### object_mask_list()
-*list of Pillow.Image objects* – The list of object mask (instance segmentation) images from the scene
-after the last action and physics simulation were run. This is
-normally a list with five images, where the physics simulation
-has unpaused and paused again for a little bit between each image,
-and the final image is the state of the environment before your next
-action. The MCS_Step_Output object returned from a call to
-controller.start_scene will normally have a list with only one image,
-except for a scene with a scripted Preview Phase. The color of each
-object in the mask corresponds to the “color” property in its
-MCS_Object object.
+    * **object_mask_list** (*list of Pillow.Image objects*) – The list of object mask (instance segmentation) images from the scene
+    after the last action and physics simulation were run. This is
+    normally a list with five images, where the physics simulation
+    has unpaused and paused again for a little bit between each image,
+    and the final image is the state of the environment before your next
+    action. The MCS_Step_Output object returned from a call to
+    controller.start_scene will normally have a list with only one image,
+    except for a scene with a scripted Preview Phase. The color of each
+    object in the mask corresponds to the “color” property in its
+    MCS_Object object.
 
 
-#### pose()
-*string* – Your current pose. Either “STANDING”, “CRAWLING”, or “LYING”.
+    * **pose** (*string*) – Your current pose. Either “STANDING”, “CRAWLING”, or “LYING”.
 
 
-#### position()
-*dict* – The “x”, “y”, and “z” coordinates for your global position.
+    * **position** (*dict*) – The “x”, “y”, and “z” coordinates for your global position.
 
 
-#### return_status()
-*string* – The return status from your last action. See [Actions](#Actions).
+    * **return_status** (*string*) – The return status from your last action. See [Actions](#Actions).
 
 
-#### reward()
-*integer* – Reward is 1 on successful completion of a task, 0 otherwise.
+    * **reward** (*integer*) – Reward is 1 on successful completion of a task, 0 otherwise.
 
 
-#### rotation()
-*float* – Your current rotation angle in degrees.
+    * **rotation** (*float*) – Your current rotation angle in degrees.
 
 
-#### step_number()
-*integer* – The step number of your last action, recorded since you started the
-current scene.
+    * **step_number** (*integer*) – The step number of your last action, recorded since you started the
+    current scene.
 
 
-#### structural_object_list()
-*list of MCS_Object objects* – The list of metadata for all the visible structural objects (like
-walls, occluders, and ramps) in the scene. Please note that occluders
-are composed of two separate objects, the “wall” and the “pole”, with
-corresponding object IDs (occluder_wall_<uuid> and
-occluder_pole_<uuid>), and ramps are composed of between one and three
-objects (depending on the type of ramp), with corresponding object IDs.
+    * **structural_object_list** (*list of MCS_Object objects*) – The list of metadata for all the visible structural objects (like
+    walls, occluders, and ramps) in the scene. Please note that occluders
+    are composed of two separate objects, the “wall” and the “pole”, with
+    corresponding object IDs (occluder_wall_<uuid> and
+    occluder_pole_<uuid>), and ramps are composed of between one and three
+    objects (depending on the type of ramp), with corresponding object IDs.
+
 
 ## Actions
 
 
-### class machine_common_sense.mcs_action.MCS_Action()
+### class machine_common_sense.mcs_action.MCS_Action(value)
 The actions available in the MCS simulation environment.
 
 
@@ -1084,7 +1055,7 @@ Throw an object you are holding.
 ## Goals
 
 
-### class machine_common_sense.mcs_goal_category.MCS_Goal_Category()
+### class machine_common_sense.mcs_goal_category.MCS_Goal_Category(value)
 Each goal will have a “category” string and a “metadata” dict with one or
 more properties depending on the “category”.
 
@@ -1229,65 +1200,36 @@ obstacles).
 ## Materials
 
 
-### class machine_common_sense.mcs_material.MCS_Material()
+### class machine_common_sense.mcs_material.MCS_Material(value)
 Possible materials of objects. An object can have one or more materials.
 
 
 #### CERAMIC( = 'CERAMIC')
-Ceramic.
-
 
 #### FABRIC( = 'FABRIC')
-Fabric.
-
 
 #### FOOD( = 'FOOD')
-Food.
-
 
 #### GLASS( = 'GLASS')
-Glass.
-
 
 #### METAL( = 'METAL')
-Metal.
-
 
 #### ORGANIC( = 'ORGANIC')
-Organic.
-
 
 #### PAPER( = 'PAPER')
-Paper.
-
 
 #### PLASTIC( = 'PLASTIC')
-Plastic.
-
 
 #### RUBBER( = 'RUBBER')
-Rubber.
-
 
 #### SOAP( = 'SOAP')
-Soap.
-
 
 #### SPONGE( = 'SPONGE')
-Sponge.
-
 
 #### STONE( = 'STONE')
-Stone.
-
 
 #### UNDEFINED( = 'UNDEFINED')
-Undefined.
-
 
 #### WAX( = 'WAX')
-Wax.
-
 
 #### WOOD( = 'WOOD')
-Wood.
