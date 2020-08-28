@@ -5,8 +5,7 @@ import objects
 import util
 from containers import put_object_in_container, put_objects_in_container, \
     Orientation, can_enclose, can_contain_both, how_can_contain, \
-    get_enclosable_containments, find_suitable_enclosable_list, \
-    retrieve_enclosable_object_definition_list
+    get_enclosable_containments, retrieve_enclosable_object_definition_list
 from geometry import are_adjacent
 
 
@@ -229,19 +228,3 @@ def test_get_enclosable_containments_multiple_object():
         assert definition
         assert index >= 0
         assert angles
-
-
-def test_find_suitable_enclosable_list():
-    for target_definition in util.retrieve_full_object_definition_list(
-            objects.get('PICKUPABLE')):
-        enclosable_list = find_suitable_enclosable_list(target_definition)
-        if (
-            len(enclosable_list) == 0 and
-            target_definition['type'] not in
-            PICKUPABLE_OBJECTS_WITHOUT_CONTAINMENTS
-        ):
-            print(
-                f'pickupable object should have at least one enclosable: '
-                f'{target_definition}')
-            assert False
-        assert True

@@ -33,6 +33,10 @@ def put_object_in_container(obj_def: Dict[str, Any], obj: Dict[str, Any],
         obj['shows'][0]['rotation']
     )
 
+    if 'isParentOf' not in container:
+        container['isParentOf'] = []
+    container['isParentOf'].append(obj['id'])
+
 
 class Orientation(Enum):
     SIDE_BY_SIDE = auto()
@@ -119,6 +123,11 @@ def put_objects_in_container(obj_def_a: Dict[str, Any], obj_a: Dict[str, Any],
         shows_b['position'],
         shows_b['rotation']
     )
+
+    if 'isParentOf' not in container:
+        container['isParentOf'] = []
+    container['isParentOf'].append(obj_a['id'])
+    container['isParentOf'].append(obj_b['id'])
 
 
 def can_enclose(area: Dict[str, Any],
@@ -275,31 +284,6 @@ def can_contain_both(container_def: Dict[str, Any], obj_a: Dict[str, Any],
             new_def = util.finalize_object_definition(container_def)
             return new_def, index, orientation, angle_a, angle_b
     return None
-
-
-# TODO Can we delete this function and just use
-# get_enclosable_containments instead?
-def find_suitable_enclosable_list(obj: Dict[str, Any],
-                                  container_defs: Sequence[
-                                      Dict[str, Any]] = None) -> \
-        List[Dict[str, Any]]:
-    """Find and return the list of enclosable receptacle definitions into
-    which the given object can fit."""
-    valid_defs = []
-    if container_defs is None:
-        container_defs = retrieve_enclosable_object_definition_list()
-    for obj_def in container_defs:
-        possible_enclosable_definition_list = util.finalize_each_object_definition_choice(  # noqa: E501
-            obj_def)
-        for (
-            possible_enclosable_definition
-        ) in possible_enclosable_definition_list:
-            for area in possible_enclosable_definition['enclosedAreas']:
-                if (area['dimensions']['x'] >= obj['dimensions']['x'] and
-                        area['dimensions']['y'] >= obj['dimensions']['y'] and
-                        area['dimensions']['z'] >= obj['dimensions']['z']):
-                    valid_defs.append(possible_enclosable_definition)
-    return valid_defs
 
 
 def retrieve_enclosable_object_definition_list() -> List[Dict[str, Any]]:
