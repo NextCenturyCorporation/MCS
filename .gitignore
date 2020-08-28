@@ -30,15 +30,17 @@ wheels/
 # Neon
 mcs_docker_setup/neon-jan-2020*
 
-# Scenes config ?
+# untracked scene configuration files
 python_api/scenes/*.json
 python_api/scenes/images/*.gif
-python_api/playroom/
-playroom/
 
 **/SCENE_HISTORY
 
-# machine common sense
+# python docs
+python_api/machine_common_sense/docs
+python_api/machine_common_sense/venv
+
+# scene runtime debug files
 python_api/machine_common_sense/**/*.gif
 python_api/machine_common_sense/**/*.json
 python_api/machine_common_sense/**/*.mp4

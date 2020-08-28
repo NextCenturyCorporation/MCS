@@ -6,14 +6,13 @@ from .mcs_util import MCS_Util
 
 class MCS_Step_Output:
     """
-    Defines attributes of the output from a single step in the MCS 3D
-    environment.
+    Defines output from a single action step in the MCS 3D environment.
 
     Attributes
     ----------
     action_list : list of strings
         The list of all actions that are available for the next step.
-        May be a subset of all possible actions. See MCS_Action.
+        May be a subset of all possible actions. See [Actions](#Actions).
     camera_aspect_ratio : (float, float)
         The player camera's aspect ratio. This will remain constant for the
         whole scene.
@@ -25,7 +24,7 @@ class MCS_Step_Output:
         the whole scene.
     camera_height : float
         The player camera's height. This will change if the player uses
-        actions like "LieDown", "Sit", or "Crouch".
+        actions like "LieDown", "Stand", or "Crawl".
     depth_mask_list : list of Pillow.Image objects
         The list of depth mask images from the scene after the last
         action and physics simulation were run.
@@ -38,10 +37,10 @@ class MCS_Step_Output:
         255 translates to 25 (the far clipping plane) in the environment's
         global coordinate system.
     goal : MCS_Goal or None
-        The goal for the whole scene.  Will be None in "Exploration" scenes.
+        The goal for the whole scene. Will be None in "Exploration" scenes.
     head_tilt : float
         How far your head is tilted up/down in degrees (between 90 and -90).
-        Changed by setting the horizon parameter in a "RotateLook" action.
+        Changed by setting the "horizon" parameter in a "RotateLook" action.
     image_list : list of Pillow.Image objects
         The list of images from the scene after the last action and physics
         simulation were run. This is normally a list with five images, where
@@ -52,8 +51,8 @@ class MCS_Step_Output:
         listwith only one image, except for a scene with a scripted Preview
         Phase.
     object_list : list of MCS_Object objects
-        The list of metadata for all the interactive objects in the scene. For
-        metadata on structural objects like walls, please see
+        The list of metadata for all the visible interactive objects in the
+        scene. For metadata on structural objects like walls, please see
         structural_object_list
     object_mask_list : list of Pillow.Image objects
         The list of object mask (instance segmentation) images from the scene
@@ -67,11 +66,11 @@ class MCS_Step_Output:
         object in the mask corresponds to the "color" property in its
         MCS_Object object.
     pose : string
-        Your current pose.  See MCS_Pose.
+        Your current pose. Either "STANDING", "CRAWLING", or "LYING".
     position : dict
         The "x", "y", and "z" coordinates for your global position.
     return_status : string
-        The return status from your last action.  See MCS_Return_Status.
+        The return status from your last action. See [Actions](#Actions).
     reward : integer
         Reward is 1 on successful completion of a task, 0 otherwise.
     rotation : float
@@ -80,8 +79,12 @@ class MCS_Step_Output:
         The step number of your last action, recorded since you started the
         current scene.
     structural_object_list : list of MCS_Object objects
-        The list of metadata for all the structural objects (like walls) in
-        the scene.
+        The list of metadata for all the visible structural objects (like
+        walls, occluders, and ramps) in the scene. Please note that occluders
+        are composed of two separate objects, the "wall" and the "pole", with
+        corresponding object IDs (occluder_wall_<uuid> and
+        occluder_pole_<uuid>), and ramps are composed of between one and three
+        objects (depending on the type of ramp), with corresponding object IDs.
     """
 
     def __init__(

@@ -6,85 +6,82 @@ class MCS_Controller:
     """
     Starts and ends scenes, runs actions on each step, and returns scene
     output data.
-
-    Parameters
-    ----------
-    enable_noise : boolean, optional
-        An optional flag to enable noise in the system for move, amount,
-        force actions
     """
 
-    def __init__(self, enable_noise=False):
-        self.__enable_noise = enable_noise
+    def __init__(self):
+        pass
 
-    """
-    Ends the current scene.
+    def end_scene(self, choice, confidence=1.0):
+        """
+        Ends the current scene.
 
-    Parameters
-    ----------
-    classification : string, optional
-        The selected classification for "classify" goals.  Is not required
-        for other goals.
-    confidence : float, optional
-        The classification confidence between 0 and 1 for "classify" goals.
-        Is not required for other goals.
-    """
+        Parameters
+        ----------
+        choice : string, optional
+            The selected choice required for ending scenes with
+            violation-of-expectation or classification goals.
+            Is not required for other goals. (default None)
+        confidence : float, optional
+            The choice confidence between 0 and 1 required for ending scenes
+            with violation-of-expectation or classification goals.
+            Is not required for other goals. (default None)
+        """
 
-    def end_scene(self, classification, confidence):
         # TODO Override
         pass
 
-    """
-    Starts a new scene using the given scene configuration data dict and
-    returns the scene output data object.
-
-    Parameters
-    ----------
-    config_data : dict
-        The MCS scene configuration data for the scene to start.
-
-    Returns
-    -------
-    MCS_Step_Output
-        The output data object from the start of the scene (the output from an
-        "Initialize" action).
-    """
-
     def start_scene(self, config_data):
+        """
+        Starts a new scene using the given scene configuration data dict and
+        returns the scene output data object.
+
+        Parameters
+        ----------
+        config_data : dict
+            The MCS scene configuration data for the scene to start.
+
+        Returns
+        -------
+        MCS_Step_Output
+            The output data object from the start of the scene (the output from
+            an "Initialize" action).
+        """
+
         # TODO Override
         return MCS_Step_Output()
-
-    """
-    Runs the given action within the current scene and unpauses the scene's
-    physics simulation for a few frames.
-
-    Parameters
-    ----------
-    action : string
-        An action string from the list of available MCS actions.
-    **kwargs
-        Zero or more additional parameters depending on the specific action.
-
-    Returns
-    -------
-    MCS_Step_Output
-        The output data object from after the action and the physics
-        simulation were run.
-    """
 
     def step(self, action, **kwargs):
+        """
+        Runs the given action within the current scene and unpauses the scene's
+        physics simulation for a few frames.
+
+        Parameters
+        ----------
+        action : string
+            A selected action string from the list of available actions.
+        **kwargs
+            Zero or more key-and-value parameters for the action.
+
+        Returns
+        -------
+        MCS_Step_Output
+            The MCS output data object from after the selected action and the
+            physics simulation were run. Returns None if you have passed the
+            "last_step" of this scene.
+        """
+
         # TODO Override
         return MCS_Step_Output()
 
-    """
-    Calculates a random value float between -0.05 and 0.05 to add some noise
-    into move, amount, force actions
-
-    Returns
-    -------
-    float
-        A float value for the amount of noise that will be applied to actions.
-    """
-
     def generate_noise(self):
+        """
+        Returns a random value between -0.05 and 0.05 used to add noise to all
+        numerical action parameters enable_noise is True.
+
+        Returns
+        -------
+        float
+            A value between -0.05 and 0.05 (using random.uniform).
+        """
+
         return random.uniform(-0.5, 0.5)
