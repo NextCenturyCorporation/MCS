@@ -4,25 +4,14 @@ import gql from 'graphql-tag';
 import _ from "lodash";
 import $ from 'jquery';
 import FlagCheckboxMutation from './flagCheckboxMutation';
+import {EvalConstants} from './evalConstants';
 
 const historyQueryName = "getEvalHistory";
 const sceneQueryName = "getEvalScene";
-const moviesBucket = "https://evaluation-images.s3.amazonaws.com/eval-2-inphys-videos/"
-const interactiveMoviesBucket = "https://evaluation-images.s3.amazonaws.com/eval-2/"
-const topDownMoviesBucket = "https://evaluation-images.s3.amazonaws.com/eval-2-top-down/"
-const movieExtension = ".mp4"
-const sceneBucket = "https://evaluation-images.s3.amazonaws.com/eval-2-scenes/"
-const sceneExtension = "-debug.json"
 
+let constantsObject = {};
 let currentState = {};
 let currentStep = 0;
-
-const PERFORMER_PREFIX_MAPPING = {
-    "IBM-MIT-Harvard-Stanford": "mitibm_",
-    "OPICS (OSU, UU, NYU)": "opics_",
-    "MESS-UCBerkeley": "mess_",
-    "IBM-MIT-Harvard-Stanford-2": "mitibm2_"
-};
 
 const mcs_history = gql`
     query getEvalHistory($testType: String!, $sceneNum: String!){
@@ -61,6 +50,10 @@ const mcs_scene= gql`
             scene_part_num
         }
   }`;
+
+const setConstants = function(evalNum) {
+    constantsObject = EvalConstants[evalNum];
+}
 class Scenes extends React.Component {
 
     constructor(props) {
@@ -190,7 +183,7 @@ class Scenes extends React.Component {
             return (
                 <tr key={'scene_prop_' + key}>
                     <td className="bold-label">{labelPrefix + objectKey}:</td>
-                    <td className="scene-text">{this.convertValueToString(scene[objectKey])} (<a href={sceneBucket + scene[objectKey] + sceneExtension} download>Download Scene File</a>)</td>
+                    <td className="scene-text">{this.convertValueToString(scene[objectKey])} (<a href={constantsObject["sceneBucket"] + scene[objectKey] + constantsObject["sceneExtension"]} download>Download Scene File</a>)</td>
                 </tr>
             );
         }
@@ -239,10 +232,15 @@ class Scenes extends React.Component {
                     if (error) return <div>Error</div>
                     
                     const evals = data[historyQueryName];
+                    console.log(evals);
                     let scenesByPerformer = _.sortBy(evals, "scene_part_num");
                     scenesByPerformer = _.groupBy(scenesByPerformer, "performer");
                     let performerList = Object.keys(scenesByPerformer);
                     this.setInitialPerformer(performerList[0], evals[0]);
+
+                    setConstants("Eval2");
+
+                    console.log(scenesByPerformer);
 
                     if(performerList.length > 0) {
                         return (
@@ -273,7 +271,7 @@ class Scenes extends React.Component {
                                                                 <div className="movie-text"><b>Scene 3:</b>&nbsp;&nbsp;{scenesInOrder[2].answer.choice}</div>
                                                             </div>
                                                             <div className="movie-center">
-                                                                <video src={moviesBucket + this.props.value.test_type + "-" + this.props.value.scene_num + movieExtension} width="600" height="400" controls="controls" autoPlay={false} />
+                                                                <video src={constantsObject["moviesBucket"] + this.props.value.test_type + "-" + this.props.value.scene_num + constantsObject["movieExtension"]} width="600" height="400" controls="controls" autoPlay={false} />
                                                             </div>
                                                             <div className="movie-left-right">
                                                                 <div className="movie-text"><b>Scene 2:</b>&nbsp;&nbsp;{scenesInOrder[1].answer.choice}</div>
@@ -327,7 +325,7 @@ class Scenes extends React.Component {
                                                     { (scenesByPerformer[this.state.currentPerformer][0]["category"] === "interactive") && 
                                                         <div className="movie-steps-holder">
                                                             <div className="interactive-movie-holder">
-                                                                <video id="interactiveMoviePlayer" src={interactiveMoviesBucket + PERFORMER_PREFIX_MAPPING[this.state.currentPerformer] + this.props.value.test_type + "-" + this.props.value.scene_num + "-" + (this.state.currentSceneNum+1) + movieExtension} width="500" height="350" controls="controls" autoPlay={false} onTimeUpdate={this.highlightStep}/>
+                                                                <video id="interactiveMoviePlayer" src={constantsObject["interactiveMoviesBucket"] + constantsObject["performerPrefixMapping"][this.state.currentPerformer] + this.props.value.test_type + "-" + this.props.value.scene_num + "-" + (this.state.currentSceneNum+1) + constantsObject["movieExtension"]} width="500" height="350" controls="controls" autoPlay={false} onTimeUpdate={this.highlightStep}/>
                                                             </div>
                                                             <div className="steps-holder">
                                                                 <h5>Peformer Steps:</h5>
@@ -341,7 +339,7 @@ class Scenes extends React.Component {
                                                                 </div>
                                                             </div>
                                                             <div className="top-down-holder">
-                                                                <video id="interactiveMoviePlayer" src={topDownMoviesBucket + PERFORMER_PREFIX_MAPPING[this.state.currentPerformer] + this.props.value.test_type + "-" + this.props.value.scene_num + "-" + (this.state.currentSceneNum+1) + movieExtension} width="500" height="350" controls="controls" autoPlay={false}/>
+                                                                <video id="interactiveMoviePlayer" src={constantsObject["topDownMoviesBucket"] + constantsObject["performerPrefixMapping"][this.state.currentPerformer] + this.props.value.test_type + "-" + this.props.value.scene_num + "-" + (this.state.currentSceneNum+1) + constantsObject["movieExtension"]} width="500" height="350" controls="controls" autoPlay={false}/>
                                                             </div>
                                                         </div> 
                                                     }

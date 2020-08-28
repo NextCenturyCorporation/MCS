@@ -120,7 +120,8 @@ const typeDefs = `
   type Mutation {
     saveComment(test: String, block: String, submission: String, performer: String, createdDate: String, text: String, userName: String) : Comment
     saveCommentByTestAndScene(testType: String, sceneNum: String, createdDate: String, text: String, userName: String) : NewComment
-    updateSceneHistoryFlags(testType: String, sceneNum: String, flagRemove: Boolean, flagInterest: Boolean) : updateObject
+    updateSceneHistoryRemoveFlag(testType: String, sceneNum: String, flagRemove: Boolean) : updateObject
+    updateSceneHistoryInterestFlag(testType: String, sceneNum: String, flagInterest: Boolean) : updateObject
   }
 `;
 
@@ -343,10 +344,25 @@ const resolvers = {
         userName: args["userName"]
       });
     },
-    updateSceneHistoryFlags: async (obj, args, context, infow) => {
+    updateSceneHistoryRemoveFlag: async (obj, args, context, infow) => {
       return await ElasticUpdateClient('mcs_history', 'history', {
         'script': {
-          source: 'ctx._source["flags"]["remove"] = ' + args["flagRemove"] + '; ctx._source["flags"]["interest"] = ' + args["flagInterest"]
+          source: 'ctx._source["flags"]["remove"] = ' + args["flagRemove"]
+        },
+        "query": {
+          "bool": {
+            "must": [
+              {"match": {"test_type": args["testType"]}},
+              {"match": {"scene_num":  args["sceneNum"]}}
+            ]
+          }
+        }
+      });
+    },
+    updateSceneHistoryInterestFlag: async (obj, args, context, infow) => {
+      return await ElasticUpdateClient('mcs_history', 'history', {
+        'script': {
+          source: 'ctx._source["flags"]["interest"] = ' + args["flagInterest"]
         },
         "query": {
           "bool": {

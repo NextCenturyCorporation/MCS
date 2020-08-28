@@ -21,33 +21,54 @@ const mcs_history = gql`
         }
   }`;
 
-const flagMutation = gql`
-    mutation updateSceneHistoryFlags($testType: String!, $sceneNum: String!, $flagRemove: Boolean!, $flagInterest: Boolean!) {
-        updateSceneHistoryFlags(testType: $testType, sceneNum: $sceneNum, flagRemove: $flagRemove, flagInterest: $flagInterest) {
+const flagRemoveMutation = gql`
+    mutation updateSceneHistoryRemoveFlag($testType: String!, $sceneNum: String!, $flagRemove: Boolean!) {
+        updateSceneHistoryRemoveFlag(testType: $testType, sceneNum: $sceneNum, flagRemove: $flagRemove) {
+            total
+        }
+    }
+`;
+
+const flagInterestMutation = gql`
+    mutation updateSceneHistoryInterestFlag($testType: String!, $sceneNum: String!, $flagInterest: Boolean!) {
+        updateSceneHistoryInterestFlag(testType: $testType, sceneNum: $sceneNum, flagInterest: $flagInterest) {
             total
         }
     }
 `;
 
 const FlagCheckboxMutation = ({state, currentState}) => {
-    const [updateFlags] = useMutation(flagMutation);
+    const [updateRemoveFlags] = useMutation(flagRemoveMutation);
+    const [updateInterestFlags] = useMutation(flagInterestMutation);
 
     const updateRemoveFlag = (evt) => {
         state.flagRemove = state.flagRemove  ? false : true;
-        mutateFlagUpdate();
+        mutateRemoveFlagUpdate();
     }
 
     const updateInterestFlag = (evt) => {
         state.flagInterest = state.flagInterest ? false : true;
-        mutateFlagUpdate();
+        mutateInterestFlagUpdate();
     }
 
-    const mutateFlagUpdate = () => {
-        updateFlags({
+    const mutateRemoveFlagUpdate = () => {
+        updateRemoveFlags({
                 variables: {
                     testType: state.testType,
                     sceneNum: state.sceneNum,
-                    flagRemove: state.flagRemove,
+                    flagRemove: state.flagRemove
+            }, refetchQueries: { 
+                query: mcs_history, 
+                variables:{"testType": currentState.testType, "sceneNum": currentState.sceneNum}
+            }
+        });
+    }
+
+    const mutateInterestFlagUpdate = () => {
+        updateInterestFlags({
+                variables: {
+                    testType: state.testType,
+                    sceneNum: state.sceneNum,
                     flagInterest: state.flagInterest  
             }, refetchQueries: { 
                 query: mcs_history, 
