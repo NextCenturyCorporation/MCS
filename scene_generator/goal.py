@@ -458,7 +458,7 @@ class Goal(ABC):
 
         body['objects'] = [element for value in self._tag_to_objects.values()
                            for element in value]
-        body['goal'] = self.get_config(self._tag_to_objects)
+        body['goal'] = self._get_config(self._tag_to_objects)
 
         if find_path:
             body['answer']['actions'] = self._find_optimal_path(
