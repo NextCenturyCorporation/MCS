@@ -1,10 +1,10 @@
 import unittest
 import textwrap
 
-from machine_common_sense.mcs_goal import MCS_Goal
+from machine_common_sense.goal_metadata import GoalMetadata
 
 
-class Test_Default_MCS_Goal(unittest.TestCase):
+class Test_GoalMetadata(unittest.TestCase):
 
     str_output = '''    {
         "action_list": null,
@@ -20,7 +20,7 @@ class Test_Default_MCS_Goal(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.goal = MCS_Goal()
+        cls.goal = GoalMetadata()
 
     @classmethod
     def tearDownClass(cls):

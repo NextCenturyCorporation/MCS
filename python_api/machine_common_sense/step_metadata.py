@@ -1,12 +1,12 @@
-from .mcs_goal import MCS_Goal
-from .mcs_pose import MCS_Pose
-from .mcs_return_status import MCS_Return_Status
-from .mcs_util import MCS_Util
+from .goal_metadata import GoalMetadata
+from .pose import Pose
+from .return_status import ReturnStatus
+from .util import Util
 
 
-class MCS_Step_Output:
+class StepMetadata:
     """
-    Defines output from a single action step in the MCS 3D environment.
+    Defines output metadata from an action step in the MCS 3D environment.
 
     Attributes
     ----------
@@ -31,12 +31,12 @@ class MCS_Step_Output:
         This is normally a list with five images, where the physics simulation
         has unpaused and paused again for a little bit between each image,
         and the final image is the state of the environment before your
-        next action. The MCS_Step_Output object returned from a call to
+        next action. The StepMetadata object returned from a call to
         controller.start_scene will normally have a list with only one image,
         except for a scene with a scripted Preview Phase. A pixel value of
         255 translates to 25 (the far clipping plane) in the environment's
         global coordinate system.
-    goal : MCS_Goal or None
+    goal : GoalMetadata or None
         The goal for the whole scene. Will be None in "Exploration" scenes.
     head_tilt : float
         How far your head is tilted up/down in degrees (between 90 and -90).
@@ -46,11 +46,11 @@ class MCS_Step_Output:
         simulation were run. This is normally a list with five images, where
         the physics simulation has unpaused and paused again for a little
         bit between each image, and the final image is the state of the
-        environment before your next action. The MCS_Step_Output object
+        environment before your next action. The StepMetadata object
         returned from a call to controller.start_scene will normally have a
         listwith only one image, except for a scene with a scripted Preview
         Phase.
-    object_list : list of MCS_Object objects
+    object_list : list of ObjectMetadata objects
         The list of metadata for all the visible interactive objects in the
         scene. For metadata on structural objects like walls, please see
         structural_object_list
@@ -60,11 +60,11 @@ class MCS_Step_Output:
         normally a list with five images, where the physics simulation
         has unpaused and paused again for a little bit between each image,
         and the final image is the state of the environment before your next
-        action. The MCS_Step_Output object returned from a call to
+        action. The StepMetadata object returned from a call to
         controller.start_scene will normally have a list with only one image,
         except for a scene with a scripted Preview Phase. The color of each
         object in the mask corresponds to the "color" property in its
-        MCS_Object object.
+        ObjectMetadata object.
     pose : string
         Your current pose. Either "STANDING", "CRAWLING", or "LYING".
     position : dict
@@ -78,7 +78,7 @@ class MCS_Step_Output:
     step_number : integer
         The step number of your last action, recorded since you started the
         current scene.
-    structural_object_list : list of MCS_Object objects
+    structural_object_list : list of ObjectMetadata objects
         The list of metadata for all the visible structural objects (like
         walls, occluders, and ramps) in the scene. Please note that occluders
         are composed of two separate objects, the "wall" and the "pole", with
@@ -100,9 +100,9 @@ class MCS_Step_Output:
         image_list=None,
         object_list=None,
         object_mask_list=None,
-        pose=MCS_Pose.UNDEFINED.value,
+        pose=Pose.UNDEFINED.value,
         position=None,
-        return_status=MCS_Return_Status.UNDEFINED.value,
+        return_status=ReturnStatus.UNDEFINED.value,
         reward=0,
         rotation=0.0,
         step_number=0,
@@ -121,7 +121,7 @@ class MCS_Step_Output:
         self.depth_mask_list = (
             [] if depth_mask_list is None else depth_mask_list
         )
-        self.goal = MCS_Goal() if goal is None else goal
+        self.goal = GoalMetadata() if goal is None else goal
         self.head_tilt = head_tilt
         self.image_list = [] if image_list is None else image_list
         self.object_list = [] if object_list is None else object_list
@@ -138,4 +138,4 @@ class MCS_Step_Output:
         ] if structural_object_list is None else structural_object_list
 
     def __str__(self):
-        return MCS_Util.class_to_str(self)
+        return Util.class_to_str(self)
