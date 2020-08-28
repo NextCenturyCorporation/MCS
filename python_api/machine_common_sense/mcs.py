@@ -26,11 +26,9 @@ class MCS:
     """
 
     @staticmethod
-    def create_controller(
-            unity_app_file_path,
-            debug=False,
-            enable_noise=False,
-            seed=None):
+    def create_controller(unity_app_file_path, debug=False, enable_noise=False,
+                          seed=None, size=None, depth_masks=False,
+                          object_masks=False):
         """
         Creates and returns a new MCS Controller object.
 
@@ -57,10 +55,11 @@ class MCS:
         # TODO: Toggle between AI2-THOR and other controllers like ThreeDWorld?
         try:
             with time_limit(TIME_LIMIT_SECONDS):
-                return MCS_Controller_AI2THOR(
-                    unity_app_file_path, debug, enable_noise, seed)
+                return MCS_Controller_AI2THOR(unity_app_file_path, debug,
+                                              enable_noise, seed, size,
+                                              depth_masks, object_masks)
         except Exception as Msg:
-            print("create_controller() is Hanging. ", Msg)
+            print("Exception in create_controller()", Msg)
             return None
 
     @staticmethod

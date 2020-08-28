@@ -73,7 +73,8 @@ Example importing the MCS library:
 from machine_common_sense import MCS
 
 # We will give you the Unity app file.
-controller = MCS.create_controller(unity_app_file_path)
+controller = MCS.create_controller(unity_app_file_path, depth_masks=True,
+                                   object_masks=True)
 
 # Either load the config data dict from an MCS config JSON file or create your own.
 # We will give you the training config JSON files and the format to make your own.
@@ -102,7 +103,8 @@ Example running multiple scenes sequentially:
 from machine_common_sense import MCS
 
 # Only create the MCS controller ONCE!
-controller = MCS.create_controller(unity_app_file_path)
+controller = MCS.create_controller(unity_app_file_path, depth_masks=True,
+                                   object_masks=True)
 
 for config_json_file_path in config_json_file_list:
     config_data = MCS.load_config_json_file(config_json_file_path)
@@ -119,10 +121,16 @@ for config_json_file_path in config_json_file_list:
 To start the Unity application and enter your actions and parameters from the terminal, you can run the `mcs_run_in_human_input_mode` script that was installed in the package with the MCS Python Library (the `mcs_unity_build_file` is the executable):
 
 ```
-mcs_run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file> <debug=False> <enable_noise=False>
+mcs_run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file>
 ```
 
-If you want the script to save the input and output data in a new folder named after the scene, add `true` to the end of the above console command.
+Run options:
+- `--debug`
+- `--depth_masks`
+- `--noise`
+- `--object_masks`
+- `--seed <python_random_seed>`
+- `--size <screen_width_450_or_more>`
 
 ## Run with Scene Timer
 

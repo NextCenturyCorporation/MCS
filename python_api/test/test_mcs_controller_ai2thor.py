@@ -339,8 +339,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             continuous=True,
             gridSize=MCS_Controller_AI2THOR.GRID_SIZE,
             logs=True,
-            renderDepthImage=True,
-            renderObjectImage=True,
+            renderDepthImage=False,
+            renderObjectImage=False,
             visibilityDistance=MAX_REACH_DISTANCE,
             horizon=0,
             moveMagnitude=MAX_MOVE_DISTANCE,
@@ -361,6 +361,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         pass
 
     def test_start_scene(self):
+        self.controller.render_mask_images()
         output = self.controller.start_scene({'name': 'test name'})
         self.assertIsNotNone(output)
         self.assertEqual(
@@ -402,6 +403,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                          len(MOCK_VARIABLES['metadata']['structuralObjects']))
 
     def test_start_scene_preview_phase(self):
+        self.controller.render_mask_images()
         last_preview_phase_step = 5
         output = self.controller.start_scene({'name': 'test name', 'goal': {
             'last_preview_phase_step': last_preview_phase_step}
@@ -434,6 +436,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
                          len(MOCK_VARIABLES['metadata']['structuralObjects']))
 
     def test_step(self):
+        self.controller.render_mask_images()
         output = self.controller.step('MoveAhead')
         self.assertIsNotNone(output)
         self.assertEqual(
@@ -1578,6 +1581,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(actual, MCS_Return_Status.UNDEFINED.name)
 
     def test_save_images(self):
+        self.controller.render_mask_images()
         image_data = numpy.array([[0]], dtype=numpy.uint8)
         depth_mask_data = numpy.array([[128]], dtype=numpy.uint8)
         object_mask_data = numpy.array([[192]], dtype=numpy.uint8)
@@ -1607,6 +1611,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data)
 
     def test_save_images_with_multiple_images(self):
+        self.controller.render_mask_images()
         image_data_1 = numpy.array([[64]], dtype=numpy.uint8)
         depth_mask_data_1 = numpy.array([[128]], dtype=numpy.uint8)
         object_mask_data_1 = numpy.array([[192]], dtype=numpy.uint8)
@@ -1647,6 +1652,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
         self.assertEqual(numpy.array(object_mask_list[1]), object_mask_data_2)
 
     def test_wrap_output(self):
+        self.controller.render_mask_images()
         (
             mock_scene_event_data,
             image_data,
@@ -1754,6 +1760,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             object_mask_data)
 
     def test_wrap_output_with_config_metadata_full(self):
+        self.controller.render_mask_images()
         self.controller.set_config({'metadata': 'full'})
         (
             mock_scene_event_data,
@@ -1797,6 +1804,7 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             object_mask_data)
 
     def test_wrap_output_with_config_metadata_no_navigation(self):
+        self.controller.render_mask_images()
         self.controller.set_config({'metadata': 'no_navigation'})
         (
             mock_scene_event_data,
@@ -1918,8 +1926,8 @@ class Test_MCS_Controller_AI2THOR(unittest.TestCase):
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
-            "renderDepthImage": True,
-            "renderObjectImage": True,
+            "renderDepthImage": False,
+            "renderObjectImage": False,
             "stringProperty": "test_property",
             "visibilityDistance": 1.0
         }

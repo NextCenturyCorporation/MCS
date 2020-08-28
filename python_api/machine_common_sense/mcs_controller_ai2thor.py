@@ -29,6 +29,7 @@ from .mcs_action import MCS_Action
 from .mcs_controller import MCS_Controller
 from .mcs_goal import MCS_Goal
 from .mcs_object import MCS_Object
+from .mcs_pose import MCS_Pose
 from .mcs_return_status import MCS_Return_Status
 from .mcs_reward import MCS_Reward
 from .mcs_scene_history import MCS_Scene_History
@@ -75,8 +76,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
 
     # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built
     # on this assumption.
-    SCREEN_HEIGHT = 400
-    SCREEN_WIDTH = 600
+    SCREEN_WIDTH_DEFAULT = 600
+    SCREEN_WIDTH_MIN = 450
 
     # AI2-THOR creates a square grid across the scene that is
     # uses for "snap-to-grid" movement. (This value may not
@@ -151,8 +152,11 @@ class MCS_Controller_AI2THOR(MCS_Controller):
     CONFIG_TEAM = 'team'
 
     def __init__(self, unity_app_file_path, debug=False,
-                 enable_noise=False, seed=None):
+                 enable_noise=False, seed=None, size=None,
+                 depth_masks=False, object_masks=False):
         super().__init__()
+
+        self._update_screen_size(size)
 
         self._controller = ai2thor.controller.Controller(
             quality='Medium',
@@ -160,8 +164,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             # The headless flag does not work for me
             headless=False,
             local_executable_path=unity_app_file_path,
-            width=self.SCREEN_WIDTH,
-            height=self.SCREEN_HEIGHT,
+            width=self.__screen_width,
+            height=self.__screen_height,
             # Set the name of our Scene in our Unity app
             scene='MCS',
             logs=True,
@@ -172,9 +176,30 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             }
         )
 
-        self.on_init(debug, enable_noise, seed)
+        self._on_init(debug, enable_noise, seed, depth_masks,
+                      object_masks)
 
-    def on_init(self, debug=False, enable_noise=False, seed=None):
+    def _update_screen_size(self, size=None):
+        self.__screen_width = self.SCREEN_WIDTH_DEFAULT
+        self.__screen_height = self.SCREEN_WIDTH_DEFAULT / 3 * 2
+        if size and size >= self.SCREEN_WIDTH_MIN:
+            self.__screen_width = size
+            self.__screen_height = size / 3 * 2
+
+    def _update_internal_config(self, enable_noise=None, seed=None,
+                                depth_masks=None, object_masks=None):
+
+        if enable_noise is not None:
+            self.__enable_noise = enable_noise
+        if seed is not None:
+            self.__seed = seed
+        if depth_masks is not None:
+            self.__depth_masks = depth_masks
+        if object_masks is not None:
+            self.__object_masks = object_masks
+
+    def _on_init(self, debug=False, enable_noise=False, seed=None,
+                 depth_masks=False, object_masks=False):
 
         self.__debug_to_file = True if (
             debug is True or debug == 'file') else False
@@ -182,6 +207,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             debug is True or debug == 'terminal') else False
 
         self.__enable_noise = enable_noise
+        self.__depth_masks = depth_masks
+        self.__object_masks = object_masks
         self.__seed = seed
 
         if self.__seed:
@@ -843,8 +870,17 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         )
 
     def retrieve_pose(self, scene_event) -> str:
-        # Return Agents pose from Unity in step output object
-        return scene_event.metadata['pose']
+        pose = MCS_Pose.UNDEFINED.name
+
+        try:
+            pose = MCS_Pose[scene_event.metadata['pose']].name
+        except KeyError:
+            print(
+                "Pose " +
+                scene_event.metadata['pose'] +
+                " is not currently supported.")
+        finally:
+            return pose
 
     def retrieve_position(self, scene_event) -> dict:
         return scene_event.metadata['agent']['position']
@@ -910,12 +946,15 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             scene_image = Image.fromarray(event.frame)
             image_list.append(scene_image)
 
-            depth_mask = Image.fromarray(event.depth_frame)
-            depth_mask = depth_mask.convert('L')
-            depth_mask_list.append(depth_mask)
+            if self.__depth_masks:
+                depth_mask = Image.fromarray(event.depth_frame)
+                depth_mask = depth_mask.convert('L')
+                depth_mask_list.append(depth_mask)
 
-            object_mask = Image.fromarray(event.instance_segmentation_frame)
-            object_mask_list.append(object_mask)
+            if self.__object_masks:
+                object_mask = Image.fromarray(
+                    event.instance_segmentation_frame)
+                object_mask_list.append(object_mask)
 
             if self.__debug_to_file and self.__output_folder is not None:
                 step_plus_substep_index = 0 if self.__step_number == 0 else (
@@ -923,10 +962,12 @@ class MCS_Controller_AI2THOR(MCS_Controller):
                 suffix = '_' + str(step_plus_substep_index) + '.png'
                 scene_image.save(fp=self.__output_folder +
                                  'frame_image' + suffix)
-                depth_mask.save(fp=self.__output_folder +
-                                'depth_mask' + suffix)
-                object_mask.save(fp=self.__output_folder +
-                                 'object_mask' + suffix)
+                if self.__depth_masks:
+                    depth_mask.save(fp=self.__output_folder +
+                                    'depth_mask' + suffix)
+                if self.__object_masks:
+                    object_mask.save(fp=self.__output_folder +
+                                     'object_mask' + suffix)
 
             if self.__s3_client:
                 in_memory_file = io.BytesIO()
@@ -974,7 +1015,7 @@ class MCS_Controller_AI2THOR(MCS_Controller):
         step_output = self.restrict_step_output_metadata(MCS_Step_Output(
             action_list=self.retrieve_action_list(
                 self._goal, self.__step_number),
-            camera_aspect_ratio=(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            camera_aspect_ratio=(self.__screen_width, self.__screen_height),
             camera_clipping_planes=(
                 scene_event.metadata.get('clippingPlaneNear', 0.0),
                 scene_event.metadata.get('clippingPlaneFar', 0.0),
@@ -1021,8 +1062,8 @@ class MCS_Controller_AI2THOR(MCS_Controller):
             continuous=True,
             gridSize=self.GRID_SIZE,
             logs=True,
-            renderDepthImage=True,
-            renderObjectImage=True,
+            renderDepthImage=self.__depth_masks,
+            renderObjectImage=self.__object_masks,
             # Yes, in AI2-THOR, the player's reach appears to be
             # governed by the "visibilityDistance", confusingly...
             visibilityDistance=MAX_REACH_DISTANCE,

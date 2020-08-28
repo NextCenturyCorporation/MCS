@@ -36,7 +36,6 @@ class Mock_AI2THOR_Controller():
     def __init__(self):
         self.__last_step_data = None
         self.__last_metadata = MOCK_VARIABLES['metadata'].copy()
-        pass
 
     def step(self, data):
         self.__last_step_data = data
@@ -72,10 +71,14 @@ class Mock_MCS_Controller_AI2THOR(MCS_Controller_AI2THOR):
     def __init__(self):
         # Do NOT call superclass __init__ function
         self._controller = Mock_AI2THOR_Controller()
-        self.on_init()
+        self._update_screen_size()
+        self._on_init()
 
     def get_last_step_data(self):
         return self._controller.get_last_step_data()
+
+    def render_mask_images(self):
+        self._update_internal_config(depth_masks=True, object_masks=True)
 
     def set_config(self, config):
         self._config = config

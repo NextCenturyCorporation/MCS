@@ -212,42 +212,39 @@ def main(argv):
         help='MCS JSON scene configuration file to load')
 
     parser.add_argument(
-        '-d',
         '--debug',
-        default=True,
-        help='True or False on whether to debug files [default=True]')
+        default=False,
+        action='store_true',
+        help='Generate MCS debug files [default=False]')
     parser.add_argument(
-        '-n',
         '--noise',
         default=False,
-        help='True or False on whether to enable noise in MCS [default=True]')
+        action='store_true',
+        help='Add random noise to action paramenters ' +
+        '(currently only movement/rotation) [default=False]')
     parser.add_argument(
-        '-s',
         '--seed',
         type=int,
         default=None,
-        help='Seed(integer) for the random number generator [default=None]')
+        help='Python random seed [default=None]')
+    parser.add_argument(
+        '--size',
+        type=int,
+        default=None,
+        help='Screen width of 450+ (height = width * 2/3) [default=600]')
+    parser.add_argument(
+        '--depth_masks',
+        default=False,
+        action='store_true',
+        help='Render and return depth masks of each scene ' +
+        '(will slightly decrease performance) [default=False]')
+    parser.add_argument(
+        '--object_masks',
+        default=False,
+        action='store_true',
+        help='Render and return object (instance segmentation) masks of ' +
+        'each scene (will significantly decrease performance) [default=False]')
     args = parser.parse_args(argv[1:])
-
-    if not isinstance(args.debug, bool):
-        if args.debug.lower() != 'true' and args.debug.lower() != 'false':
-            print('Debug files must be <True> or <False>')
-            exit()
-        else:
-            if args.debug.lower() == 'false':
-                args.debug = False
-            else:
-                args.debug = True
-
-    if not isinstance(args.noise, bool):
-        if args.noise.lower() != 'true' and args.noise.lower() != 'false':
-            print('Enabling Noise must be <True> or <False>')
-            exit()
-        else:
-            if args.noise.lower() == 'true':
-                args.noise = True
-            else:
-                args.noise = False
 
     config_data, status = MCS.load_config_json_file(args.mcs_config_json_file)
 
@@ -255,15 +252,11 @@ def main(argv):
         print(status)
         exit()
 
-    debug = args.debug
-    enable_noise = args.noise
-    seed_val = args.seed
-
-    controller = MCS.create_controller(
-        sys.argv[1],
-        debug=debug,
-        enable_noise=enable_noise,
-        seed=seed_val)
+    controller = MCS.create_controller(sys.argv[1], debug=args.debug,
+                                       enable_noise=args.noise, seed=args.seed,
+                                       size=args.size,
+                                       depth_masks=args.depth_masks,
+                                       object_masks=args.object_masks)
 
     config_file_path = sys.argv[2]
     config_file_name = config_file_path[config_file_path.rfind('/') + 1:]

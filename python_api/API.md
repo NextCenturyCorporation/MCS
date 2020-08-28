@@ -32,7 +32,7 @@ Defines utility functions for machine learning modules to create MCS
 controllers and handle config data files.
 
 
-#### static create_controller(unity_app_file_path, debug=False, enable_noise=False, seed=None)
+#### static create_controller(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_masks=False, object_masks=False)
 Creates and returns a new MCS Controller object.
 
 
@@ -91,7 +91,7 @@ Loads the given JSON config file and returns its data.
 ## MCS_Controller_AI2THOR
 
 
-### class machine_common_sense.mcs_controller_ai2thor.MCS_Controller_AI2THOR(unity_app_file_path, debug=False, enable_noise=False, seed=None)
+### class machine_common_sense.mcs_controller_ai2thor.MCS_Controller_AI2THOR(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_masks=False, object_masks=False)
 MCS Controller class implementation for the MCS wrapper of the AI2-THOR
 library.
 
