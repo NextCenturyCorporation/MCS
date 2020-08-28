@@ -1,4 +1,5 @@
 {
+    "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
     "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
@@ -8,6 +9,7 @@
             "z": 0
         },
         "rotation": {
+            "x": 0,
             "y": 0
         }
     },
@@ -60,7 +62,7 @@
         "shows": [{
             "stepBegin": 0,
             "position": {
-                "x": -1.75,
+                "x": -2,
                 "y": 0,
                 "z": -2.5
             },
@@ -254,7 +256,7 @@
             "stepBegin": 0,
             "position": {
                 "x": -0.5,
-                "y": 0.1,
+                "y": 0.01,
                 "z": 0
             },
             "scale": {
@@ -270,7 +272,7 @@
             "stepBegin": 0,
             "position": {
                 "x": 0.5,
-                "y": 0.15,
+                "y": 0.01,
                 "z": 0
             },
             "scale": {
@@ -1176,6 +1178,27 @@
                 "x": 2,
                 "y": 2,
                 "z": 2
+            }
+        }]
+    }, {
+        "id": "wardrobe",
+        "type": "wardrobe",
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 4.5,
+                "y": 0,
+                "z": 2.75
+            },
+            "rotation": {
+                "x": 0,
+                "y": 270,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
             }
         }]
     }]
