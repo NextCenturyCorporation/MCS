@@ -116,8 +116,8 @@ ffmpeg -r 3 -i frame_image_%d.png output.gif
 
 1. Install Python virtual environment: `pip3 install virtualenv` OR `sudo apt-get install python3-venv`
 2. Switch to the python_api folder: `cd <mcs>/python_api/machine_common_sense/`
-3. Create a virtual environment: `python3 -m venv sphinx_venv`
-4. Activate the virtual environment: `source sphinx_venv/bin/activate`
+3. Create a virtual environment: `python3 -m venv venv`
+4. Activate the virtual environment: `source venv/bin/activate`
 5. Update pip: `pip3 install --upgrade pip setuptools wheel`
 6. Install the MCS Python library: `cd ..; pip install -e .; cd python_api`
 7. Install other dependencies: `pip install -r machine_common_sense/requirements.txt`

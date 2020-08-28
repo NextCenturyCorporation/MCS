@@ -10,7 +10,7 @@ elif [ $status -eq 2 ]
 then
     exit 0
 fi
-source sphinx_venv/bin/activate
+source venv/bin/activate
 cd docs
 make markdown
 cp _build/markdown/index.md ../../API.md

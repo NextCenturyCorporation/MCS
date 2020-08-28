@@ -4,7 +4,7 @@ import sys
 
 CODE_PATH = '.'
 SPHINX_README = CODE_PATH + '/SPHINX_README.md'
-SPHINX_VENV_FOLDER = 'sphinx_venv'
+SPHINX_VENV_FOLDER = 'venv'
 SPHINX_VENV_PATH = CODE_PATH + '/' + SPHINX_VENV_FOLDER
 
 subprocess_1 = subprocess.Popen(['git', 'status', '--porcelain'],
