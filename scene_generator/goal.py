@@ -177,14 +177,14 @@ def generate_painting(
         # statements for paintings to NOT intersect sides of room
         doesnt_intersect_sides = (
             new_x -
-            new_x_size > geometry.ROOM_DIMENSIONS[0][0]) and (
+            new_x_size > geometry.ROOM_X_MIN) and (
             new_x +
-            new_x_size < geometry.ROOM_DIMENSIONS[0][1])
+            new_x_size < geometry.ROOM_X_MAX)
         doesnt_intersect_sides2 = (
             new_z -
-            new_x_size > geometry.ROOM_DIMENSIONS[1][0]) and (
+            new_x_size > geometry.ROOM_Z_MIN) and (
             new_z +
-            new_x_size < geometry.ROOM_DIMENSIONS[1][1])
+            new_x_size < geometry.ROOM_Z_MAX)
 
         if (new_z > -SAFE_DIST_FROM_ROOM_WALL and new_z <
             SAFE_DIST_FROM_ROOM_WALL) and \
@@ -208,7 +208,7 @@ def generate_painting(
                     x_list = sorted(
                         [
                             coord['x']
-                            for coord in wall['shows'][0]['bounding_box']
+                            for coord in wall['shows'][0]['boundingBox']
                         ]
                     )
                     left_x_boundary = x_list[0]
@@ -218,12 +218,12 @@ def generate_painting(
                     new_z = wall['shows'][0]['position']['z'] + \
                         random.choice([WALL_DEPTH - 0.03, -WALL_DEPTH + 0.03])
 
-                    bounding_rect['bounding_box'] = geometry.calc_obj_coords(
+                    bounding_rect['boundingBox'] = geometry.calc_obj_coords(
                         new_x, new_z, new_x_size, PAINTING_DEPTH, 0, 0,
                         rotation, position_y=new_y)
 
                     painting_x_list = sorted(
-                        [coord['x'] for coord in bounding_rect['bounding_box']]
+                        [coord['x'] for coord in bounding_rect['boundingBox']]
                     )
                     painting_left_x_boundary = painting_x_list[0]
                     painting_right_x_boundary = painting_x_list[3]
@@ -240,8 +240,8 @@ def generate_painting(
                         """
                         print("x left bound:", left_x_boundary, " |x right bound:", right_x_boundary)  # noqa: E501
                         print("painting x left:", painting_left_x_boundary, "|painting x right:", painting_right_x_boundary)  # noqa: E501
-                        print("wall rect",  wall['shows'][0]['bounding_box'])
-                        print("painting rect:", bounding_rect['bounding_box'])
+                        print("wall rect",  wall['shows'][0]['boundingBox'])
+                        print("painting rect:", bounding_rect['boundingBox'])
                         """
                         break
 
@@ -253,7 +253,7 @@ def generate_painting(
                     z_list = sorted(
                         [
                             coord['z']
-                            for coord in wall['shows'][0]['bounding_box']
+                            for coord in wall['shows'][0]['boundingBox']
                         ]
                     )
                     left_z_boundary = z_list[0]
@@ -264,12 +264,12 @@ def generate_painting(
                         [WALL_DEPTH - 0.03, -WALL_DEPTH + 0.03]
                     )
 
-                    bounding_rect['bounding_box'] = geometry.calc_obj_coords(
+                    bounding_rect['boundingBox'] = geometry.calc_obj_coords(
                         new_x, new_z, new_x_size, PAINTING_DEPTH, 0, 0,
                         rotation, position_y=new_y)
 
                     painting_z_list = sorted(
-                        [coord['z'] for coord in bounding_rect['bounding_box']]
+                        [coord['z'] for coord in bounding_rect['boundingBox']]
                     )
                     painting_left_z_boundary = painting_z_list[0]
                     painting_right_z_boundary = painting_z_list[3]
@@ -286,8 +286,8 @@ def generate_painting(
                         """
                         print("z left bound:", left_z_boundary, " |z right bound:", right_z_boundary)  # noqa: E501
                         print("painting z left:", painting_left_z_boundary, "|painting z right:", painting_right_z_boundary)  # noqa: E501
-                        print("wall rect",  wall['shows'][0]['bounding_box'])
-                        print("painting rect:", bounding_rect['bounding_box'])
+                        print("wall rect",  wall['shows'][0]['boundingBox'])
+                        print("painting rect:", bounding_rect['boundingBox'])
                         """
                         break
 
@@ -295,15 +295,15 @@ def generate_painting(
                     180) and not adj_to_generated_wall:
                 # Place near 1 of the 4 room walls
                 if new_z < 0:
-                    new_z = geometry.ROOM_DIMENSIONS[1][0] - 0.03
+                    new_z = geometry.ROOM_Z_MIN - 0.03
                 else:
-                    new_z = geometry.ROOM_DIMENSIONS[1][1] + 0.03
+                    new_z = geometry.ROOM_Z_MAX + 0.03
             elif (rotation == 90 or
                   rotation == 270) and not adj_to_generated_wall:
                 if new_x < 0:
-                    new_x = geometry.ROOM_DIMENSIONS[0][0] - 0.03
+                    new_x = geometry.ROOM_X_MIN - 0.03
                 else:
-                    new_x = geometry.ROOM_DIMENSIONS[0][1] + 0.03
+                    new_x = geometry.ROOM_X_MAX + 0.03
 
             rect = geometry.calc_obj_coords(
                 new_x,
@@ -344,7 +344,7 @@ def generate_painting(
                       'z': PAINTING_DEPTH},
             'rotation': {'x': 0, 'y': rotation, 'z': 0},
             'position': {'x': new_x, 'y': new_y, 'z': new_z},
-            'bounding_box': rect
+            'boundingBox': rect
         }
         shows = [shows_object]
         new_object['shows'] = shows
@@ -424,7 +424,7 @@ class Goal(ABC):
                 'position': {'x': x_positions[i],
                              'y': WALL_Y_POS,
                              'z': z_positions[i]},
-                'bounding_box': geometry.calc_obj_coords(
+                'boundingBox': geometry.calc_obj_coords(
                     x_positions[i],
                     z_positions[i],
                     x_deltas[i],
@@ -629,7 +629,7 @@ class Goal(ABC):
 
             if wall is not None:
                 walls.append(wall)
-                all_bounding_rects.append(wall['shows'][0]['bounding_box'])
+                all_bounding_rects.append(wall['shows'][0]['boundingBox'])
             else:
                 logging.warning('could not generate wall')
         return walls
@@ -659,7 +659,7 @@ class Goal(ABC):
 
             if painting is not None:
                 paintings.append(painting)
-                all_bounding_rects.append(painting['shows'][0]['bounding_box'])
+                all_bounding_rects.append(painting['shows'][0]['boundingBox'])
             else:
                 logging.warning('could not generate painting')
         return paintings
