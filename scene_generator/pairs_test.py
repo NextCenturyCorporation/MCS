@@ -28,7 +28,9 @@ BODY_TEMPLATE = {
             'y': 0,
             'z': 0
         }
-    }
+    },
+    'paintingMaterial': 'test_paint_material',
+    'paintingColors': ['test_paint_color']
 }
 
 

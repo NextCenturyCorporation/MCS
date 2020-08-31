@@ -7,7 +7,9 @@ from quartets import GravityQuartet, ShapeConstancyQuartet, \
 import util
 
 
-TEMPLATE = {'wallMaterial': 'dummy', 'wallColors': ['color']}
+TEMPLATE = {'wallMaterial': 'dummy', 'wallColors': ['color'],
+            'paintingMaterial': 'test_paint_material',
+            'paintingColors': ['test_paint_color']}
 
 
 def test_get_position_step():

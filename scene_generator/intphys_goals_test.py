@@ -28,7 +28,9 @@ BODY_TEMPLATE = {
     },
     'objects': [],
     'goal': {},
-    'answer': {}
+    'answer': {},
+    'paintingMaterial': 'test_paint_material',
+    'paintingColors': ['blue']
 }
 
 
@@ -279,6 +281,8 @@ def test_mcs_209():
     for obj in objs:
         assert obj['shows'][0]['stepBegin'] == obj['forces'][0]['stepBegin']
 
-    body = {'wallMaterial': 'dummy', 'wallColors': ['color']}
+    body = {'wallMaterial': 'dummy', 'wallColors': ['color'],
+            'paintingMaterial': 'test_paint_material',
+            'paintingColors': ['color']}
     goal._scenery_count = 0
     goal.update_body(body, False)

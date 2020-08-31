@@ -562,7 +562,9 @@ def test_RetrievalGoal_get_config_arg_invalid():
 def test_RetrievalGoal_update_body():
     goal = RetrievalGoal()
     body = goal.update_body(
-        {'wallMaterial': 'test_material', 'wallColors': []}, False)
+        {'wallMaterial': 'test_material', 'wallColors': [],
+         'paintingMaterial': 'test_paint_material',
+         'paintingColors': []}, False)
     assert body['performerStart'] == goal.get_performer_start()
     assert body['goal']['category'] == 'retrieval'
     assert body['goal']['metadata']['target']
@@ -610,7 +612,9 @@ def test_TraversalGoal_get_config_arg_count():
 def test_TraversalGoal_update_body():
     goal = TraversalGoal()
     body = goal.update_body(
-        {'wallMaterial': 'test_material', 'wallColors': []}, False)
+        {'wallMaterial': 'test_material', 'wallColors': [],
+         'paintingMaterial': 'test_paint_material',
+         'paintingColors': []}, False)
     assert body['performerStart'] == goal.get_performer_start()
     assert body['goal']['category'] == 'traversal'
     assert body['goal']['metadata']['target']
@@ -650,7 +654,9 @@ def test_TraversalGoal_get_config():
 def test_TransferralGoal_update_body():
     goal = TransferralGoal()
     body = goal.update_body(
-        {'wallMaterial': 'test_material', 'wallColors': []}, False)
+        {'wallMaterial': 'test_material', 'wallColors': [],
+         'paintingMaterial': 'test_paint_material',
+         'paintingColors': []}, False)
     assert body['performerStart'] == goal.get_performer_start()
     assert body['goal']['category'] == 'transferral'
     assert body['goal']['metadata']['target_1']
