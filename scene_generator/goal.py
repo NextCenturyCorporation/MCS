@@ -25,6 +25,7 @@ PAINTING_DEPTH = 0.05
 DIST_WALL_APART = 1
 SAFE_DIST_FROM_ROOM_WALL = 3.5
 SAFE_DIST_FROM_CENTER_OF_PAINTING_AND_GENERATED_WALL = 0.3
+PAINTING_POSITION_OFFSET = 0.03
 
 
 def generate_wall(
@@ -190,7 +191,8 @@ def generate_painting(
             SAFE_DIST_FROM_ROOM_WALL) and \
             (new_x > -SAFE_DIST_FROM_ROOM_WALL and new_x <
              SAFE_DIST_FROM_ROOM_WALL) and \
-            (new_y > 1 and new_y + painting_height + 0.03 <
+            (new_y > 1 and new_y + painting_height +
+             PAINTING_POSITION_OFFSET <
              SAFE_DIST_FROM_ROOM_WALL) and \
             (((rotation == 0 or rotation == 180) and doesnt_intersect_sides) or
              ((rotation == 90 or rotation == 270) and
@@ -216,7 +218,10 @@ def generate_painting(
 
                     # Test to see paintings on generated wall
                     new_z = wall['shows'][0]['position']['z'] + \
-                        random.choice([WALL_DEPTH - 0.03, -WALL_DEPTH + 0.03])
+                        random.choice([WALL_DEPTH -
+                                       PAINTING_POSITION_OFFSET, -
+                                       WALL_DEPTH +
+                                       PAINTING_POSITION_OFFSET])
 
                     bounding_rect['boundingBox'] = geometry.calc_obj_coords(
                         new_x, new_z, new_x_size, PAINTING_DEPTH, 0, 0,
@@ -261,7 +266,8 @@ def generate_painting(
 
                     # Test to see paintings on generated wall
                     new_x = wall['shows'][0]['position']['x'] + random.choice(
-                        [WALL_DEPTH - 0.03, -WALL_DEPTH + 0.03]
+                        [WALL_DEPTH - PAINTING_POSITION_OFFSET, -
+                            WALL_DEPTH + PAINTING_POSITION_OFFSET]
                     )
 
                     bounding_rect['boundingBox'] = geometry.calc_obj_coords(
@@ -295,15 +301,15 @@ def generate_painting(
                     180) and not adj_to_generated_wall:
                 # Place near 1 of the 4 room walls
                 if new_z < 0:
-                    new_z = geometry.ROOM_Z_MIN - 0.03
+                    new_z = geometry.ROOM_Z_MIN - PAINTING_POSITION_OFFSET
                 else:
-                    new_z = geometry.ROOM_Z_MAX + 0.03
+                    new_z = geometry.ROOM_Z_MAX + PAINTING_POSITION_OFFSET
             elif (rotation == 90 or
                   rotation == 270) and not adj_to_generated_wall:
                 if new_x < 0:
-                    new_x = geometry.ROOM_X_MIN - 0.03
+                    new_x = geometry.ROOM_X_MIN - PAINTING_POSITION_OFFSET
                 else:
-                    new_x = geometry.ROOM_X_MAX + 0.03
+                    new_x = geometry.ROOM_X_MAX + PAINTING_POSITION_OFFSET
 
             rect = geometry.calc_obj_coords(
                 new_x,
