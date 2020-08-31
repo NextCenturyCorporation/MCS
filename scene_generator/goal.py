@@ -580,7 +580,7 @@ class Goal(ABC):
         goal_config['category'] = goal_config.get('category', '')
         goal_config['type_list'] = tags.append_object_tags(
             goal_config.get('type_list', []), tag_to_objects)
-        goal_config['info_list'] = self.update_goal_info_list(
+        goal_config['info_list'] = self._update_goal_info_list(
             goal_config.get('info_list', []), tag_to_objects)
         goal_config['metadata'] = goal_config.get('metadata', {})
         return goal_config

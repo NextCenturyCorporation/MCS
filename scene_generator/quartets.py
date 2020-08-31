@@ -599,7 +599,7 @@ class ShapeConstancyQuartet(Quartet):
         # May have added and/or deleted an object, so regenerate
         # goal.info_list
         del scene['goal']['info_list']
-        scene['info_list'] = self._goal.update_goal_info_list(
+        scene['info_list'] = self._goal._update_goal_info_list(
             scene['goal'].get('info_list', []), self._goal._tag_to_objects
         )
         self._scenes[q - 1] = scene

@@ -144,34 +144,34 @@ def test_generate_wall_with_target_list():
 def test_Goal_update_goal_info_list():
     goal_object = RetrievalGoal()
 
-    info_list = goal_object.update_goal_info_list([], {})
+    info_list = goal_object._update_goal_info_list([], {})
     assert info_list == []
 
-    info_list = goal_object.update_goal_info_list([], {'target': []})
+    info_list = goal_object._update_goal_info_list([], {'target': []})
     assert info_list == []
 
-    info_list = goal_object.update_goal_info_list(
+    info_list = goal_object._update_goal_info_list(
         [], {'target': [{'info': []}]})
     assert info_list == []
 
-    info_list = goal_object.update_goal_info_list(
+    info_list = goal_object._update_goal_info_list(
         [], {'target': [{'info': ['a', 'b']}]})
     assert set(info_list) == set(['target a', 'target b'])
 
-    info_list = goal_object.update_goal_info_list(
+    info_list = goal_object._update_goal_info_list(
         ['target a'], {'target': [{'info': ['a', 'b']}]})
     assert set(info_list) == set(['target a', 'target b'])
 
-    info_list = goal_object.update_goal_info_list(
+    info_list = goal_object._update_goal_info_list(
         ['target a'], {'target': [{'info': ['b', 'c']}]})
     assert set(info_list) == set(['target a', 'target b', 'target c'])
 
-    info_list = goal_object.update_goal_info_list(
+    info_list = goal_object._update_goal_info_list(
         ['target a'], {'target': [{'info': ['a', 'b']}, {'info': ['b', 'c']}]}
     )
     assert set(info_list) == set(['target a', 'target b', 'target c'])
 
-    info_list = goal_object.update_goal_info_list(
+    info_list = goal_object._update_goal_info_list(
         ['target a', 'distractor b'],
         {
             'target': [{'info': ['a', 'b']}],
