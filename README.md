@@ -3,16 +3,6 @@
 This is code that may be useful for people on the Machine Common Sense
 program.
 
-## Homepage
-
-Home for machinecommonsense.com
-[Link to Homepage](homepage/README.md) 
-
-## MCS_Docker_Setup
-
-Contains code and instructions for setting up the evaluation tools
-[Link Evaluation Tool Setup](mcs_docker_setup/README.md) 
-
 ## MCS Python Library
 
 Contains the python api for interacting with our AI2Thor/Unity Testing Environment
