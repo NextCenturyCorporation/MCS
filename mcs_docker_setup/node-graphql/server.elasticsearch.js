@@ -19,8 +19,13 @@ function ElasticSearchClient(index, body) {
 }
 
 function ElasticSaveClient(index, type, body) {
-  // Update Elastic Search by query
+  // Update Elastic Search by insert
   return client.index({index: index, type: type, body: body})
+} 
+
+function ElasticUpdateClient(index, type, body) {
+  // Update Elastic Search by query
+  return client.updateByQuery({index: index, type: type, body: body})
 } 
 
 function ApiElasticSearchClient(req, res) {
@@ -36,5 +41,6 @@ function ApiElasticSearchClient(req, res) {
 module.exports = {
   ApiElasticSearchClient,
   ElasticSearchClient,
-  ElasticSaveClient
+  ElasticSaveClient,
+  ElasticUpdateClient
 };
