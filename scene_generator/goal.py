@@ -27,6 +27,9 @@ SAFE_DIST_FROM_ROOM_WALL = 3.5
 SAFE_DIST_FROM_CENTER_OF_PAINTING_AND_GENERATED_WALL = 0.3
 PAINTING_POSITION_OFFSET = 0.03
 
+WALL_CHOICES = [0, 1, 2, 3]
+WALL_WEIGHTS = [40, 30, 20, 10]
+
 
 def generate_wall(
     wall_material: str,
@@ -618,9 +621,7 @@ class Goal(ABC):
         performer_position: Dict[str, Any],
         bounding_rects: List[List[Dict[str, float]]]
     ) -> List[Dict[str, Any]]:
-        # random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0] #FIXME
-        # Uncomment random.choices(). Wanted more walls to test
-        wall_count = 3
+        wall_count = random.choices(WALL_CHOICES, weights=WALL_WEIGHTS, k=1)[0]
 
         walls = []
         # Add bounding rects to walls
@@ -648,10 +649,9 @@ class Goal(ABC):
         bounding_rects: List[List[Dict[str, float]]],
         wall_bounding_rects: List[List[Dict[str, float]]] = None,
     ) -> List[Dict[str, Any]]:
-        # random.choices(WALL_COUNTS, weights=WALL_PROBS, k=1)[0] # Using same
-        # probability as walls #FIXME Uncomment random.choices()
-        painting_count = 3
-
+        painting_count = random.choices(
+            WALL_CHOICES,
+            weights=WALL_WEIGHTS, k=1)[0]
         paintings = []
         all_bounding_rects = [bounding_rect.copy()
                               for bounding_rect in bounding_rects]
