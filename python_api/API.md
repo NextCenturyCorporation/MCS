@@ -432,6 +432,21 @@ Defines output metadata from an action step in the MCS 3D environment.
 The actions available in the MCS simulation environment.
 
 
+#### BLINK( = 'Blink')
+Black the screen for one action. Sometimes needed in the passive tasks.
+
+
+* **Returns**
+
+    
+    * *“SUCCESSFUL”* – Action successful.
+
+
+    * *”FAILED”* – Unexpected error; please report immediately to development team.
+
+
+
+
 #### CLOSE_OBJECT( = 'CloseObject')
 Close a nearby object.
 

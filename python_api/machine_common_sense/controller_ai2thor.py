@@ -958,7 +958,7 @@ class ControllerAI2THOR(Controller):
 
             if self.__debug_to_file and self.__output_folder is not None:
                 step_plus_substep_index = 0 if self.__step_number == 0 else (
-                    (self.__step_number - 1) * 5) + (index + 1)
+                    (self.__step_number - 1) * len(image_list)) + (index + 1)
                 suffix = '_' + str(step_plus_substep_index) + '.png'
                 scene_image.save(fp=self.__output_folder +
                                  'frame_image' + suffix)

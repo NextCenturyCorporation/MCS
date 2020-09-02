@@ -474,6 +474,18 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
+    BLINK = "Blink"
+    """
+    Black the screen for one action. Sometimes needed in the passive tasks.
+
+    Returns
+    -------
+    "SUCCESSFUL"
+        Action successful.
+    "FAILED"
+        Unexpected error; please report immediately to development team.
+    """
+
     # Pass should always be the last action in the enum.
     PASS = "Pass"
     """
@@ -491,6 +503,7 @@ class Action(Enum):
 # TODO MCS-352 Unite with Action class
 @unique
 class ActionDesc(Enum):
+    BLINK = "Black the screen for one action."
     CLOSE_OBJECT = "Close a nearby object. (objectId=string, amount=float " \
         "(default:1), objectDirectionX=float, objectDirectionY=float, " \
         "objectDirectionZ=float)"
@@ -537,6 +550,7 @@ class ActionDesc(Enum):
 # TODO MCS-352 Unite with Action class
 @unique
 class ActionKeys(Enum):
+    BLINK = "b"
     CLOSE_OBJECT = "1"
     CRAWL = "c"
     DROP_OBJECT = "2"
@@ -546,7 +560,7 @@ class ActionKeys(Enum):
     MOVE_LEFT = "a"
     MOVE_RIGHT = "d"
     OPEN_OBJECT = "3"
-    PASS = " "
+    PASS = "p"
     PICKUP_OBJECT = "4"
     PULL_OBJECT = "5"
     PUSH_OBJECT = "6"
