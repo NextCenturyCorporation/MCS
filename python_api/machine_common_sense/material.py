@@ -2,7 +2,7 @@ from enum import Enum, unique
 
 
 @unique
-class MCS_Material(Enum):
+class Material(Enum):
     """
     Possible materials of objects. An object can have one or more materials.
     """

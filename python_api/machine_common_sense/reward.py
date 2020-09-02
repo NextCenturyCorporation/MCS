@@ -2,15 +2,14 @@ from typing import List, Dict
 
 from shapely import geometry
 
-from .mcs_goal import MCS_Goal
-from .mcs_goal_category import MCS_Goal_Category
-from .mcs_controller_ai2thor import MAX_REACH_DISTANCE, MAX_MOVE_DISTANCE
+from .goal_metadata import GoalMetadata, GoalCategory
+from .controller_ai2thor import MAX_REACH_DISTANCE, MAX_MOVE_DISTANCE
 
 GOAL_ACHIEVED = 1
 GOAL_NOT_ACHIEVED = 0
 
 
-class MCS_Reward(object):
+class Reward(object):
     '''Reward utility class'''
     @staticmethod
     def __get_object_from_list(objects: List[Dict],
@@ -49,7 +48,7 @@ class MCS_Reward(object):
 
     @staticmethod
     def _calc_retrieval_reward(
-            goal: MCS_Goal,
+            goal: GoalMetadata,
             objects: Dict,
             agent: Dict) -> int:
         '''
@@ -58,7 +57,7 @@ class MCS_Reward(object):
         The goal object must be in the agent's hand.
 
         Args:
-            goal: MCS_Goal
+            goal: GoalMetadata
             objects: Dict
             agent: Dict
 
@@ -68,7 +67,7 @@ class MCS_Reward(object):
         '''
         reward = GOAL_NOT_ACHIEVED
         goal_id = goal.metadata['target'].get('id', None)
-        goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
+        goal_object = Reward.__get_object_from_list(objects, goal_id)
 
         if goal_object and goal_object.get('isPickedUp', False):
             reward = GOAL_ACHIEVED
@@ -76,7 +75,7 @@ class MCS_Reward(object):
 
     @staticmethod
     def _calc_traversal_reward(
-            goal: MCS_Goal,
+            goal: GoalMetadata,
             objects: Dict,
             agent: Dict) -> int:
         '''
@@ -86,7 +85,7 @@ class MCS_Reward(object):
         considered near.
 
         Args:
-            goal: MCS_Goal
+            goal: GoalMetadata
             objects: Dict
             agent: Dict
 
@@ -96,13 +95,13 @@ class MCS_Reward(object):
         '''
         reward = GOAL_NOT_ACHIEVED
         goal_id = goal.metadata['target'].get('id', None)
-        goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
+        goal_object = Reward.__get_object_from_list(objects, goal_id)
 
         agent_pos = agent['position']
         agent_xz = geometry.Point(agent_pos['x'], agent_pos['z'])
 
         if goal_object is not None:
-            goal_polygon = MCS_Reward._convert_object_to_planar_polygon(
+            goal_polygon = Reward._convert_object_to_planar_polygon(
                 goal_object)
             polygonal_distance = agent_xz.distance(goal_polygon)
             reward = int(polygonal_distance <= MAX_REACH_DISTANCE)
@@ -111,7 +110,7 @@ class MCS_Reward(object):
 
     @staticmethod
     def _calc_transferral_reward(
-            goal: MCS_Goal,
+            goal: GoalMetadata,
             objects: Dict,
             agent: Dict) -> int:
         '''
@@ -121,7 +120,7 @@ class MCS_Reward(object):
         depends on the relationship action verb.
 
         Args:
-            goal: MCS_Goal
+            goal: GoalMetadata
             objects: Dict
             agent: Dict
 
@@ -144,8 +143,8 @@ class MCS_Reward(object):
         action = action.lower()
 
         # objects = scene_metadata['objects']
-        action_object = MCS_Reward.__get_object_from_list(objects, action_id)
-        goal_object = MCS_Reward.__get_object_from_list(objects, goal_id)
+        action_object = Reward.__get_object_from_list(objects, action_id)
+        goal_object = Reward.__get_object_from_list(objects, goal_id)
 
         if goal_object is None or goal_object.get('isPickedUp', False):
             return GOAL_NOT_ACHIEVED
@@ -153,9 +152,9 @@ class MCS_Reward(object):
         if action_object is None or action_object.get('isPickedUp', False):
             return GOAL_NOT_ACHIEVED
 
-        goal_polygon = MCS_Reward._convert_object_to_planar_polygon(
+        goal_polygon = Reward._convert_object_to_planar_polygon(
             goal_object)
-        action_polygon = MCS_Reward._convert_object_to_planar_polygon(
+        action_polygon = Reward._convert_object_to_planar_polygon(
             action_object)
 
         # actions are next_to or on_top_of (ie; action obj next to goal obj)
@@ -175,19 +174,22 @@ class MCS_Reward(object):
 
     @staticmethod
     def _calculate_default_reward(
-            goal: MCS_Goal,
+            goal: GoalMetadata,
             objects: Dict,
             agent: Dict) -> int:
         '''Returns the default reward of 0; not achieved.'''
         return GOAL_NOT_ACHIEVED
 
     @staticmethod
-    def calculate_reward(goal: MCS_Goal, objects: Dict, agent: Dict) -> int:
+    def calculate_reward(
+            goal: GoalMetadata,
+            objects: Dict,
+            agent: Dict) -> int:
         '''
         Determine if the agent achieved the objective/task/goal.
 
         Args:
-            goal: MCS_Goal
+            goal: GoalMetadata
             objects: Dict
             agent: Dict
 
@@ -201,11 +203,11 @@ class MCS_Reward(object):
             category = goal.metadata.get('category', None)
 
         switch = {
-            MCS_Goal_Category.RETRIEVAL.value: MCS_Reward._calc_retrieval_reward,  # noqa: E501
-            MCS_Goal_Category.TRANSFERRAL.value: MCS_Reward._calc_transferral_reward,  # noqa: E501
-            MCS_Goal_Category.TRAVERSAL.value: MCS_Reward._calc_traversal_reward,  # noqa: E501
+            GoalCategory.RETRIEVAL.value: Reward._calc_retrieval_reward,  # noqa: E501
+            GoalCategory.TRANSFERRAL.value: Reward._calc_transferral_reward,  # noqa: E501
+            GoalCategory.TRAVERSAL.value: Reward._calc_traversal_reward,  # noqa: E501
         }
 
         return switch.get(category,
-                          MCS_Reward._calculate_default_reward)(goal,
-                                                                objects, agent)
+                          Reward._calculate_default_reward)(goal,
+                                                            objects, agent)

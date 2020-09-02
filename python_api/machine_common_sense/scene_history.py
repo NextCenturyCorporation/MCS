@@ -1,7 +1,7 @@
-from .mcs_util import MCS_Util
+from .util import Util
 
 
-class MCS_Scene_History(object):
+class SceneHistory(object):
     def __init__(
         self,
         step=-1,
@@ -17,4 +17,4 @@ class MCS_Scene_History(object):
         self.output = output
 
     def __str__(self):
-        return MCS_Util.class_to_str(self)
+        return Util.class_to_str(self)

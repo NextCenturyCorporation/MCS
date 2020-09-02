@@ -2,7 +2,7 @@ from enum import Enum, unique
 
 
 @unique
-class MCS_Return_Status(Enum):
+class ReturnStatus(Enum):
     HAND_IS_FULL = "HAND_IS_FULL"
     IS_CLOSED_COMPLETELY = "IS_CLOSED_COMPLETELY"
     IS_OPENED_COMPLETELY = "IS_OPENED_COMPLETELY"

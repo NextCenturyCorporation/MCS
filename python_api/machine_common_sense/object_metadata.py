@@ -1,9 +1,9 @@
-from .mcs_util import MCS_Util
+from .util import Util
 
 
-class MCS_Object(object):
+class ObjectMetadata(object):
     """
-    Defines output from an object in the MCS 3D environment.
+    Defines metadata for an object in the MCS 3D environment.
 
     Attributes
     ----------
@@ -11,7 +11,7 @@ class MCS_Object(object):
         The unique ID of this object, used with some actions.
     color : dict
         The "r", "g", and "b" pixel values of this object in images from the
-        MCS_Step_Output's "object_mask_list".
+        StepMetadata's "object_mask_list".
     dimensions : dict
         The dimensions of this object in the environment's 3D global
         coordinate system as a list of 8 points (dicts with "x", "y", and "z").
@@ -88,4 +88,4 @@ class MCS_Object(object):
         self.visible = visible
 
     def __str__(self):
-        return MCS_Util.class_to_str(self)
+        return Util.class_to_str(self)

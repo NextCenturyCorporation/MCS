@@ -4,16 +4,16 @@
 * [MCS](#MCS)
 
 
-* [MCS_Controller_AI2THOR](#MCS_Controller_AI2THOR)
+* [Controller](#Controller)
 
 
-* [MCS_Goal](#MCS_Goal)
+* [GoalMetadata](#GoalMetadata)
 
 
-* [MCS_Object](#MCS_Object)
+* [ObjectMetadata](#ObjectMetadata)
 
 
-* [MCS_Step_Output](#MCS_Step_Output)
+* [StepMetadata](#StepMetadata)
 
 
 * [Actions](#Actions)
@@ -64,7 +64,7 @@ Creates and returns a new MCS Controller object.
 
 * **Return type**
 
-    MCS_Controller
+    Controller
 
 
 
@@ -88,31 +88,12 @@ Loads the given JSON config file and returns its data.
 
 
 
-## MCS_Controller_AI2THOR
+## Controller
 
 
-### class machine_common_sense.mcs_controller_ai2thor.MCS_Controller_AI2THOR(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_masks=False, object_masks=False)
-MCS Controller class implementation for the MCS wrapper of the AI2-THOR
-library.
-
-[https://ai2thor.allenai.org/ithor/documentation/](https://ai2thor.allenai.org/ithor/documentation/)
-
-
-* **Parameters**
-
-    
-    * **debug** (*boolean**, **optional*) – Whether to save MCS output debug files in this folder.
-    (default False)
-
-
-    * **enable_noise** (*boolean**, **optional*) – Whether to add random noise to the numerical amounts in movement
-    and object interaction action parameters.
-    (default False)
-
-
-    * **seed** (*int**, **optional*) – A seed for the Python random number generator.
-    (default None)
-
+### class machine_common_sense.controller.Controller()
+Starts and ends scenes, runs actions on each step, and returns scene
+output data.
 
 
 #### end_scene(choice, confidence=1.0)
@@ -130,6 +111,23 @@ Ends the current scene.
     * **confidence** (*float**, **optional*) – The choice confidence between 0 and 1 required for ending scenes
     with violation-of-expectation or classification goals.
     Is not required for other goals. (default None)
+
+
+
+#### generate_noise()
+Returns a random value between -0.05 and 0.05 used to add noise to all
+numerical action parameters enable_noise is True.
+
+
+* **Returns**
+
+    A value between -0.05 and 0.05 (using random.uniform).
+
+
+
+* **Return type**
+
+    float
 
 
 
@@ -153,7 +151,7 @@ returns the scene output data object.
 
 * **Return type**
 
-    MCS_Step_Output
+    StepMetadata
 
 
 
@@ -182,14 +180,14 @@ physics simulation for a few frames.
 
 * **Return type**
 
-    MCS_Step_Output
+    StepMetadata
 
 
-## MCS_Goal
+## GoalMetadata
 
 
-### class machine_common_sense.mcs_goal.MCS_Goal(action_list=None, category='', description='', domain_list=None, info_list=None, last_preview_phase_step=0, last_step=None, type_list=None, metadata=None)
-Defines an MCS goal.
+### class machine_common_sense.goal_metadata.GoalMetadata(action_list=None, category='', description='', domain_list=None, info_list=None, last_preview_phase_step=0, last_step=None, type_list=None, metadata=None)
+Defines metadata for a goal in the MCS 3D environment.
 
 
 * **Variables**
@@ -257,11 +255,11 @@ Defines an MCS goal.
     * **metadata** (*dict*) – The metadata specific to this goal. See [Goals](#Goals).
 
 
-## MCS_Object
+## ObjectMetadata
 
 
-### class machine_common_sense.mcs_object.MCS_Object(uuid='', color=None, dimensions=None, direction=None, distance=- 1.0, distance_in_steps=- 1.0, distance_in_world=- 1.0, held=False, mass=0.0, material_list=None, position=None, rotation=None, shape='', texture_color_list=None, visible=False)
-Defines output from an object in the MCS 3D environment.
+### class machine_common_sense.object_metadata.ObjectMetadata(uuid='', color=None, dimensions=None, direction=None, distance=- 1.0, distance_in_steps=- 1.0, distance_in_world=- 1.0, held=False, mass=0.0, material_list=None, position=None, rotation=None, shape='', texture_color_list=None, visible=False)
+Defines metadata for an object in the MCS 3D environment.
 
 
 * **Variables**
@@ -271,7 +269,7 @@ Defines output from an object in the MCS 3D environment.
 
 
     * **color** (*dict*) – The “r”, “g”, and “b” pixel values of this object in images from the
-    MCS_Step_Output’s “object_mask_list”.
+    StepMetadata’s “object_mask_list”.
 
 
     * **dimensions** (*dict*) – The dimensions of this object in the environment’s 3D global
@@ -324,11 +322,11 @@ Defines output from an object in the MCS 3D environment.
     * **visible** (*boolean*) – Whether you can see this object in your camera viewport.
 
 
-## MCS_Step_Output
+## StepMetadata
 
 
-### class machine_common_sense.mcs_step_output.MCS_Step_Output(action_list=None, camera_aspect_ratio=None, camera_clipping_planes=None, camera_field_of_view=0.0, camera_height=0.0, depth_mask_list=None, goal=None, head_tilt=0.0, image_list=None, object_list=None, object_mask_list=None, pose='UNDEFINED', position=None, return_status='UNDEFINED', reward=0, rotation=0.0, step_number=0, structural_object_list=None)
-Defines output from a single action step in the MCS 3D environment.
+### class machine_common_sense.step_metadata.StepMetadata(action_list=None, camera_aspect_ratio=None, camera_clipping_planes=None, camera_field_of_view=0.0, camera_height=0.0, depth_mask_list=None, goal=None, head_tilt=0.0, image_list=None, object_list=None, object_mask_list=None, pose='UNDEFINED', position=None, return_status='UNDEFINED', reward=0, rotation=0.0, step_number=0, structural_object_list=None)
+Defines output metadata from an action step in the MCS 3D environment.
 
 
 * **Variables**
@@ -359,14 +357,14 @@ Defines output from a single action step in the MCS 3D environment.
     This is normally a list with five images, where the physics simulation
     has unpaused and paused again for a little bit between each image,
     and the final image is the state of the environment before your
-    next action. The MCS_Step_Output object returned from a call to
+    next action. The StepMetadata object returned from a call to
     controller.start_scene will normally have a list with only one image,
     except for a scene with a scripted Preview Phase. A pixel value of
     255 translates to 25 (the far clipping plane) in the environment’s
     global coordinate system.
 
 
-    * **goal** (*MCS_Goal** or **None*) – The goal for the whole scene. Will be None in “Exploration” scenes.
+    * **goal** (*GoalMetadata** or **None*) – The goal for the whole scene. Will be None in “Exploration” scenes.
 
 
     * **head_tilt** (*float*) – How far your head is tilted up/down in degrees (between 90 and -90).
@@ -377,13 +375,13 @@ Defines output from a single action step in the MCS 3D environment.
     simulation were run. This is normally a list with five images, where
     the physics simulation has unpaused and paused again for a little
     bit between each image, and the final image is the state of the
-    environment before your next action. The MCS_Step_Output object
+    environment before your next action. The StepMetadata object
     returned from a call to controller.start_scene will normally have a
     listwith only one image, except for a scene with a scripted Preview
     Phase.
 
 
-    * **object_list** (*list of MCS_Object objects*) – The list of metadata for all the visible interactive objects in the
+    * **object_list** (*list of ObjectMetadata objects*) – The list of metadata for all the visible interactive objects in the
     scene. For metadata on structural objects like walls, please see
     structural_object_list
 
@@ -393,11 +391,11 @@ Defines output from a single action step in the MCS 3D environment.
     normally a list with five images, where the physics simulation
     has unpaused and paused again for a little bit between each image,
     and the final image is the state of the environment before your next
-    action. The MCS_Step_Output object returned from a call to
+    action. The StepMetadata object returned from a call to
     controller.start_scene will normally have a list with only one image,
     except for a scene with a scripted Preview Phase. The color of each
     object in the mask corresponds to the “color” property in its
-    MCS_Object object.
+    ObjectMetadata object.
 
 
     * **pose** (*string*) – Your current pose. Either “STANDING”, “CRAWLING”, or “LYING”.
@@ -419,7 +417,7 @@ Defines output from a single action step in the MCS 3D environment.
     current scene.
 
 
-    * **structural_object_list** (*list of MCS_Object objects*) – The list of metadata for all the visible structural objects (like
+    * **structural_object_list** (*list of ObjectMetadata objects*) – The list of metadata for all the visible structural objects (like
     walls, occluders, and ramps) in the scene. Please note that occluders
     are composed of two separate objects, the “wall” and the “pole”, with
     corresponding object IDs (occluder_wall_<uuid> and
@@ -430,7 +428,7 @@ Defines output from a single action step in the MCS 3D environment.
 ## Actions
 
 
-### class machine_common_sense.mcs_action.MCS_Action(value)
+### class machine_common_sense.action.Action(value)
 The actions available in the MCS simulation environment.
 
 
@@ -1055,7 +1053,7 @@ Throw an object you are holding.
 ## Goals
 
 
-### class machine_common_sense.mcs_goal_category.MCS_Goal_Category(value)
+### class machine_common_sense.goal_metadata.GoalCategory(value)
 Each goal will have a “category” string and a “metadata” dict with one or
 more properties depending on the “category”.
 
@@ -1200,7 +1198,7 @@ obstacles).
 ## Materials
 
 
-### class machine_common_sense.mcs_material.MCS_Material(value)
+### class machine_common_sense.material.Material(value)
 Possible materials of objects. An object can have one or more materials.
 
 

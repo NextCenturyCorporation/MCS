@@ -1,9 +1,9 @@
 import ai2thor.server
 import numpy
 
-from machine_common_sense.mcs_controller_ai2thor import MCS_Controller_AI2THOR
-from machine_common_sense.mcs_pose import MCS_Pose
-from machine_common_sense.mcs_action import MCS_Action
+from machine_common_sense.controller_ai2thor import ControllerAI2THOR
+from machine_common_sense.pose import Pose
+from machine_common_sense.action import Action
 
 MOCK_VARIABLES = {
     'event_count': 5,
@@ -22,7 +22,7 @@ MOCK_VARIABLES = {
                 'y': 0.0
             }
         },
-        'pose': MCS_Pose.STANDING.name,
+        'pose': Pose.STANDING.name,
         'lastActionStatus': 'SUCCESSFUL',
         'objects': [],
         'screenHeight': 400,
@@ -32,7 +32,9 @@ MOCK_VARIABLES = {
 }
 
 
-class Mock_AI2THOR_Controller():
+class MockController():
+    '''Mock of the Controller class from the AI2-THOR library.'''
+
     def __init__(self):
         self.__last_step_data = None
         self.__last_metadata = MOCK_VARIABLES['metadata'].copy()
@@ -57,20 +59,21 @@ class Mock_AI2THOR_Controller():
 
     def update_metadata(self, data: dict) -> dict:
 
-        if data['action'] == MCS_Action.CRAWL.value:
-            self.__last_metadata['pose'] = MCS_Pose.CRAWLING.name
-        elif (data['action'] == MCS_Action.STAND.value and
-              self.__last_metadata['pose'] != MCS_Pose.LYING.name):
-            self.__last_metadata['pose'] = MCS_Pose.STANDING.name
-        elif data['action'] == MCS_Action.LIE_DOWN.value:
-            self.__last_metadata['pose'] = MCS_Pose.LYING.name
+        if data['action'] == Action.CRAWL.value:
+            self.__last_metadata['pose'] = Pose.CRAWLING.name
+        elif (data['action'] == Action.STAND.value and
+              self.__last_metadata['pose'] != Pose.LYING.name):
+            self.__last_metadata['pose'] = Pose.STANDING.name
+        elif data['action'] == Action.LIE_DOWN.value:
+            self.__last_metadata['pose'] = Pose.LYING.name
 
 
-class Mock_MCS_Controller_AI2THOR(MCS_Controller_AI2THOR):
+class MockControllerAI2THOR(ControllerAI2THOR):
+    '''Mock of the ControllerAI2THOR class from the MCS library.'''
 
     def __init__(self):
         # Do NOT call superclass __init__ function
-        self._controller = Mock_AI2THOR_Controller()
+        self._controller = MockController()
         self._update_screen_size()
         self._on_init()
 
