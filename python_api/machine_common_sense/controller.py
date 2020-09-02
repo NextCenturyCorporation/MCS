@@ -1,8 +1,8 @@
-from .mcs_step_output import MCS_Step_Output
+from .step_metadata import StepMetadata
 import random
 
 
-class MCS_Controller:
+class Controller:
     """
     Starts and ends scenes, runs actions on each step, and returns scene
     output data.
@@ -42,13 +42,13 @@ class MCS_Controller:
 
         Returns
         -------
-        MCS_Step_Output
+        StepMetadata
             The output data object from the start of the scene (the output from
             an "Initialize" action).
         """
 
         # TODO Override
-        return MCS_Step_Output()
+        return StepMetadata()
 
     def step(self, action, **kwargs):
         """
@@ -64,14 +64,14 @@ class MCS_Controller:
 
         Returns
         -------
-        MCS_Step_Output
+        StepMetadata
             The MCS output data object from after the selected action and the
             physics simulation were run. Returns None if you have passed the
             "last_step" of this scene.
         """
 
         # TODO Override
-        return MCS_Step_Output()
+        return StepMetadata()
 
     def generate_noise(self):
         """

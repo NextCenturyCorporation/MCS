@@ -3,7 +3,7 @@ import sys
 from machine_common_sense.mcs import MCS
 
 if len(sys.argv) < 2:
-    print('Usage: python run_mcs_intphys_samples.py <mcs_unity_build_file>')
+    print('Usage: python run_intphys_samples.py <mcs_unity_build_file>')
     sys.exit()
 
 

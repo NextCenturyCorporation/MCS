@@ -1,10 +1,10 @@
 MCS Python Library API
 *******************************************************************************
 * `MCS <#MCS>`_
-* `MCS_Controller_AI2THOR <#MCS_Controller_AI2THOR>`_
-* `MCS_Goal <#MCS_Goal>`_
-* `MCS_Object <#MCS_Object>`_
-* `MCS_Step_Output <#MCS_Step_Output>`_
+* `Controller <#Controller>`_
+* `GoalMetadata <#GoalMetadata>`_
+* `ObjectMetadata <#ObjectMetadata>`_
+* `StepMetadata <#StepMetadata>`_
 * `Actions <#Actions>`_
 * `Goals <#Goals>`_
 * `Materials <#Materials>`_
@@ -12,40 +12,41 @@ MCS Python Library API
 MCS
 ===============================================================================
 .. automodule:: machine_common_sense.mcs
-   :members:
+   :members: MCS
 
-MCS_Controller_AI2THOR
+Controller
 ===============================================================================
-.. automodule:: machine_common_sense.mcs_controller_ai2thor
-   :members:
+.. automodule:: machine_common_sense.controller
+   :members: Controller
 
-MCS_Goal
+GoalMetadata
 ===============================================================================
-.. automodule:: machine_common_sense.mcs_goal
-   :members:
+.. automodule:: machine_common_sense.goal_metadata
+   :members: GoalMetadata
 
-MCS_Object
+ObjectMetadata
 ===============================================================================
-.. automodule:: machine_common_sense.mcs_object
-   :members:
+.. automodule:: machine_common_sense.object_metadata
+   :members: ObjectMetadata
 
-MCS_Step_Output
+StepMetadata
 ===============================================================================
-.. automodule:: machine_common_sense.mcs_step_output
-   :members:
+.. automodule:: machine_common_sense.step_metadata
+   :members: StepMetadata
 
 Actions
 ===============================================================================
-.. automodule:: machine_common_sense.mcs_action
-   :members:
+.. automodule:: machine_common_sense.action
+   :members: Action
 
 Goals
 ===============================================================================
-.. automodule:: machine_common_sense.mcs_goal_category
-   :members:
+.. automodule:: machine_common_sense.goal_metadata
+   :members: GoalCategory
+   :noindex:
 
 Materials
 ===============================================================================
-.. automodule:: machine_common_sense.mcs_material
-   :members:
+.. automodule:: machine_common_sense.material
+   :members: Material
 

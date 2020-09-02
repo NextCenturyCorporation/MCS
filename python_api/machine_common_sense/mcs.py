@@ -2,7 +2,7 @@ import json
 import signal
 
 from contextlib import contextmanager
-from .mcs_controller_ai2thor import MCS_Controller_AI2THOR
+from .controller_ai2thor import ControllerAI2THOR
 
 TIME_LIMIT_SECONDS = 60
 
@@ -49,15 +49,15 @@ class MCS:
 
         Returns
         -------
-        MCS_Controller
+        Controller
             The MCS Controller object.
         """
         # TODO: Toggle between AI2-THOR and other controllers like ThreeDWorld?
         try:
             with time_limit(TIME_LIMIT_SECONDS):
-                return MCS_Controller_AI2THOR(unity_app_file_path, debug,
-                                              enable_noise, seed, size,
-                                              depth_masks, object_masks)
+                return ControllerAI2THOR(unity_app_file_path, debug,
+                                         enable_noise, seed, size,
+                                         depth_masks, object_masks)
         except Exception as Msg:
             print("Exception in create_controller()", Msg)
             return None

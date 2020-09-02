@@ -43,7 +43,7 @@ def run_scene(controller, file_name):
 
 def main():
     if len(sys.argv) < 3:
-        print('Usage: python run_mcs_scene_timer.py <mcs_unity_build_file> '
+        print('Usage: python run_scene_timer.py <mcs_unity_build_file> '
               '<scene_configuration_dir> <debug=False>')
         sys.exit()
 

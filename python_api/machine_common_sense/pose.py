@@ -2,7 +2,7 @@ from enum import Enum, unique
 
 
 @unique
-class MCS_Pose(Enum):
+class Pose(Enum):
     CRAWLING = "CRAWLING"
     LYING = "LYING"
     STANDING = "STANDING"

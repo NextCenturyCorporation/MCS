@@ -1,8 +1,8 @@
-from .mcs_action import MCS_Action
-from .mcs_material import MCS_Material
+from .action import Action
+from .material import Material
 
 
-class MCS_Util:
+class Util:
     """
     Defines utility functions for MCS classes.
     """
@@ -25,8 +25,8 @@ class MCS_Util:
     """
     @staticmethod
     def class_to_str(input_class, depth=0):
-        this_indent = " " * MCS_Util.NUMBER_OF_SPACES * depth
-        next_indent = " " * MCS_Util.NUMBER_OF_SPACES * (depth + 1)
+        this_indent = " " * Util.NUMBER_OF_SPACES * depth
+        next_indent = " " * Util.NUMBER_OF_SPACES * (depth + 1)
         text_list = []
         props = {
             prop_key: prop_value
@@ -39,7 +39,7 @@ class MCS_Util:
                 "\"" +
                 prop_key +
                 "\": " +
-                MCS_Util.value_to_str(
+                Util.value_to_str(
                     prop_value,
                     depth +
                     1))
@@ -47,11 +47,11 @@ class MCS_Util:
             (",\n").join(text_list) + "\n" + this_indent + "}"
 
     """
-    Transforms the given list of MCS_Object objects into a list of strings.
+    Transforms the given list of ObjectMetadata objects into a list of strings.
 
     Parameters
     ----------
-    object_list : list of MCS_Object objects
+    object_list : list of ObjectMetadata objects
         The input list.
 
     Returns
@@ -76,10 +76,10 @@ class MCS_Util:
                 metadata.shape,
                 ", ".join(metadata.texture_color_list),
                 metadata.held,
-                MCS_Util.vector_to_string(metadata.position),
-                MCS_Util.vector_to_string(metadata.dimensions),
+                Util.vector_to_string(metadata.position),
+                Util.vector_to_string(metadata.dimensions),
                 metadata.distance_in_world,
-                MCS_Util.vector_to_string(metadata.direction)
+                Util.vector_to_string(metadata.direction)
             ]
             for metadata in object_list
         ]
@@ -111,7 +111,7 @@ class MCS_Util:
         action = input_split[0]
 
         try:
-            validate_action = MCS_Action(action).name  # noqa: F841
+            validate_action = Action(action).name  # noqa: F841
         except BaseException:
             return None, {}
 
@@ -123,7 +123,7 @@ class MCS_Util:
         try:
             for param in input_split[1:]:
                 paramKey, paramValue = param.split('=')
-                if MCS_Util.is_number(paramValue.strip()):
+                if Util.is_number(paramValue.strip()):
                     params[paramKey.strip()] = float(paramValue.strip())
                 else:
                     params[paramKey.strip()] = paramValue.strip()
@@ -217,8 +217,8 @@ class MCS_Util:
     """
     @staticmethod
     def value_to_str(input_value, depth=0):
-        this_indent = " " * MCS_Util.NUMBER_OF_SPACES * depth
-        next_indent = " " * MCS_Util.NUMBER_OF_SPACES * (depth + 1)
+        this_indent = " " * Util.NUMBER_OF_SPACES * depth
+        next_indent = " " * Util.NUMBER_OF_SPACES * (depth + 1)
         if input_value is None:
             return "null"
         if isinstance(input_value, dict):
@@ -229,7 +229,7 @@ class MCS_Util:
                     "\"" +
                     dict_key +
                     "\": " +
-                    MCS_Util.value_to_str(
+                    Util.value_to_str(
                         dict_value,
                         depth +
                         1))
@@ -240,7 +240,7 @@ class MCS_Util:
             for list_item in list(input_value):
                 text_list.append(
                     next_indent +
-                    MCS_Util.value_to_str(
+                    Util.value_to_str(
                         list_item,
                         depth +
                         1))
@@ -285,12 +285,12 @@ class MCS_Util:
 
     """
     Returns whether the given string can be successfully converted into an
-    MCS_Material enum.
+    Material enum.
 
     Parameters
     ----------
     enum_string
-        The string to be converted into an MCS_Material enum.
+        The string to be converted into an Material enum.
 
     Returns
     -------
@@ -299,7 +299,7 @@ class MCS_Util:
     @staticmethod
     def verify_material_enum_string(enum_string):
         try:
-            enum_instance = MCS_Material[enum_string.upper()]  # noqa: F841
+            enum_instance = Material[enum_string.upper()]  # noqa: F841
             return True
         except KeyError:
             return False
