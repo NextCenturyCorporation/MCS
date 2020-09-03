@@ -4,7 +4,7 @@ import objects
 import random
 from geometry import ORIGIN
 from intphys_goals import (
-    GravityGoal, IntPhysGoal, ObjectPermanenceGoal,
+    IntPhysGoal, GravityGoal, ObjectPermanenceGoal,
     ShapeConstancyGoal, SpatioTemporalContinuityGoal
 )
 from util import instantiate_object
@@ -73,9 +73,8 @@ def test_ObjectPermanenceGoal_compute_objects():
     assert len(tag_to_objects['distractor']) >= 0
     assert len(tag_to_objects['background object']) >= 0
     assert len(tag_to_objects['occluder']) >= 1
-    assert (goal._object_creator ==
-            IntPhysGoal._get_objects_and_occluders_moving_across) or \
-        (goal._object_creator == IntPhysGoal._get_objects_falling_down)
+    assert (goal._scene_setup_function == IntPhysGoal._generate_move_across) \
+        or (goal._scene_setup_function == IntPhysGoal._generate_fall_down)
     assert goal._last_step > 0
 
 
@@ -106,9 +105,8 @@ def test_ShapeConstancyGoal_compute_objects():
     assert len(tag_to_objects['distractor']) >= 0
     assert len(tag_to_objects['background object']) >= 0
     assert len(tag_to_objects['occluder']) >= 1
-    assert (goal._object_creator ==
-            IntPhysGoal._get_objects_and_occluders_moving_across) or \
-        (goal._object_creator == IntPhysGoal._get_objects_falling_down)
+    assert (goal._scene_setup_function == IntPhysGoal._generate_move_across) \
+        or (goal._scene_setup_function == IntPhysGoal._generate_fall_down)
     assert goal._last_step > 0
 
 
@@ -139,9 +137,8 @@ def test_SpatioTemporalContinuityGoal_compute_objects():
     assert len(tag_to_objects['distractor']) >= 0
     assert len(tag_to_objects['background object']) >= 0
     assert len(tag_to_objects['occluder']) >= 1
-    assert (goal._object_creator ==
-            IntPhysGoal._get_objects_and_occluders_moving_across) or \
-        (goal._object_creator == IntPhysGoal._get_objects_falling_down)
+    assert (goal._scene_setup_function == IntPhysGoal._generate_move_across) \
+        or (goal._scene_setup_function == IntPhysGoal._generate_fall_down)
     assert goal._last_step > 0
 
 
@@ -185,9 +182,8 @@ def test_IntPhysGoal__get_objects_and_occluders_moving_across():
             super(TestGoal, self).__init__('test')
 
     goal = TestGoal()
-    wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)[0]
-    objs, occluders = goal._get_objects_and_occluders_moving_across(
-        wall_material)
+    objs, occluders = goal._generate_move_across(
+        materials.CEILING_AND_WALL_MATERIALS)
     assert 1 <= len(objs) <= 3
     assert 1 <= len(occluders) <= 4 * 2  # each occluder is actually 2 objects
     # the first occluder should be at one of the positions for the first object
@@ -195,14 +191,14 @@ def test_IntPhysGoal__get_objects_and_occluders_moving_across():
     first_obj = objs[0]
     found = False
     multiplier = 0.9 if first_obj['shows'][0]['position']['z'] == 1.6 else 0.8
-    for position in first_obj['intphysOption']['position_by_step']:
+    for position in first_obj['intphysOption']['positionByStep']:
         adjusted_x = position * multiplier
         if adjusted_x == occluder_x:
             found = True
             break
     assert found
-    for o in occluders:
-        assert o['materials'] != wall_material
+    # for o in occluders:
+    # assert o['materials'] != wall_material
 
 
 def test_IntPhysGoal__get_objects_moving_across_collisions():
@@ -211,9 +207,7 @@ def test_IntPhysGoal__get_objects_moving_across_collisions():
             super(TestGoal, self).__init__('test')
 
     goal = TestGoal()
-    wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)[0]
-    objs = goal._get_objects_moving_across(
-        wall_material, 55, goal._object_defs)
+    objs = goal._generate_move_across_object_list(55)
     for obj in objs:
         x = obj['shows'][0]['position']['x']
         z = obj['shows'][0]['position']['z']
@@ -228,13 +222,13 @@ def test_IntPhysGoal__get_objects_moving_across_collisions():
                 assert abs(other_a) <= abs(obj_a)
 
 
-def test_IntPhysGoal__compute_scenery():
+def test_IntPhysGoal__generate_background_object_list():
     goal = GravityGoal()
     # There's a good chance of no scenery, so keep trying until we get
     # some.
     scenery_generated = False
     while not scenery_generated:
-        scenery_list = goal._compute_scenery()
+        scenery_list = goal._generate_background_object_list()
         assert 0 <= len(scenery_list) <= 5
         scenery_generated = len(scenery_list) > 0
         for scenery in scenery_list:
@@ -249,8 +243,8 @@ def test__get_objects_falling_down():
             super(TestGoal, self).__init__('test')
 
     goal = TestGoal()
-    wall_material = random.choice(materials.CEILING_AND_WALL_MATERIALS)[0]
-    obj_list, occluders = goal._get_objects_falling_down(wall_material)
+    obj_list, occluders = goal._generate_fall_down(
+        materials.CEILING_AND_WALL_MATERIALS)
     assert 1 <= len(obj_list) <= 2
     assert len(obj_list) * 2 <= len(occluders) <= 4
     for obj in obj_list:
@@ -275,7 +269,7 @@ def test_mcs_209():
             super(TestGoal, self).__init__('test')
 
     goal = TestGoal()
-    objs = goal._get_objects_moving_across('dummy', 55, goal._object_defs)
+    objs = goal._generate_move_across_object_list(55)
     for obj in objs:
         assert obj['shows'][0]['stepBegin'] == obj['forces'][0]['stepBegin']
 

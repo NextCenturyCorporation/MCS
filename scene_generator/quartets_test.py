@@ -82,8 +82,8 @@ def test_STCQ_get_scene_2_teleport_forward():
             target['teleports'][0]['stepEnd']
         )
         if (
-            quartet._goal._object_creator ==
-            intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across
+            quartet._goal._scene_setup_function ==
+            intphys_goals.IntPhysGoal._generate_move_across_object_list
         ):
             implausible_event_index1 = target['intphysOption']['occluder_indices'][0]  # noqa: E501
             implausible_event_index2 = target['intphysOption']['occluder_indices'][1]  # noqa: E501
@@ -110,8 +110,8 @@ def test_STCQ_get_scene_3_teleport_backward():
         target['teleports'][0]['stepEnd']
     )
     if (
-        quartet._goal._object_creator ==
-        intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across
+        quartet._goal._scene_setup_function ==
+        intphys_goals.IntPhysGoal._generate_move_across_object_list
     ):
         implausible_event_index1 = target['intphysOption']['occluder_indices'][0]  # noqa: E501
         implausible_event_index2 = target['intphysOption']['occluder_indices'][1]  # noqa: E501
@@ -133,8 +133,8 @@ def test_STCQ_get_scene_4_move_later():
     assert 'hides' not in target
     assert 'teleports' not in target
     if (
-        quartet._goal._object_creator ==
-        intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across
+        quartet._goal._scene_setup_function ==
+        intphys_goals.IntPhysGoal._generate_move_across_object_list
     ):
         later_step_begin = target['shows'][0]['stepBegin']
         orig_target = quartet._goal._tag_to_objects['target'][0]
@@ -146,11 +146,11 @@ def test_ShapeConstancyQuartet():
     quartet = ShapeConstancyQuartet(TEMPLATE, False)
     assert quartet is not None
     a = quartet._scene_template['objects'][0]
-    assert a['type'] != quartet._b['type']
-    assert a['id'] == quartet._b['id']
+    assert a['type'] != quartet._b_template['type']
+    assert a['id'] == quartet._b_template['id']
     assert a['dimensions']['x'] == pytest.approx(
-        quartet._b['dimensions']['x'], abs=util.MAX_SIZE_DIFFERENCE)
-    assert a['materials'] == quartet._b['materials']
+        quartet._b_template['dimensions']['x'], abs=util.MAX_SIZE_DIFFERENCE)
+    assert a['materials'] == quartet._b_template['materials']
 
 
 def test_ShapeConstancyQuartet_get_scene():
@@ -206,16 +206,13 @@ def test_ShapeConstancyQuartet_get_scene_2():
     assert a['id'] == b['id']
     assert a['hides'][0]['stepBegin'] == b['shows'][0]['stepBegin']
     if (
-        quartet._goal._object_creator ==
-        intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across
+        quartet._goal._scene_setup_function ==
+        intphys_goals.IntPhysGoal._generate_move_across_object_list
     ):
         assert a['forces'] == b['forces']
     else:
         assert a['shows'][0]['stepBegin'] >= 8
         assert b['shows'][0]['position']['x'] == a['shows'][0]['position']['x']
-        assert (
-            b['shows'][0]['position']['y'] == a['intphysOption']['positionY']
-        )
 
 
 def test_ShapeConstancyQuartet_get_scene_3():
@@ -229,15 +226,13 @@ def test_ShapeConstancyQuartet_get_scene_3():
     assert a['id'] == b['id']
     assert b['hides'][0]['stepBegin'] == a['shows'][0]['stepBegin']
     if (
-        quartet._goal._object_creator ==
-        intphys_goals.IntPhysGoal._get_objects_and_occluders_moving_across
+        quartet._goal._scene_setup_function ==
+        intphys_goals.IntPhysGoal._generate_move_across_object_list
     ):
         assert a['forces'] == b['forces']
     else:
         assert a['shows'][0]['stepBegin'] >= 8
-        assert (
-            a['shows'][0]['position']['y'] == a['intphysOption']['positionY']
-        )
+        assert a['shows'][0]['position']['y'] == a['offset']['y']
 
 
 def test_ShapeConstancyQuartet_get_scene_4():
