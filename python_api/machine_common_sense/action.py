@@ -7,7 +7,13 @@ class Action(Enum):
     The actions available in the MCS simulation environment.
     """
 
-    CLOSE_OBJECT = "CloseObject"
+    CLOSE_OBJECT = (
+        "CloseObject",
+        "1",
+        "Close a nearby object. (objectId=string, amount=float " +
+        "(default:1), objectDirectionX=float, objectDirectionY=float, " +
+        "objectDirectionZ=float)"
+    )
     """
     Close a nearby object.
 
@@ -51,7 +57,11 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    CRAWL = "Crawl"
+    CRAWL = (
+        "Crawl",
+        "c",
+        "Change pose to 'CRAWLING' (no params)"
+    )
     """
     Change pose to "CRAWLING". Can help you move underneath or over objects.
 
@@ -65,7 +75,11 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    DROP_OBJECT = "DropObject"
+    DROP_OBJECT = (
+        "DropObject",
+        "2",
+        "Drop an object you are holding. (objectId=string)"
+    )
     """
     Drop an object you are holding.
 
@@ -87,7 +101,11 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    LIE_DOWN = "LieDown"
+    LIE_DOWN = (
+        "LieDown",
+        "l",
+        "Change pose to 'LYING' (rotation=float)"
+    )
     """
     Change pose to "LYING". Can help you move underneath objects.
 
@@ -99,7 +117,12 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    MOVE_AHEAD = "MoveAhead"
+    MOVE_AHEAD = (
+        "MoveAhead",
+        "w",
+        "Move yourself ahead based on your current view. " +
+        "(amount=float (default:0.5))"
+    )
     """
     Move yourself forward based on your current viewport.
 
@@ -119,7 +142,12 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    MOVE_BACK = "MoveBack"
+    MOVE_BACK = (
+        "MoveBack",
+        "s",
+        "Move yourself back based on your current view. " +
+        "(amount=float (default:0.5))"
+    )
     """
     Move yourself backward based on your current viewport.
 
@@ -139,7 +167,12 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    MOVE_LEFT = "MoveLeft"
+    MOVE_LEFT = (
+        "MoveLeft",
+        "a",
+        "Move yourself to your left based on your current view. " +
+        "(amount=float (default:0.5))"
+    )
     """
     Move yourself left based on your current viewport.
 
@@ -159,7 +192,12 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    MOVE_RIGHT = "MoveRight"
+    MOVE_RIGHT = (
+        "MoveRight",
+        "d",
+        "Move yourself to your right based on your current view. " +
+        "(amount=float(default: 0.5))"
+    )
     """
     Move yourself right based on your current viewport.
 
@@ -179,7 +217,13 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    OPEN_OBJECT = "OpenObject"
+    OPEN_OBJECT = (
+        "OpenObject",
+        "3",
+        "Open a nearby object. (objectId=string, " +
+        "amount=float (default:1), objectDirectionX=float, " +
+        "objectDirectionY=float, objectDirectionZ=float)"
+    )
     """
     Open a nearby object.
 
@@ -223,7 +267,13 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    PICKUP_OBJECT = "PickupObject"
+    PICKUP_OBJECT = (
+        "PickupObject",
+        "4",
+        "Pickup a nearby object and hold it in your hand. " +
+        "(objectId=string, objectDirectionX=float, objectDirectionY=float, " +
+        "objectDirectionZ=float)"
+    )
     """
     Pick up a nearby object and hold it in your hand. This action incorporates
     reaching out your hand in front of you, opening your fingers, and grabbing
@@ -266,7 +316,13 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    PULL_OBJECT = "PullObject"
+    PULL_OBJECT = (
+        "PullObject",
+        "5",
+        "Pull a nearby object. (objectId=string, rotation=float, " +
+        "horizon=float, force=float (default:0.5), objectDirectionX=float, " +
+        "objectDirectionY=float, objectDirectionZ=float)"
+    )
     """
     Pull a nearby object.
 
@@ -308,7 +364,13 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    PUSH_OBJECT = "PushObject"
+    PUSH_OBJECT = (
+        "PushObject",
+        "6",
+        "Push a nearby object. (objectId=string, rotation=float, " +
+        "horizon=float, force=float (default:0.5), objectDirectionX=float, " +
+        "objectDirectionY=float, objectDirectionZ=float)"
+    )
     """
     Push a nearby object.
 
@@ -350,7 +412,14 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    PUT_OBJECT = "PutObject"
+    PUT_OBJECT = (
+        "PutObject",
+        "7",
+        "Place an object you are holding into/onto a nearby " +
+        "receptacle object. (objectId=string, receptacleObjectId=string, " +
+        "receptacleObjectDirectionX=float, receptacleObjectDirectionY=float," +
+        " receptacleObjectDirectionZ=float)"
+    )
     """
     Put down an object you are holding into/onto a nearby receptacle object. A
     receptacle is an object that can hold other objects, like a block, box,
@@ -402,7 +471,12 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    ROTATE_LOOK = "RotateLook"
+    ROTATE_LOOK = (
+        "RotateLook",
+        "r",
+        "Rotate your view left/right and/or up/down based on your " +
+        "current view. (rotation=float, horizon=float)"
+    )
     """
     Rotate your viewport left/right and/or up/down based on your current
     viewport.
@@ -426,10 +500,20 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    # ROTATE_OBJECT = "RotateObject"
-    # ROTATE_OBJECT_IN_HAND = "RotateObjectInHand"
+    # ROTATE_OBJECT = ("RotateObject")
+    # ROTATE_OBJECT_IN_HAND = (
+    #    "RotateObjectInHand",
+    #    "t",
+    #    "Rotate a held object. (objectId=string, " +
+    #    "rotationX=float, rotationY=float, rotationZ=float, " +
+    #    "objectDirectionX=float, objectDirectionY=float, " +
+    #    "objectDirectionZ=float)")
 
-    STAND = "Stand"
+    STAND = (
+        "Stand",
+        "u",
+        "Change pose to 'STANDING' (no params)"
+    )
     """
     Change pose to "STANDING". Can help you move over objects.
 
@@ -443,7 +527,13 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    THROW_OBJECT = "ThrowObject"
+    THROW_OBJECT = (
+        "ThrowObject",
+        "q",
+        "Throw an object you are holding. (objectId=string, " +
+        "objectDirectionX=float, objectDirectionY=float, " +
+        "objectDirectionZ=float, force=float (default:0.5))"
+    )
     """
     Throw an object you are holding.
 
@@ -475,7 +565,11 @@ class Action(Enum):
     """
 
     # Pass should always be the last action in the enum.
-    PASS = "Pass"
+    PASS = (
+        "Pass",
+        " ",
+        "Do nothing. (no params)"
+    )
     """
     Do nothing.
 
@@ -487,71 +581,25 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
+    def __new__(cls, action, key, desc):
+        obj = object.__new__(cls)
+        obj._value_ = action
+        obj._key = key
+        obj._desc = desc
+        cls._value2member_map_[key] = obj
+        return obj
 
-# TODO MCS-352 Unite with Action class
-@unique
-class ActionDesc(Enum):
-    CLOSE_OBJECT = "Close a nearby object. (objectId=string, amount=float " \
-        "(default:1), objectDirectionX=float, objectDirectionY=float, " \
-        "objectDirectionZ=float)"
-    CRAWL = "Change pose to 'CRAWLING' (no params)"
-    DROP_OBJECT = "Drop an object you are holding. (objectId=string)"
-    LIE_DOWN = "Change pose to 'LYING' (rotation=float)"
-    MOVE_AHEAD = "Move yourself ahead based on your current view. " \
-        "(amount=float (default:0.5))"
-    MOVE_BACK = "Move yourself back based on your current view. " \
-        "(amount=float (default:0.5))"
-    MOVE_LEFT = "Move yourself to your left based on your current view. " \
-        "(amount=float (default:0.5))"
-    MOVE_RIGHT = "Move yourself to your right based on your current view. " \
-        "(amount=float(default: 0.5))"
-    OPEN_OBJECT = "Open a nearby object. (objectId=string, " \
-        "amount=float (default:1), objectDirectionX=float, " \
-        "objectDirectionY=float, objectDirectionZ=float)"
-    PASS = "Do nothing. (no params)"
-    PICKUP_OBJECT = "Pickup a nearby object and hold it in your hand. " \
-        "(objectId=string, objectDirectionX=float, objectDirectionY=float, " \
-        "objectDirectionZ=float)"
-    PULL_OBJECT = "Pull a nearby object. (objectId=string, rotation=float, " \
-        "horizon=float, force=float (default:0.5), objectDirectionX=float, " \
-        "objectDirectionY=float, objectDirectionZ=float)"
-    PUSH_OBJECT = "Push a nearby object. (objectId=string, rotation=float, " \
-        "horizon=float, force=float (default:0.5), objectDirectionX=float, " \
-        "objectDirectionY=float, objectDirectionZ=float)"
-    PUT_OBJECT = "Place an object you are holding into/onto a nearby " \
-        "receptacle object. (objectId=string, receptacleObjectId=string, " \
-        "receptacleObjectDirectionX=float, receptacleObjectDirectionY=float," \
-        " receptacleObjectDirectionZ=float)"
-    ROTATE_LOOK = "Rotate your view left/right and/or up/down based on your " \
-        "current view. (rotation=float, horizon=float)"
-    ROTATE_OBJECT_IN_HAND = "Rotate a held object. (objectId=string, " \
-        "rotationX=float, rotationY=float, rotationZ=float, " \
-        "objectDirectionX=float, objectDirectionY=float, " \
-        "objectDirectionZ=float)"
-    STAND = "Change pose to 'STANDING' (no params)"
-    THROW_OBJECT = "Throw an object you are holding. (objectId=string, " \
-        "objectDirectionX=float, objectDirectionY=float, " \
-        "objectDirectionZ=float, force=float (default:0.5))"
+    def __repr__(self):
+        return '<%s.%s: %s>' % (
+            self.__class__.__name__,
+            self._name_,
+            ', '.join([self._value_, self._key, self._desc])
+        )
 
+    @ property
+    def key(self):
+        return self._key
 
-# TODO MCS-352 Unite with Action class
-@unique
-class ActionKeys(Enum):
-    CLOSE_OBJECT = "1"
-    CRAWL = "c"
-    DROP_OBJECT = "2"
-    LIE_DOWN = "l"
-    MOVE_AHEAD = "w"
-    MOVE_BACK = "s"
-    MOVE_LEFT = "a"
-    MOVE_RIGHT = "d"
-    OPEN_OBJECT = "3"
-    PASS = " "
-    PICKUP_OBJECT = "4"
-    PULL_OBJECT = "5"
-    PUSH_OBJECT = "6"
-    PUT_OBJECT = "7"
-    ROTATE_LOOK = "r"
-    ROTATE_OBJECT_IN_HAND = "t"
-    STAND = "u"
-    THROW_OBJECT = "q"
+    @ property
+    def desc(self):
+        return self._desc
