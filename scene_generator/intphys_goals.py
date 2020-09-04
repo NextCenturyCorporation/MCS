@@ -70,11 +70,15 @@ class IntPhysGoal(Goal, ABC):
     LAST_STEP_RAMP = 60
     LAST_STEP_RAMP_BUFFER = 20
 
-    EARLIEST_ACTION_START_STEP = OCCLUDER_MOVEMENT_TIME * 2 + 1
-    LATEST_ACTION_FALL_DOWN_START_STEP = LAST_STEP_FALL_DOWN - \
+    EARLIEST_ACTION_STEP = OCCLUDER_MOVEMENT_TIME * 2 + 1
+    LATEST_ACTION_FALL_DOWN_STEP = LAST_STEP_FALL_DOWN - \
         OCCLUDER_MOVEMENT_TIME - (OBJECT_FALL_TIME * 2)
 
     RAMP_DOWNWARD_FORCE = -350
+
+    BACKGROUND_MAX_X = 6.5
+    BACKGROUND_MIN_Z = 3.25
+    BACKGROUND_MAX_Z = 4.95
 
     class Position(Enum):
         RIGHT_FIRST_NEAR = auto()
@@ -215,7 +219,7 @@ class IntPhysGoal(Goal, ABC):
         ])
         wall_material_list = [
             material
-            for material in materials.CEILING_AND_WALL_MATERIALS
+            for material in materials.OCCLUDER_MATERIALS
             if material[0] != room_wall_material_name
         ]
         moving_list, occluder_list = self._scene_setup_function(
@@ -247,19 +251,17 @@ class IntPhysGoal(Goal, ABC):
         return random.choices((1, 2, 3, 4), (40, 20, 20, 20))[0]
 
     def _generate_background_object_list(self) -> List[Dict[str, Any]]:
-        MIN_VISIBLE_X = -6.5
-        MAX_VISIBLE_X = 6.5
-        MIN_Z = 3.25
-        MAX_Z = 4.95
-
         def random_x():
-            return util.random_real(MIN_VISIBLE_X, MAX_VISIBLE_X,
+            return util.random_real(-IntPhysGoal.BACKGROUND_MAX_X,
+                                    IntPhysGoal.BACKGROUND_MAX_X,
                                     util.MIN_RANDOM_INTERVAL)
 
         def random_z():
             # Choose values so each background object is positioned between the
             # moving IntPhys objects and the back wall of the room.
-            return util.random_real(MIN_Z, MAX_Z, util.MIN_RANDOM_INTERVAL)
+            return util.random_real(IntPhysGoal.BACKGROUND_MIN_Z,
+                                    IntPhysGoal.BACKGROUND_MAX_Z,
+                                    util.MIN_RANDOM_INTERVAL)
 
         background_number = random.choices((0, 1, 2, 3, 4, 5),
                                            (50, 10, 10, 10, 10, 10))[0]
@@ -281,8 +283,12 @@ class IntPhysGoal(Goal, ABC):
                     for point in location['boundingBox']:
                         x = point['x']
                         z = point['z']
-                        if x < MIN_VISIBLE_X or x > MAX_VISIBLE_X or \
-                           z < MIN_Z or z > MAX_Z:
+                        if (
+                            x < -IntPhysGoal.BACKGROUND_MAX_X or
+                            x > IntPhysGoal.BACKGROUND_MAX_X or
+                            z < IntPhysGoal.BACKGROUND_MIN_Z or
+                            z > IntPhysGoal.BACKGROUND_MAX_Z
+                        ):
                             # If not, reset and try again
                             location = None
                             del background_bounds_list[-1]
@@ -304,7 +310,8 @@ class IntPhysGoal(Goal, ABC):
         occluder_list = self._generate_move_across_paired_occluder_list(
             object_list, occluder_wall_material_list)
         self._generate_occluder_list(
-            self._choose_move_across_occluder_number() - len(occluder_list),
+            self._choose_move_across_occluder_number() -
+            int(len(occluder_list) / 2),
             occluder_list,
             occluder_wall_material_list,
             False
@@ -313,9 +320,9 @@ class IntPhysGoal(Goal, ABC):
 
     def _generate_move_across_object_list(
         self,
-        last_action_end_step: int,
+        last_action_step: int,
         definition_list: List[Dict[str, Any]] = OBJECT_DEFINITION_LIST,
-        earliest_action_start_step: int = EARLIEST_ACTION_START_STEP,
+        earliest_action_step: int = EARLIEST_ACTION_STEP,
         position_list: Iterable = frozenset(Position)
     ) -> List[Dict[str, Any]]:
         """Generate and return move-across objects."""
@@ -421,7 +428,7 @@ class IntPhysGoal(Goal, ABC):
             intphys_option['positionByStep'] = filtered_position_by_step
 
             # The object should not begin before an object in front of it.
-            min_step_begin = earliest_action_start_step
+            min_step_begin = earliest_action_step
             if (
                 location in IntPhysGoal.MOVE_ACROSS_ORDERINGS and
                 IntPhysGoal.MOVE_ACROSS_ORDERINGS[location]
@@ -432,8 +439,7 @@ class IntPhysGoal(Goal, ABC):
                 ]['shows'][0]['stepBegin']
 
             # The object should be able to end before the last action step.
-            max_step_begin = last_action_end_step - \
-                len(filtered_position_by_step)
+            max_step_begin = last_action_step - len(filtered_position_by_step)
 
             # Choose the action step in which the object will appear.
             if min_step_begin >= max_step_begin:
@@ -444,7 +450,7 @@ class IntPhysGoal(Goal, ABC):
             instance['shows'][0]['stepBegin'] = step_begin
             instance['forces'] = [{
                 'stepBegin': step_begin,
-                'stepEnd': last_action_end_step,
+                'stepEnd': last_action_step,
                 'vector': intphys_option['force']
             }]
 
@@ -475,8 +481,7 @@ class IntPhysGoal(Goal, ABC):
         successful = False
         for _ in range(util.MAX_TRIES):
             # Object may be a cube on its corner, so use diagonal distance.
-            paired_size = math.sqrt(2) * \
-                paired_object['shows'][0]['scale']['x']
+            paired_size = math.sqrt(2) * paired_object['dimensions']['x']
             min_scale = min(max(paired_size, IntPhysGoal.OCCLUDER_MIN_SCALE_X),
                             IntPhysGoal.OCCLUDER_MAX_SCALE_X)
 
@@ -534,9 +539,9 @@ class IntPhysGoal(Goal, ABC):
         occluder_wall_material_list: List[Tuple]
     ) -> List[Dict[str, Any]]:
         """Generate and return needed move-across paired occluders."""
-        paired_object_list = self._identify_paired_object_list(object_list)
+        paired_list = self._identify_move_across_paired_list(object_list)
         occluder_list = []
-        for paired_object in paired_object_list:
+        for paired_object in paired_list:
             occluder = self._generate_move_across_paired_occluder(
                 paired_object,
                 occluder_list,
@@ -559,7 +564,8 @@ class IntPhysGoal(Goal, ABC):
         occluder_list = self._generate_fall_down_paired_occluder_list(
             object_list, occluder_wall_material_list)
         self._generate_occluder_list(
-            self._choose_fall_down_occluder_number() - len(occluder_list),
+            self._choose_fall_down_occluder_number() -
+            int(len(occluder_list) / 2),
             occluder_list,
             occluder_wall_material_list,
             True
@@ -575,7 +581,7 @@ class IntPhysGoal(Goal, ABC):
         """Generate and return one fall-down paired occluder that must be
         positioned underneath the paired object."""
         paired_x = paired_object['shows'][0]['position']['x']
-        paired_size = paired_object['shows'][0]['scale']['x']
+        paired_size = paired_object['dimensions']['x']
         min_scale = min(max(paired_size, IntPhysGoal.OCCLUDER_MIN_SCALE_X),
                         IntPhysGoal.OCCLUDER_MAX_SCALE_X)
         max_scale = IntPhysGoal.OCCLUDER_MAX_SCALE_X
@@ -627,6 +633,7 @@ class IntPhysGoal(Goal, ABC):
         object_list: List[Dict[str, Any]],
         occluder_wall_material_list: List[Tuple]
     ) -> List[Dict[str, Any]]:
+        """Generate and return needed fall-down paired occluders."""
         occluder_list = []
         for paired_object in object_list:
             occluder = self._generate_fall_down_paired_occluder(
@@ -642,6 +649,7 @@ class IntPhysGoal(Goal, ABC):
         return occluder_list
 
     def _generate_fall_down_object_list(self) -> List[Dict[str, Any]]:
+        """Generate and return fall-down objects."""
         object_list = []
         for _ in range(self._choose_fall_down_object_number()):
             successful = False
@@ -659,8 +667,10 @@ class IntPhysGoal(Goal, ABC):
                     distance = abs(
                         instance['shows'][0]['position']['x'] - x_position
                     )
-                    too_close = distance < (IntPhysGoal.OCCLUDER_MIN_SCALE_X +
-                                            IntPhysGoal.OCCLUDER_SEPARATION_X)
+                    too_close = distance < (
+                        (IntPhysGoal.OCCLUDER_MIN_SCALE_X * 2) +
+                        IntPhysGoal.OCCLUDER_SEPARATION_X
+                    )
                     if too_close:
                         break
                 if not too_close:
@@ -686,8 +696,8 @@ class IntPhysGoal(Goal, ABC):
             )
             instance = instantiate_object(object_definition, location)
             instance['shows'][0]['stepBegin'] = random.randint(
-                IntPhysGoal.EARLIEST_ACTION_START_STEP,
-                IntPhysGoal.LATEST_ACTION_FALL_DOWN_START_STEP
+                IntPhysGoal.EARLIEST_ACTION_STEP,
+                IntPhysGoal.LATEST_ACTION_FALL_DOWN_STEP
             )
             object_list.append(instance)
 
@@ -713,13 +723,13 @@ class IntPhysGoal(Goal, ABC):
                 util.MIN_RANDOM_INTERVAL
 
             # Choose a random position.
-            occluder_x = util.random_real(-max_x, max_x,
+            x_position = util.random_real(-max_x, max_x,
                                           util.MIN_RANDOM_INTERVAL)
 
             # Ensure the new occluder won't collide with any existing occluder.
             collides = False
             for occluder in occluder_list:
-                if geometry.occluders_too_close(occluder, occluder_x, x_scale):
+                if geometry.occluders_too_close(occluder, x_position, x_scale):
                     collides = True
                     break
             if not collides:
@@ -729,7 +739,7 @@ class IntPhysGoal(Goal, ABC):
             return objects.create_occluder(
                 random.choice(occluder_wall_material_list),
                 random.choice(materials.METAL_MATERIALS),
-                occluder_x,
+                x_position,
                 x_scale,
                 sideways
             )
@@ -752,11 +762,12 @@ class IntPhysGoal(Goal, ABC):
                     f'Cannot create occluder occluder_list={occluder_list}')
             occluder_list.extend(occluder)
 
-    def _identify_paired_object_list(
+    def _identify_move_across_paired_list(
         self,
         object_list: List[Dict[str, Any]]
     ) -> List[Dict[str, Any]]:
-        """Return objects that must be paired with occluders."""
+        """Return objects that must be paired with occluders in move-across
+        scenes."""
         return [object_list[0]]
 
     def is_fall_down(self) -> bool:
@@ -1054,7 +1065,7 @@ class SpatioTemporalContinuityGoal(IntPhysGoal):
     def _choose_move_across_occluder_number(self) -> int:
         return random.choices((2, 3, 4), (40, 30, 30))[0]
 
-    def _identify_paired_object_list(
+    def _identify_move_across_paired_list(
         self,
         object_list: List[Dict[str, Any]]
     ) -> List[Dict[str, Any]]:
