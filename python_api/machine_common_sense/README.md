@@ -26,22 +26,16 @@ pre-commit install
 
 We have made multiple run scripts:
 
-- `run_mcs_environment.py` (random development testing)
-- `run_mcs_human_input.py` (human input mode)
-- `run_mcs_inphys_samples.py` (IntPhys sample scenes)
-- `run_mcs_just_pass.py` (just pass repeatedly)
-- `run_mcs_just_rotate.py` (rotate in a full circle, then exit)
-
-To run a script from the terminal with visual output:
+To run a script (like `run_human_input.py`) from the terminal with visual output:
 
 ```
-python3 run_mcs_environment.py <mcs_unity_build_file> <mcs_config_json_file>
+python3 run_human_input.py <mcs_unity_build_file> <mcs_config_json_file>
 ```
 
 To run it headlessly, first install xvfb (on Ubuntu, run `sudo apt-get install xvfb`), then:
 
 ```
-xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' python3 run_mcs_environment.py <mcs_unity_build_file> <mcs_config_json_file>
+xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' python3 run_human_input.py <mcs_unity_build_file> <mcs_config_json_file>
 ```
 
 Each run will generate a subdirectory (named based on your config file) containing the output image files from each step.
@@ -103,4 +97,25 @@ First, install ffmpeg. Then (change the frame rate with the `-r` option):
 ```
 ffmpeg -r 3 -i frame_image_%d.png output.gif
 ```
+
+## Sphinx Documentation
+
+- Good Sphinx Tutorial: https://medium.com/@richdayandnight/a-simple-tutorial-on-how-to-document-your-python-project-using-sphinx-and-rinohtype-177c22a15b5b
+- Markdown Builder: https://pypi.org/project/sphinx-markdown-builder/
+
+- Sphinx: https://www.sphinx-doc.org/en/master/
+- Sphinx's own Tutorial: https://www.sphinx-doc.org/en/master/usage/quickstart.html
+
+## Setup
+
+1. Install Python virtual environment: `pip3 install virtualenv` OR `sudo apt-get install python3-venv`
+2. Switch to the python_api folder: `cd <mcs>/python_api/machine_common_sense/`
+3. Create a virtual environment: `python3 -m venv venv`
+4. Activate the virtual environment: `source venv/bin/activate`
+5. Update pip: `pip3 install --upgrade pip setuptools wheel`
+6. Install the MCS Python library: `cd ..; pip install -e .; cd python_api`
+7. Install other dependencies: `pip install -r machine_common_sense/requirements.txt`
+8. Enter the docs folder: `cd docs`
+9. Generate the markdown docs in the build folder: `make markdown` (or the HTML docs: `make html`)
+10. Finally, to exit your virtual environment: `deactivate`
 

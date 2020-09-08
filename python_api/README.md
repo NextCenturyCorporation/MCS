@@ -73,7 +73,8 @@ Example importing the MCS library:
 from machine_common_sense import MCS
 
 # We will give you the Unity app file.
-controller = MCS.create_controller(unity_app_file_path)
+controller = MCS.create_controller(unity_app_file_path, depth_masks=True,
+                                   object_masks=True)
 
 # Either load the config data dict from an MCS config JSON file or create your own.
 # We will give you the training config JSON files and the format to make your own.
@@ -102,7 +103,8 @@ Example running multiple scenes sequentially:
 from machine_common_sense import MCS
 
 # Only create the MCS controller ONCE!
-controller = MCS.create_controller(unity_app_file_path)
+controller = MCS.create_controller(unity_app_file_path, depth_masks=True,
+                                   object_masks=True)
 
 for config_json_file_path in config_json_file_list:
     config_data = MCS.load_config_json_file(config_json_file_path)
@@ -119,10 +121,16 @@ for config_json_file_path in config_json_file_list:
 To start the Unity application and enter your actions and parameters from the terminal, you can run the `mcs_run_in_human_input_mode` script that was installed in the package with the MCS Python Library (the `mcs_unity_build_file` is the executable):
 
 ```
-mcs_run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file> <debug=False> <enable_noise=False>
+mcs_run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file>
 ```
 
-If you want the script to save the input and output data in a new folder named after the scene, add `true` to the end of the above console command.
+Run options:
+- `--debug`
+- `--depth_masks`
+- `--noise`
+- `--object_masks`
+- `--seed <python_random_seed>`
+- `--size <screen_width_450_or_more>`
 
 ## Run with Scene Timer
 
@@ -133,6 +141,51 @@ mcs_run_scene_timer <mcs_unity_build_file> <mcs_config_file_folder> <debug=False
 ```
 
 This will run all of the MCS scene configuration JSON files in the given folder, use the PASS action for 20 steps (or for a number of steps equal to the last_step of the config file's goal, if any) in each scene, and print out the total, average, minimum, and maximum run time for all the scenes and the steps.
+
+## Config File
+
+To use an MCS configuration file, set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file.
+
+### Config File Properties
+
+#### metadata
+
+The `metadata` property describes what metadata will be returned by the MCS Python library. The `metadata` property is available so that users can run baseline or ablation studies during training. It can be set to one of the following strings:
+
+- `full`: Returns the metadata for all the objects in the scene, including visible, held, and hidden objects.
+- `no_navigation`: Does not return the position or rotation of the player or the objects in the scene.
+- `no_vision`: Does not return the depth or object masks, camera properties, or object dimensions, directions, or distances.
+- `none`: Only returns the images (but not the masks), object IDs, and properties corresponding to the player themself (like head tilt or pose) and haptic feedback (like mass or materials of held objects).
+
+Otherwise, return the metadata for the visible and held objects.
+
+### Using the Config File to Generate Scene Graphs or Maps
+
+1. Save your MCS configuration file with `metadata: full`
+
+2. Create a simple Python script to loop over one or more JSON scene configuration files, load each scene in the MCS controller, and save the output data in your own scene graph or scene map format.
+
+```python
+import os
+from machine_common_sense.mcs import MCS
+
+os.environ['MCS_CONFIG_FILE_PATH'] = # Path to your MCS configuration file
+
+scene_files = # List of scene configuration file paths
+
+unity_app = # Path to your MCS Unity application
+
+controller = MCS.create_controller(unity_app)
+
+for scene_file in scene_files:
+    config_data, status = MCS.load_config_json(scene_file)
+
+    if status is not None:
+        print(status)
+    else:
+        output = controller.start_scene(config_data)
+        # Use the output to save your scene graph or map
+```
 
 ## Documentation
 
