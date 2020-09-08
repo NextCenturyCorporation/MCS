@@ -245,7 +245,8 @@ def main():
 
     controller = MCS.create_controller(args.mcs_unity_build_file,
                                        debug=args.debug,
-                                       enable_noise=args.noise, seed=args.seed,
+                                       enable_noise=args.noise,
+                                       seed=args.seed,
                                        size=args.size,
                                        depth_masks=args.depth_masks,
                                        object_masks=args.object_masks)

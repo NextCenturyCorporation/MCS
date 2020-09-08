@@ -196,7 +196,7 @@ class Action(Enum):
         "MoveRight",
         "d",
         "Move yourself to your right based on your current view. " +
-        "(amount=float(default: 0.5))"
+        "(amount=float (default:0.5))"
     )
     """
     Move yourself right based on your current viewport.
