@@ -586,6 +586,8 @@ class Action(Enum):
         obj._value_ = action
         obj._key = key
         obj._desc = desc
+        # The following line is to get enum name from more than one value:
+        # https://stackoverflow.com/a/43210118/6997391
         cls._value2member_map_[key] = obj
         return obj
 
