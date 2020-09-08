@@ -60,8 +60,8 @@ class Quartet(ABC):
         scene: Dict[str, Any]
     ) -> List[Dict[str, Any]]:
         # Find each occluder's ID in the goal template.
-        occluder_id_list = (occluder['id'] for occluder in
-                            self._goal._tag_to_objects['occluder'])
+        occluder_id_list = [occluder['id'] for occluder in
+                            self._goal._tag_to_objects['occluder']]
         # Then find each occluder in the given scene.
         occluder_list = []
         for instance in scene['objects']:
@@ -80,11 +80,17 @@ class Quartet(ABC):
 
 
 class ObjectPermanenceQuartet(Quartet):
-    def __init__(self, template: Dict[str, Any], find_path: bool):
+    def __init__(
+        self,
+        template: Dict[str, Any],
+        find_path=False,
+        is_fall_down=False,
+        is_move_across=False
+    ):
         super(ObjectPermanenceQuartet, self).__init__(
             template,
             find_path,
-            intphys_goals.ObjectPermanenceGoal()
+            intphys_goals.ObjectPermanenceGoal(is_fall_down, is_move_across)
         )
 
     def _appear_behind_occluder(self, scene: Dict[str, Any]) -> None:
@@ -172,11 +178,18 @@ class ObjectPermanenceQuartet(Quartet):
 
 
 class SpatioTemporalContinuityQuartet(Quartet):
-    def __init__(self, template: Dict[str, Any], find_path: bool):
+    def __init__(
+        self,
+        template: Dict[str, Any],
+        find_path=False,
+        is_fall_down=False,
+        is_move_across=False
+    ):
         super(SpatioTemporalContinuityQuartet, self).__init__(
             template,
             find_path,
-            intphys_goals.SpatioTemporalContinuityGoal()
+            intphys_goals.SpatioTemporalContinuityGoal(is_fall_down,
+                                                       is_move_across)
         )
         if self._goal.is_move_across():
             self._adjust_target_max_step_begin(self._scene_template)
@@ -233,7 +246,9 @@ class SpatioTemporalContinuityQuartet(Quartet):
             if random.random() <= 0.5:
                 # Delay the teleport to the step at which the target is
                 # expected to appear from behind its second paired occluder.
-                target['hides'] = {'stepBegin': implausible_event_step}
+                target['hides'] = [{
+                    'stepBegin': implausible_event_step
+                }]
                 show_step = target['shows'][0]['stepBegin'] + \
                     occluder_end_index + 1
                 target['shows'].append({
@@ -261,14 +276,13 @@ class SpatioTemporalContinuityQuartet(Quartet):
                 target['shows'][0]['stepBegin']
             )
             # Find the second occluder paired with the target.
-            occluder = [
-                occluder for occluder in occluder_list
-                if occluder['id'] == target['intphysOption']['occluderId']
-            ][0]
+            occluder_wall_2 = occluder_list[2]
             factor = self._goal.retrieve_sight_angle_position_factor(
                 target['shows'][0]['position']['z']
             )
-            target_teleport_x = occluder['shows'][0]['position']['x'] / factor
+            target_teleport_x = (
+                occluder_wall_2['shows'][0]['position']['x'] / factor
+            )
             target['teleports'] = [{
                 'stepBegin': implausible_event_step,
                 'stepEnd': implausible_event_step,
@@ -312,17 +326,14 @@ class SpatioTemporalContinuityQuartet(Quartet):
                 target['shows'][0]['stepBegin']
             )
             # Find the second occluder paired with the target.
-            occluder = [
-                occluder for occluder in occluder_list
-                if occluder['id'] == target['intphysOption']['occluderId']
-            ][0]
+            occluder_wall_2 = occluder_list[2]
             original_x = target['shows'][0]['position']['x']
             factor = self._goal.retrieve_sight_angle_position_factor(
                 target['shows'][0]['position']['z']
             )
             # Swap starting X position, then teleport back to original X.
             target['shows'][0]['position']['x'] = (
-                occluder['shows'][0]['position']['x'] / factor
+                occluder_wall_2['shows'][0]['position']['x'] / factor
             )
             target_teleport_x = original_x
 
@@ -356,16 +367,13 @@ class SpatioTemporalContinuityQuartet(Quartet):
         # In fall-down scenes, swap the target from one occluder to another.
         elif self._goal.is_fall_down():
             # Find the second occluder paired with the target.
-            occluder = [
-                occluder for occluder in occluder_list
-                if occluder['id'] == target['intphysOption']['occluderId']
-            ][0]
+            occluder_wall_2 = occluder_list[2]
             factor = self._goal.retrieve_sight_angle_position_factor(
                 target['shows'][0]['position']['z']
             )
             # Swap starting X position.
             target['shows'][0]['position']['x'] = (
-                occluder['shows'][0]['position']['x'] / factor
+                occluder_wall_2['shows'][0]['position']['x'] / factor
             )
 
         else:
@@ -394,11 +402,17 @@ class SpatioTemporalContinuityQuartet(Quartet):
 
 
 class ShapeConstancyQuartet(Quartet):
-    def __init__(self, template: Dict[str, Any], find_path: bool):
+    def __init__(
+        self,
+        template: Dict[str, Any],
+        find_path=False,
+        is_fall_down=False,
+        is_move_across=False
+    ):
         super(ShapeConstancyQuartet, self).__init__(
             template,
             find_path,
-            intphys_goals.ShapeConstancyGoal()
+            intphys_goals.ShapeConstancyGoal(is_fall_down, is_move_across)
         )
         self._b_template = self._create_b(self._scene_template)
 
@@ -419,9 +433,12 @@ class ShapeConstancyQuartet(Quartet):
         for object_definition in object_definition_list:
             if object_definition['type'] != object_a['type']:
                 size_b = object_definition['dimensions']['x']
+                # Ensure that object B is approx the same size as object A.
+                # Object B must not be any bigger than object A or else it may
+                # not be properly hidden by the paired occluder(s).
                 if (
-                    size_b < (size_a + util.MAX_SIZE_DIFFERENCE) and
-                    size_b > (size_a - util.MAX_SIZE_DIFFERENCE)
+                    size_b <= size_a and
+                    size_b >= (size_a - util.MAX_SIZE_DIFFERENCE)
                 ):
                     possible_definition_list.append(object_definition)
 
@@ -454,6 +471,7 @@ class ShapeConstancyQuartet(Quartet):
             ]
             # Give object B the movement of object A.
             object_b['forces'] = copy.deepcopy(object_a['forces'])
+            object_b['intphysOption'] = object_a['intphysOption']
 
         elif self._goal.is_fall_down():
             # Implausible event happens after target falls behind occluder.
@@ -483,6 +501,13 @@ class ShapeConstancyQuartet(Quartet):
         object_a = scene['objects'][0]
         object_b = copy.deepcopy(self._b_template)
 
+        # Show object B at object A's starting position.
+        object_b['shows'][0]['stepBegin'] = object_a['shows'][0]['stepBegin']
+        object_b['shows'][0]['position']['x'] = \
+            object_a['shows'][0]['position']['x']
+        object_b['shows'][0]['position']['z'] = \
+            object_a['shows'][0]['position']['z']
+
         if self._goal.is_move_across():
             # Implausible event happens after target moves behind occluder.
             occluder_index = object_a['intphysOption']['occluderIndices'][0]
@@ -493,6 +518,7 @@ class ShapeConstancyQuartet(Quartet):
             ]
             # Give object B the movement of object A.
             object_b['forces'] = copy.deepcopy(object_a['forces'])
+            object_b['intphysOption'] = object_a['intphysOption']
             # Change the position of object A to behind the occluder.
             object_a['shows'][0]['position']['x'] = implausible_event_x
 
@@ -511,13 +537,7 @@ class ShapeConstancyQuartet(Quartet):
         else:
             raise exceptions.SceneException('Unknown scene setup function!')
 
-        # Show object B at object A's starting position and only show object A
-        # at the implausible event step.
-        object_b['shows'][0]['stepBegin'] = object_a['shows'][0]['stepBegin']
-        object_b['shows'][0]['position']['x'] = \
-            object_a['shows'][0]['position']['x']
-        object_b['shows'][0]['position']['z'] = \
-            object_a['shows'][0]['position']['z']
+        # Wait to show object A at the implausible event step.
         object_a['shows'][0]['stepBegin'] = implausible_event_step
 
         # Hide object B at the implausible event step and show object A in
@@ -537,8 +557,9 @@ class ShapeConstancyQuartet(Quartet):
         # it's unique per object.
         object_b['shows'][0]['stepBegin'] = object_a['shows'][0]['stepBegin']
         object_b['shows'][0]['position'] = object_a['shows'][0]['position']
-        if 'forces' in object_a:
+        if self._goal.is_move_across():
             object_b['forces'] = object_a['forces']
+            object_b['intphysOption'] = object_a['intphysOption']
         # Swap object A with object B.
         scene['objects'][0] = object_b
 

@@ -16,13 +16,6 @@ from goal import Goal, GoalCategory
 from util import finalize_object_definition, instantiate_object
 
 
-MAX_WALL_WIDTH = 4
-MIN_WALL_WIDTH = 1
-WALL_Y_POS = 1.5
-WALL_HEIGHT = 3
-WALL_DEPTH = 0.1
-
-
 class IntPhysGoal(Goal, ABC):
     """Base class for Intuitive Physics goals. Subclasses must set TEMPLATE
     variable (for use in get_config)."""
@@ -157,9 +150,17 @@ class IntPhysGoal(Goal, ABC):
         )
     }
 
-    def __init__(self, name: str):
+    def __init__(self, name: str, is_fall_down=False, is_move_across=False):
         super(IntPhysGoal, self).__init__(name)
-        self._scene_setup_function = None
+        if is_fall_down:
+            self._scene_setup_function = IntPhysGoal._generate_fall_down
+        elif is_move_across:
+            self._scene_setup_function = IntPhysGoal._generate_move_across
+        else:
+            self._scene_setup_function = random.choice([
+                IntPhysGoal._generate_move_across,
+                IntPhysGoal._generate_fall_down
+            ])
 
     def _compute_performer_start(self) -> Dict[str, Dict[str, float]]:
         if self._performer_start is None:
@@ -181,6 +182,28 @@ class IntPhysGoal(Goal, ABC):
         all_objects: List[Dict[str, Any]]
     ) -> List[Dict[str, Any]]:
         return []
+
+    def compute_objects(
+        self,
+        room_wall_material_name: str,
+        room_wall_colors: List[str]
+    ) -> Dict[str, List[Dict[str, Any]]]:
+        wall_material_list = [
+            material
+            for material in materials.OCCLUDER_MATERIALS
+            if material[0] != room_wall_material_name
+        ]
+        moving_list, occluder_list = self._scene_setup_function(
+            self,
+            wall_material_list
+        )
+        background_list = self._generate_background_object_list()
+        return {
+            'target': [moving_list[0]],
+            'distractor': moving_list[1:],
+            'background object': background_list,
+            'occluder': occluder_list
+        }
 
     def update_body(
         self,
@@ -208,31 +231,19 @@ class IntPhysGoal(Goal, ABC):
                 goal['type_list'].append(tags.INTPHYS_FALL_DOWN)
         return goal
 
-    def compute_objects(
+    def _calculate_separation_distance(
         self,
-        room_wall_material_name: str,
-        room_wall_colors: List[str]
-    ) -> Dict[str, List[Dict[str, Any]]]:
-        self._scene_setup_function = random.choice([
-            IntPhysGoal._generate_move_across,
-            IntPhysGoal._generate_fall_down
-        ])
-        wall_material_list = [
-            material
-            for material in materials.OCCLUDER_MATERIALS
-            if material[0] != room_wall_material_name
-        ]
-        moving_list, occluder_list = self._scene_setup_function(
-            self,
-            wall_material_list
-        )
-        background_list = self._generate_background_object_list()
-        return {
-            'target': [moving_list[0]],
-            'distractor': moving_list[1:],
-            'background object': background_list,
-            'occluder': occluder_list
-        }
+        x_position_1: float,
+        x_size_1: float,
+        x_position_2: float,
+        x_size_2: float
+    ) -> bool:
+        """Return the distance separating the two occluders (or one object and
+        one occluder) with the given X positions and X sizes. A negative
+        distance means that the two objects are too close to one another."""
+        distance = abs(x_position_1 - x_position_2)
+        separation = (x_size_1 + x_size_2) / 2.0
+        return distance - (separation + IntPhysGoal.OCCLUDER_SEPARATION_X)
 
     def _choose_fall_down_object_number(self) -> int:
         """Return the number of objects for the fall-down scene."""
@@ -248,7 +259,7 @@ class IntPhysGoal(Goal, ABC):
 
     def _choose_move_across_occluder_number(self) -> int:
         """Return the number of occluders for the move-across scene."""
-        return random.choices((1, 2, 3, 4), (40, 20, 20, 20))[0]
+        return random.choices((1, 2, 3), (50, 30, 20))[0]
 
     def _generate_background_object_list(self) -> List[Dict[str, Any]]:
         def random_x():
@@ -298,6 +309,166 @@ class IntPhysGoal(Goal, ABC):
             background_object_list.append(background_object)
 
         return background_object_list
+
+    def _generate_fall_down(
+        self,
+        occluder_wall_material_list: List[Tuple]
+    ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+        """Generate and return fall-down objects and occluders."""
+        self._last_step = IntPhysGoal.LAST_STEP_FALL_DOWN
+        object_list = self._generate_fall_down_object_list()
+        occluder_list = self._generate_fall_down_paired_occluder_list(
+            object_list, occluder_wall_material_list)
+        self._generate_occluder_list(
+            self._choose_fall_down_occluder_number() -
+            int(len(occluder_list) / 2),
+            occluder_list,
+            occluder_wall_material_list,
+            True
+        )
+        return object_list, occluder_list
+
+    def _generate_fall_down_object_list(self) -> List[Dict[str, Any]]:
+        """Generate and return fall-down objects."""
+        object_list = []
+        for _ in range(self._choose_fall_down_object_number()):
+            successful = False
+            for _ in range(util.MAX_TRIES):
+                # Ensure the random X position is within the camera's view.
+                x_position = util.random_real(
+                    -IntPhysGoal.OCCLUDER_DEFAULT_MAX_X,
+                    IntPhysGoal.OCCLUDER_DEFAULT_MAX_X,
+                    util.MIN_RANDOM_INTERVAL
+                )
+
+                z_position = random.choice(
+                    (IntPhysGoal.OBJECT_NEAR_Z, IntPhysGoal.OBJECT_FAR_Z)
+                )
+                factor = self.retrieve_sight_angle_position_factor(z_position)
+
+                # Each object must have an occluder so ensure that they're each
+                # positioned far enough away from one another.
+                too_close = False
+                for instance in object_list:
+                    second_factor = self.retrieve_sight_angle_position_factor(
+                        instance['shows'][0]['position']['z']
+                    )
+                    too_close = self._calculate_separation_distance(
+                        x_position * factor,
+                        IntPhysGoal.OCCLUDER_MAX_SCALE_X,
+                        instance['shows'][0]['position']['x'] * second_factor,
+                        IntPhysGoal.OCCLUDER_MAX_SCALE_X
+                    ) < 0
+                    if too_close:
+                        break
+                if not too_close:
+                    successful = True
+                    break
+            if not successful:
+                raise exceptions.SceneException(
+                    f'Cannot position object to fall down object_list='
+                    f'{object_list}')
+
+            location = {
+                'position': {
+                    'x': x_position,
+                    'y': IntPhysGoal.FALL_DOWN_OBJECT_Y,
+                    'z': random.choice(
+                        (IntPhysGoal.OBJECT_NEAR_Z, IntPhysGoal.OBJECT_FAR_Z)
+                    )
+                }
+            }
+
+            object_definition = random.choice(
+                IntPhysGoal.FALL_DOWN_OBJECT_DEFINITION_LIST
+            )
+            instance = instantiate_object(object_definition, location)
+            instance['shows'][0]['stepBegin'] = random.randint(
+                IntPhysGoal.EARLIEST_ACTION_STEP,
+                IntPhysGoal.LATEST_ACTION_FALL_DOWN_STEP
+            )
+            object_list.append(instance)
+
+        return object_list
+
+    def _generate_fall_down_paired_occluder(
+        self,
+        paired_object: Dict[str, Any],
+        occluder_list: List[Dict[str, Any]],
+        occluder_wall_material_list: List[Tuple]
+    ) -> List[Dict[str, Any]]:
+        """Generate and return one fall-down paired occluder that must be
+        positioned underneath the paired object."""
+        paired_x = paired_object['shows'][0]['position']['x']
+        # For a non-occluder, the size is its dimensions, NOT its scale!
+        paired_size = paired_object['dimensions']['x']
+        min_scale = min(max(paired_size, IntPhysGoal.OCCLUDER_MIN_SCALE_X),
+                        IntPhysGoal.OCCLUDER_MAX_SCALE_X)
+        max_scale = IntPhysGoal.OCCLUDER_MAX_SCALE_X
+
+        # Adjust the X position using the sight angle from the camera
+        # to the object so an occluder will properly hide the object.
+        paired_z = paired_object['shows'][0]['position']['z']
+        x_position = paired_x * \
+            self.retrieve_sight_angle_position_factor(paired_z)
+
+        for occluder in occluder_list:
+            occluder_x = occluder['shows'][0]['position']['x']
+            occluder_size = occluder['shows'][0]['scale']['x']
+            # Ensure that each occluder is positioned far enough away from one
+            # another (this should be done previously, but check again).
+            distance = self._calculate_separation_distance(
+                occluder_x,
+                occluder_size,
+                x_position,
+                paired_size
+            )
+            if distance < 0:
+                print(f'OBJECT={paired_object}\nOCCLUDER_LIST={occluder_list}')
+                raise exceptions.SceneException(
+                    f'IntPhys fall-down objects were positioned too close '
+                    f'distance={distance} object_position={x_position} '
+                    f'object_size={paired_size} '
+                    f'occluder_position={occluder_x} '
+                    f'occluder_size={occluder_size}')
+            if distance < (max_scale - min_scale):
+                max_scale = min_scale + distance
+
+        # Choose a random size.
+        if max_scale <= min_scale:
+            x_scale = min_scale
+        else:
+            x_scale = util.random_real(min_scale, max_scale,
+                                       util.MIN_RANDOM_INTERVAL)
+
+        return objects.create_occluder(
+            random.choice(occluder_wall_material_list),
+            random.choice(materials.METAL_MATERIALS),
+            x_position,
+            x_scale,
+            True
+        )
+
+    def _generate_fall_down_paired_occluder_list(
+        self,
+        object_list: List[Dict[str, Any]],
+        occluder_wall_material_list: List[Tuple]
+    ) -> List[Dict[str, Any]]:
+        """Generate and return needed fall-down paired occluders."""
+        paired_list = self._identify_fall_down_paired_list(object_list)
+        occluder_list = []
+        for paired_object in paired_list:
+            occluder = self._generate_fall_down_paired_occluder(
+                paired_object,
+                occluder_list,
+                occluder_wall_material_list
+            )
+            if not occluder:
+                raise exceptions.SceneException(
+                    f'Cannot create fall-down paired occluder object='
+                    f'{paired_object} occluder_list={occluder_list}')
+            occluder_list.extend(occluder)
+        return occluder_list
 
     def _generate_move_across(
         self,
@@ -493,15 +664,13 @@ class IntPhysGoal(Goal, ABC):
             )
 
             # Choose a random position.
-            min_x_position = -IntPhysGoal.OCCLUDER_MAX_X + x_scale / 2
-            max_x_position = IntPhysGoal.OCCLUDER_MAX_X - x_scale / 2
-
             # The position must correspond with one of the object's positions.
             position_by_step = paired_object['intphysOption']['positionByStep']
+            max_x_position = IntPhysGoal.OCCLUDER_MAX_X - x_scale / 2
             while True:
                 position_index = random.randrange(len(position_by_step))
                 paired_x = position_by_step[position_index]
-                if min_x_position <= paired_x <= max_x_position:
+                if -max_x_position <= paired_x <= max_x_position:
                     break
 
             # Adjust the X position using the sight angle from the camera
@@ -510,13 +679,18 @@ class IntPhysGoal(Goal, ABC):
             x_position = paired_x * \
                 self.retrieve_sight_angle_position_factor(paired_z)
 
-            # Ensure the new occluder won't collide with any existing occluder.
-            collides = False
+            # Ensure the new occluder isn't too close to an existing occluder.
+            too_close = False
             for occluder in occluder_list:
-                if geometry.occluders_too_close(occluder, x_position, x_scale):
-                    collides = True
+                too_close = self._calculate_separation_distance(
+                    occluder['shows'][0]['position']['x'],
+                    occluder['shows'][0]['scale']['x'],
+                    x_position,
+                    x_scale
+                ) < 0
+                if too_close:
                     break
-            if not collides:
+            if not too_close:
                 # Save occluderIndices needed by quartets.
                 occluder_indices = paired_object['intphysOption'].get(
                     'occluderIndices', [])
@@ -554,155 +728,6 @@ class IntPhysGoal(Goal, ABC):
             occluder_list.extend(occluder)
         return occluder_list
 
-    def _generate_fall_down(
-        self,
-        occluder_wall_material_list: List[Tuple]
-    ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
-        """Generate and return fall-down objects and occluders."""
-        self._last_step = IntPhysGoal.LAST_STEP_FALL_DOWN
-        object_list = self._generate_fall_down_object_list()
-        occluder_list = self._generate_fall_down_paired_occluder_list(
-            object_list, occluder_wall_material_list)
-        self._generate_occluder_list(
-            self._choose_fall_down_occluder_number() -
-            int(len(occluder_list) / 2),
-            occluder_list,
-            occluder_wall_material_list,
-            True
-        )
-        return object_list, occluder_list
-
-    def _generate_fall_down_paired_occluder(
-        self,
-        paired_object: Dict[str, Any],
-        occluder_list: List[Dict[str, Any]],
-        occluder_wall_material_list: List[Tuple]
-    ) -> List[Dict[str, Any]]:
-        """Generate and return one fall-down paired occluder that must be
-        positioned underneath the paired object."""
-        paired_x = paired_object['shows'][0]['position']['x']
-        paired_size = paired_object['dimensions']['x']
-        min_scale = min(max(paired_size, IntPhysGoal.OCCLUDER_MIN_SCALE_X),
-                        IntPhysGoal.OCCLUDER_MAX_SCALE_X)
-        max_scale = IntPhysGoal.OCCLUDER_MAX_SCALE_X
-
-        for occluder in occluder_list:
-            # Ensure that each occluder is positioned far enough away from one
-            # another (this should be done previously, but check again).
-            occluder_x = occluder['shows'][0]['position']['x']
-            distance = abs(occluder_x - paired_x)
-            occluder_size = occluder['shows'][0]['scale']['x']
-            separation = 2 * (distance - (occluder_size / 2.0) -
-                              IntPhysGoal.OCCLUDER_SEPARATION_X)
-            if separation < 0:
-                raise exceptions.SceneException(
-                    f'IntPhys fall-down objects were positioned too close '
-                    f'object_x={paired_x} occluder_x={occluder_x} '
-                    f'occluder_size={occluder_size} separation={separation}')
-            if separation < max_scale:
-                max_scale = separation
-
-        # Choose a random size.
-        if max_scale <= min_scale:
-            x_scale = min_scale
-        else:
-            x_scale = util.random_real(min_scale, max_scale,
-                                       util.MIN_RANDOM_INTERVAL)
-
-        # Adjust the X position using the sight angle from the camera
-        # to the object so an occluder will properly hide the object.
-        paired_z = paired_object['shows'][0]['position']['z']
-        x_position = paired_x * \
-            self.retrieve_sight_angle_position_factor(paired_z)
-
-        occluder_pair = objects.create_occluder(
-            random.choice(occluder_wall_material_list),
-            random.choice(materials.METAL_MATERIALS),
-            x_position,
-            x_scale,
-            True
-        )
-
-        # Save occluderId needed by SpatioTemporalContinuityQuartet.
-        paired_object['intphysOption'] = paired_object.get('intphysOption', {})
-        paired_object['intphysOption']['occluderId'] = occluder_pair[0]['id']
-        return occluder_pair
-
-    def _generate_fall_down_paired_occluder_list(
-        self,
-        object_list: List[Dict[str, Any]],
-        occluder_wall_material_list: List[Tuple]
-    ) -> List[Dict[str, Any]]:
-        """Generate and return needed fall-down paired occluders."""
-        occluder_list = []
-        for paired_object in object_list:
-            occluder = self._generate_fall_down_paired_occluder(
-                paired_object,
-                occluder_list,
-                occluder_wall_material_list
-            )
-            if not occluder:
-                raise exceptions.SceneException(
-                    f'Cannot create fall-down paired occluder object='
-                    f'{paired_object} occluder_list={occluder_list}')
-            occluder_list.extend(occluder)
-        return occluder_list
-
-    def _generate_fall_down_object_list(self) -> List[Dict[str, Any]]:
-        """Generate and return fall-down objects."""
-        object_list = []
-        for _ in range(self._choose_fall_down_object_number()):
-            successful = False
-            for _ in range(util.MAX_TRIES):
-                # Ensure the random X position is within the camera's view.
-                x_position = util.random_real(
-                    -IntPhysGoal.OCCLUDER_DEFAULT_MAX_X,
-                    IntPhysGoal.OCCLUDER_DEFAULT_MAX_X,
-                    util.MIN_RANDOM_INTERVAL
-                )
-                # Each object must have an occluder so ensure that they're each
-                # positioned far enough away from one another.
-                too_close = False
-                for instance in object_list:
-                    distance = abs(
-                        instance['shows'][0]['position']['x'] - x_position
-                    )
-                    too_close = distance < (
-                        (IntPhysGoal.OCCLUDER_MIN_SCALE_X * 2) +
-                        IntPhysGoal.OCCLUDER_SEPARATION_X
-                    )
-                    if too_close:
-                        break
-                if not too_close:
-                    successful = True
-                    break
-            if not successful:
-                raise exceptions.SceneException(
-                    f'Cannot position object to fall down object_list='
-                    f'{object_list}')
-
-            location = {
-                'position': {
-                    'x': x_position,
-                    'y': IntPhysGoal.FALL_DOWN_OBJECT_Y,
-                    'z': random.choice(
-                        (IntPhysGoal.OBJECT_NEAR_Z, IntPhysGoal.OBJECT_FAR_Z)
-                    )
-                }
-            }
-
-            object_definition = random.choice(
-                IntPhysGoal.FALL_DOWN_OBJECT_DEFINITION_LIST
-            )
-            instance = instantiate_object(object_definition, location)
-            instance['shows'][0]['stepBegin'] = random.randint(
-                IntPhysGoal.EARLIEST_ACTION_STEP,
-                IntPhysGoal.LATEST_ACTION_FALL_DOWN_STEP
-            )
-            object_list.append(instance)
-
-        return object_list
-
     def _generate_occluder(
         self,
         occluder_list: List[Dict[str, Any]],
@@ -718,21 +743,9 @@ class IntPhysGoal(Goal, ABC):
                 IntPhysGoal.OCCLUDER_MAX_SCALE_X,
                 util.MIN_RANDOM_INTERVAL
             )
-            max_x = IntPhysGoal.OCCLUDER_MAX_X - x_scale / 2.0
-            max_x = int(max_x / util.MIN_RANDOM_INTERVAL) * \
-                util.MIN_RANDOM_INTERVAL
-
-            # Choose a random position.
-            x_position = util.random_real(-max_x, max_x,
-                                          util.MIN_RANDOM_INTERVAL)
-
-            # Ensure the new occluder won't collide with any existing occluder.
-            collides = False
-            for occluder in occluder_list:
-                if geometry.occluders_too_close(occluder, x_position, x_scale):
-                    collides = True
-                    break
-            if not collides:
+            x_position = self._generate_occluder_position(x_scale,
+                                                          occluder_list)
+            if x_position is not None:
                 successful = True
                 break
         if successful:
@@ -761,6 +774,47 @@ class IntPhysGoal(Goal, ABC):
                 raise exceptions.SceneException(
                     f'Cannot create occluder occluder_list={occluder_list}')
             occluder_list.extend(occluder)
+
+    def _generate_occluder_position(
+        self,
+        x_scale: float,
+        occluder_list: List[Dict[str, Any]]
+    ) -> float:
+        """Generate and return a random X position for a new occluder with the
+        given X scale that isn't too close to an existing occluder from the
+        given list."""
+        max_x = IntPhysGoal.OCCLUDER_MAX_X - x_scale / 2.0
+        max_x = int(max_x / util.MIN_RANDOM_INTERVAL) * \
+            util.MIN_RANDOM_INTERVAL
+
+        for _ in range(util.MAX_TRIES):
+            # Choose a random position.
+            x_position = util.random_real(-max_x, max_x,
+                                          util.MIN_RANDOM_INTERVAL)
+
+            # Ensure the new occluder isn't too close to an existing occluder.
+            too_close = False
+            for occluder in occluder_list:
+                too_close = self._calculate_separation_distance(
+                    occluder['shows'][0]['position']['x'],
+                    occluder['shows'][0]['scale']['x'],
+                    x_position,
+                    x_scale
+                ) < 0
+                if too_close:
+                    break
+            if not too_close:
+                return x_position
+
+        return None
+
+    def _identify_fall_down_paired_list(
+        self,
+        object_list: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
+        """Return objects that must be paired with occluders in fall-down
+        scenes."""
+        return object_list
 
     def _identify_move_across_paired_list(
         self,
@@ -1002,8 +1056,12 @@ class ObjectPermanenceGoal(IntPhysGoal):
         }
     }
 
-    def __init__(self):
-        super(ObjectPermanenceGoal, self).__init__('object permanence')
+    def __init__(self, is_fall_down=False, is_move_across=False):
+        super(ObjectPermanenceGoal, self).__init__(
+            'object permanence',
+            is_fall_down,
+            is_move_across
+        )
 
 
 class ShapeConstancyGoal(IntPhysGoal):
@@ -1027,8 +1085,12 @@ class ShapeConstancyGoal(IntPhysGoal):
         }
     }
 
-    def __init__(self):
-        super(ShapeConstancyGoal, self).__init__('shape constancy')
+    def __init__(self, is_fall_down=False, is_move_across=False):
+        super(ShapeConstancyGoal, self).__init__(
+            'shape constancy',
+            is_fall_down,
+            is_move_across
+        )
 
 
 class SpatioTemporalContinuityGoal(IntPhysGoal):
@@ -1052,9 +1114,12 @@ class SpatioTemporalContinuityGoal(IntPhysGoal):
         }
     }
 
-    def __init__(self):
+    def __init__(self, is_fall_down=False, is_move_across=False):
         super(SpatioTemporalContinuityGoal, self).__init__(
-            'spatio temporal continuity')
+            'spatio temporal continuity',
+            is_fall_down,
+            is_move_across
+        )
 
     def _choose_fall_down_object_number(self) -> int:
         return 1
@@ -1063,10 +1128,39 @@ class SpatioTemporalContinuityGoal(IntPhysGoal):
         return 2
 
     def _choose_move_across_occluder_number(self) -> int:
-        return random.choices((2, 3, 4), (40, 30, 30))[0]
+        return random.choices((2, 3), (60, 40))[0]
+
+    def _identify_fall_down_paired_list(
+        self,
+        object_list: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
+        # Generate two occluders paired with the first object (the target):
+        # one in the target's original position, and one in a new position.
+        target_copy = copy.deepcopy(object_list[0])
+        target_size = target_copy['dimensions']['x']
+        factor = self.retrieve_sight_angle_position_factor(
+            target_copy['shows'][0]['position']['z']
+        )
+        # Create a temp occluder with max scale to ensure that the copied
+        # target won't be positioned too close to the original target.
+        temp_occluder_pair = objects.create_occluder(
+            random.choice(materials.OCCLUDER_MATERIALS),
+            random.choice(materials.METAL_MATERIALS),
+            target_copy['shows'][0]['position']['x'] * factor,
+            IntPhysGoal.OCCLUDER_MAX_SCALE_X,
+            True
+        )
+        # Generate a new random X position for the copied target.
+        position = self._generate_occluder_position(target_size,
+                                                    temp_occluder_pair)
+        target_copy['shows'][0]['position']['x'] = position / factor
+        # The copied target must be the second object in the returned list.
+        print(f'ORIGINAL={object_list[0]}\nCOPY={target_copy}')
+        return [object_list[0], target_copy]
 
     def _identify_move_across_paired_list(
         self,
         object_list: List[Dict[str, Any]]
     ) -> List[Dict[str, Any]]:
+        # Generate two occluders paired with the first object (the target).
         return [object_list[0], object_list[0]]

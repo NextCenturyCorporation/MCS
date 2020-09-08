@@ -41,7 +41,7 @@ python3 scene_generator.py --prefix my_scene -c 10 --goal Retrieval --find_path
 Please note that the tests will take a few minutes to run!
 
 ```
-python3 -m pytest *_test.py
+python3 -m pytest --debug -v *_test.py -vv
 ```
 
 ## Linting
