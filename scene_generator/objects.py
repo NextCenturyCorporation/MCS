@@ -5222,20 +5222,20 @@ _INTPHYS_NOVEL = [{
         "salientMaterials": ["wood"]
     }],
     "dimensions": {
-        "x": 0.21,
-        "y": 0.17,
-        "z": 0.065
+        "x": 0.21 * 1.5,
+        "y": 0.17 * 1.5,
+        "z": 0.065 * 1.5
     },
     "offset": {
         "x": 0,
-        "y": 0.085,
+        "y": 0.085 * 1.5,
         "z": 0
     },
     "positionY": 0.01,
     "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
+        "x": 1.5,
+        "y": 1.5,
+        "z": 1.5
     }
 }, {
     "type": "duck_on_wheels",

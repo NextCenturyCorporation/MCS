@@ -19,6 +19,7 @@ numpy==1.18.5
 pillow==7.1.2
 pre-commit==2.6.0
 progressbar2==3.51.3
+pytest==6.0.1
 python-utils==2.4.0
 pyyaml==5.3.1
 requests==2.23.0

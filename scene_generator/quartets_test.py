@@ -9,6 +9,7 @@ import pytest
 from quartets import GravityQuartet, ShapeConstancyQuartet, \
     ObjectPermanenceQuartet, SpatioTemporalContinuityQuartet, \
     get_position_step
+import util
 
 
 TEMPLATE = {'wallMaterial': 'dummy', 'wallColors': ['color']}
@@ -24,10 +25,36 @@ def test_get_position_step():
     assert step == expected_step
 
 
-def test_get_scene_exception():
+def test_get_scene_exception_0():
     quartet = ObjectPermanenceQuartet(TEMPLATE, False)
     with pytest.raises(exceptions.SceneException):
         quartet.get_scene(0)
+
+
+def test_get_scene_exception_5():
+    quartet = ObjectPermanenceQuartet(TEMPLATE, False)
+    with pytest.raises(exceptions.SceneException):
+        quartet.get_scene(5)
+
+
+def test_shape_constancy_substitute_object():
+    definition_list = objects.get('INTPHYS') + objects.get('INTPHYS_NOVEL')
+    assert len(definition_list) >= 2
+    for definition_1 in definition_list:
+        x_size_1 = definition_1['dimensions']['x']
+        substitute_count = 0
+        for definition_2 in definition_list:
+            x_size_2 = definition_2['dimensions']['x']
+            if (
+                definition_1 != definition_2 and
+                x_size_1 >= x_size_2 and
+                (x_size_1 - util.MAX_SIZE_DIFFERENCE) <= x_size_2
+            ):
+                substitute_count += 1
+        print(f'TYPE={definition_1["type"]} MASS={definition_1["mass"]} '
+              f'X_SIZE={x_size_1} substitute_count={substitute_count}')
+        # We want at least two possible substitute objects.
+        assert substitute_count >= 2
 
 
 def find_implausible_event_step_offset(target, occluder):

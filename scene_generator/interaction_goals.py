@@ -16,7 +16,7 @@ import tags
 import util
 from geometry import POSITION_DIGITS
 from goal import Goal, GoalCategory, generate_wall
-from machine_common_sense.mcs_controller_ai2thor import (
+from machine_common_sense.controller_ai2thor import (
     MAX_MOVE_DISTANCE,
     MAX_REACH_DISTANCE,
     PERFORMER_CAMERA_Y

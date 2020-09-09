@@ -9,7 +9,7 @@ from shapely import affinity
 
 import objects
 import util
-from machine_common_sense.mcs_controller_ai2thor import PERFORMER_CAMERA_Y
+from machine_common_sense.controller_ai2thor import PERFORMER_CAMERA_Y
 from separating_axis_theorem import sat_entry
 
 POSITION_DIGITS = 2
