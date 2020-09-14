@@ -8,12 +8,10 @@ env.bak/
 venv.bak/
 
 # Editors
-.vscode
 *.swp
 
 # Mac OS
 .DS_Store
-ingest_results/__MACOSX/*
 
 # Byte-compiled
 **/__pycache__/
@@ -27,35 +25,4 @@ dist/
 sdist/
 wheels/
 
-# Neon
-mcs_docker_setup/neon-jan-2020*
-
-# untracked scene configuration files
-python_api/scenes/*.json
-python_api/scenes/images/*.gif
-
 **/SCENE_HISTORY
-
-# python docs
-python_api/machine_common_sense/docs
-python_api/machine_common_sense/venv
-
-# scene runtime debug files
-python_api/machine_common_sense/**/*.gif
-python_api/machine_common_sense/**/*.json
-python_api/machine_common_sense/**/*.mp4
-python_api/machine_common_sense/**/*.png
-
-# truthing
-truthing/pyqtgraph
-truthing/node_modules
-
-scene_generator/*.json
-scene_generator/scenes/*
-scene_generator/**/images.py
-scene_generator/images/*.tar.gz
-scene_generator/images/**/*.txt
-scene_generator/images/**/*.png
-scene_generator/image_generator/*.tar.gz
-scene_generator/image_generator/**/*.txt
-scene_generator/image_generator/**/*.png

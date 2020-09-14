@@ -1,6 +1,0 @@
-ai2thor == 2.2.0
-numpy
-Pillow
-autopep8
-flake8
-pre-commit

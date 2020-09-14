@@ -23,12 +23,13 @@ setuptools.setup(
         'shapely',
         'ai2thor @ git+https://github.com/NextCenturyCorporation/ai2thor#egg=ai2thor'
     ],
-    package_dir={'':'python_api'},
-    packages=setuptools.find_packages('python_api'),
+    # package_dir={'': 'python_api'},
+    package_data={'scenes': ['data/*.json']},
+    # packages=setuptools.find_packages('python_api'),
     entry_points={
-        'console_scripts':[
-            'mcs_run_in_human_input_mode=machine_common_sense.run_mcs_human_input:main',
-            'mcs_run_scene_timer=machine_common_sense.run_mcs_scene_timer:main'
+        'console_scripts': [
+            'run_in_human_input_mode=scripts.run_mcs_human_input:main',
+            'run_scene_timer=scripts.run_mcs_scene_timer:main'
         ]
     }
 )
