@@ -504,15 +504,35 @@ class ControllerAI2THOR(Controller):
         )
 
     # Override
-    def step(self, action, **kwargs):
+    # TODO: MCS-358: is heatmap_img a filepath?
+    def step(self, action, choice=None, confidence=None, heatmap_img=None,
+             internal_state=None, **kwargs):
         """
         Runs the given action within the current scene and unpauses the scene's
-        physics simulation for a few frames.
+        physics simulation for a few frames. Can also optionally send
+        information about scene plausability if applicable.
 
         Parameters
         ----------
         action : string
             A selected action string from the list of available actions.
+        choice : string, optional
+            The selected choice required by the end of scenes with
+            violation-of-expectation or classification goals.
+            Is not required for other goals. (default None)
+        confidence : float, optional
+            The choice confidence between 0 and 1 required by the end of
+            scenes with violation-of-expectation or classification goals.
+            Is not required for other goals. (default None)
+        heatmap_img : string, optional
+            An image representing scene plausiblility at a particular
+            moment (default None)
+        internal_state : object, optional
+            A properly formatted json object representing various kinds of
+            internal states at a particular moment. Examples include the
+            estimated position of the agent, details on spatial
+            location of the VoE, current map of the world, etc.
+            (default None)
         **kwargs
             Zero or more key-and-value parameters for the action.
 
@@ -524,7 +544,8 @@ class ControllerAI2THOR(Controller):
             "last_step" of this scene.
         """
 
-        super().step(action, **kwargs)
+        super().step(action, choice, confidence, heatmap_img,
+                     internal_state, **kwargs)
 
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
@@ -582,8 +603,12 @@ class ControllerAI2THOR(Controller):
             action=action,
             args=kwargs,
             params=params,
+            classification=choice,
+            confidence=confidence,
+            internal_state=internal_state,
             output=output_copy)
         self.__history_list.append(history_item)
+        # TODO: MCS-358: add logic to upload heatmap image to s3
         filtered_history_item = self.filter_history_images(history_item)
         self.write_history_file(str(filtered_history_item))
 

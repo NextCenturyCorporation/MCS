@@ -50,15 +50,34 @@ class Controller:
         # TODO Override
         return StepMetadata()
 
-    def step(self, action, **kwargs):
+    def step(self, action, choice=None, confidence=None, heatmap_img=None,
+             internal_state=None, **kwargs):
         """
         Runs the given action within the current scene and unpauses the scene's
-        physics simulation for a few frames.
+        physics simulation for a few frames. Can also optionally send
+        information about scene plausability if applicable.
 
         Parameters
         ----------
         action : string
             A selected action string from the list of available actions.
+        choice : string, optional
+            The selected choice required by the end of scenes with
+            violation-of-expectation or classification goals.
+            Is not required for other goals. (default None)
+        confidence : float, optional
+            The choice confidence between 0 and 1 required by the end of
+            scenes with violation-of-expectation or classification goals.
+            Is not required for other goals. (default None)
+        heatmap_img : string, optional
+            An image representing scene plausiblility at a particular
+            moment (default None)
+        internal_state : object, optional
+            A properly formatted json object representing various kinds of
+            internal states at a particular moment. Examples include the
+            estimated position of the agent, details on spatial
+            location of the VoE, current map of the world, etc.
+            (default None)
         **kwargs
             Zero or more key-and-value parameters for the action.
 

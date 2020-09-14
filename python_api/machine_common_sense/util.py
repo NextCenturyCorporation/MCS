@@ -198,7 +198,7 @@ class Util:
                 print(
                     'Value of ' +
                     label +
-                    'needs to be a number. Will be set to 0.')
+                    ' needs to be a number. Will be set to 0.')
             return False
 
     """
