@@ -9,7 +9,7 @@ from shapely import affinity
 
 import objects
 import util
-from machine_common_sense.mcs_controller_ai2thor import PERFORMER_CAMERA_Y
+from machine_common_sense.controller_ai2thor import PERFORMER_CAMERA_Y
 from separating_axis_theorem import sat_entry
 
 POSITION_DIGITS = 2
@@ -200,16 +200,6 @@ def calc_obj_pos(performer_position: Dict[str, float],
 
     logging.debug(f'could not place object: {obj_def}')
     return None
-
-
-def occluders_too_close(
-        occluder: Dict[str, Any], x_position: float, x_scale: float) -> bool:
-    """Return True iff a new occluder at x_position with scale x_scale
-    would be too close to existing occluder occluder."""
-    existing_scale = occluder['shows'][0]['scale']['x']
-    min_distance = existing_scale / 2.0 + x_scale / 2.0 + 0.5
-    existing_x = occluder['shows'][0]['position']['x']
-    return abs(existing_x - x_position) < min_distance
 
 
 def position_distance(a: Dict[str, float], b: Dict[str, float]) -> float:

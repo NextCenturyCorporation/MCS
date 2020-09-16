@@ -200,18 +200,18 @@ class Goal(ABC):
         (dict that maps tag strings to object lists, bounding rectangles)"""
         pass
 
-    def update_goal_info_list(
-            self, info_list: List[str],
-            tag_to_objects: Dict[str, List[Dict[str, Any]]]) -> List[str]:
-        """Update and return the given info_list with the info from all
-        objects in this goal."""
-        info_set = set(info_list)
-        for key, value in tag_to_objects.items():
-            for obj in value:
-                info_list = obj.get('info', []).copy()
-                if 'goalString' in obj:
-                    info_list.append(obj['goalString'])
-                info_set |= set([(key + ' ' + info) for info in info_list])
+    def update_goal_with_object_info(
+        self,
+        tag: str,
+        goal_info_list: List[str],
+        object_list: List[Dict[str, Any]]
+    ) -> List[str]:
+        info_set = set(goal_info_list)
+        for object_instance in object_list:
+            object_info_list = object_instance.get('info', []).copy()
+            if 'goalString' in object_instance:
+                object_info_list.append(object_instance['goalString'])
+            info_set |= set([(tag + ' ' + info) for info in object_info_list])
         return list(info_set)
 
     def _get_config(
@@ -222,9 +222,13 @@ class Goal(ABC):
         goal_config['category'] = goal_config.get('category', '')
         goal_config['type_list'] = tags.append_object_tags(
             goal_config.get('type_list', []), tag_to_objects)
-        goal_config['info_list'] = self.update_goal_info_list(
-            goal_config.get('info_list', []), tag_to_objects)
         goal_config['metadata'] = goal_config.get('metadata', {})
+        goal_info_list = []
+        for tag, object_list in tag_to_objects.items():
+            goal_info_list = self.update_goal_with_object_info(tag,
+                                                               goal_info_list,
+                                                               object_list)
+        goal_config['info_list'] = goal_info_list
         return goal_config
 
     def get_name(self) -> str:

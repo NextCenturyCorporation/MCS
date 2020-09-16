@@ -21,6 +21,7 @@ def test_clean_object():
         'enclosedAreas': [{}],
         'openAreas': [{}],
         'intphysOption': 'stuff',
+        'isParentOf': [],
         'novelColor': True,
         'novelCombination': False,
         'novelShape': True,

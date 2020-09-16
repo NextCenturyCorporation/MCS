@@ -3405,7 +3405,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.38,
             0.759,
             1.139,
@@ -3442,7 +3442,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.604,
             1.209,
             1.813,
@@ -3469,7 +3469,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.829,
             1.659,
             2.488,
@@ -3491,7 +3491,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.45,
             0.9,
             1.35,
@@ -3526,7 +3526,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.675,
             1.35,
             2.025,
@@ -3551,7 +3551,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.9,
             1.8,
             2.7,
@@ -3603,7 +3603,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.379,
             0.759,
             1.138,
@@ -3640,7 +3640,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.604,
             1.209,
             1.813,
@@ -3667,7 +3667,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.829,
             1.659,
             2.488,
@@ -3689,7 +3689,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.45,
             0.9,
             1.35,
@@ -3723,7 +3723,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.675,
             1.35,
             2.025,
@@ -3748,7 +3748,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.9,
             1.8,
             2.7,
@@ -3800,7 +3800,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.379,
             0.759,
             1.138,
@@ -3836,7 +3836,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.604,
             1.209,
             1.813,
@@ -3862,7 +3862,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.829,
             1.659,
             2.488,
@@ -3884,7 +3884,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.45,
             0.9,
             1.35,
@@ -3918,7 +3918,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.675,
             1.35,
             2.025,
@@ -3943,7 +3943,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.9,
             1.8,
             2.7,
@@ -3995,7 +3995,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.245,
             0.484,
             0.807,
@@ -4039,7 +4039,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.46,
             0.861,
             1.466,
@@ -4069,7 +4069,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.684,
             1.31,
             2.141,
@@ -4092,7 +4092,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.45,
             0.9,
             1.35,
@@ -4131,7 +4131,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.675,
             1.35,
             2.025,
@@ -4157,7 +4157,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.9,
             1.8,
             2.7,
@@ -4209,7 +4209,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.247,
             0.511,
             0.909,
@@ -4252,7 +4252,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.454,
             0.898,
             1.558,
@@ -4282,7 +4282,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.679,
             1.351,
             2.236,
@@ -4306,7 +4306,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.45,
             0.9,
             1.35,
@@ -4343,7 +4343,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.675,
             1.35,
             2.025,
@@ -4369,7 +4369,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.9,
             1.8,
             2.7,
@@ -4421,7 +4421,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.253,
             0.616,
             0.867,
@@ -4464,7 +4464,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.469,
             1.064,
             1.536,
@@ -4493,7 +4493,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.694,
             1.514,
             2.211,
@@ -4516,7 +4516,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.45,
             0.9,
             1.35,
@@ -4553,7 +4553,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.675,
             1.35,
             2.025,
@@ -4579,7 +4579,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.9,
             1.8,
             2.7,
@@ -4636,7 +4636,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.38,
             0.759,
             1.139,
@@ -4674,7 +4674,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.604,
             1.209,
             1.813,
@@ -4701,7 +4701,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.829,
             1.659,
             2.488,
@@ -4723,7 +4723,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.45,
             0.9,
             1.35,
@@ -4758,7 +4758,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.675,
             1.35,
             2.025,
@@ -4784,7 +4784,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.9,
             1.8,
             2.7,
@@ -4841,7 +4841,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.379,
             0.759,
             1.138,
@@ -4878,7 +4878,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.604,
             1.209,
             1.813,
@@ -4905,7 +4905,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.829,
             1.659,
             2.488,
@@ -4927,7 +4927,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.45,
             0.9,
             1.35,
@@ -4962,7 +4962,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.675,
             1.35,
             2.025,
@@ -4987,7 +4987,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.9,
             1.8,
             2.7,
@@ -5044,7 +5044,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.379,
             0.759,
             1.138,
@@ -5081,7 +5081,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.604,
             1.209,
             1.813,
@@ -5108,7 +5108,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.829,
             1.659,
             2.488,
@@ -5130,7 +5130,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.45,
             0.9,
             1.35,
@@ -5164,7 +5164,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.675,
             1.35,
             2.025,
@@ -5189,7 +5189,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
             "y": 0,
             "z": 0
         },
-        "position_by_step": [
+        "positionByStep": [
             0.9,
             1.8,
             2.7,
@@ -5222,20 +5222,20 @@ _INTPHYS_NOVEL = [{
         "salientMaterials": ["wood"]
     }],
     "dimensions": {
-        "x": 0.21,
-        "y": 0.17,
-        "z": 0.065
+        "x": 0.21 * 1.5,
+        "y": 0.17 * 1.5,
+        "z": 0.065 * 1.5
     },
     "offset": {
         "x": 0,
-        "y": 0.085,
+        "y": 0.085 * 1.5,
         "z": 0
     },
     "positionY": 0.01,
     "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
+        "x": 1.5,
+        "y": 1.5,
+        "z": 1.5
     }
 }, {
     "type": "duck_on_wheels",
@@ -5443,11 +5443,6 @@ def create_occluder(wall_material: Tuple[str, List[str]],
     occluder[POLE]['shows'][0]['position']['x'] = x_position
 
     occluder[WALL]['shows'][0]['scale']['x'] = x_scale
-
-    # is_occluder is needed by SpatioTemporalContinuityQuartet
-    occluder[WALL]['intphysOption'] = {
-        'is_occluder': True
-    }
 
     if sideways:
         if x_position > 0:

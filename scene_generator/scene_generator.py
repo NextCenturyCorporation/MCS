@@ -77,6 +77,7 @@ def clean_object(obj: Dict[str, Any]) -> None:
     obj.pop('enclosedAreas', None)
     obj.pop('openAreas', None)
     obj.pop('intphysOption', None)
+    obj.pop('isParentOf', None)
     obj.pop('materialsList', None)
     obj.pop('materialCategory', None)
     obj.pop('originalLocation', None)

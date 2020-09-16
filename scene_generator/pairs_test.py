@@ -67,9 +67,14 @@ def verify_confusor(target, confusor):
 
 
 def verify_immediately_visible(
-        performer_start, object_list, target, name='target'):
-    target_or_parent = get_parent(
-        target, object_list) if 'locationParent' in target else target
+    performer_start,
+    object_list,
+    target,
+    adjacent=None,
+    name='target'
+):
+    target_or_parent = get_parent(target, object_list) \
+        if 'locationParent' in target else target
     target_poly = geometry.get_bounding_polygon(target_or_parent)
 
     view_line = shapely.geometry.LineString([[0, 0], [0, MAX_DIMENSION]])
@@ -79,7 +84,8 @@ def verify_immediately_visible(
     view_line = affinity.translate(
         view_line,
         performer_start['position']['x'],
-        performer_start['position']['z'])
+        performer_start['position']['z']
+    )
 
     if not target_poly.intersection(view_line):
         print(f'[ERROR] {name.upper()} SHOULD BE VISIBLE IN FRONT OF '
@@ -88,8 +94,16 @@ def verify_immediately_visible(
         return False
 
     ignore_id_list = [target['id'], target_or_parent['id']]
+    if adjacent:
+        ignore_id_list.append(adjacent['id'])
+        if 'locationParent' in adjacent:
+            ignore_id_list.append(get_parent(adjacent)['id'])
+
     for object_instance in object_list:
-        if object_instance['id'] not in ignore_id_list:
+        if (
+            object_instance['id'] not in ignore_id_list and
+            'locationParent' not in object_instance
+        ):
             object_poly = geometry.get_bounding_polygon(object_instance)
             if geometry.does_fully_obstruct_target(
                 performer_start['position'], target_or_parent, object_poly
@@ -106,9 +120,14 @@ def verify_immediately_visible(
 
 
 def verify_not_immediately_visible(
-        performer_start, object_list, target, name='target'):
-    result = verify_immediately_visible(
-        performer_start, object_list, target, name)
+    performer_start,
+    object_list,
+    target,
+    adjacent=None,
+    name='target'
+):
+    result = verify_immediately_visible(performer_start, object_list, target,
+                                        adjacent, name)
     if result:
         target_or_parent = get_parent(
             target, object_list) if 'locationParent' in target else target
@@ -122,6 +141,7 @@ def verify_obstructor(goal, scene, obstruct_vision=False):
     performer_start = goal.get_performer_start()
     target = goal.get_target_list()[0]
     obstructor = goal.get_obstructor_list()[0]
+    print(f'[DEBUG] obstructor={obstructor}')
     dimensions = (
         obstructor['closedDimensions']
         if 'closedDimensions' in obstructor
@@ -152,10 +172,14 @@ def verify_obstructor(goal, scene, obstruct_vision=False):
         target['id'],
         target['locationParent'] if 'locationParent' in target else None]
     for object_instance in object_list:
-        if object_instance['id'] not in ignore_id_list:
+        if (
+            object_instance['id'] not in ignore_id_list and
+            'locationParent' not in object_instance
+        ):
             object_poly = geometry.get_bounding_polygon(object_instance)
             if geometry.does_fully_obstruct_target(
-                    performer_start['position'], target, object_poly):
+                performer_start['position'], target, object_poly
+            ):
                 print(
                     f'[ERROR] NON-OBSTRUCTOR SHOULD NOT OBSTRUCT TARGET:\n'
                     f'object={object_instance}\ntarget={target}\n'
@@ -217,7 +241,7 @@ def verify_pair(pair, scene_1, scene_2, target_same_position=True,
                 confusor_same_position=True,
                 target_parent_same_position=True,
                 confusor_parent_same_position=True, target_parent_same=True,
-                confusor_parent_same=True):
+                confusor_parent_same=True, target_confusor_adjacent=False):
     assert scene_1
     assert scene_2
 
@@ -274,7 +298,8 @@ def verify_pair(pair, scene_1, scene_2, target_same_position=True,
             'target_parent',
             target_parent_1,
             target_parent_2,
-            [] if target_parent_same_position else ['shows']
+            (['isParentOf'] if target_confusor_adjacent else []) +
+            ([] if target_parent_same_position else ['shows'])
         ):
             return False
 
@@ -318,7 +343,8 @@ def verify_pair(pair, scene_1, scene_2, target_same_position=True,
             'confusor_parent',
             confusor_parent_1,
             confusor_parent_2,
-            [] if confusor_parent_same_position else ['shows']
+            (['isParentOf'] if target_confusor_adjacent else []) +
+            ([] if confusor_parent_same_position else ['shows'])
         ):
             return False
 
@@ -367,7 +393,7 @@ def test_Pair1():
     assert pair
     scene_1, scene_2 = pair.get_scenes()
     containerize = (
-        pair._options.target_containerize == pairs.BoolPairOption.YES_YES
+        pair._setup_options.target_containerize == pairs.BoolOption.YES_YES
     )
     # The target's position is the same if it's in a box because only its box
     # will have a different position.
@@ -410,9 +436,16 @@ def test_Pair2():
     assert pair
     scene_1, scene_2 = pair.get_scenes()
     containerize = (
-        pair._options.target_containerize == pairs.BoolPairOption.YES_YES
+        pair._setup_options.target_containerize == pairs.BoolOption.YES_YES
     )
     assert verify_pair(pair, scene_1, scene_2)
+
+    assert len(pair._goal_1.get_confusor_list()) == 0
+    assert len(pair._goal_2.get_confusor_list()) == 0
+    assert len(pair._goal_1.get_obstructor_list()) == 0
+    assert len(pair._goal_2.get_obstructor_list()) == 1
+
+    assert verify_obstructor(pair._goal_2, scene_2, obstruct_vision=True)
 
     target_1 = pair._goal_1.get_target_list()[0]
     target_2 = pair._goal_2.get_target_list()[0]
@@ -435,20 +468,13 @@ def test_Pair2():
         assert verify_not_immediately_visible(
             pair._goal_2.get_performer_start(), scene_2['objects'], target_2)
 
-    assert len(pair._goal_1.get_confusor_list()) == 0
-    assert len(pair._goal_2.get_confusor_list()) == 0
-    assert len(pair._goal_1.get_obstructor_list()) == 0
-    assert len(pair._goal_2.get_obstructor_list()) == 1
-
-    assert verify_obstructor(pair._goal_2, scene_2, obstruct_vision=True)
-
 
 def test_Pair3():
     pair = pairs.Pair3(BODY_TEMPLATE)
     assert pair
     scene_1, scene_2 = pair.get_scenes()
     containerize = (
-        pair._options.target_containerize == pairs.BoolPairOption.YES_YES
+        pair._setup_options.target_containerize == pairs.BoolOption.YES_YES
     )
     # The target's position is NOT the same if it's in a box because of how
     # the confusor's positioned next to it.
@@ -456,8 +482,8 @@ def test_Pair3():
         pair,
         scene_1,
         scene_2,
-        target_same_position=(
-            not containerize))
+        target_same_position=(not containerize),
+        target_confusor_adjacent=True)
 
     assert len(pair._goal_1.get_confusor_list()) == 0
     assert len(pair._goal_2.get_confusor_list()) == 1
@@ -482,7 +508,7 @@ def test_Pair4():
     assert pair
     scene_1, scene_2 = pair.get_scenes()
     containerize = (
-        pair._options.target_containerize == pairs.BoolPairOption.YES_YES
+        pair._setup_options.target_containerize == pairs.BoolOption.YES_YES
     )
     assert verify_pair(pair, scene_1, scene_2)
 
@@ -505,7 +531,7 @@ def test_Pair4():
         assert 'locationParent' not in target_1
         assert 'locationParent' not in target_2
         assert 'locationParent' not in confusor_2
-        assert geometry.are_adjacent(target_2, confusor_2)
+        assert not geometry.are_adjacent(target_2, confusor_2)
 
 
 def test_Pair5():
@@ -513,7 +539,7 @@ def test_Pair5():
     assert pair
     scene_1, scene_2 = pair.get_scenes()
     containerize = (
-        pair._options.target_containerize == pairs.BoolPairOption.YES_YES
+        pair._setup_options.target_containerize == pairs.BoolOption.YES_YES
     )
     # The target's position is NOT the same if it's in a box because of how
     # the confusor's positioned next to it.
@@ -523,7 +549,8 @@ def test_Pair5():
         scene_2,
         target_same_position=(not containerize),
         confusor_same_position=False,
-        confusor_parent_same=False
+        confusor_parent_same=False,
+        target_confusor_adjacent=True
     )
 
     assert len(pair._goal_1.get_confusor_list()) == 1
@@ -556,7 +583,7 @@ def test_Pair6():
     assert pair
     scene_1, scene_2 = pair.get_scenes()
     containerize = (
-        pair._options.target_containerize == pairs.BoolPairOption.YES_YES
+        pair._setup_options.target_containerize == pairs.BoolOption.YES_YES
     )
     # The object's position is the same if it's in a box because only its box
     # will have a different position.
@@ -596,13 +623,13 @@ def test_Pair6():
             pair._goal_1.get_performer_start(),
             scene_1['objects'],
             get_parent(confusor_1, scene_1['objects']),
-            'confusor'
+            name='confusor'
         )
         assert verify_immediately_visible(
             pair._goal_2.get_performer_start(),
             scene_2['objects'],
             get_parent(confusor_2, scene_2['objects']),
-            'confusor'
+            name='confusor'
         )
     else:
         assert 'locationParent' not in target_1
@@ -619,13 +646,13 @@ def test_Pair6():
             pair._goal_1.get_performer_start(),
             scene_1['objects'],
             confusor_1,
-            'confusor'
+            name='confusor'
         )
         assert verify_immediately_visible(
             pair._goal_2.get_performer_start(),
             scene_2['objects'],
             confusor_2,
-            'confusor'
+            name='confusor'
         )
 
 
@@ -655,13 +682,13 @@ def test_Pair7():
         pair._goal_1.get_performer_start(),
         scene_1['objects'],
         confusor_1,
-        'confusor'
+        name='confusor'
     )
     assert verify_immediately_visible(
         pair._goal_2.get_performer_start(),
         scene_2['objects'],
         confusor_2,
-        'confusor')
+        name='confusor')
     assert 'locationParent' in target_1
     assert 'locationParent' in target_2
     assert 'locationParent' not in confusor_1
@@ -715,9 +742,16 @@ def test_Pair9():
     assert pair
     scene_1, scene_2 = pair.get_scenes()
     containerize = (
-        pair._options.target_containerize == pairs.BoolPairOption.YES_YES
+        pair._setup_options.target_containerize == pairs.BoolOption.YES_YES
     )
     assert verify_pair(pair, scene_1, scene_2)
+
+    assert len(pair._goal_1.get_confusor_list()) == 0
+    assert len(pair._goal_2.get_confusor_list()) == 0
+    assert len(pair._goal_1.get_obstructor_list()) == 0
+    assert len(pair._goal_2.get_obstructor_list()) == 1
+
+    assert verify_obstructor(pair._goal_2, scene_2, obstruct_vision=False)
 
     target_1 = pair._goal_1.get_target_list()[0]
     target_2 = pair._goal_2.get_target_list()[0]
@@ -740,13 +774,6 @@ def test_Pair9():
         assert verify_not_immediately_visible(
             pair._goal_2.get_performer_start(), scene_2['objects'], target_2)
 
-    assert len(pair._goal_1.get_confusor_list()) == 0
-    assert len(pair._goal_2.get_confusor_list()) == 0
-    assert len(pair._goal_1.get_obstructor_list()) == 0
-    assert len(pair._goal_2.get_obstructor_list()) == 1
-
-    assert verify_obstructor(pair._goal_2, scene_2, obstruct_vision=False)
-
 
 def test_Pair11():
     pair = pairs.Pair11(BODY_TEMPLATE)
@@ -766,19 +793,13 @@ def test_Pair11():
     assert verify_immediately_visible(
         pair._goal_1.get_performer_start(),
         scene_1['objects'],
-        target_1)
+        target_1,
+        confusor_1)
     assert verify_not_immediately_visible(
         pair._goal_2.get_performer_start(),
         scene_2['objects'],
-        target_2)
-    """
-    assert verify_immediately_visible(pair._goal_1.get_performer_start(),
-                                      scene_1['objects'], confusor_1,
-                                      'confusor')
-    assert verify_not_immediately_visible(pair._goal_2.get_performer_start(),
-                                          scene_2['objects'], confusor_2,
-                                          'confusor')
-    """
+        target_2,
+        confusor_2)
     assert geometry.are_adjacent(target_1, confusor_1)
     assert geometry.are_adjacent(target_2, confusor_2)
     assert 'locationParent' not in target_1
@@ -791,11 +812,11 @@ def test_Pair2_sofa_target_sofa_obstructor():
     """See MCS-314"""
     sofa = util.finalize_object_definition(objects.get('SOFA_1'))
     sofa = util.finalize_object_materials_and_colors(sofa)[0]
-    # Same SceneOptions as Pair2
-    scene_options = pairs.SceneOptions(
+    # Same SetupOptions as Pair2
+    scene_options = pairs.SetupOptions(
         target_definition=sofa,
-        target_location=pairs.TargetLocationPairOption.FRONT_FRONT,
-        obstructor=pairs.ObstructorPairOption.NONE_VISION,
+        target_location=pairs.TargetLocationOption.FRONT_FRONT,
+        obstructor=pairs.ObstructorOption.NONE_VISION,
         obstructor_definition=copy.deepcopy(sofa)
     )
     pair = pairs.InteractionPair(
@@ -808,6 +829,13 @@ def test_Pair2_sofa_target_sofa_obstructor():
     scene_1, scene_2 = pair.get_scenes()
     assert verify_pair(pair, scene_1, scene_2)
 
+    assert len(pair._goal_1.get_confusor_list()) == 0
+    assert len(pair._goal_2.get_confusor_list()) == 0
+    assert len(pair._goal_1.get_obstructor_list()) == 0
+    assert len(pair._goal_2.get_obstructor_list()) == 1
+
+    assert verify_obstructor(pair._goal_2, scene_2, obstruct_vision=True)
+
     target_1 = pair._goal_1.get_target_list()[0]
     target_2 = pair._goal_2.get_target_list()[0]
     assert verify_immediately_visible(
@@ -818,10 +846,3 @@ def test_Pair2_sofa_target_sofa_obstructor():
         pair._goal_2.get_performer_start(),
         scene_2['objects'],
         target_2)
-
-    assert len(pair._goal_1.get_confusor_list()) == 0
-    assert len(pair._goal_2.get_confusor_list()) == 0
-    assert len(pair._goal_1.get_obstructor_list()) == 0
-    assert len(pair._goal_2.get_obstructor_list()) == 1
-
-    assert verify_obstructor(pair._goal_2, scene_2, obstruct_vision=True)

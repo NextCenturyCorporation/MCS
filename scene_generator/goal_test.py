@@ -141,45 +141,48 @@ def test_generate_wall_with_target_list():
         geometry.ORIGIN, target, wall_poly)
 
 
-def test_Goal_update_goal_info_list():
+def test_Goal_update_goal_with_object_info():
     goal_object = RetrievalGoal()
 
-    info_list = goal_object.update_goal_info_list([], {})
+    info_list = goal_object.update_goal_with_object_info('target', [], [])
     assert info_list == []
 
-    info_list = goal_object.update_goal_info_list([], {'target': []})
-    assert info_list == []
-
-    info_list = goal_object.update_goal_info_list(
-        [], {'target': [{'info': []}]})
-    assert info_list == []
-
-    info_list = goal_object.update_goal_info_list(
-        [], {'target': [{'info': ['a', 'b']}]})
+    info_list = goal_object.update_goal_with_object_info(
+        'target',
+        [],
+        [{'info': ['a', 'b']}]
+    )
     assert set(info_list) == set(['target a', 'target b'])
 
-    info_list = goal_object.update_goal_info_list(
-        ['target a'], {'target': [{'info': ['a', 'b']}]})
+    info_list = goal_object.update_goal_with_object_info(
+        'target',
+        ['target a'],
+        [{'info': ['a', 'b']}]
+    )
     assert set(info_list) == set(['target a', 'target b'])
 
-    info_list = goal_object.update_goal_info_list(
-        ['target a'], {'target': [{'info': ['b', 'c']}]})
-    assert set(info_list) == set(['target a', 'target b', 'target c'])
-
-    info_list = goal_object.update_goal_info_list(
-        ['target a'], {'target': [{'info': ['a', 'b']}, {'info': ['b', 'c']}]}
+    info_list = goal_object.update_goal_with_object_info(
+        'target',
+        ['target a'],
+        [{'info': ['b', 'c']}]
     )
     assert set(info_list) == set(['target a', 'target b', 'target c'])
 
-    info_list = goal_object.update_goal_info_list(
+    info_list = goal_object.update_goal_with_object_info(
+        'target',
+        ['target a'],
+        [{'info': ['a', 'b']}, {'info': ['b', 'c']}]
+    )
+    assert set(info_list) == set(['target a', 'target b', 'target c'])
+
+    info_list = goal_object.update_goal_with_object_info(
+        'distractor',
         ['target a', 'distractor b'],
-        {
-            'target': [{'info': ['a', 'b']}],
-            'distractor': [{'info': ['b', 'c']}]
-        }
+        [{'info': ['a', 'b', 'c']}]
     )
     assert set(info_list) == set(
-        ['target a', 'target b', 'distractor b', 'distractor c'])
+        ['target a', 'distractor b', 'distractor a', 'distractor c']
+    )
 
 
 def test_Goal_reset_performer_start():
