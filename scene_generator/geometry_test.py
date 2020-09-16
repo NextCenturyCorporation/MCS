@@ -1135,7 +1135,9 @@ def test_get_adjacent_location():
                 object_definition,
                 target_definition,
                 target_location,
-                performer_start)
+                performer_start,
+                []
+            )
             assert location
             object_poly = geometry.get_bounding_polygon(location)
             assert object_poly.distance(target_poly) < 0.5
@@ -1180,7 +1182,9 @@ def test_get_adjacent_location_with_obstruct():
             target_definition,
             target_location,
             performer_start,
-            True)
+            [],
+            True
+        )
         assert location
         object_poly = geometry.get_bounding_polygon(location)
         assert object_poly.distance(target_poly) < 0.5
@@ -1241,6 +1245,7 @@ def test_get_adjacent_location_on_side():
                 target_definition,
                 target_location,
                 performer_start,
+                [],
                 geometry.Side.RIGHT,
                 False,
             )
@@ -1259,6 +1264,7 @@ def test_get_adjacent_location_on_side():
                 target_definition,
                 target_location,
                 performer_start,
+                [],
                 geometry.Side.LEFT,
                 False
             )
@@ -1277,6 +1283,7 @@ def test_get_adjacent_location_on_side():
                 target_definition,
                 target_location,
                 performer_start,
+                [],
                 geometry.Side.FRONT,
                 False
             )
@@ -1291,8 +1298,13 @@ def test_get_adjacent_location_on_side():
             assert object_poly.distance(target_poly) < 0.5
 
             location = geometry.get_adjacent_location_on_side(
-                object_definition, target_definition, target_location,
-                performer_start, geometry.Side.BACK, False
+                object_definition,
+                target_definition,
+                target_location,
+                performer_start,
+                [],
+                geometry.Side.BACK,
+                False
             )
             assert location
             x_min, x_max, z_min, z_max = get_min_and_max_in_bounds(
@@ -1334,8 +1346,13 @@ def test_get_adjacent_location_on_side_next_to_room_wall():
         for object_definition in util.retrieve_full_object_definition_list(
                 objects.get('ALL')):
             location = geometry.get_adjacent_location_on_side(
-                object_definition, target_definition, target_location,
-                performer_start, geometry.Side.RIGHT, False
+                object_definition,
+                target_definition,
+                target_location,
+                performer_start,
+                [],
+                geometry.Side.RIGHT,
+                False
             )
             assert not location
 

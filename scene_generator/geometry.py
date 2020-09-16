@@ -160,11 +160,7 @@ def calc_obj_pos(performer_position: Dict[str, float],
         offset_x = 0.0
         offset_z = 0.0
 
-    # reserve space around the performer
-    performer_rect = find_performer_rect(performer_position)
-
     tries = 0
-    collision_rects = other_rects + [performer_rect]
     while tries < util.MAX_TRIES:
         rotation_x = (obj_def['rotation']['x'] if 'rotation' in obj_def else 0)
         rotation_y = (obj_def['rotation']['y']
@@ -179,9 +175,7 @@ def calc_obj_pos(performer_position: Dict[str, float],
         if new_x is not None and new_z is not None:
             rect = calc_obj_coords(
                 new_x, new_z, dx, dz, offset_x, offset_z, rotation_y)
-            if rect_within_room(rect) and not any(
-                    sat_entry(rect, other_rect) for other_rect in
-                    collision_rects):
+            if validate_location_rect(rect, performer_position, other_rects):
                 break
         tries += 1
 
@@ -269,7 +263,7 @@ def get_location_in_back_of_performer(
         -(ROOM_X_MAX - ROOM_X_MIN) / 2.0,
         -(ROOM_Z_MAX - ROOM_Z_MIN) / 2.0,
         (ROOM_X_MAX - ROOM_X_MIN) / 2.0,
-        0
+        -0.5
     )
     performer_point = shapely.geometry.Point(
         performer_start['position']['x'],
@@ -295,7 +289,8 @@ def get_location_in_back_of_performer(
             x = util.random_real(rear_min_x, rear_max_x)
             # intersect a vertical line with the poly at that x
             vertical_line = shapely.geometry.LineString(
-                [[x, rear_min_z], [x, rear_max_z]])
+                [[x, rear_min_z], [x, rear_max_z]]
+            )
             target_segment = vertical_line.intersection(rear_poly)
             if not target_segment.is_empty:
                 break
@@ -311,14 +306,15 @@ def get_location_in_back_of_performer(
             location = target_segment.interpolate(fraction, normalized=True)
         return location.x, location.y
 
-    return calc_obj_pos(performer_start['position'], [
-    ], target_def, xz_func=compute_xz)
+    return calc_obj_pos(performer_start['position'], [], target_def,
+                        xz_func=compute_xz)
 
 
 def get_adjacent_location(obj_def: Dict[str, Any],
                           target_definition: Dict[str, Any],
                           target_location: Dict[str, Any],
                           performer_start: Dict[str, Dict[str, float]],
+                          bounds_list: List[List[Dict[str, float]]],
                           obstruct: bool = False) -> Optional[Dict[str, Any]]:
     """Find a location such that, if obj_def is instantiated there, it
     will be next to target. Ensures that the object at the new
@@ -330,8 +326,8 @@ def get_adjacent_location(obj_def: Dict[str, Any],
     for side in sides:
         location = get_adjacent_location_on_side(obj_def, target_definition,
                                                  target_location,
-                                                 performer_start, side,
-                                                 obstruct)
+                                                 performer_start, bounds_list,
+                                                 side, obstruct)
         if location:
             # If obstruct, position the target so that the object is between it
             # and the performer start.
@@ -357,6 +353,7 @@ def get_adjacent_location_on_side(object_definition: Dict[str, Any],
                                   target_definition: Dict[str, Any],
                                   target_location: Dict[str, Any],
                                   performer_start: Dict[str, Dict[str, float]],
+                                  bounds_list: List[List[Dict[str, float]]],
                                   side: Side, obstruct: bool) \
         -> Optional[Dict[str, Any]]:
     """Get a location such that, if object_definition is instantiated there,
@@ -404,27 +401,20 @@ def get_adjacent_location_on_side(object_definition: Dict[str, Any],
     z = separator_segment.coords[1][1] - object_offset['z']
     dx = object_dimensions['x'] / 2.0
     dz = object_dimensions['z'] / 2.0
-    rect = calc_obj_coords(
-        x,
-        z,
-        dx,
-        dz,
-        object_offset['x'],
-        object_offset['z'],
-        target_location['rotation']['y'])
-    poly = rect_to_poly(rect)
-    performer = shapely.geometry.Point(
-        performer_start['position']['x'],
-        performer_start['position']['z'])
+    rect = calc_obj_coords(x, z, dx, dz, object_offset['x'],
+                           object_offset['z'],
+                           target_location['rotation']['y'])
     target_rect = generate_object_bounds(target_definition['dimensions'],
                                          target_offset,
                                          target_location['position'],
                                          target_location['rotation'])
-    target_poly = rect_to_poly(target_rect)
-    room = get_room_box()
+    bounds_with_target = bounds_list + [target_rect]
 
-    if not poly.intersects(performer) and not poly.intersects(
-            target_poly) and room.contains(poly):
+    if validate_location_rect(
+        rect,
+        performer_start['position'],
+        bounds_with_target
+    ):
         location = {
             'position': {
                 'x': x,
@@ -612,3 +602,18 @@ def _does_obstruct_target_helper(performer_start_position: Dict[str, float],
         if object_poly.intersects(line_to_target):
             obstructing_corners += 1
     return obstructing_corners == 4 if fully else obstructing_corners > 0
+
+
+def validate_location_rect(
+    location_rect: List[Dict[str, float]],
+    performer_start_position: Dict[str, float],
+    rect_list: List[List[Dict[str, float]]]
+) -> bool:
+    """Returns if the given location rect is valid using the given performer
+    start position and rect list corresponding to other positioned objects."""
+    performer_start_rect = find_performer_rect(performer_start_position)
+    return (
+        rect_within_room(location_rect) and
+        not sat_entry(location_rect, performer_start_rect) and
+        not any(sat_entry(location_rect, rect) for rect in rect_list)
+    )

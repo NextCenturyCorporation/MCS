@@ -9,41 +9,48 @@ ACTION_NONE = 'action none'
 ACTION_SOME = 'action some'
 ACTION_FULL = 'action full'
 
-# INTPHYS GOAL AND QUARTET TAGS
+# INTERACTIVE TAGS
 
-INTPHYS_FALL_DOWN = 'fall down'
-INTPHYS_MOVE_ACROSS = 'move across'
+TRAVERSAL = 'traversal'
+RETRIEVAL = 'retrieval'
+TRANSFERRAL = 'transferral'
 
-INTPHYS_TELEPORT_DELAYED = 'teleport delayed'
-INTPHYS_TELEPORT_INSTANTANEOUS = 'teleport instantaneous'
+# INTUITIVE_PHYSICS GOAL AND QUARTET TAGS
 
-INTPHYS_GRAVITY = 'gravity'
-INTPHYS_GRAVITY_ACCELERATION_Q1 = 'gravity ramp up slower'
-INTPHYS_GRAVITY_ACCELERATION_Q2 = 'gravity ramp down faster'
-INTPHYS_GRAVITY_ACCELERATION_Q3 = 'gravity ramp up faster'
-INTPHYS_GRAVITY_ACCELERATION_Q4 = 'gravity ramp down slower'
-INTPHYS_GRAVITY_TRAJECTORY_Q1 = 'gravity ramp fast further'
-INTPHYS_GRAVITY_TRAJECTORY_Q2 = 'gravity ramp slow shorter'
-INTPHYS_GRAVITY_TRAJECTORY_Q3 = 'gravity ramp fast shorter'
-INTPHYS_GRAVITY_TRAJECTORY_Q4 = 'gravity ramp slow further'
+INTUITIVE_PHYSICS = 'intuitive physics'
+FALL_DOWN = 'fall down'
+MOVE_ACROSS = 'move across'
 
-INTPHYS_OBJECT_PERMANENCE = 'object permanence'
-INTPHYS_OBJECT_PERMANENCE_Q1 = 'object permanence show object'
-INTPHYS_OBJECT_PERMANENCE_Q2 = 'object permanence show then hide object'
-INTPHYS_OBJECT_PERMANENCE_Q3 = 'object permanence hide then show object'
-INTPHYS_OBJECT_PERMANENCE_Q4 = 'object permanence hide object'
+TELEPORT_DELAYED = 'teleport delayed'
+TELEPORT_INSTANTANEOUS = 'teleport instantaneous'
 
-INTPHYS_SHAPE_CONSTANCY = 'shape constancy'
-INTPHYS_SHAPE_CONSTANCY_Q1 = 'shape constancy object one'
-INTPHYS_SHAPE_CONSTANCY_Q2 = 'shape constancy object one into two'
-INTPHYS_SHAPE_CONSTANCY_Q3 = 'shape constancy object two into one'
-INTPHYS_SHAPE_CONSTANCY_Q4 = 'shape constancy object two'
+GRAVITY = 'gravity'
+GRAVITY_ACCELERATION_Q1 = 'gravity ramp up slower'
+GRAVITY_ACCELERATION_Q2 = 'gravity ramp down faster'
+GRAVITY_ACCELERATION_Q3 = 'gravity ramp up faster'
+GRAVITY_ACCELERATION_Q4 = 'gravity ramp down slower'
+GRAVITY_TRAJECTORY_Q1 = 'gravity ramp fast further'
+GRAVITY_TRAJECTORY_Q2 = 'gravity ramp slow shorter'
+GRAVITY_TRAJECTORY_Q3 = 'gravity ramp fast shorter'
+GRAVITY_TRAJECTORY_Q4 = 'gravity ramp slow further'
 
-INTPHYS_SPATIO_TEMPORAL_CONTINUITY = 'spatio temporal continuity'
-INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q1 = 'spatio temporal continuity move earlier'  # noqa: E501
-INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q2 = 'spatio temporal continuity teleport forward'  # noqa: E501
-INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q3 = 'spatio temporal continuity teleport backward'  # noqa: E501
-INTPHYS_SPATIO_TEMPORAL_CONTINUITY_Q4 = 'spatio temporal continuity move later'
+OBJECT_PERMANENCE = 'object permanence'
+OBJECT_PERMANENCE_Q1 = 'object permanence show object'
+OBJECT_PERMANENCE_Q2 = 'object permanence show then hide object'
+OBJECT_PERMANENCE_Q3 = 'object permanence hide then show object'
+OBJECT_PERMANENCE_Q4 = 'object permanence hide object'
+
+SHAPE_CONSTANCY = 'shape constancy'
+SHAPE_CONSTANCY_Q1 = 'shape constancy object one'
+SHAPE_CONSTANCY_Q2 = 'shape constancy object one into two'
+SHAPE_CONSTANCY_Q3 = 'shape constancy object two into one'
+SHAPE_CONSTANCY_Q4 = 'shape constancy object two'
+
+SPATIO_TEMPORAL_CONTINUITY = 'spatio temporal continuity'
+SPATIO_TEMPORAL_CONTINUITY_Q1 = 'spatio temporal continuity move earlier'  # noqa: E501
+SPATIO_TEMPORAL_CONTINUITY_Q2 = 'spatio temporal continuity teleport forward'  # noqa: E501
+SPATIO_TEMPORAL_CONTINUITY_Q3 = 'spatio temporal continuity teleport backward'  # noqa: E501
+SPATIO_TEMPORAL_CONTINUITY_Q4 = 'spatio temporal continuity move later'
 
 # MCS CORE DOMAIN TAGS
 
@@ -122,7 +129,7 @@ def append_object_tags_of_type(
 
 
 def get_containerize_tag(containerize: bool) -> str:
-    return ('is' if containerize else 'isn\'t') + ' hidden inside rececptacle'
+    return ('is' if containerize else 'isn\'t') + ' hidden inside receptacle'
 
 
 def get_exists_tag(exists: bool) -> str:

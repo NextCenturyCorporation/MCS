@@ -5,7 +5,7 @@ import objects
 import util
 from containers import put_object_in_container, put_objects_in_container, \
     Orientation, can_enclose, can_contain_both, how_can_contain, \
-    get_enclosable_containments, retrieve_enclosable_object_definition_list
+    get_enclosable_containments, retrieve_enclosable_definition_list
 from geometry import are_adjacent
 
 
@@ -150,7 +150,7 @@ def test_how_can_contain():
         }
     }
     container_def = util.finalize_object_definition(
-        retrieve_enclosable_object_definition_list()[0])
+        retrieve_enclosable_definition_list()[0])
     assert how_can_contain(container_def, small) is not None
     assert how_can_contain(container_def, big) is None
     assert how_can_contain(container_def, small, big) is None
@@ -179,7 +179,7 @@ def test_can_contain_both():
         }
     }
     container_def = util.finalize_object_definition(
-        retrieve_enclosable_object_definition_list()[0])
+        retrieve_enclosable_definition_list()[0])
     assert can_contain_both(container_def, small1, small2) is not None
     assert can_contain_both(container_def, small1, big) is None
 
