@@ -155,7 +155,7 @@ returns the scene output data object.
 
 
 
-#### step(action, choice=None, confidence=None, heatmap_img=None, internal_state=None, \*\*kwargs)
+#### step(action: str, choice: str = None, confidence: float = None, heatmap_img: <module 'PIL.Image' from '/Users/rartiss/MCS/MCS-repo/python_api/machine_common_sense/venv/lib/python3.8/site-packages/PIL/Image.py'> = None, internal_state: object = None, \*\*kwargs)
 Runs the given action within the current scene and unpauses the scene’s
 physics simulation for a few frames. Can also optionally send
 information about scene plausability if applicable.
@@ -177,8 +177,8 @@ information about scene plausability if applicable.
     Is not required for other goals. (default None)
 
 
-    * **heatmap_img** (*string**, **optional*) – An image representing scene plausiblility at a particular
-    moment (default None)
+    * **heatmap_img** (*PIL.Image**, **optional*) – An image representing scene plausiblility at a particular
+    moment. Will be saved as a .png type. (default None)
 
 
     * **internal_state** (*object**, **optional*) – A properly formatted json object representing various kinds of

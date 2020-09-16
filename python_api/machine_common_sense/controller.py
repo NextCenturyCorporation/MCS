@@ -1,5 +1,6 @@
 from .step_metadata import StepMetadata
 import random
+import PIL
 
 
 class Controller:
@@ -50,8 +51,10 @@ class Controller:
         # TODO Override
         return StepMetadata()
 
-    def step(self, action, choice=None, confidence=None, heatmap_img=None,
-             internal_state=None, **kwargs):
+    def step(self, action: str, choice: str = None,
+             confidence: float = None, heatmap_img: PIL.Image = None,
+             internal_state: object = None,
+             **kwargs) -> StepMetadata:
         """
         Runs the given action within the current scene and unpauses the scene's
         physics simulation for a few frames. Can also optionally send
@@ -69,9 +72,9 @@ class Controller:
             The choice confidence between 0 and 1 required by the end of
             scenes with violation-of-expectation or classification goals.
             Is not required for other goals. (default None)
-        heatmap_img : string, optional
+        heatmap_img : PIL.Image, optional
             An image representing scene plausiblility at a particular
-            moment (default None)
+            moment. Will be saved as a .png type. (default None)
         internal_state : object, optional
             A properly formatted json object representing various kinds of
             internal states at a particular moment. Examples include the

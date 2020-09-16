@@ -74,7 +74,9 @@ class Util:
             [
                 metadata.uuid,
                 metadata.shape,
-                ", ".join(metadata.texture_color_list),
+                ", ".join(
+                    metadata.texture_color_list) if(
+                    metadata.texture_color_list is not None) else metadata.texture_color_list,  # noqa: E501
                 metadata.held,
                 Util.vector_to_string(metadata.position),
                 Util.vector_to_string(metadata.dimensions),
