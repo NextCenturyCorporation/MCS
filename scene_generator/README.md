@@ -8,6 +8,12 @@
 pip3 install -r requirements.txt
 ```
 
+You may need to install `testresources`:
+
+```
+sudo apt install python3-testresources
+```
+
 ### Goal Images
 
 The interactive scenes save the pixel array of each target object in each output JSON file by reading the images from the `images` folder. **You can run the scene generator without the images for internal testing.*** However, for generating new training and evaluation datasets, you must first run the `image_generator` to populate the `images` folder with each object/material combination pixel array text file (or download the files from S3). See the `image_generator` folder for more information.
@@ -30,13 +36,13 @@ To see all of the scene generator's options:
 python3 scene_generator.py
 ```
 
-To generate 10 "Retrieval" training scenes with a file name prefix of "my_retrieval":
+For example, to generate 10 "Retrieval" training scenes with a file name prefix of "my_retrieval":
 
 ```
 python3 scene_generator.py -p my_retrieval -c 10 -t Retrieval --training
 ```
 
-To generate 20 "ObjectPermanence" evaluation quartets with a file name prefix of "eval_3":
+For example, to generate 20 "ObjectPermanence" evaluation quartets with a file name prefix of "eval_3":
 
 ```
 python3 scene_generator.py -p eval_3 -c 20 -t ObjectPermanence
