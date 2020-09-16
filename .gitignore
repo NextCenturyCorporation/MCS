@@ -50,6 +50,7 @@ python_api/machine_common_sense/**/*.png
 truthing/pyqtgraph
 truthing/node_modules
 
+scene_generator/pytestdebug.log
 scene_generator/*.json
 scene_generator/scenes/*
 scene_generator/**/images.py

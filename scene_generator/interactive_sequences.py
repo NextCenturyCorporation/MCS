@@ -1758,7 +1758,11 @@ class InteractiveSequenceFactory(sequences.SequenceFactory):
         self.goal = goal
 
     def build(self, body_template: Dict[str, Any]) -> sequences.Sequence:
-        return InteractiveSequence(body_template, self.goal, InteractivePlan())
+        return InteractiveSequence(
+            body_template,
+            self.goal,
+            InteractivePlan('')
+        )
 
 
 class InteractivePairFactory(sequences.SequenceFactory):

@@ -59,7 +59,7 @@ def strip_debug_info(body: Dict[str, Any]) -> None:
     for obj in body['objects']:
         clean_object(obj)
     for goal_key in ('domain_list', 'type_list',
-                     'task_list', 'info_list', 'series_id'):
+                     'task_list', 'info_list', 'sequence_id'):
         body['goal'].pop(goal_key, None)
     if 'metadata' in body['goal']:
         metadata = body['goal']['metadata']
@@ -164,7 +164,9 @@ def generate_sequence(
     if not sequence_factory:
         raise ValueError(f'Failed to find {type_name} sequence factory')
 
+    tries = 0
     while True:
+        tries += 1
         try:
             # Build the sequence and all of its scenes.
             sequence = sequence_factory.build(body_template)
@@ -195,9 +197,10 @@ def generate_sequence(
             exceptions.SceneException,
             ValueError
         ) as e:
-            if stop_on_error:
+            if stop_on_error or tries >= 100:
                 raise
-            logging.warning(f'Failed to create sequence: {e}')
+            logging.warning(f'Failed to create {type_name} sequence')
+            logging.warning(e)
 
 
 def generate_scenes(
