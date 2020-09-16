@@ -1,4 +1,5 @@
 from .util import Util
+from typing import Dict, List
 
 
 class SceneHistory(object):
@@ -10,6 +11,7 @@ class SceneHistory(object):
         params=None,
         classification: str = None,
         confidence: float = None,
+        violations_xy_list: List[Dict[str, float]] = None,
         internal_state: object = None,
         output=None
     ):
@@ -21,6 +23,7 @@ class SceneHistory(object):
         self.classification = classification
         self.confidence = confidence
         self.internal_state = internal_state
+        self.violations_xy_list = violations_xy_list
 
     def __str__(self):
         return Util.class_to_str(self)

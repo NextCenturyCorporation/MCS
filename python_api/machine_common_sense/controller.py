@@ -1,6 +1,7 @@
 from .step_metadata import StepMetadata
 import random
 import PIL
+from typing import Dict, List
 
 
 class Controller:
@@ -52,7 +53,9 @@ class Controller:
         return StepMetadata()
 
     def step(self, action: str, choice: str = None,
-             confidence: float = None, heatmap_img: PIL.Image = None,
+             confidence: float = None,
+             violations_xy_list: List[Dict[str, float]] = None,
+             heatmap_img: PIL.Image = None,
              internal_state: object = None,
              **kwargs) -> StepMetadata:
         """
@@ -72,14 +75,17 @@ class Controller:
             The choice confidence between 0 and 1 required by the end of
             scenes with violation-of-expectation or classification goals.
             Is not required for other goals. (default None)
+        violations_xy_list : List[Dict[str, float]], optional
+            A list of one or more (x, y) locations (ex: [{"x": 1, "y": 3.4}]),
+            each representing a potential violation-of-expectation. Required
+            on each step for passive tasks. (default None)
         heatmap_img : PIL.Image, optional
             An image representing scene plausiblility at a particular
             moment. Will be saved as a .png type. (default None)
         internal_state : object, optional
             A properly formatted json object representing various kinds of
             internal states at a particular moment. Examples include the
-            estimated position of the agent, details on spatial
-            location of the VoE, current map of the world, etc.
+            estimated position of the agent, current map of the world, etc.
             (default None)
         **kwargs
             Zero or more key-and-value parameters for the action.

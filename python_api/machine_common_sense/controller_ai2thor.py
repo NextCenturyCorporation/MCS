@@ -8,6 +8,7 @@ import random
 import sys
 import yaml
 import PIL
+from typing import Dict, List
 
 import ai2thor.controller
 import ai2thor.server
@@ -507,7 +508,9 @@ class ControllerAI2THOR(Controller):
 
     # Override
     def step(self, action: str, choice: str = None,
-             confidence: float = None, heatmap_img: PIL.Image = None,
+             confidence: float = None,
+             violations_xy_list: List[Dict[str, float]] = None,
+             heatmap_img: PIL.Image = None,
              internal_state: object = None,
              **kwargs) -> StepMetadata:
         """
@@ -527,14 +530,17 @@ class ControllerAI2THOR(Controller):
             The choice confidence between 0 and 1 required by the end of
             scenes with violation-of-expectation or classification goals.
             Is not required for other goals. (default None)
+        violations_xy_list : List[Dict[str, float]], optional
+            A list of one or more (x, y) locations (ex: [{"x": 1, "y": 3.4}]),
+            each representing a potential violation-of-expectation. Required
+            on each step for passive tasks. (default None)
         heatmap_img : PIL.Image, optional
             An image representing scene plausiblility at a particular
             moment. Will be saved as a .png type. (default None)
         internal_state : object, optional
             A properly formatted json object representing various kinds of
             internal states at a particular moment. Examples include the
-            estimated position of the agent, details on spatial
-            location of the VoE, current map of the world, etc.
+            estimated position of the agent, current map of the world, etc.
             (default None)
         **kwargs
             Zero or more key-and-value parameters for the action.
@@ -547,8 +553,8 @@ class ControllerAI2THOR(Controller):
             "last_step" of this scene.
         """
 
-        super().step(action, choice, confidence, heatmap_img,
-                     internal_state, **kwargs)
+        super().step(action, choice, confidence, violations_xy_list,
+                     heatmap_img, internal_state, **kwargs)
 
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
@@ -608,6 +614,7 @@ class ControllerAI2THOR(Controller):
             params=params,
             classification=choice,
             confidence=confidence,
+            violations_xy_list=violations_xy_list,
             internal_state=internal_state,
             output=output_copy)
         self.__history_list.append(history_item)
