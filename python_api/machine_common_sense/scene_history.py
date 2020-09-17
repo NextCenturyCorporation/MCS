@@ -19,11 +19,11 @@ class SceneHistory(object):
         self.action = action
         self.args = args
         self.params = params
-        self.output = output
         self.classification = classification
         self.confidence = confidence
-        self.internal_state = internal_state
         self.violations_xy_list = violations_xy_list
+        self.internal_state = internal_state
+        self.output = output
 
     def __str__(self):
         return Util.class_to_str(self)

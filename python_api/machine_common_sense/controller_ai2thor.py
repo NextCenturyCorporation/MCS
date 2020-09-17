@@ -510,7 +510,7 @@ class ControllerAI2THOR(Controller):
     def step(self, action: str, choice: str = None,
              confidence: float = None,
              violations_xy_list: List[Dict[str, float]] = None,
-             heatmap_img: PIL.Image = None,
+             heatmap_img: PIL.Image.Image = None,
              internal_state: object = None,
              **kwargs) -> StepMetadata:
         """
@@ -534,7 +534,7 @@ class ControllerAI2THOR(Controller):
             A list of one or more (x, y) locations (ex: [{"x": 1, "y": 3.4}]),
             each representing a potential violation-of-expectation. Required
             on each step for passive tasks. (default None)
-        heatmap_img : PIL.Image, optional
+        heatmap_img : PIL.Image.Image, optional
             An image representing scene plausiblility at a particular
             moment. Will be saved as a .png type. (default None)
         internal_state : object, optional

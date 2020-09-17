@@ -155,7 +155,7 @@ returns the scene output data object.
 
 
 
-#### step(action: str, choice: str = None, confidence: float = None, violations_xy_list: List[Dict[str, float]] = None, heatmap_img: PIL.Image = None, internal_state: object = None, \*\*kwargs)
+#### step(action: str, choice: str = None, confidence: float = None, violations_xy_list: List[Dict[str, float]] = None, heatmap_img: PIL.Image.Image = None, internal_state: object = None, \*\*kwargs)
 Runs the given action within the current scene and unpauses the scene’s
 physics simulation for a few frames. Can also optionally send
 information about scene plausability if applicable.
@@ -182,7 +182,7 @@ information about scene plausability if applicable.
     on each step for passive tasks. (default None)
 
 
-    * **heatmap_img** (*PIL.Image**, **optional*) – An image representing scene plausiblility at a particular
+    * **heatmap_img** (*PIL.Image.Image**, **optional*) – An image representing scene plausiblility at a particular
     moment. Will be saved as a .png type. (default None)
 
 
