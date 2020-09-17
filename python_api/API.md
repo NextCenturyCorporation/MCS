@@ -155,7 +155,7 @@ returns the scene output data object.
 
 
 
-#### step(action: str, choice: str = None, confidence: float = None, violations_xy_list: List[Dict[str, float]] = None, heatmap_img: <module 'PIL.Image' from '/Users/rartiss/MCS/MCS-repo/python_api/machine_common_sense/venv/lib/python3.8/site-packages/PIL/Image.py'> = None, internal_state: object = None, \*\*kwargs)
+#### step(action: str, choice: str = None, confidence: float = None, violations_xy_list: List[Dict[str, float]] = None, heatmap_img: PIL.Image = None, internal_state: object = None, \*\*kwargs)
 Runs the given action within the current scene and unpauses the scene’s
 physics simulation for a few frames. Can also optionally send
 information about scene plausability if applicable.
