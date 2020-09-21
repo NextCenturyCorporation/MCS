@@ -36,6 +36,9 @@ python_api/scenes/images/*.gif
 
 **/SCENE_HISTORY
 
+# test run script for Python API
+python_api/machine_common_sense/run_mcs_env.py
+
 # python docs
 python_api/machine_common_sense/docs
 python_api/machine_common_sense/venv

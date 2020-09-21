@@ -7,7 +7,8 @@ import os
 import random
 import sys
 import yaml
-from PIL import Image
+import PIL
+from typing import Dict, List
 
 import ai2thor.controller
 import ai2thor.server
@@ -150,6 +151,8 @@ class ControllerAI2THOR(Controller):
     CONFIG_SAVE_IMAGES_TO_S3_BUCKET = 'save_images_to_s3_bucket'
     CONFIG_SAVE_IMAGES_TO_S3_FOLDER = 'save_images_to_s3_folder'
     CONFIG_TEAM = 'team'
+
+    HEATMAP_IMAGE_PREFIX = 'heatmap'
 
     def __init__(self, unity_app_file_path, debug=False,
                  enable_noise=False, seed=None, size=None,
@@ -504,15 +507,41 @@ class ControllerAI2THOR(Controller):
         )
 
     # Override
-    def step(self, action, **kwargs):
+    def step(self, action: str, choice: str = None,
+             confidence: float = None,
+             violations_xy_list: List[Dict[str, float]] = None,
+             heatmap_img: PIL.Image.Image = None,
+             internal_state: object = None,
+             **kwargs) -> StepMetadata:
         """
         Runs the given action within the current scene and unpauses the scene's
-        physics simulation for a few frames.
+        physics simulation for a few frames. Can also optionally send
+        information about scene plausability if applicable.
 
         Parameters
         ----------
         action : string
             A selected action string from the list of available actions.
+        choice : string, optional
+            The selected choice required by the end of scenes with
+            violation-of-expectation or classification goals.
+            Is not required for other goals. (default None)
+        confidence : float, optional
+            The choice confidence between 0 and 1 required by the end of
+            scenes with violation-of-expectation or classification goals.
+            Is not required for other goals. (default None)
+        violations_xy_list : List[Dict[str, float]], optional
+            A list of one or more (x, y) locations (ex: [{"x": 1, "y": 3.4}]),
+            each representing a potential violation-of-expectation. Required
+            on each step for passive tasks. (default None)
+        heatmap_img : PIL.Image.Image, optional
+            An image representing scene plausiblility at a particular
+            moment. Will be saved as a .png type. (default None)
+        internal_state : object, optional
+            A properly formatted json object representing various kinds of
+            internal states at a particular moment. Examples include the
+            estimated position of the agent, current map of the world, etc.
+            (default None)
         **kwargs
             Zero or more key-and-value parameters for the action.
 
@@ -524,7 +553,8 @@ class ControllerAI2THOR(Controller):
             "last_step" of this scene.
         """
 
-        super().step(action, **kwargs)
+        super().step(action, choice, confidence, violations_xy_list,
+                     heatmap_img, internal_state, **kwargs)
 
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
@@ -582,12 +612,55 @@ class ControllerAI2THOR(Controller):
             action=action,
             args=kwargs,
             params=params,
+            classification=choice,
+            confidence=confidence,
+            violations_xy_list=violations_xy_list,
+            internal_state=internal_state,
             output=output_copy)
         self.__history_list.append(history_item)
         filtered_history_item = self.filter_history_images(history_item)
         self.write_history_file(str(filtered_history_item))
 
+        if(heatmap_img is not None and
+           isinstance(heatmap_img, PIL.Image.Image)):
+
+            team_prefix = (self._config[self.CONFIG_TEAM] +
+                           '_') if self.CONFIG_TEAM in self._config else ''
+            file_name_prefix = team_prefix + self.HEATMAP_IMAGE_PREFIX + '_'
+
+            self.upload_image_to_s3(heatmap_img, file_name_prefix,
+                                    str(self.__step_number))
+
         return output
+
+    def upload_image_to_s3(self, image_to_upload: PIL.Image.Image,
+                           file_name_prefix: str,
+                           step_number_affix: str):
+        if self.__s3_client:
+            in_memory_file = io.BytesIO()
+            image_to_upload.save(fp=in_memory_file, format='png')
+            in_memory_file.seek(0)
+            s3_folder = (
+                (self._config[self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER] + '/')
+                if self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER in self._config
+                else ''
+            )
+            s3_file_name = s3_folder + file_name_prefix + \
+                self.__scene_configuration['name'].replace('.json', '') + \
+                '_' + step_number_affix + '_' + \
+                self.generate_time() + '.png'
+            print('SAVE TO S3 BUCKET ' +
+                  self._config[self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET] +
+                  ': ' + s3_file_name)
+            self.__s3_client.upload_fileobj(
+                in_memory_file,
+                self._config[self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET],
+                s3_file_name,
+                ExtraArgs={
+                    'ACL': 'public-read',
+                    'ContentType': 'image/png',
+                }
+            )
 
     def filter_history_images(
             self,
@@ -943,16 +1016,16 @@ class ControllerAI2THOR(Controller):
         object_mask_list = []
 
         for index, event in enumerate(scene_event.events):
-            scene_image = Image.fromarray(event.frame)
+            scene_image = PIL.Image.fromarray(event.frame)
             image_list.append(scene_image)
 
             if self.__depth_masks:
-                depth_mask = Image.fromarray(event.depth_frame)
+                depth_mask = PIL.Image.fromarray(event.depth_frame)
                 depth_mask = depth_mask.convert('L')
                 depth_mask_list.append(depth_mask)
 
             if self.__object_masks:
-                object_mask = Image.fromarray(
+                object_mask = PIL.Image.fromarray(
                     event.instance_segmentation_frame)
                 object_mask_list.append(object_mask)
 
@@ -969,33 +1042,13 @@ class ControllerAI2THOR(Controller):
                     object_mask.save(fp=self.__output_folder +
                                      'object_mask' + suffix)
 
-            if self.__s3_client:
-                in_memory_file = io.BytesIO()
-                scene_image.save(fp=in_memory_file, format='png')
-                in_memory_file.seek(0)
-                s3_folder = (
-                    (self._config[self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER] + '/')
-                    if self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER in self._config
-                    else ''
-                )
-                team_prefix = (self._config[self.CONFIG_TEAM] +
-                               '_') if self.CONFIG_TEAM in self._config else ''
-                s3_file_name = s3_folder + team_prefix + \
-                    self.__scene_configuration['name'].replace('.json', '') + \
-                    '_' + str(self.__step_number) + '_' + \
-                    str(index + 1) + '_' + self.generate_time() + '.png'
-                print('SAVE TO S3 BUCKET ' +
-                      self._config[self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET] +
-                      ': ' + s3_file_name)
-                self.__s3_client.upload_fileobj(
-                    in_memory_file,
-                    self._config[self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET],
-                    s3_file_name,
-                    ExtraArgs={
-                        'ACL': 'public-read',
-                        'ContentType': 'image/png',
-                    }
-                )
+            team_prefix = (self._config[self.CONFIG_TEAM] +
+                           '_') if self.CONFIG_TEAM in self._config else ''
+            step_num_affix = (str(self.__step_number) + '_' +
+                              str(index + 1))
+
+            self.upload_image_to_s3(scene_image, team_prefix,
+                                    step_num_affix)
 
         return image_list, depth_mask_list, object_mask_list
 
