@@ -1,6 +1,6 @@
 import setuptools
 
-with open('python_api/README.md', 'r') as fh:
+with open('README.md', 'r') as fh:
     long_description = fh.read()
 
 setuptools.setup(
@@ -20,16 +20,14 @@ setuptools.setup(
     license='Apache-2',
     python_requires=">3.6",
     install_requires=[
-        'shapely',
+        'shapely>=1.7.0',
+        'boto3>=1.15',
         'ai2thor @ git+https://github.com/NextCenturyCorporation/ai2thor#egg=ai2thor'
     ],
-    # package_dir={'': 'python_api'},
-    package_data={'scenes': ['data/*.json']},
-    # packages=setuptools.find_packages('python_api'),
     entry_points={
         'console_scripts': [
-            'run_in_human_input_mode=scripts.run_mcs_human_input:main',
-            'run_scene_timer=scripts.run_mcs_scene_timer:main'
+            'run_in_human_input_mode=scripts.run_human_input:main',
+            'run_scene_timer=scripts.run_scene_timer:main'
         ]
     }
 )
