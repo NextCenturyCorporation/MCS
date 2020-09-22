@@ -13,26 +13,14 @@ python3.6 -m venv --prompt mcs venv
 source venv/bin/activate
 ```
 
-
 ```
 python -m pip install git+https://github.com/NextCenturyCorporation/MCS@latest
 ```
 
 ## MCS Package Developer Installation
 
-### Install MCS Package
+[DEV.md](./DEV.md)
 
-From the MCS root folder, install the editable package in your virtual environment so that local changes will reflect in the virtual environment.
-
-```
-python -m pip install -e .
-```
-
-Additionally, install the packages included in the requirements file so that linting and documentation work.
-
-```
-python -m pip install -r requirements.txt
-```
 
 ## Download
 
@@ -206,7 +194,7 @@ for scene_file in scene_files:
 
 ## Example Scene Configuration Files
 
-[scenes/README.md](./scenes/README.md)
+[machine_common_sense/scenes/README.md](./machine_common_sense/scenes/README.md)
 
 ## Development README
 
