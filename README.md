@@ -6,12 +6,17 @@ The latest release of the MCS Python library is `0.1.0`.
 
 ### Virtual Environments
 
-Python Virtual Environments are recommend when using the MCS package. All steps presume the activation of the virtual environment as shown below.
+Python virtual environments are recommend when using the MCS package. All steps presume the activation of the virtual environment as shown below.
 
 ```
 python3.6 -m venv --prompt mcs venv
 source venv/bin/activate
+python -m pip install --upgrade pip setuptools wheel
 ```
+
+### Install MCS
+
+With the activated virtual environment, install the MCS package from the git url. MCS has a dependency on an ai2thor fork and will take a while to install. Please be patient.
 
 ```
 python -m pip install git+https://github.com/NextCenturyCorporation/MCS@latest
@@ -19,13 +24,13 @@ python -m pip install git+https://github.com/NextCenturyCorporation/MCS@latest
 
 ## MCS Package Developer Installation
 
-[DEV.md](./DEV.md)
+For MCS package developer, follow these instructions.
 
+[DEV.md](./DEV.md)
 
 ## Download
 
 Here are the instructions for downloading and installing our latest Unity release. For our previous releases, please see [this page](https://github.com/NextCenturyCorporation/MCS/releases).
-
 
 ### Unity Application
 
@@ -66,9 +71,9 @@ https://evaluation2-training-scenes.s3.amazonaws.com/intphys-scenes.zip
 Passive IntPhys Validation Data:
 https://evaluation2-training-scenes.s3.amazonaws.com/validation-intphys-scenes.zip
 
-## Import
+## Usage
 
-Example importing the MCS library:
+Example usage of the MCS library:
 
 ```python
 from machine_common_sense import MCS
@@ -119,7 +124,7 @@ for config_json_file_path in config_json_file_list:
 
 ## Run with Human Input
 
-To start the Unity application and enter your actions and parameters from the terminal, you can run the `run_in_human_input_mode` script that was installed in the package with the MCS Python Library (the `mcs_unity_build_file` is the executable):
+To start the Unity application and enter your actions and parameters from the terminal, you can run the `run_in_human_input_mode` script that was installed in the package with the MCS Python Library (the `mcs_unity_build_file` is the Unity executable downloaded previously):
 
 ```
 run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file>
@@ -138,8 +143,11 @@ Run options:
 To run the Unity application and measure your runtime speed, you can run the `run_scene_timer` script that was installed in the package with the MCS Python Library:
 
 ```
-run_scene_timer <mcs_unity_build_file> <mcs_config_file_folder> <debug=False>
+run_scene_timer <mcs_unity_build_file> <mcs_config_file_folder>
 ```
+
+Run options:
+- `--debug`
 
 This will run all of the MCS scene configuration JSON files in the given folder, use the PASS action for 20 steps (or for a number of steps equal to the last_step of the config file's goal, if any) in each scene, and print out the total, average, minimum, and maximum run time for all the scenes and the steps.
 
@@ -194,11 +202,7 @@ for scene_file in scene_files:
 
 ## Example Scene Configuration Files
 
-[machine_common_sense/scenes/README.md](./machine_common_sense/scenes/README.md)
-
-## Development README
-
-[machine_common_sense/README.md](./machine_common_sense/README.md)
+[machine_common_sense/scenes/README.md](./machine_common_sense/scenes/SCENE_README.md)
 
 ## Troubleshooting
 

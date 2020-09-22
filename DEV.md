@@ -12,13 +12,13 @@ $ source venv/bin/activate
 
 ### Install the MCS Package and dependencies
 
-From the MCS root folder, install the editable package in your virtual environment so that local changes will reflect in the virtual environment. This will install the minimum dependencies to run MCS.
+From the MCS root folder, install the package in your virtual environment in editable mode (-e) so that local changes will automatically reflect in the virtual environment.
 
 ```
 python -m pip install -e .
 ```
 
-Additionally, install the packages included in the requirements file so that linting and documentation work.
+Additionally, install the packages included in the requirements file so that linting and documentation work. The requirements.txt file includes developer dependencies.
 
 ```
 python -m pip install -r requirements.txt
@@ -26,7 +26,7 @@ python -m pip install -r requirements.txt
 
 ### Run pre-commit
 
-Run pre-commit install to set up the git hooks.
+Run pre-commit install to set up the git hooks for linting and auto-documentation.
 
 ```
 pre-commit install
@@ -76,7 +76,7 @@ We have made multiple run scripts:
 To run a script (like `run_human_input.py`) from the terminal with visual output:
 
 ```
-python3 run_human_input.py <mcs_unity_build_file> <mcs_config_json_file>
+run_human_input <mcs_unity_build_file> <mcs_config_json_file>
 ```
 
 To run it headlessly, first install xvfb (on Ubuntu, run `sudo apt-get install xvfb`), then:
