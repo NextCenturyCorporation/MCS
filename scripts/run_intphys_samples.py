@@ -1,10 +1,14 @@
-import sys
+import argparse
 
 from machine_common_sense.mcs import MCS
 
-if len(sys.argv) < 2:
-    print('Usage: python run_intphys_samples.py <mcs_unity_build_file>')
-    sys.exit()
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Run MCS')
+    parser.add_argument(
+        'mcs_unity_build_file',
+        help='Path to MCS unity build file')
+    return parser.parse_args()
 
 
 def run_scene(file_name):
@@ -33,41 +37,80 @@ def run_scene(file_name):
 
 
 if __name__ == "__main__":
-    controller = MCS.create_controller(sys.argv[1], debug=True)
+    args = parse_args()
+    controller = MCS.create_controller(args.mcs_unity_build_file, debug=True)
 
-    run_scene('../scenes/intphys_gravity_quartet_1A_plausible.json')
-    run_scene('../scenes/intphys_gravity_quartet_1B_plausible.json')
-    run_scene('../scenes/intphys_gravity_quartet_1C_implausible.json')
-    run_scene('../scenes/intphys_gravity_quartet_1D_implausible.json')
-    run_scene('../scenes/intphys_object_permanence_quartet_1A_plausible.json')
-    run_scene('../scenes/intphys_object_permanence_quartet_1B_plausible.json')
-    run_scene('../scenes/intphys_object_permanence_quartet_1C_implausible.json')  # noqa: E501
-    run_scene('../scenes/intphys_object_permanence_quartet_1D_implausible.json')  # noqa: E501
-    run_scene('../scenes/intphys_object_permanence_quartet_2A_plausible.json')
-    run_scene('../scenes/intphys_object_permanence_quartet_2B_plausible.json')
-    run_scene('../scenes/intphys_object_permanence_quartet_2C_implausible.json')  # noqa: E501
-    run_scene('../scenes/intphys_object_permanence_quartet_2D_implausible.json')  # noqa: E501
-    run_scene('../scenes/intphys_shape_constancy_quartet_1A_plausible.json')
-    run_scene('../scenes/intphys_shape_constancy_quartet_1B_plausible.json')
-    run_scene('../scenes/intphys_shape_constancy_quartet_1C_implausible.json')
-    run_scene('../scenes/intphys_shape_constancy_quartet_1D_implausible.json')
-    run_scene('../scenes/intphys_shape_constancy_quartet_2A_plausible.json')
-    run_scene('../scenes/intphys_shape_constancy_quartet_2B_plausible.json')
-    run_scene('../scenes/intphys_shape_constancy_quartet_2C_implausible.json')
-    run_scene('../scenes/intphys_shape_constancy_quartet_2D_implausible.json')
+    scenes_folder = '../machine_common_sense/scenes/'
+
     run_scene(
-        '../scenes/intphys_spatio_temporal_continuity_quartet_1A_plausible.json')  # noqa: E501
+        scenes_folder +
+        'intphys_object_permanence_quartet_1A_plausible.json')
     run_scene(
-        '../scenes/intphys_spatio_temporal_continuity_quartet_1B_plausible.json')  # noqa: E501
+        scenes_folder +
+        'intphys_object_permanence_quartet_1B_plausible.json')
     run_scene(
-        '../scenes/intphys_spatio_temporal_continuity_quartet_1C_implausible.json')  # noqa: E501
+        scenes_folder +
+        'intphys_object_permanence_quartet_1C_implausible.json')
     run_scene(
-        '../scenes/intphys_spatio_temporal_continuity_quartet_1D_implausible.json')  # noqa: E501
+        scenes_folder +
+        'intphys_object_permanence_quartet_1D_implausible.json')
     run_scene(
-        '../scenes/intphys_spatio_temporal_continuity_quartet_2A_plausible.json')  # noqa: E501
+        scenes_folder +
+        'intphys_object_permanence_quartet_2A_plausible.json')
     run_scene(
-        '../scenes/intphys_spatio_temporal_continuity_quartet_2B_plausible.json')  # noqa: E501
+        scenes_folder +
+        'intphys_object_permanence_quartet_2B_plausible.json')
     run_scene(
-        '../scenes/intphys_spatio_temporal_continuity_quartet_2C_implausible.json')  # noqa: E501
+        scenes_folder +
+        'intphys_object_permanence_quartet_2C_implausible.json')
     run_scene(
-        '../scenes/intphys_spatio_temporal_continuity_quartet_2D_implausible.json')  # noqa: E501
+        scenes_folder +
+        'intphys_object_permanence_quartet_2D_implausible.json')
+    run_scene(
+        scenes_folder +
+        'intphys_shape_constancy_quartet_1A_plausible.json')
+    run_scene(
+        scenes_folder +
+        'intphys_shape_constancy_quartet_1B_plausible.json')
+    run_scene(
+        scenes_folder +
+        'intphys_shape_constancy_quartet_1C_implausible.json')
+    run_scene(
+        scenes_folder +
+        'intphys_shape_constancy_quartet_1D_implausible.json')
+    run_scene(
+        scenes_folder +
+        'intphys_shape_constancy_quartet_2A_plausible.json')
+    run_scene(
+        scenes_folder +
+        'intphys_shape_constancy_quartet_2B_plausible.json')
+    run_scene(
+        scenes_folder +
+        'intphys_shape_constancy_quartet_2C_implausible.json')
+    run_scene(
+        scenes_folder +
+        'intphys_shape_constancy_quartet_2D_implausible.json')
+    run_scene(
+        scenes_folder +
+        'intphys_spatio_temporal_continuity_quartet_1A_plausible.json')
+    run_scene(
+        scenes_folder +
+        'intphys_spatio_temporal_continuity_quartet_1B_plausible.json')
+    run_scene(
+        scenes_folder +
+        'intphys_spatio_temporal_continuity_quartet_1C_implausible.json')
+    run_scene(
+        scenes_folder +
+        'intphys_spatio_temporal_continuity_quartet_1D_implausible.json')
+    run_scene(
+        scenes_folder +
+        'intphys_spatio_temporal_continuity_quartet_2A_plausible.json')
+    run_scene(
+        scenes_folder +
+        'intphys_spatio_temporal_continuity_quartet_2B_plausible.json')
+    run_scene(
+        scenes_folder +
+        'intphys_spatio_temporal_continuity_quartet_2C_implausible.json')
+    run_scene(
+        scenes_folder +
+        'intphys_spatio_temporal_continuity_quartet_2D_implausible.json')

@@ -1,18 +1,30 @@
 import glob
-import sys
+import argparse
+
 from machine_common_sense.mcs import MCS
 
-if len(sys.argv) < 4:
-    print('Usage: python run_init_scenes.py <mcs_unity_build_file> '
-          '<json_input_folder> <image_output_folder>')
-    sys.exit()
 
-if __name__ == "__main__":
-    output_folder = sys.argv[3] + '/'
+def parse_args():
+    parser = argparse.ArgumentParser(description='Run MCS')
+    parser.add_argument(
+        'mcs_unity_build_file',
+        help='Path to MCS unity build file')
+    parser.add_argument(
+        'json_input_folder',
+        help='MCS JSON scene input folder')
+    parser.add_argument(
+        'image_output_folder',
+        help='MCS image output folder')
+    return parser.parse_args()
 
-    json_file_list = glob.glob(sys.argv[2] + '/*.json')
 
-    controller = MCS.create_controller(sys.argv[1], debug=False)
+def main():
+    args = parse_args()
+
+    output_folder = args.image_output_folder + '/'
+    json_file_list = glob.glob(args.json_input_folder + '/*.json')
+
+    controller = MCS.create_controller(args.mcs_unity_build_file, debug=False)
 
     for json_file_name in json_file_list:
         config_data, status = MCS.load_config_json_file(json_file_name)
@@ -40,3 +52,7 @@ if __name__ == "__main__":
             fp=output_folder +
             config_data['name'] +
             '.png')
+
+
+if __name__ == "__main__":
+    main()

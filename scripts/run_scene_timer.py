@@ -1,11 +1,29 @@
 import os
 import statistics
-import sys
 import time
+import argparse
 
 from machine_common_sense.mcs import MCS
 
+
 DEFAULT_STEP_COUNT = 20
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Run MCS')
+    parser.add_argument(
+        'mcs_unity_build_file',
+        help='Path to MCS unity build file')
+    parser.add_argument(
+        'mcs_config_dir',
+        help='MCS JSON scene configuration directory')
+    parser.add_argument(
+        '--debug',
+        dest='debug',
+        action='store_true',
+        default=False
+    )
+    return parser.parse_args()
 
 
 def run_scene(controller, file_name):
@@ -42,28 +60,21 @@ def run_scene(controller, file_name):
 
 
 def main():
-    if len(sys.argv) < 3:
-        print('Usage: python run_scene_timer.py <mcs_unity_build_file> '
-              '<scene_configuration_dir> <debug=False>')
-        sys.exit()
-
+    args = parse_args()
     file_list = sorted(
         [
-            os.path.join(sys.argv[2], file_name)
-            for file_name in os.listdir(sys.argv[2])
-            if os.path.isfile(os.path.join(sys.argv[2], file_name)) and
+            os.path.join(args.mcs_config_dir, file_name)
+            for file_name in os.listdir(args.mcs_config_dir)
+            if os.path.isfile(os.path.join(args.mcs_config_dir, file_name)) and
             os.path.splitext(file_name)[1] == '.json'
         ]
     )
-
-    debug = sys.argv[3] if len(sys.argv) > 3 else False
 
     print(
         f'FOUND {len(file_list)} SCENE CONFIGURATION FILES... '
         f'STARTING THE MCS UNITY APP...')
     controller = MCS.create_controller(
-        sys.argv[1], debug=(
-            True if debug == 'true' else debug))
+        args.mcs_unity_build_file, debug=args.debug)
 
     scene_time_list = []
     step_time_list_list = []

@@ -1,10 +1,14 @@
-import sys
+import argparse
 
 from machine_common_sense.mcs import MCS
 
-if len(sys.argv) < 2:
-    print('Usage: python run_interactive_samples.py <mcs_unity_build_file>')
-    sys.exit()
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Run MCS')
+    parser.add_argument(
+        'mcs_unity_build_file',
+        help='Path to MCS unity build file')
+    return parser.parse_args()
 
 
 def run_scene(file_name, action_list):
@@ -29,7 +33,8 @@ def run_scene(file_name, action_list):
 
 
 if __name__ == "__main__":
-    controller = MCS.create_controller(sys.argv[1], debug=True)
+    args = parse_args()
+    controller = MCS.create_controller(args.mcs_unity_build_file, debug=True)
 
     run_scene('../scenes/eval_sample_1.json', [
         'MoveAhead,amount=1',

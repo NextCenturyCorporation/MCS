@@ -1,13 +1,57 @@
-import sys
 import argparse
 import cmd
-from machine_common_sense.getchHelper import getch
 
+from machine_common_sense.getchHelper import getch
 from machine_common_sense.mcs import MCS
 from machine_common_sense.action import Action, ActionDesc, ActionKeys
 from machine_common_sense.util import Util
 
+
 commandList = []
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Run MCS')
+    parser.add_argument(
+        'mcs_unity_build_file',
+        help='Path to MCS unity build file')
+    parser.add_argument(
+        'mcs_config_json_file',
+        help='MCS JSON scene configuration file to load')
+    parser.add_argument(
+        '--debug',
+        default=False,
+        action='store_true',
+        help='Generate MCS debug files [default=False]')
+    parser.add_argument(
+        '--noise',
+        default=False,
+        action='store_true',
+        help='Add random noise to action paramenters ' +
+        '(currently only movement/rotation) [default=False]')
+    parser.add_argument(
+        '--seed',
+        type=int,
+        default=None,
+        help='Python random seed [default=None]')
+    parser.add_argument(
+        '--size',
+        type=int,
+        default=None,
+        help='Screen width of 450+ (height = width * 2/3) [default=600]')
+    parser.add_argument(
+        '--depth_masks',
+        default=False,
+        action='store_true',
+        help='Render and return depth masks of each scene ' +
+        '(will slightly decrease performance) [default=False]')
+    parser.add_argument(
+        '--object_masks',
+        default=False,
+        action='store_true',
+        help='Render and return object (instance segmentation) masks of ' +
+        'each scene (will significantly decrease performance) [default=False]')
+    return parser.parse_args()
 
 
 class command:
@@ -55,7 +99,7 @@ class HumanInputShell(cmd.Cmd):
         if self.previous_output.action_list is not None and len(
                 self.previous_output.action_list) == 1:
             print('Automatically selecting the only available action...')
-            userInput = self.previous_output.action_list[1]
+            userInput = self.previous_output.action_list[0]
         else:
             userInput = line.split(',')
 
@@ -192,69 +236,23 @@ def run_scene(controller, config_data):
     input_commands = HumanInputShell(controller, output, config_data)
     input_commands.cmdloop()
 
-    sys.exit()
 
-
-def main(argv):
-
-    parser = argparse.ArgumentParser(description='Run MCS')
-    required_group = parser.add_argument_group(title='required arguments')
-
-    required_group.add_argument(
-        'mcs_unity_build_file',
-        help='Path to MCS unity build file')
-    required_group.add_argument(
-        'mcs_config_json_file',
-        help='MCS JSON scene configuration file to load')
-
-    parser.add_argument(
-        '--debug',
-        default=False,
-        action='store_true',
-        help='Generate MCS debug files [default=False]')
-    parser.add_argument(
-        '--noise',
-        default=False,
-        action='store_true',
-        help='Add random noise to action paramenters ' +
-        '(currently only movement/rotation) [default=False]')
-    parser.add_argument(
-        '--seed',
-        type=int,
-        default=None,
-        help='Python random seed [default=None]')
-    parser.add_argument(
-        '--size',
-        type=int,
-        default=None,
-        help='Screen width of 450+ (height = width * 2/3) [default=600]')
-    parser.add_argument(
-        '--depth_masks',
-        default=False,
-        action='store_true',
-        help='Render and return depth masks of each scene ' +
-        '(will slightly decrease performance) [default=False]')
-    parser.add_argument(
-        '--object_masks',
-        default=False,
-        action='store_true',
-        help='Render and return object (instance segmentation) masks of ' +
-        'each scene (will significantly decrease performance) [default=False]')
-    args = parser.parse_args(argv[1:])
-
+def main():
+    args = parse_args()
     config_data, status = MCS.load_config_json_file(args.mcs_config_json_file)
 
     if status is not None:
         print(status)
         exit()
 
-    controller = MCS.create_controller(sys.argv[1], debug=args.debug,
+    controller = MCS.create_controller(args.mcs_unity_build_file,
+                                       debug=args.debug,
                                        enable_noise=args.noise, seed=args.seed,
                                        size=args.size,
                                        depth_masks=args.depth_masks,
                                        object_masks=args.object_masks)
 
-    config_file_path = sys.argv[2]
+    config_file_path = args.mcs_config_json_file
     config_file_name = config_file_path[config_file_path.rfind('/') + 1:]
 
     if 'name' not in config_data.keys():
@@ -265,4 +263,4 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main()
