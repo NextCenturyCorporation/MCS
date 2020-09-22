@@ -49,7 +49,8 @@ class Util:
     @staticmethod
     def generate_pretty_object_output(object_list):
         """
-        Transforms the given list of ObjectMetadata objects into a list of strings.
+        Transforms the given list of ObjectMetadata objects into a
+        list of strings.
 
         Parameters
         ----------
@@ -91,7 +92,8 @@ class Util:
     @staticmethod
     def input_to_action_and_params(input_str):
         """
-        Transforms the given input string into an action string and parameter dict.
+        Transforms the given input string into an action string
+        and parameter dict.
 
         Parameters
         ----------
@@ -149,8 +151,8 @@ class Util:
         default_value : number
             The default value.
         label : string
-            A label for the input value.  If given, and if the input value is not
-            within the range, will print an error.
+            A label for the input value.  If given, and if the input
+            value is not within the range, will print an error.
 
         Returns
         -------
@@ -183,8 +185,8 @@ class Util:
         value :
             The input value.
         label : string
-            A label for the input value.  If given, and if the input value is not
-            a number, will print an error.
+            A label for the input value.  If given, and if the
+            input value is not a number, will print an error.
 
         Returns
         -------
