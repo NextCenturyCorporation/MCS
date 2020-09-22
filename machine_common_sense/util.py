@@ -9,22 +9,22 @@ class Util:
 
     NUMBER_OF_SPACES = 4
 
-    """
-    Transforms the given class into a string.
-
-    Parameters
-    ----------
-    input_value
-        The input class.
-    depth : int, optional
-        The indent depth (default 0).
-
-    Returns
-    -------
-    string
-    """
     @staticmethod
     def class_to_str(input_class, depth=0):
+        """
+        Transforms the given class into a string.
+
+        Parameters
+        ----------
+        input_value
+            The input class.
+        depth : int, optional
+            The indent depth (default 0).
+
+        Returns
+        -------
+        string
+        """
         this_indent = " " * Util.NUMBER_OF_SPACES * depth
         next_indent = " " * Util.NUMBER_OF_SPACES * (depth + 1)
         text_list = []
@@ -46,20 +46,20 @@ class Util:
         return "{}" if len(text_list) == 0 else "{\n" + \
             (",\n").join(text_list) + "\n" + this_indent + "}"
 
-    """
-    Transforms the given list of ObjectMetadata objects into a list of strings.
-
-    Parameters
-    ----------
-    object_list : list of ObjectMetadata objects
-        The input list.
-
-    Returns
-    -------
-    list of strings
-    """
     @staticmethod
     def generate_pretty_object_output(object_list):
+        """
+        Transforms the given list of ObjectMetadata objects into a list of strings.
+
+        Parameters
+        ----------
+        object_list : list of ObjectMetadata objects
+            The input list.
+
+        Returns
+        -------
+        list of strings
+        """
         # TODO What else should we show here?
         titles = [
             "OBJECT ID",
@@ -88,25 +88,25 @@ class Util:
         return [("  ".join(str(row[i]).ljust(widths[i])
                            for i in range(0, len(row)))) for row in rows]
 
-    """
-    Transforms the given input string into an action string and parameter dict.
-
-    Parameters
-    ----------
-    input_value : string
-        The input value.
-
-    Returns
-    -------
-    string
-        The action string, or None if the given input had an error
-        transforming the action string.
-    dict
-        The parameter dict, or None if the given input had an error
-        transforming parameters.
-    """
     @staticmethod
     def input_to_action_and_params(input_str):
+        """
+        Transforms the given input string into an action string and parameter dict.
+
+        Parameters
+        ----------
+        input_value : string
+            The input value.
+
+        Returns
+        -------
+        string
+            The action string, or None if the given input had an error
+            transforming the action string.
+        dict
+            The parameter dict, or None if the given input had an error
+            transforming parameters.
+        """
         input_split = input_str.split(',')
         action = input_split[0]
 
@@ -132,30 +132,30 @@ class Util:
 
         return action, params
 
-    """
-    Returns if the given value is within the given min and max; if not,
-    returns the given default.
-
-    Parameters
-    ----------
-    value : number
-        The input value.
-    min_value : number
-        The min value.
-    max_value : number
-        The max value.
-    default_value : number
-        The default value.
-    label : string
-        A label for the input value.  If given, and if the input value is not
-        within the range, will print an error.
-
-    Returns
-    -------
-    number
-    """
     @staticmethod
     def is_in_range(value, min_value, max_value, default_value, label=None):
+        """
+        Returns if the given value is within the given min and max; if not,
+        returns the given default.
+
+        Parameters
+        ----------
+        value : number
+            The input value.
+        min_value : number
+            The min value.
+        max_value : number
+            The max value.
+        default_value : number
+            The default value.
+        label : string
+            A label for the input value.  If given, and if the input value is not
+            within the range, will print an error.
+
+        Returns
+        -------
+        number
+        """
         if value > max_value or value < min_value:
             if label is not None:
                 print(
@@ -173,23 +173,23 @@ class Util:
             return default_value
         return value
 
-    """
-    Returns if the given value is a number.
-
-    Parameters
-    ----------
-    value :
-        The input value.
-    label : string
-        A label for the input value.  If given, and if the input value is not
-        a number, will print an error.
-
-    Returns
-    -------
-    boolean
-    """
     @staticmethod
     def is_number(value, label=None):
+        """
+        Returns if the given value is a number.
+
+        Parameters
+        ----------
+        value :
+            The input value.
+        label : string
+            A label for the input value.  If given, and if the input value is not
+            a number, will print an error.
+
+        Returns
+        -------
+        boolean
+        """
         try:
             float(value)
             return True
@@ -201,22 +201,22 @@ class Util:
                     'needs to be a number. Will be set to 0.')
             return False
 
-    """
-    Transforms the given value into a string.
-
-    Parameters
-    ----------
-    input_value
-        The input value.
-    depth : int, optional
-        The indent depth (default 0).
-
-    Returns
-    -------
-    string
-    """
     @staticmethod
     def value_to_str(input_value, depth=0):
+        """
+        Transforms the given value into a string.
+
+        Parameters
+        ----------
+        input_value
+            The input value.
+        depth : int, optional
+            The indent depth (default 0).
+
+        Returns
+        -------
+        string
+        """
         this_indent = " " * Util.NUMBER_OF_SPACES * depth
         next_indent = " " * Util.NUMBER_OF_SPACES * (depth + 1)
         if input_value is None:
@@ -252,20 +252,20 @@ class Util:
             return "\"" + input_value.replace("\"", "\\\"") + "\""
         return str(input_value).replace("\n", "\n" + this_indent)
 
-    """
-    Transforms the given vector into a string.
-
-    Parameters
-    ----------
-    vector : dict
-        The input vector.
-
-    Returns
-    -------
-    string
-    """
     @staticmethod
     def vector_to_string(vector):
+        """
+        Transforms the given vector into a string.
+
+        Parameters
+        ----------
+        vector : dict
+            The input vector.
+
+        Returns
+        -------
+        string
+        """
         return (
             (
                 '(' +
@@ -283,21 +283,21 @@ class Util:
             else 'None'
         )
 
-    """
-    Returns whether the given string can be successfully converted into an
-    Material enum.
-
-    Parameters
-    ----------
-    enum_string
-        The string to be converted into an Material enum.
-
-    Returns
-    -------
-    boolean
-    """
     @staticmethod
     def verify_material_enum_string(enum_string):
+        """
+        Returns whether the given string can be successfully converted into an
+        Material enum.
+
+        Parameters
+        ----------
+        enum_string
+            The string to be converted into an Material enum.
+
+        Returns
+        -------
+        boolean
+        """
         try:
             enum_instance = Material[enum_string.upper()]  # noqa: F841
             return True
