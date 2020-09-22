@@ -9,7 +9,8 @@ setuptools.setup(
     maintainer='Next Century, a wholly owned subsidiary of CACI',
     maintainer_email='mcs-ta2@machinecommonsense.com',
     url='https://github.com/NextCenturyCorporation/MCS/',
-    description='Machine Common Sense Python API to Unity 3D Simulation Environment',
+    description=('Machine Common Sense Python API'
+                 ' to Unity 3D Simulation Environment'),
     long_description=long_description,
     long_description_content_type='text/markdown',
     classifiers=[
@@ -22,7 +23,8 @@ setuptools.setup(
     install_requires=[
         'shapely>=1.7.0',
         'boto3>=1.15',
-        'ai2thor @ git+https://github.com/NextCenturyCorporation/ai2thor#egg=ai2thor'
+        ('ai2thor @ '
+         'git+https://github.com/NextCenturyCorporation/ai2thor#egg=ai2thor')
     ],
     entry_points={
         'console_scripts': [
