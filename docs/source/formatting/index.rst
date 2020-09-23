@@ -1,4 +1,0 @@
-Formatting
-===========
-
-Formatting docs here.

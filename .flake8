@@ -1,3 +1,8 @@
 [flake8]
 ignore = E402, W504
-exclude = machine_common_sense/__init__.py,setup.py,template_playroom.py,venv,.venv,env,.env
+exclude = 
+        machine_common_sense/__init__.py,
+        docs,
+        setup.py,
+        template_playroom.py,
+        venv

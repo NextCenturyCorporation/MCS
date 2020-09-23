@@ -17,9 +17,9 @@ sys.path.insert(0, os.path.abspath('../../'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'MCS'
-copyright = '2020, MCS'
-author = 'MCS'
+project = 'Machine Common Sense'
+copyright = '2020, CACI'
+author = 'CACI'
 
 # The short X.Y version
 version = ''
