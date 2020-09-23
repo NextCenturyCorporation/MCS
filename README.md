@@ -26,7 +26,7 @@ python -m pip install git+https://github.com/NextCenturyCorporation/MCS@latest
 
 For MCS package developer, follow these instructions.
 
-[DEV.md](./DEV.md)
+[DEV.md](.machine_common_sense/DEV.md)
 
 ## Download
 
@@ -198,7 +198,7 @@ for scene_file in scene_files:
 
 ## Documentation
 
-[API.md](./API.md)
+[API.md](.machine_common_sense/API.md)
 
 ## Example Scene Configuration Files
 
