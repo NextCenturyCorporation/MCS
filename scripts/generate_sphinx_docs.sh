@@ -17,5 +17,5 @@ echo "calling make'"
 make markdown
 echo "moving to API"
 cp _build/markdown/index.md ../../API.md
-git add ../../API.md
+git add ../API.md
 echo "Finished update to Python API sphinx markdown documentation."
