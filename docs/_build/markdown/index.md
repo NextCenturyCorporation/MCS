@@ -429,7 +429,7 @@ Defines output metadata from an action step in the MCS 3D environment.
 
 
 ### class machine_common_sense.action.Action(value)
-The actions available in the MCS simulation environment.
+The actions that are available in the MCS simulation environment.
 
 
 #### CLOSE_OBJECT( = 'CloseObject')
