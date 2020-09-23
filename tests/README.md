@@ -2,10 +2,7 @@
 
 ## Running Tests
 
-Please note that must be run from the `python_api` directory!
-
 ```
-cd <python_api>
 python -m unittest
 ```
 
