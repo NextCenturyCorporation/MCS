@@ -3,7 +3,7 @@ import cmd
 
 from machine_common_sense.getchHelper import getch
 from machine_common_sense.mcs import MCS
-from machine_common_sense.action import Action, ActionDesc, ActionKeys
+from machine_common_sense.action import Action
 from machine_common_sense.util import Util
 
 
@@ -107,8 +107,7 @@ class HumanInputShell(cmd.Cmd):
         # valid key
         try:
             if len(userInput[0]) == 1:
-                userInput[0] = Action[ActionKeys(
-                    userInput[0]).name].value
+                userInput[0] = Action(userInput[0]).value
         except BaseException:
             print(
                 "You entered an invalid shortcut key, please try again. "
@@ -171,7 +170,7 @@ class HumanInputShell(cmd.Cmd):
         print("Entering shortcut mode...")
         print("Press key 'e' to exit\n")
         list_of_action_keys = [
-            action_key.value for action_key in ActionKeys]
+            action.key for action in Action]
 
         while True:
             char = getch.__call__()
@@ -186,8 +185,8 @@ def build_commands():
     '''Define all the possible human input commands.'''
     for action in Action:
         commandList.append(command(action.value,
-                                   ActionKeys[action.name].value,
-                                   ActionDesc[action.name].value))
+                                   action.key,
+                                   action.desc))
 
 
 def print_commands():
@@ -247,7 +246,8 @@ def main():
 
     controller = MCS.create_controller(args.mcs_unity_build_file,
                                        debug=args.debug,
-                                       enable_noise=args.noise, seed=args.seed,
+                                       enable_noise=args.noise,
+                                       seed=args.seed,
                                        size=args.size,
                                        depth_masks=args.depth_masks,
                                        object_masks=args.object_masks)
