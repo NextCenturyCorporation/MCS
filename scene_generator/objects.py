@@ -1,6 +1,5 @@
 import copy
-import uuid
-from typing import Any, Dict, List, Tuple, Union
+from typing import Any, Dict, List, Union
 
 _BALL = {
     "type": "sphere",
@@ -3119,255 +3118,6 @@ _POTTED_PLANT_LARGE = {
 }
 
 
-_OCCLUDER_INSTANCE_NORMAL = [{
-    "id": "occluder_wall_",
-    "shape": ["wall"],
-    "size": "huge",
-    "type": "cube",
-    "kinematic": True,
-    "structure": True,
-    "mass": 100,
-    "materials": ["AI2-THOR/Materials/Walls/DrywallBeige"],
-    "shows": [{
-        "stepBegin": 0,
-        "position": {
-            "x": 0,
-            "y": 0.75,
-            "z": 1
-        },
-        "scale": {
-            "x": 1,
-            "y": 1.5,
-            "z": 0.1
-        }
-    }],
-    "moves": [{
-        "stepBegin": 1,
-        "stepEnd": 6,
-        "vector": {
-            "x": 0,
-            "y": 0.25,
-            "z": 0
-        }
-    }, {
-        "stepBegin": 7,
-        "stepEnd": 12,
-        "vector": {
-            "x": 0,
-            "y": -0.25,
-            "z": 0
-        }
-    }, {
-        "stepBegin": 55,
-        "stepEnd": 60,
-        "vector": {
-            "x": 0,
-            "y": 0.25,
-            "z": 0
-        }
-    }],
-    "rotates": [{
-        "stepBegin": 1,
-        "stepEnd": 2,
-        "vector": {
-            "x": 0,
-            "y": 45,
-            "z": 0
-        }
-    }, {
-        "stepBegin": 11,
-        "stepEnd": 12,
-        "vector": {
-            "x": 0,
-            "y": -45,
-            "z": 0
-        }
-    }, {
-        "stepBegin": 55,
-        "stepEnd": 56,
-        "vector": {
-            "x": 0,
-            "y": 45,
-            "z": 0
-        }
-    }]
-}, {
-    "id": "occluder_pole_",
-    "shape": ["pole"],
-    "size": "medium",
-    "type": "cylinder",
-    "kinematic": True,
-    "structure": True,
-    "mass": 100,
-    "materials": ["AI2-THOR/Materials/Walls/DrywallBeige"],
-    "shows": [{
-        "stepBegin": 0,
-        "position": {
-            "x": 0,
-            "y": 2.25,
-            "z": 1
-        },
-        "scale": {
-            "x": 0.1,
-            "y": 1,
-            "z": 0.1
-        }
-    }],
-    "moves": [{
-        "stepBegin": 1,
-        "stepEnd": 6,
-        "vector": {
-            "x": 0,
-            "y": 0.25,
-            "z": 0
-        }
-    }, {
-        "stepBegin": 7,
-        "stepEnd": 12,
-        "vector": {
-            "x": 0,
-            "y": -0.25,
-            "z": 0
-        }
-    }, {
-        "stepBegin": 55,
-        "stepEnd": 60,
-        "vector": {
-            "x": 0,
-            "y": 0.25,
-            "z": 0
-        }
-    }]
-}]
-
-
-_OCCLUDER_INSTANCE_SIDEWAYS = [{
-    "id": "occluder_wall_",
-    "shape": ["wall"],
-    "size": "huge",
-    "type": "cube",
-    "kinematic": True,
-    "structure": True,
-    "mass": 100,
-    "materials": ["AI2-THOR/Materials/Walls/DrywallBeige"],
-    "shows": [{
-        "stepBegin": 0,
-        "position": {
-            "x": 0,
-            "y": 0.75,
-            "z": 1
-        },
-        "scale": {
-            "x": 1,
-            "y": 1.5,
-            "z": 0.1
-        }
-    }],
-    "moves": [{
-        "stepBegin": 1,
-        "stepEnd": 4,
-        "vector": {
-            "x": 0,
-            "y": 0.25,
-            "z": 0
-        }
-    }, {
-        "stepBegin": 9,
-        "stepEnd": 12,
-        "vector": {
-            "x": 0,
-            "y": -0.25,
-            "z": 0
-        }
-    }, {
-        "stepBegin": 35,
-        "stepEnd": 38,
-        "vector": {
-            "x": 0,
-            "y": 0.25,
-            "z": 0
-        }
-    }],
-    "rotates": [{
-        "stepBegin": 5,
-        "stepEnd": 6,
-        "vector": {
-            "x": 45,
-            "y": 0,
-            "z": 0
-        }
-    }, {
-        "stepBegin": 7,
-        "stepEnd": 8,
-        "vector": {
-            "x": -45,
-            "y": 0,
-            "z": 0
-        }
-    }, {
-        "stepBegin": 39,
-        "stepEnd": 40,
-        "vector": {
-            "x": 45,
-            "y": 0,
-            "z": 0
-        }
-    }]
-}, {
-    "id": "occluder_pole_",
-    "shape": ["pole"],
-    "size": "medium",
-    "type": "cylinder",
-    "kinematic": True,
-    "structure": True,
-    "mass": 100,
-    "materials": ["AI2-THOR/Materials/Walls/DrywallBeige"],
-    "shows": [{
-        "stepBegin": 0,
-        "position": {
-            "x": 0,
-            "y": 0.75,
-            "z": 1
-        },
-        "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 90
-        },
-        "scale": {
-            "x": 0.1,
-            "y": 3,
-            "z": 0.1
-        }
-    }],
-    "moves": [{
-        "stepBegin": 1,
-        "stepEnd": 4,
-        "vector": {
-            "x": 0.25,
-            "y": 0,
-            "z": 0
-        }
-    }, {
-        "stepBegin": 9,
-        "stepEnd": 12,
-        "vector": {
-            "x": -0.25,
-            "y": 0,
-            "z": 0
-        }
-    }, {
-        "stepBegin": 35,
-        "stepEnd": 38,
-        "vector": {
-            "x": 0.25,
-            "y": 0,
-            "z": 0
-        }
-    }]
-}]
-
-
 _INTPHYS: List[Dict[str, Any]] = [{
     "type": "sphere",
     "shape": ["ball"],
@@ -3398,7 +3148,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
         "y": 0.75,
         "z": 0.75
     },
-    "intphysOptions": [{
+    "intuitivePhysics": [{
         "y": 0,
         "force": {
             "x": 300 * 0.75,
@@ -3596,7 +3346,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
         "y": 0.5,
         "z": 0.5
     },
-    "intphysOptions": [{
+    "intuitivePhysics": [{
         "y": 0,
         "force": {
             "x": 300 * 0.5,
@@ -3793,7 +3543,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
         "y": 0.25,
         "z": 0.25
     },
-    "intphysOptions": [{
+    "intuitivePhysics": [{
         "y": 0,
         "force": {
             "x": 300 * 0.25,
@@ -3988,7 +3738,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
         "y": 0.75,
         "z": 0.75
     },
-    "intphysOptions": [{
+    "intuitivePhysics": [{
         "y": 0,
         "force": {
             "x": 300 * 0.75,
@@ -4202,7 +3952,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
         "y": 0.5,
         "z": 0.5
     },
-    "intphysOptions": [{
+    "intuitivePhysics": [{
         "y": 0,
         "force": {
             "x": 300 * 0.5,
@@ -4414,7 +4164,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
         "y": 0.25,
         "z": 0.25
     },
-    "intphysOptions": [{
+    "intuitivePhysics": [{
         "y": 0,
         "force": {
             "x": 300 * 0.25,
@@ -4629,7 +4379,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
         "y": 0.375,  # Must be half
         "z": 0.75
     },
-    "intphysOptions": [{
+    "intuitivePhysics": [{
         "y": 0,
         "force": {
             "x": 300 * 0.75,
@@ -4834,7 +4584,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
         "y": 0.25,  # Must be half
         "z": 0.5
     },
-    "intphysOptions": [{
+    "intuitivePhysics": [{
         "y": 0,
         "force": {
             "x": 300 * 0.5,
@@ -5037,7 +4787,7 @@ _INTPHYS: List[Dict[str, Any]] = [{
         "y": 0.125,  # Must be half
         "z": 0.25
     },
-    "intphysOptions": [{
+    "intuitivePhysics": [{
         "y": 0,
         "force": {
             "x": 300 * 0.25,
@@ -5409,53 +5159,6 @@ _INTPHYS_NOVEL = [{
         "z": 5
     }
 }]
-
-
-def create_occluder(wall_material: Tuple[str, List[str]],
-                    pole_material: Tuple[str, List[str]],
-                    x_position: float, x_scale: float,
-                    sideways: bool = False) \
-        -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Create an occluder pair of objects: (wall, pole)."""
-    if sideways:
-        occluder = copy.deepcopy(_OCCLUDER_INSTANCE_SIDEWAYS)
-    else:
-        occluder = copy.deepcopy(_OCCLUDER_INSTANCE_NORMAL)
-
-    WALL = 0
-    POLE = 1
-
-    occluder_id = str(uuid.uuid4())
-    occluder[WALL]['id'] = occluder[WALL]['id'] + occluder_id
-    occluder[POLE]['id'] = occluder[POLE]['id'] + occluder_id
-
-    occluder[WALL]['materials'] = [wall_material[0]]
-    occluder[POLE]['materials'] = [pole_material[0]]
-
-    occluder[WALL]['color'] = wall_material[1]
-    occluder[POLE]['color'] = pole_material[1]
-
-    # Just set the occluder's info to its color for now.
-    occluder[WALL]['info'] = wall_material[1]
-    occluder[POLE]['info'] = pole_material[1]
-
-    occluder[WALL]['shows'][0]['position']['x'] = x_position
-    occluder[POLE]['shows'][0]['position']['x'] = x_position
-
-    occluder[WALL]['shows'][0]['scale']['x'] = x_scale
-
-    if sideways:
-        if x_position > 0:
-            occluder[POLE]['shows'][0]['position']['x'] = 3 + \
-                x_position + x_scale / 2
-        else:
-            occluder[POLE]['shows'][0]['position']['x'] = - \
-                3 + x_position - x_scale / 2
-    elif x_position > 0:
-        for rot in occluder[WALL]['rotates']:
-            rot['vector']['y'] *= -1
-
-    return occluder
 
 
 _PICKUPABLE_BALLS = [_BALL]

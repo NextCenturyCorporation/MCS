@@ -8,9 +8,15 @@
 pip3 install -r requirements.txt
 ```
 
+You may need to install `testresources`:
+
+```
+sudo apt install python3-testresources
+```
+
 ### Goal Images
 
-If you want to have an image pixel array for each target object in the interactive goals, you must first run the `image_generator` to populate the `images` folder with each object/material combination pixel array text file (or download the files from S3).
+The interactive scenes save the pixel array of each target object in each output JSON file by reading the images from the `images` folder. **You can run the scene generator without the images for internal testing.*** However, for generating new training and evaluation datasets, you must first run the `image_generator` to populate the `images` folder with each object/material combination pixel array text file (or download the files from S3). See the `image_generator` folder for more information.
 
 Pixels (for the scene generator):
 
@@ -24,16 +30,22 @@ https://mcs-unity-images.s3.amazonaws.com/mcs-evaluation-images-summer-2020.tar.
 
 ## Running
 
-The following will show the script's options in your terminal:
+To see all of the scene generator's options:
 
 ```
 python3 scene_generator.py
 ```
 
-Here's an example that generates 10 retrieval scenes:
+For example, to generate 10 "Retrieval" training scenes with a file name prefix of "my_retrieval":
 
 ```
-python3 scene_generator.py --prefix my_scene -c 10 --goal Retrieval --find_path
+python3 scene_generator.py -p my_retrieval -c 10 -t Retrieval --training
+```
+
+For example, to generate 20 "ObjectPermanence" evaluation quartets with a file name prefix of "eval_3":
+
+```
+python3 scene_generator.py -p eval_3 -c 20 -t ObjectPermanence
 ```
 
 ## Testing

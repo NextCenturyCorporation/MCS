@@ -20,7 +20,7 @@ def test_clean_object():
         'closedOffset': {'x': 13, 'z': 42},
         'enclosedAreas': [{}],
         'openAreas': [{}],
-        'intphysOption': 'stuff',
+        'chosenMovement': {},
         'isParentOf': [],
         'novelColor': True,
         'novelCombination': False,

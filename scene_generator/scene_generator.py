@@ -1,26 +1,22 @@
 #!/usr/bin/env python3
-#
-import logging
-import sys
+
 import argparse
+import copy
+import json
+import logging
 import os
 import os.path
-import json
-import copy
 import random
+import sys
 import uuid
-from enum import Enum, auto
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import exceptions
-import pairs
-import quartets
+import interactive_sequences
+import intuitive_physics_sequences
 import materials
 from pretty_json.pretty_json import PrettyJsonEncoder, PrettyJsonNoIndent
-import goals
 
-# no public way to find this, apparently :(
-LOG_LEVELS = logging._nameToLevel.keys()
 
 OUTPUT_TEMPLATE_JSON = """
 {
@@ -47,7 +43,14 @@ OUTPUT_TEMPLATE_JSON = """
 }
 """
 
+
 OUTPUT_TEMPLATE = json.loads(OUTPUT_TEMPLATE_JSON)
+
+
+SEQUENCE_LIST = (
+    interactive_sequences.INTERACTIVE_SCENE_SEQUENCE_LIST +
+    intuitive_physics_sequences.INTUITIVE_PHYSICS_SEQUENCE_LIST
+)
 
 
 def strip_debug_info(body: Dict[str, Any]) -> None:
@@ -56,7 +59,7 @@ def strip_debug_info(body: Dict[str, Any]) -> None:
     for obj in body['objects']:
         clean_object(obj)
     for goal_key in ('domain_list', 'type_list',
-                     'task_list', 'info_list', 'series_id'):
+                     'task_list', 'info_list', 'sequence_id'):
         body['goal'].pop(goal_key, None)
     if 'metadata' in body['goal']:
         metadata = body['goal']['metadata']
@@ -76,7 +79,7 @@ def clean_object(obj: Dict[str, Any]) -> None:
     obj.pop('closedOffset', None)
     obj.pop('enclosedAreas', None)
     obj.pop('openAreas', None)
-    obj.pop('intphysOption', None)
+    obj.pop('chosenMovement', None)
     obj.pop('isParentOf', None)
     obj.pop('materialsList', None)
     obj.pop('materialCategory', None)
@@ -101,20 +104,6 @@ def generate_body_template(name: str) -> Dict[str, Any]:
     body['wallColors'] = ceil_wall_mat_choice[1]
     body['floorMaterial'] = random.choice(materials.FLOOR_MATERIALS)[0]
     return body
-
-
-def generate_scene(name: str, goal_type: str,
-                   find_path: bool) -> Dict[str, Any]:
-    body = generate_body_template(name)
-    goal_obj = goals.choose_goal(goal_type)
-    goal_obj.update_body(body, find_path)
-    return body
-
-
-def write_file(name: str, body: Dict[str, Any]) -> None:
-    write_scene(name + '-debug.json', body)
-    strip_debug_info(body)
-    write_scene(name + '.json', body)
 
 
 def write_scene(name: str, scene: Dict[str, Any]) -> None:
@@ -158,216 +147,143 @@ def wrap_with_json_no_indent(
             data[prop] = PrettyJsonNoIndent(data[prop])
 
 
-def generate_name(prefix: str, count: int, scene: int = None) -> str:
-    if scene is not None:
-        return f'{prefix}-{count:04}-{scene}'
-    return f'{prefix}-{count:04}'
+def generate_sequence(
+    file_name: str,
+    type_name: str,
+    training: bool,
+    find_path: bool,
+    stop_on_error: bool
+) -> None:
+    body_template = generate_body_template('')
+    sequence_id = str(uuid.uuid4())
 
+    sequence_factory = None
+    for item in SEQUENCE_LIST:
+        if item.name == type_name:
+            sequence_factory = item
+    if not sequence_factory:
+        raise ValueError(f'Failed to find {type_name} sequence factory')
 
-def generate_single(prefix: str, count: int, goal_type: str, find_path: bool,
-                    stop_on_error: bool) -> None:
-    # skip existing files
-    index = 1
-
-    while count > 0:
-        while True:
-            name = generate_name(prefix, index)
-            file_exists = os.path.exists(name + '.json')
-            if not file_exists:
-                break
-            index += 1
-        try:
-            body = generate_scene(name, goal_type, find_path)
-            write_file(name, body)
-            count -= 1
-        except (RuntimeError, ZeroDivisionError, TypeError,
-                exceptions.SceneException, ValueError) as e:
-            if stop_on_error:
-                raise
-            logging.warning(f'failed to create a file: {e}')
-
-
-def generate_quartet(prefix: str, count: int, quartet_name: str,
-                     goal_name: str, find_path: bool,
-                     stop_on_error: bool) -> None:
-
-    template = generate_body_template('')
-    quartet_class = quartets.get_quartet_class(quartet_name)
-    # TODO Use goal_name in quartet constructor
-    quartet = quartet_class(template, find_path)
-    quartet_id = str(uuid.uuid4())
-    quartet_name = quartet.__class__.__name__.replace('Quartet', '').lower()
-    for q in range(1, 5):
-        name = generate_name(prefix, count, q)
-        logging.debug(f'starting generation of\t{name}')
-        while True:
-            try:
-                scene = quartet.get_scene(q)
-                scene['name'] = name
-                scene['goal']['series_id'] = 'quartet_' + \
-                    quartet_name + '_' + quartet_id
-                scene_copy = copy.deepcopy(scene)
-                write_file(name, scene_copy)
-                break
-            except (RuntimeError, ZeroDivisionError, TypeError,
-                    exceptions.SceneException, ValueError) as e:
-                if stop_on_error:
-                    raise
-                logging.warning(f'failed to create a quartet member: {e}')
-        logging.debug(f'end generation of\t{name}')
-
-
-def generate_quartets(prefix: str, count: int, quartet_name: str,
-                      goal_name: str, find_path: bool,
-                      stop_on_error: bool) -> None:
-
-    index = 1
-    while count > 0:
-        while True:
-            file_exists = os.path.exists(
-                generate_name(prefix, index, 1) + '.json')
-            if not file_exists:
-                break
-            index += 1
-        generate_quartet(
-            prefix,
-            index,
-            quartet_name,
-            goal_name,
-            find_path,
-            stop_on_error)
-        count -= 1
-
-
-def write_scene_of_pair(scene: Dict[str, Any], name: str) -> None:
-    scene['name'] = name
-    scene_copy = copy.deepcopy(scene)
-    write_file(name, scene_copy)
-
-
-def generate_pair(prefix: str, count: int, pair_name: str,
-                  goal_name: str, find_path: bool,
-                  stop_on_error: bool) -> None:
-
-    template = generate_body_template('')
-    pair_class = pairs.get_pair_class(pair_name)
-    pair = pair_class(template, goal_name, find_path)
-    pair_id = str(uuid.uuid4())
+    tries = 0
     while True:
+        tries += 1
         try:
-            scenes = pair.get_scenes()
-            scenes[0]['goal']['series_id'] = pair.get_name().replace(
-                ' ', '_') + '_' + pair_id
-            scenes[1]['goal']['series_id'] = pair.get_name().replace(
-                ' ', '_') + '_' + pair_id
-            write_scene_of_pair(scenes[0], generate_name(prefix, count, 1))
-            write_scene_of_pair(scenes[1], generate_name(prefix, count, 2))
+            # Build the sequence and all of its scenes.
+            sequence = sequence_factory.build(body_template)
+            scenes = sequence.get_scenes()
+            if training:
+                scenes = [scenes[0]]
+            scene_index = 1
+            for scene in scenes:
+                index_suffix = (
+                    '' if len(scenes) == 1 else ('_' + str(scene_index))
+                )
+                scene_copy = copy.deepcopy(scene)
+                scene_name = file_name + index_suffix
+                scene_copy['name'] = scene_name
+                scene_copy['goal']['sequence_id'] = (
+                    sequence.get_name().replace(' ', '_') + '_' +
+                    sequence_id + index_suffix
+                )
+                write_scene(scene_name + '_debug.json', scene_copy)
+                strip_debug_info(scene_copy)
+                write_scene(scene_name + '.json', scene_copy)
+                scene_index += 1
             break
-        except (RuntimeError, ZeroDivisionError, TypeError,
-                exceptions.SceneException, ValueError) as e:
-            if stop_on_error:
+        except (
+            RuntimeError,
+            ZeroDivisionError,
+            TypeError,
+            exceptions.SceneException,
+            ValueError
+        ) as e:
+            if stop_on_error or tries >= 100:
                 raise
-            logging.warning(f'failed to create a pair: {e}')
+            logging.warning(f'Failed to create {type_name} sequence')
+            logging.warning(e)
 
 
-def generate_pairs(prefix: str, total: int, pair_name: str,
-                   goal_name: str, find_path: bool,
-                   stop_on_error: bool) -> None:
+def generate_scenes(
+    prefix: str,
+    total: int,
+    type_name: str,
+    training: bool,
+    find_path: bool,
+    stop_on_error: bool
+) -> None:
+    folder_name = os.path.dirname(prefix)
+    if folder_name != '':
+        os.makedirs(folder_name, exist_ok=True)
 
     index = 1
     count = 0
     while count < total:
         while True:
+            file_name = f'{prefix}_{index:04}'
             file_exists = os.path.exists(
-                generate_name(prefix, index, 1) + '.json')
+                file_name + ('' if training else '_1') + '.json'
+            )
             if not file_exists:
                 break
             index += 1
         count += 1
-        logging.debug(f'\n\ngenerate pair {count} / {total}\n')
-        generate_pair(
-            prefix,
-            index,
-            pair_name,
-            goal_name,
-            find_path,
-            stop_on_error)
-
-
-class FilesetType(Enum):
-    SINGLE = auto()
-    QUARTET = auto()
-    PAIR = auto()
-
-
-def generate_fileset(prefix: str, count: int, type_name: str, goal_name: str,
-                     find_path: bool, stop_on_error: bool,
-                     fileset_type: FilesetType) -> None:
-    dirname = os.path.dirname(prefix)
-    if dirname != '':
-        os.makedirs(dirname, exist_ok=True)
-
-    if fileset_type == FilesetType.QUARTET:
-        generate_quartets(
-            prefix,
-            count,
+        logging.debug(f'\n\ngenerate sequence {count} / {total}\n')
+        generate_sequence(
+            file_name,
             type_name,
-            goal_name,
+            training,
             find_path,
-            stop_on_error)
-    elif fileset_type == FilesetType.PAIR:
-        generate_pairs(
-            prefix,
-            count,
-            type_name,
-            goal_name,
-            find_path,
-            stop_on_error)
-    elif fileset_type == FilesetType.SINGLE:
-        generate_single(prefix, count, goal_name, find_path, stop_on_error)
+            stop_on_error
+        )
 
 
 def main(argv):
     parser = argparse.ArgumentParser(
-        description='Create one or more scene descriptions')
+        description='Generate MCS scene configuration JSON files.')
     parser.add_argument(
+        '-p',
         '--prefix',
         required=True,
-        help='Prefix for output filenames')
+        help='Output filename prefix')
+    parser.add_argument(
+        '-t',
+        '--type',
+        required=True,
+        choices=[item.name for item in SEQUENCE_LIST],
+        help='Type of sequences to generate')
     parser.add_argument(
         '-c',
         '--count',
         type=int,
         default=1,
-        help='How many scenes or quartets to generate [default=1]')
+        help='Number of sequences to generate [default=1]')
     parser.add_argument(
+        '-s',
         '--seed',
         type=int,
         default=None,
         help='Random number seed [default=None]')
-    group = parser.add_mutually_exclusive_group()
-    parser.add_argument('--goal', default=None, choices=goals.get_goal_types(),
-                        help='Generate a goal of the specified type [default '
-                        'is to not generate a goal]. Lowercase goals are '
-                        'categories; capitalized goals are specific goals.')
-    group.add_argument('--quartet', default=None,
-                       choices=quartets.get_quartet_types(),
-                       help='Generate a passive scene quartet of the '
-                       'specified type with random setups.')
-    group.add_argument('--pair', default=None, choices=pairs.get_pair_types(),
-                       help='Generate an interactive scene pair of the '
-                       'specified type with random goals.')
-    parser.add_argument('--find_path', default=False, action='store_true',
-                        help='Whether to run the pathfinding for '
-                        'interaction goals')
-    parser.add_argument('--stop-on-error', default=False, action='store_true',
-                        help='Stop immediately if there is an error generating'
-                             ' a file [default is print a warning but '
-                             'do not stop]')
     parser.add_argument(
+        '--training',
+        default=False,
+        action='store_true',
+        help='Generate training data [default=False]')
+    parser.add_argument(
+        '--find_path',
+        default=False,
+        action='store_true',
+        help='Run interactive scene goal pathfinding (somewhat slow)')
+    parser.add_argument(
+        '--stop-on-error',
+        default=False,
+        action='store_true',
+        help='Stop if an error occurs [default=False]')
+    parser.add_argument(
+        '-l',
         '--loglevel',
-        choices=LOG_LEVELS,
-        help='set logging level')
+        # no public way to find this, apparently :(
+        choices=logging._nameToLevel.keys(),
+        help='Set log level')
 
     args = parser.parse_args(argv[1:])
     random.seed(args.seed)
@@ -375,31 +291,14 @@ def main(argv):
     if args.loglevel:
         logging.getLogger().setLevel(args.loglevel)
 
-    if args.quartet is not None:
-        goal_name = args.goal
-        type_name = args.quartet
-        fileset_type = FilesetType.QUARTET
-    elif args.pair is not None:
-        goal_name = args.goal
-        type_name = args.pair
-        fileset_type = FilesetType.PAIR
-    elif args.goal is not None:
-        goal_name = args.goal
-        type_name = None
-        fileset_type = FilesetType.SINGLE
-    else:
-        goal_name = None
-        type_name = None
-        fileset_type = FilesetType.SINGLE
-
-    generate_fileset(
+    generate_scenes(
         args.prefix,
         args.count,
-        type_name,
-        goal_name,
+        args.type,
+        args.training,
         args.find_path,
-        args.stop_on_error,
-        fileset_type)
+        args.stop_on_error
+    )
 
 
 if __name__ == '__main__':

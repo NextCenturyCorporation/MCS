@@ -182,7 +182,7 @@ def get_enclosable_containments(objs: Sequence[Dict[str, Any]],
     """Return a list of object definitions for containers that can enclose all
     the pass objects objs."""
     if container_defs is None:
-        container_defs = retrieve_enclosable_object_definition_list()
+        container_defs = retrieve_enclosable_definition_list()
     valid_containments = []
     for container_def in container_defs:
         possible_enclosable_definition_list = util.finalize_each_object_definition_choice(  # noqa: E501
@@ -286,7 +286,7 @@ def can_contain_both(container_def: Dict[str, Any], obj_a: Dict[str, Any],
     return None
 
 
-def retrieve_enclosable_object_definition_list() -> List[Dict[str, Any]]:
+def retrieve_enclosable_definition_list() -> List[Dict[str, Any]]:
     output_list = []
     for object_definition in util.retrieve_full_object_definition_list(
             objects.get('ALL')):
