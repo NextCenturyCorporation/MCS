@@ -4,6 +4,7 @@ import glob
 import io
 import json
 import os
+import pathlib
 import random
 import sys
 import yaml
@@ -35,6 +36,7 @@ from .return_status import ReturnStatus
 from .reward import Reward
 from .scene_history import SceneHistory
 from .step_metadata import StepMetadata
+from .streamer import VideoStreamWriter
 from .util import Util
 
 # From https://github.com/NextCenturyCorporation/ai2thor/blob/master/ai2thor/server.py#L232-L240 # noqa: E501
@@ -179,6 +181,14 @@ class ControllerAI2THOR(Controller):
             }
         )
 
+        self.vid_writer = VideoStreamWriter(
+            vid_path=pathlib.Path('temp.mp4'),
+            width=int(self.__screen_width),
+            height=int(self.__screen_height),
+            fps=10
+        )
+        self.vid_writer.start()
+
         self._on_init(debug, enable_noise, seed, depth_masks,
                       object_masks)
 
@@ -189,17 +199,17 @@ class ControllerAI2THOR(Controller):
             self.__screen_width = size
             self.__screen_height = size / 3 * 2
 
-    def _update_internal_config(self, enable_noise=None, seed=None,
-                                depth_masks=None, object_masks=None):
+    # def _update_internal_config(self, enable_noise=None, seed=None,
+    #                             depth_masks=None, object_masks=None):
 
-        if enable_noise is not None:
-            self.__enable_noise = enable_noise
-        if seed is not None:
-            self.__seed = seed
-        if depth_masks is not None:
-            self.__depth_masks = depth_masks
-        if object_masks is not None:
-            self.__object_masks = object_masks
+    #     if enable_noise is not None:
+    #         self.__enable_noise = enable_noise
+    #     if seed is not None:
+    #         self.__seed = seed
+    #     if depth_masks is not None:
+    #         self.__depth_masks = depth_masks
+    #     if object_masks is not None:
+    #         self.__object_masks = object_masks
 
     def _on_init(self, debug=False, enable_noise=False, seed=None,
                  depth_masks=False, object_masks=False):
@@ -283,6 +293,7 @@ class ControllerAI2THOR(Controller):
         """
 
         super().end_scene(choice, confidence)
+        self.vid_writer.finish()
 
         history_item = '{"classification": "' + choice + \
             '", "confidence": ' + str(confidence) + '}'
@@ -1018,6 +1029,8 @@ class ControllerAI2THOR(Controller):
         for index, event in enumerate(scene_event.events):
             scene_image = PIL.Image.fromarray(event.frame)
             image_list.append(scene_image)
+            # add frame to the video writer and swap color channels
+            self.vid_writer.add(event.frame[..., ::-1])
 
             if self.__depth_masks:
                 depth_mask = PIL.Image.fromarray(event.depth_frame)
