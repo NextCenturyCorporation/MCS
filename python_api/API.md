@@ -432,21 +432,6 @@ Defines output metadata from an action step in the MCS 3D environment.
 The actions available in the MCS simulation environment.
 
 
-#### BLINK( = 'Blink')
-Black the screen for one action. Sometimes needed in the passive tasks.
-
-
-* **Returns**
-
-    
-    * *“SUCCESSFUL”* – Action successful.
-
-
-    * *”FAILED”* – Unexpected error; please report immediately to development team.
-
-
-
-
 #### CLOSE_OBJECT( = 'CloseObject')
 Close a nearby object.
 
@@ -545,6 +530,22 @@ Drop an object you are holding.
 
 
     * *”NOT_OBJECT”* – If the object corresponding to the “objectId” is not an object.
+
+
+    * *”FAILED”* – Unexpected error; please report immediately to development team.
+
+
+
+
+#### END_HABITUATION( = 'EndHabituation')
+Ends a habituation trial for the scene by blanking the screen for one
+action. Sometimes needed for the passive tasks.
+
+
+* **Returns**
+
+    
+    * *“SUCCESSFUL”* – Action successful.
 
 
     * *”FAILED”* – Unexpected error; please report immediately to development team.

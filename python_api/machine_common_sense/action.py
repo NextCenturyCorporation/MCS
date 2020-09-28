@@ -474,9 +474,10 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    BLINK = "Blink"
+    END_HABITUATION = "EndHabituation"
     """
-    Black the screen for one action. Sometimes needed in the passive tasks.
+    Ends a habituation trial for the scene by blanking the screen for one
+    action. Sometimes needed for the passive tasks.
 
     Returns
     -------
@@ -503,12 +504,13 @@ class Action(Enum):
 # TODO MCS-352 Unite with Action class
 @unique
 class ActionDesc(Enum):
-    BLINK = "Black the screen for one action."
     CLOSE_OBJECT = "Close a nearby object. (objectId=string, amount=float " \
         "(default:1), objectDirectionX=float, objectDirectionY=float, " \
         "objectDirectionZ=float)"
     CRAWL = "Change pose to 'CRAWLING' (no params)"
     DROP_OBJECT = "Drop an object you are holding. (objectId=string)"
+    END_HABITUATION = "Ends a habituation trial for the scene by blanking " \
+        "the screen for one action. Sometimes needed for the passive tasks."
     LIE_DOWN = "Change pose to 'LYING' (rotation=float)"
     MOVE_AHEAD = "Move yourself ahead based on your current view. " \
         "(amount=float (default:0.5))"
@@ -550,10 +552,10 @@ class ActionDesc(Enum):
 # TODO MCS-352 Unite with Action class
 @unique
 class ActionKeys(Enum):
-    BLINK = "b"
     CLOSE_OBJECT = "1"
     CRAWL = "c"
     DROP_OBJECT = "2"
+    END_HABITUATION = "h"
     LIE_DOWN = "l"
     MOVE_AHEAD = "w"
     MOVE_BACK = "s"
