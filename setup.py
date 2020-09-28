@@ -21,14 +21,15 @@ setuptools.setup(
     python_requires=">3.6",
     install_requires=[
         'shapely',
+        'opencv-python',
         'ai2thor @ git+https://github.com/NextCenturyCorporation/ai2thor#egg=ai2thor'
     ],
     package_dir={'':'python_api'},
     packages=setuptools.find_packages('python_api'),
     entry_points={
         'console_scripts':[
-            'mcs_run_in_human_input_mode=machine_common_sense.run_human_input:main',
-            'mcs_run_scene_timer=machine_common_sense.run_scene_timer:main'
+            'mcs_run_in_human_input_mode=python_api.machine_common_sense.run_human_input:main',
+            'mcs_run_scene_timer=python_api.machine_common_sense.run_scene_timer:main'
         ]
     }
 )
