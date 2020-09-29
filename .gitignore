@@ -25,4 +25,5 @@ dist/
 sdist/
 wheels/
 
+**/_build
 **/SCENE_HISTORY
