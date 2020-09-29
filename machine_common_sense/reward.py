@@ -3,7 +3,7 @@ from typing import List, Dict
 from shapely import geometry
 
 from .goal_metadata import GoalMetadata, GoalCategory
-from .controller_ai2thor import MAX_REACH_DISTANCE, MAX_MOVE_DISTANCE
+from .controller import MAX_REACH_DISTANCE, MAX_MOVE_DISTANCE
 
 GOAL_ACHIEVED = 1
 GOAL_NOT_ACHIEVED = 0

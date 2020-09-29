@@ -1,11 +1,7 @@
 import argparse
 import cmd
 
-from machine_common_sense.getchHelper import getch
-from machine_common_sense.mcs import MCS
-from machine_common_sense.action import Action
-from machine_common_sense.util import Util
-
+import machine_common_sense as mcs
 
 commandList = []
 
@@ -107,7 +103,7 @@ class HumanInputShell(cmd.Cmd):
         # valid key
         try:
             if len(userInput[0]) == 1:
-                userInput[0] = Action(userInput[0]).value
+                userInput[0] = mcs.Action(userInput[0]).value
         except BaseException:
             print(
                 "You entered an invalid shortcut key, please try again. "
@@ -125,7 +121,7 @@ class HumanInputShell(cmd.Cmd):
             self.do_reset(line)
             return
 
-        action, params = Util.input_to_action_and_params(
+        action, params = mcs.Util.input_to_action_and_params(
             ','.join(userInput))
 
         if action is None:
@@ -170,10 +166,10 @@ class HumanInputShell(cmd.Cmd):
         print("Entering shortcut mode...")
         print("Press key 'e' to exit\n")
         list_of_action_keys = [
-            action.key for action in Action]
+            action.key for action in mcs.Action]
 
         while True:
-            char = getch.__call__()
+            char = mcs.getch.__call__()
             print('\n(shortcut-command)->', char)
             if char == 'e':  # exit shortcut key mode
                 break
@@ -183,7 +179,7 @@ class HumanInputShell(cmd.Cmd):
 
 def build_commands():
     '''Define all the possible human input commands.'''
-    for action in Action:
+    for action in mcs.Action:
         commandList.append(command(action.value,
                                    action.key,
                                    action.desc))
@@ -238,13 +234,13 @@ def run_scene(controller, config_data):
 
 def main():
     args = parse_args()
-    config_data, status = MCS.load_config_json_file(args.mcs_config_json_file)
+    config_data, status = mcs.load_config_json_file(args.mcs_config_json_file)
 
     if status is not None:
         print(status)
         exit()
 
-    controller = MCS.create_controller(args.mcs_unity_build_file,
+    controller = mcs.create_controller(args.mcs_unity_build_file,
                                        debug=args.debug,
                                        enable_noise=args.noise,
                                        seed=args.seed,

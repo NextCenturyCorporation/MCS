@@ -3,7 +3,7 @@ import statistics
 import time
 import argparse
 
-from machine_common_sense.mcs import MCS
+import machine_common_sense as mcs
 
 
 DEFAULT_STEP_COUNT = 20
@@ -27,7 +27,7 @@ def parse_args():
 
 
 def run_scene(controller, file_name):
-    config_data, status = MCS.load_config_json_file(file_name)
+    config_data, status = mcs.load_config_json_file(file_name)
 
     if status is not None:
         print(status)
@@ -73,7 +73,7 @@ def main():
     print(
         f'FOUND {len(file_list)} SCENE CONFIGURATION FILES... '
         f'STARTING THE MCS UNITY APP...')
-    controller = MCS.create_controller(
+    controller = mcs.create_controller(
         args.mcs_unity_build_file, debug=args.debug)
 
     scene_time_list = []

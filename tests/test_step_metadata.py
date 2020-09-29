@@ -1,10 +1,7 @@
 import unittest
 import textwrap
 
-from machine_common_sense.step_metadata import StepMetadata
-from machine_common_sense.goal_metadata import GoalMetadata
-from machine_common_sense.pose import Pose
-from machine_common_sense.return_status import ReturnStatus
+import machine_common_sense as mcs
 
 
 class Test_StepMetadata(unittest.TestCase):
@@ -48,7 +45,7 @@ class Test_StepMetadata(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.step_metadata = StepMetadata()
+        cls.step_metadata = mcs.StepMetadata()
 
     @classmethod
     def tearDownClass(cls):
@@ -77,7 +74,7 @@ class Test_StepMetadata(unittest.TestCase):
         self.assertIsInstance(self.step_metadata.depth_mask_list, list)
 
     def test_goal(self):
-        self.assertIsInstance(self.step_metadata.goal, GoalMetadata)
+        self.assertIsInstance(self.step_metadata.goal, mcs.GoalMetadata)
 
     def test_head_tilt(self):
         self.assertAlmostEqual(self.step_metadata.head_tilt, 0.0)
@@ -96,7 +93,7 @@ class Test_StepMetadata(unittest.TestCase):
         self.assertIsInstance(self.step_metadata.object_mask_list, list)
 
     def test_pose(self):
-        self.assertEqual(self.step_metadata.pose, Pose.UNDEFINED.value)
+        self.assertEqual(self.step_metadata.pose, mcs.Pose.UNDEFINED.value)
         self.assertIsInstance(self.step_metadata.pose, str)
 
     def test_position(self):
@@ -105,7 +102,7 @@ class Test_StepMetadata(unittest.TestCase):
     def test_return_status(self):
         self.assertEqual(
             self.step_metadata.return_status,
-            ReturnStatus.UNDEFINED.value)
+            mcs.ReturnStatus.UNDEFINED.value)
         self.assertIsInstance(self.step_metadata.return_status, str)
 
     def test_reward(self):

@@ -16,6 +16,6 @@ cd docs/
 echo "calling make'"
 make markdown
 echo "moving to API"
-cp _build/markdown/index.md ../../machine_common_sense/API.md
-git add ../machine_common_sense/API.md
+cp _build/markdown/index.md ../machine_common_sense/API.md
+git add machine_common_sense/API.md
 echo "Finished update to Python API sphinx markdown documentation."

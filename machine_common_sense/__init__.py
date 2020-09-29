@@ -1,7 +1,6 @@
-from .mcs import MCS
+from .mcs import create_controller, load_config_json_file
 from .action import Action
 from .controller import Controller
-from .controller_ai2thor import ControllerAI2THOR
 from .goal_metadata import GoalMetadata, GoalCategory
 from .material import Material
 from .object_metadata import ObjectMetadata
@@ -11,3 +10,4 @@ from .reward import Reward
 from .scene_history import SceneHistory
 from .step_metadata import StepMetadata
 from .util import Util
+from .getchHelper import getch

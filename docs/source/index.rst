@@ -1,6 +1,5 @@
 MCS Python Library API
 *******************************************************************************
-* `MCS <#MCS>`_
 * `Controller <#Controller>`_
 * `GoalMetadata <#GoalMetadata>`_
 * `ObjectMetadata <#ObjectMetadata>`_
@@ -8,11 +7,6 @@ MCS Python Library API
 * `Actions <#Actions>`_
 * `Goals <#Goals>`_
 * `Materials <#Materials>`_
-
-MCS
-===============================================================================
-.. automodule:: machine_common_sense.mcs
-   :members: MCS
 
 Controller
 ===============================================================================

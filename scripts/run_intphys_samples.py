@@ -1,6 +1,6 @@
 import argparse
 
-from machine_common_sense.mcs import MCS
+import machine_common_sense as mcs
 
 
 def parse_args():
@@ -12,7 +12,7 @@ def parse_args():
 
 
 def run_scene(file_name):
-    config_data, status = MCS.load_config_json_file(file_name)
+    config_data, status = mcs.load_config_json_file(file_name)
 
     if status is not None:
         print(status)
@@ -38,7 +38,7 @@ def run_scene(file_name):
 
 if __name__ == "__main__":
     args = parse_args()
-    controller = MCS.create_controller(args.mcs_unity_build_file, debug=True)
+    controller = mcs.create_controller(args.mcs_unity_build_file, debug=True)
 
     scenes_folder = '../machine_common_sense/scenes/'
 

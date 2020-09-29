@@ -76,15 +76,15 @@ https://evaluation2-training-scenes.s3.amazonaws.com/validation-intphys-scenes.z
 Example usage of the MCS library:
 
 ```python
-from machine_common_sense import MCS
+import machine_common_sense as mcs
 
 # We will give you the Unity app file.
-controller = MCS.create_controller(unity_app_file_path, depth_masks=True,
+controller = mcs.create_controller(unity_app_file_path, depth_masks=True,
                                    object_masks=True)
 
 # Either load the config data dict from an MCS config JSON file or create your own.
 # We will give you the training config JSON files and the format to make your own.
-config_data = MCS.load_config_json_file(config_json_file_path)
+config_data = mcs.load_config_json_file(config_json_file_path)
 
 output = controller.start_scene(config_data)
 
@@ -106,14 +106,14 @@ controller.end_scene()
 Example running multiple scenes sequentially:
 
 ```python
-from machine_common_sense import MCS
+import machine_common_sense as mcs
 
 # Only create the MCS controller ONCE!
-controller = MCS.create_controller(unity_app_file_path, depth_masks=True,
+controller = mcs.create_controller(unity_app_file_path, depth_masks=True,
                                    object_masks=True)
 
 for config_json_file_path in config_json_file_list:
-    config_data = MCS.load_config_json_file(config_json_file_path)
+    config_data = mcs.load_config_json_file(config_json_file_path)
     output = controller.start_scene(config_data)
     action, params = select_action(output)
     while action != '':
@@ -176,7 +176,7 @@ Otherwise, return the metadata for the visible and held objects.
 
 ```python
 import os
-from machine_common_sense.mcs import MCS
+import machine_common_sense as mcs
 
 os.environ['MCS_CONFIG_FILE_PATH'] = # Path to your MCS configuration file
 
@@ -184,10 +184,10 @@ scene_files = # List of scene configuration file paths
 
 unity_app = # Path to your MCS Unity application
 
-controller = MCS.create_controller(unity_app)
+controller = mcs.create_controller(unity_app)
 
 for scene_file in scene_files:
-    config_data, status = MCS.load_config_json(scene_file)
+    config_data, status = mcs.load_config_json(scene_file)
 
     if status is not None:
         print(status)

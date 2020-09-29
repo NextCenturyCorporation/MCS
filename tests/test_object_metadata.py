@@ -1,7 +1,7 @@
 import unittest
 import textwrap
 
-from machine_common_sense.object_metadata import ObjectMetadata
+import machine_common_sense as mcs
 
 
 class Test_ObjectMetadata(unittest.TestCase):
@@ -26,7 +26,7 @@ class Test_ObjectMetadata(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.object_metadata = ObjectMetadata()
+        cls.object_metadata = mcs.ObjectMetadata()
 
     @classmethod
     def tearDownClass(cls):

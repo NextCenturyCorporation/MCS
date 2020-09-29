@@ -1,7 +1,7 @@
 import ai2thor.server
 import numpy
 
-from machine_common_sense.controller_ai2thor import ControllerAI2THOR
+from machine_common_sense.controller import Controller
 from machine_common_sense.pose import Pose
 from machine_common_sense.action import Action
 
@@ -68,7 +68,7 @@ class MockController():
             self.__last_metadata['pose'] = Pose.LYING.name
 
 
-class MockControllerAI2THOR(ControllerAI2THOR):
+class MockControllerAI2THOR(Controller):
     '''Mock of the ControllerAI2THOR class from the MCS library.'''
 
     def __init__(self):

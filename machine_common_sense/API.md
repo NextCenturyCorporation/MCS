@@ -1,9 +1,6 @@
 # MCS Python Library API
 
 
-* [MCS](#MCS)
-
-
 * [Controller](#Controller)
 
 
@@ -24,24 +21,19 @@
 
 * [Materials](#Materials)
 
-## MCS
+## Controller
 
 
-### class machine_common_sense.mcs.MCS()
-Defines utility functions for machine learning modules to create MCS
-controllers and handle config data files.
+### class machine_common_sense.controller.Controller(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_masks=False, object_masks=False)
+MCS Controller class implementation for the MCS wrapper of the AI2-THOR
+library.
 
-
-#### static create_controller(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_masks=False, object_masks=False)
-Creates and returns a new MCS Controller object.
+[https://ai2thor.allenai.org/ithor/documentation/](https://ai2thor.allenai.org/ithor/documentation/)
 
 
 * **Parameters**
 
     
-    * **unity_app_file_path** (*str*) – The file path to your MCS Unity application.
-
-
     * **debug** (*boolean**, **optional*) – Whether to save MCS output debug files in this folder.
     (default False)
 
@@ -54,46 +46,6 @@ Creates and returns a new MCS Controller object.
     * **seed** (*int**, **optional*) – A seed for the Python random number generator.
     (default None)
 
-
-
-* **Returns**
-
-    The MCS Controller object.
-
-
-
-* **Return type**
-
-    Controller
-
-
-
-#### static load_config_json_file(config_json_file_path)
-Loads the given JSON config file and returns its data.
-
-
-* **Parameters**
-
-    **config_json_file_path** (*str*) – The file path to your MCS JSON scene configuration file.
-
-
-
-* **Returns**
-
-    
-    * *dict* – The MCS scene configuration data from the given JSON file.
-
-
-    * *None or string* – The error status (if any).
-
-
-
-## Controller
-
-
-### class machine_common_sense.controller.Controller()
-Starts and ends scenes, runs actions on each step, and returns scene
-output data.
 
 
 #### end_scene(choice, confidence=1.0)

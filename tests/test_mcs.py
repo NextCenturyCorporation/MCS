@@ -1,6 +1,6 @@
 import unittest
 
-from machine_common_sense.mcs import MCS
+import machine_common_sense as mcs
 
 
 class Test_MCS(unittest.TestCase):
@@ -10,7 +10,7 @@ class Test_MCS(unittest.TestCase):
         pass
 
     def test_load_config_file_json(self):
-        actual, status = MCS.load_config_json_file("tests/test_scene.json")
+        actual, status = mcs.load_config_json_file("tests/test_scene.json")
         expected = {
             "ceilingMaterial": "Walls/WallDrywallWhite",
             "floorMaterial": "Fabrics/RUG4",
@@ -48,7 +48,7 @@ class Test_MCS(unittest.TestCase):
         self.assertEqual(status, None)
 
     def test_load_config_file_json_is_invalid(self):
-        actual, status = MCS.load_config_json_file(
+        actual, status = mcs.load_config_json_file(
             "tests/test_scene_invalid.json")
         self.assertEqual(actual, {})
         self.assertEqual(
@@ -58,7 +58,7 @@ class Test_MCS(unittest.TestCase):
         )
 
     def test_load_config_file_json_is_missing(self):
-        actual, status = MCS.load_config_json_file(
+        actual, status = mcs.load_config_json_file(
             "tests/test_scene_missing.json")
         self.assertEqual(actual, {})
         self.assertEqual(

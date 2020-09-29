@@ -1,9 +1,6 @@
 # MCS Python Library API
 
 
-* [MCS](#MCS)
-
-
 * [Controller](#Controller)
 
 
@@ -24,24 +21,19 @@
 
 * [Materials](#Materials)
 
-## MCS
+## Controller
 
 
-### class machine_common_sense.mcs.MCS()
-Defines utility functions for machine learning modules to create MCS
-controllers and handle config data files.
+### class machine_common_sense.controller.Controller(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_masks=False, object_masks=False)
+MCS Controller class implementation for the MCS wrapper of the AI2-THOR
+library.
 
-
-#### static create_controller(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_masks=False, object_masks=False)
-Creates and returns a new MCS Controller object.
+[https://ai2thor.allenai.org/ithor/documentation/](https://ai2thor.allenai.org/ithor/documentation/)
 
 
 * **Parameters**
 
     
-    * **unity_app_file_path** (*str*) – The file path to your MCS Unity application.
-
-
     * **debug** (*boolean**, **optional*) – Whether to save MCS output debug files in this folder.
     (default False)
 
@@ -54,46 +46,6 @@ Creates and returns a new MCS Controller object.
     * **seed** (*int**, **optional*) – A seed for the Python random number generator.
     (default None)
 
-
-
-* **Returns**
-
-    The MCS Controller object.
-
-
-
-* **Return type**
-
-    Controller
-
-
-
-#### static load_config_json_file(config_json_file_path)
-Loads the given JSON config file and returns its data.
-
-
-* **Parameters**
-
-    **config_json_file_path** (*str*) – The file path to your MCS JSON scene configuration file.
-
-
-
-* **Returns**
-
-    
-    * *dict* – The MCS scene configuration data from the given JSON file.
-
-
-    * *None or string* – The error status (if any).
-
-
-
-## Controller
-
-
-### class machine_common_sense.controller.Controller()
-Starts and ends scenes, runs actions on each step, and returns scene
-output data.
 
 
 #### end_scene(choice, confidence=1.0)
@@ -155,15 +107,41 @@ returns the scene output data object.
 
 
 
-#### step(action, \*\*kwargs)
+#### step(action: str, choice: str = None, confidence: float = None, violations_xy_list: List[Dict[str, float]] = None, heatmap_img: PIL.Image.Image = None, internal_state: object = None, \*\*kwargs)
 Runs the given action within the current scene and unpauses the scene’s
-physics simulation for a few frames.
+physics simulation for a few frames. Can also optionally send
+information about scene plausability if applicable.
 
 
 * **Parameters**
 
     
     * **action** (*string*) – A selected action string from the list of available actions.
+
+
+    * **choice** (*string**, **optional*) – The selected choice required by the end of scenes with
+    violation-of-expectation or classification goals.
+    Is not required for other goals. (default None)
+
+
+    * **confidence** (*float**, **optional*) – The choice confidence between 0 and 1 required by the end of
+    scenes with violation-of-expectation or classification goals.
+    Is not required for other goals. (default None)
+
+
+    * **violations_xy_list** (*List**[**Dict**[**str**, **float**]**]**, **optional*) – A list of one or more (x, y) locations (ex: [{“x”: 1, “y”: 3.4}]),
+    each representing a potential violation-of-expectation. Required
+    on each step for passive tasks. (default None)
+
+
+    * **heatmap_img** (*PIL.Image.Image**, **optional*) – An image representing scene plausiblility at a particular
+    moment. Will be saved as a .png type. (default None)
+
+
+    * **internal_state** (*object**, **optional*) – A properly formatted json object representing various kinds of
+    internal states at a particular moment. Examples include the
+    estimated position of the agent, current map of the world, etc.
+    (default None)
 
 
     * **\*\*kwargs** – Zero or more key-and-value parameters for the action.
@@ -429,7 +407,7 @@ Defines output metadata from an action step in the MCS 3D environment.
 
 
 ### class machine_common_sense.action.Action(value)
-The actions that are available in the MCS simulation environment.
+The actions available in the MCS simulation environment.
 
 
 #### CLOSE_OBJECT( = 'CloseObject')
