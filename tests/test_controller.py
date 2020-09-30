@@ -698,8 +698,8 @@ class Test_Controller(unittest.TestCase):
             'target_2': {'image': [2]}
         })
 
-    def test_restrict_goal_output_metadata_full(self):
-        self.controller.set_config({'metadata': 'full'})
+    def test_restrict_goal_output_metadata_oracle(self):
+        self.controller.set_config({'metadata': 'oracle'})
         goal = mcs.GoalMetadata(metadata={
             'target': {'image': [0]},
             'target_1': {'image': [1]},
@@ -740,8 +740,8 @@ class Test_Controller(unittest.TestCase):
             'target_2': {'image': None}
         })
 
-    def test_restrict_goal_output_metadata_none(self):
-        self.controller.set_config({'metadata': 'none'})
+    def test_restrict_goal_output_metadata_level1(self):
+        self.controller.set_config({'metadata': 'level1'})
         goal = mcs.GoalMetadata(metadata={
             'target': {'image': [0]},
             'target_1': {'image': [1]},
@@ -777,8 +777,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.shape, 'sofa')
         self.assertEqual(actual.texture_color_list, ['c1', 'c2'])
 
-    def test_restrict_object_output_metadata_full(self):
-        self.controller.set_config({'metadata': 'full'})
+    def test_restrict_object_output_metadata_oracle(self):
+        self.controller.set_config({'metadata': 'oracle'})
         test_object = mcs.ObjectMetadata(
             color={'r': 1, 'g': 2, 'b': 3},
             dimensions={'x': 1, 'y': 2, 'z': 3},
@@ -849,8 +849,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.shape, None)
         self.assertEqual(actual.texture_color_list, None)
 
-    def test_restrict_object_output_metadata_none(self):
-        self.controller.set_config({'metadata': 'none'})
+    def test_restrict_object_output_metadata_level1(self):
+        self.controller.set_config({'metadata': 'level1'})
         test_object = mcs.ObjectMetadata(
             color={'r': 1, 'g': 2, 'b': 3},
             dimensions={'x': 1, 'y': 2, 'z': 3},
@@ -894,8 +894,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
         self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
 
-    def test_restrict_step_output_metadata_full(self):
-        self.controller.set_config({'metadata': 'full'})
+    def test_restrict_step_output_metadata_oracle(self):
+        self.controller.set_config({'metadata': 'oracle'})
         step = mcs.StepMetadata(
             camera_aspect_ratio=(1, 2),
             camera_clipping_planes=(3, 4),
@@ -955,13 +955,13 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.camera_clipping_planes, None)
         self.assertEqual(actual.camera_field_of_view, None)
         self.assertEqual(actual.camera_height, None)
-        self.assertEqual(actual.depth_mask_list, [])
+        self.assertEqual(actual.depth_mask_list, [7])
         self.assertEqual(actual.object_mask_list, [])
         self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
         self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
 
-    def test_restrict_step_output_metadata_none(self):
-        self.controller.set_config({'metadata': 'none'})
+    def test_restrict_step_output_metadata_level1(self):
+        self.controller.set_config({'metadata': 'level1'})
         step = mcs.StepMetadata(
             camera_aspect_ratio=(1, 2),
             camera_clipping_planes=(3, 4),
@@ -977,7 +977,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.camera_clipping_planes, None)
         self.assertEqual(actual.camera_field_of_view, None)
         self.assertEqual(actual.camera_height, None)
-        self.assertEqual(actual.depth_mask_list, [])
+        self.assertEqual(actual.depth_mask_list, [7])
         self.assertEqual(actual.object_mask_list, [])
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
@@ -1102,7 +1102,7 @@ class Test_Controller(unittest.TestCase):
         })
 
     def test_retrieve_goal_with_config_metadata(self):
-        self.controller.set_config({'metadata': 'full'})
+        self.controller.set_config({'metadata': 'oracle'})
         actual = self.controller.retrieve_goal({
             'goal': {
                 'metadata': {
@@ -1150,7 +1150,7 @@ class Test_Controller(unittest.TestCase):
             'target_2': {'image': None}
         })
 
-        self.controller.set_config({'metadata': 'none'})
+        self.controller.set_config({'metadata': 'level1'})
         actual = self.controller.retrieve_goal({
             'goal': {
                 'metadata': {
@@ -1245,8 +1245,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual[1].texture_color_list, ['c2', 'c3'])
         self.assertEqual(actual[1].visible, True)
 
-    def test_retrieve_object_list_with_config_metadata_full(self):
-        self.controller.set_config({'metadata': 'full'})
+    def test_retrieve_object_list_with_config_metadata_oracle(self):
+        self.controller.set_config({'metadata': 'oracle'})
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         actual = self.controller.retrieve_object_list(
             self.create_mock_scene_event(mock_scene_event_data))
@@ -1424,8 +1424,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual[1].texture_color_list, None)
         self.assertEqual(actual[1].visible, True)
 
-    def test_retrieve_object_list_with_config_metadata_none(self):
-        self.controller.set_config({'metadata': 'none'})
+    def test_retrieve_object_list_with_config_metadata_level1(self):
+        self.controller.set_config({'metadata': 'level1'})
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         actual = self.controller.retrieve_object_list(
             self.create_mock_scene_event(mock_scene_event_data))
@@ -1763,9 +1763,9 @@ class Test_Controller(unittest.TestCase):
                 actual.object_mask_list[0]),
             object_mask_data)
 
-    def test_wrap_output_with_config_metadata_full(self):
+    def test_wrap_output_with_config_metadata_oracle(self):
         self.controller.render_mask_images()
-        self.controller.set_config({'metadata': 'full'})
+        self.controller.set_config({'metadata': 'oracle'})
         (
             mock_scene_event_data,
             image_data,
@@ -1885,8 +1885,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(len(actual.image_list), 1)
         self.assertEqual(len(actual.object_mask_list), 0)
 
-    def test_wrap_output_with_config_metadata_none(self):
-        self.controller.set_config({'metadata': 'none'})
+    def test_wrap_output_with_config_metadata_level1(self):
+        self.controller.set_config({'metadata': 'level1'})
         (
             mock_scene_event_data,
             image_data,

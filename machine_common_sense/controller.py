@@ -140,13 +140,14 @@ class Controller():
     CONFIG_AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
     CONFIG_METADATA_MODE = 'metadata'
     # Normal metadata plus metadata for all hidden objects
-    CONFIG_METADATA_MODE_FULL = 'full'
+    CONFIG_METADATA_MODE_ORACLE = 'oracle'
     # No navigation metadata like 3D coordinates
     CONFIG_METADATA_MODE_NO_NAVIGATION = 'no_navigation'
     # No vision (image feature) metadata, except for the images
     CONFIG_METADATA_MODE_NO_VISION = 'no_vision'
-    # No metadata, except for the images and haptic/audio feedback
-    CONFIG_METADATA_MODE_NONE = 'none'
+    # No metadata, except for the images, depth masks, and haptic/audio
+    # feedback
+    CONFIG_METADATA_MODE_LEVEL_1 = 'level1'
     CONFIG_SAVE_IMAGES_TO_S3_BUCKET = 'save_images_to_s3_bucket'
     CONFIG_SAVE_IMAGES_TO_S3_FOLDER = 'save_images_to_s3_folder'
     CONFIG_TEAM = 'team'
@@ -159,6 +160,8 @@ class Controller():
         super().__init__()
 
         self._update_screen_size(size)
+
+        # TODO: MCS-384: make sure depth_masks is True? maybe not idk
 
         self._controller = ai2thor.controller.Controller(
             quality='Medium',
@@ -730,7 +733,7 @@ class Controller():
 
         if (
             mode == self.CONFIG_METADATA_MODE_NO_VISION or
-            mode == self.CONFIG_METADATA_MODE_NONE
+            mode == self.CONFIG_METADATA_MODE_LEVEL_1
         ):
             if (
                 'target' in goal_output.metadata and
@@ -759,7 +762,7 @@ class Controller():
 
         if (
             mode == self.CONFIG_METADATA_MODE_NO_VISION or
-            mode == self.CONFIG_METADATA_MODE_NONE
+            mode == self.CONFIG_METADATA_MODE_LEVEL_1
         ):
             object_output.color = None
             object_output.dimensions = None
@@ -772,7 +775,7 @@ class Controller():
 
         if (
             mode == self.CONFIG_METADATA_MODE_NO_NAVIGATION or
-            mode == self.CONFIG_METADATA_MODE_NONE
+            mode == self.CONFIG_METADATA_MODE_LEVEL_1
         ):
             object_output.position = None
             object_output.rotation = None
@@ -788,18 +791,17 @@ class Controller():
 
         if (
             mode == self.CONFIG_METADATA_MODE_NO_VISION or
-            mode == self.CONFIG_METADATA_MODE_NONE
+            mode == self.CONFIG_METADATA_MODE_LEVEL_1
         ):
             step_output.camera_aspect_ratio = None
             step_output.camera_clipping_planes = None
             step_output.camera_field_of_view = None
             step_output.camera_height = None
-            step_output.depth_mask_list = []
             step_output.object_mask_list = []
 
         if (
             mode == self.CONFIG_METADATA_MODE_NO_NAVIGATION or
-            mode == self.CONFIG_METADATA_MODE_NONE
+            mode == self.CONFIG_METADATA_MODE_LEVEL_1
         ):
             step_output.position = None
             step_output.rotation = None
@@ -871,7 +873,7 @@ class Controller():
             else ''
         )
 
-        if mode == self.CONFIG_METADATA_MODE_FULL:
+        if mode == self.CONFIG_METADATA_MODE_ORACLE:
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -995,7 +997,7 @@ class Controller():
             else ''
         )
 
-        if mode == self.CONFIG_METADATA_MODE_FULL:
+        if mode == self.CONFIG_METADATA_MODE_ORACLE:
             return sorted(
                 [
                     self.retrieve_object_output(

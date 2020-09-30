@@ -20,7 +20,7 @@ def time_limit(seconds):
 
 
 def create_controller(unity_app_file_path, debug=False, enable_noise=False,
-                      seed=None, size=None, depth_masks=False,
+                      seed=None, size=None, depth_masks=True,
                       object_masks=False):
     """
     Creates and returns a new MCS Controller object.
