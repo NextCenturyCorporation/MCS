@@ -1,0 +1,31 @@
+{
+    "python.pythonPath": "venv/bin/python",
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./",
+        "-p",
+        "test_*.py"
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.unittestEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.lintOnSave": true,
+    "python.linting.flake8Args": [
+        "--ignore",
+        "E402,W504",
+        "--exclude",
+        "__init__.py"
+    ],
+    "python.formatting.provider": "autopep8",
+    "python.formatting.autopep8Args": [
+        "--aggressive",
+        "--ignore",
+        "E402"
+    ],
+    "[python]": {
+        "editor.formatOnSave": true
+    }
+}
