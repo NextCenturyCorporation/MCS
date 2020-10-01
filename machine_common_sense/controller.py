@@ -161,8 +161,6 @@ class Controller():
 
         self._update_screen_size(size)
 
-        # TODO: MCS-384: make sure depth_masks is True? maybe not idk
-
         self._controller = ai2thor.controller.Controller(
             quality='Medium',
             fullscreen=False,
@@ -212,8 +210,6 @@ class Controller():
             debug is True or debug == 'terminal') else False
 
         self.__enable_noise = enable_noise
-        self.__depth_masks = depth_masks
-        self.__object_masks = object_masks
         self.__seed = seed
 
         if self.__seed:
@@ -232,6 +228,25 @@ class Controller():
             os.makedirs(self.HISTORY_DIRECTORY)
 
         self._config = self.read_config_file()
+
+        # TODO: MCS-384: order of preference is config metadata property,
+        # and if not present, default to optional property -- is that
+        # correct?
+        mode = (
+            self._config[self.CONFIG_METADATA_MODE]
+            if self.CONFIG_METADATA_MODE in self._config
+            else ''
+        )
+
+        if(mode == self.CONFIG_METADATA_MODE_LEVEL_1):
+            self.__depth_masks = True
+            self.__object_masks = False
+        elif(mode == self.CONFIG_METADATA_MODE_ORACLE):
+            self.__depth_masks = True
+            self.__object_masks = True
+        else:
+            self.__depth_masks = depth_masks
+            self.__object_masks = object_masks
 
         if ((self.CONFIG_AWS_ACCESS_KEY_ID in self._config) and
                 (self.CONFIG_AWS_SECRET_ACCESS_KEY in self._config)):
