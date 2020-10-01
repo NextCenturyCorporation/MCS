@@ -141,10 +141,6 @@ class Controller():
     CONFIG_METADATA_MODE = 'metadata'
     # Normal metadata plus metadata for all hidden objects
     CONFIG_METADATA_MODE_ORACLE = 'oracle'
-    # No navigation metadata like 3D coordinates
-    CONFIG_METADATA_MODE_NO_NAVIGATION = 'no_navigation'
-    # No vision (image feature) metadata, except for the images
-    CONFIG_METADATA_MODE_NO_VISION = 'no_vision'
     # No metadata, except for the images, depth masks, object masks,
     # and haptic/audio feedback
     CONFIG_METADATA_MODE_LEVEL_2 = 'level2'
@@ -751,7 +747,6 @@ class Controller():
         )
 
         if (
-            mode == self.CONFIG_METADATA_MODE_NO_VISION or
             mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
             mode == self.CONFIG_METADATA_MODE_LEVEL_2
         ):
@@ -781,7 +776,6 @@ class Controller():
         )
 
         if (
-            mode == self.CONFIG_METADATA_MODE_NO_VISION or
             mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
             mode == self.CONFIG_METADATA_MODE_LEVEL_2
         ):
@@ -793,12 +787,6 @@ class Controller():
             object_output.distance_in_world = None
             object_output.shape = None
             object_output.texture_color_list = None
-
-        if (
-            mode == self.CONFIG_METADATA_MODE_NO_NAVIGATION or
-            mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
-            mode == self.CONFIG_METADATA_MODE_LEVEL_2
-        ):
             object_output.position = None
             object_output.rotation = None
 
@@ -811,8 +799,11 @@ class Controller():
             else ''
         )
 
+        # only remove object_mask_list for level1
+        if(mode == self.CONFIG_METADATA_MODE_LEVEL_1):
+            step_output.object_mask_list = []
+
         if (
-            mode == self.CONFIG_METADATA_MODE_NO_VISION or
             mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
             mode == self.CONFIG_METADATA_MODE_LEVEL_2
         ):
@@ -820,15 +811,6 @@ class Controller():
             step_output.camera_clipping_planes = None
             step_output.camera_field_of_view = None
             step_output.camera_height = None
-            # only remove object_mask_list for level1
-            if(mode != self.CONFIG_METADATA_MODE_LEVEL_2):
-                step_output.object_mask_list = []
-
-        if (
-            mode == self.CONFIG_METADATA_MODE_NO_NAVIGATION or
-            mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
-            mode == self.CONFIG_METADATA_MODE_LEVEL_2
-        ):
             step_output.position = None
             step_output.rotation = None
 
