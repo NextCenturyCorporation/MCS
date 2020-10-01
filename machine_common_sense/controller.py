@@ -145,6 +145,9 @@ class Controller():
     CONFIG_METADATA_MODE_NO_NAVIGATION = 'no_navigation'
     # No vision (image feature) metadata, except for the images
     CONFIG_METADATA_MODE_NO_VISION = 'no_vision'
+    # No metadata, except for the images, depth masks, object masks,
+    # and haptic/audio feedback
+    CONFIG_METADATA_MODE_LEVEL_2 = 'level2'
     # No metadata, except for the images, depth masks, and haptic/audio
     # feedback
     CONFIG_METADATA_MODE_LEVEL_1 = 'level1'
@@ -241,7 +244,8 @@ class Controller():
         if(mode == self.CONFIG_METADATA_MODE_LEVEL_1):
             self.__depth_masks = True
             self.__object_masks = False
-        elif(mode == self.CONFIG_METADATA_MODE_ORACLE):
+        elif(mode == self.CONFIG_METADATA_MODE_LEVEL_2 or
+             mode == self.CONFIG_METADATA_MODE_ORACLE):
             self.__depth_masks = True
             self.__object_masks = True
         else:
@@ -748,7 +752,8 @@ class Controller():
 
         if (
             mode == self.CONFIG_METADATA_MODE_NO_VISION or
-            mode == self.CONFIG_METADATA_MODE_LEVEL_1
+            mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
+            mode == self.CONFIG_METADATA_MODE_LEVEL_2
         ):
             if (
                 'target' in goal_output.metadata and
@@ -777,7 +782,8 @@ class Controller():
 
         if (
             mode == self.CONFIG_METADATA_MODE_NO_VISION or
-            mode == self.CONFIG_METADATA_MODE_LEVEL_1
+            mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
+            mode == self.CONFIG_METADATA_MODE_LEVEL_2
         ):
             object_output.color = None
             object_output.dimensions = None
@@ -790,7 +796,8 @@ class Controller():
 
         if (
             mode == self.CONFIG_METADATA_MODE_NO_NAVIGATION or
-            mode == self.CONFIG_METADATA_MODE_LEVEL_1
+            mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
+            mode == self.CONFIG_METADATA_MODE_LEVEL_2
         ):
             object_output.position = None
             object_output.rotation = None
@@ -806,17 +813,21 @@ class Controller():
 
         if (
             mode == self.CONFIG_METADATA_MODE_NO_VISION or
-            mode == self.CONFIG_METADATA_MODE_LEVEL_1
+            mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
+            mode == self.CONFIG_METADATA_MODE_LEVEL_2
         ):
             step_output.camera_aspect_ratio = None
             step_output.camera_clipping_planes = None
             step_output.camera_field_of_view = None
             step_output.camera_height = None
-            step_output.object_mask_list = []
+            # only remove object_mask_list for level1
+            if(mode != self.CONFIG_METADATA_MODE_LEVEL_2):
+                step_output.object_mask_list = []
 
         if (
             mode == self.CONFIG_METADATA_MODE_NO_NAVIGATION or
-            mode == self.CONFIG_METADATA_MODE_LEVEL_1
+            mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
+            mode == self.CONFIG_METADATA_MODE_LEVEL_2
         ):
             step_output.position = None
             step_output.rotation = None
