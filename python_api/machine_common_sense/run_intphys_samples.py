@@ -33,7 +33,8 @@ def run_scene(file_name):
 
 
 if __name__ == "__main__":
-    controller = MCS.create_controller(sys.argv[1], debug=True)
+    controller = MCS.create_controller(sys.argv[1], debug=True,
+                                       depth_masks=True, object_masks=True)
 
     run_scene('../scenes/intphys_gravity_quartet_1A_plausible.json')
     run_scene('../scenes/intphys_gravity_quartet_1B_plausible.json')

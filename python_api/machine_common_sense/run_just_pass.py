@@ -13,7 +13,8 @@ if __name__ == "__main__":
         print(status)
         exit()
 
-    controller = MCS.create_controller(sys.argv[1], debug=True)
+    controller = MCS.create_controller(sys.argv[1], debug=True,
+                                       depth_masks=True, object_masks=True)
 
     config_file_path = sys.argv[2]
     config_file_name = config_file_path[config_file_path.rfind('/') + 1:]

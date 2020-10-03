@@ -12,7 +12,8 @@ if __name__ == "__main__":
 
     json_file_list = glob.glob(sys.argv[2] + '/*.json')
 
-    controller = MCS.create_controller(sys.argv[1], debug=False)
+    controller = MCS.create_controller(sys.argv[1], debug=False,
+                                       depth_masks=True, object_masks=True)
 
     for json_file_name in json_file_list:
         config_data, status = MCS.load_config_json_file(json_file_name)

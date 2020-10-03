@@ -29,7 +29,8 @@ def run_scene(file_name, action_list):
 
 
 if __name__ == "__main__":
-    controller = MCS.create_controller(sys.argv[1], debug=True)
+    controller = MCS.create_controller(sys.argv[1], debug=True,
+                                       depth_masks=True, object_masks=True)
 
     run_scene('../scenes/eval_sample_1.json', [
         'MoveAhead,amount=1',
