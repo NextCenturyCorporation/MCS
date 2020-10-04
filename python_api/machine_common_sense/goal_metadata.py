@@ -40,12 +40,8 @@ class GoalMetadata:
 
         Materials:
         See [Materials](#Materials).
-    domain_list : list of strings
-        The list of MCS "core domains" associated with this goal (for the
-        visualization interface).
-    info_list : list
-        The list of information for the visualization interface associated
-        with this goal.
+    habituation_total : int
+        The total count of habituation trials that will be in this scene.
     last_preview_phase_step : integer
         The last step of the Preview Phase of this scene, if a Preview Phase is
         scripted in the scene configuration. Each step of a Preview Phase
@@ -55,9 +51,6 @@ class GoalMetadata:
     last_step : integer
         The last step of this scene. This scene will automatically end
         following this step.
-    type_list : list of strings
-        The list of types associated with this goal (for the
-        visualization interface).
     metadata : dict
         The metadata specific to this goal. See [Goals](#Goals).
     """
@@ -67,22 +60,18 @@ class GoalMetadata:
         action_list=None,
         category='',
         description='',
-        domain_list=None,
-        info_list=None,
+        habituation_total=0,
         last_preview_phase_step=0,
         last_step=None,
-        type_list=None,
         metadata=None
     ):
         # The action_list must be None by default
         self.action_list = action_list
         self.category = category
         self.description = description
-        self.domain_list = [] if domain_list is None else domain_list
-        self.info_list = [] if info_list is None else info_list
+        self.habituation_total = habituation_total
         self.last_preview_phase_step = last_preview_phase_step
         self.last_step = last_step
-        self.type_list = [] if type_list is None else type_list
         self.metadata = {} if metadata is None else metadata
 
     def __str__(self):

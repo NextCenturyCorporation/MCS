@@ -38,6 +38,10 @@ class StepMetadata:
         global coordinate system.
     goal : GoalMetadata or None
         The goal for the whole scene. Will be None in "Exploration" scenes.
+    habituation_trial : int or None
+        The current habituation trial (as a positive integer), or None if the
+        scene is not currently in a habituation trial (meaning this scene is
+        in a test trial).
     head_tilt : float
         How far your head is tilted up/down in degrees (between 90 and -90).
         Changed by setting the "horizon" parameter in a "RotateLook" action.
@@ -96,6 +100,7 @@ class StepMetadata:
         camera_height=0.0,
         depth_mask_list=None,
         goal=None,
+        habituation_trial=None,
         head_tilt=0.0,
         image_list=None,
         object_list=None,
@@ -122,6 +127,7 @@ class StepMetadata:
             [] if depth_mask_list is None else depth_mask_list
         )
         self.goal = GoalMetadata() if goal is None else goal
+        self.habituation_trial = habituation_trial
         self.head_tilt = head_tilt
         self.image_list = [] if image_list is None else image_list
         self.object_list = [] if object_list is None else object_list

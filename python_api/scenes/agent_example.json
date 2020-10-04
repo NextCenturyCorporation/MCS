@@ -7,6 +7,7 @@
     "wallMaterial": "AI2-THOR/Materials/Plastics/BlackPlastic",
     "goal": {
       "last_step": 19,
+      "habituation_total": 1,
       "action_list": [
           ["Pass"], ["Pass"], ["Pass"], ["Pass"], ["Pass"],
           ["Pass"], ["Pass"], ["Pass"], ["Pass"], ["Pass"],

@@ -212,7 +212,7 @@ information about scene plausability if applicable.
 ## GoalMetadata
 
 
-### class machine_common_sense.goal_metadata.GoalMetadata(action_list=None, category='', description='', domain_list=None, info_list=None, last_preview_phase_step=0, last_step=None, type_list=None, metadata=None)
+### class machine_common_sense.goal_metadata.GoalMetadata(action_list=None, category='', description='', habituation_total=0, last_preview_phase_step=0, last_step=None, metadata=None)
 Defines metadata for a goal in the MCS 3D environment.
 
 
@@ -255,12 +255,7 @@ Defines metadata for a goal in the MCS 3D environment.
 
 
 
-    * **domain_list** (*list of strings*) – The list of MCS “core domains” associated with this goal (for the
-    visualization interface).
-
-
-    * **info_list** (*list*) – The list of information for the visualization interface associated
-    with this goal.
+    * **habituation_total** (*int*) – The total count of habituation trials that will be in this scene.
 
 
     * **last_preview_phase_step** (*integer*) – The last step of the Preview Phase of this scene, if a Preview Phase is
@@ -272,10 +267,6 @@ Defines metadata for a goal in the MCS 3D environment.
 
     * **last_step** (*integer*) – The last step of this scene. This scene will automatically end
     following this step.
-
-
-    * **type_list** (*list of strings*) – The list of types associated with this goal (for the
-    visualization interface).
 
 
     * **metadata** (*dict*) – The metadata specific to this goal. See [Goals](#Goals).
@@ -351,7 +342,7 @@ Defines metadata for an object in the MCS 3D environment.
 ## StepMetadata
 
 
-### class machine_common_sense.step_metadata.StepMetadata(action_list=None, camera_aspect_ratio=None, camera_clipping_planes=None, camera_field_of_view=0.0, camera_height=0.0, depth_mask_list=None, goal=None, head_tilt=0.0, image_list=None, object_list=None, object_mask_list=None, pose='UNDEFINED', position=None, return_status='UNDEFINED', reward=0, rotation=0.0, step_number=0, structural_object_list=None)
+### class machine_common_sense.step_metadata.StepMetadata(action_list=None, camera_aspect_ratio=None, camera_clipping_planes=None, camera_field_of_view=0.0, camera_height=0.0, depth_mask_list=None, goal=None, habituation_trial=None, head_tilt=0.0, image_list=None, object_list=None, object_mask_list=None, pose='UNDEFINED', position=None, return_status='UNDEFINED', reward=0, rotation=0.0, step_number=0, structural_object_list=None)
 Defines output metadata from an action step in the MCS 3D environment.
 
 
@@ -391,6 +382,11 @@ Defines output metadata from an action step in the MCS 3D environment.
 
 
     * **goal** (*GoalMetadata** or **None*) – The goal for the whole scene. Will be None in “Exploration” scenes.
+
+
+    * **habituation_trial** (*int** or **None*) – The current habituation trial (as a positive integer), or None if the
+    scene is not currently in a habituation trial (meaning this scene is
+    in a test trial).
 
 
     * **head_tilt** (*float*) – How far your head is tilted up/down in degrees (between 90 and -90).
