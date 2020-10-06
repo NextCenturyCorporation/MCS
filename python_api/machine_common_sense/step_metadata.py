@@ -150,13 +150,13 @@ class StepMetadata:
         yield 'camera_height', self.camera_height
         yield 'goal', dict(self.goal)
         yield 'head_tilt', self.head_tilt
-        yield 'object_list', dict((obj.uuid, dict(obj)) 
-            for obj in self.object_list)
+        yield 'object_list', dict((obj.uuid, dict(
+            obj)) for obj in self.object_list)
         yield 'pose', self.pose
         yield 'position', self.position
         yield 'return_status', self.return_status
         yield 'reward', self.reward
         yield 'rotation', self.rotation
         yield 'step_number', self.step_number
-        yield 'structural_object_list', dict((obj.uuid, dict(obj)) 
-            for obj in self.structural_object_list)
+        yield 'structural_object_list', dict((obj.uuid, dict(
+            obj)) for obj in self.structural_object_list)

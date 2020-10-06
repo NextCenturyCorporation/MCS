@@ -88,7 +88,6 @@ class GoalMetadata:
     def __str__(self):
         return Util.class_to_str(self)
 
-
     # Allows converting the class to a dictionary, along with allowing
     #   certain fields to be left out of output file
     def __iter__(self):

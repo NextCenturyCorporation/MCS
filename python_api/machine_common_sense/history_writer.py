@@ -1,9 +1,10 @@
 from .util import Util
 from .scene_history import SceneHistory
-from typing import Dict, List
+from typing import Dict
 import json
 import os
 import datetime
+
 
 class HistoryWriter(object):
     def __init__(self, scene_config_data=None):
@@ -17,7 +18,8 @@ class HistoryWriter(object):
         if not os.path.exists(self.HISTORY_DIRECTORY):
             os.makedirs(self.HISTORY_DIRECTORY)
 
-        if 'screenshot' not in scene_config_data or not scene_config_data['screenshot']:
+        if ('screenshot' not in scene_config_data or
+                not scene_config_data['screenshot']):
             self.scene_history_file = os.path.join(
                 self.HISTORY_DIRECTORY, scene_config_data['name'].replace(
                     '.json', '') + "-" + self.generate_time() + ".json")
@@ -27,15 +29,13 @@ class HistoryWriter(object):
     # Generate a date time
     def generate_time(self):
         return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-        
 
     # Write the history file
     def write_file(self):
         if self.scene_history_file:
             with open(self.scene_history_file, "a+") as history_file:
-                history_file.write(json.dumps(self.history_obj, 
-                    indent = 4))
-
+                history_file.write(json.dumps(
+                    self.history_obj, indent=4))
 
     # filter out images from the step history data
     def filter_history_images(
@@ -49,11 +49,9 @@ class HistoryWriter(object):
             del history.output.goal.metadata['target_2']['image']
         return history
 
-
     # Add a new step to the array of history steps
     def add_step(self, stepObj=Dict):
         self.current_steps.append(dict(self.filter_history_images(stepObj)))
-
 
     # Add the end score obj, create the object that will be written to file
     def write_history_file(self, classification, confidence):
@@ -65,7 +63,6 @@ class HistoryWriter(object):
         self.history_obj["score"] = self.end_score
 
         self.write_file()
-
 
     def __str__(self):
         return Util.class_to_str(self)

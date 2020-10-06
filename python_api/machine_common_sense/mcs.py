@@ -47,7 +47,8 @@ class MCS:
             A seed for the Python random number generator.
             (default None)
         history_enabled: boolean, optional
-            Whether to save all the history files and generated image history to local disk or not.
+            Whether to save all the history files and generated image history
+            to local disk or not.
             (default False)
 
         Returns

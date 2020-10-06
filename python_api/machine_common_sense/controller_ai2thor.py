@@ -73,7 +73,8 @@ class ControllerAI2THOR(Controller):
         A seed for the Python random number generator.
         (default None)
     history_enabled: boolean, optional
-        Whether to save all the history files and generated image history to local disk or not.
+        Whether to save all the history files and generated image
+        history to local disk or not.
         (default False)
     """
 
@@ -158,7 +159,7 @@ class ControllerAI2THOR(Controller):
 
     def __init__(self, unity_app_file_path, debug=False,
                  enable_noise=False, seed=None, size=None,
-                 depth_masks=False, object_masks=False, 
+                 depth_masks=False, object_masks=False,
                  history_enabled=True):
         super().__init__()
 
@@ -193,7 +194,7 @@ class ControllerAI2THOR(Controller):
             self.__screen_height = size / 3 * 2
 
     def _update_internal_config(self, enable_noise=None, seed=None,
-                                depth_masks=None, object_masks=None, 
+                                depth_masks=None, object_masks=None,
                                 history_enabled=None):
 
         if enable_noise is not None:
@@ -261,7 +262,6 @@ class ControllerAI2THOR(Controller):
     def get_seed_value(self):
         return self.__seed
 
-
     # Override
     def end_scene(self, choice, confidence=1.0):
         """
@@ -281,7 +281,6 @@ class ControllerAI2THOR(Controller):
 
         super().end_scene(choice, confidence)
         self.__history_writer.write_history_file(choice, confidence)
-
 
     # Override
     def start_scene(self, config_data):
@@ -648,7 +647,6 @@ class ControllerAI2THOR(Controller):
                     'ContentType': 'image/png',
                 }
             )
-
 
     def generate_time(self):
         return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
