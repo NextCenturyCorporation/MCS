@@ -27,3 +27,18 @@ class SceneHistory(object):
 
     def __str__(self):
         return Util.class_to_str(self)
+
+    
+    # Allows converting the class to a dictionary, along with allowing
+    #   certain fields to be left out of output file
+    def __iter__(self):
+        yield 'step', self.step
+        yield 'action', self.action
+        yield 'args', self.args
+        yield 'params', self.params
+        yield 'classification', self.classification
+        yield 'confidence', self.confidence
+        yield 'violations_xy_list', self.violations_xy_list
+        yield 'internal_state', self.internal_state
+        yield 'output', dict(self.output)
+

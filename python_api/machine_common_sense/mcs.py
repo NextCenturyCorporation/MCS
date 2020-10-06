@@ -28,7 +28,7 @@ class MCS:
     @staticmethod
     def create_controller(unity_app_file_path, debug=False, enable_noise=False,
                           seed=None, size=None, depth_masks=False,
-                          object_masks=False):
+                          object_masks=False, history_enabled=True):
         """
         Creates and returns a new MCS Controller object.
 
@@ -46,6 +46,9 @@ class MCS:
         seed : int, optional
             A seed for the Python random number generator.
             (default None)
+        history_enabled: boolean, optional
+            Whether to save all the history files and generated image history to local disk or not.
+            (default False)
 
         Returns
         -------
@@ -57,7 +60,8 @@ class MCS:
             with time_limit(TIME_LIMIT_SECONDS):
                 return ControllerAI2THOR(unity_app_file_path, debug,
                                          enable_noise, seed, size,
-                                         depth_masks, object_masks)
+                                         depth_masks, object_masks,
+                                         history_enabled)
         except Exception as Msg:
             print("Exception in create_controller()", Msg)
             return None

@@ -89,3 +89,23 @@ class ObjectMetadata(object):
 
     def __str__(self):
         return Util.class_to_str(self)
+
+    
+    # Allows converting the class to a dictionary, along with allowing
+    #   certain fields to be left out of output file
+    def __iter__(self):
+        yield 'uuid', self.uuid
+        yield 'color', self.color
+        yield 'dimensions', self.dimensions
+        yield 'direction', self.direction
+        yield 'distance', self.distance
+        yield 'distance_in_steps', self.distance_in_steps
+        yield 'distance_in_world', self.distance_in_world
+        yield 'held', self.held
+        yield 'mass', self.mass
+        yield 'material_list', self.material_list
+        yield 'position', self.position
+        yield 'rotation', self.rotation
+        yield 'shape', self.shape
+        yield 'texture_color_list', self.texture_color_list
+        yield 'visible', self.visible

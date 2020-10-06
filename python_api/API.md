@@ -32,7 +32,7 @@ Defines utility functions for machine learning modules to create MCS
 controllers and handle config data files.
 
 
-#### static create_controller(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_masks=False, object_masks=False)
+#### static create_controller(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_masks=False, object_masks=False, history_enabled=True)
 Creates and returns a new MCS Controller object.
 
 
@@ -53,6 +53,9 @@ Creates and returns a new MCS Controller object.
 
     * **seed** (*int**, **optional*) – A seed for the Python random number generator.
     (default None)
+
+    * **history_enabled** (*boolean**, **optional*) – Whether to save all the history files and generated image history to local disk or not.
+    (default False)
 
 
 

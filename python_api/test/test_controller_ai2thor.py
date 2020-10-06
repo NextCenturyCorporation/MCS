@@ -488,9 +488,6 @@ class Test_ControllerAI2THOR(unittest.TestCase):
         output = self.controller.step('MoveAhead')
         self.assertIsNone(output)
 
-    def test_step_write_history(self):
-        # TODO
-        pass
 
     def test_step_validate_action(self):
         output = self.controller.step('Foobar')

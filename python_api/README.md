@@ -131,6 +131,7 @@ Run options:
 - `--object_masks`
 - `--seed <python_random_seed>`
 - `--size <screen_width_450_or_more>`
+- `--history_enabled`
 
 ## Run with Scene Timer
 
