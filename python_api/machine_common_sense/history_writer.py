@@ -24,7 +24,8 @@ class HistoryWriter(object):
                 self.HISTORY_DIRECTORY, scene_config_data['name'].replace(
                     '.json', '') + "-" + self.generate_time() + ".json")
 
-        self.info_obj['name'] = scene_config_data['name']
+        self.info_obj['name'] = scene_config_data['name'].replace(
+            '.json', '')
 
     # Generate a date time
     def generate_time(self):
@@ -41,12 +42,13 @@ class HistoryWriter(object):
     def filter_history_images(
             self,
             history: SceneHistory) -> SceneHistory:
-        if 'target' in history.output.goal.metadata.keys():
-            del history.output.goal.metadata['target']['image']
-        if 'target_1' in history.output.goal.metadata.keys():
-            del history.output.goal.metadata['target_1']['image']
-        if 'target_2' in history.output.goal.metadata.keys():
-            del history.output.goal.metadata['target_2']['image']
+        if history.output:
+            if 'target' in history.output.goal.metadata.keys():
+                del history.output.goal.metadata['target']['image']
+            if 'target_1' in history.output.goal.metadata.keys():
+                del history.output.goal.metadata['target_1']['image']
+            if 'target_2' in history.output.goal.metadata.keys():
+                del history.output.goal.metadata['target_2']['image']
         return history
 
     # Add a new step to the array of history steps
