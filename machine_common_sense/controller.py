@@ -158,8 +158,6 @@ class Controller():
     def __init__(self, unity_app_file_path, debug=False,
                  enable_noise=False, seed=None, size=None,
                  depth_masks=False, object_masks=False):
-        super().__init__()
-
         self._update_screen_size(size)
 
         self._controller = ai2thor.controller.Controller(
@@ -304,7 +302,6 @@ class Controller():
             Is not required for other goals. (default None)
         """
 
-        super().end_scene(choice, confidence)
         self.vid_writer.finish()
 
         history_item = '{"classification": "' + choice + \
@@ -329,8 +326,6 @@ class Controller():
             The output data object from the start of the scene (the output from
             an "Initialize" action).
         """
-
-        # super().start_scene(config_data)
 
         self.__scene_configuration = config_data
         self.__step_number = 0
@@ -575,9 +570,6 @@ class Controller():
             physics simulation were run. Returns None if you have passed the
             "last_step" of this scene.
         """
-
-        # super().step(action, choice, confidence, violations_xy_list,
-        #             heatmap_img, internal_state, **kwargs)
 
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
