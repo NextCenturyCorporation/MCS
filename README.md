@@ -6,10 +6,10 @@ The latest release of the MCS Python library is `0.1.0`.
 
 ### Virtual Environments
 
-Python virtual environments are recommend when using the MCS package. All steps presume the activation of the virtual environment as shown below.
+Python virtual environments are recommended when using the MCS package. All steps below presume the activation of the virtual environment as shown.
 
 ```
-python3.6 -m venv --prompt mcs venv
+python3.6 -m venv venv
 source venv/bin/activate
 python -m pip install --upgrade pip setuptools wheel
 ```
@@ -24,7 +24,7 @@ python -m pip install git+https://github.com/NextCenturyCorporation/MCS@latest
 
 ## MCS Package Developer Installation
 
-For MCS package developer, follow these instructions.
+For MCS package developer, follow these alternate instructions.
 
 [DEV.md](./machine_common_sense/DEV.md)
 

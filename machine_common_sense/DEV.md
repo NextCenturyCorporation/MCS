@@ -12,16 +12,16 @@ $ source venv/bin/activate
 
 ### Install the MCS Package and dependencies
 
+Install the packages included in the requirements file so that linting and documentation work. The requirements.txt file includes developer and package dependencies.
+
+```
+python -m pip install -r requirements.txt
+```
+
 From the MCS root folder, install the package in your virtual environment in editable mode (-e) so that local changes will automatically reflect in the virtual environment.
 
 ```
 python -m pip install -e .
-```
-
-Additionally, install the packages included in the requirements file so that linting and documentation work. The requirements.txt file includes developer dependencies.
-
-```
-python -m pip install -r requirements.txt
 ```
 
 ### Run pre-commit
