@@ -25,5 +25,10 @@ dist/
 sdist/
 wheels/
 
-**/_build
-**/SCENE_HISTORY
+docs/_build
+**/*.mp4
+
+# Debug output
+scripts/SCENE_HISTORY
+scripts/**/*.json
+scripts/**/*.png
