@@ -155,7 +155,7 @@ class Controller():
 
     def __init__(self, unity_app_file_path, debug=False,
                  enable_noise=False, seed=None, size=None,
-                 depth_masks=False, object_masks=False):
+                 depth_masks=None, object_masks=None):
         super().__init__()
 
         self._update_screen_size(size)
@@ -201,7 +201,7 @@ class Controller():
             self.__object_masks = object_masks
 
     def _on_init(self, debug=False, enable_noise=False, seed=None,
-                 depth_masks=False, object_masks=False):
+                 depth_masks=None, object_masks=None):
 
         self.__debug_to_file = True if (
             debug is True or debug == 'file') else False
@@ -228,25 +228,31 @@ class Controller():
 
         self._config = self.read_config_file()
 
-        # TODO: MCS-384: order of preference is config metadata property,
-        # and if not present, default to optional property -- is that
-        # correct?
         mode = (
             self._config[self.CONFIG_METADATA_MODE]
             if self.CONFIG_METADATA_MODE in self._config
             else ''
         )
 
+        # Order of preference for depth/object mask settings:
+        # Command line arguments, then use config settings,
+        # else default to False
         if(mode == self.CONFIG_METADATA_MODE_LEVEL_1):
-            self.__depth_masks = True
-            self.__object_masks = False
+            self.__depth_masks = (
+                depth_masks if depth_masks is not None else True)
+            self.__object_masks = (
+                object_masks if object_masks is not None else False)
         elif(mode == self.CONFIG_METADATA_MODE_LEVEL_2 or
              mode == self.CONFIG_METADATA_MODE_ORACLE):
-            self.__depth_masks = True
-            self.__object_masks = True
+            self.__depth_masks = (
+                depth_masks if depth_masks is not None else True)
+            self.__object_masks = (
+                object_masks if object_masks is not None else True)
         else:
-            self.__depth_masks = depth_masks
-            self.__object_masks = object_masks
+            self.__depth_masks = (
+                depth_masks if depth_masks is not None else False)
+            self.__object_masks = (
+                object_masks if object_masks is not None else False)
 
         if ((self.CONFIG_AWS_ACCESS_KEY_ID in self._config) and
                 (self.CONFIG_AWS_SECRET_ACCESS_KEY in self._config)):
