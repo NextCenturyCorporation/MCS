@@ -305,7 +305,11 @@ class ControllerAI2THOR(Controller):
         self.__scene_configuration = config_data
         self.__step_number = 0
         self._goal = self.retrieve_goal(self.__scene_configuration)
-        self.__history_writer = HistoryWriter(config_data)
+
+        if self.__history_writer is None:
+            self.__history_writer = HistoryWriter(config_data)
+        else:
+            self.__history_writer.check_file_written()
 
         skip_preview_phase = (True if 'goal' in config_data and
                               'skip_preview_phase' in config_data['goal']

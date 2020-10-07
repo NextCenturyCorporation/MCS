@@ -52,8 +52,8 @@ class HistoryWriter(object):
         return history
 
     # Add a new step to the array of history steps
-    def add_step(self, stepObj=Dict):
-        self.current_steps.append(dict(self.filter_history_images(stepObj)))
+    def add_step(self, step_obj: Dict):
+        self.current_steps.append(dict(self.filter_history_images(step_obj)))
 
     # Add the end score obj, create the object that will be written to file
     def write_history_file(self, classification, confidence):
@@ -65,6 +65,12 @@ class HistoryWriter(object):
         self.history_obj["score"] = self.end_score
 
         self.write_file()
+
+    # Will check to see if the file has been written, if not,
+    #   it will write out what is currently in the history object
+    def check_file_written(self):
+        if not os.path.exists(self.scene_history_file):
+            self.write_history_file("", "")
 
     def __str__(self):
         return Util.class_to_str(self)
