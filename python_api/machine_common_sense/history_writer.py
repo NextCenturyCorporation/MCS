@@ -27,21 +27,19 @@ class HistoryWriter(object):
         self.info_obj['name'] = scene_config_data['name'].replace(
             '.json', '')
 
-    # Generate a date time
     def generate_time(self):
         return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
-    # Write the history file
     def write_file(self):
         if self.scene_history_file:
             with open(self.scene_history_file, "a+") as history_file:
                 history_file.write(json.dumps(
                     self.history_obj, indent=4))
 
-    # filter out images from the step history data
     def filter_history_images(
             self,
             history: SceneHistory) -> SceneHistory:
+        """ filter out images from the step history data"""
         if history.output:
             if 'target' in history.output.goal.metadata.keys():
                 del history.output.goal.metadata['target']['image']
@@ -51,12 +49,13 @@ class HistoryWriter(object):
                 del history.output.goal.metadata['target_2']['image']
         return history
 
-    # Add a new step to the array of history steps
     def add_step(self, step_obj: Dict):
+        """ Add a new step to the array of history steps"""
         self.current_steps.append(dict(self.filter_history_images(step_obj)))
 
-    # Add the end score obj, create the object that will be written to file
     def write_history_file(self, classification, confidence):
+        """ Add the end score obj, create the object
+            that will be written to file"""
         self.end_score["classification"] = classification
         self.end_score["confidence"] = str(confidence)
 
@@ -66,9 +65,9 @@ class HistoryWriter(object):
 
         self.write_file()
 
-    # Will check to see if the file has been written, if not,
-    #   it will write out what is currently in the history object
     def check_file_written(self):
+        """ Will check to see if the file has been written, if not,
+            it will write out what is currently in the history object"""
         if not os.path.exists(self.scene_history_file):
             self.write_history_file("", "")
 
