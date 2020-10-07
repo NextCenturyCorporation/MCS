@@ -29,6 +29,6 @@ docs/_build
 **/*.mp4
 
 # Debug output
-scripts/SCENE_HISTORY
+**/SCENE_HISTORY
 scripts/**/*.json
 scripts/**/*.png

@@ -88,6 +88,19 @@ class GoalMetadata:
     def __str__(self):
         return Util.class_to_str(self)
 
+    # Allows converting the class to a dictionary, along with allowing
+    #   certain fields to be left out of output file
+    def __iter__(self):
+        yield 'action_list', self.action_list
+        yield 'category', self.category
+        yield 'description', self.description
+        yield 'domain_list', self.domain_list
+        yield 'info_list', self.info_list
+        yield 'last_preview_phase_step', self.last_preview_phase_step
+        yield 'last_step', self.last_step
+        yield 'type_list', self.type_list
+        yield 'metadata', self.metadata
+
 
 @unique
 class GoalCategory(Enum):
