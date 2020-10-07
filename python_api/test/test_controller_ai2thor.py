@@ -437,6 +437,7 @@ class Test_ControllerAI2THOR(unittest.TestCase):
 
     def test_step(self):
         self.controller.render_mask_images()
+        output = self.controller.start_scene({'name': 'test name'})
         output = self.controller.step('MoveAhead')
         self.assertIsNotNone(output)
         self.assertEqual(
@@ -478,6 +479,7 @@ class Test_ControllerAI2THOR(unittest.TestCase):
                          len(MOCK_VARIABLES['metadata']['structuralObjects']))
 
     def test_step_last_step(self):
+        output = self.controller.start_scene({'name': 'test name'})
         self.controller.set_goal(GoalMetadata(last_step=0))
         output = self.controller.step('MoveAhead')
         self.assertIsNone(output)
@@ -488,9 +490,6 @@ class Test_ControllerAI2THOR(unittest.TestCase):
         output = self.controller.step('MoveAhead')
         self.assertIsNone(output)
 
-    def test_step_write_history(self):
-        # TODO
-        pass
 
     def test_step_validate_action(self):
         output = self.controller.step('Foobar')
@@ -500,6 +499,7 @@ class Test_ControllerAI2THOR(unittest.TestCase):
         output = self.controller.step('MoveAhead')
         self.assertIsNone(output)
 
+        output = self.controller.start_scene({'name': 'test name'})
         self.controller.set_goal(
             GoalMetadata(
                 action_list=[
@@ -511,6 +511,7 @@ class Test_ControllerAI2THOR(unittest.TestCase):
         self.assertIsNone(output)
 
     def test_step_validate_parameters_move(self):
+        output = self.controller.start_scene({'name': 'test name'})
         self.controller.step('MoveAhead', amount=1)
         self.assertEquals(
             self.controller.get_last_step_data(),
@@ -543,6 +544,7 @@ class Test_ControllerAI2THOR(unittest.TestCase):
                 MAX_MOVE_DISTANCE))
 
     def test_step_validate_parameters_rotate(self):
+        output = self.controller.start_scene({'name': 'test name'})
         self.controller.step('RotateLook', rotation=12, horizon=34)
         self.assertEquals(
             self.controller.get_last_step_data(),
@@ -562,6 +564,7 @@ class Test_ControllerAI2THOR(unittest.TestCase):
                     'y': -12}))
 
     def test_step_validate_parameters_force_object(self):
+        output = self.controller.start_scene({'name': 'test name'})
         self.controller.step('PushObject', force=1, objectId='test_id_1')
         self.assertEquals(
             self.controller.get_last_step_data(),
@@ -614,6 +617,7 @@ class Test_ControllerAI2THOR(unittest.TestCase):
                     'z': 3}))
 
     def test_step_validate_parameters_open_close(self):
+        output = self.controller.start_scene({'name': 'test name'})
         self.controller.step(
             'OpenObject',
             amount=1,
@@ -1490,6 +1494,8 @@ class Test_ControllerAI2THOR(unittest.TestCase):
             self.create_mock_scene_event(mock_scene_event_data)
         )
         self.assertEqual(ret_status, Pose.LYING.name)
+
+        output = self.controller.start_scene({'name': 'test name'})
 
         # Testing retrieving proper pose depending on action made
         # Check basics
