@@ -227,8 +227,7 @@ class Controller():
             os.makedirs(self.HISTORY_DIRECTORY)
 
         self._config = self.read_config_file()
-
-        mode = (
+        self._mode = (
             self._config[self.CONFIG_METADATA_MODE]
             if self.CONFIG_METADATA_MODE in self._config
             else ''
@@ -237,13 +236,13 @@ class Controller():
         # Order of preference for depth/object mask settings:
         # Command line arguments, then use config settings,
         # else default to False
-        if(mode == self.CONFIG_METADATA_MODE_LEVEL_1):
+        if(self._mode == self.CONFIG_METADATA_MODE_LEVEL_1):
             self.__depth_masks = (
                 depth_masks if depth_masks is not None else True)
             self.__object_masks = (
                 object_masks if object_masks is not None else False)
-        elif(mode == self.CONFIG_METADATA_MODE_LEVEL_2 or
-             mode == self.CONFIG_METADATA_MODE_ORACLE):
+        elif(self._mode == self.CONFIG_METADATA_MODE_LEVEL_2 or
+             self._mode == self.CONFIG_METADATA_MODE_ORACLE):
             self.__depth_masks = (
                 depth_masks if depth_masks is not None else True)
             self.__object_masks = (
@@ -746,15 +745,9 @@ class Controller():
         return {}
 
     def restrict_goal_output_metadata(self, goal_output):
-        mode = (
-            self._config[self.CONFIG_METADATA_MODE]
-            if self.CONFIG_METADATA_MODE in self._config
-            else ''
-        )
-
         if (
-            mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
-            mode == self.CONFIG_METADATA_MODE_LEVEL_2
+            self._mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
+            self._mode == self.CONFIG_METADATA_MODE_LEVEL_2
         ):
             if (
                 'target' in goal_output.metadata and
@@ -775,15 +768,9 @@ class Controller():
         return goal_output
 
     def restrict_object_output_metadata(self, object_output):
-        mode = (
-            self._config[self.CONFIG_METADATA_MODE]
-            if self.CONFIG_METADATA_MODE in self._config
-            else ''
-        )
-
         if (
-            mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
-            mode == self.CONFIG_METADATA_MODE_LEVEL_2
+            self._mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
+            self._mode == self.CONFIG_METADATA_MODE_LEVEL_2
         ):
             object_output.color = None
             object_output.dimensions = None
@@ -799,19 +786,13 @@ class Controller():
         return object_output
 
     def restrict_step_output_metadata(self, step_output):
-        mode = (
-            self._config[self.CONFIG_METADATA_MODE]
-            if self.CONFIG_METADATA_MODE in self._config
-            else ''
-        )
-
         # only remove object_mask_list for level1
-        if(mode == self.CONFIG_METADATA_MODE_LEVEL_1):
+        if(self._mode == self.CONFIG_METADATA_MODE_LEVEL_1):
             step_output.object_mask_list = []
 
         if (
-            mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
-            mode == self.CONFIG_METADATA_MODE_LEVEL_2
+            self._mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
+            self._mode == self.CONFIG_METADATA_MODE_LEVEL_2
         ):
             step_output.camera_aspect_ratio = None
             step_output.camera_clipping_planes = None
@@ -881,13 +862,7 @@ class Controller():
             scene_event.events) - 1].object_id_to_color
 
     def retrieve_object_list(self, scene_event):
-        mode = (
-            self._config[self.CONFIG_METADATA_MODE]
-            if self.CONFIG_METADATA_MODE in self._config
-            else ''
-        )
-
-        if mode == self.CONFIG_METADATA_MODE_ORACLE:
+        if self._mode == self.CONFIG_METADATA_MODE_ORACLE:
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -1005,13 +980,7 @@ class Controller():
             return return_status
 
     def retrieve_structural_object_list(self, scene_event):
-        mode = (
-            self._config[self.CONFIG_METADATA_MODE]
-            if self.CONFIG_METADATA_MODE in self._config
-            else ''
-        )
-
-        if mode == self.CONFIG_METADATA_MODE_ORACLE:
+        if self._mode == self.CONFIG_METADATA_MODE_ORACLE:
             return sorted(
                 [
                     self.retrieve_object_output(

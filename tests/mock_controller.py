@@ -88,3 +88,6 @@ class MockControllerAI2THOR(Controller):
 
     def set_goal(self, goal):
         self._goal = goal
+
+    def set_mode(self, mode):
+        self._mode = mode
