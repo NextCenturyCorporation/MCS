@@ -1064,6 +1064,12 @@ class Controller():
         return step_output
 
     def wrap_step(self, **kwargs):
+        # whether or not to randomize segmentation mask colors
+        consistentColors = False
+
+        if(self._mode == self.CONFIG_METADATA_MODE_ORACLE):
+            consistentColors = True
+
         # Create the step data dict for the AI2-THOR step function.
         step_data = dict(
             continuous=True,
@@ -1074,6 +1080,7 @@ class Controller():
             # Yes, in AI2-THOR, the player's reach appears to be
             # governed by the "visibilityDistance", confusingly...
             visibilityDistance=MAX_REACH_DISTANCE,
+            consistentColors=consistentColors,
             **kwargs
         )
 

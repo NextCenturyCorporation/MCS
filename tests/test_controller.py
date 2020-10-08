@@ -341,7 +341,8 @@ class Test_Controller(unittest.TestCase):
             objectId=None,
             receptacleObjectDirection={'x': 0, 'y': 0, 'z': 0},
             receptacleObjectId=None,
-            rotation={'y': 0}
+            rotation={'y': 0},
+            consistentColors=False
         )
 
         for key, value in kwargs.items():
@@ -1750,7 +1751,28 @@ class Test_Controller(unittest.TestCase):
             "renderDepthImage": False,
             "renderObjectImage": False,
             "stringProperty": "test_property",
-            "visibilityDistance": 1.0
+            "visibilityDistance": 1.0,
+            "consistentColors": False
+        }
+        self.assertEqual(actual, expected)
+
+    def test_wrap_step_metadata_oracle(self):
+        self.controller.set_mode('oracle')
+        actual = self.controller.wrap_step(
+            action="TestAction",
+            numberProperty=1234,
+            stringProperty="test_property")
+        expected = {
+            "action": "TestAction",
+            "continuous": True,
+            "gridSize": 0.1,
+            "logs": True,
+            "numberProperty": 1234,
+            "renderDepthImage": False,
+            "renderObjectImage": False,
+            "stringProperty": "test_property",
+            "visibilityDistance": 1.0,
+            "consistentColors": True
         }
         self.assertEqual(actual, expected)
 
