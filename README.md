@@ -84,7 +84,7 @@ controller = mcs.create_controller(unity_app_file_path, depth_masks=True,
 
 # Either load the config data dict from an MCS config JSON file or create your own.
 # We will give you the training config JSON files and the format to make your own.
-config_data = mcs.load_config_json_file(config_json_file_path)
+config_data, status = mcs.load_config_json_file(config_json_file_path)
 
 output = controller.start_scene(config_data)
 
@@ -113,7 +113,7 @@ controller = mcs.create_controller(unity_app_file_path, depth_masks=True,
                                    object_masks=True)
 
 for config_json_file_path in config_json_file_list:
-    config_data = mcs.load_config_json_file(config_json_file_path)
+    config_data, status = mcs.load_config_json_file(config_json_file_path)
     output = controller.start_scene(config_data)
     action, params = select_action(output)
     while action != '':
