@@ -47,6 +47,11 @@ def parse_args():
         action='store_true',
         help='Render and return object (instance segmentation) masks of ' +
         'each scene (will significantly decrease performance) [default=False]')
+    parser.add_argument(
+        '--history_enabled',
+        default=True,
+        help='Whether to save all the history files and generated image ' +
+        'history to local disk or not. [default=True]')
     return parser.parse_args()
 
 
@@ -154,6 +159,7 @@ class HumanInputShell(cmd.Cmd):
 
     def do_exit(self, args) -> bool:
         print("Exiting Human Input Mode\n")
+        self.controller.end_scene("", 1)
         return True
 
     def do_print(self, args):
@@ -246,7 +252,8 @@ def main():
                                        seed=args.seed,
                                        size=args.size,
                                        depth_masks=args.depth_masks,
-                                       object_masks=args.object_masks)
+                                       object_masks=args.object_masks,
+                                       history_enabled=args.history_enabled)
 
     config_file_path = args.mcs_config_json_file
     config_file_name = config_file_path[config_file_path.rfind('/') + 1:]

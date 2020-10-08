@@ -35,6 +35,7 @@ from .reward import Reward
 from .scene_history import SceneHistory
 from .step_metadata import StepMetadata
 from .util import Util
+from .history_writer import HistoryWriter
 
 # From https://github.com/NextCenturyCorporation/ai2thor/blob/master/ai2thor/server.py#L232-L240 # noqa: E501
 
@@ -70,6 +71,10 @@ class Controller():
     seed : int, optional
         A seed for the Python random number generator.
         (default None)
+    history_enabled: boolean, optional
+        Whether to save all the history files and generated image
+        history to local disk or not.
+        (default False)
     """
 
     ACTION_LIST = [item.value for item in Action]
@@ -127,8 +132,6 @@ class Controller():
     OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
-    HISTORY_DIRECTORY = "SCENE_HISTORY"
-
     CONFIG_FILE = os.getenv('MCS_CONFIG_FILE_PATH', './mcs_config.yaml')
 
     AWS_CREDENTIALS_FOLDER = os.path.expanduser('~') + '/.aws/'
@@ -155,8 +158,8 @@ class Controller():
 
     def __init__(self, unity_app_file_path, debug=False,
                  enable_noise=False, seed=None, size=None,
-                 depth_masks=None, object_masks=None):
-        super().__init__()
+                 depth_masks=None, object_masks=None,
+                 history_enabled=True):
 
         self._update_screen_size(size)
 
@@ -179,7 +182,7 @@ class Controller():
         )
 
         self._on_init(debug, enable_noise, seed, depth_masks,
-                      object_masks)
+                      object_masks, history_enabled)
 
     def _update_screen_size(self, size=None):
         self.__screen_width = self.SCREEN_WIDTH_DEFAULT
@@ -189,7 +192,8 @@ class Controller():
             self.__screen_height = size / 3 * 2
 
     def _update_internal_config(self, enable_noise=None, seed=None,
-                                depth_masks=None, object_masks=None):
+                                depth_masks=None, object_masks=None,
+                                history_enabled=None):
 
         if enable_noise is not None:
             self.__enable_noise = enable_noise
@@ -199,9 +203,12 @@ class Controller():
             self.__depth_masks = depth_masks
         if object_masks is not None:
             self.__object_masks = object_masks
+        if history_enabled is not None:
+            self.__history_enabled = history_enabled
 
     def _on_init(self, debug=False, enable_noise=False, seed=None,
-                 depth_masks=None, object_masks=None):
+                 depth_masks=None, object_masks=None,
+                 history_enabled=True):
 
         self.__debug_to_file = True if (
             debug is True or debug == 'file') else False
@@ -210,21 +217,18 @@ class Controller():
 
         self.__enable_noise = enable_noise
         self.__seed = seed
+        self.__history_enabled = history_enabled
 
         if self.__seed:
             random.seed(self.__seed)
 
         self._goal = GoalMetadata()
         self.__head_tilt = 0.0
-        self.__history_list = []
         self.__output_folder = None  # Save output image files to debug
         self.__scene_configuration = None
-        self.__scene_history_file = None
         self.__step_number = 0
         self.__s3_client = None
-
-        if not os.path.exists(self.HISTORY_DIRECTORY):
-            os.makedirs(self.HISTORY_DIRECTORY)
+        self.__history_writer = None
 
         self._config = self.read_config_file()
         self._mode = (
@@ -280,27 +284,6 @@ class Controller():
     def get_seed_value(self):
         return self.__seed
 
-    def generate_noise(self):
-        """
-        Returns a random value between -0.05 and 0.05 used to add noise to all
-        numerical action parameters enable_noise is True.
-
-        Returns
-        -------
-        float
-            A value between -0.05 and 0.05 (using random.uniform).
-        """
-
-        return random.uniform(-0.5, 0.5)
-
-    # Write the history file
-    def write_history_file(self, history_string):
-        if self.__scene_history_file:
-            with open(self.__scene_history_file, "a+") as history_file:
-                history_file.write(json.dumps(
-                    json.loads(history_string)) + '\n')
-
-    # Override
     def end_scene(self, choice, confidence=1.0):
         """
         Ends the current scene.
@@ -316,15 +299,8 @@ class Controller():
             with violation-of-expectation or classification goals.
             Is not required for other goals. (default None)
         """
+        self.__history_writer.write_history_file(choice, confidence)
 
-        super().end_scene(choice, confidence)
-
-        history_item = '{"classification": "' + choice + \
-            '", "confidence": ' + str(confidence) + '}'
-        self.__history_list.append(history_item)
-        self.write_history_file(history_item)
-
-    # Override
     def start_scene(self, config_data):
         """
         Starts a new scene using the given scene configuration data dict and
@@ -342,18 +318,15 @@ class Controller():
             an "Initialize" action).
         """
 
-        # super().start_scene(config_data)
-
         self.__scene_configuration = config_data
         self.__step_number = 0
-        self.__history_list = []
         self._goal = self.retrieve_goal(self.__scene_configuration)
-        if 'screenshot' in config_data and config_data['screenshot']:
-            self.__scene_history_file = None
+
+        if self.__history_writer is None:
+            self.__history_writer = HistoryWriter(config_data)
         else:
-            self.__scene_history_file = os.path.join(
-                self.HISTORY_DIRECTORY, config_data['name'].replace(
-                    '.json', '') + "-" + self.generate_time() + ".txt")
+            self.__history_writer.check_file_written()
+
         skip_preview_phase = (True if 'goal' in config_data and
                               'skip_preview_phase' in config_data['goal']
                               else False)
@@ -588,9 +561,6 @@ class Controller():
             "last_step" of this scene.
         """
 
-        # super().step(action, choice, confidence, violations_xy_list,
-        #             heatmap_img, internal_state, **kwargs)
-
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
             print(
@@ -652,9 +622,7 @@ class Controller():
             violations_xy_list=violations_xy_list,
             internal_state=internal_state,
             output=output_copy)
-        self.__history_list.append(history_item)
-        filtered_history_item = self.filter_history_images(history_item)
-        self.write_history_file(str(filtered_history_item))
+        self.__history_writer.add_step(history_item)
 
         if(heatmap_img is not None and
            isinstance(heatmap_img, PIL.Image.Image)):
@@ -696,17 +664,6 @@ class Controller():
                     'ContentType': 'image/png',
                 }
             )
-
-    def filter_history_images(
-            self,
-            history: SceneHistory) -> SceneHistory:
-        if 'target' in history.output.goal.metadata.keys():
-            del history.output.goal.metadata['target']['image']
-        if 'target_1' in history.output.goal.metadata.keys():
-            del history.output.goal.metadata['target_1']['image']
-        if 'target_2' in history.output.goal.metadata.keys():
-            del history.output.goal.metadata['target_2']['image']
-        return history
 
     def generate_time(self):
         return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -1126,3 +1083,15 @@ class Controller():
                 json.dump(step_data, json_file, sort_keys=True, indent=4)
 
         return step_data
+
+    def generate_noise(self):
+        """
+        Returns a random value between -0.05 and 0.05 used to add noise to all
+        numerical action parameters enable_noise is True.
+        Returns
+        -------
+        float
+            A value between -0.05 and 0.05 (using random.uniform).
+        """
+
+        return random.uniform(-0.5, 0.5)

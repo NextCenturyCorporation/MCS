@@ -24,7 +24,7 @@
 ## Controller
 
 
-### class machine_common_sense.controller.Controller(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_masks=None, object_masks=None)
+### class machine_common_sense.controller.Controller(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_masks=None, object_masks=None, history_enabled=True)
 MCS Controller class implementation for the MCS wrapper of the AI2-THOR
 library.
 
@@ -45,6 +45,11 @@ library.
 
     * **seed** (*int**, **optional*) – A seed for the Python random number generator.
     (default None)
+
+
+    * **history_enabled** (*boolean**, **optional*) – Whether to save all the history files and generated image
+    history to local disk or not.
+    (default False)
 
 
 
@@ -69,18 +74,8 @@ Ends the current scene.
 #### generate_noise()
 Returns a random value between -0.05 and 0.05 used to add noise to all
 numerical action parameters enable_noise is True.
-
-
-* **Returns**
-
-    A value between -0.05 and 0.05 (using random.uniform).
-
-
-
-* **Return type**
-
-    float
-
+:returns: A value between -0.05 and 0.05 (using random.uniform).
+:rtype: float
 
 
 #### start_scene(config_data)

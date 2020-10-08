@@ -139,3 +139,24 @@ class StepMetadata:
 
     def __str__(self):
         return Util.class_to_str(self)
+
+    # Allows converting the class to a dictionary, along with allowing
+    #   certain fields to be left out of output file
+    def __iter__(self):
+        yield 'action_list', self.action_list
+        yield 'camera_aspect_ratio', self.camera_aspect_ratio
+        yield 'camera_clipping_planes', self.camera_clipping_planes
+        yield 'camera_field_of_view', self.camera_field_of_view
+        yield 'camera_height', self.camera_height
+        yield 'goal', dict(self.goal)
+        yield 'head_tilt', self.head_tilt
+        yield 'object_list', dict((obj.uuid, dict(
+            obj)) for obj in self.object_list)
+        yield 'pose', self.pose
+        yield 'position', self.position
+        yield 'return_status', self.return_status
+        yield 'reward', self.reward
+        yield 'rotation', self.rotation
+        yield 'step_number', self.step_number
+        yield 'structural_object_list', dict((obj.uuid, dict(
+            obj)) for obj in self.structural_object_list)

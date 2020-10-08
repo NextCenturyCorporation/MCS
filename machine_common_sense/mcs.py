@@ -21,7 +21,7 @@ def time_limit(seconds):
 
 def create_controller(unity_app_file_path, debug=False, enable_noise=False,
                       seed=None, size=None, depth_masks=None,
-                      object_masks=None):
+                      history_enabled=True, object_masks=None):
     """
     Creates and returns a new MCS Controller object.
 
@@ -44,10 +44,13 @@ def create_controller(unity_app_file_path, debug=False, enable_noise=False,
         (default None)
     depth_masks : boolean, optional
         Whether or not to generate depth mask images
-        (default False)
+        (default None)
     object_masks : boolean, optional
         Whether or not to generate segmentation mask images
-        (default False)
+        (default None)
+    history_enabled : boolean, optional
+        Whether or not to create scene history files
+        (default True)
 
     Returns
     -------
