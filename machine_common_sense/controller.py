@@ -238,8 +238,8 @@ class Controller():
         )
 
         # Order of preference for depth/object mask settings:
-        # Command line arguments, then use config settings,
-        # else default to False
+        # look for user specified depth_masks/object_masks properties,
+        # then check config settings, else default to False
         if(self._mode == self.CONFIG_METADATA_MODE_LEVEL_1):
             self.__depth_masks = (
                 depth_masks if depth_masks is not None else True)
