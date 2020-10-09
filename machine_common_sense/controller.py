@@ -141,15 +141,15 @@ class Controller():
 
     CONFIG_AWS_ACCESS_KEY_ID = 'aws_access_key_id'
     CONFIG_AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
-    CONFIG_METADATA_MODE = 'metadata'
+    CONFIG_METADATA_TIER = 'metadata'
     # Normal metadata plus metadata for all hidden objects
-    CONFIG_METADATA_MODE_ORACLE = 'oracle'
+    CONFIG_METADATA_TIER_ORACLE = 'oracle'
     # No metadata, except for the images, depth masks, object masks,
     # and haptic/audio feedback
-    CONFIG_METADATA_MODE_LEVEL_2 = 'level2'
+    CONFIG_METADATA_TIER_LEVEL_2 = 'level2'
     # No metadata, except for the images, depth masks, and haptic/audio
     # feedback
-    CONFIG_METADATA_MODE_LEVEL_1 = 'level1'
+    CONFIG_METADATA_TIER_LEVEL_1 = 'level1'
     CONFIG_SAVE_IMAGES_TO_S3_BUCKET = 'save_images_to_s3_bucket'
     CONFIG_SAVE_IMAGES_TO_S3_FOLDER = 'save_images_to_s3_folder'
     CONFIG_TEAM = 'team'
@@ -231,22 +231,22 @@ class Controller():
         self.__history_writer = None
 
         self._config = self.read_config_file()
-        self._mode = (
-            self._config[self.CONFIG_METADATA_MODE]
-            if self.CONFIG_METADATA_MODE in self._config
+        self._metadata_tier = (
+            self._config[self.CONFIG_METADATA_TIER]
+            if self.CONFIG_METADATA_TIER in self._config
             else ''
         )
 
         # Order of preference for depth/object mask settings:
         # look for user specified depth_masks/object_masks properties,
         # then check config settings, else default to False
-        if(self._mode == self.CONFIG_METADATA_MODE_LEVEL_1):
+        if(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
             self.__depth_masks = (
                 depth_masks if depth_masks is not None else True)
             self.__object_masks = (
                 object_masks if object_masks is not None else False)
-        elif(self._mode == self.CONFIG_METADATA_MODE_LEVEL_2 or
-             self._mode == self.CONFIG_METADATA_MODE_ORACLE):
+        elif(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2 or
+             self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
             self.__depth_masks = (
                 depth_masks if depth_masks is not None else True)
             self.__object_masks = (
@@ -696,15 +696,15 @@ class Controller():
                 if self.__debug_to_terminal:
                     print('Read MCS Config File:')
                     print(config)
-                if self.CONFIG_METADATA_MODE not in config:
-                    config[self.CONFIG_METADATA_MODE] = ''
+                if self.CONFIG_METADATA_TIER not in config:
+                    config[self.CONFIG_METADATA_TIER] = ''
                 return config
         return {}
 
     def restrict_goal_output_metadata(self, goal_output):
         if (
-            self._mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
-            self._mode == self.CONFIG_METADATA_MODE_LEVEL_2
+            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
+            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2
         ):
             if (
                 'target' in goal_output.metadata and
@@ -726,12 +726,12 @@ class Controller():
 
     def restrict_step_output_metadata(self, step_output):
         # only remove object_mask_list for level1
-        if(self._mode == self.CONFIG_METADATA_MODE_LEVEL_1):
+        if(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
             step_output.object_mask_list = []
 
         if (
-            self._mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
-            self._mode == self.CONFIG_METADATA_MODE_LEVEL_2
+            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
+            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2
         ):
             step_output.position = None
             step_output.rotation = None
@@ -797,10 +797,10 @@ class Controller():
             scene_event.events) - 1].object_id_to_color
 
     def retrieve_object_list(self, scene_event):
-        if (self._mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
-                self._mode == self.CONFIG_METADATA_MODE_LEVEL_2):
+        if (self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
+                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2):
             return []
-        elif self._mode == self.CONFIG_METADATA_MODE_ORACLE:
+        elif self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE:
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -920,10 +920,10 @@ class Controller():
             return return_status
 
     def retrieve_structural_object_list(self, scene_event):
-        if (self._mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
-                self._mode == self.CONFIG_METADATA_MODE_LEVEL_2):
+        if (self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
+                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2):
             return []
-        elif self._mode == self.CONFIG_METADATA_MODE_ORACLE:
+        elif self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE:
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -1056,7 +1056,7 @@ class Controller():
         # whether or not to randomize segmentation mask colors
         consistentColors = False
 
-        if(self._mode == self.CONFIG_METADATA_MODE_ORACLE):
+        if(self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
             consistentColors = True
 
         # Create the step data dict for the AI2-THOR step function.
