@@ -751,10 +751,6 @@ class Controller():
             self._mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
             self._mode == self.CONFIG_METADATA_MODE_LEVEL_2
         ):
-            step_output.camera_aspect_ratio = None
-            step_output.camera_clipping_planes = None
-            step_output.camera_field_of_view = None
-            step_output.camera_height = None
             step_output.position = None
             step_output.rotation = None
 

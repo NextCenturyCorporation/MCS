@@ -162,8 +162,8 @@ To use an MCS configuration file, set the `MCS_CONFIG_FILE_PATH` environment var
 The `metadata` property describes what metadata will be returned by the MCS Python library. The `metadata` property is available so that users can run baseline or ablation studies during training. It can be set to one of the following strings:
 
 - `oracle`: Returns the metadata for all the objects in the scene, including visible, held, and hidden objects.
-- `level2`: Only returns the images (with depth masks AND object masks), object IDs, and properties corresponding to the player themself (like head tilt or pose) and haptic feedback (like mass or materials of held objects).
-- `level1`: Only returns the images (with depth masks but NOT object masks), object IDs, and properties corresponding to the player themself (like head tilt or pose) and haptic feedback (like mass or materials of held objects).
+- `level2`: Only returns the images (with depth masks AND object masks), camera info, and properties corresponding to the player themself (like head tilt or pose) and haptic feedback (like mass or materials of held objects).
+- `level1`: Only returns the images (with depth masks but NOT object masks), camera info, and properties corresponding to the player themself (like head tilt or pose) and haptic feedback (like mass or materials of held objects).
 
 Otherwise, return the metadata for the visible and held objects.
 
