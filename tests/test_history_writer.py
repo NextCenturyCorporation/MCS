@@ -1,24 +1,23 @@
 import unittest
 import os
 
-from machine_common_sense.history_writer import HistoryWriter
-from machine_common_sense.scene_history import SceneHistory
+import machine_common_sense as mcs
 
 
 class Test_HistoryWriter(unittest.TestCase):
 
     def test_init(self):
         config_data = {"name": "test_scene_file.json"}
-        writer = HistoryWriter(config_data)
+        writer = mcs.HistoryWriter(config_data)
 
         self.assertEqual(writer.info_obj['name'], "test_scene_file")
         self.assertTrue(os.path.exists(writer.HISTORY_DIRECTORY))
 
     def test_add_step(self):
         config_data = {"name": "test_scene_file.json"}
-        writer = HistoryWriter(config_data)
+        writer = mcs.HistoryWriter(config_data)
 
-        history_item = SceneHistory(
+        history_item = mcs.SceneHistory(
             step=1,
             action="MoveAhead")
         writer.add_step(history_item)
@@ -26,7 +25,7 @@ class Test_HistoryWriter(unittest.TestCase):
         self.assertEqual(len(writer.current_steps), 1)
         self.assertEqual(writer.current_steps[0]["action"], "MoveAhead")
 
-        history_item = SceneHistory(
+        history_item = mcs.SceneHistory(
             step=2,
             action="MoveLeft")
         writer.add_step(history_item)
@@ -36,14 +35,14 @@ class Test_HistoryWriter(unittest.TestCase):
 
     def test_write_history_file(self):
         config_data = {"name": "test_scene_file.json"}
-        writer = HistoryWriter(config_data)
+        writer = mcs.HistoryWriter(config_data)
 
-        history_item = SceneHistory(
+        history_item = mcs.SceneHistory(
             step=1,
             action="MoveAhead")
         writer.add_step(history_item)
 
-        history_item = SceneHistory(
+        history_item = mcs.SceneHistory(
             step=2,
             action="MoveLeft")
         writer.add_step(history_item)
