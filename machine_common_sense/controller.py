@@ -90,11 +90,7 @@ class Controller():
     # the step input.)
     GRID_SIZE = 0.1
 
-    # The amount of force to offset force values, that seems
-    # appropriate for a baby
-    # TODO Check with psych team about this about what we
-    # should use for a baby, defaulting to 50 now
-    MAX_BABY_FORCE = 50.0
+    MAX_FORCE = 50.0
 
     DEFAULT_HORIZON = 0
     DEFAULT_ROTATION = 0
@@ -452,7 +448,7 @@ class Controller():
 
         # Set the Move Magnitude to the appropriate amount based on the action
         if action in self.FORCE_ACTIONS:
-            moveMagnitude = force * self.MAX_BABY_FORCE
+            moveMagnitude = force * self.MAX_FORCE
 
         if action in self.OBJECT_MOVE_ACTIONS:
             moveMagnitude = amount
