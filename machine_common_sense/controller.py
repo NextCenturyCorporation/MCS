@@ -724,24 +724,6 @@ class Controller():
 
         return goal_output
 
-    def restrict_object_output_metadata(self, object_output):
-        if (
-            self._mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
-            self._mode == self.CONFIG_METADATA_MODE_LEVEL_2
-        ):
-            object_output.color = None
-            object_output.dimensions = None
-            object_output.direction = None
-            object_output.distance = None
-            object_output.distance_in_steps = None
-            object_output.distance_in_world = None
-            object_output.shape = None
-            object_output.texture_color_list = None
-            object_output.position = None
-            object_output.rotation = None
-
-        return object_output
-
     def restrict_step_output_metadata(self, step_output):
         # only remove object_mask_list for level1
         if(self._mode == self.CONFIG_METADATA_MODE_LEVEL_1):
@@ -815,7 +797,10 @@ class Controller():
             scene_event.events) - 1].object_id_to_color
 
     def retrieve_object_list(self, scene_event):
-        if self._mode == self.CONFIG_METADATA_MODE_ORACLE:
+        if (self._mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
+                self._mode == self.CONFIG_METADATA_MODE_LEVEL_2):
+            return []
+        elif self._mode == self.CONFIG_METADATA_MODE_ORACLE:
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -826,18 +811,20 @@ class Controller():
                 ],
                 key=lambda x: x.uuid
             )
-
-        return sorted(
-            [
-                self.retrieve_object_output(
-                    object_metadata, self.retrieve_object_colors(scene_event)
-                )
-                for object_metadata in scene_event.metadata['objects']
-                if object_metadata['visibleInCamera'] or
-                object_metadata['isPickedUp']
-            ],
-            key=lambda x: x.uuid
-        )
+        else:
+            # if no config specified, return visible objects (for now)
+            return sorted(
+                [
+                    self.retrieve_object_output(
+                        object_metadata,
+                        self.retrieve_object_colors(scene_event)
+                    )
+                    for object_metadata in scene_event.metadata['objects']
+                    if object_metadata['visibleInCamera'] or
+                    object_metadata['isPickedUp']
+                ],
+                key=lambda x: x.uuid
+            )
 
     def retrieve_object_output(self, object_metadata, object_id_to_color):
         material_list = (
@@ -867,7 +854,7 @@ class Controller():
             else {}
         )
 
-        return self.restrict_object_output_metadata(
+        return (
             ObjectMetadata(
                 uuid=object_metadata['objectId'],
                 color={'r': rgb[0], 'g': rgb[1], 'b': rgb[2]},
@@ -933,7 +920,10 @@ class Controller():
             return return_status
 
     def retrieve_structural_object_list(self, scene_event):
-        if self._mode == self.CONFIG_METADATA_MODE_ORACLE:
+        if (self._mode == self.CONFIG_METADATA_MODE_LEVEL_1 or
+                self._mode == self.CONFIG_METADATA_MODE_LEVEL_2):
+            return []
+        elif self._mode == self.CONFIG_METADATA_MODE_ORACLE:
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -946,19 +936,22 @@ class Controller():
                 ],
                 key=lambda x: x.uuid
             )
-
-        return sorted(
-            [
-                self.retrieve_object_output(
-                    object_metadata, self.retrieve_object_colors(scene_event)
-                )
-                for object_metadata in scene_event.metadata[
-                    'structuralObjects'
-                ]
-                if object_metadata['visibleInCamera']
-            ],
-            key=lambda x: x.uuid
-        )
+        else:
+            # if no config specified, return visible structural objects (for
+            # now)
+            return sorted(
+                [
+                    self.retrieve_object_output(
+                        object_metadata, self.retrieve_object_colors(
+                            scene_event)
+                    )
+                    for object_metadata in scene_event.metadata[
+                        'structuralObjects'
+                    ]
+                    if object_metadata['visibleInCamera']
+                ],
+                key=lambda x: x.uuid
+            )
 
     def save_images(self, scene_event):
         image_list = []

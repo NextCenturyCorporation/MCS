@@ -733,101 +733,6 @@ class Test_Controller(unittest.TestCase):
             'target_2': {'image': None}
         })
 
-    def test_restrict_object_output_metadata(self):
-        test_object = mcs.ObjectMetadata(
-            color={'r': 1, 'g': 2, 'b': 3},
-            dimensions={'x': 1, 'y': 2, 'z': 3},
-            distance=12.34,
-            distance_in_steps=34.56,
-            distance_in_world=56.78,
-            position={'x': 4, 'y': 5, 'z': 6},
-            rotation={'x': 7, 'y': 8, 'z': 9},
-            shape='sofa',
-            texture_color_list=['c1', 'c2']
-        )
-        actual = self.controller.restrict_object_output_metadata(test_object)
-        self.assertEqual(actual.color, {'r': 1, 'g': 2, 'b': 3})
-        self.assertEqual(actual.dimensions, {'x': 1, 'y': 2, 'z': 3})
-        self.assertEqual(actual.distance, 12.34)
-        self.assertEqual(actual.distance_in_steps, 34.56)
-        self.assertEqual(actual.distance_in_world, 56.78)
-        self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
-        self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
-        self.assertEqual(actual.shape, 'sofa')
-        self.assertEqual(actual.texture_color_list, ['c1', 'c2'])
-
-    def test_restrict_object_output_metadata_oracle(self):
-        self.controller.set_mode('oracle')
-        test_object = mcs.ObjectMetadata(
-            color={'r': 1, 'g': 2, 'b': 3},
-            dimensions={'x': 1, 'y': 2, 'z': 3},
-            distance=12.34,
-            distance_in_steps=34.56,
-            distance_in_world=56.78,
-            position={'x': 4, 'y': 5, 'z': 6},
-            rotation={'x': 7, 'y': 8, 'z': 9},
-            shape='sofa',
-            texture_color_list=['c1', 'c2']
-        )
-        actual = self.controller.restrict_object_output_metadata(test_object)
-        self.assertEqual(actual.color, {'r': 1, 'g': 2, 'b': 3})
-        self.assertEqual(actual.dimensions, {'x': 1, 'y': 2, 'z': 3})
-        self.assertEqual(actual.distance, 12.34)
-        self.assertEqual(actual.distance_in_steps, 34.56)
-        self.assertEqual(actual.distance_in_world, 56.78)
-        self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
-        self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
-        self.assertEqual(actual.shape, 'sofa')
-        self.assertEqual(actual.texture_color_list, ['c1', 'c2'])
-
-    def test_restrict_object_output_metadata_level2(self):
-        self.controller.set_mode('level2')
-        test_object = mcs.ObjectMetadata(
-            color={'r': 1, 'g': 2, 'b': 3},
-            dimensions={'x': 1, 'y': 2, 'z': 3},
-            distance=12.34,
-            distance_in_steps=34.56,
-            distance_in_world=56.78,
-            position={'x': 4, 'y': 5, 'z': 6},
-            rotation={'x': 7, 'y': 8, 'z': 9},
-            shape='sofa',
-            texture_color_list=['c1', 'c2']
-        )
-        actual = self.controller.restrict_object_output_metadata(test_object)
-        self.assertEqual(actual.color, None)
-        self.assertEqual(actual.dimensions, None)
-        self.assertEqual(actual.distance, None)
-        self.assertEqual(actual.distance_in_steps, None)
-        self.assertEqual(actual.distance_in_world, None)
-        self.assertEqual(actual.position, None)
-        self.assertEqual(actual.rotation, None)
-        self.assertEqual(actual.shape, None)
-        self.assertEqual(actual.texture_color_list, None)
-
-    def test_restrict_object_output_metadata_level1(self):
-        self.controller.set_mode('level1')
-        test_object = mcs.ObjectMetadata(
-            color={'r': 1, 'g': 2, 'b': 3},
-            dimensions={'x': 1, 'y': 2, 'z': 3},
-            distance=12.34,
-            distance_in_steps=34.56,
-            distance_in_world=56.78,
-            position={'x': 4, 'y': 5, 'z': 6},
-            rotation={'x': 7, 'y': 8, 'z': 9},
-            shape='sofa',
-            texture_color_list=['c1', 'c2']
-        )
-        actual = self.controller.restrict_object_output_metadata(test_object)
-        self.assertEqual(actual.color, None)
-        self.assertEqual(actual.dimensions, None)
-        self.assertEqual(actual.distance, None)
-        self.assertEqual(actual.distance_in_steps, None)
-        self.assertEqual(actual.distance_in_world, None)
-        self.assertEqual(actual.position, None)
-        self.assertEqual(actual.rotation, None)
-        self.assertEqual(actual.shape, None)
-        self.assertEqual(actual.texture_color_list, None)
-
     def test_restrict_step_output_metadata(self):
         step = mcs.StepMetadata(
             camera_aspect_ratio=(1, 2),
@@ -1250,78 +1155,14 @@ class Test_Controller(unittest.TestCase):
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         actual = self.controller.retrieve_object_list(
             self.create_mock_scene_event(mock_scene_event_data))
-        self.assertEqual(len(actual), 2)
-
-        self.assertEqual(actual[0].uuid, "testId1")
-        self.assertEqual(actual[0].color, None)
-        self.assertEqual(actual[0].dimensions, None)
-        self.assertEqual(actual[0].direction, None)
-        self.assertEqual(actual[0].distance, None)
-        self.assertEqual(actual[0].distance_in_steps, None)
-        self.assertEqual(actual[0].distance_in_world, None)
-        self.assertEqual(actual[0].held, True)
-        self.assertEqual(actual[0].mass, 1)
-        self.assertEqual(actual[0].material_list, [])
-        self.assertEqual(actual[0].position, None)
-        self.assertEqual(actual[0].rotation, None)
-        self.assertEqual(actual[0].shape, None)
-        self.assertEqual(actual[0].texture_color_list, None)
-        self.assertEqual(actual[0].visible, True)
-
-        self.assertEqual(actual[1].uuid, "testId2")
-        self.assertEqual(actual[1].color, None)
-        self.assertEqual(actual[1].dimensions, None)
-        self.assertEqual(actual[1].direction, None)
-        self.assertEqual(actual[1].distance, None)
-        self.assertEqual(actual[1].distance_in_steps, None)
-        self.assertEqual(actual[1].distance_in_world, None)
-        self.assertEqual(actual[1].held, False)
-        self.assertEqual(actual[1].mass, 12.34)
-        self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
-        self.assertEqual(actual[1].position, None)
-        self.assertEqual(actual[1].rotation, None)
-        self.assertEqual(actual[1].shape, None)
-        self.assertEqual(actual[1].texture_color_list, None)
-        self.assertEqual(actual[1].visible, True)
+        self.assertEqual(len(actual), 0)
 
     def test_retrieve_object_list_with_config_metadata_level1(self):
         self.controller.set_mode('level1')
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         actual = self.controller.retrieve_object_list(
             self.create_mock_scene_event(mock_scene_event_data))
-        self.assertEqual(len(actual), 2)
-
-        self.assertEqual(actual[0].uuid, "testId1")
-        self.assertEqual(actual[0].color, None)
-        self.assertEqual(actual[0].dimensions, None)
-        self.assertEqual(actual[0].direction, None)
-        self.assertEqual(actual[0].distance, None)
-        self.assertEqual(actual[0].distance_in_steps, None)
-        self.assertEqual(actual[0].distance_in_world, None)
-        self.assertEqual(actual[0].held, True)
-        self.assertEqual(actual[0].mass, 1)
-        self.assertEqual(actual[0].material_list, [])
-        self.assertEqual(actual[0].position, None)
-        self.assertEqual(actual[0].rotation, None)
-        self.assertEqual(actual[0].shape, None)
-        self.assertEqual(actual[0].texture_color_list, None)
-        self.assertEqual(actual[0].visible, True)
-
-        self.assertEqual(actual[1].uuid, "testId2")
-        self.assertEqual(actual[1].color, None)
-        self.assertEqual(actual[1].dimensions, None)
-        self.assertEqual(actual[1].direction, None)
-        self.assertEqual(actual[1].distance, None)
-        self.assertEqual(actual[1].distance_in_steps, None)
-        self.assertEqual(actual[1].distance_in_world, None)
-        self.assertEqual(actual[1].held, False)
-        self.assertEqual(actual[1].mass, 12.34)
-        self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
-        self.assertEqual(actual[1].position, None)
-        self.assertEqual(actual[1].rotation, None)
-        self.assertEqual(actual[1].shape, None)
-        self.assertEqual(actual[1].texture_color_list, None)
-        self.assertEqual(actual[1].visible, True)
+        self.assertEqual(len(actual), 0)
 
     def test_retrieve_pose(self):
         # Check function calls
@@ -1696,8 +1537,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.step_number, 0)
 
         # Correct object metadata properties tested elsewhere
-        self.assertEqual(len(actual.object_list), 1)
-        self.assertEqual(len(actual.structural_object_list), 1)
+        self.assertEqual(len(actual.object_list), 0)
+        self.assertEqual(len(actual.structural_object_list), 0)
 
         self.assertEqual(len(actual.depth_mask_list), 0)
         self.assertEqual(len(actual.image_list), 1)
@@ -1730,8 +1571,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.step_number, 0)
 
         # Correct object metadata properties tested elsewhere
-        self.assertEqual(len(actual.object_list), 1)
-        self.assertEqual(len(actual.structural_object_list), 1)
+        self.assertEqual(len(actual.object_list), 0)
+        self.assertEqual(len(actual.structural_object_list), 0)
 
         self.assertEqual(len(actual.depth_mask_list), 0)
         self.assertEqual(len(actual.image_list), 1)
