@@ -400,7 +400,8 @@ class Action(Enum):
         "7",
         "Place an object you are holding into/onto a nearby " +
         "receptacle object. (objectId=string, receptacleObjectId=string, " +
-        "receptacleObjectDirectionX=float, receptacleObjectDirectionY=float)"
+        "receptacleObjectImageCoordsX=float, " +
+        "receptacleObjectImageCoordsY=float)"
     )
     """
     Put down an object you are holding into/onto a nearby receptacle object. A
@@ -413,12 +414,12 @@ class Action(Enum):
         The "uuid" of the held object. Defaults to the first held object.
     receptacleObjectId : string, optional
         The "uuid" of the target receptacle. Required unless the
-        "receptacleObjectDirection" properties are given.
-    objectDirectionX : float, optional
+        "receptacleObjectImageCoords" properties are given.
+    receptacleObjectImageCoordsX : float, optional
         The X of the directional vector pointing to the target receptacle based
         on your current viewport. Can be used in place of the
         "receptacleObjectId" property.
-    objectDirectionY : float, optional
+    receptacleObjectImageCoordsY : float, optional
         The Y of the directional vector pointing to the target receptacle based
         on your current viewport. Can be used in place of the
         "receptacleObjectId" property.
@@ -432,14 +433,14 @@ class Action(Enum):
         because you are not holding it.
     "NOT_INTERACTABLE"
         If the object corresponding to the "objectDirection" or
-        "receptacleObjectDirection" vector is not an interactable object.
+        "receptacleObjectImageCoords" vector is not an interactable object.
     "NOT_OBJECT"
         If the object corresponding to the "objectId" and/or
         "receptacleObjectId" (or object corresponding to the
-        "receptacleObjectDirection" vector) is not an object.
+        "receptacleObjectImageCoords" vector) is not an object.
     "NOT_RECEPTACLE"
         If the object corresponding to the "receptacleObjectId" (or object
-        corresponding to the "receptacleObjectDirection" vector) is not a
+        corresponding to the "receptacleObjectImageCoords" vector) is not a
         receptacle.
     "OBSTRUCTED"
         If you cannot put down the object because your path is obstructed.

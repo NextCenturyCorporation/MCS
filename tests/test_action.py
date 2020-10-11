@@ -164,8 +164,8 @@ class Test_Action(unittest.TestCase):
             "Place an object you are holding into/onto a nearby " +
             "receptacle object. (objectId=string, " +
             "receptacleObjectId=string, " +
-            "receptacleObjectDirectionX=float, " +
-            "receptacleObjectDirectionY=float)"
+            "receptacleObjectImageCoordsX=float, " +
+            "receptacleObjectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("PutObject"), mcs.Action.PUT_OBJECT)
         self.assertEqual(mcs.Action("7"), mcs.Action.PUT_OBJECT)

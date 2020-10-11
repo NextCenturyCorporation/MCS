@@ -119,8 +119,8 @@ class Controller():
     AMOUNT_KEY = 'amount'
     OBJECT_DIRECTION_X_KEY = 'objectDirectionX'
     OBJECT_DIRECTION_Y_KEY = 'objectDirectionY'
-    RECEPTACLE_DIRECTION_X = 'receptacleObjectDirectionX'
-    RECEPTACLE_DIRECTION_Y = 'receptacleObjectDirectionY'
+    RECEPTACLE_IMAGE_COORDS_X_KEY = 'receptacleObjectImageCoordsX'
+    RECEPTACLE_IMAGE_COORDS_Y_KEY = 'receptacleObjectImageCoordsY'
 
     # Hard coding actions that effect MoveMagnitude so the appropriate
     # value is set based off of the action
@@ -366,10 +366,10 @@ class Controller():
             self.OBJECT_DIRECTION_X_KEY, self.DEFAULT_DIRECTION)
         objectDirectionY = kwargs.get(
             self.OBJECT_DIRECTION_Y_KEY, self.DEFAULT_DIRECTION)
-        receptacleObjectDirectionX = kwargs.get(
-            self.RECEPTACLE_DIRECTION_X, self.DEFAULT_DIRECTION)
-        receptacleObjectDirectionY = kwargs.get(
-            self.RECEPTACLE_DIRECTION_Y, self.DEFAULT_DIRECTION)
+        receptacleObjectImageCoordsX = kwargs.get(
+            self.RECEPTACLE_IMAGE_COORDS_X_KEY, self.DEFAULT_DIRECTION)
+        receptacleObjectImageCoordsY = kwargs.get(
+            self.RECEPTACLE_IMAGE_COORDS_Y_KEY, self.DEFAULT_DIRECTION)
 
         # Check params that should be numbers
         if not Util.is_number(rotation, self.ROTATION_KEY):
@@ -402,14 +402,14 @@ class Controller():
 
         # Check receptacle directions are numbers
         if not Util.is_number(
-                receptacleObjectDirectionX,
-                self.RECEPTACLE_DIRECTION_X):
-            receptacleObjectDirectionX = self.DEFAULT_DIRECTION
+                receptacleObjectImageCoordsX,
+                self.RECEPTACLE_IMAGE_COORDS_X_KEY):
+            receptacleObjectImageCoordsX = self.DEFAULT_DIRECTION
 
         if not Util.is_number(
-                receptacleObjectDirectionY,
-                self.RECEPTACLE_DIRECTION_Y):
-            receptacleObjectDirectionY = self.DEFAULT_DIRECTION
+                receptacleObjectImageCoordsY,
+                self.RECEPTACLE_IMAGE_COORDS_Y_KEY):
+            receptacleObjectImageCoordsY = self.DEFAULT_DIRECTION
 
         # Check that params that should fall in a range are in that range
         horizon = Util.is_in_range(
@@ -458,8 +458,8 @@ class Controller():
         object_vector['y'] = objectDirectionY
 
         receptacle_vector = {}
-        receptacle_vector['x'] = receptacleObjectDirectionX
-        receptacle_vector['y'] = receptacleObjectDirectionY
+        receptacle_vector['x'] = receptacleObjectImageCoordsX
+        receptacle_vector['y'] = receptacleObjectImageCoordsY
 
         return dict(
             objectId=kwargs.get("objectId", None),
@@ -468,7 +468,7 @@ class Controller():
             horizon=horizon,
             moveMagnitude=moveMagnitude,
             objectDirection=object_vector,
-            receptacleObjectDirection=receptacle_vector
+            receptacleObjectImageCoords=receptacle_vector
         )
 
     # Override
