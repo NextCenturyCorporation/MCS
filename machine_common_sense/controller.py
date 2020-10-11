@@ -117,8 +117,8 @@ class Controller():
     HORIZON_KEY = 'horizon'
     FORCE_KEY = 'force'
     AMOUNT_KEY = 'amount'
-    OBJECT_DIRECTION_X_KEY = 'objectDirectionX'
-    OBJECT_DIRECTION_Y_KEY = 'objectDirectionY'
+    OBJECT_IMAGE_COORDS_X_KEY = 'objectImageCoordsX'
+    OBJECT_IMAGE_COORDS_Y_KEY = 'objectImageCoordsY'
     RECEPTACLE_IMAGE_COORDS_X_KEY = 'receptacleObjectImageCoordsX'
     RECEPTACLE_IMAGE_COORDS_Y_KEY = 'receptacleObjectImageCoordsY'
 
@@ -362,10 +362,10 @@ class Controller():
         )
         force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
 
-        objectDirectionX = kwargs.get(
-            self.OBJECT_DIRECTION_X_KEY, self.DEFAULT_DIRECTION)
-        objectDirectionY = kwargs.get(
-            self.OBJECT_DIRECTION_Y_KEY, self.DEFAULT_DIRECTION)
+        objectImageCoordsX = kwargs.get(
+            self.OBJECT_IMAGE_COORDS_X_KEY, self.DEFAULT_DIRECTION)
+        objectImageCoordsY = kwargs.get(
+            self.OBJECT_IMAGE_COORDS_Y_KEY, self.DEFAULT_DIRECTION)
         receptacleObjectImageCoordsX = kwargs.get(
             self.RECEPTACLE_IMAGE_COORDS_X_KEY, self.DEFAULT_DIRECTION)
         receptacleObjectImageCoordsY = kwargs.get(
@@ -391,14 +391,14 @@ class Controller():
 
         # Check object directions are numbers
         if not Util.is_number(
-                objectDirectionX,
-                self.OBJECT_DIRECTION_X_KEY):
-            objectDirectionX = self.DEFAULT_DIRECTION
+                objectImageCoordsX,
+                self.OBJECT_IMAGE_COORDS_X_KEY):
+            objectImageCoordsX = self.DEFAULT_DIRECTION
 
         if not Util.is_number(
-                objectDirectionY,
-                self.OBJECT_DIRECTION_Y_KEY):
-            objectDirectionY = self.DEFAULT_DIRECTION
+                objectImageCoordsY,
+                self.OBJECT_IMAGE_COORDS_Y_KEY):
+            objectImageCoordsY = self.DEFAULT_DIRECTION
 
         # Check receptacle directions are numbers
         if not Util.is_number(
@@ -454,8 +454,8 @@ class Controller():
         rotation_vector['y'] = rotation
 
         object_vector = {}
-        object_vector['x'] = objectDirectionX
-        object_vector['y'] = objectDirectionY
+        object_vector['x'] = objectImageCoordsX
+        object_vector['y'] = objectImageCoordsY
 
         receptacle_vector = {}
         receptacle_vector['x'] = receptacleObjectImageCoordsX
@@ -467,7 +467,7 @@ class Controller():
             rotation=rotation_vector,
             horizon=horizon,
             moveMagnitude=moveMagnitude,
-            objectDirection=object_vector,
+            objectImageCoords=object_vector,
             receptacleObjectImageCoords=receptacle_vector
         )
 

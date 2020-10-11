@@ -412,15 +412,15 @@ Close a nearby object.
 * **Parameters**
 
     
-    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the “objectDirection”
-    properties are given.
+    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the
+    “objectImageCoords” properties are given.
 
 
-    * **objectDirectionX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
+    * **objectImageCoordsX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
-    * **objectDirectionY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
@@ -438,12 +438,12 @@ Close a nearby object.
     * *”IS_CLOSED_COMPLETELY”* – If the object is completely closed.
 
 
-    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectDirection” vector is not an
+    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectImageCoords” vector is not an
     interactable object.
 
 
     * *”NOT_OBJECT”* – If the object corresponding to the “objectId” (or object corresponding
-    to the “objectDirection” vector) is not an object.
+    to the “objectImageCoords” vector) is not an object.
 
 
     * *”NOT_OPENABLE”* – If the object itself cannot be closed.
@@ -628,15 +628,15 @@ Open a nearby object.
 * **Parameters**
 
     
-    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the “objectDirection”
-    properties are given.
+    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the
+    “objectImageCoords” properties are given.
 
 
-    * **objectDirectionX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
+    * **objectImageCoordsX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
-    * **objectDirectionY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
@@ -654,12 +654,12 @@ Open a nearby object.
     * *”IS_OPENED_COMPLETELY”* – If the object is completely opened.
 
 
-    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectDirection” vector is not an
+    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectImageCoords” vector is not an
     interactable object.
 
 
     * *”NOT_OBJECT”* – If the object corresponding to the “objectId” (or object corresponding
-    to the “objectDirection” vector) is not an object.
+    to the “objectImageCoords” vector) is not an object.
 
 
     * *”NOT_OPENABLE”* – If the object itself cannot be opened.
@@ -700,15 +700,15 @@ the object.
 * **Parameters**
 
     
-    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the “objectDirection”
-    properties are given.
+    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the
+    “objectImageCoords” properties are given.
 
 
-    * **objectDirectionX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
+    * **objectImageCoordsX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
-    * **objectDirectionY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
@@ -722,12 +722,12 @@ the object.
     * *”HAND_IS_FULL”* – If you cannot pick up the object because your hand is full.
 
 
-    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectDirection” vector is not an
+    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectImageCoords” vector is not an
     interactable object.
 
 
     * *”NOT_OBJECT”* – If the object corresponding to the “objectId” (or object corresponding
-    to the “objectDirection” vector) is not an object.
+    to the “objectImageCoords” vector) is not an object.
 
 
     * *”NOT_PICKUPABLE”* – If the object itself cannot be picked up.
@@ -751,15 +751,15 @@ Pull a nearby object.
 * **Parameters**
 
     
-    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the “objectDirection”
-    properties are given.
+    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the
+    “objectImageCoords” properties are given.
 
 
-    * **objectDirectionX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
+    * **objectImageCoordsX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
-    * **objectDirectionY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
@@ -774,12 +774,12 @@ Pull a nearby object.
     * *“SUCCESSFUL”* – Action successful.
 
 
-    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectDirection” vector is not an
+    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectImageCoords” vector is not an
     interactable object.
 
 
     * *”NOT_OBJECT”* – If the object corresponding to the “objectId” (or object corresponding
-    to the “objectDirection” vector) is not an object.
+    to the “objectImageCoords” vector) is not an object.
 
 
     * *”NOT_PICKUPABLE”* – If the object itself cannot be moved by a baby.
@@ -803,15 +803,15 @@ Push a nearby object.
 * **Parameters**
 
     
-    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the “objectDirection”
-    properties are given.
+    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the
+    “objectImageCoords” properties are given.
 
 
-    * **objectDirectionX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
+    * **objectImageCoordsX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
-    * **objectDirectionY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
@@ -826,12 +826,12 @@ Push a nearby object.
     * *“SUCCESSFUL”* – Action successful.
 
 
-    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectDirection” vector is not an
+    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectImageCoords” vector is not an
     interactable object.
 
 
     * *”NOT_OBJECT”* – If the object corresponding to the “objectId” (or object corresponding
-    to the “objectDirection” vector) is not an object.
+    to the “objectImageCoords” vector) is not an object.
 
 
     * *”NOT_PICKUPABLE”* – If the object itself cannot be moved by a baby.
@@ -885,7 +885,7 @@ drawer, shelf, or table.
     because you are not holding it.
 
 
-    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectDirection” or
+    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectImageCoords” or
     “receptacleObjectImageCoords” vector is not an interactable object.
 
 
@@ -968,11 +968,11 @@ Throw an object you are holding.
     * **objectId** (*string**, **optional*) – The “uuid” of the held object. Defaults to the first held object.
 
 
-    * **objectDirectionX** (*float**, **optional*) – The X of the directional vector pointing to where you would like to
+    * **objectImageCoordsX** (*float**, **optional*) – The X of the directional vector pointing to where you would like to
     throw the object based on your current viewport.
 
 
-    * **objectDirectionY** (*float**, **optional*) – The Y of the directional vector pointing to where you would like to
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of the directional vector pointing to where you would like to
     throw the object based on your current viewport.
 
 

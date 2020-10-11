@@ -336,7 +336,7 @@ class Test_Controller(unittest.TestCase):
             visibilityDistance=mcs.controller.MAX_REACH_DISTANCE,
             horizon=0,
             moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE,
-            objectDirection={'x': 0, 'y': 0},
+            objectImageCoords={'x': 0, 'y': 0},
             objectId=None,
             receptacleObjectImageCoords={'x': 0, 'y': 0},
             receptacleObjectId=None,
@@ -594,14 +594,14 @@ class Test_Controller(unittest.TestCase):
         self.controller.step(
             'PushObject',
             force=1,
-            objectDirectionX=1,
-            objectDirectionY=2)
+            objectImageCoordsX=1,
+            objectImageCoordsY=2)
         self.assertEquals(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
                 moveMagnitude=mcs.Controller.MAX_BABY_FORCE,
-                objectDirection={
+                objectImageCoords={
                     'x': 1,
                     'y': 2}))
 
@@ -662,13 +662,13 @@ class Test_Controller(unittest.TestCase):
         self.controller.step(
             'OpenObject',
             amount=1,
-            objectDirectionX=1,
-            objectDirectionY=2,
+            objectImageCoordsX=1,
+            objectImageCoordsY=2,
             receptacleObjectImageCoordsX=4,
             receptacleObjectImageCoordsY=5)
         self.assertEquals(
             self.controller.get_last_step_data(), self.create_step_data(
-                action='MCSOpenObject', moveMagnitude=1, objectDirection={
+                action='MCSOpenObject', moveMagnitude=1, objectImageCoords={
                     'x': 1, 'y': 2}, receptacleObjectImageCoords={
                     'x': 4, 'y': 5}))
 
