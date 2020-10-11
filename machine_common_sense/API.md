@@ -424,10 +424,6 @@ Close a nearby object.
     your current viewport. Can be used in place of the “objectId” property.
 
 
-    * **objectDirectionZ** (*float**, **optional*) – The Z of the directional vector pointing to the target object based on
-    your current viewport. Can be used in place of the “objectId” property.
-
-
     * **amount** (*float*) – The amount to close the object between 0 (completely opened) and 1
     (completely closed). Default: 1
 
@@ -644,10 +640,6 @@ Open a nearby object.
     your current viewport. Can be used in place of the “objectId” property.
 
 
-    * **objectDirectionZ** (*float**, **optional*) – The Z of the directional vector pointing to the target object based on
-    your current viewport. Can be used in place of the “objectId” property.
-
-
     * **amount** (*float*) – The amount to open the object between 0 (completely closed) and 1
     (completely opened). Default: 1
 
@@ -720,10 +712,6 @@ the object.
     your current viewport. Can be used in place of the “objectId” property.
 
 
-    * **objectDirectionZ** (*float**, **optional*) – The Z of the directional vector pointing to the target object based on
-    your current viewport. Can be used in place of the “objectId” property.
-
-
 
 * **Returns**
 
@@ -772,10 +760,6 @@ Pull a nearby object.
 
 
     * **objectDirectionY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
-    your current viewport. Can be used in place of the “objectId” property.
-
-
-    * **objectDirectionZ** (*float**, **optional*) – The Z of the directional vector pointing to the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
@@ -828,10 +812,6 @@ Push a nearby object.
 
 
     * **objectDirectionY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
-    your current viewport. Can be used in place of the “objectId” property.
-
-
-    * **objectDirectionZ** (*float**, **optional*) – The Z of the directional vector pointing to the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
@@ -890,11 +870,6 @@ drawer, shelf, or table.
 
 
     * **objectDirectionY** (*float**, **optional*) – The Y of the directional vector pointing to the target receptacle based
-    on your current viewport. Can be used in place of the
-    “receptacleObjectId” property.
-
-
-    * **objectDirectionZ** (*float**, **optional*) – The Z of the directional vector pointing to the target receptacle based
     on your current viewport. Can be used in place of the
     “receptacleObjectId” property.
 
@@ -998,10 +973,6 @@ Throw an object you are holding.
 
 
     * **objectDirectionY** (*float**, **optional*) – The Y of the directional vector pointing to where you would like to
-    throw the object based on your current viewport.
-
-
-    * **objectDirectionZ** (*float**, **optional*) – The Z of the directional vector pointing to where you would like to
     throw the object based on your current viewport.
 
 

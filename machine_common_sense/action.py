@@ -11,8 +11,7 @@ class Action(Enum):
         "CloseObject",
         "1",
         "Close a nearby object. (objectId=string, amount=float " +
-        "(default:1), objectDirectionX=float, objectDirectionY=float, " +
-        "objectDirectionZ=float)"
+        "(default:1), objectDirectionX=float, objectDirectionY=float)"
     )
     """
     Close a nearby object.
@@ -27,9 +26,6 @@ class Action(Enum):
         your current viewport. Can be used in place of the "objectId" property.
     objectDirectionY : float, optional
         The Y of the directional vector pointing to the target object based on
-        your current viewport. Can be used in place of the "objectId" property.
-    objectDirectionZ : float, optional
-        The Z of the directional vector pointing to the target object based on
         your current viewport. Can be used in place of the "objectId" property.
     amount : float
         The amount to close the object between 0 (completely opened) and 1
@@ -222,7 +218,7 @@ class Action(Enum):
         "3",
         "Open a nearby object. (objectId=string, " +
         "amount=float (default:1), objectDirectionX=float, " +
-        "objectDirectionY=float, objectDirectionZ=float)"
+        "objectDirectionY=float)"
     )
     """
     Open a nearby object.
@@ -237,9 +233,6 @@ class Action(Enum):
         your current viewport. Can be used in place of the "objectId" property.
     objectDirectionY : float, optional
         The Y of the directional vector pointing to the target object based on
-        your current viewport. Can be used in place of the "objectId" property.
-    objectDirectionZ : float, optional
-        The Z of the directional vector pointing to the target object based on
         your current viewport. Can be used in place of the "objectId" property.
     amount : float
         The amount to open the object between 0 (completely closed) and 1
@@ -271,8 +264,7 @@ class Action(Enum):
         "PickupObject",
         "4",
         "Pickup a nearby object and hold it in your hand. " +
-        "(objectId=string, objectDirectionX=float, objectDirectionY=float, " +
-        "objectDirectionZ=float)"
+        "(objectId=string, objectDirectionX=float, objectDirectionY=float)"
     )
     """
     Pick up a nearby object and hold it in your hand. This action incorporates
@@ -289,9 +281,6 @@ class Action(Enum):
         your current viewport. Can be used in place of the "objectId" property.
     objectDirectionY : float, optional
         The Y of the directional vector pointing to the target object based on
-        your current viewport. Can be used in place of the "objectId" property.
-    objectDirectionZ : float, optional
-        The Z of the directional vector pointing to the target object based on
         your current viewport. Can be used in place of the "objectId" property.
 
     Returns
@@ -321,7 +310,7 @@ class Action(Enum):
         "5",
         "Pull a nearby object. (objectId=string, rotation=float, " +
         "horizon=float, force=float (default:0.5), objectDirectionX=float, " +
-        "objectDirectionY=float, objectDirectionZ=float)"
+        "objectDirectionY=float)"
     )
     """
     Pull a nearby object.
@@ -336,9 +325,6 @@ class Action(Enum):
         your current viewport. Can be used in place of the "objectId" property.
     objectDirectionY : float, optional
         The Y of the directional vector pointing to the target object based on
-        your current viewport. Can be used in place of the "objectId" property.
-    objectDirectionZ : float, optional
-        The Z of the directional vector pointing to the target object based on
         your current viewport. Can be used in place of the "objectId" property.
     force : float
         The amount of force, from 0 to 1, used to move the target object.
@@ -369,7 +355,7 @@ class Action(Enum):
         "6",
         "Push a nearby object. (objectId=string, rotation=float, " +
         "horizon=float, force=float (default:0.5), objectDirectionX=float, " +
-        "objectDirectionY=float, objectDirectionZ=float)"
+        "objectDirectionY=float)"
     )
     """
     Push a nearby object.
@@ -384,9 +370,6 @@ class Action(Enum):
         your current viewport. Can be used in place of the "objectId" property.
     objectDirectionY : float, optional
         The Y of the directional vector pointing to the target object based on
-        your current viewport. Can be used in place of the "objectId" property.
-    objectDirectionZ : float, optional
-        The Z of the directional vector pointing to the target object based on
         your current viewport. Can be used in place of the "objectId" property.
     force : float
         The amount of force, from 0 to 1, used to move the target object.
@@ -437,10 +420,6 @@ class Action(Enum):
         "receptacleObjectId" property.
     objectDirectionY : float, optional
         The Y of the directional vector pointing to the target receptacle based
-        on your current viewport. Can be used in place of the
-        "receptacleObjectId" property.
-    objectDirectionZ : float, optional
-        The Z of the directional vector pointing to the target receptacle based
         on your current viewport. Can be used in place of the
         "receptacleObjectId" property.
 
@@ -505,8 +484,7 @@ class Action(Enum):
     #    "t",
     #    "Rotate a held object. (objectId=string, " +
     #    "rotationX=float, rotationY=float, rotationZ=float, " +
-    #    "objectDirectionX=float, objectDirectionY=float, " +
-    #    "objectDirectionZ=float)")
+    #    "objectDirectionX=float, objectDirectionY=float")
 
     STAND = (
         "Stand",
@@ -531,7 +509,7 @@ class Action(Enum):
         "q",
         "Throw an object you are holding. (objectId=string, " +
         "objectDirectionX=float, objectDirectionY=float, " +
-        "objectDirectionZ=float, force=float (default:0.5))"
+        "force=float (default:0.5))"
     )
     """
     Throw an object you are holding.
@@ -545,9 +523,6 @@ class Action(Enum):
         throw the object based on your current viewport.
     objectDirectionY : float, optional
         The Y of the directional vector pointing to where you would like to
-        throw the object based on your current viewport.
-    objectDirectionZ : float, optional
-        The Z of the directional vector pointing to where you would like to
         throw the object based on your current viewport.
 
     Returns

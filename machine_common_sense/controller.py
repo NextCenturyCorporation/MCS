@@ -119,7 +119,6 @@ class Controller():
     AMOUNT_KEY = 'amount'
     OBJECT_DIRECTION_X_KEY = 'objectDirectionX'
     OBJECT_DIRECTION_Y_KEY = 'objectDirectionY'
-    OBJECT_DIRECTION_Z_KEY = 'objectDirectionZ'
     RECEPTACLE_DIRECTION_X = 'receptacleObjectDirectionX'
     RECEPTACLE_DIRECTION_Y = 'receptacleObjectDirectionY'
 
@@ -367,8 +366,6 @@ class Controller():
             self.OBJECT_DIRECTION_X_KEY, self.DEFAULT_DIRECTION)
         objectDirectionY = kwargs.get(
             self.OBJECT_DIRECTION_Y_KEY, self.DEFAULT_DIRECTION)
-        objectDirectionZ = kwargs.get(
-            self.OBJECT_DIRECTION_Z_KEY, self.DEFAULT_DIRECTION)
         receptacleObjectDirectionX = kwargs.get(
             self.RECEPTACLE_DIRECTION_X, self.DEFAULT_DIRECTION)
         receptacleObjectDirectionY = kwargs.get(
@@ -402,11 +399,6 @@ class Controller():
                 objectDirectionY,
                 self.OBJECT_DIRECTION_Y_KEY):
             objectDirectionY = self.DEFAULT_DIRECTION
-
-        if not Util.is_number(
-                objectDirectionZ,
-                self.OBJECT_DIRECTION_Z_KEY):
-            objectDirectionZ = self.DEFAULT_DIRECTION
 
         # Check receptacle directions are numbers
         if not Util.is_number(
@@ -464,7 +456,6 @@ class Controller():
         object_vector = {}
         object_vector['x'] = objectDirectionX
         object_vector['y'] = objectDirectionY
-        object_vector['z'] = objectDirectionZ
 
         receptacle_vector = {}
         receptacle_vector['x'] = receptacleObjectDirectionX

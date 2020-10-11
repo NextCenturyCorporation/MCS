@@ -336,7 +336,7 @@ class Test_Controller(unittest.TestCase):
             visibilityDistance=mcs.controller.MAX_REACH_DISTANCE,
             horizon=0,
             moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE,
-            objectDirection={'x': 0, 'y': 0, 'z': 0},
+            objectDirection={'x': 0, 'y': 0},
             objectId=None,
             receptacleObjectDirection={'x': 0, 'y': 0},
             receptacleObjectId=None,
@@ -664,13 +664,12 @@ class Test_Controller(unittest.TestCase):
             amount=1,
             objectDirectionX=1,
             objectDirectionY=2,
-            objectDirectionZ=3,
             receptacleObjectDirectionX=4,
             receptacleObjectDirectionY=5)
         self.assertEquals(
             self.controller.get_last_step_data(), self.create_step_data(
                 action='MCSOpenObject', moveMagnitude=1, objectDirection={
-                    'x': 1, 'y': 2, 'z': 3}, receptacleObjectDirection={
+                    'x': 1, 'y': 2}, receptacleObjectDirection={
                     'x': 4, 'y': 5}))
 
     def test_restrict_goal_output_metadata(self):
