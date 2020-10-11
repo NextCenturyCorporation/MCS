@@ -336,9 +336,15 @@ class Test_Controller(unittest.TestCase):
             visibilityDistance=mcs.controller.MAX_REACH_DISTANCE,
             horizon=0,
             moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE,
-            objectImageCoords={'x': 0, 'y': 0},
+            objectImageCoords={
+                'x': 0,
+                'y': MOCK_VARIABLES.screen_height
+            },
             objectId=None,
-            receptacleObjectImageCoords={'x': 0, 'y': 0},
+            receptacleObjectImageCoords={
+                'x': 0,
+                'y': MOCK_VARIABLES.screen_height
+            },
             receptacleObjectId=None,
             rotation={'y': 0}
         )
@@ -603,7 +609,7 @@ class Test_Controller(unittest.TestCase):
                 moveMagnitude=mcs.Controller.MAX_BABY_FORCE,
                 objectImageCoords={
                     'x': 1,
-                    'y': 2}))
+                    'y': MOCK_VARIABLES.screen_height - 2}))
 
     def test_step_validate_parameters_open_close(self):
         _ = self.controller.start_scene({'name': 'test name'})
@@ -668,9 +674,15 @@ class Test_Controller(unittest.TestCase):
             receptacleObjectImageCoordsY=5)
         self.assertEquals(
             self.controller.get_last_step_data(), self.create_step_data(
-                action='MCSOpenObject', moveMagnitude=1, objectImageCoords={
-                    'x': 1, 'y': 2}, receptacleObjectImageCoords={
-                    'x': 4, 'y': 5}))
+                action='MCSOpenObject', moveMagnitude=1,
+                objectImageCoords={
+                    'x': 1, 'y': MOCK_VARIABLES.screen_height - 2
+                },
+                receptacleObjectImageCoords={
+                    'x': 4, 'y': MOCK_VARIABLES.screen_height - 5
+                }
+            )
+        )
 
     def test_restrict_goal_output_metadata(self):
         goal = mcs.GoalMetadata(metadata={

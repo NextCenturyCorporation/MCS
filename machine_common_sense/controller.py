@@ -181,6 +181,11 @@ class Controller():
         self._on_init(debug, enable_noise, seed, depth_masks,
                       object_masks, history_enabled)
 
+    # Pixel coordinates are expected to start at the top left, but
+    # in Unity, (0,0) is the bottom left.
+    def _convert_y_image_coord_for_unity(self, y_coord):
+        return self.__screen_height - y_coord
+
     def _update_screen_size(self, size=None):
         self.__screen_width = self.SCREEN_WIDTH_DEFAULT
         self.__screen_height = self.SCREEN_WIDTH_DEFAULT / 3 * 2
@@ -392,23 +397,25 @@ class Controller():
         # Check object directions are numbers
         if not Util.is_number(
                 objectImageCoordsX,
-                self.OBJECT_IMAGE_COORDS_X_KEY):
+                self.OBJECT_IMAGE_COORDS_X_KEY) or objectImageCoordsX < 0:
             objectImageCoordsX = self.DEFAULT_DIRECTION
 
         if not Util.is_number(
                 objectImageCoordsY,
-                self.OBJECT_IMAGE_COORDS_Y_KEY):
+                self.OBJECT_IMAGE_COORDS_Y_KEY) or objectImageCoordsY < 0:
             objectImageCoordsY = self.DEFAULT_DIRECTION
 
         # Check receptacle directions are numbers
-        if not Util.is_number(
+        if (not Util.is_number(
                 receptacleObjectImageCoordsX,
-                self.RECEPTACLE_IMAGE_COORDS_X_KEY):
+                self.RECEPTACLE_IMAGE_COORDS_X_KEY) or
+                receptacleObjectImageCoordsX < 0):
             receptacleObjectImageCoordsX = self.DEFAULT_DIRECTION
 
-        if not Util.is_number(
+        if (not Util.is_number(
                 receptacleObjectImageCoordsY,
-                self.RECEPTACLE_IMAGE_COORDS_Y_KEY):
+                self.RECEPTACLE_IMAGE_COORDS_Y_KEY) or
+                receptacleObjectImageCoordsY < 0):
             receptacleObjectImageCoordsY = self.DEFAULT_DIRECTION
 
         # Check that params that should fall in a range are in that range
@@ -455,11 +462,13 @@ class Controller():
 
         object_vector = {}
         object_vector['x'] = objectImageCoordsX
-        object_vector['y'] = objectImageCoordsY
+        object_vector['y'] = self._convert_y_image_coord_for_unity(
+            objectImageCoordsY)
 
         receptacle_vector = {}
         receptacle_vector['x'] = receptacleObjectImageCoordsX
-        receptacle_vector['y'] = receptacleObjectImageCoordsY
+        receptacle_vector['y'] = self._convert_y_image_coord_for_unity(
+            receptacleObjectImageCoordsY)
 
         return dict(
             objectId=kwargs.get("objectId", None),
