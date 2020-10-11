@@ -22,10 +22,10 @@ class Action(Enum):
         The "uuid" of the target object. Required unless the
         "objectImageCoords" properties are given.
     objectImageCoordsX : float, optional
-        The X of the directional vector pointing to the target object based on
+        The X of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
     objectImageCoordsY : float, optional
-        The Y of the directional vector pointing to the target object based on
+        The Y of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
     amount : float
         The amount to close the object between 0 (completely opened) and 1
@@ -229,10 +229,10 @@ class Action(Enum):
         The "uuid" of the target object. Required unless the
         "objectImageCoords" properties are given.
     objectImageCoordsX : float, optional
-        The X of the directional vector pointing to the target object based on
+        The X of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
     objectImageCoordsY : float, optional
-        The Y of the directional vector pointing to the target object based on
+        The Y of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
     amount : float
         The amount to open the object between 0 (completely closed) and 1
@@ -277,10 +277,10 @@ class Action(Enum):
         The "uuid" of the target object. Required unless the
         "objectImageCoords" properties are given.
     objectImageCoordsX : float, optional
-        The X of the directional vector pointing to the target object based on
+        The X of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
     objectImageCoordsY : float, optional
-        The Y of the directional vector pointing to the target object based on
+        The Y of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
 
     Returns
@@ -321,10 +321,10 @@ class Action(Enum):
         The "uuid" of the target object. Required unless the
         "objectImageCoords" properties are given.
     objectImageCoordsX : float, optional
-        The X of the directional vector pointing to the target object based on
+        The X of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
     objectImageCoordsY : float, optional
-        The Y of the directional vector pointing to the target object based on
+        The Y of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
     force : float
         The amount of force, from 0 to 1, used to move the target object.
@@ -366,10 +366,10 @@ class Action(Enum):
         The "uuid" of the target object. Required unless the
         "objectImageCoords" properties are given.
     objectImageCoordsX : float, optional
-        The X of the directional vector pointing to the target object based on
+        The X of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
     objectImageCoordsY : float, optional
-        The Y of the directional vector pointing to the target object based on
+        The Y of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
     force : float
         The amount of force, from 0 to 1, used to move the target object.
@@ -416,11 +416,11 @@ class Action(Enum):
         The "uuid" of the target receptacle. Required unless the
         "receptacleObjectImageCoords" properties are given.
     receptacleObjectImageCoordsX : float, optional
-        The X of the directional vector pointing to the target receptacle based
+        The X of a pixel coordinate on the target receptacle based
         on your current viewport. Can be used in place of the
         "receptacleObjectId" property.
     receptacleObjectImageCoordsY : float, optional
-        The Y of the directional vector pointing to the target receptacle based
+        The Y of a pixel coordinate on the target receptacle based
         on your current viewport. Can be used in place of the
         "receptacleObjectId" property.
 
@@ -520,10 +520,10 @@ class Action(Enum):
     objectId : string, optional
         The "uuid" of the held object. Defaults to the first held object.
     objectImageCoordsX : float, optional
-        The X of the directional vector pointing to where you would like to
+        The X of a pixel coordinate on where you would like to
         throw the object based on your current viewport.
     objectImageCoordsY : float, optional
-        The Y of the directional vector pointing to where you would like to
+        The Y of a pixel coordinate on where you would like to
         throw the object based on your current viewport.
 
     Returns

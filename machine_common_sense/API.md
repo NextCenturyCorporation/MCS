@@ -416,11 +416,11 @@ Close a nearby object.
     “objectImageCoords” properties are given.
 
 
-    * **objectImageCoordsX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
+    * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
-    * **objectImageCoordsY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
@@ -632,11 +632,11 @@ Open a nearby object.
     “objectImageCoords” properties are given.
 
 
-    * **objectImageCoordsX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
+    * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
-    * **objectImageCoordsY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
@@ -704,11 +704,11 @@ the object.
     “objectImageCoords” properties are given.
 
 
-    * **objectImageCoordsX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
+    * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
-    * **objectImageCoordsY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
@@ -755,11 +755,11 @@ Pull a nearby object.
     “objectImageCoords” properties are given.
 
 
-    * **objectImageCoordsX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
+    * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
-    * **objectImageCoordsY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
@@ -807,11 +807,11 @@ Push a nearby object.
     “objectImageCoords” properties are given.
 
 
-    * **objectImageCoordsX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
+    * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
-    * **objectImageCoordsY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
 
 
@@ -864,12 +864,12 @@ drawer, shelf, or table.
     “receptacleObjectImageCoords” properties are given.
 
 
-    * **receptacleObjectImageCoordsX** (*float**, **optional*) – The X of the directional vector pointing to the target receptacle based
+    * **receptacleObjectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target receptacle based
     on your current viewport. Can be used in place of the
     “receptacleObjectId” property.
 
 
-    * **receptacleObjectImageCoordsY** (*float**, **optional*) – The Y of the directional vector pointing to the target receptacle based
+    * **receptacleObjectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target receptacle based
     on your current viewport. Can be used in place of the
     “receptacleObjectId” property.
 
@@ -968,11 +968,11 @@ Throw an object you are holding.
     * **objectId** (*string**, **optional*) – The “uuid” of the held object. Defaults to the first held object.
 
 
-    * **objectImageCoordsX** (*float**, **optional*) – The X of the directional vector pointing to where you would like to
+    * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on where you would like to
     throw the object based on your current viewport.
 
 
-    * **objectImageCoordsY** (*float**, **optional*) – The Y of the directional vector pointing to where you would like to
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on where you would like to
     throw the object based on your current viewport.
 
 
