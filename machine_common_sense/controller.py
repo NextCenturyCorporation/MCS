@@ -122,7 +122,6 @@ class Controller():
     OBJECT_DIRECTION_Z_KEY = 'objectDirectionZ'
     RECEPTACLE_DIRECTION_X = 'receptacleObjectDirectionX'
     RECEPTACLE_DIRECTION_Y = 'receptacleObjectDirectionY'
-    RECEPTACLE_DIRECTION_Z = 'receptacleObjectDirectionZ'
 
     # Hard coding actions that effect MoveMagnitude so the appropriate
     # value is set based off of the action
@@ -374,8 +373,6 @@ class Controller():
             self.RECEPTACLE_DIRECTION_X, self.DEFAULT_DIRECTION)
         receptacleObjectDirectionY = kwargs.get(
             self.RECEPTACLE_DIRECTION_Y, self.DEFAULT_DIRECTION)
-        receptacleObjectDirectionZ = kwargs.get(
-            self.RECEPTACLE_DIRECTION_Z, self.DEFAULT_DIRECTION)
 
         # Check params that should be numbers
         if not Util.is_number(rotation, self.ROTATION_KEY):
@@ -421,11 +418,6 @@ class Controller():
                 receptacleObjectDirectionY,
                 self.RECEPTACLE_DIRECTION_Y):
             receptacleObjectDirectionY = self.DEFAULT_DIRECTION
-
-        if not Util.is_number(
-                receptacleObjectDirectionZ,
-                self.RECEPTACLE_DIRECTION_Z):
-            receptacleObjectDirectionZ = self.DEFAULT_DIRECTION
 
         # Check that params that should fall in a range are in that range
         horizon = Util.is_in_range(
@@ -477,7 +469,6 @@ class Controller():
         receptacle_vector = {}
         receptacle_vector['x'] = receptacleObjectDirectionX
         receptacle_vector['y'] = receptacleObjectDirectionY
-        receptacle_vector['z'] = receptacleObjectDirectionZ
 
         return dict(
             objectId=kwargs.get("objectId", None),

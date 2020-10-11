@@ -338,7 +338,7 @@ class Test_Controller(unittest.TestCase):
             moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE,
             objectDirection={'x': 0, 'y': 0, 'z': 0},
             objectId=None,
-            receptacleObjectDirection={'x': 0, 'y': 0, 'z': 0},
+            receptacleObjectDirection={'x': 0, 'y': 0},
             receptacleObjectId=None,
             rotation={'y': 0}
         )
@@ -595,8 +595,7 @@ class Test_Controller(unittest.TestCase):
             'PushObject',
             force=1,
             objectDirectionX=1,
-            objectDirectionY=2,
-            objectDirectionZ=3)
+            objectDirectionY=2)
         self.assertEquals(
             self.controller.get_last_step_data(),
             self.create_step_data(
@@ -604,8 +603,7 @@ class Test_Controller(unittest.TestCase):
                 moveMagnitude=mcs.Controller.MAX_BABY_FORCE,
                 objectDirection={
                     'x': 1,
-                    'y': 2,
-                    'z': 3}))
+                    'y': 2}))
 
     def test_step_validate_parameters_open_close(self):
         _ = self.controller.start_scene({'name': 'test name'})
@@ -668,13 +666,12 @@ class Test_Controller(unittest.TestCase):
             objectDirectionY=2,
             objectDirectionZ=3,
             receptacleObjectDirectionX=4,
-            receptacleObjectDirectionY=5,
-            receptacleObjectDirectionZ=6)
+            receptacleObjectDirectionY=5)
         self.assertEquals(
             self.controller.get_last_step_data(), self.create_step_data(
                 action='MCSOpenObject', moveMagnitude=1, objectDirection={
                     'x': 1, 'y': 2, 'z': 3}, receptacleObjectDirection={
-                    'x': 4, 'y': 5, 'z': 6}))
+                    'x': 4, 'y': 5}))
 
     def test_restrict_goal_output_metadata(self):
         goal = mcs.GoalMetadata(metadata={

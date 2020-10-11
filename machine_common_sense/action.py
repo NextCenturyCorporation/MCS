@@ -417,8 +417,7 @@ class Action(Enum):
         "7",
         "Place an object you are holding into/onto a nearby " +
         "receptacle object. (objectId=string, receptacleObjectId=string, " +
-        "receptacleObjectDirectionX=float, receptacleObjectDirectionY=float," +
-        " receptacleObjectDirectionZ=float)"
+        "receptacleObjectDirectionX=float, receptacleObjectDirectionY=float)"
     )
     """
     Put down an object you are holding into/onto a nearby receptacle object. A
