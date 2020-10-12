@@ -21,7 +21,7 @@ import ai2thor.server
 MAX_REACH_DISTANCE = 1.0
 
 # How far the player can move with a single step.
-MAX_MOVE_DISTANCE = 0.5
+MAX_MOVE_DISTANCE = 0.25
 
 # Performer camera 'y' position
 PERFORMER_CAMERA_Y = 0.4625
@@ -98,11 +98,6 @@ class Controller():
     DEFAULT_AMOUNT = 0.5
     DEFAULT_DIRECTION = 0
     DEFAULT_OBJECT_MOVE_AMOUNT = 1
-
-    MAX_ROTATION = 360
-    MIN_ROTATION = -360
-    MAX_HORIZON = 180
-    MIN_HORIZON = -180
 
     MAX_FORCE = 1
     MIN_FORCE = 0
@@ -373,13 +368,6 @@ class Controller():
         receptacleObjectDirectionZ = kwargs.get(
             self.RECEPTACLE_DIRECTION_Z, self.DEFAULT_DIRECTION)
 
-        # Check params that should be numbers
-        if not Util.is_number(rotation, self.ROTATION_KEY):
-            rotation = self.DEFAULT_ROTATION
-
-        if not Util.is_number(horizon, self.HORIZON_KEY):
-            horizon = self.DEFAULT_HORIZON
-
         if not Util.is_number(amount, self.AMOUNT_KEY):
             # The default for open/close is 1, the default for "Move" actions
             # is 0.5
@@ -423,13 +411,6 @@ class Controller():
                 self.RECEPTACLE_DIRECTION_Z):
             receptacleObjectDirectionZ = self.DEFAULT_DIRECTION
 
-        # Check that params that should fall in a range are in that range
-        horizon = Util.is_in_range(
-            horizon,
-            self.MIN_HORIZON,
-            self.MAX_HORIZON,
-            self.DEFAULT_HORIZON,
-            self.HORIZON_KEY)
         amount = Util.is_in_range(
             amount,
             self.MIN_AMOUNT,
@@ -454,7 +435,7 @@ class Controller():
             moveMagnitude = amount
 
         if action in self.MOVE_ACTIONS:
-            moveMagnitude = amount * MAX_MOVE_DISTANCE
+            moveMagnitude = MAX_MOVE_DISTANCE
 
         # Add in noise if noise is enable
         if self.__enable_noise:

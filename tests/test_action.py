@@ -70,8 +70,7 @@ class Test_Action(unittest.TestCase):
         self.assertEqual(mcs.Action.MOVE_AHEAD.key, "w")
         self.assertEqual(
             mcs.Action.MOVE_AHEAD.desc,
-            "Move yourself ahead based on your current view. " +
-            "(amount=float (default:0.5))"
+            "Move yourself ahead based on your current view."
         )
         self.assertEqual(mcs.Action("MoveAhead"), mcs.Action.MOVE_AHEAD)
         self.assertEqual(mcs.Action("w"), mcs.Action.MOVE_AHEAD)
@@ -81,8 +80,7 @@ class Test_Action(unittest.TestCase):
         self.assertEqual(mcs.Action.MOVE_BACK.key, "s")
         self.assertEqual(
             mcs.Action.MOVE_BACK.desc,
-            "Move yourself back based on your current view. " +
-            "(amount=float (default:0.5))"
+            "Move yourself back based on your current view."
         )
         self.assertEqual(mcs.Action("MoveBack"), mcs.Action.MOVE_BACK)
         self.assertEqual(mcs.Action("s"), mcs.Action.MOVE_BACK)
@@ -92,8 +90,7 @@ class Test_Action(unittest.TestCase):
         self.assertEqual(mcs.Action.MOVE_LEFT.key, "a")
         self.assertEqual(
             mcs.Action.MOVE_LEFT.desc,
-            "Move yourself to your left based on your current view. " +
-            "(amount=float (default:0.5))"
+            "Move yourself to your left based on your current view."
         )
         self.assertEqual(mcs.Action("MoveLeft"), mcs.Action.MOVE_LEFT)
         self.assertEqual(mcs.Action("a"), mcs.Action.MOVE_LEFT)
@@ -103,8 +100,7 @@ class Test_Action(unittest.TestCase):
         self.assertEqual(mcs.Action.MOVE_RIGHT.key, "d")
         self.assertEqual(
             mcs.Action.MOVE_RIGHT.desc,
-            "Move yourself to your right based on your current view. " +
-            "(amount=float (default:0.5))"
+            "Move yourself to your right based on your current view."
         )
         self.assertEqual(mcs.Action("MoveRight"), mcs.Action.MOVE_RIGHT)
         self.assertEqual(mcs.Action("d"), mcs.Action.MOVE_RIGHT)
