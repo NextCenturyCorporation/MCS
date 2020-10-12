@@ -337,13 +337,13 @@ class Test_Controller(unittest.TestCase):
             horizon=0,
             moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE,
             objectImageCoords={
-                'x': 0,
-                'y': MOCK_VARIABLES['metadata']['screenHeight']
+                'x': -1,
+                'y': -1
             },
             objectId=None,
             receptacleObjectImageCoords={
-                'x': 0,
-                'y': MOCK_VARIABLES['metadata']['screenHeight']
+                'x': -1,
+                'y': -1
             },
             receptacleObjectId=None,
             rotation={'y': 0}
