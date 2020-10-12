@@ -404,6 +404,10 @@ Defines output metadata from an action step in the MCS 3D environment.
 ### class machine_common_sense.action.Action(value)
 The actions available in the MCS simulation environment.
 
+For actions requiring objectImageCoords or receptacleObjectImageCoords,
+note that (0,0) represents the top left corner of the viewport, and that
+inputs must be greater than (0,0).
+
 
 #### CLOSE_OBJECT( = 'CloseObject')
 Close a nearby object.
@@ -418,10 +422,12 @@ Close a nearby object.
 
     * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Actions” header regarding image coordinates.)
 
 
     * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Actions” header regarding image coordinates.)
 
 
     * **amount** (*float*) – The amount to close the object between 0 (completely opened) and 1
@@ -634,10 +640,12 @@ Open a nearby object.
 
     * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Actions” header regarding image coordinates.)
 
 
     * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Actions” header regarding image coordinates.)
 
 
     * **amount** (*float*) – The amount to open the object between 0 (completely closed) and 1
@@ -706,10 +714,12 @@ the object.
 
     * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Actions” header regarding image coordinates.)
 
 
     * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Actions” header regarding image coordinates.)
 
 
 
@@ -757,10 +767,12 @@ Pull a nearby object.
 
     * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Actions” header regarding image coordinates.)
 
 
     * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Actions” header regarding image coordinates.)
 
 
     * **force** (*float*) – The amount of force, from 0 to 1, used to move the target object.
@@ -809,10 +821,12 @@ Push a nearby object.
 
     * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Actions” header regarding image coordinates.)
 
 
     * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Actions” header regarding image coordinates.)
 
 
     * **force** (*float*) – The amount of force, from 0 to 1, used to move the target object.
@@ -867,11 +881,13 @@ drawer, shelf, or table.
     * **receptacleObjectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target receptacle based
     on your current viewport. Can be used in place of the
     “receptacleObjectId” property.
+    (See note under “Actions” header regarding image coordinates.)
 
 
     * **receptacleObjectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target receptacle based
     on your current viewport. Can be used in place of the
     “receptacleObjectId” property.
+    (See note under “Actions” header regarding image coordinates.)
 
 
 
@@ -970,10 +986,12 @@ Throw an object you are holding.
 
     * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on where you would like to
     throw the object based on your current viewport.
+    (See note under “Actions” header regarding image coordinates.)
 
 
     * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on where you would like to
     throw the object based on your current viewport.
+    (See note under “Actions” header regarding image coordinates.)
 
 
 
