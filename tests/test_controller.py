@@ -338,12 +338,12 @@ class Test_Controller(unittest.TestCase):
             moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE,
             objectImageCoords={
                 'x': 0,
-                'y': MOCK_VARIABLES.screen_height
+                'y': MOCK_VARIABLES['metadata']['screenHeight']
             },
             objectId=None,
             receptacleObjectImageCoords={
                 'x': 0,
-                'y': MOCK_VARIABLES.screen_height
+                'y': MOCK_VARIABLES['metadata']['screenHeight']
             },
             receptacleObjectId=None,
             rotation={'y': 0}
@@ -609,7 +609,7 @@ class Test_Controller(unittest.TestCase):
                 moveMagnitude=mcs.Controller.MAX_BABY_FORCE,
                 objectImageCoords={
                     'x': 1,
-                    'y': MOCK_VARIABLES.screen_height - 2}))
+                    'y': MOCK_VARIABLES['metadata']['screenHeight'] - 2}))
 
     def test_step_validate_parameters_open_close(self):
         _ = self.controller.start_scene({'name': 'test name'})
@@ -676,10 +676,10 @@ class Test_Controller(unittest.TestCase):
             self.controller.get_last_step_data(), self.create_step_data(
                 action='MCSOpenObject', moveMagnitude=1,
                 objectImageCoords={
-                    'x': 1, 'y': MOCK_VARIABLES.screen_height - 2
+                    'x': 1, 'y': MOCK_VARIABLES['metadata']['screenHeight'] - 2
                 },
                 receptacleObjectImageCoords={
-                    'x': 4, 'y': MOCK_VARIABLES.screen_height - 5
+                    'x': 4, 'y': MOCK_VARIABLES['metadata']['screenHeight'] - 5
                 }
             )
         )
