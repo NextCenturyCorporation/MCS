@@ -109,7 +109,7 @@ class Test_Util(unittest.TestCase):
         self.assertEqual(mcs.Util.input_to_action_and_params(
             'MoveBack'), ('MoveBack', {}))
         self.assertEqual(mcs.Util.input_to_action_and_params(
-            'RotateLook,rotation=12.34'), ('RotateLook', {'rotation': 12.34}))
+            'RotateRight'), ('RotateRight', {}))
         self.assertEqual(
             mcs.Util.input_to_action_and_params(
                 'PickupObject,objectId=testId'

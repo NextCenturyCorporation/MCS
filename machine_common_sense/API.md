@@ -525,6 +525,36 @@ Change pose to “LYING”. Can help you move underneath objects.
 
 
 
+#### LOOK_DOWN( = 'LookDown')
+Rotate your viewport down.
+
+
+* **Returns**
+
+    
+    * *“SUCCESSFUL”* – Action successful.
+
+
+    * *”FAILED”* – Unexpected error; please report immediately to development team.
+
+
+
+
+#### LOOK_UP( = 'LookUp')
+Rotate your viewport up.
+
+
+* **Returns**
+
+    
+    * *“SUCCESSFUL”* – Action successful.
+
+
+    * *”FAILED”* – Unexpected error; please report immediately to development team.
+
+
+
+
 #### MOVE_AHEAD( = 'MoveAhead')
 Move yourself forward based on your current viewport.
 
@@ -907,21 +937,6 @@ drawer, shelf, or table.
 
 
 
-#### ROTATE_DOWN( = 'LookDown')
-Rotate your viewport down.
-
-
-* **Returns**
-
-    
-    * *“SUCCESSFUL”* – Action successful.
-
-
-    * *”FAILED”* – Unexpected error; please report immediately to development team.
-
-
-
-
 #### ROTATE_LEFT( = 'RotateLeft')
 Rotate your viewport left.
 
@@ -939,21 +954,6 @@ Rotate your viewport left.
 
 #### ROTATE_RIGHT( = 'RotateRight')
 Rotate your viewport right.
-
-
-* **Returns**
-
-    
-    * *“SUCCESSFUL”* – Action successful.
-
-
-    * *”FAILED”* – Unexpected error; please report immediately to development team.
-
-
-
-
-#### ROTATE_UP( = 'LookUp')
-Rotate your viewport up.
 
 
 * **Returns**

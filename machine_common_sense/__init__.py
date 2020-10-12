@@ -8,6 +8,7 @@ from .pose import Pose
 from .return_status import ReturnStatus
 from .reward import Reward
 from .scene_history import SceneHistory
+from .history_writer import HistoryWriter
 from .step_metadata import StepMetadata
 from .util import Util
 from .getchHelper import getch

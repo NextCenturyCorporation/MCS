@@ -503,56 +503,46 @@ class Test_Controller(unittest.TestCase):
 
     def test_step_validate_parameters_move(self):
         _ = self.controller.start_scene({'name': 'test name'})
-        self.controller.step('MoveAhead', amount=1)
+        self.controller.step('MoveAhead')
         self.assertEquals(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
                 moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE))
 
-        self.controller.step('MoveAhead', amount=0.1)
+        self.controller.step('MoveAhead')
         self.assertEquals(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
-                moveMagnitude=0.1 *
-                mcs.controller.MAX_MOVE_DISTANCE))
+                moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE))
 
-        self.controller.step('MoveAhead', amount=1.5)
+        self.controller.step('MoveAhead')
         self.assertEquals(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
-                moveMagnitude=mcs.Controller.DEFAULT_AMOUNT *
-                mcs.controller.MAX_MOVE_DISTANCE))
+                moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE))
 
-        self.controller.step('MoveAhead', amount=-1)
+        self.controller.step('MoveAhead')
         self.assertEquals(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
-                moveMagnitude=mcs.Controller.DEFAULT_AMOUNT *
-                mcs.controller.MAX_MOVE_DISTANCE))
+                moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE))
 
     def test_step_validate_parameters_rotate(self):
         _ = self.controller.start_scene({'name': 'test name'})
-        self.controller.step('RotateLook', rotation=12, horizon=34)
+        self.controller.step('RotateLeft')
         self.assertEquals(
             self.controller.get_last_step_data(),
-            self.create_step_data(
-                action='RotateLook',
-                horizon=34,
-                rotation={
-                    'y': 12}))
+            self.create_step_data(action='RotateLeft'))
 
-        self.controller.step('RotateLook', rotation=-12, horizon=-34)
+        self.controller.step('RotateLeft')
         self.assertEquals(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='RotateLook',
-                horizon=-34,
-                rotation={
-                    'y': -12}))
+                action='RotateLeft'))
 
     def test_step_validate_parameters_force_object(self):
         _ = self.controller.start_scene({'name': 'test name'})
@@ -561,7 +551,7 @@ class Test_Controller(unittest.TestCase):
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
-                moveMagnitude=mcs.Controller.MAX_BABY_FORCE,
+                moveMagnitude=mcs.Controller.MAX_FORCE,
                 objectId='test_id_1'))
 
         self.controller.step('PushObject', force=0.1, objectId='test_id_1')
@@ -570,7 +560,7 @@ class Test_Controller(unittest.TestCase):
             self.create_step_data(
                 action='PushObject',
                 moveMagnitude=0.1 *
-                mcs.Controller.MAX_BABY_FORCE,
+                mcs.Controller.MAX_FORCE,
                 objectId='test_id_1'))
 
         self.controller.step('PushObject', force=1.5, objectId='test_id_1')
@@ -579,7 +569,7 @@ class Test_Controller(unittest.TestCase):
             self.create_step_data(
                 action='PushObject',
                 moveMagnitude=mcs.Controller.DEFAULT_AMOUNT *
-                mcs.Controller.MAX_BABY_FORCE,
+                mcs.Controller.MAX_FORCE,
                 objectId='test_id_1'))
 
         self.controller.step('PushObject', force=-1, objectId='test_id_1')
@@ -588,7 +578,7 @@ class Test_Controller(unittest.TestCase):
             self.create_step_data(
                 action='PushObject',
                 moveMagnitude=mcs.Controller.DEFAULT_AMOUNT *
-                mcs.Controller.MAX_BABY_FORCE,
+                mcs.Controller.MAX_FORCE,
                 objectId='test_id_1'))
 
         self.controller.step(
@@ -601,7 +591,7 @@ class Test_Controller(unittest.TestCase):
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
-                moveMagnitude=mcs.Controller.MAX_BABY_FORCE,
+                moveMagnitude=mcs.Controller.MAX_FORCE,
                 objectDirection={
                     'x': 1,
                     'y': 2,
@@ -1224,8 +1214,8 @@ class Test_Controller(unittest.TestCase):
             "y": -30,
             "z": 0
         })
-        self.assertEqual(actual[1].distance, 2.2)
-        self.assertEqual(actual[1].distance_in_steps, 2.2)
+        self.assertEqual(actual[1].distance, 4.4)
+        self.assertEqual(actual[1].distance_in_steps, 4.4)
         self.assertEqual(actual[1].distance_in_world, 1.5)
         self.assertEqual(actual[1].held, False)
         self.assertEqual(actual[1].mass, 12.34)
@@ -1281,8 +1271,8 @@ class Test_Controller(unittest.TestCase):
             "y": -30,
             "z": 0
         })
-        self.assertEqual(actual[1].distance, 2.2)
-        self.assertEqual(actual[1].distance_in_steps, 2.2)
+        self.assertEqual(actual[1].distance, 4.4)
+        self.assertEqual(actual[1].distance_in_steps, 4.4)
         self.assertEqual(actual[1].distance_in_world, 1.5)
         self.assertEqual(actual[1].held, False)
         self.assertEqual(actual[1].mass, 12.34)
@@ -1307,8 +1297,8 @@ class Test_Controller(unittest.TestCase):
             "y": 180,
             "z": 270
         })
-        self.assertEqual(actual[2].distance, 4)
-        self.assertEqual(actual[2].distance_in_steps, 4)
+        self.assertEqual(actual[2].distance, 8)
+        self.assertEqual(actual[2].distance_in_steps, 8)
         self.assertEqual(actual[2].distance_in_world, 2.5)
         self.assertEqual(actual[2].held, False)
         self.assertEqual(actual[2].mass, 34.56)
@@ -1364,8 +1354,8 @@ class Test_Controller(unittest.TestCase):
             "y": -30,
             "z": 0
         })
-        self.assertEqual(actual[1].distance, 2.2)
-        self.assertEqual(actual[1].distance_in_steps, 2.2)
+        self.assertEqual(actual[1].distance, 4.4)
+        self.assertEqual(actual[1].distance_in_steps, 4.4)
         self.assertEqual(actual[1].distance_in_world, 1.5)
         self.assertEqual(actual[1].held, False)
         self.assertEqual(actual[1].mass, 12.34)
@@ -1689,8 +1679,8 @@ class Test_Controller(unittest.TestCase):
             "y": -30,
             "z": 0
         })
-        self.assertEqual(actual.object_list[0].distance, 2.2)
-        self.assertEqual(actual.object_list[0].distance_in_steps, 2.2)
+        self.assertEqual(actual.object_list[0].distance, 4.4)
+        self.assertEqual(actual.object_list[0].distance_in_steps, 4.4)
         self.assertEqual(actual.object_list[0].distance_in_world, 1.5)
         self.assertEqual(actual.object_list[0].held, False)
         self.assertEqual(actual.object_list[0].mass, 12.34)
@@ -1721,9 +1711,9 @@ class Test_Controller(unittest.TestCase):
             "y": -60,
             "z": 0
         })
-        self.assertEqual(actual.structural_object_list[0].distance, 4.4)
+        self.assertEqual(actual.structural_object_list[0].distance, 8.8)
         self.assertEqual(
-            actual.structural_object_list[0].distance_in_steps, 4.4)
+            actual.structural_object_list[0].distance_in_steps, 8.8)
         self.assertEqual(
             actual.structural_object_list[0].distance_in_world, 2.5)
         self.assertEqual(actual.structural_object_list[0].held, False)

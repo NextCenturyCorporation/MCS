@@ -57,13 +57,13 @@ class Test_Action(unittest.TestCase):
 
     def test_lie_down(self):
         self.assertEqual(mcs.Action.LIE_DOWN.value, "LieDown")
-        self.assertEqual(mcs.Action.LIE_DOWN.key, "l")
+        self.assertEqual(mcs.Action.LIE_DOWN.key, "x")
         self.assertEqual(
             mcs.Action.LIE_DOWN.desc,
             "Change pose to 'LYING' (rotation=float)"
         )
         self.assertEqual(mcs.Action("LieDown"), mcs.Action.LIE_DOWN)
-        self.assertEqual(mcs.Action("l"), mcs.Action.LIE_DOWN)
+        self.assertEqual(mcs.Action("x"), mcs.Action.LIE_DOWN)
 
     def test_move_ahead(self):
         self.assertEqual(mcs.Action.MOVE_AHEAD.value, "MoveAhead")
@@ -170,16 +170,45 @@ class Test_Action(unittest.TestCase):
         self.assertEqual(mcs.Action("PutObject"), mcs.Action.PUT_OBJECT)
         self.assertEqual(mcs.Action("7"), mcs.Action.PUT_OBJECT)
 
-    def test_rotate_look(self):
-        self.assertEqual(mcs.Action.ROTATE_LOOK.value, "RotateLook")
-        self.assertEqual(mcs.Action.ROTATE_LOOK.key, "r")
+    def test_rotate_left(self):
+        self.assertEqual(mcs.Action.ROTATE_LEFT.value, "RotateLeft")
+        self.assertEqual(mcs.Action.ROTATE_LEFT.key, "j")
         self.assertEqual(
-            mcs.Action.ROTATE_LOOK.desc,
-            "Rotate your view left/right and/or up/down based on your " +
-            "current view. (rotation=float, horizon=float)"
+            mcs.Action.ROTATE_LEFT.desc,
+            "Rotate your view left."
         )
-        self.assertEqual(mcs.Action("RotateLook"), mcs.Action.ROTATE_LOOK)
-        self.assertEqual(mcs.Action("r"), mcs.Action.ROTATE_LOOK)
+        self.assertEqual(mcs.Action("RotateLeft"), mcs.Action.ROTATE_LEFT)
+        self.assertEqual(mcs.Action("j"), mcs.Action.ROTATE_LEFT)
+
+    def test_rotate_right(self):
+        self.assertEqual(mcs.Action.ROTATE_RIGHT.value, "RotateRight")
+        self.assertEqual(mcs.Action.ROTATE_RIGHT.key, "l")
+        self.assertEqual(
+            mcs.Action.ROTATE_RIGHT.desc,
+            "Rotate your view right."
+        )
+        self.assertEqual(mcs.Action("RotateRight"), mcs.Action.ROTATE_RIGHT)
+        self.assertEqual(mcs.Action("l"), mcs.Action.ROTATE_RIGHT)
+
+    def test_look_up(self):
+        self.assertEqual(mcs.Action.LOOK_UP.value, "LookUp")
+        self.assertEqual(mcs.Action.LOOK_UP.key, "i")
+        self.assertEqual(
+            mcs.Action.LOOK_UP.desc,
+            "Rotate your view up."
+        )
+        self.assertEqual(mcs.Action("LookUp"), mcs.Action.LOOK_UP)
+        self.assertEqual(mcs.Action("i"), mcs.Action.LOOK_UP)
+
+    def test_look_down(self):
+        self.assertEqual(mcs.Action.LOOK_DOWN.value, "LookDown")
+        self.assertEqual(mcs.Action.LOOK_DOWN.key, "k")
+        self.assertEqual(
+            mcs.Action.LOOK_DOWN.desc,
+            "Rotate your view down."
+        )
+        self.assertEqual(mcs.Action("LookDown"), mcs.Action.LOOK_DOWN)
+        self.assertEqual(mcs.Action("k"), mcs.Action.LOOK_DOWN)
 
     def test_stand(self):
         self.assertEqual(mcs.Action.STAND.value, "Stand")

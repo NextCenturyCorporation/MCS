@@ -103,7 +103,7 @@ class Action(Enum):
 
     LIE_DOWN = (
         "LieDown",
-        "l",
+        "x",
         "Change pose to 'LYING' (rotation=float)"
     )
     """
@@ -444,7 +444,7 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    ROTATE_UP = (
+    LOOK_UP = (
         "LookUp",
         "i",
         "Rotate your view up."
@@ -460,7 +460,7 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    ROTATE_DOWN = (
+    LOOK_DOWN = (
         "LookDown",
         "k",
         "Rotate your view down."
