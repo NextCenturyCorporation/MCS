@@ -100,7 +100,7 @@ class Controller():
     DEFAULT_ROTATION = 0
     DEFAULT_FORCE = 0.5
     DEFAULT_AMOUNT = 0.5
-    DEFAULT_DIRECTION = 0
+    DEFAULT_IMG_COORD = 0
     DEFAULT_OBJECT_MOVE_AMOUNT = 1
 
     MAX_ROTATION = 360
@@ -112,8 +112,6 @@ class Controller():
     MIN_FORCE = 0
     MAX_AMOUNT = 1
     MIN_AMOUNT = 0
-
-    NO_IMG_COORD_INPUT = -1
 
     ROTATION_KEY = 'rotation'
     HORIZON_KEY = 'horizon'
@@ -186,7 +184,7 @@ class Controller():
     # Pixel coordinates are expected to start at the top left, but
     # in Unity, (0,0) is the bottom left.
     def _convert_y_image_coord_for_unity(self, y_coord):
-        if(y_coord >= 0):
+        if(y_coord != 0):
             return self.__screen_height - y_coord
         else:
             return y_coord
@@ -373,13 +371,13 @@ class Controller():
         force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
 
         objectImageCoordsX = kwargs.get(
-            self.OBJECT_IMAGE_COORDS_X_KEY, self.NO_IMG_COORD_INPUT)
+            self.OBJECT_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD)
         objectImageCoordsY = kwargs.get(
-            self.OBJECT_IMAGE_COORDS_Y_KEY, self.NO_IMG_COORD_INPUT)
+            self.OBJECT_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD)
         receptacleObjectImageCoordsX = kwargs.get(
-            self.RECEPTACLE_IMAGE_COORDS_X_KEY, self.NO_IMG_COORD_INPUT)
+            self.RECEPTACLE_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD)
         receptacleObjectImageCoordsY = kwargs.get(
-            self.RECEPTACLE_IMAGE_COORDS_Y_KEY, self.NO_IMG_COORD_INPUT)
+            self.RECEPTACLE_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD)
 
         # Check params that should be numbers
         if not Util.is_number(rotation, self.ROTATION_KEY):
@@ -403,23 +401,23 @@ class Controller():
         if not Util.is_number(
                 objectImageCoordsX,
                 self.OBJECT_IMAGE_COORDS_X_KEY):
-            objectImageCoordsX = self.NO_IMG_COORD_INPUT
+            objectImageCoordsX = self.DEFAULT_IMG_COORD
 
         if not Util.is_number(
                 objectImageCoordsY,
                 self.OBJECT_IMAGE_COORDS_Y_KEY):
-            objectImageCoordsY = self.NO_IMG_COORD_INPUT
+            objectImageCoordsY = self.DEFAULT_IMG_COORD
 
         # Check receptacle directions are numbers
         if not Util.is_number(
                 receptacleObjectImageCoordsX,
                 self.RECEPTACLE_IMAGE_COORDS_X_KEY):
-            receptacleObjectImageCoordsX = self.NO_IMG_COORD_INPUT
+            receptacleObjectImageCoordsX = self.DEFAULT_IMG_COORD
 
         if not Util.is_number(
                 receptacleObjectImageCoordsY,
                 self.RECEPTACLE_IMAGE_COORDS_Y_KEY):
-            receptacleObjectImageCoordsY = self.NO_IMG_COORD_INPUT
+            receptacleObjectImageCoordsY = self.DEFAULT_IMG_COORD
 
         # Check that params that should fall in a range are in that range
         horizon = Util.is_in_range(

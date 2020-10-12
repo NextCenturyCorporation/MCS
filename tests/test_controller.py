@@ -337,13 +337,13 @@ class Test_Controller(unittest.TestCase):
             horizon=0,
             moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE,
             objectImageCoords={
-                'x': -1,
-                'y': -1
+                'x': 0,
+                'y': 0
             },
             objectId=None,
             receptacleObjectImageCoords={
-                'x': -1,
-                'y': -1
+                'x': 0,
+                'y': 0
             },
             receptacleObjectId=None,
             rotation={'y': 0}
