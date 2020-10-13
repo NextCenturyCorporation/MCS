@@ -229,6 +229,7 @@ class Controller():
         self.__step_number = 0
         self.__s3_client = None
         self.__history_writer = None
+        self.__history_item = None
 
         self._config = self.read_config_file()
 
@@ -274,6 +275,7 @@ class Controller():
             with violation-of-expectation or classification goals.
             Is not required for other goals. (default None)
         """
+        self.__history_writer.add_step(self.__history_item)
         self.__history_writer.write_history_file(choice, confidence)
 
     def start_scene(self, config_data):
@@ -490,41 +492,14 @@ class Controller():
         )
 
     # Override
-    def step(self, action: str, choice: str = None,
-             confidence: float = None,
-             violations_xy_list: List[Dict[str, float]] = None,
-             heatmap_img: PIL.Image.Image = None,
-             internal_state: object = None,
-             **kwargs) -> StepMetadata:
+    def step(self, action: str, **kwargs) -> StepMetadata:
         """
-        Runs the given action within the current scene and unpauses the scene's
-        physics simulation for a few frames. Can also optionally send
-        information about scene plausability if applicable.
+        Runs the given action within the current scene.
 
         Parameters
         ----------
         action : string
             A selected action string from the list of available actions.
-        choice : string, optional
-            The selected choice required by the end of scenes with
-            violation-of-expectation or classification goals.
-            Is not required for other goals. (default None)
-        confidence : float, optional
-            The choice confidence between 0 and 1 required by the end of
-            scenes with violation-of-expectation or classification goals.
-            Is not required for other goals. (default None)
-        violations_xy_list : List[Dict[str, float]], optional
-            A list of one or more (x, y) locations (ex: [{"x": 1, "y": 3.4}]),
-            each representing a potential violation-of-expectation. Required
-            on each step for passive tasks. (default None)
-        heatmap_img : PIL.Image.Image, optional
-            An image representing scene plausiblility at a particular
-            moment. Will be saved as a .png type. (default None)
-        internal_state : object, optional
-            A properly formatted json object representing various kinds of
-            internal states at a particular moment. Examples include the
-            estimated position of the agent, current map of the world, etc.
-            (default None)
         **kwargs
             Zero or more key-and-value parameters for the action.
 
@@ -535,6 +510,9 @@ class Controller():
             physics simulation were run. Returns None if you have passed the
             "last_step" of this scene.
         """
+
+        if self.__step_number > 0:
+            self.__history_writer.add_step(self.__history_item)
 
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
@@ -587,17 +565,57 @@ class Controller():
         del output_copy.depth_mask_list
         del output_copy.image_list
         del output_copy.object_mask_list
-        history_item = SceneHistory(
+        self.__history_item = SceneHistory(
             step=self.__step_number,
             action=action,
             args=kwargs,
             params=params,
-            classification=choice,
-            confidence=confidence,
-            violations_xy_list=violations_xy_list,
-            internal_state=internal_state,
             output=output_copy)
-        self.__history_writer.add_step(history_item)
+
+        return output
+
+    def make_step_prediction(self, choice: str = None,
+                             confidence: float = None,
+                             violations_xy_list: List[Dict[str, float]] = None,
+                             heatmap_img: PIL.Image.Image = None,
+                             internal_state: object = None,) -> None:
+        """Make a prediction on the previously taken step/action.
+
+        Parameters
+        ----------
+        choice : string, optional
+            The selected choice required by the end of scenes with
+            violation-of-expectation or classification goals.
+            Is not required for other goals. (default None)
+        confidence : float, optional
+            The choice confidence between 0 and 1 required by the end of
+            scenes with violation-of-expectation or classification goals.
+            Is not required for other goals. (default None)
+        violations_xy_list : List[Dict[str, float]], optional
+            A list of one or more (x, y) locations (ex: [{"x": 1, "y": 3.4}]),
+            each representing a potential violation-of-expectation. Required
+            on each step for passive tasks. (default None)
+        heatmap_img : PIL.Image.Image, optional
+            An image representing scene plausiblility at a particular
+            moment. Will be saved as a .png type. (default None)
+        internal_state : object, optional
+            A properly formatted json object representing various kinds of
+            internal states at a particular moment. Examples include the
+            estimated position of the agent, current map of the world, etc.
+            (default None)
+
+        Returns
+        -------
+            None
+        """
+
+        # add history step prediction attributes before add to the writer
+        # in the next step
+        if self.__history_item is not None:
+            self.__history_item.classification = choice
+            self.__history_item.confidence = confidence
+            self.__history_item.violations_xy_list = violations_xy_list
+            self.__history_item.internal_state = internal_state
 
         if(heatmap_img is not None and
            isinstance(heatmap_img, PIL.Image.Image)):
@@ -608,8 +626,6 @@ class Controller():
 
             self.upload_image_to_s3(heatmap_img, file_name_prefix,
                                     str(self.__step_number))
-
-        return output
 
     def upload_image_to_s3(self, image_to_upload: PIL.Image.Image,
                            file_name_prefix: str,
