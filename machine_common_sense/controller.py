@@ -96,7 +96,7 @@ class Controller():
     DEFAULT_ROTATION = 0
     DEFAULT_FORCE = 0.5
     DEFAULT_AMOUNT = 0.5
-    DEFAULT_DIRECTION = 0
+    DEFAULT_IMG_COORD = 0
     DEFAULT_OBJECT_MOVE_AMOUNT = 1
 
     MAX_FORCE = 1
@@ -108,12 +108,10 @@ class Controller():
     HORIZON_KEY = 'horizon'
     FORCE_KEY = 'force'
     AMOUNT_KEY = 'amount'
-    OBJECT_DIRECTION_X_KEY = 'objectDirectionX'
-    OBJECT_DIRECTION_Y_KEY = 'objectDirectionY'
-    OBJECT_DIRECTION_Z_KEY = 'objectDirectionZ'
-    RECEPTACLE_DIRECTION_X = 'receptacleObjectDirectionX'
-    RECEPTACLE_DIRECTION_Y = 'receptacleObjectDirectionY'
-    RECEPTACLE_DIRECTION_Z = 'receptacleObjectDirectionZ'
+    OBJECT_IMAGE_COORDS_X_KEY = 'objectImageCoordsX'
+    OBJECT_IMAGE_COORDS_Y_KEY = 'objectImageCoordsY'
+    RECEPTACLE_IMAGE_COORDS_X_KEY = 'receptacleObjectImageCoordsX'
+    RECEPTACLE_IMAGE_COORDS_Y_KEY = 'receptacleObjectImageCoordsY'
 
     # Hard coding actions that effect MoveMagnitude so the appropriate
     # value is set based off of the action
@@ -132,15 +130,15 @@ class Controller():
 
     CONFIG_AWS_ACCESS_KEY_ID = 'aws_access_key_id'
     CONFIG_AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
-    CONFIG_METADATA_MODE = 'metadata'
+    CONFIG_METADATA_TIER = 'metadata'
     # Normal metadata plus metadata for all hidden objects
-    CONFIG_METADATA_MODE_FULL = 'full'
-    # No navigation metadata like 3D coordinates
-    CONFIG_METADATA_MODE_NO_NAVIGATION = 'no_navigation'
-    # No vision (image feature) metadata, except for the images
-    CONFIG_METADATA_MODE_NO_VISION = 'no_vision'
-    # No metadata, except for the images and haptic/audio feedback
-    CONFIG_METADATA_MODE_NONE = 'none'
+    CONFIG_METADATA_TIER_ORACLE = 'oracle'
+    # No metadata, except for the images, depth masks, object masks,
+    # and haptic/audio feedback
+    CONFIG_METADATA_TIER_LEVEL_2 = 'level2'
+    # No metadata, except for the images, depth masks, and haptic/audio
+    # feedback
+    CONFIG_METADATA_TIER_LEVEL_1 = 'level1'
     CONFIG_SAVE_IMAGES_TO_S3_BUCKET = 'save_images_to_s3_bucket'
     CONFIG_SAVE_IMAGES_TO_S3_FOLDER = 'save_images_to_s3_folder'
     CONFIG_TEAM = 'team'
@@ -149,8 +147,9 @@ class Controller():
 
     def __init__(self, unity_app_file_path, debug=False,
                  enable_noise=False, seed=None, size=None,
-                 depth_masks=False, object_masks=False,
+                 depth_masks=None, object_masks=None,
                  history_enabled=True):
+
         self._update_screen_size(size)
 
         self._controller = ai2thor.controller.Controller(
@@ -174,12 +173,20 @@ class Controller():
         self._on_init(debug, enable_noise, seed, depth_masks,
                       object_masks, history_enabled)
 
+    # Pixel coordinates are expected to start at the top left, but
+    # in Unity, (0,0) is the bottom left.
+    def _convert_y_image_coord_for_unity(self, y_coord):
+        if(y_coord != 0):
+            return self.__screen_height - y_coord
+        else:
+            return y_coord
+
     def _update_screen_size(self, size=None):
         self.__screen_width = self.SCREEN_WIDTH_DEFAULT
-        self.__screen_height = self.SCREEN_WIDTH_DEFAULT / 3 * 2
+        self.__screen_height = int(self.SCREEN_WIDTH_DEFAULT / 3 * 2)
         if size and size >= self.SCREEN_WIDTH_MIN:
             self.__screen_width = size
-            self.__screen_height = size / 3 * 2
+            self.__screen_height = int(size / 3 * 2)
 
     def _update_internal_config(self, enable_noise=None, seed=None,
                                 depth_masks=None, object_masks=None,
@@ -197,7 +204,8 @@ class Controller():
             self.__history_enabled = history_enabled
 
     def _on_init(self, debug=False, enable_noise=False, seed=None,
-                 depth_masks=False, object_masks=False, history_enabled=True):
+                 depth_masks=None, object_masks=None,
+                 history_enabled=True):
 
         self.__debug_to_file = True if (
             debug is True or debug == 'file') else False
@@ -205,8 +213,6 @@ class Controller():
             debug is True or debug == 'terminal') else False
 
         self.__enable_noise = enable_noise
-        self.__depth_masks = depth_masks
-        self.__object_masks = object_masks
         self.__seed = seed
         self.__history_enabled = history_enabled
 
@@ -214,6 +220,7 @@ class Controller():
             random.seed(self.__seed)
 
         self._goal = GoalMetadata()
+        self.__habituation_trial = 1
         self.__head_tilt = 0.0
         self.__output_folder = None  # Save output image files to debug
         self.__scene_configuration = None
@@ -222,6 +229,31 @@ class Controller():
         self.__history_writer = None
 
         self._config = self.read_config_file()
+        self._metadata_tier = (
+            self._config[self.CONFIG_METADATA_TIER]
+            if self.CONFIG_METADATA_TIER in self._config
+            else ''
+        )
+
+        # Order of preference for depth/object mask settings:
+        # look for user specified depth_masks/object_masks properties,
+        # then check config settings, else default to False
+        if(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
+            self.__depth_masks = (
+                depth_masks if depth_masks is not None else True)
+            self.__object_masks = (
+                object_masks if object_masks is not None else False)
+        elif(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2 or
+             self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
+            self.__depth_masks = (
+                depth_masks if depth_masks is not None else True)
+            self.__object_masks = (
+                object_masks if object_masks is not None else True)
+        else:
+            self.__depth_masks = (
+                depth_masks if depth_masks is not None else False)
+            self.__object_masks = (
+                object_masks if object_masks is not None else False)
 
         if ((self.CONFIG_AWS_ACCESS_KEY_ID in self._config) and
                 (self.CONFIG_AWS_SECRET_ACCESS_KEY in self._config)):
@@ -285,6 +317,7 @@ class Controller():
         """
 
         self.__scene_configuration = config_data
+        self.__habituation_trial = 1
         self.__step_number = 0
         self._goal = self.retrieve_goal(self.__scene_configuration)
 
@@ -355,18 +388,14 @@ class Controller():
         )
         force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
 
-        objectDirectionX = kwargs.get(
-            self.OBJECT_DIRECTION_X_KEY, self.DEFAULT_DIRECTION)
-        objectDirectionY = kwargs.get(
-            self.OBJECT_DIRECTION_Y_KEY, self.DEFAULT_DIRECTION)
-        objectDirectionZ = kwargs.get(
-            self.OBJECT_DIRECTION_Z_KEY, self.DEFAULT_DIRECTION)
-        receptacleObjectDirectionX = kwargs.get(
-            self.RECEPTACLE_DIRECTION_X, self.DEFAULT_DIRECTION)
-        receptacleObjectDirectionY = kwargs.get(
-            self.RECEPTACLE_DIRECTION_Y, self.DEFAULT_DIRECTION)
-        receptacleObjectDirectionZ = kwargs.get(
-            self.RECEPTACLE_DIRECTION_Z, self.DEFAULT_DIRECTION)
+        objectImageCoordsX = kwargs.get(
+            self.OBJECT_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD)
+        objectImageCoordsY = kwargs.get(
+            self.OBJECT_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD)
+        receptacleObjectImageCoordsX = kwargs.get(
+            self.RECEPTACLE_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD)
+        receptacleObjectImageCoordsY = kwargs.get(
+            self.RECEPTACLE_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD)
 
         if not Util.is_number(amount, self.AMOUNT_KEY):
             # The default for open/close is 1, the default for "Move" actions
@@ -381,35 +410,25 @@ class Controller():
 
         # Check object directions are numbers
         if not Util.is_number(
-                objectDirectionX,
-                self.OBJECT_DIRECTION_X_KEY):
-            objectDirectionX = self.DEFAULT_DIRECTION
+                objectImageCoordsX,
+                self.OBJECT_IMAGE_COORDS_X_KEY):
+            objectImageCoordsX = self.DEFAULT_IMG_COORD
 
         if not Util.is_number(
-                objectDirectionY,
-                self.OBJECT_DIRECTION_Y_KEY):
-            objectDirectionY = self.DEFAULT_DIRECTION
-
-        if not Util.is_number(
-                objectDirectionZ,
-                self.OBJECT_DIRECTION_Z_KEY):
-            objectDirectionZ = self.DEFAULT_DIRECTION
+                objectImageCoordsY,
+                self.OBJECT_IMAGE_COORDS_Y_KEY):
+            objectImageCoordsY = self.DEFAULT_IMG_COORD
 
         # Check receptacle directions are numbers
         if not Util.is_number(
-                receptacleObjectDirectionX,
-                self.RECEPTACLE_DIRECTION_X):
-            receptacleObjectDirectionX = self.DEFAULT_DIRECTION
+                receptacleObjectImageCoordsX,
+                self.RECEPTACLE_IMAGE_COORDS_X_KEY):
+            receptacleObjectImageCoordsX = self.DEFAULT_IMG_COORD
 
         if not Util.is_number(
-                receptacleObjectDirectionY,
-                self.RECEPTACLE_DIRECTION_Y):
-            receptacleObjectDirectionY = self.DEFAULT_DIRECTION
-
-        if not Util.is_number(
-                receptacleObjectDirectionZ,
-                self.RECEPTACLE_DIRECTION_Z):
-            receptacleObjectDirectionZ = self.DEFAULT_DIRECTION
+                receptacleObjectImageCoordsY,
+                self.RECEPTACLE_IMAGE_COORDS_Y_KEY):
+            receptacleObjectImageCoordsY = self.DEFAULT_IMG_COORD
 
         amount = Util.is_in_range(
             amount,
@@ -447,14 +466,14 @@ class Controller():
         rotation_vector['y'] = rotation
 
         object_vector = {}
-        object_vector['x'] = objectDirectionX
-        object_vector['y'] = objectDirectionY
-        object_vector['z'] = objectDirectionZ
+        object_vector['x'] = objectImageCoordsX
+        object_vector['y'] = self._convert_y_image_coord_for_unity(
+            objectImageCoordsY)
 
         receptacle_vector = {}
-        receptacle_vector['x'] = receptacleObjectDirectionX
-        receptacle_vector['y'] = receptacleObjectDirectionY
-        receptacle_vector['z'] = receptacleObjectDirectionZ
+        receptacle_vector['x'] = receptacleObjectImageCoordsX
+        receptacle_vector['y'] = self._convert_y_image_coord_for_unity(
+            receptacleObjectImageCoordsY)
 
         return dict(
             objectId=kwargs.get("objectId", None),
@@ -462,8 +481,8 @@ class Controller():
             rotation=rotation_vector,
             horizon=horizon,
             moveMagnitude=moveMagnitude,
-            objectDirection=object_vector,
-            receptacleObjectDirection=receptacle_vector
+            objectImageCoords=object_vector,
+            receptacleObjectImageCoords=receptacle_vector
         )
 
     # Override
@@ -538,17 +557,26 @@ class Controller():
         self.__step_number += 1
 
         if self.__debug_to_terminal:
-            print(
-                "================================================"
-                "===============================")
+            print("================================================" +
+                  "===============================")
             print("STEP: " + str(self.__step_number))
             print("ACTION: " + action)
+            if self._goal.habituation_total >= self.__habituation_trial:
+                print("HABITUATION TRIAL: " + str(self.__habituation_trial) +
+                      " / " + str(self._goal.habituation_total))
+            elif self._goal.habituation_total > 0:
+                print("HABITUATION TRIAL: DONE")
+            else:
+                print("HABITUATION TRIAL: NONE")
 
         params = self.validate_and_convert_params(action, **kwargs)
 
         # Only call mcs_action_to_ai2thor_action AFTER calling
         # validate_and_convert_params
         action = self.mcs_action_to_ai2thor_action(action)
+
+        if (action == 'EndHabituation'):
+            self.__habituation_trial += 1
 
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
@@ -648,21 +676,15 @@ class Controller():
                 if self.__debug_to_terminal:
                     print('Read MCS Config File:')
                     print(config)
-                if self.CONFIG_METADATA_MODE not in config:
-                    config[self.CONFIG_METADATA_MODE] = ''
+                if self.CONFIG_METADATA_TIER not in config:
+                    config[self.CONFIG_METADATA_TIER] = ''
                 return config
         return {}
 
     def restrict_goal_output_metadata(self, goal_output):
-        mode = (
-            self._config[self.CONFIG_METADATA_MODE]
-            if self.CONFIG_METADATA_MODE in self._config
-            else ''
-        )
-
         if (
-            mode == self.CONFIG_METADATA_MODE_NO_VISION or
-            mode == self.CONFIG_METADATA_MODE_NONE
+            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
+            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2
         ):
             if (
                 'target' in goal_output.metadata and
@@ -682,56 +704,14 @@ class Controller():
 
         return goal_output
 
-    def restrict_object_output_metadata(self, object_output):
-        mode = (
-            self._config[self.CONFIG_METADATA_MODE]
-            if self.CONFIG_METADATA_MODE in self._config
-            else ''
-        )
-
-        if (
-            mode == self.CONFIG_METADATA_MODE_NO_VISION or
-            mode == self.CONFIG_METADATA_MODE_NONE
-        ):
-            object_output.color = None
-            object_output.dimensions = None
-            object_output.direction = None
-            object_output.distance = None
-            object_output.distance_in_steps = None
-            object_output.distance_in_world = None
-            object_output.shape = None
-            object_output.texture_color_list = None
-
-        if (
-            mode == self.CONFIG_METADATA_MODE_NO_NAVIGATION or
-            mode == self.CONFIG_METADATA_MODE_NONE
-        ):
-            object_output.position = None
-            object_output.rotation = None
-
-        return object_output
-
     def restrict_step_output_metadata(self, step_output):
-        mode = (
-            self._config[self.CONFIG_METADATA_MODE]
-            if self.CONFIG_METADATA_MODE in self._config
-            else ''
-        )
-
-        if (
-            mode == self.CONFIG_METADATA_MODE_NO_VISION or
-            mode == self.CONFIG_METADATA_MODE_NONE
-        ):
-            step_output.camera_aspect_ratio = None
-            step_output.camera_clipping_planes = None
-            step_output.camera_field_of_view = None
-            step_output.camera_height = None
-            step_output.depth_mask_list = []
+        # only remove object_mask_list for level1
+        if(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
             step_output.object_mask_list = []
 
         if (
-            mode == self.CONFIG_METADATA_MODE_NO_NAVIGATION or
-            mode == self.CONFIG_METADATA_MODE_NONE
+            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
+            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2
         ):
             step_output.position = None
             step_output.rotation = None
@@ -761,27 +741,15 @@ class Controller():
             goal_config['metadata']['category'] = goal_config['category']
 
         return self.restrict_goal_output_metadata(GoalMetadata(
-            action_list=(goal_config['action_list']
-                         if 'action_list' in goal_config else None),
-            category=(goal_config['category']
-                      if 'category' in goal_config else ''),
-            description=(goal_config['description']
-                         if 'description' in goal_config else ''),
-            domain_list=(goal_config['domain_list']
-                         if 'domain_list' in goal_config else []),
-            info_list=(goal_config['info_list']
-                       if 'type_list' in goal_config else []),
+            action_list=goal_config.get('action_list', None),
+            category=goal_config.get('category', ''),
+            description=goal_config.get('description', ''),
+            habituation_total=goal_config.get('habituation_total', 0),
             last_preview_phase_step=(
-                goal_config['last_preview_phase_step']
-                if 'last_preview_phase_step' in goal_config
-                else 0
+                goal_config.get('last_preview_phase_step', 0)
             ),
-            last_step=(goal_config['last_step']
-                       if 'last_step' in goal_config else None),
-            type_list=(goal_config['type_list']
-                       if 'type_list' in goal_config else []),
-            metadata=(goal_config['metadata']
-                      if 'metadata' in goal_config else {})
+            last_step=goal_config.get('last_step', None),
+            metadata=goal_config.get('metadata', {})
         ))
 
     def retrieve_head_tilt(self, scene_event):
@@ -797,13 +765,10 @@ class Controller():
             scene_event.events) - 1].object_id_to_color
 
     def retrieve_object_list(self, scene_event):
-        mode = (
-            self._config[self.CONFIG_METADATA_MODE]
-            if self.CONFIG_METADATA_MODE in self._config
-            else ''
-        )
-
-        if mode == self.CONFIG_METADATA_MODE_FULL:
+        if (self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
+                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2):
+            return []
+        elif self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE:
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -814,18 +779,20 @@ class Controller():
                 ],
                 key=lambda x: x.uuid
             )
-
-        return sorted(
-            [
-                self.retrieve_object_output(
-                    object_metadata, self.retrieve_object_colors(scene_event)
-                )
-                for object_metadata in scene_event.metadata['objects']
-                if object_metadata['visibleInCamera'] or
-                object_metadata['isPickedUp']
-            ],
-            key=lambda x: x.uuid
-        )
+        else:
+            # if no config specified, return visible objects (for now)
+            return sorted(
+                [
+                    self.retrieve_object_output(
+                        object_metadata,
+                        self.retrieve_object_colors(scene_event)
+                    )
+                    for object_metadata in scene_event.metadata['objects']
+                    if object_metadata['visibleInCamera'] or
+                    object_metadata['isPickedUp']
+                ],
+                key=lambda x: x.uuid
+            )
 
     def retrieve_object_output(self, object_metadata, object_id_to_color):
         material_list = (
@@ -855,7 +822,7 @@ class Controller():
             else {}
         )
 
-        return self.restrict_object_output_metadata(
+        return (
             ObjectMetadata(
                 uuid=object_metadata['objectId'],
                 color={'r': rgb[0], 'g': rgb[1], 'b': rgb[2]},
@@ -921,13 +888,10 @@ class Controller():
             return return_status
 
     def retrieve_structural_object_list(self, scene_event):
-        mode = (
-            self._config[self.CONFIG_METADATA_MODE]
-            if self.CONFIG_METADATA_MODE in self._config
-            else ''
-        )
-
-        if mode == self.CONFIG_METADATA_MODE_FULL:
+        if (self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
+                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2):
+            return []
+        elif self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE:
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -940,19 +904,22 @@ class Controller():
                 ],
                 key=lambda x: x.uuid
             )
-
-        return sorted(
-            [
-                self.retrieve_object_output(
-                    object_metadata, self.retrieve_object_colors(scene_event)
-                )
-                for object_metadata in scene_event.metadata[
-                    'structuralObjects'
-                ]
-                if object_metadata['visibleInCamera']
-            ],
-            key=lambda x: x.uuid
-        )
+        else:
+            # if no config specified, return visible structural objects (for
+            # now)
+            return sorted(
+                [
+                    self.retrieve_object_output(
+                        object_metadata, self.retrieve_object_colors(
+                            scene_event)
+                    )
+                    for object_metadata in scene_event.metadata[
+                        'structuralObjects'
+                    ]
+                    if object_metadata['visibleInCamera']
+                ],
+                key=lambda x: x.uuid
+            )
 
     def save_images(self, scene_event):
         image_list = []
@@ -975,7 +942,7 @@ class Controller():
 
             if self.__debug_to_file and self.__output_folder is not None:
                 step_plus_substep_index = 0 if self.__step_number == 0 else (
-                    (self.__step_number - 1) * 5) + (index + 1)
+                    (self.__step_number - 1) * len(image_list)) + (index + 1)
                 suffix = '_' + str(step_plus_substep_index) + '.png'
                 scene_image.save(fp=self.__output_folder +
                                  'frame_image' + suffix)
@@ -1022,6 +989,11 @@ class Controller():
                 'cameraPosition', {}).get('y', 0.0),
             depth_mask_list=depth_mask_list,
             goal=self._goal,
+            habituation_trial=(
+                self.__habituation_trial
+                if self._goal.habituation_total >= self.__habituation_trial
+                else None
+            ),
             head_tilt=self.retrieve_head_tilt(scene_event),
             image_list=image_list,
             object_list=self.retrieve_object_list(scene_event),
@@ -1054,6 +1026,12 @@ class Controller():
         return step_output
 
     def wrap_step(self, **kwargs):
+        # whether or not to randomize segmentation mask colors
+        consistentColors = False
+
+        if(self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
+            consistentColors = True
+
         # Create the step data dict for the AI2-THOR step function.
         step_data = dict(
             continuous=True,
@@ -1064,6 +1042,7 @@ class Controller():
             # Yes, in AI2-THOR, the player's reach appears to be
             # governed by the "visibilityDistance", confusingly...
             visibilityDistance=MAX_REACH_DISTANCE,
+            consistentColors=consistentColors,
             **kwargs
         )
 

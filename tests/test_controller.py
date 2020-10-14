@@ -15,6 +15,7 @@ class Test_Controller(unittest.TestCase):
     def setUp(self):
         self.controller = MockControllerAI2THOR()
         self.controller.set_config({'metadata': ''})
+        self.controller.set_metadata_tier('')
 
     def create_mock_scene_event(self, mock_scene_event_data):
         # Wrap the dict in a SimpleNamespace object to permit property access
@@ -336,11 +337,18 @@ class Test_Controller(unittest.TestCase):
             visibilityDistance=mcs.controller.MAX_REACH_DISTANCE,
             horizon=0,
             moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE,
-            objectDirection={'x': 0, 'y': 0, 'z': 0},
+            objectImageCoords={
+                'x': 0,
+                'y': 0
+            },
             objectId=None,
-            receptacleObjectDirection={'x': 0, 'y': 0, 'z': 0},
+            receptacleObjectImageCoords={
+                'x': 0,
+                'y': 0
+            },
             receptacleObjectId=None,
-            rotation={'y': 0}
+            rotation={'y': 0},
+            consistentColors=False
         )
 
         for key, value in kwargs.items():
@@ -547,7 +555,7 @@ class Test_Controller(unittest.TestCase):
     def test_step_validate_parameters_force_object(self):
         _ = self.controller.start_scene({'name': 'test name'})
         self.controller.step('PushObject', force=1, objectId='test_id_1')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
@@ -555,7 +563,7 @@ class Test_Controller(unittest.TestCase):
                 objectId='test_id_1'))
 
         self.controller.step('PushObject', force=0.1, objectId='test_id_1')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
@@ -564,7 +572,7 @@ class Test_Controller(unittest.TestCase):
                 objectId='test_id_1'))
 
         self.controller.step('PushObject', force=1.5, objectId='test_id_1')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
@@ -573,7 +581,7 @@ class Test_Controller(unittest.TestCase):
                 objectId='test_id_1'))
 
         self.controller.step('PushObject', force=-1, objectId='test_id_1')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
@@ -584,18 +592,14 @@ class Test_Controller(unittest.TestCase):
         self.controller.step(
             'PushObject',
             force=1,
-            objectDirectionX=1,
-            objectDirectionY=2,
-            objectDirectionZ=3)
+            objectImageCoordsX=1,
+            objectImageCoordsY=2)
         self.assertEquals(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
                 moveMagnitude=mcs.Controller.MAX_FORCE,
-                objectDirection={
-                    'x': 1,
-                    'y': 2,
-                    'z': 3}))
+                objectImageCoords={'x': 1, 'y': 398}))
 
     def test_step_validate_parameters_open_close(self):
         _ = self.controller.start_scene({'name': 'test name'})
@@ -604,7 +608,7 @@ class Test_Controller(unittest.TestCase):
             amount=1,
             objectId='test_id_1',
             receptacleObjectId='test_id_2')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MCSOpenObject',
@@ -617,7 +621,7 @@ class Test_Controller(unittest.TestCase):
             amount=0.1,
             objectId='test_id_1',
             receptacleObjectId='test_id_2')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MCSOpenObject',
@@ -630,7 +634,7 @@ class Test_Controller(unittest.TestCase):
             amount=1.5,
             objectId='test_id_1',
             receptacleObjectId='test_id_2')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MCSOpenObject',
@@ -643,7 +647,7 @@ class Test_Controller(unittest.TestCase):
             amount=-1,
             objectId='test_id_1',
             receptacleObjectId='test_id_2')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MCSOpenObject',
@@ -654,17 +658,21 @@ class Test_Controller(unittest.TestCase):
         self.controller.step(
             'OpenObject',
             amount=1,
-            objectDirectionX=1,
-            objectDirectionY=2,
-            objectDirectionZ=3,
-            receptacleObjectDirectionX=4,
-            receptacleObjectDirectionY=5,
-            receptacleObjectDirectionZ=6)
+            objectImageCoordsX=1,
+            objectImageCoordsY=2,
+            receptacleObjectImageCoordsX=4,
+            receptacleObjectImageCoordsY=5)
         self.assertEquals(
             self.controller.get_last_step_data(), self.create_step_data(
-                action='MCSOpenObject', moveMagnitude=1, objectDirection={
-                    'x': 1, 'y': 2, 'z': 3}, receptacleObjectDirection={
-                    'x': 4, 'y': 5, 'z': 6}))
+                action='MCSOpenObject', moveMagnitude=1,
+                objectImageCoords={
+                    'x': 1, 'y': MOCK_VARIABLES['metadata']['screenHeight'] - 2
+                },
+                receptacleObjectImageCoords={
+                    'x': 4, 'y': MOCK_VARIABLES['metadata']['screenHeight'] - 5
+                }
+            )
+        )
 
     def test_restrict_goal_output_metadata(self):
         goal = mcs.GoalMetadata(metadata={
@@ -679,8 +687,8 @@ class Test_Controller(unittest.TestCase):
             'target_2': {'image': [2]}
         })
 
-    def test_restrict_goal_output_metadata_full(self):
-        self.controller.set_config({'metadata': 'full'})
+    def test_restrict_goal_output_metadata_oracle(self):
+        self.controller.set_metadata_tier('oracle')
         goal = mcs.GoalMetadata(metadata={
             'target': {'image': [0]},
             'target_1': {'image': [1]},
@@ -693,22 +701,8 @@ class Test_Controller(unittest.TestCase):
             'target_2': {'image': [2]}
         })
 
-    def test_restrict_goal_output_metadata_no_navigation(self):
-        self.controller.set_config({'metadata': 'no_navigation'})
-        goal = mcs.GoalMetadata(metadata={
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-        actual = self.controller.restrict_goal_output_metadata(goal)
-        self.assertEqual(actual.metadata, {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-
-    def test_restrict_goal_output_metadata_no_vision(self):
-        self.controller.set_config({'metadata': 'no_vision'})
+    def test_restrict_goal_output_metadata_level2(self):
+        self.controller.set_metadata_tier('level2')
         goal = mcs.GoalMetadata(metadata={
             'target': {'image': [0]},
             'target_1': {'image': [1]},
@@ -721,8 +715,8 @@ class Test_Controller(unittest.TestCase):
             'target_2': {'image': None}
         })
 
-    def test_restrict_goal_output_metadata_none(self):
-        self.controller.set_config({'metadata': 'none'})
+    def test_restrict_goal_output_metadata_level1(self):
+        self.controller.set_metadata_tier('level1')
         goal = mcs.GoalMetadata(metadata={
             'target': {'image': [0]},
             'target_1': {'image': [1]},
@@ -734,125 +728,6 @@ class Test_Controller(unittest.TestCase):
             'target_1': {'image': None},
             'target_2': {'image': None}
         })
-
-    def test_restrict_object_output_metadata(self):
-        test_object = mcs.ObjectMetadata(
-            color={'r': 1, 'g': 2, 'b': 3},
-            dimensions={'x': 1, 'y': 2, 'z': 3},
-            distance=12.34,
-            distance_in_steps=34.56,
-            distance_in_world=56.78,
-            position={'x': 4, 'y': 5, 'z': 6},
-            rotation={'x': 7, 'y': 8, 'z': 9},
-            shape='sofa',
-            texture_color_list=['c1', 'c2']
-        )
-        actual = self.controller.restrict_object_output_metadata(test_object)
-        self.assertEqual(actual.color, {'r': 1, 'g': 2, 'b': 3})
-        self.assertEqual(actual.dimensions, {'x': 1, 'y': 2, 'z': 3})
-        self.assertEqual(actual.distance, 12.34)
-        self.assertEqual(actual.distance_in_steps, 34.56)
-        self.assertEqual(actual.distance_in_world, 56.78)
-        self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
-        self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
-        self.assertEqual(actual.shape, 'sofa')
-        self.assertEqual(actual.texture_color_list, ['c1', 'c2'])
-
-    def test_restrict_object_output_metadata_full(self):
-        self.controller.set_config({'metadata': 'full'})
-        test_object = mcs.ObjectMetadata(
-            color={'r': 1, 'g': 2, 'b': 3},
-            dimensions={'x': 1, 'y': 2, 'z': 3},
-            distance=12.34,
-            distance_in_steps=34.56,
-            distance_in_world=56.78,
-            position={'x': 4, 'y': 5, 'z': 6},
-            rotation={'x': 7, 'y': 8, 'z': 9},
-            shape='sofa',
-            texture_color_list=['c1', 'c2']
-        )
-        actual = self.controller.restrict_object_output_metadata(test_object)
-        self.assertEqual(actual.color, {'r': 1, 'g': 2, 'b': 3})
-        self.assertEqual(actual.dimensions, {'x': 1, 'y': 2, 'z': 3})
-        self.assertEqual(actual.distance, 12.34)
-        self.assertEqual(actual.distance_in_steps, 34.56)
-        self.assertEqual(actual.distance_in_world, 56.78)
-        self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
-        self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
-        self.assertEqual(actual.shape, 'sofa')
-        self.assertEqual(actual.texture_color_list, ['c1', 'c2'])
-
-    def test_restrict_object_output_metadata_no_navigation(self):
-        self.controller.set_config({'metadata': 'no_navigation'})
-        test_object = mcs.ObjectMetadata(
-            color={'r': 1, 'g': 2, 'b': 3},
-            dimensions={'x': 1, 'y': 2, 'z': 3},
-            distance=12.34,
-            distance_in_steps=34.56,
-            distance_in_world=56.78,
-            position={'x': 4, 'y': 5, 'z': 6},
-            rotation={'x': 7, 'y': 8, 'z': 9},
-            shape='sofa',
-            texture_color_list=['c1', 'c2']
-        )
-        actual = self.controller.restrict_object_output_metadata(test_object)
-        self.assertEqual(actual.color, {'r': 1, 'g': 2, 'b': 3})
-        self.assertEqual(actual.dimensions, {'x': 1, 'y': 2, 'z': 3})
-        self.assertEqual(actual.distance, 12.34)
-        self.assertEqual(actual.distance_in_steps, 34.56)
-        self.assertEqual(actual.distance_in_world, 56.78)
-        self.assertEqual(actual.position, None)
-        self.assertEqual(actual.rotation, None)
-        self.assertEqual(actual.shape, 'sofa')
-        self.assertEqual(actual.texture_color_list, ['c1', 'c2'])
-
-    def test_restrict_object_output_metadata_no_vision(self):
-        self.controller.set_config({'metadata': 'no_vision'})
-        test_object = mcs.ObjectMetadata(
-            color={'r': 1, 'g': 2, 'b': 3},
-            dimensions={'x': 1, 'y': 2, 'z': 3},
-            distance=12.34,
-            distance_in_steps=34.56,
-            distance_in_world=56.78,
-            position={'x': 4, 'y': 5, 'z': 6},
-            rotation={'x': 7, 'y': 8, 'z': 9},
-            shape='sofa',
-            texture_color_list=['c1', 'c2']
-        )
-        actual = self.controller.restrict_object_output_metadata(test_object)
-        self.assertEqual(actual.color, None)
-        self.assertEqual(actual.dimensions, None)
-        self.assertEqual(actual.distance, None)
-        self.assertEqual(actual.distance_in_steps, None)
-        self.assertEqual(actual.distance_in_world, None)
-        self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
-        self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
-        self.assertEqual(actual.shape, None)
-        self.assertEqual(actual.texture_color_list, None)
-
-    def test_restrict_object_output_metadata_none(self):
-        self.controller.set_config({'metadata': 'none'})
-        test_object = mcs.ObjectMetadata(
-            color={'r': 1, 'g': 2, 'b': 3},
-            dimensions={'x': 1, 'y': 2, 'z': 3},
-            distance=12.34,
-            distance_in_steps=34.56,
-            distance_in_world=56.78,
-            position={'x': 4, 'y': 5, 'z': 6},
-            rotation={'x': 7, 'y': 8, 'z': 9},
-            shape='sofa',
-            texture_color_list=['c1', 'c2']
-        )
-        actual = self.controller.restrict_object_output_metadata(test_object)
-        self.assertEqual(actual.color, None)
-        self.assertEqual(actual.dimensions, None)
-        self.assertEqual(actual.distance, None)
-        self.assertEqual(actual.distance_in_steps, None)
-        self.assertEqual(actual.distance_in_world, None)
-        self.assertEqual(actual.position, None)
-        self.assertEqual(actual.rotation, None)
-        self.assertEqual(actual.shape, None)
-        self.assertEqual(actual.texture_color_list, None)
 
     def test_restrict_step_output_metadata(self):
         step = mcs.StepMetadata(
@@ -875,8 +750,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
         self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
 
-    def test_restrict_step_output_metadata_full(self):
-        self.controller.set_config({'metadata': 'full'})
+    def test_restrict_step_output_metadata_oracle(self):
+        self.controller.set_metadata_tier('oracle')
         step = mcs.StepMetadata(
             camera_aspect_ratio=(1, 2),
             camera_clipping_planes=(3, 4),
@@ -897,8 +772,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
         self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
 
-    def test_restrict_step_output_metadata_no_navigation(self):
-        self.controller.set_config({'metadata': 'no_navigation'})
+    def test_restrict_step_output_metadata_level2(self):
+        self.controller.set_metadata_tier('level2')
         step = mcs.StepMetadata(
             camera_aspect_ratio=(1, 2),
             camera_clipping_planes=(3, 4),
@@ -919,8 +794,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
 
-    def test_restrict_step_output_metadata_no_vision(self):
-        self.controller.set_config({'metadata': 'no_vision'})
+    def test_restrict_step_output_metadata_level1(self):
+        self.controller.set_metadata_tier('level1')
         step = mcs.StepMetadata(
             camera_aspect_ratio=(1, 2),
             camera_clipping_planes=(3, 4),
@@ -932,33 +807,11 @@ class Test_Controller(unittest.TestCase):
             rotation={'x': 7, 'y': 8, 'z': 9}
         )
         actual = self.controller.restrict_step_output_metadata(step)
-        self.assertEqual(actual.camera_aspect_ratio, None)
-        self.assertEqual(actual.camera_clipping_planes, None)
-        self.assertEqual(actual.camera_field_of_view, None)
-        self.assertEqual(actual.camera_height, None)
-        self.assertEqual(actual.depth_mask_list, [])
-        self.assertEqual(actual.object_mask_list, [])
-        self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
-        self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
-
-    def test_restrict_step_output_metadata_none(self):
-        self.controller.set_config({'metadata': 'none'})
-        step = mcs.StepMetadata(
-            camera_aspect_ratio=(1, 2),
-            camera_clipping_planes=(3, 4),
-            camera_field_of_view=5,
-            camera_height=6,
-            depth_mask_list=[7],
-            object_mask_list=[8],
-            position={'x': 4, 'y': 5, 'z': 6},
-            rotation={'x': 7, 'y': 8, 'z': 9}
-        )
-        actual = self.controller.restrict_step_output_metadata(step)
-        self.assertEqual(actual.camera_aspect_ratio, None)
-        self.assertEqual(actual.camera_clipping_planes, None)
-        self.assertEqual(actual.camera_field_of_view, None)
-        self.assertEqual(actual.camera_height, None)
-        self.assertEqual(actual.depth_mask_list, [])
+        self.assertEqual(actual.camera_aspect_ratio, (1, 2))
+        self.assertEqual(actual.camera_clipping_planes, (3, 4))
+        self.assertEqual(actual.camera_field_of_view, 5)
+        self.assertEqual(actual.camera_height, 6)
+        self.assertEqual(actual.depth_mask_list, [7])
         self.assertEqual(actual.object_mask_list, [])
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
@@ -1030,10 +883,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(goal_1.action_list, None)
         self.assertEqual(goal_1.category, '')
         self.assertEqual(goal_1.description, '')
-        self.assertEqual(goal_1.domain_list, [])
-        self.assertEqual(goal_1.info_list, [])
+        self.assertEqual(goal_1.habituation_total, 0)
         self.assertEqual(goal_1.last_step, None)
-        self.assertEqual(goal_1.type_list, [])
         self.assertEqual(goal_1.metadata, {})
 
         goal_2 = self.controller.retrieve_goal({
@@ -1043,10 +894,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(goal_2.action_list, None)
         self.assertEqual(goal_2.category, '')
         self.assertEqual(goal_2.description, '')
-        self.assertEqual(goal_2.domain_list, [])
-        self.assertEqual(goal_2.info_list, [])
+        self.assertEqual(goal_2.habituation_total, 0)
         self.assertEqual(goal_2.last_step, None)
-        self.assertEqual(goal_2.type_list, [])
         self.assertEqual(goal_2.metadata, {})
 
         goal_3 = self.controller.retrieve_goal({
@@ -1058,10 +907,8 @@ class Test_Controller(unittest.TestCase):
                 ],
                 "category": "test category",
                 "description": "test description",
-                "domain_list": ["domain1", "domain2"],
-                "info_list": ["info1", "info2", 12.34],
+                "habituation_total": 5,
                 "last_step": 10,
-                "type_list": ["type1", "type2"],
                 "metadata": {
                     "key": "value"
                 }
@@ -1073,17 +920,15 @@ class Test_Controller(unittest.TestCase):
                     "action2", "action3", "action4"]])
         self.assertEqual(goal_3.category, "test category")
         self.assertEqual(goal_3.description, "test description")
-        self.assertEqual(goal_3.domain_list, ["domain1", "domain2"])
-        self.assertEqual(goal_3.info_list, ["info1", "info2", 12.34])
+        self.assertEqual(goal_3.habituation_total, 5)
         self.assertEqual(goal_3.last_step, 10)
-        self.assertEqual(goal_3.type_list, ["type1", "type2"])
         self.assertEqual(goal_3.metadata, {
             "category": "test category",
             "key": "value"
         })
 
     def test_retrieve_goal_with_config_metadata(self):
-        self.controller.set_config({'metadata': 'full'})
+        self.controller.set_metadata_tier('oracle')
         actual = self.controller.retrieve_goal({
             'goal': {
                 'metadata': {
@@ -1099,23 +944,7 @@ class Test_Controller(unittest.TestCase):
             'target_2': {'image': [2]}
         })
 
-        self.controller.set_config({'metadata': 'no_navigation'})
-        actual = self.controller.retrieve_goal({
-            'goal': {
-                'metadata': {
-                    'target': {'image': [0]},
-                    'target_1': {'image': [1]},
-                    'target_2': {'image': [2]}
-                }
-            }
-        })
-        self.assertEqual(actual.metadata, {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-
-        self.controller.set_config({'metadata': 'no_vision'})
+        self.controller.set_metadata_tier('level2')
         actual = self.controller.retrieve_goal({
             'goal': {
                 'metadata': {
@@ -1131,7 +960,7 @@ class Test_Controller(unittest.TestCase):
             'target_2': {'image': None}
         })
 
-        self.controller.set_config({'metadata': 'none'})
+        self.controller.set_metadata_tier('level1')
         actual = self.controller.retrieve_goal({
             'goal': {
                 'metadata': {
@@ -1226,8 +1055,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual[1].texture_color_list, ['c2', 'c3'])
         self.assertEqual(actual[1].visible, True)
 
-    def test_retrieve_object_list_with_config_metadata_full(self):
-        self.controller.set_config({'metadata': 'full'})
+    def test_retrieve_object_list_with_config_metadata_oracle(self):
+        self.controller.set_metadata_tier('oracle')
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         actual = self.controller.retrieve_object_list(
             self.create_mock_scene_event(mock_scene_event_data))
@@ -1309,140 +1138,19 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual[2].texture_color_list, [])
         self.assertEqual(actual[2].visible, False)
 
-    def test_retrieve_object_list_with_config_metadata_no_navigation(self):
-        self.controller.set_config({'metadata': 'no_navigation'})
+    def test_retrieve_object_list_with_config_metadata_level2(self):
+        self.controller.set_metadata_tier('level2')
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         actual = self.controller.retrieve_object_list(
             self.create_mock_scene_event(mock_scene_event_data))
-        self.assertEqual(len(actual), 2)
+        self.assertEqual(len(actual), 0)
 
-        self.assertEqual(actual[0].uuid, "testId1")
-        self.assertEqual(actual[0].color, {
-            "r": 12,
-            "g": 34,
-            "b": 56
-        })
-        self.assertEqual(actual[0].dimensions, {})
-        self.assertEqual(actual[0].direction, {
-            "x": 0,
-            "y": 0,
-            "z": 0
-        })
-        self.assertEqual(actual[0].distance, 0)
-        self.assertEqual(actual[0].distance_in_steps, 0)
-        self.assertEqual(actual[0].distance_in_world, 0)
-        self.assertEqual(actual[0].held, True)
-        self.assertEqual(actual[0].mass, 1)
-        self.assertEqual(actual[0].material_list, [])
-        self.assertEqual(actual[0].position, None)
-        self.assertEqual(actual[0].rotation, None)
-        self.assertEqual(actual[0].shape, 'shape1')
-        self.assertEqual(actual[0].texture_color_list, ['c1'])
-        self.assertEqual(actual[0].visible, True)
-
-        self.assertEqual(actual[1].uuid, "testId2")
-        self.assertEqual(actual[1].color, {
-            "r": 98,
-            "g": 76,
-            "b": 54
-        })
-        self.assertEqual(
-            actual[1].dimensions, [
-                "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
-        self.assertEqual(actual[1].direction, {
-            "x": 90,
-            "y": -30,
-            "z": 0
-        })
-        self.assertEqual(actual[1].distance, 4.4)
-        self.assertEqual(actual[1].distance_in_steps, 4.4)
-        self.assertEqual(actual[1].distance_in_world, 1.5)
-        self.assertEqual(actual[1].held, False)
-        self.assertEqual(actual[1].mass, 12.34)
-        self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
-        self.assertEqual(actual[1].position, None)
-        self.assertEqual(actual[1].rotation, None)
-        self.assertEqual(actual[1].shape, 'shape2')
-        self.assertEqual(actual[1].texture_color_list, ['c2', 'c3'])
-        self.assertEqual(actual[1].visible, True)
-
-    def test_retrieve_object_list_with_config_metadata_no_vision(self):
-        self.controller.set_config({'metadata': 'no_vision'})
+    def test_retrieve_object_list_with_config_metadata_level1(self):
+        self.controller.set_metadata_tier('level1')
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         actual = self.controller.retrieve_object_list(
             self.create_mock_scene_event(mock_scene_event_data))
-        self.assertEqual(len(actual), 2)
-
-        self.assertEqual(actual[0].uuid, "testId1")
-        self.assertEqual(actual[0].color, None)
-        self.assertEqual(actual[0].dimensions, None)
-        self.assertEqual(actual[0].direction, None)
-        self.assertEqual(actual[0].distance, None)
-        self.assertEqual(actual[0].distance_in_steps, None)
-        self.assertEqual(actual[0].distance_in_world, None)
-        self.assertEqual(actual[0].held, True)
-        self.assertEqual(actual[0].mass, 1)
-        self.assertEqual(actual[0].material_list, [])
-        self.assertEqual(actual[0].position, {"x": 1, "y": 1, "z": 2})
-        self.assertEqual(actual[0].rotation, {"x": 1, "y": 2, "z": 3})
-        self.assertEqual(actual[0].shape, None)
-        self.assertEqual(actual[0].texture_color_list, None)
-        self.assertEqual(actual[0].visible, True)
-
-        self.assertEqual(actual[1].uuid, "testId2")
-        self.assertEqual(actual[1].color, None)
-        self.assertEqual(actual[1].dimensions, None)
-        self.assertEqual(actual[1].direction, None)
-        self.assertEqual(actual[1].distance, None)
-        self.assertEqual(actual[1].distance_in_steps, None)
-        self.assertEqual(actual[1].distance_in_world, None)
-        self.assertEqual(actual[1].held, False)
-        self.assertEqual(actual[1].mass, 12.34)
-        self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
-        self.assertEqual(actual[1].position, {"x": 1, "y": 2, "z": 3})
-        self.assertEqual(actual[1].rotation, {"x": 1, "y": 2, "z": 3})
-        self.assertEqual(actual[1].shape, None)
-        self.assertEqual(actual[1].texture_color_list, None)
-        self.assertEqual(actual[1].visible, True)
-
-    def test_retrieve_object_list_with_config_metadata_none(self):
-        self.controller.set_config({'metadata': 'none'})
-        mock_scene_event_data = self.create_retrieve_object_list_scene_event()
-        actual = self.controller.retrieve_object_list(
-            self.create_mock_scene_event(mock_scene_event_data))
-        self.assertEqual(len(actual), 2)
-
-        self.assertEqual(actual[0].uuid, "testId1")
-        self.assertEqual(actual[0].color, None)
-        self.assertEqual(actual[0].dimensions, None)
-        self.assertEqual(actual[0].direction, None)
-        self.assertEqual(actual[0].distance, None)
-        self.assertEqual(actual[0].distance_in_steps, None)
-        self.assertEqual(actual[0].distance_in_world, None)
-        self.assertEqual(actual[0].held, True)
-        self.assertEqual(actual[0].mass, 1)
-        self.assertEqual(actual[0].material_list, [])
-        self.assertEqual(actual[0].position, None)
-        self.assertEqual(actual[0].rotation, None)
-        self.assertEqual(actual[0].shape, None)
-        self.assertEqual(actual[0].texture_color_list, None)
-        self.assertEqual(actual[0].visible, True)
-
-        self.assertEqual(actual[1].uuid, "testId2")
-        self.assertEqual(actual[1].color, None)
-        self.assertEqual(actual[1].dimensions, None)
-        self.assertEqual(actual[1].direction, None)
-        self.assertEqual(actual[1].distance, None)
-        self.assertEqual(actual[1].distance_in_steps, None)
-        self.assertEqual(actual[1].distance_in_world, None)
-        self.assertEqual(actual[1].held, False)
-        self.assertEqual(actual[1].mass, 12.34)
-        self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
-        self.assertEqual(actual[1].position, None)
-        self.assertEqual(actual[1].rotation, None)
-        self.assertEqual(actual[1].shape, None)
-        self.assertEqual(actual[1].texture_color_list, None)
-        self.assertEqual(actual[1].visible, True)
+        self.assertEqual(len(actual), 0)
 
     def test_retrieve_pose(self):
         # Check function calls
@@ -1655,6 +1363,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
+        self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
@@ -1746,9 +1455,9 @@ class Test_Controller(unittest.TestCase):
                 actual.object_mask_list[0]),
             object_mask_data)
 
-    def test_wrap_output_with_config_metadata_full(self):
+    def test_wrap_output_with_config_metadata_oracle(self):
         self.controller.render_mask_images()
-        self.controller.set_config({'metadata': 'full'})
+        self.controller.set_metadata_tier('oracle')
         (
             mock_scene_event_data,
             image_data,
@@ -1764,6 +1473,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
+        self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
@@ -1790,9 +1500,8 @@ class Test_Controller(unittest.TestCase):
                 actual.object_mask_list[0]),
             object_mask_data)
 
-    def test_wrap_output_with_config_metadata_no_navigation(self):
-        self.controller.render_mask_images()
-        self.controller.set_config({'metadata': 'no_navigation'})
+    def test_wrap_output_with_config_metadata_level2(self):
+        self.controller.set_metadata_tier('level2')
         (
             mock_scene_event_data,
             image_data,
@@ -1808,6 +1517,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
+        self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, None)
@@ -1818,21 +1528,21 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.step_number, 0)
 
         # Correct object metadata properties tested elsewhere
-        self.assertEqual(len(actual.object_list), 1)
-        self.assertEqual(len(actual.structural_object_list), 1)
+        self.assertEqual(len(actual.object_list), 0)
+        self.assertEqual(len(actual.structural_object_list), 0)
 
-        self.assertEqual(len(actual.depth_mask_list), 1)
+        self.assertEqual(len(actual.depth_mask_list), 0)
         self.assertEqual(len(actual.image_list), 1)
-        self.assertEqual(len(actual.object_mask_list), 1)
-        self.assertEqual(
-            numpy.array(
-                actual.depth_mask_list[0]),
-            depth_mask_data)
+        self.assertEqual(len(actual.object_mask_list), 0)
+        # self.assertEqual(
+        #     numpy.array(
+        #         actual.depth_mask_list[0]),
+        #     depth_mask_data)
         self.assertEqual(numpy.array(actual.image_list[0]), image_data)
-        self.assertEqual(
-            numpy.array(
-                actual.object_mask_list[0]),
-            object_mask_data)
+        # self.assertEqual(
+        #     numpy.array(
+        #         actual.object_mask_list[0]),
+        #     object_mask_data)
 
     def test_wrap_output_with_config_metadata_no_vision(self):
         self.controller.set_config({'metadata': 'no_vision'})
@@ -1846,11 +1556,12 @@ class Test_Controller(unittest.TestCase):
             self.create_mock_scene_event(mock_scene_event_data))
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
-        self.assertEqual(actual.camera_aspect_ratio, None)
-        self.assertEqual(actual.camera_clipping_planes, None)
-        self.assertEqual(actual.camera_field_of_view, None)
-        self.assertEqual(actual.camera_height, None)
+        self.assertEqual(actual.camera_aspect_ratio, (600, 400.0))
+        self.assertEqual(actual.camera_clipping_planes, (0, 25))
+        self.assertEqual(actual.camera_field_of_view, 42.5)
+        self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
+        self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
@@ -1868,8 +1579,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(len(actual.image_list), 1)
         self.assertEqual(len(actual.object_mask_list), 0)
 
-    def test_wrap_output_with_config_metadata_none(self):
-        self.controller.set_config({'metadata': 'none'})
+    def test_wrap_output_with_config_metadata_level1(self):
+        self.controller.set_metadata_tier('level1')
         (
             mock_scene_event_data,
             image_data,
@@ -1880,11 +1591,12 @@ class Test_Controller(unittest.TestCase):
             self.create_mock_scene_event(mock_scene_event_data))
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
-        self.assertEqual(actual.camera_aspect_ratio, None)
-        self.assertEqual(actual.camera_clipping_planes, None)
-        self.assertEqual(actual.camera_field_of_view, None)
-        self.assertEqual(actual.camera_height, None)
+        self.assertEqual(actual.camera_aspect_ratio, (600, 400))
+        self.assertEqual(actual.camera_clipping_planes, (0, 25))
+        self.assertEqual(actual.camera_field_of_view, 42.5)
+        self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
+        self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, None)
@@ -1895,8 +1607,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.step_number, 0)
 
         # Correct object metadata properties tested elsewhere
-        self.assertEqual(len(actual.object_list), 1)
-        self.assertEqual(len(actual.structural_object_list), 1)
+        self.assertEqual(len(actual.object_list), 0)
+        self.assertEqual(len(actual.structural_object_list), 0)
 
         self.assertEqual(len(actual.depth_mask_list), 0)
         self.assertEqual(len(actual.image_list), 1)
@@ -1916,7 +1628,28 @@ class Test_Controller(unittest.TestCase):
             "renderDepthImage": False,
             "renderObjectImage": False,
             "stringProperty": "test_property",
-            "visibilityDistance": 1.0
+            "visibilityDistance": 1.0,
+            "consistentColors": False
+        }
+        self.assertEqual(actual, expected)
+
+    def test_wrap_step_metadata_oracle(self):
+        self.controller.set_metadata_tier('oracle')
+        actual = self.controller.wrap_step(
+            action="TestAction",
+            numberProperty=1234,
+            stringProperty="test_property")
+        expected = {
+            "action": "TestAction",
+            "continuous": True,
+            "gridSize": 0.1,
+            "logs": True,
+            "numberProperty": 1234,
+            "renderDepthImage": False,
+            "renderObjectImage": False,
+            "stringProperty": "test_property",
+            "visibilityDistance": 1.0,
+            "consistentColors": True
         }
         self.assertEqual(actual, expected)
 

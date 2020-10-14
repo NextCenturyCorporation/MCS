@@ -24,7 +24,7 @@
 ## Controller
 
 
-### class machine_common_sense.controller.Controller(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_masks=False, object_masks=False, history_enabled=True)
+### class machine_common_sense.controller.Controller(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_masks=None, object_masks=None, history_enabled=True)
 MCS Controller class implementation for the MCS wrapper of the AI2-THOR
 library.
 
@@ -159,7 +159,7 @@ information about scene plausability if applicable.
 ## GoalMetadata
 
 
-### class machine_common_sense.goal_metadata.GoalMetadata(action_list=None, category='', description='', domain_list=None, info_list=None, last_preview_phase_step=0, last_step=None, type_list=None, metadata=None)
+### class machine_common_sense.goal_metadata.GoalMetadata(action_list=None, category='', description='', habituation_total=0, last_preview_phase_step=0, last_step=None, metadata=None)
 Defines metadata for a goal in the MCS 3D environment.
 
 
@@ -202,12 +202,7 @@ Defines metadata for a goal in the MCS 3D environment.
 
 
 
-    * **domain_list** (*list of strings*) – The list of MCS “core domains” associated with this goal (for the
-    visualization interface).
-
-
-    * **info_list** (*list*) – The list of information for the visualization interface associated
-    with this goal.
+    * **habituation_total** (*int*) – The total count of habituation trials that will be in this scene.
 
 
     * **last_preview_phase_step** (*integer*) – The last step of the Preview Phase of this scene, if a Preview Phase is
@@ -219,10 +214,6 @@ Defines metadata for a goal in the MCS 3D environment.
 
     * **last_step** (*integer*) – The last step of this scene. This scene will automatically end
     following this step.
-
-
-    * **type_list** (*list of strings*) – The list of types associated with this goal (for the
-    visualization interface).
 
 
     * **metadata** (*dict*) – The metadata specific to this goal. See [Goals](#Goals).
@@ -298,7 +289,7 @@ Defines metadata for an object in the MCS 3D environment.
 ## StepMetadata
 
 
-### class machine_common_sense.step_metadata.StepMetadata(action_list=None, camera_aspect_ratio=None, camera_clipping_planes=None, camera_field_of_view=0.0, camera_height=0.0, depth_mask_list=None, goal=None, head_tilt=0.0, image_list=None, object_list=None, object_mask_list=None, pose='UNDEFINED', position=None, return_status='UNDEFINED', reward=0, rotation=0.0, step_number=0, structural_object_list=None)
+### class machine_common_sense.step_metadata.StepMetadata(action_list=None, camera_aspect_ratio=None, camera_clipping_planes=None, camera_field_of_view=0.0, camera_height=0.0, depth_mask_list=None, goal=None, habituation_trial=None, head_tilt=0.0, image_list=None, object_list=None, object_mask_list=None, pose='UNDEFINED', position=None, return_status='UNDEFINED', reward=0, rotation=0.0, step_number=0, structural_object_list=None)
 Defines output metadata from an action step in the MCS 3D environment.
 
 
@@ -338,6 +329,11 @@ Defines output metadata from an action step in the MCS 3D environment.
 
 
     * **goal** (*GoalMetadata** or **None*) – The goal for the whole scene. Will be None in “Exploration” scenes.
+
+
+    * **habituation_trial** (*int** or **None*) – The current habituation trial (as a positive integer), or None if the
+    scene is not currently in a habituation trial (meaning this scene is
+    in a test trial).
 
 
     * **head_tilt** (*float*) – How far your head is tilted up/down in degrees (between 90 and -90).
@@ -404,6 +400,10 @@ Defines output metadata from an action step in the MCS 3D environment.
 ### class machine_common_sense.action.Action(value)
 The actions available in the MCS simulation environment.
 
+For actions requiring objectImageCoords or receptacleObjectImageCoords,
+note that (0,0) represents the top left corner of the viewport, and that
+inputs must be greater than (0,0).
+
 
 #### CLOSE_OBJECT( = 'CloseObject')
 Close a nearby object.
@@ -412,20 +412,18 @@ Close a nearby object.
 * **Parameters**
 
     
-    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the “objectDirection”
-    properties are given.
+    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the
+    “objectImageCoords” properties are given.
 
 
-    * **objectDirectionX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
+    * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Action” header regarding image coordinates.)
 
 
-    * **objectDirectionY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
-
-
-    * **objectDirectionZ** (*float**, **optional*) – The Z of the directional vector pointing to the target object based on
-    your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Action” header regarding image coordinates.)
 
 
     * **amount** (*float*) – The amount to close the object between 0 (completely opened) and 1
@@ -442,12 +440,12 @@ Close a nearby object.
     * *”IS_CLOSED_COMPLETELY”* – If the object is completely closed.
 
 
-    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectDirection” vector is not an
+    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectImageCoords” vector is not an
     interactable object.
 
 
     * *”NOT_OBJECT”* – If the object corresponding to the “objectId” (or object corresponding
-    to the “objectDirection” vector) is not an object.
+    to the “objectImageCoords” vector) is not an object.
 
 
     * *”NOT_OPENABLE”* – If the object itself cannot be closed.
@@ -503,6 +501,22 @@ Drop an object you are holding.
 
 
     * *”NOT_OBJECT”* – If the object corresponding to the “objectId” is not an object.
+
+
+    * *”FAILED”* – Unexpected error; please report immediately to development team.
+
+
+
+
+#### END_HABITUATION( = 'EndHabituation')
+Ends a habituation trial for the scene by blanking the screen for one
+action. Sometimes needed for the passive tasks.
+
+
+* **Returns**
+
+    
+    * *“SUCCESSFUL”* – Action successful.
 
 
     * *”FAILED”* – Unexpected error; please report immediately to development team.
@@ -634,20 +648,18 @@ Open a nearby object.
 * **Parameters**
 
     
-    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the “objectDirection”
-    properties are given.
+    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the
+    “objectImageCoords” properties are given.
 
 
-    * **objectDirectionX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
+    * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Action” header regarding image coordinates.)
 
 
-    * **objectDirectionY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
-
-
-    * **objectDirectionZ** (*float**, **optional*) – The Z of the directional vector pointing to the target object based on
-    your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Action” header regarding image coordinates.)
 
 
     * **amount** (*float*) – The amount to open the object between 0 (completely closed) and 1
@@ -664,12 +676,12 @@ Open a nearby object.
     * *”IS_OPENED_COMPLETELY”* – If the object is completely opened.
 
 
-    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectDirection” vector is not an
+    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectImageCoords” vector is not an
     interactable object.
 
 
     * *”NOT_OBJECT”* – If the object corresponding to the “objectId” (or object corresponding
-    to the “objectDirection” vector) is not an object.
+    to the “objectImageCoords” vector) is not an object.
 
 
     * *”NOT_OPENABLE”* – If the object itself cannot be opened.
@@ -710,20 +722,18 @@ the object.
 * **Parameters**
 
     
-    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the “objectDirection”
-    properties are given.
+    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the
+    “objectImageCoords” properties are given.
 
 
-    * **objectDirectionX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
+    * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Action” header regarding image coordinates.)
 
 
-    * **objectDirectionY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
-
-
-    * **objectDirectionZ** (*float**, **optional*) – The Z of the directional vector pointing to the target object based on
-    your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Action” header regarding image coordinates.)
 
 
 
@@ -736,12 +746,12 @@ the object.
     * *”HAND_IS_FULL”* – If you cannot pick up the object because your hand is full.
 
 
-    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectDirection” vector is not an
+    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectImageCoords” vector is not an
     interactable object.
 
 
     * *”NOT_OBJECT”* – If the object corresponding to the “objectId” (or object corresponding
-    to the “objectDirection” vector) is not an object.
+    to the “objectImageCoords” vector) is not an object.
 
 
     * *”NOT_PICKUPABLE”* – If the object itself cannot be picked up.
@@ -765,20 +775,18 @@ Pull a nearby object.
 * **Parameters**
 
     
-    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the “objectDirection”
-    properties are given.
+    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the
+    “objectImageCoords” properties are given.
 
 
-    * **objectDirectionX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
+    * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Action” header regarding image coordinates.)
 
 
-    * **objectDirectionY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
-
-
-    * **objectDirectionZ** (*float**, **optional*) – The Z of the directional vector pointing to the target object based on
-    your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Action” header regarding image coordinates.)
 
 
     * **force** (*float*) – The amount of force, from 0 to 1, used to move the target object.
@@ -792,12 +800,12 @@ Pull a nearby object.
     * *“SUCCESSFUL”* – Action successful.
 
 
-    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectDirection” vector is not an
+    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectImageCoords” vector is not an
     interactable object.
 
 
     * *”NOT_OBJECT”* – If the object corresponding to the “objectId” (or object corresponding
-    to the “objectDirection” vector) is not an object.
+    to the “objectImageCoords” vector) is not an object.
 
 
     * *”NOT_PICKUPABLE”* – If the object itself cannot be moved by a baby.
@@ -821,20 +829,18 @@ Push a nearby object.
 * **Parameters**
 
     
-    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the “objectDirection”
-    properties are given.
+    * **objectId** (*string**, **optional*) – The “uuid” of the target object. Required unless the
+    “objectImageCoords” properties are given.
 
 
-    * **objectDirectionX** (*float**, **optional*) – The X of the directional vector pointing to the target object based on
+    * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Action” header regarding image coordinates.)
 
 
-    * **objectDirectionY** (*float**, **optional*) – The Y of the directional vector pointing to the target object based on
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target object based on
     your current viewport. Can be used in place of the “objectId” property.
-
-
-    * **objectDirectionZ** (*float**, **optional*) – The Z of the directional vector pointing to the target object based on
-    your current viewport. Can be used in place of the “objectId” property.
+    (See note under “Action” header regarding image coordinates.)
 
 
     * **force** (*float*) – The amount of force, from 0 to 1, used to move the target object.
@@ -848,12 +854,12 @@ Push a nearby object.
     * *“SUCCESSFUL”* – Action successful.
 
 
-    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectDirection” vector is not an
+    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectImageCoords” vector is not an
     interactable object.
 
 
     * *”NOT_OBJECT”* – If the object corresponding to the “objectId” (or object corresponding
-    to the “objectDirection” vector) is not an object.
+    to the “objectImageCoords” vector) is not an object.
 
 
     * *”NOT_PICKUPABLE”* – If the object itself cannot be moved by a baby.
@@ -883,22 +889,19 @@ drawer, shelf, or table.
 
 
     * **receptacleObjectId** (*string**, **optional*) – The “uuid” of the target receptacle. Required unless the
-    “receptacleObjectDirection” properties are given.
+    “receptacleObjectImageCoords” properties are given.
 
 
-    * **objectDirectionX** (*float**, **optional*) – The X of the directional vector pointing to the target receptacle based
+    * **receptacleObjectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on the target receptacle based
     on your current viewport. Can be used in place of the
     “receptacleObjectId” property.
+    (See note under “Action” header regarding image coordinates.)
 
 
-    * **objectDirectionY** (*float**, **optional*) – The Y of the directional vector pointing to the target receptacle based
+    * **receptacleObjectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on the target receptacle based
     on your current viewport. Can be used in place of the
     “receptacleObjectId” property.
-
-
-    * **objectDirectionZ** (*float**, **optional*) – The Z of the directional vector pointing to the target receptacle based
-    on your current viewport. Can be used in place of the
-    “receptacleObjectId” property.
+    (See note under “Action” header regarding image coordinates.)
 
 
 
@@ -912,17 +915,17 @@ drawer, shelf, or table.
     because you are not holding it.
 
 
-    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectDirection” or
-    “receptacleObjectDirection” vector is not an interactable object.
+    * *”NOT_INTERACTABLE”* – If the object corresponding to the “objectImageCoords” or
+    “receptacleObjectImageCoords” vector is not an interactable object.
 
 
     * *”NOT_OBJECT”* – If the object corresponding to the “objectId” and/or
     “receptacleObjectId” (or object corresponding to the
-    “receptacleObjectDirection” vector) is not an object.
+    “receptacleObjectImageCoords” vector) is not an object.
 
 
     * *”NOT_RECEPTACLE”* – If the object corresponding to the “receptacleObjectId” (or object
-    corresponding to the “receptacleObjectDirection” vector) is not a
+    corresponding to the “receptacleObjectImageCoords” vector) is not a
     receptacle.
 
 
@@ -995,16 +998,14 @@ Throw an object you are holding.
     * **objectId** (*string**, **optional*) – The “uuid” of the held object. Defaults to the first held object.
 
 
-    * **objectDirectionX** (*float**, **optional*) – The X of the directional vector pointing to where you would like to
+    * **objectImageCoordsX** (*float**, **optional*) – The X of a pixel coordinate on where you would like to
     throw the object based on your current viewport.
+    (See note under “Action” header regarding image coordinates.)
 
 
-    * **objectDirectionY** (*float**, **optional*) – The Y of the directional vector pointing to where you would like to
+    * **objectImageCoordsY** (*float**, **optional*) – The Y of a pixel coordinate on where you would like to
     throw the object based on your current viewport.
-
-
-    * **objectDirectionZ** (*float**, **optional*) – The Z of the directional vector pointing to where you would like to
-    throw the object based on your current viewport.
+    (See note under “Action” header regarding image coordinates.)
 
 
 
