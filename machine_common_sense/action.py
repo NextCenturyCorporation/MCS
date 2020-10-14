@@ -5,14 +5,17 @@ from enum import Enum, unique
 class Action(Enum):
     """
     The actions available in the MCS simulation environment.
+
+    For actions requiring objectImageCoords or receptacleObjectImageCoords,
+    note that (0,0) represents the top left corner of the viewport, and that
+    inputs must be greater than (0,0).
     """
 
     CLOSE_OBJECT = (
         "CloseObject",
         "1",
         "Close a nearby object. (objectId=string, amount=float " +
-        "(default:1), objectDirectionX=float, objectDirectionY=float, " +
-        "objectDirectionZ=float)"
+        "(default:1), objectImageCoordsX=float, objectImageCoordsY=float)"
     )
     """
     Close a nearby object.
@@ -20,17 +23,16 @@ class Action(Enum):
     Parameters
     ----------
     objectId : string, optional
-        The "uuid" of the target object. Required unless the "objectDirection"
-        properties are given.
-    objectDirectionX : float, optional
-        The X of the directional vector pointing to the target object based on
+        The "uuid" of the target object. Required unless the
+        "objectImageCoords" properties are given.
+    objectImageCoordsX : float, optional
+        The X of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
-    objectDirectionY : float, optional
-        The Y of the directional vector pointing to the target object based on
+        (See note under "Action" header regarding image coordinates.)
+    objectImageCoordsY : float, optional
+        The Y of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
-    objectDirectionZ : float, optional
-        The Z of the directional vector pointing to the target object based on
-        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
     amount : float
         The amount to close the object between 0 (completely opened) and 1
         (completely closed). Default: 1
@@ -42,11 +44,11 @@ class Action(Enum):
     "IS_CLOSED_COMPLETELY"
         If the object is completely closed.
     "NOT_INTERACTABLE"
-        If the object corresponding to the "objectDirection" vector is not an
+        If the object corresponding to the "objectImageCoords" vector is not an
         interactable object.
     "NOT_OBJECT"
         If the object corresponding to the "objectId" (or object corresponding
-        to the "objectDirection" vector) is not an object.
+        to the "objectImageCoords" vector) is not an object.
     "NOT_OPENABLE"
         If the object itself cannot be closed.
     "OBSTRUCTED"
@@ -221,8 +223,8 @@ class Action(Enum):
         "OpenObject",
         "3",
         "Open a nearby object. (objectId=string, " +
-        "amount=float (default:1), objectDirectionX=float, " +
-        "objectDirectionY=float, objectDirectionZ=float)"
+        "amount=float (default:1), objectImageCoordsX=float, " +
+        "objectImageCoordsY=float)"
     )
     """
     Open a nearby object.
@@ -230,17 +232,16 @@ class Action(Enum):
     Parameters
     ----------
     objectId : string, optional
-        The "uuid" of the target object. Required unless the "objectDirection"
-        properties are given.
-    objectDirectionX : float, optional
-        The X of the directional vector pointing to the target object based on
+        The "uuid" of the target object. Required unless the
+        "objectImageCoords" properties are given.
+    objectImageCoordsX : float, optional
+        The X of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
-    objectDirectionY : float, optional
-        The Y of the directional vector pointing to the target object based on
+        (See note under "Action" header regarding image coordinates.)
+    objectImageCoordsY : float, optional
+        The Y of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
-    objectDirectionZ : float, optional
-        The Z of the directional vector pointing to the target object based on
-        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
     amount : float
         The amount to open the object between 0 (completely closed) and 1
         (completely opened). Default: 1
@@ -252,11 +253,11 @@ class Action(Enum):
     "IS_OPENED_COMPLETELY"
         If the object is completely opened.
     "NOT_INTERACTABLE"
-        If the object corresponding to the "objectDirection" vector is not an
+        If the object corresponding to the "objectImageCoords" vector is not an
         interactable object.
     "NOT_OBJECT"
         If the object corresponding to the "objectId" (or object corresponding
-        to the "objectDirection" vector) is not an object.
+        to the "objectImageCoords" vector) is not an object.
     "NOT_OPENABLE"
         If the object itself cannot be opened.
     "OBSTRUCTED"
@@ -271,8 +272,7 @@ class Action(Enum):
         "PickupObject",
         "4",
         "Pickup a nearby object and hold it in your hand. " +
-        "(objectId=string, objectDirectionX=float, objectDirectionY=float, " +
-        "objectDirectionZ=float)"
+        "(objectId=string, objectImageCoordsX=float, objectImageCoordsY=float)"
     )
     """
     Pick up a nearby object and hold it in your hand. This action incorporates
@@ -282,17 +282,16 @@ class Action(Enum):
     Parameters
     ----------
     objectId : string, optional
-        The "uuid" of the target object. Required unless the "objectDirection"
-        properties are given.
-    objectDirectionX : float, optional
-        The X of the directional vector pointing to the target object based on
+        The "uuid" of the target object. Required unless the
+        "objectImageCoords" properties are given.
+    objectImageCoordsX : float, optional
+        The X of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
-    objectDirectionY : float, optional
-        The Y of the directional vector pointing to the target object based on
+        (See note under "Action" header regarding image coordinates.)
+    objectImageCoordsY : float, optional
+        The Y of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
-    objectDirectionZ : float, optional
-        The Z of the directional vector pointing to the target object based on
-        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
 
     Returns
     -------
@@ -301,11 +300,11 @@ class Action(Enum):
     "HAND_IS_FULL"
         If you cannot pick up the object because your hand is full.
     "NOT_INTERACTABLE"
-        If the object corresponding to the "objectDirection" vector is not an
+        If the object corresponding to the "objectImageCoords" vector is not an
         interactable object.
     "NOT_OBJECT"
         If the object corresponding to the "objectId" (or object corresponding
-        to the "objectDirection" vector) is not an object.
+        to the "objectImageCoords" vector) is not an object.
     "NOT_PICKUPABLE"
         If the object itself cannot be picked up.
     "OBSTRUCTED"
@@ -320,8 +319,8 @@ class Action(Enum):
         "PullObject",
         "5",
         "Pull a nearby object. (objectId=string, rotation=float, " +
-        "horizon=float, force=float (default:0.5), objectDirectionX=float, " +
-        "objectDirectionY=float, objectDirectionZ=float)"
+        "horizon=float, force=float (default:0.5), " +
+        "objectImageCoordsX=float, objectImageCoordsY=float)"
     )
     """
     Pull a nearby object.
@@ -329,17 +328,16 @@ class Action(Enum):
     Parameters
     ----------
     objectId : string, optional
-        The "uuid" of the target object. Required unless the "objectDirection"
-        properties are given.
-    objectDirectionX : float, optional
-        The X of the directional vector pointing to the target object based on
+        The "uuid" of the target object. Required unless the
+        "objectImageCoords" properties are given.
+    objectImageCoordsX : float, optional
+        The X of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
-    objectDirectionY : float, optional
-        The Y of the directional vector pointing to the target object based on
+        (See note under "Action" header regarding image coordinates.)
+    objectImageCoordsY : float, optional
+        The Y of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
-    objectDirectionZ : float, optional
-        The Z of the directional vector pointing to the target object based on
-        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
     force : float
         The amount of force, from 0 to 1, used to move the target object.
         Default: 0.5
@@ -349,11 +347,11 @@ class Action(Enum):
     "SUCCESSFUL"
         Action successful.
     "NOT_INTERACTABLE"
-        If the object corresponding to the "objectDirection" vector is not an
+        If the object corresponding to the "objectImageCoords" vector is not an
         interactable object.
     "NOT_OBJECT"
         If the object corresponding to the "objectId" (or object corresponding
-        to the "objectDirection" vector) is not an object.
+        to the "objectImageCoords" vector) is not an object.
     "NOT_PICKUPABLE"
         If the object itself cannot be moved by a baby.
     "OBSTRUCTED"
@@ -368,8 +366,8 @@ class Action(Enum):
         "PushObject",
         "6",
         "Push a nearby object. (objectId=string, rotation=float, " +
-        "horizon=float, force=float (default:0.5), objectDirectionX=float, " +
-        "objectDirectionY=float, objectDirectionZ=float)"
+        "horizon=float, force=float (default:0.5), " +
+        "objectImageCoordsX=float, objectImageCoordsY=float)"
     )
     """
     Push a nearby object.
@@ -377,17 +375,16 @@ class Action(Enum):
     Parameters
     ----------
     objectId : string, optional
-        The "uuid" of the target object. Required unless the "objectDirection"
-        properties are given.
-    objectDirectionX : float, optional
-        The X of the directional vector pointing to the target object based on
+        The "uuid" of the target object. Required unless the
+        "objectImageCoords" properties are given.
+    objectImageCoordsX : float, optional
+        The X of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
-    objectDirectionY : float, optional
-        The Y of the directional vector pointing to the target object based on
+        (See note under "Action" header regarding image coordinates.)
+    objectImageCoordsY : float, optional
+        The Y of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
-    objectDirectionZ : float, optional
-        The Z of the directional vector pointing to the target object based on
-        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
     force : float
         The amount of force, from 0 to 1, used to move the target object.
         Default: 0.5
@@ -397,11 +394,11 @@ class Action(Enum):
     "SUCCESSFUL"
         Action successful.
     "NOT_INTERACTABLE"
-        If the object corresponding to the "objectDirection" vector is not an
+        If the object corresponding to the "objectImageCoords" vector is not an
         interactable object.
     "NOT_OBJECT"
         If the object corresponding to the "objectId" (or object corresponding
-        to the "objectDirection" vector) is not an object.
+        to the "objectImageCoords" vector) is not an object.
     "NOT_PICKUPABLE"
         If the object itself cannot be moved by a baby.
     "OBSTRUCTED"
@@ -417,8 +414,8 @@ class Action(Enum):
         "7",
         "Place an object you are holding into/onto a nearby " +
         "receptacle object. (objectId=string, receptacleObjectId=string, " +
-        "receptacleObjectDirectionX=float, receptacleObjectDirectionY=float," +
-        " receptacleObjectDirectionZ=float)"
+        "receptacleObjectImageCoordsX=float, " +
+        "receptacleObjectImageCoordsY=float)"
     )
     """
     Put down an object you are holding into/onto a nearby receptacle object. A
@@ -431,19 +428,17 @@ class Action(Enum):
         The "uuid" of the held object. Defaults to the first held object.
     receptacleObjectId : string, optional
         The "uuid" of the target receptacle. Required unless the
-        "receptacleObjectDirection" properties are given.
-    objectDirectionX : float, optional
-        The X of the directional vector pointing to the target receptacle based
+        "receptacleObjectImageCoords" properties are given.
+    receptacleObjectImageCoordsX : float, optional
+        The X of a pixel coordinate on the target receptacle based
         on your current viewport. Can be used in place of the
         "receptacleObjectId" property.
-    objectDirectionY : float, optional
-        The Y of the directional vector pointing to the target receptacle based
+        (See note under "Action" header regarding image coordinates.)
+    receptacleObjectImageCoordsY : float, optional
+        The Y of a pixel coordinate on the target receptacle based
         on your current viewport. Can be used in place of the
         "receptacleObjectId" property.
-    objectDirectionZ : float, optional
-        The Z of the directional vector pointing to the target receptacle based
-        on your current viewport. Can be used in place of the
-        "receptacleObjectId" property.
+        (See note under "Action" header regarding image coordinates.)
 
     Returns
     -------
@@ -453,15 +448,15 @@ class Action(Enum):
         If you cannot put down the object corresponding to the "objectId"
         because you are not holding it.
     "NOT_INTERACTABLE"
-        If the object corresponding to the "objectDirection" or
-        "receptacleObjectDirection" vector is not an interactable object.
+        If the object corresponding to the "objectImageCoords" or
+        "receptacleObjectImageCoords" vector is not an interactable object.
     "NOT_OBJECT"
         If the object corresponding to the "objectId" and/or
         "receptacleObjectId" (or object corresponding to the
-        "receptacleObjectDirection" vector) is not an object.
+        "receptacleObjectImageCoords" vector) is not an object.
     "NOT_RECEPTACLE"
         If the object corresponding to the "receptacleObjectId" (or object
-        corresponding to the "receptacleObjectDirection" vector) is not a
+        corresponding to the "receptacleObjectImageCoords" vector) is not a
         receptacle.
     "OBSTRUCTED"
         If you cannot put down the object because your path is obstructed.
@@ -506,8 +501,7 @@ class Action(Enum):
     #    "t",
     #    "Rotate a held object. (objectId=string, " +
     #    "rotationX=float, rotationY=float, rotationZ=float, " +
-    #    "objectDirectionX=float, objectDirectionY=float, " +
-    #    "objectDirectionZ=float)")
+    #    "objectImageCoordsX=float, objectImageCoordsY=float")
 
     STAND = (
         "Stand",
@@ -531,8 +525,8 @@ class Action(Enum):
         "ThrowObject",
         "q",
         "Throw an object you are holding. (objectId=string, " +
-        "objectDirectionX=float, objectDirectionY=float, " +
-        "objectDirectionZ=float, force=float (default:0.5))"
+        "objectImageCoordsX=float, objectImageCoordsY=float, " +
+        "force=float (default:0.5))"
     )
     """
     Throw an object you are holding.
@@ -541,15 +535,14 @@ class Action(Enum):
     ----------
     objectId : string, optional
         The "uuid" of the held object. Defaults to the first held object.
-    objectDirectionX : float, optional
-        The X of the directional vector pointing to where you would like to
+    objectImageCoordsX : float, optional
+        The X of a pixel coordinate on where you would like to
         throw the object based on your current viewport.
-    objectDirectionY : float, optional
-        The Y of the directional vector pointing to where you would like to
+        (See note under "Action" header regarding image coordinates.)
+    objectImageCoordsY : float, optional
+        The Y of a pixel coordinate on where you would like to
         throw the object based on your current viewport.
-    objectDirectionZ : float, optional
-        The Z of the directional vector pointing to where you would like to
-        throw the object based on your current viewport.
+        (See note under "Action" header regarding image coordinates.)
 
     Returns
     -------

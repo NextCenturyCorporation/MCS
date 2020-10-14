@@ -100,7 +100,7 @@ class Controller():
     DEFAULT_ROTATION = 0
     DEFAULT_FORCE = 0.5
     DEFAULT_AMOUNT = 0.5
-    DEFAULT_DIRECTION = 0
+    DEFAULT_IMG_COORD = 0
     DEFAULT_OBJECT_MOVE_AMOUNT = 1
 
     MAX_ROTATION = 360
@@ -117,12 +117,10 @@ class Controller():
     HORIZON_KEY = 'horizon'
     FORCE_KEY = 'force'
     AMOUNT_KEY = 'amount'
-    OBJECT_DIRECTION_X_KEY = 'objectDirectionX'
-    OBJECT_DIRECTION_Y_KEY = 'objectDirectionY'
-    OBJECT_DIRECTION_Z_KEY = 'objectDirectionZ'
-    RECEPTACLE_DIRECTION_X = 'receptacleObjectDirectionX'
-    RECEPTACLE_DIRECTION_Y = 'receptacleObjectDirectionY'
-    RECEPTACLE_DIRECTION_Z = 'receptacleObjectDirectionZ'
+    OBJECT_IMAGE_COORDS_X_KEY = 'objectImageCoordsX'
+    OBJECT_IMAGE_COORDS_Y_KEY = 'objectImageCoordsY'
+    RECEPTACLE_IMAGE_COORDS_X_KEY = 'receptacleObjectImageCoordsX'
+    RECEPTACLE_IMAGE_COORDS_Y_KEY = 'receptacleObjectImageCoordsY'
 
     # Hard coding actions that effect MoveMagnitude so the appropriate
     # value is set based off of the action
@@ -183,6 +181,14 @@ class Controller():
 
         self._on_init(debug, enable_noise, seed, depth_masks,
                       object_masks, history_enabled)
+
+    # Pixel coordinates are expected to start at the top left, but
+    # in Unity, (0,0) is the bottom left.
+    def _convert_y_image_coord_for_unity(self, y_coord):
+        if(y_coord != 0):
+            return self.__screen_height - y_coord
+        else:
+            return y_coord
 
     def _update_screen_size(self, size=None):
         self.__screen_width = self.SCREEN_WIDTH_DEFAULT
@@ -391,18 +397,14 @@ class Controller():
         )
         force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
 
-        objectDirectionX = kwargs.get(
-            self.OBJECT_DIRECTION_X_KEY, self.DEFAULT_DIRECTION)
-        objectDirectionY = kwargs.get(
-            self.OBJECT_DIRECTION_Y_KEY, self.DEFAULT_DIRECTION)
-        objectDirectionZ = kwargs.get(
-            self.OBJECT_DIRECTION_Z_KEY, self.DEFAULT_DIRECTION)
-        receptacleObjectDirectionX = kwargs.get(
-            self.RECEPTACLE_DIRECTION_X, self.DEFAULT_DIRECTION)
-        receptacleObjectDirectionY = kwargs.get(
-            self.RECEPTACLE_DIRECTION_Y, self.DEFAULT_DIRECTION)
-        receptacleObjectDirectionZ = kwargs.get(
-            self.RECEPTACLE_DIRECTION_Z, self.DEFAULT_DIRECTION)
+        objectImageCoordsX = kwargs.get(
+            self.OBJECT_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD)
+        objectImageCoordsY = kwargs.get(
+            self.OBJECT_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD)
+        receptacleObjectImageCoordsX = kwargs.get(
+            self.RECEPTACLE_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD)
+        receptacleObjectImageCoordsY = kwargs.get(
+            self.RECEPTACLE_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD)
 
         # Check params that should be numbers
         if not Util.is_number(rotation, self.ROTATION_KEY):
@@ -424,35 +426,25 @@ class Controller():
 
         # Check object directions are numbers
         if not Util.is_number(
-                objectDirectionX,
-                self.OBJECT_DIRECTION_X_KEY):
-            objectDirectionX = self.DEFAULT_DIRECTION
+                objectImageCoordsX,
+                self.OBJECT_IMAGE_COORDS_X_KEY):
+            objectImageCoordsX = self.DEFAULT_IMG_COORD
 
         if not Util.is_number(
-                objectDirectionY,
-                self.OBJECT_DIRECTION_Y_KEY):
-            objectDirectionY = self.DEFAULT_DIRECTION
-
-        if not Util.is_number(
-                objectDirectionZ,
-                self.OBJECT_DIRECTION_Z_KEY):
-            objectDirectionZ = self.DEFAULT_DIRECTION
+                objectImageCoordsY,
+                self.OBJECT_IMAGE_COORDS_Y_KEY):
+            objectImageCoordsY = self.DEFAULT_IMG_COORD
 
         # Check receptacle directions are numbers
         if not Util.is_number(
-                receptacleObjectDirectionX,
-                self.RECEPTACLE_DIRECTION_X):
-            receptacleObjectDirectionX = self.DEFAULT_DIRECTION
+                receptacleObjectImageCoordsX,
+                self.RECEPTACLE_IMAGE_COORDS_X_KEY):
+            receptacleObjectImageCoordsX = self.DEFAULT_IMG_COORD
 
         if not Util.is_number(
-                receptacleObjectDirectionY,
-                self.RECEPTACLE_DIRECTION_Y):
-            receptacleObjectDirectionY = self.DEFAULT_DIRECTION
-
-        if not Util.is_number(
-                receptacleObjectDirectionZ,
-                self.RECEPTACLE_DIRECTION_Z):
-            receptacleObjectDirectionZ = self.DEFAULT_DIRECTION
+                receptacleObjectImageCoordsY,
+                self.RECEPTACLE_IMAGE_COORDS_Y_KEY):
+            receptacleObjectImageCoordsY = self.DEFAULT_IMG_COORD
 
         # Check that params that should fall in a range are in that range
         horizon = Util.is_in_range(
@@ -497,14 +489,14 @@ class Controller():
         rotation_vector['y'] = rotation
 
         object_vector = {}
-        object_vector['x'] = objectDirectionX
-        object_vector['y'] = objectDirectionY
-        object_vector['z'] = objectDirectionZ
+        object_vector['x'] = objectImageCoordsX
+        object_vector['y'] = self._convert_y_image_coord_for_unity(
+            objectImageCoordsY)
 
         receptacle_vector = {}
-        receptacle_vector['x'] = receptacleObjectDirectionX
-        receptacle_vector['y'] = receptacleObjectDirectionY
-        receptacle_vector['z'] = receptacleObjectDirectionZ
+        receptacle_vector['x'] = receptacleObjectImageCoordsX
+        receptacle_vector['y'] = self._convert_y_image_coord_for_unity(
+            receptacleObjectImageCoordsY)
 
         return dict(
             objectId=kwargs.get("objectId", None),
@@ -512,8 +504,8 @@ class Controller():
             rotation=rotation_vector,
             horizon=horizon,
             moveMagnitude=moveMagnitude,
-            objectDirection=object_vector,
-            receptacleObjectDirection=receptacle_vector
+            objectImageCoords=object_vector,
+            receptacleObjectImageCoords=receptacle_vector
         )
 
     # Override

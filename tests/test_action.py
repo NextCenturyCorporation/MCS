@@ -29,8 +29,7 @@ class Test_Action(unittest.TestCase):
         self.assertEqual(
             mcs.Action.CLOSE_OBJECT.desc,
             "Close a nearby object. (objectId=string, amount=float " +
-            "(default:1), objectDirectionX=float, objectDirectionY=float," +
-            " objectDirectionZ=float)"
+            "(default:1), objectImageCoordsX=float, objectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("CloseObject"), mcs.Action.CLOSE_OBJECT)
         self.assertEqual(mcs.Action("1"), mcs.Action.CLOSE_OBJECT)
@@ -115,8 +114,8 @@ class Test_Action(unittest.TestCase):
         self.assertEqual(
             mcs.Action.OPEN_OBJECT.desc,
             "Open a nearby object. (objectId=string, " +
-            "amount=float (default:1), objectDirectionX=float, " +
-            "objectDirectionY=float, objectDirectionZ=float)"
+            "amount=float (default:1), objectImageCoordsX=float, " +
+            "objectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("OpenObject"), mcs.Action.OPEN_OBJECT)
         self.assertEqual(mcs.Action("3"), mcs.Action.OPEN_OBJECT)
@@ -127,8 +126,8 @@ class Test_Action(unittest.TestCase):
         self.assertEqual(
             mcs.Action.PICKUP_OBJECT.desc,
             "Pickup a nearby object and hold it in your hand. " +
-            "(objectId=string, objectDirectionX=float, " +
-            "objectDirectionY=float, objectDirectionZ=float)"
+            "(objectId=string, objectImageCoordsX=float, " +
+            "objectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("PickupObject"), mcs.Action.PICKUP_OBJECT)
         self.assertEqual(mcs.Action("4"), mcs.Action.PICKUP_OBJECT)
@@ -140,8 +139,7 @@ class Test_Action(unittest.TestCase):
             mcs.Action.PULL_OBJECT.desc,
             "Pull a nearby object. (objectId=string, rotation=float, " +
             "horizon=float, force=float (default:0.5), " +
-            "objectDirectionX=float, objectDirectionY=float, " +
-            "objectDirectionZ=float)"
+            "objectImageCoordsX=float, objectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("PullObject"), mcs.Action.PULL_OBJECT)
         self.assertEqual(mcs.Action("5"), mcs.Action.PULL_OBJECT)
@@ -153,8 +151,7 @@ class Test_Action(unittest.TestCase):
             mcs.Action.PUSH_OBJECT.desc,
             "Push a nearby object. (objectId=string, rotation=float, " +
             "horizon=float, force=float (default:0.5), " +
-            "objectDirectionX=float, objectDirectionY=float, " +
-            "objectDirectionZ=float)"
+            "objectImageCoordsX=float, objectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("PushObject"), mcs.Action.PUSH_OBJECT)
         self.assertEqual(mcs.Action("6"), mcs.Action.PUSH_OBJECT)
@@ -167,9 +164,8 @@ class Test_Action(unittest.TestCase):
             "Place an object you are holding into/onto a nearby " +
             "receptacle object. (objectId=string, " +
             "receptacleObjectId=string, " +
-            "receptacleObjectDirectionX=float, " +
-            "receptacleObjectDirectionY=float, " +
-            "receptacleObjectDirectionZ=float)"
+            "receptacleObjectImageCoordsX=float, " +
+            "receptacleObjectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("PutObject"), mcs.Action.PUT_OBJECT)
         self.assertEqual(mcs.Action("7"), mcs.Action.PUT_OBJECT)
@@ -201,8 +197,8 @@ class Test_Action(unittest.TestCase):
         self.assertEqual(
             mcs.Action.THROW_OBJECT.desc,
             "Throw an object you are holding. (objectId=string, " +
-            "objectDirectionX=float, objectDirectionY=float, " +
-            "objectDirectionZ=float, force=float (default:0.5))"
+            "objectImageCoordsX=float, objectImageCoordsY=float, " +
+            "force=float (default:0.5))"
         )
         self.assertEqual(mcs.Action("ThrowObject"), mcs.Action.THROW_OBJECT)
         self.assertEqual(mcs.Action("q"), mcs.Action.THROW_OBJECT)

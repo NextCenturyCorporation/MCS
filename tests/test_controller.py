@@ -337,9 +337,15 @@ class Test_Controller(unittest.TestCase):
             visibilityDistance=mcs.controller.MAX_REACH_DISTANCE,
             horizon=0,
             moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE,
-            objectDirection={'x': 0, 'y': 0, 'z': 0},
+            objectImageCoords={
+                'x': 0,
+                'y': 0
+            },
             objectId=None,
-            receptacleObjectDirection={'x': 0, 'y': 0, 'z': 0},
+            receptacleObjectImageCoords={
+                'x': 0,
+                'y': 0
+            },
             receptacleObjectId=None,
             rotation={'y': 0},
             consistentColors=False
@@ -596,18 +602,16 @@ class Test_Controller(unittest.TestCase):
         self.controller.step(
             'PushObject',
             force=1,
-            objectDirectionX=1,
-            objectDirectionY=2,
-            objectDirectionZ=3)
-        self.assertEqual(
+            objectImageCoordsX=1,
+            objectImageCoordsY=2)
+        self.assertEquals(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
                 moveMagnitude=mcs.Controller.MAX_BABY_FORCE,
-                objectDirection={
+                objectImageCoords={
                     'x': 1,
-                    'y': 2,
-                    'z': 3}))
+                    'y': MOCK_VARIABLES['metadata']['screenHeight'] - 2}))
 
     def test_step_validate_parameters_open_close(self):
         _ = self.controller.start_scene({'name': 'test name'})
@@ -666,17 +670,21 @@ class Test_Controller(unittest.TestCase):
         self.controller.step(
             'OpenObject',
             amount=1,
-            objectDirectionX=1,
-            objectDirectionY=2,
-            objectDirectionZ=3,
-            receptacleObjectDirectionX=4,
-            receptacleObjectDirectionY=5,
-            receptacleObjectDirectionZ=6)
-        self.assertEqual(
+            objectImageCoordsX=1,
+            objectImageCoordsY=2,
+            receptacleObjectImageCoordsX=4,
+            receptacleObjectImageCoordsY=5)
+        self.assertEquals(
             self.controller.get_last_step_data(), self.create_step_data(
-                action='MCSOpenObject', moveMagnitude=1, objectDirection={
-                    'x': 1, 'y': 2, 'z': 3}, receptacleObjectDirection={
-                    'x': 4, 'y': 5, 'z': 6}))
+                action='MCSOpenObject', moveMagnitude=1,
+                objectImageCoords={
+                    'x': 1, 'y': MOCK_VARIABLES['metadata']['screenHeight'] - 2
+                },
+                receptacleObjectImageCoords={
+                    'x': 4, 'y': MOCK_VARIABLES['metadata']['screenHeight'] - 5
+                }
+            )
+        )
 
     def test_restrict_goal_output_metadata(self):
         goal = mcs.GoalMetadata(metadata={
