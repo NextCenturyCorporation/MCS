@@ -442,10 +442,10 @@ class Action(Enum):
     LOOK_UP = (
         "LookUp",
         "i",
-        "Rotate your view up."
+        "Rotate your view up by 10 degrees."
     )
     """
-    Rotate your viewport up.
+    Rotate your view up by 10 degrees.
 
     Returns
     -------
@@ -458,10 +458,10 @@ class Action(Enum):
     LOOK_DOWN = (
         "LookDown",
         "k",
-        "Rotate your view down."
+        "Rotate your view down by 10 degrees."
     )
     """
-    Rotate your viewport down.
+    Rotate your viewport down by 10 degrees.
 
     Returns
     -------
@@ -474,10 +474,10 @@ class Action(Enum):
     ROTATE_LEFT = (
         "RotateLeft",
         "j",
-        "Rotate your view left."
+        "Rotate your view left by 10 degrees."
     )
     """
-    Rotate your viewport left.
+    Rotate your viewport left by 10 degrees.
 
     Returns
     -------
@@ -490,10 +490,10 @@ class Action(Enum):
     ROTATE_RIGHT = (
         "RotateRight",
         "l",
-        "Rotate your view right."
+        "Rotate your view right by 10 degrees."
     )
     """
-    Rotate your viewport right.
+    Rotate your viewport right by 10 degrees.
 
     Returns
     -------

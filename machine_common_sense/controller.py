@@ -21,7 +21,7 @@ import ai2thor.server
 MAX_REACH_DISTANCE = 1.0
 
 # How far the player can move with a single step.
-MAX_MOVE_DISTANCE = 0.25
+MOVE_DISTANCE = 0.1
 
 # Performer camera 'y' position
 PERFORMER_CAMERA_Y = 0.4625
@@ -377,7 +377,7 @@ class Controller():
     """
 
     def validate_and_convert_params(self, action, **kwargs):
-        moveMagnitude = MAX_MOVE_DISTANCE
+        moveMagnitude = MOVE_DISTANCE
         rotation = kwargs.get(self.ROTATION_KEY, self.DEFAULT_ROTATION)
         horizon = kwargs.get(self.HORIZON_KEY, self.DEFAULT_HORIZON)
         amount = kwargs.get(
@@ -454,7 +454,7 @@ class Controller():
             moveMagnitude = amount
 
         if action in self.MOVE_ACTIONS:
-            moveMagnitude = MAX_MOVE_DISTANCE
+            moveMagnitude = MOVE_DISTANCE
 
         # Add in noise if noise is enable
         if self.__enable_noise:
@@ -833,10 +833,10 @@ class Controller():
                 ),
                 direction=object_metadata['direction'],
                 distance=(
-                    object_metadata['distanceXZ'] / MAX_MOVE_DISTANCE
+                    object_metadata['distanceXZ'] / MOVE_DISTANCE
                 ),  # DEPRECATED
                 distance_in_steps=(
-                    object_metadata['distanceXZ'] / MAX_MOVE_DISTANCE
+                    object_metadata['distanceXZ'] / MOVE_DISTANCE
                 ),
                 distance_in_world=(object_metadata['distance']),
                 held=object_metadata['isPickedUp'],

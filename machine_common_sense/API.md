@@ -540,7 +540,7 @@ Change pose to “LYING”. Can help you move underneath objects.
 
 
 #### LOOK_DOWN( = 'LookDown')
-Rotate your viewport down.
+Rotate your viewport down by 10 degrees.
 
 
 * **Returns**
@@ -555,7 +555,7 @@ Rotate your viewport down.
 
 
 #### LOOK_UP( = 'LookUp')
-Rotate your viewport up.
+Rotate your view up by 10 degrees.
 
 
 * **Returns**
@@ -941,7 +941,7 @@ drawer, shelf, or table.
 
 
 #### ROTATE_LEFT( = 'RotateLeft')
-Rotate your viewport left.
+Rotate your viewport left by 10 degrees.
 
 
 * **Returns**
@@ -956,7 +956,7 @@ Rotate your viewport left.
 
 
 #### ROTATE_RIGHT( = 'RotateRight')
-Rotate your viewport right.
+Rotate your viewport right by 10 degrees.
 
 
 * **Returns**

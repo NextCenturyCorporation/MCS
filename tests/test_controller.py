@@ -336,7 +336,7 @@ class Test_Controller(unittest.TestCase):
             renderObjectImage=False,
             visibilityDistance=mcs.controller.MAX_REACH_DISTANCE,
             horizon=0,
-            moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE,
+            moveMagnitude=mcs.controller.MOVE_DISTANCE,
             objectImageCoords={
                 'x': 0,
                 'y': 0
@@ -516,28 +516,28 @@ class Test_Controller(unittest.TestCase):
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
-                moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE))
+                moveMagnitude=mcs.controller.MOVE_DISTANCE))
 
         self.controller.step('MoveAhead')
         self.assertEquals(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
-                moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE))
+                moveMagnitude=mcs.controller.MOVE_DISTANCE))
 
         self.controller.step('MoveAhead')
         self.assertEquals(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
-                moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE))
+                moveMagnitude=mcs.controller.MOVE_DISTANCE))
 
         self.controller.step('MoveAhead')
         self.assertEquals(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
-                moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE))
+                moveMagnitude=mcs.controller.MOVE_DISTANCE))
 
     def test_step_validate_parameters_rotate(self):
         _ = self.controller.start_scene({'name': 'test name'})

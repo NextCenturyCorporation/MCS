@@ -171,7 +171,7 @@ class Test_Action(unittest.TestCase):
         self.assertEqual(mcs.Action.ROTATE_LEFT.key, "j")
         self.assertEqual(
             mcs.Action.ROTATE_LEFT.desc,
-            "Rotate your view left."
+            "Rotate your view left by 10 degrees."
         )
         self.assertEqual(mcs.Action("RotateLeft"), mcs.Action.ROTATE_LEFT)
         self.assertEqual(mcs.Action("j"), mcs.Action.ROTATE_LEFT)
@@ -181,7 +181,7 @@ class Test_Action(unittest.TestCase):
         self.assertEqual(mcs.Action.ROTATE_RIGHT.key, "l")
         self.assertEqual(
             mcs.Action.ROTATE_RIGHT.desc,
-            "Rotate your view right."
+            "Rotate your view right by 10 degrees."
         )
         self.assertEqual(mcs.Action("RotateRight"), mcs.Action.ROTATE_RIGHT)
         self.assertEqual(mcs.Action("l"), mcs.Action.ROTATE_RIGHT)
@@ -191,7 +191,7 @@ class Test_Action(unittest.TestCase):
         self.assertEqual(mcs.Action.LOOK_UP.key, "i")
         self.assertEqual(
             mcs.Action.LOOK_UP.desc,
-            "Rotate your view up."
+            "Rotate your view up by 10 degrees."
         )
         self.assertEqual(mcs.Action("LookUp"), mcs.Action.LOOK_UP)
         self.assertEqual(mcs.Action("i"), mcs.Action.LOOK_UP)
@@ -201,7 +201,7 @@ class Test_Action(unittest.TestCase):
         self.assertEqual(mcs.Action.LOOK_DOWN.key, "k")
         self.assertEqual(
             mcs.Action.LOOK_DOWN.desc,
-            "Rotate your view down."
+            "Rotate your view down by 10 degrees."
         )
         self.assertEqual(mcs.Action("LookDown"), mcs.Action.LOOK_DOWN)
         self.assertEqual(mcs.Action("k"), mcs.Action.LOOK_DOWN)
