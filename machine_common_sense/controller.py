@@ -21,7 +21,7 @@ import ai2thor.server
 MAX_REACH_DISTANCE = 1.0
 
 # How far the player can move with a single step.
-MAX_MOVE_DISTANCE = 0.5
+MOVE_DISTANCE = 0.1
 
 # Performer camera 'y' position
 PERFORMER_CAMERA_Y = 0.4625
@@ -90,11 +90,7 @@ class Controller():
     # the step input.)
     GRID_SIZE = 0.1
 
-    # The amount of force to offset force values, that seems
-    # appropriate for a baby
-    # TODO Check with psych team about this about what we
-    # should use for a baby, defaulting to 50 now
-    MAX_BABY_FORCE = 50.0
+    MAX_FORCE = 50.0
 
     DEFAULT_HORIZON = 0
     DEFAULT_ROTATION = 0
@@ -102,11 +98,6 @@ class Controller():
     DEFAULT_AMOUNT = 0.5
     DEFAULT_IMG_COORD = 0
     DEFAULT_OBJECT_MOVE_AMOUNT = 1
-
-    MAX_ROTATION = 360
-    MIN_ROTATION = -360
-    MAX_HORIZON = 180
-    MIN_HORIZON = -180
 
     MAX_FORCE = 1
     MIN_FORCE = 0
@@ -192,10 +183,10 @@ class Controller():
 
     def _update_screen_size(self, size=None):
         self.__screen_width = self.SCREEN_WIDTH_DEFAULT
-        self.__screen_height = self.SCREEN_WIDTH_DEFAULT / 3 * 2
+        self.__screen_height = int(self.SCREEN_WIDTH_DEFAULT / 3 * 2)
         if size and size >= self.SCREEN_WIDTH_MIN:
             self.__screen_width = size
-            self.__screen_height = size / 3 * 2
+            self.__screen_height = int(size / 3 * 2)
 
     def _update_internal_config(self, enable_noise=None, seed=None,
                                 depth_masks=None, object_masks=None,
@@ -386,7 +377,7 @@ class Controller():
     """
 
     def validate_and_convert_params(self, action, **kwargs):
-        moveMagnitude = MAX_MOVE_DISTANCE
+        moveMagnitude = MOVE_DISTANCE
         rotation = kwargs.get(self.ROTATION_KEY, self.DEFAULT_ROTATION)
         horizon = kwargs.get(self.HORIZON_KEY, self.DEFAULT_HORIZON)
         amount = kwargs.get(
@@ -405,13 +396,6 @@ class Controller():
             self.RECEPTACLE_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD)
         receptacleObjectImageCoordsY = kwargs.get(
             self.RECEPTACLE_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD)
-
-        # Check params that should be numbers
-        if not Util.is_number(rotation, self.ROTATION_KEY):
-            rotation = self.DEFAULT_ROTATION
-
-        if not Util.is_number(horizon, self.HORIZON_KEY):
-            horizon = self.DEFAULT_HORIZON
 
         if not Util.is_number(amount, self.AMOUNT_KEY):
             # The default for open/close is 1, the default for "Move" actions
@@ -446,13 +430,6 @@ class Controller():
                 self.RECEPTACLE_IMAGE_COORDS_Y_KEY):
             receptacleObjectImageCoordsY = self.DEFAULT_IMG_COORD
 
-        # Check that params that should fall in a range are in that range
-        horizon = Util.is_in_range(
-            horizon,
-            self.MIN_HORIZON,
-            self.MAX_HORIZON,
-            self.DEFAULT_HORIZON,
-            self.HORIZON_KEY)
         amount = Util.is_in_range(
             amount,
             self.MIN_AMOUNT,
@@ -471,13 +448,13 @@ class Controller():
 
         # Set the Move Magnitude to the appropriate amount based on the action
         if action in self.FORCE_ACTIONS:
-            moveMagnitude = force * self.MAX_BABY_FORCE
+            moveMagnitude = force * self.MAX_FORCE
 
         if action in self.OBJECT_MOVE_ACTIONS:
             moveMagnitude = amount
 
         if action in self.MOVE_ACTIONS:
-            moveMagnitude = amount * MAX_MOVE_DISTANCE
+            moveMagnitude = MOVE_DISTANCE
 
         # Add in noise if noise is enable
         if self.__enable_noise:
@@ -856,10 +833,10 @@ class Controller():
                 ),
                 direction=object_metadata['direction'],
                 distance=(
-                    object_metadata['distanceXZ'] / MAX_MOVE_DISTANCE
+                    object_metadata['distanceXZ'] / MOVE_DISTANCE
                 ),  # DEPRECATED
                 distance_in_steps=(
-                    object_metadata['distanceXZ'] / MAX_MOVE_DISTANCE
+                    object_metadata['distanceXZ'] / MOVE_DISTANCE
                 ),
                 distance_in_world=(object_metadata['distance']),
                 held=object_metadata['isPickedUp'],

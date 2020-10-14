@@ -539,15 +539,38 @@ Change pose to “LYING”. Can help you move underneath objects.
 
 
 
+#### LOOK_DOWN( = 'LookDown')
+Rotate your viewport down by 10 degrees.
+
+
+* **Returns**
+
+    
+    * *“SUCCESSFUL”* – Action successful.
+
+
+    * *”FAILED”* – Unexpected error; please report immediately to development team.
+
+
+
+
+#### LOOK_UP( = 'LookUp')
+Rotate your view up by 10 degrees.
+
+
+* **Returns**
+
+    
+    * *“SUCCESSFUL”* – Action successful.
+
+
+    * *”FAILED”* – Unexpected error; please report immediately to development team.
+
+
+
+
 #### MOVE_AHEAD( = 'MoveAhead')
 Move yourself forward based on your current viewport.
-
-
-* **Parameters**
-
-    **amount** (*float*) – Movement percentage between 0 (no distance) and 1 (maximum distance).
-    (default 0.5)
-
 
 
 * **Returns**
@@ -568,13 +591,6 @@ Move yourself forward based on your current viewport.
 Move yourself backward based on your current viewport.
 
 
-* **Parameters**
-
-    **amount** (*float*) – Movement percentage between 0 (no distance) and 1 (maximum distance).
-    (default 0.5)
-
-
-
 * **Returns**
 
     
@@ -593,13 +609,6 @@ Move yourself backward based on your current viewport.
 Move yourself left based on your current viewport.
 
 
-* **Parameters**
-
-    **amount** (*float*) – Movement percentage between 0 (no distance) and 1 (maximum distance).
-    (default 0.5)
-
-
-
 * **Returns**
 
     
@@ -616,13 +625,6 @@ Move yourself left based on your current viewport.
 
 #### MOVE_RIGHT( = 'MoveRight')
 Move yourself right based on your current viewport.
-
-
-* **Parameters**
-
-    **amount** (*float*) – Movement percentage between 0 (no distance) and 1 (maximum distance).
-    (default 0.5)
-
 
 
 * **Returns**
@@ -938,23 +940,23 @@ drawer, shelf, or table.
 
 
 
-#### ROTATE_LOOK( = 'RotateLook')
-Rotate your viewport left/right and/or up/down based on your current
-viewport.
+#### ROTATE_LEFT( = 'RotateLeft')
+Rotate your viewport left by 10 degrees.
 
 
-* **Parameters**
+* **Returns**
 
     
-    * **rotation** (*float*) – Rotation degrees around the Y axis to change your look angle
-    (left/right). If the rotation is not between [-360, 360], then 0 will
-    be used.
+    * *“SUCCESSFUL”* – Action successful.
 
 
-    * **horizon** (*float*) – Rotation degrees around the X axis to change your look angle (up/down).
-    This affects your current “head tilt”. If the horizon is not between
-    [-90, 90], then 0 will be used.
+    * *”FAILED”* – Unexpected error; please report immediately to development team.
 
+
+
+
+#### ROTATE_RIGHT( = 'RotateRight')
+Rotate your viewport right by 10 degrees.
 
 
 * **Returns**

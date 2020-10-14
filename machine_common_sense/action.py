@@ -105,7 +105,7 @@ class Action(Enum):
 
     LIE_DOWN = (
         "LieDown",
-        "l",
+        "x",
         "Change pose to 'LYING' (rotation=float)"
     )
     """
@@ -122,17 +122,11 @@ class Action(Enum):
     MOVE_AHEAD = (
         "MoveAhead",
         "w",
-        "Move yourself ahead based on your current view. " +
-        "(amount=float (default:0.5))"
+        "Move yourself ahead based on your current view."
     )
     """
     Move yourself forward based on your current viewport.
 
-    Parameters
-    ----------
-    amount : float
-        Movement percentage between 0 (no distance) and 1 (maximum distance).
-        (default 0.5)
 
     Returns
     -------
@@ -147,17 +141,10 @@ class Action(Enum):
     MOVE_BACK = (
         "MoveBack",
         "s",
-        "Move yourself back based on your current view. " +
-        "(amount=float (default:0.5))"
+        "Move yourself back based on your current view."
     )
     """
     Move yourself backward based on your current viewport.
-
-    Parameters
-    ----------
-    amount : float
-        Movement percentage between 0 (no distance) and 1 (maximum distance).
-        (default 0.5)
 
     Returns
     -------
@@ -172,17 +159,10 @@ class Action(Enum):
     MOVE_LEFT = (
         "MoveLeft",
         "a",
-        "Move yourself to your left based on your current view. " +
-        "(amount=float (default:0.5))"
+        "Move yourself to your left based on your current view."
     )
     """
     Move yourself left based on your current viewport.
-
-    Parameters
-    ----------
-    amount : float
-        Movement percentage between 0 (no distance) and 1 (maximum distance).
-        (default 0.5)
 
     Returns
     -------
@@ -197,17 +177,10 @@ class Action(Enum):
     MOVE_RIGHT = (
         "MoveRight",
         "d",
-        "Move yourself to your right based on your current view. " +
-        "(amount=float (default:0.5))"
+        "Move yourself to your right based on your current view."
     )
     """
     Move yourself right based on your current viewport.
-
-    Parameters
-    ----------
-    amount : float
-        Movement percentage between 0 (no distance) and 1 (maximum distance).
-        (default 0.5)
 
     Returns
     -------
@@ -466,26 +439,13 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    ROTATE_LOOK = (
-        "RotateLook",
-        "r",
-        "Rotate your view left/right and/or up/down based on your " +
-        "current view. (rotation=float, horizon=float)"
+    LOOK_UP = (
+        "LookUp",
+        "i",
+        "Rotate your view up by 10 degrees."
     )
     """
-    Rotate your viewport left/right and/or up/down based on your current
-    viewport.
-
-    Parameters
-    ----------
-    rotation : float
-        Rotation degrees around the Y axis to change your look angle
-        (left/right). If the rotation is not between [-360, 360], then 0 will
-        be used.
-    horizon : float
-        Rotation degrees around the X axis to change your look angle (up/down).
-        This affects your current "head tilt". If the horizon is not between
-        [-90, 90], then 0 will be used.
+    Rotate your view up by 10 degrees.
 
     Returns
     -------
@@ -495,13 +455,53 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    # ROTATE_OBJECT = ("RotateObject")
-    # ROTATE_OBJECT_IN_HAND = (
-    #    "RotateObjectInHand",
-    #    "t",
-    #    "Rotate a held object. (objectId=string, " +
-    #    "rotationX=float, rotationY=float, rotationZ=float, " +
-    #    "objectImageCoordsX=float, objectImageCoordsY=float")
+    LOOK_DOWN = (
+        "LookDown",
+        "k",
+        "Rotate your view down by 10 degrees."
+    )
+    """
+    Rotate your viewport down by 10 degrees.
+
+    Returns
+    -------
+    "SUCCESSFUL"
+        Action successful.
+    "FAILED"
+        Unexpected error; please report immediately to development team.
+    """
+
+    ROTATE_LEFT = (
+        "RotateLeft",
+        "j",
+        "Rotate your view left by 10 degrees."
+    )
+    """
+    Rotate your viewport left by 10 degrees.
+
+    Returns
+    -------
+    "SUCCESSFUL"
+        Action successful.
+    "FAILED"
+        Unexpected error; please report immediately to development team.
+    """
+
+    ROTATE_RIGHT = (
+        "RotateRight",
+        "l",
+        "Rotate your view right by 10 degrees."
+    )
+    """
+    Rotate your viewport right by 10 degrees.
+
+    Returns
+    -------
+    "SUCCESSFUL"
+        Action successful.
+    "FAILED"
+        Unexpected error; please report immediately to development team.
+    """
 
     STAND = (
         "Stand",
