@@ -557,6 +557,24 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
+    END_HABITUATION = (
+        "EndHabituation",
+        "h",
+        "Ends a habituation trial for the scene by blanking the screen for" +
+        "for one action. Sometimes needed for the passive tasks."
+    )
+    """
+    Ends a habituation trial for the scene by blanking the screen for one
+    action. Sometimes needed for the passive tasks.
+
+    Returns
+    -------
+    "SUCCESSFUL"
+        Action successful.
+    "FAILED"
+        Unexpected error; please report immediately to development team.
+    """
+
     # Pass should always be the last action in the enum.
     PASS = (
         "Pass",

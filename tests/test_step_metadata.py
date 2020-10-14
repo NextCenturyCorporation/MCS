@@ -23,13 +23,12 @@ class Test_StepMetadata(unittest.TestCase):
             "action_list": null,
             "category": "",
             "description": "",
-            "domain_list": [],
-            "info_list": [],
+            "habituation_total": 0,
             "last_preview_phase_step": 0,
             "last_step": null,
-            "type_list": [],
             "metadata": {}
         },
+        "habituation_trial": null,
         "head_tilt": 0.0,
         "image_list": [],
         "object_list": [],
@@ -75,6 +74,9 @@ class Test_StepMetadata(unittest.TestCase):
 
     def test_goal(self):
         self.assertIsInstance(self.step_metadata.goal, mcs.GoalMetadata)
+
+    def test_habituation_trial(self):
+        self.assertEqual(self.step_metadata.habituation_trial, None)
 
     def test_head_tilt(self):
         self.assertAlmostEqual(self.step_metadata.head_tilt, 0.0)
