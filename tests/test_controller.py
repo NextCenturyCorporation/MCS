@@ -1043,8 +1043,8 @@ class Test_Controller(unittest.TestCase):
             "y": -30,
             "z": 0
         })
-        self.assertEqual(actual[1].distance, 4.4)
-        self.assertEqual(actual[1].distance_in_steps, 4.4)
+        self.assertEqual(actual[1].distance, 11.0)
+        self.assertEqual(actual[1].distance_in_steps, 11.0)
         self.assertEqual(actual[1].distance_in_world, 1.5)
         self.assertEqual(actual[1].held, False)
         self.assertEqual(actual[1].mass, 12.34)
@@ -1100,8 +1100,8 @@ class Test_Controller(unittest.TestCase):
             "y": -30,
             "z": 0
         })
-        self.assertEqual(actual[1].distance, 4.4)
-        self.assertEqual(actual[1].distance_in_steps, 4.4)
+        self.assertEqual(actual[1].distance, 11.0)
+        self.assertEqual(actual[1].distance_in_steps, 11.0)
         self.assertEqual(actual[1].distance_in_world, 1.5)
         self.assertEqual(actual[1].held, False)
         self.assertEqual(actual[1].mass, 12.34)
@@ -1126,8 +1126,8 @@ class Test_Controller(unittest.TestCase):
             "y": 180,
             "z": 270
         })
-        self.assertEqual(actual[2].distance, 8)
-        self.assertEqual(actual[2].distance_in_steps, 8)
+        self.assertEqual(actual[2].distance, 20.0)
+        self.assertEqual(actual[2].distance_in_steps, 20.0)
         self.assertEqual(actual[2].distance_in_world, 2.5)
         self.assertEqual(actual[2].held, False)
         self.assertEqual(actual[2].mass, 34.56)
@@ -1388,8 +1388,8 @@ class Test_Controller(unittest.TestCase):
             "y": -30,
             "z": 0
         })
-        self.assertEqual(actual.object_list[0].distance, 4.4)
-        self.assertEqual(actual.object_list[0].distance_in_steps, 4.4)
+        self.assertEqual(actual.object_list[0].distance, 11.0)
+        self.assertEqual(actual.object_list[0].distance_in_steps, 11.0)
         self.assertEqual(actual.object_list[0].distance_in_world, 1.5)
         self.assertEqual(actual.object_list[0].held, False)
         self.assertEqual(actual.object_list[0].mass, 12.34)
@@ -1420,9 +1420,9 @@ class Test_Controller(unittest.TestCase):
             "y": -60,
             "z": 0
         })
-        self.assertEqual(actual.structural_object_list[0].distance, 8.8)
+        self.assertEqual(actual.structural_object_list[0].distance, 22.0)
         self.assertEqual(
-            actual.structural_object_list[0].distance_in_steps, 8.8)
+            actual.structural_object_list[0].distance_in_steps, 22.0)
         self.assertEqual(
             actual.structural_object_list[0].distance_in_world, 2.5)
         self.assertEqual(actual.structural_object_list[0].held, False)
