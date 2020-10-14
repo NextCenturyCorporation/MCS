@@ -141,15 +141,15 @@ class Controller():
 
     CONFIG_AWS_ACCESS_KEY_ID = 'aws_access_key_id'
     CONFIG_AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
-    CONFIG_METADATA_MODE = 'metadata'
+    CONFIG_METADATA_TIER = 'metadata'
     # Normal metadata plus metadata for all hidden objects
-    CONFIG_METADATA_MODE_FULL = 'full'
-    # No navigation metadata like 3D coordinates
-    CONFIG_METADATA_MODE_NO_NAVIGATION = 'no_navigation'
-    # No vision (image feature) metadata, except for the images
-    CONFIG_METADATA_MODE_NO_VISION = 'no_vision'
-    # No metadata, except for the images and haptic/audio feedback
-    CONFIG_METADATA_MODE_NONE = 'none'
+    CONFIG_METADATA_TIER_ORACLE = 'oracle'
+    # No metadata, except for the images, depth masks, object masks,
+    # and haptic/audio feedback
+    CONFIG_METADATA_TIER_LEVEL_2 = 'level2'
+    # No metadata, except for the images, depth masks, and haptic/audio
+    # feedback
+    CONFIG_METADATA_TIER_LEVEL_1 = 'level1'
     CONFIG_SAVE_IMAGES_TO_S3_BUCKET = 'save_images_to_s3_bucket'
     CONFIG_SAVE_IMAGES_TO_S3_FOLDER = 'save_images_to_s3_folder'
     CONFIG_TEAM = 'team'
@@ -158,8 +158,9 @@ class Controller():
 
     def __init__(self, unity_app_file_path, debug=False,
                  enable_noise=False, seed=None, size=None,
-                 depth_masks=False, object_masks=False,
+                 depth_masks=None, object_masks=None,
                  history_enabled=True):
+
         self._update_screen_size(size)
 
         self._controller = ai2thor.controller.Controller(
@@ -206,7 +207,8 @@ class Controller():
             self.__history_enabled = history_enabled
 
     def _on_init(self, debug=False, enable_noise=False, seed=None,
-                 depth_masks=False, object_masks=False, history_enabled=True):
+                 depth_masks=None, object_masks=None,
+                 history_enabled=True):
 
         self.__debug_to_file = True if (
             debug is True or debug == 'file') else False
@@ -214,8 +216,6 @@ class Controller():
             debug is True or debug == 'terminal') else False
 
         self.__enable_noise = enable_noise
-        self.__depth_masks = depth_masks
-        self.__object_masks = object_masks
         self.__seed = seed
         self.__history_enabled = history_enabled
 
@@ -232,6 +232,31 @@ class Controller():
         self.__history_writer = None
 
         self._config = self.read_config_file()
+        self._metadata_tier = (
+            self._config[self.CONFIG_METADATA_TIER]
+            if self.CONFIG_METADATA_TIER in self._config
+            else ''
+        )
+
+        # Order of preference for depth/object mask settings:
+        # look for user specified depth_masks/object_masks properties,
+        # then check config settings, else default to False
+        if(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
+            self.__depth_masks = (
+                depth_masks if depth_masks is not None else True)
+            self.__object_masks = (
+                object_masks if object_masks is not None else False)
+        elif(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2 or
+             self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
+            self.__depth_masks = (
+                depth_masks if depth_masks is not None else True)
+            self.__object_masks = (
+                object_masks if object_masks is not None else True)
+        else:
+            self.__depth_masks = (
+                depth_masks if depth_masks is not None else False)
+            self.__object_masks = (
+                object_masks if object_masks is not None else False)
 
         if ((self.CONFIG_AWS_ACCESS_KEY_ID in self._config) and
                 (self.CONFIG_AWS_SECRET_ACCESS_KEY in self._config)):
@@ -682,21 +707,15 @@ class Controller():
                 if self.__debug_to_terminal:
                     print('Read MCS Config File:')
                     print(config)
-                if self.CONFIG_METADATA_MODE not in config:
-                    config[self.CONFIG_METADATA_MODE] = ''
+                if self.CONFIG_METADATA_TIER not in config:
+                    config[self.CONFIG_METADATA_TIER] = ''
                 return config
         return {}
 
     def restrict_goal_output_metadata(self, goal_output):
-        mode = (
-            self._config[self.CONFIG_METADATA_MODE]
-            if self.CONFIG_METADATA_MODE in self._config
-            else ''
-        )
-
         if (
-            mode == self.CONFIG_METADATA_MODE_NO_VISION or
-            mode == self.CONFIG_METADATA_MODE_NONE
+            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
+            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2
         ):
             if (
                 'target' in goal_output.metadata and
@@ -716,56 +735,14 @@ class Controller():
 
         return goal_output
 
-    def restrict_object_output_metadata(self, object_output):
-        mode = (
-            self._config[self.CONFIG_METADATA_MODE]
-            if self.CONFIG_METADATA_MODE in self._config
-            else ''
-        )
-
-        if (
-            mode == self.CONFIG_METADATA_MODE_NO_VISION or
-            mode == self.CONFIG_METADATA_MODE_NONE
-        ):
-            object_output.color = None
-            object_output.dimensions = None
-            object_output.direction = None
-            object_output.distance = None
-            object_output.distance_in_steps = None
-            object_output.distance_in_world = None
-            object_output.shape = None
-            object_output.texture_color_list = None
-
-        if (
-            mode == self.CONFIG_METADATA_MODE_NO_NAVIGATION or
-            mode == self.CONFIG_METADATA_MODE_NONE
-        ):
-            object_output.position = None
-            object_output.rotation = None
-
-        return object_output
-
     def restrict_step_output_metadata(self, step_output):
-        mode = (
-            self._config[self.CONFIG_METADATA_MODE]
-            if self.CONFIG_METADATA_MODE in self._config
-            else ''
-        )
-
-        if (
-            mode == self.CONFIG_METADATA_MODE_NO_VISION or
-            mode == self.CONFIG_METADATA_MODE_NONE
-        ):
-            step_output.camera_aspect_ratio = None
-            step_output.camera_clipping_planes = None
-            step_output.camera_field_of_view = None
-            step_output.camera_height = None
-            step_output.depth_mask_list = []
+        # only remove object_mask_list for level1
+        if(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
             step_output.object_mask_list = []
 
         if (
-            mode == self.CONFIG_METADATA_MODE_NO_NAVIGATION or
-            mode == self.CONFIG_METADATA_MODE_NONE
+            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
+            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2
         ):
             step_output.position = None
             step_output.rotation = None
@@ -819,13 +796,10 @@ class Controller():
             scene_event.events) - 1].object_id_to_color
 
     def retrieve_object_list(self, scene_event):
-        mode = (
-            self._config[self.CONFIG_METADATA_MODE]
-            if self.CONFIG_METADATA_MODE in self._config
-            else ''
-        )
-
-        if mode == self.CONFIG_METADATA_MODE_FULL:
+        if (self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
+                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2):
+            return []
+        elif self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE:
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -836,18 +810,20 @@ class Controller():
                 ],
                 key=lambda x: x.uuid
             )
-
-        return sorted(
-            [
-                self.retrieve_object_output(
-                    object_metadata, self.retrieve_object_colors(scene_event)
-                )
-                for object_metadata in scene_event.metadata['objects']
-                if object_metadata['visibleInCamera'] or
-                object_metadata['isPickedUp']
-            ],
-            key=lambda x: x.uuid
-        )
+        else:
+            # if no config specified, return visible objects (for now)
+            return sorted(
+                [
+                    self.retrieve_object_output(
+                        object_metadata,
+                        self.retrieve_object_colors(scene_event)
+                    )
+                    for object_metadata in scene_event.metadata['objects']
+                    if object_metadata['visibleInCamera'] or
+                    object_metadata['isPickedUp']
+                ],
+                key=lambda x: x.uuid
+            )
 
     def retrieve_object_output(self, object_metadata, object_id_to_color):
         material_list = (
@@ -877,7 +853,7 @@ class Controller():
             else {}
         )
 
-        return self.restrict_object_output_metadata(
+        return (
             ObjectMetadata(
                 uuid=object_metadata['objectId'],
                 color={'r': rgb[0], 'g': rgb[1], 'b': rgb[2]},
@@ -943,13 +919,10 @@ class Controller():
             return return_status
 
     def retrieve_structural_object_list(self, scene_event):
-        mode = (
-            self._config[self.CONFIG_METADATA_MODE]
-            if self.CONFIG_METADATA_MODE in self._config
-            else ''
-        )
-
-        if mode == self.CONFIG_METADATA_MODE_FULL:
+        if (self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
+                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2):
+            return []
+        elif self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE:
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -962,19 +935,22 @@ class Controller():
                 ],
                 key=lambda x: x.uuid
             )
-
-        return sorted(
-            [
-                self.retrieve_object_output(
-                    object_metadata, self.retrieve_object_colors(scene_event)
-                )
-                for object_metadata in scene_event.metadata[
-                    'structuralObjects'
-                ]
-                if object_metadata['visibleInCamera']
-            ],
-            key=lambda x: x.uuid
-        )
+        else:
+            # if no config specified, return visible structural objects (for
+            # now)
+            return sorted(
+                [
+                    self.retrieve_object_output(
+                        object_metadata, self.retrieve_object_colors(
+                            scene_event)
+                    )
+                    for object_metadata in scene_event.metadata[
+                        'structuralObjects'
+                    ]
+                    if object_metadata['visibleInCamera']
+                ],
+                key=lambda x: x.uuid
+            )
 
     def save_images(self, scene_event):
         image_list = []
@@ -1081,6 +1057,12 @@ class Controller():
         return step_output
 
     def wrap_step(self, **kwargs):
+        # whether or not to randomize segmentation mask colors
+        consistentColors = False
+
+        if(self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
+            consistentColors = True
+
         # Create the step data dict for the AI2-THOR step function.
         step_data = dict(
             continuous=True,
@@ -1091,6 +1073,7 @@ class Controller():
             # Yes, in AI2-THOR, the player's reach appears to be
             # governed by the "visibilityDistance", confusingly...
             visibilityDistance=MAX_REACH_DISTANCE,
+            consistentColors=consistentColors,
             **kwargs
         )
 
