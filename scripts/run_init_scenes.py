@@ -24,7 +24,11 @@ def main():
     output_folder = args.image_output_folder + '/'
     json_file_list = glob.glob(args.json_input_folder + '/*.json')
 
-    controller = mcs.create_controller(args.mcs_unity_build_file, debug=False)
+    controller = mcs.create_controller(
+        args.mcs_unity_build_file,
+        debug=False,
+        depth_masks=True,
+        object_masks=True)
 
     for json_file_name in json_file_list:
         config_data, status = mcs.load_config_json_file(json_file_name)
