@@ -100,7 +100,7 @@ class HumanInputShell(cmd.Cmd):
         if self.previous_output.action_list is not None and len(
                 self.previous_output.action_list) == 1:
             print('Automatically selecting the only available action...')
-            userInput = self.previous_output.action_list[0]
+            userInput = self.previous_output.action_list
         else:
             userInput = line.split(',')
 

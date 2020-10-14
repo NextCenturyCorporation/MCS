@@ -504,14 +504,14 @@ class Test_Controller(unittest.TestCase):
     def test_step_validate_parameters_move(self):
         _ = self.controller.start_scene({'name': 'test name'})
         self.controller.step('MoveAhead', amount=1)
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
                 moveMagnitude=mcs.controller.MAX_MOVE_DISTANCE))
 
         self.controller.step('MoveAhead', amount=0.1)
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
@@ -519,7 +519,7 @@ class Test_Controller(unittest.TestCase):
                 mcs.controller.MAX_MOVE_DISTANCE))
 
         self.controller.step('MoveAhead', amount=1.5)
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
@@ -527,7 +527,7 @@ class Test_Controller(unittest.TestCase):
                 mcs.controller.MAX_MOVE_DISTANCE))
 
         self.controller.step('MoveAhead', amount=-1)
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
@@ -537,7 +537,7 @@ class Test_Controller(unittest.TestCase):
     def test_step_validate_parameters_rotate(self):
         _ = self.controller.start_scene({'name': 'test name'})
         self.controller.step('RotateLook', rotation=12, horizon=34)
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='RotateLook',
@@ -546,7 +546,7 @@ class Test_Controller(unittest.TestCase):
                     'y': 12}))
 
         self.controller.step('RotateLook', rotation=-12, horizon=-34)
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='RotateLook',
@@ -557,7 +557,7 @@ class Test_Controller(unittest.TestCase):
     def test_step_validate_parameters_force_object(self):
         _ = self.controller.start_scene({'name': 'test name'})
         self.controller.step('PushObject', force=1, objectId='test_id_1')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
@@ -565,7 +565,7 @@ class Test_Controller(unittest.TestCase):
                 objectId='test_id_1'))
 
         self.controller.step('PushObject', force=0.1, objectId='test_id_1')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
@@ -574,7 +574,7 @@ class Test_Controller(unittest.TestCase):
                 objectId='test_id_1'))
 
         self.controller.step('PushObject', force=1.5, objectId='test_id_1')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
@@ -583,7 +583,7 @@ class Test_Controller(unittest.TestCase):
                 objectId='test_id_1'))
 
         self.controller.step('PushObject', force=-1, objectId='test_id_1')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
@@ -597,7 +597,7 @@ class Test_Controller(unittest.TestCase):
             objectDirectionX=1,
             objectDirectionY=2,
             objectDirectionZ=3)
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
@@ -614,7 +614,7 @@ class Test_Controller(unittest.TestCase):
             amount=1,
             objectId='test_id_1',
             receptacleObjectId='test_id_2')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MCSOpenObject',
@@ -627,7 +627,7 @@ class Test_Controller(unittest.TestCase):
             amount=0.1,
             objectId='test_id_1',
             receptacleObjectId='test_id_2')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MCSOpenObject',
@@ -640,7 +640,7 @@ class Test_Controller(unittest.TestCase):
             amount=1.5,
             objectId='test_id_1',
             receptacleObjectId='test_id_2')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MCSOpenObject',
@@ -653,7 +653,7 @@ class Test_Controller(unittest.TestCase):
             amount=-1,
             objectId='test_id_1',
             receptacleObjectId='test_id_2')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MCSOpenObject',
@@ -670,7 +670,7 @@ class Test_Controller(unittest.TestCase):
             receptacleObjectDirectionX=4,
             receptacleObjectDirectionY=5,
             receptacleObjectDirectionZ=6)
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(), self.create_step_data(
                 action='MCSOpenObject', moveMagnitude=1, objectDirection={
                     'x': 1, 'y': 2, 'z': 3}, receptacleObjectDirection={
@@ -1040,10 +1040,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(goal_1.action_list, None)
         self.assertEqual(goal_1.category, '')
         self.assertEqual(goal_1.description, '')
-        self.assertEqual(goal_1.domain_list, [])
-        self.assertEqual(goal_1.info_list, [])
+        self.assertEqual(goal_1.habituation_total, 0)
         self.assertEqual(goal_1.last_step, None)
-        self.assertEqual(goal_1.type_list, [])
         self.assertEqual(goal_1.metadata, {})
 
         goal_2 = self.controller.retrieve_goal({
@@ -1053,10 +1051,8 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(goal_2.action_list, None)
         self.assertEqual(goal_2.category, '')
         self.assertEqual(goal_2.description, '')
-        self.assertEqual(goal_2.domain_list, [])
-        self.assertEqual(goal_2.info_list, [])
+        self.assertEqual(goal_2.habituation_total, 0)
         self.assertEqual(goal_2.last_step, None)
-        self.assertEqual(goal_2.type_list, [])
         self.assertEqual(goal_2.metadata, {})
 
         goal_3 = self.controller.retrieve_goal({
@@ -1068,10 +1064,8 @@ class Test_Controller(unittest.TestCase):
                 ],
                 "category": "test category",
                 "description": "test description",
-                "domain_list": ["domain1", "domain2"],
-                "info_list": ["info1", "info2", 12.34],
+                "habituation_total": 5,
                 "last_step": 10,
-                "type_list": ["type1", "type2"],
                 "metadata": {
                     "key": "value"
                 }
@@ -1083,10 +1077,8 @@ class Test_Controller(unittest.TestCase):
                     "action2", "action3", "action4"]])
         self.assertEqual(goal_3.category, "test category")
         self.assertEqual(goal_3.description, "test description")
-        self.assertEqual(goal_3.domain_list, ["domain1", "domain2"])
-        self.assertEqual(goal_3.info_list, ["info1", "info2", 12.34])
+        self.assertEqual(goal_3.habituation_total, 5)
         self.assertEqual(goal_3.last_step, 10)
-        self.assertEqual(goal_3.type_list, ["type1", "type2"])
         self.assertEqual(goal_3.metadata, {
             "category": "test category",
             "key": "value"
@@ -1665,6 +1657,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
+        self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
@@ -1774,6 +1767,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
+        self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
@@ -1818,6 +1812,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
+        self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, None)
@@ -1861,6 +1856,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.camera_field_of_view, None)
         self.assertEqual(actual.camera_height, None)
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
+        self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
@@ -1895,6 +1891,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.camera_field_of_view, None)
         self.assertEqual(actual.camera_height, None)
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
+        self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, None)

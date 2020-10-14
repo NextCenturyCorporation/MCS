@@ -223,6 +223,7 @@ class Controller():
             random.seed(self.__seed)
 
         self._goal = GoalMetadata()
+        self.__habituation_trial = 1
         self.__head_tilt = 0.0
         self.__output_folder = None  # Save output image files to debug
         self.__scene_configuration = None
@@ -294,6 +295,7 @@ class Controller():
         """
 
         self.__scene_configuration = config_data
+        self.__habituation_trial = 1
         self.__step_number = 0
         self._goal = self.retrieve_goal(self.__scene_configuration)
 
@@ -561,17 +563,26 @@ class Controller():
         self.__step_number += 1
 
         if self.__debug_to_terminal:
-            print(
-                "================================================"
-                "===============================")
+            print("================================================" +
+                  "===============================")
             print("STEP: " + str(self.__step_number))
             print("ACTION: " + action)
+            if self._goal.habituation_total >= self.__habituation_trial:
+                print("HABITUATION TRIAL: " + str(self.__habituation_trial) +
+                      " / " + str(self._goal.habituation_total))
+            elif self._goal.habituation_total > 0:
+                print("HABITUATION TRIAL: DONE")
+            else:
+                print("HABITUATION TRIAL: NONE")
 
         params = self.validate_and_convert_params(action, **kwargs)
 
         # Only call mcs_action_to_ai2thor_action AFTER calling
         # validate_and_convert_params
         action = self.mcs_action_to_ai2thor_action(action)
+
+        if (action == 'EndHabituation'):
+            self.__habituation_trial += 1
 
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
@@ -784,27 +795,15 @@ class Controller():
             goal_config['metadata']['category'] = goal_config['category']
 
         return self.restrict_goal_output_metadata(GoalMetadata(
-            action_list=(goal_config['action_list']
-                         if 'action_list' in goal_config else None),
-            category=(goal_config['category']
-                      if 'category' in goal_config else ''),
-            description=(goal_config['description']
-                         if 'description' in goal_config else ''),
-            domain_list=(goal_config['domain_list']
-                         if 'domain_list' in goal_config else []),
-            info_list=(goal_config['info_list']
-                       if 'type_list' in goal_config else []),
+            action_list=goal_config.get('action_list', None),
+            category=goal_config.get('category', ''),
+            description=goal_config.get('description', ''),
+            habituation_total=goal_config.get('habituation_total', 0),
             last_preview_phase_step=(
-                goal_config['last_preview_phase_step']
-                if 'last_preview_phase_step' in goal_config
-                else 0
+                goal_config.get('last_preview_phase_step', 0)
             ),
-            last_step=(goal_config['last_step']
-                       if 'last_step' in goal_config else None),
-            type_list=(goal_config['type_list']
-                       if 'type_list' in goal_config else []),
-            metadata=(goal_config['metadata']
-                      if 'metadata' in goal_config else {})
+            last_step=goal_config.get('last_step', None),
+            metadata=goal_config.get('metadata', {})
         ))
 
     def retrieve_head_tilt(self, scene_event):
@@ -998,7 +997,7 @@ class Controller():
 
             if self.__debug_to_file and self.__output_folder is not None:
                 step_plus_substep_index = 0 if self.__step_number == 0 else (
-                    (self.__step_number - 1) * 5) + (index + 1)
+                    (self.__step_number - 1) * len(image_list)) + (index + 1)
                 suffix = '_' + str(step_plus_substep_index) + '.png'
                 scene_image.save(fp=self.__output_folder +
                                  'frame_image' + suffix)
@@ -1045,6 +1044,11 @@ class Controller():
                 'cameraPosition', {}).get('y', 0.0),
             depth_mask_list=depth_mask_list,
             goal=self._goal,
+            habituation_trial=(
+                self.__habituation_trial
+                if self._goal.habituation_total >= self.__habituation_trial
+                else None
+            ),
             head_tilt=self.retrieve_head_tilt(scene_event),
             image_list=image_list,
             object_list=self.retrieve_object_list(scene_event),
