@@ -8,7 +8,7 @@ from machine_common_sense.action import Action
 MOCK_VARIABLES = {
     'event_count': 5,
     'frame': numpy.array([[0]], dtype=numpy.uint8),
-    'depth_frame': numpy.array([[0]], dtype=numpy.uint8),
+    'depth_frame': numpy.array([[[0, 0, 0]]], dtype=numpy.uint8),
     'instance_segmentation_frame': numpy.array([[0]], dtype=numpy.uint8),
     'metadata': {
         'agent': {

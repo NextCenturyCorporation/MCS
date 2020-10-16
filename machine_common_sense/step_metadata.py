@@ -25,17 +25,12 @@ class StepMetadata:
     camera_height : float
         The player camera's height. This will change if the player uses
         actions like "LieDown", "Stand", or "Crawl".
-    depth_mask_list : list of Pillow.Image objects
-        The list of depth mask images from the scene after the last
-        action and physics simulation were run.
-        This is normally a list with five images, where the physics simulation
-        has unpaused and paused again for a little bit between each image,
-        and the final image is the state of the environment before your
-        next action. The StepMetadata object returned from a call to
-        controller.start_scene will normally have a list with only one image,
-        except for a scene with a scripted Preview Phase. A pixel value of
-        255 translates to 25 (the far clipping plane) in the environment's
-        global coordinate system.
+    depth_data_list : list of list of list of floats
+        The list of 2-dimensional lists of depth float data from the scene
+        after the last action and physics simulation were run.
+        Each depth float in the 2-dimensional list is a value between 0 and the
+        camera's far clipping plane (default 15) correspondings to the depth in
+        simulation units at that pixel in the image.
     goal : GoalMetadata or None
         The goal for the whole scene. Will be None in "Exploration" scenes.
     habituation_trial : int or None
@@ -98,7 +93,7 @@ class StepMetadata:
         camera_clipping_planes=None,
         camera_field_of_view=0.0,
         camera_height=0.0,
-        depth_mask_list=None,
+        depth_data_list=None,
         goal=None,
         habituation_trial=None,
         head_tilt=0.0,
@@ -123,8 +118,8 @@ class StepMetadata:
         )
         self.camera_field_of_view = camera_field_of_view
         self.camera_height = camera_height
-        self.depth_mask_list = (
-            [] if depth_mask_list is None else depth_mask_list
+        self.depth_data_list = (
+            [] if depth_data_list is None else depth_data_list
         )
         self.goal = GoalMetadata() if goal is None else goal
         self.habituation_trial = habituation_trial

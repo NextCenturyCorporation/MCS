@@ -18,7 +18,7 @@ class Test_StepMetadata(unittest.TestCase):
         ],
         "camera_field_of_view": 0.0,
         "camera_height": 0.0,
-        "depth_mask_list": [],
+        "depth_data_list": [],
         "goal": {
             "action_list": null,
             "category": "",
@@ -68,9 +68,9 @@ class Test_StepMetadata(unittest.TestCase):
     def test_camera_height(self):
         self.assertIsInstance(self.step_metadata.camera_height, float)
 
-    def test_depth_mask_list(self):
-        self.assertFalse(self.step_metadata.depth_mask_list)
-        self.assertIsInstance(self.step_metadata.depth_mask_list, list)
+    def test_depth_data_list(self):
+        self.assertFalse(self.step_metadata.depth_data_list)
+        self.assertIsInstance(self.step_metadata.depth_data_list, list)
 
     def test_goal(self):
         self.assertIsInstance(self.step_metadata.goal, mcs.GoalMetadata)

@@ -306,7 +306,7 @@ Defines metadata for an object in the MCS 3D environment.
 ## StepMetadata
 
 
-### class machine_common_sense.step_metadata.StepMetadata(action_list=None, camera_aspect_ratio=None, camera_clipping_planes=None, camera_field_of_view=0.0, camera_height=0.0, depth_mask_list=None, goal=None, habituation_trial=None, head_tilt=0.0, image_list=None, object_list=None, object_mask_list=None, pose='UNDEFINED', position=None, return_status='UNDEFINED', reward=0, rotation=0.0, step_number=0, structural_object_list=None)
+### class machine_common_sense.step_metadata.StepMetadata(action_list=None, camera_aspect_ratio=None, camera_clipping_planes=None, camera_field_of_view=0.0, camera_height=0.0, depth_data_list=None, goal=None, habituation_trial=None, head_tilt=0.0, image_list=None, object_list=None, object_mask_list=None, pose='UNDEFINED', position=None, return_status='UNDEFINED', reward=0, rotation=0.0, step_number=0, structural_object_list=None)
 Defines output metadata from an action step in the MCS 3D environment.
 
 
@@ -333,16 +333,11 @@ Defines output metadata from an action step in the MCS 3D environment.
     actions like “LieDown”, “Stand”, or “Crawl”.
 
 
-    * **depth_mask_list** (*list of Pillow.Image objects*) – The list of depth mask images from the scene after the last
-    action and physics simulation were run.
-    This is normally a list with five images, where the physics simulation
-    has unpaused and paused again for a little bit between each image,
-    and the final image is the state of the environment before your
-    next action. The StepMetadata object returned from a call to
-    controller.start_scene will normally have a list with only one image,
-    except for a scene with a scripted Preview Phase. A pixel value of
-    255 translates to 25 (the far clipping plane) in the environment’s
-    global coordinate system.
+    * **depth_data_list** (*list of list of list of floats*) – The list of 2-dimensional lists of depth float data from the scene
+    after the last action and physics simulation were run.
+    Each depth float in the 2-dimensional list is a value between 0 and the
+    camera’s far clipping plane (default 15) correspondings to the depth in
+    simulation units at that pixel in the image.
 
 
     * **goal** (*GoalMetadata** or **None*) – The goal for the whole scene. Will be None in “Exploration” scenes.
