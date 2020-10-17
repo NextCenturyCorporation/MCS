@@ -2,7 +2,7 @@
 
 ## Documentation
 
-[API.md](./API.md)
+[SCHEMA.md](./SCHEMA.md)
 
 ## Examples
 

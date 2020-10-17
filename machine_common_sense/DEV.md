@@ -100,5 +100,4 @@ ffmpeg -r 3 -i frame_image_%d.png output.gif
 - AI2-THOR Documentation: http://ai2thor.allenai.org/documentation
 - AI2-THOR GitHub: https://github.com/allenai/ai2thor
 - MCS AI2-THOR GitHub Fork: https://github.com/NextCenturyCorporation/ai2thor
-- MCS AI2-THOR Scene Files and API: [scenes](./machine_common_sense/scenes)
-- 
+- MCS AI2-THOR Scene Files and Schema: [scenes](./machine_common_sense/scenes)
