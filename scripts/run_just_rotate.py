@@ -23,7 +23,8 @@ def main():
         print(status)
         exit()
 
-    controller = mcs.create_controller(args.mcs_unity_build_file, debug=True)
+    controller = mcs.create_controller(args.mcs_unity_build_file, debug=True,
+                                       depth_masks=True, object_masks=True)
     config_file_name = config_file_path[config_file_path.rfind('/') + 1:]
 
     if 'name' not in config_data.keys():
@@ -31,8 +32,8 @@ def main():
 
     _ = controller.start_scene(config_data)
 
-    for i in range(1, 12):
-        _ = controller.step('RotateLook', rotation=30)
+    for _ in range(36):
+        _ = controller.step('RotateRight')
 
 
 if __name__ == "__main__":
