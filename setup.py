@@ -20,6 +20,7 @@ setuptools.setup(
     ],
     license='Apache-2',
     python_requires=">3.6",
+    packages=setuptools.find_packages(),
     install_requires=[
         'shapely>=1.7.0',
         'boto3>=1.15',
