@@ -284,22 +284,22 @@ The following object types have the `pickupable` attribute by default.
 ### Furniture Objects
 
 | Object Type | Shape | Default Mass | Moveable | Receptacle | Openable | Materials | Details |
-| --- | --- | --- | --- | --- | --- | --- |
-| `"chair_1"` | chair | 5 | X | X | | metal, plastic, wood |
-| `"chair_2"` | stool | 2.5 | X | X | | metal, plastic, wood |
-| `"changing_table"` | 100 | changing table | | X | X | wood |
-| `"crib"` | crib | 25 | | | | wood |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `"chair_1"` | chair | 5 | X | X | | metal, plastic, wood | |
+| `"chair_2"` | stool | 2.5 | X | X | | metal, plastic, wood | |
+| `"changing_table"` | 100 | changing table | | X | X | wood | |
+| `"crib"` | crib | 25 | | | | wood | |
 | `"foam_floor_tiles"` | foam floor tiles | 1 | | | | none | |
-| `"shelf_1"` | shelf | 10 | | X | | metal, plastic, wood | Object with four cubbies |
-| `"shelf_2"` | shelf | 20 | | X | | metal, plastic, wood | Object with three shelves |
+| `"shelf_1"` | shelf | 10 | | X | | metal, plastic, wood | Object with four cubbies | |
+| `"shelf_2"` | shelf | 20 | | X | | metal, plastic, wood | Object with three shelves | |
 | `"sofa_1"` | sofa | 100 | | X | | sofa 1 | |
 | `"sofa_2"` | sofa | 100 | | X | | sofa 2 | |
 | `"sofa_chair_1"` | sofa chair | 50 | | X | | sofa chair 1 | |
 | `"sofa_chair_2"` | sofa chair | 50 | | X | | sofa 2 | |
-| `"table_1"` | table | 10 | X | X | | metal, plastic, wood | Rectangular table with legs |
-| `"table_3"` | table | 2.5 | X | X | | metal, plastic, wood | Circular table |
-| `"table_5"` | table | 20 | X | X | | metal, plastic, wood | Rectangular table with sides |
-| `"wardrobe"` | 100 | changing table | | X | X | wood |
+| `"table_1"` | table | 10 | X | X | | metal, plastic, wood | Rectangular table with legs | |
+| `"table_3"` | table | 2.5 | X | X | | metal, plastic, wood | Circular table | |
+| `"table_5"` | table | 20 | X | X | | metal, plastic, wood | Rectangular table with sides | |
+| `"wardrobe"` | changing table | 100 | | X | X | wood | |
 
 ### Primitive Objects
 
