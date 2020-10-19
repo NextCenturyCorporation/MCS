@@ -1,57 +1,265 @@
-# MCS
+# MCS Python Package
 
-This is code that may be useful for people on the Machine Common Sense
-program.
+## Installation
 
-## Homepage
+The latest release of the MCS Python library is `0.3.0`.
 
-Home for machinecommonsense.com
-[Link to Homepage](homepage/README.md) 
+### Virtual Environments
 
-## Ingest Results
+Python virtual environments are recommended when using the MCS package. All steps below presume the activation of the virtual environment as shown.
 
-The code in this directory creates placeholders / examples of ground
-truth and submissions.  It is useful to see what a submission should
-look like and allows us to practice ingesting the data for scoring and
-visualizations.  The ground truth information, like the submission
-data, is made up.
-[Link to Ingest Results](ingest_results/README.md) 
+```
+python3.6 -m venv venv
+source venv/bin/activate
+python -m pip install --upgrade pip setuptools wheel
+```
 
-## Masks
+### Install MCS
 
-The code in this directory makes the mask information for training
-data consistent.
-[Link to Masks](masks/README.md) 
+With the activated virtual environment, install the MCS package from the git url. MCS has a dependency on an ai2thor fork and will take a while to install. Please be patient.
 
-## MCS_Docker_Setup
+```
+python -m pip install git+https://github.com/NextCenturyCorporation/MCS@latest#egg=machine_common_sense
+```
 
-Contains code and instructions for setting up the evaluation tools
-[Link Evaluation Tool Setup](mcs_docker_setup/README.md) 
+## MCS Package Developer Installation
 
-## Occluder Labeller
+For MCS package developer, follow these alternate instructions.
 
-A labelling of the objects in the scene that are occluders.
-[Link to Occluder Labeller](occluder/README.md) 
+[DEV.md](./machine_common_sense/DEV.md)
 
-## MCS Python Library
+## Download
 
-Contains the python api for interacting with our AI2Thor/Unity Testing Environment
-[Link to Python API](python_api/README.md) 
+Here are the instructions for downloading and installing our latest Unity release. For our previous releases, please see [this page](https://github.com/NextCenturyCorporation/MCS/releases).
 
-## Scene Generator
+### Unity Application
 
-Scripts for generating scenes of training data.
-[Link to Scene Generator](scene-generator/README.md) 
+The latest release of the MCS Unity app is `0.3.0`.
 
-## Truthing (Ground Truth for Intphys)
+Please note that our Unity App is built on Linux. If you need a Mac or Windows version, please [contact us](#troubleshooting) directly.
 
-Contains code for establishing the ground truth of the Intphy tests for Evaluation 1
-[Link to Truthing](scene-truthing/README.md) 
+1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.2.0/MCS-AI2-THOR-Unity-App-v0.3.0.x86_64)
 
-## Validation for Eval1 Submissions
+2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.2.0/MCS-AI2-THOR-Unity-App-v0.3.0_Data.tar.gz)
 
-Validating Evaluation 1 Submissions
-[Link to Validation](validation/README.md) 
+3. Ensure that both the Unity App and the TAR are in the same directory.
+
+4. Untar the Data Directory:
+
+```
+tar -xzvf MCS-AI2-THOR-Unity-App-v0.2.0_Data.tar.gz
+```
+
+5. Mark the Unity App as executable:
+
+```
+chmod a+x MCS-AI2-THOR-Unity-App-v0.2.0.x86_64
+```
+
+### Training Datasets
+
+#### Summer 2020
+
+*Use a release version between 0.0.9 and 0.1.0*
+
+Interactive:
+https://evaluation2-training-scenes.s3.amazonaws.com/interaction-scenes.zip
+
+Passive IntPhys:
+https://evaluation2-training-scenes.s3.amazonaws.com/intphys-scenes.zip
+
+Passive IntPhys Validation Data:
+https://evaluation2-training-scenes.s3.amazonaws.com/validation-intphys-scenes.zip
+
+## Usage
+
+Example usage of the MCS library:
+
+```python
+import machine_common_sense as mcs
+
+# We will give you the Unity app file.
+controller = mcs.create_controller(unity_app_file_path, depth_masks=True,
+                                   object_masks=True)
+
+# Either load the config data dict from an MCS config JSON file or create your own.
+# We will give you the training config JSON files and the format to make your own.
+config_data, status = mcs.load_config_json_file(config_json_file_path)
+
+output = controller.start_scene(config_data)
+
+# Use your machine learning algorithm to select your next action based on the scene
+# output (goal, actions, images, metadata, etc.) from your previous action.
+action, params = select_action(output)
+
+# Continue to select actions until your algorithm decides to stop.
+while action != '':
+    controller.step(action, params)
+    action, params = select_action(output)
+
+# For interaction-based goals, your series of selected actions will be scored.
+# For observation-based goals, you will pass a classification and a confidence
+# to the end_scene function here.
+controller.end_scene()
+```
+
+Example running multiple scenes sequentially:
+
+```python
+import machine_common_sense as mcs
+
+# Only create the MCS controller ONCE!
+controller = mcs.create_controller(unity_app_file_path, depth_masks=True,
+                                   object_masks=True)
+
+for config_json_file_path in config_json_file_list:
+    config_data, status = mcs.load_config_json_file(config_json_file_path)
+    output = controller.start_scene(config_data)
+    action, params = select_action(output)
+    while action != '':
+        controller.step(action, params)
+            action, params = select_action(output)
+    controller.end_scene()
+```
+
+## Run with Human Input
+
+To start the Unity application and enter your actions and parameters from the terminal, you can run the `run_in_human_input_mode` script that was installed in the package with the MCS Python Library (the `mcs_unity_build_file` is the Unity executable downloaded previously):
+
+```
+run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file>
+```
+
+Run options:
+- `--debug`
+- `--depth_masks`
+- `--noise`
+- `--object_masks`
+- `--seed <python_random_seed>`
+- `--size <screen_width_450_or_more>`
+
+## Run with Scene Timer
+
+To run the Unity application and measure your runtime speed, you can run the `run_scene_timer` script that was installed in the package with the MCS Python Library:
+
+```
+run_scene_timer <mcs_unity_build_file> <mcs_config_file_folder>
+```
+
+Run options:
+- `--debug`
+
+This will run all of the MCS scene configuration JSON files in the given folder, use the PASS action for 20 steps (or for a number of steps equal to the last_step of the config file's goal, if any) in each scene, and print out the total, average, minimum, and maximum run time for all the scenes and the steps.
+
+## Config File
+
+To use an MCS configuration file, set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file.
+
+### Config File Properties
+
+#### metadata
+
+The `metadata` property describes what metadata will be returned by the MCS Python library. The `metadata` property is available so that users can run baseline or ablation studies during training. It can be set to one of the following strings:
+
+- `oracle`: Returns the metadata for all the objects in the scene, including visible, held, and hidden objects. Object masks will have consistent colors throughout all steps for a scene.
+- `level2`: Only returns the images (with depth masks AND object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included. Note that here, object masks will have randomized colors per step.
+- `level1`: Only returns the images (with depth masks but NOT object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
+
+Otherwise, return the metadata for the visible and held objects.
+
+### Using the Config File to Generate Scene Graphs or Maps
+
+1. Save your MCS configuration file with `metadata: full`
+
+2. Create a simple Python script to loop over one or more JSON scene configuration files, load each scene in the MCS controller, and save the output data in your own scene graph or scene map format.
+
+```python
+import os
+import machine_common_sense as mcs
+
+os.environ['MCS_CONFIG_FILE_PATH'] = # Path to your MCS configuration file
+
+scene_files = # List of scene configuration file paths
+
+unity_app = # Path to your MCS Unity application
+
+controller = mcs.create_controller(unity_app)
+
+for scene_file in scene_files:
+    config_data, status = mcs.load_config_json(scene_file)
+
+    if status is not None:
+        print(status)
+    else:
+        output = controller.start_scene(config_data)
+        # Use the output to save your scene graph or map
+```
+
+## Documentation
+
+[API.md](./machine_common_sense/API.md)
+
+## Example Scene Configuration Files
+
+[machine_common_sense/scenes/README.md](./machine_common_sense/scenes/SCENE_README.md)
+
+## Running Remotely
+
+To run MCS on a remote GPU server, use the following steps to launch an X11 server.
+
+```bash
+# query the gpu bus ID
+$ nvidia-xconfig --query-gpu-info
+
+GPU #0:
+  Name      : Tesla K80
+  UUID      : GPU-d03a3d49-0641-40c9-30f2-5c3e4bdad498
+  PCI BusID : PCI:0:23:0
+# create the xserver configuration
+$ sudo nvidia-xconfig --user-display-device=None --virtual=600x400 --output-xconfig=/etx/X11/xorg.conf --busid=PCI:0:23:0
+# launch Xserver
+$ sudo /usr/bin/Xorg :0 &
+# test using glxinfo
+$ DISPLAY=:0 glxinfo
+name of display: :0
+display: :0  screen: 0
+direct rendering: Yes
+server glx vendor string: NVIDIA Corporation
+server glx version string: 1.4
+
+```
+
+### Test script
+
+Run the following script to test MCS with the X11 server created above.
+
+```python
+# test.py
+import machine_common_sense as mcs
+# use your path to the MCS Unity executable
+controller = mcs.create_controller('MCS.x86_64')
+# find a test scene
+config_file_path = 'playroom.json'
+config_data, status = mcs.load_config_json(config_file_path)
+config_file_name = config_file_path[config_file_path.rfind('/')+1]
+if 'name' not in config_data.keys():
+    config_data['name'] = config_file_name[0:config_file_name.find('.')]
+output = controller.start_scene(config_data)
+for i in range(1, 12):
+    output = controller.step('RotateLook')
+    for j in range(len(output.image_list)):
+        output.image_list[i].save(f'{i}-{j}.jpg')
+```
+
+From your python environment, run test.py and check the output images for proper rendering.
+
+```
+DISPLAY=:0 python test.py
+```
+
+## Troubleshooting
+
+[mcs-ta2@machinecommonsense.com](mailto:mcs-ta2@machinecommonsense.com)
 
 ## Apache 2 Open Source License
 
