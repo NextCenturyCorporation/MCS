@@ -7,6 +7,7 @@
   - [Goal Metadata Config](#goal-metadata-config)
   - [Answer Config](#answer-config)
   - [Move Config](#move-config)
+  - [Physics Config](#physics-config)
   - [Show Config](#show-config)
   - [Size Config](#size-config)
   - [Single Step Config](#single-step-config)
@@ -82,15 +83,20 @@ Example:
 
 Each **scene config** has the following properties:
 
-- `name` (string, optional): A unique name for the scene used for our logs. Default: the filename
-- `version` (int, optional): The version of this scene configuration. Default: the latest version
+
+- `answer` ([answer config](#answer-config), optional): The best answer to the goal for the scene. Default: none
 - `ceilingMaterial` (string, optional): The material (color/texture) for the room's ceiling. See the [Material List](#material-list) for options. Default (v0.0.3+): `"AI2-THOR/Materials/Walls/Drywall"`
 - `floorMaterial` (string, optional): The material (color/texture) for the room's floor. See the [Material List](#material-list) for options. Default (v0.0.3+): `"AI2-THOR/Materials/Fabrics/CarpetWhite 3"`
-- `wallMaterial` (string, optional): The material (color/texture) for the room's four outer walls. See the [Material List](#material-list) for options. Default (v0.0.3+): `"AI2-THOR/Materials/Walls/DrywallBeige"`
-- `performerStart` ([transform config](#transform-config), optional): The starting position and rotation of the performer (the "player"). Only the `position.x`, `position.z`, `rotation.x` (head tilt), and `rotation.y` properties are used. Default: `{ "position": { "x": 0, "z": 0 }, "rotation": { "y": 0 } }`
-- `objects` ([object config](#object-config) array, optional): The objects for the scene. Default: `[]`
+- `floorProperties` ([physics config](#physics-config), optional): Enable custom friction, bounciness, and/or drag on the floor. Default: see [physics config](#physics-config).
 - `goal` ([goal config](#goal-config), optional): The goal for the scene. Default: none
-- `answer` ([answer config](#answer-config), optional): The best answer to the goal for the scene. Default: none
+- `intuitivePhysics` (bool, optional): Specific performer and room setup for intuitive physics scenes.
+- `isometric` (bool, optional): Specific performer and room setup for agent scenes.
+- `name` (string, optional): A unique name for the scene used for our logs. Default: the filename
+- `objects` ([object config](#object-config) array, optional): The objects for the scene. Default: `[]`
+- `performerStart` ([transform config](#transform-config), optional): The starting position and rotation of the performer (the "player"). Only the `position.x`, `position.z`, `rotation.x` (head tilt), and `rotation.y` properties are used. Default: `{ "position": { "x": 0, "z": 0 }, "rotation": { "y": 0 } }`
+- `version` (int, optional): The version of this scene configuration. Default: the latest version
+- `wallMaterial` (string, optional): The material (color/texture) for the room's four outer walls. See the [Material List](#material-list) for options. Default (v0.0.3+): `"AI2-THOR/Materials/Walls/DrywallBeige"`
+- `wallProperties` ([physics config](#physics-config), optional): Enable custom friction, bounciness, and/or drag on the walls. Default: see [physics config](#physics-config).
 
 ### Object Config
 
@@ -98,7 +104,7 @@ Each **object config** has the following properties:
 
 - `id` (string, required): The object's unique ID.
 - `type` (string, required): The object's type from the [Object List](#object-list).
-- `forces` ([move config](#move-config) array, optional): The steps on which to apply force to the object. The config `vector` describes the amount of force (in Newtons) to apply in each direction using the global coordinate system. Resets all existing forces on the object to 0 before applying the new force. Default: `[]`
+- `forces` ([move config](#move-config) array, optional): The steps on which to apply [force](https://docs.unity3d.com/ScriptReference/Rigidbody.AddForce.html) to the object. The config `vector` describes the amount of force (in Newtons) to apply in each direction using the global coordinate system. Resets all existing forces on the object to 0 before applying the new force. Default: `[]`
 - `hides` ([single step config](#single-step-config) array, optional): The steps on which to hide the object, completely removing its existence from the scene until it is shown again (see the `shows` property). Useful if you want to have impossible events (spontaneous disappearance). Default: `[]`
 - `kinematic` (boolean, optional): If true, the object will ignore all forces including gravity. See Unity's [isKinematic property](https://docs.unity3d.com/ScriptReference/Rigidbody-isKinematic.html). Usually paired with `structure`. Default: `false`
 - `locationParent` (string, optional): The `id` of another object in the scene. If given, this object's `shows.position` and `shows.rotation` will both start from the position and rotation of the `locationParent` object rather than from `0`. Default: none
@@ -110,6 +116,7 @@ Each **object config** has the following properties:
 - `nullParent` ([transform config](#transform-config), optional): Whether to wrap the object in a null parent object. Useful if you want to rotate an object by a point other than its center point. Default: none
 - `openable` (boolean, optional): Whether the object should be openable, if it is not already openable based on its `type`. Default: depends on `type`
 - `opened` (boolean, optional): Whether the object should begin opened. Must also be `openable`. Default: `false`
+- `physicsProperties` ([physics config](#physics-config), optional): Enable custom friction, bounciness, and/or drag on the object. Default: see [physics config](#physics-config).
 - `pickupable` (boolean, optional): Whether the object should be pickupable, if it is not already openable based on its `type`. Pickupable objects are also automatically `moveable`. Default: depends on `type`
 - `resizes` ([size config](#size-config) array, optional): The steps on which to resize the object. The config `size` is multiplied by the object's current size. Useful if you want to have impossible events (spontaneous resizing). Default: `[]`
 - `rotates` ([move config](#move-config) array, optional): The steps on which to rotate the object. The config `vector` describes the amount of rotation (in degrees) to change, added to the object's current rotation. Useful if you want to rotate objects that are `kinematic`. A fifth of each move is made over each of the five substeps (five screenshots) during the step. Default: `[]`
@@ -118,7 +125,7 @@ Each **object config** has the following properties:
 - `shrouds` ([step being and end config config](#step-begin-and-end-config) array, optional): The steps on which to shroud the object, temporarily making it invisible, but moving with its existing intertia and able to collide with objects. Useful if you want to have impossible events. Default: `[]`
 - `structure` (boolean, optional): Whether the object is a structural part of the environment. Usually paired with `kinematic`. Default: `false`
 - `teleports` ([teleport config](#teleport-config) array, optional): The steps on which to teleport the object, teleporting it from one position in the scene to another. The config `position` describes the object's end position in global coordinates and is not affected by the object's current position. Useful if you want to have impossible events (spontaneous teleportation). Default: `[]`
-- `torques` ([move config](#move-config) array, optional): The steps on which to apply torque to the object. The config `vector` describes the amount of torque (in Newtons) to apply in each direction using the global coordinate system. Resets all existing torques on the object to 0 before applying the new torque. Default: `[]`
+- `torques` ([move config](#move-config) array, optional): The steps on which to apply [torque](https://docs.unity3d.com/ScriptReference/Rigidbody.AddTorque.html) to the object. The config `vector` describes the amount of torque (in Newtons) to apply in each direction using the global coordinate system. Resets all existing torques on the object to 0 before applying the new torque. Default: `[]`
 
 ### Goal Config
 
@@ -151,6 +158,25 @@ Each **move config** has the following properties:
 - `stepBegin` (integer, required): The step on which the action should begin.  Must be non-negative.  A value of `0` means the action will begin during scene initialization.
 - `stepEnd` (integer, required): The step on which the action should end.  Must be equal to or greater than the `stepBegin`.
 - `vector` ([vector config](#vector-config), required): The coordinates to describe the movement. Default: `{ "x": 0, "y": 0, "z": 0 }`
+
+### Physics Config
+
+Each **physics config** has the following properties:
+
+- `enable` (bool, optional): Whether to enable customizing ALL physics properties on the object. You must either customize no properties or all of them. Any unset property in this config will automatically be set to `0`, NOT its Unity default (see below). Default: `false`
+- `angularDrag` (float, optional): The object's [angular drag](https://docs.unity3d.com/ScriptReference/Rigidbody-angularDrag.html), between 0 and 1. Default: `0`
+- `bounciness` (float, optional): The object's [bounciness](https://docs.unity3d.com/ScriptReference/PhysicMaterial-bounciness.html), between 0 and 1. Default: `0`
+- `drag` (float, optional): The object's [drag](https://docs.unity3d.com/ScriptReference/Rigidbody-drag.html). Default: `0`
+- `dynamicFriction` (float, optional): The object's [dynamic friction](https://docs.unity3d.com/ScriptReference/PhysicMaterial-dynamicFriction.html), between 0 and 1. Default: `0`
+- `staticFriction` (float, optional): The object's [static friction](https://docs.unity3d.com/ScriptReference/PhysicMaterial-staticFriction.html), between 0 and 1. Default: `0`
+
+If no physics config is set, or if the physics config is not enabled, the object will have the following Unity defaults:
+
+- Angular Drag: `0.5`
+- Bounciness: `0`
+- Drag: `0`
+- Dynamic Friction: `0.6`
+- Static Friction: `0.6`
 
 ### Show Config
 
