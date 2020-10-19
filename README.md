@@ -19,7 +19,7 @@ python -m pip install --upgrade pip setuptools wheel
 With the activated virtual environment, install the MCS package from the git url. MCS has a dependency on an ai2thor fork and will take a while to install. Please be patient.
 
 ```
-python -m pip install git+https://github.com/NextCenturyCorporation/MCS@latest
+python -m pip install git+https://github.com/NextCenturyCorporation/MCS@latest#egg=machine_common_sense
 ```
 
 ## MCS Package Developer Installation
