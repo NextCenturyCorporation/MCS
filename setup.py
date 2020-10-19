@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='machine_common_sense',
-    version='0.1.0',
+    version='0.3.0',
     maintainer='Next Century, a wholly owned subsidiary of CACI',
     maintainer_email='mcs-ta2@machinecommonsense.com',
     url='https://github.com/NextCenturyCorporation/MCS/',
@@ -25,7 +25,8 @@ setuptools.setup(
         'shapely>=1.7.0',
         'boto3>=1.15',
         ('ai2thor @ '
-         'git+https://github.com/NextCenturyCorporation/ai2thor#egg=ai2thor')
+         'git+https://github.com/NextCenturyCorporation/ai2thor'
+         '@0.3.0#egg=ai2thor')
     ],
     entry_points={
         'console_scripts': [
