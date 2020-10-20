@@ -169,7 +169,7 @@ Otherwise, return the metadata for the visible and held objects.
 
 ### Using the Config File to Generate Scene Graphs or Maps
 
-1. Save your MCS configuration file with `metadata: full`
+1. Save your MCS configuration file with `metadata: oracle`
 
 2. Create a simple Python script to loop over one or more JSON scene configuration files, load each scene in the MCS controller, and save the output data in your own scene graph or scene map format.
 
