@@ -2,7 +2,7 @@
 
 ## Installation
 
-The latest release of the MCS Python library is `0.1.0`.
+The latest release of the MCS Python library is `0.3.0`.
 
 ### Virtual Environments
 
@@ -19,7 +19,7 @@ python -m pip install --upgrade pip setuptools wheel
 With the activated virtual environment, install the MCS package from the git url. MCS has a dependency on an ai2thor fork and will take a while to install. Please be patient.
 
 ```
-python -m pip install git+https://github.com/NextCenturyCorporation/MCS@latest
+python -m pip install git+https://github.com/NextCenturyCorporation/MCS@latest#egg=machine_common_sense
 ```
 
 ## MCS Package Developer Installation
@@ -34,26 +34,26 @@ Here are the instructions for downloading and installing our latest Unity releas
 
 ### Unity Application
 
-The latest release of the MCS Unity app is `0.1.0`.
+The latest release of the MCS Unity app is `0.3.0`.
 
 Please note that our Unity App is built on Linux. If you need a Mac or Windows version, please [contact us](#troubleshooting) directly.
 
-1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.1.0/MCS-AI2-THOR-Unity-App-v0.1.0.x86_64)
+1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.3.0/MCS-AI2-THOR-Unity-App-v0.3.0.x86_64)
 
-2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.1.0/MCS-AI2-THOR-Unity-App-v0.1.0_Data.tar.gz)
+2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.3.0/MCS-AI2-THOR-Unity-App-v0.3.0_Data.tar.gz)
 
 3. Ensure that both the Unity App and the TAR are in the same directory.
 
 4. Untar the Data Directory:
 
 ```
-tar -xzvf MCS-AI2-THOR-Unity-App-v0.1.0_Data.tar.gz
+tar -xzvf MCS-AI2-THOR-Unity-App-v0.3.0_Data.tar.gz
 ```
 
 5. Mark the Unity App as executable:
 
 ```
-chmod a+x MCS-AI2-THOR-Unity-App-v0.1.0.x86_64
+chmod a+x MCS-AI2-THOR-Unity-App-v0.3.0.x86_64
 ```
 
 ### Training Datasets
@@ -95,7 +95,7 @@ action, params = select_action(output)
 # Continue to select actions until your algorithm decides to stop.
 while action != '':
     controller.step(action, params)
-        action, params = select_action(output)
+    action, params = select_action(output)
 
 # For interaction-based goals, your series of selected actions will be scored.
 # For observation-based goals, you will pass a classification and a confidence
@@ -202,6 +202,60 @@ for scene_file in scene_files:
 ## Example Scene Configuration Files
 
 [machine_common_sense/scenes/README.md](./machine_common_sense/scenes/SCENE_README.md)
+
+## Running Remotely
+
+To run MCS on a remote GPU server, use the following steps to launch an X11 server.
+
+```bash
+# query the gpu bus ID
+$ nvidia-xconfig --query-gpu-info
+
+GPU #0:
+  Name      : Tesla K80
+  UUID      : GPU-d03a3d49-0641-40c9-30f2-5c3e4bdad498
+  PCI BusID : PCI:0:23:0
+# create the xserver configuration
+$ sudo nvidia-xconfig --user-display-device=None --virtual=600x400 --output-xconfig=/etx/X11/xorg.conf --busid=PCI:0:23:0
+# launch Xserver
+$ sudo /usr/bin/Xorg :0 &
+# test using glxinfo
+$ DISPLAY=:0 glxinfo
+name of display: :0
+display: :0  screen: 0
+direct rendering: Yes
+server glx vendor string: NVIDIA Corporation
+server glx version string: 1.4
+
+```
+
+### Test script
+
+Run the following script to test MCS with the X11 server created above.
+
+```python
+# test.py
+import machine_common_sense as mcs
+# use your path to the MCS Unity executable
+controller = mcs.create_controller('MCS.x86_64')
+# find a test scene
+config_file_path = 'playroom.json'
+config_data, status = mcs.load_config_json(config_file_path)
+config_file_name = config_file_path[config_file_path.rfind('/')+1]
+if 'name' not in config_data.keys():
+    config_data['name'] = config_file_name[0:config_file_name.find('.')]
+output = controller.start_scene(config_data)
+for i in range(1, 12):
+    output = controller.step('RotateLook')
+    for j in range(len(output.image_list)):
+        output.image_list[i].save(f'{i}-{j}.jpg')
+```
+
+From your python environment, run test.py and check the output images for proper rendering.
+
+```
+DISPLAY=:0 python test.py
+```
 
 ## Troubleshooting
 
