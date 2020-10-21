@@ -332,6 +332,18 @@ class Controller():
                               'skip_preview_phase' in config_data['goal']
                               else False)
 
+        if self.__debug_to_terminal:
+            if config_data['name']:
+                print("STARTING NEW SCENE: " + config_data['name'])
+            else:
+                print("STARTING NEW SCENE")
+            if self._metadata_tier:
+                print("METADATA TIER: " + self._metadata_tier)
+            else:
+                print("METADATA TIER: DEFAULT (NOT CONFIGURED)")
+            print("STEP: 0")
+            print("ACTION: Initialize")
+
         if self.__debug_to_file and config_data['name'] is not None:
             os.makedirs('./' + config_data['name'], exist_ok=True)
             self.__output_folder = './' + config_data['name'] + '/'
@@ -1028,6 +1040,12 @@ class Controller():
 
         if self.__debug_to_terminal:
             print("RETURN STATUS: " + step_output.return_status)
+            print("REWARD: " + str(step_output.reward))
+            print("SELF METADATA:")
+            print("  CAMERA HEIGHT: " + str(step_output.camera_height))
+            print("  HEAD TILT: " + str(step_output.head_tilt))
+            print("  POSITION: " + str(step_output.position))
+            print("  ROTATION: " + str(step_output.rotation))
             print("OBJECTS: " + str(len(step_output.object_list)) + " TOTAL")
             if len(step_output.object_list) > 0:
                 for line in Util.generate_pretty_object_output(
@@ -1055,6 +1073,7 @@ class Controller():
             logs=True,
             renderDepthImage=self.__depth_masks,
             renderObjectImage=self.__object_masks,
+            snapToGrid=False,
             # Yes, in AI2-THOR, the player's reach appears to be
             # governed by the "visibilityDistance", confusingly...
             visibilityDistance=MAX_REACH_DISTANCE,

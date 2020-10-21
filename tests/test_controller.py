@@ -334,6 +334,7 @@ class Test_Controller(unittest.TestCase):
             logs=True,
             renderDepthImage=False,
             renderObjectImage=False,
+            snapToGrid=False,
             visibilityDistance=mcs.controller.MAX_REACH_DISTANCE,
             horizon=0,
             moveMagnitude=mcs.controller.MOVE_DISTANCE,
@@ -1627,6 +1628,7 @@ class Test_Controller(unittest.TestCase):
             "numberProperty": 1234,
             "renderDepthImage": False,
             "renderObjectImage": False,
+            "snapToGrid": False,
             "stringProperty": "test_property",
             "visibilityDistance": 1.0,
             "consistentColors": False
@@ -1647,6 +1649,7 @@ class Test_Controller(unittest.TestCase):
             "numberProperty": 1234,
             "renderDepthImage": False,
             "renderObjectImage": False,
+            "snapToGrid": False,
             "stringProperty": "test_property",
             "visibilityDistance": 1.0,
             "consistentColors": True
