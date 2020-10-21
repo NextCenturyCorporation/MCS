@@ -349,7 +349,7 @@ class Controller():
             if (self._goal is not None and
                     self._goal.last_preview_phase_step > 0):
                 image_list = output.image_list
-                depth_data_list = output.depth_data_list
+                depth_mask_list = output.depth_mask_list
                 object_mask_list = output.object_mask_list
 
                 if self.__debug_to_terminal:
@@ -358,7 +358,7 @@ class Controller():
                 for i in range(0, self._goal.last_preview_phase_step):
                     output = self.step('Pass')
                     image_list = image_list + output.image_list
-                    depth_data_list = depth_data_list + output.depth_data_list
+                    depth_mask_list = depth_mask_list + output.depth_mask_list
                     object_mask_list = (object_mask_list +
                                         output.object_mask_list)
 
@@ -366,7 +366,7 @@ class Controller():
                     print('ENDING PREVIEW PHASE')
 
                 output.image_list = image_list
-                output.depth_data_list = depth_data_list
+                output.depth_mask_list = depth_mask_list
                 output.object_mask_list = object_mask_list
             elif self.__debug_to_terminal:
                 print('NO PREVIEW PHASE')
@@ -570,7 +570,7 @@ class Controller():
             self.wrap_step(action=action, **params)))
 
         output_copy = copy.deepcopy(output)
-        del output_copy.depth_data_list
+        del output_copy.depth_mask_list
         del output_copy.image_list
         del output_copy.object_mask_list
         self.__history_item = SceneHistory(
@@ -942,7 +942,7 @@ class Controller():
 
     def save_images(self, scene_event, max_depth):
         image_list = []
-        depth_data_list = []
+        depth_mask_list = []
         object_mask_list = []
 
         for index, event in enumerate(scene_event.events):
@@ -964,7 +964,7 @@ class Controller():
                 depth_mask = PIL.Image.fromarray(
                     depth_pixel_array.astype(numpy.uint8)
                 )
-                depth_data_list.append(depth_float_array)
+                depth_mask_list.append(numpy.array(depth_float_array))
 
             if self.__object_masks:
                 object_mask = PIL.Image.fromarray(
@@ -994,7 +994,7 @@ class Controller():
             self.upload_image_to_s3(scene_image, team_prefix,
                                     step_num_affix)
 
-        return image_list, depth_data_list, object_mask_list
+        return image_list, depth_mask_list, object_mask_list
 
     def wrap_output(self, scene_event):
         if self.__debug_to_file and self.__output_folder is not None:
@@ -1004,7 +1004,7 @@ class Controller():
                     "metadata": scene_event.metadata
                 }, json_file, sort_keys=True, indent=4)
 
-        image_list, depth_data_list, object_mask_list = self.save_images(
+        image_list, depth_mask_list, object_mask_list = self.save_images(
             scene_event,
             scene_event.metadata.get(
                 'clippingPlaneFar',
@@ -1025,7 +1025,7 @@ class Controller():
             camera_field_of_view=scene_event.metadata.get('fov', 0.0),
             camera_height=scene_event.metadata.get(
                 'cameraPosition', {}).get('y', 0.0),
-            depth_data_list=depth_data_list,
+            depth_mask_list=depth_mask_list,
             goal=self._goal,
             habituation_trial=(
                 self.__habituation_trial

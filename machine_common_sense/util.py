@@ -1,3 +1,5 @@
+import numpy
+
 from .action import Action
 from .material import Material
 
@@ -239,7 +241,7 @@ class Util:
                         1))
             return "{}" if len(text_list) == 0 else "{\n" + \
                 (",\n").join(text_list) + "\n" + this_indent + "}"
-        if isinstance(input_value, list) or isinstance(input_value, tuple):
+        if isinstance(input_value, (list, tuple, numpy.ndarray)):
             text_list = []
             for list_item in list(input_value):
                 text_list.append(
