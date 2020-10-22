@@ -8,14 +8,8 @@ class Test_StepMetadata(unittest.TestCase):
 
     str_output = '''    {
         "action_list": [],
-        "camera_aspect_ratio": [
-            0.0,
-            0.0
-        ],
-        "camera_clipping_planes": [
-            0.0,
-            0.0
-        ],
+        "camera_aspect_ratio": [0.0,0.0],
+        "camera_clipping_planes": [0.0,0.0],
         "camera_field_of_view": 0.0,
         "camera_height": 0.0,
         "depth_mask_list": [],

@@ -17,14 +17,14 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES},display
 
 # --build-arg mcsversion=0.0.x to override default in docker build command
-ARG mcsversion=0.0.10
+ARG mcsversion=0.3.1
 
 WORKDIR /mcs
 
 RUN apt-get update -y && \
-    apt-get install -y git python3.7 python3-pip mesa-utils && \
-    python3.7 -m pip install --upgrade pip setuptools wheel && \
-    python3.7 -m pip install git+https://github.com/NextCenturyCorporation/MCS@${mcsversion}
+    apt-get install -y git python3.6 python3-pip mesa-utils && \
+    python3.6 -m pip install --upgrade pip setuptools wheel && \
+    python3.6 -m pip install git+https://github.com/NextCenturyCorporation/MCS@${mcsversion}
 
 # add ai2thor/unity resources
 ADD https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsversion}/MCS-AI2-THOR-Unity-App-v${mcsversion}.x86_64 /mcs

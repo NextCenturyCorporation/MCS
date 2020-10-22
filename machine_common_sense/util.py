@@ -1,3 +1,5 @@
+import numpy
+
 from .action import Action
 from .material import Material
 
@@ -7,6 +9,7 @@ class Util:
     Defines utility functions for MCS classes.
     """
 
+    NUMBER_OF_DECIMALS = 4
     NUMBER_OF_SPACES = 4
 
     @staticmethod
@@ -226,32 +229,39 @@ class Util:
         if input_value is None:
             return "null"
         if isinstance(input_value, dict):
-            text_list = []
-            for dict_key, dict_value in input_value.items():
-                text_list.append(
-                    next_indent +
-                    "\"" +
-                    dict_key +
-                    "\": " +
-                    Util.value_to_str(
-                        dict_value,
-                        depth +
-                        1))
+            text_list = [
+                next_indent + "\"" + dict_key + "\": " +
+                Util.value_to_str(dict_value, depth + 1)
+                for dict_key, dict_value in input_value.items()
+            ]
             return "{}" if len(text_list) == 0 else "{\n" + \
                 (",\n").join(text_list) + "\n" + this_indent + "}"
-        if isinstance(input_value, list) or isinstance(input_value, tuple):
-            text_list = []
-            for list_item in list(input_value):
-                text_list.append(
-                    next_indent +
-                    Util.value_to_str(
-                        list_item,
-                        depth +
-                        1))
+        if isinstance(input_value, (list, tuple, numpy.ndarray)):
+            input_value_as_list = list(input_value)
+            # Condense the list output unless it has any nested dicts or lists.
+            condense = True
+            for list_item in input_value_as_list:
+                if isinstance(list_item, (dict, list, tuple, numpy.ndarray)):
+                    condense = False
+                    break
+            if condense:
+                # To condense the list output, remove all of the whitespace.
+                text_list = [
+                    Util.value_to_str(list_item, 0)
+                    for list_item in input_value_as_list
+                ]
+                return "[" + (",").join(text_list) + "]"
+            # Else the list output will separate list elements with newlines.
+            text_list = [
+                next_indent + Util.value_to_str(list_item, depth + 1)
+                for list_item in input_value_as_list
+            ]
             return "[]" if len(text_list) == 0 else "[\n" + \
                 (",\n").join(text_list) + "\n" + this_indent + "]"
         if isinstance(input_value, bool):
             return "true" if input_value else "false"
+        if isinstance(input_value, (float, numpy.float32, numpy.float64)):
+            return str(round(input_value, Util.NUMBER_OF_DECIMALS))
         if isinstance(input_value, str):
             return "\"" + input_value.replace("\"", "\\\"") + "\""
         return str(input_value).replace("\n", "\n" + this_indent)
@@ -272,19 +282,12 @@ class Util:
         """
         return (
             (
-                '(' +
-                str(vector['x']) +
-                ',' +
-                str(vector['y']) +
-                ',' +
-                str(vector['z']) +
-                ')'
+                '(' + str(round(vector['x'], Util.NUMBER_OF_DECIMALS)) + ',' +
+                str(round(vector['y'], Util.NUMBER_OF_DECIMALS)) + ',' +
+                str(round(vector['z'], Util.NUMBER_OF_DECIMALS)) + ')'
             )
-            if vector is not None and
-            'x' in vector and
-            'y' in vector and
-            'z' in vector
-            else 'None'
+            if vector is not None and 'x' in vector and 'y' in vector and
+            'z' in vector else 'None'
         )
 
     @staticmethod
