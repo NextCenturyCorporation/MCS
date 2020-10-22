@@ -1,5 +1,5 @@
 {
-    "name": "cake_retrieval_example",
+    "name": "trophy_retrieval_example",
     "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
@@ -15,8 +15,8 @@
         }
     },
     "objects": [{
-        "id": "cake",
-        "type": "cake",
+        "id": "trophy",
+        "type": "trophy",
         "shows": [{
             "stepBegin": 0,
             "position": {
@@ -28,11 +28,11 @@
     }],
     "goal": {
         "category": "retrieval",
-        "description": "Find and pick up the cake.",
+        "description": "Find and pick up the trophy.",
         "last_step": 3000,
         "metadata": {
             "target": {
-                "id": "cake",
+                "id": "trophy",
                 "image": null
             }
         }
