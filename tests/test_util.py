@@ -58,7 +58,7 @@ class Test_Util(unittest.TestCase):
 
     def test_class_to_str_with_class(self):
         self.maxDiff = 10000
-        expected = "{\n    \"my_boolean\": true,\n    \"my_float\": 1.234,\n    \"my_integer\": 0,\n    \"my_string\": \"a\",\n    \"my_list\": [\n        1,\n        \"b\",\n        {\n            \"my_integer\": 2,\n            \"my_string\": \"c\",\n            \"my_list\": [\n                3,\n                \"d\"\n            ]\n        }\n    ],\n    \"my_dict\": {\n        \"my_integer\": 4,\n        \"my_string\": \"e\",\n        \"my_list\": [\n            5,\n            \"f\"\n        ],\n        \"my_dict\": {\n            \"my_integer\": 6,\n            \"my_string\": \"g\"\n        }\n    },\n    \"my_list_empty\": [],\n    \"my_dict_empty\": {},\n    \"my_subclass\": {\n        \"my_integer\": 7,\n        \"my_string\": \"h\",\n        \"my_list\": [\n            8,\n            \"i\"\n        ],\n        \"my_dict\": {\n            \"my_integer\": 9,\n            \"my_string\": \"j\"\n        }\n    }\n}"  # noqa: E501
+        expected = "{\n    \"my_boolean\": true,\n    \"my_float\": 1.234,\n    \"my_integer\": 0,\n    \"my_string\": \"a\",\n    \"my_list\": [\n        1,\n        \"b\",\n        {\n            \"my_integer\": 2,\n            \"my_string\": \"c\",\n            \"my_list\": [3,\"d\"]\n        }\n    ],\n    \"my_dict\": {\n        \"my_integer\": 4,\n        \"my_string\": \"e\",\n        \"my_list\": [5,\"f\"],\n        \"my_dict\": {\n            \"my_integer\": 6,\n            \"my_string\": \"g\"\n        }\n    },\n    \"my_list_empty\": [],\n    \"my_dict_empty\": {},\n    \"my_subclass\": {\n        \"my_integer\": 7,\n        \"my_string\": \"h\",\n        \"my_list\": [8,\"i\"],\n        \"my_dict\": {\n            \"my_integer\": 9,\n            \"my_string\": \"j\"\n        }\n    }\n}"  # noqa: E501
         self.assertEqual(mcs.Util.class_to_str(My_Class()), expected)
 
     def test_class_to_str_with_empty_class(self):
@@ -182,6 +182,8 @@ class Test_Util(unittest.TestCase):
     def test_value_to_str_with_float(self):
         self.assertEqual(mcs.Util.value_to_str(0.0), "0.0")
         self.assertEqual(mcs.Util.value_to_str(1234.5678), "1234.5678")
+        self.assertEqual(mcs.Util.value_to_str(0.12345678), "0.1235")
+        self.assertEqual(mcs.Util.value_to_str(-0.12345678), "-0.1235")
 
     def test_value_to_str_with_integer(self):
         self.assertEqual(mcs.Util.value_to_str(0), "0")
@@ -189,8 +191,21 @@ class Test_Util(unittest.TestCase):
 
     def test_value_to_str_with_list(self):
         self.assertEqual(mcs.Util.value_to_str([]), "[]")
-        self.assertEqual(mcs.Util.value_to_str(
-            [1, "a"]), "[\n    1,\n    \"a\"\n]")
+        self.assertEqual(mcs.Util.value_to_str([1, "a"]), "[1,\"a\"]")
+
+    def test_value_to_str_with_list_with_nested_dict(self):
+        self.assertEqual(mcs.Util.value_to_str([]), "[]")
+        self.assertEqual(
+            mcs.Util.value_to_str([1, "a", {"b": 2}]),
+            "[\n    1,\n    \"a\",\n    {\n        \"b\": 2\n    }\n]"
+        )
+
+    def test_value_to_str_with_list_with_nested_list(self):
+        self.assertEqual(mcs.Util.value_to_str([]), "[]")
+        self.assertEqual(
+            mcs.Util.value_to_str([1, "a", [2, "b"]]),
+            "[\n    1,\n    \"a\",\n    [2,\"b\"]\n]"
+        )
 
     def test_value_to_str_with_string(self):
         self.assertEqual(mcs.Util.value_to_str(""), "\"\"")

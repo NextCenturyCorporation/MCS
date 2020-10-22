@@ -3,6 +3,7 @@ import datetime
 import glob
 import io
 import json
+import numpy
 import os
 import random
 import sys
@@ -89,6 +90,8 @@ class Controller():
     # really matter because we set continuous to True in
     # the step input.)
     GRID_SIZE = 0.1
+
+    DEFAULT_CLIPPING_PLANE_FAR = 15.0
 
     MAX_FORCE = 50.0
 
@@ -949,7 +952,7 @@ class Controller():
                 key=lambda x: x.uuid
             )
 
-    def save_images(self, scene_event):
+    def save_images(self, scene_event, max_depth):
         image_list = []
         depth_mask_list = []
         object_mask_list = []
@@ -959,9 +962,21 @@ class Controller():
             image_list.append(scene_image)
 
             if self.__depth_masks:
-                depth_mask = PIL.Image.fromarray(event.depth_frame)
-                depth_mask = depth_mask.convert('L')
-                depth_mask_list.append(depth_mask)
+                # The Unity depth array (returned by Depth.shader) contains
+                # a third of the total max depth in each RGB element.
+                unity_depth_array = event.depth_frame.astype(numpy.float32)
+                # Convert to values between 0 and max_depth for output.
+                depth_float_array = (
+                    (unity_depth_array[:, :, 0] * (max_depth / 3.0) / 255.0) +
+                    (unity_depth_array[:, :, 1] * (max_depth / 3.0) / 255.0) +
+                    (unity_depth_array[:, :, 2] * (max_depth / 3.0) / 255.0)
+                )
+                # Convert to pixel values for saving debug image.
+                depth_pixel_array = depth_float_array * 255 / max_depth
+                depth_mask = PIL.Image.fromarray(
+                    depth_pixel_array.astype(numpy.uint8)
+                )
+                depth_mask_list.append(numpy.array(depth_float_array))
 
             if self.__object_masks:
                 object_mask = PIL.Image.fromarray(
@@ -970,7 +985,9 @@ class Controller():
 
             if self.__debug_to_file and self.__output_folder is not None:
                 step_plus_substep_index = 0 if self.__step_number == 0 else (
-                    (self.__step_number - 1) * len(image_list)) + (index + 1)
+                    ((self.__step_number - 1) * len(scene_event.events)) +
+                    (index + 1)
+                )
                 suffix = '_' + str(step_plus_substep_index) + '.png'
                 scene_image.save(fp=self.__output_folder +
                                  'frame_image' + suffix)
@@ -1000,7 +1017,12 @@ class Controller():
                 }, json_file, sort_keys=True, indent=4)
 
         image_list, depth_mask_list, object_mask_list = self.save_images(
-            scene_event)
+            scene_event,
+            scene_event.metadata.get(
+                'clippingPlaneFar',
+                self.DEFAULT_CLIPPING_PLANE_FAR
+            )
+        )
 
         objects = scene_event.metadata.get('objects', None)
         agent = scene_event.metadata.get('agent', None)
