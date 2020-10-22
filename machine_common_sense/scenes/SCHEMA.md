@@ -300,6 +300,7 @@ The following object types have the `pickupable` attribute by default.
 | `"cup_2"` | cup | 0.25 | X | metal, plastic, wood |
 | `"cup_3"` | cup | 0.25 | X | metal, plastic, wood |
 | `"cup_6"` | cup | 0.25 | X | metal, plastic, wood |
+| `"trophy"` | trophy | 0.5 | | none |
 | `"pacifier"` | pacifier | | 0.5 | none |
 | `"plate_1"` | plate | 0.25 | X | metal, plastic, wood |
 | `"plate_3"` | plate | 0.25 | X | metal, plastic, wood |
