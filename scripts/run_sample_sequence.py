@@ -33,13 +33,14 @@ def run_scene(file_name):
         action = output.action_list[len(output.action_list) - 1]
         output = controller.step(action)
 
+    controller.end_scene("", 1)
+
 
 if __name__ == "__main__":
     args = parse_args()
     controller = mcs.create_controller(args.mcs_unity_build_file, debug=True)
 
-    filename_list = glob.glob(args.filename_prefix + '*_debug.json')
-    filename_list.sort()
+    filename_list = sorted(glob.glob(args.filename_prefix + '*_debug.json'))
 
     for filename in filename_list:
         print('Running ' + filename)

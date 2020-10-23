@@ -41,6 +41,8 @@ def main():
         action = output.action_list[len(output.action_list) - 1]
         output = controller.step(action)
 
+    controller.end_scene("", 1)
+
 
 if __name__ == "__main__":
     main()
