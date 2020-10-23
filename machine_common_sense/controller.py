@@ -301,8 +301,9 @@ class Controller():
             with violation-of-expectation or classification goals.
             Is not required for other goals. (default None)
         """
-        self.__history_writer.add_step(self.__history_item)
-        self.__history_writer.write_history_file(choice, confidence)
+        if self.__history_enabled:
+            self.__history_writer.add_step(self.__history_item)
+            self.__history_writer.write_history_file(choice, confidence)
 
     def start_scene(self, config_data):
         """
@@ -522,7 +523,7 @@ class Controller():
             "last_step" of this scene.
         """
 
-        if self.__step_number > 0:
+        if self.__history_enabled and self.__step_number > 0:
             self.__history_writer.add_step(self.__history_item)
 
         if (self._goal.last_step is not None and
