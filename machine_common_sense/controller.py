@@ -3,7 +3,7 @@ import datetime
 import glob
 import io
 import json
-import numpy
+import numpy as np
 import os
 import random
 import sys
@@ -35,6 +35,7 @@ from .return_status import ReturnStatus
 from .reward import Reward
 from .scene_history import SceneHistory
 from .step_metadata import StepMetadata
+from .streamer import VideoStreamWriter
 from .util import Util
 from .history_writer import HistoryWriter
 
@@ -142,6 +143,12 @@ class Controller():
     # No metadata, except for the images, depth masks, and haptic/audio
     # feedback
     CONFIG_METADATA_TIER_LEVEL_1 = 'level1'
+    # TODO don't save individual images to S3
+    # images can be output for debugging purposes but never uploaded
+    # upload should be done on the videos only.
+    # should TA1 be able to leverage the video writing or is this
+    # internal only.
+    # maybe an 'evaluation' mode in the config that assumes some things
     CONFIG_SAVE_IMAGES_TO_S3_BUCKET = 'save_images_to_s3_bucket'
     CONFIG_SAVE_IMAGES_TO_S3_FOLDER = 'save_images_to_s3_folder'
     CONFIG_TEAM = 'team'
@@ -277,6 +284,15 @@ class Controller():
                     '\n'
                 )
 
+        # TODO check config if we are writing out video files
+        # there's a discussion that need to take place concerning
+        # what exactly we enable for TA1 in the config and what
+        # we (TA2) need for evaluations in the automated pipeline
+        # Should start() be part of init? seems awkward here
+        self.__visual_video_writer = VideoStreamWriter(
+            'visual.mp4', self.__screen_width, self.__screen_height, fps=20)
+        self.__visual_video_writer.start()
+
         if self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET in self._config:
             if 'boto3' not in sys.modules:
                 import boto3
@@ -303,6 +319,9 @@ class Controller():
         """
         self.__history_writer.add_step(self.__history_item)
         self.__history_writer.write_history_file(choice, confidence)
+
+        # close video writers
+        self.__visual_video_writer.finish()
 
     def start_scene(self, config_data):
         """
@@ -376,6 +395,9 @@ class Controller():
 
                 if self.__debug_to_terminal:
                     print('ENDING PREVIEW PHASE')
+
+                self.__visual_video_writer.add(
+                    np.array(image_list[0].convert('RGB')[:, :, ::-1]))
 
                 output.image_list = image_list
                 output.depth_mask_list = depth_mask_list
@@ -960,11 +982,13 @@ class Controller():
         for index, event in enumerate(scene_event.events):
             scene_image = PIL.Image.fromarray(event.frame)
             image_list.append(scene_image)
+            self.__visual_video_writer.add(
+                np.array(scene_image.convert('RGB'))[:, :, ::-1])
 
             if self.__depth_masks:
                 # The Unity depth array (returned by Depth.shader) contains
                 # a third of the total max depth in each RGB element.
-                unity_depth_array = event.depth_frame.astype(numpy.float32)
+                unity_depth_array = event.depth_frame.astype(np.float32)
                 # Convert to values between 0 and max_depth for output.
                 depth_float_array = (
                     (unity_depth_array[:, :, 0] * (max_depth / 3.0) / 255.0) +
@@ -974,9 +998,9 @@ class Controller():
                 # Convert to pixel values for saving debug image.
                 depth_pixel_array = depth_float_array * 255 / max_depth
                 depth_mask = PIL.Image.fromarray(
-                    depth_pixel_array.astype(numpy.uint8)
+                    depth_pixel_array.astype(np.uint8)
                 )
-                depth_mask_list.append(numpy.array(depth_float_array))
+                depth_mask_list.append(np.array(depth_float_array))
 
             if self.__object_masks:
                 object_mask = PIL.Image.fromarray(
