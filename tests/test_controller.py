@@ -415,7 +415,7 @@ class Test_Controller(unittest.TestCase):
             mcs.Controller.ACTION_LIST)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
-        self.assertEqual(output.reward, 0)
+        self.assertEqual(output.reward, -0.005)
         self.assertEqual(output.step_number, 5)
         self.assertEqual(str(output.goal), str(
             mcs.GoalMetadata(last_preview_phase_step=5)))
@@ -446,7 +446,7 @@ class Test_Controller(unittest.TestCase):
             mcs.Controller.ACTION_LIST)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
-        self.assertEqual(output.reward, 0)
+        self.assertEqual(output.reward, -0.001)
         self.assertEqual(output.step_number, 1)
         self.assertEqual(str(output.goal), str(mcs.GoalMetadata()))
         self.assertEqual(len(output.image_list), MOCK_VARIABLES['event_count'])
@@ -466,7 +466,7 @@ class Test_Controller(unittest.TestCase):
             mcs.Controller.ACTION_LIST)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
-        self.assertEqual(output.reward, 0)
+        self.assertEqual(output.reward, -0.002)
         self.assertEqual(output.step_number, 2)
         self.assertEqual(str(output.goal), str(mcs.GoalMetadata()))
         self.assertEqual(len(output.image_list), MOCK_VARIABLES['event_count'])

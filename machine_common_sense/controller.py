@@ -1052,7 +1052,7 @@ class Controller():
             pose=self.retrieve_pose(scene_event),
             position=self.retrieve_position(scene_event),
             return_status=self.retrieve_return_status(scene_event),
-            reward=Reward.calculate_reward(self._goal, objects, agent),
+            reward=Reward.calculate_reward(self._goal, objects, agent, self.__step_number),
             rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number,
             structural_object_list=self.retrieve_structural_object_list(
