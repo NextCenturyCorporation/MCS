@@ -9,6 +9,7 @@ import random
 import sys
 import yaml
 import PIL
+import ast
 from typing import Dict, List
 
 import ai2thor.controller
@@ -733,6 +734,32 @@ class Controller():
                 'image' in goal_output.metadata['target_2']
             ):
                 goal_output.metadata['target_2']['image'] = None
+        else:
+            # need to convert goal image data from string to array
+            if (
+                'target' in goal_output.metadata and
+                'image' in goal_output.metadata['target'] and
+                isinstance(goal_output.metadata['target']['image'], str)
+            ):
+                image_list_string = goal_output.metadata['target']['image']
+                goal_output.metadata['target']['image'] = numpy.array(
+                    ast.literal_eval(image_list_string)).tolist()
+            if (
+                'target_1' in goal_output.metadata and
+                'image' in goal_output.metadata['target_1'] and
+                isinstance(goal_output.metadata['target_1']['image'], str)
+            ):
+                image_list_string = goal_output.metadata['target_1']['image']
+                goal_output.metadata['target_1']['image'] = numpy.array(
+                    ast.literal_eval(image_list_string)).tolist()
+            if (
+                'target_2' in goal_output.metadata and
+                'image' in goal_output.metadata['target_2'] and
+                isinstance(goal_output.metadata['target_2']['image'], str)
+            ):
+                image_list_string = goal_output.metadata['target_2']['image']
+                goal_output.metadata['target_2']['image'] = numpy.array(
+                    ast.literal_eval(image_list_string)).tolist()
 
         return goal_output
 
