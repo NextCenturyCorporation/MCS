@@ -180,12 +180,12 @@ class Reward(object):
         '''
         Calculate the score penalty based on the number of steps,
         if the current step results in a reward being achieved do
-        not penalize them for the step that resulted in goal
-        achieved.
+        not penalize them for the step that resulted in the goal
+        being achieved.
 
         Args:
             current_score: 1 or 0 depending if reward achieved
-            number_steps: the current step account
+            number_steps: the current step count
 
         Returns:
             float: new score based off of step penalty
