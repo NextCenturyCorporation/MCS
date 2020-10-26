@@ -31,6 +31,8 @@ def run_scene(file_name, action_list):
     for action in action_list:
         output = controller.step(action)  # noqa: F841
 
+    controller.end_scene("", 1)
+
 
 if __name__ == "__main__":
     args = parse_args()

@@ -35,6 +35,8 @@ def main():
     for _ in range(36):
         _ = controller.step('RotateRight')
 
+    controller.end_scene("", 1)
+
 
 if __name__ == "__main__":
     main()
