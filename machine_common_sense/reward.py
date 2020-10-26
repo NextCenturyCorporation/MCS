@@ -175,8 +175,8 @@ class Reward(object):
 
     @staticmethod
     def _adjust_score_penalty(
-        current_score: int,
-        number_steps: int) -> float:
+            current_score: int,
+            number_steps: int) -> float:
         '''
         Calculate the score penalty based on the number of steps,
         if the current step results in a reward being achieved do
@@ -191,8 +191,8 @@ class Reward(object):
             float: new score based off of step penalty
 
         '''
-        if current_score is 1:
-            return current_score - ((number_steps-1) * STEP_PENALTY)
+        if current_score == 1:
+            return current_score - ((number_steps - 1) * STEP_PENALTY)
         else:
             return current_score - ((number_steps) * STEP_PENALTY)
 
@@ -234,6 +234,7 @@ class Reward(object):
         }
 
         current_score = switch.get(category,
-                          Reward._calculate_default_reward)(goal,
-                                                            objects, agent)
+                                   Reward._calculate_default_reward)(goal,
+                                                                     objects,
+                                                                     agent)
         return Reward._adjust_score_penalty(current_score, number_steps)
