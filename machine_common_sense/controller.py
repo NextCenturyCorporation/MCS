@@ -287,11 +287,19 @@ class Controller():
         # TODO check config if we are writing out video files
         # video recorders will create a file currently even if that
         # image type capability is turned off
+        self._create_recorders()
+
+        if self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET in self._config:
+            if 'boto3' not in sys.modules:
+                import boto3
+                from botocore.exceptions import ClientError  # noqa: F401
+                self.__s3_client = boto3.client('s3')
+
+    def _create_recorders(self):
+        '''Create video recorders'''
         # TODO video naming
         # TODO fourcc encoding could be problematic for example if
-        # running on a mac (which is not part of evaluation)
-        # TODO heatmap image recorder
-        # TODO top-down plot recorder
+        # running on a mac (which is admittedly not part of evaluation)
         # TODO any way to get FPS from ai2thor to avoid magic number?
         # segmentation mask recorder is tough to watch for random colors
         # but is still applicable for oracle or level 2 tests
@@ -316,12 +324,6 @@ class Controller():
             self.__screen_height,
             fps=20)
 
-        if self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET in self._config:
-            if 'boto3' not in sys.modules:
-                import boto3
-                from botocore.exceptions import ClientError  # noqa: F401
-                self.__s3_client = boto3.client('s3')
-
     def get_seed_value(self):
         return self.__seed
 
@@ -344,6 +346,7 @@ class Controller():
             self.__history_writer.add_step(self.__history_item)
             self.__history_writer.write_history_file(choice, confidence)
 
+        # if evaluation config:
         # close video writers
         self.__image_recorder.finish()
         self.__depth_recorder.finish()
@@ -352,7 +355,8 @@ class Controller():
         # self.__topdown_recorder.finish()
 
         # if evaluation config:
-        # TODO upload video files and history file to s3
+        # TODO upload video files and history application/json file to s3
+        # TODO remove local files?
 
     def start_scene(self, config_data):
         """
@@ -699,6 +703,56 @@ class Controller():
 
             # self.upload_image_to_s3(heatmap_img, file_name_prefix,
             #                         str(self.__step_number))
+
+    # TODO do uploader functions move elsewhere? I think so
+    # TODO does HistoryWriter get renamed to HistoryRecorder and
+    # moved into the recorder module?
+    def upload_video_to_s3(self, video_path: str,
+                           file_name_prefix: str = None) -> None:
+        '''Upload the video file recording to s3'''
+        s3_folder = (
+            (self._config[self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER] + '/')
+            if self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER in self._config
+            else ''
+        )
+        s3_file_name = s3_folder + file_name_prefix + \
+            self.__scene_configuration['name'].replace('.json', '') + \
+            '_' + self.generate_time() + '_' + video_path
+        # TODO print
+        # TODO try/catch
+        self.__s3_client.upload_file(
+            video_path,
+            self._config[self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET],
+            s3_file_name,
+            ExtraArgs={
+                'ACL': 'public-read',
+                'ContentType': 'video/mp4',
+            }
+        )
+
+    def upload_history_to_s3(self, history_path: str,
+                             file_name_prefix: str) -> None:
+        '''upload history file'''
+        s3_folder = (
+            (self._config[self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER] + '/')
+            if self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER in self._config
+            else ''
+        )
+        # TODO naming?
+        s3_file_name = s3_folder + file_name_prefix + \
+            self.__scene_configuration['name'].replace('.json', '') + \
+            '_' + self.generate_time() + '_'
+        # TODO print
+        # TODO try/catch
+        self.__s3_client.upload_file(
+            history_path,
+            self._config[self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET],
+            s3_file_name,
+            ExtraArgs={
+                'ACL': 'public-read',
+                'ContentType': 'application/json',
+            }
+        )
 
     # TODO rename/replace to upload at the end of the scene
     def upload_image_to_s3(self, image_to_upload: PIL.Image.Image,

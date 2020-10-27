@@ -173,6 +173,14 @@ Runs the given action within the current scene.
     StepMetadata
 
 
+
+#### upload_history_to_s3(history_path: str, file_name_prefix: str)
+upload history file
+
+
+#### upload_video_to_s3(video_path: str, file_name_prefix: str = None)
+Upload the video file recording to s3
+
 ## GoalMetadata
 
 
