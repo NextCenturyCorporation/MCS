@@ -35,7 +35,7 @@ from .return_status import ReturnStatus
 from .reward import Reward
 from .scene_history import SceneHistory
 from .step_metadata import StepMetadata
-from .streamer import VideoStreamWriter
+from .recorder import VideoRecorder
 from .util import Util
 from .history_writer import HistoryWriter
 
@@ -285,13 +285,36 @@ class Controller():
                 )
 
         # TODO check config if we are writing out video files
-        # there's a discussion that need to take place concerning
-        # what exactly we enable for TA1 in the config and what
-        # we (TA2) need for evaluations in the automated pipeline
-        # Should start() be part of init? seems awkward here
-        self.__visual_video_writer = VideoStreamWriter(
-            'visual.mp4', self.__screen_width, self.__screen_height, fps=20)
-        self.__visual_video_writer.start()
+        # video recorders will create a file currently even if that
+        # image type capability is turned off
+        # TODO video naming
+        # TODO fourcc encoding could be problematic for example if
+        # running on a mac (which is not part of evaluation)
+        # TODO heatmap image recorder
+        # TODO top-down plot recorder
+        # TODO any way to get FPS from ai2thor to avoid magic number?
+        # segmentation mask recorder is tough to watch for random colors
+        # but is still applicable for oracle or level 2 tests
+        self.__image_recorder = VideoRecorder(
+            'visual.mp4',
+            self.__screen_width,
+            self.__screen_height,
+            fps=20)
+        self.__depth_recorder = VideoRecorder(
+            'depth.mp4',
+            self.__screen_width,
+            self.__screen_height,
+            fps=20)
+        self.__segmentation_recorder = VideoRecorder(
+            'segmentation.mp4',
+            self.__screen_width,
+            self.__screen_height,
+            fps=20)
+        self.__heatmap_recorder = VideoRecorder(
+            'heatmap.mp4',
+            self.__screen_width,
+            self.__screen_height,
+            fps=20)
 
         if self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET in self._config:
             if 'boto3' not in sys.modules:
@@ -322,7 +345,14 @@ class Controller():
             self.__history_writer.write_history_file(choice, confidence)
 
         # close video writers
-        self.__visual_video_writer.finish()
+        self.__image_recorder.finish()
+        self.__depth_recorder.finish()
+        self.__segmentation_recorder.finish()
+        self.__heatmap_recorder.finish()
+        # self.__topdown_recorder.finish()
+
+        # if evaluation config:
+        # TODO upload video files and history file to s3
 
     def start_scene(self, config_data):
         """
@@ -397,8 +427,7 @@ class Controller():
                 if self.__debug_to_terminal:
                     print('ENDING PREVIEW PHASE')
 
-                self.__visual_video_writer.add(
-                    np.array(image_list[0].convert('RGB')[:, :, ::-1]))
+                self.__image_recorder.add(image_list[0])
 
                 output.image_list = image_list
                 output.depth_mask_list = depth_mask_list
@@ -663,13 +692,15 @@ class Controller():
         if(heatmap_img is not None and
            isinstance(heatmap_img, PIL.Image.Image)):
 
-            team_prefix = (self._config[self.CONFIG_TEAM] +
-                           '_') if self.CONFIG_TEAM in self._config else ''
-            file_name_prefix = team_prefix + self.HEATMAP_IMAGE_PREFIX + '_'
+            self.__heatmap_recorder.add(heatmap_img)
+            # team_prefix = (self._config[self.CONFIG_TEAM] +
+            #                '_') if self.CONFIG_TEAM in self._config else ''
+            # file_name_prefix = team_prefix + self.HEATMAP_IMAGE_PREFIX + '_'
 
-            self.upload_image_to_s3(heatmap_img, file_name_prefix,
-                                    str(self.__step_number))
+            # self.upload_image_to_s3(heatmap_img, file_name_prefix,
+            #                         str(self.__step_number))
 
+    # TODO rename/replace to upload at the end of the scene
     def upload_image_to_s3(self, image_to_upload: PIL.Image.Image,
                            file_name_prefix: str,
                            step_number_affix: str):
@@ -983,8 +1014,8 @@ class Controller():
         for index, event in enumerate(scene_event.events):
             scene_image = PIL.Image.fromarray(event.frame)
             image_list.append(scene_image)
-            self.__visual_video_writer.add(
-                np.array(scene_image.convert('RGB'))[:, :, ::-1])
+
+            self.__image_recorder.add(scene_image)
 
             if self.__depth_masks:
                 # The Unity depth array (returned by Depth.shader) contains
@@ -1001,12 +1032,14 @@ class Controller():
                 depth_mask = PIL.Image.fromarray(
                     depth_pixel_array.astype(np.uint8)
                 )
+                self.__depth_recorder.add(depth_mask)
                 depth_mask_list.append(np.array(depth_float_array))
 
             if self.__object_masks:
                 object_mask = PIL.Image.fromarray(
                     event.instance_segmentation_frame)
                 object_mask_list.append(object_mask)
+                self.__segmentation_recorder.add(object_mask)
 
             if self.__debug_to_file and self.__output_folder is not None:
                 step_plus_substep_index = 0 if self.__step_number == 0 else (
