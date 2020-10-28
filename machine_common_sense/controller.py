@@ -234,11 +234,18 @@ class Controller():
         self.__history_item = None
 
         self._config = self.read_config_file()
-        self._metadata_tier = (
-            self._config[self.CONFIG_METADATA_TIER]
-            if self.CONFIG_METADATA_TIER in self._config
-            else ''
-        )
+
+        # Environment variable override for metadata property
+        metadata_env_var = os.getenv('MCS_METADATA_LEVEL', None)
+
+        if(metadata_env_var is None):
+            self._metadata_tier = (
+                self._config[self.CONFIG_METADATA_TIER]
+                if self.CONFIG_METADATA_TIER in self._config
+                else ''
+            )
+        else:
+            self._metadata_tier = metadata_env_var
 
         # Order of preference for depth/object mask settings:
         # look for user specified depth_masks/object_masks properties,
