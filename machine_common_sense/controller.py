@@ -715,51 +715,28 @@ class Controller():
         return {}
 
     def restrict_goal_output_metadata(self, goal_output):
-        if (
-            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
-            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2
-        ):
+        target_name_list = ['target', 'target_1', 'target_2']
+
+        for target_name in target_name_list:
             if (
-                'target' in goal_output.metadata and
-                'image' in goal_output.metadata['target']
+                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
+                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2
             ):
-                goal_output.metadata['target']['image'] = None
-            if (
-                'target_1' in goal_output.metadata and
-                'image' in goal_output.metadata['target_1']
-            ):
-                goal_output.metadata['target_1']['image'] = None
-            if (
-                'target_2' in goal_output.metadata and
-                'image' in goal_output.metadata['target_2']
-            ):
-                goal_output.metadata['target_2']['image'] = None
-        else:
-            # need to convert goal image data from string to array
-            if (
-                'target' in goal_output.metadata and
-                'image' in goal_output.metadata['target'] and
-                isinstance(goal_output.metadata['target']['image'], str)
-            ):
-                image_list_string = goal_output.metadata['target']['image']
-                goal_output.metadata['target']['image'] = numpy.array(
-                    ast.literal_eval(image_list_string)).tolist()
-            if (
-                'target_1' in goal_output.metadata and
-                'image' in goal_output.metadata['target_1'] and
-                isinstance(goal_output.metadata['target_1']['image'], str)
-            ):
-                image_list_string = goal_output.metadata['target_1']['image']
-                goal_output.metadata['target_1']['image'] = numpy.array(
-                    ast.literal_eval(image_list_string)).tolist()
-            if (
-                'target_2' in goal_output.metadata and
-                'image' in goal_output.metadata['target_2'] and
-                isinstance(goal_output.metadata['target_2']['image'], str)
-            ):
-                image_list_string = goal_output.metadata['target_2']['image']
-                goal_output.metadata['target_2']['image'] = numpy.array(
-                    ast.literal_eval(image_list_string)).tolist()
+                if (
+                    target_name in goal_output.metadata and
+                    'image' in goal_output.metadata[target_name]
+                ):
+                    goal_output.metadata[target_name]['image'] = None
+            else:
+                # need to convert goal image data from string to array
+                if (
+                    target_name in goal_output.metadata and
+                    'image' in goal_output.metadata[target_name] and
+                    isinstance(goal_output.metadata[target_name]['image'], str)
+                ):
+                    image_list_string = goal_output.metadata[target_name]['image']  # noqa: E501
+                    goal_output.metadata[target_name]['image'] = numpy.array(
+                        ast.literal_eval(image_list_string)).tolist()
 
         return goal_output
 
