@@ -38,6 +38,8 @@ def run_scene(file_name):
         action = output.action_list[len(output.action_list) - 1]
         output = controller.step(action)
 
+    controller.end_scene("", 1)
+
 
 if __name__ == "__main__":
     args = parse_args()

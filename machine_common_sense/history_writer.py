@@ -51,7 +51,9 @@ class HistoryWriter(object):
 
     def add_step(self, step_obj: Dict):
         """ Add a new step to the array of history steps"""
-        self.current_steps.append(dict(self.filter_history_images(step_obj)))
+        if step_obj is not None:
+            self.current_steps.append(
+                dict(self.filter_history_images(step_obj)))
 
     def write_history_file(self, classification, confidence):
         """ Add the end score obj, create the object

@@ -301,8 +301,9 @@ class Controller():
             with violation-of-expectation or classification goals.
             Is not required for other goals. (default None)
         """
-        self.__history_writer.add_step(self.__history_item)
-        self.__history_writer.write_history_file(choice, confidence)
+        if self.__history_enabled:
+            self.__history_writer.add_step(self.__history_item)
+            self.__history_writer.write_history_file(choice, confidence)
 
     def start_scene(self, config_data):
         """
@@ -522,7 +523,7 @@ class Controller():
             "last_step" of this scene.
         """
 
-        if self.__step_number > 0:
+        if self.__history_enabled and self.__step_number > 0:
             self.__history_writer.add_step(self.__history_item)
 
         if (self._goal.last_step is not None and
@@ -1051,7 +1052,8 @@ class Controller():
             pose=self.retrieve_pose(scene_event),
             position=self.retrieve_position(scene_event),
             return_status=self.retrieve_return_status(scene_event),
-            reward=Reward.calculate_reward(self._goal, objects, agent),
+            reward=Reward.calculate_reward(
+                self._goal, objects, agent, self.__step_number),
             rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number,
             structural_object_list=self.retrieve_structural_object_list(
