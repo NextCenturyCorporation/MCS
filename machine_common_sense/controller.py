@@ -208,8 +208,8 @@ class Controller():
                  depth_masks=None, object_masks=None,
                  history_enabled=True):
 
-        self.config_file = os.getenv('MCS_CONFIG_FILE_PATH',
-                                     './mcs_config.yaml')
+        self._config_file = os.getenv('MCS_CONFIG_FILE_PATH',
+                                      './mcs_config.yaml')
 
         self.__debug_to_file = True if (
             debug is True or debug == 'file') else False
@@ -710,8 +710,8 @@ class Controller():
         return action
 
     def read_config_file(self):
-        if os.path.exists(self.config_file):
-            with open(self.config_file, 'r') as config_file:
+        if os.path.exists(self._config_file):
+            with open(self._config_file, 'r') as config_file:
                 config = yaml.load(config_file)
                 if self.__debug_to_terminal:
                     print('Read MCS Config File:')
