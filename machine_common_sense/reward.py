@@ -7,6 +7,7 @@ from .controller import MAX_REACH_DISTANCE, MOVE_DISTANCE
 
 GOAL_ACHIEVED = 1
 GOAL_NOT_ACHIEVED = 0
+STEP_PENALTY = 0.001
 
 
 class Reward(object):
@@ -173,6 +174,29 @@ class Reward(object):
         return reward
 
     @staticmethod
+    def _adjust_score_penalty(
+            current_score: int,
+            number_steps: int) -> float:
+        '''
+        Calculate the score penalty based on the number of steps,
+        if the current step results in a reward being achieved do
+        not penalize them for the step that resulted in the goal
+        being achieved.
+
+        Args:
+            current_score: 1 or 0 depending if reward achieved
+            number_steps: the current step count
+
+        Returns:
+            float: new score based off of step penalty
+
+        '''
+        if current_score == 1:
+            return current_score - ((number_steps - 1) * STEP_PENALTY)
+        else:
+            return current_score - ((number_steps) * STEP_PENALTY)
+
+    @staticmethod
     def _calculate_default_reward(
             goal: GoalMetadata,
             objects: Dict,
@@ -184,7 +208,8 @@ class Reward(object):
     def calculate_reward(
             goal: GoalMetadata,
             objects: Dict,
-            agent: Dict) -> int:
+            agent: Dict,
+            number_steps: int) -> float:
         '''
         Determine if the agent achieved the objective/task/goal.
 
@@ -208,6 +233,8 @@ class Reward(object):
             GoalCategory.TRAVERSAL.value: Reward._calc_traversal_reward,  # noqa: E501
         }
 
-        return switch.get(category,
-                          Reward._calculate_default_reward)(goal,
-                                                            objects, agent)
+        current_score = switch.get(category,
+                                   Reward._calculate_default_reward)(goal,
+                                                                     objects,
+                                                                     agent)
+        return Reward._adjust_score_penalty(current_score, number_steps)

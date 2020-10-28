@@ -40,6 +40,8 @@ def main():
     for _ in range(last_step):
         _ = controller.step('Pass')
 
+    controller.end_scene("", 1)
+
 
 if __name__ == "__main__":
     main()
