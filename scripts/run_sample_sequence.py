@@ -22,9 +22,14 @@ def run_scene(file_name):
         print(status)
         return
 
-    config_data['name'] = (
-        config_data['goal']['sceneInfo']['name'].replace(' ', '_')
-    )
+    if 'sceneInfo' in config_data['goal']:
+        config_data['name'] = (
+            config_data['goal']['sceneInfo']['name'].replace(' ', '_')
+        )
+    else:
+        config_data['name'] = config_data['name'][
+            (config_data['name'].rfind('/') + 1):
+        ]
     last_step = config_data['goal']['last_step']
 
     output = controller.start_scene(config_data)
@@ -39,6 +44,9 @@ if __name__ == "__main__":
     controller = mcs.create_controller(args.mcs_unity_build_file, debug=True)
 
     filename_list = glob.glob(args.filename_prefix + '*_debug.json')
+    if len(filename_list) == 0:
+        filename_list = glob.glob(args.filename_prefix + '*.json')
+
     filename_list.sort()
 
     for filename in filename_list:
