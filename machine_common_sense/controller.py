@@ -124,8 +124,6 @@ class Controller():
     OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
-    CONFIG_FILE = os.getenv('MCS_CONFIG_FILE_PATH', './mcs_config.yaml')
-
     AWS_CREDENTIALS_FOLDER = os.path.expanduser('~') + '/.aws/'
     AWS_CREDENTIALS_FILE = os.path.expanduser('~') + '/.aws/credentials'
     AWS_ACCESS_KEY_ID = 'aws_access_key_id'
@@ -209,6 +207,9 @@ class Controller():
     def _on_init(self, debug=False, enable_noise=False, seed=None,
                  depth_masks=None, object_masks=None,
                  history_enabled=True):
+
+        self.config_file = os.getenv('MCS_CONFIG_FILE_PATH',
+                                     './mcs_config.yaml')
 
         self.__debug_to_file = True if (
             debug is True or debug == 'file') else False
@@ -702,8 +703,8 @@ class Controller():
         return action
 
     def read_config_file(self):
-        if os.path.exists(self.CONFIG_FILE):
-            with open(self.CONFIG_FILE, 'r') as config_file:
+        if os.path.exists(self.config_file):
+            with open(self.config_file, 'r') as config_file:
                 config = yaml.load(config_file)
                 if self.__debug_to_terminal:
                     print('Read MCS Config File:')
