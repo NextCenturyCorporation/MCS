@@ -374,7 +374,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(output.step_number, 0)
         self.assertEqual(str(output.goal), str(mcs.GoalMetadata()))
         self.assertEqual(len(output.image_list), MOCK_VARIABLES['event_count'])
-        self.assertEqual(len(output.depth_mask_list),
+        self.assertEqual(len(output.depth_map_list),
                          MOCK_VARIABLES['event_count'])
         self.assertEqual(len(output.object_mask_list),
                          MOCK_VARIABLES['event_count'])
@@ -394,7 +394,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(output.step_number, 0)
         self.assertEqual(str(output.goal), str(mcs.GoalMetadata()))
         self.assertEqual(len(output.image_list), MOCK_VARIABLES['event_count'])
-        self.assertEqual(len(output.depth_mask_list),
+        self.assertEqual(len(output.depth_map_list),
                          MOCK_VARIABLES['event_count'])
         self.assertEqual(len(output.object_mask_list),
                          MOCK_VARIABLES['event_count'])
@@ -424,7 +424,7 @@ class Test_Controller(unittest.TestCase):
             MOCK_VARIABLES['event_count'] * (last_preview_phase_step + 1),
         )
         self.assertEqual(
-            len(output.depth_mask_list),
+            len(output.depth_map_list),
             MOCK_VARIABLES['event_count'] * (last_preview_phase_step + 1),
         )
         self.assertEqual(
@@ -450,7 +450,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(output.step_number, 1)
         self.assertEqual(str(output.goal), str(mcs.GoalMetadata()))
         self.assertEqual(len(output.image_list), MOCK_VARIABLES['event_count'])
-        self.assertEqual(len(output.depth_mask_list),
+        self.assertEqual(len(output.depth_map_list),
                          MOCK_VARIABLES['event_count'])
         self.assertEqual(len(output.object_mask_list),
                          MOCK_VARIABLES['event_count'])
@@ -470,7 +470,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(output.step_number, 2)
         self.assertEqual(str(output.goal), str(mcs.GoalMetadata()))
         self.assertEqual(len(output.image_list), MOCK_VARIABLES['event_count'])
-        self.assertEqual(len(output.depth_mask_list),
+        self.assertEqual(len(output.depth_map_list),
                          MOCK_VARIABLES['event_count'])
         self.assertEqual(len(output.object_mask_list),
                          MOCK_VARIABLES['event_count'])
@@ -736,7 +736,7 @@ class Test_Controller(unittest.TestCase):
             camera_clipping_planes=(3, 4),
             camera_field_of_view=5,
             camera_height=6,
-            depth_mask_list=[7],
+            depth_map_list=[7],
             object_mask_list=[8],
             position={'x': 4, 'y': 5, 'z': 6},
             rotation={'x': 7, 'y': 8, 'z': 9}
@@ -746,7 +746,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.camera_clipping_planes, (3, 4))
         self.assertEqual(actual.camera_field_of_view, 5)
         self.assertEqual(actual.camera_height, 6)
-        self.assertEqual(actual.depth_mask_list, [7])
+        self.assertEqual(actual.depth_map_list, [7])
         self.assertEqual(actual.object_mask_list, [8])
         self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
         self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
@@ -758,7 +758,7 @@ class Test_Controller(unittest.TestCase):
             camera_clipping_planes=(3, 4),
             camera_field_of_view=5,
             camera_height=6,
-            depth_mask_list=[7],
+            depth_map_list=[7],
             object_mask_list=[8],
             position={'x': 4, 'y': 5, 'z': 6},
             rotation={'x': 7, 'y': 8, 'z': 9}
@@ -768,7 +768,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.camera_clipping_planes, (3, 4))
         self.assertEqual(actual.camera_field_of_view, 5)
         self.assertEqual(actual.camera_height, 6)
-        self.assertEqual(actual.depth_mask_list, [7])
+        self.assertEqual(actual.depth_map_list, [7])
         self.assertEqual(actual.object_mask_list, [8])
         self.assertEqual(actual.position, {'x': 4, 'y': 5, 'z': 6})
         self.assertEqual(actual.rotation, {'x': 7, 'y': 8, 'z': 9})
@@ -780,7 +780,7 @@ class Test_Controller(unittest.TestCase):
             camera_clipping_planes=(3, 4),
             camera_field_of_view=5,
             camera_height=6,
-            depth_mask_list=[7],
+            depth_map_list=[7],
             object_mask_list=[8],
             position={'x': 4, 'y': 5, 'z': 6},
             rotation={'x': 7, 'y': 8, 'z': 9}
@@ -790,7 +790,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.camera_clipping_planes, (3, 4))
         self.assertEqual(actual.camera_field_of_view, 5)
         self.assertEqual(actual.camera_height, 6)
-        self.assertEqual(actual.depth_mask_list, [7])
+        self.assertEqual(actual.depth_map_list, [7])
         self.assertEqual(actual.object_mask_list, [8])
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
@@ -802,7 +802,7 @@ class Test_Controller(unittest.TestCase):
             camera_clipping_planes=(3, 4),
             camera_field_of_view=5,
             camera_height=6,
-            depth_mask_list=[7],
+            depth_map_list=[7],
             object_mask_list=[8],
             position={'x': 4, 'y': 5, 'z': 6},
             rotation={'x': 7, 'y': 8, 'z': 9}
@@ -812,7 +812,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.camera_clipping_planes, (3, 4))
         self.assertEqual(actual.camera_field_of_view, 5)
         self.assertEqual(actual.camera_height, 6)
-        self.assertEqual(actual.depth_mask_list, [7])
+        self.assertEqual(actual.depth_map_list, [7])
         self.assertEqual(actual.object_mask_list, [])
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
@@ -1292,7 +1292,7 @@ class Test_Controller(unittest.TestCase):
 
         (
             image_list,
-            depth_mask_list,
+            depth_map_list,
             object_mask_list,
         ) = self.controller.save_images(
             self.create_mock_scene_event(mock_scene_event_data),
@@ -1300,12 +1300,12 @@ class Test_Controller(unittest.TestCase):
         )
 
         self.assertEqual(len(image_list), 1)
-        self.assertEqual(len(depth_mask_list), 1)
+        self.assertEqual(len(depth_map_list), 1)
         self.assertEqual(len(object_mask_list), 1)
 
         self.assertEqual(numpy.array(image_list[0]), image_data)
         numpy.testing.assert_almost_equal(
-            numpy.array(depth_mask_list[0]),
+            numpy.array(depth_map_list[0]),
             numpy.array([[0.0]], dtype=numpy.float32),
             3
         )
@@ -1335,19 +1335,19 @@ class Test_Controller(unittest.TestCase):
 
         (
             image_list,
-            depth_mask_list,
+            depth_map_list,
             object_mask_list
         ) = self.controller.save_images(
             self.create_mock_scene_event(mock_scene_event_data),
             15.0
         )
         self.assertEqual(len(image_list), 2)
-        self.assertEqual(len(depth_mask_list), 2)
+        self.assertEqual(len(depth_map_list), 2)
         self.assertEqual(len(object_mask_list), 2)
 
         self.assertEqual(numpy.array(image_list[0]), image_data_1)
         numpy.testing.assert_almost_equal(
-            numpy.array(depth_mask_list[0]),
+            numpy.array(depth_map_list[0]),
             numpy.array([[4.392]], dtype=numpy.float32),
             3
         )
@@ -1355,7 +1355,7 @@ class Test_Controller(unittest.TestCase):
 
         self.assertEqual(numpy.array(image_list[1]), image_data_2)
         numpy.testing.assert_almost_equal(
-            numpy.array(depth_mask_list[1]),
+            numpy.array(depth_map_list[1]),
             numpy.array([[1.882]], dtype=numpy.float32),
             3
         )
@@ -1457,11 +1457,11 @@ class Test_Controller(unittest.TestCase):
             ['c2'])
         self.assertEqual(actual.structural_object_list[0].visible, True)
 
-        self.assertEqual(len(actual.depth_mask_list), 1)
+        self.assertEqual(len(actual.depth_map_list), 1)
         self.assertEqual(len(actual.image_list), 1)
         self.assertEqual(len(actual.object_mask_list), 1)
         numpy.testing.assert_almost_equal(
-            numpy.array(actual.depth_mask_list[0]),
+            numpy.array(actual.depth_map_list[0]),
             numpy.array([[2.51]], dtype=numpy.float32),
             3
         )
@@ -1503,11 +1503,11 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(len(actual.object_list), 2)
         self.assertEqual(len(actual.structural_object_list), 2)
 
-        self.assertEqual(len(actual.depth_mask_list), 1)
+        self.assertEqual(len(actual.depth_map_list), 1)
         self.assertEqual(len(actual.image_list), 1)
         self.assertEqual(len(actual.object_mask_list), 1)
         numpy.testing.assert_almost_equal(
-            numpy.array(actual.depth_mask_list[0]),
+            numpy.array(actual.depth_map_list[0]),
             numpy.array([[2.51]], dtype=numpy.float32),
             3
         )
@@ -1548,17 +1548,17 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(len(actual.object_list), 0)
         self.assertEqual(len(actual.structural_object_list), 0)
 
-        self.assertEqual(len(actual.depth_mask_list), 0)
+        self.assertEqual(len(actual.depth_map_list), 0)
         self.assertEqual(len(actual.image_list), 1)
         self.assertEqual(len(actual.object_mask_list), 0)
         # self.assertEqual(
         #     numpy.array(
-        #         actual.depth_mask_list[0]),
+        #         actual.depth_map_list[0]),
         #     depth_data)
         self.assertEqual(numpy.array(actual.image_list[0]), image_data)
         # self.assertEqual(
         #     numpy.array(
-        #         actual.object_mask_list[0]),
+        #         actual.depth_map_list[0]),
         #     object_mask_data)
 
     def test_wrap_output_with_config_metadata_no_vision(self):
@@ -1592,7 +1592,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(len(actual.object_list), 1)
         self.assertEqual(len(actual.structural_object_list), 1)
 
-        self.assertEqual(len(actual.depth_mask_list), 0)
+        self.assertEqual(len(actual.depth_map_list), 0)
         self.assertEqual(len(actual.image_list), 1)
         self.assertEqual(len(actual.object_mask_list), 0)
 
@@ -1627,7 +1627,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(len(actual.object_list), 0)
         self.assertEqual(len(actual.structural_object_list), 0)
 
-        self.assertEqual(len(actual.depth_mask_list), 0)
+        self.assertEqual(len(actual.depth_map_list), 0)
         self.assertEqual(len(actual.image_list), 1)
         self.assertEqual(len(actual.object_mask_list), 0)
 
