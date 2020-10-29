@@ -9,7 +9,7 @@ import numpy as np
 
 
 class VideoRecorder():
-    '''Threaded video writer'''
+    '''Threaded video recorder'''
 
     def __init__(self,
                  vid_path: pathlib.Path,
@@ -21,20 +21,22 @@ class VideoRecorder():
         '''Create the video recorder.
 
         Args:
-          vid_path (pathlib.path): the output video file path
-          width (int): video width dimension
-          height (int): video height dimension
-          fps (int): video frame rate per second
-          fourcc (str): opencv fourcc value
-          timeout (float): thread sleep timeout
+            vid_path (pathlib.path): the output video file path
+            width (int): video width dimension
+            height (int): video height dimension
+            fps (int): video frame rate per second
+            fourcc (str): opencv fourcc value
+            timeout (float): thread sleep timeout
+
+        Returns:
+            None
         '''
 
         self.Q = None
         self.thread = None
         self.started = False
         self.timeout = timeout
-        # TODO could save the vid_path
-        # and then move the appropriate uploader function here
+        self.path = vid_path
         self.writer = cv2.VideoWriter(str(vid_path),
                                       cv2.VideoWriter_fourcc(*fourcc),
                                       fps,
@@ -43,7 +45,7 @@ class VideoRecorder():
         self.start()
 
     def start(self) -> None:
-        '''Create the video writer thread and prepare the queue for frames.'''
+        '''Create the video recorder thread and start the frame queue.'''
         self.active = True
         self.Q = queue.Queue()
         self.thread = threading.Thread(target=self._write, args=())
@@ -51,18 +53,19 @@ class VideoRecorder():
         self.thread.start()
 
     def add(self, frame: PIL.Image.Image) -> None:
-        '''Adds the RGB video frame to the queue.
+        '''Adds the video frame to the queue.
 
-        Requires that the videowriter start function was called
+        Requires that the start function was called
         otherwise the frame is ignored.
 
-        Be aware that PIL images are in BGR order.
-        rgb_img = bgr_img[:,:,::-1]
+        Args:
+            frame (np.ndarray): RGB video frame to be written
 
-        args:
-          frame: np.ndarray, RGB video frame to be written
+        Returns:
+            None
         '''
         if self.active:
+            # convert BGR image to RGB for opencv
             cv_frame = np.array(frame.convert('RGB'))[:, :, ::-1]
             self.Q.put(cv_frame)
 
@@ -84,11 +87,16 @@ class VideoRecorder():
             self.writer.write(frame)
 
     def finish(self) -> None:
-        '''Deactivate the writer so that it does not accept more frames.
+        '''Deactivate the recorder so that it does not accept more frames.
 
-        Frames that remain in the buffer will be written and the writer closed.
+        Frames that remain in the buffer will be written and the recorder
+        closed.
         '''
         self.active = False
         self.thread.join()
         self.flush()
         self.writer.release()
+
+    @property
+    def path(self):
+        return self.vid_path

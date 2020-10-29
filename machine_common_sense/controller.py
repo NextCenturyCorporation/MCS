@@ -1,7 +1,6 @@
 import copy
 import datetime
 import glob
-import io
 import json
 import numpy as np
 import os
@@ -35,7 +34,8 @@ from .return_status import ReturnStatus
 from .reward import Reward
 from .scene_history import SceneHistory
 from .step_metadata import StepMetadata
-from .recorder import VideoRecorder
+from .recorder import VideoRecorder  # , HistoryRecorder
+from .uploader import S3Uploader
 from .util import Util
 from .history_writer import HistoryWriter
 
@@ -91,6 +91,9 @@ class Controller():
     # really matter because we set continuous to True in
     # the step input.)
     GRID_SIZE = 0.1
+    # Is there any way to get FPS from ai2thor?
+    # 20 FPS relies on the assumption that Time.deltaTime is 0.05 in Unity
+    FPS_FRAME_RATE = 20
 
     DEFAULT_CLIPPING_PLANE_FAR = 15.0
 
@@ -134,6 +137,7 @@ class Controller():
 
     CONFIG_AWS_ACCESS_KEY_ID = 'aws_access_key_id'
     CONFIG_AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
+    CONFIG_EVALUATION = 'evaluation'
     CONFIG_METADATA_TIER = 'metadata'
     # Normal metadata plus metadata for all hidden objects
     CONFIG_METADATA_TIER_ORACLE = 'oracle'
@@ -143,12 +147,9 @@ class Controller():
     # No metadata, except for the images, depth masks, and haptic/audio
     # feedback
     CONFIG_METADATA_TIER_LEVEL_1 = 'level1'
-    # TODO don't save individual images to S3
-    # images can be output for debugging purposes but never uploaded
-    # upload should be done on the videos only.
-    # should TA1 be able to leverage the video writing or is this
-    # internal only.
-    # maybe an 'evaluation' mode in the config that assumes some things
+    # TODO don't actually save individual images to S3
+    # images can be output for debugging purposes but never uploaded to s3.
+    # upload should be done on the evaluation videos only.
     CONFIG_SAVE_IMAGES_TO_S3_BUCKET = 'save_images_to_s3_bucket'
     CONFIG_SAVE_IMAGES_TO_S3_FOLDER = 'save_images_to_s3_folder'
     CONFIG_TEAM = 'team'
@@ -238,6 +239,7 @@ class Controller():
         self.__s3_client = None
         self.__history_writer = None
         self.__history_item = None
+        self.__uploader = None
 
         self._config = self.read_config_file()
         self._metadata_tier = (
@@ -245,6 +247,8 @@ class Controller():
             if self.CONFIG_METADATA_TIER in self._config
             else ''
         )
+        self._config[self.CONFIG_EVALUATION] = self._config.get(
+            self.CONFIG_EVALUATION, 'true')
 
         # Order of preference for depth/object mask settings:
         # look for user specified depth_masks/object_masks properties,
@@ -284,10 +288,13 @@ class Controller():
                     '\n'
                 )
 
-        # TODO check config if we are writing out video files
-        # video recorders will create a file currently even if that
-        # image type capability is turned off
-        self._create_recorders()
+        # check config if we are recording evaluation video files
+        if self._config[self.CONFIG_EVALUATION]:
+            self.__uploader = S3Uploader()
+            self._create_recorders()
+            # isn't history technically a recorder as well?
+            # TODO what if history is disabled in the constructor
+            # but we are running an evaluation?
 
         if self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET in self._config:
             if 'boto3' not in sys.modules:
@@ -296,33 +303,32 @@ class Controller():
                 self.__s3_client = boto3.client('s3')
 
     def _create_recorders(self):
-        '''Create video recorders'''
-        # TODO video naming
-        # TODO fourcc encoding could be problematic for example if
-        # running on a mac (which is admittedly not part of evaluation)
-        # TODO any way to get FPS from ai2thor to avoid magic number?
-        # segmentation mask recorder is tough to watch for random colors
-        # but is still applicable for oracle or level 2 tests
+        '''Create video recorders used for evaluation'''
+        # TODO video naming or use a tempfile
         self.__image_recorder = VideoRecorder(
-            'visual.mp4',
-            self.__screen_width,
-            self.__screen_height,
-            fps=20)
-        self.__depth_recorder = VideoRecorder(
-            'depth.mp4',
-            self.__screen_width,
-            self.__screen_height,
-            fps=20)
-        self.__segmentation_recorder = VideoRecorder(
-            'segmentation.mp4',
-            self.__screen_width,
-            self.__screen_height,
-            fps=20)
+            vid_path='visual.mp4',
+            width=self.__screen_width,
+            height=self.__screen_height,
+            fps=self.FPS_FRAME_RATE)
         self.__heatmap_recorder = VideoRecorder(
-            'heatmap.mp4',
-            self.__screen_width,
-            self.__screen_height,
-            fps=20)
+            vid_path='heatmap.mp4',
+            width=self.__screen_width,
+            height=self.__screen_height,
+            fps=self.FPS_FRAME_RATE)
+
+        if self.__depth_masks:
+            self.__depth_recorder = VideoRecorder(
+                vid_path='depth.mp4',
+                width=self.__screen_width,
+                height=self.__screen_height,
+                fps=self.FPS_FRAME_RATE)
+
+        if self.__object_masks:
+            self.__segmentation_recorder = VideoRecorder(
+                vid_path='segmentation.mp4',
+                width=self.__screen_width,
+                height=self.__screen_height,
+                fps=self.FPS_FRAME_RATE)
 
     def get_seed_value(self):
         return self.__seed
@@ -346,17 +352,53 @@ class Controller():
             self.__history_writer.add_step(self.__history_item)
             self.__history_writer.write_history_file(choice, confidence)
 
-        # if evaluation config:
-        # close video writers
-        self.__image_recorder.finish()
-        self.__depth_recorder.finish()
-        self.__segmentation_recorder.finish()
-        self.__heatmap_recorder.finish()
-        # self.__topdown_recorder.finish()
+        if self._config[self.CONFIG_EVALUATION]:
 
-        # if evaluation config:
-        # TODO upload video files and history application/json file to s3
-        # TODO remove local files?
+            # TODO figure out naming conventions
+            # where does 'team' come in?
+            # bucket = evaluation-images
+            # image folder = eval-2
+            # evaluation-images/eval-2/mess_<scene file>-<step>_<datetime>.png
+            #
+            # we want something like
+            # evaluation-images/eval-3/<team>_<scene>_<type>_<datetime>.mp4
+            # where type is visual, heatmap, topdown, depth, object
+            # history would be the same
+            # <team>_<scene>_history_<datetime>.json
+            s3_folder = (
+                (self._config[self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER] + '/')
+                if self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER in self._config
+                else ''
+            )
+
+            team_prefix = (self._config[self.CONFIG_TEAM] +
+                           '_') if self.CONFIG_TEAM in self._config else ''
+            file_name_prefix = team_prefix + self.HEATMAP_IMAGE_PREFIX + '_'
+
+            s3_file_name = s3_folder + file_name_prefix + \
+                self.__scene_configuration['name'].replace('.json', '') + \
+                '_' + self.generate_time() + '.png'
+            print(s3_file_name)
+
+            # flush and close the evaluation video recorders
+            self.__image_recorder.finish()
+            self.__uploader.upload_video(self.__image_recorder.path)
+
+            self.__heatmap_recorder.finish()
+            self.__uploader.upload_video()
+
+            if self.__depth_masks:
+                self.__depth_recorder.finish()
+                self.__uploader.upload_video()
+            if self.__object_masks:
+                self.__segmentation_recorder.finish()
+                self.__uploader.upload_video()
+
+            # TODO should we remove the local files after upload?
+            # is that an uploader option?
+
+            # TODO also upload history application/json file to s3
+            self.__uploader.upload_history()
 
     def start_scene(self, config_data):
         """
@@ -695,94 +737,7 @@ class Controller():
 
         if(heatmap_img is not None and
            isinstance(heatmap_img, PIL.Image.Image)):
-
             self.__heatmap_recorder.add(heatmap_img)
-            # team_prefix = (self._config[self.CONFIG_TEAM] +
-            #                '_') if self.CONFIG_TEAM in self._config else ''
-            # file_name_prefix = team_prefix + self.HEATMAP_IMAGE_PREFIX + '_'
-
-            # self.upload_image_to_s3(heatmap_img, file_name_prefix,
-            #                         str(self.__step_number))
-
-    # TODO do uploader functions move elsewhere? I think so
-    # TODO does HistoryWriter get renamed to HistoryRecorder and
-    # moved into the recorder module?
-    def upload_video_to_s3(self, video_path: str,
-                           file_name_prefix: str = None) -> None:
-        '''Upload the video file recording to s3'''
-        s3_folder = (
-            (self._config[self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER] + '/')
-            if self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER in self._config
-            else ''
-        )
-        s3_file_name = s3_folder + file_name_prefix + \
-            self.__scene_configuration['name'].replace('.json', '') + \
-            '_' + self.generate_time() + '_' + video_path
-        # TODO print
-        # TODO try/catch
-        self.__s3_client.upload_file(
-            video_path,
-            self._config[self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET],
-            s3_file_name,
-            ExtraArgs={
-                'ACL': 'public-read',
-                'ContentType': 'video/mp4',
-            }
-        )
-
-    def upload_history_to_s3(self, history_path: str,
-                             file_name_prefix: str) -> None:
-        '''upload history file'''
-        s3_folder = (
-            (self._config[self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER] + '/')
-            if self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER in self._config
-            else ''
-        )
-        # TODO naming?
-        s3_file_name = s3_folder + file_name_prefix + \
-            self.__scene_configuration['name'].replace('.json', '') + \
-            '_' + self.generate_time() + '_'
-        # TODO print
-        # TODO try/catch
-        self.__s3_client.upload_file(
-            history_path,
-            self._config[self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET],
-            s3_file_name,
-            ExtraArgs={
-                'ACL': 'public-read',
-                'ContentType': 'application/json',
-            }
-        )
-
-    # TODO rename/replace to upload at the end of the scene
-    def upload_image_to_s3(self, image_to_upload: PIL.Image.Image,
-                           file_name_prefix: str,
-                           step_number_affix: str):
-        if self.__s3_client:
-            in_memory_file = io.BytesIO()
-            image_to_upload.save(fp=in_memory_file, format='png')
-            in_memory_file.seek(0)
-            s3_folder = (
-                (self._config[self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER] + '/')
-                if self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER in self._config
-                else ''
-            )
-            s3_file_name = s3_folder + file_name_prefix + \
-                self.__scene_configuration['name'].replace('.json', '') + \
-                '_' + step_number_affix + '_' + \
-                self.generate_time() + '.png'
-            print('SAVE TO S3 BUCKET ' +
-                  self._config[self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET] +
-                  ': ' + s3_file_name)
-            self.__s3_client.upload_fileobj(
-                in_memory_file,
-                self._config[self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET],
-                s3_file_name,
-                ExtraArgs={
-                    'ACL': 'public-read',
-                    'ContentType': 'image/png',
-                }
-            )
 
     def generate_time(self):
         return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -817,6 +772,8 @@ class Controller():
                     print(config)
                 if self.CONFIG_METADATA_TIER not in config:
                     config[self.CONFIG_METADATA_TIER] = ''
+                if self.CONFIG_EVALUATION not in config:
+                    config[self.CONFIG_EVALUATION] = ''
                 return config
         return {}
 
@@ -1069,7 +1026,9 @@ class Controller():
             scene_image = PIL.Image.fromarray(event.frame)
             image_list.append(scene_image)
 
-            self.__image_recorder.add(scene_image)
+            # TODO evaluation check awkwardness
+            if self._config[self.CONFIG_EVALUATION]:
+                self.__image_recorder.add(scene_image)
 
             if self.__depth_masks:
                 # The Unity depth array (returned by Depth.shader) contains
@@ -1086,14 +1045,16 @@ class Controller():
                 depth_mask = PIL.Image.fromarray(
                     depth_pixel_array.astype(np.uint8)
                 )
-                self.__depth_recorder.add(depth_mask)
+                if self._config[self.CONFIG_EVALUATION]:
+                    self.__depth_recorder.add(depth_mask)
                 depth_mask_list.append(np.array(depth_float_array))
 
             if self.__object_masks:
                 object_mask = PIL.Image.fromarray(
                     event.instance_segmentation_frame)
                 object_mask_list.append(object_mask)
-                self.__segmentation_recorder.add(object_mask)
+                if self._config[self.CONFIG_EVALUATION]:
+                    self.__segmentation_recorder.add(object_mask)
 
             if self.__debug_to_file and self.__output_folder is not None:
                 step_plus_substep_index = 0 if self.__step_number == 0 else (
@@ -1109,14 +1070,6 @@ class Controller():
                 if self.__object_masks:
                     object_mask.save(fp=self.__output_folder +
                                      'object_mask' + suffix)
-
-            team_prefix = (self._config[self.CONFIG_TEAM] +
-                           '_') if self.CONFIG_TEAM in self._config else ''
-            step_num_affix = (str(self.__step_number) + '_' +
-                              str(index + 1))
-
-            self.upload_image_to_s3(scene_image, team_prefix,
-                                    step_num_affix)
 
         return image_list, depth_mask_list, object_mask_list
 
