@@ -328,10 +328,12 @@ class Controller():
         self._goal = self.retrieve_goal(self.__scene_configuration)
 
         if self.__history_enabled:
-            if self.__history_writer is None:
-                self.__history_writer = HistoryWriter(config_data)
-            else:
+            # Ensure the previous scene history writer has saved its file.
+            if self.__history_writer:
                 self.__history_writer.check_file_written()
+            # Create a new scene history writer with each new scene (config
+            # data) so we always create a new, separate scene history file.
+            self.__history_writer = HistoryWriter(config_data)
 
         skip_preview_phase = (True if 'goal' in config_data and
                               'skip_preview_phase' in config_data['goal']
