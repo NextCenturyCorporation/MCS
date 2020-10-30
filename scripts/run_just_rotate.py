@@ -24,7 +24,8 @@ def main():
         exit()
 
     controller = mcs.create_controller(args.mcs_unity_build_file, debug=True,
-                                       depth_masks=True, object_masks=True)
+                                       depth_masks=True, object_masks=True,
+                                       history_enabled=False)
     config_file_name = config_file_path[config_file_path.rfind('/') + 1:]
 
     if 'name' not in config_data.keys():
