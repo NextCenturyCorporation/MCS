@@ -1,5 +1,6 @@
 import argparse
 import glob
+import subprocess
 
 import machine_common_sense as mcs
 
@@ -11,7 +12,7 @@ def parse_args():
         help='Path to MCS unity build file')
     parser.add_argument(
         'filename_prefix',
-        help='Prefix of scene files')
+        help='Prefix of scene files, with path')
     return parser.parse_args()
 
 
@@ -24,6 +25,7 @@ def run_scene(file_name):
 
     if 'sceneInfo' in config_data['goal']:
         config_data['name'] = (
+            config_data['name'] + '_' +
             config_data['goal']['sceneInfo']['name'].replace(' ', '_')
         )
     else:
@@ -39,6 +41,16 @@ def run_scene(file_name):
         output = controller.step(action)
 
     controller.end_scene("", 1)
+
+    subprocess.call([
+        'ffmpeg',
+        '-y',
+        '-r',
+        '20',
+        '-i',
+        config_data['name'] + '/frame_image_%d.png',
+        config_data['name'] + '.mp4'
+    ])
 
 
 if __name__ == "__main__":

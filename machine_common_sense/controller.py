@@ -8,6 +8,7 @@ import random
 import sys
 import yaml
 import PIL
+import ast
 from typing import Dict, List
 
 import ai2thor.controller
@@ -128,8 +129,6 @@ class Controller():
     OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
-    CONFIG_FILE = os.getenv('MCS_CONFIG_FILE_PATH', './mcs_config.yaml')
-
     AWS_CREDENTIALS_FOLDER = os.path.expanduser('~') + '/.aws/'
     AWS_CREDENTIALS_FILE = os.path.expanduser('~') + '/.aws/credentials'
     AWS_ACCESS_KEY_ID = 'aws_access_key_id'
@@ -218,6 +217,9 @@ class Controller():
                  depth_masks=None, object_masks=None,
                  history_enabled=True):
 
+        self._config_file = os.getenv('MCS_CONFIG_FILE_PATH',
+                                      './mcs_config.yaml')
+
         self.__debug_to_file = True if (
             debug is True or debug == 'file') else False
         self.__debug_to_terminal = True if (
@@ -242,13 +244,20 @@ class Controller():
         self.__uploader = None
 
         self._config = self.read_config_file()
-        self._metadata_tier = (
-            self._config[self.CONFIG_METADATA_TIER]
-            if self.CONFIG_METADATA_TIER in self._config
-            else ''
-        )
         self._config[self.CONFIG_EVALUATION] = self._config.get(
             self.CONFIG_EVALUATION, 'true')
+
+        # Environment variable override for metadata property
+        metadata_env_var = os.getenv('MCS_METADATA_LEVEL', None)
+
+        if(metadata_env_var is None):
+            self._metadata_tier = (
+                self._config[self.CONFIG_METADATA_TIER]
+                if self.CONFIG_METADATA_TIER in self._config
+                else ''
+            )
+        else:
+            self._metadata_tier = metadata_env_var
 
         # Order of preference for depth/object mask settings:
         # look for user specified depth_masks/object_masks properties,
@@ -355,7 +364,7 @@ class Controller():
         if self._config[self.CONFIG_EVALUATION]:
 
             # TODO figure out naming conventions
-            # where does 'team' come in?
+            #
             # bucket = evaluation-images
             # image folder = eval-2
             # evaluation-images/eval-2/mess_<scene file>-<step>_<datetime>.png
@@ -422,10 +431,13 @@ class Controller():
         self.__step_number = 0
         self._goal = self.retrieve_goal(self.__scene_configuration)
 
-        if self.__history_writer is None:
+        if self.__history_enabled:
+            # Ensure the previous scene history writer has saved its file.
+            if self.__history_writer:
+                self.__history_writer.check_file_written()
+            # Create a new scene history writer with each new scene (config
+            # data) so we always create a new, separate scene history file.
             self.__history_writer = HistoryWriter(config_data)
-        else:
-            self.__history_writer.check_file_written()
 
         skip_preview_phase = (True if 'goal' in config_data and
                               'skip_preview_phase' in config_data['goal']
@@ -764,8 +776,8 @@ class Controller():
         return action
 
     def read_config_file(self):
-        if os.path.exists(self.CONFIG_FILE):
-            with open(self.CONFIG_FILE, 'r') as config_file:
+        if os.path.exists(self._config_file):
+            with open(self._config_file, 'r') as config_file:
                 config = yaml.load(config_file)
                 if self.__debug_to_terminal:
                     print('Read MCS Config File:')
@@ -778,25 +790,28 @@ class Controller():
         return {}
 
     def restrict_goal_output_metadata(self, goal_output):
-        if (
-            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
-            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2
-        ):
+        target_name_list = ['target', 'target_1', 'target_2']
+
+        for target_name in target_name_list:
             if (
-                'target' in goal_output.metadata and
-                'image' in goal_output.metadata['target']
+                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
+                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2
             ):
-                goal_output.metadata['target']['image'] = None
-            if (
-                'target_1' in goal_output.metadata and
-                'image' in goal_output.metadata['target_1']
-            ):
-                goal_output.metadata['target_1']['image'] = None
-            if (
-                'target_2' in goal_output.metadata and
-                'image' in goal_output.metadata['target_2']
-            ):
-                goal_output.metadata['target_2']['image'] = None
+                if (
+                    target_name in goal_output.metadata and
+                    'image' in goal_output.metadata[target_name]
+                ):
+                    goal_output.metadata[target_name]['image'] = None
+            else:
+                # need to convert goal image data from string to array
+                if (
+                    target_name in goal_output.metadata and
+                    'image' in goal_output.metadata[target_name] and
+                    isinstance(goal_output.metadata[target_name]['image'], str)
+                ):
+                    image_list_string = goal_output.metadata[target_name]['image']  # noqa: E501
+                    goal_output.metadata[target_name]['image'] = np.array(
+                        ast.literal_eval(image_list_string)).tolist()
 
         return goal_output
 
@@ -1116,7 +1131,8 @@ class Controller():
             pose=self.retrieve_pose(scene_event),
             position=self.retrieve_position(scene_event),
             return_status=self.retrieve_return_status(scene_event),
-            reward=Reward.calculate_reward(self._goal, objects, agent),
+            reward=Reward.calculate_reward(
+                self._goal, objects, agent, self.__step_number),
             rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number,
             structural_object_list=self.retrieve_structural_object_list(
