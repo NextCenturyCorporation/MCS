@@ -39,7 +39,7 @@ if __name__ == "__main__":
     controller = mcs.create_controller(
         args.mcs_unity_build_file,
         debug=True,
-        depth_masks=True,
+        depth_maps=True,
         object_masks=True)
 
     run_scene('../scenes/eval_sample_1.json', [

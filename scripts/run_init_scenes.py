@@ -27,7 +27,7 @@ def main():
     controller = mcs.create_controller(
         args.mcs_unity_build_file,
         debug=False,
-        depth_masks=True,
+        depth_maps=True,
         object_masks=True)
 
     for json_file_name in json_file_list:

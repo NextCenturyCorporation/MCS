@@ -24,7 +24,7 @@
 ## Controller
 
 
-### class machine_common_sense.controller.Controller(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_masks=None, object_masks=None, history_enabled=True)
+### class machine_common_sense.controller.Controller(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_maps=None, object_masks=None, history_enabled=True)
 MCS Controller class implementation for the MCS wrapper of the AI2-THOR
 library.
 
@@ -306,7 +306,7 @@ Defines metadata for an object in the MCS 3D environment.
 ## StepMetadata
 
 
-### class machine_common_sense.step_metadata.StepMetadata(action_list=None, camera_aspect_ratio=None, camera_clipping_planes=None, camera_field_of_view=0.0, camera_height=0.0, depth_mask_list=None, goal=None, habituation_trial=None, head_tilt=0.0, image_list=None, object_list=None, object_mask_list=None, pose='UNDEFINED', position=None, return_status='UNDEFINED', reward=0, rotation=0.0, step_number=0, structural_object_list=None)
+### class machine_common_sense.step_metadata.StepMetadata(action_list=None, camera_aspect_ratio=None, camera_clipping_planes=None, camera_field_of_view=0.0, camera_height=0.0, depth_map_list=None, goal=None, habituation_trial=None, head_tilt=0.0, image_list=None, object_list=None, object_mask_list=None, pose='UNDEFINED', position=None, return_status='UNDEFINED', reward=0, rotation=0.0, step_number=0, structural_object_list=None)
 Defines output metadata from an action step in the MCS 3D environment.
 
 
@@ -333,7 +333,7 @@ Defines output metadata from an action step in the MCS 3D environment.
     actions like “LieDown”, “Stand”, or “Crawl”.
 
 
-    * **depth_mask_list** (*list of 2D numpy arrays*) – The list of 2-dimensional numpy arrays of depth float data from the
+    * **depth_map_list** (*list of 2D numpy arrays*) – The list of 2-dimensional numpy arrays of depth float data from the
     scene after the last action and physics simulation were run.
     Each depth float in a 2-dimensional numpy array is a value between 0
     and the camera’s far clipping plane (default 15) correspondings to the
