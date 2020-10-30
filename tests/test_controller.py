@@ -688,12 +688,38 @@ class Test_Controller(unittest.TestCase):
             'target_2': {'image': [2]}
         })
 
+    def test_restrict_goal_output_metadata_img_as_str(self):
+        goal = mcs.GoalMetadata(metadata={
+            'target': {'image': "[0]"},
+            'target_1': {'image': "[1]"},
+            'target_2': {'image': "[2]"}
+        })
+        actual = self.controller.restrict_goal_output_metadata(goal)
+        self.assertEqual(actual.metadata, {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        })
+
     def test_restrict_goal_output_metadata_oracle(self):
         self.controller.set_metadata_tier('oracle')
         goal = mcs.GoalMetadata(metadata={
             'target': {'image': [0]},
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
+        })
+        actual = self.controller.restrict_goal_output_metadata(goal)
+        self.assertEqual(actual.metadata, {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        })
+
+    def test_restrict_goal_output_metadata_oracle_img_as_str(self):
+        goal = mcs.GoalMetadata(metadata={
+            'target': {'image': "[0]"},
+            'target_1': {'image': "[1]"},
+            'target_2': {'image': "[2]"}
         })
         actual = self.controller.restrict_goal_output_metadata(goal)
         self.assertEqual(actual.metadata, {

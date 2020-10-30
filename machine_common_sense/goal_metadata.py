@@ -131,7 +131,7 @@ class GoalCategory(Enum):
     target.id : string
         The objectId of the target object to retrieve.
 
-    target.image : list of lists of lists of integers
+    target.image : list of numpy arrays
         An image of the target object to retrieve, given as a 3D RGB pixel
         array.
 
@@ -170,7 +170,7 @@ class GoalCategory(Enum):
         The objectId of the first target object to pickup and transfer to the
         second target object.
 
-    target_1.image : list of lists of lists of integers
+    target_1.image : list of numpy arrays
         An image of the first target object to pickup and transfer to the
         second target object, given as a 3D RGB pixel array.
 
@@ -189,7 +189,7 @@ class GoalCategory(Enum):
         The objectId of the second target object to which the first target
         object must be transferred.
 
-    target_2.image : list of lists of lists of integers
+    target_2.image : list of numpy arrays
         An image of the second target object to which the first target object
         must be transferred, given as a 3D RGB pixel array.
 
@@ -218,7 +218,7 @@ class GoalCategory(Enum):
     target.id : string
         The objectId of the target object to find and move next to.
 
-    target.image : list of lists of lists of integers
+    target.image : list of numpy arrays
         An image of the target object to find and move next to, given as a 3D
         RGB pixel array.
 
