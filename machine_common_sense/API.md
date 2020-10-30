@@ -1046,28 +1046,51 @@ Each goal will have a “category” string and a “metadata” dict with one o
 more properties depending on the “category”.
 
 
-#### INTPHYS( = 'intphys')
-In a scenario that has an IntPhys goal, you must sit and observe a scene as
-objects move across your camera’s viewport, and then decide whether the
-scene is “plausible” or “implausible”. These scenarios will demand a
-“common sense” understanding of basic (“intuitive”) physics. Based on
-Emmanuel Dupoux’s IntPhys: A Benchmark for Visual Intuitive Physics
-Reasoning ([http://intphys.com](http://intphys.com)).
+#### AGENTS( = 'agents')
+In a trial that has an Agents goal, you must sit and observe a scene as one
+or more simulation-controlled agents act in predefined ways within your
+camera’s viewport, and then decide whether the scene is “expected” or
+“unexpected”. The camera will always be positioned at an isometric
+perspective, like you’re standing on an elevated platform looking down at
+the scene. Each scene will consist of eight sequential habituation trials,
+depicting expected agent behaviors and separated by EndHabituation actions
+(each of which generates a black frame image when called), immediately
+followed by the test trial, depicting either an expected or unexpected
+agent behavior. All nine of these trials happen within the same “scene”.
+These trials will demand a “common sense” understanding of agents, their
+behaviors, and their interactions with objects in the environment.
 
 
 * **Parameters**
 
     **choose** (*list of strings*) – The list of choices, one of which must be given in your call to
-    end_scene. For IntPhys goals, this value will always be [“plausible”,
-    “implausible”].
+    end_scene. For Agents goals, this value will always be
+    [“expected”, “unexpected”].
+
+
+
+#### INTUITIVE_PHYSICS( = 'intuitive physics')
+In a trial that has an Intuitive Physics goal, you must sit and observe a
+scene as objects move across your camera’s viewport, and then decide
+whether the scene is “plausible” or “implausible”. These trials will demand
+a “common sense” understanding of basic (“intuitive”) physics, like object
+permanence or shape constancy. Inspired by Emmanuel Dupoux’s “IntPhys: A
+Benchmark for Visual Intuitive Physics Reasoning” ([http://intphys.com](http://intphys.com)).
+
+
+* **Parameters**
+
+    **choose** (*list of strings*) – The list of choices, one of which must be given in your call to
+    end_scene. For Intuitive Physics goals, this value will always be
+    [“plausible”, “implausible”].
 
 
 
 #### RETRIEVAL( = 'retrieval')
-In a scenario that has a retrieval goal, you must find and pickup a target
+In a trial that has a retrieval goal, you must find and pickup a target
 object. This may involve exploring the scene, avoiding obstacles,
 interacting with objects (like closed containers), and (future evaluations)
-tracking moving objects. These scenarios will demand a “common sense”
+tracking moving objects. These trials will demand a “common sense”
 understanding of self navigation (how to move and rotate yourself within a
 scene and around obstacles), object interaction (how objects work,
 including opening containers), and (future evaluations) the basic physics
@@ -1080,7 +1103,7 @@ of movement (kinematics, gravity, friction, etc.).
     * **target.id** (*string*) – The objectId of the target object to retrieve.
 
 
-    * **target.image** (*list of lists of lists of integers*) – An image of the target object to retrieve, given as a 3D RGB pixel
+    * **target.image** (*list of numpy arrays*) – An image of the target object to retrieve, given as a 3D RGB pixel
     array.
 
 
@@ -1096,11 +1119,11 @@ of movement (kinematics, gravity, friction, etc.).
 
 
 #### TRANSFERRAL( = 'transferral')
-In a scenario that has a transferral goal, you must find and pickup the
+In a trial that has a transferral goal, you must find and pickup the
 first target object and put it down either next to or on top of the second
 target object. This may involve exploring the scene, avoiding obstacles,
 interacting with objects (like closed receptacles), and (future
-evaluations) tracking moving objects. These scenarios will demand a “common
+evaluations) tracking moving objects. These trials will demand a “common
 sense” understanding of self navigation (how to move and rotate yourself
 within a scene and around obstacles), object interaction (how objects work,
 including opening containers), and (future evaluations) the basic physics
@@ -1120,7 +1143,7 @@ of movement (kinematics, gravity, friction, etc.).
     second target object.
 
 
-    * **target_1.image** (*list of lists of lists of integers*) – An image of the first target object to pickup and transfer to the
+    * **target_1.image** (*list of numpy arrays*) – An image of the first target object to pickup and transfer to the
     second target object, given as a 3D RGB pixel array.
 
 
@@ -1139,7 +1162,7 @@ of movement (kinematics, gravity, friction, etc.).
     object must be transferred.
 
 
-    * **target_2.image** (*list of lists of lists of integers*) – An image of the second target object to which the first target object
+    * **target_2.image** (*list of numpy arrays*) – An image of the second target object to which the first target object
     must be transferred, given as a 3D RGB pixel array.
 
 
@@ -1156,9 +1179,9 @@ of movement (kinematics, gravity, friction, etc.).
 
 
 #### TRAVERSAL( = 'traversal')
-In a scenario that has a traversal goal, you must find and move next to a
+In a trial that has a traversal goal, you must find and move next to a
 target object. This may involve exploring the scene, and avoiding
-obstacles. These scenarios will demand a “common sense” understanding of
+obstacles. These trials will demand a “common sense” understanding of
 self navigation (how to move and rotate yourself within a scene and around
 obstacles).
 
@@ -1169,7 +1192,7 @@ obstacles).
     * **target.id** (*string*) – The objectId of the target object to find and move next to.
 
 
-    * **target.image** (*list of lists of lists of integers*) – An image of the target object to find and move next to, given as a 3D
+    * **target.image** (*list of numpy arrays*) – An image of the target object to find and move next to, given as a 3D
     RGB pixel array.
 
 

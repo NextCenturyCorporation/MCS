@@ -62,7 +62,8 @@ def create_controller(unity_app_file_path, debug=False, enable_noise=False,
         with time_limit(TIME_LIMIT_SECONDS):
             return Controller(unity_app_file_path, debug,
                               enable_noise, seed, size,
-                              depth_maps, object_masks)
+                              depth_maps, object_masks,
+                              history_enabled)
     except Exception as Msg:
         print("Exception in create_controller()", Msg)
         return None
