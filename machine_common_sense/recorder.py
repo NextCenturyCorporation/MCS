@@ -36,7 +36,7 @@ class VideoRecorder():
         self.thread = None
         self.started = False
         self.timeout = timeout
-        self.path = vid_path
+        self._path = vid_path
         self.writer = cv2.VideoWriter(str(vid_path),
                                       cv2.VideoWriter_fourcc(*fourcc),
                                       fps,
@@ -65,7 +65,7 @@ class VideoRecorder():
             None
         '''
         if self.active:
-            # convert BGR image to RGB for opencv
+            # convert BGR PIL image to RGB for opencv
             cv_frame = np.array(frame.convert('RGB'))[:, :, ::-1]
             self.Q.put(cv_frame)
 
@@ -98,5 +98,5 @@ class VideoRecorder():
         self.writer.release()
 
     @property
-    def path(self):
-        return self.vid_path
+    def path(self) -> pathlib.Path:
+        return self._path

@@ -27,6 +27,7 @@ class S3Uploader():
         Returns:
             None
         '''
+        print(f"Uploading {video_path} to {self.bucket} as {s3_filename}")
         self._upload_file(
             filepath=video_path,
             bucket=self.bucket,
@@ -52,7 +53,7 @@ class S3Uploader():
 
         self._upload_object(
             in_memory_file=in_memory_file,
-            bucket=self._config[self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET],
+            bucket=self.bucket,
             s3_filename=s3_filename,
             mimetype='image/png'
         )
@@ -69,6 +70,7 @@ class S3Uploader():
         Returns:
             None
         '''
+        print(f"Uploading {history_path} to {self.bucket} as {s3_filename}")
         self._upload_file(
             filepath=history_path,
             bucket=self.bucket,
