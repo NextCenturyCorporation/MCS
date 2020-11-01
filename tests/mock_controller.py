@@ -87,7 +87,7 @@ class MockControllerAI2THOR(Controller):
             return {}
 
     def render_mask_images(self):
-        self._update_internal_config(depth_masks=True, object_masks=True)
+        self._update_internal_config(depth_maps=True, object_masks=True)
 
     def set_config(self, config):
         self._config = config

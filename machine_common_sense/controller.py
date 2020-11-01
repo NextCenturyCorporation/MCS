@@ -155,7 +155,7 @@ class Controller():
 
     def __init__(self, unity_app_file_path, debug=False,
                  enable_noise=False, seed=None, size=None,
-                 depth_masks=None, object_masks=None,
+                 depth_maps=None, object_masks=None,
                  history_enabled=True):
 
         self._update_screen_size(size)
@@ -178,7 +178,7 @@ class Controller():
             }
         )
 
-        self._on_init(debug, enable_noise, seed, depth_masks,
+        self._on_init(debug, enable_noise, seed, depth_maps,
                       object_masks, history_enabled)
 
     # Pixel coordinates are expected to start at the top left, but
@@ -197,22 +197,22 @@ class Controller():
             self.__screen_height = int(size / 3 * 2)
 
     def _update_internal_config(self, enable_noise=None, seed=None,
-                                depth_masks=None, object_masks=None,
+                                depth_maps=None, object_masks=None,
                                 history_enabled=None):
 
         if enable_noise is not None:
             self.__enable_noise = enable_noise
         if seed is not None:
             self.__seed = seed
-        if depth_masks is not None:
-            self.__depth_masks = depth_masks
+        if depth_maps is not None:
+            self.__depth_maps = depth_maps
         if object_masks is not None:
             self.__object_masks = object_masks
         if history_enabled is not None:
             self.__history_enabled = history_enabled
 
     def _on_init(self, debug=False, enable_noise=False, seed=None,
-                 depth_masks=None, object_masks=None,
+                 depth_maps=None, object_masks=None,
                  history_enabled=True):
 
         self._config_file = os.getenv('MCS_CONFIG_FILE_PATH',
@@ -255,22 +255,22 @@ class Controller():
             self._metadata_tier = metadata_env_var
 
         # Order of preference for depth/object mask settings:
-        # look for user specified depth_masks/object_masks properties,
+        # look for user specified depth_maps/object_masks properties,
         # then check config settings, else default to False
         if(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
-            self.__depth_masks = (
-                depth_masks if depth_masks is not None else True)
+            self.__depth_maps = (
+                depth_maps if depth_maps is not None else True)
             self.__object_masks = (
                 object_masks if object_masks is not None else False)
         elif(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2 or
              self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
-            self.__depth_masks = (
-                depth_masks if depth_masks is not None else True)
+            self.__depth_maps = (
+                depth_maps if depth_maps is not None else True)
             self.__object_masks = (
                 object_masks if object_masks is not None else True)
         else:
-            self.__depth_masks = (
-                depth_masks if depth_masks is not None else False)
+            self.__depth_maps = (
+                depth_maps if depth_maps is not None else False)
             self.__object_masks = (
                 object_masks if object_masks is not None else False)
 
@@ -471,7 +471,7 @@ class Controller():
             if (self._goal is not None and
                     self._goal.last_preview_phase_step > 0):
                 image_list = output.image_list
-                depth_mask_list = output.depth_mask_list
+                depth_map_list = output.depth_map_list
                 object_mask_list = output.object_mask_list
 
                 if self.__debug_to_terminal:
@@ -480,7 +480,7 @@ class Controller():
                 for i in range(0, self._goal.last_preview_phase_step):
                     output = self.step('Pass')
                     image_list = image_list + output.image_list
-                    depth_mask_list = depth_mask_list + output.depth_mask_list
+                    depth_map_list = depth_map_list + output.depth_map_list
                     object_mask_list = (object_mask_list +
                                         output.object_mask_list)
 
@@ -491,7 +491,7 @@ class Controller():
                     self.__image_recorder.add(image_list[0])
 
                 output.image_list = image_list
-                output.depth_mask_list = depth_mask_list
+                output.depth_map_list = depth_map_list
                 output.object_mask_list = object_mask_list
             elif self.__debug_to_terminal:
                 print('NO PREVIEW PHASE')
@@ -695,7 +695,7 @@ class Controller():
             self.wrap_step(action=action, **params)))
 
         output_copy = copy.deepcopy(output)
-        del output_copy.depth_mask_list
+        del output_copy.depth_map_list
         del output_copy.image_list
         del output_copy.object_mask_list
         self.__history_item = SceneHistory(
@@ -1037,7 +1037,7 @@ class Controller():
 
     def save_images(self, scene_event, max_depth):
         image_list = []
-        depth_mask_list = []
+        depth_map_list = []
         object_mask_list = []
 
         for index, event in enumerate(scene_event.events):
@@ -1047,7 +1047,7 @@ class Controller():
             if self._config.get(self.CONFIG_EVALUATION, False):
                 self.__image_recorder.add(scene_image)
 
-            if self.__depth_masks:
+            if self.__depth_maps:
                 # The Unity depth array (returned by Depth.shader) contains
                 # a third of the total max depth in each RGB element.
                 unity_depth_array = event.depth_frame.astype(np.float32)
@@ -1059,12 +1059,12 @@ class Controller():
                 )
                 # Convert to pixel values for saving debug image.
                 depth_pixel_array = depth_float_array * 255 / max_depth
-                depth_mask = PIL.Image.fromarray(
+                depth_map = PIL.Image.fromarray(
                     depth_pixel_array.astype(np.uint8)
                 )
                 if self._config.get(self.CONFIG_EVALUATION, False):
-                    self.__depth_recorder.add(depth_mask)
-                depth_mask_list.append(np.array(depth_float_array))
+                    self.__depth_recorder.add(depth_map)
+                depth_map_list.append(np.array(depth_float_array))
 
             if self.__object_masks:
                 object_mask = PIL.Image.fromarray(
@@ -1081,14 +1081,14 @@ class Controller():
                 suffix = '_' + str(step_plus_substep_index) + '.png'
                 scene_image.save(fp=self.__output_folder +
                                  'frame_image' + suffix)
-                if self.__depth_masks:
-                    depth_mask.save(fp=self.__output_folder +
-                                    'depth_mask' + suffix)
+                if self.__depth_maps:
+                    depth_map.save(fp=self.__output_folder +
+                                   'depth_map' + suffix)
                 if self.__object_masks:
                     object_mask.save(fp=self.__output_folder +
                                      'object_mask' + suffix)
 
-        return image_list, depth_mask_list, object_mask_list
+        return image_list, depth_map_list, object_mask_list
 
     def wrap_output(self, scene_event):
         if self.__debug_to_file and self.__output_folder is not None:
@@ -1098,7 +1098,7 @@ class Controller():
                     "metadata": scene_event.metadata
                 }, json_file, sort_keys=True, indent=4)
 
-        image_list, depth_mask_list, object_mask_list = self.save_images(
+        image_list, depth_map_list, object_mask_list = self.save_images(
             scene_event,
             scene_event.metadata.get(
                 'clippingPlaneFar',
@@ -1119,7 +1119,7 @@ class Controller():
             camera_field_of_view=scene_event.metadata.get('fov', 0.0),
             camera_height=scene_event.metadata.get(
                 'cameraPosition', {}).get('y', 0.0),
-            depth_mask_list=depth_mask_list,
+            depth_map_list=depth_map_list,
             goal=self._goal,
             habituation_trial=(
                 self.__habituation_trial
@@ -1176,7 +1176,7 @@ class Controller():
             continuous=True,
             gridSize=self.GRID_SIZE,
             logs=True,
-            renderDepthImage=self.__depth_masks,
+            renderDepthImage=self.__depth_maps,
             renderObjectImage=self.__object_masks,
             snapToGrid=False,
             # Yes, in AI2-THOR, the player's reach appears to be
