@@ -737,7 +737,9 @@ class Controller():
             on each step for passive tasks. (default None)
         heatmap_img : PIL.Image.Image, optional
             An image representing scene plausiblility at a particular
-            moment. Will be saved as a .png type. (default None)
+            moment. During evaluation, this image will be recorded as a frame
+            of a heatmap video for review but is ignored otherwise.
+            (default None)
         internal_state : object, optional
             A properly formatted json object representing various kinds of
             internal states at a particular moment. Examples include the
@@ -758,7 +760,8 @@ class Controller():
             self.__history_item.internal_state = internal_state
 
         if(heatmap_img is not None and
-           isinstance(heatmap_img, PIL.Image.Image)):
+           isinstance(heatmap_img, PIL.Image.Image) and
+           self._config[self.CONFIG_EVALUATION]):
             self.__heatmap_recorder.add(heatmap_img)
 
     def generate_time(self):
