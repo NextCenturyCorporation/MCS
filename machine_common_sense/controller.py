@@ -36,7 +36,7 @@ from .return_status import ReturnStatus
 from .reward import Reward
 from .scene_history import SceneHistory
 from .step_metadata import StepMetadata
-from .recorder import VideoRecorder  # , HistoryRecorder
+from .recorder import VideoRecorder
 from .uploader import S3Uploader
 from .util import Util
 from .history_writer import HistoryWriter
@@ -117,6 +117,14 @@ class Controller():
     HORIZON_KEY = 'horizon'
     FORCE_KEY = 'force'
     AMOUNT_KEY = 'amount'
+
+    PLACEHOLDER = 'placeholder'
+    VISUAL = 'visual'
+    DEPTH = 'depth'
+    SEGMENTATION = 'segmentation'
+    HEATMAP = 'heatmap'
+    TOPDOWN = 'topdown'
+
     OBJECT_IMAGE_COORDS_X_KEY = 'objectImageCoordsX'
     OBJECT_IMAGE_COORDS_Y_KEY = 'objectImageCoordsY'
     RECEPTACLE_IMAGE_COORDS_X_KEY = 'receptacleObjectImageCoordsX'
@@ -296,18 +304,16 @@ class Controller():
     def _create_video_recorders(self):
         '''Create video recorders used to capture evaluation scenes for review
         '''
-        print(self.__output_folder)
         output_folder = pathlib.Path(self.__output_folder)
         team = self._config.get(self.CONFIG_TEAM, '')
         scene = self.__scene_configuration.get(
             'name', '').replace('json', '')
-        placeholder = 'placeholder'
         timestamp = self.generate_time()
         basename_template = '_'.join(
-            [team, scene, placeholder, timestamp]) + '.mp4'
+            [team, scene, self.PLACEHOLDER, timestamp]) + '.mp4'
 
         visual_video_filename = basename_template.replace(
-            placeholder, 'visual')
+            self.PLACEHOLDER, self.VISUAL)
         self.__image_recorder = VideoRecorder(
             vid_path=output_folder / visual_video_filename,
             width=self.__screen_width,
@@ -315,7 +321,7 @@ class Controller():
             fps=self.FPS_FRAME_RATE)
 
         topdown_video_filename = basename_template.replace(
-            placeholder, 'topdown')
+            self.PLACEHOLDER, self.TOPDOWN)
         self.__topdown_recorder = VideoRecorder(
             vid_path=output_folder / topdown_video_filename,
             width=self.__screen_width,
@@ -323,7 +329,7 @@ class Controller():
             fps=self.FPS_FRAME_RATE)
 
         heatmap_video_filename = basename_template.replace(
-            placeholder, 'heatmap')
+            self.PLACEHOLDER, self.HEATMAP)
         self.__heatmap_recorder = VideoRecorder(
             vid_path=output_folder / heatmap_video_filename,
             width=self.__screen_width,
@@ -332,7 +338,7 @@ class Controller():
 
         if self.__depth_maps:
             depth_video_filename = basename_template.replace(
-                placeholder, 'depth')
+                self.PLACEHOLDER, self.DEPTH)
             self.__depth_recorder = VideoRecorder(
                 vid_path=output_folder / depth_video_filename,
                 width=self.__screen_width,
@@ -341,7 +347,7 @@ class Controller():
 
         if self.__object_masks:
             segmentation_video_filename = basename_template.replace(
-                placeholder, 'segmentation')
+                self.PLACEHOLDER, self.SEGMENTATION)
             self.__segmentation_recorder = VideoRecorder(
                 vid_path=output_folder / segmentation_video_filename,
                 width=self.__screen_width,
