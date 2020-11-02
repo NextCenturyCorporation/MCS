@@ -375,14 +375,15 @@ class Controller():
 
             folder_prefix = self._config.get(self.CONFIG_S3_FOLDER, None)
 
-            history_filename = pathlib.Path(
-                self.__history_writer.scene_history_file).name
-            self.__uploader.upload_history(
-                history_path=self.__history_writer.scene_history_file,
-                s3_filename=(folder_prefix + '/' +
-                             self._config[self.CONFIG_TEAM] +
-                             '_' + history_filename)
-            )
+            if self.__history_enabled:
+                history_filename = pathlib.Path(
+                    self.__history_writer.scene_history_file).name
+                self.__uploader.upload_history(
+                    history_path=self.__history_writer.scene_history_file,
+                    s3_filename=(folder_prefix + '/' +
+                                 self._config[self.CONFIG_TEAM] +
+                                 '_' + history_filename)
+                )
 
             self.__image_recorder.finish()
             video_filename = self.__image_recorder.path.name
