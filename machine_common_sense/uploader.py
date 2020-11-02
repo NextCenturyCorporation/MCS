@@ -28,12 +28,12 @@ class S3Uploader():
             None
         '''
         print(f"Uploading {video_path} to {self.bucket} as {s3_filename}")
-        # self._upload_file(
-        #     filepath=video_path,
-        #     bucket=self.bucket,
-        #     s3_filename=s3_filename,
-        #     mimetype='video/mp4'
-        # )
+        self._upload_file(
+            filepath=video_path,
+            bucket=self.bucket,
+            s3_filename=s3_filename,
+            mimetype='video/mp4'
+        )
 
     def upload_image(self,
                      image: PIL.Image.Image,
@@ -71,12 +71,12 @@ class S3Uploader():
             None
         '''
         print(f"Uploading {history_path} to {self.bucket} as {s3_filename}")
-        # self._upload_file(
-        #     filepath=history_path,
-        #     bucket=self.bucket,
-        #     s3_filename=s3_filename,
-        #     mimetype='application/json'
-        # )
+        self._upload_file(
+            filepath=history_path,
+            bucket=self.bucket,
+            s3_filename=s3_filename,
+            mimetype='application/json'
+        )
 
     def _upload_file(self,
                      filepath: pathlib.Path,
