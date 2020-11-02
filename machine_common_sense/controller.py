@@ -30,6 +30,7 @@ PERFORMER_CAMERA_Y = 0.4625
 from .action import Action
 from .goal_metadata import GoalMetadata
 from .object_metadata import ObjectMetadata
+from .plotter import TopDownPlotter
 from .pose import Pose
 from .return_status import ReturnStatus
 from .reward import Reward
@@ -319,6 +320,14 @@ class Controller():
             height=self.__screen_height,
             fps=self.FPS_FRAME_RATE)
 
+        topdown_video_filename = basename_template.replace(
+            self.PLACEHOLDER, self.TOPDOWN)
+        self.__topdown_recorder = VideoRecorder(
+            vid_path=output_folder / topdown_video_filename,
+            width=self.__screen_width,
+            height=self.__screen_height,
+            fps=self.FPS_FRAME_RATE)
+
         heatmap_video_filename = basename_template.replace(
             self.PLACEHOLDER, self.HEATMAP)
         self.__heatmap_recorder = VideoRecorder(
@@ -368,7 +377,6 @@ class Controller():
             self.__history_writer.write_history_file(choice, confidence)
 
         if self._config.get(self.CONFIG_EVALUATION, False):
-            # Create the uploader
             self.__uploader = S3Uploader(
                 s3_bucket=self._config.get(self.CONFIG_S3_BUCKET, None)
             )
@@ -384,6 +392,13 @@ class Controller():
                                  self._config[self.CONFIG_TEAM] +
                                  '_' + history_filename)
                 )
+
+            self.__topdown_recorder.finish()
+            topdown_filename = self.__topdown_recorder.path.name
+            self.__uploader.upload_video(
+                video_path=self.__topdown_recorder.path,
+                s3_filename=folder_prefix + '/' + topdown_filename
+            )
 
             self.__image_recorder.finish()
             video_filename = self.__image_recorder.path.name
@@ -469,6 +484,11 @@ class Controller():
                 os.remove(file_path)
 
         if self._config.get(self.CONFIG_EVALUATION, False):
+            team = self._config.get(self.CONFIG_TEAM, '')
+            scene = self.__scene_configuration.get(
+                'name', '').replace('json', '')
+            self.__plotter = TopDownPlotter(
+                team, scene, self.__screen_width, self.__screen_height)
             self._create_video_recorders()
 
         pre_restrict_output = self.wrap_output(self._controller.step(
@@ -1065,6 +1085,8 @@ class Controller():
 
             if self._config.get(self.CONFIG_EVALUATION, False):
                 self.__image_recorder.add(scene_image)
+                self.__topdown_recorder.add(
+                    self.__plotter.plot(scene_event, self.__step_number))
 
             if self.__depth_maps:
                 # The Unity depth array (returned by Depth.shader) contains
