@@ -9,6 +9,10 @@ from typing import Dict
 class TopDownPlotter():
 
     HEADING_LENGTH = 0.4
+    MINIMUM_ROOM_DIMENSION = -5
+    MAXIMUM_ROOM_DIMENSION = 5
+    BORDER = 0.05
+    AGENT_COLOR = 'gray'
 
     def __init__(self, team: str, scene_name: str,
                  plot_width: int, plot_height: int):
@@ -26,9 +30,12 @@ class TopDownPlotter():
         self._draw_object_bounds(scene_event.metadata['objects'], colors)
 
         # set scene extents
-        plt.xlim(-5, 5)
-        plt.ylim(-5, 5)
-        plt.text(5.05, -4.95, step_number)
+        plt.xlim(self.MINIMUM_ROOM_DIMENSION, self.MAXIMUM_ROOM_DIMENSION)
+        plt.ylim(self.MINIMUM_ROOM_DIMENSION, self.MAXIMUM_ROOM_DIMENSION)
+        plt.text(
+            self.MAXIMUM_ROOM_DIMENSION + self.BORDER,
+            self.MINIMUM_ROOM_DIMENSION + self.BORDER,
+            step_number)
         plt.title(f"{self._team} {self._scene_name}")
 
         # convert figure to PIL Image
@@ -54,6 +61,7 @@ class TopDownPlotter():
         circle = plt.Circle(
             (agent_x, agent_z),
             radius=0.2,
+            color="xkcd:" + self.AGENT_COLOR,
             label='agent')
         plt.gca().add_patch(circle)
 
@@ -63,7 +71,9 @@ class TopDownPlotter():
         heading_x = 0 * c - self.HEADING_LENGTH * s + agent_x
         heading_y = 0 * s + self.HEADING_LENGTH * c + agent_z
         heading = plt.Line2D((agent_x, heading_x),
-                             (agent_z, heading_y), lw=1)
+                             (agent_z, heading_y),
+                             color="xkcd:" + self.AGENT_COLOR,
+                             lw=1)
         plt.gca().add_line(heading)
 
     def _draw_object_bounds(self, objects: Dict, colors: Dict) -> None:
@@ -72,21 +82,22 @@ class TopDownPlotter():
             held = obj['isPickedUp']
             visible = obj['visibleInCamera']
             uuid = obj['objectId']
-            color = colors.get(uuid, None)
+            obj_clr = obj.get('colorsFromMaterials', [])
+            obj_clr = obj_clr[0] if len(obj_clr) else 'black'
             bounds = obj.get('objectBounds', None)
             if bounds is not None:
                 dimensions = bounds.get('objectBoundsCorners', None)
 
-                if color and all(color):
-                    rgb = tuple(
-                        [color[0] / 255, color[1] / 255, color[2] / 255])
-                else:
-                    rgb = tuple([1.0, 0.0, 0.0])
+                # white color does not show up in plot but ivory does
+                if obj_clr == 'white':
+                    obj_clr = 'ivory'
 
                 if dimensions is not None:
                     obj_pts = [[d['x'], d['z']] for d in dimensions]
                     poly = plt.Polygon(obj_pts,
-                                       color=rgb,
-                                       fill=rgb if visible or held else '',
+                                       color="xkcd:" + obj_clr,
+                                       fill="xkcd:" + obj_clr if visible or
+                                            held else '',
+                                       ec="xkcd:black",
                                        label=uuid)
                     plt.gca().add_patch(poly)
