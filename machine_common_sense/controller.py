@@ -729,7 +729,7 @@ class Controller():
                 return config
         return {}
 
-    def restrict_goal_output_metadata(self, goal_output):
+    def update_goal_target_image(self, goal_output):
         target_name_list = ['target', 'target_1', 'target_2']
 
         for target_name in target_name_list:
@@ -794,7 +794,7 @@ class Controller():
             # Backwards compatibility
             goal_config['metadata']['category'] = goal_config['category']
 
-        return self.restrict_goal_output_metadata(GoalMetadata(
+        return self.update_goal_target_image(GoalMetadata(
             action_list=goal_config.get('action_list', None),
             category=goal_config.get('category', ''),
             description=goal_config.get('description', ''),
