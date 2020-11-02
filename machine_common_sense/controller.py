@@ -367,8 +367,10 @@ class Controller():
             for file_path in file_list:
                 os.remove(file_path)
 
-        output = self.wrap_output(self._controller.step(
+        pre_restrict_output = self.wrap_output(self._controller.step(
             self.wrap_step(action='Initialize', sceneConfig=config_data)))
+
+        output = self.restrict_step_output_metadata(pre_restrict_output)
 
         if not skip_preview_phase:
             if (self._goal is not None and
@@ -591,19 +593,21 @@ class Controller():
                 "your future actions will be skipped. Please call " +
                 "controller.end_scene() now.")
 
-        output = self.wrap_output(self._controller.step(
+        pre_restrict_output = self.wrap_output(self._controller.step(
             self.wrap_step(action=action, **params)))
 
-        output_copy = copy.deepcopy(output)
-        del output_copy.depth_map_list
-        del output_copy.image_list
-        del output_copy.object_mask_list
+        history_copy = copy.deepcopy(pre_restrict_output)
+        del history_copy.depth_map_list
+        del history_copy.image_list
+        del history_copy.object_mask_list
         self.__history_item = SceneHistory(
             step=self.__step_number,
             action=action,
             args=kwargs,
             params=params,
-            output=output_copy)
+            output=history_copy)
+
+        output = self.restrict_step_output_metadata(pre_restrict_output)
 
         return output
 
@@ -729,30 +733,21 @@ class Controller():
         target_name_list = ['target', 'target_1', 'target_2']
 
         for target_name in target_name_list:
+            # need to convert goal image data from string to array
             if (
-                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
-                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2
+                target_name in goal_output.metadata and
+                'image' in goal_output.metadata[target_name] and
+                isinstance(goal_output.metadata[target_name]['image'], str)
             ):
-                if (
-                    target_name in goal_output.metadata and
-                    'image' in goal_output.metadata[target_name]
-                ):
-                    goal_output.metadata[target_name]['image'] = None
-            else:
-                # need to convert goal image data from string to array
-                if (
-                    target_name in goal_output.metadata and
-                    'image' in goal_output.metadata[target_name] and
-                    isinstance(goal_output.metadata[target_name]['image'], str)
-                ):
-                    image_list_string = goal_output.metadata[target_name]['image']  # noqa: E501
-                    goal_output.metadata[target_name]['image'] = numpy.array(
-                        ast.literal_eval(image_list_string)).tolist()
+                image_list_string = goal_output.metadata[target_name]['image']  # noqa: E501
+                goal_output.metadata[target_name]['image'] = numpy.array(
+                    ast.literal_eval(image_list_string)).tolist()
 
         return goal_output
 
     def restrict_step_output_metadata(self, step_output):
-        # only remove object_mask_list for level1
+        # Use this function to filter out of the step output any data
+        # that shouldn't be returned at certain metadata tiers
         if(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
             step_output.object_mask_list = []
 
@@ -762,6 +757,18 @@ class Controller():
         ):
             step_output.position = None
             step_output.rotation = None
+            step_output.structural_object_list = []
+            step_output.object_list = []
+
+            # Below is to remove the goal targets from output
+            target_name_list = ['target', 'target_1', 'target_2']
+
+            for target_name in target_name_list:
+                if (
+                    target_name in step_output.goal.metadata and
+                    'image' in step_output.goal.metadata[target_name]
+                ):
+                    step_output.goal.metadata[target_name]['image'] = None
 
         return step_output
 
@@ -812,10 +819,11 @@ class Controller():
             scene_event.events) - 1].object_id_to_color
 
     def retrieve_object_list(self, scene_event):
+        # Return object lis for all tier levels, the restrict output function
+        # will then strip out the necessary metadata
         if (self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
-                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2):
-            return []
-        elif self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE:
+                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2 or
+                self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -935,10 +943,11 @@ class Controller():
             return return_status
 
     def retrieve_structural_object_list(self, scene_event):
+        # Return structural for all tier levels, the restrict output function
+        # will then strip out the necessary metadata
         if (self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
-                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2):
-            return []
-        elif self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE:
+                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2 or
+                self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -1042,7 +1051,7 @@ class Controller():
 
         objects = scene_event.metadata.get('objects', None)
         agent = scene_event.metadata.get('agent', None)
-        step_output = self.restrict_step_output_metadata(StepMetadata(
+        step_output = StepMetadata(
             action_list=self.retrieve_action_list(
                 self._goal, self.__step_number),
             camera_aspect_ratio=(self.__screen_width, self.__screen_height),
@@ -1073,7 +1082,7 @@ class Controller():
             step_number=self.__step_number,
             structural_object_list=self.retrieve_structural_object_list(
                 scene_event)
-        ))
+        )
 
         self.__head_tilt = step_output.head_tilt
 
