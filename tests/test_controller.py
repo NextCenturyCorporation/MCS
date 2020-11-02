@@ -675,85 +675,85 @@ class Test_Controller(unittest.TestCase):
             )
         )
 
-    def test_restrict_goal_output_metadata(self):
+    def test_update_goal_target_image(self):
         goal = mcs.GoalMetadata(metadata={
             'target': {'image': [0]},
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
         })
-        actual = self.controller.restrict_goal_output_metadata(goal)
+        actual = self.controller.update_goal_target_image(goal)
         self.assertEqual(actual.metadata, {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
         })
 
-    def test_restrict_goal_output_metadata_img_as_str(self):
+    def test_update_goal_target_image_img_as_str(self):
         goal = mcs.GoalMetadata(metadata={
             'target': {'image': "[0]"},
             'target_1': {'image': "[1]"},
             'target_2': {'image': "[2]"}
         })
-        actual = self.controller.restrict_goal_output_metadata(goal)
+        actual = self.controller.update_goal_target_image(goal)
         self.assertEqual(actual.metadata, {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
         })
 
-    def test_restrict_goal_output_metadata_oracle(self):
+    def test_update_goal_target_image_oracle(self):
         self.controller.set_metadata_tier('oracle')
         goal = mcs.GoalMetadata(metadata={
             'target': {'image': [0]},
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
         })
-        actual = self.controller.restrict_goal_output_metadata(goal)
+        actual = self.controller.update_goal_target_image(goal)
         self.assertEqual(actual.metadata, {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
         })
 
-    def test_restrict_goal_output_metadata_oracle_img_as_str(self):
+    def test_update_goal_target_image_oracle_img_as_str(self):
         goal = mcs.GoalMetadata(metadata={
             'target': {'image': "[0]"},
             'target_1': {'image': "[1]"},
             'target_2': {'image': "[2]"}
         })
-        actual = self.controller.restrict_goal_output_metadata(goal)
+        actual = self.controller.update_goal_target_image(goal)
         self.assertEqual(actual.metadata, {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
         })
 
-    def test_restrict_goal_output_metadata_level2(self):
+    def test_update_goal_target_image_level2(self):
         self.controller.set_metadata_tier('level2')
         goal = mcs.GoalMetadata(metadata={
             'target': {'image': [0]},
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
         })
-        actual = self.controller.restrict_goal_output_metadata(goal)
+        actual = self.controller.update_goal_target_image(goal)
         self.assertEqual(actual.metadata, {
-            'target': {'image': None},
-            'target_1': {'image': None},
-            'target_2': {'image': None}
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
         })
 
-    def test_restrict_goal_output_metadata_level1(self):
+    def test_update_goal_target_image_level1(self):
         self.controller.set_metadata_tier('level1')
         goal = mcs.GoalMetadata(metadata={
             'target': {'image': [0]},
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
         })
-        actual = self.controller.restrict_goal_output_metadata(goal)
+        actual = self.controller.update_goal_target_image(goal)
         self.assertEqual(actual.metadata, {
-            'target': {'image': None},
-            'target_1': {'image': None},
-            'target_2': {'image': None}
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
         })
 
     def test_restrict_step_output_metadata(self):
@@ -982,9 +982,9 @@ class Test_Controller(unittest.TestCase):
             }
         })
         self.assertEqual(actual.metadata, {
-            'target': {'image': None},
-            'target_1': {'image': None},
-            'target_2': {'image': None}
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
         })
 
         self.controller.set_metadata_tier('level1')
@@ -998,9 +998,9 @@ class Test_Controller(unittest.TestCase):
             }
         })
         self.assertEqual(actual.metadata, {
-            'target': {'image': None},
-            'target_1': {'image': None},
-            'target_2': {'image': None}
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
         })
 
     def test_retrieve_head_tilt(self):
@@ -1170,14 +1170,14 @@ class Test_Controller(unittest.TestCase):
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         actual = self.controller.retrieve_object_list(
             self.create_mock_scene_event(mock_scene_event_data))
-        self.assertEqual(len(actual), 0)
+        self.assertEqual(len(actual), 3)
 
     def test_retrieve_object_list_with_config_metadata_level1(self):
         self.controller.set_metadata_tier('level1')
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         actual = self.controller.retrieve_object_list(
             self.create_mock_scene_event(mock_scene_event_data))
-        self.assertEqual(len(actual), 0)
+        self.assertEqual(len(actual), 3)
 
     def test_retrieve_pose(self):
         # Check function calls
@@ -1506,15 +1506,32 @@ class Test_Controller(unittest.TestCase):
             depth_data,
             object_mask_data
         ) = self.create_wrap_output_scene_event()
-        actual = self.controller.wrap_output(
+        pre_restrict = self.controller.wrap_output(
             self.create_mock_scene_event(mock_scene_event_data))
+
+        pre_restrict.goal = self.controller.retrieve_goal({
+            'goal': {
+                'metadata': {
+                    'target': {'image': [0]},
+                    'target_1': {'image': [1]},
+                    'target_2': {'image': [2]}
+                }
+            }
+        })
+
+        actual = self.controller.restrict_step_output_metadata(pre_restrict)
+
+        self.assertEqual(pre_restrict.goal.metadata, {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        })
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
         self.assertEqual(actual.camera_clipping_planes, (0, 15))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
-        self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
@@ -1551,15 +1568,32 @@ class Test_Controller(unittest.TestCase):
             depth_data,
             object_mask_data
         ) = self.create_wrap_output_scene_event()
-        actual = self.controller.wrap_output(
+        pre_restrict = self.controller.wrap_output(
             self.create_mock_scene_event(mock_scene_event_data))
+
+        pre_restrict.goal = self.controller.retrieve_goal({
+            'goal': {
+                'metadata': {
+                    'target': {'image': [0]},
+                    'target_1': {'image': [1]},
+                    'target_2': {'image': [2]}
+                }
+            }
+        })
+
+        actual = self.controller.restrict_step_output_metadata(pre_restrict)
+
+        self.assertEqual(pre_restrict.goal.metadata, {
+            'target': {'image': None},
+            'target_1': {'image': None},
+            'target_2': {'image': None}
+        })
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
         self.assertEqual(actual.camera_clipping_planes, (0, 15))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
-        self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
@@ -1595,15 +1629,32 @@ class Test_Controller(unittest.TestCase):
             depth_data,
             object_mask_data
         ) = self.create_wrap_output_scene_event()
-        actual = self.controller.wrap_output(
+        pre_restrict = self.controller.wrap_output(
             self.create_mock_scene_event(mock_scene_event_data))
+
+        pre_restrict.goal = self.controller.retrieve_goal({
+            'goal': {
+                'metadata': {
+                    'target': {'image': [0]},
+                    'target_1': {'image': [1]},
+                    'target_2': {'image': [2]}
+                }
+            }
+        })
+
+        actual = self.controller.restrict_step_output_metadata(pre_restrict)
+
+        self.assertEqual(pre_restrict.goal.metadata, {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        })
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400.0))
         self.assertEqual(actual.camera_clipping_planes, (0, 15))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
-        self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
@@ -1630,8 +1681,9 @@ class Test_Controller(unittest.TestCase):
             depth_data,
             object_mask_data
         ) = self.create_wrap_output_scene_event()
-        actual = self.controller.wrap_output(
+        pre_restrict = self.controller.wrap_output(
             self.create_mock_scene_event(mock_scene_event_data))
+        actual = self.controller.restrict_step_output_metadata(pre_restrict)
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
