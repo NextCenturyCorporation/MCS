@@ -25,14 +25,14 @@ class VideoRecorder():
             width (int): video width dimension
             height (int): video height dimension
             fps (int): video frame rate per second
-            fourcc (str): opencv fourcc value
+            fourcc (str): opencv fourcc / codec string
             timeout (float): thread sleep timeout
 
         Returns:
             None
         '''
 
-        self.Q = None
+        self.frame_queue = None
         self.thread = None
         self.started = False
         self.timeout = timeout
@@ -47,7 +47,7 @@ class VideoRecorder():
     def start(self) -> None:
         '''Create the video recorder thread and start the frame queue.'''
         self.active = True
-        self.Q = queue.Queue()
+        self.frame_queue = queue.Queue()
         self.thread = threading.Thread(target=self._write, args=())
         self.thread.daemon = True
         self.thread.start()
@@ -67,23 +67,23 @@ class VideoRecorder():
         if self.active:
             # convert BGR PIL image to RGB for opencv
             cv_frame = np.array(frame.convert('RGB'))[:, :, ::-1]
-            self.Q.put(cv_frame)
+            self.frame_queue.put(cv_frame)
 
     def _write(self) -> None:
         '''Loop forever waiting for frames to enter the queue.'''
         while True:
             if not self.active:
                 return
-            if not self.Q.empty():
-                frame = self.Q.get()
+            if not self.frame_queue.empty():
+                frame = self.frame_queue.get()
                 self.writer.write(frame)
             else:
                 time.sleep(self.timeout)
 
     def flush(self) -> None:
         '''Write the remaining video frames in the the queue.'''
-        while not self.Q.empty():
-            frame = self.Q.get()
+        while not self.frame_queue.empty():
+            frame = self.frame_queue.get()
             self.writer.write(frame)
 
     def finish(self) -> None:
