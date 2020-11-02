@@ -24,7 +24,7 @@ setuptools.setup(
     install_requires=[
         'shapely>=1.7.0',
         'boto3>=1.15',
-        'opencv-python>=4.0'
+        'opencv-python>=4.0',
         ('ai2thor @ '
          'git+https://github.com/NextCenturyCorporation/ai2thor'
          '@0.3.1#egg=ai2thor')
