@@ -398,7 +398,7 @@ class Controller():
                 s3_filename=folder_prefix + '/' + video_filename
             )
 
-            if self.__depth_masks:
+            if self.__depth_maps:
                 self.__depth_recorder.finish()
                 video_filename = self.__depth_recorder.path.name
                 self.__uploader.upload_video(
