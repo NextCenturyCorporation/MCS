@@ -4,6 +4,7 @@ import PIL
 
 import matplotlib.pyplot as plt
 from typing import Dict
+from shapely import geometry
 
 
 class TopDownPlotter():
@@ -93,8 +94,10 @@ class TopDownPlotter():
                     obj_clr = 'ivory'
 
                 if dimensions is not None:
-                    obj_pts = [[d['x'], d['z']] for d in dimensions]
-                    poly = plt.Polygon(obj_pts,
+                    obj_pts = [(d['x'], d['z']) for d in dimensions[:4]]
+                    polygon = geometry.MultiPoint(obj_pts).convex_hull
+                    pts = polygon.exterior.coords
+                    poly = plt.Polygon(pts,
                                        color="xkcd:" + obj_clr,
                                        fill="xkcd:" + obj_clr if visible or
                                             held else '',
