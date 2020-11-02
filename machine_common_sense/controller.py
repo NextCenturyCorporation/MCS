@@ -739,7 +739,7 @@ class Controller():
                 'image' in goal_output.metadata[target_name] and
                 isinstance(goal_output.metadata[target_name]['image'], str)
             ):
-                image_list_string = goal_output.metadata[target_name]['image']  # noqa: E501
+                image_list_string = goal_output.metadata[target_name]['image']
                 goal_output.metadata[target_name]['image'] = numpy.array(
                     ast.literal_eval(image_list_string)).tolist()
 
