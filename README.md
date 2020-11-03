@@ -201,7 +201,7 @@ for scene_file in scene_files:
 
 ## Example Scene Configuration Files
 
-[machine_common_sense/scenes/README.md](./machine_common_sense/scenes/SCENE_README.md)
+[machine_common_sense/scenes/README.md](./machine_common_sense/scenes/README.md)
 
 ## Running Remotely
 
