@@ -2,7 +2,7 @@
 
 ## Installation
 
-The latest release of the MCS Python library is `0.3.1`.
+The latest release of the MCS Python library is `0.3.2`.
 
 ### Virtual Environments
 
@@ -34,26 +34,26 @@ Here are the instructions for downloading and installing our latest Unity releas
 
 ### Unity Application
 
-The latest release of the MCS Unity app is `0.3.1`.
+The latest release of the MCS Unity app is `0.3.2`.
 
 Please note that our Unity App is built on Linux. If you need a Mac or Windows version, please [contact us](#troubleshooting) directly.
 
-1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.3.1/MCS-AI2-THOR-Unity-App-v0.3.1.x86_64)
+1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.3.2/MCS-AI2-THOR-Unity-App-v0.3.2.x86_64)
 
-2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.3.1/MCS-AI2-THOR-Unity-App-v0.3.1_Data.tar.gz)
+2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.3.2/MCS-AI2-THOR-Unity-App-v0.3.2_Data.tar.gz)
 
 3. Ensure that both the Unity App and the TAR are in the same directory.
 
 4. Untar the Data Directory:
 
 ```
-tar -xzvf MCS-AI2-THOR-Unity-App-v0.3.1_Data.tar.gz
+tar -xzvf MCS-AI2-THOR-Unity-App-v0.3.2_Data.tar.gz
 ```
 
 5. Mark the Unity App as executable:
 
 ```
-chmod a+x MCS-AI2-THOR-Unity-App-v0.3.1.x86_64
+chmod a+x MCS-AI2-THOR-Unity-App-v0.3.2.x86_64
 ```
 
 ### Training Datasets
@@ -79,7 +79,7 @@ Example usage of the MCS library:
 import machine_common_sense as mcs
 
 # We will give you the Unity app file.
-controller = mcs.create_controller(unity_app_file_path, depth_masks=True,
+controller = mcs.create_controller(unity_app_file_path, depth_maps=True,
                                    object_masks=True)
 
 # Either load the config data dict from an MCS config JSON file or create your own.
@@ -109,7 +109,7 @@ Example running multiple scenes sequentially:
 import machine_common_sense as mcs
 
 # Only create the MCS controller ONCE!
-controller = mcs.create_controller(unity_app_file_path, depth_masks=True,
+controller = mcs.create_controller(unity_app_file_path, depth_maps=True,
                                    object_masks=True)
 
 for config_json_file_path in config_json_file_list:
@@ -132,7 +132,7 @@ run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file>
 
 Run options:
 - `--debug`
-- `--depth_masks`
+- `--depth_maps`
 - `--noise`
 - `--object_masks`
 - `--seed <python_random_seed>`

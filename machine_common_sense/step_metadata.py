@@ -25,7 +25,7 @@ class StepMetadata:
     camera_height : float
         The player camera's height. This will change if the player uses
         actions like "LieDown", "Stand", or "Crawl".
-    depth_mask_list : list of 2D numpy arrays
+    depth_map_list : list of 2D numpy arrays
         The list of 2-dimensional numpy arrays of depth float data from the
         scene after the last action and physics simulation were run.
         Each depth float in a 2-dimensional numpy array is a value between 0
@@ -93,7 +93,7 @@ class StepMetadata:
         camera_clipping_planes=None,
         camera_field_of_view=0.0,
         camera_height=0.0,
-        depth_mask_list=None,
+        depth_map_list=None,
         goal=None,
         habituation_trial=None,
         head_tilt=0.0,
@@ -118,8 +118,8 @@ class StepMetadata:
         )
         self.camera_field_of_view = camera_field_of_view
         self.camera_height = camera_height
-        self.depth_mask_list = (
-            [] if depth_mask_list is None else depth_mask_list
+        self.depth_map_list = (
+            [] if depth_map_list is None else depth_map_list
         )
         self.goal = GoalMetadata() if goal is None else goal
         self.habituation_trial = habituation_trial

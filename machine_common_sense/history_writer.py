@@ -40,18 +40,20 @@ class HistoryWriter(object):
             self,
             history: SceneHistory) -> SceneHistory:
         """ filter out images from the step history data"""
+        targets = ['target', 'target_1', 'target2']
         if history.output:
-            if 'target' in history.output.goal.metadata.keys():
-                del history.output.goal.metadata['target']['image']
-            if 'target_1' in history.output.goal.metadata.keys():
-                del history.output.goal.metadata['target_1']['image']
-            if 'target_2' in history.output.goal.metadata.keys():
-                del history.output.goal.metadata['target_2']['image']
+            for target in targets:
+                if target in history.output.goal.metadata.keys():
+                    if history.output.goal.metadata[target].get(
+                            'image', None) is not None:
+                        del history.output.goal.metadata[target]['image']
         return history
 
     def add_step(self, step_obj: Dict):
         """ Add a new step to the array of history steps"""
-        self.current_steps.append(dict(self.filter_history_images(step_obj)))
+        if step_obj is not None:
+            self.current_steps.append(
+                dict(self.filter_history_images(step_obj)))
 
     def write_history_file(self, classification, confidence):
         """ Add the end score obj, create the object

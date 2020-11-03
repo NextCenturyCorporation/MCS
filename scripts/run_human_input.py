@@ -36,7 +36,7 @@ def parse_args():
         default=None,
         help='Screen width of 450+ (height = width * 2/3) [default=600]')
     parser.add_argument(
-        '--depth_masks',
+        '--depth_maps',
         default=False,
         action='store_true',
         help='Render and return depth masks of each scene ' +
@@ -252,7 +252,7 @@ def main():
                                        enable_noise=args.noise,
                                        seed=args.seed,
                                        size=args.size,
-                                       depth_masks=args.depth_masks,
+                                       depth_maps=args.depth_maps,
                                        object_masks=args.object_masks,
                                        history_enabled=args.history_enabled)
 

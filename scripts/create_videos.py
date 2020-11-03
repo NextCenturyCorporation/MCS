@@ -3,7 +3,9 @@ import os
 import subprocess
 import sys
 
-BLACK_IMAGE = '../machine_common_sense/scenes/images/black_image.png'
+BLACK_IMAGE_PATH = '../machine_common_sense/scenes/images/black_image.png'
+# FILE_TYPE_LIST = ['gif', 'mov', 'mp4']
+FILE_TYPE_LIST = ['mp4']
 
 
 if len(sys.argv) < 3:
@@ -24,39 +26,43 @@ def run():
     folder_list.sort()
 
     for folder in folder_list:
-        print('Making GIF and videos for scene ' + folder)
         frame_image_list = glob.glob(folder + '/frame_image_*')
         frame_count = len(frame_image_list)
         black_frame = folder + '/frame_image_' + str(frame_count) + '.png'
-        subprocess.call(['cp', BLACK_IMAGE, black_frame])
-        subprocess.call([
-            'ffmpeg',
-            '-y',
-            '-r',
-            '5',
-            '-i',
-            folder + '/frame_image_%d.png',
-            folder + '.gif'
-        ])
-        for file_type in ['mov', 'mp4']:
-            subprocess.call([
-                'ffmpeg',
-                '-y',
-                '-r',
-                '5',
-                '-i',
-                folder + '/frame_image_%d.png',
-                '-vcodec',
-                'h264',
-                folder + '.' + file_type
-            ])
+        subprocess.call(['cp', BLACK_IMAGE_PATH, black_frame])
+        for file_type in FILE_TYPE_LIST:
+            print('Making ' + file_type + 's for scene ' + folder)
+            if file_type == 'gif':
+                subprocess.call([
+                    'ffmpeg',
+                    '-y',
+                    '-r',
+                    '20',
+                    '-i',
+                    folder + '/frame_image_%d.png',
+                    folder + '.gif'
+                ])
+            else:
+                subprocess.call([
+                    'ffmpeg',
+                    '-y',
+                    '-r',
+                    '20',
+                    '-i',
+                    folder + '/frame_image_%d.png',
+                    '-vcodec',
+                    'h264',
+                    '-vf',
+                    'format=yuv420p',
+                    folder + '.' + file_type
+                ])
         subprocess.call(['rm', black_frame])
 
     zip_prefix = (
         'eval_' + eval_number + '_' + folder_prefix + 'example_' +
         sample_number + '_'
     )
-    for file_type in ['gif', 'mov', 'mp4']:
+    for file_type in FILE_TYPE_LIST:
         print('Making ZIP of ' + file_type + ' files')
         subprocess.call(
             ['zip', zip_prefix + file_type + '.zip'] +

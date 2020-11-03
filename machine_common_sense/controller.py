@@ -1,14 +1,14 @@
 import copy
 import datetime
 import glob
-import io
 import json
-import numpy
+import numpy as np
 import os
 import random
-import sys
+import pathlib
 import yaml
 import PIL
+import ast
 from typing import Dict, List
 
 import ai2thor.controller
@@ -30,11 +30,14 @@ PERFORMER_CAMERA_Y = 0.4625
 from .action import Action
 from .goal_metadata import GoalMetadata
 from .object_metadata import ObjectMetadata
+from .plotter import TopDownPlotter
 from .pose import Pose
 from .return_status import ReturnStatus
 from .reward import Reward
 from .scene_history import SceneHistory
 from .step_metadata import StepMetadata
+from .recorder import VideoRecorder
+from .uploader import S3Uploader
 from .util import Util
 from .history_writer import HistoryWriter
 
@@ -90,6 +93,9 @@ class Controller():
     # really matter because we set continuous to True in
     # the step input.)
     GRID_SIZE = 0.1
+    # Is there any way to get FPS from ai2thor?
+    # 20 FPS relies on the assumption that Time.deltaTime is 0.05 in Unity
+    FPS_FRAME_RATE = 20
 
     DEFAULT_CLIPPING_PLANE_FAR = 15.0
 
@@ -111,6 +117,14 @@ class Controller():
     HORIZON_KEY = 'horizon'
     FORCE_KEY = 'force'
     AMOUNT_KEY = 'amount'
+
+    PLACEHOLDER = 'placeholder'
+    VISUAL = 'visual'
+    DEPTH = 'depth'
+    SEGMENTATION = 'segmentation'
+    HEATMAP = 'heatmap'
+    TOPDOWN = 'topdown'
+
     OBJECT_IMAGE_COORDS_X_KEY = 'objectImageCoordsX'
     OBJECT_IMAGE_COORDS_Y_KEY = 'objectImageCoordsY'
     RECEPTACLE_IMAGE_COORDS_X_KEY = 'receptacleObjectImageCoordsX'
@@ -124,15 +138,6 @@ class Controller():
     OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
-    CONFIG_FILE = os.getenv('MCS_CONFIG_FILE_PATH', './mcs_config.yaml')
-
-    AWS_CREDENTIALS_FOLDER = os.path.expanduser('~') + '/.aws/'
-    AWS_CREDENTIALS_FILE = os.path.expanduser('~') + '/.aws/credentials'
-    AWS_ACCESS_KEY_ID = 'aws_access_key_id'
-    AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
-
-    CONFIG_AWS_ACCESS_KEY_ID = 'aws_access_key_id'
-    CONFIG_AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
     CONFIG_METADATA_TIER = 'metadata'
     # Normal metadata plus metadata for all hidden objects
     CONFIG_METADATA_TIER_ORACLE = 'oracle'
@@ -142,15 +147,24 @@ class Controller():
     # No metadata, except for the images, depth masks, and haptic/audio
     # feedback
     CONFIG_METADATA_TIER_LEVEL_1 = 'level1'
-    CONFIG_SAVE_IMAGES_TO_S3_BUCKET = 'save_images_to_s3_bucket'
-    CONFIG_SAVE_IMAGES_TO_S3_FOLDER = 'save_images_to_s3_folder'
-    CONFIG_TEAM = 'team'
 
-    HEATMAP_IMAGE_PREFIX = 'heatmap'
+    CONFIG_EVALUATION = 'evaluation'
+
+    AWS_CREDENTIALS_FOLDER = os.path.expanduser('~') + '/.aws/'
+    AWS_CREDENTIALS_FILE = os.path.expanduser('~') + '/.aws/credentials'
+    AWS_ACCESS_KEY_ID = 'aws_access_key_id'
+    AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
+
+    CONFIG_AWS_ACCESS_KEY_ID = 'aws_access_key_id'
+    CONFIG_AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
+
+    CONFIG_S3_BUCKET = 's3_bucket'
+    CONFIG_S3_FOLDER = 's3_folder'
+    CONFIG_TEAM = 'team'
 
     def __init__(self, unity_app_file_path, debug=False,
                  enable_noise=False, seed=None, size=None,
-                 depth_masks=None, object_masks=None,
+                 depth_maps=None, object_masks=None,
                  history_enabled=True):
 
         self._update_screen_size(size)
@@ -173,7 +187,7 @@ class Controller():
             }
         )
 
-        self._on_init(debug, enable_noise, seed, depth_masks,
+        self._on_init(debug, enable_noise, seed, depth_maps,
                       object_masks, history_enabled)
 
     # Pixel coordinates are expected to start at the top left, but
@@ -192,23 +206,26 @@ class Controller():
             self.__screen_height = int(size / 3 * 2)
 
     def _update_internal_config(self, enable_noise=None, seed=None,
-                                depth_masks=None, object_masks=None,
+                                depth_maps=None, object_masks=None,
                                 history_enabled=None):
 
         if enable_noise is not None:
             self.__enable_noise = enable_noise
         if seed is not None:
             self.__seed = seed
-        if depth_masks is not None:
-            self.__depth_masks = depth_masks
+        if depth_maps is not None:
+            self.__depth_maps = depth_maps
         if object_masks is not None:
             self.__object_masks = object_masks
         if history_enabled is not None:
             self.__history_enabled = history_enabled
 
     def _on_init(self, debug=False, enable_noise=False, seed=None,
-                 depth_masks=None, object_masks=None,
+                 depth_maps=None, object_masks=None,
                  history_enabled=True):
+
+        self._config_file = os.getenv('MCS_CONFIG_FILE_PATH',
+                                      './mcs_config.yaml')
 
         self.__debug_to_file = True if (
             debug is True or debug == 'file') else False
@@ -228,34 +245,41 @@ class Controller():
         self.__output_folder = None  # Save output image files to debug
         self.__scene_configuration = None
         self.__step_number = 0
-        self.__s3_client = None
         self.__history_writer = None
         self.__history_item = None
+        self.__uploader = None
 
         self._config = self.read_config_file()
-        self._metadata_tier = (
-            self._config[self.CONFIG_METADATA_TIER]
-            if self.CONFIG_METADATA_TIER in self._config
-            else ''
-        )
+
+        # Environment variable override for metadata property
+        metadata_env_var = os.getenv('MCS_METADATA_LEVEL', None)
+
+        if(metadata_env_var is None):
+            self._metadata_tier = (
+                self._config[self.CONFIG_METADATA_TIER]
+                if self.CONFIG_METADATA_TIER in self._config
+                else ''
+            )
+        else:
+            self._metadata_tier = metadata_env_var
 
         # Order of preference for depth/object mask settings:
-        # look for user specified depth_masks/object_masks properties,
+        # look for user specified depth_maps/object_masks properties,
         # then check config settings, else default to False
         if(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
-            self.__depth_masks = (
-                depth_masks if depth_masks is not None else True)
+            self.__depth_maps = (
+                depth_maps if depth_maps is not None else True)
             self.__object_masks = (
                 object_masks if object_masks is not None else False)
         elif(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2 or
              self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
-            self.__depth_masks = (
-                depth_masks if depth_masks is not None else True)
+            self.__depth_maps = (
+                depth_maps if depth_maps is not None else True)
             self.__object_masks = (
                 object_masks if object_masks is not None else True)
         else:
-            self.__depth_masks = (
-                depth_masks if depth_masks is not None else False)
+            self.__depth_maps = (
+                depth_maps if depth_maps is not None else False)
             self.__object_masks = (
                 object_masks if object_masks is not None else False)
 
@@ -277,11 +301,58 @@ class Controller():
                     '\n'
                 )
 
-        if self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET in self._config:
-            if 'boto3' not in sys.modules:
-                import boto3
-                from botocore.exceptions import ClientError  # noqa: F401
-                self.__s3_client = boto3.client('s3')
+    def _create_video_recorders(self):
+        '''Create video recorders used to capture evaluation scenes for review
+        '''
+        output_folder = pathlib.Path(self.__output_folder)
+        team = self._config.get(self.CONFIG_TEAM, '')
+        scene = self.__scene_configuration.get(
+            'name', '').replace('json', '')
+        timestamp = self.generate_time()
+        basename_template = '_'.join(
+            [team, scene, self.PLACEHOLDER, timestamp]) + '.mp4'
+
+        visual_video_filename = basename_template.replace(
+            self.PLACEHOLDER, self.VISUAL)
+        self.__image_recorder = VideoRecorder(
+            vid_path=output_folder / visual_video_filename,
+            width=self.__screen_width,
+            height=self.__screen_height,
+            fps=self.FPS_FRAME_RATE)
+
+        topdown_video_filename = basename_template.replace(
+            self.PLACEHOLDER, self.TOPDOWN)
+        self.__topdown_recorder = VideoRecorder(
+            vid_path=output_folder / topdown_video_filename,
+            width=self.__screen_width,
+            height=self.__screen_height,
+            fps=self.FPS_FRAME_RATE)
+
+        heatmap_video_filename = basename_template.replace(
+            self.PLACEHOLDER, self.HEATMAP)
+        self.__heatmap_recorder = VideoRecorder(
+            vid_path=output_folder / heatmap_video_filename,
+            width=self.__screen_width,
+            height=self.__screen_height,
+            fps=self.FPS_FRAME_RATE)
+
+        if self.__depth_maps:
+            depth_video_filename = basename_template.replace(
+                self.PLACEHOLDER, self.DEPTH)
+            self.__depth_recorder = VideoRecorder(
+                vid_path=output_folder / depth_video_filename,
+                width=self.__screen_width,
+                height=self.__screen_height,
+                fps=self.FPS_FRAME_RATE)
+
+        if self.__object_masks:
+            segmentation_video_filename = basename_template.replace(
+                self.PLACEHOLDER, self.SEGMENTATION)
+            self.__segmentation_recorder = VideoRecorder(
+                vid_path=output_folder / segmentation_video_filename,
+                width=self.__screen_width,
+                height=self.__screen_height,
+                fps=self.FPS_FRAME_RATE)
 
     def get_seed_value(self):
         return self.__seed
@@ -301,8 +372,62 @@ class Controller():
             with violation-of-expectation or classification goals.
             Is not required for other goals. (default None)
         """
-        self.__history_writer.add_step(self.__history_item)
-        self.__history_writer.write_history_file(choice, confidence)
+        if self.__history_enabled:
+            self.__history_writer.add_step(self.__history_item)
+            self.__history_writer.write_history_file(choice, confidence)
+
+        if self._config.get(self.CONFIG_EVALUATION, False):
+            self.__uploader = S3Uploader(
+                s3_bucket=self._config.get(self.CONFIG_S3_BUCKET, None)
+            )
+
+            folder_prefix = self._config.get(self.CONFIG_S3_FOLDER, None)
+
+            if self.__history_enabled:
+                history_filename = pathlib.Path(
+                    self.__history_writer.scene_history_file).name
+                self.__uploader.upload_history(
+                    history_path=self.__history_writer.scene_history_file,
+                    s3_filename=(folder_prefix + '/' +
+                                 self._config[self.CONFIG_TEAM] +
+                                 '_' + history_filename)
+                )
+
+            self.__topdown_recorder.finish()
+            topdown_filename = self.__topdown_recorder.path.name
+            self.__uploader.upload_video(
+                video_path=self.__topdown_recorder.path,
+                s3_filename=folder_prefix + '/' + topdown_filename
+            )
+
+            self.__image_recorder.finish()
+            video_filename = self.__image_recorder.path.name
+            self.__uploader.upload_video(
+                video_path=self.__image_recorder.path,
+                s3_filename=folder_prefix + '/' + video_filename
+            )
+
+            self.__heatmap_recorder.finish()
+            video_filename = self.__heatmap_recorder.path.name
+            self.__uploader.upload_video(
+                video_path=self.__heatmap_recorder.path,
+                s3_filename=folder_prefix + '/' + video_filename
+            )
+
+            if self.__depth_maps:
+                self.__depth_recorder.finish()
+                video_filename = self.__depth_recorder.path.name
+                self.__uploader.upload_video(
+                    video_path=self.__depth_recorder.path,
+                    s3_filename=folder_prefix + '/' + video_filename
+                )
+            if self.__object_masks:
+                self.__segmentation_recorder.finish()
+                video_filename = self.__segmentation_recorder.path.name
+                self.__uploader.upload_video(
+                    video_path=self.__segmentation_recorder.path,
+                    s3_filename=folder_prefix + '/' + video_filename
+                )
 
     def start_scene(self, config_data):
         """
@@ -326,15 +451,17 @@ class Controller():
         self.__step_number = 0
         self._goal = self.retrieve_goal(self.__scene_configuration)
 
-        if self.__history_writer is None:
+        if self.__history_enabled:
+            # Ensure the previous scene history writer has saved its file.
+            if self.__history_writer:
+                self.__history_writer.check_file_written()
+            # Create a new scene history writer with each new scene (config
+            # data) so we always create a new, separate scene history file.
             self.__history_writer = HistoryWriter(config_data)
-        else:
-            self.__history_writer.check_file_written()
 
         skip_preview_phase = (True if 'goal' in config_data and
                               'skip_preview_phase' in config_data['goal']
                               else False)
-
         if self.__debug_to_terminal:
             if config_data['name']:
                 print("STARTING NEW SCENE: " + config_data['name'])
@@ -347,21 +474,33 @@ class Controller():
             print("STEP: 0")
             print("ACTION: Initialize")
 
-        if self.__debug_to_file and config_data['name'] is not None:
+        if (self.__debug_to_file or self._config.get(
+                self.CONFIG_EVALUATION, False)) \
+                and config_data['name'] is not None:
             os.makedirs('./' + config_data['name'], exist_ok=True)
             self.__output_folder = './' + config_data['name'] + '/'
             file_list = glob.glob(self.__output_folder + '*')
             for file_path in file_list:
                 os.remove(file_path)
 
-        output = self.wrap_output(self._controller.step(
+        if self._config.get(self.CONFIG_EVALUATION, False):
+            team = self._config.get(self.CONFIG_TEAM, '')
+            scene = self.__scene_configuration.get(
+                'name', '').replace('json', '')
+            self.__plotter = TopDownPlotter(
+                team, scene, self.__screen_width, self.__screen_height)
+            self._create_video_recorders()
+
+        pre_restrict_output = self.wrap_output(self._controller.step(
             self.wrap_step(action='Initialize', sceneConfig=config_data)))
+
+        output = self.restrict_step_output_metadata(pre_restrict_output)
 
         if not skip_preview_phase:
             if (self._goal is not None and
                     self._goal.last_preview_phase_step > 0):
                 image_list = output.image_list
-                depth_mask_list = output.depth_mask_list
+                depth_map_list = output.depth_map_list
                 object_mask_list = output.object_mask_list
 
                 if self.__debug_to_terminal:
@@ -370,15 +509,18 @@ class Controller():
                 for i in range(0, self._goal.last_preview_phase_step):
                     output = self.step('Pass')
                     image_list = image_list + output.image_list
-                    depth_mask_list = depth_mask_list + output.depth_mask_list
+                    depth_map_list = depth_map_list + output.depth_map_list
                     object_mask_list = (object_mask_list +
                                         output.object_mask_list)
 
                 if self.__debug_to_terminal:
                     print('ENDING PREVIEW PHASE')
 
+                if self._config.get(self.CONFIG_EVALUATION, False):
+                    self.__image_recorder.add(image_list[0])
+
                 output.image_list = image_list
-                output.depth_mask_list = depth_mask_list
+                output.depth_map_list = depth_map_list
                 output.object_mask_list = object_mask_list
             elif self.__debug_to_terminal:
                 print('NO PREVIEW PHASE')
@@ -522,7 +664,7 @@ class Controller():
             "last_step" of this scene.
         """
 
-        if self.__step_number > 0:
+        if self.__history_enabled and self.__step_number > 0:
             self.__history_writer.add_step(self.__history_item)
 
         if (self._goal.last_step is not None and
@@ -578,19 +720,21 @@ class Controller():
                 "your future actions will be skipped. Please call " +
                 "controller.end_scene() now.")
 
-        output = self.wrap_output(self._controller.step(
+        pre_restrict_output = self.wrap_output(self._controller.step(
             self.wrap_step(action=action, **params)))
 
-        output_copy = copy.deepcopy(output)
-        del output_copy.depth_mask_list
-        del output_copy.image_list
-        del output_copy.object_mask_list
+        history_copy = copy.deepcopy(pre_restrict_output)
+        del history_copy.depth_map_list
+        del history_copy.image_list
+        del history_copy.object_mask_list
         self.__history_item = SceneHistory(
             step=self.__step_number,
             action=action,
             args=kwargs,
             params=params,
-            output=output_copy)
+            output=history_copy)
+
+        output = self.restrict_step_output_metadata(pre_restrict_output)
 
         return output
 
@@ -617,7 +761,9 @@ class Controller():
             on each step for passive tasks. (default None)
         heatmap_img : PIL.Image.Image, optional
             An image representing scene plausiblility at a particular
-            moment. Will be saved as a .png type. (default None)
+            moment. During evaluation, this image will be recorded as a frame
+            of a heatmap video for review but is ignored otherwise.
+            (default None)
         internal_state : object, optional
             A properly formatted json object representing various kinds of
             internal states at a particular moment. Examples include the
@@ -638,43 +784,9 @@ class Controller():
             self.__history_item.internal_state = internal_state
 
         if(heatmap_img is not None and
-           isinstance(heatmap_img, PIL.Image.Image)):
-
-            team_prefix = (self._config[self.CONFIG_TEAM] +
-                           '_') if self.CONFIG_TEAM in self._config else ''
-            file_name_prefix = team_prefix + self.HEATMAP_IMAGE_PREFIX + '_'
-
-            self.upload_image_to_s3(heatmap_img, file_name_prefix,
-                                    str(self.__step_number))
-
-    def upload_image_to_s3(self, image_to_upload: PIL.Image.Image,
-                           file_name_prefix: str,
-                           step_number_affix: str):
-        if self.__s3_client:
-            in_memory_file = io.BytesIO()
-            image_to_upload.save(fp=in_memory_file, format='png')
-            in_memory_file.seek(0)
-            s3_folder = (
-                (self._config[self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER] + '/')
-                if self.CONFIG_SAVE_IMAGES_TO_S3_FOLDER in self._config
-                else ''
-            )
-            s3_file_name = s3_folder + file_name_prefix + \
-                self.__scene_configuration['name'].replace('.json', '') + \
-                '_' + step_number_affix + '_' + \
-                self.generate_time() + '.png'
-            print('SAVE TO S3 BUCKET ' +
-                  self._config[self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET] +
-                  ': ' + s3_file_name)
-            self.__s3_client.upload_fileobj(
-                in_memory_file,
-                self._config[self.CONFIG_SAVE_IMAGES_TO_S3_BUCKET],
-                s3_file_name,
-                ExtraArgs={
-                    'ACL': 'public-read',
-                    'ContentType': 'image/png',
-                }
-            )
+           isinstance(heatmap_img, PIL.Image.Image) and
+           self._config[self.CONFIG_EVALUATION]):
+            self.__heatmap_recorder.add(heatmap_img)
 
     def generate_time(self):
         return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -701,42 +813,38 @@ class Controller():
         return action
 
     def read_config_file(self):
-        if os.path.exists(self.CONFIG_FILE):
-            with open(self.CONFIG_FILE, 'r') as config_file:
+        if os.path.exists(self._config_file):
+            with open(self._config_file, 'r') as config_file:
                 config = yaml.load(config_file)
                 if self.__debug_to_terminal:
                     print('Read MCS Config File:')
                     print(config)
                 if self.CONFIG_METADATA_TIER not in config:
                     config[self.CONFIG_METADATA_TIER] = ''
+                if self.CONFIG_EVALUATION not in config:
+                    config[self.CONFIG_EVALUATION] = False
                 return config
         return {}
 
-    def restrict_goal_output_metadata(self, goal_output):
-        if (
-            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
-            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2
-        ):
+    def update_goal_target_image(self, goal_output):
+        target_name_list = ['target', 'target_1', 'target_2']
+
+        for target_name in target_name_list:
+            # need to convert goal image data from string to array
             if (
-                'target' in goal_output.metadata and
-                'image' in goal_output.metadata['target']
+                target_name in goal_output.metadata and
+                'image' in goal_output.metadata[target_name] and
+                isinstance(goal_output.metadata[target_name]['image'], str)
             ):
-                goal_output.metadata['target']['image'] = None
-            if (
-                'target_1' in goal_output.metadata and
-                'image' in goal_output.metadata['target_1']
-            ):
-                goal_output.metadata['target_1']['image'] = None
-            if (
-                'target_2' in goal_output.metadata and
-                'image' in goal_output.metadata['target_2']
-            ):
-                goal_output.metadata['target_2']['image'] = None
+                image_list_string = goal_output.metadata[target_name]['image']
+                goal_output.metadata[target_name]['image'] = np.array(
+                    ast.literal_eval(image_list_string)).tolist()
 
         return goal_output
 
     def restrict_step_output_metadata(self, step_output):
-        # only remove object_mask_list for level1
+        # Use this function to filter out of the step output any data
+        # that shouldn't be returned at certain metadata tiers
         if(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
             step_output.object_mask_list = []
 
@@ -746,6 +854,18 @@ class Controller():
         ):
             step_output.position = None
             step_output.rotation = None
+            step_output.structural_object_list = []
+            step_output.object_list = []
+
+            # Below is to remove the goal targets from output
+            target_name_list = ['target', 'target_1', 'target_2']
+
+            for target_name in target_name_list:
+                if (
+                    target_name in step_output.goal.metadata and
+                    'image' in step_output.goal.metadata[target_name]
+                ):
+                    step_output.goal.metadata[target_name]['image'] = None
 
         return step_output
 
@@ -771,7 +891,7 @@ class Controller():
             # Backwards compatibility
             goal_config['metadata']['category'] = goal_config['category']
 
-        return self.restrict_goal_output_metadata(GoalMetadata(
+        return self.update_goal_target_image(GoalMetadata(
             action_list=goal_config.get('action_list', None),
             category=goal_config.get('category', ''),
             description=goal_config.get('description', ''),
@@ -796,10 +916,11 @@ class Controller():
             scene_event.events) - 1].object_id_to_color
 
     def retrieve_object_list(self, scene_event):
+        # Return object lis for all tier levels, the restrict output function
+        # will then strip out the necessary metadata
         if (self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
-                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2):
-            return []
-        elif self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE:
+                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2 or
+                self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -919,10 +1040,11 @@ class Controller():
             return return_status
 
     def retrieve_structural_object_list(self, scene_event):
+        # Return structural for all tier levels, the restrict output function
+        # will then strip out the necessary metadata
         if (self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
-                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2):
-            return []
-        elif self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE:
+                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2 or
+                self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -954,17 +1076,22 @@ class Controller():
 
     def save_images(self, scene_event, max_depth):
         image_list = []
-        depth_mask_list = []
+        depth_map_list = []
         object_mask_list = []
 
         for index, event in enumerate(scene_event.events):
             scene_image = PIL.Image.fromarray(event.frame)
             image_list.append(scene_image)
 
-            if self.__depth_masks:
+            if self._config.get(self.CONFIG_EVALUATION, False):
+                self.__image_recorder.add(scene_image)
+                self.__topdown_recorder.add(
+                    self.__plotter.plot(scene_event, self.__step_number))
+
+            if self.__depth_maps:
                 # The Unity depth array (returned by Depth.shader) contains
                 # a third of the total max depth in each RGB element.
-                unity_depth_array = event.depth_frame.astype(numpy.float32)
+                unity_depth_array = event.depth_frame.astype(np.float32)
                 # Convert to values between 0 and max_depth for output.
                 depth_float_array = (
                     (unity_depth_array[:, :, 0] * (max_depth / 3.0) / 255.0) +
@@ -973,15 +1100,19 @@ class Controller():
                 )
                 # Convert to pixel values for saving debug image.
                 depth_pixel_array = depth_float_array * 255 / max_depth
-                depth_mask = PIL.Image.fromarray(
-                    depth_pixel_array.astype(numpy.uint8)
+                depth_map = PIL.Image.fromarray(
+                    depth_pixel_array.astype(np.uint8)
                 )
-                depth_mask_list.append(numpy.array(depth_float_array))
+                if self._config.get(self.CONFIG_EVALUATION, False):
+                    self.__depth_recorder.add(depth_map)
+                depth_map_list.append(np.array(depth_float_array))
 
             if self.__object_masks:
                 object_mask = PIL.Image.fromarray(
                     event.instance_segmentation_frame)
                 object_mask_list.append(object_mask)
+                if self._config.get(self.CONFIG_EVALUATION, False):
+                    self.__segmentation_recorder.add(object_mask)
 
             if self.__debug_to_file and self.__output_folder is not None:
                 step_plus_substep_index = 0 if self.__step_number == 0 else (
@@ -991,22 +1122,14 @@ class Controller():
                 suffix = '_' + str(step_plus_substep_index) + '.png'
                 scene_image.save(fp=self.__output_folder +
                                  'frame_image' + suffix)
-                if self.__depth_masks:
-                    depth_mask.save(fp=self.__output_folder +
-                                    'depth_mask' + suffix)
+                if self.__depth_maps:
+                    depth_map.save(fp=self.__output_folder +
+                                   'depth_map' + suffix)
                 if self.__object_masks:
                     object_mask.save(fp=self.__output_folder +
                                      'object_mask' + suffix)
 
-            team_prefix = (self._config[self.CONFIG_TEAM] +
-                           '_') if self.CONFIG_TEAM in self._config else ''
-            step_num_affix = (str(self.__step_number) + '_' +
-                              str(index + 1))
-
-            self.upload_image_to_s3(scene_image, team_prefix,
-                                    step_num_affix)
-
-        return image_list, depth_mask_list, object_mask_list
+        return image_list, depth_map_list, object_mask_list
 
     def wrap_output(self, scene_event):
         if self.__debug_to_file and self.__output_folder is not None:
@@ -1016,7 +1139,7 @@ class Controller():
                     "metadata": scene_event.metadata
                 }, json_file, sort_keys=True, indent=4)
 
-        image_list, depth_mask_list, object_mask_list = self.save_images(
+        image_list, depth_map_list, object_mask_list = self.save_images(
             scene_event,
             scene_event.metadata.get(
                 'clippingPlaneFar',
@@ -1026,7 +1149,7 @@ class Controller():
 
         objects = scene_event.metadata.get('objects', None)
         agent = scene_event.metadata.get('agent', None)
-        step_output = self.restrict_step_output_metadata(StepMetadata(
+        step_output = StepMetadata(
             action_list=self.retrieve_action_list(
                 self._goal, self.__step_number),
             camera_aspect_ratio=(self.__screen_width, self.__screen_height),
@@ -1037,7 +1160,7 @@ class Controller():
             camera_field_of_view=scene_event.metadata.get('fov', 0.0),
             camera_height=scene_event.metadata.get(
                 'cameraPosition', {}).get('y', 0.0),
-            depth_mask_list=depth_mask_list,
+            depth_map_list=depth_map_list,
             goal=self._goal,
             habituation_trial=(
                 self.__habituation_trial
@@ -1051,12 +1174,13 @@ class Controller():
             pose=self.retrieve_pose(scene_event),
             position=self.retrieve_position(scene_event),
             return_status=self.retrieve_return_status(scene_event),
-            reward=Reward.calculate_reward(self._goal, objects, agent),
+            reward=Reward.calculate_reward(
+                self._goal, objects, agent, self.__step_number),
             rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number,
             structural_object_list=self.retrieve_structural_object_list(
                 scene_event)
-        ))
+        )
 
         self.__head_tilt = step_output.head_tilt
 
@@ -1093,7 +1217,7 @@ class Controller():
             continuous=True,
             gridSize=self.GRID_SIZE,
             logs=True,
-            renderDepthImage=self.__depth_masks,
+            renderDepthImage=self.__depth_maps,
             renderObjectImage=self.__object_masks,
             snapToGrid=False,
             # Yes, in AI2-THOR, the player's reach appears to be

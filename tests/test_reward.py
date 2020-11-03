@@ -18,15 +18,25 @@ class Test_Reward(unittest.TestCase):
 
     def test_default_reward(self):
         goal = mcs.GoalMetadata()
-        reward = mcs.Reward.calculate_reward(goal, objects={}, agent={})
-        self.assertEqual(reward, 0)
-        self.assertIsInstance(reward, int)
+        reward = mcs.Reward.calculate_reward(
+            goal, objects={}, agent={}, number_steps=1)
+        self.assertEqual(reward, -0.001)
+        self.assertIsInstance(reward, float)
 
     def test_none_goal(self):
         goal = None
-        reward = mcs.Reward.calculate_reward(goal, objects={}, agent={})
-        self.assertEqual(reward, 0)
-        self.assertIsInstance(reward, int)
+        reward = mcs.Reward.calculate_reward(
+            goal, objects={}, agent={}, number_steps=5)
+        self.assertEqual(reward, -0.005)
+        self.assertIsInstance(reward, float)
+
+    def test_penalty_step_calcuation(self):
+        goal = None
+        reward = mcs.Reward.calculate_reward(
+            goal, objects={}, agent={}, number_steps=456)
+        penalty = 0 - ((456) * 0.001)
+        self.assertEqual(reward, penalty)
+        self.assertIsInstance(reward, float)
 
     def test_target_in_empty_object_list(self):
         obj_list = []
