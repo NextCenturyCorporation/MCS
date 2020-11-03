@@ -6,13 +6,23 @@
 
 ## Examples
 
-### Playroom
+### Interactive Scenes
+
+#### Playroom
 
 An open room containing over 40 objects for undirected exploration.
 
 - [playroom.json](./playroom.json)
 
 ![playroom_3_2](./videos/playroom_3_2.gif)
+
+#### Retrieval
+
+- [trophy_retrieval_example.json](./trophy_retrieval_example.json)
+
+#### Container
+
+- [hinged_container_example.json](./hinged_container_example.json)
 
 ### Intuitive Physics Scenes
 
@@ -45,14 +55,25 @@ An open room containing over 40 objects for undirected exploration.
 
 ### Agents Scenes
 
+#### Agents Have Goals and Preferences
+
+- [agents_preference_expected.json](./agents_preference_expected.json)
+- [agents_preference_unexpected.json](./agents_preference_unexpected.json)
+
+| Plausible | Implausible |
+| --------- | ----------- |
+| ![](./videos/agents_preference_expected.gif) | ![](./videos/agents_preference_unexpected.gif) |
+
 ### Simple Scenes
+
+#### With Objects
 
 - [ball_close.json](./ball_close.json)
 - [ball_far.json](./ball_far.json)
 - [ball_obstructed.json](./ball_obstructed.json)
 - [block_close.json](./block_close.json)
 
-### Wall Scenes
+#### With Walls
 
 - [wall_ahead.json](./wall_ahead.json)
 - [wall_diagonal.json](./wall_diagonal.json)

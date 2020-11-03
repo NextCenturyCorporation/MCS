@@ -280,38 +280,42 @@ Blocks have the `pickupable` and `receptacle` attributes by default. Use the [bl
 
 The following object types have the `pickupable` attribute by default.
 
-| Object Type | Shape | Default Mass | Receptacle | Materials |
+| Object Type | Shape | Default Mass | Receptacle | Openable | Materials |
 | --- | --- | --- | --- | --- |
-| `"apple_1"` | apple | 0.25 | | none |
-| `"apple_2"` | apple | 0.25 | | none |
-| `"ball"` | ball | 1 | | block (blank), metal, plastic, rubber, wood |
-| `"cake"` | cake | 0.5 | | none |
-| `"car_1"` | car | 0.5 | | block (blank), wood |
-| `"crayon_black"` | crayon | 0.125 | | none |
-| `"crayon_blue"` | crayon | 0.125 | | none |
-| `"crayon_green"` | crayon | 0.125 | | none |
-| `"crayon_pink"` | crayon | 0.125 | | none |
-| `"crayon_red"` | crayon | 0.125 | | none |
-| `"crayon_yellow"` | crayon | 0.125 | | none |
-| `"duck_on_wheels"` | duck | 0.5 | | block (blank), wood |
-| `"bowl_3"` | bowl | 0.25 | X | metal, plastic, wood |
-| `"bowl_4"` | bowl | 0.25 | X | metal, plastic, wood |
-| `"bowl_6"` | bowl | 0.25 | X | metal, plastic, wood |
-| `"cup_2"` | cup | 0.25 | X | metal, plastic, wood |
-| `"cup_3"` | cup | 0.25 | X | metal, plastic, wood |
-| `"cup_6"` | cup | 0.25 | X | metal, plastic, wood |
-| `"trophy"` | trophy | 0.5 | | none |
-| `"pacifier"` | pacifier | | 0.5 | none |
-| `"plate_1"` | plate | 0.25 | X | metal, plastic, wood |
-| `"plate_3"` | plate | 0.25 | X | metal, plastic, wood |
-| `"plate_4"` | plate | 0.25 | X | metal, plastic, wood |
-| `"racecar_red"` | car | 0.5 | | block (blank), wood |
-| `"turtle_on_wheels"` | turtle | | 0.5 | block (blank), wood |
+| `"apple_1"` | apple | 0.25 | | | none |
+| `"apple_2"` | apple | 0.25 | | | none |
+| `"ball"` | ball | 1 | | | block (blank), metal, plastic, rubber, wood |
+| `"cake"` | cake | 0.5 | | | none |
+| `"car_1"` | car | 0.5 | | | block (blank), wood |
+| `"crayon_black"` | crayon | 0.125 | | | none |
+| `"crayon_blue"` | crayon | 0.125 | | | none |
+| `"crayon_green"` | crayon | 0.125 | | | none |
+| `"crayon_pink"` | crayon | 0.125 | | | none |
+| `"crayon_red"` | crayon | 0.125 | | | none |
+| `"crayon_yellow"` | crayon | 0.125 | | | none |
+| `"duck_on_wheels"` | duck | 0.5 | | | block (blank), wood |
+| `"bowl_3"` | bowl | 0.25 | X | | metal, plastic, wood |
+| `"bowl_4"` | bowl | 0.25 | X | | metal, plastic, wood |
+| `"bowl_6"` | bowl | 0.25 | X | | metal, plastic, wood |
+| `"cup_2"` | cup | 0.25 | X | | metal, plastic, wood |
+| `"cup_3"` | cup | 0.25 | X | | metal, plastic, wood |
+| `"cup_6"` | cup | 0.25 | X | | metal, plastic, wood |
+| `"gift_box_1"` | box | 0.5 | X | X | cardboard |
+| `"trophy"` | trophy | 0.5 | | | none |
+| `"pacifier"` | pacifier | | 0.5 | | none |
+| `"plate_1"` | plate | 0.25 | X | | metal, plastic, wood |
+| `"plate_3"` | plate | 0.25 | X | | metal, plastic, wood |
+| `"plate_4"` | plate | 0.25 | X | | metal, plastic, wood |
+| `"racecar_red"` | car | 0.5 | | | block (blank), wood |
+| `"suitcase_1"` | box | 5 | X | X | metal, plastic |
+| `"turtle_on_wheels"` | turtle | | | 0.5 | block (blank), wood |
 
 ### Furniture Objects
 
 | Object Type | Shape | Default Mass | Moveable | Receptacle | Openable | Materials | Details |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| `"chest_1"` | box | 15 | | X | X | metal, plastic, wood | Rectangular box |
+| `"chest_2"` | box | 15 | | X | X | metal, plastic, wood | Treasure chest |
 | `"chair_1"` | chair | 5 | X | X | | metal, plastic, wood | |
 | `"chair_2"` | stool | 2.5 | X | X | | metal, plastic, wood | |
 | `"changing_table"` | 100 | changing table | | X | X | wood | |
