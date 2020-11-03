@@ -2,6 +2,8 @@ import io
 import math
 import PIL
 
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from typing import Dict
 from shapely import geometry
