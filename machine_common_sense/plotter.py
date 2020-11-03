@@ -94,7 +94,7 @@ class TopDownPlotter():
                     obj_clr = 'ivory'
 
                 if dimensions is not None:
-                    obj_pts = [(d['x'], d['z']) for d in dimensions[:4]]
+                    obj_pts = [(d['x'], d['z']) for d in dimensions]
                     polygon = geometry.MultiPoint(obj_pts).convex_hull
                     pts = polygon.exterior.coords
                     poly = plt.Polygon(pts,
