@@ -161,6 +161,7 @@ class Controller():
     CONFIG_S3_BUCKET = 's3_bucket'
     CONFIG_S3_FOLDER = 's3_folder'
     CONFIG_TEAM = 'team'
+    CONFIG_EVALUATION_NAME = 'evaluation_name'
 
     def __init__(self, unity_app_file_path, debug=False,
                  enable_noise=False, seed=None, size=None,
@@ -305,12 +306,14 @@ class Controller():
         '''Create video recorders used to capture evaluation scenes for review
         '''
         output_folder = pathlib.Path(self.__output_folder)
+        eval_name = self._config.get(self.CONFIG_EVALUATION_NAME, '')
         team = self._config.get(self.CONFIG_TEAM, '')
         scene = self.__scene_configuration.get(
             'name', '').replace('json', '')
         timestamp = self.generate_time()
-        basename_template = '_'.join(
-            [team, scene, self.PLACEHOLDER, timestamp]) + '.mp4'
+        basename_template = ('_'.join(
+            [eval_name, team, scene,
+             self.PLACEHOLDER, timestamp]) + '.mp4').replace(' ', '')
 
         visual_video_filename = basename_template.replace(
             self.PLACEHOLDER, self.VISUAL)
@@ -389,8 +392,9 @@ class Controller():
                 self.__uploader.upload_history(
                     history_path=self.__history_writer.scene_history_file,
                     s3_filename=(folder_prefix + '/' +
-                                 self._config[self.CONFIG_TEAM] +
-                                 '_' + history_filename)
+                                 self._config[self.CONFIG_EVALUATION_NAME] +
+                                 '_' + self._config[self.CONFIG_TEAM] +
+                                 '_' + history_filename).replace(' ', '')
                 )
 
             self.__topdown_recorder.finish()
