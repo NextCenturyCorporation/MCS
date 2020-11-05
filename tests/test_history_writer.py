@@ -10,7 +10,26 @@ class Test_HistoryWriter(unittest.TestCase):
         config_data = {"name": "test_scene_file.json"}
         writer = mcs.HistoryWriter(config_data)
 
+        self.assertEqual(writer.info_obj.keys(), {'name', 'timestamp'})
         self.assertEqual(writer.info_obj['name'], "test_scene_file")
+        self.assertTrue(os.path.exists(writer.HISTORY_DIRECTORY))
+
+    def test_init_with_hist_info(self):
+        config_data = {"name": "test_scene_file.json"}
+        writer = mcs.HistoryWriter(config_data, {
+            'team': 'team1',
+            'metadata': 'level1'
+        })
+
+        self.assertEqual(writer.info_obj.keys(), {
+            'team',
+            'metadata',
+            'name',
+            'timestamp'
+        })
+        self.assertEqual(writer.info_obj['name'], "test_scene_file")
+        self.assertEqual(writer.info_obj['team'], "team1")
+        self.assertEqual(writer.info_obj['metadata'], "level1")
         self.assertTrue(os.path.exists(writer.HISTORY_DIRECTORY))
 
     def test_add_step(self):

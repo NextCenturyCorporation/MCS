@@ -466,9 +466,21 @@ class Controller():
             # Ensure the previous scene history writer has saved its file.
             if self.__history_writer:
                 self.__history_writer.check_file_written()
+
+            hist_info = {}
+            hist_info[self.CONFIG_EVALUATION_NAME] = self._config.get(
+                self.CONFIG_EVALUATION_NAME, ''
+            )
+            hist_info[self.CONFIG_EVALUATION] = self._config.get(
+                self.CONFIG_EVALUATION, False
+            )
+            hist_info[self.CONFIG_METADATA_TIER] = self._metadata_tier
+            hist_info[self.CONFIG_TEAM] = self._config.get(
+                self.CONFIG_TEAM, ''
+            )
             # Create a new scene history writer with each new scene (config
             # data) so we always create a new, separate scene history file.
-            self.__history_writer = HistoryWriter(config_data)
+            self.__history_writer = HistoryWriter(config_data, hist_info)
 
         skip_preview_phase = (True if 'goal' in config_data and
                               'skip_preview_phase' in config_data['goal']
