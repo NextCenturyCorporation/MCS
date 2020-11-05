@@ -1512,9 +1512,9 @@ class Test_Controller(unittest.TestCase):
         pre_restrict.goal = self.controller.retrieve_goal({
             'goal': {
                 'metadata': {
-                    'target': {'image': [0]},
-                    'target_1': {'image': [1]},
-                    'target_2': {'image': [2]}
+                    'target': {'image': [0], 'id': '1', 'image_name': "name_1"},
+                    'target_1': {'image': [1], 'id': '2', 'image_name': "name_2"},
+                    'target_2': {'image': [2], 'id': '3', 'image_name': "name_3"}
                 }
             }
         })
@@ -1522,9 +1522,9 @@ class Test_Controller(unittest.TestCase):
         actual = self.controller.restrict_step_output_metadata(pre_restrict)
 
         self.assertEqual(pre_restrict.goal.metadata, {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
+            'target': {'image': [0], 'id': '1', 'image_name': "name_1"},
+            'target_1': {'image': [1], 'id': '2', 'image_name': "name_2"},
+            'target_2': {'image': [2], 'id': '3', 'image_name': "name_3"}
         })
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
@@ -1574,9 +1574,9 @@ class Test_Controller(unittest.TestCase):
         pre_restrict.goal = self.controller.retrieve_goal({
             'goal': {
                 'metadata': {
-                    'target': {'image': [0]},
-                    'target_1': {'image': [1]},
-                    'target_2': {'image': [2]}
+                    'target': {'image': [0], 'id': '1', 'image_name': "name_1"},
+                    'target_1': {'image': [1], 'id': '2', 'image_name': "name_2"},
+                    'target_2': {'image': [2], 'id': '3', 'image_name': "name_3"}
                 }
             }
         })
@@ -1584,9 +1584,9 @@ class Test_Controller(unittest.TestCase):
         actual = self.controller.restrict_step_output_metadata(pre_restrict)
 
         self.assertEqual(pre_restrict.goal.metadata, {
-            'target': {'image': None},
-            'target_1': {'image': None},
-            'target_2': {'image': None}
+            'target': {'image': None, 'id': None, 'image_name': None},
+            'target_1': {'image': None, 'id': None, 'image_name': None},
+            'target_2': {'image': None, 'id': None, 'image_name': None}
         })
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)

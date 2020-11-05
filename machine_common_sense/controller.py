@@ -865,11 +865,14 @@ class Controller():
             target_name_list = ['target', 'target_1', 'target_2']
 
             for target_name in target_name_list:
-                if (
-                    target_name in step_output.goal.metadata and
-                    'image' in step_output.goal.metadata[target_name]
-                ):
-                    step_output.goal.metadata[target_name]['image'] = None
+                if (target_name in step_output.goal.metadata):
+                    if 'image' in step_output.goal.metadata[target_name]:
+                        step_output.goal.metadata[target_name]['image'] = None
+                    if 'id' in step_output.goal.metadata[target_name]:
+                        step_output.goal.metadata[target_name]['id'] = None
+                    if 'image_name' in step_output.goal.metadata[target_name]:
+                        step_output.goal.metadata[
+                            target_name]['image_name'] = None
 
         return step_output
 
