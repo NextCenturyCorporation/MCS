@@ -392,9 +392,11 @@ class Controller():
                 self.__uploader.upload_history(
                     history_path=self.__history_writer.scene_history_file,
                     s3_filename=(folder_prefix + '/' +
-                                 self._config[self.CONFIG_EVALUATION_NAME] +
+                                 self._config.get(
+                                     self.CONFIG_EVALUATION_NAME, ''
+                                 ) +
                                  '_' + self._metadata_tier +
-                                 '_' + self._config[self.CONFIG_TEAM] +
+                                 '_' + self._config.get(self.CONFIG_TEAM, '') +
                                  '_' + history_filename).replace(' ', '')
                 )
 
