@@ -308,11 +308,15 @@ class Controller():
         output_folder = pathlib.Path(self.__output_folder)
         eval_name = self._config.get(self.CONFIG_EVALUATION_NAME, '')
         team = self._config.get(self.CONFIG_TEAM, '')
-        scene = self.__scene_configuration.get(
+        scene_name = self.__scene_configuration.get(
             'name', '').replace('json', '')
+        # strip prefix in scene_name
+        if '/' in scene_name:
+            scene_name = scene_name.rsplit('/', 1)[1]
+
         timestamp = self.generate_time()
         basename_template = ('_'.join(
-            [eval_name, self._metadata_tier, team, scene,
+            [eval_name, self._metadata_tier, team, scene_name,
              self.PLACEHOLDER, timestamp]) + '.mp4').replace(' ', '')
 
         visual_video_filename = basename_template.replace(
