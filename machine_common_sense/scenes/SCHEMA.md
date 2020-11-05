@@ -318,7 +318,7 @@ The following object types have the `pickupable` attribute by default.
 | `"chest_2"` | box | 15 | | X | X | metal, plastic, wood | Treasure chest |
 | `"chair_1"` | chair | 5 | X | X | | metal, plastic, wood | |
 | `"chair_2"` | stool | 2.5 | X | X | | metal, plastic, wood | |
-| `"changing_table"` | 100 | changing table | | X | X | wood | |
+| `"changing_table"` | changing table | 100 | X | X | wood | |
 | `"crib"` | crib | 25 | | | | wood | |
 | `"foam_floor_tiles"` | foam floor tiles | 1 | | | | none | |
 | `"shelf_1"` | shelf | 10 | | X | | metal, plastic, wood | Object with four cubbies | |
@@ -330,7 +330,7 @@ The following object types have the `pickupable` attribute by default.
 | `"table_1"` | table | 10 | X | X | | metal, plastic, wood | Rectangular table with legs | |
 | `"table_3"` | table | 2.5 | X | X | | metal, plastic, wood | Circular table | |
 | `"table_5"` | table | 20 | X | X | | metal, plastic, wood | Rectangular table with sides | |
-| `"wardrobe"` | changing table | 100 | | X | X | wood | |
+| `"wardrobe"` | wardrobe | 100 | | X | X | wood | |
 
 ### Primitive Objects
 
