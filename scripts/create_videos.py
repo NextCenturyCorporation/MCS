@@ -20,10 +20,9 @@ def run():
     sample_number = sys.argv[3]
 
     folder_list = glob.glob(folder_prefix + '*')
-    folder_list = [
+    folder_list = sorted([
         folder for folder in folder_list if os.path.isdir(folder)
-    ]
-    folder_list.sort()
+    ])
 
     for folder in folder_list:
         frame_image_list = glob.glob(folder + '/frame_image_*')
