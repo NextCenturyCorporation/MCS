@@ -6,7 +6,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-from typing import Dict, NamedTuple
+from typing import Dict, NamedTuple, List
 from shapely import geometry
 
 
@@ -52,14 +52,28 @@ class TopDownPlotter():
              step_number: int) -> PIL.Image.Image:
 
         plt = self._initialize_plot(step_number=step_number)
-        self._draw_structural_objects(
-            scene_event.metadata.get(
-                'structuralObjects', None))
-        self._draw_objects(scene_event.metadata.get('objects', None))
+        self._draw_objects(self._find_plottable_objects(scene_event))
         self._draw_agent(scene_event.metadata.get('agent', None))
         img = self._export_plot(plt)
         plt.close()
         return img
+
+    def _find_plottable_objects(
+            self, scene_event: ai2thor.server.Event) -> List:
+        '''Find plottable objects from the scene data.
+
+        Plottable objects include normal scene objects as well as
+        occluder and wall structural objects.
+        '''
+        structural_objects = scene_event.metadata.get(
+            'structuralObjects', [])
+        filtered_structural_objects = [
+            obj for obj in structural_objects
+            if obj.get('objectId', '').startswith('occluder') or
+            obj.get('objectId', '').startswith('wall')
+        ]
+        objects = scene_event.metadata.get('objects', [])
+        return objects + filtered_structural_objects
 
     def _initialize_plot(self, step_number: int) -> None:
         '''Create the plot'''
@@ -117,16 +131,6 @@ class TopDownPlotter():
         for o in objects:
             obj = self._create_object(o)
             if obj.bounds is not None:
-                obj_pts = [(pt['x'], pt['z']) for pt in obj.bounds]
-                polygon = geometry.MultiPoint(obj_pts).convex_hull
-                pts = polygon.exterior.coords
-                self._draw_object_bounds(obj, pts)
-
-    def _draw_structural_objects(self, objects: Dict) -> None:
-        for o in objects:
-            obj = self._create_object(o)
-            if obj.bounds is not None and (obj.uuid.startswith(
-                    'occluder') or obj.uuid.startswith('wall')):
                 obj_pts = [(pt['x'], pt['z']) for pt in obj.bounds]
                 polygon = geometry.MultiPoint(obj_pts).convex_hull
                 pts = polygon.exterior.coords

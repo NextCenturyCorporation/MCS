@@ -43,6 +43,7 @@ class Test_TopDownPlotter(unittest.TestCase):
             'screenWidth': 600,
             'screenHeight': 400,
             'objects': [],
+            'structuralObjects': [],
             'agent': {
                 'position': {
                     'x': 0.0,
@@ -66,6 +67,7 @@ class Test_TopDownPlotter(unittest.TestCase):
             'screenWidth': 600,
             'screenHeight': 400,
             'objects': [],
+            'structuralObjects': [],
             'agent': {
                 'position': {
                     'x': 0.0,
@@ -84,6 +86,7 @@ class Test_TopDownPlotter(unittest.TestCase):
             'screenWidth': 600,
             'screenHeight': 400,
             'objects': [],
+            'structuralObjects': [],
             'agent': {
                 'position': {
                     'x': 2.0,
@@ -247,3 +250,84 @@ class Test_TopDownPlotter(unittest.TestCase):
         self.assertIsNone(obj.uuid)
         self.assertIsNone(obj.bounds)
         self.assertEqual(obj.color, "xkcd:black")
+
+    def test_find_plottable_objects_empty(self):
+        metadata = {
+            'screenWidth': 600,
+            'screenHeight': 400,
+            'objects': [],
+            'structuralObjects': [],
+            'agent': {
+                'position': {
+                    'x': 0.0,
+                    'y': 0.0,
+                    'z': 0.0
+                },
+                'rotation': {
+                    'x': 0.0,
+                    'y': 0.0,
+                    'z': 0.0
+                }
+            }
+        }
+        scene_event = ai2thor.server.Event(metadata=metadata)
+        filtered_objects = self.plotter._find_plottable_objects(scene_event)
+        self.assertEqual(len(filtered_objects), 0)
+
+    def test_find_plottable_objects_combined(self):
+        metadata = {
+            'screenWidth': 600,
+            'screenHeight': 400,
+            'objects': [
+                {'objectId': 'test-uuid1'},
+                {'objectId': 'test-uuid2'},
+                {'objectId': 'test-uuid3'}
+            ],
+            'structuralObjects': [
+                {'objectId': 'occluder1'},
+                {'objectId': 'occluder2'},
+                {'objectId': 'wall1'}
+            ]
+        }
+        scene_event = ai2thor.server.Event(metadata=metadata)
+        filtered_objects = self.plotter._find_plottable_objects(scene_event)
+        self.assertEqual(len(filtered_objects), 6)
+        self.assertEqual(len(
+            [k for k in filtered_objects
+             if k['objectId'].startswith('test-uuid')]), 3)
+        self.assertEqual(len(
+            [k for k in filtered_objects
+             if k['objectId'].startswith('occluder')]), 2)
+        self.assertEqual(len(
+            [k for k in filtered_objects
+             if k['objectId'].startswith('wall')]), 1)
+
+    def test_find_plottable_objects_filtered(self):
+        metadata = {
+            'screenWidth': 600,
+            'screenHeight': 400,
+            'objects': [
+                {'objectId': 'test-uuid1'},
+                {'objectId': 'test-uuid2'},
+                {'objectId': 'test-uuid3'}
+            ],
+            'structuralObjects': [
+                {'objectId': 'occluder1'},
+                {'objectId': 'occluder2'},
+                {'objectId': 'wall1'},
+                {'objectId': 'floor-gets-filtered'},
+                {'objectId': 'test-object-gets-filtered'}
+            ]
+        }
+        scene_event = ai2thor.server.Event(metadata=metadata)
+        filtered_objects = self.plotter._find_plottable_objects(scene_event)
+        self.assertEqual(len(filtered_objects), 6)
+        self.assertEqual(len(
+            [k for k in filtered_objects
+             if k['objectId'].startswith('test-uuid')]), 3)
+        self.assertEqual(len(
+            [k for k in filtered_objects
+             if k['objectId'].startswith('occluder')]), 2)
+        self.assertEqual(len(
+            [k for k in filtered_objects
+             if k['objectId'].startswith('wall')]), 1)
