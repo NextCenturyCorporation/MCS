@@ -1,5 +1,7 @@
+import os
 import time
 import pathlib
+import shutil
 import threading
 import queue
 
@@ -37,6 +39,7 @@ class VideoRecorder():
         self.started = False
         self.timeout = timeout
         self._path = vid_path
+        self._frames_written = 0
         self.writer = cv2.VideoWriter(str(vid_path),
                                       cv2.VideoWriter_fourcc(*fourcc),
                                       fps,
@@ -77,6 +80,7 @@ class VideoRecorder():
             if not self.frame_queue.empty():
                 frame = self.frame_queue.get()
                 self.writer.write(frame)
+                self._frames_written = self._frames_written + 1
             else:
                 time.sleep(self.timeout)
 
@@ -96,6 +100,15 @@ class VideoRecorder():
         self.thread.join()
         self.flush()
         self.writer.release()
+
+        if self._frames_written > 0:
+            # convert video to use h264 codec for browser playing
+            # which is not usable directly from opencv
+            shutil.move(self._path, 'temp.mp4')
+            os.system(
+                f'ffmpeg -loglevel quiet -i temp.mp4'
+                f' -vcodec libx264 {self._path}')
+            os.remove('temp.mp4')
 
     @property
     def path(self) -> pathlib.Path:
