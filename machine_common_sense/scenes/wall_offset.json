@@ -1,4 +1,6 @@
 ﻿{
+    "name": "wall_offset",
+    "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
     "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",

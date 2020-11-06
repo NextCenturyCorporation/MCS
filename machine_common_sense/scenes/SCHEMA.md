@@ -91,7 +91,7 @@ Each **scene config** has the following properties:
 - `goal` ([goal config](#goal-config), optional): The goal for the scene. Default: none
 - `intuitivePhysics` (bool, optional): Specific performer and room setup for intuitive physics scenes.
 - `isometric` (bool, optional): Specific performer and room setup for agent scenes.
-- `name` (string, optional): A unique name for the scene used for our logs. Default: the filename
+- `name` (string, required): A unique name for the scene used for our logs. Default: the filename
 - `objects` ([object config](#object-config) array, optional): The objects for the scene. Default: `[]`
 - `performerStart` ([transform config](#transform-config), optional): The starting position and rotation of the performer (the "player"). Only the `position.x`, `position.z`, `rotation.x` (head tilt), and `rotation.y` properties are used. Default: `{ "position": { "x": 0, "z": 0 }, "rotation": { "y": 0 } }`
 - `version` (int, optional): The version of this scene configuration. Default: the latest version
