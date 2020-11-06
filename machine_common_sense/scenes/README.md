@@ -16,13 +16,15 @@ An open room containing over 40 objects for undirected exploration.
 
 ![playroom_3_2](./videos/playroom_3_2.gif)
 
-#### Retrieval
+#### Retrieval Goal
 
 - [trophy_retrieval_example.json](./trophy_retrieval_example.json)
 
-#### Container
+#### Hinged Containers
 
 - [hinged_container_example.json](./hinged_container_example.json)
+
+![hinged_container_example](./videos/hinged_container_example.gif)
 
 ### Intuitive Physics Scenes
 
