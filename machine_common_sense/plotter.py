@@ -44,6 +44,8 @@ class TopDownPlotter():
     def __init__(self, team: str, scene_name: str,
                  plot_width: int, plot_height: int):
         self._team = team
+        if '/' in scene_name:
+            scene_name = scene_name.rsplit('/', 1)[1]
         self._scene_name = scene_name
         self._plot_width = plot_width
         self._plot_height = plot_height

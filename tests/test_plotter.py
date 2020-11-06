@@ -331,3 +331,16 @@ class Test_TopDownPlotter(unittest.TestCase):
         self.assertEqual(len(
             [k for k in filtered_objects
              if k['objectId'].startswith('wall')]), 1)
+
+    def test_scene_name(self):
+        self.assertEqual(self.plotter._scene_name, "scene")
+
+    def test_scene_name_prefix(self):
+        plotter = TopDownPlotter(
+            team="test",
+            scene_name="prefix/scene",
+            plot_width=self.PLOT_WIDTH,
+            plot_height=self.PLOT_HEIGHT
+        )
+
+        self.assertEqual(plotter._scene_name, "scene")
