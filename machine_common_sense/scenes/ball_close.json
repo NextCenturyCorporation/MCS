@@ -1,4 +1,6 @@
 ﻿{
+    "name": "ball_close",
+    "version": 2,
     "ceilingMaterial": "Walls/WallDrywallWhite",
     "floorMaterial": "Fabrics/RUG4",
     "wallMaterial": "Walls/YellowDrywall",

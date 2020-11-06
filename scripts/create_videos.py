@@ -3,7 +3,7 @@ import os
 import subprocess
 import sys
 
-BLACK_IMAGE_PATH = '../machine_common_sense/scenes/images/black_image.png'
+BLACK_IMAGE_PATH = './black_image.png'
 # FILE_TYPE_LIST = ['gif', 'mov', 'mp4']
 FILE_TYPE_LIST = ['mp4']
 
@@ -20,10 +20,9 @@ def run():
     sample_number = sys.argv[3]
 
     folder_list = glob.glob(folder_prefix + '*')
-    folder_list = [
+    folder_list = sorted([
         folder for folder in folder_list if os.path.isdir(folder)
-    ]
-    folder_list.sort()
+    ])
 
     for folder in folder_list:
         frame_image_list = glob.glob(folder + '/frame_image_*')

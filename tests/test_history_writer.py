@@ -59,3 +59,32 @@ class Test_HistoryWriter(unittest.TestCase):
         self.assertEqual(writer.history_obj["score"]["confidence"], "0.75")
 
         self.assertTrue(os.path.exists(writer.scene_history_file))
+
+    def test_write_history_file_with_slash(self):
+        config_data = {"name": "prefix/test_scene_file.json"}
+        writer = mcs.HistoryWriter(config_data)
+
+        history_item = mcs.SceneHistory(
+            step=1,
+            action="MoveAhead")
+        writer.add_step(history_item)
+
+        history_item = mcs.SceneHistory(
+            step=2,
+            action="MoveLeft")
+        writer.add_step(history_item)
+
+        writer.write_history_file("Plausible", 0.75)
+
+        self.assertEqual(writer.end_score["classification"], "Plausible")
+        self.assertEqual(writer.end_score["confidence"], "0.75")
+
+        self.assertEqual(
+            writer.history_obj["info"]["name"],
+            "prefix/test_scene_file")
+        self.assertEqual(len(writer.history_obj["steps"]), 2)
+        self.assertEqual(
+            writer.history_obj["score"]["classification"], "Plausible")
+        self.assertEqual(writer.history_obj["score"]["confidence"], "0.75")
+
+        self.assertTrue(os.path.exists(writer.scene_history_file))
