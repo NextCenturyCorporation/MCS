@@ -15,7 +15,7 @@ class XZHeading(NamedTuple):
     z: float
 
 
-class Agent(NamedTuple):
+class Robot(NamedTuple):
     x: float
     y: float
     z: float
@@ -32,9 +32,9 @@ class Object(NamedTuple):
 
 class TopDownPlotter():
 
-    AGENT_PLOT_WIDTH = 0.2
-    AGENT_PLOT_LABEL = "agent"
-    AGENT_COLOR = 'xkcd:gray'
+    ROBOT_PLOT_WIDTH = 0.2
+    ROBOT_PLOT_LABEL = "robot"
+    ROBOT_COLOR = 'xkcd:gray'
     DEFAULT_COLOR = "xkcd:black"
     HEADING_LENGTH = 0.4
     MINIMUM_ROOM_DIMENSION = -5
@@ -53,7 +53,7 @@ class TopDownPlotter():
 
         plt = self._initialize_plot(step_number=step_number)
         self._draw_objects(self._find_plottable_objects(scene_event))
-        self._draw_agent(scene_event.metadata.get('agent', None))
+        self._draw_robot(scene_event.metadata.get('agent', None))
         img = self._export_plot(plt)
         plt.close()
         return img
@@ -97,32 +97,32 @@ class TopDownPlotter():
         # current video recorders require it for now
         return img.resize((self._plot_width, self._plot_height))
 
-    def _draw_agent(self, agent_metadata: Dict) -> None:
-        '''Plot the agent position and heading'''
-        if agent_metadata is None:
+    def _draw_robot(self, robot_metadata: Dict) -> None:
+        '''Plot the robot position and heading'''
+        if robot_metadata is None:
             return None
-        agent = self._create_agent(agent_metadata)
-        self._draw_agent_position(agent)
-        self._draw_agent_heading(agent)
+        robot = self._create_robot(robot_metadata)
+        self._draw_robot_position(robot)
+        self._draw_robot_heading(robot)
 
-    def _draw_agent_position(self, agent: Agent) -> None:
-        '''Draw the agent's scene XZ position in the plot'''
+    def _draw_robot_position(self, robot: Robot) -> None:
+        '''Draw the robot's scene XZ position in the plot'''
         circle = plt.Circle(
-            (agent.x, agent.z),
-            radius=self.AGENT_PLOT_WIDTH,
-            color=self.AGENT_COLOR,
-            label=self.AGENT_PLOT_LABEL)
+            (robot.x, robot.z),
+            radius=self.ROBOT_PLOT_WIDTH,
+            color=self.ROBOT_COLOR,
+            label=self.ROBOT_PLOT_LABEL)
         plt.gca().add_patch(circle)
 
-    def _draw_agent_heading(self, agent: Agent) -> None:
-        '''Draw the heading vector starting from the agent XZ position'''
+    def _draw_robot_heading(self, robot: Robot) -> None:
+        '''Draw the heading vector starting from the robot XZ position'''
         heading = self._calculate_heading(
-            rotation_angle=360.0 - agent.rotation,
+            rotation_angle=360.0 - robot.rotation,
             heading_length=self.HEADING_LENGTH
         )
-        heading = plt.Line2D((agent.x, agent.x + heading.x),
-                             (agent.z, agent.z + heading.z),
-                             color=self.AGENT_COLOR,
+        heading = plt.Line2D((robot.x, robot.x + heading.x),
+                             (robot.z, robot.z + heading.z),
+                             color=self.ROBOT_COLOR,
                              lw=1)
         plt.gca().add_line(heading)
 
@@ -155,9 +155,9 @@ class TopDownPlotter():
         vec_z = 0 * s + heading_length * c
         return XZHeading(vec_x, vec_z)
 
-    def _create_agent(self, agent_metadata: Dict) -> Agent:
-        '''Extract agent position and rotation information from the metadata'''
-        position = agent_metadata.get('position', None)
+    def _create_robot(self, robot_metadata: Dict) -> Robot:
+        '''Extract robot position and rotation information from the metadata'''
+        position = robot_metadata.get('position', None)
         if position is not None:
             x = position.get('x', None)
             y = position.get('y', None)
@@ -167,13 +167,13 @@ class TopDownPlotter():
             y = 0.0
             z = 0.0
 
-        rotation = agent_metadata.get('rotation', None)
+        rotation = robot_metadata.get('rotation', None)
         if rotation is not None:
             rotation_y = rotation.get('y', None)
         else:
             rotation_y = 0.0
 
-        return Agent(x, y, z, rotation_y)
+        return Robot(x, y, z, rotation_y)
 
     def _create_object(self, object_metadata: Dict) -> Object:
         '''Create the scene object from its metadata'''

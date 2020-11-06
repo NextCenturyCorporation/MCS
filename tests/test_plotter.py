@@ -161,8 +161,8 @@ class Test_TopDownPlotter(unittest.TestCase):
         self.assertAlmostEqual(heading.z, TopDownPlotter.HEADING_LENGTH)
         self.assertIsInstance(heading, XZHeading)
 
-    def test_create_agent(self):
-        agent_metadata = {
+    def test_create_robot(self):
+        robot_metadata = {
             'position': {
                 'x': 2.70,
                 'y': 1.23,
@@ -174,42 +174,42 @@ class Test_TopDownPlotter(unittest.TestCase):
                 'z': 0.0
             }
         }
-        agent = self.plotter._create_agent(agent_metadata)
+        robot = self.plotter._create_robot(robot_metadata)
 
-        self.assertAlmostEqual(agent.x, 2.70)
-        self.assertAlmostEqual(agent.y, 1.23)
-        self.assertAlmostEqual(agent.z, 3.14)
-        self.assertAlmostEqual(agent.rotation, 78.0)
+        self.assertAlmostEqual(robot.x, 2.70)
+        self.assertAlmostEqual(robot.y, 1.23)
+        self.assertAlmostEqual(robot.z, 3.14)
+        self.assertAlmostEqual(robot.rotation, 78.0)
 
-    def test_create_agent_missing_position(self):
-        agent_metadata = {
+    def test_create_robot_missing_position(self):
+        robot_metadata = {
             'rotation': {
                 'x': 0.0,
                 'y': 78.0,
                 'z': 0.0
             }
         }
-        agent = self.plotter._create_agent(agent_metadata)
+        robot = self.plotter._create_robot(robot_metadata)
 
-        self.assertAlmostEqual(agent.x, 0.0)
-        self.assertAlmostEqual(agent.y, 0.0)
-        self.assertAlmostEqual(agent.z, 0.0)
-        self.assertAlmostEqual(agent.rotation, 78.0)
+        self.assertAlmostEqual(robot.x, 0.0)
+        self.assertAlmostEqual(robot.y, 0.0)
+        self.assertAlmostEqual(robot.z, 0.0)
+        self.assertAlmostEqual(robot.rotation, 78.0)
 
-    def test_create_agent_missing_rotation(self):
-        agent_metadata = {
+    def test_create_robot_missing_rotation(self):
+        robot_metadata = {
             'position': {
                 'x': 2.70,
                 'y': 1.23,
                 'z': 3.14
             }
         }
-        agent = self.plotter._create_agent(agent_metadata)
+        robot = self.plotter._create_robot(robot_metadata)
 
-        self.assertAlmostEqual(agent.x, 2.70)
-        self.assertAlmostEqual(agent.y, 1.23)
-        self.assertAlmostEqual(agent.z, 3.14)
-        self.assertAlmostEqual(agent.rotation, 0.0)
+        self.assertAlmostEqual(robot.x, 2.70)
+        self.assertAlmostEqual(robot.y, 1.23)
+        self.assertAlmostEqual(robot.z, 3.14)
+        self.assertAlmostEqual(robot.rotation, 0.0)
 
     def test_create_object(self):
         object_metadata = {
