@@ -24,7 +24,7 @@ def main():
         exit()
 
     controller = mcs.create_controller(args.mcs_unity_build_file, debug=True,
-                                       depth_maps=True, object_masks=True,
+                                       depth_maps=False, object_masks=False,
                                        history_enabled=False)
     config_file_name = config_file_path[config_file_path.rfind('/') + 1:]
 
