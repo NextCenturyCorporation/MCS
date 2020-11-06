@@ -52,7 +52,10 @@ class TopDownPlotter():
              step_number: int) -> PIL.Image.Image:
 
         plt = self._initialize_plot(step_number=step_number)
-        self._draw_object(scene_event.metadata.get('objects', None))
+        self._draw_structural_objects(
+            scene_event.metadata.get(
+                'structuralObjects', None))
+        self._draw_objects(scene_event.metadata.get('objects', None))
         self._draw_agent(scene_event.metadata.get('agent', None))
         img = self._export_plot(plt)
         plt.close()
@@ -109,11 +112,21 @@ class TopDownPlotter():
                              lw=1)
         plt.gca().add_line(heading)
 
-    def _draw_object(self, objects: Dict) -> None:
+    def _draw_objects(self, objects: Dict) -> None:
         '''Plot the object bounds for each object in the scene'''
         for o in objects:
             obj = self._create_object(o)
             if obj.bounds is not None:
+                obj_pts = [(pt['x'], pt['z']) for pt in obj.bounds]
+                polygon = geometry.MultiPoint(obj_pts).convex_hull
+                pts = polygon.exterior.coords
+                self._draw_object_bounds(obj, pts)
+
+    def _draw_structural_objects(self, objects: Dict) -> None:
+        for o in objects:
+            obj = self._create_object(o)
+            if obj.bounds is not None and (obj.uuid.startswith(
+                    'occluder') or obj.uuid.startswith('wall')):
                 obj_pts = [(pt['x'], pt['z']) for pt in obj.bounds]
                 polygon = geometry.MultiPoint(obj_pts).convex_hull
                 pts = polygon.exterior.coords
