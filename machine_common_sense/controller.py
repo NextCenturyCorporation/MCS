@@ -315,9 +315,9 @@ class Controller():
             scene_name = scene_name.rsplit('/', 1)[1]
 
         timestamp = self.generate_time()
-        basename_template = ('_'.join(
+        basename_template = '_'.join(
             [eval_name, self._metadata_tier, team, scene_name,
-             self.PLACEHOLDER, timestamp]) + '.mp4').replace(' ', '')
+             self.PLACEHOLDER, timestamp]) + '.mp4'
 
         visual_video_filename = basename_template.replace(
             self.PLACEHOLDER, self.VISUAL)
@@ -401,7 +401,7 @@ class Controller():
                                  ) +
                                  '_' + self._metadata_tier +
                                  '_' + self._config.get(self.CONFIG_TEAM, '') +
-                                 '_' + history_filename).replace(' ', '')
+                                 '_' + history_filename)
                 )
 
             self.__topdown_recorder.finish()
