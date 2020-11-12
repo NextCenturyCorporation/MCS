@@ -161,6 +161,7 @@ class Controller():
     CONFIG_S3_BUCKET = 's3_bucket'
     CONFIG_S3_FOLDER = 's3_folder'
     CONFIG_TEAM = 'team'
+    CONFIG_EVALUATION_NAME = 'evaluation_name'
 
     def __init__(self, unity_app_file_path, debug=False,
                  enable_noise=False, seed=None, size=None,
@@ -305,6 +306,7 @@ class Controller():
         '''Create video recorders used to capture evaluation scenes for review
         '''
         output_folder = pathlib.Path(self.__output_folder)
+        eval_name = self._config.get(self.CONFIG_EVALUATION_NAME, '')
         team = self._config.get(self.CONFIG_TEAM, '')
         scene_name = self.__scene_configuration.get(
             'name', '').replace('json', '')
@@ -314,7 +316,8 @@ class Controller():
 
         timestamp = self.generate_time()
         basename_template = '_'.join(
-            [team, scene_name, self.PLACEHOLDER, timestamp]) + '.mp4'
+            [eval_name, self._metadata_tier, team, scene_name,
+             self.PLACEHOLDER, timestamp]) + '.mp4'
 
         visual_video_filename = basename_template.replace(
             self.PLACEHOLDER, self.VISUAL)
@@ -393,7 +396,11 @@ class Controller():
                 self.__uploader.upload_history(
                     history_path=self.__history_writer.scene_history_file,
                     s3_filename=(folder_prefix + '/' +
-                                 self._config[self.CONFIG_TEAM] +
+                                 self._config.get(
+                                     self.CONFIG_EVALUATION_NAME, ''
+                                 ) +
+                                 '_' + self._metadata_tier +
+                                 '_' + self._config.get(self.CONFIG_TEAM, '') +
                                  '_' + history_filename)
                 )
 
@@ -459,9 +466,21 @@ class Controller():
             # Ensure the previous scene history writer has saved its file.
             if self.__history_writer:
                 self.__history_writer.check_file_written()
+
+            hist_info = {}
+            hist_info[self.CONFIG_EVALUATION_NAME] = self._config.get(
+                self.CONFIG_EVALUATION_NAME, ''
+            )
+            hist_info[self.CONFIG_EVALUATION] = self._config.get(
+                self.CONFIG_EVALUATION, False
+            )
+            hist_info[self.CONFIG_METADATA_TIER] = self._metadata_tier
+            hist_info[self.CONFIG_TEAM] = self._config.get(
+                self.CONFIG_TEAM, ''
+            )
             # Create a new scene history writer with each new scene (config
             # data) so we always create a new, separate scene history file.
-            self.__history_writer = HistoryWriter(config_data)
+            self.__history_writer = HistoryWriter(config_data, hist_info)
 
         skip_preview_phase = (True if 'goal' in config_data and
                               'skip_preview_phase' in config_data['goal']
