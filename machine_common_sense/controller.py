@@ -500,6 +500,8 @@ class Controller():
 
         output = self.restrict_step_output_metadata(pre_restrict_output)
 
+        self.write_debug_output(output)
+
         if not skip_preview_phase:
             if (self._goal is not None and
                     self._goal.last_preview_phase_step > 0):
@@ -739,6 +741,8 @@ class Controller():
             output=history_copy)
 
         output = self.restrict_step_output_metadata(pre_restrict_output)
+
+        self.write_debug_output(output)
 
         return output
 
@@ -1191,6 +1195,9 @@ class Controller():
 
         self.__head_tilt = step_output.head_tilt
 
+        return step_output
+
+    def write_debug_output(self, step_output):
         if self.__debug_to_terminal:
             print("RETURN STATUS: " + step_output.return_status)
             print("REWARD: " + str(step_output.reward))
@@ -1209,8 +1216,6 @@ class Controller():
             with open(self.__output_folder + 'mcs_output_' +
                       str(self.__step_number) + '.json', 'w') as json_file:
                 json_file.write(str(step_output))
-
-        return step_output
 
     def wrap_step(self, **kwargs):
         # whether or not to randomize segmentation mask colors
