@@ -27,7 +27,7 @@ class ConfigManager(object):
     """
 
     CONFIG_FILE_KEY = 'MCS_CONFIG_FILE_PATH'  # TODO: MCS-410: REPLACE
-    DEFAULT_CONFIG_FILE = './mcs_config.yaml'  # TODO: MCS-410: REPLACE
+    DEFAULT_CONFIG_FILE = './mcs_config.ini'
     CONFIG_METADATA_TIER = 'metadata'
     CONFIG_AWS_ACCESS_KEY_ID = 'aws_access_key_id'
     CONFIG_AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
@@ -36,6 +36,8 @@ class ConfigManager(object):
     CONFIG_EVALUATION_NAME = 'evaluation_name'
     CONFIG_S3_BUCKET = 's3_bucket'
     CONFIG_S3_FOLDER = 's3_folder'
+
+    CONFIG_DEFAULT_SECTION = 'MCS'
 
     def __init__(self, config_file_path):
         # self.config_file = os.getenv(self.CONFIG_FILE_KEY,
@@ -46,7 +48,7 @@ class ConfigManager(object):
         self._config_file = os.getenv('MCS_CONFIG_FILE_PATH', config_file_path)
 
         if(self._config_file is None):
-            self._config_file = './mcs_config.yaml'
+            self._config_file = self.DEFAULT_CONFIG_FILE
 
         self._config = self.read_config_file()
 
@@ -63,73 +65,75 @@ class ConfigManager(object):
         """
 
     def read_config_file(self):
+        config = configparser.ConfigParser()
         if os.path.exists(self._config_file):
-            with open(self._config_file, 'r') as config_file:
-                config = yaml.load(config_file)
-                # TODO: MCS-410 - Uncomment
-                # if self.__debug_to_terminal:
-                print('Read MCS Config File:')
-                print(config)
-                if 'metadata' not in config:
-                    config['metadata'] = ''
-                return config
-        return {}
+            config.read(self._config_file)
+            # TODO: MCS-410 - Uncomment
+            # if self.__debug_to_terminal:
+            print('Read MCS Config File:')
+            print({section: dict(config[section])
+                   for section in config.sections()})
+        return config
 
     def get_metadata_tier(self):
         # Environment variable override for metadata property
         metadata_env_var = os.getenv('MCS_METADATA_LEVEL', None)
 
         if(metadata_env_var is None):
-            return self._config.get(self.CONFIG_METADATA_TIER, '')
+            return self._config.get(
+                self.CONFIG_DEFAULT_SECTION,
+                self.CONFIG_METADATA_TIER,
+                fallback=''
+            )
 
         return metadata_env_var
 
     def is_evaluation(self):
-        return self._config.get(self.CONFIG_EVALUATION, False)
-
-    def check_env_variable_prop(self, env_var_key, key):
-        env_var = os.getenv(env_var_key, None)
-
-        if(env_var is None):
-            return self._config.get(key, '')
-
-        return env_var
-
-    """
-    def check_env_variable_prop(self, key):
-        metadata_env_var = os.getenv('MCS_METADATA_LEVEL', None)
-
-        if(metadata_env_var is None):
-            self._metadata_tier = (
-                self._config.get(self.CONFIG_METADATA_TIER, '')
-            )
-        else:
-            self._metadata_tier = metadata_env_var
-    """
-
-    def get_property(self, key):
-        return (self._config.get(key, ''))
+        return self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_EVALUATION,
+            fallback=False
+        )
 
     def get_aws_access_key_id(self):
-        return self._config.get(self.CONFIG_AWS_ACCESS_KEY_ID)
+        return self._config.get(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_AWS_ACCESS_KEY_ID
+        )
 
     def get_aws_secret_access_key(self):
-        return self._config.get(self.CONFIG_AWS_SECRET_ACCESS_KEY)
+        return self._config.get(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_AWS_SECRET_ACCESS_KEY
+        )
 
     def get_evaluation_name(self):
-        return self._config.get(self.CONFIG_EVALUATION_NAME, '')
+        return self._config.get(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_EVALUATION_NAME,
+            fallback=''
+        )
 
     def get_s3_bucket(self):
-        return self._config.get(self.CONFIG_S3_BUCKET, None)
+        return self._config.get(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_S3_BUCKET,
+            fallback=None
+        )
 
     def get_s3_folder(self):
-        return self._config.get(self.CONFIG_S3_FOLDER, None)
+        return self._config.get(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_S3_FOLDER,
+            fallback=None
+        )
 
     def get_team(self):
-        return self._config.get(self.CONFIG_TEAM, '')
+        return self._config.get(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_TEAM,
+            fallback=''
+        )
 
-    def get_property_with_suffix(self, key, suffix):
-        return (self._config.get(key + suffix, ''))
-
-    def has_property(self, key):
-        return key in self._config
+    def has_option(self, key):
+        return self._config.has_option(self.CONFIG_DEFAULT_SECTION, key)
