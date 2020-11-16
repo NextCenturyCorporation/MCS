@@ -6,7 +6,6 @@ import numpy as np
 import os
 import random
 import pathlib
-import yaml
 import PIL
 import ast
 from typing import Dict, List
@@ -40,6 +39,7 @@ from .recorder import VideoRecorder
 from .uploader import S3Uploader
 from .util import Util
 from .history_writer import HistoryWriter
+from .config_manager import ConfigManager
 
 # From https://github.com/NextCenturyCorporation/ai2thor/blob/master/ai2thor/server.py#L232-L240 # noqa: E501
 
@@ -138,7 +138,6 @@ class Controller():
     OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
-    CONFIG_METADATA_TIER = 'metadata'
     # Normal metadata plus metadata for all hidden objects
     CONFIG_METADATA_TIER_ORACLE = 'oracle'
     # No metadata, except for the images, depth masks, object masks,
@@ -148,20 +147,11 @@ class Controller():
     # feedback
     CONFIG_METADATA_TIER_LEVEL_1 = 'level1'
 
-    CONFIG_EVALUATION = 'evaluation'
-
     AWS_CREDENTIALS_FOLDER = os.path.expanduser('~') + '/.aws/'
     AWS_CREDENTIALS_FILE = os.path.expanduser('~') + '/.aws/credentials'
+
     AWS_ACCESS_KEY_ID = 'aws_access_key_id'
     AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
-
-    CONFIG_AWS_ACCESS_KEY_ID = 'aws_access_key_id'
-    CONFIG_AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
-
-    CONFIG_S3_BUCKET = 's3_bucket'
-    CONFIG_S3_FOLDER = 's3_folder'
-    CONFIG_TEAM = 'team'
-    CONFIG_EVALUATION_NAME = 'evaluation_name'
 
     def __init__(self, unity_app_file_path, debug=False,
                  enable_noise=False, seed=None, size=None,
@@ -223,10 +213,7 @@ class Controller():
 
     def _on_init(self, debug=False, enable_noise=False, seed=None,
                  depth_maps=None, object_masks=None,
-                 history_enabled=True):
-
-        self._config_file = os.getenv('MCS_CONFIG_FILE_PATH',
-                                      './mcs_config.yaml')
+                 history_enabled=True, config_path=None):
 
         self.__debug_to_file = True if (
             debug is True or debug == 'file') else False
@@ -250,19 +237,10 @@ class Controller():
         self.__history_item = None
         self.__uploader = None
 
-        self._config = self.read_config_file()
+        # self._config = self.read_config_file()
+        self._config = ConfigManager(config_path)
 
-        # Environment variable override for metadata property
-        metadata_env_var = os.getenv('MCS_METADATA_LEVEL', None)
-
-        if(metadata_env_var is None):
-            self._metadata_tier = (
-                self._config[self.CONFIG_METADATA_TIER]
-                if self.CONFIG_METADATA_TIER in self._config
-                else ''
-            )
-        else:
-            self._metadata_tier = metadata_env_var
+        self._metadata_tier = self._config.get_metadata_tier()
 
         # Order of preference for depth/object mask settings:
         # look for user specified depth_maps/object_masks properties,
@@ -284,8 +262,9 @@ class Controller():
             self.__object_masks = (
                 object_masks if object_masks is not None else False)
 
-        if ((self.CONFIG_AWS_ACCESS_KEY_ID in self._config) and
-                (self.CONFIG_AWS_SECRET_ACCESS_KEY in self._config)):
+        # TODO: MCS-410: what to do with this?
+        if ((self._config.has_property(self._config.CONFIG_AWS_ACCESS_KEY_ID)) and  # noqa: E501
+                (self._config.has_property(self._config.CONFIG_AWS_SECRET_ACCESS_KEY))):  # noqa: E501
             if not os.path.exists(self.AWS_CREDENTIALS_FOLDER):
                 os.makedirs(self.AWS_CREDENTIALS_FOLDER)
             # From https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html # noqa: E501
@@ -294,11 +273,11 @@ class Controller():
                     '[default]\n' +
                     self.AWS_ACCESS_KEY_ID +
                     ' = ' +
-                    self._config[self.CONFIG_AWS_ACCESS_KEY_ID] +
+                    self._config.get_aws_access_key_id() +
                     '\n' +
                     self.AWS_SECRET_ACCESS_KEY +
                     ' = ' +
-                    self._config[self.CONFIG_AWS_SECRET_ACCESS_KEY] +
+                    self._config.get_aws_secret_access_key() +
                     '\n'
                 )
 
@@ -306,8 +285,8 @@ class Controller():
         '''Create video recorders used to capture evaluation scenes for review
         '''
         output_folder = pathlib.Path(self.__output_folder)
-        eval_name = self._config.get(self.CONFIG_EVALUATION_NAME, '')
-        team = self._config.get(self.CONFIG_TEAM, '')
+        eval_name = self._config.get_evaluation_name()
+        team = self._config.get_team()
         scene_name = self.__scene_configuration.get(
             'name', '').replace('json', '')
         # strip prefix in scene_name
@@ -383,12 +362,12 @@ class Controller():
             self.__history_writer.add_step(self.__history_item)
             self.__history_writer.write_history_file(choice, confidence)
 
-        if self._config.get(self.CONFIG_EVALUATION, False):
+        if self._config.is_evaluation():
             self.__uploader = S3Uploader(
-                s3_bucket=self._config.get(self.CONFIG_S3_BUCKET, None)
+                s3_bucket=self._config.get_s3_bucket()
             )
 
-            folder_prefix = self._config.get(self.CONFIG_S3_FOLDER, None)
+            folder_prefix = self._config.get_s3_folder()
 
             if self.__history_enabled:
                 history_filename = pathlib.Path(
@@ -396,11 +375,9 @@ class Controller():
                 self.__uploader.upload_history(
                     history_path=self.__history_writer.scene_history_file,
                     s3_filename=(folder_prefix + '/' +
-                                 self._config.get(
-                                     self.CONFIG_EVALUATION_NAME, ''
-                                 ) +
+                                 self._config.get_evaluation_name() +
                                  '_' + self._metadata_tier +
-                                 '_' + self._config.get(self.CONFIG_TEAM, '') +
+                                 '_' + self._config.get_team() +
                                  '_' + history_filename)
                 )
 
@@ -468,16 +445,18 @@ class Controller():
                 self.__history_writer.check_file_written()
 
             hist_info = {}
-            hist_info[self.CONFIG_EVALUATION_NAME] = self._config.get(
-                self.CONFIG_EVALUATION_NAME, ''
-            )
-            hist_info[self.CONFIG_EVALUATION] = self._config.get(
-                self.CONFIG_EVALUATION, False
-            )
-            hist_info[self.CONFIG_METADATA_TIER] = self._metadata_tier
-            hist_info[self.CONFIG_TEAM] = self._config.get(
-                self.CONFIG_TEAM, ''
-            )
+            hist_info[
+                self._config.CONFIG_EVALUATION_NAME
+            ] = self._config.get_evaluation_name()
+            hist_info[
+                self._config.CONFIG_EVALUATION
+            ] = self._config.is_evaluation()
+            hist_info[
+                self._config.CONFIG_METADATA_TIER
+            ] = self._metadata_tier
+            hist_info[
+                self._config.CONFIG_TEAM
+            ] = self._config.get_team()
             # Create a new scene history writer with each new scene (config
             # data) so we always create a new, separate scene history file.
             self.__history_writer = HistoryWriter(config_data, hist_info)
@@ -497,17 +476,17 @@ class Controller():
             print("STEP: 0")
             print("ACTION: Initialize")
 
-        if (self.__debug_to_file or self._config.get(
-                self.CONFIG_EVALUATION, False)) \
-                and config_data['name'] is not None:
+        if ((self.__debug_to_file or
+             self._config.is_evaluation()) and
+                config_data['name'] is not None):
             os.makedirs('./' + config_data['name'], exist_ok=True)
             self.__output_folder = './' + config_data['name'] + '/'
             file_list = glob.glob(self.__output_folder + '*')
             for file_path in file_list:
                 os.remove(file_path)
 
-        if self._config.get(self.CONFIG_EVALUATION, False):
-            team = self._config.get(self.CONFIG_TEAM, '')
+        if self._config.is_evaluation():
+            team = self._config.get_team()
             scene = self.__scene_configuration.get(
                 'name', '').replace('json', '')
             self.__plotter = TopDownPlotter(
@@ -541,7 +520,7 @@ class Controller():
                 if self.__debug_to_terminal:
                     print('ENDING PREVIEW PHASE')
 
-                if self._config.get(self.CONFIG_EVALUATION, False):
+                if self._config.is_evaluation():
                     self.__image_recorder.add(image_list[0])
 
                 output.image_list = image_list
@@ -812,7 +791,7 @@ class Controller():
 
         if(heatmap_img is not None and
            isinstance(heatmap_img, PIL.Image.Image) and
-           self._config[self.CONFIG_EVALUATION]):
+           self._config.is_evaluation()):
             self.__heatmap_recorder.add(heatmap_img)
 
     def generate_time(self):
@@ -838,20 +817,6 @@ class Controller():
         #     return "RotateHand"
 
         return action
-
-    def read_config_file(self):
-        if os.path.exists(self._config_file):
-            with open(self._config_file, 'r') as config_file:
-                config = yaml.load(config_file)
-                if self.__debug_to_terminal:
-                    print('Read MCS Config File:')
-                    print(config)
-                if self.CONFIG_METADATA_TIER not in config:
-                    config[self.CONFIG_METADATA_TIER] = ''
-                if self.CONFIG_EVALUATION not in config:
-                    config[self.CONFIG_EVALUATION] = False
-                return config
-        return {}
 
     def update_goal_target_image(self, goal_output):
         target_name_list = ['target', 'target_1', 'target_2']
@@ -1113,7 +1078,7 @@ class Controller():
             scene_image = PIL.Image.fromarray(event.frame)
             image_list.append(scene_image)
 
-            if self._config.get(self.CONFIG_EVALUATION, False):
+            if self._config.is_evaluation():
                 self.__image_recorder.add(scene_image)
                 self.__topdown_recorder.add(
                     self.__plotter.plot(scene_event, self.__step_number))
@@ -1133,7 +1098,7 @@ class Controller():
                 depth_map = PIL.Image.fromarray(
                     depth_pixel_array.astype(np.uint8)
                 )
-                if self._config.get(self.CONFIG_EVALUATION, False):
+                if self._config.is_evaluation():
                     self.__depth_recorder.add(depth_map)
                 depth_map_list.append(np.array(depth_float_array))
 
@@ -1141,7 +1106,7 @@ class Controller():
                 object_mask = PIL.Image.fromarray(
                     event.instance_segmentation_frame)
                 object_mask_list.append(object_mask)
-                if self._config.get(self.CONFIG_EVALUATION, False):
+                if self._config.is_evaluation():
                     self.__segmentation_recorder.add(object_mask)
 
             if self.__debug_to_file and self.__output_folder is not None:
