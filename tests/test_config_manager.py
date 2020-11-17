@@ -40,42 +40,6 @@ class Test_Config_Manager(unittest.TestCase):
             config_mngr._config_file,
             '~/somefolder/env-var-test.ini')
 
-    def test_get_metadata_tier(self):
-        self.assertEquals(self.config_mngr.get_metadata_tier(), '')
-
-        self.config_mngr._config[
-            self.config_mngr.CONFIG_DEFAULT_SECTION
-        ][
-            self.config_mngr.CONFIG_METADATA_TIER
-        ] = 'oracle'
-
-        self.assertEquals(
-            self.config_mngr.get_metadata_tier(),
-            'oracle')
-
-    @mock_env(MCS_METADATA_LEVEL='level2')
-    def test_get_metadata_tier_with_env_variable(self):
-        self.assertEquals(self.config_mngr.get_metadata_tier(), 'level2')
-
-    def test_is_evaluation(self):
-        self.assertFalse(self.config_mngr.is_evaluation())
-
-        self.config_mngr._config[
-            self.config_mngr.CONFIG_DEFAULT_SECTION
-        ][
-            self.config_mngr.CONFIG_EVALUATION
-        ] = 'true'
-
-        self.assertTrue(self.config_mngr.is_evaluation())
-
-        self.config_mngr._config[
-            self.config_mngr.CONFIG_DEFAULT_SECTION
-        ][
-            self.config_mngr.CONFIG_EVALUATION
-        ] = 'false'
-
-        self.assertFalse(self.config_mngr.is_evaluation())
-
     def test_get_aws_access_key_id(self):
         self.assertIsNone(self.config_mngr.get_aws_access_key_id())
 
@@ -115,6 +79,23 @@ class Test_Config_Manager(unittest.TestCase):
             self.config_mngr.get_evaluation_name(),
             'test_eval')
 
+    def test_get_metadata_tier(self):
+        self.assertEquals(self.config_mngr.get_metadata_tier(), '')
+
+        self.config_mngr._config[
+            self.config_mngr.CONFIG_DEFAULT_SECTION
+        ][
+            self.config_mngr.CONFIG_METADATA_TIER
+        ] = 'oracle'
+
+        self.assertEquals(
+            self.config_mngr.get_metadata_tier(),
+            'oracle')
+
+    @mock_env(MCS_METADATA_LEVEL='level2')
+    def test_get_metadata_tier_with_env_variable(self):
+        self.assertEquals(self.config_mngr.get_metadata_tier(), 'level2')
+
     def test_get_s3_bucket(self):
         self.assertIsNone(self.config_mngr.get_s3_bucket())
 
@@ -153,3 +134,22 @@ class Test_Config_Manager(unittest.TestCase):
         self.assertEquals(
             self.config_mngr.get_team(),
             'team-name')
+
+    def test_is_evaluation(self):
+        self.assertFalse(self.config_mngr.is_evaluation())
+
+        self.config_mngr._config[
+            self.config_mngr.CONFIG_DEFAULT_SECTION
+        ][
+            self.config_mngr.CONFIG_EVALUATION
+        ] = 'true'
+
+        self.assertTrue(self.config_mngr.is_evaluation())
+
+        self.config_mngr._config[
+            self.config_mngr.CONFIG_DEFAULT_SECTION
+        ][
+            self.config_mngr.CONFIG_EVALUATION
+        ] = 'false'
+
+        self.assertFalse(self.config_mngr.is_evaluation())

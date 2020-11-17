@@ -62,26 +62,6 @@ class ConfigManager(object):
                    for section in config.sections()})
         return config
 
-    def get_metadata_tier(self):
-        # Environment variable override for metadata property
-        metadata_env_var = os.getenv('MCS_METADATA_LEVEL', None)
-
-        if(metadata_env_var is None):
-            return self._config.get(
-                self.CONFIG_DEFAULT_SECTION,
-                self.CONFIG_METADATA_TIER,
-                fallback=''
-            )
-
-        return metadata_env_var
-
-    def is_evaluation(self):
-        return self._config.getboolean(
-            self.CONFIG_DEFAULT_SECTION,
-            self.CONFIG_EVALUATION,
-            fallback=False
-        )
-
     def get_aws_access_key_id(self):
         return self._config.get(
             self.CONFIG_DEFAULT_SECTION,
@@ -103,6 +83,19 @@ class ConfigManager(object):
             fallback=''
         )
 
+    def get_metadata_tier(self):
+        # Environment variable override for metadata property
+        metadata_env_var = os.getenv('MCS_METADATA_LEVEL', None)
+
+        if(metadata_env_var is None):
+            return self._config.get(
+                self.CONFIG_DEFAULT_SECTION,
+                self.CONFIG_METADATA_TIER,
+                fallback=''
+            )
+
+        return metadata_env_var
+
     def get_s3_bucket(self):
         return self._config.get(
             self.CONFIG_DEFAULT_SECTION,
@@ -122,4 +115,11 @@ class ConfigManager(object):
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_TEAM,
             fallback=''
+        )
+
+    def is_evaluation(self):
+        return self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_EVALUATION,
+            fallback=False
         )
