@@ -26,7 +26,8 @@ class ConfigManager(object):
     (do we want/need to keep depth and object masks properties?)
     """
 
-    CONFIG_FILE_KEY = 'MCS_CONFIG_FILE_PATH'  # TODO: MCS-410: REPLACE
+    CONFIG_FILE_ENV_VAR = 'MCS_CONFIG_FILE_PATH'
+    METADATA_ENV_VAR = 'MCS_METADATA_LEVEL'
     DEFAULT_CONFIG_FILE = './mcs_config.ini'
     CONFIG_METADATA_TIER = 'metadata'
     CONFIG_AWS_ACCESS_KEY_ID = 'aws_access_key_id'
@@ -39,32 +40,18 @@ class ConfigManager(object):
 
     CONFIG_DEFAULT_SECTION = 'MCS'
 
-    def __init__(self, config_file_path):
-        # self.config_file = os.getenv(self.CONFIG_FILE_KEY,
-        #                             self.DEFAULT_CONFIG_FILE)
-
+    def __init__(self, config_file_path=None):
         # For config file, look for environment variable first,
         # then look for config_path parameter from constructor
-        self._config_file = os.getenv('MCS_CONFIG_FILE_PATH', config_file_path)
+        self._config_file = os.getenv(
+            self.CONFIG_FILE_ENV_VAR, config_file_path)
 
         if(self._config_file is None):
             self._config_file = self.DEFAULT_CONFIG_FILE
 
-        self._config = self.read_config_file()
+        self._config = self._read_config_file()
 
-        """"
-        # Environment variable override for metadata property
-        metadata_env_var = os.getenv('MCS_METADATA_LEVEL', None)
-
-        if(metadata_env_var is None):
-            self._metadata_tier = (
-                self._config.get(self.CONFIG_METADATA_TIER, '')
-            )
-        else:
-            self._metadata_tier = metadata_env_var
-        """
-
-    def read_config_file(self):
+    def _read_config_file(self):
         config = configparser.ConfigParser()
         if os.path.exists(self._config_file):
             config.read(self._config_file)
@@ -98,13 +85,15 @@ class ConfigManager(object):
     def get_aws_access_key_id(self):
         return self._config.get(
             self.CONFIG_DEFAULT_SECTION,
-            self.CONFIG_AWS_ACCESS_KEY_ID
+            self.CONFIG_AWS_ACCESS_KEY_ID,
+            fallback=None
         )
 
     def get_aws_secret_access_key(self):
         return self._config.get(
             self.CONFIG_DEFAULT_SECTION,
-            self.CONFIG_AWS_SECRET_ACCESS_KEY
+            self.CONFIG_AWS_SECRET_ACCESS_KEY,
+            fallback=None
         )
 
     def get_evaluation_name(self):
@@ -134,6 +123,3 @@ class ConfigManager(object):
             self.CONFIG_TEAM,
             fallback=''
         )
-
-    def has_option(self, key):
-        return self._config.has_option(self.CONFIG_DEFAULT_SECTION, key)

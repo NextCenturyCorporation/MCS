@@ -263,8 +263,8 @@ class Controller():
                 object_masks if object_masks is not None else False)
 
         # TODO: MCS-410: what to do with this?
-        if ((self._config.has_option(self._config.CONFIG_AWS_ACCESS_KEY_ID)) and  # noqa: E501
-                (self._config.has_option(self._config.CONFIG_AWS_SECRET_ACCESS_KEY))):  # noqa: E501
+        if ((self._config.get_aws_access_key_id() is not None) and
+                (self._config.get_aws_secret_access_key() is not None)):
             if not os.path.exists(self.AWS_CREDENTIALS_FOLDER):
                 os.makedirs(self.AWS_CREDENTIALS_FOLDER)
             # From https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html # noqa: E501
