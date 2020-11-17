@@ -153,7 +153,7 @@ This will run all of the MCS scene configuration JSON files in the given folder,
 
 ## Config File
 
-To use an MCS configuration file, set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file.
+To use an MCS configuration file, set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see [sample_config.ini](./sample_config.ini) for an example).
 
 ### Config File Properties
 
@@ -169,7 +169,11 @@ Otherwise, return the metadata for the visible and held objects.
 
 ### Using the Config File to Generate Scene Graphs or Maps
 
-1. Save your MCS configuration file with `metadata: oracle`
+1. Save your .ini MCS configuration file with:
+```
+[MCS]
+metadata: oracle`
+```
 
 2. Create a simple Python script to loop over one or more JSON scene configuration files, load each scene in the MCS controller, and save the output data in your own scene graph or scene map format.
 

@@ -14,7 +14,6 @@ class Test_Controller(unittest.TestCase):
 
     def setUp(self):
         self.controller = MockControllerAI2THOR()
-        self.controller.set_config({'metadata': ''})
         self.controller.set_metadata_tier('')
 
     def create_mock_scene_event(self, mock_scene_event_data):
@@ -1626,58 +1625,6 @@ class Test_Controller(unittest.TestCase):
         #     numpy.array(
         #         actual.depth_map_list[0]),
         #     object_mask_data)
-
-    def test_wrap_output_with_config_metadata_no_vision(self):
-        self.controller.set_config({'metadata': 'no_vision'})
-        (
-            mock_scene_event_data,
-            image_data,
-            depth_data,
-            object_mask_data
-        ) = self.create_wrap_output_scene_event()
-        pre_restrict = self.controller.wrap_output(
-            self.create_mock_scene_event(mock_scene_event_data))
-
-        pre_restrict.goal = self.controller.retrieve_goal({
-            'goal': {
-                'metadata': {
-                    'target': {'image': [0]},
-                    'target_1': {'image': [1]},
-                    'target_2': {'image': [2]}
-                }
-            }
-        })
-
-        actual = self.controller.restrict_step_output_metadata(pre_restrict)
-
-        self.assertEqual(pre_restrict.goal.metadata, {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-
-        self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
-        self.assertEqual(actual.camera_aspect_ratio, (600, 400.0))
-        self.assertEqual(actual.camera_clipping_planes, (0, 15))
-        self.assertEqual(actual.camera_field_of_view, 42.5)
-        self.assertEqual(actual.camera_height, 0.1234)
-        self.assertEqual(actual.habituation_trial, None)
-        self.assertEqual(actual.head_tilt, 12.34)
-        self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
-        self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
-        self.assertEqual(actual.rotation, 2.222)
-        self.assertEqual(
-            actual.return_status,
-            mcs.ReturnStatus.SUCCESSFUL.value)
-        self.assertEqual(actual.step_number, 0)
-
-        # Correct object metadata properties tested elsewhere
-        self.assertEqual(len(actual.object_list), 1)
-        self.assertEqual(len(actual.structural_object_list), 1)
-
-        self.assertEqual(len(actual.depth_map_list), 0)
-        self.assertEqual(len(actual.image_list), 1)
-        self.assertEqual(len(actual.object_mask_list), 0)
 
     def test_wrap_output_with_config_metadata_level1(self):
         self.controller.set_metadata_tier('level1')

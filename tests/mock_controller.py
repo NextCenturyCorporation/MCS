@@ -80,17 +80,8 @@ class MockControllerAI2THOR(Controller):
     def get_last_step_data(self):
         return self._controller.get_last_step_data()
 
-    def read_config_file(self):
-        if(self._config_file == 'test-metadata-lvl1.yaml'):
-            return {'metadata': 'level1'}
-        else:
-            return {}
-
     def render_mask_images(self):
         self._update_internal_config(depth_maps=True, object_masks=True)
-
-    def set_config(self, config):
-        self._config = config
 
     def set_goal(self, goal):
         self._goal = goal

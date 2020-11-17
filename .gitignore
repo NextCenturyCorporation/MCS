@@ -27,7 +27,7 @@ wheels/
 
 docs/_build
 **/*.mp4
-**/mcs_config.yaml
+**/mcs_config.ini
 
 # Debug output
 **/SCENE_HISTORY
