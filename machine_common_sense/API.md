@@ -336,7 +336,9 @@ Defines output metadata from an action step in the MCS 3D environment.
 
 
     * **depth_map_list** (*list of 2D numpy arrays*) – The list of 2-dimensional numpy arrays of depth float data from the
-    scene after the last action and physics simulation were run.
+    scene after the last action and physics simulation were run. This is
+    usually a list with 1 array, except for the output from start_scene
+    for a scene with a scripted Preview Phase.
     Each depth float in a 2-dimensional numpy array is a value between 0
     and the camera’s far clipping plane (default 15) correspondings to the
     depth in simulation units at that pixel in the image.
@@ -355,13 +357,8 @@ Defines output metadata from an action step in the MCS 3D environment.
 
 
     * **image_list** (*list of Pillow.Image objects*) – The list of images from the scene after the last action and physics
-    simulation were run. This is normally a list with five images, where
-    the physics simulation has unpaused and paused again for a little
-    bit between each image, and the final image is the state of the
-    environment before your next action. The StepMetadata object
-    returned from a call to controller.start_scene will normally have a
-    listwith only one image, except for a scene with a scripted Preview
-    Phase.
+    simulation were run. This is usually a list with 1 image, except for
+    the output from start_scene for a scene with a scripted Preview Phase.
 
 
     * **object_list** (*list of ObjectMetadata objects*) – The list of metadata for all the visible interactive objects in the
@@ -370,15 +367,11 @@ Defines output metadata from an action step in the MCS 3D environment.
 
 
     * **object_mask_list** (*list of Pillow.Image objects*) – The list of object mask (instance segmentation) images from the scene
-    after the last action and physics simulation were run. This is
-    normally a list with five images, where the physics simulation
-    has unpaused and paused again for a little bit between each image,
-    and the final image is the state of the environment before your next
-    action. The StepMetadata object returned from a call to
-    controller.start_scene will normally have a list with only one image,
-    except for a scene with a scripted Preview Phase. The color of each
-    object in the mask corresponds to the “color” property in its
-    ObjectMetadata object.
+    after the last action and physics simulation were run. This is usually
+    a list with 1 image, except for the output from start_scene for a
+    scene with a scripted Previous Phase.
+    The color of each object in the mask corresponds to the “color”
+    property in its ObjectMetadata object.
 
 
     * **pose** (*string*) – Your current pose. Either “STANDING”, “CRAWLING”, or “LYING”.
