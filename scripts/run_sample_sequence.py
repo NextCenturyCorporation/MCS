@@ -43,8 +43,11 @@ def run_scene(file_name):
 
 if __name__ == "__main__":
     args = parse_args()
-    controller = mcs.create_controller(args.mcs_unity_build_file, debug=True,
-                                       history_enabled=False)
+    controller = mcs.create_controller(
+        args.mcs_unity_build_file,
+        debug=True,
+        config_file_path='./run_scripts_config.ini'
+    )
 
     filename_list = glob.glob(args.filename_prefix + '*_debug.json')
     if len(filename_list) == 0:

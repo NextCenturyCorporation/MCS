@@ -6,6 +6,8 @@ import machine_common_sense as mcs
 commandList = []
 
 
+# TODO: MCS-410: TEST + update arguments so there's no confusion between
+# mcs_config_json_file and config_file
 def parse_args():
     parser = argparse.ArgumentParser(description='Run MCS')
     parser.add_argument(
@@ -48,10 +50,12 @@ def parse_args():
         help='Render and return object (instance segmentation) masks of ' +
         'each scene (will significantly decrease performance) [default=False]')
     parser.add_argument(
-        '--history_enabled',
-        default=True,
-        help='Whether to save all the history files and generated image ' +
-        'history to local disk or not. [default=True]')
+        '--config_file_path',
+        type=str,
+        default=None,
+        help='Path to configuration file to read in and set various ' +
+        'properties, such as metadata level and whether or not to ' +
+        'save history files properties. [default=None]')
     return parser.parse_args()
 
 
@@ -254,8 +258,9 @@ def main():
                                        size=args.size,
                                        depth_maps=args.depth_maps,
                                        object_masks=args.object_masks,
-                                       history_enabled=args.history_enabled)
+                                       config_file_path=args.config_file_path)
 
+    # TODO: MCS-410: Rename these this is confusing
     config_file_path = args.mcs_config_json_file
     config_file_name = config_file_path[config_file_path.rfind('/') + 1:]
 

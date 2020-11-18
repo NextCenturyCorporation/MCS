@@ -24,21 +24,25 @@ class ConfigManager(object):
     object_masks,
     history_enabled
     (do we want/need to keep depth and object masks properties?)
+
+    TODO: MCS-410: update docs about config/what properties exist within it
     """
 
     CONFIG_FILE_ENV_VAR = 'MCS_CONFIG_FILE_PATH'
     METADATA_ENV_VAR = 'MCS_METADATA_LEVEL'
     DEFAULT_CONFIG_FILE = './mcs_config.ini'
-    CONFIG_METADATA_TIER = 'metadata'
-    CONFIG_AWS_ACCESS_KEY_ID = 'aws_access_key_id'
-    CONFIG_AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
-    CONFIG_TEAM = 'team'
-    CONFIG_EVALUATION = 'evaluation'
-    CONFIG_EVALUATION_NAME = 'evaluation_name'
-    CONFIG_S3_BUCKET = 's3_bucket'
-    CONFIG_S3_FOLDER = 's3_folder'
 
     CONFIG_DEFAULT_SECTION = 'MCS'
+
+    CONFIG_AWS_ACCESS_KEY_ID = 'aws_access_key_id'
+    CONFIG_AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
+    CONFIG_EVALUATION = 'evaluation'
+    CONFIG_EVALUATION_NAME = 'evaluation_name'
+    CONFIG_HISTORY_ENABLED = 'history_enabled'
+    CONFIG_METADATA_TIER = 'metadata'
+    CONFIG_S3_BUCKET = 's3_bucket'
+    CONFIG_S3_FOLDER = 's3_folder'
+    CONFIG_TEAM = 'team'
 
     def __init__(self, config_file_path=None):
         # For config file, look for environment variable first,
@@ -57,6 +61,7 @@ class ConfigManager(object):
             config.read(self._config_file)
             # TODO: MCS-410 - Uncomment
             # if self.__debug_to_terminal:
+            print('MCS Config File Path: ' + self._config_file)
             print('Read MCS Config File:')
             print({section: dict(config[section])
                    for section in config.sections()})
@@ -122,4 +127,11 @@ class ConfigManager(object):
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_EVALUATION,
             fallback=False
+        )
+
+    def is_history_enabled(self):
+        return self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_HISTORY_ENABLED,
+            fallback=True
         )

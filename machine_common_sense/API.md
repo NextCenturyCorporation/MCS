@@ -24,7 +24,7 @@
 ## Controller
 
 
-### class machine_common_sense.controller.Controller(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_maps=None, object_masks=None, history_enabled=True)
+### class machine_common_sense.controller.Controller(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_maps=None, object_masks=None, config_file_path=None)
 MCS Controller class implementation for the MCS wrapper of the AI2-THOR
 library.
 
@@ -34,6 +34,11 @@ library.
 * **Parameters**
 
     
+    * **config_file_path** (*str**, **optional*) – Path to configuration file to read in and set various properties,
+    such as metadata level and whether or not to save history files
+    (default None)
+
+
     * **debug** (*boolean**, **optional*) – Whether to save MCS output debug files in this folder.
     (default False)
 
@@ -45,11 +50,6 @@ library.
 
     * **seed** (*int**, **optional*) – A seed for the Python random number generator.
     (default None)
-
-
-    * **history_enabled** (*boolean**, **optional*) – Whether to save all the history files and generated image
-    history to local disk or not.
-    (default False)
 
 
 

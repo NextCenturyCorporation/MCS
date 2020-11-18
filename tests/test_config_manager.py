@@ -153,3 +153,22 @@ class Test_Config_Manager(unittest.TestCase):
         ] = 'false'
 
         self.assertFalse(self.config_mngr.is_evaluation())
+
+    def test_is_history_enabled(self):
+        self.assertTrue(self.config_mngr.is_history_enabled())
+
+        self.config_mngr._config[
+            self.config_mngr.CONFIG_DEFAULT_SECTION
+        ][
+            self.config_mngr.CONFIG_HISTORY_ENABLED
+        ] = 'false'
+
+        self.assertFalse(self.config_mngr.is_evaluation())
+
+        self.config_mngr._config[
+            self.config_mngr.CONFIG_DEFAULT_SECTION
+        ][
+            self.config_mngr.CONFIG_HISTORY_ENABLED
+        ] = 'true'
+
+        self.assertTrue(self.config_mngr.is_history_enabled())

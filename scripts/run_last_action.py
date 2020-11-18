@@ -23,9 +23,13 @@ def main():
         print(status)
         exit()
 
-    controller = mcs.create_controller(args.mcs_unity_build_file, debug=True,
-                                       depth_maps=False, object_masks=False,
-                                       history_enabled=False)
+    controller = mcs.create_controller(
+        args.mcs_unity_build_file,
+        debug=True,
+        depth_maps=False,
+        object_masks=False,
+        config_file_path='./run_scripts_config.ini'
+    )
     config_file_name = config_file_path[config_file_path.rfind('/') + 1:]
 
     if 'name' not in config_data.keys():

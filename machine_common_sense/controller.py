@@ -65,6 +65,10 @@ class Controller():
 
     Parameters
     ----------
+    config_file_path: str, optional
+        Path to configuration file to read in and set various properties,
+        such as metadata level and whether or not to save history files
+        (default None)
     debug : boolean, optional
         Whether to save MCS output debug files in this folder.
         (default False)
@@ -75,10 +79,6 @@ class Controller():
     seed : int, optional
         A seed for the Python random number generator.
         (default None)
-    history_enabled: boolean, optional
-        Whether to save all the history files and generated image
-        history to local disk or not.
-        (default False)
     """
 
     ACTION_LIST = [item.value for item in Action]
@@ -155,8 +155,7 @@ class Controller():
 
     def __init__(self, unity_app_file_path, debug=False,
                  enable_noise=False, seed=None, size=None,
-                 depth_maps=None, object_masks=None,
-                 history_enabled=True):
+                 depth_maps=None, object_masks=None, config_file_path=None):
 
         self._update_screen_size(size)
 
@@ -179,7 +178,7 @@ class Controller():
         )
 
         self._on_init(debug, enable_noise, seed, depth_maps,
-                      object_masks, history_enabled)
+                      object_masks, config_file_path)
 
     # Pixel coordinates are expected to start at the top left, but
     # in Unity, (0,0) is the bottom left.
@@ -212,8 +211,10 @@ class Controller():
             self.__history_enabled = history_enabled
 
     def _on_init(self, debug=False, enable_noise=False, seed=None,
-                 depth_maps=None, object_masks=None,
-                 history_enabled=True, config_path=None):
+                 depth_maps=None, object_masks=None, config_file_path=None):
+
+        # self._config = self.read_config_file()
+        self._config = ConfigManager(config_file_path)
 
         self.__debug_to_file = True if (
             debug is True or debug == 'file') else False
@@ -222,7 +223,7 @@ class Controller():
 
         self.__enable_noise = enable_noise
         self.__seed = seed
-        self.__history_enabled = history_enabled
+        self.__history_enabled = self._config.is_history_enabled()
 
         if self.__seed:
             random.seed(self.__seed)
@@ -236,9 +237,6 @@ class Controller():
         self.__history_writer = None
         self.__history_item = None
         self.__uploader = None
-
-        # self._config = self.read_config_file()
-        self._config = ConfigManager(config_path)
 
         self._metadata_tier = self._config.get_metadata_tier()
 
