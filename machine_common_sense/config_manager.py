@@ -18,11 +18,9 @@ class ConfigManager(object):
     Properties we would like to move to the config file (I think?):
     debug,
     enable_noise,
-    seed,
     size,
     depth_masks,
-    object_masks,
-    history_enabled
+    object_masks
     (do we want/need to keep depth and object masks properties?)
 
     TODO: MCS-410: update docs about config/what properties exist within it
@@ -42,6 +40,7 @@ class ConfigManager(object):
     CONFIG_METADATA_TIER = 'metadata'
     CONFIG_S3_BUCKET = 's3_bucket'
     CONFIG_S3_FOLDER = 's3_folder'
+    CONFIG_SEED = 'seed'
     CONFIG_TEAM = 'team'
 
     def __init__(self, config_file_path=None):
@@ -112,6 +111,13 @@ class ConfigManager(object):
         return self._config.get(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_S3_FOLDER,
+            fallback=None
+        )
+
+    def get_seed(self):
+        return self._config.getint(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_SEED,
             fallback=None
         )
 

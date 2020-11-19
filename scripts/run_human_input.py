@@ -6,7 +6,7 @@ import machine_common_sense as mcs
 commandList = []
 
 
-# TODO: MCS-410: TEST + update arguments so there's no confusion between
+# TODO: MCS-410: update arguments so there's no confusion between
 # mcs_config_json_file and config_file
 def parse_args():
     parser = argparse.ArgumentParser(description='Run MCS')
@@ -27,11 +27,6 @@ def parse_args():
         action='store_true',
         help='Add random noise to action paramenters ' +
         '(currently only movement/rotation) [default=False]')
-    parser.add_argument(
-        '--seed',
-        type=int,
-        default=None,
-        help='Python random seed [default=None]')
     parser.add_argument(
         '--size',
         type=int,
@@ -254,7 +249,6 @@ def main():
     controller = mcs.create_controller(args.mcs_unity_build_file,
                                        debug=args.debug,
                                        enable_noise=args.noise,
-                                       seed=args.seed,
                                        size=args.size,
                                        depth_maps=args.depth_maps,
                                        object_masks=args.object_masks,

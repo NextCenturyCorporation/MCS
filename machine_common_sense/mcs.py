@@ -20,7 +20,7 @@ def time_limit(seconds):
 
 
 def create_controller(unity_app_file_path, debug=False, enable_noise=False,
-                      seed=None, size=None, depth_maps=None,
+                      size=None, depth_maps=None,
                       object_masks=None, config_file_path=None):
     """
     Creates and returns a new MCS Controller object.
@@ -36,9 +36,6 @@ def create_controller(unity_app_file_path, debug=False, enable_noise=False,
         Whether to add random noise to the numerical amounts in movement
         and object interaction action parameters.
         (default False)
-    seed : int, optional
-        A seed for the Python random number generator.
-        (default None)
     size : int, optional
         Desired screen width
         (default None)
@@ -62,7 +59,7 @@ def create_controller(unity_app_file_path, debug=False, enable_noise=False,
     try:
         with time_limit(TIME_LIMIT_SECONDS):
             return Controller(unity_app_file_path, debug,
-                              enable_noise, seed, size,
+                              enable_noise, size,
                               depth_maps, object_masks,
                               config_file_path)
     except Exception as Msg:

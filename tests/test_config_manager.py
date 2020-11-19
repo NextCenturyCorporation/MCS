@@ -122,6 +122,17 @@ class Test_Config_Manager(unittest.TestCase):
             self.config_mngr.get_s3_folder(),
             'eval-test-folder')
 
+    def test_get_seed(self):
+        self.assertEquals(self.config_mngr.get_seed(), None)
+
+        self.config_mngr._config[
+            self.config_mngr.CONFIG_DEFAULT_SECTION
+        ][
+            self.config_mngr.CONFIG_SEED
+        ] = '1'
+
+        self.assertEquals(self.config_mngr.get_seed(), 1)
+
     def test_get_team(self):
         self.assertEquals(self.config_mngr.get_team(), '')
 

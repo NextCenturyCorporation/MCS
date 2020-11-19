@@ -24,7 +24,7 @@
 ## Controller
 
 
-### class machine_common_sense.controller.Controller(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_maps=None, object_masks=None, config_file_path=None)
+### class machine_common_sense.controller.Controller(unity_app_file_path, debug=False, enable_noise=False, size=None, depth_maps=None, object_masks=None, config_file_path=None)
 MCS Controller class implementation for the MCS wrapper of the AI2-THOR
 library.
 
@@ -46,10 +46,6 @@ library.
     * **enable_noise** (*boolean**, **optional*) – Whether to add random noise to the numerical amounts in movement
     and object interaction action parameters.
     (default False)
-
-
-    * **seed** (*int**, **optional*) – A seed for the Python random number generator.
-    (default None)
 
 
 

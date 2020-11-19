@@ -76,9 +76,7 @@ class Controller():
         Whether to add random noise to the numerical amounts in movement
         and object interaction action parameters.
         (default False)
-    seed : int, optional
-        A seed for the Python random number generator.
-        (default None)
+
     """
 
     ACTION_LIST = [item.value for item in Action]
@@ -154,7 +152,7 @@ class Controller():
     AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
 
     def __init__(self, unity_app_file_path, debug=False,
-                 enable_noise=False, seed=None, size=None,
+                 enable_noise=False, size=None,
                  depth_maps=None, object_masks=None, config_file_path=None):
 
         self._update_screen_size(size)
@@ -177,7 +175,7 @@ class Controller():
             }
         )
 
-        self._on_init(debug, enable_noise, seed, depth_maps,
+        self._on_init(debug, enable_noise, depth_maps,
                       object_masks, config_file_path)
 
     # Pixel coordinates are expected to start at the top left, but
@@ -195,6 +193,7 @@ class Controller():
             self.__screen_width = size
             self.__screen_height = int(size / 3 * 2)
 
+    # TODO: MCS-410: Keep this or no?
     def _update_internal_config(self, enable_noise=None, seed=None,
                                 depth_maps=None, object_masks=None,
                                 history_enabled=None):
@@ -210,7 +209,7 @@ class Controller():
         if history_enabled is not None:
             self.__history_enabled = history_enabled
 
-    def _on_init(self, debug=False, enable_noise=False, seed=None,
+    def _on_init(self, debug=False, enable_noise=False,
                  depth_maps=None, object_masks=None, config_file_path=None):
 
         # self._config = self.read_config_file()
@@ -222,7 +221,7 @@ class Controller():
             debug is True or debug == 'terminal') else False
 
         self.__enable_noise = enable_noise
-        self.__seed = seed
+        self.__seed = self._config.get_seed()
         self.__history_enabled = self._config.is_history_enabled()
 
         if self.__seed:
