@@ -19,7 +19,7 @@ def time_limit(seconds):
         signal.alarm(0)
 
 
-def create_controller(unity_app_file_path, debug=False, enable_noise=False,
+def create_controller(unity_app_file_path, debug=False,
                       size=None, depth_maps=None,
                       object_masks=None, config_file_path=None):
     """
@@ -31,10 +31,6 @@ def create_controller(unity_app_file_path, debug=False, enable_noise=False,
         The file path to your MCS Unity application.
     debug : boolean, optional
         Whether to save MCS output debug files in this folder.
-        (default False)
-    enable_noise : boolean, optional
-        Whether to add random noise to the numerical amounts in movement
-        and object interaction action parameters.
         (default False)
     size : int, optional
         Desired screen width
@@ -59,7 +55,7 @@ def create_controller(unity_app_file_path, debug=False, enable_noise=False,
     try:
         with time_limit(TIME_LIMIT_SECONDS):
             return Controller(unity_app_file_path, debug,
-                              enable_noise, size,
+                              size,
                               depth_maps, object_masks,
                               config_file_path)
     except Exception as Msg:

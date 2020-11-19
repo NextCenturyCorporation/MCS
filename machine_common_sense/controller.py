@@ -72,10 +72,6 @@ class Controller():
     debug : boolean, optional
         Whether to save MCS output debug files in this folder.
         (default False)
-    enable_noise : boolean, optional
-        Whether to add random noise to the numerical amounts in movement
-        and object interaction action parameters.
-        (default False)
 
     """
 
@@ -152,7 +148,7 @@ class Controller():
     AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
 
     def __init__(self, unity_app_file_path, debug=False,
-                 enable_noise=False, size=None,
+                 size=None,
                  depth_maps=None, object_masks=None, config_file_path=None):
 
         self._update_screen_size(size)
@@ -175,7 +171,7 @@ class Controller():
             }
         )
 
-        self._on_init(debug, enable_noise, depth_maps,
+        self._on_init(debug, depth_maps,
                       object_masks, config_file_path)
 
     # Pixel coordinates are expected to start at the top left, but
@@ -194,12 +190,12 @@ class Controller():
             self.__screen_height = int(size / 3 * 2)
 
     # TODO: MCS-410: Keep this or no?
-    def _update_internal_config(self, enable_noise=None, seed=None,
+    def _update_internal_config(self, noise_enabled=None, seed=None,
                                 depth_maps=None, object_masks=None,
                                 history_enabled=None):
 
-        if enable_noise is not None:
-            self.__enable_noise = enable_noise
+        if noise_enabled is not None:
+            self.__noise_enabled = noise_enabled
         if seed is not None:
             self.__seed = seed
         if depth_maps is not None:
@@ -209,7 +205,7 @@ class Controller():
         if history_enabled is not None:
             self.__history_enabled = history_enabled
 
-    def _on_init(self, debug=False, enable_noise=False,
+    def _on_init(self, debug=False,
                  depth_maps=None, object_masks=None, config_file_path=None):
 
         # self._config = self.read_config_file()
@@ -220,7 +216,7 @@ class Controller():
         self.__debug_to_terminal = True if (
             debug is True or debug == 'terminal') else False
 
-        self.__enable_noise = enable_noise
+        self.__noise_enabled = self._config.is_noise_enabled()
         self.__seed = self._config.get_seed()
         self.__history_enabled = self._config.is_history_enabled()
 
@@ -617,7 +613,7 @@ class Controller():
             moveMagnitude = MOVE_DISTANCE
 
         # Add in noise if noise is enable
-        if self.__enable_noise:
+        if self.__noise_enabled:
             rotation = rotation * (1 + self.generate_noise())
             horizon = horizon * (1 + self.generate_noise())
             moveMagnitude = moveMagnitude * (1 + self.generate_noise())
@@ -1230,7 +1226,7 @@ class Controller():
     def generate_noise(self):
         """
         Returns a random value between -0.05 and 0.05 used to add noise to all
-        numerical action parameters enable_noise is True.
+        numerical action parameters noise_enabled is True.
         Returns
         -------
         float

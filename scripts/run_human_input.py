@@ -22,12 +22,6 @@ def parse_args():
         action='store_true',
         help='Generate MCS debug files [default=False]')
     parser.add_argument(
-        '--noise',
-        default=False,
-        action='store_true',
-        help='Add random noise to action paramenters ' +
-        '(currently only movement/rotation) [default=False]')
-    parser.add_argument(
         '--size',
         type=int,
         default=None,
@@ -248,7 +242,6 @@ def main():
 
     controller = mcs.create_controller(args.mcs_unity_build_file,
                                        debug=args.debug,
-                                       enable_noise=args.noise,
                                        size=args.size,
                                        depth_maps=args.depth_maps,
                                        object_masks=args.object_masks,

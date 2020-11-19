@@ -133,7 +133,6 @@ run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file>
 Run options:
 - `--debug`
 - `--depth_maps`
-- `--noise`
 - `--object_masks`
 - `--size <screen_width_450_or_more>`
 

@@ -24,7 +24,7 @@
 ## Controller
 
 
-### class machine_common_sense.controller.Controller(unity_app_file_path, debug=False, enable_noise=False, size=None, depth_maps=None, object_masks=None, config_file_path=None)
+### class machine_common_sense.controller.Controller(unity_app_file_path, debug=False, size=None, depth_maps=None, object_masks=None, config_file_path=None)
 MCS Controller class implementation for the MCS wrapper of the AI2-THOR
 library.
 
@@ -40,11 +40,6 @@ library.
 
 
     * **debug** (*boolean**, **optional*) – Whether to save MCS output debug files in this folder.
-    (default False)
-
-
-    * **enable_noise** (*boolean**, **optional*) – Whether to add random noise to the numerical amounts in movement
-    and object interaction action parameters.
     (default False)
 
 
@@ -69,7 +64,7 @@ Ends the current scene.
 
 #### generate_noise()
 Returns a random value between -0.05 and 0.05 used to add noise to all
-numerical action parameters enable_noise is True.
+numerical action parameters noise_enabled is True.
 :returns: A value between -0.05 and 0.05 (using random.uniform).
 :rtype: float
 

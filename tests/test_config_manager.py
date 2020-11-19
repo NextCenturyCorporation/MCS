@@ -183,3 +183,22 @@ class Test_Config_Manager(unittest.TestCase):
         ] = 'true'
 
         self.assertTrue(self.config_mngr.is_history_enabled())
+
+    def test_is_noise_enabled(self):
+        self.assertFalse(self.config_mngr.is_noise_enabled())
+
+        self.config_mngr._config[
+            self.config_mngr.CONFIG_DEFAULT_SECTION
+        ][
+            self.config_mngr.CONFIG_NOISE_ENABLED
+        ] = 'true'
+
+        self.assertTrue(self.config_mngr.is_noise_enabled())
+
+        self.config_mngr._config[
+            self.config_mngr.CONFIG_DEFAULT_SECTION
+        ][
+            self.config_mngr.CONFIG_NOISE_ENABLED
+        ] = 'false'
+
+        self.assertFalse(self.config_mngr.is_noise_enabled())

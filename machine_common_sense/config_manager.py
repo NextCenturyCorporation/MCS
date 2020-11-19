@@ -9,17 +9,19 @@ class ConfigManager(object):
     already in config (move handling here tho):
     aws_access_key_id, # done
     aws_secret_access_key, # done
+    enable_noise -> noise_enabled
     save_images_to_s3_bucket,
     save_images_to_s3_folder,
     team, # done
     metadata # done
     eval_name
+    seed
+    history_enabled
 
     Properties we would like to move to the config file (I think?):
     debug,
-    enable_noise,
     size,
-    depth_masks,
+    depth_maps,
     object_masks
     (do we want/need to keep depth and object masks properties?)
 
@@ -38,6 +40,7 @@ class ConfigManager(object):
     CONFIG_EVALUATION_NAME = 'evaluation_name'
     CONFIG_HISTORY_ENABLED = 'history_enabled'
     CONFIG_METADATA_TIER = 'metadata'
+    CONFIG_NOISE_ENABLED = 'noise_enabled'
     CONFIG_S3_BUCKET = 's3_bucket'
     CONFIG_S3_FOLDER = 's3_folder'
     CONFIG_SEED = 'seed'
@@ -140,4 +143,11 @@ class ConfigManager(object):
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_HISTORY_ENABLED,
             fallback=True
+        )
+
+    def is_noise_enabled(self):
+        return self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_NOISE_ENABLED,
+            fallback=False
         )
