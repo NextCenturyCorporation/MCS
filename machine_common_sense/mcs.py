@@ -63,9 +63,9 @@ def create_controller(unity_app_file_path, debug=False,
         return None
 
 
-def load_config_json_file(config_json_file_path):
+def load_scene_json_file(scene_json_file_path):
     """
-    Loads the given JSON config file and returns its data.
+    Loads the given JSON scene config file and returns its data.
 
     Parameters
     ----------
@@ -80,13 +80,13 @@ def load_config_json_file(config_json_file_path):
         The error status (if any).
     """
     try:
-        with open(config_json_file_path, encoding='utf-8-sig') \
+        with open(scene_json_file_path, encoding='utf-8-sig') \
                 as config_json_file_object:
             try:
                 return json.load(config_json_file_object), None
             except ValueError:
-                return {}, "The given file '" + config_json_file_path + \
+                return {}, "The given file '" + scene_json_file_path + \
                     "' does not contain valid JSON."
     except IOError:
-        return {}, "The given file '" + config_json_file_path + \
+        return {}, "The given file '" + scene_json_file_path + \
             "' cannot be found."

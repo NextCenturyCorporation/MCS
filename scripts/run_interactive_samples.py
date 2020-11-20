@@ -12,19 +12,19 @@ def parse_args():
 
 
 def run_scene(file_name, action_list):
-    config_data, status = mcs.load_config_json_file(file_name)
+    scene_data, status = mcs.load_scene_json_file(file_name)
 
     if status is not None:
         print(status)
         return
 
-    config_file_path = file_name
-    config_file_name = config_file_path[config_file_path.rfind('/') + 1:]
+    scene_file_path = file_name
+    scene_file_name = scene_file_path[scene_file_path.rfind('/') + 1:]
 
-    if 'name' not in config_data.keys():
-        config_data['name'] = config_file_name[0:config_file_name.find('.')]
+    if 'name' not in scene_data.keys():
+        scene_data['name'] = scene_file_name[0:scene_file_name.find('.')]
 
-    output = controller.start_scene(config_data)
+    output = controller.start_scene(scene_data)
 
     output = controller.step('Pass')
 

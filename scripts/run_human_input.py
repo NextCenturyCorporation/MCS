@@ -7,14 +7,14 @@ commandList = []
 
 
 # TODO: MCS-410: update arguments so there's no confusion between
-# mcs_config_json_file and config_file
+# mcs_scene_json_file and config_file
 def parse_args():
     parser = argparse.ArgumentParser(description='Run MCS')
     parser.add_argument(
         'mcs_unity_build_file',
         help='Path to MCS unity build file')
     parser.add_argument(
-        'mcs_config_json_file',
+        'mcs_scene_json_file',
         help='MCS JSON scene configuration file to load')
     parser.add_argument(
         '--debug',
@@ -65,12 +65,12 @@ class HumanInputShell(cmd.Cmd):
             self,
             input_controller,
             input_previous_output,
-            input_config_data):
+            input_scene_data):
         super(HumanInputShell, self).__init__()
 
         self.controller = input_controller
         self.previous_output = input_previous_output
-        self.config_data = input_config_data
+        self.scene_data = input_scene_data
 
     def precmd(self, line):
         return line
@@ -159,7 +159,7 @@ class HumanInputShell(cmd.Cmd):
         print_commands()
 
     def do_reset(self, args):
-        self.previous_output = (self.controller).start_scene(self.config_data)
+        self.previous_output = (self.controller).start_scene(self.scene_data)
 
     def do_shortcut_key_mode(self, args):
         print("Entering shortcut mode...")
@@ -221,20 +221,20 @@ def print_commands():
     print(" ")
 
 
-def run_scene(controller, config_data):
-    '''Run scene loaded in the config data.'''
+def run_scene(controller, scene_data):
+    '''Run scene loaded in the scene config data.'''
     build_commands()
     print_commands()
 
-    output = controller.start_scene(config_data)
+    output = controller.start_scene(scene_data)
 
-    input_commands = HumanInputShell(controller, output, config_data)
+    input_commands = HumanInputShell(controller, output, scene_data)
     input_commands.cmdloop()
 
 
 def main():
     args = parse_args()
-    config_data, status = mcs.load_config_json_file(args.mcs_config_json_file)
+    scene_data, status = mcs.load_scene_json_file(args.mcs_scene_json_file)
 
     if status is not None:
         print(status)
@@ -248,14 +248,14 @@ def main():
                                        config_file_path=args.config_file_path)
 
     # TODO: MCS-410: Rename these this is confusing
-    config_file_path = args.mcs_config_json_file
-    config_file_name = config_file_path[config_file_path.rfind('/') + 1:]
+    scene_file_path = args.mcs_scene_json_file
+    scene_file_name = scene_file_path[scene_file_path.rfind('/') + 1:]
 
-    if 'name' not in config_data.keys():
-        config_data['name'] = config_file_name[0:config_file_name.find('.')]
+    if 'name' not in scene_data.keys():
+        scene_data['name'] = scene_file_name[0:scene_file_name.find('.')]
 
     if controller is not None:
-        run_scene(controller, config_data)
+        run_scene(controller, scene_data)
 
 
 if __name__ == "__main__":

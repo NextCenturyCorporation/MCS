@@ -51,7 +51,7 @@ def run_playroom(controller, scene):
         output = controller.step(action=action)
 
         # TEMPLATE: break out of loop if goal achieved
-    
+
 
 def main():
     args = parse_args()
@@ -61,13 +61,13 @@ def main():
         print("Unity executable not found in /mcs", file=sys.stderr)
         exit(1)
 
-    scene_config, status = MCS.load_config_json_file(args.scene)
+    scene_data, status = MCS.load_scene_json_file(args.scene)
     if status is not None:
         print(status, file=sys.stderr)
         exit(1)
 
     controller = MCS.create_controller(unity_exe_path, debug=False)
-    run_playroom(controller, scene_config)
+    run_playroom(controller, scene_data)
 
 
 if __name__ == "__main__":

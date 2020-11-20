@@ -76,7 +76,7 @@ We have made multiple run scripts:
 To run a script (like `run_human_input.py`) from the terminal with visual output:
 
 ```
-run_human_input <mcs_unity_build_file> <mcs_config_json_file>
+run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file>
 ```
 
 To run it headlessly, first install xvfb (on Ubuntu, run `sudo apt-get install xvfb`), then:

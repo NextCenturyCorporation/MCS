@@ -82,11 +82,11 @@ import machine_common_sense as mcs
 controller = mcs.create_controller(unity_app_file_path, depth_maps=True,
                                    object_masks=True)
 
-# Either load the config data dict from an MCS config JSON file or create your own.
-# We will give you the training config JSON files and the format to make your own.
-config_data, status = mcs.load_config_json_file(config_json_file_path)
+# Either load the scene data dict from an MCS scene config JSON file or create your own.
+# We will give you the training scene config JSON files and the format to make your own.
+scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
 
-output = controller.start_scene(config_data)
+output = controller.start_scene(scene_data)
 
 # Use your machine learning algorithm to select your next action based on the scene
 # output (goal, actions, images, metadata, etc.) from your previous action.
@@ -112,9 +112,9 @@ import machine_common_sense as mcs
 controller = mcs.create_controller(unity_app_file_path, depth_maps=True,
                                    object_masks=True)
 
-for config_json_file_path in config_json_file_list:
-    config_data, status = mcs.load_config_json_file(config_json_file_path)
-    output = controller.start_scene(config_data)
+for scene_json_file_path in scene_json_file_list:
+    scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
+    output = controller.start_scene(scene_data)
     action, params = select_action(output)
     while action != '':
         controller.step(action, params)
@@ -127,7 +127,7 @@ for config_json_file_path in config_json_file_list:
 To start the Unity application and enter your actions and parameters from the terminal, you can run the `run_in_human_input_mode` script that was installed in the package with the MCS Python Library (the `mcs_unity_build_file` is the Unity executable downloaded previously):
 
 ```
-run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file>
+run_in_human_input_mode <mcs_unity_build_file> <mcs_scene_json_file>
 ```
 
 Run options:
@@ -141,13 +141,13 @@ Run options:
 To run the Unity application and measure your runtime speed, you can run the `run_scene_timer` script that was installed in the package with the MCS Python Library:
 
 ```
-run_scene_timer <mcs_unity_build_file> <mcs_config_file_folder>
+run_scene_timer <mcs_unity_build_file> <mcs_scene_file_folder>
 ```
 
 Run options:
 - `--debug`
 
-This will run all of the MCS scene configuration JSON files in the given folder, use the PASS action for 20 steps (or for a number of steps equal to the last_step of the config file's goal, if any) in each scene, and print out the total, average, minimum, and maximum run time for all the scenes and the steps.
+This will run all of the MCS scene configuration JSON files in the given folder, use the PASS action for 20 steps (or for a number of steps equal to the last_step of the scene file's goal, if any) in each scene, and print out the total, average, minimum, and maximum run time for all the scenes and the steps.
 
 ## Config File
 
@@ -188,12 +188,12 @@ unity_app = # Path to your MCS Unity application
 controller = mcs.create_controller(unity_app)
 
 for scene_file in scene_files:
-    config_data, status = mcs.load_config_json(scene_file)
+    scene_data, status = mcs.load_scene_json_file(scene_file)
 
     if status is not None:
         print(status)
     else:
-        output = controller.start_scene(config_data)
+        output = controller.start_scene(scene_data)
         # Use the output to save your scene graph or map
 ```
 
@@ -241,12 +241,12 @@ import machine_common_sense as mcs
 # use your path to the MCS Unity executable
 controller = mcs.create_controller('MCS.x86_64')
 # find a test scene
-config_file_path = 'playroom.json'
-config_data, status = mcs.load_config_json(config_file_path)
-config_file_name = config_file_path[config_file_path.rfind('/')+1]
-if 'name' not in config_data.keys():
-    config_data['name'] = config_file_name[0:config_file_name.find('.')]
-output = controller.start_scene(config_data)
+scene_file_path = 'playroom.json'
+scene_data, status = mcs.load_scene_json_file(scene_file_path)
+scene_file_name = scene_file_path[scene_file_path.rfind('/')+1]
+if 'name' not in scene_data.keys():
+    scene_data['name'] = scene_file_name[0:scene_file_name.find('.')]
+output = controller.start_scene(scene_data)
 for i in range(1, 12):
     output = controller.step('RotateLook')
     for j in range(len(output.image_list)):
