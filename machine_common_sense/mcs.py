@@ -20,7 +20,7 @@ def time_limit(seconds):
 
 
 def create_controller(unity_app_file_path, debug=False,
-                      size=None, depth_maps=None,
+                      depth_maps=None,
                       object_masks=None, config_file_path=None):
     """
     Creates and returns a new MCS Controller object.
@@ -32,9 +32,6 @@ def create_controller(unity_app_file_path, debug=False,
     debug : boolean, optional
         Whether to save MCS output debug files in this folder.
         (default False)
-    size : int, optional
-        Desired screen width
-        (default None)
     depth_maps : boolean, optional
         Whether or not to generate depth mask images
         (default None)
@@ -55,7 +52,6 @@ def create_controller(unity_app_file_path, debug=False,
     try:
         with time_limit(TIME_LIMIT_SECONDS):
             return Controller(unity_app_file_path, debug,
-                              size,
                               depth_maps, object_masks,
                               config_file_path)
     except Exception as Msg:

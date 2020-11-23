@@ -134,7 +134,6 @@ Run options:
 - `--debug`
 - `--depth_maps`
 - `--object_masks`
-- `--size <screen_width_450_or_more>`
 
 ## Run with Scene Timer
 

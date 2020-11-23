@@ -12,6 +12,7 @@ class ConfigManager(object):
     enable_noise -> noise_enabled
     save_images_to_s3_bucket,
     save_images_to_s3_folder,
+    size,
     team, # done
     metadata # done
     eval_name
@@ -20,7 +21,6 @@ class ConfigManager(object):
 
     Properties we would like to move to the config file (I think?):
     debug,
-    size,
     depth_maps,
     object_masks
     (do we want/need to keep depth and object masks properties?)
@@ -44,7 +44,13 @@ class ConfigManager(object):
     CONFIG_S3_BUCKET = 's3_bucket'
     CONFIG_S3_FOLDER = 's3_folder'
     CONFIG_SEED = 'seed'
+    CONFIG_SIZE = 'size'
     CONFIG_TEAM = 'team'
+
+    # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built
+    # on this assumption.
+    SCREEN_WIDTH_DEFAULT = 600
+    SCREEN_WIDTH_MIN = 450
 
     def __init__(self, config_file_path=None):
         # For config file, look for environment variable first,
@@ -57,6 +63,8 @@ class ConfigManager(object):
 
         self._config = self._read_config_file()
 
+        self._validate_screen_size()
+
     def _read_config_file(self):
         config = configparser.ConfigParser()
         if os.path.exists(self._config_file):
@@ -68,6 +76,14 @@ class ConfigManager(object):
             print({section: dict(config[section])
                    for section in config.sections()})
         return config
+
+    def _validate_screen_size(self):
+        if(self.get_size() < self.SCREEN_WIDTH_MIN):
+            self._config.set(
+                self.CONFIG_DEFAULT_SECTION,
+                self.CONFIG_SIZE,
+                str(self.SCREEN_WIDTH_DEFAULT)
+            )
 
     def get_aws_access_key_id(self):
         return self._config.get(
@@ -122,6 +138,13 @@ class ConfigManager(object):
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_SEED,
             fallback=None
+        )
+
+    def get_size(self):
+        return self._config.getint(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_SIZE,
+            fallback=self.SCREEN_WIDTH_DEFAULT
         )
 
     def get_team(self):

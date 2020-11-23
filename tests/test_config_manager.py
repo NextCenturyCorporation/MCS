@@ -40,6 +40,26 @@ class Test_Config_Manager(unittest.TestCase):
             config_mngr._config_file,
             '~/somefolder/env-var-test.ini')
 
+    def test_validate_screen_size(self):
+        self.config_mngr._config[
+            self.config_mngr.CONFIG_DEFAULT_SECTION
+        ][
+            self.config_mngr.CONFIG_SIZE
+        ] = '450'
+        self.config_mngr._validate_screen_size()
+
+        self.assertEquals(self.config_mngr.get_size(), 450)
+
+        self.config_mngr._config[
+            self.config_mngr.CONFIG_DEFAULT_SECTION
+        ][
+            self.config_mngr.CONFIG_SIZE
+        ] = '449'
+        self.config_mngr._validate_screen_size()
+
+        self.assertEquals(self.config_mngr.get_size(),
+                          self.config_mngr.SCREEN_WIDTH_DEFAULT)
+
     def test_get_aws_access_key_id(self):
         self.assertIsNone(self.config_mngr.get_aws_access_key_id())
 
@@ -132,6 +152,17 @@ class Test_Config_Manager(unittest.TestCase):
         ] = '1'
 
         self.assertEquals(self.config_mngr.get_seed(), 1)
+
+    def test_get_size(self):
+        self.assertEquals(self.config_mngr.get_size(), 600)
+
+        self.config_mngr._config[
+            self.config_mngr.CONFIG_DEFAULT_SECTION
+        ][
+            self.config_mngr.CONFIG_SIZE
+        ] = '800'
+
+        self.assertEquals(self.config_mngr.get_size(), 800)
 
     def test_get_team(self):
         self.assertEquals(self.config_mngr.get_team(), '')

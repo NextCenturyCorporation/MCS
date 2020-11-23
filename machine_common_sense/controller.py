@@ -77,11 +77,6 @@ class Controller():
 
     ACTION_LIST = [item.value for item in Action]
 
-    # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built
-    # on this assumption.
-    SCREEN_WIDTH_DEFAULT = 600
-    SCREEN_WIDTH_MIN = 450
-
     # AI2-THOR creates a square grid across the scene that is
     # uses for "snap-to-grid" movement. (This value may not
     # really matter because we set continuous to True in
@@ -148,10 +143,12 @@ class Controller():
     AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
 
     def __init__(self, unity_app_file_path, debug=False,
-                 size=None,
                  depth_maps=None, object_masks=None, config_file_path=None):
 
-        self._update_screen_size(size)
+        # self._config = self.read_config_file()
+        self._config = ConfigManager(config_file_path)
+
+        self._update_screen_size()
 
         self._controller = ai2thor.controller.Controller(
             quality='Medium',
@@ -182,12 +179,11 @@ class Controller():
         else:
             return y_coord
 
-    def _update_screen_size(self, size=None):
-        self.__screen_width = self.SCREEN_WIDTH_DEFAULT
-        self.__screen_height = int(self.SCREEN_WIDTH_DEFAULT / 3 * 2)
-        if size and size >= self.SCREEN_WIDTH_MIN:
-            self.__screen_width = size
-            self.__screen_height = int(size / 3 * 2)
+    def _update_screen_size(self):
+        size = self._config.get_size()
+
+        self.__screen_width = size
+        self.__screen_height = int(size / 3 * 2)
 
     # TODO: MCS-410: Keep this or no?
     def _update_internal_config(self, noise_enabled=None, seed=None,
@@ -207,9 +203,6 @@ class Controller():
 
     def _on_init(self, debug=False,
                  depth_maps=None, object_masks=None, config_file_path=None):
-
-        # self._config = self.read_config_file()
-        self._config = ConfigManager(config_file_path)
 
         self.__debug_to_file = True if (
             debug is True or debug == 'file') else False

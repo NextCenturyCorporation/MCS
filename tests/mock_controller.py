@@ -4,6 +4,7 @@ import numpy
 from machine_common_sense.controller import Controller
 from machine_common_sense.pose import Pose
 from machine_common_sense.action import Action
+from machine_common_sense.config_manager import ConfigManager
 
 MOCK_VARIABLES = {
     'event_count': 5,
@@ -74,6 +75,7 @@ class MockControllerAI2THOR(Controller):
     def __init__(self):
         # Do NOT call superclass __init__ function
         self._controller = MockController()
+        self._config = ConfigManager()
         self._update_screen_size()
         self._on_init()
 

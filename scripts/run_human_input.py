@@ -6,8 +6,6 @@ import machine_common_sense as mcs
 commandList = []
 
 
-# TODO: MCS-410: update arguments so there's no confusion between
-# mcs_scene_json_file and config_file
 def parse_args():
     parser = argparse.ArgumentParser(description='Run MCS')
     parser.add_argument(
@@ -21,11 +19,6 @@ def parse_args():
         default=False,
         action='store_true',
         help='Generate MCS debug files [default=False]')
-    parser.add_argument(
-        '--size',
-        type=int,
-        default=None,
-        help='Screen width of 450+ (height = width * 2/3) [default=600]')
     parser.add_argument(
         '--depth_maps',
         default=False,
@@ -242,12 +235,10 @@ def main():
 
     controller = mcs.create_controller(args.mcs_unity_build_file,
                                        debug=args.debug,
-                                       size=args.size,
                                        depth_maps=args.depth_maps,
                                        object_masks=args.object_masks,
                                        config_file_path=args.config_file_path)
 
-    # TODO: MCS-410: Rename these this is confusing
     scene_file_path = args.mcs_scene_json_file
     scene_file_name = scene_file_path[scene_file_path.rfind('/') + 1:]
 
