@@ -45,7 +45,6 @@ if __name__ == "__main__":
     args = parse_args()
     controller = mcs.create_controller(
         args.mcs_unity_build_file,
-        debug=True,
         config_file_path='./run_scripts_config.ini'
     )
 

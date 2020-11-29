@@ -66,7 +66,7 @@ def main():
         print(status, file=sys.stderr)
         exit(1)
 
-    controller = MCS.create_controller(unity_exe_path, debug=False)
+    controller = MCS.create_controller(unity_exe_path)
     run_playroom(controller, scene_data)
 
 

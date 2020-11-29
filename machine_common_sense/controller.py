@@ -69,9 +69,6 @@ class Controller():
         Path to configuration file to read in and set various properties,
         such as metadata level and whether or not to save history files
         (default None)
-    debug : boolean, optional
-        Whether to save MCS output debug files in this folder.
-        (default False)
 
     """
 
@@ -142,7 +139,7 @@ class Controller():
     AWS_ACCESS_KEY_ID = 'aws_access_key_id'
     AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
 
-    def __init__(self, unity_app_file_path, debug=False,
+    def __init__(self, unity_app_file_path,
                  depth_maps=None, object_masks=None, config_file_path=None):
 
         # self._config = self.read_config_file()
@@ -168,7 +165,7 @@ class Controller():
             }
         )
 
-        self._on_init(debug, depth_maps,
+        self._on_init(depth_maps,
                       object_masks, config_file_path)
 
     # Pixel coordinates are expected to start at the top left, but
@@ -201,13 +198,15 @@ class Controller():
         if history_enabled is not None:
             self.__history_enabled = history_enabled
 
-    def _on_init(self, debug=False,
-                 depth_maps=None, object_masks=None, config_file_path=None):
+    def _on_init(self, depth_maps=None,
+                 object_masks=None, config_file_path=None):
 
         self.__debug_to_file = True if (
-            debug is True or debug == 'file') else False
+            self._config.is_debug() is True or
+            self._config.get_debug_output() == 'file') else False
         self.__debug_to_terminal = True if (
-            debug is True or debug == 'terminal') else False
+            self._config.is_debug() is True or
+            self._config.get_debug_output() == 'terminal') else False
 
         self.__noise_enabled = self._config.is_noise_enabled()
         self.__seed = self._config.get_seed()

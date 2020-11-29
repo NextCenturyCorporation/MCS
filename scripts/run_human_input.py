@@ -15,11 +15,6 @@ def parse_args():
         'mcs_scene_json_file',
         help='MCS JSON scene configuration file to load')
     parser.add_argument(
-        '--debug',
-        default=False,
-        action='store_true',
-        help='Generate MCS debug files [default=False]')
-    parser.add_argument(
         '--depth_maps',
         default=False,
         action='store_true',
@@ -234,7 +229,6 @@ def main():
         exit()
 
     controller = mcs.create_controller(args.mcs_unity_build_file,
-                                       debug=args.debug,
                                        depth_maps=args.depth_maps,
                                        object_masks=args.object_masks,
                                        config_file_path=args.config_file_path)

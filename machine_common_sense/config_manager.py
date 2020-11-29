@@ -9,6 +9,7 @@ class ConfigManager(object):
     already in config (move handling here tho):
     aws_access_key_id, # done
     aws_secret_access_key, # done
+    debug,
     enable_noise -> noise_enabled
     save_images_to_s3_bucket,
     save_images_to_s3_folder,
@@ -20,7 +21,6 @@ class ConfigManager(object):
     history_enabled
 
     Properties we would like to move to the config file (I think?):
-    debug,
     depth_maps,
     object_masks
     (do we want/need to keep depth and object masks properties?)
@@ -36,6 +36,8 @@ class ConfigManager(object):
 
     CONFIG_AWS_ACCESS_KEY_ID = 'aws_access_key_id'
     CONFIG_AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
+    CONFIG_DEBUG = 'debug'
+    CONFIG_DEBUG_OUTPUT = 'debug_output'
     CONFIG_EVALUATION = 'evaluation'
     CONFIG_EVALUATION_NAME = 'evaluation_name'
     CONFIG_HISTORY_ENABLED = 'history_enabled'
@@ -61,21 +63,24 @@ class ConfigManager(object):
         if(self._config_file is None):
             self._config_file = self.DEFAULT_CONFIG_FILE
 
-        self._config = self._read_config_file()
+        self._read_config_file()
 
         self._validate_screen_size()
 
     def _read_config_file(self):
-        config = configparser.ConfigParser()
+        self._config = configparser.ConfigParser()
         if os.path.exists(self._config_file):
-            config.read(self._config_file)
-            # TODO: MCS-410 - Uncomment
-            # if self.__debug_to_terminal:
-            print('MCS Config File Path: ' + self._config_file)
-            print('Read MCS Config File:')
-            print({section: dict(config[section])
-                   for section in config.sections()})
-        return config
+            self._config.read(self._config_file)
+
+            debug_to_terminal = (
+                self.is_debug() or self.get_debug_output() == 'terminal'
+            )
+
+            if debug_to_terminal is True:
+                print('MCS Config File Path: ' + self._config_file)
+                print('Read MCS Config File:')
+                print({section: dict(self._config[section])
+                       for section in self._config.sections()})
 
     def _validate_screen_size(self):
         if(self.get_size() < self.SCREEN_WIDTH_MIN):
@@ -96,6 +101,13 @@ class ConfigManager(object):
         return self._config.get(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_AWS_SECRET_ACCESS_KEY,
+            fallback=None
+        )
+
+    def get_debug_output(self):
+        return self._config.get(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_DEBUG_OUTPUT,
             fallback=None
         )
 
@@ -153,6 +165,24 @@ class ConfigManager(object):
             self.CONFIG_TEAM,
             fallback=''
         )
+
+    def is_debug(self):
+        # Environment variable override for debug mode
+        debug_env_var = os.getenv('MCS_DEBUG_MODE', None)
+
+        if(debug_env_var is None):
+            return self._config.getboolean(
+                self.CONFIG_DEFAULT_SECTION,
+                self.CONFIG_DEBUG,
+                fallback=False
+            )
+
+        if(debug_env_var is None or
+                debug_env_var.lower() == 'false' or
+                debug_env_var == '0' or debug_env_var == ''):
+            return False
+        else:
+            return True
 
     def is_evaluation(self):
         return self._config.getboolean(

@@ -24,7 +24,7 @@
 ## Controller
 
 
-### class machine_common_sense.controller.Controller(unity_app_file_path, debug=False, depth_maps=None, object_masks=None, config_file_path=None)
+### class machine_common_sense.controller.Controller(unity_app_file_path, depth_maps=None, object_masks=None, config_file_path=None)
 MCS Controller class implementation for the MCS wrapper of the AI2-THOR
 library.
 
@@ -33,14 +33,9 @@ library.
 
 * **Parameters**
 
-    
-    * **config_file_path** (*str**, **optional*) – Path to configuration file to read in and set various properties,
+    **config_file_path** (*str**, **optional*) – Path to configuration file to read in and set various properties,
     such as metadata level and whether or not to save history files
     (default None)
-
-
-    * **debug** (*boolean**, **optional*) – Whether to save MCS output debug files in this folder.
-    (default False)
 
 
 

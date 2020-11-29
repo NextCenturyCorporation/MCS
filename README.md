@@ -131,7 +131,6 @@ run_in_human_input_mode <mcs_unity_build_file> <mcs_scene_json_file>
 ```
 
 Run options:
-- `--debug`
 - `--depth_maps`
 - `--object_masks`
 
@@ -142,9 +141,6 @@ To run the Unity application and measure your runtime speed, you can run the `ru
 ```
 run_scene_timer <mcs_unity_build_file> <mcs_scene_file_folder>
 ```
-
-Run options:
-- `--debug`
 
 This will run all of the MCS scene configuration JSON files in the given folder, use the PASS action for 20 steps (or for a number of steps equal to the last_step of the scene file's goal, if any) in each scene, and print out the total, average, minimum, and maximum run time for all the scenes and the steps.
 

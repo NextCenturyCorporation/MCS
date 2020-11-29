@@ -17,12 +17,6 @@ def parse_args():
     parser.add_argument(
         'mcs_scene_dir',
         help='MCS JSON scene configuration directory')
-    parser.add_argument(
-        '--debug',
-        dest='debug',
-        action='store_true',
-        default=False
-    )
     return parser.parse_args()
 
 
@@ -74,7 +68,7 @@ def main():
         f'FOUND {len(file_list)} SCENE CONFIGURATION FILES... '
         f'STARTING THE MCS UNITY APP...')
     controller = mcs.create_controller(
-        args.mcs_unity_build_file, debug=args.debug)
+        args.mcs_unity_build_file)
 
     scene_time_list = []
     step_time_list_list = []

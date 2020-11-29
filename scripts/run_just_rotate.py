@@ -25,7 +25,6 @@ def main():
 
     controller = mcs.create_controller(
         args.mcs_unity_build_file,
-        debug=True,
         depth_maps=False,
         object_masks=False,
         config_file_path='./run_scripts_config.ini'

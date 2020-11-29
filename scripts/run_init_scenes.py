@@ -2,6 +2,7 @@ import glob
 import argparse
 
 import machine_common_sense as mcs
+import os
 
 
 def parse_args():
@@ -19,6 +20,7 @@ def parse_args():
 
 
 def main():
+    os.environ['MCS_DEBUG_MODE'] = 'False'
     args = parse_args()
 
     output_folder = args.image_output_folder + '/'
@@ -26,7 +28,6 @@ def main():
 
     controller = mcs.create_controller(
         args.mcs_unity_build_file,
-        debug=False,
         depth_maps=True,
         object_masks=True)
 

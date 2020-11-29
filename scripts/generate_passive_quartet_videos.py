@@ -70,10 +70,11 @@ def cleanup(quartet: List) -> None:
 
 
 def main():
+    os.environ['MCS_DEBUG_MODE'] = 'True'
     args = parse_args()
     quartets = list_quartets(args.input)
     output_dir = pathlib.Path(args.output)
-    controller = mcs.create_controller(args.engine, debug=True)
+    controller = mcs.create_controller(args.engine)
 
     # object_permanence, shape_constancy, spatio_temporal_continuity -
     # {0001 - 0100} - {1 - 4}
