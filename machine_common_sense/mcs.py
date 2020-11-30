@@ -20,8 +20,7 @@ def time_limit(seconds):
 
 
 def create_controller(unity_app_file_path,
-                      depth_maps=None,
-                      object_masks=None, config_file_path=None):
+                      config_file_path=None):
     """
     Creates and returns a new MCS Controller object.
 
@@ -29,12 +28,6 @@ def create_controller(unity_app_file_path,
     ----------
     unity_app_file_path : str
         The file path to your MCS Unity application.
-    depth_maps : boolean, optional
-        Whether or not to generate depth mask images
-        (default None)
-    object_masks : boolean, optional
-        Whether or not to generate segmentation mask images
-        (default None)
     config_file_path: str, optional
         Path to configuration file to read in and set various properties,
         such as metadata level and whether or not to save history files
@@ -49,7 +42,6 @@ def create_controller(unity_app_file_path,
     try:
         with time_limit(TIME_LIMIT_SECONDS):
             return Controller(unity_app_file_path,
-                              depth_maps, object_masks,
                               config_file_path)
     except Exception as Msg:
         print("Exception in create_controller()", Msg)

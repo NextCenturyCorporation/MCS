@@ -79,8 +79,7 @@ Example usage of the MCS library:
 import machine_common_sense as mcs
 
 # We will give you the Unity app file.
-controller = mcs.create_controller(unity_app_file_path, depth_maps=True,
-                                   object_masks=True)
+controller = mcs.create_controller(unity_app_file_path)
 
 # Either load the scene data dict from an MCS scene config JSON file or create your own.
 # We will give you the training scene config JSON files and the format to make your own.
@@ -109,8 +108,7 @@ Example running multiple scenes sequentially:
 import machine_common_sense as mcs
 
 # Only create the MCS controller ONCE!
-controller = mcs.create_controller(unity_app_file_path, depth_maps=True,
-                                   object_masks=True)
+controller = mcs.create_controller(unity_app_file_path)
 
 for scene_json_file_path in scene_json_file_list:
     scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
@@ -129,10 +127,6 @@ To start the Unity application and enter your actions and parameters from the te
 ```
 run_in_human_input_mode <mcs_unity_build_file> <mcs_scene_json_file>
 ```
-
-Run options:
-- `--depth_maps`
-- `--object_masks`
 
 ## Run with Scene Timer
 
@@ -157,6 +151,7 @@ The `metadata` property describes what metadata will be returned by the MCS Pyth
 - `oracle`: Returns the metadata for all the objects in the scene, including visible, held, and hidden objects. Object masks will have consistent colors throughout all steps for a scene.
 - `level2`: Only returns the images (with depth masks AND object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included. Note that here, object masks will have randomized colors per step.
 - `level1`: Only returns the images (with depth masks but NOT object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
+- `none`: Only returns the images (but not the masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
 
 Otherwise, return the metadata for the visible and held objects.
 

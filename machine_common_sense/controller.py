@@ -132,6 +132,9 @@ class Controller():
     # No metadata, except for the images, depth masks, and haptic/audio
     # feedback
     CONFIG_METADATA_TIER_LEVEL_1 = 'level1'
+    # No metadata, except for the images and haptic/audio
+    # feedback
+    CONFIG_METADATA_TIER_NONE = 'none'
 
     AWS_CREDENTIALS_FOLDER = os.path.expanduser('~') + '/.aws/'
     AWS_CREDENTIALS_FILE = os.path.expanduser('~') + '/.aws/credentials'
@@ -139,8 +142,7 @@ class Controller():
     AWS_ACCESS_KEY_ID = 'aws_access_key_id'
     AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
 
-    def __init__(self, unity_app_file_path,
-                 depth_maps=None, object_masks=None, config_file_path=None):
+    def __init__(self, unity_app_file_path, config_file_path=None):
 
         # self._config = self.read_config_file()
         self._config = ConfigManager(config_file_path)
@@ -165,8 +167,7 @@ class Controller():
             }
         )
 
-        self._on_init(depth_maps,
-                      object_masks, config_file_path)
+        self._on_init(config_file_path)
 
     # Pixel coordinates are expected to start at the top left, but
     # in Unity, (0,0) is the bottom left.
@@ -198,8 +199,7 @@ class Controller():
         if history_enabled is not None:
             self.__history_enabled = history_enabled
 
-    def _on_init(self, depth_maps=None,
-                 object_masks=None, config_file_path=None):
+    def _on_init(self, config_file_path=None):
 
         self.__debug_to_file = True if (
             self._config.is_debug() is True or
@@ -227,25 +227,19 @@ class Controller():
 
         self._metadata_tier = self._config.get_metadata_tier()
 
-        # Order of preference for depth/object mask settings:
-        # look for user specified depth_maps/object_masks properties,
-        # then check config settings, else default to False
+        # Whether or not to show depth maps or object masks is based on
+        # metadata tier (the default for these if no metadata level is
+        # set or metadata is set to `none`, is `False`)
+        self.__depth_maps = False
+        self.__object_masks = False
+
         if(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
-            self.__depth_maps = (
-                depth_maps if depth_maps is not None else True)
-            self.__object_masks = (
-                object_masks if object_masks is not None else False)
+            self.__depth_maps = True
+            self.__object_masks = False
         elif(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2 or
              self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
-            self.__depth_maps = (
-                depth_maps if depth_maps is not None else True)
-            self.__object_masks = (
-                object_masks if object_masks is not None else True)
-        else:
-            self.__depth_maps = (
-                depth_maps if depth_maps is not None else False)
-            self.__object_masks = (
-                object_masks if object_masks is not None else False)
+            self.__depth_maps = True
+            self.__object_masks = True
 
         # TODO: MCS-410: what to do with this?
         if ((self._config.get_aws_access_key_id() is not None) and
@@ -822,10 +816,15 @@ class Controller():
     def restrict_step_output_metadata(self, step_output):
         # Use this function to filter out of the step output any data
         # that shouldn't be returned at certain metadata tiers
-        if(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
+        if(self._metadata_tier == self.CONFIG_METADATA_TIER_NONE):
+            step_output.depth_map_list = []
+
+        if(self._metadata_tier == self.CONFIG_METADATA_TIER_NONE or
+           self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
             step_output.object_mask_list = []
 
         if (
+            self._metadata_tier == self.CONFIG_METADATA_TIER_NONE or
             self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
             self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2
         ):
@@ -896,11 +895,9 @@ class Controller():
             scene_event.events) - 1].object_id_to_color
 
     def retrieve_object_list(self, scene_event):
-        # Return object lis for all tier levels, the restrict output function
+        # Return object list for all tier levels, the restrict output function
         # will then strip out the necessary metadata
-        if (self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
-                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2 or
-                self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
+        if (self._metadata_tier != ''):
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -1020,11 +1017,9 @@ class Controller():
             return return_status
 
     def retrieve_structural_object_list(self, scene_event):
-        # Return structural for all tier levels, the restrict output function
-        # will then strip out the necessary metadata
-        if (self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
-                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2 or
-                self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
+        # Return structural object list for all tier levels, the restrict
+        # output function will then strip out the necessary metadata
+        if (self._metadata_tier != ''):
             return sorted(
                 [
                     self.retrieve_object_output(

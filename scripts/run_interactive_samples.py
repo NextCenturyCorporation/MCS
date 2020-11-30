@@ -38,9 +38,7 @@ if __name__ == "__main__":
     args = parse_args()
     controller = mcs.create_controller(
         args.mcs_unity_build_file,
-        depth_maps=True,
-        object_masks=True,
-        config_file_path='./run_scripts_config.ini')
+        config_file_path='./run_scripts_config_oracle_metadata.ini')
 
     run_scene('../scenes/eval_sample_1.json', [
         'MoveAhead,amount=1',

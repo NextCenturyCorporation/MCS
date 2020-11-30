@@ -28,8 +28,7 @@ def main():
 
     controller = mcs.create_controller(
         args.mcs_unity_build_file,
-        depth_maps=True,
-        object_masks=True)
+        config_file_path='./run_scripts_config_oracle_metadata.ini')
 
     for json_file_name in json_file_list:
         scene_data, status = mcs.load_scene_json_file(json_file_name)

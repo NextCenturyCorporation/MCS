@@ -24,7 +24,7 @@
 ## Controller
 
 
-### class machine_common_sense.controller.Controller(unity_app_file_path, depth_maps=None, object_masks=None, config_file_path=None)
+### class machine_common_sense.controller.Controller(unity_app_file_path, config_file_path=None)
 MCS Controller class implementation for the MCS wrapper of the AI2-THOR
 library.
 

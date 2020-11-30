@@ -20,11 +20,6 @@ class ConfigManager(object):
     seed
     history_enabled
 
-    Properties we would like to move to the config file (I think?):
-    depth_maps,
-    object_masks
-    (do we want/need to keep depth and object masks properties?)
-
     TODO: MCS-410: update docs about config/what properties exist within it
     """
 

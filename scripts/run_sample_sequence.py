@@ -45,7 +45,7 @@ if __name__ == "__main__":
     args = parse_args()
     controller = mcs.create_controller(
         args.mcs_unity_build_file,
-        config_file_path='./run_scripts_config.ini'
+        config_file_path='./run_scripts_config_no_metadata.ini'
     )
 
     filename_list = glob.glob(args.filename_prefix + '*_debug.json')

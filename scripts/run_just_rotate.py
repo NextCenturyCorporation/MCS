@@ -25,9 +25,7 @@ def main():
 
     controller = mcs.create_controller(
         args.mcs_unity_build_file,
-        depth_maps=False,
-        object_masks=False,
-        config_file_path='./run_scripts_config.ini'
+        config_file_path='./run_scripts_config_no_metadata.ini'
     )
     scene_file_name = scene_file_path[scene_file_path.rfind('/') + 1:]
 

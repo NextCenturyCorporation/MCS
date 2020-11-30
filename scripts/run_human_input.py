@@ -15,18 +15,6 @@ def parse_args():
         'mcs_scene_json_file',
         help='MCS JSON scene configuration file to load')
     parser.add_argument(
-        '--depth_maps',
-        default=False,
-        action='store_true',
-        help='Render and return depth masks of each scene ' +
-        '(will slightly decrease performance) [default=False]')
-    parser.add_argument(
-        '--object_masks',
-        default=False,
-        action='store_true',
-        help='Render and return object (instance segmentation) masks of ' +
-        'each scene (will significantly decrease performance) [default=False]')
-    parser.add_argument(
         '--config_file_path',
         type=str,
         default=None,
@@ -229,8 +217,6 @@ def main():
         exit()
 
     controller = mcs.create_controller(args.mcs_unity_build_file,
-                                       depth_maps=args.depth_maps,
-                                       object_masks=args.object_masks,
                                        config_file_path=args.config_file_path)
 
     scene_file_path = args.mcs_scene_json_file
