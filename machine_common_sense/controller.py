@@ -183,7 +183,6 @@ class Controller():
         self.__screen_width = size
         self.__screen_height = int(size / 3 * 2)
 
-    # TODO: MCS-410: Keep this or no?
     def _update_internal_config(self, noise_enabled=None, seed=None,
                                 depth_maps=None, object_masks=None,
                                 history_enabled=None):
@@ -241,7 +240,6 @@ class Controller():
             self.__depth_maps = True
             self.__object_masks = True
 
-        # TODO: MCS-410: what to do with this?
         if ((self._config.get_aws_access_key_id() is not None) and
                 (self._config.get_aws_secret_access_key() is not None)):
             if not os.path.exists(self.AWS_CREDENTIALS_FOLDER):
