@@ -5,24 +5,6 @@ import yaml  # noqa: F401
 
 class ConfigManager(object):
 
-    """
-    already in config (move handling here tho):
-    aws_access_key_id, # done
-    aws_secret_access_key, # done
-    debug,
-    enable_noise -> noise_enabled
-    save_images_to_s3_bucket,
-    save_images_to_s3_folder,
-    size,
-    team, # done
-    metadata # done
-    eval_name
-    seed
-    history_enabled
-
-    TODO: MCS-410: update docs about config/what properties exist within it
-    """
-
     CONFIG_FILE_ENV_VAR = 'MCS_CONFIG_FILE_PATH'
     METADATA_ENV_VAR = 'MCS_METADATA_LEVEL'
     DEFAULT_CONFIG_FILE = './mcs_config.ini'
