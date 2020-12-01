@@ -79,7 +79,7 @@ Example usage of the MCS library:
 import machine_common_sense as mcs
 
 # We will give you the Unity app file.
-controller = mcs.create_controller(unity_app_file_path)
+controller = mcs.create_controller(unity_app_file_path, config_file_path='./some-path/config.ini')
 
 # Either load the scene data dict from an MCS scene config JSON file or create your own.
 # We will give you the training scene config JSON files and the format to make your own.
@@ -128,6 +128,9 @@ To start the Unity application and enter your actions and parameters from the te
 run_in_human_input_mode <mcs_unity_build_file> <mcs_scene_json_file>
 ```
 
+Run options:
+- `--config_file_path`
+
 ## Run with Scene Timer
 
 To run the Unity application and measure your runtime speed, you can run the `run_scene_timer` script that was installed in the package with the MCS Python Library:
@@ -140,11 +143,25 @@ This will run all of the MCS scene configuration JSON files in the given folder,
 
 ## Config File
 
-To use an MCS configuration file, set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see [sample_config.ini](./sample_config.ini) for an example).
+To use an MCS configuration file, you can either pass in a file path via the `config_file_path` property in the create_controller() method, or set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see [sample_config.ini](./sample_config.ini) for an example).
 
 ### Config File Properties
 
+#### debug
+
+(boolean, optional)
+
+Whether to save MCS output debug files in this folder. Will default to `False`.
+
+#### debug_output
+
+(string, optional)
+
+Alternatively to the `debug` property, `debug_output` can be used to either print debug info to the terminal or to debug files only. This should either be set to `file` or `terminal`, and will default to None. Will be ignored if `debug` is set.
+
 #### metadata
+
+(string, optional)
 
 The `metadata` property describes what metadata will be returned by the MCS Python library. The `metadata` property is available so that users can run baseline or ablation studies during training. It can be set to one of the following strings:
 
@@ -154,6 +171,24 @@ The `metadata` property describes what metadata will be returned by the MCS Pyth
 - `none`: Only returns the images (but not the masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
 
 Otherwise, return the metadata for the visible and held objects.
+
+#### noise_enabled
+
+(boolean, optional)
+
+Whether to add random noise to the numerical amounts in movement and object interaction action parameters. Will default to `False`.
+
+# seed
+
+(int, optional)
+
+A seed for the Python random number generator (defaults to None).
+
+#### size
+
+(int, optional)
+
+Desired screen width. If value given, it must be more than `450`. If none given, screen width will default to `600`.
 
 ### Using the Config File to Generate Scene Graphs or Maps
 
