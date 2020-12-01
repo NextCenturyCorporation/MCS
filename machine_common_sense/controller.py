@@ -317,9 +317,6 @@ class Controller():
                 height=self.__screen_height,
                 fps=self.FPS_FRAME_RATE)
 
-    def get_seed_value(self):
-        return self.__seed
-
     def end_scene(self, choice, confidence=1.0):
         """
         Ends the current scene.
