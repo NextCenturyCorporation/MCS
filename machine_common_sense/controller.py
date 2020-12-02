@@ -144,7 +144,6 @@ class Controller():
 
     def __init__(self, unity_app_file_path, config_file_path=None):
 
-        # self._config = self.read_config_file()
         self._config = ConfigManager(config_file_path)
 
         self._update_screen_size()
@@ -183,6 +182,7 @@ class Controller():
         self.__screen_width = size
         self.__screen_height = int(size / 3 * 2)
 
+    # Used for unit testing
     def _update_internal_config(self, noise_enabled=None, seed=None,
                                 depth_maps=None, object_masks=None,
                                 history_enabled=None):
