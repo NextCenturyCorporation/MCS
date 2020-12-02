@@ -25,14 +25,11 @@ class StepMetadata:
     camera_height : float
         The player camera's height. This will change if the player uses
         actions like "LieDown", "Stand", or "Crawl".
-    depth_map_list : list of 2D numpy arrays
-        The list of 2-dimensional numpy arrays of depth float data from the
-        scene after the last action and physics simulation were run. This is
-        usually a list with 1 array, except for the output from start_scene
-        for a scene with a scripted Preview Phase.
-        Each depth float in a 2-dimensional numpy array is a value between 0
-        and the camera's far clipping plane (default 15) correspondings to the
-        depth in simulation units at that pixel in the image.
+    depth_map_list : list of Pillow.Image objects
+        The list of depth map images from the scene after the last action
+        and physics simulation were run. This is usually a list with 1 image,
+        except for the output from start_scene for a scene with a scripted
+        Preview Phase.
     goal : GoalMetadata or None
         The goal for the whole scene. Will be None in "Exploration" scenes.
     habituation_trial : int or None
@@ -54,7 +51,7 @@ class StepMetadata:
         The list of object mask (instance segmentation) images from the scene
         after the last action and physics simulation were run. This is usually
         a list with 1 image, except for the output from start_scene for a
-        scene with a scripted Previous Phase.
+        scene with a scripted Preview Phase.
         The color of each object in the mask corresponds to the "color"
         property in its ObjectMetadata object.
     pose : string

@@ -1119,23 +1119,11 @@ class Controller():
                     self.__plotter.plot(scene_event, self.__step_number))
 
             if self.__depth_maps:
-                # The Unity depth array (returned by Depth.shader) contains
-                # a third of the total max depth in each RGB element.
-                unity_depth_array = event.depth_frame.astype(np.float32)
-                # Convert to values between 0 and max_depth for output.
-                depth_float_array = (
-                    (unity_depth_array[:, :, 0] * (max_depth / 3.0) / 255.0) +
-                    (unity_depth_array[:, :, 1] * (max_depth / 3.0) / 255.0) +
-                    (unity_depth_array[:, :, 2] * (max_depth / 3.0) / 255.0)
-                )
-                # Convert to pixel values for saving debug image.
-                depth_pixel_array = depth_float_array * 255 / max_depth
                 depth_map = PIL.Image.fromarray(
-                    depth_pixel_array.astype(np.uint8)
-                )
+                    event.depth_frame)
+                depth_map_list.append(depth_map)
                 if self._config.get(self.CONFIG_EVALUATION, False):
                     self.__depth_recorder.add(depth_map)
-                depth_map_list.append(np.array(depth_float_array))
 
             if self.__object_masks:
                 object_mask = PIL.Image.fromarray(
