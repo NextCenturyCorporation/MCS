@@ -127,7 +127,7 @@ Alternatively to the `debug` property, `debug_output` can be used to either prin
 
 (boolean)
 
-Whether or not we're running in evaluation mode (default: False). If `True`, video files for each scene will be created and uploaded to S3.
+Whether or not we're running in evaluation mode (default: False). If `True`, evaluation files for each scene will be created and uploaded to S3.
 
 #### evaluation_name
 
