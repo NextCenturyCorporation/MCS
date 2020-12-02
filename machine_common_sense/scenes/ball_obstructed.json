@@ -4,6 +4,16 @@
     "ceilingMaterial": "Walls/WallDrywallWhite",
     "floorMaterial": "Fabrics/RUG4",
     "wallMaterial": "Walls/YellowDrywall",
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0
+        }
+    },
     "objects": [{
         "id": "testWall",
         "type": "cube",
