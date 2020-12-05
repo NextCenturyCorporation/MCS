@@ -1168,7 +1168,7 @@ class Controller():
             camera_height=scene_event.metadata.get(
                 'cameraPosition', {}).get('y', 0.0),
             depth_map_list=depth_map_list,
-            goal=self._goal,
+            goal=copy.deepcopy(self._goal),
             habituation_trial=(
                 self.__habituation_trial
                 if self._goal.habituation_total >= self.__habituation_trial
