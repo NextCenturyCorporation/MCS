@@ -7,8 +7,8 @@ import datetime
 
 
 class HistoryWriter(object):
-    def __init__(self, scene_config_data=None):
-        self.info_obj = {}
+    def __init__(self, scene_config_data=None, hist_info={}):
+        self.info_obj = hist_info
         self.current_steps = []
         self.end_score = {}
         self.scene_history_file = None
@@ -27,14 +27,17 @@ class HistoryWriter(object):
             if not os.path.exists(prefix_directory):
                 os.makedirs(prefix_directory)
 
+        timestamp = self.generate_time()
+
         if ('screenshot' not in scene_config_data or
                 not scene_config_data['screenshot']):
             self.scene_history_file = os.path.join(
                 self.HISTORY_DIRECTORY, scene_config_data['name'].replace(
-                    '.json', '') + "-" + self.generate_time() + ".json")
+                    '.json', '') + "-" + timestamp + ".json")
 
         self.info_obj['name'] = scene_config_data['name'].replace(
             '.json', '')
+        self.info_obj['timestamp'] = timestamp
 
     def generate_time(self):
         return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
