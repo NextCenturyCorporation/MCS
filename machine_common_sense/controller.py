@@ -161,6 +161,7 @@ class Controller():
     CONFIG_S3_BUCKET = 's3_bucket'
     CONFIG_S3_FOLDER = 's3_folder'
     CONFIG_TEAM = 'team'
+    CONFIG_EVALUATION_NAME = 'evaluation_name'
 
     def __init__(self, unity_app_file_path, debug=False,
                  enable_noise=False, seed=None, size=None,
@@ -305,6 +306,7 @@ class Controller():
         '''Create video recorders used to capture evaluation scenes for review
         '''
         output_folder = pathlib.Path(self.__output_folder)
+        eval_name = self._config.get(self.CONFIG_EVALUATION_NAME, '')
         team = self._config.get(self.CONFIG_TEAM, '')
         scene_name = self.__scene_configuration.get(
             'name', '').replace('json', '')
@@ -314,7 +316,8 @@ class Controller():
 
         timestamp = self.generate_time()
         basename_template = '_'.join(
-            [team, scene_name, self.PLACEHOLDER, timestamp]) + '.mp4'
+            [eval_name, self._metadata_tier, team, scene_name,
+             self.PLACEHOLDER, timestamp]) + '.mp4'
 
         visual_video_filename = basename_template.replace(
             self.PLACEHOLDER, self.VISUAL)
@@ -393,7 +396,11 @@ class Controller():
                 self.__uploader.upload_history(
                     history_path=self.__history_writer.scene_history_file,
                     s3_filename=(folder_prefix + '/' +
-                                 self._config[self.CONFIG_TEAM] +
+                                 self._config.get(
+                                     self.CONFIG_EVALUATION_NAME, ''
+                                 ) +
+                                 '_' + self._metadata_tier +
+                                 '_' + self._config.get(self.CONFIG_TEAM, '') +
                                  '_' + history_filename)
                 )
 
@@ -459,9 +466,21 @@ class Controller():
             # Ensure the previous scene history writer has saved its file.
             if self.__history_writer:
                 self.__history_writer.check_file_written()
+
+            hist_info = {}
+            hist_info[self.CONFIG_EVALUATION_NAME] = self._config.get(
+                self.CONFIG_EVALUATION_NAME, ''
+            )
+            hist_info[self.CONFIG_EVALUATION] = self._config.get(
+                self.CONFIG_EVALUATION, False
+            )
+            hist_info[self.CONFIG_METADATA_TIER] = self._metadata_tier
+            hist_info[self.CONFIG_TEAM] = self._config.get(
+                self.CONFIG_TEAM, ''
+            )
             # Create a new scene history writer with each new scene (config
             # data) so we always create a new, separate scene history file.
-            self.__history_writer = HistoryWriter(config_data)
+            self.__history_writer = HistoryWriter(config_data, hist_info)
 
         skip_preview_phase = (True if 'goal' in config_data and
                               'skip_preview_phase' in config_data['goal']
@@ -499,6 +518,8 @@ class Controller():
             self.wrap_step(action='Initialize', sceneConfig=config_data)))
 
         output = self.restrict_step_output_metadata(pre_restrict_output)
+
+        self.write_debug_output(output)
 
         if not skip_preview_phase:
             if (self._goal is not None and
@@ -740,6 +761,8 @@ class Controller():
 
         output = self.restrict_step_output_metadata(pre_restrict_output)
 
+        self.write_debug_output(output)
+
         return output
 
     def make_step_prediction(self, choice: str = None,
@@ -752,7 +775,7 @@ class Controller():
         Parameters
         ----------
         choice : string, optional
-            The selected choice required by the end of scenes with
+            The selected choice for per frame prediction with
             violation-of-expectation or classification goals.
             Is not required for other goals. (default None)
         confidence : float, optional
@@ -1191,6 +1214,9 @@ class Controller():
 
         self.__head_tilt = step_output.head_tilt
 
+        return step_output
+
+    def write_debug_output(self, step_output):
         if self.__debug_to_terminal:
             print("RETURN STATUS: " + step_output.return_status)
             print("REWARD: " + str(step_output.reward))
@@ -1209,8 +1235,6 @@ class Controller():
             with open(self.__output_folder + 'mcs_output_' +
                       str(self.__step_number) + '.json', 'w') as json_file:
                 json_file.write(str(step_output))
-
-        return step_output
 
     def wrap_step(self, **kwargs):
         # whether or not to randomize segmentation mask colors
