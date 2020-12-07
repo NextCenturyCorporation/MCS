@@ -85,7 +85,7 @@ Make a prediction on the previously taken step/action.
 * **Parameters**
 
     
-    * **choice** (*string**, **optional*) – The selected choice required by the end of scenes with
+    * **choice** (*string**, **optional*) – The selected choice for per frame prediction with
     violation-of-expectation or classification goals.
     Is not required for other goals. (default None)
 
