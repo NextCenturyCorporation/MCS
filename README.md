@@ -58,6 +58,20 @@ chmod a+x MCS-AI2-THOR-Unity-App-v0.3.5.x86_64
 
 ### Training Datasets
 
+#### Winter 2020
+
+*Please use the most recent 0.3.X release version*
+
+Passive Agent (only expected scenes):
+- https://evaluation-training-scenes.s3.amazonaws.com/eval3/training-single-object.zip
+- https://evaluation-training-scenes.s3.amazonaws.com/eval3/training-object-preference.zip
+
+Passive Intuitive Physics (only plausible scenes):
+- https://evaluation-training-scenes.s3.amazonaws.com/eval3/training-passive-physics.zip
+
+Example Scenes:
+- https://github.com/NextCenturyCorporation/MCS/tree/master/machine_common_sense/scenes
+
 #### Summer 2020
 
 *Use a release version between 0.0.9 and 0.1.0*
