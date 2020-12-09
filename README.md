@@ -129,7 +129,7 @@ run_in_human_input_mode <mcs_unity_build_file> <mcs_scene_json_file>
 ```
 
 Run options:
-- `--config_file_path`
+- `--config_file_path <file_path>`
 
 ## Run with Scene Timer
 
@@ -151,7 +151,7 @@ To use an MCS configuration file, you can either pass in a file path via the `co
 
 (boolean, optional)
 
-Whether to save MCS output debug files in this folder. Will default to `False`.
+Whether to save MCS output debug files in this folder and print debug output to terminal. Will default to `False`.
 
 #### debug_output
 

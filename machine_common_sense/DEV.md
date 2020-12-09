@@ -115,7 +115,7 @@ The following string properties can be specified in order to upload and organize
 
 (boolean)
 
-Whether to save MCS output debug files in this folder. Will default to `False`. In lieu of a config file, this can be set using the `MCS_DEBUG_MODE` environment variable.
+Whether to save MCS output debug files in this folder and print debug output to terminal. Will default to `False`. In lieu of a config file, this can be set using the `MCS_DEBUG_MODE` environment variable.
 
 #### debug_output
 
