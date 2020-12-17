@@ -7,7 +7,11 @@ import os
 
 class Test_Config_Manager(unittest.TestCase):
 
+    def mock_env(**env_vars):
+        return patch.dict(os.environ, env_vars, clear=True)
+
     @classmethod
+    @mock_env()
     def setUpClass(cls):
         cls.config_mngr = ConfigManager(None)
         cls.config_mngr._config[
@@ -18,14 +22,12 @@ class Test_Config_Manager(unittest.TestCase):
     def tearDownClass(cls):
         pass
 
-    def mock_env(**env_vars):
-        return patch.dict(os.environ, env_vars, clear=True)
-
     def test_init(self):
         self.assertEquals(
             self.config_mngr._config_file,
             self.config_mngr.DEFAULT_CONFIG_FILE)
 
+    @mock_env()
     def test_init_with_arg(self):
         file_path = './arg-test.ini'
         config_mngr = ConfigManager(file_path)
