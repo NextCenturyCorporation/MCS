@@ -512,28 +512,28 @@ class Test_Controller(unittest.TestCase):
     def test_step_validate_parameters_move(self):
         _ = self.controller.start_scene({'name': 'test name'})
         self.controller.step('MoveAhead')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
                 moveMagnitude=mcs.controller.MOVE_DISTANCE))
 
         self.controller.step('MoveAhead')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
                 moveMagnitude=mcs.controller.MOVE_DISTANCE))
 
         self.controller.step('MoveAhead')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
                 moveMagnitude=mcs.controller.MOVE_DISTANCE))
 
         self.controller.step('MoveAhead')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
@@ -542,12 +542,12 @@ class Test_Controller(unittest.TestCase):
     def test_step_validate_parameters_rotate(self):
         _ = self.controller.start_scene({'name': 'test name'})
         self.controller.step('RotateLeft')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(action='RotateLeft'))
 
         self.controller.step('RotateLeft')
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='RotateLeft'))
@@ -594,7 +594,7 @@ class Test_Controller(unittest.TestCase):
             force=1,
             objectImageCoordsX=1,
             objectImageCoordsY=2)
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
@@ -662,7 +662,7 @@ class Test_Controller(unittest.TestCase):
             objectImageCoordsY=2,
             receptacleObjectImageCoordsX=4,
             receptacleObjectImageCoordsY=5)
-        self.assertEquals(
+        self.assertEqual(
             self.controller.get_last_step_data(), self.create_step_data(
                 action='MCSOpenObject', moveMagnitude=1,
                 objectImageCoords={

@@ -23,7 +23,7 @@ class Test_Config_Manager(unittest.TestCase):
         pass
 
     def test_init(self):
-        self.assertEquals(
+        self.assertEqual(
             self.config_mngr._config_file,
             self.config_mngr.DEFAULT_CONFIG_FILE)
 
@@ -32,13 +32,13 @@ class Test_Config_Manager(unittest.TestCase):
         file_path = './arg-test.ini'
         config_mngr = ConfigManager(file_path)
 
-        self.assertEquals(config_mngr._config_file, file_path)
+        self.assertEqual(config_mngr._config_file, file_path)
 
     @mock_env(MCS_CONFIG_FILE_PATH='~/somefolder/env-var-test.ini')
     def test_init_with_env_variable(self):
         config_mngr = ConfigManager()
 
-        self.assertEquals(
+        self.assertEqual(
             config_mngr._config_file,
             '~/somefolder/env-var-test.ini')
 
@@ -50,7 +50,7 @@ class Test_Config_Manager(unittest.TestCase):
         ] = '450'
         self.config_mngr._validate_screen_size()
 
-        self.assertEquals(self.config_mngr.get_size(), 450)
+        self.assertEqual(self.config_mngr.get_size(), 450)
 
         self.config_mngr._config[
             self.config_mngr.CONFIG_DEFAULT_SECTION
@@ -59,8 +59,8 @@ class Test_Config_Manager(unittest.TestCase):
         ] = '449'
         self.config_mngr._validate_screen_size()
 
-        self.assertEquals(self.config_mngr.get_size(),
-                          self.config_mngr.SCREEN_WIDTH_DEFAULT)
+        self.assertEqual(self.config_mngr.get_size(),
+                         self.config_mngr.SCREEN_WIDTH_DEFAULT)
 
     def test_get_aws_access_key_id(self):
         self.assertIsNone(self.config_mngr.get_aws_access_key_id())
@@ -71,7 +71,7 @@ class Test_Config_Manager(unittest.TestCase):
             self.config_mngr.CONFIG_AWS_ACCESS_KEY_ID
         ] = 'some_key_id'
 
-        self.assertEquals(
+        self.assertEqual(
             self.config_mngr.get_aws_access_key_id(),
             'some_key_id')
 
@@ -84,7 +84,7 @@ class Test_Config_Manager(unittest.TestCase):
             self.config_mngr.CONFIG_AWS_SECRET_ACCESS_KEY
         ] = 'some_secret'
 
-        self.assertEquals(
+        self.assertEqual(
             self.config_mngr.get_aws_secret_access_key(),
             'some_secret')
 
@@ -97,7 +97,7 @@ class Test_Config_Manager(unittest.TestCase):
             self.config_mngr.CONFIG_DEBUG_OUTPUT
         ] = 'file'
 
-        self.assertEquals(
+        self.assertEqual(
             self.config_mngr.get_debug_output(),
             'file')
 
@@ -107,12 +107,12 @@ class Test_Config_Manager(unittest.TestCase):
             self.config_mngr.CONFIG_DEBUG_OUTPUT
         ] = 'terminal'
 
-        self.assertEquals(
+        self.assertEqual(
             self.config_mngr.get_debug_output(),
             'terminal')
 
     def test_get_evaluation_name(self):
-        self.assertEquals(self.config_mngr.get_evaluation_name(), '')
+        self.assertEqual(self.config_mngr.get_evaluation_name(), '')
 
         self.config_mngr._config[
             self.config_mngr.CONFIG_DEFAULT_SECTION
@@ -120,12 +120,13 @@ class Test_Config_Manager(unittest.TestCase):
             self.config_mngr.CONFIG_EVALUATION_NAME
         ] = 'test_eval'
 
-        self.assertEquals(
+        self.assertEqual(
             self.config_mngr.get_evaluation_name(),
             'test_eval')
 
+    @mock_env()
     def test_get_metadata_tier(self):
-        self.assertEquals(self.config_mngr.get_metadata_tier(), '')
+        self.assertEqual(self.config_mngr.get_metadata_tier(), '')
 
         self.config_mngr._config[
             self.config_mngr.CONFIG_DEFAULT_SECTION
@@ -133,13 +134,13 @@ class Test_Config_Manager(unittest.TestCase):
             self.config_mngr.CONFIG_METADATA_TIER
         ] = 'oracle'
 
-        self.assertEquals(
+        self.assertEqual(
             self.config_mngr.get_metadata_tier(),
             'oracle')
 
     @mock_env(MCS_METADATA_LEVEL='level2')
     def test_get_metadata_tier_with_env_variable(self):
-        self.assertEquals(self.config_mngr.get_metadata_tier(), 'level2')
+        self.assertEqual(self.config_mngr.get_metadata_tier(), 'level2')
 
     def test_get_s3_bucket(self):
         self.assertIsNone(self.config_mngr.get_s3_bucket())
@@ -150,7 +151,7 @@ class Test_Config_Manager(unittest.TestCase):
             self.config_mngr.CONFIG_S3_BUCKET
         ] = 'some_s3_bucket'
 
-        self.assertEquals(
+        self.assertEqual(
             self.config_mngr.get_s3_bucket(),
             'some_s3_bucket')
 
@@ -163,12 +164,12 @@ class Test_Config_Manager(unittest.TestCase):
             self.config_mngr.CONFIG_S3_FOLDER
         ] = 'eval-test-folder'
 
-        self.assertEquals(
+        self.assertEqual(
             self.config_mngr.get_s3_folder(),
             'eval-test-folder')
 
     def test_get_seed(self):
-        self.assertEquals(self.config_mngr.get_seed(), None)
+        self.assertEqual(self.config_mngr.get_seed(), None)
 
         self.config_mngr._config[
             self.config_mngr.CONFIG_DEFAULT_SECTION
@@ -176,10 +177,10 @@ class Test_Config_Manager(unittest.TestCase):
             self.config_mngr.CONFIG_SEED
         ] = '1'
 
-        self.assertEquals(self.config_mngr.get_seed(), 1)
+        self.assertEqual(self.config_mngr.get_seed(), 1)
 
     def test_get_size(self):
-        self.assertEquals(self.config_mngr.get_size(), 600)
+        self.assertEqual(self.config_mngr.get_size(), 600)
 
         self.config_mngr._config[
             self.config_mngr.CONFIG_DEFAULT_SECTION
@@ -187,10 +188,10 @@ class Test_Config_Manager(unittest.TestCase):
             self.config_mngr.CONFIG_SIZE
         ] = '800'
 
-        self.assertEquals(self.config_mngr.get_size(), 800)
+        self.assertEqual(self.config_mngr.get_size(), 800)
 
     def test_get_team(self):
-        self.assertEquals(self.config_mngr.get_team(), '')
+        self.assertEqual(self.config_mngr.get_team(), '')
 
         self.config_mngr._config[
             self.config_mngr.CONFIG_DEFAULT_SECTION
@@ -198,10 +199,11 @@ class Test_Config_Manager(unittest.TestCase):
             self.config_mngr.CONFIG_TEAM
         ] = 'team-name'
 
-        self.assertEquals(
+        self.assertEqual(
             self.config_mngr.get_team(),
             'team-name')
 
+    @mock_env()
     def test_is_debug(self):
         self.assertFalse(self.config_mngr.is_debug())
 

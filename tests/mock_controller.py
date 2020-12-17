@@ -1,5 +1,6 @@
 import ai2thor.server
 import numpy
+import os
 
 from machine_common_sense.controller import Controller
 from machine_common_sense.pose import Pose
@@ -74,6 +75,26 @@ class MockControllerAI2THOR(Controller):
 
     def __init__(self):
         # Do NOT call superclass __init__ function
+
+        # Need to clear any previously set environment variables
+        # so that they don't affect test cases
+        check_config_path = os.getenv(
+            ConfigManager.CONFIG_FILE_ENV_VAR, None)
+
+        if(check_config_path is not None):
+            os.environ.pop(ConfigManager.CONFIG_FILE_ENV_VAR)
+
+        check_metadata_tier = os.getenv(
+            ConfigManager.METADATA_ENV_VAR, None)
+
+        if(check_metadata_tier is not None):
+            os.environ.pop(ConfigManager.METADATA_ENV_VAR)
+
+        check_debug_mode = os.getenv('MCS_DEBUG_MODE', None)
+
+        if(check_debug_mode is not None):
+            os.environ.pop('MCS_DEBUG_MODE')
+
         self._controller = MockController()
         self._config = ConfigManager()
         self._update_screen_size()
