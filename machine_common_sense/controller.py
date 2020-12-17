@@ -946,36 +946,59 @@ class Controller():
             else {}
         )
 
-        return (
-            ObjectMetadata(
-                uuid=object_metadata['objectId'],
-                color={'r': rgb[0], 'g': rgb[1], 'b': rgb[2]},
-                dimensions=(
-                    bounds['objectBoundsCorners']
-                    if 'objectBoundsCorners' in bounds
-                    else None
-                ),
-                direction=object_metadata['direction'],
-                distance=(
-                    object_metadata['distanceXZ'] / MOVE_DISTANCE
-                ),  # DEPRECATED
-                distance_in_steps=(
-                    object_metadata['distanceXZ'] / MOVE_DISTANCE
-                ),
-                distance_in_world=(object_metadata['distance']),
-                held=object_metadata['isPickedUp'],
-                mass=object_metadata['mass'],
-                material_list=material_list,
-                position=object_metadata['position'],
-                rotation=object_metadata['rotation'],
-                shape=object_metadata['shape'],
-                texture_color_list=object_metadata['colorsFromMaterials'],
-                visible=(
-                    object_metadata['visibleInCamera'] or
-                    object_metadata['isPickedUp']
-                ),
+        return ObjectMetadata(
+            uuid=object_metadata['objectId'],
+            color={'r': rgb[0], 'g': rgb[1], 'b': rgb[2]},
+            dimensions=(
+                bounds['objectBoundsCorners']
+                if 'objectBoundsCorners' in bounds
+                else None
+            ),
+            direction=object_metadata['direction'],
+            distance=(
+                object_metadata['distanceXZ'] / MOVE_DISTANCE
+            ),  # DEPRECATED
+            distance_in_steps=(
+                object_metadata['distanceXZ'] / MOVE_DISTANCE
+            ),
+            distance_in_world=(object_metadata['distance']),
+            held=object_metadata['isPickedUp'],
+            mass=object_metadata['mass'],
+            material_list=material_list,
+            position=object_metadata['position'],
+            rotation=object_metadata['rotation'],
+            shape=object_metadata['shape'],
+            state_list=self.retrieve_object_states(
+                object_metadata['objectId']
+            ),
+            texture_color_list=object_metadata['colorsFromMaterials'],
+            visible=(
+                object_metadata['visibleInCamera'] or
+                object_metadata['isPickedUp']
             )
         )
+
+    def retrieve_object_states(self, object_id):
+        """Return the state list at the current step for the object with the
+        given ID from the scene configuration data, if any."""
+        state_list_each_step = []
+        # Retrieve the object's states from the scene configuration.
+        for object_config in self.__scene_configuration.get('objects', []):
+            if object_config.get('id', '') == object_id:
+                state_list_each_step = object_config.get('states', [])
+                break
+        # Retrieve the object's states in the current step.
+        if len(state_list_each_step) > self.__step_number:
+            state_list = state_list_each_step[self.__step_number]
+            # Validate the data type.
+            if state_list is not None:
+                if not isinstance(state_list, list):
+                    return [state_list]
+                for index, state in enumerate(state_list):
+                    if not isinstance(state, str):
+                        state_list[index] = str(state)
+                return state_list
+        return []
 
     def retrieve_pose(self, scene_event) -> str:
         pose = Pose.UNDEFINED.name

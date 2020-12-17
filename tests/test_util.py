@@ -69,6 +69,7 @@ class Test_Util(unittest.TestCase):
             mcs.ObjectMetadata(
                 uuid='id1',
                 shape='',
+                state_list=[],
                 texture_color_list=[],
                 held=True,
                 position=None,
@@ -79,6 +80,7 @@ class Test_Util(unittest.TestCase):
             mcs.ObjectMetadata(
                 uuid='really_long_id2',
                 shape='sofa',
+                state_list=['state1', 'state2'],
                 texture_color_list=['black', 'white'],
                 held=False,
                 position={
@@ -100,9 +102,9 @@ class Test_Util(unittest.TestCase):
             )
         ]
         self.assertEqual(mcs.Util.generate_pretty_object_output(object_list), [
-            'OBJECT ID        SHAPE  COLORS        HELD   POSITION (WORLD)  DIMENSIONS (WORLD)  DISTANCE (WORLD)     DIRECTION (WORLD)  ',  # noqa: E501
-            'id1                                   True   None              None                0                    None               ',  # noqa: E501
-            'really_long_id2  sofa   black, white  False  (1,2,3)           (4,5,6)             1234567890987654321  (10000,20000,30000)'  # noqa: E501
+            'OBJECT ID        SHAPE  COLORS        HELD   POSITION (WORLD)  DIMENSIONS (WORLD)  DISTANCE (WORLD)     DIRECTION (WORLD)    STATE         ',  # noqa: E501
+            'id1                                   True   None              None                0                    None                               ',  # noqa: E501
+            'really_long_id2  sofa   black, white  False  (1,2,3)           (4,5,6)             1234567890987654321  (10000,20000,30000)  state1, state2'  # noqa: E501
         ])
 
     def test_input_to_action_and_params(self):
