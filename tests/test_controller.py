@@ -1078,6 +1078,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual, -56.78)
 
     def test_retrieve_object_list(self):
+        self.controller.start_scene({'name': 'test name'})
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         actual = self.controller.retrieve_object_list(
             self.create_mock_scene_event(mock_scene_event_data))
@@ -1104,6 +1105,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual[0].position, {"x": 1, "y": 1, "z": 2})
         self.assertEqual(actual[0].rotation, {"x": 1, "y": 2, "z": 3})
         self.assertEqual(actual[0].shape, 'shape1')
+        self.assertEqual(actual[0].state_list, [])
         self.assertEqual(actual[0].texture_color_list, ['c1'])
         self.assertEqual(actual[0].visible, True)
 
@@ -1130,10 +1132,32 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual[1].position, {"x": 1, "y": 2, "z": 3})
         self.assertEqual(actual[1].rotation, {"x": 1, "y": 2, "z": 3})
         self.assertEqual(actual[1].shape, 'shape2')
+        self.assertEqual(actual[1].state_list, [])
         self.assertEqual(actual[1].texture_color_list, ['c2', 'c3'])
         self.assertEqual(actual[1].visible, True)
 
+    def test_retrieve_object_list_with_states(self):
+        self.controller.start_scene({
+            'name': 'test name',
+            'objects': [{
+                'id': 'testId1',
+                'states': [['a', 'b'], ['c', 'd']]
+            }]
+        })
+        mock_scene_event_data = self.create_retrieve_object_list_scene_event()
+        actual = self.controller.retrieve_object_list(
+            self.create_mock_scene_event(mock_scene_event_data)
+        )
+        self.assertEqual(len(actual), 2)
+
+        self.assertEqual(actual[0].uuid, "testId1")
+        self.assertEqual(actual[0].state_list, ['a', 'b'])
+
+        self.assertEqual(actual[1].uuid, "testId2")
+        self.assertEqual(actual[1].state_list, [])
+
     def test_retrieve_object_list_with_config_metadata_oracle(self):
+        self.controller.start_scene({'name': 'test name'})
         self.controller.set_metadata_tier('oracle')
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         actual = self.controller.retrieve_object_list(
@@ -1161,6 +1185,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual[0].position, {"x": 1, "y": 1, "z": 2})
         self.assertEqual(actual[0].rotation, {"x": 1, "y": 2, "z": 3})
         self.assertEqual(actual[0].shape, 'shape1')
+        self.assertEqual(actual[0].state_list, [])
         self.assertEqual(actual[0].texture_color_list, ['c1'])
         self.assertEqual(actual[0].visible, True)
 
@@ -1187,6 +1212,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual[1].position, {"x": 1, "y": 2, "z": 3})
         self.assertEqual(actual[1].rotation, {"x": 1, "y": 2, "z": 3})
         self.assertEqual(actual[1].shape, 'shape2')
+        self.assertEqual(actual[1].state_list, [])
         self.assertEqual(actual[1].texture_color_list, ['c2', 'c3'])
         self.assertEqual(actual[1].visible, True)
 
@@ -1213,10 +1239,12 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual[2].position, {"x": -3, "y": -2, "z": -1})
         self.assertEqual(actual[2].rotation, {"x": 11, "y": 12, "z": 13})
         self.assertEqual(actual[2].shape, 'shape3')
+        self.assertEqual(actual[2].state_list, [])
         self.assertEqual(actual[2].texture_color_list, [])
         self.assertEqual(actual[2].visible, False)
 
     def test_retrieve_object_list_with_config_metadata_level2(self):
+        self.controller.start_scene({'name': 'test name'})
         self.controller.set_metadata_tier('level2')
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         actual = self.controller.retrieve_object_list(
@@ -1224,6 +1252,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(len(actual), 3)
 
     def test_retrieve_object_list_with_config_metadata_level1(self):
+        self.controller.start_scene({'name': 'test name'})
         self.controller.set_metadata_tier('level1')
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         actual = self.controller.retrieve_object_list(
@@ -1231,6 +1260,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(len(actual), 3)
 
     def test_retrieve_object_list_with_config_metadata_none(self):
+        self.controller.start_scene({'name': 'test name'})
         self.controller.set_metadata_tier('none')
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         actual = self.controller.retrieve_object_list(
@@ -1446,6 +1476,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(numpy.array(object_mask_list[1]), object_mask_data_2)
 
     def test_wrap_output(self):
+        self.controller.start_scene({'name': 'test name'})
         self.controller.render_mask_images()
         (
             mock_scene_event_data,
@@ -1500,6 +1531,7 @@ class Test_Controller(unittest.TestCase):
             actual.object_list[0].rotation, {
                 "x": 1, "y": 2, "z": 3})
         self.assertEqual(actual.object_list[0].shape, 'shape')
+        self.assertEqual(actual.object_list[0].state_list, [])
         self.assertEqual(actual.object_list[0].texture_color_list, ['c1'])
         self.assertEqual(actual.object_list[0].visible, True)
 
@@ -1536,6 +1568,7 @@ class Test_Controller(unittest.TestCase):
             actual.structural_object_list[0].rotation, {
                 "x": 4, "y": 5, "z": 6})
         self.assertEqual(actual.structural_object_list[0].shape, 'structure')
+        self.assertEqual(actual.structural_object_list[0].state_list, [])
         self.assertEqual(
             actual.structural_object_list[0].texture_color_list,
             ['c2'])
@@ -1556,6 +1589,7 @@ class Test_Controller(unittest.TestCase):
             object_mask_data)
 
     def test_wrap_output_with_config_metadata_oracle(self):
+        self.controller.start_scene({'name': 'test name'})
         self.controller.render_mask_images()
         self.controller.set_metadata_tier('oracle')
         (
@@ -1622,6 +1656,7 @@ class Test_Controller(unittest.TestCase):
             object_mask_data)
 
     def test_wrap_output_with_config_metadata_level2(self):
+        self.controller.start_scene({'name': 'test name'})
         self.controller.set_metadata_tier('level2')
         (
             mock_scene_event_data,
@@ -1686,6 +1721,7 @@ class Test_Controller(unittest.TestCase):
         #     object_mask_data)
 
     def test_wrap_output_with_config_metadata_level1(self):
+        self.controller.start_scene({'name': 'test name'})
         self.controller.set_metadata_tier('level1')
         (
             mock_scene_event_data,
@@ -1722,6 +1758,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(len(actual.object_mask_list), 0)
 
     def test_wrap_output_with_config_metadata_none(self):
+        self.controller.start_scene({'name': 'test name'})
         self.controller.set_metadata_tier('none')
         (
             mock_scene_event_data,
