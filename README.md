@@ -2,7 +2,7 @@
 
 ## Installation
 
-The latest release of the MCS Python library is `0.3.3`.
+The latest release of the MCS Python library is `0.3.5`.
 
 ### Virtual Environments
 
@@ -19,7 +19,7 @@ python -m pip install --upgrade pip setuptools wheel
 With the activated virtual environment, install the MCS package from the git url. MCS has a dependency on an ai2thor fork and will take a while to install. Please be patient.
 
 ```
-python -m pip install git+https://github.com/NextCenturyCorporation/MCS@latest#egg=machine_common_sense
+python -m pip install git+https://github.com/NextCenturyCorporation/MCS@master#egg=machine_common_sense
 ```
 
 ## MCS Package Developer Installation
@@ -34,29 +34,43 @@ Here are the instructions for downloading and installing our latest Unity releas
 
 ### Unity Application
 
-The latest release of the MCS Unity app is `0.3.3`.
+The latest release of the MCS Unity app is `0.3.5`.
 
 Please note that our Unity App is built on Linux. If you need a Mac or Windows version, please [contact us](#troubleshooting) directly.
 
-1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.3.3/MCS-AI2-THOR-Unity-App-v0.3.3.x86_64)
+1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.3.5/MCS-AI2-THOR-Unity-App-v0.3.5.x86_64)
 
-2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.3.3/MCS-AI2-THOR-Unity-App-v0.3.3_Data.tar.gz)
+2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.3.5/MCS-AI2-THOR-Unity-App-v0.3.5_Data.tar.gz)
 
 3. Ensure that both the Unity App and the TAR are in the same directory.
 
 4. Untar the Data Directory:
 
 ```
-tar -xzvf MCS-AI2-THOR-Unity-App-v0.3.3_Data.tar.gz
+tar -xzvf MCS-AI2-THOR-Unity-App-v0.3.5_Data.tar.gz
 ```
 
 5. Mark the Unity App as executable:
 
 ```
-chmod a+x MCS-AI2-THOR-Unity-App-v0.3.3.x86_64
+chmod a+x MCS-AI2-THOR-Unity-App-v0.3.5.x86_64
 ```
 
 ### Training Datasets
+
+#### Winter 2020
+
+*Please use the most recent 0.3.X release version*
+
+Passive Agent (only expected scenes):
+- https://evaluation-training-scenes.s3.amazonaws.com/eval3/training-single-object.zip
+- https://evaluation-training-scenes.s3.amazonaws.com/eval3/training-object-preference.zip
+
+Passive Intuitive Physics (only plausible scenes):
+- https://evaluation-training-scenes.s3.amazonaws.com/eval3/training-passive-physics.zip
+
+Example Scenes:
+- https://github.com/NextCenturyCorporation/MCS/tree/master/machine_common_sense/scenes
 
 #### Summer 2020
 
@@ -166,9 +180,9 @@ Alternatively to the `debug` property, `debug_output` can be used to either prin
 The `metadata` property describes what metadata will be returned by the MCS Python library. The `metadata` property is available so that users can run baseline or ablation studies during training. It can be set to one of the following strings:
 
 - `oracle`: Returns the metadata for all the objects in the scene, including visible, held, and hidden objects. Object masks will have consistent colors throughout all steps for a scene.
-- `level2`: Only returns the images (with depth masks AND object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included. Note that here, object masks will have randomized colors per step.
-- `level1`: Only returns the images (with depth masks but NOT object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
-- `none`: Only returns the images (but not the masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
+- `level2`: Only returns the images (with depth maps AND object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included. Note that here, object masks will have randomized colors per step.
+- `level1`: Only returns the images (with depth maps but NOT object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
+- `none`: Only returns the images (but no depth maps or object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
 
 Otherwise, return the metadata for the visible and held objects.
 

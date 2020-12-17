@@ -728,7 +728,7 @@ class Controller():
         Parameters
         ----------
         choice : string, optional
-            The selected choice required by the end of scenes with
+            The selected choice for per frame prediction with
             violation-of-expectation or classification goals.
             Is not required for other goals. (default None)
         confidence : float, optional
