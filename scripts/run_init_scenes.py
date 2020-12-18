@@ -2,6 +2,7 @@ import glob
 import argparse
 
 import machine_common_sense as mcs
+import os
 
 
 def parse_args():
@@ -19,6 +20,7 @@ def parse_args():
 
 
 def main():
+    os.environ['MCS_DEBUG_MODE'] = 'False'
     args = parse_args()
 
     output_folder = args.image_output_folder + '/'
@@ -26,35 +28,33 @@ def main():
 
     controller = mcs.create_controller(
         args.mcs_unity_build_file,
-        debug=False,
-        depth_maps=True,
-        object_masks=True)
+        config_file_path='./run_scripts_config_oracle_metadata.ini')
 
     for json_file_name in json_file_list:
-        config_data, status = mcs.load_config_json_file(json_file_name)
+        scene_data, status = mcs.load_scene_json_file(json_file_name)
 
         if status is not None:
-            print('Error with JSON config file ' + json_file_name)
+            print('Error with JSON scene config file ' + json_file_name)
             print(status)
             continue
 
-        if 'name' not in config_data.keys():
-            config_data['name'] = json_file_name[json_file_name.rfind(
+        if 'name' not in scene_data.keys():
+            scene_data['name'] = json_file_name[json_file_name.rfind(
                 '/') + 1:json_file_name.rfind('.')]
 
-        output = controller.start_scene(config_data)
+        output = controller.start_scene(scene_data)
 
         print(
             'Saving initialization output (scene image and metadata) of ' +
-            'JSON config file ' + config_data['name'])
+            'JSON scene config file ' + scene_data['name'])
 
-        with open(output_folder + config_data['name'] +
+        with open(output_folder + scene_data['name'] +
                   '.json', 'w') as output_json_file:
             output_json_file.write(str(output))
 
         output.image_list[0].save(
             fp=output_folder +
-            config_data['name'] +
+            scene_data['name'] +
             '.png')
 
     controller.end_scene("", 1)

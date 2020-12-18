@@ -17,24 +17,24 @@ def parse_args():
 
 
 def run_scene(file_name):
-    config_data, status = mcs.load_config_json_file(file_name)
+    scene_data, status = mcs.load_scene_json_file(file_name)
 
     if status is not None:
         print(status)
         return
 
-    if 'sceneInfo' in config_data['goal']:
-        config_data['name'] = (
-            config_data['name'] + '_' +
-            config_data['goal']['sceneInfo']['name'].replace(' ', '_')
+    if 'sceneInfo' in scene_data['goal']:
+        scene_data['name'] = (
+            scene_data['name'] + '_' +
+            scene_data['goal']['sceneInfo']['name'].replace(' ', '_')
         )
     else:
-        config_data['name'] = config_data['name'][
-            (config_data['name'].rfind('/') + 1):
+        scene_data['name'] = scene_data['name'][
+            (scene_data['name'].rfind('/') + 1):
         ]
-    last_step = config_data['goal']['last_step']
+    last_step = scene_data['goal']['last_step']
 
-    output = controller.start_scene(config_data)
+    output = controller.start_scene(scene_data)
 
     for i in range(output.step_number + 1, last_step + 1):
         action = output.action_list[len(output.action_list) - 1]
@@ -48,15 +48,17 @@ def run_scene(file_name):
         '-r',
         '20',
         '-i',
-        config_data['name'] + '/frame_image_%d.png',
-        config_data['name'] + '.mp4'
+        scene_data['name'] + '/frame_image_%d.png',
+        scene_data['name'] + '.mp4'
     ])
 
 
 if __name__ == "__main__":
     args = parse_args()
-    controller = mcs.create_controller(args.mcs_unity_build_file, debug=True,
-                                       history_enabled=False)
+    controller = mcs.create_controller(
+        args.mcs_unity_build_file,
+        config_file_path='./run_scripts_config_no_metadata.ini'
+    )
 
     filename_list = glob.glob(args.filename_prefix + '*_debug.json')
     if len(filename_list) == 0:
