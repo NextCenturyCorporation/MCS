@@ -6,6 +6,7 @@
   - [Goal Config](#goal-config)
   - [Goal Metadata Config](#goal-metadata-config)
   - [Answer Config](#answer-config)
+  - [Change Materials Config](#change-materials-config)
   - [Move Config](#move-config)
   - [Physics Config](#physics-config)
   - [Show Config](#show-config)
@@ -104,6 +105,7 @@ Each **object config** has the following properties:
 
 - `id` (string, required): The object's unique ID.
 - `type` (string, required): The object's type from the [Object List](#object-list).
+- `changeMaterials` ([change_materials config](#change-materials-config) array, optional): The steps on which to change the material(s) (colors/textures) used on the object, and the new materials to use. See the [Material List](#material-list) for options. Default: `[]`
 - `forces` ([move config](#move-config) array, optional): The steps on which to apply [force](https://docs.unity3d.com/ScriptReference/Rigidbody.AddForce.html) to the object. The config `vector` describes the amount of force (in Newtons) to apply in each direction using the global coordinate system. Resets all existing forces on the object to 0 before applying the new force. Default: `[]`
 - `hides` ([single step config](#single-step-config) array, optional): The steps on which to hide the object, completely removing its existence from the scene until it is shown again (see the `shows` property). Useful if you want to have impossible events (spontaneous disappearance). Default: `[]`
 - `kinematic` (boolean, optional): If true, the object will ignore all forces including gravity. See Unity's [isKinematic property](https://docs.unity3d.com/ScriptReference/Rigidbody-isKinematic.html). Usually paired with `structure`. Default: `false`
@@ -123,8 +125,10 @@ Each **object config** has the following properties:
 - `salientMaterials` (string array, optional)
 - `shows` ([show config](#show-config) array, optional): The steps on which to show the object, adding its existence to the scene. Please note that each object begins hidden within the scene, so each object should have at least one element in its `shows` array to be useful. Default: `[]`
 - `shrouds` ([step being and end config config](#step-begin-and-end-config) array, optional): The steps on which to shroud the object, temporarily making it invisible, but moving with its existing intertia and able to collide with objects. Useful if you want to have impossible events. Default: `[]`
+- `states` (string array array, optional): An array of string arrays containing the state label(s) of the object at each step in the scene, returned by the simulation environment in the object's output metadata. Default: `[]`
 - `structure` (boolean, optional): Whether the object is a structural part of the environment. Usually paired with `kinematic`. Default: `false`
 - `teleports` ([teleport config](#teleport-config) array, optional): The steps on which to teleport the object, teleporting it from one position in the scene to another. The config `position` describes the object's end position in global coordinates and is not affected by the object's current position. Useful if you want to have impossible events (spontaneous teleportation). Default: `[]`
+- `togglePhysics` ([single step config](#single-step-config) array, optional): The steps on which to toggle physics on the object. Useful if you want to have scripted movement in specific parts of the scene. Can work with the `kinematic` property. Default: `[]`
 - `torques` ([move config](#move-config) array, optional): The steps on which to apply [torque](https://docs.unity3d.com/ScriptReference/Rigidbody.AddTorque.html) to the object. The config `vector` describes the amount of torque (in Newtons) to apply in each direction using the global coordinate system. Resets all existing torques on the object to 0 before applying the new torque. Default: `[]`
 
 ### Goal Config
@@ -150,6 +154,13 @@ Each **goal metadata config** has the following properties:
 Each **answer config** has the following properties:
 
 (Coming soon!)
+
+### Change Materials Config
+
+Each **change materials config** has the following properties:
+
+- `stepBegin` (integer, required): The step on which the action should occur.  Must be non-negative.  A value of `0` means the action will occur during scene initialization.
+- `materials` (string array, required): The new materials for the object.
 
 ### Move Config
 
@@ -336,11 +347,16 @@ The following object types have the `pickupable` attribute by default.
 
 The following primitive shapes have the `pickupable` attribute by default, a default mass of 1, default dimensions of (x=1, y=1, z=1), and no material restrictions. Please note these are NOT the internal Unity primitive 3D GameObjects.
 
+- `"circle_frustm"`
 - `"cone"`
 - `"cube"`
 - `"cylinder"`
+- `"letter_l_narrow"`
+- `"letter_l_wide"`
+- `"pyramid"`
 - `"sphere"`
 - `"square_frustum"`
+- `"triangle"`
 
 ### Deprecated Objects
 
