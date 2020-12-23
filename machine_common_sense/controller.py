@@ -812,7 +812,7 @@ class Controller():
 
         if(heatmap_img is not None and
            isinstance(heatmap_img, PIL.Image.Image) and
-           self._config[self.CONFIG_EVALUATION]):
+           self._config.get(self.CONFIG_EVALUATION, False)):
             self.__heatmap_recorder.add(heatmap_img)
 
     def generate_time(self):
