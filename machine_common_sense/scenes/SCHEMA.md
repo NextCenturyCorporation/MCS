@@ -347,7 +347,7 @@ The following object types have the `pickupable` attribute by default.
 
 The following primitive shapes have the `pickupable` attribute by default, a default mass of 1, default dimensions of (x=1, y=1, z=1), and no material restrictions. Please note these are NOT the internal Unity primitive 3D GameObjects.
 
-- `"circle_frustm"`
+- `"circle_frustum"`
 - `"cone"`
 - `"cube"`
 - `"cylinder"`
