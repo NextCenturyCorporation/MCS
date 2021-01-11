@@ -291,44 +291,62 @@ Blocks have the `pickupable` and `receptacle` attributes by default. Use the [bl
 
 The following object types have the `pickupable` attribute by default.
 
-| Object Type | Shape | Default Mass | Receptacle | Openable | Materials |
-| --- | --- | --- | --- | --- | --- |
-| `"apple_1"` | apple | 0.25 | | | none |
-| `"apple_2"` | apple | 0.25 | | | none |
-| `"ball"` | ball | 1 | | | block (blank), metal, plastic, rubber, wood |
-| `"cake"` | cake | 0.5 | | | none |
-| `"car_1"` | car | 0.5 | | | block (blank), wood |
-| `"crayon_black"` | crayon | 0.125 | | | none |
-| `"crayon_blue"` | crayon | 0.125 | | | none |
-| `"crayon_green"` | crayon | 0.125 | | | none |
-| `"crayon_pink"` | crayon | 0.125 | | | none |
-| `"crayon_red"` | crayon | 0.125 | | | none |
-| `"crayon_yellow"` | crayon | 0.125 | | | none |
-| `"duck_on_wheels"` | duck | 0.5 | | | block (blank), wood |
-| `"bowl_3"` | bowl | 0.25 | X | | metal, plastic, wood |
-| `"bowl_4"` | bowl | 0.25 | X | | metal, plastic, wood |
-| `"bowl_6"` | bowl | 0.25 | X | | metal, plastic, wood |
-| `"cup_2"` | cup | 0.25 | X | | metal, plastic, wood |
-| `"cup_3"` | cup | 0.25 | X | | metal, plastic, wood |
-| `"cup_6"` | cup | 0.25 | X | | metal, plastic, wood |
-| `"gift_box_1"` | box | 0.5 | X | X | cardboard |
-| `"trophy"` | trophy | 0.5 | | | none |
-| `"pacifier"` | pacifier | | 0.5 | | none |
-| `"plate_1"` | plate | 0.25 | X | | metal, plastic, wood |
-| `"plate_3"` | plate | 0.25 | X | | metal, plastic, wood |
-| `"plate_4"` | plate | 0.25 | X | | metal, plastic, wood |
-| `"racecar_red"` | car | 0.5 | | | block (blank), wood |
-| `"suitcase_1"` | box | 5 | X | X | metal, plastic |
-| `"turtle_on_wheels"` | turtle | | | 0.5 | block (blank), wood |
+| Object Type | Shape | Default Mass | Receptacle | Openable | Materials | Details |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"apple_1"` | apple | 0.25 | | | none | |
+| `"apple_2"` | apple | 0.25 | | | none | |
+| `"ball"` | ball | 1 | | | block (blank), metal, plastic, rubber, wood | |
+| `"cake"` | cake | 0.5 | | | none | |
+| `"car_1"` | car | 0.5 | | | block (blank), wood | |
+| `"case_1"` | box | 5 | X | X | metal, plastic | same as suitcase_1
+| `"crayon_black"` | crayon | 0.125 | | | none | |
+| `"crayon_blue"` | crayon | 0.125 | | | none | |
+| `"crayon_green"` | crayon | 0.125 | | | none | |
+| `"crayon_pink"` | crayon | 0.125 | | | none | |
+| `"crayon_red"` | crayon | 0.125 | | | none | |
+| `"crayon_yellow"` | crayon | 0.125 | | | none | |
+| `"dog_on_wheels"` | dog | 0.5 | | | block (blank), wood | |
+| `"duck_on_wheels"` | duck | 0.5 | | | block (blank), wood | |
+| `"bowl_3"` | bowl | 0.25 | X | | metal, plastic, wood | |
+| `"bowl_4"` | bowl | 0.25 | X | | metal, plastic, wood | |
+| `"bowl_6"` | bowl | 0.25 | X | | metal, plastic, wood | |
+| `"cup_2"` | cup | 0.25 | X | | metal, plastic, wood | |
+| `"cup_3"` | cup | 0.25 | X | | metal, plastic, wood | |
+| `"cup_6"` | cup | 0.25 | X | | metal, plastic, wood | |
+| `"gift_box_1"` | box | 0.5 | X | X | cardboard | |
+| `"trophy"` | trophy | 0.5 | | | none | |
+| `"pacifier"` | pacifier | | 0.5 | | none | |
+| `"plate_1"` | plate | 0.25 | X | | metal, plastic, wood | |
+| `"plate_3"` | plate | 0.25 | X | | metal, plastic, wood | |
+| `"plate_4"` | plate | 0.25 | X | | metal, plastic, wood | |
+| `"racecar_red"` | car | 0.5 | | | block (blank), wood | |
+| `"suitcase_1"` | box | 5 | X | X | metal, plastic | same as case_1
+| `"train_1"` | train | 0.5 | | | block (blank), wood | |
+| `"trolley_1"` | trolley | 0.5 | | | block (blank), wood | |
+| `"truck_1"` | truck | 0.5 | | | block (blank), wood | |
+| `"turtle_on_wheels"` | turtle | | | 0.5 | block (blank), wood | |
 
 ### Furniture Objects
 
 | Object Type | Shape | Default Mass | Moveable | Receptacle | Openable | Materials | Details |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| `"bookcase_1_shelf"` | bookcase | 10 | | X | | metal, plastic, wood | |
+| `"bookcase_2_shelf"` | bookcase | 15 | | X | | metal, plastic, wood | |
+| `"bookcase_3_shelf"` | bookcase | 20 | | X | | metal, plastic, wood | |
+| `"bookcase_4_shelf"` | bookcase | 25 | | X | | metal, plastic, wood | |
+| `"bookcase_1_shelf_sideless"` | bookcase | 10 | | X | | metal, plastic, wood | |
+| `"bookcase_2_shelf_sideless"` | bookcase | 15 | | X | | metal, plastic, wood | |
+| `"bookcase_3_shelf_sideless"` | bookcase | 20 | | X | | metal, plastic, wood | |
+| `"bookcase_4_shelf_sideless"` | bookcase | 25 | | X | | metal, plastic, wood | |
+| `"cart_1"` | cart | 4 | X | X | | metal | |
 | `"chest_1"` | box | 15 | | X | X | metal, plastic, wood | Rectangular box |
-| `"chest_2"` | box | 15 | | X | X | metal, plastic, wood | Treasure chest |
+| `"chest_2"` | box | 15 | | X | X | metal, plastic, wood | Domed chest |
+| `"chest_3"` | box | 15 | | X | X | metal, plastic, wood | Rectangular box |
+| `"chest_8"` | box | 15 | | X | X | metal, plastic, wood | Domed chest |
 | `"chair_1"` | chair | 5 | X | X | | metal, plastic, wood | |
 | `"chair_2"` | stool | 2.5 | X | X | | metal, plastic, wood | |
+| `"chair_3"` | stool | 5 | X | X | | metal, plastic, wood | |
+| `"chair_4"` | chair | 5 | X | X | | metal, plastic | |
 | `"changing_table"` | changing table | 100 | | X | X | wood | |
 | `"crib"` | crib | 25 | | | | wood | |
 | `"foam_floor_tiles"` | foam floor tiles | 1 | | | | none | |
@@ -336,11 +354,19 @@ The following object types have the `pickupable` attribute by default.
 | `"shelf_2"` | shelf | 20 | | X | | metal, plastic, wood | Object with three shelves | |
 | `"sofa_1"` | sofa | 100 | | X | | sofa 1 | |
 | `"sofa_2"` | sofa | 100 | | X | | sofa 2 | |
+| `"sofa_3"` | sofa | 100 | | X | | sofa 3 | |
 | `"sofa_chair_1"` | sofa chair | 50 | | X | | sofa chair 1 | |
 | `"sofa_chair_2"` | sofa chair | 50 | | X | | sofa 2 | |
+| `"sofa_chair_3"` | sofa chair | 50 | | X | | sofa 3 | |
 | `"table_1"` | table | 10 | X | X | | metal, plastic, wood | Rectangular table with legs | |
+| `"table_2"` | table | 5 | X | X | | metal, plastic, wood | Circular table | |
 | `"table_3"` | table | 2.5 | X | X | | metal, plastic, wood | Circular table | |
-| `"table_5"` | table | 20 | X | X | | metal, plastic, wood | Rectangular table with sides | |
+| `"table_4"` | table | 5 | X | X | | metal, plastic, wood | Semi-circular table | |
+| `"table_5"` | table | 20 | X | X | | metal, wood | Rectangular table with sides | |
+| `"table_7"` | table | 10 | X | X | | metal, wood | Rectangular table with legs | |
+| `"table_11"` | table | 15 | X | X | | metal, plastic, wood | Rectangular table with T legs | |
+| `"table_12"` | table | 15 | X | X | | metal, plastic, wood | Rectangular table with X legs | |
+| `"tv_2"` | television | 5 | | | | | |
 | `"wardrobe"` | wardrobe | 100 | | X | X | wood | |
 
 ### Primitive Objects
@@ -351,12 +377,21 @@ The following primitive shapes have the `pickupable` attribute by default, a def
 - `"cone"`
 - `"cube"`
 - `"cylinder"`
-- `"letter_l_narrow"`
-- `"letter_l_wide"`
 - `"pyramid"`
 - `"sphere"`
 - `"square_frustum"`
 - `"triangle"`
+- `"tube_narrow"`
+- `"tube_wide"`
+
+### Other Objects
+
+- `"cube_hollow_narrow"`
+- `"cube_hollow_wide"`
+- `"hash"`
+- `"letter_l_narrow"`
+- `"letter_l_wide"`
+- `"letter_x"`
 
 ### Deprecated Objects
 
