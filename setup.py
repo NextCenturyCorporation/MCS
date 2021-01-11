@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='machine_common_sense',
-    version='0.3.5',
+    version='0.3.7',
     maintainer='Next Century, a wholly owned subsidiary of CACI',
     maintainer_email='mcs-ta2@machinecommonsense.com',
     url='https://github.com/NextCenturyCorporation/MCS/',
@@ -28,7 +28,7 @@ setuptools.setup(
         'matplotlib>=3.3',
         ('ai2thor @ '
          'git+https://github.com/NextCenturyCorporation/ai2thor'
-         '@0.3.5#egg=ai2thor')
+         '@0.3.7#egg=ai2thor')
     ],
     entry_points={
         'console_scripts': [
