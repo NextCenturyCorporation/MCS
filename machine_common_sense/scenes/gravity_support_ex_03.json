@@ -1,0 +1,153 @@
+{
+  "name": "gravity_support_ex_03",
+  "version": "2",
+  "intuitivePhysics": true,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/Carpet3",
+  "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+  "performerStart": {
+    "position": {
+      "x": 0,
+      "y": 0,
+      "z": -4.5
+    },
+    "rotation": {
+      "y": 0
+    }
+  },
+  "objects": [
+    {
+      "id": "target_object",
+      "type": "cube",
+      "mass": 5,
+      "moveable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.3,
+            "y": 7.005,
+            "z": 1.6
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "stepBegin": 3,
+          "scale": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+          }
+        }
+      ],
+      "materials": ["AI2-THOR/Materials/Wood/LightWoodCounters3"],
+      "moves": [
+        {
+          "stepBegin": 3,
+          "stepEnd": 24,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ],
+      "kinematic": true,
+      "togglePhysics": [
+        {
+          "stepBegin": 30
+        }
+      ]
+    },
+    {
+      "id": "pole_object",
+      "type": "cylinder",
+      "kinematic": true,
+      "structure": true,
+      "mass": 50,
+      "materials": ["Custom/Materials/Magenta"],
+      "shows": [
+        {
+          "stepBegin": 3,
+          "position": {
+            "x": 0.3,
+            "y": 12.255,
+            "z": 1.6
+          },
+          "scale": {
+            "x": 0.2,
+            "y": 5,
+            "z": 0.2
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 3,
+          "stepEnd": 24,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 35,
+          "stepEnd": 56,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 30,
+          "materials": [
+            "Custom/Materials/Cyan"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "supporting_object",
+      "type": "cube",
+      "mass": 100,
+      "shows": [
+        {
+          "position": {
+            "x": 1.0,
+            "y": 0.625,
+            "z": 1.6
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.25,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["AI2-THOR/Materials/Ceramics/ConcreteFloor"]
+    }
+  ],
+  "goal": {
+    "category": "intuitive physics",
+    "last_step": 60,
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
+    "description": "",
+    "metadata": {
+      "choose": [
+        "plausible",
+        "implausible"
+      ]
+    }
+  }
+}
