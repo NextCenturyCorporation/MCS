@@ -994,10 +994,7 @@ class Controller():
             if state_list is not None:
                 if not isinstance(state_list, list):
                     return [state_list]
-                for index, state in enumerate(state_list):
-                    if not isinstance(state, str):
-                        state_list[index] = str(state)
-                return state_list
+                return [str(state) for state in state_list]
         return []
 
     def retrieve_pose(self, scene_event) -> str:
