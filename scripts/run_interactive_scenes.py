@@ -1,4 +1,4 @@
-from runner_script import SingleFileRunnerScript
+from runner_script import MultipleFileRunnerScript
 
 
 def action_callback(scene_data, step_metadata):
@@ -8,7 +8,11 @@ def action_callback(scene_data, step_metadata):
 
 
 def main():
-    SingleFileRunnerScript('Just Rotate', action_callback)
+    MultipleFileRunnerScript(
+        'Interactive Scenes',
+        action_callback,
+        rename=True
+    )
 
 
 if __name__ == "__main__":

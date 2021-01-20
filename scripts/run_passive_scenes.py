@@ -1,4 +1,4 @@
-from runner_script import SingleFileRunnerScript
+from runner_script import MultipleFileRunnerScript
 
 import machine_common_sense as mcs
 
@@ -17,7 +17,11 @@ def action_callback(scene_data, step_metadata):
 
 
 def main():
-    SingleFileRunnerScript('Last Action', action_callback)
+    MultipleFileRunnerScript(
+        'Passive Scenes',
+        action_callback,
+        rename=True
+    )
 
 
 if __name__ == "__main__":
