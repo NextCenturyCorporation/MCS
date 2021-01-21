@@ -18,15 +18,23 @@ class AbstractRunnerScript():
         self._name = name
         args, filename_list = self.read_args()
         self.args = args
+
         if not args.mcs_unity_filename:
             return
+
+        config_file_path = './config_no_debug.ini'
+        if (args.save_videos or args.save_gifs) and args.debug:
+            config_file_path = './config_with_debug.ini'
+        elif args.save_videos or args.save_gifs:
+            config_file_path = './config_debug_to_file.ini'
+        elif args.debug:
+            config_file_path = './config_debug_to_terminal.ini'
+
         controller = mcs.create_controller(
             args.mcs_unity_filename,
-            debug=(args.debug or args.save_videos or args.save_gifs),
-            depth_maps=args.depth_maps,
-            object_masks=args.object_masks,
-            history_enabled=False
+            config_file_path
         )
+
         for filename in filename_list:
             scene_name = self.run_scene(
                 controller,
@@ -67,18 +75,6 @@ class AbstractRunnerScript():
             default=False,
             action='store_true',
             help='Save debug images and data to local files'
-        )
-        parser.add_argument(
-            '--depth-maps',
-            default=False,
-            action='store_true',
-            help='Generate depth maps at each step'
-        )
-        parser.add_argument(
-            '--object-masks',
-            default=False,
-            action='store_true',
-            help='Generate object instance segmentation masks at each step'
         )
         parser.add_argument(
             '--save-videos',
