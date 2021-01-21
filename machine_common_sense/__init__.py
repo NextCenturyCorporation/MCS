@@ -1,4 +1,4 @@
-from .mcs import create_controller, load_config_json_file
+from .mcs import create_controller, load_scene_json_file
 from .action import Action
 from .controller import Controller
 from .goal_metadata import GoalMetadata, GoalCategory

@@ -12,46 +12,15 @@ def parse_args():
         'mcs_unity_build_file',
         help='Path to MCS unity build file')
     parser.add_argument(
-        'mcs_config_json_file',
+        'mcs_scene_json_file',
         help='MCS JSON scene configuration file to load')
     parser.add_argument(
-        '--debug',
-        default=False,
-        action='store_true',
-        help='Generate MCS debug files [default=False]')
-    parser.add_argument(
-        '--noise',
-        default=False,
-        action='store_true',
-        help='Add random noise to action paramenters ' +
-        '(currently only movement/rotation) [default=False]')
-    parser.add_argument(
-        '--seed',
-        type=int,
+        '--config_file_path',
+        type=str,
         default=None,
-        help='Python random seed [default=None]')
-    parser.add_argument(
-        '--size',
-        type=int,
-        default=None,
-        help='Screen width of 450+ (height = width * 2/3) [default=600]')
-    parser.add_argument(
-        '--depth_maps',
-        default=False,
-        action='store_true',
-        help='Render and return depth masks of each scene ' +
-        '(will slightly decrease performance) [default=False]')
-    parser.add_argument(
-        '--object_masks',
-        default=False,
-        action='store_true',
-        help='Render and return object (instance segmentation) masks of ' +
-        'each scene (will significantly decrease performance) [default=False]')
-    parser.add_argument(
-        '--history_enabled',
-        default=True,
-        help='Whether to save all the history files and generated image ' +
-        'history to local disk or not. [default=True]')
+        help='Path to configuration file to read in and set various ' +
+        'properties, such as metadata level and whether or not to ' +
+        'save history files properties. [default=None]')
     return parser.parse_args()
 
 
@@ -72,12 +41,12 @@ class HumanInputShell(cmd.Cmd):
             self,
             input_controller,
             input_previous_output,
-            input_config_data):
+            input_scene_data):
         super(HumanInputShell, self).__init__()
 
         self.controller = input_controller
         self.previous_output = input_previous_output
-        self.config_data = input_config_data
+        self.scene_data = input_scene_data
 
     def precmd(self, line):
         return line
@@ -166,7 +135,7 @@ class HumanInputShell(cmd.Cmd):
         print_commands()
 
     def do_reset(self, args):
-        self.previous_output = (self.controller).start_scene(self.config_data)
+        self.previous_output = (self.controller).start_scene(self.scene_data)
 
     def do_shortcut_key_mode(self, args):
         print("Entering shortcut mode...")
@@ -228,42 +197,36 @@ def print_commands():
     print(" ")
 
 
-def run_scene(controller, config_data):
-    '''Run scene loaded in the config data.'''
+def run_scene(controller, scene_data):
+    '''Run scene loaded in the scene config data.'''
     build_commands()
     print_commands()
 
-    output = controller.start_scene(config_data)
+    output = controller.start_scene(scene_data)
 
-    input_commands = HumanInputShell(controller, output, config_data)
+    input_commands = HumanInputShell(controller, output, scene_data)
     input_commands.cmdloop()
 
 
 def main():
     args = parse_args()
-    config_data, status = mcs.load_config_json_file(args.mcs_config_json_file)
+    scene_data, status = mcs.load_scene_json_file(args.mcs_scene_json_file)
 
     if status is not None:
         print(status)
         exit()
 
     controller = mcs.create_controller(args.mcs_unity_build_file,
-                                       debug=args.debug,
-                                       enable_noise=args.noise,
-                                       seed=args.seed,
-                                       size=args.size,
-                                       depth_maps=args.depth_maps,
-                                       object_masks=args.object_masks,
-                                       history_enabled=args.history_enabled)
+                                       config_file_path=args.config_file_path)
 
-    config_file_path = args.mcs_config_json_file
-    config_file_name = config_file_path[config_file_path.rfind('/') + 1:]
+    scene_file_path = args.mcs_scene_json_file
+    scene_file_name = scene_file_path[scene_file_path.rfind('/') + 1:]
 
-    if 'name' not in config_data.keys():
-        config_data['name'] = config_file_name[0:config_file_name.find('.')]
+    if 'name' not in scene_data.keys():
+        scene_data['name'] = scene_file_name[0:scene_file_name.find('.')]
 
     if controller is not None:
-        run_scene(controller, config_data)
+        run_scene(controller, scene_data)
 
 
 if __name__ == "__main__":

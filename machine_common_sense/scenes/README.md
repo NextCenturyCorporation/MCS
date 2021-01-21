@@ -28,6 +28,36 @@ An open room containing over 40 objects for undirected exploration.
 
 ### Intuitive Physics Scenes
 
+#### Gravity Support: Objects Falling Down
+
+- [gravity_support_ex_01.json](./gravity_support_ex_01.json)
+- [gravity_support_ex_02.json](./gravity_support_ex_02.json)
+- [gravity_support_ex_03.json](./gravity_support_ex_03.json)
+- [gravity_support_ex_04.json](./gravity_support_ex_04.json)
+- [gravity_support_ex_05.json](./gravity_support_ex_05.json)
+- [gravity_support_ex_06.json](./gravity_support_ex_06.json)
+- [gravity_support_ex_07.json](./gravity_support_ex_07.json)
+- [gravity_support_ex_08.json](./gravity_support_ex_08.json)
+- [gravity_support_ex_09.json](./gravity_support_ex_09.json)
+- [gravity_support_ex_10.json](./gravity_support_ex_10.json)
+- [gravity_support_ex_11.json](./gravity_support_ex_11.json)
+- [gravity_support_ex_12.json](./gravity_support_ex_12.json)
+
+| Plausible |
+| --------- |
+| ![](./videos/gravity_support_ex_01.gif) | |
+| ![](./videos/gravity_support_ex_02.gif) | |
+| ![](./videos/gravity_support_ex_03.gif) | |
+| ![](./videos/gravity_support_ex_04.gif) | |
+| ![](./videos/gravity_support_ex_05.gif) | |
+| ![](./videos/gravity_support_ex_06.gif) | |
+| ![](./videos/gravity_support_ex_07.gif) | |
+| ![](./videos/gravity_support_ex_08.gif) | |
+| ![](./videos/gravity_support_ex_09.gif) | |
+| ![](./videos/gravity_support_ex_10.gif) | |
+| ![](./videos/gravity_support_ex_11.gif) | |
+| ![](./videos/gravity_support_ex_12.gif) | |
+
 #### Object Permanence: Objects Falling Down Behind Occluders
 
 - [object_permanence_plausible.json](./object_permanence_plausible.json)

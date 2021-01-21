@@ -24,7 +24,7 @@
 ## Controller
 
 
-### class machine_common_sense.controller.Controller(unity_app_file_path, debug=False, enable_noise=False, seed=None, size=None, depth_maps=None, object_masks=None, history_enabled=True)
+### class machine_common_sense.controller.Controller(unity_app_file_path, config_file_path=None)
 MCS Controller class implementation for the MCS wrapper of the AI2-THOR
 library.
 
@@ -33,23 +33,9 @@ library.
 
 * **Parameters**
 
-    
-    * **debug** (*boolean**, **optional*) – Whether to save MCS output debug files in this folder.
-    (default False)
-
-
-    * **enable_noise** (*boolean**, **optional*) – Whether to add random noise to the numerical amounts in movement
-    and object interaction action parameters.
-    (default False)
-
-
-    * **seed** (*int**, **optional*) – A seed for the Python random number generator.
+    **config_file_path** (*str**, **optional*) – Path to configuration file to read in and set various properties,
+    such as metadata level and whether or not to save history files
     (default None)
-
-
-    * **history_enabled** (*boolean**, **optional*) – Whether to save all the history files and generated image
-    history to local disk or not.
-    (default False)
 
 
 
@@ -73,7 +59,7 @@ Ends the current scene.
 
 #### generate_noise()
 Returns a random value between -0.05 and 0.05 used to add noise to all
-numerical action parameters enable_noise is True.
+numerical action parameters noise_enabled is True.
 :returns: A value between -0.05 and 0.05 (using random.uniform).
 :rtype: float
 
@@ -85,7 +71,7 @@ Make a prediction on the previously taken step/action.
 * **Parameters**
 
     
-    * **choice** (*string**, **optional*) – The selected choice required by the end of scenes with
+    * **choice** (*string**, **optional*) – The selected choice for per frame prediction with
     violation-of-expectation or classification goals.
     Is not required for other goals. (default None)
 
@@ -336,7 +322,9 @@ Defines output metadata from an action step in the MCS 3D environment.
 
 
     * **depth_map_list** (*list of 2D numpy arrays*) – The list of 2-dimensional numpy arrays of depth float data from the
-    scene after the last action and physics simulation were run.
+    scene after the last action and physics simulation were run. This is
+    usually a list with 1 array, except for the output from start_scene
+    for a scene with a scripted Preview Phase.
     Each depth float in a 2-dimensional numpy array is a value between 0
     and the camera’s far clipping plane (default 15) correspondings to the
     depth in simulation units at that pixel in the image.
@@ -355,13 +343,8 @@ Defines output metadata from an action step in the MCS 3D environment.
 
 
     * **image_list** (*list of Pillow.Image objects*) – The list of images from the scene after the last action and physics
-    simulation were run. This is normally a list with five images, where
-    the physics simulation has unpaused and paused again for a little
-    bit between each image, and the final image is the state of the
-    environment before your next action. The StepMetadata object
-    returned from a call to controller.start_scene will normally have a
-    listwith only one image, except for a scene with a scripted Preview
-    Phase.
+    simulation were run. This is usually a list with 1 image, except for
+    the output from start_scene for a scene with a scripted Preview Phase.
 
 
     * **object_list** (*list of ObjectMetadata objects*) – The list of metadata for all the visible interactive objects in the
@@ -370,15 +353,11 @@ Defines output metadata from an action step in the MCS 3D environment.
 
 
     * **object_mask_list** (*list of Pillow.Image objects*) – The list of object mask (instance segmentation) images from the scene
-    after the last action and physics simulation were run. This is
-    normally a list with five images, where the physics simulation
-    has unpaused and paused again for a little bit between each image,
-    and the final image is the state of the environment before your next
-    action. The StepMetadata object returned from a call to
-    controller.start_scene will normally have a list with only one image,
-    except for a scene with a scripted Preview Phase. The color of each
-    object in the mask corresponds to the “color” property in its
-    ObjectMetadata object.
+    after the last action and physics simulation were run. This is usually
+    a list with 1 image, except for the output from start_scene for a
+    scene with a scripted Previous Phase.
+    The color of each object in the mask corresponds to the “color”
+    property in its ObjectMetadata object.
 
 
     * **pose** (*string*) – Your current pose. Either “STANDING”, “CRAWLING”, or “LYING”.
