@@ -336,6 +336,15 @@ class Controller():
             self.__history_writer.add_step(self.__history_item)
             self.__history_writer.write_history_file(choice, confidence)
 
+        if self._config.is_evaluation() or self._config.is_video_enabled():
+            self.__topdown_recorder.finish()
+            self.__image_recorder.finish()
+            self.__heatmap_recorder.finish()
+            if self.__depth_maps:
+                self.__depth_recorder.finish()
+            if self.__object_masks:
+                self.__segmentation_recorder.finish()
+
         if self._config.is_evaluation():
             self.__uploader = S3Uploader(
                 s3_bucket=self._config.get_s3_bucket()
@@ -355,21 +364,18 @@ class Controller():
                                  '_' + history_filename)
                 )
 
-            self.__topdown_recorder.finish()
             topdown_filename = self.__topdown_recorder.path.name
             self.__uploader.upload_video(
                 video_path=self.__topdown_recorder.path,
                 s3_filename=folder_prefix + '/' + topdown_filename
             )
 
-            self.__image_recorder.finish()
             video_filename = self.__image_recorder.path.name
             self.__uploader.upload_video(
                 video_path=self.__image_recorder.path,
                 s3_filename=folder_prefix + '/' + video_filename
             )
 
-            self.__heatmap_recorder.finish()
             video_filename = self.__heatmap_recorder.path.name
             self.__uploader.upload_video(
                 video_path=self.__heatmap_recorder.path,
@@ -377,14 +383,13 @@ class Controller():
             )
 
             if self.__depth_maps:
-                self.__depth_recorder.finish()
                 video_filename = self.__depth_recorder.path.name
                 self.__uploader.upload_video(
                     video_path=self.__depth_recorder.path,
                     s3_filename=folder_prefix + '/' + video_filename
                 )
+
             if self.__object_masks:
-                self.__segmentation_recorder.finish()
                 video_filename = self.__segmentation_recorder.path.name
                 self.__uploader.upload_video(
                     video_path=self.__segmentation_recorder.path,
@@ -450,16 +455,17 @@ class Controller():
             print("STEP: 0")
             print("ACTION: Initialize")
 
-        if ((self.__debug_to_file or
-             self._config.is_evaluation()) and
-                config_data['name'] is not None):
+        if (config_data['name'] is not None and (
+            self.__debug_to_file or self._config.is_evaluation() or
+            self._config.is_video_enabled()
+        )):
             os.makedirs('./' + config_data['name'], exist_ok=True)
             self.__output_folder = './' + config_data['name'] + '/'
             file_list = glob.glob(self.__output_folder + '*')
             for file_path in file_list:
                 os.remove(file_path)
 
-        if self._config.is_evaluation():
+        if self._config.is_evaluation() or self._config.is_video_enabled():
             team = self._config.get_team()
             scene = self.__scene_configuration.get(
                 'name', '').replace('json', '')
@@ -494,7 +500,10 @@ class Controller():
                 if self.__debug_to_terminal:
                     print('ENDING PREVIEW PHASE')
 
-                if self._config.is_evaluation():
+                if (
+                    self._config.is_evaluation() or
+                    self._config.is_video_enabled()
+                ):
                     self.__image_recorder.add(image_list[0])
 
                 output.image_list = image_list
@@ -763,9 +772,11 @@ class Controller():
             self.__history_item.violations_xy_list = violations_xy_list
             self.__history_item.internal_state = internal_state
 
-        if(heatmap_img is not None and
-           isinstance(heatmap_img, PIL.Image.Image) and
-           self._config.is_evaluation()):
+        if(
+            heatmap_img is not None and
+            isinstance(heatmap_img, PIL.Image.Image) and
+            (self._config.is_evaluation() or self._config.is_video_enabled())
+        ):
             self.__heatmap_recorder.add(heatmap_img)
 
     def generate_time(self):
@@ -1053,7 +1064,7 @@ class Controller():
             scene_image = PIL.Image.fromarray(event.frame)
             image_list.append(scene_image)
 
-            if self._config.is_evaluation():
+            if self._config.is_evaluation() or self._config.is_video_enabled():
                 self.__image_recorder.add(scene_image)
                 self.__topdown_recorder.add(
                     self.__plotter.plot(scene_event, self.__step_number))
@@ -1073,7 +1084,10 @@ class Controller():
                 depth_map = PIL.Image.fromarray(
                     depth_pixel_array.astype(np.uint8)
                 )
-                if self._config.is_evaluation():
+                if (
+                    self._config.is_evaluation() or
+                    self._config.is_video_enabled()
+                ):
                     self.__depth_recorder.add(depth_map)
                 depth_map_list.append(np.array(depth_float_array))
 
@@ -1081,7 +1095,10 @@ class Controller():
                 object_mask = PIL.Image.fromarray(
                     event.instance_segmentation_frame)
                 object_mask_list.append(object_mask)
-                if self._config.is_evaluation():
+                if (
+                    self._config.is_evaluation() or
+                    self._config.is_video_enabled()
+                ):
                     self.__segmentation_recorder.add(object_mask)
 
             if self.__debug_to_file and self.__output_folder is not None:

@@ -25,6 +25,7 @@ class ConfigManager(object):
     CONFIG_SEED = 'seed'
     CONFIG_SIZE = 'size'
     CONFIG_TEAM = 'team'
+    CONFIG_VIDEO_ENABLED = 'video_enabled'
 
     # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built
     # on this assumption.
@@ -179,5 +180,12 @@ class ConfigManager(object):
         return self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_NOISE_ENABLED,
+            fallback=False
+        )
+
+    def is_video_enabled(self):
+        return self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_VIDEO_ENABLED,
             fallback=False
         )
