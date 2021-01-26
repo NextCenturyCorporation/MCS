@@ -184,6 +184,12 @@ Whether to save MCS output debug files in this folder and print debug output to 
 
 Alternatively to the `debug` property, `debug_output` can be used to either print debug info to the terminal or to debug files only. This should either be set to `file` or `terminal`, and will default to None. Will be ignored if `debug` is set.
 
+#### history_enabled
+
+(boolean, optional)
+
+Whether to save the scene history output data in your local directory. Default: True
+
 #### metadata
 
 (string, optional)
