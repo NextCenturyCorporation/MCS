@@ -95,7 +95,7 @@ class AbstractRunnerScript():
         return None, []
 
     def run_scene(self, controller, filename, action_callback, rename):
-        scene_data, status = mcs.load_config_json_file(filename)
+        scene_data, status = mcs.load_scene_json_file(filename)
 
         if status is not None:
             print(status)
@@ -121,6 +121,9 @@ class AbstractRunnerScript():
 
         while action is not None:
             step_metadata = controller.step(action, **params)
+            if step_metadata is None:
+                break
+            action, params = action_callback(scene_data, step_metadata)
 
         controller.end_scene("", 1)
 
