@@ -135,6 +135,12 @@ Whether or not we're running in evaluation mode (default: False). If `True`, eva
 
 Identifier to add to filenames uploaded to S3 (default: '').
 
+#### history_enabled
+
+(boolean, optional)
+
+Whether to save the scene history output data in your local directory. Default: True
+
 #### metadata
 
 (string)
