@@ -53,11 +53,13 @@ class ConfigManager(object):
                 self.is_debug() or self.get_debug_output() == 'terminal'
             )
 
+            print('MCS Config File Path: ' + self._config_file)
             if debug_to_terminal is True:
-                print('MCS Config File Path: ' + self._config_file)
                 print('Read MCS Config File:')
                 print({section: dict(self._config[section])
                        for section in self._config.sections()})
+        else:
+            print('No MCS Config File')
 
     def _validate_screen_size(self):
         if(self.get_size() < self.SCREEN_WIDTH_MIN):

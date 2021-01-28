@@ -1101,6 +1101,11 @@ class Controller():
 
         return image_list, depth_map_list, object_mask_list
 
+    def stop_simulation(self):
+        """Stop the 3D simulation environment. This controller won't work any
+        more."""
+        self._controller.stop()
+
     def wrap_output(self, scene_event):
         if self.__debug_to_file and self.__output_folder is not None:
             with open(self.__output_folder + 'ai2thor_output_' +
