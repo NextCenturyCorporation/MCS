@@ -22,16 +22,16 @@ class AbstractRunnerScript():
         if not args.mcs_unity_filename:
             return
 
-        config_file_path = './config_no_debug.ini'
-        if args.save_videos or args.save_gifs or args.debug:
-            config_file_path = './config_with_debug.ini'
+        debug = (args.save_videos or args.save_gifs or args.debug)
+        config_suffix = 'with_debug' if debug else 'no_debug'
         if args.level1:
-            config_file_path = './config_oracle.ini'
+            config_suffix = 'level1_debug' if debug else 'level1'
         if args.level2:
-            config_file_path = './config_oracle.ini'
+            config_suffix = 'level2_debug' if debug else 'level2'
         if args.oracle:
-            config_file_path = './config_oracle.ini'
+            config_suffix = 'oracle_debug' if debug else 'oracle'
 
+        config_file_path = './config_' + config_suffix + '.ini'
         controller = mcs.create_controller(
             args.mcs_unity_filename,
             config_file_path
