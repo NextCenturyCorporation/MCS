@@ -37,9 +37,7 @@ python -m pip install git+https://github.com/NextCenturyCorporation/MCS@master#e
 
 ## MCS Package Developer Installation
 
-For MCS package developer, follow these alternate instructions.
-
-[DEV.md](./machine_common_sense/DEV.md)
+For MCS package developer, follow these [alternate instructions](./machine_common_sense/DEV.md)
 
 ## Download
 
@@ -205,7 +203,7 @@ Otherwise, return the metadata for the visible and held objects.
 
 Whether to add random noise to the numerical amounts in movement and object interaction action parameters. Will default to `False`.
 
-# seed
+#### seed
 
 (int, optional)
 
