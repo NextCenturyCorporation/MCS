@@ -4,6 +4,8 @@ import math
 import os.path
 
 import machine_common_sense as mcs
+from additional_integration_tests import run_depth_and_segmentation_test, \
+    run_restricted_action_list_test
 from integration_test_utils import METADATA_TIER_LIST, print_divider, \
     retrieve_test_args
 
@@ -90,7 +92,7 @@ def validate_single_output(expected, actual):
     # For each object in the step output metdata...
     for actual_object in (actual.object_list + actual.structural_object_list):
         # If that object has expected metadata to validate...
-        if not actual_object.uuid in expected_object_dict:
+        if actual_object.uuid not in expected_object_dict:
             continue
         # Add each test case for the object to the list.
         test_case_list.extend(create_object_test_case_list(
@@ -236,6 +238,16 @@ def start_handmade_tests(mcs_unity_build, only_metadata_tier, only_test_name):
             test_name = (
                 os.path.basename(scene_filename).replace(SCENE_SUFFIX, '')
             )
+            if successful:
+                successful_test_list.append((test_name, metadata_tier))
+            else:
+                failed_test_list.append((test_name, metadata_tier, status))
+        # Run each additional test at this metadata tier.
+        for runner_function in ([] if only_test_name else [
+            run_depth_and_segmentation_test, run_restricted_action_list_test
+        ]):
+            successful, status = runner_function(controller, metadata_tier)
+            test_name = runner_function.__name__
             if successful:
                 successful_test_list.append((test_name, metadata_tier))
             else:

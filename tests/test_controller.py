@@ -879,65 +879,163 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(actual.rotation, None)
 
     def test_retrieve_action_list(self):
+        test_action_list = [
+            'Pass',
+            'LookUp,amount=10',
+            'MoveAhead,amount=0.1',
+            'PickupObject,objectId=ball',
+            'PickupObject,objectId=duck'
+        ]
+        test_output_list = [
+            ('Pass', {}),
+            ('LookUp', {'amount': 10}),
+            ('MoveAhead', {'amount': 0.1}),
+            ('PickupObject', {'objectId': 'ball'}),
+            ('PickupObject', {'objectId': 'duck'})
+        ]
+
+        # With no action list
+        self.assertEqual(
+            self.controller.retrieve_action_list(mcs.GoalMetadata(), 0),
+            self.controller.ACTION_LIST
+        )
+        # With empty action list
         self.assertEqual(
             self.controller.retrieve_action_list(
-                mcs.GoalMetadata(), 0), self.controller.ACTION_LIST)
+                mcs.GoalMetadata(action_list=[]),
+                0
+            ),
+            self.controller.ACTION_LIST
+        )
+        # With empty nested action list
         self.assertEqual(
             self.controller.retrieve_action_list(
-                mcs.GoalMetadata(
-                    action_list=[]),
-                0),
-            self.controller.ACTION_LIST)
+                mcs.GoalMetadata(action_list=[[]]),
+                0
+            ),
+            self.controller.ACTION_LIST
+        )
+        # With test action list
         self.assertEqual(
             self.controller.retrieve_action_list(
-                mcs.GoalMetadata(
-                    action_list=[[]]),
-                0),
-            self.controller.ACTION_LIST)
+                mcs.GoalMetadata(action_list=[test_action_list]),
+                0
+            ),
+            test_output_list
+        )
+        # With index greater than action list length
         self.assertEqual(
             self.controller.retrieve_action_list(
-                mcs.GoalMetadata(
-                    action_list=[['MoveAhead', 'RotateLook,rotation=180']]
-                ),
+                mcs.GoalMetadata(action_list=[test_action_list]),
+                1
+            ),
+            self.controller.ACTION_LIST
+        )
+        # With incorrect index
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                mcs.GoalMetadata(action_list=[test_action_list, []]),
+                1
+            ),
+            self.controller.ACTION_LIST
+        )
+        # With incorrect index
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                mcs.GoalMetadata(action_list=[[], test_action_list]),
+                0
+            ),
+            self.controller.ACTION_LIST
+        )
+        # With correct index
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                mcs.GoalMetadata(action_list=[[], test_action_list]),
+                1
+            ),
+            test_output_list
+        )
+        # Before last step
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                mcs.GoalMetadata(action_list=[test_action_list], last_step=1),
+                0
+            ),
+            test_output_list
+        )
+        # On last step
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                mcs.GoalMetadata(action_list=[test_action_list], last_step=0),
+                0
+            ),
+            []
+        )
+
+        # Same, but with string_list=True
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                mcs.GoalMetadata(),
                 0,
+                string_list=True
             ),
-            ['MoveAhead', 'RotateLook,rotation=180']
+            [action[0] for action in self.controller.ACTION_LIST]
         )
         self.assertEqual(
             self.controller.retrieve_action_list(
-                mcs.GoalMetadata(
-                    action_list=[['MoveAhead', 'RotateLook,rotation=180']]
-                ),
-                1,
-            ),
-            self.controller.ACTION_LIST
-        )
-        self.assertEqual(
-            self.controller.retrieve_action_list(
-                mcs.GoalMetadata(
-                    action_list=[['MoveAhead', 'RotateLook,rotation=180'], []]
-                ),
-                1,
-            ),
-            self.controller.ACTION_LIST
-        )
-        self.assertEqual(
-            self.controller.retrieve_action_list(
-                mcs.GoalMetadata(
-                    action_list=[[], ['MoveAhead', 'RotateLook,rotation=180']]
-                ),
+                mcs.GoalMetadata(action_list=[]),
                 0,
+                string_list=True
             ),
-            self.controller.ACTION_LIST
+            [action[0] for action in self.controller.ACTION_LIST]
         )
         self.assertEqual(
             self.controller.retrieve_action_list(
-                mcs.GoalMetadata(
-                    action_list=[[], ['MoveAhead', 'RotateLook,rotation=180']]
-                ),
-                1,
+                mcs.GoalMetadata(action_list=[[]]),
+                0,
+                string_list=True
             ),
-            ['MoveAhead', 'RotateLook,rotation=180']
+            [action[0] for action in self.controller.ACTION_LIST]
+        )
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                mcs.GoalMetadata(action_list=[test_action_list]),
+                0,
+                string_list=True
+            ),
+            test_action_list
+        )
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                mcs.GoalMetadata(action_list=[test_action_list]),
+                1,
+                string_list=True
+            ),
+            [action[0] for action in self.controller.ACTION_LIST]
+        )
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                mcs.GoalMetadata(action_list=[test_action_list, []]),
+                1,
+                string_list=True
+            ),
+            [action[0] for action in self.controller.ACTION_LIST]
+        )
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                mcs.GoalMetadata(action_list=[[], test_action_list]),
+                0,
+                string_list=True
+            ),
+            [action[0] for action in self.controller.ACTION_LIST]
+        )
+        self.assertEqual(
+            self.controller.retrieve_action_list(
+                mcs.GoalMetadata(action_list=[[], test_action_list]),
+                1,
+                string_list=True
+            ),
+            test_action_list
         )
 
     def test_retrieve_goal(self):

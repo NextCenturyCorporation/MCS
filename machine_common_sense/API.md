@@ -161,6 +161,11 @@ Runs the given action within the current scene.
     StepMetadata
 
 
+
+#### stop_simulation()
+Stop the 3D simulation environment. This controller won’t work any
+more.
+
 ## GoalMetadata
 
 
@@ -301,7 +306,9 @@ Defines output metadata from an action step in the MCS 3D environment.
 * **Variables**
 
     
-    * **action_list** (*list of strings*) – The list of all actions that are available for the next step.
+    * **action_list** (*list of** (**string**, **dict**) **tuples*) – The list of all actions that are available for the next step.
+    Each action is returned as a tuple containing the action string and
+    the action’s restricted parameters, if any.
     May be a subset of all possible actions. See [Actions](#Actions).
 
 
