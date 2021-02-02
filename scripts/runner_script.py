@@ -23,12 +23,14 @@ class AbstractRunnerScript():
             return
 
         config_file_path = './config_no_debug.ini'
-        if (args.save_videos or args.save_gifs) and args.debug:
+        if args.save_videos or args.save_gifs or args.debug:
             config_file_path = './config_with_debug.ini'
-        elif args.save_videos or args.save_gifs:
-            config_file_path = './config_debug_to_file.ini'
-        elif args.debug:
-            config_file_path = './config_debug_to_terminal.ini'
+        if args.level1:
+            config_file_path = './config_oracle.ini'
+        if args.level2:
+            config_file_path = './config_oracle.ini'
+        if args.oracle:
+            config_file_path = './config_oracle.ini'
 
         controller = mcs.create_controller(
             args.mcs_unity_filename,
@@ -74,7 +76,25 @@ class AbstractRunnerScript():
             '--debug',
             default=False,
             action='store_true',
-            help='Save debug images and data to local files'
+            help='Save debug data (inputs, outputs, and images) to local files'
+        )
+        parser.add_argument(
+            '--level1',
+            default=False,
+            action='store_true',
+            help='Use level 1 metadata tier and save debug data'
+        )
+        parser.add_argument(
+            '--level2',
+            default=False,
+            action='store_true',
+            help='Use level 2 metadata tier and save debug data'
+        )
+        parser.add_argument(
+            '--oracle',
+            default=False,
+            action='store_true',
+            help='Use oracle metadata tier and save debug data'
         )
         parser.add_argument(
             '--save-videos',
