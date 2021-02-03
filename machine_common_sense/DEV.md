@@ -171,10 +171,3 @@ Desired screen width. If value given, it must be more than `450`. If none given,
 (string)
 
 Team name identifier to prefix to filenames uploaded to S3 (default: '').
-
-## References
-
-- AI2-THOR Documentation: http://ai2thor.allenai.org/documentation
-- AI2-THOR GitHub: https://github.com/allenai/ai2thor
-- MCS AI2-THOR GitHub Fork: https://github.com/NextCenturyCorporation/ai2thor
-- MCS AI2-THOR Scene Files and Schema: [scenes](./machine_common_sense/scenes)

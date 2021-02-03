@@ -325,8 +325,8 @@ DISPLAY=:0 python test.py
 
 ## Apache 2 Open Source License
 
-Code in this repository is made available by [Next Century
-Corporation][1] under the [Apache 2 Open Source License][2].  You may
+Code in this repository is made available by [CACI][4] (formerly [Next Century
+Corporation][1]) under the [Apache 2 Open Source License][2].  You may
 freely download, use, and modify, in whole or in part, the source code
 or release packages. Any restrictions or attribution requirements are
 spelled out in the license file.  For more information about the
@@ -336,3 +336,6 @@ License FAQ][3].
 [1]: http://www.nextcentury.com
 [2]: http://www.apache.org/licenses/LICENSE-2.0.txt
 [3]: http://www.apache.org/foundation/license-faq.html
+[4]: http://www.caci.com
+
+Copyright 2021 CACI (formerly Next Century Corporation)
