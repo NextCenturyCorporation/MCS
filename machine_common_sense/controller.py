@@ -41,19 +41,30 @@ from .util import Util
 from .history_writer import HistoryWriter
 from .config_manager import ConfigManager
 
-# From https://github.com/NextCenturyCorporation/ai2thor/blob/master/ai2thor/server.py#L232-L240 # noqa: E501
-
 
 def __image_depth_override(self, image_depth_data, **kwargs):
+    # From https://github.com/NextCenturyCorporation/ai2thor/blob/master/ai2thor/server.py#L232-L240 # noqa: E501
     # The MCS depth shader in Unity is completely different now, so override
-    # the original AI2-THOR depth image code.
-    # Just return what Unity sends us.
+    # the original AI2-THOR depth image code. Just return what Unity sends us.
     image_depth = ai2thor.server.read_buffer_image(
         image_depth_data, self.screen_width, self.screen_height, **kwargs)
     return image_depth
 
 
 ai2thor.server.Event._image_depth = __image_depth_override
+
+
+class NumpyAwareEncoderOverride(json.JSONEncoder):
+    # From https://github.com/allenai/ai2thor/blob/master/ai2thor/server.py#L17-L24 # noqa: E501
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        if isinstance(obj, np.generic):
+            return np.asscalar(obj)
+        return super(NumpyAwareEncoderOverride, self).default(obj)
+
+
+ai2thor.server.NumpyAwareEncoder = NumpyAwareEncoderOverride
 
 
 class Controller():
