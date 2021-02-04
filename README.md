@@ -1,5 +1,18 @@
 # MCS Python Package
 
+- [Installation](#installation)
+- [Download](#download)
+- [Training Datasets](#training-datasets)
+- [Usage](#usage)
+- [Run with Human Input](#run-with-human-input)
+- [Run with Scene Timer](#run-with-scene-timer)
+- [Config File](#config-file)
+- [Running Remotely](#running-remotely)
+- [Documentation](#documentation)
+- [Other MCS GitHub Repositories](#other-mcs-github-repositories)
+- [Troubleshooting/Email](#troubleshooting)
+- [License](#apache-2-open-source-license)
+
 ## Installation
 
 The latest release of the MCS Python library is `0.3.7`.
@@ -24,9 +37,7 @@ python -m pip install git+https://github.com/NextCenturyCorporation/MCS@master#e
 
 ## MCS Package Developer Installation
 
-For MCS package developer, follow these alternate instructions.
-
-[DEV.md](./machine_common_sense/DEV.md)
+For MCS package developer, follow these [alternate instructions](./machine_common_sense/DEV.md)
 
 ## Download
 
@@ -56,9 +67,9 @@ tar -xzvf MCS-AI2-THOR-Unity-App-v0.3.7_Data.tar.gz
 chmod a+x MCS-AI2-THOR-Unity-App-v0.3.7.x86_64
 ```
 
-### Training Datasets
+## Training Datasets
 
-#### Winter 2020
+### Winter 2020
 
 *Please use the most recent 0.3.X release version*
 
@@ -72,7 +83,7 @@ Passive Intuitive Physics (only plausible scenes):
 Example Scenes:
 - https://github.com/NextCenturyCorporation/MCS/tree/master/machine_common_sense/scenes
 
-#### Summer 2020
+### Summer 2020
 
 *Use a release version between 0.0.9 and 0.1.0*
 
@@ -173,6 +184,12 @@ Whether to save MCS output debug files in this folder and print debug output to 
 
 Alternatively to the `debug` property, `debug_output` can be used to either print debug info to the terminal or to debug files only. This should either be set to `file` or `terminal`, and will default to None. Will be ignored if `debug` is set.
 
+#### history_enabled
+
+(boolean, optional)
+
+Whether to save the scene history output data in your local directory. Default: True
+
 #### metadata
 
 (string, optional)
@@ -192,7 +209,7 @@ Otherwise, return the metadata for the visible and held objects.
 
 Whether to add random noise to the numerical amounts in movement and object interaction action parameters. Will default to `False`.
 
-# seed
+#### seed
 
 (int, optional)
 
@@ -236,11 +253,7 @@ for scene_file in scene_files:
         # Use the output to save your scene graph or map
 ```
 
-## Documentation
-
-[API.md](./machine_common_sense/API.md)
-
-## Example Scene Configuration Files
+### Example Scene Configuration Files
 
 [machine_common_sense/scenes/README.md](./machine_common_sense/scenes/README.md)
 
@@ -270,7 +283,7 @@ server glx version string: 1.4
 
 ```
 
-### Test script
+### Remote Run Test Script
 
 Run the following script to test MCS with the X11 server created above.
 
@@ -298,14 +311,28 @@ From your python environment, run test.py and check the output images for proper
 DISPLAY=:0 python test.py
 ```
 
+## Documentation
+
+- [Python API](./machine_common_sense/API.md)
+- [Example Scene Configuration Files](./machine_common_sense/scenes/README.md)
+- [Scene Configuration JSON Schema](./machine_common_sense/scenes/SCHEMA.md)
+- [Developer Docs](./machine_common_sense/DEV.md)
+
+## Other MCS GitHub Repositories
+
+- [Unity code](https://github.com/NextCenturyCorporation/ai2thor)
+- [Scene Generator](https://github.com/NextCenturyCorporation/mcs-scene-generator)
+- [Data Ingest](https://github.com/NextCenturyCorporation/mcs-ingest)
+- [Evaluation Dashboard (UI)](https://github.com/NextCenturyCorporation/mcs-ui)
+
 ## Troubleshooting
 
 [mcs-ta2@machinecommonsense.com](mailto:mcs-ta2@machinecommonsense.com)
 
 ## Apache 2 Open Source License
 
-Code in this repository is made available by [Next Century
-Corporation][1] under the [Apache 2 Open Source License][2].  You may
+Code in this repository is made available by [CACI][4] (formerly [Next Century
+Corporation][1]) under the [Apache 2 Open Source License][2].  You may
 freely download, use, and modify, in whole or in part, the source code
 or release packages. Any restrictions or attribution requirements are
 spelled out in the license file.  For more information about the
@@ -315,3 +342,6 @@ License FAQ][3].
 [1]: http://www.nextcentury.com
 [2]: http://www.apache.org/licenses/LICENSE-2.0.txt
 [3]: http://www.apache.org/foundation/license-faq.html
+[4]: http://www.caci.com
+
+Copyright 2021 CACI (formerly Next Century Corporation)
