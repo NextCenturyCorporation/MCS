@@ -10,7 +10,7 @@
 # docker run -it --rm --gpus all -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw mcs-playroom:0.0.6
 #
 
-# FROM nvidia/cudagl:10.1-base-ubuntu18.04
+# Older Alternative: FROM nvidia/cudagl:10.1-base-ubuntu18.04
 FROM nvidia/cudagl:11.0.3-base-ubuntu20.04
 
 ARG DEBIAN_FRONTEND=noninteractive

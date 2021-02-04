@@ -1,5 +1,5 @@
-# Build: docker build -f CPU_Container.dockerfile -t mcs_cpu .
-# Run: docker run -it -p 5900:5900 -v ${PWD}/machine_common_sense/scenes:/input -v ${PWD}/scripts:/scripts -e XAUTHORITY=/tmp/.docker.xauth -e DISPLAY=:1 -v /tmp/.X11-unix:/tmp/.X11-unix -v /tmp/.docker.xauth:/tmp/.docker.xauth mcs_cpu bash
+# Build: docker build -f CPU_Container.dockerfile -t mcs-playroom-cpu .
+# Run: docker run -it -p 5900:5900 -v ${PWD}/machine_common_sense/scenes:/input -v ${PWD}/scripts:/scripts -e XAUTHORITY=/tmp/.docker.xauth -e DISPLAY=:1 -v /tmp/.X11-unix:/tmp/.X11-unix -v /tmp/.docker.xauth:/tmp/.docker.xauth mcs-playroom-cpu bash
 
 FROM ubuntu:20.04
 
@@ -16,8 +16,6 @@ ENV MCS_EXECUTABLE_PATH="/MCS-AI2-THOR-Unity-App-v0.3.7.x86_64"
 ENV MCS_CONFIG_FILE_PATH="/mcs_sample_config.ini"
 
 COPY machine_common_sense/scenes/agents_preference_expected.json /input/test.json
-
-# ---------------
 
 RUN apt-get update -qq \
     && apt-get install -qq -y --no-install-recommends \
