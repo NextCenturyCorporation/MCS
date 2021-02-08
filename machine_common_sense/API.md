@@ -246,7 +246,7 @@ Defines metadata for an object in the MCS 3D environment.
     StepMetadata’s “object_mask_list”.
 
 
-    * **dimensions** (*dict*) – The dimensions of this object in the environment’s 3D global
+    * **dimensions** (*list of dicts*) – The dimensions of this object in the environment’s 3D global
     coordinate system as a list of 8 points (dicts with “x”, “y”, and “z”).
 
 
@@ -808,7 +808,7 @@ Pull a nearby object.
     to the “objectImageCoords” vector) is not an object.
 
 
-    * *”NOT_PICKUPABLE”* – If the object itself cannot be moved by a baby.
+    * *”NOT_MOVEABLE”* – If the object itself cannot be moved by a baby.
 
 
     * *”OBSTRUCTED”* – If you cannot move the object because your path is obstructed.
@@ -862,7 +862,7 @@ Push a nearby object.
     to the “objectImageCoords” vector) is not an object.
 
 
-    * *”NOT_PICKUPABLE”* – If the object itself cannot be moved by a baby.
+    * *”NOT_MOVEABLE”* – If the object itself cannot be moved by a baby.
 
 
     * *”OBSTRUCTED”* – If you cannot move the object because your path is obstructed.

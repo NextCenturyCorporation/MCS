@@ -325,7 +325,7 @@ class Action(Enum):
     "NOT_OBJECT"
         If the object corresponding to the "objectId" (or object corresponding
         to the "objectImageCoords" vector) is not an object.
-    "NOT_PICKUPABLE"
+    "NOT_MOVEABLE"
         If the object itself cannot be moved by a baby.
     "OBSTRUCTED"
         If you cannot move the object because your path is obstructed.
@@ -372,7 +372,7 @@ class Action(Enum):
     "NOT_OBJECT"
         If the object corresponding to the "objectId" (or object corresponding
         to the "objectImageCoords" vector) is not an object.
-    "NOT_PICKUPABLE"
+    "NOT_MOVEABLE"
         If the object itself cannot be moved by a baby.
     "OBSTRUCTED"
         If you cannot move the object because your path is obstructed.

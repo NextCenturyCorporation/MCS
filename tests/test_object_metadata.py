@@ -9,7 +9,7 @@ class Test_ObjectMetadata(unittest.TestCase):
     str_output = '''    {
         "uuid": "",
         "color": {},
-        "dimensions": {},
+        "dimensions": [],
         "direction": {},
         "distance": -1.0,
         "distance_in_steps": -1.0,
@@ -43,7 +43,7 @@ class Test_ObjectMetadata(unittest.TestCase):
 
     def test_dimensions(self):
         self.assertFalse(self.object_metadata.dimensions)
-        self.assertIsInstance(self.object_metadata.dimensions, dict)
+        self.assertIsInstance(self.object_metadata.dimensions, list)
 
     def test_direction(self):
         self.assertFalse(self.object_metadata.direction)

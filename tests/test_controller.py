@@ -1187,7 +1187,7 @@ class Test_Controller(unittest.TestCase):
             "g": 34,
             "b": 56
         })
-        self.assertEqual(actual[0].dimensions, {})
+        self.assertEqual(actual[0].dimensions, [])
         self.assertEqual(actual[0].direction, {
             "x": 0,
             "y": 0,
@@ -1244,7 +1244,7 @@ class Test_Controller(unittest.TestCase):
             "g": 34,
             "b": 56
         })
-        self.assertEqual(actual[0].dimensions, {})
+        self.assertEqual(actual[0].dimensions, [])
         self.assertEqual(actual[0].direction, {
             "x": 0,
             "y": 0,

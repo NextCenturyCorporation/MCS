@@ -2,6 +2,7 @@ import glob
 import json
 import math
 import os.path
+import time
 
 import machine_common_sense as mcs
 from additional_integration_tests import run_depth_and_segmentation_test, \
@@ -33,14 +34,15 @@ def create_test_case(name, expected, actual):
 def create_step_test_case_list(expected, actual):
     test_case_list = [
         ('action_list', actual.action_list),
-        ('head_tilt', actual.head_tilt),
+        ('head_tilt', round(actual.head_tilt)),
         ('objects_count', len(actual.object_list)),
         ('position_x', actual.position.get('x') if actual.position else None),
         ('position_z', actual.position.get('z') if actual.position else None),
         ('return_status', actual.return_status),
         ('reward', actual.reward),
         ('rotation_y', actual.rotation),
-        ('step_number', actual.step_number),
+        # Adjust the step number due to the extra pass action after init.
+        ('step_number', actual.step_number - 1),
         ('structural_objects_count', len(actual.structural_object_list))
     ]
     return [
@@ -152,7 +154,7 @@ def load_output_list(scene_filename, metadata_tier):
     return output_filename, output_list
 
 
-def run_single_scene(controller, scene_filename, metadata_tier):
+def run_single_scene(controller, scene_filename, metadata_tier, dev):
     # Load the test scene's JSON data.
     scene_data, status = mcs.load_scene_json_file(scene_filename)
 
@@ -179,6 +181,14 @@ def run_single_scene(controller, scene_filename, metadata_tier):
     # Initialize the test scene.
     step_metadata = controller.start_scene(scene_data)
 
+    # Need to sleep here to avoid errors while running the tests sequentially.
+    time.sleep(1)
+
+    # Pass so the simulation environment can stabilize each object's position.
+    step_metadata = controller.step('Pass')
+
+    successful = True
+
     # Run the specific actions for the test scene.
     for index, action_data in enumerate(action_list + [None]):
         # Validate the test scene's output metadata at each action step.
@@ -189,11 +199,15 @@ def run_single_scene(controller, scene_filename, metadata_tier):
         # If the validation failed, return the failed test case info.
         if len(failed_validation_list) > 0:
             indent = "\n" + INDENT + INDENT
-            return (
-                False,
+            status = (
                 f'Step {index} failed:{indent}'
                 f'{indent.join(failed_validation_list)}'
             )
+            successful = False
+            if dev:
+                print(status)
+            else:
+                return False, status
         if action_data:
             step_metadata = controller.step(
                 action_data['action'],
@@ -204,10 +218,15 @@ def run_single_scene(controller, scene_filename, metadata_tier):
     controller.end_scene("", 1)
 
     # Validation successful!
-    return True, ''
+    return successful, ('' if successful else 'see above')
 
 
-def start_handmade_tests(mcs_unity_build, only_metadata_tier, only_test_name):
+def start_handmade_tests(
+    mcs_unity_build,
+    only_metadata_tier,
+    only_test_name,
+    dev
+):
     # Find all of the test scene JSON files.
     scene_filename_list = glob.glob(TEST_FOLDER + '*' + SCENE_SUFFIX)
     scene_filename_list.sort()
@@ -230,10 +249,12 @@ def start_handmade_tests(mcs_unity_build, only_metadata_tier, only_test_name):
                 os.path.basename(scene_filename).startswith(only_test_name)
             ):
                 continue
+            print(f'RUNNING SCENE: {os.path.basename(scene_filename)}')
             successful, status = run_single_scene(
                 controller,
                 scene_filename,
-                metadata_tier
+                metadata_tier,
+                dev
             )
             test_name = (
                 os.path.basename(scene_filename).replace(SCENE_SUFFIX, '')
@@ -246,6 +267,7 @@ def start_handmade_tests(mcs_unity_build, only_metadata_tier, only_test_name):
         for runner_function in ([] if only_test_name else [
             run_depth_and_segmentation_test, run_restricted_action_list_test
         ]):
+            print(f'RUNNING TESTS: {runner_function.__name__}')
             successful, status = runner_function(controller, metadata_tier)
             test_name = runner_function.__name__
             if successful:
@@ -253,6 +275,9 @@ def start_handmade_tests(mcs_unity_build, only_metadata_tier, only_test_name):
             else:
                 failed_test_list.append((test_name, metadata_tier, status))
         controller.stop_simulation()
+
+    successful_test_list.sort(key=lambda x: x[0])
+    failed_test_list.sort(key=lambda x: x[0])
 
     print_divider()
     print('SUCCESSFUL INTEGRATION TESTS:')
@@ -272,5 +297,6 @@ if __name__ == "__main__":
     start_handmade_tests(
         args.mcs_unity_build_file_path,
         args.metadata,
-        args.test
+        args.test,
+        args.dev
     )

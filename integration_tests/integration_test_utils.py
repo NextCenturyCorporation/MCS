@@ -36,4 +36,10 @@ def retrieve_test_args(name, handmade_only=False):
         default=None,
         help='Specific test filename prefix to run (by default, all files)'
     )
+    parser.add_argument(
+        '--dev',
+        default=False,
+        action='store_true',
+        help='Run in dev mode (useful for adding new test scenes)'
+    )
     return parser.parse_args()

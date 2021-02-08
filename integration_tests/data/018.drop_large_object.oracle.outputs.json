@@ -1,0 +1,103 @@
+[{
+    "step_number": 0,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testSuitcase",
+        "direction_x": 0.0,
+        "direction_y": -0.3463501,
+        "direction_z": 0.9381053,
+        "distance": 1.33246768,
+        "held": false,
+        "mass": 2,
+        "material_list": ["PLASTIC"],
+        "position_x": 0.0,
+        "position_z": 1.25,
+        "shape": "case",
+        "texture_color_list": ["black"],
+        "visible": true
+    }]
+}, {
+    "step_number": 1,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testSuitcase",
+        "direction_x": 0.0,
+        "direction_y": -0.4472136,
+        "direction_z": 0.8944272,
+        "distance": 0.9615092,
+        "held": true,
+        "mass": 2,
+        "material_list": ["PLASTIC"],
+        "position_x": 0.0,
+        "position_z": 0.86,
+        "shape": "case",
+        "texture_color_list": ["black"],
+        "visible": true
+    }]
+}, {
+    "step_number": 2,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testSuitcase",
+        "held": false,
+        "mass": 2,
+        "material_list": ["PLASTIC"],
+        "shape": "case",
+        "texture_color_list": ["black"],
+        "visible": true
+    }]
+}, {
+    "step_number": 3,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testSuitcase",
+        "held": false,
+        "mass": 2,
+        "material_list": ["PLASTIC"],
+        "shape": "case",
+        "texture_color_list": ["black"],
+        "visible": true
+    }]
+}, {
+    "step_number": 4,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testSuitcase",
+        "held": false,
+        "mass": 2,
+        "material_list": ["PLASTIC"],
+        "shape": "case",
+        "texture_color_list": ["black"],
+        "visible": true
+    }]
+}]
