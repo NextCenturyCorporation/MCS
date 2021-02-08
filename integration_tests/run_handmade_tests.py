@@ -112,8 +112,8 @@ def validate_single_output(expected, actual):
             failed = (not math.isclose(
                 expected_data,
                 actual_data,
-                rel_tol=0.0001,
-                abs_tol=0.0001
+                rel_tol=0.001,
+                abs_tol=0.001
             ))
         if failed:
             failed_validation_list.append(
