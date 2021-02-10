@@ -1,5 +1,5 @@
 ﻿{
-    "name": "pickup a ball with rotating",
+    "name": "pickup a ball and put it onto a sofa with image coordinates",
     "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
@@ -24,14 +24,37 @@
         "shows": [{
             "stepBegin": 0,
             "position": {
-                "x": 1.24,
-                "y": 0.25,
+                "x": 0,
+                "y": 0.1,
+                "z": 0.8
+            },
+            "scale": {
+                "x": 0.2,
+                "y": 0.2,
+                "z": 0.2
+            }
+        }]
+    }, {
+        "id": "testSofa",
+        "type": "sofa_2",
+        "mass": 50,
+        "receptacle": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.05,
+                "z": 1.5
+            },
+            "rotation": {
+                "x": 0,
+                "y": 180,
                 "z": 0
             },
             "scale": {
-                "x": 0.5,
-                "y": 0.5,
-                "z": 0.5
+                "x": 1,
+                "y": 1,
+                "z": 1
             }
         }]
     }]

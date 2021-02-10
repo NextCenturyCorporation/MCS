@@ -540,13 +540,16 @@ Change pose to “LYING”. Can help you move underneath objects.
 
 
 #### LOOK_DOWN( = 'LookDown')
-Rotate your viewport down by 10 degrees.
+Rotate your viewport down (add 10 degrees to head tilt).
 
 
 * **Returns**
 
     
     * *“SUCCESSFUL”* – Action successful.
+
+
+    * *”CANNOT_ROTATE”* – Failed because you cannot look down/up more than +/- 90 degrees.
 
 
     * *”FAILED”* – Unexpected error; please report immediately to development team.
@@ -555,13 +558,16 @@ Rotate your viewport down by 10 degrees.
 
 
 #### LOOK_UP( = 'LookUp')
-Rotate your view up by 10 degrees.
+Rotate your view up (subtract 10 degrees from head tilt).
 
 
 * **Returns**
 
     
     * *“SUCCESSFUL”* – Action successful.
+
+
+    * *”CANNOT_ROTATE”* – Failed because you cannot look down/up more than +/- 90 degrees.
 
 
     * *”FAILED”* – Unexpected error; please report immediately to development team.

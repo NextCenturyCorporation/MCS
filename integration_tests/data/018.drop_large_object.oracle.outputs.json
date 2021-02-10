@@ -34,9 +34,9 @@
     "objects": [{
         "id": "testSuitcase",
         "direction_x": 0.0,
-        "direction_y": -0.4472136,
-        "direction_z": 0.8944272,
-        "distance": 0.9615092,
+        "direction_y": -0.432475418,
+        "direction_z": 0.9016458,
+        "distance": 0.9538114,
         "held": true,
         "mass": 2,
         "material_list": ["PLASTIC"],

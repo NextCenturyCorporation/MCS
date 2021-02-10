@@ -1,5 +1,5 @@
 ﻿{
-    "name": "pickup a ball with rotating",
+    "name": "open and then close a container with image coordinates",
     "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
@@ -15,23 +15,27 @@
         }
     },
     "objects": [{
-        "id": "testBall",
-        "type": "ball",
-        "mass": 1,
-        "materials": ["AI2-THOR/Materials/Plastics/BlueRubber"],
-        "salientMaterials": ["rubber"],
-        "pickupable": true,
+        "id": "testContainer",
+        "type": "chest_1",
+        "mass": 5,
+        "materials": ["AI2-THOR/Materials/Wood/WornWood"],
+        "salientMaterials": ["wood"],
         "shows": [{
             "stepBegin": 0,
             "position": {
-                "x": 1.24,
-                "y": 0.25,
+                "x": 0,
+                "y": 0,
+                "z": 1
+            },
+            "rotation": {
+                "x": 0,
+                "y": 180,
                 "z": 0
             },
             "scale": {
-                "x": 0.5,
-                "y": 0.5,
-                "z": 0.5
+                "x": 1,
+                "y": 1,
+                "z": 1
             }
         }]
     }]

@@ -603,14 +603,14 @@ class Controller():
         rotation_vector['y'] = rotation
 
         object_vector = {}
-        object_vector['x'] = objectImageCoordsX
+        object_vector['x'] = float(objectImageCoordsX)
         object_vector['y'] = self._convert_y_image_coord_for_unity(
-            objectImageCoordsY)
+            float(objectImageCoordsY))
 
         receptacle_vector = {}
-        receptacle_vector['x'] = receptacleObjectImageCoordsX
+        receptacle_vector['x'] = float(receptacleObjectImageCoordsX)
         receptacle_vector['y'] = self._convert_y_image_coord_for_unity(
-            receptacleObjectImageCoordsY)
+            float(receptacleObjectImageCoordsY))
 
         return dict(
             objectId=kwargs.get("objectId", None),

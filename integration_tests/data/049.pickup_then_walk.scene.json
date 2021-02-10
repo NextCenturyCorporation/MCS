@@ -1,5 +1,5 @@
 ﻿{
-    "name": "pickup a ball with rotating",
+    "name": "pickup a ball within reach and then try to move around and also look directly down",
     "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
@@ -24,9 +24,9 @@
         "shows": [{
             "stepBegin": 0,
             "position": {
-                "x": 1.24,
+                "x": 0,
                 "y": 0.25,
-                "z": 0
+                "z": 1.24
             },
             "scale": {
                 "x": 0.5,

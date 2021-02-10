@@ -1,5 +1,5 @@
 ﻿{
-    "name": "pickup a ball without movement",
+    "name": "pickup a ball within reach",
     "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",

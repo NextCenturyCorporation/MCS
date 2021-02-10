@@ -1,5 +1,5 @@
 ﻿{
-    "name": "pickup a ball with rotating",
+    "name": "pickup and drop both a tall ball and a tall trophy diagonally",
     "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
@@ -24,14 +24,32 @@
         "shows": [{
             "stepBegin": 0,
             "position": {
-                "x": 1.24,
-                "y": 0.25,
-                "z": 0
+                "x": 0,
+                "y": 0.5,
+                "z": 1
             },
             "scale": {
-                "x": 0.5,
-                "y": 0.5,
-                "z": 0.5
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }]
+    }, {
+        "id": "testTrophy",
+        "type": "trophy",
+        "mass": 1,
+        "pickupable": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": -1
+            },
+            "scale": {
+                "x": 5,
+                "y": 5,
+                "z": 5
             }
         }]
     }]

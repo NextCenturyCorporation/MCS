@@ -8,18 +8,18 @@
     "objects_count": 1,
     "structural_objects_count": 6,
     "objects": [{
-        "id": "testBall",
+        "id": "testTrophy",
         "direction_x": 0.0,
-        "direction_y": -0.168908656,
-        "direction_z": 0.9856317,
-        "distance": 1.25807643,
+        "direction_y": -0.423505276,
+        "direction_z": 0.9058936,
+        "distance": 1.10388231,
         "held": false,
         "mass": 1,
-        "material_list": ["RUBBER"],
+        "material_list": ["METAL"],
         "position_x": 0.0,
-        "position_z": 1.24,
-        "shape": "ball",
-        "texture_color_list": ["blue"],
+        "position_z": 1,
+        "shape": "trophy",
+        "texture_color_list": ["silver"],
         "visible": true
     }]
 }, {
@@ -32,18 +32,18 @@
     "objects_count": 1,
     "structural_objects_count": 6,
     "objects": [{
-        "id": "testBall",
+        "id": "testTrophy",
         "direction_x": 0.0,
-        "direction_y": -0.376377016,
-        "direction_z": 0.9264666,
-        "distance": 0.4317479,
+        "direction_y": -0.8500099,
+        "direction_z": 0.526766658,
+        "distance": 0.4176422,
         "held": true,
         "mass": 1,
-        "material_list": ["RUBBER"],
+        "material_list": ["METAL"],
         "position_x": 0.0,
-        "position_z": 0.4,
-        "shape": "ball",
-        "texture_color_list": ["blue"],
+        "position_z": 0.22,
+        "shape": "trophy",
+        "texture_color_list": ["silver"],
         "visible": true
     }]
 }]

@@ -46,4 +46,28 @@
         "texture_color_list": ["blue"],
         "visible": true
     }]
+}, {
+    "step_number": 2,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "NOT_RECEPTACLE",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testBall",
+        "direction_x": 0.0,
+        "direction_y": -0.376377016,
+        "direction_z": 0.9264666,
+        "distance": 0.4317479,
+        "held": true,
+        "mass": 1,
+        "material_list": ["RUBBER"],
+        "position_x": 0.0,
+        "position_z": 0.4,
+        "shape": "ball",
+        "texture_color_list": ["blue"],
+        "visible": true
+    }]
 }]
