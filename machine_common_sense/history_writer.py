@@ -7,7 +7,7 @@ import datetime
 
 
 class HistoryWriter(object):
-    def __init__(self, scene_config_data=None, hist_info={}):
+    def __init__(self, scene_config_data=None, hist_info={}, timestamp=''):
         self.info_obj = hist_info
         self.current_steps = []
         self.end_score = {}
@@ -26,8 +26,6 @@ class HistoryWriter(object):
             prefix_directory = os.path.join(self.HISTORY_DIRECTORY, prefix)
             if not os.path.exists(prefix_directory):
                 os.makedirs(prefix_directory)
-
-        timestamp = self.generate_time()
 
         if ('screenshot' not in scene_config_data or
                 not scene_config_data['screenshot']):
