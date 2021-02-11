@@ -43,7 +43,7 @@ from .config_manager import ConfigManager
 
 
 def __image_depth_override(self, image_depth_data, **kwargs):
-    # From https://github.com/NextCenturyCorporation/ai2thor/blob/master/ai2thor/server.py#L232-L240 # noqa: E501
+    # From https://github.com/NextCenturyCorporation/ai2thor/blob/47a9d0802861ba8d7a2a7a6d943a46db28ddbaab/ai2thor/server.py#L232-L240 # noqa: E501
     # The MCS depth shader in Unity is completely different now, so override
     # the original AI2-THOR depth image code. Just return what Unity sends us.
     image_depth = ai2thor.server.read_buffer_image(
@@ -55,7 +55,7 @@ ai2thor.server.Event._image_depth = __image_depth_override
 
 
 class NumpyAwareEncoderOverride(json.JSONEncoder):
-    # From https://github.com/allenai/ai2thor/blob/master/ai2thor/server.py#L17-L24 # noqa: E501
+    # From https://github.com/allenai/ai2thor/blob/bd35d2cb887faee8b87aa04bd9373b027eb39f17/ai2thor/server.py#L17-L24 # noqa: E501
     def default(self, obj):
         if isinstance(obj, np.ndarray):
             return obj.tolist()
