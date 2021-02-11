@@ -110,6 +110,11 @@ Make a prediction on the previously taken step/action.
 
 
 
+#### retrieve_object_states(object_id)
+Return the state list at the current step for the object with the
+given ID from the scene configuration data, if any.
+
+
 #### start_scene(config_data)
 Starts a new scene using the given scene configuration data dict and
 returns the scene output data object.
@@ -232,7 +237,7 @@ Defines metadata for a goal in the MCS 3D environment.
 ## ObjectMetadata
 
 
-### class machine_common_sense.object_metadata.ObjectMetadata(uuid='', color=None, dimensions=None, direction=None, distance=- 1.0, distance_in_steps=- 1.0, distance_in_world=- 1.0, held=False, mass=0.0, material_list=None, position=None, rotation=None, shape='', texture_color_list=None, visible=False)
+### class machine_common_sense.object_metadata.ObjectMetadata(uuid='', color=None, dimensions=None, direction=None, distance=- 1.0, distance_in_steps=- 1.0, distance_in_world=- 1.0, held=False, mass=0.0, material_list=None, position=None, rotation=None, shape='', state_list=None, texture_color_list=None, visible=False)
 Defines metadata for an object in the MCS 3D environment.
 
 
@@ -288,6 +293,10 @@ Defines metadata for an object in the MCS 3D environment.
 
 
     * **shape** (*string*) – This object’s shape in plain English.
+
+
+    * **state_list** (*list of strings*) – This object’s state(s) from the current step in the scene. Sometimes
+    used by objects with scripted behavior in passive scenes.
 
 
     * **texture_color_list** (*list of strings*) – This object’s colors, derived from its textures, in plain English.

@@ -20,6 +20,7 @@ class Test_ObjectMetadata(unittest.TestCase):
         "position": {},
         "rotation": {},
         "shape": "",
+        "state_list": [],
         "texture_color_list": [],
         "visible": false
     }'''
@@ -84,6 +85,10 @@ class Test_ObjectMetadata(unittest.TestCase):
     def test_shape(self):
         self.assertEqual(self.object_metadata.shape, "")
         self.assertIsInstance(self.object_metadata.shape, str)
+
+    def test_state_list(self):
+        self.assertFalse(self.object_metadata.state_list)
+        self.assertIsInstance(self.object_metadata.state_list, list)
 
     def test_texture_color_list(self):
         self.assertFalse(self.object_metadata.texture_color_list)

@@ -45,6 +45,9 @@ class ObjectMetadata(object):
         in degrees.
     shape : string
         This object's shape in plain English.
+    state_list : list of strings
+        This object's state(s) from the current step in the scene. Sometimes
+        used by objects with scripted behavior in passive scenes.
     texture_color_list : list of strings
         This object's colors, derived from its textures, in plain English.
     visible : boolean
@@ -66,6 +69,7 @@ class ObjectMetadata(object):
         position=None,
         rotation=None,
         shape="",
+        state_list=None,
         texture_color_list=None,
         visible=False
     ):
@@ -82,6 +86,7 @@ class ObjectMetadata(object):
         self.position = {} if position is None else position
         self.rotation = {} if rotation is None else rotation
         self.shape = shape
+        self.state_list = [] if state_list is None else state_list
         self.texture_color_list = (
             [] if texture_color_list is None else texture_color_list
         )
@@ -106,5 +111,6 @@ class ObjectMetadata(object):
         yield 'position', self.position
         yield 'rotation', self.rotation
         yield 'shape', self.shape
+        yield 'state_list', self.state_list
         yield 'texture_color_list', self.texture_color_list
         yield 'visible', self.visible

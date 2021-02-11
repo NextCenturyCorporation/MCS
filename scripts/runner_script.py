@@ -22,14 +22,16 @@ class AbstractRunnerScript():
         if not args.mcs_unity_filename:
             return
 
-        config_file_path = './config_no_debug.ini'
-        if (args.save_videos or args.save_gifs) and args.debug:
-            config_file_path = './config_with_debug.ini'
-        elif args.save_videos or args.save_gifs:
-            config_file_path = './config_debug_to_file.ini'
-        elif args.debug:
-            config_file_path = './config_debug_to_terminal.ini'
+        debug = (args.save_videos or args.save_gifs or args.debug)
+        config_suffix = 'with_debug' if debug else 'no_debug'
+        if args.level1:
+            config_suffix = 'level1_debug' if debug else 'level1'
+        if args.level2:
+            config_suffix = 'level2_debug' if debug else 'level2'
+        if args.oracle:
+            config_suffix = 'oracle_debug' if debug else 'oracle'
 
+        config_file_path = './config_' + config_suffix + '.ini'
         controller = mcs.create_controller(
             args.mcs_unity_filename,
             config_file_path
@@ -74,7 +76,25 @@ class AbstractRunnerScript():
             '--debug',
             default=False,
             action='store_true',
-            help='Save debug images and data to local files'
+            help='Save debug data (inputs, outputs, and images) to local files'
+        )
+        parser.add_argument(
+            '--level1',
+            default=False,
+            action='store_true',
+            help='Use level 1 metadata tier and save debug data'
+        )
+        parser.add_argument(
+            '--level2',
+            default=False,
+            action='store_true',
+            help='Use level 2 metadata tier and save debug data'
+        )
+        parser.add_argument(
+            '--oracle',
+            default=False,
+            action='store_true',
+            help='Use oracle metadata tier and save debug data'
         )
         parser.add_argument(
             '--save-videos',
