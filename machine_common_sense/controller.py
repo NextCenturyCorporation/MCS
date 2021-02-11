@@ -9,6 +9,7 @@ import pathlib
 import PIL
 import ast
 from typing import Dict, List
+import atexit
 
 import ai2thor.controller
 import ai2thor.server
@@ -143,6 +144,8 @@ class Controller():
     AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
 
     def __init__(self, unity_app_file_path, config_file_path=None):
+
+        self._end_scene_not_registered = True
 
         self._config = ConfigManager(config_file_path)
 
@@ -331,7 +334,16 @@ class Controller():
             The choice confidence between 0 and 1 required for ending scenes
             with violation-of-expectation or classification goals.
             Is not required for other goals. (default None)
+
+            Note: when an issue causes the program to exit prematurely or
+            end_scene isn't properly called but history_enabled is true,
+            this value will be written to file as -1.
         """
+        if (self._end_scene_not_registered is False and
+                (self.__history_enabled or self._config.is_evaluation())):
+            atexit.unregister(self.end_scene)
+            self._end_scene_not_registered = True
+
         if self.__history_enabled:
             self.__history_writer.add_step(self.__history_item)
             self.__history_writer.write_history_file(choice, confidence)
@@ -511,6 +523,12 @@ class Controller():
                 output.object_mask_list = object_mask_list
             elif self.__debug_to_terminal:
                 print('NO PREVIEW PHASE')
+
+            if(self._end_scene_not_registered is True and
+                    (self.__history_enabled or self._config.is_evaluation())):
+                # make sure history file is written when program exits
+                atexit.register(self.end_scene, choice="", confidence=-1)
+                self._end_scene_not_registered = False
 
         return output
 
