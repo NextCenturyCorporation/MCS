@@ -104,6 +104,26 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
     return True, ''
 
 
+def run_habituation_trial_count_test(controller, metadata_tier):
+    # TODO MCS-68
+    return True, ''
+
+
+def run_numpy_array_data_test(controller, metadata_tier):
+    # TODO MCS-68
+    return True, ''
+
+
+def run_position_by_step_test(controller, metadata_tier):
+    # TODO MCS-68
+    return True, ''
+
+
+def run_public_github_scenes_test(controller, metadata_tier):
+    # TODO MCS-68
+    return True, ''
+
+
 def run_restricted_action_list_test(controller, metadata_tier):
     # Load the test scene's JSON data.
     scene_data, status = mcs.load_scene_json_file(RESTRICTED_ACTION_LIST_SCENE)
@@ -239,3 +259,13 @@ def run_restricted_action_list_test(controller, metadata_tier):
 
     # Validation successful!
     return True, ''
+
+
+FUNCTION_LIST = [
+    run_depth_and_segmentation_test,
+    run_habituation_trial_count_test,
+    run_numpy_array_data_test,
+    run_position_by_step_test,
+    run_public_github_scenes_test,
+    run_restricted_action_list_test
+]

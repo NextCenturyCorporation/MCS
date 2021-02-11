@@ -5,8 +5,7 @@ import os.path
 import time
 
 import machine_common_sense as mcs
-from additional_integration_tests import run_depth_and_segmentation_test, \
-    run_restricted_action_list_test
+from additional_integration_tests import FUNCTION_LIST
 from integration_test_utils import METADATA_TIER_LIST, print_divider, \
     retrieve_test_args
 
@@ -61,6 +60,7 @@ def create_object_test_case_list(object_type, expected, actual):
         ('mass', actual.mass),
         ('material_list', actual.material_list),
         ('position_x', actual.position.get('x') if actual.position else None),
+        ('position_y', actual.position.get('y') if actual.position else None),
         ('position_z', actual.position.get('z') if actual.position else None),
         (
             'rotation_x',
@@ -75,6 +75,7 @@ def create_object_test_case_list(object_type, expected, actual):
             round(actual.rotation.get('z')) if actual.rotation else None
         ),
         ('shape', actual.shape),
+        ('state_list', actual.state_list),
         ('texture_color_list', actual.texture_color_list),
         ('visible', actual.visible)
     ]
@@ -271,9 +272,7 @@ def start_handmade_tests(
             else:
                 failed_test_list.append((test_name, metadata_tier, status))
         # Run each additional test at this metadata tier.
-        for runner_function in ([] if only_test_name else [
-            run_depth_and_segmentation_test, run_restricted_action_list_test
-        ]):
+        for runner_function in ([] if only_test_name else FUNCTION_LIST):
             print(f'RUNNING TESTS: {runner_function.__name__}')
             successful, status = runner_function(controller, metadata_tier)
             test_name = runner_function.__name__
