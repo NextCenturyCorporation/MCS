@@ -3,7 +3,6 @@ from .scene_history import SceneHistory
 from typing import Dict
 import json
 import os
-import datetime
 
 
 class HistoryWriter(object):
@@ -36,9 +35,6 @@ class HistoryWriter(object):
         self.info_obj['name'] = scene_config_data['name'].replace(
             '.json', '')
         self.info_obj['timestamp'] = timestamp
-
-    def generate_time(self):
-        return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
     def write_file(self):
         if self.scene_history_file:
