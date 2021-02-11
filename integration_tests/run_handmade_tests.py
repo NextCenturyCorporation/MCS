@@ -41,8 +41,7 @@ def create_step_test_case_list(expected, actual):
         ('return_status', actual.return_status),
         ('reward', actual.reward),
         ('rotation_y', actual.rotation),
-        # Adjust the step number due to the extra pass action after init.
-        ('step_number', actual.step_number - 1),
+        ('step_number', actual.step_number),
         ('structural_objects_count', len(actual.structural_object_list))
     ]
     return [
@@ -63,7 +62,18 @@ def create_object_test_case_list(object_type, expected, actual):
         ('material_list', actual.material_list),
         ('position_x', actual.position.get('x') if actual.position else None),
         ('position_z', actual.position.get('z') if actual.position else None),
-        ('rotation_y', actual.rotation.get('y') if actual.rotation else None),
+        (
+            'rotation_x',
+            round(actual.rotation.get('x')) if actual.rotation else None
+        ),
+        (
+            'rotation_y',
+            round(actual.rotation.get('y')) if actual.rotation else None
+        ),
+        (
+            'rotation_z',
+            round(actual.rotation.get('z')) if actual.rotation else None
+        ),
         ('shape', actual.shape),
         ('texture_color_list', actual.texture_color_list),
         ('visible', actual.visible)
@@ -127,7 +137,7 @@ def load_action_list(scene_filename):
     if not os.path.isfile(action_filename):
         return action_filename, None
     action_list = []
-    with open(action_filename) as action_file:
+    with open(action_filename, encoding='utf-8-sig') as action_file:
         for line in action_file:
             line_data = line.strip().split(',')
             action_data = {
@@ -149,7 +159,7 @@ def load_output_list(scene_filename, metadata_tier):
     if not os.path.isfile(output_filename):
         return output_filename, None
     output_list = []
-    with open(output_filename) as output_file:
+    with open(output_filename, encoding='utf-8-sig') as output_file:
         output_list = json.load(output_file)
     return output_filename, output_list
 
@@ -183,9 +193,6 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev):
 
     # Need to sleep here to avoid errors while running the tests sequentially.
     time.sleep(1)
-
-    # Pass so the simulation environment can stabilize each object's position.
-    step_metadata = controller.step('Pass')
 
     successful = True
 

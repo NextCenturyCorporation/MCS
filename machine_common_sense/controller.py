@@ -687,15 +687,6 @@ class Controller():
                 f"{'; '.join(action_string_list)}"
             )
             return None
-        for key, value in kwargs.items():
-            if action not in [item[0] for item in action_list]:
-                print(
-                    "MCS Warning: The given action '" + action +
-                    "' is not valid. Ignoring your action. " +
-                    "Please call controller.step() with a valid action.")
-                print("Actions (Step " + str(self.__step_number) + "): " +
-                      ", ".join(action_list))
-                return None
 
         self.__step_number += 1
 
