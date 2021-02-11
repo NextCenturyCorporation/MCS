@@ -1,3 +1,5 @@
+import glob
+import numpy as np
 import os.path
 
 import machine_common_sense as mcs
@@ -7,8 +9,17 @@ INTEGRATION_TESTS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 DEPTH_AND_SEGMENTATION_SCENE = (
     INTEGRATION_TESTS_FOLDER + '/depth_and_segmentation.scene.json'
 )
+HABITUATION_TRIAL_COUNTS_SCENE = (
+    INTEGRATION_TESTS_FOLDER + '/habituation_trial_counts.scene.json'
+)
+NUMPY_ARRAY_DATA_SCENE = (
+    INTEGRATION_TESTS_FOLDER + '/numpy_array_data.scene.json'
+)
 RESTRICTED_ACTION_LIST_SCENE = (
     INTEGRATION_TESTS_FOLDER + '/restricted_action_list.scene.json'
+)
+SAMPLE_SCENES_FOLDER = (
+    INTEGRATION_TESTS_FOLDER + '../machine_common_sense/scenes/'
 )
 
 
@@ -104,24 +115,147 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
     return True, ''
 
 
-def run_habituation_trial_count_test(controller, metadata_tier):
-    # TODO MCS-68
+def run_habituation_trial_counts_test(controller, metadata_tier):
+    # Load the test scene's JSON data.
+    scene_data, status = mcs.load_scene_json_file(
+        HABITUATION_TRIAL_COUNTS_SCENE
+    )
+
+    if status is not None:
+        return False, status
+
+    # Initialize the test scene.
+    step_metadata = controller.start_scene(scene_data)
+    if step_metadata.habituation_trial != 1:
+        return (
+            False,
+            f'Step {step_metadata.step_number} failed: habituation_trial '
+            f'{step_metadata.habituation_trial} != 1'
+        )
+
+    # Try a couple of pass actions.
+    for i in range(0, 2):
+        step_metadata = controller.step('Pass')
+        if step_metadata.habituation_trial != 1:
+            return (
+                False,
+                f'Step {step_metadata.step_number} failed: habituation_trial '
+                f'{step_metadata.habituation_trial} != 1'
+            )
+
+    # End habituation trial 1.
+    step_metadata = controller.step('EndHabituation')
+    if step_metadata.habituation_trial != 2:
+        return (
+            False,
+            f'Step {step_metadata.step_number} failed: habituation_trial '
+            f'{step_metadata.habituation_trial} != 2'
+        )
+
+    # Try a lot of pass actions.
+    for i in range(0, 10):
+        step_metadata = controller.step('Pass')
+        if step_metadata.habituation_trial != 2:
+            return (
+                False,
+                f'Step {step_metadata.step_number} failed: habituation_trial '
+                f'{step_metadata.habituation_trial} != 2'
+            )
+
+    # End habituation trial 2.
+    step_metadata = controller.step('EndHabituation')
+    if step_metadata.habituation_trial != 3:
+        return (
+            False,
+            f'Step {step_metadata.step_number} failed: habituation_trial '
+            f'{step_metadata.habituation_trial} != 3'
+        )
+
+    # End habituation trial 3.
+    step_metadata = controller.step('EndHabituation')
+    if step_metadata.habituation_trial is not None:
+        return (
+            False,
+            f'Step {step_metadata.step_number} failed: habituation_trial '
+            f'{step_metadata.habituation_trial} is not None'
+        )
+
+    # Try a couple of pass actions.
+    for i in range(0, 2):
+        step_metadata = controller.step('Pass')
+        if step_metadata.habituation_trial is not None:
+            return (
+                False,
+                f'Step {step_metadata.step_number} failed: habituation_trial '
+                f'{step_metadata.habituation_trial} is not None'
+            )
+
+    # Stop the test scene.
+    controller.end_scene("", 1)
+
+    # Validation successful!
     return True, ''
 
 
 def run_numpy_array_data_test(controller, metadata_tier):
-    # TODO MCS-68
+    # Load the test scene's JSON data.
+    scene_data, status = mcs.load_scene_json_file(NUMPY_ARRAY_DATA_SCENE)
+
+    if status is not None:
+        return False, status
+
+    # Add the numpy array data as a property to the scene data.
+    scene_data['numpyArray'] = np.array([1, 2])
+
+    # Initialize the test scene.
+    step_metadata = controller.start_scene(scene_data)
+
+    if step_metadata:
+        # Try a pass action.
+        step_metadata = controller.step('Pass')
+
+    # Stop the test scene.
+    controller.end_scene("", 1)
+
+    if not step_metadata:
+        return False, 'Failed to load scene with numpy array data'
+
+    # Validation successful!
     return True, ''
 
 
 def run_position_by_step_test(controller, metadata_tier):
-    # TODO MCS-68
+    # TODO MCS-570
     return True, ''
 
 
-def run_public_github_scenes_test(controller, metadata_tier):
-    # TODO MCS-68
-    return True, ''
+def run_public_sample_scenes_test(controller, metadata_tier):
+    scene_filename_list = glob.glob(SAMPLE_SCENES_FOLDER + '*.json')
+    scene_filename_list.sort()
+
+    failed_test_list = []
+
+    for scene_filename in scene_filename_list:
+        # Load the sample scene's JSON data.
+        scene_data, status = mcs.load_scene_json_file(scene_filename)
+
+        # Initialize the test scene.
+        step_metadata = controller.start_scene(scene_data)
+
+        if step_metadata:
+            # Try a pass action.
+            step_metadata = controller.step('Pass')
+
+        if not step_metadata:
+            failed_test_list.append(os.path.basename(scene_filename))
+
+        # Stop the test scene.
+        controller.end_scene("", 1)
+
+    return (
+        len(failed_test_list) == 0,
+        f'Failed to load scenes {",".join(failed_test_list)}'
+    )
 
 
 def run_restricted_action_list_test(controller, metadata_tier):
@@ -263,9 +397,9 @@ def run_restricted_action_list_test(controller, metadata_tier):
 
 FUNCTION_LIST = [
     run_depth_and_segmentation_test,
-    run_habituation_trial_count_test,
+    run_habituation_trial_counts_test,
     run_numpy_array_data_test,
     run_position_by_step_test,
-    run_public_github_scenes_test,
+    run_public_sample_scenes_test,
     run_restricted_action_list_test
 ]
