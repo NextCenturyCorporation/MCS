@@ -55,6 +55,11 @@ Ends the current scene.
     with violation-of-expectation or classification goals.
     Is not required for other goals. (default None)
 
+    Note: when an issue causes the program to exit prematurely or
+    end_scene isn’t properly called but history_enabled is true,
+    this value will be written to file as -1.
+
+
 
 
 #### generate_noise()

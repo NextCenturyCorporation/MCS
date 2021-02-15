@@ -9,6 +9,12 @@ from .mock_controller import (
     MOCK_VARIABLES
 )
 
+import os
+import glob
+
+SCENE_HIST_DIR = "./SCENE_HISTORY/"
+TEST_FILE_NAME = "test controller"
+
 
 class Test_Controller(unittest.TestCase):
 
@@ -357,12 +363,19 @@ class Test_Controller(unittest.TestCase):
         return data
 
     def test_end_scene(self):
-        # TODO When this function actually does anything
-        pass
+        hist_file_prefix = TEST_FILE_NAME + ' end scene'
+        self.controller.start_scene({'name': hist_file_prefix})
+        self.controller.end_scene("plausible", "0.5")
+
+        hist_file_lookup = glob.glob(SCENE_HIST_DIR +
+                                     hist_file_prefix + "*.json")
+
+        self.assertTrue(len(hist_file_lookup) > 0)
+        self.assertTrue(os.path.exists(hist_file_lookup[0]))
 
     def test_start_scene(self):
         self.controller.render_mask_images()
-        output = self.controller.start_scene({'name': 'test name'})
+        output = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
@@ -382,7 +395,7 @@ class Test_Controller(unittest.TestCase):
         self.assertEqual(len(output.structural_object_list),
                          len(MOCK_VARIABLES['metadata']['structuralObjects']))
 
-        output = self.controller.start_scene({'name': 'test name'})
+        output = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
@@ -405,7 +418,7 @@ class Test_Controller(unittest.TestCase):
     def test_start_scene_preview_phase(self):
         self.controller.render_mask_images()
         last_preview_phase_step = 5
-        output = self.controller.start_scene({'name': 'test name', 'goal': {
+        output = self.controller.start_scene({'name': TEST_FILE_NAME, 'goal': {
             'last_preview_phase_step': last_preview_phase_step}
         })
         self.assertIsNotNone(output)
@@ -437,7 +450,7 @@ class Test_Controller(unittest.TestCase):
 
     def test_step(self):
         self.controller.render_mask_images()
-        output = self.controller.start_scene({'name': 'test name'})
+        output = self.controller.start_scene({'name': TEST_FILE_NAME})
         output = self.controller.step('MoveAhead')
         self.assertIsNotNone(output)
         self.assertEqual(
@@ -479,7 +492,7 @@ class Test_Controller(unittest.TestCase):
                          len(MOCK_VARIABLES['metadata']['structuralObjects']))
 
     def test_step_last_step(self):
-        output = self.controller.start_scene({'name': 'test name'})
+        output = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.controller.set_goal(mcs.GoalMetadata(last_step=0))
         output = self.controller.step('MoveAhead')
         self.assertIsNone(output)
@@ -498,7 +511,7 @@ class Test_Controller(unittest.TestCase):
         output = self.controller.step('MoveAhead')
         self.assertIsNone(output)
 
-        output = self.controller.start_scene({'name': 'test name'})
+        output = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.controller.set_goal(
             mcs.GoalMetadata(
                 action_list=[
@@ -510,7 +523,7 @@ class Test_Controller(unittest.TestCase):
         self.assertIsNone(output)
 
     def test_step_validate_parameters_move(self):
-        _ = self.controller.start_scene({'name': 'test name'})
+        _ = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.controller.step('MoveAhead')
         self.assertEqual(
             self.controller.get_last_step_data(),
@@ -540,7 +553,7 @@ class Test_Controller(unittest.TestCase):
                 moveMagnitude=mcs.controller.MOVE_DISTANCE))
 
     def test_step_validate_parameters_rotate(self):
-        _ = self.controller.start_scene({'name': 'test name'})
+        _ = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.controller.step('RotateLeft')
         self.assertEqual(
             self.controller.get_last_step_data(),
@@ -553,7 +566,7 @@ class Test_Controller(unittest.TestCase):
                 action='RotateLeft'))
 
     def test_step_validate_parameters_force_object(self):
-        _ = self.controller.start_scene({'name': 'test name'})
+        _ = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.controller.step('PushObject', force=1, objectId='test_id_1')
         self.assertEqual(
             self.controller.get_last_step_data(),
@@ -602,7 +615,7 @@ class Test_Controller(unittest.TestCase):
                 objectImageCoords={'x': 1, 'y': 398}))
 
     def test_step_validate_parameters_open_close(self):
-        _ = self.controller.start_scene({'name': 'test name'})
+        _ = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.controller.step(
             'OpenObject',
             amount=1,
@@ -1299,7 +1312,7 @@ class Test_Controller(unittest.TestCase):
         )
         self.assertEqual(ret_status, mcs.Pose.LYING.name)
 
-        output = self.controller.start_scene({'name': 'test name'})
+        output = self.controller.start_scene({'name': TEST_FILE_NAME})
 
         # Testing retrieving proper pose depending on action made
         # Check basics
