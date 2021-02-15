@@ -107,3 +107,50 @@ class Test_HistoryWriter(unittest.TestCase):
         self.assertEqual(writer.history_obj["score"]["confidence"], "0.75")
 
         self.assertTrue(os.path.exists(writer.scene_history_file))
+
+    def test_write_step_removes_some_output(self):
+        config_data = {"name": "prefix/test_scene_file.json"}
+        writer = mcs.HistoryWriter(config_data)
+
+        output = mcs.StepMetadata(
+            action_list=["CloseObject", "Crawl"],
+            pose="STANDING",
+            return_status="SUCCESSFUL",
+            step_number=2,
+            object_list={
+                "object": "object"
+            },
+            structural_object_list={
+                "structural_object": "structural_object"
+            }
+        )
+
+        history_item = mcs.SceneHistory(
+            step=1,
+            action="MoveAhead",
+            output=output
+        )
+        writer.add_step(history_item)
+
+        self.assertEqual(len(writer.current_steps), 1)
+        self.assertEqual(writer.current_steps[0]["action"], "MoveAhead")
+        self.assertEqual(writer.current_steps[0]["output"]["pose"], "STANDING")
+        self.assertIsNone(writer.current_steps[0]["output"]["action_list"])
+        self.assertIsNone(writer.current_steps[0]["output"]["object_list"])
+        self.assertIsNone(
+            writer.current_steps[0]["output"]["structural_object_list"])
+
+        history_item = mcs.SceneHistory(
+            step=2,
+            action="MoveLeft",
+            output=output
+        )
+        writer.add_step(history_item)
+
+        self.assertEqual(len(writer.current_steps), 2)
+        self.assertEqual(writer.current_steps[1]["action"], "MoveLeft")
+        self.assertEqual(writer.current_steps[1]["output"]["pose"], "STANDING")
+        self.assertIsNone(writer.current_steps[1]["output"]["action_list"])
+        self.assertIsNone(writer.current_steps[1]["output"]["object_list"])
+        self.assertIsNone(
+            writer.current_steps[1]["output"]["structural_object_list"])
