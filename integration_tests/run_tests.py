@@ -1,13 +1,6 @@
-import argparse
-import glob
-import json
-import math
-import os.path
-
-import machine_common_sense as mcs
-from integration_test_utils import METADATA_TIER_LIST, retrieve_test_args
+from integration_test_utils import retrieve_test_args
 from run_handmade_tests import start_handmade_tests
-from run_prefab_tests import start_prefab_tests
+# from run_prefab_tests import start_prefab_tests
 
 
 if __name__ == "__main__":
