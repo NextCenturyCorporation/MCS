@@ -3,11 +3,10 @@ from .scene_history import SceneHistory
 from typing import Dict
 import json
 import os
-import datetime
 
 
 class HistoryWriter(object):
-    def __init__(self, scene_config_data=None, hist_info={}):
+    def __init__(self, scene_config_data=None, hist_info={}, timestamp=''):
         self.info_obj = hist_info
         self.current_steps = []
         self.end_score = {}
@@ -27,8 +26,6 @@ class HistoryWriter(object):
             if not os.path.exists(prefix_directory):
                 os.makedirs(prefix_directory)
 
-        timestamp = self.generate_time()
-
         if ('screenshot' not in scene_config_data or
                 not scene_config_data['screenshot']):
             self.scene_history_file = os.path.join(
@@ -38,9 +35,6 @@ class HistoryWriter(object):
         self.info_obj['name'] = scene_config_data['name'].replace(
             '.json', '')
         self.info_obj['timestamp'] = timestamp
-
-    def generate_time(self):
-        return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
     def write_file(self):
         if self.scene_history_file:

@@ -272,7 +272,7 @@ class Controller():
                     '\n'
                 )
 
-    def _create_video_recorders(self):
+    def _create_video_recorders(self, timestamp):
         '''Create video recorders used to capture evaluation scenes for review
         '''
         output_folder = pathlib.Path(self.__output_folder)
@@ -284,7 +284,6 @@ class Controller():
         if '/' in scene_name:
             scene_name = scene_name.rsplit('/', 1)[1]
 
-        timestamp = self.generate_time()
         basename_template = '_'.join(
             [eval_name, self._metadata_tier, team, scene_name,
              self.PLACEHOLDER, timestamp]) + '.mp4'
@@ -376,8 +375,8 @@ class Controller():
             folder_prefix = self._config.get_s3_folder()
 
             if self.__history_enabled:
-                history_filename = pathlib.Path(
-                    self.__history_writer.scene_history_file).name
+                history_filename = self._get_filename_without_timestamp(
+                    pathlib.Path(self.__history_writer.scene_history_file))
                 self.__uploader.upload_history(
                     history_path=self.__history_writer.scene_history_file,
                     s3_filename=(folder_prefix + '/' +
@@ -387,37 +386,45 @@ class Controller():
                                  '_' + history_filename)
                 )
 
-            topdown_filename = self.__topdown_recorder.path.name
+            topdown_filename = self._get_filename_without_timestamp(
+                self.__topdown_recorder.path)
             self.__uploader.upload_video(
                 video_path=self.__topdown_recorder.path,
                 s3_filename=folder_prefix + '/' + topdown_filename
             )
 
-            video_filename = self.__image_recorder.path.name
+            video_filename = self._get_filename_without_timestamp(
+                self.__image_recorder.path)
             self.__uploader.upload_video(
                 video_path=self.__image_recorder.path,
                 s3_filename=folder_prefix + '/' + video_filename
             )
 
-            video_filename = self.__heatmap_recorder.path.name
+            video_filename = self._get_filename_without_timestamp(
+                self.__heatmap_recorder.path)
             self.__uploader.upload_video(
                 video_path=self.__heatmap_recorder.path,
                 s3_filename=folder_prefix + '/' + video_filename
             )
 
             if self.__depth_maps:
-                video_filename = self.__depth_recorder.path.name
+                video_filename = self._get_filename_without_timestamp(
+                    self.__depth_recorder.path)
                 self.__uploader.upload_video(
                     video_path=self.__depth_recorder.path,
                     s3_filename=folder_prefix + '/' + video_filename
                 )
 
             if self.__object_masks:
-                video_filename = self.__segmentation_recorder.path.name
+                video_filename = self._get_filename_without_timestamp(
+                    self.__segmentation_recorder.path)
                 self.__uploader.upload_video(
                     video_path=self.__segmentation_recorder.path,
                     s3_filename=folder_prefix + '/' + video_filename
                 )
+
+    def _get_filename_without_timestamp(self, filepath: pathlib.Path):
+        return filepath.stem[:-16] + filepath.suffix
 
     def start_scene(self, config_data):
         """
@@ -440,6 +447,7 @@ class Controller():
         self.__habituation_trial = 1
         self.__step_number = 0
         self._goal = self.retrieve_goal(self.__scene_configuration)
+        timestamp = self.generate_time()
 
         if self.__history_enabled:
             # Ensure the previous scene history writer has saved its file.
@@ -461,7 +469,9 @@ class Controller():
             ] = self._config.get_team()
             # Create a new scene history writer with each new scene (config
             # data) so we always create a new, separate scene history file.
-            self.__history_writer = HistoryWriter(config_data, hist_info)
+            self.__history_writer = HistoryWriter(config_data,
+                                                  hist_info,
+                                                  timestamp)
 
         skip_preview_phase = (True if 'goal' in config_data and
                               'skip_preview_phase' in config_data['goal']
@@ -494,7 +504,7 @@ class Controller():
                 'name', '').replace('json', '')
             self.__plotter = TopDownPlotter(
                 team, scene, self.__screen_width, self.__screen_height)
-            self._create_video_recorders()
+            self._create_video_recorders(timestamp)
 
         pre_restrict_output = self.wrap_output(self._controller.step(
             self.wrap_step(action='Initialize', sceneConfig=config_data)))
