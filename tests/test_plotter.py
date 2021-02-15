@@ -315,22 +315,21 @@ class Test_TopDownPlotter(unittest.TestCase):
                 {'objectId': 'occluder1'},
                 {'objectId': 'occluder2'},
                 {'objectId': 'wall1'},
+                {'objectId': 'future-object'},
                 {'objectId': 'floor-gets-filtered'},
-                {'objectId': 'test-object-gets-filtered'}
+                {'objectId': 'ceiling-gets-filtered'}
             ]
         }
         scene_event = ai2thor.server.Event(metadata=metadata)
         filtered_objects = self.plotter._find_plottable_objects(scene_event)
-        self.assertEqual(len(filtered_objects), 6)
-        self.assertEqual(len(
-            [k for k in filtered_objects
-             if k['objectId'].startswith('test-uuid')]), 3)
-        self.assertEqual(len(
-            [k for k in filtered_objects
-             if k['objectId'].startswith('occluder')]), 2)
-        self.assertEqual(len(
-            [k for k in filtered_objects
-             if k['objectId'].startswith('wall')]), 1)
+        self.assertEqual(len(filtered_objects), 7)
+        self.assertEqual(filtered_objects[0]['objectId'], 'occluder1')
+        self.assertEqual(filtered_objects[1]['objectId'], 'occluder2')
+        self.assertEqual(filtered_objects[2]['objectId'], 'wall1')
+        self.assertEqual(filtered_objects[3]['objectId'], 'future-object')
+        self.assertEqual(filtered_objects[4]['objectId'], 'test-uuid1')
+        self.assertEqual(filtered_objects[5]['objectId'], 'test-uuid2')
+        self.assertEqual(filtered_objects[6]['objectId'], 'test-uuid3')
 
     def test_scene_name(self):
         self.assertEqual(self.plotter._scene_name, "scene")

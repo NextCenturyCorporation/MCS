@@ -57,6 +57,10 @@ or
 autopep8 --in-place --aggressive <file>
 ```
 
+## Testing
+
+See our [tests README](../tests/README.md)
+
 ## Sphinx Documentation
 
 - Good Sphinx Tutorial: https://medium.com/@richdayandnight/a-simple-tutorial-on-how-to-document-your-python-project-using-sphinx-and-rinohtype-177c22a15b5b

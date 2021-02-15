@@ -1,0 +1,7 @@
+CloseObject,objectId=testContainer
+MoveAhead
+CloseObject,objectId=testContainer
+MoveAhead
+CloseObject,objectId=testContainer
+MoveAhead
+CloseObject,objectId=testContainer

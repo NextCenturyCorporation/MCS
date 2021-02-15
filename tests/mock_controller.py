@@ -95,6 +95,7 @@ class MockControllerAI2THOR(Controller):
         if(check_debug_mode is not None):
             os.environ.pop('MCS_DEBUG_MODE')
 
+        self._end_scene_not_registered = False  # atexit not needed for tests
         self._controller = MockController()
         self._config = ConfigManager()
         self._update_screen_size()

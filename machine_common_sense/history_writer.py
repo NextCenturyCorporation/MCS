@@ -3,11 +3,10 @@ from .scene_history import SceneHistory
 from typing import Dict
 import json
 import os
-import datetime
 
 
 class HistoryWriter(object):
-    def __init__(self, scene_config_data=None, hist_info={}):
+    def __init__(self, scene_config_data=None, hist_info={}, timestamp=''):
         self.info_obj = hist_info
         self.current_steps = []
         self.end_score = {}
@@ -27,8 +26,6 @@ class HistoryWriter(object):
             if not os.path.exists(prefix_directory):
                 os.makedirs(prefix_directory)
 
-        timestamp = self.generate_time()
-
         if ('screenshot' not in scene_config_data or
                 not scene_config_data['screenshot']):
             self.scene_history_file = os.path.join(
@@ -39,21 +36,21 @@ class HistoryWriter(object):
             '.json', '')
         self.info_obj['timestamp'] = timestamp
 
-    def generate_time(self):
-        return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-
     def write_file(self):
         if self.scene_history_file:
             with open(self.scene_history_file, "a+") as history_file:
-                history_file.write(json.dumps(
-                    self.history_obj, indent=4))
+                history_file.write(json.dumps(self.history_obj))
 
-    def filter_history_images(
+    def filter_history_output(
             self,
             history: SceneHistory) -> SceneHistory:
-        """ filter out images from the step history data"""
+        """ filter out images from the step history data and
+            object lists and action list """
         targets = ['target', 'target_1', 'target2']
         if history.output:
+            history.output.action_list = None
+            history.output.object_list = None
+            history.output.structural_object_list = None
             for target in targets:
                 if target in history.output.goal.metadata.keys():
                     if history.output.goal.metadata[target].get(
@@ -65,7 +62,7 @@ class HistoryWriter(object):
         """ Add a new step to the array of history steps"""
         if step_obj is not None:
             self.current_steps.append(
-                dict(self.filter_history_images(step_obj)))
+                dict(self.filter_history_output(step_obj)))
 
     def write_history_file(self, classification, confidence):
         """ Add the end score obj, create the object

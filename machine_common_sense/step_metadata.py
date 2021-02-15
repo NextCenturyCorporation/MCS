@@ -10,8 +10,10 @@ class StepMetadata:
 
     Attributes
     ----------
-    action_list : list of strings
+    action_list : list of (string, dict) tuples
         The list of all actions that are available for the next step.
+        Each action is returned as a tuple containing the action string and
+        the action's restricted parameters, if any.
         May be a subset of all possible actions. See [Actions](#Actions).
     camera_aspect_ratio : (float, float)
         The player camera's aspect ratio. This will remain constant for the
@@ -134,6 +136,12 @@ class StepMetadata:
     def __str__(self):
         return Util.class_to_str(self)
 
+    def check_list_none(self, obj_list):
+        if obj_list is None:
+            return None
+        else:
+            return dict((obj.uuid, dict(obj)) for obj in obj_list)
+
     # Allows converting the class to a dictionary, along with allowing
     #   certain fields to be left out of output file
     def __iter__(self):
@@ -144,13 +152,12 @@ class StepMetadata:
         yield 'camera_height', self.camera_height
         yield 'goal', dict(self.goal)
         yield 'head_tilt', self.head_tilt
-        yield 'object_list', dict((obj.uuid, dict(
-            obj)) for obj in self.object_list)
+        yield 'object_list', self.check_list_none(self.object_list)
         yield 'pose', self.pose
         yield 'position', self.position
         yield 'return_status', self.return_status
         yield 'reward', self.reward
         yield 'rotation', self.rotation
         yield 'step_number', self.step_number
-        yield 'structural_object_list', dict((obj.uuid, dict(
-            obj)) for obj in self.structural_object_list)
+        yield 'structural_object_list', self.check_list_none(
+            self.structural_object_list)

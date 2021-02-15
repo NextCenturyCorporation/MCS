@@ -15,7 +15,7 @@
 
 ## Installation
 
-The latest release of the MCS Python library is `0.3.7`.
+The latest release of the MCS Python library is `0.3.8`.
 
 ### Virtual Environments
 
@@ -45,26 +45,26 @@ Here are the instructions for downloading and installing our latest Unity releas
 
 ### Unity Application
 
-The latest release of the MCS Unity app is `0.3.7`.
+The latest release of the MCS Unity app is `0.3.8`.
 
 Please note that our Unity App is built on Linux. If you need a Mac or Windows version, please [contact us](#troubleshooting) directly.
 
-1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.3.7/MCS-AI2-THOR-Unity-App-v0.3.7.x86_64)
+1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.3.8/MCS-AI2-THOR-Unity-App-v0.3.8.x86_64)
 
-2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.3.7/MCS-AI2-THOR-Unity-App-v0.3.7_Data.tar.gz)
+2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.3.8/MCS-AI2-THOR-Unity-App-v0.3.8_Data.tar.gz)
 
 3. Ensure that both the Unity App and the TAR are in the same directory.
 
 4. Untar the Data Directory:
 
 ```
-tar -xzvf MCS-AI2-THOR-Unity-App-v0.3.7_Data.tar.gz
+tar -xzvf MCS-AI2-THOR-Unity-App-v0.3.8_Data.tar.gz
 ```
 
 5. Mark the Unity App as executable:
 
 ```
-chmod a+x MCS-AI2-THOR-Unity-App-v0.3.7.x86_64
+chmod a+x MCS-AI2-THOR-Unity-App-v0.3.8.x86_64
 ```
 
 ## Training Datasets
@@ -220,6 +220,12 @@ A seed for the Python random number generator (defaults to None).
 (int, optional)
 
 Desired screen width. If value given, it must be more than `450`. If none given, screen width will default to `600`.
+
+#### video_enabled
+
+(boolean, optional)
+
+Save videos of the RGB frames, depth masks, object instance segmentation masks (if returned in the output by the chosen metadata tier), 2D top-down scene views, and the heatmap images given to us in `make_step_prediction` by the AI performer.
 
 ### Using the Config File to Generate Scene Graphs or Maps
 

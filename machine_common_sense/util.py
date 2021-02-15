@@ -73,19 +73,23 @@ class Util:
             "POSITION (WORLD)",
             "DIMENSIONS (WORLD)",
             "DISTANCE (WORLD)",
-            "DIRECTION (WORLD)"]
+            "DIRECTION (WORLD)",
+            "STATE"
+        ]
         rows = [titles] + [
             [
                 metadata.uuid,
                 metadata.shape,
-                ", ".join(
-                    metadata.texture_color_list) if(
-                    metadata.texture_color_list is not None) else metadata.texture_color_list,  # noqa: E501
+                ", ".join(metadata.texture_color_list)
+                if(metadata.texture_color_list is not None)
+                else metadata.texture_color_list,
                 metadata.held,
                 Util.vector_to_string(metadata.position),
                 Util.vector_to_string(metadata.dimensions),
                 metadata.distance_in_world,
-                Util.vector_to_string(metadata.direction)
+                Util.vector_to_string(metadata.direction),
+                ", ".join(metadata.state_list)
+                if(metadata.state_list is not None) else metadata.state_list
             ]
             for metadata in object_list
         ]

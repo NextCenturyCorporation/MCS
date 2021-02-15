@@ -9,6 +9,7 @@ import pathlib
 import PIL
 import ast
 from typing import Dict, List
+import atexit
 
 import ai2thor.controller
 import ai2thor.server
@@ -41,19 +42,30 @@ from .util import Util
 from .history_writer import HistoryWriter
 from .config_manager import ConfigManager
 
-# From https://github.com/NextCenturyCorporation/ai2thor/blob/master/ai2thor/server.py#L232-L240 # noqa: E501
-
 
 def __image_depth_override(self, image_depth_data, **kwargs):
+    # From https://github.com/NextCenturyCorporation/ai2thor/blob/47a9d0802861ba8d7a2a7a6d943a46db28ddbaab/ai2thor/server.py#L232-L240 # noqa: E501
     # The MCS depth shader in Unity is completely different now, so override
-    # the original AI2-THOR depth image code.
-    # Just return what Unity sends us.
+    # the original AI2-THOR depth image code. Just return what Unity sends us.
     image_depth = ai2thor.server.read_buffer_image(
         image_depth_data, self.screen_width, self.screen_height, **kwargs)
     return image_depth
 
 
 ai2thor.server.Event._image_depth = __image_depth_override
+
+
+class NumpyAwareEncoderOverride(json.JSONEncoder):
+    # From https://github.com/allenai/ai2thor/blob/bd35d2cb887faee8b87aa04bd9373b027eb39f17/ai2thor/server.py#L17-L24 # noqa: E501
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        if isinstance(obj, np.generic):
+            return np.asscalar(obj)
+        return super(NumpyAwareEncoderOverride, self).default(obj)
+
+
+ai2thor.server.NumpyAwareEncoder = NumpyAwareEncoderOverride
 
 
 class Controller():
@@ -72,7 +84,7 @@ class Controller():
 
     """
 
-    ACTION_LIST = [item.value for item in Action]
+    ACTION_LIST = [(item.value, {}) for item in Action]
 
     # AI2-THOR creates a square grid across the scene that is
     # uses for "snap-to-grid" movement. (This value may not
@@ -143,6 +155,8 @@ class Controller():
     AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
 
     def __init__(self, unity_app_file_path, config_file_path=None):
+
+        self._end_scene_not_registered = True
 
         self._config = ConfigManager(config_file_path)
 
@@ -258,7 +272,7 @@ class Controller():
                     '\n'
                 )
 
-    def _create_video_recorders(self):
+    def _create_video_recorders(self, timestamp):
         '''Create video recorders used to capture evaluation scenes for review
         '''
         output_folder = pathlib.Path(self.__output_folder)
@@ -270,7 +284,6 @@ class Controller():
         if '/' in scene_name:
             scene_name = scene_name.rsplit('/', 1)[1]
 
-        timestamp = self.generate_time()
         basename_template = '_'.join(
             [eval_name, self._metadata_tier, team, scene_name,
              self.PLACEHOLDER, timestamp]) + '.mp4'
@@ -331,10 +344,28 @@ class Controller():
             The choice confidence between 0 and 1 required for ending scenes
             with violation-of-expectation or classification goals.
             Is not required for other goals. (default None)
+
+            Note: when an issue causes the program to exit prematurely or
+            end_scene isn't properly called but history_enabled is true,
+            this value will be written to file as -1.
         """
+        if (self._end_scene_not_registered is False and
+                (self.__history_enabled or self._config.is_evaluation())):
+            atexit.unregister(self.end_scene)
+            self._end_scene_not_registered = True
+
         if self.__history_enabled:
             self.__history_writer.add_step(self.__history_item)
             self.__history_writer.write_history_file(choice, confidence)
+
+        if self._config.is_evaluation() or self._config.is_video_enabled():
+            self.__topdown_recorder.finish()
+            self.__image_recorder.finish()
+            self.__heatmap_recorder.finish()
+            if self.__depth_maps:
+                self.__depth_recorder.finish()
+            if self.__object_masks:
+                self.__segmentation_recorder.finish()
 
         if self._config.is_evaluation():
             self.__uploader = S3Uploader(
@@ -344,8 +375,8 @@ class Controller():
             folder_prefix = self._config.get_s3_folder()
 
             if self.__history_enabled:
-                history_filename = pathlib.Path(
-                    self.__history_writer.scene_history_file).name
+                history_filename = self._get_filename_without_timestamp(
+                    pathlib.Path(self.__history_writer.scene_history_file))
                 self.__uploader.upload_history(
                     history_path=self.__history_writer.scene_history_file,
                     s3_filename=(folder_prefix + '/' +
@@ -355,41 +386,45 @@ class Controller():
                                  '_' + history_filename)
                 )
 
-            self.__topdown_recorder.finish()
-            topdown_filename = self.__topdown_recorder.path.name
+            topdown_filename = self._get_filename_without_timestamp(
+                self.__topdown_recorder.path)
             self.__uploader.upload_video(
                 video_path=self.__topdown_recorder.path,
                 s3_filename=folder_prefix + '/' + topdown_filename
             )
 
-            self.__image_recorder.finish()
-            video_filename = self.__image_recorder.path.name
+            video_filename = self._get_filename_without_timestamp(
+                self.__image_recorder.path)
             self.__uploader.upload_video(
                 video_path=self.__image_recorder.path,
                 s3_filename=folder_prefix + '/' + video_filename
             )
 
-            self.__heatmap_recorder.finish()
-            video_filename = self.__heatmap_recorder.path.name
+            video_filename = self._get_filename_without_timestamp(
+                self.__heatmap_recorder.path)
             self.__uploader.upload_video(
                 video_path=self.__heatmap_recorder.path,
                 s3_filename=folder_prefix + '/' + video_filename
             )
 
             if self.__depth_maps:
-                self.__depth_recorder.finish()
-                video_filename = self.__depth_recorder.path.name
+                video_filename = self._get_filename_without_timestamp(
+                    self.__depth_recorder.path)
                 self.__uploader.upload_video(
                     video_path=self.__depth_recorder.path,
                     s3_filename=folder_prefix + '/' + video_filename
                 )
+
             if self.__object_masks:
-                self.__segmentation_recorder.finish()
-                video_filename = self.__segmentation_recorder.path.name
+                video_filename = self._get_filename_without_timestamp(
+                    self.__segmentation_recorder.path)
                 self.__uploader.upload_video(
                     video_path=self.__segmentation_recorder.path,
                     s3_filename=folder_prefix + '/' + video_filename
                 )
+
+    def _get_filename_without_timestamp(self, filepath: pathlib.Path):
+        return filepath.stem[:-16] + filepath.suffix
 
     def start_scene(self, config_data):
         """
@@ -412,6 +447,7 @@ class Controller():
         self.__habituation_trial = 1
         self.__step_number = 0
         self._goal = self.retrieve_goal(self.__scene_configuration)
+        timestamp = self.generate_time()
 
         if self.__history_enabled:
             # Ensure the previous scene history writer has saved its file.
@@ -433,7 +469,9 @@ class Controller():
             ] = self._config.get_team()
             # Create a new scene history writer with each new scene (config
             # data) so we always create a new, separate scene history file.
-            self.__history_writer = HistoryWriter(config_data, hist_info)
+            self.__history_writer = HistoryWriter(config_data,
+                                                  hist_info,
+                                                  timestamp)
 
         skip_preview_phase = (True if 'goal' in config_data and
                               'skip_preview_phase' in config_data['goal']
@@ -450,22 +488,23 @@ class Controller():
             print("STEP: 0")
             print("ACTION: Initialize")
 
-        if ((self.__debug_to_file or
-             self._config.is_evaluation()) and
-                config_data['name'] is not None):
+        if (config_data['name'] is not None and (
+            self.__debug_to_file or self._config.is_evaluation() or
+            self._config.is_video_enabled()
+        )):
             os.makedirs('./' + config_data['name'], exist_ok=True)
             self.__output_folder = './' + config_data['name'] + '/'
             file_list = glob.glob(self.__output_folder + '*')
             for file_path in file_list:
                 os.remove(file_path)
 
-        if self._config.is_evaluation():
+        if self._config.is_evaluation() or self._config.is_video_enabled():
             team = self._config.get_team()
             scene = self.__scene_configuration.get(
                 'name', '').replace('json', '')
             self.__plotter = TopDownPlotter(
                 team, scene, self.__screen_width, self.__screen_height)
-            self._create_video_recorders()
+            self._create_video_recorders(timestamp)
 
         pre_restrict_output = self.wrap_output(self._controller.step(
             self.wrap_step(action='Initialize', sceneConfig=config_data)))
@@ -494,7 +533,10 @@ class Controller():
                 if self.__debug_to_terminal:
                     print('ENDING PREVIEW PHASE')
 
-                if self._config.is_evaluation():
+                if (
+                    self._config.is_evaluation() or
+                    self._config.is_video_enabled()
+                ):
                     self.__image_recorder.add(image_list[0])
 
                 output.image_list = image_list
@@ -502,6 +544,12 @@ class Controller():
                 output.object_mask_list = object_mask_list
             elif self.__debug_to_terminal:
                 print('NO PREVIEW PHASE')
+
+            if(self._end_scene_not_registered is True and
+                    (self.__history_enabled or self._config.is_evaluation())):
+                # make sure history file is written when program exits
+                atexit.register(self.end_scene, choice="", confidence=-1)
+                self._end_scene_not_registered = False
 
         return output
 
@@ -603,14 +651,14 @@ class Controller():
         rotation_vector['y'] = rotation
 
         object_vector = {}
-        object_vector['x'] = objectImageCoordsX
+        object_vector['x'] = float(objectImageCoordsX)
         object_vector['y'] = self._convert_y_image_coord_for_unity(
-            objectImageCoordsY)
+            float(objectImageCoordsY))
 
         receptacle_vector = {}
-        receptacle_vector['x'] = receptacleObjectImageCoordsX
+        receptacle_vector['x'] = float(receptacleObjectImageCoordsX)
         receptacle_vector['y'] = self._convert_y_image_coord_for_unity(
-            receptacleObjectImageCoordsY)
+            float(receptacleObjectImageCoordsY))
 
         return dict(
             objectId=kwargs.get("objectId", None),
@@ -657,14 +705,35 @@ class Controller():
             action, kwargs = Util.input_to_action_and_params(action)
 
         action_list = self.retrieve_action_list(self._goal, self.__step_number)
-        if action not in action_list:
+        # Only continue with this action step if the given action and
+        # parameters are in the restricted action list.
+        continue_with_step = False
+        for restricted_action, restricted_params in action_list:
+            if action == restricted_action:
+                # If this action doesn't have restricted parameters, or each
+                # input parameter is in the restricted parameters, it's OK.
+                if len(restricted_params.items()) == 0 or all([
+                    restricted_params.get(key) == value
+                    for key, value in kwargs.items()
+                ]):
+                    continue_with_step = True
+                    break
+        if not continue_with_step:
             print(
-                "MCS Warning: The given action '" +
-                action +
-                "' is not valid. Ignoring your action. " +
-                "Please call controller.step() with a valid action.")
-            print("Actions (Step " + str(self.__step_number) + "): " +
-                  ", ".join(action_list))
+                f"MCS Warning: The given action '{action}' with parameters "
+                f"'{kwargs}' isn't in the action_list. Ignoring your action. "
+                f"Please call controller.step() with an action in the "
+                f"action_list."
+            )
+            action_string_list = self.retrieve_action_list(
+                self._goal,
+                self.__step_number,
+                string_list=True
+            )
+            print(
+                f"Actions (Step {self.__step_number}): "
+                f"{'; '.join(action_string_list)}"
+            )
             return None
 
         self.__step_number += 1
@@ -763,9 +832,11 @@ class Controller():
             self.__history_item.violations_xy_list = violations_xy_list
             self.__history_item.internal_state = internal_state
 
-        if(heatmap_img is not None and
-           isinstance(heatmap_img, PIL.Image.Image) and
-           self._config.is_evaluation()):
+        if(
+            heatmap_img is not None and
+            isinstance(heatmap_img, PIL.Image.Image) and
+            (self._config.is_evaluation() or self._config.is_video_enabled())
+        ):
             self.__heatmap_recorder.add(heatmap_img)
 
     def generate_time(self):
@@ -843,16 +914,23 @@ class Controller():
 
         return step_output
 
-    def retrieve_action_list(self, goal, step_number):
+    def retrieve_action_list(self, goal, step_number, string_list=False):
         if goal is not None and goal.action_list is not None:
             if step_number < goal.last_preview_phase_step:
                 return ['Pass']
+            if goal.last_step is not None and step_number == goal.last_step:
+                return []
             adjusted_step = step_number - goal.last_preview_phase_step
             if len(goal.action_list) > adjusted_step:
                 if len(goal.action_list[adjusted_step]) > 0:
-                    return goal.action_list[adjusted_step]
+                    return [
+                        Util.input_to_action_and_params(action)
+                        for action in goal.action_list[adjusted_step]
+                    ] if not string_list else goal.action_list[adjusted_step]
 
-        return self.ACTION_LIST
+        return self.ACTION_LIST if not string_list else [
+            action[0] for action in self.ACTION_LIST
+        ]
 
     def retrieve_goal(self, scene_configuration):
         goal_config = (
@@ -946,36 +1024,56 @@ class Controller():
             else {}
         )
 
-        return (
-            ObjectMetadata(
-                uuid=object_metadata['objectId'],
-                color={'r': rgb[0], 'g': rgb[1], 'b': rgb[2]},
-                dimensions=(
-                    bounds['objectBoundsCorners']
-                    if 'objectBoundsCorners' in bounds
-                    else None
-                ),
-                direction=object_metadata['direction'],
-                distance=(
-                    object_metadata['distanceXZ'] / MOVE_DISTANCE
-                ),  # DEPRECATED
-                distance_in_steps=(
-                    object_metadata['distanceXZ'] / MOVE_DISTANCE
-                ),
-                distance_in_world=(object_metadata['distance']),
-                held=object_metadata['isPickedUp'],
-                mass=object_metadata['mass'],
-                material_list=material_list,
-                position=object_metadata['position'],
-                rotation=object_metadata['rotation'],
-                shape=object_metadata['shape'],
-                texture_color_list=object_metadata['colorsFromMaterials'],
-                visible=(
-                    object_metadata['visibleInCamera'] or
-                    object_metadata['isPickedUp']
-                ),
+        return ObjectMetadata(
+            uuid=object_metadata['objectId'],
+            color={'r': rgb[0], 'g': rgb[1], 'b': rgb[2]},
+            dimensions=(
+                bounds['objectBoundsCorners']
+                if 'objectBoundsCorners' in bounds
+                else None
+            ),
+            direction=object_metadata['direction'],
+            distance=(
+                object_metadata['distanceXZ'] / MOVE_DISTANCE
+            ),  # DEPRECATED
+            distance_in_steps=(
+                object_metadata['distanceXZ'] / MOVE_DISTANCE
+            ),
+            distance_in_world=(object_metadata['distance']),
+            held=object_metadata['isPickedUp'],
+            mass=object_metadata['mass'],
+            material_list=material_list,
+            position=object_metadata['position'],
+            rotation=object_metadata['rotation'],
+            shape=object_metadata['shape'],
+            state_list=self.retrieve_object_states(
+                object_metadata['objectId']
+            ),
+            texture_color_list=object_metadata['colorsFromMaterials'],
+            visible=(
+                object_metadata['visibleInCamera'] or
+                object_metadata['isPickedUp']
             )
         )
+
+    def retrieve_object_states(self, object_id):
+        """Return the state list at the current step for the object with the
+        given ID from the scene configuration data, if any."""
+        state_list_each_step = []
+        # Retrieve the object's states from the scene configuration.
+        for object_config in self.__scene_configuration.get('objects', []):
+            if object_config.get('id', '') == object_id:
+                state_list_each_step = object_config.get('states', [])
+                break
+        # Retrieve the object's states in the current step.
+        if len(state_list_each_step) > self.__step_number:
+            state_list = state_list_each_step[self.__step_number]
+            # Validate the data type.
+            if state_list is not None:
+                if not isinstance(state_list, list):
+                    return [state_list]
+                return [str(state) for state in state_list]
+        return []
 
     def retrieve_pose(self, scene_event) -> str:
         pose = Pose.UNDEFINED.name
@@ -1053,7 +1151,7 @@ class Controller():
             scene_image = PIL.Image.fromarray(event.frame)
             image_list.append(scene_image)
 
-            if self._config.is_evaluation():
+            if self._config.is_evaluation() or self._config.is_video_enabled():
                 self.__image_recorder.add(scene_image)
                 self.__topdown_recorder.add(
                     self.__plotter.plot(scene_event, self.__step_number))
@@ -1073,7 +1171,10 @@ class Controller():
                 depth_map = PIL.Image.fromarray(
                     depth_pixel_array.astype(np.uint8)
                 )
-                if self._config.is_evaluation():
+                if (
+                    self._config.is_evaluation() or
+                    self._config.is_video_enabled()
+                ):
                     self.__depth_recorder.add(depth_map)
                 depth_map_list.append(np.array(depth_float_array))
 
@@ -1081,7 +1182,10 @@ class Controller():
                 object_mask = PIL.Image.fromarray(
                     event.instance_segmentation_frame)
                 object_mask_list.append(object_mask)
-                if self._config.is_evaluation():
+                if (
+                    self._config.is_evaluation() or
+                    self._config.is_video_enabled()
+                ):
                     self.__segmentation_recorder.add(object_mask)
 
             if self.__debug_to_file and self.__output_folder is not None:
@@ -1100,6 +1204,11 @@ class Controller():
                                      'object_mask' + suffix)
 
         return image_list, depth_map_list, object_mask_list
+
+    def stop_simulation(self):
+        """Stop the 3D simulation environment. This controller won't work any
+        more."""
+        self._controller.stop()
 
     def wrap_output(self, scene_event):
         if self.__debug_to_file and self.__output_folder is not None:

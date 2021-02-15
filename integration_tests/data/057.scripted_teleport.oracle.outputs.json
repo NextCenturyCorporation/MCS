@@ -1,0 +1,141 @@
+[{
+    "step_number": 0,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testBall",
+        "held": false,
+        "mass": 1,
+        "material_list": ["RUBBER"],
+        "position_x": 0,
+        "position_z": 1.0,
+        "shape": "ball",
+        "texture_color_list": ["blue"],
+        "visible": true
+    }]
+}, {
+    "step_number": 1,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testBall",
+        "held": false,
+        "mass": 1,
+        "material_list": ["RUBBER"],
+        "position_x": 0,
+        "position_z": 1.0,
+        "shape": "ball",
+        "texture_color_list": ["blue"],
+        "visible": true
+    }]
+}, {
+    "step_number": 2,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testBall",
+        "held": false,
+        "mass": 1,
+        "material_list": ["RUBBER"],
+        "position_x": 0,
+        "position_z": 2.0,
+        "shape": "ball",
+        "texture_color_list": ["blue"],
+        "visible": true
+    }]
+}, {
+    "step_number": 3,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testBall",
+        "held": false,
+        "mass": 1,
+        "material_list": ["RUBBER"],
+        "position_x": 0,
+        "position_z": 2.0,
+        "shape": "ball",
+        "texture_color_list": ["blue"],
+        "visible": true
+    }]
+}, {
+    "step_number": 4,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testBall",
+        "held": false,
+        "mass": 1,
+        "material_list": ["RUBBER"],
+        "position_x": 0,
+        "position_z": 2.0,
+        "shape": "ball",
+        "texture_color_list": ["blue"],
+        "visible": true
+    }]
+}, {
+    "step_number": 5,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testBall",
+        "held": false,
+        "mass": 1,
+        "material_list": ["RUBBER"],
+        "position_x": 1.0,
+        "position_z": 3.0,
+        "shape": "ball",
+        "texture_color_list": ["blue"],
+        "visible": true
+    }]
+}, {
+    "step_number": 6,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testBall",
+        "held": false,
+        "mass": 1,
+        "material_list": ["RUBBER"],
+        "position_x": 1.0,
+        "position_z": 3.0,
+        "shape": "ball",
+        "texture_color_list": ["blue"],
+        "visible": true
+    }]
+}]

@@ -25,6 +25,7 @@ class ConfigManager(object):
     CONFIG_SEED = 'seed'
     CONFIG_SIZE = 'size'
     CONFIG_TEAM = 'team'
+    CONFIG_VIDEO_ENABLED = 'video_enabled'
 
     # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built
     # on this assumption.
@@ -53,11 +54,13 @@ class ConfigManager(object):
                 self.is_debug() or self.get_debug_output() == 'terminal'
             )
 
+            print('MCS Config File Path: ' + self._config_file)
             if debug_to_terminal is True:
-                print('MCS Config File Path: ' + self._config_file)
                 print('Read MCS Config File:')
                 print({section: dict(self._config[section])
                        for section in self._config.sections()})
+        else:
+            print('No MCS Config File')
 
     def _validate_screen_size(self):
         if(self.get_size() < self.SCREEN_WIDTH_MIN):
@@ -179,5 +182,12 @@ class ConfigManager(object):
         return self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_NOISE_ENABLED,
+            fallback=False
+        )
+
+    def is_video_enabled(self):
+        return self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_VIDEO_ENABLED,
             fallback=False
         )
