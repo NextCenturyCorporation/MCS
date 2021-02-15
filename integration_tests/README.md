@@ -7,19 +7,19 @@ The goal of the integration tests is to:
 ## Run Handmade Tests
 
 ```
-python run_handmade_tests.py <mucs_unity_build_file_path>
+python run_handmade_tests.py <mcs_unity_build_file_path>
 ```
 
 ### Run Specific Metadata Tier
 
 ```
-python run_handmade_tests.py <mucs_unity_build_file_path> --metadata <level1|level2|oracle>
+python run_handmade_tests.py <mcs_unity_build_file_path> --metadata <level1|level2|oracle>
 ```
 
 ### Run Specific Test Scene
 
 ```
-python run_handmade_tests.py <mucs_unity_build_file_path> --test 001
+python run_handmade_tests.py <mcs_unity_build_file_path> --test 001
 ```
 
 Replace `001` with any test scene.
@@ -31,7 +31,7 @@ TODO MCS-432
 ## Run All Tests
 
 ```
-python run_tests.py <mucs_unity_build_file_path>
+python run_tests.py <mcs_unity_build_file_path>
 ```
 
 ## Adding New Handmade Test Scenes

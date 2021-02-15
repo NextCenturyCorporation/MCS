@@ -14,5 +14,6 @@ if __name__ == "__main__":
     start_handmade_tests(
         args.mcs_unity_build_file_path,
         args.metadata,
-        args.test
+        args.test,
+        args.dev
     )
