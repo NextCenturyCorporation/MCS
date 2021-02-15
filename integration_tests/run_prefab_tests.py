@@ -1,7 +1,8 @@
-import json
+# import json
 
-import machine_common_sense as mcs
-from integration_test_utils import print_divider, retrieve_test_args
+# import machine_common_sense as mcs
+
+from integration_test_utils import retrieve_test_args
 
 
 OBJECT_REGISTRY_LIST = [
@@ -12,7 +13,7 @@ OBJECT_REGISTRY_LIST = [
 
 
 def identify_mcs_resources_github_link(branch):
-    return f'https://github.com/NextCenturyCorporation/ai2thor/tree/{branch}/unity/Assets/Resources/MCS/'
+    return f'https://github.com/NextCenturyCorporation/ai2thor/tree/{branch}/unity/Assets/Resources/MCS/'  # noqa: E501
 
 
 def start_prefab_tests(mcs_unity_build, branch):
