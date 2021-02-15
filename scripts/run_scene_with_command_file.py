@@ -1,6 +1,4 @@
 import argparse
-import cmd
-import os
 import machine_common_sense as mcs
 
 commandList = []
@@ -35,7 +33,7 @@ def run_commands(controller, config_data, command_data):
 
     for command in command_data:
         _ = controller.step(command)
-    
+
     controller.end_scene("", 1)
 
 
@@ -65,4 +63,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
