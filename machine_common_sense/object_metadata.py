@@ -12,7 +12,7 @@ class ObjectMetadata(object):
     color : dict
         The "r", "g", and "b" pixel values of this object in images from the
         StepMetadata's "object_mask_list".
-    dimensions : dict
+    dimensions : list of dicts
         The dimensions of this object in the environment's 3D global
         coordinate system as a list of 8 points (dicts with "x", "y", and "z").
     direction : dict
@@ -75,7 +75,7 @@ class ObjectMetadata(object):
     ):
         self.uuid = uuid
         self.color = {} if color is None else color
-        self.dimensions = {} if dimensions is None else dimensions
+        self.dimensions = [] if dimensions is None else dimensions
         self.direction = {} if direction is None else direction
         self.distance = distance
         self.distance_in_steps = distance_in_steps

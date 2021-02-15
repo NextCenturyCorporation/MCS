@@ -84,7 +84,7 @@ class Controller():
 
     """
 
-    ACTION_LIST = [item.value for item in Action]
+    ACTION_LIST = [(item.value, {}) for item in Action]
 
     # AI2-THOR creates a square grid across the scene that is
     # uses for "snap-to-grid" movement. (This value may not
@@ -651,14 +651,14 @@ class Controller():
         rotation_vector['y'] = rotation
 
         object_vector = {}
-        object_vector['x'] = objectImageCoordsX
+        object_vector['x'] = float(objectImageCoordsX)
         object_vector['y'] = self._convert_y_image_coord_for_unity(
-            objectImageCoordsY)
+            float(objectImageCoordsY))
 
         receptacle_vector = {}
-        receptacle_vector['x'] = receptacleObjectImageCoordsX
+        receptacle_vector['x'] = float(receptacleObjectImageCoordsX)
         receptacle_vector['y'] = self._convert_y_image_coord_for_unity(
-            receptacleObjectImageCoordsY)
+            float(receptacleObjectImageCoordsY))
 
         return dict(
             objectId=kwargs.get("objectId", None),
@@ -705,14 +705,35 @@ class Controller():
             action, kwargs = Util.input_to_action_and_params(action)
 
         action_list = self.retrieve_action_list(self._goal, self.__step_number)
-        if action not in action_list:
+        # Only continue with this action step if the given action and
+        # parameters are in the restricted action list.
+        continue_with_step = False
+        for restricted_action, restricted_params in action_list:
+            if action == restricted_action:
+                # If this action doesn't have restricted parameters, or each
+                # input parameter is in the restricted parameters, it's OK.
+                if len(restricted_params.items()) == 0 or all([
+                    restricted_params.get(key) == value
+                    for key, value in kwargs.items()
+                ]):
+                    continue_with_step = True
+                    break
+        if not continue_with_step:
             print(
-                "MCS Warning: The given action '" +
-                action +
-                "' is not valid. Ignoring your action. " +
-                "Please call controller.step() with a valid action.")
-            print("Actions (Step " + str(self.__step_number) + "): " +
-                  ", ".join(action_list))
+                f"MCS Warning: The given action '{action}' with parameters "
+                f"'{kwargs}' isn't in the action_list. Ignoring your action. "
+                f"Please call controller.step() with an action in the "
+                f"action_list."
+            )
+            action_string_list = self.retrieve_action_list(
+                self._goal,
+                self.__step_number,
+                string_list=True
+            )
+            print(
+                f"Actions (Step {self.__step_number}): "
+                f"{'; '.join(action_string_list)}"
+            )
             return None
 
         self.__step_number += 1
@@ -893,16 +914,23 @@ class Controller():
 
         return step_output
 
-    def retrieve_action_list(self, goal, step_number):
+    def retrieve_action_list(self, goal, step_number, string_list=False):
         if goal is not None and goal.action_list is not None:
             if step_number < goal.last_preview_phase_step:
                 return ['Pass']
+            if goal.last_step is not None and step_number == goal.last_step:
+                return []
             adjusted_step = step_number - goal.last_preview_phase_step
             if len(goal.action_list) > adjusted_step:
                 if len(goal.action_list[adjusted_step]) > 0:
-                    return goal.action_list[adjusted_step]
+                    return [
+                        Util.input_to_action_and_params(action)
+                        for action in goal.action_list[adjusted_step]
+                    ] if not string_list else goal.action_list[adjusted_step]
 
-        return self.ACTION_LIST
+        return self.ACTION_LIST if not string_list else [
+            action[0] for action in self.ACTION_LIST
+        ]
 
     def retrieve_goal(self, scene_configuration):
         goal_config = (
@@ -1176,6 +1204,11 @@ class Controller():
                                      'object_mask' + suffix)
 
         return image_list, depth_map_list, object_mask_list
+
+    def stop_simulation(self):
+        """Stop the 3D simulation environment. This controller won't work any
+        more."""
+        self._controller.stop()
 
     def wrap_output(self, scene_event):
         if self.__debug_to_file and self.__output_folder is not None:

@@ -10,8 +10,10 @@ class StepMetadata:
 
     Attributes
     ----------
-    action_list : list of strings
+    action_list : list of (string, dict) tuples
         The list of all actions that are available for the next step.
+        Each action is returned as a tuple containing the action string and
+        the action's restricted parameters, if any.
         May be a subset of all possible actions. See [Actions](#Actions).
     camera_aspect_ratio : (float, float)
         The player camera's aspect ratio. This will remain constant for the

@@ -171,6 +171,11 @@ Runs the given action within the current scene.
     StepMetadata
 
 
+
+#### stop_simulation()
+Stop the 3D simulation environment. This controller won’t work any
+more.
+
 ## GoalMetadata
 
 
@@ -251,7 +256,7 @@ Defines metadata for an object in the MCS 3D environment.
     StepMetadata’s “object_mask_list”.
 
 
-    * **dimensions** (*dict*) – The dimensions of this object in the environment’s 3D global
+    * **dimensions** (*list of dicts*) – The dimensions of this object in the environment’s 3D global
     coordinate system as a list of 8 points (dicts with “x”, “y”, and “z”).
 
 
@@ -315,7 +320,9 @@ Defines output metadata from an action step in the MCS 3D environment.
 * **Variables**
 
     
-    * **action_list** (*list of strings*) – The list of all actions that are available for the next step.
+    * **action_list** (*list of** (**string**, **dict**) **tuples*) – The list of all actions that are available for the next step.
+    Each action is returned as a tuple containing the action string and
+    the action’s restricted parameters, if any.
     May be a subset of all possible actions. See [Actions](#Actions).
 
 
@@ -547,13 +554,16 @@ Change pose to “LYING”. Can help you move underneath objects.
 
 
 #### LOOK_DOWN( = 'LookDown')
-Rotate your viewport down by 10 degrees.
+Rotate your viewport down (add 10 degrees to head tilt).
 
 
 * **Returns**
 
     
     * *“SUCCESSFUL”* – Action successful.
+
+
+    * *”CANNOT_ROTATE”* – Failed because you cannot look down/up more than +/- 90 degrees.
 
 
     * *”FAILED”* – Unexpected error; please report immediately to development team.
@@ -562,13 +572,16 @@ Rotate your viewport down by 10 degrees.
 
 
 #### LOOK_UP( = 'LookUp')
-Rotate your view up by 10 degrees.
+Rotate your view up (subtract 10 degrees from head tilt).
 
 
 * **Returns**
 
     
     * *“SUCCESSFUL”* – Action successful.
+
+
+    * *”CANNOT_ROTATE”* – Failed because you cannot look down/up more than +/- 90 degrees.
 
 
     * *”FAILED”* – Unexpected error; please report immediately to development team.
@@ -815,7 +828,7 @@ Pull a nearby object.
     to the “objectImageCoords” vector) is not an object.
 
 
-    * *”NOT_PICKUPABLE”* – If the object itself cannot be moved by a baby.
+    * *”NOT_MOVEABLE”* – If the object itself cannot be moved by a baby.
 
 
     * *”OBSTRUCTED”* – If you cannot move the object because your path is obstructed.
@@ -869,7 +882,7 @@ Push a nearby object.
     to the “objectImageCoords” vector) is not an object.
 
 
-    * *”NOT_PICKUPABLE”* – If the object itself cannot be moved by a baby.
+    * *”NOT_MOVEABLE”* – If the object itself cannot be moved by a baby.
 
 
     * *”OBSTRUCTED”* – If you cannot move the object because your path is obstructed.

@@ -1,0 +1,18 @@
+﻿{
+    "name": "fail to move into room wall",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": 4.0
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "objects": []
+}

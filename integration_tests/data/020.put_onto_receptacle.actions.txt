@@ -1,0 +1,6 @@
+PickupObject,objectId=testBall
+MoveAhead
+MoveAhead
+PutObject,objectId=testBall,receptacleObjectId=testSofa
+Pass
+Pass

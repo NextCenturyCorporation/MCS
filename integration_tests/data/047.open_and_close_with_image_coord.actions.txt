@@ -1,0 +1,4 @@
+OpenObject,objectImageCoordsX=5,objectImageCoordsY=300
+OpenObject,objectImageCoordsX=280,objectImageCoordsY=21
+OpenObject,objectImageCoordsX=300,objectImageCoordsY=231
+CloseObject,objectImageCoordsX=280,objectImageCoordsY=21
