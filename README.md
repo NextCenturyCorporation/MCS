@@ -334,7 +334,7 @@ docker run -it -e PYTHONIOENCODING=utf8 -e XAUTHORITY=/tmp/.docker.xauth -e DISP
 
 You can then run a scene like this:
 ```shell
-python3 /scripts/run_human_input.py /mcs/MCS-AI2-THOR-Unity-App-v0.3.7.x86_64 --config_file_path /scripts/config_oracle.ini /input/hinged_container_example.json
+python3 /scripts/run_human_input.py /mcs/MCS-AI2-THOR-Unity-App-v0.3.8.x86_64 --config_file_path /scripts/config_oracle.ini /input/hinged_container_example.json
 ```
 
 #### Missing X Authorization Error
