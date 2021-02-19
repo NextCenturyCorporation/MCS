@@ -372,6 +372,7 @@ docker run -it -p 5900:5900 -v ${PWD}/machine_common_sense/scenes:/input -v ${PW
 ```
 
 #### Run with VNC
+Unless stated otherwise, the following commands are intended to be run inside the container.
 Run tmux with `tmux` and open two panes via `C-b %`.
 ```shell
 Xvnc :33 &
@@ -385,12 +386,14 @@ window_id=$(xwininfo -root -tree | grep MCS-AI2-THOR | tail -n1 | sed "s/^[ \t]*
 x11vnc -id ${window_id} &
 ```
 
-Afterwards, you should be able to connect to the VNC server by running `vncviewer` and connecting to `localhost:5900`.
+Afterwards, you should be able to connect to the VNC server from the host by running `vncviewer` and connecting to
+`localhost:5900`.
 
 #### Run Fully Headless
 
 As an alternative for batch runs you can also run MCS against X virtual framebuffers. In this case you do not get visual
-output, but can run the images on headless servers without X server.
+output, but can run the images on headless servers without X server. To do so, please execute the following command
+from inside the container:
 
 ```shell
 xvfb-run -s "-screen 0 1440x900x24" python3 /scripts/run_human_input.py ${MCS_EXECUTABLE_PATH} --config_file_path ${MCS_CONFIG_FILE_PATH} /input/agents_preference_expected.json

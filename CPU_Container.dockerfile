@@ -63,5 +63,3 @@ RUN wget https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsve
     chmod a+x MCS-AI2-THOR-Unity-App-v${mcsversion}.x86_64 && \
     rm MCS-AI2-THOR-Unity-App-v${mcsversion}_Data.tar.gz && echo "[MCS]\nmetadata: oracle" > /mcs_config_oracle.yaml && \
     echo "[MCS]\nmetadata:  level1" > /mcs_config_level1.yaml && echo "[MCS]\nmetadata: level2" > /mcs_config_level2.yaml
-
-# CMD xvfb-run -s "-screen 0 1400x900x24" python3 /test.py
