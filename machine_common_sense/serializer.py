@@ -251,8 +251,8 @@ class SerializerJson(ISerializer):
                 return [x[0], x[1]]
             elif isinstance(x, Image.Image):
                 # Could also use: return x.tobytes().decode("latin1")
-                # or: buff = BytesIO() image.save(buff, format="PNG")
-                #     base64.b64encode(buff.getvalue()).decode('ascii')
+                # or: buffer = BytesIO() x.save(buff, format="PNG")
+                #     base64.b64encode(buffer.getvalue()).decode('ascii')
                 return np.array(x).tolist()
             elif isinstance(x, GoalMetadata):
                 return {'action_list': x.action_list,
