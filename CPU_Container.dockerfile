@@ -9,10 +9,10 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
 
 # --build-arg mcsversion=0.0.x to override default in docker build command
-ARG mcsversion=0.3.7
+ARG mcsversion=0.3.8
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV MCS_EXECUTABLE_PATH="/MCS-AI2-THOR-Unity-App-v0.3.7.x86_64"
+ENV MCS_EXECUTABLE_PATH="/MCS-AI2-THOR-Unity-App-v${mcsversion}.x86_64"
 ENV MCS_CONFIG_FILE_PATH="/mcs_sample_config.ini"
 
 COPY machine_common_sense/scenes/agents_preference_expected.json /input/test.json
