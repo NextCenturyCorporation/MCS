@@ -1,5 +1,19 @@
 # MCS Python Package
 
+- [Installation](#installation)
+- [Download](#download)
+- [Training Datasets](#training-datasets)
+- [Usage](#usage)
+- [Run with Human Input](#run-with-human-input)
+- [Run with Scene Timer](#run-with-scene-timer)
+- [Config File](#config-file)
+- [Running Remotely](#running-remotely)
+- [Containerization](#containerization)
+- [Documentation](#documentation)
+- [Other MCS GitHub Repositories](#other-mcs-github-repositories)
+- [Troubleshooting/Email](#troubleshooting)
+- [License](#apache-2-open-source-license)
+
 ## Installation
 
 The latest release of the MCS Python library is `0.3.8`.
@@ -304,24 +318,6 @@ From your python environment, run test.py and check the output images for proper
 DISPLAY=:0 python test.py
 ```
 
-## Documentation
-
-- [Python API](./machine_common_sense/API.md)
-- [Example Scene Configuration Files](./machine_common_sense/scenes/README.md)
-- [Scene Configuration JSON Schema](./machine_common_sense/scenes/SCHEMA.md)
-- [Developer Docs](./machine_common_sense/DEV.md)
-
-## Other MCS GitHub Repositories
-
-- [Unity code](https://github.com/NextCenturyCorporation/ai2thor)
-- [Scene Generator](https://github.com/NextCenturyCorporation/mcs-scene-generator)
-- [Data Ingest](https://github.com/NextCenturyCorporation/mcs-ingest)
-- [Evaluation Dashboard (UI)](https://github.com/NextCenturyCorporation/mcs-ui)
-
-## Troubleshooting
-
-[mcs-ta2@machinecommonsense.com](mailto:mcs-ta2@machinecommonsense.com)
-
 ## Containerization
 
 ### GPU Image
@@ -398,6 +394,24 @@ from inside the container:
 ```shell
 xvfb-run -s "-screen 0 1440x900x24" python3 /scripts/run_human_input.py ${MCS_EXECUTABLE_PATH} --config_file_path ${MCS_CONFIG_FILE_PATH} /input/agents_preference_expected.json
 ```
+
+## Documentation
+
+- [Python API](./machine_common_sense/API.md)
+- [Example Scene Configuration Files](./machine_common_sense/scenes/README.md)
+- [Scene Configuration JSON Schema](./machine_common_sense/scenes/SCHEMA.md)
+- [Developer Docs](./machine_common_sense/DEV.md)
+
+## Other MCS GitHub Repositories
+
+- [Unity code](https://github.com/NextCenturyCorporation/ai2thor)
+- [Scene Generator](https://github.com/NextCenturyCorporation/mcs-scene-generator)
+- [Data Ingest](https://github.com/NextCenturyCorporation/mcs-ingest)
+- [Evaluation Dashboard (UI)](https://github.com/NextCenturyCorporation/mcs-ui)
+
+## Troubleshooting
+
+[mcs-ta2@machinecommonsense.com](mailto:mcs-ta2@machinecommonsense.com)
 
 ## Apache 2 Open Source License
 
