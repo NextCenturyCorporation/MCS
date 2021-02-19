@@ -2,7 +2,6 @@ import io
 import json
 import msgpack
 import numpy as np
-import pathlib
 import PIL.Image as Image
 
 from abc import ABCMeta, abstractmethod
@@ -45,6 +44,7 @@ class McsStepMetadataEncoder(json.JSONEncoder):
     JSON Encoder Class for MCS Step Metadata, e.g.
     json_dump = json.dumps(output, cls=McsStepMetadataEncoder, indent=4)
     """
+
     def default(self, x):
         if isinstance(x, StepMetadata):
             return {'action_list': x.action_list,
@@ -102,22 +102,6 @@ class McsStepMetadataEncoder(json.JSONEncoder):
 class SerializerMsgPack(ISerializer):
     """Serializer to (de)serialize StepMetadata into/from MsgPack format."""
 
-    def __init__(self,):
-        """Constructor for Serializer"""
-        pass
-
-    # @staticmethod
-    # def image_to_bytes(image):
-    #     """Converts PIL image to bytes."""
-    #     byte_io = io.BytesIO()
-    #     image.save(byte_io, format='PNG')
-    #     return byte_io.getvalue()
-
-    # @staticmethod
-    # def bytes_to_image(bytes_image):
-    #     """Converts bytes to PIL image."""
-    #     return Image.open(io.BytesIO(bytes_image))
-
     @staticmethod
     def _ext_pack(x):
         """
@@ -149,7 +133,8 @@ class SerializerMsgPack(ISerializer):
                                                      x.material_list, x.position, x.rotation, x.visible],
                                                     default=SerializerMsgPack._ext_pack, strict_types=True))
         elif isinstance(x, np.ndarray):
-            return msgpack.ExtType(6, msgpack.packb(x.tolist(), default=SerializerMsgPack._ext_pack, strict_types=True))
+            return msgpack.ExtType(6, msgpack.packb(
+                x.tolist(), default=SerializerMsgPack._ext_pack, strict_types=True))
         return x
 
     @staticmethod
@@ -160,9 +145,9 @@ class SerializerMsgPack(ISerializer):
         """
         if code == 1:
             action_list, camera_aspect_ratio, camera_clipping_planes, camera_field_of_view, camera_height, \
-              depth_map_list, goal, head_tilt, image_list, object_list, object_mask_list, pose, position, \
-              return_status, reward, rotation, step_number, structural_object_list = \
-              msgpack.unpackb(data, ext_hook=SerializerMsgPack._ext_unpack)
+                depth_map_list, goal, head_tilt, image_list, object_list, object_mask_list, pose, position, \
+                return_status, reward, rotation, step_number, structural_object_list = \
+                msgpack.unpackb(data, ext_hook=SerializerMsgPack._ext_unpack)
             return StepMetadata(
                 action_list=action_list,
                 camera_aspect_ratio=camera_aspect_ratio,
@@ -184,7 +169,8 @@ class SerializerMsgPack(ISerializer):
                 structural_object_list=structural_object_list
             )
         elif code == 2:
-            x0, x1 = msgpack.unpackb(data, ext_hook=SerializerMsgPack._ext_unpack)
+            x0, x1 = msgpack.unpackb(
+                data, ext_hook=SerializerMsgPack._ext_unpack)
             return x0, x1
         elif code == 3:
             x = msgpack.unpackb(data, ext_hook=SerializerMsgPack._ext_unpack)
@@ -196,7 +182,8 @@ class SerializerMsgPack(ISerializer):
                                 last_step, metadata)
         elif code == 5:
             uuid, color, dimensions, direction, distance, distance_in_steps, distance_in_world, held, mass, \
-              material_list, position, rotation, visible = msgpack.unpackb(data, ext_hook=SerializerMsgPack._ext_unpack)
+                material_list, position, rotation, visible = msgpack.unpackb(
+                    data, ext_hook=SerializerMsgPack._ext_unpack)
             return ObjectMetadata(uuid, color, dimensions, direction, distance, distance_in_steps, distance_in_world,
                                   held, mass, material_list, position, rotation, visible)
         elif code == 6:
@@ -217,20 +204,22 @@ class SerializerMsgPack(ISerializer):
         Returns:
             Serialized version of step metadata in MsgPack format.
         """
-        serialized = msgpack.packb(step_metadata, default=SerializerMsgPack._ext_pack, strict_types=True)
+        serialized = msgpack.packb(
+            step_metadata,
+            default=SerializerMsgPack._ext_pack,
+            strict_types=True)
         return serialized
 
     @staticmethod
     def deserialize(packed_step_metadata):
-        deserialized = msgpack.unpackb(packed_step_metadata, ext_hook=SerializerMsgPack._ext_unpack)
+        deserialized = msgpack.unpackb(
+            packed_step_metadata,
+            ext_hook=SerializerMsgPack._ext_unpack)
         return deserialized
 
 
 class SerializerJson(ISerializer):
     """Serializer to (de)serialize StepMetadata into/from MsgPack format."""
-
-    def __init__(self,):
-        """Constructor for SerializerJson"""
 
     class McsStepMetadataEncoder(json.JSONEncoder):
         """
@@ -314,7 +303,10 @@ class SerializerJson(ISerializer):
 
     @staticmethod
     def serialize(step_metadata: mcs.StepMetadata, indent: int = 4):
-        json_dump = json.dumps(step_metadata, cls=McsStepMetadataEncoder, indent=indent)
+        json_dump = json.dumps(
+            step_metadata,
+            cls=McsStepMetadataEncoder,
+            indent=indent)
         return json_dump
 
     @staticmethod
@@ -331,13 +323,18 @@ class SerializerJson(ISerializer):
 
         image_list = []
         for img_raw in input_json['image_list']:  # PIL
-            image_list.append(Image.fromarray(np.array(img_raw, dtype='uint8')))
+            image_list.append(
+                Image.fromarray(
+                    np.array(
+                        img_raw,
+                        dtype='uint8')))
 
         object_list_raw = input_json['object_list']
         object_list = SerializerJson.convert_object_list(object_list_raw)
 
         structural_object_list_raw = input_json['structural_object_list']
-        structural_object_list = SerializerJson.convert_object_list(structural_object_list_raw)
+        structural_object_list = SerializerJson.convert_object_list(
+            structural_object_list_raw)
 
         goal_raw = input_json['goal']
         goal = GoalMetadata(
