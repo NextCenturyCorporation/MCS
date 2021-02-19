@@ -105,10 +105,13 @@ class SerializerMsgPack(ISerializer):
     @staticmethod
     def _ext_pack(x):
         """
-        Serializes MCS Step Metadata as MsgPack, e.g.
+        Hook to serialize MCS Step Metadata as MsgPack, e.g.
         serialized = msgpack.packb(output, default=ext_pack, strict_types=True)
         """
         if isinstance(x, StepMetadata):
+            # TODO In future can investigate reflection for automating field extraction, but
+            #      notice that strict types flag is highly dependent on order. Something like this might be a start:
+            #      [field for field in dir(x) if not callable(getattr(x, field)) and not field.startswith("__")]
             return msgpack.ExtType(1, msgpack.packb([x.action_list, x.camera_aspect_ratio, x.camera_clipping_planes,
                                                      x.camera_field_of_view, x.camera_height, x.depth_map_list, x.goal,
                                                      x.head_tilt, x.image_list, x.object_list, x.object_mask_list,
@@ -140,7 +143,7 @@ class SerializerMsgPack(ISerializer):
     @staticmethod
     def _ext_unpack(code, data):
         """
-        Deserializes MCS Step Metadata from MsgPack, e.g.
+        Hook to deserialize MCS Step Metadata from MsgPack, e.g.
         deserialized = msgpack.unpackb(packed_bytes, ext_hook=ext_unpack)
         """
         if code == 1:
