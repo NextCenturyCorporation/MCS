@@ -39,66 +39,6 @@ class ISerializer:
         return Image.open(io.BytesIO(bytes_image))
 
 
-class McsStepMetadataEncoder(json.JSONEncoder):
-    """
-    JSON Encoder Class for MCS Step Metadata, e.g.
-    json_dump = json.dumps(output, cls=McsStepMetadataEncoder, indent=4)
-    """
-
-    def default(self, x):
-        if isinstance(x, StepMetadata):
-            return {'action_list': x.action_list,
-                    'camera_aspect_ratio': x.camera_aspect_ratio,
-                    'camera_clipping_planes': x.camera_clipping_planes,
-                    'camera_field_of_view': x.camera_field_of_view,
-                    'camera_height': x.camera_height,
-                    'depth_map_list': x.depth_map_list,
-                    'goal': x.goal,
-                    'head_tilt': x.head_tilt,
-                    'image_list': x.image_list,
-                    'object_list': x.object_list,
-                    'object_mask_list': x.object_mask_list,
-                    'pose': x.pose,
-                    'position': x.position,
-                    'return_status': x.return_status,
-                    'reward': x.reward,
-                    'rotation': x.rotation,
-                    'step_number': x.step_number,
-                    'structural_object_list': x.structural_object_list}
-        elif isinstance(x, tuple):
-            return [x[0], x[1]]
-        elif isinstance(x, Image.Image):
-            # Could also use: return x.tobytes().decode("latin1")
-            # or: buff = BytesIO() image.save(buff, format="PNG")
-            #     base64.b64encode(buff.getvalue()).decode('ascii')
-            return np.array(x).tolist()
-        elif isinstance(x, GoalMetadata):
-            return {'action_list': x.action_list,
-                    'category': x.category,
-                    'description': x.description,
-                    'habituation_total': x.habituation_total,
-                    'last_preview_phase_step': x.last_preview_phase_step,
-                    'last_step': x.last_step,
-                    'metadata': x.metadata}
-        elif isinstance(x, ObjectMetadata):
-            return {'uuid': x.uuid,
-                    'color': x.color,
-                    'dimensions': x.dimensions,
-                    'direction': x.direction,
-                    'distance': x.distance,
-                    'distance_in_steps': x.distance_in_steps,
-                    'distance_in_world': x.distance_in_world,
-                    'held': x.held,
-                    'mass': x.mass,
-                    'material_list': x.material_list,
-                    'position': x.position,
-                    'rotation': x.rotation,
-                    'visible': x.visible}
-        elif isinstance(x, np.ndarray):
-            return x.tolist()
-        return json.JSONEncoder.default(self, x)
-
-
 class SerializerMsgPack(ISerializer):
     """Serializer to (de)serialize StepMetadata into/from MsgPack format."""
 
@@ -308,7 +248,7 @@ class SerializerJson(ISerializer):
     def serialize(step_metadata: mcs.StepMetadata, indent: int = 4):
         json_dump = json.dumps(
             step_metadata,
-            cls=McsStepMetadataEncoder,
+            cls=SerializerJson.McsStepMetadataEncoder,
             indent=indent)
         return json_dump
 
