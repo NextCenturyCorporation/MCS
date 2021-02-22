@@ -1,11 +1,13 @@
 import argparse
 import glob
+import os.path
 import subprocess
 
 import machine_common_sense as mcs
 
 
-BLACK_IMAGE_PATH = './black_image.png'
+SCRIPT_FOLDER = os.path.dirname(os.path.abspath(__file__))
+BLACK_IMAGE_PATH = SCRIPT_FOLDER + '/black_image.png'
 
 
 class AbstractRunnerScript():
@@ -31,7 +33,7 @@ class AbstractRunnerScript():
         if args.oracle:
             config_suffix = 'oracle_debug' if debug else 'oracle'
 
-        config_file_path = './config_' + config_suffix + '.ini'
+        config_file_path = SCRIPT_FOLDER + '/config_' + config_suffix + '.ini'
         controller = mcs.create_controller(
             args.mcs_unity_filename,
             config_file_path
