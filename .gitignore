@@ -8,6 +8,7 @@ env.bak/
 venv.bak/
 
 # Editors
+.idea/
 *.swp
 
 # Mac OS
