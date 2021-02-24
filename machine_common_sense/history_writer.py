@@ -53,8 +53,7 @@ class HistoryWriter(object):
             history.output.structural_object_list = None
             for target in targets:
                 if target in history.output.goal.metadata.keys():
-                    if history.output.goal.metadata[target].get(
-                            'image', None) is not None:
+                    if history.output.goal.metadata[target].get('image', None) is not None:
                         del history.output.goal.metadata[target]['image']
         return history
 
