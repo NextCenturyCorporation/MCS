@@ -158,7 +158,7 @@ class Test_HistoryWriter(unittest.TestCase):
         )
         writer.add_step(history_item)
 
-        self.assertEqual(len(writer.current_steps), 2)
+        self.assertEqual(len(writer.current_steps), 1)
         self.assertEqual(writer.current_steps[1]["action"], "MoveLeft")
         self.assertEqual(writer.current_steps[1]["output"]["pose"], "STANDING")
         self.assertIsNone(writer.current_steps[1]["output"]["action_list"])
