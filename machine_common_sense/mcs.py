@@ -4,7 +4,8 @@ import signal
 from contextlib import contextmanager
 from .controller import Controller
 
-# Timeout at 3 minutes (180 seconds).  It was 60 seconds but this can cause timeouts on EC2 instances
+# Timeout at 3 minutes (180 seconds).  It was 60 seconds but
+# this can cause timeouts on EC2 instances
 TIME_LIMIT_SECONDS = 180
 
 
