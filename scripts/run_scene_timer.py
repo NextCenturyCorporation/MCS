@@ -15,38 +15,32 @@ def parse_args():
         'mcs_unity_build_file',
         help='Path to MCS unity build file')
     parser.add_argument(
-        'mcs_config_dir',
+        'mcs_scene_dir',
         help='MCS JSON scene configuration directory')
-    parser.add_argument(
-        '--debug',
-        dest='debug',
-        action='store_true',
-        default=False
-    )
     return parser.parse_args()
 
 
 def run_scene(controller, file_name):
-    config_data, status = mcs.load_config_json_file(file_name)
+    scene_data, status = mcs.load_scene_json_file(file_name)
 
     if status is not None:
         print(status)
         return
 
-    config_file_path = file_name
-    config_file_name = config_file_path[config_file_path.rfind('/') + 1:]
+    scene_file_path = file_name
+    scene_file_name = scene_file_path[scene_file_path.rfind('/') + 1:]
 
-    if 'name' not in config_data.keys():
-        config_data['name'] = config_file_name[0:config_file_name.find('.')]
+    if 'name' not in scene_data.keys():
+        scene_data['name'] = scene_file_name[0:scene_file_name.find('.')]
 
     last_step = DEFAULT_STEP_COUNT
-    if 'goal' in config_data.keys():
-        if 'last_step' in config_data['goal'].keys():
-            last_step = config_data['goal']['last_step']
+    if 'goal' in scene_data.keys():
+        if 'last_step' in scene_data['goal'].keys():
+            last_step = scene_data['goal']['last_step']
 
     step_time_list = []
 
-    output = controller.start_scene(config_data)
+    output = controller.start_scene(scene_data)
 
     for i in range(output.step_number + 1, last_step + 1):
         start = time.perf_counter()
@@ -63,9 +57,9 @@ def main():
     args = parse_args()
     file_list = sorted(
         [
-            os.path.join(args.mcs_config_dir, file_name)
-            for file_name in os.listdir(args.mcs_config_dir)
-            if os.path.isfile(os.path.join(args.mcs_config_dir, file_name)) and
+            os.path.join(args.mcs_scene_dir, file_name)
+            for file_name in os.listdir(args.mcs_scene_dir)
+            if os.path.isfile(os.path.join(args.mcs_scene_dir, file_name)) and
             os.path.splitext(file_name)[1] == '.json'
         ]
     )
@@ -74,7 +68,7 @@ def main():
         f'FOUND {len(file_list)} SCENE CONFIGURATION FILES... '
         f'STARTING THE MCS UNITY APP...')
     controller = mcs.create_controller(
-        args.mcs_unity_build_file, debug=args.debug)
+        args.mcs_unity_build_file)
 
     scene_time_list = []
     step_time_list_list = []

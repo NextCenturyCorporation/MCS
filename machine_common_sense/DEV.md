@@ -57,6 +57,10 @@ or
 autopep8 --in-place --aggressive <file>
 ```
 
+## Testing
+
+See our [tests README](../tests/README.md)
+
 ## Sphinx Documentation
 
 - Good Sphinx Tutorial: https://medium.com/@richdayandnight/a-simple-tutorial-on-how-to-document-your-python-project-using-sphinx-and-rinohtype-177c22a15b5b
@@ -76,7 +80,7 @@ We have made multiple run scripts:
 To run a script (like `run_human_input.py`) from the terminal with visual output:
 
 ```
-run_human_input <mcs_unity_build_file> <mcs_config_json_file>
+run_in_human_input_mode <mcs_unity_build_file> <mcs_config_json_file>
 ```
 
 To run it headlessly, first install xvfb (on Ubuntu, run `sudo apt-get install xvfb`), then:
@@ -95,9 +99,85 @@ First, install ffmpeg. Then (change the frame rate with the `-r` option):
 ffmpeg -r 3 -i frame_image_%d.png output.gif
 ```
 
-## References
+## Full List of Config Options
 
-- AI2-THOR Documentation: http://ai2thor.allenai.org/documentation
-- AI2-THOR GitHub: https://github.com/allenai/ai2thor
-- MCS AI2-THOR GitHub Fork: https://github.com/NextCenturyCorporation/ai2thor
-- MCS AI2-THOR Scene Files and Schema: [scenes](./machine_common_sense/scenes)
+Outlined here is a comprehensive list of config file options that can be used.
+
+To use an MCS configuration file, you can either pass in a file path via the `config_file_path` property in the create_controller() method, or set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see [sample_config.ini](../sample_config.ini) for an example).
+
+### Config File Properties
+
+#### AWS specific properties
+
+The following string properties can be specified in order to upload and organize files in S3:
+- aws_access_key_id
+- aws_secret_access_key
+- s3_bucket
+- s3_folder
+
+#### debug
+
+(boolean)
+
+Whether to save MCS output debug files in this folder and print debug output to terminal. Will default to `False`. In lieu of a config file, this can be set using the `MCS_DEBUG_MODE` environment variable.
+
+#### debug_output
+
+(string)
+
+Alternatively to the `debug` property, `debug_output` can be used to either print debug info to the terminal or to debug files only. This should either be set to `file` or `terminal`, and will default to None. Will be ignored if `debug` or `MCS_DEBUG_MODE` is set.
+
+#### evaluation
+
+(boolean)
+
+Whether or not we're running in evaluation mode (default: False). If `True`, evaluation files for each scene will be created and uploaded to S3.
+
+#### evaluation_name
+
+(string)
+
+Identifier to add to filenames uploaded to S3 (default: '').
+
+#### history_enabled
+
+(boolean, optional)
+
+Whether to save the scene history output data in your local directory. Default: True
+
+#### metadata
+
+(string)
+
+The `metadata` property describes what metadata will be returned by the MCS Python library. This can also be specified via the `MCS_METADATA_LEVEL` environment variable. It can be set to one of the following strings:
+
+- `oracle`: Returns the metadata for all the objects in the scene, including visible, held, and hidden objects. Object masks will have consistent colors throughout all steps for a scene.
+- `level2`: Only returns the images (with depth masks AND object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included. Note that here, object masks will have randomized colors per step.
+- `level1`: Only returns the images (with depth masks but NOT object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
+- `none`: Only returns the images (but not the masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
+
+Otherwise, return the metadata for the visible and held objects.
+
+#### noise_enabled
+
+(boolean)
+
+Whether to add random noise to the numerical amounts in movement and object interaction action parameters. Will default to `False`.
+
+#### seed
+
+(int)
+
+A seed for the Python random number generator (defaults to None).
+
+#### size
+
+(int)
+
+Desired screen width. If value given, it must be more than `450`. If none given, screen width will default to `600`.
+
+#### team
+
+(string)
+
+Team name identifier to prefix to filenames uploaded to S3 (default: '').

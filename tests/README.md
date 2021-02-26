@@ -2,6 +2,8 @@
 
 ## Running Tests
 
+From the root folder:
+
 ```
 python -m unittest
 ```

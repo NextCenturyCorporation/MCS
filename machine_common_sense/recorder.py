@@ -107,8 +107,11 @@ class VideoRecorder():
             shutil.move(self._path, 'temp.mp4')
             os.system(
                 f'ffmpeg -loglevel quiet -i temp.mp4'
-                f' -vcodec libx264 {self._path}')
+                f' -vcodec libx264 -vf format=yuv420p {self._path}')
             os.remove('temp.mp4')
+        else:
+            # Remove the unused video file without any frames.
+            os.remove(self._path)
 
     @property
     def path(self) -> pathlib.Path:

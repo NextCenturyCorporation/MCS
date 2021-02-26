@@ -1,0 +1,49 @@
+[{
+    "step_number": 0,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testBall",
+        "direction_x": 0.0,
+        "direction_y": -0.207858756,
+        "direction_z": 0.978158832,
+        "distance": 1.02232885,
+        "held": false,
+        "mass": 1,
+        "material_list": ["RUBBER"],
+        "position_x": 0.0,
+        "position_z": 1.0,
+        "shape": "sphere",
+        "texture_color_list": ["blue"],
+        "visible": true
+    }]
+}, {
+    "step_number": 1,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "NOT_PICKUPABLE",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testBall",
+        "direction_x": 0.0,
+        "direction_y": -0.207858756,
+        "direction_z": 0.978158832,
+        "distance": 1.02232885,
+        "held": false,
+        "mass": 1,
+        "material_list": ["RUBBER"],
+        "position_x": 0.0,
+        "position_z": 1.0,
+        "shape": "sphere",
+        "texture_color_list": ["blue"],
+        "visible": true
+    }]
+}]

@@ -1,0 +1,60 @@
+﻿{
+    "name": "scripted rotate",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "objects": [{
+        "id": "testCube",
+        "type": "block_blank_wood_cube",
+        "mass": 1,
+        "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/blue_1x1"],
+        "salientMaterials": ["wood"],
+        "pickupable": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 2
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 180
+            },
+            "scale": {
+                "x": 2,
+                "y": 4,
+                "z": 2
+            }
+        }],
+        "rotates": [{
+            "stepBegin": 2,
+            "stepEnd": 4,
+            "vector": {
+                "x": 0,
+                "y": 30,
+                "z": 0
+            }
+        }, {
+            "stepBegin": 6,
+            "stepEnd": 6,
+            "vector": {
+                "x": 90,
+                "y": 0,
+                "z": 0
+            }
+        }]
+    }]
+}

@@ -1,0 +1,73 @@
+[{
+    "step_number": 0,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testContainer",
+        "direction_x": 0.0,
+        "direction_y": -0.419776082,
+        "direction_z": 0.9076277,
+        "distance": 1.10177326,
+        "held": false,
+        "mass": 5,
+        "material_list": ["WOOD"],
+        "position_x": 0.0,
+        "position_z": 1,
+        "shape": "chest",
+        "texture_color_list": ["brown"],
+        "visible": true
+    }]
+}, {
+    "step_number": 1,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "IS_OPENED_COMPLETELY",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testContainer",
+        "direction_x": 0.0,
+        "direction_y": -0.419776082,
+        "direction_z": 0.9076277,
+        "distance": 1.10177326,
+        "held": false,
+        "mass": 5,
+        "material_list": ["WOOD"],
+        "position_x": 0.0,
+        "position_z": 1,
+        "shape": "chest",
+        "texture_color_list": ["brown"],
+        "visible": true
+    }]
+}, {
+    "step_number": 2,
+    "head_tilt": 0,
+    "position_x": 0.0,
+    "position_z": 0.0,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": 0.0,
+    "objects_count": 1,
+    "structural_objects_count": 6,
+    "objects": [{
+        "id": "testContainer",
+        "direction_x": 0.0,
+        "direction_y": -0.419776082,
+        "direction_z": 0.9076277,
+        "distance": 1.10177326,
+        "held": false,
+        "mass": 5,
+        "material_list": ["WOOD"],
+        "position_x": 0.0,
+        "position_z": 1,
+        "shape": "chest",
+        "texture_color_list": ["brown"],
+        "visible": true
+    }]
+}]

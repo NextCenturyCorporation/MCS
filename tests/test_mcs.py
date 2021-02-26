@@ -9,8 +9,8 @@ class Test_MCS(unittest.TestCase):
         # TODO How do we test this without starting the whole app?
         pass
 
-    def test_load_config_file_json(self):
-        actual, status = mcs.load_config_json_file("tests/test_scene.json")
+    def test_load_scene_file_json(self):
+        actual, status = mcs.load_scene_json_file("tests/test_scene.json")
         expected = {
             "ceilingMaterial": "Walls/WallDrywallWhite",
             "floorMaterial": "Fabrics/RUG4",
@@ -47,8 +47,8 @@ class Test_MCS(unittest.TestCase):
         self.assertEqual(actual, expected)
         self.assertEqual(status, None)
 
-    def test_load_config_file_json_is_invalid(self):
-        actual, status = mcs.load_config_json_file(
+    def test_load_scene_file_json_is_invalid(self):
+        actual, status = mcs.load_scene_json_file(
             "tests/test_scene_invalid.json")
         self.assertEqual(actual, {})
         self.assertEqual(
@@ -57,8 +57,8 @@ class Test_MCS(unittest.TestCase):
             "contain valid JSON."
         )
 
-    def test_load_config_file_json_is_missing(self):
-        actual, status = mcs.load_config_json_file(
+    def test_load_scene_file_json_is_missing(self):
+        actual, status = mcs.load_scene_json_file(
             "tests/test_scene_missing.json")
         self.assertEqual(actual, {})
         self.assertEqual(
