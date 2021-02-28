@@ -118,6 +118,7 @@ Each **object config** has the following properties:
 - `nullParent` ([transform config](#transform-config), optional): Whether to wrap the object in a null parent object. Useful if you want to rotate an object by a point other than its center point. Default: none
 - `openable` (boolean, optional): Whether the object should be openable, if it is not already openable based on its `type`. Default: depends on `type`
 - `opened` (boolean, optional): Whether the object should begin opened. Must also be `openable`. Default: `false`
+- `physics` (boolean, optional): Whether to enable physics simulation on the object. Automatically `true` if `moveable`, `openable`, `pickupable`, or `receptacle` is `true`. Use `physics` if you want to enable physics but don't want to use any of those other properties. Default: `false`
 - `physicsProperties` ([physics config](#physics-config), optional): Enable custom friction, bounciness, and/or drag on the object. Default: see [physics config](#physics-config).
 - `pickupable` (boolean, optional): Whether the object should be pickupable, if it is not already openable based on its `type`. Pickupable objects are also automatically `moveable`. Default: depends on `type`
 - `resizes` ([size config](#size-config) array, optional): The steps on which to resize the object. The config `size` is multiplied by the object's current size. Useful if you want to have impossible events (spontaneous resizing). Default: `[]`
@@ -371,7 +372,7 @@ The following object types have the `pickupable` attribute by default.
 
 ### Primitive Objects
 
-The following primitive shapes have the `pickupable` attribute by default, a default mass of 1, default dimensions of (x=1, y=1, z=1), and no material restrictions. Please note these are NOT the internal Unity primitive 3D GameObjects.
+The following primitive shapes have the `physics` attribute by default, a default mass of 1, default dimensions of (x=1, y=1, z=1), and no material restrictions. Please note these are NOT the internal Unity primitive 3D GameObjects.
 
 - `"circle_frustum"`
 - `"cone"`

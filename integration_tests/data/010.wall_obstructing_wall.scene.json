@@ -1,0 +1,59 @@
+﻿{
+    "name": "fail to pickup a ball obstructed by a wall",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "objects": [{
+        "id": "testBall",
+        "type": "ball",
+        "mass": 1,
+        "materials": ["AI2-THOR/Materials/Plastics/BlueRubber"],
+        "salientMaterials": ["rubber"],
+        "pickupable": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.05,
+                "z": 0.95
+            },
+            "scale": {
+                "x": 0.1,
+                "y": 0.1,
+                "z": 0.1
+            }
+        }]
+    }, {
+        "id": "testWall",
+        "type": "cube",
+        "mass": 100,
+        "structure": true,
+        "kinematic": true,
+        "materials": ["AI2-THOR/Materials/Wood/WornWood"],
+        "salientMaterials": ["wood"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.25,
+                "z": 0.85
+            },
+            "scale": {
+                "x": 0.5,
+                "y": 0.5,
+                "z": 0.1
+            }
+        }]
+    }]
+}

@@ -1,0 +1,4 @@
+PickupObject,objectId=testBall
+DropObject
+Pass
+Pass

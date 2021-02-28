@@ -1,0 +1,6 @@
+PickupObject,objectImageCoordsX=300,objectImageCoordsY=395
+MoveAhead
+MoveAhead
+PutObject,receptacleObjectImageCoordsX=5,receptacleObjectImageCoordsY=200
+PickupObject,objectImageCoordsX=5,objectImageCoordsY=200
+PickupObject,objectImageCoordsX=250,objectImageCoordsY=50

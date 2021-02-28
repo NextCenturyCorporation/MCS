@@ -1,0 +1,2 @@
+PickupObject,objectId=testBlock1
+PutObject,objectId=testBlock1,receptacleObjectId=testBlock2

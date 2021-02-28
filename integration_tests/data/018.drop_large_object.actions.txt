@@ -1,0 +1,4 @@
+PickupObject,objectId=testSuitcase
+DropObject
+Pass
+Pass

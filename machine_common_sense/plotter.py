@@ -67,15 +67,14 @@ class TopDownPlotter():
         Plottable objects include normal scene objects as well as
         occluder and wall structural objects.
         '''
-        structural_objects = scene_event.metadata.get(
-            'structuralObjects', [])
+        structural_objects = scene_event.metadata.get('structuralObjects', [])
         filtered_structural_objects = [
             obj for obj in structural_objects
-            if obj.get('objectId', '').startswith('occluder') or
-            obj.get('objectId', '').startswith('wall')
+            if not obj.get('objectId', '').startswith('ceiling') and not
+            obj.get('objectId', '').startswith('floor')
         ]
         objects = scene_event.metadata.get('objects', [])
-        return objects + filtered_structural_objects
+        return filtered_structural_objects + objects
 
     def _initialize_plot(self, step_number: int) -> None:
         '''Create the plot'''

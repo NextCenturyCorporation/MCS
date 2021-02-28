@@ -57,6 +57,10 @@ or
 autopep8 --in-place --aggressive <file>
 ```
 
+## Testing
+
+See our [tests README](../tests/README.md)
+
 ## Sphinx Documentation
 
 - Good Sphinx Tutorial: https://medium.com/@richdayandnight/a-simple-tutorial-on-how-to-document-your-python-project-using-sphinx-and-rinohtype-177c22a15b5b
@@ -135,6 +139,12 @@ Whether or not we're running in evaluation mode (default: False). If `True`, eva
 
 Identifier to add to filenames uploaded to S3 (default: '').
 
+#### history_enabled
+
+(boolean, optional)
+
+Whether to save the scene history output data in your local directory. Default: True
+
 #### metadata
 
 (string)
@@ -171,10 +181,3 @@ Desired screen width. If value given, it must be more than `450`. If none given,
 (string)
 
 Team name identifier to prefix to filenames uploaded to S3 (default: '').
-
-## References
-
-- AI2-THOR Documentation: http://ai2thor.allenai.org/documentation
-- AI2-THOR GitHub: https://github.com/allenai/ai2thor
-- MCS AI2-THOR GitHub Fork: https://github.com/NextCenturyCorporation/ai2thor
-- MCS AI2-THOR Scene Files and Schema: [scenes](./machine_common_sense/scenes)
