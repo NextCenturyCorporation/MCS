@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from machine_common_sense.serializer import *
+import machine_common_sense as mcs
 
 
 class TestSerializer(unittest.TestCase):
@@ -29,7 +29,7 @@ class TestSerializer(unittest.TestCase):
         self.assertEqual(len(unpacked_metadata.depth_map_list), 1)
         self.assertIsInstance(unpacked_metadata.depth_map_list[0], np.ndarray)
         self.assertEqual(unpacked_metadata.depth_map_list[0].shape, (400, 600))
-        self.assertIsInstance(unpacked_metadata, StepMetadata)
+        self.assertIsInstance(unpacked_metadata, mcs.StepMetadata)
         self.assertEqual(unpacked_metadata.reward, 0.0)
         self.assertEqual(unpacked_metadata.rotation, 0.0)
 
