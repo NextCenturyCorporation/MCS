@@ -1,4 +1,7 @@
 import unittest
+
+import numpy as np
+
 from machine_common_sense.serializer import *
 
 
@@ -6,10 +9,10 @@ class TestSerializer(unittest.TestCase):
 
     @staticmethod
     def _helper_get_step_metadata():
-        with open('./test.msgpack', 'rb') as file:
+        with open('tests/test.msgpack', 'rb') as file:
             packed_bytes = file.read()
 
-        serializer = SerializerMsgPack()
+        serializer = mcs.SerializerMsgPack()
         return serializer.deserialize(packed_bytes)
 
     def test_serialization_msgpack(self):
@@ -20,7 +23,7 @@ class TestSerializer(unittest.TestCase):
     def test_serialization_json(self):
         unpacked_metadata = TestSerializer._helper_get_step_metadata()
 
-        serializer = SerializerJson()
+        serializer = mcs.SerializerJson()
         json_dump = serializer.serialize(unpacked_metadata)
         unpacked_metadata = serializer.deserialize(json_dump)
         self.assertEqual(len(unpacked_metadata.depth_map_list), 1)

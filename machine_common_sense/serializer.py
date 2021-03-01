@@ -9,7 +9,9 @@ from typing import Dict, Union
 
 import machine_common_sense as mcs
 
-from machine_common_sense import GoalMetadata, ObjectMetadata, StepMetadata
+from .goal_metadata import GoalMetadata
+from .object_metadata import ObjectMetadata
+from .step_metadata import StepMetadata
 
 
 class ISerializer:
