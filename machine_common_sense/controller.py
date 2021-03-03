@@ -43,12 +43,36 @@ from .history_writer import HistoryWriter
 from .config_manager import ConfigManager
 
 
+def __reset_override(self, scene):
+    # From https://github.com/allenai/ai2thor/blob/2.5.0/ai2thor/controller.py#L503-L525 # noqa: E501
+    # Remove the error check: if scene not in self.scenes_in_build
+    self.server.send(dict(action='Reset', sceneName=scene, sequenceId=0))
+    self.last_event = self.server.receive()
+    # self.last_event.metadata['lastActionSuccess'] = True
+    # self.last_event.metadata['actionReturn'] = {
+    #     'cameraNearPlane': 0,
+    #     'cameraFarPlane': 15
+    # }
+    #
+    self.last_event = self.step(
+        action='Initialize',
+        **self.initialization_parameters
+    )
+    return self.last_event
+
+
+ai2thor.controller.Controller.reset = __reset_override
+
+
 def __image_depth_override(self, image_depth_data, **kwargs):
     # From https://github.com/NextCenturyCorporation/ai2thor/blob/47a9d0802861ba8d7a2a7a6d943a46db28ddbaab/ai2thor/server.py#L232-L240 # noqa: E501
     # The MCS depth shader in Unity is completely different now, so override
     # the original AI2-THOR depth image code. Just return what Unity sends us.
     image_depth = ai2thor.server.read_buffer_image(
-        image_depth_data, self.screen_width, self.screen_height, **kwargs)
+        image_depth_data,
+        self.screen_width,
+        self.screen_height
+    )
     return image_depth
 
 
