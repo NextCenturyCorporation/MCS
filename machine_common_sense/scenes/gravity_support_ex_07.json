@@ -115,6 +115,8 @@
       "id": "supporting_object",
       "type": "cube",
       "mass": 100,
+      "kinematic": true,
+      "structure": true,
       "shows": [
         {
           "position": {
