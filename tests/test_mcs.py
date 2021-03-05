@@ -3,7 +3,7 @@ import unittest
 import machine_common_sense as mcs
 
 
-class Test_MCS(unittest.TestCase):
+class TestMCS(unittest.TestCase):
 
     def test_create_controller(self):
         # TODO How do we test this without starting the whole app?
@@ -64,3 +64,7 @@ class Test_MCS(unittest.TestCase):
         self.assertEqual(
             status,
             "The given file 'tests/test_scene_missing.json' cannot be found.")
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -4,7 +4,7 @@ import textwrap
 import machine_common_sense as mcs
 
 
-class Test_ObjectMetadata(unittest.TestCase):
+class TestObjectMetadata(unittest.TestCase):
 
     str_output = '''    {
         "uuid": "",
@@ -101,3 +101,7 @@ class Test_ObjectMetadata(unittest.TestCase):
     def test_str(self):
         self.assertEqual(str(self.object_metadata),
                          textwrap.dedent(self.str_output))
+
+
+if __name__ == '__main__':
+    unittest.main()
