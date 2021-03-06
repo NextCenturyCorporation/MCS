@@ -3,9 +3,20 @@ import setuptools
 with open('README.md', 'r') as fh:
     long_description = fh.read()
 
+
+def get_version():
+    version_file = "machine_common_sense/_version.py"
+    with open(version_file) as f:
+        exec(compile(f.read(), version_file, "exec"))
+    return locals()["__version__"]
+
+
+MCS_VERSION = get_version()
+
+
 setuptools.setup(
     name='machine_common_sense',
-    version='0.3.8',
+    version=MCS_VERSION,
     maintainer='Next Century, a wholly owned subsidiary of CACI',
     maintainer_email='mcs-ta2@machinecommonsense.com',
     url='https://github.com/NextCenturyCorporation/MCS/',

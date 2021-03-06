@@ -13,3 +13,4 @@ from .step_metadata import StepMetadata
 from .util import Util
 from .getchHelper import getch
 from .serializer import SerializerMsgPack, SerializerJson
+from ._version import __version__
