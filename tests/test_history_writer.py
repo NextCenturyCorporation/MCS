@@ -1,10 +1,15 @@
 import unittest
 import os
+import shutil
 
 import machine_common_sense as mcs
 
 
 class Test_HistoryWriter(unittest.TestCase):
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(mcs.HistoryWriter.HISTORY_DIRECTORY)
 
     def test_init(self):
         config_data = {"name": "test_scene_file.json"}
