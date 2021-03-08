@@ -4,7 +4,7 @@ import textwrap
 import machine_common_sense as mcs
 
 
-class Test_GoalMetadata(unittest.TestCase):
+class TestGoalMetadata(unittest.TestCase):
 
     str_output = '''    {
         "action_list": null,
@@ -51,3 +51,7 @@ class Test_GoalMetadata(unittest.TestCase):
     def test_str(self):
         self.assertEqual(str(self.goal_metadata),
                          textwrap.dedent(self.str_output))
+
+
+if __name__ == '__main__':
+    unittest.main()

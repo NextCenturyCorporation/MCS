@@ -10,7 +10,7 @@ TEST_FILE_NAME = "test_scene_file.json"
 PREFIX = 'prefix'
 
 
-class Test_HistoryWriter(unittest.TestCase):
+class TestHistoryWriter(unittest.TestCase):
 
     config_data = {"name": TEST_FILE_NAME}
     prefix_config_data = {"name": f"{PREFIX}/{TEST_FILE_NAME}"}
@@ -190,3 +190,7 @@ class Test_HistoryWriter(unittest.TestCase):
         self.assertIsNone(writer.current_steps[1]["output"]["object_list"])
         self.assertIsNone(
             writer.current_steps[1]["output"]["structural_object_list"])
+
+
+if __name__ == '__main__':
+    unittest.main()
