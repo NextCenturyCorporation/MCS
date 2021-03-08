@@ -4,7 +4,7 @@ import os
 import machine_common_sense as mcs
 
 
-class Test_HistoryWriter(unittest.TestCase):
+class TestHistoryWriter(unittest.TestCase):
 
     def test_init(self):
         config_data = {"name": "test_scene_file.json"}
@@ -165,3 +165,7 @@ class Test_HistoryWriter(unittest.TestCase):
         self.assertIsNone(writer.current_steps[1]["output"]["object_list"])
         self.assertIsNone(
             writer.current_steps[1]["output"]["structural_object_list"])
+
+
+if __name__ == '__main__':
+    unittest.main()

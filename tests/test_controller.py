@@ -16,7 +16,7 @@ SCENE_HIST_DIR = "./SCENE_HISTORY/"
 TEST_FILE_NAME = "test controller"
 
 
-class Test_Controller(unittest.TestCase):
+class TestController(unittest.TestCase):
 
     def setUp(self):
         self.controller = MockControllerAI2THOR()
@@ -1956,3 +1956,7 @@ class Test_Controller(unittest.TestCase):
 
         currentNoise = self.controller.generate_noise()
         self.assertTrue(minValue <= currentNoise <= maxValue)
+
+
+if __name__ == '__main__':
+    unittest.main()
