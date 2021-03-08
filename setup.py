@@ -26,6 +26,7 @@ setuptools.setup(
         'boto3>=1.15',
         'opencv-python>=4.0',
         'matplotlib>=3.3',
+        'msgpack>=1.0.0',
         ('ai2thor @ '
          'git+https://github.com/NextCenturyCorporation/ai2thor'
          '@0.3.8#egg=ai2thor')
