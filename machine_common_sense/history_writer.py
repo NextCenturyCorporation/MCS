@@ -6,13 +6,15 @@ import os
 
 
 class HistoryWriter(object):
+
+    HISTORY_DIRECTORY = "SCENE_HISTORY"
+
     def __init__(self, scene_config_data=None, hist_info={}, timestamp=''):
         self.info_obj = hist_info
         self.current_steps = []
         self.end_score = {}
         self.scene_history_file = None
         self.history_obj = {}
-        self.HISTORY_DIRECTORY = "SCENE_HISTORY"
 
         if not os.path.exists(self.HISTORY_DIRECTORY):
             os.makedirs(self.HISTORY_DIRECTORY)

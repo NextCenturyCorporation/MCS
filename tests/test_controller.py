@@ -11,6 +11,7 @@ from .mock_controller import (
 
 import os
 import glob
+import shutil
 
 SCENE_HIST_DIR = "./SCENE_HISTORY/"
 TEST_FILE_NAME = "test controller"
@@ -21,6 +22,16 @@ class TestController(unittest.TestCase):
     def setUp(self):
         self.controller = MockControllerAI2THOR()
         self.controller.set_metadata_tier('')
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        # remove all TEST_FILE_NAME in SCENE_HIST_DIR
+        test_files = glob.glob(f'{SCENE_HIST_DIR}/{TEST_FILE_NAME}*')
+        for test_file in test_files:
+            os.unlink(test_file)
+        # if SCENE_HIST_DIR is empty, destroy it
+        if not os.listdir(SCENE_HIST_DIR):
+            shutil.rmtree(SCENE_HIST_DIR)
 
     def create_mock_scene_event(self, mock_scene_event_data):
         # Wrap the dict in a SimpleNamespace object to permit property access
