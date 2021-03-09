@@ -3,7 +3,7 @@ import unittest
 import machine_common_sense as mcs
 
 
-class Test_Action(unittest.TestCase):
+class TestAction(unittest.TestCase):
 
     def test_repr(self):
         repr_result1 = (
@@ -237,3 +237,7 @@ class Test_Action(unittest.TestCase):
         )
         self.assertEqual(mcs.Action("Pass"), mcs.Action.PASS)
         self.assertEqual(mcs.Action(" "), mcs.Action.PASS)
+
+
+if __name__ == '__main__':
+    unittest.main()
