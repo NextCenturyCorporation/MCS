@@ -137,7 +137,7 @@ class TopDownPlotter():
                 pts = polygon.exterior.coords
                 self._draw_object_bounds(obj, pts)
 
-    def _draw_object_bounds(self, obj: Object, points: []) -> None:
+    def _draw_object_bounds(self, obj: Object, points: List) -> None:
         '''Draw the scene object'''
         poly = plt.Polygon(points,
                            color=obj.color,
