@@ -1,8 +1,6 @@
-# import json
+import argparse
 
-# import machine_common_sense as mcs
-
-from integration_test_utils import retrieve_test_args
+from integration_test_utils import add_test_args
 
 
 OBJECT_REGISTRY_LIST = [
@@ -22,7 +20,11 @@ def start_prefab_tests(mcs_unity_build, branch):
 
 
 if __name__ == "__main__":
-    args = retrieve_test_args('Prefab')
+    parser = argparse.ArgumentParser(
+        description="Run Prefab Integration Tests"
+    )
+    parser = add_test_args(parser)
+    args = parser.parse_args()
     start_prefab_tests(
         args.mcs_unity_build_file_path,
         args.mcs_unity_github_branch_name
