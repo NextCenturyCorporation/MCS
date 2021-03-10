@@ -1,3 +1,4 @@
+import argparse
 import glob
 import json
 import math
@@ -7,7 +8,7 @@ import time
 import machine_common_sense as mcs
 from additional_integration_tests import FUNCTION_LIST
 from integration_test_utils import METADATA_TIER_LIST, print_divider, \
-    retrieve_test_args
+    add_test_args
 
 
 INTEGRATION_TESTS_FOLDER = os.path.dirname(os.path.abspath(__file__))
@@ -236,8 +237,7 @@ def start_handmade_tests(
     dev
 ):
     # Find all of the test scene JSON files.
-    scene_filename_list = glob.glob(TEST_FOLDER + '*' + SCENE_SUFFIX)
-    scene_filename_list.sort()
+    scene_filename_list = sorted(glob.glob(TEST_FOLDER + '*' + SCENE_SUFFIX))
 
     successful_test_list = []
     failed_test_list = []
@@ -299,7 +299,11 @@ def start_handmade_tests(
 
 
 if __name__ == "__main__":
-    args = retrieve_test_args('Handmade', handmade_only=True)
+    parser = argparse.ArgumentParser(
+        description="Run Handmade Integration Tests"
+    )
+    parser = add_test_args(parser, handmade_only=True)
+    args = parser.parse_args()
     start_handmade_tests(
         args.mcs_unity_build_file_path,
         args.metadata,
