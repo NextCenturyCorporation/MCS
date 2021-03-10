@@ -72,6 +72,7 @@ class Test_Util(unittest.TestCase):
                 state_list=[],
                 texture_color_list=[],
                 held=True,
+                visible=True,
                 position=None,
                 dimensions=None,
                 distance_in_world=0,
@@ -83,16 +84,17 @@ class Test_Util(unittest.TestCase):
                 state_list=['state1', 'state2'],
                 texture_color_list=['black', 'white'],
                 held=False,
+                visible=False,
                 position={
                     'x': 1,
                     'y': 2,
                     'z': 3
                 },
-                dimensions={
+                dimensions=[{
                     'x': 4,
                     'y': 5,
                     'z': 6
-                },
+                }],
                 distance_in_world=1234567890987654321,
                 direction={
                     'x': 10000,
@@ -102,9 +104,9 @@ class Test_Util(unittest.TestCase):
             )
         ]
         self.assertEqual(mcs.Util.generate_pretty_object_output(object_list), [
-            'OBJECT ID        SHAPE  COLORS        HELD   POSITION (WORLD)  DIMENSIONS (WORLD)  DISTANCE (WORLD)     DIRECTION (WORLD)    STATE         ',  # noqa: E501
-            'id1                                   True   None              None                0                    None                               ',  # noqa: E501
-            'really_long_id2  sofa   black, white  False  (1,2,3)           (4,5,6)             1234567890987654321  (10000,20000,30000)  state1, state2'  # noqa: E501
+            'OBJECT ID        SHAPE  COLORS        HELD   VISIBLE  STATE           POSITION (WORLD)  DISTANCE (WORLD)     DIRECTION (WORLD)    DIMENSIONS (WORLD)',  # noqa: E501
+            'id1                                   True   True                     None              0                    None                 None              ',  # noqa: E501
+            'really_long_id2  sofa   black, white  False  False    state1, state2  (1,2,3)           1234567890987654321  (10000,20000,30000)  [(4,5,6)]         '  # noqa: E501
         ])
 
     def test_input_to_action_and_params(self):
