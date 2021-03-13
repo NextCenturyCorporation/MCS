@@ -17,7 +17,7 @@ If you are experiencing an issue with the MCS Python package, first check the pr
 When creating a new issue, try to be as thorough as possible in describing the problem. A well-described issue will include most of the following items:
  * A detailed description of the problem/suggestion
  * Steps needed to recreate the problem
- * Version of the MCS package you are using
+ * Version of the MCS and ai2thor packages you are using
  * Python interpreter (Anaconda vs Python) and Python version
  * Operating System, cpu and gpu hardware
 
@@ -81,6 +81,28 @@ def add(x: int, y: int) -> int:
 
 ### Linting
 
+Run pre-commit install to set up the git hooks for linting and auto-documentation.
+
+```
+pre-commit install
+```
+
+We are currently using [flake8](https://flake8.pycqa.org/en/latest/) and [autopep8](https://pypi.org/project/autopep8/) for linting and formatting our Python code.
+
+```
+flake8
+```
+
+and
+
+```
+autopep8 --in-place --aggressive --recursive <directory>
+```
+or
+```
+autopep8 --in-place --aggressive <file>
+```
+
 See the [DEV Reference](machine_common_sense/DEV.md#Linting) for more on our linting approach and necessary setup steps.
 
 [PEP-8](https://www.python.org/dev/peps/pep-0008/)
@@ -127,15 +149,24 @@ class TestClass(unittest.TestCase):
     self.assertEquals(controller.ROTATION_KEY, 'rotation')
 ```
 
+As a general rule, if the test creates anything such as a file or folder, it should also clean up those items.
+
 For more information on unit testing, see our [testing documentation](https://github.com/NextCenturyCorporation/MCS/blob/development/tests/README.md)
 
 
 #### Test Resource Pathing
 
-In some instances, referencing a local test resource file is needed. Since unit tests are run from the root folder, paths to resources should include the 'tests' folder prefix.
+In some instances, referencing a local test resource file is needed. Since unit tests are run from the root folder, paths to resources should include the 'tests' folder prefix for relative pathing.
 
 ```python
 with open('tests/test.msgpack', 'rb') as file
+```
+
+You may alternatively use this method to reference test resources from the unit test module:
+
+```python
+resources = os.path.dirname(os.path.abspath(__file__))
+with open(os.path.join(resources, 'test.msgpack'), 'rb') as file:
 ```
 
 ### Adding Package Dependencies

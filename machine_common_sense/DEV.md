@@ -195,9 +195,15 @@ If there are any package dependency changes, create a new virtual environment us
 Run the unit tests locally
 
 ```bash
-$ python -m unittest
+(venv) $ python -m unittest
 ```
 
 If the unit tests pass, then ensure the new code is solves the issue in the PR and follows our coding conventions. 
+
+Be sure that PEP-8 formatting is correct or is easily fixable.
+
+```bash
+(venv) $ flake8
+```
 
 After iterating with the contributor, if you feel the PR is reasonably close, feel free to approve the PR, merge, and fix any lingering issues.
