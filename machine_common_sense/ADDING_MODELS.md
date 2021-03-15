@@ -1,6 +1,6 @@
 # Adding 3D Models
 
-Here are the steps to add your own 3D models into the MCS simulation environment.
+Here are the steps to add your own 3D models into the MCS simulation environment. Each step is described in more detail below.
 
 1. Download and open our Unity project (MCS fork of AI2-THOR) in the Unity Editor
 2. Import your 3D models into our Unity project as Unity Prefab objects
@@ -22,9 +22,9 @@ Here are the steps to add your own 3D models into the MCS simulation environment
 
 Clone the [MCS fork of AI2-THOR](https://github.com/NextCenturyCorporation/ai2thor) and follow the project's [setup instructions](https://github.com/NextCenturyCorporation/ai2thor#setup) to download and install the correct version of the Unity Editor and use it to load the MCS Unity project.
 
-## 2. Import Your Models into Unity and Save Them as Prefabs
+![unity editor](./screenshot_unity_editor.png)
 
-(Continuing from Step 1)
+## 2. Import Your Models into Unity and Save Them as Prefabs
 
 2A. Copy your 3D model into the `/unity/Assets/Resources/MCS/` folder (you can make a new subfolder for your models if you prefer).
 
@@ -36,7 +36,7 @@ Clone the [MCS fork of AI2-THOR](https://github.com/NextCenturyCorporation/ai2th
 
 ## 3. Update Your Prefabs in Unity
 
-(Continuing from Step 2)
+![sample prefab](./screenshot_sample_prefab.png)
 
 3A. In the Hierarchy window, your model's name in the list is an instantiation of the Prefab, called a Game Object. Next to the Game Object, click the right arrow (`>`) on the right side of the list to edit the Prefab. This will change the Scene window to show a Prefab editing view. The Hierarchy window will now show just the Game Object. Depending on how your model was made, it may have one or more child Game Objects, shown as a nested view. Objects with multiple interactable parts (like, cabinet doors, drawers, and shelves) should have a child for each part. We'll call the parent Game Object the Target. In the Hierarchy window, click on the Target and look at the Inspector window to verify that it has a MeshFilter, MeshRenderer, and material(s); if it doesn't, then one of its children should have them (click on each child in turn).
 
@@ -125,6 +125,18 @@ In the MCS fork of AI2-THOR, in `/unity/Assets/Resources/MCS/mcs_object_registry
 
 You can also add other properties to entries in the JSON object registry file. Most object properties supported in scene files (like `moveable`, `pickupable`, `receptacle`, or `openable`) are also supported in the object registry. Any properties defined for an object in the object registry file are applied to all instances of that object in all scenes. Please let us know if you'd like us to make some documentation on the available properties.
 
+Example:
+
+```json
+{
+    "id": "ball",
+    "resourceFile": "UnityAssetStore/Kindergarten_Interior/Prefabs/Ball 1",
+    "mass": 1,
+    "pickupable": true,
+    "shape": "ball"
+}
+```
+
 ## 5. Manually Test and Verify Your Objects
 
 Create one or more MCS JSON scene files in the `/unity/Assets/Resources/MCS/Scenes/` folder containing your new object(s). Follow the [run instructions](https://github.com/NextCenturyCorporation/ai2thor#run) to run your scenes in the Unity Editor and verify your new objects work as expected. Good behavior to test (and remember to test your actions using both the object IDs and the image pixel coordinates!):
@@ -170,6 +182,30 @@ For adding new objects into passive agent scenes, please skip to step 7D.
 - `shape` (string or string array): The shape of your object, as a human-readable string.
 - `size` (string): The size of your object, as a human-readable string. See the [GoalMetadata](https://github.com/NextCenturyCorporation/MCS/blob/master/machine_common_sense/API.md#goalmetadata) entry in our API doc for the sizes that our team uses.
 
+Example Object Definition:
+
+```json
+_BALL = {
+    "type": "ball",
+    "attributes": ["moveable", "pickupable"],
+    "dimensions": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+    },
+    "mass": 0.5,
+    "materialCategory": ["rubber"],
+    "positionY": 0.25,
+    "scale": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": 0.5
+    },
+    "shape": ["ball"],
+    "size": "small"
+}
+```
+
 7C. Add your new object definitions to the relevant arrays of available objects:
 
 - For all interactive scenes, in `objects.py`, see the `_PICKUPABLES`, `_NOT_PICKUPABLES`, and `_CONTAINERS` variables, which are each arrays of arrays of object definitions. When an object definition is randomly chosen from one of these lists (for example, a "not pickupable" object), we first randomly choose one of the inner arrays, then we randomly choose one of the object definitions from the inner array. Add your object definition either as a new inner array or to an existing inner array.
@@ -185,3 +221,5 @@ Optionally, if you would like to contribute your objects to the public MCS simul
 ## Troubleshooting
 
 If you have any questions about the procedure, please contact the MCS Core Team by opening a new GitHub Issue on this repository, posting on the #ta2-api MCS Slack channel, or emailing: mcs-ta2@machinecommonsense.com
+
+We're happy to provide clarification on these instructions, but we can't guarantee that we'll always have time to help you in executing these instructions.
