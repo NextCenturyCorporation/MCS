@@ -68,7 +68,7 @@ class HistoryWriter(object):
         self.lastStepTimeMillis = perf_counter() * 1000
 
     def add_step(self, step_obj: Dict):
-        """ Add a new step to the array of history steps"""
+        """Add a new step to the array of history steps"""
         currentTime = perf_counter() * 1000
         if step_obj is not None:
             step_obj.deltaTimeMillis = currentTime - self.lastStepTimeMillis
