@@ -13,7 +13,9 @@ class SceneHistory(object):
         confidence: float = None,
         violations_xy_list: List[Dict[str, float]] = None,
         internal_state: object = None,
+        deltaTimeMillis=0,
         output=None
+
     ):
         self.step = step
         self.action = action
@@ -23,6 +25,7 @@ class SceneHistory(object):
         self.confidence = confidence
         self.violations_xy_list = violations_xy_list
         self.internal_state = internal_state
+        self.deltaTimeMillis = deltaTimeMillis
         self.output = output
 
     def __str__(self):
@@ -41,3 +44,4 @@ class SceneHistory(object):
         yield 'internal_state', self.internal_state
         yield 'output', dict(self.output) if(
             self.output) is not None else self.output
+        yield 'deltaTimeMillis', self.deltaTimeMillis
