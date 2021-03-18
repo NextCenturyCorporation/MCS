@@ -781,7 +781,7 @@ class Controller():
             args=kwargs,
             params=params,
             output=history_copy,
-            deltaTimeMillis=0)
+            delta_time_millis=0)
 
         output = self.restrict_step_output_metadata(pre_restrict_output)
 
