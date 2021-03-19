@@ -91,6 +91,43 @@ class TestHistoryWriter(unittest.TestCase):
         self.assertEqual(len(writer.current_steps), 2)
         self.assertEqual(writer.current_steps[1]["action"], "MoveLeft")
 
+    def test_add_step_timer(self):
+        writer = mcs.HistoryWriter(self.config_data)
+        writer.init_timer()
+        # set start time back 500ms as if the run took 500ms.
+        writer.last_step_time_millis -= 500
+        # Save the time so we can check that it changes
+        priorToStep1 = writer.last_step_time_millis
+        history_item = mcs.SceneHistory(
+            step=1,
+            action="MoveAhead")
+        writer.add_step(history_item)
+
+        self.assertEqual(len(writer.current_steps), 1)
+        # we give some delta here because commands do take some time to run
+        self.assertAlmostEqual(
+            writer.current_steps[0]["delta_time_millis"], 500, delta=.1)
+        self.assertNotEqual(priorToStep1, writer.last_step_time_millis)
+
+        writer.last_step_time_millis -= 300
+        history_item = mcs.SceneHistory(
+            step=2,
+            action="MoveLeft")
+        writer.add_step(history_item)
+
+        self.assertEqual(len(writer.current_steps), 2)
+        self.assertAlmostEqual(
+            writer.current_steps[1]["delta_time_millis"], 300, delta=.1)
+
+        history_item = mcs.SceneHistory(
+            step=3,
+            action="MoveLeft")
+        writer.add_step(history_item)
+
+        self.assertEqual(len(writer.current_steps), 3)
+        self.assertAlmostEqual(
+            writer.current_steps[2]["delta_time_millis"], 0, delta=.1)
+
     def test_write_history_file(self):
         writer = mcs.HistoryWriter(self.config_data)
 

@@ -689,7 +689,8 @@ class Controller():
             physics simulation were run. Returns None if you have passed the
             "last_step" of this scene.
         """
-
+        if self.__history_enabled and self.__step_number == 0:
+            self.__history_writer.init_timer()
         if self.__history_enabled and self.__step_number > 0:
             self.__history_writer.add_step(self.__history_item)
 
@@ -779,7 +780,8 @@ class Controller():
             action=action,
             args=kwargs,
             params=params,
-            output=history_copy)
+            output=history_copy,
+            delta_time_millis=0)
 
         output = self.restrict_step_output_metadata(pre_restrict_output)
 
