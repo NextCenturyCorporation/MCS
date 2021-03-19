@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 
 from typing import Dict, NamedTuple, List
 from shapely import geometry
-
 import machine_common_sense as mcs
 
 
