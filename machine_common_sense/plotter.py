@@ -9,6 +9,8 @@ import matplotlib.pyplot as plt
 from typing import Dict, NamedTuple, List
 from shapely import geometry
 
+import machine_common_sense as mcs
+
 
 class XZHeading(NamedTuple):
     x: float
@@ -51,10 +53,12 @@ class TopDownPlotter():
         self._plot_height = plot_height
 
     def plot(self, scene_event: ai2thor.server.Event,
-             step_number: int) -> PIL.Image.Image:
+             step_number: int,
+             goal: mcs.goal_metadata.GoalMetadata
+             ) -> PIL.Image.Image:
 
         plt = self._initialize_plot(step_number=step_number)
-        self._draw_objects(self._find_plottable_objects(scene_event))
+        self._draw_objects(self._find_plottable_objects(scene_event), goal)
         self._draw_robot(scene_event.metadata.get('agent', None))
         img = self._export_plot(plt)
         plt.close()
@@ -127,8 +131,13 @@ class TopDownPlotter():
                              lw=1)
         plt.gca().add_line(heading)
 
-    def _draw_objects(self, objects: Dict) -> None:
+    def _draw_objects(self, objects: Dict,
+                      goal: mcs.goal_metadata.GoalMetadata) -> None:
         '''Plot the object bounds for each object in the scene'''
+        goalId = None
+        # Is there a better way to do this test?
+        if (goal is not None and goal.metadata is not None):
+            goalId = goal.metadata.get('target', {}).get('id', None)
         for o in objects:
             obj = self._create_object(o)
             if obj.bounds is not None:
@@ -136,6 +145,22 @@ class TopDownPlotter():
                 polygon = geometry.MultiPoint(obj_pts).convex_hull
                 pts = polygon.exterior.coords
                 self._draw_object_bounds(obj, pts)
+                if goalId is not None and o['objectId'] == goalId:
+                    self._draw_goal(o['position'])
+
+    def _draw_goal(self, position: Object) -> None:
+        '''Draw the goal object of the scene'''
+        plt.scatter(
+            position['x'],
+            position['z'],
+            c=self._convert_color("gold"),
+            s=300,
+            marker="*",
+            zorder=5,
+            alpha=.7,
+            edgecolors=self._convert_color("black"),
+            linewidths=.5
+        )
 
     def _draw_object_bounds(self, obj: Object, points: List) -> None:
         '''Draw the scene object'''

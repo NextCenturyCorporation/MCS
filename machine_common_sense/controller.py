@@ -1156,7 +1156,8 @@ class Controller():
             if self._config.is_evaluation() or self._config.is_video_enabled():
                 self.__image_recorder.add(scene_image)
                 self.__topdown_recorder.add(
-                    self.__plotter.plot(scene_event, self.__step_number))
+                    self.__plotter.plot(scene_event, self.__step_number,
+                                        self._goal))
 
             if self.__depth_maps:
                 # The Unity depth array (returned by Depth.shader) contains
