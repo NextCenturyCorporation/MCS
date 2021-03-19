@@ -53,7 +53,7 @@ class TopDownPlotter():
 
     def plot(self, scene_event: ai2thor.server.Event,
              step_number: int,
-             goal: mcs.goal_metadata.GoalMetadata
+             goal: mcs.goal_metadata.GoalMetadata = None
              ) -> PIL.Image.Image:
 
         plt = self._initialize_plot(step_number=step_number)
@@ -131,7 +131,7 @@ class TopDownPlotter():
         plt.gca().add_line(heading)
 
     def _draw_objects(self, objects: Dict,
-                      goal: mcs.goal_metadata.GoalMetadata) -> None:
+                      goal: mcs.goal_metadata.GoalMetadata = None) -> None:
         '''Plot the object bounds for each object in the scene'''
         goalId = None
         # Is there a better way to do this test?
