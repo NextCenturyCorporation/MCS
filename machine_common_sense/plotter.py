@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 
 from typing import Dict, NamedTuple, List
 from shapely import geometry
-import machine_common_sense as mcs
 
 
 class XZHeading(NamedTuple):
@@ -53,11 +52,11 @@ class TopDownPlotter():
 
     def plot(self, scene_event: ai2thor.server.Event,
              step_number: int,
-             goal: mcs.goal_metadata.GoalMetadata = None
+             goal_id: str = None
              ) -> PIL.Image.Image:
 
         plt = self._initialize_plot(step_number=step_number)
-        self._draw_objects(self._find_plottable_objects(scene_event), goal)
+        self._draw_objects(self._find_plottable_objects(scene_event), goal_id)
         self._draw_robot(scene_event.metadata.get('agent', None))
         img = self._export_plot(plt)
         plt.close()
@@ -131,12 +130,8 @@ class TopDownPlotter():
         plt.gca().add_line(heading)
 
     def _draw_objects(self, objects: Dict,
-                      goal: mcs.goal_metadata.GoalMetadata = None) -> None:
+                      goal_id: str = None) -> None:
         '''Plot the object bounds for each object in the scene'''
-        goalId = None
-        # Is there a better way to do this test?
-        if (goal is not None and goal.metadata is not None):
-            goalId = goal.metadata.get('target', {}).get('id', None)
         for o in objects:
             obj = self._create_object(o)
             if obj.bounds is not None:
@@ -144,7 +139,7 @@ class TopDownPlotter():
                 polygon = geometry.MultiPoint(obj_pts).convex_hull
                 pts = polygon.exterior.coords
                 self._draw_object_bounds(obj, pts)
-                if goalId is not None and o['objectId'] == goalId:
+                if goal_id is not None and o['objectId'] == goal_id:
                     self._draw_goal(o['position'])
 
     def _draw_goal(self, position: Object) -> None:
