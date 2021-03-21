@@ -1,8 +1,12 @@
 import json
+import logging
 import signal
 
 from contextlib import contextmanager
 from .controller import Controller
+
+
+logger = logging.getLogger(__name__)
 
 # Timeout at 3 minutes (180 seconds).  It was 60 seconds but
 # this can cause timeouts on EC2 instances
@@ -42,6 +46,8 @@ def create_controller(unity_app_file_path,
     """
     # TODO: Toggle between AI2-THOR and other controllers like ThreeDWorld?
     try:
+        logger.info("Creating controller")
+        logger.debug(f"{unity_app_file_path} {config_file_path}")
         with time_limit(TIME_LIMIT_SECONDS):
             return Controller(unity_app_file_path,
                               config_file_path)
@@ -67,6 +73,7 @@ def load_scene_json_file(scene_json_file_path):
         The error status (if any).
     """
     try:
+        logger.info(f"Loading scene: {scene_json_file_path}")
         with open(scene_json_file_path, encoding='utf-8-sig') \
                 as config_json_file_object:
             try:

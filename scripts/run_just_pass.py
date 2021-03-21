@@ -1,4 +1,16 @@
+import logging
+import sys
+
 from runner_script import SingleFileRunnerScript
+
+
+# formatString = '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
+logger = logging.getLogger('machine_common_sense')
+logger.setLevel(logging.DEBUG)
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging.DEBUG)
+# stream_handler.setFormatter(logging.Formatter(formatString))
+logger.addHandler(stream_handler)
 
 
 def action_callback(scene_data, step_metadata):
@@ -12,6 +24,7 @@ def action_callback(scene_data, step_metadata):
 
 
 def main():
+    logger.info(f"Running Just Pass with {sys.argv}")
     SingleFileRunnerScript('Just Pass', action_callback)
 
 
