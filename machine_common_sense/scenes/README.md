@@ -18,6 +18,12 @@ An open room containing over 40 objects for undirected exploration.
 
 #### Retrieval Goal
 
+Soccer ball retrieval for the Summer 2021 evaluation:
+
+- [soccer_ball_retrieval_example.json](./soccer_ball_retrieval_example.json)
+
+Silver trophy retrieval for the Winter 2020 evaluation:
+
 - [trophy_retrieval_example.json](./trophy_retrieval_example.json)
 
 #### Hinged Containers
@@ -58,7 +64,42 @@ An open room containing over 40 objects for undirected exploration.
 | ![](./videos/gravity_support_ex_11.gif) | |
 | ![](./videos/gravity_support_ex_12.gif) | |
 
+#### Object Permanence and Spatio-Temporal Continuity: Objects Moving on Multiple Axes Behind Occluders
+
+Relevant for the Summer 2021 evaluation. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
+
+- [move_deep_fast_01.json](./move_deep_fast_01.json)
+- [move_deep_fast_02.json](./move_deep_fast_02.json)
+- [move_deep_fast_03.json](./move_deep_fast_03.json)
+- [move_deep_fast_04.json](./move_deep_fast_04.json)
+- [move_toss_fast_01.json](./move_toss_fast_01.json)
+- [move_toss_fast_02.json](./move_toss_fast_02.json)
+
+| --------- | ----------- |
+| ![](./videos/move_deep_fast_01.gif) | ![](./videos/move_deep_fast_02.gif) |
+| ![](./videos/move_deep_fast_03.gif) | ![](./videos/move_deep_fast_04.gif) |
+| ![](./videos/move_toss_fast_01.gif) | ![](./videos/move_toss_fast_02.gif) |
+
+#### Object Permanence: Objects Moving on Multiple Axes and Stopping Behind Occluders
+
+Relevant for the Summer 2021 evaluation. Objects may move across the entire screen and exit on the other side (as in previous evaluations), or come to a natural stop behind the occluder. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
+
+- [move_slow_01.json](./move_slow_01.json)
+- [move_deep_slow_01.json](./move_deep_slow_01.json)
+- [move_toss_slow_01.json](./move_toss_slow_01.json)
+- [move_slow_02.json](./move_slow_02.json)
+- [move_deep_slow_02.json](./move_deep_slow_02.json)
+- [move_toss_slow_02.json](./move_toss_slow_02.json)
+
+| Example 1 | Example 2 |
+| --------- | ----------- |
+| ![](./videos/move_slow_01.gif) | ![](./videos/move_slow_02.gif) |
+| ![](./videos/move_deep_slow_01.gif) | ![](./videos/move_deep_slow_02.gif) |
+| ![](./videos/move_toss_slow_01.gif) | ![](./videos/move_toss_slow_02.gif) |
+
 #### Object Permanence: Objects Falling Down Behind Occluders
+
+Relevant for the Winter 2020 evaluation.
 
 - [object_permanence_plausible.json](./object_permanence_plausible.json)
 - [object_permanence_implausible.json](./object_permanence_implausible.json)
@@ -69,6 +110,8 @@ An open room containing over 40 objects for undirected exploration.
 
 #### Shape Constancy: Objects Falling Down Behind Occluders
 
+Relevant for the Winter 2020 and Summer 2021 evaluations
+
 - [shape_constancy_plausible.json](./shape_constancy_plausible.json)
 - [shape_constancy_implausible.json](./shape_constancy_implausible.json)
 
@@ -77,6 +120,8 @@ An open room containing over 40 objects for undirected exploration.
 | ![](./videos/shape_constancy_plausible.gif) | ![](./videos/shape_constancy_implausible.gif) |
 
 #### Spatio-Temporal Continuity: Objects Moving Across Behind Occluders
+
+Relevant for the Winter 2020 evaluation.
 
 - [spatio_temporal_continuity_plausible.json](./spatio_temporal_continuity_plausible.json)
 - [spatio_temporal_continuity_implausible.json](./spatio_temporal_continuity_implausible.json)
