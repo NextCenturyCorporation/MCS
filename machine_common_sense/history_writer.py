@@ -1,8 +1,12 @@
 from .util import Util
 from .scene_history import SceneHistory
 from typing import Dict
+import logging
 import json
 import os
+
+
+logger = logging.getLogger(__name__)
 
 
 class HistoryWriter(object):
