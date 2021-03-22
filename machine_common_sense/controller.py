@@ -86,7 +86,6 @@ class Controller():
         Path to configuration file to read in and set various properties,
         such as metadata level and whether or not to save history files
         (default None)
-
     """
 
     ACTION_LIST = [(item.value, {}) for item in Action]
@@ -218,13 +217,6 @@ class Controller():
             self.__history_enabled = history_enabled
 
     def _on_init(self, config_file_path=None):
-
-        self.__debug_to_file = True if (
-            self._config.is_debug() is True or
-            self._config.get_debug_output() == 'file') else False
-        self.__debug_to_terminal = True if (
-            self._config.is_debug() is True or
-            self._config.get_debug_output() == 'terminal') else False
 
         self.__noise_enabled = self._config.is_noise_enabled()
         self.__seed = self._config.get_seed()
@@ -481,20 +473,14 @@ class Controller():
         skip_preview_phase = (True if 'goal' in config_data and
                               'skip_preview_phase' in config_data['goal']
                               else False)
-        if self.__debug_to_terminal:
-            if config_data['name']:
-                logger.debug("STARTING NEW SCENE: " + config_data['name'])
-            else:
-                logger.debug("STARTING NEW SCENE")
-            if self._metadata_tier:
-                logger.debug("METADATA TIER: " + self._metadata_tier)
-            else:
-                logger.debug("METADATA TIER: DEFAULT (NOT CONFIGURED)")
-            logger.debug("STEP: 0")
-            logger.debug("ACTION: Initialize")
+
+        logger.debug("STARTING NEW SCENE: " + config_data.get('name', ""))
+        logger.debug("METADATA TIER: " + self._metadata_tier)
+        logger.debug("STEP: 0")
+        logger.debug("ACTION: Initialize")
 
         if (config_data['name'] is not None and (
-            self.__debug_to_file or self._config.is_evaluation() or
+            self._config.is_evaluation() or
             self._config.is_video_enabled()
         )):
             os.makedirs('./' + config_data['name'], exist_ok=True)
@@ -525,8 +511,7 @@ class Controller():
                 depth_map_list = output.depth_map_list
                 object_mask_list = output.object_mask_list
 
-                if self.__debug_to_terminal:
-                    logger.debug('STARTING PREVIEW PHASE...')
+                logger.debug('STARTING PREVIEW PHASE...')
 
                 for i in range(0, self._goal.last_preview_phase_step):
                     output = self.step('Pass')
@@ -535,8 +520,7 @@ class Controller():
                     object_mask_list = (object_mask_list +
                                         output.object_mask_list)
 
-                if self.__debug_to_terminal:
-                    logger.debug('ENDING PREVIEW PHASE')
+                logger.debug('ENDING PREVIEW PHASE')
 
                 if (
                     self._config.is_evaluation() or
@@ -547,8 +531,8 @@ class Controller():
                 output.image_list = image_list
                 output.depth_map_list = depth_map_list
                 output.object_mask_list = object_mask_list
-            elif self.__debug_to_terminal:
-                logger.debug('NO PREVIEW PHASE')
+
+            logger.debug('NO PREVIEW PHASE')
 
             if(self._end_scene_not_registered is True and
                     (self.__history_enabled or self._config.is_evaluation())):
@@ -743,19 +727,18 @@ class Controller():
 
         self.__step_number += 1
 
-        if self.__debug_to_terminal:
-            logger.debug("================================================"
-                         "===============================")
-            logger.debug("STEP: " + str(self.__step_number))
-            logger.debug("ACTION: " + action)
-            if self._goal.habituation_total >= self.__habituation_trial:
-                logger.debug(f"HABITUATION TRIAL: "
-                             f"{str(self.__habituation_trial)}"
-                             f" / {str(self._goal.habituation_total)}")
-            elif self._goal.habituation_total > 0:
-                logger.debug("HABITUATION TRIAL: DONE")
-            else:
-                logger.debug("HABITUATION TRIAL: NONE")
+        logger.debug("================================================"
+                     "===============================")
+        logger.debug("STEP: " + str(self.__step_number))
+        logger.debug("ACTION: " + action)
+        if self._goal.habituation_total >= self.__habituation_trial:
+            logger.debug(f"HABITUATION TRIAL: "
+                         f"{str(self.__habituation_trial)}"
+                         f" / {str(self._goal.habituation_total)}")
+        elif self._goal.habituation_total > 0:
+            logger.debug("HABITUATION TRIAL: DONE")
+        else:
+            logger.debug("HABITUATION TRIAL: NONE")
 
         params = self.validate_and_convert_params(action, **kwargs)
 
@@ -1192,7 +1175,7 @@ class Controller():
                 ):
                     self.__segmentation_recorder.add(object_mask)
 
-            if self.__debug_to_file and self.__output_folder is not None:
+            if self.__output_folder is not None:
                 step_plus_substep_index = 0 if self.__step_number == 0 else (
                     ((self.__step_number - 1) * len(scene_event.events)) +
                     (index + 1)
@@ -1215,7 +1198,7 @@ class Controller():
         self._controller.stop()
 
     def wrap_output(self, scene_event):
-        if self.__debug_to_file and self.__output_folder is not None:
+        if self.__output_folder is not None:
             with open(self.__output_folder + 'ai2thor_output_' +
                       str(self.__step_number) + '.json', 'w') as json_file:
                 json.dump({
@@ -1270,23 +1253,22 @@ class Controller():
         return step_output
 
     def write_debug_output(self, step_output):
-        if self.__debug_to_terminal:
-            logger.debug("RETURN STATUS: " + step_output.return_status)
-            logger.debug("REWARD: " + str(step_output.reward))
-            logger.debug("SELF METADATA:")
-            logger.debug("  CAMERA HEIGHT: " + str(step_output.camera_height))
-            logger.debug("  HEAD TILT: " + str(step_output.head_tilt))
-            logger.debug("  POSITION: " + str(step_output.position))
-            logger.debug("  ROTATION: " + str(step_output.rotation))
-            logger.debug("OBJECTS: " +
-                         str(len(step_output.object_list)) +
-                         " TOTAL")
-            if len(step_output.object_list) > 0:
-                for line in Util.generate_pretty_object_output(
-                        step_output.object_list):
-                    logger.debug("    " + line)
+        logger.debug("RETURN STATUS: " + step_output.return_status)
+        logger.debug("REWARD: " + str(step_output.reward))
+        logger.debug("SELF METADATA:")
+        logger.debug("  CAMERA HEIGHT: " + str(step_output.camera_height))
+        logger.debug("  HEAD TILT: " + str(step_output.head_tilt))
+        logger.debug("  POSITION: " + str(step_output.position))
+        logger.debug("  ROTATION: " + str(step_output.rotation))
+        logger.debug("OBJECTS: " +
+                     str(len(step_output.object_list)) +
+                     " TOTAL")
+        if len(step_output.object_list) > 0:
+            for line in Util.generate_pretty_object_output(
+                    step_output.object_list):
+                logger.debug("    " + line)
 
-        if self.__debug_to_file and self.__output_folder is not None:
+        if self.__output_folder is not None:
             with open(self.__output_folder + 'mcs_output_' +
                       str(self.__step_number) + '.json', 'w') as json_file:
                 json_file.write(str(step_output))
@@ -1313,7 +1295,7 @@ class Controller():
             **kwargs
         )
 
-        if self.__debug_to_file and self.__output_folder is not None:
+        if self.__output_folder is not None:
             with open(self.__output_folder + 'ai2thor_input_' +
                       str(self.__step_number) + '.json', 'w') as json_file:
                 json.dump(step_data, json_file, sort_keys=True, indent=4)
