@@ -1,6 +1,10 @@
 import os
+import logging
 import configparser  # noqa: F401
 import yaml  # noqa: F401
+
+
+logger = logging.getLogger(__name__)
 
 
 class ConfigManager(object):
@@ -13,8 +17,6 @@ class ConfigManager(object):
 
     CONFIG_AWS_ACCESS_KEY_ID = 'aws_access_key_id'
     CONFIG_AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
-    CONFIG_DEBUG = 'debug'
-    CONFIG_DEBUG_OUTPUT = 'debug_output'
     CONFIG_EVALUATION = 'evaluation'
     CONFIG_EVALUATION_NAME = 'evaluation_name'
     CONFIG_HISTORY_ENABLED = 'history_enabled'
@@ -49,18 +51,9 @@ class ConfigManager(object):
         self._config = configparser.ConfigParser()
         if os.path.exists(self._config_file):
             self._config.read(self._config_file)
-
-            debug_to_terminal = (
-                self.is_debug() or self.get_debug_output() == 'terminal'
-            )
-
-            print('MCS Config File Path: ' + self._config_file)
-            if debug_to_terminal is True:
-                print('Read MCS Config File:')
-                print({section: dict(self._config[section])
-                       for section in self._config.sections()})
+            logger.info('MCS Config File Path: ' + self._config_file)
         else:
-            print('No MCS Config File')
+            logger.info('No MCS Config File')
 
     def _validate_screen_size(self):
         if(self.get_size() < self.SCREEN_WIDTH_MIN):
@@ -81,13 +74,6 @@ class ConfigManager(object):
         return self._config.get(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_AWS_SECRET_ACCESS_KEY,
-            fallback=None
-        )
-
-    def get_debug_output(self):
-        return self._config.get(
-            self.CONFIG_DEFAULT_SECTION,
-            self.CONFIG_DEBUG_OUTPUT,
             fallback=None
         )
 
@@ -145,24 +131,6 @@ class ConfigManager(object):
             self.CONFIG_TEAM,
             fallback=''
         )
-
-    def is_debug(self):
-        # Environment variable override for debug mode
-        debug_env_var = os.getenv('MCS_DEBUG_MODE', None)
-
-        if(debug_env_var is None):
-            return self._config.getboolean(
-                self.CONFIG_DEFAULT_SECTION,
-                self.CONFIG_DEBUG,
-                fallback=False
-            )
-
-        if(debug_env_var is None or
-                debug_env_var.lower() == 'false' or
-                debug_env_var == '0' or debug_env_var == ''):
-            return False
-        else:
-            return True
 
     def is_evaluation(self):
         return self._config.getboolean(
