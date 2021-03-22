@@ -51,9 +51,9 @@ class ConfigManager(object):
         self._config = configparser.ConfigParser()
         if os.path.exists(self._config_file):
             self._config.read(self._config_file)
-            logger.info('MCS Config File Path: ' + self._config_file)
+            logger.info('Config File Path: ' + self._config_file)
         else:
-            logger.info('No MCS Config File')
+            logger.info('No Config File')
 
     def _validate_screen_size(self):
         if(self.get_size() < self.SCREEN_WIDTH_MIN):
