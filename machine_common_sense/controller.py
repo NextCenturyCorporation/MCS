@@ -48,12 +48,6 @@ def __reset_override(self, scene):
     # Remove the error check: if scene not in self.scenes_in_build
     self.server.send(dict(action='Reset', sceneName=scene, sequenceId=0))
     self.last_event = self.server.receive()
-    # self.last_event.metadata['lastActionSuccess'] = True
-    # self.last_event.metadata['actionReturn'] = {
-    #     'cameraNearPlane': 0,
-    #     'cameraFarPlane': 15
-    # }
-    #
     self.last_event = self.step(
         action='Initialize',
         **self.initialization_parameters
