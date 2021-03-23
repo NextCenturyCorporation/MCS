@@ -75,6 +75,7 @@ Relevant for the Summer 2021 evaluation. Objects may move on only the X axis (as
 - [move_toss_fast_01.json](./move_toss_fast_01.json)
 - [move_toss_fast_02.json](./move_toss_fast_02.json)
 
+| | |
 | --------- | ----------- |
 | ![](./videos/move_deep_fast_01.gif) | ![](./videos/move_deep_fast_02.gif) |
 | ![](./videos/move_deep_fast_03.gif) | ![](./videos/move_deep_fast_04.gif) |
