@@ -1,0 +1,23 @@
+﻿{
+    "name": "fail to move into large room wall",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "roomDimensions": {
+        "x": 30,
+        "y": 5,
+        "z": 20
+    },
+    "performerStart": {
+        "position": {
+            "x": 14,
+            "z": 8
+        },
+        "rotation": {
+            "x": 0,
+            "y": 90
+        }
+    },
+    "objects": []
+}
