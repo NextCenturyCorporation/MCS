@@ -4,6 +4,7 @@ from typing import Dict
 import logging
 import json
 import os
+from time import perf_counter
 
 
 logger = logging.getLogger(__name__)
@@ -19,6 +20,7 @@ class HistoryWriter(object):
         self.end_score = {}
         self.scene_history_file = None
         self.history_obj = {}
+        self.last_step_time_millis = perf_counter() * 1000
 
         if not os.path.exists(self.HISTORY_DIRECTORY):
             os.makedirs(self.HISTORY_DIRECTORY)
@@ -64,9 +66,18 @@ class HistoryWriter(object):
                         del history.output.goal.metadata[target]['image']
         return history
 
+    def init_timer(self):
+        """Initialize the step timer.  Should be called when first command is
+            sent to controller"""
+        self.last_step_time_millis = perf_counter() * 1000
+
     def add_step(self, step_obj: Dict):
-        """ Add a new step to the array of history steps"""
+        """Add a new step to the array of history steps"""
+        current_time = perf_counter() * 1000
         if step_obj is not None:
+            step_obj.delta_time_millis = current_time - \
+                self.last_step_time_millis
+            self.last_step_time_millis = current_time
             self.current_steps.append(
                 dict(self.filter_history_output(step_obj)))
 

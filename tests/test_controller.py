@@ -515,6 +515,7 @@ class TestController(unittest.TestCase):
         self.assertIsNone(output)
 
     def test_step_validate_action(self):
+        _ = self.controller.start_scene({'name': TEST_FILE_NAME})
         output = self.controller.step('Foobar')
         self.assertIsNone(output)
 
@@ -522,7 +523,6 @@ class TestController(unittest.TestCase):
         output = self.controller.step('MoveAhead')
         self.assertIsNone(output)
 
-        output = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.controller.set_goal(
             mcs.GoalMetadata(
                 action_list=[
