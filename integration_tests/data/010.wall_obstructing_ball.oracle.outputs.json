@@ -1,0 +1,106 @@
+﻿[
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.474,
+                "direction_z": 0.88,
+                "distance": 1.079,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.95,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.631,
+                "direction_z": 0.776,
+                "distance": 0.773,
+                "held": false,
+                "id": "testWall",
+                "mass": 100,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.6,
+                "shape": "structural",
+                "texture_color_list": [
+                    "brown"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.474,
+                "direction_z": 0.88,
+                "distance": 1.079,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.95,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "OBSTRUCTED",
+        "rotation_y": 0.0,
+        "step_number": 1,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.631,
+                "direction_z": 0.776,
+                "distance": 0.773,
+                "held": false,
+                "id": "testWall",
+                "mass": 100,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.6,
+                "shape": "structural",
+                "texture_color_list": [
+                    "brown"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    }
+]

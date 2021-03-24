@@ -44,7 +44,7 @@ class AbstractRunnerScript():
                 controller,
                 filename,
                 action_callback,
-                rename
+                args.rename if args.rename else ('' if rename else None)
             )
             if args.save_videos or args.save_gifs:
                 # Copy the black image into the debug folder as the last frame.
@@ -73,6 +73,11 @@ class AbstractRunnerScript():
         parser.add_argument(
             'mcs_unity_filename',
             help='Path to MCS unity build file'
+        )
+        parser.add_argument(
+            '--rename',
+            default=None,
+            help='Rename each scene input'
         )
         parser.add_argument(
             '--debug',
@@ -123,11 +128,15 @@ class AbstractRunnerScript():
             print(status)
             return
 
+        scene_name = (
+            rename if (rename is not None) else scene_data.get('name', '')
+        )
         if rename and 'sceneInfo' in scene_data.get('goal', {}):
             # Rename the scene using its hypercube cell ID.
+            scene_id = scene_data['goal']['sceneInfo']['id'][0]
             scene_data['name'] = (
-                (scene_data['name'] + '_') if 'name' in scene_data else ''
-            ) + scene_data['goal']['sceneInfo']['id'][0]
+                ((scene_name + '_') if scene_name else '') + scene_id
+            )
         else:
             # Add a name to the scene if needed.
             if 'name' not in scene_data.keys():

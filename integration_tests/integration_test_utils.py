@@ -12,10 +12,8 @@ def print_divider():
     print('========================================')
 
 
-def retrieve_test_args(name, handmade_only=False):
-    parser = argparse.ArgumentParser(
-        description=(f'Run {name} Integration Tests')
-    )
+def add_test_args(parser: argparse.ArgumentParser,
+                  handmade_only=False) -> argparse.ArgumentParser:
     parser.add_argument(
         'mcs_unity_build_file_path',
         help='Path to MCS unity build file'
@@ -42,4 +40,10 @@ def retrieve_test_args(name, handmade_only=False):
         action='store_true',
         help='Run in dev mode (useful for adding new test scenes)'
     )
-    return parser.parse_args()
+    parser.add_argument(
+        '--autofix',
+        default=False,
+        action='store_true',
+        help='Automatically fix test failures (only use with care!)'
+    )
+    return parser

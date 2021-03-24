@@ -707,7 +707,8 @@ class Controller():
             physics simulation were run. Returns None if you have passed the
             "last_step" of this scene.
         """
-
+        if self.__history_enabled and self.__step_number == 0:
+            self.__history_writer.init_timer()
         if self.__history_enabled and self.__step_number > 0:
             self.__history_writer.add_step(self.__history_item)
 
@@ -797,7 +798,8 @@ class Controller():
             action=action,
             args=kwargs,
             params=params,
-            output=history_copy)
+            output=history_copy,
+            delta_time_millis=0)
 
         output = self.restrict_step_output_metadata(pre_restrict_output)
 
@@ -1171,8 +1173,15 @@ class Controller():
 
             if self._config.is_evaluation() or self._config.is_video_enabled():
                 self.__image_recorder.add(scene_image)
+                goal_id = None
+                # Is there a better way to do this test?
+                if (self._goal is not None and
+                        self._goal.metadata is not None):
+                    goal_id = self._goal.metadata.get(
+                        'target', {}).get('id', None)
                 self.__topdown_recorder.add(
-                    self.__plotter.plot(scene_event, self.__step_number))
+                    self.__plotter.plot(scene_event, self.__step_number,
+                                        goal_id))
 
             if self.__depth_maps:
                 # The Unity depth array (returned by Depth.shader) contains

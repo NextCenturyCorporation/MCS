@@ -4,7 +4,7 @@ import textwrap
 import machine_common_sense as mcs
 
 
-class Test_StepMetadata(unittest.TestCase):
+class TestStepMetadata(unittest.TestCase):
 
     str_output = '''    {
         "action_list": [],
@@ -121,3 +121,7 @@ class Test_StepMetadata(unittest.TestCase):
     def test_str(self):
         self.assertEqual(str(self.step_metadata),
                          textwrap.dedent(self.str_output))
+
+
+if __name__ == '__main__':
+    unittest.main()
