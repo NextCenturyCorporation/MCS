@@ -1,12 +1,12 @@
 ﻿[
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.284247756,
-                "direction_y": -0.438215137,
-                "direction_z": 0.852743,
-                "distance": 1.05541742,
+                "direction_x": 0.247,
+                "direction_y": -0.626,
+                "direction_z": 0.74,
+                "distance": 1.217,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
@@ -22,10 +22,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.289999783,
-                "direction_y": -0.39874965,
-                "direction_z": 0.8699993,
-                "distance": 1.03448355,
+                "direction_x": -0.253,
+                "direction_y": -0.6,
+                "direction_z": 0.759,
+                "distance": 1.186,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
@@ -50,7 +50,7 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0,
@@ -72,10 +72,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.289999783,
-                "direction_y": -0.39874965,
-                "direction_z": 0.8699993,
-                "distance": 1.03448355,
+                "direction_x": -0.253,
+                "direction_y": -0.6,
+                "direction_z": 0.759,
+                "distance": 1.186,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
@@ -100,13 +100,13 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.323197961,
-                "direction_y": -0.390615642,
-                "direction_z": 0.8619527,
-                "distance": 0.9280454,
+                "direction_x": -0.278,
+                "direction_y": -0.613,
+                "direction_z": 0.74,
+                "distance": 1.081,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
@@ -122,10 +122,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.289999783,
-                "direction_y": -0.39874965,
-                "direction_z": 0.8699993,
-                "distance": 1.03448355,
+                "direction_x": -0.253,
+                "direction_y": -0.6,
+                "direction_z": 0.759,
+                "distance": 1.186,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
@@ -150,13 +150,13 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.323197961,
-                "direction_y": -0.390615642,
-                "direction_z": 0.8619527,
-                "distance": 0.9280454,
+                "direction_x": -0.277,
+                "direction_y": -0.613,
+                "direction_z": 0.74,
+                "distance": 1.081,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
@@ -172,10 +172,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.289999783,
-                "direction_y": -0.39874965,
-                "direction_z": 0.8699993,
-                "distance": 1.03448355,
+                "direction_x": -0.253,
+                "direction_y": -0.6,
+                "direction_z": 0.759,
+                "distance": 1.186,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,

@@ -1,12 +1,12 @@
 ﻿[
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.423505276,
-                "direction_z": 0.9058936,
-                "distance": 1.10388231,
+                "direction_y": -0.609,
+                "direction_z": 0.793,
+                "distance": 1.26,
                 "held": false,
                 "id": "testTrophy",
                 "mass": 1,
@@ -31,7 +31,7 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,

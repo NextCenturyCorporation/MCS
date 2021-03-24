@@ -1,12 +1,12 @@
 ﻿[
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.3407993,
-                "direction_z": 0.940136,
-                "distance": 1.06367588,
+                "direction_y": -0.593,
+                "direction_z": 0.806,
+                "distance": 1.117,
                 "held": false,
                 "id": "testBall",
                 "mass": 1,
@@ -14,7 +14,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_z": 1.0,
+                "position_z": 0.9,
                 "shape": "ball",
                 "texture_color_list": [
                     "blue"
@@ -31,7 +31,7 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
@@ -62,7 +62,7 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
@@ -93,7 +93,7 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
@@ -112,7 +112,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": false
+                "visible": true
             }
         ],
         "objects_count": 1,
@@ -124,7 +124,7 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
@@ -143,7 +143,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": false
+                "visible": true
             }
         ],
         "objects_count": 1,

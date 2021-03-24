@@ -1,12 +1,12 @@
 ﻿[
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.419776082,
-                "direction_z": 0.9076277,
-                "distance": 1.10177326,
+                "direction_y": -0.606,
+                "direction_z": 0.795,
+                "distance": 1.257,
                 "held": false,
                 "id": "testContainer",
                 "mass": 5,
@@ -22,10 +22,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.139115512,
-                "direction_y": -0.3471392,
-                "direction_z": 0.927438,
-                "distance": 1.07823992,
+                "direction_x": 0.123,
+                "direction_y": -0.554,
+                "direction_z": 0.823,
+                "distance": 1.215,
                 "held": false,
                 "id": "testTrophy",
                 "mass": 1,
@@ -50,7 +50,7 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "id": "testContainer",
@@ -58,7 +58,7 @@
             },
             {
                 "id": "testTrophy",
-                "visible": false
+                "visible": true
             }
         ],
         "objects_count": 2,
@@ -70,7 +70,7 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "id": "testContainer",
@@ -78,7 +78,7 @@
             },
             {
                 "id": "testTrophy",
-                "visible": false
+                "visible": true
             }
         ],
         "objects_count": 2,
@@ -90,183 +90,103 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
+                "direction_x": 0.0,
+                "direction_y": -0.646,
+                "direction_z": 0.763,
+                "distance": 1.179,
+                "held": false,
                 "id": "testContainer",
+                "mass": 5,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.0,
+                "position_z": 1,
+                "shape": "chest",
+                "texture_color_list": [
+                    "brown"
+                ],
                 "visible": true
             },
             {
+                "direction_x": 0,
+                "direction_y": -0.7788912,
+                "direction_z": 0.627159059,
+                "distance": 0.4942925,
+                "held": true,
                 "id": "testTrophy",
-                "visible": false
+                "mass": 1,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0,
+                "position_z": 0.41,
+                "shape": "trophy",
+                "texture_color_list": [
+                    "silver"
+                ],
+                "visible": true
             }
         ],
         "objects_count": 2,
         "position_x": 0.0,
-        "position_z": 0.2,
+        "position_z": 0.1,
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 3,
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
+                "direction_x": 0.0,
+                "direction_y": -0.646,
+                "direction_z": 0.763,
+                "distance": 1.179,
+                "held": false,
                 "id": "testContainer",
+                "mass": 5,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.0,
+                "position_z": 1,
+                "shape": "chest",
+                "texture_color_list": [
+                    "brown"
+                ],
                 "visible": true
             },
             {
+                "direction_x": 0,
+                "direction_y": -0.7788912,
+                "direction_z": 0.627159059,
+                "distance": 0.4942925,
+                "held": true,
                 "id": "testTrophy",
-                "visible": false
+                "mass": 1,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0,
+                "position_z": 0.41,
+                "shape": "trophy",
+                "texture_color_list": [
+                    "silver"
+                ],
+                "visible": true
             }
         ],
         "objects_count": 2,
         "position_x": 0.0,
-        "position_z": 0.3,
+        "position_z": 0.1,
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 4,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 0,
-        "objects": [
-            {
-                "id": "testContainer",
-                "visible": true
-            },
-            {
-                "id": "testTrophy",
-                "visible": false
-            }
-        ],
-        "objects_count": 2,
-        "position_x": 0.0,
-        "position_z": 0.4,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 5,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 10,
-        "objects": [
-            {
-                "id": "testContainer",
-                "visible": true
-            },
-            {
-                "id": "testTrophy",
-                "visible": true
-            }
-        ],
-        "objects_count": 2,
-        "position_x": 0.0,
-        "position_z": 0.4,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 6,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 10,
-        "objects": [
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.6105077,
-                "direction_z": 0.792010248,
-                "distance": 0.757565856,
-                "held": false,
-                "id": "testContainer",
-                "mass": 5,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.0,
-                "position_z": 1,
-                "shape": "chest",
-                "texture_color_list": [
-                    "brown"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0,
-                "direction_y": -0.7788912,
-                "direction_z": 0.627159059,
-                "distance": 0.4942925,
-                "held": true,
-                "id": "testTrophy",
-                "mass": 1,
-                "material_list": [
-                    "METAL"
-                ],
-                "position_x": 0,
-                "position_z": 0.710000038,
-                "shape": "trophy",
-                "texture_color_list": [
-                    "silver"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 2,
-        "position_x": 0.0,
-        "position_z": 0.4,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 7,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 10,
-        "objects": [
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.6105077,
-                "direction_z": 0.792010248,
-                "distance": 0.757565856,
-                "held": false,
-                "id": "testContainer",
-                "mass": 5,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.0,
-                "position_z": 1,
-                "shape": "chest",
-                "texture_color_list": [
-                    "brown"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0,
-                "direction_y": -0.7788912,
-                "direction_z": 0.627159059,
-                "distance": 0.4942925,
-                "held": true,
-                "id": "testTrophy",
-                "mass": 1,
-                "material_list": [
-                    "METAL"
-                ],
-                "position_x": 0,
-                "position_z": 0.710000038,
-                "shape": "trophy",
-                "texture_color_list": [
-                    "silver"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 2,
-        "position_x": 0.0,
-        "position_z": 0.4,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 8,
         "structural_objects_count": 6
     }
 ]

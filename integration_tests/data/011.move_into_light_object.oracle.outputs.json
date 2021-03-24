@@ -4,9 +4,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.168908656,
-                "direction_z": 0.9856317,
-                "distance": 1.25807643,
+                "direction_y": -0.382,
+                "direction_z": 0.924,
+                "distance": 1.342,
                 "held": false,
                 "id": "testBall",
                 "mass": 1.9,
@@ -105,9 +105,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.414914578,
-                "direction_z": 0.9098604,
-                "distance": 0.5121536,
+                "direction_y": -0.74,
+                "direction_z": 0.673,
+                "distance": 0.692,
                 "held": false,
                 "id": "testBall",
                 "mass": 1.9,
@@ -120,7 +120,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 1,
@@ -136,9 +136,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.414831638,
-                "direction_z": 0.909898162,
-                "distance": 0.512256,
+                "direction_y": -0.739,
+                "direction_z": 0.673,
+                "distance": 0.692,
                 "held": false,
                 "id": "testBall",
                 "mass": 1.9,
@@ -151,7 +151,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 1,
@@ -167,9 +167,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.41473648,
-                "direction_z": 0.9099416,
-                "distance": 0.512373567,
+                "direction_y": -0.739,
+                "direction_z": 0.673,
+                "distance": 0.692,
                 "held": false,
                 "id": "testBall",
                 "mass": 1.9,
@@ -182,7 +182,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 1,
@@ -198,9 +198,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.4119021,
-                "direction_z": 0.9112281,
-                "distance": 0.5158993,
+                "direction_y": -0.737,
+                "direction_z": 0.676,
+                "distance": 0.695,
                 "held": false,
                 "id": "testBall",
                 "mass": 1.9,
@@ -213,7 +213,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 1,
@@ -229,9 +229,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.4083776,
-                "direction_z": 0.9128131,
-                "distance": 0.520351768,
+                "direction_y": -0.733,
+                "direction_z": 0.68,
+                "distance": 0.698,
                 "held": false,
                 "id": "testBall",
                 "mass": 1.9,
@@ -244,7 +244,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 1,
@@ -260,9 +260,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.404931933,
-                "direction_z": 0.9143468,
-                "distance": 0.524779558,
+                "direction_y": -0.73,
+                "direction_z": 0.684,
+                "distance": 0.702,
                 "held": false,
                 "id": "testBall",
                 "mass": 1.9,
@@ -275,7 +275,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 1,
@@ -291,9 +291,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.401561856,
-                "direction_z": 0.915831864,
-                "distance": 0.529183745,
+                "direction_y": -0.726,
+                "direction_z": 0.687,
+                "distance": 0.705,
                 "held": false,
                 "id": "testBall",
                 "mass": 1.9,
@@ -306,7 +306,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 1,
@@ -322,9 +322,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.398266137,
-                "direction_z": 0.9172699,
-                "distance": 0.533562839,
+                "direction_y": -0.723,
+                "direction_z": 0.691,
+                "distance": 0.708,
                 "held": false,
                 "id": "testBall",
                 "mass": 1.9,
@@ -337,7 +337,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 1,
@@ -353,9 +353,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.395041645,
-                "direction_z": 0.918663144,
-                "distance": 0.537918,
+                "direction_y": -0.72,
+                "direction_z": 0.694,
+                "distance": 0.712,
                 "held": false,
                 "id": "testBall",
                 "mass": 1.9,
@@ -368,7 +368,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 1,
@@ -384,9 +384,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.3918868,
-                "direction_z": 0.9200135,
-                "distance": 0.5422484,
+                "direction_y": -0.716,
+                "direction_z": 0.698,
+                "distance": 0.715,
                 "held": false,
                 "id": "testBall",
                 "mass": 1.9,
@@ -399,7 +399,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 1,
@@ -415,9 +415,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.388799638,
-                "direction_z": 0.921322346,
-                "distance": 0.546554,
+                "direction_y": -0.713,
+                "direction_z": 0.701,
+                "distance": 0.718,
                 "held": false,
                 "id": "testBall",
                 "mass": 1.9,
@@ -430,7 +430,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 1,
@@ -446,9 +446,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.385777831,
-                "direction_z": 0.922591746,
-                "distance": 0.5508352,
+                "direction_y": -0.71,
+                "direction_z": 0.704,
+                "distance": 0.721,
                 "held": false,
                 "id": "testBall",
                 "mass": 1.9,
@@ -461,7 +461,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 1,
@@ -477,9 +477,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.3828201,
-                "direction_z": 0.923822939,
-                "distance": 0.555091,
+                "direction_y": -0.707,
+                "direction_z": 0.708,
+                "distance": 0.725,
                 "held": false,
                 "id": "testBall",
                 "mass": 1.9,
@@ -492,7 +492,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 1,

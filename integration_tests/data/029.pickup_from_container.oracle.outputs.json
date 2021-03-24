@@ -1,12 +1,12 @@
 ﻿[
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.4284372,
-                "direction_z": 0.903571546,
-                "distance": 0.664031565,
+                "direction_y": -0.697,
+                "direction_z": 0.717,
+                "distance": 0.837,
                 "held": false,
                 "id": "testBall",
                 "mass": 1,
@@ -23,9 +23,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.6105057,
-                "direction_z": 0.7920119,
-                "distance": 0.7575645,
+                "direction_y": -0.786,
+                "direction_z": 0.619,
+                "distance": 0.97,
                 "held": false,
                 "id": "testContainer",
                 "mass": 5,
@@ -50,13 +50,13 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.4284372,
-                "direction_z": 0.903571546,
-                "distance": 0.664031565,
+                "direction_y": -0.697,
+                "direction_z": 0.717,
+                "distance": 0.837,
                 "held": false,
                 "id": "testBall",
                 "mass": 1,
@@ -73,9 +73,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.6105057,
-                "direction_z": 0.7920119,
-                "distance": 0.7575645,
+                "direction_y": -0.786,
+                "direction_z": 0.619,
+                "distance": 0.97,
                 "held": false,
                 "id": "testContainer",
                 "mass": 5,
@@ -100,13 +100,13 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.4284372,
-                "direction_z": 0.903571546,
-                "distance": 0.664031565,
+                "direction_y": -0.697,
+                "direction_z": 0.717,
+                "distance": 0.837,
                 "held": false,
                 "id": "testBall",
                 "mass": 1,
@@ -123,9 +123,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.6105057,
-                "direction_z": 0.7920119,
-                "distance": 0.7575645,
+                "direction_y": -0.786,
+                "direction_z": 0.619,
+                "distance": 0.97,
                 "held": false,
                 "id": "testContainer",
                 "mass": 5,
@@ -150,7 +150,7 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
@@ -173,9 +173,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.6105057,
-                "direction_z": 0.7920119,
-                "distance": 0.7575645,
+                "direction_y": -0.786,
+                "direction_z": 0.619,
+                "distance": 0.97,
                 "held": false,
                 "id": "testContainer",
                 "mass": 5,
@@ -200,7 +200,7 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
@@ -223,9 +223,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.6105057,
-                "direction_z": 0.7920119,
-                "distance": 0.7575645,
+                "direction_y": -0.786,
+                "direction_z": 0.619,
+                "distance": 0.97,
                 "held": false,
                 "id": "testContainer",
                 "mass": 5,

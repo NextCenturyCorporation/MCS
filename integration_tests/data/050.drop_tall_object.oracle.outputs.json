@@ -1,366 +1,443 @@
-[{
-    "step_number": 0,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
+﻿[
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "position_x": 0.0,
+                "position_z": 1.0,
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "position_x": 0.0,
+                "position_z": -1.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
         "position_x": 0.0,
-        "position_z": 1.0,
-        "visible": true
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": true,
+                "id": "testBall",
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
         "position_x": 0.0,
-        "position_z": -1.0,
-        "visible": false
-    }]
-}, {
-    "step_number": 1,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": true,
-        "visible": true
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
-        "visible": false
-    }]
-}, {
-    "step_number": 2,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
-        "visible": true
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
-        "visible": false
-    }]
-}, {
-    "step_number": 3,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 10,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
-        "visible": true
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
-        "visible": false
-    }]
-}, {
-    "step_number": 4,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 20,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
-        "visible": true
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
-        "visible": false
-    }]
-}, {
-    "step_number": 5,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 30,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
-        "visible": true
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
-        "visible": false
-    }]
-}, {
-    "step_number": 6,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 40,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
-        "visible": true
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
-        "visible": false
-    }]
-}, {
-    "step_number": 7,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 50,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
-        "visible": true
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
-        "visible": false
-    }]
-}, {
-    "step_number": 8,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 60,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
-        "visible": true
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
-        "visible": false
-    }]
-}, {
-    "step_number": 9,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 70,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
-        "visible": true
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
-        "visible": false
-    }]
-}, {
-    "step_number": 10,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 80,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
-        "visible": false
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
-        "visible": false
-    }]
-}, {
-    "step_number": 11,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 90,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
-        "visible": false
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
-        "visible": false
-    }]
-}, {
-    "step_number": 12,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 100,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
-        "visible": false
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
-        "visible": false
-    }]
-}, {
-    "step_number": 13,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 110,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
-        "visible": false
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
-        "visible": false
-    }]
-}, {
-    "step_number": 14,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 120,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
-        "visible": false
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
-        "visible": false
-    }]
-}, {
-    "step_number": 15,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 130,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
-        "visible": false
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
-        "visible": false
-    }]
-}, {
-    "step_number": 16,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 140,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
-        "visible": false
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
-        "visible": true
-    }]
-}, {
-    "step_number": 17,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 140,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
-        "visible": false
-    }, {
-        "id": "testTrophy",
-        "held": true,
-        "mass": 1,
-        "visible": true
-    }]
-}, {
-    "step_number": 18,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 140,
-    "objects_count": 2,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "held": false,
-        "visible": false
-    }, {
-        "id": "testTrophy",
-        "held": false,
-        "mass": 1,
-        "visible": true
-    }]
-}]
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 1,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 2,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 10,
+        "step_number": 3,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 20,
+        "step_number": 4,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 30,
+        "step_number": 5,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 40,
+        "step_number": 6,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 50,
+        "step_number": 7,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 60,
+        "step_number": 8,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "visible": false
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 70,
+        "step_number": 9,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "visible": false
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 80,
+        "step_number": 10,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "visible": false
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 11,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "visible": false
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 100,
+        "step_number": 12,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "visible": false
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 110,
+        "step_number": 13,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "visible": false
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 120,
+        "step_number": 14,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "visible": false
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 130,
+        "step_number": 15,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "visible": false
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 140,
+        "step_number": 16,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "visible": false
+            },
+            {
+                "held": true,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 140,
+        "step_number": 17,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "testBall",
+                "visible": false
+            },
+            {
+                "held": false,
+                "id": "testTrophy",
+                "mass": 1,
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 140,
+        "step_number": 18,
+        "structural_objects_count": 6
+    }
+]

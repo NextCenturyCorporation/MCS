@@ -1,12 +1,12 @@
 ﻿[
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.3463501,
-                "direction_z": 0.9381053,
-                "distance": 1.33246768,
+                "direction_y": -0.52,
+                "direction_z": 0.854,
+                "distance": 1.463,
                 "held": false,
                 "id": "testSuitcase",
                 "mass": 2,
@@ -31,13 +31,13 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.3734942,
-                "direction_z": 0.9276326,
-                "distance": 1.02411234,
+                "direction_y": -0.436,
+                "direction_z": 0.9,
+                "distance": 1.056,
                 "held": true,
                 "id": "testSuitcase",
                 "mass": 2,
@@ -62,7 +62,7 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "held": false,
@@ -87,7 +87,7 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "held": false,
@@ -112,7 +112,7 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "held": false,

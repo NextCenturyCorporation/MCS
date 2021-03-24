@@ -1,12 +1,12 @@
 ﻿[
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.262723029,
-                "direction_y": -0.405031234,
-                "direction_z": 0.87574327,
-                "distance": 1.141887,
+                "direction_x": 0.232,
+                "direction_y": -0.59,
+                "direction_z": 0.774,
+                "distance": 1.293,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
@@ -22,10 +22,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.262723029,
-                "direction_y": -0.405031234,
-                "direction_z": 0.87574327,
-                "distance": 1.141887,
+                "direction_x": -0.232,
+                "direction_y": -0.59,
+                "direction_z": 0.774,
+                "distance": 1.293,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
@@ -50,7 +50,7 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0,
@@ -72,10 +72,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.262723029,
-                "direction_y": -0.405031234,
-                "direction_z": 0.87574327,
-                "distance": 1.141887,
+                "direction_x": -0.232,
+                "direction_y": -0.59,
+                "direction_z": 0.774,
+                "distance": 1.293,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
@@ -100,7 +100,7 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0,
@@ -122,10 +122,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.262723029,
-                "direction_y": -0.405031234,
-                "direction_z": 0.87574327,
-                "distance": 1.141887,
+                "direction_x": -0.232,
+                "direction_y": -0.59,
+                "direction_z": 0.774,
+                "distance": 1.293,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,

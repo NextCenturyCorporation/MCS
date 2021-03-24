@@ -1,12 +1,12 @@
 ﻿[
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.3765143,
-                "direction_z": 0.9264108,
-                "distance": 0.7556045,
+                "direction_y": -0.641,
+                "direction_z": 0.768,
+                "distance": 0.912,
                 "held": false,
                 "id": "testBall",
                 "mass": 1,
@@ -23,9 +23,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.5512555,
-                "direction_z": 0.8343365,
-                "distance": 0.8389891,
+                "direction_y": -0.736,
+                "direction_z": 0.677,
+                "distance": 1.035,
                 "held": false,
                 "id": "testContainer",
                 "mass": 5,
@@ -50,13 +50,13 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.376518458,
-                "direction_z": 0.9264091,
-                "distance": 0.7556058,
+                "direction_y": -0.641,
+                "direction_z": 0.768,
+                "distance": 0.912,
                 "held": false,
                 "id": "testBall",
                 "mass": 1,
@@ -73,9 +73,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.551257253,
-                "direction_z": 0.8343353,
-                "distance": 0.83899,
+                "direction_y": -0.736,
+                "direction_z": 0.677,
+                "distance": 1.035,
                 "held": false,
                 "id": "testContainer",
                 "mass": 5,
@@ -100,13 +100,13 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.376518279,
-                "direction_z": 0.9264092,
-                "distance": 0.7556057,
+                "direction_y": -0.641,
+                "direction_z": 0.768,
+                "distance": 0.912,
                 "held": false,
                 "id": "testBall",
                 "mass": 1,
@@ -123,9 +123,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.5512575,
-                "direction_z": 0.8343352,
-                "distance": 0.8389897,
+                "direction_y": -0.736,
+                "direction_z": 0.677,
+                "distance": 1.035,
                 "held": false,
                 "id": "testContainer",
                 "mass": 5,
@@ -150,13 +150,13 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.376518279,
-                "direction_z": 0.9264092,
-                "distance": 0.7556057,
+                "direction_y": -0.641,
+                "direction_z": 0.768,
+                "distance": 0.912,
                 "held": false,
                 "id": "testBall",
                 "mass": 1,
@@ -173,9 +173,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.551257432,
-                "direction_z": 0.834335268,
-                "distance": 0.8389896,
+                "direction_y": -0.736,
+                "direction_z": 0.677,
+                "distance": 1.035,
                 "held": false,
                 "id": "testContainer",
                 "mass": 5,
@@ -200,13 +200,13 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.3765188,
-                "direction_z": 0.926409,
-                "distance": 0.755605757,
+                "direction_y": -0.641,
+                "direction_z": 0.768,
+                "distance": 0.912,
                 "held": false,
                 "id": "testBall",
                 "mass": 1,
@@ -223,9 +223,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.5512577,
-                "direction_z": 0.83433497,
-                "distance": 0.838989735,
+                "direction_y": -0.736,
+                "direction_z": 0.677,
+                "distance": 1.035,
                 "held": false,
                 "id": "testContainer",
                 "mass": 5,
