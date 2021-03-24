@@ -3,5 +3,3 @@ MoveAhead
 PickupObject,objectId=testBall
 MoveAhead
 PickupObject,objectId=testBall
-MoveAhead
-PickupObject,objectId=testBall

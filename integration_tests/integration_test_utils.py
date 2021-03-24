@@ -40,4 +40,10 @@ def add_test_args(parser: argparse.ArgumentParser,
         action='store_true',
         help='Run in dev mode (useful for adding new test scenes)'
     )
+    parser.add_argument(
+        '--autofix',
+        default=False,
+        action='store_true',
+        help='Automatically fix test failures (only use with care!)'
+    )
     return parser

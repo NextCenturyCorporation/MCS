@@ -7,6 +7,7 @@
   - [Goal Metadata Config](#goal-metadata-config)
   - [Answer Config](#answer-config)
   - [Change Materials Config](#change-materials-config)
+  - [Force Config](#force-config)
   - [Move Config](#move-config)
   - [Physics Config](#physics-config)
   - [Show Config](#show-config)
@@ -106,7 +107,7 @@ Each **object config** has the following properties:
 - `id` (string, required): The object's unique ID.
 - `type` (string, required): The object's type from the [Object List](#object-list).
 - `changeMaterials` ([change_materials config](#change-materials-config) array, optional): The steps on which to change the material(s) (colors/textures) used on the object, and the new materials to use. See the [Material List](#material-list) for options. Default: `[]`
-- `forces` ([move config](#move-config) array, optional): The steps on which to apply [force](https://docs.unity3d.com/ScriptReference/Rigidbody.AddForce.html) to the object. The config `vector` describes the amount of force (in Newtons) to apply in each direction using the global coordinate system. Resets all existing forces on the object to 0 before applying the new force. Default: `[]`
+- `forces` ([force config](#force-config) array, optional): The steps on which to apply [force](https://docs.unity3d.com/ScriptReference/Rigidbody.AddForce.html) to the object. The config `vector` describes the amount of force (in Newtons) to apply in each direction using the global coordinate system. Resets all existing forces on the object to 0 before applying the new force. Default: `[]`
 - `hides` ([single step config](#single-step-config) array, optional): The steps on which to hide the object, completely removing its existence from the scene until it is shown again (see the `shows` property). Useful if you want to have impossible events (spontaneous disappearance). Default: `[]`
 - `kinematic` (boolean, optional): If true, the object will ignore all forces including gravity. See Unity's [isKinematic property](https://docs.unity3d.com/ScriptReference/Rigidbody-isKinematic.html). Usually paired with `structure`. Default: `false`
 - `locationParent` (string, optional): The `id` of another object in the scene. If given, this object's `shows.position` and `shows.rotation` will both start from the position and rotation of the `locationParent` object rather than from `0`. Default: none
@@ -162,6 +163,15 @@ Each **change materials config** has the following properties:
 
 - `stepBegin` (integer, required): The step on which the action should occur.  Must be non-negative.  A value of `0` means the action will occur during scene initialization.
 - `materials` (string array, required): The new materials for the object.
+
+### Force Config
+
+Each **force config** has the following properties:
+
+- `stepBegin` (integer, required): The step on which the action should begin.  Must be non-negative.  A value of `0` means the action will begin during scene initialization.
+- `stepEnd` (integer, required): The step on which the action should end.  Must be equal to or greater than the `stepBegin`.
+- `vector` ([vector config](#vector-config), required): The coordinates to describe the movement. Default: `{ "x": 0, "y": 0, "z": 0 }`
+- `relative` (bool, optional): Whether to apply the force using the object's relative coordinate system, rather than the environment's absolute coordinate system. Default: `false`
 
 ### Move Config
 
@@ -315,15 +325,16 @@ The following object types have the `pickupable` attribute by default.
 | `"cup_3"` | cup | 0.25 | X | | metal, plastic, wood | |
 | `"cup_6"` | cup | 0.25 | X | | metal, plastic, wood | |
 | `"gift_box_1"` | box | 0.5 | X | X | cardboard | |
-| `"trophy"` | trophy | 0.5 | | | none | |
 | `"pacifier"` | pacifier | | 0.5 | | none | |
 | `"plate_1"` | plate | 0.25 | X | | metal, plastic, wood | |
 | `"plate_3"` | plate | 0.25 | X | | metal, plastic, wood | |
 | `"plate_4"` | plate | 0.25 | X | | metal, plastic, wood | |
 | `"racecar_red"` | car | 0.5 | | | block (blank), wood | |
+| `"soccer_ball"` | ball | 0.5 | | | none | |
 | `"suitcase_1"` | box | 5 | X | X | metal, plastic | same as case_1
 | `"train_1"` | train | 0.5 | | | block (blank), wood | |
 | `"trolley_1"` | trolley | 0.5 | | | block (blank), wood | |
+| `"trophy"` | trophy | 0.5 | | | none | |
 | `"truck_1"` | truck | 0.5 | | | block (blank), wood | |
 | `"turtle_on_wheels"` | turtle | | | 0.5 | block (blank), wood | |
 

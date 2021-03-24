@@ -1,1723 +1,2144 @@
-[{
-    "step_number": 0,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": 0.0,
-        "direction_y": 1.0,
-        "direction_z": 0.0,
-        "distance": 2.7875,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": 0.0,
-        "direction_y": -1.0,
-        "direction_z": 0.0,
-        "distance": 0.7125,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": -0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": 0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 1,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.1,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": 0.0,
-        "direction_y": 0.9993571,
-        "direction_z": -0.035851378,
-        "distance": 2.789293,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": 0.0,
-        "direction_y": -0.990294,
-        "direction_z": -0.138988629,
-        "distance": 0.7194833,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": 0.0,
-        "direction_y": 0.190378487,
-        "direction_z": -0.981710732,
-        "distance": 5.44967031,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": 0.0,
-        "direction_y": 0.197488666,
-        "direction_z": 0.9803052,
-        "distance": 5.253466,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.980856,
-        "direction_y": 0.19383584,
-        "direction_z": -0.0186829716,
-        "distance": 5.35246754,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.980856,
-        "direction_y": 0.19383584,
-        "direction_z": -0.0186829716,
-        "distance": 5.35246754,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 2,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.2,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": 0.0,
-        "direction_y": 0.9974359,
-        "direction_z": -0.07156491,
-        "distance": 2.79466558,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": 0.0,
-        "direction_y": -0.9627884,
-        "direction_z": -0.2702564,
-        "distance": 0.740038,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": 0.0,
-        "direction_y": 0.187008575,
-        "direction_z": -0.9823583,
-        "distance": 5.547874,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": 0.0,
-        "direction_y": 0.201242417,
-        "direction_z": 0.9795414,
-        "distance": 5.15547371,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9803429,
-        "direction_y": 0.193734437,
-        "direction_z": -0.0373463966,
-        "distance": 5.355269,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9803429,
-        "direction_y": 0.193734437,
-        "direction_z": -0.0373463966,
-        "distance": 5.355269,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 3,
-    "head_tilt": 0,
-    "position_x": 0.1,
-    "position_z": 0.2,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": -0.0357595719,
-        "direction_y": 0.996798,
-        "direction_z": -0.0715191439,
-        "distance": 2.79645419,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": -0.133911148,
-        "direction_y": -0.9541169,
-        "direction_z": -0.2678223,
-        "distance": 0.7467638,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": -0.0180219952,
-        "direction_y": 0.1869782,
-        "direction_z": -0.9821987,
-        "distance": 5.548775,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": -0.0193932112,
-        "direction_y": 0.201204568,
-        "direction_z": 0.9793572,
-        "distance": 5.1564436,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9810503,
-        "direction_y": 0.190250412,
-        "direction_z": -0.03667478,
-        "distance": 5.453339,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.979595542,
-        "direction_y": 0.1973457,
-        "direction_z": -0.0380425453,
-        "distance": 5.257272,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 4,
-    "head_tilt": 0,
-    "position_x": 0.2,
-    "position_z": 0.2,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": -0.07138236,
-        "direction_y": 0.9948915,
-        "direction_z": -0.07138236,
-        "distance": 2.801813,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": -0.260896564,
-        "direction_y": -0.9294439,
-        "direction_z": -0.260896564,
-        "distance": 0.7665874,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": -0.0360264443,
-        "direction_y": 0.186887175,
-        "direction_z": -0.9817205,
-        "distance": 5.551478,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": -0.0387645625,
-        "direction_y": 0.20109117,
-        "direction_z": 0.978805244,
-        "distance": 5.15935135,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9817205,
-        "direction_y": 0.186887175,
-        "direction_z": -0.0360264443,
-        "distance": 5.551478,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.978805244,
-        "direction_y": 0.20109117,
-        "direction_z": -0.0387645625,
-        "distance": 5.15935135,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 5,
-    "head_tilt": 0,
-    "position_x": 0.2,
-    "position_z": 0.1,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": -0.0715191439,
-        "direction_y": 0.996798,
-        "direction_z": -0.0357595719,
-        "distance": 2.79645419,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": -0.2678223,
-        "direction_y": -0.9541169,
-        "direction_z": -0.133911148,
-        "distance": 0.7467638,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": -0.03667478,
-        "direction_y": 0.190250412,
-        "direction_z": -0.9810503,
-        "distance": 5.453339,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": -0.0380425453,
-        "direction_y": 0.1973457,
-        "direction_z": 0.979595542,
-        "distance": 5.257272,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9821987,
-        "direction_y": 0.1869782,
-        "direction_z": -0.0180219952,
-        "distance": 5.548775,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9793572,
-        "direction_y": 0.201204568,
-        "direction_z": -0.0193932112,
-        "distance": 5.1564436,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 6,
-    "head_tilt": 0,
-    "position_x": 0.2,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": -0.07156491,
-        "direction_y": 0.9974359,
-        "direction_z": 0.0,
-        "distance": 2.79466558,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": -0.2702564,
-        "direction_y": -0.9627884,
-        "direction_z": 0.0,
-        "distance": 0.740038,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": -0.0373463966,
-        "direction_y": 0.193734437,
-        "direction_z": -0.9803429,
-        "distance": 5.355269,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": -0.0373463966,
-        "direction_y": 0.193734437,
-        "direction_z": 0.9803429,
-        "distance": 5.355269,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9823583,
-        "direction_y": 0.187008575,
-        "direction_z": 0.0,
-        "distance": 5.547874,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9795414,
-        "direction_y": 0.201242417,
-        "direction_z": 0.0,
-        "distance": 5.15547371,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 7,
-    "head_tilt": 0,
-    "position_x": 0.1,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": -0.035851378,
-        "direction_y": 0.9993571,
-        "direction_z": 0.0,
-        "distance": 2.789293,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": -0.138988629,
-        "direction_y": -0.990294,
-        "direction_z": 0.0,
-        "distance": 0.7194833,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": -0.0186829716,
-        "direction_y": 0.19383584,
-        "direction_z": -0.980856,
-        "distance": 5.35246754,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": -0.0186829716,
-        "direction_y": 0.19383584,
-        "direction_z": 0.980856,
-        "distance": 5.35246754,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.981710732,
-        "direction_y": 0.190378487,
-        "direction_z": 0.0,
-        "distance": 5.44967031,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9803052,
-        "direction_y": 0.197488666,
-        "direction_z": 0.0,
-        "distance": 5.253466,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 8,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": 0.0,
-        "direction_y": 1.0,
-        "direction_z": 0.0,
-        "distance": 2.7875,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": 0.0,
-        "direction_y": -1.0,
-        "direction_z": 0.0,
-        "distance": 0.7125,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": -0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": 0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 9,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 10,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": 0.0,
-        "direction_y": 1.0,
-        "direction_z": 0.0,
-        "distance": 2.7875,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": 0.0,
-        "direction_y": -1.0,
-        "direction_z": 0.0,
-        "distance": 0.7125,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": -0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": 0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 10,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 20,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": 0.0,
-        "direction_y": 1.0,
-        "direction_z": 0.0,
-        "distance": 2.7875,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": 0.0,
-        "direction_y": -1.0,
-        "direction_z": 0.0,
-        "distance": 0.7125,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": -0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": 0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 11,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 30,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": 0.0,
-        "direction_y": 1.0,
-        "direction_z": 0.0,
-        "distance": 2.7875,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": 0.0,
-        "direction_y": -1.0,
-        "direction_z": 0.0,
-        "distance": 0.7125,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": -0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": 0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 12,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 20,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": 0.0,
-        "direction_y": 1.0,
-        "direction_z": 0.0,
-        "distance": 2.7875,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": 0.0,
-        "direction_y": -1.0,
-        "direction_z": 0.0,
-        "distance": 0.7125,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": -0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": 0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 13,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 10,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": 0.0,
-        "direction_y": 1.0,
-        "direction_z": 0.0,
-        "distance": 2.7875,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": 0.0,
-        "direction_y": -1.0,
-        "direction_z": 0.0,
-        "distance": 0.7125,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": -0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": 0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 14,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": 0.0,
-        "direction_y": 1.0,
-        "direction_z": 0.0,
-        "distance": 2.7875,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": 0.0,
-        "direction_y": -1.0,
-        "direction_z": 0.0,
-        "distance": 0.7125,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": -0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": 0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 15,
-    "head_tilt": 10,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": 0.0,
-        "direction_y": 1.0,
-        "direction_z": 0.0,
-        "distance": 2.7875,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": 0.0,
-        "direction_y": -1.0,
-        "direction_z": 0.0,
-        "distance": 0.7125,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": -0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": 0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 16,
-    "head_tilt": 20,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": 0.0,
-        "direction_y": 1.0,
-        "direction_z": 0.0,
-        "distance": 2.7875,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": 0.0,
-        "direction_y": -1.0,
-        "direction_z": 0.0,
-        "distance": 0.7125,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": -0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": 0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 17,
-    "head_tilt": 30,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": 0.0,
-        "direction_y": 1.0,
-        "direction_z": 0.0,
-        "distance": 2.7875,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": 0.0,
-        "direction_y": -1.0,
-        "direction_z": 0.0,
-        "distance": 0.7125,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": -0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": 0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 18,
-    "head_tilt": 20,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": 0.0,
-        "direction_y": 1.0,
-        "direction_z": 0.0,
-        "distance": 2.7875,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": 0.0,
-        "direction_y": -1.0,
-        "direction_z": 0.0,
-        "distance": 0.7125,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": -0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": 0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 19,
-    "head_tilt": 10,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": 0.0,
-        "direction_y": 1.0,
-        "direction_z": 0.0,
-        "distance": 2.7875,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": 0.0,
-        "direction_y": -1.0,
-        "direction_z": 0.0,
-        "distance": 0.7125,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": -0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": 0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}, {
-    "step_number": 20,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6,
-    "structural_objects": [{
-        "id": "ceiling",
-        "direction_x": 0.0,
-        "direction_y": 1.0,
-        "direction_z": 0.0,
-        "distance": 2.7875,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "floor",
-        "direction_x": 0.0,
-        "direction_y": -1.0,
-        "direction_z": 0.0,
-        "distance": 0.7125,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_back",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": -0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": -5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_front",
-        "direction_x": 0.0,
-        "direction_y": 0.1938697,
-        "direction_z": 0.9810273,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 0.0,
-        "position_z": 5.25,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_left",
-        "direction_x": -0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": -5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }, {
-        "id": "wall_right",
-        "direction_x": 0.9810273,
-        "direction_y": 0.1938697,
-        "direction_z": 0.0,
-        "distance": 5.351533,
-        "held": false,
-        "position_x": 5.25,
-        "position_z": 0.0,
-        "shape": "structural",
-        "texture_color_list": ["white"],
-        "visible": true
-    }]
-}]
+﻿[
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 1.0,
+                "direction_z": 0.0,
+                "distance": 2.488,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -1.0,
+                "direction_z": 0.0,
+                "distance": 1.012,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": -0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": 0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.1,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 1,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.9993571,
+                "direction_z": -0.04,
+                "distance": 2.49,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.995,
+                "direction_z": -0.098,
+                "distance": 1.017,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.137,
+                "direction_z": -0.991,
+                "distance": 5.401,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.142,
+                "direction_z": 0.99,
+                "distance": 5.203,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.139,
+                "direction_z": -0.0186829716,
+                "distance": 5.303,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.99,
+                "direction_y": 0.139,
+                "direction_z": -0.0186829716,
+                "distance": 5.303,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 2,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.9974359,
+                "direction_z": -0.08,
+                "distance": 2.496,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.981,
+                "direction_z": -0.194,
+                "distance": 1.032,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.134,
+                "direction_z": -0.991,
+                "distance": 5.5,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.145,
+                "direction_z": 0.989,
+                "distance": 5.104,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.139,
+                "direction_z": -0.0373463966,
+                "distance": 5.305,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.99,
+                "direction_y": 0.139,
+                "direction_z": -0.0373463966,
+                "distance": 5.305,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.1,
+        "position_z": 0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 3,
+        "structural_objects": [
+            {
+                "direction_x": -0.04,
+                "direction_y": 0.996798,
+                "direction_z": -0.08,
+                "distance": 2.498,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.096,
+                "direction_y": -0.976,
+                "direction_z": -0.193,
+                "distance": 1.036,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.0180219952,
+                "direction_y": 0.134,
+                "direction_z": -0.991,
+                "distance": 5.501,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.0193932112,
+                "direction_y": 0.145,
+                "direction_z": 0.989,
+                "distance": 5.105,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.137,
+                "direction_z": -0.03667478,
+                "distance": 5.404,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.989,
+                "direction_y": 0.142,
+                "direction_z": -0.0380425453,
+                "distance": 5.206,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.2,
+        "position_z": 0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 4,
+        "structural_objects": [
+            {
+                "direction_x": -0.08,
+                "direction_y": 0.994,
+                "direction_z": -0.08,
+                "distance": 2.504,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.19,
+                "direction_y": -0.963,
+                "direction_z": -0.19,
+                "distance": 1.051,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.0360264443,
+                "direction_y": 0.134,
+                "direction_z": -0.99,
+                "distance": 5.503,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.0387645625,
+                "direction_y": 0.144,
+                "direction_z": 0.989,
+                "distance": 5.108,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.134,
+                "direction_z": -0.0360264443,
+                "distance": 5.503,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.989,
+                "direction_y": 0.144,
+                "direction_z": -0.0387645625,
+                "distance": 5.108,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.2,
+        "position_z": 0.1,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 5,
+        "structural_objects": [
+            {
+                "direction_x": -0.08,
+                "direction_y": 0.996798,
+                "direction_z": -0.04,
+                "distance": 2.498,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.193,
+                "direction_y": -0.976,
+                "direction_z": -0.096,
+                "distance": 1.036,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.03667478,
+                "direction_y": 0.137,
+                "direction_z": -0.99,
+                "distance": 5.404,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.0380425453,
+                "direction_y": 0.142,
+                "direction_z": 0.989,
+                "distance": 5.206,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.991,
+                "direction_y": 0.134,
+                "direction_z": -0.0180219952,
+                "distance": 5.501,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.989,
+                "direction_y": 0.145,
+                "direction_z": -0.0193932112,
+                "distance": 5.105,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.2,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 6,
+        "structural_objects": [
+            {
+                "direction_x": -0.08,
+                "direction_y": 0.9974359,
+                "direction_z": 0.0,
+                "distance": 2.496,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.194,
+                "direction_y": -0.981,
+                "direction_z": 0.0,
+                "distance": 1.032,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.0373463966,
+                "direction_y": 0.139,
+                "direction_z": -0.99,
+                "distance": 5.305,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.0373463966,
+                "direction_y": 0.139,
+                "direction_z": 0.99,
+                "distance": 5.305,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.991,
+                "direction_y": 0.134,
+                "direction_z": 0.0,
+                "distance": 5.5,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.989,
+                "direction_y": 0.145,
+                "direction_z": 0.0,
+                "distance": 5.104,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.1,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 7,
+        "structural_objects": [
+            {
+                "direction_x": -0.04,
+                "direction_y": 0.9993571,
+                "direction_z": 0.0,
+                "distance": 2.49,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.098,
+                "direction_y": -0.995,
+                "direction_z": 0.0,
+                "distance": 1.017,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.0186829716,
+                "direction_y": 0.139,
+                "direction_z": -0.99,
+                "distance": 5.303,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.0186829716,
+                "direction_y": 0.139,
+                "direction_z": 0.99,
+                "distance": 5.303,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.991,
+                "direction_y": 0.137,
+                "direction_z": 0.0,
+                "distance": 5.401,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.99,
+                "direction_y": 0.142,
+                "direction_z": 0.0,
+                "distance": 5.203,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 8,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 1.0,
+                "direction_z": 0.0,
+                "distance": 2.488,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -1.0,
+                "direction_z": 0.0,
+                "distance": 1.012,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": -0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": 0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 10,
+        "step_number": 9,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 1.0,
+                "direction_z": 0.0,
+                "distance": 2.488,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -1.0,
+                "direction_z": 0.0,
+                "distance": 1.012,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": -0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": 0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 20,
+        "step_number": 10,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 1.0,
+                "direction_z": 0.0,
+                "distance": 2.488,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -1.0,
+                "direction_z": 0.0,
+                "distance": 1.012,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": -0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": 0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 30,
+        "step_number": 11,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 1.0,
+                "direction_z": 0.0,
+                "distance": 2.488,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -1.0,
+                "direction_z": 0.0,
+                "distance": 1.012,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": -0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": 0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 20,
+        "step_number": 12,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 1.0,
+                "direction_z": 0.0,
+                "distance": 2.488,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -1.0,
+                "direction_z": 0.0,
+                "distance": 1.012,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": -0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": 0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 10,
+        "step_number": 13,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 1.0,
+                "direction_z": 0.0,
+                "distance": 2.488,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -1.0,
+                "direction_z": 0.0,
+                "distance": 1.012,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": -0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": 0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 14,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 1.0,
+                "direction_z": 0.0,
+                "distance": 2.488,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -1.0,
+                "direction_z": 0.0,
+                "distance": 1.012,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": -0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": 0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 10,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 15,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 1.0,
+                "direction_z": 0.0,
+                "distance": 2.488,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -1.0,
+                "direction_z": 0.0,
+                "distance": 1.012,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": -0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": 0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 16,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 1.0,
+                "direction_z": 0.0,
+                "distance": 2.488,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -1.0,
+                "direction_z": 0.0,
+                "distance": 1.012,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": -0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": 0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 17,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 1.0,
+                "direction_z": 0.0,
+                "distance": 2.488,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -1.0,
+                "direction_z": 0.0,
+                "distance": 1.012,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": -0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": 0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 18,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 1.0,
+                "direction_z": 0.0,
+                "distance": 2.488,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -1.0,
+                "direction_z": 0.0,
+                "distance": 1.012,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": -0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": 0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 10,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 19,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 1.0,
+                "direction_z": 0.0,
+                "distance": 2.488,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -1.0,
+                "direction_z": 0.0,
+                "distance": 1.012,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": -0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": 0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 20,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 1.0,
+                "direction_z": 0.0,
+                "distance": 2.488,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -1.0,
+                "direction_z": 0.0,
+                "distance": 1.012,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": -0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.139,
+                "direction_z": 0.99,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.99,
+                "direction_y": 0.139,
+                "direction_z": 0.0,
+                "distance": 5.302,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 5.25,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    }
+]
