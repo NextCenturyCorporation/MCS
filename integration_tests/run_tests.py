@@ -21,5 +21,6 @@ if __name__ == "__main__":
         args.mcs_unity_build_file_path,
         args.metadata,
         args.test,
-        args.dev
+        args.dev,
+        args.autofix
     )
