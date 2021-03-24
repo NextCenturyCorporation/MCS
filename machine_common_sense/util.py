@@ -70,11 +70,12 @@ class Util:
             "SHAPE",
             "COLORS",
             "HELD",
+            "VISIBLE",
+            "STATE",
             "POSITION (WORLD)",
-            "DIMENSIONS (WORLD)",
             "DISTANCE (WORLD)",
             "DIRECTION (WORLD)",
-            "STATE"
+            "DIMENSIONS (WORLD)"
         ]
         rows = [titles] + [
             [
@@ -84,12 +85,16 @@ class Util:
                 if(metadata.texture_color_list is not None)
                 else metadata.texture_color_list,
                 metadata.held,
+                metadata.visible,
+                ", ".join(metadata.state_list)
+                if(metadata.state_list is not None) else metadata.state_list,
                 Util.vector_to_string(metadata.position),
-                Util.vector_to_string(metadata.dimensions),
                 metadata.distance_in_world,
                 Util.vector_to_string(metadata.direction),
-                ", ".join(metadata.state_list)
-                if(metadata.state_list is not None) else metadata.state_list
+                ("[" + ", ".join([
+                    Util.vector_to_string(corner) for corner
+                    in metadata.dimensions
+                ]) + "]") if metadata.dimensions else None
             ]
             for metadata in object_list
         ]
