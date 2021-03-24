@@ -1,6 +1,6 @@
 ﻿{
     "name": "large_room",
-    "version": 2,
+    "version": 1,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/WallDrywallWhite",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/RUG4",
     "wallMaterial": "AI2-THOR/Materials/Walls/YellowDrywall",
