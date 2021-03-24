@@ -207,3 +207,14 @@ Be sure that PEP-8 formatting is correct or is easily fixable.
 ```
 
 After iterating with the contributor, if you feel the PR is reasonably close, feel free to approve the PR, merge, and fix any lingering issues.
+
+## Releases
+
+Update the version number in the following files:
+
+- [CPU_Container.dockerfile](../CPU_Container.dockerfile)
+- [Dockerfile](../Dockerfile)
+- [README.md](../README.md)
+- [requirements.txt](../requirements.txt)
+- [setup.py](../setup.py)
+- [machine_common_sense/_version.py](../machine_common_sense/_version.py)
