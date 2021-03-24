@@ -1,1 +1,1 @@
-PickupObject,objectImageCoordsX=255,objectImageCoordsY=310
+PickupObject,objectImageCoordsX=260,objectImageCoordsY=260

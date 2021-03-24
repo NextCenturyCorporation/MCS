@@ -40,7 +40,7 @@ setuptools.setup(
         'msgpack>=1.0.0',
         ('ai2thor @ '
          'git+https://github.com/NextCenturyCorporation/ai2thor'
-         '@0.3.8#egg=ai2thor')
+         '@0.4.0#egg=ai2thor')
     ],
     entry_points={
         'console_scripts': [
