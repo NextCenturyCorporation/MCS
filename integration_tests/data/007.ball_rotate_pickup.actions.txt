@@ -9,5 +9,3 @@ RotateRight
 PickupObject,objectId=testBall
 RotateRight
 PickupObject,objectId=testBall
-RotateRight
-PickupObject,objectId=testBall
