@@ -5,7 +5,7 @@ import PIL
 from machine_common_sense.plotter import TopDownPlotter, XZHeading
 
 
-class Test_TopDownPlotter(unittest.TestCase):
+class TestTopDownPlotter(unittest.TestCase):
 
     PLOT_WIDTH = 600
     PLOT_HEIGHT = 400
@@ -343,3 +343,7 @@ class Test_TopDownPlotter(unittest.TestCase):
         )
 
         self.assertEqual(plotter._scene_name, "scene")
+
+
+if __name__ == '__main__':
+    unittest.main()

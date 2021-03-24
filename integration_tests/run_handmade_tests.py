@@ -1,3 +1,4 @@
+import argparse
 import glob
 import json
 import math
@@ -7,7 +8,7 @@ import time
 import machine_common_sense as mcs
 from additional_integration_tests import FUNCTION_LIST
 from integration_test_utils import METADATA_TIER_LIST, print_divider, \
-    retrieve_test_args
+    add_test_args
 
 
 INTEGRATION_TESTS_FOLDER = os.path.dirname(os.path.abspath(__file__))
@@ -44,7 +45,7 @@ def create_step_test_case_list(expected, actual):
         ('structural_objects_count', len(actual.structural_object_list))
     ]
     return [
-        create_test_case(case_name, expected[case_name], actual_data)
+        create_test_case([case_name], expected[case_name], actual_data)
         for case_name, actual_data in test_case_list
         if case_name in expected
     ]
@@ -80,7 +81,7 @@ def create_object_test_case_list(object_type, expected, actual):
         ('visible', actual.visible)
     ]
     return [create_test_case(
-        f'{object_type} {actual.uuid} {case_name}',
+        [object_type, actual.uuid, case_name],
         expected[case_name],
         actual_data
     ) for case_name, actual_data in test_case_list if case_name in expected]
@@ -94,12 +95,12 @@ def validate_single_output(expected, actual):
     expected_object_dict = {}
     for expected_object in expected.get('objects', []):
         expected_object_dict[expected_object.get('id', '')] = (
-            'object',
+            'objects',
             expected_object
         )
     for expected_object in expected.get('structural_objects', []):
         expected_object_dict[expected_object.get('id', '')] = (
-            'structural object',
+            'structural_objects',
             expected_object
         )
     # For each object in the step output metdata...
@@ -127,9 +128,13 @@ def validate_single_output(expected, actual):
                 abs_tol=0.001
             ))
         if failed:
-            failed_validation_list.append(
-                f'{test_case}: {actual_data} != {expected_data}'
-            )
+            test_case_string = ' '.join(test_case)
+            failed_validation_list.append((
+                test_case,
+                actual_data,
+                expected_data,
+                f'{test_case_string}: {actual_data} != {expected_data}'
+            ))
     return failed_validation_list
 
 
@@ -165,7 +170,7 @@ def load_output_list(scene_filename, metadata_tier):
     return output_filename, output_list
 
 
-def run_single_scene(controller, scene_filename, metadata_tier, dev):
+def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
     # Load the test scene's JSON data.
     scene_data, status = mcs.load_scene_json_file(scene_filename)
 
@@ -196,6 +201,7 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev):
     time.sleep(1)
 
     successful = True
+    autofix_case_list = []
 
     # Run the specific actions for the test scene.
     for index, action_data in enumerate(action_list + [None]):
@@ -207,13 +213,19 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev):
         # If the validation failed, return the failed test case info.
         if len(failed_validation_list) > 0:
             indent = "\n" + INDENT + INDENT
+            error_message_list = [item[3] for item in failed_validation_list]
             status = (
                 f'Step {index} failed:{indent}'
-                f'{indent.join(failed_validation_list)}'
+                f'{indent.join(error_message_list)}'
             )
             successful = False
-            if dev:
+            if dev or autofix:
                 print(status)
+                if autofix:
+                    autofix_case_list = autofix_case_list + [
+                        (index, item[0], item[1], item[2])
+                        for item in failed_validation_list
+                    ]
             else:
                 return False, status
         if action_data:
@@ -221,6 +233,28 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev):
                 action_data['action'],
                 **action_data['params']
             )
+
+    if autofix and len(autofix_case_list):
+        for index, test_case, actual, _ in autofix_case_list:
+            output_dict = expected_output_data_list[index]
+            dict_property = test_case[0]
+            if len(test_case) > 1:
+                nested_list = output_dict[test_case[0]]
+                for nested_dict in nested_list:
+                    if nested_dict['id'] == test_case[1]:
+                        output_dict = nested_dict
+                dict_property = test_case[2]
+            output_dict[dict_property] = (
+                round(actual, 3) if isinstance(actual, float) else actual
+            )
+        with open(output_filename, 'w', encoding='utf-8-sig') as output_file:
+            json.dump(
+                expected_output_data_list,
+                output_file,
+                indent=4,
+                sort_keys=True
+            )
+            print(f'SAVED {len(autofix_case_list)} FIXES: {output_filename}')
 
     # Stop the test scene.
     controller.end_scene("", 1)
@@ -233,11 +267,11 @@ def start_handmade_tests(
     mcs_unity_build,
     only_metadata_tier,
     only_test_name,
-    dev
+    dev,
+    autofix
 ):
     # Find all of the test scene JSON files.
-    scene_filename_list = glob.glob(TEST_FOLDER + '*' + SCENE_SUFFIX)
-    scene_filename_list.sort()
+    scene_filename_list = sorted(glob.glob(TEST_FOLDER + '*' + SCENE_SUFFIX))
 
     successful_test_list = []
     failed_test_list = []
@@ -262,7 +296,8 @@ def start_handmade_tests(
                 controller,
                 scene_filename,
                 metadata_tier,
-                dev
+                dev,
+                autofix
             )
             test_name = (
                 os.path.basename(scene_filename).replace(SCENE_SUFFIX, '')
@@ -299,10 +334,15 @@ def start_handmade_tests(
 
 
 if __name__ == "__main__":
-    args = retrieve_test_args('Handmade', handmade_only=True)
+    parser = argparse.ArgumentParser(
+        description="Run Handmade Integration Tests"
+    )
+    parser = add_test_args(parser, handmade_only=True)
+    args = parser.parse_args()
     start_handmade_tests(
         args.mcs_unity_build_file_path,
         args.metadata,
         args.test,
-        args.dev
+        args.dev,
+        args.autofix
     )

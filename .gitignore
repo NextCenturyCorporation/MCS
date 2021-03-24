@@ -8,6 +8,7 @@ env.bak/
 venv.bak/
 
 # Editors
+.idea/
 *.swp
 
 # Mac OS
@@ -26,6 +27,7 @@ sdist/
 wheels/
 
 docs/_build
+**/*.gif
 **/*.mp4
 **/mcs_config.ini
 

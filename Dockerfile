@@ -10,22 +10,25 @@
 # docker run -it --rm --gpus all -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw mcs-playroom:0.0.6
 #
 
-FROM nvidia/cudagl:10.1-base-ubuntu18.04
+# Older Alternative: FROM nvidia/cudagl:10.1-base-ubuntu18.04
+FROM nvidia/cudagl:11.0.3-base-ubuntu20.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
 ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES},display
-#ENV LANG C.UTF-8
+# ENV LANG C.UTF-8
 
 # --build-arg mcsversion=0.0.x to override default in docker build command
-ARG mcsversion=0.3.8
+ARG mcsversion=0.4.0
 
 WORKDIR /mcs
 
-RUN apt-get update -y && \
-    apt-get install -y git python3.6 python3-pip mesa-utils && \
-    python3.6 -m pip install --upgrade pip setuptools wheel && \
-    python3.6 -m pip install git+https://github.com/NextCenturyCorporation/MCS@${mcsversion}#egg=machine_common_sense
+RUN apt-get update && \
+    apt-get install -y git python3 python3-pip mesa-utils && \
+    python3 -m pip install --upgrade pip setuptools wheel && \
+    python3 -m pip install git+https://github.com/NextCenturyCorporation/MCS@${mcsversion}#egg=machine_common_sense && \
+    rm -rf /var/lib/apt/lists/* && \
+    ln -s /usr/bin/python3 /usr/bin/python
 
 # add ai2thor/unity resources
 ADD https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsversion}/MCS-AI2-THOR-Unity-App-v${mcsversion}.x86_64 /mcs

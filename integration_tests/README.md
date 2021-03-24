@@ -34,6 +34,16 @@ TODO MCS-432
 python run_tests.py <mcs_unity_build_file_path>
 ```
 
+## Run the Autofixer
+
+The autofixer will automatically fix any broken test cases and overwrite the test files. This is useful when you make a change to the simulation environment that you know will affect the specific numbers in the test cases. For example, if you were to change the performer agent's standing height, then the direction and distance numbers in the oracle output test cases will need to be adjusted accordingly.
+
+Please make sure that you know what you're doing when you run the autofixer, so it doesn't "fix" a test case that's actually exposing a bug! You can also use the `--test` and `--metadata` arguments to run the autofixer on only specific test files. Remember to commit the modified files in the git repository.
+
+```
+python run_tests.py <mcs_unity_build_file_path> --autofix
+```
+
 ## Adding New Handmade Test Scenes
 
 Create the following files (Replace `<X>` with your test name):
