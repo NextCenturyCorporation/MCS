@@ -122,11 +122,15 @@ class Action(Enum):
     MOVE_AHEAD = (
         "MoveAhead",
         "w",
-        "Move yourself ahead based on your current view."
+        "Move yourself ahead based on your current view. (movement=float (default:0.1))"
     )
     """
     Move yourself forward based on your current viewport.
 
+    Parameters
+    ----------
+    movement : float
+        The amount to move in units. Default: 0.1
 
     Returns
     -------
@@ -141,10 +145,15 @@ class Action(Enum):
     MOVE_BACK = (
         "MoveBack",
         "s",
-        "Move yourself back based on your current view."
+        "Move yourself back based on your current view. (movement=float (default:0.1))"
     )
     """
     Move yourself backward based on your current viewport.
+
+    Parameters
+    ----------
+    movement : float
+        The amount to move in units. Default: 0.1
 
     Returns
     -------
@@ -159,10 +168,15 @@ class Action(Enum):
     MOVE_LEFT = (
         "MoveLeft",
         "a",
-        "Move yourself to your left based on your current view."
+        "Move yourself to your left based on your current view. (movement=float (default:0.1))"
     )
     """
     Move yourself left based on your current viewport.
+
+    Parameters
+    ----------
+    movement : float
+        The amount to move in units. Default: 0.1
 
     Returns
     -------
@@ -177,10 +191,15 @@ class Action(Enum):
     MOVE_RIGHT = (
         "MoveRight",
         "d",
-        "Move yourself to your right based on your current view."
+        "Move yourself to your right based on your current view. (movement=float (default:0.1))"
     )
     """
     Move yourself right based on your current viewport.
+
+    Parameters
+    ----------
+    movement : float
+        The amount to move in units. Default: 0.1
 
     Returns
     -------

@@ -128,11 +128,14 @@ class Controller():
     MIN_FORCE = 0
     MAX_AMOUNT = 1
     MIN_AMOUNT = 0
+    MAX_MOVEMENT = 100
+    MIN_MOVEMENT = 0.1
 
     ROTATION_KEY = 'rotation'
     HORIZON_KEY = 'horizon'
     FORCE_KEY = 'force'
     AMOUNT_KEY = 'amount'
+    MOVEMENT_KEY = 'movement'
 
     PLACEHOLDER = 'placeholder'
     VISUAL = 'visual'
@@ -590,6 +593,7 @@ class Controller():
             else self.DEFAULT_AMOUNT
         )
         force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
+        movement = kwargs.get(self.MOVEMENT_KEY, MOVE_DISTANCE)
 
         objectImageCoordsX = kwargs.get(
             self.OBJECT_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD)
@@ -610,6 +614,8 @@ class Controller():
 
         if not Util.is_number(force, self.FORCE_KEY):
             force = self.DEFAULT_FORCE
+        if not Util.is_number(movement, self.MOVEMENT_KEY):
+            movement = MOVE_DISTANCE
 
         # Check object directions are numbers
         if not Util.is_number(
@@ -645,6 +651,12 @@ class Controller():
             self.MAX_FORCE,
             self.DEFAULT_FORCE,
             self.FORCE_KEY)
+        movement = Util.is_in_range(
+            movement,
+            self.MIN_MOVEMENT,
+            self.MAX_MOVEMENT,
+            MOVE_DISTANCE,
+            self.MOVEMENT_KEY)
 
         # TODO Consider the current "head tilt" value while validating the
         # input "horizon" value.
@@ -657,7 +669,7 @@ class Controller():
             moveMagnitude = amount
 
         if action in self.MOVE_ACTIONS:
-            moveMagnitude = MOVE_DISTANCE
+            moveMagnitude = movement
 
         # Add in noise if noise is enable
         if self.__noise_enabled:
