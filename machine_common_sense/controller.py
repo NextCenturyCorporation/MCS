@@ -117,8 +117,8 @@ class Controller():
 
     MAX_FORCE = 50.0
 
-    DEFAULT_HORIZON = 0
-    DEFAULT_ROTATION = 0
+    DEFAULT_HORIZON = 10
+    DEFAULT_ROTATION = 10
     DEFAULT_FORCE = 0.5
     DEFAULT_AMOUNT = 0.5
     DEFAULT_IMG_COORD = 0
@@ -130,6 +130,10 @@ class Controller():
     MIN_AMOUNT = 0
     MAX_MOVEMENT = 100
     MIN_MOVEMENT = 0.1
+    MAX_ROTATION = 360
+    MIN_ROTATION = 1
+    MAX_HORIZON = 90
+    MIN_HORIZON = 1
 
     ROTATION_KEY = 'rotation'
     HORIZON_KEY = 'horizon'
@@ -616,6 +620,10 @@ class Controller():
             force = self.DEFAULT_FORCE
         if not Util.is_number(movement, self.MOVEMENT_KEY):
             movement = MOVE_DISTANCE
+        if not Util.is_number(rotation, self.ROTATION_KEY):
+            rotation = DEFAULT_ROTATION
+        if not Util.is_number(horizon, self.HORIZON_KEY):
+            horizon = DEFAULT_HORIZON
 
         # Check object directions are numbers
         if not Util.is_number(
@@ -657,6 +665,18 @@ class Controller():
             self.MAX_MOVEMENT,
             MOVE_DISTANCE,
             self.MOVEMENT_KEY)
+        rotation = Util.is_in_range(
+            rotation,
+            self.MIN_ROTATION,
+            self.MAX_ROTATION,
+            self.DEFAULT_ROTATION,
+            self.ROTATION_KEY)
+        horizon = Util.is_in_range(
+            horizon,
+            self.MIN_HORIZON,
+            self.MAX_HORIZON,
+            self.DEFAULT_HORIZON,
+            self.HORIZON_KEY)
 
         # TODO Consider the current "head tilt" value while validating the
         # input "horizon" value.

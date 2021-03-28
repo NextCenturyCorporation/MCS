@@ -461,10 +461,15 @@ class Action(Enum):
     LOOK_UP = (
         "LookUp",
         "i",
-        "Rotate your view up (subtract 10 degrees from head tilt)."
+        "Rotate your view up by degrees. (horizon=float (default:10))"
     )
     """
-    Rotate your view up (subtract 10 degrees from head tilt).
+    Rotate your view up by degrees.
+
+    Parameters
+    ----------
+    horizon : float
+        The amount to rotate look in degrees. Default: 10
 
     Returns
     -------
@@ -479,10 +484,15 @@ class Action(Enum):
     LOOK_DOWN = (
         "LookDown",
         "k",
-        "Rotate your view down (add 10 degrees to head tilt)."
+        "Rotate your view down by degrees. (horizon=float (default:10))"
     )
     """
-    Rotate your viewport down (add 10 degrees to head tilt).
+    Rotate your viewport down by degrees.
+
+    Parameters
+    ----------
+    horizon : float
+        The amount to rotate look in degrees. Default: 10
 
     Returns
     -------
@@ -497,10 +507,15 @@ class Action(Enum):
     ROTATE_LEFT = (
         "RotateLeft",
         "j",
-        "Rotate your view left by 10 degrees."
+        "Rotate your view left by degrees. (rotation=float (default:10))"
     )
     """
-    Rotate your viewport left by 10 degrees.
+    Rotate your viewport left by degrees.
+
+    Parameters
+    ----------
+    rotation : float
+        The amount to rotate in degrees. Default: 10
 
     Returns
     -------
@@ -513,10 +528,15 @@ class Action(Enum):
     ROTATE_RIGHT = (
         "RotateRight",
         "l",
-        "Rotate your view right by 10 degrees."
+        "Rotate your view right by degrees. (rotation=float (default:10))"
     )
     """
-    Rotate your viewport right by 10 degrees.
+    Rotate your viewport right by degrees.
+
+    Parameters
+    ----------
+    rotation : float
+        The amount to rotate in degrees. Default: 10
 
     Returns
     -------
