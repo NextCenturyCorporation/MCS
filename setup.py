@@ -38,9 +38,7 @@ setuptools.setup(
         'opencv-python>=4.0',
         'matplotlib>=3.3',
         'msgpack>=1.0.0',
-        ('ai2thor @ '
-         'git+https://github.com/NextCenturyCorporation/ai2thor'
-         '@0.4.0#egg=ai2thor')
+        'ai2thor==2.5.0'
     ],
     entry_points={
         'console_scripts': [
