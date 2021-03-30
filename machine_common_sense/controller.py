@@ -8,7 +8,6 @@ import random
 import pathlib
 import PIL
 import ast
-from typing import Dict, List
 import atexit
 
 import ai2thor.controller
@@ -358,6 +357,26 @@ class Controller():
             end_scene isn't properly called but history_enabled is true,
             this value will be written to file as -1.
         """
+        # TODO rename confidence
+        # TODO Retrospective reporting
+        # maybe there's a frame report class or something?
+        # list of choices/confidences for each frame
+        # list of lists of xy points (oh boy)
+        '''
+            choice: str = None,
+            confidence: float = None,
+            violations_xy_list: List[Dict[str, float]] = None,
+        '''
+        # TODO history writing/reporting will likely be different
+        '''
+        # add history step prediction attributes before add to the writer
+        # in the next step
+        if self.__history_item is not None:
+            self.__history_item.classification = choice
+            self.__history_item.confidence = confidence
+            self.__history_item.violations_xy_list = violations_xy_list
+            self.__history_item.internal_state = internal_state
+        '''
         if (self._end_scene_not_registered is False and
                 (self.__history_enabled or self._config.is_evaluation())):
             atexit.unregister(self.end_scene)
@@ -789,45 +808,6 @@ class Controller():
         self.write_debug_output(output)
 
         return output
-
-    def make_step_prediction(self, choice: str = None,
-                             confidence: float = None,
-                             violations_xy_list: List[Dict[str, float]] = None,
-                             internal_state: object = None,) -> None:
-        """Make a prediction on the previously taken step/action.
-
-        Parameters
-        ----------
-        choice : string, optional
-            The selected choice for per frame prediction with
-            violation-of-expectation or classification goals.
-            Is not required for other goals. (default None)
-        confidence : float, optional
-            The choice confidence between 0 and 1 required by the end of
-            scenes with violation-of-expectation or classification goals.
-            Is not required for other goals. (default None)
-        violations_xy_list : List[Dict[str, float]], optional
-            A list of one or more (x, y) locations (ex: [{"x": 1, "y": 3.4}]),
-            each representing a potential violation-of-expectation. Required
-            on each step for passive tasks. (default None)
-        internal_state : object, optional
-            A properly formatted json object representing various kinds of
-            internal states at a particular moment. Examples include the
-            estimated position of the agent, current map of the world, etc.
-            (default None)
-
-        Returns
-        -------
-            None
-        """
-
-        # add history step prediction attributes before add to the writer
-        # in the next step
-        if self.__history_item is not None:
-            self.__history_item.classification = choice
-            self.__history_item.confidence = confidence
-            self.__history_item.violations_xy_list = violations_xy_list
-            self.__history_item.internal_state = internal_state
 
     def generate_time(self):
         return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")

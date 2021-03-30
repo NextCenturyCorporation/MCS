@@ -69,46 +69,6 @@ numerical action parameters noise_enabled is True.
 :rtype: float
 
 
-#### make_step_prediction(choice: str = None, confidence: float = None, violations_xy_list: List[Dict[str, float]] = None, internal_state: object = None)
-Make a prediction on the previously taken step/action.
-
-
-* **Parameters**
-
-    
-    * **choice** (*string**, **optional*) – The selected choice for per frame prediction with
-    violation-of-expectation or classification goals.
-    Is not required for other goals. (default None)
-
-
-    * **confidence** (*float**, **optional*) – The choice confidence between 0 and 1 required by the end of
-    scenes with violation-of-expectation or classification goals.
-    Is not required for other goals. (default None)
-
-
-    * **violations_xy_list** (*List**[**Dict**[**str**, **float**]**]**, **optional*) – A list of one or more (x, y) locations (ex: [{“x”: 1, “y”: 3.4}]),
-    each representing a potential violation-of-expectation. Required
-    on each step for passive tasks. (default None)
-
-
-    * **internal_state** (*object**, **optional*) – A properly formatted json object representing various kinds of
-    internal states at a particular moment. Examples include the
-    estimated position of the agent, current map of the world, etc.
-    (default None)
-
-
-
-* **Returns**
-
-    
-
-
-* **Return type**
-
-    None
-
-
-
 #### retrieve_object_states(object_id)
 Return the state list at the current step for the object with the
 given ID from the scene configuration data, if any.
