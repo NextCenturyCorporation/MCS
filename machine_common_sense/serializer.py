@@ -98,7 +98,7 @@ class SerializerMsgPack(ISerializer):
                 msgpack.packb([
                     x.uuid, x.color, x.dimensions, x.direction, x.distance,
                     x.distance_in_steps, x.distance_in_world, x.held, x.mass,
-                    x.material_list, x.position, x.rotation, x.visible
+                    x.material_list, x.position, x.rotation, x.shape, x.state_list, x.texture_color_list, x.visible
                 ],
                     default=SerializerMsgPack._ext_pack,
                     strict_types=True))
@@ -158,11 +158,11 @@ class SerializerMsgPack(ISerializer):
         elif code == 5:
             uuid, color, dimensions, direction, distance, distance_in_steps, \
                 distance_in_world, held, mass, material_list, position, \
-                rotation, visible = msgpack.unpackb(
+                rotation, shape, state_list, texture_color_list, visible = msgpack.unpackb(
                     data, ext_hook=SerializerMsgPack._ext_unpack)
             return ObjectMetadata(uuid, color, dimensions, direction, distance,
                                   distance_in_steps, distance_in_world, held,
-                                  mass, material_list, position, rotation,
+                                  mass, material_list, position, rotation, shape, state_list, texture_color_list,
                                   visible)
         elif code == 6:
             x = msgpack.unpackb(data, ext_hook=SerializerMsgPack._ext_unpack)
