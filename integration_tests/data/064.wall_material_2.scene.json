@@ -1,0 +1,22 @@
+﻿{
+    "name": "Individual wall materials with fall through to default",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "roomMaterials": {
+        "left":"AI2-THOR/Materials/Walls/DrywallGreen",
+        "back": ""
+    },
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "objects": []
+}

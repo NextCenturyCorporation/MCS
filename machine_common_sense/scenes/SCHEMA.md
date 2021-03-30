@@ -17,6 +17,7 @@
   - [Teleport Config](#teleport-config)
   - [Transform Config](#transform-config)
   - [Vector Config](#vector-config)
+  - [Room Materials Config](#room-material-config)
 - [Object List](#object-list)
 - [Material List](#material-list)
 
@@ -37,6 +38,17 @@ Example:
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
     "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "roomDimensions": {
+        "x": 10,
+        "y": 3,
+        "z": 10
+    },
+    "roomMaterials": {
+        "left":"AI2-THOR/Materials/Walls/DrywallGreen",
+        "front":"AI2-THOR/Materials/Walls/Drywall4Tiled",
+        "right": "AI2-THOR/Materials/Walls/Drywall4Tiled",
+        "back": "AI2-THOR/Materials/Walls/Drywall4Tiled"
+    },
     "performerStart": {
         "position": {
             "x": -1,
@@ -90,6 +102,7 @@ Each **scene config** has the following properties:
 - `ceilingMaterial` (string, optional): The material (color/texture) for the room's ceiling. See the [Material List](#material-list) for options. Default (v0.0.3+): `"AI2-THOR/Materials/Walls/Drywall"`
 - `floorMaterial` (string, optional): The material (color/texture) for the room's floor. See the [Material List](#material-list) for options. Default (v0.0.3+): `"AI2-THOR/Materials/Fabrics/CarpetWhite 3"`
 - `floorProperties` ([physics config](#physics-config), optional): Enable custom friction, bounciness, and/or drag on the floor. Default: see [physics config](#physics-config).
+- `roomDimensions` (Vector3, optional): Specify the size of the room, not including the thickness of walls, floor, and ceiling.  If omitted or set to 0, 0, 0, the default will be used.  Note: There is a maximum visibility which for objects and structures beyond will not be rendered.  Use caution when creating rooms where the maximum distance exceeds this maximum visibility.  The maximum visibility is 15 meters. Default: 10, 3, 10.  
 - `goal` ([goal config](#goal-config), optional): The goal for the scene. Default: none
 - `intuitivePhysics` (bool, optional): Specific performer and room setup for intuitive physics scenes.
 - `isometric` (bool, optional): Specific performer and room setup for agent scenes.
@@ -98,6 +111,7 @@ Each **scene config** has the following properties:
 - `performerStart` ([transform config](#transform-config), optional): The starting position and rotation of the performer (the "player"). Only the `position.x`, `position.z`, `rotation.x` (head tilt), and `rotation.y` properties are used. Default: `{ "position": { "x": 0, "z": 0 }, "rotation": { "y": 0 } }`
 - `version` (int, optional): The version of this scene configuration. Default: the latest version
 - `wallMaterial` (string, optional): The material (color/texture) for the room's four outer walls. See the [Material List](#material-list) for options. Default (v0.0.3+): `"AI2-THOR/Materials/Walls/DrywallBeige"`
+- `roomMaterials` ([room material config](#room-material-config), optional): The materials for each individual wall.  For any individual wall not provided, or all outer walls if object is not provided, they will use 'wallMaterial' property.
 - `wallProperties` ([physics config](#physics-config), optional): Enable custom friction, bounciness, and/or drag on the walls. Default: see [physics config](#physics-config).
 
 ### Object Config
@@ -252,6 +266,13 @@ Each **vector config** has the following properties:
 - `x` (float, optional)
 - `y` (float, optional)
 - `z` (float, optional)
+
+### Room Material Config
+
+- `left` (string, optional): The material (color/texture) for the room's left outer wall. See the [Material List](#material-list) for options.  If not provided, walls will use 'wallMaterial' property.  Default: none
+- `right` (string, optional): The material (color/texture) for the room's right outer wall. See the [Material List](#material-list) for options.  If not provided, walls will use 'wallMaterial' property.  Default: none
+- `front` (string, optional): The material (color/texture) for the room's front outer wall. See the [Material List](#material-list) for options.  If not provided, walls will use 'wallMaterial' property.  Default: none
+- `back` (string, optional): The material (color/texture) for the room's back outer wall. See the [Material List](#material-list) for options.  If not provided, walls will use 'wallMaterial' property.  Default: none
 
 ## Object List
 
