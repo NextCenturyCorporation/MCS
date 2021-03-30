@@ -1,3 +1,4 @@
+import json
 import unittest
 
 import numpy as np
@@ -27,12 +28,14 @@ class TestSerializer(unittest.TestCase):
         serializer = mcs.SerializerJson()
         json_dump = serializer.serialize(unpacked_metadata)
         unpacked_metadata = serializer.deserialize(json_dump)
+
         self.assertEqual(len(unpacked_metadata.depth_map_list), 1)
         self.assertIsInstance(unpacked_metadata.depth_map_list[0], np.ndarray)
         self.assertEqual(unpacked_metadata.depth_map_list[0].shape, (400, 600))
         self.assertIsInstance(unpacked_metadata, mcs.StepMetadata)
         self.assertEqual(abs(unpacked_metadata.reward - (-0.036000000000000004)) < 1e-04, True)
         self.assertEqual(abs(unpacked_metadata.rotation - 0.0) < 1e-04, True)
+        self.assertEqual(type(unpacked_metadata.object_list[-1].shape), str)
 
 
 if __name__ == '__main__':

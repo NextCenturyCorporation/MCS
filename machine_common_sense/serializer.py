@@ -260,6 +260,9 @@ class SerializerJson(ISerializer):
                     'material_list': x.material_list,
                     'position': x.position,
                     'rotation': x.rotation,
+                    'shape': x.shape,
+                    'state_list': x.state_list,
+                    'texture_color_list': x.texture_color_list,
                     'visible': x.visible
                 }
             elif isinstance(x, np.ndarray):
@@ -279,8 +282,8 @@ class SerializerJson(ISerializer):
                 object_raw['distance'], object_raw['distance_in_steps'],
                 object_raw['distance_in_world'], object_raw['held'],
                 object_raw['mass'], object_raw['material_list'],
-                object_raw['position'], object_raw['rotation'],
-                object_raw['visible'])
+                object_raw['position'], object_raw['rotation'], object_raw['shape'], object_raw['state_list'],
+                object_raw['texture_color_list'], object_raw['visible'])
             object_list.append(obj)
         return object_list
 
