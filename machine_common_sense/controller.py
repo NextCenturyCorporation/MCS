@@ -138,7 +138,6 @@ class Controller():
     VISUAL = 'visual'
     DEPTH = 'depth'
     SEGMENTATION = 'segmentation'
-    HEATMAP = 'heatmap'
     TOPDOWN = 'topdown'
 
     OBJECT_IMAGE_COORDS_X_KEY = 'objectImageCoordsX'
@@ -322,14 +321,6 @@ class Controller():
             height=self.__screen_height,
             fps=self.FPS_FRAME_RATE)
 
-        heatmap_video_filename = basename_template.replace(
-            self.PLACEHOLDER, self.HEATMAP)
-        self.__heatmap_recorder = VideoRecorder(
-            vid_path=output_folder / heatmap_video_filename,
-            width=self.__screen_width,
-            height=self.__screen_height,
-            fps=self.FPS_FRAME_RATE)
-
         if self.__depth_maps:
             depth_video_filename = basename_template.replace(
                 self.PLACEHOLDER, self.DEPTH)
@@ -379,7 +370,6 @@ class Controller():
         if self._config.is_evaluation() or self._config.is_video_enabled():
             self.__topdown_recorder.finish()
             self.__image_recorder.finish()
-            self.__heatmap_recorder.finish()
             if self.__depth_maps:
                 self.__depth_recorder.finish()
             if self.__object_masks:
@@ -415,13 +405,6 @@ class Controller():
                 self.__image_recorder.path)
             self.__uploader.upload_video(
                 video_path=self.__image_recorder.path,
-                s3_filename=folder_prefix + '/' + video_filename
-            )
-
-            video_filename = self._get_filename_without_timestamp(
-                self.__heatmap_recorder.path)
-            self.__uploader.upload_video(
-                video_path=self.__heatmap_recorder.path,
                 s3_filename=folder_prefix + '/' + video_filename
             )
 
@@ -810,7 +793,6 @@ class Controller():
     def make_step_prediction(self, choice: str = None,
                              confidence: float = None,
                              violations_xy_list: List[Dict[str, float]] = None,
-                             heatmap_img: PIL.Image.Image = None,
                              internal_state: object = None,) -> None:
         """Make a prediction on the previously taken step/action.
 
@@ -828,11 +810,6 @@ class Controller():
             A list of one or more (x, y) locations (ex: [{"x": 1, "y": 3.4}]),
             each representing a potential violation-of-expectation. Required
             on each step for passive tasks. (default None)
-        heatmap_img : PIL.Image.Image, optional
-            An image representing scene plausiblility at a particular
-            moment. During evaluation, this image will be recorded as a frame
-            of a heatmap video for review but is ignored otherwise.
-            (default None)
         internal_state : object, optional
             A properly formatted json object representing various kinds of
             internal states at a particular moment. Examples include the
@@ -851,13 +828,6 @@ class Controller():
             self.__history_item.confidence = confidence
             self.__history_item.violations_xy_list = violations_xy_list
             self.__history_item.internal_state = internal_state
-
-        if(
-            heatmap_img is not None and
-            isinstance(heatmap_img, PIL.Image.Image) and
-            (self._config.is_evaluation() or self._config.is_video_enabled())
-        ):
-            self.__heatmap_recorder.add(heatmap_img)
 
     def generate_time(self):
         return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
