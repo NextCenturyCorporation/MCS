@@ -703,7 +703,7 @@ class Controller():
 
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
-            logger.warn(
+            logger.warning(
                 "You have passed the last step for this scene. "
                 "Ignoring your action. Please call controller.end_scene() "
                 "now.")
@@ -727,7 +727,7 @@ class Controller():
                     continue_with_step = True
                     break
         if not continue_with_step:
-            logger.warn(
+            logger.warning(
                 f"The given action '{action}' with parameters "
                 f"'{kwargs}' isn't in the action_list. Ignoring your action. "
                 f"Please call controller.step() with an action in the "
@@ -770,7 +770,7 @@ class Controller():
 
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
-            logger.warn(
+            logger.warning(
                 "This is your last step for this scene. All "
                 "your future actions will be skipped. Please call "
                 "controller.end_scene() now.")
