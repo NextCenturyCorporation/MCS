@@ -33,23 +33,6 @@
                 "y": 0.5,
                 "z": 0.5
             }
-        }],
-        "moves": [{
-            "stepBegin": 2,
-            "stepEnd": 2,
-            "vector": {
-                "x": 0,
-                "y": 0,
-                "z": 0.5
-            }
-        }, {
-            "stepBegin": 4,
-            "stepEnd": 7,
-            "vector": {
-                "x": 0.25,
-                "y": 0,
-                "z": 0
-            }
         }]
     }]
 }
