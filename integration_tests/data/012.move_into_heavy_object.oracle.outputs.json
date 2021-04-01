@@ -105,9 +105,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.688,
-                "direction_z": 0.726,
-                "distance": 0.744,
+                "direction_y": -0.758,
+                "direction_z": 0.6518,
+                "distance": 0.675,
                 "held": false,
                 "id": "testBall",
                 "mass": 2.1,
@@ -125,8 +125,8 @@
         ],
         "objects_count": 1,
         "position_x": 0.0,
-        "position_z": 0.7,
-        "return_status": "OBSTRUCTED",
+        "position_z": 0.8,
+        "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 8,
         "structural_objects_count": 6
@@ -136,9 +136,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.688,
-                "direction_z": 0.726,
-                "distance": 0.744,
+                "direction_y": -0.758,
+                "direction_z": 0.6518,
+                "distance": 0.675,
                 "held": false,
                 "id": "testBall",
                 "mass": 2.1,
@@ -156,7 +156,7 @@
         ],
         "objects_count": 1,
         "position_x": 0.0,
-        "position_z": 0.7,
+        "position_z": 0.8,
         "return_status": "OBSTRUCTED",
         "rotation_y": 0.0,
         "step_number": 9,
@@ -167,9 +167,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.688,
-                "direction_z": 0.726,
-                "distance": 0.744,
+                "direction_y": -0.758,
+                "direction_z": 0.6518,
+                "distance": 0.675,
                 "held": false,
                 "id": "testBall",
                 "mass": 2.1,
@@ -187,7 +187,7 @@
         ],
         "objects_count": 1,
         "position_x": 0.0,
-        "position_z": 0.7,
+        "position_z": 0.8,
         "return_status": "OBSTRUCTED",
         "rotation_y": 0.0,
         "step_number": 10,
