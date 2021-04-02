@@ -9,6 +9,7 @@ import pathlib
 import PIL
 import ast
 import atexit
+from typing import Optional, Dict
 
 import ai2thor.controller
 import ai2thor.server
@@ -338,34 +339,45 @@ class Controller():
                 height=self.__screen_height,
                 fps=self.FPS_FRAME_RATE)
 
-    def end_scene(self, choice, confidence=1.0):
+    def end_scene(self,
+                  report: Optional[Dict],
+                  plausibility_rating: Optional[str] = None,
+                  plausibility_score: Optional[float] = None
+                  ):
         """
         Ends the current scene.
 
         Parameters
         ----------
-        choice : string, optional
+        report : dict, optional
+            Placeholder variable for retrospective per frame reporting
+            Key is frame number take from step metadata.
+            Value or payload contains {?}.
+        plausibility_rating : string, optional
             The selected choice required for ending scenes with
             violation-of-expectation or classification goals.
-            Is not required for other goals. (default None)
-        confidence : float, optional
+            Is not required for other goals.
+        plausibility_score : float, optional
             The choice confidence between 0 and 1 required for ending scenes
             with violation-of-expectation or classification goals.
-            Is not required for other goals. (default None)
+            Is not required for other goals.
 
             Note: when an issue causes the program to exit prematurely or
             end_scene isn't properly called but history_enabled is true,
             this value will be written to file as -1.
         """
-        # TODO rename confidence
-        # TODO Retrospective reporting
-        # maybe there's a frame report class or something?
-        # list of choices/confidences for each frame
-        # list of lists of xy points (oh boy)
+        # TODO Retrospective per frame reporting instead of prospective
+        # maybe there's a frame report class over a dictionary
+        # dict {key=step_number, value=payload}
+        # choice/confidence (rating/score) for each frame
+        # lists of xy points
+
+        # these strings were copied from make_step_prediction
         '''
             choice: str = None,
             confidence: float = None,
             violations_xy_list: List[Dict[str, float]] = None,
+            [{'x': 17, 'y': 32}]
         '''
         # TODO history writing/reporting will likely be different
         '''
@@ -384,7 +396,25 @@ class Controller():
 
         if self.__history_enabled:
             self.__history_writer.add_step(self.__history_item)
-            self.__history_writer.write_history_file(choice, confidence)
+            # TODO maybe loop over the retrospective report?
+            # sort by frame number in the dictionary
+            # and add the history item
+            # or maybe we just pass the whole report and let the class
+            # do the loop
+            # TODO use writer.current_steps list for reporting
+            # TODO maybe add_step should just take in the arguments?
+            # use for k, v in report.items() to get sorted results by key
+            # TODO we were using history_item to capture step metadata
+            # and add prediction information to that dictionary ~L822
+            # maybe keep the add_step for history writing
+            # and then add a new function here to append that information
+            # to the stored data
+            # TODO so I'll need to keep this add_step for the final action
+            # return but then additionally do the retrospective report
+
+            # record final end scene predictions and write history file
+            self.__history_writer.write_history_file(
+                plausibility_rating, plausibility_score)
 
         if self._config.is_evaluation() or self._config.is_video_enabled():
             self.__topdown_recorder.finish()
@@ -709,10 +739,15 @@ class Controller():
             physics simulation were run. Returns None if you have passed the
             "last_step" of this scene.
         """
-        if self.__history_enabled and self.__step_number == 0:
-            self.__history_writer.init_timer()
-        if self.__history_enabled and self.__step_number > 0:
-            self.__history_writer.add_step(self.__history_item)
+        # TODO DW retrospective reporting
+        # not sure timing is important any longer
+        # if self.__history_enabled and self.__step_number == 0:
+        #    self.__history_writer.init_timer()
+        # TODO DW retrospective reporting
+        # TODO if we just record the step, then timing is fine
+        # to keep in the add_step function
+        # if self.__history_enabled and self.__step_number > 0:
+        #    self.__history_writer.add_step(self.__history_item)
 
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
@@ -795,6 +830,8 @@ class Controller():
         del history_copy.depth_map_list
         del history_copy.image_list
         del history_copy.object_mask_list
+        # TODO DW retrospective
+        # well crap
         self.__history_item = SceneHistory(
             step=self.__step_number,
             action=action,

@@ -39,21 +39,26 @@ library.
 
 
 
-#### end_scene(choice, confidence=1.0)
+#### end_scene(report: Optional[Dict], plausibility_rating: Optional[str] = None, plausibility_score: Optional[float] = None)
 Ends the current scene.
 
 
 * **Parameters**
 
     
-    * **choice** (*string**, **optional*) – The selected choice required for ending scenes with
+    * **report** (*dict**, **optional*) – Placeholder variable for retrospective per frame reporting
+    Key is frame number take from step metadata.
+    Value or payload contains {?}.
+
+
+    * **plausibility_rating** (*string**, **optional*) – The selected choice required for ending scenes with
     violation-of-expectation or classification goals.
-    Is not required for other goals. (default None)
+    Is not required for other goals.
 
 
-    * **confidence** (*float**, **optional*) – The choice confidence between 0 and 1 required for ending scenes
+    * **plausibility_score** (*float**, **optional*) – The choice confidence between 0 and 1 required for ending scenes
     with violation-of-expectation or classification goals.
-    Is not required for other goals. (default None)
+    Is not required for other goals.
 
     Note: when an issue causes the program to exit prematurely or
     end_scene isn’t properly called but history_enabled is true,
