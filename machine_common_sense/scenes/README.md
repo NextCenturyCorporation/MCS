@@ -28,9 +28,17 @@ Silver trophy retrieval for the Winter 2020 evaluation:
 
 #### Hinged Containers
 
-- [hinged_container_example.json](./hinged_container_example.json)
+Soccer ball inside hinged containers for the Summer 2021 evaluation:
 
-![hinged_container_example](./videos/hinged_container_example.gif)
+- [soccer_ball_hinged_container_example.json](./soccer_ball_hinged_container_example.json)
+
+![soccer_ball_hinged_container_example](./videos/soccer_ball_hinged_container_example.gif)
+
+Silver trophy inside hinged containers for the Winter 2020 evaluation:
+
+- [trophy_hinged_container_example.json](./trophy_hinged_container_example.json)
+
+![trophy_hinged_container_example](./videos/trophy_hinged_container_example.gif)
 
 ### Intuitive Physics Scenes
 

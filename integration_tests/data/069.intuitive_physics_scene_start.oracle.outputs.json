@@ -1,0 +1,206 @@
+﻿[
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 1.0,
+                "direction_z": 0.0,
+                "distance": 2.488,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.362,
+                "direction_z": 0.932,
+                "distance": 4.828,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.0,
+                "direction_z": -1.0,
+                "distance": 0.75,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.152,
+                "direction_z": 0.988,
+                "distance": 9.865,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.976,
+                "direction_y": 0.0,
+                "direction_z": 0.22,
+                "distance": 20.5,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -20.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.976,
+                "direction_y": 0.0,
+                "direction_z": 0.22,
+                "distance": 20.5,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 20.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 1,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 1.0,
+                "direction_z": 0.0,
+                "distance": 2.488,
+                "held": false,
+                "id": "ceiling",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.362,
+                "direction_z": 0.932,
+                "distance": 4.828,
+                "held": false,
+                "id": "floor",
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.0,
+                "direction_z": -1.0,
+                "distance": 0.75,
+                "held": false,
+                "id": "wall_back",
+                "position_x": 0.0,
+                "position_z": -5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.152,
+                "direction_z": 0.988,
+                "distance": 9.865,
+                "held": false,
+                "id": "wall_front",
+                "position_x": 0.0,
+                "position_z": 5.25,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.976,
+                "direction_y": 0.0,
+                "direction_z": 0.22,
+                "distance": 20.5,
+                "held": false,
+                "id": "wall_left",
+                "position_x": -20.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.976,
+                "direction_y": 0.0,
+                "direction_z": 0.22,
+                "distance": 20.5,
+                "held": false,
+                "id": "wall_right",
+                "position_x": 20.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 5
+    }
+]
