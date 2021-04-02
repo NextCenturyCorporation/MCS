@@ -22,6 +22,7 @@ class TestController(unittest.TestCase):
     def setUp(self):
         self.controller = MockControllerAI2THOR()
         self.controller.set_metadata_tier('')
+        self.maxDiff = None
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -345,27 +346,29 @@ class TestController(unittest.TestCase):
 
     def create_step_data(self, **kwargs):
         data = dict(
+            consistentColors=False,
             continuous=True,
             gridSize=mcs.Controller.GRID_SIZE,
-            logs=True,
-            renderDepthImage=False,
-            renderObjectImage=False,
-            snapToGrid=False,
-            visibilityDistance=mcs.controller.MAX_REACH_DISTANCE,
             horizon=0,
+            logs=True,
             moveMagnitude=mcs.controller.MOVE_DISTANCE,
-            objectImageCoords={
-                'x': 0,
-                'y': 0
-            },
             objectId=None,
-            receptacleObjectImageCoords={
-                'x': 0,
-                'y': 0
+            objectImageCoords={
+                'x': 0.0,
+                'y': 0.0
             },
             receptacleObjectId=None,
-            rotation={'y': 0},
-            consistentColors=False
+            receptacleObjectImageCoords={
+                'x': 0.0,
+                'y': 0.0
+            },
+            renderDepthImage=False,
+            renderObjectImage=False,
+            rotation={'y': 0.0},
+            snapToGrid=False,
+            teleportPosition=None,
+            teleportRotation=None,
+            visibilityDistance=mcs.controller.MAX_REACH_DISTANCE
         )
 
         for key, value in kwargs.items():
