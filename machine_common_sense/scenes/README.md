@@ -18,27 +18,72 @@ An open room containing over 40 objects for undirected exploration.
 
 #### Retrieval Goal
 
-Soccer ball retrieval for the Summer 2021 evaluation:
+Soccer ball retrieval goal for the Summer 2021 evaluation:
 
-- [soccer_ball_retrieval_example.json](./soccer_ball_retrieval_example.json)
+- [retrieval_goal_example_with_soccer_ball.json](./retrieval_goal_example_with_soccer_ball.json)
 
-Silver trophy retrieval for the Winter 2020 evaluation:
+Silver trophy retrieval goal for the Winter 2020 evaluation:
 
-- [trophy_retrieval_example.json](./trophy_retrieval_example.json)
+- [retrieval_goal_example_with_trophy.json](./retrieval_goal_example_with_trophy.json)
 
 #### Hinged Containers
 
 Soccer ball inside hinged containers for the Summer 2021 evaluation:
 
-- [soccer_ball_hinged_container_example.json](./soccer_ball_hinged_container_example.json)
+- [hinged_container_example_with_soccer_ball.json](./hinged_container_example_with_soccer_ball.json)
 
-![soccer_ball_hinged_container_example](./videos/soccer_ball_hinged_container_example.gif)
+![hinged_container_example_with_soccer_ball](./videos/hinged_container_example_with_soccer_ball.gif)
 
 Silver trophy inside hinged containers for the Winter 2020 evaluation:
 
-- [trophy_hinged_container_example.json](./trophy_hinged_container_example.json)
+- [hinged_container_example_with_trophy.json](./hinged_container_example_with_trophy.json)
 
-![trophy_hinged_container_example](./videos/trophy_hinged_container_example.gif)
+![hinged_container_example_with_trophy](./videos/hinged_container_example_with_trophy.gif)
+
+#### Interactive Object Permanence
+
+Performer agent starts on top of a raised platform and can move off the platform onto the floor but cannot move back onto the platform from the floor.
+
+- [template_platform_singleton.json](./template_platform_singleton.json)
+- [template_platform_bisecting.json](./template_platform_bisecting.json)
+
+Performer agent is frozen (can only use the Pass action) during specific steps in the scene.
+
+- [template_frozen_first_10_steps.json](./template_frozen_first_10_steps.json)
+- [template_frozen_after_10_steps.json](./template_frozen_after_10_steps.json)
+
+Soccer ball is thrown into the scene via a cylindrical mechanism attached to the ceiling.
+
+- [template_soccer_ball_throwing_mechanism.json](./template_soccer_ball_throwing_mechanism.json)
+
+Combination of the platform, being frozen, and soccer ball being thrown into the scene.
+
+- [template_interactive_object_permanence_scene.json](./template_interactive_object_permanence_scene.json)
+
+#### Reorientation
+
+Rectangular rooms.
+
+- [template_12_by_8.json](./template_12_by_8.json)
+- [template_2_by_4.json](./template_2_by_4.json)
+
+Rooms with individually colored outer walls.
+
+- [template_individually_colored_walls.json](./template_individually_colored_walls.json)
+
+Performer agent is frozen (can only use the Pass action) during specific steps in the scene.
+
+- [template_frozen_first_10_steps.json](./template_frozen_first_10_steps.json)
+- [template_frozen_after_10_steps.json](./template_frozen_after_10_steps.json)
+
+Soccer ball is dropped into an open container via a cylindrical mechanism attached to the ceiling.
+
+- [template_soccer_ball_dropping_mechanism.json](./template_soccer_ball_dropping_mechanism.json)
+
+Performer agent is kidnapped (can only use the EndHabituation action, which blacks its vision and teleports it to a new location) one or more times.
+
+- [template_kidnapping.json](./template_kidnapping.json)
+- [template_kidnapping_then_frozen.json](./template_kidnapping_then_frozen.json)
 
 ### Intuitive Physics Scenes
 

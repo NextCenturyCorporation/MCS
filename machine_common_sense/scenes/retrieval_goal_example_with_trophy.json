@@ -1,5 +1,5 @@
 {
-    "name": "trophy_retrieval_example",
+    "name": "retrieval_goal_example_with_trophy",
     "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
