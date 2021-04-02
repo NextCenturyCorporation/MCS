@@ -149,7 +149,7 @@ class Controller():
     # used for EndHabituation teleport
     TELEPORT_X_POS = 'xPosition'
     TELEPORT_Z_POS = 'zPosition'
-    TELEPORT_Y_ROT= 'yRotation'
+    TELEPORT_Y_ROT = 'yRotation'
 
     # Hard coding actions that effect MoveMagnitude so the appropriate
     # value is set based off of the action
@@ -694,8 +694,10 @@ class Controller():
             teleportRotation = {}
             teleportRotation['y'] = kwargs.get(self.TELEPORT_Y_ROT)
 
-        if (teleportPosXInput is not None and Util.is_number(teleportPosXInput) and
-            teleportPosZInput is not None and Util.is_number(teleportPosZInput)):
+        if (teleportPosXInput is not None and
+                Util.is_number(teleportPosXInput) and
+                teleportPosZInput is not None and
+                Util.is_number(teleportPosZInput)):
             teleportPosition = {}
             teleportPosition['x'] = teleportPosXInput
             teleportPosition['z'] = teleportPosZInput
