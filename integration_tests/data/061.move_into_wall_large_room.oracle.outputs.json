@@ -73,16 +73,16 @@
 }, {
     "step_number": 8,
     "head_tilt": 0,
-    "position_x": 14.8,
+    "position_x": 14.7,
     "position_z": 8.0,
-    "return_status": "SUCCESSFUL",
+    "return_status": "OBSTRUCTED",
     "rotation_y": 90,
     "objects_count": 0,
     "structural_objects_count": 6
 }, {
     "step_number": 9,
     "head_tilt": 0,
-    "position_x": 14.8,
+    "position_x": 14.7,
     "position_z": 8.0,
     "return_status": "OBSTRUCTED",
     "rotation_y": 90,
@@ -91,7 +91,7 @@
 }, {
     "step_number": 10,
     "head_tilt": 0,
-    "position_x": 14.8,
+    "position_x": 14.7,
     "position_z": 8.0,
     "return_status": "OBSTRUCTED",
     "rotation_y": 90,

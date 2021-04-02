@@ -13,7 +13,6 @@ MoveAhead
 MoveAhead
 MoveAhead
 MoveAhead
-MoveAhead
 MoveBack
 MoveAhead
 MoveAhead

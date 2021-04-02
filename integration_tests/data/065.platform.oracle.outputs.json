@@ -620,15 +620,15 @@
     {
         "head_tilt": 0,
         "objects_count": 0,
-        "position_x": 0.82,
+        "position_x": 0.78,
         "position_z": 2.0,
         "return_status": "SUCCESSFUL",
         "rotation_y": 270.0,
         "step_number": 6,
         "structural_objects": [
             {
-                "direction_x": -0.139,
-                "direction_y": 0.93,
+                "direction_x": -0.132,
+                "direction_y": 0.931,
                 "direction_z": -0.34,
                 "distance": 5.898,
                 "held": false,
@@ -642,10 +642,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.278,
-                "direction_y": -0.681,
-                "direction_z": -0.677,
-                "distance": 2.953,
+                "direction_x": -0.265,
+                "direction_y": -0.684,
+                "direction_z": -0.68,
+                "distance": 2.942,
                 "held": false,
                 "id": "floor",
                 "position_x": 0.0,
@@ -658,7 +658,7 @@
                 "visible": true
             },
             {
-                "direction_x": -0.109,
+                "direction_x": -0.104,
                 "direction_y": 0.232,
                 "direction_z": -0.967,
                 "distance": 7.5,
@@ -673,10 +673,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.217,
-                "direction_y": 0.46,
-                "direction_z": 0.861,
-                "distance": 3.776,
+                "direction_x": -0.207,
+                "direction_y": 0.461,
+                "direction_z": 0.863,
+                "distance": 3.767,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
@@ -689,9 +689,9 @@
             },
             {
                 "direction_x": -0.936,
-                "direction_y": 0.23,
-                "direction_z": -0.265,
-                "distance": 7.55,
+                "direction_y": 0.231,
+                "direction_z": -0.266,
+                "distance": 7.513,
                 "held": false,
                 "id": "wall_left",
                 "position_x": -6.25,
@@ -704,9 +704,9 @@
             },
             {
                 "direction_x": 0.899,
-                "direction_y": 0.288,
-                "direction_z": -0.331,
-                "distance": 6.042,
+                "direction_y": 0.286,
+                "direction_z": -0.329,
+                "distance": 6.078,
                 "held": false,
                 "id": "wall_right",
                 "position_x": 6.25,
@@ -723,15 +723,15 @@
     {
         "head_tilt": 0,
         "objects_count": 0,
-        "position_x": 0.82,
+        "position_x": 0.78,
         "position_z": 2.0,
         "return_status": "OBSTRUCTED",
         "rotation_y": 270.0,
         "step_number": 7,
         "structural_objects": [
             {
-                "direction_x": -0.139,
-                "direction_y": 0.93,
+                "direction_x": -0.132,
+                "direction_y": 0.931,
                 "direction_z": -0.34,
                 "distance": 5.898,
                 "held": false,
@@ -745,10 +745,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.278,
-                "direction_y": -0.681,
-                "direction_z": -0.677,
-                "distance": 2.953,
+                "direction_x": -0.265,
+                "direction_y": -0.684,
+                "direction_z": -0.68,
+                "distance": 2.942,
                 "held": false,
                 "id": "floor",
                 "position_x": 0.0,
@@ -761,7 +761,7 @@
                 "visible": true
             },
             {
-                "direction_x": -0.109,
+                "direction_x": -0.104,
                 "direction_y": 0.232,
                 "direction_z": -0.967,
                 "distance": 7.5,
@@ -776,10 +776,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.217,
-                "direction_y": 0.46,
-                "direction_z": 0.861,
-                "distance": 3.776,
+                "direction_x": -0.207,
+                "direction_y": 0.461,
+                "direction_z": 0.863,
+                "distance": 3.767,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
@@ -792,9 +792,9 @@
             },
             {
                 "direction_x": -0.936,
-                "direction_y": 0.23,
-                "direction_z": -0.265,
-                "distance": 7.55,
+                "direction_y": 0.231,
+                "direction_z": -0.266,
+                "distance": 7.513,
                 "held": false,
                 "id": "wall_left",
                 "position_x": -6.25,
@@ -807,9 +807,9 @@
             },
             {
                 "direction_x": 0.899,
-                "direction_y": 0.288,
-                "direction_z": -0.331,
-                "distance": 6.042,
+                "direction_y": 0.286,
+                "direction_z": -0.329,
+                "distance": 6.078,
                 "held": false,
                 "id": "wall_right",
                 "position_x": 6.25,
@@ -826,15 +826,15 @@
     {
         "head_tilt": 0,
         "objects_count": 0,
-        "position_x": 0.72,
+        "position_x": 0.68,
         "position_z": 2.0,
         "return_status": "SUCCESSFUL",
         "rotation_y": 270.0,
         "step_number": 8,
         "structural_objects": [
             {
-                "direction_x": -0.122,
-                "direction_y": 0.932,
+                "direction_x": -0.116,
+                "direction_y": 0.933,
                 "direction_z": -0.34,
                 "distance": 5.885,
                 "held": false,
@@ -848,10 +848,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.246,
-                "direction_y": -0.687,
-                "direction_z": -0.683,
-                "distance": 2.927,
+                "direction_x": -0.233,
+                "direction_y": -0.69,
+                "direction_z": -0.686,
+                "distance": 2.917,
                 "held": false,
                 "id": "floor",
                 "position_x": 0.0,
@@ -864,7 +864,7 @@
                 "visible": true
             },
             {
-                "direction_x": -0.096,
+                "direction_x": -0.091,
                 "direction_y": 0.232,
                 "direction_z": -0.968,
                 "distance": 7.49,
@@ -879,10 +879,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.192,
+                "direction_x": -0.181,
                 "direction_y": 0.463,
-                "direction_z": 0.865,
-                "distance": 3.755,
+                "direction_z": 0.867,
+                "distance": 3.748,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
@@ -895,9 +895,9 @@
             },
             {
                 "direction_x": -0.935,
-                "direction_y": 0.233,
-                "direction_z": -0.268,
-                "distance": 7.457,
+                "direction_y": 0.234,
+                "direction_z": -0.27,
+                "distance": 7.419,
                 "held": false,
                 "id": "wall_left",
                 "position_x": -6.25,
@@ -909,10 +909,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.902,
-                "direction_y": 0.283,
-                "direction_z": -0.326,
-                "distance": 6.132,
+                "direction_x": 0.903,
+                "direction_y": 0.282,
+                "direction_z": -0.324,
+                "distance": 6.168,
                 "held": false,
                 "id": "wall_right",
                 "position_x": 6.25,
@@ -929,14 +929,14 @@
     {
         "head_tilt": 0,
         "objects_count": 0,
-        "position_x": 0.62,
+        "position_x": 0.58,
         "position_z": 2.0,
         "return_status": "SUCCESSFUL",
         "rotation_y": 270.0,
         "step_number": 9,
         "structural_objects": [
             {
-                "direction_x": -0.106,
+                "direction_x": -0.099,
                 "direction_y": 0.934,
                 "direction_z": -0.341,
                 "distance": 5.874,
@@ -951,10 +951,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.214,
-                "direction_y": -0.693,
-                "direction_z": -0.689,
-                "distance": 2.904,
+                "direction_x": -0.2,
+                "direction_y": -0.695,
+                "direction_z": -0.691,
+                "distance": 2.896,
                 "held": false,
                 "id": "floor",
                 "position_x": 0.0,
@@ -967,7 +967,7 @@
                 "visible": true
             },
             {
-                "direction_x": -0.083,
+                "direction_x": -0.078,
                 "direction_y": 0.233,
                 "direction_z": -0.97,
                 "distance": 7.481,
@@ -982,10 +982,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.166,
+                "direction_x": -0.155,
                 "direction_y": 0.465,
-                "direction_z": 0.87,
-                "distance": 3.737,
+                "direction_z": 0.871,
+                "distance": 3.731,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
@@ -998,9 +998,9 @@
             },
             {
                 "direction_x": -0.933,
-                "direction_y": 0.236,
-                "direction_z": -0.272,
-                "distance": 7.363,
+                "direction_y": 0.237,
+                "direction_z": -0.273,
+                "distance": 7.326,
                 "held": false,
                 "id": "wall_left",
                 "position_x": -6.25,
@@ -1013,9 +1013,9 @@
             },
             {
                 "direction_x": 0.905,
-                "direction_y": 0.279,
-                "direction_z": -0.321,
-                "distance": 6.222,
+                "direction_y": 0.278,
+                "direction_z": -0.32,
+                "distance": 6.259,
                 "held": false,
                 "id": "wall_right",
                 "position_x": 6.25,
@@ -1032,14 +1032,14 @@
     {
         "head_tilt": 0,
         "objects_count": 0,
-        "position_x": 0.52,
+        "position_x": 0.48,
         "position_z": 2.0,
         "return_status": "SUCCESSFUL",
         "rotation_y": 270.0,
         "step_number": 10,
         "structural_objects": [
             {
-                "direction_x": -0.089,
+                "direction_x": -0.082,
                 "direction_y": 0.936,
                 "direction_z": -0.342,
                 "distance": 5.864,
@@ -1054,10 +1054,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.18,
-                "direction_y": -0.698,
-                "direction_z": -0.693,
-                "distance": 2.884,
+                "direction_x": -0.167,
+                "direction_y": -0.699,
+                "direction_z": -0.695,
+                "distance": 2.877,
                 "held": false,
                 "id": "floor",
                 "position_x": 0.0,
@@ -1070,7 +1070,7 @@
                 "visible": true
             },
             {
-                "direction_x": -0.07,
+                "direction_x": -0.064,
                 "direction_y": 0.233,
                 "direction_z": -0.971,
                 "distance": 7.474,
@@ -1085,10 +1085,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.14,
+                "direction_x": -0.129,
                 "direction_y": 0.467,
-                "direction_z": 0.873,
-                "distance": 3.722,
+                "direction_z": 0.874,
+                "distance": 3.717,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
@@ -1101,9 +1101,9 @@
             },
             {
                 "direction_x": -0.931,
-                "direction_y": 0.239,
-                "direction_z": -0.275,
-                "distance": 7.27,
+                "direction_y": 0.24,
+                "direction_z": -0.277,
+                "distance": 7.233,
                 "held": false,
                 "id": "wall_left",
                 "position_x": -6.25,
@@ -1116,9 +1116,9 @@
             },
             {
                 "direction_x": 0.908,
-                "direction_y": 0.275,
-                "direction_z": -0.317,
-                "distance": 6.313,
+                "direction_y": 0.274,
+                "direction_z": -0.315,
+                "distance": 6.349,
                 "held": false,
                 "id": "wall_right",
                 "position_x": 6.25,
@@ -1135,14 +1135,14 @@
     {
         "head_tilt": 0,
         "objects_count": 0,
-        "position_x": 0.42,
+        "position_x": 0.38,
         "position_z": 2.0,
         "return_status": "SUCCESSFUL",
         "rotation_y": 270.0,
         "step_number": 11,
         "structural_objects": [
             {
-                "direction_x": -0.072,
+                "direction_x": -0.065,
                 "direction_y": 0.938,
                 "direction_z": -0.342,
                 "distance": 5.856,
@@ -1157,10 +1157,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.146,
+                "direction_x": -0.133,
                 "direction_y": -0.702,
-                "direction_z": -0.697,
-                "distance": 2.868,
+                "direction_z": -0.699,
+                "distance": 2.862,
                 "held": false,
                 "id": "floor",
                 "position_x": 0.0,
@@ -1173,7 +1173,7 @@
                 "visible": true
             },
             {
-                "direction_x": -0.056,
+                "direction_x": -0.051,
                 "direction_y": 0.233,
                 "direction_z": -0.971,
                 "distance": 7.461,
@@ -1188,10 +1188,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.113,
+                "direction_x": -0.103,
                 "direction_y": 0.469,
-                "direction_z": 0.876,
-                "distance": 3.709,
+                "direction_z": 0.877,
+                "distance": 3.705,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
@@ -1204,9 +1204,9 @@
             },
             {
                 "direction_x": -0.929,
-                "direction_y": 0.242,
-                "direction_z": -0.279,
-                "distance": 7.177,
+                "direction_y": 0.243,
+                "direction_z": -0.28,
+                "distance": 7.14,
                 "held": false,
                 "id": "wall_left",
                 "position_x": -6.25,
@@ -1218,10 +1218,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.91,
-                "direction_y": 0.271,
-                "direction_z": -0.312,
-                "distance": 6.404,
+                "direction_x": 0.911,
+                "direction_y": 0.27,
+                "direction_z": -0.311,
+                "distance": 6.44,
                 "held": false,
                 "id": "wall_right",
                 "position_x": 6.25,
@@ -1238,14 +1238,14 @@
     {
         "head_tilt": 0,
         "objects_count": 0,
-        "position_x": 0.32,
+        "position_x": 0.28,
         "position_z": 2.0,
         "return_status": "SUCCESSFUL",
         "rotation_y": 270.0,
         "step_number": 12,
         "structural_objects": [
             {
-                "direction_x": -0.055,
+                "direction_x": -0.048,
                 "direction_y": 0.939,
                 "direction_z": -0.342,
                 "distance": 5.844,
@@ -1260,10 +1260,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.112,
+                "direction_x": -0.098,
                 "direction_y": -0.705,
                 "direction_z": -0.701,
-                "distance": 2.855,
+                "distance": 2.851,
                 "held": false,
                 "id": "floor",
                 "position_x": 0.0,
@@ -1276,7 +1276,7 @@
                 "visible": true
             },
             {
-                "direction_x": -0.043,
+                "direction_x": -0.038,
                 "direction_y": 0.233,
                 "direction_z": -0.972,
                 "distance": 7.458,
@@ -1291,7 +1291,7 @@
                 "visible": true
             },
             {
-                "direction_x": -0.087,
+                "direction_x": -0.076,
                 "direction_y": 0.47,
                 "direction_z": 0.879,
                 "distance": 3.699,
@@ -1307,9 +1307,9 @@
             },
             {
                 "direction_x": -0.927,
-                "direction_y": 0.245,
-                "direction_z": -0.282,
-                "distance": 7.084,
+                "direction_y": 0.247,
+                "direction_z": -0.284,
+                "distance": 7.047,
                 "held": false,
                 "id": "wall_left",
                 "position_x": -6.25,
@@ -1321,10 +1321,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.913,
-                "direction_y": 0.268,
-                "direction_z": -0.308,
-                "distance": 6.495,
+                "direction_x": 0.914,
+                "direction_y": 0.266,
+                "direction_z": -0.306,
+                "distance": 6.532,
                 "held": false,
                 "id": "wall_right",
                 "position_x": 6.25,
@@ -1341,14 +1341,14 @@
     {
         "head_tilt": 0,
         "objects_count": 0,
-        "position_x": 0.22,
+        "position_x": 0.18,
         "position_z": 2.0,
         "return_status": "SUCCESSFUL",
         "rotation_y": 270.0,
         "step_number": 13,
         "structural_objects": [
             {
-                "direction_x": -0.038,
+                "direction_x": -0.031,
                 "direction_y": 0.939,
                 "direction_z": -0.342,
                 "distance": 5.842,
@@ -1363,7 +1363,7 @@
                 "visible": true
             },
             {
-                "direction_x": -0.077,
+                "direction_x": -0.063,
                 "direction_y": -0.707,
                 "direction_z": -0.703,
                 "distance": 2.845,
@@ -1379,7 +1379,7 @@
                 "visible": true
             },
             {
-                "direction_x": -0.029,
+                "direction_x": -0.024,
                 "direction_y": 0.233,
                 "direction_z": -0.972,
                 "distance": 7.456,
@@ -1394,7 +1394,7 @@
                 "visible": true
             },
             {
-                "direction_x": -0.06,
+                "direction_x": -0.049,
                 "direction_y": 0.471,
                 "direction_z": 0.88,
                 "distance": 3.692,
@@ -1411,8 +1411,8 @@
             {
                 "direction_x": -0.925,
                 "direction_y": 0.249,
-                "direction_z": -0.286,
-                "distance": 6.992,
+                "direction_z": -0.288,
+                "distance": 6.955,
                 "held": false,
                 "id": "wall_left",
                 "position_x": -6.25,
@@ -1425,9 +1425,9 @@
             },
             {
                 "direction_x": 0.916,
-                "direction_y": 0.264,
-                "direction_z": -0.304,
-                "distance": 6.586,
+                "direction_y": 0.262,
+                "direction_z": -0.302,
+                "distance": 6.623,
                 "held": false,
                 "id": "wall_right",
                 "position_x": 6.25,
@@ -1444,14 +1444,14 @@
     {
         "head_tilt": 0,
         "objects_count": 0,
-        "position_x": 0.12,
+        "position_x": 0.08,
         "position_z": 2.0,
         "return_status": "SUCCESSFUL",
         "rotation_y": 270.0,
         "step_number": 14,
         "structural_objects": [
             {
-                "direction_x": -0.021,
+                "direction_x": -0.014,
                 "direction_y": 0.939,
                 "direction_z": -0.342,
                 "distance": 5.842,
@@ -1466,7 +1466,7 @@
                 "visible": true
             },
             {
-                "direction_x": -0.042,
+                "direction_x": -0.028,
                 "direction_y": -0.709,
                 "direction_z": -0.704,
                 "distance": 2.839,
@@ -1482,7 +1482,7 @@
                 "visible": true
             },
             {
-                "direction_x": -0.016,
+                "direction_x": -0.011,
                 "direction_y": 0.233,
                 "direction_z": -0.972,
                 "distance": 7.456,
@@ -1497,7 +1497,7 @@
                 "visible": true
             },
             {
-                "direction_x": -0.033,
+                "direction_x": -0.022,
                 "direction_y": 0.471,
                 "direction_z": 0.881,
                 "distance": 3.687,
@@ -1513,9 +1513,9 @@
             },
             {
                 "direction_x": -0.923,
-                "direction_y": 0.252,
-                "direction_z": -0.29,
-                "distance": 6.899,
+                "direction_y": 0.253,
+                "direction_z": -0.291,
+                "distance": 6.862,
                 "held": false,
                 "id": "wall_left",
                 "position_x": -6.25,
@@ -1528,9 +1528,9 @@
             },
             {
                 "direction_x": 0.918,
-                "direction_y": 0.26,
-                "direction_z": -0.299,
-                "distance": 6.678,
+                "direction_y": 0.259,
+                "direction_z": -0.298,
+                "distance": 6.715,
                 "held": false,
                 "id": "wall_right",
                 "position_x": 6.25,
@@ -1547,17 +1547,17 @@
     {
         "head_tilt": 0,
         "objects_count": 0,
-        "position_x": 0.02,
+        "position_x": -0.22,
         "position_z": 2.0,
         "return_status": "SUCCESSFUL",
         "rotation_y": 270.0,
         "step_number": 15,
         "structural_objects": [
             {
-                "direction_x": -0.003,
-                "direction_y": 0.94,
-                "direction_z": -0.342,
-                "distance": 5.841,
+                "direction_x": 0.032,
+                "direction_y": 0.955,
+                "direction_z": -0.294,
+                "distance": 6.793,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -1569,10 +1569,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.007,
-                "direction_y": -0.709,
-                "direction_z": -0.705,
-                "distance": 2.837,
+                "direction_x": 0.098,
+                "direction_y": -0.449,
+                "direction_z": -0.888,
+                "distance": 2.252,
                 "held": false,
                 "id": "floor",
                 "position_x": 0.0,
@@ -1585,10 +1585,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.003,
-                "direction_y": 0.233,
-                "direction_z": -0.972,
-                "distance": 7.455,
+                "direction_x": 0.028,
+                "direction_y": 0.353,
+                "direction_z": -0.935,
+                "distance": 7.753,
                 "held": false,
                 "id": "wall_back",
                 "position_x": 0.0,
@@ -1600,10 +1600,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.005,
-                "direction_y": 0.472,
-                "direction_z": 0.882,
-                "distance": 3.686,
+                "direction_x": 0.052,
+                "direction_y": 0.643,
+                "direction_z": 0.764,
+                "distance": 4.255,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
@@ -1615,10 +1615,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.921,
-                "direction_y": 0.255,
-                "direction_z": -0.294,
-                "distance": 6.807,
+                "direction_x": -0.872,
+                "direction_y": 0.396,
+                "direction_z": -0.289,
+                "distance": 6.918,
                 "held": false,
                 "id": "wall_left",
                 "position_x": -6.25,
@@ -1630,10 +1630,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.92,
-                "direction_y": 0.257,
-                "direction_z": -0.295,
-                "distance": 6.77,
+                "direction_x": 0.886,
+                "direction_y": 0.375,
+                "direction_z": -0.274,
+                "distance": 7.305,
                 "held": false,
                 "id": "wall_right",
                 "position_x": 6.25,
@@ -1650,14 +1650,14 @@
     {
         "head_tilt": 0,
         "objects_count": 0,
-        "position_x": -0.18,
+        "position_x": -0.22,
         "position_z": 2.0,
-        "return_status": "SUCCESSFUL",
+        "return_status": "OBSTRUCTED",
         "rotation_y": 270.0,
         "step_number": 16,
         "structural_objects": [
             {
-                "direction_x": 0.027,
+                "direction_x": 0.032,
                 "direction_y": 0.955,
                 "direction_z": -0.294,
                 "distance": 6.792,
@@ -1672,10 +1672,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.08,
-                "direction_y": -0.45,
-                "direction_z": -0.889,
-                "distance": 2.249,
+                "direction_x": 0.098,
+                "direction_y": -0.449,
+                "direction_z": -0.888,
+                "distance": 2.252,
                 "held": false,
                 "id": "floor",
                 "position_x": 0.0,
@@ -1688,7 +1688,7 @@
                 "visible": true
             },
             {
-                "direction_x": 0.023,
+                "direction_x": 0.028,
                 "direction_y": 0.353,
                 "direction_z": -0.935,
                 "distance": 7.752,
@@ -1703,10 +1703,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.042,
-                "direction_y": 0.644,
-                "direction_z": 0.764,
-                "distance": 4.253,
+                "direction_x": 0.052,
+                "direction_y": 0.643,
+                "direction_z": 0.763,
+                "distance": 4.255,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
@@ -1718,10 +1718,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.873,
-                "direction_y": 0.394,
-                "direction_z": -0.288,
-                "distance": 6.953,
+                "direction_x": -0.872,
+                "direction_y": 0.396,
+                "direction_z": -0.289,
+                "distance": 6.918,
                 "held": false,
                 "id": "wall_left",
                 "position_x": -6.25,
@@ -1733,10 +1733,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.885,
-                "direction_y": 0.377,
-                "direction_z": -0.275,
-                "distance": 7.269,
+                "direction_x": 0.886,
+                "direction_y": 0.375,
+                "direction_z": -0.274,
+                "distance": 7.305,
                 "held": false,
                 "id": "wall_right",
                 "position_x": 6.25,
@@ -1753,14 +1753,14 @@
     {
         "head_tilt": 0,
         "objects_count": 0,
-        "position_x": -0.18,
+        "position_x": -0.32,
         "position_z": 2.0,
-        "return_status": "OBSTRUCTED",
+        "return_status": "SUCCESSFUL",
         "rotation_y": 270.0,
         "step_number": 17,
         "structural_objects": [
             {
-                "direction_x": 0.027,
+                "direction_x": 0.047,
                 "direction_y": 0.955,
                 "direction_z": -0.294,
                 "distance": 6.792,
@@ -1775,10 +1775,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.08,
-                "direction_y": -0.45,
-                "direction_z": -0.889,
-                "distance": 2.249,
+                "direction_x": 0.141,
+                "direction_y": -0.447,
+                "direction_z": -0.883,
+                "distance": 2.264,
                 "held": false,
                 "id": "floor",
                 "position_x": 0.0,
@@ -1791,7 +1791,7 @@
                 "visible": true
             },
             {
-                "direction_x": 0.023,
+                "direction_x": 0.041,
                 "direction_y": 0.353,
                 "direction_z": -0.935,
                 "distance": 7.752,
@@ -1806,10 +1806,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.042,
-                "direction_y": 0.644,
-                "direction_z": 0.764,
-                "distance": 4.253,
+                "direction_x": 0.075,
+                "direction_y": 0.642,
+                "direction_z": 0.763,
+                "distance": 4.262,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
@@ -1821,10 +1821,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.873,
-                "direction_y": 0.394,
-                "direction_z": -0.288,
-                "distance": 6.953,
+                "direction_x": -0.868,
+                "direction_y": 0.401,
+                "direction_z": -0.293,
+                "distance": 6.831,
                 "held": false,
                 "id": "wall_left",
                 "position_x": -6.25,
@@ -1836,10 +1836,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.885,
-                "direction_y": 0.377,
-                "direction_z": -0.275,
-                "distance": 7.269,
+                "direction_x": 0.889,
+                "direction_y": 0.37,
+                "direction_z": -0.271,
+                "distance": 7.393,
                 "held": false,
                 "id": "wall_right",
                 "position_x": 6.25,
@@ -1856,17 +1856,17 @@
     {
         "head_tilt": 0,
         "objects_count": 0,
-        "position_x": -0.28,
+        "position_x": -0.42,
         "position_z": 2.0,
         "return_status": "SUCCESSFUL",
         "rotation_y": 270.0,
         "step_number": 18,
         "structural_objects": [
             {
-                "direction_x": 0.041,
-                "direction_y": 0.955,
+                "direction_x": 0.062,
+                "direction_y": 0.954,
                 "direction_z": -0.294,
-                "distance": 6.795,
+                "distance": 6.802,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -1878,10 +1878,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.124,
-                "direction_y": -0.448,
-                "direction_z": -0.885,
-                "distance": 2.259,
+                "direction_x": 0.184,
+                "direction_y": -0.444,
+                "direction_z": -0.877,
+                "distance": 2.28,
                 "held": false,
                 "id": "floor",
                 "position_x": 0.0,
@@ -1894,7 +1894,7 @@
                 "visible": true
             },
             {
-                "direction_x": 0.036,
+                "direction_x": 0.054,
                 "direction_y": 0.353,
                 "direction_z": -0.935,
                 "distance": 7.755,
@@ -1909,10 +1909,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.066,
-                "direction_y": 0.643,
-                "direction_z": 0.763,
-                "distance": 4.259,
+                "direction_x": 0.098,
+                "direction_y": 0.641,
+                "direction_z": 0.761,
+                "distance": 4.27,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
@@ -1924,10 +1924,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.87,
-                "direction_y": 0.399,
-                "direction_z": -0.291,
-                "distance": 6.866,
+                "direction_x": -0.864,
+                "direction_y": 0.406,
+                "direction_z": -0.297,
+                "distance": 6.744,
                 "held": false,
                 "id": "wall_left",
                 "position_x": -6.25,
@@ -1939,113 +1939,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.887,
-                "direction_y": 0.372,
-                "direction_z": -0.272,
-                "distance": 7.358,
-                "held": false,
-                "id": "wall_right",
-                "position_x": 6.25,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "yellow"
-                ],
-                "visible": true
-            }
-        ],
-        "structural_objects_count": 8
-    },
-    {
-        "head_tilt": 0,
-        "objects_count": 0,
-        "position_x": -0.38,
-        "position_z": 2.0,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 270.0,
-        "step_number": 19,
-        "structural_objects": [
-            {
-                "direction_x": 0.056,
-                "direction_y": 0.954,
-                "direction_z": -0.294,
-                "distance": 6.8,
-                "held": false,
-                "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.167,
-                "direction_y": -0.445,
-                "direction_z": -0.88,
-                "distance": 2.273,
-                "held": false,
-                "id": "floor",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "red",
-                    "yellow"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.049,
-                "direction_y": 0.353,
-                "direction_z": -0.934,
-                "distance": 7.759,
-                "held": false,
-                "id": "wall_back",
-                "position_x": 0.0,
-                "position_z": -5.25,
-                "shape": "structural",
-                "texture_color_list": [
-                    "yellow"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.089,
-                "direction_y": 0.642,
-                "direction_z": 0.762,
-                "distance": 4.267,
-                "held": false,
-                "id": "wall_front",
-                "position_x": 0.0,
-                "position_z": 5.25,
-                "shape": "structural",
-                "texture_color_list": [
-                    "yellow"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": -0.866,
-                "direction_y": 0.404,
-                "direction_z": -0.295,
-                "distance": 6.779,
-                "held": false,
-                "id": "wall_left",
-                "position_x": -6.25,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "yellow"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.89,
-                "direction_y": 0.368,
-                "direction_z": -0.269,
-                "distance": 7.447,
+                "direction_x": 0.891,
+                "direction_y": 0.366,
+                "direction_z": -0.267,
+                "distance": 7.482,
                 "held": false,
                 "id": "wall_right",
                 "position_x": 6.25,
