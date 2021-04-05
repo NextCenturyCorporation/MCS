@@ -1,7 +1,5 @@
-import os
 import time
 import pathlib
-import shutil
 import threading
 import queue
 
@@ -100,18 +98,6 @@ class VideoRecorder():
         self.thread.join()
         self.flush()
         self.writer.release()
-
-        if self._frames_written > 0:
-            # convert video to use h264 codec for browser playing
-            # which is not usable directly from opencv
-            shutil.move(self._path, 'temp.mp4')
-            os.system(
-                f'ffmpeg -loglevel quiet -i temp.mp4'
-                f' -vcodec libx264 -vf format=yuv420p {self._path}')
-            os.remove('temp.mp4')
-        else:
-            # Remove the unused video file without any frames.
-            os.remove(self._path)
 
     @property
     def path(self) -> pathlib.Path:

@@ -43,12 +43,30 @@ from .history_writer import HistoryWriter
 from .config_manager import ConfigManager
 
 
+def __reset_override(self, scene):
+    # From https://github.com/allenai/ai2thor/blob/2.5.0/ai2thor/controller.py#L503-L525 # noqa: E501
+    # Remove the error check: if scene not in self.scenes_in_build
+    self.server.send(dict(action='Reset', sceneName=scene, sequenceId=0))
+    self.last_event = self.server.receive()
+    self.last_event = self.step(
+        action='Initialize',
+        **self.initialization_parameters
+    )
+    return self.last_event
+
+
+ai2thor.controller.Controller.reset = __reset_override
+
+
 def __image_depth_override(self, image_depth_data, **kwargs):
     # From https://github.com/NextCenturyCorporation/ai2thor/blob/47a9d0802861ba8d7a2a7a6d943a46db28ddbaab/ai2thor/server.py#L232-L240 # noqa: E501
     # The MCS depth shader in Unity is completely different now, so override
     # the original AI2-THOR depth image code. Just return what Unity sends us.
     image_depth = ai2thor.server.read_buffer_image(
-        image_depth_data, self.screen_width, self.screen_height, **kwargs)
+        image_depth_data,
+        self.screen_width,
+        self.screen_height
+    )
     return image_depth
 
 
@@ -127,6 +145,11 @@ class Controller():
     OBJECT_IMAGE_COORDS_Y_KEY = 'objectImageCoordsY'
     RECEPTACLE_IMAGE_COORDS_X_KEY = 'receptacleObjectImageCoordsX'
     RECEPTACLE_IMAGE_COORDS_Y_KEY = 'receptacleObjectImageCoordsY'
+
+    # used for EndHabituation teleport
+    TELEPORT_X_POS = 'xPosition'
+    TELEPORT_Z_POS = 'zPosition'
+    TELEPORT_Y_ROT = 'yRotation'
 
     # Hard coding actions that effect MoveMagnitude so the appropriate
     # value is set based off of the action
@@ -660,11 +683,32 @@ class Controller():
         receptacle_vector['y'] = self._convert_y_image_coord_for_unity(
             float(receptacleObjectImageCoordsY))
 
+        teleportRotInput = kwargs.get(self.TELEPORT_Y_ROT)
+        teleportPosXInput = kwargs.get(self.TELEPORT_X_POS)
+        teleportPosZInput = kwargs.get(self.TELEPORT_Z_POS)
+
+        teleportRotation = None
+        teleportPosition = None
+
+        if teleportRotInput is not None and Util.is_number(teleportRotInput):
+            teleportRotation = {}
+            teleportRotation['y'] = kwargs.get(self.TELEPORT_Y_ROT)
+
+        if (teleportPosXInput is not None and
+                Util.is_number(teleportPosXInput) and
+                teleportPosZInput is not None and
+                Util.is_number(teleportPosZInput)):
+            teleportPosition = {}
+            teleportPosition['x'] = teleportPosXInput
+            teleportPosition['z'] = teleportPosZInput
+
         return dict(
             objectId=kwargs.get("objectId", None),
             receptacleObjectId=kwargs.get("receptacleObjectId", None),
             rotation=rotation_vector,
             horizon=horizon,
+            teleportRotation=teleportRotation,
+            teleportPosition=teleportPosition,
             moveMagnitude=moveMagnitude,
             objectImageCoords=object_vector,
             receptacleObjectImageCoords=receptacle_vector

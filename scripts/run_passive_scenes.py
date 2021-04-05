@@ -3,7 +3,7 @@ from runner_script import MultipleFileRunnerScript
 import machine_common_sense as mcs
 
 
-def action_callback(scene_data, step_metadata):
+def action_callback(scene_data, step_metadata, runner_script):
     last_step = 60
     if 'goal' in scene_data.keys():
         if 'last_step' in scene_data['goal'].keys():

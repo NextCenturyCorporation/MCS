@@ -16,7 +16,7 @@
 
 ## Installation
 
-The latest release of the MCS Python library is `0.4.0`.
+The latest release of the MCS Python library is `0.4.1`.
 
 ### Virtual Environments
 
@@ -65,26 +65,26 @@ Here are the instructions for downloading and installing our latest Unity releas
 
 ### Unity Application
 
-The latest release of the MCS Unity app is `0.4.0`.
+The latest release of the MCS Unity app is `0.4.1`.
 
 Please note that our Unity App is built on Linux. If you need a Mac or Windows version, please [contact us](#troubleshooting) directly.
 
-1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.0/MCS-AI2-THOR-Unity-App-v0.4.0.x86_64)
+1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1/MCS-AI2-THOR-Unity-App-v0.4.1.x86_64)
 
-2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.0/MCS-AI2-THOR-Unity-App-v0.4.0_Data.tar.gz)
+2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1/MCS-AI2-THOR-Unity-App-v0.4.1_Data.tar.gz)
 
 3. Ensure that both the Unity App and the TAR are in the same directory.
 
 4. Untar the Data Directory:
 
 ```
-tar -xzvf MCS-AI2-THOR-Unity-App-v0.4.0_Data.tar.gz
+tar -xzvf MCS-AI2-THOR-Unity-App-v0.4.1_Data.tar.gz
 ```
 
 5. Mark the Unity App as executable:
 
 ```
-chmod a+x MCS-AI2-THOR-Unity-App-v0.4.0.x86_64
+chmod a+x MCS-AI2-THOR-Unity-App-v0.4.1.x86_64
 ```
 
 ## Training Datasets

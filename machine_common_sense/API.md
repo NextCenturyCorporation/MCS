@@ -524,7 +524,31 @@ Drop an object you are holding.
 
 #### END_HABITUATION( = 'EndHabituation')
 Ends a habituation trial for the scene by blanking the screen for one
-action. Sometimes needed for the passive tasks.
+action (and teleporting the agent if needed). Sometimes needed depending
+on the task type.
+
+Note that we currently plan to use the starting position/rotation as
+teleport parameters here for applicable cases. We cannot currently
+guarantee that using a position intersecting another object or outside
+the room won’t cause issues or errors.
+
+
+* **Parameters**
+
+    
+    * **xPosition** (*float**, **optional*) – The global X position of the vector to teleport the agent to during
+    the blank screen. The Z position must also be specified for this to
+    work.
+
+
+    * **zPosition** (*float**, **optional*) – The global Z position of the vector to teleport the agent to during
+    the blank screen. The X position must also be specified for this to
+    work.
+
+
+    * **yRotation** (*float**, **optional*) – Degrees (global, not relative) to rotate the agent along the Y axis
+    during the blank screen.
+
 
 
 * **Returns**
