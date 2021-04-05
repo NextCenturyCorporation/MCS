@@ -9,7 +9,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
 
 # --build-arg mcsversion=0.0.x to override default in docker build command
-ARG mcsversion=0.4.0
+ARG mcsversion=0.4.1
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV MCS_EXECUTABLE_PATH="/MCS-AI2-THOR-Unity-App-v${mcsversion}.x86_64"
