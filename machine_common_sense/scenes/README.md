@@ -103,6 +103,8 @@ Combination of multiple elements. For example: a platform, being frozen, and a m
 
 ### Gravity Support: Objects Falling Down
 
+All of these examples are PLAUSIBLE
+
 - [gravity_support_ex_01.json](./gravity_support_ex_01.json)
 - [gravity_support_ex_02.json](./gravity_support_ex_02.json)
 - [gravity_support_ex_03.json](./gravity_support_ex_03.json)
@@ -116,20 +118,13 @@ Combination of multiple elements. For example: a platform, being frozen, and a m
 - [gravity_support_ex_11.json](./gravity_support_ex_11.json)
 - [gravity_support_ex_12.json](./gravity_support_ex_12.json)
 
-| Plausible |
-| --------- |
-| ![](./videos/gravity_support_ex_01.gif) | |
-| ![](./videos/gravity_support_ex_02.gif) | |
-| ![](./videos/gravity_support_ex_03.gif) | |
-| ![](./videos/gravity_support_ex_04.gif) | |
-| ![](./videos/gravity_support_ex_05.gif) | |
-| ![](./videos/gravity_support_ex_06.gif) | |
-| ![](./videos/gravity_support_ex_07.gif) | |
-| ![](./videos/gravity_support_ex_08.gif) | |
-| ![](./videos/gravity_support_ex_09.gif) | |
-| ![](./videos/gravity_support_ex_10.gif) | |
-| ![](./videos/gravity_support_ex_11.gif) | |
-| ![](./videos/gravity_support_ex_12.gif) | |
+| | |
+| ![](./videos/gravity_support_ex_01.gif) | ![](./videos/gravity_support_ex_02.gif) |
+| ![](./videos/gravity_support_ex_03.gif) | ![](./videos/gravity_support_ex_04.gif) |
+| ![](./videos/gravity_support_ex_05.gif) | ![](./videos/gravity_support_ex_06.gif) |
+| ![](./videos/gravity_support_ex_07.gif) | ![](./videos/gravity_support_ex_08.gif) |
+| ![](./videos/gravity_support_ex_09.gif) | ![](./videos/gravity_support_ex_10.gif) |
+| ![](./videos/gravity_support_ex_11.gif) | ![](./videos/gravity_support_ex_12.gif) |
 
 ### Object Permanence and Spatio-Temporal Continuity: Objects Moving on Multiple Axes Behind Occluders
 
