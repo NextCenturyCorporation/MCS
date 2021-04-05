@@ -148,13 +148,13 @@ class AbstractRunnerScript():
             )
 
         step_metadata = controller.start_scene(scene_data)
-        action, params = action_callback(scene_data, step_metadata)
+        action, params = action_callback(scene_data, step_metadata, self)
 
         while action is not None:
             step_metadata = controller.step(action, **params)
             if step_metadata is None:
                 break
-            action, params = action_callback(scene_data, step_metadata)
+            action, params = action_callback(scene_data, step_metadata, self)
 
         controller.end_scene("", 1)
 

@@ -1,14 +1,14 @@
 # MCS Scene Configuration Files: README
 
-## Documentation
+# Documentation
 
 [SCHEMA.md](./SCHEMA.md)
 
-## Examples
+# Examples
 
-### Interactive Scenes
+## Interactive Scenes
 
-#### Playroom
+### Playroom
 
 An open room containing over 40 objects for undirected exploration.
 
@@ -16,7 +16,7 @@ An open room containing over 40 objects for undirected exploration.
 
 ![playroom_3_2](./videos/playroom_3_2.gif)
 
-#### Retrieval Goal
+### Retrieval Goal
 
 Soccer ball retrieval goal for the Summer 2021 evaluation:
 
@@ -26,7 +26,7 @@ Silver trophy retrieval goal for the Winter 2020 evaluation:
 
 - [retrieval_goal_example_with_trophy.json](./retrieval_goal_example_with_trophy.json)
 
-#### Hinged Containers
+### Hinged Containers
 
 Soccer ball inside hinged containers for the Summer 2021 evaluation:
 
@@ -40,54 +40,72 @@ Silver trophy inside hinged containers for the Winter 2020 evaluation:
 
 ![hinged_container_example_with_trophy](./videos/hinged_container_example_with_trophy.gif)
 
-#### Interactive Object Permanence
+### Interactive Object Permanence and Reorientation Tasks
 
-Performer agent starts on top of a raised platform and can move off the platform onto the floor but cannot move back onto the platform from the floor.
-
-- [template_platform_singleton.json](./template_platform_singleton.json)
-- [template_platform_bisecting.json](./template_platform_bisecting.json)
-
-Performer agent is frozen (can only use the Pass action) during specific steps in the scene.
-
-- [template_frozen_first_10_steps.json](./template_frozen_first_10_steps.json)
-- [template_frozen_after_10_steps.json](./template_frozen_after_10_steps.json)
-
-Soccer ball is thrown into the scene via a cylindrical mechanism attached to the ceiling.
-
-- [template_soccer_ball_throwing_mechanism.json](./template_soccer_ball_throwing_mechanism.json)
-
-Combination of the platform, being frozen, and soccer ball being thrown into the scene.
-
-- [template_interactive_object_permanence_scene.json](./template_interactive_object_permanence_scene.json)
-
-#### Reorientation
-
-Rectangular rooms.
+The room has different dimensions/bounds, and isn't necessarily square. Previously, the room's dimensions were always [-5, 5] on both the X and the Z axes.
 
 - [template_12_by_8.json](./template_12_by_8.json)
 - [template_2_by_4.json](./template_2_by_4.json)
 
-Rooms with individually colored outer walls.
+| | |
+| --------- | ----------- |
+| ![](./videos/template_12_by_8.gif) | ![](./videos/template_2_by_4.gif) |
+
+The room's outer walls are individually, distinctly colored. Previously, all of the room's outer walls were always the same color.
 
 - [template_individually_colored_walls.json](./template_individually_colored_walls.json)
 
-Performer agent is frozen (can only use the Pass action) during specific steps in the scene.
+| |
+| --------- |
+| ![](./videos/template_individually_colored_walls.gif) |
+
+The performer agent is positioned on top of a flat, raised platform. Moving off the edge of the platform will cause the performer agent to automatically, instantaneously fall down to the floor, and the performer agent will not be able to move back on top of the platform.
+
+- [template_platform_independent.json](./template_platform_independent.json)
+- [template_platform_bisecting.json](./template_platform_bisecting.json)
+
+| | |
+| --------- | ----------- |
+| ![](./videos/template_platform_independent.gif) | ![](./videos/template_platform_bisecting.gif) |
+
+The performer agent is temporarily "frozen" (can only use the Pass action) at the start and/or in the middle of an interactive scene. This is done by the same method that is used for the passive/VoE scenes (see the StepMetadata.action_list property).
 
 - [template_frozen_first_10_steps.json](./template_frozen_first_10_steps.json)
 - [template_frozen_after_10_steps.json](./template_frozen_after_10_steps.json)
 
-Soccer ball is dropped into an open container via a cylindrical mechanism attached to the ceiling.
+| | |
+| --------- | ----------- |
+| ![](./videos/template_frozen_first_10_steps.gif) | ![](./videos/template_frozen_after_10_steps.gif) |
 
-- [template_soccer_ball_dropping_mechanism.json](./template_soccer_ball_dropping_mechanism.json)
+A cylindrical mechanism attached to a wall or the ceiling throws (for interactive object permanence) or drops (for reorientation) the target object (i.e. soccer ball) into the scene.
 
-Performer agent is kidnapped (can only use the EndHabituation action, which blacks its vision and teleports it to a new location) one or more times.
+- [template_mechanism_dropping_soccer_ball.json](./template_mechanism_dropping_soccer_ball.json)
+- [template_mechanism_throwing_soccer_ball.json](./template_mechanism_throwing_soccer_ball.json)
+
+| | |
+| --------- | ----------- |
+| ![](./videos/template_mechanism_dropping_soccer_ball.gif) | ![](./videos/template_mechanism_throwing_soccer_ball.gif) |
+
+The performer agent is "kidnapped" (can only call the EndHabituation action) and teleported to another position in the current room one or more times. Prior to being kidnapped, the performer agent is able to move around and explore its environment for a limited number of steps. On the kidnapped step, the returned images will be black. Prior to the final kidnapping, StepMetadata.habituation_trial will be an integer; after the final kidnapping, StepMetadata.habituation_trial will be "None" to denote the test trial.
 
 - [template_kidnapping.json](./template_kidnapping.json)
 - [template_kidnapping_then_frozen.json](./template_kidnapping_then_frozen.json)
 
-### Intuitive Physics Scenes
+| | |
+| --------- | ----------- |
+| ![](./videos/template_kidnapping.gif) | ![](./videos/template_kidnapping_then_frozen.gif) |
 
-#### Gravity Support: Objects Falling Down
+Combination of multiple elements. For example: a platform, being frozen, and a mechanism throwing the soccer ball into the scene.
+
+- [template_interactive_object_permanence_scene.json](./template_interactive_object_permanence_scene.json)
+
+| |
+| --------- |
+| ![](./videos/template_interactive_object_permanence_scene.gif) |
+
+## Intuitive Physics Scenes
+
+### Gravity Support: Objects Falling Down
 
 - [gravity_support_ex_01.json](./gravity_support_ex_01.json)
 - [gravity_support_ex_02.json](./gravity_support_ex_02.json)
@@ -117,7 +135,7 @@ Performer agent is kidnapped (can only use the EndHabituation action, which blac
 | ![](./videos/gravity_support_ex_11.gif) | |
 | ![](./videos/gravity_support_ex_12.gif) | |
 
-#### Object Permanence and Spatio-Temporal Continuity: Objects Moving on Multiple Axes Behind Occluders
+### Object Permanence and Spatio-Temporal Continuity: Objects Moving on Multiple Axes Behind Occluders
 
 Relevant for the Summer 2021 evaluation. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
 
@@ -134,7 +152,7 @@ Relevant for the Summer 2021 evaluation. Objects may move on only the X axis (as
 | ![](./videos/move_deep_fast_03.gif) | ![](./videos/move_deep_fast_04.gif) |
 | ![](./videos/move_toss_fast_01.gif) | ![](./videos/move_toss_fast_02.gif) |
 
-#### Object Permanence: Objects Moving on Multiple Axes and Stopping Behind Occluders
+### Object Permanence: Objects Moving on Multiple Axes and Stopping Behind Occluders
 
 Relevant for the Summer 2021 evaluation. Objects may move across the entire screen and exit on the other side (as in previous evaluations), or come to a natural stop behind the occluder. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
 
@@ -151,7 +169,7 @@ Relevant for the Summer 2021 evaluation. Objects may move across the entire scre
 | ![](./videos/move_deep_slow_01.gif) | ![](./videos/move_deep_slow_02.gif) |
 | ![](./videos/move_toss_slow_01.gif) | ![](./videos/move_toss_slow_02.gif) |
 
-#### Object Permanence: Objects Falling Down Behind Occluders
+### Object Permanence: Objects Falling Down Behind Occluders
 
 Relevant for the Winter 2020 evaluation.
 
@@ -162,7 +180,7 @@ Relevant for the Winter 2020 evaluation.
 | --------- | ----------- |
 | ![](./videos/object_permanence_plausible.gif) | ![](./videos/object_permanence_implausible.gif) |
 
-#### Shape Constancy: Objects Falling Down Behind Occluders
+### Shape Constancy: Objects Falling Down Behind Occluders
 
 Relevant for the Winter 2020 and Summer 2021 evaluations
 
@@ -173,7 +191,7 @@ Relevant for the Winter 2020 and Summer 2021 evaluations
 | --------- | ----------- |
 | ![](./videos/shape_constancy_plausible.gif) | ![](./videos/shape_constancy_implausible.gif) |
 
-#### Spatio-Temporal Continuity: Objects Moving Across Behind Occluders
+### Spatio-Temporal Continuity: Objects Moving Across Behind Occluders
 
 Relevant for the Winter 2020 evaluation.
 
@@ -184,9 +202,9 @@ Relevant for the Winter 2020 evaluation.
 | --------- | ----------- |
 | ![](./videos/spatio_temporal_continuity_plausible.gif) | ![](./videos/spatio_temporal_continuity_implausible.gif) |
 
-### Agents Scenes
+## Agents Scenes
 
-#### Agents Have Goals and Preferences
+### Agents Have Goals and Preferences
 
 - [agents_preference_expected.json](./agents_preference_expected.json)
 - [agents_preference_unexpected.json](./agents_preference_unexpected.json)
@@ -195,16 +213,16 @@ Relevant for the Winter 2020 evaluation.
 | --------- | ----------- |
 | ![](./videos/agents_preference_expected.gif) | ![](./videos/agents_preference_unexpected.gif) |
 
-### Simple Scenes
+## Simple Scenes
 
-#### With Objects
+### With Objects
 
 - [ball_close.json](./ball_close.json)
 - [ball_far.json](./ball_far.json)
 - [ball_obstructed.json](./ball_obstructed.json)
 - [block_close.json](./block_close.json)
 
-#### With Walls
+### With Walls
 
 - [wall_ahead.json](./wall_ahead.json)
 - [wall_diagonal.json](./wall_diagonal.json)
