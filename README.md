@@ -67,7 +67,9 @@ Here are the instructions for downloading and installing our latest Unity releas
 
 The latest release of the MCS Unity app is `0.4.1`.
 
-Please note that our Unity App is built on Linux. If you need a Mac or Windows version, please [contact us](#troubleshooting) directly.
+Please note that our Unity App is built on Linux or Mac.
+
+Linux Version:
 
 1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1/MCS-AI2-THOR-Unity-App-v0.4.1.x86_64)
 
@@ -86,6 +88,11 @@ tar -xzvf MCS-AI2-THOR-Unity-App-v0.4.1_Data.tar.gz
 ```
 chmod a+x MCS-AI2-THOR-Unity-App-v0.4.1.x86_64
 ```
+
+Mac Version:
+
+[Download the Mac ZIP](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1/MCS-AI2-THOR-Unity-App-v0.4.1.app.zip)
+
 
 ## Training Datasets
 
