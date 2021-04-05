@@ -33,9 +33,9 @@ class TestSerializer(unittest.TestCase):
         self.assertIsInstance(unpacked_metadata.depth_map_list[0], np.ndarray)
         self.assertEqual(unpacked_metadata.depth_map_list[0].shape, (400, 600))
         self.assertIsInstance(unpacked_metadata, mcs.StepMetadata)
-        self.assertEqual(abs(unpacked_metadata.reward - (-0.036000000000000004)) < 1e-04, True)
-        self.assertEqual(abs(unpacked_metadata.rotation - 0.0) < 1e-04, True)
-        self.assertEqual(type(unpacked_metadata.object_list[-1].shape), str)
+        self.assertAlmostEqual(unpacked_metadata.reward, -0.036000000000000004)
+        self.assertAlmostEqual(unpacked_metadata.rotation, 0.0, delta=1e-04)
+        self.assertIsInstance(unpacked_metadata.object_list[-1].shape, str)
 
 
 if __name__ == '__main__':
