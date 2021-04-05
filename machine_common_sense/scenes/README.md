@@ -1,10 +1,6 @@
-# MCS Scene Configuration Files: README
+# MCS Scene Configuration Files
 
-# Documentation
-
-[SCHEMA.md](./SCHEMA.md)
-
-# Examples
+Documentation: [SCHEMA.md](./SCHEMA.md)
 
 ## Interactive Scenes
 
