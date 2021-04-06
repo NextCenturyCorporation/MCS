@@ -17,7 +17,6 @@ Jinja2==2.11.3
 MarkupSafe==1.1.1
 matplotlib==3.3.2
 msgpack==1.0.0
-numpy==1.19.4
 opencv-python==4.4.0.44
 packaging==20.4
 pre-commit==2.7.1
