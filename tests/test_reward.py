@@ -7,7 +7,7 @@ from shapely import geometry
 import machine_common_sense as mcs
 
 
-class Test_Reward(unittest.TestCase):
+class TestReward(unittest.TestCase):
 
     def setUp(self):
         self._start_at = time.time()
@@ -549,3 +549,7 @@ class Test_Reward(unittest.TestCase):
         reward = mcs.Reward._calc_transferral_reward(goal, obj_list, agent)
         self.assertEqual(reward, 0)
         self.assertIsInstance(reward, int)
+
+
+if __name__ == '__main__':
+    unittest.main()

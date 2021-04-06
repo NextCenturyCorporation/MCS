@@ -11,16 +11,28 @@ from .mock_controller import (
 
 import os
 import glob
+import shutil
 
 SCENE_HIST_DIR = "./SCENE_HISTORY/"
 TEST_FILE_NAME = "test controller"
 
 
-class Test_Controller(unittest.TestCase):
+class TestController(unittest.TestCase):
 
     def setUp(self):
         self.controller = MockControllerAI2THOR()
         self.controller.set_metadata_tier('')
+        self.maxDiff = None
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        # remove all TEST_FILE_NAME in SCENE_HIST_DIR
+        test_files = glob.glob(f'{SCENE_HIST_DIR}/{TEST_FILE_NAME}*')
+        for test_file in test_files:
+            os.unlink(test_file)
+        # if SCENE_HIST_DIR is empty, destroy it
+        if not os.listdir(SCENE_HIST_DIR):
+            shutil.rmtree(SCENE_HIST_DIR)
 
     def create_mock_scene_event(self, mock_scene_event_data):
         # Wrap the dict in a SimpleNamespace object to permit property access
@@ -334,27 +346,29 @@ class Test_Controller(unittest.TestCase):
 
     def create_step_data(self, **kwargs):
         data = dict(
+            consistentColors=False,
             continuous=True,
             gridSize=mcs.Controller.GRID_SIZE,
-            logs=True,
-            renderDepthImage=False,
-            renderObjectImage=False,
-            snapToGrid=False,
-            visibilityDistance=mcs.controller.MAX_REACH_DISTANCE,
             horizon=0,
+            logs=True,
             moveMagnitude=mcs.controller.MOVE_DISTANCE,
-            objectImageCoords={
-                'x': 0,
-                'y': 0
-            },
             objectId=None,
-            receptacleObjectImageCoords={
-                'x': 0,
-                'y': 0
+            objectImageCoords={
+                'x': 0.0,
+                'y': 0.0
             },
             receptacleObjectId=None,
-            rotation={'y': 0},
-            consistentColors=False
+            receptacleObjectImageCoords={
+                'x': 0.0,
+                'y': 0.0
+            },
+            renderDepthImage=False,
+            renderObjectImage=False,
+            rotation={'y': 0.0},
+            snapToGrid=False,
+            teleportPosition=None,
+            teleportRotation=None,
+            visibilityDistance=mcs.controller.MAX_REACH_DISTANCE
         )
 
         for key, value in kwargs.items():
@@ -504,6 +518,7 @@ class Test_Controller(unittest.TestCase):
         self.assertIsNone(output)
 
     def test_step_validate_action(self):
+        _ = self.controller.start_scene({'name': TEST_FILE_NAME})
         output = self.controller.step('Foobar')
         self.assertIsNone(output)
 
@@ -511,7 +526,6 @@ class Test_Controller(unittest.TestCase):
         output = self.controller.step('MoveAhead')
         self.assertIsNone(output)
 
-        output = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.controller.set_goal(
             mcs.GoalMetadata(
                 action_list=[
@@ -1956,3 +1970,7 @@ class Test_Controller(unittest.TestCase):
 
         currentNoise = self.controller.generate_noise()
         self.assertTrue(minValue <= currentNoise <= maxValue)
+
+
+if __name__ == '__main__':
+    unittest.main()

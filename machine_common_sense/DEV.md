@@ -181,3 +181,40 @@ Desired screen width. If value given, it must be more than `450`. If none given,
 (string)
 
 Team name identifier to prefix to filenames uploaded to S3 (default: '').
+
+## Handling Pull Requests From Contributors
+
+Checkout the pull request from github
+
+```bash
+$ git fetch origin +refs/pull/<pull#>/merge
+```
+
+If there are any package dependency changes, create a new virtual environment using the initialization steps above. Even if there aren't, it would be a good to start with a fresh environment anyway.
+
+Run the unit tests locally
+
+```bash
+(venv) $ python -m unittest
+```
+
+If the unit tests pass, then ensure the new code is solves the issue in the PR and follows our coding conventions. 
+
+Be sure that PEP-8 formatting is correct or is easily fixable.
+
+```bash
+(venv) $ flake8
+```
+
+After iterating with the contributor, if you feel the PR is reasonably close, feel free to approve the PR, merge, and fix any lingering issues.
+
+## Releases
+
+Update the version number in the following files:
+
+- [CPU_Container.dockerfile](../CPU_Container.dockerfile)
+- [Dockerfile](../Dockerfile)
+- [README.md](../README.md)
+- [requirements.txt](../requirements.txt)
+- [setup.py](../setup.py)
+- [machine_common_sense/_version.py](../machine_common_sense/_version.py)

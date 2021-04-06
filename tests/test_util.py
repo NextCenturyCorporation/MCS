@@ -3,13 +3,13 @@ import unittest
 import machine_common_sense as mcs
 
 
-class My_Emptyclass:
+class MyEmptyclass:
 
     def __init__(self):
         pass
 
 
-class My_Subclass:
+class MySubclass:
 
     def __init__(self):
         self.my_integer = 7
@@ -24,7 +24,7 @@ class My_Subclass:
         return mcs.Util.class_to_str(self)
 
 
-class My_Class:
+class MyClass:
 
     def __init__(self):
         self.my_boolean = True
@@ -47,22 +47,22 @@ class My_Class:
         }
         self.my_list_empty = []
         self.my_dict_empty = {}
-        self.my_subclass = My_Subclass()
+        self.my_subclass = MySubclass()
         self.__my_private = "z"
 
     def my_function():
         pass
 
 
-class Test_Util(unittest.TestCase):
+class TestUtil(unittest.TestCase):
 
     def test_class_to_str_with_class(self):
         self.maxDiff = 10000
         expected = "{\n    \"my_boolean\": true,\n    \"my_float\": 1.234,\n    \"my_integer\": 0,\n    \"my_string\": \"a\",\n    \"my_list\": [\n        1,\n        \"b\",\n        {\n            \"my_integer\": 2,\n            \"my_string\": \"c\",\n            \"my_list\": [3,\"d\"]\n        }\n    ],\n    \"my_dict\": {\n        \"my_integer\": 4,\n        \"my_string\": \"e\",\n        \"my_list\": [5,\"f\"],\n        \"my_dict\": {\n            \"my_integer\": 6,\n            \"my_string\": \"g\"\n        }\n    },\n    \"my_list_empty\": [],\n    \"my_dict_empty\": {},\n    \"my_subclass\": {\n        \"my_integer\": 7,\n        \"my_string\": \"h\",\n        \"my_list\": [8,\"i\"],\n        \"my_dict\": {\n            \"my_integer\": 9,\n            \"my_string\": \"j\"\n        }\n    }\n}"  # noqa: E501
-        self.assertEqual(mcs.Util.class_to_str(My_Class()), expected)
+        self.assertEqual(mcs.Util.class_to_str(MyClass()), expected)
 
     def test_class_to_str_with_empty_class(self):
-        self.assertEqual(mcs.Util.class_to_str(My_Emptyclass()), "{}")
+        self.assertEqual(mcs.Util.class_to_str(MyEmptyclass()), "{}")
 
     def test_generate_pretty_object_output(self):
         object_list = [
@@ -72,6 +72,7 @@ class Test_Util(unittest.TestCase):
                 state_list=[],
                 texture_color_list=[],
                 held=True,
+                visible=True,
                 position=None,
                 dimensions=None,
                 distance_in_world=0,
@@ -83,16 +84,17 @@ class Test_Util(unittest.TestCase):
                 state_list=['state1', 'state2'],
                 texture_color_list=['black', 'white'],
                 held=False,
+                visible=False,
                 position={
                     'x': 1,
                     'y': 2,
                     'z': 3
                 },
-                dimensions={
+                dimensions=[{
                     'x': 4,
                     'y': 5,
                     'z': 6
-                },
+                }],
                 distance_in_world=1234567890987654321,
                 direction={
                     'x': 10000,
@@ -102,9 +104,9 @@ class Test_Util(unittest.TestCase):
             )
         ]
         self.assertEqual(mcs.Util.generate_pretty_object_output(object_list), [
-            'OBJECT ID        SHAPE  COLORS        HELD   POSITION (WORLD)  DIMENSIONS (WORLD)  DISTANCE (WORLD)     DIRECTION (WORLD)    STATE         ',  # noqa: E501
-            'id1                                   True   None              None                0                    None                               ',  # noqa: E501
-            'really_long_id2  sofa   black, white  False  (1,2,3)           (4,5,6)             1234567890987654321  (10000,20000,30000)  state1, state2'  # noqa: E501
+            'OBJECT ID        SHAPE  COLORS        HELD   VISIBLE  STATE           POSITION (WORLD)  DISTANCE (WORLD)     DIRECTION (WORLD)    DIMENSIONS (WORLD)',  # noqa: E501
+            'id1                                   True   True                     None              0                    None                 None              ',  # noqa: E501
+            'really_long_id2  sofa   black, white  False  False    state1, state2  (1,2,3)           1234567890987654321  (10000,20000,30000)  [(4,5,6)]         '  # noqa: E501
         ])
 
     def test_input_to_action_and_params(self):
@@ -226,3 +228,7 @@ class Test_Util(unittest.TestCase):
         self.assertEqual(mcs.Util.verify_material_enum_string('Plastic'), True)
         self.assertEqual(mcs.Util.verify_material_enum_string('Foobar'), False)
         self.assertEqual(mcs.Util.verify_material_enum_string(''), False)
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -5,7 +5,7 @@ from unittest.mock import patch
 import os
 
 
-class Test_Config_Manager(unittest.TestCase):
+class TestConfigManager(unittest.TestCase):
 
     def mock_env(**env_vars):
         return patch.dict(os.environ, env_vars, clear=True)
@@ -314,3 +314,7 @@ class Test_Config_Manager(unittest.TestCase):
         ] = 'false'
 
         self.assertFalse(self.config_mngr.is_noise_enabled())
+
+
+if __name__ == '__main__':
+    unittest.main()
