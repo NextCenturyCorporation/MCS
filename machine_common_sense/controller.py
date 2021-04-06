@@ -150,6 +150,11 @@ class Controller():
     RECEPTACLE_IMAGE_COORDS_X_KEY = 'receptacleObjectImageCoordsX'
     RECEPTACLE_IMAGE_COORDS_Y_KEY = 'receptacleObjectImageCoordsY'
 
+    # used for EndHabituation teleport
+    TELEPORT_X_POS = 'xPosition'
+    TELEPORT_Z_POS = 'zPosition'
+    TELEPORT_Y_ROT = 'yRotation'
+
     # Hard coding actions that effect MoveMagnitude so the appropriate
     # value is set based off of the action
     # TODO: Move this to an enum or some place, so that you can determine
@@ -667,11 +672,32 @@ class Controller():
         receptacle_vector['y'] = self._convert_y_image_coord_for_unity(
             float(receptacleObjectImageCoordsY))
 
+        teleportRotInput = kwargs.get(self.TELEPORT_Y_ROT)
+        teleportPosXInput = kwargs.get(self.TELEPORT_X_POS)
+        teleportPosZInput = kwargs.get(self.TELEPORT_Z_POS)
+
+        teleportRotation = None
+        teleportPosition = None
+
+        if teleportRotInput is not None and Util.is_number(teleportRotInput):
+            teleportRotation = {}
+            teleportRotation['y'] = kwargs.get(self.TELEPORT_Y_ROT)
+
+        if (teleportPosXInput is not None and
+                Util.is_number(teleportPosXInput) and
+                teleportPosZInput is not None and
+                Util.is_number(teleportPosZInput)):
+            teleportPosition = {}
+            teleportPosition['x'] = teleportPosXInput
+            teleportPosition['z'] = teleportPosZInput
+
         return dict(
             objectId=kwargs.get("objectId", None),
             receptacleObjectId=kwargs.get("receptacleObjectId", None),
             rotation=rotation_vector,
             horizon=horizon,
+            teleportRotation=teleportRotation,
+            teleportPosition=teleportPosition,
             moveMagnitude=moveMagnitude,
             objectImageCoords=object_vector,
             receptacleObjectImageCoords=receptacle_vector

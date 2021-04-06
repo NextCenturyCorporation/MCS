@@ -1,0 +1,19 @@
+﻿{
+    "name": "intuitive physics scene performer start location and walls",
+    "intuitivePhysics": true,
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "objects": []
+}
