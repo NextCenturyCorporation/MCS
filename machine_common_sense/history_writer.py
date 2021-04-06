@@ -23,6 +23,7 @@ class HistoryWriter(object):
         self.last_step_time_millis = perf_counter() * 1000
 
         if not os.path.exists(self.HISTORY_DIRECTORY):
+            logger.debug(f"Making history directory {self.HISTORY_DIRECTORY}")
             os.makedirs(self.HISTORY_DIRECTORY)
 
         scene_name = scene_config_data['name']
@@ -31,6 +32,7 @@ class HistoryWriter(object):
             prefix, scene_basename = scene_name.rsplit('/', 1)
             prefix_directory = os.path.join(self.HISTORY_DIRECTORY, prefix)
             if not os.path.exists(prefix_directory):
+                logger.debug(f"Making prefix directory {prefix_directory}")
                 os.makedirs(prefix_directory)
 
         if ('screenshot' not in scene_config_data or
@@ -45,6 +47,7 @@ class HistoryWriter(object):
 
     def write_file(self):
         if self.scene_history_file:
+            logger.info(f"Saving history file {self.scene_history_file}")
             with open(self.scene_history_file, "a+") as history_file:
                 history_file.write(json.dumps(self.history_obj))
 
@@ -77,6 +80,7 @@ class HistoryWriter(object):
             step_obj.delta_time_millis = current_time - \
                 self.last_step_time_millis
             self.last_step_time_millis = current_time
+            logger.debug("Adding history step")
             self.current_steps.append(
                 dict(self.filter_history_output(step_obj)))
 
