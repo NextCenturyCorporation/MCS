@@ -1,4 +1,5 @@
 import time
+import logging
 import pathlib
 import threading
 import queue
@@ -6,6 +7,8 @@ import queue
 import cv2
 import PIL
 import numpy as np
+
+logger = logging.getLogger(__name__)
 
 
 class VideoRecorder():
@@ -47,6 +50,7 @@ class VideoRecorder():
 
     def start(self) -> None:
         '''Create the video recorder thread and start the frame queue.'''
+        logger.debug(f"Starting video writer for {self.path}")
         self.active = True
         self.frame_queue = queue.Queue()
         self.thread = threading.Thread(target=self._write, args=())
@@ -68,22 +72,27 @@ class VideoRecorder():
         if self.active:
             # convert BGR PIL image to RGB for opencv
             cv_frame = np.array(frame.convert('RGB'))[:, :, ::-1]
+            logger.debug(f"Adding frame to {self.path} queue")
             self.frame_queue.put(cv_frame)
+            logger.debug(f"Queue size is {self.frame_queue.qsize()}")
 
     def _write(self) -> None:
         '''Loop forever waiting for frames to enter the queue.'''
         while True:
             if not self.active:
+                logger.warn("Recorder not active")
                 return
             if not self.frame_queue.empty():
                 frame = self.frame_queue.get()
                 self.writer.write(frame)
                 self._frames_written = self._frames_written + 1
+                logger.debug(f"Recorder wrote {self._frames_written} frames")
             else:
                 time.sleep(self.timeout)
 
     def flush(self) -> None:
         '''Write the remaining video frames in the the queue.'''
+        logger.debug("Writing remaining frames")
         while not self.frame_queue.empty():
             frame = self.frame_queue.get()
             self.writer.write(frame)
@@ -94,6 +103,7 @@ class VideoRecorder():
         Frames that remain in the buffer will be written and the recorder
         closed.
         '''
+        logger.debug("Closing video recorder")
         self.active = False
         self.thread.join()
         self.flush()
