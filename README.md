@@ -71,9 +71,9 @@ Please note that our Unity App is built on Linux or Mac.
 
 Linux Version:
 
-1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1.1/MCS-AI2-THOR-Unity-App-v0.4.1.1.x86_64)
+1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/MCS-AI2-THOR-Unity-App-v0.4.1.1.x86_64)
 
-2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1.1/MCS-AI2-THOR-Unity-App-v0.4.1.1_Data.tar.gz)
+2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/MCS-AI2-THOR-Unity-App-v0.4.1.1_Data.tar.gz)
 
 3. Ensure that both the Unity App and the TAR are in the same directory.
 
@@ -91,7 +91,7 @@ chmod a+x MCS-AI2-THOR-Unity-App-v0.4.1.1.x86_64
 
 Mac Version:
 
-[Download the Mac ZIP](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1.1/MCS-AI2-THOR-Unity-App-v0.4.1.1.app.zip)
+[Download the Mac ZIP](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/MCS-AI2-THOR-Unity-App-v0.4.1.1-mac.zip)
 
 
 ## Training Datasets
