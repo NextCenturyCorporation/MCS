@@ -1,5 +1,6 @@
 ﻿[
     {
+        "camera_height": 1.5,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.0,
@@ -25,9 +26,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.219,
-                "direction_z": 0.976,
-                "distance": 4.612,
+                "direction_y": -0.362,
+                "direction_z": 0.932,
+                "distance": 4.828,
                 "held": false,
                 "id": "floor",
                 "position_x": 0.0,
@@ -40,9 +41,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.701,
-                "direction_z": -0.713,
-                "distance": 1.052,
+                "direction_y": 0.0,
+                "direction_z": -1.0,
+                "distance": 0.75,
                 "held": false,
                 "id": "wall_back",
                 "position_x": 0.0,
@@ -55,9 +56,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.224,
-                "direction_z": 0.975,
-                "distance": 10.004,
+                "direction_y": 0.152,
+                "direction_z": 0.988,
+                "distance": 9.865,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
@@ -70,7 +71,7 @@
             },
             {
                 "direction_x": -0.975,
-                "direction_y": 0.036,
+                "direction_y": 0.0,
                 "direction_z": 0.22,
                 "distance": 20.5,
                 "held": false,
@@ -85,7 +86,7 @@
             },
             {
                 "direction_x": 0.975,
-                "direction_y": 0.036,
+                "direction_y": 0.0,
                 "direction_z": 0.22,
                 "distance": 20.5,
                 "held": false,
@@ -102,6 +103,7 @@
         "structural_objects_count": 5
     },
     {
+        "camera_height": 1.5,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.0,
@@ -127,9 +129,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.219,
-                "direction_z": 0.976,
-                "distance": 4.612,
+                "direction_y": -0.362,
+                "direction_z": 0.932,
+                "distance": 4.828,
                 "held": false,
                 "id": "floor",
                 "position_x": 0.0,
@@ -142,9 +144,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.701,
-                "direction_z": -0.713,
-                "distance": 1.052,
+                "direction_y": 0.0,
+                "direction_z": -1.0,
+                "distance": 0.75,
                 "held": false,
                 "id": "wall_back",
                 "position_x": 0.0,
@@ -157,9 +159,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.224,
-                "direction_z": 0.975,
-                "distance": 10.004,
+                "direction_y": 0.152,
+                "direction_z": 0.988,
+                "distance": 9.865,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
@@ -172,7 +174,7 @@
             },
             {
                 "direction_x": -0.975,
-                "direction_y": 0.036,
+                "direction_y": 0.0,
                 "direction_z": 0.22,
                 "distance": 20.5,
                 "held": false,
@@ -187,7 +189,7 @@
             },
             {
                 "direction_x": 0.975,
-                "direction_y": 0.036,
+                "direction_y": 0.0,
                 "direction_z": 0.22,
                 "distance": 20.5,
                 "held": false,
