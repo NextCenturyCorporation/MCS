@@ -71,11 +71,11 @@ Please note that our Unity App is built on Linux or Mac.
 
 Linux Version:
 
-1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/MCS-AI2-THOR-Unity-App-v0.4.1.1.x86_64)
+1. [Download the latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/MCS-AI2-THOR-Unity-App-v0.4.1.1.x86_64)
 
-2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/MCS-AI2-THOR-Unity-App-v0.4.1.1_Data.tar.gz)
+2. [Download the latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/MCS-AI2-THOR-Unity-App-v0.4.1.1_Data.tar.gz)
 
-3. [Download the Latest UnityPlayer.so file](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/UnityPlayer.so)
+3. [Download the latest UnityPlayer.so file](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/UnityPlayer.so)
 
 4. Ensure that both the Unity App and the TAR are in the same directory.
 
@@ -97,6 +97,44 @@ Mac Version:
 
 
 ## Training Datasets
+
+### Summer 2020
+
+#### Passive Agent
+
+Subtasks:
+
+- Single object scenes (~10K), just like Eval 3
+- Object preference scenes (~10K), just like Eval 3
+- Multiple agents scenes (4K), new to Eval 4
+- Instrumental action scenes (4K), new to Eval 4
+
+JSON scene configuration files:
+
+- https://eval-4-data.s3.amazonaws.com/eval_4_agent_training_dataset.zip
+
+Rendered videos:
+
+- https://nyu-datasets.s3.amazonaws.com/agent_instrumental_action_training_videos.zip
+- https://nyu-datasets.s3.amazonaws.com/agent_multiple_agents_training_videos.zip
+- https://nyu-datasets.s3.amazonaws.com/agent_object_preference_training_videos.zip
+- https://nyu-datasets.s3.amazonaws.com/agent_single_object_training_videos.zip
+
+#### Passive Intuitive Physics
+
+Please generate your own training datasets using our Scene Generator software here:
+
+- https://github.com/NextCenturyCorporation/mcs-scene-generator
+
+#### Interactive
+
+For the container, obstacle, and occluder tasks, please generate your own training datasets using our Scene Generator software here:
+
+- https://github.com/NextCenturyCorporation/mcs-scene-generator
+
+For the new interactive object permanence and reorientation tasks, please generate your own training datasets using our example scene templates here:
+
+https://github.com/NextCenturyCorporation/MCS/tree/master/machine_common_sense/scenes#interactive-object-permanence-and-reorientation-tasks
 
 ### Winter 2020
 
