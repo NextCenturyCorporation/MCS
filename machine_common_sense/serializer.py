@@ -98,7 +98,7 @@ class SerializerMsgPack(ISerializer):
                 msgpack.packb([
                     x.uuid, x.color, x.dimensions, x.direction, x.distance,
                     x.distance_in_steps, x.distance_in_world, x.held, x.mass,
-                    x.material_list, x.position, x.rotation, x.visible
+                    x.material_list, x.position, x.rotation, x.shape, x.state_list, x.texture_color_list, x.visible
                 ],
                     default=SerializerMsgPack._ext_pack,
                     strict_types=True))
@@ -158,11 +158,11 @@ class SerializerMsgPack(ISerializer):
         elif code == 5:
             uuid, color, dimensions, direction, distance, distance_in_steps, \
                 distance_in_world, held, mass, material_list, position, \
-                rotation, visible = msgpack.unpackb(
+                rotation, shape, state_list, texture_color_list, visible = msgpack.unpackb(
                     data, ext_hook=SerializerMsgPack._ext_unpack)
             return ObjectMetadata(uuid, color, dimensions, direction, distance,
                                   distance_in_steps, distance_in_world, held,
-                                  mass, material_list, position, rotation,
+                                  mass, material_list, position, rotation, shape, state_list, texture_color_list,
                                   visible)
         elif code == 6:
             x = msgpack.unpackb(data, ext_hook=SerializerMsgPack._ext_unpack)
@@ -260,6 +260,9 @@ class SerializerJson(ISerializer):
                     'material_list': x.material_list,
                     'position': x.position,
                     'rotation': x.rotation,
+                    'shape': x.shape,
+                    'state_list': x.state_list,
+                    'texture_color_list': x.texture_color_list,
                     'visible': x.visible
                 }
             elif isinstance(x, np.ndarray):
@@ -279,8 +282,8 @@ class SerializerJson(ISerializer):
                 object_raw['distance'], object_raw['distance_in_steps'],
                 object_raw['distance_in_world'], object_raw['held'],
                 object_raw['mass'], object_raw['material_list'],
-                object_raw['position'], object_raw['rotation'],
-                object_raw['visible'])
+                object_raw['position'], object_raw['rotation'], object_raw['shape'], object_raw['state_list'],
+                object_raw['texture_color_list'], object_raw['visible'])
             object_list.append(obj)
         return object_list
 
