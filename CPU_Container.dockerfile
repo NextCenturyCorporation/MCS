@@ -10,6 +10,11 @@ ENV TZ=America/New_York
 
 # --build-arg mcsversion=0.0.x to override default in docker build command
 ARG mcsversion=0.4.1.1
+ARG mcsversion_minus=0.4.1-1
+ARG mcs_library_version=master
+
+WORKDIR /mcs
+
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV MCS_EXECUTABLE_PATH="/MCS-AI2-THOR-Unity-App-v${mcsversion}.x86_64"
@@ -50,16 +55,19 @@ RUN apt-get update -qq \
         cmake pkg-config libgtk-3-dev libavcodec-dev libavformat-dev \
         libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libjpeg-dev libpng-dev libtiff-dev gfortran openexr \
         libatlas-base-dev libtbb2 libtbb-dev libdc1394-22-dev libopenexr-dev libgstreamer-plugins-base1.0-dev \
-        libgstreamer1.0-dev \
-        # mesa-utils libgl1-mesa-glx \
-    && rm -rf /var/lib/apt/lists/* && \
+        libgstreamer1.0-dev && \
+    python3 -m pip install --upgrade pip setuptools wheel && \
+    python3 -m pip install git+https://github.com/NextCenturyCorporation/MCS@${mcs_library_version}#egg=machine_common_sense && \
+    rm -rf /var/lib/apt/lists/* && \
     ln -s /usr/bin/python3 /usr/bin/python
 
+WORKDIR /mcs
 
-RUN wget https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsversion}/MCS-AI2-THOR-Unity-App-v${mcsversion}.x86_64 && \
-    wget https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsversion}/MCS-AI2-THOR-Unity-App-v${mcsversion}_Data.tar.gz && \
-    python3 -m pip install git+https://github.com/NextCenturyCorporation/MCS@${mcsversion}#egg=machine_common_sense && \
-    tar -xzvf MCS-AI2-THOR-Unity-App-v${mcsversion}_Data.tar.gz && \
-    chmod a+x MCS-AI2-THOR-Unity-App-v${mcsversion}.x86_64 && \
-    rm MCS-AI2-THOR-Unity-App-v${mcsversion}_Data.tar.gz && echo "[MCS]\nmetadata: oracle" > /mcs_config_oracle.yaml && \
-    echo "[MCS]\nmetadata:  level1" > /mcs_config_level1.yaml && echo "[MCS]\nmetadata: level2" > /mcs_config_level2.yaml
+# Add ai2thor/Unity resources
+ADD https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsversion_minus}/MCS-AI2-THOR-Unity-App-v${mcsversion}.x86_64 /mcs
+ADD https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsversion_minus}/MCS-AI2-THOR-Unity-App-v${mcsversion}_Data.tar.gz /mcs
+ADD https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsversion_minus}/UnityPlayer.so /mcs
+RUN tar -xzvf /mcs/MCS-AI2-THOR-Unity-App-v${mcsversion}_Data.tar.gz -C /mcs && \
+    chmod a+x /mcs/MCS-AI2-THOR-Unity-App-v${mcsversion}.x86_64 && \
+    rm /mcs/MCS-AI2-THOR-Unity-App-v${mcsversion}_Data.tar.gz && echo "[MCS]\nmetadata: oracle" > /mcs/mcs_config_oracle.yaml && \
+    echo "[MCS]\nmetadata:  level1" > /mcs/mcs_config_level1.yaml && echo "[MCS]\nmetadata: level2" > /mcs/mcs_config_level2.yaml
