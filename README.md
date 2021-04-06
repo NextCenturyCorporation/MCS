@@ -75,15 +75,17 @@ Linux Version:
 
 2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/MCS-AI2-THOR-Unity-App-v0.4.1.1_Data.tar.gz)
 
-3. Ensure that both the Unity App and the TAR are in the same directory.
+3. [Download the Latest UnityPlayer.so file](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/UnityPlayer.so)
 
-4. Untar the Data Directory:
+4. Ensure that both the Unity App and the TAR are in the same directory.
+
+5. Untar the Data Directory:
 
 ```
 tar -xzvf MCS-AI2-THOR-Unity-App-v0.4.1.1_Data.tar.gz
 ```
 
-5. Mark the Unity App as executable:
+6. Mark the Unity App as executable:
 
 ```
 chmod a+x MCS-AI2-THOR-Unity-App-v0.4.1.1.x86_64
