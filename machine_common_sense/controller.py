@@ -1305,6 +1305,8 @@ class Controller():
             object_mask_list=object_mask_list,
             pose=self.retrieve_pose(scene_event),
             position=self.retrieve_position(scene_event),
+            performer_radius=scene_event.metadata.get('performerRadius'),
+            performer_reach=scene_event.metadata.get('performerReach'),
             return_status=self.retrieve_return_status(scene_event),
             reward=Reward.calculate_reward(
                 self._goal, objects, agent, self.__step_number),

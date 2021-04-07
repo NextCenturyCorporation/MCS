@@ -313,7 +313,7 @@ Defines metadata for an object in the MCS 3D environment.
 ## StepMetadata
 
 
-### class machine_common_sense.step_metadata.StepMetadata(action_list=None, camera_aspect_ratio=None, camera_clipping_planes=None, camera_field_of_view=0.0, camera_height=0.0, depth_map_list=None, goal=None, habituation_trial=None, head_tilt=0.0, image_list=None, object_list=None, object_mask_list=None, pose='UNDEFINED', position=None, return_status='UNDEFINED', reward=0, rotation=0.0, step_number=0, structural_object_list=None)
+### class machine_common_sense.step_metadata.StepMetadata(action_list=None, camera_aspect_ratio=None, camera_clipping_planes=None, camera_field_of_view=0.0, camera_height=0.0, depth_map_list=None, goal=None, habituation_trial=None, head_tilt=0.0, image_list=None, object_list=None, object_mask_list=None, performer_radius=0.0, performer_reach=0.0, pose='UNDEFINED', position=None, return_status='UNDEFINED', reward=0, rotation=0.0, step_number=0, structural_object_list=None)
 Defines output metadata from an action step in the MCS 3D environment.
 
 
@@ -379,6 +379,12 @@ Defines output metadata from an action step in the MCS 3D environment.
     scene with a scripted Previous Phase.
     The color of each object in the mask corresponds to the “color”
     property in its ObjectMetadata object.
+
+
+    * **performer_radius** (*float*) – The radius of the performer.
+
+
+    * **performer_reach** (*float*) – The max reach of the performer (equal to the max visibility distance).
 
 
     * **pose** (*string*) – Your current pose. Either “STANDING”, “CRAWLING”, or “LYING”.
