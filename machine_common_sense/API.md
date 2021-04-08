@@ -384,7 +384,7 @@ Defines output metadata from an action step in the MCS 3D environment.
     * **performer_radius** (*float*) – The radius of the performer.
 
 
-    * **performer_reach** (*float*) – The max reach of the performer (equal to the max visibility distance).
+    * **performer_reach** (*float*) – The max reach of the performer (equal to the visibility distance).
 
 
     * **pose** (*string*) – Your current pose. Either “STANDING”, “CRAWLING”, or “LYING”.
