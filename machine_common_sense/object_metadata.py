@@ -52,6 +52,10 @@ class ObjectMetadata(object):
         This object's colors, derived from its textures, in plain English.
     visible : boolean
         Whether you can see this object in your camera viewport.
+    isOpen : boolean
+        Whether the object is open or not
+    openable : boolean
+        Whether the object can be opened
     """
 
     def __init__(
@@ -71,7 +75,9 @@ class ObjectMetadata(object):
         shape="",
         state_list=None,
         texture_color_list=None,
-        visible=False
+        visible=False,
+        isOpen=False,
+        openable=False
     ):
         self.uuid = uuid
         self.color = {} if color is None else color
@@ -91,6 +97,8 @@ class ObjectMetadata(object):
             [] if texture_color_list is None else texture_color_list
         )
         self.visible = visible
+        self.isOpen = isOpen
+        self.openable = openable
 
     def __str__(self):
         return Util.class_to_str(self)
@@ -114,3 +122,5 @@ class ObjectMetadata(object):
         yield 'state_list', self.state_list
         yield 'texture_color_list', self.texture_color_list
         yield 'visible', self.visible
+        yield 'isOpen', self.isOpen
+        yield 'openable', self.openable
