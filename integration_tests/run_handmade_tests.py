@@ -79,7 +79,9 @@ def create_object_test_case_list(object_type, expected, actual):
         ('shape', actual.shape),
         ('state_list', actual.state_list),
         ('texture_color_list', actual.texture_color_list),
-        ('visible', actual.visible)
+        ('visible', actual.visible),
+        ('isOpen', actual.isOpen),
+        ('openable', actual.openable)
     ]
     return [create_test_case(
         [object_type, actual.uuid, case_name],
