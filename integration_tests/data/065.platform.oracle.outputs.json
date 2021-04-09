@@ -608,26 +608,26 @@
                 "visible": true
             },
             {
-                "direction_x": 0.912,
-                "direction_y": 0.142,
-                "direction_z": -0.384,
-                "distance": 5.206,
+                "direction_x": 0.455,
+                "direction_y": -0.891,
+                "direction_z": 0.0,
+                "distance": 1.979,
                 "held": false,
                 "id": "upperPlatform",
-                "position_x": 6.25,
-                "position_z": 0.0,
+                "position_x": 2.0,
+                "position_z": 2.0,
                 "shape": "structural",
                 "visible": true
             },
             {
-                "direction_x": 0.912,
-                "direction_y": 0.142,
-                "direction_z": -0.384,
-                "distance": 5.206,
+                "direction_x": -0.256,
+                "direction_y": -0.967,
+                "direction_z": 0.0,
+                "distance": 2.34,
                 "held": false,
                 "id": "lowerPlatform",
-                "position_x": 6.25,
-                "position_z": 0.0,
+                "position_x": 0.5,
+                "position_z": 2.0,
                 "shape": "structural",
                 "visible": true
             }
