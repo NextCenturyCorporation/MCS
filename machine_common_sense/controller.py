@@ -941,8 +941,9 @@ class Controller():
                 if (target_name in step_output.goal.metadata):
                     if 'image' in step_output.goal.metadata[target_name]:
                         step_output.goal.metadata[target_name]['image'] = None
-                    if 'id' in step_output.goal.metadata[target_name]:
-                        step_output.goal.metadata[target_name]['id'] = None
+                    # Disabling goal id restriction for now
+                    # if 'id' in step_output.goal.metadata[target_name]:
+                    #     step_output.goal.metadata[target_name]['id'] = None
                     if 'image_name' in step_output.goal.metadata[target_name]:
                         step_output.goal.metadata[
                             target_name]['image_name'] = None
