@@ -239,18 +239,6 @@ To use an MCS configuration file, you can either pass in a file path via the `co
 
 ### Config File Properties
 
-#### debug
-
-(boolean, optional)
-
-Whether to save MCS output debug files in this folder and print debug output to terminal. Will default to `False`.
-
-#### debug_output
-
-(string, optional)
-
-Alternatively to the `debug` property, `debug_output` can be used to either print debug info to the terminal or to debug files only. This should either be set to `file` or `terminal`, and will default to None. Will be ignored if `debug` is set.
-
 #### history_enabled
 
 (boolean, optional)
