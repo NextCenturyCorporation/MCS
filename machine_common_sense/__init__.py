@@ -24,23 +24,6 @@ from ._version import __version__
 # Set default logging handler to avoid "No handler found" warnings
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
-
-def get_file_logger(level: int = logging.DEBUG):
-    '''todo'''
-    logger = logging.getLogger(__name__)
-    # TODO put log in a known location for uploader to reference
-    # during evaluations. Be sure this works when installed as a package
-    # as TA1 would do.
-    # logger overwrites existing log
-    # TODO what about code that launches scene after scene with
-    # the same logger? Does the uploader clear it? Lots to consider
-    log_format = "%(asctime)s %(levelname)s %(name)-12s %(message)s"
-    handler = logging.FileHandler(filename='mcs.log', mode='w')
-    handler.setFormatter(logging.Formatter(log_format))
-    handler.setLevel(level)
-    return handler
-
-
 # Timeout at 3 minutes (180 seconds).  It was 60 seconds but
 # this can cause timeouts on EC2 instances
 TIME_LIMIT_SECONDS = 180
