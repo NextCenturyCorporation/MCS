@@ -74,7 +74,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": [],
                     "shape": "shape1",
-                    "visibleInCamera": True
+                    "visibleInCamera": True,
+                    "isOpen": False,
+                    "openable": False
                 }, {
                     "colorsFromMaterials": ["c2", "c3"],
                     "direction": {
@@ -111,7 +113,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Foobar", "Metal", "Plastic"],
                     "shape": "shape2",
-                    "visibleInCamera": True
+                    "visibleInCamera": True,
+                    "isOpen": False,
+                    "openable": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -148,7 +152,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Wood"],
                     "shape": "shape3",
-                    "visibleInCamera": False
+                    "visibleInCamera": False,
+                    "isOpen": False,
+                    "openable": False
                 }]
             }
         }
@@ -227,7 +233,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Wood"],
                     "shape": "shape",
-                    "visibleInCamera": True
+                    "visibleInCamera": True,
+                    "isOpen": False,
+                    "openable": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -264,7 +272,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Wood"],
                     "shape": "shapeHidden",
-                    "visibleInCamera": False
+                    "visibleInCamera": False,
+                    "isOpen": False,
+                    "openable": False
                 }],
                 "structuralObjects": [{
                     "colorsFromMaterials": ["c2"],
@@ -302,7 +312,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Ceramic"],
                     "shape": "structure",
-                    "visibleInCamera": True
+                    "visibleInCamera": True,
+                    "isOpen": False,
+                    "openable": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -339,7 +351,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Ceramic"],
                     "shape": "structureHidden",
-                    "visibleInCamera": False
+                    "visibleInCamera": False,
+                    "isOpen": False,
+                    "openable": False
                 }]
             }
         }, image_data, depth_data, object_mask_data

@@ -1101,7 +1101,7 @@ class Controller():
                 object_metadata['visibleInCamera'] or
                 object_metadata['isPickedUp']
             ),
-            isOpen=object_metadata['isOpen'],
+            is_open=object_metadata['isOpen'],
             openable=object_metadata['openable']
         )
 

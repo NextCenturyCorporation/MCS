@@ -80,7 +80,7 @@ def create_object_test_case_list(object_type, expected, actual):
         ('state_list', actual.state_list),
         ('texture_color_list', actual.texture_color_list),
         ('visible', actual.visible),
-        ('isOpen', actual.isOpen),
+        ('is_open', actual.is_open),
         ('openable', actual.openable)
     ]
     return [create_test_case(
