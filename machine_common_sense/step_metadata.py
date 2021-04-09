@@ -62,7 +62,7 @@ class StepMetadata:
     performer_radius: float
         The radius of the performer.
     performer_reach: float
-        The max reach of the performer (equal to the visibility distance).
+        The max reach of the performer.
     pose : string
         Your current pose. Either "STANDING", "CRAWLING", or "LYING".
     position : dict

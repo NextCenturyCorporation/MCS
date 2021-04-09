@@ -19,13 +19,11 @@ import ai2thor.server
 # into a position to reach some objects (it may be mathematically impossible).
 # TODO Reduce this number once the player can crouch down to reach and
 # pickup small objects on the floor.
+# TODO move this to Unity since we now have performerReach in metadata?
 MAX_REACH_DISTANCE = 1.0
 
 # How far the player can move with a single step.
 MOVE_DISTANCE = 0.1
-
-# Performer camera 'y' position
-PERFORMER_CAMERA_Y = 0.4625
 
 from .action import Action
 from .goal_metadata import GoalMetadata
