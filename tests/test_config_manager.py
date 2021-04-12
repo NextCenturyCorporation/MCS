@@ -75,6 +75,19 @@ class TestConfigManager(unittest.TestCase):
             self.config_mngr.get_aws_access_key_id(),
             'some_key_id')
 
+    def test_get_aws_secret_access_key(self):
+        self.assertIsNone(self.config_mngr.get_aws_secret_access_key())
+
+        self.config_mngr._config[
+            self.config_mngr.CONFIG_DEFAULT_SECTION
+        ][
+            self.config_mngr.CONFIG_AWS_SECRET_ACCESS_KEY
+        ] = 'some_secret'
+
+        self.assertEqual(
+            self.config_mngr.get_aws_secret_access_key(),
+            'some_secret')
+
     def test_get_evaluation_name(self):
         self.assertEqual(self.config_mngr.get_evaluation_name(), '')
 
