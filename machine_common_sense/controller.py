@@ -25,6 +25,10 @@ MAX_REACH_DISTANCE = 1.0
 # How far the player can move with a single step.
 MOVE_DISTANCE = 0.1
 
+# Performer camera 'y' position
+# TODO: MCS-627: move to scene generator
+PERFORMER_CAMERA_Y = 0.762
+
 from .action import Action
 from .goal_metadata import GoalMetadata
 from .object_metadata import ObjectMetadata
