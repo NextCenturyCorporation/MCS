@@ -395,23 +395,10 @@ class Controller():
             self._end_scene_not_registered = True
 
         if self.__history_enabled:
+            # record the final step
             self.__history_writer.add_step(self.__history_item)
-            # TODO maybe loop over the retrospective report?
-            # sort by frame number in the dictionary
-            # and add the history item
-            # or maybe we just pass the whole report and let the class
-            # do the loop
-            # TODO use writer.current_steps list for reporting
-            # TODO maybe add_step should just take in the arguments?
-            # use for k, v in report.items() to get sorted results by key
-            # TODO we were using history_item to capture step metadata
-            # and add prediction information to that dictionary ~L822
-            # maybe keep the add_step for history writing
-            # and then add a new function here to append that information
-            # to the stored data
-            # TODO so I'll need to keep this add_step for the final action
-            # return but then additionally do the retrospective report
-
+            # add retrospective reporting for violations
+            self.__history_writer.add_retrospective_report(report)
             # record final end scene predictions and write history file
             self.__history_writer.write_history_file(
                 plausibility_rating, plausibility_score)
@@ -739,15 +726,11 @@ class Controller():
             physics simulation were run. Returns None if you have passed the
             "last_step" of this scene.
         """
-        # TODO DW retrospective reporting
-        # not sure timing is important any longer
-        # if self.__history_enabled and self.__step_number == 0:
-        #    self.__history_writer.init_timer()
-        # TODO DW retrospective reporting
-        # TODO if we just record the step, then timing is fine
-        # to keep in the add_step function
-        # if self.__history_enabled and self.__step_number > 0:
-        #    self.__history_writer.add_step(self.__history_item)
+
+        if self.__history_enabled and self.__step_number == 0:
+            self.__history_writer.init_timer()
+        elif self.__history_enabled and self.__step_number > 0:
+            self.__history_writer.add_step(self.__history_item)
 
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
@@ -826,12 +809,13 @@ class Controller():
         pre_restrict_output = self.wrap_output(self._controller.step(
             self.wrap_step(action=action, **params)))
 
+        # TODO DW: get rid of this copy.deepcopy
+        # Can't scene history just not have the excess items
+        # in it for writing history. Then serialization is trivial
         history_copy = copy.deepcopy(pre_restrict_output)
         del history_copy.depth_map_list
         del history_copy.image_list
         del history_copy.object_mask_list
-        # TODO DW retrospective
-        # well crap
         self.__history_item = SceneHistory(
             step=self.__step_number,
             action=action,

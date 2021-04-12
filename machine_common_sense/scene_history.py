@@ -1,5 +1,7 @@
-from .util import Util
 from typing import Dict, List
+
+from .util import Util
+from .step_metadata import StepMetadata
 
 
 class SceneHistory(object):
@@ -14,8 +16,7 @@ class SceneHistory(object):
         violations_xy_list: List[Dict[str, float]] = None,
         internal_state: object = None,
         delta_time_millis=0,
-        output=None
-
+        output: StepMetadata = None  # DW: with type hinting, this looks funny
     ):
         self.step = step
         self.action = action
@@ -27,6 +28,9 @@ class SceneHistory(object):
         self.internal_state = internal_state
         self.delta_time_millis = delta_time_millis
         self.output = output
+        # in the history writer, we have to remove output (stepmetadata) items
+        # why store it in the first place?
+        # https://stackoverflow.com/questions/5160077/encoding-nested-python-object-in-json
 
     def __str__(self):
         return Util.class_to_str(self)
