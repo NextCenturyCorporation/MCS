@@ -1,0 +1,106 @@
+﻿{
+    "name": "container open and close",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": -0.2
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "objects": [{
+        "id": "toy_car",
+        "type": "car_1",
+        "salientMaterials": ["wood"],
+        "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 2"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.01,
+                "z": 0.6
+            },
+            "rotation": {
+                "x": 0,
+                "y": 90,
+                "z": 0
+            },
+            "scale": {
+                "x": 1.5,
+                "y": 1.5,
+                "z": 1.5
+            }
+        }]
+    }, {
+        "id": "treasure_chest",
+        "type": "chest_2",
+        "salientMaterials": ["wood"],
+        "materials": ["AI2-THOR/Materials/Wood/LightWoodCounters4"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 1.0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+            }
+        }],
+        "openClose": [{
+                "open": true,
+                "step": 2
+            },{
+                "open": false,
+                "step": 3
+            },{
+                "open": true,
+                "step": 6
+            }]
+    }, {
+        "id": "suitcase",
+        "type": "suitcase_1",
+        "salientMaterials": ["plastic"],
+        "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color 1"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": -2,
+                "y": 0,
+                "z": 3.5
+            },
+            "rotation": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+            }
+        }],
+        "openClose": [{
+                "open": true,
+                "step": 1
+            },{
+                "open": false,
+                "step": 2
+            },{
+                "open": true,
+                "step": 3
+            },{
+                "open": false,
+                "step": 4
+            },{
+                "open": true,
+                "step": 5
+            },{
+                "open": false,
+                "step": 6
+            }]
+    }]
+}

@@ -1,0 +1,7 @@
+﻿LookDown
+LookDown
+PickupObject,objectId=toy_car
+MoveAhead
+PutObject,objectId=toy_car,receptacleObjectId=treasure_chest
+Pass
+PutObject,objectId=toy_car,receptacleObjectId=treasure_chest

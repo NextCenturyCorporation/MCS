@@ -22,6 +22,7 @@ class TestController(unittest.TestCase):
     def setUp(self):
         self.controller = MockControllerAI2THOR()
         self.controller.set_metadata_tier('')
+        self.maxDiff = None
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -73,7 +74,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": [],
                     "shape": "shape1",
-                    "visibleInCamera": True
+                    "visibleInCamera": True,
+                    "isOpen": False,
+                    "openable": False
                 }, {
                     "colorsFromMaterials": ["c2", "c3"],
                     "direction": {
@@ -110,7 +113,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Foobar", "Metal", "Plastic"],
                     "shape": "shape2",
-                    "visibleInCamera": True
+                    "visibleInCamera": True,
+                    "isOpen": False,
+                    "openable": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -147,7 +152,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Wood"],
                     "shape": "shape3",
-                    "visibleInCamera": False
+                    "visibleInCamera": False,
+                    "isOpen": False,
+                    "openable": False
                 }]
             }
         }
@@ -226,7 +233,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Wood"],
                     "shape": "shape",
-                    "visibleInCamera": True
+                    "visibleInCamera": True,
+                    "isOpen": False,
+                    "openable": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -263,7 +272,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Wood"],
                     "shape": "shapeHidden",
-                    "visibleInCamera": False
+                    "visibleInCamera": False,
+                    "isOpen": False,
+                    "openable": False
                 }],
                 "structuralObjects": [{
                     "colorsFromMaterials": ["c2"],
@@ -301,7 +312,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Ceramic"],
                     "shape": "structure",
-                    "visibleInCamera": True
+                    "visibleInCamera": True,
+                    "isOpen": False,
+                    "openable": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -338,34 +351,38 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Ceramic"],
                     "shape": "structureHidden",
-                    "visibleInCamera": False
+                    "visibleInCamera": False,
+                    "isOpen": False,
+                    "openable": False
                 }]
             }
         }, image_data, depth_data, object_mask_data
 
     def create_step_data(self, **kwargs):
         data = dict(
+            consistentColors=False,
             continuous=True,
             gridSize=mcs.Controller.GRID_SIZE,
-            logs=True,
-            renderDepthImage=False,
-            renderObjectImage=False,
-            snapToGrid=False,
-            visibilityDistance=mcs.controller.MAX_REACH_DISTANCE,
             horizon=0,
+            logs=True,
             moveMagnitude=mcs.controller.MOVE_DISTANCE,
-            objectImageCoords={
-                'x': 0,
-                'y': 0
-            },
             objectId=None,
-            receptacleObjectImageCoords={
-                'x': 0,
-                'y': 0
+            objectImageCoords={
+                'x': 0.0,
+                'y': 0.0
             },
             receptacleObjectId=None,
-            rotation={'y': 0},
-            consistentColors=False
+            receptacleObjectImageCoords={
+                'x': 0.0,
+                'y': 0.0
+            },
+            renderDepthImage=False,
+            renderObjectImage=False,
+            rotation={'y': 0.0},
+            snapToGrid=False,
+            teleportPosition=None,
+            teleportRotation=None,
+            visibilityDistance=mcs.controller.MAX_REACH_DISTANCE
         )
 
         for key, value in kwargs.items():
@@ -1805,9 +1822,9 @@ class TestController(unittest.TestCase):
         actual = self.controller.restrict_step_output_metadata(pre_restrict)
 
         self.assertEqual(pre_restrict.goal.metadata, {
-            'target': {'image': None, 'id': None, 'image_name': None},
-            'target_1': {'image': None, 'id': None, 'image_name': None},
-            'target_2': {'image': None, 'id': None, 'image_name': None}
+            'target': {'image': None, 'id': '1', 'image_name': None},
+            'target_1': {'image': None, 'id': '2', 'image_name': None},
+            'target_2': {'image': None, 'id': '3', 'image_name': None}
         })
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)

@@ -88,29 +88,6 @@ class TestConfigManager(unittest.TestCase):
             self.config_mngr.get_aws_secret_access_key(),
             'some_secret')
 
-    def test_get_debug_output(self):
-        self.assertIsNone(self.config_mngr.get_debug_output())
-
-        self.config_mngr._config[
-            self.config_mngr.CONFIG_DEFAULT_SECTION
-        ][
-            self.config_mngr.CONFIG_DEBUG_OUTPUT
-        ] = 'file'
-
-        self.assertEqual(
-            self.config_mngr.get_debug_output(),
-            'file')
-
-        self.config_mngr._config[
-            self.config_mngr.CONFIG_DEFAULT_SECTION
-        ][
-            self.config_mngr.CONFIG_DEBUG_OUTPUT
-        ] = 'terminal'
-
-        self.assertEqual(
-            self.config_mngr.get_debug_output(),
-            'terminal')
-
     def test_get_evaluation_name(self):
         self.assertEqual(self.config_mngr.get_evaluation_name(), '')
 
@@ -202,42 +179,6 @@ class TestConfigManager(unittest.TestCase):
         self.assertEqual(
             self.config_mngr.get_team(),
             'team-name')
-
-    @mock_env()
-    def test_is_debug(self):
-        self.assertFalse(self.config_mngr.is_debug())
-
-        self.config_mngr._config[
-            self.config_mngr.CONFIG_DEFAULT_SECTION
-        ][
-            self.config_mngr.CONFIG_DEBUG
-        ] = 'true'
-
-        self.assertTrue(self.config_mngr.is_debug())
-
-        self.config_mngr._config[
-            self.config_mngr.CONFIG_DEFAULT_SECTION
-        ][
-            self.config_mngr.CONFIG_DEBUG
-        ] = 'false'
-
-        self.assertFalse(self.config_mngr.is_debug())
-
-    @mock_env(MCS_DEBUG_MODE='True')
-    def test_is_debug_true_with_env_variable(self):
-        self.assertTrue(self.config_mngr.is_debug())
-
-    @mock_env(MCS_DEBUG_MODE='')
-    def test_is_debug_empty_str_with_env_variable(self):
-        self.assertFalse(self.config_mngr.is_debug())
-
-    @mock_env(MCS_DEBUG_MODE='False')
-    def test_is_debug_false_with_env_variable(self):
-        self.assertFalse(self.config_mngr.is_debug())
-
-    @mock_env(MCS_DEBUG_MODE='0')
-    def test_is_debug_zero_with_env_variable(self):
-        self.assertFalse(self.config_mngr.is_debug())
 
     def test_is_evaluation(self):
         self.assertFalse(self.config_mngr.is_evaluation())

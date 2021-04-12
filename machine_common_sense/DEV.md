@@ -115,18 +115,6 @@ The following string properties can be specified in order to upload and organize
 - s3_bucket
 - s3_folder
 
-#### debug
-
-(boolean)
-
-Whether to save MCS output debug files in this folder and print debug output to terminal. Will default to `False`. In lieu of a config file, this can be set using the `MCS_DEBUG_MODE` environment variable.
-
-#### debug_output
-
-(string)
-
-Alternatively to the `debug` property, `debug_output` can be used to either print debug info to the terminal or to debug files only. This should either be set to `file` or `terminal`, and will default to None. Will be ignored if `debug` or `MCS_DEBUG_MODE` is set.
-
 #### evaluation
 
 (boolean)
