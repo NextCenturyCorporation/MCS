@@ -27,6 +27,8 @@ class TestStepMetadata(unittest.TestCase):
         "image_list": [],
         "object_list": [],
         "object_mask_list": [],
+        "performer_radius": 0.0,
+        "performer_reach": 0.0,
         "pose": "UNDEFINED",
         "position": {},
         "return_status": "UNDEFINED",
@@ -87,6 +89,14 @@ class TestStepMetadata(unittest.TestCase):
     def test_object_mask_list(self):
         self.assertFalse(self.step_metadata.object_mask_list)
         self.assertIsInstance(self.step_metadata.object_mask_list, list)
+
+    def test_performer_radius(self):
+        self.assertEqual(self.step_metadata.performer_radius, 0.0)
+        self.assertIsInstance(self.step_metadata.performer_radius, float)
+
+    def test_performer_reach(self):
+        self.assertEqual(self.step_metadata.performer_reach, 0.0)
+        self.assertIsInstance(self.step_metadata.performer_reach, float)
 
     def test_pose(self):
         self.assertEqual(self.step_metadata.pose, mcs.Pose.UNDEFINED.value)

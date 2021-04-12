@@ -24,13 +24,15 @@ logger = logging.getLogger(__name__)
 # into a position to reach some objects (it may be mathematically impossible).
 # TODO Reduce this number once the player can crouch down to reach and
 # pickup small objects on the floor.
+# TODO move this to Unity since we now have performerReach in metadata?
 MAX_REACH_DISTANCE = 1.0
 
 # How far the player can move with a single step.
 MOVE_DISTANCE = 0.1
 
 # Performer camera 'y' position
-PERFORMER_CAMERA_Y = 0.4625
+# TODO: MCS-627: move to scene generator
+PERFORMER_CAMERA_Y = 0.762
 
 from .action import Action
 from .goal_metadata import GoalMetadata
@@ -1295,6 +1297,8 @@ class Controller():
             object_mask_list=object_mask_list,
             pose=self.retrieve_pose(scene_event),
             position=self.retrieve_position(scene_event),
+            performer_radius=scene_event.metadata.get('performerRadius'),
+            performer_reach=scene_event.metadata.get('performerReach'),
             return_status=self.retrieve_return_status(scene_event),
             reward=Reward.calculate_reward(
                 self._goal, objects, agent, self.__step_number),
