@@ -1,0 +1,2 @@
+LookDown,horizon=20
+MoveAhead,movement=0.3
