@@ -242,7 +242,7 @@ Defines metadata for a goal in the MCS 3D environment.
 ## ObjectMetadata
 
 
-### class machine_common_sense.object_metadata.ObjectMetadata(uuid='', color=None, dimensions=None, direction=None, distance=- 1.0, distance_in_steps=- 1.0, distance_in_world=- 1.0, held=False, mass=0.0, material_list=None, position=None, rotation=None, shape='', state_list=None, texture_color_list=None, visible=False)
+### class machine_common_sense.object_metadata.ObjectMetadata(uuid='', color=None, dimensions=None, direction=None, distance=- 1.0, distance_in_steps=- 1.0, distance_in_world=- 1.0, held=False, mass=0.0, material_list=None, position=None, rotation=None, shape='', state_list=None, texture_color_list=None, visible=False, is_open=False, openable=False)
 Defines metadata for an object in the MCS 3D environment.
 
 
@@ -308,6 +308,12 @@ Defines metadata for an object in the MCS 3D environment.
 
 
     * **visible** (*boolean*) – Whether you can see this object in your camera viewport.
+
+
+    * **is_open** (*boolean*) – Whether the object is open or not
+
+
+    * **openable** (*boolean*) – Whether the object can be opened
 
 
 ## StepMetadata

@@ -1100,7 +1100,9 @@ class Controller():
             visible=(
                 object_metadata['visibleInCamera'] or
                 object_metadata['isPickedUp']
-            )
+            ),
+            is_open=object_metadata['isOpen'],
+            openable=object_metadata['openable']
         )
 
     def retrieve_object_states(self, object_id):
