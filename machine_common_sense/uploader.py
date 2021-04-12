@@ -1,8 +1,12 @@
 import io
+import logging
 import pathlib
 
 import boto3
 import PIL
+
+
+logger = logging.getLogger(__name__)
 
 
 class S3Uploader():
@@ -27,7 +31,8 @@ class S3Uploader():
         Returns:
             None
         '''
-        print(f"Uploading {video_path} to {self.bucket} as {s3_filename}")
+        logger.info(
+            f"Uploading {video_path} to {self.bucket} as {s3_filename}")
         self._upload_file(
             filepath=video_path,
             bucket=self.bucket,
@@ -51,6 +56,7 @@ class S3Uploader():
         image.save(fp=in_memory_file, format='png')
         in_memory_file.seek(0)
 
+        logger.info(f"Uploading image to {self.bucket} as {s3_filename}")
         self._upload_object(
             in_memory_file=in_memory_file,
             bucket=self.bucket,
@@ -70,7 +76,8 @@ class S3Uploader():
         Returns:
             None
         '''
-        print(f"Uploading {history_path} to {self.bucket} as {s3_filename}")
+        logger.info(
+            f"Uploading {history_path} to {self.bucket} as {s3_filename}")
         self._upload_file(
             filepath=history_path,
             bucket=self.bucket,

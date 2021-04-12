@@ -2,6 +2,7 @@ import copy
 import datetime
 import glob
 import json
+import logging
 import numpy as np
 import os
 import random
@@ -13,6 +14,10 @@ import atexit
 
 import ai2thor.controller
 import ai2thor.server
+
+
+logger = logging.getLogger(__name__)
+
 
 # How far the player can reach.  I think this value needs to be bigger
 # than the MAX_MOVE_DISTANCE or else the player may not be able to move
@@ -99,7 +104,6 @@ class Controller():
         Path to configuration file to read in and set various properties,
         such as metadata level and whether or not to save history files
         (default None)
-
     """
 
     ACTION_LIST = [(item.value, {}) for item in Action]
@@ -236,13 +240,6 @@ class Controller():
             self.__history_enabled = history_enabled
 
     def _on_init(self, config_file_path=None):
-
-        self.__debug_to_file = True if (
-            self._config.is_debug() is True or
-            self._config.get_debug_output() == 'file') else False
-        self.__debug_to_terminal = True if (
-            self._config.is_debug() is True or
-            self._config.get_debug_output() == 'terminal') else False
 
         self.__noise_enabled = self._config.is_noise_enabled()
         self.__seed = self._config.get_seed()
@@ -499,20 +496,14 @@ class Controller():
         skip_preview_phase = (True if 'goal' in config_data and
                               'skip_preview_phase' in config_data['goal']
                               else False)
-        if self.__debug_to_terminal:
-            if config_data['name']:
-                print("STARTING NEW SCENE: " + config_data['name'])
-            else:
-                print("STARTING NEW SCENE")
-            if self._metadata_tier:
-                print("METADATA TIER: " + self._metadata_tier)
-            else:
-                print("METADATA TIER: DEFAULT (NOT CONFIGURED)")
-            print("STEP: 0")
-            print("ACTION: Initialize")
+
+        logger.debug("STARTING NEW SCENE: " + config_data.get('name', ""))
+        logger.debug("METADATA TIER: " + self._metadata_tier)
+        logger.debug("STEP: 0")
+        logger.debug("ACTION: Initialize")
 
         if (config_data['name'] is not None and (
-            self.__debug_to_file or self._config.is_evaluation() or
+            self._config.is_evaluation() or
             self._config.is_video_enabled()
         )):
             os.makedirs('./' + config_data['name'], exist_ok=True)
@@ -543,8 +534,7 @@ class Controller():
                 depth_map_list = output.depth_map_list
                 object_mask_list = output.object_mask_list
 
-                if self.__debug_to_terminal:
-                    print('STARTING PREVIEW PHASE...')
+                logger.debug('STARTING PREVIEW PHASE...')
 
                 for i in range(0, self._goal.last_preview_phase_step):
                     output = self.step('Pass')
@@ -553,8 +543,7 @@ class Controller():
                     object_mask_list = (object_mask_list +
                                         output.object_mask_list)
 
-                if self.__debug_to_terminal:
-                    print('ENDING PREVIEW PHASE')
+                logger.debug('ENDING PREVIEW PHASE')
 
                 if (
                     self._config.is_evaluation() or
@@ -565,8 +554,8 @@ class Controller():
                 output.image_list = image_list
                 output.depth_map_list = depth_map_list
                 output.object_mask_list = object_mask_list
-            elif self.__debug_to_terminal:
-                print('NO PREVIEW PHASE')
+
+            logger.debug('NO PREVIEW PHASE')
 
             if(self._end_scene_not_registered is True and
                     (self.__history_enabled or self._config.is_evaluation())):
@@ -740,9 +729,9 @@ class Controller():
 
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
-            print(
-                "MCS Warning: You have passed the last step for this scene. " +
-                "Ignoring your action. Please call controller.end_scene() " +
+            logger.warning(
+                "You have passed the last step for this scene. "
+                "Ignoring your action. Please call controller.end_scene() "
                 "now.")
             return None
 
@@ -764,8 +753,8 @@ class Controller():
                     continue_with_step = True
                     break
         if not continue_with_step:
-            print(
-                f"MCS Warning: The given action '{action}' with parameters "
+            logger.warning(
+                f"The given action '{action}' with parameters "
                 f"'{kwargs}' isn't in the action_list. Ignoring your action. "
                 f"Please call controller.step() with an action in the "
                 f"action_list."
@@ -775,7 +764,7 @@ class Controller():
                 self.__step_number,
                 string_list=True
             )
-            print(
+            logger.debug(
                 f"Actions (Step {self.__step_number}): "
                 f"{'; '.join(action_string_list)}"
             )
@@ -783,18 +772,18 @@ class Controller():
 
         self.__step_number += 1
 
-        if self.__debug_to_terminal:
-            print("================================================" +
-                  "===============================")
-            print("STEP: " + str(self.__step_number))
-            print("ACTION: " + action)
-            if self._goal.habituation_total >= self.__habituation_trial:
-                print("HABITUATION TRIAL: " + str(self.__habituation_trial) +
-                      " / " + str(self._goal.habituation_total))
-            elif self._goal.habituation_total > 0:
-                print("HABITUATION TRIAL: DONE")
-            else:
-                print("HABITUATION TRIAL: NONE")
+        logger.debug("================================================"
+                     "===============================")
+        logger.debug("STEP: " + str(self.__step_number))
+        logger.debug("ACTION: " + action)
+        if self._goal.habituation_total >= self.__habituation_trial:
+            logger.debug(f"HABITUATION TRIAL: "
+                         f"{str(self.__habituation_trial)}"
+                         f" / {str(self._goal.habituation_total)}")
+        elif self._goal.habituation_total > 0:
+            logger.debug("HABITUATION TRIAL: DONE")
+        else:
+            logger.debug("HABITUATION TRIAL: NONE")
 
         params = self.validate_and_convert_params(action, **kwargs)
 
@@ -807,9 +796,9 @@ class Controller():
 
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
-            print(
-                "MCS Warning: This is your last step for this scene. All " +
-                "your future actions will be skipped. Please call " +
+            logger.warning(
+                "This is your last step for this scene. All "
+                "your future actions will be skipped. Please call "
                 "controller.end_scene() now.")
 
         pre_restrict_output = self.wrap_output(self._controller.step(
@@ -1130,9 +1119,8 @@ class Controller():
         try:
             pose = Pose[scene_event.metadata['pose']].name
         except KeyError:
-            print(
-                "Pose " +
-                scene_event.metadata['pose'] +
+            logger.error(
+                "Pose {scene_event.metadata['pose']}"
                 " is not currently supported.")
         finally:
             return pose
@@ -1151,9 +1139,8 @@ class Controller():
                     scene_event.metadata['lastActionStatus']
                 ].name
         except KeyError:
-            print(
-                "Return status " +
-                scene_event.metadata['lastActionStatus'] +
+            logger.error(
+                "Return status {scene_event.metadata['lastActionStatus']}"
                 " is not currently supported.")
         finally:
             return return_status
@@ -1244,7 +1231,7 @@ class Controller():
                 ):
                     self.__segmentation_recorder.add(object_mask)
 
-            if self.__debug_to_file and self.__output_folder is not None:
+            if self.__output_folder is not None:
                 step_plus_substep_index = 0 if self.__step_number == 0 else (
                     ((self.__step_number - 1) * len(scene_event.events)) +
                     (index + 1)
@@ -1267,7 +1254,7 @@ class Controller():
         self._controller.stop()
 
     def wrap_output(self, scene_event):
-        if self.__debug_to_file and self.__output_folder is not None:
+        if self.__output_folder is not None:
             with open(self.__output_folder + 'ai2thor_output_' +
                       str(self.__step_number) + '.json', 'w') as json_file:
                 json.dump({
@@ -1322,21 +1309,22 @@ class Controller():
         return step_output
 
     def write_debug_output(self, step_output):
-        if self.__debug_to_terminal:
-            print("RETURN STATUS: " + step_output.return_status)
-            print("REWARD: " + str(step_output.reward))
-            print("SELF METADATA:")
-            print("  CAMERA HEIGHT: " + str(step_output.camera_height))
-            print("  HEAD TILT: " + str(step_output.head_tilt))
-            print("  POSITION: " + str(step_output.position))
-            print("  ROTATION: " + str(step_output.rotation))
-            print("OBJECTS: " + str(len(step_output.object_list)) + " TOTAL")
-            if len(step_output.object_list) > 0:
-                for line in Util.generate_pretty_object_output(
-                        step_output.object_list):
-                    print("    " + line)
+        logger.debug("RETURN STATUS: " + step_output.return_status)
+        logger.debug("REWARD: " + str(step_output.reward))
+        logger.debug("SELF METADATA:")
+        logger.debug("  CAMERA HEIGHT: " + str(step_output.camera_height))
+        logger.debug("  HEAD TILT: " + str(step_output.head_tilt))
+        logger.debug("  POSITION: " + str(step_output.position))
+        logger.debug("  ROTATION: " + str(step_output.rotation))
+        logger.debug("OBJECTS: " +
+                     str(len(step_output.object_list)) +
+                     " TOTAL")
+        if len(step_output.object_list) > 0:
+            for line in Util.generate_pretty_object_output(
+                    step_output.object_list):
+                logger.debug("    " + line)
 
-        if self.__debug_to_file and self.__output_folder is not None:
+        if self.__output_folder is not None:
             with open(self.__output_folder + 'mcs_output_' +
                       str(self.__step_number) + '.json', 'w') as json_file:
                 json_file.write(str(step_output))
@@ -1363,7 +1351,7 @@ class Controller():
             **kwargs
         )
 
-        if self.__debug_to_file and self.__output_folder is not None:
+        if self.__output_folder is not None:
             with open(self.__output_folder + 'ai2thor_input_' +
                       str(self.__step_number) + '.json', 'w') as json_file:
                 json.dump(step_data, json_file, sort_keys=True, indent=4)

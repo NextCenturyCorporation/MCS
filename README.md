@@ -212,6 +212,30 @@ for scene_json_file_path in scene_json_file_list:
     controller.end_scene()
 ```
 
+Example with terminal logging:
+```python
+import logging
+import machine_common_sense as mcs
+
+logger = logging.getLogger('machine_common_sense')
+logger.setLevel(logging.DEBUG)
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging.DEBUG)
+logger.addHandler(stream_handler)
+
+controller = mcs.create_controller(unity_app_file_path, config_file_path='./some-path/config.ini')
+scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
+output = controller.start_scene(scene_data)
+
+action, params = select_action(output)
+while action != '':
+    logger.debug(f"Taking {action} with {params{")
+    controller.step(action, params)
+    action, params = select_action(output)
+
+controller.end_scene()
+```
+
 ## Run with Human Input
 
 To start the Unity application and enter your actions and parameters from the terminal, you can run the `run_in_human_input_mode` script that was installed in the package with the MCS Python Library (the `mcs_unity_build_file` is the Unity executable downloaded previously):
@@ -238,18 +262,6 @@ This will run all of the MCS scene configuration JSON files in the given folder,
 To use an MCS configuration file, you can either pass in a file path via the `config_file_path` property in the create_controller() method, or set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see [sample_config.ini](./sample_config.ini) for an example).
 
 ### Config File Properties
-
-#### debug
-
-(boolean, optional)
-
-Whether to save MCS output debug files in this folder and print debug output to terminal. Will default to `False`.
-
-#### debug_output
-
-(string, optional)
-
-Alternatively to the `debug` property, `debug_output` can be used to either print debug info to the terminal or to debug files only. This should either be set to `file` or `terminal`, and will default to None. Will be ignored if `debug` is set.
 
 #### history_enabled
 

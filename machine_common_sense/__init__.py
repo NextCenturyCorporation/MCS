@@ -1,3 +1,4 @@
+import logging
 import json
 import signal
 
@@ -19,6 +20,9 @@ from .getchHelper import getch
 from .serializer import SerializerMsgPack, SerializerJson
 from ._version import __version__
 
+
+# Set default logging handler to avoid "No handler found" warnings
+logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 # Timeout at 3 minutes (180 seconds).  It was 60 seconds but
 # this can cause timeouts on EC2 instances

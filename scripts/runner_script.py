@@ -1,10 +1,16 @@
 import argparse
 import glob
+import logging
 import os.path
 import subprocess
 
 import machine_common_sense as mcs
 
+logger = logging.getLogger('machine_common_sense')
+logger.setLevel(logging.DEBUG)
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging.DEBUG)
+logger.addHandler(stream_handler)
 
 SCRIPT_FOLDER = os.path.dirname(os.path.abspath(__file__))
 BLACK_IMAGE_PATH = SCRIPT_FOLDER + '/black_image.png'

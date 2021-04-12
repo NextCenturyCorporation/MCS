@@ -1,5 +1,4 @@
 import unittest
-import time
 
 from typing import Tuple
 from shapely import geometry
@@ -8,13 +7,6 @@ import machine_common_sense as mcs
 
 
 class TestReward(unittest.TestCase):
-
-    def setUp(self):
-        self._start_at = time.time()
-
-    def tearDown(self):
-        elapsed = time.time() - self._start_at
-        print(f"{self.id()} ({round(elapsed,2)}s)")
 
     def test_default_reward(self):
         goal = mcs.GoalMetadata()
