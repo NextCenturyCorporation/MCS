@@ -666,7 +666,7 @@ class Controller():
             MOVE_DISTANCE,
             self.MOVEMENT_KEY)
         rotation = Util.is_in_range(
-            rotation,
+            float(rotation),
             self.MIN_ROTATION,
             self.MAX_ROTATION,
             self.DEFAULT_ROTATION,
