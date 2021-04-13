@@ -71,7 +71,7 @@ numerical action parameters noise_enabled is True.
 
 #### get_metadata_level()
 Returns the current metadata level set in the config. If none
-specified, returns an empty string.
+specified, returns ‘default’.
 
 
 * **Returns**

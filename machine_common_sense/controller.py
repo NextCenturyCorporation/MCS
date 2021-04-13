@@ -1381,7 +1381,7 @@ class Controller():
     def get_metadata_level(self):
         """
         Returns the current metadata level set in the config. If none
-        specified, returns an empty string.
+        specified, returns 'default'.
 
         Returns
         -------
