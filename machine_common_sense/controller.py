@@ -1373,3 +1373,15 @@ class Controller():
         """
 
         return random.uniform(-0.5, 0.5)
+
+    def get_metadata_level(self):
+        """
+        Returns the current metadata level set in the config. If none
+        specified, returns an empty string.
+
+        Returns
+        -------
+        string
+            A string containing the current metadata level.
+        """
+        return self._metadata_tier

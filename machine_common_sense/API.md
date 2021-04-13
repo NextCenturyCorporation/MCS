@@ -69,6 +69,23 @@ numerical action parameters noise_enabled is True.
 :rtype: float
 
 
+#### get_metadata_level()
+Returns the current metadata level set in the config. If none
+specified, returns an empty string.
+
+
+* **Returns**
+
+    A string containing the current metadata level.
+
+
+
+* **Return type**
+
+    string
+
+
+
 #### make_step_prediction(choice: str = None, confidence: float = None, violations_xy_list: List[Dict[str, float]] = None, heatmap_img: PIL.Image.Image = None, internal_state: object = None)
 Make a prediction on the previously taken step/action.
 

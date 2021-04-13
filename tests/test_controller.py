@@ -1985,6 +1985,15 @@ class TestController(unittest.TestCase):
         currentNoise = self.controller.generate_noise()
         self.assertTrue(minValue <= currentNoise <= maxValue)
 
+    def test_get_metadata_level(self):
+        self.assertEqual('', self.controller.get_metadata_level())
+
+        self.controller.set_metadata_tier('oracle')
+        self.assertEqual('oracle', self.controller.get_metadata_level())
+
+        self.controller.set_metadata_tier('none')
+        self.assertEqual('none', self.controller.get_metadata_level())
+
 
 if __name__ == '__main__':
     unittest.main()
