@@ -123,8 +123,8 @@ class Controller():
 
     MAX_FORCE = 50.0
 
-    DEFAULT_HORIZON = 10
-    DEFAULT_ROTATION = 10
+    DEFAULT_HORIZON = 0
+    DEFAULT_ROTATION = 0
     DEFAULT_FORCE = 0.5
     DEFAULT_AMOUNT = 0.5
     DEFAULT_IMG_COORD = 0
@@ -617,9 +617,9 @@ class Controller():
         if not Util.is_number(movement, self.MOVEMENT_KEY):
             movement = MOVE_DISTANCE
         if not Util.is_number(rotation, self.ROTATION_KEY):
-            rotation = DEFAULT_ROTATION
+            rotation = self.DEFAULT_ROTATION
         if not Util.is_number(horizon, self.HORIZON_KEY):
-            horizon = DEFAULT_HORIZON
+            horizon = self.DEFAULT_HORIZON
 
         # Check object directions are numbers
         if not Util.is_number(
