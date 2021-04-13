@@ -242,7 +242,7 @@ Defines metadata for a goal in the MCS 3D environment.
 ## ObjectMetadata
 
 
-### class machine_common_sense.object_metadata.ObjectMetadata(uuid='', color=None, dimensions=None, direction=None, distance=- 1.0, distance_in_steps=- 1.0, distance_in_world=- 1.0, held=False, mass=0.0, material_list=None, position=None, rotation=None, shape='', state_list=None, texture_color_list=None, visible=False)
+### class machine_common_sense.object_metadata.ObjectMetadata(uuid='', color=None, dimensions=None, direction=None, distance=- 1.0, distance_in_steps=- 1.0, distance_in_world=- 1.0, held=False, mass=0.0, material_list=None, position=None, rotation=None, shape='', state_list=None, texture_color_list=None, visible=False, is_open=False, openable=False)
 Defines metadata for an object in the MCS 3D environment.
 
 
@@ -310,10 +310,16 @@ Defines metadata for an object in the MCS 3D environment.
     * **visible** (*boolean*) – Whether you can see this object in your camera viewport.
 
 
+    * **is_open** (*boolean*) – Whether the object is open or not
+
+
+    * **openable** (*boolean*) – Whether the object can be opened
+
+
 ## StepMetadata
 
 
-### class machine_common_sense.step_metadata.StepMetadata(action_list=None, camera_aspect_ratio=None, camera_clipping_planes=None, camera_field_of_view=0.0, camera_height=0.0, depth_map_list=None, goal=None, habituation_trial=None, head_tilt=0.0, image_list=None, object_list=None, object_mask_list=None, pose='UNDEFINED', position=None, return_status='UNDEFINED', reward=0, rotation=0.0, step_number=0, structural_object_list=None)
+### class machine_common_sense.step_metadata.StepMetadata(action_list=None, camera_aspect_ratio=None, camera_clipping_planes=None, camera_field_of_view=0.0, camera_height=0.0, depth_map_list=None, goal=None, habituation_trial=None, head_tilt=0.0, image_list=None, object_list=None, object_mask_list=None, performer_radius=0.0, performer_reach=0.0, pose='UNDEFINED', position=None, return_status='UNDEFINED', reward=0, rotation=0.0, step_number=0, structural_object_list=None)
 Defines output metadata from an action step in the MCS 3D environment.
 
 
@@ -379,6 +385,12 @@ Defines output metadata from an action step in the MCS 3D environment.
     scene with a scripted Previous Phase.
     The color of each object in the mask corresponds to the “color”
     property in its ObjectMetadata object.
+
+
+    * **performer_radius** (*float*) – The radius of the performer.
+
+
+    * **performer_reach** (*float*) – The max reach of the performer.
 
 
     * **pose** (*string*) – Your current pose. Either “STANDING”, “CRAWLING”, or “LYING”.
@@ -524,7 +536,31 @@ Drop an object you are holding.
 
 #### END_HABITUATION( = 'EndHabituation')
 Ends a habituation trial for the scene by blanking the screen for one
-action. Sometimes needed for the passive tasks.
+action (and teleporting the agent if needed). Sometimes needed depending
+on the task type.
+
+Note that we currently plan to use the starting position/rotation as
+teleport parameters here for applicable cases. We cannot currently
+guarantee that using a position intersecting another object or outside
+the room won’t cause issues or errors.
+
+
+* **Parameters**
+
+    
+    * **xPosition** (*float**, **optional*) – The global X position of the vector to teleport the agent to during
+    the blank screen. The Z position must also be specified for this to
+    work.
+
+
+    * **zPosition** (*float**, **optional*) – The global Z position of the vector to teleport the agent to during
+    the blank screen. The X position must also be specified for this to
+    work.
+
+
+    * **yRotation** (*float**, **optional*) – Degrees (global, not relative) to rotate the agent along the Y axis
+    during the blank screen.
+
 
 
 * **Returns**

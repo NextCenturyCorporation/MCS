@@ -59,6 +59,10 @@ class StepMetadata:
         scene with a scripted Previous Phase.
         The color of each object in the mask corresponds to the "color"
         property in its ObjectMetadata object.
+    performer_radius: float
+        The radius of the performer.
+    performer_reach: float
+        The max reach of the performer.
     pose : string
         Your current pose. Either "STANDING", "CRAWLING", or "LYING".
     position : dict
@@ -95,6 +99,8 @@ class StepMetadata:
         image_list=None,
         object_list=None,
         object_mask_list=None,
+        performer_radius=0.0,
+        performer_reach=0.0,
         pose=Pose.UNDEFINED.value,
         position=None,
         return_status=ReturnStatus.UNDEFINED.value,
@@ -124,6 +130,8 @@ class StepMetadata:
         self.object_mask_list = (
             [] if object_mask_list is None else object_mask_list
         )
+        self.performer_radius = performer_radius
+        self.performer_reach = performer_reach
         self.pose = pose
         self.position = {} if position is None else position
         self.return_status = return_status
@@ -153,6 +161,8 @@ class StepMetadata:
         yield 'goal', dict(self.goal)
         yield 'head_tilt', self.head_tilt
         yield 'object_list', self.check_list_none(self.object_list)
+        yield 'performer_radius', self.performer_radius
+        yield 'performer_reach', self.performer_reach
         yield 'pose', self.pose
         yield 'position', self.position
         yield 'return_status', self.return_status

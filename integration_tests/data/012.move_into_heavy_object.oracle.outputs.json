@@ -106,7 +106,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.688,
-                "direction_z": 0.726,
+                "direction_z": 0.7257,
                 "distance": 0.744,
                 "held": false,
                 "id": "testBall",
@@ -137,7 +137,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.688,
-                "direction_z": 0.726,
+                "direction_z": 0.7257,
                 "distance": 0.744,
                 "held": false,
                 "id": "testBall",
@@ -168,7 +168,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.688,
-                "direction_z": 0.726,
+                "direction_z": 0.7257,
                 "distance": 0.744,
                 "held": false,
                 "id": "testBall",

@@ -16,7 +16,7 @@
 
 ## Installation
 
-The latest release of the MCS Python library is `0.4.0`.
+The latest release of the MCS Python library is `0.4.1.1`.
 
 ### Virtual Environments
 
@@ -65,29 +65,76 @@ Here are the instructions for downloading and installing our latest Unity releas
 
 ### Unity Application
 
-The latest release of the MCS Unity app is `0.4.0`.
+The latest release of the MCS Unity app is `0.4.1.1`.
 
-Please note that our Unity App is built on Linux. If you need a Mac or Windows version, please [contact us](#troubleshooting) directly.
+Please note that our Unity App is built on Linux or Mac.
 
-1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.0/MCS-AI2-THOR-Unity-App-v0.4.0.x86_64)
+Linux Version:
 
-2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.0/MCS-AI2-THOR-Unity-App-v0.4.0_Data.tar.gz)
+1. [Download the latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/MCS-AI2-THOR-Unity-App-v0.4.1.1.x86_64)
 
-3. Ensure that both the Unity App and the TAR are in the same directory.
+2. [Download the latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/MCS-AI2-THOR-Unity-App-v0.4.1.1_Data.tar.gz)
 
-4. Untar the Data Directory:
+3. [Download the latest UnityPlayer.so file](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/UnityPlayer.so)
 
-```
-tar -xzvf MCS-AI2-THOR-Unity-App-v0.4.0_Data.tar.gz
-```
+4. Ensure that both the Unity App and the TAR are in the same directory.
 
-5. Mark the Unity App as executable:
+5. Untar the Data Directory:
 
 ```
-chmod a+x MCS-AI2-THOR-Unity-App-v0.4.0.x86_64
+tar -xzvf MCS-AI2-THOR-Unity-App-v0.4.1.1_Data.tar.gz
 ```
+
+6. Mark the Unity App as executable:
+
+```
+chmod a+x MCS-AI2-THOR-Unity-App-v0.4.1.1.x86_64
+```
+
+Mac Version:
+
+[Download the Mac ZIP](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/MCS-AI2-THOR-Unity-App-v0.4.1.1-mac.zip)
+
 
 ## Training Datasets
+
+### Summer 2020
+
+#### Passive Agent
+
+Subtasks:
+
+- Single object scenes (~10K), just like Eval 3
+- Object preference scenes (~10K), just like Eval 3
+- Multiple agents scenes (4K), new to Eval 4
+- Instrumental action scenes (4K), new to Eval 4
+
+JSON scene configuration files:
+
+- https://eval-4-data.s3.amazonaws.com/eval_4_agent_training_dataset.zip
+
+Rendered videos:
+
+- https://nyu-datasets.s3.amazonaws.com/agent_instrumental_action_training_videos.zip
+- https://nyu-datasets.s3.amazonaws.com/agent_multiple_agents_training_videos.zip
+- https://nyu-datasets.s3.amazonaws.com/agent_object_preference_training_videos.zip
+- https://nyu-datasets.s3.amazonaws.com/agent_single_object_training_videos.zip
+
+#### Passive Intuitive Physics
+
+Please generate your own training datasets using our Scene Generator software here:
+
+- https://github.com/NextCenturyCorporation/mcs-scene-generator
+
+#### Interactive
+
+For the container, obstacle, and occluder tasks, please generate your own training datasets using our Scene Generator software here:
+
+- https://github.com/NextCenturyCorporation/mcs-scene-generator
+
+For the new interactive object permanence and reorientation tasks, please generate your own training datasets using our example scene templates here:
+
+https://github.com/NextCenturyCorporation/MCS/tree/master/machine_common_sense/scenes#interactive-object-permanence-and-reorientation-tasks
 
 ### Winter 2020
 
@@ -165,6 +212,30 @@ for scene_json_file_path in scene_json_file_list:
     controller.end_scene()
 ```
 
+Example with terminal logging:
+```python
+import logging
+import machine_common_sense as mcs
+
+logger = logging.getLogger('machine_common_sense')
+logger.setLevel(logging.DEBUG)
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging.DEBUG)
+logger.addHandler(stream_handler)
+
+controller = mcs.create_controller(unity_app_file_path, config_file_path='./some-path/config.ini')
+scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
+output = controller.start_scene(scene_data)
+
+action, params = select_action(output)
+while action != '':
+    logger.debug(f"Taking {action} with {params{")
+    controller.step(action, params)
+    action, params = select_action(output)
+
+controller.end_scene()
+```
+
 ## Run with Human Input
 
 To start the Unity application and enter your actions and parameters from the terminal, you can run the `run_in_human_input_mode` script that was installed in the package with the MCS Python Library (the `mcs_unity_build_file` is the Unity executable downloaded previously):
@@ -191,18 +262,6 @@ This will run all of the MCS scene configuration JSON files in the given folder,
 To use an MCS configuration file, you can either pass in a file path via the `config_file_path` property in the create_controller() method, or set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see [sample_config.ini](./sample_config.ini) for an example).
 
 ### Config File Properties
-
-#### debug
-
-(boolean, optional)
-
-Whether to save MCS output debug files in this folder and print debug output to terminal. Will default to `False`.
-
-#### debug_output
-
-(string, optional)
-
-Alternatively to the `debug` property, `debug_output` can be used to either print debug info to the terminal or to debug files only. This should either be set to `file` or `terminal`, and will default to None. Will be ignored if `debug` is set.
 
 #### history_enabled
 
