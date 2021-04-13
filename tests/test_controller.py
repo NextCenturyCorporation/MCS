@@ -21,7 +21,7 @@ class TestController(unittest.TestCase):
 
     def setUp(self):
         self.controller = MockControllerAI2THOR()
-        self.controller.set_metadata_tier('')
+        self.controller.set_metadata_tier('default')
         self.maxDiff = None
 
     @classmethod
@@ -1986,7 +1986,7 @@ class TestController(unittest.TestCase):
         self.assertTrue(minValue <= currentNoise <= maxValue)
 
     def test_get_metadata_level(self):
-        self.assertEqual('', self.controller.get_metadata_level())
+        self.assertEqual('default', self.controller.get_metadata_level())
 
         self.controller.set_metadata_tier('oracle')
         self.assertEqual('oracle', self.controller.get_metadata_level())

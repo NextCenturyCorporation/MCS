@@ -92,7 +92,7 @@ class ConfigManager(object):
             return self._config.get(
                 self.CONFIG_DEFAULT_SECTION,
                 self.CONFIG_METADATA_TIER,
-                fallback=''
+                fallback='default'
             )
 
         return metadata_env_var
