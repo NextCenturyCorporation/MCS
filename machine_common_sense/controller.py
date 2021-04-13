@@ -660,7 +660,7 @@ class Controller():
             self.DEFAULT_FORCE,
             self.FORCE_KEY)
         movement = Util.is_in_range(
-            movement,
+            float(movement),
             self.MIN_MOVEMENT,
             self.MAX_MOVEMENT,
             MOVE_DISTANCE,
@@ -672,7 +672,7 @@ class Controller():
             self.DEFAULT_ROTATION,
             self.ROTATION_KEY)
         horizon = Util.is_in_range(
-            horizon,
+            float(horizon),
             self.MIN_HORIZON,
             self.MAX_HORIZON,
             self.DEFAULT_HORIZON,
