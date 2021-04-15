@@ -36,7 +36,7 @@
                 "position_z": 1,
                 "shape": "trophy",
                 "texture_color_list": [
-                    "silver"
+                    "silver", "grey"
                 ],
                 "visible": false
             }
@@ -126,7 +126,7 @@
                 "position_z": 0.41,
                 "shape": "trophy",
                 "texture_color_list": [
-                    "silver"
+                    "silver", "grey"
                 ],
                 "visible": true
             }
@@ -176,7 +176,7 @@
                 "position_z": 0.41,
                 "shape": "trophy",
                 "texture_color_list": [
-                    "silver"
+                    "silver", "grey"
                 ],
                 "visible": true
             }
