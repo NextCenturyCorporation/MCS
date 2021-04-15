@@ -69,6 +69,23 @@ numerical action parameters noise_enabled is True.
 :rtype: float
 
 
+#### get_metadata_level()
+Returns the current metadata level set in the config. If none
+specified, returns ‘default’.
+
+
+* **Returns**
+
+    A string containing the current metadata level.
+
+
+
+* **Return type**
+
+    string
+
+
+
 #### make_step_prediction(choice: str = None, confidence: float = None, violations_xy_list: List[Dict[str, float]] = None, heatmap_img: PIL.Image.Image = None, internal_state: object = None)
 Make a prediction on the previously taken step/action.
 
@@ -351,10 +368,12 @@ Defines output metadata from an action step in the MCS 3D environment.
     * **depth_map_list** (*list of 2D numpy arrays*) – The list of 2-dimensional numpy arrays of depth float data from the
     scene after the last action and physics simulation were run. This is
     usually a list with 1 array, except for the output from start_scene
-    for a scene with a scripted Preview Phase.
+    for a scene with a scripted Preview Phase (Preview Phase case details
+    TBD).
     Each depth float in a 2-dimensional numpy array is a value between 0
     and the camera’s far clipping plane (default 15) correspondings to the
     depth in simulation units at that pixel in the image.
+    Note that this list will be empty if the metadata level is ‘none’.
 
 
     * **goal** (*GoalMetadata** or **None*) – The goal for the whole scene. Will be None in “Exploration” scenes.
@@ -372,19 +391,23 @@ Defines output metadata from an action step in the MCS 3D environment.
     * **image_list** (*list of Pillow.Image objects*) – The list of images from the scene after the last action and physics
     simulation were run. This is usually a list with 1 image, except for
     the output from start_scene for a scene with a scripted Preview Phase.
+    (Preview Phase case details TBD).
 
 
     * **object_list** (*list of ObjectMetadata objects*) – The list of metadata for all the visible interactive objects in the
-    scene. For metadata on structural objects like walls, please see
-    structural_object_list
+    scene. This list will be empty if using a metadata level below
+    the ‘oracle’ level. For metadata on structural objects like walls,
+    please see structural_object_list
 
 
     * **object_mask_list** (*list of Pillow.Image objects*) – The list of object mask (instance segmentation) images from the scene
     after the last action and physics simulation were run. This is usually
     a list with 1 image, except for the output from start_scene for a
-    scene with a scripted Previous Phase.
+    scene with a scripted Preview Phase (Preview Phase case details TBD).
     The color of each object in the mask corresponds to the “color”
     property in its ObjectMetadata object.
+    Note that this list will be empty if the metadata level is ‘none’
+    or ‘level1’.
 
 
     * **performer_radius** (*float*) – The radius of the performer.
@@ -397,6 +420,8 @@ Defines output metadata from an action step in the MCS 3D environment.
 
 
     * **position** (*dict*) – The “x”, “y”, and “z” coordinates for your global position.
+    Will be set to ‘None’ if using a metadata level below the
+    ‘oracle’ level.
 
 
     * **return_status** (*string*) – The return status from your last action. See [Actions](#Actions).
@@ -405,7 +430,8 @@ Defines output metadata from an action step in the MCS 3D environment.
     * **reward** (*integer*) – Reward is 1 on successful completion of a task, 0 otherwise.
 
 
-    * **rotation** (*float*) – Your current rotation angle in degrees.
+    * **rotation** (*float*) – Your current rotation angle in degrees. Will be set to ‘None’
+    if using a metadata level below the ‘oracle’ level.
 
 
     * **step_number** (*integer*) – The step number of your last action, recorded since you started the
@@ -413,11 +439,13 @@ Defines output metadata from an action step in the MCS 3D environment.
 
 
     * **structural_object_list** (*list of ObjectMetadata objects*) – The list of metadata for all the visible structural objects (like
-    walls, occluders, and ramps) in the scene. Please note that occluders
-    are composed of two separate objects, the “wall” and the “pole”, with
-    corresponding object IDs (occluder_wall_<uuid> and
-    occluder_pole_<uuid>), and ramps are composed of between one and three
-    objects (depending on the type of ramp), with corresponding object IDs.
+    walls, occluders, and ramps) in the scene. This list will be empty
+    if using a metadata level below the ‘oracle’ level.
+    Please note that occluders are composed of two separate objects,
+    the “wall” and the “pole”, with corresponding object IDs
+    (occluder_wall_<uuid> and occluder_pole_<uuid>), and ramps are
+    composed of between one and three objects (depending on the type
+    of ramp), with corresponding object IDs.
 
 
 ## Actions

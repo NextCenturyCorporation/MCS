@@ -177,6 +177,10 @@ class Controller():
     # feedback
     CONFIG_METADATA_TIER_NONE = 'none'
 
+    # Default metadata level if none specified, meant for use during
+    # development
+    CONFIG_METADATA_TIER_DEFAULT = 'default'
+
     AWS_CREDENTIALS_FOLDER = os.path.expanduser('~') + '/.aws/'
     AWS_CREDENTIALS_FILE = os.path.expanduser('~') + '/.aws/credentials'
 
@@ -1008,7 +1012,7 @@ class Controller():
     def retrieve_object_list(self, scene_event):
         # Return object list for all tier levels, the restrict output function
         # will then strip out the necessary metadata
-        if (self._metadata_tier != ''):
+        if (self._metadata_tier != self.CONFIG_METADATA_TIER_DEFAULT):
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -1150,7 +1154,7 @@ class Controller():
     def retrieve_structural_object_list(self, scene_event):
         # Return structural object list for all tier levels, the restrict
         # output function will then strip out the necessary metadata
-        if (self._metadata_tier != ''):
+        if (self._metadata_tier != self.CONFIG_METADATA_TIER_DEFAULT):
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -1373,3 +1377,15 @@ class Controller():
         """
 
         return random.uniform(-0.5, 0.5)
+
+    def get_metadata_level(self):
+        """
+        Returns the current metadata level set in the config. If none
+        specified, returns 'default'.
+
+        Returns
+        -------
+        string
+            A string containing the current metadata level.
+        """
+        return self._metadata_tier

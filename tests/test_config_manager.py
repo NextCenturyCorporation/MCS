@@ -103,7 +103,7 @@ class TestConfigManager(unittest.TestCase):
 
     @mock_env()
     def test_get_metadata_tier(self):
-        self.assertEqual(self.config_mngr.get_metadata_tier(), '')
+        self.assertEqual(self.config_mngr.get_metadata_tier(), 'default')
 
         self.config_mngr._config[
             self.config_mngr.CONFIG_DEFAULT_SECTION

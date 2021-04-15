@@ -280,7 +280,8 @@ The `metadata` property describes what metadata will be returned by the MCS Pyth
 - `level1`: Only returns the images (with depth maps but NOT object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
 - `none`: Only returns the images (but no depth maps or object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
 
-Otherwise, return the metadata for the visible and held objects.
+If no metadata level is set:
+- `default`: Fallback if no metadata level is specified. Only meant for use during development (evaluations will never be run this way). Includes metadata for visible and held objects in the scene, as well as camera info and properties corresponding to the player. Does not include depth maps or object masks.
 
 #### noise_enabled
 
