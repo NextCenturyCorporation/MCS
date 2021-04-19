@@ -289,6 +289,18 @@ If no metadata level is set:
 
 Whether to add random noise to the numerical amounts in movement and object interaction action parameters. Will default to `False`.
 
+#### save_debug_images
+
+(boolean, optional)
+
+Save RGB frames, depth masks, and object instance segmentation masks (if returned in the output by the chosen metadata tier) to image files on each step. Default: False
+
+#### save_debug_json
+
+(boolean, optional)
+
+Save AI2-THOR/Unity input, AI2-THOR/Unity output, and MCS StepMetadata output to JSON file on each step. Default: False
+
 #### seed
 
 (int, optional)
@@ -305,7 +317,7 @@ Desired screen width. If value given, it must be more than `450`. If none given,
 
 (boolean, optional)
 
-Save videos of the RGB frames, depth masks, object instance segmentation masks (if returned in the output by the chosen metadata tier), 2D top-down scene views, and the heatmap images given to us in `make_step_prediction` by the AI performer.
+Create and save videos of the RGB frames, depth masks, object instance segmentation masks (if returned in the output by the chosen metadata tier), 2D top-down scene views, and the heatmap images given to us in `make_step_prediction` by the AI performer. Default: False
 
 ### Using the Config File to Generate Scene Graphs or Maps
 

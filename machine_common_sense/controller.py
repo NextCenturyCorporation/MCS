@@ -257,7 +257,8 @@ class Controller():
         self._goal = GoalMetadata()
         self.__habituation_trial = 1
         self.__head_tilt = 0.0
-        self.__output_folder = None  # Save output image files to debug
+        # Output folder used to save debug image, video, and JSON files.
+        self.__output_folder = None
         self.__scene_configuration = None
         self.__step_number = 0
         self.__history_writer = None
@@ -510,6 +511,8 @@ class Controller():
 
         if (config_data['name'] is not None and (
             self._config.is_evaluation() or
+            self._config.is_save_debug_images() or
+            self._config.is_save_debug_json() or
             self._config.is_video_enabled()
         )):
             os.makedirs('./' + config_data['name'], exist_ok=True)
@@ -1237,7 +1240,7 @@ class Controller():
                 ):
                     self.__segmentation_recorder.add(object_mask)
 
-            if self.__output_folder is not None:
+            if self.__output_folder and self._config.is_save_debug_images:
                 step_plus_substep_index = 0 if self.__step_number == 0 else (
                     ((self.__step_number - 1) * len(scene_event.events)) +
                     (index + 1)
@@ -1260,7 +1263,7 @@ class Controller():
         self._controller.stop()
 
     def wrap_output(self, scene_event):
-        if self.__output_folder is not None:
+        if self.__output_folder and self._config.is_save_debug_json:
             with open(self.__output_folder + 'ai2thor_output_' +
                       str(self.__step_number) + '.json', 'w') as json_file:
                 json.dump({
@@ -1332,7 +1335,7 @@ class Controller():
                     step_output.object_list):
                 logger.debug("    " + line)
 
-        if self.__output_folder is not None:
+        if self.__output_folder and self._config.is_save_debug_json:
             with open(self.__output_folder + 'mcs_output_' +
                       str(self.__step_number) + '.json', 'w') as json_file:
                 json_file.write(str(step_output))
@@ -1359,7 +1362,7 @@ class Controller():
             **kwargs
         )
 
-        if self.__output_folder is not None:
+        if self.__output_folder and self._config.is_save_debug_json:
             with open(self.__output_folder + 'ai2thor_input_' +
                       str(self.__step_number) + '.json', 'w') as json_file:
                 json.dump(step_data, json_file, sort_keys=True, indent=4)
