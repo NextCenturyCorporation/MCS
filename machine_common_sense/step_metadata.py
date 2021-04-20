@@ -86,8 +86,7 @@ class StepMetadata:
         The step number of your last action, recorded since you started the
         current scene.
     physics_frames_per_second : float
-        The frames per second that the physics engine has advanced during the
-        current step
+        The frames per second of the physics engine
     structural_object_list : list of ObjectMetadata objects
         The list of metadata for all the visible structural objects (like
         walls, occluders, and ramps) in the scene. This list will be empty

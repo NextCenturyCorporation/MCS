@@ -438,8 +438,7 @@ Defines output metadata from an action step in the MCS 3D environment.
     current scene.
 
 
-    * **physics_frames_per_second** (*float*) – The frames per second that the physics engine has advanced during the
-    current step
+    * **physics_frames_per_second** (*float*) – The frames per second of the physics engine
 
 
     * **structural_object_list** (*list of ObjectMetadata objects*) – The list of metadata for all the visible structural objects (like
