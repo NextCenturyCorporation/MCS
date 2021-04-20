@@ -1308,6 +1308,8 @@ class Controller():
                 self._goal, objects, agent, self.__step_number),
             rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number,
+            physics_frames_per_second=scene_event.metadata.get(
+                'physicsFramesPerSecond'),
             structural_object_list=self.retrieve_structural_object_list(
                 scene_event)
         )

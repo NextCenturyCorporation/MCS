@@ -85,6 +85,8 @@ class StepMetadata:
     step_number : integer
         The step number of your last action, recorded since you started the
         current scene.
+    physics_frames_per_second : float
+        The frames per second of the physics engine
     structural_object_list : list of ObjectMetadata objects
         The list of metadata for all the visible structural objects (like
         walls, occluders, and ramps) in the scene. This list will be empty
@@ -118,6 +120,7 @@ class StepMetadata:
         reward=0,
         rotation=0.0,
         step_number=0,
+        physics_frames_per_second=0,
         structural_object_list=None
     ):
         self.action_list = [] if action_list is None else action_list
@@ -149,6 +152,7 @@ class StepMetadata:
         self.reward = reward
         self.rotation = rotation
         self.step_number = step_number
+        self.physics_frames_per_second = physics_frames_per_second
         self.structural_object_list = [
         ] if structural_object_list is None else structural_object_list
 
@@ -180,5 +184,6 @@ class StepMetadata:
         yield 'reward', self.reward
         yield 'rotation', self.rotation
         yield 'step_number', self.step_number
+        yield 'physics_frames_per_second', self.physics_frames_per_second
         yield 'structural_object_list', self.check_list_none(
             self.structural_object_list)

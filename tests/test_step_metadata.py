@@ -35,6 +35,7 @@ class TestStepMetadata(unittest.TestCase):
         "reward": 0,
         "rotation": 0.0,
         "step_number": 0,
+        "physics_frames_per_second": 0,
         "structural_object_list": []
     }'''
 
