@@ -24,6 +24,8 @@ class ConfigManager(object):
     CONFIG_NOISE_ENABLED = 'noise_enabled'
     CONFIG_S3_BUCKET = 's3_bucket'
     CONFIG_S3_FOLDER = 's3_folder'
+    CONFIG_SAVE_DEBUG_IMAGES = 'save_debug_images'
+    CONFIG_SAVE_DEBUG_JSON = 'save_debug_json'
     CONFIG_SEED = 'seed'
     CONFIG_SIZE = 'size'
     CONFIG_TEAM = 'team'
@@ -150,6 +152,20 @@ class ConfigManager(object):
         return self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_NOISE_ENABLED,
+            fallback=False
+        )
+
+    def is_save_debug_images(self):
+        return self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_SAVE_DEBUG_IMAGES,
+            fallback=False
+        )
+
+    def is_save_debug_json(self):
+        return self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_SAVE_DEBUG_JSON,
             fallback=False
         )
 
