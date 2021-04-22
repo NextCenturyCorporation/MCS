@@ -1,0 +1,2 @@
+﻿LookDown
+PickupObject,objectId=trophy
