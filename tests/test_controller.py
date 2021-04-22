@@ -1822,9 +1822,9 @@ class TestController(unittest.TestCase):
         actual = self.controller.restrict_step_output_metadata(pre_restrict)
 
         self.assertEqual(pre_restrict.goal.metadata, {
-            'target': {'image': None, 'id': '1', 'image_name': None},
-            'target_1': {'image': None, 'id': '2', 'image_name': None},
-            'target_2': {'image': None, 'id': '3', 'image_name': None}
+            'target': {'image': None, 'id': None, 'image_name': None},
+            'target_1': {'image': None, 'id': None, 'image_name': None},
+            'target_2': {'image': None, 'id': None, 'image_name': None}
         })
 
         self.assertEqual(actual.action_list, self.controller.ACTION_LIST)
