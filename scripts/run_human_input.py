@@ -37,16 +37,13 @@ class HumanInputShell(cmd.Cmd):
 
     prompt = '(command)->'
 
-    def __init__(
-            self,
-            input_controller,
-            input_previous_output,
-            input_scene_data):
+    def __init__(self, input_controller, input_scene_data):
         super(HumanInputShell, self).__init__()
 
         self.controller = input_controller
-        self.previous_output = input_previous_output
         self.scene_data = input_scene_data
+        self.previous_output = None
+        self.auto = False
 
     def precmd(self, line):
         return line
@@ -57,46 +54,30 @@ class HumanInputShell(cmd.Cmd):
         return stopFlag
 
     def default(self, line):
-
-        if self.previous_output.action_list is not None and len(
-                self.previous_output.action_list) < len(commandList):
-            print('Only actions available during this step:')
-            for action in self.previous_output.action_list:
-                print('  ' + action)
-        else:
-            print('All actions are available during this step.')
-
-        if self.previous_output.action_list is not None and len(
-                self.previous_output.action_list) == 1:
-            print('Automatically selecting the only available action...')
-            userInput = self.previous_output.action_list
-        else:
-            userInput = line.split(',')
+        split_input = line.split(',')
 
         # Check for shortcut key, if attempted shortcut key, map and check
         # valid key
         try:
-            if len(userInput[0]) == 1:
-                userInput[0] = mcs.Action(userInput[0]).value
+            if len(split_input[0]) == 1:
+                split_input[0] = mcs.Action(split_input[0]).value
         except BaseException:
             print(
                 "You entered an invalid shortcut key, please try again. "
                 "(Type 'help' to display commands again)")
-            print("You entered: " + userInput[0])
+            print("You entered: " + split_input[0])
             return
 
-        if userInput and userInput[0].lower() == 'exit':
-            self.do_exit(line)
-            return
-        if userInput and userInput[0].lower() == 'help':
-            self.do_help(line)
-            return
-        if userInput and userInput[0].lower() == 'reset':
-            self.do_reset(line)
-            return
-
-        action, params = mcs.Util.input_to_action_and_params(
-            ','.join(userInput))
+        if (
+            self.auto and self.previous_output.action_list and
+            len(self.previous_output.action_list) == 1
+        ):
+            print('Automatically selecting the only available action...')
+            action, params = self.previous_output.action_list[0]
+        else:
+            action, params = mcs.Util.input_to_action_and_params(
+                ','.join(split_input)
+            )
 
         if action is None:
             print(
@@ -111,7 +92,23 @@ class HumanInputShell(cmd.Cmd):
             return
 
         output = self.controller.step(action, **params)
-        self.previous_output = output
+
+        # The output may be None if given an invalid action.
+        if output:
+            self.previous_output = output
+            self.show_available_actions(self.previous_output)
+            # If auto mode is True, loop as long as possible.
+            if (
+                self.auto and self.previous_output.action_list and
+                len(self.previous_output.action_list) == 1
+            ):
+                self.default('')
+
+    def help_auto(self):
+        print(
+            "Automatically runs the next action if only one action is "
+            "available at that step."
+        )
 
     def help_print(self):
         print("Prints all commands that the user can use.")
@@ -126,18 +123,29 @@ class HumanInputShell(cmd.Cmd):
         print("Toggles on mode where the user can execute single key "
               "commands without hitting enter.")
 
-    def do_exit(self, args) -> bool:
+    def do_auto(self, args=None):
+        self.auto = (not self.auto)
+        print(f"Toggle auto mode {('ON' if self.auto else 'OFF')}")
+        if (
+            self.auto and self.previous_output.action_list and
+            len(self.previous_output.action_list) == 1
+        ):
+            self.default('')
+
+    def do_exit(self, args=None) -> bool:
         print("Exiting Human Input Mode\n")
         self.controller.end_scene("", 1)
         return True
 
-    def do_print(self, args):
+    def do_print(self, args=None):
         print_commands()
 
-    def do_reset(self, args):
+    def do_reset(self, args=None):
+        print("Resetting the current scene...")
         self.previous_output = (self.controller).start_scene(self.scene_data)
+        self.show_available_actions(self.previous_output)
 
-    def do_shortcut_key_mode(self, args):
+    def do_shortcut_key_mode(self, args=None):
         print("Entering shortcut mode...")
         print("Press key 'e' to exit\n")
         list_of_action_keys = [
@@ -150,6 +158,20 @@ class HumanInputShell(cmd.Cmd):
                 break
             elif char in list_of_action_keys:
                 self.default(char)
+
+    def show_available_actions(self, output):
+        if (
+            output.action_list and
+            len(output.action_list) < len(self.controller.ACTION_LIST)
+        ):
+            print('Only actions available during this step:')
+            for action, params in output.action_list:
+                action_string = action + ''.join([
+                    (',' + key + '=' + value) for key, value in params.items()
+                ])
+                print(f'    {action_string}')
+        else:
+            print('All actions available during this step.')
 
 
 def build_commands():
@@ -184,6 +206,7 @@ def print_commands():
     print(" ")
     print("----------------- Other Commands -----------------")
     print(" ")
+    print("Enter 'auto' to start auto mode.")
     print("Enter 'print' to print the commands again.")
     print("Enter 'reset' to reset the scene.")
     print("Enter 'exit' to exit the program.")
@@ -202,9 +225,8 @@ def run_scene(controller, scene_data):
     build_commands()
     print_commands()
 
-    output = controller.start_scene(scene_data)
-
-    input_commands = HumanInputShell(controller, output, scene_data)
+    input_commands = HumanInputShell(controller, scene_data)
+    input_commands.do_reset()
     input_commands.cmdloop()
 
 

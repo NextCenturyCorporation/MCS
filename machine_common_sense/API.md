@@ -132,6 +132,11 @@ Make a prediction on the previously taken step/action.
 
 
 
+#### retrieve_action_list_at_step(goal, step_number)
+Return the action list from the given goal at the given step as a
+a list of actions tuples by default.
+
+
 #### retrieve_object_states(object_id)
 Return the state list at the current step for the object with the
 given ID from the scene configuration data, if any.
@@ -203,13 +208,21 @@ Defines metadata for a goal in the MCS 3D environment.
 * **Variables**
 
     
-    * **action_list** (*list of lists of strings**, or **None*) – The list of actions that are available for the scene at each step
-    (outer list index).  Each inner list item is a list of action strings.
-    For example, [‘MoveAhead’,’RotateLook,rotation=180’] restricts the
-    actions to either ‘MoveAhead’ or ‘RotateLook’ with the ‘rotation’
-    parameter set to 180. An action_list of None means that all
-    actions are always available. An empty inner list means that all
-    actions are available for that specific step.
+    * **action_list** (*list of lists of** (**string**, **dict**) **tuples**, or **None*) – The list of all actions that are available for the scene at each step
+    (outer list). Each inner list is the list of all actions that are
+    available for the single step corresponding to the inner list’s index
+    within the outer list. Each action is returned as a tuple containing
+    the action string and the action’s restricted paramters, if any.
+    For example: (“Pass”, {}) forces a Pass action; (“PickupObject”, {})
+    forces a PickupObject action with any parameters; and
+    (“PickupObject”, {“objectId”: “a”}) forces a PickupObject action with
+    the specific parameters objectId=a.
+    An action_list of None means that all actions are always available.
+    An empty inner list means that all actions will be available on that
+    specific step.
+    See StepMetadata.action_list for the available actions of the current
+    step.
+    May be a subset of all possible actions. See [Actions](#Actions).
 
 
     * **category** (*string*) – The category that describes this goal and the properties in its
@@ -346,6 +359,13 @@ Defines output metadata from an action step in the MCS 3D environment.
     * **action_list** (*list of** (**string**, **dict**) **tuples*) – The list of all actions that are available for the next step.
     Each action is returned as a tuple containing the action string and
     the action’s restricted parameters, if any.
+    For example: (“Pass”, {}) forces a Pass action; (“PickupObject”, {})
+    forces a PickupObject action with any parameters; and
+    (“PickupObject”, {“objectId”: “a”}) forces a PickupObject action with
+    the specific parameters objectId=a.
+    An action_list of None or an empty list means that all actions will
+    be available for the next step.
+    Derived from GoalMetadata.action_list.
     May be a subset of all possible actions. See [Actions](#Actions).
 
 

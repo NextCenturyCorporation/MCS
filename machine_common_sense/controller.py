@@ -747,7 +747,10 @@ class Controller():
         if ',' in action:
             action, kwargs = Util.input_to_action_and_params(action)
 
-        action_list = self.retrieve_action_list(self._goal, self.__step_number)
+        action_list = self.retrieve_action_list_at_step(
+            self._goal,
+            self.__step_number
+        )
         # Only continue with this action step if the given action and
         # parameters are in the restricted action list.
         continue_with_step = False
@@ -766,17 +769,10 @@ class Controller():
                 f"The given action '{action}' with parameters "
                 f"'{kwargs}' isn't in the action_list. Ignoring your action. "
                 f"Please call controller.step() with an action in the "
-                f"action_list."
+                f"action_list. Possible actions at step {self.__step_number}:"
             )
-            action_string_list = self.retrieve_action_list(
-                self._goal,
-                self.__step_number,
-                string_list=True
-            )
-            logger.debug(
-                f"Actions (Step {self.__step_number}): "
-                f"{'; '.join(action_string_list)}"
-            )
+            for action_data in action_list:
+                logger.warning(f'    {action_data}')
             return None
 
         self.__step_number += 1
@@ -959,7 +955,9 @@ class Controller():
 
         return step_output
 
-    def retrieve_action_list(self, goal, step_number, string_list=False):
+    def retrieve_action_list_at_step(self, goal, step_number):
+        """Return the action list from the given goal at the given step as a
+        a list of actions tuples by default."""
         if goal is not None and goal.action_list is not None:
             if step_number < goal.last_preview_phase_step:
                 return ['Pass']
@@ -968,14 +966,9 @@ class Controller():
             adjusted_step = step_number - goal.last_preview_phase_step
             if len(goal.action_list) > adjusted_step:
                 if len(goal.action_list[adjusted_step]) > 0:
-                    return [
-                        Util.input_to_action_and_params(action)
-                        for action in goal.action_list[adjusted_step]
-                    ] if not string_list else goal.action_list[adjusted_step]
+                    return goal.action_list[adjusted_step]
 
-        return self.ACTION_LIST if not string_list else [
-            action[0] for action in self.ACTION_LIST
-        ]
+        return self.ACTION_LIST
 
     def retrieve_goal(self, scene_configuration):
         goal_config = (
@@ -984,12 +977,21 @@ class Controller():
             else {}
         )
 
+        # Transform action list data from strings to tuples.
+        action_list = goal_config.get('action_list', [])
+        for index, action_list_at_step in enumerate(action_list):
+            action_list[index] = [
+                Util.input_to_action_and_params(action)
+                if isinstance(action, str) else action
+                for action in action_list_at_step
+            ]
+
         if 'category' in goal_config:
             # Backwards compatibility
             goal_config['metadata']['category'] = goal_config['category']
 
         return self.update_goal_target_image(GoalMetadata(
-            action_list=goal_config.get('action_list', None),
+            action_list=(action_list if action_list else None),
             category=goal_config.get('category', ''),
             description=goal_config.get('description', ''),
             habituation_total=goal_config.get('habituation_total', 0),
@@ -1281,8 +1283,10 @@ class Controller():
         objects = scene_event.metadata.get('objects', None)
         agent = scene_event.metadata.get('agent', None)
         step_output = StepMetadata(
-            action_list=self.retrieve_action_list(
-                self._goal, self.__step_number),
+            action_list=self.retrieve_action_list_at_step(
+                self._goal,
+                self.__step_number
+            ),
             camera_aspect_ratio=(self.__screen_width, self.__screen_height),
             camera_clipping_planes=(
                 scene_event.metadata.get('clippingPlaneNear', 0.0),
