@@ -38,3 +38,5 @@ scripts/**/*.json
 scripts/**/*.mp4
 scripts/**/*.png
 scripts/**/*.zip
+
+logs/*.log
