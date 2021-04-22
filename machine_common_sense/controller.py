@@ -532,7 +532,8 @@ class Controller():
         pre_restrict_output = self.wrap_output(self._controller.step(
             self.wrap_step(action='Initialize', sceneConfig=config_data)))
 
-        output = self.restrict_step_output_metadata(pre_restrict_output)
+        output = self.restrict_step_output_metadata(
+            copy.deepcopy(pre_restrict_output))
 
         self.write_debug_output(output)
 
@@ -825,7 +826,8 @@ class Controller():
             output=history_copy,
             delta_time_millis=0)
 
-        output = self.restrict_step_output_metadata(pre_restrict_output)
+        output = self.restrict_step_output_metadata(
+            copy.deepcopy(pre_restrict_output))
 
         self.write_debug_output(output)
 
@@ -951,8 +953,8 @@ class Controller():
                     if 'image' in step_output.goal.metadata[target_name]:
                         step_output.goal.metadata[target_name]['image'] = None
                     # Disabling goal id restriction for now
-                    # if 'id' in step_output.goal.metadata[target_name]:
-                    #     step_output.goal.metadata[target_name]['id'] = None
+                    if 'id' in step_output.goal.metadata[target_name]:
+                        step_output.goal.metadata[target_name]['id'] = None
                     if 'image_name' in step_output.goal.metadata[target_name]:
                         step_output.goal.metadata[
                             target_name]['image_name'] = None
