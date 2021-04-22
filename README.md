@@ -229,7 +229,7 @@ output = controller.start_scene(scene_data)
 
 action, params = select_action(output)
 while action != '':
-    logger.debug(f"Taking {action} with {params{")
+    logger.debug(f"Taking {action} with {params}")
     controller.step(action, params)
     action, params = select_action(output)
 
