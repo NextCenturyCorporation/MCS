@@ -237,6 +237,8 @@ Sample of how to log in all files:
 ```python
 import logging
 
+# logging by name is useful to turn certain logs on/off and
+# also to help determine where an error log might have originated from
 logger = logging.getLogger(__name__)
 
 def any_function(self):
