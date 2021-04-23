@@ -5,6 +5,18 @@
 # The goal here is to create a logging file that will work for most while
 # providing additional options to make changing the configuration relatively
 # easy.
+#
+# Basic structure of logging.
+#   Code should get and use a logger determined by the class name:
+#     logger = logging.getLogger(__name__)
+#   Loggers are configured here to pass log data zero or more handlers
+#     Loggers have a level which filters out any logs below that level
+#   Handlers determine where to send the data (console, files, sockets)
+#     Handlers have a level which filters out any logs below that level
+#     Handlers can reference a formatter
+#   Formatters determine the format of the log message
+#   Note: For a message to be logged, its level must be equal to or above
+#     both the logger's level and the handler's level
 {
     "version": 1,
     # Essentially the default.  Anything that isn't defined elsewhere, will
