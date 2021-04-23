@@ -46,10 +46,10 @@ class ISerializer:
 
 class SerializerMsgPack(ISerializer):
     """Serializer to (de)serialize StepMetadata into/from MsgPack format."""
+
     @staticmethod
     def _ext_pack(x):
-        """
-        Hook to serialize MCS Step Metadata as MsgPack, e.g.
+        """Hook to serialize MCS Step Metadata as MsgPack, e.g.
         serialized = msgpack.packb(output, default=ext_pack, strict_types=True)
         """
         if isinstance(x, StepMetadata):
@@ -178,14 +178,17 @@ class SerializerMsgPack(ISerializer):
         Serializes step metadata into MsgPack.
 
         You can use
-        `object_to_persist = {
-            'payload': step_metadata,
-            'additional_info': 'info'
-            }`
+        .. code-block:: python
+
+            object_to_persist = {
+                'payload': step_metadata,
+                'additional_info': 'info'
+                }
+
         to add extra data.
 
         Args:
-            step_metadata: MCS step metadata output.
+            step_metadata: MCS step metadata output
 
         Returns:
             Serialized version of step metadata in MsgPack format.
