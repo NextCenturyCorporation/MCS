@@ -62,6 +62,7 @@ class Reward(object):
             goal: GoalMetadata
             objects: Dict
             agent: Dict
+            performer_reach: float
 
         Returns:
             int: 1 for goal achieved, 0 otherwise
@@ -91,6 +92,7 @@ class Reward(object):
             goal: GoalMetadata
             objects: Dict
             agent: Dict
+            performer_reach: float
 
         Returns:
             int: 1 for goal achieved, 0 otherwise
@@ -127,6 +129,7 @@ class Reward(object):
             goal: GoalMetadata
             objects: Dict
             agent: Dict
+            performer_reach: float
 
         Returns:
             int: 1 for goal achieved, 0 otherwise
