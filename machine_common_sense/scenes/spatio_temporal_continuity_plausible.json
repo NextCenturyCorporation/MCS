@@ -35,7 +35,7 @@
             "y": 0,
             "z": 0
           },
-          "stepBegin": 35,
+          "stepBegin": 100,
           "scale": {
             "x": 0.5,
             "y": 0.25,
@@ -46,8 +46,8 @@
       "materials": ["UnityAssetStore/Baby_Room/Models/Materials/cabinet metal"],
       "forces": [
         {
-          "stepBegin": 35,
-          "stepEnd": 35,
+          "stepBegin": 100,
+          "stepEnd": 100,
           "vector": {
             "x": -350.0,
             "y": 0,
@@ -75,7 +75,7 @@
             "y": 270,
             "z": 0
           },
-          "stepBegin": 20,
+          "stepBegin": 80,
           "scale": {
             "x": 3.5,
             "y": 3.5,
@@ -86,8 +86,8 @@
       "materials": ["UnityAssetStore/Baby_Room/Models/Materials/wood 1"],
       "forces": [
         {
-          "stepBegin": 20,
-          "stepEnd": 20,
+          "stepBegin": 80,
+          "stepEnd": 80,
           "vector": {
             "x": -330.0,
             "y": 0,
@@ -108,12 +108,12 @@
           "stepBegin": 0,
           "position": {
             "x": 0.069,
-            "y": 0.75,
+            "y": 0.9,
             "z": 1
           },
           "scale": {
             "x": 0.942,
-            "y": 1.5,
+            "y": 1.8,
             "z": 0.1
           }
         }
@@ -129,8 +129,8 @@
           }
         },
         {
-          "stepBegin": 7,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -138,8 +138,8 @@
           }
         },
         {
-          "stepBegin": 85,
-          "stepEnd": 90,
+          "stepBegin": 186,
+          "stepEnd": 191,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -149,29 +149,29 @@
       ],
       "rotates": [
         {
-          "stepBegin": 1,
-          "stepEnd": 2,
+          "stepBegin": 7,
+          "stepEnd": 11,
           "vector": {
             "x": 0,
-            "y": -45,
+            "y": -18,
             "z": 0
           }
         },
         {
-          "stepBegin": 11,
-          "stepEnd": 12,
+          "stepBegin": 16,
+          "stepEnd": 20,
           "vector": {
             "x": 0,
-            "y": 45,
+            "y": 18,
             "z": 0
           }
         },
         {
-          "stepBegin": 85,
-          "stepEnd": 86,
+          "stepBegin": 192,
+          "stepEnd": 196,
           "vector": {
             "x": 0,
-            "y": -45,
+            "y": -18,
             "z": 0
           }
         }
@@ -210,8 +210,8 @@
           }
         },
         {
-          "stepBegin": 7,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -219,8 +219,8 @@
           }
         },
         {
-          "stepBegin": 85,
-          "stepEnd": 90,
+          "stepBegin": 186,
+          "stepEnd": 191,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -241,12 +241,12 @@
           "stepBegin": 0,
           "position": {
             "x": -1.536,
-            "y": 0.75,
+            "y": 0.9,
             "z": 1
           },
           "scale": {
             "x": 0.992,
-            "y": 1.5,
+            "y": 1.8,
             "z": 0.1
           }
         }
@@ -262,8 +262,8 @@
           }
         },
         {
-          "stepBegin": 7,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -271,8 +271,8 @@
           }
         },
         {
-          "stepBegin": 85,
-          "stepEnd": 90,
+          "stepBegin": 186,
+          "stepEnd": 191,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -282,29 +282,29 @@
       ],
       "rotates": [
         {
-          "stepBegin": 1,
-          "stepEnd": 2,
+          "stepBegin": 7,
+          "stepEnd": 11,
           "vector": {
             "x": 0,
-            "y": 45,
+            "y": 18,
             "z": 0
           }
         },
         {
-          "stepBegin": 11,
-          "stepEnd": 12,
+          "stepBegin": 16,
+          "stepEnd": 20,
           "vector": {
             "x": 0,
-            "y": -45,
+            "y": -18,
             "z": 0
           }
         },
         {
-          "stepBegin": 85,
-          "stepEnd": 86,
+          "stepBegin": 192,
+          "stepEnd": 196,
           "vector": {
             "x": 0,
-            "y": 45,
+            "y": 18,
             "z": 0
           }
         }
@@ -343,8 +343,8 @@
           }
         },
         {
-          "stepBegin": 7,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -352,8 +352,8 @@
           }
         },
         {
-          "stepBegin": 85,
-          "stepEnd": 90,
+          "stepBegin": 186,
+          "stepEnd": 191,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -374,12 +374,12 @@
           "stepBegin": 0,
           "position": {
             "x": 2.4,
-            "y": 0.75,
+            "y": 0.9,
             "z": 1
           },
           "scale": {
             "x": 0.9,
-            "y": 1.5,
+            "y": 1.8,
             "z": 0.1
           }
         }
@@ -395,8 +395,8 @@
           }
         },
         {
-          "stepBegin": 7,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -404,8 +404,8 @@
           }
         },
         {
-          "stepBegin": 85,
-          "stepEnd": 90,
+          "stepBegin": 186,
+          "stepEnd": 191,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -415,29 +415,29 @@
       ],
       "rotates": [
         {
-          "stepBegin": 1,
-          "stepEnd": 2,
+          "stepBegin": 7,
+          "stepEnd": 11,
           "vector": {
             "x": 0,
-            "y": -45,
+            "y": -18,
             "z": 0
           }
         },
         {
-          "stepBegin": 11,
-          "stepEnd": 12,
+          "stepBegin": 16,
+          "stepEnd": 20,
           "vector": {
             "x": 0,
-            "y": 45,
+            "y": 18,
             "z": 0
           }
         },
         {
-          "stepBegin": 85,
-          "stepEnd": 86,
+          "stepBegin": 191,
+          "stepEnd": 196,
           "vector": {
             "x": 0,
-            "y": -45,
+            "y": -18,
             "z": 0
           }
         }
@@ -476,8 +476,8 @@
           }
         },
         {
-          "stepBegin": 7,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -485,8 +485,8 @@
           }
         },
         {
-          "stepBegin": 85,
-          "stepEnd": 90,
+          "stepBegin": 186,
+          "stepEnd": 191,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -498,7 +498,7 @@
   ],
   "goal": {
     "category": "intuitive physics",
-    "last_step": 90,
+    "last_step": 200,
     "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
     "description": "",
     "metadata": {

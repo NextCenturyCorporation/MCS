@@ -35,7 +35,7 @@
             "y": 15,
             "z": 0
           },
-          "stepBegin": 15,
+          "stepBegin": 80,
           "scale": {
             "x": 0.5,
             "y": 0.25,
@@ -47,8 +47,8 @@
       "forces": [
         {
           "relative": true,
-          "stepBegin": 15,
-          "stepEnd": 15,
+          "stepBegin": 80,
+          "stepEnd": 80,
           "vector": {
             "x": 400.0,
             "y": 0,
@@ -90,8 +90,8 @@
           }
         },
         {
-          "stepBegin": 7,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -99,8 +99,8 @@
           }
         },
         {
-          "stepBegin": 85,
-          "stepEnd": 90,
+          "stepBegin": 186,
+          "stepEnd": 191,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -110,29 +110,29 @@
       ],
       "rotates": [
         {
-          "stepBegin": 1,
-          "stepEnd": 2,
+          "stepBegin": 7,
+          "stepEnd": 11,
           "vector": {
             "x": 0,
-            "y": -45,
+            "y": -18,
             "z": 0
           }
         },
         {
-          "stepBegin": 11,
-          "stepEnd": 12,
+          "stepBegin": 16,
+          "stepEnd": 20,
           "vector": {
             "x": 0,
-            "y": 45,
+            "y": 18,
             "z": 0
           }
         },
         {
-          "stepBegin": 89,
-          "stepEnd": 90,
+          "stepBegin": 192,
+          "stepEnd": 196,
           "vector": {
             "x": 0,
-            "y": -45,
+            "y": -18,
             "z": 0
           }
         }
@@ -171,8 +171,8 @@
           }
         },
         {
-          "stepBegin": 7,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -180,8 +180,8 @@
           }
         },
         {
-          "stepBegin": 85,
-          "stepEnd": 90,
+          "stepBegin": 186,
+          "stepEnd": 191,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -223,8 +223,8 @@
           }
         },
         {
-          "stepBegin": 7,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -232,8 +232,8 @@
           }
         },
         {
-          "stepBegin": 85,
-          "stepEnd": 90,
+          "stepBegin": 186,
+          "stepEnd": 191,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -243,29 +243,29 @@
       ],
       "rotates": [
         {
-          "stepBegin": 1,
-          "stepEnd": 2,
+          "stepBegin": 7,
+          "stepEnd": 11,
           "vector": {
             "x": 0,
-            "y": 45,
+            "y": 18,
             "z": 0
           }
         },
         {
-          "stepBegin": 11,
-          "stepEnd": 12,
+          "stepBegin": 16,
+          "stepEnd": 20,
           "vector": {
             "x": 0,
-            "y": -45,
+            "y": -18,
             "z": 0
           }
         },
         {
-          "stepBegin": 89,
-          "stepEnd": 90,
+          "stepBegin": 192,
+          "stepEnd": 196,
           "vector": {
             "x": 0,
-            "y": 45,
+            "y": 18,
             "z": 0
           }
         }
@@ -304,8 +304,8 @@
           }
         },
         {
-          "stepBegin": 7,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -313,8 +313,8 @@
           }
         },
         {
-          "stepBegin": 85,
-          "stepEnd": 90,
+          "stepBegin": 186,
+          "stepEnd": 191,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -326,7 +326,7 @@
   ],
   "goal": {
     "category": "intuitive physics",
-    "last_step": 90,
+    "last_step": 200,
     "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
     "description": "",
     "metadata": {
