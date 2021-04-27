@@ -35,7 +35,7 @@
             "y": 0,
             "z": 0
           },
-          "stepBegin": 25,
+          "stepBegin": 90,
           "scale": {
             "x": 0.5,
             "y": 0.25,
@@ -46,8 +46,8 @@
       "materials": ["UnityAssetStore/Baby_Room/Models/Materials/cabinet metal"],
       "forces": [
         {
-          "stepBegin": 25,
-          "stepEnd": 25,
+          "stepBegin": 90,
+          "stepEnd": 90,
           "vector": {
             "x": -300.0,
             "y": 150,
@@ -89,8 +89,8 @@
           }
         },
         {
-          "stepBegin": 7,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -98,8 +98,8 @@
           }
         },
         {
-          "stepBegin": 85,
-          "stepEnd": 90,
+          "stepBegin": 186,
+          "stepEnd": 191,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -109,29 +109,29 @@
       ],
       "rotates": [
         {
-          "stepBegin": 1,
-          "stepEnd": 2,
+          "stepBegin": 7,
+          "stepEnd": 11,
           "vector": {
             "x": 0,
-            "y": -45,
+            "y": -18,
             "z": 0
           }
         },
         {
-          "stepBegin": 11,
-          "stepEnd": 12,
+          "stepBegin": 16,
+          "stepEnd": 20,
           "vector": {
             "x": 0,
-            "y": 45,
+            "y": 18,
             "z": 0
           }
         },
         {
-          "stepBegin": 89,
-          "stepEnd": 90,
+          "stepBegin": 192,
+          "stepEnd": 196,
           "vector": {
             "x": 0,
-            "y": -45,
+            "y": -18,
             "z": 0
           }
         }
@@ -170,8 +170,8 @@
           }
         },
         {
-          "stepBegin": 7,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -179,8 +179,8 @@
           }
         },
         {
-          "stepBegin": 85,
-          "stepEnd": 90,
+          "stepBegin": 186,
+          "stepEnd": 191,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -222,8 +222,8 @@
           }
         },
         {
-          "stepBegin": 7,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -231,8 +231,8 @@
           }
         },
         {
-          "stepBegin": 85,
-          "stepEnd": 90,
+          "stepBegin": 186,
+          "stepEnd": 191,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -242,29 +242,29 @@
       ],
       "rotates": [
         {
-          "stepBegin": 1,
-          "stepEnd": 2,
+          "stepBegin": 7,
+          "stepEnd": 11,
           "vector": {
             "x": 0,
-            "y": 45,
+            "y": 18,
             "z": 0
           }
         },
         {
-          "stepBegin": 11,
-          "stepEnd": 12,
+          "stepBegin": 16,
+          "stepEnd": 20,
           "vector": {
             "x": 0,
-            "y": -45,
+            "y": -18,
             "z": 0
           }
         },
         {
-          "stepBegin": 89,
-          "stepEnd": 90,
+          "stepBegin": 192,
+          "stepEnd": 196,
           "vector": {
             "x": 0,
-            "y": 45,
+            "y": 18,
             "z": 0
           }
         }
@@ -303,8 +303,8 @@
           }
         },
         {
-          "stepBegin": 7,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -312,8 +312,8 @@
           }
         },
         {
-          "stepBegin": 85,
-          "stepEnd": 90,
+          "stepBegin": 186,
+          "stepEnd": 191,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -325,7 +325,7 @@
   ],
   "goal": {
     "category": "intuitive physics",
-    "last_step": 90,
+    "last_step": 200,
     "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
     "description": "",
     "metadata": {
