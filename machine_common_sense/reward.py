@@ -3,7 +3,7 @@ from typing import List, Dict
 from shapely import geometry
 
 from .goal_metadata import GoalMetadata, GoalCategory
-from .controller import MAX_REACH_DISTANCE, MOVE_DISTANCE
+from .controller import MAX_REACH_DISTANCE, DEFAULT_MOVE
 
 GOAL_ACHIEVED = 1
 GOAL_NOT_ACHIEVED = 0
@@ -161,7 +161,7 @@ class Reward(object):
         # actions are next_to or on_top_of (ie; action obj next to goal obj)
         if action == 'next to':
             polygonal_distance = action_polygon.distance(goal_polygon)
-            reward = int(polygonal_distance <= MOVE_DISTANCE)
+            reward = int(polygonal_distance <= DEFAULT_MOVE)
         elif action == 'on top of':
             # check that the action object center intersects the goal object
             # bounds and the y dimension of the target is above the goal
