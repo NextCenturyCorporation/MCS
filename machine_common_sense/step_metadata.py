@@ -14,6 +14,13 @@ class StepMetadata:
         The list of all actions that are available for the next step.
         Each action is returned as a tuple containing the action string and
         the action's restricted parameters, if any.
+        For example: ("Pass", {}) forces a Pass action; ("PickupObject", {})
+        forces a PickupObject action with any parameters; and
+        ("PickupObject", {"objectId": "a"}) forces a PickupObject action with
+        the specific parameters objectId=a.
+        An action_list of None or an empty list means that all actions will
+        be available for the next step.
+        Derived from GoalMetadata.action_list.
         May be a subset of all possible actions. See [Actions](#Actions).
     camera_aspect_ratio : (float, float)
         The player camera's aspect ratio. This will remain constant for the
