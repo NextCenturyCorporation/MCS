@@ -4,6 +4,7 @@
 - [Download](#download)
 - [Training Datasets](#training-datasets)
 - [Usage](#usage)
+- [Logging](#logging)
 - [Run with Human Input](#run-with-human-input)
 - [Run with Scene Timer](#run-with-scene-timer)
 - [Config File](#config-file)
@@ -212,28 +213,41 @@ for scene_json_file_path in scene_json_file_list:
     controller.end_scene()
 ```
 
-Example with terminal logging:
+### Logging
+#### Initialize development logging config settings
+In startup script make sure you include:
 ```python
-import logging
 import machine_common_sense as mcs
 
-logger = logging.getLogger('machine_common_sense')
-logger.setLevel(logging.DEBUG)
-stream_handler = logging.StreamHandler()
-stream_handler.setLevel(logging.DEBUG)
-logger.addHandler(stream_handler)
+#This code initializes logging using config files
+mcs.init_logging()
+```
+#### Logging configuration files
+This logging configuration system uses a file at [scripts/log.config.py](./scripts/log.config.py) as a default configuration file.  See that file for links to documentation and some descriptions.
 
-controller = mcs.create_controller(unity_app_file_path, config_file_path='./some-path/config.ini')
-scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
-output = controller.start_scene(scene_data)
+Users can copy that file to scripts/log.config.user.py to create their own configuration.  This file is gitignored so it will not be shared.
 
-action, params = select_action(output)
-while action != '':
-    logger.debug(f"Taking {action} with {params}")
-    controller.step(action, params)
-    action, params = select_action(output)
+#### Why use logging and configuration files
 
-controller.end_scene()
+We use logging configuration files so users have a reasonable default configuration but also have the ability to override when circumstances demand.  This eliminates the need to alter code when changing what logging is necessary.  In the future, additional features to the initialization function to support difficult overrides if necessary (i.e. different logging override files for dev, test, eval, etc).
+
+#### Example with logging config file:
+
+Sample of how to log in all files:
+```python
+import logging
+
+# logging by name is useful to turn certain logs on/off and
+# also to help determine where an error log might have originated from
+logger = logging.getLogger(__name__)
+
+def any_function(self):
+    #basic log functions in order of level.  If logger or handler is set to a level, that level and above will be logged.
+    logger.critical("This message is see as long as the logger is enabled")
+    logger.error("This message reports an error")
+    logger.info("This message is general info")
+    logger.debug("This message is mainly for debugging and shouldn't cause usage problems if missing")
+    # Unlike many common loggers in other languages, python logging doesn't seem to have TRACE
 ```
 
 ## Run with Human Input
