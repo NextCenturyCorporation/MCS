@@ -20,6 +20,7 @@ class ConfigManager(object):
     CONFIG_EVALUATION = 'evaluation'
     CONFIG_EVALUATION_NAME = 'evaluation_name'
     CONFIG_HISTORY_ENABLED = 'history_enabled'
+    CONFIG_HISTORY_WRITE_STEP_INTERVAL = 'history_write_step_interval'
     CONFIG_METADATA_TIER = 'metadata'
     CONFIG_NOISE_ENABLED = 'noise_enabled'
     CONFIG_S3_BUCKET = 's3_bucket'
@@ -147,6 +148,12 @@ class ConfigManager(object):
             self.CONFIG_HISTORY_ENABLED,
             fallback=True
         )
+
+    def history_write_step_interval(self):
+        return self._config.getint(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_HISTORY_WRITE_STEP_INTERVAL,
+            fallback=1)
 
     def is_noise_enabled(self):
         return self._config.getboolean(

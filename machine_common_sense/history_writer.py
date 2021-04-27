@@ -48,7 +48,7 @@ class HistoryWriter(object):
     def write_file(self):
         if self.scene_history_file:
             logger.info(f"Saving history file {self.scene_history_file}")
-            with open(self.scene_history_file, "a+") as history_file:
+            with open(self.scene_history_file, "w+") as history_file:
                 history_file.write(json.dumps(self.history_obj))
 
     def filter_history_output(

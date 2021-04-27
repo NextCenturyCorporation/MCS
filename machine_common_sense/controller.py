@@ -250,6 +250,8 @@ class Controller():
         self.__noise_enabled = self._config.is_noise_enabled()
         self.__seed = self._config.get_seed()
         self.__history_enabled = self._config.is_history_enabled()
+        self.__history_write_interval = \
+            self._config.history_write_step_interval()
 
         if self.__seed:
             random.seed(self.__seed)
@@ -736,6 +738,10 @@ class Controller():
             self.__history_writer.init_timer()
         if self.__history_enabled and self.__step_number > 0:
             self.__history_writer.add_step(self.__history_item)
+        if self.__history_enabled and \
+                self.__history_write_interval > 0 and \
+                self.__step_number % self.__history_write_interval == 0:
+            self.__history_writer.write_history_file("", "")
 
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
