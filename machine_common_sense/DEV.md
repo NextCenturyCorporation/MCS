@@ -133,6 +133,12 @@ Identifier to add to filenames uploaded to S3 (default: '').
 
 Whether to save the scene history output data in your local directory. Default: True
 
+#### history_write_step_interval
+
+(integer, optional)
+
+The history file can be written incrementally in case of a crash.  If this value is greater than 0, the history file will be rewritten every N steps where N is the value of the parameter, always writing before step 1 as well.  If zero or negative, incremental writes will be turned off and the history file will only be written on successful completion.  Default: 1
+
 #### metadata
 
 (string)
