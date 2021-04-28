@@ -15,6 +15,8 @@ import atexit
 import ai2thor.controller
 import ai2thor.server
 
+print(ai2thor.controller.__file__)
+
 
 logger = logging.getLogger(__name__)
 
@@ -195,7 +197,7 @@ class Controller():
             quality='Medium',
             fullscreen=False,
             # The headless flag does not work for me
-            headless=False,
+            headless=True,
             local_executable_path=unity_app_file_path,
             width=self.__screen_width,
             height=self.__screen_height,
@@ -1186,7 +1188,9 @@ class Controller():
         object_mask_list = []
 
         for index, event in enumerate(scene_event.events):
-            scene_image = PIL.Image.fromarray(event.frame)
+            scene_image = None
+            if event.frame is not None:
+                scene_image = PIL.Image.fromarray(event.frame)
             image_list.append(scene_image)
 
             if self._config.is_evaluation() or self._config.is_video_enabled():
@@ -1201,7 +1205,7 @@ class Controller():
                     self.__plotter.plot(scene_event, self.__step_number,
                                         goal_id))
 
-            if self.__depth_maps:
+            if self.__depth_maps and event.depth_frame is not None:
                 # The Unity depth array (returned by Depth.shader) contains
                 # a third of the total max depth in each RGB element.
                 unity_depth_array = event.depth_frame.astype(np.float32)
@@ -1223,7 +1227,7 @@ class Controller():
                     self.__depth_recorder.add(depth_map)
                 depth_map_list.append(np.array(depth_float_array))
 
-            if self.__object_masks:
+            if self.__object_masks and event.instance_segmentation_frame is not None:
                 object_mask = PIL.Image.fromarray(
                     event.instance_segmentation_frame)
                 object_mask_list.append(object_mask)
