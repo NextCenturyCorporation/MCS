@@ -24,8 +24,6 @@ logger = logging.getLogger(__name__)
 # into a position to reach some objects (it may be mathematically impossible).
 # TODO Reduce this number once the player can crouch down to reach and
 # pickup small objects on the floor.
-# TODO move this to Unity since we now have performerReach in metadata?
-MAX_REACH_DISTANCE = 1.0
 
 # How far the player can move with a single step.
 MOVE_DISTANCE = 0.1
@@ -1314,7 +1312,8 @@ class Controller():
             performer_reach=scene_event.metadata.get('performerReach'),
             return_status=self.retrieve_return_status(scene_event),
             reward=Reward.calculate_reward(
-                self._goal, objects, agent, self.__step_number),
+                self._goal, objects, agent, self.__step_number,
+                scene_event.metadata.get('performerReach')),
             rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number,
             physics_frames_per_second=scene_event.metadata.get(
@@ -1363,9 +1362,6 @@ class Controller():
             renderDepthImage=self.__depth_maps,
             renderObjectImage=self.__object_masks,
             snapToGrid=False,
-            # Yes, in AI2-THOR, the player's reach appears to be
-            # governed by the "visibilityDistance", confusingly...
-            visibilityDistance=MAX_REACH_DISTANCE,
             consistentColors=consistentColors,
             **kwargs
         )

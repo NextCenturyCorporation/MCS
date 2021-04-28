@@ -381,8 +381,7 @@ class TestController(unittest.TestCase):
             rotation={'y': 0.0},
             snapToGrid=False,
             teleportPosition=None,
-            teleportRotation=None,
-            visibilityDistance=mcs.controller.MAX_REACH_DISTANCE
+            teleportRotation=None
         )
 
         for key, value in kwargs.items():
@@ -1880,7 +1879,6 @@ class TestController(unittest.TestCase):
             "renderObjectImage": False,
             "snapToGrid": False,
             "stringProperty": "test_property",
-            "visibilityDistance": 1.0,
             "consistentColors": False
         }
         self.assertEqual(actual, expected)
@@ -1901,7 +1899,6 @@ class TestController(unittest.TestCase):
             "renderObjectImage": False,
             "snapToGrid": False,
             "stringProperty": "test_property",
-            "visibilityDistance": 1.0,
             "consistentColors": True
         }
         self.assertEqual(actual, expected)
