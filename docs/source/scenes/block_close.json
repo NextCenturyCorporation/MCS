@@ -1,0 +1,36 @@
+﻿{
+    "name": "block_close",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/WallDrywallWhite",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/RUG4",
+    "wallMaterial": "AI2-THOR/Materials/Walls/YellowDrywall",
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "objects": [{
+        "id": "testBlock",
+        "type": "cube",
+        "materials": ["AI2-THOR/Materials/Wood/WornWood"],
+        "physics": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.05,
+                "z": 0.15
+            },
+            "scale": {
+                "x": 0.05,
+                "y": 0.05,
+                "z": 0.05
+            }
+        }]
+    }]
+}
