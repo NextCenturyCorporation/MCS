@@ -3,7 +3,7 @@ from typing import List, Dict
 from shapely import geometry
 
 from .goal_metadata import GoalMetadata, GoalCategory
-from .controller import MAX_REACH_DISTANCE, DEFAULT_MOVE
+from .controller import DEFAULT_MOVE
 
 GOAL_ACHIEVED = 1
 GOAL_NOT_ACHIEVED = 0
@@ -51,7 +51,8 @@ class Reward(object):
     def _calc_retrieval_reward(
             goal: GoalMetadata,
             objects: Dict,
-            agent: Dict) -> int:
+            agent: Dict,
+            performer_reach: float) -> int:
         '''
         Calculate the reward for the retrieval goal.
 
@@ -61,6 +62,7 @@ class Reward(object):
             goal: GoalMetadata
             objects: Dict
             agent: Dict
+            performer_reach: float
 
         Returns:
             int: 1 for goal achieved, 0 otherwise
@@ -78,7 +80,8 @@ class Reward(object):
     def _calc_traversal_reward(
             goal: GoalMetadata,
             objects: Dict,
-            agent: Dict) -> int:
+            agent: Dict,
+            performer_reach: float) -> int:
         '''
         Calculate the reward for the traversal goal.
 
@@ -89,6 +92,7 @@ class Reward(object):
             goal: GoalMetadata
             objects: Dict
             agent: Dict
+            performer_reach: float
 
         Returns:
             int: 1 for goal achieved, 0 otherwise
@@ -105,7 +109,7 @@ class Reward(object):
             goal_polygon = Reward._convert_object_to_planar_polygon(
                 goal_object)
             polygonal_distance = agent_xz.distance(goal_polygon)
-            reward = int(polygonal_distance <= MAX_REACH_DISTANCE)
+            reward = int(polygonal_distance <= performer_reach)
 
         return reward
 
@@ -113,7 +117,8 @@ class Reward(object):
     def _calc_transferral_reward(
             goal: GoalMetadata,
             objects: Dict,
-            agent: Dict) -> int:
+            agent: Dict,
+            performer_reach: float) -> int:
         '''
         Calculate the reward for the transferral goal.
 
@@ -124,6 +129,7 @@ class Reward(object):
             goal: GoalMetadata
             objects: Dict
             agent: Dict
+            performer_reach: float
 
         Returns:
             int: 1 for goal achieved, 0 otherwise
@@ -200,7 +206,8 @@ class Reward(object):
     def _calculate_default_reward(
             goal: GoalMetadata,
             objects: Dict,
-            agent: Dict) -> int:
+            agent: Dict,
+            reach: float) -> int:
         '''Returns the default reward of 0; not achieved.'''
         return GOAL_NOT_ACHIEVED
 
@@ -209,7 +216,8 @@ class Reward(object):
             goal: GoalMetadata,
             objects: Dict,
             agent: Dict,
-            number_steps: int) -> float:
+            number_steps: int,
+            reach: float) -> float:
         '''
         Determine if the agent achieved the objective/task/goal.
 
@@ -217,6 +225,7 @@ class Reward(object):
             goal: GoalMetadata
             objects: Dict
             agent: Dict
+            reach: float
 
         Returns:
             int: reward is 1 if goal achieved, 0 otherwise
@@ -236,5 +245,6 @@ class Reward(object):
         current_score = switch.get(category,
                                    Reward._calculate_default_reward)(goal,
                                                                      objects,
-                                                                     agent)
+                                                                     agent,
+                                                                     reach)
         return Reward._adjust_score_penalty(current_score, number_steps)
