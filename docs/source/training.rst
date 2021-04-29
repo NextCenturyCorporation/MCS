@@ -1,7 +1,7 @@
 Training Datasets
 =================
 
-Evaluation 4 - Fall 2020
+Evaluation 4 - Fall 2021
 --------------------------
 
 Passive Agent
@@ -43,7 +43,7 @@ For the new interactive object permanence and reorientation tasks, please genera
 
 https://github.com/NextCenturyCorporation/MCS/tree/master/machine_common_sense/scenes#interactive-object-permanence-and-reorientation-tasks
 
-Evaluation 3 - Winter 2019
+Evaluation 3 - Winter 2020
 --------------------------
 
 *Please use the most recent 0.3.X release version*
@@ -60,7 +60,7 @@ Passive Intuitive Physics (only plausible scenes):
 Example Scenes:
 - https://github.com/NextCenturyCorporation/MCS/tree/master/machine_common_sense/scenes
 
-Evaluation 2 - Summer 2019
+Evaluation 2 - Summer 2020
 --------------------------
 
 *Use a release version between 0.0.9 and 0.1.0*
