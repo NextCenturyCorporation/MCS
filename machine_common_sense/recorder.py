@@ -16,8 +16,6 @@ class VideoRecorder():
 
     def __init__(self,
                  vid_path: pathlib.Path,
-                 width: int,
-                 height: int,
                  fps: int,
                  fourcc: str = 'mp4v',
                  timeout: float = 1.0):
@@ -25,8 +23,6 @@ class VideoRecorder():
 
         Args:
             vid_path (pathlib.path): the output video file path
-            width (int): video width dimension
-            height (int): video height dimension
             fps (int): video frame rate per second
             fourcc (str): opencv fourcc / codec string
             timeout (float): thread sleep timeout
@@ -41,11 +37,10 @@ class VideoRecorder():
         self.timeout = timeout
         self._path = vid_path
         self._frames_written = 0
-        self.writer = cv2.VideoWriter(str(vid_path),
-                                      cv2.VideoWriter_fourcc(*fourcc),
-                                      fps,
-                                      (width, height),
-                                      True)
+        self.fourcc = fourcc
+        self.fps = fps
+        self.writer = None
+
         self.start()
 
     def start(self) -> None:
@@ -69,6 +64,15 @@ class VideoRecorder():
         Returns:
             None
         '''
+
+        if self.writer is None:
+            width, height = frame.size
+            self.writer = cv2.VideoWriter(str(self._path),
+                                          cv2.VideoWriter_fourcc(*self.fourcc),
+                                          self.fps,
+                                          (width, height),
+                                          True)
+
         if self.active:
             # convert BGR PIL image to RGB for opencv
             cv_frame = np.array(frame.convert('RGB'))[:, :, ::-1]
@@ -80,7 +84,7 @@ class VideoRecorder():
         '''Loop forever waiting for frames to enter the queue.'''
         while True:
             if not self.active:
-                logger.warn("Recorder not active")
+                logger.warning("Recorder not active")
                 return
             if not self.frame_queue.empty():
                 frame = self.frame_queue.get()
@@ -107,7 +111,8 @@ class VideoRecorder():
         self.active = False
         self.thread.join()
         self.flush()
-        self.writer.release()
+        if self.writer:
+            self.writer.release()
 
     @property
     def path(self) -> pathlib.Path:
