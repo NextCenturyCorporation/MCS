@@ -365,7 +365,7 @@ class TestController(unittest.TestCase):
             gridSize=mcs.Controller.GRID_SIZE,
             horizon=0,
             logs=True,
-            moveMagnitude=mcs.controller.MOVE_DISTANCE,
+            moveMagnitude=mcs.controller.DEFAULT_MOVE,
             objectId=None,
             objectImageCoords={
                 'x': 0.0,
@@ -557,28 +557,28 @@ class TestController(unittest.TestCase):
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
-                moveMagnitude=mcs.controller.MOVE_DISTANCE))
+                moveMagnitude=mcs.controller.DEFAULT_MOVE))
 
         self.controller.step('MoveAhead')
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
-                moveMagnitude=mcs.controller.MOVE_DISTANCE))
+                moveMagnitude=mcs.controller.DEFAULT_MOVE))
 
         self.controller.step('MoveAhead')
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
-                moveMagnitude=mcs.controller.MOVE_DISTANCE))
+                moveMagnitude=mcs.controller.DEFAULT_MOVE))
 
         self.controller.step('MoveAhead')
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
-                moveMagnitude=mcs.controller.MOVE_DISTANCE))
+                moveMagnitude=mcs.controller.DEFAULT_MOVE))
 
     def test_step_validate_parameters_rotate(self):
         _ = self.controller.start_scene({'name': TEST_FILE_NAME})

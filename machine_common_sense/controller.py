@@ -25,12 +25,7 @@ logger = logging.getLogger(__name__)
 # TODO Reduce this number once the player can crouch down to reach and
 # pickup small objects on the floor.
 
-# How far the player can move with a single step.
-MOVE_DISTANCE = 0.1
-
-# Performer camera 'y' position
-# TODO: MCS-627: move to scene generator
-PERFORMER_CAMERA_Y = 0.762
+DEFAULT_MOVE = 0.1
 
 from .action import Action
 from .goal_metadata import GoalMetadata
@@ -582,7 +577,7 @@ class Controller():
     """
 
     def validate_and_convert_params(self, action, **kwargs):
-        moveMagnitude = MOVE_DISTANCE
+        moveMagnitude = DEFAULT_MOVE
         rotation = kwargs.get(self.ROTATION_KEY, self.DEFAULT_ROTATION)
         horizon = kwargs.get(self.HORIZON_KEY, self.DEFAULT_HORIZON)
         amount = kwargs.get(
@@ -659,7 +654,7 @@ class Controller():
             moveMagnitude = amount
 
         if action in self.MOVE_ACTIONS:
-            moveMagnitude = MOVE_DISTANCE
+            moveMagnitude = DEFAULT_MOVE
 
         # Add in noise if noise is enable
         if self.__noise_enabled:
@@ -1081,10 +1076,10 @@ class Controller():
             ),
             direction=object_metadata['direction'],
             distance=(
-                object_metadata['distanceXZ'] / MOVE_DISTANCE
+                object_metadata['distanceXZ'] / DEFAULT_MOVE
             ),  # DEPRECATED
             distance_in_steps=(
-                object_metadata['distanceXZ'] / MOVE_DISTANCE
+                object_metadata['distanceXZ'] / DEFAULT_MOVE
             ),
             distance_in_world=(object_metadata['distance']),
             held=object_metadata['isPickedUp'],
