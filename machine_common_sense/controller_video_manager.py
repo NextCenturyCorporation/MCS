@@ -3,35 +3,16 @@ import logging
 import PIL
 import numpy as np
 
-from .event_type import EventType
-from .recorder import VideoRecorder
-from .controller_event_payload import ControllerEventPayload
+from .controller_events import AbstractControllerSubscriber
 from .plotter import TopDownPlotter
+from .recorder import VideoRecorder
 
 logger = logging.getLogger(__name__)
 
 
-class ControllerVideoManager:
+class ControllerVideoManager(AbstractControllerSubscriber):
     # Note: Enabling this assumings video recording is on or it is an eval
     # and those conditions should not remain in here.
-    def __init__(self):
-        logger.info("Video Manager initiated")
-        self._switcher = {
-            EventType.ON_INIT: self.on_init,
-            EventType.ON_START_SCENE: self.on_start_scene,
-            EventType.ON_BEFORE_STEP: self.on_before_step,
-            EventType.ON_AFTER_STEP: self.on_after_step,
-            EventType.ON_END_SCENE: self.on_end_scene
-        }
-
-    def on_event(self, type: EventType,
-                 payload: ControllerEventPayload, controller):
-        logger.info(f"EventType: {type} Step: {payload.step_number}"
-                    f" Payload: {payload}")
-        self._switcher.get(type)(payload, controller)
-
-    def on_init(self, payload, controller):
-        pass
 
     def on_start_scene(self, payload, controller):
         # used to be def _create_video_recorders(self, timestamp):
@@ -108,9 +89,6 @@ class ControllerVideoManager:
             self.__depth_recorder.finish()
         if payload.object_masks_enabled:
             self.__segmentation_recorder.finish()
-
-    def on_before_step(self, payload, controller):
-        pass
 
     def on_after_step(self, payload, controller):
         # foreach image list

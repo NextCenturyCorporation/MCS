@@ -41,8 +41,7 @@ from .history_writer import HistoryWriter
 from .config_manager import ConfigManager
 from .controller_output_handler import ControllerOutputHandler
 from .controller_logger import ControllerLogger
-from .event_type import EventType
-from .controller_event_payload import ControllerEventPayload
+from .controller_events import ControllerEventPayload, EventType
 from .controller_video_manager import ControllerVideoManager
 
 

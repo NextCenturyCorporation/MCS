@@ -1,36 +1,16 @@
 import logging
 
-
-from .event_type import EventType
-from .controller_event_payload import ControllerEventPayload
+from .controller_events import AbstractControllerSubscriber
 from .util import Util
 
 logger = logging.getLogger(__name__)
 
 
-class ControllerLogger():
-    # Can should much of these be put in a base class?
-    def __init__(self):
-        self._switcher = {
-            EventType.ON_INIT: self.on_init,
-            EventType.ON_START_SCENE: self.on_start_scene,
-            EventType.ON_BEFORE_STEP: self.on_before_step,
-            EventType.ON_AFTER_STEP: self.on_after_step,
-            EventType.ON_END_SCENE: self.on_end_scene
-        }
-        # ADD DEfault look in reward.py
+class ControllerLogger(AbstractControllerSubscriber):
 
-    def on_event(self, type: EventType,
-                 payload: ControllerEventPayload, controller):
-        logger.info(f"EventType: {type} Step: {payload.step_number}"
-                    f" Payload: {payload}")
-        self._switcher.get(type)(payload.step_number, payload, controller)
+    # def on_init(self, payload, controller):
 
-    def on_init(self, step_number: int, payload, controller):
-        self._config = payload
-        logger.info("init")
-
-    def on_start_scene(self, step_number: int, payload, controller):
+    def on_start_scene(self, payload, controller):
         # logger.info("start")
         logger.debug(
             "STARTING NEW SCENE: " +
@@ -45,11 +25,11 @@ class ControllerLogger():
 
         self._write_debug_output(payload)
 
-    def on_before_step(self, step_number: int, payload, controller):
+    def on_before_step(self, payload, controller):
         logger.info("before step")
         logger.debug("================================================"
                      "===============================")
-        logger.debug("STEP: " + str(step_number))
+        logger.debug("STEP: " + str(payload.step_number))
         logger.debug("ACTION: " + payload.action)
         if payload.goal.habituation_total >= payload.habituation_trial:
             logger.debug(f"HABITUATION TRIAL: "
@@ -60,7 +40,7 @@ class ControllerLogger():
         else:
             logger.debug("HABITUATION TRIAL: NONE")
 
-    def on_after_step(self, step_number: int, payload, controller):
+    def on_after_step(self, payload, controller):
         self._write_debug_output(payload)
 
     def _write_debug_output(self, payload):
@@ -80,5 +60,4 @@ class ControllerLogger():
                     step_output.object_list):
                 logger.debug("    " + line)
 
-    def on_end_scene(self, step_number: int, payload, controller):
-        logger.info("end")
+    # def on_end_scene(self, payload, controller):
