@@ -30,12 +30,10 @@ DEFAULT_MOVE = 0.1
 from .action import Action
 from .goal_metadata import GoalMetadata
 from .object_metadata import ObjectMetadata
-from .plotter import TopDownPlotter
 from .pose import Pose
 from .return_status import ReturnStatus
 from .scene_history import SceneHistory
 from .step_metadata import StepMetadata
-from .recorder import VideoRecorder
 from .reward import Reward
 from .uploader import S3Uploader
 from .util import Util
@@ -45,6 +43,7 @@ from .controller_output_handler import ControllerOutputHandler
 from .controller_logger import ControllerLogger
 from .event_type import EventType
 from .controller_event_payload import ControllerEventPayload
+from .controller_video_manager import ControllerVideoManager
 
 
 def __reset_override(self, scene):
@@ -112,9 +111,6 @@ class Controller():
     # really matter because we set continuous to True in
     # the step input.)
     GRID_SIZE = 0.1
-    # Is there any way to get FPS from ai2thor?
-    # 20 FPS relies on the assumption that Time.deltaTime is 0.05 in Unity
-    FPS_FRAME_RATE = 20
 
     DEFAULT_CLIPPING_PLANE_FAR = 15.0
 
@@ -186,11 +182,15 @@ class Controller():
 
     def __init__(self, unity_app_file_path, config_file_path=None):
 
+        # Can we rearrange to use dependency injection?
         self._subscribers = [ControllerLogger()]
 
         self._end_scene_not_registered = True
 
         self._config = ConfigManager(config_file_path)
+
+        if (self._config.is_evaluation() or self._config.is_video_enabled()):
+            self.subscribe(ControllerVideoManager())
 
         self._update_screen_size()
 
@@ -223,23 +223,28 @@ class Controller():
 
     def _publish_event(self, event_type: EventType,
                        payload: ControllerEventPayload):
-        if (hasattr(self, '_subscribers')):
-            for subscriber in self._subscribers:
-                # TODO should we make a deep copy of the payload so subscribers
-                # cannot change source data?
-                # seems like performance vs safety
+        for subscriber in self._subscribers:
+            # TODO should we make a deep copy of the payload so subscribers
+            # cannot change source data?
+            # seems like performance vs safety
 
-                # TODO passing the whole controller is clearly a bad idea
-                # change later
-                subscriber.on_event(event_type, payload, self)
+            # TODO passing the whole controller is clearly a bad idea
+            # change later
+            subscriber.on_event(event_type, payload, self)
 
     def _create_event_payload(self):
         payload = ControllerEventPayload()
+        payload.output_folder = self.__output_folder
         payload.config = self._config
+        payload.timestamp = self.generate_time()
         payload.step_number = self.__step_number
         payload.scene_config = self.__scene_configuration
         payload.habituation_trial = self.__habituation_trial
         payload.goal = self._goal
+        payload.depth_maps_enabled = self.__depth_maps
+        payload.object_masks_enabled = self.__object_masks
+        payload.screen_width = self.__screen_width
+        payload.screen_height = self.__screen_height
         return payload
 
     # Pixel coordinates are expected to start at the top left, but
@@ -330,64 +335,6 @@ class Controller():
         payload = self._create_event_payload()
         self._publish_event(EventType.ON_INIT, payload)
 
-    def _create_video_recorders(self, timestamp):
-        '''Create video recorders used to capture evaluation scenes for review
-        '''
-        output_folder = pathlib.Path(self.__output_folder)
-        eval_name = self._config.get_evaluation_name()
-        team = self._config.get_team()
-        scene_name = self.__scene_configuration.get(
-            'name', '').replace('json', '')
-        # strip prefix in scene_name
-        if '/' in scene_name:
-            scene_name = scene_name.rsplit('/', 1)[1]
-
-        basename_template = '_'.join(
-            [eval_name, self._metadata_tier, team, scene_name,
-             self.PLACEHOLDER, timestamp]) + '.mp4'
-
-        visual_video_filename = basename_template.replace(
-            self.PLACEHOLDER, self.VISUAL)
-        self.__image_recorder = VideoRecorder(
-            vid_path=output_folder / visual_video_filename,
-            width=self.__screen_width,
-            height=self.__screen_height,
-            fps=self.FPS_FRAME_RATE)
-
-        topdown_video_filename = basename_template.replace(
-            self.PLACEHOLDER, self.TOPDOWN)
-        self.__topdown_recorder = VideoRecorder(
-            vid_path=output_folder / topdown_video_filename,
-            width=self.__screen_width,
-            height=self.__screen_height,
-            fps=self.FPS_FRAME_RATE)
-
-        heatmap_video_filename = basename_template.replace(
-            self.PLACEHOLDER, self.HEATMAP)
-        self.__heatmap_recorder = VideoRecorder(
-            vid_path=output_folder / heatmap_video_filename,
-            width=self.__screen_width,
-            height=self.__screen_height,
-            fps=self.FPS_FRAME_RATE)
-
-        if self.__depth_maps:
-            depth_video_filename = basename_template.replace(
-                self.PLACEHOLDER, self.DEPTH)
-            self.__depth_recorder = VideoRecorder(
-                vid_path=output_folder / depth_video_filename,
-                width=self.__screen_width,
-                height=self.__screen_height,
-                fps=self.FPS_FRAME_RATE)
-
-        if self.__object_masks:
-            segmentation_video_filename = basename_template.replace(
-                self.PLACEHOLDER, self.SEGMENTATION)
-            self.__segmentation_recorder = VideoRecorder(
-                vid_path=output_folder / segmentation_video_filename,
-                width=self.__screen_width,
-                height=self.__screen_height,
-                fps=self.FPS_FRAME_RATE)
-
     def end_scene(self, choice, confidence=1.0):
         """
         Ends the current scene.
@@ -420,15 +367,6 @@ class Controller():
             self.__history_writer.add_step(self.__history_item)
             self.__history_writer.write_history_file(choice, confidence)
 
-        if self._config.is_evaluation() or self._config.is_video_enabled():
-            self.__topdown_recorder.finish()
-            self.__image_recorder.finish()
-            self.__heatmap_recorder.finish()
-            if self.__depth_maps:
-                self.__depth_recorder.finish()
-            if self.__object_masks:
-                self.__segmentation_recorder.finish()
-
         if self._config.is_evaluation():
             self.__uploader = S3Uploader(
                 s3_bucket=self._config.get_s3_bucket()
@@ -448,6 +386,7 @@ class Controller():
                                  '_' + history_filename)
                 )
 
+            # Need to figure out how to connect "uploader" and "video manager"
             topdown_filename = self._get_filename_without_timestamp(
                 self.__topdown_recorder.path)
             self.__uploader.upload_video(
@@ -551,14 +490,6 @@ class Controller():
             for file_path in file_list:
                 os.remove(file_path)
 
-        if self._config.is_evaluation() or self._config.is_video_enabled():
-            team = self._config.get_team()
-            scene = self.__scene_configuration.get(
-                'name', '').replace('json', '')
-            self.__plotter = TopDownPlotter(
-                team, scene, self.__screen_width, self.__screen_height)
-            self._create_video_recorders(timestamp)
-
         wrapped_step = self.wrap_step(
             action='Initialize', sceneConfig=config_data)
         step_output = self._controller.step(wrapped_step)
@@ -608,6 +539,7 @@ class Controller():
                 self._end_scene_not_registered = False
 
         payload = self._create_event_payload()
+        payload.step_metadata = step_output
         payload.step_output = output
         self._publish_event(
             EventType.ON_START_SCENE, payload)
@@ -867,6 +799,7 @@ class Controller():
         payload = self._create_event_payload()
         # do we need both outputs?
         payload.pre_restrict_output = pre_restrict_output
+        payload.step_metadata = step_output
         payload.step_output = output
         self._publish_event(
             EventType.ON_AFTER_STEP,
@@ -1236,7 +1169,7 @@ class Controller():
                 key=lambda x: x.uuid
             )
 
-    def save_images(self, scene_event, max_depth):
+    def save_image_data(self, scene_event, max_depth):
         image_list = []
         depth_map_list = []
         object_mask_list = []
@@ -1244,18 +1177,6 @@ class Controller():
         for index, event in enumerate(scene_event.events):
             scene_image = PIL.Image.fromarray(event.frame)
             image_list.append(scene_image)
-
-            if self._config.is_evaluation() or self._config.is_video_enabled():
-                self.__image_recorder.add(scene_image)
-                goal_id = None
-                # Is there a better way to do this test?
-                if (self._goal is not None and
-                        self._goal.metadata is not None):
-                    goal_id = self._goal.metadata.get(
-                        'target', {}).get('id', None)
-                self.__topdown_recorder.add(
-                    self.__plotter.plot(scene_event, self.__step_number,
-                                        goal_id))
 
             if self.__depth_maps:
                 # The Unity depth array (returned by Depth.shader) contains
@@ -1267,42 +1188,12 @@ class Controller():
                     (unity_depth_array[:, :, 1] * (max_depth / 3.0) / 255.0) +
                     (unity_depth_array[:, :, 2] * (max_depth / 3.0) / 255.0)
                 )
-                # Convert to pixel values for saving debug image.
-                depth_pixel_array = depth_float_array * 255 / max_depth
-                depth_map = PIL.Image.fromarray(
-                    depth_pixel_array.astype(np.uint8)
-                )
-                if (
-                    self._config.is_evaluation() or
-                    self._config.is_video_enabled()
-                ):
-                    self.__depth_recorder.add(depth_map)
                 depth_map_list.append(np.array(depth_float_array))
 
             if self.__object_masks:
                 object_mask = PIL.Image.fromarray(
                     event.instance_segmentation_frame)
                 object_mask_list.append(object_mask)
-                if (
-                    self._config.is_evaluation() or
-                    self._config.is_video_enabled()
-                ):
-                    self.__segmentation_recorder.add(object_mask)
-
-            if self.__output_folder and self._config.is_save_debug_images:
-                step_plus_substep_index = 0 if self.__step_number == 0 else (
-                    ((self.__step_number - 1) * len(scene_event.events)) +
-                    (index + 1)
-                )
-                suffix = '_' + str(step_plus_substep_index) + '.png'
-                scene_image.save(fp=self.__output_folder +
-                                 'frame_image' + suffix)
-                if self.__depth_maps:
-                    depth_map.save(fp=self.__output_folder +
-                                   'depth_map' + suffix)
-                if self.__object_masks:
-                    object_mask.save(fp=self.__output_folder +
-                                     'object_mask' + suffix)
 
         return image_list, depth_map_list, object_mask_list
 
@@ -1319,7 +1210,7 @@ class Controller():
                     "metadata": scene_event.metadata
                 }, json_file, sort_keys=True, indent=4)
 
-        image_list, depth_map_list, object_mask_list = self.save_images(
+        image_list, depth_map_list, object_mask_list = self.save_image_data(
             scene_event,
             scene_event.metadata.get(
                 'clippingPlaneFar',
