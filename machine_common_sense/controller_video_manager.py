@@ -1,0 +1,168 @@
+import pathlib
+import logging
+import PIL
+import numpy as np
+
+from .event_type import EventType
+from .recorder import VideoRecorder
+from .controller_event_payload import ControllerEventPayload
+from .plotter import TopDownPlotter
+
+logger = logging.getLogger(__name__)
+
+
+class ControllerVideoManager:
+    # Note: Enabling this assumings video recording is on or it is an eval
+    # and those conditions should not remain in here.
+    def __init__(self):
+        logger.info("Video Manager initiated")
+        self._switcher = {
+            EventType.ON_INIT: self.on_init,
+            EventType.ON_START_SCENE: self.on_start_scene,
+            EventType.ON_BEFORE_STEP: self.on_before_step,
+            EventType.ON_AFTER_STEP: self.on_after_step,
+            EventType.ON_END_SCENE: self.on_end_scene
+        }
+
+    def on_event(self, type: EventType,
+                 payload: ControllerEventPayload, controller):
+        logger.info(f"EventType: {type} Step: {payload.step_number}"
+                    f" Payload: {payload}")
+        self._switcher.get(type)(payload, controller)
+
+    def on_init(self, payload, controller):
+        pass
+
+    def on_start_scene(self, payload, controller):
+        # used to be def _create_video_recorders(self, timestamp):
+        '''Create video recorders used to capture evaluation scenes for review
+        '''
+        timestamp = payload.timestamp
+        output_folder = pathlib.Path(payload.output_folder)
+        eval_name = payload.config.get_evaluation_name()
+        team = payload.config.get_team()
+        scene_name = payload.scene_config.get(
+            'name', '').replace('json', '')
+
+        team = payload.config.get_team()
+        scene = payload.scene_config.get(
+            'name', '').replace('json', '')
+        self.__plotter = TopDownPlotter(
+            team, scene, payload.screen_width, payload.screen_height)
+
+        # strip prefix in scene_name
+        if '/' in scene_name:
+            scene_name = scene_name.rsplit('/', 1)[1]
+
+        basename_template = '_'.join(
+            [eval_name, payload.config.get_metadata_tier(), team, scene_name,
+             controller.PLACEHOLDER, timestamp]) + '.mp4'
+
+        visual_video_filename = basename_template.replace(
+            controller.PLACEHOLDER, controller.VISUAL)
+        self.__image_recorder = VideoRecorder(
+            vid_path=output_folder / visual_video_filename,
+            width=payload.screen_width,
+            height=payload.screen_height,
+            fps=payload.step_output.physics_frames_per_second)
+
+        topdown_video_filename = basename_template.replace(
+            controller.PLACEHOLDER, controller.TOPDOWN)
+        self.__topdown_recorder = VideoRecorder(
+            vid_path=output_folder / topdown_video_filename,
+            width=payload.screen_width,
+            height=payload.screen_height,
+            fps=payload.step_output.physics_frames_per_second)
+
+        heatmap_video_filename = basename_template.replace(
+            controller.PLACEHOLDER, controller.HEATMAP)
+        self.__heatmap_recorder = VideoRecorder(
+            vid_path=output_folder / heatmap_video_filename,
+            width=payload.screen_width,
+            height=payload.screen_height,
+            fps=payload.step_output.physics_frames_per_second)
+
+        if payload.depth_maps_enabled:
+            depth_video_filename = basename_template.replace(
+                controller.PLACEHOLDER, controller.DEPTH)
+            self.__depth_recorder = VideoRecorder(
+                vid_path=output_folder / depth_video_filename,
+                width=payload.screen_width,
+                height=payload.screen_height,
+                fps=payload.step_output.physics_frames_per_second)
+
+        if payload.object_masks_enabled:
+            segmentation_video_filename = basename_template.replace(
+                controller.PLACEHOLDER, controller.SEGMENTATION)
+            self.__segmentation_recorder = VideoRecorder(
+                vid_path=output_folder / segmentation_video_filename,
+                width=payload.screen_width,
+                height=payload.screen_height,
+                fps=payload.step_output.physics_frames_per_second)
+
+    def on_end_scene(self, payload, controller):
+        self.__topdown_recorder.finish()
+        self.__image_recorder.finish()
+        self.__heatmap_recorder.finish()
+        if payload.depth_maps_enabled:
+            self.__depth_recorder.finish()
+        if payload.object_masks_enabled:
+            self.__segmentation_recorder.finish()
+
+    def on_before_step(self, payload, controller):
+        pass
+
+    def on_after_step(self, payload, controller):
+        # foreach image list
+        config = payload.config
+        for scene_image in payload.step_output.image_list:
+            if config.is_evaluation() or config.is_video_enabled():
+                self.__image_recorder.add(scene_image)
+
+        for index, event in enumerate(payload.step_metadata.events):
+            # The plotter used to be inside the for look the same as
+            # image_recorder, but it seems like it would only plot one per
+            # step.
+            goal_id = None
+            # Is there a better way to do this test?
+            if (payload.goal is not None and
+                    payload.goal.metadata is not None):
+                goal_id = payload.goal.metadata.get(
+                    'target', {}).get('id', None)
+                self.__topdown_recorder.add(
+                    self.__plotter.plot(payload.step_metadata,
+                                        payload.step_number,
+                                        goal_id))
+        for depth_float_array in payload.step_output.depth_map_list:
+            if payload.depth_maps_enabled:
+                max_depth = payload.step_metadata.metadata.get(
+                    'clippingPlaneFar',
+                    controller.DEFAULT_CLIPPING_PLANE_FAR
+                )
+                # Convert to pixel values for saving debug image.
+                depth_pixel_array = depth_float_array * \
+                    255 / max_depth
+                depth_map = PIL.Image.fromarray(
+                    depth_pixel_array.astype(np.uint8)
+                )
+                self.__depth_recorder.add(depth_map)
+
+        for object_mask in payload.step_output.object_mask_list:
+            if payload.object_masks_enabled:
+                self.__segmentation_recorder.add(object_mask)
+
+        if payload.output_folder and payload.config.is_save_debug_images:
+            step_plus_substep_index = 0 if payload.step_number == 0 else (
+                ((payload.step_number - 1) *
+                 len(payload.step_metadata.events)) +
+                (index + 1)
+            )
+            suffix = '_' + str(step_plus_substep_index) + '.png'
+            scene_image.save(fp=payload.output_folder +
+                             'frame_image' + suffix)
+            if payload.depth_maps_enabled:
+                depth_map.save(fp=payload.output_folder +
+                               'depth_map' + suffix)
+            if payload.object_masks_enabled:
+                object_mask.save(fp=payload.output_folder +
+                                 'object_mask' + suffix)

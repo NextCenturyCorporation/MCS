@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 class ControllerLogger():
-
+    # Can should much of these be put in a base class?
     def __init__(self):
         self._switcher = {
             EventType.ON_INIT: self.on_init,
@@ -18,6 +18,7 @@ class ControllerLogger():
             EventType.ON_AFTER_STEP: self.on_after_step,
             EventType.ON_END_SCENE: self.on_end_scene
         }
+        # ADD DEfault look in reward.py
 
     def on_event(self, type: EventType,
                  payload: ControllerEventPayload, controller):

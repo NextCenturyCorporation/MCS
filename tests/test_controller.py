@@ -1478,7 +1478,7 @@ class TestController(unittest.TestCase):
             image_list,
             depth_map_list,
             object_mask_list,
-        ) = self.controller.save_images(
+        ) = self.controller.save_image_data(
             self.create_mock_scene_event(mock_scene_event_data),
             15.0
         )
@@ -1521,7 +1521,7 @@ class TestController(unittest.TestCase):
             image_list,
             depth_map_list,
             object_mask_list
-        ) = self.controller.save_images(
+        ) = self.controller.save_image_data(
             self.create_mock_scene_event(mock_scene_event_data),
             15.0
         )
