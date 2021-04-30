@@ -38,14 +38,18 @@ from .object_metadata import ObjectMetadata
 from .plotter import TopDownPlotter
 from .pose import Pose
 from .return_status import ReturnStatus
-from .reward import Reward
 from .scene_history import SceneHistory
 from .step_metadata import StepMetadata
 from .recorder import VideoRecorder
+from .reward import Reward
 from .uploader import S3Uploader
 from .util import Util
 from .history_writer import HistoryWriter
 from .config_manager import ConfigManager
+from .controller_output_handler import ControllerOutputHandler
+from .controller_logger import ControllerLogger
+from .event_type import EventType
+from .controller_event_payload import ControllerEventPayload
 
 
 def __reset_override(self, scene):
@@ -187,11 +191,15 @@ class Controller():
 
     def __init__(self, unity_app_file_path, config_file_path=None):
 
+        self._subscribers = [ControllerLogger()]
+
         self._end_scene_not_registered = True
 
         self._config = ConfigManager(config_file_path)
 
         self._update_screen_size()
+
+        self._output_handler = ControllerOutputHandler(self._config)
 
         self._controller = ai2thor.controller.Controller(
             quality='Medium',
@@ -213,8 +221,35 @@ class Controller():
 
         self._on_init(config_file_path)
 
+    def subscribe(self, subscriber):
+        if subscriber not in self._subscribers:
+            self._subscribers.append(subscriber)
+            # TODO consider sending init if init has alreayd happened?
+
+    def _publish_event(self, event_type: EventType,
+                       payload: ControllerEventPayload):
+        if (hasattr(self, '_subscribers')):
+            for subscriber in self._subscribers:
+                # TODO should we make a deep copy of the payload so subscribers
+                # cannot change source data?
+                # seems like performance vs safety
+
+                # TODO passing the whole controller is clearly a bad idea
+                # change later
+                subscriber.on_event(event_type, payload, self)
+
+    def _create_event_payload(self):
+        payload = ControllerEventPayload()
+        payload.config = self._config
+        payload.step_number = self.__step_number
+        payload.scene_config = self.__scene_configuration
+        payload.habituation_trial = self.__habituation_trial
+        payload.goal = self._goal
+        return payload
+
     # Pixel coordinates are expected to start at the top left, but
     # in Unity, (0,0) is the bottom left.
+
     def _convert_y_image_coord_for_unity(self, y_coord):
         if(y_coord != 0):
             return self.__screen_height - y_coord
@@ -297,6 +332,9 @@ class Controller():
                     '\n'
                 )
 
+        payload = self._create_event_payload()
+        self._publish_event(EventType.ON_INIT, payload)
+
     def _create_video_recorders(self, timestamp):
         '''Create video recorders used to capture evaluation scenes for review
         '''
@@ -374,6 +412,10 @@ class Controller():
             end_scene isn't properly called but history_enabled is true,
             this value will be written to file as -1.
         """
+
+        payload = self._create_event_payload()
+        self._publish_event(EventType.ON_END_SCENE, payload)
+
         if (self._end_scene_not_registered is False and
                 (self.__history_enabled or self._config.is_evaluation())):
             atexit.unregister(self.end_scene)
@@ -502,11 +544,6 @@ class Controller():
                               'skip_preview_phase' in config_data['goal']
                               else False)
 
-        logger.debug("STARTING NEW SCENE: " + config_data.get('name', ""))
-        logger.debug("METADATA TIER: " + self._metadata_tier)
-        logger.debug("STEP: 0")
-        logger.debug("ACTION: Initialize")
-
         if (config_data['name'] is not None and (
             self._config.is_evaluation() or
             self._config.is_save_debug_images() or
@@ -527,13 +564,17 @@ class Controller():
                 team, scene, self.__screen_width, self.__screen_height)
             self._create_video_recorders(timestamp)
 
-        pre_restrict_output = self.wrap_output(self._controller.step(
-            self.wrap_step(action='Initialize', sceneConfig=config_data)))
+        wrapped_step = self.wrap_step(
+            action='Initialize', sceneConfig=config_data)
+        step_output = self._controller.step(wrapped_step)
 
-        output = self.restrict_step_output_metadata(
-            copy.deepcopy(pre_restrict_output))
+        pre_restrict_output = copy.deepcopy(self.wrap_output(step_output))
+        output = self.restrict_step_output_metadata(pre_restrict_output)
 
-        self.write_debug_output(output)
+        # pre_restrict_output = copy.deepcopy(self.wrap_output(step_output))
+        # output = self.restrict_step_output_metadata(pre_restrict_output)
+
+        self.write_debug_output_file(output)
 
         if not skip_preview_phase:
             if (self._goal is not None and
@@ -570,6 +611,11 @@ class Controller():
                 # make sure history file is written when program exits
                 atexit.register(self.end_scene, choice="", confidence=-1)
                 self._end_scene_not_registered = False
+
+        payload = self._create_event_payload()
+        payload.step_output = output
+        self._publish_event(
+            EventType.ON_START_SCENE, payload)
 
         return output
 
@@ -776,18 +822,12 @@ class Controller():
 
         self.__step_number += 1
 
-        logger.debug("================================================"
-                     "===============================")
-        logger.debug("STEP: " + str(self.__step_number))
-        logger.debug("ACTION: " + action)
-        if self._goal.habituation_total >= self.__habituation_trial:
-            logger.debug(f"HABITUATION TRIAL: "
-                         f"{str(self.__habituation_trial)}"
-                         f" / {str(self._goal.habituation_total)}")
-        elif self._goal.habituation_total > 0:
-            logger.debug("HABITUATION TRIAL: DONE")
-        else:
-            logger.debug("HABITUATION TRIAL: NONE")
+        payload = self._create_event_payload()
+        payload.action = action
+        payload.action_args = kwargs
+        self._publish_event(
+            EventType.ON_BEFORE_STEP,
+            payload)
 
         params = self.validate_and_convert_params(action, **kwargs)
 
@@ -805,10 +845,17 @@ class Controller():
                 "your future actions will be skipped. Please call "
                 "controller.end_scene() now.")
 
-        pre_restrict_output = self.wrap_output(self._controller.step(
-            self.wrap_step(action=action, **params)))
+        step_action = self.wrap_step(action=action, **params)
+        step_output = self._controller.step(step_action)
+
+        pre_restrict_output = copy.deepcopy(self.wrap_output(step_output))
+        output = self.restrict_step_output_metadata(pre_restrict_output)
 
         history_copy = copy.deepcopy(pre_restrict_output)
+
+        # pre_restrict_output = self.wrap_output()
+        # history_copy = copy.deepcopy(pre_restrict_output)
+
         del history_copy.depth_map_list
         del history_copy.image_list
         del history_copy.object_mask_list
@@ -820,10 +867,15 @@ class Controller():
             output=history_copy,
             delta_time_millis=0)
 
-        output = self.restrict_step_output_metadata(
-            copy.deepcopy(pre_restrict_output))
+        self.write_debug_output_file(output)
 
-        self.write_debug_output(output)
+        payload = self._create_event_payload()
+        # do we need both outputs?
+        payload.pre_restrict_output = pre_restrict_output
+        payload.step_output = output
+        self._publish_event(
+            EventType.ON_AFTER_STEP,
+            payload)
 
         return output
 
@@ -926,7 +978,7 @@ class Controller():
             step_output.depth_map_list = []
 
         if(self._metadata_tier == self.CONFIG_METADATA_TIER_NONE or
-           self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
+                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
             step_output.object_mask_list = []
 
         if (
@@ -1326,22 +1378,7 @@ class Controller():
 
         return step_output
 
-    def write_debug_output(self, step_output):
-        logger.debug("RETURN STATUS: " + step_output.return_status)
-        logger.debug("REWARD: " + str(step_output.reward))
-        logger.debug("SELF METADATA:")
-        logger.debug("  CAMERA HEIGHT: " + str(step_output.camera_height))
-        logger.debug("  HEAD TILT: " + str(step_output.head_tilt))
-        logger.debug("  POSITION: " + str(step_output.position))
-        logger.debug("  ROTATION: " + str(step_output.rotation))
-        logger.debug("OBJECTS: " +
-                     str(len(step_output.object_list)) +
-                     " TOTAL")
-        if len(step_output.object_list) > 0:
-            for line in Util.generate_pretty_object_output(
-                    step_output.object_list):
-                logger.debug("    " + line)
-
+    def write_debug_output_file(self, step_output):
         if self.__output_folder and self._config.is_save_debug_json:
             with open(self.__output_folder + 'mcs_output_' +
                       str(self.__step_number) + '.json', 'w') as json_file:
