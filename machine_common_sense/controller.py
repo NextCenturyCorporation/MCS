@@ -181,13 +181,14 @@ class Controller():
 
     def __init__(self, unity_app_file_path, config_file_path=None):
 
-        # Can we rearrange to use dependency injection?
-        self._subscribers = [ControllerLogger()]
+        self._subscribers = []
 
         self._end_scene_not_registered = True
 
         self._config = ConfigManager(config_file_path)
 
+        # Can we rearrange to use dependency injection?
+        self.subscribe(ControllerLogger())
         if (self._config.is_evaluation() or self._config.is_video_enabled()):
             self.subscribe(ControllerVideoManager())
 
