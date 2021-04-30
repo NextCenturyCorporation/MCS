@@ -232,6 +232,7 @@ class Controller():
             # change later
             subscriber.on_event(event_type, payload, self)
 
+    # TODO this is a huge data dumpster and needs to be thought about
     def _create_event_payload(self):
         payload = ControllerEventPayload()
         payload.output_folder = self.__output_folder
