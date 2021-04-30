@@ -1,4 +1,4 @@
-Machine Common Sense Python Library API
+Python API
 *******************************************************************************
 
 .. autosummary::

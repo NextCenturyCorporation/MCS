@@ -1,5 +1,5 @@
-MCS Package Developer
-=====================
+Package Developer Notes
+=======================
 
 Package Installation
 --------------------

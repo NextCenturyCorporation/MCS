@@ -1,5 +1,5 @@
-MCS Scene Configuration Files
-=============================
+Example Scenes
+==============
 
 :doc:`Documentation <schema>`
 

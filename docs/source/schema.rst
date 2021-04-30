@@ -1,5 +1,5 @@
-MCS Scene Configuration Files: API
-==================================
+Scene File Schema
+=================
 
 Scenes
 ------

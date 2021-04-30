@@ -8,11 +8,11 @@ Machine Common Sense Documentation
     :maxdepth: 2
 
     examples
-    models
-    dev
-    scenes
-    schema
     api
     training
+    scenes
+    schema
+    models
     containerize
     remotely
+    dev
