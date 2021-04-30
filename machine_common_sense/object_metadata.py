@@ -36,7 +36,7 @@ class ObjectMetadata(object):
         Haptic feedback. The mass of this object.
     material_list : list of strings
         Haptic feedback. The material(s) of this object.
-        See [Materials](#Materials).
+        See `Material <api.html#machine_common_sense.Material>`_
     position : dict
         The "x", "y", and "z" coordinates for the global position of the
         center of this object's 3D model.

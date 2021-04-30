@@ -23,10 +23,12 @@ class GoalMetadata:
         specific step.
         See StepMetadata.action_list for the available actions of the current
         step.
-        May be a subset of all possible actions. See [Actions](#Actions).
+        May be a subset of all possible actions.
+        See `Action <api.html#machine_common_sense.Action>`_
     category : string
         The category that describes this goal and the properties in its
-        metadata. See [Goals](#Goals).
+        metadata.
+        See `GoalCategory <api.html#machine_common_sense.GoalCategory>`_
     description : string
         A human-readable sentence describing this goal and containing
         the target task(s) and object(s).
@@ -47,7 +49,7 @@ class GoalMetadata:
         black, blue, brown, green, grey, orange, purple, red, white, yellow
 
         Materials:
-        See [Materials](#Materials).
+        See `Material <api.html#machine_common_sense.Material>`_
     habituation_total : int
         The total count of habituation trials that will be in this scene.
     last_preview_phase_step : integer
@@ -60,7 +62,8 @@ class GoalMetadata:
         The last step of this scene. This scene will automatically end
         following this step.
     metadata : dict
-        The metadata specific to this goal. See [Goals](#Goals).
+        The metadata specific to this goal.
+        See `GoalCategory <api.html#machine_common_sense.GoalCategory>`_
     """
 
     def __init__(

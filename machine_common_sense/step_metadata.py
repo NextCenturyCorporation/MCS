@@ -21,7 +21,8 @@ class StepMetadata:
         An action_list of None or an empty list means that all actions will
         be available for the next step.
         Derived from GoalMetadata.action_list.
-        May be a subset of all possible actions. See [Actions](#Actions).
+        May be a subset of all possible actions.
+        See `Action <api.html#machine_common_sense.Action>`_
     camera_aspect_ratio : (float, float)
         The player camera's aspect ratio. This will remain constant for the
         whole scene.
@@ -83,7 +84,8 @@ class StepMetadata:
         Will be set to 'None' if using a metadata level below the
         'oracle' level.
     return_status : string
-        The return status from your last action. See [Actions](#Actions).
+        The return status from your last action.
+        See `Action <api.html#machine_common_sense.Action>`_
     reward : integer
         Reward is 1 on successful completion of a task, 0 otherwise.
     rotation : float
