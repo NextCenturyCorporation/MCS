@@ -24,15 +24,8 @@ logger = logging.getLogger(__name__)
 # into a position to reach some objects (it may be mathematically impossible).
 # TODO Reduce this number once the player can crouch down to reach and
 # pickup small objects on the floor.
-# TODO move this to Unity since we now have performerReach in metadata?
-MAX_REACH_DISTANCE = 1.0
 
-# How far the player can move with a single step.
-MOVE_DISTANCE = 0.1
-
-# Performer camera 'y' position
-# TODO: MCS-627: move to scene generator
-PERFORMER_CAMERA_Y = 0.762
+DEFAULT_MOVE = 0.1
 
 from .action import Action
 from .goal_metadata import GoalMetadata
@@ -532,7 +525,8 @@ class Controller():
         pre_restrict_output = self.wrap_output(self._controller.step(
             self.wrap_step(action='Initialize', sceneConfig=config_data)))
 
-        output = self.restrict_step_output_metadata(pre_restrict_output)
+        output = self.restrict_step_output_metadata(
+            copy.deepcopy(pre_restrict_output))
 
         self.write_debug_output(output)
 
@@ -583,7 +577,7 @@ class Controller():
     """
 
     def validate_and_convert_params(self, action, **kwargs):
-        moveMagnitude = MOVE_DISTANCE
+        moveMagnitude = DEFAULT_MOVE
         rotation = kwargs.get(self.ROTATION_KEY, self.DEFAULT_ROTATION)
         horizon = kwargs.get(self.HORIZON_KEY, self.DEFAULT_HORIZON)
         amount = kwargs.get(
@@ -660,7 +654,7 @@ class Controller():
             moveMagnitude = amount
 
         if action in self.MOVE_ACTIONS:
-            moveMagnitude = MOVE_DISTANCE
+            moveMagnitude = DEFAULT_MOVE
 
         # Add in noise if noise is enable
         if self.__noise_enabled:
@@ -747,7 +741,10 @@ class Controller():
         if ',' in action:
             action, kwargs = Util.input_to_action_and_params(action)
 
-        action_list = self.retrieve_action_list(self._goal, self.__step_number)
+        action_list = self.retrieve_action_list_at_step(
+            self._goal,
+            self.__step_number
+        )
         # Only continue with this action step if the given action and
         # parameters are in the restricted action list.
         continue_with_step = False
@@ -766,17 +763,10 @@ class Controller():
                 f"The given action '{action}' with parameters "
                 f"'{kwargs}' isn't in the action_list. Ignoring your action. "
                 f"Please call controller.step() with an action in the "
-                f"action_list."
+                f"action_list. Possible actions at step {self.__step_number}:"
             )
-            action_string_list = self.retrieve_action_list(
-                self._goal,
-                self.__step_number,
-                string_list=True
-            )
-            logger.debug(
-                f"Actions (Step {self.__step_number}): "
-                f"{'; '.join(action_string_list)}"
-            )
+            for action_data in action_list:
+                logger.warning(f'    {action_data}')
             return None
 
         self.__step_number += 1
@@ -825,7 +815,8 @@ class Controller():
             output=history_copy,
             delta_time_millis=0)
 
-        output = self.restrict_step_output_metadata(pre_restrict_output)
+        output = self.restrict_step_output_metadata(
+            copy.deepcopy(pre_restrict_output))
 
         self.write_debug_output(output)
 
@@ -951,15 +942,17 @@ class Controller():
                     if 'image' in step_output.goal.metadata[target_name]:
                         step_output.goal.metadata[target_name]['image'] = None
                     # Disabling goal id restriction for now
-                    # if 'id' in step_output.goal.metadata[target_name]:
-                    #     step_output.goal.metadata[target_name]['id'] = None
+                    if 'id' in step_output.goal.metadata[target_name]:
+                        step_output.goal.metadata[target_name]['id'] = None
                     if 'image_name' in step_output.goal.metadata[target_name]:
                         step_output.goal.metadata[
                             target_name]['image_name'] = None
 
         return step_output
 
-    def retrieve_action_list(self, goal, step_number, string_list=False):
+    def retrieve_action_list_at_step(self, goal, step_number):
+        """Return the action list from the given goal at the given step as a
+        a list of actions tuples by default."""
         if goal is not None and goal.action_list is not None:
             if step_number < goal.last_preview_phase_step:
                 return ['Pass']
@@ -968,14 +961,9 @@ class Controller():
             adjusted_step = step_number - goal.last_preview_phase_step
             if len(goal.action_list) > adjusted_step:
                 if len(goal.action_list[adjusted_step]) > 0:
-                    return [
-                        Util.input_to_action_and_params(action)
-                        for action in goal.action_list[adjusted_step]
-                    ] if not string_list else goal.action_list[adjusted_step]
+                    return goal.action_list[adjusted_step]
 
-        return self.ACTION_LIST if not string_list else [
-            action[0] for action in self.ACTION_LIST
-        ]
+        return self.ACTION_LIST
 
     def retrieve_goal(self, scene_configuration):
         goal_config = (
@@ -984,12 +972,21 @@ class Controller():
             else {}
         )
 
+        # Transform action list data from strings to tuples.
+        action_list = goal_config.get('action_list', [])
+        for index, action_list_at_step in enumerate(action_list):
+            action_list[index] = [
+                Util.input_to_action_and_params(action)
+                if isinstance(action, str) else action
+                for action in action_list_at_step
+            ]
+
         if 'category' in goal_config:
             # Backwards compatibility
             goal_config['metadata']['category'] = goal_config['category']
 
         return self.update_goal_target_image(GoalMetadata(
-            action_list=goal_config.get('action_list', None),
+            action_list=(action_list if action_list else None),
             category=goal_config.get('category', ''),
             description=goal_config.get('description', ''),
             habituation_total=goal_config.get('habituation_total', 0),
@@ -1079,10 +1076,10 @@ class Controller():
             ),
             direction=object_metadata['direction'],
             distance=(
-                object_metadata['distanceXZ'] / MOVE_DISTANCE
+                object_metadata['distanceXZ'] / DEFAULT_MOVE
             ),  # DEPRECATED
             distance_in_steps=(
-                object_metadata['distanceXZ'] / MOVE_DISTANCE
+                object_metadata['distanceXZ'] / DEFAULT_MOVE
             ),
             distance_in_world=(object_metadata['distance']),
             held=object_metadata['isPickedUp'],
@@ -1281,8 +1278,10 @@ class Controller():
         objects = scene_event.metadata.get('objects', None)
         agent = scene_event.metadata.get('agent', None)
         step_output = StepMetadata(
-            action_list=self.retrieve_action_list(
-                self._goal, self.__step_number),
+            action_list=self.retrieve_action_list_at_step(
+                self._goal,
+                self.__step_number
+            ),
             camera_aspect_ratio=(self.__screen_width, self.__screen_height),
             camera_clipping_planes=(
                 scene_event.metadata.get('clippingPlaneNear', 0.0),
@@ -1308,7 +1307,8 @@ class Controller():
             performer_reach=scene_event.metadata.get('performerReach'),
             return_status=self.retrieve_return_status(scene_event),
             reward=Reward.calculate_reward(
-                self._goal, objects, agent, self.__step_number),
+                self._goal, objects, agent, self.__step_number,
+                scene_event.metadata.get('performerReach')),
             rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number,
             physics_frames_per_second=scene_event.metadata.get(
@@ -1357,9 +1357,6 @@ class Controller():
             renderDepthImage=self.__depth_maps,
             renderObjectImage=self.__object_masks,
             snapToGrid=False,
-            # Yes, in AI2-THOR, the player's reach appears to be
-            # governed by the "visibilityDistance", confusingly...
-            visibilityDistance=MAX_REACH_DISTANCE,
             consistentColors=consistentColors,
             **kwargs
         )

@@ -38,3 +38,7 @@ scripts/**/*.json
 scripts/**/*.mp4
 scripts/**/*.png
 scripts/**/*.zip
+
+# Logging output and user config
+logs/*.log
+scripts/log.config.user.py
