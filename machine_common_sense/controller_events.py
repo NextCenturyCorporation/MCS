@@ -24,8 +24,7 @@ class AbstractControllerSubscriber(ABC):
             EventType.ON_START_SCENE: self.on_start_scene,
             EventType.ON_BEFORE_STEP: self.on_before_step,
             EventType.ON_AFTER_STEP: self.on_after_step,
-            EventType.ON_END_SCENE: self.on_end_scene,
-            "default": self.on_default
+            EventType.ON_END_SCENE: self.on_end_scene
         }
 
     def on_event(self, type: EventType,
@@ -50,7 +49,3 @@ class AbstractControllerSubscriber(ABC):
 
     def on_end_scene(self, payload, controller):
         pass
-
-    def on_default(self):
-        pass
-        # maybe log error?
