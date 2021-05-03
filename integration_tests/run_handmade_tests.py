@@ -34,6 +34,7 @@ def create_test_case(name, expected, actual):
 def create_step_test_case_list(expected, actual):
     test_case_list = [
         ('action_list', actual.action_list),
+        ('camera_height', actual.camera_height),
         ('head_tilt', round(actual.head_tilt)),
         ('objects_count', len(actual.object_list)),
         ('position_x', actual.position.get('x') if actual.position else None),
@@ -42,6 +43,7 @@ def create_step_test_case_list(expected, actual):
         ('reward', actual.reward),
         ('rotation_y', actual.rotation),
         ('step_number', actual.step_number),
+        ('physics_frames_per_second', actual.physics_frames_per_second),
         ('structural_objects_count', len(actual.structural_object_list))
     ]
     return [
@@ -78,7 +80,9 @@ def create_object_test_case_list(object_type, expected, actual):
         ('shape', actual.shape),
         ('state_list', actual.state_list),
         ('texture_color_list', actual.texture_color_list),
-        ('visible', actual.visible)
+        ('visible', actual.visible),
+        ('is_open', actual.is_open),
+        ('openable', actual.openable)
     ]
     return [create_test_case(
         [object_type, actual.uuid, case_name],

@@ -35,7 +35,7 @@
             "y": 165,
             "z": 0
           },
-          "stepBegin": 20,
+          "stepBegin": 85,
           "scale": {
             "x": 0.6,
             "y": 0.3,
@@ -47,8 +47,8 @@
       "forces": [
         {
           "relative": true,
-          "stepBegin": 20,
-          "stepEnd": 20,
+          "stepBegin": 85,
+          "stepEnd": 85,
           "vector": {
             "x": 125.0,
             "y": 0,
@@ -90,8 +90,8 @@
           }
         },
         {
-          "stepBegin": 7,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -99,8 +99,8 @@
           }
         },
         {
-          "stepBegin": 145,
-          "stepEnd": 150,
+          "stepBegin": 226,
+          "stepEnd": 231,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -110,29 +110,29 @@
       ],
       "rotates": [
         {
-          "stepBegin": 1,
-          "stepEnd": 2,
+          "stepBegin": 7,
+          "stepEnd": 11,
           "vector": {
             "x": 0,
-            "y": -45,
+            "y": -18,
             "z": 0
           }
         },
         {
-          "stepBegin": 11,
-          "stepEnd": 12,
+          "stepBegin": 16,
+          "stepEnd": 20,
           "vector": {
             "x": 0,
-            "y": 45,
+            "y": 18,
             "z": 0
           }
         },
         {
-          "stepBegin": 149,
-          "stepEnd": 150,
+          "stepBegin": 232,
+          "stepEnd": 236,
           "vector": {
             "x": 0,
-            "y": -45,
+            "y": -18,
             "z": 0
           }
         }
@@ -171,8 +171,8 @@
           }
         },
         {
-          "stepBegin": 7,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -180,8 +180,8 @@
           }
         },
         {
-          "stepBegin": 145,
-          "stepEnd": 150,
+          "stepBegin": 226,
+          "stepEnd": 231,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -193,7 +193,7 @@
   ],
   "goal": {
     "category": "intuitive physics",
-    "last_step": 150,
+    "last_step": 240,
     "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
     "description": "",
     "metadata": {

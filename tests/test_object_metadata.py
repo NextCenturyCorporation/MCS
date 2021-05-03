@@ -22,7 +22,9 @@ class TestObjectMetadata(unittest.TestCase):
         "shape": "",
         "state_list": [],
         "texture_color_list": [],
-        "visible": false
+        "visible": false,
+        "is_open": false,
+        "openable": false
     }'''
 
     @classmethod

@@ -35,7 +35,7 @@
             "y": 45,
             "z": 0
           },
-          "stepBegin": 15,
+          "stepBegin": 80,
           "scale": {
             "x": 0.5,
             "y": 0.5,
@@ -45,7 +45,7 @@
       ],
       "hides": [
         {
-          "stepBegin": 50
+          "stepBegin": 120
         }
       ],
       "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color 2"]
@@ -69,7 +69,7 @@
             "y": 0,
             "z": 0
           },
-          "stepBegin": 20,
+          "stepBegin": 85,
           "scale": {
             "x": 2.5,
             "y": 2.5,
@@ -91,12 +91,12 @@
           "stepBegin": 0,
           "position": {
             "x": -1.631,
-            "y": 0.75,
+            "y": 0.9,
             "z": 1
           },
           "scale": {
             "x": 0.842,
-            "y": 1.5,
+            "y": 1.8,
             "z": 0.1
           }
         }
@@ -104,7 +104,7 @@
       "moves": [
         {
           "stepBegin": 1,
-          "stepEnd": 4,
+          "stepEnd": 6,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -112,8 +112,8 @@
           }
         },
         {
-          "stepBegin": 9,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -121,8 +121,8 @@
           }
         },
         {
-          "stepBegin": 55,
-          "stepEnd": 58,
+          "stepBegin": 146,
+          "stepEnd": 151,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -132,28 +132,28 @@
       ],
       "rotates": [
         {
-          "stepBegin": 5,
-          "stepEnd": 6,
-          "vector": {
-            "x": 45,
-            "y": 0,
-            "z": 0
-          }
-        },
-        {
           "stepBegin": 7,
-          "stepEnd": 8,
+          "stepEnd": 11,
           "vector": {
-            "x": -45,
+            "x": 18,
             "y": 0,
             "z": 0
           }
         },
         {
-          "stepBegin": 59,
-          "stepEnd": 60,
+          "stepBegin": 16,
+          "stepEnd": 20,
           "vector": {
-            "x": 45,
+            "x": -18,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 152,
+          "stepEnd": 156,
+          "vector": {
+            "x": 18,
             "y": 0,
             "z": 0
           }
@@ -172,7 +172,7 @@
           "stepBegin": 0,
           "position": {
             "x": -5.052,
-            "y": 0.75,
+            "y": 0.9,
             "z": 1
           },
           "rotation": {
@@ -190,7 +190,7 @@
       "moves": [
         {
           "stepBegin": 1,
-          "stepEnd": 4,
+          "stepEnd": 6,
           "vector": {
             "x": 0.25,
             "y": 0,
@@ -198,8 +198,8 @@
           }
         },
         {
-          "stepBegin": 9,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": -0.25,
             "y": 0,
@@ -207,8 +207,8 @@
           }
         },
         {
-          "stepBegin": 55,
-          "stepEnd": 58,
+          "stepBegin": 146,
+          "stepEnd": 151,
           "vector": {
             "x": 0.25,
             "y": 0,
@@ -229,12 +229,12 @@
           "stepBegin": 0,
           "position": {
             "x": 1.0312500000000002,
-            "y": 0.75,
+            "y": 0.9,
             "z": 1
           },
           "scale": {
             "x": 1.0,
-            "y": 1.5,
+            "y": 1.8,
             "z": 0.1
           }
         }
@@ -242,7 +242,7 @@
       "moves": [
         {
           "stepBegin": 1,
-          "stepEnd": 4,
+          "stepEnd": 6,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -250,8 +250,8 @@
           }
         },
         {
-          "stepBegin": 9,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": 0,
             "y": -0.25,
@@ -259,8 +259,8 @@
           }
         },
         {
-          "stepBegin": 55,
-          "stepEnd": 58,
+          "stepBegin": 146,
+          "stepEnd": 151,
           "vector": {
             "x": 0,
             "y": 0.25,
@@ -270,28 +270,28 @@
       ],
       "rotates": [
         {
-          "stepBegin": 5,
-          "stepEnd": 6,
-          "vector": {
-            "x": 45,
-            "y": 0,
-            "z": 0
-          }
-        },
-        {
           "stepBegin": 7,
-          "stepEnd": 8,
+          "stepEnd": 11,
           "vector": {
-            "x": -45,
+            "x": 18,
             "y": 0,
             "z": 0
           }
         },
         {
-          "stepBegin": 59,
-          "stepEnd": 60,
+          "stepBegin": 16,
+          "stepEnd": 20,
           "vector": {
-            "x": 45,
+            "x": -18,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 152,
+          "stepEnd": 156,
+          "vector": {
+            "x": 18,
             "y": 0,
             "z": 0
           }
@@ -310,7 +310,7 @@
           "stepBegin": 0,
           "position": {
             "x": 4.53125,
-            "y": 0.75,
+            "y": 0.9,
             "z": 1
           },
           "rotation": {
@@ -328,7 +328,7 @@
       "moves": [
         {
           "stepBegin": 1,
-          "stepEnd": 4,
+          "stepEnd": 6,
           "vector": {
             "x": 0.25,
             "y": 0,
@@ -336,8 +336,8 @@
           }
         },
         {
-          "stepBegin": 9,
-          "stepEnd": 12,
+          "stepBegin": 21,
+          "stepEnd": 26,
           "vector": {
             "x": -0.25,
             "y": 0,
@@ -345,8 +345,8 @@
           }
         },
         {
-          "stepBegin": 55,
-          "stepEnd": 58,
+          "stepBegin": 146,
+          "stepEnd": 151,
           "vector": {
             "x": 0.25,
             "y": 0,
@@ -358,7 +358,7 @@
   ],
   "goal": {
     "category": "intuitive physics",
-    "last_step": 60,
+    "last_step": 160,
     "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
     "description": "",
     "metadata": {

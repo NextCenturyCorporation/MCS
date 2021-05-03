@@ -1,7 +1,11 @@
 import numpy
+import logging
 
 from .action import Action
 from .material import Material
+
+
+logger = logging.getLogger(__name__)
 
 
 class Util:
@@ -174,18 +178,11 @@ class Util:
         """
         if value > max_value or value < min_value:
             if label is not None:
-                print(
-                    'Value of ' +
-                    label +
-                    'needs to be between ' +
-                    str(min_value) +
-                    ' and ' +
-                    str(max_value) +
-                    '. Current value: ' +
-                    str(value) +
-                    '. Will be reset to ' +
-                    str(default_value) +
-                    '.')
+                logger.debug(
+                    f'Value of {label} needs to be between '
+                    f'{min_value} and {max_value}. '
+                    f'Current value {value} '
+                    f'will be reset to {default_value}.')
             return default_value
         return value
 
@@ -211,10 +208,8 @@ class Util:
             return True
         except ValueError:
             if label is not None:
-                print(
-                    'Value of ' +
-                    label +
-                    ' needs to be a number. Will be set to 0.')
+                logger.debug(f'Value of {label}'
+                             f' needs to be a number. Will be set to 0.')
             return False
 
     @staticmethod

@@ -1,0 +1,6 @@
+﻿LookDown
+MoveAhead
+PickupObject,objectId=bowl_a
+Crawl
+DropObject
+Pass

@@ -115,18 +115,6 @@ The following string properties can be specified in order to upload and organize
 - s3_bucket
 - s3_folder
 
-#### debug
-
-(boolean)
-
-Whether to save MCS output debug files in this folder and print debug output to terminal. Will default to `False`. In lieu of a config file, this can be set using the `MCS_DEBUG_MODE` environment variable.
-
-#### debug_output
-
-(string)
-
-Alternatively to the `debug` property, `debug_output` can be used to either print debug info to the terminal or to debug files only. This should either be set to `file` or `terminal`, and will default to None. Will be ignored if `debug` or `MCS_DEBUG_MODE` is set.
-
 #### evaluation
 
 (boolean)
@@ -156,7 +144,8 @@ The `metadata` property describes what metadata will be returned by the MCS Pyth
 - `level1`: Only returns the images (with depth masks but NOT object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
 - `none`: Only returns the images (but not the masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
 
-Otherwise, return the metadata for the visible and held objects.
+If no metadata level is set:
+- `default`: Fallback if no metadata level is specified. Only meant for use during development (evaluations will never be run this way). Includes metadata for visible and held objects in the scene, as well as camera info and properties corresponding to the player. Does not include depth maps or object masks.
 
 #### noise_enabled
 

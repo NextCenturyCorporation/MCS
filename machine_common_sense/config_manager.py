@@ -1,6 +1,10 @@
 import os
+import logging
 import configparser  # noqa: F401
 import yaml  # noqa: F401
+
+
+logger = logging.getLogger(__name__)
 
 
 class ConfigManager(object):
@@ -13,8 +17,6 @@ class ConfigManager(object):
 
     CONFIG_AWS_ACCESS_KEY_ID = 'aws_access_key_id'
     CONFIG_AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
-    CONFIG_DEBUG = 'debug'
-    CONFIG_DEBUG_OUTPUT = 'debug_output'
     CONFIG_EVALUATION = 'evaluation'
     CONFIG_EVALUATION_NAME = 'evaluation_name'
     CONFIG_HISTORY_ENABLED = 'history_enabled'
@@ -22,6 +24,8 @@ class ConfigManager(object):
     CONFIG_NOISE_ENABLED = 'noise_enabled'
     CONFIG_S3_BUCKET = 's3_bucket'
     CONFIG_S3_FOLDER = 's3_folder'
+    CONFIG_SAVE_DEBUG_IMAGES = 'save_debug_images'
+    CONFIG_SAVE_DEBUG_JSON = 'save_debug_json'
     CONFIG_SEED = 'seed'
     CONFIG_SIZE = 'size'
     CONFIG_TEAM = 'team'
@@ -49,18 +53,9 @@ class ConfigManager(object):
         self._config = configparser.ConfigParser()
         if os.path.exists(self._config_file):
             self._config.read(self._config_file)
-
-            debug_to_terminal = (
-                self.is_debug() or self.get_debug_output() == 'terminal'
-            )
-
-            print('MCS Config File Path: ' + self._config_file)
-            if debug_to_terminal is True:
-                print('Read MCS Config File:')
-                print({section: dict(self._config[section])
-                       for section in self._config.sections()})
+            logger.info('Config File Path: ' + self._config_file)
         else:
-            print('No MCS Config File')
+            logger.info('No Config File')
 
     def _validate_screen_size(self):
         if(self.get_size() < self.SCREEN_WIDTH_MIN):
@@ -84,13 +79,6 @@ class ConfigManager(object):
             fallback=None
         )
 
-    def get_debug_output(self):
-        return self._config.get(
-            self.CONFIG_DEFAULT_SECTION,
-            self.CONFIG_DEBUG_OUTPUT,
-            fallback=None
-        )
-
     def get_evaluation_name(self):
         return self._config.get(
             self.CONFIG_DEFAULT_SECTION,
@@ -106,7 +94,7 @@ class ConfigManager(object):
             return self._config.get(
                 self.CONFIG_DEFAULT_SECTION,
                 self.CONFIG_METADATA_TIER,
-                fallback=''
+                fallback='default'
             )
 
         return metadata_env_var
@@ -146,24 +134,6 @@ class ConfigManager(object):
             fallback=''
         )
 
-    def is_debug(self):
-        # Environment variable override for debug mode
-        debug_env_var = os.getenv('MCS_DEBUG_MODE', None)
-
-        if(debug_env_var is None):
-            return self._config.getboolean(
-                self.CONFIG_DEFAULT_SECTION,
-                self.CONFIG_DEBUG,
-                fallback=False
-            )
-
-        if(debug_env_var is None or
-                debug_env_var.lower() == 'false' or
-                debug_env_var == '0' or debug_env_var == ''):
-            return False
-        else:
-            return True
-
     def is_evaluation(self):
         return self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
@@ -182,6 +152,20 @@ class ConfigManager(object):
         return self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_NOISE_ENABLED,
+            fallback=False
+        )
+
+    def is_save_debug_images(self):
+        return self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_SAVE_DEBUG_IMAGES,
+            fallback=False
+        )
+
+    def is_save_debug_json(self):
+        return self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_SAVE_DEBUG_JSON,
             fallback=False
         )
 

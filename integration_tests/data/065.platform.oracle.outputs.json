@@ -98,6 +98,30 @@
                     "yellow"
                 ],
                 "visible": true
+            },
+            {
+                "direction_x": 0.273,
+                "direction_y": -0.962,
+                "direction_z": 0.0,
+                "distance": 1.832,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": -0.404,
+                "direction_y": -0.915,
+                "direction_z": 0.0,
+                "distance": 2.473,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
             }
         ],
         "structural_objects_count": 8
@@ -200,6 +224,30 @@
                 "texture_color_list": [
                     "yellow"
                 ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.322,
+                "direction_y": -0.947,
+                "direction_z": 0.0,
+                "distance": 1.861,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": -0.37,
+                "direction_y": -0.929,
+                "direction_z": 0.0,
+                "distance": 2.434,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
                 "visible": true
             }
         ],
@@ -304,6 +352,30 @@
                     "yellow"
                 ],
                 "visible": true
+            },
+            {
+                "direction_x": 0.369,
+                "direction_y": -0.929,
+                "direction_z": 0.0,
+                "distance": 1.896,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": -0.333,
+                "direction_y": -0.943,
+                "direction_z": 0.0,
+                "distance": 2.399,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
             }
         ],
         "structural_objects_count": 8
@@ -406,6 +478,30 @@
                 "texture_color_list": [
                     "yellow"
                 ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.413,
+                "direction_y": -0.911,
+                "direction_z": 0.0,
+                "distance": 1.935,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": -0.296,
+                "direction_y": -0.955,
+                "direction_z": 0.0,
+                "distance": 2.368,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
                 "visible": true
             }
         ],
@@ -510,6 +606,30 @@
                     "yellow"
                 ],
                 "visible": true
+            },
+            {
+                "direction_x": 0.455,
+                "direction_y": -0.891,
+                "direction_z": 0.0,
+                "distance": 1.979,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": -0.256,
+                "direction_y": -0.967,
+                "direction_z": 0.0,
+                "distance": 2.34,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
             }
         ],
         "structural_objects_count": 8
@@ -612,6 +732,30 @@
                 "texture_color_list": [
                     "yellow"
                 ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.494,
+                "direction_y": -0.87,
+                "direction_z": 0.0,
+                "distance": 2.026,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": -0.216,
+                "direction_y": -0.976,
+                "direction_z": 0.0,
+                "distance": 2.317,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
                 "visible": true
             }
         ],
@@ -716,6 +860,30 @@
                     "yellow"
                 ],
                 "visible": true
+            },
+            {
+                "direction_x": 0.848,
+                "direction_y": -0.53,
+                "direction_z": 0.0,
+                "distance": 1.438,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": -0.217,
+                "direction_y": -0.976,
+                "direction_z": 0.0,
+                "distance": 1.293,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
             }
         ],
         "structural_objects_count": 8
@@ -818,6 +986,30 @@
                 "texture_color_list": [
                     "yellow"
                 ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.848,
+                "direction_y": -0.53,
+                "direction_z": 0.0,
+                "distance": 1.438,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": -0.217,
+                "direction_y": -0.976,
+                "direction_z": 0.0,
+                "distance": 1.293,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
                 "visible": true
             }
         ],
@@ -922,6 +1114,30 @@
                     "yellow"
                 ],
                 "visible": true
+            },
+            {
+                "direction_x": 0.866,
+                "direction_y": -0.5,
+                "direction_z": 0.0,
+                "distance": 1.524,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": -0.141,
+                "direction_y": -0.99,
+                "direction_z": 0.0,
+                "distance": 1.275,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
             }
         ],
         "structural_objects_count": 8
@@ -1024,6 +1240,30 @@
                 "texture_color_list": [
                     "yellow"
                 ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.881,
+                "direction_y": -0.473,
+                "direction_z": 0.0,
+                "distance": 1.612,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": -0.063,
+                "direction_y": -0.998,
+                "direction_z": 0.0,
+                "distance": 1.265,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
                 "visible": true
             }
         ],
@@ -1128,6 +1368,30 @@
                     "yellow"
                 ],
                 "visible": true
+            },
+            {
+                "direction_x": 0.894,
+                "direction_y": -0.448,
+                "direction_z": 0.0,
+                "distance": 1.7,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": 0.016,
+                "direction_y": -1.0,
+                "direction_z": 0.0,
+                "distance": 1.262,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
             }
         ],
         "structural_objects_count": 8
@@ -1230,6 +1494,30 @@
                 "texture_color_list": [
                     "yellow"
                 ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.905,
+                "direction_y": -0.426,
+                "direction_z": 0.0,
+                "distance": 1.79,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": 0.095,
+                "direction_y": -0.996,
+                "direction_z": 0.0,
+                "distance": 1.268,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
                 "visible": true
             }
         ],
@@ -1334,6 +1622,30 @@
                     "yellow"
                 ],
                 "visible": true
+            },
+            {
+                "direction_x": 0.914,
+                "direction_y": -0.405,
+                "direction_z": 0.0,
+                "distance": 1.881,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": 0.172,
+                "direction_y": -0.985,
+                "direction_z": 0.0,
+                "distance": 1.281,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
             }
         ],
         "structural_objects_count": 8
@@ -1436,6 +1748,30 @@
                 "texture_color_list": [
                     "yellow"
                 ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.922,
+                "direction_y": -0.386,
+                "direction_z": 0.0,
+                "distance": 1.973,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": 0.246,
+                "direction_y": -0.969,
+                "direction_z": 0.0,
+                "distance": 1.302,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
                 "visible": true
             }
         ],
@@ -1540,6 +1876,30 @@
                     "yellow"
                 ],
                 "visible": true
+            },
+            {
+                "direction_x": 0.929,
+                "direction_y": -0.369,
+                "direction_z": 0.0,
+                "distance": 2.066,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": 0.316,
+                "direction_y": -0.949,
+                "direction_z": 0.0,
+                "distance": 1.33,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
             }
         ],
         "structural_objects_count": 8
@@ -1642,6 +2002,30 @@
                 "texture_color_list": [
                     "yellow"
                 ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.994,
+                "direction_y": 0.107,
+                "direction_z": 0.0,
+                "distance": 2.233,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": 0.94,
+                "direction_y": -0.342,
+                "direction_z": 0.0,
+                "distance": 0.766,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
                 "visible": true
             }
         ],
@@ -1746,6 +2130,30 @@
                     "yellow"
                 ],
                 "visible": true
+            },
+            {
+                "direction_x": 0.994,
+                "direction_y": 0.107,
+                "direction_z": 0.0,
+                "distance": 2.233,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": 0.94,
+                "direction_y": -0.342,
+                "direction_z": 0.0,
+                "distance": 0.766,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
             }
         ],
         "structural_objects_count": 8
@@ -1849,6 +2257,30 @@
                     "yellow"
                 ],
                 "visible": true
+            },
+            {
+                "direction_x": 0.995,
+                "direction_y": 0.102,
+                "direction_z": 0.0,
+                "distance": 2.332,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": 0.953,
+                "direction_y": -0.304,
+                "direction_z": 0.0,
+                "distance": 0.861,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
             }
         ],
         "structural_objects_count": 8
@@ -1951,6 +2383,30 @@
                 "texture_color_list": [
                     "yellow"
                 ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.995,
+                "direction_y": 0.098,
+                "direction_z": 0.0,
+                "distance": 2.432,
+                "held": false,
+                "id": "upperPlatform",
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "shape": "structural",
+                "visible": true
+            },
+            {
+                "direction_x": 0.962,
+                "direction_y": -0.274,
+                "direction_z": 0.0,
+                "distance": 0.957,
+                "held": false,
+                "id": "lowerPlatform",
+                "position_x": 0.5,
+                "position_z": 2.0,
+                "shape": "structural",
                 "visible": true
             }
         ],
