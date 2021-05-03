@@ -40,7 +40,7 @@ from .util import Util
 from .history_writer import HistoryWriter
 from .config_manager import ConfigManager
 from .controller_output_handler import ControllerOutputHandler
-from .controller_logger import ControllerLogger
+from .controller_logger import ControllerLogger, ControllerDebugFileGenerator
 from .controller_events import ControllerEventPayload, EventType
 from .controller_video_manager import ControllerVideoManager
 
@@ -188,6 +188,7 @@ class Controller():
         self._config = ConfigManager(config_file_path)
 
         # Can we rearrange to use dependency injection?
+        self.subscribe(ControllerDebugFileGenerator())
         self.subscribe(ControllerLogger())
         if (self._config.is_evaluation() or self._config.is_video_enabled()):
             self.subscribe(ControllerVideoManager())
@@ -502,8 +503,6 @@ class Controller():
         # pre_restrict_output = copy.deepcopy(self.wrap_output(step_output))
         # output = self.restrict_step_output_metadata(pre_restrict_output)
 
-        self.write_debug_output_file(output)
-
         if not skip_preview_phase:
             if (self._goal is not None and
                     self._goal.last_preview_phase_step > 0):
@@ -789,8 +788,6 @@ class Controller():
             params=params,
             output=history_copy,
             delta_time_millis=0)
-
-        self.write_debug_output_file(output)
 
         payload = self._create_event_payload()
         # do we need both outputs?
@@ -1258,12 +1255,6 @@ class Controller():
         self.__head_tilt = step_output.head_tilt
 
         return step_output
-
-    def write_debug_output_file(self, step_output):
-        if self.__output_folder and self._config.is_save_debug_json:
-            with open(self.__output_folder + 'mcs_output_' +
-                      str(self.__step_number) + '.json', 'w') as json_file:
-                json_file.write(str(step_output))
 
     def wrap_step(self, **kwargs):
         # whether or not to randomize segmentation mask colors

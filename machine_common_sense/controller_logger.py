@@ -61,3 +61,18 @@ class ControllerLogger(AbstractControllerSubscriber):
                 logger.debug("    " + line)
 
     # def on_end_scene(self, payload, controller):
+
+
+class ControllerDebugFileGenerator(AbstractControllerSubscriber):
+
+    def on_start_scene(self, payload, controller):
+        self._write_debug_output_file(payload.step_output)
+
+    def on_after_step(self, payload, controller):
+        self._write_debug_output_file(payload.step_output)
+
+    def _write_debug_output_file(self, step_output):
+        if self.__output_folder and self._config.is_save_debug_json:
+            with open(self.__output_folder + 'mcs_output_' +
+                      str(self.__step_number) + '.json', 'w') as json_file:
+                json_file.write(str(step_output))
