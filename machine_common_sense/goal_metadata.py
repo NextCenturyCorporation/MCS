@@ -161,20 +161,12 @@ class GoalCategory(Enum):
     ----------
     target.id : string
         The objectId of the target object to retrieve.
-
-    target.image : list of numpy arrays
-        An image of the target object to retrieve, given as a 3D RGB pixel
-        array.
+        Will only be available at `oracle` metadata level.
 
     target.info : list of strings
         Human-readable information describing the target object needed for the
         visualization interface.
 
-    target.match_image : string
-        Whether the image of the target object (target.image) exactly matches
-        the actual target object in the scene. If false, then the actual object
-        will be different in one way (for example, the image may depict a blue
-        ball, but the actual object is a yellow ball, or a blue cube).
     """
 
     TRANSFERRAL = "transferral"
