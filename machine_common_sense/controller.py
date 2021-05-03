@@ -773,20 +773,14 @@ class Controller():
         pre_restrict_output = copy.deepcopy(self.wrap_output(step_output))
         output = self.restrict_step_output_metadata(pre_restrict_output)
 
-        history_copy = copy.deepcopy(pre_restrict_output)
+        history_debug_copy = pre_restrict_output.copy_without_depth_or_images()
 
-        # pre_restrict_output = self.wrap_output()
-        # history_copy = copy.deepcopy(pre_restrict_output)
-
-        del history_copy.depth_map_list
-        del history_copy.image_list
-        del history_copy.object_mask_list
         self.__history_item = SceneHistory(
             step=self.__step_number,
             action=action,
             args=kwargs,
             params=params,
-            output=history_copy,
+            output=history_debug_copy,
             delta_time_millis=0)
 
         payload = self._create_event_payload()
@@ -797,6 +791,9 @@ class Controller():
         self._publish_event(
             EventType.ON_AFTER_STEP,
             payload)
+
+        output = self.restrict_step_output_metadata(
+            copy.deepcopy(pre_restrict_output))
 
         return output
 

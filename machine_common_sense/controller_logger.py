@@ -66,10 +66,12 @@ class ControllerLogger(AbstractControllerSubscriber):
 class ControllerDebugFileGenerator(AbstractControllerSubscriber):
 
     def on_start_scene(self, payload, controller):
-        self._write_debug_output_file(payload.step_output)
+        self._write_debug_output_file(
+            payload.step_output.copy_without_depth_or_images())
 
     def on_after_step(self, payload, controller):
-        self._write_debug_output_file(payload.step_output)
+        self._write_debug_output_file(
+            payload.step_output.copy_without_depth_or_images())
 
     def _write_debug_output_file(self, step_output):
         if self.__output_folder and self._config.is_save_debug_json:
