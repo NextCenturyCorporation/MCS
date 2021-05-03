@@ -312,24 +312,18 @@ class Controller():
             self.PLACEHOLDER, self.VISUAL)
         self.__image_recorder = VideoRecorder(
             vid_path=output_folder / visual_video_filename,
-            width=self.__screen_width,
-            height=self.__screen_height,
             fps=self.FPS_FRAME_RATE)
 
         topdown_video_filename = basename_template.replace(
             self.PLACEHOLDER, self.TOPDOWN)
         self.__topdown_recorder = VideoRecorder(
             vid_path=output_folder / topdown_video_filename,
-            width=self.__screen_width,
-            height=self.__screen_height,
             fps=self.FPS_FRAME_RATE)
 
         heatmap_video_filename = basename_template.replace(
             self.PLACEHOLDER, self.HEATMAP)
         self.__heatmap_recorder = VideoRecorder(
             vid_path=output_folder / heatmap_video_filename,
-            width=self.__screen_width,
-            height=self.__screen_height,
             fps=self.FPS_FRAME_RATE)
 
         if self.__depth_maps:
@@ -337,8 +331,6 @@ class Controller():
                 self.PLACEHOLDER, self.DEPTH)
             self.__depth_recorder = VideoRecorder(
                 vid_path=output_folder / depth_video_filename,
-                width=self.__screen_width,
-                height=self.__screen_height,
                 fps=self.FPS_FRAME_RATE)
 
         if self.__object_masks:
@@ -346,8 +338,6 @@ class Controller():
                 self.PLACEHOLDER, self.SEGMENTATION)
             self.__segmentation_recorder = VideoRecorder(
                 vid_path=output_folder / segmentation_video_filename,
-                width=self.__screen_width,
-                height=self.__screen_height,
                 fps=self.FPS_FRAME_RATE)
 
     def end_scene(self, choice, confidence=1.0):
@@ -518,8 +508,7 @@ class Controller():
             team = self._config.get_team()
             scene = self.__scene_configuration.get(
                 'name', '').replace('json', '')
-            self.__plotter = TopDownPlotter(
-                team, scene, self.__screen_width, self.__screen_height)
+            self.__plotter = TopDownPlotter(team, scene)
             self._create_video_recorders(timestamp)
 
         pre_restrict_output = self.wrap_output(self._controller.step(
