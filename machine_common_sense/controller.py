@@ -219,7 +219,8 @@ class Controller():
     def subscribe(self, subscriber):
         if subscriber not in self._subscribers:
             self._subscribers.append(subscriber)
-            # TODO consider sending init if init has alreayd happened?
+            # TODO consider sending OnInit event to subscribers if the
+            # controllers OnInit event has already occured.
 
     def _publish_event(self, event_type: EventType,
                        payload: ControllerEventPayload):
