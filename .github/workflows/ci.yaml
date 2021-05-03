@@ -18,3 +18,5 @@ jobs:
           python -m pip install -r requirements.txt
       - name: Run unit tests
         run: python -m unittest
+      - name: Formatting
+        run: flake8
