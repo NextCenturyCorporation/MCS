@@ -28,8 +28,7 @@ class ControllerVideoManager(AbstractControllerSubscriber):
         team = payload.config.get_team()
         scene = payload.scene_config.get(
             'name', '').replace('json', '')
-        self.__plotter = TopDownPlotter(
-            team, scene, payload.screen_width, payload.screen_height)
+        self.__plotter = TopDownPlotter(team, scene)
 
         # strip prefix in scene_name
         if '/' in scene_name:
@@ -43,24 +42,18 @@ class ControllerVideoManager(AbstractControllerSubscriber):
             controller.PLACEHOLDER, controller.VISUAL)
         self.__image_recorder = VideoRecorder(
             vid_path=output_folder / visual_video_filename,
-            width=payload.screen_width,
-            height=payload.screen_height,
             fps=payload.step_output.physics_frames_per_second)
 
         topdown_video_filename = basename_template.replace(
             controller.PLACEHOLDER, controller.TOPDOWN)
         self.__topdown_recorder = VideoRecorder(
             vid_path=output_folder / topdown_video_filename,
-            width=payload.screen_width,
-            height=payload.screen_height,
             fps=payload.step_output.physics_frames_per_second)
 
         heatmap_video_filename = basename_template.replace(
             controller.PLACEHOLDER, controller.HEATMAP)
         self.__heatmap_recorder = VideoRecorder(
             vid_path=output_folder / heatmap_video_filename,
-            width=payload.screen_width,
-            height=payload.screen_height,
             fps=payload.step_output.physics_frames_per_second)
 
         if payload.depth_maps_enabled:
@@ -68,8 +61,6 @@ class ControllerVideoManager(AbstractControllerSubscriber):
                 controller.PLACEHOLDER, controller.DEPTH)
             self.__depth_recorder = VideoRecorder(
                 vid_path=output_folder / depth_video_filename,
-                width=payload.screen_width,
-                height=payload.screen_height,
                 fps=payload.step_output.physics_frames_per_second)
 
         if payload.object_masks_enabled:
@@ -77,8 +68,6 @@ class ControllerVideoManager(AbstractControllerSubscriber):
                 controller.PLACEHOLDER, controller.SEGMENTATION)
             self.__segmentation_recorder = VideoRecorder(
                 vid_path=output_folder / segmentation_video_filename,
-                width=payload.screen_width,
-                height=payload.screen_height,
                 fps=payload.step_output.physics_frames_per_second)
 
     def on_end_scene(self, payload, controller):
