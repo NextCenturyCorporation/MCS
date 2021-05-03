@@ -521,12 +521,6 @@ class Controller():
 
                 logger.debug('ENDING PREVIEW PHASE')
 
-                if (
-                    self._config.is_evaluation() or
-                    self._config.is_video_enabled()
-                ):
-                    self.__image_recorder.add(image_list[0])
-
                 output.image_list = image_list
                 output.depth_map_list = depth_map_list
                 output.object_mask_list = object_mask_list
