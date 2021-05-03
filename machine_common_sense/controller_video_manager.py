@@ -70,6 +70,8 @@ class ControllerVideoManager(AbstractControllerSubscriber):
                 vid_path=output_folder / segmentation_video_filename,
                 fps=payload.step_output.physics_frames_per_second)
 
+        self._save_images_and_add_to_video(payload, controller)
+
     def on_end_scene(self, payload, controller):
         self.__topdown_recorder.finish()
         self.__image_recorder.finish()
@@ -80,6 +82,9 @@ class ControllerVideoManager(AbstractControllerSubscriber):
             self.__segmentation_recorder.finish()
 
     def on_after_step(self, payload, controller):
+        self._save_images_and_add_to_video(payload, controller)
+
+    def _save_images_and_add_to_video(self, payload, controller):
         # foreach image list
         config = payload.config
         for scene_image in payload.step_output.image_list:
