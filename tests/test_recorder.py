@@ -1,14 +1,13 @@
 import unittest
 import pathlib
 import PIL
-import cv2
 
 from machine_common_sense.recorder import VideoRecorder
 
 
 class TestVideoRecorder(unittest.TestCase):
 
-    test_video_file = pathlib.Path('test.mp4')
+    test_video_file = pathlib.Path('tests/test.mp4')
     fps = 30
 
     def setUp(self):
@@ -61,17 +60,52 @@ class TestVideoRecorder(unittest.TestCase):
         self.recorder.add(img)
         self.assertFalse(self.recorder.frame_queue.empty())
         self.assertIsNotNone(self.recorder.writer)
-        self.assertEqual(
-            int(self.recorder.writer.get(
-                cv2.CAP_PROP_FRAME_WIDTH)), 50)
-        self.assertEqual(
-            self.recorder.writer.get(
-                cv2.CAP_PROP_FRAME_HEIGHT), 100)
+
+    def test_add_flush(self):
+        size = (50, 100)
+        img = PIL.Image.new("RGB", size)
+        self.recorder.add(img)
+        self.recorder.add(img)
+        self.recorder.add(img)
+        self.assertFalse(self.recorder.frame_queue.empty())
+        self.recorder.flush()
+        self.assertEqual(self.recorder._frames_written, 3)
 
     def test_finish(self):
+        nframes = 100
+        size = (50, 100)
+        img = PIL.Image.new("RGB", size)
+        for _ in range(nframes):
+            self.recorder.add(img)
         self.recorder.finish()
         self.assertFalse(self.recorder.active)
         self.assertTrue(self.recorder.frame_queue.empty())
+        self.assertEqual(self.recorder._frames_written, nframes)
+
+    def test_empty_finish(self):
+        nframes = 0
+        # wrap up the recorder without writing any frames
+        self.recorder.finish()
+        self.assertFalse(self.recorder.active)
+        self.assertIsNone(self.recorder.writer)
+        self.assertTrue(self.recorder.frame_queue.empty())
+        self.assertEqual(self.recorder._frames_written, nframes)
+
+    def test_wrong_size_frame(self):
+        # the first frame established the video recorder size
+        size = (50, 100)
+        img = PIL.Image.new("RGB", size)
+        self.recorder.add(img)
+
+        # any different sized frame will cause a ValueError exception
+        wrong_size = (100, 100)
+        wrong_size_img = PIL.Image.new("RGB", wrong_size, color='red')
+        self.assertRaises(ValueError, self.recorder.add, wrong_size_img)
+
+        self.recorder.finish()
+        self.assertFalse(self.recorder.active)
+        self.assertTrue(self.recorder.frame_queue.empty())
+        self.assertEqual(self.recorder._frames_written, 1)
 
 
 if __name__ == '__main__':
