@@ -66,14 +66,18 @@ class VideoRecorder():
         '''
 
         if self.writer is None:
-            width, height = frame.size
+            self.width, self.height = frame.size
             self.writer = cv2.VideoWriter(str(self._path),
                                           cv2.VideoWriter_fourcc(*self.fourcc),
                                           self.fps,
-                                          (width, height),
+                                          (self.width, self.height),
                                           True)
 
         if self.active:
+            width, height = frame.size
+            if (width, height) != (self.width, self.height):
+                raise ValueError(f"Wrong size frame ({width}, {height}) for "
+                                 f"video writer ({self.width}, {self.height})")
             # convert BGR PIL image to RGB for opencv
             cv_frame = np.array(frame.convert('RGB'))[:, :, ::-1]
             logger.debug(f"Adding frame to {self.path} queue")
@@ -100,6 +104,7 @@ class VideoRecorder():
         while not self.frame_queue.empty():
             frame = self.frame_queue.get()
             self.writer.write(frame)
+            self._frames_written = self._frames_written + 1
 
     def finish(self) -> None:
         '''Deactivate the recorder so that it does not accept more frames.
@@ -109,8 +114,8 @@ class VideoRecorder():
         '''
         logger.debug("Closing video recorder")
         self.active = False
-        self.thread.join()
         self.flush()
+        self.thread.join()
         if self.writer:
             self.writer.release()
 
