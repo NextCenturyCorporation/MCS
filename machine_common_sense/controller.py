@@ -513,8 +513,7 @@ class Controller():
             team = self._config.get_team()
             scene = self.__scene_configuration.get(
                 'name', '').replace('json', '')
-            self.__plotter = TopDownPlotter(
-                team, scene, self.__screen_width, self.__screen_height)
+            self.__plotter = TopDownPlotter(team, scene)
             self._create_video_recorders(timestamp)
 
         pre_restrict_output = self.wrap_output(self._controller.step(
