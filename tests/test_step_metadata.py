@@ -165,6 +165,7 @@ class TestStepMetadata(unittest.TestCase):
             ]
         )
         copy = data.copy_without_depth_or_images()
+        # Assert are exactly equal
         self.assertEqual(data.action_list, copy.action_list)
         self.assertEqual(data.camera_aspect_ratio, copy.camera_aspect_ratio)
         self.assertEqual(
@@ -199,11 +200,11 @@ class TestStepMetadata(unittest.TestCase):
             [dict(object_data) for object_data in data.structural_object_list],
             [dict(object_data) for object_data in copy.structural_object_list]
         )
-        # Empty
+        # Assert are empty lists
         self.assertEqual(copy.depth_map_list, [])
         self.assertEqual(copy.image_list, [])
         self.assertEqual(copy.object_mask_list, [])
-        # Are not the same instances
+        # Assert are not the same instances
         self.assertNotEqual(data.goal, copy.goal)
         self.assertNotEqual(data.object_list, copy.object_list)
         self.assertNotEqual(

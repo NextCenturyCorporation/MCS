@@ -175,8 +175,8 @@ class StepMetadata:
             return dict((obj.uuid, dict(obj)) for obj in obj_list)
 
     def copy_without_depth_or_images(self):
-        """Return a copy of this StepMetadata object with empty depth and
-        image properties."""
+        """Return a deep copy of this StepMetadata with default depth_map_list,
+        image_list, and object_mask_list properties."""
         step_metadata_copy = StepMetadata()
         for key, _ in self:
             setattr(step_metadata_copy, key, copy.deepcopy(getattr(self, key)))

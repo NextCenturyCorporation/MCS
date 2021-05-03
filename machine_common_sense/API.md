@@ -473,8 +473,8 @@ Defines output metadata from an action step in the MCS 3D environment.
 
 
 #### copy_without_depth_or_images()
-Return a copy of this StepMetadata object with empty depth and
-image properties.
+Return a deep copy of this StepMetadata with default depth_map_list,
+image_list, and object_mask_list properties.
 
 ## Actions
 
