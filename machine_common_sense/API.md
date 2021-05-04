@@ -132,11 +132,6 @@ Make a prediction on the previously taken step/action.
 
 
 
-#### retrieve_action_list_at_step(goal, step_number)
-Return the action list from the given goal at the given step as a
-a list of actions tuples by default.
-
-
 #### retrieve_object_states(object_id)
 Return the state list at the current step for the object with the
 given ID from the scene configuration data, if any.
@@ -268,6 +263,11 @@ Defines metadata for a goal in the MCS 3D environment.
 
     * **metadata** (*dict*) – The metadata specific to this goal. See [Goals](#Goals).
 
+
+
+#### retrieve_action_list_at_step(step_number)
+Return the action list from the given goal at the given step as a
+a list of actions tuples by default.
 
 ## ObjectMetadata
 

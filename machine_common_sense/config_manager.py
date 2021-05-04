@@ -3,11 +3,30 @@ import logging
 import configparser  # noqa: F401
 import yaml  # noqa: F401
 
+from .action import Action
 
 logger = logging.getLogger(__name__)
 
 
 class ConfigManager(object):
+
+    DEFAULT_CLIPPING_PLANE_FAR = 15.0
+    ACTION_LIST = [(item.value, {}) for item in Action]
+    # Normal metadata plus metadata for all hidden objects
+    CONFIG_METADATA_TIER_ORACLE = 'oracle'
+    # No metadata, except for the images, depth masks, object masks,
+    # and haptic/audio feedback
+    CONFIG_METADATA_TIER_LEVEL_2 = 'level2'
+    # No metadata, except for the images, depth masks, and haptic/audio
+    # feedback
+    CONFIG_METADATA_TIER_LEVEL_1 = 'level1'
+    # No metadata, except for the images and haptic/audio
+    # feedback
+    CONFIG_METADATA_TIER_NONE = 'none'
+
+    # Default metadata level if none specified, meant for use during
+    # development
+    CONFIG_METADATA_TIER_DEFAULT = 'default'
 
     CONFIG_FILE_ENV_VAR = 'MCS_CONFIG_FILE_PATH'
     METADATA_ENV_VAR = 'MCS_METADATA_LEVEL'
@@ -175,3 +194,57 @@ class ConfigManager(object):
             self.CONFIG_VIDEO_ENABLED,
             fallback=False
         )
+
+    def is_depth_maps_enabled(self) -> bool:
+        metadata_tier = self.get_metadata_tier()
+        if(metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
+            return True
+        elif(metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2 or
+             metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
+            return True
+        else:
+            return False
+
+    def is_object_masks_enabled(self) -> bool:
+        metadata_tier = self.get_metadata_tier()
+        if(metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
+            return False
+        elif(metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2 or
+             metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
+            return True
+        else:
+            return False
+
+    def get_screen_width(self) -> int:
+        return self.get_size()
+
+    def get_screen_height(self) -> int:
+        size = self.get_size()
+        return int(size / 3 * 2)
+
+
+# discrete class to be?
+class SceneConfiguration:
+    def __init__(self, scene_config_dict):
+        pass
+
+    @staticmethod
+    def retrieve_object_states(
+            scene_configuration, object_id, step_number):
+        """Return the state list at the current step for the object with the
+        given ID from the scene configuration data, if any."""
+        state_list_each_step = []
+        # Retrieve the object's states from the scene configuration.
+        for object_config in scene_configuration.get('objects', []):
+            if object_config.get('id', '') == object_id:
+                state_list_each_step = object_config.get('states', [])
+                break
+        # Retrieve the object's states in the current step.
+        if len(state_list_each_step) > step_number:
+            state_list = state_list_each_step[step_number]
+            # Validate the data type.
+            if state_list is not None:
+                if not isinstance(state_list, list):
+                    return [state_list]
+                return [str(state) for state in state_list]
+        return []

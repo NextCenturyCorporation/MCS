@@ -2,6 +2,7 @@ import argparse
 import cmd
 
 import machine_common_sense as mcs
+from machine_common_sense.config_manager import ConfigManager
 
 commandList = []
 
@@ -162,7 +163,7 @@ class HumanInputShell(cmd.Cmd):
     def show_available_actions(self, output):
         if (
             output.action_list and
-            len(output.action_list) < len(self.controller.ACTION_LIST)
+            len(output.action_list) < len(ConfigManager.ACTION_LIST)
         ):
             print('Only actions available during this step:')
             for action, params in output.action_list:

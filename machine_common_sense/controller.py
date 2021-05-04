@@ -1,4 +1,3 @@
-import copy
 import datetime
 import glob
 import json
@@ -29,16 +28,12 @@ DEFAULT_MOVE = 0.1
 
 from .action import Action
 from .goal_metadata import GoalMetadata
-from .object_metadata import ObjectMetadata
-from .pose import Pose
-from .return_status import ReturnStatus
 from .scene_history import SceneHistory
 from .step_metadata import StepMetadata
-from .reward import Reward
 from .uploader import S3Uploader
 from .util import Util
 from .history_writer import HistoryWriter
-from .config_manager import ConfigManager
+from .config_manager import ConfigManager, SceneConfiguration
 from .controller_output_handler import ControllerOutputHandler
 from .controller_logger import ControllerLogger, ControllerDebugFileGenerator
 from .controller_events import ControllerEventPayload, EventType
@@ -103,15 +98,11 @@ class Controller():
         (default None)
     """
 
-    ACTION_LIST = [(item.value, {}) for item in Action]
-
     # AI2-THOR creates a square grid across the scene that is
     # uses for "snap-to-grid" movement. (This value may not
     # really matter because we set continuous to True in
     # the step input.)
     GRID_SIZE = 0.1
-
-    DEFAULT_CLIPPING_PLANE_FAR = 15.0
 
     MAX_FORCE = 50.0
 
@@ -157,22 +148,6 @@ class Controller():
     OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
-    # Normal metadata plus metadata for all hidden objects
-    CONFIG_METADATA_TIER_ORACLE = 'oracle'
-    # No metadata, except for the images, depth masks, object masks,
-    # and haptic/audio feedback
-    CONFIG_METADATA_TIER_LEVEL_2 = 'level2'
-    # No metadata, except for the images, depth masks, and haptic/audio
-    # feedback
-    CONFIG_METADATA_TIER_LEVEL_1 = 'level1'
-    # No metadata, except for the images and haptic/audio
-    # feedback
-    CONFIG_METADATA_TIER_NONE = 'none'
-
-    # Default metadata level if none specified, meant for use during
-    # development
-    CONFIG_METADATA_TIER_DEFAULT = 'default'
-
     AWS_CREDENTIALS_FOLDER = os.path.expanduser('~') + '/.aws/'
     AWS_CREDENTIALS_FILE = os.path.expanduser('~') + '/.aws/credentials'
 
@@ -193,8 +168,6 @@ class Controller():
         if (self._config.is_evaluation() or self._config.is_video_enabled()):
             self.subscribe(ControllerVideoManager())
 
-        self._update_screen_size()
-
         self._output_handler = ControllerOutputHandler(self._config)
 
         self._controller = ai2thor.controller.Controller(
@@ -203,8 +176,8 @@ class Controller():
             # The headless flag does not work for me
             headless=False,
             local_executable_path=unity_app_file_path,
-            width=self.__screen_width,
-            height=self.__screen_height,
+            width=self._config.get_screen_width(),
+            height=self._config.get_screen_height(),
             # Set the name of our Scene in our Unity app
             scene='MCS',
             logs=True,
@@ -244,10 +217,6 @@ class Controller():
         payload.scene_config = self.__scene_configuration
         payload.habituation_trial = self.__habituation_trial
         payload.goal = self._goal
-        payload.depth_maps_enabled = self.__depth_maps
-        payload.object_masks_enabled = self.__object_masks
-        payload.screen_width = self.__screen_width
-        payload.screen_height = self.__screen_height
         return payload
 
     # Pixel coordinates are expected to start at the top left, but
@@ -255,15 +224,9 @@ class Controller():
 
     def _convert_y_image_coord_for_unity(self, y_coord):
         if(y_coord != 0):
-            return self.__screen_height - y_coord
+            return self._config.get_screen_height() - y_coord
         else:
             return y_coord
-
-    def _update_screen_size(self):
-        size = self._config.get_size()
-
-        self.__screen_width = size
-        self.__screen_height = int(size / 3 * 2)
 
     # Used for unit testing
     def _update_internal_config(self, noise_enabled=None, seed=None,
@@ -292,7 +255,6 @@ class Controller():
 
         self._goal = GoalMetadata()
         self.__habituation_trial = 1
-        self.__head_tilt = 0.0
         # Output folder used to save debug image, video, and JSON files.
         self.__output_folder = None
         self.__scene_configuration = None
@@ -301,21 +263,9 @@ class Controller():
         self.__history_item = None
         self.__uploader = None
 
-        self._metadata_tier = self._config.get_metadata_tier()
-
         # Whether or not to show depth maps or object masks is based on
         # metadata tier (the default for these if no metadata level is
         # set or metadata is set to `none`, is `False`)
-        self.__depth_maps = False
-        self.__object_masks = False
-
-        if(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
-            self.__depth_maps = True
-            self.__object_masks = False
-        elif(self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2 or
-             self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
-            self.__depth_maps = True
-            self.__object_masks = True
 
         if ((self._config.get_aws_access_key_id() is not None) and
                 (self._config.get_aws_secret_access_key() is not None)):
@@ -384,7 +334,7 @@ class Controller():
                     history_path=self.__history_writer.scene_history_file,
                     s3_filename=(folder_prefix + '/' +
                                  self._config.get_evaluation_name() +
-                                 '_' + self._metadata_tier +
+                                 '_' + self._config.get_metadata_tier() +
                                  '_' + self._config.get_team() +
                                  '_' + history_filename)
                 )
@@ -411,7 +361,8 @@ class Controller():
                 s3_filename=folder_prefix + '/' + video_filename
             )
 
-            if self.__depth_maps:
+            # THIS WILL BREAK WHEN ENABLED!
+            if self._config.is_depth_maps_enabled():
                 video_filename = self._get_filename_without_timestamp(
                     self.__depth_recorder.path)
                 self.__uploader.upload_video(
@@ -419,7 +370,7 @@ class Controller():
                     s3_filename=folder_prefix + '/' + video_filename
                 )
 
-            if self.__object_masks:
+            if self._config.is_object_masks_enabled():
                 video_filename = self._get_filename_without_timestamp(
                     self.__segmentation_recorder.path)
                 self.__uploader.upload_video(
@@ -467,7 +418,7 @@ class Controller():
             ] = self._config.is_evaluation()
             hist_info[
                 self._config.CONFIG_METADATA_TIER
-            ] = self._metadata_tier
+            ] = self._config.get_metadata_tier()
             hist_info[
                 self._config.CONFIG_TEAM
             ] = self._config.get_team()
@@ -481,12 +432,7 @@ class Controller():
                               'skip_preview_phase' in config_data['goal']
                               else False)
 
-        if (config_data['name'] is not None and (
-            self._config.is_evaluation() or
-            self._config.is_save_debug_images() or
-            self._config.is_save_debug_json() or
-            self._config.is_video_enabled()
-        )):
+        if (self.isFileWritingEnabled()):
             os.makedirs('./' + config_data['name'], exist_ok=True)
             self.__output_folder = './' + config_data['name'] + '/'
             file_list = glob.glob(self.__output_folder + '*')
@@ -497,11 +443,18 @@ class Controller():
             action='Initialize', sceneConfig=config_data)
         step_output = self._controller.step(wrapped_step)
 
-        pre_restrict_output = copy.deepcopy(self.wrap_output(step_output))
-        output = self.restrict_step_output_metadata(pre_restrict_output)
+        if self.__output_folder and self._config.is_save_debug_json():
+            with open(self.__output_folder + 'ai2thor_output_' +
+                      str(self.__step_number) + '.json', 'w') as json_file:
+                json.dump({
+                    "metadata": step_output.metadata
+                }, json_file, sort_keys=True, indent=4)
 
-        # pre_restrict_output = copy.deepcopy(self.wrap_output(step_output))
-        # output = self.restrict_step_output_metadata(pre_restrict_output)
+        self._output_handler.set_scene_config(config_data)
+        (pre_restrict_output, output) = \
+            self._output_handler.handle_output(
+            step_output, self._goal, self.__step_number,
+            self.__habituation_trial)
 
         if not skip_preview_phase:
             if (self._goal is not None and
@@ -540,6 +493,14 @@ class Controller():
             EventType.ON_START_SCENE, payload)
 
         return output
+
+    def isFileWritingEnabled(self):
+        return self.__scene_configuration['name'] is not None and (
+            self._config.is_evaluation() or
+            self._config.is_save_debug_images() or
+            self._config.is_save_debug_json() or
+            self._config.is_video_enabled()
+        )
 
     # TODO: may need to reevaluate validation strategy/error handling in the
     # future
@@ -714,10 +675,8 @@ class Controller():
         if ',' in action:
             action, kwargs = Util.input_to_action_and_params(action)
 
-        action_list = self.retrieve_action_list_at_step(
-            self._goal,
-            self.__step_number
-        )
+        action_list = self._goal.retrieve_action_list_at_step(
+            self.__step_number)
         # Only continue with this action step if the given action and
         # parameters are in the restricted action list.
         continue_with_step = False
@@ -770,8 +729,17 @@ class Controller():
         step_action = self.wrap_step(action=action, **params)
         step_output = self._controller.step(step_action)
 
-        pre_restrict_output = copy.deepcopy(self.wrap_output(step_output))
-        output = self.restrict_step_output_metadata(pre_restrict_output)
+        (pre_restrict_output, output) = \
+            self._output_handler.handle_output(
+            step_output, self._goal, self.__step_number,
+            self.__habituation_trial)
+
+        if self.__output_folder and self._config.is_save_debug_json:
+            with open(self.__output_folder + 'ai2thor_output_' +
+                      str(self.__step_number) + '.json', 'w') as json_file:
+                json.dump({
+                    "metadata": step_output.metadata
+                }, json_file, sort_keys=True, indent=4)
 
         history_debug_copy = pre_restrict_output.copy_without_depth_or_images()
 
@@ -791,9 +759,6 @@ class Controller():
         self._publish_event(
             EventType.ON_AFTER_STEP,
             payload)
-
-        output = self.restrict_step_output_metadata(
-            copy.deepcopy(pre_restrict_output))
 
         return output
 
@@ -889,56 +854,18 @@ class Controller():
 
         return goal_output
 
-    def restrict_step_output_metadata(self, step_output):
-        # Use this function to filter out of the step output any data
-        # that shouldn't be returned at certain metadata tiers
-        if(self._metadata_tier == self.CONFIG_METADATA_TIER_NONE):
-            step_output.depth_map_list = []
-
-        if(self._metadata_tier == self.CONFIG_METADATA_TIER_NONE or
-                self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
-            step_output.object_mask_list = []
-
-        if (
-            self._metadata_tier == self.CONFIG_METADATA_TIER_NONE or
-            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
-            self._metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2
-        ):
-            step_output.position = None
-            step_output.rotation = None
-            step_output.structural_object_list = []
-            step_output.object_list = []
-
-            # Below is to remove the goal targets from output
-            target_name_list = ['target', 'target_1', 'target_2']
-
-            for target_name in target_name_list:
-                if (target_name in step_output.goal.metadata):
-                    if 'image' in step_output.goal.metadata[target_name]:
-                        step_output.goal.metadata[target_name]['image'] = None
-                    if 'id' in step_output.goal.metadata[target_name]:
-                        step_output.goal.metadata[target_name]['id'] = None
-                    if 'image_name' in step_output.goal.metadata[target_name]:
-                        step_output.goal.metadata[
-                            target_name]['image_name'] = None
-
-        return step_output
-
     def retrieve_action_list_at_step(self, goal, step_number):
-        """Return the action list from the given goal at the given step as a
-        a list of actions tuples by default."""
-        if goal is not None and goal.action_list is not None:
-            if step_number < goal.last_preview_phase_step:
-                return ['Pass']
-            if goal.last_step is not None and step_number == goal.last_step:
-                return []
-            adjusted_step = step_number - goal.last_preview_phase_step
-            if len(goal.action_list) > adjusted_step:
-                if len(goal.action_list[adjusted_step]) > 0:
-                    return goal.action_list[adjusted_step]
+        return goal.retrieve_action_list_at_step(step_number)
 
-        return self.ACTION_LIST
+    def retrieve_object_states(self, object_id):
+        """Return the state list at the current step for the object with the
+        given ID from the scene configuration data, if any."""
+        SceneConfiguration.retrieve_object_states(
+            self.__scene_configuration,
+            object_id,
+            self.__step_number)
 
+    # move to SceneConfiguration class (in config_manager)
     def retrieve_goal(self, scene_configuration):
         goal_config = (
             scene_configuration['goal']
@@ -971,293 +898,16 @@ class Controller():
             metadata=goal_config.get('metadata', {})
         ))
 
-    def retrieve_head_tilt(self, scene_event):
-        return scene_event.metadata['agent']['cameraHorizon']
-
-    def retrieve_rotation(self, scene_event):
-        return scene_event.metadata['agent']['rotation']['y']
-
-    def retrieve_object_colors(self, scene_event):
-        # Use the color map for the final event (though they should all be the
-        # same anyway).
-        return scene_event.events[len(
-            scene_event.events) - 1].object_id_to_color
-
-    def retrieve_object_list(self, scene_event):
-        # Return object list for all tier levels, the restrict output function
-        # will then strip out the necessary metadata
-        if (self._metadata_tier != self.CONFIG_METADATA_TIER_DEFAULT):
-            return sorted(
-                [
-                    self.retrieve_object_output(
-                        object_metadata,
-                        self.retrieve_object_colors(scene_event),
-                    )
-                    for object_metadata in scene_event.metadata['objects']
-                ],
-                key=lambda x: x.uuid
-            )
-        else:
-            # if no config specified, return visible objects (for now)
-            return sorted(
-                [
-                    self.retrieve_object_output(
-                        object_metadata,
-                        self.retrieve_object_colors(scene_event)
-                    )
-                    for object_metadata in scene_event.metadata['objects']
-                    if object_metadata['visibleInCamera'] or
-                    object_metadata['isPickedUp']
-                ],
-                key=lambda x: x.uuid
-            )
-
-    def retrieve_object_output(self, object_metadata, object_id_to_color):
-        material_list = (
-            list(
-                filter(
-                    Util.verify_material_enum_string,
-                    [
-                        material.upper()
-                        for material in object_metadata['salientMaterials']
-                    ],
-                )
-            )
-            if object_metadata['salientMaterials'] is not None
-            else []
-        )
-
-        rgb = (
-            object_id_to_color[object_metadata['objectId']]
-            if object_metadata['objectId'] in object_id_to_color
-            else [None, None, None]
-        )
-
-        bounds = (
-            object_metadata['objectBounds']
-            if 'objectBounds' in object_metadata and
-            object_metadata['objectBounds'] is not None
-            else {}
-        )
-
-        return ObjectMetadata(
-            uuid=object_metadata['objectId'],
-            color={'r': rgb[0], 'g': rgb[1], 'b': rgb[2]},
-            dimensions=(
-                bounds['objectBoundsCorners']
-                if 'objectBoundsCorners' in bounds
-                else None
-            ),
-            direction=object_metadata['direction'],
-            distance=(
-                object_metadata['distanceXZ'] / DEFAULT_MOVE
-            ),  # DEPRECATED
-            distance_in_steps=(
-                object_metadata['distanceXZ'] / DEFAULT_MOVE
-            ),
-            distance_in_world=(object_metadata['distance']),
-            held=object_metadata['isPickedUp'],
-            mass=object_metadata['mass'],
-            material_list=material_list,
-            position=object_metadata['position'],
-            rotation=object_metadata['rotation'],
-            shape=object_metadata['shape'],
-            state_list=self.retrieve_object_states(
-                object_metadata['objectId']
-            ),
-            texture_color_list=object_metadata['colorsFromMaterials'],
-            visible=(
-                object_metadata['visibleInCamera'] or
-                object_metadata['isPickedUp']
-            ),
-            is_open=object_metadata['isOpen'],
-            openable=object_metadata['openable']
-        )
-
-    def retrieve_object_states(self, object_id):
-        """Return the state list at the current step for the object with the
-        given ID from the scene configuration data, if any."""
-        state_list_each_step = []
-        # Retrieve the object's states from the scene configuration.
-        for object_config in self.__scene_configuration.get('objects', []):
-            if object_config.get('id', '') == object_id:
-                state_list_each_step = object_config.get('states', [])
-                break
-        # Retrieve the object's states in the current step.
-        if len(state_list_each_step) > self.__step_number:
-            state_list = state_list_each_step[self.__step_number]
-            # Validate the data type.
-            if state_list is not None:
-                if not isinstance(state_list, list):
-                    return [state_list]
-                return [str(state) for state in state_list]
-        return []
-
-    def retrieve_pose(self, scene_event) -> str:
-        pose = Pose.UNDEFINED.name
-
-        try:
-            pose = Pose[scene_event.metadata['pose']].name
-        except KeyError:
-            logger.error(
-                "Pose {scene_event.metadata['pose']}"
-                " is not currently supported.")
-        finally:
-            return pose
-
-    def retrieve_position(self, scene_event) -> dict:
-        return scene_event.metadata['agent']['position']
-
-    def retrieve_return_status(self, scene_event):
-        # TODO MCS-47 Need to implement all proper step statuses on the Unity
-        # side
-        return_status = ReturnStatus.UNDEFINED.name
-
-        try:
-            if scene_event.metadata['lastActionStatus']:
-                return_status = ReturnStatus[
-                    scene_event.metadata['lastActionStatus']
-                ].name
-        except KeyError:
-            logger.error(
-                "Return status {scene_event.metadata['lastActionStatus']}"
-                " is not currently supported.")
-        finally:
-            return return_status
-
-    def retrieve_structural_object_list(self, scene_event):
-        # Return structural object list for all tier levels, the restrict
-        # output function will then strip out the necessary metadata
-        if (self._metadata_tier != self.CONFIG_METADATA_TIER_DEFAULT):
-            return sorted(
-                [
-                    self.retrieve_object_output(
-                        object_metadata,
-                        self.retrieve_object_colors(scene_event),
-                    )
-                    for object_metadata in scene_event.metadata[
-                        'structuralObjects'
-                    ]
-                ],
-                key=lambda x: x.uuid
-            )
-        else:
-            # if no config specified, return visible structural objects (for
-            # now)
-            return sorted(
-                [
-                    self.retrieve_object_output(
-                        object_metadata, self.retrieve_object_colors(
-                            scene_event)
-                    )
-                    for object_metadata in scene_event.metadata[
-                        'structuralObjects'
-                    ]
-                    if object_metadata['visibleInCamera']
-                ],
-                key=lambda x: x.uuid
-            )
-
-    def save_image_data(self, scene_event, max_depth):
-        image_list = []
-        depth_map_list = []
-        object_mask_list = []
-
-        for index, event in enumerate(scene_event.events):
-            scene_image = PIL.Image.fromarray(event.frame)
-            image_list.append(scene_image)
-
-            if self.__depth_maps:
-                # The Unity depth array (returned by Depth.shader) contains
-                # a third of the total max depth in each RGB element.
-                unity_depth_array = event.depth_frame.astype(np.float32)
-                # Convert to values between 0 and max_depth for output.
-                depth_float_array = (
-                    (unity_depth_array[:, :, 0] * (max_depth / 3.0) / 255.0) +
-                    (unity_depth_array[:, :, 1] * (max_depth / 3.0) / 255.0) +
-                    (unity_depth_array[:, :, 2] * (max_depth / 3.0) / 255.0)
-                )
-                depth_map_list.append(np.array(depth_float_array))
-
-            if self.__object_masks:
-                object_mask = PIL.Image.fromarray(
-                    event.instance_segmentation_frame)
-                object_mask_list.append(object_mask)
-
-        return image_list, depth_map_list, object_mask_list
-
     def stop_simulation(self):
         """Stop the 3D simulation environment. This controller won't work any
         more."""
         self._controller.stop()
 
-    def wrap_output(self, scene_event):
-        if self.__output_folder and self._config.is_save_debug_json:
-            with open(self.__output_folder + 'ai2thor_output_' +
-                      str(self.__step_number) + '.json', 'w') as json_file:
-                json.dump({
-                    "metadata": scene_event.metadata
-                }, json_file, sort_keys=True, indent=4)
-
-        image_list, depth_map_list, object_mask_list = self.save_image_data(
-            scene_event,
-            scene_event.metadata.get(
-                'clippingPlaneFar',
-                self.DEFAULT_CLIPPING_PLANE_FAR
-            )
-        )
-
-        objects = scene_event.metadata.get('objects', None)
-        agent = scene_event.metadata.get('agent', None)
-        step_output = StepMetadata(
-            action_list=self.retrieve_action_list_at_step(
-                self._goal,
-                self.__step_number
-            ),
-            camera_aspect_ratio=(self.__screen_width, self.__screen_height),
-            camera_clipping_planes=(
-                scene_event.metadata.get('clippingPlaneNear', 0.0),
-                scene_event.metadata.get('clippingPlaneFar', 0.0),
-            ),
-            camera_field_of_view=scene_event.metadata.get('fov', 0.0),
-            camera_height=scene_event.metadata.get(
-                'cameraPosition', {}).get('y', 0.0),
-            depth_map_list=depth_map_list,
-            goal=self._goal,
-            habituation_trial=(
-                self.__habituation_trial
-                if self._goal.habituation_total >= self.__habituation_trial
-                else None
-            ),
-            head_tilt=self.retrieve_head_tilt(scene_event),
-            image_list=image_list,
-            object_list=self.retrieve_object_list(scene_event),
-            object_mask_list=object_mask_list,
-            pose=self.retrieve_pose(scene_event),
-            position=self.retrieve_position(scene_event),
-            performer_radius=scene_event.metadata.get('performerRadius'),
-            performer_reach=scene_event.metadata.get('performerReach'),
-            return_status=self.retrieve_return_status(scene_event),
-            reward=Reward.calculate_reward(
-                self._goal, objects, agent, self.__step_number,
-                scene_event.metadata.get('performerReach')),
-            rotation=self.retrieve_rotation(scene_event),
-            step_number=self.__step_number,
-            physics_frames_per_second=scene_event.metadata.get(
-                'physicsFramesPerSecond'),
-            structural_object_list=self.retrieve_structural_object_list(
-                scene_event)
-        )
-
-        self.__head_tilt = step_output.head_tilt
-
-        return step_output
-
     def wrap_step(self, **kwargs):
         # whether or not to randomize segmentation mask colors
         consistentColors = False
-
-        if(self._metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
+        metadata_tier = self._config.get_metadata_tier()
+        if(metadata_tier == ConfigManager.CONFIG_METADATA_TIER_ORACLE):
             consistentColors = True
 
         # Create the step data dict for the AI2-THOR step function.
@@ -1265,8 +915,8 @@ class Controller():
             continuous=True,
             gridSize=self.GRID_SIZE,
             logs=True,
-            renderDepthImage=self.__depth_maps,
-            renderObjectImage=self.__object_masks,
+            renderDepthImage=self._config.is_depth_maps_enabled(),
+            renderObjectImage=self._config.is_object_masks_enabled(),
             snapToGrid=False,
             consistentColors=consistentColors,
             **kwargs
@@ -1301,4 +951,4 @@ class Controller():
         string
             A string containing the current metadata level.
         """
-        return self._metadata_tier
+        return self._config.get_metadata_tier()

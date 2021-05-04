@@ -66,15 +66,14 @@ class ControllerLogger(AbstractControllerSubscriber):
 class ControllerDebugFileGenerator(AbstractControllerSubscriber):
 
     def on_start_scene(self, payload, controller):
-        self._write_debug_output_file(
-            payload.step_output.copy_without_depth_or_images())
+        self._write_debug_output_file(payload)
 
     def on_after_step(self, payload, controller):
-        self._write_debug_output_file(
-            payload.step_output.copy_without_depth_or_images())
+        self._write_debug_output_file(payload)
 
-    def _write_debug_output_file(self, step_output):
-        if self.__output_folder and self._config.is_save_debug_json:
-            with open(self.__output_folder + 'mcs_output_' +
-                      str(self.__step_number) + '.json', 'w') as json_file:
+    def _write_debug_output_file(self, payload):
+        step_output = payload.step_output.copy_without_depth_or_images()
+        if payload.output_folder and payload.config.is_save_debug_json:
+            with open(payload.output_folder + 'mcs_output_' +
+                      str(payload.step_number) + '.json', 'w') as json_file:
                 json_file.write(str(step_output))

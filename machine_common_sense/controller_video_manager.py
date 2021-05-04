@@ -6,6 +6,7 @@ import numpy as np
 from .controller_events import AbstractControllerSubscriber
 from .plotter import TopDownPlotter
 from .recorder import VideoRecorder
+from .config_manager import ConfigManager
 
 logger = logging.getLogger(__name__)
 
@@ -56,14 +57,14 @@ class ControllerVideoManager(AbstractControllerSubscriber):
             vid_path=output_folder / heatmap_video_filename,
             fps=payload.step_output.physics_frames_per_second)
 
-        if payload.depth_maps_enabled:
+        if payload.config.is_depth_maps_enabled():
             depth_video_filename = basename_template.replace(
                 controller.PLACEHOLDER, controller.DEPTH)
             self.__depth_recorder = VideoRecorder(
                 vid_path=output_folder / depth_video_filename,
                 fps=payload.step_output.physics_frames_per_second)
 
-        if payload.object_masks_enabled:
+        if payload.config.is_object_masks_enabled():
             segmentation_video_filename = basename_template.replace(
                 controller.PLACEHOLDER, controller.SEGMENTATION)
             self.__segmentation_recorder = VideoRecorder(
@@ -76,9 +77,9 @@ class ControllerVideoManager(AbstractControllerSubscriber):
         self.__topdown_recorder.finish()
         self.__image_recorder.finish()
         self.__heatmap_recorder.finish()
-        if payload.depth_maps_enabled:
+        if payload.config.is_depth_maps_enabled():
             self.__depth_recorder.finish()
-        if payload.object_masks_enabled:
+        if payload.config.is_object_masks_enabled():
             self.__segmentation_recorder.finish()
 
     def on_after_step(self, payload, controller):
@@ -106,10 +107,10 @@ class ControllerVideoManager(AbstractControllerSubscriber):
                                         payload.step_number,
                                         goal_id))
         for depth_float_array in payload.step_output.depth_map_list:
-            if payload.depth_maps_enabled:
+            if payload.config.is_depth_maps_enabled():
                 max_depth = payload.step_metadata.metadata.get(
                     'clippingPlaneFar',
-                    controller.DEFAULT_CLIPPING_PLANE_FAR
+                    ConfigManager.DEFAULT_CLIPPING_PLANE_FAR
                 )
                 # Convert to pixel values for saving debug image.
                 depth_pixel_array = depth_float_array * \
@@ -120,7 +121,7 @@ class ControllerVideoManager(AbstractControllerSubscriber):
                 self.__depth_recorder.add(depth_map)
 
         for object_mask in payload.step_output.object_mask_list:
-            if payload.object_masks_enabled:
+            if payload.config.is_object_masks_enabled():
                 self.__segmentation_recorder.add(object_mask)
 
         if payload.output_folder and payload.config.is_save_debug_images:
@@ -132,9 +133,9 @@ class ControllerVideoManager(AbstractControllerSubscriber):
             suffix = '_' + str(step_plus_substep_index) + '.png'
             scene_image.save(fp=payload.output_folder +
                              'frame_image' + suffix)
-            if payload.depth_maps_enabled:
+            if payload.config.is_depth_maps_enabled():
                 depth_map.save(fp=payload.output_folder +
                                'depth_map' + suffix)
-            if payload.object_masks_enabled:
+            if payload.config.is_object_masks_enabled():
                 object_mask.save(fp=payload.output_folder +
                                  'object_mask' + suffix)
