@@ -36,6 +36,7 @@ from .history_writer import HistoryWriter
 from .config_manager import ConfigManager, SceneConfiguration
 from .controller_output_handler import ControllerOutputHandler
 from .controller_logger import ControllerLogger, ControllerDebugFileGenerator
+from .controller_logger import ControllerAi2thorFileGenerator
 from .controller_events import ControllerEventPayload, EventType
 from .controller_video_manager import ControllerVideoManager
 
@@ -165,6 +166,7 @@ class Controller():
         # Can we rearrange to use dependency injection?
         self.subscribe(ControllerDebugFileGenerator())
         self.subscribe(ControllerLogger())
+        self.subscribe(ControllerAi2thorFileGenerator())
         if (self._config.is_evaluation() or self._config.is_video_enabled()):
             self.subscribe(ControllerVideoManager())
 
@@ -443,13 +445,6 @@ class Controller():
             action='Initialize', sceneConfig=config_data)
         step_output = self._controller.step(wrapped_step)
 
-        if self.__output_folder and self._config.is_save_debug_json():
-            with open(self.__output_folder + 'ai2thor_output_' +
-                      str(self.__step_number) + '.json', 'w') as json_file:
-                json.dump({
-                    "metadata": step_output.metadata
-                }, json_file, sort_keys=True, indent=4)
-
         self._output_handler.set_scene_config(config_data)
         (pre_restrict_output, output) = \
             self._output_handler.handle_output(
@@ -487,6 +482,7 @@ class Controller():
                 self._end_scene_not_registered = False
 
         payload = self._create_event_payload()
+        payload.wrapped_step = wrapped_step
         payload.step_metadata = step_output
         payload.step_output = output
         self._publish_event(
@@ -734,13 +730,6 @@ class Controller():
             step_output, self._goal, self.__step_number,
             self.__habituation_trial)
 
-        if self.__output_folder and self._config.is_save_debug_json:
-            with open(self.__output_folder + 'ai2thor_output_' +
-                      str(self.__step_number) + '.json', 'w') as json_file:
-                json.dump({
-                    "metadata": step_output.metadata
-                }, json_file, sort_keys=True, indent=4)
-
         history_debug_copy = pre_restrict_output.copy_without_depth_or_images()
 
         self.__history_item = SceneHistory(
@@ -754,6 +743,7 @@ class Controller():
         payload = self._create_event_payload()
         # do we need both outputs?
         payload.pre_restrict_output = pre_restrict_output
+        payload.wrapped_step = step_action
         payload.step_metadata = step_output
         payload.step_output = output
         self._publish_event(
@@ -921,11 +911,6 @@ class Controller():
             consistentColors=consistentColors,
             **kwargs
         )
-
-        if self.__output_folder and self._config.is_save_debug_json:
-            with open(self.__output_folder + 'ai2thor_input_' +
-                      str(self.__step_number) + '.json', 'w') as json_file:
-                json.dump(step_data, json_file, sort_keys=True, indent=4)
 
         return step_data
 

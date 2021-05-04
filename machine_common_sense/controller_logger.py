@@ -1,4 +1,5 @@
 import logging
+import json
 
 from .controller_events import AbstractControllerSubscriber
 from .util import Util
@@ -77,3 +78,32 @@ class ControllerDebugFileGenerator(AbstractControllerSubscriber):
             with open(payload.output_folder + 'mcs_output_' +
                       str(payload.step_number) + '.json', 'w') as json_file:
                 json_file.write(str(step_output))
+
+
+class ControllerAi2thorFileGenerator(AbstractControllerSubscriber):
+
+    def on_start_scene(self, payload, controller):
+        self._write_debug_input_file(payload)
+        self._write_debug_output_file(payload)
+
+    def on_after_step(self, payload, controller):
+        self._write_debug_input_file(payload)
+        self._write_debug_output_file(payload)
+
+    def _write_debug_input_file(self, payload):
+        data = payload.wrapped_step
+        name = 'ai2thor_input_'
+        self._write_ai2thor_file(payload, data, name)
+
+    def _write_debug_output_file(self, payload):
+        data = {
+            "metadata": payload.step_metadata.metadata
+        }
+        name = 'ai2thor_output_'
+        self._write_ai2thor_file(payload, data, name)
+
+    def _write_ai2thor_file(self, payload, data, name):
+        if payload.output_folder and payload.config.is_save_debug_json:
+            with open(payload.output_folder + 'ai2thor_output_' +
+                      str(payload.step_number) + '.json', 'w') as json_file:
+                json.dump(data, json_file, sort_keys=True, indent=4)
