@@ -41,14 +41,11 @@ class TopDownPlotter():
     MAXIMUM_ROOM_DIMENSION = 5
     BORDER = 0.05
 
-    def __init__(self, team: str, scene_name: str,
-                 plot_width: int, plot_height: int):
+    def __init__(self, team: str, scene_name: str):
         self._team = team
         if '/' in scene_name:
             scene_name = scene_name.rsplit('/', 1)[1]
         self._scene_name = scene_name
-        self._plot_width = plot_width
-        self._plot_height = plot_height
 
     def plot(self, scene_event: ai2thor.server.Event,
              step_number: int,
@@ -96,9 +93,7 @@ class TopDownPlotter():
         fig.savefig(buf)
         buf.seek(0)
         img = PIL.Image.open(buf)
-        # resize image to match screen dimensions
-        # current video recorders require it for now
-        return img.resize((self._plot_width, self._plot_height))
+        return img
 
     def _draw_robot(self, robot_metadata: Dict) -> None:
         '''Plot the robot position and heading'''

@@ -1,3 +1,5 @@
+import copy
+
 from .goal_metadata import GoalMetadata
 from .pose import Pose
 from .return_status import ReturnStatus
@@ -123,13 +125,13 @@ class StepMetadata:
         object_mask_list=None,
         performer_radius=0.0,
         performer_reach=0.0,
+        physics_frames_per_second=0,
         pose=Pose.UNDEFINED.value,
         position=None,
         return_status=ReturnStatus.UNDEFINED.value,
         reward=0,
         rotation=0.0,
         step_number=0,
-        physics_frames_per_second=0,
         structural_object_list=None
     ):
         self.action_list = [] if action_list is None else action_list
@@ -155,13 +157,13 @@ class StepMetadata:
         )
         self.performer_radius = performer_radius
         self.performer_reach = performer_reach
+        self.physics_frames_per_second = physics_frames_per_second
         self.pose = pose
         self.position = {} if position is None else position
         self.return_status = return_status
         self.reward = reward
         self.rotation = rotation
         self.step_number = step_number
-        self.physics_frames_per_second = physics_frames_per_second
         self.structural_object_list = [
         ] if structural_object_list is None else structural_object_list
 
@@ -174,6 +176,14 @@ class StepMetadata:
         else:
             return dict((obj.uuid, dict(obj)) for obj in obj_list)
 
+    def copy_without_depth_or_images(self):
+        """Return a deep copy of this StepMetadata with default depth_map_list,
+        image_list, and object_mask_list properties."""
+        step_metadata_copy = StepMetadata()
+        for key, _ in self:
+            setattr(step_metadata_copy, key, copy.deepcopy(getattr(self, key)))
+        return step_metadata_copy
+
     # Allows converting the class to a dictionary, along with allowing
     #   certain fields to be left out of output file
     def __iter__(self):
@@ -183,16 +193,17 @@ class StepMetadata:
         yield 'camera_field_of_view', self.camera_field_of_view
         yield 'camera_height', self.camera_height
         yield 'goal', dict(self.goal)
+        yield 'habituation_trial', self.habituation_trial
         yield 'head_tilt', self.head_tilt
         yield 'object_list', self.check_list_none(self.object_list)
         yield 'performer_radius', self.performer_radius
         yield 'performer_reach', self.performer_reach
+        yield 'physics_frames_per_second', self.physics_frames_per_second
         yield 'pose', self.pose
         yield 'position', self.position
         yield 'return_status', self.return_status
         yield 'reward', self.reward
         yield 'rotation', self.rotation
         yield 'step_number', self.step_number
-        yield 'physics_frames_per_second', self.physics_frames_per_second
         yield 'structural_object_list', self.check_list_none(
             self.structural_object_list)

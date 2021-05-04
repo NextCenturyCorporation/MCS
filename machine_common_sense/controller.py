@@ -312,24 +312,18 @@ class Controller():
             self.PLACEHOLDER, self.VISUAL)
         self.__image_recorder = VideoRecorder(
             vid_path=output_folder / visual_video_filename,
-            width=self.__screen_width,
-            height=self.__screen_height,
             fps=self.FPS_FRAME_RATE)
 
         topdown_video_filename = basename_template.replace(
             self.PLACEHOLDER, self.TOPDOWN)
         self.__topdown_recorder = VideoRecorder(
             vid_path=output_folder / topdown_video_filename,
-            width=self.__screen_width,
-            height=self.__screen_height,
             fps=self.FPS_FRAME_RATE)
 
         heatmap_video_filename = basename_template.replace(
             self.PLACEHOLDER, self.HEATMAP)
         self.__heatmap_recorder = VideoRecorder(
             vid_path=output_folder / heatmap_video_filename,
-            width=self.__screen_width,
-            height=self.__screen_height,
             fps=self.FPS_FRAME_RATE)
 
         if self.__depth_maps:
@@ -337,8 +331,6 @@ class Controller():
                 self.PLACEHOLDER, self.DEPTH)
             self.__depth_recorder = VideoRecorder(
                 vid_path=output_folder / depth_video_filename,
-                width=self.__screen_width,
-                height=self.__screen_height,
                 fps=self.FPS_FRAME_RATE)
 
         if self.__object_masks:
@@ -346,8 +338,6 @@ class Controller():
                 self.PLACEHOLDER, self.SEGMENTATION)
             self.__segmentation_recorder = VideoRecorder(
                 vid_path=output_folder / segmentation_video_filename,
-                width=self.__screen_width,
-                height=self.__screen_height,
                 fps=self.FPS_FRAME_RATE)
 
     def end_scene(self, choice, confidence=1.0):
@@ -518,17 +508,18 @@ class Controller():
             team = self._config.get_team()
             scene = self.__scene_configuration.get(
                 'name', '').replace('json', '')
-            self.__plotter = TopDownPlotter(
-                team, scene, self.__screen_width, self.__screen_height)
+            self.__plotter = TopDownPlotter(team, scene)
             self._create_video_recorders(timestamp)
 
         pre_restrict_output = self.wrap_output(self._controller.step(
             self.wrap_step(action='Initialize', sceneConfig=config_data)))
 
+        debug_copy = pre_restrict_output.copy_without_depth_or_images()
+
         output = self.restrict_step_output_metadata(
             copy.deepcopy(pre_restrict_output))
 
-        self.write_debug_output(output)
+        self.write_debug_output(debug_copy)
 
         if not skip_preview_phase:
             if (self._goal is not None and
@@ -803,22 +794,19 @@ class Controller():
         pre_restrict_output = self.wrap_output(self._controller.step(
             self.wrap_step(action=action, **params)))
 
-        history_copy = copy.deepcopy(pre_restrict_output)
-        del history_copy.depth_map_list
-        del history_copy.image_list
-        del history_copy.object_mask_list
+        history_debug_copy = pre_restrict_output.copy_without_depth_or_images()
         self.__history_item = SceneHistory(
             step=self.__step_number,
             action=action,
             args=kwargs,
             params=params,
-            output=history_copy,
+            output=history_debug_copy,
             delta_time_millis=0)
 
         output = self.restrict_step_output_metadata(
             copy.deepcopy(pre_restrict_output))
 
-        self.write_debug_output(output)
+        self.write_debug_output(history_debug_copy)
 
         return output
 
@@ -941,7 +929,6 @@ class Controller():
                 if (target_name in step_output.goal.metadata):
                     if 'image' in step_output.goal.metadata[target_name]:
                         step_output.goal.metadata[target_name]['image'] = None
-                    # Disabling goal id restriction for now
                     if 'id' in step_output.goal.metadata[target_name]:
                         step_output.goal.metadata[target_name]['id'] = None
                     if 'image_name' in step_output.goal.metadata[target_name]:
@@ -1321,26 +1308,32 @@ class Controller():
 
         return step_output
 
-    def write_debug_output(self, step_output):
-        logger.debug("RETURN STATUS: " + step_output.return_status)
-        logger.debug("REWARD: " + str(step_output.reward))
+    def write_debug_output(self, step_output_copy):
+        restricted_output = self.restrict_step_output_metadata(
+            step_output_copy
+        )
+        logger.debug("RETURN STATUS: " + restricted_output.return_status)
+        logger.debug("REWARD: " + str(restricted_output.reward))
         logger.debug("SELF METADATA:")
-        logger.debug("  CAMERA HEIGHT: " + str(step_output.camera_height))
-        logger.debug("  HEAD TILT: " + str(step_output.head_tilt))
-        logger.debug("  POSITION: " + str(step_output.position))
-        logger.debug("  ROTATION: " + str(step_output.rotation))
-        logger.debug("OBJECTS: " +
-                     str(len(step_output.object_list)) +
-                     " TOTAL")
-        if len(step_output.object_list) > 0:
+        logger.debug(
+            "  CAMERA HEIGHT: " + str(restricted_output.camera_height)
+        )
+        logger.debug("  HEAD TILT: " + str(restricted_output.head_tilt))
+        logger.debug("  POSITION: " + str(restricted_output.position))
+        logger.debug("  ROTATION: " + str(restricted_output.rotation))
+        logger.debug(
+            "OBJECTS: " + str(len(restricted_output.object_list)) + " TOTAL"
+        )
+        if len(restricted_output.object_list) > 0:
             for line in Util.generate_pretty_object_output(
-                    step_output.object_list):
+                restricted_output.object_list
+            ):
                 logger.debug("    " + line)
 
         if self.__output_folder and self._config.is_save_debug_json:
-            with open(self.__output_folder + 'mcs_output_' +
-                      str(self.__step_number) + '.json', 'w') as json_file:
-                json_file.write(str(step_output))
+            json_filename = 'mcs_output_' + str(self.__step_number) + '.json'
+            with open(self.__output_folder + json_filename, 'w') as json_file:
+                json_file.write(str(restricted_output))
 
     def wrap_step(self, **kwargs):
         # whether or not to randomize segmentation mask colors
