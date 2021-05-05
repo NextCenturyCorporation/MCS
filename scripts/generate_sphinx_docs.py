@@ -16,7 +16,7 @@ subprocess_3 = subprocess.Popen(['grep', '.*.py'],
                                 stdin=subprocess_2.stdout,
                                 stdout=subprocess.PIPE)
 files_count = subprocess.check_output(['wc', '-l'], stdin=subprocess_3.stdout)
-print(files_count)
+
 if int(files_count.decode('utf-8')[:-1]) == 0:
     print('No update to Python API sphinx markdown documentation.')
     sys.exit(2)
