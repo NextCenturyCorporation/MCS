@@ -72,6 +72,8 @@ class ControllerOutputHandler():
 
             for target_name in target_name_list:
                 if (target_name in step_output.goal.metadata):
+                    step_output.goal = copy.deepcopy(
+                        step_output.goal)
                     if 'image' in step_output.goal.metadata[target_name]:
                         step_output.goal.metadata[target_name]['image'] = None
                     if 'id' in step_output.goal.metadata[target_name]:
@@ -177,6 +179,8 @@ class StepOutput:
 
             for target_name in target_name_list:
                 if (target_name in step_output.goal.metadata):
+                    step_output.goal = copy.deepcopy(
+                        step_output.goal)
                     if 'image' in step_output.goal.metadata[target_name]:
                         step_output.goal.metadata[target_name]['image'] = None
                     if 'id' in step_output.goal.metadata[target_name]:
