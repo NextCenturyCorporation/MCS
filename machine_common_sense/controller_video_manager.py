@@ -88,9 +88,14 @@ class ControllerVideoManager(AbstractControllerSubscriber):
     def _save_images_and_add_to_video(self, payload, controller):
         # foreach image list
         config = payload.config
-        for scene_image in payload.step_output.image_list:
+        for index, scene_image in enumerate(payload.step_output.image_list):
             if config.is_evaluation() or config.is_video_enabled():
                 self.__image_recorder.add(scene_image)
+                if (payload.output_folder and
+                        payload.config.is_save_debug_images):
+                    suffix = self._get_suffix(payload, index)
+                    scene_image.save(fp=payload.output_folder +
+                                     'frame_image' + suffix)
 
         for index, event in enumerate(payload.step_metadata.events):
             # The plotter used to be inside the for look the same as
@@ -106,7 +111,9 @@ class ControllerVideoManager(AbstractControllerSubscriber):
                     self.__plotter.plot(payload.step_metadata,
                                         payload.step_number,
                                         goal_id))
-        for depth_float_array in payload.step_output.depth_map_list:
+
+        for index, depth_float_array in enumerate(
+                payload.step_output.depth_map_list):
             if payload.config.is_depth_maps_enabled():
                 max_depth = payload.step_metadata.metadata.get(
                     'clippingPlaneFar',
@@ -119,23 +126,31 @@ class ControllerVideoManager(AbstractControllerSubscriber):
                     depth_pixel_array.astype(np.uint8)
                 )
                 self.__depth_recorder.add(depth_map)
+                if (payload.output_folder and
+                        payload.config.is_save_debug_images):
+                    suffix = self._get_suffix(payload, index)
+                    depth_map.save(fp=payload.output_folder +
+                                   'depth_map' + suffix)
 
-        for object_mask in payload.step_output.object_mask_list:
+        for index, object_mask in enumerate(
+                payload.step_output.object_mask_list):
             if payload.config.is_object_masks_enabled():
                 self.__segmentation_recorder.add(object_mask)
+                if (payload.output_folder and
+                        payload.config.is_save_debug_images):
+                    suffix = self._get_suffix(payload, index)
+                    object_mask.save(fp=payload.output_folder +
+                                     'object_mask' + suffix)
 
-        if payload.output_folder and payload.config.is_save_debug_images:
-            step_plus_substep_index = 0 if payload.step_number == 0 else (
+# if payload.output_folder and payload.config.is_save_debug_images:
+    def _get_suffix(self, payload, index):
+        if payload.step_number == 0:
+            step_plus_substep_index = 0
+        else:
+            step_plus_substep_index = (
                 ((payload.step_number - 1) *
-                 len(payload.step_metadata.events)) +
+                    len(payload.step_metadata.events)) +
                 (index + 1)
             )
-            suffix = '_' + str(step_plus_substep_index) + '.png'
-            scene_image.save(fp=payload.output_folder +
-                             'frame_image' + suffix)
-            if payload.config.is_depth_maps_enabled():
-                depth_map.save(fp=payload.output_folder +
-                               'depth_map' + suffix)
-            if payload.config.is_object_masks_enabled():
-                object_mask.save(fp=payload.output_folder +
-                                 'object_mask' + suffix)
+        suffix = '_' + str(step_plus_substep_index) + '.png'
+        return suffix
