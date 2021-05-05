@@ -1,4 +1,5 @@
-# Adding 3D Models
+Adding 3D Models
+================
 
 Here are the steps to add your own 3D models into the MCS simulation environment. Each step is described in more detail below.
 
@@ -11,20 +12,23 @@ Here are the steps to add your own 3D models into the MCS simulation environment
 7. Update the Scene Generator with properties for your new objects
 8. Optionally, submit a Pull Request to contribute your new objects to our public project
 
-## Limitations
+Limitations
+-----------
 
 - Currently, our simulation environment does not support soft-body physics objects like blankets or stuffed animals.
 - We have not tried using animations, audio, or fluids yet, so we cannot guarantee their performance.
 - Successfully integrating existing objects that are part of the original AI2-THOR project but not yet available in the MCS simulation environment may necessitate making MCS-specific adjustments to those objects.
 - This is a manually-intensive procedure that requires using the Unity Editor. Since human perception is needed for indentifying the correct pixels to position bounding boxes around and/or inside specific parts of the 3D model, we're not currently planning on making this procedure automated or dynamic. This is exactly how the MCS Core Team adds models into the simulation environment -- we have no secret shortcuts here.
 
-## 1. Download and Open MCS in the Unity Editor
+1. Download and Open MCS in the Unity Editor
+--------------------------------------------
 
-Clone the [MCS fork of AI2-THOR](https://github.com/NextCenturyCorporation/ai2thor) and follow the project's [setup instructions](https://github.com/NextCenturyCorporation/ai2thor#setup) to download and install the correct version of the Unity Editor and use it to load the MCS Unity project.
+Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2thor>`_ and follow the project's `setup instructions <https://github.com/NextCenturyCorporation/ai2thor#setup>`_ to download and install the correct version of the Unity Editor and use it to load the MCS Unity project.
 
-![unity editor](./screenshot_unity_editor.png)
+.. image:: ./images/screenshot_unity_editor.png
 
-## 2. Import Your Models into Unity and Save Them as Prefabs
+2. Import Your Models into Unity and Save Them as Prefabs
+---------------------------------------------------------
 
 2A. Copy your 3D model into the `/unity/Assets/Resources/MCS/` folder (you can make a new subfolder for your models if you prefer).
 
@@ -34,9 +38,10 @@ Clone the [MCS fork of AI2-THOR](https://github.com/NextCenturyCorporation/ai2th
 
 2D. Click and drag your model's name from the list in the Hierarchy window into your folder in the Project window. You should see a "Create Prefab" popup appear. Click the "Original Prefab" button to create a Unity Prefab file (".prefab") for your model. Please see the Unity Manual for more information about Prefabs.
 
-## 3. Update Your Prefabs in Unity
+3. Update Your Prefabs in Unity
+-------------------------------
 
-![sample prefab](./screenshot_sample_prefab.png)
+.. image:: ./images/screenshot_sample_prefab.png
 
 3A. In the Hierarchy window, your model's name in the list is an instantiation of the Prefab, called a Game Object. Next to the Game Object, click the right arrow (`>`) on the right side of the list to edit the Prefab. This will change the Scene window to show a Prefab editing view. The Hierarchy window will now show just the Game Object. Depending on how your model was made, it may have one or more child Game Objects, shown as a nested view. Objects with multiple interactable parts (like, cabinet doors, drawers, and shelves) should have a child for each part. We'll call the parent Game Object the Target. In the Hierarchy window, click on the Target and look at the Inspector window to verify that it has a MeshFilter, MeshRenderer, and material(s); if it doesn't, then one of its children should have them (click on each child in turn).
 
@@ -111,11 +116,12 @@ Clone the [MCS fork of AI2-THOR](https://github.com/NextCenturyCorporation/ai2th
 
 3K. In the Hierarchy window, click the left arrow (`<`) in the top-left corner to save your Prefab and exit the editing view.
 
-## 4. Update the Object Registry File
+4. Update the Object Registry File
+----------------------------------
 
 In the MCS fork of AI2-THOR, in `/unity/Assets/Resources/MCS/mcs_object_registry.json`, add a new entry for your object that contains the following properties:
 
-- `id` (string): Your object's unique ID which will correspond to the `type` property in MCS JSON scene files. Please ensure that you don't use an ID/type that's already taken (see our [SCHEMA doc](https://github.com/NextCenturyCorporation/MCS/blob/master/machine_common_sense/scenes/SCHEMA.md#object-list) for the full list).
+- `id` (string): Your object's unique ID which will correspond to the `type` property in MCS JSON scene files. Please ensure that you don't use an ID/type that's already taken (see our :doc:`SCHEMA doc <schema>` for the full list).
 - `interactables` (dict array): If your object has distinct interactable parts (see section 3J), list each one as a dict in this array. Each dict should have a string `id` property for the part's unique object ID (for the object ID action parameters) and a string `name` property for a human-readable name.
 - `materials` (string array): The names of all the default Unity materials on your Prefab (like "BrownWood" or "Grey Metal"). Needed if your Prefab has multiple default Unity materials.
 - `resourceFile` (string): The path to your object's Prefab file, starting in the `/unity/Assets/Resources/MCS/` folder, and WITHOUT the `.prefab` extension. Examples:
@@ -127,19 +133,20 @@ You can also add other properties to entries in the JSON object registry file. M
 
 Example:
 
-```json
-{
-    "id": "ball",
-    "resourceFile": "UnityAssetStore/Kindergarten_Interior/Prefabs/Ball 1",
-    "mass": 1,
-    "pickupable": true,
-    "shape": "ball"
-}
-```
+.. code-block:: json
 
-## 5. Manually Test and Verify Your Objects
+  {
+      "id": "ball",
+      "resourceFile": "UnityAssetStore/Kindergarten_Interior/Prefabs/Ball 1",
+      "mass": 1,
+      "pickupable": true,
+      "shape": "ball"
+  }
 
-Create one or more MCS JSON scene files in the `/unity/Assets/Resources/MCS/Scenes/` folder containing your new object(s). Follow the [run instructions](https://github.com/NextCenturyCorporation/ai2thor#run) to run your scenes in the Unity Editor and verify your new objects work as expected. Good behavior to test (and remember to test your actions using both the object IDs and the image pixel coordinates!):
+5. Manually Test and Verify Your Objects
+----------------------------------------
+
+Create one or more MCS JSON scene files in the `/unity/Assets/Resources/MCS/Scenes/` folder containing your new object(s). Follow the `run instructions <https://github.com/NextCenturyCorporation/ai2thor#run>`_ to run your scenes in the Unity Editor and verify your new objects work as expected. Good behavior to test (and remember to test your actions using both the object IDs and the image pixel coordinates!):
 
 - Moving into and around your object
 - Picking up your object
@@ -152,20 +159,22 @@ Create one or more MCS JSON scene files in the `/unity/Assets/Resources/MCS/Scen
 - Adding Unity Materials (colors/textures) to your object
 - Interacting with your object from the side, rear, and other angles/viewpoints
 
-## 6. Build Unity
+6. Build Unity
+--------------
 
 Inside the Unity Editor, go to `File->Build Settings` to open the Build Settings popup window, then build the project by selecting your Target Platform and clicking the Build button.
 
-## 7. Update the Scene Generator
+7. Update the Scene Generator
+-----------------------------
 
-If you want to have your new objects appear in the random scenes made by our [Scene Generator](https://github.com/NextCenturyCorporation/mcs-scene-generator), you must add some information about each object (which we call an "object definition") into the Scene Generator's source code.
+If you want to have your new objects appear in the random scenes made by our `Scene Generator <https://github.com/NextCenturyCorporation/mcs-scene-generator>`_, you must add some information about each object (which we call an "object definition") into the Scene Generator's source code.
 
 For adding new objects into passive agent scenes, please skip to step 7D.
 
 7A. Open the relevant object definition file:
 
-- For gravity support scenes, use the [gravity_support_objects.py](https://github.com/NextCenturyCorporation/mcs-scene-generator/blob/master/gravity_support_objects.py) file.
-- For other passive scenes, and all interactive scenes, use the [objects.py](https://github.com/NextCenturyCorporation/mcs-scene-generator/blob/master/objects.py) file.
+- For gravity support scenes, use the `gravity_support_objects.py <https://github.com/NextCenturyCorporation/mcs-scene-generator/blob/master/gravity_support_objects.py>`_ file.
+- For other passive scenes, and all interactive scenes, use the `objects.py <https://github.com/NextCenturyCorporation/mcs-scene-generator/blob/master/objects.py>`_ file.
 
 7B. Create a new dict, give it a useful name starting with an underscore, and add the following properties:
 
@@ -175,36 +184,36 @@ For adding new objects into passive agent scenes, please skip to step 7D.
 - `dimensions` (dict with `x`, `y`, and `z` float properties): The visual dimensions of your model's bounding box as noted in step 3F.
 - `enclosedAreas` (array of dicts with string `id`, dict `position`, and dict `dimensions` properties; `position` and `dimensions` each have `x`, `y`, and `z` float properties): The enclosed areas of your object, if it's a container or has openable parts (like cabinets or drawers). If the enclosed area is part of the object itself (it's opened using the object's ID), then the `id` can be set to an empty string. If the enclosed area is a distinct interactable part of your object (as listed in the `interactables` property of the object registry file -- see step 4), then the `id` should be set to the same `id` listed in the corresponding `interactables` property. The `position` and `dimensions` should correspond to the `position` and `scale` noted in step 3I.
 - `mass` (float): The mass of your object.
-- `materials` (string array): If you want to assign a specific Unity material (color/texture) to your object, add a string here for the material path you want to use. See the [Material List](https://github.com/NextCenturyCorporation/MCS/blob/master/machine_common_sense/scenes/SCHEMA.md#material-list) in our SCHEMA doc for the full list.
-- `materialCategory` (string array): If you want to assign a random Unity material (color/texture) to your object, add a string here for the material category you want to use. The material lists are in the [materials.py](https://github.com/NextCenturyCorporation/mcs-scene-generator/blob/master/materials.py) file. If your object has multiple default Unity materials (as listed in the `materials` property of the object registry file -- see step 4), you can have more than one material category strings in this array, and each will map to the corresponding index in the `materials` property. If you want to have multiple material category options, please nest them in separate dicts within a `chooseMaterial` array property.
+- `materials` (string array): If you want to assign a specific Unity material (color/texture) to your object, add a string here for the material path you want to use. See the `Material List <https://github.com/NextCenturyCorporation/MCS/blob/master/machine_common_sense/scenes/SCHEMA.md#material-list>`_ in our SCHEMA doc for the full list.
+- `materialCategory` (string array): If you want to assign a random Unity material (color/texture) to your object, add a string here for the material category you want to use. The material lists are in the `materials.py <https://github.com/NextCenturyCorporation/mcs-scene-generator/blob/master/materials.py>`_ file. If your object has multiple default Unity materials (as listed in the `materials` property of the object registry file -- see step 4), you can have more than one material category strings in this array, and each will map to the corresponding index in the `materials` property. If you want to have multiple material category options, please nest them in separate dicts within a `chooseMaterial` array property.
 - `positionY` (float): The starting Y position that should always be assigned to your object (unless it's on/in a receptacle). This will depend on how your model is positioned on the Y axis in its Prefab as noted in step 3B. If a position of Y=0 lets the object sit on the ground without clipping it, then your positionY should be 0. Otherwise, adjust your postionY to a positive number that lets the object sit on the ground without clipping it.
 - `scale` (dict with `x`, `y`, and `z` float properties): The scale you want applied to your object. The default scale of your object's Prefab is multiplied by these values. If you want to have multiple scale options, please nest them in separate dicts within a `chooseSize` array property.
 - `shape` (string or string array): The shape of your object, as a human-readable string.
-- `size` (string): The size of your object, as a human-readable string. See the [GoalMetadata](https://github.com/NextCenturyCorporation/MCS/blob/master/machine_common_sense/API.md#goalmetadata) entry in our API doc for the sizes that our team uses.
+- `size` (string): The size of your object, as a human-readable string. See the :mod:`GoalMetadata <machine_common_sense.GoalMetadata>` entry in our API doc for the sizes that our team uses.
 
 Example Object Definition:
 
-```json
-_BALL = {
-    "type": "ball",
-    "attributes": ["moveable", "pickupable"],
-    "dimensions": {
-        "x": 0.5,
-        "y": 0.5,
-        "z": 0.5
-    },
-    "mass": 0.5,
-    "materialCategory": ["rubber"],
-    "positionY": 0.25,
-    "scale": {
-        "x": 0.5,
-        "y": 0.5,
-        "z": 0.5
-    },
-    "shape": ["ball"],
-    "size": "small"
-}
-```
+.. code-block:: json
+
+    {
+        "type": "ball",
+        "attributes": ["moveable", "pickupable"],
+        "dimensions": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        },
+        "mass": 0.5,
+        "materialCategory": ["rubber"],
+        "positionY": 0.25,
+        "scale": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        },
+        "shape": ["ball"],
+        "size": "small"
+    }
 
 7C. Add your new object definitions to the relevant arrays of available objects:
 
@@ -212,13 +221,15 @@ _BALL = {
 - For gravity support scenes, in `gravity_support_objects.py`, see the `_ASYMMETRIC_TARGET_LIST` and `_SYMMETRIC_TARGET_LIST` variables, which are each arrays of object definitions. Add your object definition to one of these arrays.
 - For other passive scenes, in `objects.py`, see the `_MOVE_ACROSS_COMPLEX` and `_FALL_DOWN_COMPLEX` variables, which are each arrays of object definitions. Add your object definition to either one or both of these arrays.
 
-7D. To add new objects into passive agent scenes, in [agent_scene_pair_json_converter.py](https://github.com/NextCenturyCorporation/mcs-scene-generator/blob/master/agent_scene_pair_json_converter.py), see the `AGENT_OBJECT_CONFIG_LIST` and `GOAL_OBJECT_CONFIG_LIST` variables. Add a new ObjectConfig to either one or both of the two arrays, as needed.
+7D. To add new objects into passive agent scenes, in `agent_scene_pair_json_converter.py <https://github.com/NextCenturyCorporation/mcs-scene-generator/blob/master/agent_scene_pair_json_converter.py>`_, see the `AGENT_OBJECT_CONFIG_LIST` and `GOAL_OBJECT_CONFIG_LIST` variables. Add a new ObjectConfig to either one or both of the two arrays, as needed.
 
-## 8. Submit a Pull Request
+8. Submit a Pull Request
+------------------------
 
 Optionally, if you would like to contribute your objects to the public MCS simulation environment (in our GitHub source code repository) for other teams to use, and have legal permission to share your models, then you may submit a Pull Request to the MCS fork of AI2-THOR containing your new Prefabs and updates to the object registry file.
 
-## Troubleshooting
+Troubleshooting
+---------------
 
 If you have any questions about the procedure, please contact the MCS Core Team by opening a new GitHub Issue on this repository, posting on the #ta2-api MCS Slack channel, or emailing: mcs-ta2@machinecommonsense.com
 

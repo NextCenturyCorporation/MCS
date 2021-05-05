@@ -499,10 +499,9 @@ class Controller():
         pre_restrict_output = copy.deepcopy(self.wrap_output(step_output))
         output = self.restrict_step_output_metadata(pre_restrict_output)
 
-        # pre_restrict_output = copy.deepcopy(self.wrap_output(step_output))
-        # output = self.restrict_step_output_metadata(pre_restrict_output)
+        debug_copy = pre_restrict_output.copy_without_depth_or_images()
 
-        self.write_debug_output_file(output)
+        self.write_debug_output_file(debug_copy)
 
         if not skip_preview_phase:
             if (self._goal is not None and
@@ -774,23 +773,14 @@ class Controller():
         pre_restrict_output = copy.deepcopy(self.wrap_output(step_output))
         output = self.restrict_step_output_metadata(pre_restrict_output)
 
-        history_copy = copy.deepcopy(pre_restrict_output)
-
-        # pre_restrict_output = self.wrap_output()
-        # history_copy = copy.deepcopy(pre_restrict_output)
-
-        del history_copy.depth_map_list
-        del history_copy.image_list
-        del history_copy.object_mask_list
+        history_debug_copy = pre_restrict_output.copy_without_depth_or_images()
         self.__history_item = SceneHistory(
             step=self.__step_number,
             action=action,
             args=kwargs,
             params=params,
-            output=history_copy,
+            output=history_debug_copy,
             delta_time_millis=0)
-
-        self.write_debug_output_file(output)
 
         payload = self._create_event_payload()
         # do we need both outputs?
@@ -800,6 +790,7 @@ class Controller():
         self._publish_event(
             EventType.ON_AFTER_STEP,
             payload)
+        self.write_debug_output_file(history_debug_copy)
 
         return output
 
@@ -1259,11 +1250,11 @@ class Controller():
 
         return step_output
 
-    def write_debug_output_file(self, step_output):
+    def write_debug_output_file(self, restricted_output):
         if self.__output_folder and self._config.is_save_debug_json:
-            with open(self.__output_folder + 'mcs_output_' +
-                      str(self.__step_number) + '.json', 'w') as json_file:
-                json_file.write(str(step_output))
+            json_filename = 'mcs_output_' + str(self.__step_number) + '.json'
+            with open(self.__output_folder + json_filename, 'w') as json_file:
+                json_file.write(str(restricted_output))
 
     def wrap_step(self, **kwargs):
         # whether or not to randomize segmentation mask colors
