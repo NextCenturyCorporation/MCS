@@ -3,7 +3,7 @@ import cmd
 
 import machine_common_sense as mcs
 
-from getchHelper import getch
+from getch_helper import getch
 
 commandList = []
 
