@@ -92,7 +92,7 @@ class ControllerVideoManager(AbstractControllerSubscriber):
             if config.is_evaluation() or config.is_video_enabled():
                 self.__image_recorder.add(scene_image)
                 if (payload.output_folder and
-                        payload.config.is_save_debug_images):
+                        payload.config.is_save_debug_images()):
                     suffix = self._get_suffix(payload, index)
                     scene_image.save(fp=payload.output_folder +
                                      'frame_image' + suffix)
@@ -127,7 +127,7 @@ class ControllerVideoManager(AbstractControllerSubscriber):
                 )
                 self.__depth_recorder.add(depth_map)
                 if (payload.output_folder and
-                        payload.config.is_save_debug_images):
+                        payload.config.is_save_debug_images()):
                     suffix = self._get_suffix(payload, index)
                     depth_map.save(fp=payload.output_folder +
                                    'depth_map' + suffix)
@@ -137,7 +137,7 @@ class ControllerVideoManager(AbstractControllerSubscriber):
             if payload.config.is_object_masks_enabled():
                 self.__segmentation_recorder.add(object_mask)
                 if (payload.output_folder and
-                        payload.config.is_save_debug_images):
+                        payload.config.is_save_debug_images()):
                     suffix = self._get_suffix(payload, index)
                     object_mask.save(fp=payload.output_folder +
                                      'object_mask' + suffix)

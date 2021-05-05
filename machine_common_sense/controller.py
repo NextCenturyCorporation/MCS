@@ -484,7 +484,8 @@ class Controller():
         payload = self._create_event_payload()
         payload.wrapped_step = wrapped_step
         payload.step_metadata = step_output
-        payload.step_output = output
+        payload.step_output = pre_restrict_output
+        payload.restricted_step_output = output
         self._publish_event(
             EventType.ON_START_SCENE, payload)
 
@@ -742,10 +743,10 @@ class Controller():
 
         payload = self._create_event_payload()
         # do we need both outputs?
-        payload.pre_restrict_output = pre_restrict_output
         payload.wrapped_step = step_action
         payload.step_metadata = step_output
-        payload.step_output = output
+        payload.step_output = pre_restrict_output
+        payload.restricted_step_output = output
         self._publish_event(
             EventType.ON_AFTER_STEP,
             payload)

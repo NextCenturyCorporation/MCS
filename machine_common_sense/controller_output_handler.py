@@ -122,8 +122,8 @@ class StepOutput:
         )
 
         depth_map_list = [] if restrict_depth_map else self._depth_map_list
-        image_list = [] if restrict_object_mask_list else self._image_list
-        object_mask_list = ([] if restrict_non_oracle else
+        image_list = [] if restrict_non_oracle else self._image_list
+        object_mask_list = ([] if restrict_object_mask_list else
                             self._object_mask_list)
 
         objects = self._raw_output.metadata.get('objects', None)
@@ -151,7 +151,8 @@ class StepOutput:
             ),
             head_tilt=self.retrieve_head_tilt(),
             image_list=image_list,
-            object_list=self.retrieve_object_list(),
+            object_list=(
+                [] if restrict_non_oracle else self.retrieve_object_list()),
             object_mask_list=object_mask_list,
             pose=self.retrieve_pose(),
             position=(
