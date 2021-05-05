@@ -123,7 +123,7 @@ class ControllerVideoManager(AbstractControllerSubscriber):
             if payload.object_masks_enabled:
                 self.__segmentation_recorder.add(object_mask)
 
-        if payload.output_folder and payload.config.is_save_debug_images:
+        if payload.output_folder and payload.config.is_save_debug_images():
             step_plus_substep_index = 0 if payload.step_number == 0 else (
                 ((payload.step_number - 1) *
                  len(payload.step_metadata.events)) +
