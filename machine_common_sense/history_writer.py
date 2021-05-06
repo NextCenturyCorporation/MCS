@@ -4,10 +4,95 @@ from typing import Dict
 import logging
 import json
 import os
+import pathlib
 from time import perf_counter
-
+from .controller_events import AbstractControllerSubscriber
 
 logger = logging.getLogger(__name__)
+
+
+class HistoryEventHandler(AbstractControllerSubscriber):
+
+    def on_init(self, payload, controller):
+        self.__history_writer = None
+        self.__history_item = None
+
+    def on_start_scene(self, payload, controller):
+        if payload.config.is_history_enabled():
+
+            # Ensure the previous scene history writer has saved its file.
+            if self.__history_writer:
+                self.__history_writer.check_file_written()
+
+            hist_info = {}
+            hist_info[
+                payload.config.CONFIG_EVALUATION_NAME
+            ] = payload.config.get_evaluation_name()
+            hist_info[
+                payload.config.CONFIG_EVALUATION
+            ] = payload.config.is_evaluation()
+            hist_info[
+                payload.config.CONFIG_METADATA_TIER
+            ] = payload.config.get_metadata_tier()
+            hist_info[
+                payload.config.CONFIG_TEAM
+            ] = payload.config.get_team()
+            # Create a new scene history writer with each new scene (config
+            # data) so we always create a new, separate scene history file.
+            self.__history_writer = HistoryWriter(payload.scene_config,
+                                                  hist_info,
+                                                  payload.timestamp)
+
+    def on_before_step(self, payload, controller):
+        if payload.config.is_history_enabled:
+            if payload.step_number == 0:
+                self.__history_writer.init_timer()
+            if payload.step_number > 0:
+                self.__history_writer.add_step(self.__history_item)
+
+    def on_after_step(self, payload, controller):
+        output = payload.step_output.copy_without_depth_or_images()
+
+        self.__history_item = SceneHistory(
+            step=payload.step_number,
+            action=payload.ai2thor_action,
+            args=payload.kwargs,
+            params=payload.step_params,
+            output=output,
+            delta_time_millis=0)
+
+    def on_prediction(self, payload, controller):
+        # add history step prediction attributes before add to the writer
+        # in the next step
+        if self.__history_item is not None:
+            self.__history_item.classification = payload.choice
+            self.__history_item.confidence = payload.confidence
+            self.__history_item.violations_xy_list = payload.violations_xy_list
+            self.__history_item.internal_state = payload.internal_state
+
+    def on_end_scene(self, payload, controller):
+        if payload.config.is_history_enabled():
+            self.__history_writer.add_step(self.__history_item)
+            self.__history_writer.write_history_file(
+                payload.choice, payload.confidence)
+
+        if payload.config.is_evaluation():
+            uploader = payload.uploader
+            folder_prefix = payload.uploader_folder_prefix
+            if payload.config.is_history_enabled():
+                history_filename = self._get_filename_without_timestamp(
+                    pathlib.Path(self.__history_writer.scene_history_file))
+                uploader.upload_history(
+                    history_path=self.__history_writer.scene_history_file,
+                    s3_filename=(folder_prefix + '/' +
+                                 payload.config.get_evaluation_name() +
+                                 '_' + payload.config.get_metadata_tier() +
+                                 '_' + payload.config.get_team() +
+                                 '_' + history_filename)
+                )
+
+    def _get_filename_without_timestamp(self, filepath: pathlib.Path):
+        return filepath.stem[:-16] + filepath.suffix
 
 
 class HistoryWriter(object):

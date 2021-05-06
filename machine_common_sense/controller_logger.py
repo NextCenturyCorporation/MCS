@@ -75,7 +75,7 @@ class ControllerDebugFileGenerator(AbstractControllerSubscriber):
     def _write_debug_output_file(self, payload):
         step_output = \
             payload.restricted_step_output.copy_without_depth_or_images()
-        if payload.output_folder and payload.config.is_save_debug_json:
+        if payload.output_folder and payload.config.is_save_debug_json():
             with open(payload.output_folder + 'mcs_output_' +
                       str(payload.step_number) + '.json', 'w') as json_file:
                 json_file.write(str(step_output))
@@ -104,7 +104,7 @@ class ControllerAi2thorFileGenerator(AbstractControllerSubscriber):
         self._write_ai2thor_file(payload, data, name)
 
     def _write_ai2thor_file(self, payload, data, name):
-        if payload.output_folder and payload.config.is_save_debug_json:
+        if payload.output_folder and payload.config.is_save_debug_json():
             with open(payload.output_folder + name +
                       str(payload.step_number) + '.json', 'w') as json_file:
                 json.dump(data, json_file, sort_keys=True, indent=4)

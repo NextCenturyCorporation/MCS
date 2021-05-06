@@ -5,7 +5,6 @@ import logging
 import numpy as np
 import os
 import random
-import pathlib
 import PIL
 import ast
 from typing import Dict, List
@@ -28,17 +27,17 @@ DEFAULT_MOVE = 0.1
 
 from .action import Action
 from .goal_metadata import GoalMetadata
-from .scene_history import SceneHistory
 from .step_metadata import StepMetadata
 from .uploader import S3Uploader
 from .util import Util
-from .history_writer import HistoryWriter
 from .config_manager import ConfigManager, SceneConfiguration
 from .controller_output_handler import ControllerOutputHandler
 from .controller_logger import ControllerLogger, ControllerDebugFileGenerator
 from .controller_logger import ControllerAi2thorFileGenerator
 from .controller_events import ControllerEventPayload, EventType
+from .controller_events import PredictionPayload
 from .controller_video_manager import ControllerVideoManager
+from .history_writer import HistoryEventHandler
 
 
 def __reset_override(self, scene):
@@ -164,11 +163,12 @@ class Controller():
         self._config = ConfigManager(config_file_path)
 
         # Can we rearrange to use dependency injection?
-        self.subscribe(ControllerDebugFileGenerator())
+        if self._config.is_save_debug_json():
+            self.subscribe(ControllerDebugFileGenerator())
+            self.subscribe(ControllerAi2thorFileGenerator())
+        self.subscribe(ControllerVideoManager())
         self.subscribe(ControllerLogger())
-        self.subscribe(ControllerAi2thorFileGenerator())
-        if (self._config.is_evaluation() or self._config.is_video_enabled()):
-            self.subscribe(ControllerVideoManager())
+        self.subscribe(HistoryEventHandler())
 
         self._output_handler = ControllerOutputHandler(self._config)
 
@@ -250,7 +250,6 @@ class Controller():
 
         self.__noise_enabled = self._config.is_noise_enabled()
         self.__seed = self._config.get_seed()
-        self.__history_enabled = self._config.is_history_enabled()
 
         if self.__seed:
             random.seed(self.__seed)
@@ -261,9 +260,6 @@ class Controller():
         self.__output_folder = None
         self.__scene_configuration = None
         self.__step_number = 0
-        self.__history_writer = None
-        self.__history_item = None
-        self.__uploader = None
 
         # Whether or not to show depth maps or object masks is based on
         # metadata tier (the default for these if no metadata level is
@@ -309,79 +305,24 @@ class Controller():
             end_scene isn't properly called but history_enabled is true,
             this value will be written to file as -1.
         """
-
-        payload = self._create_event_payload()
-        self._publish_event(EventType.ON_END_SCENE, payload)
-
-        if (self._end_scene_not_registered is False and
-                (self.__history_enabled or self._config.is_evaluation())):
-            atexit.unregister(self.end_scene)
-            self._end_scene_not_registered = True
-
-        if self.__history_enabled:
-            self.__history_writer.add_step(self.__history_item)
-            self.__history_writer.write_history_file(choice, confidence)
-
+        uploader = None
         if self._config.is_evaluation():
-            self.__uploader = S3Uploader(
+            uploader = S3Uploader(
                 s3_bucket=self._config.get_s3_bucket()
             )
 
-            folder_prefix = self._config.get_s3_folder()
+        # TODO uploader be passed to classes that need
+        # it on early on via dependency injection?
+        payload = self._create_event_payload()
+        payload.choice = choice
+        payload.confidence = confidence
+        payload.uploader = uploader
+        payload.uploader_folder_prefix = self._config.get_s3_folder()
+        self._publish_event(EventType.ON_END_SCENE, payload)
 
-            if self.__history_enabled:
-                history_filename = self._get_filename_without_timestamp(
-                    pathlib.Path(self.__history_writer.scene_history_file))
-                self.__uploader.upload_history(
-                    history_path=self.__history_writer.scene_history_file,
-                    s3_filename=(folder_prefix + '/' +
-                                 self._config.get_evaluation_name() +
-                                 '_' + self._config.get_metadata_tier() +
-                                 '_' + self._config.get_team() +
-                                 '_' + history_filename)
-                )
-
-            # Need to figure out how to connect "uploader" and "video manager"
-            topdown_filename = self._get_filename_without_timestamp(
-                self.__topdown_recorder.path)
-            self.__uploader.upload_video(
-                video_path=self.__topdown_recorder.path,
-                s3_filename=folder_prefix + '/' + topdown_filename
-            )
-
-            video_filename = self._get_filename_without_timestamp(
-                self.__image_recorder.path)
-            self.__uploader.upload_video(
-                video_path=self.__image_recorder.path,
-                s3_filename=folder_prefix + '/' + video_filename
-            )
-
-            video_filename = self._get_filename_without_timestamp(
-                self.__heatmap_recorder.path)
-            self.__uploader.upload_video(
-                video_path=self.__heatmap_recorder.path,
-                s3_filename=folder_prefix + '/' + video_filename
-            )
-
-            # THIS WILL BREAK WHEN ENABLED!
-            if self._config.is_depth_maps_enabled():
-                video_filename = self._get_filename_without_timestamp(
-                    self.__depth_recorder.path)
-                self.__uploader.upload_video(
-                    video_path=self.__depth_recorder.path,
-                    s3_filename=folder_prefix + '/' + video_filename
-                )
-
-            if self._config.is_object_masks_enabled():
-                video_filename = self._get_filename_without_timestamp(
-                    self.__segmentation_recorder.path)
-                self.__uploader.upload_video(
-                    video_path=self.__segmentation_recorder.path,
-                    s3_filename=folder_prefix + '/' + video_filename
-                )
-
-    def _get_filename_without_timestamp(self, filepath: pathlib.Path):
-        return filepath.stem[:-16] + filepath.suffix
+        if (self._end_scene_not_registered is False):
+            atexit.unregister(self.end_scene)
+            self._end_scene_not_registered = True
 
     def start_scene(self, config_data):
         """
@@ -404,31 +345,6 @@ class Controller():
         self.__habituation_trial = 1
         self.__step_number = 0
         self._goal = self.retrieve_goal(self.__scene_configuration)
-        timestamp = self.generate_time()
-
-        if self.__history_enabled:
-            # Ensure the previous scene history writer has saved its file.
-            if self.__history_writer:
-                self.__history_writer.check_file_written()
-
-            hist_info = {}
-            hist_info[
-                self._config.CONFIG_EVALUATION_NAME
-            ] = self._config.get_evaluation_name()
-            hist_info[
-                self._config.CONFIG_EVALUATION
-            ] = self._config.is_evaluation()
-            hist_info[
-                self._config.CONFIG_METADATA_TIER
-            ] = self._config.get_metadata_tier()
-            hist_info[
-                self._config.CONFIG_TEAM
-            ] = self._config.get_team()
-            # Create a new scene history writer with each new scene (config
-            # data) so we always create a new, separate scene history file.
-            self.__history_writer = HistoryWriter(config_data,
-                                                  hist_info,
-                                                  timestamp)
 
         skip_preview_phase = (True if 'goal' in config_data and
                               'skip_preview_phase' in config_data['goal']
@@ -475,8 +391,10 @@ class Controller():
 
             logger.debug('NO PREVIEW PHASE')
 
+            # Why is this in the if black?  should it be?
             if(self._end_scene_not_registered is True and
-                    (self.__history_enabled or self._config.is_evaluation())):
+                    (self._config.is_history_enabled() or
+                     self._config.is_evaluation())):
                 # make sure history file is written when program exits
                 atexit.register(self.end_scene, choice="", confidence=-1)
                 self._end_scene_not_registered = False
@@ -656,11 +574,6 @@ class Controller():
             physics simulation were run. Returns None if you have passed the
             "last_step" of this scene.
         """
-        if self.__history_enabled and self.__step_number == 0:
-            self.__history_writer.init_timer()
-        if self.__history_enabled and self.__step_number > 0:
-            self.__history_writer.add_step(self.__history_item)
-
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
             logger.warning(
@@ -731,18 +644,11 @@ class Controller():
             step_output, self._goal, self.__step_number,
             self.__habituation_trial)
 
-        history_debug_copy = pre_restrict_output.copy_without_depth_or_images()
-
-        self.__history_item = SceneHistory(
-            step=self.__step_number,
-            action=action,
-            args=kwargs,
-            params=params,
-            output=history_debug_copy,
-            delta_time_millis=0)
-
         payload = self._create_event_payload()
         # do we need both outputs?
+        payload.ai2thor_action = action
+        payload.step_params = params
+        payload.kwargs = kwargs
         payload.wrapped_step = step_action
         payload.step_metadata = step_output
         payload.step_output = pre_restrict_output
@@ -790,20 +696,14 @@ class Controller():
             None
         """
 
-        # add history step prediction attributes before add to the writer
-        # in the next step
-        if self.__history_item is not None:
-            self.__history_item.classification = choice
-            self.__history_item.confidence = confidence
-            self.__history_item.violations_xy_list = violations_xy_list
-            self.__history_item.internal_state = internal_state
-
-        if(
-            heatmap_img is not None and
-            isinstance(heatmap_img, PIL.Image.Image) and
-            (self._config.is_evaluation() or self._config.is_video_enabled())
-        ):
-            self.__heatmap_recorder.add(heatmap_img)
+        payload = PredictionPayload(
+            self._config,
+            choice,
+            confidence,
+            violations_xy_list,
+            heatmap_img,
+            internal_state)
+        self._publish_event(EventType.ON_PREDICTION, payload)
 
     def generate_time(self):
         return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
