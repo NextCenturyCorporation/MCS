@@ -44,7 +44,7 @@ class HistoryEventHandler(AbstractControllerSubscriber):
                                                   payload.timestamp)
 
     def on_before_step(self, payload, controller):
-        if payload.config.is_history_enabled:
+        if payload.config.is_history_enabled():
             if payload.step_number == 0:
                 self.__history_writer.init_timer()
             if payload.step_number > 0:

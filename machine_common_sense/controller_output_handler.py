@@ -174,6 +174,12 @@ class StepOutput:
                                     self.retrieve_structural_object_list())
         )
 
+        # This is here to retain the exact outputs as before
+        # If None is passed into the constructor, it is turned into
+        # {}, but restricted mode turns it to None.
+        if (restrict_non_oracle):
+            step_output.position = None
+
         if (restrict_non_oracle):
             target_name_list = ['target', 'target_1', 'target_2']
 

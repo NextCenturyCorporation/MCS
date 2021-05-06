@@ -159,7 +159,7 @@ class StepMetadata:
         self.performer_reach = performer_reach
         self.physics_frames_per_second = physics_frames_per_second
         self.pose = pose
-        self.position = None if position is None else position
+        self.position = {} if position is None else position
         self.return_status = return_status
         self.reward = reward
         self.rotation = rotation
