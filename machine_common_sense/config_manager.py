@@ -118,6 +118,13 @@ class ConfigManager(object):
 
         return metadata_env_var
 
+    def set_metadata_tier(self, mode):
+        self._config.set(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_METADATA_TIER,
+            mode
+        )
+
     def get_s3_bucket(self):
         return self._config.get(
             self.CONFIG_DEFAULT_SECTION,
@@ -197,10 +204,9 @@ class ConfigManager(object):
 
     def is_depth_maps_enabled(self) -> bool:
         metadata_tier = self.get_metadata_tier()
-        if(metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1):
-            return True
-        elif(metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2 or
-             metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
+        if(metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_1 or
+           metadata_tier == self.CONFIG_METADATA_TIER_LEVEL_2 or
+           metadata_tier == self.CONFIG_METADATA_TIER_ORACLE):
             return True
         else:
             return False

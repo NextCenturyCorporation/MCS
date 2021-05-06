@@ -1889,14 +1889,16 @@ class TestController(unittest.TestCase):
             action="TestAction",
             numberProperty=1234,
             stringProperty="test_property")
+        # Changed depth and object because oracle should result in both being
+        # true.
         expected = {
             "action": "TestAction",
             "continuous": True,
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
-            "renderDepthImage": False,
-            "renderObjectImage": False,
+            "renderDepthImage": True,
+            "renderObjectImage": True,
             "snapToGrid": False,
             "stringProperty": "test_property",
             "consistentColors": True

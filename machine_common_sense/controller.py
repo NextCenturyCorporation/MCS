@@ -239,12 +239,12 @@ class Controller():
             self.__noise_enabled = noise_enabled
         if seed is not None:
             self.__seed = seed
-        if depth_maps is not None:
-            self.__depth_maps = depth_maps
-        if object_masks is not None:
-            self.__object_masks = object_masks
         if history_enabled is not None:
-            self.__history_enabled = history_enabled
+            self._config._config.set(
+                ConfigManager.CONFIG_DEFAULT_SECTION,
+                ConfigManager.
+                history_enabled
+            )
 
     def _on_init(self, config_file_path=None):
 
@@ -362,8 +362,7 @@ class Controller():
         step_output = self._controller.step(wrapped_step)
 
         self._output_handler.set_scene_config(config_data)
-        (pre_restrict_output, output) = \
-            self._output_handler.handle_output(
+        (pre_restrict_output, output) = self._output_handler.handle_output(
             step_output, self._goal, self.__step_number,
             self.__habituation_trial)
 
@@ -639,8 +638,7 @@ class Controller():
         step_action = self.wrap_step(action=action, **params)
         step_output = self._controller.step(step_action)
 
-        (pre_restrict_output, output) = \
-            self._output_handler.handle_output(
+        (pre_restrict_output, output) = self._output_handler.handle_output(
             step_output, self._goal, self.__step_number,
             self.__habituation_trial)
 

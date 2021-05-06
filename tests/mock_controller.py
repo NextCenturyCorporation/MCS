@@ -100,7 +100,9 @@ class MockControllerAI2THOR(Controller):
         self._end_scene_not_registered = False  # atexit not needed for tests
         self._controller = MockController()
         self._config = ConfigManager()
-        self._update_screen_size()
+        self._config._config[
+            ConfigManager.CONFIG_DEFAULT_SECTION
+        ] = {}
         self._on_init()
 
     def get_last_step_data(self):
@@ -113,4 +115,6 @@ class MockControllerAI2THOR(Controller):
         self._goal = goal
 
     def set_metadata_tier(self, mode):
-        self._metadata_tier = mode
+        if not self._config:
+            self._config = ConfigManager()
+        self._config.set_metadata_tier(mode)
