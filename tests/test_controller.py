@@ -3,6 +3,7 @@ from types import SimpleNamespace
 import unittest
 
 import machine_common_sense as mcs
+from machine_common_sense.config_manager import ConfigManager
 
 from .mock_controller import (
     MockControllerAI2THOR,
@@ -389,24 +390,19 @@ class TestController(unittest.TestCase):
 
         return data
 
-    def test_end_scene(self):
-        hist_file_prefix = TEST_FILE_NAME + ' end scene'
-        self.controller.start_scene({'name': hist_file_prefix})
-        self.controller.end_scene("plausible", "0.5")
-
-        hist_file_lookup = glob.glob(SCENE_HIST_DIR +
-                                     hist_file_prefix + "*.json")
-
-        self.assertTrue(len(hist_file_lookup) > 0)
-        self.assertTrue(os.path.exists(hist_file_lookup[0]))
+    # Removed test for "end_scene" but it really only tested writing the
+    # history file.  We should add tests for sending events and then separately
+    # test the event handlers
+    # TODO
 
     def test_start_scene(self):
-        self.controller.render_mask_images()
+        self.controller.set_metadata_tier(
+            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
         output = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
-            mcs.Controller.ACTION_LIST)
+            ConfigManager.ACTION_LIST)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, 0)
@@ -426,7 +422,7 @@ class TestController(unittest.TestCase):
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
-            mcs.Controller.ACTION_LIST)
+            ConfigManager.ACTION_LIST)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, 0)
@@ -443,7 +439,8 @@ class TestController(unittest.TestCase):
                          len(MOCK_VARIABLES['metadata']['structuralObjects']))
 
     def test_start_scene_preview_phase(self):
-        self.controller.render_mask_images()
+        self.controller.set_metadata_tier(
+            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
         last_preview_phase_step = 5
         output = self.controller.start_scene({'name': TEST_FILE_NAME, 'goal': {
             'last_preview_phase_step': last_preview_phase_step}
@@ -451,7 +448,7 @@ class TestController(unittest.TestCase):
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
-            mcs.Controller.ACTION_LIST)
+            ConfigManager.ACTION_LIST)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, -0.005)
@@ -476,13 +473,14 @@ class TestController(unittest.TestCase):
                          len(MOCK_VARIABLES['metadata']['structuralObjects']))
 
     def test_step(self):
-        self.controller.render_mask_images()
+        self.controller.set_metadata_tier(
+            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
         output = self.controller.start_scene({'name': TEST_FILE_NAME})
         output = self.controller.step('MoveAhead')
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
-            mcs.Controller.ACTION_LIST)
+            ConfigManager.ACTION_LIST)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, -0.001)
@@ -502,7 +500,7 @@ class TestController(unittest.TestCase):
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
-            mcs.Controller.ACTION_LIST)
+            ConfigManager.ACTION_LIST)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, -0.002)
@@ -934,7 +932,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(),
                 0
             ),
-            self.controller.ACTION_LIST
+            ConfigManager.ACTION_LIST
         )
         # With empty action list
         self.assertEqual(
@@ -942,7 +940,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(action_list=[]),
                 0
             ),
-            self.controller.ACTION_LIST
+            ConfigManager.ACTION_LIST
         )
         # With empty nested action list
         self.assertEqual(
@@ -950,7 +948,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(action_list=[[]]),
                 0
             ),
-            self.controller.ACTION_LIST
+            ConfigManager.ACTION_LIST
         )
         # With test action list
         self.assertEqual(
@@ -966,7 +964,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(action_list=[test_action_list]),
                 1
             ),
-            self.controller.ACTION_LIST
+            ConfigManager.ACTION_LIST
         )
         # With incorrect index
         self.assertEqual(
@@ -974,7 +972,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(action_list=[test_action_list, []]),
                 1
             ),
-            self.controller.ACTION_LIST
+            ConfigManager.ACTION_LIST
         )
         # With incorrect index
         self.assertEqual(
@@ -982,7 +980,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(action_list=[[], test_action_list]),
                 0
             ),
-            self.controller.ACTION_LIST
+            ConfigManager.ACTION_LIST
         )
         # With correct index
         self.assertEqual(
@@ -1461,7 +1459,8 @@ class TestController(unittest.TestCase):
         self.assertEqual(actual, mcs.ReturnStatus.UNDEFINED.name)
 
     def test_save_images(self):
-        self.controller.render_mask_images()
+        self.controller.set_metadata_tier(
+            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
         image_data = numpy.array([[0]], dtype=numpy.uint8)
         depth_data = numpy.array([[[0, 0, 0]]], dtype=numpy.uint8)
         object_mask_data = numpy.array([[192]], dtype=numpy.uint8)
@@ -1496,7 +1495,8 @@ class TestController(unittest.TestCase):
         self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data)
 
     def test_save_images_with_multiple_images(self):
-        self.controller.render_mask_images()
+        self.controller.set_metadata_tier(
+            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
         image_data_1 = numpy.array([[64]], dtype=numpy.uint8)
         depth_data_1 = numpy.array([[[128, 64, 32]]], dtype=numpy.uint8)
         object_mask_data_1 = numpy.array([[192]], dtype=numpy.uint8)
@@ -1547,7 +1547,8 @@ class TestController(unittest.TestCase):
 
     def test_wrap_output(self):
         self.controller.start_scene({'name': 'test name'})
-        self.controller.render_mask_images()
+        self.controller.set_metadata_tier(
+            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
         (
             mock_scene_event_data,
             image_data,
@@ -1660,7 +1661,6 @@ class TestController(unittest.TestCase):
 
     def test_wrap_output_with_config_metadata_oracle(self):
         self.controller.start_scene({'name': 'test name'})
-        self.controller.render_mask_images()
         self.controller.set_metadata_tier('oracle')
         (
             mock_scene_event_data,
