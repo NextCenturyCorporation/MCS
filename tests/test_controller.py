@@ -1122,29 +1122,6 @@ class TestController(unittest.TestCase):
             'target_2': {'image': [2]}
         })
 
-    def test_retrieve_head_tilt(self):
-        mock_scene_event_data = {
-            "metadata": {
-                "agent": {
-                    "cameraHorizon": 12.34
-                }
-            }
-        }
-        actual = self.controller.retrieve_head_tilt(
-            self.create_mock_scene_event(mock_scene_event_data))
-        self.assertEqual(actual, 12.34)
-
-        mock_scene_event_data = {
-            "metadata": {
-                "agent": {
-                    "cameraHorizon": -56.78
-                }
-            }
-        }
-        actual = self.controller.retrieve_head_tilt(
-            self.create_mock_scene_event(mock_scene_event_data))
-        self.assertEqual(actual, -56.78)
-
     def test_retrieve_object_list(self):
         self.controller.start_scene({'name': 'test name'})
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
@@ -1336,37 +1313,6 @@ class TestController(unittest.TestCase):
         self.assertEqual(len(actual), 3)
 
     def test_retrieve_pose(self):
-        # Check function calls
-        mock_scene_event_data = {
-            "metadata": {
-                "pose": mcs.Pose.STANDING.name
-            }
-        }
-        ret_status = self.controller.retrieve_pose(
-            self.create_mock_scene_event(mock_scene_event_data)
-        )
-        self.assertEqual(ret_status, mcs.Pose.STANDING.name)
-
-        mock_scene_event_data = {
-            "metadata": {
-                "pose": mcs.Pose.CRAWLING.name
-            }
-        }
-        ret_status = self.controller.retrieve_pose(
-            self.create_mock_scene_event(mock_scene_event_data)
-        )
-        self.assertEqual(ret_status, mcs.Pose.CRAWLING.name)
-
-        mock_scene_event_data = {
-            "metadata": {
-                "pose": mcs.Pose.LYING.name
-            }
-        }
-        ret_status = self.controller.retrieve_pose(
-            self.create_mock_scene_event(mock_scene_event_data)
-        )
-        self.assertEqual(ret_status, mcs.Pose.LYING.name)
-
         output = self.controller.start_scene({'name': TEST_FILE_NAME})
 
         # Testing retrieving proper pose depending on action made
@@ -1416,47 +1362,6 @@ class TestController(unittest.TestCase):
         self.controller.step(action='Crawl')
         output = self.controller.step(action='Stand')
         self.assertEqual(output.pose, mcs.Pose.STANDING.name)
-
-    def test_retrieve_return_status(self):
-        mock_scene_event_data = {
-            "metadata": {
-                "lastActionStatus": "SUCCESSFUL"
-            }
-        }
-
-        actual = self.controller.retrieve_return_status(
-            self.create_mock_scene_event(mock_scene_event_data))
-        self.assertEqual(actual, mcs.ReturnStatus.SUCCESSFUL.name)
-
-        mock_scene_event_data = {
-            "metadata": {
-                "lastActionStatus": "FAILED"
-            }
-        }
-
-        actual = self.controller.retrieve_return_status(
-            self.create_mock_scene_event(mock_scene_event_data))
-        self.assertEqual(actual, mcs.ReturnStatus.FAILED.name)
-
-        mock_scene_event_data = {
-            "metadata": {
-                "lastActionStatus": "INVALID_STATUS"
-            }
-        }
-
-        actual = self.controller.retrieve_return_status(
-            self.create_mock_scene_event(mock_scene_event_data))
-        self.assertEqual(actual, mcs.ReturnStatus.UNDEFINED.name)
-
-        mock_scene_event_data = {
-            "metadata": {
-                "lastActionStatus": None
-            }
-        }
-
-        actual = self.controller.retrieve_return_status(
-            self.create_mock_scene_event(mock_scene_event_data))
-        self.assertEqual(actual, mcs.ReturnStatus.UNDEFINED.name)
 
     def test_save_images(self):
         self.controller.set_metadata_tier(
