@@ -1,4 +1,3 @@
-import datetime
 import glob
 import json
 import logging
@@ -211,14 +210,13 @@ class Controller():
 
     # TODO this is a huge data dumpster and needs to be thought about
     def _create_event_payload(self):
-        payload = ControllerEventPayload()
-        payload.output_folder = self.__output_folder
-        payload.config = self._config
-        payload.timestamp = self.generate_time()
-        payload.step_number = self.__step_number
-        payload.scene_config = self.__scene_configuration
-        payload.habituation_trial = self.__habituation_trial
-        payload.goal = self._goal
+        payload = ControllerEventPayload(
+            self.__output_folder,
+            self._config,
+            self.__step_number,
+            self.__scene_configuration,
+            self.__habituation_trial,
+            self._goal)
         return payload
 
     # Pixel coordinates are expected to start at the top left, but
@@ -229,22 +227,6 @@ class Controller():
             return self._config.get_screen_height() - y_coord
         else:
             return y_coord
-
-    # Used for unit testing
-    def _update_internal_config(self, noise_enabled=None, seed=None,
-                                depth_maps=None, object_masks=None,
-                                history_enabled=None):
-
-        if noise_enabled is not None:
-            self.__noise_enabled = noise_enabled
-        if seed is not None:
-            self.__seed = seed
-        if history_enabled is not None:
-            self._config._config.set(
-                ConfigManager.CONFIG_DEFAULT_SECTION,
-                ConfigManager.
-                history_enabled
-            )
 
     def _on_init(self, config_file_path=None):
 
@@ -702,9 +684,6 @@ class Controller():
             heatmap_img,
             internal_state)
         self._publish_event(EventType.ON_PREDICTION, payload)
-
-    def generate_time(self):
-        return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
     def mcs_action_to_ai2thor_action(self, action):
         if action == Action.CLOSE_OBJECT.value:
