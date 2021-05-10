@@ -40,6 +40,7 @@ class ControllerOutputHandler():
             self._scene_config,
             raw_output,
             step_number)
+        step_output.process_image_data()
         unrestricted = step_output.get_step_metadata(
             goal, habituation_trial, False)
         restricted = step_output.get_step_metadata(
@@ -94,6 +95,7 @@ class StepOutput:
         self._step_number = step_number
         self._scene_config = scene_config
 
+    def process_image_data(self):
         self._image_list, self._depth_map_list, self._object_mask_list = \
             self.save_image_data(
                 self._raw_output.metadata.get(
@@ -248,7 +250,7 @@ class StepOutput:
                 [
                     self.retrieve_object_output(
                         object_metadata,
-                        self.retrieve_object_colors(self._raw_output)
+                        self.retrieve_object_colors()
                     )
                     for object_metadata in self._raw_output.metadata['objects']
                     if object_metadata['visibleInCamera'] or

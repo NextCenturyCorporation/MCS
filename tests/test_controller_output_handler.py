@@ -26,6 +26,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         # dict.
         if (mock_scene_event_data.get("events", None) is None):
             mock_scene_event_data["events"] = []
+        if (mock_scene_event_data.get("metadata", None) is None):
+            mock_scene_event_data["metadata"] = {"objects": []}
         return SimpleNamespace(**mock_scene_event_data)
 
     def create_wrap_output_scene_event(self):
@@ -227,6 +229,244 @@ class TestControllerOutputHandler(unittest.TestCase):
             }
         }, image_data, depth_data, object_mask_data
 
+    def create_retrieve_object_list_scene_event(self):
+        return {
+            "events": [self.create_mock_scene_event({
+                "object_id_to_color": {
+                    "testId1": (12, 34, 56),
+                    "testId2": (98, 76, 54),
+                    "testId3": (101, 102, 103)
+                }
+            })],
+            "metadata": {
+                "objects": [{
+                    "colorsFromMaterials": ["c1"],
+                    "direction": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "distance": 0,
+                    "distanceXZ": 0,
+                    "isPickedUp": True,
+                    "mass": 1,
+                    "objectId": "testId1",
+                    "position": {
+                        "x": 1,
+                        "y": 1,
+                        "z": 2
+                    },
+                    "rotation": {
+                        "x": 1.0,
+                        "y": 2.0,
+                        "z": 3.0
+                    },
+                    "salientMaterials": [],
+                    "shape": "shape1",
+                    "visibleInCamera": True,
+                    "isOpen": False,
+                    "openable": False
+                }, {
+                    "colorsFromMaterials": ["c2", "c3"],
+                    "direction": {
+                        "x": 90,
+                        "y": -30,
+                        "z": 0
+                    },
+                    "distance": 1.5,
+                    "distanceXZ": 1.1,
+                    "isPickedUp": False,
+                    "mass": 12.34,
+                    "objectBounds": {
+                        "objectBoundsCorners": [
+                            "p1",
+                            "p2",
+                            "p3",
+                            "p4",
+                            "p5",
+                            "p6",
+                            "p7",
+                            "p8",
+                        ]
+                    },
+                    "objectId": "testId2",
+                    "position": {
+                        "x": 1,
+                        "y": 2,
+                        "z": 3
+                    },
+                    "rotation": {
+                        "x": 1.0,
+                        "y": 2.0,
+                        "z": 3.0
+                    },
+                    "salientMaterials": ["Foobar", "Metal", "Plastic"],
+                    "shape": "shape2",
+                    "visibleInCamera": True,
+                    "isOpen": False,
+                    "openable": False
+                }, {
+                    "colorsFromMaterials": [],
+                    "direction": {
+                        "x": -90,
+                        "y": 180,
+                        "z": 270
+                    },
+                    "distance": 2.5,
+                    "distanceXZ": 2,
+                    "isPickedUp": False,
+                    "mass": 34.56,
+                    "objectBounds": {
+                        "objectBoundsCorners": [
+                            "pA",
+                            "pB",
+                            "pC",
+                            "pD",
+                            "pE",
+                            "pF",
+                            "pG",
+                            "pH",
+                        ]
+                    },
+                    "objectId": "testId3",
+                    "position": {
+                        "x": -3,
+                        "y": -2,
+                        "z": -1
+                    },
+                    "rotation": {
+                        "x": 11.0,
+                        "y": 12.0,
+                        "z": 13.0
+                    },
+                    "salientMaterials": ["Wood"],
+                    "shape": "shape3",
+                    "visibleInCamera": False,
+                    "isOpen": False,
+                    "openable": False
+                }]
+            }
+        }
+
+    def test_wrap_output(self):
+        self._config.set_metadata_tier(
+            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
+        (
+            mock_scene_event_data,
+            image_data,
+            depth_data,
+            object_mask_data
+        ) = self.create_wrap_output_scene_event()
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+
+        stepOutput = StepOutput(
+            self._config, {}, mock_event, 0)
+        stepOutput._image_list = image_data
+        stepOutput._depth_map_list = depth_data
+        stepOutput._object_mask_list = object_mask_data
+        actual = stepOutput.get_step_metadata(GoalMetadata(), 1, True)
+
+        self.assertEqual(actual.action_list, ConfigManager.ACTION_LIST)
+        self.assertEqual(actual.camera_aspect_ratio, (600, 400))
+        self.assertEqual(actual.camera_clipping_planes, (0, 15))
+        self.assertEqual(actual.camera_field_of_view, 42.5)
+        self.assertEqual(actual.camera_height, 0.1234)
+        self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
+        self.assertEqual(actual.habituation_trial, None)
+        self.assertEqual(actual.head_tilt, 12.34)
+        self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
+        self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
+        self.assertEqual(actual.rotation, 2.222)
+        self.assertEqual(
+            actual.return_status,
+            mcs.ReturnStatus.SUCCESSFUL.value)
+        self.assertEqual(actual.step_number, 0)
+
+        self.assertEqual(len(actual.object_list), 1)
+        self.assertEqual(actual.object_list[0].uuid, "testId")
+        self.assertEqual(actual.object_list[0].color, {
+            "r": 12,
+            "g": 34,
+            "b": 56
+        })
+        self.assertEqual(
+            actual.object_list[0].dimensions, [
+                "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
+        self.assertEqual(actual.object_list[0].direction, {
+            "x": 90,
+            "y": -30,
+            "z": 0
+        })
+        self.assertEqual(actual.object_list[0].distance, 11.0)
+        self.assertEqual(actual.object_list[0].distance_in_steps, 11.0)
+        self.assertEqual(actual.object_list[0].distance_in_world, 1.5)
+        self.assertEqual(actual.object_list[0].held, False)
+        self.assertEqual(actual.object_list[0].mass, 12.34)
+        self.assertEqual(actual.object_list[0].material_list, ["WOOD"])
+        self.assertEqual(
+            actual.object_list[0].position, {
+                "x": 10, "y": 11, "z": 12})
+        self.assertEqual(
+            actual.object_list[0].rotation, {
+                "x": 1, "y": 2, "z": 3})
+        self.assertEqual(actual.object_list[0].shape, 'shape')
+        self.assertEqual(actual.object_list[0].state_list, [])
+        self.assertEqual(actual.object_list[0].texture_color_list, ['c1'])
+        self.assertEqual(actual.object_list[0].visible, True)
+
+        self.assertEqual(len(actual.structural_object_list), 1)
+        self.assertEqual(actual.structural_object_list[0].uuid, "testWallId")
+        self.assertEqual(actual.structural_object_list[0].color, {
+            "r": 101,
+            "g": 102,
+            "b": 103
+        })
+        self.assertEqual(
+            actual.structural_object_list[0].dimensions,
+            ["p11", "p12", "p13", "p14", "p15", "p16", "p17", "p18"]
+        )
+        self.assertEqual(actual.structural_object_list[0].direction, {
+            "x": 180,
+            "y": -60,
+            "z": 0
+        })
+        self.assertEqual(actual.structural_object_list[0].distance, 22.0)
+        self.assertEqual(
+            actual.structural_object_list[0].distance_in_steps, 22.0)
+        self.assertEqual(
+            actual.structural_object_list[0].distance_in_world, 2.5)
+        self.assertEqual(actual.structural_object_list[0].held, False)
+        self.assertEqual(actual.structural_object_list[0].mass, 56.78)
+        self.assertEqual(
+            actual.structural_object_list[0].material_list,
+            ["CERAMIC"])
+        self.assertEqual(
+            actual.structural_object_list[0].position, {
+                "x": 20, "y": 21, "z": 22})
+        self.assertEqual(
+            actual.structural_object_list[0].rotation, {
+                "x": 4, "y": 5, "z": 6})
+        self.assertEqual(actual.structural_object_list[0].shape, 'structure')
+        self.assertEqual(actual.structural_object_list[0].state_list, [])
+        self.assertEqual(
+            actual.structural_object_list[0].texture_color_list,
+            ['c2'])
+        self.assertEqual(actual.structural_object_list[0].visible, True)
+
+        self.assertEqual(len(actual.depth_map_list), 1)
+        self.assertEqual(len(actual.image_list), 1)
+        self.assertEqual(len(actual.object_mask_list), 1)
+        numpy.testing.assert_almost_equal(
+            numpy.array(actual.depth_map_list[0]),
+            numpy.array([[2.51]], dtype=numpy.float32),
+            3
+        )
+        self.assertEqual(numpy.array(actual.image_list[0]), image_data)
+        self.assertEqual(
+            numpy.array(
+                actual.object_mask_list[0]),
+            object_mask_data)
+
     def test_retrieve_pose(self):
         # Check function calls
         mock_scene_event_data = {
@@ -359,6 +599,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         stepOutput = StepOutput(
             self._config, {}, mock_event, 0)
+        stepOutput.process_image_data()
         actual = stepOutput.get_step_metadata(GoalMetadata(), 1, False)
 
         self.assertEqual(actual.action_list, ConfigManager.ACTION_LIST)
@@ -408,6 +649,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         stepOutput = StepOutput(
             self._config, {}, mock_event, 0)
+        stepOutput.process_image_data()
         actual = stepOutput.get_step_metadata(GoalMetadata(), 1, True)
 
         self.assertEqual(actual.action_list, ConfigManager.ACTION_LIST)
@@ -442,6 +684,210 @@ class TestControllerOutputHandler(unittest.TestCase):
             numpy.array(
                 actual.object_mask_list[0]),
             object_mask_data)
+
+    def test_retrieve_object_list(self):
+        mock_scene_event_data = self.create_retrieve_object_list_scene_event()
+
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+
+        stepOutput = StepOutput(
+            self._config, {}, mock_event, 0)
+        actual = stepOutput.retrieve_object_list()
+        self.assertEqual(len(actual), 2)
+
+        self.assertEqual(actual[0].uuid, "testId1")
+        self.assertEqual(actual[0].color, {
+            "r": 12,
+            "g": 34,
+            "b": 56
+        })
+        self.assertEqual(actual[0].dimensions, [])
+        self.assertEqual(actual[0].direction, {
+            "x": 0,
+            "y": 0,
+            "z": 0
+        })
+        self.assertEqual(actual[0].distance, 0)
+        self.assertEqual(actual[0].distance_in_steps, 0)
+        self.assertEqual(actual[0].distance_in_world, 0)
+        self.assertEqual(actual[0].held, True)
+        self.assertEqual(actual[0].mass, 1)
+        self.assertEqual(actual[0].material_list, [])
+        self.assertEqual(actual[0].position, {"x": 1, "y": 1, "z": 2})
+        self.assertEqual(actual[0].rotation, {"x": 1, "y": 2, "z": 3})
+        self.assertEqual(actual[0].shape, 'shape1')
+        self.assertEqual(actual[0].state_list, [])
+        self.assertEqual(actual[0].texture_color_list, ['c1'])
+        self.assertEqual(actual[0].visible, True)
+
+        self.assertEqual(actual[1].uuid, "testId2")
+        self.assertEqual(actual[1].color, {
+            "r": 98,
+            "g": 76,
+            "b": 54
+        })
+        self.assertEqual(
+            actual[1].dimensions, [
+                "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
+        self.assertEqual(actual[1].direction, {
+            "x": 90,
+            "y": -30,
+            "z": 0
+        })
+        self.assertEqual(actual[1].distance, 11.0)
+        self.assertEqual(actual[1].distance_in_steps, 11.0)
+        self.assertEqual(actual[1].distance_in_world, 1.5)
+        self.assertEqual(actual[1].held, False)
+        self.assertEqual(actual[1].mass, 12.34)
+        self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
+        self.assertEqual(actual[1].position, {"x": 1, "y": 2, "z": 3})
+        self.assertEqual(actual[1].rotation, {"x": 1, "y": 2, "z": 3})
+        self.assertEqual(actual[1].shape, 'shape2')
+        self.assertEqual(actual[1].state_list, [])
+        self.assertEqual(actual[1].texture_color_list, ['c2', 'c3'])
+        self.assertEqual(actual[1].visible, True)
+
+    def test_retrieve_object_list_with_states(self):
+        mock_scene_event_data = {
+            "metadata": {
+                'name': 'test name',
+                'objects': [{
+                    'id': 'testId1',
+                    'states': [['a', 'b'], ['c', 'd']],
+                    "visibleInCamera": True
+                }]
+            }
+        }
+
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+
+        stepOutput = StepOutput(self._config, {}, mock_event, 0)
+        actual = stepOutput.retrieve_object_list()
+
+        mock_scene_event_data = self.create_retrieve_object_list_scene_event()
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+
+        stepOutput = StepOutput(self._config, {}, mock_event, 0)
+
+        actual = stepOutput.retrieve_object_list()
+        self.assertEqual(len(actual), 2)
+
+        self.assertEqual(actual[0].uuid, "testId1")
+        self.assertEqual(actual[0].state_list, ['a', 'b'])
+
+        self.assertEqual(actual[1].uuid, "testId2")
+        self.assertEqual(actual[1].state_list, [])
+
+    def test_retrieve_object_list_with_config_metadata_oracle(self):
+        self._config.set_metadata_tier('oracle')
+        mock_scene_event_data = self.create_retrieve_object_list_scene_event()
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+        stepOutput = StepOutput(self._config, {}, mock_event, 0)
+        actual = stepOutput.retrieve_object_list()
+        self.assertEqual(len(actual), 3)
+
+        self.assertEqual(actual[0].uuid, "testId1")
+        self.assertEqual(actual[0].color, {
+            "r": 12,
+            "g": 34,
+            "b": 56
+        })
+        self.assertEqual(actual[0].dimensions, [])
+        self.assertEqual(actual[0].direction, {
+            "x": 0,
+            "y": 0,
+            "z": 0
+        })
+        self.assertEqual(actual[0].distance, 0)
+        self.assertEqual(actual[0].distance_in_steps, 0)
+        self.assertEqual(actual[0].distance_in_world, 0)
+        self.assertEqual(actual[0].held, True)
+        self.assertEqual(actual[0].mass, 1)
+        self.assertEqual(actual[0].material_list, [])
+        self.assertEqual(actual[0].position, {"x": 1, "y": 1, "z": 2})
+        self.assertEqual(actual[0].rotation, {"x": 1, "y": 2, "z": 3})
+        self.assertEqual(actual[0].shape, 'shape1')
+        self.assertEqual(actual[0].state_list, [])
+        self.assertEqual(actual[0].texture_color_list, ['c1'])
+        self.assertEqual(actual[0].visible, True)
+
+        self.assertEqual(actual[1].uuid, "testId2")
+        self.assertEqual(actual[1].color, {
+            "r": 98,
+            "g": 76,
+            "b": 54
+        })
+        self.assertEqual(
+            actual[1].dimensions, [
+                "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
+        self.assertEqual(actual[1].direction, {
+            "x": 90,
+            "y": -30,
+            "z": 0
+        })
+        self.assertEqual(actual[1].distance, 11.0)
+        self.assertEqual(actual[1].distance_in_steps, 11.0)
+        self.assertEqual(actual[1].distance_in_world, 1.5)
+        self.assertEqual(actual[1].held, False)
+        self.assertEqual(actual[1].mass, 12.34)
+        self.assertEqual(actual[1].material_list, ["METAL", "PLASTIC"])
+        self.assertEqual(actual[1].position, {"x": 1, "y": 2, "z": 3})
+        self.assertEqual(actual[1].rotation, {"x": 1, "y": 2, "z": 3})
+        self.assertEqual(actual[1].shape, 'shape2')
+        self.assertEqual(actual[1].state_list, [])
+        self.assertEqual(actual[1].texture_color_list, ['c2', 'c3'])
+        self.assertEqual(actual[1].visible, True)
+
+        self.assertEqual(actual[2].uuid, "testId3")
+        self.assertEqual(actual[2].color, {
+            "r": 101,
+            "g": 102,
+            "b": 103
+        })
+        self.assertEqual(
+            actual[2].dimensions, [
+                "pA", "pB", "pC", "pD", "pE", "pF", "pG", "pH"])
+        self.assertEqual(actual[2].direction, {
+            "x": -90,
+            "y": 180,
+            "z": 270
+        })
+        self.assertEqual(actual[2].distance, 20.0)
+        self.assertEqual(actual[2].distance_in_steps, 20.0)
+        self.assertEqual(actual[2].distance_in_world, 2.5)
+        self.assertEqual(actual[2].held, False)
+        self.assertEqual(actual[2].mass, 34.56)
+        self.assertEqual(actual[2].material_list, ["WOOD"])
+        self.assertEqual(actual[2].position, {"x": -3, "y": -2, "z": -1})
+        self.assertEqual(actual[2].rotation, {"x": 11, "y": 12, "z": 13})
+        self.assertEqual(actual[2].shape, 'shape3')
+        self.assertEqual(actual[2].state_list, [])
+        self.assertEqual(actual[2].texture_color_list, [])
+        self.assertEqual(actual[2].visible, False)
+
+    def test_retrieve_object_list_with_config_metadata_level2(self):
+        self._config.set_metadata_tier('level2')
+        mock_scene_event_data = self.create_retrieve_object_list_scene_event()
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+        stepOutput = StepOutput(self._config, {}, mock_event, 0)
+        actual = stepOutput.retrieve_object_list()
+        self.assertEqual(len(actual), 3)
+
+    def test_retrieve_object_list_with_config_metadata_level1(self):
+        self._config.set_metadata_tier('level1')
+        mock_scene_event_data = self.create_retrieve_object_list_scene_event()
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+        stepOutput = StepOutput(self._config, {}, mock_event, 0)
+        actual = stepOutput.retrieve_object_list()
+        self.assertEqual(len(actual), 3)
+
+    def test_retrieve_object_list_with_config_metadata_none(self):
+        self._config.set_metadata_tier('none')
+        mock_scene_event_data = self.create_retrieve_object_list_scene_event()
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+        stepOutput = StepOutput(self._config, {}, mock_event, 0)
+        actual = stepOutput.retrieve_object_list()
+        self.assertEqual(len(actual), 3)
 
 
 if __name__ == '__main__':
