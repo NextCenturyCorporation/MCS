@@ -990,31 +990,25 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[1].visible, True)
 
     def test_retrieve_object_list_with_states(self):
-        mock_scene_event_data = {
-            "metadata": {
-                'name': 'test name',
-                'objects': [{
-                    'id': 'testId1',
-                    'states': [['a', 'b'], ['c', 'd']],
-                    "visibleInCamera": True,
-                    "salientMaterials": None
-                }]
-            }, "events": [
-                self.create_mock_scene_event(
-                    {"object_id_to_color": []}
-                )]
+        scene_config = {
+            'name': 'test name',
+            'objects': [{
+                'id': 'testId1',
+                'states': [['a', 'b'], ['c', 'd']]
+            }]
         }
+
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
-        stepOutput = StepOutput(self._config, {}, mock_event, 0)
+        stepOutput = StepOutput(self._config, scene_config, mock_event, 0)
         actual = stepOutput.retrieve_object_list()
 
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
-        stepOutput = StepOutput(self._config, {}, mock_event, 0)
+        stepOutput = StepOutput(self._config, scene_config, mock_event, 0)
 
         actual = stepOutput.retrieve_object_list()
         self.assertEqual(len(actual), 2)
