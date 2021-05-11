@@ -197,8 +197,6 @@ class StepOutput:
                     if 'image_name' in step_output.goal.metadata[target_name]:
                         step_output.goal.metadata[
                             target_name]['image_name'] = None
-        # not needed?  delete if this makes it to the code review
-        # self.__head_tilt = step_output.head_tilt
 
         return step_output
 
