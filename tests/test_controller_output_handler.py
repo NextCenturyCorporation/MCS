@@ -1004,6 +1004,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                     {"object_id_to_color": []}
                 )]
         }
+        mock_scene_event_data = self.create_retrieve_object_list_scene_event()
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
