@@ -126,7 +126,8 @@ class StepOutput:
         )
 
         depth_map_list = [] if restrict_depth_map else self._depth_map_list
-        image_list = [] if restrict_non_oracle else self._image_list
+        # image_list = [] if restrict_non_oracle else self._image_list
+        image_list = self._image_list
         object_mask_list = ([] if restrict_object_mask_list else
                             self._object_mask_list)
 
@@ -225,8 +226,9 @@ class StepOutput:
     def retrieve_object_colors(self):
         # Use the color map for the final event (though they should all be the
         # same anyway).
-        return self._raw_output.events[len(
-            self._raw_output.events) - 1].object_id_to_color
+        event = self._raw_output.events[len(
+            self._raw_output.events) - 1]
+        return event.object_id_to_color
 
     # TODO need to fix
     def retrieve_object_list(self):

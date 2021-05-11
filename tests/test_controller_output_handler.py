@@ -24,10 +24,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         # Wrap the dict in a SimpleNamespace object to permit property access
         # with dotted notation since the actual variable is a class, not a
         # dict.
-        if (mock_scene_event_data.get("events", None) is None):
-            mock_scene_event_data["events"] = []
-        if (mock_scene_event_data.get("metadata", None) is None):
-            mock_scene_event_data["metadata"] = {"objects": []}
+        ''''''
         return SimpleNamespace(**mock_scene_event_data)
 
     def create_wrap_output_scene_event(self):
@@ -479,9 +476,6 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         stepOutput = StepOutput(
             self._config, {}, mock_event, 0)
-        # stepOutput._image_list = image_data
-        # stepOutput._depth_map_list = depth_data
-        # stepOutput._object_mask_list = object_mask_data
         stepOutput.process_image_data()
         actual = stepOutput.get_step_metadata(GoalMetadata(), 1, True)
 
@@ -589,6 +583,77 @@ class TestControllerOutputHandler(unittest.TestCase):
             object_mask_data)
         '''
 
+    def test_wrap_output_with_config_metadata_level2(self):
+        self._config.set_metadata_tier('level2')
+        (
+            mock_scene_event_data,
+            image_data,
+            depth_data,
+            object_mask_data
+        ) = self.create_wrap_output_scene_event()
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+
+        stepOutput = StepOutput(
+            self._config, {}, mock_event, 0)
+        stepOutput.process_image_data()
+        actual = stepOutput.get_step_metadata(GoalMetadata(), 1, True)
+
+        '''pre_restrict.goal = self.controller.retrieve_goal({
+            'goal': {
+                'metadata': {
+                    'target': {'image': [0], 'id': '1',
+                               'image_name': "name_1"},
+                    'target_1': {'image': [1], 'id': '2',
+                                 'image_name': "name_2"},
+                    'target_2': {'image': [2], 'id': '3',
+                                 'image_name': "name_3"}
+                }
+            }
+        })
+
+        actual = self.controller.restrict_step_output_metadata(pre_restrict)
+
+        self.assertEqual(pre_restrict.goal.metadata, {
+            'target': {'image': None, 'id': None, 'image_name': None},
+            'target_1': {'image': None, 'id': None, 'image_name': None},
+            'target_2': {'image': None, 'id': None, 'image_name': None}
+        })
+        '''
+
+        self.assertEqual(actual.action_list, ConfigManager.ACTION_LIST)
+        self.assertEqual(actual.camera_aspect_ratio, (600, 400))
+        self.assertEqual(actual.camera_clipping_planes, (0, 15))
+        self.assertEqual(actual.camera_field_of_view, 42.5)
+        self.assertEqual(actual.camera_height, 0.1234)
+        self.assertEqual(actual.habituation_trial, None)
+        self.assertEqual(actual.head_tilt, 12.34)
+        self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
+        self.assertEqual(actual.position, None)
+        self.assertEqual(actual.rotation, None)
+        self.assertEqual(
+            actual.return_status,
+            mcs.ReturnStatus.SUCCESSFUL.value)
+        self.assertEqual(actual.step_number, 0)
+
+        # Correct object metadata properties tested elsewhere
+        self.assertEqual(len(actual.object_list), 0)
+        self.assertEqual(len(actual.structural_object_list), 0)
+
+        # depth map list used to be 0, but should be 1 based on config level2
+        self.assertEqual(len(actual.depth_map_list), 1)
+        self.assertEqual(len(actual.image_list), 1)
+        # object mask list used to be 0, but should be 1 based on config level2
+        self.assertEqual(len(actual.object_mask_list), 1)
+        # self.assertEqual(
+        #     numpy.array(
+        #         actual.depth_map_list[0]),
+        #     depth_data)
+        self.assertEqual(numpy.array(actual.image_list[0]), image_data)
+        # self.assertEqual(
+        #     numpy.array(
+        #         actual.depth_map_list[0]),
+        #     object_mask_data)
+
     def test_wrap_output_with_config_metadata_level1(self):
         self._config.set_metadata_tier(
             ConfigManager.CONFIG_METADATA_TIER_LEVEL_1)
@@ -627,7 +692,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(len(actual.structural_object_list), 0)
 
         self.assertEqual(len(actual.depth_map_list), 1)
-        self.assertEqual(len(actual.image_list), 0)
+        self.assertEqual(len(actual.image_list), 1)
         self.assertEqual(len(actual.object_mask_list), 0)
 
     def test_wrap_output_with_config_metadata_none(self):
@@ -667,7 +732,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(len(actual.structural_object_list), 0)
 
         self.assertEqual(len(actual.depth_map_list), 0)
-        self.assertEqual(len(actual.image_list), 0)
+        self.assertEqual(len(actual.image_list), 1)
         self.assertEqual(len(actual.object_mask_list), 0)
 
     def test_wrap_output_with_config_metadata_oracle_non_restrict(self):
@@ -770,6 +835,98 @@ class TestControllerOutputHandler(unittest.TestCase):
                 actual.object_mask_list[0]),
             object_mask_data)
 
+    def test_save_images(self):
+        self._config.set_metadata_tier(
+            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
+        image_data = numpy.array([[0]], dtype=numpy.uint8)
+        depth_data = numpy.array([[[0, 0, 0]]], dtype=numpy.uint8)
+        object_mask_data = numpy.array([[192]], dtype=numpy.uint8)
+
+        mock_scene_event_data = {
+            "events": [self.create_mock_scene_event({
+                "depth_frame": depth_data,
+                "frame": image_data,
+                "instance_segmentation_frame": object_mask_data
+            })],
+            "metadata": {"objects": []}
+        }
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+
+        stepOutput = StepOutput(
+            self._config, {}, mock_event, 0)
+        stepOutput.process_image_data()
+        # actual = stepOutput.get_step_metadata(GoalMetadata(), 1, True)
+
+        image_list = stepOutput._image_list
+        depth_map_list = stepOutput._depth_map_list
+        object_mask_list = stepOutput._object_mask_list
+
+        self.assertEqual(len(image_list), 1)
+        self.assertEqual(len(depth_map_list), 1)
+        self.assertEqual(len(object_mask_list), 1)
+
+        self.assertEqual(numpy.array(image_list[0]), image_data)
+        numpy.testing.assert_almost_equal(
+            numpy.array(depth_map_list[0]),
+            numpy.array([[0.0]], dtype=numpy.float32),
+            3
+        )
+        self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data)
+
+    def test_save_images_with_multiple_images(self):
+        self._config.set_metadata_tier(
+            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
+        image_data_1 = numpy.array([[64]], dtype=numpy.uint8)
+        depth_data_1 = numpy.array([[[128, 64, 32]]], dtype=numpy.uint8)
+        object_mask_data_1 = numpy.array([[192]], dtype=numpy.uint8)
+
+        image_data_2 = numpy.array([[32]], dtype=numpy.uint8)
+        depth_data_2 = numpy.array([[[96, 0, 0]]], dtype=numpy.uint8)
+        object_mask_data_2 = numpy.array([[160]], dtype=numpy.uint8)
+
+        mock_scene_event_data = {
+            "events": [self.create_mock_scene_event({
+                "depth_frame": depth_data_1,
+                "frame": image_data_1,
+                "instance_segmentation_frame": object_mask_data_1
+            }), self.create_mock_scene_event({
+                "depth_frame": depth_data_2,
+                "frame": image_data_2,
+                "instance_segmentation_frame": object_mask_data_2
+            })],
+            "metadata": {"objects": []}
+        }
+
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+
+        stepOutput = StepOutput(
+            self._config, {}, mock_event, 0)
+        stepOutput.process_image_data()
+
+        image_list = stepOutput._image_list
+        depth_map_list = stepOutput._depth_map_list
+        object_mask_list = stepOutput._object_mask_list
+
+        self.assertEqual(len(image_list), 2)
+        self.assertEqual(len(depth_map_list), 2)
+        self.assertEqual(len(object_mask_list), 2)
+
+        self.assertEqual(numpy.array(image_list[0]), image_data_1)
+        numpy.testing.assert_almost_equal(
+            numpy.array(depth_map_list[0]),
+            numpy.array([[4.392]], dtype=numpy.float32),
+            3
+        )
+        self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data_1)
+
+        self.assertEqual(numpy.array(image_list[1]), image_data_2)
+        numpy.testing.assert_almost_equal(
+            numpy.array(depth_map_list[1]),
+            numpy.array([[1.882]], dtype=numpy.float32),
+            3
+        )
+        self.assertEqual(numpy.array(object_mask_list[1]), object_mask_data_2)
+
     def test_retrieve_object_list(self):
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
 
@@ -839,9 +996,13 @@ class TestControllerOutputHandler(unittest.TestCase):
                 'objects': [{
                     'id': 'testId1',
                     'states': [['a', 'b'], ['c', 'd']],
-                    "visibleInCamera": True
+                    "visibleInCamera": True,
+                    "salientMaterials": None
                 }]
-            }
+            }, "events": [
+                self.create_mock_scene_event(
+                    {"object_id_to_color": []}
+                )]
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
