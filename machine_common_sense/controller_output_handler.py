@@ -12,10 +12,6 @@ from .object_metadata import ObjectMetadata
 from .util import Util
 from .config_manager import ConfigManager, SceneConfiguration
 
-
-# from .reward import Reward
-# from .step_metadata import StepMetadata
-
 logger = logging.getLogger(__name__)
 
 
@@ -33,12 +29,6 @@ class ControllerOutputHandler():
         self._scene_config = scene_config
 
     def handle_output(self, raw_output, goal, step_number, habituation_trial):
-        # output_copy = copy.deepcopy(raw_output)
-        # pre_restrict_output = self.wrap_output(
-        #    output_copy, goal, step_number, habituation_trial)
-        # output = self.restrict_step_output_metadata(pre_restrict_output)
-        # return (pre_restrict_output, output)
-
         step_output = StepOutput(
             self._config,
             self._scene_config,
@@ -95,6 +85,8 @@ class StepOutput:
     Builds the step metadata from ai2thor output and current configuration
     This class will be refactored again in MCS-665
     '''
+    # TODO probably rename this class, maybe StepMetadataGenerator.  Although
+    # MCS-665 may make this OBE
 
     def __init__(self, config: ConfigManager, scene_config,
                  raw_output: dict, step_number: int):

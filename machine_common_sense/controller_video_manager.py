@@ -146,7 +146,6 @@ class ControllerVideoManager(AbstractControllerSubscriber):
         self._save_images_and_add_to_video(payload, controller)
 
     def _save_images_and_add_to_video(self, payload, controller):
-        # foreach image list
         config = payload.config
         for index, scene_image in enumerate(payload.step_output.image_list):
             if config.is_evaluation() or config.is_video_enabled():
@@ -205,7 +204,6 @@ class ControllerVideoManager(AbstractControllerSubscriber):
                     object_mask.save(fp=payload.output_folder +
                                      'object_mask' + suffix)
 
-# if payload.output_folder and payload.config.is_save_debug_images:
     def _get_suffix(self, payload, index):
         if payload.step_number == 0:
             step_plus_substep_index = 0
