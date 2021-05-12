@@ -1,5 +1,5 @@
 from enum import Enum, unique
-from .util import Util
+from .to_string import ToString
 
 
 class GoalMetadata:
@@ -85,7 +85,7 @@ class GoalMetadata:
         self.metadata = {} if metadata is None else metadata
 
     def __str__(self):
-        return Util.class_to_str(self)
+        return ToString.class_to_str(self)
 
     # Allows converting the class to a dictionary, along with allowing
     #   certain fields to be left out of output file

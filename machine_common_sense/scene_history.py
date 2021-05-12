@@ -1,4 +1,4 @@
-from .util import Util
+from .to_string import ToString
 from typing import Dict, List
 
 
@@ -29,7 +29,7 @@ class SceneHistory(object):
         self.output = output
 
     def __str__(self):
-        return Util.class_to_str(self)
+        return ToString.class_to_str(self)
 
     # Allows converting the class to a dictionary, along with allowing
     #   certain fields to be left out of output file

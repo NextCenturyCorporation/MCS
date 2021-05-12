@@ -1,4 +1,4 @@
-from .util import Util
+from .to_string import ToString
 from .scene_history import SceneHistory
 from typing import Dict
 import logging
@@ -103,4 +103,4 @@ class HistoryWriter(object):
             self.write_history_file("", "")
 
     def __str__(self):
-        return Util.class_to_str(self)
+        return ToString.class_to_str(self)

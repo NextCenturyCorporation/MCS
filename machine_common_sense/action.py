@@ -1,4 +1,5 @@
 from enum import Enum, unique
+from .numeric import Numeric
 
 
 @unique
@@ -642,3 +643,48 @@ class Action(Enum):
     @ property
     def desc(self):
         return self._desc
+
+    @staticmethod
+    def input_to_action_and_params(input_str):
+        """
+        Transforms the given input string into an action string
+        and parameter dict.
+
+        Parameters
+        ----------
+        input_value : string
+            The input value.
+
+        Returns
+        -------
+        string
+            The action string, or None if the given input had an error
+            transforming the action string.
+        dict
+            The parameter dict, or None if the given input had an error
+            transforming parameters.
+        """
+        input_split = input_str.split(',')
+        action = input_split[0]
+
+        try:
+            validate_action = Action(action).name  # noqa: F841
+        except BaseException:
+            return None, {}
+
+        if len(input_split) < 2:
+            return action, {}
+
+        params = {}
+
+        try:
+            for param in input_split[1:]:
+                paramKey, paramValue = param.split('=')
+                if Numeric.is_number(paramValue.strip()):
+                    params[paramKey.strip()] = float(paramValue.strip())
+                else:
+                    params[paramKey.strip()] = paramValue.strip()
+        except BaseException:
+            return action, None
+
+        return action, params

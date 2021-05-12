@@ -29,7 +29,7 @@ def action_callback(scene_data, step_metadata, runner_script):
     if len(action_list_from_file) <= step_metadata.step_number:
         return None, None
 
-    return mcs.Util.input_to_action_and_params(
+    return mcs.Action.input_to_action_and_params(
         action_list_from_file[step_metadata.step_number]
     )
 
