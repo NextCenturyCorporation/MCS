@@ -12,8 +12,11 @@ logger = logging.getLogger(__name__)
 
 
 class ControllerVideoManager(AbstractControllerSubscriber):
-    # TODO: We should separate these and only enable specific classes
+    # TODO: MCS-664 separate these and only enable specific classes
     # instead of having constant checks
+    '''
+    Creates videos and images depending for MCS depending on configuration
+    '''
 
     def on_start_scene(self, payload, controller):
         # used to be def _create_video_recorders(self, timestamp):

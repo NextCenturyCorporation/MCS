@@ -9,6 +9,9 @@ from .goal_metadata import GoalMetadata
 
 
 class EventType(enum.Enum):
+    '''
+    Enum for the possible events the controller can send to subscribers
+    '''
     ON_INIT = enum.auto()
     ON_START_SCENE = enum.auto()
     ON_BEFORE_STEP = enum.auto()
@@ -24,6 +27,10 @@ class BaseEventPayload:
 
 
 class ControllerEventPayload(BaseEventPayload):
+    '''
+    Payload class for controller events.  This class will be redone soon.
+    '''
+
     def __init__(self, output_folder: str, config: ConfigManager,
                  step_number: int, scene_config: SceneConfiguration,
                  habituation_trial: int, goal: Dict):
@@ -58,6 +65,10 @@ class ControllerEventPayload(BaseEventPayload):
 
 
 class PredictionPayload(BaseEventPayload):
+    '''
+        Class that contains relevant data to controller subscribers
+        When the prediction event occurs.
+    '''
 
     def __init__(self, config, choice: str = None,
                  confidence: float = None,
@@ -73,6 +84,10 @@ class PredictionPayload(BaseEventPayload):
 
 
 class AbstractControllerSubscriber(ABC):
+    '''
+    Abstract class for controller event subscribers.  Subscriber
+    implementations should override at least one of the event classes.
+    '''
 
     def __init__(self):
         self._switcher = {

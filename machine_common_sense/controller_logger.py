@@ -8,6 +8,9 @@ logger = logging.getLogger(__name__)
 
 
 class ControllerLogger(AbstractControllerSubscriber):
+    '''
+    Handles debugging and user output based on controller events
+    '''
 
     def on_start_scene(self, payload, controller):
         logger.debug(
@@ -60,6 +63,9 @@ class ControllerLogger(AbstractControllerSubscriber):
 
 
 class ControllerDebugFileGenerator(AbstractControllerSubscriber):
+    '''
+    Handles writing mcs output debug files
+    '''
 
     def on_start_scene(self, payload, controller):
         self._write_debug_output_file(payload)
@@ -77,6 +83,9 @@ class ControllerDebugFileGenerator(AbstractControllerSubscriber):
 
 
 class ControllerAi2thorFileGenerator(AbstractControllerSubscriber):
+    '''
+    Handles writing AI2Thor debug files
+    '''
 
     def on_start_scene(self, payload, controller):
         self._write_debug_input_file(payload)

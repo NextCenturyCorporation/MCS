@@ -20,6 +20,10 @@ logger = logging.getLogger(__name__)
 
 
 class ControllerOutputHandler():
+    '''
+    Attempts to handle converting ai2thor output in to MCS output.
+    This class will be refactored again in MCS-665
+    '''
 
     def __init__(self, config: ConfigManager):
         # do nothing
@@ -87,6 +91,10 @@ class ControllerOutputHandler():
 
 
 class StepOutput:
+    '''
+    Builds the step metadata from ai2thor output and current configuration
+    This class will be refactored again in MCS-665
+    '''
 
     def __init__(self, config: ConfigManager, scene_config,
                  raw_output: dict, step_number: int):
@@ -105,7 +113,8 @@ class StepOutput:
             )
 
     # used to be wrap output
-    def get_step_metadata(self, goal, habituation_trial, restricted=True):
+    def get_step_metadata(self, goal, habituation_trial,
+                          restricted=True) -> StepMetadata:
         metadata_tier = self._config.get_metadata_tier()
         restrict_depth_map = (
             restricted and
