@@ -23,10 +23,11 @@ class GoalMetadata:
         specific step.
         See StepMetadata.action_list for the available actions of the current
         step.
-        May be a subset of all possible actions. See [Actions](#Actions).
+        May be a subset of all possible actions. See
+        :mod:`Action <machine_common_sense.Action>`.
     category : string
         The category that describes this goal and the properties in its
-        metadata. See [Goals](#Goals).
+        metadata. See :mod:`Goal <machine_common_sense.GoalCategory>`.
     description : string
         A human-readable sentence describing this goal and containing
         the target task(s) and object(s).
@@ -47,7 +48,7 @@ class GoalMetadata:
         black, blue, brown, green, grey, orange, purple, red, white, yellow
 
         Materials:
-        See [Materials](#Materials).
+        See :mod:`Material <machine_common_sense.Material>`.
     habituation_total : int
         The total count of habituation trials that will be in this scene.
     last_preview_phase_step : integer
@@ -60,7 +61,8 @@ class GoalMetadata:
         The last step of this scene. This scene will automatically end
         following this step.
     metadata : dict
-        The metadata specific to this goal. See [Goals](#Goals).
+        The metadata specific to this goal. See
+        :mod:`Goal <machine_common_sense.GoalCategory>`.
     """
 
     def __init__(
@@ -161,20 +163,12 @@ class GoalCategory(Enum):
     ----------
     target.id : string
         The objectId of the target object to retrieve.
-
-    target.image : list of numpy arrays
-        An image of the target object to retrieve, given as a 3D RGB pixel
-        array.
+        Will only be available at `oracle` metadata level.
 
     target.info : list of strings
         Human-readable information describing the target object needed for the
         visualization interface.
 
-    target.match_image : string
-        Whether the image of the target object (target.image) exactly matches
-        the actual target object in the scene. If false, then the actual object
-        will be different in one way (for example, the image may depict a blue
-        ball, but the actual object is a yellow ball, or a blue cube).
     """
 
     TRANSFERRAL = "transferral"

@@ -19,8 +19,7 @@ ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES},display
 # ENV LANG C.UTF-8
 
 # --build-arg mcsversion=0.0.x to override default in docker build command
-ARG mcsversion=0.4.1.1
-ARG mcsversion_minus=0.4.1-1
+ARG mcsversion=0.4.2
 ARG mcs_library_version=master
 
 WORKDIR /mcs
@@ -33,9 +32,9 @@ RUN apt-get update && \
     ln -s /usr/bin/python3 /usr/bin/python
 
 # Add ai2thor/Unity resources
-ADD https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsversion_minus}/MCS-AI2-THOR-Unity-App-v${mcsversion}.x86_64 /mcs
-ADD https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsversion_minus}/MCS-AI2-THOR-Unity-App-v${mcsversion}_Data.tar.gz /mcs
-ADD https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsversion_minus}/UnityPlayer.so /mcs
+ADD https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsversion}/MCS-AI2-THOR-Unity-App-v${mcsversion}.x86_64 /mcs
+ADD https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsversion}/MCS-AI2-THOR-Unity-App-v${mcsversion}_Data.tar.gz /mcs
+ADD https://github.com/NextCenturyCorporation/MCS/releases/download/${mcsversion}/UnityPlayer.so /mcs
 RUN tar -xzvf /mcs/MCS-AI2-THOR-Unity-App-v${mcsversion}_Data.tar.gz -C /mcs && \
     chmod a+x /mcs/MCS-AI2-THOR-Unity-App-v${mcsversion}.x86_64 && \
     rm /mcs/MCS-AI2-THOR-Unity-App-v${mcsversion}_Data.tar.gz

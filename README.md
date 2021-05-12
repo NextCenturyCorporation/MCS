@@ -2,14 +2,8 @@
 
 - [Installation](#installation)
 - [Download](#download)
-- [Training Datasets](#training-datasets)
 - [Usage](#usage)
-- [Logging](#logging)
-- [Run with Human Input](#run-with-human-input)
-- [Run with Scene Timer](#run-with-scene-timer)
 - [Config File](#config-file)
-- [Running Remotely](#running-remotely)
-- [Containerization](#containerization)
 - [Documentation](#documentation)
 - [Other MCS GitHub Repositories](#other-mcs-github-repositories)
 - [Troubleshooting/Email](#troubleshooting)
@@ -17,7 +11,7 @@
 
 ## Installation
 
-The latest release of the MCS Python library is `0.4.1.1`.
+The latest release of the MCS Python library is `0.4.2`.
 
 ### Virtual Environments
 
@@ -50,15 +44,11 @@ myenv                    /home/user/anaconda3/envs/myenv
 
 ### Install MCS
 
-With the activated virtual environment, install the MCS package from the git url. MCS has a dependency on an ai2thor fork and will take a while to install. Please be patient.
+With the activated virtual environment, install the MCS package from the git url. MCS has a dependency on ai2thor and could take a while to install.
 
 ```bash
 (venv) $ python -m pip install git+https://github.com/NextCenturyCorporation/MCS@master#egg=machine_common_sense
 ```
-
-## MCS Package Developer Installation
-
-For MCS package developer, follow these [alternate instructions](./machine_common_sense/DEV.md)
 
 ## Download
 
@@ -66,103 +56,36 @@ Here are the instructions for downloading and installing our latest Unity releas
 
 ### Unity Application
 
-The latest release of the MCS Unity app is `0.4.1.1`.
+The latest release of the MCS Unity app is `0.4.2`.
 
-Please note that our Unity App is built on Linux or Mac.
+Please note that our Unity App is built for Linux or Mac. There is no Windows support currently.
 
 Linux Version:
 
-1. [Download the latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/MCS-AI2-THOR-Unity-App-v0.4.1.1.x86_64)
+1. [Download the latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.2/MCS-AI2-THOR-Unity-App-v0.4.2.x86_64)
 
-2. [Download the latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/MCS-AI2-THOR-Unity-App-v0.4.1.1_Data.tar.gz)
+2. [Download the latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.2/MCS-AI2-THOR-Unity-App-v0.4.2_Data.tar.gz)
 
-3. [Download the latest UnityPlayer.so file](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/UnityPlayer.so)
+3. [Download the latest UnityPlayer.so file](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.2/UnityPlayer.so)
 
 4. Ensure that both the Unity App and the TAR are in the same directory.
 
 5. Untar the Data Directory:
 
 ```
-tar -xzvf MCS-AI2-THOR-Unity-App-v0.4.1.1_Data.tar.gz
+tar -xzvf MCS-AI2-THOR-Unity-App-v0.4.2_Data.tar.gz
 ```
 
 6. Mark the Unity App as executable:
 
 ```
-chmod a+x MCS-AI2-THOR-Unity-App-v0.4.1.1.x86_64
+chmod a+x MCS-AI2-THOR-Unity-App-v0.4.2.x86_64
 ```
 
 Mac Version:
 
-[Download the Mac ZIP](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1-1/MCS-AI2-THOR-Unity-App-v0.4.1.1-mac.zip)
+[Download the Mac ZIP](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.2/MCS-AI2-THOR-Unity-App-v0.4.2-mac.zip)
 
-
-## Training Datasets
-
-### Summer 2020
-
-#### Passive Agent
-
-Subtasks:
-
-- Single object scenes (~10K), just like Eval 3
-- Object preference scenes (~10K), just like Eval 3
-- Multiple agents scenes (4K), new to Eval 4
-- Instrumental action scenes (4K), new to Eval 4
-
-JSON scene configuration files:
-
-- https://eval-4-data.s3.amazonaws.com/eval_4_agent_training_dataset.zip
-
-Rendered videos:
-
-- https://nyu-datasets.s3.amazonaws.com/agent_instrumental_action_training_videos.zip
-- https://nyu-datasets.s3.amazonaws.com/agent_multiple_agents_training_videos.zip
-- https://nyu-datasets.s3.amazonaws.com/agent_object_preference_training_videos.zip
-- https://nyu-datasets.s3.amazonaws.com/agent_single_object_training_videos.zip
-
-#### Passive Intuitive Physics
-
-Please generate your own training datasets using our Scene Generator software here:
-
-- https://github.com/NextCenturyCorporation/mcs-scene-generator
-
-#### Interactive
-
-For the container, obstacle, and occluder tasks, please generate your own training datasets using our Scene Generator software here:
-
-- https://github.com/NextCenturyCorporation/mcs-scene-generator
-
-For the new interactive object permanence and reorientation tasks, please generate your own training datasets using our example scene templates here:
-
-https://github.com/NextCenturyCorporation/MCS/tree/master/machine_common_sense/scenes#interactive-object-permanence-and-reorientation-tasks
-
-### Winter 2020
-
-*Please use the most recent 0.3.X release version*
-
-Passive Agent (only expected scenes):
-- https://evaluation-training-scenes.s3.amazonaws.com/eval3/training-single-object.zip
-- https://evaluation-training-scenes.s3.amazonaws.com/eval3/training-object-preference.zip
-
-Passive Intuitive Physics (only plausible scenes):
-- https://evaluation-training-scenes.s3.amazonaws.com/eval3/training-passive-physics.zip
-
-Example Scenes:
-- https://github.com/NextCenturyCorporation/MCS/tree/master/machine_common_sense/scenes
-
-### Summer 2020
-
-*Use a release version between 0.0.9 and 0.1.0*
-
-Interactive:
-https://evaluation2-training-scenes.s3.amazonaws.com/interaction-scenes.zip
-
-Passive IntPhys:
-https://evaluation2-training-scenes.s3.amazonaws.com/intphys-scenes.zip
-
-Passive IntPhys Validation Data:
-https://evaluation2-training-scenes.s3.amazonaws.com/validation-intphys-scenes.zip
 
 ## Usage
 
@@ -194,82 +117,6 @@ while action != '':
 # to the end_scene function here.
 controller.end_scene()
 ```
-
-Example running multiple scenes sequentially:
-
-```python
-import machine_common_sense as mcs
-
-# Only create the MCS controller ONCE!
-controller = mcs.create_controller(unity_app_file_path)
-
-for scene_json_file_path in scene_json_file_list:
-    scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
-    output = controller.start_scene(scene_data)
-    action, params = select_action(output)
-    while action != '':
-        controller.step(action, params)
-            action, params = select_action(output)
-    controller.end_scene()
-```
-
-### Logging
-#### Initialize development logging config settings
-In startup script make sure you include:
-```python
-import machine_common_sense as mcs
-
-#This code initializes logging using config files
-mcs.init_logging()
-```
-#### Logging configuration files
-This logging configuration system uses a file at [scripts/log.config.py](./scripts/log.config.py) as a default configuration file.  See that file for links to documentation and some descriptions.
-
-Users can copy that file to scripts/log.config.user.py to create their own configuration.  This file is gitignored so it will not be shared.
-
-#### Why use logging and configuration files
-
-We use logging configuration files so users have a reasonable default configuration but also have the ability to override when circumstances demand.  This eliminates the need to alter code when changing what logging is necessary.  In the future, additional features to the initialization function to support difficult overrides if necessary (i.e. different logging override files for dev, test, eval, etc).
-
-#### Example with logging config file:
-
-Sample of how to log in all files:
-```python
-import logging
-
-# logging by name is useful to turn certain logs on/off and
-# also to help determine where an error log might have originated from
-logger = logging.getLogger(__name__)
-
-def any_function(self):
-    #basic log functions in order of level.  If logger or handler is set to a level, that level and above will be logged.
-    logger.critical("This message is see as long as the logger is enabled")
-    logger.error("This message reports an error")
-    logger.info("This message is general info")
-    logger.debug("This message is mainly for debugging and shouldn't cause usage problems if missing")
-    # Unlike many common loggers in other languages, python logging doesn't seem to have TRACE
-```
-
-## Run with Human Input
-
-To start the Unity application and enter your actions and parameters from the terminal, you can run the `run_in_human_input_mode` script that was installed in the package with the MCS Python Library (the `mcs_unity_build_file` is the Unity executable downloaded previously):
-
-```
-run_in_human_input_mode <mcs_unity_build_file> <mcs_scene_json_file>
-```
-
-Run options:
-- `--config_file_path <file_path>`
-
-## Run with Scene Timer
-
-To run the Unity application and measure your runtime speed, you can run the `run_scene_timer` script that was installed in the package with the MCS Python Library:
-
-```
-run_scene_timer <mcs_unity_build_file> <mcs_scene_file_folder>
-```
-
-This will run all of the MCS scene configuration JSON files in the given folder, use the PASS action for 20 steps (or for a number of steps equal to the last_step of the scene file's goal, if any) in each scene, and print out the total, average, minimum, and maximum run time for all the scenes and the steps.
 
 ## Config File
 
@@ -365,143 +212,9 @@ for scene_file in scene_files:
         # Use the output to save your scene graph or map
 ```
 
-### Example Scene Configuration Files
-
-[machine_common_sense/scenes/README.md](./machine_common_sense/scenes/README.md)
-
-## Running Remotely
-
-To run MCS on a remote GPU server, use the following steps to launch an X11 server.
-
-```bash
-# query the gpu bus ID
-$ nvidia-xconfig --query-gpu-info
-
-GPU #0:
-  Name      : Tesla K80
-  UUID      : GPU-d03a3d49-0641-40c9-30f2-5c3e4bdad498
-  PCI BusID : PCI:0:23:0
-# create the xserver configuration
-$ sudo nvidia-xconfig --user-display-device=None --virtual=600x400 --output-xconfig=/etx/X11/xorg.conf --busid=PCI:0:23:0
-# launch Xserver
-$ sudo /usr/bin/Xorg :0 &
-# test using glxinfo
-$ DISPLAY=:0 glxinfo
-name of display: :0
-display: :0  screen: 0
-direct rendering: Yes
-server glx vendor string: NVIDIA Corporation
-server glx version string: 1.4
-
-```
-
-### Remote Run Test Script
-
-Run the following script to test MCS with the X11 server created above.
-
-```python
-# test.py
-import machine_common_sense as mcs
-# use your path to the MCS Unity executable
-controller = mcs.create_controller('MCS.x86_64')
-# find a test scene
-scene_file_path = 'playroom.json'
-scene_data, status = mcs.load_scene_json_file(scene_file_path)
-scene_file_name = scene_file_path[scene_file_path.rfind('/')+1]
-if 'name' not in scene_data.keys():
-    scene_data['name'] = scene_file_name[0:scene_file_name.find('.')]
-output = controller.start_scene(scene_data)
-for i in range(1, 12):
-    output = controller.step('RotateLook')
-    for j in range(len(output.image_list)):
-        output.image_list[i].save(f'{i}-{j}.jpg')
-```
-
-From your python environment, run test.py and check the output images for proper rendering.
-
-```
-DISPLAY=:0 python test.py
-```
-
-## Containerization
-
-### GPU Image
-Please note that the GPU image requires an Nvidia GPU and Nvidia Docker to be installed.
-
-You can run the GPU image with:
-```shell
-docker run -it -e PYTHONIOENCODING=utf8 -e XAUTHORITY=/tmp/.docker.xauth -e DISPLAY=:1 \
-           -v ${PWD}/machine_common_sense/scenes:/input -v ${PWD}/scripts:/scripts \
-           -v /tmp/.X11-unix:/tmp/.X11-unix \
-           -v /tmp/.docker.xauth:/tmp/.docker.xauth \
-           --net host --gpus all --rm mcs-playroom:0.0.6 bash
-```
-
-You can then run a scene like this:
-```shell
-python3 /scripts/run_human_input.py /mcs/MCS-AI2-THOR-Unity-App-v0.4.0.x86_64 --config_file_path /scripts/config_oracle.ini /input/hinged_container_example.json
-```
-
-#### Missing X Authorization Error
-If you encounter an error like the following:
-```
-config_file_path $MCS_CONFIG_FILE_PATH /input/agents_preference_expected.json 
-No protocol specified
-xdpyinfo:  unable to open display ":1".
-Exception in create_controller() Invalid DISPLAY :1 - cannot find X server with xdpyinf
-```
-please try resetting your X authorization:
-```shell
-sudo rmdir /tmp/.docker.xauth
-touch /tmp/.docker.xauth
-xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f /tmp/.docker.xauth nmerge -
-```
-
-### CPU Image
-
-There is an image to run CPU-only without requiring an Nvidia GPU. Please only use it if your system does not meet the
-prerequisites for the GPU image, since GPU acceleration will yield significantly better performance.
-
-#### Build Image
-```shell
-docker build -f CPU_Container.dockerfile -t mcs-playroom-cpu .
-```
-
-#### Run Image (bash)
-```shell
-docker run -it -p 5900:5900 -v ${PWD}/machine_common_sense/scenes:/input -v ${PWD}/scripts:/scripts mcs-playroom-cpu bash
-```
-
-#### Run with VNC
-Unless stated otherwise, the following commands are intended to be run inside the container.
-Run tmux with `tmux` and open two panes via `C-b %`.
-```shell
-Xvnc :33 &
-export DISPLAY=:33
-python3 /scripts/run_human_input.py ${MCS_EXECUTABLE_PATH} --config_file_path ${MCS_CONFIG_FILE_PATH} /input/hinged_container_example.json
-```
-
-Switch panes with `C-b <arrow>`
-```shell
-window_id=$(xwininfo -root -tree | grep MCS-AI2-THOR | tail -n1 | sed "s/^[ \t]*//" | cut -d ' ' -f1) && echo ${window_id}
-x11vnc -id ${window_id} &
-```
-
-Afterwards, you should be able to connect to the VNC server from the host by running `vncviewer` and connecting to
-`localhost:5900`.
-
-#### Run Fully Headless
-
-As an alternative for batch runs you can also run MCS against X virtual framebuffers. In this case you do not get visual
-output, but can run the images on headless servers without X server. To do so, please execute the following command
-from inside the container:
-
-```shell
-xvfb-run -s "-screen 0 1440x900x24" python3 /scripts/run_human_input.py ${MCS_EXECUTABLE_PATH} --config_file_path ${MCS_CONFIG_FILE_PATH} /input/agents_preference_expected.json
-```
-
 ## Documentation
 
+<!-- TODO where are sphinx docs published? -->
 - [Python API](./machine_common_sense/API.md)
 - [Example Scene Configuration Files](./machine_common_sense/scenes/README.md)
 - [Scene Configuration JSON Schema](./machine_common_sense/scenes/SCHEMA.md)

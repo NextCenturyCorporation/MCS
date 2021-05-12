@@ -7,15 +7,10 @@ from machine_common_sense.plotter import TopDownPlotter, XZHeading
 
 class TestTopDownPlotter(unittest.TestCase):
 
-    PLOT_WIDTH = 600
-    PLOT_HEIGHT = 400
-
     def setUp(self):
         self.plotter = TopDownPlotter(
             team="test",
-            scene_name="scene",
-            plot_width=self.PLOT_WIDTH,
-            plot_height=self.PLOT_HEIGHT
+            scene_name="scene"
         )
 
     def test_convert_color_empty(self):
@@ -59,8 +54,6 @@ class TestTopDownPlotter(unittest.TestCase):
         scene_event = ai2thor.server.Event(metadata=metadata)
         img = self.plotter.plot(scene_event=scene_event, step_number=1)
         self.assertIsInstance(img, PIL.Image.Image)
-        self.assertEqual(img.width, self.PLOT_WIDTH)
-        self.assertEqual(img.height, self.PLOT_HEIGHT)
 
     def test_plot_twice(self):
         metadata = {
@@ -337,9 +330,7 @@ class TestTopDownPlotter(unittest.TestCase):
     def test_scene_name_prefix(self):
         plotter = TopDownPlotter(
             team="test",
-            scene_name="prefix/scene",
-            plot_width=self.PLOT_WIDTH,
-            plot_height=self.PLOT_HEIGHT
+            scene_name="prefix/scene"
         )
 
         self.assertEqual(plotter._scene_name, "scene")
