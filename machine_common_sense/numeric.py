@@ -4,6 +4,10 @@ logger = logging.getLogger(__name__)
 
 
 class Numeric():
+    '''
+    Support for tests and conditions on numbers and strings that may be
+    numeric.
+    '''
     @staticmethod
     def is_in_range(value, min_value, max_value, default_value, label=None):
         """
