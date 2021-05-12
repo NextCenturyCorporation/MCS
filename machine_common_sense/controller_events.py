@@ -26,7 +26,7 @@ class BaseEventPayload:
 class ControllerEventPayload(BaseEventPayload):
     def __init__(self, output_folder: str, config: ConfigManager,
                  step_number: int, scene_config: SceneConfiguration,
-                 habituation_trial, goal):
+                 habituation_trial: int, goal: Dict):
         self.timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
         self.output_folder = output_folder
         self.config = config
@@ -92,20 +92,20 @@ class AbstractControllerSubscriber(ABC):
             payload,
             controller)
 
-    def on_init(self, payload, controller):
+    def on_init(self, payload: ControllerEventPayload, controller):
         pass
 
-    def on_start_scene(self, payload, controller):
+    def on_start_scene(self, payload: ControllerEventPayload, controller):
         pass
 
-    def on_before_step(self, payload, controller):
+    def on_before_step(self, payload: ControllerEventPayload, controller):
         pass
 
-    def on_after_step(self, payload, controller):
+    def on_after_step(self, payload: ControllerEventPayload, controller):
         pass
 
     def on_prediction(self, payload: PredictionPayload, controller):
         pass
 
-    def on_end_scene(self, payload, controller):
+    def on_end_scene(self, payload: ControllerEventPayload, controller):
         pass

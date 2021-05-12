@@ -302,7 +302,7 @@ class Controller():
         payload.uploader_folder_prefix = self._config.get_s3_folder()
         self._publish_event(EventType.ON_END_SCENE, payload)
 
-        if (self._end_scene_not_registered is False):
+        if (not self._end_scene_not_registered):
             atexit.unregister(self.end_scene)
             self._end_scene_not_registered = True
 
@@ -372,7 +372,8 @@ class Controller():
 
             logger.debug('NO PREVIEW PHASE')
 
-            # Why is this in the if black?  should it be?
+            # TODO Should this be in the if block?  Now that we are using
+            # subscribers, we may want to always register
             if(self._end_scene_not_registered is True and
                     (self._config.is_history_enabled() or
                      self._config.is_evaluation())):

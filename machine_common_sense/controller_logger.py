@@ -9,10 +9,7 @@ logger = logging.getLogger(__name__)
 
 class ControllerLogger(AbstractControllerSubscriber):
 
-    # def on_init(self, payload, controller):
-
     def on_start_scene(self, payload, controller):
-        # logger.info("start")
         logger.debug(
             "STARTING NEW SCENE: " +
             payload.scene_config.get(
@@ -60,8 +57,6 @@ class ControllerLogger(AbstractControllerSubscriber):
             for line in Util.generate_pretty_object_output(
                     step_output.object_list):
                 logger.debug("    " + line)
-
-    # def on_end_scene(self, payload, controller):
 
 
 class ControllerDebugFileGenerator(AbstractControllerSubscriber):
