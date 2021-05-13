@@ -32,8 +32,9 @@ class TestController(unittest.TestCase):
         for test_file in test_files:
             os.unlink(test_file)
         # if SCENE_HIST_DIR is empty, destroy it
-        if not os.listdir(SCENE_HIST_DIR):
-            shutil.rmtree(SCENE_HIST_DIR)
+        if os.path.isdir(SCENE_HIST_DIR):
+            if not os.listdir(SCENE_HIST_DIR):
+                shutil.rmtree(SCENE_HIST_DIR)
 
     def create_mock_scene_event(self, mock_scene_event_data):
         # Wrap the dict in a SimpleNamespace object to permit property access
