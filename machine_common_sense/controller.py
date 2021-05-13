@@ -149,13 +149,13 @@ class Controller():
     AWS_ACCESS_KEY_ID = 'aws_access_key_id'
     AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
 
-    def __init__(self, unity_app_file_path, config_file_path=None):
+    def __init__(self, unity_app_file_path, config):
 
         self._subscribers = []
 
         self._end_scene_not_registered = True
 
-        self._config = ConfigManager(config_file_path)
+        self._config = config
 
         self._output_handler = ControllerOutputHandler(self._config)
 
@@ -177,7 +177,7 @@ class Controller():
             }
         )
 
-        self._on_init(config_file_path)
+        self._on_init()
 
     def subscribe(self, subscriber):
         if subscriber not in self._subscribers:
@@ -216,7 +216,7 @@ class Controller():
         else:
             return y_coord
 
-    def _on_init(self, config_file_path=None):
+    def _on_init(self):
 
         self.__noise_enabled = self._config.is_noise_enabled()
         self.__seed = self._config.get_seed()

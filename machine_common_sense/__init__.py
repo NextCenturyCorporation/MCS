@@ -8,6 +8,7 @@ import signal
 from contextlib import contextmanager
 
 from .action import Action
+from .config_manager import ConfigManager
 from .controller import Controller
 from .controller_logger import ControllerAi2thorFileGenerator
 from .controller_logger import ControllerDebugFileGenerator
@@ -68,19 +69,19 @@ def create_controller(unity_app_file_path,
         The MCS Controller object.
     """
     try:
+        config = ConfigManager(config_file_path)
         with time_limit(TIME_LIMIT_SECONDS):
             controller = Controller(unity_app_file_path,
-                                    config_file_path)
-        _add_subscribers(controller)
+                                    config)
+        _add_subscribers(controller, config)
         return controller
     except Exception as Msg:
         logger.error("Exception in create_controller()", exc_info=Msg)
         return None
 
 
-def _add_subscribers(controller):
+def _add_subscribers(controller: Controller, config: ConfigManager):
     if controller:
-        config = controller._config
         if config.is_save_debug_json():
             controller.subscribe(ControllerDebugFileGenerator())
             controller.subscribe(ControllerAi2thorFileGenerator())
