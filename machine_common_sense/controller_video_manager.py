@@ -17,8 +17,14 @@ class ControllerVideoManager(AbstractControllerSubscriber):
     '''
     Creates videos and images depending for MCS depending on configuration
     '''
+    PLACEHOLDER = 'placeholder'
+    VISUAL = 'visual'
+    DEPTH = 'depth'
+    SEGMENTATION = 'segmentation'
+    HEATMAP = 'heatmap'
+    TOPDOWN = 'topdown'
 
-    def on_start_scene(self, payload, controller):
+    def on_start_scene(self, payload):
         # used to be def _create_video_recorders(self, timestamp):
         '''Create video recorders used to capture evaluation scenes for review
         '''
@@ -44,43 +50,48 @@ class ControllerVideoManager(AbstractControllerSubscriber):
                 [eval_name, payload.config.get_metadata_tier(),
                  team,
                  scene_name,
-                 controller.PLACEHOLDER, timestamp]) + '.mp4'
+                 ControllerVideoManager.PLACEHOLDER, timestamp]) + '.mp4'
 
             visual_video_filename = basename_template.replace(
-                controller.PLACEHOLDER, controller.VISUAL)
+                ControllerVideoManager.PLACEHOLDER,
+                ControllerVideoManager.VISUAL)
             self.__image_recorder = VideoRecorder(
                 vid_path=output_folder / visual_video_filename,
                 fps=payload.step_output.physics_frames_per_second)
 
             topdown_video_filename = basename_template.replace(
-                controller.PLACEHOLDER, controller.TOPDOWN)
+                ControllerVideoManager.PLACEHOLDER,
+                ControllerVideoManager.TOPDOWN)
             self.__topdown_recorder = VideoRecorder(
                 vid_path=output_folder / topdown_video_filename,
                 fps=payload.step_output.physics_frames_per_second)
 
             heatmap_video_filename = basename_template.replace(
-                controller.PLACEHOLDER, controller.HEATMAP)
+                ControllerVideoManager.PLACEHOLDER,
+                ControllerVideoManager.HEATMAP)
             self.__heatmap_recorder = VideoRecorder(
                 vid_path=output_folder / heatmap_video_filename,
                 fps=payload.step_output.physics_frames_per_second)
 
             if payload.config.is_depth_maps_enabled():
                 depth_video_filename = basename_template.replace(
-                    controller.PLACEHOLDER, controller.DEPTH)
+                    ControllerVideoManager.PLACEHOLDER,
+                    ControllerVideoManager.DEPTH)
                 self.__depth_recorder = VideoRecorder(
                     vid_path=output_folder / depth_video_filename,
                     fps=payload.step_output.physics_frames_per_second)
 
             if payload.config.is_object_masks_enabled():
                 segmentation_video_filename = basename_template.replace(
-                    controller.PLACEHOLDER, controller.SEGMENTATION)
+                    ControllerVideoManager.PLACEHOLDER,
+                    ControllerVideoManager.SEGMENTATION)
                 self.__segmentation_recorder = VideoRecorder(
                     vid_path=output_folder / segmentation_video_filename,
                     fps=payload.step_output.physics_frames_per_second)
 
-        self._save_images_and_add_to_video(payload, controller)
+        self._save_images_and_add_to_video(payload)
 
-    def on_prediction(self, payload, controller):
+    def on_prediction(self, payload):
         if(
             payload.heatmap_img is not None and
             isinstance(payload.heatmap_img, PIL.Image.Image) and
@@ -89,7 +100,7 @@ class ControllerVideoManager(AbstractControllerSubscriber):
         ):
             self.__heatmap_recorder.add(payload.heatmap_img)
 
-    def on_end_scene(self, payload, controller):
+    def on_end_scene(self, payload):
         config = payload.config
         if config.is_evaluation() or config.is_video_enabled():
             self.__topdown_recorder.finish()
@@ -142,10 +153,10 @@ class ControllerVideoManager(AbstractControllerSubscriber):
                     s3_filename=folder_prefix + '/' + video_filename
                 )
 
-    def on_after_step(self, payload, controller):
-        self._save_images_and_add_to_video(payload, controller)
+    def on_after_step(self, payload):
+        self._save_images_and_add_to_video(payload)
 
-    def _save_images_and_add_to_video(self, payload, controller):
+    def _save_images_and_add_to_video(self, payload):
         config = payload.config
         for index, scene_image in enumerate(payload.step_output.image_list):
             if config.is_evaluation() or config.is_video_enabled():

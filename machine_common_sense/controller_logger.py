@@ -12,7 +12,7 @@ class ControllerLogger(AbstractControllerSubscriber):
     Handles debugging and user output based on controller events
     '''
 
-    def on_start_scene(self, payload, controller):
+    def on_start_scene(self, payload):
         logger.debug(
             "STARTING NEW SCENE: " +
             payload.scene_config.get(
@@ -26,7 +26,7 @@ class ControllerLogger(AbstractControllerSubscriber):
 
         self._write_debug_output(payload)
 
-    def on_before_step(self, payload, controller):
+    def on_before_step(self, payload):
         logger.debug("================================================"
                      "===============================")
         logger.debug("STEP: " + str(payload.step_number))
@@ -40,7 +40,7 @@ class ControllerLogger(AbstractControllerSubscriber):
         else:
             logger.debug("HABITUATION TRIAL: NONE")
 
-    def on_after_step(self, payload, controller):
+    def on_after_step(self, payload):
         self._write_debug_output(payload)
 
     def _write_debug_output(self, payload):
@@ -66,10 +66,10 @@ class ControllerDebugFileGenerator(AbstractControllerSubscriber):
     Handles writing mcs output debug files
     '''
 
-    def on_start_scene(self, payload, controller):
+    def on_start_scene(self, payload):
         self._write_debug_output_file(payload)
 
-    def on_after_step(self, payload, controller):
+    def on_after_step(self, payload):
         self._write_debug_output_file(payload)
 
     def _write_debug_output_file(self, payload):
@@ -86,11 +86,11 @@ class ControllerAi2thorFileGenerator(AbstractControllerSubscriber):
     Handles writing AI2Thor debug files
     '''
 
-    def on_start_scene(self, payload, controller):
+    def on_start_scene(self, payload):
         self._write_debug_input_file(payload)
         self._write_debug_output_file(payload)
 
-    def on_after_step(self, payload, controller):
+    def on_after_step(self, payload):
         self._write_debug_input_file(payload)
         self._write_debug_output_file(payload)
 
