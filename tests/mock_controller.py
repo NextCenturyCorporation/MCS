@@ -6,6 +6,8 @@ from machine_common_sense.controller import Controller
 from machine_common_sense.pose import Pose
 from machine_common_sense.action import Action
 from machine_common_sense.config_manager import ConfigManager
+from machine_common_sense.controller_output_handler import \
+    ControllerOutputHandler
 
 MOCK_VARIABLES = {
     'event_count': 5,
@@ -95,20 +97,24 @@ class MockControllerAI2THOR(Controller):
         if(check_debug_mode is not None):
             os.environ.pop('MCS_DEBUG_MODE')
 
+        self._subscribers = []
+
         self._end_scene_not_registered = False  # atexit not needed for tests
         self._controller = MockController()
         self._config = ConfigManager()
-        self._update_screen_size()
+        self._config._config[
+            ConfigManager.CONFIG_DEFAULT_SECTION
+        ] = {}
+        self._output_handler = ControllerOutputHandler(self._config)
         self._on_init()
 
     def get_last_step_data(self):
         return self._controller.get_last_step_data()
 
-    def render_mask_images(self):
-        self._update_internal_config(depth_maps=True, object_masks=True)
-
     def set_goal(self, goal):
         self._goal = goal
 
     def set_metadata_tier(self, mode):
-        self._metadata_tier = mode
+        if not self._config:
+            self._config = ConfigManager()
+        self._config.set_metadata_tier(mode)
