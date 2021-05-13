@@ -274,7 +274,6 @@ def start_handmade_tests(
     dev,
     autofix
 ):
-    mcs.init_logging()
     # Find all of the test scene JSON files.
     scene_filename_list = sorted(glob.glob(TEST_FOLDER + '*' + SCENE_SUFFIX))
 
