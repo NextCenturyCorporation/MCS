@@ -1,5 +1,6 @@
 from enum import Enum, unique
 from .util import Util
+from .config_manager import ConfigManager
 
 
 class GoalMetadata:
@@ -99,6 +100,21 @@ class GoalMetadata:
         yield 'last_step', self.last_step
         # yield 'type_list', self.type_list
         yield 'metadata', self.metadata
+
+    def retrieve_action_list_at_step(self, step_number):
+        """Return the action list from the given goal at the given step as a
+        a list of actions tuples by default."""
+        if self is not None and self.action_list is not None:
+            if step_number < self.last_preview_phase_step:
+                return ['Pass']
+            if self.last_step is not None and step_number == self.last_step:
+                return []
+            adjusted_step = step_number - self.last_preview_phase_step
+            if len(self.action_list) > adjusted_step:
+                if len(self.action_list[adjusted_step]) > 0:
+                    return self.action_list[adjusted_step]
+
+        return ConfigManager.ACTION_LIST
 
 
 @unique

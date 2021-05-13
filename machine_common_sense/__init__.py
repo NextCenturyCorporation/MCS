@@ -68,7 +68,7 @@ def create_controller(unity_app_file_path,
             return Controller(unity_app_file_path,
                               config_file_path)
     except Exception as Msg:
-        print("Exception in create_controller()", Msg)
+        logger.error("Exception in create_controller()", exc_info=Msg)
         return None
 
 
