@@ -44,7 +44,7 @@ class ControllerLogger(AbstractControllerSubscriber):
         self._write_debug_output(payload)
 
     def _write_debug_output(self, payload):
-        step_output = payload.step_output
+        step_output = payload.restricted_step_output
         logger.debug("RETURN STATUS: " + step_output.return_status)
         logger.debug("REWARD: " + str(step_output.reward))
         logger.debug("SELF METADATA:")

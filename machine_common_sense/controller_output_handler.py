@@ -281,7 +281,7 @@ class StepOutput:
         # Return structural object list for all tier levels, the restrict
         # output function will then strip out the necessary metadata
         metadata_tier = self._config.get_metadata_tier()
-        if (metadata_tier != ConfigManager().CONFIG_METADATA_TIER_DEFAULT):
+        if (metadata_tier != self._config.CONFIG_METADATA_TIER_DEFAULT):
             return sorted(
                 [
                     self.retrieve_object_output(
