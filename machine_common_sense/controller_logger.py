@@ -27,7 +27,6 @@ class ControllerLogger(AbstractControllerSubscriber):
         self._write_debug_output(payload)
 
     def on_before_step(self, payload, controller):
-        logger.info("before step")
         logger.debug("================================================"
                      "===============================")
         logger.debug("STEP: " + str(payload.step_number))
