@@ -9,6 +9,10 @@ from contextlib import contextmanager
 
 from .action import Action
 from .controller import Controller
+from .controller_logger import ControllerAi2thorFileGenerator
+from .controller_logger import ControllerDebugFileGenerator
+from .controller_logger import ControllerLogger
+from .controller_video_manager import ControllerVideoManager
 from .goal_metadata import GoalMetadata, GoalCategory
 from .material import Material
 from .object_metadata import ObjectMetadata
@@ -16,7 +20,7 @@ from .pose import Pose
 from .return_status import ReturnStatus
 from .reward import Reward
 from .scene_history import SceneHistory
-from .history_writer import HistoryWriter
+from .history_writer import HistoryEventHandler, HistoryWriter
 from .step_metadata import StepMetadata
 from .util import Util
 from .serializer import SerializerMsgPack, SerializerJson
@@ -65,11 +69,28 @@ def create_controller(unity_app_file_path,
     """
     try:
         with time_limit(TIME_LIMIT_SECONDS):
-            return Controller(unity_app_file_path,
-                              config_file_path)
+            controller = Controller(unity_app_file_path,
+                                    config_file_path)
+        _add_subscribers(controller)
+        return controller
     except Exception as Msg:
         logger.error("Exception in create_controller()", exc_info=Msg)
         return None
+
+
+def _add_subscribers(controller):
+    if controller:
+        config = controller._config
+        if config.is_save_debug_json():
+            controller.subscribe(ControllerDebugFileGenerator())
+            controller.subscribe(ControllerAi2thorFileGenerator())
+        # TODO MCS-664 Once separated, use config to only subscribe when,
+        # # necessary
+        controller.subscribe(ControllerVideoManager())
+        controller.subscribe(ControllerLogger())
+        # TODO once we remove evaulation code, we can better handle when,
+        # this handler subscribes
+        controller.subscribe(HistoryEventHandler())
 
 
 def load_scene_json_file(scene_json_file_path):

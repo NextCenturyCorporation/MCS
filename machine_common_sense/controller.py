@@ -31,12 +31,8 @@ from .uploader import S3Uploader
 from .util import Util
 from .config_manager import ConfigManager, SceneConfiguration
 from .controller_output_handler import ControllerOutputHandler
-from .controller_logger import ControllerLogger, ControllerDebugFileGenerator
-from .controller_logger import ControllerAi2thorFileGenerator
 from .controller_events import ControllerEventPayload, EventType
 from .controller_events import PredictionPayload
-from .controller_video_manager import ControllerVideoManager
-from .history_writer import HistoryEventHandler
 
 
 def __reset_override(self, scene):
@@ -160,14 +156,6 @@ class Controller():
         self._end_scene_not_registered = True
 
         self._config = ConfigManager(config_file_path)
-
-        # Can we rearrange to use dependency injection?
-        if self._config.is_save_debug_json():
-            self.subscribe(ControllerDebugFileGenerator())
-            self.subscribe(ControllerAi2thorFileGenerator())
-        self.subscribe(ControllerVideoManager())
-        self.subscribe(ControllerLogger())
-        self.subscribe(HistoryEventHandler())
 
         self._output_handler = ControllerOutputHandler(self._config)
 
