@@ -13,7 +13,7 @@ from .controller import Controller
 from .controller_logger import ControllerAi2thorFileGenerator
 from .controller_logger import ControllerDebugFileGenerator
 from .controller_logger import ControllerLogger
-from .controller_video_manager import ControllerVideoManager
+from .controller_video_manager import *
 from .goal_metadata import GoalMetadata, GoalCategory
 from .material import Material
 from .validation import Validation
@@ -88,7 +88,19 @@ def _add_subscribers(controller: Controller, config: ConfigManager):
             controller.subscribe(ControllerAi2thorFileGenerator())
         # TODO MCS-664 Once separated, use config to only subscribe when,
         # # necessary
-        controller.subscribe(ControllerVideoManager())
+        if (config.is_evaluation or config.is_save_debug_images()):
+            controller.subscribe(DepthVideoEventHandler())
+            controller.subscribe(SceneImageEventHandler())
+            if (config.is_object_masks_enabled()):
+                controller.subscribe(ObjectMaskImageEventHandler())
+        if (config.is_evaluation or config.is_video_enabled):
+            controller.subscribe(ImageVideoEventHandler())
+            controller.subscribe(TopdownVideoEventHandler())
+            controller.subscribe(HeatmapVideoEventHandler())
+            if (config.is_depth_maps_enabled()):
+                controller.subscribe(DepthVideoEventHandler())
+            if (config.is_object_masks_enabled()):
+                controller.subscribe(SegmentationVideoEventHandler())
         controller.subscribe(ControllerLogger())
         # TODO once we remove evaulation code, we can better handle when,
         # this handler subscribes

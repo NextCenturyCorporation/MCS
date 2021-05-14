@@ -9,6 +9,9 @@ class TestMCS(unittest.TestCase):
         # TODO How do we test this without starting the whole app?
         pass
 
+    def test_add_subscribers(self):
+        pass
+
     def test_load_scene_file_json(self):
         actual, status = mcs.load_scene_json_file("tests/test_scene.json")
         expected = {
