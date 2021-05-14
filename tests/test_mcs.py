@@ -1,6 +1,8 @@
+from machine_common_sense.config_manager import ConfigManager
 import unittest
 
 import machine_common_sense as mcs
+from .mock_controller import MockController
 
 
 class TestMCS(unittest.TestCase):
@@ -10,7 +12,78 @@ class TestMCS(unittest.TestCase):
         pass
 
     def test_add_subscribers(self):
-        pass
+        ctrl = MockController()
+        cfg = ConfigManager()
+        ctrl._subscribers.clear()
+
+        def return_true():
+            return True
+
+        def return_false():
+            return False
+
+        cfg.is_save_debug_images = return_false
+        cfg.is_depth_maps_enabled = return_false
+        cfg.is_object_masks_enabled = return_false
+        cfg.is_video_enabled = return_false
+        mcs._add_subscribers(ctrl, cfg)
+        self.assertEqual(len(ctrl._subscribers), 2)
+
+        ctrl._subscribers.clear()
+        cfg.is_save_debug_images = return_true
+        cfg.is_depth_maps_enabled = return_false
+        cfg.is_object_masks_enabled = return_false
+        cfg.is_video_enabled = return_false
+        mcs._add_subscribers(ctrl, cfg)
+        self.assertEqual(len(ctrl._subscribers), 4)
+
+        ctrl._subscribers.clear()
+        cfg.is_save_debug_images = return_false
+        cfg.is_depth_maps_enabled = return_false
+        cfg.is_object_masks_enabled = return_false
+        cfg.is_video_enabled = return_true
+        mcs._add_subscribers(ctrl, cfg)
+        self.assertEqual(len(ctrl._subscribers), 5)
+
+        ctrl._subscribers.clear()
+        cfg.is_save_debug_images = return_false
+        cfg.is_depth_maps_enabled = return_false
+        cfg.is_object_masks_enabled = return_true
+        cfg.is_video_enabled = return_true
+        mcs._add_subscribers(ctrl, cfg)
+        self.assertEqual(len(ctrl._subscribers), 6)
+
+        ctrl._subscribers.clear()
+        cfg.is_save_debug_images = return_true
+        cfg.is_depth_maps_enabled = return_true
+        cfg.is_object_masks_enabled = return_false
+        cfg.is_video_enabled = return_false
+        mcs._add_subscribers(ctrl, cfg)
+        self.assertEqual(len(ctrl._subscribers), 4)
+
+        ctrl._subscribers.clear()
+        cfg.is_save_debug_images = return_true
+        cfg.is_depth_maps_enabled = return_false
+        cfg.is_object_masks_enabled = return_true
+        cfg.is_video_enabled = return_false
+        mcs._add_subscribers(ctrl, cfg)
+        self.assertEqual(len(ctrl._subscribers), 5)
+
+        ctrl._subscribers.clear()
+        cfg.is_save_debug_images = return_false
+        cfg.is_depth_maps_enabled = return_true
+        cfg.is_object_masks_enabled = return_true
+        cfg.is_video_enabled = return_true
+        mcs._add_subscribers(ctrl, cfg)
+        self.assertEqual(len(ctrl._subscribers), 7)
+
+        ctrl._subscribers.clear()
+        cfg.is_save_debug_images = return_true
+        cfg.is_depth_maps_enabled = return_true
+        cfg.is_object_masks_enabled = return_true
+        cfg.is_video_enabled = return_true
+        mcs._add_subscribers(ctrl, cfg)
+        self.assertEqual(len(ctrl._subscribers), 10)
 
     def test_load_scene_file_json(self):
         actual, status = mcs.load_scene_json_file("tests/test_scene.json")

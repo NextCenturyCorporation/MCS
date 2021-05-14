@@ -42,6 +42,7 @@ class MockController():
     def __init__(self):
         self.__last_step_data = None
         self.__last_metadata = MOCK_VARIABLES['metadata'].copy()
+        self._subscribers = []
 
     def step(self, data):
         self.__last_step_data = data
@@ -70,6 +71,10 @@ class MockController():
             self.__last_metadata['pose'] = Pose.STANDING.name
         elif data['action'] == Action.LIE_DOWN.value:
             self.__last_metadata['pose'] = Pose.LYING.name
+
+    def subscribe(self, subscriber):
+        if subscriber not in self._subscribers:
+            self._subscribers.append(subscriber)
 
 
 class MockControllerAI2THOR(Controller):

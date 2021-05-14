@@ -88,12 +88,12 @@ def _add_subscribers(controller: Controller, config: ConfigManager):
             controller.subscribe(ControllerAi2thorFileGenerator())
         # TODO MCS-664 Once separated, use config to only subscribe when,
         # # necessary
-        if (config.is_evaluation or config.is_save_debug_images()):
+        if (config.is_evaluation() or config.is_save_debug_images()):
             controller.subscribe(DepthVideoEventHandler())
             controller.subscribe(SceneImageEventHandler())
             if (config.is_object_masks_enabled()):
                 controller.subscribe(ObjectMaskImageEventHandler())
-        if (config.is_evaluation or config.is_video_enabled):
+        if (config.is_evaluation() or config.is_video_enabled()):
             controller.subscribe(ImageVideoEventHandler())
             controller.subscribe(TopdownVideoEventHandler())
             controller.subscribe(HeatmapVideoEventHandler())

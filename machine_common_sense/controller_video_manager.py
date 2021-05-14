@@ -104,10 +104,8 @@ class AbstractVideoEventHandler(AbstractControllerSubscriber):
 
 class SceneImageEventHandler(AbstractImageEventHandler):
     def _save_image(self, payload):
-        config = payload.config
         for index, scene_image in enumerate(payload.step_output.image_list):
-            if (config.is_save_debug_images()):
-                self._do_save_image(payload, index, scene_image, 'frame_image')
+            self._do_save_image(payload, index, scene_image, 'frame_image')
 
 
 class DepthImageEventHandler(AbstractImageEventHandler):
@@ -131,159 +129,124 @@ class DepthImageEventHandler(AbstractImageEventHandler):
 
 class ObjectMaskImageEventHandler(AbstractImageEventHandler):
     def _save_image(self, payload):
-        config = payload.config
         for index, object_mask in enumerate(
                 payload.step_output.object_mask_list):
-            if config.is_object_masks_enabled() and \
-                    config.is_save_debug_images():
-                self._do_save_image(payload, index, object_mask, 'object_mask')
+            self._do_save_image(payload, index, object_mask, 'object_mask')
 
 
 class ImageVideoEventHandler(AbstractVideoEventHandler):
     def on_start_scene(self, payload: ControllerEventPayload):
-        if payload.config.is_evaluation() or payload.config.is_video_enabled():
-            self.__recorder = self.create_video_recorder(
-                payload, AbstractVideoEventHandler.VISUAL)
+        self.__recorder = self.create_video_recorder(
+            payload, AbstractVideoEventHandler.VISUAL)
         self.save_video_for_step(payload)
 
     def on_after_step(self, payload: ControllerEventPayload):
         self.save_video_for_step(payload)
 
     def save_video_for_step(self, payload: ControllerEventPayload):
-        cfg = payload.config
-        if cfg.is_evaluation() or cfg.is_video_enabled():
-            for index, scene_image in enumerate(
-                    payload.step_output.image_list):
-                self.__recorder.add(scene_image)
+        for index, scene_image in enumerate(
+                payload.step_output.image_list):
+            self.__recorder.add(scene_image)
 
     def on_end_scene(self, payload: ControllerEventPayload):
-        config = payload.config
-        if config.is_evaluation() or config.is_video_enabled():
-            self.__recorder.finish()
-            self._upload_video(payload)
+        self.__recorder.finish()
+        self._upload_video(payload)
 
 
 class TopdownVideoEventHandler(AbstractVideoEventHandler):
     def on_start_scene(self, payload: ControllerEventPayload):
-        if payload.config.is_evaluation() or payload.config.is_video_enabled():
-            self.__recorder = self.create_video_recorder(
-                payload, AbstractVideoEventHandler.TOPDOWN)
-            team = payload.config.get_team()
-            scene = payload.scene_config.get(
-                'name', '').replace('json', '')
-            self.__plotter = TopDownPlotter(team, scene)
+        self.__recorder = self.create_video_recorder(
+            payload, AbstractVideoEventHandler.TOPDOWN)
+        team = payload.config.get_team()
+        scene = payload.scene_config.get(
+            'name', '').replace('json', '')
+        self.__plotter = TopDownPlotter(team, scene)
         self.save_video_for_step(payload)
 
     def on_after_step(self, payload: ControllerEventPayload):
         self.save_video_for_step(payload)
 
     def save_video_for_step(self, payload: ControllerEventPayload):
-        cfg = payload.config
-        if cfg.is_evaluation() or cfg.is_video_enabled():
-            for index, event in enumerate(payload.step_metadata.events):
-                # The plotter used to be inside the for loop the same as
-                # image_recorder, but it seems like it would only plot one per
-                # step.
-                goal_id = None
-                # Is there a better way to do this test?
-                if (payload.goal is not None and
-                        payload.goal.metadata is not None):
-                    goal_id = payload.goal.metadata.get(
-                        'target', {}).get('id', None)
-                plot = self.__plotter.plot(payload.step_metadata,
-                                           payload.step_number,
-                                           goal_id)
-                self.__recorder.add(plot)
+        for index, event in enumerate(payload.step_metadata.events):
+            # The plotter used to be inside the for loop the same as
+            # image_recorder, but it seems like it would only plot one per
+            # step.
+            goal_id = None
+            # Is there a better way to do this test?
+            if (payload.goal is not None and
+                    payload.goal.metadata is not None):
+                goal_id = payload.goal.metadata.get(
+                    'target', {}).get('id', None)
+            plot = self.__plotter.plot(payload.step_metadata,
+                                       payload.step_number,
+                                       goal_id)
+            self.__recorder.add(plot)
 
     def on_end_scene(self, payload: ControllerEventPayload):
-        config = payload.config
-        if config.is_evaluation() or config.is_video_enabled():
-            self.__ecorder.finish()
-            self._upload_video(payload)
+        self.__recorder.finish()
+        self._upload_video(payload)
 
 
 class HeatmapVideoEventHandler(AbstractVideoEventHandler):
     def on_start_scene(self, payload: ControllerEventPayload):
-        if payload.config.is_evaluation() or payload.config.is_video_enabled():
-            self.__recorder = self.create_video_recorder(
-                payload, AbstractVideoEventHandler.HEATMAP)
+        self.__recorder = self.create_video_recorder(
+            payload, AbstractVideoEventHandler.HEATMAP)
 
     def on_prediction(self, payload: ControllerEventPayload):
         if(
             payload.heatmap_img is not None and
-            isinstance(payload.heatmap_img, PIL.Image.Image) and
-            (payload.config.is_evaluation() or
-             payload.config.is_video_enabled())
+            isinstance(payload.heatmap_img, PIL.Image.Image)
         ):
             self.__recorder.add(payload.heatmap_img)
 
     def on_end_scene(self, payload: ControllerEventPayload):
-        config = payload.config
-        if config.is_evaluation() or config.is_video_enabled():
-            self.__recorder.finish()
-            self._upload_video(payload)
+        self.__recorder.finish()
+        self._upload_video(payload)
 
 
 class DepthVideoEventHandler(AbstractVideoEventHandler):
     def on_start_scene(self, payload: ControllerEventPayload):
-        config = payload.config
-        if config.is_evaluation() or config.is_video_enabled():
-            if config.is_depth_maps_enabled():
-                self.__recorder = self.create_video_recorder(
-                    payload, AbstractVideoEventHandler.DEPTH)
+        self.__recorder = self.create_video_recorder(
+            payload, AbstractVideoEventHandler.DEPTH)
         self.save_video_for_step(payload)
 
     def on_after_step(self, payload: ControllerEventPayload):
         self.save_video_for_step(payload)
 
     def save_video_for_step(self, payload: ControllerEventPayload):
-        if payload.config.is_depth_maps_enabled():
-            config = payload.config
-            if config.is_evaluation() or config.is_video_enabled():
-                for index, depth_float_array in enumerate(
-                        payload.step_output.depth_map_list):
-                    max_depth = payload.step_metadata.metadata.get(
-                        'clippingPlaneFar',
-                        ConfigManager.DEFAULT_CLIPPING_PLANE_FAR
-                    )
-                    # Convert to pixel values for saving debug image.
-                    depth_pixel_array = depth_float_array * \
-                        255 / max_depth
-                    depth_map = PIL.Image.fromarray(
-                        depth_pixel_array.astype(np.uint8)
-                    )
-                    self.__recorder.add(depth_map)
+        for index, depth_float_array in enumerate(
+                payload.step_output.depth_map_list):
+            max_depth = payload.step_metadata.metadata.get(
+                'clippingPlaneFar',
+                ConfigManager.DEFAULT_CLIPPING_PLANE_FAR
+            )
+            # Convert to pixel values for saving debug image.
+            depth_pixel_array = depth_float_array * \
+                255 / max_depth
+            depth_map = PIL.Image.fromarray(
+                depth_pixel_array.astype(np.uint8)
+            )
+            self.__recorder.add(depth_map)
 
     def on_end_scene(self, payload: ControllerEventPayload):
-        config = payload.config
-        if config.is_depth_maps_enabled():
-            if config.is_evaluation() or config.is_video_enabled():
-                self.__recorder.finish()
-                self._upload_video(payload)
+        self.__recorder.finish()
+        self._upload_video(payload)
 
 
 class SegmentationVideoEventHandler(AbstractVideoEventHandler):
     def on_start_scene(self, payload: ControllerEventPayload):
-        if payload.config.is_evaluation() or payload.config.is_video_enabled():
-            if payload.config.is_object_masks_enabled():
-                self.__recorder = self.create_video_recorder(
-                    payload, AbstractVideoEventHandler.SEGMENTATION)
+        self.__recorder = self.create_video_recorder(
+            payload, AbstractVideoEventHandler.SEGMENTATION)
         self.save_video_for_step(payload)
 
     def on_after_step(self, payload: ControllerEventPayload):
         self.save_video_for_step(payload)
 
     def save_video_for_step(self, payload: ControllerEventPayload):
-        config = payload.config
         for index, object_mask in enumerate(
                 payload.step_output.object_mask_list):
-            if config.is_object_masks_enabled():
-                if config.is_evaluation() or config.is_video_enabled():
-                    self.__recorder.add(object_mask)
+            self.__recorder.add(object_mask)
 
     def on_end_scene(self, payload: ControllerEventPayload):
-        config = payload.config
-        if config.is_object_masks_enabled():
-            if config.is_evaluation() or config.is_video_enabled():
-                self.__recorder.finish()
-                self._upload_video(payload)
+        self.__recorder.finish()
+        self._upload_video(payload)
