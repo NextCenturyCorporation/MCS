@@ -13,11 +13,11 @@ logger = logging.getLogger(__name__)
 
 class HistoryEventHandler(AbstractControllerSubscriber):
 
-    def on_init(self, payload, controller):
+    def on_init(self, payload):
         self.__history_writer = None
         self.__history_item = None
 
-    def on_start_scene(self, payload, controller):
+    def on_start_scene(self, payload):
         if payload.config.is_history_enabled():
 
             # Ensure the previous scene history writer has saved its file.
@@ -43,14 +43,14 @@ class HistoryEventHandler(AbstractControllerSubscriber):
                                                   hist_info,
                                                   payload.timestamp)
 
-    def on_before_step(self, payload, controller):
+    def on_before_step(self, payload):
         if payload.config.is_history_enabled():
             if payload.step_number == 0:
                 self.__history_writer.init_timer()
             if payload.step_number > 0:
                 self.__history_writer.add_step(self.__history_item)
 
-    def on_after_step(self, payload, controller):
+    def on_after_step(self, payload):
         output = payload.step_output.copy_without_depth_or_images()
 
         self.__history_item = SceneHistory(
@@ -61,7 +61,7 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             output=output,
             delta_time_millis=0)
 
-    def on_prediction(self, payload, controller):
+    def on_prediction(self, payload):
         # add history step prediction attributes before add to the writer
         # in the next step
         if self.__history_item is not None:
@@ -70,7 +70,7 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             self.__history_item.violations_xy_list = payload.violations_xy_list
             self.__history_item.internal_state = payload.internal_state
 
-    def on_end_scene(self, payload, controller):
+    def on_end_scene(self, payload):
         if payload.config.is_history_enabled():
             self.__history_writer.add_step(self.__history_item)
             self.__history_writer.write_history_file(

@@ -100,27 +100,26 @@ class AbstractControllerSubscriber(ABC):
         }
 
     def on_event(self, type: EventType,
-                 payload: ControllerEventPayload, controller):
+                 payload: ControllerEventPayload):
         self._switcher.get(
             type,
             "default")(
-            payload,
-            controller)
+            payload)
 
-    def on_init(self, payload: ControllerEventPayload, controller):
+    def on_init(self, payload: ControllerEventPayload):
         pass
 
-    def on_start_scene(self, payload: ControllerEventPayload, controller):
+    def on_start_scene(self, payload: ControllerEventPayload):
         pass
 
-    def on_before_step(self, payload: ControllerEventPayload, controller):
+    def on_before_step(self, payload: ControllerEventPayload):
         pass
 
-    def on_after_step(self, payload: ControllerEventPayload, controller):
+    def on_after_step(self, payload: ControllerEventPayload):
         pass
 
-    def on_prediction(self, payload: PredictionPayload, controller):
+    def on_prediction(self, payload: PredictionPayload):
         pass
 
-    def on_end_scene(self, payload: ControllerEventPayload, controller):
+    def on_end_scene(self, payload: ControllerEventPayload):
         pass

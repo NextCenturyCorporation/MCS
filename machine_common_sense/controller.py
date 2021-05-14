@@ -122,13 +122,6 @@ class Controller():
     FORCE_KEY = 'force'
     AMOUNT_KEY = 'amount'
 
-    PLACEHOLDER = 'placeholder'
-    VISUAL = 'visual'
-    DEPTH = 'depth'
-    SEGMENTATION = 'segmentation'
-    HEATMAP = 'heatmap'
-    TOPDOWN = 'topdown'
-
     OBJECT_IMAGE_COORDS_X_KEY = 'objectImageCoordsX'
     OBJECT_IMAGE_COORDS_Y_KEY = 'objectImageCoordsY'
     RECEPTACLE_IMAGE_COORDS_X_KEY = 'receptacleObjectImageCoordsX'
@@ -206,7 +199,7 @@ class Controller():
 
             # TODO passing the whole controller is clearly a bad idea
             # change later
-            subscriber.on_event(event_type, payload, self)
+            subscriber.on_event(event_type, payload)
 
     # TODO this is a huge data dumpster and needs to be thought about
     def _create_event_payload(self):
