@@ -13,7 +13,8 @@ logger = logging.getLogger(__name__)
 
 class HistoryEventHandler(AbstractControllerSubscriber):
 
-    def on_init(self, payload):
+    def __init__(self):
+        AbstractControllerSubscriber.__init__(self)
         self.__history_writer = None
         self.__history_item = None
 
