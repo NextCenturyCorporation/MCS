@@ -31,12 +31,8 @@ from .uploader import S3Uploader
 from .util import Util
 from .config_manager import ConfigManager, SceneConfiguration
 from .controller_output_handler import ControllerOutputHandler
-from .controller_logger import ControllerLogger, ControllerDebugFileGenerator
-from .controller_logger import ControllerAi2thorFileGenerator
 from .controller_events import ControllerEventPayload, EventType
 from .controller_events import PredictionPayload
-from .controller_video_manager import ControllerVideoManager
-from .history_writer import HistoryEventHandler
 
 
 def __reset_override(self, scene):
@@ -146,21 +142,13 @@ class Controller():
     AWS_ACCESS_KEY_ID = 'aws_access_key_id'
     AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
 
-    def __init__(self, unity_app_file_path, config_file_path=None):
+    def __init__(self, unity_app_file_path, config):
 
         self._subscribers = []
 
         self._end_scene_not_registered = True
 
-        self._config = ConfigManager(config_file_path)
-
-        # Can we rearrange to use dependency injection?
-        if self._config.is_save_debug_json():
-            self.subscribe(ControllerDebugFileGenerator())
-            self.subscribe(ControllerAi2thorFileGenerator())
-        self.subscribe(ControllerVideoManager())
-        self.subscribe(ControllerLogger())
-        self.subscribe(HistoryEventHandler())
+        self._config = config
 
         self._output_handler = ControllerOutputHandler(self._config)
 
@@ -182,7 +170,7 @@ class Controller():
             }
         )
 
-        self._on_init(config_file_path)
+        self._on_init()
 
     def subscribe(self, subscriber):
         if subscriber not in self._subscribers:
@@ -221,7 +209,7 @@ class Controller():
         else:
             return y_coord
 
-    def _on_init(self, config_file_path=None):
+    def _on_init(self):
 
         self.__noise_enabled = self._config.is_noise_enabled()
         self.__seed = self._config.get_seed()
