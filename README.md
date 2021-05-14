@@ -4,6 +4,7 @@
 - [Download](#download)
 - [Training Datasets](#training-datasets)
 - [Usage](#usage)
+- [Logging](#logging)
 - [Run with Human Input](#run-with-human-input)
 - [Run with Scene Timer](#run-with-scene-timer)
 - [Config File](#config-file)
@@ -16,7 +17,7 @@
 
 ## Installation
 
-The latest release of the MCS Python library is `0.4.1`.
+The latest release of the MCS Python library is `0.4.2`.
 
 ### Virtual Environments
 
@@ -65,36 +66,76 @@ Here are the instructions for downloading and installing our latest Unity releas
 
 ### Unity Application
 
-The latest release of the MCS Unity app is `0.4.1`.
+The latest release of the MCS Unity app is `0.4.2`.
 
 Please note that our Unity App is built on Linux or Mac.
 
 Linux Version:
 
-1. [Download the Latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1/MCS-AI2-THOR-Unity-App-v0.4.1.x86_64)
+1. [Download the latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.2/MCS-AI2-THOR-Unity-App-v0.4.2.x86_64)
 
-2. [Download the Latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1/MCS-AI2-THOR-Unity-App-v0.4.1_Data.tar.gz)
+2. [Download the latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.2/MCS-AI2-THOR-Unity-App-v0.4.2_Data.tar.gz)
 
-3. Ensure that both the Unity App and the TAR are in the same directory.
+3. [Download the latest UnityPlayer.so file](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.2/UnityPlayer.so)
 
-4. Untar the Data Directory:
+4. Ensure that both the Unity App and the TAR are in the same directory.
 
-```
-tar -xzvf MCS-AI2-THOR-Unity-App-v0.4.1_Data.tar.gz
-```
-
-5. Mark the Unity App as executable:
+5. Untar the Data Directory:
 
 ```
-chmod a+x MCS-AI2-THOR-Unity-App-v0.4.1.x86_64
+tar -xzvf MCS-AI2-THOR-Unity-App-v0.4.2_Data.tar.gz
+```
+
+6. Mark the Unity App as executable:
+
+```
+chmod a+x MCS-AI2-THOR-Unity-App-v0.4.2.x86_64
 ```
 
 Mac Version:
 
-[Download the Mac ZIP](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.1/MCS-AI2-THOR-Unity-App-v0.4.1.app.zip)
+[Download the Mac ZIP](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.2/MCS-AI2-THOR-Unity-App-v0.4.2-mac.zip)
 
 
 ## Training Datasets
+
+### Summer 2020
+
+#### Passive Agent
+
+Subtasks:
+
+- Single object scenes (~10K), just like Eval 3
+- Object preference scenes (~10K), just like Eval 3
+- Multiple agents scenes (4K), new to Eval 4
+- Instrumental action scenes (4K), new to Eval 4
+
+JSON scene configuration files:
+
+- https://eval-4-data.s3.amazonaws.com/eval_4_agent_training_dataset.zip
+
+Rendered videos:
+
+- https://nyu-datasets.s3.amazonaws.com/agent_instrumental_action_training_videos.zip
+- https://nyu-datasets.s3.amazonaws.com/agent_multiple_agents_training_videos.zip
+- https://nyu-datasets.s3.amazonaws.com/agent_object_preference_training_videos.zip
+- https://nyu-datasets.s3.amazonaws.com/agent_single_object_training_videos.zip
+
+#### Passive Intuitive Physics
+
+Please generate your own training datasets using our Scene Generator software here:
+
+- https://github.com/NextCenturyCorporation/mcs-scene-generator
+
+#### Interactive
+
+For the container, obstacle, and occluder tasks, please generate your own training datasets using our Scene Generator software here:
+
+- https://github.com/NextCenturyCorporation/mcs-scene-generator
+
+For the new interactive object permanence and reorientation tasks, please generate your own training datasets using our example scene templates here:
+
+https://github.com/NextCenturyCorporation/MCS/tree/master/machine_common_sense/scenes#interactive-object-permanence-and-reorientation-tasks
 
 ### Winter 2020
 
@@ -172,6 +213,43 @@ for scene_json_file_path in scene_json_file_list:
     controller.end_scene()
 ```
 
+### Logging
+#### Initialize development logging config settings
+In startup script make sure you include:
+```python
+import machine_common_sense as mcs
+
+#This code initializes logging using config files
+mcs.init_logging()
+```
+#### Logging configuration files
+This logging configuration system uses a file at [scripts/log.config.py](./scripts/log.config.py) as a default configuration file.  See that file for links to documentation and some descriptions.
+
+Users can copy that file to scripts/log.config.user.py to create their own configuration.  This file is gitignored so it will not be shared.
+
+#### Why use logging and configuration files
+
+We use logging configuration files so users have a reasonable default configuration but also have the ability to override when circumstances demand.  This eliminates the need to alter code when changing what logging is necessary.  In the future, additional features to the initialization function to support difficult overrides if necessary (i.e. different logging override files for dev, test, eval, etc).
+
+#### Example with logging config file:
+
+Sample of how to log in all files:
+```python
+import logging
+
+# logging by name is useful to turn certain logs on/off and
+# also to help determine where an error log might have originated from
+logger = logging.getLogger(__name__)
+
+def any_function(self):
+    #basic log functions in order of level.  If logger or handler is set to a level, that level and above will be logged.
+    logger.critical("This message is see as long as the logger is enabled")
+    logger.error("This message reports an error")
+    logger.info("This message is general info")
+    logger.debug("This message is mainly for debugging and shouldn't cause usage problems if missing")
+    # Unlike many common loggers in other languages, python logging doesn't seem to have TRACE
+```
+
 ## Run with Human Input
 
 To start the Unity application and enter your actions and parameters from the terminal, you can run the `run_in_human_input_mode` script that was installed in the package with the MCS Python Library (the `mcs_unity_build_file` is the Unity executable downloaded previously):
@@ -199,18 +277,6 @@ To use an MCS configuration file, you can either pass in a file path via the `co
 
 ### Config File Properties
 
-#### debug
-
-(boolean, optional)
-
-Whether to save MCS output debug files in this folder and print debug output to terminal. Will default to `False`.
-
-#### debug_output
-
-(string, optional)
-
-Alternatively to the `debug` property, `debug_output` can be used to either print debug info to the terminal or to debug files only. This should either be set to `file` or `terminal`, and will default to None. Will be ignored if `debug` is set.
-
 #### history_enabled
 
 (boolean, optional)
@@ -228,13 +294,26 @@ The `metadata` property describes what metadata will be returned by the MCS Pyth
 - `level1`: Only returns the images (with depth maps but NOT object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
 - `none`: Only returns the images (but no depth maps or object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
 
-Otherwise, return the metadata for the visible and held objects.
+If no metadata level is set:
+- `default`: Fallback if no metadata level is specified. Only meant for use during development (evaluations will never be run this way). Includes metadata for visible and held objects in the scene, as well as camera info and properties corresponding to the player. Does not include depth maps or object masks.
 
 #### noise_enabled
 
 (boolean, optional)
 
 Whether to add random noise to the numerical amounts in movement and object interaction action parameters. Will default to `False`.
+
+#### save_debug_images
+
+(boolean, optional)
+
+Save RGB frames, depth masks, and object instance segmentation masks (if returned in the output by the chosen metadata tier) to image files on each step. Default: False
+
+#### save_debug_json
+
+(boolean, optional)
+
+Save AI2-THOR/Unity input, AI2-THOR/Unity output, and MCS StepMetadata output to JSON file on each step. Default: False
 
 #### seed
 
@@ -252,7 +331,7 @@ Desired screen width. If value given, it must be more than `450`. If none given,
 
 (boolean, optional)
 
-Save videos of the RGB frames, depth masks, object instance segmentation masks (if returned in the output by the chosen metadata tier), 2D top-down scene views, and the heatmap images given to us in `make_step_prediction` by the AI performer.
+Create and save videos of the RGB frames, depth masks, object instance segmentation masks (if returned in the output by the chosen metadata tier), 2D top-down scene views, and the heatmap images given to us in `make_step_prediction` by the AI performer. Default: False
 
 ### Using the Config File to Generate Scene Graphs or Maps
 

@@ -21,7 +21,7 @@ class TestController(unittest.TestCase):
 
     def setUp(self):
         self.controller = MockControllerAI2THOR()
-        self.controller.set_metadata_tier('')
+        self.controller.set_metadata_tier('default')
         self.maxDiff = None
 
     @classmethod
@@ -74,7 +74,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": [],
                     "shape": "shape1",
-                    "visibleInCamera": True
+                    "visibleInCamera": True,
+                    "isOpen": False,
+                    "openable": False
                 }, {
                     "colorsFromMaterials": ["c2", "c3"],
                     "direction": {
@@ -111,7 +113,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Foobar", "Metal", "Plastic"],
                     "shape": "shape2",
-                    "visibleInCamera": True
+                    "visibleInCamera": True,
+                    "isOpen": False,
+                    "openable": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -148,7 +152,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Wood"],
                     "shape": "shape3",
-                    "visibleInCamera": False
+                    "visibleInCamera": False,
+                    "isOpen": False,
+                    "openable": False
                 }]
             }
         }
@@ -227,7 +233,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Wood"],
                     "shape": "shape",
-                    "visibleInCamera": True
+                    "visibleInCamera": True,
+                    "isOpen": False,
+                    "openable": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -264,7 +272,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Wood"],
                     "shape": "shapeHidden",
-                    "visibleInCamera": False
+                    "visibleInCamera": False,
+                    "isOpen": False,
+                    "openable": False
                 }],
                 "structuralObjects": [{
                     "colorsFromMaterials": ["c2"],
@@ -302,7 +312,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Ceramic"],
                     "shape": "structure",
-                    "visibleInCamera": True
+                    "visibleInCamera": True,
+                    "isOpen": False,
+                    "openable": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -339,7 +351,9 @@ class TestController(unittest.TestCase):
                     },
                     "salientMaterials": ["Ceramic"],
                     "shape": "structureHidden",
-                    "visibleInCamera": False
+                    "visibleInCamera": False,
+                    "isOpen": False,
+                    "openable": False
                 }]
             }
         }, image_data, depth_data, object_mask_data
@@ -351,7 +365,7 @@ class TestController(unittest.TestCase):
             gridSize=mcs.Controller.GRID_SIZE,
             horizon=0,
             logs=True,
-            moveMagnitude=mcs.controller.MOVE_DISTANCE,
+            moveMagnitude=mcs.controller.DEFAULT_MOVE,
             objectId=None,
             objectImageCoords={
                 'x': 0.0,
@@ -367,8 +381,7 @@ class TestController(unittest.TestCase):
             rotation={'y': 0.0},
             snapToGrid=False,
             teleportPosition=None,
-            teleportRotation=None,
-            visibilityDistance=mcs.controller.MAX_REACH_DISTANCE
+            teleportRotation=None
         )
 
         for key, value in kwargs.items():
@@ -522,15 +535,16 @@ class TestController(unittest.TestCase):
         output = self.controller.step('Foobar')
         self.assertIsNone(output)
 
-        self.controller.set_goal(mcs.GoalMetadata(action_list=[['Pass']]))
+        self.controller.set_goal(mcs.GoalMetadata(action_list=[
+            [('Pass', {})]
+        ]))
         output = self.controller.step('MoveAhead')
         self.assertIsNone(output)
 
-        self.controller.set_goal(
-            mcs.GoalMetadata(
-                action_list=[
-                    ['MoveAhead'],
-                    ['MoveBack']]))
+        self.controller.set_goal(mcs.GoalMetadata(action_list=[
+            [('MoveAhead', {})],
+            [('MoveBack', {})]]
+        ))
         output = self.controller.step('MoveAhead')
         self.assertIsNotNone(output)
         output = self.controller.step('MoveAhead')
@@ -543,28 +557,28 @@ class TestController(unittest.TestCase):
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
-                moveMagnitude=mcs.controller.MOVE_DISTANCE))
+                moveMagnitude=mcs.controller.DEFAULT_MOVE))
 
         self.controller.step('MoveAhead')
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
-                moveMagnitude=mcs.controller.MOVE_DISTANCE))
+                moveMagnitude=mcs.controller.DEFAULT_MOVE))
 
         self.controller.step('MoveAhead')
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
-                moveMagnitude=mcs.controller.MOVE_DISTANCE))
+                moveMagnitude=mcs.controller.DEFAULT_MOVE))
 
         self.controller.step('MoveAhead')
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveAhead',
-                moveMagnitude=mcs.controller.MOVE_DISTANCE))
+                moveMagnitude=mcs.controller.DEFAULT_MOVE))
 
     def test_step_validate_parameters_rotate(self):
         _ = self.controller.start_scene({'name': TEST_FILE_NAME})
@@ -905,15 +919,8 @@ class TestController(unittest.TestCase):
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
 
-    def test_retrieve_action_list(self):
+    def test_retrieve_action_list_at_step(self):
         test_action_list = [
-            'Pass',
-            'LookUp,amount=10',
-            'MoveAhead,amount=0.1',
-            'PickupObject,objectId=ball',
-            'PickupObject,objectId=duck'
-        ]
-        test_output_list = [
             ('Pass', {}),
             ('LookUp', {'amount': 10}),
             ('MoveAhead', {'amount': 0.1}),
@@ -923,12 +930,15 @@ class TestController(unittest.TestCase):
 
         # With no action list
         self.assertEqual(
-            self.controller.retrieve_action_list(mcs.GoalMetadata(), 0),
+            self.controller.retrieve_action_list_at_step(
+                mcs.GoalMetadata(),
+                0
+            ),
             self.controller.ACTION_LIST
         )
         # With empty action list
         self.assertEqual(
-            self.controller.retrieve_action_list(
+            self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[]),
                 0
             ),
@@ -936,7 +946,7 @@ class TestController(unittest.TestCase):
         )
         # With empty nested action list
         self.assertEqual(
-            self.controller.retrieve_action_list(
+            self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[[]]),
                 0
             ),
@@ -944,15 +954,15 @@ class TestController(unittest.TestCase):
         )
         # With test action list
         self.assertEqual(
-            self.controller.retrieve_action_list(
+            self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[test_action_list]),
                 0
             ),
-            test_output_list
+            test_action_list
         )
         # With index greater than action list length
         self.assertEqual(
-            self.controller.retrieve_action_list(
+            self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[test_action_list]),
                 1
             ),
@@ -960,7 +970,7 @@ class TestController(unittest.TestCase):
         )
         # With incorrect index
         self.assertEqual(
-            self.controller.retrieve_action_list(
+            self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[test_action_list, []]),
                 1
             ),
@@ -968,7 +978,7 @@ class TestController(unittest.TestCase):
         )
         # With incorrect index
         self.assertEqual(
-            self.controller.retrieve_action_list(
+            self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[[], test_action_list]),
                 0
             ),
@@ -976,93 +986,27 @@ class TestController(unittest.TestCase):
         )
         # With correct index
         self.assertEqual(
-            self.controller.retrieve_action_list(
+            self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[[], test_action_list]),
                 1
             ),
-            test_output_list
+            test_action_list
         )
         # Before last step
         self.assertEqual(
-            self.controller.retrieve_action_list(
+            self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[test_action_list], last_step=1),
                 0
             ),
-            test_output_list
+            test_action_list
         )
         # On last step
         self.assertEqual(
-            self.controller.retrieve_action_list(
+            self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[test_action_list], last_step=0),
                 0
             ),
             []
-        )
-
-        # Same, but with string_list=True
-        self.assertEqual(
-            self.controller.retrieve_action_list(
-                mcs.GoalMetadata(),
-                0,
-                string_list=True
-            ),
-            [action[0] for action in self.controller.ACTION_LIST]
-        )
-        self.assertEqual(
-            self.controller.retrieve_action_list(
-                mcs.GoalMetadata(action_list=[]),
-                0,
-                string_list=True
-            ),
-            [action[0] for action in self.controller.ACTION_LIST]
-        )
-        self.assertEqual(
-            self.controller.retrieve_action_list(
-                mcs.GoalMetadata(action_list=[[]]),
-                0,
-                string_list=True
-            ),
-            [action[0] for action in self.controller.ACTION_LIST]
-        )
-        self.assertEqual(
-            self.controller.retrieve_action_list(
-                mcs.GoalMetadata(action_list=[test_action_list]),
-                0,
-                string_list=True
-            ),
-            test_action_list
-        )
-        self.assertEqual(
-            self.controller.retrieve_action_list(
-                mcs.GoalMetadata(action_list=[test_action_list]),
-                1,
-                string_list=True
-            ),
-            [action[0] for action in self.controller.ACTION_LIST]
-        )
-        self.assertEqual(
-            self.controller.retrieve_action_list(
-                mcs.GoalMetadata(action_list=[test_action_list, []]),
-                1,
-                string_list=True
-            ),
-            [action[0] for action in self.controller.ACTION_LIST]
-        )
-        self.assertEqual(
-            self.controller.retrieve_action_list(
-                mcs.GoalMetadata(action_list=[[], test_action_list]),
-                0,
-                string_list=True
-            ),
-            [action[0] for action in self.controller.ACTION_LIST]
-        )
-        self.assertEqual(
-            self.controller.retrieve_action_list(
-                mcs.GoalMetadata(action_list=[[], test_action_list]),
-                1,
-                string_list=True
-            ),
-            test_action_list
         )
 
     def test_retrieve_goal(self):
@@ -1088,9 +1032,9 @@ class TestController(unittest.TestCase):
         goal_3 = self.controller.retrieve_goal({
             "goal": {
                 "action_list": [
-                    ["action1"],
+                    [("MoveAhead", {"amount": 0.1})],
                     [],
-                    ["action2", "action3", "action4"]
+                    [("Pass", {}), ("RotateLeft", {}), ("RotateRight", {})]
                 ],
                 "category": "test category",
                 "description": "test description",
@@ -1101,10 +1045,11 @@ class TestController(unittest.TestCase):
                 }
             }
         })
-        self.assertEqual(
-            goal_3.action_list, [
-                ["action1"], [], [
-                    "action2", "action3", "action4"]])
+        self.assertEqual(goal_3.action_list, [
+            [("MoveAhead", {"amount": 0.1})],
+            [],
+            [("Pass", {}), ("RotateLeft", {}), ("RotateRight", {})]
+        ])
         self.assertEqual(goal_3.category, "test category")
         self.assertEqual(goal_3.description, "test description")
         self.assertEqual(goal_3.habituation_total, 5)
@@ -1934,7 +1879,6 @@ class TestController(unittest.TestCase):
             "renderObjectImage": False,
             "snapToGrid": False,
             "stringProperty": "test_property",
-            "visibilityDistance": 1.0,
             "consistentColors": False
         }
         self.assertEqual(actual, expected)
@@ -1955,7 +1899,6 @@ class TestController(unittest.TestCase):
             "renderObjectImage": False,
             "snapToGrid": False,
             "stringProperty": "test_property",
-            "visibilityDistance": 1.0,
             "consistentColors": True
         }
         self.assertEqual(actual, expected)
@@ -1970,6 +1913,15 @@ class TestController(unittest.TestCase):
 
         currentNoise = self.controller.generate_noise()
         self.assertTrue(minValue <= currentNoise <= maxValue)
+
+    def test_get_metadata_level(self):
+        self.assertEqual('default', self.controller.get_metadata_level())
+
+        self.controller.set_metadata_tier('oracle')
+        self.assertEqual('oracle', self.controller.get_metadata_level())
+
+        self.controller.set_metadata_tier('none')
+        self.assertEqual('none', self.controller.get_metadata_level())
 
 
 if __name__ == '__main__':

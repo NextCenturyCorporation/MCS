@@ -1,3 +1,5 @@
+import copy
+
 from .goal_metadata import GoalMetadata
 from .pose import Pose
 from .return_status import ReturnStatus
@@ -14,6 +16,13 @@ class StepMetadata:
         The list of all actions that are available for the next step.
         Each action is returned as a tuple containing the action string and
         the action's restricted parameters, if any.
+        For example: ("Pass", {}) forces a Pass action; ("PickupObject", {})
+        forces a PickupObject action with any parameters; and
+        ("PickupObject", {"objectId": "a"}) forces a PickupObject action with
+        the specific parameters objectId=a.
+        An action_list of None or an empty list means that all actions will
+        be available for the next step.
+        Derived from GoalMetadata.action_list.
         May be a subset of all possible actions. See [Actions](#Actions).
     camera_aspect_ratio : (float, float)
         The player camera's aspect ratio. This will remain constant for the
@@ -31,10 +40,12 @@ class StepMetadata:
         The list of 2-dimensional numpy arrays of depth float data from the
         scene after the last action and physics simulation were run. This is
         usually a list with 1 array, except for the output from start_scene
-        for a scene with a scripted Preview Phase.
+        for a scene with a scripted Preview Phase (Preview Phase case details
+        TBD).
         Each depth float in a 2-dimensional numpy array is a value between 0
         and the camera's far clipping plane (default 15) correspondings to the
         depth in simulation units at that pixel in the image.
+        Note that this list will be empty if the metadata level is 'none'.
     goal : GoalMetadata or None
         The goal for the whole scene. Will be None in "Exploration" scenes.
     habituation_trial : int or None
@@ -48,37 +59,52 @@ class StepMetadata:
         The list of images from the scene after the last action and physics
         simulation were run. This is usually a list with 1 image, except for
         the output from start_scene for a scene with a scripted Preview Phase.
+        (Preview Phase case details TBD).
     object_list : list of ObjectMetadata objects
         The list of metadata for all the visible interactive objects in the
-        scene. For metadata on structural objects like walls, please see
-        structural_object_list
+        scene. This list will be empty if using a metadata level below
+        the 'oracle' level. For metadata on structural objects like walls,
+        please see structural_object_list
     object_mask_list : list of Pillow.Image objects
         The list of object mask (instance segmentation) images from the scene
         after the last action and physics simulation were run. This is usually
         a list with 1 image, except for the output from start_scene for a
-        scene with a scripted Previous Phase.
+        scene with a scripted Preview Phase (Preview Phase case details TBD).
         The color of each object in the mask corresponds to the "color"
         property in its ObjectMetadata object.
+        Note that this list will be empty if the metadata level is 'none'
+        or 'level1'.
+    performer_radius: float
+        The radius of the performer.
+    performer_reach: float
+        The max reach of the performer.
     pose : string
         Your current pose. Either "STANDING", "CRAWLING", or "LYING".
     position : dict
         The "x", "y", and "z" coordinates for your global position.
+        Will be set to 'None' if using a metadata level below the
+        'oracle' level.
     return_status : string
         The return status from your last action. See [Actions](#Actions).
     reward : integer
         Reward is 1 on successful completion of a task, 0 otherwise.
     rotation : float
-        Your current rotation angle in degrees.
+        Your current rotation angle in degrees. Will be set to 'None'
+        if using a metadata level below the 'oracle' level.
     step_number : integer
         The step number of your last action, recorded since you started the
         current scene.
+    physics_frames_per_second : float
+        The frames per second of the physics engine
     structural_object_list : list of ObjectMetadata objects
         The list of metadata for all the visible structural objects (like
-        walls, occluders, and ramps) in the scene. Please note that occluders
-        are composed of two separate objects, the "wall" and the "pole", with
-        corresponding object IDs (occluder_wall_<uuid> and
-        occluder_pole_<uuid>), and ramps are composed of between one and three
-        objects (depending on the type of ramp), with corresponding object IDs.
+        walls, occluders, and ramps) in the scene. This list will be empty
+        if using a metadata level below the 'oracle' level.
+        Please note that occluders are composed of two separate objects,
+        the "wall" and the "pole", with corresponding object IDs
+        (occluder_wall_<uuid> and occluder_pole_<uuid>), and ramps are
+        composed of between one and three objects (depending on the type
+        of ramp), with corresponding object IDs.
     """
 
     def __init__(
@@ -95,6 +121,9 @@ class StepMetadata:
         image_list=None,
         object_list=None,
         object_mask_list=None,
+        performer_radius=0.0,
+        performer_reach=0.0,
+        physics_frames_per_second=0,
         pose=Pose.UNDEFINED.value,
         position=None,
         return_status=ReturnStatus.UNDEFINED.value,
@@ -124,6 +153,9 @@ class StepMetadata:
         self.object_mask_list = (
             [] if object_mask_list is None else object_mask_list
         )
+        self.performer_radius = performer_radius
+        self.performer_reach = performer_reach
+        self.physics_frames_per_second = physics_frames_per_second
         self.pose = pose
         self.position = {} if position is None else position
         self.return_status = return_status
@@ -142,6 +174,14 @@ class StepMetadata:
         else:
             return dict((obj.uuid, dict(obj)) for obj in obj_list)
 
+    def copy_without_depth_or_images(self):
+        """Return a deep copy of this StepMetadata with default depth_map_list,
+        image_list, and object_mask_list properties."""
+        step_metadata_copy = StepMetadata()
+        for key, _ in self:
+            setattr(step_metadata_copy, key, copy.deepcopy(getattr(self, key)))
+        return step_metadata_copy
+
     # Allows converting the class to a dictionary, along with allowing
     #   certain fields to be left out of output file
     def __iter__(self):
@@ -151,8 +191,12 @@ class StepMetadata:
         yield 'camera_field_of_view', self.camera_field_of_view
         yield 'camera_height', self.camera_height
         yield 'goal', dict(self.goal)
+        yield 'habituation_trial', self.habituation_trial
         yield 'head_tilt', self.head_tilt
         yield 'object_list', self.check_list_none(self.object_list)
+        yield 'performer_radius', self.performer_radius
+        yield 'performer_reach', self.performer_reach
+        yield 'physics_frames_per_second', self.physics_frames_per_second
         yield 'pose', self.pose
         yield 'position', self.position
         yield 'return_status', self.return_status

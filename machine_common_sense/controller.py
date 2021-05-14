@@ -2,6 +2,7 @@ import copy
 import datetime
 import glob
 import json
+import logging
 import numpy as np
 import os
 import random
@@ -14,18 +15,17 @@ import atexit
 import ai2thor.controller
 import ai2thor.server
 
+
+logger = logging.getLogger(__name__)
+
+
 # How far the player can reach.  I think this value needs to be bigger
 # than the MAX_MOVE_DISTANCE or else the player may not be able to move
 # into a position to reach some objects (it may be mathematically impossible).
 # TODO Reduce this number once the player can crouch down to reach and
 # pickup small objects on the floor.
-MAX_REACH_DISTANCE = 1.0
 
-# How far the player can move with a single step.
-MOVE_DISTANCE = 0.1
-
-# Performer camera 'y' position
-PERFORMER_CAMERA_Y = 0.4625
+DEFAULT_MOVE = 0.1
 
 from .action import Action
 from .goal_metadata import GoalMetadata
@@ -99,7 +99,6 @@ class Controller():
         Path to configuration file to read in and set various properties,
         such as metadata level and whether or not to save history files
         (default None)
-
     """
 
     ACTION_LIST = [(item.value, {}) for item in Action]
@@ -171,6 +170,10 @@ class Controller():
     # feedback
     CONFIG_METADATA_TIER_NONE = 'none'
 
+    # Default metadata level if none specified, meant for use during
+    # development
+    CONFIG_METADATA_TIER_DEFAULT = 'default'
+
     AWS_CREDENTIALS_FOLDER = os.path.expanduser('~') + '/.aws/'
     AWS_CREDENTIALS_FILE = os.path.expanduser('~') + '/.aws/credentials'
 
@@ -237,13 +240,6 @@ class Controller():
 
     def _on_init(self, config_file_path=None):
 
-        self.__debug_to_file = True if (
-            self._config.is_debug() is True or
-            self._config.get_debug_output() == 'file') else False
-        self.__debug_to_terminal = True if (
-            self._config.is_debug() is True or
-            self._config.get_debug_output() == 'terminal') else False
-
         self.__noise_enabled = self._config.is_noise_enabled()
         self.__seed = self._config.get_seed()
         self.__history_enabled = self._config.is_history_enabled()
@@ -254,7 +250,8 @@ class Controller():
         self._goal = GoalMetadata()
         self.__habituation_trial = 1
         self.__head_tilt = 0.0
-        self.__output_folder = None  # Save output image files to debug
+        # Output folder used to save debug image, video, and JSON files.
+        self.__output_folder = None
         self.__scene_configuration = None
         self.__step_number = 0
         self.__history_writer = None
@@ -315,24 +312,18 @@ class Controller():
             self.PLACEHOLDER, self.VISUAL)
         self.__image_recorder = VideoRecorder(
             vid_path=output_folder / visual_video_filename,
-            width=self.__screen_width,
-            height=self.__screen_height,
             fps=self.FPS_FRAME_RATE)
 
         topdown_video_filename = basename_template.replace(
             self.PLACEHOLDER, self.TOPDOWN)
         self.__topdown_recorder = VideoRecorder(
             vid_path=output_folder / topdown_video_filename,
-            width=self.__screen_width,
-            height=self.__screen_height,
             fps=self.FPS_FRAME_RATE)
 
         heatmap_video_filename = basename_template.replace(
             self.PLACEHOLDER, self.HEATMAP)
         self.__heatmap_recorder = VideoRecorder(
             vid_path=output_folder / heatmap_video_filename,
-            width=self.__screen_width,
-            height=self.__screen_height,
             fps=self.FPS_FRAME_RATE)
 
         if self.__depth_maps:
@@ -340,8 +331,6 @@ class Controller():
                 self.PLACEHOLDER, self.DEPTH)
             self.__depth_recorder = VideoRecorder(
                 vid_path=output_folder / depth_video_filename,
-                width=self.__screen_width,
-                height=self.__screen_height,
                 fps=self.FPS_FRAME_RATE)
 
         if self.__object_masks:
@@ -349,8 +338,6 @@ class Controller():
                 self.PLACEHOLDER, self.SEGMENTATION)
             self.__segmentation_recorder = VideoRecorder(
                 vid_path=output_folder / segmentation_video_filename,
-                width=self.__screen_width,
-                height=self.__screen_height,
                 fps=self.FPS_FRAME_RATE)
 
     def end_scene(self, choice, confidence=1.0):
@@ -499,20 +486,16 @@ class Controller():
         skip_preview_phase = (True if 'goal' in config_data and
                               'skip_preview_phase' in config_data['goal']
                               else False)
-        if self.__debug_to_terminal:
-            if config_data['name']:
-                print("STARTING NEW SCENE: " + config_data['name'])
-            else:
-                print("STARTING NEW SCENE")
-            if self._metadata_tier:
-                print("METADATA TIER: " + self._metadata_tier)
-            else:
-                print("METADATA TIER: DEFAULT (NOT CONFIGURED)")
-            print("STEP: 0")
-            print("ACTION: Initialize")
+
+        logger.debug("STARTING NEW SCENE: " + config_data.get('name', ""))
+        logger.debug("METADATA TIER: " + self._metadata_tier)
+        logger.debug("STEP: 0")
+        logger.debug("ACTION: Initialize")
 
         if (config_data['name'] is not None and (
-            self.__debug_to_file or self._config.is_evaluation() or
+            self._config.is_evaluation() or
+            self._config.is_save_debug_images() or
+            self._config.is_save_debug_json() or
             self._config.is_video_enabled()
         )):
             os.makedirs('./' + config_data['name'], exist_ok=True)
@@ -525,16 +508,18 @@ class Controller():
             team = self._config.get_team()
             scene = self.__scene_configuration.get(
                 'name', '').replace('json', '')
-            self.__plotter = TopDownPlotter(
-                team, scene, self.__screen_width, self.__screen_height)
+            self.__plotter = TopDownPlotter(team, scene)
             self._create_video_recorders(timestamp)
 
         pre_restrict_output = self.wrap_output(self._controller.step(
             self.wrap_step(action='Initialize', sceneConfig=config_data)))
 
-        output = self.restrict_step_output_metadata(pre_restrict_output)
+        debug_copy = pre_restrict_output.copy_without_depth_or_images()
 
-        self.write_debug_output(output)
+        output = self.restrict_step_output_metadata(
+            copy.deepcopy(pre_restrict_output))
+
+        self.write_debug_output(debug_copy)
 
         if not skip_preview_phase:
             if (self._goal is not None and
@@ -543,8 +528,7 @@ class Controller():
                 depth_map_list = output.depth_map_list
                 object_mask_list = output.object_mask_list
 
-                if self.__debug_to_terminal:
-                    print('STARTING PREVIEW PHASE...')
+                logger.debug('STARTING PREVIEW PHASE...')
 
                 for i in range(0, self._goal.last_preview_phase_step):
                     output = self.step('Pass')
@@ -553,8 +537,7 @@ class Controller():
                     object_mask_list = (object_mask_list +
                                         output.object_mask_list)
 
-                if self.__debug_to_terminal:
-                    print('ENDING PREVIEW PHASE')
+                logger.debug('ENDING PREVIEW PHASE')
 
                 if (
                     self._config.is_evaluation() or
@@ -565,8 +548,8 @@ class Controller():
                 output.image_list = image_list
                 output.depth_map_list = depth_map_list
                 output.object_mask_list = object_mask_list
-            elif self.__debug_to_terminal:
-                print('NO PREVIEW PHASE')
+
+            logger.debug('NO PREVIEW PHASE')
 
             if(self._end_scene_not_registered is True and
                     (self.__history_enabled or self._config.is_evaluation())):
@@ -585,7 +568,7 @@ class Controller():
     """
 
     def validate_and_convert_params(self, action, **kwargs):
-        moveMagnitude = MOVE_DISTANCE
+        moveMagnitude = DEFAULT_MOVE
         rotation = kwargs.get(self.ROTATION_KEY, self.DEFAULT_ROTATION)
         horizon = kwargs.get(self.HORIZON_KEY, self.DEFAULT_HORIZON)
         amount = kwargs.get(
@@ -662,7 +645,7 @@ class Controller():
             moveMagnitude = amount
 
         if action in self.MOVE_ACTIONS:
-            moveMagnitude = MOVE_DISTANCE
+            moveMagnitude = DEFAULT_MOVE
 
         # Add in noise if noise is enable
         if self.__noise_enabled:
@@ -740,16 +723,19 @@ class Controller():
 
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
-            print(
-                "MCS Warning: You have passed the last step for this scene. " +
-                "Ignoring your action. Please call controller.end_scene() " +
+            logger.warning(
+                "You have passed the last step for this scene. "
+                "Ignoring your action. Please call controller.end_scene() "
                 "now.")
             return None
 
         if ',' in action:
             action, kwargs = Util.input_to_action_and_params(action)
 
-        action_list = self.retrieve_action_list(self._goal, self.__step_number)
+        action_list = self.retrieve_action_list_at_step(
+            self._goal,
+            self.__step_number
+        )
         # Only continue with this action step if the given action and
         # parameters are in the restricted action list.
         continue_with_step = False
@@ -764,37 +750,30 @@ class Controller():
                     continue_with_step = True
                     break
         if not continue_with_step:
-            print(
-                f"MCS Warning: The given action '{action}' with parameters "
+            logger.warning(
+                f"The given action '{action}' with parameters "
                 f"'{kwargs}' isn't in the action_list. Ignoring your action. "
                 f"Please call controller.step() with an action in the "
-                f"action_list."
+                f"action_list. Possible actions at step {self.__step_number}:"
             )
-            action_string_list = self.retrieve_action_list(
-                self._goal,
-                self.__step_number,
-                string_list=True
-            )
-            print(
-                f"Actions (Step {self.__step_number}): "
-                f"{'; '.join(action_string_list)}"
-            )
+            for action_data in action_list:
+                logger.warning(f'    {action_data}')
             return None
 
         self.__step_number += 1
 
-        if self.__debug_to_terminal:
-            print("================================================" +
-                  "===============================")
-            print("STEP: " + str(self.__step_number))
-            print("ACTION: " + action)
-            if self._goal.habituation_total >= self.__habituation_trial:
-                print("HABITUATION TRIAL: " + str(self.__habituation_trial) +
-                      " / " + str(self._goal.habituation_total))
-            elif self._goal.habituation_total > 0:
-                print("HABITUATION TRIAL: DONE")
-            else:
-                print("HABITUATION TRIAL: NONE")
+        logger.debug("================================================"
+                     "===============================")
+        logger.debug("STEP: " + str(self.__step_number))
+        logger.debug("ACTION: " + action)
+        if self._goal.habituation_total >= self.__habituation_trial:
+            logger.debug(f"HABITUATION TRIAL: "
+                         f"{str(self.__habituation_trial)}"
+                         f" / {str(self._goal.habituation_total)}")
+        elif self._goal.habituation_total > 0:
+            logger.debug("HABITUATION TRIAL: DONE")
+        else:
+            logger.debug("HABITUATION TRIAL: NONE")
 
         params = self.validate_and_convert_params(action, **kwargs)
 
@@ -807,29 +786,27 @@ class Controller():
 
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
-            print(
-                "MCS Warning: This is your last step for this scene. All " +
-                "your future actions will be skipped. Please call " +
+            logger.warning(
+                "This is your last step for this scene. All "
+                "your future actions will be skipped. Please call "
                 "controller.end_scene() now.")
 
         pre_restrict_output = self.wrap_output(self._controller.step(
             self.wrap_step(action=action, **params)))
 
-        history_copy = copy.deepcopy(pre_restrict_output)
-        del history_copy.depth_map_list
-        del history_copy.image_list
-        del history_copy.object_mask_list
+        history_debug_copy = pre_restrict_output.copy_without_depth_or_images()
         self.__history_item = SceneHistory(
             step=self.__step_number,
             action=action,
             args=kwargs,
             params=params,
-            output=history_copy,
+            output=history_debug_copy,
             delta_time_millis=0)
 
-        output = self.restrict_step_output_metadata(pre_restrict_output)
+        output = self.restrict_step_output_metadata(
+            copy.deepcopy(pre_restrict_output))
 
-        self.write_debug_output(output)
+        self.write_debug_output(history_debug_copy)
 
         return output
 
@@ -960,7 +937,9 @@ class Controller():
 
         return step_output
 
-    def retrieve_action_list(self, goal, step_number, string_list=False):
+    def retrieve_action_list_at_step(self, goal, step_number):
+        """Return the action list from the given goal at the given step as a
+        a list of actions tuples by default."""
         if goal is not None and goal.action_list is not None:
             if step_number < goal.last_preview_phase_step:
                 return ['Pass']
@@ -969,14 +948,9 @@ class Controller():
             adjusted_step = step_number - goal.last_preview_phase_step
             if len(goal.action_list) > adjusted_step:
                 if len(goal.action_list[adjusted_step]) > 0:
-                    return [
-                        Util.input_to_action_and_params(action)
-                        for action in goal.action_list[adjusted_step]
-                    ] if not string_list else goal.action_list[adjusted_step]
+                    return goal.action_list[adjusted_step]
 
-        return self.ACTION_LIST if not string_list else [
-            action[0] for action in self.ACTION_LIST
-        ]
+        return self.ACTION_LIST
 
     def retrieve_goal(self, scene_configuration):
         goal_config = (
@@ -985,12 +959,21 @@ class Controller():
             else {}
         )
 
+        # Transform action list data from strings to tuples.
+        action_list = goal_config.get('action_list', [])
+        for index, action_list_at_step in enumerate(action_list):
+            action_list[index] = [
+                Util.input_to_action_and_params(action)
+                if isinstance(action, str) else action
+                for action in action_list_at_step
+            ]
+
         if 'category' in goal_config:
             # Backwards compatibility
             goal_config['metadata']['category'] = goal_config['category']
 
         return self.update_goal_target_image(GoalMetadata(
-            action_list=goal_config.get('action_list', None),
+            action_list=(action_list if action_list else None),
             category=goal_config.get('category', ''),
             description=goal_config.get('description', ''),
             habituation_total=goal_config.get('habituation_total', 0),
@@ -1016,7 +999,7 @@ class Controller():
     def retrieve_object_list(self, scene_event):
         # Return object list for all tier levels, the restrict output function
         # will then strip out the necessary metadata
-        if (self._metadata_tier != ''):
+        if (self._metadata_tier != self.CONFIG_METADATA_TIER_DEFAULT):
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -1080,10 +1063,10 @@ class Controller():
             ),
             direction=object_metadata['direction'],
             distance=(
-                object_metadata['distanceXZ'] / MOVE_DISTANCE
+                object_metadata['distanceXZ'] / DEFAULT_MOVE
             ),  # DEPRECATED
             distance_in_steps=(
-                object_metadata['distanceXZ'] / MOVE_DISTANCE
+                object_metadata['distanceXZ'] / DEFAULT_MOVE
             ),
             distance_in_world=(object_metadata['distance']),
             held=object_metadata['isPickedUp'],
@@ -1099,7 +1082,9 @@ class Controller():
             visible=(
                 object_metadata['visibleInCamera'] or
                 object_metadata['isPickedUp']
-            )
+            ),
+            is_open=object_metadata['isOpen'],
+            openable=object_metadata['openable']
         )
 
     def retrieve_object_states(self, object_id):
@@ -1127,9 +1112,8 @@ class Controller():
         try:
             pose = Pose[scene_event.metadata['pose']].name
         except KeyError:
-            print(
-                "Pose " +
-                scene_event.metadata['pose'] +
+            logger.error(
+                "Pose {scene_event.metadata['pose']}"
                 " is not currently supported.")
         finally:
             return pose
@@ -1148,9 +1132,8 @@ class Controller():
                     scene_event.metadata['lastActionStatus']
                 ].name
         except KeyError:
-            print(
-                "Return status " +
-                scene_event.metadata['lastActionStatus'] +
+            logger.error(
+                "Return status {scene_event.metadata['lastActionStatus']}"
                 " is not currently supported.")
         finally:
             return return_status
@@ -1158,7 +1141,7 @@ class Controller():
     def retrieve_structural_object_list(self, scene_event):
         # Return structural object list for all tier levels, the restrict
         # output function will then strip out the necessary metadata
-        if (self._metadata_tier != ''):
+        if (self._metadata_tier != self.CONFIG_METADATA_TIER_DEFAULT):
             return sorted(
                 [
                     self.retrieve_object_output(
@@ -1241,7 +1224,7 @@ class Controller():
                 ):
                     self.__segmentation_recorder.add(object_mask)
 
-            if self.__debug_to_file and self.__output_folder is not None:
+            if self.__output_folder and self._config.is_save_debug_images:
                 step_plus_substep_index = 0 if self.__step_number == 0 else (
                     ((self.__step_number - 1) * len(scene_event.events)) +
                     (index + 1)
@@ -1264,7 +1247,7 @@ class Controller():
         self._controller.stop()
 
     def wrap_output(self, scene_event):
-        if self.__debug_to_file and self.__output_folder is not None:
+        if self.__output_folder and self._config.is_save_debug_json:
             with open(self.__output_folder + 'ai2thor_output_' +
                       str(self.__step_number) + '.json', 'w') as json_file:
                 json.dump({
@@ -1282,8 +1265,10 @@ class Controller():
         objects = scene_event.metadata.get('objects', None)
         agent = scene_event.metadata.get('agent', None)
         step_output = StepMetadata(
-            action_list=self.retrieve_action_list(
-                self._goal, self.__step_number),
+            action_list=self.retrieve_action_list_at_step(
+                self._goal,
+                self.__step_number
+            ),
             camera_aspect_ratio=(self.__screen_width, self.__screen_height),
             camera_clipping_planes=(
                 scene_event.metadata.get('clippingPlaneNear', 0.0),
@@ -1305,11 +1290,16 @@ class Controller():
             object_mask_list=object_mask_list,
             pose=self.retrieve_pose(scene_event),
             position=self.retrieve_position(scene_event),
+            performer_radius=scene_event.metadata.get('performerRadius'),
+            performer_reach=scene_event.metadata.get('performerReach'),
             return_status=self.retrieve_return_status(scene_event),
             reward=Reward.calculate_reward(
-                self._goal, objects, agent, self.__step_number),
+                self._goal, objects, agent, self.__step_number,
+                scene_event.metadata.get('performerReach')),
             rotation=self.retrieve_rotation(scene_event),
             step_number=self.__step_number,
+            physics_frames_per_second=scene_event.metadata.get(
+                'physicsFramesPerSecond'),
             structural_object_list=self.retrieve_structural_object_list(
                 scene_event)
         )
@@ -1318,25 +1308,32 @@ class Controller():
 
         return step_output
 
-    def write_debug_output(self, step_output):
-        if self.__debug_to_terminal:
-            print("RETURN STATUS: " + step_output.return_status)
-            print("REWARD: " + str(step_output.reward))
-            print("SELF METADATA:")
-            print("  CAMERA HEIGHT: " + str(step_output.camera_height))
-            print("  HEAD TILT: " + str(step_output.head_tilt))
-            print("  POSITION: " + str(step_output.position))
-            print("  ROTATION: " + str(step_output.rotation))
-            print("OBJECTS: " + str(len(step_output.object_list)) + " TOTAL")
-            if len(step_output.object_list) > 0:
-                for line in Util.generate_pretty_object_output(
-                        step_output.object_list):
-                    print("    " + line)
+    def write_debug_output(self, step_output_copy):
+        restricted_output = self.restrict_step_output_metadata(
+            step_output_copy
+        )
+        logger.debug("RETURN STATUS: " + restricted_output.return_status)
+        logger.debug("REWARD: " + str(restricted_output.reward))
+        logger.debug("SELF METADATA:")
+        logger.debug(
+            "  CAMERA HEIGHT: " + str(restricted_output.camera_height)
+        )
+        logger.debug("  HEAD TILT: " + str(restricted_output.head_tilt))
+        logger.debug("  POSITION: " + str(restricted_output.position))
+        logger.debug("  ROTATION: " + str(restricted_output.rotation))
+        logger.debug(
+            "OBJECTS: " + str(len(restricted_output.object_list)) + " TOTAL"
+        )
+        if len(restricted_output.object_list) > 0:
+            for line in Util.generate_pretty_object_output(
+                restricted_output.object_list
+            ):
+                logger.debug("    " + line)
 
-        if self.__debug_to_file and self.__output_folder is not None:
-            with open(self.__output_folder + 'mcs_output_' +
-                      str(self.__step_number) + '.json', 'w') as json_file:
-                json_file.write(str(step_output))
+        if self.__output_folder and self._config.is_save_debug_json:
+            json_filename = 'mcs_output_' + str(self.__step_number) + '.json'
+            with open(self.__output_folder + json_filename, 'w') as json_file:
+                json_file.write(str(restricted_output))
 
     def wrap_step(self, **kwargs):
         # whether or not to randomize segmentation mask colors
@@ -1353,14 +1350,11 @@ class Controller():
             renderDepthImage=self.__depth_maps,
             renderObjectImage=self.__object_masks,
             snapToGrid=False,
-            # Yes, in AI2-THOR, the player's reach appears to be
-            # governed by the "visibilityDistance", confusingly...
-            visibilityDistance=MAX_REACH_DISTANCE,
             consistentColors=consistentColors,
             **kwargs
         )
 
-        if self.__debug_to_file and self.__output_folder is not None:
+        if self.__output_folder and self._config.is_save_debug_json:
             with open(self.__output_folder + 'ai2thor_input_' +
                       str(self.__step_number) + '.json', 'w') as json_file:
                 json.dump(step_data, json_file, sort_keys=True, indent=4)
@@ -1378,3 +1372,15 @@ class Controller():
         """
 
         return random.uniform(-0.5, 0.5)
+
+    def get_metadata_level(self):
+        """
+        Returns the current metadata level set in the config. If none
+        specified, returns 'default'.
+
+        Returns
+        -------
+        string
+            A string containing the current metadata level.
+        """
+        return self._metadata_tier

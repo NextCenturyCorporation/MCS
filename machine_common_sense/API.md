@@ -69,6 +69,23 @@ numerical action parameters noise_enabled is True.
 :rtype: float
 
 
+#### get_metadata_level()
+Returns the current metadata level set in the config. If none
+specified, returns ‘default’.
+
+
+* **Returns**
+
+    A string containing the current metadata level.
+
+
+
+* **Return type**
+
+    string
+
+
+
 #### make_step_prediction(choice: str = None, confidence: float = None, violations_xy_list: List[Dict[str, float]] = None, heatmap_img: PIL.Image.Image = None, internal_state: object = None)
 Make a prediction on the previously taken step/action.
 
@@ -113,6 +130,11 @@ Make a prediction on the previously taken step/action.
 
     None
 
+
+
+#### retrieve_action_list_at_step(goal, step_number)
+Return the action list from the given goal at the given step as a
+a list of actions tuples by default.
 
 
 #### retrieve_object_states(object_id)
@@ -186,13 +208,21 @@ Defines metadata for a goal in the MCS 3D environment.
 * **Variables**
 
     
-    * **action_list** (*list of lists of strings**, or **None*) – The list of actions that are available for the scene at each step
-    (outer list index).  Each inner list item is a list of action strings.
-    For example, [‘MoveAhead’,’RotateLook,rotation=180’] restricts the
-    actions to either ‘MoveAhead’ or ‘RotateLook’ with the ‘rotation’
-    parameter set to 180. An action_list of None means that all
-    actions are always available. An empty inner list means that all
-    actions are available for that specific step.
+    * **action_list** (*list of lists of** (**string**, **dict**) **tuples**, or **None*) – The list of all actions that are available for the scene at each step
+    (outer list). Each inner list is the list of all actions that are
+    available for the single step corresponding to the inner list’s index
+    within the outer list. Each action is returned as a tuple containing
+    the action string and the action’s restricted paramters, if any.
+    For example: (“Pass”, {}) forces a Pass action; (“PickupObject”, {})
+    forces a PickupObject action with any parameters; and
+    (“PickupObject”, {“objectId”: “a”}) forces a PickupObject action with
+    the specific parameters objectId=a.
+    An action_list of None means that all actions are always available.
+    An empty inner list means that all actions will be available on that
+    specific step.
+    See StepMetadata.action_list for the available actions of the current
+    step.
+    May be a subset of all possible actions. See [Actions](#Actions).
 
 
     * **category** (*string*) – The category that describes this goal and the properties in its
@@ -242,7 +272,7 @@ Defines metadata for a goal in the MCS 3D environment.
 ## ObjectMetadata
 
 
-### class machine_common_sense.object_metadata.ObjectMetadata(uuid='', color=None, dimensions=None, direction=None, distance=- 1.0, distance_in_steps=- 1.0, distance_in_world=- 1.0, held=False, mass=0.0, material_list=None, position=None, rotation=None, shape='', state_list=None, texture_color_list=None, visible=False)
+### class machine_common_sense.object_metadata.ObjectMetadata(uuid='', color=None, dimensions=None, direction=None, distance=- 1.0, distance_in_steps=- 1.0, distance_in_world=- 1.0, held=False, mass=0.0, material_list=None, position=None, rotation=None, shape='', state_list=None, texture_color_list=None, visible=False, is_open=False, openable=False)
 Defines metadata for an object in the MCS 3D environment.
 
 
@@ -310,10 +340,16 @@ Defines metadata for an object in the MCS 3D environment.
     * **visible** (*boolean*) – Whether you can see this object in your camera viewport.
 
 
+    * **is_open** (*boolean*) – Whether the object is open or not
+
+
+    * **openable** (*boolean*) – Whether the object can be opened
+
+
 ## StepMetadata
 
 
-### class machine_common_sense.step_metadata.StepMetadata(action_list=None, camera_aspect_ratio=None, camera_clipping_planes=None, camera_field_of_view=0.0, camera_height=0.0, depth_map_list=None, goal=None, habituation_trial=None, head_tilt=0.0, image_list=None, object_list=None, object_mask_list=None, pose='UNDEFINED', position=None, return_status='UNDEFINED', reward=0, rotation=0.0, step_number=0, structural_object_list=None)
+### class machine_common_sense.step_metadata.StepMetadata(action_list=None, camera_aspect_ratio=None, camera_clipping_planes=None, camera_field_of_view=0.0, camera_height=0.0, depth_map_list=None, goal=None, habituation_trial=None, head_tilt=0.0, image_list=None, object_list=None, object_mask_list=None, performer_radius=0.0, performer_reach=0.0, physics_frames_per_second=0, pose='UNDEFINED', position=None, return_status='UNDEFINED', reward=0, rotation=0.0, step_number=0, structural_object_list=None)
 Defines output metadata from an action step in the MCS 3D environment.
 
 
@@ -323,6 +359,13 @@ Defines output metadata from an action step in the MCS 3D environment.
     * **action_list** (*list of** (**string**, **dict**) **tuples*) – The list of all actions that are available for the next step.
     Each action is returned as a tuple containing the action string and
     the action’s restricted parameters, if any.
+    For example: (“Pass”, {}) forces a Pass action; (“PickupObject”, {})
+    forces a PickupObject action with any parameters; and
+    (“PickupObject”, {“objectId”: “a”}) forces a PickupObject action with
+    the specific parameters objectId=a.
+    An action_list of None or an empty list means that all actions will
+    be available for the next step.
+    Derived from GoalMetadata.action_list.
     May be a subset of all possible actions. See [Actions](#Actions).
 
 
@@ -345,10 +388,12 @@ Defines output metadata from an action step in the MCS 3D environment.
     * **depth_map_list** (*list of 2D numpy arrays*) – The list of 2-dimensional numpy arrays of depth float data from the
     scene after the last action and physics simulation were run. This is
     usually a list with 1 array, except for the output from start_scene
-    for a scene with a scripted Preview Phase.
+    for a scene with a scripted Preview Phase (Preview Phase case details
+    TBD).
     Each depth float in a 2-dimensional numpy array is a value between 0
     and the camera’s far clipping plane (default 15) correspondings to the
     depth in simulation units at that pixel in the image.
+    Note that this list will be empty if the metadata level is ‘none’.
 
 
     * **goal** (*GoalMetadata** or **None*) – The goal for the whole scene. Will be None in “Exploration” scenes.
@@ -366,25 +411,37 @@ Defines output metadata from an action step in the MCS 3D environment.
     * **image_list** (*list of Pillow.Image objects*) – The list of images from the scene after the last action and physics
     simulation were run. This is usually a list with 1 image, except for
     the output from start_scene for a scene with a scripted Preview Phase.
+    (Preview Phase case details TBD).
 
 
     * **object_list** (*list of ObjectMetadata objects*) – The list of metadata for all the visible interactive objects in the
-    scene. For metadata on structural objects like walls, please see
-    structural_object_list
+    scene. This list will be empty if using a metadata level below
+    the ‘oracle’ level. For metadata on structural objects like walls,
+    please see structural_object_list
 
 
     * **object_mask_list** (*list of Pillow.Image objects*) – The list of object mask (instance segmentation) images from the scene
     after the last action and physics simulation were run. This is usually
     a list with 1 image, except for the output from start_scene for a
-    scene with a scripted Previous Phase.
+    scene with a scripted Preview Phase (Preview Phase case details TBD).
     The color of each object in the mask corresponds to the “color”
     property in its ObjectMetadata object.
+    Note that this list will be empty if the metadata level is ‘none’
+    or ‘level1’.
+
+
+    * **performer_radius** (*float*) – The radius of the performer.
+
+
+    * **performer_reach** (*float*) – The max reach of the performer.
 
 
     * **pose** (*string*) – Your current pose. Either “STANDING”, “CRAWLING”, or “LYING”.
 
 
     * **position** (*dict*) – The “x”, “y”, and “z” coordinates for your global position.
+    Will be set to ‘None’ if using a metadata level below the
+    ‘oracle’ level.
 
 
     * **return_status** (*string*) – The return status from your last action. See [Actions](#Actions).
@@ -393,20 +450,31 @@ Defines output metadata from an action step in the MCS 3D environment.
     * **reward** (*integer*) – Reward is 1 on successful completion of a task, 0 otherwise.
 
 
-    * **rotation** (*float*) – Your current rotation angle in degrees.
+    * **rotation** (*float*) – Your current rotation angle in degrees. Will be set to ‘None’
+    if using a metadata level below the ‘oracle’ level.
 
 
     * **step_number** (*integer*) – The step number of your last action, recorded since you started the
     current scene.
 
 
-    * **structural_object_list** (*list of ObjectMetadata objects*) – The list of metadata for all the visible structural objects (like
-    walls, occluders, and ramps) in the scene. Please note that occluders
-    are composed of two separate objects, the “wall” and the “pole”, with
-    corresponding object IDs (occluder_wall_<uuid> and
-    occluder_pole_<uuid>), and ramps are composed of between one and three
-    objects (depending on the type of ramp), with corresponding object IDs.
+    * **physics_frames_per_second** (*float*) – The frames per second of the physics engine
 
+
+    * **structural_object_list** (*list of ObjectMetadata objects*) – The list of metadata for all the visible structural objects (like
+    walls, occluders, and ramps) in the scene. This list will be empty
+    if using a metadata level below the ‘oracle’ level.
+    Please note that occluders are composed of two separate objects,
+    the “wall” and the “pole”, with corresponding object IDs
+    (occluder_wall_<uuid> and occluder_pole_<uuid>), and ramps are
+    composed of between one and three objects (depending on the type
+    of ramp), with corresponding object IDs.
+
+
+
+#### copy_without_depth_or_images()
+Return a deep copy of this StepMetadata with default depth_map_list,
+image_list, and object_mask_list properties.
 
 ## Actions
 
@@ -1133,20 +1201,11 @@ of movement (kinematics, gravity, friction, etc.).
 
     
     * **target.id** (*string*) – The objectId of the target object to retrieve.
-
-
-    * **target.image** (*list of numpy arrays*) – An image of the target object to retrieve, given as a 3D RGB pixel
-    array.
+    Will only be available at oracle metadata level.
 
 
     * **target.info** (*list of strings*) – Human-readable information describing the target object needed for the
     visualization interface.
-
-
-    * **target.match_image** (*string*) – Whether the image of the target object (target.image) exactly matches
-    the actual target object in the scene. If false, then the actual object
-    will be different in one way (for example, the image may depict a blue
-    ball, but the actual object is a yellow ball, or a blue cube).
 
 
 

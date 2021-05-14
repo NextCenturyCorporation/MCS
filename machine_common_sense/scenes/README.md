@@ -10,7 +10,7 @@ An open room containing over 40 objects for undirected exploration.
 
 - [playroom.json](./playroom.json)
 
-![playroom_3_2](./videos/playroom_3_2.gif)
+![playroom_eval_4](./videos/playroom_eval_4.gif)
 
 ### Retrieval Goal
 
