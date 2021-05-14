@@ -16,14 +16,26 @@ logger = logging.getLogger(__name__)
 
 class AbstractImageEventHandler(AbstractControllerSubscriber):
     def on_start_scene(self, payload: ControllerEventPayload):
-        self._save_image(self, payload)
+        self._save_image(payload)
 
     def on_after_step(self, payload: ControllerEventPayload):
-        self._save_image(self, payload)
+        self._save_image(payload)
 
     @abstractmethod
     def _save_image(self, payload):
         pass
+
+    def _get_suffix(self, payload, index):
+        if payload.step_number == 0:
+            step_plus_substep_index = 0
+        else:
+            step_plus_substep_index = (
+                ((payload.step_number - 1) *
+                    len(payload.step_metadata.events)) +
+                (index + 1)
+            )
+        suffix = '_' + str(step_plus_substep_index) + '.png'
+        return suffix
 
     def _do_save_image(self, payload, index, data, name):
         if (payload.output_folder):
@@ -63,7 +75,7 @@ class AbstractVideoEventHandler(AbstractControllerSubscriber):
         return scene_name
 
     def create_video_recorder(self, payload, file_tag):
-        basename = self.get_basename(self, payload)
+        basename = self.get_basename(payload)
         video_filename = basename.replace(
             AbstractVideoEventHandler.PLACEHOLDER,
             file_tag
@@ -85,18 +97,6 @@ class AbstractVideoEventHandler(AbstractControllerSubscriber):
                 video_path=self.__recorder.path,
                 s3_filename=folder_prefix + '/' + filename
             )
-
-    def _get_suffix(self, payload, index):
-        if payload.step_number == 0:
-            step_plus_substep_index = 0
-        else:
-            step_plus_substep_index = (
-                ((payload.step_number - 1) *
-                    len(payload.step_metadata.events)) +
-                (index + 1)
-            )
-        suffix = '_' + str(step_plus_substep_index) + '.png'
-        return suffix
 
     def _get_filename_without_timestamp(self, filepath: pathlib.Path):
         return filepath.stem[:-16] + filepath.suffix
