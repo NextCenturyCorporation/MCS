@@ -26,7 +26,7 @@ DEFAULT_MOVE = 0.1
 
 from .action import Action
 from .goal_metadata import GoalMetadata
-from .numeric import Numeric
+from .validation import Validation
 from .step_metadata import StepMetadata
 from .uploader import S3Uploader
 from .config_manager import ConfigManager, SceneConfiguration
@@ -428,7 +428,7 @@ class Controller():
         receptacleObjectImageCoordsY = kwargs.get(
             self.RECEPTACLE_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD)
 
-        if not Numeric.is_number(amount, self.AMOUNT_KEY):
+        if not Validation.is_number(amount, self.AMOUNT_KEY):
             # The default for open/close is 1, the default for "Move" actions
             # is 0.5
             if action in self.OBJECT_MOVE_ACTIONS:
@@ -436,38 +436,38 @@ class Controller():
             else:
                 amount = self.DEFAULT_AMOUNT
 
-        if not Numeric.is_number(force, self.FORCE_KEY):
+        if not Validation.is_number(force, self.FORCE_KEY):
             force = self.DEFAULT_FORCE
 
         # Check object directions are numbers
-        if not Numeric.is_number(
+        if not Validation.is_number(
                 objectImageCoordsX,
                 self.OBJECT_IMAGE_COORDS_X_KEY):
             objectImageCoordsX = self.DEFAULT_IMG_COORD
 
-        if not Numeric.is_number(
+        if not Validation.is_number(
                 objectImageCoordsY,
                 self.OBJECT_IMAGE_COORDS_Y_KEY):
             objectImageCoordsY = self.DEFAULT_IMG_COORD
 
         # Check receptacle directions are numbers
-        if not Numeric.is_number(
+        if not Validation.is_number(
                 receptacleObjectImageCoordsX,
                 self.RECEPTACLE_IMAGE_COORDS_X_KEY):
             receptacleObjectImageCoordsX = self.DEFAULT_IMG_COORD
 
-        if not Numeric.is_number(
+        if not Validation.is_number(
                 receptacleObjectImageCoordsY,
                 self.RECEPTACLE_IMAGE_COORDS_Y_KEY):
             receptacleObjectImageCoordsY = self.DEFAULT_IMG_COORD
 
-        amount = Numeric.is_in_range(
+        amount = Validation.is_in_range(
             amount,
             self.MIN_AMOUNT,
             self.MAX_AMOUNT,
             self.DEFAULT_AMOUNT,
             self.AMOUNT_KEY)
-        force = Numeric.is_in_range(
+        force = Validation.is_in_range(
             force,
             self.MIN_FORCE,
             self.MAX_FORCE,
@@ -513,15 +513,15 @@ class Controller():
         teleportRotation = None
         teleportPosition = None
 
-        if teleportRotInput is not None and Numeric.is_number(
+        if teleportRotInput is not None and Validation.is_number(
                 teleportRotInput):
             teleportRotation = {}
             teleportRotation['y'] = kwargs.get(self.TELEPORT_Y_ROT)
 
         if (teleportPosXInput is not None and
-                Numeric.is_number(teleportPosXInput) and
+                Validation.is_number(teleportPosXInput) and
                 teleportPosZInput is not None and
-                Numeric.is_number(teleportPosZInput)):
+                Validation.is_number(teleportPosZInput)):
             teleportPosition = {}
             teleportPosition['x'] = teleportPosXInput
             teleportPosition['z'] = teleportPosZInput

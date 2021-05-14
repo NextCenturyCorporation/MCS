@@ -1,4 +1,4 @@
-from .to_string import ToString
+from .stringifier import Stringifier
 from .scene_history import SceneHistory
 from typing import Dict
 import logging
@@ -188,4 +188,4 @@ class HistoryWriter(object):
             self.write_history_file("", "")
 
     def __str__(self):
-        return ToString.class_to_str(self)
+        return Stringifier.class_to_str(self)

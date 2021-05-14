@@ -1,5 +1,5 @@
 from enum import Enum, unique
-from .numeric import Numeric
+from .validation import Validation
 
 
 @unique
@@ -680,7 +680,7 @@ class Action(Enum):
         try:
             for param in input_split[1:]:
                 paramKey, paramValue = param.split('=')
-                if Numeric.is_number(paramValue.strip()):
+                if Validation.is_number(paramValue.strip()):
                     params[paramKey.strip()] = float(paramValue.strip())
                 else:
                     params[paramKey.strip()] = paramValue.strip()

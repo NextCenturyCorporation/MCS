@@ -1,4 +1,4 @@
-from .to_string import ToString
+from .stringifier import Stringifier
 
 
 class ObjectMetadata(object):
@@ -101,7 +101,7 @@ class ObjectMetadata(object):
         self.openable = openable
 
     def __str__(self):
-        return ToString.class_to_str(self)
+        return Stringifier.class_to_str(self)
 
     # Allows converting the class to a dictionary, along with allowing
     #   certain fields to be left out of output file

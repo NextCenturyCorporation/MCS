@@ -3,10 +3,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class Numeric():
+class Validation():
     '''
-    Support for tests and conditions on numbers and strings that may be
-    numeric.
+    Support for tests and conditions on validation numbers and strings.
     '''
     @staticmethod
     def is_in_range(value, min_value, max_value, default_value, label=None):

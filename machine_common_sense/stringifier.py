@@ -4,7 +4,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class ToString:
+class Stringifier:
     """
     Defines functions to turn objects into strings for debugging and
     human readable output.  It is not intended to be reconstructed
@@ -30,8 +30,8 @@ class ToString:
         -------
         string
         """
-        this_indent = " " * ToString.NUMBER_OF_SPACES * depth
-        next_indent = " " * ToString.NUMBER_OF_SPACES * (depth + 1)
+        this_indent = " " * Stringifier.NUMBER_OF_SPACES * depth
+        next_indent = " " * Stringifier.NUMBER_OF_SPACES * (depth + 1)
         text_list = []
         props = {
             prop_key: prop_value
@@ -44,7 +44,7 @@ class ToString:
                 "\"" +
                 prop_key +
                 "\": " +
-                ToString.value_to_str(
+                Stringifier.value_to_str(
                     prop_value,
                     depth +
                     1))
@@ -90,11 +90,11 @@ class ToString:
                 metadata.visible,
                 ", ".join(metadata.state_list)
                 if(metadata.state_list is not None) else metadata.state_list,
-                ToString.vector_to_string(metadata.position),
+                Stringifier.vector_to_string(metadata.position),
                 metadata.distance_in_world,
-                ToString.vector_to_string(metadata.direction),
+                Stringifier.vector_to_string(metadata.direction),
                 ("[" + ", ".join([
-                    ToString.vector_to_string(corner) for corner
+                    Stringifier.vector_to_string(corner) for corner
                     in metadata.dimensions
                 ]) + "]") if metadata.dimensions else None
             ]
@@ -121,14 +121,14 @@ class ToString:
         -------
         string
         """
-        this_indent = " " * ToString.NUMBER_OF_SPACES * depth
-        next_indent = " " * ToString.NUMBER_OF_SPACES * (depth + 1)
+        this_indent = " " * Stringifier.NUMBER_OF_SPACES * depth
+        next_indent = " " * Stringifier.NUMBER_OF_SPACES * (depth + 1)
         if input_value is None:
             return "null"
         if isinstance(input_value, dict):
             text_list = [
                 next_indent + "\"" + dict_key + "\": " +
-                ToString.value_to_str(dict_value, depth + 1)
+                Stringifier.value_to_str(dict_value, depth + 1)
                 for dict_key, dict_value in input_value.items()
             ]
             return "{}" if len(text_list) == 0 else "{\n" + \
@@ -144,13 +144,13 @@ class ToString:
             if condense:
                 # To condense the list output, remove all of the whitespace.
                 text_list = [
-                    ToString.value_to_str(list_item, 0)
+                    Stringifier.value_to_str(list_item, 0)
                     for list_item in input_value_as_list
                 ]
                 return "[" + (",").join(text_list) + "]"
             # Else the list output will separate list elements with newlines.
             text_list = [
-                next_indent + ToString.value_to_str(list_item, depth + 1)
+                next_indent + Stringifier.value_to_str(list_item, depth + 1)
                 for list_item in input_value_as_list
             ]
             return "[]" if len(text_list) == 0 else "[\n" + \
@@ -158,7 +158,7 @@ class ToString:
         if isinstance(input_value, bool):
             return "true" if input_value else "false"
         if isinstance(input_value, (float, numpy.float32, numpy.float64)):
-            return str(round(input_value, ToString.NUMBER_OF_DECIMALS))
+            return str(round(input_value, Stringifier.NUMBER_OF_DECIMALS))
         if isinstance(input_value, str):
             return "\"" + input_value.replace("\"", "\\\"") + "\""
         return str(input_value).replace("\n", "\n" + this_indent)
@@ -179,10 +179,10 @@ class ToString:
         """
         return (
             (
-                '(' + str(round(vector['x'], ToString.NUMBER_OF_DECIMALS)) +
-                ',' + str(round(vector['y'], ToString.NUMBER_OF_DECIMALS)) +
+                '(' + str(round(vector['x'], Stringifier.NUMBER_OF_DECIMALS)) +
+                ',' + str(round(vector['y'], Stringifier.NUMBER_OF_DECIMALS)) +
                 ',' + str(round(vector['z'],
-                                ToString.NUMBER_OF_DECIMALS)) + ')'
+                                Stringifier.NUMBER_OF_DECIMALS)) + ')'
             )
             if vector is not None and 'x' in vector and 'y' in vector and
             'z' in vector else 'None'

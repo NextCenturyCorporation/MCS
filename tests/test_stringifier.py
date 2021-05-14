@@ -21,7 +21,7 @@ class MySubclass:
         }
 
     def __str__(self):
-        return mcs.ToString.class_to_str(self)
+        return mcs.Stringifier.class_to_str(self)
 
 
 class MyClass:
@@ -54,15 +54,15 @@ class MyClass:
         pass
 
 
-class TestToString(unittest.TestCase):
+class TestStringifier(unittest.TestCase):
 
     def test_class_to_str_with_class(self):
         self.maxDiff = 10000
         expected = "{\n    \"my_boolean\": true,\n    \"my_float\": 1.234,\n    \"my_integer\": 0,\n    \"my_string\": \"a\",\n    \"my_list\": [\n        1,\n        \"b\",\n        {\n            \"my_integer\": 2,\n            \"my_string\": \"c\",\n            \"my_list\": [3,\"d\"]\n        }\n    ],\n    \"my_dict\": {\n        \"my_integer\": 4,\n        \"my_string\": \"e\",\n        \"my_list\": [5,\"f\"],\n        \"my_dict\": {\n            \"my_integer\": 6,\n            \"my_string\": \"g\"\n        }\n    },\n    \"my_list_empty\": [],\n    \"my_dict_empty\": {},\n    \"my_subclass\": {\n        \"my_integer\": 7,\n        \"my_string\": \"h\",\n        \"my_list\": [8,\"i\"],\n        \"my_dict\": {\n            \"my_integer\": 9,\n            \"my_string\": \"j\"\n        }\n    }\n}"  # noqa: E501
-        self.assertEqual(mcs.ToString.class_to_str(MyClass()), expected)
+        self.assertEqual(mcs.Stringifier.class_to_str(MyClass()), expected)
 
     def test_class_to_str_with_empty_class(self):
-        self.assertEqual(mcs.ToString.class_to_str(MyEmptyclass()), "{}")
+        self.assertEqual(mcs.Stringifier.class_to_str(MyEmptyclass()), "{}")
 
     def test_generate_pretty_object_output(self):
         object_list = [
@@ -103,7 +103,7 @@ class TestToString(unittest.TestCase):
                 }
             )
         ]
-        self.assertEqual(mcs.ToString.generate_pretty_object_output(
+        self.assertEqual(mcs.Stringifier.generate_pretty_object_output(
             object_list), [
             'OBJECT ID        SHAPE  COLORS        HELD   VISIBLE  STATE           POSITION (WORLD)  DISTANCE (WORLD)     DIRECTION (WORLD)    DIMENSIONS (WORLD)',  # noqa: E501
             'id1                                   True   True                     None              0                    None                 None              ',  # noqa: E501
@@ -111,51 +111,53 @@ class TestToString(unittest.TestCase):
         ])
 
     def test_value_to_str_with_boolean(self):
-        self.assertEqual(mcs.ToString.value_to_str(True), "true")
-        self.assertEqual(mcs.ToString.value_to_str(False), "false")
+        self.assertEqual(mcs.Stringifier.value_to_str(True), "true")
+        self.assertEqual(mcs.Stringifier.value_to_str(False), "false")
 
     def test_value_to_str_with_dict(self):
-        self.assertEqual(mcs.ToString.value_to_str({}), "{}")
-        self.assertEqual(mcs.ToString.value_to_str({
+        self.assertEqual(mcs.Stringifier.value_to_str({}), "{}")
+        self.assertEqual(mcs.Stringifier.value_to_str({
             "number": 1,
             "string": "a"
         }), "{\n    \"number\": 1,\n    \"string\": \"a\"\n}")
 
     def test_value_to_str_with_float(self):
-        self.assertEqual(mcs.ToString.value_to_str(0.0), "0.0")
-        self.assertEqual(mcs.ToString.value_to_str(1234.5678), "1234.5678")
-        self.assertEqual(mcs.ToString.value_to_str(0.12345678), "0.1235")
-        self.assertEqual(mcs.ToString.value_to_str(-0.12345678), "-0.1235")
+        self.assertEqual(mcs.Stringifier.value_to_str(0.0), "0.0")
+        self.assertEqual(mcs.Stringifier.value_to_str(1234.5678), "1234.5678")
+        self.assertEqual(mcs.Stringifier.value_to_str(0.12345678), "0.1235")
+        self.assertEqual(mcs.Stringifier.value_to_str(-0.12345678), "-0.1235")
 
     def test_value_to_str_with_integer(self):
-        self.assertEqual(mcs.ToString.value_to_str(0), "0")
-        self.assertEqual(mcs.ToString.value_to_str(1234), "1234")
+        self.assertEqual(mcs.Stringifier.value_to_str(0), "0")
+        self.assertEqual(mcs.Stringifier.value_to_str(1234), "1234")
 
     def test_value_to_str_with_list(self):
-        self.assertEqual(mcs.ToString.value_to_str([]), "[]")
-        self.assertEqual(mcs.ToString.value_to_str([1, "a"]), "[1,\"a\"]")
+        self.assertEqual(mcs.Stringifier.value_to_str([]), "[]")
+        self.assertEqual(mcs.Stringifier.value_to_str([1, "a"]), "[1,\"a\"]")
 
     def test_value_to_str_with_list_with_nested_dict(self):
-        self.assertEqual(mcs.ToString.value_to_str([]), "[]")
+        self.assertEqual(mcs.Stringifier.value_to_str([]), "[]")
         self.assertEqual(
-            mcs.ToString.value_to_str([1, "a", {"b": 2}]),
+            mcs.Stringifier.value_to_str([1, "a", {"b": 2}]),
             "[\n    1,\n    \"a\",\n    {\n        \"b\": 2\n    }\n]"
         )
 
     def test_value_to_str_with_list_with_nested_list(self):
-        self.assertEqual(mcs.ToString.value_to_str([]), "[]")
+        self.assertEqual(mcs.Stringifier.value_to_str([]), "[]")
         self.assertEqual(
-            mcs.ToString.value_to_str([1, "a", [2, "b"]]),
+            mcs.Stringifier.value_to_str([1, "a", [2, "b"]]),
             "[\n    1,\n    \"a\",\n    [2,\"b\"]\n]"
         )
 
     def test_value_to_str_with_string(self):
-        self.assertEqual(mcs.ToString.value_to_str(""), "\"\"")
-        self.assertEqual(mcs.ToString.value_to_str("a b c d"), "\"a b c d\"")
+        self.assertEqual(mcs.Stringifier.value_to_str(""), "\"\"")
+        self.assertEqual(
+            mcs.Stringifier.value_to_str("a b c d"),
+            "\"a b c d\"")
 
     def test_vector_to_string(self):
-        self.assertEqual(mcs.ToString.vector_to_string(None), 'None')
-        self.assertEqual(mcs.ToString.vector_to_string({
+        self.assertEqual(mcs.Stringifier.vector_to_string(None), 'None')
+        self.assertEqual(mcs.Stringifier.vector_to_string({
             'x': 1,
             'y': 2,
             'z': 3
