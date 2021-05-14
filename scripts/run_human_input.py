@@ -78,7 +78,7 @@ class HumanInputShell(cmd.Cmd):
             print('Automatically selecting the only available action...')
             action, params = self.previous_output.action_list[0]
         else:
-            action, params = mcs.Util.input_to_action_and_params(
+            action, params = mcs.Action.input_to_action_and_params(
                 ','.join(split_input)
             )
 

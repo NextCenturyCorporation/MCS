@@ -1,5 +1,5 @@
 from enum import Enum, unique
-from .util import Util
+from .stringifier import Stringifier
 from .config_manager import ConfigManager
 
 
@@ -86,7 +86,7 @@ class GoalMetadata:
         self.metadata = {} if metadata is None else metadata
 
     def __str__(self):
-        return Util.class_to_str(self)
+        return Stringifier.class_to_str(self)
 
     # Allows converting the class to a dictionary, along with allowing
     #   certain fields to be left out of output file

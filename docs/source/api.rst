@@ -17,7 +17,8 @@ Python API
    machine_common_sense.SerializerJson
    machine_common_sense.SerializerMsgPack
    machine_common_sense.StepMetadata
-   machine_common_sense.Util
+   machine_common_sense.Validation
+   machine_common_sense.Stringifier
 
 .. automodule:: machine_common_sense
    :imported-members:
