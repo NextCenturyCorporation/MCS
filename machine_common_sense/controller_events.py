@@ -12,7 +12,6 @@ class EventType(enum.Enum):
     '''
     Enum for the possible events the controller can send to subscribers
     '''
-    ON_INIT = enum.auto()
     ON_START_SCENE = enum.auto()
     ON_BEFORE_STEP = enum.auto()
     ON_AFTER_STEP = enum.auto()
@@ -91,7 +90,6 @@ class AbstractControllerSubscriber(ABC):
 
     def __init__(self):
         self._switcher = {
-            EventType.ON_INIT: self.on_init,
             EventType.ON_START_SCENE: self.on_start_scene,
             EventType.ON_BEFORE_STEP: self.on_before_step,
             EventType.ON_AFTER_STEP: self.on_after_step,
@@ -105,9 +103,6 @@ class AbstractControllerSubscriber(ABC):
             type,
             "default")(
             payload)
-
-    def on_init(self, payload: ControllerEventPayload):
-        pass
 
     def on_start_scene(self, payload: ControllerEventPayload):
         pass

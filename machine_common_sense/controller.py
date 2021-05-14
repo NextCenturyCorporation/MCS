@@ -175,8 +175,6 @@ class Controller():
     def subscribe(self, subscriber):
         if subscriber not in self._subscribers:
             self._subscribers.append(subscriber)
-            # TODO consider sending OnInit event to subscribers if the
-            # controllers OnInit event has already occured.
 
     def _publish_event(self, event_type: EventType,
                        payload: ControllerEventPayload):
@@ -245,9 +243,6 @@ class Controller():
                     self._config.get_aws_secret_access_key() +
                     '\n'
                 )
-
-        payload = self._create_event_payload()
-        self._publish_event(EventType.ON_INIT, payload)
 
     def end_scene(self, choice, confidence=1.0):
         """
