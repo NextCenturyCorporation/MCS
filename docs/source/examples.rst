@@ -30,10 +30,7 @@ Run with console logging
     import machine_common_sense as mcs
 
     logger = logging.getLogger('machine_common_sense')
-    logger.setLevel(logging.DEBUG)
-    stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(logging.DEBUG)
-    logger.addHandler(stream_handler)
+    mcs.LoggingConfig.init_logging()
 
     controller = mcs.create_controller(unity_app_file_path, config_file_path='./some-path/config.ini')
     scene_data, status = mcs.load_scene_json_file(scene_json_file_path)

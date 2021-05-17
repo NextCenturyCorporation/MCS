@@ -1,10 +1,7 @@
-# This file is loaded as a python dictionary.  Documentation on the format
-# can be found here:
+# This is additional documentation for logging configuration dictionsaries.
+# Documentation on the format can be found here:
 # https://docs.python.org/3/library/logging.config.html#logging-config-dictschema
 #
-# The goal here is to create a logging file that will work for most while
-# providing additional options to make changing the configuration relatively
-# easy.
 #
 # Basic structure of logging.
 #   Code should get and use a logger determined by the class name:
@@ -46,13 +43,6 @@ from os.path import exists
 import logging
 
 logger = logging.getLogger(__name__)
-
-# QUESTIONS:
-# Should logging automatically be initialized when MCS is initialized? or
-# should callers need to call it.
-#
-# if automatic, how can calls override (I.E. integration tests will want
-# to minimize logging)
 
 
 class LoggingConfig():
@@ -138,6 +128,10 @@ class LoggingConfig():
 
     @ staticmethod
     def get_dev_logging_config():
+        '''Note: This logging configuration needs the log directory to be
+        created relative to the current working directory of the python
+        execution.
+        '''
         return {
             "version": 1,
             "root": {
