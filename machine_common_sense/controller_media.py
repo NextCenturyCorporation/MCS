@@ -15,6 +15,12 @@ logger = logging.getLogger(__name__)
 
 
 class AbstractImageEventHandler(AbstractControllerSubscriber):
+    '''Abstract class for handling saving different images based on controller
+    events.  This class assumes images should be saved on the start of the
+    scene and on each step.  The implementation should create the image (PIL)
+    and then call _do_save_image to save the file.
+    '''
+
     def on_start_scene(self, payload: ControllerEventPayload):
         self._save_image(payload)
 
@@ -25,7 +31,7 @@ class AbstractImageEventHandler(AbstractControllerSubscriber):
     def _save_image(self, payload):
         pass
 
-    def _get_suffix(self, payload, index):
+    def _get_suffix(self, payload, index: int):
         if payload.step_number == 0:
             step_plus_substep_index = 0
         else:
@@ -37,7 +43,7 @@ class AbstractImageEventHandler(AbstractControllerSubscriber):
         suffix = '_' + str(step_plus_substep_index) + '.png'
         return suffix
 
-    def _do_save_image(self, payload, index, data, name):
+    def _do_save_image(self, payload, index: int, data: PIL.Image, name: str):
         if (payload.output_folder):
             suffix = self._get_suffix(payload, index)
             data.save(fp=payload.output_folder +
@@ -45,6 +51,15 @@ class AbstractImageEventHandler(AbstractControllerSubscriber):
 
 
 class AbstractVideoEventHandler(AbstractControllerSubscriber):
+
+    '''Abstract class for handling saving different videos based on controller
+        events.  This method provides some commonly used support methods, but
+        leaves most of the work up to the implementation.  Typically, the
+        implmentation should call create_video_recorder.  Images can be added
+        to the video based on the implementations needs and at the end the
+        recorder needs to be finished.
+    '''
+
     PLACEHOLDER = 'placeholder'
     VISUAL = 'visual'
     DEPTH = 'depth'
@@ -85,16 +100,16 @@ class AbstractVideoEventHandler(AbstractControllerSubscriber):
         fps = payload.step_output.physics_frames_per_second
         return VideoRecorder(vid_path, fps=fps)
 
-    def _upload_video(self, payload):
+    def _upload_video(self, payload, recorder):
         config = payload.config
         if (config.is_evaluation()):
             uploader = payload.uploader
             folder_prefix = config.uploader_folder_prefix
 
             filename = self._get_filename_without_timestamp(
-                self.__recorder.path)
+                recorder.path)
             uploader.upload_video(
-                video_path=self.__recorder.path,
+                video_path=recorder.path,
                 s3_filename=folder_prefix + '/' + filename
             )
 
@@ -103,12 +118,20 @@ class AbstractVideoEventHandler(AbstractControllerSubscriber):
 
 
 class SceneImageEventHandler(AbstractImageEventHandler):
+    '''
+    Writes images for the visual output or scene output
+    '''
+
     def _save_image(self, payload):
         for index, scene_image in enumerate(payload.step_output.image_list):
             self._do_save_image(payload, index, scene_image, 'frame_image')
 
 
 class DepthImageEventHandler(AbstractImageEventHandler):
+    '''
+    writes images for depth map
+    '''
+
     def _save_image(self, payload):
         for index, depth_float_array in enumerate(
                 payload.step_output.depth_map_list):
@@ -126,6 +149,10 @@ class DepthImageEventHandler(AbstractImageEventHandler):
 
 
 class ObjectMaskImageEventHandler(AbstractImageEventHandler):
+    '''
+    writes images for object mask
+    '''
+
     def _save_image(self, payload):
         for index, object_mask in enumerate(
                 payload.step_output.object_mask_list):
@@ -133,6 +160,10 @@ class ObjectMaskImageEventHandler(AbstractImageEventHandler):
 
 
 class ImageVideoEventHandler(AbstractVideoEventHandler):
+    '''
+    writes videos for visual images
+    '''
+
     def on_start_scene(self, payload: ControllerEventPayload):
         self.__recorder = self.create_video_recorder(
             payload, AbstractVideoEventHandler.VISUAL)
@@ -148,10 +179,14 @@ class ImageVideoEventHandler(AbstractVideoEventHandler):
 
     def on_end_scene(self, payload: ControllerEventPayload):
         self.__recorder.finish()
-        self._upload_video(payload)
+        self._upload_video(payload, self.__recorder)
 
 
 class TopdownVideoEventHandler(AbstractVideoEventHandler):
+    '''
+    writes top down video
+    '''
+
     def on_start_scene(self, payload: ControllerEventPayload):
         self.__recorder = self.create_video_recorder(
             payload, AbstractVideoEventHandler.TOPDOWN)
@@ -182,10 +217,14 @@ class TopdownVideoEventHandler(AbstractVideoEventHandler):
 
     def on_end_scene(self, payload: ControllerEventPayload):
         self.__recorder.finish()
-        self._upload_video(payload)
+        self._upload_video(payload, self.__recorder)
 
 
 class HeatmapVideoEventHandler(AbstractVideoEventHandler):
+    '''
+    writes heatmap video for predictions
+    '''
+
     def on_start_scene(self, payload: ControllerEventPayload):
         self.__recorder = self.create_video_recorder(
             payload, AbstractVideoEventHandler.HEATMAP)
@@ -199,10 +238,14 @@ class HeatmapVideoEventHandler(AbstractVideoEventHandler):
 
     def on_end_scene(self, payload: ControllerEventPayload):
         self.__recorder.finish()
-        self._upload_video(payload)
+        self._upload_video(payload, self.__recorder)
 
 
 class DepthVideoEventHandler(AbstractVideoEventHandler):
+    '''
+    writes video of depth maps
+    '''
+
     def on_start_scene(self, payload: ControllerEventPayload):
         self.__recorder = self.create_video_recorder(
             payload, AbstractVideoEventHandler.DEPTH)
@@ -228,10 +271,14 @@ class DepthVideoEventHandler(AbstractVideoEventHandler):
 
     def on_end_scene(self, payload: ControllerEventPayload):
         self.__recorder.finish()
-        self._upload_video(payload)
+        self._upload_video(payload, self.__recorder)
 
 
 class SegmentationVideoEventHandler(AbstractVideoEventHandler):
+    '''
+    writes video for segmentation or object mask images
+    '''
+
     def on_start_scene(self, payload: ControllerEventPayload):
         self.__recorder = self.create_video_recorder(
             payload, AbstractVideoEventHandler.SEGMENTATION)
@@ -247,4 +294,4 @@ class SegmentationVideoEventHandler(AbstractVideoEventHandler):
 
     def on_end_scene(self, payload: ControllerEventPayload):
         self.__recorder.finish()
-        self._upload_video(payload)
+        self._upload_video(payload, self.__recorder)
