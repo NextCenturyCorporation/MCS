@@ -86,8 +86,6 @@ def _add_subscribers(controller: Controller, config: ConfigManager):
         if config.is_save_debug_json():
             controller.subscribe(ControllerDebugFileGenerator())
             controller.subscribe(ControllerAi2thorFileGenerator())
-        # TODO MCS-664 Once separated, use config to only subscribe when,
-        # # necessary
         if (config.is_evaluation() or config.is_save_debug_images()):
             controller.subscribe(DepthImageEventHandler())
             controller.subscribe(SceneImageEventHandler())
