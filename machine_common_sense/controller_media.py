@@ -122,9 +122,7 @@ class DepthImageEventHandler(AbstractImageEventHandler):
             depth_map = PIL.Image.fromarray(
                 depth_pixel_array.astype(np.uint8)
             )
-            if payload.config.is_depth_maps_enabled():
-                if (payload.config.is_save_debug_images()):
-                    self._do_save_image(payload, index, depth_map, 'depth_map')
+            self._do_save_image(payload, index, depth_map, 'depth_map')
 
 
 class ObjectMaskImageEventHandler(AbstractImageEventHandler):
