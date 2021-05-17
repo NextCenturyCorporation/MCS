@@ -173,8 +173,7 @@ class ImageVideoEventHandler(AbstractVideoEventHandler):
         self.save_video_for_step(payload)
 
     def save_video_for_step(self, payload: ControllerEventPayload):
-        for index, scene_image in enumerate(
-                payload.step_output.image_list):
+        for scene_image in payload.step_output.image_list:
             self.__recorder.add(scene_image)
 
     def on_end_scene(self, payload: ControllerEventPayload):
@@ -200,7 +199,7 @@ class TopdownVideoEventHandler(AbstractVideoEventHandler):
         self.save_video_for_step(payload)
 
     def save_video_for_step(self, payload: ControllerEventPayload):
-        for index, event in enumerate(payload.step_metadata.events):
+        for event in payload.step_metadata.events:
             # The plotter used to be inside the for loop the same as
             # image_recorder, but it seems like it would only plot one per
             # step.

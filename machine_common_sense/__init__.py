@@ -10,18 +10,6 @@ from contextlib import contextmanager
 from .action import Action
 from .config_manager import ConfigManager
 from .controller import Controller
-from .controller_logger import ControllerAi2thorFileGenerator
-from .controller_logger import ControllerDebugFileGenerator
-from .controller_logger import ControllerLogger
-from .controller_media import (
-    DepthVideoEventHandler,
-    DepthImageEventHandler,
-    HeatmapVideoEventHandler,
-    ImageVideoEventHandler,
-    ObjectMaskImageEventHandler,
-    SceneImageEventHandler,
-    TopdownVideoEventHandler,
-    SegmentationVideoEventHandler)
 from .goal_metadata import GoalMetadata, GoalCategory
 from .material import Material
 from .validation import Validation
@@ -30,9 +18,10 @@ from .pose import Pose
 from .return_status import ReturnStatus
 from .reward import Reward
 from .scene_history import SceneHistory
-from .history_writer import HistoryEventHandler, HistoryWriter
+from .history_writer import HistoryWriter
 from .step_metadata import StepMetadata
 from .serializer import SerializerMsgPack, SerializerJson
+from .setup import Setup
 from .stringifier import Stringifier
 from ._version import __version__
 
@@ -82,35 +71,11 @@ def create_controller(unity_app_file_path,
         with time_limit(TIME_LIMIT_SECONDS):
             controller = Controller(unity_app_file_path,
                                     config)
-        _add_subscribers(controller, config)
+        Setup.add_subscribers(controller, config)
         return controller
     except Exception as Msg:
         logger.error("Exception in create_controller()", exc_info=Msg)
         return None
-
-
-def _add_subscribers(controller: Controller, config: ConfigManager):
-    if controller:
-        if config.is_save_debug_json():
-            controller.subscribe(ControllerDebugFileGenerator())
-            controller.subscribe(ControllerAi2thorFileGenerator())
-        if (config.is_evaluation() or config.is_save_debug_images()):
-            controller.subscribe(DepthImageEventHandler())
-            controller.subscribe(SceneImageEventHandler())
-            if (config.is_object_masks_enabled()):
-                controller.subscribe(ObjectMaskImageEventHandler())
-        if (config.is_evaluation() or config.is_video_enabled()):
-            controller.subscribe(ImageVideoEventHandler())
-            controller.subscribe(TopdownVideoEventHandler())
-            controller.subscribe(HeatmapVideoEventHandler())
-            if (config.is_depth_maps_enabled()):
-                controller.subscribe(DepthVideoEventHandler())
-            if (config.is_object_masks_enabled()):
-                controller.subscribe(SegmentationVideoEventHandler())
-        controller.subscribe(ControllerLogger())
-        # TODO once we remove evaulation code, we can better handle when,
-        # this handler subscribes
-        controller.subscribe(HistoryEventHandler())
 
 
 def load_scene_json_file(scene_json_file_path):
