@@ -13,7 +13,14 @@ from .controller import Controller
 from .controller_logger import ControllerAi2thorFileGenerator
 from .controller_logger import ControllerDebugFileGenerator
 from .controller_logger import ControllerLogger
-from .controller_media import *
+from .controller_media import (
+    DepthImageEventHandler,
+    HeatmapVideoEventHandler,
+    ImageVideoEventHandler,
+    ObjectMaskImageEventHandler,
+    SceneImageEventHandler,
+    TopdownVideoEventHandler,
+    SegmentationVideoEventHandler)
 from .goal_metadata import GoalMetadata, GoalCategory
 from .material import Material
 from .validation import Validation
