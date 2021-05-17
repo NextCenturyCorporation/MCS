@@ -50,6 +50,30 @@ def time_limit(seconds):
         signal.alarm(0)
 
 
+def init_logging(log_config=None,
+                 log_config_file="log.config.user.py"):
+    """
+    Initializes logging system.  If no parameters are provided, a
+    default configuration will be applied.  See python logging
+    documentation for details.
+
+    https://docs.python.org/3/library/logging.config.html#logging-config-dictschema
+
+    Parameters
+    ----------
+    log_config : dict, optional
+        A dictionary the contains the logging configuration.  If None, a default configuration
+        will be used
+    log_config_file: str, optional
+        Path to an override configuration file.  The file will contain a python dictionary
+        for the logging configuration.  This file is typically not used, but allows a user
+        to change the logging configuration without code changes.  Default, log.config.user.py
+    """
+    LoggingConfig.init_logging(
+        log_config=log_config,
+        log_config_file=log_config_file)
+
+
 def create_controller(unity_app_file_path,
                       config_file_path=None):
     """

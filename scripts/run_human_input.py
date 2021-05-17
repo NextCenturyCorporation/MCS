@@ -235,7 +235,7 @@ def run_scene(controller, scene_data):
 
 
 def main():
-    LoggingConfig.init_logging(LoggingConfig.get_dev_logging_config())
+    mcs.init_logging(LoggingConfig.get_dev_logging_config())
     args = parse_args()
     scene_data, status = mcs.load_scene_json_file(args.mcs_scene_json_file)
 
