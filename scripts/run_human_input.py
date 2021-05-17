@@ -3,6 +3,7 @@ import cmd
 
 import machine_common_sense as mcs
 from machine_common_sense.config_manager import ConfigManager
+from machine_common_sense.logging_config import LoggingConfig
 
 from getch_helper import getch
 
@@ -234,7 +235,7 @@ def run_scene(controller, scene_data):
 
 
 def main():
-    mcs.init_logging()
+    LoggingConfig.init_logging(LoggingConfig.get_dev_logging_config())
     args = parse_args()
     scene_data, status = mcs.load_scene_json_file(args.mcs_scene_json_file)
 

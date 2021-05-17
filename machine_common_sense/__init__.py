@@ -1,6 +1,5 @@
 import logging
 import logging.config
-import ast
 from os.path import exists
 import json
 import signal
@@ -15,6 +14,7 @@ from .controller_logger import ControllerDebugFileGenerator
 from .controller_logger import ControllerLogger
 from .controller_video_manager import ControllerVideoManager
 from .goal_metadata import GoalMetadata, GoalCategory
+from .logging_config import LoggingConfig
 from .material import Material
 from .validation import Validation
 from .object_metadata import ObjectMetadata
@@ -122,29 +122,3 @@ def load_scene_json_file(scene_json_file_path):
     except IOError:
         return {}, "The given file '" + scene_json_file_path + \
             "' cannot be found."
-
-
-def init_logging():
-    """
-    Initializes logging system.  Attempts to read user file first,
-    which should not be checked in and each user can have their own.
-    If user file doesn't exist, then there is a base config file that
-    should be read.
-    """
-    log_config_base = "scripts/log.config.py"
-    log_config_user = "scripts/log.config.user.py"
-    log_config_file = None
-    if (exists(log_config_user)):
-        log_config_file = log_config_user
-    if (exists(log_config_base)):
-        log_config_file = log_config_base
-    if (log_config_file is not None):
-        with open(log_config_file, "r") as data:
-            logConfig = ast.literal_eval(data.read())
-        logging.config.dictConfig(logConfig)
-        logger.info(
-            "Loaded logging config from " + log_config_file)
-    else:
-        print(
-            "Error initializing logging.  No file found at " +
-            log_config_base + " or " + log_config_user)

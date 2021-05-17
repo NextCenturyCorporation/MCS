@@ -1,6 +1,7 @@
 import argparse
 import glob
 import json
+from machine_common_sense.logging_config import LoggingConfig
 import math
 import os.path
 import time
@@ -274,12 +275,13 @@ def start_handmade_tests(
     dev,
     autofix
 ):
+
     # Find all of the test scene JSON files.
     scene_filename_list = sorted(glob.glob(TEST_FOLDER + '*' + SCENE_SUFFIX))
 
     successful_test_list = []
     failed_test_list = []
-
+    LoggingConfig.init_logging(LoggingConfig.get_errors_only_console_config())
     # Run each test scene at each metadata tier.
     for metadata_tier, config_filename in METADATA_TIER_LIST:
         if only_metadata_tier and metadata_tier != only_metadata_tier:
