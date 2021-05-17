@@ -11,7 +11,7 @@
 
 ## Installation
 
-The latest release of the MCS Python library is `0.4.2`.
+The latest release of the MCS Python library is `0.4.3`.
 
 ### Virtual Environments
 
@@ -56,36 +56,33 @@ Here are the instructions for downloading and installing our latest Unity releas
 
 ### Unity Application
 
-The latest release of the MCS Unity app is `0.4.2`.
+The latest release of the MCS Unity app is `0.4.3`.
 
 Please note that our Unity App is built for Linux or Mac. There is no Windows support currently.
 
 Linux Version:
 
-1. [Download the latest MCS Unity App](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.2/MCS-AI2-THOR-Unity-App-v0.4.2.x86_64)
+*Please note that the download links have changed as of version 0.4.3*
 
-2. [Download the latest MCS Unity Data Directory TAR](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.2/MCS-AI2-THOR-Unity-App-v0.4.2_Data.tar.gz)
+1. [Download and unzip the Linux ZIP](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.3/MCS-AI2-THOR-Unity-App-v0.4.3-linux.zip)
 
-3. [Download the latest UnityPlayer.so file](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.2/UnityPlayer.so)
+2. Ensure that the Unity App, the Data Directory TAR, and the UnityPlayer.so file are all in the same directory.
 
-4. Ensure that both the Unity App and the TAR are in the same directory.
-
-5. Untar the Data Directory:
+3. Untar the Data Directory:
 
 ```
-tar -xzvf MCS-AI2-THOR-Unity-App-v0.4.2_Data.tar.gz
+tar -xzvf MCS-AI2-THOR-Unity-App-v0.4.3_Data.tar.gz
 ```
 
-6. Mark the Unity App as executable:
+4. Mark the Unity App as executable:
 
 ```
-chmod a+x MCS-AI2-THOR-Unity-App-v0.4.2.x86_64
+chmod a+x MCS-AI2-THOR-Unity-App-v0.4.3.x86_64
 ```
 
 Mac Version:
 
-[Download the Mac ZIP](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.2/MCS-AI2-THOR-Unity-App-v0.4.2-mac.zip)
-
+[Download the Mac ZIP](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.3/MCS-AI2-THOR-Unity-App-v0.4.3-mac.zip)
 
 ## Usage
 
