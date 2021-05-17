@@ -14,6 +14,7 @@ from .controller_logger import ControllerAi2thorFileGenerator
 from .controller_logger import ControllerDebugFileGenerator
 from .controller_logger import ControllerLogger
 from .controller_media import (
+    DepthVideoEventHandler,
     DepthImageEventHandler,
     HeatmapVideoEventHandler,
     ImageVideoEventHandler,
