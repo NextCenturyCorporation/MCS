@@ -122,19 +122,14 @@ MCS uses the python logging package with some defaults.  Logging should be initi
 
 Common examples of logging initialization:
 
-Below initializes default which logs to console
-
 .. code-block:: python
+    # Below initializes default which logs to console
     mcs.init_logging()
 
-Below initializes development default with file logging as well as console logging
-
-.. code-block:: python
+    # Below initializes development default with file logging as well as console logging
     mcs.init_logging(LoggingConfig.get_dev_logging_config())
 
-Below initializes error only console logging
-
-.. code-block:: python
+    #Below initializes error only console logging
     mcs.init_logging(LoggingConfig.get_errors_only_console_config())
     
 Full List of Config Options
