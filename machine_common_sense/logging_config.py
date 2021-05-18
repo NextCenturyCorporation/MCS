@@ -1,4 +1,4 @@
-# This is additional documentation for logging configuration dictionsaries.
+# This is additional documentation for logging configuration dictionaries.
 # Documentation on the format can be found here:
 # https://docs.python.org/3/library/logging.config.html#logging-config-dictschema
 #
