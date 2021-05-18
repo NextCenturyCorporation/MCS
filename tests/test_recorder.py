@@ -1,8 +1,50 @@
 import unittest
 import pathlib
 import PIL
+import random
+
+from typing import Tuple
 
 from machine_common_sense.recorder import VideoRecorder
+from machine_common_sense.recorder import ImageRecorder
+
+
+class TestImageRecorder(unittest.TestCase):
+    test_image_file = pathlib.Path("tests/test{:04d}.jpg")
+
+    def setUp(self):
+        self.recorder = ImageRecorder(self.test_image_file)
+
+    def tearDown(self):
+        for p in pathlib.Path('tests').glob('test*.jpg'):
+            p.unlink()
+
+    def random_color(self) -> Tuple:
+        '''Create a random 8-bit RGB tuple'''
+        r = random.randint(0, 255)
+        g = random.randint(0, 255)
+        b = random.randint(0, 255)
+        return (r, g, b)
+
+    def test_write(self):
+        size = (50, 100)
+        img = PIL.Image.new("RGB", size, self.random_color())
+        self.recorder.add(img)
+        self.recorder.flush()
+        self.recorder.finish()
+
+    def test_multiple_write(self):
+        size = (50, 100)
+        img = PIL.Image.new("RGB", size, self.random_color())
+        self.recorder.add(img)
+        img = PIL.Image.new("RGB", size, (255, 0, 0))  # self.random_color())
+        self.recorder.add(img)
+        img = PIL.Image.new("RGB", size, (0, 255, 0))  # self.random_color())
+        self.recorder.add(img)
+        self.recorder.flush()
+        self.recorder.finish()
+
+    # what happens if the path doesn't exist
 
 
 class TestVideoRecorder(unittest.TestCase):
