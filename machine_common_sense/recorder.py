@@ -4,99 +4,93 @@ import pathlib
 import threading
 import queue
 
+from typing import Any
+from abc import ABC, abstractmethod
+
 import cv2
 import PIL
 import numpy as np
 
+
 logger = logging.getLogger(__name__)
 
 
-class ImageRecorder():
+class BaseRecorder(ABC):
+
+    _queue = None
+    _thread = None
+    num_recorded = 0
+    recording = False
+
+    def __init__(self, timeout: float = 1.0):
+        self.timeout = timeout
+
+    def start(self):
+        logger.debug("Starting recorder")
+        self.recording = True
+        self._queue = queue.Queue()
+        self._thread = threading.Thread(target=self.write, args=())
+        self._thread.daemon = True
+        self._thread.start()
+
+    def flush(self):
+        while not self._queue.empty():
+            logger.debug("Flushing recorder queue")
+            item = self._queue.get()
+            self._write(item)
+            self.num_recorded = self.num_recorded + 1
+
+    def finish(self):
+        logger.debug("Closing recorder")
+        self.recording = False
+        self.flush()
+        self._thread.join()
+
+    def write(self):
+        '''Loop forever waiting for frames to enter the queue.'''
+        while True:
+            if not self.recording:
+                logger.warning("Recorder not active")
+                return
+            if not self._queue.empty():
+                item = self._queue.get()
+                self._write(item)
+                self.num_recorded = self.num_recorded + 1
+                logger.debug(f"Recorder wrote {self.num_recorded} items")
+            else:
+                time.sleep(self.timeout)
+
+    def add(self, item: Any):
+        if self.recording:
+            logger.debug("Adding item to recorder queue")
+            self._queue.put(item)
+            logger.debug(f"Queue size is approximately {self._queue.qsize()}")
+
+    @abstractmethod
+    def _write(self):
+        pass
+
+
+class ImageRecorder(BaseRecorder):
     '''Threaded image recorder'''
 
     def __init__(self,
-                 img_path: pathlib.Path,
+                 img_template: pathlib.Path,
                  timeout: float = 1.0):
         '''Create the image recorder.
 
         '''
-        self.image_queue = None
-        self.thread = None
-        self.started = False
-        self.timeout = timeout
-        self._path = img_path
-        self._frames_written = 0
+        self.path = img_template
+        super().__init__(timeout)
+        super().start()
 
-        self.start()
-
-    def start(self):
-        '''Create the video recorder thread and start the frame queue.'''
-        logger.debug(f"Starting image writer for {self.path}")
-        self.active = True
-        self.image_queue = queue.Queue()
-        self.thread = threading.Thread(target=self._write, args=())
-        self.thread.daemon = True
-        self.thread.start()
-
-    def add(self, image: PIL.Image.Image) -> None:
-        '''Adds the image to the queue.
-
-        Requires that the start function was called
-        otherwise the frame is ignored.
-
-        Args:
-            frame (np.ndarray): RGB video frame to be written
-
-        Returns:
-            None
-        '''
-        if self.active:
-            logger.debug(f"Adding frame to {self.path} queue")
-            self.image_queue.put(image)
-            logger.debug(f"Queue size is {self.image_queue.qsize()}")
-
-    def _write(self) -> None:
-        '''Loop forever waiting for frames to enter the queue.'''
-        while True:
-            if not self.active:
-                logger.warning("Recorder not active")
-                return
-            if not self.image_queue.empty():
-                image = self.image_queue.get()
-                img_filename = str(self.path).format(self._frames_written)
-                image.save(img_filename)
-                self._frames_written = self._frames_written + 1
-                logger.debug(f"Recorder wrote {self._frames_written} frames")
-            else:
-                time.sleep(self.timeout)
-
-    def flush(self) -> None:
-        '''Write the remaining video frames in the the queue.'''
-        logger.debug("Writing remaining frames")
-        while not self.image_queue.empty():
-            # TODO violating DRY here and in the video recorder
-            image = self.image_queue.get()
-            img_filename = str(self.path).format(self._frames_written)
-            image.save(img_filename)
-            self._frames_written = self._frames_written + 1
-
-    def finish(self) -> None:
-        '''Deactivate the recorder so that it does not accept more frames.
-
-        Frames that remain in the buffer will be written and the recorder
-        closed.
-        '''
-        logger.debug("Closing image recorder")
-        self.active = False
-        self.flush()
-        self.thread.join()
-
-    @property
-    def path(self) -> pathlib.Path:
-        return self._path
+    def _write(self, image: PIL.Image.Image) -> None:
+        image_filename = str(self.path).format(self.num_recorded)
+        logger.debug(f"Writing {image_filename}")
+        image.save(image_filename)
 
 
-class VideoRecorder():
+class VideoRecorder(BaseRecorder):
     '''Threaded video recorder'''
 
     def __init__(self,
@@ -115,27 +109,13 @@ class VideoRecorder():
         Returns:
             None
         '''
-
-        self.frame_queue = None
-        self.thread = None
-        self.started = False
-        self.timeout = timeout
-        self._path = vid_path
+        self.path = vid_path
         self._frames_written = 0
         self.fourcc = fourcc
         self.fps = fps
         self.writer = None
-
-        self.start()
-
-    def start(self) -> None:
-        '''Create the video recorder thread and start the frame queue.'''
-        logger.debug(f"Starting video writer for {self.path}")
-        self.active = True
-        self.frame_queue = queue.Queue()
-        self.thread = threading.Thread(target=self._write, args=())
-        self.thread.daemon = True
-        self.thread.start()
+        super().__init__(timeout)
+        super().start()
 
     def add(self, frame: PIL.Image.Image) -> None:
         '''Adds the video frame to the queue.
@@ -152,44 +132,26 @@ class VideoRecorder():
 
         if self.writer is None:
             self.width, self.height = frame.size
-            self.writer = cv2.VideoWriter(str(self._path),
+            logger.debug((
+                f"Establishing video writer size"
+                f"({self.width},{self.height}) from first frame"))
+            self.writer = cv2.VideoWriter(str(self.path),
                                           cv2.VideoWriter_fourcc(*self.fourcc),
                                           self.fps,
                                           (self.width, self.height),
                                           True)
+        width, height = frame.size
+        if (width, height) != (self.width, self.height):
+            raise ValueError(f"Wrong size frame ({width}, {height}) for "
+                             f"video writer ({self.width}, {self.height})")
 
-        if self.active:
-            width, height = frame.size
-            if (width, height) != (self.width, self.height):
-                raise ValueError(f"Wrong size frame ({width}, {height}) for "
-                                 f"video writer ({self.width}, {self.height})")
-            # convert BGR PIL image to RGB for opencv
-            cv_frame = np.array(frame.convert('RGB'))[:, :, ::-1]
-            logger.debug(f"Adding frame to {self.path} queue")
-            self.frame_queue.put(cv_frame)
-            logger.debug(f"Queue size is {self.frame_queue.qsize()}")
+        super().add(frame)
 
-    def _write(self) -> None:
-        '''Loop forever waiting for frames to enter the queue.'''
-        while True:
-            if not self.active:
-                logger.warning("Recorder not active")
-                return
-            if not self.frame_queue.empty():
-                frame = self.frame_queue.get()
-                self.writer.write(frame)
-                self._frames_written = self._frames_written + 1
-                logger.debug(f"Recorder wrote {self._frames_written} frames")
-            else:
-                time.sleep(self.timeout)
-
-    def flush(self) -> None:
-        '''Write the remaining video frames in the the queue.'''
-        logger.debug("Writing remaining frames")
-        while not self.frame_queue.empty():
-            frame = self.frame_queue.get()
-            self.writer.write(frame)
-            self._frames_written = self._frames_written + 1
+    def _write(self, frame: PIL.Image.Image) -> None:
+        # convert BGR PIL image to RGB for opencv video writer
+        cv_frame = np.array(frame.convert('RGB'))[:, :, ::-1]
+        logger.debug(f"Writing frame #{self.num_recorded} to {self.path}")
+        self.writer.write(cv_frame)
 
     def finish(self) -> None:
         '''Deactivate the recorder so that it does not accept more frames.
@@ -198,12 +160,6 @@ class VideoRecorder():
         closed.
         '''
         logger.debug("Closing video recorder")
-        self.active = False
-        self.flush()
-        self.thread.join()
+        super().finish()
         if self.writer:
             self.writer.release()
-
-    @property
-    def path(self) -> pathlib.Path:
-        return self._path
