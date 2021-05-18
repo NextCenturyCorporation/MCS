@@ -21,7 +21,7 @@ from .scene_history import SceneHistory
 from .history_writer import HistoryWriter
 from .step_metadata import StepMetadata
 from .serializer import SerializerMsgPack, SerializerJson
-from .setup import Setup
+from .setup import add_subscribers
 from .stringifier import Stringifier
 from ._version import __version__
 
@@ -71,7 +71,7 @@ def create_controller(unity_app_file_path,
         with time_limit(TIME_LIMIT_SECONDS):
             controller = Controller(unity_app_file_path,
                                     config)
-        Setup.add_subscribers(controller, config)
+        add_subscribers(controller, config)
         return controller
     except Exception as Msg:
         logger.error("Exception in create_controller()", exc_info=Msg)

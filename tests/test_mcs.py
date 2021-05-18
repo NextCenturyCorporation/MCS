@@ -16,6 +16,7 @@ from machine_common_sense.controller_media import (
     TopdownVideoEventHandler,
     SegmentationVideoEventHandler)
 from machine_common_sense.history_writer import HistoryEventHandler
+from machine_common_sense.setup import add_subscribers
 
 
 class TestMCS(unittest.TestCase):
@@ -40,7 +41,7 @@ class TestMCS(unittest.TestCase):
         cfg.is_depth_maps_enabled = return_false
         cfg.is_object_masks_enabled = return_false
         cfg.is_video_enabled = return_false
-        mcs.Setup.add_subscribers(ctrl, cfg)
+        add_subscribers(ctrl, cfg)
         self.assertEqual(len(ctrl._subscribers), 2)
         classes = (ControllerLogger, HistoryEventHandler)
         self.assertIsInstance(ctrl._subscribers[0], classes)
@@ -51,7 +52,7 @@ class TestMCS(unittest.TestCase):
         cfg.is_depth_maps_enabled = return_false
         cfg.is_object_masks_enabled = return_false
         cfg.is_video_enabled = return_false
-        mcs.Setup.add_subscribers(ctrl, cfg)
+        add_subscribers(ctrl, cfg)
         self.assertEqual(len(ctrl._subscribers), 4)
         self.assertIsInstance(ctrl._subscribers[0], DepthImageEventHandler)
         self.assertIsInstance(ctrl._subscribers[1], SceneImageEventHandler)
@@ -63,7 +64,7 @@ class TestMCS(unittest.TestCase):
         cfg.is_depth_maps_enabled = return_false
         cfg.is_object_masks_enabled = return_false
         cfg.is_video_enabled = return_true
-        mcs.Setup.add_subscribers(ctrl, cfg)
+        add_subscribers(ctrl, cfg)
         self.assertEqual(len(ctrl._subscribers), 5)
         self.assertIsInstance(ctrl._subscribers[0], ImageVideoEventHandler)
         self.assertIsInstance(
@@ -80,7 +81,7 @@ class TestMCS(unittest.TestCase):
         cfg.is_depth_maps_enabled = return_false
         cfg.is_object_masks_enabled = return_true
         cfg.is_video_enabled = return_true
-        mcs.Setup.add_subscribers(ctrl, cfg)
+        add_subscribers(ctrl, cfg)
         self.assertEqual(len(ctrl._subscribers), 6)
         self.assertIsInstance(ctrl._subscribers[0], ImageVideoEventHandler)
         self.assertIsInstance(
@@ -100,7 +101,7 @@ class TestMCS(unittest.TestCase):
         cfg.is_depth_maps_enabled = return_true
         cfg.is_object_masks_enabled = return_false
         cfg.is_video_enabled = return_false
-        mcs.Setup.add_subscribers(ctrl, cfg)
+        add_subscribers(ctrl, cfg)
         self.assertEqual(len(ctrl._subscribers), 4)
         self.assertIsInstance(ctrl._subscribers[0], DepthImageEventHandler)
         self.assertIsInstance(ctrl._subscribers[1], SceneImageEventHandler)
@@ -112,7 +113,7 @@ class TestMCS(unittest.TestCase):
         cfg.is_depth_maps_enabled = return_false
         cfg.is_object_masks_enabled = return_true
         cfg.is_video_enabled = return_false
-        mcs.Setup.add_subscribers(ctrl, cfg)
+        add_subscribers(ctrl, cfg)
         self.assertEqual(len(ctrl._subscribers), 5)
         self.assertIsInstance(ctrl._subscribers[0], DepthImageEventHandler)
         self.assertIsInstance(ctrl._subscribers[1], SceneImageEventHandler)
@@ -127,7 +128,7 @@ class TestMCS(unittest.TestCase):
         cfg.is_depth_maps_enabled = return_true
         cfg.is_object_masks_enabled = return_true
         cfg.is_video_enabled = return_true
-        mcs.Setup.add_subscribers(ctrl, cfg)
+        add_subscribers(ctrl, cfg)
         self.assertEqual(len(ctrl._subscribers), 7)
         self.assertIsInstance(ctrl._subscribers[0], ImageVideoEventHandler)
         self.assertIsInstance(
@@ -150,7 +151,7 @@ class TestMCS(unittest.TestCase):
         cfg.is_depth_maps_enabled = return_true
         cfg.is_object_masks_enabled = return_true
         cfg.is_video_enabled = return_true
-        mcs.Setup.add_subscribers(ctrl, cfg)
+        add_subscribers(ctrl, cfg)
         self.assertEqual(len(ctrl._subscribers), 10)
         self.assertIsInstance(ctrl._subscribers[0], DepthImageEventHandler)
         self.assertIsInstance(
