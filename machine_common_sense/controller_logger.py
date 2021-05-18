@@ -2,14 +2,13 @@ import logging
 import json
 
 from .controller_events import AbstractControllerSubscriber
-from .util import Util
+from .stringifier import Stringifier
 
 logger = logging.getLogger(__name__)
 
 
 class ControllerLogger(AbstractControllerSubscriber):
-    '''
-    Handles debugging and user output based on controller events
+    '''Handles debugging and user output based on controller events
     '''
 
     def on_start_scene(self, payload):
@@ -56,14 +55,13 @@ class ControllerLogger(AbstractControllerSubscriber):
                      str(len(step_output.object_list)) +
                      " TOTAL")
         if len(step_output.object_list) > 0:
-            for line in Util.generate_pretty_object_output(
+            for line in Stringifier.generate_pretty_object_output(
                     step_output.object_list):
                 logger.debug("    " + line)
 
 
 class ControllerDebugFileGenerator(AbstractControllerSubscriber):
-    '''
-    Handles writing mcs output debug files
+    '''Handles writing mcs output debug files
     '''
 
     def on_start_scene(self, payload):
@@ -82,8 +80,7 @@ class ControllerDebugFileGenerator(AbstractControllerSubscriber):
 
 
 class ControllerAi2thorFileGenerator(AbstractControllerSubscriber):
-    '''
-    Handles writing AI2Thor debug files
+    '''Handles writing AI2Thor debug files
     '''
 
     def on_start_scene(self, payload):

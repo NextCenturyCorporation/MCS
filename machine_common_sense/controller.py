@@ -26,9 +26,9 @@ DEFAULT_MOVE = 0.1
 
 from .action import Action
 from .goal_metadata import GoalMetadata
+from .validation import Validation
 from .step_metadata import StepMetadata
 from .uploader import S3Uploader
-from .util import Util
 from .config_manager import ConfigManager, SceneConfiguration
 from .controller_output_handler import ControllerOutputHandler
 from .controller_events import ControllerEventPayload, EventType
@@ -175,8 +175,6 @@ class Controller():
     def subscribe(self, subscriber):
         if subscriber not in self._subscribers:
             self._subscribers.append(subscriber)
-            # TODO consider sending OnInit event to subscribers if the
-            # controllers OnInit event has already occured.
 
     def _publish_event(self, event_type: EventType,
                        payload: ControllerEventPayload):
@@ -245,9 +243,6 @@ class Controller():
                     self._config.get_aws_secret_access_key() +
                     '\n'
                 )
-
-        payload = self._create_event_payload()
-        self._publish_event(EventType.ON_INIT, payload)
 
     def end_scene(self, choice, confidence=1.0):
         """
@@ -409,7 +404,7 @@ class Controller():
         receptacleObjectImageCoordsY = kwargs.get(
             self.RECEPTACLE_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD)
 
-        if not Util.is_number(amount, self.AMOUNT_KEY):
+        if not Validation.is_number(amount, self.AMOUNT_KEY):
             # The default for open/close is 1, the default for "Move" actions
             # is 0.5
             if action in self.OBJECT_MOVE_ACTIONS:
@@ -417,38 +412,38 @@ class Controller():
             else:
                 amount = self.DEFAULT_AMOUNT
 
-        if not Util.is_number(force, self.FORCE_KEY):
+        if not Validation.is_number(force, self.FORCE_KEY):
             force = self.DEFAULT_FORCE
 
         # Check object directions are numbers
-        if not Util.is_number(
+        if not Validation.is_number(
                 objectImageCoordsX,
                 self.OBJECT_IMAGE_COORDS_X_KEY):
             objectImageCoordsX = self.DEFAULT_IMG_COORD
 
-        if not Util.is_number(
+        if not Validation.is_number(
                 objectImageCoordsY,
                 self.OBJECT_IMAGE_COORDS_Y_KEY):
             objectImageCoordsY = self.DEFAULT_IMG_COORD
 
         # Check receptacle directions are numbers
-        if not Util.is_number(
+        if not Validation.is_number(
                 receptacleObjectImageCoordsX,
                 self.RECEPTACLE_IMAGE_COORDS_X_KEY):
             receptacleObjectImageCoordsX = self.DEFAULT_IMG_COORD
 
-        if not Util.is_number(
+        if not Validation.is_number(
                 receptacleObjectImageCoordsY,
                 self.RECEPTACLE_IMAGE_COORDS_Y_KEY):
             receptacleObjectImageCoordsY = self.DEFAULT_IMG_COORD
 
-        amount = Util.is_in_range(
+        amount = Validation.is_in_range(
             amount,
             self.MIN_AMOUNT,
             self.MAX_AMOUNT,
             self.DEFAULT_AMOUNT,
             self.AMOUNT_KEY)
-        force = Util.is_in_range(
+        force = Validation.is_in_range(
             force,
             self.MIN_FORCE,
             self.MAX_FORCE,
@@ -494,14 +489,15 @@ class Controller():
         teleportRotation = None
         teleportPosition = None
 
-        if teleportRotInput is not None and Util.is_number(teleportRotInput):
+        if teleportRotInput is not None and Validation.is_number(
+                teleportRotInput):
             teleportRotation = {}
             teleportRotation['y'] = kwargs.get(self.TELEPORT_Y_ROT)
 
         if (teleportPosXInput is not None and
-                Util.is_number(teleportPosXInput) and
+                Validation.is_number(teleportPosXInput) and
                 teleportPosZInput is not None and
-                Util.is_number(teleportPosZInput)):
+                Validation.is_number(teleportPosZInput)):
             teleportPosition = {}
             teleportPosition['x'] = teleportPosXInput
             teleportPosition['z'] = teleportPosZInput
@@ -546,7 +542,7 @@ class Controller():
             return None
 
         if ',' in action:
-            action, kwargs = Util.input_to_action_and_params(action)
+            action, kwargs = Action.input_to_action_and_params(action)
 
         action_list = self._goal.retrieve_action_list_at_step(
             self.__step_number)
@@ -727,7 +723,7 @@ class Controller():
         action_list = goal_config.get('action_list', [])
         for index, action_list_at_step in enumerate(action_list):
             action_list[index] = [
-                Util.input_to_action_and_params(action)
+                Action.input_to_action_and_params(action)
                 if isinstance(action, str) else action
                 for action in action_list_at_step
             ]

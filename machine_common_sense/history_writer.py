@@ -1,4 +1,4 @@
-from .util import Util
+from .stringifier import Stringifier
 from .scene_history import SceneHistory
 from typing import Dict
 import logging
@@ -13,7 +13,8 @@ logger = logging.getLogger(__name__)
 
 class HistoryEventHandler(AbstractControllerSubscriber):
 
-    def on_init(self, payload):
+    def __init__(self):
+        AbstractControllerSubscriber.__init__(self)
         self.__history_writer = None
         self.__history_item = None
 
@@ -188,4 +189,4 @@ class HistoryWriter(object):
             self.write_history_file("", "")
 
     def __str__(self):
-        return Util.class_to_str(self)
+        return Stringifier.class_to_str(self)

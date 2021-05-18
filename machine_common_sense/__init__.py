@@ -1,6 +1,5 @@
 import logging
 import logging.config
-import ast
 from os.path import exists
 import json
 import signal
@@ -10,21 +9,20 @@ from contextlib import contextmanager
 from .action import Action
 from .config_manager import ConfigManager
 from .controller import Controller
-from .controller_logger import ControllerAi2thorFileGenerator
-from .controller_logger import ControllerDebugFileGenerator
-from .controller_logger import ControllerLogger
-from .controller_video_manager import ControllerVideoManager
 from .goal_metadata import GoalMetadata, GoalCategory
+from .logging_config import LoggingConfig
 from .material import Material
+from .validation import Validation
 from .object_metadata import ObjectMetadata
 from .pose import Pose
 from .return_status import ReturnStatus
 from .reward import Reward
 from .scene_history import SceneHistory
-from .history_writer import HistoryEventHandler, HistoryWriter
+from .history_writer import HistoryWriter
 from .step_metadata import StepMetadata
-from .util import Util
 from .serializer import SerializerMsgPack, SerializerJson
+from .setup import add_subscribers
+from .stringifier import Stringifier
 from ._version import __version__
 
 
@@ -47,6 +45,30 @@ def time_limit(seconds):
         yield
     finally:
         signal.alarm(0)
+
+
+def init_logging(log_config=None,
+                 log_config_file="log.config.user.py"):
+    """
+    Initializes logging system.  If no parameters are provided, a
+    default configuration will be applied.  See python logging
+    documentation for details.
+
+    https://docs.python.org/3/library/logging.config.html#logging-config-dictschema
+
+    Parameters
+    ----------
+    log_config : dict, optional
+        A dictionary the contains the logging configuration.  If None, a default configuration
+        will be used
+    log_config_file: str, optional
+        Path to an override configuration file.  The file will contain a python dictionary
+        for the logging configuration.  This file is typically not used, but allows a user
+        to change the logging configuration without code changes.  Default, log.config.user.py
+    """
+    LoggingConfig.init_logging(
+        log_config=log_config,
+        log_config_file=log_config_file)
 
 
 def create_controller(unity_app_file_path,
@@ -73,25 +95,11 @@ def create_controller(unity_app_file_path,
         with time_limit(TIME_LIMIT_SECONDS):
             controller = Controller(unity_app_file_path,
                                     config)
-        _add_subscribers(controller, config)
+        add_subscribers(controller, config)
         return controller
     except Exception as Msg:
         logger.error("Exception in create_controller()", exc_info=Msg)
         return None
-
-
-def _add_subscribers(controller: Controller, config: ConfigManager):
-    if controller:
-        if config.is_save_debug_json():
-            controller.subscribe(ControllerDebugFileGenerator())
-            controller.subscribe(ControllerAi2thorFileGenerator())
-        # TODO MCS-664 Once separated, use config to only subscribe when,
-        # # necessary
-        controller.subscribe(ControllerVideoManager())
-        controller.subscribe(ControllerLogger())
-        # TODO once we remove evaulation code, we can better handle when,
-        # this handler subscribes
-        controller.subscribe(HistoryEventHandler())
 
 
 def load_scene_json_file(scene_json_file_path):
@@ -121,29 +129,3 @@ def load_scene_json_file(scene_json_file_path):
     except IOError:
         return {}, "The given file '" + scene_json_file_path + \
             "' cannot be found."
-
-
-def init_logging():
-    """
-    Initializes logging system.  Attempts to read user file first,
-    which should not be checked in and each user can have their own.
-    If user file doesn't exist, then there is a base config file that
-    should be read.
-    """
-    log_config_base = "scripts/log.config.py"
-    log_config_user = "scripts/log.config.user.py"
-    log_config_file = None
-    if (exists(log_config_user)):
-        log_config_file = log_config_user
-    if (exists(log_config_base)):
-        log_config_file = log_config_base
-    if (log_config_file is not None):
-        with open(log_config_file, "r") as data:
-            logConfig = ast.literal_eval(data.read())
-        logging.config.dictConfig(logConfig)
-        logger.info(
-            "Loaded logging config from " + log_config_file)
-    else:
-        print(
-            "Error initializing logging.  No file found at " +
-            log_config_base + " or " + log_config_user)

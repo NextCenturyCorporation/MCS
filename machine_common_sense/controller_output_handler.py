@@ -3,14 +3,15 @@ import copy
 import PIL
 import numpy as np
 
+from .config_manager import ConfigManager, SceneConfiguration
 from .controller import DEFAULT_MOVE
+from .material import Material
+from .object_metadata import ObjectMetadata
+from .pose import Pose
 from .reward import Reward
 from .step_metadata import StepMetadata
-from .pose import Pose
 from .return_status import ReturnStatus
-from .object_metadata import ObjectMetadata
-from .util import Util
-from .config_manager import ConfigManager, SceneConfiguration
+
 
 logger = logging.getLogger(__name__)
 
@@ -315,7 +316,7 @@ class StepOutput:
         material_list = (
             list(
                 filter(
-                    Util.verify_material_enum_string,
+                    Material.verify_material_enum_string,
                     [
                         material.upper()
                         for material in object_metadata['salientMaterials']

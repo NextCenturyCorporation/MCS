@@ -3,7 +3,7 @@ import copy
 from .goal_metadata import GoalMetadata
 from .pose import Pose
 from .return_status import ReturnStatus
-from .util import Util
+from .stringifier import Stringifier
 
 
 class StepMetadata:
@@ -168,7 +168,7 @@ class StepMetadata:
         ] if structural_object_list is None else structural_object_list
 
     def __str__(self):
-        return Util.class_to_str(self)
+        return Stringifier.class_to_str(self)
 
     def check_list_none(self, obj_list):
         if obj_list is None:

@@ -30,10 +30,7 @@ Run with console logging
     import machine_common_sense as mcs
 
     logger = logging.getLogger('machine_common_sense')
-    logger.setLevel(logging.DEBUG)
-    stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(logging.DEBUG)
-    logger.addHandler(stream_handler)
+    mcs.init_logging()
 
     controller = mcs.create_controller(unity_app_file_path, config_file_path='./some-path/config.ini')
     scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
@@ -46,6 +43,28 @@ Run with console logging
         action, params = select_action(output)
 
     controller.end_scene()
+
+Initialize logging
+------------------------
+
+.. code-block:: python
+
+    import logging
+    import machine_common_sense as mcs
+    from machine_common_sense.logging_config import LoggingConfig
+
+    # The following are 3 built in methods to initialize logging.  Only one of these should
+    # be called in a single execution as the last one will override any before it.
+
+    # Below initializes default which logs to console
+    mcs.init_logging()
+
+    # Below initializes development default with file logging as well as console logging
+    mcs.init_logging(LoggingConfig.get_dev_logging_config())
+
+    # Below initializes 
+    mcs.init_logging(LoggingConfig.get_errors_only_console_config())
+
 
 Run with Human Input
 --------------------
