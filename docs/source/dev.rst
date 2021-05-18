@@ -123,6 +123,7 @@ MCS uses the python logging package with some defaults.  Logging should be initi
 Common examples of logging initialization:
 
 .. code-block:: python
+
     # Below initializes default which logs to console
     mcs.init_logging()
 
