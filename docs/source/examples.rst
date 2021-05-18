@@ -44,6 +44,28 @@ Run with console logging
 
     controller.end_scene()
 
+Initialize logging
+------------------------
+
+.. code-block:: python
+
+    import logging
+    import machine_common_sense as mcs
+    from machine_common_sense.logging_config import LoggingConfig
+
+    # The following are 3 built in methods to initialize logging.  Only one of these should
+    # be called in a single execution as the last one will override any before it.
+
+    # Below initializes default which logs to console
+    mcs.init_logging()
+
+    # Below initializes development default with file logging as well as console logging
+    mcs.init_logging(LoggingConfig.get_dev_logging_config())
+
+    # Below initializes 
+    mcs.init_logging(LoggingConfig.get_errors_only_console_config())
+
+
 Run with Human Input
 --------------------
 
