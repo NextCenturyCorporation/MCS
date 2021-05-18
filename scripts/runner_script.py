@@ -7,7 +7,7 @@ import subprocess
 import machine_common_sense as mcs
 
 logger = logging.getLogger('machine_common_sense')
-mcs.LoggingConfig.init_logging()
+mcs.LoggingConfig.init_logging(mcs.LoggingConfig.get_dev_logging_config())
 
 SCRIPT_FOLDER = os.path.dirname(os.path.abspath(__file__))
 BLACK_IMAGE_PATH = SCRIPT_FOLDER + '/black_image.png'
