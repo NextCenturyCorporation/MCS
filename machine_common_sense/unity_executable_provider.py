@@ -13,34 +13,28 @@ from ._version import __version__
 # change to __name__ before mrege
 logger = logging.getLogger(__name__)
 
-LINUX_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/" + \
-    "MCS-AI2-THOR-Unity-App-v{}-linux.zip"
-LINUX_URL = \
-    "https://github.com/NextCenturyCorporation/MCS/releases/download/{ver}/MCS-AI2-THOR-Unity-App-v{ver}-linux.zip"  # noqa
-MAC_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/" + \
-    "MCS-AI2-THOR-Unity-App-v{}-mac.zip"
+LINUX_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/{ver}/MCS-AI2-THOR-Unity-App-v{ver}-linux.zip"  # noqa
 MAC_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/{ver}/MCS-AI2-THOR-Unity-App-v{ver}-mac.zip"  # noqa
-
-PLATFORM_MAC = "Darwin"
-PLATFORM_LINUX = "Linux"
-PLATFORM_OTHER = "other"
-
-current_version = __version__
 
 
 class UnityExecutableProvider():
+    DOWNLOAD_FILE = "MCS-AI2-THOR-Unity-App-v{}.zip"
+    PLATFORM_MAC = "Darwin"
+    PLATFORM_LINUX = "Linux"
+    PLATFORM_OTHER = "other"
+
     def __init__(self):
         self._downloader = Downloader()
         self._platform_init()
 
     def _platform_init(self):
         self._switcher = {
-            PLATFORM_LINUX: self._linux_init,
-            PLATFORM_MAC: self._mac_init,
-            PLATFORM_OTHER: self._other_init
+            self.PLATFORM_LINUX: self._linux_init,
+            self.PLATFORM_MAC: self._mac_init,
+            self.PLATFORM_OTHER: self._other_init
         }
         sys = platform.system()
-        self._switcher.get(sys, PLATFORM_OTHER)()
+        self._switcher.get(sys, self.PLATFORM_OTHER)()
 
     def _mac_init(self):
         self._cache = MacExecutionCache()
@@ -67,14 +61,15 @@ class UnityExecutableProvider():
         or throw an exception if it cannot be found.
         '''
         if version is None:
-            version = current_version
+            version = __version__
         if not force_download and self._cache.has_version(version):
             return self._cache.get_execution_location(version)
         if (download_if_missing or force_download):
             url = self._downloader.get_url(version)
             dest = self._cache._get_version_dir(version)
             dest.mkdir(exist_ok=True, parents=True)
-            zip_file = self._downloader.download(url, dest)
+            zip_file_name = self.DOWNLOAD_FILE.format(version)
+            zip_file = self._downloader.download(url, zip_file_name, dest)
             self._cache.add_zip_to_cache(version, zip_file)
             return self._cache.get_execution_location(version)
         else:
@@ -103,10 +98,16 @@ class AbstractExecutionCache(ABC):
         ver_path = self._base.joinpath(version)
         return ver_path
 
-    def add_zip_to_cache(self, version, zip_file):
+    def add_zip_to_cache(self, version, zip_file: Path):
         ver_dir = self._get_version_dir(version)
         zip = ZipFile(zip_file)
+        logger.info(
+            "Unzipping {} to {}".format(
+                zip_file.name,
+                ver_dir.as_posix()))
         zip.extractall(ver_dir)
+        logger.info("Deleting {}.".format(zip_file.name))
+        zip_file.unlink()
         self._do_zip_to_cache(version, zip_file)
 
     def _unzip_tar_gz(self, tar_gz_file: Path, dest: Path):
@@ -180,7 +181,13 @@ class LinuxExecutionCache(AbstractExecutionCache):
 
         for file in self.GZ_FILES:
             file = file.format(version=version)
-            self._unzip_tar_gz(ver_dir.joinpath(file), ver_dir)
+            gz = ver_dir.joinpath(file)
+            logger.info(
+                "Unzipping {} to {}.".format(
+                    gz.name, ver_dir.as_posix()))
+            self._unzip_tar_gz(gz, ver_dir)
+            logger.info("Deleting {}.".format(gz.name))
+            gz.unlink()
 
     def has_version(self, version: str) -> bool:
         ver_dir = self._get_version_dir(version)
@@ -201,20 +208,9 @@ class LinuxExecutionCache(AbstractExecutionCache):
 
 
 class Downloader():
+    '''Handles downloading MCS AI2THOR package'''
 
-    # 0.4.2 was saved in a different format than 0.4.3 and onward.  0.4.3 is
-    # compatable though
-    _version_override = {"0.4.2": "0.4.3"}
-
-    # TODO change default to current?
-    def get_url(self, ver=None):
-        if ver is None:
-            # todo latest or current?
-            ver = current_version
-
-        # if there is an override version, use it
-        ver = self._version_override.get(ver, ver)
-
+    def get_url(self, ver):
         sys = platform.system()
         if (sys == "Windows"):
             raise Exception("Windows is not supported")
@@ -225,13 +221,13 @@ class Downloader():
         else:
             raise Exception("OS '{}' not supported".format(sys))
 
-    def download(self, url: str, destination_folder: Path) -> Path:
+    def download(self, url: str, filename: str,
+                 destination_folder: Path) -> Path:
         file_data = self._do_download(url)
         # todo probably change this
-        zip_file_name = "ai2thor.zip"
-        zip_file = destination_folder.joinpath(zip_file_name)
-        zip_file.write_bytes(file_data)
-        return zip_file
+        file = destination_folder.joinpath(filename)
+        file.write_bytes(file_data)
+        return file
 
     # TODO should probably change how we download so we can write file
     # sequentially
