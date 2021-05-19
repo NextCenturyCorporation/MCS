@@ -50,7 +50,7 @@ class LoggingConfig():
     default_console_config = {
         "version": 1,
         "root": {
-            "level": "WARN",
+            "level": "DEBUG",
             "handlers": ["console"],
             "propagate": False
         },
@@ -135,7 +135,7 @@ class LoggingConfig():
         return {
             "version": 1,
             "root": {
-                "level": "WARN",
+                "level": "DEBUG",
                 "handlers": ["console", "debug-file"],
                 "propagate": False
             },
