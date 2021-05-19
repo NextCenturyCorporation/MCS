@@ -16,9 +16,6 @@ class TestConfigManager(unittest.TestCase):
     def tearDownClass(cls):
         shutil.rmtree(cls.test_cache_location)
 
-    def test_something(self):
-        pass
-
 
 if __name__ == '__main__':
     unittest.main()

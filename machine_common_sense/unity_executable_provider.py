@@ -202,11 +202,18 @@ class LinuxExecutionCache(AbstractExecutionCache):
 
 class Downloader():
 
+    # 0.4.2 was saved in a different format than 0.4.3 and onward.  0.4.3 is
+    # compatable though
+    _version_override = {"0.4.2": "0.4.3"}
+
     # TODO change default to current?
     def get_url(self, ver=None):
         if ver is None:
             # todo latest or current?
-            ver = "0.4.2"
+            ver = current_version
+
+        # if there is an override version, use it
+        ver = self._version_override.get(ver, ver)
 
         sys = platform.system()
         if (sys == "Windows"):
