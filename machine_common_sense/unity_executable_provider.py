@@ -18,6 +18,9 @@ MAC_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/{ver}
 
 
 class UnityExecutableProvider():
+    '''Automatically provides MCS AI2-THOR Unity executable for the MCS package.
+    Will check a cache and download if necessary'''
+
     DOWNLOAD_FILE = "MCS-AI2-THOR-Unity-App-v{}.zip"
     PLATFORM_MAC = "Darwin"
     PLATFORM_LINUX = "Linux"
@@ -78,6 +81,8 @@ class UnityExecutableProvider():
 
 
 class AbstractExecutionCache(ABC):
+    '''Handles platform agnostic (between Mac and Linux) code for running a
+    cache for MCS Unity executables.  '''
     CACHE_LOCATION = "~/.mcs/"
 
     def __init__(self):
@@ -137,6 +142,8 @@ class AbstractExecutionCache(ABC):
 
 
 class MacExecutionCache(AbstractExecutionCache):
+    '''Handles Mac specific code for running a cache for MCS Unity executables.
+    '''
     APP_FILE = "MCS-AI2-THOR-Unity-App-v{}.app"
 
     def __init__(self):
@@ -159,6 +166,8 @@ class MacExecutionCache(AbstractExecutionCache):
 
 
 class LinuxExecutionCache(AbstractExecutionCache):
+    '''Handles Linux specific code for running a cache for MCS Unity executables.
+    '''
     REQUIRED_FILES = [
         "LinuxPlayer_s.debug",
         "UnityPlayer.so",
