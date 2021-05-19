@@ -23,6 +23,7 @@ from .step_metadata import StepMetadata
 from .serializer import SerializerMsgPack, SerializerJson
 from .setup import add_subscribers
 from .stringifier import Stringifier
+from .unity_executable_provider import UnityExecutableProvider
 from ._version import __version__
 
 
@@ -71,15 +72,24 @@ def init_logging(log_config=None,
         log_config_file=log_config_file)
 
 
-def create_controller(unity_app_file_path,
+def create_controller(unity_app_file_path=None,
+                      unity_cache_version=None,
                       config_file_path=None):
     """
     Creates and returns a new MCS Controller object.
 
     Parameters
     ----------
-    unity_app_file_path : str
-        The file path to your MCS Unity application.
+    unity_app_file_path : str, optional
+        The file path to your MCS Unity application.  If Not provided,
+        the internal cache and downloader will attempt to locate and use
+        the current version.
+        (default None)
+    unity_cache_version : str, optional
+        If no file path is provided for the MCS Unity application, the
+        version provided will be found via cache and internal downloader.
+        If not provided, the version matching the MCS code will be used.
+        (default None)
     config_file_path: str, optional
         Path to configuration file to read in and set various properties,
         such as metadata level and whether or not to save history files
@@ -91,9 +101,15 @@ def create_controller(unity_app_file_path,
         The MCS Controller object.
     """
     try:
+        unity_exec = unity_app_file_path
+        if (unity_exec is None):
+            unity_provider = UnityExecutableProvider()
+            unity_exec = unity_provider.get_executable(
+                unity_cache_version).as_posix()
+
         config = ConfigManager(config_file_path)
         with time_limit(TIME_LIMIT_SECONDS):
-            controller = Controller(unity_app_file_path,
+            controller = Controller(unity_exec,
                                     config)
         add_subscribers(controller, config)
         return controller

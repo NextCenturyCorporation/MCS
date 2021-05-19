@@ -27,7 +27,7 @@ def main():
     json_file_list = glob.glob(args.json_input_folder + '/*.json')
 
     controller = mcs.create_controller(
-        args.mcs_unity_build_file,
+        unity_app_file_path=args.mcs_unity_build_file,
         config_file_path='./run_scripts_config_oracle_metadata.ini')
 
     for json_file_name in json_file_list:

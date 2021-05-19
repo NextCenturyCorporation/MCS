@@ -47,7 +47,7 @@ def main():
         exit()
 
     controller = mcs.create_controller(
-        args.mcs_unity_build_file,
+        unity_app_file_path=args.mcs_unity_build_file,
         config_file_path='./run_scripts_config_with_history.ini'
     )
 

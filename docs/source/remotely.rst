@@ -35,7 +35,7 @@ Run the following script to test MCS with the X11 server created above.
     # test.py
     import machine_common_sense as mcs
     # use your path to the MCS Unity executable
-    controller = mcs.create_controller('MCS.x86_64')
+    controller = mcs.create_controller()
     # find a test scene
     scene_file_path = 'playroom.json'
     scene_data, status = mcs.load_scene_json_file(scene_file_path)

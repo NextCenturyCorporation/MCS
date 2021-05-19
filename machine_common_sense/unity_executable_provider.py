@@ -6,32 +6,29 @@ import tarfile
 import requests
 from progressbar import ProgressBar, Bar, Percentage, FileTransferSpeed
 import platform
-from machine_common_sense.logging_config import LoggingConfig
 from pathlib import Path
+import shutil
+from ._version import __version__
 
 # change to __name__ before mrege
-logger = logging.getLogger("machine_common_sense")
+logger = logging.getLogger(__name__)
 
 LINUX_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/" + \
     "MCS-AI2-THOR-Unity-App-v{}-linux.zip"
+LINUX_URL = \
+    "https://github.com/NextCenturyCorporation/MCS/releases/download/{ver}/MCS-AI2-THOR-Unity-App-v{ver}-linux.zip"  # noqa
 MAC_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/" + \
     "MCS-AI2-THOR-Unity-App-v{}-mac.zip"
-
-
-TEST_OVERRIDE = "http://ipv4.download.thinkbroadband.com/5MB.zip"
+MAC_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/{ver}/MCS-AI2-THOR-Unity-App-v{ver}-mac.zip"  # noqa
 
 PLATFORM_MAC = "Darwin"
 PLATFORM_LINUX = "Linux"
 PLATFORM_OTHER = "other"
 
-current_version = "0.4.2"
+current_version = __version__
 
 
-# TODO before code review - if reviewer sees this, yell at developer!
-# Add option to clear force a new download
-# Do we want cleanup?
-
-class Ai2thorProvider():
+class UnityExecutableProvider():
     def __init__(self):
         self._downloader = Downloader()
         self._platform_init()
@@ -56,14 +53,24 @@ class Ai2thorProvider():
             "Ai2thorProvider only supports Linux and Mac.  Platform={}".format(
                 platform.system()))
 
-    def get_executable(self, version=current_version,
-                       download_if_missing=True, ) -> Path:
+    def clear_cache(self, version=None):
+        '''clears the entire cache if no version is passed in, otherwise
+        clears the specified version'''
+        if version is None:
+            self._cache.remove_whole_cache()
+        else:
+            self._cache.remove_cache_version(version)
+
+    def get_executable(self, version=None,
+                       download_if_missing=True, force_download=False) -> Path:
         '''For a given version, this will return the path to that executable
         or throw an exception if it cannot be found.
         '''
-        if self._cache.has_version(version):
+        if version is None:
+            version = current_version
+        if not force_download and self._cache.has_version(version):
             return self._cache.get_execution_location(version)
-        if (download_if_missing):
+        if (download_if_missing or force_download):
             url = self._downloader.get_url(version)
             dest = self._cache._get_version_dir(version)
             dest.mkdir(exist_ok=True, parents=True)
@@ -75,15 +82,13 @@ class Ai2thorProvider():
                 "unable to locate ai2thor for version={}".format(version))
 
 
-CACHE_LOCATION = "~/.mcs/"
-
-
 class AbstractExecutionCache(ABC):
+    CACHE_LOCATION = "~/.mcs/"
 
     def __init__(self):
         '''
         '''
-        cache_base = Path(CACHE_LOCATION).expanduser()
+        cache_base = Path(self.CACHE_LOCATION).expanduser()
         self._base = cache_base
         if not cache_base.exists():
             cache_base.mkdir()
@@ -109,9 +114,13 @@ class AbstractExecutionCache(ABC):
         tar.extractall(path=dest.as_posix())
         tar.close()
 
-    def remove_cache(self, version):
+    def remove_cache_version(self, version):
         # todo need to delete files
-        self._get_version_dir(version).rmdir()
+        ver_dir = self._get_version_dir(version)
+        shutil.rmtree(ver_dir)
+
+    def remove_whole_cache(self):
+        shutil.rmtree(self._base)
 
     @abstractmethod
     def has_version(self, version: str) -> bool:
@@ -203,9 +212,9 @@ class Downloader():
         if (sys == "Windows"):
             raise Exception("Windows is not supported")
         elif (sys == "Linux"):
-            return LINUX_URL.format(ver)
+            return LINUX_URL.format(ver=ver)
         elif (sys == "Darwin"):
-            return MAC_URL.format(ver)
+            return MAC_URL.format(ver=ver)
         else:
             raise Exception("OS '{}' not supported".format(sys))
 
@@ -220,10 +229,6 @@ class Downloader():
     # TODO should probably change how we download so we can write file
     # sequentially
     def _do_download(self, url):
-        test_override = False
-        if test_override:
-            url = TEST_OVERRIDE
-
         logger.debug("Downloading file from %s" % url)
         r = requests.get(url, stream=True)
         r.raise_for_status()
@@ -241,28 +246,12 @@ class Downloader():
         ]
 
         pbar = ProgressBar(widgets=widgets, maxval=size).start()
-        # m = hashlib.sha256()
         file_data = []
         for buf in r.iter_content(1024):
             if buf:
                 file_data.append(buf)
-                # m.update(buf)
                 total_bytes += len(buf)
                 pbar.update(total_bytes)
         pbar.finish()
-        # if m.hexdigest() != sha256_digest:
-        #    raise Exception("Digest mismatch for url %s" % url)
 
         return b"".join(file_data)
-
-
-LoggingConfig.init_logging(LoggingConfig.get_dev_logging_config())
-provider = Ai2thorProvider()
-executable = provider.get_executable("0.4.1")
-logger.debug("ret: " + executable.as_posix())
-
-
-# d = Downloader()
-# url = d.get_url()
-# temp = d.download(url)
-# logger.debug(temp)
