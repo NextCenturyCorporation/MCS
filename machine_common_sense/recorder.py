@@ -16,6 +16,10 @@ logger = logging.getLogger(__name__)
 
 
 class BaseRecorder(ABC):
+    '''BaseRecorder class provides common functionality for all recorders.
+
+    The abstract class handles the thread writing and item storage queue.
+    '''
 
     _queue = None
     _thread = None
@@ -26,6 +30,10 @@ class BaseRecorder(ABC):
         self.timeout = timeout
 
     def start(self):
+        '''Start the recorder.
+
+        Prepares the queue for item storage and starts the write thread.
+        '''
         logger.debug("Starting recorder")
         self.recording = True
         self._queue = queue.Queue()
@@ -33,24 +41,33 @@ class BaseRecorder(ABC):
         self._thread.daemon = True
         self._thread.start()
 
-    def flush(self):
+    def flush(self) -> None:
+        '''Write every item currently in the queue'''
         while not self._queue.empty():
             logger.debug("Flushing recorder queue")
             item = self._queue.get()
             self._write(item)
             self.num_recorded = self.num_recorded + 1
 
-    def finish(self):
+    def finish(self) -> None:
+        '''Flush and close the recorder thread
+
+        Further recordings should use a new recorder instance.
+        '''
         logger.debug("Closing recorder")
         self.recording = False
         self.flush()
         self._thread.join()
 
-    def write(self):
-        '''Loop forever waiting for frames to enter the queue.'''
+    def write(self) -> None:
+        '''Thread loop waiting for frames to enter the queue.'''
+        if not self.recording:
+            logger.warning("Recorder inactive. Unable to start thread.")
+            return
+
         while True:
             if not self.recording:
-                logger.warning("Recorder not active")
+                logger.debug("Recorder going inactive")
                 return
             if not self._queue.empty():
                 item = self._queue.get()
@@ -60,7 +77,15 @@ class BaseRecorder(ABC):
             else:
                 time.sleep(self.timeout)
 
-    def add(self, item: Any):
+    def add(self, item: Any) -> None:
+        '''Adds an item to the queue
+
+        Args:
+            item (Any): Item to be stored in queue
+
+        Return:
+            None
+        '''
         if self.recording:
             logger.debug("Adding item to recorder queue")
             self._queue.put(item)
@@ -68,23 +93,40 @@ class BaseRecorder(ABC):
 
     @abstractmethod
     def _write(self):
+        '''Subclasses to provide writing specifics'''
         pass
 
 
 class ImageRecorder(BaseRecorder):
-    '''Threaded image recorder'''
+    '''Threaded image recorder
+
+    '''
 
     def __init__(self,
                  img_template: pathlib.Path,
                  timeout: float = 1.0):
         '''Create the image recorder.
 
+        Args:
+            img_template(pathlib.Path): Filename template
+            timeout (float): How often in seconds to check the queue
+
+        Returns:
+            None
         '''
         self.path = img_template
         super().__init__(timeout)
         super().start()
 
     def _write(self, image: PIL.Image.Image) -> None:
+        '''Save the image to disk
+
+        Args:
+            image (Pil.Image.Image): The image to record
+
+        Returns:
+            None
+        '''
         image_filename = str(self.path).format(self.num_recorded)
         logger.debug(f"Writing {image_filename}")
         image.save(image_filename)
@@ -104,7 +146,7 @@ class VideoRecorder(BaseRecorder):
             vid_path (pathlib.path): the output video file path
             fps (int): video frame rate per second
             fourcc (str): opencv fourcc / codec string
-            timeout (float): thread sleep timeout
+            timeout (float): thread sleep timeout in seconds
 
         Returns:
             None
@@ -124,10 +166,13 @@ class VideoRecorder(BaseRecorder):
         otherwise the frame is ignored.
 
         Args:
-            frame (np.ndarray): RGB video frame to be written
+            frame (PIL.Image.Image): RGB video frame to be written
 
         Returns:
             None
+
+        Raises:
+            ValueError: If frame is a different size from the initial
         '''
 
         if self.writer is None:
@@ -148,6 +193,14 @@ class VideoRecorder(BaseRecorder):
         super().add(frame)
 
     def _write(self, frame: PIL.Image.Image) -> None:
+        '''Write the frame to the video recording
+
+        Args:
+            frame (PIL.Image.Image): Image frame to be written
+
+        Return:
+            None
+        '''
         # convert BGR PIL image to RGB for opencv video writer
         cv_frame = np.array(frame.convert('RGB'))[:, :, ::-1]
         logger.debug(f"Writing frame #{self.num_recorded} to {self.path}")
