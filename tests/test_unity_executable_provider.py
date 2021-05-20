@@ -31,7 +31,7 @@ class MockDownloader(Downloader):
 
     def download(self, url: str, filename: str,
                  destination_folder: Path) -> Path:
-        self.count = +1
+        self.count = self.count + 1
         path = shutil.copy(
             TEST_ZIP, destination_folder.joinpath(filename).as_posix())
         return Path(path)
@@ -39,8 +39,7 @@ class MockDownloader(Downloader):
 
 class TestUnityExecutableProvider(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(cls):
+    def setUp(cls):
         AbstractExecutionCache.CACHE_LOCATION = TEST_CACHE_LOCATION
         cls.provider = UnityExecutableProvider()
         cls.cache = MockExecutionCache()
@@ -53,8 +52,7 @@ class TestUnityExecutableProvider(unittest.TestCase):
         zip.write(executable, cls.cache.EXECUTABLE_FILE)
         zip.close()
 
-    @classmethod
-    def tearDownClass(cls):
+    def tearDown(cls):
         shutil.rmtree(TEST_CACHE_LOCATION)
         shutil.rmtree(TEST_TMP)
 
@@ -87,7 +85,7 @@ class TestUnityExecutableProvider(unittest.TestCase):
         self.assertTrue(result2.exists())
         self.assertEquals(self.provider._downloader.count, 2)
         self.assertFalse(result1.exists())
-        self.assertFalse(result2.parent.exists())
+        self.assertFalse(result1.parent.exists())
 
 
 if __name__ == '__main__':
