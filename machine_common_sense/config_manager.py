@@ -1,6 +1,7 @@
-import os
-import logging
 import configparser  # noqa: F401
+import logging
+import os
+
 import yaml  # noqa: F401
 
 from .action import Action

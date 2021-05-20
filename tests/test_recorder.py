@@ -1,13 +1,12 @@
-import unittest
 import pathlib
-import PIL
 import random
-
+import unittest
 from typing import Tuple
 
-from machine_common_sense.recorder import BaseRecorder
-from machine_common_sense.recorder import VideoRecorder
-from machine_common_sense.recorder import ImageRecorder
+import PIL
+
+from machine_common_sense.recorder import (BaseRecorder, ImageRecorder,
+                                           VideoRecorder)
 
 
 class ConcreteBaseRecorder(BaseRecorder):

@@ -1,16 +1,14 @@
-import time
 import logging
 import pathlib
-import threading
 import queue
-
-from typing import Any
+import threading
+import time
 from abc import ABC, abstractmethod
+from typing import Any
 
 import cv2
-import PIL
 import numpy as np
-
+import PIL
 
 logger = logging.getLogger(__name__)
 

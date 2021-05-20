@@ -38,9 +38,8 @@
 # section.
 
 import ast
-from os.path import exists
-
 import logging
+from os.path import exists
 
 logger = logging.getLogger(__name__)
 

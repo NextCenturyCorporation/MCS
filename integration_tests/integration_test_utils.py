@@ -1,6 +1,5 @@
 import argparse
 
-
 METADATA_TIER_LIST = [
     ('level1', './config_level1.ini'),
     ('level2', './config_level2.ini'),

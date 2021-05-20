@@ -1,12 +1,11 @@
 import argparse
 import cmd
 
+from getch_helper import getch
+
 import machine_common_sense as mcs
 from machine_common_sense.config_manager import ConfigManager
 from machine_common_sense.logging_config import LoggingConfig
-
-
-from getch_helper import getch
 
 commandList = []
 

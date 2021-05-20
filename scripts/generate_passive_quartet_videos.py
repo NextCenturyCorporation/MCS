@@ -1,9 +1,8 @@
 import argparse
-import subprocess
 import os
 import pathlib
 import shutil
-
+import subprocess
 from typing import List
 
 import machine_common_sense as mcs

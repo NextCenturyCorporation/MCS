@@ -1,9 +1,8 @@
+import glob
 import logging
 import platform
 import shutil
 import tarfile
-import glob
-
 from abc import ABC, abstractmethod
 from pathlib import Path
 from zipfile import ZipFile

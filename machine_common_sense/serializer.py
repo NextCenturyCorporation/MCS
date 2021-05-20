@@ -1,13 +1,11 @@
 import io
 import json
-import msgpack
-import numpy as np
-import PIL.Image as Image
-
 from abc import ABCMeta, abstractmethod
 from typing import Dict, Union
 
-import machine_common_sense as mcs
+import msgpack
+import numpy as np
+import PIL.Image as Image
 
 from .goal_metadata import GoalMetadata
 from .object_metadata import ObjectMetadata
@@ -173,7 +171,7 @@ class SerializerMsgPack(ISerializer):
         return msgpack.ExtType(code, data)
 
     @staticmethod
-    def serialize(step_metadata: mcs.StepMetadata):
+    def serialize(step_metadata: StepMetadata):
         """
         Serializes step metadata into MsgPack.
 
@@ -295,7 +293,7 @@ class SerializerJson(ISerializer):
         return object_list
 
     @staticmethod
-    def serialize(step_metadata: mcs.StepMetadata, indent: int = 4):
+    def serialize(step_metadata: StepMetadata, indent: int = 4):
         json_dump = json.dumps(step_metadata,
                                cls=SerializerJson.McsStepMetadataEncoder,
                                indent=indent)

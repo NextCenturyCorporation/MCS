@@ -1,15 +1,15 @@
-import pathlib
 import logging
-import PIL
-import numpy as np
+import pathlib
 from abc import abstractmethod
 
-from .controller_events import AbstractControllerSubscriber
-from .controller_events import ControllerEventPayload
+import numpy as np
+import PIL
+
+from .config_manager import ConfigManager
+from .controller_events import (AbstractControllerSubscriber,
+                                ControllerEventPayload)
 from .plotter import TopDownPlotter
 from .recorder import VideoRecorder
-from .config_manager import ConfigManager
-
 
 logger = logging.getLogger(__name__)
 

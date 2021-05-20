@@ -1,9 +1,9 @@
-from typing import List, Dict
+from typing import Dict, List
 
 from shapely import geometry
 
-from .goal_metadata import GoalMetadata, GoalCategory
 from .controller import DEFAULT_MOVE
+from .goal_metadata import GoalCategory, GoalMetadata
 
 GOAL_ACHIEVED = 1
 GOAL_NOT_ACHIEVED = 0

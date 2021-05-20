@@ -1,8 +1,8 @@
-import glob
 import argparse
+import glob
+import os
 
 import machine_common_sense as mcs
-import os
 
 
 def parse_args():
