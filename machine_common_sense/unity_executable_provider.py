@@ -83,12 +83,10 @@ class UnityExecutableProvider():
 class AbstractExecutionCache(ABC):
     '''Handles platform agnostic (between Mac and Linux) code for running a
     cache for MCS Unity executables.  '''
-    CACHE_LOCATION = "~/.mcs/"
+    CACHE_LOCATION = Path.home().joinpath(".mcs/")
 
     def __init__(self):
-        '''
-        '''
-        cache_base = Path(self.CACHE_LOCATION).expanduser()
+        cache_base = self.CACHE_LOCATION.expanduser()
         self._base = cache_base
         if not cache_base.exists():
             cache_base.mkdir(parents=True)
@@ -96,12 +94,33 @@ class AbstractExecutionCache(ABC):
                 "Created mcs cache at {}".format(
                     cache_base.as_posix()))
 
+    def get_execution_location(self, version: str) -> Path:
+        '''Returns the location of the executable file'''
+        ver_dir = self._get_version_dir(version)
+        exec = ver_dir.joinpath(
+            self._get_executable_file().format(
+                version=version))
+        return exec
+
     def _get_version_dir(self, version: str) -> Path:
         '''returns a Path object for the path to the directory for the given
          version.
         '''
         ver_path = self._base.joinpath(version)
         return ver_path
+
+    def has_version(self, version: str) -> bool:
+        '''Return whether the cache has the given version'''
+        ver_dir = self._get_version_dir(version)
+        if not ver_dir.exists():
+            return False
+        for file in self._get_required_files():
+            file = file.format(version=version)
+            exists = ver_dir.joinpath(file).exists()
+            if not exists:
+                logger.info("Missing file: " + file)
+                return False
+        return True
 
     def add_zip_to_cache(self, version, zip_file: Path):
         ver_dir = self._get_version_dir(version)
@@ -113,7 +132,19 @@ class AbstractExecutionCache(ABC):
         zip.extractall(ver_dir)
         logger.info("Deleting {}.".format(zip_file.name))
         zip_file.unlink()
-        self._do_zip_to_cache(version, zip_file)
+        ver_dir = self._get_version_dir(version)
+        file = self._get_executable_file().format(version=version)
+        ver_dir.joinpath(file).chmod(755)
+
+        for file in self._get_gz_files():
+            file = file.format(version=version)
+            gz = ver_dir.joinpath(file)
+            logger.info(
+                "Unzipping {} to {}.".format(
+                    gz.name, ver_dir.as_posix()))
+            self._unzip_tar_gz(gz, ver_dir)
+            logger.info("Deleting {}.".format(gz.name))
+            gz.unlink()
 
     def _unzip_tar_gz(self, tar_gz_file: Path, dest: Path):
         tar = tarfile.open(tar_gz_file.as_posix(), "r:gz")
@@ -129,39 +160,33 @@ class AbstractExecutionCache(ABC):
         shutil.rmtree(self._base)
 
     @abstractmethod
-    def has_version(self, version: str) -> bool:
+    def _get_executable_file(self):
         pass
 
     @abstractmethod
-    def _do_zip_to_cache(self, version: str, zip_file: Path):
+    def _get_gz_files(self):
         pass
 
     @abstractmethod
-    def get_execution_location(self, version: str) -> Path:
+    def _get_required_files(self):
         pass
 
 
 class MacExecutionCache(AbstractExecutionCache):
     '''Handles Mac specific code for running a cache for MCS Unity executables.
     '''
-    EXECUTABLE_FILE = "MCS-AI2-THOR-Unity-App-v{}.app"
-    REQUIRED_FILES = []
+    EXECUTABLE_FILE = "MCS-AI2-THOR-Unity-App-v{}.app/Contents/MacOS/MCS-AI2-THOR"  # noqa
+    REQUIRED_FILES = ["MCS-AI2-THOR-Unity-App-v{}.app"]
     GZ_FILES = []
 
-    def has_version(self, version: str) -> bool:
-        ver_dir = self._get_version_dir(version)
-        app = ver_dir.joinpath(self.EXECUTABLE_FILE.format(version))
-        return ver_dir.exists() and app.exists()
+    def _get_executable_file(self):
+        return self.EXECUTABLE_FILE
 
-    def _do_zip_to_cache(self, version: str, zip_file: Path):
-        pass
+    def _get_gz_files(self):
+        return self.GZ_FILES
 
-    def get_execution_location(self, version: str) -> Path:
-        ver_dir = self._get_version_dir(version)
-        return ver_dir.joinpath(self.EXECUTABLE_FILE.format(version))
-
-    # MAC appears to have MCS-AI2-THOR-Unity-App-v0.4.2.app folder, but need
-    # to verify later
+    def _get_required_files(self):
+        return self.REQUIRED_FILES
 
 
 class LinuxExecutionCache(AbstractExecutionCache):
@@ -176,40 +201,14 @@ class LinuxExecutionCache(AbstractExecutionCache):
     EXECUTABLE_FILE = "MCS-AI2-THOR-Unity-App-v{version}.x86_64"
     GZ_FILES = ["MCS-AI2-THOR-Unity-App-v{version}_Data.tar.gz"]
 
-    def _do_zip_to_cache(self, version: str, zip_file: Path):
-        '''Linux distributable contains a tar.gz file that needs unzipped
-        The executable file needs to be turned to executable
-        '''
-        ver_dir = self._get_version_dir(version)
-        file = self.EXECUTABLE_FILE.format(version=version)
-        ver_dir.joinpath(file).chmod(755)
+    def _get_executable_file(self):
+        return self.EXECUTABLE_FILE
 
-        for file in self.GZ_FILES:
-            file = file.format(version=version)
-            gz = ver_dir.joinpath(file)
-            logger.info(
-                "Unzipping {} to {}.".format(
-                    gz.name, ver_dir.as_posix()))
-            self._unzip_tar_gz(gz, ver_dir)
-            logger.info("Deleting {}.".format(gz.name))
-            gz.unlink()
+    def _get_gz_files(self):
+        return self.GZ_FILES
 
-    def has_version(self, version: str) -> bool:
-        ver_dir = self._get_version_dir(version)
-        if not ver_dir.exists():
-            return False
-        for file in self.REQUIRED_FILES:
-            file = file.format(version=version)
-            exists = ver_dir.joinpath(file).exists()
-            if not exists:
-                logger.info("Missing file: " + file)
-                return False
-        return True
-
-    def get_execution_location(self, version: str) -> Path:
-        ver_dir = self._get_version_dir(version)
-        exec = ver_dir.joinpath(self.EXECUTABLE_FILE.format(version=version))
-        return exec
+    def _get_required_files(self):
+        return self.REQUIRED_FILES
 
 
 class Downloader():

@@ -13,17 +13,17 @@ TEST_ZIP = "./tmp/test.zip"
 
 class MockExecutionCache(AbstractExecutionCache):
     EXECUTABLE_FILE = "MCS-AI2-THOR-Unity-App-v.x86_64"
+    GZ_FILES = []
+    REQUIRED_FILES = ["MCS-AI2-THOR-Unity-App-v.x86_64"]
 
-    def has_version(self, version: str) -> bool:
-        ver_dir = self._get_version_dir(version)
-        return ver_dir.exists()
+    def _get_executable_file(self):
+        return self.EXECUTABLE_FILE
 
-    def _do_zip_to_cache(self, version: str, zip_file: Path):
-        pass
+    def _get_gz_files(self):
+        return self.GZ_FILES
 
-    def get_execution_location(self, version: str) -> Path:
-        ver_dir = self._get_version_dir(version)
-        return ver_dir.joinpath(self.EXECUTABLE_FILE.format(version))
+    def _get_required_files(self):
+        return self.REQUIRED_FILES
 
 
 class MockDownloader(Downloader):
@@ -41,7 +41,7 @@ class TestUnityExecutableProvider(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        AbstractExecutionCache.CACHE_LOCATION = TEST_CACHE_LOCATION
+        AbstractExecutionCache.CACHE_LOCATION = Path(TEST_CACHE_LOCATION)
         cls.provider = UnityExecutableProvider()
         cls.cache = MockExecutionCache()
         cls.provider._cache = cls.cache
@@ -66,15 +66,15 @@ class TestUnityExecutableProvider(unittest.TestCase):
         self.assertTrue(result.exists())
 
     def test_get_executable_cache(self):
-        self.assertEquals(self.provider._downloader.count, 0)
+        self.assertEqual(self.provider._downloader.count, 0)
         result = self.provider.get_executable("test2")
         self.assertTrue(result.exists())
-        self.assertEquals(self.provider._downloader.count, 1)
+        self.assertEqual(self.provider._downloader.count, 1)
 
         # try again and verify the downloader isn't called again.
         result = self.provider.get_executable("test2")
         self.assertTrue(result.exists())
-        self.assertEquals(self.provider._downloader.count, 1)
+        self.assertEqual(self.provider._downloader.count, 1)
 
 
 if __name__ == '__main__':
