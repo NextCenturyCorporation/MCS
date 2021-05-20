@@ -26,9 +26,9 @@ jobs:
       - name: Run unit tests
         run: python -m unittest
       - name: Run isort
-        uses: olance/isort-action@v1.0.0
+        uses: jamescurtin/isort-action@master
         with:
-          args: .
+          requirementsFiles: "requirements.txt"
       - name: Flake8
         run: flake8
       - name: Autopep8
