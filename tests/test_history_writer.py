@@ -1,10 +1,9 @@
-import unittest
-import os
 import glob
+import os
 import shutil
+import unittest
 
 import machine_common_sense as mcs
-
 
 TEST_FILE_NAME = "test_scene_file.json"
 PREFIX = 'prefix'

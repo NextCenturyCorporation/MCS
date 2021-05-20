@@ -1,31 +1,29 @@
+import json
 import logging
 import logging.config
-from os.path import exists
-import json
 import signal
-
 from contextlib import contextmanager
+from os.path import exists
 
+from ._version import __version__
 from .action import Action
 from .config_manager import ConfigManager
 from .controller import Controller
-from .goal_metadata import GoalMetadata, GoalCategory
+from .goal_metadata import GoalCategory, GoalMetadata
+from .history_writer import HistoryWriter
 from .logging_config import LoggingConfig
 from .material import Material
-from .validation import Validation
 from .object_metadata import ObjectMetadata
 from .pose import Pose
 from .return_status import ReturnStatus
 from .reward import Reward
 from .scene_history import SceneHistory
-from .history_writer import HistoryWriter
-from .step_metadata import StepMetadata
-from .serializer import SerializerMsgPack, SerializerJson
+from .serializer import SerializerJson, SerializerMsgPack
 from .setup import add_subscribers
+from .step_metadata import StepMetadata
 from .stringifier import Stringifier
 from .unity_executable_provider import UnityExecutableProvider
-from ._version import __version__
-
+from .validation import Validation
 
 logger = logging.getLogger(__name__)
 # Set default logging handler to avoid "No handler found" warnings

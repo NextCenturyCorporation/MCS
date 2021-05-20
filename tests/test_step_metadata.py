@@ -1,5 +1,5 @@
-import unittest
 import textwrap
+import unittest
 
 import machine_common_sense as mcs
 

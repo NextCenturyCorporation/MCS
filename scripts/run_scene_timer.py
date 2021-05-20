@@ -1,10 +1,9 @@
+import argparse
 import os
 import statistics
 import time
-import argparse
 
 import machine_common_sense as mcs
-
 
 DEFAULT_STEP_COUNT = 20
 

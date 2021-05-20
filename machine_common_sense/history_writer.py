@@ -1,12 +1,13 @@
-from .stringifier import Stringifier
-from .scene_history import SceneHistory
-from typing import Dict
-import logging
 import json
+import logging
 import os
 import pathlib
 from time import perf_counter
+from typing import Dict
+
 from .controller_events import AbstractControllerSubscriber
+from .scene_history import SceneHistory
+from .stringifier import Stringifier
 
 logger = logging.getLogger(__name__)
 

@@ -1,4 +1,5 @@
 from enum import Enum, unique
+
 from .validation import Validation
 
 

@@ -1,13 +1,14 @@
-import ai2thor.server
-import numpy
 import os
 
-from machine_common_sense.controller import Controller
-from machine_common_sense.pose import Pose
+import ai2thor.server
+import numpy
+
 from machine_common_sense.action import Action
 from machine_common_sense.config_manager import ConfigManager
+from machine_common_sense.controller import Controller
 from machine_common_sense.controller_output_handler import \
     ControllerOutputHandler
+from machine_common_sense.pose import Pose
 
 MOCK_VARIABLES = {
     'event_count': 5,

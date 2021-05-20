@@ -1,16 +1,16 @@
 import argparse
 import glob
 import json
-from machine_common_sense.logging_config import LoggingConfig
 import math
 import os.path
 import time
 
-import machine_common_sense as mcs
 from additional_integration_tests import FUNCTION_LIST
-from integration_test_utils import METADATA_TIER_LIST, print_divider, \
-    add_test_args
+from integration_test_utils import (METADATA_TIER_LIST, add_test_args,
+                                    print_divider)
 
+import machine_common_sense as mcs
+from machine_common_sense.logging_config import LoggingConfig
 
 INTEGRATION_TESTS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 TEST_FOLDER = INTEGRATION_TESTS_FOLDER + '/data/'

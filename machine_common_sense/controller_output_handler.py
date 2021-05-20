@@ -1,17 +1,17 @@
-import logging
 import copy
-import PIL
+import logging
+
 import numpy as np
+import PIL
 
 from .config_manager import ConfigManager, SceneConfiguration
 from .controller import DEFAULT_MOVE
 from .material import Material
 from .object_metadata import ObjectMetadata
 from .pose import Pose
+from .return_status import ReturnStatus
 from .reward import Reward
 from .step_metadata import StepMetadata
-from .return_status import ReturnStatus
-
 
 logger = logging.getLogger(__name__)
 

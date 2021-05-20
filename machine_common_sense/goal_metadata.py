@@ -1,6 +1,7 @@
 from enum import Enum, unique
-from .stringifier import Stringifier
+
 from .config_manager import ConfigManager
+from .stringifier import Stringifier
 
 
 class GoalMetadata:

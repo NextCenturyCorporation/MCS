@@ -5,7 +5,6 @@ import pathlib
 import boto3
 import PIL
 
-
 logger = logging.getLogger(__name__)
 
 
