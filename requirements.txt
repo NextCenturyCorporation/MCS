@@ -21,7 +21,7 @@ msgpack==1.0.0
 numpy==1.19.4
 opencv-python==4.4.0.44
 packaging==20.4
-pre-commit==2.7.1
+pre-commit==2.12.1
 purepng==0.2.0
 Pygments==2.7.4
 pyparsing==2.4.7
