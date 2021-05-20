@@ -21,7 +21,7 @@ class MockExecutionCache(AbstractExecutionCache):
     def _do_zip_to_cache(self, version: str, zip_file: Path):
         pass
 
-    def get_execution_location(self, version: str) -> Path:
+    def _do_get_execution_location(self, version: str) -> Path:
         ver_dir = self._get_version_dir(version)
         return ver_dir.joinpath(self.EXECUTABLE_FILE.format(version))
 
@@ -75,6 +75,19 @@ class TestUnityExecutableProvider(unittest.TestCase):
         result = self.provider.get_executable("test2")
         self.assertTrue(result.exists())
         self.assertEquals(self.provider._downloader.count, 1)
+
+    def test_culling(self):
+        self.assertEquals(self.provider._downloader.count, 0)
+        result1 = self.provider.get_executable("test1")
+        self.assertTrue(result1.exists())
+        self.assertEquals(self.provider._downloader.count, 1)
+
+        # try again and verify the downloader isn't called again.
+        result2 = self.provider.get_executable("test2")
+        self.assertTrue(result2.exists())
+        self.assertEquals(self.provider._downloader.count, 2)
+        self.assertFalse(result1.exists())
+        self.assertFalse(result2.parent.exists())
 
 
 if __name__ == '__main__':

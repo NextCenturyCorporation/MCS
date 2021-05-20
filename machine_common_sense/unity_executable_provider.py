@@ -2,6 +2,7 @@ import logging
 import platform
 import shutil
 import tarfile
+import glob
 
 from abc import ABC, abstractmethod
 from pathlib import Path
@@ -129,6 +130,25 @@ class AbstractExecutionCache(ABC):
     def remove_whole_cache(self):
         shutil.rmtree(self._base)
 
+    def get_execution_location(self, version: str) -> Path:
+        self.cull_cache(version)
+        return self._do_get_execution_location(version)
+
+    def cull_cache(self, last_version: str):
+        try:
+            list = glob.glob(self._base.as_posix() + "/*")
+            ver_dir = self._get_version_dir(last_version)
+            for name in list:
+                logger.debug("test: " + name)
+                file = Path(name)
+                keep = file.is_dir() and ver_dir.samefile(file)
+                if not keep:
+                    logger.debug("deleting " + file.as_posix())
+                    shutil.rmtree(file)
+        except Exception:
+            logger.exception(
+                "Error attempting to cull MCS Unity executable cache", )
+
     @abstractmethod
     def has_version(self, version: str) -> bool:
         pass
@@ -138,7 +158,7 @@ class AbstractExecutionCache(ABC):
         pass
 
     @abstractmethod
-    def get_execution_location(self, version: str) -> Path:
+    def _do_get_execution_location(self, version: str) -> Path:
         pass
 
 
@@ -157,7 +177,7 @@ class MacExecutionCache(AbstractExecutionCache):
     def _do_zip_to_cache(self, version: str, zip_file: Path):
         pass
 
-    def get_execution_location(self, version: str) -> Path:
+    def _do_get_execution_location(self, version: str) -> Path:
         ver_dir = self._get_version_dir(version)
         return ver_dir.joinpath(self.EXECUTABLE_FILE.format(version))
 
@@ -207,7 +227,7 @@ class LinuxExecutionCache(AbstractExecutionCache):
                 return False
         return True
 
-    def get_execution_location(self, version: str) -> Path:
+    def _do_get_execution_location(self, version: str) -> Path:
         ver_dir = self._get_version_dir(version)
         exec = ver_dir.joinpath(self.EXECUTABLE_FILE.format(version=version))
         return exec
