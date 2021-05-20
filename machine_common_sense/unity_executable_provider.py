@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
 import logging
-from pathlib import Path
 import platform
 import shutil
 import tarfile
+
+from abc import ABC, abstractmethod
+from pathlib import Path
 from zipfile import ZipFile
 
-from progressbar import ProgressBar, Bar, Percentage, FileTransferSpeed
 import requests
+from progressbar import Bar, FileTransferSpeed, Percentage, ProgressBar
 
 from ._version import __version__
 
