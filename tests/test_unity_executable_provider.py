@@ -27,8 +27,11 @@ class MockExecutionCache(AbstractExecutionCache):
 
 
 class MockDownloader(Downloader):
+    count = 0
+
     def download(self, url: str, filename: str,
                  destination_folder: Path) -> Path:
+        self.count = +1
         path = shutil.copy(
             TEST_ZIP, destination_folder.joinpath(filename).as_posix())
         return Path(path)
@@ -59,8 +62,19 @@ class TestUnityExecutableProvider(unittest.TestCase):
         self.assertTrue(Path(TEST_CACHE_LOCATION).exists())
 
     def test_get_executable_empty(self):
-        result = self.provider.get_executable("0.0.0")
+        result = self.provider.get_executable("test")
         self.assertTrue(result.exists())
+
+    def test_get_executable_cache(self):
+        self.assertEquals(self.provider._downloader.count, 0)
+        result = self.provider.get_executable("test2")
+        self.assertTrue(result.exists())
+        self.assertEquals(self.provider._downloader.count, 1)
+
+        # try again and verify the downloader isn't called again.
+        result = self.provider.get_executable("test2")
+        self.assertTrue(result.exists())
+        self.assertEquals(self.provider._downloader.count, 1)
 
 
 if __name__ == '__main__':
