@@ -144,11 +144,13 @@ class AbstractExecutionCache(ABC):
 class MacExecutionCache(AbstractExecutionCache):
     '''Handles Mac specific code for running a cache for MCS Unity executables.
     '''
-    APP_FILE = "MCS-AI2-THOR-Unity-App-v{}.app"
+    EXECUTABLE_FILE = "MCS-AI2-THOR-Unity-App-v{}.app"
+    REQUIRED_FILES = []
+    GZ_FILES = []
 
     def has_version(self, version: str) -> bool:
         ver_dir = self._get_version_dir(version)
-        app = ver_dir.joinpath(self.APP_FILE.format(version))
+        app = ver_dir.joinpath(self.EXECUTABLE_FILE.format(version))
         return ver_dir.exists() and app.exists()
 
     def _do_zip_to_cache(self, version: str, zip_file: Path):
@@ -156,7 +158,7 @@ class MacExecutionCache(AbstractExecutionCache):
 
     def get_execution_location(self, version: str) -> Path:
         ver_dir = self._get_version_dir(version)
-        return ver_dir.joinpath(self.APP_FILE.format(version))
+        return ver_dir.joinpath(self.EXECUTABLE_FILE.format(version))
 
     # MAC appears to have MCS-AI2-THOR-Unity-App-v0.4.2.app folder, but need
     # to verify later

@@ -1,27 +1,66 @@
 from pathlib import Path
 import shutil
 import unittest
+from zipfile import ZipFile, ZIP_DEFLATED
 
 from machine_common_sense.unity_executable_provider import (
-    UnityExecutableProvider, AbstractExecutionCache)
+    Downloader, UnityExecutableProvider, AbstractExecutionCache)
+
+TEST_TMP = "./tmp"
+TEST_CACHE_LOCATION = "./tmp/.mcs-test"
+TEST_ZIP = "./tmp/test.zip"
+
+
+class MockExecutionCache(AbstractExecutionCache):
+    EXECUTABLE_FILE = "MCS-AI2-THOR-Unity-App-v.x86_64"
+
+    def has_version(self, version: str) -> bool:
+        ver_dir = self._get_version_dir(version)
+        return ver_dir.exists()
+
+    def _do_zip_to_cache(self, version: str, zip_file: Path):
+        pass
+
+    def get_execution_location(self, version: str) -> Path:
+        ver_dir = self._get_version_dir(version)
+        return ver_dir.joinpath(self.EXECUTABLE_FILE.format(version))
+
+
+class MockDownloader(Downloader):
+    def download(self, url: str, filename: str,
+                 destination_folder: Path) -> Path:
+        path = shutil.copy(
+            TEST_ZIP, destination_folder.joinpath(filename).as_posix())
+        return Path(path)
 
 
 class TestUnityExecutableProvider(unittest.TestCase):
-    test_cache_location = "./tmp/.mcs-test"
 
     @classmethod
     def setUpClass(cls):
-        AbstractExecutionCache.CACHE_LOCATION = cls.test_cache_location
+        AbstractExecutionCache.CACHE_LOCATION = TEST_CACHE_LOCATION
         cls.provider = UnityExecutableProvider()
+        cls.cache = MockExecutionCache()
+        cls.provider._cache = cls.cache
+        cls.provider._downloader = MockDownloader()
+        file = Path(TEST_ZIP)
+        zip = ZipFile(file, 'w', ZIP_DEFLATED)
+        executable = Path(TEST_TMP).joinpath(cls.cache.EXECUTABLE_FILE)
+        executable.touch()
+        zip.write(executable, cls.cache.EXECUTABLE_FILE)
+        zip.close()
 
     @classmethod
     def tearDownClass(cls):
-        shutil.rmtree(cls.test_cache_location)
-        shutil.rmtree("./tmp")
+        shutil.rmtree(TEST_CACHE_LOCATION)
+        shutil.rmtree(TEST_TMP)
 
     def test_provider_init(self):
-        print(Path("./").absolute())
-        self.assertTrue(Path(self.test_cache_location).exists())
+        self.assertTrue(Path(TEST_CACHE_LOCATION).exists())
+
+    def test_get_executable_empty(self):
+        result = self.provider.get_executable("0.0.0")
+        self.assertTrue(result.exists())
 
 
 if __name__ == '__main__':
