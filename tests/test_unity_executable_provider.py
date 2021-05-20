@@ -1,8 +1,9 @@
+from pathlib import Path
+import shutil
+import unittest
+
 from machine_common_sense.unity_executable_provider import (
     UnityExecutableProvider, AbstractExecutionCache)
-import unittest
-import shutil
-from pathlib import Path
 
 
 class TestUnityExecutableProvider(unittest.TestCase):

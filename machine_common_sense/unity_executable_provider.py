@@ -1,16 +1,16 @@
-
 from abc import ABC, abstractmethod
 import logging
-from zipfile import ZipFile
-import tarfile
-import requests
-from progressbar import ProgressBar, Bar, Percentage, FileTransferSpeed
-import platform
 from pathlib import Path
+import platform
 import shutil
+import tarfile
+from zipfile import ZipFile
+
+from progressbar import ProgressBar, Bar, Percentage, FileTransferSpeed
+import requests
+
 from ._version import __version__
 
-# change to __name__ before mrege
 logger = logging.getLogger(__name__)
 
 LINUX_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/{ver}/MCS-AI2-THOR-Unity-App-v{ver}-linux.zip"  # noqa
