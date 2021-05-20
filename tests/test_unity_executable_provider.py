@@ -33,7 +33,7 @@ class MockDownloader(Downloader):
                  destination_folder: Path) -> Path:
         self.count = +1
         path = shutil.copy(
-            TEST_ZIP, destination_folder.joinpath(filename).as_posix())
+            TEST_ZIP, (destination_folder / filename).as_posix())
         return Path(path)
 
 
@@ -48,7 +48,7 @@ class TestUnityExecutableProvider(unittest.TestCase):
         cls.provider._downloader = MockDownloader()
         file = Path(TEST_ZIP)
         zip = ZipFile(file, 'w', ZIP_DEFLATED)
-        executable = Path(TEST_TMP).joinpath(cls.cache.EXECUTABLE_FILE)
+        executable = Path(TEST_TMP) / cls.cache.EXECUTABLE_FILE
         executable.touch()
         zip.write(executable, cls.cache.EXECUTABLE_FILE)
         zip.close()

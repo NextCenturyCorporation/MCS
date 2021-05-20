@@ -83,7 +83,7 @@ class UnityExecutableProvider():
 class AbstractExecutionCache(ABC):
     '''Handles platform agnostic (between Mac and Linux) code for running a
     cache for MCS Unity executables.  '''
-    CACHE_LOCATION = Path.home().joinpath(".mcs/")
+    CACHE_LOCATION = Path.home() / ".mcs/"
 
     def __init__(self):
         cache_base = self.CACHE_LOCATION.expanduser()
@@ -97,16 +97,15 @@ class AbstractExecutionCache(ABC):
     def get_execution_location(self, version: str) -> Path:
         '''Returns the location of the executable file'''
         ver_dir = self._get_version_dir(version)
-        exec = ver_dir.joinpath(
-            self._get_executable_file().format(
-                version=version))
+        exec = ver_dir / self._get_executable_file().format(
+            version=version)
         return exec
 
     def _get_version_dir(self, version: str) -> Path:
         '''returns a Path object for the path to the directory for the given
          version.
         '''
-        ver_path = self._base.joinpath(version)
+        ver_path = self._base / version
         return ver_path
 
     def has_version(self, version: str) -> bool:
@@ -116,7 +115,7 @@ class AbstractExecutionCache(ABC):
             return False
         for file in self._get_required_files():
             file = file.format(version=version)
-            exists = ver_dir.joinpath(file).exists()
+            exists = (ver_dir / file).exists()
             if not exists:
                 logger.info("Missing file: " + file)
                 return False
@@ -134,11 +133,11 @@ class AbstractExecutionCache(ABC):
         zip_file.unlink()
         ver_dir = self._get_version_dir(version)
         file = self._get_executable_file().format(version=version)
-        ver_dir.joinpath(file).chmod(755)
+        (ver_dir / file).chmod(755)
 
         for file in self._get_gz_files():
             file = file.format(version=version)
-            gz = ver_dir.joinpath(file)
+            gz = ver_dir / file
             logger.info(
                 "Unzipping {} to {}.".format(
                     gz.name, ver_dir.as_posix()))
@@ -229,7 +228,7 @@ class Downloader():
                  destination_folder: Path) -> Path:
         file_data = self._do_download(url)
         # todo probably change this
-        file = destination_folder.joinpath(filename)
+        file = destination_folder / filename
         file.write_bytes(file_data)
         return file
 
