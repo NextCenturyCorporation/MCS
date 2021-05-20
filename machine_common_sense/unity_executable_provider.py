@@ -91,7 +91,7 @@ class AbstractExecutionCache(ABC):
         cache_base = Path(self.CACHE_LOCATION).expanduser()
         self._base = cache_base
         if not cache_base.exists():
-            cache_base.mkdir()
+            cache_base.mkdir(parents=True)
             logger.debug(
                 "Created mcs cache at {}".format(
                     cache_base.as_posix()))
@@ -146,9 +146,6 @@ class MacExecutionCache(AbstractExecutionCache):
     '''
     APP_FILE = "MCS-AI2-THOR-Unity-App-v{}.app"
 
-    def __init__(self):
-        AbstractExecutionCache.__init__(self)
-
     def has_version(self, version: str) -> bool:
         ver_dir = self._get_version_dir(version)
         app = ver_dir.joinpath(self.APP_FILE.format(version))
@@ -176,9 +173,6 @@ class LinuxExecutionCache(AbstractExecutionCache):
         "MCS-AI2-THOR-Unity-App-v{version}.x86_64"]
     EXECUTABLE_FILE = "MCS-AI2-THOR-Unity-App-v{version}.x86_64"
     GZ_FILES = ["MCS-AI2-THOR-Unity-App-v{version}_Data.tar.gz"]
-
-    def __init__(self):
-        AbstractExecutionCache.__init__(self)
 
     def _do_zip_to_cache(self, version: str, zip_file: Path):
         '''Linux distributable contains a tar.gz file that needs unzipped
