@@ -2,7 +2,6 @@ import logging
 import platform
 import shutil
 import tarfile
-
 from abc import ABC, abstractmethod
 from pathlib import Path
 from zipfile import ZipFile

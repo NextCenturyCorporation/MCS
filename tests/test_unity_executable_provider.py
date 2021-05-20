@@ -1,10 +1,10 @@
-from pathlib import Path
 import shutil
 import unittest
-from zipfile import ZipFile, ZIP_DEFLATED
+from pathlib import Path
+from zipfile import ZIP_DEFLATED, ZipFile
 
 from machine_common_sense.unity_executable_provider import (
-    Downloader, UnityExecutableProvider, AbstractExecutionCache)
+    AbstractExecutionCache, Downloader, UnityExecutableProvider)
 
 TEST_TMP = "./tmp"
 TEST_CACHE_LOCATION = "./tmp/.mcs-test"
