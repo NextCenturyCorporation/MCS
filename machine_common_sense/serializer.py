@@ -1,11 +1,11 @@
 import io
 import json
+from abc import ABCMeta, abstractmethod
+from typing import Dict, Union
+
 import msgpack
 import numpy as np
 import PIL.Image as Image
-
-from abc import ABCMeta, abstractmethod
-from typing import Dict, Union
 
 import machine_common_sense as mcs
 

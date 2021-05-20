@@ -1,17 +1,16 @@
+import ast
+import atexit
 import glob
 import json
 import logging
-import numpy as np
 import os
 import random
-import PIL
-import ast
 from typing import Dict, List
-import atexit
 
 import ai2thor.controller
 import ai2thor.server
-
+import numpy as np
+import PIL
 
 logger = logging.getLogger(__name__)
 
@@ -25,14 +24,14 @@ logger = logging.getLogger(__name__)
 DEFAULT_MOVE = 0.1
 
 from .action import Action
+from .config_manager import ConfigManager, SceneConfiguration
+from .controller_events import (ControllerEventPayload, EventType,
+                                PredictionPayload)
+from .controller_output_handler import ControllerOutputHandler
 from .goal_metadata import GoalMetadata
-from .validation import Validation
 from .step_metadata import StepMetadata
 from .uploader import S3Uploader
-from .config_manager import ConfigManager, SceneConfiguration
-from .controller_output_handler import ControllerOutputHandler
-from .controller_events import ControllerEventPayload, EventType
-from .controller_events import PredictionPayload
+from .validation import Validation
 
 
 def __reset_override(self, scene):

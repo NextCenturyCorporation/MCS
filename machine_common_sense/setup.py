@@ -1,17 +1,14 @@
 from .config_manager import ConfigManager
 from .controller import Controller
-from .controller_logger import ControllerAi2thorFileGenerator
-from .controller_logger import ControllerDebugFileGenerator
-from .controller_logger import ControllerLogger
-from .controller_media import (
-    DepthVideoEventHandler,
-    DepthImageEventHandler,
-    HeatmapVideoEventHandler,
-    ImageVideoEventHandler,
-    ObjectMaskImageEventHandler,
-    SceneImageEventHandler,
-    TopdownVideoEventHandler,
-    SegmentationVideoEventHandler)
+from .controller_logger import (ControllerAi2thorFileGenerator,
+                                ControllerDebugFileGenerator, ControllerLogger)
+from .controller_media import (DepthImageEventHandler, DepthVideoEventHandler,
+                               HeatmapVideoEventHandler,
+                               ImageVideoEventHandler,
+                               ObjectMaskImageEventHandler,
+                               SceneImageEventHandler,
+                               SegmentationVideoEventHandler,
+                               TopdownVideoEventHandler)
 from .history_writer import HistoryEventHandler
 
 

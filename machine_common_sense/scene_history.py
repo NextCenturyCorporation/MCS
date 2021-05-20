@@ -1,5 +1,6 @@
-from .stringifier import Stringifier
 from typing import Dict, List
+
+from .stringifier import Stringifier
 
 
 class SceneHistory(object):

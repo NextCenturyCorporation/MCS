@@ -19,12 +19,6 @@ repos:
     hooks:
       - id: isort
         name: isort (python)
-      - id: isort
-        name: isort (cython)
-        types: [cython]
-      - id: isort
-        name: isort (pyi)
-        types: [pyi]    
 -   repo: local
     hooks:
     -   id: sphinx

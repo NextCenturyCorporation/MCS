@@ -1,12 +1,14 @@
 import io
 import math
-import PIL
+
 import ai2thor
 import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
+import PIL
 
-from typing import Dict, NamedTuple, List
+matplotlib.use('Agg')
+from typing import Dict, List, NamedTuple
+
+import matplotlib.pyplot as plt
 from shapely import geometry
 
 
