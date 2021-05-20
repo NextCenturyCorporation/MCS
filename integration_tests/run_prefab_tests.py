@@ -2,7 +2,6 @@ import argparse
 
 from integration_test_utils import add_test_args
 
-
 OBJECT_REGISTRY_LIST = [
     'ai2thor_object_registry.json',
     'mcs_object_registry.json',

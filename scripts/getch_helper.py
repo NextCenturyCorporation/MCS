@@ -20,13 +20,13 @@ screen."""
 
 class _GetchUnix:
     def __init__(self):
-        import tty  # noqa: F401
         import sys  # noqa: F401
+        import tty  # noqa: F401
 
     def __call__(self):
         import sys
-        import tty
         import termios
+        import tty
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
         try:
@@ -56,6 +56,7 @@ class _GetchMacCarbon:
 
     def __init__(self):
         import Carbon  # pylint: disable=import-error
+
         # pylint: disable= W0104
         Carbon.Evt  # see if it has this (in Unix, it doesn't)
 

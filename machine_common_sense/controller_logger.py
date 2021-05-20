@@ -1,5 +1,5 @@
-import logging
 import json
+import logging
 
 from .controller_events import AbstractControllerSubscriber
 from .stringifier import Stringifier

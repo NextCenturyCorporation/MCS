@@ -1,9 +1,10 @@
-from abc import ABC
-
-import enum
 import datetime
-import PIL
+import enum
+from abc import ABC
 from typing import Dict, List
+
+import PIL
+
 from .config_manager import ConfigManager, SceneConfiguration
 from .goal_metadata import GoalMetadata
 

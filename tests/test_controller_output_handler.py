@@ -1,11 +1,12 @@
-import numpy
-from types import SimpleNamespace
 import unittest
+from types import SimpleNamespace
+
+import numpy
 
 import machine_common_sense as mcs
+from machine_common_sense.config_manager import ConfigManager
 from machine_common_sense.controller_output_handler import StepOutput
 from machine_common_sense.goal_metadata import GoalMetadata
-from machine_common_sense.config_manager import ConfigManager
 
 
 class TestControllerOutputHandler(unittest.TestCase):

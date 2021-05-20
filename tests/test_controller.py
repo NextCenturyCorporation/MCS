@@ -1,18 +1,15 @@
-import numpy
-from types import SimpleNamespace
+import glob
+import os
+import shutil
 import unittest
+from types import SimpleNamespace
+
+import numpy
 
 import machine_common_sense as mcs
 from machine_common_sense.config_manager import ConfigManager
 
-from .mock_controller import (
-    MockControllerAI2THOR,
-    MOCK_VARIABLES
-)
-
-import os
-import glob
-import shutil
+from .mock_controller import MOCK_VARIABLES, MockControllerAI2THOR
 
 SCENE_HIST_DIR = "./SCENE_HISTORY/"
 TEST_FILE_NAME = "test controller"

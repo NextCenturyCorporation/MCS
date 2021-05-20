@@ -1,22 +1,17 @@
-from machine_common_sense.config_manager import ConfigManager
-
 import unittest
 
 import machine_common_sense as mcs
-from .mock_controller import MockController
-
+from machine_common_sense.config_manager import ConfigManager
 from machine_common_sense.controller_logger import ControllerLogger
 from machine_common_sense.controller_media import (
-    DepthVideoEventHandler,
-    DepthImageEventHandler,
-    HeatmapVideoEventHandler,
-    ImageVideoEventHandler,
-    ObjectMaskImageEventHandler,
-    SceneImageEventHandler,
-    TopdownVideoEventHandler,
-    SegmentationVideoEventHandler)
+    DepthImageEventHandler, DepthVideoEventHandler, HeatmapVideoEventHandler,
+    ImageVideoEventHandler, ObjectMaskImageEventHandler,
+    SceneImageEventHandler, SegmentationVideoEventHandler,
+    TopdownVideoEventHandler)
 from machine_common_sense.history_writer import HistoryEventHandler
 from machine_common_sense.setup import add_subscribers
+
+from .mock_controller import MockController
 
 
 class TestMCS(unittest.TestCase):
