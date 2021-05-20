@@ -3,7 +3,6 @@ import os
 import subprocess
 import sys
 
-
 if len(sys.argv) < 3:
     print('Usage: python create_intuitive_physics_frames.py <folder_prefix> '
           '<eval_number> <move_across>')

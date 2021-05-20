@@ -27,8 +27,6 @@ jobs:
         run: python -m unittest
       - name: Run isort
         uses: jamescurtin/isort-action@master
-        with:
-          requirementsFiles: "requirements.txt"
       - name: Flake8
         run: flake8
       - name: Autopep8

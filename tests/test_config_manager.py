@@ -1,8 +1,8 @@
+import os
 import unittest
+from unittest.mock import patch
 
 from machine_common_sense.config_manager import ConfigManager
-from unittest.mock import patch
-import os
 
 
 class TestConfigManager(unittest.TestCase):

@@ -1,9 +1,9 @@
 import glob
-import numpy as np
 import os.path
 
-import machine_common_sense as mcs
+import numpy as np
 
+import machine_common_sense as mcs
 
 INTEGRATION_TESTS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 DEPTH_AND_SEGMENTATION_SCENE = (
