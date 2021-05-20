@@ -5,14 +5,6 @@ import shutil
 from pathlib import Path
 
 
-class MockExecutionCache(AbstractExecutionCache):
-    def has_version(self, version: str) -> bool:
-        return True
-
-    def _do_zip_to_cache(self, version: str, zip_file: Path):
-        return True
-
-
 class TestUnityExecutableProvider(unittest.TestCase):
     test_cache_location = "./tmp/.mcs-test"
 
