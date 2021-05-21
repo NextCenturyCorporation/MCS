@@ -174,8 +174,8 @@ class AbstractExecutionCache(ABC):
 class MacExecutionCache(AbstractExecutionCache):
     '''Handles Mac specific code for running a cache for MCS Unity executables.
     '''
-    EXECUTABLE_FILE = "MCS-AI2-THOR-Unity-App-v{}.app/Contents/MacOS/MCS-AI2-THOR"  # noqa
-    REQUIRED_FILES = ["MCS-AI2-THOR-Unity-App-v{}.app"]
+    EXECUTABLE_FILE = "MCS-AI2-THOR-Unity-App-v{version}.app/Contents/MacOS/MCS-AI2-THOR"  # noqa
+    REQUIRED_FILES = ["MCS-AI2-THOR-Unity-App-v{version}.app"]
     GZ_FILES = []
 
     def _get_executable_file(self):
