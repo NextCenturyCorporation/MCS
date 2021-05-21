@@ -13,17 +13,17 @@ TEST_ZIP = "./tmp/test.zip"
 
 class MockExecutionCache(AbstractExecutionCache):
     EXECUTABLE_FILE = "MCS-AI2-THOR-Unity-App-v.x86_64"
+    GZ_FILES = []
+    REQUIRED_FILES = ["MCS-AI2-THOR-Unity-App-v.x86_64"]
 
-    def has_version(self, version: str) -> bool:
-        ver_dir = self._get_version_dir(version)
-        return ver_dir.exists()
+    def _get_executable_file(self):
+        return self.EXECUTABLE_FILE
 
-    def _do_zip_to_cache(self, version: str, zip_file: Path):
-        pass
+    def _get_gz_files(self):
+        return self.GZ_FILES
 
-    def _do_get_execution_location(self, version: str) -> Path:
-        ver_dir = self._get_version_dir(version)
-        return ver_dir.joinpath(self.EXECUTABLE_FILE.format(version))
+    def _get_required_files(self):
+        return self.REQUIRED_FILES
 
 
 class MockDownloader(Downloader):
@@ -33,21 +33,21 @@ class MockDownloader(Downloader):
                  destination_folder: Path) -> Path:
         self.count = self.count + 1
         path = shutil.copy(
-            TEST_ZIP, destination_folder.joinpath(filename).as_posix())
+            TEST_ZIP, (destination_folder / filename).as_posix())
         return Path(path)
 
 
 class TestUnityExecutableProvider(unittest.TestCase):
 
     def setUp(cls):
-        AbstractExecutionCache.CACHE_LOCATION = TEST_CACHE_LOCATION
+        AbstractExecutionCache.CACHE_LOCATION = Path(TEST_CACHE_LOCATION)
         cls.provider = UnityExecutableProvider()
         cls.cache = MockExecutionCache()
         cls.provider._cache = cls.cache
         cls.provider._downloader = MockDownloader()
         file = Path(TEST_ZIP)
         zip = ZipFile(file, 'w', ZIP_DEFLATED)
-        executable = Path(TEST_TMP).joinpath(cls.cache.EXECUTABLE_FILE)
+        executable = Path(TEST_TMP) / cls.cache.EXECUTABLE_FILE
         executable.touch()
         zip.write(executable, cls.cache.EXECUTABLE_FILE)
         zip.close()
@@ -64,15 +64,15 @@ class TestUnityExecutableProvider(unittest.TestCase):
         self.assertTrue(result.exists())
 
     def test_get_executable_cache(self):
-        self.assertEquals(self.provider._downloader.count, 0)
+        self.assertEqual(self.provider._downloader.count, 0)
         result = self.provider.get_executable("test2")
         self.assertTrue(result.exists())
-        self.assertEquals(self.provider._downloader.count, 1)
+        self.assertEqual(self.provider._downloader.count, 1)
 
         # try again and verify the downloader isn't called again.
         result = self.provider.get_executable("test2")
         self.assertTrue(result.exists())
-        self.assertEquals(self.provider._downloader.count, 1)
+        self.assertEqual(self.provider._downloader.count, 1)
 
     def test_culling(self):
         self.assertEquals(self.provider._downloader.count, 0)
