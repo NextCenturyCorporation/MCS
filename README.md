@@ -56,7 +56,7 @@ Here are the instructions for downloading and installing our latest Unity releas
 
 ### Unity Application
 
-The latest release of the MCS Unity app is `0.4.3`.
+The latest release of the MCS Unity app is `0.4.3`.  The Unity Application can now be downloaded automatically via MCS.  You can still specify your own version if you prefer.
 
 Please note that our Unity App is built for Linux or Mac. There is no Windows support currently.
 
@@ -93,6 +93,9 @@ import machine_common_sense as mcs
 
 # Unity app file will be downloaded automatically
 controller = mcs.create_controller(config_file_path='./some-path/config.ini')
+
+# alternatively, you can specifiy a location of the Unity app
+controller = mcs.create_controller(unity_app_file_path='./some-path/unity-app', config_file_path='./some-path/config.ini')
 
 # Either load the scene data dict from an MCS scene config JSON file or create your own.
 # We will give you the training scene config JSON files and the format to make your own.
