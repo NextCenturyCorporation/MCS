@@ -39,20 +39,20 @@ class MockDownloader(Downloader):
 
 class TestUnityExecutableProvider(unittest.TestCase):
 
-    def setUp(cls):
+    def setUp(self):
         AbstractExecutionCache.CACHE_LOCATION = Path(TEST_CACHE_LOCATION)
-        cls.provider = UnityExecutableProvider()
-        cls.cache = MockExecutionCache()
-        cls.provider._cache = cls.cache
-        cls.provider._downloader = MockDownloader()
+        self.provider = UnityExecutableProvider()
+        self.cache = MockExecutionCache()
+        self.provider._cache = self.cache
+        self.provider._downloader = MockDownloader()
         file = Path(TEST_ZIP)
         zip = ZipFile(file, 'w', ZIP_DEFLATED)
-        executable = Path(TEST_TMP) / cls.cache.EXECUTABLE_FILE
+        executable = Path(TEST_TMP) / self.cache.EXECUTABLE_FILE
         executable.touch()
-        zip.write(executable, cls.cache.EXECUTABLE_FILE)
+        zip.write(executable, self.cache.EXECUTABLE_FILE)
         zip.close()
 
-    def tearDown(cls):
+    def tearDown(self):
         shutil.rmtree(TEST_CACHE_LOCATION)
         shutil.rmtree(TEST_TMP)
 
@@ -75,15 +75,15 @@ class TestUnityExecutableProvider(unittest.TestCase):
         self.assertEqual(self.provider._downloader.count, 1)
 
     def test_culling(self):
-        self.assertEquals(self.provider._downloader.count, 0)
+        self.assertEqual(self.provider._downloader.count, 0)
         result1 = self.provider.get_executable("test1")
         self.assertTrue(result1.exists())
-        self.assertEquals(self.provider._downloader.count, 1)
+        self.assertEqual(self.provider._downloader.count, 1)
 
         # try again and verify the downloader isn't called again.
         result2 = self.provider.get_executable("test2")
         self.assertTrue(result2.exists())
-        self.assertEquals(self.provider._downloader.count, 2)
+        self.assertEqual(self.provider._downloader.count, 2)
         self.assertFalse(result1.exists())
         self.assertFalse(result1.parent.exists())
 
