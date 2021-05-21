@@ -13,11 +13,18 @@ commandList = []
 def parse_args():
     parser = argparse.ArgumentParser(description='Run MCS')
     parser.add_argument(
-        'mcs_unity_build_file',
-        help='Path to MCS unity build file')
-    parser.add_argument(
         'mcs_scene_json_file',
         help='MCS JSON scene configuration file to load')
+    parser.add_argument(
+        '--mcs_unity_build_file',
+        type=str,
+        default=None,
+        help='Path to MCS unity build file')
+    parser.add_argument(
+        '--mcs_unity_version',
+        type=str,
+        default=None,
+        help='version of MCS Unity executable.  Default: current')
     parser.add_argument(
         '--config_file_path',
         type=str,
@@ -243,8 +250,9 @@ def main():
         print(status)
         exit()
 
-    controller = mcs.create_controller(args.mcs_unity_build_file,
-                                       config_file_path=args.config_file_path)
+    controller = mcs.create_controller(
+        unity_app_file_path=args.mcs_unity_build_file,
+        config_file_path=args.config_file_path)
 
     scene_file_path = args.mcs_scene_json_file
     scene_file_name = scene_file_path[scene_file_path.rfind('/') + 1:]

@@ -9,6 +9,7 @@ import machine_common_sense as mcs
 logger = logging.getLogger('machine_common_sense')
 mcs.LoggingConfig.init_logging(mcs.LoggingConfig.get_dev_logging_config())
 
+
 SCRIPT_FOLDER = os.path.dirname(os.path.abspath(__file__))
 BLACK_IMAGE_PATH = SCRIPT_FOLDER + '/black_image.png'
 
@@ -24,9 +25,6 @@ class AbstractRunnerScript():
         args, filename_list = self.read_args()
         self.args = args
 
-        if not args.mcs_unity_filename:
-            return
-
         debug = (args.save_videos or args.save_gifs or args.debug)
         config_suffix = 'with_debug' if debug else 'no_debug'
         if args.level1:
@@ -38,8 +36,8 @@ class AbstractRunnerScript():
 
         config_file_path = SCRIPT_FOLDER + '/config_' + config_suffix + '.ini'
         controller = mcs.create_controller(
-            args.mcs_unity_filename,
-            config_file_path
+            unity_app_file_path=args.mcs_unity_build_file,
+            config_file_path=config_file_path
         )
 
         for filename in filename_list:
@@ -73,10 +71,6 @@ class AbstractRunnerScript():
 
     def read_args(self):
         parser = argparse.ArgumentParser(description=('Run ' + self._name))
-        parser.add_argument(
-            'mcs_unity_filename',
-            help='Path to MCS unity build file'
-        )
         parser.add_argument(
             '--rename',
             default=None,
@@ -118,6 +112,16 @@ class AbstractRunnerScript():
             action='store_true',
             help='Save GIF of each MCS scene'
         )
+        parser.add_argument(
+            '--mcs_unity_build_file',
+            type=str,
+            default=None,
+            help='Path to MCS unity build file')
+        parser.add_argument(
+            '--mcs_unity_version',
+            type=str,
+            default=None,
+            help='version of MCS Unity executable.  Default: current')
         return self.read_subclass_args(parser)
 
     def read_subclass_args(self, parser):

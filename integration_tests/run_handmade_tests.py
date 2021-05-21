@@ -289,7 +289,9 @@ def start_handmade_tests(
         print_divider()
         print(f'HANDMADE TEST METADATA TIER: {metadata_tier.upper()}')
         # Create one controller to run all of the tests at this metadata tier.
-        controller = mcs.create_controller(mcs_unity_build, config_filename)
+        controller = mcs.create_controller(
+            unity_app_file_path=mcs_unity_build,
+            config_file_path=config_filename)
         # Run each test scene and record if it failed validation.
         for scene_filename in scene_filename_list:
             if (
