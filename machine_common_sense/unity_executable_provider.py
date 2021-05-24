@@ -1,3 +1,4 @@
+import glob
 import logging
 import platform
 import shutil
@@ -99,6 +100,7 @@ class AbstractExecutionCache(ABC):
         ver_dir = self._get_version_dir(version)
         exec = ver_dir / self._get_executable_file().format(
             version=version)
+        self.cull_cache(version)
         return exec
 
     def _get_version_dir(self, version: str) -> Path:
@@ -157,6 +159,21 @@ class AbstractExecutionCache(ABC):
 
     def remove_whole_cache(self):
         shutil.rmtree(self._base)
+
+    def cull_cache(self, last_version: str):
+        try:
+            list = glob.glob(self._base.as_posix() + "/*")
+            ver_dir = self._get_version_dir(last_version)
+            for name in list:
+                logger.debug("test: " + name)
+                file = Path(name)
+                keep = file.is_dir() and ver_dir.samefile(file)
+                if not keep:
+                    logger.debug("deleting " + file.as_posix())
+                    shutil.rmtree(file)
+        except Exception:
+            logger.exception(
+                "Error attempting to cull MCS Unity executable cache", )
 
     @abstractmethod
     def _get_executable_file(self):

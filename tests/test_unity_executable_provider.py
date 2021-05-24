@@ -31,7 +31,7 @@ class MockDownloader(Downloader):
 
     def download(self, url: str, filename: str,
                  destination_folder: Path) -> Path:
-        self.count = +1
+        self.count = self.count + 1
         path = shutil.copy(
             TEST_ZIP, (destination_folder / filename).as_posix())
         return Path(path)
@@ -39,22 +39,20 @@ class MockDownloader(Downloader):
 
 class TestUnityExecutableProvider(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(cls):
+    def setUp(self):
         AbstractExecutionCache.CACHE_LOCATION = Path(TEST_CACHE_LOCATION)
-        cls.provider = UnityExecutableProvider()
-        cls.cache = MockExecutionCache()
-        cls.provider._cache = cls.cache
-        cls.provider._downloader = MockDownloader()
+        self.provider = UnityExecutableProvider()
+        self.cache = MockExecutionCache()
+        self.provider._cache = self.cache
+        self.provider._downloader = MockDownloader()
         file = Path(TEST_ZIP)
         zip = ZipFile(file, 'w', ZIP_DEFLATED)
-        executable = Path(TEST_TMP) / cls.cache.EXECUTABLE_FILE
+        executable = Path(TEST_TMP) / self.cache.EXECUTABLE_FILE
         executable.touch()
-        zip.write(executable, cls.cache.EXECUTABLE_FILE)
+        zip.write(executable, self.cache.EXECUTABLE_FILE)
         zip.close()
 
-    @classmethod
-    def tearDownClass(cls):
+    def tearDown(self):
         shutil.rmtree(TEST_CACHE_LOCATION)
         shutil.rmtree(TEST_TMP)
 
@@ -75,6 +73,19 @@ class TestUnityExecutableProvider(unittest.TestCase):
         result = self.provider.get_executable("test2")
         self.assertTrue(result.exists())
         self.assertEqual(self.provider._downloader.count, 1)
+
+    def test_culling(self):
+        self.assertEqual(self.provider._downloader.count, 0)
+        result1 = self.provider.get_executable("test1")
+        self.assertTrue(result1.exists())
+        self.assertEqual(self.provider._downloader.count, 1)
+
+        # try again and verify the downloader isn't called again.
+        result2 = self.provider.get_executable("test2")
+        self.assertTrue(result2.exists())
+        self.assertEqual(self.provider._downloader.count, 2)
+        self.assertFalse(result1.exists())
+        self.assertFalse(result1.parent.exists())
 
 
 if __name__ == '__main__':
