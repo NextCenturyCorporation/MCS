@@ -73,25 +73,26 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             self.__history_item.internal_state = payload.internal_state
 
     def on_end_scene(self, payload):
-        if payload.config.is_history_enabled():
-            self.__history_writer.add_step(self.__history_item)
-            self.__history_writer.write_history_file(
-                payload.choice, payload.confidence)
-
-        if payload.config.is_evaluation():
-            uploader = payload.uploader
-            folder_prefix = payload.uploader_folder_prefix
+        if self.__history_writer is not None:
             if payload.config.is_history_enabled():
-                history_filename = self._get_filename_without_timestamp(
-                    pathlib.Path(self.__history_writer.scene_history_file))
-                uploader.upload_history(
-                    history_path=self.__history_writer.scene_history_file,
-                    s3_filename=(folder_prefix + '/' +
-                                 payload.config.get_evaluation_name() +
-                                 '_' + payload.config.get_metadata_tier() +
-                                 '_' + payload.config.get_team() +
-                                 '_' + history_filename)
-                )
+                self.__history_writer.add_step(self.__history_item)
+                self.__history_writer.write_history_file(
+                    payload.choice, payload.confidence)
+
+            if payload.config.is_evaluation():
+                uploader = payload.uploader
+                folder_prefix = payload.uploader_folder_prefix
+                if payload.config.is_history_enabled():
+                    history_filename = self._get_filename_without_timestamp(
+                        pathlib.Path(self.__history_writer.scene_history_file))
+                    uploader.upload_history(
+                        history_path=self.__history_writer.scene_history_file,
+                        s3_filename=(folder_prefix + '/' +
+                                     payload.config.get_evaluation_name() +
+                                     '_' + payload.config.get_metadata_tier() +
+                                     '_' + payload.config.get_team() +
+                                     '_' + history_filename)
+                    )
 
     def _get_filename_without_timestamp(self, filepath: pathlib.Path):
         return filepath.stem[:-16] + filepath.suffix

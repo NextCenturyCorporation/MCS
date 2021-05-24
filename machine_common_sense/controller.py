@@ -245,7 +245,8 @@ class Controller():
 
     def end_scene(self, choice, confidence=1.0):
         """
-        Ends the current scene.
+        Ends the current scene.  Calling end_scene() before calling
+        start_scene() will do nothing.
 
         Parameters
         ----------
