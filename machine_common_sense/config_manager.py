@@ -1,8 +1,10 @@
 import configparser  # noqa: F401
 import logging
 import os
+from dataclasses import dataclass
 
 import yaml  # noqa: F401
+from marshmallow import EXCLUDE, Schema, fields, post_load
 
 from .action import Action
 
@@ -230,10 +232,138 @@ class ConfigManager(object):
         return int(size / 3 * 2)
 
 
-# discrete class to be?
+class Position3dSchema(Schema):
+    x = fields.Float()
+    y = fields.Float()
+    z = fields.Float()
+
+
+class RoomMaterialsSchema(Schema):
+    front = fields.Str()
+    left = fields.Str()
+    right = fields.Str()
+    back = fields.Str()
+
+
+class PerformerStartSchema(Schema):
+    position = fields.Nested(Position3dSchema)
+    rotation = fields.Nested(Position3dSchema)
+
+
+class GoalSchema(Schema):
+    action_list = fields.List(fields.List(fields.Str()))
+    habituation_total = fields.Int()
+    category = fields.Str()
+    description = fields.Str()
+    info_list = fields.List(fields.Str())
+    last_preview_phase_step = fields.Int()
+    last_step = fields.Int()
+    metadata = fields.Dict()
+    task_list = fields.List(fields.Str())
+    type_list: fields.List(fields.Str())
+
+
+class SceneConfigurationSchema(Schema):
+    class Meta:
+        unknown = EXCLUDE
+    name = fields.Str()
+    version = fields.Integer()
+    ceilingMaterial = fields.Str()
+    floorMaterial = fields.Str()
+    wallMaterial = fields.Str()
+    performerStart = fields.Nested(PerformerStartSchema)
+    objects = fields.List(fields.Dict())
+    goal = fields.Nested(GoalSchema)
+    roomDimensions = fields.Nested(Position3dSchema)
+    roomMaterials = fields.Nested(RoomMaterialsSchema)
+    intuitivePhysics: fields.Bool()
+    isometric: fields.Bool()
+    answer = fields.Dict()
+    floorProperties = fields.Dict()
+
+    @post_load
+    def make_scene_configuration(self, data, **kwargs):
+        return SceneConfiguration(**data)
+
+
+@dataclass
+class Position3d:
+    # There is probably a class like this in python somewhere
+    # but i don't know where it is.
+    # TODO change later, potentially rename?
+    x: float
+    y: float
+    z: float
+
+
+@dataclass
+class RoomMaterials:
+    front: str
+    left: str
+    right: str
+    back: str
+
+
+@dataclass
+class PerformerStart:
+    position: Position3d
+    rotation: Position3d
+
+
+@dataclass
+class Goal:
+    action_list: list = None
+    category: str = None
+    habituation_total: int = None
+    description: str = None
+    info_list: list = None
+    last_preview_phase_step: int = -1
+    last_step: int = 0
+    metadata: dict = None
+    task_list: list = None
+    type_list: list = None
+
+
+'''@dataclass
+class SceneObject:
+    id: str
+    type: str  # should this be an enum?
+    changeMaterials: list = []
+    forces: list = []
+    hides: list = []
+    kinematic: bool = False
+    locationParent: str = None
+    mass: float = 1
+    materials: list = None
+    materialFile: str = None
+    # Docs say moveable's default is dependant on type.  That could
+    # be a problem for the concrete classes.  Needs more review later
+    moveable: bool = False
+    moves: list = []
+    nullParent: list = []
+    openable: bool = False
+    # not done....'''
+
+
+@dataclass
 class SceneConfiguration:
-    def __init__(self, scene_config_dict):
-        pass
+    '''Class for keeping track of scene configuration'''
+    name: str = None
+    version: int = None
+    ceilingMaterial: str = None
+    floorMaterial: str = None
+    wallMaterial: str = None
+    performerStart: PerformerStart = None
+    roomDimensions: Position3d = None
+    roomMaterials: RoomMaterials = None
+    goal: Goal = None  # TODO change to concrete class
+    objects: list = None  # TODO change to list of concrete class
+
+    # TODO do these later, another ticket probably
+    intuitivePhysics: bool = False
+    isometric: bool = False
+    answer = None
+    floorProperties = None
 
     @staticmethod
     def retrieve_object_states(

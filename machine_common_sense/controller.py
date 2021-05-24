@@ -24,7 +24,8 @@ logger = logging.getLogger(__name__)
 DEFAULT_MOVE = 0.1
 
 from .action import Action
-from .config_manager import ConfigManager, SceneConfiguration
+from .config_manager import (ConfigManager, SceneConfiguration,
+                             SceneConfigurationSchema)
 from .controller_events import (ControllerEventPayload, EventType,
                                 PredictionPayload)
 from .controller_output_handler import ControllerOutputHandler
@@ -297,6 +298,9 @@ class Controller():
             The output data object from the start of the scene (the output from
             an "Initialize" action).
         """
+
+        schema = SceneConfigurationSchema()
+        self.__scene_configuration = schema.load(config_data)
 
         self.__scene_configuration = config_data
         self.__habituation_trial = 1
