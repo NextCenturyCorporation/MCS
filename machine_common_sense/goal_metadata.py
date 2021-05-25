@@ -1,6 +1,6 @@
 from enum import Enum, unique
 
-from .config_manager import ConfigManager
+from .action import Action
 from .stringifier import Stringifier
 
 
@@ -67,6 +67,8 @@ class GoalMetadata:
         :mod:`Goal <machine_common_sense.GoalCategory>`.
     """
 
+    ACTION_LIST = [(item.value, {}) for item in Action]
+
     def __init__(
         self,
         action_list=None,
@@ -115,7 +117,7 @@ class GoalMetadata:
                 if len(self.action_list[adjusted_step]) > 0:
                     return self.action_list[adjusted_step]
 
-        return ConfigManager.ACTION_LIST
+        return GoalMetadata.ACTION_LIST
 
 
 @unique

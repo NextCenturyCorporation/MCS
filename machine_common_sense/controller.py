@@ -1,4 +1,4 @@
-import ast
+
 import atexit
 import glob
 import json
@@ -24,8 +24,7 @@ logger = logging.getLogger(__name__)
 DEFAULT_MOVE = 0.1
 
 from .action import Action
-from .config_manager import (ConfigManager, SceneConfiguration,
-                             SceneConfigurationSchema)
+from .config_manager import ConfigManager, SceneConfigurationSchema
 from .controller_events import (ControllerEventPayload, EventType,
                                 PredictionPayload)
 from .controller_output_handler import ControllerOutputHandler
@@ -193,7 +192,7 @@ class Controller():
             self.__output_folder,
             self._config,
             self.__step_number,
-            self.__scene_configuration,
+            self._scene_config,
             self.__habituation_trial,
             self._goal)
         return payload
@@ -219,7 +218,7 @@ class Controller():
         self.__habituation_trial = 1
         # Output folder used to save debug image, video, and JSON files.
         self.__output_folder = None
-        self.__scene_configuration = None
+        self._scene_config = None
         self.__step_number = 0
 
         # Whether or not to show depth maps or object masks is based on
@@ -303,10 +302,9 @@ class Controller():
         scene_config = schema.load(config_data)
         self._scene_config = scene_config
 
-        self.__scene_configuration = config_data
         self.__habituation_trial = 1
         self.__step_number = 0
-        self._goal = self.retrieve_goal(self.__scene_configuration)
+        self._goal = self._scene_config.retrieve_goal()
 
         # skip_preview_phase = (True if 'goal' in config_data and
         #                      'skip_preview_phase' in config_data['goal']
@@ -326,7 +324,7 @@ class Controller():
             action='Initialize', sceneConfig=config_data)
         step_output = self._controller.step(wrapped_step)
 
-        self._output_handler.set_scene_config(config_data)
+        self._output_handler.set_scene_config(scene_config)
         (pre_restrict_output, output) = self._output_handler.handle_output(
             step_output, self._goal, self.__step_number,
             self.__habituation_trial)
@@ -375,7 +373,7 @@ class Controller():
         return output
 
     def isFileWritingEnabled(self):
-        return self.__scene_configuration['name'] is not None and (
+        return self._scene_config.name is not None and (
             self._config.is_evaluation() or
             self._config.is_save_debug_images() or
             self._config.is_save_debug_json() or
@@ -691,65 +689,15 @@ class Controller():
 
         return action
 
-    def update_goal_target_image(self, goal_output):
-        target_name_list = ['target', 'target_1', 'target_2']
-
-        for target_name in target_name_list:
-            # need to convert goal image data from string to array
-            if (
-                target_name in goal_output.metadata and
-                'image' in goal_output.metadata[target_name] and
-                isinstance(goal_output.metadata[target_name]['image'], str)
-            ):
-                image_list_string = goal_output.metadata[target_name]['image']
-                goal_output.metadata[target_name]['image'] = np.array(
-                    ast.literal_eval(image_list_string)).tolist()
-
-        return goal_output
-
     def retrieve_action_list_at_step(self, goal, step_number):
         return goal.retrieve_action_list_at_step(step_number)
 
     def retrieve_object_states(self, object_id):
         """Return the state list at the current step for the object with the
         given ID from the scene configuration data, if any."""
-        SceneConfiguration.retrieve_object_states(
-            self.__scene_configuration,
+        self._scene_config.retrieve_object_states(
             object_id,
             self.__step_number)
-
-    # move to SceneConfiguration class (in config_manager)
-    def retrieve_goal(self, scene_configuration):
-        goal_config = (
-            scene_configuration['goal']
-            if 'goal' in scene_configuration
-            else {}
-        )
-
-        # Transform action list data from strings to tuples.
-        action_list = goal_config.get('action_list', [])
-        for index, action_list_at_step in enumerate(action_list):
-            action_list[index] = [
-                Action.input_to_action_and_params(action)
-                if isinstance(action, str) else action
-                for action in action_list_at_step
-            ]
-
-        if 'category' in goal_config:
-            # Backwards compatibility
-            goal_config['metadata']['category'] = goal_config['category']
-
-        return self.update_goal_target_image(GoalMetadata(
-            action_list=(action_list if action_list else None),
-            category=goal_config.get('category', ''),
-            description=goal_config.get('description', ''),
-            habituation_total=goal_config.get('habituation_total', 0),
-            last_preview_phase_step=(
-                goal_config.get('last_preview_phase_step', 0)
-            ),
-            last_step=goal_config.get('last_step', None),
-            metadata=goal_config.get('metadata', {})
-        ))
 
     def stop_simulation(self):
         """Stop the 3D simulation environment. This controller won't work any

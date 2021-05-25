@@ -1,13 +1,16 @@
+import ast
 import configparser  # noqa: F401
 import logging
 import os
 from dataclasses import dataclass, field
 from typing import List
 
+import numpy as np
 import yaml  # noqa: F401
 from marshmallow import Schema, fields, post_load
 
 from .action import Action
+from .goal_metadata import GoalMetadata
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +18,6 @@ logger = logging.getLogger(__name__)
 class ConfigManager(object):
 
     DEFAULT_CLIPPING_PLANE_FAR = 15.0
-    ACTION_LIST = [(item.value, {}) for item in Action]
     # Normal metadata plus metadata for all hidden objects
     CONFIG_METADATA_TIER_ORACLE = 'oracle'
     # No metadata, except for the images, depth masks, object masks,
@@ -271,10 +273,12 @@ class GoalObjectSchema(Schema):
 class GoalMetadataSchema(Schema):
     choose = fields.List(fields.Str())
     target = fields.Nested(GoalObjectSchema)
+    target_1 = fields.Nested(GoalObjectSchema)
+    target_2 = fields.Nested(GoalObjectSchema)
 
 
 class GoalSchema(Schema):
-    action_list = fields.List(fields.List(fields.Str()))
+    action_list = fields.List(fields.List(fields.Raw()))
     habituation_total = fields.Int()
     category = fields.Str()
     description = fields.Str()
@@ -282,7 +286,7 @@ class GoalSchema(Schema):
     skip_preview_phase = fields.Bool()
     last_preview_phase_step = fields.Int()
     last_step = fields.Int()
-    metadata = fields.Nested(GoalMetadataSchema)
+    metadata = fields.Dict()
     task_list = fields.List(fields.Str())
     type_list = fields.List(fields.Str())
 
@@ -493,7 +497,7 @@ class PerformerStart:
 class Goal:
     action_list: list = None
     category: str = None
-    habituation_total: int = None
+    habituation_total: int = 0
     description: str = None
     info_list: list = None
     skip_preview_phase: bool = False
@@ -630,7 +634,7 @@ class SceneConfiguration:
     roomDimensions: Vector3d = None
     roomMaterials: RoomMaterials = None
     goal: Goal = None  # TODO change to concrete class
-    objects: List[SceneObject] = None
+    objects: List[SceneObject] = field(default_factory=list)
 
     # TODO do these later, another ticket probably
     intuitivePhysics: bool = False
@@ -641,16 +645,15 @@ class SceneConfiguration:
     isometric: bool = False
     wallProperties: PhysicsConfig = None
 
-    @staticmethod
-    def retrieve_object_states(
-            scene_configuration, object_id, step_number):
+    def retrieve_object_states(self,
+                               object_id, step_number):
         """Return the state list at the current step for the object with the
         given ID from the scene configuration data, if any."""
         state_list_each_step = []
         # Retrieve the object's states from the scene configuration.
-        for object_config in scene_configuration.get('objects', []):
-            if object_config.get('id', '') == object_id:
-                state_list_each_step = object_config.get('states', [])
+        for object_config in self.objects:
+            if object_config.id == object_id:
+                state_list_each_step = object_config.states
                 break
         # Retrieve the object's states in the current step.
         if len(state_list_each_step) > step_number:
@@ -661,3 +664,49 @@ class SceneConfiguration:
                     return [state_list]
                 return [str(state) for state in state_list]
         return []
+
+    # move to SceneConfiguration class (in config_manager)
+    def retrieve_goal(self):
+        if not self.goal:
+            return self.update_goal_target_image(GoalMetadata())
+
+        goal = self.goal
+
+        # Transform action list data from strings to tuples.
+        action_list = goal.action_list or []
+        for index, action_list_at_step in enumerate(action_list):
+            action_list[index] = [
+                Action.input_to_action_and_params(action)
+                if isinstance(action, str) else action
+                for action in action_list_at_step
+            ]
+
+        if goal.category:
+            # Backwards compatibility
+            goal.metadata['category'] = goal.category
+
+        return self.update_goal_target_image(GoalMetadata(
+            action_list=(action_list if action_list else None),
+            category=goal.category or '',
+            description=goal.description or '',
+            habituation_total=goal.habituation_total,
+            last_preview_phase_step=(goal.last_preview_phase_step),
+            last_step=None if goal.last_step < 0 else goal.last_step,
+            metadata=goal.metadata or {}
+        ))
+
+    def update_goal_target_image(self, goal_output):
+        target_name_list = ['target', 'target_1', 'target_2']
+
+        for target_name in target_name_list:
+            # need to convert goal image data from string to array
+            if (
+                target_name in goal_output.metadata and
+                'image' in goal_output.metadata[target_name] and
+                isinstance(goal_output.metadata[target_name]['image'], str)
+            ):
+                image_list_string = goal_output.metadata[target_name]['image']
+                goal_output.metadata[target_name]['image'] = np.array(
+                    ast.literal_eval(image_list_string)).tolist()
+
+        return goal_output

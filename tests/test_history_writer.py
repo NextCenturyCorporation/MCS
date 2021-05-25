@@ -4,6 +4,7 @@ import shutil
 import unittest
 
 import machine_common_sense as mcs
+from machine_common_sense.config_manager import SceneConfiguration
 
 TEST_FILE_NAME = "test_scene_file.json"
 PREFIX = 'prefix'
@@ -11,10 +12,10 @@ PREFIX = 'prefix'
 
 class TestHistoryWriter(unittest.TestCase):
 
-    config_data = {"name": TEST_FILE_NAME}
-    prefix_config_data = {"name": f"{PREFIX}/{TEST_FILE_NAME}"}
+    config_data = SceneConfiguration(name=TEST_FILE_NAME)
+    prefix_config_data = SceneConfiguration(name=f"{PREFIX}/{TEST_FILE_NAME}")
 
-    @classmethod
+    @ classmethod
     def tearDownClass(cls):
         # remove all TEST_FILE_NAME in PREFIX
         test_file_base = os.path.splitext(TEST_FILE_NAME)[0]
@@ -24,8 +25,13 @@ class TestHistoryWriter(unittest.TestCase):
         for prefix_test_file in prefix_test_files:
             os.unlink(prefix_test_file)
         # if PREFIX empty, destroy it
-        if not os.listdir(f"{mcs.HistoryWriter.HISTORY_DIRECTORY}/{PREFIX}"):
-            shutil.rmtree(f"{mcs.HistoryWriter.HISTORY_DIRECTORY}/{PREFIX}")
+        try:
+            if not os.listdir(
+                    f"{mcs.HistoryWriter.HISTORY_DIRECTORY}/{PREFIX}"):
+                shutil.rmtree(
+                    f"{mcs.HistoryWriter.HISTORY_DIRECTORY}/{PREFIX}")
+        except BaseException:
+            pass
 
         # remove all TEST_FILE_NAME in SCENE_HIST_DIR
         test_files = glob.glob(
@@ -45,7 +51,7 @@ class TestHistoryWriter(unittest.TestCase):
         self.assertTrue(os.path.exists(writer.HISTORY_DIRECTORY))
 
     def test_init_with_hist_info(self):
-        config_data = {"name": TEST_FILE_NAME}
+        config_data = SceneConfiguration(name=TEST_FILE_NAME)
         writer = mcs.HistoryWriter(config_data, {
             'team': 'team1',
             'metadata': 'level1'
