@@ -229,6 +229,10 @@ for scene_file in scene_files:
 
 [mcs-ta2@machinecommonsense.com](mailto:mcs-ta2@machinecommonsense.com)
 
+## Acknowledgements
+
+This material is based upon work supported by the Defense Advanced Research Projects Agency (DARPA) and Naval Information Warfare Center, Pacific (NIWC Pacific) under Contract No. N6600119C4030. Any opinions, findings and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the DARPA or NIWC Pacific.
+
 ## Apache 2 Open Source License
 
 Code in this repository is made available by [CACI][4] (formerly [Next Century
