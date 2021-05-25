@@ -444,7 +444,11 @@ class SceneConfigurationSchema(Schema):
     intuitivePhysics = fields.Bool()
     isometric = fields.Bool()
     answer = fields.Dict()
-    floorProperties = fields.Dict()
+    floorProperties = fields.Nested(PhysicsConfigSchema)
+    wallProperties = fields.Nested(PhysicsConfigSchema)
+    screenshot = fields.Bool()
+    observation = fields.Bool()
+    isometric = fields.Bool()
 
     @post_load
     def make_scene_configuration(self, data, **kwargs):
@@ -484,10 +488,11 @@ class Goal:
     info_list: list = None
     skip_preview_phase: bool = False
     last_preview_phase_step: int = -1
-    last_step: int = 0
+    last_step: int = -1
+    # TODO metadata objects
     metadata: dict = None
-    task_list: list = None
-    type_list: list = None
+    task_list: List[str] = None
+    type_list: List[str] = None
 
 
 @dataclass
@@ -619,9 +624,12 @@ class SceneConfiguration:
 
     # TODO do these later, another ticket probably
     intuitivePhysics: bool = False
-    isometric: bool = False
     answer = None
     floorProperties = None
+    screenshot: bool = False
+    observation: bool = False  # deprecated; please use intuitivePhysics
+    isometric: bool = False
+    wallProperties: PhysicsConfig = None
 
     @staticmethod
     def retrieve_object_states(
