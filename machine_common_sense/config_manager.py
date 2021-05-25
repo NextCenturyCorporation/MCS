@@ -263,6 +263,16 @@ class PerformerStartSchema(Schema):
         return PerformerStart(**data)
 
 
+class GoalObjectSchema(Schema):
+    id = fields.Str()
+    image = fields.Raw(allow_none=True)
+
+
+class GoalMetadataSchema(Schema):
+    choose = fields.List(fields.Str())
+    target = fields.Nested(GoalObjectSchema)
+
+
 class GoalSchema(Schema):
     action_list = fields.List(fields.List(fields.Str()))
     habituation_total = fields.Int()
@@ -272,7 +282,7 @@ class GoalSchema(Schema):
     skip_preview_phase = fields.Bool()
     last_preview_phase_step = fields.Int()
     last_step = fields.Int()
-    metadata = fields.Dict()
+    metadata = fields.Nested(GoalMetadataSchema)
     task_list = fields.List(fields.Str())
     type_list = fields.List(fields.Str())
 

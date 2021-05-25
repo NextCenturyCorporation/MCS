@@ -301,6 +301,7 @@ class Controller():
 
         schema = SceneConfigurationSchema()
         scene_config = schema.load(config_data)
+        self._scene_config = scene_config
 
         self.__scene_configuration = config_data
         self.__habituation_trial = 1
