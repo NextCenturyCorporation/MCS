@@ -251,7 +251,7 @@ class RoomMaterialsSchema(Schema):
 
     @post_load
     def make_room_materials(self, data, **kwargs):
-        return PerformerStart(**data)
+        return RoomMaterials(**data)
 
 
 class PerformerStartSchema(Schema):
@@ -274,7 +274,7 @@ class GoalSchema(Schema):
     last_step = fields.Int()
     metadata = fields.Dict()
     task_list = fields.List(fields.Str())
-    type_list: fields.List(fields.Str())
+    type_list = fields.List(fields.Str())
 
     @post_load
     def make_goal(self, data, **kwargs):
@@ -282,8 +282,8 @@ class GoalSchema(Schema):
 
 
 class ChangeMaterialSchema(Schema):
-    stepBegin: fields.Int()
-    materials: fields.List(fields.Str())
+    stepBegin = fields.Int()
+    materials = fields.List(fields.Str())
 
     @post_load
     def make_change_material(self, data, **kwargs):
@@ -291,10 +291,10 @@ class ChangeMaterialSchema(Schema):
 
 
 class ForceConfigSchema(Schema):
-    stepBegin: fields.Int()
-    stepEnd: fields.Int()
-    vector: fields.Nested(Vector3dSchema)
-    relative: fields.Bool()
+    stepBegin = fields.Int()
+    stepEnd = fields.Int()
+    vector = fields.Nested(Vector3dSchema)
+    relative = fields.Bool()
 
     @post_load
     def make_force_config(self, data, **kwargs):
@@ -302,22 +302,31 @@ class ForceConfigSchema(Schema):
 
 
 class MoveConfigSchema(Schema):
-    stepBegin: fields.Int()
-    stepEnd: fields.Int()
-    vector: fields.Nested(Vector3dSchema)
+    stepBegin = fields.Int()
+    stepEnd = fields.Int()
+    vector = fields.Nested(Vector3dSchema)
 
     @post_load
     def make_move_config(self, data, **kwargs):
         return MoveConfig(**data)
 
 
+class OpenCloseConfigSchema(Schema):
+    step = fields.Int()
+    open = fields.Bool()
+
+    @post_load
+    def make_move_config(self, data, **kwargs):
+        return OpenCloseConfig(**data)
+
+
 class PhysicsConfigSchema(Schema):
-    enable: fields.Bool()
-    angularDrag: fields.Float()
-    bounciness: fields.Float()
-    drag: fields.Float()
-    dynamicFriction: fields.Float()
-    staticFriction: fields.Float()
+    enable = fields.Bool()
+    angularDrag = fields.Float()
+    bounciness = fields.Float()
+    drag = fields.Float()
+    dynamicFriction = fields.Float()
+    staticFriction = fields.Float()
 
     @post_load
     def make_physics_config(self, data, **kwargs):
@@ -325,10 +334,10 @@ class PhysicsConfigSchema(Schema):
 
 
 class ShowConfigSchema(Schema):
-    stepBegin: fields.Int()
-    position: fields.Nested(Vector3dSchema)
-    rotation: fields.Nested(Vector3dSchema)
-    scale: fields.Nested(Vector3dSchema)
+    stepBegin = fields.Int()
+    position = fields.Nested(Vector3dSchema)
+    rotation = fields.Nested(Vector3dSchema)
+    scale = fields.Nested(Vector3dSchema)
 
     @post_load
     def make_show_config(self, data, **kwargs):
@@ -336,9 +345,9 @@ class ShowConfigSchema(Schema):
 
 
 class SizeConfigSchema(Schema):
-    stepBegin: fields.Int()
-    stepEnd: fields.Int()
-    size: fields.Nested(Vector3dSchema)
+    stepBegin = fields.Int()
+    stepEnd = fields.Int()
+    size = fields.Nested(Vector3dSchema)
 
     @post_load
     def make_size_config(self, data, **kwargs):
@@ -346,7 +355,7 @@ class SizeConfigSchema(Schema):
 
 
 class SingleStepConfigSchema(Schema):
-    stepBegin: fields.Int()
+    stepBegin = fields.Int()
 
     @post_load
     def make_single_step_config(self, data, **kwargs):
@@ -354,8 +363,8 @@ class SingleStepConfigSchema(Schema):
 
 
 class StepBeginEndConfigSchema(Schema):
-    stepBegin: fields.Int()
-    stepEnd: fields.Int()
+    stepBegin = fields.Int()
+    stepEnd = fields.Int()
 
     @post_load
     def make_step_begin_end_config(self, data, **kwargs):
@@ -363,8 +372,8 @@ class StepBeginEndConfigSchema(Schema):
 
 
 class TeleportConfigSchema(Schema):
-    stepBegin: fields.Int()
-    position: fields.Nested(Vector3dSchema)
+    stepBegin = fields.Int()
+    position = fields.Nested(Vector3dSchema)
 
     @post_load
     def make_teleport_config(self, data, **kwargs):
@@ -372,9 +381,9 @@ class TeleportConfigSchema(Schema):
 
 
 class TransformConfigSchema(Schema):
-    position: fields.Nested(Vector3dSchema)
-    rotation: fields.Nested(Vector3dSchema)
-    scale: fields.Nested(Vector3dSchema)
+    position = fields.Nested(Vector3dSchema)
+    rotation = fields.Nested(Vector3dSchema)
+    scale = fields.Nested(Vector3dSchema)
 
     @post_load
     def make_transform_config(self, data, **kwargs):
@@ -382,34 +391,37 @@ class TransformConfigSchema(Schema):
 
 
 class SceneObjectSchema(Schema):
-    id: fields.Str()
-    type: fields.Str()  # should this be an enum?
-    changeMaterials: fields.List(fields.Nested(ChangeMaterialSchema))
-    forces: fields.List(fields.Nested(ForceConfigSchema))
-    hides: fields.List(fields.Nested(SingleStepConfigSchema))
-    kinematic: fields.Bool()
-    locationParent: fields.Str()
-    mass: fields.Float()
-    materials: fields.List(fields.Str())
-    materialFile: fields.Str()
-    moveable: fields.Bool()
-    moves: fields.List(fields.Nested(MoveConfigSchema))
-    nullParent: fields.List(fields.Nested(TransformConfigSchema))
-    openable: fields.Bool()
-    opened: fields.Bool()
-    physics: fields.Bool()
-    physicsProperties: fields.Nested(PhysicsConfigSchema)
-    pickupable: fields.Bool()
-    resizes: fields.List(fields.Nested(SizeConfigSchema))
-    rotates: fields.List(fields.Nested(MoveConfigSchema))
-    salientMaterials: fields.List(fields.Str())
-    shows: fields.List(fields.Nested(ShowConfigSchema))
-    shrouds: fields.List(fields.Nested(StepBeginEndConfigSchema))
-    states: fields.List(fields.Str())
-    structure: fields.Bool() = False
-    teleports: fields.List(fields.Nested(TeleportConfigSchema))
-    togglePhysics: fields.List(fields.Nested(SingleStepConfigSchema))
-    torques: fields.List(fields.Nested(MoveConfigSchema))
+    id = fields.Str()
+    type = fields.Str()  # should this be an enum?
+    changeMaterials = fields.List(fields.Nested(ChangeMaterialSchema))
+    forces = fields.List(fields.Nested(ForceConfigSchema))
+    ghosts = fields.List(fields.Nested(StepBeginEndConfigSchema))
+    hides = fields.List(fields.Nested(SingleStepConfigSchema))
+    kinematic = fields.Bool()
+    locationParent = fields.Str()
+    mass = fields.Float()
+    materials = fields.List(fields.Str())
+    materialFile = fields.Str()
+    moveable = fields.Bool()
+    moves = fields.List(fields.Nested(MoveConfigSchema))
+    nullParent = fields.List(fields.Nested(TransformConfigSchema))
+    openable = fields.Bool()
+    opened = fields.Bool()
+    openClose = fields.List(fields.Nested(OpenCloseConfigSchema))
+    physics = fields.Bool()
+    physicsProperties = fields.Nested(PhysicsConfigSchema)
+    pickupable = fields.Bool()
+    receptacle = fields.Bool()
+    resizes = fields.List(fields.Nested(SizeConfigSchema))
+    rotates = fields.List(fields.Nested(MoveConfigSchema))
+    salientMaterials = fields.List(fields.Str())
+    shows = fields.List(fields.Nested(ShowConfigSchema))
+    shrouds = fields.List(fields.Nested(StepBeginEndConfigSchema))
+    states = fields.List(fields.List(fields.Str(), allow_none=True))
+    structure = fields.Bool()
+    teleports = fields.List(fields.Nested(TeleportConfigSchema))
+    togglePhysics = fields.List(fields.Nested(SingleStepConfigSchema))
+    torques = fields.List(fields.Nested(MoveConfigSchema))
 
     @post_load
     def make_scene_object(self, data, **kwargs):
@@ -425,13 +437,12 @@ class SceneConfigurationSchema(Schema):
     floorMaterial = fields.Str()
     wallMaterial = fields.Str()
     performerStart = fields.Nested(PerformerStartSchema)
-    # fields.List(fields.Nested(SceneObjectSchema))
-    objects = fields.List(fields.Dict())
+    objects = fields.List(fields.Nested(SceneObjectSchema))
     goal = fields.Nested(GoalSchema)
     roomDimensions = fields.Nested(Vector3dSchema)
     roomMaterials = fields.Nested(RoomMaterialsSchema)
-    intuitivePhysics: fields.Bool()
-    isometric: fields.Bool()
+    intuitivePhysics = fields.Bool()
+    isometric = fields.Bool()
     answer = fields.Dict()
     floorProperties = fields.Dict()
 
@@ -452,10 +463,10 @@ class Vector3d:
 
 @dataclass
 class RoomMaterials:
-    front: str
-    left: str
-    right: str
-    back: str
+    front: str = None
+    left: str = None
+    right: str = None
+    back: str = None
 
 
 @dataclass
@@ -498,6 +509,12 @@ class MoveConfig:
     stepBegin: int
     stepEnd: int
     vector: Vector3d = Vector3d(0, 0, 0)
+
+
+@dataclass
+class OpenCloseConfig:
+    step: int
+    open: bool
 
 
 @dataclass
@@ -555,6 +572,7 @@ class SceneObject:
     type: str  # should this be an enum?
     changeMaterials: List[ChangeMaterial] = field(default_factory=list)
     forces: List[ForceConfig] = field(default_factory=list)
+    ghosts: List[StepBeginEndConfig] = field(default_factory=list)
     hides: List[SingleStepConfig] = field(default_factory=list)
     kinematic: bool = False
     locationParent: str = None
@@ -568,15 +586,17 @@ class SceneObject:
     nullParent: TransformConfig = None
     openable: bool = None
     opened: bool = False
+    openClose: List[OpenCloseConfig] = field(default_factory=list)
     physics: bool = False
     physicsProperties: PhysicsConfig = None
     pickupable: bool = None
+    receptacle: bool = False
     resizes: List[SizeConfig] = field(default_factory=list)
     rotates: List[MoveConfig] = field(default_factory=list)
     salientMaterials: List[str] = field(default_factory=list)
     shows: List[ShowConfig] = field(default_factory=list)
     shrouds: List[StepBeginEndConfig] = field(default_factory=list)
-    states: List[str] = field(default_factory=list)
+    states: List[List[str]] = field(default_factory=list)
     structure: bool = False
     teleports: List[TeleportConfig] = field(default_factory=list)
     togglePhysics: List[SingleStepConfig] = field(default_factory=list)
