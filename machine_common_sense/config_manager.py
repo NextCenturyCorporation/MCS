@@ -1,10 +1,11 @@
 import configparser  # noqa: F401
 import logging
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import List
 
 import yaml  # noqa: F401
-from marshmallow import EXCLUDE, Schema, fields, post_load
+from marshmallow import Schema, fields, post_load
 
 from .action import Action
 
@@ -232,10 +233,14 @@ class ConfigManager(object):
         return int(size / 3 * 2)
 
 
-class Position3dSchema(Schema):
+class Vector3dSchema(Schema):
     x = fields.Float()
     y = fields.Float()
     z = fields.Float()
+
+    @post_load
+    def make_position_3d(self, data, **kwargs):
+        return Vector3d(**data)
 
 
 class RoomMaterialsSchema(Schema):
@@ -244,10 +249,18 @@ class RoomMaterialsSchema(Schema):
     right = fields.Str()
     back = fields.Str()
 
+    @post_load
+    def make_room_materials(self, data, **kwargs):
+        return PerformerStart(**data)
+
 
 class PerformerStartSchema(Schema):
-    position = fields.Nested(Position3dSchema)
-    rotation = fields.Nested(Position3dSchema)
+    position = fields.Nested(Vector3dSchema)
+    rotation = fields.Nested(Vector3dSchema)
+
+    @post_load
+    def make_performer_start(self, data, **kwargs):
+        return PerformerStart(**data)
 
 
 class GoalSchema(Schema):
@@ -256,25 +269,166 @@ class GoalSchema(Schema):
     category = fields.Str()
     description = fields.Str()
     info_list = fields.List(fields.Str())
+    skip_preview_phase = fields.Bool()
     last_preview_phase_step = fields.Int()
     last_step = fields.Int()
     metadata = fields.Dict()
     task_list = fields.List(fields.Str())
     type_list: fields.List(fields.Str())
 
+    @post_load
+    def make_goal(self, data, **kwargs):
+        return Goal(**data)
+
+
+class ChangeMaterialSchema(Schema):
+    stepBegin: fields.Int()
+    materials: fields.List(fields.Str())
+
+    @post_load
+    def make_change_material(self, data, **kwargs):
+        return ChangeMaterial(**data)
+
+
+class ForceConfigSchema(Schema):
+    stepBegin: fields.Int()
+    stepEnd: fields.Int()
+    vector: fields.Nested(Vector3dSchema)
+    relative: fields.Bool()
+
+    @post_load
+    def make_force_config(self, data, **kwargs):
+        return ForceConfig(**data)
+
+
+class MoveConfigSchema(Schema):
+    stepBegin: fields.Int()
+    stepEnd: fields.Int()
+    vector: fields.Nested(Vector3dSchema)
+
+    @post_load
+    def make_move_config(self, data, **kwargs):
+        return MoveConfig(**data)
+
+
+class PhysicsConfigSchema(Schema):
+    enable: fields.Bool()
+    angularDrag: fields.Float()
+    bounciness: fields.Float()
+    drag: fields.Float()
+    dynamicFriction: fields.Float()
+    staticFriction: fields.Float()
+
+    @post_load
+    def make_physics_config(self, data, **kwargs):
+        return PhysicsConfig(**data)
+
+
+class ShowConfigSchema(Schema):
+    stepBegin: fields.Int()
+    position: fields.Nested(Vector3dSchema)
+    rotation: fields.Nested(Vector3dSchema)
+    scale: fields.Nested(Vector3dSchema)
+
+    @post_load
+    def make_show_config(self, data, **kwargs):
+        return ShowConfig(**data)
+
+
+class SizeConfigSchema(Schema):
+    stepBegin: fields.Int()
+    stepEnd: fields.Int()
+    size: fields.Nested(Vector3dSchema)
+
+    @post_load
+    def make_size_config(self, data, **kwargs):
+        return SizeConfig(**data)
+
+
+class SingleStepConfigSchema(Schema):
+    stepBegin: fields.Int()
+
+    @post_load
+    def make_single_step_config(self, data, **kwargs):
+        return SingleStepConfig(**data)
+
+
+class StepBeginEndConfigSchema(Schema):
+    stepBegin: fields.Int()
+    stepEnd: fields.Int()
+
+    @post_load
+    def make_step_begin_end_config(self, data, **kwargs):
+        return StepBeginEndConfig(**data)
+
+
+class TeleportConfigSchema(Schema):
+    stepBegin: fields.Int()
+    position: fields.Nested(Vector3dSchema)
+
+    @post_load
+    def make_teleport_config(self, data, **kwargs):
+        return TeleportConfig(**data)
+
+
+class TransformConfigSchema(Schema):
+    position: fields.Nested(Vector3dSchema)
+    rotation: fields.Nested(Vector3dSchema)
+    scale: fields.Nested(Vector3dSchema)
+
+    @post_load
+    def make_transform_config(self, data, **kwargs):
+        return TransformConfig(**data)
+
+
+class SceneObjectSchema(Schema):
+    id: fields.Str()
+    type: fields.Str()  # should this be an enum?
+    changeMaterials: fields.List(fields.Nested(ChangeMaterialSchema))
+    forces: fields.List(fields.Nested(ForceConfigSchema))
+    hides: fields.List(fields.Nested(SingleStepConfigSchema))
+    kinematic: fields.Bool()
+    locationParent: fields.Str()
+    mass: fields.Float()
+    materials: fields.List(fields.Str())
+    materialFile: fields.Str()
+    moveable: fields.Bool()
+    moves: fields.List(fields.Nested(MoveConfigSchema))
+    nullParent: fields.List(fields.Nested(TransformConfigSchema))
+    openable: fields.Bool()
+    opened: fields.Bool()
+    physics: fields.Bool()
+    physicsProperties: fields.Nested(PhysicsConfigSchema)
+    pickupable: fields.Bool()
+    resizes: fields.List(fields.Nested(SizeConfigSchema))
+    rotates: fields.List(fields.Nested(MoveConfigSchema))
+    salientMaterials: fields.List(fields.Str())
+    shows: fields.List(fields.Nested(ShowConfigSchema))
+    shrouds: fields.List(fields.Nested(StepBeginEndConfigSchema))
+    states: fields.List(fields.Str())
+    structure: fields.Bool() = False
+    teleports: fields.List(fields.Nested(TeleportConfigSchema))
+    togglePhysics: fields.List(fields.Nested(SingleStepConfigSchema))
+    torques: fields.List(fields.Nested(MoveConfigSchema))
+
+    @post_load
+    def make_scene_object(self, data, **kwargs):
+        return SceneObject(**data)
+
 
 class SceneConfigurationSchema(Schema):
-    class Meta:
-        unknown = EXCLUDE
+    # class Meta:
+    #    unknown = EXCLUDE
     name = fields.Str()
     version = fields.Integer()
     ceilingMaterial = fields.Str()
     floorMaterial = fields.Str()
     wallMaterial = fields.Str()
     performerStart = fields.Nested(PerformerStartSchema)
+    # fields.List(fields.Nested(SceneObjectSchema))
     objects = fields.List(fields.Dict())
     goal = fields.Nested(GoalSchema)
-    roomDimensions = fields.Nested(Position3dSchema)
+    roomDimensions = fields.Nested(Vector3dSchema)
     roomMaterials = fields.Nested(RoomMaterialsSchema)
     intuitivePhysics: fields.Bool()
     isometric: fields.Bool()
@@ -287,13 +441,13 @@ class SceneConfigurationSchema(Schema):
 
 
 @dataclass
-class Position3d:
+class Vector3d:
     # There is probably a class like this in python somewhere
     # but i don't know where it is.
     # TODO change later, potentially rename?
-    x: float
-    y: float
-    z: float
+    x: float = 0
+    y: float = 0
+    z: float = 0
 
 
 @dataclass
@@ -306,8 +460,8 @@ class RoomMaterials:
 
 @dataclass
 class PerformerStart:
-    position: Position3d
-    rotation: Position3d
+    position: Vector3d
+    rotation: Vector3d
 
 
 @dataclass
@@ -317,6 +471,7 @@ class Goal:
     habituation_total: int = None
     description: str = None
     info_list: list = None
+    skip_preview_phase: bool = False
     last_preview_phase_step: int = -1
     last_step: int = 0
     metadata: dict = None
@@ -324,25 +479,108 @@ class Goal:
     type_list: list = None
 
 
-'''@dataclass
+@dataclass
+class ChangeMaterial:
+    stepBegin: int
+    materials: List[str]
+
+
+@dataclass
+class ForceConfig:
+    stepBegin: int
+    stepEnd: int
+    vector: Vector3d = Vector3d(0, 0, 0)
+    relative: bool = False
+
+
+@dataclass
+class MoveConfig:
+    stepBegin: int
+    stepEnd: int
+    vector: Vector3d = Vector3d(0, 0, 0)
+
+
+@dataclass
+class PhysicsConfig:
+    enable: bool = False
+    angularDrag: float = 0
+    bounciness: float = 0
+    drag: float = 0
+    dynamicFriction: float = 0
+    staticFriction: float = 0
+
+
+@dataclass
+class ShowConfig:
+    stepBegin: int
+    position: Vector3d = Vector3d(0, 0, 0)
+    rotation: Vector3d = Vector3d(0, 0, 0)
+    scale: Vector3d = Vector3d(1, 1, 1)
+
+
+@dataclass
+class SizeConfig:
+    stepBegin: int
+    stepEnd: int
+    size: Vector3d = Vector3d(1, 1, 1)
+
+
+@dataclass
+class SingleStepConfig:
+    stepBegin: int
+
+
+@dataclass
+class StepBeginEndConfig:
+    stepBegin: int
+    stepEnd: int
+
+
+@dataclass
+class TeleportConfig:
+    stepBegin: int
+    position: Vector3d = Vector3d(0, 0, 0)
+
+
+@dataclass
+class TransformConfig:
+    position: Vector3d = Vector3d(0, 0, 0)
+    rotation: Vector3d = Vector3d(0, 0, 0)
+    scale: Vector3d = Vector3d(1, 1, 1)
+
+
+@dataclass
 class SceneObject:
     id: str
     type: str  # should this be an enum?
-    changeMaterials: list = []
-    forces: list = []
-    hides: list = []
+    changeMaterials: List[ChangeMaterial] = field(default_factory=list)
+    forces: List[ForceConfig] = field(default_factory=list)
+    hides: List[SingleStepConfig] = field(default_factory=list)
     kinematic: bool = False
     locationParent: str = None
     mass: float = 1
-    materials: list = None
+    materials: List[str] = None
     materialFile: str = None
     # Docs say moveable's default is dependant on type.  That could
     # be a problem for the concrete classes.  Needs more review later
-    moveable: bool = False
-    moves: list = []
-    nullParent: list = []
-    openable: bool = False
-    # not done....'''
+    moveable: bool = None
+    moves: List[MoveConfig] = field(default_factory=list)
+    nullParent: TransformConfig = None
+    openable: bool = None
+    opened: bool = False
+    physics: bool = False
+    physicsProperties: PhysicsConfig = None
+    pickupable: bool = None
+    resizes: List[SizeConfig] = field(default_factory=list)
+    rotates: List[MoveConfig] = field(default_factory=list)
+    salientMaterials: List[str] = field(default_factory=list)
+    shows: List[ShowConfig] = field(default_factory=list)
+    shrouds: List[StepBeginEndConfig] = field(default_factory=list)
+    states: List[str] = field(default_factory=list)
+    structure: bool = False
+    teleports: List[TeleportConfig] = field(default_factory=list)
+    togglePhysics: List[SingleStepConfig] = field(default_factory=list)
+    torques: List[MoveConfig] = field(default_factory=list)
 
 
 @dataclass
@@ -354,10 +592,10 @@ class SceneConfiguration:
     floorMaterial: str = None
     wallMaterial: str = None
     performerStart: PerformerStart = None
-    roomDimensions: Position3d = None
+    roomDimensions: Vector3d = None
     roomMaterials: RoomMaterials = None
     goal: Goal = None  # TODO change to concrete class
-    objects: list = None  # TODO change to list of concrete class
+    objects: List[SceneObject] = None
 
     # TODO do these later, another ticket probably
     intuitivePhysics: bool = False

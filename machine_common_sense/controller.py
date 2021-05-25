@@ -25,7 +25,7 @@ DEFAULT_MOVE = 0.1
 
 from .action import Action
 from .config_manager import (ConfigManager, SceneConfiguration,
-                             SceneConfigurationSchema)
+                             SceneConfigurationSchema, SceneObjectSchema)
 from .controller_events import (ControllerEventPayload, EventType,
                                 PredictionPayload)
 from .controller_output_handler import ControllerOutputHandler
@@ -299,21 +299,25 @@ class Controller():
             an "Initialize" action).
         """
 
+        s = SceneObjectSchema()
+        o = {'id': 'a', 'type': 'b'}
+        test = s.load(o)
+        logger.debug(test)
+
         schema = SceneConfigurationSchema()
-        self.__scene_configuration = schema.load(config_data)
+        scene_config = schema.load(config_data)
 
         self.__scene_configuration = config_data
         self.__habituation_trial = 1
         self.__step_number = 0
         self._goal = self.retrieve_goal(self.__scene_configuration)
 
-        skip_preview_phase = (True if 'goal' in config_data and
-                              'skip_preview_phase' in config_data['goal']
-                              else False)
+        skip_preview_phase = (scene_config.goal is not None and not
+                              scene_config.goal.skip_preview_phase)
 
         if (self.isFileWritingEnabled()):
-            os.makedirs('./' + config_data['name'], exist_ok=True)
-            self.__output_folder = './' + config_data['name'] + '/'
+            os.makedirs('./' + scene_config.name, exist_ok=True)
+            self.__output_folder = './' + scene_config.name + '/'
             file_list = glob.glob(self.__output_folder + '*')
             for file_path in file_list:
                 os.remove(file_path)
