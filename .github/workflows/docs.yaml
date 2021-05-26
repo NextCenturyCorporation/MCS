@@ -1,7 +1,10 @@
 name: Pages
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      docs
+  # release:
+  #   types: [published]
 
 jobs:
   build:
