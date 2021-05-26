@@ -13,9 +13,9 @@ An open room containing over 40 objects for undirected exploration.
 
 .. list-table::
 
-    * - .. figure:: /images/playroom_3_2.gif
+    * - .. image:: /images/playroom_3_2.gif
 
-           :download:`playroom.json <scenes/playroom.json>`
+    * - :download:`playroom.json <scenes/playroom.json>`
 
 Retrieval Goal
 **************
