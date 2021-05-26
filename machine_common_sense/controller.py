@@ -9,6 +9,7 @@ from typing import Dict, List
 
 import ai2thor.controller
 import ai2thor.server
+import marshmallow
 import numpy as np
 import PIL
 
@@ -24,7 +25,8 @@ logger = logging.getLogger(__name__)
 DEFAULT_MOVE = 0.1
 
 from .action import Action
-from .config_manager import ConfigManager, SceneConfigurationSchema
+from .config_manager import (ConfigManager, SceneConfiguration,
+                             SceneConfigurationSchema)
 from .controller_events import (ControllerEventPayload, EventType,
                                 PredictionPayload)
 from .controller_output_handler import ControllerOutputHandler
@@ -288,7 +290,8 @@ class Controller():
 
         Parameters
         ----------
-        config_data : dict
+        config_data : SceneConfiguration or dict that can be serialized to
+            SceneConfiguration
             The MCS scene configuration data for the scene to start.
 
         Returns
@@ -298,10 +301,13 @@ class Controller():
             an "Initialize" action).
         """
 
-        schema = SceneConfigurationSchema()
-        scene_config = schema.load(config_data)
-        self._scene_config = scene_config
+        if isinstance(config_data, SceneConfiguration):
+            scene_config = config_data
+        else:
+            schema = SceneConfigurationSchema()
+            scene_config = schema.load(config_data)
 
+        self._scene_config = scene_config
         self.__habituation_trial = 1
         self.__step_number = 0
         self._goal = self._scene_config.retrieve_goal()
@@ -320,8 +326,14 @@ class Controller():
             for file_path in file_list:
                 os.remove(file_path)
 
+        sc = SceneConfigurationSchema(
+            unknown=marshmallow.EXCLUDE).dump(
+            scene_config)
+        sc = self._remove_none(sc)
         wrapped_step = self.wrap_step(
-            action='Initialize', sceneConfig=config_data)
+            action='Initialize',
+            sceneConfig=sc
+        )
         step_output = self._controller.step(wrapped_step)
 
         self._output_handler.set_scene_config(scene_config)
@@ -703,6 +715,20 @@ class Controller():
         """Stop the 3D simulation environment. This controller won't work any
         more."""
         self._controller.stop()
+
+    # is there a better way to do this?
+    def _remove_none(self, d):
+        '''Remove all none's from dictionaries'''
+        for key, value in dict(d).items():
+            if isinstance(value, dict):
+                d[key] = self._remove_none(value)
+            if isinstance(value, list):
+                for index, val in enumerate(value):
+                    if isinstance(val, dict):
+                        value[index] = self._remove_none(val)
+            if value is None:
+                del d[key]
+        return d
 
     def wrap_step(self, **kwargs):
         # whether or not to randomize segmentation mask colors
