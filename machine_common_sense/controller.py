@@ -314,10 +314,6 @@ class Controller():
         self.__step_number = 0
         self._goal = self._scene_config.retrieve_goal()
 
-        # skip_preview_phase = (True if 'goal' in config_data and
-        #                      'skip_preview_phase' in config_data['goal']
-        #                      else False)
-
         skip_preview_phase = (scene_config.goal is not None and
                               scene_config.goal.skip_preview_phase)
 

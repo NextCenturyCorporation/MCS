@@ -638,11 +638,9 @@ class SceneConfiguration:
     roomMaterials: RoomMaterials = None
     goal: Goal = None  # TODO change to concrete class
     objects: List[SceneObject] = field(default_factory=list)
-
-    # TODO do these later, another ticket probably
     intuitivePhysics: bool = False
-    answer = None
-    floorProperties = None
+    answer = None  # TODO later
+    floorProperties: PhysicsConfig = None
     screenshot: bool = False
     observation: bool = False  # deprecated; please use intuitivePhysics
     isometric: bool = False
@@ -670,7 +668,6 @@ class SceneConfiguration:
                 return [str(state) for state in state_list]
         return []
 
-    # move to SceneConfiguration class (in config_manager)
     def retrieve_goal(self):
         if not self.goal:
             return self.update_goal_target_image(GoalMetadata())
