@@ -27,8 +27,6 @@ sdist/
 wheels/
 
 docs/_build
-**/*.gif
-**/*.mp4
 **/mcs_config.ini
 
 # Debug output
