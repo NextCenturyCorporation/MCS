@@ -18,6 +18,7 @@ jobs:
       uses: sphinx-notes/pages@master
       with:
         documentation_path: docs/source
+        extra_files: images/*
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
