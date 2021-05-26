@@ -15,7 +15,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath('../../'))
 
-# from machine_common_sense import _version
+from machine_common_sense import _version
 
 # -- Project information -----------------------------------------------------
 
@@ -24,7 +24,7 @@ copyright = '2021, CACI'
 author = 'CACI'
 
 # The short X.Y version
-version = '0.4.3'  # _version.__version__
+version = _version.__version__
 # The full version, including alpha/beta/rc tags
 # release = ''
 
