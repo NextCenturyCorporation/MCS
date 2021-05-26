@@ -500,11 +500,11 @@ class PerformerStart:
 class Goal:
     action_list: list = None
     category: str = None
-    habituation_total: int = 0
+    habituation_total: int = None
     description: str = None
     info_list: list = None
     skip_preview_phase: bool = False
-    last_preview_phase_step: int = 0
+    last_preview_phase_step: int = None
     last_step: int = None
     # TODO metadata objects
     metadata: dict = None
@@ -542,11 +542,11 @@ class OpenCloseConfig:
 @dataclass
 class PhysicsConfig:
     enable: bool = False
-    angularDrag: float = 0
-    bounciness: float = 0
-    drag: float = 0
-    dynamicFriction: float = 0
-    staticFriction: float = 0
+    angularDrag: float = None
+    bounciness: float = None
+    drag: float = None
+    dynamicFriction: float = None
+    staticFriction: float = None
 
 
 @dataclass
@@ -694,8 +694,8 @@ class SceneConfiguration:
             action_list=(action_list if action_list else None),
             category=goal.category or '',
             description=goal.description or '',
-            habituation_total=goal.habituation_total,
-            last_preview_phase_step=(goal.last_preview_phase_step),
+            habituation_total=goal.habituation_total or 0,
+            last_preview_phase_step=(goal.last_preview_phase_step or 0),
             last_step=goal.last_step or None,
             metadata=goal.metadata or {}
         ))
