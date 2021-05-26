@@ -17,6 +17,13 @@ sys.path.insert(0, os.path.abspath('../../'))
 
 from machine_common_sense import _version
 
+from sphinx.builders.html import StandaloneHTMLBuilder
+StandaloneHTMLBuilder.supported_image_types = [
+    'image/gif',
+    'image/png',
+    'image/jpeg'
+]
+
 # -- Project information -----------------------------------------------------
 
 project = 'Machine Common Sense'
