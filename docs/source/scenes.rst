@@ -11,7 +11,7 @@ Playroom
 
 An open room containing over 40 objects for undirected exploration.
 
-.. image:: /images/playroom_3_2.gif
+.. image:: ./images/playroom_3_2.gif
 
 .. list-table::
 
