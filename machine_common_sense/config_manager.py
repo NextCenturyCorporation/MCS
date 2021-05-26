@@ -278,7 +278,7 @@ class GoalMetadataSchema(Schema):
 
 
 class GoalSchema(Schema):
-    action_list = fields.List(fields.List(fields.Raw()))
+    action_list = fields.List(fields.Raw())
     habituation_total = fields.Int()
     category = fields.Str()
     description = fields.Str()
@@ -463,6 +463,9 @@ class SceneConfigurationSchema(Schema):
     screenshot = fields.Bool()
     observation = fields.Bool()
     isometric = fields.Bool()
+    # this just allows the integration test until we figure out what to do
+    # with the test.
+    numpyArray = fields.Raw()
 
     @post_load
     def make_scene_configuration(self, data, **kwargs):
@@ -501,8 +504,8 @@ class Goal:
     description: str = None
     info_list: list = None
     skip_preview_phase: bool = False
-    last_preview_phase_step: int = -1
-    last_step: int = -1
+    last_preview_phase_step: int = 0
+    last_step: int = None
     # TODO metadata objects
     metadata: dict = None
     task_list: List[str] = None
@@ -595,7 +598,7 @@ class SceneObject:
     hides: List[SingleStepConfig] = field(default_factory=list)
     kinematic: bool = False
     locationParent: str = None
-    mass: float = 1
+    mass: float = None
     materials: List[str] = None
     materialFile: str = None
     # Docs say moveable's default is dependant on type.  That could
@@ -644,6 +647,8 @@ class SceneConfiguration:
     observation: bool = False  # deprecated; please use intuitivePhysics
     isometric: bool = False
     wallProperties: PhysicsConfig = None
+    # only for integration tests
+    numpyArray: any = None
 
     def retrieve_object_states(self,
                                object_id, step_number):
@@ -691,7 +696,7 @@ class SceneConfiguration:
             description=goal.description or '',
             habituation_total=goal.habituation_total,
             last_preview_phase_step=(goal.last_preview_phase_step),
-            last_step=None if goal.last_step < 0 else goal.last_step,
+            last_step=goal.last_step or None,
             metadata=goal.metadata or {}
         ))
 
