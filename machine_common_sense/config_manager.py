@@ -460,9 +460,6 @@ class SceneConfigurationSchema(Schema):
     wallProperties = fields.Nested(PhysicsConfigSchema)
     screenshot = fields.Bool()
     observation = fields.Bool()
-    # this just allows the integration test until we figure out what to do
-    # with the test.
-    numpyArray = fields.Raw()
 
     @post_load
     def make_scene_configuration(self, data, **kwargs):
@@ -642,8 +639,6 @@ class SceneConfiguration:
     observation: bool = False  # deprecated; please use intuitivePhysics
     isometric: bool = False
     wallProperties: PhysicsConfig = None
-    # only for integration tests
-    numpyArray: any = None
 
     def retrieve_object_states(self,
                                object_id, step_number):
