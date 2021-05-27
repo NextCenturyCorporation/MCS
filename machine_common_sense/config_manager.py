@@ -460,7 +460,6 @@ class SceneConfigurationSchema(Schema):
     wallProperties = fields.Nested(PhysicsConfigSchema)
     screenshot = fields.Bool()
     observation = fields.Bool()
-    isometric = fields.Bool()
     # this just allows the integration test until we figure out what to do
     # with the test.
     numpyArray = fields.Raw()
