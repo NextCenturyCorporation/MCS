@@ -795,6 +795,45 @@ class TestController(unittest.TestCase):
         self.controller.set_metadata_tier('none')
         self.assertEqual('none', self.controller.get_metadata_level())
 
+    def test_remove_none(self):
+        actual = self.controller._remove_none({})
+        self.assertEqual({}, actual)
+
+        actual = self.controller._remove_none({"test": None})
+        self.assertEqual({}, actual)
+
+        actual = self.controller._remove_none({"test": 1})
+        self.assertEqual({"test": 1}, actual)
+
+        actual = self.controller._remove_none({"test": 1, "none": None})
+        self.assertEqual({"test": 1}, actual)
+
+        actual = self.controller._remove_none({"test1": {"test2": 1}})
+        self.assertEqual({"test1": {"test2": 1}}, actual)
+
+        actual = self.controller._remove_none(
+            {"test1": {"test2": 1, "none": None}})
+        self.assertEqual({"test1": {"test2": 1}}, actual)
+
+        actual = self.controller._remove_none(
+            {"test1": {"test2": 1}, "none": None})
+        self.assertEqual({"test1": {"test2": 1}}, actual)
+
+        actual = self.controller._remove_none(
+            {"test1": {"test2": 1, "none": None}, "none": None})
+        self.assertEqual({"test1": {"test2": 1}}, actual)
+
+        actual = self.controller._remove_none({"test1": [{"test2": None}]})
+        self.assertEqual({"test1": [{}]}, actual)
+
+        actual = self.controller._remove_none(
+            {"test1": [{"test2": None, "test3": "test"}]})
+        self.assertEqual({"test1": [{"test3": "test"}]}, actual)
+
+        actual = self.controller._remove_none(
+            {"test1": [{"test2": None}], "test3": False})
+        self.assertEqual({"test1": [{}], "test3": False}, actual)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -443,8 +443,6 @@ class SceneObjectSchema(Schema):
 
 
 class SceneConfigurationSchema(Schema):
-    # class Meta:
-    #    unknown = EXCLUDE
     name = fields.Str()
     version = fields.Integer()
     ceilingMaterial = fields.Str()
