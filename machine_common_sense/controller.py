@@ -714,7 +714,6 @@ class Controller():
         more."""
         self._controller.stop()
 
-    # is there a better way to do this?
     def _remove_none(self, d):
         '''Remove all none's from dictionaries'''
         for key, value in dict(d).items():
