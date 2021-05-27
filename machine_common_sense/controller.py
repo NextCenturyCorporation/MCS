@@ -304,8 +304,6 @@ class Controller():
         if isinstance(config_data, SceneConfiguration):
             scene_config = config_data
         else:
-            config_data['numpyArray'] = [4]
-
             schema = SceneConfigurationSchema()
             scene_config = schema.load(config_data)
 
