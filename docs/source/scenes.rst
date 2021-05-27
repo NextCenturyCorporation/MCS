@@ -13,312 +13,316 @@ An open room containing over 40 objects for undirected exploration.
 
 .. image:: ./images/playroom_3_2.gif
 
-.. list-table::
+:download:`playroom.json <scenes/playroom.json>`
 
-    * - .. image:: /images/playroom_3_2.gif
+..
 
-    * - :download:`playroom.json <scenes/playroom.json>`
+       .. list-table::
 
-Retrieval Goal
-**************
+       * - .. image:: /images/playroom_3_2.gif
 
-Soccer ball retrieval goal for the Summer 2021 evaluation:
+       * - :download:`playroom.json <scenes/playroom.json>`
 
-:download:`retrieval_goal_example_with_soccer_ball.json <./scenes/retrieval_goal_example_with_soccer_ball.json>`
+       Retrieval Goal
+       **************
 
-Silver trophy retrieval goal for the Winter 2020 evaluation:
+       Soccer ball retrieval goal for the Summer 2021 evaluation:
 
-:download:`retrieval_goal_example_with_trophy.json <./scenes/retrieval_goal_example_with_trophy.json>`
+       :download:`retrieval_goal_example_with_soccer_ball.json <./scenes/retrieval_goal_example_with_soccer_ball.json>`
 
-Hinged Containers
-*****************
+       Silver trophy retrieval goal for the Winter 2020 evaluation:
 
-Soccer ball inside hinged containers for the Summer 2021 evaluation:
+       :download:`retrieval_goal_example_with_trophy.json <./scenes/retrieval_goal_example_with_trophy.json>`
 
-.. list-table::
+       Hinged Containers
+       *****************
 
-    * - .. figure:: ./images/hinged_container_example_with_soccer_ball.gif
+       Soccer ball inside hinged containers for the Summer 2021 evaluation:
 
-           :download:`hinged_container_example_with_soccer_ball.json <./scenes/hinged_container_example_with_soccer_ball.json>`
+       .. list-table::
 
-Silver trophy inside hinged containers for the Winter 2020 evaluation:
+       * - .. figure:: ./images/hinged_container_example_with_soccer_ball.gif
 
-.. list-table::
+              :download:`hinged_container_example_with_soccer_ball.json <./scenes/hinged_container_example_with_soccer_ball.json>`
 
-    * - .. figure:: ./images/hinged_container_example_with_trophy.gif
+       Silver trophy inside hinged containers for the Winter 2020 evaluation:
 
-           :download:`hinged_container_example_with_trophy.json <./scenes/hinged_container_example_with_trophy.json>`
+       .. list-table::
 
-Interactive Object Permanence and Reorientation Tasks
-*****************************************************
+       * - .. figure:: ./images/hinged_container_example_with_trophy.gif
 
-The room has different dimensions/bounds, and isn't necessarily square. Previously, the room's dimensions were always [-5, 5] on both the X and the Z axes.
+              :download:`hinged_container_example_with_trophy.json <./scenes/hinged_container_example_with_trophy.json>`
 
-.. list-table::
+       Interactive Object Permanence and Reorientation Tasks
+       *****************************************************
 
-    * - .. figure:: ./images/template_12_by_8.gif
+       The room has different dimensions/bounds, and isn't necessarily square. Previously, the room's dimensions were always [-5, 5] on both the X and the Z axes.
 
-           :download:`template_12_by_8.json <./scenes/template_12_by_8.json>`
+       .. list-table::
 
-    * - .. figure:: ./images/template_2_by_4.gif
+       * - .. figure:: ./images/template_12_by_8.gif
 
-           :download:`template_2_by_4.json <./scenes/template_2_by_4.json>`
+              :download:`template_12_by_8.json <./scenes/template_12_by_8.json>`
 
-The room's outer walls are individually, distinctly colored. Previously, all of the room's outer walls were always the same color.
+       * - .. figure:: ./images/template_2_by_4.gif
 
-.. list-table::
+              :download:`template_2_by_4.json <./scenes/template_2_by_4.json>`
 
-    * - .. figure:: ./images/template_individually_colored_walls.gif
+       The room's outer walls are individually, distinctly colored. Previously, all of the room's outer walls were always the same color.
 
-           :download:`template_individually_colored_walls.json <./scenes/template_individually_colored_walls.json>`
+       .. list-table::
 
-The performer agent is positioned on top of a flat, raised platform. Moving off the edge of the platform will cause the performer agent to automatically, instantaneously fall down to the floor, and the performer agent will not be able to move back on top of the platform.
+       * - .. figure:: ./images/template_individually_colored_walls.gif
 
-.. list-table::
+              :download:`template_individually_colored_walls.json <./scenes/template_individually_colored_walls.json>`
 
-    * - .. figure:: ./images/template_platform_independent.gif
+       The performer agent is positioned on top of a flat, raised platform. Moving off the edge of the platform will cause the performer agent to automatically, instantaneously fall down to the floor, and the performer agent will not be able to move back on top of the platform.
 
-           :download:`template_platform_independent.json <./scenes/template_platform_independent.json>`
+       .. list-table::
 
-    * - .. figure:: ./images/template_platform_bisecting.gif
+       * - .. figure:: ./images/template_platform_independent.gif
 
-           :download:`template_platform_bisecting.json <./scenes/template_platform_bisecting.json>`
+              :download:`template_platform_independent.json <./scenes/template_platform_independent.json>`
 
-The performer agent is temporarily "frozen" (can only use the Pass action) at the start and/or in the middle of an interactive scene. This is done by the same method that is used for the passive/VoE scenes (see the StepMetadata.action_list property).
+       * - .. figure:: ./images/template_platform_bisecting.gif
 
-.. list-table::
+              :download:`template_platform_bisecting.json <./scenes/template_platform_bisecting.json>`
 
-    * - .. figure:: ./images/template_frozen_first_10_steps.gif
+       The performer agent is temporarily "frozen" (can only use the Pass action) at the start and/or in the middle of an interactive scene. This is done by the same method that is used for the passive/VoE scenes (see the StepMetadata.action_list property).
 
-           :download:`template_frozen_first_10_steps.json <./scenes/template_frozen_first_10_steps.json>`
+       .. list-table::
 
-    * - .. figure:: ./images/template_frozen_after_10_steps.gif
+       * - .. figure:: ./images/template_frozen_first_10_steps.gif
 
-           :download:`template_frozen_after_10_steps.json <./scenes/template_frozen_after_10_steps.json>`
+              :download:`template_frozen_first_10_steps.json <./scenes/template_frozen_first_10_steps.json>`
 
-A cylindrical mechanism attached to a wall or the ceiling throws (for interactive object permanence) or drops (for reorientation) the target object (i.e. soccer ball) into the scene.
+       * - .. figure:: ./images/template_frozen_after_10_steps.gif
 
-.. list-table::
+              :download:`template_frozen_after_10_steps.json <./scenes/template_frozen_after_10_steps.json>`
 
-    * - .. figure:: ./images/template_mechanism_dropping_soccer_ball.gif
+       A cylindrical mechanism attached to a wall or the ceiling throws (for interactive object permanence) or drops (for reorientation) the target object (i.e. soccer ball) into the scene.
 
-           :download:`template_mechanism_dropping_soccer_ball.json <./scenes/template_mechanism_dropping_soccer_ball.json>`
+       .. list-table::
 
-    * - .. figure:: ./images/template_mechanism_throwing_soccer_ball.gif
+       * - .. figure:: ./images/template_mechanism_dropping_soccer_ball.gif
 
-           :download:`template_mechanism_throwing_soccer_ball.json <./scenes/template_mechanism_throwing_soccer_ball.json>`
+              :download:`template_mechanism_dropping_soccer_ball.json <./scenes/template_mechanism_dropping_soccer_ball.json>`
 
-The performer agent is "kidnapped" (can only call the EndHabituation action) and teleported to another position in the current room one or more times. Prior to being kidnapped, the performer agent is able to move around and explore its environment for a limited number of steps. On the kidnapped step, the returned images will be black. Prior to the final kidnapping, StepMetadata.habituation_trial will be an integer; after the final kidnapping, StepMetadata.habituation_trial will be "None" to denote the test trial.
+       * - .. figure:: ./images/template_mechanism_throwing_soccer_ball.gif
 
-.. list-table::
+              :download:`template_mechanism_throwing_soccer_ball.json <./scenes/template_mechanism_throwing_soccer_ball.json>`
 
-    * - .. figure:: ./images/template_kidnapping.gif
+       The performer agent is "kidnapped" (can only call the EndHabituation action) and teleported to another position in the current room one or more times. Prior to being kidnapped, the performer agent is able to move around and explore its environment for a limited number of steps. On the kidnapped step, the returned images will be black. Prior to the final kidnapping, StepMetadata.habituation_trial will be an integer; after the final kidnapping, StepMetadata.habituation_trial will be "None" to denote the test trial.
 
-           :download:`template_kidnapping.json <./scenes/template_kidnapping.json>`
+       .. list-table::
 
-    * - .. figure:: ./images/template_kidnapping_then_frozen.gif
+       * - .. figure:: ./images/template_kidnapping.gif
 
-           :download:`template_kidnapping_then_frozen.json <./scenes/template_kidnapping_then_frozen.json>`
+              :download:`template_kidnapping.json <./scenes/template_kidnapping.json>`
 
-Combination of multiple elements. For example: a platform, being frozen, and a mechanism throwing the soccer ball into the scene.
+       * - .. figure:: ./images/template_kidnapping_then_frozen.gif
 
-.. list-table::
+              :download:`template_kidnapping_then_frozen.json <./scenes/template_kidnapping_then_frozen.json>`
 
-    * - .. figure:: ./images/template_interactive_object_permanence_scene.gif
+       Combination of multiple elements. For example: a platform, being frozen, and a mechanism throwing the soccer ball into the scene.
 
-           :download:`template_interactive_object_permanence_scene.json <./scenes/template_interactive_object_permanence_scene.json>`
+       .. list-table::
 
-Intuitive Physics Scenes
-------------------------
+       * - .. figure:: ./images/template_interactive_object_permanence_scene.gif
 
-Gravity Support: Objects Falling Down
-*************************************
+              :download:`template_interactive_object_permanence_scene.json <./scenes/template_interactive_object_permanence_scene.json>`
 
-All of these examples are PLAUSIBLE
+       Intuitive Physics Scenes
+       ------------------------
 
-.. list-table::
+       Gravity Support: Objects Falling Down
+       *************************************
 
-    * - .. figure:: ./images/gravity_support_ex_01.gif
+       All of these examples are PLAUSIBLE
 
-           :download:`gravity_support_ex_01.json <./scenes/gravity_support_ex_01.json>`
+       .. list-table::
 
-    * - .. figure:: ./images/gravity_support_ex_02.gif
+       * - .. figure:: ./images/gravity_support_ex_01.gif
 
-           :download:`gravity_support_ex_02.json <./scenes/gravity_support_ex_02.json>`
+              :download:`gravity_support_ex_01.json <./scenes/gravity_support_ex_01.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_03.gif
+       * - .. figure:: ./images/gravity_support_ex_02.gif
 
-           :download:`gravity_support_ex_03.json <./scenes/gravity_support_ex_03.json>`
+              :download:`gravity_support_ex_02.json <./scenes/gravity_support_ex_02.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_04.gif
+       * - .. figure:: ./images/gravity_support_ex_03.gif
 
-           :download:`gravity_support_ex_04.json <./scenes/gravity_support_ex_04.json>`
+              :download:`gravity_support_ex_03.json <./scenes/gravity_support_ex_03.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_05.gif
+       * - .. figure:: ./images/gravity_support_ex_04.gif
 
-           :download:`gravity_support_ex_05.json <./scenes/gravity_support_ex_05.json>`
+              :download:`gravity_support_ex_04.json <./scenes/gravity_support_ex_04.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_06.gif
+       * - .. figure:: ./images/gravity_support_ex_05.gif
 
-           :download:`gravity_support_ex_06.json <./scenes/gravity_support_ex_06.json>`
+              :download:`gravity_support_ex_05.json <./scenes/gravity_support_ex_05.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_07.gif
+       * - .. figure:: ./images/gravity_support_ex_06.gif
 
-           :download:`gravity_support_ex_07.json <./scenes/gravity_support_ex_07.json>`
+              :download:`gravity_support_ex_06.json <./scenes/gravity_support_ex_06.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_08.gif
+       * - .. figure:: ./images/gravity_support_ex_07.gif
 
-           :download:`gravity_support_ex_08.json <./scenes/gravity_support_ex_08.json>`
+              :download:`gravity_support_ex_07.json <./scenes/gravity_support_ex_07.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_09.gif
+       * - .. figure:: ./images/gravity_support_ex_08.gif
 
-           :download:`gravity_support_ex_09.json <./scenes/gravity_support_ex_09.json>`
+              :download:`gravity_support_ex_08.json <./scenes/gravity_support_ex_08.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_10.gif
+       * - .. figure:: ./images/gravity_support_ex_09.gif
 
-           :download:`gravity_support_ex_10.json <./scenes/gravity_support_ex_10.json>`
+              :download:`gravity_support_ex_09.json <./scenes/gravity_support_ex_09.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_11.gif
+       * - .. figure:: ./images/gravity_support_ex_10.gif
 
-           :download:`gravity_support_ex_11.json <./scenes/gravity_support_ex_11.json>`
+              :download:`gravity_support_ex_10.json <./scenes/gravity_support_ex_10.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_12.gif
+       * - .. figure:: ./images/gravity_support_ex_11.gif
 
-           :download:`gravity_support_ex_12.json <./scenes/gravity_support_ex_12.json>`
+              :download:`gravity_support_ex_11.json <./scenes/gravity_support_ex_11.json>`
 
+       * - .. figure:: ./images/gravity_support_ex_12.gif
 
-Object Permanence and Spatio-Temporal Continuity: Objects Moving on Multiple Axes Behind Occluders
-**************************************************************************************************
+              :download:`gravity_support_ex_12.json <./scenes/gravity_support_ex_12.json>`
 
-Relevant for the Summer 2021 evaluation. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
 
-.. list-table::
+       Object Permanence and Spatio-Temporal Continuity: Objects Moving on Multiple Axes Behind Occluders
+       **************************************************************************************************
 
-    * - .. figure:: ./images/move_deep_fast_01.gif
+       Relevant for the Summer 2021 evaluation. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
 
-           :download:`move_deep_fast_01.json <./scenes/move_deep_fast_01.json>`
+       .. list-table::
 
-    * - .. figure:: ./images/move_deep_fast_02.gif
+       * - .. figure:: ./images/move_deep_fast_01.gif
 
-           :download:`move_deep_fast_02.json <./scenes/move_deep_fast_02.json>`
+              :download:`move_deep_fast_01.json <./scenes/move_deep_fast_01.json>`
 
-    * - .. figure:: ./images/move_deep_fast_03.gif
+       * - .. figure:: ./images/move_deep_fast_02.gif
 
-           :download:`move_deep_fast_03.json <./scenes/move_deep_fast_03.json>`
+              :download:`move_deep_fast_02.json <./scenes/move_deep_fast_02.json>`
 
-    * - .. figure:: ./images/move_deep_fast_04.gif
+       * - .. figure:: ./images/move_deep_fast_03.gif
 
-           :download:`move_deep_fast_04.json <./scenes/move_deep_fast_04.json>`
+              :download:`move_deep_fast_03.json <./scenes/move_deep_fast_03.json>`
 
-    * - .. figure:: ./images/move_toss_fast_01.gif
+       * - .. figure:: ./images/move_deep_fast_04.gif
 
-           :download:`move_toss_fast_01.json <./scenes/move_toss_fast_01.json>`
+              :download:`move_deep_fast_04.json <./scenes/move_deep_fast_04.json>`
 
-    * - .. figure:: ./images/move_toss_fast_02.gif
+       * - .. figure:: ./images/move_toss_fast_01.gif
 
-           :download:`move_toss_fast_02.json <./scenes/move_toss_fast_02.json>`
+              :download:`move_toss_fast_01.json <./scenes/move_toss_fast_01.json>`
 
-Object Permanence: Objects Moving on Multiple Axes and Stopping Behind Occluders
-********************************************************************************
+       * - .. figure:: ./images/move_toss_fast_02.gif
 
-Relevant for the Summer 2021 evaluation. Objects may move across the entire screen and exit on the other side (as in previous evaluations), or come to a natural stop behind the occluder. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
+              :download:`move_toss_fast_02.json <./scenes/move_toss_fast_02.json>`
 
-.. list-table::
+       Object Permanence: Objects Moving on Multiple Axes and Stopping Behind Occluders
+       ********************************************************************************
 
-    * - .. figure:: ./images/move_slow_01.gif
+       Relevant for the Summer 2021 evaluation. Objects may move across the entire screen and exit on the other side (as in previous evaluations), or come to a natural stop behind the occluder. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
 
-           :download:`move_slow_01.json <./scenes/move_slow_01.json>`
-    
-    * - .. figure:: ./images/move_slow_02.gif
+       .. list-table::
 
-           :download:`move_deep_slow_01.json <./scenes/move_deep_slow_01.json>`
+       * - .. figure:: ./images/move_slow_01.gif
 
-    * - .. figure:: ./images/move_deep_slow_01.gif
+              :download:`move_slow_01.json <./scenes/move_slow_01.json>`
+       
+       * - .. figure:: ./images/move_slow_02.gif
 
-           :download:`move_toss_slow_01.json <./scenes/move_toss_slow_01.json>`
+              :download:`move_deep_slow_01.json <./scenes/move_deep_slow_01.json>`
 
-    * - .. figure:: ./images/move_deep_slow_02.gif
+       * - .. figure:: ./images/move_deep_slow_01.gif
 
-           :download:`move_slow_02.json <./scenes/move_slow_02.json>`
+              :download:`move_toss_slow_01.json <./scenes/move_toss_slow_01.json>`
 
-    * - .. figure:: ./images/move_toss_slow_01.gif
+       * - .. figure:: ./images/move_deep_slow_02.gif
 
-           :download:`move_deep_slow_02.json <./scenes/move_deep_slow_02.json>`
+              :download:`move_slow_02.json <./scenes/move_slow_02.json>`
 
-    * - .. figure:: ./images/move_toss_slow_02.gif
+       * - .. figure:: ./images/move_toss_slow_01.gif
 
-           :download:`move_toss_slow_02.json <./scenes/move_toss_slow_02.json>`
+              :download:`move_deep_slow_02.json <./scenes/move_deep_slow_02.json>`
 
+       * - .. figure:: ./images/move_toss_slow_02.gif
 
-Object Permanence: Objects Falling Down Behind Occluders
-********************************************************
+              :download:`move_toss_slow_02.json <./scenes/move_toss_slow_02.json>`
 
-Relevant for the Winter 2020 evaluation.
 
-.. list-table::
+       Object Permanence: Objects Falling Down Behind Occluders
+       ********************************************************
 
-    * - .. figure:: ./images/object_permanence_plausible.gif
+       Relevant for the Winter 2020 evaluation.
 
-           :download:`object_permanence_plausible.json <./scenes/object_permanence_plausible.json>`
+       .. list-table::
 
-    * - .. figure:: ./images/object_permanence_implausible.gif
+       * - .. figure:: ./images/object_permanence_plausible.gif
 
-           :download:`object_permanence_implausible.json <./scenes/object_permanence_implausible.json>`
+              :download:`object_permanence_plausible.json <./scenes/object_permanence_plausible.json>`
 
-Spatio-Temporal Continuity: Objects Moving Across Behind Occluders
-******************************************************************
+       * - .. figure:: ./images/object_permanence_implausible.gif
 
-Relevant for the Winter 2020 evaluation.
+              :download:`object_permanence_implausible.json <./scenes/object_permanence_implausible.json>`
 
-.. list-table::
+       Spatio-Temporal Continuity: Objects Moving Across Behind Occluders
+       ******************************************************************
 
-    * - .. figure:: ./images/spatio_temporal_continuity_plausible.gif
+       Relevant for the Winter 2020 evaluation.
 
-           :download:`spatio_temporal_continuity_plausible.json <./scenes/spatio_temporal_continuity_plausible.json>`
+       .. list-table::
 
-    * - .. figure:: ./images/spatio_temporal_continuity_implausible.gif
+       * - .. figure:: ./images/spatio_temporal_continuity_plausible.gif
 
-           :download:`spatio_temporal_continuity_implausible.json <./scenes/spatio_temporal_continuity_implausible.json>`
+              :download:`spatio_temporal_continuity_plausible.json <./scenes/spatio_temporal_continuity_plausible.json>`
 
-Agents Scenes
--------------
+       * - .. figure:: ./images/spatio_temporal_continuity_implausible.gif
 
-Agents Have Goals and Preferences
-*********************************
+              :download:`spatio_temporal_continuity_implausible.json <./scenes/spatio_temporal_continuity_implausible.json>`
 
-.. list-table::
+       Agents Scenes
+       -------------
 
-    * - .. figure:: ./images/agents_preference_expected.gif
+       Agents Have Goals and Preferences
+       *********************************
 
-           :download:`agents_preference_expected.json <./scenes/agents_preference_expected.json>`
+       .. list-table::
 
-    * - .. figure:: ./images/agents_preference_unexpected.gif
+       * - .. figure:: ./images/agents_preference_expected.gif
 
-           :download:`agents_preference_unexpected.json <./scenes/agents_preference_unexpected.json>`
+              :download:`agents_preference_expected.json <./scenes/agents_preference_expected.json>`
 
+       * - .. figure:: ./images/agents_preference_unexpected.gif
 
-Simple Scenes
--------------
+              :download:`agents_preference_unexpected.json <./scenes/agents_preference_unexpected.json>`
 
-With Objects
-************
 
-:download:`ball_close.json <./scenes/ball_close.json>`
+       Simple Scenes
+       -------------
 
-:download:`ball_far.json <./scenes/ball_far.json>`
+       With Objects
+       ************
 
-:download:`ball_obstructed.json <./scenes/ball_obstructed.json>`
+       :download:`ball_close.json <./scenes/ball_close.json>`
 
-:download:`block_close.json <./scenes/block_close.json>`
+       :download:`ball_far.json <./scenes/ball_far.json>`
 
+       :download:`ball_obstructed.json <./scenes/ball_obstructed.json>`
 
-With Walls
-**********
+       :download:`block_close.json <./scenes/block_close.json>`
 
-:download:`wall_ahead.json <./scenes/wall_ahead.json>`
 
-:download:`wall_diagonal.json <./scenes/wall_diagonal.json>`
+       With Walls
+       **********
 
-:download:`wall_offset.json <./scenes/wall_offset.json>`
+       :download:`wall_ahead.json <./scenes/wall_ahead.json>`
 
-:download:`wall_right.json <./scenes/wall_right.json>`
+       :download:`wall_diagonal.json <./scenes/wall_diagonal.json>`
+
+       :download:`wall_offset.json <./scenes/wall_offset.json>`
+
+       :download:`wall_right.json <./scenes/wall_right.json>`
