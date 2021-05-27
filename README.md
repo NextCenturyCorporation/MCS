@@ -212,11 +212,11 @@ for scene_file in scene_files:
 
 ## Documentation
 
-<!-- TODO where are sphinx docs published? -->
-- [Python API](./machine_common_sense/API.md)
-- [Example Scene Configuration Files](./machine_common_sense/scenes/README.md)
-- [Scene Configuration JSON Schema](./machine_common_sense/scenes/SCHEMA.md)
-- [Developer Docs](./machine_common_sense/DEV.md)
+- [Documentation Home](https://nextcenturycorporation.github.io/MCS)
+- [Python API](https://nextcenturycorporation.github.io/MCS/api.html)
+- [Example Scene Configuration Files](https://nextcenturycorporation.github.io/MCS/scenes.html)
+- [Scene Configuration JSON Schema](https://nextcenturycorporation.github.io/MCS/schema.html)
+- [Developer Docs](https://nextcenturycorporation.github.io/MCS/dev.html)
 
 ## Other MCS GitHub Repositories
 
