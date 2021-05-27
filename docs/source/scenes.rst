@@ -15,3 +15,6 @@ An open room containing over 40 objects for undirected exploration.
 
 :download:`playroom.json <scenes/playroom.json>`
 
+Testing png vs gif
+
+.. image:: ./images/screenshot_unity_editor.png
