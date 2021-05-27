@@ -15,7 +15,7 @@ class TestHistoryWriter(unittest.TestCase):
     config_data = SceneConfiguration(name=TEST_FILE_NAME)
     prefix_config_data = SceneConfiguration(name=f"{PREFIX}/{TEST_FILE_NAME}")
 
-    @ classmethod
+    @classmethod
     def tearDownClass(cls):
         # remove all TEST_FILE_NAME in PREFIX
         test_file_base = os.path.splitext(TEST_FILE_NAME)[0]
