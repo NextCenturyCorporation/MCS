@@ -7,7 +7,8 @@ from types import SimpleNamespace
 import numpy
 
 import machine_common_sense as mcs
-from machine_common_sense.config_manager import ConfigManager
+from machine_common_sense.config_manager import (ConfigManager,
+                                                 SceneConfiguration, Vector3d)
 from machine_common_sense.goal_metadata import GoalMetadata
 
 from .mock_controller import MOCK_VARIABLES, MockControllerAI2THOR
@@ -794,6 +795,34 @@ class TestController(unittest.TestCase):
 
         self.controller.set_metadata_tier('none')
         self.assertEqual('none', self.controller.get_metadata_level())
+
+    def test_scene_configuration_deserialization(self):
+        config = SceneConfiguration()
+        actual = self.controller._convert_scene_config(config)
+        # should be same instance
+        self.assertEqual(config, actual)
+
+        config = {}
+        actual = self.controller._convert_scene_config(config)
+        # should be same instance
+        self.assertEqual(None, actual.name)
+        self.assertEqual(None, actual.floorMaterial)
+        self.assertEqual([], actual.objects)
+        self.assertEqual(None, actual.roomDimensions)
+        self.assertEqual(None, actual.goal)
+
+        config = {"name": "name1", "roomDimensions": {"x": 1, "y": 2, "z": 3}}
+        actual = self.controller._convert_scene_config(config)
+        self.assertIsInstance(actual, SceneConfiguration)
+        self.assertEqual("name1", actual.name)
+        self.assertEqual(None, actual.floorMaterial)
+        self.assertEqual([], actual.objects)
+        self.assertIsNotNone(actual.roomDimensions)
+        self.assertIsInstance(actual.roomDimensions, Vector3d)
+        self.assertEqual(1, actual.roomDimensions.x)
+        self.assertEqual(2, actual.roomDimensions.y)
+        self.assertEqual(3, actual.roomDimensions.z)
+        self.assertEqual(None, actual.goal)
 
     def test_remove_none(self):
         actual = self.controller._remove_none({})

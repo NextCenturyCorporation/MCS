@@ -283,6 +283,14 @@ class Controller():
             atexit.unregister(self.end_scene)
             self._end_scene_not_registered = True
 
+    def _convert_scene_config(self, config_data) -> SceneConfiguration:
+        if isinstance(config_data, SceneConfiguration):
+            scene_config = config_data
+        else:
+            schema = SceneConfigurationSchema()
+            scene_config = schema.load(config_data)
+        return scene_config
+
     def start_scene(self, config_data):
         """
         Starts a new scene using the given scene configuration data dict and
@@ -301,11 +309,7 @@ class Controller():
             an "Initialize" action).
         """
 
-        if isinstance(config_data, SceneConfiguration):
-            scene_config = config_data
-        else:
-            schema = SceneConfigurationSchema()
-            scene_config = schema.load(config_data)
+        scene_config = self._convert_scene_config(config_data)
 
         self._scene_config = scene_config
         self.__habituation_trial = 1
