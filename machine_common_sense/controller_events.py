@@ -1,12 +1,17 @@
 import datetime
 import enum
 from abc import ABC
+from dataclasses import dataclass
 from typing import Dict, List
 
 import PIL
+from ai2thor.server import Event
+from marshmallow import Schema, fields  # , post_load
 
 from .config_manager import ConfigManager, SceneConfiguration
 from .goal_metadata import GoalMetadata
+from .step_metadata import StepMetadata
+from .uploader import S3Uploader
 
 
 class EventType(enum.Enum):
@@ -20,10 +25,70 @@ class EventType(enum.Enum):
     ON_END_SCENE = enum.auto()
 
 
-class BaseEventPayload:
+class BaseEventPayloadSchema(Schema):
+    step_number = fields.Int()
 
-    def __init__(self, step_number: int):
-        self.step_number = step_number
+
+@dataclass
+class BaseEventPayload:
+    step_number: int
+    config: ConfigManager
+    scene_config: SceneConfiguration
+
+
+@dataclass
+class BasePostActionEventPayload(BaseEventPayload):
+    output_folder: str
+    timestamp: str
+    wrapped_step: dict
+    step_metadata: Event  # ai2thor.server.event
+    step_output: StepMetadata
+    restricted_step_output: StepMetadata
+    goal: GoalMetadata
+
+
+@dataclass
+class StartScenePayload(BasePostActionEventPayload):
+    pass
+
+
+@dataclass
+class AfterStepPayload(BasePostActionEventPayload):
+    ai2thor_action: str
+    step_params: dict
+    action_kwargs: dict
+
+
+@dataclass
+class BeforeStepPayload(BaseEventPayload):
+    action: str
+    goal: GoalMetadata
+    habituation_trial: int
+
+
+@dataclass
+class EndScenePayload(BaseEventPayload):
+    choice: str
+    confidence: float
+    uploader: S3Uploader  # allow none
+    uploader_folder_prefix: str  # allow none
+
+
+'''class StartScenePayloadSchema(Schema):
+    scene_config = fields.Nested(SceneConfigurationSchema)
+    # config =
+    # action =
+    # goal =
+    habitation_trial = fields.Int()
+    restricted_step_output
+    wrapped_step = wrapped_step
+    step_metadata = step_output
+    step_output = pre_restrict_output
+    restricted_step_output = output
+
+    @post_load
+    def make_scene_configuration(self, data, **kwargs):
+        return SceneConfiguration(**data)'''
 
 
 class ControllerEventPayload(BaseEventPayload):
