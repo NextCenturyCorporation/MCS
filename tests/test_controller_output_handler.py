@@ -4,7 +4,9 @@ from types import SimpleNamespace
 import numpy
 
 import machine_common_sense as mcs
-from machine_common_sense.config_manager import ConfigManager
+from machine_common_sense.config_manager import (ConfigManager,
+                                                 SceneConfiguration,
+                                                 SceneConfigurationSchema)
 from machine_common_sense.controller_output_handler import StepOutput
 from machine_common_sense.goal_metadata import GoalMetadata
 
@@ -476,11 +478,11 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         stepOutput = StepOutput(
-            self._config, {}, mock_event, 0)
+            self._config, SceneConfiguration(), mock_event, 0)
         stepOutput.process_image_data()
         actual = stepOutput.get_step_metadata(GoalMetadata(), 1, True)
 
-        self.assertEqual(actual.action_list, ConfigManager.ACTION_LIST)
+        self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
         self.assertEqual(actual.camera_clipping_planes, (0, 15))
         self.assertEqual(actual.camera_field_of_view, 42.5)
@@ -621,7 +623,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         })
         '''
 
-        self.assertEqual(actual.action_list, ConfigManager.ACTION_LIST)
+        self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
         self.assertEqual(actual.camera_clipping_planes, (0, 15))
         self.assertEqual(actual.camera_field_of_view, 42.5)
@@ -672,7 +674,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         stepOutput.process_image_data()
         actual = stepOutput.get_step_metadata(GoalMetadata(), 1, True)
 
-        self.assertEqual(actual.action_list, ConfigManager.ACTION_LIST)
+        self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
         self.assertEqual(actual.camera_clipping_planes, (0, 15))
         self.assertEqual(actual.camera_field_of_view, 42.5)
@@ -712,7 +714,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         stepOutput.process_image_data()
         actual = stepOutput.get_step_metadata(GoalMetadata(), 1, True)
 
-        self.assertEqual(actual.action_list, ConfigManager.ACTION_LIST)
+        self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
         self.assertEqual(actual.camera_clipping_planes, (0, 15))
         self.assertEqual(actual.camera_field_of_view, 42.5)
@@ -749,11 +751,11 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         stepOutput = StepOutput(
-            self._config, {}, mock_event, 0)
+            self._config, SceneConfiguration(), mock_event, 0)
         stepOutput.process_image_data()
         actual = stepOutput.get_step_metadata(GoalMetadata(), 1, False)
 
-        self.assertEqual(actual.action_list, ConfigManager.ACTION_LIST)
+        self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
         self.assertEqual(actual.camera_clipping_planes, (0, 15))
         self.assertEqual(actual.camera_field_of_view, 42.5)
@@ -799,11 +801,11 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         stepOutput = StepOutput(
-            self._config, {}, mock_event, 0)
+            self._config, SceneConfiguration(), mock_event, 0)
         stepOutput.process_image_data()
         actual = stepOutput.get_step_metadata(GoalMetadata(), 1, True)
 
-        self.assertEqual(actual.action_list, ConfigManager.ACTION_LIST)
+        self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
         self.assertEqual(actual.camera_clipping_planes, (0, 15))
         self.assertEqual(actual.camera_field_of_view, 42.5)
@@ -934,7 +936,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         stepOutput = StepOutput(
-            self._config, {}, mock_event, 0)
+            self._config, SceneConfiguration(), mock_event, 0)
         actual = stepOutput.retrieve_object_list()
         self.assertEqual(len(actual), 2)
 
@@ -995,9 +997,12 @@ class TestControllerOutputHandler(unittest.TestCase):
             'name': 'test name',
             'objects': [{
                 'id': 'testId1',
+                'type': "ball",
                 'states': [['a', 'b'], ['c', 'd']]
             }]
         }
+
+        scene_config = SceneConfigurationSchema().load(scene_config)
 
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
 
@@ -1024,7 +1029,11 @@ class TestControllerOutputHandler(unittest.TestCase):
         self._config.set_metadata_tier('oracle')
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        stepOutput = StepOutput(self._config, {}, mock_event, 0)
+        stepOutput = StepOutput(
+            self._config,
+            SceneConfiguration(),
+            mock_event,
+            0)
         actual = stepOutput.retrieve_object_list()
         self.assertEqual(len(actual), 3)
 
@@ -1111,7 +1120,11 @@ class TestControllerOutputHandler(unittest.TestCase):
         self._config.set_metadata_tier('level2')
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        stepOutput = StepOutput(self._config, {}, mock_event, 0)
+        stepOutput = StepOutput(
+            self._config,
+            SceneConfiguration(),
+            mock_event,
+            0)
         actual = stepOutput.retrieve_object_list()
         self.assertEqual(len(actual), 3)
 
@@ -1119,7 +1132,11 @@ class TestControllerOutputHandler(unittest.TestCase):
         self._config.set_metadata_tier('level1')
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        stepOutput = StepOutput(self._config, {}, mock_event, 0)
+        stepOutput = StepOutput(
+            self._config,
+            SceneConfiguration(),
+            mock_event,
+            0)
         actual = stepOutput.retrieve_object_list()
         self.assertEqual(len(actual), 3)
 
@@ -1127,7 +1144,11 @@ class TestControllerOutputHandler(unittest.TestCase):
         self._config.set_metadata_tier('none')
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        stepOutput = StepOutput(self._config, {}, mock_event, 0)
+        stepOutput = StepOutput(
+            self._config,
+            SceneConfiguration(),
+            mock_event,
+            0)
         actual = stepOutput.retrieve_object_list()
         self.assertEqual(len(actual), 3)
 

@@ -2,7 +2,8 @@ import os
 import unittest
 from unittest.mock import patch
 
-from machine_common_sense.config_manager import ConfigManager
+from machine_common_sense.config_manager import (ConfigManager, GoalSchema,
+                                                 SceneConfiguration)
 
 
 class TestConfigManager(unittest.TestCase):
@@ -255,6 +256,148 @@ class TestConfigManager(unittest.TestCase):
         ] = 'false'
 
         self.assertFalse(self.config_mngr.is_noise_enabled())
+
+
+class TestSceneConfig(unittest.TestCase):
+    def test_retrieve_goal_with_config_metadata(self):
+        # self.controller.set_metadata_tier('oracle')
+        goal = {
+            'metadata': {
+                'target': {'image': [0]},
+                'target_1': {'image': [1]},
+                'target_2': {'image': [2]}
+            }
+        }
+
+        goal = GoalSchema().load(goal)
+        scene_config = SceneConfiguration(name="test", version=1, goal=goal)
+        actual = scene_config.retrieve_goal()
+        self.assertEqual(actual.metadata, {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        })
+
+    def test_retrieve_goal(self):
+        goal = GoalSchema().load({})
+        scene_config = SceneConfiguration(name="test", version=1, goal=goal)
+        goal_1 = scene_config.retrieve_goal()
+        self.assertEqual(goal_1.action_list, None)
+        self.assertEqual(goal_1.category, '')
+        self.assertEqual(goal_1.description, '')
+        self.assertEqual(goal_1.habituation_total, 0)
+        self.assertEqual(goal_1.last_step, None)
+        self.assertEqual(goal_1.metadata, {})
+
+        goal = {
+            "goal": {
+            }
+        }
+        goal = GoalSchema().load({})
+        scene_config = SceneConfiguration(
+            name="test", version=1, goal=goal)
+        goal_2 = scene_config.retrieve_goal()
+        self.assertEqual(goal_2.action_list, None)
+        self.assertEqual(goal_2.category, '')
+        self.assertEqual(goal_2.description, '')
+        self.assertEqual(goal_2.habituation_total, 0)
+        self.assertEqual(goal_2.last_step, None)
+        self.assertEqual(goal_2.metadata, {})
+
+        goal = {
+            "action_list": [
+                [("MoveAhead", {"amount": 0.1})],
+                [],
+                [("Pass", {}), ("RotateLeft", {}), ("RotateRight", {})]
+            ],
+            "category": "test category",
+            "description": "test description",
+            "habituation_total": 5,
+            "last_step": 10,
+            "metadata": {
+                "key": "value"
+            }
+        }
+        goal = GoalSchema().load(goal)
+        scene_config = SceneConfiguration(
+            name="test", version=1, goal=goal)
+        goal_3 = scene_config.retrieve_goal()
+
+        self.assertEqual(goal_3.action_list, [
+            [("MoveAhead", {"amount": 0.1})],
+            [],
+            [("Pass", {}), ("RotateLeft", {}), ("RotateRight", {})]
+        ])
+        self.assertEqual(goal_3.category, "test category")
+        self.assertEqual(goal_3.description, "test description")
+        self.assertEqual(goal_3.habituation_total, 5)
+        self.assertEqual(goal_3.last_step, 10)
+        self.assertEqual(goal_3.metadata, {
+            "category": "test category",
+            "key": "value"
+        })
+
+    def test_update_goal_target_image(self):
+        goal = {'metadata': {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        }
+        }
+        goal = GoalSchema().load(goal)
+        scene_config = SceneConfiguration(name="test", version=1, goal=goal)
+        actual = scene_config.update_goal_target_image(scene_config.goal)
+        self.assertEqual(actual.metadata, {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        })
+
+    def test_update_goal_target_image_img_as_str(self):
+        goal = {'metadata': {
+            'target': {'image': "[0]"},
+            'target_1': {'image': "[1]"},
+            'target_2': {'image': "[2]"}
+        }
+        }
+        goal = GoalSchema().load(goal)
+        scene_config = SceneConfiguration(name="test", version=1, goal=goal)
+        actual = scene_config.update_goal_target_image(scene_config.goal)
+        self.assertEqual(actual.metadata, {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        })
+
+    def test_update_goal_target_image_oracle(self):
+        goal = {'metadata': {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        }}
+        goal = GoalSchema().load(goal)
+        scene_config = SceneConfiguration(name="test", version=1, goal=goal)
+        actual = scene_config.update_goal_target_image(scene_config.goal)
+        self.assertEqual(actual.metadata, {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        })
+
+    def test_update_goal_target_image_oracle_img_as_str(self):
+        goal = {'metadata': {
+            'target': {'image': "[0]"},
+            'target_1': {'image': "[1]"},
+            'target_2': {'image': "[2]"}
+        }}
+        goal = GoalSchema().load(goal)
+        scene_config = SceneConfiguration(name="test", version=1, goal=goal)
+        actual = scene_config.update_goal_target_image(scene_config.goal)
+        self.assertEqual(actual.metadata, {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        })
 
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@ import cmd
 from getch_helper import getch
 
 import machine_common_sense as mcs
-from machine_common_sense.config_manager import ConfigManager
+from machine_common_sense.goal_metadata import GoalMetadata
 from machine_common_sense.logging_config import LoggingConfig
 
 commandList = []
@@ -173,7 +173,7 @@ class HumanInputShell(cmd.Cmd):
     def show_available_actions(self, output):
         if (
             output.action_list and
-            len(output.action_list) < len(ConfigManager.ACTION_LIST)
+            len(output.action_list) < len(GoalMetadata.ACTION_LIST)
         ):
             print('Only actions available during this step:')
             for action, params in output.action_list:

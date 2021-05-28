@@ -114,7 +114,7 @@ class HistoryWriter(object):
             logger.debug(f"Making history directory {self.HISTORY_DIRECTORY}")
             os.makedirs(self.HISTORY_DIRECTORY)
 
-        scene_name = scene_config_data['name']
+        scene_name = scene_config_data.name
         prefix_directory = None
         if '/' in scene_name:
             prefix, scene_basename = scene_name.rsplit('/', 1)
@@ -123,13 +123,12 @@ class HistoryWriter(object):
                 logger.debug(f"Making prefix directory {prefix_directory}")
                 os.makedirs(prefix_directory)
 
-        if ('screenshot' not in scene_config_data or
-                not scene_config_data['screenshot']):
+        if (not scene_config_data.screenshot):
             self.scene_history_file = os.path.join(
-                self.HISTORY_DIRECTORY, scene_config_data['name'].replace(
+                self.HISTORY_DIRECTORY, scene_config_data.name.replace(
                     '.json', '') + "-" + timestamp + ".json")
 
-        self.info_obj['name'] = scene_config_data['name'].replace(
+        self.info_obj['name'] = scene_config_data.name.replace(
             '.json', '')
         self.info_obj['timestamp'] = timestamp
 

@@ -14,9 +14,7 @@ class ControllerLogger(AbstractControllerSubscriber):
     def on_start_scene(self, payload):
         logger.debug(
             "STARTING NEW SCENE: " +
-            payload.scene_config.get(
-                'name',
-                ""))
+            payload.scene_config.name)
         logger.debug(
             "METADATA TIER: " +
             payload.config.get_metadata_tier())
