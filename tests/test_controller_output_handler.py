@@ -24,9 +24,6 @@ class TestControllerOutputHandler(unittest.TestCase):
     def tearDownClass(cls) -> None:
         pass
 
-    def do_nothing(self):
-        pass
-
     def create_mock_scene_event(self, mock_scene_event_data):
         # Wrap the dict in a SimpleNamespace object to permit property access
         # with dotted notation since the actual variable is a class, not a
@@ -360,7 +357,7 @@ class TestControllerOutputHandler(unittest.TestCase):
             }
         }
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        SceneEvent.__post_init__ = self.do_nothing
+
         scene_event = SceneEvent(
             self._config, {}, mock_event, 0)
         ret_status = scene_event.pose
@@ -908,7 +905,6 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
-        SceneEvent.__post_init__ = self.do_nothing
         scene_event = SceneEvent(
             self._config, SceneConfiguration(), mock_event, 0)
         actual = scene_event.object_list
