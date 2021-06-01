@@ -191,7 +191,6 @@ class Controller():
             # change later
             subscriber.on_event(event_type, payload)
 
-    # TODO this is a huge data dumpster and needs to be thought about
     def _create_event_payload_kwargs(self):
         return {"step_number": self.__step_number,
                 "config": self._config,
