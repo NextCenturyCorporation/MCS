@@ -601,28 +601,6 @@ class TestControllerOutputHandler(unittest.TestCase):
         stepOutput.process_image_data()
         actual = stepOutput.get_step_metadata(GoalMetadata(), 1, True)
 
-        '''pre_restrict.goal = self.controller.retrieve_goal({
-            'goal': {
-                'metadata': {
-                    'target': {'image': [0], 'id': '1',
-                               'image_name': "name_1"},
-                    'target_1': {'image': [1], 'id': '2',
-                                 'image_name': "name_2"},
-                    'target_2': {'image': [2], 'id': '3',
-                                 'image_name': "name_3"}
-                }
-            }
-        })
-
-        actual = self.controller.restrict_step_output_metadata(pre_restrict)
-
-        self.assertEqual(pre_restrict.goal.metadata, {
-            'target': {'image': None, 'id': None, 'image_name': None},
-            'target_1': {'image': None, 'id': None, 'image_name': None},
-            'target_2': {'image': None, 'id': None, 'image_name': None}
-        })
-        '''
-
         self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
         self.assertEqual(actual.camera_clipping_planes, (0, 15))
