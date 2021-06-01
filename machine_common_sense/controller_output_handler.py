@@ -26,6 +26,33 @@ class SceneEvent():
     _raw_output: Event
     _step_number: int
 
+    def __post_init__(self):
+        max_depth = self.clipping_plane_far
+        self.image_list = []
+        self.depth_map_list = []
+        self.object_mask_list = []
+
+        for index, event in enumerate(self.events):
+            scene_image = PIL.Image.fromarray(event.frame)
+            self.image_list.append(scene_image)
+
+            if self._config.is_depth_maps_enabled():
+                # The Unity depth array (returned by Depth.shader) contains
+                # a third of the total max depth in each RGB element.
+                unity_depth_array = event.depth_frame.astype(np.float32)
+                # Convert to values between 0 and max_depth for output.
+                depth_float_array = (
+                    (unity_depth_array[:, :, 0] * (max_depth / 3.0) / 255.0) +
+                    (unity_depth_array[:, :, 1] * (max_depth / 3.0) / 255.0) +
+                    (unity_depth_array[:, :, 2] * (max_depth / 3.0) / 255.0)
+                )
+                self.depth_map_list.append(np.array(depth_float_array))
+
+            if self._config.is_object_masks_enabled():
+                object_mask = PIL.Image.fromarray(
+                    event.instance_segmentation_frame)
+                self.object_mask_list.append(object_mask)
+
     @property
     def objects(self) -> list:
         return self._raw_output.metadata.get('objects', None)
@@ -48,12 +75,13 @@ class SceneEvent():
 
     @property
     def clipping_plane_near(self):
-        return self._raw_output.metadata.get('clippingPlaneNear', 0.0),
+        return self._raw_output.metadata.get('clippingPlaneNear', 0.0)
 
     @property
     def clipping_plane_far(self):
         # Review: The clipping plane is retrieved in two different places.
-        # One had the default as 0, the other had the default as the constant
+        # The Step Output constructor had the default as 0, the image
+        # processing had the default as the constant
         # from the ConfigManager.  This seems wrong so I put it as the
         # constant.  We should discuss before final approval.
         # self._raw_output.metadata.get('clippingPlaneFar', 0.0)
@@ -271,18 +299,11 @@ class ControllerOutputHandler():
         self._scene_event = SceneEvent(
             self._config, self._scene_config, raw_output, step_number)
         self._step_number = step_number
-        self._process_image_data(self._scene_event)
         unrestricted = self._get_step_metadata(
             goal, habituation_trial, False)
         restricted = self._get_step_metadata(
             goal, habituation_trial, True)
         return (unrestricted, restricted)
-
-    def _process_image_data(self, scene_event: SceneEvent):
-        self._image_list, self._depth_map_list, self._object_mask_list = \
-            self.save_image_data(
-                scene_event.clipping_plane_far
-            )
 
     # used to be wrap output
     def _get_step_metadata(self, goal, habituation_trial,
@@ -306,11 +327,13 @@ class ControllerOutputHandler():
              metadata_tier == ConfigManager.CONFIG_METADATA_TIER_LEVEL_2)
         )
 
-        depth_map_list = [] if restrict_depth_map else self._depth_map_list
-        # image_list = [] if restrict_non_oracle else self._image_list
-        image_list = self._image_list
+        depth_map_list = [] if restrict_depth_map else (
+            self._scene_event.depth_map_list)
+        # image_list = [] if restrict_non_oracle else
+        # self._scene_event.image_list
+        image_list = self._scene_event.image_list
         object_mask_list = ([] if restrict_object_mask_list else
-                            self._object_mask_list)
+                            self._scene_event.object_mask_list)
 
         objects = self._scene_event.objects
         agent = self._scene_event.agent
@@ -323,7 +346,7 @@ class ControllerOutputHandler():
                 self._config.get_screen_height()),
             camera_clipping_planes=(
                 self._scene_event.clipping_plane_near,
-                self._scene_event.clipping_plane_far,
+                self._scene_event.clipping_plane_far
             ),
             camera_field_of_view=self._scene_event.camera_field_of_view,
             camera_height=self._scene_event.camera_height,
@@ -379,31 +402,3 @@ class ControllerOutputHandler():
                             target_name]['image_name'] = None
 
         return step_output
-
-    def save_image_data(self, max_depth):
-        image_list = []
-        depth_map_list = []
-        object_mask_list = []
-
-        for index, event in enumerate(self._scene_event.events):
-            scene_image = PIL.Image.fromarray(event.frame)
-            image_list.append(scene_image)
-
-            if self._config.is_depth_maps_enabled():
-                # The Unity depth array (returned by Depth.shader) contains
-                # a third of the total max depth in each RGB element.
-                unity_depth_array = event.depth_frame.astype(np.float32)
-                # Convert to values between 0 and max_depth for output.
-                depth_float_array = (
-                    (unity_depth_array[:, :, 0] * (max_depth / 3.0) / 255.0) +
-                    (unity_depth_array[:, :, 1] * (max_depth / 3.0) / 255.0) +
-                    (unity_depth_array[:, :, 2] * (max_depth / 3.0) / 255.0)
-                )
-                depth_map_list.append(np.array(depth_float_array))
-
-            if self._config.is_object_masks_enabled():
-                object_mask = PIL.Image.fromarray(
-                    event.instance_segmentation_frame)
-                object_mask_list.append(object_mask)
-
-        return image_list, depth_map_list, object_mask_list

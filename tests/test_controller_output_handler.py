@@ -7,7 +7,8 @@ import machine_common_sense as mcs
 from machine_common_sense.config_manager import (ConfigManager,
                                                  SceneConfiguration,
                                                  SceneConfigurationSchema)
-from machine_common_sense.controller_output_handler import StepOutput
+from machine_common_sense.controller_output_handler import (
+    ControllerOutputHandler, SceneEvent)
 from machine_common_sense.goal_metadata import GoalMetadata
 
 
@@ -21,6 +22,9 @@ class TestControllerOutputHandler(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls) -> None:
+        pass
+
+    def do_nothing(self):
         pass
 
     def create_mock_scene_event(self, mock_scene_event_data):
@@ -356,9 +360,10 @@ class TestControllerOutputHandler(unittest.TestCase):
             }
         }
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        stepOutput = StepOutput(
+        SceneEvent.__post_init__ = self.do_nothing
+        scene_event = SceneEvent(
             self._config, {}, mock_event, 0)
-        ret_status = stepOutput.retrieve_pose()
+        ret_status = scene_event.pose
         self.assertEqual(ret_status, mcs.Pose.STANDING.name)
 
         mock_scene_event_data = {
@@ -367,9 +372,9 @@ class TestControllerOutputHandler(unittest.TestCase):
             }
         }
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        stepOutput = StepOutput(
+        scene_event = SceneEvent(
             self._config, {}, mock_event, 0)
-        ret_status = stepOutput.retrieve_pose()
+        ret_status = scene_event.pose
         self.assertEqual(ret_status, mcs.Pose.CRAWLING.name)
 
         mock_scene_event_data = {
@@ -378,9 +383,9 @@ class TestControllerOutputHandler(unittest.TestCase):
             }
         }
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        stepOutput = StepOutput(
+        scene_event = SceneEvent(
             self._config, {}, mock_event, 0)
-        ret_status = stepOutput.retrieve_pose()
+        ret_status = scene_event.pose
         self.assertEqual(ret_status, mcs.Pose.LYING.name)
 
     def test_retrieve_return_status(self):
@@ -391,10 +396,10 @@ class TestControllerOutputHandler(unittest.TestCase):
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        stepOutput = StepOutput(
+        scene_event = SceneEvent(
             self._config, {}, mock_event, 0)
 
-        actual = stepOutput.retrieve_return_status()
+        actual = scene_event.return_status
         self.assertEqual(actual, mcs.ReturnStatus.SUCCESSFUL.name)
 
         mock_scene_event_data = {
@@ -404,9 +409,9 @@ class TestControllerOutputHandler(unittest.TestCase):
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        stepOutput = StepOutput(
+        scene_event = SceneEvent(
             self._config, {}, mock_event, 0)
-        actual = stepOutput.retrieve_return_status()
+        actual = scene_event.return_status
         self.assertEqual(actual, mcs.ReturnStatus.FAILED.name)
 
         mock_scene_event_data = {
@@ -416,9 +421,9 @@ class TestControllerOutputHandler(unittest.TestCase):
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        stepOutput = StepOutput(
+        scene_event = SceneEvent(
             self._config, {}, mock_event, 0)
-        actual = stepOutput.retrieve_return_status()
+        actual = scene_event.return_status
         self.assertEqual(actual, mcs.ReturnStatus.UNDEFINED.name)
 
         mock_scene_event_data = {
@@ -428,9 +433,9 @@ class TestControllerOutputHandler(unittest.TestCase):
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        stepOutput = StepOutput(
+        scene_event = SceneEvent(
             self._config, {}, mock_event, 0)
-        actual = stepOutput.retrieve_return_status()
+        actual = scene_event.return_status
         self.assertEqual(actual, mcs.ReturnStatus.UNDEFINED.name)
 
     def test_retrieve_head_tilt(self):
@@ -445,10 +450,10 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
-        stepOutput = StepOutput(
+        scene_event = SceneEvent(
             self._config, {}, mock_event, 0)
 
-        actual = stepOutput.retrieve_head_tilt()
+        actual = scene_event.head_tilt
         self.assertEqual(actual, 12.34)
 
         mock_scene_event_data = {
@@ -461,9 +466,9 @@ class TestControllerOutputHandler(unittest.TestCase):
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        stepOutput = StepOutput(
+        scene_event = SceneEvent(
             self._config, {}, mock_event, 0)
-        actual = stepOutput.retrieve_head_tilt()
+        actual = scene_event.head_tilt
         self.assertEqual(actual, -56.78)
 
     def test_wrap_output(self):
@@ -477,10 +482,9 @@ class TestControllerOutputHandler(unittest.TestCase):
         ) = self.create_wrap_output_scene_event()
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
-        stepOutput = StepOutput(
-            self._config, SceneConfiguration(), mock_event, 0)
-        stepOutput.process_image_data()
-        actual = stepOutput.get_step_metadata(GoalMetadata(), 1, True)
+        coh = ControllerOutputHandler(self._config)
+        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
@@ -596,10 +600,9 @@ class TestControllerOutputHandler(unittest.TestCase):
         ) = self.create_wrap_output_scene_event()
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
-        stepOutput = StepOutput(
-            self._config, {}, mock_event, 0)
-        stepOutput.process_image_data()
-        actual = stepOutput.get_step_metadata(GoalMetadata(), 1, True)
+        coh = ControllerOutputHandler(self._config)
+        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
@@ -647,10 +650,9 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
-        stepOutput = StepOutput(
-            self._config, {}, mock_event, 0)
-        stepOutput.process_image_data()
-        actual = stepOutput.get_step_metadata(GoalMetadata(), 1, True)
+        coh = ControllerOutputHandler(self._config)
+        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
@@ -687,10 +689,9 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
-        stepOutput = StepOutput(
-            self._config, {}, mock_event, 0)
-        stepOutput.process_image_data()
-        actual = stepOutput.get_step_metadata(GoalMetadata(), 1, True)
+        coh = ControllerOutputHandler(self._config)
+        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
@@ -728,10 +729,9 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
-        stepOutput = StepOutput(
-            self._config, SceneConfiguration(), mock_event, 0)
-        stepOutput.process_image_data()
-        actual = stepOutput.get_step_metadata(GoalMetadata(), 1, False)
+        coh = ControllerOutputHandler(self._config)
+        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        (actual, res) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
@@ -778,10 +778,9 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
-        stepOutput = StepOutput(
-            self._config, SceneConfiguration(), mock_event, 0)
-        stepOutput.process_image_data()
-        actual = stepOutput.get_step_metadata(GoalMetadata(), 1, True)
+        coh = ControllerOutputHandler(self._config)
+        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
@@ -832,15 +831,12 @@ class TestControllerOutputHandler(unittest.TestCase):
             "metadata": {"objects": []}
         }
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-
-        stepOutput = StepOutput(
+        scene_event = SceneEvent(
             self._config, {}, mock_event, 0)
-        stepOutput.process_image_data()
-        # actual = stepOutput.get_step_metadata(GoalMetadata(), 1, True)
 
-        image_list = stepOutput._image_list
-        depth_map_list = stepOutput._depth_map_list
-        object_mask_list = stepOutput._object_mask_list
+        image_list = scene_event.image_list
+        depth_map_list = scene_event.depth_map_list
+        object_mask_list = scene_event.object_mask_list
 
         self.assertEqual(len(image_list), 1)
         self.assertEqual(len(depth_map_list), 1)
@@ -880,13 +876,12 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
-        stepOutput = StepOutput(
+        scene_event = SceneEvent(
             self._config, {}, mock_event, 0)
-        stepOutput.process_image_data()
 
-        image_list = stepOutput._image_list
-        depth_map_list = stepOutput._depth_map_list
-        object_mask_list = stepOutput._object_mask_list
+        image_list = scene_event.image_list
+        depth_map_list = scene_event.depth_map_list
+        object_mask_list = scene_event.object_mask_list
 
         self.assertEqual(len(image_list), 2)
         self.assertEqual(len(depth_map_list), 2)
@@ -913,9 +908,10 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
-        stepOutput = StepOutput(
+        SceneEvent.__post_init__ = self.do_nothing
+        scene_event = SceneEvent(
             self._config, SceneConfiguration(), mock_event, 0)
-        actual = stepOutput.retrieve_object_list()
+        actual = scene_event.object_list
         self.assertEqual(len(actual), 2)
 
         self.assertEqual(actual[0].uuid, "testId1")
@@ -986,15 +982,15 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
-        stepOutput = StepOutput(self._config, scene_config, mock_event, 0)
-        actual = stepOutput.retrieve_object_list()
+        scene_event = SceneEvent(self._config, scene_config, mock_event, 0)
+        actual = scene_event.object_list
 
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
-        stepOutput = StepOutput(self._config, scene_config, mock_event, 0)
+        scene_event = SceneEvent(self._config, scene_config, mock_event, 0)
 
-        actual = stepOutput.retrieve_object_list()
+        actual = scene_event.object_list
         self.assertEqual(len(actual), 2)
 
         self.assertEqual(actual[0].uuid, "testId1")
@@ -1007,12 +1003,12 @@ class TestControllerOutputHandler(unittest.TestCase):
         self._config.set_metadata_tier('oracle')
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        stepOutput = StepOutput(
+        scene_event = SceneEvent(
             self._config,
             SceneConfiguration(),
             mock_event,
             0)
-        actual = stepOutput.retrieve_object_list()
+        actual = scene_event.object_list
         self.assertEqual(len(actual), 3)
 
         self.assertEqual(actual[0].uuid, "testId1")
@@ -1098,36 +1094,36 @@ class TestControllerOutputHandler(unittest.TestCase):
         self._config.set_metadata_tier('level2')
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        stepOutput = StepOutput(
+        scene_event = SceneEvent(
             self._config,
             SceneConfiguration(),
             mock_event,
             0)
-        actual = stepOutput.retrieve_object_list()
+        actual = scene_event.object_list
         self.assertEqual(len(actual), 3)
 
     def test_retrieve_object_list_with_config_metadata_level1(self):
         self._config.set_metadata_tier('level1')
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        stepOutput = StepOutput(
+        scene_event = SceneEvent(
             self._config,
             SceneConfiguration(),
             mock_event,
             0)
-        actual = stepOutput.retrieve_object_list()
+        actual = scene_event.object_list
         self.assertEqual(len(actual), 3)
 
     def test_retrieve_object_list_with_config_metadata_none(self):
         self._config.set_metadata_tier('none')
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        stepOutput = StepOutput(
+        scene_event = SceneEvent(
             self._config,
             SceneConfiguration(),
             mock_event,
             0)
-        actual = stepOutput.retrieve_object_list()
+        actual = scene_event.object_list
         self.assertEqual(len(actual), 3)
 
 
