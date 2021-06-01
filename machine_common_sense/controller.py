@@ -191,14 +191,14 @@ class Controller():
             # change later
             subscriber.on_event(event_type, payload)
 
-    def _create_event_payload_kwargs(self):
+    def _create_event_payload_kwargs(self) -> dict:
         return {"step_number": self.__step_number,
                 "config": self._config,
                 "scene_config": self._scene_config}
 
     def _create_post_step_event_payload_kwargs(
             self, wrapped_step, step_metadata, step_output: StepMetadata,
-            restricted_step_output: StepMetadata):
+            restricted_step_output: StepMetadata) -> dict:
         args = self._create_event_payload_kwargs()
         args['output_folder'] = self.__output_folder
         args['timestamp'] = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")

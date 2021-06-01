@@ -6,7 +6,7 @@ from typing import Dict, List
 
 import PIL
 from ai2thor.server import Event
-from marshmallow import Schema, fields  # , post_load
+from marshmallow import Schema, fields
 
 from .config_manager import ConfigManager, SceneConfiguration
 from .goal_metadata import GoalMetadata
@@ -72,23 +72,6 @@ class EndScenePayload(BaseEventPayload):
     confidence: float
     uploader: S3Uploader  # allow none
     uploader_folder_prefix: str  # allow none
-
-
-'''class StartScenePayloadSchema(Schema):
-    scene_config = fields.Nested(SceneConfigurationSchema)
-    # config =
-    # action =
-    # goal =
-    habitation_trial = fields.Int()
-    restricted_step_output
-    wrapped_step = wrapped_step
-    step_metadata = step_output
-    step_output = pre_restrict_output
-    restricted_step_output = output
-
-    @post_load
-    def make_scene_configuration(self, data, **kwargs):
-        return SceneConfiguration(**data)'''
 
 
 class ControllerEventPayload(BaseEventPayload):
