@@ -1,14 +1,15 @@
-import ast
 import atexit
+import datetime
 import glob
 import json
 import logging
 import os
 import random
-from typing import Dict, List
+from typing import Dict, List, Union
 
 import ai2thor.controller
 import ai2thor.server
+import marshmallow
 import numpy as np
 import PIL
 
@@ -24,9 +25,11 @@ logger = logging.getLogger(__name__)
 DEFAULT_MOVE = 0.1
 
 from .action import Action
-from .config_manager import ConfigManager, SceneConfiguration
-from .controller_events import (ControllerEventPayload, EventType,
-                                PredictionPayload)
+from .config_manager import (ConfigManager, SceneConfiguration,
+                             SceneConfigurationSchema)
+from .controller_events import (AfterStepPayload, BeforeStepPayload,
+                                EndScenePayload, EventType, PredictionPayload,
+                                StartScenePayload)
 from .controller_output_handler import ControllerOutputHandler
 from .goal_metadata import GoalMetadata
 from .step_metadata import StepMetadata
@@ -176,7 +179,9 @@ class Controller():
             self._subscribers.append(subscriber)
 
     def _publish_event(self, event_type: EventType,
-                       payload: ControllerEventPayload):
+                       payload: Union[StartScenePayload, BeforeStepPayload,
+                                      AfterStepPayload, PredictionPayload,
+                                      EndScenePayload]):
         for subscriber in self._subscribers:
             # TODO should we make a deep copy of the payload so subscribers
             # cannot change source data?
@@ -186,16 +191,23 @@ class Controller():
             # change later
             subscriber.on_event(event_type, payload)
 
-    # TODO this is a huge data dumpster and needs to be thought about
-    def _create_event_payload(self):
-        payload = ControllerEventPayload(
-            self.__output_folder,
-            self._config,
-            self.__step_number,
-            self.__scene_configuration,
-            self.__habituation_trial,
-            self._goal)
-        return payload
+    def _create_event_payload_kwargs(self) -> dict:
+        return {"step_number": self.__step_number,
+                "config": self._config,
+                "scene_config": self._scene_config}
+
+    def _create_post_step_event_payload_kwargs(
+            self, wrapped_step, step_metadata, step_output: StepMetadata,
+            restricted_step_output: StepMetadata) -> dict:
+        args = self._create_event_payload_kwargs()
+        args['output_folder'] = self.__output_folder
+        args['timestamp'] = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        args['wrapped_step'] = wrapped_step
+        args['step_metadata'] = step_metadata
+        args['step_output'] = step_output
+        args['restricted_step_output'] = restricted_step_output
+        args['goal'] = self._goal
+        return args
 
     # Pixel coordinates are expected to start at the top left, but
     # in Unity, (0,0) is the bottom left.
@@ -218,7 +230,7 @@ class Controller():
         self.__habituation_trial = 1
         # Output folder used to save debug image, video, and JSON files.
         self.__output_folder = None
-        self.__scene_configuration = None
+        self._scene_config = None
         self.__step_number = 0
 
         # Whether or not to show depth maps or object masks is based on
@@ -245,7 +257,8 @@ class Controller():
 
     def end_scene(self, choice, confidence=1.0):
         """
-        Ends the current scene.
+        Ends the current scene.  Calling end_scene() before calling
+        start_scene() will do nothing.
 
         Parameters
         ----------
@@ -270,16 +283,27 @@ class Controller():
 
         # TODO uploader be passed to classes that need
         # it on early on via dependency injection?
-        payload = self._create_event_payload()
-        payload.choice = choice
-        payload.confidence = confidence
-        payload.uploader = uploader
-        payload.uploader_folder_prefix = self._config.get_s3_folder()
-        self._publish_event(EventType.ON_END_SCENE, payload)
+        payloadArgs = self._create_event_payload_kwargs()
+        payloadArgs['choice'] = choice
+        payloadArgs['confidence'] = confidence
+        payloadArgs['uploader'] = uploader
+        payloadArgs['uploader_folder_prefix'] = self._config.get_s3_folder()
+        self._publish_event(
+            EventType.ON_END_SCENE,
+            EndScenePayload(
+                **payloadArgs))
 
         if (not self._end_scene_not_registered):
             atexit.unregister(self.end_scene)
             self._end_scene_not_registered = True
+
+    def _convert_scene_config(self, config_data) -> SceneConfiguration:
+        if isinstance(config_data, SceneConfiguration):
+            scene_config = config_data
+        else:
+            schema = SceneConfigurationSchema()
+            scene_config = schema.load(config_data)
+        return scene_config
 
     def start_scene(self, config_data):
         """
@@ -288,7 +312,8 @@ class Controller():
 
         Parameters
         ----------
-        config_data : dict
+        config_data : SceneConfiguration or dict that can be serialized to
+            SceneConfiguration
             The MCS scene configuration data for the scene to start.
 
         Returns
@@ -298,27 +323,34 @@ class Controller():
             an "Initialize" action).
         """
 
-        self.__scene_configuration = config_data
+        scene_config = self._convert_scene_config(config_data)
+
+        self._scene_config = scene_config
         self.__habituation_trial = 1
         self.__step_number = 0
-        self._goal = self.retrieve_goal(self.__scene_configuration)
+        self._goal = self._scene_config.retrieve_goal()
 
-        skip_preview_phase = (True if 'goal' in config_data and
-                              'skip_preview_phase' in config_data['goal']
-                              else False)
+        skip_preview_phase = (scene_config.goal is not None and
+                              scene_config.goal.skip_preview_phase)
 
         if (self.isFileWritingEnabled()):
-            os.makedirs('./' + config_data['name'], exist_ok=True)
-            self.__output_folder = './' + config_data['name'] + '/'
+            os.makedirs('./' + scene_config.name, exist_ok=True)
+            self.__output_folder = './' + scene_config.name + '/'
             file_list = glob.glob(self.__output_folder + '*')
             for file_path in file_list:
                 os.remove(file_path)
 
+        sc = SceneConfigurationSchema(
+            unknown=marshmallow.EXCLUDE).dump(
+            scene_config)
+        sc = self._remove_none(sc)
         wrapped_step = self.wrap_step(
-            action='Initialize', sceneConfig=config_data)
+            action='Initialize',
+            sceneConfig=sc
+        )
         step_output = self._controller.step(wrapped_step)
 
-        self._output_handler.set_scene_config(config_data)
+        self._output_handler.set_scene_config(scene_config)
         (pre_restrict_output, output) = self._output_handler.handle_output(
             step_output, self._goal, self.__step_number,
             self.__habituation_trial)
@@ -356,18 +388,16 @@ class Controller():
                 atexit.register(self.end_scene, choice="", confidence=-1)
                 self._end_scene_not_registered = False
 
-        payload = self._create_event_payload()
-        payload.wrapped_step = wrapped_step
-        payload.step_metadata = step_output
-        payload.step_output = pre_restrict_output
-        payload.restricted_step_output = output
+        payloadArgs = self._create_post_step_event_payload_kwargs(
+            wrapped_step, step_output, pre_restrict_output, output)
+        payload = StartScenePayload(**payloadArgs)
         self._publish_event(
             EventType.ON_START_SCENE, payload)
 
         return output
 
     def isFileWritingEnabled(self):
-        return self.__scene_configuration['name'] is not None and (
+        return self._scene_config.name is not None and (
             self._config.is_evaluation() or
             self._config.is_save_debug_images() or
             self._config.is_save_debug_json() or
@@ -571,12 +601,13 @@ class Controller():
 
         self.__step_number += 1
 
-        payload = self._create_event_payload()
-        payload.action = action
-        payload.action_args = kwargs
+        payloadArgs = self._create_event_payload_kwargs()
+        payloadArgs['action'] = action
+        payloadArgs['habituation_trial'] = self.__habituation_trial
+        payloadArgs['goal'] = self._goal
         self._publish_event(
             EventType.ON_BEFORE_STEP,
-            payload)
+            BeforeStepPayload(**payloadArgs))
 
         params = self.validate_and_convert_params(action, **kwargs)
 
@@ -601,18 +632,14 @@ class Controller():
             step_output, self._goal, self.__step_number,
             self.__habituation_trial)
 
-        payload = self._create_event_payload()
-        # do we need both outputs?
-        payload.ai2thor_action = action
-        payload.step_params = params
-        payload.kwargs = kwargs
-        payload.wrapped_step = step_action
-        payload.step_metadata = step_output
-        payload.step_output = pre_restrict_output
-        payload.restricted_step_output = output
+        payloadArgs = self._create_post_step_event_payload_kwargs(
+            step_action, step_output, pre_restrict_output, output)
+        payloadArgs['ai2thor_action'] = action
+        payloadArgs['step_params'] = params
+        payloadArgs['action_kwargs'] = kwargs
         self._publish_event(
             EventType.ON_AFTER_STEP,
-            payload)
+            AfterStepPayload(**payloadArgs))
 
         return output
 
@@ -683,70 +710,33 @@ class Controller():
 
         return action
 
-    def update_goal_target_image(self, goal_output):
-        target_name_list = ['target', 'target_1', 'target_2']
-
-        for target_name in target_name_list:
-            # need to convert goal image data from string to array
-            if (
-                target_name in goal_output.metadata and
-                'image' in goal_output.metadata[target_name] and
-                isinstance(goal_output.metadata[target_name]['image'], str)
-            ):
-                image_list_string = goal_output.metadata[target_name]['image']
-                goal_output.metadata[target_name]['image'] = np.array(
-                    ast.literal_eval(image_list_string)).tolist()
-
-        return goal_output
-
     def retrieve_action_list_at_step(self, goal, step_number):
         return goal.retrieve_action_list_at_step(step_number)
 
     def retrieve_object_states(self, object_id):
         """Return the state list at the current step for the object with the
         given ID from the scene configuration data, if any."""
-        SceneConfiguration.retrieve_object_states(
-            self.__scene_configuration,
+        self._scene_config.retrieve_object_states(
             object_id,
             self.__step_number)
-
-    # move to SceneConfiguration class (in config_manager)
-    def retrieve_goal(self, scene_configuration):
-        goal_config = (
-            scene_configuration['goal']
-            if 'goal' in scene_configuration
-            else {}
-        )
-
-        # Transform action list data from strings to tuples.
-        action_list = goal_config.get('action_list', [])
-        for index, action_list_at_step in enumerate(action_list):
-            action_list[index] = [
-                Action.input_to_action_and_params(action)
-                if isinstance(action, str) else action
-                for action in action_list_at_step
-            ]
-
-        if 'category' in goal_config:
-            # Backwards compatibility
-            goal_config['metadata']['category'] = goal_config['category']
-
-        return self.update_goal_target_image(GoalMetadata(
-            action_list=(action_list if action_list else None),
-            category=goal_config.get('category', ''),
-            description=goal_config.get('description', ''),
-            habituation_total=goal_config.get('habituation_total', 0),
-            last_preview_phase_step=(
-                goal_config.get('last_preview_phase_step', 0)
-            ),
-            last_step=goal_config.get('last_step', None),
-            metadata=goal_config.get('metadata', {})
-        ))
 
     def stop_simulation(self):
         """Stop the 3D simulation environment. This controller won't work any
         more."""
         self._controller.stop()
+
+    def _remove_none(self, d):
+        '''Remove all none's from dictionaries'''
+        for key, value in dict(d).items():
+            if isinstance(value, dict):
+                d[key] = self._remove_none(value)
+            if isinstance(value, list):
+                for index, val in enumerate(value):
+                    if isinstance(val, dict):
+                        value[index] = self._remove_none(val)
+            if value is None:
+                del d[key]
+        return d
 
     def wrap_step(self, **kwargs):
         # whether or not to randomize segmentation mask colors

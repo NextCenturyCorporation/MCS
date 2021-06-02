@@ -4,7 +4,7 @@ import cmd
 from getch_helper import getch
 
 import machine_common_sense as mcs
-from machine_common_sense.config_manager import ConfigManager
+from machine_common_sense.goal_metadata import GoalMetadata
 from machine_common_sense.logging_config import LoggingConfig
 
 commandList = []
@@ -13,11 +13,18 @@ commandList = []
 def parse_args():
     parser = argparse.ArgumentParser(description='Run MCS')
     parser.add_argument(
-        'mcs_unity_build_file',
-        help='Path to MCS unity build file')
-    parser.add_argument(
         'mcs_scene_json_file',
         help='MCS JSON scene configuration file to load')
+    parser.add_argument(
+        '--mcs_unity_build_file',
+        type=str,
+        default=None,
+        help='Path to MCS unity build file')
+    parser.add_argument(
+        '--mcs_unity_version',
+        type=str,
+        default=None,
+        help='version of MCS Unity executable.  Default: current')
     parser.add_argument(
         '--config_file_path',
         type=str,
@@ -166,7 +173,7 @@ class HumanInputShell(cmd.Cmd):
     def show_available_actions(self, output):
         if (
             output.action_list and
-            len(output.action_list) < len(ConfigManager.ACTION_LIST)
+            len(output.action_list) < len(GoalMetadata.ACTION_LIST)
         ):
             print('Only actions available during this step:')
             for action, params in output.action_list:
@@ -243,8 +250,9 @@ def main():
         print(status)
         exit()
 
-    controller = mcs.create_controller(args.mcs_unity_build_file,
-                                       config_file_path=args.config_file_path)
+    controller = mcs.create_controller(
+        unity_app_file_path=args.mcs_unity_build_file,
+        config_file_path=args.config_file_path)
 
     scene_file_path = args.mcs_scene_json_file
     scene_file_name = scene_file_path[scene_file_path.rfind('/') + 1:]

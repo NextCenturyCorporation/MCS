@@ -13,10 +13,6 @@ def print_divider():
 
 def add_test_args(parser: argparse.ArgumentParser,
                   handmade_only=False) -> argparse.ArgumentParser:
-    parser.add_argument(
-        'mcs_unity_build_file_path',
-        help='Path to MCS unity build file'
-    )
     if not handmade_only:
         parser.add_argument(
             'mcs_unity_github_branch_name',
@@ -44,5 +40,11 @@ def add_test_args(parser: argparse.ArgumentParser,
         default=False,
         action='store_true',
         help='Automatically fix test failures (only use with care!)'
+    )
+    parser.add_argument(
+        '--mcs_unity_build_file_path',
+        type=str,
+        default=None,
+        help='Path to MCS unity build file'
     )
     return parser

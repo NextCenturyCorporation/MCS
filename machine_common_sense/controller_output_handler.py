@@ -4,7 +4,7 @@ import logging
 import numpy as np
 import PIL
 
-from .config_manager import ConfigManager, SceneConfiguration
+from .config_manager import ConfigManager
 from .controller import DEFAULT_MOVE
 from .material import Material
 from .object_metadata import ObjectMetadata
@@ -362,8 +362,8 @@ class StepOutput:
             position=object_metadata['position'],
             rotation=object_metadata['rotation'],
             shape=object_metadata['shape'],
-            state_list=SceneConfiguration.retrieve_object_states(
-                self._scene_config, object_metadata['objectId'],
+            state_list=self._scene_config.retrieve_object_states(
+                object_metadata['objectId'],
                 self._step_number
             ),
             texture_color_list=object_metadata['colorsFromMaterials'],

@@ -58,7 +58,7 @@ class HistoryEventHandler(AbstractControllerSubscriber):
         self.__history_item = SceneHistory(
             step=payload.step_number,
             action=payload.ai2thor_action,
-            args=payload.kwargs,
+            args=payload.action_kwargs,
             params=payload.step_params,
             output=output,
             delta_time_millis=0)
@@ -73,25 +73,26 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             self.__history_item.internal_state = payload.internal_state
 
     def on_end_scene(self, payload):
-        if payload.config.is_history_enabled():
-            self.__history_writer.add_step(self.__history_item)
-            self.__history_writer.write_history_file(
-                payload.choice, payload.confidence)
-
-        if payload.config.is_evaluation():
-            uploader = payload.uploader
-            folder_prefix = payload.uploader_folder_prefix
+        if self.__history_writer is not None:
             if payload.config.is_history_enabled():
-                history_filename = self._get_filename_without_timestamp(
-                    pathlib.Path(self.__history_writer.scene_history_file))
-                uploader.upload_history(
-                    history_path=self.__history_writer.scene_history_file,
-                    s3_filename=(folder_prefix + '/' +
-                                 payload.config.get_evaluation_name() +
-                                 '_' + payload.config.get_metadata_tier() +
-                                 '_' + payload.config.get_team() +
-                                 '_' + history_filename)
-                )
+                self.__history_writer.add_step(self.__history_item)
+                self.__history_writer.write_history_file(
+                    payload.choice, payload.confidence)
+
+            if payload.config.is_evaluation():
+                uploader = payload.uploader
+                folder_prefix = payload.uploader_folder_prefix
+                if payload.config.is_history_enabled():
+                    history_filename = self._get_filename_without_timestamp(
+                        pathlib.Path(self.__history_writer.scene_history_file))
+                    uploader.upload_history(
+                        history_path=self.__history_writer.scene_history_file,
+                        s3_filename=(folder_prefix + '/' +
+                                     payload.config.get_evaluation_name() +
+                                     '_' + payload.config.get_metadata_tier() +
+                                     '_' + payload.config.get_team() +
+                                     '_' + history_filename)
+                    )
 
     def _get_filename_without_timestamp(self, filepath: pathlib.Path):
         return filepath.stem[:-16] + filepath.suffix
@@ -113,7 +114,7 @@ class HistoryWriter(object):
             logger.debug(f"Making history directory {self.HISTORY_DIRECTORY}")
             os.makedirs(self.HISTORY_DIRECTORY)
 
-        scene_name = scene_config_data['name']
+        scene_name = scene_config_data.name
         prefix_directory = None
         if '/' in scene_name:
             prefix, scene_basename = scene_name.rsplit('/', 1)
@@ -122,13 +123,12 @@ class HistoryWriter(object):
                 logger.debug(f"Making prefix directory {prefix_directory}")
                 os.makedirs(prefix_directory)
 
-        if ('screenshot' not in scene_config_data or
-                not scene_config_data['screenshot']):
+        if (not scene_config_data.screenshot):
             self.scene_history_file = os.path.join(
-                self.HISTORY_DIRECTORY, scene_config_data['name'].replace(
+                self.HISTORY_DIRECTORY, scene_config_data.name.replace(
                     '.json', '') + "-" + timestamp + ".json")
 
-        self.info_obj['name'] = scene_config_data['name'].replace(
+        self.info_obj['name'] = scene_config_data.name.replace(
             '.json', '')
         self.info_obj['timestamp'] = timestamp
 

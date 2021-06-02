@@ -9,7 +9,7 @@ Run multiple scenes sequentially
     import machine_common_sense as mcs
 
     # Only create the MCS controller ONCE!
-    controller = mcs.create_controller(unity_app_file_path)
+    controller = mcs.create_controller()
 
     for scene_json_file_path in scene_json_file_list:
         scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
@@ -32,7 +32,7 @@ Run with console logging
     logger = logging.getLogger('machine_common_sense')
     mcs.init_logging()
 
-    controller = mcs.create_controller(unity_app_file_path, config_file_path='./some-path/config.ini')
+    controller = mcs.create_controller(config_file_path='./some-path/config.ini')
     scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
     output = controller.start_scene(scene_data)
 

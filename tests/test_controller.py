@@ -7,7 +7,9 @@ from types import SimpleNamespace
 import numpy
 
 import machine_common_sense as mcs
-from machine_common_sense.config_manager import ConfigManager
+from machine_common_sense.config_manager import (ConfigManager,
+                                                 SceneConfiguration, Vector3d)
+from machine_common_sense.goal_metadata import GoalMetadata
 
 from .mock_controller import MOCK_VARIABLES, MockControllerAI2THOR
 
@@ -281,7 +283,7 @@ class TestController(unittest.TestCase):
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
-            ConfigManager.ACTION_LIST)
+            GoalMetadata.ACTION_LIST)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, 0)
@@ -301,7 +303,7 @@ class TestController(unittest.TestCase):
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
-            ConfigManager.ACTION_LIST)
+            GoalMetadata.ACTION_LIST)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, 0)
@@ -327,7 +329,7 @@ class TestController(unittest.TestCase):
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
-            ConfigManager.ACTION_LIST)
+            GoalMetadata.ACTION_LIST)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, -0.005)
@@ -359,7 +361,7 @@ class TestController(unittest.TestCase):
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
-            ConfigManager.ACTION_LIST)
+            GoalMetadata.ACTION_LIST)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, -0.001)
@@ -379,7 +381,7 @@ class TestController(unittest.TestCase):
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
-            ConfigManager.ACTION_LIST)
+            GoalMetadata.ACTION_LIST)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, -0.002)
@@ -592,101 +594,6 @@ class TestController(unittest.TestCase):
             )
         )
 
-    def test_update_goal_target_image(self):
-        goal = mcs.GoalMetadata(metadata={
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-        actual = self.controller.update_goal_target_image(goal)
-        self.assertEqual(actual.metadata, {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-
-    def test_update_goal_target_image_img_as_str(self):
-        goal = mcs.GoalMetadata(metadata={
-            'target': {'image': "[0]"},
-            'target_1': {'image': "[1]"},
-            'target_2': {'image': "[2]"}
-        })
-        actual = self.controller.update_goal_target_image(goal)
-        self.assertEqual(actual.metadata, {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-
-    def test_update_goal_target_image_oracle(self):
-        self.controller.set_metadata_tier('oracle')
-        goal = mcs.GoalMetadata(metadata={
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-        actual = self.controller.update_goal_target_image(goal)
-        self.assertEqual(actual.metadata, {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-
-    def test_update_goal_target_image_oracle_img_as_str(self):
-        goal = mcs.GoalMetadata(metadata={
-            'target': {'image': "[0]"},
-            'target_1': {'image': "[1]"},
-            'target_2': {'image': "[2]"}
-        })
-        actual = self.controller.update_goal_target_image(goal)
-        self.assertEqual(actual.metadata, {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-
-    def test_update_goal_target_image_level2(self):
-        self.controller.set_metadata_tier('level2')
-        goal = mcs.GoalMetadata(metadata={
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-        actual = self.controller.update_goal_target_image(goal)
-        self.assertEqual(actual.metadata, {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-
-    def test_update_goal_target_image_level1(self):
-        self.controller.set_metadata_tier('level1')
-        goal = mcs.GoalMetadata(metadata={
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-        actual = self.controller.update_goal_target_image(goal)
-        self.assertEqual(actual.metadata, {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-
-    def test_update_goal_target_image_none(self):
-        self.controller.set_metadata_tier('none')
-        goal = mcs.GoalMetadata(metadata={
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-        actual = self.controller.update_goal_target_image(goal)
-        self.assertEqual(actual.metadata, {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-
     def test_retrieve_action_list_at_step(self):
         test_action_list = [
             ('Pass', {}),
@@ -702,7 +609,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(),
                 0
             ),
-            ConfigManager.ACTION_LIST
+            GoalMetadata.ACTION_LIST
         )
         # With empty action list
         self.assertEqual(
@@ -710,7 +617,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(action_list=[]),
                 0
             ),
-            ConfigManager.ACTION_LIST
+            GoalMetadata.ACTION_LIST
         )
         # With empty nested action list
         self.assertEqual(
@@ -718,7 +625,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(action_list=[[]]),
                 0
             ),
-            ConfigManager.ACTION_LIST
+            GoalMetadata.ACTION_LIST
         )
         # With test action list
         self.assertEqual(
@@ -734,7 +641,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(action_list=[test_action_list]),
                 1
             ),
-            ConfigManager.ACTION_LIST
+            GoalMetadata.ACTION_LIST
         )
         # With incorrect index
         self.assertEqual(
@@ -742,7 +649,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(action_list=[test_action_list, []]),
                 1
             ),
-            ConfigManager.ACTION_LIST
+            GoalMetadata.ACTION_LIST
         )
         # With incorrect index
         self.assertEqual(
@@ -750,7 +657,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(action_list=[[], test_action_list]),
                 0
             ),
-            ConfigManager.ACTION_LIST
+            GoalMetadata.ACTION_LIST
         )
         # With correct index
         self.assertEqual(
@@ -776,121 +683,6 @@ class TestController(unittest.TestCase):
             ),
             []
         )
-
-    def test_retrieve_goal(self):
-        goal_1 = self.controller.retrieve_goal({})
-        self.assertEqual(goal_1.action_list, None)
-        self.assertEqual(goal_1.category, '')
-        self.assertEqual(goal_1.description, '')
-        self.assertEqual(goal_1.habituation_total, 0)
-        self.assertEqual(goal_1.last_step, None)
-        self.assertEqual(goal_1.metadata, {})
-
-        goal_2 = self.controller.retrieve_goal({
-            "goal": {
-            }
-        })
-        self.assertEqual(goal_2.action_list, None)
-        self.assertEqual(goal_2.category, '')
-        self.assertEqual(goal_2.description, '')
-        self.assertEqual(goal_2.habituation_total, 0)
-        self.assertEqual(goal_2.last_step, None)
-        self.assertEqual(goal_2.metadata, {})
-
-        goal_3 = self.controller.retrieve_goal({
-            "goal": {
-                "action_list": [
-                    [("MoveAhead", {"amount": 0.1})],
-                    [],
-                    [("Pass", {}), ("RotateLeft", {}), ("RotateRight", {})]
-                ],
-                "category": "test category",
-                "description": "test description",
-                "habituation_total": 5,
-                "last_step": 10,
-                "metadata": {
-                    "key": "value"
-                }
-            }
-        })
-        self.assertEqual(goal_3.action_list, [
-            [("MoveAhead", {"amount": 0.1})],
-            [],
-            [("Pass", {}), ("RotateLeft", {}), ("RotateRight", {})]
-        ])
-        self.assertEqual(goal_3.category, "test category")
-        self.assertEqual(goal_3.description, "test description")
-        self.assertEqual(goal_3.habituation_total, 5)
-        self.assertEqual(goal_3.last_step, 10)
-        self.assertEqual(goal_3.metadata, {
-            "category": "test category",
-            "key": "value"
-        })
-
-    def test_retrieve_goal_with_config_metadata(self):
-        self.controller.set_metadata_tier('oracle')
-        actual = self.controller.retrieve_goal({
-            'goal': {
-                'metadata': {
-                    'target': {'image': [0]},
-                    'target_1': {'image': [1]},
-                    'target_2': {'image': [2]}
-                }
-            }
-        })
-        self.assertEqual(actual.metadata, {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-
-        self.controller.set_metadata_tier('level2')
-        actual = self.controller.retrieve_goal({
-            'goal': {
-                'metadata': {
-                    'target': {'image': [0]},
-                    'target_1': {'image': [1]},
-                    'target_2': {'image': [2]}
-                }
-            }
-        })
-        self.assertEqual(actual.metadata, {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-
-        self.controller.set_metadata_tier('level1')
-        actual = self.controller.retrieve_goal({
-            'goal': {
-                'metadata': {
-                    'target': {'image': [0]},
-                    'target_1': {'image': [1]},
-                    'target_2': {'image': [2]}
-                }
-            }
-        })
-        self.assertEqual(actual.metadata, {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
-
-        self.controller.set_metadata_tier('none')
-        actual = self.controller.retrieve_goal({
-            'goal': {
-                'metadata': {
-                    'target': {'image': [0]},
-                    'target_1': {'image': [1]},
-                    'target_2': {'image': [2]}
-                }
-            }
-        })
-        self.assertEqual(actual.metadata, {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        })
 
     def test_retrieve_pose(self):
         output = self.controller.start_scene({'name': TEST_FILE_NAME})
@@ -1003,6 +795,73 @@ class TestController(unittest.TestCase):
 
         self.controller.set_metadata_tier('none')
         self.assertEqual('none', self.controller.get_metadata_level())
+
+    def test_scene_configuration_deserialization(self):
+        config = SceneConfiguration()
+        actual = self.controller._convert_scene_config(config)
+        # should be same instance
+        self.assertEqual(config, actual)
+
+        config = {}
+        actual = self.controller._convert_scene_config(config)
+        # should be same instance
+        self.assertEqual(None, actual.name)
+        self.assertEqual(None, actual.floorMaterial)
+        self.assertEqual([], actual.objects)
+        self.assertEqual(None, actual.roomDimensions)
+        self.assertEqual(None, actual.goal)
+
+        config = {"name": "name1", "roomDimensions": {"x": 1, "y": 2, "z": 3}}
+        actual = self.controller._convert_scene_config(config)
+        self.assertIsInstance(actual, SceneConfiguration)
+        self.assertEqual("name1", actual.name)
+        self.assertEqual(None, actual.floorMaterial)
+        self.assertEqual([], actual.objects)
+        self.assertIsNotNone(actual.roomDimensions)
+        self.assertIsInstance(actual.roomDimensions, Vector3d)
+        self.assertEqual(1, actual.roomDimensions.x)
+        self.assertEqual(2, actual.roomDimensions.y)
+        self.assertEqual(3, actual.roomDimensions.z)
+        self.assertEqual(None, actual.goal)
+
+    def test_remove_none(self):
+        actual = self.controller._remove_none({})
+        self.assertEqual({}, actual)
+
+        actual = self.controller._remove_none({"test": None})
+        self.assertEqual({}, actual)
+
+        actual = self.controller._remove_none({"test": 1})
+        self.assertEqual({"test": 1}, actual)
+
+        actual = self.controller._remove_none({"test": 1, "none": None})
+        self.assertEqual({"test": 1}, actual)
+
+        actual = self.controller._remove_none({"test1": {"test2": 1}})
+        self.assertEqual({"test1": {"test2": 1}}, actual)
+
+        actual = self.controller._remove_none(
+            {"test1": {"test2": 1, "none": None}})
+        self.assertEqual({"test1": {"test2": 1}}, actual)
+
+        actual = self.controller._remove_none(
+            {"test1": {"test2": 1}, "none": None})
+        self.assertEqual({"test1": {"test2": 1}}, actual)
+
+        actual = self.controller._remove_none(
+            {"test1": {"test2": 1, "none": None}, "none": None})
+        self.assertEqual({"test1": {"test2": 1}}, actual)
+
+        actual = self.controller._remove_none({"test1": [{"test2": None}]})
+        self.assertEqual({"test1": [{}]}, actual)
+
+        actual = self.controller._remove_none(
+            {"test1": [{"test2": None, "test3": "test"}]})
+        self.assertEqual({"test1": [{"test3": "test"}]}, actual)
+
+        actual = self.controller._remove_none(
+            {"test1": [{"test2": None}], "test3": False})
+        self.assertEqual({"test1": [{}], "test3": False}, actual)
 
 
 if __name__ == '__main__':

@@ -71,8 +71,7 @@ class AbstractVideoEventHandler(AbstractControllerSubscriber):
         eval_name = payload.config.get_evaluation_name()
         team = payload.config.get_team()
         timestamp = payload.timestamp
-        scene_name = payload.scene_config.get(
-            'name', '').replace('json', '')
+        scene_name = payload.scene_config.name.replace('json', '')
         basename = '_'.join(
             [eval_name, payload.config.get_metadata_tier(),
              team,
@@ -81,8 +80,7 @@ class AbstractVideoEventHandler(AbstractControllerSubscriber):
         return basename
 
     def get_scene_name(self, payload: ControllerEventPayload):
-        scene_name = payload.scene_config.get(
-            'name', '').replace('json', '')
+        scene_name = payload.scene_config.name.replace('json', '')
 
         # strip prefix in scene_name
         if '/' in scene_name:
@@ -190,8 +188,7 @@ class TopdownVideoEventHandler(AbstractVideoEventHandler):
         self.__recorder = self.create_video_recorder(
             payload, AbstractVideoEventHandler.TOPDOWN)
         team = payload.config.get_team()
-        scene = payload.scene_config.get(
-            'name', '').replace('json', '')
+        scene = payload.scene_config.name.replace('json', '')
         self.__plotter = TopDownPlotter(team, scene)
         self.save_video_for_step(payload)
 

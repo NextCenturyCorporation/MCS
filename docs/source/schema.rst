@@ -105,6 +105,7 @@ Each **object config** has the following properties:
 - `type` (string, required): The object's type from the :ref:`object list <Object List>`.
 - `changeMaterials` (:ref:`change_materials config <Change Materials Config>` array, optional): The steps on which to change the material(s) (colors/textures) used on the object, and the new materials to use. See the :ref:`material list <Material List>` for options. Default: `[]`
 - `forces` (:ref:`force config <Force Config>` array, optional): The steps on which to apply `force <https://docs.unity3d.com/ScriptReference/Rigidbody.AddForce.html>`_ to the object. The config `vector` describes the amount of force (in Newtons) to apply in each direction using the global coordinate system. Resets all existing forces on the object to 0 before applying the new force. Default: `[]`
+- `ghosts` (:ref:`step begin and end config config <Step Begin And End Config>` array, optional): TBD
 - `hides` (:ref:`single step config <Single Step Config>` array, optional): The steps on which to hide the object, completely removing its existence from the scene until it is shown again (see the `shows` property). Useful if you want to have impossible events (spontaneous disappearance). Default: `[]`
 - `kinematic` (boolean, optional): If true, the object will ignore all forces including gravity. See Unity's `isKinematic property <https://docs.unity3d.com/ScriptReference/Rigidbody-isKinematic.html>`_. Usually paired with `structure`. Default: `false`
 - `locationParent` (string, optional): The `id` of another object in the scene. If given, this object's `shows.position` and `shows.rotation` will both start from the position and rotation of the `locationParent` object rather than from `0`. Default: none
@@ -116,9 +117,11 @@ Each **object config** has the following properties:
 - `nullParent` (:ref:`transform config <Transform Config>`, optional): Whether to wrap the object in a null parent object. Useful if you want to rotate an object by a point other than its center point. Default: none
 - `openable` (boolean, optional): Whether the object should be openable, if it is not already openable based on its `type`. Default: depends on `type`
 - `opened` (boolean, optional): Whether the object should begin opened. Must also be `openable`. Default: `false`
+- `openClose` (:ref:`open close config <Open Close Config>`, optional): The steps where an object is opened or closed by the system.  Default: None
 - `physics` (boolean, optional): Whether to enable physics simulation on the object. Automatically `true` if `moveable`, `openable`, `pickupable`, or `receptacle` is `true`. Use `physics` if you want to enable physics but don't want to use any of those other properties. Default: `false`
 - `physicsProperties` (:ref:`physics config <Physics Config>`, optional): Enable custom friction, bounciness, and/or drag on the object. Default: see :ref:`physics config <Physics Config>`.
 - `pickupable` (boolean, optional): Whether the object should be pickupable, if it is not already openable based on its `type`. Pickupable objects are also automatically `moveable`. Default: depends on `type`
+- `receptacle` (boolean, optional): TBD
 - `resizes` (:ref:`size config <Size Config>` array, optional): The steps on which to resize the object. The config `size` is multiplied by the object's current size. Useful if you want to have impossible events (spontaneous resizing). Default: `[]`
 - `rotates` (:ref:`move config <Move Config>` array, optional): The steps on which to rotate the object. The config `vector` describes the amount of rotation (in degrees) to change, added to the object's current rotation. Useful if you want to rotate objects that are `kinematic`. A fifth of each move is made over each of the five substeps (five screenshots) during the step. Default: `[]`
 - `salientMaterials` (string array, optional)
@@ -237,6 +240,13 @@ Each **step begin and end config** has the following properties:
 
 - `stepBegin` (integer, required): The step on which the action should occur.  Must be non-negative.  A value of `0` means the action will occur during scene initialization.
 - `stepEnd` (integer, required): The step on which the action should end.  Must be equal to or greater than the `stepBegin`.
+
+Open Close Config
+*****************
+
+Each **Open Close Config** has the following properties:
+- `step` (integer, required): The step on which the action should occur.  Must be non-negative.  A value of `0` means the action will occur during scene initialization.
+- `open` (boolean, required): If true, the container will be opened, if false, the container will be closed
 
 Teleport Config
 ***************
