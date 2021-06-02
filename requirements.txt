@@ -41,5 +41,4 @@ snowballstemmer==2.0.0
 Sphinx==3.2.1
 sphinxcontrib-websupport==1.2.4
 sphinx-markdown-builder==0.5.4
-urllib3==1.26.5
 Werkzeug==1.0.1
