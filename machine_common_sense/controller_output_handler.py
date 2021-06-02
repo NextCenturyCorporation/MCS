@@ -122,31 +122,24 @@ class SceneEvent():
         # Return object list for all tier levels, the restrict output function
         # will then strip out the necessary metadata
         metadata_tier = self._config.get_metadata_tier()
-        if (metadata_tier != ConfigManager.CONFIG_METADATA_TIER_DEFAULT):
-            return sorted(
-                [
-                    self.retrieve_object_output(
-                        object_metadata,
-                        self.object_colors
-                    )
-                    for object_metadata in self._raw_output.metadata['objects']
-                ],
-                key=lambda x: x.uuid
-            )
-        else:
-            # if no config specified, return visible objects (for now)
-            return sorted(
-                [
-                    self.retrieve_object_output(
-                        object_metadata,
-                        self.object_colors
-                    )
-                    for object_metadata in self._raw_output.metadata['objects']
-                    if object_metadata['visibleInCamera'] or
-                    object_metadata['isPickedUp']
-                ],
-                key=lambda x: x.uuid
-            )
+        show_all = metadata_tier != ConfigManager.CONFIG_METADATA_TIER_DEFAULT
+        # if no config specified, return visible objects (for now)
+
+        # Reviewer: Take a hard look at this change to make sure my logic is
+        # valid then we should remove this comment
+
+        return sorted(
+            [
+                self.retrieve_object_output(
+                    object_metadata,
+                    self.object_colors
+                )
+                for object_metadata in self._raw_output.metadata['objects']
+                if object_metadata['visibleInCamera'] or
+                object_metadata['isPickedUp'] or show_all
+            ],
+            key=lambda x: x.uuid
+        )
 
     @property
     def return_status(self):
@@ -256,34 +249,22 @@ class SceneEvent():
         # Return structural object list for all tier levels, the restrict
         # output function will then strip out the necessary metadata
         metadata_tier = self._config.get_metadata_tier()
-        if (metadata_tier != self._config.CONFIG_METADATA_TIER_DEFAULT):
-            return sorted(
-                [
-                    self.retrieve_object_output(
-                        object_metadata,
-                        self.object_colors
-                    )
-                    for object_metadata in self._raw_output.metadata[
-                        'structuralObjects'
-                    ]
-                ],
-                key=lambda x: x.uuid
-            )
-        else:
-            # if no config specified, return visible structural objects (for
-            # now)
-            return sorted(
-                [
-                    self.retrieve_object_output(
-                        object_metadata, self.object_colors
-                    )
-                    for object_metadata in self._raw_output.metadata[
-                        'structuralObjects'
-                    ]
-                    if object_metadata['visibleInCamera']
-                ],
-                key=lambda x: x.uuid
-            )
+        show_all = metadata_tier != self._config.CONFIG_METADATA_TIER_DEFAULT
+
+        # if no config specified, return visible structural objects (for
+        # now)
+        return sorted(
+            [
+                self.retrieve_object_output(
+                    object_metadata, self.object_colors
+                )
+                for object_metadata in self._raw_output.metadata[
+                    'structuralObjects'
+                ]
+                if object_metadata['visibleInCamera'] or show_all
+            ],
+            key=lambda x: x.uuid
+        )
 
 
 class ControllerOutputHandler():

@@ -189,6 +189,7 @@ class Controller():
             subscriber.on_event(event_type, payload)
 
     # TODO this is a huge data dumpster and needs to be thought about
+
     def _create_event_payload(self):
         payload = ControllerEventPayload(
             self.__output_folder,
