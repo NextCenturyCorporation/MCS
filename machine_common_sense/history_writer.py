@@ -58,7 +58,7 @@ class HistoryEventHandler(AbstractControllerSubscriber):
         self.__history_item = SceneHistory(
             step=payload.step_number,
             action=payload.ai2thor_action,
-            args=payload.kwargs,
+            args=payload.action_kwargs,
             params=payload.step_params,
             output=output,
             delta_time_millis=0)
