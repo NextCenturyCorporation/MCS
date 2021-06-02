@@ -47,6 +47,7 @@ class AbstractRunnerScript():
                 controller,
                 filename,
                 action_callback,
+                args.last_step,
                 args.rename if args.rename else ('' if rename else None)
             )
             if args.save_videos or args.save_gifs:
@@ -89,6 +90,11 @@ class AbstractRunnerScript():
             help='Save debug data (inputs, outputs, and images) to local files'
         )
         parser.add_argument(
+            '--last_step',
+            default=None,
+            help='Scene last step override'
+        )
+        parser.add_argument(
             '--level1',
             default=False,
             action='store_true',
@@ -124,12 +130,23 @@ class AbstractRunnerScript():
         # TODO
         return None, []
 
-    def run_scene(self, controller, filename, action_callback, rename):
+    def run_scene(
+        self,
+        controller,
+        filename,
+        action_callback,
+        last_step,
+        rename
+    ):
         scene_data, status = mcs.load_scene_json_file(filename)
 
         if status is not None:
             print(status)
             return
+
+        if last_step:
+            scene_data['goal'] = scene_data.get('goal', {})
+            scene_data['goal']['last_step'] = int(last_step)
 
         scene_name = (
             rename if (rename is not None) else scene_data.get('name', '')
