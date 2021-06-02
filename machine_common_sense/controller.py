@@ -1,11 +1,11 @@
-
 import atexit
+import datetime
 import glob
 import json
 import logging
 import os
 import random
-from typing import Dict, List
+from typing import Dict, List, Union
 
 import ai2thor.controller
 import ai2thor.server
@@ -27,8 +27,9 @@ DEFAULT_MOVE = 0.1
 from .action import Action
 from .config_manager import (ConfigManager, SceneConfiguration,
                              SceneConfigurationSchema)
-from .controller_events import (ControllerEventPayload, EventType,
-                                PredictionPayload)
+from .controller_events import (AfterStepPayload, BeforeStepPayload,
+                                EndScenePayload, EventType, PredictionPayload,
+                                StartScenePayload)
 from .controller_output_handler import ControllerOutputHandler
 from .goal_metadata import GoalMetadata
 from .step_metadata import StepMetadata
@@ -178,7 +179,9 @@ class Controller():
             self._subscribers.append(subscriber)
 
     def _publish_event(self, event_type: EventType,
-                       payload: ControllerEventPayload):
+                       payload: Union[StartScenePayload, BeforeStepPayload,
+                                      AfterStepPayload, PredictionPayload,
+                                      EndScenePayload]):
         for subscriber in self._subscribers:
             # TODO should we make a deep copy of the payload so subscribers
             # cannot change source data?
@@ -188,16 +191,23 @@ class Controller():
             # change later
             subscriber.on_event(event_type, payload)
 
-    # TODO this is a huge data dumpster and needs to be thought about
-    def _create_event_payload(self):
-        payload = ControllerEventPayload(
-            self.__output_folder,
-            self._config,
-            self.__step_number,
-            self._scene_config,
-            self.__habituation_trial,
-            self._goal)
-        return payload
+    def _create_event_payload_kwargs(self) -> dict:
+        return {"step_number": self.__step_number,
+                "config": self._config,
+                "scene_config": self._scene_config}
+
+    def _create_post_step_event_payload_kwargs(
+            self, wrapped_step, step_metadata, step_output: StepMetadata,
+            restricted_step_output: StepMetadata) -> dict:
+        args = self._create_event_payload_kwargs()
+        args['output_folder'] = self.__output_folder
+        args['timestamp'] = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        args['wrapped_step'] = wrapped_step
+        args['step_metadata'] = step_metadata
+        args['step_output'] = step_output
+        args['restricted_step_output'] = restricted_step_output
+        args['goal'] = self._goal
+        return args
 
     # Pixel coordinates are expected to start at the top left, but
     # in Unity, (0,0) is the bottom left.
@@ -273,12 +283,15 @@ class Controller():
 
         # TODO uploader be passed to classes that need
         # it on early on via dependency injection?
-        payload = self._create_event_payload()
-        payload.choice = choice
-        payload.confidence = confidence
-        payload.uploader = uploader
-        payload.uploader_folder_prefix = self._config.get_s3_folder()
-        self._publish_event(EventType.ON_END_SCENE, payload)
+        payloadArgs = self._create_event_payload_kwargs()
+        payloadArgs['choice'] = choice
+        payloadArgs['confidence'] = confidence
+        payloadArgs['uploader'] = uploader
+        payloadArgs['uploader_folder_prefix'] = self._config.get_s3_folder()
+        self._publish_event(
+            EventType.ON_END_SCENE,
+            EndScenePayload(
+                **payloadArgs))
 
         if (not self._end_scene_not_registered):
             atexit.unregister(self.end_scene)
@@ -375,11 +388,9 @@ class Controller():
                 atexit.register(self.end_scene, choice="", confidence=-1)
                 self._end_scene_not_registered = False
 
-        payload = self._create_event_payload()
-        payload.wrapped_step = wrapped_step
-        payload.step_metadata = step_output
-        payload.step_output = pre_restrict_output
-        payload.restricted_step_output = output
+        payloadArgs = self._create_post_step_event_payload_kwargs(
+            wrapped_step, step_output, pre_restrict_output, output)
+        payload = StartScenePayload(**payloadArgs)
         self._publish_event(
             EventType.ON_START_SCENE, payload)
 
@@ -590,12 +601,13 @@ class Controller():
 
         self.__step_number += 1
 
-        payload = self._create_event_payload()
-        payload.action = action
-        payload.action_args = kwargs
+        payloadArgs = self._create_event_payload_kwargs()
+        payloadArgs['action'] = action
+        payloadArgs['habituation_trial'] = self.__habituation_trial
+        payloadArgs['goal'] = self._goal
         self._publish_event(
             EventType.ON_BEFORE_STEP,
-            payload)
+            BeforeStepPayload(**payloadArgs))
 
         params = self.validate_and_convert_params(action, **kwargs)
 
@@ -620,18 +632,14 @@ class Controller():
             step_output, self._goal, self.__step_number,
             self.__habituation_trial)
 
-        payload = self._create_event_payload()
-        # do we need both outputs?
-        payload.ai2thor_action = action
-        payload.step_params = params
-        payload.kwargs = kwargs
-        payload.wrapped_step = step_action
-        payload.step_metadata = step_output
-        payload.step_output = pre_restrict_output
-        payload.restricted_step_output = output
+        payloadArgs = self._create_post_step_event_payload_kwargs(
+            step_action, step_output, pre_restrict_output, output)
+        payloadArgs['ai2thor_action'] = action
+        payloadArgs['step_params'] = params
+        payloadArgs['action_kwargs'] = kwargs
         self._publish_event(
             EventType.ON_AFTER_STEP,
-            payload)
+            AfterStepPayload(**payloadArgs))
 
         return output
 
