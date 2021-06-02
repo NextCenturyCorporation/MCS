@@ -33,25 +33,29 @@ class SceneEvent():
         self.object_mask_list = []
 
         for index, event in enumerate(self.events):
-            scene_image = PIL.Image.fromarray(event.frame)
-            self.image_list.append(scene_image)
+            if hasattr(event, 'frame'):
+                scene_image = PIL.Image.fromarray(event.frame)
+                self.image_list.append(scene_image)
 
-            if self._config.is_depth_maps_enabled():
-                # The Unity depth array (returned by Depth.shader) contains
-                # a third of the total max depth in each RGB element.
-                unity_depth_array = event.depth_frame.astype(np.float32)
-                # Convert to values between 0 and max_depth for output.
-                depth_float_array = (
-                    (unity_depth_array[:, :, 0] * (max_depth / 3.0) / 255.0) +
-                    (unity_depth_array[:, :, 1] * (max_depth / 3.0) / 255.0) +
-                    (unity_depth_array[:, :, 2] * (max_depth / 3.0) / 255.0)
-                )
-                self.depth_map_list.append(np.array(depth_float_array))
+                if self._config.is_depth_maps_enabled():
+                    # The Unity depth array (returned by Depth.shader) contains
+                    # a third of the total max depth in each RGB element.
+                    unity_depth_array = event.depth_frame.astype(np.float32)
+                    # Convert to values between 0 and max_depth for output.
+                    depth_float_array = (
+                        (unity_depth_array[:, :, 0] *
+                         (max_depth / 3.0) / 255.0) +
+                        (unity_depth_array[:, :, 1] *
+                         (max_depth / 3.0) / 255.0) +
+                        (unity_depth_array[:, :, 2] *
+                         (max_depth / 3.0) / 255.0)
+                    )
+                    self.depth_map_list.append(np.array(depth_float_array))
 
-            if self._config.is_object_masks_enabled():
-                object_mask = PIL.Image.fromarray(
-                    event.instance_segmentation_frame)
-                self.object_mask_list.append(object_mask)
+                if self._config.is_object_masks_enabled():
+                    object_mask = PIL.Image.fromarray(
+                        event.instance_segmentation_frame)
+                    self.object_mask_list.append(object_mask)
 
     @property
     def objects(self) -> list:

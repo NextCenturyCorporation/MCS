@@ -354,7 +354,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_scene_event_data = {
             "metadata": {
                 "pose": mcs.Pose.STANDING.name
-            }
+            },
+            "events": []
         }
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
@@ -366,7 +367,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_scene_event_data = {
             "metadata": {
                 "pose": mcs.Pose.CRAWLING.name
-            }
+            },
+            "events": []
         }
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
         scene_event = SceneEvent(
@@ -377,7 +379,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_scene_event_data = {
             "metadata": {
                 "pose": mcs.Pose.LYING.name
-            }
+            },
+            "events": []
         }
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
         scene_event = SceneEvent(
@@ -389,7 +392,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_scene_event_data = {
             "metadata": {
                 "lastActionStatus": "SUCCESSFUL"
-            }
+            },
+            "events": []
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -402,7 +406,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_scene_event_data = {
             "metadata": {
                 "lastActionStatus": "FAILED"
-            }
+            },
+            "events": []
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -414,7 +419,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_scene_event_data = {
             "metadata": {
                 "lastActionStatus": "INVALID_STATUS"
-            }
+            },
+            "events": []
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -426,7 +432,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_scene_event_data = {
             "metadata": {
                 "lastActionStatus": None
-            }
+            },
+            "events": []
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -904,7 +911,6 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
-
         scene_event = SceneEvent(
             self._config, SceneConfiguration(), mock_event, 0)
         actual = scene_event.object_list
