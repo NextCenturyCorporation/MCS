@@ -1,4 +1,4 @@
-name: Unit Tests
+name: Mac and Ubuntu Python 3.6 Unit Tests 
 
 on:
   push:
