@@ -1,3 +1,5 @@
+[![Run Python Unit Tests](https://github.com/NextCenturyCorporation/MCS/actions/workflows/ci.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/ci.yaml)
+
 # MCS Python Package
 
 - [Installation](#installation)
