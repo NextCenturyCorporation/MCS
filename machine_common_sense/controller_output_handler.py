@@ -83,12 +83,6 @@ class SceneEvent():
 
     @property
     def clipping_plane_far(self):
-        # Review: The clipping plane is retrieved in two different places.
-        # The Step Output constructor had the default as 0, the image
-        # processing had the default as the constant
-        # from the ConfigManager.  This seems wrong so I put it as the
-        # constant.  We should discuss before final approval.
-        # self._raw_output.metadata.get('clippingPlaneFar', 0.0)
         return self._raw_output.metadata.get(
             'clippingPlaneFar', ConfigManager.DEFAULT_CLIPPING_PLANE_FAR)
 
@@ -117,34 +111,34 @@ class SceneEvent():
     def position(self) -> dict:
         return self._raw_output.metadata['agent']['position']
 
-    @property
-    def object_list(self):
+    def _get_objects(self, key):
         # Return object list for all tier levels, the restrict output function
         # will then strip out the necessary metadata
         metadata_tier = self._config.get_metadata_tier()
         show_all = metadata_tier != ConfigManager.CONFIG_METADATA_TIER_DEFAULT
         # if no config specified, return visible objects (for now)
-
-        # Reviewer: Take a hard look at this change to make sure my logic is
-        # valid then we should remove this comment
-
         return sorted(
             [
                 self.retrieve_object_output(
-                    object_metadata,
-                    self.object_colors
+                    object_metadata, self.object_colors
                 )
-                for object_metadata in self._raw_output.metadata['objects']
-                if object_metadata['visibleInCamera'] or
-                object_metadata['isPickedUp'] or show_all
+                for object_metadata in self._raw_output.metadata[key]
+                if show_all or object_metadata['visibleInCamera'] or
+                object_metadata['isPickedUp']
             ],
             key=lambda x: x.uuid
         )
 
     @property
+    def object_list(self):
+        return self._get_objects('objects')
+
+    @property
+    def structural_object_list(self):
+        return self._get_objects('structuralObjects')
+
+    @property
     def return_status(self):
-        # TODO MCS-47 Need to implement all proper step statuses on the Unity
-        # side
         return_status = ReturnStatus.UNDEFINED.name
 
         try:
@@ -244,28 +238,6 @@ class SceneEvent():
             openable=object_metadata['openable']
         )
 
-    @property
-    def structural_object_list(self):
-        # Return structural object list for all tier levels, the restrict
-        # output function will then strip out the necessary metadata
-        metadata_tier = self._config.get_metadata_tier()
-        show_all = metadata_tier != self._config.CONFIG_METADATA_TIER_DEFAULT
-
-        # if no config specified, return visible structural objects (for
-        # now)
-        return sorted(
-            [
-                self.retrieve_object_output(
-                    object_metadata, self.object_colors
-                )
-                for object_metadata in self._raw_output.metadata[
-                    'structuralObjects'
-                ]
-                if object_metadata['visibleInCamera'] or show_all
-            ],
-            key=lambda x: x.uuid
-        )
-
 
 class ControllerOutputHandler():
     '''
@@ -314,8 +286,6 @@ class ControllerOutputHandler():
 
         depth_map_list = [] if restrict_depth_map else (
             self._scene_event.depth_map_list)
-        # image_list = [] if restrict_non_oracle else
-        # self._scene_event.image_list
         image_list = self._scene_event.image_list
         object_mask_list = ([] if restrict_object_mask_list else
                             self._scene_event.object_mask_list)
