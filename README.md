@@ -1,3 +1,7 @@
+[![Unit Tests](https://github.com/NextCenturyCorporation/MCS/actions/workflows/ci.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/ci.yaml)
+[![Extensive Unit Tests](https://github.com/NextCenturyCorporation/MCS/actions/workflows/development-merge.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/development-merge.yaml)
+[![Documentation](https://github.com/NextCenturyCorporation/MCS/actions/workflows/docs.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/docs.yaml)
+
 # MCS Python Package
 
 - [Installation](#installation)

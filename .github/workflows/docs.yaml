@@ -1,4 +1,4 @@
-name: Pages
+name: Build and Publish Documentation to GH Pages
 on:
   release:
     types: [published]

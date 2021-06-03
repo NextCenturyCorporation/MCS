@@ -1,4 +1,4 @@
-name: Run More Extensive Python Unit Tests
+name: Mac and Ubuntu Python 3.6, 3.7 and 3.8 Unit Tests
 
 on:
   push:
