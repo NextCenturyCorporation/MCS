@@ -84,17 +84,17 @@ Each **scene config** has the following properties:
 - `ceilingMaterial` (string, optional): The material (color/texture) for the room's ceiling. See the :ref:`material list <Material List>` for options. Default (v0.0.3+): `"AI2-THOR/Materials/Walls/Drywall"`
 - `floorMaterial` (string, optional): The material (color/texture) for the room's floor. See the :ref:`material list <Material List>` for options. Default (v0.0.3+): `"AI2-THOR/Materials/Fabrics/CarpetWhite 3"`
 - `floorProperties` (:ref:`physics config <Physics Config>`, optional): Enable custom friction, bounciness, and/or drag on the floor. Default: see :ref:`physics config <Physics Config>`.
-- `roomDimensions` (Vector3, optional): Specify the size of the room, not including the thickness of walls, floor, and ceiling.  If omitted or set to 0, 0, 0, the default will be used.  Note: There is a maximum visibility which for objects and structures beyond will not be rendered.  Use caution when creating rooms where the maximum distance exceeds this maximum visibility.  The maximum visibility is 15 meters. Default: 10, 3, 10.  
 - `goal` (:ref:`goal config <Goal Config>`, optional): The goal for the scene. Default: none
 - `intuitivePhysics` (bool, optional): Specific performer and room setup for intuitive physics scenes.
 - `isometric` (bool, optional): Specific performer and room setup for agent scenes.
 - `name` (string, required): A unique name for the scene used for our logs. Default: the filename
 - `objects` (:ref:`object config <Object Config>` array, optional): The objects for the scene. Default: `[]`
 - `performerStart` (:ref:`transform config <Transform Config>`, optional): The starting position and rotation of the performer (the "player"). Only the `position.x`, `position.z`, `rotation.x` (head tilt), and `rotation.y` properties are used. Default: `{ "position": { "x": 0, "z": 0 }, "rotation": { "y": 0 } }`
-- `version` (int, optional): The version of this scene configuration. Default: the latest version
-- `wallMaterial` (string, optional): The material (color/texture) for the room's four outer walls. See the :ref:`material list <Material List>` for options. Default (v0.0.3+): `"AI2-THOR/Materials/Walls/DrywallBeige"`
+- `roomDimensions` (Vector3, optional): Specify the size of the room, not including the thickness of walls, floor, and ceiling.  If omitted or set to 0, 0, 0, the default will be used.  Note: There is a maximum visibility which for objects and structures beyond will not be rendered.  Use caution when creating rooms where the maximum distance exceeds this maximum visibility.  The maximum visibility is 15 meters. Default: 10, 3, 10.
 - `roomMaterials` (:ref:`room material config <Room Material Config>`, optional): The materials for each individual wall.  For any individual wall not provided, or all outer walls if object is not provided, they will use 'wallMaterial' property.
+- `version` (int, optional): The version of this scene configuration. Default: the latest version
 - `wallProperties` (:ref:`physics config <Physics Config>`, optional): Enable custom friction, bounciness, and/or drag on the walls. Default: see :ref:`physics config <Physics Config>`.
+- `wallMaterial` (string, optional): The material (color/texture) for the room's four outer walls. See the :ref:`material list <Material List>` for options. Default (v0.0.3+): `"AI2-THOR/Materials/Walls/DrywallBeige"`
 
 Object Config
 *************
@@ -103,6 +103,7 @@ Each **object config** has the following properties:
 
 - `id` (string, required): The object's unique ID.
 - `type` (string, required): The object's type from the :ref:`object list <Object List>`.
+- `centerOfMass` (:ref:`vector config <Vector Config>`, optional): The object's center of mass/gravity, if not the default. Default: none
 - `changeMaterials` (:ref:`change_materials config <Change Materials Config>` array, optional): The steps on which to change the material(s) (colors/textures) used on the object, and the new materials to use. See the :ref:`material list <Material List>` for options. Default: `[]`
 - `forces` (:ref:`force config <Force Config>` array, optional): The steps on which to apply `force <https://docs.unity3d.com/ScriptReference/Rigidbody.AddForce.html>`_ to the object. The config `vector` describes the amount of force (in Newtons) to apply in each direction using the global coordinate system. Resets all existing forces on the object to 0 before applying the new force. Default: `[]`
 - `ghosts` (:ref:`step begin and end config config <Step Begin And End Config>` array, optional): TBD
@@ -122,6 +123,7 @@ Each **object config** has the following properties:
 - `physicsProperties` (:ref:`physics config <Physics Config>`, optional): Enable custom friction, bounciness, and/or drag on the object. Default: see :ref:`physics config <Physics Config>`.
 - `pickupable` (boolean, optional): Whether the object should be pickupable, if it is not already openable based on its `type`. Pickupable objects are also automatically `moveable`. Default: depends on `type`
 - `receptacle` (boolean, optional): TBD
+- `resetCenterOfMass` (boolean, optional): Whether to reset the object's center of mass/gravity to its default value once the object's Y velocity becomes more than 0.1. Default: `false`
 - `resizes` (:ref:`size config <Size Config>` array, optional): The steps on which to resize the object. The config `size` is multiplied by the object's current size. Useful if you want to have impossible events (spontaneous resizing). Default: `[]`
 - `rotates` (:ref:`move config <Move Config>` array, optional): The steps on which to rotate the object. The config `vector` describes the amount of rotation (in degrees) to change, added to the object's current rotation. Useful if you want to rotate objects that are `kinematic`. A fifth of each move is made over each of the five substeps (five screenshots) during the step. Default: `[]`
 - `salientMaterials` (string array, optional)

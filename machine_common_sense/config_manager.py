@@ -407,6 +407,7 @@ class TransformConfigSchema(Schema):
 class SceneObjectSchema(Schema):
     id = fields.Str()
     type = fields.Str()  # should this be an enum?
+    centerOfMass = fields.Nested(Vector3dSchema)
     changeMaterials = fields.List(fields.Nested(ChangeMaterialSchema))
     forces = fields.List(fields.Nested(ForceConfigSchema))
     ghosts = fields.List(fields.Nested(StepBeginEndConfigSchema))
@@ -426,6 +427,7 @@ class SceneObjectSchema(Schema):
     physicsProperties = fields.Nested(PhysicsConfigSchema)
     pickupable = fields.Bool()
     receptacle = fields.Bool()
+    resetCenterOfMass = fields.Bool()
     resizes = fields.List(fields.Nested(SizeConfigSchema))
     rotates = fields.List(fields.Nested(MoveConfigSchema))
     salientMaterials = fields.List(fields.Str())
@@ -436,6 +438,8 @@ class SceneObjectSchema(Schema):
     teleports = fields.List(fields.Nested(TeleportConfigSchema))
     togglePhysics = fields.List(fields.Nested(SingleStepConfigSchema))
     torques = fields.List(fields.Nested(MoveConfigSchema))
+    # TODO MCS-700 Replace with debug property
+    positionY = fields.Float()
 
     @post_load
     def make_scene_object(self, data, **kwargs):
@@ -443,23 +447,29 @@ class SceneObjectSchema(Schema):
 
 
 class SceneConfigurationSchema(Schema):
-    name = fields.Str()
-    version = fields.Integer()
+    answer = fields.Dict()
     ceilingMaterial = fields.Str()
     floorMaterial = fields.Str()
-    wallMaterial = fields.Str()
-    performerStart = fields.Nested(PerformerStartSchema)
-    objects = fields.List(fields.Nested(SceneObjectSchema))
+    floorProperties = fields.Nested(PhysicsConfigSchema)
     goal = fields.Nested(GoalSchema)
-    roomDimensions = fields.Nested(Vector3dSchema)
-    roomMaterials = fields.Nested(RoomMaterialsSchema)
     intuitivePhysics = fields.Bool()
     isometric = fields.Bool()
-    answer = fields.Dict()
-    floorProperties = fields.Nested(PhysicsConfigSchema)
+    name = fields.Str()
+    objects = fields.List(fields.Nested(SceneObjectSchema))
+    observation = fields.Bool()  # deprecated; please use intuitivePhysics
+    performerStart = fields.Nested(PerformerStartSchema)
+    roomDimensions = fields.Nested(Vector3dSchema)
+    roomMaterials = fields.Nested(RoomMaterialsSchema)
+    screenshot = fields.Bool()  # developer use only; for the image generator
+    version = fields.Integer()
+    wallMaterial = fields.Str()
     wallProperties = fields.Nested(PhysicsConfigSchema)
-    screenshot = fields.Bool()
-    observation = fields.Bool()
+    # TODO MCS-700 Replace with debug property
+    evaluation = fields.Str(allow_none=True)
+    evaluationOnly = fields.Bool()
+    hypercubeNumber = fields.Int()
+    sceneNumber = fields.Int()
+    training = fields.Bool()
 
     @post_load
     def make_scene_configuration(self, data, **kwargs):
@@ -586,6 +596,7 @@ class TransformConfig:
 class SceneObject:
     id: str
     type: str  # should this be an enum?
+    centerOfMass: Vector3d = None
     changeMaterials: List[ChangeMaterial] = field(default_factory=list)
     forces: List[ForceConfig] = field(default_factory=list)
     ghosts: List[StepBeginEndConfig] = field(default_factory=list)
@@ -607,6 +618,7 @@ class SceneObject:
     physicsProperties: PhysicsConfig = None
     pickupable: bool = None
     receptacle: bool = False
+    resetCenterOfMass: bool = False
     resizes: List[SizeConfig] = field(default_factory=list)
     rotates: List[MoveConfig] = field(default_factory=list)
     salientMaterials: List[str] = field(default_factory=list)
@@ -617,28 +629,36 @@ class SceneObject:
     teleports: List[TeleportConfig] = field(default_factory=list)
     togglePhysics: List[SingleStepConfig] = field(default_factory=list)
     torques: List[MoveConfig] = field(default_factory=list)
+    # TODO MCS-700 Replace with debug property
+    positionY: float = 0
 
 
 @dataclass
 class SceneConfiguration:
     '''Class for keeping track of scene configuration'''
-    name: str = None
-    version: int = None
+    answer = None  # TODO later
     ceilingMaterial: str = None
+    floorProperties: PhysicsConfig = None
     floorMaterial: str = None
-    wallMaterial: str = None
+    goal: Goal = None  # TODO change to concrete class
+    intuitivePhysics: bool = False
+    isometric: bool = False
+    name: str = None
+    objects: List[SceneObject] = field(default_factory=list)
+    observation: bool = False  # deprecated; please use intuitivePhysics
     performerStart: PerformerStart = None
     roomDimensions: Vector3d = None
     roomMaterials: RoomMaterials = None
-    goal: Goal = None  # TODO change to concrete class
-    objects: List[SceneObject] = field(default_factory=list)
-    intuitivePhysics: bool = False
-    answer = None  # TODO later
-    floorProperties: PhysicsConfig = None
-    screenshot: bool = False
-    observation: bool = False  # deprecated; please use intuitivePhysics
-    isometric: bool = False
+    screenshot: bool = False  # developer use only; for the image generator
+    version: int = None
+    wallMaterial: str = None
     wallProperties: PhysicsConfig = None
+    # TODO MCS-700 Replace with debug property
+    evaluation: str = None
+    evaluationOnly: bool = False
+    hypercubeNumber: int = None
+    sceneNumber: int = None
+    training: bool = False
 
     def retrieve_object_states(self,
                                object_id, step_number):
