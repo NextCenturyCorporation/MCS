@@ -1,3 +1,4 @@
+import json
 import pathlib
 import random
 import unittest
@@ -6,7 +7,7 @@ from typing import Tuple
 import PIL
 
 from machine_common_sense.recorder import (BaseRecorder, ImageRecorder,
-                                           VideoRecorder)
+                                           JsonRecorder, VideoRecorder)
 
 
 class ConcreteBaseRecorder(BaseRecorder):
@@ -52,6 +53,82 @@ class TestBaseRecorder(unittest.TestCase):
         self.assertFalse(self.recorder.recording)
         self.assertTrue(self.recorder._queue.empty())
         self.assertEqual(self.recorder.num_recorded, 0)
+
+
+class TestJsonRecorder(unittest.TestCase):
+    json_prefix = "test_json_"
+    test_json_file = pathlib.Path("tests/test_json_{:04d}.json")
+
+    def setUp(self):
+        self.recorder = JsonRecorder(self.test_json_file)
+
+    def tearDown(self):
+        '''Delete all unit test output images'''
+        for p in pathlib.Path('tests').glob('test_json_*'):
+            p.unlink()
+
+    def test_data(self, val=4):
+        return {"test1": "t1", "obj": {"o1": "o2"},
+                "arr": [1, 2, 3], "val": val}
+
+    def test_write(self):
+        output_file = pathlib.Path("tests/test_json_0000.json")
+        data = self.test_data()
+        self.recorder.add(data)
+        self.recorder.finish()
+        self.assertFalse(self.recorder.recording)
+        self.assertEqual(self.recorder.num_recorded, 1)
+        self.assertTrue(self.recorder._queue.empty())
+        self.assertTrue(output_file.is_file())
+        self.assertTrue(output_file.parent.is_dir())
+        with open(output_file, 'r') as json_file:
+            actual = json.load(json_file)
+        self.assertEqual(actual, data)
+
+    def test_multiple_write(self):
+        output_file1 = pathlib.Path("tests/test_json_0000.json")
+        output_file2 = pathlib.Path("tests/test_json_0001.json")
+        output_file3 = pathlib.Path("tests/test_json_0002.json")
+        data1 = self.test_data(1)
+        data2 = self.test_data(2)
+        data3 = self.test_data(3)
+        self.recorder.add(data1)
+        self.recorder.add(data2)
+        self.recorder.add(data3)
+        self.recorder.finish()
+        self.assertFalse(self.recorder.recording)
+        self.assertEqual(self.recorder.num_recorded, 3)
+        self.assertTrue(self.recorder._queue.empty())
+        self.assertTrue(output_file1.is_file())
+        self.assertTrue(output_file1.parent.is_dir())
+        with open(output_file1, 'r') as json_file:
+            actual = json.load(json_file)
+        self.assertEqual(actual, data1)
+        with open(output_file2, 'r') as json_file:
+            actual = json.load(json_file)
+        self.assertEqual(actual, data2)
+        with open(output_file3, 'r') as json_file:
+            actual = json.load(json_file)
+        self.assertEqual(actual, data3)
+
+    def test_missing_folder(self):
+        '''ImageRecorder requires existing path'''
+        bad_recorder = JsonRecorder(
+            pathlib.Path("missing/test_json_{:04d}.json"))
+        bad_recorder.add(self.test_data())
+        self.assertRaises(FileNotFoundError, bad_recorder.finish)
+
+    def test_add_after_finish(self):
+        output_file = pathlib.Path("tests/test_json_0000.json")
+        self.recorder.add(self.test_data())
+        self.recorder.finish()
+        self.assertFalse(self.recorder.recording)
+        self.assertEqual(self.recorder.num_recorded, 1)
+        self.assertTrue(self.recorder._queue.empty())
+        self.assertTrue(output_file.is_file())
+        self.assertTrue(output_file.parent.is_dir())
+        self.recorder.add(self.test_data())
+        self.assertTrue(self.recorder._queue.empty())
 
 
 class TestImageRecorder(unittest.TestCase):
