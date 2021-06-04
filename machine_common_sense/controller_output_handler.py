@@ -111,7 +111,7 @@ class SceneEvent():
     def position(self) -> dict:
         return self._raw_output.metadata['agent']['position']
 
-    def _get_objects(self, key):
+    def _get_objects(self, key: str):
         # Return object list for all tier levels, the restrict output function
         # will then strip out the necessary metadata
         metadata_tier = self._config.get_metadata_tier()
