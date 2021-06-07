@@ -227,6 +227,12 @@ class Controller():
         self.__step_number = 0
 
     def set_config(self, config):
+        '''Allows config to be changed without changing the controller and
+        attached Unity process.  This typically should only be called by the
+        MCS package itself.
+
+        For users, call machine_common_sense.change_config()
+        '''
         self._config = config
 
         self._output_handler = ControllerOutputHandler(self._config)

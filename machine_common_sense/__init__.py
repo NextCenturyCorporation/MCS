@@ -116,6 +116,23 @@ def create_controller(unity_app_file_path=None,
         return None
 
 
+"""
+    Creates and returns a new MCS Controller object.  Should only be called
+    After a run and before a scene is changed.
+
+    Parameters
+    ----------
+    controller : Controller
+        The currently used controller that the config should be changed
+        on.
+    config_file_path: str, optional
+        Path to configuration file to read in and set various properties,
+        such as metadata level and whether or not to save history files
+        (default None)
+
+    """
+
+
 def change_config(controller: Controller, config_file_path: str = None):
     config = ConfigManager(config_file_path)
     controller.set_config(config)
