@@ -150,18 +150,14 @@ class Controller():
 
         self._end_scene_not_registered = True
 
-        self._config = config
-
-        self._output_handler = ControllerOutputHandler(self._config)
-
         self._controller = ai2thor.controller.Controller(
             quality='Medium',
             fullscreen=False,
             # The headless flag does not work for me
             headless=False,
             local_executable_path=unity_app_file_path,
-            width=self._config.get_screen_width(),
-            height=self._config.get_screen_height(),
+            width=config.get_screen_width(),
+            height=config.get_screen_height(),
             # Set the name of our Scene in our Unity app
             scene='MCS',
             logs=True,
@@ -173,10 +169,14 @@ class Controller():
         )
 
         self._on_init()
+        self.set_config(config)
 
     def subscribe(self, subscriber):
         if subscriber not in self._subscribers:
             self._subscribers.append(subscriber)
+
+    def remove_all_event_handlers(self):
+        self._subscribers = []
 
     def _publish_event(self, event_type: EventType,
                        payload: Union[StartScenePayload, BeforeStepPayload,
@@ -219,13 +219,6 @@ class Controller():
             return y_coord
 
     def _on_init(self):
-
-        self.__noise_enabled = self._config.is_noise_enabled()
-        self.__seed = self._config.get_seed()
-
-        if self.__seed:
-            random.seed(self.__seed)
-
         self._goal = GoalMetadata()
         self.__habituation_trial = 1
         # Output folder used to save debug image, video, and JSON files.
@@ -233,9 +226,16 @@ class Controller():
         self._scene_config = None
         self.__step_number = 0
 
-        # Whether or not to show depth maps or object masks is based on
-        # metadata tier (the default for these if no metadata level is
-        # set or metadata is set to `none`, is `False`)
+    def set_config(self, config):
+        self._config = config
+
+        self._output_handler = ControllerOutputHandler(self._config)
+
+        self.__noise_enabled = self._config.is_noise_enabled()
+        self.__seed = self._config.get_seed()
+
+        if self.__seed:
+            random.seed(self.__seed)
 
         if ((self._config.get_aws_access_key_id() is not None) and
                 (self._config.get_aws_secret_access_key() is not None)):

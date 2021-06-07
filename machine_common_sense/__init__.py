@@ -116,6 +116,13 @@ def create_controller(unity_app_file_path=None,
         return None
 
 
+def change_config(controller: Controller, config_file_path: str = None):
+    config = ConfigManager(config_file_path)
+    controller.set_config(config)
+    controller.remove_all_event_handlers()
+    add_subscribers(controller, config)
+
+
 def load_scene_json_file(scene_json_file_path):
     """
     Loads the given JSON scene config file and returns its data.
