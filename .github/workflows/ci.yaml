@@ -33,6 +33,7 @@ jobs:
       - name: Autopep8
         run: autopep8 --in-place --aggressive --recursive machine_common_sense
   wheel:
+    runs-on: ubuntu-latest
     steps:
       - name: create wheel file
         run: python setup.py bdist_wheel sdist clean --all
