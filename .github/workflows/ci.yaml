@@ -33,6 +33,10 @@ jobs:
       - name: Autopep8
         run: autopep8 --in-place --aggressive --recursive machine_common_sense
   wheel:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: create wheel file
       - run: python setup.py bdist_wheel sdist clean --all
