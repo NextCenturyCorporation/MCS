@@ -35,9 +35,9 @@ jobs:
       - name: create wheel file
         run: python setup.py bdist_wheel sdist clean --all
       - name: Add & Commit
-        uses: EndBug/add-and-commit@v7.2.1
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          add: 'dist'
+          file_pattern: dist/*
           branch: kd-test-ghactions
       - name: Push changes
         uses: ad-m/github-push-action@master
