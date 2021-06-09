@@ -1,3 +1,4 @@
+import json
 import logging
 import pathlib
 import queue
@@ -93,6 +94,45 @@ class BaseRecorder(ABC):
     def _write(self):
         '''Subclasses to provide writing specifics'''
         pass
+
+
+class JsonRecorder(BaseRecorder):
+    '''Threaded json recorder'''
+
+    def __init__(self, json_template: pathlib.Path,
+                 timeout: float = 1.0, sort_keys=True, indent=4):
+        '''Create the json recorder.
+
+        Args:
+            json_template(pathlib.Path): Filename template
+            timeout (float): How often in seconds to check the queue
+
+        Returns:
+            None
+        '''
+        self.path = json_template
+        self.sort_keys = sort_keys
+        self.indent = indent
+        super().__init__(timeout)
+        super().start()
+
+    def _write(self, data: dict) -> None:
+        '''Save the json to disk
+
+        Args:
+            data (dict): The data to record
+
+        Returns:
+            None
+        '''
+        json_file = str(self.path).format(self.num_recorded)
+        logger.debug(f"Writing {json_file}")
+        with open(json_file, 'w') as json_file:
+            json.dump(
+                data,
+                json_file,
+                sort_keys=self.sort_keys,
+                indent=self.indent)
 
 
 class ImageRecorder(BaseRecorder):
