@@ -39,6 +39,7 @@ def create_step_test_case_list(expected, actual):
         ('head_tilt', round(actual.head_tilt)),
         ('objects_count', len(actual.object_list)),
         ('position_x', actual.position.get('x') if actual.position else None),
+        ('position_y', actual.position.get('y') if actual.position else None),
         ('position_z', actual.position.get('z') if actual.position else None),
         ('return_status', actual.return_status),
         ('reward', actual.reward),
