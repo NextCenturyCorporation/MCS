@@ -871,7 +871,7 @@ class TestController(unittest.TestCase):
         def flip():
             return ~previous_noise
         new_config.is_noise_enabled = flip
-        self.controller.set_config(new_config)
+        self.controller._set_config(new_config)
         self.assertIs(new_config, self.controller._config)
         self.assertIsNot(first_config, new_config)
         self.assertNotEqual(previous_noise,

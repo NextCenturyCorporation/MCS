@@ -135,7 +135,7 @@ def create_controller(unity_app_file_path=None,
 
 def change_config(controller: Controller, config_file_path: str = None):
     config = ConfigManager(config_file_path)
-    controller.set_config(config)
+    controller._set_config(config)
     controller.remove_all_event_handlers()
     add_subscribers(controller, config)
 

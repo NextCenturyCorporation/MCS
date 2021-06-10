@@ -169,7 +169,7 @@ class Controller():
         )
 
         self._on_init()
-        self.set_config(config)
+        self._set_config(config)
 
     def subscribe(self, subscriber):
         if subscriber not in self._subscribers:
@@ -226,7 +226,7 @@ class Controller():
         self._scene_config = None
         self.__step_number = 0
 
-    def set_config(self, config):
+    def _set_config(self, config):
         '''Allows config to be changed without changing the controller and
         attached Unity process.  This typically should only be called by the
         MCS package itself.
