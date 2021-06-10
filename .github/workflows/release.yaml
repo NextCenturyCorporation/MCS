@@ -2,6 +2,8 @@ name: Pre-release to latest
 
 on:
   push:
+    #tags:
+    #  - '*'
     branches:
       master-changeme-to-enable-and-test
 
@@ -31,6 +33,7 @@ jobs:
         run: autopep8 --in-place --aggressive --recursive machine_common_sense
       - name: create wheel file
         run: python setup.py bdist_wheel sdist clean --all
+        #download unity?
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
