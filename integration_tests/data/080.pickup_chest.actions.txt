@@ -1,0 +1,3 @@
+LookDown
+PickupObject,objectId=treasure_chest
+MoveAhead
