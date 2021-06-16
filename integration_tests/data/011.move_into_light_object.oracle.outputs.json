@@ -168,7 +168,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.751,
-                "direction_z": 0.66,
+                "direction_z": 0.661,
                 "distance": 0.682,
                 "held": false,
                 "id": "testBall",
@@ -199,7 +199,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.748,
-                "direction_z": 0.663,
+                "direction_z": 0.664,
                 "distance": 0.684,
                 "held": false,
                 "id": "testBall",
@@ -230,7 +230,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.745,
-                "direction_z": 0.667,
+                "direction_z": 0.668,
                 "distance": 0.688,
                 "held": false,
                 "id": "testBall",
@@ -354,7 +354,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.731,
-                "direction_z": 0.682,
+                "direction_z": 0.683,
                 "distance": 0.7,
                 "held": false,
                 "id": "testBall",

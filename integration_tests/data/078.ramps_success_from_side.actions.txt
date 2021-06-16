@@ -10,6 +10,4 @@ MoveLeft
 MoveLeft
 MoveAhead
 MoveRight
-MoveLeft
-MoveAhead
-MoveAhead
+MoveRight
