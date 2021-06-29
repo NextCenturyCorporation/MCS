@@ -279,14 +279,18 @@ class GoalMetadataSchema(Schema):
 
 class GoalSchema(Schema):
     action_list = fields.List(fields.Raw())
-    habituation_total = fields.Int()
+    answer = fields.Dict()  # UI property
     category = fields.Str()
     description = fields.Str()
+    domainsInfo = fields.Dict()  # UI property
+    habituation_total = fields.Int()
     info_list = fields.List(fields.Str())
-    skip_preview_phase = fields.Bool()
     last_preview_phase_step = fields.Int()
     last_step = fields.Int()
     metadata = fields.Dict()
+    objectsInfo = fields.Dict()  # UI property
+    sceneInfo = fields.Dict()  # UI property
+    skip_preview_phase = fields.Bool()
     task_list = fields.List(fields.Str())
     type_list = fields.List(fields.Str())
 
@@ -352,6 +356,7 @@ class ShowConfigSchema(Schema):
     position = fields.Nested(Vector3dSchema)
     rotation = fields.Nested(Vector3dSchema)
     scale = fields.Nested(Vector3dSchema)
+    boundingBox = fields.List(fields.Dict())  # debug property
 
     @post_load
     def make_show_config(self, data, **kwargs):
@@ -409,6 +414,7 @@ class SceneObjectSchema(Schema):
     type = fields.Str()  # should this be an enum?
     centerOfMass = fields.Nested(Vector3dSchema)
     changeMaterials = fields.List(fields.Nested(ChangeMaterialSchema))
+    debug = fields.Dict()
     forces = fields.List(fields.Nested(ForceConfigSchema))
     ghosts = fields.List(fields.Nested(StepBeginEndConfigSchema))
     hides = fields.List(fields.Nested(SingleStepConfigSchema))
@@ -438,8 +444,6 @@ class SceneObjectSchema(Schema):
     teleports = fields.List(fields.Nested(TeleportConfigSchema))
     togglePhysics = fields.List(fields.Nested(SingleStepConfigSchema))
     torques = fields.List(fields.Nested(MoveConfigSchema))
-    # TODO MCS-700 Replace with debug property
-    positionY = fields.Float()
 
     @post_load
     def make_scene_object(self, data, **kwargs):
@@ -447,8 +451,8 @@ class SceneObjectSchema(Schema):
 
 
 class SceneConfigurationSchema(Schema):
-    answer = fields.Dict()
     ceilingMaterial = fields.Str()
+    debug = fields.Dict()
     floorMaterial = fields.Str()
     floorProperties = fields.Nested(PhysicsConfigSchema)
     goal = fields.Nested(GoalSchema)
@@ -464,12 +468,6 @@ class SceneConfigurationSchema(Schema):
     version = fields.Integer()
     wallMaterial = fields.Str()
     wallProperties = fields.Nested(PhysicsConfigSchema)
-    # TODO MCS-700 Replace with debug property
-    evaluation = fields.Str(allow_none=True)
-    evaluationOnly = fields.Bool()
-    hypercubeNumber = fields.Int()
-    sceneNumber = fields.Int()
-    training = fields.Bool()
 
     @post_load
     def make_scene_configuration(self, data, **kwargs):
@@ -503,15 +501,19 @@ class PerformerStart:
 @dataclass
 class Goal:
     action_list: list = None
+    answer: dict = None  # UI property
     category: str = None
-    habituation_total: int = None
     description: str = None
+    domainsInfo: dict = None  # UI property
+    habituation_total: int = None
     info_list: list = None
-    skip_preview_phase: bool = False
     last_preview_phase_step: int = None
     last_step: int = None
     # TODO metadata objects
     metadata: dict = None
+    objectsInfo: dict = None  # UI property
+    sceneInfo: dict = None  # UI property
+    skip_preview_phase: bool = False
     task_list: List[str] = None
     type_list: List[str] = None
 
@@ -559,6 +561,7 @@ class ShowConfig:
     position: Vector3d = Vector3d(0, 0, 0)
     rotation: Vector3d = Vector3d(0, 0, 0)
     scale: Vector3d = Vector3d(1, 1, 1)
+    boundingBox: List[dict] = field(default_factory=list)  # debug property
 
 
 @dataclass
@@ -598,6 +601,7 @@ class SceneObject:
     type: str  # should this be an enum?
     centerOfMass: Vector3d = None
     changeMaterials: List[ChangeMaterial] = field(default_factory=list)
+    debug: dict = None
     forces: List[ForceConfig] = field(default_factory=list)
     ghosts: List[StepBeginEndConfig] = field(default_factory=list)
     hides: List[SingleStepConfig] = field(default_factory=list)
@@ -629,17 +633,15 @@ class SceneObject:
     teleports: List[TeleportConfig] = field(default_factory=list)
     togglePhysics: List[SingleStepConfig] = field(default_factory=list)
     torques: List[MoveConfig] = field(default_factory=list)
-    # TODO MCS-700 Replace with debug property
-    positionY: float = 0
 
 
 @dataclass
 class SceneConfiguration:
     '''Class for keeping track of scene configuration'''
-    answer = None  # TODO later
     ceilingMaterial: str = None
-    floorProperties: PhysicsConfig = None
+    debug: dict = None
     floorMaterial: str = None
+    floorProperties: PhysicsConfig = None
     goal: Goal = None  # TODO change to concrete class
     intuitivePhysics: bool = False
     isometric: bool = False
@@ -653,12 +655,6 @@ class SceneConfiguration:
     version: int = None
     wallMaterial: str = None
     wallProperties: PhysicsConfig = None
-    # TODO MCS-700 Replace with debug property
-    evaluation: str = None
-    evaluationOnly: bool = False
-    hypercubeNumber: int = None
-    sceneNumber: int = None
-    training: bool = False
 
     def retrieve_object_states(self,
                                object_id, step_number):
