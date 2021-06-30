@@ -1,0 +1,13 @@
+MoveRight
+MoveRight
+MoveRight
+MoveRight
+MoveRight
+MoveRight
+MoveAhead
+MoveAhead
+MoveLeft
+MoveLeft
+MoveAhead
+MoveRight
+MoveRight
