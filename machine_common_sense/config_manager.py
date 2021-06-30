@@ -425,7 +425,7 @@ class SceneObjectSchema(Schema):
     materialFile = fields.Str()
     moveable = fields.Bool()
     moves = fields.List(fields.Nested(MoveConfigSchema))
-    nullParent = fields.List(fields.Nested(TransformConfigSchema))
+    nullParent = fields.Nested(TransformConfigSchema)
     openable = fields.Bool()
     opened = fields.Bool()
     openClose = fields.List(fields.Nested(OpenCloseConfigSchema))
