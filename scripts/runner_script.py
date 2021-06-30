@@ -22,7 +22,7 @@ class AbstractRunnerScript():
         rename=False
     ):
         self._name = name
-        args, filename_list = self.read_args()
+        args, filename_list = self._read_args()
         self.args = args
 
         debug = (args.save_videos or args.save_gifs or args.debug)
@@ -70,7 +70,11 @@ class AbstractRunnerScript():
                     scene_name + '.gif'
                 ])
 
-    def read_args(self):
+    def _append_subclass_args_to_parser(self, parser):
+        # To override
+        return parser
+
+    def _read_args(self):
         parser = argparse.ArgumentParser(description=('Run ' + self._name))
         parser.add_argument(
             '--rename',
@@ -128,10 +132,11 @@ class AbstractRunnerScript():
             type=str,
             default=None,
             help='version of MCS Unity executable.  Default: current')
-        return self.read_subclass_args(parser)
+        parser = self._append_subclass_args_to_parser(parser)
+        return self._read_subclass_args(parser)
 
-    def read_subclass_args(self, parser):
-        # TODO
+    def _read_subclass_args(self, parser):
+        # To override
         return None, []
 
     def run_scene(
@@ -186,11 +191,14 @@ class AbstractRunnerScript():
 
 
 class SingleFileRunnerScript(AbstractRunnerScript):
-    def read_subclass_args(self, parser):
+    def _append_subclass_args_to_parser(self, parser):
         parser.add_argument(
             'mcs_scene_filename',
             help='Filename of MCS scene to run'
         )
+        return parser
+
+    def _read_subclass_args(self, parser):
         args = parser.parse_args()
         return args, [args.mcs_scene_filename]
 
@@ -217,7 +225,7 @@ class MultipleFileRunnerScript(AbstractRunnerScript):
                 glob.glob(self.args.mcs_scene_prefix + '*/frame_image_*.png')
             )
 
-    def read_subclass_args(self, parser):
+    def _append_subclass_args_to_parser(self, parser):
         parser.add_argument(
             'mcs_scene_prefix',
             help='Filename prefix of all MCS scenes to run'
@@ -227,6 +235,9 @@ class MultipleFileRunnerScript(AbstractRunnerScript):
             default=None,
             help='Save ZIPs of frames/videos/GIFs with this filename prefix'
         )
+        return parser
+
+    def _read_subclass_args(self, parser):
         args = parser.parse_args()
         filename_list = glob.glob(args.mcs_scene_prefix + '*_debug.json')
         if len(filename_list) == 0:
