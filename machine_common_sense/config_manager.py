@@ -49,6 +49,7 @@ class ConfigManager(object):
     CONFIG_NOISE_ENABLED = 'noise_enabled'
     CONFIG_S3_BUCKET = 's3_bucket'
     CONFIG_S3_FOLDER = 's3_folder'
+    CONFIG_S3_MOVIES_FOLDER = 's3_movies_folder'
     CONFIG_SAVE_DEBUG_IMAGES = 'save_debug_images'
     CONFIG_SAVE_DEBUG_JSON = 'save_debug_json'
     CONFIG_SEED = 'seed'
@@ -142,6 +143,13 @@ class ConfigManager(object):
         return self._config.get(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_S3_FOLDER,
+            fallback=None
+        )
+
+    def get_s3_movies_folder(self):
+        return self._config.get(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_S3_MOVIES_FOLDER,
             fallback=None
         )
 
