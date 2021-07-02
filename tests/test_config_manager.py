@@ -146,6 +146,19 @@ class TestConfigManager(unittest.TestCase):
             self.config_mngr.get_s3_folder(),
             'eval-test-folder')
 
+    def test_get_s3_movies_folder(self):
+        self.assertIsNone(self.config_mngr.get_s3_movies_folder())
+
+        self.config_mngr._config[
+            self.config_mngr.CONFIG_DEFAULT_SECTION
+        ][
+            self.config_mngr.CONFIG_S3_MOVIES_FOLDER
+        ] = 'raw-eval-test-folder'
+
+        self.assertEqual(
+            self.config_mngr.get_s3_movies_folder(),
+            'raw-eval-test-folder')
+
     def test_get_seed(self):
         self.assertEqual(self.config_mngr.get_seed(), None)
 
