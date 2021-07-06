@@ -74,7 +74,7 @@
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
-        "return_status": "SUCCESSFUL",
+        "return_status": "OBSTRUCTED",
         "rotation_y": null,
         "step_number": 7,
         "structural_objects_count": 0
@@ -94,7 +94,7 @@
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
-        "return_status": "SUCCESSFUL",
+        "return_status": "OBSTRUCTED",
         "rotation_y": null,
         "step_number": 9,
         "structural_objects_count": 0
@@ -114,7 +114,7 @@
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
-        "return_status": "SUCCESSFUL",
+        "return_status": "OBSTRUCTED",
         "rotation_y": null,
         "step_number": 11,
         "structural_objects_count": 0
@@ -124,7 +124,7 @@
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
-        "return_status": "SUCCESSFUL",
+        "return_status": "OBSTRUCTED",
         "rotation_y": null,
         "step_number": 12,
         "structural_objects_count": 0
@@ -134,7 +134,7 @@
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
-        "return_status": "SUCCESSFUL",
+        "return_status": "OBSTRUCTED",
         "rotation_y": null,
         "step_number": 13,
         "structural_objects_count": 0
@@ -144,7 +144,7 @@
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
-        "return_status": "SUCCESSFUL",
+        "return_status": "OBSTRUCTED",
         "rotation_y": null,
         "step_number": 14,
         "structural_objects_count": 0
@@ -154,7 +154,7 @@
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
-        "return_status": "SUCCESSFUL",
+        "return_status": "OBSTRUCTED",
         "rotation_y": null,
         "step_number": 15,
         "structural_objects_count": 0
@@ -167,36 +167,6 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": null,
         "step_number": 16,
-        "structural_objects_count": 0
-    },
-    {
-        "head_tilt": 0,
-        "objects_count": 0,
-        "position_x": null,
-        "position_z": null,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": null,
-        "step_number": 17,
-        "structural_objects_count": 0
-    },
-    {
-        "head_tilt": 0,
-        "objects_count": 0,
-        "position_x": null,
-        "position_z": null,
-        "return_status": "OBSTRUCTED",
-        "rotation_y": null,
-        "step_number": 18,
-        "structural_objects_count": 0
-    },
-    {
-        "head_tilt": 0,
-        "objects_count": 0,
-        "position_x": null,
-        "position_z": null,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": null,
-        "step_number": 19,
         "structural_objects_count": 0
     }
 ]

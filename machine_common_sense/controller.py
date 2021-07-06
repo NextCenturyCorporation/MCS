@@ -187,9 +187,13 @@ class Controller():
             # cannot change source data?
             # seems like performance vs safety
 
-            # TODO passing the whole controller is clearly a bad idea
-            # change later
-            subscriber.on_event(event_type, payload)
+            try:
+                subscriber.on_event(event_type, payload)
+            except Exception as msg:
+                logger.error(
+                    f"Error in event with type={event_type}" +
+                    f" to subscriber={type(subscriber)}",
+                    exc_info=msg)
 
     def _create_event_payload_kwargs(self) -> dict:
         return {"step_number": self.__step_number,
