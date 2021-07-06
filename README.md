@@ -135,7 +135,7 @@ The following string properties can be specified in order to upload and organize
 - `aws_secret_access_key`
 - `s3_bucket`
 - `s3_folder`: json output
-- `s3_movies_folder`: only mp4 output, all mp4s will be copied to the "s3_folder" config property as well 
+- `s3_movies_folder`: only mp4 output, MediaConvert will copy all mp4s to the "s3_folder" config property as well 
 
 #### history_enabled
 
