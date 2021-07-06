@@ -299,13 +299,13 @@ class GoalSchema(Schema):
         return Goal(**data)
 
 
-class ChangeMaterialSchema(Schema):
+class ChangeMaterialConfigSchema(Schema):
     stepBegin = fields.Int()
     materials = fields.List(fields.Str())
 
     @post_load
     def make_change_material(self, data, **kwargs):
-        return ChangeMaterial(**data)
+        return ChangeMaterialConfig(**data)
 
 
 class ForceConfigSchema(Schema):
@@ -413,7 +413,7 @@ class SceneObjectSchema(Schema):
     id = fields.Str()
     type = fields.Str()  # should this be an enum?
     centerOfMass = fields.Nested(Vector3dSchema)
-    changeMaterials = fields.List(fields.Nested(ChangeMaterialSchema))
+    changeMaterials = fields.List(fields.Nested(ChangeMaterialConfigSchema))
     debug = fields.Dict()
     forces = fields.List(fields.Nested(ForceConfigSchema))
     ghosts = fields.List(fields.Nested(StepBeginEndConfigSchema))
@@ -422,10 +422,10 @@ class SceneObjectSchema(Schema):
     locationParent = fields.Str()
     mass = fields.Float()
     materials = fields.List(fields.Str())
-    materialFile = fields.Str()
+    materialFile = fields.Str()  # deprecated; please use materials
     moveable = fields.Bool()
     moves = fields.List(fields.Nested(MoveConfigSchema))
-    nullParent = fields.List(fields.Nested(TransformConfigSchema))
+    nullParent = fields.Nested(TransformConfigSchema)
     openable = fields.Bool()
     opened = fields.Bool()
     openClose = fields.List(fields.Nested(OpenCloseConfigSchema))
@@ -519,7 +519,7 @@ class Goal:
 
 
 @dataclass
-class ChangeMaterial:
+class ChangeMaterialConfig:
     stepBegin: int
     materials: List[str]
 
@@ -600,39 +600,39 @@ class SceneObject:
     id: str
     type: str  # should this be an enum?
     centerOfMass: Vector3d = None
-    changeMaterials: List[ChangeMaterial] = field(default_factory=list)
+    changeMaterials: List[ChangeMaterialConfig] = None
     debug: dict = None
-    forces: List[ForceConfig] = field(default_factory=list)
-    ghosts: List[StepBeginEndConfig] = field(default_factory=list)
-    hides: List[SingleStepConfig] = field(default_factory=list)
-    kinematic: bool = False
+    forces: List[ForceConfig] = None
+    ghosts: List[StepBeginEndConfig] = None
+    hides: List[SingleStepConfig] = None
+    kinematic: bool = None
     locationParent: str = None
     mass: float = None
     materials: List[str] = None
-    materialFile: str = None
+    materialFile: str = None  # deprecated; please use materials
     # Docs say moveable's default is dependant on type.  That could
     # be a problem for the concrete classes.  Needs more review later
     moveable: bool = None
-    moves: List[MoveConfig] = field(default_factory=list)
+    moves: List[MoveConfig] = None
     nullParent: TransformConfig = None
     openable: bool = None
-    opened: bool = False
-    openClose: List[OpenCloseConfig] = field(default_factory=list)
-    physics: bool = False
+    opened: bool = None
+    openClose: List[OpenCloseConfig] = None
+    physics: bool = None
     physicsProperties: PhysicsConfig = None
     pickupable: bool = None
-    receptacle: bool = False
-    resetCenterOfMass: bool = False
-    resizes: List[SizeConfig] = field(default_factory=list)
-    rotates: List[MoveConfig] = field(default_factory=list)
-    salientMaterials: List[str] = field(default_factory=list)
-    shows: List[ShowConfig] = field(default_factory=list)
-    shrouds: List[StepBeginEndConfig] = field(default_factory=list)
-    states: List[List[str]] = field(default_factory=list)
-    structure: bool = False
-    teleports: List[TeleportConfig] = field(default_factory=list)
-    togglePhysics: List[SingleStepConfig] = field(default_factory=list)
-    torques: List[MoveConfig] = field(default_factory=list)
+    receptacle: bool = None
+    resetCenterOfMass: bool = None
+    resizes: List[SizeConfig] = None
+    rotates: List[MoveConfig] = None
+    salientMaterials: List[str] = None
+    shows: List[ShowConfig] = None
+    shrouds: List[StepBeginEndConfig] = None
+    states: List[List[str]] = None
+    structure: bool = None
+    teleports: List[TeleportConfig] = None
+    togglePhysics: List[SingleStepConfig] = None
+    torques: List[MoveConfig] = None
 
 
 @dataclass
@@ -664,7 +664,9 @@ class SceneConfiguration:
         # Retrieve the object's states from the scene configuration.
         for object_config in self.objects:
             if object_config.id == object_id:
-                state_list_each_step = object_config.states
+                state_list_each_step = (
+                    object_config.states if object_config.states else []
+                )
                 break
         # Retrieve the object's states in the current step.
         if len(state_list_each_step) > step_number:
