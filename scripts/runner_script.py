@@ -35,6 +35,8 @@ class AbstractRunnerScript():
             config_suffix = 'oracle_debug' if debug else 'oracle'
 
         config_file_path = SCRIPT_FOLDER + '/config_' + config_suffix + '.ini'
+        if args.config_file:
+            config_file_path = args.config_file
         controller = mcs.create_controller(
             unity_app_file_path=args.mcs_unity_build_file,
             config_file_path=config_file_path
@@ -126,12 +128,20 @@ class AbstractRunnerScript():
             '--mcs_unity_build_file',
             type=str,
             default=None,
-            help='Path to MCS unity build file')
+            help='Path to MCS unity build file'
+        )
         parser.add_argument(
             '--mcs_unity_version',
             type=str,
             default=None,
-            help='version of MCS Unity executable.  Default: current')
+            help='version of MCS Unity executable.  Default: current'
+        )
+        parser.add_argument(
+            '--config_file',
+            type=str,
+            default=None,
+            help='MCS config file override'
+        )
         parser = self._append_subclass_args_to_parser(parser)
         return self._read_subclass_args(parser)
 
