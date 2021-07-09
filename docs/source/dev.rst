@@ -148,10 +148,11 @@ AWS specific properties
 
 The following string properties can be specified in order to upload and organize files in S3:
 
-- aws_access_key_id
-- aws_secret_access_key
-- s3_bucket
-- s3_folder
+- `aws_access_key_id`
+- `aws_secret_access_key`
+- `s3_bucket`
+- `s3_folder`: json output
+- `s3_movies_folder`: only mp4 output, MediaConvert will copy all mp4s to the "s3_folder" config property as well 
 
 evaluation
 ^^^^^^^^^^
