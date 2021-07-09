@@ -445,13 +445,21 @@ class SceneObjectSchema(Schema):
     togglePhysics = fields.List(fields.Nested(SingleStepConfigSchema))
     torques = fields.List(fields.Nested(MoveConfigSchema))
 
+    # These are deprecated, but needed for Eval 3 backwards compatibility
+    canContainTarget = fields.Bool()
+    obstacle = fields.Bool()
+    occluder = fields.Bool()
+    positionY = fields.Float()
+    stackTarget = fields.Bool()
+
     @post_load
     def make_scene_object(self, data, **kwargs):
         return SceneObject(**data)
 
 
 class SceneConfigurationSchema(Schema):
-    ceilingMaterial = fields.Str()
+    # The passive agent scenes can have a None ceilingMaterial
+    ceilingMaterial = fields.Str(allow_none=True)
     debug = fields.Dict()
     floorMaterial = fields.Str()
     floorProperties = fields.Nested(PhysicsConfigSchema)
@@ -468,6 +476,15 @@ class SceneConfigurationSchema(Schema):
     version = fields.Integer()
     wallMaterial = fields.Str()
     wallProperties = fields.Nested(PhysicsConfigSchema)
+
+    # These are deprecated, but needed for Eval 3 backwards compatibility
+    evaluation = fields.Str(allow_none=True)
+    evaluationOnly = fields.Bool()
+    evalName = fields.Str()
+    hypercubeNumber = fields.Int()
+    sceneNumber = fields.Int()
+    sequenceNumber = fields.Int()
+    training = fields.Bool()
 
     @post_load
     def make_scene_configuration(self, data, **kwargs):
@@ -634,6 +651,13 @@ class SceneObject:
     togglePhysics: List[SingleStepConfig] = None
     torques: List[MoveConfig] = None
 
+    # These are deprecated, but needed for Eval 3 backwards compatibility
+    canContainTarget: bool = None
+    obstacle: bool = None
+    occluder: bool = None
+    positionY: float = None
+    stackTarget: bool = None
+
 
 @dataclass
 class SceneConfiguration:
@@ -655,6 +679,15 @@ class SceneConfiguration:
     version: int = None
     wallMaterial: str = None
     wallProperties: PhysicsConfig = None
+
+    # These are deprecated, but needed for Eval 3 backwards compatibility
+    evaluation: str = None
+    evaluationOnly: bool = None
+    evalName: str = None
+    hypercubeNumber: int = None
+    sceneNumber: int = None
+    sequenceNumber: int = None
+    training: bool = None
 
     def retrieve_object_states(self,
                                object_id, step_number):
