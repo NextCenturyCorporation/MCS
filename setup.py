@@ -40,7 +40,7 @@ setuptools.setup(
         'msgpack>=1.0.0',
         'ai2thor==2.5.0',
         'dataclasses==0.8; python_version<"3.7"',
-        'marshmallow==3.12.1'
+        'marshmallow>=3.5.0'
     ],
     entry_points={
         'console_scripts': [
