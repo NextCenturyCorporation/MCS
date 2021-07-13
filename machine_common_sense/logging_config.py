@@ -97,7 +97,7 @@ class LoggingConfig():
             init_message = "Loaded default logging config"
 
         if (not exists("logs")):
-            mkdir('logs')
+            mkdir("logs")
         logging.config.dictConfig(log_config)
         logger.info(init_message)
 
