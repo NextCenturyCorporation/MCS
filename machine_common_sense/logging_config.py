@@ -39,6 +39,7 @@
 
 import ast
 import logging
+from os import mkdir
 from os.path import exists
 
 logger = logging.getLogger(__name__)
@@ -94,6 +95,9 @@ class LoggingConfig():
         if (log_config is None):
             log_config = LoggingConfig.get_default_console_config()
             init_message = "Loaded default logging config"
+
+        if (not exists("logs")):
+            mkdir('logs')
         logging.config.dictConfig(log_config)
         logger.info(init_message)
 
