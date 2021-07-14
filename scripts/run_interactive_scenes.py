@@ -8,11 +8,7 @@ def action_callback(scene_data, step_metadata, runner_script):
 
 
 def main():
-    MultipleFileRunnerScript(
-        'Interactive Scenes',
-        action_callback,
-        rename=True
-    )
+    MultipleFileRunnerScript('Interactive Scenes', action_callback)
 
 
 if __name__ == "__main__":

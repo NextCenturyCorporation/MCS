@@ -39,7 +39,8 @@ Use the following command line options:
 
 - `--debug` Saves output images of each action/frame/step to file.
 - `--save-videos` Creates a video from all the output images after running each scene.
-- `--rename <prefix>` Renames the output files to use the given file prefix.
+- `--prefix <prefix>` Uses the given prefix with each scene's name as the name for all the output files.
+- `--rename <name>` Ignores each scene's original name and uses the given name with each scene's ID (if available) as the name for all the output files.
 
 Example:
 

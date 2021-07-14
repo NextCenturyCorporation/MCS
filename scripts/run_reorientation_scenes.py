@@ -220,11 +220,7 @@ def action_callback(scene_data, step_metadata, runner_script):
 
 
 def main():
-    MultipleFileRunnerScript(
-        'Reorientation Scenes',
-        action_callback,
-        rename=True
-    )
+    MultipleFileRunnerScript('Reorientation Scenes', action_callback)
 
 
 if __name__ == "__main__":

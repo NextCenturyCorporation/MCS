@@ -15,12 +15,7 @@ BLACK_IMAGE_PATH = SCRIPT_FOLDER + '/black_image.png'
 
 
 class AbstractRunnerScript():
-    def __init__(
-        self,
-        name,
-        action_callback,
-        rename=False
-    ):
+    def __init__(self, name, action_callback):
         self._name = name
         args, filename_list = self._read_args()
         self.args = args
@@ -48,7 +43,8 @@ class AbstractRunnerScript():
                 filename,
                 action_callback,
                 args.last_step,
-                args.rename if args.rename else ('' if rename else None)
+                args.prefix,
+                args.rename
             )
             if args.save_videos or args.save_gifs:
                 # Copy the black image into the debug folder as the last frame.
@@ -79,9 +75,10 @@ class AbstractRunnerScript():
     def _read_args(self):
         parser = argparse.ArgumentParser(description=('Run ' + self._name))
         parser.add_argument(
-            '--rename',
+            '--config_file',
+            type=str,
             default=None,
-            help='Rename each scene input'
+            help='MCS config file override'
         )
         parser.add_argument(
             '--debug',
@@ -94,6 +91,42 @@ class AbstractRunnerScript():
             default=None,
             help='Scene last step override'
         )
+        parser.add_argument(
+            '--mcs_unity_build_file',
+            type=str,
+            default=None,
+            help='Path to MCS unity build file'
+        )
+        parser.add_argument(
+            '--mcs_unity_version',
+            type=str,
+            default=None,
+            help='version of MCS Unity executable.  Default: current'
+        )
+        parser.add_argument(
+            '--prefix',
+            default=None,
+            help='Append a prefix to each output file'
+        )
+        parser.add_argument(
+            '--rename',
+            default=None,
+            help='Rename each scene and append the corresponding scene ID'
+        )
+        parser.add_argument(
+            '--save-gifs',
+            default=False,
+            action='store_true',
+            help='Save GIF of each MCS scene'
+        )
+        parser.add_argument(
+            '--save-videos',
+            default=False,
+            action='store_true',
+            help='Save video of each MCS scene'
+        )
+
+        # Metadata tiers
         parser.add_argument(
             '--level1',
             default=False,
@@ -112,36 +145,7 @@ class AbstractRunnerScript():
             action='store_true',
             help='Use oracle metadata tier and save debug data'
         )
-        parser.add_argument(
-            '--save-videos',
-            default=False,
-            action='store_true',
-            help='Save video of each MCS scene'
-        )
-        parser.add_argument(
-            '--save-gifs',
-            default=False,
-            action='store_true',
-            help='Save GIF of each MCS scene'
-        )
-        parser.add_argument(
-            '--mcs_unity_build_file',
-            type=str,
-            default=None,
-            help='Path to MCS unity build file'
-        )
-        parser.add_argument(
-            '--mcs_unity_version',
-            type=str,
-            default=None,
-            help='version of MCS Unity executable.  Default: current'
-        )
-        parser.add_argument(
-            '--config_file',
-            type=str,
-            default=None,
-            help='MCS config file override'
-        )
+
         parser = self._append_subclass_args_to_parser(parser)
         return self._read_subclass_args(parser)
 
@@ -155,6 +159,7 @@ class AbstractRunnerScript():
         filename,
         action_callback,
         last_step,
+        prefix,
         rename
     ):
         scene_data, status = mcs.load_scene_json_file(filename)
@@ -167,24 +172,27 @@ class AbstractRunnerScript():
             scene_data['goal'] = scene_data.get('goal', {})
             scene_data['goal']['last_step'] = int(last_step)
 
+        # Add a name to the scene if needed.
+        if 'name' not in scene_data.keys():
+            scene_data['name'] = filename[0:filename.find('.')]
+
+        # Remove the folder prefix from the scene name if needed.
+        scene_data['name'] = (
+            scene_data['name'][(scene_data['name'].rfind('/') + 1):]
+        )
+
+        # Use the prefix and/or rename arguments for the new scene name.
         scene_name = (
-            rename if (rename is not None) else scene_data.get('name', '')
+            ((prefix + '_') if prefix else '') +
+            (rename if rename else scene_data.get('name', ''))
         )
         if rename and 'sceneInfo' in scene_data.get('goal', {}):
             # Rename the scene using its hypercube cell ID.
             scene_id = scene_data['goal']['sceneInfo']['id'][0]
-            scene_data['name'] = (
-                ((scene_name + '_') if scene_name else '') + scene_id
-            )
-        else:
-            # Add a name to the scene if needed.
-            if 'name' not in scene_data.keys():
-                scene_data['name'] = filename[0:filename.find('.')]
+            scene_name = ((scene_name + '_') if scene_name else '') + scene_id
 
-            # Remove the folder prefix from the scene name if needed.
-            scene_data['name'] = (
-                scene_data['name'][(scene_data['name'].rfind('/') + 1):]
-            )
+        # Override the scene name.
+        scene_data['name'] = scene_name
 
         step_metadata = controller.start_scene(scene_data)
         action, params = action_callback(scene_data, step_metadata, self)
@@ -214,13 +222,8 @@ class SingleFileRunnerScript(AbstractRunnerScript):
 
 
 class MultipleFileRunnerScript(AbstractRunnerScript):
-    def __init__(
-        self,
-        name,
-        action_callback,
-        rename=False
-    ):
-        super().__init__(name, action_callback, rename)
+    def __init__(self, name, action_callback):
+        super().__init__(name, action_callback)
         if self.args.zip_prefix:
             for file_type in (
                 (['mp4'] if self.args.save_videos else []) +
