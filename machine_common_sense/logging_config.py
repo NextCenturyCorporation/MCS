@@ -39,8 +39,7 @@
 
 import ast
 import logging
-from os import mkdir
-from os.path import exists
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -86,7 +85,7 @@ class LoggingConfig():
         should be read.
         """
         init_message = ""
-        if (exists(log_config_file)):
+        if (os.path.exists(log_config_file)):
             with open(log_config_file, "r") as data:
                 log_config = ast.literal_eval(data.read())
                 init_message = "Loaded logging config from " + log_config_file
@@ -96,8 +95,8 @@ class LoggingConfig():
             log_config = LoggingConfig.get_default_console_config()
             init_message = "Loaded default logging config"
 
-        if (not exists("logs")):
-            mkdir("logs")
+        if (not os.path.exists("logs")):
+            os.mkdir("logs")
         logging.config.dictConfig(log_config)
         logger.info(init_message)
 
