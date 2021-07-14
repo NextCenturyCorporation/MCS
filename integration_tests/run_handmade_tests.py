@@ -274,7 +274,8 @@ def start_handmade_tests(
     only_metadata_tier,
     only_test_name,
     dev,
-    autofix
+    autofix,
+    unity_version=None
 ):
 
     # Find all of the test scene JSON files.
@@ -294,6 +295,7 @@ def start_handmade_tests(
         if (not controller):
             controller = mcs.create_controller(
                 unity_app_file_path=mcs_unity_build,
+                unity_cache_version=unity_version,
                 config_file_path=config_filename)
         else:
             mcs.change_config(controller, config_file_path=config_filename)
@@ -359,5 +361,6 @@ if __name__ == "__main__":
         args.metadata,
         args.test,
         args.dev,
-        args.autofix
+        args.autofix,
+        unity_version=args.mcs_unity_version
     )

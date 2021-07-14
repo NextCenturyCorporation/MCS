@@ -47,4 +47,10 @@ def add_test_args(parser: argparse.ArgumentParser,
         default=None,
         help='Path to MCS unity build file'
     )
+    parser.add_argument(
+        '--mcs_unity_version',
+        type=str,
+        default=None,
+        help='version of MCS Unity executable.  Default: current'
+    )
     return parser

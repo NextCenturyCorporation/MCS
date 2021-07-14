@@ -16,6 +16,8 @@ logger = logging.getLogger(__name__)
 
 LINUX_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/{ver}/MCS-AI2-THOR-Unity-App-v{ver}-linux.zip"  # noqa
 MAC_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/{ver}/MCS-AI2-THOR-Unity-App-v{ver}-mac.zip"  # noqa
+LINUX_DEV_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/MCS-AI2-THOR-Unity-App-vdevelop-linux.zip"  # noqa
+MAC_DEV_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/MCS-AI2-THOR-Unity-App-vdevelop-mac.zip"  # noqa
 
 
 class UnityExecutableProvider():
@@ -234,10 +236,20 @@ class Downloader():
         sys = platform.system()
         if (sys == "Windows"):
             raise Exception("Windows is not supported")
-        elif (sys == "Linux"):
-            return LINUX_URL.format(ver=ver)
-        elif (sys == "Darwin"):
-            return MAC_URL.format(ver=ver)
+        elif sys == "Linux":
+            if ver not in ["dev", "development"]:
+                return LINUX_URL.format(ver=ver)
+            logger.warn(
+                "Warning: Attempting to use development version of " +
+                "MCS-AI2Thor.  This is intended for developers only.")
+            return LINUX_DEV_URL
+        elif sys == "Darwin":
+            if ver not in ["dev", "development"]:
+                return MAC_URL.format(ver=ver)
+            logger.warn(
+                "Warning: Attempting to use development version of " +
+                "MCS-AI2Thor.  This is intended for developers only.")
+            return MAC_DEV_URL
         else:
             raise Exception("OS '{}' not supported".format(sys))
 
