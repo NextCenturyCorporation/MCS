@@ -68,6 +68,8 @@ class UnityExecutableProvider():
         '''
         if version is None:
             version = __version__
+        if version in ["dev", "development"]:
+            version = "develop"
         if not force_download and self._cache.has_version(version):
             return self._cache.get_execution_location(version)
         if (download_if_missing or force_download):
@@ -237,14 +239,14 @@ class Downloader():
         if (sys == "Windows"):
             raise Exception("Windows is not supported")
         elif sys == "Linux":
-            if ver not in ["dev", "development"]:
+            if ver != "develop":
                 return LINUX_URL.format(ver=ver)
             logger.warn(
                 "Warning: Attempting to use development version of " +
                 "MCS-AI2Thor.  This is intended for developers only.")
             return LINUX_DEV_URL
         elif sys == "Darwin":
-            if ver not in ["dev", "development"]:
+            if ver != "develop":
                 return MAC_URL.format(ver=ver)
             logger.warn(
                 "Warning: Attempting to use development version of " +
