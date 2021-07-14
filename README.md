@@ -19,9 +19,7 @@ The latest release of the MCS Python library is `0.4.3`.
 
 ### Virtual Environments
 
-Python virtual environments are recommended when using the MCS package. All steps below presume the activation of the virtual environment as shown. These instructions are for Ubuntu linux.
-
-The Machine Common Sense package has a requirement of Python 3.6 or greater.
+Python virtual environments are recommended when using the MCS package. All steps below presume the activation of the virtual environment. The developer can choose between traditional Python or Anaconda depending on need. These instructions are for Ubuntu Linux. The Machine Common Sense package has a minimum requirement of Python 3.6 regardless of Python distribution.
 
 #### Traditional Python Environment
 
@@ -31,9 +29,9 @@ $ source venv/bin/activate
 (venv) $ python -m pip install --upgrade pip setuptools wheel
 ```
 
-#### Anaconda Environment
+#### Alternate Anaconda Environment
 
-From the base Anaconda environment, create your project virtual environment.
+For developers using Anaconda Python distributions instead of traditional Python, create your project virtual environment from the base Anaconda environment.
 
 ```bash
 (base) $ conda create -n myenv python=3.8
@@ -48,7 +46,7 @@ myenv                    /home/user/anaconda3/envs/myenv
 
 ### Install MCS
 
-With the activated virtual environment, install the MCS package from the git url. MCS has a dependency on ai2thor and could take a while to install.
+With the activated Python virtual environment, install the MCS package from the git url.
 
 ```bash
 (venv) $ python -m pip install git+https://github.com/NextCenturyCorporation/MCS@master#egg=machine_common_sense
