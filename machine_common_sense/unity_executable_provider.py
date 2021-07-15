@@ -311,8 +311,8 @@ class Downloader():
 
     def is_updated(self, url, date: datetime.datetime):
         # Default to true?
-        updated = True
         try:
+            updated = True
             r = requests.get(url, stream=True)
             r.raise_for_status()
             last_mod = r.headers['last-modified']
@@ -325,4 +325,5 @@ class Downloader():
             logger.warn(
                 "Error checking last modified of development build",
                 exc_info=e)
-        return updated
+        finally:
+            return updated
