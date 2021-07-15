@@ -102,8 +102,7 @@ class AbstractVideoEventHandler(AbstractControllerSubscriber):
         config = payload.config
         if (config.is_evaluation()):
             uploader = payload.uploader
-            folder_prefix = config.uploader_folder_prefix
-
+            folder_prefix = config.get_s3_movies_folder()
             filename = self._get_filename_without_timestamp(
                 recorder.path)
             uploader.upload_video(

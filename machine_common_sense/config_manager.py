@@ -49,6 +49,7 @@ class ConfigManager(object):
     CONFIG_NOISE_ENABLED = 'noise_enabled'
     CONFIG_S3_BUCKET = 's3_bucket'
     CONFIG_S3_FOLDER = 's3_folder'
+    CONFIG_S3_MOVIES_FOLDER = 's3_movies_folder'
     CONFIG_SAVE_DEBUG_IMAGES = 'save_debug_images'
     CONFIG_SAVE_DEBUG_JSON = 'save_debug_json'
     CONFIG_SEED = 'seed'
@@ -142,6 +143,13 @@ class ConfigManager(object):
         return self._config.get(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_S3_FOLDER,
+            fallback=None
+        )
+
+    def get_s3_movies_folder(self):
+        return self._config.get(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_S3_MOVIES_FOLDER,
             fallback=None
         )
 
@@ -279,14 +287,18 @@ class GoalMetadataSchema(Schema):
 
 class GoalSchema(Schema):
     action_list = fields.List(fields.Raw())
-    habituation_total = fields.Int()
+    answer = fields.Dict()  # UI property
     category = fields.Str()
     description = fields.Str()
+    domainsInfo = fields.Dict()  # UI property
+    habituation_total = fields.Int()
     info_list = fields.List(fields.Str())
-    skip_preview_phase = fields.Bool()
     last_preview_phase_step = fields.Int()
     last_step = fields.Int()
     metadata = fields.Dict()
+    objectsInfo = fields.Dict()  # UI property
+    sceneInfo = fields.Dict()  # UI property
+    skip_preview_phase = fields.Bool()
     task_list = fields.List(fields.Str())
     type_list = fields.List(fields.Str())
 
@@ -295,13 +307,13 @@ class GoalSchema(Schema):
         return Goal(**data)
 
 
-class ChangeMaterialSchema(Schema):
+class ChangeMaterialConfigSchema(Schema):
     stepBegin = fields.Int()
     materials = fields.List(fields.Str())
 
     @post_load
     def make_change_material(self, data, **kwargs):
-        return ChangeMaterial(**data)
+        return ChangeMaterialConfig(**data)
 
 
 class ForceConfigSchema(Schema):
@@ -352,6 +364,7 @@ class ShowConfigSchema(Schema):
     position = fields.Nested(Vector3dSchema)
     rotation = fields.Nested(Vector3dSchema)
     scale = fields.Nested(Vector3dSchema)
+    boundingBox = fields.List(fields.Dict())  # debug property
 
     @post_load
     def make_show_config(self, data, **kwargs):
@@ -408,7 +421,8 @@ class SceneObjectSchema(Schema):
     id = fields.Str()
     type = fields.Str()  # should this be an enum?
     centerOfMass = fields.Nested(Vector3dSchema)
-    changeMaterials = fields.List(fields.Nested(ChangeMaterialSchema))
+    changeMaterials = fields.List(fields.Nested(ChangeMaterialConfigSchema))
+    debug = fields.Dict()
     forces = fields.List(fields.Nested(ForceConfigSchema))
     ghosts = fields.List(fields.Nested(StepBeginEndConfigSchema))
     hides = fields.List(fields.Nested(SingleStepConfigSchema))
@@ -416,10 +430,10 @@ class SceneObjectSchema(Schema):
     locationParent = fields.Str()
     mass = fields.Float()
     materials = fields.List(fields.Str())
-    materialFile = fields.Str()
+    materialFile = fields.Str()  # deprecated; please use materials
     moveable = fields.Bool()
     moves = fields.List(fields.Nested(MoveConfigSchema))
-    nullParent = fields.List(fields.Nested(TransformConfigSchema))
+    nullParent = fields.Nested(TransformConfigSchema)
     openable = fields.Bool()
     opened = fields.Bool()
     openClose = fields.List(fields.Nested(OpenCloseConfigSchema))
@@ -438,8 +452,13 @@ class SceneObjectSchema(Schema):
     teleports = fields.List(fields.Nested(TeleportConfigSchema))
     togglePhysics = fields.List(fields.Nested(SingleStepConfigSchema))
     torques = fields.List(fields.Nested(MoveConfigSchema))
-    # TODO MCS-700 Replace with debug property
+
+    # These are deprecated, but needed for Eval 3 backwards compatibility
+    canContainTarget = fields.Bool()
+    obstacle = fields.Bool()
+    occluder = fields.Bool()
     positionY = fields.Float()
+    stackTarget = fields.Bool()
 
     @post_load
     def make_scene_object(self, data, **kwargs):
@@ -447,8 +466,9 @@ class SceneObjectSchema(Schema):
 
 
 class SceneConfigurationSchema(Schema):
-    answer = fields.Dict()
-    ceilingMaterial = fields.Str()
+    # The passive agent scenes can have a None ceilingMaterial
+    ceilingMaterial = fields.Str(allow_none=True)
+    debug = fields.Dict()
     floorMaterial = fields.Str()
     floorProperties = fields.Nested(PhysicsConfigSchema)
     goal = fields.Nested(GoalSchema)
@@ -464,11 +484,14 @@ class SceneConfigurationSchema(Schema):
     version = fields.Integer()
     wallMaterial = fields.Str()
     wallProperties = fields.Nested(PhysicsConfigSchema)
-    # TODO MCS-700 Replace with debug property
+
+    # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation = fields.Str(allow_none=True)
     evaluationOnly = fields.Bool()
+    evalName = fields.Str()
     hypercubeNumber = fields.Int()
     sceneNumber = fields.Int()
+    sequenceNumber = fields.Int()
     training = fields.Bool()
 
     @post_load
@@ -503,21 +526,25 @@ class PerformerStart:
 @dataclass
 class Goal:
     action_list: list = None
+    answer: dict = None  # UI property
     category: str = None
-    habituation_total: int = None
     description: str = None
+    domainsInfo: dict = None  # UI property
+    habituation_total: int = None
     info_list: list = None
-    skip_preview_phase: bool = False
     last_preview_phase_step: int = None
     last_step: int = None
     # TODO metadata objects
     metadata: dict = None
+    objectsInfo: dict = None  # UI property
+    sceneInfo: dict = None  # UI property
+    skip_preview_phase: bool = False
     task_list: List[str] = None
     type_list: List[str] = None
 
 
 @dataclass
-class ChangeMaterial:
+class ChangeMaterialConfig:
     stepBegin: int
     materials: List[str]
 
@@ -559,6 +586,7 @@ class ShowConfig:
     position: Vector3d = Vector3d(0, 0, 0)
     rotation: Vector3d = Vector3d(0, 0, 0)
     scale: Vector3d = Vector3d(1, 1, 1)
+    boundingBox: List[dict] = field(default_factory=list)  # debug property
 
 
 @dataclass
@@ -597,49 +625,55 @@ class SceneObject:
     id: str
     type: str  # should this be an enum?
     centerOfMass: Vector3d = None
-    changeMaterials: List[ChangeMaterial] = field(default_factory=list)
-    forces: List[ForceConfig] = field(default_factory=list)
-    ghosts: List[StepBeginEndConfig] = field(default_factory=list)
-    hides: List[SingleStepConfig] = field(default_factory=list)
-    kinematic: bool = False
+    changeMaterials: List[ChangeMaterialConfig] = None
+    debug: dict = None
+    forces: List[ForceConfig] = None
+    ghosts: List[StepBeginEndConfig] = None
+    hides: List[SingleStepConfig] = None
+    kinematic: bool = None
     locationParent: str = None
     mass: float = None
     materials: List[str] = None
-    materialFile: str = None
+    materialFile: str = None  # deprecated; please use materials
     # Docs say moveable's default is dependant on type.  That could
     # be a problem for the concrete classes.  Needs more review later
     moveable: bool = None
-    moves: List[MoveConfig] = field(default_factory=list)
+    moves: List[MoveConfig] = None
     nullParent: TransformConfig = None
     openable: bool = None
-    opened: bool = False
-    openClose: List[OpenCloseConfig] = field(default_factory=list)
-    physics: bool = False
+    opened: bool = None
+    openClose: List[OpenCloseConfig] = None
+    physics: bool = None
     physicsProperties: PhysicsConfig = None
     pickupable: bool = None
-    receptacle: bool = False
-    resetCenterOfMass: bool = False
-    resizes: List[SizeConfig] = field(default_factory=list)
-    rotates: List[MoveConfig] = field(default_factory=list)
-    salientMaterials: List[str] = field(default_factory=list)
-    shows: List[ShowConfig] = field(default_factory=list)
-    shrouds: List[StepBeginEndConfig] = field(default_factory=list)
-    states: List[List[str]] = field(default_factory=list)
-    structure: bool = False
-    teleports: List[TeleportConfig] = field(default_factory=list)
-    togglePhysics: List[SingleStepConfig] = field(default_factory=list)
-    torques: List[MoveConfig] = field(default_factory=list)
-    # TODO MCS-700 Replace with debug property
-    positionY: float = 0
+    receptacle: bool = None
+    resetCenterOfMass: bool = None
+    resizes: List[SizeConfig] = None
+    rotates: List[MoveConfig] = None
+    salientMaterials: List[str] = None
+    shows: List[ShowConfig] = None
+    shrouds: List[StepBeginEndConfig] = None
+    states: List[List[str]] = None
+    structure: bool = None
+    teleports: List[TeleportConfig] = None
+    togglePhysics: List[SingleStepConfig] = None
+    torques: List[MoveConfig] = None
+
+    # These are deprecated, but needed for Eval 3 backwards compatibility
+    canContainTarget: bool = None
+    obstacle: bool = None
+    occluder: bool = None
+    positionY: float = None
+    stackTarget: bool = None
 
 
 @dataclass
 class SceneConfiguration:
     '''Class for keeping track of scene configuration'''
-    answer = None  # TODO later
     ceilingMaterial: str = None
-    floorProperties: PhysicsConfig = None
+    debug: dict = None
     floorMaterial: str = None
+    floorProperties: PhysicsConfig = None
     goal: Goal = None  # TODO change to concrete class
     intuitivePhysics: bool = False
     isometric: bool = False
@@ -653,12 +687,15 @@ class SceneConfiguration:
     version: int = None
     wallMaterial: str = None
     wallProperties: PhysicsConfig = None
-    # TODO MCS-700 Replace with debug property
+
+    # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation: str = None
-    evaluationOnly: bool = False
+    evaluationOnly: bool = None
+    evalName: str = None
     hypercubeNumber: int = None
     sceneNumber: int = None
-    training: bool = False
+    sequenceNumber: int = None
+    training: bool = None
 
     def retrieve_object_states(self,
                                object_id, step_number):
@@ -668,7 +705,9 @@ class SceneConfiguration:
         # Retrieve the object's states from the scene configuration.
         for object_config in self.objects:
             if object_config.id == object_id:
-                state_list_each_step = object_config.states
+                state_list_each_step = (
+                    object_config.states if object_config.states else []
+                )
                 break
         # Retrieve the object's states in the current step.
         if len(state_list_each_step) > step_number:

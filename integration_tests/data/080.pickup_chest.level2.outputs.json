@@ -1,0 +1,52 @@
+﻿[
+    {
+        "head_tilt": 40,
+        "objects_count": 0,
+        "position_x": null,
+        "position_z": null,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": null,
+        "step_number": 0,
+        "structural_objects_count": 0
+    },
+    {
+        "head_tilt": 50,
+        "objects_count": 0,
+        "position_x": null,
+        "position_z": null,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": null,
+        "step_number": 1,
+        "structural_objects_count": 0
+    },
+    {
+        "head_tilt": 50,
+        "objects_count": 0,
+        "position_x": null,
+        "position_z": null,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": null,
+        "step_number": 2,
+        "structural_objects_count": 0
+    },
+    {
+        "head_tilt": 50,
+        "objects_count": 0,
+        "position_x": null,
+        "position_z": null,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": null,
+        "step_number": 3,
+        "structural_objects_count": 0
+    },
+    {
+        "head_tilt": 30,
+        "objects_count": 0,
+        "position_x": null,
+        "position_z": null,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": null,
+        "step_number": 4,
+        "structural_objects_count": 0
+    }
+]

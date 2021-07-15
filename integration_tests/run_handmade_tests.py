@@ -39,6 +39,7 @@ def create_step_test_case_list(expected, actual):
         ('head_tilt', round(actual.head_tilt)),
         ('objects_count', len(actual.object_list)),
         ('position_x', actual.position.get('x') if actual.position else None),
+        ('position_y', actual.position.get('y') if actual.position else None),
         ('position_z', actual.position.get('z') if actual.position else None),
         ('return_status', actual.return_status),
         ('reward', actual.reward),
@@ -283,15 +284,19 @@ def start_handmade_tests(
     failed_test_list = []
     mcs.init_logging(LoggingConfig.get_errors_only_console_config())
     # Run each test scene at each metadata tier.
+    controller = None
     for metadata_tier, config_filename in METADATA_TIER_LIST:
         if only_metadata_tier and metadata_tier != only_metadata_tier:
             continue
         print_divider()
         print(f'HANDMADE TEST METADATA TIER: {metadata_tier.upper()}')
         # Create one controller to run all of the tests at this metadata tier.
-        controller = mcs.create_controller(
-            unity_app_file_path=mcs_unity_build,
-            config_file_path=config_filename)
+        if (not controller):
+            controller = mcs.create_controller(
+                unity_app_file_path=mcs_unity_build,
+                config_file_path=config_filename)
+        else:
+            mcs.change_config(controller, config_file_path=config_filename)
         # Run each test scene and record if it failed validation.
         for scene_filename in scene_filename_list:
             if (
@@ -324,7 +329,8 @@ def start_handmade_tests(
                 successful_test_list.append((test_name, metadata_tier))
             else:
                 failed_test_list.append((test_name, metadata_tier, status))
-        controller.stop_simulation()
+
+    controller.stop_simulation()
 
     successful_test_list.sort(key=lambda x: x[0])
     failed_test_list.sort(key=lambda x: x[0])

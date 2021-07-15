@@ -1,0 +1,15 @@
+MoveRight
+MoveRight
+Crawl
+MoveAhead
+MoveAhead
+MoveRight
+MoveAhead
+MoveAhead
+MoveAhead
+LieDown
+MoveAhead
+MoveAhead
+MoveAhead
+MoveAhead
+MoveAhead

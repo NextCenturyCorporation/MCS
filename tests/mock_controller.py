@@ -113,6 +113,7 @@ class MockControllerAI2THOR(Controller):
         ] = {}
         self._output_handler = ControllerOutputHandler(self._config)
         self._on_init()
+        self._set_config(self._config)
 
     def get_last_step_data(self):
         return self._controller.get_last_step_data()

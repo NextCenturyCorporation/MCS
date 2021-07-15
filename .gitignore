@@ -29,8 +29,13 @@ wheels/
 docs/_build
 **/mcs_config.ini
 
-# Debug output
+# Ignore debug files in the root or scripts folders ONLY.
 **/SCENE_HISTORY
+*.gif
+*.json
+*.mp4
+*.png
+*.zip
 scripts/**/*.gif
 scripts/**/*.json
 scripts/**/*.mp4
@@ -40,3 +45,6 @@ scripts/**/*.zip
 # Logging output and user config
 logs/*.log
 scripts/log.config.user.py
+
+#.vscode files
+.vscode/launch.json

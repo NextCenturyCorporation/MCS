@@ -863,6 +863,20 @@ class TestController(unittest.TestCase):
             {"test1": [{"test2": None}], "test3": False})
         self.assertEqual({"test1": [{}], "test3": False}, actual)
 
+    def test_set_config(self):
+        first_config = self.controller._config
+        new_config = ConfigManager()
+        previous_noise = first_config.is_noise_enabled()
+
+        def flip():
+            return ~previous_noise
+        new_config.is_noise_enabled = flip
+        self.controller._set_config(new_config)
+        self.assertIs(new_config, self.controller._config)
+        self.assertIsNot(first_config, new_config)
+        self.assertNotEqual(previous_noise,
+                            self.controller._config.is_noise_enabled())
+
 
 if __name__ == '__main__':
     unittest.main()
