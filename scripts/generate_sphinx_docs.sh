@@ -15,8 +15,6 @@ echo "moving to docs"
 cd docs/
 echo "calling make"
 make html
-echo "copying tutorial videos into build folder"
-cp -r source/tutorial _build/html/_tutorial
 echo "Finished update to Python API sphinx html documentation."
 # echo "moving to API"
 # cp _build/markdown/index.md ../machine_common_sense/API.md

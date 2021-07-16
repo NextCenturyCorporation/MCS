@@ -45,19 +45,19 @@ Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2th
 
 3A. In the Hierarchy window, your model's name in the list is an instantiation of the Prefab, called a Game Object. Next to the Game Object, click the right arrow (`>`) on the right side of the list to edit the Prefab. This will change the Scene window to show a Prefab editing view. The Hierarchy window will now show just the Game Object. Depending on how your model was made, it may have one or more child Game Objects, shown as a nested view. Objects with multiple interactable parts (like, cabinet doors, drawers, and shelves) should have a child for each part. We'll call the parent Game Object the Target. In the Hierarchy window, click on the Target and look at the Inspector window to verify that it has a MeshFilter, MeshRenderer, and material(s); if it doesn't, then one of its children should have them (click on each child in turn).
 
-.. video:: _tutorial/adding_3d_models_tutorial_step_3a.mp4
+.. video:: tutorial/adding_3d_models_tutorial_step_3a.mp4
    :width: 750
    :height: 450
 
 3B. Ideally, the Target should always be centered on the X/Z axis. First, in the Hierarchy window, click on the Target; then, in the Inspector window, in the Transform Component, zero out its Position. If the Target still isn't centered, then the 3D model itself may be off-center: adjust the Position in the Target's Transform Component to visually center the object on the X/Z axis. Failing to do this may cause the Scene Generator to generate buggy scenes containing clipping objects. The model's Y position can be any value, but normally it's either centered on the Y axis, or moved upward so that a position of Y=0 lets the object sit on the ground without clipping it. Take note of the Y position for step 7 later.
 
-.. video:: _tutorial/adding_3d_models_tutorial_step_3b.mp4
+.. video:: tutorial/adding_3d_models_tutorial_step_3b.mp4
    :width: 750
    :height: 450
 
 3C. Click on the Target. In the Inspector window, set the Tag to "SimObjPhysics" and the Layer to "SimObjVisible". Click on the Add Component button to add a Rigidbody Component to the Target. Ensure its "Use Gravity" is set to true.
 
-.. video:: _tutorial/adding_3d_models_tutorial_step_3c.mp4
+.. video:: tutorial/adding_3d_models_tutorial_step_3c.mp4
    :width: 750
    :height: 450
 
@@ -72,7 +72,7 @@ Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2th
   - Adjust the Transform Component and/or Collider Component to visually position, rotate, and scale the Collider to the appropriate pixels.
   - Set the Tag to "SimObjPhysics" and the Layer to "SimObjVisible".
 
-.. video:: _tutorial/adding_3d_models_tutorial_step_3d.mp4
+.. video:: tutorial/adding_3d_models_tutorial_step_3d.mp4
    :width: 750
    :height: 450
 
@@ -85,7 +85,7 @@ Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2th
   - Adjust the Transform Component to visually position the Visibility Point to the appropriate pixels. (To see the Visibility Point's position in the Scene window, you can set a colored Icon on the Visibility Point Game Object using the cube button in the top-left corner of the Inspector window.)
   - Set the Layer to "SimObjVisible".
 
-.. video:: _tutorial/adding_3d_models_tutorial_step_3e.mp4
+.. video:: tutorial/adding_3d_models_tutorial_step_3e.mp4
    :width: 750
    :height: 450
 
@@ -97,7 +97,7 @@ Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2th
 - In the BoxCollider Component, click the checkbox to mark it as NOT ACTIVE.
 - Adjust the Transform Component (but not the BoxCollider Component -- adjusting both makes it harder on us later) to visually position, rotate, and scale the Collider to the appropriate pixels completely enclosing the model. Take note of the position, rotation, and scale for step 7 later.
 
-.. video:: _tutorial/adding_3d_models_tutorial_step_3f.mp4
+.. video:: tutorial/adding_3d_models_tutorial_step_3f.mp4
    :width: 750
    :height: 450
 
@@ -113,7 +113,7 @@ Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2th
   - Set the "My Colliders" array property to have each Collider Game Object that you made.
   - Optionally, set the "Salient Materials" property as needed.
 
-.. video:: _tutorial/adding_3d_models_tutorial_step_3g.mp4
+.. video:: tutorial/adding_3d_models_tutorial_step_3g.mp4
    :width: 750
    :height: 450
 
@@ -125,7 +125,7 @@ Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2th
   - Set the "Moving Parts" property to the Target.
   - Adjust the "Open Positions" and "Close Positions" to visually position, rotate, or scale the model to the approriate pixels for its "opened" and "closed" positions respectfully. Change the "Movement Type" property to "Slide", "Rotate", or "Scale" as needed, depending on how the model should change when it's opened.
 
-.. video:: _tutorial/adding_3d_models_tutorial_step_3h.mp4
+.. video:: tutorial/adding_3d_models_tutorial_step_3h.mp4
    :width: 750
    :height: 450
 
@@ -139,7 +139,7 @@ Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2th
 - Adjust the Transform Component (but not the BoxCollider Component -- adjusting both makes it harder on us later) to visually position, rotate, and scale the Collider to the appropriate pixels completely enclosing the receptacle area on which held objects may be placed. (I'm not sure if the height actually matters).  Take note of the position, rotation, and scale for step 7 later.
 - Click on the Add Component button to add a Contains Component.
 
-.. video:: _tutorial/adding_3d_models_tutorial_step_3i.mp4
+.. video:: tutorial/adding_3d_models_tutorial_step_3i.mp4
    :width: 750
    :height: 450
 
@@ -150,7 +150,7 @@ Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2th
 - In the Hierarchy window, click-and-drag to move the Game Object containing the MeshFilter and MeshRenderer Components corresponding to the Sub-Target under the Sub-Target.
 - Repeat steps 3C-3J (EXCEPT 3F) on the Sub-Target.
 
-.. video:: _tutorial/adding_3d_models_tutorial_step_3j.mp4
+.. video:: tutorial/adding_3d_models_tutorial_step_3j.mp4
    :width: 750
    :height: 450
 
@@ -159,7 +159,7 @@ Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2th
 4. Update the Object Registry File
 ----------------------------------
 
-.. video:: _tutorial/adding_3d_models_tutorial_step_4.mp4
+.. video:: tutorial/adding_3d_models_tutorial_step_4.mp4
    :width: 750
    :height: 450
 
@@ -190,7 +190,7 @@ Example:
 5. Manually Test and Verify Your Objects
 ----------------------------------------
 
-.. video:: _tutorial/adding_3d_models_tutorial_step_5.mp4
+.. video:: tutorial/adding_3d_models_tutorial_step_5.mp4
    :width: 750
    :height: 450
 
@@ -215,7 +215,7 @@ Inside the Unity Editor, go to `File->Build Settings` to open the Build Settings
 7. Update the Scene Generator
 -----------------------------
 
-.. video:: _tutorial/adding_3d_models_tutorial_step_7.mp4
+.. video:: tutorial/adding_3d_models_tutorial_step_7.mp4
    :width: 750
    :height: 450
 
