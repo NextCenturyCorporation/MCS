@@ -34,6 +34,7 @@ class AbstractRunnerScript():
             config_file_path = args.config_file
         controller = mcs.create_controller(
             unity_app_file_path=args.mcs_unity_build_file,
+            unity_cache_version=args.mcs_unity_version,
             config_file_path=config_file_path
         )
 

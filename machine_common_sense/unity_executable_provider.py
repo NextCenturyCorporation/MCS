@@ -1,3 +1,4 @@
+import datetime
 import glob
 import logging
 import platform
@@ -16,6 +17,8 @@ logger = logging.getLogger(__name__)
 
 LINUX_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/{ver}/MCS-AI2-THOR-Unity-App-v{ver}-linux.zip"  # noqa
 MAC_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/{ver}/MCS-AI2-THOR-Unity-App-v{ver}-mac.zip"  # noqa
+LINUX_DEV_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/MCS-AI2-THOR-Unity-App-vdevelop-linux.zip"  # noqa
+MAC_DEV_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/MCS-AI2-THOR-Unity-App-vdevelop-mac.zip"  # noqa
 
 
 class UnityExecutableProvider():
@@ -66,6 +69,14 @@ class UnityExecutableProvider():
         '''
         if version is None:
             version = __version__
+        if version in ["dev", "development", "develop"]:
+            logger.warn(
+                "Warning: Attempting to use development version of " +
+                "MCS-AI2Thor.  This is intended for developers only.")
+            version = "develop"
+            url = self._downloader.get_url(version)
+            force_download |= self._downloader.is_updated(
+                url, self._cache.modified_date(version))
         if not force_download and self._cache.has_version(version):
             return self._cache.get_execution_location(version)
         if (download_if_missing or force_download):
@@ -85,6 +96,7 @@ class AbstractExecutionCache(ABC):
     '''Handles platform agnostic (between Mac and Linux) code for running a
     cache for MCS Unity executables.  '''
     CACHE_LOCATION = Path.home() / ".mcs/"
+    TIMESTAMP_FILE = ".timestamp"
 
     def __init__(self):
         cache_base = self.CACHE_LOCATION.expanduser()
@@ -123,6 +135,16 @@ class AbstractExecutionCache(ABC):
                 return False
         return True
 
+    def modified_date(self, version: str) -> datetime.datetime:
+        mod_date = datetime.datetime.min
+        if (self.has_version(version)):
+            ver_dir = self._get_version_dir(version)
+            path = (ver_dir / self.TIMESTAMP_FILE)
+            if path.exists():
+                return datetime.datetime.fromtimestamp(
+                    path.stat().st_mtime)
+        return mod_date
+
     def add_zip_to_cache(self, version, zip_file: Path):
         ver_dir = self._get_version_dir(version)
         zip = ZipFile(zip_file)
@@ -146,6 +168,7 @@ class AbstractExecutionCache(ABC):
             self._unzip_tar_gz(gz, ver_dir)
             logger.info("Deleting {}.".format(gz.name))
             gz.unlink()
+        (ver_dir / self.TIMESTAMP_FILE).touch()
 
     def _unzip_tar_gz(self, tar_gz_file: Path, dest: Path):
         tar = tarfile.open(tar_gz_file.as_posix(), "r:gz")
@@ -234,10 +257,14 @@ class Downloader():
         sys = platform.system()
         if (sys == "Windows"):
             raise Exception("Windows is not supported")
-        elif (sys == "Linux"):
-            return LINUX_URL.format(ver=ver)
-        elif (sys == "Darwin"):
-            return MAC_URL.format(ver=ver)
+        elif sys == "Linux":
+            if ver != "develop":
+                return LINUX_URL.format(ver=ver)
+            return LINUX_DEV_URL
+        elif sys == "Darwin":
+            if ver != "develop":
+                return MAC_URL.format(ver=ver)
+            return MAC_DEV_URL
         else:
             raise Exception("OS '{}' not supported".format(sys))
 
@@ -278,3 +305,22 @@ class Downloader():
         pbar.finish()
 
         return b"".join(file_data)
+
+    def is_updated(self, url, date: datetime.datetime):
+        # Default to true?
+        try:
+            updated = True
+            r = requests.get(url, stream=True)
+            r.raise_for_status()
+            last_mod = r.headers['last-modified']
+            r.close()
+            dt = datetime.datetime.strptime(
+                last_mod,
+                "%a, %d %b %Y %H:%M:%S %Z")
+            return dt > date
+        except Exception as e:
+            logger.warn(
+                "Error checking last modified of development build",
+                exc_info=e)
+        finally:
+            return updated
