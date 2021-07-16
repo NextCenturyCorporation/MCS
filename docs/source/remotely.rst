@@ -41,7 +41,7 @@ Run the following script to test MCS with the X11 server created above.
     # use your path to the MCS Unity executable
     controller = mcs.create_controller()
     # find a test scene
-    scene_file_path = 'docs/source/scenes/playroom.json'
+    scene_file_path = 'docs/source/scenes/ball_far.json'
     scene_data, status = mcs.load_scene_json_file(scene_file_path)
     scene_file_name = scene_file_path[scene_file_path.rfind('/')+1]
     if 'name' not in scene_data.keys():
