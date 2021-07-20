@@ -317,7 +317,7 @@ class Downloader():
             dt = datetime.datetime.strptime(
                 last_mod,
                 "%a, %d %b %Y %H:%M:%S %Z")
-            return dt > date
+            updated = dt > date
         except Exception as e:
             logger.warn(
                 "Error checking last modified of development build",

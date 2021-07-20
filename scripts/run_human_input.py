@@ -252,7 +252,8 @@ def main():
 
     controller = mcs.create_controller(
         unity_app_file_path=args.mcs_unity_build_file,
-        config_file_path=args.config_file_path)
+        config_file_path=args.config_file_path,
+        unity_cache_version=args.mcs_unity_version)
 
     scene_file_path = args.mcs_scene_json_file
     scene_file_name = scene_file_path[scene_file_path.rfind('/') + 1:]
