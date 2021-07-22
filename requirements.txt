@@ -1,6 +1,5 @@
 ai2thor==2.5.0
 autopep8==1.5.4
-boto3==1.15.2
 commonmark==0.9.1
 dataclasses==0.8; python_version<"3.7"
 flake8==3.8.3
