@@ -360,9 +360,6 @@ class Controller():
 
             # TODO Should this be in the if block?  Now that we are using
             # subscribers, we may want to always register
-            # if(self._end_scene_not_registered is True and
-            #         (self._config.is_history_enabled() or
-            #          self._config.is_evaluation())):
             if(self._end_scene_not_registered is True and
                     self._config.is_history_enabled()):
                 # make sure history file is written when program exits
