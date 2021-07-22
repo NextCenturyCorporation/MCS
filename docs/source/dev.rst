@@ -143,31 +143,6 @@ To use an MCS configuration file, you can either pass in a file path via the `co
 Config File Properties
 **********************
 
-AWS specific properties
-^^^^^^^^^^^^^^^^^^^^^^^
-
-The following string properties can be specified in order to upload and organize files in S3:
-
-- `aws_access_key_id`
-- `aws_secret_access_key`
-- `s3_bucket`
-- `s3_folder`: json output
-- `s3_movies_folder`: only mp4 output, MediaConvert will copy all mp4s to the "s3_folder" config property as well 
-
-evaluation
-^^^^^^^^^^
-
-(boolean)
-
-Whether or not we're running in evaluation mode (default: False). If `True`, evaluation files for each scene will be created and uploaded to S3.
-
-evaluation_name
-^^^^^^^^^^^^^^^
-
-(string)
-
-Identifier to add to filenames uploaded to S3 (default: '').
-
 history_enabled
 ^^^^^^^^^^^^^^^
 
@@ -211,12 +186,6 @@ size
 
 Desired screen width. If value given, it must be more than `450`. If none given, screen width will default to `600`.
 
-team
-^^^^
-
-(string)
-
-Team name identifier to prefix to filenames uploaded to S3 (default: '').
 
 Handling Pull Requests From Contributors
 ----------------------------------------

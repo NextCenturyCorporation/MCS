@@ -72,45 +72,6 @@ class TestConfigManager(unittest.TestCase):
         self.assertEqual(self.config_mngr.get_size(),
                          self.config_mngr.SCREEN_WIDTH_DEFAULT)
 
-    def test_get_aws_access_key_id(self):
-        self.assertIsNone(self.config_mngr.get_aws_access_key_id())
-
-        self.config_mngr._config[
-            self.config_mngr.CONFIG_DEFAULT_SECTION
-        ][
-            self.config_mngr.CONFIG_AWS_ACCESS_KEY_ID
-        ] = 'some_key_id'
-
-        self.assertEqual(
-            self.config_mngr.get_aws_access_key_id(),
-            'some_key_id')
-
-    def test_get_aws_secret_access_key(self):
-        self.assertIsNone(self.config_mngr.get_aws_secret_access_key())
-
-        self.config_mngr._config[
-            self.config_mngr.CONFIG_DEFAULT_SECTION
-        ][
-            self.config_mngr.CONFIG_AWS_SECRET_ACCESS_KEY
-        ] = 'some_secret'
-
-        self.assertEqual(
-            self.config_mngr.get_aws_secret_access_key(),
-            'some_secret')
-
-    def test_get_evaluation_name(self):
-        self.assertEqual(self.config_mngr.get_evaluation_name(), '')
-
-        self.config_mngr._config[
-            self.config_mngr.CONFIG_DEFAULT_SECTION
-        ][
-            self.config_mngr.CONFIG_EVALUATION_NAME
-        ] = 'test_eval'
-
-        self.assertEqual(
-            self.config_mngr.get_evaluation_name(),
-            'test_eval')
-
     @mock_env()
     def test_get_metadata_tier(self):
         self.assertEqual(self.config_mngr.get_metadata_tier(), 'default')
@@ -128,45 +89,6 @@ class TestConfigManager(unittest.TestCase):
     @mock_env(MCS_METADATA_LEVEL='level2')
     def test_get_metadata_tier_with_env_variable(self):
         self.assertEqual(self.config_mngr.get_metadata_tier(), 'level2')
-
-    def test_get_s3_bucket(self):
-        self.assertIsNone(self.config_mngr.get_s3_bucket())
-
-        self.config_mngr._config[
-            self.config_mngr.CONFIG_DEFAULT_SECTION
-        ][
-            self.config_mngr.CONFIG_S3_BUCKET
-        ] = 'some_s3_bucket'
-
-        self.assertEqual(
-            self.config_mngr.get_s3_bucket(),
-            'some_s3_bucket')
-
-    def test_get_s3_folder(self):
-        self.assertIsNone(self.config_mngr.get_s3_folder())
-
-        self.config_mngr._config[
-            self.config_mngr.CONFIG_DEFAULT_SECTION
-        ][
-            self.config_mngr.CONFIG_S3_FOLDER
-        ] = 'eval-test-folder'
-
-        self.assertEqual(
-            self.config_mngr.get_s3_folder(),
-            'eval-test-folder')
-
-    def test_get_s3_movies_folder(self):
-        self.assertIsNone(self.config_mngr.get_s3_movies_folder())
-
-        self.config_mngr._config[
-            self.config_mngr.CONFIG_DEFAULT_SECTION
-        ][
-            self.config_mngr.CONFIG_S3_MOVIES_FOLDER
-        ] = 'raw-eval-test-folder'
-
-        self.assertEqual(
-            self.config_mngr.get_s3_movies_folder(),
-            'raw-eval-test-folder')
 
     def test_get_seed(self):
         self.assertEqual(self.config_mngr.get_seed(), None)
@@ -190,38 +112,6 @@ class TestConfigManager(unittest.TestCase):
 
         self.assertEqual(self.config_mngr.get_size(), 800)
 
-    def test_get_team(self):
-        self.assertEqual(self.config_mngr.get_team(), '')
-
-        self.config_mngr._config[
-            self.config_mngr.CONFIG_DEFAULT_SECTION
-        ][
-            self.config_mngr.CONFIG_TEAM
-        ] = 'team-name'
-
-        self.assertEqual(
-            self.config_mngr.get_team(),
-            'team-name')
-
-    def test_is_evaluation(self):
-        self.assertFalse(self.config_mngr.is_evaluation())
-
-        self.config_mngr._config[
-            self.config_mngr.CONFIG_DEFAULT_SECTION
-        ][
-            self.config_mngr.CONFIG_EVALUATION
-        ] = 'true'
-
-        self.assertTrue(self.config_mngr.is_evaluation())
-
-        self.config_mngr._config[
-            self.config_mngr.CONFIG_DEFAULT_SECTION
-        ][
-            self.config_mngr.CONFIG_EVALUATION
-        ] = 'false'
-
-        self.assertFalse(self.config_mngr.is_evaluation())
-
     def test_is_history_enabled(self):
         self.assertTrue(self.config_mngr.is_history_enabled())
 
@@ -230,8 +120,6 @@ class TestConfigManager(unittest.TestCase):
         ][
             self.config_mngr.CONFIG_HISTORY_ENABLED
         ] = 'false'
-
-        self.assertFalse(self.config_mngr.is_evaluation())
 
         self.config_mngr._config[
             self.config_mngr.CONFIG_DEFAULT_SECTION
@@ -641,8 +529,7 @@ class TestSceneConfig(unittest.TestCase):
             'target': {'image': [0]},
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
-        }
-        }
+        }}
         goal = GoalSchema().load(goal)
         scene_config = SceneConfiguration(name="test", version=1, goal=goal)
         actual = scene_config.update_goal_target_image(scene_config.goal)

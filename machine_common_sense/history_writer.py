@@ -26,19 +26,11 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             if self.__history_writer:
                 self.__history_writer.check_file_written()
 
-            hist_info = {}
-            hist_info[
-                payload.config.CONFIG_EVALUATION_NAME
-            ] = payload.config.get_evaluation_name()
-            hist_info[
-                payload.config.CONFIG_EVALUATION
-            ] = payload.config.is_evaluation()
-            hist_info[
-                payload.config.CONFIG_METADATA_TIER
-            ] = payload.config.get_metadata_tier()
-            hist_info[
-                payload.config.CONFIG_TEAM
-            ] = payload.config.get_team()
+            hist_info = {
+                payload.config.CONFIG_METADATA_TIER:
+                payload.config.get_metadata_tier()
+            }
+
             # Create a new scene history writer with each new scene (config
             # data) so we always create a new, separate scene history file.
             self.__history_writer = HistoryWriter(payload.scene_config,
@@ -73,26 +65,13 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             self.__history_item.internal_state = payload.internal_state
 
     def on_end_scene(self, payload):
-        if self.__history_writer is not None:
-            if payload.config.is_history_enabled():
-                self.__history_writer.add_step(self.__history_item)
-                self.__history_writer.write_history_file(
-                    payload.choice, payload.confidence)
-
-            if payload.config.is_evaluation():
-                uploader = payload.uploader
-                folder_prefix = payload.uploader_folder_prefix
-                if payload.config.is_history_enabled():
-                    history_filename = self._get_filename_without_timestamp(
-                        pathlib.Path(self.__history_writer.scene_history_file))
-                    uploader.upload_history(
-                        history_path=self.__history_writer.scene_history_file,
-                        s3_filename=(folder_prefix + '/' +
-                                     payload.config.get_evaluation_name() +
-                                     '_' + payload.config.get_metadata_tier() +
-                                     '_' + payload.config.get_team() +
-                                     '_' + history_filename)
-                    )
+        if (
+            self.__history_writer is not None and
+            payload.config.is_history_enabled()
+        ):
+            self.__history_writer.add_step(self.__history_item)
+            self.__history_writer.write_history_file(
+                payload.choice, payload.confidence)
 
     def _get_filename_without_timestamp(self, filepath: pathlib.Path):
         return filepath.stem[:-16] + filepath.suffix
@@ -143,16 +122,18 @@ class HistoryWriter(object):
             history: SceneHistory) -> SceneHistory:
         """ filter out images from the step history data and
             object lists and action list """
-        targets = ['target', 'target_1', 'target2']
         if history.output:
             history.output.action_list = None
             history.output.object_list = None
             history.output.structural_object_list = None
+            targets = ['target', 'target_1', 'target2']
             for target in targets:
-                if target in history.output.goal.metadata.keys():
-                    if history.output.goal.metadata[target].get(
-                            'image', None) is not None:
-                        del history.output.goal.metadata[target]['image']
+                if (
+                    target in history.output.goal.metadata.keys() and
+                    history.output.goal.metadata[target].get('image', None)
+                    is not None
+                ):
+                    del history.output.goal.metadata[target]['image']
         return history
 
     def init_timer(self):
