@@ -67,14 +67,10 @@ class AbstractVideoEventHandler(AbstractControllerSubscriber):
     TOPDOWN = 'topdown'
 
     def get_basename(self, payload: ControllerEventPayload):
-        # eval_name = payload.config.get_evaluation_name()
-        # team = payload.config.get_team()
         timestamp = payload.timestamp
         scene_name = payload.scene_config.name.replace('json', '')
         return '_'.join(
-            # [eval_name, payload.config.get_metadata_tier(),
             [payload.config.get_metadata_tier(),
-             # team,
              scene_name,
              AbstractVideoEventHandler.PLACEHOLDER, timestamp]) + '.mp4'
 
