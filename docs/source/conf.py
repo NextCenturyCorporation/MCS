@@ -47,6 +47,7 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
+    'sphinxcontrib.video',
     'recommonmark'
 ]
 
@@ -83,6 +84,8 @@ html_theme = 'classic'
 
 napoleon_use_ivar = True
 autogenerate_summary = True
+
+html_extra_path = ['videos']
 
 
 def setup(app):
