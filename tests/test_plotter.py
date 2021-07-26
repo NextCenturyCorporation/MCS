@@ -3,6 +3,7 @@ import unittest
 import ai2thor
 import PIL
 
+from machine_common_sense.config_manager import Vector3d
 from machine_common_sense.plotter import TopDownPlotter, XZHeading
 
 
@@ -11,7 +12,8 @@ class TestTopDownPlotter(unittest.TestCase):
     def setUp(self):
         self.plotter = TopDownPlotter(
             team="test",
-            scene_name="scene"
+            scene_name="scene",
+            room_size=Vector3d(x=10, y=4, z=10)
         )
 
     def test_convert_color_empty(self):
@@ -331,7 +333,8 @@ class TestTopDownPlotter(unittest.TestCase):
     def test_scene_name_prefix(self):
         plotter = TopDownPlotter(
             team="test",
-            scene_name="prefix/scene"
+            scene_name="prefix/scene",
+            room_size=Vector3d(x=10, y=3, z=10)
         )
 
         self.assertEqual(plotter._scene_name, "scene")
