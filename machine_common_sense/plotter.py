@@ -5,6 +5,8 @@ import ai2thor
 import matplotlib
 import PIL
 
+from machine_common_sense.config_manager import Vector3d
+
 matplotlib.use('Agg')
 from typing import Dict, List, NamedTuple
 
@@ -39,15 +41,14 @@ class TopDownPlotter():
     ROBOT_COLOR = 'xkcd:gray'
     DEFAULT_COLOR = "xkcd:black"
     HEADING_LENGTH = 0.4
-    MINIMUM_ROOM_DIMENSION = -5
-    MAXIMUM_ROOM_DIMENSION = 5
     BORDER = 0.05
 
-    def __init__(self, team: str, scene_name: str):
+    def __init__(self, team: str, scene_name: str, room_size: Vector3d):
         self._team = team
         if '/' in scene_name:
             scene_name = scene_name.rsplit('/', 1)[1]
         self._scene_name = scene_name
+        self._room_size = room_size
 
     def plot(self, scene_event: ai2thor.server.Event,
              step_number: int,
@@ -56,7 +57,7 @@ class TopDownPlotter():
 
         plt = self._initialize_plot(step_number=step_number)
         self._draw_objects(self._find_plottable_objects(scene_event), goal_id)
-        self._draw_robot(scene_event.metadata.get('agent', None))
+        self._draw_robot(scene_event.metadata.get('agent'))
         img = self._export_plot(plt)
         plt.close()
         return img
@@ -79,11 +80,15 @@ class TopDownPlotter():
 
     def _initialize_plot(self, step_number: int) -> None:
         '''Create the plot'''
-        plt.xlim(self.MINIMUM_ROOM_DIMENSION, self.MAXIMUM_ROOM_DIMENSION)
-        plt.ylim(self.MINIMUM_ROOM_DIMENSION, self.MAXIMUM_ROOM_DIMENSION)
+        # plot the xz topdown plane in xy plot coordinates
+        x_half_size = self._room_size.x / 2.0
+        z_half_size = self._room_size.z / 2.0
+        plt.axis('scaled')
+        plt.xlim(-x_half_size, x_half_size)
+        plt.ylim(-z_half_size, z_half_size)
         plt.text(
-            self.MAXIMUM_ROOM_DIMENSION + self.BORDER,
-            self.MINIMUM_ROOM_DIMENSION + self.BORDER,
+            x_half_size + self.BORDER,
+            -z_half_size + self.BORDER,
             step_number)
         plt.title(f"{self._team} {self._scene_name}")
         return plt
@@ -94,8 +99,7 @@ class TopDownPlotter():
         buf = io.BytesIO()
         fig.savefig(buf)
         buf.seek(0)
-        img = PIL.Image.open(buf)
-        return img
+        return PIL.Image.open(buf)
 
     def _draw_robot(self, robot_metadata: Dict) -> None:
         '''Plot the robot position and heading'''
@@ -174,30 +178,26 @@ class TopDownPlotter():
 
     def _create_robot(self, robot_metadata: Dict) -> Robot:
         '''Extract robot position and rotation information from the metadata'''
-        position = robot_metadata.get('position', None)
+        position = robot_metadata.get('position')
         if position is not None:
-            x = position.get('x', None)
-            y = position.get('y', None)
-            z = position.get('z', None)
+            x = position.get('x')
+            y = position.get('y')
+            z = position.get('z')
         else:
             x = 0.0
             y = 0.0
             z = 0.0
 
-        rotation = robot_metadata.get('rotation', None)
-        if rotation is not None:
-            rotation_y = rotation.get('y', None)
-        else:
-            rotation_y = 0.0
-
+        rotation = robot_metadata.get('rotation')
+        rotation_y = rotation.get('y') if rotation is not None else 0.0
         return Robot(x, y, z, rotation_y)
 
     def _create_object(self, object_metadata: Dict) -> Object:
         '''Create the scene object from its metadata'''
 
-        held = object_metadata.get('isPickedUp', None)
-        visible = object_metadata.get('visibleInCamera', None)
-        uuid = object_metadata.get('objectId', None)
+        held = object_metadata.get('isPickedUp')
+        visible = object_metadata.get('visibleInCamera')
+        uuid = object_metadata.get('objectId')
 
         colors = object_metadata.get('colorsFromMaterials', [])
         if len(colors):
@@ -205,12 +205,8 @@ class TopDownPlotter():
         else:
             color = self._convert_color('')
 
-        bounds = object_metadata.get('objectBounds', None)
-        if bounds is not None:
-            corners = bounds.get('objectBoundsCorners', None)
-        else:
-            corners = None
-
+        bounds = object_metadata.get('objectBounds')
+        corners = None if bounds is None else bounds.get('objectBoundsCorners')
         return Object(
             held=held,
             visible=visible,

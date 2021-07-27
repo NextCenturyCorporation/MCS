@@ -186,9 +186,10 @@ class TopdownVideoEventHandler(AbstractVideoEventHandler):
     def on_start_scene(self, payload: ControllerEventPayload):
         self.__recorder = self.create_video_recorder(
             payload, AbstractVideoEventHandler.TOPDOWN)
-        team = payload.config.get_team()
-        scene = payload.scene_config.name.replace('json', '')
-        self.__plotter = TopDownPlotter(team, scene)
+        self.__plotter = TopDownPlotter(
+            team=payload.config.get_team(),
+            scene_name=payload.scene_config.name.replace('json', ''),
+            room_size=payload.scene_config.roomDimensions)
         self.save_video_for_step(payload)
 
     def on_after_step(self, payload: ControllerEventPayload):
