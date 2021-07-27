@@ -188,7 +188,7 @@ class TopdownVideoEventHandler(AbstractVideoEventHandler):
             payload, AbstractVideoEventHandler.TOPDOWN)
         self.__plotter = TopDownPlotter(
             team=payload.config.get_team(),
-            scene=payload.scene_config.name.replace('json', ''),
+            scene_name=payload.scene_config.name.replace('json', ''),
             room_size=payload.scene_config.roomDimensions)
         self.save_video_for_step(payload)
 
