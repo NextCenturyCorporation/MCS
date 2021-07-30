@@ -1,15 +1,18 @@
-import io
 import math
-
-import ai2thor
-import matplotlib
-import PIL
-
-matplotlib.use('Agg')
 from typing import Dict, List, NamedTuple
 
-import matplotlib.pyplot as plt
+import ai2thor.server
+import numpy as np
+import PIL.Image
+import skimage
+import skimage.draw
 from shapely import geometry
+
+# TODO use a square image for a square room
+# interpolate image size directly with room size (1:1)
+# 512x512 image to 10x10 room
+# remove all matplotlib code
+# TODO rebase with master for the room-dimensions update
 
 
 class XZHeading(NamedTuple):
@@ -54,12 +57,10 @@ class TopDownPlotter():
              goal_id: str = None
              ) -> PIL.Image.Image:
 
-        plt = self._initialize_plot(step_number=step_number)
-        self._draw_objects(self._find_plottable_objects(scene_event), goal_id)
-        self._draw_robot(scene_event.metadata.get('agent', None))
-        img = self._export_plot(plt)
-        plt.close()
-        return img
+        plt = self._initialize_plot()
+        # self._draw_objects(self._find_plottable_objects(scene_event),goal_id)
+        # self._draw_robot(scene_event.metadata.get('agent', None))
+        return self._export_plot(plt)
 
     def _find_plottable_objects(
             self, scene_event: ai2thor.server.Event) -> List:
@@ -77,25 +78,41 @@ class TopDownPlotter():
         objects = scene_event.metadata.get('objects', [])
         return filtered_structural_objects + objects
 
-    def _initialize_plot(self, step_number: int) -> None:
+    def _initialize_plot(self) -> np.ndarray:
         '''Create the plot'''
-        plt.xlim(self.MINIMUM_ROOM_DIMENSION, self.MAXIMUM_ROOM_DIMENSION)
-        plt.ylim(self.MINIMUM_ROOM_DIMENSION, self.MAXIMUM_ROOM_DIMENSION)
-        plt.text(
-            self.MAXIMUM_ROOM_DIMENSION + self.BORDER,
-            self.MINIMUM_ROOM_DIMENSION + self.BORDER,
-            step_number)
-        plt.title(f"{self._team} {self._scene_name}")
-        return plt
+        img = np.zeros((512, 512, 3), dtype=np.int8)
 
-    def _export_plot(self, plt: matplotlib.pyplot) -> PIL.Image.Image:
-        '''Export the plot to a PIL Image'''
-        fig = plt.gcf()
-        buf = io.BytesIO()
-        fig.savefig(buf)
-        buf.seek(0)
-        img = PIL.Image.open(buf)
+        # drawing horizontal and vertical center lines
+        rr, cc = skimage.draw.line(r0=255, c0=0, r1=255, c1=511)
+        img[rr, cc] = [128, 128, 128]
+        rr, cc = skimage.draw.line(r0=0, c0=255, r1=511, c1=255)
+        img[rr, cc] = [128, 128, 128]
+
+        # draw pretend robot
+        rr, cc = skimage.draw.disk((255, 255), 10, shape=img.shape[:2])
+        img[rr, cc] = [255, 0, 0]  # [R, G, B]
+
+        # draw example objects
+        n_obj = 20
+        rects = np.random.randint(0, 512, size=(n_obj, 2))
+        sizes = np.random.randint(10, 30, size=(n_obj, 2))
+        colors = np.random.randint(0, 255, size=(n_obj, 3))
+        for i in range(n_obj):
+            rr, cc = skimage.draw.rectangle(
+                rects[i], extent=sizes[i], shape=img.shape[:2])
+            img[rr, cc] = colors[i]
+
         return img
+
+    def _export_plot(self, plt: np.ndarray) -> PIL.Image.Image:
+        '''Export the plot to a PIL Image'''
+        # fig = plt.gcf()
+        # buf = io.BytesIO()
+        # fig.savefig(buf)
+        # buf.seek(0)
+        # img = PIL.Image.open(buf)
+        # return img
+        return PIL.Image.fromarray(plt, "RGB")
 
     def _draw_robot(self, robot_metadata: Dict) -> None:
         '''Plot the robot position and heading'''
@@ -107,24 +124,26 @@ class TopDownPlotter():
 
     def _draw_robot_position(self, robot: Robot) -> None:
         '''Draw the robot's scene XZ position in the plot'''
-        circle = plt.Circle(
-            (robot.x, robot.z),
-            radius=self.ROBOT_PLOT_WIDTH,
-            color=self.ROBOT_COLOR,
-            label=self.ROBOT_PLOT_LABEL)
-        plt.gca().add_patch(circle)
+        # circle = plt.Circle(
+        #     (robot.x, robot.z),
+        #     radius=self.ROBOT_PLOT_WIDTH,
+        #     color=self.ROBOT_COLOR,
+        #     label=self.ROBOT_PLOT_LABEL)
+        # plt.gca().add_patch(circle)
+        pass
 
     def _draw_robot_heading(self, robot: Robot) -> None:
         '''Draw the heading vector starting from the robot XZ position'''
-        heading = self._calculate_heading(
-            rotation_angle=360.0 - robot.rotation,
-            heading_length=self.HEADING_LENGTH
-        )
-        heading = plt.Line2D((robot.x, robot.x + heading.x),
-                             (robot.z, robot.z + heading.z),
-                             color=self.ROBOT_COLOR,
-                             lw=1)
-        plt.gca().add_line(heading)
+        # heading = self._calculate_heading(
+        #     rotation_angle=360.0 - robot.rotation,
+        #     heading_length=self.HEADING_LENGTH
+        # )
+        # heading = plt.Line2D((robot.x, robot.x + heading.x),
+        #                      (robot.z, robot.z + heading.z),
+        #                      color=self.ROBOT_COLOR,
+        #                      lw=1)
+        # plt.gca().add_line(heading)
+        pass
 
     def _draw_objects(self, objects: Dict,
                       goal_id: str = None) -> None:
@@ -141,27 +160,29 @@ class TopDownPlotter():
 
     def _draw_goal(self, position: Object) -> None:
         '''Draw the goal object of the scene'''
-        plt.scatter(
-            position['x'],
-            position['z'],
-            c=self._convert_color("gold"),
-            s=300,
-            marker="*",
-            zorder=5,
-            alpha=.7,
-            edgecolors=self._convert_color("black"),
-            linewidths=.5
-        )
+        # plt.scatter(
+        #     position['x'],
+        #     position['z'],
+        #     c=self._convert_color("gold"),
+        #     s=300,
+        #     marker="*",
+        #     zorder=5,
+        #     alpha=.7,
+        #     edgecolors=self._convert_color("black"),
+        #     linewidths=.5
+        # )
+        pass
 
     def _draw_object_bounds(self, obj: Object, points: List) -> None:
         '''Draw the scene object'''
-        poly = plt.Polygon(points,
-                           color=obj.color,
-                           fill=obj.color if obj.visible or
-                           obj.held else '',
-                           ec=self.DEFAULT_COLOR,
-                           label=obj.uuid)
-        plt.gca().add_patch(poly)
+        # poly = plt.Polygon(points,
+        #                    color=obj.color,
+        #                    fill=obj.color if obj.visible or
+        #                    obj.held else '',
+        #                    ec=self.DEFAULT_COLOR,
+        #                    label=obj.uuid)
+        # plt.gca().add_patch(poly)
+        pass
 
     def _calculate_heading(self, rotation_angle: float,
                            heading_length: float) -> XZHeading:
@@ -229,3 +250,14 @@ class TopDownPlotter():
             color = 'ivory'
         # prefix with xkcd string
         return 'xkcd:' + color
+
+
+if __name__ == "__main__":
+    import time
+
+    plotr = TopDownPlotter(team="test", scene_name="foo")
+    start = time.perf_counter()
+    num_frames = 100
+    ims = [plotr.plot(scene_event=None, step_number=1)
+           for _ in range(num_frames)]
+    print(num_frames / (time.perf_counter() - start))
