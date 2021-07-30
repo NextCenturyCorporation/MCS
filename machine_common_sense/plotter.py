@@ -8,6 +8,8 @@ import skimage
 import skimage.draw
 from shapely import geometry
 
+from machine_common_sense.config_manager import Vector3d
+
 # TODO use a square image for a square room
 # interpolate image size directly with room size (1:1)
 # 512x512 image to 10x10 room
@@ -42,15 +44,14 @@ class TopDownPlotter():
     ROBOT_COLOR = 'xkcd:gray'
     DEFAULT_COLOR = "xkcd:black"
     HEADING_LENGTH = 0.4
-    MINIMUM_ROOM_DIMENSION = -5
-    MAXIMUM_ROOM_DIMENSION = 5
     BORDER = 0.05
 
-    def __init__(self, team: str, scene_name: str):
+    def __init__(self, team: str, scene_name: str, room_size: Vector3d):
         self._team = team
         if '/' in scene_name:
             scene_name = scene_name.rsplit('/', 1)[1]
         self._scene_name = scene_name
+        self._room_size = room_size
 
     def plot(self, scene_event: ai2thor.server.Event,
              step_number: int,
@@ -195,30 +196,26 @@ class TopDownPlotter():
 
     def _create_robot(self, robot_metadata: Dict) -> Robot:
         '''Extract robot position and rotation information from the metadata'''
-        position = robot_metadata.get('position', None)
+        position = robot_metadata.get('position')
         if position is not None:
-            x = position.get('x', None)
-            y = position.get('y', None)
-            z = position.get('z', None)
+            x = position.get('x')
+            y = position.get('y')
+            z = position.get('z')
         else:
             x = 0.0
             y = 0.0
             z = 0.0
 
-        rotation = robot_metadata.get('rotation', None)
-        if rotation is not None:
-            rotation_y = rotation.get('y', None)
-        else:
-            rotation_y = 0.0
-
+        rotation = robot_metadata.get('rotation')
+        rotation_y = rotation.get('y') if rotation is not None else 0.0
         return Robot(x, y, z, rotation_y)
 
     def _create_object(self, object_metadata: Dict) -> Object:
         '''Create the scene object from its metadata'''
 
-        held = object_metadata.get('isPickedUp', None)
-        visible = object_metadata.get('visibleInCamera', None)
-        uuid = object_metadata.get('objectId', None)
+        held = object_metadata.get('isPickedUp')
+        visible = object_metadata.get('visibleInCamera')
+        uuid = object_metadata.get('objectId')
 
         colors = object_metadata.get('colorsFromMaterials', [])
         if len(colors):
@@ -226,12 +223,8 @@ class TopDownPlotter():
         else:
             color = self._convert_color('')
 
-        bounds = object_metadata.get('objectBounds', None)
-        if bounds is not None:
-            corners = bounds.get('objectBoundsCorners', None)
-        else:
-            corners = None
-
+        bounds = object_metadata.get('objectBounds')
+        corners = None if bounds is None else bounds.get('objectBoundsCorners')
         return Object(
             held=held,
             visible=visible,
