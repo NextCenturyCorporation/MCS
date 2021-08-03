@@ -609,7 +609,7 @@ class FloorHolesAndTexturesXZConfig:
 @dataclass
 class FloorTexturesConfig:
     material: str
-    positions: FloorHolesAndTexturesXZConfig = None
+    positions: List[FloorHolesAndTexturesXZConfig] = None
 
 
 @dataclass
