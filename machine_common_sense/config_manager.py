@@ -359,13 +359,22 @@ class PhysicsConfigSchema(Schema):
         return PhysicsConfig(**data)
 
 
-class HolesConfigSchema(Schema):
+class FloorHolesAndTexturesXZConfigSchema(Schema):
     x = fields.Int()
     z = fields.Int()
 
     @post_load
     def make_holes_config(self, data, **kwargs):
-        return HolesConfig(**data)
+        return FloorHolesAndTexturesXZConfig(**data)
+
+
+class FloorTexturesConfigSchema(Schema):
+    material = fields.Str()
+    positions = fields.List(fields.Nested(FloorHolesAndTexturesXZConfigSchema))
+
+    @post_load
+    def make_floor_textures_config(self, data, **kwargs):
+        return FloorTexturesConfig(**data)
 
 
 class ShowConfigSchema(Schema):
@@ -493,7 +502,8 @@ class SceneConfigurationSchema(Schema):
     version = fields.Integer()
     wallMaterial = fields.Str()
     wallProperties = fields.Nested(PhysicsConfigSchema)
-    holes = fields.List(fields.Nested(HolesConfigSchema))
+    holes = fields.List(fields.Nested(FloorHolesAndTexturesXZConfigSchema))
+    floorTextures = fields.List(fields.Nested(FloorTexturesConfigSchema))
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation = fields.Str(allow_none=True)
@@ -591,9 +601,15 @@ class PhysicsConfig:
 
 
 @dataclass
-class HolesConfig:
+class FloorHolesAndTexturesXZConfig:
     x: int = None
     z: int = None
+
+
+@dataclass
+class FloorTexturesConfig:
+    material: str
+    positions: FloorHolesAndTexturesXZConfig = None
 
 
 @dataclass
@@ -703,7 +719,8 @@ class SceneConfiguration:
     version: int = None
     wallMaterial: str = None
     wallProperties: PhysicsConfig = None
-    holes: List[HolesConfig] = field(default_factory=list)
+    holes: List[FloorHolesAndTexturesXZConfig] = field(default_factory=list)
+    floorTextures: List[FloorTexturesConfig] = field(default_factory=list)
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation: str = None
