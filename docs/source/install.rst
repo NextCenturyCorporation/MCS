@@ -109,6 +109,8 @@ After downloading the Unity app, you will need to reference the path using the `
     ./MCS-AI2-THOR-Unity-App-v\ |version|\.app/Contents/MacOS/MCS-AI2-THOR 
 
 
+.. _MCS Config File:
+
 MCS Configuration File
 ----------------------
 
