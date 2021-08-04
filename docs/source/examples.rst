@@ -1,5 +1,42 @@
-Examples
-========
+Example Usage
+=============
+
+Here are some example usage snippets for different use cases. Note that there are also additional scripts that may be useful in the scripts/ folder of the github project. 
+
+Using your own config file and/or unity build
+----------------------------------------------
+
+In this case, make sure your `MCS_CONFIG_FILE_PATH` path isn't set, as that takes precedence over the `config_file_path` parameter:
+
+.. code-block:: python
+
+    import machine_common_sense as mcs
+
+    # Specify a location for the Unity app as opposed to downloading it automatically
+    controller = mcs.create_controller(unity_app_file_path='./some-path/unity-app', 
+                                       config_file_path='./some-path/config.ini')
+
+    # Either load the scene data dict from an MCS scene config JSON file or create your own.
+    # We will give you the training scene config JSON files and the format to make your own.
+    scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
+
+    output = controller.start_scene(scene_data)
+
+    # Use your machine learning algorithm to select your next action based on the scene
+    # output (goal, actions, images, metadata, etc.) from your previous action.
+    action, params = select_action(output)
+
+    # Continue to select actions until your algorithm decides to stop.
+    while action != '':
+        controller.step(action, params)
+        action, params = select_action(output)
+
+    # For interaction-based goals, your series of selected actions will be scored.
+    # For observation-based goals, you will pass a classification and a confidence
+    # to the end_scene function here.
+    controller.end_scene()
+
+
 
 Run multiple scenes sequentially
 --------------------------------
@@ -24,6 +61,8 @@ Run multiple scenes sequentially
 Run with console logging
 ------------------------
 
+*Note that logging is only available in versions 0.4.4 and above.*
+
 .. code-block:: python
 
     import logging
@@ -44,8 +83,11 @@ Run with console logging
 
     controller.end_scene()
 
+
 Initialize logging
 ------------------------
+
+*Note that logging is only available in versions 0.4.4 and above.*
 
 .. code-block:: python
 
