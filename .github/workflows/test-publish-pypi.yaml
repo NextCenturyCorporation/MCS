@@ -6,6 +6,16 @@ on:
       MCS-821-pypiAction
 
 jobs:
+  test-first-task:
+    strategy:
+      matrix:
+        # we are building a pure python wheel so it should work on any platform
+        os: [ubuntu-latest]
+        python-versions: [3.6]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
   build-n-pub:
     strategy:
       matrix:
