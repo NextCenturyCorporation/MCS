@@ -35,9 +35,13 @@ jobs:
       - name: rename zip (only for testing)
         run: mv dist/machine_common_sense-0.4.3.tar.gz dist/machine_common_sense-0.4.3-1.tar.gz 
       - name: rename wheel (only for testing)
-        run: mv dist/machine_common_sense-0.4.3-py3-none-any.whl dist/machine_common_sense-0.4.3-1-py3-none-any.whl           
-      - name: Publish distribution to Test PyPI
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          repository_url: https://test.pypi.org/legacy/
+        run: mv dist/machine_common_sense-0.4.3-py3-none-any.whl dist/machine_common_sense-0.4.3-1-py3-none-any.whl
+      - name: download unity packages
+        run: echo download ${GITHUB_REF##*/} and save in dist
+      - name: see files
+        run: cd dist/ && ls     
+      #- name: Publish distribution to Test PyPI
+      #   uses: pypa/gh-action-pypi-publish@master
+      #   with:
+      #     password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+      #     repository_url: https://test.pypi.org/legacy/
