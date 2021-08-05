@@ -40,6 +40,7 @@ setuptools.setup(
         'matplotlib>=3.3',
         'msgpack>=1.0.0',
         'ai2thor==2.5.0',
+        'scikit-image>=0.17.1',
         'dataclasses==0.8; python_version<"3.7"',
         'marshmallow>=3.5.2'
     ],
