@@ -37,9 +37,9 @@ jobs:
       - name: create wheel file
         run: python setup.py bdist_wheel sdist clean --all 
       - name: rename zip (only for testing)
-        run: mv dist/machine_common_sense-0.4.3.tar.gz dist/machine_common_sense-0.4.3-2.tar.gz 
+        run: mv dist/machine_common_sense-0.4.3.tar.gz dist/machine_common_sense-0.4.3-3.tar.gz 
       - name: rename wheel (only for testing)
-        run: mv dist/machine_common_sense-0.4.3-py3-none-any.whl dist/machine_common_sense-0.4.3-2-py3-none-any.whl 
+        run: mv dist/machine_common_sense-0.4.3-py3-none-any.whl dist/machine_common_sense-0.4.3-3-py3-none-any.whl 
       - name: Publish distribution to Test PyPI
         uses: pypa/gh-action-pypi-publish@master
         with:
