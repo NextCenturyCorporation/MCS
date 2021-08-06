@@ -334,8 +334,8 @@ class TopDownPlotter():
     def _convert_color(self, color: str) -> str:
         '''Convert color string to string'''
         if not color:
-            color = self.DEFAULT_COLOR
+            color = 'ivory'
 
         if color == 'black':
-            color = self.DEFAULT_COLOR
+            color = 'ivory'
         return color
