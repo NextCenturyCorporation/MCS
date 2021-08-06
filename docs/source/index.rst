@@ -7,11 +7,12 @@ Machine Common Sense Documentation
 .. toctree::
     :maxdepth: 2
 
+    install
     examples
     api
-    training
     scenes
     schema
+    training
     models
     containerize
     remotely

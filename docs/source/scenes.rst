@@ -20,7 +20,7 @@ An open room containing over 40 objects for undirected exploration.
 Retrieval Goal
 **************
 
-Soccer ball retrieval goal for the Summer 2021 evaluation:
+Soccer ball retrieval goal for the Fall 2021 evaluation:
 
 :download:`retrieval_goal_example_with_soccer_ball.json <./scenes/retrieval_goal_example_with_soccer_ball.json>`
 
@@ -31,7 +31,7 @@ Silver trophy retrieval goal for the Winter 2020 evaluation:
 Hinged Containers
 *****************
 
-Soccer ball inside hinged containers for the Summer 2021 evaluation:
+Soccer ball inside hinged containers for the Fall 2021 evaluation:
 
 .. list-table::
 
@@ -126,8 +126,8 @@ Combination of multiple elements. For example: a platform, being frozen, and a m
 
            :download:`template_interactive_object_permanence_scene.json <./scenes/template_interactive_object_permanence_scene.json>`
 
-Intuitive Physics Scenes
-------------------------
+Passive/Intuitive Physics Scenes
+--------------------------------
 
 Gravity Support: Objects Falling Down
 *************************************
@@ -188,7 +188,7 @@ All of these examples are PLAUSIBLE
 Object Permanence and Spatio-Temporal Continuity: Objects Moving on Multiple Axes Behind Occluders
 **************************************************************************************************
 
-Relevant for the Summer 2021 evaluation. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
+Relevant for the Fall 2021 evaluation. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
 
 .. list-table::
 
@@ -219,7 +219,7 @@ Relevant for the Summer 2021 evaluation. Objects may move on only the X axis (as
 Object Permanence: Objects Moving on Multiple Axes and Stopping Behind Occluders
 ********************************************************************************
 
-Relevant for the Summer 2021 evaluation. Objects may move across the entire screen and exit on the other side (as in previous evaluations), or come to a natural stop behind the occluder. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
+Relevant for the Fall 2021 evaluation. Objects may move across the entire screen and exit on the other side (as in previous evaluations), or come to a natural stop behind the occluder. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
 
 .. list-table::
 

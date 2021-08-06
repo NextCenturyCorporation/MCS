@@ -4,22 +4,20 @@
 
 # MCS Python Package
 
-- [Installation](#installation)
-- [Download](#download)
+Python interface for interacting with MCS AI2Thor environment and running scenes. The latest release of the MCS Python library is `0.4.3`. You can find the latest documentation [here](https://nextcenturycorporation.github.io/MCS).
+
+- [Quickstart Installation](#quickstart-installation)
 - [Usage](#usage)
-- [Config File](#config-file)
 - [Documentation](#documentation)
 - [Other MCS GitHub Repositories](#other-mcs-github-repositories)
 - [Troubleshooting/Email](#troubleshooting)
 - [License](#apache-2-open-source-license)
 
-## Installation
-
-The latest release of the MCS Python library is `0.4.3`.
+## Quickstart Installation
 
 ### Virtual Environments
 
-Python virtual environments are recommended when using the MCS package. All steps below presume the activation of the virtual environment. The developer can choose between traditional Python or Anaconda depending on need. These instructions are for Ubuntu Linux. The Machine Common Sense package has a minimum requirement of Python 3.6 regardless of Python distribution.
+Python virtual environments are recommended when using the  Machine Common Sense package. All steps below presume the activation of the virtual environment. The developer can choose between traditional Python or Anaconda depending on need. These instructions work for Ubuntu Linux or MacOS. The MCS package has a minimum requirement of Python 3.6 regardless of Python distribution. As of 0.4.4, the MCS package will automatically download the Unity app release for that version. On the first run, the Unity app may take a while to start in order to download all the assets. 
 
 #### Traditional Python Environment
 
@@ -49,42 +47,14 @@ myenv                    /home/user/anaconda3/envs/myenv
 With the activated Python virtual environment, install the MCS package from the git url.
 
 ```bash
-(venv) $ python -m pip install git+https://github.com/NextCenturyCorporation/MCS@master#egg=machine_common_sense
+(venv) $ python -m pip install machine-common-sense
 ```
 
-## Download
+### Sample MCS Config File
 
-Here are the instructions for downloading and installing our latest Unity release. For our previous releases, please see [this page](https://github.com/NextCenturyCorporation/MCS/releases).
+There may be additional settings you want to specify, which can be accomplished via the MCS configuration file. You can use the [sample_config.ini](./sample_config.ini) file to start. This file has the `metadata` level set to `oracle`, which ensures that the data for all objects in a scene is returned, as well as object masks. For the purposes of this guide, we will pass this along to the MCS controller via the `config_file_path` property, which is outlined in the `Usage` example below.
 
-### Unity Application
-
-The latest release of the MCS Unity app is `0.4.3`.  The Unity Application can now be downloaded automatically via MCS.  You can still specify your own version if you prefer.
-
-Please note that our Unity App is built for Linux or Mac. There is no Windows support currently.
-
-Linux Version:
-
-*Please note that the download links have changed as of version 0.4.3*
-
-1. [Download and unzip the Linux ZIP](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.3/MCS-AI2-THOR-Unity-App-v0.4.3-linux.zip)
-
-2. Ensure that the Unity App, the Data Directory TAR, and the UnityPlayer.so file are all in the same directory.
-
-3. Untar the Data Directory:
-
-```
-tar -xzvf MCS-AI2-THOR-Unity-App-v0.4.3_Data.tar.gz
-```
-
-4. Mark the Unity App as executable:
-
-```
-chmod a+x MCS-AI2-THOR-Unity-App-v0.4.3.x86_64
-```
-
-Mac Version:
-
-[Download the Mac ZIP](https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.3/MCS-AI2-THOR-Unity-App-v0.4.3-mac.zip)
+For more in-depth information on configuration files and more about the different properties within, see the documentation about the [MCS configuration file](https://https://nextcenturycorporation.github.io/MCS/install.html#mcs-configuration-file)
 
 ## Usage
 
@@ -94,10 +64,7 @@ Example usage of the MCS library:
 import machine_common_sense as mcs
 
 # Unity app file will be downloaded automatically
-controller = mcs.create_controller(config_file_path='./some-path/config.ini')
-
-# alternatively, you can specifiy a location of the Unity app
-controller = mcs.create_controller(unity_app_file_path='./some-path/unity-app', config_file_path='./some-path/config.ini')
+controller = mcs.create_controller(config_file_path='./some-path/sample_config.ini')
 
 # Either load the scene data dict from an MCS scene config JSON file or create your own.
 # We will give you the training scene config JSON files and the format to make your own.
@@ -120,101 +87,12 @@ while action != '':
 controller.end_scene()
 ```
 
-## Config File
-
-To use an MCS configuration file, you can either pass in a file path via the `config_file_path` property in the create_controller() method, or set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see [sample_config.ini](./sample_config.ini) for an example).
-
-### Config File Properties
-
-#### history_enabled
-
-(boolean, optional)
-
-Whether to save the scene history output data in your local directory. Default: True
-
-#### metadata
-
-(string, optional)
-
-The `metadata` property describes what metadata will be returned by the MCS Python library. The `metadata` property is available so that users can run baseline or ablation studies during training. It can be set to one of the following strings:
-
-- `oracle`: Returns the metadata for all the objects in the scene, including visible, held, and hidden objects. Object masks will have consistent colors throughout all steps for a scene.
-- `level2`: Only returns the images (with depth maps AND object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included. Note that here, object masks will have randomized colors per step.
-- `level1`: Only returns the images (with depth maps but NOT object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
-- `none`: Only returns the images (but no depth maps or object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
-
-If no metadata level is set:
-- `default`: Fallback if no metadata level is specified. Only meant for use during development (evaluations will never be run this way). Includes metadata for visible and held objects in the scene, as well as camera info and properties corresponding to the player. Does not include depth maps or object masks.
-
-#### noise_enabled
-
-(boolean, optional)
-
-Whether to add random noise to the numerical amounts in movement and object interaction action parameters. Will default to `False`.
-
-#### save_debug_images
-
-(boolean, optional)
-
-Save RGB frames, depth masks, and object instance segmentation masks (if returned in the output by the chosen metadata tier) to image files on each step. Default: False
-
-#### save_debug_json
-
-(boolean, optional)
-
-Save AI2-THOR/Unity input, AI2-THOR/Unity output, and MCS StepMetadata output to JSON file on each step. Default: False
-
-#### seed
-
-(int, optional)
-
-A seed for the Python random number generator (defaults to None).
-
-#### size
-
-(int, optional)
-
-Desired screen width. If value given, it must be more than `450`. If none given, screen width will default to `600`.
-
-#### video_enabled
-
-(boolean, optional)
-
-Create and save videos of the RGB frames, depth masks, object instance segmentation masks (if returned in the output by the chosen metadata tier), 2D top-down scene views, and the heatmap images given to us in `make_step_prediction` by the AI performer. Default: False
-
-### Using the Config File to Generate Scene Graphs or Maps
-
-1. Save your .ini MCS configuration file with:
-```
-[MCS]
-metadata: oracle`
-```
-
-2. Create a simple Python script to loop over one or more JSON scene configuration files, load each scene in the MCS controller, and save the output data in your own scene graph or scene map format.
-
-```python
-import os
-import machine_common_sense as mcs
-
-os.environ['MCS_CONFIG_FILE_PATH'] = # Path to your MCS configuration file
-
-scene_files = # List of scene configuration file paths
-
-controller = mcs.create_controller()
-
-for scene_file in scene_files:
-    scene_data, status = mcs.load_scene_json_file(scene_file)
-
-    if status is not None:
-        print(status)
-    else:
-        output = controller.start_scene(scene_data)
-        # Use the output to save your scene graph or map
-```
-
 ## Documentation
 
 - [Documentation Home](https://nextcenturycorporation.github.io/MCS)
+- [Installation and Setup](https://https://nextcenturycorporation.github.io/MCS/install.html)
+- [MCS Configuration File](https://https://nextcenturycorporation.github.io/MCS/install.html#mcs-configuration-file)
+- [Example Usage](https://https://nextcenturycorporation.github.io/MCS/examples.html)
 - [Python API](https://nextcenturycorporation.github.io/MCS/api.html)
 - [Example Scene Configuration Files](https://nextcenturycorporation.github.io/MCS/scenes.html)
 - [Scene Configuration JSON Schema](https://nextcenturycorporation.github.io/MCS/schema.html)
