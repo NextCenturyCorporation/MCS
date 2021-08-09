@@ -1,32 +1,34 @@
-import io
 import math
+from dataclasses import dataclass
+from typing import Dict, List
 
-import ai2thor
-import matplotlib
-import PIL
+import ai2thor.server
+import colour
+import cv2
+import numpy as np
+import PIL.Image
+import skimage.draw
+from shapely import geometry
 
 from machine_common_sense.config_manager import Vector3d
 
-matplotlib.use('Agg')
-from typing import Dict, List, NamedTuple
 
-import matplotlib.pyplot as plt
-from shapely import geometry
-
-
-class XZHeading(NamedTuple):
+@dataclass
+class XZHeading():
     x: float
     z: float
 
 
-class Robot(NamedTuple):
+@dataclass
+class Robot():
     x: float
     y: float
     z: float
     rotation: float
 
 
-class Object(NamedTuple):
+@dataclass
+class Object():
     held: bool
     visible: bool
     uuid: str
@@ -36,12 +38,21 @@ class Object(NamedTuple):
 
 class TopDownPlotter():
 
+    DEFAULT_COLOR = colour.COLOR_NAME_TO_RGB['white']
+    BACKGROUND_COLOR = colour.COLOR_NAME_TO_RGB['black']
+    BORDER_COLOR = colour.COLOR_NAME_TO_RGB['white']
+    CENTER_COLOR = colour.COLOR_NAME_TO_RGB['gray']
+    GRID_COLOR = colour.COLOR_NAME_TO_RGB['darkslategray']
+    ROBOT_COLOR = colour.COLOR_NAME_TO_RGB['red']
+    GOAL_COLOR = colour.COLOR_NAME_TO_RGB['gold']
+
     ROBOT_PLOT_WIDTH = 0.2
-    ROBOT_PLOT_LABEL = "robot"
-    ROBOT_COLOR = 'xkcd:gray'
-    DEFAULT_COLOR = "xkcd:black"
     HEADING_LENGTH = 0.4
-    BORDER = 0.05
+    PLOT_IMAGE_SIZE = 512
+
+    FONT = cv2.FONT_HERSHEY_COMPLEX
+    FONT_SCALE = 0.4
+    FONT_THICKNESS = 1
 
     def __init__(self, team: str, scene_name: str, room_size: Vector3d):
         self._team = team
@@ -49,17 +60,162 @@ class TopDownPlotter():
             scene_name = scene_name.rsplit('/', 1)[1]
         self._scene_name = scene_name
         self._room_size = room_size
+        # create the room once as it is computationally expensive
+        self.grid_img = self._initialize_plot()
 
     def plot(self, scene_event: ai2thor.server.Event,
              step_number: int,
              goal_id: str = None
              ) -> PIL.Image.Image:
+        '''Create a plot of the room, objects and robot'''
+        plt_img = self.grid_img.copy()
+        plt_objects = self._find_plottable_objects(scene_event)
+        plt_img = self._draw_objects(plt_img,
+                                     plt_objects,
+                                     goal_id)
+        agent_metadata = scene_event.metadata.get('agent', None)
+        plt_img = self._draw_robot(
+            plt_img,
+            agent_metadata)
+        plt_img = self._draw_step_number(plt_img, step_number)
+        return self._export_plot(img=plt_img)
 
-        plt = self._initialize_plot(step_number=step_number)
-        self._draw_objects(self._find_plottable_objects(scene_event), goal_id)
-        self._draw_robot(scene_event.metadata.get('agent'))
-        img = self._export_plot(plt)
-        plt.close()
+    def _initialize_plot(self) -> np.ndarray:
+        '''Create the initial plot with grid lines'''
+        img = np.zeros(
+            (self.PLOT_IMAGE_SIZE, self.PLOT_IMAGE_SIZE, 3),
+            dtype=np.int8)
+        return self._draw_grid_lines(img)
+
+    def _draw_step_number(self, img: np.ndarray,
+                          step_number: int) -> np.ndarray:
+        '''Write the step number on the plot image'''
+        (label_width, label_height), baseline = cv2.getTextSize(
+            str(step_number), self.FONT, self.FONT_SCALE, self.FONT_THICKNESS)
+        text_draw_buffer = 5
+        cv2.putText(
+            img=img,
+            text=str(step_number),
+            org=(img.shape[0] - label_width - text_draw_buffer,
+                 label_height + baseline),
+            fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+            fontScale=self.FONT_SCALE,
+            color=self.BORDER_COLOR,
+            lineType=self.FONT_THICKNESS)
+        return img
+
+    def _draw_grid_lines(self, img: np.ndarray) -> np.ndarray:
+        '''Draw room coordinate grid aligned with Unity units'''
+        room_x, room_z = self._room_size.x, self._room_size.z
+        # treating y image dimension as z since this is an XZ planar plot
+        x_dim, z_dim, _ = img.shape
+        self.center_x = int(x_dim / 2) - 1  # ex: 512 /2 = 256 - 1 = 255
+        self.center_z = int(z_dim / 2) - 1  # ex: 256 /2 = 128 - 1 = 127
+        largest_dimension = max(room_x, room_z)
+        self.x_scale = (x_dim - 1) / largest_dimension
+        self.z_scale = (z_dim - 1) / largest_dimension
+
+        # outer buffer space to keep 1:1 aspect ratio
+        buffer_x = (x_dim - (x_dim * room_x / largest_dimension)) / 2
+        buffer_z = (z_dim - (z_dim * room_z / largest_dimension)) / 2
+
+        img = self._draw_vertical_grid_lines(img, buffer_z)
+        img = self._draw_horizontal_grid_lines(img, buffer_x)
+        img = self._draw_room_border(img, buffer_x, buffer_z)
+        return img
+
+    def _draw_vertical_grid_lines(
+            self, img: np.ndarray, buffer_z: int) -> np.ndarray:
+        x_units = math.floor(self._room_size.x / 2)
+        for x in range(x_units + 1):
+            img_x = int(self.center_x + x * self.x_scale)
+            rr, cc = skimage.draw.line(
+                c0=img_x,
+                r0=int(buffer_z),
+                c1=img_x,
+                r1=img.shape[0] - 1 - int(buffer_z))
+            img[rr, cc] = self.CENTER_COLOR if x == 0 else self.GRID_COLOR
+
+            img_x = int(self.center_x - x * self.x_scale)
+            rr, cc = skimage.draw.line(
+                c0=img_x,
+                r0=int(buffer_z),
+                c1=img_x,
+                r1=img.shape[0] - 1 - int(buffer_z))
+            img[rr, cc] = self.CENTER_COLOR if x == 0 else self.GRID_COLOR
+        return img
+
+    def _draw_horizontal_grid_lines(
+            self, img: np.ndarray, buffer_x: int) -> np.ndarray:
+        z_units = math.floor(self._room_size.z / 2)
+        for z in range(z_units + 1):
+            img_z = int(self.center_z + z * self.z_scale)
+            rr, cc = skimage.draw.line(
+                c0=int(buffer_x),
+                r0=img_z,
+                c1=img.shape[1] - 1 - int(buffer_x),
+                r1=img_z)
+            img[rr, cc] = self.CENTER_COLOR if z == 0 else self.GRID_COLOR
+
+            img_z = int(self.center_z - z * self.z_scale)
+            rr, cc = skimage.draw.line(
+                c0=int(buffer_x),
+                r0=img_z,
+                c1=img.shape[1] - 1 - int(buffer_x),
+                r1=img_z)
+            img[rr, cc] = self.CENTER_COLOR if z == 0 else self.GRID_COLOR
+        return img
+
+    def _draw_room_border(self, img: np.ndarray,
+                          buffer_x: int, buffer_z: int) -> np.ndarray:
+        x_dim, z_dim, _ = img.shape
+        rr, cc = skimage.draw.rectangle_perimeter(
+            start=(buffer_z, buffer_x),
+            end=(z_dim - buffer_z - 1, x_dim - buffer_x - 1),
+            shape=img.shape[:2],
+            clip=True)
+        img[rr, cc] = self.BORDER_COLOR
+        return img
+
+    def _export_plot(self, img: np.ndarray) -> PIL.Image.Image:
+        '''Export the plot to a PIL Image'''
+        return PIL.Image.fromarray(img, "RGB")
+
+    def _draw_robot(self, img: np.ndarray, robot_metadata: Dict) -> np.ndarray:
+        '''Plot the robot position and heading'''
+        if robot_metadata is None:
+            return None
+        robot = self._create_robot(robot_metadata)
+        img = self._draw_robot_position(img, robot)
+        img = self._draw_robot_heading(img, robot)
+        return img
+
+    def _draw_robot_position(self, img: np.ndarray,
+                             robot: Robot) -> np.ndarray:
+        '''Draw the robot's scene XZ position in the plot'''
+        rr, cc = skimage.draw.disk(
+            center=(
+                self.center_z - robot.z * self.z_scale,
+                self.center_x + robot.x * self.x_scale),
+            radius=self.ROBOT_PLOT_WIDTH * self.x_scale,
+            shape=img.shape[:2])
+        img[rr, cc] = self.ROBOT_COLOR
+        return img
+
+    def _draw_robot_heading(self, img: np.ndarray, robot: Robot) -> np.ndarray:
+        '''Draw the heading vector starting from the robot XZ position'''
+        heading = self._calculate_heading(
+            rotation_angle=360.0 - robot.rotation,
+            heading_length=self.HEADING_LENGTH
+        )
+        z_point = int(self.center_z - robot.z * self.z_scale)
+        x_point = int(self.center_x + robot.x * self.x_scale)
+        rr, cc = skimage.draw.line(
+            z_point,
+            x_point,
+            z_point - int(heading.z * self.x_scale),
+            x_point + int(heading.x * self.x_scale))
+        img[rr, cc] = self.ROBOT_COLOR
         return img
 
     def _find_plottable_objects(
@@ -78,94 +234,57 @@ class TopDownPlotter():
         objects = scene_event.metadata.get('objects', [])
         return filtered_structural_objects + objects
 
-    def _initialize_plot(self, step_number: int) -> None:
-        '''Create the plot'''
-        # plot the xz topdown plane in xy plot coordinates
-        x_half_size = self._room_size.x / 2.0
-        z_half_size = self._room_size.z / 2.0
-        plt.axis('scaled')
-        plt.xlim(-x_half_size, x_half_size)
-        plt.ylim(-z_half_size, z_half_size)
-        plt.text(
-            x_half_size + self.BORDER,
-            -z_half_size + self.BORDER,
-            step_number)
-        plt.title(f"{self._team} {self._scene_name}")
-        return plt
-
-    def _export_plot(self, plt: matplotlib.pyplot) -> PIL.Image.Image:
-        '''Export the plot to a PIL Image'''
-        fig = plt.gcf()
-        buf = io.BytesIO()
-        fig.savefig(buf)
-        buf.seek(0)
-        return PIL.Image.open(buf)
-
-    def _draw_robot(self, robot_metadata: Dict) -> None:
-        '''Plot the robot position and heading'''
-        if robot_metadata is None:
-            return None
-        robot = self._create_robot(robot_metadata)
-        self._draw_robot_position(robot)
-        self._draw_robot_heading(robot)
-
-    def _draw_robot_position(self, robot: Robot) -> None:
-        '''Draw the robot's scene XZ position in the plot'''
-        circle = plt.Circle(
-            (robot.x, robot.z),
-            radius=self.ROBOT_PLOT_WIDTH,
-            color=self.ROBOT_COLOR,
-            label=self.ROBOT_PLOT_LABEL)
-        plt.gca().add_patch(circle)
-
-    def _draw_robot_heading(self, robot: Robot) -> None:
-        '''Draw the heading vector starting from the robot XZ position'''
-        heading = self._calculate_heading(
-            rotation_angle=360.0 - robot.rotation,
-            heading_length=self.HEADING_LENGTH
-        )
-        heading = plt.Line2D((robot.x, robot.x + heading.x),
-                             (robot.z, robot.z + heading.z),
-                             color=self.ROBOT_COLOR,
-                             lw=1)
-        plt.gca().add_line(heading)
-
-    def _draw_objects(self, objects: Dict,
-                      goal_id: str = None) -> None:
+    def _draw_objects(self, img: np.ndarray, objects: Dict,
+                      goal_id: str = None) -> np.ndarray:
         '''Plot the object bounds for each object in the scene'''
         for o in objects:
             obj = self._create_object(o)
             if obj.bounds is not None:
                 obj_pts = [(pt['x'], pt['z']) for pt in obj.bounds]
-                polygon = geometry.MultiPoint(obj_pts).convex_hull
+                polygon = geometry.MultiPoint(
+                    obj_pts).convex_hull
                 pts = polygon.exterior.coords
-                self._draw_object_bounds(obj, pts)
+                img = self._draw_object_bounds(img, obj, pts)
                 if goal_id is not None and o['objectId'] == goal_id:
-                    self._draw_goal(o['position'])
+                    img = self._draw_goal(img, pts)
+        return img
 
-    def _draw_goal(self, position: Object) -> None:
+    def _draw_goal(self, img: np.ndarray,
+                   pts: List) -> np.ndarray:
         '''Draw the goal object of the scene'''
-        plt.scatter(
-            position['x'],
-            position['z'],
-            c=self._convert_color("gold"),
-            s=300,
-            marker="*",
-            zorder=5,
-            alpha=.7,
-            edgecolors=self._convert_color("black"),
-            linewidths=.5
-        )
+        cs, rs = map(list, zip(*pts))
+        rr, cc = skimage.draw.polygon_perimeter(
+            rs,
+            cs,
+            shape=img.shape[:2])
+        img[rr, cc] = self.GOAL_COLOR
+        return img
 
-    def _draw_object_bounds(self, obj: Object, points: List) -> None:
+    def _draw_object_bounds(self, img: np.ndarray,
+                            obj: Object, points: List) -> np.ndarray:
         '''Draw the scene object'''
-        poly = plt.Polygon(points,
-                           color=obj.color,
-                           fill=obj.color if obj.visible or
-                           obj.held else '',
-                           ec=self.DEFAULT_COLOR,
-                           label=obj.uuid)
-        plt.gca().add_patch(poly)
+        # convert list of tuples to list of rows and list of columns
+        cs, rs = map(list, zip(*points))
+        # convert room coordinates to image coordinates
+        rs = list(map(lambda r: self.center_z - r * self.z_scale, rs))
+        cs = list(map(lambda c: self.center_x + c * self.x_scale, cs))
+        # use dictionary get method for color retrieval
+        # if no match, then None will resort to default color
+        clr = colour.COLOR_NAME_TO_RGB.get(obj.color.lower())
+
+        # draw filled polygon if visible to the robot
+        if(obj.visible):
+            rr, cc = skimage.draw.polygon(
+                rs,
+                cs,
+                shape=img.shape[:2])
+        else:
+            rr, cc = skimage.draw.polygon_perimeter(
+                rs,
+                cs,
+                shape=img.shape[:2])
+        img[rr, cc] = clr
+        return img
 
     def _calculate_heading(self, rotation_angle: float,
                            heading_length: float) -> XZHeading:
@@ -187,7 +306,6 @@ class TopDownPlotter():
             x = 0.0
             y = 0.0
             z = 0.0
-
         rotation = robot_metadata.get('rotation')
         rotation_y = rotation.get('y') if rotation is not None else 0.0
         return Robot(x, y, z, rotation_y)
@@ -198,13 +316,11 @@ class TopDownPlotter():
         held = object_metadata.get('isPickedUp')
         visible = object_metadata.get('visibleInCamera')
         uuid = object_metadata.get('objectId')
-
         colors = object_metadata.get('colorsFromMaterials', [])
         if len(colors):
             color = self._convert_color(colors[0])
         else:
             color = self._convert_color('')
-
         bounds = object_metadata.get('objectBounds')
         corners = None if bounds is None else bounds.get('objectBoundsCorners')
         return Object(
@@ -216,12 +332,10 @@ class TopDownPlotter():
         )
 
     def _convert_color(self, color: str) -> str:
-        '''Convert color string to xkcd string'''
-        # use default of black if no color present
+        '''Convert color string to string'''
         if not color:
-            color = 'black'
-        # white color does not show up in plot but ivory does
-        if color == 'white':
             color = 'ivory'
-        # prefix with xkcd string
-        return 'xkcd:' + color
+
+        if color == 'black':
+            color = 'ivory'
+        return color
