@@ -452,6 +452,7 @@ class SceneObjectSchema(Schema):
     teleports = fields.List(fields.Nested(TeleportConfigSchema))
     togglePhysics = fields.List(fields.Nested(SingleStepConfigSchema))
     torques = fields.List(fields.Nested(MoveConfigSchema))
+    seesaw = fields.Bool()
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     canContainTarget = fields.Bool()
@@ -484,6 +485,7 @@ class SceneConfigurationSchema(Schema):
     version = fields.Integer()
     wallMaterial = fields.Str()
     wallProperties = fields.Nested(PhysicsConfigSchema)
+    seesawScene = fields.Bool()
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation = fields.Str(allow_none=True)
@@ -658,6 +660,7 @@ class SceneObject:
     teleports: List[TeleportConfig] = None
     togglePhysics: List[SingleStepConfig] = None
     torques: List[MoveConfig] = None
+    seesaw: bool = None
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     canContainTarget: bool = None
@@ -687,6 +690,7 @@ class SceneConfiguration:
     version: int = None
     wallMaterial: str = None
     wallProperties: PhysicsConfig = None
+    seesawScene: bool = False
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation: str = None

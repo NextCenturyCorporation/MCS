@@ -1,0 +1,450 @@
+﻿[
+    {
+        "camera_height": 0.794,
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "seesaw",
+                "position_x": 0.0,
+                "position_z": 0.3,
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "seesaw_pivot",
+                "mass": 1,
+                "position_x": 0.0,
+                "position_z": -0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 1.8,
+        "return_status": "SUCCESSFUL",
+        "reward": 0.0,
+        "rotation_y": 180.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "camera_height": 0.809,
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "seesaw",
+                "position_x": 0.0,
+                "position_z": 0.3,
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "seesaw_pivot",
+                "mass": 1,
+                "position_x": 0.0,
+                "position_z": -0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 1.7,
+        "return_status": "SUCCESSFUL",
+        "reward": -0.001,
+        "rotation_y": 180.0,
+        "step_number": 1,
+        "structural_objects_count": 6
+    },
+    {
+        "camera_height": 0.84,
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "seesaw",
+                "position_x": 0.0,
+                "position_z": 0.3,
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "seesaw_pivot",
+                "mass": 1,
+                "position_x": 0.0,
+                "position_z": -0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 1.6,
+        "return_status": "SUCCESSFUL",
+        "reward": -0.002,
+        "rotation_y": 180.0,
+        "step_number": 2,
+        "structural_objects_count": 6
+    },
+    {
+        "camera_height": 0.871,
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "seesaw",
+                "position_x": 0.0,
+                "position_z": 0.3,
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "seesaw_pivot",
+                "mass": 1,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 1.5,
+        "return_status": "SUCCESSFUL",
+        "reward": -0.003,
+        "rotation_y": 180.0,
+        "step_number": 3,
+        "structural_objects_count": 6
+    },
+    {
+        "camera_height": 0.902,
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "seesaw",
+                "position_x": 0.0,
+                "position_z": 0.3,
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "seesaw_pivot",
+                "mass": 1,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 1.4,
+        "return_status": "SUCCESSFUL",
+        "reward": -0.004,
+        "rotation_y": 180.0,
+        "step_number": 4,
+        "structural_objects_count": 6
+    },
+    {
+        "camera_height": 0.932,
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "seesaw",
+                "position_x": 0.0,
+                "position_z": 0.3,
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "seesaw_pivot",
+                "mass": 1,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 1.3,
+        "return_status": "SUCCESSFUL",
+        "reward": -0.005,
+        "rotation_y": 180.0,
+        "step_number": 5,
+        "structural_objects_count": 6
+    },
+    {
+        "camera_height": 0.963,
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "seesaw",
+                "position_x": 0.0,
+                "position_z": 0.3,
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "seesaw_pivot",
+                "mass": 1,
+                "position_x": 0.0,
+                "position_z": 0.001,
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 1.2,
+        "return_status": "SUCCESSFUL",
+        "reward": -0.006,
+        "rotation_y": 180.0,
+        "step_number": 6,
+        "structural_objects_count": 6
+    },
+    {
+        "camera_height": 0.994,
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "seesaw",
+                "position_x": 0.0,
+                "position_z": 0.3,
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "seesaw_pivot",
+                "mass": 1,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 1.1,
+        "return_status": "SUCCESSFUL",
+        "reward": -0.007,
+        "rotation_y": 180.0,
+        "step_number": 7,
+        "structural_objects_count": 6
+    },
+    {
+        "camera_height": 1.025,
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "seesaw",
+                "position_x": 0.0,
+                "position_z": 0.3,
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "seesaw_pivot",
+                "mass": 1,
+                "position_x": 0.0,
+                "position_z": -0.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 1.0,
+        "return_status": "SUCCESSFUL",
+        "reward": -0.008,
+        "rotation_y": 180.0,
+        "step_number": 8,
+        "structural_objects_count": 6
+    },
+    {
+        "camera_height": 1.056,
+        "head_tilt": 0,
+        "objects": [],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.9,
+        "return_status": "SUCCESSFUL",
+        "reward": -0.009,
+        "rotation_y": 180.0,
+        "step_number": 9,
+        "structural_objects_count": 6
+    },
+    {
+        "camera_height": 0.668,
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "seesaw",
+                "position_x": 0.0,
+                "position_z": 0.3,
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "seesaw_pivot",
+                "mass": 1,
+                "position_x": 0.0,
+                "position_z": 0.001,
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.9,
+        "return_status": "SUCCESSFUL",
+        "reward": -0.01,
+        "rotation_y": 180.0,
+        "step_number": 10,
+        "structural_objects_count": 6
+    },
+    {
+        "camera_height": 0.676,
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "seesaw",
+                "position_x": 0.0,
+                "position_z": 0.3,
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "seesaw_pivot",
+                "mass": 1,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.8,
+        "return_status": "SUCCESSFUL",
+        "reward": -0.011,
+        "rotation_y": 180.0,
+        "step_number": 11,
+        "structural_objects_count": 6
+    },
+    {
+        "camera_height": 0.411,
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "seesaw",
+                "position_x": 0.0,
+                "position_z": 0.3,
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "seesaw_pivot",
+                "mass": 1,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.8,
+        "return_status": "SUCCESSFUL",
+        "reward": -0.012,
+        "rotation_y": 180.0,
+        "step_number": 12,
+        "structural_objects_count": 6
+    },
+    {
+        "camera_height": 0.7,
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "seesaw",
+                "position_x": -0.0,
+                "position_z": 0.3,
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "seesaw_pivot",
+                "mass": 1,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.8,
+        "return_status": "SUCCESSFUL",
+        "reward": -0.013,
+        "rotation_y": 180.0,
+        "step_number": 13,
+        "structural_objects_count": 6
+    },
+    {
+        "camera_height": 1.087,
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "seesaw",
+                "position_x": 0.0,
+                "position_z": 0.3,
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "seesaw_pivot",
+                "mass": 1,
+                "position_x": 0.0,
+                "position_z": 0.001,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.8,
+        "return_status": "SUCCESSFUL",
+        "reward": -0.014,
+        "rotation_y": 180.0,
+        "step_number": 14,
+        "structural_objects_count": 6
+    },
+    {
+        "camera_height": 1.117,
+        "head_tilt": 0,
+        "objects": [
+            {
+                "held": false,
+                "id": "seesaw",
+                "position_x": 0.0,
+                "position_z": 0.3,
+                "visible": true
+            },
+            {
+                "held": false,
+                "id": "seesaw_pivot",
+                "mass": 1,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.7,
+        "return_status": "SUCCESSFUL",
+        "reward": -0.015,
+        "rotation_y": 180.0,
+        "step_number": 15,
+        "structural_objects_count": 6
+    }
+]
