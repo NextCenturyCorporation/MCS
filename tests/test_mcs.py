@@ -37,9 +37,12 @@ class TestMCS(unittest.TestCase):
         cfg.is_video_enabled = return_false
         add_subscribers(ctrl, cfg)
         self.assertEqual(len(ctrl._subscribers), 2)
-        classes = (ControllerLogger, HistoryEventHandler)
-        self.assertIsInstance(ctrl._subscribers[0], classes)
-        self.assertIsInstance(ctrl._subscribers[1], classes)
+        self.assertTrue(
+            any([isinstance(subscriber, ControllerLogger)
+                 for subscriber in ctrl._subscribers]))
+        self.assertTrue(
+            any([isinstance(subscriber, HistoryEventHandler)
+                 for subscriber in ctrl._subscribers]))
 
         ctrl._subscribers.clear()
         cfg.is_save_debug_images = return_true
@@ -48,10 +51,17 @@ class TestMCS(unittest.TestCase):
         cfg.is_video_enabled = return_false
         add_subscribers(ctrl, cfg)
         self.assertEqual(len(ctrl._subscribers), 4)
-        self.assertIsInstance(ctrl._subscribers[0], DepthImageEventHandler)
-        self.assertIsInstance(ctrl._subscribers[1], SceneImageEventHandler)
-        self.assertIsInstance(ctrl._subscribers[2], ControllerLogger)
-        self.assertIsInstance(ctrl._subscribers[3], HistoryEventHandler)
+        # the order of event handlers in the list doesn't matter
+        # These assertions check that any of the elements in the list
+        # are the correct handler instances
+        self.assertTrue(any([isinstance(subscriber, DepthImageEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, SceneImageEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, ControllerLogger)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, HistoryEventHandler)
+                             for subscriber in ctrl._subscribers]))
 
         ctrl._subscribers.clear()
         cfg.is_save_debug_images = return_false
@@ -60,12 +70,14 @@ class TestMCS(unittest.TestCase):
         cfg.is_video_enabled = return_true
         add_subscribers(ctrl, cfg)
         self.assertEqual(len(ctrl._subscribers), 4)
-        self.assertIsInstance(ctrl._subscribers[0], ImageVideoEventHandler)
-        self.assertIsInstance(
-            ctrl._subscribers[1],
-            TopdownVideoEventHandler)
-        self.assertIsInstance(ctrl._subscribers[2], ControllerLogger)
-        self.assertIsInstance(ctrl._subscribers[3], HistoryEventHandler)
+        self.assertTrue(any([isinstance(subscriber, ImageVideoEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, TopdownVideoEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, ControllerLogger)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, HistoryEventHandler)
+                             for subscriber in ctrl._subscribers]))
 
         ctrl._subscribers.clear()
         cfg.is_save_debug_images = return_false
@@ -74,15 +86,17 @@ class TestMCS(unittest.TestCase):
         cfg.is_video_enabled = return_true
         add_subscribers(ctrl, cfg)
         self.assertEqual(len(ctrl._subscribers), 5)
-        self.assertIsInstance(ctrl._subscribers[0], ImageVideoEventHandler)
-        self.assertIsInstance(
-            ctrl._subscribers[1],
-            TopdownVideoEventHandler)
-        self.assertIsInstance(
-            ctrl._subscribers[2],
-            SegmentationVideoEventHandler)
-        self.assertIsInstance(ctrl._subscribers[3], ControllerLogger)
-        self.assertIsInstance(ctrl._subscribers[4], HistoryEventHandler)
+        self.assertTrue(any([isinstance(subscriber, ImageVideoEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, TopdownVideoEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber,
+                                        SegmentationVideoEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, ControllerLogger)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, HistoryEventHandler)
+                             for subscriber in ctrl._subscribers]))
 
         ctrl._subscribers.clear()
         cfg.is_save_debug_images = return_true
@@ -91,10 +105,14 @@ class TestMCS(unittest.TestCase):
         cfg.is_video_enabled = return_false
         add_subscribers(ctrl, cfg)
         self.assertEqual(len(ctrl._subscribers), 4)
-        self.assertIsInstance(ctrl._subscribers[0], DepthImageEventHandler)
-        self.assertIsInstance(ctrl._subscribers[1], SceneImageEventHandler)
-        self.assertIsInstance(ctrl._subscribers[2], ControllerLogger)
-        self.assertIsInstance(ctrl._subscribers[3], HistoryEventHandler)
+        self.assertTrue(any([isinstance(subscriber, DepthImageEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, SceneImageEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, ControllerLogger)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, HistoryEventHandler)
+                             for subscriber in ctrl._subscribers]))
 
         ctrl._subscribers.clear()
         cfg.is_save_debug_images = return_true
@@ -103,13 +121,17 @@ class TestMCS(unittest.TestCase):
         cfg.is_video_enabled = return_false
         add_subscribers(ctrl, cfg)
         self.assertEqual(len(ctrl._subscribers), 5)
-        self.assertIsInstance(ctrl._subscribers[0], DepthImageEventHandler)
-        self.assertIsInstance(ctrl._subscribers[1], SceneImageEventHandler)
-        self.assertIsInstance(
-            ctrl._subscribers[2],
-            ObjectMaskImageEventHandler)
-        self.assertIsInstance(ctrl._subscribers[3], ControllerLogger)
-        self.assertIsInstance(ctrl._subscribers[4], HistoryEventHandler)
+        self.assertTrue(any([isinstance(subscriber, DepthImageEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, SceneImageEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber,
+                                        ObjectMaskImageEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, ControllerLogger)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, HistoryEventHandler)
+                             for subscriber in ctrl._subscribers]))
 
         ctrl._subscribers.clear()
         cfg.is_save_debug_images = return_false
@@ -118,18 +140,19 @@ class TestMCS(unittest.TestCase):
         cfg.is_video_enabled = return_true
         add_subscribers(ctrl, cfg)
         self.assertEqual(len(ctrl._subscribers), 6)
-        self.assertIsInstance(ctrl._subscribers[0], ImageVideoEventHandler)
-        self.assertIsInstance(
-            ctrl._subscribers[1],
-            TopdownVideoEventHandler)
-        self.assertIsInstance(
-            ctrl._subscribers[2],
-            DepthVideoEventHandler)
-        self.assertIsInstance(
-            ctrl._subscribers[3],
-            SegmentationVideoEventHandler)
-        self.assertIsInstance(ctrl._subscribers[4], ControllerLogger)
-        self.assertIsInstance(ctrl._subscribers[5], HistoryEventHandler)
+        self.assertTrue(any([isinstance(subscriber, ImageVideoEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, TopdownVideoEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, DepthVideoEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber,
+                                        SegmentationVideoEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, ControllerLogger)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, HistoryEventHandler)
+                             for subscriber in ctrl._subscribers]))
 
         ctrl._subscribers.clear()
         cfg.is_save_debug_images = return_true
@@ -138,25 +161,26 @@ class TestMCS(unittest.TestCase):
         cfg.is_video_enabled = return_true
         add_subscribers(ctrl, cfg)
         self.assertEqual(len(ctrl._subscribers), 9)
-        self.assertIsInstance(ctrl._subscribers[0], DepthImageEventHandler)
-        self.assertIsInstance(
-            ctrl._subscribers[1],
-            SceneImageEventHandler)
-        self.assertIsInstance(
-            ctrl._subscribers[2],
-            ObjectMaskImageEventHandler)
-        self.assertIsInstance(ctrl._subscribers[3], ImageVideoEventHandler)
-        self.assertIsInstance(
-            ctrl._subscribers[4],
-            TopdownVideoEventHandler)
-        self.assertIsInstance(
-            ctrl._subscribers[5],
-            DepthVideoEventHandler)
-        self.assertIsInstance(
-            ctrl._subscribers[6],
-            SegmentationVideoEventHandler)
-        self.assertIsInstance(ctrl._subscribers[7], ControllerLogger)
-        self.assertIsInstance(ctrl._subscribers[8], HistoryEventHandler)
+        self.assertTrue(any([isinstance(subscriber, DepthImageEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, SceneImageEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber,
+                                        ObjectMaskImageEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, ImageVideoEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, TopdownVideoEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, DepthVideoEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber,
+                                        SegmentationVideoEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, ControllerLogger)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, HistoryEventHandler)
+                             for subscriber in ctrl._subscribers]))
 
     def test_load_scene_file_json(self):
         actual, status = mcs.load_scene_json_file("tests/test_scene.json")
