@@ -54,7 +54,7 @@ With the activated Python virtual environment, install the MCS package from the 
 
 There may be additional settings you want to specify, which can be accomplished via the MCS configuration file. You can use the [sample_config.ini](./sample_config.ini) file to start. This file has the `metadata` level set to `oracle`, which ensures that the data for all objects in a scene is returned, as well as object masks. For the purposes of this guide, we will pass this along to the MCS controller via the `config_file_path` property, which is outlined in the `Usage` example below.
 
-For more in-depth information on configuration files and more about the different properties within, see the documentation about the [MCS configuration file](https://https://nextcenturycorporation.github.io/MCS/install.html#mcs-configuration-file)
+For more in-depth information on configuration files and more about the different properties within, see the documentation about the [MCS configuration file](https://nextcenturycorporation.github.io/MCS/install.html#mcs-configuration-file)
 
 ## Usage
 
@@ -90,9 +90,9 @@ controller.end_scene()
 ## Documentation
 
 - [Documentation Home](https://nextcenturycorporation.github.io/MCS)
-- [Installation and Setup](https://https://nextcenturycorporation.github.io/MCS/install.html)
-- [MCS Configuration File](https://https://nextcenturycorporation.github.io/MCS/install.html#mcs-configuration-file)
-- [Example Usage](https://https://nextcenturycorporation.github.io/MCS/examples.html)
+- [Installation and Setup](https://nextcenturycorporation.github.io/MCS/install.html)
+- [MCS Configuration File](https://nextcenturycorporation.github.io/MCS/install.html#mcs-configuration-file)
+- [Example Usage](https://nextcenturycorporation.github.io/MCS/examples.html)
 - [Python API](https://nextcenturycorporation.github.io/MCS/api.html)
 - [Example Scene Configuration Files](https://nextcenturycorporation.github.io/MCS/scenes.html)
 - [Scene Configuration JSON Schema](https://nextcenturycorporation.github.io/MCS/schema.html)
