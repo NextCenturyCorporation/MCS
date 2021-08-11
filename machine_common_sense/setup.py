@@ -3,7 +3,6 @@ from .controller import Controller
 from .controller_logger import (ControllerAi2thorFileGenerator,
                                 ControllerDebugFileGenerator, ControllerLogger)
 from .controller_media import (DepthImageEventHandler, DepthVideoEventHandler,
-                               HeatmapVideoEventHandler,
                                ImageVideoEventHandler,
                                ObjectMaskImageEventHandler,
                                SceneImageEventHandler,
@@ -26,7 +25,6 @@ def add_subscribers(controller: Controller, config: ConfigManager):
         if (config.is_evaluation() or config.is_video_enabled()):
             controller.subscribe(ImageVideoEventHandler())
             controller.subscribe(TopdownVideoEventHandler())
-            controller.subscribe(HeatmapVideoEventHandler())
             if (config.is_depth_maps_enabled()):
                 controller.subscribe(DepthVideoEventHandler())
             if (config.is_object_masks_enabled()):

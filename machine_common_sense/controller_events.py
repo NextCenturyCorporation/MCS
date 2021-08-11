@@ -4,7 +4,6 @@ from abc import ABC
 from dataclasses import dataclass
 from typing import Dict, List
 
-import PIL
 from ai2thor.server import Event
 from marshmallow import Schema, fields
 
@@ -121,13 +120,11 @@ class PredictionPayload(BaseEventPayload):
     def __init__(self, config, choice: str = None,
                  confidence: float = None,
                  violations_xy_list: List[Dict[str, float]] = None,
-                 heatmap_img: PIL.Image.Image = None,
                  internal_state: object = None):
         self.config = config
         self.choice = choice
         self.confidence = confidence
         self.violations_xy_list = violations_xy_list
-        self.heatmap_img = heatmap_img
         self.internal_state = internal_state
 
 
