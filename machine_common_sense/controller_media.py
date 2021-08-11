@@ -158,7 +158,6 @@ class ImageVideoEventHandler(AbstractVideoEventHandler):
 
     def on_end_scene(self, payload: ControllerEventPayload):
         self.__recorder.finish()
-        self._upload_video(payload, self.__recorder)
 
 
 class TopdownVideoEventHandler(AbstractVideoEventHandler):
@@ -194,7 +193,6 @@ class TopdownVideoEventHandler(AbstractVideoEventHandler):
 
     def on_end_scene(self, payload: ControllerEventPayload):
         self.__recorder.finish()
-        self._upload_video(payload, self.__recorder)
 
 
 class HeatmapVideoEventHandler(AbstractVideoEventHandler):
@@ -215,7 +213,6 @@ class HeatmapVideoEventHandler(AbstractVideoEventHandler):
 
     def on_end_scene(self, payload: ControllerEventPayload):
         self.__recorder.finish()
-        self._upload_video(payload, self.__recorder)
 
 
 class DepthVideoEventHandler(AbstractVideoEventHandler):
@@ -248,7 +245,6 @@ class DepthVideoEventHandler(AbstractVideoEventHandler):
 
     def on_end_scene(self, payload: ControllerEventPayload):
         self.__recorder.finish()
-        self._upload_video(payload, self.__recorder)
 
 
 class SegmentationVideoEventHandler(AbstractVideoEventHandler):
@@ -271,4 +267,3 @@ class SegmentationVideoEventHandler(AbstractVideoEventHandler):
 
     def on_end_scene(self, payload: ControllerEventPayload):
         self.__recorder.finish()
-        self._upload_video(payload, self.__recorder)
