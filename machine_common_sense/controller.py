@@ -11,7 +11,6 @@ import ai2thor.controller
 import ai2thor.server
 import marshmallow
 import numpy as np
-import PIL
 
 logger = logging.getLogger(__name__)
 
@@ -656,7 +655,6 @@ class Controller():
     def make_step_prediction(self, choice: str = None,
                              confidence: float = None,
                              violations_xy_list: List[Dict[str, float]] = None,
-                             heatmap_img: PIL.Image.Image = None,
                              internal_state: object = None,) -> None:
         """Make a prediction on the previously taken step/action.
 
@@ -674,11 +672,6 @@ class Controller():
             A list of one or more (x, y) locations (ex: [{"x": 1, "y": 3.4}]),
             each representing a potential violation-of-expectation. Required
             on each step for passive tasks. (default None)
-        heatmap_img : PIL.Image.Image, optional
-            An image representing scene plausiblility at a particular
-            moment. During evaluation, this image will be recorded as a frame
-            of a heatmap video for review but is ignored otherwise.
-            (default None)
         internal_state : object, optional
             A properly formatted json object representing various kinds of
             internal states at a particular moment. Examples include the
@@ -695,7 +688,6 @@ class Controller():
             choice,
             confidence,
             violations_xy_list,
-            heatmap_img,
             internal_state)
         self._publish_event(EventType.ON_PREDICTION, payload)
 

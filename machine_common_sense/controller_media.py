@@ -64,7 +64,6 @@ class AbstractVideoEventHandler(AbstractControllerSubscriber):
     VISUAL = 'visual'
     DEPTH = 'depth'
     SEGMENTATION = 'segmentation'
-    HEATMAP = 'heatmap'
     TOPDOWN = 'topdown'
 
     def get_basename(self, payload: ControllerEventPayload):
@@ -210,27 +209,6 @@ class TopdownVideoEventHandler(AbstractVideoEventHandler):
                                        payload.step_number,
                                        goal_id)
             self.__recorder.add(plot)
-
-    def on_end_scene(self, payload: ControllerEventPayload):
-        self.__recorder.finish()
-        self._upload_video(payload, self.__recorder)
-
-
-class HeatmapVideoEventHandler(AbstractVideoEventHandler):
-    '''
-    writes heatmap video for predictions
-    '''
-
-    def on_start_scene(self, payload: ControllerEventPayload):
-        self.__recorder = self.create_video_recorder(
-            payload, AbstractVideoEventHandler.HEATMAP)
-
-    def on_prediction(self, payload: ControllerEventPayload):
-        if(
-            payload.heatmap_img is not None and
-            isinstance(payload.heatmap_img, PIL.Image.Image)
-        ):
-            self.__recorder.add(payload.heatmap_img)
 
     def on_end_scene(self, payload: ControllerEventPayload):
         self.__recorder.finish()

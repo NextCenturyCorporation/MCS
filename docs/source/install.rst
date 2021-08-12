@@ -181,7 +181,7 @@ video_enabled
 
 (boolean, optional)
 
-Create and save videos of the RGB frames, depth masks, object instance segmentation masks (if returned in the output by the chosen metadata tier), 2D top-down scene views, and the heatmap images given to us in `make_step_prediction` by the AI performer. Default: False
+Create and save videos of the RGB frames, depth masks, object instance segmentation masks (if returned in the output by the chosen metadata tier), and the 2D top-down scene views. Default: False
 
 Example Using the Config File to Generate Scene Graphs or Maps
 **************************************************************
