@@ -100,11 +100,11 @@ class LoggingConfig():
         logging.config.dictConfig(log_config)
         logger.info(init_message)
 
-    @ staticmethod
+    @staticmethod
     def get_default_console_config():
         return LoggingConfig.default_console_config
 
-    @ staticmethod
+    @staticmethod
     def get_errors_only_console_config():
         return {
             "version": 1,
@@ -128,7 +128,7 @@ class LoggingConfig():
             }
         }
 
-    @ staticmethod
+    @staticmethod
     def get_dev_logging_config():
         '''Note: This logging configuration needs the log directory to be
         created relative to the current working directory of the python
