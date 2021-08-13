@@ -12,8 +12,8 @@ See code details on how this works inside Unity in  the MCS AI2Thor code at
 AddressablesUtil.Awake()
 
 Normally, Unity caches what you use as you use it.  All MCS AI2Thor
-executables use a small set of catalogs (dev, prod) and the caches are
-commonly shared between executables.
+executables use the same catalogs the cache is commonly shared between
+executables.
 
 '''
 
