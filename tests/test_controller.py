@@ -31,9 +31,8 @@ class TestController(unittest.TestCase):
         for test_file in test_files:
             os.unlink(test_file)
         # if SCENE_HIST_DIR is empty, destroy it
-        if os.path.isdir(SCENE_HIST_DIR):
-            if not os.listdir(SCENE_HIST_DIR):
-                shutil.rmtree(SCENE_HIST_DIR)
+        if os.path.isdir(SCENE_HIST_DIR) and not os.listdir(SCENE_HIST_DIR):
+            shutil.rmtree(SCENE_HIST_DIR)
 
     def create_mock_scene_event(self, mock_scene_event_data):
         # Wrap the dict in a SimpleNamespace object to permit property access
@@ -808,7 +807,9 @@ class TestController(unittest.TestCase):
         self.assertEqual(None, actual.name)
         self.assertEqual(None, actual.floorMaterial)
         self.assertEqual([], actual.objects)
-        self.assertEqual(None, actual.roomDimensions)
+        self.assertEqual(
+            ConfigManager.DEFAULT_ROOM_DIMENSIONS,
+            actual.roomDimensions)
         self.assertEqual(None, actual.goal)
 
         config = {"name": "name1", "roomDimensions": {"x": 1, "y": 2, "z": 3}}
