@@ -359,6 +359,15 @@ class PhysicsConfigSchema(Schema):
         return PhysicsConfig(**data)
 
 
+class HolesConfigSchema(Schema):
+    x = fields.Int()
+    z = fields.Int()
+
+    @post_load
+    def make_holes_config(self, data, **kwargs):
+        return HolesConfig(**data)
+
+
 class ShowConfigSchema(Schema):
     stepBegin = fields.Int()
     position = fields.Nested(Vector3dSchema)
@@ -484,6 +493,7 @@ class SceneConfigurationSchema(Schema):
     version = fields.Integer()
     wallMaterial = fields.Str()
     wallProperties = fields.Nested(PhysicsConfigSchema)
+    holes = fields.List(fields.Nested(HolesConfigSchema))
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation = fields.Str(allow_none=True)
@@ -578,6 +588,12 @@ class PhysicsConfig:
     drag: float = None
     dynamicFriction: float = None
     staticFriction: float = None
+
+
+@dataclass
+class HolesConfig:
+    x: int = None
+    z: int = None
 
 
 @dataclass
@@ -687,6 +703,7 @@ class SceneConfiguration:
     version: int = None
     wallMaterial: str = None
     wallProperties: PhysicsConfig = None
+    holes: List[HolesConfig] = field(default_factory=list)
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation: str = None
