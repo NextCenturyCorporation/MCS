@@ -15,9 +15,21 @@ from .goal_metadata import GoalMetadata
 logger = logging.getLogger(__name__)
 
 
+@dataclass
+class Vector3d:
+    # There is probably a class like this in python somewhere
+    # but i don't know where it is.
+    # TODO change later, potentially rename?
+    x: float = 0
+    y: float = 0
+    z: float = 0
+
+
 class ConfigManager(object):
 
     DEFAULT_CLIPPING_PLANE_FAR = 15.0
+    DEFAULT_ROOM_DIMENSIONS = Vector3d(x=10, y=3, z=10)
+
     # Normal metadata plus metadata for all hidden objects
     CONFIG_METADATA_TIER_ORACLE = 'oracle'
     # No metadata, except for the images, depth masks, object masks,
@@ -520,16 +532,6 @@ class SceneConfigurationSchema(Schema):
 
 
 @dataclass
-class Vector3d:
-    # There is probably a class like this in python somewhere
-    # but i don't know where it is.
-    # TODO change later, potentially rename?
-    x: float = 0
-    y: float = 0
-    z: float = 0
-
-
-@dataclass
 class RoomMaterials:
     front: str = None
     left: str = None
@@ -713,7 +715,8 @@ class SceneConfiguration:
     objects: List[SceneObject] = field(default_factory=list)
     observation: bool = False  # deprecated; please use intuitivePhysics
     performerStart: PerformerStart = None
-    roomDimensions: Vector3d = None
+    roomDimensions: Vector3d = field(
+        default=ConfigManager.DEFAULT_ROOM_DIMENSIONS)
     roomMaterials: RoomMaterials = None
     screenshot: bool = False  # developer use only; for the image generator
     version: int = None
