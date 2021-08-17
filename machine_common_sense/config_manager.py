@@ -485,7 +485,6 @@ class SceneConfigurationSchema(Schema):
     version = fields.Integer()
     wallMaterial = fields.Str()
     wallProperties = fields.Nested(PhysicsConfigSchema)
-    seesawScene = fields.Bool()
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation = fields.Str(allow_none=True)
@@ -690,7 +689,6 @@ class SceneConfiguration:
     version: int = None
     wallMaterial: str = None
     wallProperties: PhysicsConfig = None
-    seesawScene: bool = False
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation: str = None
