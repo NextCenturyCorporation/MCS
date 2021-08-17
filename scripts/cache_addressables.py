@@ -1,5 +1,5 @@
+import argparse
 import os
-import sys
 
 '''
 Script will start Unity build with a flag to clear the addressables cache,
@@ -18,9 +18,21 @@ executables.
 '''
 
 
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('build_path',
+                        help="Unity build path")
+    return parser.parse_args()
+
+
 def run_caching_build(build_path):
     os.execl(build_path, build_path, "CACHEADDRESSABLES")
 
 
-build_path = sys.argv[1]
-run_caching_build(build_path)
+def main():
+    args = parse_args()
+    run_caching_build(args.build_path)
+
+
+if __name__ == '__main__':
+    main()
