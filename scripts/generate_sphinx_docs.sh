@@ -13,7 +13,7 @@ then
 fi
 echo "moving to docs"
 cd docs/
-echo "calling make'"
+echo "calling make"
 make html
 echo "Finished update to Python API sphinx html documentation."
 # echo "moving to API"

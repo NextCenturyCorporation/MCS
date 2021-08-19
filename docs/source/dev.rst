@@ -133,15 +133,15 @@ Common examples of logging initialization:
     #Below initializes error only console logging
     mcs.init_logging(LoggingConfig.get_errors_only_console_config())
     
-Full List of Config Options
+More Config Options
 ---------------------------
 
-Outlined here is a comprehensive list of config file options that can be used.
+Outlined here is a list of config file options that can be used **in addition** to the ones listed under the :ref:`MCS Config File` section.
 
 To use an MCS configuration file, you can either pass in a file path via the `config_file_path` property in the create_controller() method, or set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see `sample_config.ini <https://github.com/NextCenturyCorporation/MCS/blob/master/sample_config.ini>`_ for an example).
 
-Config File Properties
-**********************
+Developer Config File Properties
+********************************
 
 evaluation_name
 ^^^^^^^^^^^^^^^
@@ -149,49 +149,6 @@ evaluation_name
 (string)
 
 Identifier to add to scene history and video files (default: '').
-
-history_enabled
-^^^^^^^^^^^^^^^
-
-(boolean, optional)
-
-Whether to save the scene history output data in your local directory. Default: True
-
-metadata
-^^^^^^^^
-
-(string)
-
-The `metadata` property describes what metadata will be returned by the MCS Python library. This can also be specified via the `MCS_METADATA_LEVEL` environment variable. It can be set to one of the following strings:
-
-- `oracle`: Returns the metadata for all the objects in the scene, including visible, held, and hidden objects. Object masks will have consistent colors throughout all steps for a scene.
-- `level2`: Only returns the images (with depth masks AND object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included. Note that here, object masks will have randomized colors per step.
-- `level1`: Only returns the images (with depth masks but NOT object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
-- `none`: Only returns the images (but not the masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
-
-If no metadata level is set:
-- `default`: Fallback if no metadata level is specified. Only meant for use during development (evaluations will never be run this way). Includes metadata for visible and held objects in the scene, as well as camera info and properties corresponding to the player. Does not include depth maps or object masks.
-
-noise_enabled
-^^^^^^^^^^^^^
-
-(boolean)
-
-Whether to add random noise to the numerical amounts in movement and object interaction action parameters. Will default to `False`.
-
-seed
-^^^^
-
-(int)
-
-A seed for the Python random number generator (defaults to None).
-
-size
-^^^^
-
-(int)
-
-Desired screen width. If value given, it must be more than `450`. If none given, screen width will default to `600`.
 
 team
 ^^^^
@@ -241,3 +198,4 @@ Update the version number in the following files:
 - `requirements.txt <https://github.com/NextCenturyCorporation/MCS/blob/master/requirements.txt>`_
 - `setup.py <https://github.com/NextCenturyCorporation/MCS/blob/master/setup.py>`_
 - `machine_common_sense/_version.py <https://github.com/NextCenturyCorporation/MCS/blob/master/machine_common_sense/_version.py>`_
+- `install.rst <https://github.com/NextCenturyCorporation/MCS/blob/master/docs/source/install.rst>`_ (just the links at the top of the file)

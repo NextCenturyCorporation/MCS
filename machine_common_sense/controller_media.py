@@ -63,7 +63,6 @@ class AbstractVideoEventHandler(AbstractControllerSubscriber):
     VISUAL = 'visual'
     DEPTH = 'depth'
     SEGMENTATION = 'segmentation'
-    HEATMAP = 'heatmap'
     TOPDOWN = 'topdown'
 
     def get_basename(self, payload: ControllerEventPayload):
@@ -170,8 +169,10 @@ class TopdownVideoEventHandler(AbstractVideoEventHandler):
     def on_start_scene(self, payload: ControllerEventPayload):
         self.__recorder = self.create_video_recorder(
             payload, AbstractVideoEventHandler.TOPDOWN)
-        scene = payload.scene_config.name.replace('json', '')
-        self.__plotter = TopDownPlotter('', scene)
+        self.__plotter = TopDownPlotter(
+            team=payload.config.get_team(),
+            scene_name=payload.scene_config.name.replace('json', ''),
+            room_size=payload.scene_config.roomDimensions)
         self.save_video_for_step(payload)
 
     def on_after_step(self, payload: ControllerEventPayload):
@@ -192,26 +193,6 @@ class TopdownVideoEventHandler(AbstractVideoEventHandler):
                                        payload.step_number,
                                        goal_id)
             self.__recorder.add(plot)
-
-    def on_end_scene(self, payload: ControllerEventPayload):
-        self.__recorder.finish()
-
-
-class HeatmapVideoEventHandler(AbstractVideoEventHandler):
-    '''
-    writes heatmap video for predictions
-    '''
-
-    def on_start_scene(self, payload: ControllerEventPayload):
-        self.__recorder = self.create_video_recorder(
-            payload, AbstractVideoEventHandler.HEATMAP)
-
-    def on_prediction(self, payload: ControllerEventPayload):
-        if(
-            payload.heatmap_img is not None and
-            isinstance(payload.heatmap_img, PIL.Image.Image)
-        ):
-            self.__recorder.add(payload.heatmap_img)
 
     def on_end_scene(self, payload: ControllerEventPayload):
         self.__recorder.finish()

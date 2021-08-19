@@ -14,9 +14,21 @@ from .goal_metadata import GoalMetadata
 logger = logging.getLogger(__name__)
 
 
+@dataclass
+class Vector3d:
+    # There is probably a class like this in python somewhere
+    # but i don't know where it is.
+    # TODO change later, potentially rename?
+    x: float = 0
+    y: float = 0
+    z: float = 0
+
+
 class ConfigManager(object):
 
     DEFAULT_CLIPPING_PLANE_FAR = 15.0
+    DEFAULT_ROOM_DIMENSIONS = Vector3d(x=10, y=3, z=10)
+
     # Normal metadata plus metadata for all hidden objects
     CONFIG_METADATA_TIER_ORACLE = 'oracle'
     # No metadata, except for the images, depth masks, object masks,
@@ -310,6 +322,24 @@ class PhysicsConfigSchema(Schema):
         return PhysicsConfig(**data)
 
 
+class FloorHolesAndTexturesXZConfigSchema(Schema):
+    x = fields.Int()
+    z = fields.Int()
+
+    @post_load
+    def make_holes_config(self, data, **kwargs):
+        return FloorHolesAndTexturesXZConfig(**data)
+
+
+class FloorTexturesConfigSchema(Schema):
+    material = fields.Str()
+    positions = fields.List(fields.Nested(FloorHolesAndTexturesXZConfigSchema))
+
+    @post_load
+    def make_floor_textures_config(self, data, **kwargs):
+        return FloorTexturesConfig(**data)
+
+
 class ShowConfigSchema(Schema):
     stepBegin = fields.Int()
     position = fields.Nested(Vector3dSchema)
@@ -435,6 +465,8 @@ class SceneConfigurationSchema(Schema):
     version = fields.Integer()
     wallMaterial = fields.Str()
     wallProperties = fields.Nested(PhysicsConfigSchema)
+    holes = fields.List(fields.Nested(FloorHolesAndTexturesXZConfigSchema))
+    floorTextures = fields.List(fields.Nested(FloorTexturesConfigSchema))
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation = fields.Str(allow_none=True)
@@ -448,16 +480,6 @@ class SceneConfigurationSchema(Schema):
     @post_load
     def make_scene_configuration(self, data, **kwargs):
         return SceneConfiguration(**data)
-
-
-@dataclass
-class Vector3d:
-    # There is probably a class like this in python somewhere
-    # but i don't know where it is.
-    # TODO change later, potentially rename?
-    x: float = 0
-    y: float = 0
-    z: float = 0
 
 
 @dataclass
@@ -529,6 +551,18 @@ class PhysicsConfig:
     drag: float = None
     dynamicFriction: float = None
     staticFriction: float = None
+
+
+@dataclass
+class FloorHolesAndTexturesXZConfig:
+    x: int = None
+    z: int = None
+
+
+@dataclass
+class FloorTexturesConfig:
+    material: str
+    positions: List[FloorHolesAndTexturesXZConfig] = None
 
 
 @dataclass
@@ -632,12 +666,15 @@ class SceneConfiguration:
     objects: List[SceneObject] = field(default_factory=list)
     observation: bool = False  # deprecated; please use intuitivePhysics
     performerStart: PerformerStart = None
-    roomDimensions: Vector3d = None
+    roomDimensions: Vector3d = field(
+        default=ConfigManager.DEFAULT_ROOM_DIMENSIONS)
     roomMaterials: RoomMaterials = None
     screenshot: bool = False  # developer use only; for the image generator
     version: int = None
     wallMaterial: str = None
     wallProperties: PhysicsConfig = None
+    holes: List[FloorHolesAndTexturesXZConfig] = field(default_factory=list)
+    floorTextures: List[FloorTexturesConfig] = field(default_factory=list)
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation: str = None
