@@ -72,6 +72,19 @@ class TestConfigManager(unittest.TestCase):
         self.assertEqual(self.config_mngr.get_size(),
                          self.config_mngr.SCREEN_WIDTH_DEFAULT)
 
+    def test_get_evaluation_name(self):
+        self.assertEqual(self.config_mngr.get_evaluation_name(), '')
+
+        self.config_mngr._config[
+            self.config_mngr.CONFIG_DEFAULT_SECTION
+        ][
+            self.config_mngr.CONFIG_EVALUATION_NAME
+        ] = 'test_eval'
+
+        self.assertEqual(
+            self.config_mngr.get_evaluation_name(),
+            'test_eval')
+
     @mock_env()
     def test_get_metadata_tier(self):
         self.assertEqual(self.config_mngr.get_metadata_tier(), 'default')
@@ -111,6 +124,19 @@ class TestConfigManager(unittest.TestCase):
         ] = '800'
 
         self.assertEqual(self.config_mngr.get_size(), 800)
+
+    def test_get_team(self):
+        self.assertEqual(self.config_mngr.get_team(), '')
+
+        self.config_mngr._config[
+            self.config_mngr.CONFIG_DEFAULT_SECTION
+        ][
+            self.config_mngr.CONFIG_TEAM
+        ] = 'team-name'
+
+        self.assertEqual(
+            self.config_mngr.get_team(),
+            'team-name')
 
     def test_is_history_enabled(self):
         self.assertTrue(self.config_mngr.is_history_enabled())

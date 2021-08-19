@@ -143,6 +143,13 @@ To use an MCS configuration file, you can either pass in a file path via the `co
 Config File Properties
 **********************
 
+evaluation_name
+^^^^^^^^^^^^^^^
+
+(string)
+
+Identifier to add to scene history and video files (default: '').
+
 history_enabled
 ^^^^^^^^^^^^^^^
 
@@ -185,6 +192,13 @@ size
 (int)
 
 Desired screen width. If value given, it must be more than `450`. If none given, screen width will default to `600`.
+
+team
+^^^^
+
+(string)
+
+Team name identifier to prefix to scene history and video files (default: '').
 
 
 Handling Pull Requests From Contributors

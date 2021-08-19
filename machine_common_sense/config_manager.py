@@ -39,6 +39,7 @@ class ConfigManager(object):
 
     CONFIG_DEFAULT_SECTION = 'MCS'
 
+    CONFIG_EVALUATION_NAME = 'evaluation_name'
     CONFIG_HISTORY_ENABLED = 'history_enabled'
     CONFIG_METADATA_TIER = 'metadata'
     CONFIG_NOISE_ENABLED = 'noise_enabled'
@@ -46,6 +47,7 @@ class ConfigManager(object):
     CONFIG_SAVE_DEBUG_JSON = 'save_debug_json'
     CONFIG_SEED = 'seed'
     CONFIG_SIZE = 'size'
+    CONFIG_TEAM = 'team'
     CONFIG_VIDEO_ENABLED = 'video_enabled'
 
     # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built
@@ -82,6 +84,13 @@ class ConfigManager(object):
                 str(self.SCREEN_WIDTH_DEFAULT)
             )
 
+    def get_evaluation_name(self):
+        return self._config.get(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_EVALUATION_NAME,
+            fallback=''
+        )
+
     def get_metadata_tier(self):
         # Environment variable override for metadata property
         metadata_env_var = os.getenv('MCS_METADATA_LEVEL', None)
@@ -114,6 +123,13 @@ class ConfigManager(object):
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_SIZE,
             fallback=self.SCREEN_WIDTH_DEFAULT
+        )
+
+    def get_team(self):
+        return self._config.get(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_TEAM,
+            fallback=''
         )
 
     def is_history_enabled(self):

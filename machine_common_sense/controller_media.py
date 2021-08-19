@@ -70,7 +70,9 @@ class AbstractVideoEventHandler(AbstractControllerSubscriber):
         timestamp = payload.timestamp
         scene_name = payload.scene_config.name.replace('json', '')
         return '_'.join(
-            [payload.config.get_metadata_tier(),
+            [payload.config.get_evaluation_name(),
+             payload.config.get_metadata_tier(),
+             payload.config.get_team(),
              scene_name,
              AbstractVideoEventHandler.PLACEHOLDER, timestamp]) + '.mp4'
 

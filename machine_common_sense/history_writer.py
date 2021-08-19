@@ -26,10 +26,16 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             if self.__history_writer:
                 self.__history_writer.check_file_written()
 
-            hist_info = {
-                payload.config.CONFIG_METADATA_TIER:
-                payload.config.get_metadata_tier()
-            }
+            hist_info = {}
+            hist_info[
+                payload.config.CONFIG_EVALUATION_NAME
+            ] = payload.config.get_evaluation_name()
+            hist_info[
+                payload.config.CONFIG_METADATA_TIER
+            ] = payload.config.get_metadata_tier()
+            hist_info[
+                payload.config.CONFIG_TEAM
+            ] = payload.config.get_team()
 
             # Create a new scene history writer with each new scene (config
             # data) so we always create a new, separate scene history file.
