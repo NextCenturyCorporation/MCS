@@ -95,9 +95,11 @@ Addressables
 
 As of 0.4.4, we are using addressable assets that are stored remotely on AWS, greatly decreasing the size of our Unity releases. This also means that there is a bit of a trade off on first-time start up when you download a new release, since the resources will have to be downloaded. If you would like to avoid this load time on initial start up (which could result in a timeout), you can download the latest release using the links above, and then run the `cache-addressables.py <https://github.com/NextCenturyCorporation/MCS/blob/master/scripts/cache_addressables.py>`_ script:
 
+If the python package is installed from PyPI, the script is available in your virtual environment already.
+
 .. code-block:: console
 
-    python ./scripts/cache_addressables.py ~/path/to/unity/app
+    cache_addressables ~/path/to/unity/app
 
 
 Pass Unity App Location to MCS
