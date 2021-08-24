@@ -168,6 +168,9 @@ class Controller():
             }
         )
 
+        if not self._controller:
+            raise Exception('AI2-THOR/Unity Controller failed to initialize')
+
         self._on_init()
         self._set_config(config)
 
