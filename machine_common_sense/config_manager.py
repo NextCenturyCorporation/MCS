@@ -475,6 +475,7 @@ class SceneObjectSchema(Schema):
     resizes = fields.List(fields.Nested(SizeConfigSchema))
     rotates = fields.List(fields.Nested(MoveConfigSchema))
     salientMaterials = fields.List(fields.Str())
+    seesaw = fields.Bool()
     shows = fields.List(fields.Nested(ShowConfigSchema))
     shrouds = fields.List(fields.Nested(StepBeginEndConfigSchema))
     states = fields.List(fields.List(fields.Str(), allow_none=True))
@@ -685,6 +686,7 @@ class SceneObject:
     resizes: List[SizeConfig] = None
     rotates: List[MoveConfig] = None
     salientMaterials: List[str] = None
+    seesaw: bool = None
     shows: List[ShowConfig] = None
     shrouds: List[StepBeginEndConfig] = None
     states: List[List[str]] = None

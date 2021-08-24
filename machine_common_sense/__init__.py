@@ -107,8 +107,9 @@ def create_controller(unity_app_file_path=None,
 
         config = ConfigManager(config_file_path)
         with time_limit(TIME_LIMIT_SECONDS):
-            controller = Controller(unity_exec,
-                                    config)
+            controller = Controller(unity_exec, config)
+        if not controller:
+            raise Exception('MCS/Python Controller failed to initialize')
         add_subscribers(controller, config)
         return controller
     except Exception as Msg:

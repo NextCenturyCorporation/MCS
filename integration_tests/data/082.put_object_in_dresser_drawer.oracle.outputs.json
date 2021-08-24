@@ -174,7 +174,7 @@
         "objects": [],
         "objects_count": 7,
         "position_x": 0.0,
-        "position_z": -0.1,
+        "position_z": 0.0,
         "return_status": "SUCCESSFUL",
         "reward": -0.013,
         "rotation_y": 0.0,
