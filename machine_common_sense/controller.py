@@ -32,7 +32,6 @@ from .controller_events import (AfterStepPayload, BeforeStepPayload,
 from .controller_output_handler import ControllerOutputHandler
 from .goal_metadata import GoalMetadata
 from .step_metadata import StepMetadata
-from .uploader import S3Uploader
 from .validation import Validation
 
 
@@ -55,12 +54,11 @@ def __image_depth_override(self, image_depth_data, **kwargs):
     # From https://github.com/NextCenturyCorporation/ai2thor/blob/47a9d0802861ba8d7a2a7a6d943a46db28ddbaab/ai2thor/server.py#L232-L240 # noqa: E501
     # The MCS depth shader in Unity is completely different now, so override
     # the original AI2-THOR depth image code. Just return what Unity sends us.
-    image_depth = ai2thor.server.read_buffer_image(
+    return ai2thor.server.read_buffer_image(
         image_depth_data,
         self.screen_width,
         self.screen_height
     )
-    return image_depth
 
 
 ai2thor.server.Event._image_depth = __image_depth_override
@@ -249,24 +247,6 @@ class Controller():
         if self.__seed:
             random.seed(self.__seed)
 
-        if ((self._config.get_aws_access_key_id() is not None) and
-                (self._config.get_aws_secret_access_key() is not None)):
-            if not os.path.exists(self.AWS_CREDENTIALS_FOLDER):
-                os.makedirs(self.AWS_CREDENTIALS_FOLDER)
-            # From https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html # noqa: E501
-            with open(self.AWS_CREDENTIALS_FILE, 'w') as credentials_file:
-                credentials_file.write(
-                    '[default]\n' +
-                    self.AWS_ACCESS_KEY_ID +
-                    ' = ' +
-                    self._config.get_aws_access_key_id() +
-                    '\n' +
-                    self.AWS_SECRET_ACCESS_KEY +
-                    ' = ' +
-                    self._config.get_aws_secret_access_key() +
-                    '\n'
-                )
-
     def end_scene(self, choice, confidence=1.0):
         """
         Ends the current scene.  Calling end_scene() before calling
@@ -287,19 +267,10 @@ class Controller():
             end_scene isn't properly called but history_enabled is true,
             this value will be written to file as -1.
         """
-        uploader = None
-        if self._config.is_evaluation():
-            uploader = S3Uploader(
-                s3_bucket=self._config.get_s3_bucket()
-            )
-
-        # TODO uploader be passed to classes that need
-        # it on early on via dependency injection?
         payloadArgs = self._create_event_payload_kwargs()
         payloadArgs['choice'] = choice
         payloadArgs['confidence'] = confidence
-        payloadArgs['uploader'] = uploader
-        payloadArgs['uploader_folder_prefix'] = self._config.get_s3_folder()
+
         self._publish_event(
             EventType.ON_END_SCENE,
             EndScenePayload(
@@ -311,11 +282,9 @@ class Controller():
 
     def _convert_scene_config(self, config_data) -> SceneConfiguration:
         if isinstance(config_data, SceneConfiguration):
-            scene_config = config_data
-        else:
-            schema = SceneConfigurationSchema()
-            scene_config = schema.load(config_data)
-        return scene_config
+            return config_data
+        schema = SceneConfigurationSchema()
+        return schema.load(config_data)
 
     def start_scene(self, config_data):
         """
@@ -376,7 +345,7 @@ class Controller():
 
                 logger.debug('STARTING PREVIEW PHASE...')
 
-                for i in range(0, self._goal.last_preview_phase_step):
+                for _ in range(self._goal.last_preview_phase_step):
                     output = self.step('Pass')
                     image_list = image_list + output.image_list
                     depth_map_list = depth_map_list + output.depth_map_list
@@ -394,8 +363,7 @@ class Controller():
             # TODO Should this be in the if block?  Now that we are using
             # subscribers, we may want to always register
             if(self._end_scene_not_registered is True and
-                    (self._config.is_history_enabled() or
-                     self._config.is_evaluation())):
+                    self._config.is_history_enabled()):
                 # make sure history file is written when program exits
                 atexit.register(self.end_scene, choice="", confidence=-1)
                 self._end_scene_not_registered = False
@@ -410,7 +378,6 @@ class Controller():
 
     def isFileWritingEnabled(self):
         return self._scene_config.name is not None and (
-            self._config.is_evaluation() or
             self._config.is_save_debug_images() or
             self._config.is_save_debug_json() or
             self._config.is_video_enabled()
@@ -510,18 +477,19 @@ class Controller():
             horizon = horizon * (1 + self.generate_noise())
             moveMagnitude = moveMagnitude * (1 + self.generate_noise())
 
-        rotation_vector = {}
-        rotation_vector['y'] = rotation
+        rotation_vector = {'y': rotation}
+        object_vector = {
+            'x': float(objectImageCoordsX),
+            'y': self._convert_y_image_coord_for_unity(
+                float(objectImageCoordsY)),
+        }
 
-        object_vector = {}
-        object_vector['x'] = float(objectImageCoordsX)
-        object_vector['y'] = self._convert_y_image_coord_for_unity(
-            float(objectImageCoordsY))
-
-        receptacle_vector = {}
-        receptacle_vector['x'] = float(receptacleObjectImageCoordsX)
-        receptacle_vector['y'] = self._convert_y_image_coord_for_unity(
-            float(receptacleObjectImageCoordsY))
+        receptacle_vector = {
+            'x': float(receptacleObjectImageCoordsX),
+            'y': self._convert_y_image_coord_for_unity(
+                float(receptacleObjectImageCoordsY)
+            ),
+        }
 
         teleportRotInput = kwargs.get(self.TELEPORT_Y_ROT)
         teleportPosXInput = kwargs.get(self.TELEPORT_X_POS)
@@ -532,17 +500,12 @@ class Controller():
 
         if teleportRotInput is not None and Validation.is_number(
                 teleportRotInput):
-            teleportRotation = {}
-            teleportRotation['y'] = kwargs.get(self.TELEPORT_Y_ROT)
-
+            teleportRotation = {'y': kwargs.get(self.TELEPORT_Y_ROT)}
         if (teleportPosXInput is not None and
                 Validation.is_number(teleportPosXInput) and
                 teleportPosZInput is not None and
                 Validation.is_number(teleportPosZInput)):
-            teleportPosition = {}
-            teleportPosition['x'] = teleportPosXInput
-            teleportPosition['z'] = teleportPosZInput
-
+            teleportPosition = {'x': teleportPosXInput, 'z': teleportPosZInput}
         return dict(
             objectId=kwargs.get("objectId", None),
             receptacleObjectId=kwargs.get("receptacleObjectId", None),
@@ -589,6 +552,7 @@ class Controller():
             self.__step_number)
         # Only continue with this action step if the given action and
         # parameters are in the restricted action list.
+
         continue_with_step = False
         for restricted_action, restricted_params in action_list:
             if action == restricted_action:
@@ -751,7 +715,7 @@ class Controller():
             consistentColors = True
 
         # Create the step data dict for the AI2-THOR step function.
-        step_data = dict(
+        return dict(
             continuous=True,
             gridSize=self.GRID_SIZE,
             logs=True,
@@ -761,8 +725,6 @@ class Controller():
             consistentColors=consistentColors,
             **kwargs
         )
-
-        return step_data
 
     def generate_noise(self):
         """

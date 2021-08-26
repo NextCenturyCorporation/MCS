@@ -10,7 +10,6 @@ from marshmallow import Schema, fields
 from .config_manager import ConfigManager, SceneConfiguration
 from .goal_metadata import GoalMetadata
 from .step_metadata import StepMetadata
-from .uploader import S3Uploader
 
 
 class EventType(enum.Enum):
@@ -69,8 +68,6 @@ class BeforeStepPayload(BaseEventPayload):
 class EndScenePayload(BaseEventPayload):
     choice: str
     confidence: float
-    uploader: S3Uploader  # allow none
-    uploader_folder_prefix: str  # allow none
 
 
 class ControllerEventPayload(BaseEventPayload):

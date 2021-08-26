@@ -34,7 +34,6 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         'shapely>=1.7.0',
-        'boto3>=1.15',
         'colour>=0.1.5',
         'opencv-python>=4.0',
         'matplotlib>=3.3',

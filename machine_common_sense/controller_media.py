@@ -40,8 +40,7 @@ class AbstractImageEventHandler(AbstractControllerSubscriber):
                     len(payload.step_metadata.events)) +
                 (index + 1)
             )
-        suffix = '_' + str(step_plus_substep_index) + '.png'
-        return suffix
+        return '_' + str(step_plus_substep_index) + '.png'
 
     def _do_save_image(self, payload, index: int, data: PIL.Image, name: str):
         if (payload.output_folder):
@@ -67,16 +66,14 @@ class AbstractVideoEventHandler(AbstractControllerSubscriber):
     TOPDOWN = 'topdown'
 
     def get_basename(self, payload: ControllerEventPayload):
-        eval_name = payload.config.get_evaluation_name()
-        team = payload.config.get_team()
         timestamp = payload.timestamp
         scene_name = payload.scene_config.name.replace('json', '')
-        basename = '_'.join(
-            [eval_name, payload.config.get_metadata_tier(),
-             team,
+        return '_'.join(
+            [payload.config.get_evaluation_name(),
+             payload.config.get_metadata_tier(),
+             payload.config.get_team(),
              scene_name,
              AbstractVideoEventHandler.PLACEHOLDER, timestamp]) + '.mp4'
-        return basename
 
     def get_scene_name(self, payload: ControllerEventPayload):
         scene_name = payload.scene_config.name.replace('json', '')
@@ -96,18 +93,6 @@ class AbstractVideoEventHandler(AbstractControllerSubscriber):
         vid_path = output_folder / video_filename
         fps = payload.step_output.physics_frames_per_second
         return VideoRecorder(vid_path, fps=fps)
-
-    def _upload_video(self, payload, recorder):
-        config = payload.config
-        if (config.is_evaluation()):
-            uploader = payload.uploader
-            folder_prefix = config.get_s3_movies_folder()
-            filename = self._get_filename_without_timestamp(
-                recorder.path)
-            uploader.upload_video(
-                video_path=recorder.path,
-                s3_filename=folder_prefix + '/' + filename
-            )
 
     def _get_filename_without_timestamp(self, filepath: pathlib.Path):
         return filepath.stem[:-16] + filepath.suffix
@@ -174,7 +159,6 @@ class ImageVideoEventHandler(AbstractVideoEventHandler):
 
     def on_end_scene(self, payload: ControllerEventPayload):
         self.__recorder.finish()
-        self._upload_video(payload, self.__recorder)
 
 
 class TopdownVideoEventHandler(AbstractVideoEventHandler):
@@ -212,7 +196,6 @@ class TopdownVideoEventHandler(AbstractVideoEventHandler):
 
     def on_end_scene(self, payload: ControllerEventPayload):
         self.__recorder.finish()
-        self._upload_video(payload, self.__recorder)
 
 
 class DepthVideoEventHandler(AbstractVideoEventHandler):
@@ -245,7 +228,6 @@ class DepthVideoEventHandler(AbstractVideoEventHandler):
 
     def on_end_scene(self, payload: ControllerEventPayload):
         self.__recorder.finish()
-        self._upload_video(payload, self.__recorder)
 
 
 class SegmentationVideoEventHandler(AbstractVideoEventHandler):
@@ -268,4 +250,3 @@ class SegmentationVideoEventHandler(AbstractVideoEventHandler):
 
     def on_end_scene(self, payload: ControllerEventPayload):
         self.__recorder.finish()
-        self._upload_video(payload, self.__recorder)
