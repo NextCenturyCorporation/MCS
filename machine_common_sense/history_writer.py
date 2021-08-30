@@ -76,6 +76,26 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             payload.config.is_history_enabled()
         ):
             self.__history_writer.add_step(self.__history_item)
+
+            # Loop back and fill out previous steps with
+            # retrospective report
+            # TODO: MCS-513: Kept the same property names as before.
+            # Did we want to rename any of these properties?
+            # If so we will need to update ingest.
+            for step in self.__history_writer.current_steps:
+                currentStep = step.get("step")
+
+                findStepInReport = payload.report.get(currentStep)
+
+                if(findStepInReport is not None):
+                    step["classification"] = findStepInReport.get("choice")
+                    step["confidence"] = findStepInReport.get(
+                        "classification")
+                    step["violations_xy_list"] = findStepInReport.get(
+                        "violations_xy_list")
+                    step["internal_state"] = findStepInReport.get(
+                        "internal_state")
+
             self.__history_writer.write_history_file(
                 payload.choice, payload.confidence)
 

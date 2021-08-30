@@ -68,6 +68,7 @@ class BeforeStepPayload(BaseEventPayload):
 class EndScenePayload(BaseEventPayload):
     choice: str
     confidence: float
+    report: dict
 
 
 class ControllerEventPayload(BaseEventPayload):

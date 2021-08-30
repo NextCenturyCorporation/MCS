@@ -247,7 +247,7 @@ class Controller():
         if self.__seed:
             random.seed(self.__seed)
 
-    def end_scene(self, choice, confidence=1.0):
+    def end_scene(self, choice, confidence=1.0, report={}):
         """
         Ends the current scene.  Calling end_scene() before calling
         start_scene() will do nothing.
@@ -266,10 +266,34 @@ class Controller():
             Note: when an issue causes the program to exit prematurely or
             end_scene isn't properly called but history_enabled is true,
             this value will be written to file as -1.
+        report : Dict[integer, object], optional
+            Variable for retrospective per frame reporting.
+            Key is frame number take from step metadata (step number
+            starts at 1). Value or payload contains:
+            - choice : string, optional
+            The selected choice for per frame prediction with
+            violation-of-expectation or classification goals.
+            Is not required for other goals. (default None)
+            - confidence : float, optional
+            The choice confidence between 0 and 1 required by the end
+            of scenes with violation-of-expectation or classification
+            goals. Is not required for other goals. (default None)
+            - violations_xy_list : List[Dict[str, float]], optional
+            A list of one or more (x, y) locations
+            (ex: [{"x": 1, "y": 3.4}]),
+            each representing a potential violation-of-expectation.
+            Required on each step for passive tasks. (default None)
+            - internal_state : object, optional
+            A properly formatted json object representing various
+            kinds of internal states at a particular moment. Examples
+            include the estimated position of the agent, current map
+            of the world, etc. (default None)
+
         """
         payloadArgs = self._create_event_payload_kwargs()
         payloadArgs['choice'] = choice
         payloadArgs['confidence'] = confidence
+        payloadArgs['report'] = report
 
         self._publish_event(
             EventType.ON_END_SCENE,
@@ -619,6 +643,8 @@ class Controller():
 
         return output
 
+    # TODO: MCS-513: Do we remove this or keep for backwards
+    # compatability/teams that are fine reporting frame by frame?
     def make_step_prediction(self, choice: str = None,
                              confidence: float = None,
                              violations_xy_list: List[Dict[str, float]] = None,
