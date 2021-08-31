@@ -90,7 +90,7 @@ class HistoryEventHandler(AbstractControllerSubscriber):
                 if(findStepInReport is not None):
                     step["classification"] = findStepInReport.get("choice")
                     step["confidence"] = findStepInReport.get(
-                        "classification")
+                        "confidence")
                     step["violations_xy_list"] = findStepInReport.get(
                         "violations_xy_list")
                     step["internal_state"] = findStepInReport.get(

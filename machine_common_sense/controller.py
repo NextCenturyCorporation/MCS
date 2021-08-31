@@ -135,12 +135,6 @@ class Controller():
     OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
-    AWS_CREDENTIALS_FOLDER = os.path.expanduser('~') + '/.aws/'
-    AWS_CREDENTIALS_FILE = os.path.expanduser('~') + '/.aws/credentials'
-
-    AWS_ACCESS_KEY_ID = 'aws_access_key_id'
-    AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
-
     def __init__(self, unity_app_file_path, config):
 
         self._subscribers = []
