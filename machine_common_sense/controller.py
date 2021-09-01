@@ -247,29 +247,39 @@ class Controller():
         if self.__seed:
             random.seed(self.__seed)
 
-    def end_scene(self, choice, confidence=1.0):
+    def end_scene(
+        self,
+        rating: Union[float, int, str] = None,
+        score: float = 1.0
+    ):
         """
         Ends the current scene.  Calling end_scene() before calling
         start_scene() will do nothing.
 
         Parameters
         ----------
-        choice : string, optional
-            The selected choice required for ending scenes with
-            violation-of-expectation or classification goals.
-            Is not required for other goals. (default None)
-        confidence : float, optional
-            The choice confidence between 0 and 1 required for ending scenes
-            with violation-of-expectation or classification goals.
-            Is not required for other goals. (default None)
+        rating : float or int or string, required
+            The plausibility rating to classify a passive / VoE scene as either
+            plausible or implausible. Not used for any interactive scenes. For
+            passive agent scenes, this rating should be continuous, from 0.0
+            (completely implausible) to 1.0 (completely plausible). For other
+            passive scenes, this rating must be binary, either 0 (implausible)
+            or 1 (plausible). Please note that end-of-scene ratings are
+            required for all passive / VoE scenes. (default None)
+        score : float, optional
+            The continuous plausibility score between 0.0 (completely
+            implausible) and 1.0 (completely plausible). End-of-scene scores
+            are required for all passive / VoE scenes except agent scenes.
+            Not used for any interactive scenes or passive agent scenes.
+            (default 1.0)
 
             Note: when an issue causes the program to exit prematurely or
             end_scene isn't properly called but history_enabled is true,
             this value will be written to file as -1.
         """
         payloadArgs = self._create_event_payload_kwargs()
-        payloadArgs['choice'] = choice
-        payloadArgs['confidence'] = confidence
+        payloadArgs['rating'] = str(rating)
+        payloadArgs['score'] = score
 
         self._publish_event(
             EventType.ON_END_SCENE,
@@ -365,7 +375,7 @@ class Controller():
             if(self._end_scene_not_registered is True and
                     self._config.is_history_enabled()):
                 # make sure history file is written when program exits
-                atexit.register(self.end_scene, choice="", confidence=-1)
+                atexit.register(self.end_scene, rating="", score=-1)
                 self._end_scene_not_registered = False
 
         payloadArgs = self._create_post_step_event_payload_kwargs(
@@ -619,26 +629,35 @@ class Controller():
 
         return output
 
-    def make_step_prediction(self, choice: str = None,
-                             confidence: float = None,
+    def make_step_prediction(self, rating: Union[float, int, str] = None,
+                             score: float = None,
                              violations_xy_list: List[Dict[str, float]] = None,
                              internal_state: object = None,) -> None:
         """Make a prediction on the previously taken step/action.
 
         Parameters
         ----------
-        choice : string, optional
-            The selected choice for per frame prediction with
-            violation-of-expectation or classification goals.
-            Is not required for other goals. (default None)
-        confidence : float, optional
-            The choice confidence between 0 and 1 required by the end of
-            scenes with violation-of-expectation or classification goals.
-            Is not required for other goals. (default None)
+        rating : float or int or string, optional
+            The plausibility rating to classify a passive / VoE scene as either
+            plausible or implausible. Not used for any interactive scenes. For
+            passive agent scenes, this rating should be continuous, from 0.0
+            (completely implausible) to 1.0 (completely plausible). For other
+            passive scenes, this rating must be binary, either 0 (implausible)
+            or 1 (plausible). Please note that frame-by-frame ratings are no
+            longer required for any scenes (but end-of-scene ratings are).
+            (default None)
+        score : float, optional
+            The continuous plausibility score between 0.0 (completely
+            implausible) and 1.0 (completely plausible). Frame-by-frame scores
+            are required for all passive / VoE scenes except agent scenes.
+            Not used for any interactive scenes or passive agent scenes.
+            (default None)
         violations_xy_list : List[Dict[str, float]], optional
             A list of one or more (x, y) locations (ex: [{"x": 1, "y": 3.4}]),
-            each representing a potential violation-of-expectation. Required
-            on each step for passive tasks. (default None)
+            each representing a potential violation-of-expectation. These
+            locations are required for all passive / VoE scenes except agent
+            scenes. Not used for any interactive scenes or passive agent
+            scenes. (default None)
         internal_state : object, optional
             A properly formatted json object representing various kinds of
             internal states at a particular moment. Examples include the
@@ -652,8 +671,8 @@ class Controller():
 
         payload = PredictionPayload(
             self._config,
-            choice,
-            confidence,
+            str(rating),
+            score,
             violations_xy_list,
             internal_state)
         self._publish_event(EventType.ON_PREDICTION, payload)

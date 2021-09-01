@@ -65,8 +65,8 @@ class HistoryEventHandler(AbstractControllerSubscriber):
         # add history step prediction attributes before add to the writer
         # in the next step
         if self.__history_item is not None:
-            self.__history_item.classification = payload.choice
-            self.__history_item.confidence = payload.confidence
+            self.__history_item.classification = payload.rating
+            self.__history_item.confidence = payload.score
             self.__history_item.violations_xy_list = payload.violations_xy_list
             self.__history_item.internal_state = payload.internal_state
 
@@ -77,7 +77,7 @@ class HistoryEventHandler(AbstractControllerSubscriber):
         ):
             self.__history_writer.add_step(self.__history_item)
             self.__history_writer.write_history_file(
-                payload.choice, payload.confidence)
+                payload.rating, payload.score)
 
     def _get_filename_without_timestamp(self, filepath: pathlib.Path):
         return filepath.stem[:-16] + filepath.suffix
@@ -158,11 +158,11 @@ class HistoryWriter(object):
             self.current_steps.append(
                 dict(self.filter_history_output(step_obj)))
 
-    def write_history_file(self, classification, confidence):
+    def write_history_file(self, rating, score):
         """ Add the end score obj, create the object
             that will be written to file"""
-        self.end_score["classification"] = classification
-        self.end_score["confidence"] = str(confidence)
+        self.end_score["classification"] = rating
+        self.end_score["confidence"] = str(score)
 
         self.history_obj["info"] = self.info_obj
         self.history_obj["steps"] = self.current_steps
