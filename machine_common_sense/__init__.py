@@ -102,7 +102,7 @@ def create_controller(unity_app_file_path=None,
         * Note the **order of precedence for config options**, in case more
           than one is given:
 
-        1. **MCS_CONFIG_FILE_PATH** envrionment variable (meant for internal
+        1. **MCS_CONFIG_FILE_PATH** environment variable (meant for internal
            TA2 use)
         2. If no environment variable given, use **config_file_path** property
            passed to create_controller
