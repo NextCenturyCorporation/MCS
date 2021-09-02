@@ -33,9 +33,8 @@ class TestConfigManager(unittest.TestCase):
         pass
 
     def test_init(self):
-        self.assertEqual(
-            self.config_mngr._config_file,
-            self.config_mngr.DEFAULT_CONFIG_FILE)
+        self.assertIsNone(
+            self.config_mngr._config_file)
 
     @mock_env()
     def test_init_with_arg(self):
@@ -51,6 +50,65 @@ class TestConfigManager(unittest.TestCase):
         self.assertEqual(
             config_mngr._config_file,
             '~/somefolder/env-var-test.ini')
+
+    @mock_env(MCS_CONFIG_FILE_PATH='~/somefolder/env-var-test.ini')
+    def test_init_with_arg_and_env_variable(self):
+        file_path = './arg-test.ini'
+        config_mngr = ConfigManager(file_path)
+
+        self.assertEqual(
+            config_mngr._config_file,
+            '~/somefolder/env-var-test.ini')
+
+    @mock_env(MCS_CONFIG_FILE_PATH='~/somefolder/env-var-test.ini')
+    def test_init_with_env_var_no_file_and_dict(self):
+        config_options = {
+            'metadata': 'oracle',
+            'seed': 10
+        }
+
+        config_mngr = ConfigManager(None, config_options)
+
+        # if file given does not exist, use dict
+        self.assertEqual(
+            config_mngr._config_file,
+            '~/somefolder/env-var-test.ini')
+        self.assertEqual(config_mngr.get_metadata_tier(), 'oracle')
+        self.assertEqual(config_mngr.get_seed(), 10)
+
+    @mock_env(MCS_CONFIG_FILE_PATH='./scripts/config_level2_debug.ini')
+    def test_init_with_env_variable_and_dict(self):
+        config_options = {
+            'metadata': 'oracle',
+            'seed': 10
+        }
+
+        config_mngr = ConfigManager(None, config_options)
+
+        # confirm that file was used instead of dict if both exist
+        self.assertEqual(
+            config_mngr._config_file,
+            './scripts/config_level2_debug.ini')
+        self.assertEqual(config_mngr.get_metadata_tier(), 'level2')
+        self.assertFalse(config_mngr.is_history_enabled())
+        self.assertTrue(config_mngr.is_save_debug_json())
+        self.assertTrue(config_mngr.is_save_debug_images())
+
+    def test_init_with_dict(self):
+        config_options = {
+            'metadata': 'oracle',
+            'video_enabled': 'false',
+            'save_debug_images': True,
+            'seed': 10
+        }
+
+        config_mngr = ConfigManager(None, config_options)
+
+        self.assertIsNone(config_mngr._config_file)
+        self.assertEqual(config_mngr.get_metadata_tier(), 'oracle')
+        self.assertFalse(config_mngr.is_video_enabled())
+        self.assertTrue(config_mngr.is_save_debug_images())
+        self.assertEqual(config_mngr.get_seed(), 10)
 
     def test_validate_screen_size(self):
         self.config_mngr._config[

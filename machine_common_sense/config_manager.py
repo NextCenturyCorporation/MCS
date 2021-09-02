@@ -47,7 +47,6 @@ class ConfigManager(object):
 
     CONFIG_FILE_ENV_VAR = 'MCS_CONFIG_FILE_PATH'
     METADATA_ENV_VAR = 'MCS_METADATA_LEVEL'
-    DEFAULT_CONFIG_FILE = './mcs_config.ini'
 
     CONFIG_DEFAULT_SECTION = 'MCS'
 
@@ -67,26 +66,28 @@ class ConfigManager(object):
     SCREEN_WIDTH_DEFAULT = 600
     SCREEN_WIDTH_MIN = 450
 
-    def __init__(self, config_file_path=None):
+    def __init__(self, config_file_path=None, config_dict=None):
         # For config file, look for environment variable first,
         # then look for config_path parameter from constructor
         self._config_file = os.getenv(
             self.CONFIG_FILE_ENV_VAR, config_file_path)
 
-        if(self._config_file is None):
-            self._config_file = self.DEFAULT_CONFIG_FILE
-
-        self._read_config_file()
+        self._read_in_config_options(config_dict)
 
         self._validate_screen_size()
 
-    def _read_config_file(self):
+    def _read_in_config_options(self, config_dict):
         self._config = configparser.ConfigParser()
-        if os.path.exists(self._config_file):
+        if self._config_file is not None and os.path.exists(self._config_file):
             self._config.read(self._config_file)
             logger.info('Config File Path: ' + self._config_file)
+        elif config_dict is not None:
+            self._config[self.CONFIG_DEFAULT_SECTION] = config_dict
+            logger.info('No config file given or file path does not exist,'
+                        ' using config dictionary')
+            logger.info('Read in config dictionary: ' + str(config_dict))
         else:
-            logger.info('No Config File')
+            logger.info('No config file or options given')
 
     def _validate_screen_size(self):
         if(self.get_size() < self.SCREEN_WIDTH_MIN):

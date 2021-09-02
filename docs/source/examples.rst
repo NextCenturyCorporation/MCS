@@ -3,7 +3,7 @@ Example Usage
 
 Here are some example usage snippets for different use cases. Note that there are also additional scripts that may be useful in the scripts/ folder of the github project. 
 
-Using your own config file and/or unity build
+Using your own config data and/or unity build
 ----------------------------------------------
 
 In this case, make sure your `MCS_CONFIG_FILE_PATH` path isn't set, as that takes precedence over the `config_file_path` parameter:
@@ -36,6 +36,12 @@ In this case, make sure your `MCS_CONFIG_FILE_PATH` path isn't set, as that take
     # to the end_scene function here.
     controller.end_scene()
 
+Note that you can alternatively pass in a dictionary of config values:
+
+.. code-block:: python
+
+    controller = mcs.create_controller(unity_app_file_path='./some-path/unity-app', 
+                                       config_dict={'metadata': 'oracle', 'history_enabled': True})
 
 
 Run multiple scenes sequentially
