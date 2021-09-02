@@ -217,3 +217,21 @@ Example Using the Config File to Generate Scene Graphs or Maps
             output = controller.start_scene(scene_data)
             # Use the output to save your scene graph or map
 
+Logging
+-------
+
+MCS uses the python logging package with some defaults.  Logging should be initialized via the mcs.init_logging() method if logging is desired.  the mcs.init_logging function have two parameters, log_config, and log_config_file.  The first is a dictionary and the second is a path to a file.  Both of these should contain a dictionary that contains the logging configuration of python logging. (https://docs.python.org/3/library/logging.config.html#logging-config-dictschema)  The log_config_file, if it exists, will always override the dictionary and defaults to log.config.user.py in the current working directory.  In most cases, one of the examples below should be used.
+
+Common examples of logging initialization:
+
+.. code-block:: python
+
+    # Below initializes default which logs to console
+    mcs.init_logging()
+
+    # Below initializes development default with file logging as well as console logging
+    mcs.init_logging(LoggingConfig.get_dev_logging_config())
+
+    #Below initializes error only console logging
+    mcs.init_logging(LoggingConfig.get_errors_only_console_config())
+
