@@ -241,7 +241,7 @@ class Controller():
         if self.__seed:
             random.seed(self.__seed)
 
-    def end_scene(self, choice, confidence=1.0, report={}):
+    def end_scene(self, choice, confidence=1.0, report=None):
         """
         Ends the current scene.  Calling end_scene() before calling
         start_scene() will do nothing.
@@ -261,27 +261,38 @@ class Controller():
             end_scene isn't properly called but history_enabled is true,
             this value will be written to file as -1.
         report : Dict[integer, object], optional
-            Variable for retrospective per frame reporting.
+            Variable for retrospective per frame reporting. (default None)
+
             Key is frame number take from step metadata (step number
             starts at 1). Value or payload contains:
-            - choice : string, optional
-            The selected choice for per frame prediction with
-            violation-of-expectation or classification goals.
-            Is not required for other goals. (default None)
-            - confidence : float, optional
-            The choice confidence between 0 and 1 required by the end
-            of scenes with violation-of-expectation or classification
-            goals. Is not required for other goals. (default None)
-            - violations_xy_list : List[Dict[str, float]], optional
-            A list of one or more (x, y) locations
-            (ex: [{"x": 1, "y": 3.4}]),
-            each representing a potential violation-of-expectation.
-            Required on each step for passive tasks. (default None)
-            - internal_state : object, optional
-            A properly formatted json object representing various
-            kinds of internal states at a particular moment. Examples
-            include the estimated position of the agent, current map
-            of the world, etc. (default None)
+
+                * choice : string, optional -
+                  The selected choice for per frame prediction with
+                  violation-of-expectation or classification goals.
+                  Is not required for other goals.
+                * confidence : float, optional -
+                  The choice confidence between 0 and 1 required by the end
+                  of scenes with violation-of-expectation or classification
+                  goals. Is not required for other goals.
+                * violations_xy_list : List[Dict[str, float]], optional -
+                  A list of one or more (x, y) locations
+                  (ex: ```[{"x": 1, "y": 3.4}]```),
+                  each representing a potential violation-of-expectation.
+                  Required on each step for passive tasks.
+                * internal_state : object, optional -
+                  A properly formatted json object representing various
+                  kinds of internal states at a particular moment. Examples
+                  include the estimated position of the agent, current map
+                  of the world, etc.
+
+            Example report:
+            ```{1: {
+            "choice": "plausible",
+            "confidence": .75,
+            "violations_xy_list": [{"x": 1,"y": 1}],
+            "internal_state": {"test": "some state"}
+            }}
+            ```
 
         """
         payloadArgs = self._create_event_payload_kwargs()

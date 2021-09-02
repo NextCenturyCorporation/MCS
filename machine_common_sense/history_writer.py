@@ -82,19 +82,20 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             # TODO: MCS-513: Kept the same property names as before.
             # Did we want to rename any of these properties?
             # If so we will need to update ingest.
-            for step in self.__history_writer.current_steps:
-                currentStep = step.get("step")
+            if payload.report is not None:
+                for step in self.__history_writer.current_steps:
+                    currentStep = step.get("step")
 
-                findStepInReport = payload.report.get(currentStep)
+                    findStepInReport = payload.report.get(currentStep)
 
-                if(findStepInReport is not None):
-                    step["classification"] = findStepInReport.get("choice")
-                    step["confidence"] = findStepInReport.get(
-                        "confidence")
-                    step["violations_xy_list"] = findStepInReport.get(
-                        "violations_xy_list")
-                    step["internal_state"] = findStepInReport.get(
-                        "internal_state")
+                    if(findStepInReport is not None):
+                        step["classification"] = findStepInReport.get("choice")
+                        step["confidence"] = findStepInReport.get(
+                            "confidence")
+                        step["violations_xy_list"] = findStepInReport.get(
+                            "violations_xy_list")
+                        step["internal_state"] = findStepInReport.get(
+                            "internal_state")
 
             self.__history_writer.write_history_file(
                 payload.choice, payload.confidence)
