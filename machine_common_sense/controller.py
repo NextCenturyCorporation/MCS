@@ -241,6 +241,8 @@ class Controller():
         if self.__seed:
             random.seed(self.__seed)
 
+    # TODO: MCS-513: do we need to update docs here + make_step_prediction/
+    # specify scores are for Agent tasks as well?
     def end_scene(self, choice, confidence=1.0, report=None):
         """
         Ends the current scene.  Calling end_scene() before calling
@@ -261,7 +263,9 @@ class Controller():
             end_scene isn't properly called but history_enabled is true,
             this value will be written to file as -1.
         report : Dict[integer, object], optional
-            Variable for retrospective per frame reporting. (default None)
+            Variable for retrospective per frame reporting for
+            passive / VoE scenes. Not required if make_step_prediction was
+            used. (default None)
 
             Key is frame number take from step metadata (step number
             starts at 1). Value or payload contains:
@@ -286,13 +290,22 @@ class Controller():
                   of the world, etc.
 
             Example report:
-            ```{1: {
-            "choice": "plausible",
-            "confidence": .75,
-            "violations_xy_list": [{"x": 1,"y": 1}],
-            "internal_state": {"test": "some state"}
-            }}
-            ```
+
+            {
+
+                    1: {
+
+                        "choice": "plausible",
+
+                        "confidence": .75,
+
+                        "violations_xy_list": [{"x": 1,"y": 1}],
+
+                        "internal_state": {"test": "some state"}
+
+                    }
+
+            }
 
         """
         payloadArgs = self._create_event_payload_kwargs()
