@@ -123,8 +123,10 @@ class GoalMetadata:
 @unique
 class GoalCategory(Enum):
     """
-    Each goal will have a "category" string and a "metadata" dict with one or
-    more properties depending on the "category".
+    Each goal dict will have a "category" string that describes the type of
+    scene (or, the type of task within the scene) being run. Each goal dict
+    will also have a "metadata" dict containing one or more properties
+    depending on the "category".
     """
 
     AGENTS = "agents"
