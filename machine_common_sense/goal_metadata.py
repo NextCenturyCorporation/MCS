@@ -142,12 +142,14 @@ class GoalCategory(Enum):
     These trials will demand a "common sense" understanding of agents, their
     behaviors, and their interactions with objects in the environment.
 
-    Parameters
-    ----------
-    choose : list of strings
-        The list of choices, one of which must be given in your call to
-        end_scene. For Agents goals, this value will always be
-        ["expected", "unexpected"].
+    Notes
+    -----
+    You are not required to call `controller.make_step_prediction()`.
+
+    You are required to call `controller.end_scene()` at the end of each scene
+    with a continuous plausibility `rating`, from 0.0 (completely implausible)
+    to 1.0 (completely plausible). You are not required to also pass it a
+    `score`.
     """
 
     INTUITIVE_PHYSICS = "intuitive physics"
@@ -159,12 +161,17 @@ class GoalCategory(Enum):
     permanence or shape constancy. Inspired by Emmanuel Dupoux's "IntPhys: A
     Benchmark for Visual Intuitive Physics Reasoning" (http://intphys.com).
 
-    Parameters
-    ----------
-    choose : list of strings
-        The list of choices, one of which must be given in your call to
-        end_scene. For Intuitive Physics goals, this value will always be
-        ["plausible", "implausible"].
+    Notes
+    -----
+    You are required to call `controller.make_step_prediction()` after each
+    frame in a scene with a continuous plausibility `score` -- from 0.0
+    (completely implausible) to 1.0 (completely plausible) -- and a
+    `violations_xy_list`.
+
+    You are required to call `controller.end_scene()` at the end of each scene
+    with a binary plausibility `rating` -- either 0 (implausible) or 1
+    (plausible) -- and a continuous plausibility `score` -- from 0.0
+    (completely implausible) to 1.0 (completely plausible).
     """
 
     RETRIEVAL = "retrieval"
@@ -192,6 +199,8 @@ class GoalCategory(Enum):
 
     TRANSFERRAL = "transferral"
     """
+    NOT USED IN MCS EVAL 4+
+
     In a trial that has a transferral goal, you must find and pickup the
     first target object and put it down either next to or on top of the second
     target object. This may involve exploring the scene, avoiding obstacles,
@@ -251,6 +260,8 @@ class GoalCategory(Enum):
 
     TRAVERSAL = "traversal"
     """
+    NOT USED IN MCS EVAL 4+
+
     In a trial that has a traversal goal, you must find and move next to a
     target object. This may involve exploring the scene, and avoiding
     obstacles. These trials will demand a "common sense" understanding of

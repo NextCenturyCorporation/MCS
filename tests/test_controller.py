@@ -276,12 +276,12 @@ class TestController(unittest.TestCase):
     def test_end_scene(self):
         test_payload = self.controller._create_event_payload_kwargs()
 
-        test_payload["choice"] = "plausible"
-        test_payload["confidence"] = 0.5
+        test_payload["rating"] = "plausible"
+        test_payload["score"] = 0.5
         test_payload["report"] = {
             1: {
-                "choice": "plausible",
-                "classification": .75,
+                "rating": "plausible",
+                "score": .75,
                 "violations_xy_list": [
                     {
                         "x": 1,
@@ -292,8 +292,8 @@ class TestController(unittest.TestCase):
 
         self.controller.end_scene("plausible", 0.5, {
             1: {
-                "choice": "plausible",
-                "classification": .75,
+                "rating": "plausible",
+                "score": .75,
                 "violations_xy_list": [
                     {
                         "x": 1,

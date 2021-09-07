@@ -208,10 +208,10 @@ class TestHistoryEventHandler(unittest.TestCase):
         test_payload["step_number"] = 1
         test_payload["config"] = self.config_mngr
         test_payload["scene_config"] = self.scene_config
-        test_payload["choice"] = "plausible"
-        test_payload["confidence"] = .8
-        test_payload["report"] = {1: {"choice": "plausible",
-                                      "confidence": .75,
+        test_payload["rating"] = "plausible"
+        test_payload["score"] = .8
+        test_payload["report"] = {1: {"rating": "plausible",
+                                      "score": .75,
                                       "violations_xy_list": [
                                           {
                                               "x": 1,
@@ -270,10 +270,10 @@ class TestHistoryEventHandler(unittest.TestCase):
         test_payload["step_number"] = 1
         test_payload["config"] = self.config_mngr
         test_payload["scene_config"] = self.scene_config
-        test_payload["choice"] = "plausible"
-        test_payload["confidence"] = .8
-        test_payload["report"] = {1: {"choice": "plausible",
-                                      "confidence": .75,
+        test_payload["rating"] = "plausible"
+        test_payload["score"] = .8
+        test_payload["report"] = {1: {"rating": "plausible",
+                                      "score": .75,
                                       "violations_xy_list": [
                                           {
                                               "x": 1,

@@ -66,8 +66,8 @@ class BeforeStepPayload(BaseEventPayload):
 
 @dataclass
 class EndScenePayload(BaseEventPayload):
-    choice: str
-    confidence: float
+    rating: str
+    score: float
     report: dict
 
 
@@ -115,13 +115,13 @@ class PredictionPayload(BaseEventPayload):
         When the prediction event occurs.
     '''
 
-    def __init__(self, config, choice: str = None,
-                 confidence: float = None,
+    def __init__(self, config, rating: str = None,
+                 score: float = None,
                  violations_xy_list: List[Dict[str, float]] = None,
                  internal_state: object = None):
         self.config = config
-        self.choice = choice
-        self.confidence = confidence
+        self.rating = rating
+        self.score = score
         self.violations_xy_list = violations_xy_list
         self.internal_state = internal_state
 
