@@ -5,7 +5,7 @@ import json
 import logging
 import os
 import random
-from typing import Dict, List, Union
+from typing import Dict, Union
 
 import ai2thor.controller
 import ai2thor.server
@@ -27,8 +27,7 @@ from .action import Action
 from .config_manager import (ConfigManager, SceneConfiguration,
                              SceneConfigurationSchema)
 from .controller_events import (AfterStepPayload, BeforeStepPayload,
-                                EndScenePayload, EventType, PredictionPayload,
-                                StartScenePayload)
+                                EndScenePayload, EventType, StartScenePayload)
 from .controller_output_handler import ControllerOutputHandler
 from .goal_metadata import GoalMetadata
 from .step_metadata import StepMetadata
@@ -174,7 +173,7 @@ class Controller():
 
     def _publish_event(self, event_type: EventType,
                        payload: Union[StartScenePayload, BeforeStepPayload,
-                                      AfterStepPayload, PredictionPayload,
+                                      AfterStepPayload,
                                       EndScenePayload]):
         for subscriber in self._subscribers:
             # TODO should we make a deep copy of the payload so subscribers
@@ -679,54 +678,6 @@ class Controller():
             AfterStepPayload(**payloadArgs))
 
         return output
-
-    def make_step_prediction(self, rating: Union[float, int, str] = None,
-                             score: float = None,
-                             violations_xy_list: List[Dict[str, float]] = None,
-                             internal_state: object = None,) -> None:
-        """Make a prediction on the previously taken step/action.
-
-        Parameters
-        ----------
-        rating : float or int or string, optional
-            The plausibility rating to classify a passive / VoE scene as either
-            plausible or implausible. Not used for any interactive scenes. For
-            passive agent scenes, this rating should be continuous, from 0.0
-            (completely implausible) to 1.0 (completely plausible). For other
-            passive scenes, this rating must be binary, either 0 (implausible)
-            or 1 (plausible). Please note that frame-by-frame ratings are no
-            longer required for any scenes (but end-of-scene ratings are).
-            (default None)
-        score : float, optional
-            The continuous plausibility score between 0.0 (completely
-            implausible) and 1.0 (completely plausible). Frame-by-frame scores
-            are required for all passive / VoE scenes except agent scenes.
-            Not used for any interactive scenes or passive agent scenes.
-            (default None)
-        violations_xy_list : List[Dict[str, float]], optional
-            A list of one or more (x, y) locations (ex: [{"x": 1, "y": 3.4}]),
-            each representing a potential violation-of-expectation. These
-            locations are required for all passive / VoE scenes except agent
-            scenes. Not used for any interactive scenes or passive agent
-            scenes. (default None)
-        internal_state : object, optional
-            A properly formatted json object representing various kinds of
-            internal states at a particular moment. Examples include the
-            estimated position of the agent, current map of the world, etc.
-            (default None)
-
-        Returns
-        -------
-            None
-        """
-
-        payload = PredictionPayload(
-            self._config,
-            str(rating),
-            score,
-            violations_xy_list,
-            internal_state)
-        self._publish_event(EventType.ON_PREDICTION, payload)
 
     def mcs_action_to_ai2thor_action(self, action):
         if action == Action.CLOSE_OBJECT.value:

@@ -6,7 +6,6 @@ from machine_common_sense.config_manager import (ConfigManager,
 from machine_common_sense.controller_events import (AfterStepPayload,
                                                     BeforeStepPayload,
                                                     EndScenePayload,
-                                                    PredictionPayload,
                                                     StartScenePayload)
 from machine_common_sense.history_writer import (HistoryEventHandler,
                                                  HistoryWriter, SceneHistory)
@@ -154,43 +153,6 @@ class TestHistoryEventHandler(unittest.TestCase):
         self.assertEqual(histItem.step, 1)
         self.assertEqual(histItem.action, "MoveAhead")
         self.assertEqual(histItem.delta_time_millis, 0)
-
-    def test_on_prediction(self):
-        self.histEvents._HistoryEventHandler__history_item = SceneHistory(
-            step=2,
-            action="MoveAhead",
-            args=None,
-            params=None,
-            output=None,
-            delta_time_millis=0)
-        test_payload = PredictionPayload(
-            self.config_mngr,
-            "plausible",
-            .8,
-            [{"x": 1, "y": 1}],
-            {"internal_state": "test"}
-        )
-
-        histItem = self.histEvents._HistoryEventHandler__history_item
-        self.histEvents.on_prediction(test_payload)
-        self.assertIsNotNone(histItem)
-        self.assertEqual(histItem.classification, "plausible")
-        self.assertEqual(histItem.confidence, .8)
-        self.assertEqual(histItem.violations_xy_list, [{"x": 1, "y": 1}])
-        self.assertEqual(histItem.internal_state, {"internal_state": "test"})
-
-    def test_on_prediction_no_hist_item(self):
-        self.histEvents._HistoryEventHandler__history_item = None
-        test_payload = PredictionPayload(
-            self.config_mngr,
-            "plausible",
-            .8,
-            [{"x": 1, "y": 1}],
-            {"internal_state": "test"}
-        )
-
-        self.histEvents.on_prediction(test_payload)
-        self.assertIsNone(self.histEvents._HistoryEventHandler__history_item)
 
     def test_on_end_scene(self):
         self.histEvents._HistoryEventHandler__history_writer = HistoryWriter(

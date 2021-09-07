@@ -144,8 +144,6 @@ class GoalCategory(Enum):
 
     Notes
     -----
-    You are not required to call `controller.make_step_prediction()`.
-
     You are required to call `controller.end_scene()` at the end of each scene
     with a continuous plausibility `rating`, from 0.0 (completely implausible)
     to 1.0 (completely plausible). You are not required to also pass it a
@@ -163,15 +161,12 @@ class GoalCategory(Enum):
 
     Notes
     -----
-    You are required to call `controller.make_step_prediction()` after each
-    frame in a scene with a continuous plausibility `score` -- from 0.0
-    (completely implausible) to 1.0 (completely plausible) -- and a
-    `violations_xy_list`.
-
     You are required to call `controller.end_scene()` at the end of each scene
     with a binary plausibility `rating` -- either 0 (implausible) or 1
     (plausible) -- and a continuous plausibility `score` -- from 0.0
-    (completely implausible) to 1.0 (completely plausible).
+    (completely implausible) to 1.0 (completely plausible). This is also
+    where you would submit any retrospective reporting on a per step basis via
+    `report`.
     """
 
     RETRIEVAL = "retrieval"

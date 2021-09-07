@@ -388,20 +388,6 @@ class TestController(unittest.TestCase):
         self.assertEqual(len(output.structural_object_list),
                          len(MOCK_VARIABLES['metadata']['structuralObjects']))
 
-    def test_make_step_prediction(self):
-        self.controller.make_step_prediction(
-            "plausible",
-            0.51,
-            [{"x": 2, "y": 2}],
-            {"test": "some_state"}
-        )
-
-        # TODO: revisit ANY parameter usage, particularly here
-        self.controller._publish_event.assert_called_with(
-            EventType.ON_PREDICTION,
-            ANY
-        )
-
     def test_step(self):
         self.controller.set_metadata_tier(
             ConfigManager.CONFIG_METADATA_TIER_ORACLE)
