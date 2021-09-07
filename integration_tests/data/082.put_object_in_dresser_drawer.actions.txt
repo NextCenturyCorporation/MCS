@@ -1,0 +1,13 @@
+LookDown
+LookDown
+LookDown
+PickupObject,objectId=ball
+LookUp
+OpenObject,objectId=changing_table_drawer_bottom
+CloseObject,objectId=changing_table_drawer_bottom
+OpenObject,objectId=changing_table_drawer_bottom
+PutObject,receptacleObjectId=changing_table_drawer_bottom
+CloseObject,objectId=changing_table_drawer_bottom
+OpenObject,objectId=changing_table_drawer_bottom
+PickupObject,objectId=ball
+Pass

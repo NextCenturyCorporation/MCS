@@ -1,4 +1,4 @@
-from .util import Util
+from .stringifier import Stringifier
 
 
 class ObjectMetadata(object):
@@ -36,7 +36,7 @@ class ObjectMetadata(object):
         Haptic feedback. The mass of this object.
     material_list : list of strings
         Haptic feedback. The material(s) of this object.
-        See [Materials](#Materials).
+        See :mod:`Material <machine_common_sense.Material>`.
     position : dict
         The "x", "y", and "z" coordinates for the global position of the
         center of this object's 3D model.
@@ -101,7 +101,7 @@ class ObjectMetadata(object):
         self.openable = openable
 
     def __str__(self):
-        return Util.class_to_str(self)
+        return Stringifier.class_to_str(self)
 
     # Allows converting the class to a dictionary, along with allowing
     #   certain fields to be left out of output file

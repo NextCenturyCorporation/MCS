@@ -12,19 +12,21 @@
 #
 import os
 import sys
+
 sys.path.insert(0, os.path.abspath('../../'))
 
+from machine_common_sense import _version
 
 # -- Project information -----------------------------------------------------
 
 project = 'Machine Common Sense'
-copyright = '2020, CACI'
+copyright = '2021, CACI'
 author = 'CACI'
 
 # The short X.Y version
-version = ''
+version = _version.__version__
 # The full version, including alpha/beta/rc tags
-release = ''
+# release = ''
 
 # -- General configuration ---------------------------------------------------
 
@@ -37,12 +39,15 @@ release = ''
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.autosectionlabel',
+    'sphinx.ext.autosummary',
     'sphinx.ext.githubpages',
     'sphinx.ext.intersphinx',
     'sphinx.ext.ifconfig',
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
+    'sphinxcontrib.video',
     'recommonmark'
 ]
 
@@ -68,7 +73,7 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '*requirements.txt']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
@@ -78,6 +83,9 @@ pygments_style = 'sphinx'
 html_theme = 'classic'
 
 napoleon_use_ivar = True
+autogenerate_summary = True
+
+html_extra_path = ['videos']
 
 
 def setup(app):

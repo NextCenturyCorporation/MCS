@@ -51,3 +51,24 @@ class Material(Enum):
 
     WOOD = "WOOD"
     """"""
+
+    @staticmethod
+    def verify_material_enum_string(enum_string):
+        """
+        Returns whether the given string can be successfully converted into an
+        Material enum.
+
+        Parameters
+        ----------
+        enum_string
+            The string to be converted into an Material enum.
+
+        Returns
+        -------
+        boolean
+        """
+        try:
+            enum_instance = Material[enum_string.upper()]  # noqa: F841
+            return True
+        except KeyError:
+            return False

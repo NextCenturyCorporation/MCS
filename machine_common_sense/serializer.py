@@ -1,13 +1,11 @@
 import io
 import json
-import msgpack
-import numpy as np
-import PIL.Image as Image
-
 from abc import ABCMeta, abstractmethod
 from typing import Dict, Union
 
-import machine_common_sense as mcs
+import msgpack
+import numpy as np
+import PIL.Image as Image
 
 from .goal_metadata import GoalMetadata
 from .object_metadata import ObjectMetadata
@@ -46,10 +44,10 @@ class ISerializer:
 
 class SerializerMsgPack(ISerializer):
     """Serializer to (de)serialize StepMetadata into/from MsgPack format."""
+
     @staticmethod
     def _ext_pack(x):
-        """
-        Hook to serialize MCS Step Metadata as MsgPack, e.g.
+        """Hook to serialize MCS Step Metadata as MsgPack, e.g.
         serialized = msgpack.packb(output, default=ext_pack, strict_types=True)
         """
         if isinstance(x, StepMetadata):
@@ -173,19 +171,22 @@ class SerializerMsgPack(ISerializer):
         return msgpack.ExtType(code, data)
 
     @staticmethod
-    def serialize(step_metadata: mcs.StepMetadata):
+    def serialize(step_metadata: StepMetadata):
         """
         Serializes step metadata into MsgPack.
 
         You can use
-        `object_to_persist = {
-            'payload': step_metadata,
-            'additional_info': 'info'
-            }`
+        .. code-block:: python
+
+            object_to_persist = {
+                'payload': step_metadata,
+                'additional_info': 'info'
+                }
+
         to add extra data.
 
         Args:
-            step_metadata: MCS step metadata output.
+            step_metadata: MCS step metadata output
 
         Returns:
             Serialized version of step metadata in MsgPack format.
@@ -292,7 +293,7 @@ class SerializerJson(ISerializer):
         return object_list
 
     @staticmethod
-    def serialize(step_metadata: mcs.StepMetadata, indent: int = 4):
+    def serialize(step_metadata: StepMetadata, indent: int = 4):
         json_dump = json.dumps(step_metadata,
                                cls=SerializerJson.McsStepMetadataEncoder,
                                indent=indent)

@@ -5,11 +5,12 @@ import math
 import os.path
 import time
 
-import machine_common_sense as mcs
 from additional_integration_tests import FUNCTION_LIST
-from integration_test_utils import METADATA_TIER_LIST, print_divider, \
-    add_test_args
+from integration_test_utils import (METADATA_TIER_LIST, add_test_args,
+                                    print_divider)
 
+import machine_common_sense as mcs
+from machine_common_sense.logging_config import LoggingConfig
 
 INTEGRATION_TESTS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 TEST_FOLDER = INTEGRATION_TESTS_FOLDER + '/data/'
@@ -38,6 +39,7 @@ def create_step_test_case_list(expected, actual):
         ('head_tilt', round(actual.head_tilt)),
         ('objects_count', len(actual.object_list)),
         ('position_x', actual.position.get('x') if actual.position else None),
+        ('position_y', actual.position.get('y') if actual.position else None),
         ('position_z', actual.position.get('z') if actual.position else None),
         ('return_status', actual.return_status),
         ('reward', actual.reward),
@@ -272,22 +274,31 @@ def start_handmade_tests(
     only_metadata_tier,
     only_test_name,
     dev,
-    autofix
+    autofix,
+    unity_version=None
 ):
+
     # Find all of the test scene JSON files.
     scene_filename_list = sorted(glob.glob(TEST_FOLDER + '*' + SCENE_SUFFIX))
 
     successful_test_list = []
     failed_test_list = []
-
+    mcs.init_logging(LoggingConfig.get_errors_only_console_config())
     # Run each test scene at each metadata tier.
+    controller = None
     for metadata_tier, config_filename in METADATA_TIER_LIST:
         if only_metadata_tier and metadata_tier != only_metadata_tier:
             continue
         print_divider()
         print(f'HANDMADE TEST METADATA TIER: {metadata_tier.upper()}')
         # Create one controller to run all of the tests at this metadata tier.
-        controller = mcs.create_controller(mcs_unity_build, config_filename)
+        if (not controller):
+            controller = mcs.create_controller(
+                unity_app_file_path=mcs_unity_build,
+                unity_cache_version=unity_version,
+                config_file_path=config_filename)
+        else:
+            mcs.change_config(controller, config_file_path=config_filename)
         # Run each test scene and record if it failed validation.
         for scene_filename in scene_filename_list:
             if (
@@ -311,7 +322,8 @@ def start_handmade_tests(
             else:
                 failed_test_list.append((test_name, metadata_tier, status))
         # Run each additional test at this metadata tier.
-        for runner_function in ([] if only_test_name else FUNCTION_LIST):
+        for runner_function in (
+                [] if only_test_name else FUNCTION_LIST):
             print(f'RUNNING TESTS: {runner_function.__name__}')
             successful, status = runner_function(controller, metadata_tier)
             test_name = runner_function.__name__
@@ -319,7 +331,8 @@ def start_handmade_tests(
                 successful_test_list.append((test_name, metadata_tier))
             else:
                 failed_test_list.append((test_name, metadata_tier, status))
-        controller.stop_simulation()
+
+    controller.stop_simulation()
 
     successful_test_list.sort(key=lambda x: x[0])
     failed_test_list.sort(key=lambda x: x[0])
@@ -348,5 +361,6 @@ if __name__ == "__main__":
         args.metadata,
         args.test,
         args.dev,
-        args.autofix
+        args.autofix,
+        unity_version=args.mcs_unity_version
     )

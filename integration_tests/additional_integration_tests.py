@@ -1,9 +1,9 @@
 import glob
-import numpy as np
 import os.path
 
-import machine_common_sense as mcs
+import numpy as np
 
+import machine_common_sense as mcs
 
 INTEGRATION_TESTS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 DEPTH_AND_SEGMENTATION_SCENE = (
@@ -204,8 +204,8 @@ def run_numpy_array_data_test(controller, metadata_tier):
     if status is not None:
         return False, status
 
-    # Add the numpy array data as a property to the scene data.
-    scene_data['numpyArray'] = np.array([1, 2])
+    # Convert the objects array to a numpy array
+    scene_data['objects'] = np.array(scene_data.get("objects", []))
 
     # Initialize the test scene.
     step_metadata = controller.start_scene(scene_data)
@@ -230,9 +230,7 @@ def run_position_by_step_test(controller, metadata_tier):
 
 
 def run_public_sample_scenes_test(controller, metadata_tier):
-    scene_filename_list = glob.glob(SAMPLE_SCENES_FOLDER + '*.json')
-    scene_filename_list.sort()
-
+    scene_filename_list = sorted(glob.glob(SAMPLE_SCENES_FOLDER + '*.json'))
     failed_test_list = []
 
     for scene_filename in scene_filename_list:

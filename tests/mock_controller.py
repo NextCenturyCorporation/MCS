@@ -1,11 +1,14 @@
-import ai2thor.server
-import numpy
 import os
 
-from machine_common_sense.controller import Controller
-from machine_common_sense.pose import Pose
+import ai2thor.server
+import numpy
+
 from machine_common_sense.action import Action
 from machine_common_sense.config_manager import ConfigManager
+from machine_common_sense.controller import Controller
+from machine_common_sense.controller_output_handler import \
+    ControllerOutputHandler
+from machine_common_sense.pose import Pose
 
 MOCK_VARIABLES = {
     'event_count': 5,
@@ -40,6 +43,7 @@ class MockController():
     def __init__(self):
         self.__last_step_data = None
         self.__last_metadata = MOCK_VARIABLES['metadata'].copy()
+        self._subscribers = []
 
     def step(self, data):
         self.__last_step_data = data
@@ -69,6 +73,10 @@ class MockController():
         elif data['action'] == Action.LIE_DOWN.value:
             self.__last_metadata['pose'] = Pose.LYING.name
 
+    def subscribe(self, subscriber):
+        if subscriber not in self._subscribers:
+            self._subscribers.append(subscriber)
+
 
 class MockControllerAI2THOR(Controller):
     '''Mock of the ControllerAI2THOR class from the MCS library.'''
@@ -95,20 +103,25 @@ class MockControllerAI2THOR(Controller):
         if(check_debug_mode is not None):
             os.environ.pop('MCS_DEBUG_MODE')
 
+        self._subscribers = []
+
         self._end_scene_not_registered = False  # atexit not needed for tests
         self._controller = MockController()
         self._config = ConfigManager()
-        self._update_screen_size()
+        self._config._config[
+            ConfigManager.CONFIG_DEFAULT_SECTION
+        ] = {}
+        self._output_handler = ControllerOutputHandler(self._config)
         self._on_init()
+        self._set_config(self._config)
 
     def get_last_step_data(self):
         return self._controller.get_last_step_data()
-
-    def render_mask_images(self):
-        self._update_internal_config(depth_maps=True, object_masks=True)
 
     def set_goal(self, goal):
         self._goal = goal
 
     def set_metadata_tier(self, mode):
-        self._metadata_tier = mode
+        if not self._config:
+            self._config = ConfigManager()
+        self._config.set_metadata_tier(mode)

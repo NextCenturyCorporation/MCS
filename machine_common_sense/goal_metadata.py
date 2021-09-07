@@ -1,5 +1,7 @@
 from enum import Enum, unique
-from .util import Util
+
+from .action import Action
+from .stringifier import Stringifier
 
 
 class GoalMetadata:
@@ -23,10 +25,11 @@ class GoalMetadata:
         specific step.
         See StepMetadata.action_list for the available actions of the current
         step.
-        May be a subset of all possible actions. See [Actions](#Actions).
+        May be a subset of all possible actions. See
+        :mod:`Action <machine_common_sense.Action>`.
     category : string
         The category that describes this goal and the properties in its
-        metadata. See [Goals](#Goals).
+        metadata. See :mod:`Goal <machine_common_sense.GoalCategory>`.
     description : string
         A human-readable sentence describing this goal and containing
         the target task(s) and object(s).
@@ -47,7 +50,7 @@ class GoalMetadata:
         black, blue, brown, green, grey, orange, purple, red, white, yellow
 
         Materials:
-        See [Materials](#Materials).
+        See :mod:`Material <machine_common_sense.Material>`.
     habituation_total : int
         The total count of habituation trials that will be in this scene.
     last_preview_phase_step : integer
@@ -60,8 +63,11 @@ class GoalMetadata:
         The last step of this scene. This scene will automatically end
         following this step.
     metadata : dict
-        The metadata specific to this goal. See [Goals](#Goals).
+        The metadata specific to this goal. See
+        :mod:`Goal <machine_common_sense.GoalCategory>`.
     """
+
+    ACTION_LIST = [(item.value, {}) for item in Action]
 
     def __init__(
         self,
@@ -83,7 +89,7 @@ class GoalMetadata:
         self.metadata = {} if metadata is None else metadata
 
     def __str__(self):
-        return Util.class_to_str(self)
+        return Stringifier.class_to_str(self)
 
     # Allows converting the class to a dictionary, along with allowing
     #   certain fields to be left out of output file
@@ -98,12 +104,29 @@ class GoalMetadata:
         # yield 'type_list', self.type_list
         yield 'metadata', self.metadata
 
+    def retrieve_action_list_at_step(self, step_number):
+        """Return the action list from the given goal at the given step as a
+        a list of actions tuples by default."""
+        if self is not None and self.action_list is not None:
+            if step_number < self.last_preview_phase_step:
+                return ['Pass']
+            if self.last_step is not None and step_number == self.last_step:
+                return []
+            adjusted_step = step_number - self.last_preview_phase_step
+            if len(self.action_list) > adjusted_step:
+                if len(self.action_list[adjusted_step]) > 0:
+                    return self.action_list[adjusted_step]
+
+        return GoalMetadata.ACTION_LIST
+
 
 @unique
 class GoalCategory(Enum):
     """
-    Each goal will have a "category" string and a "metadata" dict with one or
-    more properties depending on the "category".
+    Each goal dict will have a "category" string that describes the type of
+    scene (or, the type of task within the scene) being run. Each goal dict
+    will also have a "metadata" dict containing one or more properties
+    depending on the "category".
     """
 
     AGENTS = "agents"
@@ -121,12 +144,12 @@ class GoalCategory(Enum):
     These trials will demand a "common sense" understanding of agents, their
     behaviors, and their interactions with objects in the environment.
 
-    Parameters
-    ----------
-    choose : list of strings
-        The list of choices, one of which must be given in your call to
-        end_scene. For Agents goals, this value will always be
-        ["expected", "unexpected"].
+    Notes
+    -----
+    You are required to call `controller.end_scene()` at the end of each scene
+    with a continuous plausibility `rating`, from 0.0 (completely implausible)
+    to 1.0 (completely plausible). You are not required to also pass it a
+    `score`.
     """
 
     INTUITIVE_PHYSICS = "intuitive physics"
@@ -138,12 +161,14 @@ class GoalCategory(Enum):
     permanence or shape constancy. Inspired by Emmanuel Dupoux's "IntPhys: A
     Benchmark for Visual Intuitive Physics Reasoning" (http://intphys.com).
 
-    Parameters
-    ----------
-    choose : list of strings
-        The list of choices, one of which must be given in your call to
-        end_scene. For Intuitive Physics goals, this value will always be
-        ["plausible", "implausible"].
+    Notes
+    -----
+    You are required to call `controller.end_scene()` at the end of each scene
+    with a binary plausibility `rating` -- either 0 (implausible) or 1
+    (plausible) -- and a continuous plausibility `score` -- from 0.0
+    (completely implausible) to 1.0 (completely plausible). This is also
+    where you would submit any retrospective reporting on a per step basis via
+    `report`.
     """
 
     RETRIEVAL = "retrieval"
@@ -171,6 +196,8 @@ class GoalCategory(Enum):
 
     TRANSFERRAL = "transferral"
     """
+    NOT USED IN MCS EVAL 4+
+
     In a trial that has a transferral goal, you must find and pickup the
     first target object and put it down either next to or on top of the second
     target object. This may involve exploring the scene, avoiding obstacles,
@@ -230,6 +257,8 @@ class GoalCategory(Enum):
 
     TRAVERSAL = "traversal"
     """
+    NOT USED IN MCS EVAL 4+
+
     In a trial that has a traversal goal, you must find and move next to a
     target object. This may involve exploring the scene, and avoiding
     obstacles. These trials will demand a "common sense" understanding of

@@ -238,6 +238,28 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action("Pass"), mcs.Action.PASS)
         self.assertEqual(mcs.Action(" "), mcs.Action.PASS)
 
+    def test_input_to_action_and_params(self):
+        self.assertEqual(mcs.Action.input_to_action_and_params(
+            'MoveBack'), ('MoveBack', {}))
+        self.assertEqual(mcs.Action.input_to_action_and_params(
+            'RotateRight'), ('RotateRight', {}))
+        self.assertEqual(
+            mcs.Action.input_to_action_and_params(
+                'PickupObject,objectId=testId'
+            ),
+            ('PickupObject', {'objectId': 'testId'})
+        )
+        self.assertEqual(
+            mcs.Action.input_to_action_and_params(
+                'PushObject,objectId=testId,force=12.34'
+            ),
+            ('PushObject', {'objectId': 'testId', 'force': 12.34})
+        )
+        self.assertEqual(
+            mcs.Action.input_to_action_and_params('Foobar'), (None, {}))
+        self.assertEqual(mcs.Action.input_to_action_and_params(
+            'MoveBack,key:value'), ('MoveBack', None))
+
 
 if __name__ == '__main__':
     unittest.main()

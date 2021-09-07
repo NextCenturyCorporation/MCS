@@ -1,45 +1,19 @@
-MCS Python Library API
+Machine Common Sense Documentation
 *******************************************************************************
-* `Controller <#Controller>`_
-* `GoalMetadata <#GoalMetadata>`_
-* `ObjectMetadata <#ObjectMetadata>`_
-* `StepMetadata <#StepMetadata>`_
-* `Actions <#Actions>`_
-* `Goals <#Goals>`_
-* `Materials <#Materials>`_
 
-Controller
-===============================================================================
-.. automodule:: machine_common_sense.controller
-   :members: Controller
+:Release: |version|
+:Date: |today|
 
-GoalMetadata
-===============================================================================
-.. automodule:: machine_common_sense.goal_metadata
-   :members: GoalMetadata
+.. toctree::
+    :maxdepth: 2
 
-ObjectMetadata
-===============================================================================
-.. automodule:: machine_common_sense.object_metadata
-   :members: ObjectMetadata
-
-StepMetadata
-===============================================================================
-.. automodule:: machine_common_sense.step_metadata
-   :members: StepMetadata
-
-Actions
-===============================================================================
-.. automodule:: machine_common_sense.action
-   :members: Action
-
-Goals
-===============================================================================
-.. automodule:: machine_common_sense.goal_metadata
-   :members: GoalCategory
-   :noindex:
-
-Materials
-===============================================================================
-.. automodule:: machine_common_sense.material
-   :members: Material
+    install
+    examples
+    api
+    scenes
+    schema
+    training
+    models
+    containerize
+    remotely
+    dev

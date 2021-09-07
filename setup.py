@@ -34,16 +34,20 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         'shapely>=1.7.0',
-        'boto3>=1.15',
+        'colour>=0.1.5',
         'opencv-python>=4.0',
         'matplotlib>=3.3',
         'msgpack>=1.0.0',
-        'ai2thor==2.5.0'
+        'ai2thor==2.5.0',
+        'scikit-image>=0.17.1',
+        'dataclasses==0.8; python_version<"3.7"',
+        'marshmallow>=3.5.2'
     ],
     entry_points={
         'console_scripts': [
             'run_in_human_input_mode=scripts.run_human_input:main',
-            'run_scene_timer=scripts.run_scene_timer:main'
+            'run_scene_timer=scripts.run_scene_timer:main',
+            'cache_addressables=scripts.cache_addressables:main'
         ]
     }
 )
