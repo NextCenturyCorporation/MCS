@@ -2,8 +2,8 @@
 Installation and Setup
 =======================
 
-.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.3/MCS-AI2-THOR-Unity-App-v0.4.3-mac.zip
-.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.3/MCS-AI2-THOR-Unity-App-v0.4.3-linux.zip
+.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.4/MCS-AI2-THOR-Unity-App-v0.4.4-mac.zip
+.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.4/MCS-AI2-THOR-Unity-App-v0.4.4-linux.zip
 
 Virtual Environments
 ------------------------
@@ -46,7 +46,7 @@ With the activated Python virtual environment, install the MCS package:
 
     (venv) $ python -m pip install machine-common-sense
 
-For older versions prior to 0.4.3, you will need to use the git URL with the appropriate version number:
+For older versions prior to 0.4.4, you will need to use the git URL with the appropriate version number:
 
 .. code-block:: console
 
@@ -66,7 +66,7 @@ The links below are referencing version |version|. For our previous releases, pl
 Linux Version:
 **************
 
-1. `Download and unzip the Linux ZIP`_ *Note that for versions prior to 0.4.3, the Unity Linux build and the data directory are in two separate zips.*
+1. `Download and unzip the Linux ZIP`_ *Note that for versions prior to 0.4.4, the Unity Linux build and the data directory are in two separate zips.*
 
 2. Ensure that the Unity App, the Data Directory TAR, and the UnityPlayer.so file are all in the same directory.
 

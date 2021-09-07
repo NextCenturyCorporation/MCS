@@ -177,7 +177,5 @@ Update the version number in the following files:
 - `CPU_Container.dockerfile <https://github.com/NextCenturyCorporation/MCS/blob/master/CPU_Container.dockerfile>`_
 - `Dockerfile <https://github.com/NextCenturyCorporation/MCS/blob/master/Dockerfile>`_
 - `README.md <https://github.com/NextCenturyCorporation/MCS/blob/master/README.md>`_
-- `requirements.txt <https://github.com/NextCenturyCorporation/MCS/blob/master/requirements.txt>`_
-- `setup.py <https://github.com/NextCenturyCorporation/MCS/blob/master/setup.py>`_
 - `machine_common_sense/_version.py <https://github.com/NextCenturyCorporation/MCS/blob/master/machine_common_sense/_version.py>`_
-- `install.rst <https://github.com/NextCenturyCorporation/MCS/blob/master/docs/source/install.rst>`_ (just the links at the top of the file)
+- `docs/source/install.rst <https://github.com/NextCenturyCorporation/MCS/blob/master/docs/source/install.rst>`_ (just the links at the top of the file)
