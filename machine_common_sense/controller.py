@@ -245,7 +245,7 @@ class Controller():
         self,
         rating: Union[float, int, str] = None,
         score: float = 1.0,
-        report: Dict = None
+        report: Dict[int, object] = None
     ):
         """
         Ends the current scene.  Calling end_scene() before calling
@@ -271,14 +271,13 @@ class Controller():
             Note: when an issue causes the program to exit prematurely or
             end_scene isn't properly called but history_enabled is true,
             this value will be written to file as -1.
-        report : Dict[integer, object], optional
+        report : Dict[int, object], optional
             Variable for retrospective per frame reporting for passive / VoE
-            scenes. Not required if make_step_prediction was called to report
-            frame-by-frame scores. Not used for any interactive scenes or
-            passive agent scenes. (default None)
+            scenes. Not used for any interactive scenes or passive agent
+            scenes. (default None)
 
-            Key is step/frame number from output step metadata, starting at 1.
-            Value or payload contains:
+            Key is an int representing a step/frame number from output step
+            metadata, starting at 1. Value or payload contains:
 
                 * rating : float or int or string, optional
                     The plausibility rating to classify a passive / VoE scene

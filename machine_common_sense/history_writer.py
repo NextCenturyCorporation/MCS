@@ -85,7 +85,9 @@ class HistoryEventHandler(AbstractControllerSubscriber):
                 for step in self.__history_writer.current_steps:
                     currentStep = step.get("step")
 
-                    findStepInReport = payload.report.get(currentStep)
+                    findStepInReport = (payload.report.get(
+                        currentStep) or
+                        payload.report.get(str(currentStep)))
 
                     if(findStepInReport is not None):
                         # Use classification and confidence rather than rating
