@@ -172,10 +172,5 @@ After iterating with the contributor, if you feel the PR is reasonably close, fe
 Releases
 --------
 
-Update the version number in the following files:
+Please see the following `Confluence page <https://nextcentury.atlassian.net/wiki/spaces/MCS/pages/1442742340/MCS+Release+Procedures>`_
 
-- `CPU_Container.dockerfile <https://github.com/NextCenturyCorporation/MCS/blob/master/CPU_Container.dockerfile>`_
-- `Dockerfile <https://github.com/NextCenturyCorporation/MCS/blob/master/Dockerfile>`_
-- `README.md <https://github.com/NextCenturyCorporation/MCS/blob/master/README.md>`_
-- `machine_common_sense/_version.py <https://github.com/NextCenturyCorporation/MCS/blob/master/machine_common_sense/_version.py>`_
-- `docs/source/install.rst <https://github.com/NextCenturyCorporation/MCS/blob/master/docs/source/install.rst>`_ (just the links at the top of the file)
