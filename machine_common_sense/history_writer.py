@@ -61,15 +61,6 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             output=output,
             delta_time_millis=0)
 
-    def on_prediction(self, payload):
-        # add history step prediction attributes before add to the writer
-        # in the next step
-        if self.__history_item is not None:
-            self.__history_item.classification = payload.rating
-            self.__history_item.confidence = payload.score
-            self.__history_item.violations_xy_list = payload.violations_xy_list
-            self.__history_item.internal_state = payload.internal_state
-
     def on_end_scene(self, payload):
         if (
             self.__history_writer is not None and
@@ -85,7 +76,9 @@ class HistoryEventHandler(AbstractControllerSubscriber):
                 for step in self.__history_writer.current_steps:
                     currentStep = step.get("step")
 
-                    findStepInReport = payload.report.get(currentStep)
+                    findStepInReport = (payload.report.get(
+                        currentStep) or
+                        payload.report.get(str(currentStep)))
 
                     if(findStepInReport is not None):
                         # Use classification and confidence rather than rating
