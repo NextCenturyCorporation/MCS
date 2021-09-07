@@ -10,9 +10,9 @@ class SceneHistory(object):
         action=None,
         args=None,
         params=None,
-        # Use classification rather than rating for backwards compatibility.
+        # Use classification and confidence rather than rating and score to be
+        # compatible with old history files.
         classification: str = None,
-        # Use confidence rather than score for backwards compatibility.
         confidence: float = None,
         violations_xy_list: List[Dict[str, float]] = None,
         internal_state: object = None,

@@ -77,8 +77,7 @@ class HistoryEventHandler(AbstractControllerSubscriber):
         ):
             self.__history_writer.add_step(self.__history_item)
 
-            # Loop back and fill out previous steps with
-            # retrospective report
+            # Loop back and fill out previous steps with retrospective report
             # TODO: MCS-513: Kept the same property names as before.
             # Did we want to rename any of these properties?
             # If so we will need to update ingest.
@@ -89,6 +88,8 @@ class HistoryEventHandler(AbstractControllerSubscriber):
                     findStepInReport = payload.report.get(currentStep)
 
                     if(findStepInReport is not None):
+                        # Use classification and confidence rather than rating
+                        # and score to be compatible with old history files.
                         step["classification"] = findStepInReport.get("rating")
                         step["confidence"] = findStepInReport.get("score")
                         step["violations_xy_list"] = findStepInReport.get(
@@ -181,6 +182,8 @@ class HistoryWriter(object):
     def write_history_file(self, rating, score):
         """ Add the end score obj, create the object
             that will be written to file"""
+        # Use classification and confidence rather than rating and score to be
+        # compatible with old history files.
         self.end_score["classification"] = rating
         self.end_score["confidence"] = str(score)
 
