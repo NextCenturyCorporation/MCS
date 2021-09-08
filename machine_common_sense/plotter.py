@@ -247,7 +247,6 @@ class TopDownPlotter():
             obj = self._create_object(o)
             if obj.bounds is not None:
                 obj_pts = [(pt['x'], pt['z']) for pt in obj.bounds]
-                # obj_pts = self._reduce_bounds_size_if_wall(obj.uuid, obj_pts)
                 polygon = geometry.MultiPoint(
                     obj_pts).convex_hull
                 pts = polygon.exterior.coords
