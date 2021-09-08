@@ -296,7 +296,7 @@ def start_handmade_tests(
             controller = mcs.create_controller(
                 unity_app_file_path=mcs_unity_build,
                 unity_cache_version=unity_version,
-                config_property=config_filename)
+                config_file_or_dict=config_filename)
         else:
             mcs.change_config(controller, config_file_path=config_filename)
         # Run each test scene and record if it failed validation.

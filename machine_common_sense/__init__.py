@@ -72,7 +72,7 @@ def init_logging(log_config=None,
 
 def create_controller(unity_app_file_path=None,
                       unity_cache_version=None,
-                      config_property=None):
+                      config_file_or_dict=None):
     """
     Creates and returns a new MCS Controller object.
 
@@ -88,7 +88,7 @@ def create_controller(unity_app_file_path=None,
         version provided will be found via cache and internal downloader.
         If not provided, the version matching the MCS code will be used.
         (default None)
-    config_property: str or dict, optional
+    config_file_or_dict: str or dict, optional
         Can be a path to configuration file to read in or a dictionary
         of various properties, such as metadata level and whether or
         not to save history files (default None)
@@ -98,7 +98,7 @@ def create_controller(unity_app_file_path=None,
 
         1. **MCS_CONFIG_FILE_PATH** environment variable (meant for internal
            TA2 use)
-        2. If no environment variable given, use **config_property**
+        2. If no environment variable given, use **config_file_or_dict**
            passed to create_controller
 
 
@@ -114,7 +114,7 @@ def create_controller(unity_app_file_path=None,
             unity_exec = unity_provider.get_executable(
                 unity_cache_version).as_posix()
 
-        config = ConfigManager(config_property)
+        config = ConfigManager(config_file_or_dict)
         with time_limit(TIME_LIMIT_SECONDS):
             controller = Controller(unity_exec, config)
         if not controller:

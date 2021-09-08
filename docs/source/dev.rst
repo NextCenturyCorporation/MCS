@@ -138,7 +138,7 @@ More Config Options
 
 Outlined here is a list of config file options that can be used **in addition** to the ones listed under the :ref:`MCS Config File` section.
 
-To use a specific configuration, you can either pass in a file path or dictionary of values via the `config_property` in the create_controller() method, or set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see `sample_config.ini <https://github.com/NextCenturyCorporation/MCS/blob/master/sample_config.ini>`_ for an example).
+To use a specific configuration, you can either pass in a file path or dictionary of values via the `config_file_or_dict` in the create_controller() method, or set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see `sample_config.ini <https://github.com/NextCenturyCorporation/MCS/blob/master/sample_config.ini>`_ for an example).
 
 Developer Config File Properties
 ********************************

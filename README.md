@@ -52,7 +52,7 @@ With the activated Python virtual environment, install the MCS package from the 
 
 ### Sample MCS Config File
 
-There may be additional settings you want to specify, which can be accomplished via the MCS configuration file. You can use the [sample_config.ini](./sample_config.ini) file to start. This file has the `metadata` level set to `oracle`, which ensures that the data for all objects in a scene is returned, as well as object masks. For the purposes of this guide, we will pass this along to the MCS controller via the `config_file_path` property, which is outlined in the `Usage` example below.
+There may be additional settings you want to specify, which can be accomplished via the MCS configuration file. You can use the [sample_config.ini](./sample_config.ini) file to start. This file has the `metadata` level set to `oracle`, which ensures that the data for all objects in a scene is returned, as well as object masks. For the purposes of this guide, we will pass this along to the MCS controller via the `config_file_or_dict`, which is outlined in the `Usage` example below.
 
 For more in-depth information on configuration files and more about the different properties within, see the documentation about the [MCS configuration file](https://nextcenturycorporation.github.io/MCS/install.html#mcs-configuration-file)
 
@@ -64,7 +64,7 @@ Example usage of the MCS library:
 import machine_common_sense as mcs
 
 # Unity app file will be downloaded automatically
-controller = mcs.create_controller(config_file_path='./some-path/sample_config.ini')
+controller = mcs.create_controller(config_file_or_dict='./some-path/sample_config.ini')
 
 # Either load the scene data dict from an MCS scene config JSON file or create your own.
 # We will give you the training scene config JSON files and the format to make your own.

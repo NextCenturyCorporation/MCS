@@ -49,7 +49,7 @@ def main():
 
     controller = mcs.create_controller(
         unity_app_file_path=args.mcs_unity_build_file,
-        config_property='./run_scripts_config_with_history.ini'
+        config_file_or_dict='./run_scripts_config_with_history.ini'
     )
 
     config_file_path = args.mcs_config_json_file

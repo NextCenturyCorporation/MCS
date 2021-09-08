@@ -66,17 +66,17 @@ class ConfigManager(object):
     SCREEN_WIDTH_DEFAULT = 600
     SCREEN_WIDTH_MIN = 450
 
-    def __init__(self, config_property=None):
+    def __init__(self, config_file_or_dict=None):
         # For config, look for environment variable first,
-        # then look at config_property from constructor
+        # then look at config_file_or_dict from constructor
 
         if(os.getenv(self.CONFIG_FILE_ENV_VAR) is not None):
             self._read_in_config_file(os.getenv(self.CONFIG_FILE_ENV_VAR))
         else:
-            if(isinstance(config_property, dict)):
-                self._read_in_config_dict(config_property)
-            elif(isinstance(config_property, str)):
-                self._read_in_config_file(config_property)
+            if(isinstance(config_file_or_dict, dict)):
+                self._read_in_config_dict(config_file_or_dict)
+            elif(isinstance(config_file_or_dict, str)):
+                self._read_in_config_file(config_file_or_dict)
             else:
                 logger.warning("No config options given.")
 

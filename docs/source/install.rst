@@ -116,7 +116,7 @@ After downloading the Unity app, you will need to reference the path using the `
 MCS Configuration File
 ----------------------
 
-To use a specific configuration, you can either pass in a file path or dictionary of values via the `config_property` in the create_controller() method, or set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see `sample_config.ini <https://github.com/NextCenturyCorporation/MCS/blob/master/sample_config.ini>`_ for an example).
+To use a specific configuration, you can either pass in a file path or dictionary of values via the `config_file_or_dict` in the create_controller() method, or set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see `sample_config.ini <https://github.com/NextCenturyCorporation/MCS/blob/master/sample_config.ini>`_ for an example).
 
 Config File Properties
 **********************
