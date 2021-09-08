@@ -6,7 +6,7 @@ Here are some example usage snippets for different use cases. Note that there ar
 Using your own config data and/or unity build
 ----------------------------------------------
 
-In this case, make sure your `MCS_CONFIG_FILE_PATH` path isn't set, as that takes precedence over the `config_file_path` parameter:
+In this case, make sure your `MCS_CONFIG_FILE_PATH` path isn't set, as that takes precedence over the `config_property` parameter:
 
 .. code-block:: python
 
@@ -14,7 +14,7 @@ In this case, make sure your `MCS_CONFIG_FILE_PATH` path isn't set, as that take
 
     # Specify a location for the Unity app as opposed to downloading it automatically
     controller = mcs.create_controller(unity_app_file_path='./some-path/unity-app', 
-                                       config_file_path='./some-path/config.ini')
+                                       config_property='./some-path/config.ini')
 
     # Either load the scene data dict from an MCS scene config JSON file or create your own.
     # We will give you the training scene config JSON files and the format to make your own.
@@ -41,7 +41,7 @@ Note that you can alternatively pass in a dictionary of config values:
 .. code-block:: python
 
     controller = mcs.create_controller(unity_app_file_path='./some-path/unity-app', 
-                                       config_dict={'metadata': 'oracle', 'history_enabled': True})
+                                       config_property={'metadata': 'oracle', 'history_enabled': True})
 
 
 Run multiple scenes sequentially
@@ -77,7 +77,7 @@ Run with console logging
     logger = logging.getLogger('machine_common_sense')
     mcs.init_logging()
 
-    controller = mcs.create_controller(config_file_path='./some-path/config.ini')
+    controller = mcs.create_controller(config_property='./some-path/config.ini')
     scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
     output = controller.start_scene(scene_data)
 

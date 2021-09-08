@@ -72,8 +72,7 @@ def init_logging(log_config=None,
 
 def create_controller(unity_app_file_path=None,
                       unity_cache_version=None,
-                      config_file_path=None,
-                      config_dict=None):
+                      config_property=None):
     """
     Creates and returns a new MCS Controller object.
 
@@ -89,25 +88,18 @@ def create_controller(unity_app_file_path=None,
         version provided will be found via cache and internal downloader.
         If not provided, the version matching the MCS code will be used.
         (default None)
-    config_file_path: str, optional
-        Path to configuration file to read in and set various properties,
-        such as metadata level and whether or not to save history files
-        (default None)
-    config_dict: dict, optional
-        Alternative to config_file_path, the user can specify an optional
-        dictionary including config values. Note that if both config_file_path
-        and config_dict are given, config_file_path takes precedence.
-        (default None)
+    config_property: str or dict, optional
+        Can be a path to configuration file to read in or a dictionary
+        of various properties, such as metadata level and whether or
+        not to save history files (default None)
 
         * Note the **order of precedence for config options**, in case more
           than one is given:
 
         1. **MCS_CONFIG_FILE_PATH** environment variable (meant for internal
            TA2 use)
-        2. If no environment variable given, use **config_file_path** property
+        2. If no environment variable given, use **config_property**
            passed to create_controller
-        3. **config_dict** property passed to create_controller, if the above
-           filepaths are not specified or do not exist
 
 
     Returns
@@ -122,7 +114,7 @@ def create_controller(unity_app_file_path=None,
             unity_exec = unity_provider.get_executable(
                 unity_cache_version).as_posix()
 
-        config = ConfigManager(config_file_path, config_dict)
+        config = ConfigManager(config_property)
         with time_limit(TIME_LIMIT_SECONDS):
             controller = Controller(unity_exec, config)
         if not controller:
