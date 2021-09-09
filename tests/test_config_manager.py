@@ -1,6 +1,5 @@
 import os
 import unittest
-from unittest.case import skip
 from unittest.mock import DEFAULT, patch
 
 from machine_common_sense.config_manager import (ChangeMaterialConfig,
@@ -72,42 +71,44 @@ class TestConfigManager(unittest.TestCase):
         )
 
     @mock_env(MCS_CONFIG_FILE_PATH='~/somefolder/env-var-test.ini')
+    def test_nonexistent_file_from_env_variable(self):
+        '''Missing config files should raise an exception'''
+        self.assertRaises(Exception, ConfigManager)
+
+    @mock_env(MCS_CONFIG_FILE_PATH='./scripts/config_level2_debug.ini')
+    def test_init_no_override_with_env_var_and_dict(self):
+        config_options = {
+            'metadata': 'oracle',
+            'seed': 10
+        }
+        config_mngr = ConfigManager(config_options)
+        self.assertEqual(config_mngr.get_metadata_tier(), 'level2')
+        self.assertEqual(config_mngr.get_seed(), None)
+
+    @mock_env(MCS_CONFIG_FILE_PATH='./scripts/config_level2_debug.ini')
     @patch.multiple(ConfigManager, _read_in_config_dict=DEFAULT,
                     _read_in_config_file=DEFAULT)
-    def test_init_with_env_var_no_file_and_dict(
+    def test_init_env_var_and_dict_function_calls(
             self, _read_in_config_dict, _read_in_config_file):
         config_options = {
             'metadata': 'oracle',
             'seed': 10
         }
-
-        config_mngr = ConfigManager(config_options)
+        _ = ConfigManager(config_options)
         _read_in_config_dict.assert_not_called()
         _read_in_config_file.assert_called_once_with(
             os.environ.get('MCS_CONFIG_FILE_PATH'))
 
-        self.assertEqual(config_mngr.get_metadata_tier(), 'default')
+    def test_init_with_filepath(self):
+        config_file = './scripts/config_level2_debug.ini'
+        config_mngr = ConfigManager(config_file_or_dict=config_file)
+        self.assertEqual(config_mngr.get_metadata_tier(), 'level2')
         self.assertEqual(config_mngr.get_seed(), None)
 
-    @skip
-    @mock_env(MCS_CONFIG_FILE_PATH='./scripts/config_level2_debug.ini')
-    def test_init_with_env_variable_and_dict(self):
-        config_options = {
-            'metadata': 'oracle',
-            'seed': 10
-        }
-
-        config_mngr = ConfigManager(config_options)
-
-        # confirm that file was used instead of dict if both exist
-        self.assertEqual(
-            config_mngr._config,
-            './scripts/config_level2_debug.ini')
-
-        self.assertEqual(config_mngr.get_metadata_tier(), 'level2')
-        self.assertFalse(config_mngr.is_history_enabled())
-        self.assertTrue(config_mngr.is_save_debug_json())
-        self.assertTrue(config_mngr.is_save_debug_images())
+    def test_init_with_filepath_missing(self):
+        '''Provided config file path must exist or an exception occurs'''
+        missing_config_file = '~/somefolder/env-var-test.ini'
+        self.assertRaises(Exception, ConfigManager, missing_config_file)
 
     def test_init_with_dict(self):
         config_options = {
