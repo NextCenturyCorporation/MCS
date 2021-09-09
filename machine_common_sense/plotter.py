@@ -53,7 +53,7 @@ class TopDownPlotter():
     FONT = cv2.FONT_HERSHEY_COMPLEX
     FONT_SCALE = 0.4
     FONT_THICKNESS = 1
-    WALL_BUFFER = 10
+    WALL_BUFFER = 50
 
     def __init__(self, team: str, scene_name: str, room_size: Vector3d):
         self._team = team
