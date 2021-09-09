@@ -85,7 +85,6 @@ class TestConfigManager(unittest.TestCase):
             self.config_mngr.get_evaluation_name(),
             'test_eval')
 
-    @mock_env()
     def test_get_metadata_tier(self):
         self.assertEqual(self.config_mngr.get_metadata_tier(), 'default')
 
@@ -98,10 +97,6 @@ class TestConfigManager(unittest.TestCase):
         self.assertEqual(
             self.config_mngr.get_metadata_tier(),
             'oracle')
-
-    @mock_env(MCS_METADATA_LEVEL='level2')
-    def test_get_metadata_tier_with_env_variable(self):
-        self.assertEqual(self.config_mngr.get_metadata_tier(), 'level2')
 
     def test_get_seed(self):
         self.assertEqual(self.config_mngr.get_seed(), None)

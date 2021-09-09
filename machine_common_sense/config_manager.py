@@ -46,7 +46,6 @@ class ConfigManager(object):
     CONFIG_METADATA_TIER_DEFAULT = 'default'
 
     CONFIG_FILE_ENV_VAR = 'MCS_CONFIG_FILE_PATH'
-    METADATA_ENV_VAR = 'MCS_METADATA_LEVEL'
     DEFAULT_CONFIG_FILE = './mcs_config.ini'
 
     CONFIG_DEFAULT_SECTION = 'MCS'
@@ -104,17 +103,11 @@ class ConfigManager(object):
         )
 
     def get_metadata_tier(self):
-        # Environment variable override for metadata property
-        metadata_env_var = os.getenv('MCS_METADATA_LEVEL', None)
-
-        if(metadata_env_var is None):
-            return self._config.get(
-                self.CONFIG_DEFAULT_SECTION,
-                self.CONFIG_METADATA_TIER,
-                fallback='default'
-            )
-
-        return metadata_env_var
+        return self._config.get(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_METADATA_TIER,
+            fallback='default'
+        )
 
     def set_metadata_tier(self, mode):
         self._config.set(

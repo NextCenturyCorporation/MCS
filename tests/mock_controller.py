@@ -92,17 +92,6 @@ class MockControllerAI2THOR(Controller):
         if(check_config_path is not None):
             os.environ.pop(ConfigManager.CONFIG_FILE_ENV_VAR)
 
-        check_metadata_tier = os.getenv(
-            ConfigManager.METADATA_ENV_VAR, None)
-
-        if(check_metadata_tier is not None):
-            os.environ.pop(ConfigManager.METADATA_ENV_VAR)
-
-        check_debug_mode = os.getenv('MCS_DEBUG_MODE', None)
-
-        if(check_debug_mode is not None):
-            os.environ.pop('MCS_DEBUG_MODE')
-
         self._subscribers = []
 
         self._end_scene_not_registered = False  # atexit not needed for tests
