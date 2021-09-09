@@ -1,7 +1,7 @@
 import os
 import unittest
 from unittest.case import skip
-from unittest.mock import patch
+from unittest.mock import DEFAULT, patch
 
 from machine_common_sense.config_manager import (ChangeMaterialConfig,
                                                  ConfigManager, ForceConfig,
@@ -36,49 +36,58 @@ class TestConfigManager(unittest.TestCase):
     def test_init(self):
         self.assertIsNotNone(self.config_mngr._config)
 
-    @skip
     @mock_env()
-    def test_init_with_arg(self):
+    @patch.multiple(ConfigManager, _read_in_config_dict=DEFAULT,
+                    _read_in_config_file=DEFAULT)
+    def test_init_with_arg(self, _read_in_config_dict, _read_in_config_file):
         file_path = './arg-test.ini'
-        config_mngr = ConfigManager(file_path)
+        _ = ConfigManager(file_path)
 
-        self.assertEqual(config_mngr._config, file_path)
+        _read_in_config_file.assert_called_once_with(file_path)
+        _read_in_config_dict.assert_not_called()
 
-    @skip
     @mock_env(MCS_CONFIG_FILE_PATH='~/somefolder/env-var-test.ini')
-    def test_init_with_env_variable(self):
-        config_mngr = ConfigManager()
+    @patch.multiple(ConfigManager, _read_in_config_dict=DEFAULT,
+                    _read_in_config_file=DEFAULT)
+    def test_init_with_env_variable(
+            self, _read_in_config_dict, _read_in_config_file):
+        _ = ConfigManager()
 
-        self.assertEqual(
-            config_mngr._config,
-            '~/somefolder/env-var-test.ini')
+        _read_in_config_dict.assert_not_called()
+        _read_in_config_file.assert_called_once_with(
+            os.environ.get('MCS_CONFIG_FILE_PATH'))
 
-    @skip
     @mock_env(MCS_CONFIG_FILE_PATH='~/somefolder/env-var-test.ini')
-    def test_init_with_arg_and_env_variable(self):
+    @patch.multiple(ConfigManager, _read_in_config_dict=DEFAULT,
+                    _read_in_config_file=DEFAULT)
+    def test_init_with_arg_and_env_variable(
+            self, _read_in_config_dict, _read_in_config_file):
+        '''Ensures environment variable overrides provided file path'''
         file_path = './arg-test.ini'
-        config_mngr = ConfigManager(file_path)
+        _ = ConfigManager(file_path)
 
-        self.assertEqual(
-            config_mngr._config,
-            '~/somefolder/env-var-test.ini')
+        _read_in_config_dict.assert_not_called()
+        _read_in_config_file.assert_called_once_with(
+            os.environ.get('MCS_CONFIG_FILE_PATH')
+        )
 
-    @skip
     @mock_env(MCS_CONFIG_FILE_PATH='~/somefolder/env-var-test.ini')
-    def test_init_with_env_var_no_file_and_dict(self):
+    @patch.multiple(ConfigManager, _read_in_config_dict=DEFAULT,
+                    _read_in_config_file=DEFAULT)
+    def test_init_with_env_var_no_file_and_dict(
+            self, _read_in_config_dict, _read_in_config_file):
         config_options = {
             'metadata': 'oracle',
             'seed': 10
         }
 
         config_mngr = ConfigManager(config_options)
+        _read_in_config_dict.assert_not_called()
+        _read_in_config_file.assert_called_once_with(
+            os.environ.get('MCS_CONFIG_FILE_PATH'))
 
-        # if file given does not exist, use dict
-        self.assertEqual(
-            config_mngr._config,
-            '~/somefolder/env-var-test.ini')
-        self.assertEqual(config_mngr.get_metadata_tier(), 'oracle')
-        self.assertEqual(config_mngr.get_seed(), 10)
+        self.assertEqual(config_mngr.get_metadata_tier(), 'default')
+        self.assertEqual(config_mngr.get_seed(), None)
 
     @skip
     @mock_env(MCS_CONFIG_FILE_PATH='./scripts/config_level2_debug.ini')
@@ -94,6 +103,7 @@ class TestConfigManager(unittest.TestCase):
         self.assertEqual(
             config_mngr._config,
             './scripts/config_level2_debug.ini')
+
         self.assertEqual(config_mngr.get_metadata_tier(), 'level2')
         self.assertFalse(config_mngr.is_history_enabled())
         self.assertTrue(config_mngr.is_save_debug_json())
