@@ -67,6 +67,9 @@ class ConfigManager(object):
     SCREEN_WIDTH_MIN = 450
 
     def __init__(self, config_file_or_dict=None):
+        '''
+        Configuration preferences passed in by the user.
+        '''
         # For config, look for environment variable first,
         # then look at config_file_or_dict from constructor
         self._config = configparser.ConfigParser()
