@@ -67,18 +67,22 @@ class ConfigManager(object):
     SCREEN_WIDTH_MIN = 450
 
     def __init__(self, config_file_or_dict=None):
-        # For config, look for environment variable first,
-        # then look at config_file_or_dict from constructor
+
         self._config = configparser.ConfigParser()
 
-        if (os.getenv(self.CONFIG_FILE_ENV_VAR) is not None):
-            self._read_in_config_file(os.getenv(self.CONFIG_FILE_ENV_VAR))
-        elif (isinstance(config_file_or_dict, dict)):
-            self._read_in_config_dict(config_file_or_dict)
-        elif(isinstance(config_file_or_dict, str)):
-            self._read_in_config_file(config_file_or_dict)
-        else:
-            logger.warning("No config options given.")
+        # For config, look for environment variable first,
+        # then look at config_file_or_dict from constructor
+        try:
+            if (os.getenv(self.CONFIG_FILE_ENV_VAR) is not None):
+                self._read_in_config_file(os.getenv(self.CONFIG_FILE_ENV_VAR))
+            elif (isinstance(config_file_or_dict, dict)):
+                self._read_in_config_dict(config_file_or_dict)
+            elif(isinstance(config_file_or_dict, str)):
+                self._read_in_config_file(config_file_or_dict)
+            else:
+                logger.warning("No config options given.")
+        except BaseException:
+            raise Exception("Configuration not set")
 
         self._validate_screen_size()
 
@@ -94,6 +98,7 @@ class ConfigManager(object):
             logger.info('Config File Path: ' + config_file_path)
         else:
             logger.warning('No config file at given path: ' + config_file_path)
+            raise FileNotFoundError()
 
     def _validate_screen_size(self):
         if(self.get_size() < self.SCREEN_WIDTH_MIN):
