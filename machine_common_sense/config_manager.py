@@ -67,7 +67,9 @@ class ConfigManager(object):
     SCREEN_WIDTH_MIN = 450
 
     def __init__(self, config_file_or_dict=None):
-
+        '''
+        Configuration preferences passed in by the user.
+        '''
         self._config = configparser.ConfigParser()
 
         # For config, look for environment variable first,
@@ -81,8 +83,8 @@ class ConfigManager(object):
                 self._read_in_config_file(config_file_or_dict)
             else:
                 logger.warning("No config options given.")
-        except BaseException:
-            raise Exception("Configuration not set")
+        except FileNotFoundError as err:
+            raise RuntimeError("Configuration not set") from err
 
         self._validate_screen_size()
 
