@@ -1,6 +1,6 @@
 import math
 from dataclasses import dataclass
-from typing import Dict, List, Tuple
+from typing import Dict, List
 
 import ai2thor.server
 import colour
@@ -53,6 +53,7 @@ class TopDownPlotter():
     FONT = cv2.FONT_HERSHEY_COMPLEX
     FONT_SCALE = 0.4
     FONT_THICKNESS = 1
+    WALL_BUFFER = 50
 
     def __init__(self, team: str, scene_name: str, room_size: Vector3d):
         self._team = team
@@ -112,17 +113,21 @@ class TopDownPlotter():
         self.center_x = int(x_dim / 2) - 1  # ex: 512 /2 = 256 - 1 = 255
         self.center_z = int(z_dim / 2) - 1  # ex: 256 /2 = 128 - 1 = 127
         largest_dimension = max(room_x, room_z)
+
         # Add a buffer into the scale to properly show the room's walls.
-        self.x_scale = (x_dim - 12) / largest_dimension
-        self.z_scale = (z_dim - 12) / largest_dimension
+        buffered_x_dim = x_dim - self.WALL_BUFFER
+        buffered_z_dim = z_dim - self.WALL_BUFFER
+        self.x_scale = (buffered_x_dim) / largest_dimension
+        self.z_scale = (buffered_z_dim) / largest_dimension
 
         # outer buffer space to keep 1:1 aspect ratio
-        buffer_x = (x_dim - (x_dim * room_x / largest_dimension)) / 2
-        buffer_z = (z_dim - (z_dim * room_z / largest_dimension)) / 2
+        buffer_x = (x_dim - (buffered_x_dim * room_x / largest_dimension)) / 2
+        buffer_z = (z_dim - (buffered_z_dim * room_z / largest_dimension)) / 2
 
         img = self._draw_vertical_grid_lines(img, buffer_z)
         img = self._draw_horizontal_grid_lines(img, buffer_x)
         img = self._draw_room_border(img, buffer_x, buffer_z)
+
         return img
 
     def _draw_vertical_grid_lines(
@@ -242,7 +247,6 @@ class TopDownPlotter():
             obj = self._create_object(o)
             if obj.bounds is not None:
                 obj_pts = [(pt['x'], pt['z']) for pt in obj.bounds]
-                obj_pts = self._reduce_bounds_size_if_wall(obj.uuid, obj_pts)
                 polygon = geometry.MultiPoint(
                     obj_pts).convex_hull
                 pts = polygon.exterior.coords
@@ -341,47 +345,3 @@ class TopDownPlotter():
         if color == 'black':
             color = 'ivory'
         return color
-
-    def _reduce_bounds_size_if_wall(
-        self,
-        uuid: str,
-        points: List[Tuple[float]]
-    ) -> List[Tuple[float]]:
-        '''Reduce the size of the object bounds represented by the given points
-        if the corresponding object is a room wall.'''
-        reduce_top = False
-        reduce_bottom = False
-        reduce_left = False
-        reduce_right = False
-
-        if uuid == 'wall_back':
-            reduce_bottom = True
-            reduce_left = True
-            reduce_right = True
-        if uuid == 'wall_front':
-            reduce_top = True
-            reduce_left = True
-            reduce_right = True
-        if uuid == 'wall_left':
-            reduce_left = True
-            reduce_top = True
-            reduce_bottom = True
-        if uuid == 'wall_right':
-            reduce_right = True
-            reduce_top = True
-            reduce_bottom = True
-
-        points_list = [list(item) for item in points]
-        if reduce_top:
-            for index in [0, 1, 4, 5]:
-                points_list[index][1] -= 0.4
-        if reduce_bottom:
-            for index in [2, 3, 6, 7]:
-                points_list[index][1] += 0.4
-        if reduce_left:
-            for index in [1, 2, 5, 6]:
-                points_list[index][0] += 0.4
-        if reduce_right:
-            for index in [0, 3, 4, 7]:
-                points_list[index][0] -= 0.4
-        return [(item[0], item[1]) for item in points_list]
