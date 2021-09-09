@@ -6,7 +6,7 @@ Here are some example usage snippets for different use cases. Note that there ar
 Using your own config data and/or unity build
 ----------------------------------------------
 
-In this case, make sure your `MCS_CONFIG_FILE_PATH` path isn't set, as that takes precedence over the `config_file_or_dict` parameter:
+Please note that for the below example, make sure `MCS_CONFIG_FILE_PATH` is not set, since it will override the `config_file_or_dict` specified below and is meant more for internal use by TA2 during evaluation:
 
 .. code-block:: python
 

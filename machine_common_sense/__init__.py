@@ -97,9 +97,9 @@ def create_controller(unity_app_file_path=None,
           than one is given:
 
         1. **MCS_CONFIG_FILE_PATH** environment variable (meant for internal
-           TA2 use)
+           TA2 use during evaluation)
         2. If no environment variable given, use **config_file_or_dict**
-           passed to create_controller
+           parameter.
 
 
     Returns
@@ -126,7 +126,9 @@ def create_controller(unity_app_file_path=None,
         return None
 
 
-"""
+def change_config(controller: Controller,
+                  config_file_or_dict=None):
+    """
     Creates and returns a new MCS Controller object.  Should only be called
     After a run and before a scene is changed.
 
@@ -135,16 +137,13 @@ def create_controller(unity_app_file_path=None,
     controller : Controller
         The currently used controller that the config should be changed
         on.
-    config_file_path: str, optional
-        Path to configuration file to read in and set various properties,
-        such as metadata level and whether or not to save history files
-        (default None)
+    config_file_or_dict: str or dict, optional
+        Can be a path to configuration file to read in or a dictionary
+        of various properties, such as metadata level and whether or
+        not to save history files (default None)
 
     """
-
-
-def change_config(controller: Controller, config_file_path: str = None):
-    config = ConfigManager(config_file_path)
+    config = ConfigManager(config_file_or_dict)
     controller._set_config(config)
     controller.remove_all_event_handlers()
     add_subscribers(controller, config)

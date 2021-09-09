@@ -202,11 +202,9 @@ Example Using the Config File to Generate Scene Graphs or Maps
     import os
     import machine_common_sense as mcs
 
-    os.environ['MCS_CONFIG_FILE_PATH'] = # Path to your MCS configuration file
-
     scene_files = # List of scene configuration file paths
 
-    controller = mcs.create_controller()
+    controller = mcs.create_controller(config_file_or_dict='path/to/config')
 
     for scene_file in scene_files:
         scene_data, status = mcs.load_scene_json_file(scene_file)

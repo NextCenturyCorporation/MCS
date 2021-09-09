@@ -298,7 +298,7 @@ def start_handmade_tests(
                 unity_cache_version=unity_version,
                 config_file_or_dict=config_filename)
         else:
-            mcs.change_config(controller, config_file_path=config_filename)
+            mcs.change_config(controller, config_file_or_dict=config_filename)
         # Run each test scene and record if it failed validation.
         for scene_filename in scene_filename_list:
             if (
