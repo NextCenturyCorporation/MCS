@@ -54,6 +54,7 @@ class TopDownPlotter():
     FONT = cv2.FONT_HERSHEY_COMPLEX
     FONT_SCALE = 0.4
     FONT_THICKNESS = 1
+    WALL_BUFFER = 50
 
     def __init__(self, team: str, scene_name: str, room_size: Vector3d):
         self._team = team
@@ -113,16 +114,21 @@ class TopDownPlotter():
         self.center_x = int(x_dim / 2) - 1  # ex: 512 /2 = 256 - 1 = 255
         self.center_z = int(z_dim / 2) - 1  # ex: 256 /2 = 128 - 1 = 127
         largest_dimension = max(room_x, room_z)
-        self.x_scale = (x_dim - 1) / largest_dimension
-        self.z_scale = (z_dim - 1) / largest_dimension
+
+        # Add a buffer into the scale to properly show the room's walls.
+        buffered_x_dim = x_dim - self.WALL_BUFFER
+        buffered_z_dim = z_dim - self.WALL_BUFFER
+        self.x_scale = (buffered_x_dim) / largest_dimension
+        self.z_scale = (buffered_z_dim) / largest_dimension
 
         # outer buffer space to keep 1:1 aspect ratio
-        buffer_x = (x_dim - (x_dim * room_x / largest_dimension)) / 2
-        buffer_z = (z_dim - (z_dim * room_z / largest_dimension)) / 2
+        buffer_x = (x_dim - (buffered_x_dim * room_x / largest_dimension)) / 2
+        buffer_z = (z_dim - (buffered_z_dim * room_z / largest_dimension)) / 2
 
         img = self._draw_vertical_grid_lines(img, buffer_z)
         img = self._draw_horizontal_grid_lines(img, buffer_x)
         img = self._draw_room_border(img, buffer_x, buffer_z)
+
         return img
 
     def _draw_vertical_grid_lines(
