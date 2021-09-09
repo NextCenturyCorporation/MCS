@@ -69,6 +69,7 @@ class ConfigManager(object):
     def __init__(self, config_file_or_dict=None):
         # For config, look for environment variable first,
         # then look at config_file_or_dict from constructor
+        self._config = configparser.ConfigParser()
 
         if(os.getenv(self.CONFIG_FILE_ENV_VAR) is not None):
             self._read_in_config_file(os.getenv(self.CONFIG_FILE_ENV_VAR))
@@ -83,14 +84,12 @@ class ConfigManager(object):
         self._validate_screen_size()
 
     def _read_in_config_dict(self, config_dict):
-        self._config = configparser.ConfigParser()
         self._config[self.CONFIG_DEFAULT_SECTION] = config_dict
         logger.info('No config file given or file path does not exist,'
                     ' using config dictionary')
         logger.info('Read in config dictionary: ' + str(config_dict))
 
     def _read_in_config_file(self, config_file_path):
-        self._config = configparser.ConfigParser()
         if os.path.exists(config_file_path):
             self._config.read(config_file_path)
             logger.info('Config File Path: ' + config_file_path)
