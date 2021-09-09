@@ -71,15 +71,14 @@ class ConfigManager(object):
         # then look at config_file_or_dict from constructor
         self._config = configparser.ConfigParser()
 
-        if(os.getenv(self.CONFIG_FILE_ENV_VAR) is not None):
+        if (os.getenv(self.CONFIG_FILE_ENV_VAR) is not None):
             self._read_in_config_file(os.getenv(self.CONFIG_FILE_ENV_VAR))
+        elif (isinstance(config_file_or_dict, dict)):
+            self._read_in_config_dict(config_file_or_dict)
+        elif(isinstance(config_file_or_dict, str)):
+            self._read_in_config_file(config_file_or_dict)
         else:
-            if(isinstance(config_file_or_dict, dict)):
-                self._read_in_config_dict(config_file_or_dict)
-            elif(isinstance(config_file_or_dict, str)):
-                self._read_in_config_file(config_file_or_dict)
-            else:
-                logger.warning("No config options given.")
+            logger.warning("No config options given.")
 
         self._validate_screen_size()
 
