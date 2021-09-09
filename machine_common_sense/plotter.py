@@ -47,7 +47,8 @@ class TopDownPlotter():
     GOAL_COLOR = colour.COLOR_NAME_TO_RGB['gold']
 
     ROBOT_PLOT_WIDTH = 0.2
-    HEADING_LENGTH = 0.4
+    HEADING_LENGTH = 0.2
+    ROBOT_NOSE_RADIUS = 0.08
     PLOT_IMAGE_SIZE = 512
 
     FONT = cv2.FONT_HERSHEY_COMPLEX
@@ -210,11 +211,14 @@ class TopDownPlotter():
         )
         z_point = int(self.center_z - robot.z * self.z_scale)
         x_point = int(self.center_x + robot.x * self.x_scale)
-        rr, cc = skimage.draw.line(
-            z_point,
-            x_point,
-            z_point - int(heading.z * self.x_scale),
-            x_point + int(heading.x * self.x_scale))
+        rr, cc = skimage.draw.disk(
+            center=(
+                z_point - int(heading.z * self.x_scale),
+                x_point + int(heading.x * self.x_scale)
+            ),
+            radius=self.ROBOT_NOSE_RADIUS * self.x_scale,
+            shape=img.shape[:2]
+        )
         img[rr, cc] = self.ROBOT_COLOR
         return img
 
