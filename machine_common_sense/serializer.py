@@ -94,7 +94,7 @@ class SerializerMsgPack(ISerializer):
             return msgpack.ExtType(
                 5,
                 msgpack.packb([
-                    x.uuid, x.color, x.dimensions, x.direction, x.distance,
+                    x.uuid, x.dimensions, x.direction, x.distance,
                     x.distance_in_steps, x.distance_in_world, x.held, x.mass,
                     x.material_list, x.position, x.rotation, x.shape,
                     x.state_list, x.texture_color_list, x.visible
@@ -155,12 +155,12 @@ class SerializerMsgPack(ISerializer):
                                 habituation_total, last_preview_phase_step,
                                 last_step, metadata)
         elif code == 5:
-            uuid, color, dimensions, direction, distance, distance_in_steps, \
+            uuid, dimensions, direction, distance, distance_in_steps, \
                 distance_in_world, held, mass, material_list, position, \
                 rotation, shape, state_list, texture_color_list, \
                 visible = msgpack.unpackb(
                     data, ext_hook=SerializerMsgPack._ext_unpack)
-            return ObjectMetadata(uuid, color, dimensions, direction, distance,
+            return ObjectMetadata(uuid, dimensions, direction, distance,
                                   distance_in_steps, distance_in_world, held,
                                   mass, material_list, position, rotation,
                                   shape, state_list, texture_color_list,
@@ -191,16 +191,14 @@ class SerializerMsgPack(ISerializer):
         Returns:
             Serialized version of step metadata in MsgPack format.
         """
-        serialized = msgpack.packb(step_metadata,
-                                   default=SerializerMsgPack._ext_pack,
-                                   strict_types=True)
-        return serialized
+        return msgpack.packb(step_metadata,
+                             default=SerializerMsgPack._ext_pack,
+                             strict_types=True)
 
     @staticmethod
     def deserialize(packed_step_metadata):
-        deserialized = msgpack.unpackb(packed_step_metadata,
-                                       ext_hook=SerializerMsgPack._ext_unpack)
-        return deserialized
+        return msgpack.unpackb(packed_step_metadata,
+                               ext_hook=SerializerMsgPack._ext_unpack)
 
 
 class SerializerJson(ISerializer):
@@ -253,7 +251,6 @@ class SerializerJson(ISerializer):
             elif isinstance(x, ObjectMetadata):
                 return {
                     'uuid': x.uuid,
-                    'color': x.color,
                     'dimensions': x.dimensions,
                     'direction': x.direction,
                     'distance': x.distance,
@@ -281,40 +278,48 @@ class SerializerJson(ISerializer):
         object_list = []
         for object_raw in raw_list:
             obj = ObjectMetadata(
-                object_raw['uuid'], object_raw['color'],
-                object_raw['dimensions'], object_raw['direction'],
-                object_raw['distance'], object_raw['distance_in_steps'],
-                object_raw['distance_in_world'], object_raw['held'],
-                object_raw['mass'], object_raw['material_list'],
-                object_raw['position'], object_raw['rotation'],
-                object_raw['shape'], object_raw['state_list'],
-                object_raw['texture_color_list'], object_raw['visible'])
+                object_raw['uuid'],
+                object_raw['dimensions'],
+                object_raw['direction'],
+                object_raw['distance'],
+                object_raw['distance_in_steps'],
+                object_raw['distance_in_world'],
+                object_raw['held'],
+                object_raw['mass'],
+                object_raw['material_list'],
+                object_raw['position'],
+                object_raw['rotation'],
+                object_raw['shape'],
+                object_raw['state_list'],
+                object_raw['texture_color_list'],
+                object_raw['visible'])
             object_list.append(obj)
         return object_list
 
     @staticmethod
     def serialize(step_metadata: StepMetadata, indent: int = 4):
-        json_dump = json.dumps(step_metadata,
-                               cls=SerializerJson.McsStepMetadataEncoder,
-                               indent=indent)
-        return json_dump
+        return json.dumps(step_metadata,
+                          cls=SerializerJson.McsStepMetadataEncoder,
+                          indent=indent)
 
     @staticmethod
     def deserialize(input_json: Union[Dict, str]):
         if isinstance(input_json, str):
             input_json = json.loads(input_json)
-        depth_map_list = []
-        for depth_map_raw in input_json['depth_map_list']:
-            depth_map_list.append(np.array(depth_map_raw, dtype='uint8'))
+        depth_map_list = [
+            np.array(depth_map_raw, dtype='uint8')
+            for depth_map_raw in input_json['depth_map_list']
+        ]
 
-        object_mask_list = []
-        for obj_mask_raw in input_json['object_mask_list']:
-            object_mask_list.append(np.array(obj_mask_raw, dtype='uint8'))
+        object_mask_list = [
+            np.array(obj_mask_raw, dtype='uint8')
+            for obj_mask_raw in input_json['object_mask_list']
+        ]
 
-        image_list = []
-        for img_raw in input_json['image_list']:  # PIL
-            image_list.append(Image.fromarray(np.array(img_raw,
-                                                       dtype='uint8')))
+        image_list = [
+            Image.fromarray(np.array(img_raw, dtype='uint8'))
+            for img_raw in input_json['image_list']
+        ]
 
         object_list_raw = input_json['object_list']
         object_list = SerializerJson.convert_object_list(object_list_raw)

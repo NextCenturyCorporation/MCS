@@ -190,12 +190,6 @@ class SceneEvent():
             else []
         )
 
-        rgb = (
-            object_id_to_color[object_metadata['objectId']]
-            if object_metadata['objectId'] in object_id_to_color
-            else [None, None, None]
-        )
-
         bounds = (
             object_metadata['objectBounds']
             if 'objectBounds' in object_metadata and
@@ -205,7 +199,6 @@ class SceneEvent():
 
         return ObjectMetadata(
             uuid=object_metadata['objectId'],
-            color={'r': rgb[0], 'g': rgb[1], 'b': rgb[2]},
             dimensions=(
                 bounds['objectBoundsCorners']
                 if 'objectBoundsCorners' in bounds
@@ -271,18 +264,16 @@ class ControllerOutputHandler():
             metadata_tier == ConfigManager.CONFIG_METADATA_TIER_NONE
         )
 
-        restrict_object_mask_list = (
-            restricted and
-            (metadata_tier == ConfigManager.CONFIG_METADATA_TIER_NONE or
-             metadata_tier == ConfigManager.CONFIG_METADATA_TIER_LEVEL_1)
-        )
+        restrict_object_mask_list = restricted and metadata_tier in [
+            ConfigManager.CONFIG_METADATA_TIER_NONE,
+            ConfigManager.CONFIG_METADATA_TIER_LEVEL_1,
+        ]
 
-        restrict_non_oracle = (
-            restricted and
-            (metadata_tier == ConfigManager.CONFIG_METADATA_TIER_NONE or
-             metadata_tier == ConfigManager.CONFIG_METADATA_TIER_LEVEL_1 or
-             metadata_tier == ConfigManager.CONFIG_METADATA_TIER_LEVEL_2)
-        )
+        restrict_non_oracle = restricted and metadata_tier in [
+            ConfigManager.CONFIG_METADATA_TIER_NONE,
+            ConfigManager.CONFIG_METADATA_TIER_LEVEL_1,
+            ConfigManager.CONFIG_METADATA_TIER_LEVEL_2,
+        ]
 
         depth_map_list = [] if restrict_depth_map else (
             self._scene_event.depth_map_list)

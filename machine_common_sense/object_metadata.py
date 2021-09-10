@@ -9,9 +9,6 @@ class ObjectMetadata(object):
     ----------
     uuid : string
         The unique ID of this object, used with some actions.
-    color : dict
-        The "r", "g", and "b" pixel values of this object in images from the
-        StepMetadata's "object_mask_list".
     dimensions : list of dicts
         The dimensions of this object in the environment's 3D global
         coordinate system as a list of 8 points (dicts with "x", "y", and "z").
@@ -61,7 +58,6 @@ class ObjectMetadata(object):
     def __init__(
         self,
         uuid="",
-        color=None,
         dimensions=None,
         direction=None,
         distance=-1.0,
@@ -80,7 +76,6 @@ class ObjectMetadata(object):
         openable=False
     ):
         self.uuid = uuid
-        self.color = {} if color is None else color
         self.dimensions = [] if dimensions is None else dimensions
         self.direction = {} if direction is None else direction
         self.distance = distance
@@ -107,7 +102,6 @@ class ObjectMetadata(object):
     #   certain fields to be left out of output file
     def __iter__(self):
         yield 'uuid', self.uuid
-        yield 'color', self.color
         yield 'dimensions', self.dimensions
         yield 'direction', self.direction
         yield 'distance', self.distance

@@ -508,11 +508,6 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         self.assertEqual(len(actual.object_list), 1)
         self.assertEqual(actual.object_list[0].uuid, "testId")
-        self.assertEqual(actual.object_list[0].color, {
-            "r": 12,
-            "g": 34,
-            "b": 56
-        })
         self.assertEqual(
             actual.object_list[0].dimensions, [
                 "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
@@ -540,11 +535,6 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         self.assertEqual(len(actual.structural_object_list), 1)
         self.assertEqual(actual.structural_object_list[0].uuid, "testWallId")
-        self.assertEqual(actual.structural_object_list[0].color, {
-            "r": 101,
-            "g": 102,
-            "b": 103
-        })
         self.assertEqual(
             actual.structural_object_list[0].dimensions,
             ["p11", "p12", "p13", "p14", "p15", "p16", "p17", "p18"]
@@ -917,11 +907,6 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(len(actual), 2)
 
         self.assertEqual(actual[0].uuid, "testId1")
-        self.assertEqual(actual[0].color, {
-            "r": 12,
-            "g": 34,
-            "b": 56
-        })
         self.assertEqual(actual[0].dimensions, [])
         self.assertEqual(actual[0].direction, {
             "x": 0,
@@ -942,11 +927,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[0].visible, True)
 
         self.assertEqual(actual[1].uuid, "testId2")
-        self.assertEqual(actual[1].color, {
-            "r": 98,
-            "g": 76,
-            "b": 54
-        })
+
         self.assertEqual(
             actual[1].dimensions, [
                 "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
@@ -1014,11 +995,6 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(len(actual), 3)
 
         self.assertEqual(actual[0].uuid, "testId1")
-        self.assertEqual(actual[0].color, {
-            "r": 12,
-            "g": 34,
-            "b": 56
-        })
         self.assertEqual(actual[0].dimensions, [])
         self.assertEqual(actual[0].direction, {
             "x": 0,
@@ -1039,11 +1015,6 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[0].visible, True)
 
         self.assertEqual(actual[1].uuid, "testId2")
-        self.assertEqual(actual[1].color, {
-            "r": 98,
-            "g": 76,
-            "b": 54
-        })
         self.assertEqual(
             actual[1].dimensions, [
                 "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"])
@@ -1066,11 +1037,6 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[1].visible, True)
 
         self.assertEqual(actual[2].uuid, "testId3")
-        self.assertEqual(actual[2].color, {
-            "r": 101,
-            "g": 102,
-            "b": 103
-        })
         self.assertEqual(
             actual[2].dimensions, [
                 "pA", "pB", "pC", "pD", "pE", "pF", "pG", "pH"])
