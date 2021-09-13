@@ -3,6 +3,7 @@ import configparser  # noqa: F401
 import logging
 import os
 from dataclasses import dataclass, field
+from enum import Enum, unique
 from typing import List
 
 import numpy as np
@@ -24,26 +25,28 @@ class Vector3d:
     z: float = 0
 
 
+@unique
+class MetadataTier(Enum):
+    # Normal metadata plus metadata for all hidden objects
+    ORACLE = 'oracle'
+    # No metadata, except for the images, depth masks, object masks,
+    # and haptic/audio feedback
+    LEVEL_2 = 'level2'
+    # No metadata, except for the images, depth masks, and haptic/audio
+    # feedback
+    LEVEL_1 = 'level1'
+    # No metadata, except for the images and haptic/audio
+    # feedback
+    NONE = 'none'
+    # Default metadata level if none specified, meant for use during
+    # development
+    DEFAULT = 'default'
+
+
 class ConfigManager(object):
 
     DEFAULT_CLIPPING_PLANE_FAR = 15.0
     DEFAULT_ROOM_DIMENSIONS = Vector3d(x=10, y=3, z=10)
-
-    # Normal metadata plus metadata for all hidden objects
-    CONFIG_METADATA_TIER_ORACLE = 'oracle'
-    # No metadata, except for the images, depth masks, object masks,
-    # and haptic/audio feedback
-    CONFIG_METADATA_TIER_LEVEL_2 = 'level2'
-    # No metadata, except for the images, depth masks, and haptic/audio
-    # feedback
-    CONFIG_METADATA_TIER_LEVEL_1 = 'level1'
-    # No metadata, except for the images and haptic/audio
-    # feedback
-    CONFIG_METADATA_TIER_NONE = 'none'
-
-    # Default metadata level if none specified, meant for use during
-    # development
-    CONFIG_METADATA_TIER_DEFAULT = 'default'
 
     CONFIG_FILE_ENV_VAR = 'MCS_CONFIG_FILE_PATH'
     DEFAULT_CONFIG_FILE = './mcs_config.ini'
@@ -103,11 +106,12 @@ class ConfigManager(object):
         )
 
     def get_metadata_tier(self):
-        return self._config.get(
+        metadata = self._config.get(
             self.CONFIG_DEFAULT_SECTION,
-            self.CONFIG_METADATA_TIER,
-            fallback='default'
+            self.CONFIG_METADATA_TIER
         )
+
+        return MetadataTier(metadata) if metadata else MetadataTier.DEFAULT
 
     def set_metadata_tier(self, mode):
         self._config.set(
@@ -175,19 +179,19 @@ class ConfigManager(object):
     def is_depth_maps_enabled(self) -> bool:
         metadata_tier = self.get_metadata_tier()
         return metadata_tier in [
-            self.CONFIG_METADATA_TIER_LEVEL_1,
-            self.CONFIG_METADATA_TIER_LEVEL_2,
-            self.CONFIG_METADATA_TIER_ORACLE,
+            MetadataTier.LEVEL_1,
+            MetadataTier.LEVEL_2,
+            MetadataTier.ORACLE,
         ]
 
     def is_object_masks_enabled(self) -> bool:
         metadata_tier = self.get_metadata_tier()
         return (
-            metadata_tier != self.CONFIG_METADATA_TIER_LEVEL_1 and
+            metadata_tier != MetadataTier.LEVEL_1 and
             metadata_tier in
             [
-                self.CONFIG_METADATA_TIER_LEVEL_2,
-                self.CONFIG_METADATA_TIER_ORACLE,
+                MetadataTier.LEVEL_2,
+                MetadataTier.ORACLE,
             ]
         )
 
