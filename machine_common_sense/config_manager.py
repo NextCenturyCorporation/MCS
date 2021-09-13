@@ -108,10 +108,11 @@ class ConfigManager(object):
     def get_metadata_tier(self):
         metadata = self._config.get(
             self.CONFIG_DEFAULT_SECTION,
-            self.CONFIG_METADATA_TIER
+            self.CONFIG_METADATA_TIER,
+            fallback='default'
         )
 
-        return MetadataTier(metadata) if metadata else MetadataTier.DEFAULT
+        return MetadataTier(metadata)
 
     def set_metadata_tier(self, mode):
         self._config.set(

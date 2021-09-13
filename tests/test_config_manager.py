@@ -4,8 +4,8 @@ from unittest.mock import patch
 
 from machine_common_sense.config_manager import (ChangeMaterialConfig,
                                                  ConfigManager, ForceConfig,
-                                                 GoalSchema, MoveConfig,
-                                                 OpenCloseConfig,
+                                                 GoalSchema, MetadataTier,
+                                                 MoveConfig, OpenCloseConfig,
                                                  PhysicsConfig,
                                                  SceneConfiguration,
                                                  SceneObjectSchema, ShowConfig,
@@ -86,7 +86,10 @@ class TestConfigManager(unittest.TestCase):
             'test_eval')
 
     def test_get_metadata_tier(self):
-        self.assertEqual(self.config_mngr.get_metadata_tier(), 'default')
+        self.assertEqual(
+            self.config_mngr.get_metadata_tier(),
+            MetadataTier.DEFAULT)
+        self.assertEqual(self.config_mngr.get_metadata_tier().value, 'default')
 
         self.config_mngr._config[
             self.config_mngr.CONFIG_DEFAULT_SECTION
@@ -96,6 +99,9 @@ class TestConfigManager(unittest.TestCase):
 
         self.assertEqual(
             self.config_mngr.get_metadata_tier(),
+            MetadataTier.ORACLE)
+        self.assertEqual(
+            self.config_mngr.get_metadata_tier().value,
             'oracle')
 
     def test_get_seed(self):
