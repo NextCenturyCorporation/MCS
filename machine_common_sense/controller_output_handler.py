@@ -32,7 +32,7 @@ class SceneEvent():
         self.depth_map_list = []
         self.object_mask_list = []
 
-        for index, event in enumerate(self.events):
+        for event in self.events:
             if hasattr(event, 'frame'):
                 scene_image = PIL.Image.fromarray(event.frame)
                 self.image_list.append(scene_image)

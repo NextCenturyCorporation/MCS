@@ -25,6 +25,7 @@ class TestStepMetadata(unittest.TestCase):
         "habituation_trial": null,
         "head_tilt": 0.0,
         "image_list": [],
+        "mask_map": {},
         "object_list": [],
         "object_mask_list": [],
         "performer_radius": 0.0,
@@ -82,6 +83,9 @@ class TestStepMetadata(unittest.TestCase):
     def test_image_list(self):
         self.assertFalse(self.step_metadata.image_list)
         self.assertIsInstance(self.step_metadata.image_list, list)
+
+    def test_mask_map(self):
+        self.assertIsInstance(self.step_metadata.mask_map, dict)
 
     def test_object_list(self):
         self.assertFalse(self.step_metadata.object_list)
@@ -145,6 +149,7 @@ class TestStepMetadata(unittest.TestCase):
             habituation_trial=1,
             head_tilt=15,
             image_list=['image_1', 'image_2'],
+            mask_map={},
             object_list=[
                 mcs.ObjectMetadata(uuid='object_1'),
                 mcs.ObjectMetadata(uuid='object_2')
@@ -184,6 +189,7 @@ class TestStepMetadata(unittest.TestCase):
             [dict(object_data) for object_data in data.object_list],
             [dict(object_data) for object_data in copy.object_list]
         )
+        self.assertEqual(data.mask_map, copy.mask_map)
         self.assertEqual(data.performer_radius, copy.performer_radius)
         self.assertEqual(data.performer_reach, copy.performer_reach)
         self.assertEqual(

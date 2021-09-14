@@ -61,6 +61,9 @@ class StepMetadata:
         simulation were run. This is usually a list with 1 image, except for
         the output from start_scene for a scene with a scripted Preview Phase.
         (Preview Phase case details TBD).
+    mask_map: dict
+        An association of object id (key) and the segmentation mask color
+        provided by object_mask_list. Only available with oracle metadata.
     object_list : list of ObjectMetadata objects
         The list of metadata for all the visible interactive objects in the
         scene. This list will be empty if using a metadata level below
@@ -121,6 +124,7 @@ class StepMetadata:
         habituation_trial=None,
         head_tilt=0.0,
         image_list=None,
+        mask_map=None,
         object_list=None,
         object_mask_list=None,
         performer_radius=0.0,
@@ -151,6 +155,7 @@ class StepMetadata:
         self.habituation_trial = habituation_trial
         self.head_tilt = head_tilt
         self.image_list = [] if image_list is None else image_list
+        self.mask_map = {} if mask_map is None else mask_map
         self.object_list = [] if object_list is None else object_list
         self.object_mask_list = (
             [] if object_mask_list is None else object_mask_list
@@ -174,7 +179,7 @@ class StepMetadata:
         if obj_list is None:
             return None
         else:
-            return dict((obj.uuid, dict(obj)) for obj in obj_list)
+            return {obj.uuid: dict(obj) for obj in obj_list}
 
     def copy_without_depth_or_images(self):
         """Return a deep copy of this StepMetadata with default depth_map_list,
@@ -195,6 +200,7 @@ class StepMetadata:
         yield 'goal', dict(self.goal)
         yield 'habituation_trial', self.habituation_trial
         yield 'head_tilt', self.head_tilt
+        yield 'mask_map', self.mask_map
         yield 'object_list', self.check_list_none(self.object_list)
         yield 'performer_radius', self.performer_radius
         yield 'performer_reach', self.performer_reach
