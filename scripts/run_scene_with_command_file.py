@@ -20,12 +20,8 @@ def parse_args():
 
 
 def load_command_file(command_text_file):
-    commands = []
-    command_file = open(command_text_file, 'r')
-    for line in command_file:
-        commands.append(line.strip())
-    command_file.close()
-
+    with open(command_text_file, 'r') as command_file:
+        commands = [line.strip() for line in command_file]
     return commands
 
 
