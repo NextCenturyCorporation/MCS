@@ -5,7 +5,7 @@ import json
 import logging
 import os
 import random
-from typing import Dict, List, Union
+from typing import Dict, Union
 
 import ai2thor.controller
 import ai2thor.server
@@ -27,8 +27,7 @@ from .action import Action
 from .config_manager import (ConfigManager, SceneConfiguration,
                              SceneConfigurationSchema)
 from .controller_events import (AfterStepPayload, BeforeStepPayload,
-                                EndScenePayload, EventType, PredictionPayload,
-                                StartScenePayload)
+                                EndScenePayload, EventType, StartScenePayload)
 from .controller_output_handler import ControllerOutputHandler
 from .goal_metadata import GoalMetadata
 from .step_metadata import StepMetadata
@@ -133,12 +132,6 @@ class Controller():
     OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
-    AWS_CREDENTIALS_FOLDER = os.path.expanduser('~') + '/.aws/'
-    AWS_CREDENTIALS_FILE = os.path.expanduser('~') + '/.aws/credentials'
-
-    AWS_ACCESS_KEY_ID = 'aws_access_key_id'
-    AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
-
     def __init__(self, unity_app_file_path: str, config: ConfigManager):
 
         self._subscribers = []
@@ -178,7 +171,7 @@ class Controller():
 
     def _publish_event(self, event_type: EventType,
                        payload: Union[StartScenePayload, BeforeStepPayload,
-                                      AfterStepPayload, PredictionPayload,
+                                      AfterStepPayload,
                                       EndScenePayload]):
         for subscriber in self._subscribers:
             # TODO should we make a deep copy of the payload so subscribers
@@ -245,29 +238,96 @@ class Controller():
         if self.__seed:
             random.seed(self.__seed)
 
-    def end_scene(self, choice, confidence=1.0):
+    def end_scene(
+        self,
+        rating: Union[float, int, str] = None,
+        score: float = 1.0,
+        report: Dict[int, object] = None
+    ):
         """
         Ends the current scene.  Calling end_scene() before calling
         start_scene() will do nothing.
 
         Parameters
         ----------
-        choice : string, optional
-            The selected choice required for ending scenes with
-            violation-of-expectation or classification goals.
-            Is not required for other goals. (default None)
-        confidence : float, optional
-            The choice confidence between 0 and 1 required for ending scenes
-            with violation-of-expectation or classification goals.
-            Is not required for other goals. (default None)
+        rating : float or int or string, required
+            The plausibility rating to classify a passive / VoE scene as either
+            plausible or implausible. Not used for any interactive scenes. For
+            passive agent scenes, this rating should be continuous, from 0.0
+            (completely implausible) to 1.0 (completely plausible). For other
+            passive scenes, this rating must be binary, either 0 (implausible)
+            or 1 (plausible). Please note that end-of-scene ratings are
+            required for all passive / VoE scenes. (default None)
+        score : float, optional
+            The continuous plausibility score between 0.0 (completely
+            implausible) and 1.0 (completely plausible). End-of-scene scores
+            are required for all passive / VoE scenes except agent scenes.
+            Not used for any interactive scenes or passive agent scenes.
+            (default 1.0)
 
             Note: when an issue causes the program to exit prematurely or
             end_scene isn't properly called but history_enabled is true,
             this value will be written to file as -1.
+        report : Dict[int, object], optional
+            Variable for retrospective per frame reporting for passive / VoE
+            scenes. Not used for any interactive scenes or passive agent
+            scenes. (default None)
+
+            Key is an int representing a step/frame number from output step
+            metadata, starting at 1. Value or payload contains:
+
+                * rating : float or int or string, optional
+                    The plausibility rating to classify a passive / VoE scene
+                    as either plausible or implausible. Not used for any
+                    interactive scenes. For passive agent scenes, this rating
+                    should be continuous, from 0.0 (completely implausible) to
+                    1.0 (completely plausible). For other passive scenes, this
+                    rating must be binary, either 0 (implausible) or 1
+                    (plausible). Please note that frame-by-frame ratings are no
+                    longer required for any scenes (but end-of-scene ratings
+                    are). (default None)
+                * score : float, optional
+                    The continuous plausibility score between 0.0 (completely
+                    implausible) and 1.0 (completely plausible). Frame-by-frame
+                    scores are required for all passive / VoE scenes except
+                    agent scenes. Not used for any interactive scenes or
+                    passive agent scenes. (default None)
+                * violations_xy_list : List[Dict[str, float]], optional
+                    A list of one or more (x, y) locations
+                    (ex: [{"x": 1, "y": 3.4}]), each representing a potential
+                    violation-of-expectation. These locations are required for
+                    all passive / VoE scenes except agent scenes. Not used for
+                    any interactive scenes or passive agent scenes.
+                    (default None)
+                * internal_state : object, optional
+                    A properly formatted json object representing various kinds
+                    of internal states at a particular moment. Examples include
+                    the estimated position of the agent, current map of the
+                    world, etc. (default None)
+
+            Example report:
+
+            {
+
+                    1: {
+
+                        "rating": 1,
+
+                        "score": 0.75,
+
+                        "violations_xy_list": [{"x": 1,"y": 1}],
+
+                        "internal_state": {"test": "some state"}
+
+                    }
+
+            }
+
         """
         payloadArgs = self._create_event_payload_kwargs()
-        payloadArgs['choice'] = choice
-        payloadArgs['confidence'] = confidence
+        payloadArgs['rating'] = str(rating)
+        payloadArgs['score'] = score
+        payloadArgs['report'] = report
 
         self._publish_event(
             EventType.ON_END_SCENE,
@@ -363,7 +423,7 @@ class Controller():
             if(self._end_scene_not_registered is True and
                     self._config.is_history_enabled()):
                 # make sure history file is written when program exits
-                atexit.register(self.end_scene, choice="", confidence=-1)
+                atexit.register(self.end_scene, rating="", score=-1)
                 self._end_scene_not_registered = False
 
         payloadArgs = self._create_post_step_event_payload_kwargs(
@@ -616,45 +676,6 @@ class Controller():
             AfterStepPayload(**payloadArgs))
 
         return output
-
-    def make_step_prediction(self, choice: str = None,
-                             confidence: float = None,
-                             violations_xy_list: List[Dict[str, float]] = None,
-                             internal_state: object = None,) -> None:
-        """Make a prediction on the previously taken step/action.
-
-        Parameters
-        ----------
-        choice : string, optional
-            The selected choice for per frame prediction with
-            violation-of-expectation or classification goals.
-            Is not required for other goals. (default None)
-        confidence : float, optional
-            The choice confidence between 0 and 1 required by the end of
-            scenes with violation-of-expectation or classification goals.
-            Is not required for other goals. (default None)
-        violations_xy_list : List[Dict[str, float]], optional
-            A list of one or more (x, y) locations (ex: [{"x": 1, "y": 3.4}]),
-            each representing a potential violation-of-expectation. Required
-            on each step for passive tasks. (default None)
-        internal_state : object, optional
-            A properly formatted json object representing various kinds of
-            internal states at a particular moment. Examples include the
-            estimated position of the agent, current map of the world, etc.
-            (default None)
-
-        Returns
-        -------
-            None
-        """
-
-        payload = PredictionPayload(
-            self._config,
-            choice,
-            confidence,
-            violations_xy_list,
-            internal_state)
-        self._publish_event(EventType.ON_PREDICTION, payload)
 
     def mcs_action_to_ai2thor_action(self, action):
         if action == Action.CLOSE_OBJECT.value:

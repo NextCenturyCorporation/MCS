@@ -3,12 +3,14 @@ import os
 import shutil
 import unittest
 from types import SimpleNamespace
+from unittest.mock import ANY, MagicMock
 
 import numpy
 
 import machine_common_sense as mcs
 from machine_common_sense.config_manager import (ConfigManager,
                                                  SceneConfiguration, Vector3d)
+from machine_common_sense.controller_events import EndScenePayload, EventType
 from machine_common_sense.goal_metadata import GoalMetadata
 
 from .mock_controller import MOCK_VARIABLES, MockControllerAI2THOR
@@ -21,6 +23,7 @@ class TestController(unittest.TestCase):
 
     def setUp(self):
         self.controller = MockControllerAI2THOR()
+        self.controller._publish_event = MagicMock()
         self.controller.set_metadata_tier('default')
         self.maxDiff = None
 
@@ -270,16 +273,49 @@ class TestController(unittest.TestCase):
 
         return data
 
-    # Removed test for "end_scene" but it really only tested writing the
-    # history file.  We should add tests for sending events and then separately
-    # test the event handlers
-    # TODO
+    def test_end_scene(self):
+        test_payload = self.controller._create_event_payload_kwargs()
+
+        test_payload["rating"] = "plausible"
+        test_payload["score"] = 0.5
+        test_payload["report"] = {
+            1: {
+                "rating": "plausible",
+                "score": .75,
+                "violations_xy_list": [
+                    {
+                        "x": 1,
+                        "y": 1
+                    }
+                ]}
+        }
+
+        self.controller.end_scene("plausible", 0.5, {
+            1: {
+                "rating": "plausible",
+                "score": .75,
+                "violations_xy_list": [
+                    {
+                        "x": 1,
+                        "y": 1
+                    }
+                ]}
+        })
+
+        self.controller._publish_event.assert_called_with(
+            EventType.ON_END_SCENE,
+            EndScenePayload(**test_payload)
+        )
 
     def test_start_scene(self):
         self.controller.set_metadata_tier(
             ConfigManager.CONFIG_METADATA_TIER_ORACLE)
         output = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.assertIsNotNone(output)
+        self.controller._publish_event.assert_called_with(
+            EventType.ON_START_SCENE,
+            ANY
+        )
         self.assertEqual(
             output.action_list,
             GoalMetadata.ACTION_LIST)
@@ -395,6 +431,21 @@ class TestController(unittest.TestCase):
                          len(MOCK_VARIABLES['metadata']['objects']))
         self.assertEqual(len(output.structural_object_list),
                          len(MOCK_VARIABLES['metadata']['structuralObjects']))
+
+    def test_step_events(self):
+        self.controller.set_metadata_tier(
+            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
+        output = self.controller.start_scene({'name': TEST_FILE_NAME})
+        output = self.controller.step('MoveAhead')
+        self.controller._publish_event.assert_any_call(
+            EventType.ON_BEFORE_STEP,
+            ANY
+        )
+        self.controller._publish_event.assert_any_call(
+            EventType.ON_AFTER_STEP,
+            ANY
+        )
+        self.assertIsNotNone(output)
 
     def test_step_last_step(self):
         output = self.controller.start_scene({'name': TEST_FILE_NAME})

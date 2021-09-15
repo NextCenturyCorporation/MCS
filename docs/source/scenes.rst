@@ -98,9 +98,9 @@ A cylindrical mechanism attached to a wall or the ceiling throws (for interactiv
 
 .. list-table::
 
-    * - .. figure:: ./images/template_mechanism_dropping_soccer_ball.gif
+    * - .. figure:: ./images/template_mechanism_dropping_soccer_ball_v2.gif
 
-           :download:`template_mechanism_dropping_soccer_ball.json <./scenes/template_mechanism_dropping_soccer_ball.json>`
+           :download:`template_mechanism_dropping_soccer_ball_v2.json <./scenes/template_mechanism_dropping_soccer_ball_v2.json>`
 
     * - .. figure:: ./images/template_mechanism_throwing_soccer_ball.gif
 
@@ -125,6 +125,18 @@ Combination of multiple elements. For example: a platform, being frozen, and a m
     * - .. figure:: ./images/template_interactive_object_permanence_scene.gif
 
            :download:`template_interactive_object_permanence_scene.json <./scenes/template_interactive_object_permanence_scene.json>`
+
+End-to-end scenes. VALIDATION ONLY.
+
+.. list-table::
+
+    * - .. figure:: ./images/eval_4_intobjperm_validation_01.gif
+
+           :download:`eval_4_intobjperm_validation_01.json <./scenes/eval_4_intobjperm_validation_01.json>`
+
+    * - .. figure:: ./images/eval_4_reor_validation_01.gif
+
+           :download:`eval_4_reor_validation_01.json <./scenes/eval_4_reor_validation_01.json>`
 
 Passive/Intuitive Physics Scenes
 --------------------------------

@@ -2,8 +2,8 @@
 Installation and Setup
 =======================
 
-.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.3/MCS-AI2-THOR-Unity-App-v0.4.3-mac.zip
-.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.3/MCS-AI2-THOR-Unity-App-v0.4.3-linux.zip
+.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.4/MCS-AI2-THOR-Unity-App-v0.4.4-mac.zip
+.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.4/MCS-AI2-THOR-Unity-App-v0.4.4-linux.zip
 
 Virtual Environments
 ------------------------
@@ -46,7 +46,7 @@ With the activated Python virtual environment, install the MCS package:
 
     (venv) $ python -m pip install machine-common-sense
 
-For older versions prior to 0.4.3, you will need to use the git URL with the appropriate version number:
+For older versions prior to 0.4.4, you will need to use the git URL with the appropriate version number:
 
 .. code-block:: console
 
@@ -66,7 +66,7 @@ The links below are referencing version |version|. For our previous releases, pl
 Linux Version:
 **************
 
-1. `Download and unzip the Linux ZIP`_ *Note that for versions prior to 0.4.3, the Unity Linux build and the data directory are in two separate zips.*
+1. `Download and unzip the Linux ZIP`_ *Note that for versions prior to 0.4.4, the Unity Linux build and the data directory are in two separate zips.*
 
 2. Ensure that the Unity App, the Data Directory TAR, and the UnityPlayer.so file are all in the same directory.
 
@@ -214,4 +214,22 @@ Example Using the Config File to Generate Scene Graphs or Maps
         else:
             output = controller.start_scene(scene_data)
             # Use the output to save your scene graph or map
+
+Logging
+-------
+
+MCS uses the python logging package with some defaults.  Logging should be initialized via the mcs.init_logging() method if logging is desired.  the mcs.init_logging function have two parameters, log_config, and log_config_file.  The first is a dictionary and the second is a path to a file.  Both of these should contain a dictionary that contains the logging configuration of python logging. (https://docs.python.org/3/library/logging.config.html#logging-config-dictschema)  The log_config_file, if it exists, will always override the dictionary and defaults to log.config.user.py in the current working directory.  In most cases, one of the examples below should be used.
+
+Common examples of logging initialization:
+
+.. code-block:: python
+
+    # Below initializes default which logs to console
+    mcs.init_logging()
+
+    # Below initializes development default with file logging as well as console logging
+    mcs.init_logging(LoggingConfig.get_dev_logging_config())
+
+    #Below initializes error only console logging
+    mcs.init_logging(LoggingConfig.get_errors_only_console_config())
 
