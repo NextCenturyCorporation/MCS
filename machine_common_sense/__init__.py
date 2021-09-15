@@ -70,25 +70,15 @@ def init_logging(log_config=None,
         log_config_file=log_config_file)
 
 
-def create_controller(unity_app_file_path=None,
-                      unity_cache_version=None,
-                      config_file_or_dict=None):
+def create_controller(config_file_or_dict=None,
+                      unity_app_file_path=None,
+                      unity_cache_version=None):
     """
     Creates and returns a new MCS Controller object.
 
     Parameters
     ----------
-    unity_app_file_path : str, optional
-        The file path to your MCS Unity application.  If Not provided,
-        the internal cache and downloader will attempt to locate and use
-        the current version.
-        (default None)
-    unity_cache_version : str, optional
-        If no file path is provided for the MCS Unity application, the
-        version provided will be found via cache and internal downloader.
-        If not provided, the version matching the MCS code will be used.
-        (default None)
-    config_file_or_dict: str or dict, optional
+    config_file_or_dict: str or dict, required
         Can be a path to configuration file to read in or a dictionary
         of various properties, such as metadata level and whether or
         not to save history files (default None)
@@ -99,8 +89,18 @@ def create_controller(unity_app_file_path=None,
         1. **MCS_CONFIG_FILE_PATH** environment variable (meant for internal
            TA2 use during evaluation)
         2. If no environment variable given, use **config_file_or_dict**
-           parameter.
-
+           parameter. The value can be a string file path or a dictionary.
+        3. Raises FileNotFoundError if no config found.
+    unity_app_file_path : str, optional
+        The file path to your MCS Unity application.  If Not provided,
+        the internal cache and downloader will attempt to locate and use
+        the current version.
+        (default None)
+    unity_cache_version : str, optional
+        If no file path is provided for the MCS Unity application, the
+        version provided will be found via cache and internal downloader.
+        If not provided, the version matching the MCS code will be used.
+        (default None)
 
     Returns
     -------
