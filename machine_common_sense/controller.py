@@ -86,18 +86,8 @@ class Controller():
 
     Parameters
     ----------
-    config_file_or_dict: str or dict, optional
-        Can be a path to configuration file to read in or a dictionary
-        of various properties, such as metadata level and whether or
-        not to save history files (default None)
-
-        * Note the **order of precedence for config options**, in case more
-          than one is given:
-
-        1. **MCS_CONFIG_FILE_PATH** environment variable (meant for internal
-           TA2 use during evaluation)
-        2. If no environment variable given, use **config_file_or_dict**
-           parameter.
+    unity_app_file: str
+    config: ConfigManager
     """
 
     # AI2-THOR creates a square grid across the scene that is
@@ -149,7 +139,7 @@ class Controller():
     AWS_ACCESS_KEY_ID = 'aws_access_key_id'
     AWS_SECRET_ACCESS_KEY = 'aws_secret_access_key'
 
-    def __init__(self, unity_app_file_path, config):
+    def __init__(self, unity_app_file_path: str, config: ConfigManager):
 
         self._subscribers = []
 
