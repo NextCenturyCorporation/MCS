@@ -15,7 +15,7 @@ from machine_common_sense.goal_metadata import GoalMetadata
 class TestControllerOutputHandler(unittest.TestCase):
 
     def setUp(self):
-        self._config = ConfigManager()
+        self._config = ConfigManager(config_file_or_dict={})
         self._config._config[
             ConfigManager.CONFIG_DEFAULT_SECTION
         ] = {}

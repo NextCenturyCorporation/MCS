@@ -56,9 +56,9 @@ class MockController():
         event.instance_segmentation_frame = MOCK_VARIABLES[
             'instance_segmentation_frame'
         ].copy()
-        output = ai2thor.server.MultiAgentEvent(
-            0, [event for _ in range(0, MOCK_VARIABLES['event_count'])])
-        return output
+        return ai2thor.server.MultiAgentEvent(
+            0, [event for _ in range(MOCK_VARIABLES['event_count'])]
+        )
 
     def get_last_step_data(self):
         return self.__last_step_data
@@ -107,7 +107,7 @@ class MockControllerAI2THOR(Controller):
 
         self._end_scene_not_registered = False  # atexit not needed for tests
         self._controller = MockController()
-        self._config = ConfigManager()
+        self._config = ConfigManager(config_file_or_dict={})
         self._config._config[
             ConfigManager.CONFIG_DEFAULT_SECTION
         ] = {}

@@ -23,21 +23,21 @@ class TestConfigManager(unittest.TestCase):
     @classmethod
     @mock_env()
     def setUpClass(cls):
-        cls.config_mngr = ConfigManager(None)
+        cls.config_mngr = ConfigManager(config_file_or_dict={})
         cls.config_mngr._config[
             cls.config_mngr.CONFIG_DEFAULT_SECTION
         ] = {}
 
-    @classmethod
+    @ classmethod
     def tearDownClass(cls):
         pass
 
     def test_init(self):
         self.assertIsNotNone(self.config_mngr._config)
 
-    @mock_env()
-    @patch.multiple(ConfigManager, _read_in_config_dict=DEFAULT,
-                    _read_in_config_file=DEFAULT)
+    @ mock_env()
+    @ patch.multiple(ConfigManager, _read_in_config_dict=DEFAULT,
+                     _read_in_config_file=DEFAULT)
     def test_init_with_arg(self, _read_in_config_dict, _read_in_config_file):
         file_path = './arg-test.ini'
         _ = ConfigManager(file_path)
@@ -45,9 +45,9 @@ class TestConfigManager(unittest.TestCase):
         _read_in_config_file.assert_called_once_with(file_path)
         _read_in_config_dict.assert_not_called()
 
-    @mock_env(MCS_CONFIG_FILE_PATH='~/somefolder/env-var-test.ini')
-    @patch.multiple(ConfigManager, _read_in_config_dict=DEFAULT,
-                    _read_in_config_file=DEFAULT)
+    @ mock_env(MCS_CONFIG_FILE_PATH='~/somefolder/env-var-test.ini')
+    @ patch.multiple(ConfigManager, _read_in_config_dict=DEFAULT,
+                     _read_in_config_file=DEFAULT)
     def test_init_with_env_variable(
             self, _read_in_config_dict, _read_in_config_file):
         _ = ConfigManager()
@@ -73,7 +73,7 @@ class TestConfigManager(unittest.TestCase):
     @mock_env(MCS_CONFIG_FILE_PATH='~/somefolder/env-var-test.ini')
     def test_nonexistent_file_from_env_variable(self):
         '''Missing config files should raise an exception'''
-        self.assertRaises(Exception, ConfigManager)
+        self.assertRaises(RuntimeError, ConfigManager)
 
     @mock_env(MCS_CONFIG_FILE_PATH='./scripts/config_level2_debug.ini')
     def test_init_no_override_with_env_var_and_dict(self):
@@ -108,7 +108,11 @@ class TestConfigManager(unittest.TestCase):
     def test_init_with_filepath_missing(self):
         '''Provided config file path must exist or an exception occurs'''
         missing_config_file = '~/somefolder/env-var-test.ini'
-        self.assertRaises(Exception, ConfigManager, missing_config_file)
+        self.assertRaises(RuntimeError, ConfigManager, missing_config_file)
+
+    def test_init_with_no_config(self):
+        '''No dictionary, no file, and no env should raise an exception'''
+        self.assertRaises(RuntimeError, ConfigManager)
 
     def test_init_with_dict(self):
         config_options = {

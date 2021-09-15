@@ -82,7 +82,7 @@ class ConfigManager(object):
             elif(isinstance(config_file_or_dict, str)):
                 self._read_in_config_file(config_file_or_dict)
             else:
-                logger.warning("No config options given.")
+                raise FileNotFoundError("No config options given")
         except FileNotFoundError as err:
             raise RuntimeError("Configuration not set") from err
 
