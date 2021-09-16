@@ -18,6 +18,9 @@ class AbstractRunnerScript():
     def __init__(self, name, action_callback):
         self._name = name
         args, filename_list = self._read_args()
+        if not len(filename_list):
+            print('No matching files found... Exiting')
+            exit()
         self.args = args
 
         debug = (args.save_videos or args.save_gifs or args.debug)
@@ -32,6 +35,7 @@ class AbstractRunnerScript():
         config_file_path = SCRIPT_FOLDER + '/config_' + config_suffix + '.ini'
         if args.config_file:
             config_file_path = args.config_file
+        print('========================================')
         controller = mcs.create_controller(
             unity_app_file_path=args.mcs_unity_build_file,
             unity_cache_version=args.mcs_unity_version,
@@ -254,6 +258,15 @@ class MultipleFileRunnerScript(AbstractRunnerScript):
     def _read_subclass_args(self, parser):
         args = parser.parse_args()
         filename_list = glob.glob(args.mcs_scene_prefix + '*_debug.json')
-        if len(filename_list) == 0:
+        print(
+            f'Found {len(filename_list)} files matching '
+            f'{args.mcs_scene_prefix + "*_debug.json"}'
+        )
+        if not len(filename_list):
+            print('No matching files found... trying non-debug files')
             filename_list = glob.glob(args.mcs_scene_prefix + '*.json')
+            print(
+                f'Found {len(filename_list)} files matching '
+                f'{args.mcs_scene_prefix + "*.json"}'
+            )
         return args, sorted(filename_list)
