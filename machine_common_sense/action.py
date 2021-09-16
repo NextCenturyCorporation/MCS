@@ -47,12 +47,16 @@ class Action(Enum):
         If the object is completely closed.
     "NOT_INTERACTABLE"
         If the object corresponding to the "objectImageCoords" vector is not an
-        interactable object.
+        interactable object. This includes structural objects like the room's
+        walls.
     "NOT_OBJECT"
         If the object corresponding to the "objectId" (or object corresponding
         to the "objectImageCoords" vector) is not an object.
     "NOT_OPENABLE"
         If the object itself cannot be closed.
+    "NOT_RECEPTACLE"
+        If the object corresponding to the "objectImageCoords" vector is not a
+        receptacle object.
     "OBSTRUCTED"
         If you cannot close the object because your path is obstructed.
     "OUT_OF_REACH"
@@ -229,12 +233,16 @@ class Action(Enum):
         If the object is completely opened.
     "NOT_INTERACTABLE"
         If the object corresponding to the "objectImageCoords" vector is not an
-        interactable object.
+        interactable object. This includes structural objects like the room's
+        walls.
     "NOT_OBJECT"
         If the object corresponding to the "objectId" (or object corresponding
         to the "objectImageCoords" vector) is not an object.
     "NOT_OPENABLE"
         If the object itself cannot be opened.
+    "NOT_RECEPTACLE"
+        If the object corresponding to the "objectImageCoords" vector is not a
+        receptacle object.
     "OBSTRUCTED"
         If you cannot open the object because your path is obstructed.
     "OUT_OF_REACH"
@@ -425,6 +433,7 @@ class Action(Enum):
     "NOT_INTERACTABLE"
         If the object corresponding to the "objectImageCoords" or
         "receptacleObjectImageCoords" vector is not an interactable object.
+        This includes structural objects like the room's walls.
     "NOT_OBJECT"
         If the object corresponding to the "objectId" and/or
         "receptacleObjectId" (or object corresponding to the
