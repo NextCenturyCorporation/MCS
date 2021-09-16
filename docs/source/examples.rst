@@ -52,7 +52,7 @@ Run multiple scenes sequentially
     import machine_common_sense as mcs
 
     # Only create the MCS controller ONCE!
-    controller = mcs.create_controller()
+    controller = mcs.create_controller(config_file_or_dict={})
 
     for scene_json_file_path in scene_json_file_list:
         scene_data, status = mcs.load_scene_json_file(scene_json_file_path)

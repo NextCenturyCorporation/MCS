@@ -73,7 +73,8 @@ def main():
     args = parse_args()
     quartets = list_quartets(args.input)
     output_dir = pathlib.Path(args.output)
-    controller = mcs.create_controller(unity_app_file_path=args.engine)
+    controller = mcs.create_controller(config_file_or_dict={},
+                                       unity_app_file_path=args.engine)
 
     # object_permanence, shape_constancy, spatio_temporal_continuity -
     # {0001 - 0100} - {1 - 4}

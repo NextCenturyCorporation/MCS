@@ -39,7 +39,7 @@ Run the following script to test MCS with the X11 server created above.
     # test.py
     import machine_common_sense as mcs
     # use your path to the MCS Unity executable
-    controller = mcs.create_controller()
+    controller = mcs.create_controller(config_file_or_dict={})
     # find a test scene
     scene_file_path = 'docs/source/scenes/ball_far.json'
     scene_data, status = mcs.load_scene_json_file(scene_file_path)

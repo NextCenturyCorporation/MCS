@@ -69,6 +69,7 @@ def main():
         f'FOUND {len(file_list)} SCENE CONFIGURATION FILES... '
         f'STARTING THE MCS UNITY APP...')
     controller = mcs.create_controller(
+        config_file_or_dict={},
         unity_app_file_path=args.mcs_unity_build_file)
 
     scene_time_list = []
