@@ -8,7 +8,7 @@ from unittest.mock import ANY, MagicMock
 import numpy
 
 import machine_common_sense as mcs
-from machine_common_sense.config_manager import (ConfigManager,
+from machine_common_sense.config_manager import (ConfigManager, MetadataTier,
                                                  SceneConfiguration, Vector3d)
 from machine_common_sense.controller_events import EndScenePayload, EventType
 from machine_common_sense.goal_metadata import GoalMetadata
@@ -309,7 +309,7 @@ class TestController(unittest.TestCase):
 
     def test_start_scene(self):
         self.controller.set_metadata_tier(
-            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
+            MetadataTier.ORACLE.value)
         output = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.assertIsNotNone(output)
         self.controller._publish_event.assert_called_with(
@@ -356,7 +356,7 @@ class TestController(unittest.TestCase):
 
     def test_start_scene_preview_phase(self):
         self.controller.set_metadata_tier(
-            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
+            MetadataTier.ORACLE.value)
         last_preview_phase_step = 5
         output = self.controller.start_scene({'name': TEST_FILE_NAME, 'goal': {
             'last_preview_phase_step': last_preview_phase_step}
@@ -390,7 +390,7 @@ class TestController(unittest.TestCase):
 
     def test_step(self):
         self.controller.set_metadata_tier(
-            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
+            MetadataTier.ORACLE.value)
         output = self.controller.start_scene({'name': TEST_FILE_NAME})
         output = self.controller.step('MoveAhead')
         self.assertIsNotNone(output)
@@ -434,7 +434,7 @@ class TestController(unittest.TestCase):
 
     def test_step_events(self):
         self.controller.set_metadata_tier(
-            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
+            MetadataTier.ORACLE.value)
         output = self.controller.start_scene({'name': TEST_FILE_NAME})
         output = self.controller.step('MoveAhead')
         self.controller._publish_event.assert_any_call(
