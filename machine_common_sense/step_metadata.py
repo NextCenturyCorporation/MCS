@@ -16,13 +16,26 @@ class StepMetadata:
         The list of all actions that are available for the next step.
         Each action is returned as a tuple containing the action string and
         the action's restricted parameters, if any.
+
         For example: ("Pass", {}) forces a Pass action; ("PickupObject", {})
         forces a PickupObject action with any parameters; and
         ("PickupObject", {"objectId": "a"}) forces a PickupObject action with
         the specific parameters objectId=a.
+
         An action_list of None or an empty list means that all actions will
         be available for the next step.
-        Derived from GoalMetadata.action_list.
+
+        To "step" using the first action from the action_list:
+
+        .. highlight:: python
+        .. code-block:: python
+
+            step_metadata = controller.start_scene(scene_data)
+            action, params = step_metadata.action_list[0]
+            step_metadata = controller.step(action, **params)
+
+        Derived from :mod:`GoalMetadata.action_list[step_number]
+        <machine_common_sense.GoalMetadata>`.
         May be a subset of all possible actions. See
         :mod:`Action <machine_common_sense.Action>`.
     camera_aspect_ratio : (float, float)

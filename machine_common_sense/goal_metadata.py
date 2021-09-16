@@ -16,15 +16,18 @@ class GoalMetadata:
         available for the single step corresponding to the inner list's index
         within the outer list. Each action is returned as a tuple containing
         the action string and the action's restricted paramters, if any.
+
         For example: ("Pass", {}) forces a Pass action; ("PickupObject", {})
         forces a PickupObject action with any parameters; and
         ("PickupObject", {"objectId": "a"}) forces a PickupObject action with
         the specific parameters objectId=a.
+
         An action_list of None means that all actions are always available.
         An empty inner list means that all actions will be available on that
         specific step.
-        See StepMetadata.action_list for the available actions of the current
-        step.
+
+        See :mod:`StepMetadata.action_list <machine_common_sense.StepMetadata>`
+        for the available actions of the current step.
         May be a subset of all possible actions. See
         :mod:`Action <machine_common_sense.Action>`.
     category : string

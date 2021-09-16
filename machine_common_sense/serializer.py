@@ -212,6 +212,7 @@ class SerializerJson(ISerializer):
         """
 
         def default(self, x):
+            """"""
             if isinstance(x, StepMetadata):
                 return {
                     'action_list': x.action_list,
