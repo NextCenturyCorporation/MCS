@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import argparse
 import glob
 import logging
@@ -22,7 +20,7 @@ class AbstractRunnerScript():
         self,
         name: str,
         action_callback: Callable[
-            [Dict, mcs.StepMetadata, AbstractRunnerScript],
+            [Dict, mcs.StepMetadata, 'AbstractRunnerScript'],
             Tuple[str, Dict]
         ]
     ):
@@ -179,7 +177,7 @@ class AbstractRunnerScript():
         controller: mcs.Controller,
         filename: str,
         action_callback: Callable[
-            [Dict, mcs.StepMetadata, AbstractRunnerScript],
+            [Dict, mcs.StepMetadata, 'AbstractRunnerScript'],
             Tuple[str, Dict]
         ],
         last_step: int,
@@ -246,7 +244,7 @@ class SingleFileRunnerScript(AbstractRunnerScript):
     def _read_subclass_args(
         self,
         parser: argparse.ArgumentParser
-    ) -> Tuple[argparse.Namespace, list[str]]:
+    ) -> Tuple[argparse.Namespace, List[str]]:
         args = parser.parse_args()
         return args, [args.mcs_scene_filename]
 
@@ -256,7 +254,7 @@ class MultipleFileRunnerScript(AbstractRunnerScript):
         self,
         name: str,
         action_callback: Callable[
-            [Dict, mcs.StepMetadata, AbstractRunnerScript],
+            [Dict, mcs.StepMetadata, 'AbstractRunnerScript'],
             Tuple[str, Dict]
         ]
     ):
