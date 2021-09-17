@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 DEFAULT_MOVE = 0.1
 
 from .action import Action
-from .config_manager import (MetadataTier, SceneConfiguration,
+from .config_manager import (ConfigManager, MetadataTier, SceneConfiguration,
                              SceneConfigurationSchema)
 from .controller_events import (AfterStepPayload, BeforeStepPayload,
                                 EndScenePayload, EventType, StartScenePayload)

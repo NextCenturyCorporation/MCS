@@ -82,7 +82,8 @@ class TestConfigManager(unittest.TestCase):
             'seed': 10
         }
         config_mngr = ConfigManager(config_options)
-        self.assertEqual(config_mngr.get_metadata_tier(), 'level2')
+        self.assertEqual(config_mngr.get_metadata_tier(),
+                         MetadataTier.LEVEL_2)
         self.assertEqual(config_mngr.get_seed(), None)
 
     @mock_env(MCS_CONFIG_FILE_PATH='./scripts/config_level2_debug.ini')
@@ -102,7 +103,8 @@ class TestConfigManager(unittest.TestCase):
     def test_init_with_filepath(self):
         config_file = './scripts/config_level2_debug.ini'
         config_mngr = ConfigManager(config_file_or_dict=config_file)
-        self.assertEqual(config_mngr.get_metadata_tier(), 'level2')
+        self.assertEqual(config_mngr.get_metadata_tier(),
+                         MetadataTier.LEVEL_2)
         self.assertEqual(config_mngr.get_seed(), None)
 
     def test_init_with_filepath_missing(self):
@@ -125,7 +127,8 @@ class TestConfigManager(unittest.TestCase):
         config_mngr = ConfigManager(config_options)
 
         self.assertIsNotNone(config_mngr._config)
-        self.assertEqual(config_mngr.get_metadata_tier(), 'oracle')
+        self.assertEqual(config_mngr.get_metadata_tier(),
+                         MetadataTier.ORACLE)
         self.assertFalse(config_mngr.is_video_enabled())
         self.assertTrue(config_mngr.is_save_debug_images())
         self.assertEqual(config_mngr.get_seed(), 10)
