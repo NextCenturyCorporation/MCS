@@ -32,7 +32,7 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             ] = payload.config.get_evaluation_name()
             hist_info[
                 payload.config.CONFIG_METADATA_TIER
-            ] = payload.config.get_metadata_tier()
+            ] = payload.config.get_metadata_tier().value
             hist_info[
                 payload.config.CONFIG_TEAM
             ] = payload.config.get_team()

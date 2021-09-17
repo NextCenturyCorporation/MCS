@@ -4,7 +4,7 @@ from types import SimpleNamespace
 import numpy
 
 import machine_common_sense as mcs
-from machine_common_sense.config_manager import (ConfigManager,
+from machine_common_sense.config_manager import (ConfigManager, MetadataTier,
                                                  SceneConfiguration,
                                                  SceneConfigurationSchema)
 from machine_common_sense.controller_output_handler import (
@@ -477,7 +477,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
     def test_wrap_output(self):
         self._config.set_metadata_tier(
-            ConfigManager.CONFIG_METADATA_TIER_DEFAULT)
+            MetadataTier.DEFAULT.value)
         (
             mock_scene_event_data,
             image_data,
@@ -644,7 +644,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
     def test_wrap_output_with_config_metadata_level1(self):
         self._config.set_metadata_tier(
-            ConfigManager.CONFIG_METADATA_TIER_LEVEL_1)
+            MetadataTier.LEVEL_1.value)
         (
             mock_scene_event_data,
             image_data,
@@ -723,7 +723,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
     def test_wrap_output_with_config_metadata_oracle_non_restrict(self):
         self._config.set_metadata_tier(
-            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
+            MetadataTier.ORACLE.value)
         (
             mock_scene_event_data,
             image_data,
@@ -772,7 +772,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
     def test_wrap_output_with_config_metadata_oracle(self):
         self._config.set_metadata_tier(
-            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
+            MetadataTier.ORACLE.value)
         (
             mock_scene_event_data,
             image_data,
@@ -821,7 +821,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
     def test_save_images(self):
         self._config.set_metadata_tier(
-            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
+            MetadataTier.ORACLE.value)
         image_data = numpy.array([[0]], dtype=numpy.uint8)
         depth_data = numpy.array([[[0, 0, 0]]], dtype=numpy.uint8)
         object_mask_data = numpy.array([[192]], dtype=numpy.uint8)
@@ -856,7 +856,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
     def test_save_images_with_multiple_images(self):
         self._config.set_metadata_tier(
-            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
+            MetadataTier.ORACLE.value)
         image_data_1 = numpy.array([[64]], dtype=numpy.uint8)
         depth_data_1 = numpy.array([[[128, 64, 32]]], dtype=numpy.uint8)
         object_mask_data_1 = numpy.array([[192]], dtype=numpy.uint8)

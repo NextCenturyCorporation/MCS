@@ -69,7 +69,6 @@ def cleanup(quartet: List) -> None:
 
 
 def main():
-    os.environ['MCS_DEBUG_MODE'] = 'True'
     args = parse_args()
     quartets = list_quartets(args.input)
     output_dir = pathlib.Path(args.output)

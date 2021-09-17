@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 DEFAULT_MOVE = 0.1
 
 from .action import Action
-from .config_manager import (ConfigManager, SceneConfiguration,
+from .config_manager import (MetadataTier, SceneConfiguration,
                              SceneConfigurationSchema)
 from .controller_events import (AfterStepPayload, BeforeStepPayload,
                                 EndScenePayload, EventType, StartScenePayload)
@@ -730,7 +730,7 @@ class Controller():
         # whether or not to randomize segmentation mask colors
         consistentColors = False
         metadata_tier = self._config.get_metadata_tier()
-        if(metadata_tier == ConfigManager.CONFIG_METADATA_TIER_ORACLE):
+        if(metadata_tier == MetadataTier.ORACLE):
             consistentColors = True
 
         # Create the step data dict for the AI2-THOR step function.
@@ -767,4 +767,4 @@ class Controller():
         string
             A string containing the current metadata level.
         """
-        return self._config.get_metadata_tier()
+        return self._config.get_metadata_tier().value
