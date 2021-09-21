@@ -26,7 +26,7 @@ def main():
 
     controller = mcs.create_controller(
         unity_app_file_path=args.mcs_unity_build_file,
-        config_file_path='./config_oracle_debug.ini')
+        config_file_or_dict='./config_oracle_debug.ini')
 
     for json_file_name in json_file_list:
         scene_data, status = mcs.load_scene_json_file(json_file_name)

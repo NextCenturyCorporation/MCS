@@ -174,7 +174,7 @@ def action_callback(scene_data, step_metadata, runner_script):
             rotate_right_count += 3
         else:
             raise ValueError(f'The chosenCorner is not valid: {target_corner}')
-        rotate_right_count = rotate_right_count % 36
+        rotate_right_count %= 36
         if rotate_right_count > 18:
             rotate_right_count -= 36
         scene_state['target_id'] = (

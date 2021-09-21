@@ -917,7 +917,7 @@ class TestController(unittest.TestCase):
 
     def test_set_config(self):
         first_config = self.controller._config
-        new_config = ConfigManager()
+        new_config = ConfigManager(config_file_or_dict={})
         previous_noise = first_config.is_noise_enabled()
 
         def flip():

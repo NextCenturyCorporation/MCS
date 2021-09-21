@@ -35,7 +35,7 @@ class AbstractRunnerScript():
         controller = mcs.create_controller(
             unity_app_file_path=args.mcs_unity_build_file,
             unity_cache_version=args.mcs_unity_version,
-            config_file_path=config_file_path
+            config_file_or_dict=config_file_path
         )
 
         for filename in filename_list:
@@ -79,6 +79,7 @@ class AbstractRunnerScript():
             '--config_file',
             type=str,
             default=None,
+            required=True,
             help='MCS config file override'
         )
         parser.add_argument(

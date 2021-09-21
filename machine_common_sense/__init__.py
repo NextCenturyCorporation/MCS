@@ -70,14 +70,27 @@ def init_logging(log_config=None,
         log_config_file=log_config_file)
 
 
-def create_controller(unity_app_file_path=None,
-                      unity_cache_version=None,
-                      config_file_path=None):
+def create_controller(config_file_or_dict=None,
+                      unity_app_file_path=None,
+                      unity_cache_version=None):
     """
     Creates and returns a new MCS Controller object.
 
     Parameters
     ----------
+    config_file_or_dict: str or dict, required
+        Can be a path to configuration file to read in or a dictionary
+        of various properties, such as metadata level and whether or
+        not to save history files (default None)
+
+        * Note the **order of precedence for config options**, in case more
+          than one is given:
+
+        1. **MCS_CONFIG_FILE_PATH** environment variable (meant for internal
+           TA2 use during evaluation)
+        2. If no environment variable given, use **config_file_or_dict**
+           parameter. The value can be a string file path or a dictionary.
+        3. Raises FileNotFoundError if no config found.
     unity_app_file_path : str, optional
         The file path to your MCS Unity application.  If Not provided,
         the internal cache and downloader will attempt to locate and use
@@ -87,10 +100,6 @@ def create_controller(unity_app_file_path=None,
         If no file path is provided for the MCS Unity application, the
         version provided will be found via cache and internal downloader.
         If not provided, the version matching the MCS code will be used.
-        (default None)
-    config_file_path: str, optional
-        Path to configuration file to read in and set various properties,
-        such as metadata level and whether or not to save history files
         (default None)
 
     Returns
@@ -105,7 +114,7 @@ def create_controller(unity_app_file_path=None,
             unity_exec = unity_provider.get_executable(
                 unity_cache_version).as_posix()
 
-        config = ConfigManager(config_file_path)
+        config = ConfigManager(config_file_or_dict)
         with time_limit(TIME_LIMIT_SECONDS):
             controller = Controller(unity_exec, config)
         if not controller:
@@ -117,7 +126,9 @@ def create_controller(unity_app_file_path=None,
         return None
 
 
-"""
+def change_config(controller: Controller,
+                  config_file_or_dict=None):
+    """
     Creates and returns a new MCS Controller object.  Should only be called
     After a run and before a scene is changed.
 
@@ -126,16 +137,13 @@ def create_controller(unity_app_file_path=None,
     controller : Controller
         The currently used controller that the config should be changed
         on.
-    config_file_path: str, optional
-        Path to configuration file to read in and set various properties,
-        such as metadata level and whether or not to save history files
-        (default None)
+    config_file_or_dict: str or dict, optional
+        Can be a path to configuration file to read in or a dictionary
+        of various properties, such as metadata level and whether or
+        not to save history files (default None)
 
     """
-
-
-def change_config(controller: Controller, config_file_path: str = None):
-    config = ConfigManager(config_file_path)
+    config = ConfigManager(config_file_or_dict)
     controller._set_config(config)
     controller.remove_all_event_handlers()
     add_subscribers(controller, config)

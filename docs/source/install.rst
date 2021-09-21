@@ -116,7 +116,7 @@ After downloading the Unity app, you will need to reference the path using the `
 MCS Configuration File
 ----------------------
 
-To use an MCS configuration file, you can either pass in a file path via the `config_file_path` property in the create_controller() method, or set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see `sample_config.ini <https://github.com/NextCenturyCorporation/MCS/blob/master/sample_config.ini>`_ for an example).
+To use a specific configuration, you can either pass in a file path or dictionary of values via the `config_file_or_dict` in the create_controller() method, or set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see `sample_config.ini <https://github.com/NextCenturyCorporation/MCS/blob/master/sample_config.ini>`_ for an example).
 
 Config File Properties
 **********************
@@ -202,11 +202,9 @@ Example Using the Config File to Generate Scene Graphs or Maps
     import os
     import machine_common_sense as mcs
 
-    os.environ['MCS_CONFIG_FILE_PATH'] = # Path to your MCS configuration file
-
     scene_files = # List of scene configuration file paths
 
-    controller = mcs.create_controller()
+    controller = mcs.create_controller(config_file_or_dict='path/to/config')
 
     for scene_file in scene_files:
         scene_data, status = mcs.load_scene_json_file(scene_file)

@@ -33,15 +33,17 @@ def run_scene(controller, file_name):
         scene_data['name'] = scene_file_name[0:scene_file_name.find('.')]
 
     last_step = DEFAULT_STEP_COUNT
-    if 'goal' in scene_data.keys():
-        if 'last_step' in scene_data['goal'].keys():
-            last_step = scene_data['goal']['last_step']
+    if (
+        'goal' in scene_data.keys(
+        ) and 'last_step' in scene_data['goal'].keys()
+    ):
+        last_step = scene_data['goal']['last_step']
 
     step_time_list = []
 
     output = controller.start_scene(scene_data)
 
-    for i in range(output.step_number + 1, last_step + 1):
+    for _ in range(output.step_number + 1, last_step + 1):
         start = time.perf_counter()
         output = controller.step('Pass')
         end = time.perf_counter()
@@ -67,6 +69,7 @@ def main():
         f'FOUND {len(file_list)} SCENE CONFIGURATION FILES... '
         f'STARTING THE MCS UNITY APP...')
     controller = mcs.create_controller(
+        config_file_or_dict={},
         unity_app_file_path=args.mcs_unity_build_file)
 
     scene_time_list = []
@@ -77,7 +80,7 @@ def main():
     step_time_min_list = []
     step_time_sum_list = []
 
-    for i in range(0, len(file_list)):
+    for i in range(len(file_list)):
         print('========================================================='
               '=======================')
         print(f'RUNNING FILE {(i + 1)}: {file_list[i]}')

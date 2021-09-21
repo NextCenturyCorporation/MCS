@@ -1,6 +1,6 @@
 import os
 import unittest
-from unittest.mock import patch
+from unittest.mock import DEFAULT, patch
 
 from machine_common_sense.config_manager import (ChangeMaterialConfig,
                                                  ConfigManager, ForceConfig,
@@ -23,34 +23,115 @@ class TestConfigManager(unittest.TestCase):
     @classmethod
     @mock_env()
     def setUpClass(cls):
-        cls.config_mngr = ConfigManager(None)
+        cls.config_mngr = ConfigManager(config_file_or_dict={})
         cls.config_mngr._config[
             cls.config_mngr.CONFIG_DEFAULT_SECTION
         ] = {}
 
-    @classmethod
+    @ classmethod
     def tearDownClass(cls):
         pass
 
     def test_init(self):
-        self.assertEqual(
-            self.config_mngr._config_file,
-            self.config_mngr.DEFAULT_CONFIG_FILE)
+        self.assertIsNotNone(self.config_mngr._config)
 
-    @mock_env()
-    def test_init_with_arg(self):
+    @ mock_env()
+    @ patch.multiple(ConfigManager, _read_in_config_dict=DEFAULT,
+                     _read_in_config_file=DEFAULT)
+    def test_init_with_arg(self, _read_in_config_dict, _read_in_config_file):
         file_path = './arg-test.ini'
-        config_mngr = ConfigManager(file_path)
+        _ = ConfigManager(file_path)
 
-        self.assertEqual(config_mngr._config_file, file_path)
+        _read_in_config_file.assert_called_once_with(file_path)
+        _read_in_config_dict.assert_not_called()
+
+    @ mock_env(MCS_CONFIG_FILE_PATH='~/somefolder/env-var-test.ini')
+    @ patch.multiple(ConfigManager, _read_in_config_dict=DEFAULT,
+                     _read_in_config_file=DEFAULT)
+    def test_init_with_env_variable(
+            self, _read_in_config_dict, _read_in_config_file):
+        _ = ConfigManager()
+
+        _read_in_config_dict.assert_not_called()
+        _read_in_config_file.assert_called_once_with(
+            os.environ.get('MCS_CONFIG_FILE_PATH'))
 
     @mock_env(MCS_CONFIG_FILE_PATH='~/somefolder/env-var-test.ini')
-    def test_init_with_env_variable(self):
-        config_mngr = ConfigManager()
+    @patch.multiple(ConfigManager, _read_in_config_dict=DEFAULT,
+                    _read_in_config_file=DEFAULT)
+    def test_init_with_arg_and_env_variable(
+            self, _read_in_config_dict, _read_in_config_file):
+        '''Ensures environment variable overrides provided file path'''
+        file_path = './arg-test.ini'
+        _ = ConfigManager(file_path)
 
-        self.assertEqual(
-            config_mngr._config_file,
-            '~/somefolder/env-var-test.ini')
+        _read_in_config_dict.assert_not_called()
+        _read_in_config_file.assert_called_once_with(
+            os.environ.get('MCS_CONFIG_FILE_PATH')
+        )
+
+    @mock_env(MCS_CONFIG_FILE_PATH='~/somefolder/env-var-test.ini')
+    def test_nonexistent_file_from_env_variable(self):
+        '''Missing config files should raise an exception'''
+        self.assertRaises(RuntimeError, ConfigManager)
+
+    @mock_env(MCS_CONFIG_FILE_PATH='./scripts/config_level2_debug.ini')
+    def test_init_no_override_with_env_var_and_dict(self):
+        config_options = {
+            'metadata': 'oracle',
+            'seed': 10
+        }
+        config_mngr = ConfigManager(config_options)
+        self.assertEqual(config_mngr.get_metadata_tier(),
+                         MetadataTier.LEVEL_2)
+        self.assertEqual(config_mngr.get_seed(), None)
+
+    @mock_env(MCS_CONFIG_FILE_PATH='./scripts/config_level2_debug.ini')
+    @patch.multiple(ConfigManager, _read_in_config_dict=DEFAULT,
+                    _read_in_config_file=DEFAULT)
+    def test_init_env_var_and_dict_function_calls(
+            self, _read_in_config_dict, _read_in_config_file):
+        config_options = {
+            'metadata': 'oracle',
+            'seed': 10
+        }
+        _ = ConfigManager(config_options)
+        _read_in_config_dict.assert_not_called()
+        _read_in_config_file.assert_called_once_with(
+            os.environ.get('MCS_CONFIG_FILE_PATH'))
+
+    def test_init_with_filepath(self):
+        config_file = './scripts/config_level2_debug.ini'
+        config_mngr = ConfigManager(config_file_or_dict=config_file)
+        self.assertEqual(config_mngr.get_metadata_tier(),
+                         MetadataTier.LEVEL_2)
+        self.assertEqual(config_mngr.get_seed(), None)
+
+    def test_init_with_filepath_missing(self):
+        '''Provided config file path must exist or an exception occurs'''
+        missing_config_file = '~/somefolder/env-var-test.ini'
+        self.assertRaises(RuntimeError, ConfigManager, missing_config_file)
+
+    def test_init_with_no_config(self):
+        '''No dictionary, no file, and no env should raise an exception'''
+        self.assertRaises(RuntimeError, ConfigManager)
+
+    def test_init_with_dict(self):
+        config_options = {
+            'metadata': 'oracle',
+            'video_enabled': 'false',
+            'save_debug_images': True,
+            'seed': 10
+        }
+
+        config_mngr = ConfigManager(config_options)
+
+        self.assertIsNotNone(config_mngr._config)
+        self.assertEqual(config_mngr.get_metadata_tier(),
+                         MetadataTier.ORACLE)
+        self.assertFalse(config_mngr.is_video_enabled())
+        self.assertTrue(config_mngr.is_save_debug_images())
+        self.assertEqual(config_mngr.get_seed(), 10)
 
     def test_validate_screen_size(self):
         self.config_mngr._config[
