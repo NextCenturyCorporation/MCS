@@ -211,7 +211,9 @@ class SerializerJson(ISerializer):
         json_dump = json.dumps(output, cls=McsStepMetadataEncoder, indent=4)
         """
 
+        # Empty docstring here to override superclass function docstring.
         def default(self, x):
+            """"""
             if isinstance(x, StepMetadata):
                 return {
                     'action_list': x.action_list,
