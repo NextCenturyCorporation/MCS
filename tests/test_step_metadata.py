@@ -25,7 +25,6 @@ class TestStepMetadata(unittest.TestCase):
         "habituation_trial": null,
         "head_tilt": 0.0,
         "image_list": [],
-        "mask_map": {},
         "object_list": [],
         "object_mask_list": [],
         "performer_radius": 0.0,
@@ -36,6 +35,7 @@ class TestStepMetadata(unittest.TestCase):
         "return_status": "UNDEFINED",
         "reward": 0,
         "rotation": 0.0,
+        "segment_map": {},
         "step_number": 0,
         "structural_object_list": []
     }'''
@@ -84,9 +84,6 @@ class TestStepMetadata(unittest.TestCase):
         self.assertFalse(self.step_metadata.image_list)
         self.assertIsInstance(self.step_metadata.image_list, list)
 
-    def test_mask_map(self):
-        self.assertIsInstance(self.step_metadata.mask_map, dict)
-
     def test_object_list(self):
         self.assertFalse(self.step_metadata.object_list)
         self.assertIsInstance(self.step_metadata.object_list, list)
@@ -124,6 +121,9 @@ class TestStepMetadata(unittest.TestCase):
         self.assertAlmostEqual(self.step_metadata.rotation, 0.0)
         self.assertIsInstance(self.step_metadata.rotation, float)
 
+    def test_segment_map(self):
+        self.assertIsInstance(self.step_metadata.segment_map, dict)
+
     def test_step_number(self):
         self.assertEqual(self.step_metadata.step_number, 0)
         self.assertIsInstance(self.step_metadata.step_number, int)
@@ -149,7 +149,6 @@ class TestStepMetadata(unittest.TestCase):
             habituation_trial=1,
             head_tilt=15,
             image_list=['image_1', 'image_2'],
-            mask_map={},
             object_list=[
                 mcs.ObjectMetadata(uuid='object_1'),
                 mcs.ObjectMetadata(uuid='object_2')
@@ -163,6 +162,7 @@ class TestStepMetadata(unittest.TestCase):
             return_status=mcs.ReturnStatus.SUCCESSFUL.value,
             reward=0,
             rotation=90,
+            segment_map={},
             step_number=25,
             structural_object_list=[
                 mcs.ObjectMetadata(uuid='structure_1'),
@@ -189,7 +189,6 @@ class TestStepMetadata(unittest.TestCase):
             [dict(object_data) for object_data in data.object_list],
             [dict(object_data) for object_data in copy.object_list]
         )
-        self.assertEqual(data.mask_map, copy.mask_map)
         self.assertEqual(data.performer_radius, copy.performer_radius)
         self.assertEqual(data.performer_reach, copy.performer_reach)
         self.assertEqual(
@@ -201,6 +200,7 @@ class TestStepMetadata(unittest.TestCase):
         self.assertEqual(data.return_status, copy.return_status)
         self.assertEqual(data.reward, copy.reward)
         self.assertEqual(data.rotation, copy.rotation)
+        self.assertEqual(data.segment_map, copy.segment_map)
         self.assertEqual(data.step_number, copy.step_number)
         self.assertEqual(
             [dict(object_data) for object_data in data.structural_object_list],
