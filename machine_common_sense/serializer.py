@@ -64,7 +64,7 @@ class SerializerMsgPack(ISerializer):
                     x.camera_height, x.depth_map_list, x.goal, x.head_tilt,
                     x.image_list, x.object_list, x.object_mask_list, x.pose,
                     x.position, x.return_status, x.reward, x.rotation,
-                    x.step_number, x.structural_object_list
+                    x.segment_map, x.step_number, x.structural_object_list
                 ],
                     default=SerializerMsgPack._ext_pack,
                     strict_types=True))
@@ -119,8 +119,8 @@ class SerializerMsgPack(ISerializer):
             action_list, camera_aspect_ratio, camera_clipping_planes, \
                 camera_field_of_view, camera_height, depth_map_list, goal, \
                 head_tilt, image_list, object_list, object_mask_list, pose, \
-                position, return_status, reward, rotation, step_number, \
-                structural_object_list = \
+                position, return_status, reward, rotation, segment_map, \
+                step_number, structural_object_list = \
                 msgpack.unpackb(data, ext_hook=SerializerMsgPack._ext_unpack)
             return StepMetadata(action_list=action_list,
                                 camera_aspect_ratio=camera_aspect_ratio,
@@ -138,6 +138,7 @@ class SerializerMsgPack(ISerializer):
                                 return_status=return_status,
                                 reward=reward,
                                 rotation=rotation,
+                                segment_map=segment_map,
                                 step_number=step_number,
                                 structural_object_list=structural_object_list)
         elif code == 2:
@@ -228,6 +229,7 @@ class SerializerJson(ISerializer):
                     'return_status': x.return_status,
                     'reward': x.reward,
                     'rotation': x.rotation,
+                    'segment_map': x.segment_map,
                     'step_number': x.step_number,
                     'structural_object_list': x.structural_object_list
                 }
@@ -352,5 +354,6 @@ class SerializerJson(ISerializer):
             return_status=input_json['return_status'],
             reward=input_json['reward'],
             rotation=input_json['rotation'],
+            segment_map=input_json['segment_map'],
             step_number=input_json['step_number'],
             structural_object_list=structural_object_list)
