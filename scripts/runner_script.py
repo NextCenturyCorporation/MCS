@@ -94,7 +94,6 @@ class AbstractRunnerScript():
             '--config_file',
             type=str,
             default=None,
-            required=True,
             help='MCS config file override'
         )
         parser.add_argument(
