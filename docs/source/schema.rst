@@ -180,6 +180,8 @@ Each **force config** has the following properties:
 - `stepEnd` (integer, required): The step on which the action should end.  Must be equal to or greater than the `stepBegin`.
 - `vector` (:ref:`vector config <Vector Config>`, required): The coordinates to describe the movement. Default: `{ "x": 0, "y": 0, "z": 0 }`
 - `relative` (bool, optional): Whether to apply the force using the object's relative coordinate system, rather than the environment's absolute coordinate system. Default: `false`
+- `repeat` (bool, optional): Whether to indefinitely repeat this action. Will wait `stepWait` number of steps after `stepEnd`, then will execute this action for `stepEnd - stepBegin + 1` number of steps, then repeat. Default: `false`
+- `stepWait` (integer, optional): If `repeat` is `true`, the number of steps to wait after the `stepEnd` before repeating this action. Default: `0`
 
 Move Config
 ***********
@@ -189,6 +191,8 @@ Each **move config** has the following properties:
 - `stepBegin` (integer, required): The step on which the action should begin.  Must be non-negative.  A value of `0` means the action will begin during scene initialization.
 - `stepEnd` (integer, required): The step on which the action should end.  Must be equal to or greater than the `stepBegin`.
 - `vector` (:ref:`vector config <Vector Config>`, required): The coordinates to describe the movement. Default: `{ "x": 0, "y": 0, "z": 0 }`
+- `repeat` (bool, optional): Whether to indefinitely repeat this action. Will wait `stepWait` number of steps after `stepEnd`, then will execute this action for `stepEnd - stepBegin + 1` number of steps, then repeat. Default: `false`
+- `stepWait` (integer, optional): If `repeat` is `true`, the number of steps to wait after the `stepEnd` before repeating this action. Default: `0`
 
 Physics Config
 **************
@@ -228,6 +232,8 @@ Each **size config** has the following properties:
 - `stepBegin` (integer, required): The step on which the action should begin.  Must be non-negative.  A value of `0` means the action will begin during scene initialization.
 - `stepEnd` (integer, required): The step on which the action should end.  Must be equal to or greater than the `stepBegin`.
 - `size` (:ref:`vector config <Vector Config>`, required): The coordinates to describe the size, which is multiplied by the object's current size. Default: `{ "x": 1, "y": 1, "z": 1 }`
+- `repeat` (bool, optional): Whether to indefinitely repeat this action. Will wait `stepWait` number of steps after `stepEnd`, then will execute this action for `stepEnd - stepBegin + 1` number of steps, then repeat. Default: `false`
+- `stepWait` (integer, optional): If `repeat` is `true`, the number of steps to wait after the `stepEnd` before repeating this action. Default: `0`
 
 Single Step Config
 ******************
@@ -243,6 +249,8 @@ Each **step begin and end config** has the following properties:
 
 - `stepBegin` (integer, required): The step on which the action should occur.  Must be non-negative.  A value of `0` means the action will occur during scene initialization.
 - `stepEnd` (integer, required): The step on which the action should end.  Must be equal to or greater than the `stepBegin`.
+- `repeat` (bool, optional): Whether to indefinitely repeat this action. Will wait `stepWait` number of steps after `stepEnd`, then will execute this action for `stepEnd - stepBegin + 1` number of steps, then repeat. Default: `false`
+- `stepWait` (integer, optional): If `repeat` is `true`, the number of steps to wait after the `stepEnd` before repeating this action. Default: `0`
 
 Open Close Config
 *****************
