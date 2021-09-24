@@ -296,6 +296,8 @@ class ForceConfigSchema(Schema):
     stepEnd = fields.Int()
     vector = fields.Nested(Vector3dSchema)
     relative = fields.Bool()
+    repeat = fields.Bool()
+    stepWait = fields.Int()
 
     @post_load
     def make_force_config(self, data, **kwargs):
@@ -306,6 +308,8 @@ class MoveConfigSchema(Schema):
     stepBegin = fields.Int()
     stepEnd = fields.Int()
     vector = fields.Nested(Vector3dSchema)
+    repeat = fields.Bool()
+    stepWait = fields.Int()
 
     @post_load
     def make_move_config(self, data, **kwargs):
@@ -368,6 +372,8 @@ class SizeConfigSchema(Schema):
     stepBegin = fields.Int()
     stepEnd = fields.Int()
     size = fields.Nested(Vector3dSchema)
+    repeat = fields.Bool()
+    stepWait = fields.Int()
 
     @post_load
     def make_size_config(self, data, **kwargs):
@@ -385,6 +391,8 @@ class SingleStepConfigSchema(Schema):
 class StepBeginEndConfigSchema(Schema):
     stepBegin = fields.Int()
     stepEnd = fields.Int()
+    repeat = fields.Bool()
+    stepWait = fields.Int()
 
     @post_load
     def make_step_begin_end_config(self, data, **kwargs):
@@ -541,6 +549,8 @@ class ForceConfig:
     stepEnd: int
     vector: Vector3d = Vector3d(0, 0, 0)
     relative: bool = False
+    repeat: bool = False
+    stepWait: int = 0
 
 
 @dataclass
@@ -548,6 +558,8 @@ class MoveConfig:
     stepBegin: int
     stepEnd: int
     vector: Vector3d = Vector3d(0, 0, 0)
+    repeat: bool = False
+    stepWait: int = 0
 
 
 @dataclass
@@ -592,6 +604,8 @@ class SizeConfig:
     stepBegin: int
     stepEnd: int
     size: Vector3d = Vector3d(1, 1, 1)
+    repeat: bool = False
+    stepWait: int = 0
 
 
 @dataclass
@@ -603,6 +617,8 @@ class SingleStepConfig:
 class StepBeginEndConfig:
     stepBegin: int
     stepEnd: int
+    repeat: bool = False
+    stepWait: int = 0
 
 
 @dataclass
