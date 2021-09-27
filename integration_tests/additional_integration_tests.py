@@ -87,26 +87,6 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
                 f'{step_metadata_0.object_list[1].uuid} != '
                 f'{step_metadata_1.object_list[1].uuid}'
             )
-        if (
-            step_metadata_0.object_list[0].color !=
-            step_metadata_1.object_list[0].color
-        ):
-            return (
-                False,
-                f'Step 1 {metadata_tier} failed: object_list[0].color '
-                f'{step_metadata_0.object_list[0].color} != '
-                f'{step_metadata_1.object_list[0].color}'
-            )
-        if (
-            step_metadata_0.object_list[1].color !=
-            step_metadata_1.object_list[1].color
-        ):
-            return (
-                False,
-                f'Step 1 {metadata_tier} failed: object_list[1].color '
-                f'{step_metadata_0.object_list[1].color} != '
-                f'{step_metadata_1.object_list[1].color}'
-            )
 
     # Stop the test scene.
     controller.end_scene("", 1)
