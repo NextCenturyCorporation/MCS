@@ -3,10 +3,10 @@ Example Usage
 
 Here are some example usage snippets for different use cases. Note that there are also additional scripts that may be useful in the scripts/ folder of the github project. 
 
-Using your own config file and/or unity build
+Using your own config data and/or unity build
 ----------------------------------------------
 
-In this case, make sure your `MCS_CONFIG_FILE_PATH` path isn't set, as that takes precedence over the `config_file_path` parameter:
+Please note that for the below example, make sure `MCS_CONFIG_FILE_PATH` is not set, since it will override the `config_file_or_dict` specified below and is meant more for internal use by TA2 during evaluation:
 
 .. code-block:: python
 
@@ -14,7 +14,7 @@ In this case, make sure your `MCS_CONFIG_FILE_PATH` path isn't set, as that take
 
     # Specify a location for the Unity app as opposed to downloading it automatically
     controller = mcs.create_controller(unity_app_file_path='./some-path/unity-app', 
-                                       config_file_path='./some-path/config.ini')
+                                       config_file_or_dict='./some-path/config.ini')
 
     # Either load the scene data dict from an MCS scene config JSON file or create your own.
     # We will give you the training scene config JSON files and the format to make your own.
@@ -36,6 +36,12 @@ In this case, make sure your `MCS_CONFIG_FILE_PATH` path isn't set, as that take
     # to the end_scene function here.
     controller.end_scene()
 
+Note that you can alternatively pass in a dictionary of config values:
+
+.. code-block:: python
+
+    controller = mcs.create_controller(unity_app_file_path='./some-path/unity-app', 
+                                       config_file_or_dict={'metadata': 'oracle', 'history_enabled': True})
 
 
 Run multiple scenes sequentially
@@ -46,7 +52,7 @@ Run multiple scenes sequentially
     import machine_common_sense as mcs
 
     # Only create the MCS controller ONCE!
-    controller = mcs.create_controller()
+    controller = mcs.create_controller(config_file_or_dict={})
 
     for scene_json_file_path in scene_json_file_list:
         scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
@@ -71,7 +77,7 @@ Run with console logging
     logger = logging.getLogger('machine_common_sense')
     mcs.init_logging()
 
-    controller = mcs.create_controller(config_file_path='./some-path/config.ini')
+    controller = mcs.create_controller(config_file_or_dict='./some-path/config.ini')
     scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
     output = controller.start_scene(scene_data)
 

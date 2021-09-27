@@ -18,7 +18,7 @@ class ControllerLogger(AbstractControllerSubscriber):
             payload.scene_config.name)
         logger.debug(
             "METADATA TIER: " +
-            payload.config.get_metadata_tier())
+            payload.config.get_metadata_tier().value)
         logger.debug(f"STEP: {payload.step_number}")
         logger.debug("ACTION: Initialize")
 

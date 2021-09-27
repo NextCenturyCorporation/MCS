@@ -40,13 +40,15 @@ def run_scene(controller, file_name: str) -> None:
         scene_data['name'] = scene_file_name[0:scene_file_name.find('.')]
 
     last_step = 30
-    if 'goal' in scene_data.keys():
-        if 'last_step' in scene_data['goal'].keys():
-            last_step = scene_data['goal']['last_step']
+    if (
+        'goal' in scene_data.keys(
+        ) and 'last_step' in scene_data['goal'].keys()
+    ):
+        last_step = scene_data['goal']['last_step']
 
     output = controller.start_scene(scene_data)
 
-    for i in range(output.step_number + 1, last_step + 1):
+    for _ in range(output.step_number + 1, last_step + 1):
         action = output.action_list[len(output.action_list) - 1]
         output = controller.step(action)
 
@@ -57,9 +59,7 @@ def list_quartets(input_dir: str) -> List:
     num_files = len(files)
     if num_files % 4 != 0:
         raise ValueError('Number of scene files is not a multiple of 4')
-    # TODO not ensuring the same basename
-    quartets = [files[x:x + 4] for x in range(0, num_files, 4)]
-    return quartets
+    return [files[x:x + 4] for x in range(0, num_files, 4)]
 
 
 def cleanup(quartet: List) -> None:
@@ -69,11 +69,11 @@ def cleanup(quartet: List) -> None:
 
 
 def main():
-    os.environ['MCS_DEBUG_MODE'] = 'True'
     args = parse_args()
     quartets = list_quartets(args.input)
     output_dir = pathlib.Path(args.output)
-    controller = mcs.create_controller(unity_app_file_path=args.engine)
+    controller = mcs.create_controller(config_file_or_dict={},
+                                       unity_app_file_path=args.engine)
 
     # object_permanence, shape_constancy, spatio_temporal_continuity -
     # {0001 - 0100} - {1 - 4}

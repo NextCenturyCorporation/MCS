@@ -113,6 +113,13 @@ class LoggingConfig():
                 "handlers": ["console"],
                 "propagate": False
             },
+            "loggers": {
+                "machine_common_sense": {
+                    "level": "ERROR",
+                    "handlers": ["console"],
+                    "propagate": False
+                }
+            },
             "handlers": {
                 "console": {
                     "class": "logging.StreamHandler",

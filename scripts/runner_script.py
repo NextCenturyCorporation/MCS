@@ -3,6 +3,7 @@ import glob
 import logging
 import os.path
 import subprocess
+from typing import Callable, Dict, List, Tuple
 
 import machine_common_sense as mcs
 
@@ -15,9 +16,19 @@ BLACK_IMAGE_PATH = SCRIPT_FOLDER + '/black_image.png'
 
 
 class AbstractRunnerScript():
-    def __init__(self, name, action_callback):
+    def __init__(
+        self,
+        name: str,
+        action_callback: Callable[
+            [Dict, mcs.StepMetadata, 'AbstractRunnerScript'],
+            Tuple[str, Dict]
+        ]
+    ):
         self._name = name
-        args, filename_list = self._read_args()
+        args, filenames = self._read_args()
+        if not len(filenames):
+            print('No matching files found... Exiting')
+            exit()
         self.args = args
 
         debug = (args.save_videos or args.save_gifs or args.debug)
@@ -32,13 +43,14 @@ class AbstractRunnerScript():
         config_file_path = SCRIPT_FOLDER + '/config_' + config_suffix + '.ini'
         if args.config_file:
             config_file_path = args.config_file
+        print('========================================')
         controller = mcs.create_controller(
             unity_app_file_path=args.mcs_unity_build_file,
             unity_cache_version=args.mcs_unity_version,
-            config_file_path=config_file_path
+            config_file_or_dict=config_file_path
         )
 
-        for filename in filename_list:
+        for filename in filenames:
             scene_name = self.run_scene(
                 controller,
                 filename,
@@ -69,11 +81,14 @@ class AbstractRunnerScript():
                     scene_name + '.gif'
                 ])
 
-    def _append_subclass_args_to_parser(self, parser):
+    def _append_subclass_args_to_parser(
+        self,
+        parser: argparse.ArgumentParser
+    ) -> argparse.ArgumentParser:
         # To override
         return parser
 
-    def _read_args(self):
+    def _read_args(self) -> Tuple[argparse.Namespace, List[str]]:
         parser = argparse.ArgumentParser(description=('Run ' + self._name))
         parser.add_argument(
             '--config_file',
@@ -150,18 +165,24 @@ class AbstractRunnerScript():
         parser = self._append_subclass_args_to_parser(parser)
         return self._read_subclass_args(parser)
 
-    def _read_subclass_args(self, parser):
+    def _read_subclass_args(
+        self,
+        parser: argparse.ArgumentParser
+    ) -> Tuple[argparse.Namespace, List[str]]:
         # To override
         return None, []
 
     def run_scene(
         self,
-        controller,
-        filename,
-        action_callback,
-        last_step,
-        prefix,
-        rename
+        controller: mcs.Controller,
+        filename: str,
+        action_callback: Callable[
+            [Dict, mcs.StepMetadata, 'AbstractRunnerScript'],
+            Tuple[str, Dict]
+        ],
+        last_step: int,
+        prefix: str,
+        rename: bool
     ):
         scene_data, status = mcs.load_scene_json_file(filename)
 
@@ -210,20 +231,33 @@ class AbstractRunnerScript():
 
 
 class SingleFileRunnerScript(AbstractRunnerScript):
-    def _append_subclass_args_to_parser(self, parser):
+    def _append_subclass_args_to_parser(
+        self,
+        parser: argparse.ArgumentParser
+    ) -> argparse.ArgumentParser:
         parser.add_argument(
             'mcs_scene_filename',
             help='Filename of MCS scene to run'
         )
         return parser
 
-    def _read_subclass_args(self, parser):
+    def _read_subclass_args(
+        self,
+        parser: argparse.ArgumentParser
+    ) -> Tuple[argparse.Namespace, List[str]]:
         args = parser.parse_args()
         return args, [args.mcs_scene_filename]
 
 
 class MultipleFileRunnerScript(AbstractRunnerScript):
-    def __init__(self, name, action_callback):
+    def __init__(
+        self,
+        name: str,
+        action_callback: Callable[
+            [Dict, mcs.StepMetadata, 'AbstractRunnerScript'],
+            Tuple[str, Dict]
+        ]
+    ):
         super().__init__(name, action_callback)
         if self.args.zip_prefix:
             for file_type in (
@@ -239,7 +273,10 @@ class MultipleFileRunnerScript(AbstractRunnerScript):
                 glob.glob(self.args.mcs_scene_prefix + '*/frame_image_*.png')
             )
 
-    def _append_subclass_args_to_parser(self, parser):
+    def _append_subclass_args_to_parser(
+        self,
+        parser: argparse.ArgumentParser
+    ) -> argparse.ArgumentParser:
         parser.add_argument(
             'mcs_scene_prefix',
             help='Filename prefix of all MCS scenes to run'
@@ -251,9 +288,21 @@ class MultipleFileRunnerScript(AbstractRunnerScript):
         )
         return parser
 
-    def _read_subclass_args(self, parser):
+    def _read_subclass_args(
+        self,
+        parser: argparse.ArgumentParser
+    ) -> Tuple[argparse.Namespace, List[str]]:
         args = parser.parse_args()
-        filename_list = glob.glob(args.mcs_scene_prefix + '*_debug.json')
-        if len(filename_list) == 0:
-            filename_list = glob.glob(args.mcs_scene_prefix + '*.json')
-        return args, sorted(filename_list)
+        filenames = glob.glob(args.mcs_scene_prefix + '*_debug.json')
+        print(
+            f'Found {len(filenames)} files matching '
+            f'{args.mcs_scene_prefix + "*_debug.json"}'
+        )
+        if not len(filenames):
+            print('No matching files found... trying non-debug files')
+            filenames = glob.glob(args.mcs_scene_prefix + '*.json')
+            print(
+                f'Found {len(filenames)} files matching '
+                f'{args.mcs_scene_prefix + "*.json"}'
+            )
+        return args, sorted(filenames)

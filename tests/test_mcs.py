@@ -21,7 +21,7 @@ class TestMCS(unittest.TestCase):
 
     def test_add_subscribers(self):
         ctrl = MockController()
-        cfg = ConfigManager()
+        cfg = ConfigManager({})
         ctrl._subscribers.clear()
 
         def return_true():

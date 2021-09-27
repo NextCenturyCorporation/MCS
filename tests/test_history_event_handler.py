@@ -16,7 +16,7 @@ TEST_FILE_NAME = "test_scene_file.json"
 class TestHistoryEventHandler(unittest.TestCase):
 
     scene_config = SceneConfiguration(name=TEST_FILE_NAME)
-    config_mngr = ConfigManager()
+    config_mngr = ConfigManager({})
 
     def setUp(self):
         self.config_mngr._config[

@@ -29,9 +29,10 @@ def parse_args():
         '--config_file_path',
         type=str,
         default=None,
+        required=True,
         help='Path to configuration file to read in and set various ' +
         'properties, such as metadata level and whether or not to ' +
-        'save history files properties. [default=None]')
+        'save history files properties.')
     return parser.parse_args()
 
 
@@ -177,9 +178,10 @@ class HumanInputShell(cmd.Cmd):
         ):
             print('Only actions available during this step:')
             for action, params in output.action_list:
-                action_string = action + ''.join([
-                    (',' + key + '=' + value) for key, value in params.items()
-                ])
+                action_string = action + ''.join(
+                    ',' + key + '=' + value for key, value in params.items()
+                )
+
                 print(f'    {action_string}')
         else:
             print('All actions available during this step.')
@@ -252,7 +254,7 @@ def main():
 
     controller = mcs.create_controller(
         unity_app_file_path=args.mcs_unity_build_file,
-        config_file_path=args.config_file_path,
+        config_file_or_dict=args.config_file_path,
         unity_cache_version=args.mcs_unity_version)
 
     scene_file_path = args.mcs_scene_json_file

@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 DEFAULT_MOVE = 0.1
 
 from .action import Action
-from .config_manager import (ConfigManager, SceneConfiguration,
+from .config_manager import (ConfigManager, MetadataTier, SceneConfiguration,
                              SceneConfigurationSchema)
 from .controller_events import (AfterStepPayload, BeforeStepPayload,
                                 EndScenePayload, EventType, StartScenePayload)
@@ -85,10 +85,8 @@ class Controller():
 
     Parameters
     ----------
-    config_file_path: str, optional
-        Path to configuration file to read in and set various properties,
-        such as metadata level and whether or not to save history files
-        (default None)
+    unity_app_file: str
+    config: ConfigManager
     """
 
     # AI2-THOR creates a square grid across the scene that is
@@ -134,7 +132,7 @@ class Controller():
     OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
-    def __init__(self, unity_app_file_path, config):
+    def __init__(self, unity_app_file_path: str, config: ConfigManager):
 
         self._subscribers = []
 
@@ -732,7 +730,7 @@ class Controller():
         # whether or not to randomize segmentation mask colors
         consistentColors = False
         metadata_tier = self._config.get_metadata_tier()
-        if(metadata_tier == ConfigManager.CONFIG_METADATA_TIER_ORACLE):
+        if(metadata_tier == MetadataTier.ORACLE):
             consistentColors = True
 
         # Create the step data dict for the AI2-THOR step function.
@@ -769,4 +767,4 @@ class Controller():
         string
             A string containing the current metadata level.
         """
-        return self._config.get_metadata_tier()
+        return self._config.get_metadata_tier().value
