@@ -504,6 +504,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
+        self.assertIsInstance(actual.segment_map, dict)
+        self.assertEqual(actual.segment_map, {0: {'r': 12, 'g': 34, 'b': 56}})
         self.assertEqual(actual.step_number, 0)
 
         self.assertEqual(len(actual.object_list), 1)
@@ -613,6 +615,7 @@ class TestControllerOutputHandler(unittest.TestCase):
             mcs.ReturnStatus.SUCCESSFUL.value)
         self.assertEqual(actual.step_number, 0)
 
+        self.assertIsNone(actual.segment_map)
         # Correct object metadata properties tested elsewhere
         self.assertEqual(len(actual.object_list), 0)
         self.assertEqual(len(actual.structural_object_list), 0)
@@ -1093,6 +1096,28 @@ class TestControllerOutputHandler(unittest.TestCase):
             0)
         actual = scene_event.object_list
         self.assertEqual(len(actual), 3)
+
+    @unittest.skip
+    def test_retrieve_segment_map(self):
+        self._config.set_metadata_tier(
+            ConfigManager.CONFIG_METADATA_TIER_DEFAULT)
+        (
+            mock_scene_event_data,
+            image_data,
+            depth_data,
+            object_mask_data
+        ) = self.create_wrap_output_scene_event()
+        mock_event = self.create_retrieve_object_list_scene_event()
+
+        coh = ControllerOutputHandler(self._config)
+        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
+        print(actual.segment_map)
+        # scene_event = SceneEvent(
+        #     self._config,
+        #     SceneConfiguration(),
+        #     mock_event,
+        #     0)
 
 
 if __name__ == '__main__':

@@ -6,6 +6,8 @@ import numpy as np
 import PIL
 from ai2thor.server import Event
 
+from machine_common_sense.goal_metadata import GoalMetadata
+
 from .config_manager import ConfigManager, SceneConfiguration
 from .controller import DEFAULT_MOVE
 from .material import Material
@@ -119,9 +121,7 @@ class SceneEvent():
         # if no config specified, return visible objects (for now)
         return sorted(
             [
-                self.retrieve_object_output(
-                    object_metadata, self.object_colors
-                )
+                self.retrieve_object_output(object_metadata)
                 for object_metadata in self._raw_output.metadata[key]
                 if show_all or object_metadata['visibleInCamera'] or
                 object_metadata['isPickedUp']
@@ -175,7 +175,7 @@ class SceneEvent():
         return event.object_id_to_color
 
     def retrieve_object_output(
-            self, object_metadata, object_id_to_color):
+            self, object_metadata):
         material_list = (
             list(
                 filter(
@@ -239,25 +239,25 @@ class ControllerOutputHandler():
     '''
 
     def __init__(self, config: ConfigManager):
-        # do nothing
         self._config = config
 
     def set_scene_config(self, scene_config):
         self._scene_config = scene_config
 
     def handle_output(self, raw_output, goal, step_number, habituation_trial):
-        self._scene_event = SceneEvent(
+        scene_event = SceneEvent(
             self._config, self._scene_config, raw_output, step_number)
-        self._step_number = step_number
         unrestricted = self._get_step_metadata(
-            goal, habituation_trial, False)
+            scene_event, step_number, goal, habituation_trial, False)
         restricted = self._get_step_metadata(
-            goal, habituation_trial, True)
+            scene_event, step_number, goal, habituation_trial, True)
         return (unrestricted, restricted)
 
-    # used to be wrap output
-    def _get_step_metadata(self, goal, habituation_trial,
-                           restricted=True) -> StepMetadata:
+    def _get_step_metadata(self, scene_event: SceneEvent,
+                           step_number: int,
+                           goal: GoalMetadata,
+                           habituation_trial: int,
+                           restricted: bool = True) -> StepMetadata:
         metadata_tier = self._config.get_metadata_tier()
         restrict_depth_map = (
             restricted and
@@ -276,26 +276,34 @@ class ControllerOutputHandler():
         ]
 
         depth_map_list = [] if restrict_depth_map else (
-            self._scene_event.depth_map_list)
-        image_list = self._scene_event.image_list
+            scene_event.depth_map_list)
+        image_list = scene_event.image_list
         object_mask_list = ([] if restrict_object_mask_list else
-                            self._scene_event.object_mask_list)
+                            scene_event.object_mask_list)
 
-        objects = self._scene_event.objects
-        agent = self._scene_event.agent
+        objects = scene_event.objects
+        agent = scene_event.agent
+
+        segment_colors = [scene_event.object_colors[obj.uuid]
+                          if obj.uuid in scene_event.object_colors
+                          else [None, None, None]
+                          for obj in scene_event.object_list]
+        segment_map = {i: {'r': r, 'g': g, 'b': b}
+                       for i, (r, g, b) in enumerate(segment_colors)}
+
         step_output = StepMetadata(
             action_list=goal.retrieve_action_list_at_step(
-                self._step_number
+                step_number
             ),
             camera_aspect_ratio=(
                 self._config.get_screen_width(),
                 self._config.get_screen_height()),
             camera_clipping_planes=(
-                self._scene_event.clipping_plane_near,
-                self._scene_event.clipping_plane_far
+                scene_event.clipping_plane_near,
+                scene_event.clipping_plane_far
             ),
-            camera_field_of_view=self._scene_event.camera_field_of_view,
-            camera_height=self._scene_event.camera_height,
+            camera_field_of_view=scene_event.camera_field_of_view,
+            camera_height=scene_event.camera_height,
             depth_map_list=depth_map_list,
             goal=goal,
             habituation_trial=(
@@ -303,36 +311,34 @@ class ControllerOutputHandler():
                 if goal.habituation_total >= habituation_trial
                 else None
             ),
-            head_tilt=self._scene_event.head_tilt,
+            head_tilt=scene_event.head_tilt,
             image_list=image_list,
             object_list=(
-                [] if restrict_non_oracle else self._scene_event.object_list),
+                [] if restrict_non_oracle else scene_event.object_list),
             object_mask_list=object_mask_list,
-            pose=self._scene_event.pose,
+            pose=scene_event.pose,
             position=(
-                None if restrict_non_oracle else self._scene_event.position),
-            performer_radius=self._scene_event.performer_radius,
-            performer_reach=self._scene_event.performer_reach,
-            return_status=self._scene_event.return_status,
+                None if restrict_non_oracle else scene_event.position),
+            performer_radius=scene_event.performer_radius,
+            performer_reach=scene_event.performer_reach,
+            return_status=scene_event.return_status,
             reward=Reward.calculate_reward(
-                goal, objects, agent, self._step_number,
-                self._scene_event.performer_reach),
+                goal, objects, agent, step_number,
+                scene_event.performer_reach),
             rotation=(
-                None if restrict_non_oracle else self._scene_event.rotation),
-            step_number=self._step_number,
+                None if restrict_non_oracle else scene_event.rotation),
+            segment_map=segment_map,
+            step_number=step_number,
             physics_frames_per_second=(
-                self._scene_event.physics_frames_per_second),
+                scene_event.physics_frames_per_second),
             structural_object_list=([] if restrict_non_oracle else
-                                    self._scene_event.structural_object_list)
+                                    scene_event.structural_object_list)
         )
 
-        # This is here to retain the exact outputs as before
-        # If None is passed into the constructor, it is turned into
-        # {}, but restricted mode turns it to None.
         if (restrict_non_oracle):
             step_output.position = None
+            step_output.segment_map = None
 
-        if (restrict_non_oracle):
             target_name_list = ['target', 'target_1', 'target_2']
 
             for target_name in target_name_list:
