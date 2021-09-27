@@ -121,7 +121,8 @@ class SerializerMsgPack(ISerializer):
                 head_tilt, image_list, object_list, object_mask_list, pose, \
                 position, return_status, reward, rotation, segment_map, \
                 step_number, structural_object_list = \
-                msgpack.unpackb(data, ext_hook=SerializerMsgPack._ext_unpack)
+                msgpack.unpackb(data, ext_hook=SerializerMsgPack._ext_unpack,
+                                strict_map_key=False)
             return StepMetadata(action_list=action_list,
                                 camera_aspect_ratio=camera_aspect_ratio,
                                 camera_clipping_planes=camera_clipping_planes,
