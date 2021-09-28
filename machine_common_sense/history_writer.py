@@ -32,7 +32,7 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             ] = payload.config.get_evaluation_name()
             hist_info[
                 payload.config.CONFIG_METADATA_TIER
-            ] = payload.config.get_metadata_tier().value
+            ] = payload.config.get_metadata_tier()
             hist_info[
                 payload.config.CONFIG_TEAM
             ] = payload.config.get_team()
@@ -165,9 +165,26 @@ class HistoryWriter(object):
             step_obj.delta_time_millis = current_time - \
                 self.last_step_time_millis
             self.last_step_time_millis = current_time
+            if step_obj.output:
+                step_obj.output.target_visible = self.is_target_visible(step_obj)
             logger.debug("Adding history step")
             self.current_steps.append(
                 dict(self.filter_history_output(step_obj)))
+
+    def is_target_visible(
+            self,
+            history: SceneHistory) -> bool:
+        """Determine the visibility of the target object, if any"""
+        try:
+            meta = history.output.goal.metadata
+            goal_id = meta['target']['id']
+            for hist_obj in history.output.object_list:
+                uuid = hist_obj.uuid
+                if uuid == goal_id and hist_obj.visible:
+                    return True
+            return False
+        except Exception as e:
+            return False
 
     def write_history_file(self, rating, score):
         """ Add the end score obj, create the object
@@ -182,6 +199,8 @@ class HistoryWriter(object):
         self.history_obj["score"] = self.end_score
 
         self.write_file()
+
+
 
     def check_file_written(self):
         """ Will check to see if the file has been written, if not,

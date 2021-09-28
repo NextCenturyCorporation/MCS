@@ -16,12 +16,10 @@ class StepMetadata:
         The list of all actions that are available for the next step.
         Each action is returned as a tuple containing the action string and
         the action's restricted parameters, if any.
-
         For example: ("Pass", {}) forces a Pass action; ("PickupObject", {})
         forces a PickupObject action with any parameters; and
         ("PickupObject", {"objectId": "a"}) forces a PickupObject action with
         the specific parameters objectId=a.
-
         An action_list of None or an empty list means that all actions will
         be available for the next step.
 
@@ -145,7 +143,8 @@ class StepMetadata:
         reward=0,
         rotation=0.0,
         step_number=0,
-        structural_object_list=None
+        structural_object_list=None,
+        target_visible=False
     ):
         self.action_list = [] if action_list is None else action_list
         self.camera_aspect_ratio = (
@@ -179,6 +178,7 @@ class StepMetadata:
         self.step_number = step_number
         self.structural_object_list = [
         ] if structural_object_list is None else structural_object_list
+        self.target_visible = target_visible
 
     def __str__(self):
         return Stringifier.class_to_str(self)
@@ -220,3 +220,4 @@ class StepMetadata:
         yield 'step_number', self.step_number
         yield 'structural_object_list', self.check_list_none(
             self.structural_object_list)
+        yield 'target_visible', self.target_visible
