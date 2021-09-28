@@ -508,7 +508,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         self.assertEqual(len(actual.object_list), 1)
         self.assertEqual(actual.object_list[0].uuid, "testId")
-        self.assertEqual(actual.object_list[0].color, {
+        self.assertEqual(actual.object_list[0].segment_id, {
             "r": 12,
             "g": 34,
             "b": 56
@@ -540,7 +540,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         self.assertEqual(len(actual.structural_object_list), 1)
         self.assertEqual(actual.structural_object_list[0].uuid, "testWallId")
-        self.assertEqual(actual.structural_object_list[0].color, {
+        self.assertEqual(actual.structural_object_list[0].segment_id, {
             "r": 101,
             "g": 102,
             "b": 103
@@ -917,7 +917,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(len(actual), 2)
 
         self.assertEqual(actual[0].uuid, "testId1")
-        self.assertEqual(actual[0].color, {
+        self.assertEqual(actual[0].segment_id, {
             "r": 12,
             "g": 34,
             "b": 56
@@ -942,7 +942,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[0].visible, True)
 
         self.assertEqual(actual[1].uuid, "testId2")
-        self.assertEqual(actual[1].color, {
+        self.assertEqual(actual[1].segment_id, {
             "r": 98,
             "g": 76,
             "b": 54
@@ -1014,7 +1014,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(len(actual), 3)
 
         self.assertEqual(actual[0].uuid, "testId1")
-        self.assertEqual(actual[0].color, {
+        self.assertEqual(actual[0].segment_id, {
             "r": 12,
             "g": 34,
             "b": 56
@@ -1039,7 +1039,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[0].visible, True)
 
         self.assertEqual(actual[1].uuid, "testId2")
-        self.assertEqual(actual[1].color, {
+        self.assertEqual(actual[1].segment_id, {
             "r": 98,
             "g": 76,
             "b": 54
@@ -1066,7 +1066,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[1].visible, True)
 
         self.assertEqual(actual[2].uuid, "testId3")
-        self.assertEqual(actual[2].color, {
+        self.assertEqual(actual[2].segment_id, {
             "r": 101,
             "g": 102,
             "b": 103

@@ -8,7 +8,6 @@ class TestObjectMetadata(unittest.TestCase):
 
     str_output = '''    {
         "uuid": "",
-        "color": {},
         "dimensions": [],
         "direction": {},
         "distance": -1.0,
@@ -19,6 +18,7 @@ class TestObjectMetadata(unittest.TestCase):
         "material_list": [],
         "position": {},
         "rotation": {},
+        "segment_id": {},
         "shape": "",
         "state_list": [],
         "texture_color_list": [],
@@ -39,10 +39,6 @@ class TestObjectMetadata(unittest.TestCase):
     def test_uuid(self):
         self.assertEqual(self.object_metadata.uuid, "")
         self.assertIsInstance(self.object_metadata.uuid, str)
-
-    def test_color(self):
-        self.assertFalse(self.object_metadata.color)
-        self.assertIsInstance(self.object_metadata.color, dict)
 
     def test_dimensions(self):
         self.assertFalse(self.object_metadata.dimensions)
@@ -83,6 +79,10 @@ class TestObjectMetadata(unittest.TestCase):
     def test_rotation(self):
         self.assertFalse(self.object_metadata.rotation)
         self.assertIsInstance(self.object_metadata.rotation, dict)
+
+    def test_segment_id(self):
+        self.assertFalse(self.object_metadata.segment_id)
+        self.assertIsInstance(self.object_metadata.segment_id, dict)
 
     def test_shape(self):
         self.assertEqual(self.object_metadata.shape, "")
