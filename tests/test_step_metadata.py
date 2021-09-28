@@ -1,3 +1,4 @@
+import copy
 import textwrap
 import unittest
 
@@ -36,6 +37,46 @@ class TestStepMetadata(unittest.TestCase):
         "reward": 0,
         "rotation": 0.0,
         "segment_map": {},
+        "step_number": 0,
+        "structural_object_list": []
+    }'''
+
+    str_output_segment_map_ints = '''    {
+        "action_list": [],
+        "camera_aspect_ratio": [0.0,0.0],
+        "camera_clipping_planes": [0.0,0.0],
+        "camera_field_of_view": 0.0,
+        "camera_height": 0.0,
+        "depth_map_list": [],
+        "goal": {
+            "action_list": null,
+            "category": "",
+            "description": "",
+            "habituation_total": 0,
+            "last_preview_phase_step": 0,
+            "last_step": null,
+            "metadata": {}
+        },
+        "habituation_trial": null,
+        "head_tilt": 0.0,
+        "image_list": [],
+        "object_list": [],
+        "object_mask_list": [],
+        "performer_radius": 0.0,
+        "performer_reach": 0.0,
+        "physics_frames_per_second": 0,
+        "pose": "UNDEFINED",
+        "position": {},
+        "return_status": "UNDEFINED",
+        "reward": 0,
+        "rotation": 0.0,
+        "segment_map": {
+            "0": {
+                "r": 218,
+                "g": 65,
+                "b": 21
+            }
+        },
         "step_number": 0,
         "structural_object_list": []
     }'''
@@ -136,6 +177,19 @@ class TestStepMetadata(unittest.TestCase):
     def test_str(self):
         self.assertEqual(str(self.step_metadata),
                          textwrap.dedent(self.str_output))
+
+    def test_str_int_segment_map(self):
+        metadata = copy.deepcopy(self.step_metadata)
+        metadata.segment_map = {
+            0: {
+                'r': 218,
+                'g': 65,
+                'b': 21
+            }
+        }
+        # test = str(metadata)
+        self.assertEqual(str(metadata),
+                         textwrap.dedent(self.str_output_segment_map_ints))
 
     def test_copy_without_depth_or_images(self):
         data = mcs.StepMetadata(

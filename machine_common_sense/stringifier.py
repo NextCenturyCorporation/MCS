@@ -128,7 +128,11 @@ class Stringifier:
             return "null"
         if isinstance(input_value, dict):
             text_list = [
-                next_indent + "\"" + dict_key + "\": " +
+                # Below code for no quotes around ints, but that results in
+                # invalid debug output file.  Remove in code review.
+                # next_indent + (str(dict_key) if isinstance(dict_key, int)
+                #                else "\"" + dict_key + "\"") + ": " +
+                next_indent + "\"" + str(dict_key) + "\": " +
                 Stringifier.value_to_str(dict_value, depth + 1)
                 for dict_key, dict_value in input_value.items()
             ]
