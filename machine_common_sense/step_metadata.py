@@ -107,8 +107,8 @@ class StepMetadata:
         Your current rotation angle in degrees. Will be set to 'None'
         if using a metadata level below the 'oracle' level.
     segment_map: dict
-        An association of object id (key) and the segmentation mask color.
-        Only available with oracle metadata.
+        An association of object list index (key) and the segmentation mask
+        color. Only available with oracle metadata.
     step_number : integer
         The step number of your last action, recorded since you started the
         current scene.
