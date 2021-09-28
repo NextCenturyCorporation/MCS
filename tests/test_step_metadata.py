@@ -187,7 +187,6 @@ class TestStepMetadata(unittest.TestCase):
                 'b': 21
             }
         }
-        # test = str(metadata)
         self.assertEqual(str(metadata),
                          textwrap.dedent(self.str_output_segment_map_ints))
 
