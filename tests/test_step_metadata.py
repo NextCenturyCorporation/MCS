@@ -1,3 +1,4 @@
+import copy
 import textwrap
 import unittest
 
@@ -132,6 +133,18 @@ class TestStepMetadata(unittest.TestCase):
     def test_str(self):
         self.assertEqual(str(self.step_metadata),
                          textwrap.dedent(self.str_output))
+
+    def test_str_int_segment_map(self):
+        metadata = copy.deepcopy(self.step_metadata)
+        metadata.segment_map = {
+            0: {
+                'r': 218,
+                'g': 65,
+                'b': 21
+            }
+        }
+        self.assertEqual(str(metadata),
+                         textwrap.dedent(self.str_output_segment_map_ints))
 
     def test_copy_without_depth_or_images(self):
         data = mcs.StepMetadata(
