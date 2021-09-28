@@ -1097,27 +1097,70 @@ class TestControllerOutputHandler(unittest.TestCase):
         actual = scene_event.object_list
         self.assertEqual(len(actual), 3)
 
-    @unittest.skip
     def test_retrieve_segment_map(self):
         self._config.set_metadata_tier(
-            ConfigManager.CONFIG_METADATA_TIER_DEFAULT)
+            MetadataTier.ORACLE.value)
         (
             mock_scene_event_data,
             image_data,
             depth_data,
             object_mask_data
         ) = self.create_wrap_output_scene_event()
-        mock_event = self.create_retrieve_object_list_scene_event()
 
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
         coh = ControllerOutputHandler(self._config)
         coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
         (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
-        print(actual.segment_map)
-        # scene_event = SceneEvent(
-        #     self._config,
-        #     SceneConfiguration(),
-        #     mock_event,
-        #     0)
+
+        self.assertIsInstance(res.segment_map, dict)
+        self.assertEqual(len(res.segment_map), 2)
+
+        # with oracle metadata, the segment map is not removed
+        self.assertIsInstance(actual.segment_map, dict)
+        self.assertEqual(len(actual.segment_map), 2)
+
+        # rgb color data structure is a dictionary
+        self.assertIsInstance(res.segment_map[0], dict)
+        self.assertEqual(res.segment_map[0]['r'], 12)
+        self.assertEqual(res.segment_map[0]['g'], 34)
+        self.assertEqual(res.segment_map[0]['b'], 56)
+
+        self.assertIsInstance(res.segment_map[1], dict)
+        self.assertIsNone(res.segment_map[1]['r'])
+        self.assertIsNone(res.segment_map[1]['g'])
+        self.assertIsNone(res.segment_map[1]['b'])
+
+    def test_remove_segment_map(self):
+        self._config.set_metadata_tier(
+            MetadataTier.LEVEL_2.value)
+        (
+            mock_scene_event_data,
+            image_data,
+            depth_data,
+            object_mask_data
+        ) = self.create_wrap_output_scene_event()
+
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+        coh = ControllerOutputHandler(self._config)
+        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
+
+        self.assertIsInstance(res.segment_map, dict)
+        self.assertEqual(len(res.segment_map), 2)
+
+        # with oracle metadata, the segment map is removed
+        self.assertIsNone(actual.segment_map)
+
+        # rgb color data structure is a dictionary
+        self.assertIsInstance(res.segment_map[0], dict)
+        self.assertEqual(res.segment_map[0]['r'], 12)
+        self.assertEqual(res.segment_map[0]['g'], 34)
+        self.assertEqual(res.segment_map[0]['b'], 56)
+
+        self.assertIsInstance(res.segment_map[1], dict)
+        self.assertIsNone(res.segment_map[1]['r'])
+        self.assertIsNone(res.segment_map[1]['g'])
+        self.assertIsNone(res.segment_map[1]['b'])
 
 
 if __name__ == '__main__':
