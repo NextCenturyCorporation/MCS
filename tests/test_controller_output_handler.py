@@ -481,8 +481,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         (
             mock_scene_event_data,
             image_data,
-            depth_data,
-            object_mask_data
+            *_  # ignore the remaining tuple elements
         ) = self.create_wrap_output_scene_event()
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
@@ -591,8 +590,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         (
             mock_scene_event_data,
             image_data,
-            depth_data,
-            object_mask_data
+            *_  # ignore the remaining tuple elements
         ) = self.create_wrap_output_scene_event()
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
@@ -640,9 +638,7 @@ class TestControllerOutputHandler(unittest.TestCase):
             MetadataTier.LEVEL_1.value)
         (
             mock_scene_event_data,
-            image_data,
-            depth_data,
-            object_mask_data
+            *_  # ignore the remaining tuple elements
         ) = self.create_wrap_output_scene_event()
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -679,9 +675,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self._config.set_metadata_tier('none')
         (
             mock_scene_event_data,
-            image_data,
-            depth_data,
-            object_mask_data
+            *_  # ignore the remaining tuple elements
         ) = self.create_wrap_output_scene_event()
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -1102,9 +1096,7 @@ class TestControllerOutputHandler(unittest.TestCase):
             MetadataTier.ORACLE.value)
         (
             mock_scene_event_data,
-            image_data,
-            depth_data,
-            object_mask_data
+            *_  # ignore the remaining tuple elements
         ) = self.create_wrap_output_scene_event()
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -1130,14 +1122,42 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertIsNone(res.segment_map[1]['g'])
         self.assertIsNone(res.segment_map[1]['b'])
 
-    def test_remove_segment_map(self):
+    def test_remove_segment_map_level2(self):
         self._config.set_metadata_tier(
             MetadataTier.LEVEL_2.value)
         (
             mock_scene_event_data,
-            image_data,
-            depth_data,
-            object_mask_data
+            *_  # ignore the remaining tuple elements
+        ) = self.create_wrap_output_scene_event()
+
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+        coh = ControllerOutputHandler(self._config)
+        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
+
+        self.assertIsInstance(res.segment_map, dict)
+        self.assertEqual(len(res.segment_map), 2)
+
+        # with oracle metadata, the segment map is removed
+        self.assertIsNone(actual.segment_map)
+
+        # rgb color data structure is a dictionary
+        self.assertIsInstance(res.segment_map[0], dict)
+        self.assertEqual(res.segment_map[0]['r'], 12)
+        self.assertEqual(res.segment_map[0]['g'], 34)
+        self.assertEqual(res.segment_map[0]['b'], 56)
+
+        self.assertIsInstance(res.segment_map[1], dict)
+        self.assertIsNone(res.segment_map[1]['r'])
+        self.assertIsNone(res.segment_map[1]['g'])
+        self.assertIsNone(res.segment_map[1]['b'])
+
+    def test_remove_segment_map_level1(self):
+        self._config.set_metadata_tier(
+            MetadataTier.LEVEL_1.value)
+        (
+            mock_scene_event_data,
+            *_  # ignore the remaining tuple elements
         ) = self.create_wrap_output_scene_event()
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
