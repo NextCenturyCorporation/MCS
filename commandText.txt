@@ -1,0 +1,15 @@
+RotateRight
+RotateRight
+RotateRight
+RotateRight
+RotateRight
+RotateRight
+MoveAhead
+MoveAhead
+MoveAhead
+MoveAhead
+RotateLeft
+LookDown
+LookDown
+LookDown
+exit

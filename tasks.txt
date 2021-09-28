@@ -1,0 +1,25 @@
+start with deep learning machine as p2-xlarge
+
+sudo apt-get install xorg glxinfo python3-venv
+nvidia-xconfig --query-gpu-info
+
+# Get PCI BusID: and make sure it matches in the next command
+
+sudo nvidia-xconfig --use-display-device=None --virtual=600x400 --output-xconfig=/etc/X11/xorg.conf --busid=PCI:0:30:0
+
+sudo /usr/bin/Xorg :0 &
+
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+
+git clone https://github.com/NextCenturyCorporation/MCS.gita
+
+cd MCS
+
+python3.6 -m venv venv
+. venv/bin/activate
+
+pip install --upgrade pip
+python -m pip install -r requirements.txt
+python -m pip install -e .
+
+python scripts/run_just_rotate.py docs/source/scenes/playroom.json
