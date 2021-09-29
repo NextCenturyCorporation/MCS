@@ -16,12 +16,10 @@ class StepMetadata:
         The list of all actions that are available for the next step.
         Each action is returned as a tuple containing the action string and
         the action's restricted parameters, if any.
-
         For example: ("Pass", {}) forces a Pass action; ("PickupObject", {})
         forces a PickupObject action with any parameters; and
         ("PickupObject", {"objectId": "a"}) forces a PickupObject action with
         the specific parameters objectId=a.
-
         An action_list of None or an empty list means that all actions will
         be available for the next step.
 
@@ -187,7 +185,7 @@ class StepMetadata:
         if obj_list is None:
             return None
         else:
-            return dict((obj.uuid, dict(obj)) for obj in obj_list)
+            return {obj.uuid: dict(obj) for obj in obj_list}
 
     def copy_without_depth_or_images(self):
         """Return a deep copy of this StepMetadata with default depth_map_list,
