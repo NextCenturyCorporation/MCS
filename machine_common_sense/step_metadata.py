@@ -143,8 +143,7 @@ class StepMetadata:
         reward=0,
         rotation=0.0,
         step_number=0,
-        structural_object_list=None,
-        target_visible=False
+        structural_object_list=None
     ):
         self.action_list = [] if action_list is None else action_list
         self.camera_aspect_ratio = (
@@ -178,7 +177,6 @@ class StepMetadata:
         self.step_number = step_number
         self.structural_object_list = [
         ] if structural_object_list is None else structural_object_list
-        self.target_visible = target_visible
 
     def __str__(self):
         return Stringifier.class_to_str(self)
@@ -187,7 +185,7 @@ class StepMetadata:
         if obj_list is None:
             return None
         else:
-            return dict((obj.uuid, dict(obj)) for obj in obj_list)
+            return {obj.uuid: dict(obj) for obj in obj_list}
 
     def copy_without_depth_or_images(self):
         """Return a deep copy of this StepMetadata with default depth_map_list,
@@ -220,4 +218,3 @@ class StepMetadata:
         yield 'step_number', self.step_number
         yield 'structural_object_list', self.check_list_none(
             self.structural_object_list)
-        yield 'target_visible', self.target_visible
