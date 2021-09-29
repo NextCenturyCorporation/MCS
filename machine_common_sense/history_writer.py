@@ -63,8 +63,8 @@ class HistoryEventHandler(AbstractControllerSubscriber):
 
     def on_end_scene(self, payload):
         if (
-            self.__history_writer is not None and
-            payload.config.is_history_enabled()
+                self.__history_writer is not None and
+                payload.config.is_history_enabled()
         ):
             self.__history_writer.add_step(self.__history_item)
 
@@ -73,11 +73,12 @@ class HistoryEventHandler(AbstractControllerSubscriber):
                 for step in self.__history_writer.current_steps:
                     currentStep = step.get("step")
 
-                    findStepInReport = (payload.report.get(
-                        currentStep) or
-                        payload.report.get(str(currentStep)))
+                    findStepInReport = (
+                        payload.report.get(currentStep) or
+                        payload.report.get(str(currentStep))
+                    )
 
-                    if(findStepInReport is not None):
+                    if (findStepInReport is not None):
                         # Use classification and confidence rather than rating
                         # and score to be compatible with old history files.
                         step["classification"] = findStepInReport.get("rating")
@@ -95,7 +96,6 @@ class HistoryEventHandler(AbstractControllerSubscriber):
 
 
 class HistoryWriter(object):
-
     HISTORY_DIRECTORY = "SCENE_HISTORY"
 
     def __init__(self, scene_config_data=None, hist_info={}, timestamp=''):
@@ -146,9 +146,9 @@ class HistoryWriter(object):
             targets = ['target', 'target_1', 'target2']
             for target in targets:
                 if (
-                    target in history.output.goal.metadata.keys() and
-                    history.output.goal.metadata[target].get('image', None)
-                    is not None
+                        target in history.output.goal.metadata.keys() and
+                        history.output.goal.metadata[target].get('image', None)
+                        is not None
                 ):
                     del history.output.goal.metadata[target]['image']
         return history
@@ -162,11 +162,12 @@ class HistoryWriter(object):
         """Add a new step to the array of history steps"""
         current_time = perf_counter() * 1000
         if step_obj is not None:
-            step_obj.delta_time_millis = current_time - \
-                self.last_step_time_millis
+            step_obj.delta_time_millis = \
+                current_time - self.last_step_time_millis
             self.last_step_time_millis = current_time
             if step_obj.output:
-                step_obj.output.target_visible = self.is_target_visible(step_obj)
+                step_obj.output.target_visible = \
+                    self.is_target_visible(step_obj)
             logger.debug("Adding history step")
             self.current_steps.append(
                 dict(self.filter_history_output(step_obj)))
@@ -183,7 +184,7 @@ class HistoryWriter(object):
                 if uuid == goal_id and hist_obj.visible:
                     return True
             return False
-        except Exception as e:
+        except Exception:
             return False
 
     def write_history_file(self, rating, score):
@@ -199,8 +200,6 @@ class HistoryWriter(object):
         self.history_obj["score"] = self.end_score
 
         self.write_file()
-
-
 
     def check_file_written(self):
         """ Will check to see if the file has been written, if not,
