@@ -155,16 +155,16 @@ class SerializerMsgPack(ISerializer):
                                 habituation_total, last_preview_phase_step,
                                 last_step, metadata)
         elif code == 5:
-            uuid, color, dimensions, direction, distance, distance_in_steps, \
+            uuid, dimensions, direction, distance, distance_in_steps, \
                 distance_in_world, held, mass, material_list, position, \
-                rotation, shape, state_list, texture_color_list, \
-                visible = msgpack.unpackb(
+                rotation, segment_color, shape, state_list, \
+                texture_color_list, visible = msgpack.unpackb(
                     data, ext_hook=SerializerMsgPack._ext_unpack)
-            return ObjectMetadata(uuid, color, dimensions, direction, distance,
+            return ObjectMetadata(uuid, dimensions, direction, distance,
                                   distance_in_steps, distance_in_world, held,
                                   mass, material_list, position, rotation,
-                                  shape, state_list, texture_color_list,
-                                  visible)
+                                  segment_color, shape, state_list,
+                                  texture_color_list, visible)
         elif code == 6:
             x = msgpack.unpackb(data, ext_hook=SerializerMsgPack._ext_unpack)
             return np.asarray(x)
@@ -255,7 +255,6 @@ class SerializerJson(ISerializer):
             elif isinstance(x, ObjectMetadata):
                 return {
                     'uuid': x.uuid,
-                    'color': x.color,
                     'dimensions': x.dimensions,
                     'direction': x.direction,
                     'distance': x.distance,
@@ -266,6 +265,7 @@ class SerializerJson(ISerializer):
                     'material_list': x.material_list,
                     'position': x.position,
                     'rotation': x.rotation,
+                    'segment_color': x.segment_color,
                     'shape': x.shape,
                     'state_list': x.state_list,
                     'texture_color_list': x.texture_color_list,
@@ -283,14 +283,22 @@ class SerializerJson(ISerializer):
         object_list = []
         for object_raw in raw_list:
             obj = ObjectMetadata(
-                object_raw['uuid'], object_raw['color'],
-                object_raw['dimensions'], object_raw['direction'],
-                object_raw['distance'], object_raw['distance_in_steps'],
-                object_raw['distance_in_world'], object_raw['held'],
-                object_raw['mass'], object_raw['material_list'],
-                object_raw['position'], object_raw['rotation'],
-                object_raw['shape'], object_raw['state_list'],
-                object_raw['texture_color_list'], object_raw['visible'])
+                object_raw['uuid'],
+                object_raw['dimensions'],
+                object_raw['direction'],
+                object_raw['distance'],
+                object_raw['distance_in_steps'],
+                object_raw['distance_in_world'],
+                object_raw['held'],
+                object_raw['mass'],
+                object_raw['material_list'],
+                object_raw['position'],
+                object_raw['rotation'],
+                object_raw['segment_color'],
+                object_raw['shape'],
+                object_raw['state_list'],
+                object_raw['texture_color_list'],
+                object_raw['visible'])
             object_list.append(obj)
         return object_list
 
