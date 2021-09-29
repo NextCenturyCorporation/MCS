@@ -128,7 +128,7 @@ class Stringifier:
             return "null"
         if isinstance(input_value, dict):
             text_list = [
-                next_indent + "\"" + dict_key + "\": " +
+                next_indent + "\"" + str(dict_key) + "\": " +
                 Stringifier.value_to_str(dict_value, depth + 1)
                 for dict_key, dict_value in input_value.items()
             ]
