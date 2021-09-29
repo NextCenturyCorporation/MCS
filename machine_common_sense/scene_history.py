@@ -17,7 +17,8 @@ class SceneHistory(object):
         violations_xy_list: List[Dict[str, float]] = None,
         internal_state: object = None,
         delta_time_millis=0,
-        output=None
+        output=None,
+        target_visible=False
 
     ):
         self.step = step
@@ -30,6 +31,7 @@ class SceneHistory(object):
         self.internal_state = internal_state
         self.delta_time_millis = delta_time_millis
         self.output = output
+        self.target_visible = target_visible
 
     def __str__(self):
         return Stringifier.class_to_str(self)
@@ -48,3 +50,4 @@ class SceneHistory(object):
         yield 'output', dict(self.output) if(
             self.output) is not None else self.output
         yield 'delta_time_millis', self.delta_time_millis
+        yield 'target_visible', self.target_visible

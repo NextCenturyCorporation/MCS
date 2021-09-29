@@ -37,8 +37,7 @@ class TestStepMetadata(unittest.TestCase):
         "reward": 0,
         "rotation": 0.0,
         "step_number": 0,
-        "structural_object_list": [],
-        "target_visible": false
+        "structural_object_list": []
     }'''
 
     str_output_segment_map_ints = '''    {
@@ -72,7 +71,6 @@ class TestStepMetadata(unittest.TestCase):
         "rotation": 0.0,
         "step_number": 0,
         "structural_object_list": [],
-        "target_visible": false,
         "segment_map": {
             "0": {
                 "r": 218,
@@ -217,8 +215,7 @@ class TestStepMetadata(unittest.TestCase):
             structural_object_list=[
                 mcs.ObjectMetadata(uuid='structure_1'),
                 mcs.ObjectMetadata(uuid='structure_2')
-            ],
-            target_visible=False
+            ]
         )
         copy = data.copy_without_depth_or_images()
         # Assert are exactly equal
