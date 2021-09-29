@@ -63,8 +63,8 @@ class HistoryEventHandler(AbstractControllerSubscriber):
 
     def on_end_scene(self, payload):
         if (
-                self.__history_writer is not None and
-                payload.config.is_history_enabled()
+            self.__history_writer is not None and
+            payload.config.is_history_enabled()
         ):
             self.__history_writer.add_step(self.__history_item)
 
