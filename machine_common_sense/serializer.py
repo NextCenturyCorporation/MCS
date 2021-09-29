@@ -157,13 +157,13 @@ class SerializerMsgPack(ISerializer):
         elif code == 5:
             uuid, dimensions, direction, distance, distance_in_steps, \
                 distance_in_world, held, mass, material_list, position, \
-                rotation, segment_id, shape, state_list, \
+                rotation, segment_color, shape, state_list, \
                 texture_color_list, visible = msgpack.unpackb(
                     data, ext_hook=SerializerMsgPack._ext_unpack)
             return ObjectMetadata(uuid, dimensions, direction, distance,
                                   distance_in_steps, distance_in_world, held,
                                   mass, material_list, position, rotation,
-                                  segment_id, shape, state_list,
+                                  segment_color, shape, state_list,
                                   texture_color_list, visible)
         elif code == 6:
             x = msgpack.unpackb(data, ext_hook=SerializerMsgPack._ext_unpack)
@@ -265,7 +265,7 @@ class SerializerJson(ISerializer):
                     'material_list': x.material_list,
                     'position': x.position,
                     'rotation': x.rotation,
-                    'segment_id': x.segment_id,
+                    'segment_color': x.segment_color,
                     'shape': x.shape,
                     'state_list': x.state_list,
                     'texture_color_list': x.texture_color_list,
@@ -294,7 +294,7 @@ class SerializerJson(ISerializer):
                 object_raw['material_list'],
                 object_raw['position'],
                 object_raw['rotation'],
-                object_raw['segment_id'],
+                object_raw['segment_color'],
                 object_raw['shape'],
                 object_raw['state_list'],
                 object_raw['texture_color_list'],

@@ -18,7 +18,7 @@ class TestObjectMetadata(unittest.TestCase):
         "material_list": [],
         "position": {},
         "rotation": {},
-        "segment_id": {},
+        "segment_color": {},
         "shape": "",
         "state_list": [],
         "texture_color_list": [],
@@ -80,9 +80,9 @@ class TestObjectMetadata(unittest.TestCase):
         self.assertFalse(self.object_metadata.rotation)
         self.assertIsInstance(self.object_metadata.rotation, dict)
 
-    def test_segment_id(self):
-        self.assertFalse(self.object_metadata.segment_id)
-        self.assertIsInstance(self.object_metadata.segment_id, dict)
+    def test_segment_color(self):
+        self.assertFalse(self.object_metadata.segment_color)
+        self.assertIsInstance(self.object_metadata.segment_color, dict)
 
     def test_shape(self):
         self.assertEqual(self.object_metadata.shape, "")

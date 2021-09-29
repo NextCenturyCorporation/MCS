@@ -40,7 +40,7 @@ class ObjectMetadata(object):
     rotation : dict
         This object's rotation angles around the "x", "y", and "z" axes
         in degrees.
-    segment_id : dict
+    segment_color : dict
         The "r", "g", and "b" pixel values of this object in images from the
         StepMetadata's "object_mask_list".
     shape : string
@@ -71,7 +71,7 @@ class ObjectMetadata(object):
         material_list=None,
         position=None,
         rotation=None,
-        segment_id=None,
+        segment_color=None,
         shape="",
         state_list=None,
         texture_color_list=None,
@@ -90,9 +90,9 @@ class ObjectMetadata(object):
         self.material_list = [] if material_list is None else material_list
         self.position = {} if position is None else position
         self.rotation = {} if rotation is None else rotation
-        self.segment_id = {} \
-            if segment_id is None \
-            else segment_id
+        self.segment_color = {} \
+            if segment_color is None \
+            else segment_color
         self.shape = shape
         self.state_list = [] if state_list is None else state_list
         self.texture_color_list = (
@@ -119,7 +119,7 @@ class ObjectMetadata(object):
         yield 'material_list', self.material_list
         yield 'position', self.position
         yield 'rotation', self.rotation
-        yield 'segment_id', self.segment_id
+        yield 'segment_color', self.segment_color
         yield 'shape', self.shape
         yield 'state_list', self.state_list
         yield 'texture_color_list', self.texture_color_list

@@ -223,7 +223,7 @@ class SceneEvent():
             material_list=material_list,
             position=object_metadata['position'],
             rotation=object_metadata['rotation'],
-            segment_id={'r': rgb[0], 'g': rgb[1], 'b': rgb[2]},
+            segment_color={'r': rgb[0], 'g': rgb[1], 'b': rgb[2]},
             shape=object_metadata['shape'],
             state_list=self._scene_config.retrieve_object_states(
                 object_metadata['objectId'],

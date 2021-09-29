@@ -38,7 +38,7 @@ class TestSerializer(unittest.TestCase):
         self.assertAlmostEqual(unpacked_metadata.rotation, 0.0, delta=1e-04)
         self.assertIsInstance(unpacked_metadata.object_list[-1].shape, str)
         self.assertIsInstance(
-            unpacked_metadata.object_list[0].segment_id, dict)
+            unpacked_metadata.object_list[0].segment_color, dict)
 
 
 if __name__ == '__main__':
