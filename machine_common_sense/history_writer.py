@@ -146,9 +146,9 @@ class HistoryWriter(object):
             targets = ['target', 'target_1', 'target2']
             for target in targets:
                 if (
-                        target in history.output.goal.metadata.keys() and
-                        history.output.goal.metadata[target].get('image', None)
-                        is not None
+                    target in history.output.goal.metadata.keys() and
+                    history.output.goal.metadata[target].get('image', None)
+                    is not None
                 ):
                     del history.output.goal.metadata[target]['image']
         return history
