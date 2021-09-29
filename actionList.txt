@@ -1,4 +1,0 @@
-RotateRight
-RotateLeft
-EndHabituation,xPosition=3,zPosition=1,yRotation=45
-RotateRight
