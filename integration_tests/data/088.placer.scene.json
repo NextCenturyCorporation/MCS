@@ -1,0 +1,125 @@
+﻿{
+    "name": "validate scripted placer movement and placing",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": -4.5
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "roomDimensions": {
+        "x": 10,
+        "y": 10,
+        "z": 10
+    },
+    "objects": [{
+      "id": "target_object",
+      "type": "cube",
+      "mass": 5,
+      "moveable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0,
+            "y": 7.005,
+            "z": 1.6
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "stepBegin": 1,
+          "scale": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 4"],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 21,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ],
+      "kinematic": true,
+      "togglePhysics": [
+        {
+          "stepBegin": 24
+        }
+      ]
+    },
+    {
+      "id": "placer_object",
+      "type": "cylinder",
+      "kinematic": true,
+      "structure": true,
+      "mass": 50,
+      "materials": ["Custom/Materials/Magenta"],
+      "shows": [
+        {
+          "stepBegin": 1,
+          "position": {
+            "x": 0,
+            "y": 12.255,
+            "z": 1.6
+          },
+          "scale": {
+            "x": 0.2,
+            "y": 5,
+            "z": 0.2
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 21,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 27,
+          "stepEnd": 48,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "states": [
+          ["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],
+          ["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],
+          ["held"],["held"],["held"],["held"],["released"],["released"],["released"],["released"],["released"],["released"],
+          ["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],
+          ["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],
+          ["released"]
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 24,
+          "materials": [
+            "Custom/Materials/Cyan"
+          ]
+        }
+      ]
+    }]
+}
