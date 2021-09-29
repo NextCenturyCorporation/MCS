@@ -69,15 +69,15 @@ class TestStepMetadata(unittest.TestCase):
         "return_status": "UNDEFINED",
         "reward": 0,
         "rotation": 0.0,
+        "step_number": 0,
+        "structural_object_list": [],
         "segment_map": {
             "0": {
                 "r": 218,
                 "g": 65,
                 "b": 21
             }
-        },
-        "step_number": 0,
-        "structural_object_list": []
+        }
     }'''
 
     @classmethod
