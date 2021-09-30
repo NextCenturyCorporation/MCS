@@ -45,9 +45,12 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'run_in_human_input_mode=scripts.run_human_input:main',
-            'run_scene_timer=scripts.run_scene_timer:main',
-            'cache_addressables=scripts.cache_addressables:main'
+            ('run_in_human_input_mode='
+             'machine_common_sense.scripts.run_human_input:main'),
+            ('run_scene_timer='
+             'machine_common_sense.scripts.run_scene_timer:main'),
+            ('cache_addressables='
+             'machine_common_sense.scripts.cache_addressables:main')
         ]
     }
 )

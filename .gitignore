@@ -25,6 +25,7 @@ eggs/
 dist/
 sdist/
 wheels/
+build/
 
 docs/_build
 **/mcs_config.ini
