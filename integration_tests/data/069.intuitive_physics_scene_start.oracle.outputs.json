@@ -70,13 +70,13 @@
                 "visible": true
             },
             {
-                "direction_x": -0.975,
+                "direction_x": -0.857,
                 "direction_y": 0.0,
-                "direction_z": 0.22,
-                "distance": 20.5,
+                "direction_z": 0.514,
+                "distance": 8.746,
                 "held": false,
                 "id": "wall_left",
-                "position_x": -20.0,
+                "position_x": -7.5,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -85,13 +85,13 @@
                 "visible": true
             },
             {
-                "direction_x": 0.975,
+                "direction_x": 0.857,
                 "direction_y": 0.0,
-                "direction_z": 0.22,
-                "distance": 20.5,
+                "direction_z": 0.514,
+                "distance": 8.746,
                 "held": false,
                 "id": "wall_right",
-                "position_x": 20.0,
+                "position_x": 7.5,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -173,13 +173,13 @@
                 "visible": true
             },
             {
-                "direction_x": -0.975,
+                "direction_x": -0.857,
                 "direction_y": 0.0,
-                "direction_z": 0.22,
-                "distance": 20.5,
+                "direction_z": 0.514,
+                "distance": 8.746,
                 "held": false,
                 "id": "wall_left",
-                "position_x": -20.0,
+                "position_x": -7.5,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -188,13 +188,13 @@
                 "visible": true
             },
             {
-                "direction_x": 0.975,
+                "direction_x": 0.857,
                 "direction_y": 0.0,
-                "direction_z": 0.22,
-                "distance": 20.5,
+                "direction_z": 0.514,
+                "distance": 8.746,
                 "held": false,
                 "id": "wall_right",
-                "position_x": 20.0,
+                "position_x": 7.5,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [

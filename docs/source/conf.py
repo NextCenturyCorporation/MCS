@@ -81,6 +81,9 @@ pygments_style = 'sphinx'
 # html_static_path = ['_static']
 # html_sidebars = {}
 html_theme = 'classic'
+html_theme_options = {
+    'body_max_width': None
+}
 
 napoleon_use_ivar = True
 autogenerate_summary = True
