@@ -37,11 +37,11 @@ docs/_build
 *.mp4
 *.png
 *.zip
-scripts/**/*.gif
-scripts/**/*.json
-scripts/**/*.mp4
-scripts/**/*.png
-scripts/**/*.zip
+machine_common_sense/scripts/**/*.gif
+machine_common_sense/scripts/**/*.json
+machine_common_sense/scripts/**/*.mp4
+machine_common_sense/scripts/**/*.png
+machine_common_sense/scripts/**/*.zip
 
 # Logging output and user config
 logs/*.log

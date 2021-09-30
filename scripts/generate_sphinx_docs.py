@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-CODE_PATH = '../../'
+CODE_PATH = '../'
 SPHINX_README = CODE_PATH + '/SPHINX_README.md'
 SPHINX_VENV_PATH = 'venv'
 # SPHINX_VENV_PATH = CODE_PATH + '/' + SPHINX_VENV_FOLDER
