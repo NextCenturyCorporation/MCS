@@ -32,6 +32,7 @@ setuptools.setup(
     license='Apache-2',
     python_requires=">3.6",
     packages=setuptools.find_packages(),
+    package_data={'': ['*.ini'], },
     install_requires=[
         'shapely>=1.7.0',
         'colour>=0.1.5',
