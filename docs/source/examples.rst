@@ -1,7 +1,7 @@
 Example Usage
 =============
 
-Here are some example usage snippets for different use cases. Note that there are also additional scripts that may be useful in the scripts/ folder of the github project. 
+Here are some example usage snippets for different use cases. Note that there are also additional scripts that may be useful in the machine_common_sense/scripts/ folder of the github project. 
 
 Using your own config data and/or unity build
 ----------------------------------------------

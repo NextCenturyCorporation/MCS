@@ -85,5 +85,5 @@ The following code was run on an AWS p2-xlarge with the Ubuntu Deep Learning AMI
     python -m pip install -r requirements.txt
     python -m pip install -e .
 
-    python scripts/run_just_rotate.py docs/source/scenes/ball_far.json
+    python machine_common_sense/scripts/run_just_rotate.py docs/source/scenes/ball_far.json
 
