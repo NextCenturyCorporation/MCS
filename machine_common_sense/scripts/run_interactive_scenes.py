@@ -1,4 +1,4 @@
-from runner_script import MultipleFileRunnerScript
+from .runner_script import MultipleFileRunnerScript
 
 
 def action_callback(scene_data, step_metadata, runner_script):

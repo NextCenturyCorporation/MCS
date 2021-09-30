@@ -12,15 +12,11 @@ if len(sys.argv) < 3:
 def run():
     folder_prefix = sys.argv[1]
     eval_number = sys.argv[2]
-    move_across = False
-    if len(sys.argv) > 3:
-        move_across = True
-
+    move_across = len(sys.argv) > 3
     folder_list = glob.glob(folder_prefix + '*')
-    folder_list = [
+    folder_list = sorted([
         folder for folder in folder_list if os.path.isdir(folder)
-    ]
-    folder_list.sort()
+    ])
 
     file_list = []
 

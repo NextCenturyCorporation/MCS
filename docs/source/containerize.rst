@@ -11,7 +11,7 @@ You can run the GPU image with:
 .. code-block:: console
 
     docker run -it -e PYTHONIOENCODING=utf8 -e XAUTHORITY=/tmp/.docker.xauth -e DISPLAY=:1 \
-           -v ${PWD}/machine_common_sense/scenes:/input -v ${PWD}/scripts:/scripts \
+           -v ${PWD}/machine_common_sense/scenes:/input -v ${PWD}/machine_common_sense/scripts:/scripts \
            -v /tmp/.X11-unix:/tmp/.X11-unix \
            -v /tmp/.docker.xauth:/tmp/.docker.xauth \
            --net host --gpus all --rm mcs-playroom:0.0.6 bash
@@ -61,7 +61,7 @@ Run Image (bash)
 
 .. code-block:: console
 
-    docker run -it -p 5900:5900 -v ${PWD}/machine_common_sense/scenes:/input -v ${PWD}/scripts:/scripts mcs-playroom-cpu bash
+    docker run -it -p 5900:5900 -v ${PWD}/machine_common_sense/scenes:/input -v ${PWD}/machine_common_sense/scripts:/scripts mcs-playroom-cpu bash
 
 Run with VNC
 ************

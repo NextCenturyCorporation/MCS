@@ -40,9 +40,11 @@ class AbstractRunnerScript():
         if args.oracle:
             config_suffix = 'oracle_debug' if debug else 'oracle'
 
-        config_file_path = SCRIPT_FOLDER + '/config_' + config_suffix + '.ini'
-        if args.config_file:
-            config_file_path = args.config_file
+        config_file_path = (
+            args.config_file or
+            SCRIPT_FOLDER + '/config_' + config_suffix + '.ini'
+        )
+
         print('========================================')
         controller = mcs.create_controller(
             unity_app_file_path=args.mcs_unity_build_file,
@@ -204,10 +206,10 @@ class AbstractRunnerScript():
         )
 
         # Use the prefix and/or rename arguments for the new scene name.
-        scene_name = (
-            ((prefix + '_') if prefix else '') +
-            (rename if rename else scene_data.get('name', ''))
+        scene_name = ((prefix + '_') if prefix else '') + (
+            rename or scene_data.get('name', '')
         )
+
         if rename and 'sceneInfo' in scene_data.get('goal', {}):
             # Rename the scene using its hypercube cell ID.
             scene_id = scene_data['goal']['sceneInfo']['id'][0]
