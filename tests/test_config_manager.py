@@ -75,7 +75,8 @@ class TestConfigManager(unittest.TestCase):
         '''Missing config files should raise an exception'''
         self.assertRaises(RuntimeError, ConfigManager)
 
-    @mock_env(MCS_CONFIG_FILE_PATH='./scripts/config_level2_debug.ini')
+    @mock_env(MCS_CONFIG_FILE_PATH=('machine_common_sense/scripts/'
+                                    'config_level2_debug.ini'))
     def test_init_no_override_with_env_var_and_dict(self):
         config_options = {
             'metadata': 'oracle',
@@ -86,7 +87,8 @@ class TestConfigManager(unittest.TestCase):
                          MetadataTier.LEVEL_2)
         self.assertEqual(config_mngr.get_seed(), None)
 
-    @mock_env(MCS_CONFIG_FILE_PATH='./scripts/config_level2_debug.ini')
+    @mock_env(MCS_CONFIG_FILE_PATH=('machine_common_sense/scripts/'
+                                    'config_level2_debug.ini'))
     @patch.multiple(ConfigManager, _read_in_config_dict=DEFAULT,
                     _read_in_config_file=DEFAULT)
     def test_init_env_var_and_dict_function_calls(
@@ -101,7 +103,7 @@ class TestConfigManager(unittest.TestCase):
             os.environ.get('MCS_CONFIG_FILE_PATH'))
 
     def test_init_with_filepath(self):
-        config_file = './scripts/config_level2_debug.ini'
+        config_file = 'machine_common_sense/scripts/config_level2_debug.ini'
         config_mngr = ConfigManager(config_file_or_dict=config_file)
         self.assertEqual(config_mngr.get_metadata_tier(),
                          MetadataTier.LEVEL_2)
