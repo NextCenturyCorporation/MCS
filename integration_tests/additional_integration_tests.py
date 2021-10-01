@@ -65,7 +65,7 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
                 f'Step 1 {metadata_tier} failed: object_mask_list with length '
                 f'{len(step_metadata_0.object_mask_list)} should be length 1'
             )
-    # Verify the consistent color of each object across both steps.
+    # Verify the consistent segment_color of each object across both steps.
     if metadata_tier == 'oracle':
         if (
             step_metadata_0.object_list[0].uuid !=
@@ -88,24 +88,24 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
                 f'{step_metadata_1.object_list[1].uuid}'
             )
         if (
-            step_metadata_0.object_list[0].color !=
-            step_metadata_1.object_list[0].color
+            step_metadata_0.object_list[0].segment_color !=
+            step_metadata_1.object_list[0].segment_color
         ):
             return (
                 False,
-                f'Step 1 {metadata_tier} failed: object_list[0].color '
-                f'{step_metadata_0.object_list[0].color} != '
-                f'{step_metadata_1.object_list[0].color}'
+                f'Step 1 {metadata_tier} failed: object_list[0].segment_color '
+                f'{step_metadata_0.object_list[0].segment_color} != '
+                f'{step_metadata_1.object_list[0].segment_color}'
             )
         if (
-            step_metadata_0.object_list[1].color !=
-            step_metadata_1.object_list[1].color
+            step_metadata_0.object_list[1].segment_color !=
+            step_metadata_1.object_list[1].segment_color
         ):
             return (
                 False,
-                f'Step 1 {metadata_tier} failed: object_list[1].color '
-                f'{step_metadata_0.object_list[1].color} != '
-                f'{step_metadata_1.object_list[1].color}'
+                f'Step 1 {metadata_tier} failed: object_list[1].segment_color '
+                f'{step_metadata_0.object_list[1].segment_color} != '
+                f'{step_metadata_1.object_list[1].segment_color}'
             )
 
     # Stop the test scene.

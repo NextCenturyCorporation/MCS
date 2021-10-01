@@ -4,7 +4,7 @@ from types import SimpleNamespace
 import numpy
 
 import machine_common_sense as mcs
-from machine_common_sense.config_manager import (ConfigManager,
+from machine_common_sense.config_manager import (ConfigManager, MetadataTier,
                                                  SceneConfiguration,
                                                  SceneConfigurationSchema)
 from machine_common_sense.controller_output_handler import (
@@ -15,7 +15,7 @@ from machine_common_sense.goal_metadata import GoalMetadata
 class TestControllerOutputHandler(unittest.TestCase):
 
     def setUp(self):
-        self._config = ConfigManager()
+        self._config = ConfigManager(config_file_or_dict={})
         self._config._config[
             ConfigManager.CONFIG_DEFAULT_SECTION
         ] = {}
@@ -477,7 +477,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
     def test_wrap_output(self):
         self._config.set_metadata_tier(
-            ConfigManager.CONFIG_METADATA_TIER_DEFAULT)
+            MetadataTier.DEFAULT.value)
         (
             mock_scene_event_data,
             image_data,
@@ -508,7 +508,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         self.assertEqual(len(actual.object_list), 1)
         self.assertEqual(actual.object_list[0].uuid, "testId")
-        self.assertEqual(actual.object_list[0].color, {
+        self.assertEqual(actual.object_list[0].segment_color, {
             "r": 12,
             "g": 34,
             "b": 56
@@ -540,7 +540,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         self.assertEqual(len(actual.structural_object_list), 1)
         self.assertEqual(actual.structural_object_list[0].uuid, "testWallId")
-        self.assertEqual(actual.structural_object_list[0].color, {
+        self.assertEqual(actual.structural_object_list[0].segment_color, {
             "r": 101,
             "g": 102,
             "b": 103
@@ -644,7 +644,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
     def test_wrap_output_with_config_metadata_level1(self):
         self._config.set_metadata_tier(
-            ConfigManager.CONFIG_METADATA_TIER_LEVEL_1)
+            MetadataTier.LEVEL_1.value)
         (
             mock_scene_event_data,
             image_data,
@@ -723,7 +723,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
     def test_wrap_output_with_config_metadata_oracle_non_restrict(self):
         self._config.set_metadata_tier(
-            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
+            MetadataTier.ORACLE.value)
         (
             mock_scene_event_data,
             image_data,
@@ -772,7 +772,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
     def test_wrap_output_with_config_metadata_oracle(self):
         self._config.set_metadata_tier(
-            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
+            MetadataTier.ORACLE.value)
         (
             mock_scene_event_data,
             image_data,
@@ -821,7 +821,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
     def test_save_images(self):
         self._config.set_metadata_tier(
-            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
+            MetadataTier.ORACLE.value)
         image_data = numpy.array([[0]], dtype=numpy.uint8)
         depth_data = numpy.array([[[0, 0, 0]]], dtype=numpy.uint8)
         object_mask_data = numpy.array([[192]], dtype=numpy.uint8)
@@ -856,7 +856,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
     def test_save_images_with_multiple_images(self):
         self._config.set_metadata_tier(
-            ConfigManager.CONFIG_METADATA_TIER_ORACLE)
+            MetadataTier.ORACLE.value)
         image_data_1 = numpy.array([[64]], dtype=numpy.uint8)
         depth_data_1 = numpy.array([[[128, 64, 32]]], dtype=numpy.uint8)
         object_mask_data_1 = numpy.array([[192]], dtype=numpy.uint8)
@@ -917,7 +917,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(len(actual), 2)
 
         self.assertEqual(actual[0].uuid, "testId1")
-        self.assertEqual(actual[0].color, {
+        self.assertEqual(actual[0].segment_color, {
             "r": 12,
             "g": 34,
             "b": 56
@@ -942,7 +942,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[0].visible, True)
 
         self.assertEqual(actual[1].uuid, "testId2")
-        self.assertEqual(actual[1].color, {
+        self.assertEqual(actual[1].segment_color, {
             "r": 98,
             "g": 76,
             "b": 54
@@ -1014,7 +1014,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(len(actual), 3)
 
         self.assertEqual(actual[0].uuid, "testId1")
-        self.assertEqual(actual[0].color, {
+        self.assertEqual(actual[0].segment_color, {
             "r": 12,
             "g": 34,
             "b": 56
@@ -1039,7 +1039,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[0].visible, True)
 
         self.assertEqual(actual[1].uuid, "testId2")
-        self.assertEqual(actual[1].color, {
+        self.assertEqual(actual[1].segment_color, {
             "r": 98,
             "g": 76,
             "b": 54
@@ -1066,7 +1066,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[1].visible, True)
 
         self.assertEqual(actual[2].uuid, "testId3")
-        self.assertEqual(actual[2].color, {
+        self.assertEqual(actual[2].segment_color, {
             "r": 101,
             "g": 102,
             "b": 103

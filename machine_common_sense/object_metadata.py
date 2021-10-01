@@ -9,9 +9,6 @@ class ObjectMetadata(object):
     ----------
     uuid : string
         The unique ID of this object, used with some actions.
-    color : dict
-        The "r", "g", and "b" pixel values of this object in images from the
-        StepMetadata's "object_mask_list".
     dimensions : list of dicts
         The dimensions of this object in the environment's 3D global
         coordinate system as a list of 8 points (dicts with "x", "y", and "z").
@@ -43,6 +40,9 @@ class ObjectMetadata(object):
     rotation : dict
         This object's rotation angles around the "x", "y", and "z" axes
         in degrees.
+    segment_color : dict
+        The "r", "g", and "b" pixel values of this object in images from the
+        StepMetadata's "object_mask_list".
     shape : string
         This object's shape in plain English.
     state_list : list of strings
@@ -61,7 +61,6 @@ class ObjectMetadata(object):
     def __init__(
         self,
         uuid="",
-        color=None,
         dimensions=None,
         direction=None,
         distance=-1.0,
@@ -72,6 +71,7 @@ class ObjectMetadata(object):
         material_list=None,
         position=None,
         rotation=None,
+        segment_color=None,
         shape="",
         state_list=None,
         texture_color_list=None,
@@ -80,7 +80,6 @@ class ObjectMetadata(object):
         openable=False
     ):
         self.uuid = uuid
-        self.color = {} if color is None else color
         self.dimensions = [] if dimensions is None else dimensions
         self.direction = {} if direction is None else direction
         self.distance = distance
@@ -91,6 +90,9 @@ class ObjectMetadata(object):
         self.material_list = [] if material_list is None else material_list
         self.position = {} if position is None else position
         self.rotation = {} if rotation is None else rotation
+        self.segment_color = {} \
+            if segment_color is None \
+            else segment_color
         self.shape = shape
         self.state_list = [] if state_list is None else state_list
         self.texture_color_list = (
@@ -107,7 +109,6 @@ class ObjectMetadata(object):
     #   certain fields to be left out of output file
     def __iter__(self):
         yield 'uuid', self.uuid
-        yield 'color', self.color
         yield 'dimensions', self.dimensions
         yield 'direction', self.direction
         yield 'distance', self.distance
@@ -118,6 +119,7 @@ class ObjectMetadata(object):
         yield 'material_list', self.material_list
         yield 'position', self.position
         yield 'rotation', self.rotation
+        yield 'segment_color', self.segment_color
         yield 'shape', self.shape
         yield 'state_list', self.state_list
         yield 'texture_color_list', self.texture_color_list

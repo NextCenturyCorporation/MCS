@@ -3,9 +3,12 @@ import logging
 import os
 import pathlib
 from time import perf_counter
-from typing import Dict
 
-from .controller_events import AbstractControllerSubscriber
+from machine_common_sense.step_metadata import StepMetadata
+
+from .controller_events import (AbstractControllerSubscriber, AfterStepPayload,
+                                BeforeStepPayload, EndScenePayload,
+                                StartScenePayload)
 from .scene_history import SceneHistory
 from .stringifier import Stringifier
 
@@ -19,23 +22,21 @@ class HistoryEventHandler(AbstractControllerSubscriber):
         self.__history_writer = None
         self.__history_item = None
 
-    def on_start_scene(self, payload):
+    def on_start_scene(self, payload: StartScenePayload):
         if payload.config.is_history_enabled():
 
             # Ensure the previous scene history writer has saved its file.
             if self.__history_writer:
                 self.__history_writer.check_file_written()
 
-            hist_info = {}
-            hist_info[
-                payload.config.CONFIG_EVALUATION_NAME
-            ] = payload.config.get_evaluation_name()
-            hist_info[
-                payload.config.CONFIG_METADATA_TIER
-            ] = payload.config.get_metadata_tier()
-            hist_info[
-                payload.config.CONFIG_TEAM
-            ] = payload.config.get_team()
+            hist_info = {
+                payload.config.CONFIG_EVALUATION_NAME:
+                    payload.config.get_evaluation_name(),
+                payload.config.CONFIG_METADATA_TIER:
+                    payload.config.get_metadata_tier().value,
+                payload.config.CONFIG_TEAM:
+                    payload.config.get_team()
+            }
 
             # Create a new scene history writer with each new scene (config
             # data) so we always create a new, separate scene history file.
@@ -43,15 +44,16 @@ class HistoryEventHandler(AbstractControllerSubscriber):
                                                   hist_info,
                                                   payload.timestamp)
 
-    def on_before_step(self, payload):
+    def on_before_step(self, payload: BeforeStepPayload):
         if payload.config.is_history_enabled():
             if payload.step_number == 0:
                 self.__history_writer.init_timer()
             if payload.step_number > 0:
                 self.__history_writer.add_step(self.__history_item)
 
-    def on_after_step(self, payload):
-        output = payload.step_output.copy_without_depth_or_images()
+    def on_after_step(self, payload: AfterStepPayload):
+        output: StepMetadata = \
+            payload.step_output.copy_without_depth_or_images()
 
         self.__history_item = SceneHistory(
             step=payload.step_number,
@@ -61,7 +63,7 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             output=output,
             delta_time_millis=0)
 
-    def on_end_scene(self, payload):
+    def on_end_scene(self, payload: EndScenePayload):
         if (
             self.__history_writer is not None and
             payload.config.is_history_enabled()
@@ -73,11 +75,12 @@ class HistoryEventHandler(AbstractControllerSubscriber):
                 for step in self.__history_writer.current_steps:
                     currentStep = step.get("step")
 
-                    findStepInReport = (payload.report.get(
-                        currentStep) or
-                        payload.report.get(str(currentStep)))
+                    findStepInReport = (
+                        payload.report.get(currentStep) or
+                        payload.report.get(str(currentStep))
+                    )
 
-                    if(findStepInReport is not None):
+                    if (findStepInReport is not None):
                         # Use classification and confidence rather than rating
                         # and score to be compatible with old history files.
                         step["classification"] = findStepInReport.get("rating")
@@ -95,7 +98,6 @@ class HistoryEventHandler(AbstractControllerSubscriber):
 
 
 class HistoryWriter(object):
-
     HISTORY_DIRECTORY = "SCENE_HISTORY"
 
     def __init__(self, scene_config_data=None, hist_info={}, timestamp=''):
@@ -158,16 +160,34 @@ class HistoryWriter(object):
             sent to controller"""
         self.last_step_time_millis = perf_counter() * 1000
 
-    def add_step(self, step_obj: Dict):
+    def add_step(self, step_obj: SceneHistory):
         """Add a new step to the array of history steps"""
         current_time = perf_counter() * 1000
         if step_obj is not None:
-            step_obj.delta_time_millis = current_time - \
-                self.last_step_time_millis
+            step_obj.delta_time_millis = (
+                current_time - self.last_step_time_millis)
             self.last_step_time_millis = current_time
+            if step_obj.output:
+                step_obj.target_visible = self.is_target_visible(
+                    step_obj)
             logger.debug("Adding history step")
             self.current_steps.append(
                 dict(self.filter_history_output(step_obj)))
+
+    def is_target_visible(
+            self,
+            history: SceneHistory) -> bool:
+        """Determine the visibility of the target object, if any"""
+        try:
+            meta = history.output.goal.metadata
+            goal_id = meta['target']['id']
+            for hist_obj in history.output.object_list:
+                uuid = hist_obj.uuid
+                if uuid == goal_id and hist_obj.visible:
+                    return True
+            return False
+        except Exception:
+            return False
 
     def write_history_file(self, rating, score):
         """ Add the end score obj, create the object

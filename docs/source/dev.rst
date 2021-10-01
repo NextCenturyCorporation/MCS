@@ -120,7 +120,9 @@ More Config Options
 
 Outlined here is a list of config file options that can be used **in addition** to the ones listed under the :ref:`MCS Config File` section.
 
-To use an MCS configuration file, you can either pass in a file path via the `config_file_path` property in the create_controller() method, or set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see `sample_config.ini <https://github.com/NextCenturyCorporation/MCS/blob/master/sample_config.ini>`_ for an example).
+To use a specific configuration, you can either pass in a file path or dictionary of values via the `config_file_or_dict` in the create_controller() method, or set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see `sample_config.ini <https://github.com/NextCenturyCorporation/MCS/blob/master/sample_config.ini>`_ for an example).
+
+Please note that the `MCS_CONFIG_FILE_PATH` environment variable is meant for use by the TA2 team during evaluation.
 
 Developer Config File Properties
 ********************************
@@ -172,10 +174,5 @@ After iterating with the contributor, if you feel the PR is reasonably close, fe
 Releases
 --------
 
-Update the version number in the following files:
+Please see the following `Confluence page <https://nextcentury.atlassian.net/wiki/spaces/MCS/pages/1442742340/MCS+Release+Procedures>`_
 
-- `CPU_Container.dockerfile <https://github.com/NextCenturyCorporation/MCS/blob/master/CPU_Container.dockerfile>`_
-- `Dockerfile <https://github.com/NextCenturyCorporation/MCS/blob/master/Dockerfile>`_
-- `README.md <https://github.com/NextCenturyCorporation/MCS/blob/master/README.md>`_
-- `machine_common_sense/_version.py <https://github.com/NextCenturyCorporation/MCS/blob/master/machine_common_sense/_version.py>`_
-- `docs/source/install.rst <https://github.com/NextCenturyCorporation/MCS/blob/master/docs/source/install.rst>`_ (just the links at the top of the file)

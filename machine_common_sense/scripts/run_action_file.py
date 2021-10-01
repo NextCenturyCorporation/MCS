@@ -1,6 +1,6 @@
-from runner_script import SingleFileRunnerScript
-
 import machine_common_sense as mcs
+
+from .runner_script import SingleFileRunnerScript
 
 action_list_from_file = []
 

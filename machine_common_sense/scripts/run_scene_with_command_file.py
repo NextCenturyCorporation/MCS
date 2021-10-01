@@ -20,12 +20,8 @@ def parse_args():
 
 
 def load_command_file(command_text_file):
-    commands = []
-    command_file = open(command_text_file, 'r')
-    for line in command_file:
-        commands.append(line.strip())
-    command_file.close()
-
+    with open(command_text_file, 'r') as command_file:
+        commands = [line.strip() for line in command_file]
     return commands
 
 
@@ -49,7 +45,7 @@ def main():
 
     controller = mcs.create_controller(
         unity_app_file_path=args.mcs_unity_build_file,
-        config_file_path='./run_scripts_config_with_history.ini'
+        config_file_or_dict='./run_scripts_config_with_history.ini'
     )
 
     config_file_path = args.mcs_config_json_file

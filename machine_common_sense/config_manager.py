@@ -3,6 +3,7 @@ import configparser  # noqa: F401
 import logging
 import os
 from dataclasses import dataclass, field
+from enum import Enum, unique
 from typing import List
 
 import numpy as np
@@ -24,30 +25,30 @@ class Vector3d:
     z: float = 0
 
 
+@unique
+class MetadataTier(Enum):
+    # Normal metadata plus metadata for all hidden objects
+    ORACLE = 'oracle'
+    # No metadata, except for the images, depth masks, object masks,
+    # and haptic/audio feedback
+    LEVEL_2 = 'level2'
+    # No metadata, except for the images, depth masks, and haptic/audio
+    # feedback
+    LEVEL_1 = 'level1'
+    # No metadata, except for the images and haptic/audio
+    # feedback
+    NONE = 'none'
+    # Default metadata level if none specified, meant for use during
+    # development
+    DEFAULT = 'default'
+
+
 class ConfigManager(object):
 
     DEFAULT_CLIPPING_PLANE_FAR = 15.0
     DEFAULT_ROOM_DIMENSIONS = Vector3d(x=10, y=3, z=10)
 
-    # Normal metadata plus metadata for all hidden objects
-    CONFIG_METADATA_TIER_ORACLE = 'oracle'
-    # No metadata, except for the images, depth masks, object masks,
-    # and haptic/audio feedback
-    CONFIG_METADATA_TIER_LEVEL_2 = 'level2'
-    # No metadata, except for the images, depth masks, and haptic/audio
-    # feedback
-    CONFIG_METADATA_TIER_LEVEL_1 = 'level1'
-    # No metadata, except for the images and haptic/audio
-    # feedback
-    CONFIG_METADATA_TIER_NONE = 'none'
-
-    # Default metadata level if none specified, meant for use during
-    # development
-    CONFIG_METADATA_TIER_DEFAULT = 'default'
-
     CONFIG_FILE_ENV_VAR = 'MCS_CONFIG_FILE_PATH'
-    METADATA_ENV_VAR = 'MCS_METADATA_LEVEL'
-    DEFAULT_CONFIG_FILE = './mcs_config.ini'
 
     CONFIG_DEFAULT_SECTION = 'MCS'
 
@@ -67,26 +68,41 @@ class ConfigManager(object):
     SCREEN_WIDTH_DEFAULT = 600
     SCREEN_WIDTH_MIN = 450
 
-    def __init__(self, config_file_path=None):
-        # For config file, look for environment variable first,
-        # then look for config_path parameter from constructor
-        self._config_file = os.getenv(
-            self.CONFIG_FILE_ENV_VAR, config_file_path)
+    def __init__(self, config_file_or_dict=None):
+        '''
+        Configuration preferences passed in by the user.
+        '''
+        self._config = configparser.ConfigParser()
 
-        if(self._config_file is None):
-            self._config_file = self.DEFAULT_CONFIG_FILE
-
-        self._read_config_file()
+        # For config, look for environment variable first,
+        # then look at config_file_or_dict from constructor
+        try:
+            if (os.getenv(self.CONFIG_FILE_ENV_VAR) is not None):
+                self._read_in_config_file(os.getenv(self.CONFIG_FILE_ENV_VAR))
+            elif (isinstance(config_file_or_dict, dict)):
+                self._read_in_config_dict(config_file_or_dict)
+            elif(isinstance(config_file_or_dict, str)):
+                self._read_in_config_file(config_file_or_dict)
+            else:
+                raise FileNotFoundError("No config options given")
+        except FileNotFoundError as err:
+            raise RuntimeError("Configuration not set") from err
 
         self._validate_screen_size()
 
-    def _read_config_file(self):
-        self._config = configparser.ConfigParser()
-        if os.path.exists(self._config_file):
-            self._config.read(self._config_file)
-            logger.info('Config File Path: ' + self._config_file)
+    def _read_in_config_dict(self, config_dict):
+        self._config[self.CONFIG_DEFAULT_SECTION] = config_dict
+        logger.info('No config file given or file path does not exist,'
+                    ' using config dictionary')
+        logger.info('Read in config dictionary: ' + str(config_dict))
+
+    def _read_in_config_file(self, config_file_path):
+        if os.path.exists(config_file_path):
+            self._config.read(config_file_path)
+            logger.info('Config File Path: ' + config_file_path)
         else:
-            logger.info('No Config File')
+            logger.warning('No config file at given path: ' + config_file_path)
+            raise FileNotFoundError()
 
     def _validate_screen_size(self):
         if(self.get_size() < self.SCREEN_WIDTH_MIN):
@@ -104,17 +120,13 @@ class ConfigManager(object):
         )
 
     def get_metadata_tier(self):
-        # Environment variable override for metadata property
-        metadata_env_var = os.getenv('MCS_METADATA_LEVEL', None)
+        metadata = self._config.get(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_METADATA_TIER,
+            fallback='default'
+        )
 
-        if(metadata_env_var is None):
-            return self._config.get(
-                self.CONFIG_DEFAULT_SECTION,
-                self.CONFIG_METADATA_TIER,
-                fallback='default'
-            )
-
-        return metadata_env_var
+        return MetadataTier(metadata)
 
     def set_metadata_tier(self, mode):
         self._config.set(
@@ -182,19 +194,19 @@ class ConfigManager(object):
     def is_depth_maps_enabled(self) -> bool:
         metadata_tier = self.get_metadata_tier()
         return metadata_tier in [
-            self.CONFIG_METADATA_TIER_LEVEL_1,
-            self.CONFIG_METADATA_TIER_LEVEL_2,
-            self.CONFIG_METADATA_TIER_ORACLE,
+            MetadataTier.LEVEL_1,
+            MetadataTier.LEVEL_2,
+            MetadataTier.ORACLE,
         ]
 
     def is_object_masks_enabled(self) -> bool:
         metadata_tier = self.get_metadata_tier()
         return (
-            metadata_tier != self.CONFIG_METADATA_TIER_LEVEL_1 and
+            metadata_tier != MetadataTier.LEVEL_1 and
             metadata_tier in
             [
-                self.CONFIG_METADATA_TIER_LEVEL_2,
-                self.CONFIG_METADATA_TIER_ORACLE,
+                MetadataTier.LEVEL_2,
+                MetadataTier.ORACLE,
             ]
         )
 
@@ -284,6 +296,8 @@ class ForceConfigSchema(Schema):
     stepEnd = fields.Int()
     vector = fields.Nested(Vector3dSchema)
     relative = fields.Bool()
+    repeat = fields.Bool()
+    stepWait = fields.Int()
 
     @post_load
     def make_force_config(self, data, **kwargs):
@@ -294,6 +308,8 @@ class MoveConfigSchema(Schema):
     stepBegin = fields.Int()
     stepEnd = fields.Int()
     vector = fields.Nested(Vector3dSchema)
+    repeat = fields.Bool()
+    stepWait = fields.Int()
 
     @post_load
     def make_move_config(self, data, **kwargs):
@@ -356,6 +372,8 @@ class SizeConfigSchema(Schema):
     stepBegin = fields.Int()
     stepEnd = fields.Int()
     size = fields.Nested(Vector3dSchema)
+    repeat = fields.Bool()
+    stepWait = fields.Int()
 
     @post_load
     def make_size_config(self, data, **kwargs):
@@ -373,6 +391,8 @@ class SingleStepConfigSchema(Schema):
 class StepBeginEndConfigSchema(Schema):
     stepBegin = fields.Int()
     stepEnd = fields.Int()
+    repeat = fields.Bool()
+    stepWait = fields.Int()
 
     @post_load
     def make_step_begin_end_config(self, data, **kwargs):
@@ -529,6 +549,8 @@ class ForceConfig:
     stepEnd: int
     vector: Vector3d = Vector3d(0, 0, 0)
     relative: bool = False
+    repeat: bool = False
+    stepWait: int = 0
 
 
 @dataclass
@@ -536,6 +558,8 @@ class MoveConfig:
     stepBegin: int
     stepEnd: int
     vector: Vector3d = Vector3d(0, 0, 0)
+    repeat: bool = False
+    stepWait: int = 0
 
 
 @dataclass
@@ -580,6 +604,8 @@ class SizeConfig:
     stepBegin: int
     stepEnd: int
     size: Vector3d = Vector3d(1, 1, 1)
+    repeat: bool = False
+    stepWait: int = 0
 
 
 @dataclass
@@ -591,6 +617,8 @@ class SingleStepConfig:
 class StepBeginEndConfig:
     stepBegin: int
     stepEnd: int
+    repeat: bool = False
+    stepWait: int = 0
 
 
 @dataclass

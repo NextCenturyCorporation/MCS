@@ -2,8 +2,8 @@
 Installation and Setup
 =======================
 
-.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.4/MCS-AI2-THOR-Unity-App-v0.4.4-mac.zip
-.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.4/MCS-AI2-THOR-Unity-App-v0.4.4-linux.zip
+.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.5/MCS-AI2-THOR-Unity-App-v0.4.5-mac.zip
+.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.5/MCS-AI2-THOR-Unity-App-v0.4.5-linux.zip
 
 Virtual Environments
 ------------------------
@@ -93,7 +93,7 @@ Mac Version:
 Addressables
 ************
 
-As of 0.4.4, we are using addressable assets that are stored remotely on AWS, greatly decreasing the size of our Unity releases. This also means that there is a bit of a trade off on first-time start up when you download a new release, since the resources will have to be downloaded. If you would like to avoid this load time on initial start up (which could result in a timeout), you can download the latest release using the links above, and then run the `cache-addressables.py <https://github.com/NextCenturyCorporation/MCS/blob/master/scripts/cache_addressables.py>`_ script:
+As of 0.4.4, we are using addressable assets that are stored remotely on AWS, greatly decreasing the size of our Unity releases. This also means that there is a bit of a trade off on first-time start up when you download a new release, since the resources will have to be downloaded. If you would like to avoid this load time on initial start up (which could result in a timeout), you can download the latest release using the links above, and then run the `cache-addressables.py <https://github.com/NextCenturyCorporation/MCS/blob/master/machine_common_sense/scripts/cache_addressables.py>`_ script:
 
 If the python package is installed from PyPI, the script is available in your virtual environment already.
 
@@ -116,7 +116,7 @@ After downloading the Unity app, you will need to reference the path using the `
 MCS Configuration File
 ----------------------
 
-To use an MCS configuration file, you can either pass in a file path via the `config_file_path` property in the create_controller() method, or set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see `sample_config.ini <https://github.com/NextCenturyCorporation/MCS/blob/master/sample_config.ini>`_ for an example).
+To use a specific configuration, you can either pass in a file path or dictionary of values via the `config_file_or_dict` in the create_controller() method, or set the `MCS_CONFIG_FILE_PATH` environment variable to the path of your MCS configuration file (note that the configuration must be an INI file -- see `sample_config.ini <https://github.com/NextCenturyCorporation/MCS/blob/master/sample_config.ini>`_ for an example).
 
 Config File Properties
 **********************
@@ -202,11 +202,9 @@ Example Using the Config File to Generate Scene Graphs or Maps
     import os
     import machine_common_sense as mcs
 
-    os.environ['MCS_CONFIG_FILE_PATH'] = # Path to your MCS configuration file
-
     scene_files = # List of scene configuration file paths
 
-    controller = mcs.create_controller()
+    controller = mcs.create_controller(config_file_or_dict='path/to/config')
 
     for scene_file in scene_files:
         scene_data, status = mcs.load_scene_json_file(scene_file)

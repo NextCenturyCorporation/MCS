@@ -6,7 +6,7 @@ import numpy as np
 import PIL
 from ai2thor.server import Event
 
-from .config_manager import ConfigManager, SceneConfiguration
+from .config_manager import ConfigManager, MetadataTier, SceneConfiguration
 from .controller import DEFAULT_MOVE
 from .material import Material
 from .object_metadata import ObjectMetadata
@@ -115,7 +115,7 @@ class SceneEvent():
         # Return object list for all tier levels, the restrict output function
         # will then strip out the necessary metadata
         metadata_tier = self._config.get_metadata_tier()
-        show_all = metadata_tier != ConfigManager.CONFIG_METADATA_TIER_DEFAULT
+        show_all = metadata_tier != MetadataTier.DEFAULT
         # if no config specified, return visible objects (for now)
         return sorted(
             [
@@ -205,7 +205,6 @@ class SceneEvent():
 
         return ObjectMetadata(
             uuid=object_metadata['objectId'],
-            color={'r': rgb[0], 'g': rgb[1], 'b': rgb[2]},
             dimensions=(
                 bounds['objectBoundsCorners']
                 if 'objectBoundsCorners' in bounds
@@ -224,6 +223,7 @@ class SceneEvent():
             material_list=material_list,
             position=object_metadata['position'],
             rotation=object_metadata['rotation'],
+            segment_color={'r': rgb[0], 'g': rgb[1], 'b': rgb[2]},
             shape=object_metadata['shape'],
             state_list=self._scene_config.retrieve_object_states(
                 object_metadata['objectId'],
@@ -268,20 +268,20 @@ class ControllerOutputHandler():
         metadata_tier = self._config.get_metadata_tier()
         restrict_depth_map = (
             restricted and
-            metadata_tier == ConfigManager.CONFIG_METADATA_TIER_NONE
+            metadata_tier == MetadataTier.NONE
         )
 
         restrict_object_mask_list = (
             restricted and
-            (metadata_tier == ConfigManager.CONFIG_METADATA_TIER_NONE or
-             metadata_tier == ConfigManager.CONFIG_METADATA_TIER_LEVEL_1)
+            (metadata_tier == MetadataTier.NONE or
+             metadata_tier == MetadataTier.LEVEL_1)
         )
 
         restrict_non_oracle = (
             restricted and
-            (metadata_tier == ConfigManager.CONFIG_METADATA_TIER_NONE or
-             metadata_tier == ConfigManager.CONFIG_METADATA_TIER_LEVEL_1 or
-             metadata_tier == ConfigManager.CONFIG_METADATA_TIER_LEVEL_2)
+            (metadata_tier == MetadataTier.NONE or
+             metadata_tier == MetadataTier.LEVEL_1 or
+             metadata_tier == MetadataTier.LEVEL_2)
         )
 
         depth_map_list = [] if restrict_depth_map else (

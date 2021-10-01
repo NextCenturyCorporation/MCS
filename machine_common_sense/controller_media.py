@@ -5,7 +5,7 @@ from abc import abstractmethod
 import numpy as np
 import PIL
 
-from .config_manager import ConfigManager
+from .config_manager import ConfigManager, Vector3d
 from .controller_events import (AbstractControllerSubscriber,
                                 ControllerEventPayload)
 from .plotter import TopDownPlotter
@@ -70,7 +70,7 @@ class AbstractVideoEventHandler(AbstractControllerSubscriber):
         scene_name = payload.scene_config.name.replace('json', '')
         return '_'.join(
             [payload.config.get_evaluation_name(),
-             payload.config.get_metadata_tier(),
+             payload.config.get_metadata_tier().value,
              payload.config.get_team(),
              scene_name,
              AbstractVideoEventHandler.PLACEHOLDER, timestamp]) + '.mp4'
@@ -172,7 +172,12 @@ class TopdownVideoEventHandler(AbstractVideoEventHandler):
         self.__plotter = TopDownPlotter(
             team=payload.config.get_team(),
             scene_name=payload.scene_config.name.replace('json', ''),
-            room_size=payload.scene_config.roomDimensions)
+            room_size=(
+                # Room is automatically expanded in intuitive physics scenes.
+                Vector3d(14, 10, 10) if payload.scene_config.intuitivePhysics
+                else payload.scene_config.roomDimensions
+            )
+        )
         self.save_video_for_step(payload)
 
     def on_after_step(self, payload: ControllerEventPayload):
