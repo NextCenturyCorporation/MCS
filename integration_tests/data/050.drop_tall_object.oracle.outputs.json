@@ -192,8 +192,7 @@
         "objects": [
             {
                 "held": false,
-                "id": "testBall",
-                "visible": true
+                "id": "testBall"
             },
             {
                 "held": false,

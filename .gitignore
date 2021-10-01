@@ -25,20 +25,27 @@ eggs/
 dist/
 sdist/
 wheels/
+build/
 
 docs/_build
-**/*.gif
-**/*.mp4
 **/mcs_config.ini
 
-# Debug output
+# Ignore debug files in the root or scripts folders ONLY.
 **/SCENE_HISTORY
-scripts/**/*.gif
-scripts/**/*.json
-scripts/**/*.mp4
-scripts/**/*.png
-scripts/**/*.zip
+*.gif
+*.json
+*.mp4
+*.png
+*.zip
+machine_common_sense/scripts/**/*.gif
+machine_common_sense/scripts/**/*.json
+machine_common_sense/scripts/**/*.mp4
+machine_common_sense/scripts/**/*.png
+machine_common_sense/scripts/**/*.zip
 
 # Logging output and user config
 logs/*.log
 scripts/log.config.user.py
+
+#.vscode files
+.vscode/launch.json

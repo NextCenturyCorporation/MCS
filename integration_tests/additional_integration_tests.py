@@ -1,9 +1,9 @@
 import glob
-import numpy as np
 import os.path
 
-import machine_common_sense as mcs
+import numpy as np
 
+import machine_common_sense as mcs
 
 INTEGRATION_TESTS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 DEPTH_AND_SEGMENTATION_SCENE = (
@@ -65,7 +65,7 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
                 f'Step 1 {metadata_tier} failed: object_mask_list with length '
                 f'{len(step_metadata_0.object_mask_list)} should be length 1'
             )
-    # Verify the consistent color of each object across both steps.
+    # Verify the consistent segment_color of each object across both steps.
     if metadata_tier == 'oracle':
         if (
             step_metadata_0.object_list[0].uuid !=
@@ -88,24 +88,24 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
                 f'{step_metadata_1.object_list[1].uuid}'
             )
         if (
-            step_metadata_0.object_list[0].color !=
-            step_metadata_1.object_list[0].color
+            step_metadata_0.object_list[0].segment_color !=
+            step_metadata_1.object_list[0].segment_color
         ):
             return (
                 False,
-                f'Step 1 {metadata_tier} failed: object_list[0].color '
-                f'{step_metadata_0.object_list[0].color} != '
-                f'{step_metadata_1.object_list[0].color}'
+                f'Step 1 {metadata_tier} failed: object_list[0].segment_color '
+                f'{step_metadata_0.object_list[0].segment_color} != '
+                f'{step_metadata_1.object_list[0].segment_color}'
             )
         if (
-            step_metadata_0.object_list[1].color !=
-            step_metadata_1.object_list[1].color
+            step_metadata_0.object_list[1].segment_color !=
+            step_metadata_1.object_list[1].segment_color
         ):
             return (
                 False,
-                f'Step 1 {metadata_tier} failed: object_list[1].color '
-                f'{step_metadata_0.object_list[1].color} != '
-                f'{step_metadata_1.object_list[1].color}'
+                f'Step 1 {metadata_tier} failed: object_list[1].segment_color '
+                f'{step_metadata_0.object_list[1].segment_color} != '
+                f'{step_metadata_1.object_list[1].segment_color}'
             )
 
     # Stop the test scene.
@@ -204,8 +204,8 @@ def run_numpy_array_data_test(controller, metadata_tier):
     if status is not None:
         return False, status
 
-    # Add the numpy array data as a property to the scene data.
-    scene_data['numpyArray'] = np.array([1, 2])
+    # Convert the objects array to a numpy array
+    scene_data['objects'] = np.array(scene_data.get("objects", []))
 
     # Initialize the test scene.
     step_metadata = controller.start_scene(scene_data)
@@ -230,9 +230,7 @@ def run_position_by_step_test(controller, metadata_tier):
 
 
 def run_public_sample_scenes_test(controller, metadata_tier):
-    scene_filename_list = glob.glob(SAMPLE_SCENES_FOLDER + '*.json')
-    scene_filename_list.sort()
-
+    scene_filename_list = sorted(glob.glob(SAMPLE_SCENES_FOLDER + '*.json'))
     failed_test_list = []
 
     for scene_filename in scene_filename_list:

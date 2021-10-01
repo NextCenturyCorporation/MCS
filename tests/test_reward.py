@@ -1,6 +1,6 @@
 import unittest
-
 from typing import Tuple
+
 from shapely import geometry
 
 import machine_common_sense as mcs

@@ -1,0 +1,2425 @@
+﻿[
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.086,
+                "direction_z": 0.996,
+                "distance": 8.532,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 4.0,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.281,
+                "direction_z": 0.96,
+                "distance": 8.857,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 4.0,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.701,
+                "direction_z": 0.713,
+                "distance": 8.551,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 1,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.879,
+                "direction_z": 0.477,
+                "distance": 12.791,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.685,
+                "direction_z": 0.728,
+                "distance": 8.378,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 2,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.874,
+                "direction_z": 0.485,
+                "distance": 12.572,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.669,
+                "direction_z": 0.743,
+                "distance": 8.209,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 3,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.87,
+                "direction_z": 0.494,
+                "distance": 12.354,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.652,
+                "direction_z": 0.758,
+                "distance": 8.044,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 4,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.865,
+                "direction_z": 0.503,
+                "distance": 12.137,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.633,
+                "direction_z": 0.774,
+                "distance": 7.883,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 5,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.859,
+                "direction_z": 0.512,
+                "distance": 11.922,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.614,
+                "direction_z": 0.789,
+                "distance": 7.727,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 6,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.854,
+                "direction_z": 0.521,
+                "distance": 11.708,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.593,
+                "direction_z": 0.805,
+                "distance": 7.576,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 7,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.848,
+                "direction_z": 0.531,
+                "distance": 11.495,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.571,
+                "direction_z": 0.821,
+                "distance": 7.431,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 8,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.841,
+                "direction_z": 0.541,
+                "distance": 11.284,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.548,
+                "direction_z": 0.837,
+                "distance": 7.291,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 9,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.835,
+                "direction_z": 0.551,
+                "distance": 11.074,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.523,
+                "direction_z": 0.852,
+                "distance": 7.157,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 10,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.828,
+                "direction_z": 0.561,
+                "distance": 10.867,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.497,
+                "direction_z": 0.868,
+                "distance": 7.029,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 11,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.82,
+                "direction_z": 0.572,
+                "distance": 10.661,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.469,
+                "direction_z": 0.883,
+                "distance": 6.908,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 12,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.812,
+                "direction_z": 0.583,
+                "distance": 10.457,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.44,
+                "direction_z": 0.898,
+                "distance": 6.795,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 13,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.804,
+                "direction_z": 0.595,
+                "distance": 10.255,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.41,
+                "direction_z": 0.912,
+                "distance": 6.688,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": false
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 14,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.795,
+                "direction_z": 0.607,
+                "distance": 10.055,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.378,
+                "direction_z": 0.926,
+                "distance": 6.59,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 15,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.786,
+                "direction_z": 0.619,
+                "distance": 9.857,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.345,
+                "direction_z": 0.939,
+                "distance": 6.499,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 16,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.776,
+                "direction_z": 0.631,
+                "distance": 9.662,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.311,
+                "direction_z": 0.951,
+                "distance": 6.417,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 17,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.765,
+                "direction_z": 0.644,
+                "distance": 9.469,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.275,
+                "direction_z": 0.962,
+                "distance": 6.344,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 18,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.754,
+                "direction_z": 0.657,
+                "distance": 9.28,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.238,
+                "direction_z": 0.971,
+                "distance": 6.28,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 19,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.742,
+                "direction_z": 0.671,
+                "distance": 9.093,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.2,
+                "direction_z": 0.98,
+                "distance": 6.225,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 20,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.729,
+                "direction_z": 0.685,
+                "distance": 8.909,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.161,
+                "direction_z": 0.987,
+                "distance": 6.18,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 21,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.715,
+                "direction_z": 0.699,
+                "distance": 8.728,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.161,
+                "direction_z": 0.987,
+                "distance": 6.18,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 22,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.715,
+                "direction_z": 0.699,
+                "distance": 8.728,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.161,
+                "direction_z": 0.987,
+                "distance": 6.18,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 23,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.715,
+                "direction_z": 0.699,
+                "distance": 8.728,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "held"
+                ],
+                "texture_color_list": [
+                    "magenta",
+                    "purple"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.158,
+                "direction_z": 0.987,
+                "distance": 6.178,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 24,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.715,
+                "direction_z": 0.699,
+                "distance": 8.728,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.152,
+                "direction_z": 0.988,
+                "distance": 6.172,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 25,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.715,
+                "direction_z": 0.699,
+                "distance": 8.728,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.142,
+                "direction_z": 0.99,
+                "distance": 6.162,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 26,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.715,
+                "direction_z": 0.699,
+                "distance": 8.728,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.128,
+                "direction_z": 0.992,
+                "distance": 6.151,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 27,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.729,
+                "direction_z": 0.685,
+                "distance": 8.909,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.11,
+                "direction_z": 0.994,
+                "distance": 6.137,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 28,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.742,
+                "direction_z": 0.671,
+                "distance": 9.093,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.088,
+                "direction_z": 0.996,
+                "distance": 6.124,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 29,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.754,
+                "direction_z": 0.657,
+                "distance": 9.28,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.061,
+                "direction_z": 0.998,
+                "distance": 6.112,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 30,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.765,
+                "direction_z": 0.644,
+                "distance": 9.469,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.031,
+                "direction_z": 1.0,
+                "distance": 6.103,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 31,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.776,
+                "direction_z": 0.631,
+                "distance": 9.662,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.004,
+                "direction_z": 1.0,
+                "distance": 6.1,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 32,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.786,
+                "direction_z": 0.619,
+                "distance": 9.857,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.042,
+                "direction_z": 0.999,
+                "distance": 6.105,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 33,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.795,
+                "direction_z": 0.607,
+                "distance": 10.055,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.085,
+                "direction_z": 0.996,
+                "distance": 6.122,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 34,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.804,
+                "direction_z": 0.595,
+                "distance": 10.255,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.069,
+                "direction_z": 0.998,
+                "distance": 6.115,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 35,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.812,
+                "direction_z": 0.583,
+                "distance": 10.457,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.058,
+                "direction_z": 0.998,
+                "distance": 6.11,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 36,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.82,
+                "direction_z": 0.572,
+                "distance": 10.661,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.051,
+                "direction_z": 0.999,
+                "distance": 6.108,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 37,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.828,
+                "direction_z": 0.561,
+                "distance": 10.867,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.048,
+                "direction_z": 0.999,
+                "distance": 6.107,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 38,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.835,
+                "direction_z": 0.551,
+                "distance": 11.074,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.049,
+                "direction_z": 0.999,
+                "distance": 6.107,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 39,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.841,
+                "direction_z": 0.541,
+                "distance": 11.284,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.053,
+                "direction_z": 0.999,
+                "distance": 6.109,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 40,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.848,
+                "direction_z": 0.531,
+                "distance": 11.495,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.062,
+                "direction_z": 0.998,
+                "distance": 6.112,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 41,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.854,
+                "direction_z": 0.521,
+                "distance": 11.708,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.075,
+                "direction_z": 0.997,
+                "distance": 6.117,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 42,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.859,
+                "direction_z": 0.512,
+                "distance": 11.922,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.078,
+                "direction_z": 0.996,
+                "distance": 6.119,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 43,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.865,
+                "direction_z": 0.503,
+                "distance": 12.137,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.076,
+                "direction_z": 0.997,
+                "distance": 6.118,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 44,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.87,
+                "direction_z": 0.494,
+                "distance": 12.354,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.077,
+                "direction_z": 0.997,
+                "distance": 6.118,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 45,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.874,
+                "direction_z": 0.485,
+                "distance": 12.572,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.083,
+                "direction_z": 0.996,
+                "distance": 6.121,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 46,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.879,
+                "direction_z": 0.477,
+                "distance": 12.791,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.084,
+                "direction_z": 0.996,
+                "distance": 6.121,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 47,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.883,
+                "direction_z": 0.469,
+                "distance": 13.011,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.084,
+                "direction_z": 0.996,
+                "distance": 6.121,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 48,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.887,
+                "direction_z": 0.461,
+                "distance": 13.233,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.084,
+                "direction_z": 0.996,
+                "distance": 6.121,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 49,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.887,
+                "direction_z": 0.461,
+                "distance": 13.233,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.084,
+                "direction_z": 0.996,
+                "distance": 6.121,
+                "id": "target_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 50,
+        "structural_objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.887,
+                "direction_z": 0.461,
+                "distance": 13.233,
+                "id": "placer_object",
+                "position_x": 0.0,
+                "position_z": 1.6,
+                "rotation_x": 0.0,
+                "rotation_y": 0.0,
+                "rotation_z": 0.0,
+                "state_list": [
+                    "released"
+                ],
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 7
+    }
+]

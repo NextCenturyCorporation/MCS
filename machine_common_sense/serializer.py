@@ -1,13 +1,11 @@
 import io
 import json
-import msgpack
-import numpy as np
-import PIL.Image as Image
-
 from abc import ABCMeta, abstractmethod
 from typing import Dict, Union
 
-import machine_common_sense as mcs
+import msgpack
+import numpy as np
+import PIL.Image as Image
 
 from .goal_metadata import GoalMetadata
 from .object_metadata import ObjectMetadata
@@ -46,10 +44,10 @@ class ISerializer:
 
 class SerializerMsgPack(ISerializer):
     """Serializer to (de)serialize StepMetadata into/from MsgPack format."""
+
     @staticmethod
     def _ext_pack(x):
-        """
-        Hook to serialize MCS Step Metadata as MsgPack, e.g.
+        """Hook to serialize MCS Step Metadata as MsgPack, e.g.
         serialized = msgpack.packb(output, default=ext_pack, strict_types=True)
         """
         if isinstance(x, StepMetadata):
@@ -157,35 +155,38 @@ class SerializerMsgPack(ISerializer):
                                 habituation_total, last_preview_phase_step,
                                 last_step, metadata)
         elif code == 5:
-            uuid, color, dimensions, direction, distance, distance_in_steps, \
+            uuid, dimensions, direction, distance, distance_in_steps, \
                 distance_in_world, held, mass, material_list, position, \
-                rotation, shape, state_list, texture_color_list, \
-                visible = msgpack.unpackb(
+                rotation, segment_color, shape, state_list, \
+                texture_color_list, visible = msgpack.unpackb(
                     data, ext_hook=SerializerMsgPack._ext_unpack)
-            return ObjectMetadata(uuid, color, dimensions, direction, distance,
+            return ObjectMetadata(uuid, dimensions, direction, distance,
                                   distance_in_steps, distance_in_world, held,
                                   mass, material_list, position, rotation,
-                                  shape, state_list, texture_color_list,
-                                  visible)
+                                  segment_color, shape, state_list,
+                                  texture_color_list, visible)
         elif code == 6:
             x = msgpack.unpackb(data, ext_hook=SerializerMsgPack._ext_unpack)
             return np.asarray(x)
         return msgpack.ExtType(code, data)
 
     @staticmethod
-    def serialize(step_metadata: mcs.StepMetadata):
+    def serialize(step_metadata: StepMetadata):
         """
         Serializes step metadata into MsgPack.
 
         You can use
-        `object_to_persist = {
-            'payload': step_metadata,
-            'additional_info': 'info'
-            }`
+        .. code-block:: python
+
+            object_to_persist = {
+                'payload': step_metadata,
+                'additional_info': 'info'
+                }
+
         to add extra data.
 
         Args:
-            step_metadata: MCS step metadata output.
+            step_metadata: MCS step metadata output
 
         Returns:
             Serialized version of step metadata in MsgPack format.
@@ -210,7 +211,9 @@ class SerializerJson(ISerializer):
         json_dump = json.dumps(output, cls=McsStepMetadataEncoder, indent=4)
         """
 
+        # Empty docstring here to override superclass function docstring.
         def default(self, x):
+            """"""
             if isinstance(x, StepMetadata):
                 return {
                     'action_list': x.action_list,
@@ -252,7 +255,6 @@ class SerializerJson(ISerializer):
             elif isinstance(x, ObjectMetadata):
                 return {
                     'uuid': x.uuid,
-                    'color': x.color,
                     'dimensions': x.dimensions,
                     'direction': x.direction,
                     'distance': x.distance,
@@ -263,6 +265,7 @@ class SerializerJson(ISerializer):
                     'material_list': x.material_list,
                     'position': x.position,
                     'rotation': x.rotation,
+                    'segment_color': x.segment_color,
                     'shape': x.shape,
                     'state_list': x.state_list,
                     'texture_color_list': x.texture_color_list,
@@ -280,19 +283,27 @@ class SerializerJson(ISerializer):
         object_list = []
         for object_raw in raw_list:
             obj = ObjectMetadata(
-                object_raw['uuid'], object_raw['color'],
-                object_raw['dimensions'], object_raw['direction'],
-                object_raw['distance'], object_raw['distance_in_steps'],
-                object_raw['distance_in_world'], object_raw['held'],
-                object_raw['mass'], object_raw['material_list'],
-                object_raw['position'], object_raw['rotation'],
-                object_raw['shape'], object_raw['state_list'],
-                object_raw['texture_color_list'], object_raw['visible'])
+                object_raw['uuid'],
+                object_raw['dimensions'],
+                object_raw['direction'],
+                object_raw['distance'],
+                object_raw['distance_in_steps'],
+                object_raw['distance_in_world'],
+                object_raw['held'],
+                object_raw['mass'],
+                object_raw['material_list'],
+                object_raw['position'],
+                object_raw['rotation'],
+                object_raw['segment_color'],
+                object_raw['shape'],
+                object_raw['state_list'],
+                object_raw['texture_color_list'],
+                object_raw['visible'])
             object_list.append(obj)
         return object_list
 
     @staticmethod
-    def serialize(step_metadata: mcs.StepMetadata, indent: int = 4):
+    def serialize(step_metadata: StepMetadata, indent: int = 4):
         json_dump = json.dumps(step_metadata,
                                cls=SerializerJson.McsStepMetadataEncoder,
                                indent=indent)

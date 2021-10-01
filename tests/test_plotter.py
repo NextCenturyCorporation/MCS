@@ -1,7 +1,9 @@
 import unittest
+
 import ai2thor
 import PIL
 
+from machine_common_sense.config_manager import Vector3d
 from machine_common_sense.plotter import TopDownPlotter, XZHeading
 
 
@@ -10,28 +12,25 @@ class TestTopDownPlotter(unittest.TestCase):
     def setUp(self):
         self.plotter = TopDownPlotter(
             team="test",
-            scene_name="scene"
+            scene_name="scene",
+            room_size=Vector3d(x=10, y=4, z=10)
         )
 
     def test_convert_color_empty(self):
         color = self.plotter._convert_color('')
-        self.assertEqual(color, "xkcd:black")
+        self.assertEqual(color, "ivory")
 
     def test_convert_color_none(self):
         color = self.plotter._convert_color(None)
-        self.assertEqual(color, "xkcd:black")
+        self.assertEqual(color, "ivory")
 
-    def test_convert_color_white(self):
-        color = self.plotter._convert_color('white')
-        self.assertEqual(color, "xkcd:ivory")
+    def test_convert_color_black(self):
+        color = self.plotter._convert_color('black')
+        self.assertEqual(color, "ivory")
 
     def test_convert_color(self):
         color = self.plotter._convert_color('red')
-        self.assertEqual(color, "xkcd:red")
-
-    def test_convert_color_xkcd_prefix(self):
-        color = self.plotter._convert_color('red')
-        self.assertTrue(color.startswith('xkcd:'))
+        self.assertEqual(color, "red")
 
     def test_plot_image_size(self):
         metadata = {
@@ -232,7 +231,7 @@ class TestTopDownPlotter(unittest.TestCase):
         self.assertEqual(obj.uuid, 'test-uuid')
         self.assertIsInstance(obj.bounds, list)
         self.assertEqual(len(obj.bounds), 8)
-        self.assertEqual(obj.color, "xkcd:orange")
+        self.assertEqual(obj.color, "orange")
 
     def test_create_object_empty(self):
         object_metadata = {}
@@ -242,7 +241,7 @@ class TestTopDownPlotter(unittest.TestCase):
         self.assertIsNone(obj.visible)
         self.assertIsNone(obj.uuid)
         self.assertIsNone(obj.bounds)
-        self.assertEqual(obj.color, "xkcd:black")
+        self.assertEqual(obj.color, "ivory")
 
     def test_find_plottable_objects_empty(self):
         metadata = {
@@ -330,7 +329,8 @@ class TestTopDownPlotter(unittest.TestCase):
     def test_scene_name_prefix(self):
         plotter = TopDownPlotter(
             team="test",
-            scene_name="prefix/scene"
+            scene_name="prefix/scene",
+            room_size=Vector3d(x=10, y=3, z=10)
         )
 
         self.assertEqual(plotter._scene_name, "scene")

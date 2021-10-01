@@ -1,5 +1,6 @@
-from .util import Util
 from typing import Dict, List
+
+from .stringifier import Stringifier
 
 
 class SceneHistory(object):
@@ -9,12 +10,15 @@ class SceneHistory(object):
         action=None,
         args=None,
         params=None,
+        # Use classification and confidence rather than rating and score to be
+        # compatible with old history files.
         classification: str = None,
         confidence: float = None,
         violations_xy_list: List[Dict[str, float]] = None,
         internal_state: object = None,
         delta_time_millis=0,
-        output=None
+        output=None,
+        target_visible=False
 
     ):
         self.step = step
@@ -27,9 +31,10 @@ class SceneHistory(object):
         self.internal_state = internal_state
         self.delta_time_millis = delta_time_millis
         self.output = output
+        self.target_visible = target_visible
 
     def __str__(self):
-        return Util.class_to_str(self)
+        return Stringifier.class_to_str(self)
 
     # Allows converting the class to a dictionary, along with allowing
     #   certain fields to be left out of output file
@@ -45,3 +50,4 @@ class SceneHistory(object):
         yield 'output', dict(self.output) if(
             self.output) is not None else self.output
         yield 'delta_time_millis', self.delta_time_millis
+        yield 'target_visible', self.target_visible

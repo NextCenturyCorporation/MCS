@@ -3,7 +3,7 @@ import copy
 from .goal_metadata import GoalMetadata
 from .pose import Pose
 from .return_status import ReturnStatus
-from .util import Util
+from .stringifier import Stringifier
 
 
 class StepMetadata:
@@ -22,8 +22,20 @@ class StepMetadata:
         the specific parameters objectId=a.
         An action_list of None or an empty list means that all actions will
         be available for the next step.
-        Derived from GoalMetadata.action_list.
-        May be a subset of all possible actions. See [Actions](#Actions).
+
+        To "step" using the first action from the action_list:
+
+        .. highlight:: python
+        .. code-block:: python
+
+            step_metadata = controller.start_scene(scene_data)
+            action, params = step_metadata.action_list[0]
+            step_metadata = controller.step(action, **params)
+
+        Derived from :mod:`GoalMetadata.action_list[step_number]
+        <machine_common_sense.GoalMetadata>`.
+        May be a subset of all possible actions. See
+        :mod:`Action <machine_common_sense.Action>`.
     camera_aspect_ratio : (float, float)
         The player camera's aspect ratio. This will remain constant for the
         whole scene.
@@ -85,7 +97,8 @@ class StepMetadata:
         Will be set to 'None' if using a metadata level below the
         'oracle' level.
     return_status : string
-        The return status from your last action. See [Actions](#Actions).
+        The return status from your last action. See
+        :mod:`Action <machine_common_sense.Action>`.
     reward : integer
         Reward is 1 on successful completion of a task, 0 otherwise.
     rotation : float
@@ -166,13 +179,13 @@ class StepMetadata:
         ] if structural_object_list is None else structural_object_list
 
     def __str__(self):
-        return Util.class_to_str(self)
+        return Stringifier.class_to_str(self)
 
     def check_list_none(self, obj_list):
         if obj_list is None:
             return None
         else:
-            return dict((obj.uuid, dict(obj)) for obj in obj_list)
+            return {obj.uuid: dict(obj) for obj in obj_list}
 
     def copy_without_depth_or_images(self):
         """Return a deep copy of this StepMetadata with default depth_map_list,

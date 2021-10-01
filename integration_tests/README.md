@@ -7,19 +7,19 @@ The goal of the integration tests is to:
 ## Run Handmade Tests
 
 ```
-python run_handmade_tests.py <mcs_unity_build_file_path>
+python run_handmade_tests.py --mcs_unity_build_file_path <mcs_unity_build_file_path>
 ```
 
 ### Run Specific Metadata Tier
 
 ```
-python run_handmade_tests.py <mcs_unity_build_file_path> --metadata <level1|level2|oracle>
+python run_handmade_tests.py --mcs_unity_build_file_path <mcs_unity_build_file_path> --metadata <level1|level2|oracle>
 ```
 
 ### Run Specific Test Scene
 
 ```
-python run_handmade_tests.py <mcs_unity_build_file_path> --test 001
+python run_handmade_tests.py --mcs_unity_build_file_path <mcs_unity_build_file_path> --test 001
 ```
 
 Replace `001` with any test scene.
@@ -31,7 +31,7 @@ TODO MCS-432
 ## Run All Tests
 
 ```
-python run_tests.py <mcs_unity_build_file_path>
+python run_tests.py --mcs_unity_build_file_path <mcs_unity_build_file_path>
 ```
 
 ## Run the Autofixer
@@ -41,7 +41,7 @@ The autofixer will automatically fix any broken test cases and overwrite the tes
 Please make sure that you know what you're doing when you run the autofixer, so it doesn't "fix" a test case that's actually exposing a bug! You can also use the `--test` and `--metadata` arguments to run the autofixer on only specific test files. Remember to commit the modified files in the git repository.
 
 ```
-python run_tests.py <mcs_unity_build_file_path> --autofix
+python run_tests.py --mcs_unity_build_file_path <mcs_unity_build_file_path> --autofix
 ```
 
 ## Adding New Handmade Test Scenes
