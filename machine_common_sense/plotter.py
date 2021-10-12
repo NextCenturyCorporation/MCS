@@ -349,4 +349,6 @@ class TopDownPlotter():
 
         if color == 'black':
             color = 'ivory'
+        if color == 'rose':
+            color = 'deeppink'
         return color
