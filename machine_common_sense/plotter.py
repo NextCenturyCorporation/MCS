@@ -281,6 +281,7 @@ class TopDownPlotter():
         # use dictionary get method for color retrieval
         # if no match, then None will resort to default color
         clr = colour.COLOR_NAME_TO_RGB.get(obj.color.lower())
+        clr = clr if clr is not None else (128, 128, 128)
 
         # draw filled polygon if visible to the robot
         if(obj.visible):
@@ -348,4 +349,6 @@ class TopDownPlotter():
 
         if color == 'black':
             color = 'ivory'
+        if color == 'rose':
+            color = 'deeppink'
         return color
