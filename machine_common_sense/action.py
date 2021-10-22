@@ -678,7 +678,7 @@ class Action(Enum):
         action = input_split[0]
 
         try:
-            validate_action = Action(action).name  # noqa: F841
+            _ = Action(action).name
         except BaseException:
             return None, {}
 

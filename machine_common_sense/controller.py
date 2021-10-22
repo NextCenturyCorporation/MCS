@@ -610,18 +610,16 @@ class Controller():
             self.__step_number)
         # Only continue with this action step if the given action and
         # parameters are in the restricted action list.
-
-        continue_with_step = False
-        for restricted_action, restricted_params in action_list:
-            if action == restricted_action:
-                # If this action doesn't have restricted parameters, or each
-                # input parameter is in the restricted parameters, it's OK.
-                if len(restricted_params.items()) == 0 or all([
+        continue_with_step = any(
+            action == restricted_action and (
+                len(restricted_params.items()) == 0 or all(
                     restricted_params.get(key) == value
                     for key, value in kwargs.items()
-                ]):
-                    continue_with_step = True
-                    break
+                )
+            )
+            for restricted_action, restricted_params in action_list
+        )
+
         if not continue_with_step:
             logger.warning(
                 f"The given action '{action}' with parameters "
@@ -728,11 +726,8 @@ class Controller():
 
     def wrap_step(self, **kwargs):
         # whether or not to randomize segmentation mask colors
-        consistentColors = False
         metadata_tier = self._config.get_metadata_tier()
-        if(metadata_tier == MetadataTier.ORACLE):
-            consistentColors = True
-
+        consistentColors = (metadata_tier == MetadataTier.ORACLE)
         # Create the step data dict for the AI2-THOR step function.
         return dict(
             continuous=True,

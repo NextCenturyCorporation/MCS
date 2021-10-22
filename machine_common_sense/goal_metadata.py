@@ -116,9 +116,11 @@ class GoalMetadata:
             if self.last_step is not None and step_number == self.last_step:
                 return []
             adjusted_step = step_number - self.last_preview_phase_step
-            if len(self.action_list) > adjusted_step:
-                if len(self.action_list[adjusted_step]) > 0:
-                    return self.action_list[adjusted_step]
+            if (
+                len(self.action_list) > adjusted_step and
+                len(self.action_list[adjusted_step]) > 0
+            ):
+                return self.action_list[adjusted_step]
 
         return GoalMetadata.ACTION_LIST
 

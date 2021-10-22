@@ -32,7 +32,7 @@ class SceneEvent():
         self.depth_map_list = []
         self.object_mask_list = []
 
-        for index, event in enumerate(self.events):
+        for event in self.events:
             if hasattr(event, 'frame'):
                 scene_image = PIL.Image.fromarray(event.frame)
                 self.image_list.append(scene_image)
@@ -271,18 +271,16 @@ class ControllerOutputHandler():
             metadata_tier == MetadataTier.NONE
         )
 
-        restrict_object_mask_list = (
-            restricted and
-            (metadata_tier == MetadataTier.NONE or
-             metadata_tier == MetadataTier.LEVEL_1)
-        )
+        restrict_object_mask_list = restricted and metadata_tier in [
+            MetadataTier.NONE,
+            MetadataTier.LEVEL_1,
+        ]
 
-        restrict_non_oracle = (
-            restricted and
-            (metadata_tier == MetadataTier.NONE or
-             metadata_tier == MetadataTier.LEVEL_1 or
-             metadata_tier == MetadataTier.LEVEL_2)
-        )
+        restrict_non_oracle = restricted and metadata_tier in [
+            MetadataTier.NONE,
+            MetadataTier.LEVEL_1,
+            MetadataTier.LEVEL_2,
+        ]
 
         depth_map_list = [] if restrict_depth_map else (
             self._scene_event.depth_map_list)

@@ -68,7 +68,7 @@ class Material(Enum):
         boolean
         """
         try:
-            enum_instance = Material[enum_string.upper()]  # noqa: F841
+            _ = Material[enum_string.upper()]
             return True
         except KeyError:
             return False
