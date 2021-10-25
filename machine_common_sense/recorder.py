@@ -215,9 +215,9 @@ class VideoRecorder(BaseRecorder):
 
         if self.writer is None:
             self.width, self.height = frame.size
-            logger.debug((
+            logger.debug(
                 f"Establishing video writer size"
-                f"({self.width},{self.height}) from first frame"))
+                f"({self.width},{self.height}) from first frame")
             self.writer = cv2.VideoWriter(str(self.path),
                                           cv2.VideoWriter_fourcc(*self.fourcc),
                                           self.fps,

@@ -3,7 +3,6 @@ import logging
 import logging.config
 import signal
 from contextlib import contextmanager
-from os.path import exists
 
 from ._version import __version__
 from .action import Action
@@ -58,12 +57,13 @@ def init_logging(log_config=None,
     Parameters
     ----------
     log_config : dict, optional
-        A dictionary the contains the logging configuration.  If None, a default configuration
-        will be used
+        A dictionary the contains the logging configuration.  If None, a
+        default configuration will be used
     log_config_file: str, optional
-        Path to an override configuration file.  The file will contain a python dictionary
-        for the logging configuration.  This file is typically not used, but allows a user
-        to change the logging configuration without code changes.  Default, log.config.user.py
+        Path to an override configuration file.  The file will contain a
+        python dictionary for the logging configuration.  This file is
+        typically not used, but allows a user to change the logging
+        configuration without code changes.  Default, log.config.user.py
     """
     LoggingConfig.init_logging(
         log_config=log_config,

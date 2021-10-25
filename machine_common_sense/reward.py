@@ -43,9 +43,7 @@ class Reward(object):
         bbox3d = goal_object['objectBounds']['objectBoundsCorners']
         # project to XZ plane
         xz_pts = [(pt['x'], pt['z']) for pt in bbox3d]
-        polygon = geometry.MultiPoint(xz_pts).convex_hull
-
-        return polygon
+        return geometry.MultiPoint(xz_pts).convex_hull
 
     @staticmethod
     def _calc_retrieval_reward(

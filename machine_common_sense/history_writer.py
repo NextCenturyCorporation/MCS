@@ -115,7 +115,7 @@ class HistoryWriter(object):
         scene_name = scene_config_data.name
         prefix_directory = None
         if '/' in scene_name:
-            prefix, scene_basename = scene_name.rsplit('/', 1)
+            prefix, _ = scene_name.rsplit('/', 1)
             prefix_directory = os.path.join(self.HISTORY_DIRECTORY, prefix)
             if not os.path.exists(prefix_directory):
                 logger.debug(f"Making prefix directory {prefix_directory}")
