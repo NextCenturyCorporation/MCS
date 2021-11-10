@@ -4,6 +4,8 @@ import os
 import pathlib
 from time import perf_counter
 
+from numpyencoder import NumpyEncoder
+
 from machine_common_sense.step_metadata import StepMetadata
 
 from .controller_events import (AbstractControllerSubscriber, AfterStepPayload,
@@ -134,7 +136,10 @@ class HistoryWriter(object):
         if self.scene_history_file:
             logger.info(f"Saving history file {self.scene_history_file}")
             with open(self.scene_history_file, "a+") as history_file:
-                history_file.write(json.dumps(self.history_obj))
+                history_file.write(
+                    json.dumps(
+                        self.history_obj,
+                        cls=NumpyEncoder))
 
     def filter_history_output(
             self,

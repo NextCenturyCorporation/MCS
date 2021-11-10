@@ -3,6 +3,8 @@ import os
 import shutil
 import unittest
 
+import numpy as np
+
 import machine_common_sense as mcs
 from machine_common_sense.config_manager import SceneConfiguration
 
@@ -232,6 +234,34 @@ class TestHistoryWriter(unittest.TestCase):
         self.assertIsNone(writer.current_steps[1]["output"]["object_list"])
         self.assertIsNone(
             writer.current_steps[1]["output"]["structural_object_list"])
+
+    def test_write_history_file_with_numpy(self):
+        writer = mcs.HistoryWriter(self.prefix_config_data)
+
+        history_item = mcs.SceneHistory(
+            step=np.int(1),
+            action="MoveAhead")
+        writer.add_step(history_item)
+
+        history_item = mcs.SceneHistory(
+            step=np.int(2),
+            action="MoveLeft")
+        writer.add_step(history_item)
+
+        writer.write_history_file("Plausible", np.float(0.75))
+
+        self.assertEqual(writer.end_score["classification"], "Plausible")
+        self.assertEqual(writer.end_score["confidence"], "0.75")
+
+        self.assertEqual(
+            writer.history_obj["info"]["name"],
+            "prefix/test_scene_file")
+        self.assertEqual(len(writer.history_obj["steps"]), 2)
+        self.assertEqual(
+            writer.history_obj["score"]["classification"], "Plausible")
+        self.assertEqual(writer.history_obj["score"]["confidence"], "0.75")
+
+        self.assertTrue(os.path.exists(writer.scene_history_file))
 
 
 if __name__ == '__main__':

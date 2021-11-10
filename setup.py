@@ -39,6 +39,7 @@ setuptools.setup(
         'opencv-python>=4.0',
         'matplotlib>=3.3',
         'msgpack>=1.0.0',
+        'numpyencoder>=0.3.0',
         'ai2thor==2.5.0',
         'scikit-image>=0.17.1',
         'dataclasses==0.8; python_version<"3.7"',
