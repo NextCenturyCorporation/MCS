@@ -9,6 +9,7 @@ marshmallow==3.12.1
 matplotlib==3.3.2
 msgpack==1.0.0
 numpy==1.19.4
+numpyencoder==0.3.0
 opencv-python==4.4.0.44
 pre-commit==2.12.1
 recommonmark==0.6.0
