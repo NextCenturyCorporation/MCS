@@ -8,13 +8,13 @@ isort==5.8.0
 marshmallow==3.12.1
 matplotlib==3.3.2
 msgpack==1.0.0
-numpy==1.19.4
+numpy==1.19.5
 numpyencoder==0.3.0
 opencv-python==4.4.0.46
 pre-commit==2.12.1
 recommonmark==0.6.0
 requests==2.24.0
-scikit-image==0.17.2
+scikit-image==0.18.0rc1
 Shapely==1.7.1
 Sphinx==3.2.1
 sphinxcontrib-websupport==1.2.4
