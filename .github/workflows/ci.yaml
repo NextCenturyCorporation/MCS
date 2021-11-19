@@ -1,4 +1,4 @@
-name: Mac and Ubuntu Python 3.9 Unit Tests 
+name: Mac and Ubuntu Python 3.6 Unit Tests 
 
 on:
   push:
@@ -19,12 +19,11 @@ jobs:
       - name: Install Python 3
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: 3.6
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install -r requirements.txt
-          python -m pip list | grep numpy
       - name: Run unit tests
         run: python -m unittest
       - name: Run isort
