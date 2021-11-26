@@ -243,7 +243,7 @@ class Controller():
         rating: Union[float, int, str] = None,
         score: float = 1.0,
         report: Dict[int, object] = None
-    ):
+    ) -> None:
         """
         Ends the current scene.  Calling end_scene() before calling
         start_scene() will do nothing.

@@ -307,6 +307,48 @@ class TestController(unittest.TestCase):
             EndScenePayload(**test_payload)
         )
 
+    def test_end_scene_twice(self):
+        test_payload = self.controller._create_event_payload_kwargs()
+
+        test_payload["rating"] = "plausible"
+        test_payload["score"] = 0.5
+        test_payload["report"] = {
+            1: {
+                "rating": "plausible",
+                "score": .75,
+                "violations_xy_list": [
+                    {
+                        "x": 1,
+                        "y": 1
+                    }
+                ]}
+        }
+
+        self.controller.end_scene("plausible", 0.5, {
+            1: {
+                "rating": "plausible",
+                "score": .75,
+                "violations_xy_list": [
+                    {
+                        "x": 1,
+                        "y": 1
+                    }
+                ]}
+        })
+
+        # TODO the second end_scene should throw an exception
+        self.controller.end_scene("plausible", 0.5, {
+            1: {
+                "rating": "plausible",
+                "score": .75,
+                "violations_xy_list": [
+                    {
+                        "x": 1,
+                        "y": 1
+                    }
+                ]}
+        })
+
     def test_start_scene(self):
         self.controller.set_metadata_tier(
             MetadataTier.ORACLE.value)
