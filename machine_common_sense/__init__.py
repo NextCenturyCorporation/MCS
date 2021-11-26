@@ -18,9 +18,9 @@ from .return_status import ReturnStatus
 from .reward import Reward
 from .scene_history import SceneHistory
 from .serializer import SerializerJson, SerializerMsgPack
-from .setup import add_subscribers
 from .step_metadata import StepMetadata
 from .stringifier import Stringifier
+from .subscriber import add_subscribers
 from .unity_executable_provider import UnityExecutableProvider
 from .validation import Validation
 
