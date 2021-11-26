@@ -336,18 +336,20 @@ class TestController(unittest.TestCase):
                 ]}
         })
 
-        # TODO the second end_scene should throw an exception
-        self.controller.end_scene("plausible", 0.5, {
-            1: {
-                "rating": "plausible",
-                "score": .75,
-                "violations_xy_list": [
-                    {
-                        "x": 1,
-                        "y": 1
-                    }
-                ]}
-        })
+        # calling end_scene a second time raises an exception
+        self.assertRaises(RuntimeError, self.controller.end_scene,
+                          "plausible",
+                          0.5,
+                          {1: {
+                              "rating": "plausible",
+                              "score": .75,
+                              "violations_xy_list": [
+                                  {
+                                      "x": 1,
+                                      "y": 1
+                                  }
+                              ]}
+                           })
 
     def test_start_scene(self):
         self.controller.set_metadata_tier(
