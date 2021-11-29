@@ -136,7 +136,8 @@ class Controller():
 
         self._subscribers = []
 
-        self._end_scene_not_registered = True
+        self._failure_handler_registered = False
+        self._end_scene_called = False
 
         self._controller = ai2thor.controller.Controller(
             quality='Medium',
@@ -243,10 +244,11 @@ class Controller():
         rating: Union[float, int, str] = None,
         score: float = 1.0,
         report: Dict[int, object] = None
-    ):
+    ) -> None:
         """
         Ends the current scene.  Calling end_scene() before calling
-        start_scene() will do nothing.
+        start_scene() will do nothing. Calling end_scene() twice with
+        the same scene will throw an exception.
 
         Parameters
         ----------
@@ -324,19 +326,23 @@ class Controller():
             }
 
         """
-        payloadArgs = self._create_event_payload_kwargs()
-        payloadArgs['rating'] = str(rating)
-        payloadArgs['score'] = score
-        payloadArgs['report'] = report
+        if(not self._end_scene_called):
+            payloadArgs = self._create_event_payload_kwargs()
+            payloadArgs['rating'] = str(rating)
+            payloadArgs['score'] = score
+            payloadArgs['report'] = report
 
-        self._publish_event(
-            EventType.ON_END_SCENE,
-            EndScenePayload(
-                **payloadArgs))
+            self._publish_event(
+                EventType.ON_END_SCENE,
+                EndScenePayload(
+                    **payloadArgs))
+            self._end_scene_called = True
+        else:
+            raise RuntimeError("end_scene called twice with the same scene")
 
-        if (not self._end_scene_not_registered):
+        if (self._failure_handler_registered):
             atexit.unregister(self.end_scene)
-            self._end_scene_not_registered = True
+            self._failure_handler_registered = False
 
     def _convert_scene_config(self, config_data) -> SceneConfiguration:
         if isinstance(config_data, SceneConfiguration):
@@ -368,6 +374,7 @@ class Controller():
         self.__habituation_trial = 1
         self.__step_number = 0
         self._goal = self._scene_config.retrieve_goal()
+        self._end_scene_called = False
 
         skip_preview_phase = (scene_config.goal is not None and
                               scene_config.goal.skip_preview_phase)
@@ -420,11 +427,11 @@ class Controller():
 
             # TODO Should this be in the if block?  Now that we are using
             # subscribers, we may want to always register
-            if(self._end_scene_not_registered is True and
+            if(self._failure_handler_registered is False and
                     self._config.is_history_enabled()):
                 # make sure history file is written when program exits
                 atexit.register(self.end_scene, rating="", score=-1)
-                self._end_scene_not_registered = False
+                self._failure_handler_registered = True
 
         payloadArgs = self._create_post_step_event_payload_kwargs(
             wrapped_step, step_output, pre_restrict_output, output)

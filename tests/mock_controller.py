@@ -94,7 +94,8 @@ class MockControllerAI2THOR(Controller):
 
         self._subscribers = []
 
-        self._end_scene_not_registered = False  # atexit not needed for tests
+        self._failure_handler_registered = True  # atexit not needed for tests
+        self._end_scene_called = False
         self._controller = MockController()
         self._config = ConfigManager(config_file_or_dict={})
         self._config._config[
