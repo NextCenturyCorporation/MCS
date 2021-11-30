@@ -217,4 +217,4 @@ class LoggingConfig():
 
 # Call init logging early with no config to ensure it is called.  Logging
 # config can always be overwritten any time MCS is used.
-LoggingConfig.init_logging(LoggingConfig.get_no_logging_config())
+LoggingConfig.init_logging(LoggingConfig.get_errors_only_console_config())
