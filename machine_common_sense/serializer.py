@@ -94,10 +94,10 @@ class SerializerMsgPack(ISerializer):
             return msgpack.ExtType(
                 5,
                 msgpack.packb([
-                    x.uuid, x.color, x.dimensions, x.direction, x.distance,
+                    x.uuid, x.dimensions, x.direction, x.distance,
                     x.distance_in_steps, x.distance_in_world, x.held, x.mass,
-                    x.material_list, x.position, x.rotation, x.shape,
-                    x.state_list, x.texture_color_list, x.visible
+                    x.material_list, x.position, x.rotation, x.segment_color,
+                    x.shape, x.state_list, x.texture_color_list, x.visible
                 ],
                     default=SerializerMsgPack._ext_pack,
                     strict_types=True))
