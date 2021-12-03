@@ -10,7 +10,7 @@ matplotlib==3.3.3
 msgpack==1.0.0
 numpyencoder==0.3.0
 opencv-python==4.4.0.46; python_version<="3.9"
-opencv-python==4.5.4.58; python_version>="3.10"
+opencv-python==4.5.3.56; python_version>="3.10"
 pre-commit==2.12.1
 recommonmark==0.6.0
 requests==2.24.0
