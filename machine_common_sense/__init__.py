@@ -17,7 +17,7 @@ from .pose import Pose
 from .return_status import ReturnStatus
 from .reward import Reward
 from .scene_history import SceneHistory
-from .serializer import SerializerJson, SerializerMsgPack
+from .serializer import SerializerMsgPack
 from .step_metadata import StepMetadata
 from .stringifier import Stringifier
 from .subscriber import add_subscribers
