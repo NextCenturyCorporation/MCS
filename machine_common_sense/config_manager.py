@@ -523,7 +523,7 @@ class SceneConfigurationSchema(Schema):
         return SceneConfiguration(**data)
 
 
-@ dataclass
+@dataclass
 class RoomMaterials:
     front: str = None
     left: str = None
@@ -531,13 +531,13 @@ class RoomMaterials:
     back: str = None
 
 
-@ dataclass
+@dataclass
 class PerformerStart:
     position: Vector3d
     rotation: Vector3d
 
 
-@ dataclass
+@dataclass
 class Goal:
     action_list: list = None
     answer: dict = None  # UI property
@@ -557,13 +557,13 @@ class Goal:
     type_list: List[str] = None
 
 
-@ dataclass
+@dataclass
 class ChangeMaterialConfig:
     step_begin: int
     materials: List[str]
 
 
-@ dataclass
+@dataclass
 class ForceConfig:
     step_begin: int
     step_end: int
@@ -573,7 +573,7 @@ class ForceConfig:
     step_wait: int = 0
 
 
-@ dataclass
+@dataclass
 class MoveConfig:
     step_begin: int
     step_end: int
@@ -582,13 +582,13 @@ class MoveConfig:
     step_wait: int = 0
 
 
-@ dataclass
+@dataclass
 class OpenCloseConfig:
     step: int
     open: bool
 
 
-@ dataclass
+@dataclass
 class PhysicsConfig:
     enable: bool = False
     angular_drag: float = None
@@ -598,19 +598,19 @@ class PhysicsConfig:
     static_friction: float = None
 
 
-@ dataclass
+@dataclass
 class FloorHolesAndTexturesXZConfig:
     x: int = None
     z: int = None
 
 
-@ dataclass
+@dataclass
 class FloorTexturesConfig:
     material: str
     positions: List[FloorHolesAndTexturesXZConfig] = None
 
 
-@ dataclass
+@dataclass
 class ShowConfig:
     step_begin: int
     position: Vector3d = Vector3d(0, 0, 0)
@@ -619,7 +619,7 @@ class ShowConfig:
     bounding_box: List[dict] = field(default_factory=list)  # debug property
 
 
-@ dataclass
+@dataclass
 class SizeConfig:
     step_begin: int
     step_end: int
@@ -628,12 +628,12 @@ class SizeConfig:
     step_wait: int = 0
 
 
-@ dataclass
+@dataclass
 class SingleStepConfig:
     step_begin: int
 
 
-@ dataclass
+@dataclass
 class StepBeginEndConfig:
     step_begin: int
     step_end: int
@@ -641,20 +641,20 @@ class StepBeginEndConfig:
     step_wait: int = 0
 
 
-@ dataclass
+@dataclass
 class TeleportConfig:
     step_begin: int
     position: Vector3d = Vector3d(0, 0, 0)
 
 
-@ dataclass
+@dataclass
 class TransformConfig:
     position: Vector3d = Vector3d(0, 0, 0)
     rotation: Vector3d = Vector3d(0, 0, 0)
     scale: Vector3d = Vector3d(1, 1, 1)
 
 
-@ dataclass
+@dataclass
 class SceneObject:
     id: str
     type: str  # should this be an enum?
@@ -702,7 +702,7 @@ class SceneObject:
     stack_target: bool = None
 
 
-@ dataclass
+@dataclass
 class SceneConfiguration:
     '''Class for keeping track of scene configuration'''
     ceiling_material: str = None
