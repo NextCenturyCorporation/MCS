@@ -1,4 +1,4 @@
-name: Mac and Ubuntu Python 3.6, 3.7 and 3.8 Unit Tests
+name: Mac/Ubuntu Python 3.6-3.10 Unit Tests
 
 on:
   push:
@@ -19,6 +19,9 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-versions }}
+      - name: Install Geos for Mac
+        if: runner.os == 'macos'
+        run: brew install geos
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip setuptools wheel

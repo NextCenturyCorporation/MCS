@@ -8,14 +8,16 @@ isort==5.8.0
 marshmallow==3.12.1
 matplotlib==3.3.3
 msgpack==1.0.0
-numpy==1.19.5
 numpyencoder==0.3.0
-opencv-python==4.4.0.46
+opencv-python==4.4.0.46; python_version<="3.9"
+opencv-python==4.5.4.60; python_version>="3.10"
 pre-commit==2.12.1
 recommonmark==0.6.0
 requests==2.24.0
-scikit-image==0.18.0rc1
-Shapely==1.7.1
+scikit-image==0.18.3; python_version>="3.7"
+scikit-image==0.17.2; python_version=="3.6"
+Shapely==1.7.1; python_version<"3.10"
+Shapely==1.8.0; python_version>="3.10"
 Sphinx==3.2.1
 sphinxcontrib-websupport==1.2.4
 sphinx-markdown-builder==0.5.4

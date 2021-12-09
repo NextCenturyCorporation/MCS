@@ -43,6 +43,8 @@ import os
 
 logger = logging.getLogger(__name__)
 
+TRACE = 5
+
 
 class LoggingConfig():
 
@@ -84,6 +86,7 @@ class LoggingConfig():
         If user file doesn't exist, then there is a base config that
         should be read.
         """
+        LoggingConfig._add_trace()
         init_message = ""
         if (os.path.exists(log_config_file)):
             with open(log_config_file, "r") as data:
@@ -99,6 +102,15 @@ class LoggingConfig():
             os.mkdir("logs")
         logging.config.dictConfig(log_config)
         logger.info(init_message)
+
+    @staticmethod
+    def _add_trace():
+        logging.addLevelName(TRACE, "TRACE")
+
+        def trace(self, message, *args, **kws):
+            if self.isEnabledFor(TRACE):
+                self._log(TRACE, message, args, **kws)
+        logging.Logger.trace = trace
 
     @staticmethod
     def get_default_console_config():
@@ -133,6 +145,14 @@ class LoggingConfig():
                     "format": "%(message)s"
                 }
             }
+        }
+
+    @staticmethod
+    def get_no_logging_config():
+        return {
+            "version": 1,
+            "loggers": {},
+            "handlers": {}
         }
 
     @staticmethod
@@ -193,3 +213,8 @@ class LoggingConfig():
                 }
             }
         }
+
+
+# Call init logging early with no config to ensure it is called.  Logging
+# config can always be overwritten any time MCS is used.
+LoggingConfig.init_logging(LoggingConfig.get_errors_only_console_config())
