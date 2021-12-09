@@ -242,7 +242,7 @@ class TestVideoRecorder(unittest.TestCase):
     def setUp(self):
         self.recorder = VideoRecorder(
             vid_path=self.test_video_file,
-            fps=self.fps
+            fps=self.fps,
         )
 
     def tearDown(self):

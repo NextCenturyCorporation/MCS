@@ -32,7 +32,7 @@ class ControllerLogger(AbstractControllerSubscriber):
         if payload.goal.habituation_total >= payload.habituation_trial:
             logger.debug(
                 f'HABITUATION TRIAL: {payload.habituation_trial} / '
-                f'{payload.goal.habituation_total}'
+                f'{payload.goal.habituation_total}',
             )
 
         elif payload.goal.habituation_total > 0:
@@ -104,7 +104,7 @@ class ControllerAi2thorFileGenerator(AbstractControllerSubscriber):
 
     def _write_debug_output_file(self, payload):
         data = {
-            "metadata": payload.step_metadata.metadata
+            "metadata": payload.step_metadata.metadata,
         }
         if self._out_recorder:
             self._out_recorder.add(data)

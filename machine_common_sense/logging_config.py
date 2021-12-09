@@ -53,28 +53,28 @@ class LoggingConfig():
         "root": {
             "level": "DEBUG",
             "handlers": ["console"],
-            "propagate": False
+            "propagate": False,
         },
         "loggers": {
             "machine_common_sense": {
                 "level": "DEBUG",
                 "handlers": ["console"],
-                "propagate": False
-            }
+                "propagate": False,
+            },
         },
         "handlers": {
             "console": {
                 "class": "logging.StreamHandler",
                 "formatter": "brief",
                 "level": "DEBUG",
-                "stream": "ext://sys.stdout"
-            }
+                "stream": "ext://sys.stdout",
+            },
         },
         "formatters": {
             "brief": {
-                "format": "%(message)s"
-            }
-        }
+                "format": "%(message)s",
+            },
+        },
     }
 
     @staticmethod
@@ -123,28 +123,28 @@ class LoggingConfig():
             "root": {
                 "level": "ERROR",
                 "handlers": ["console"],
-                "propagate": False
+                "propagate": False,
             },
             "loggers": {
                 "machine_common_sense": {
                     "level": "ERROR",
                     "handlers": ["console"],
-                    "propagate": False
-                }
+                    "propagate": False,
+                },
             },
             "handlers": {
                 "console": {
                     "class": "logging.StreamHandler",
                     "formatter": "brief",
                     "level": "DEBUG",
-                    "stream": "ext://sys.stdout"
-                }
+                    "stream": "ext://sys.stdout",
+                },
             },
             "formatters": {
                 "brief": {
-                    "format": "%(message)s"
-                }
-            }
+                    "format": "%(message)s",
+                },
+            },
         }
 
     @staticmethod
@@ -152,7 +152,7 @@ class LoggingConfig():
         return {
             "version": 1,
             "loggers": {},
-            "handlers": {}
+            "handlers": {},
         }
 
     @staticmethod
@@ -166,21 +166,21 @@ class LoggingConfig():
             "root": {
                 "level": "DEBUG",
                 "handlers": ["console", "debug-file"],
-                "propagate": False
+                "propagate": False,
             },
             "loggers": {
                 "machine_common_sense": {
                     "level": "DEBUG",
                     "handlers": ["console", "debug-file"],
-                    "propagate": False
-                }
+                    "propagate": False,
+                },
             },
             "handlers": {
                 "console": {
                     "class": "logging.StreamHandler",
                     "formatter": "brief",
                     "level": "DEBUG",
-                    "stream": "ext://sys.stdout"
+                    "stream": "ext://sys.stdout",
                 },
                 "debug-file": {
                     "level": "DEBUG",
@@ -188,7 +188,7 @@ class LoggingConfig():
                     "formatter": "precise",
                     "filename": "logs/mcs.debug.log",
                     "maxBytes": 10240000,
-                    "backupCount": 3
+                    "backupCount": 3,
                 },
 
                 "info-file": {
@@ -197,21 +197,21 @@ class LoggingConfig():
                     "formatter": "precise",
                     "filename": "logs/mcs.info.log",
                     "maxBytes": 10240000,
-                    "backupCount": 3
-                }
+                    "backupCount": 3,
+                },
             },
             "formatters": {
                 "brief": {
-                    "format": "%(message)s"
+                    "format": "%(message)s",
                 },
                 "precise": {
-                    "format": "%(asctime)s <%(levelname)s>: %(message)s"
+                    "format": "%(asctime)s <%(levelname)s>: %(message)s",
                 },
                 "full": {
                     "format": "[%(name)s] %(asctime)s <%(levelname)s>: " +
-                    "%(message)s"
-                }
-            }
+                    "%(message)s",
+                },
+            },
         }
 
 

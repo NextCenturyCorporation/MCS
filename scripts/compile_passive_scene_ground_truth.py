@@ -6,8 +6,7 @@ import json
 
 
 def main(args):
-    filename_list = glob.glob(args.folder + '*_debug.json')
-    filename_list.sort()
+    filename_list = sorted(glob.glob(args.folder + '*_debug.json'))
     data = {}
     for filename in filename_list:
         scene_data = None
@@ -24,7 +23,7 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description='Compile passive scene ground truth data into a CSV file'
+        description='Compile passive scene ground truth data into a CSV file',
     )
     parser.add_argument('folder', help='Passive scene folder prefix')
     parser.add_argument('output', help='Output file (please end with .csv)')

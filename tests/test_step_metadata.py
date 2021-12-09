@@ -180,8 +180,8 @@ class TestStepMetadata(unittest.TestCase):
             0: {
                 'r': 218,
                 'g': 65,
-                'b': 21
-            }
+                'b': 21,
+            },
         }
         self.assertEqual(str(metadata),
                          textwrap.dedent(self.str_output_segment_map_ints))
@@ -200,7 +200,7 @@ class TestStepMetadata(unittest.TestCase):
             image_list=['image_1', 'image_2'],
             object_list=[
                 mcs.ObjectMetadata(uuid='object_1'),
-                mcs.ObjectMetadata(uuid='object_2')
+                mcs.ObjectMetadata(uuid='object_2'),
             ],
             object_mask_list=['segmentation_1', 'segmentation_2'],
             performer_radius=0.5,
@@ -214,8 +214,8 @@ class TestStepMetadata(unittest.TestCase):
             step_number=25,
             structural_object_list=[
                 mcs.ObjectMetadata(uuid='structure_1'),
-                mcs.ObjectMetadata(uuid='structure_2')
-            ]
+                mcs.ObjectMetadata(uuid='structure_2'),
+            ],
         )
         copy = data.copy_without_depth_or_images()
         # Assert are exactly equal
@@ -223,11 +223,11 @@ class TestStepMetadata(unittest.TestCase):
         self.assertEqual(data.camera_aspect_ratio, copy.camera_aspect_ratio)
         self.assertEqual(
             data.camera_clipping_planes,
-            copy.camera_clipping_planes
+            copy.camera_clipping_planes,
         )
         self.assertEqual(
             data.camera_field_of_view,
-            copy.camera_field_of_view
+            copy.camera_field_of_view,
         )
         self.assertEqual(data.camera_height, copy.camera_height)
         self.assertEqual(dict(data.goal), dict(copy.goal))
@@ -235,13 +235,13 @@ class TestStepMetadata(unittest.TestCase):
         self.assertEqual(data.head_tilt, copy.head_tilt)
         self.assertEqual(
             [dict(object_data) for object_data in data.object_list],
-            [dict(object_data) for object_data in copy.object_list]
+            [dict(object_data) for object_data in copy.object_list],
         )
         self.assertEqual(data.performer_radius, copy.performer_radius)
         self.assertEqual(data.performer_reach, copy.performer_reach)
         self.assertEqual(
             data.physics_frames_per_second,
-            copy.physics_frames_per_second
+            copy.physics_frames_per_second,
         )
         self.assertEqual(data.pose, copy.pose)
         self.assertEqual(data.position, copy.position)
@@ -251,7 +251,7 @@ class TestStepMetadata(unittest.TestCase):
         self.assertEqual(data.step_number, copy.step_number)
         self.assertEqual(
             [dict(object_data) for object_data in data.structural_object_list],
-            [dict(object_data) for object_data in copy.structural_object_list]
+            [dict(object_data) for object_data in copy.structural_object_list],
         )
         # Assert are empty lists
         self.assertEqual(copy.depth_map_list, [])
@@ -262,7 +262,7 @@ class TestStepMetadata(unittest.TestCase):
         self.assertNotEqual(data.object_list, copy.object_list)
         self.assertNotEqual(
             data.structural_object_list,
-            copy.structural_object_list
+            copy.structural_object_list,
         )
 
 

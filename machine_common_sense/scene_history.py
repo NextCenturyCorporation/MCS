@@ -18,7 +18,7 @@ class SceneHistory(object):
         internal_state: object = None,
         delta_time_millis=0,
         output=None,
-        target_visible=False
+        target_visible=False,
 
     ):
         self.step = step

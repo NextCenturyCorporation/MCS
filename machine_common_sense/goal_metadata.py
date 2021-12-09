@@ -80,7 +80,7 @@ class GoalMetadata:
         habituation_total=0,
         last_preview_phase_step=0,
         last_step=None,
-        metadata=None
+        metadata=None,
     ):
         # The action_list must be None by default
         self.action_list = action_list

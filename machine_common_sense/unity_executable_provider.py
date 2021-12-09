@@ -38,7 +38,7 @@ class UnityExecutableProvider():
         self._switcher = {
             self.PLATFORM_LINUX: self._linux_init,
             self.PLATFORM_MAC: self._mac_init,
-            self.PLATFORM_OTHER: self._other_init
+            self.PLATFORM_OTHER: self._other_init,
         }
         sys = platform.system()
         self._switcher.get(sys, self.PLATFORM_OTHER)()
@@ -195,7 +195,7 @@ class AbstractExecutionCache(ABC):
                     shutil.rmtree(file)
         except Exception:
             logger.exception(
-                "Error attempting to cull MCS Unity executable cache", )
+                "Error attempting to cull MCS Unity executable cache")
 
     @abstractmethod
     def _get_executable_file(self):

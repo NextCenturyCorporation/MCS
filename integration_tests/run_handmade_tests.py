@@ -46,7 +46,7 @@ def create_step_test_case_list(expected, actual):
         ('rotation_y', actual.rotation),
         ('step_number', actual.step_number),
         ('physics_frames_per_second', actual.physics_frames_per_second),
-        ('structural_objects_count', len(actual.structural_object_list))
+        ('structural_objects_count', len(actual.structural_object_list)),
     ]
     return [
         create_test_case([case_name], expected[case_name], actual_data)
@@ -69,27 +69,27 @@ def create_object_test_case_list(object_type, expected, actual):
         ('position_z', actual.position.get('z') if actual.position else None),
         (
             'rotation_x',
-            round(actual.rotation.get('x')) if actual.rotation else None
+            round(actual.rotation.get('x')) if actual.rotation else None,
         ),
         (
             'rotation_y',
-            round(actual.rotation.get('y')) if actual.rotation else None
+            round(actual.rotation.get('y')) if actual.rotation else None,
         ),
         (
             'rotation_z',
-            round(actual.rotation.get('z')) if actual.rotation else None
+            round(actual.rotation.get('z')) if actual.rotation else None,
         ),
         ('shape', actual.shape),
         ('state_list', actual.state_list),
         ('texture_color_list', actual.texture_color_list),
         ('visible', actual.visible),
         ('is_open', actual.is_open),
-        ('openable', actual.openable)
+        ('openable', actual.openable),
     ]
     return [create_test_case(
         [object_type, actual.uuid, case_name],
         expected[case_name],
-        actual_data
+        actual_data,
     ) for case_name, actual_data in test_case_list if case_name in expected]
 
 
@@ -102,12 +102,12 @@ def validate_single_output(expected, actual):
     for expected_object in expected.get('objects', []):
         expected_object_dict[expected_object.get('id', '')] = (
             'objects',
-            expected_object
+            expected_object,
         )
     for expected_object in expected.get('structural_objects', []):
         expected_object_dict[expected_object.get('id', '')] = (
             'structural_objects',
-            expected_object
+            expected_object,
         )
     # For each object in the step output metdata...
     for actual_object in (actual.object_list + actual.structural_object_list):
@@ -118,7 +118,7 @@ def validate_single_output(expected, actual):
         test_case_list.extend(create_object_test_case_list(
             expected_object_dict[actual_object.uuid][0],
             expected_object_dict[actual_object.uuid][1],
-            actual_object
+            actual_object,
         ))
     # Validate each test case.
     for test_case, expected_data, actual_data in test_case_list:
@@ -131,7 +131,7 @@ def validate_single_output(expected, actual):
                 expected_data,
                 actual_data,
                 rel_tol=0.001,
-                abs_tol=0.001
+                abs_tol=0.001,
             ))
         if failed:
             test_case_string = ' '.join(test_case)
@@ -139,7 +139,7 @@ def validate_single_output(expected, actual):
                 test_case,
                 actual_data,
                 expected_data,
-                f'{test_case_string}: {actual_data} != {expected_data}'
+                f'{test_case_string}: {actual_data} != {expected_data}',
             ))
     return failed_validation_list
 
@@ -154,7 +154,7 @@ def load_action_list(scene_filename):
             line_data = line.strip().split(',')
             action_data = {
                 'action': line_data[0],
-                'params': {}
+                'params': {},
             }
             for key_value in line_data[1:]:
                 key_value_data = key_value.split('=')
@@ -166,7 +166,7 @@ def load_action_list(scene_filename):
 def load_output_list(scene_filename, metadata_tier):
     output_filename = scene_filename.replace(
         SCENE_SUFFIX,
-        '.' + metadata_tier + OUTPUTS_SUFFIX
+        '.' + metadata_tier + OUTPUTS_SUFFIX,
     )
     if not os.path.isfile(output_filename):
         return output_filename, None
@@ -186,7 +186,7 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
     # Load this test's expected output metadata at each action step.
     output_filename, expected_output_data_list = load_output_list(
         scene_filename,
-        metadata_tier
+        metadata_tier,
     )
     if expected_output_data_list is None:
         return False, 'No file ' + output_filename
@@ -214,7 +214,7 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
         # Validate the test scene's output metadata at each action step.
         failed_validation_list = validate_single_output(
             expected_output_data_list[index],
-            step_metadata
+            step_metadata,
         )
         # If the validation failed, return the failed test case info.
         if len(failed_validation_list) > 0:
@@ -237,7 +237,7 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
         if action_data:
             step_metadata = controller.step(
                 action_data['action'],
-                **action_data['params']
+                **action_data['params'],
             )
 
     if autofix and len(autofix_case_list):
@@ -258,7 +258,7 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
                 expected_output_data_list,
                 output_file,
                 indent=4,
-                sort_keys=True
+                sort_keys=True,
             )
             print(f'SAVED {len(autofix_case_list)} FIXES: {output_filename}')
 
@@ -275,7 +275,7 @@ def start_handmade_tests(
     only_test_name,
     dev,
     autofix,
-    unity_version=None
+    unity_version=None,
 ):
 
     # Find all of the test scene JSON files.
@@ -312,7 +312,7 @@ def start_handmade_tests(
                 scene_filename,
                 metadata_tier,
                 dev,
-                autofix
+                autofix,
             )
             test_name = (
                 os.path.basename(scene_filename).replace(SCENE_SUFFIX, '')
@@ -352,7 +352,7 @@ def start_handmade_tests(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Run Handmade Integration Tests"
+        description="Run Handmade Integration Tests",
     )
     parser = add_test_args(parser, handmade_only=True)
     args = parser.parse_args()
@@ -362,5 +362,5 @@ if __name__ == "__main__":
         args.test,
         args.dev,
         args.autofix,
-        unity_version=args.mcs_unity_version
+        unity_version=args.mcs_unity_version,
     )

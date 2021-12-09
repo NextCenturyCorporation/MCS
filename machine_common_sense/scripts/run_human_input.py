@@ -88,7 +88,7 @@ class HumanInputShell(cmd.Cmd):
             action, params = self.previous_output.action_list[0]
         else:
             action, params = mcs.Action.input_to_action_and_params(
-                ','.join(split_input)
+                ','.join(split_input),
             )
 
         if action is None:
@@ -119,7 +119,7 @@ class HumanInputShell(cmd.Cmd):
     def help_auto(self):
         print(
             "Automatically runs the next action if only one action is "
-            "available at that step."
+            "available at that step.",
         )
 
     def help_print(self):
@@ -261,7 +261,7 @@ def main():
     scene_file_name = scene_file_path[scene_file_path.rfind('/') + 1:]
 
     if 'name' not in scene_data.keys():
-        scene_data['name'] = scene_file_name[0:scene_file_name.find('.')]
+        scene_data['name'] = scene_file_name[:scene_file_name.find('.')]
 
     if controller is not None:
         run_scene(controller, scene_data)

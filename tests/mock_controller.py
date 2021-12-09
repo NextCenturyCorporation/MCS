@@ -21,19 +21,19 @@ MOCK_VARIABLES = {
             'position': {
                 'x': 0.0,
                 'y': 0.0,
-                'z': 0.0
+                'z': 0.0,
             },
             'rotation': {
-                'y': 0.0
-            }
+                'y': 0.0,
+            },
         },
         'pose': Pose.STANDING.name,
         'lastActionStatus': 'SUCCESSFUL',
         'objects': [],
         'screenHeight': 400,
         'screenWidth': 600,
-        'structuralObjects': []
-    }
+        'structuralObjects': [],
+    },
 }
 
 
@@ -57,7 +57,7 @@ class MockController():
             'instance_segmentation_frame'
         ].copy()
         return ai2thor.server.MultiAgentEvent(
-            0, [event for _ in range(MOCK_VARIABLES['event_count'])]
+            0, [event for _ in range(MOCK_VARIABLES['event_count'])],
         )
 
     def get_last_step_data(self):

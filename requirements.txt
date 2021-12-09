@@ -4,6 +4,7 @@ colour==0.1.5
 commonmark==0.9.1
 dataclasses==0.8; python_version<"3.7"
 flake8==3.8.3
+flake8-commas==2.1.0
 isort==5.8.0
 marshmallow==3.12.1
 matplotlib==3.3.3

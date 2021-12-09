@@ -77,7 +77,7 @@ class ObjectMetadata(object):
         texture_color_list=None,
         visible=False,
         is_open=False,
-        openable=False
+        openable=False,
     ):
         self.uuid = uuid
         self.dimensions = [] if dimensions is None else dimensions

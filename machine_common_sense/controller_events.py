@@ -119,7 +119,7 @@ class AbstractControllerSubscriber(ABC):
             EventType.ON_START_SCENE: self.on_start_scene,
             EventType.ON_BEFORE_STEP: self.on_before_step,
             EventType.ON_AFTER_STEP: self.on_after_step,
-            EventType.ON_END_SCENE: self.on_end_scene
+            EventType.ON_END_SCENE: self.on_end_scene,
         }
 
     def on_event(self, type: EventType,

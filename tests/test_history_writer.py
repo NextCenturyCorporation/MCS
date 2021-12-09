@@ -22,7 +22,8 @@ class TestHistoryWriter(unittest.TestCase):
         # remove all TEST_FILE_NAME in PREFIX
         test_file_base = os.path.splitext(TEST_FILE_NAME)[0]
         prefix_test_files = glob.glob(
-            f'{mcs.HistoryWriter.HISTORY_DIRECTORY}/{PREFIX}/{test_file_base}*'
+            (f'{mcs.HistoryWriter.HISTORY_DIRECTORY}'
+             f'/{PREFIX}/{test_file_base}*'),
         )
         for prefix_test_file in prefix_test_files:
             os.unlink(prefix_test_file)
@@ -56,14 +57,14 @@ class TestHistoryWriter(unittest.TestCase):
         config_data = SceneConfiguration(name=TEST_FILE_NAME)
         writer = mcs.HistoryWriter(config_data, {
             'team': 'team1',
-            'metadata': 'level1'
+            'metadata': 'level1',
         })
 
         self.assertEqual(writer.info_obj.keys(), {
             'team',
             'metadata',
             'name',
-            'timestamp'
+            'timestamp',
         })
         self.assertEqual(writer.info_obj['name'], "test_scene_file")
         self.assertEqual(writer.info_obj['team'], "team1")
@@ -198,17 +199,17 @@ class TestHistoryWriter(unittest.TestCase):
             return_status="SUCCESSFUL",
             step_number=2,
             object_list={
-                "object": "object"
+                "object": "object",
             },
             structural_object_list={
-                "structural_object": "structural_object"
-            }
+                "structural_object": "structural_object",
+            },
         )
 
         history_item = mcs.SceneHistory(
             step=1,
             action="MoveAhead",
-            output=output
+            output=output,
         )
         writer.add_step(history_item)
 
@@ -223,7 +224,7 @@ class TestHistoryWriter(unittest.TestCase):
         history_item = mcs.SceneHistory(
             step=2,
             action="MoveLeft",
-            output=output
+            output=output,
         )
         writer.add_step(history_item)
 

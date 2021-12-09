@@ -67,7 +67,7 @@ class TopDownPlotter():
 
     def plot(self, scene_event: ai2thor.server.Event,
              step_number: int,
-             goal_id: str = None
+             goal_id: str = None,
              ) -> PIL.Image.Image:
         '''Create a plot of the room, objects and robot'''
         plt_img = self.grid_img.copy()
@@ -213,17 +213,17 @@ class TopDownPlotter():
         '''Draw the heading vector starting from the robot XZ position'''
         heading = self._calculate_heading(
             rotation_angle=360.0 - robot.rotation,
-            heading_length=self.HEADING_LENGTH
+            heading_length=self.HEADING_LENGTH,
         )
         z_point = int(self.center_z - robot.z * self.z_scale)
         x_point = int(self.center_x + robot.x * self.x_scale)
         rr, cc = skimage.draw.disk(
             center=(
                 z_point - int(heading.z * self.x_scale),
-                x_point + int(heading.x * self.x_scale)
+                x_point + int(heading.x * self.x_scale),
             ),
             radius=self.ROBOT_NOSE_RADIUS * self.x_scale,
-            shape=img.shape[:2]
+            shape=img.shape[:2],
         )
         img[rr, cc] = self.ROBOT_COLOR
         return img
@@ -339,7 +339,7 @@ class TopDownPlotter():
             visible=visible,
             uuid=uuid,
             color=color,
-            bounds=corners
+            bounds=corners,
         )
 
     def _convert_color(self, color: str) -> str:

@@ -17,11 +17,11 @@ class TestSerializer(unittest.TestCase):
 
     def test_serialization_msgpack(self):
         unpacked_metadata = TestSerializer._helper_get_step_metadata()
-        assert abs(unpacked_metadata.reward - (-0.036000000000000004)
+        assert abs(unpacked_metadata.reward - (-0.036000000000000004),
                    ) < 1e-04, 'Reward unexpected.'
         assert abs(unpacked_metadata.rotation -
                    0.0) < 1e-04, 'Rotation unexpected.'
-        assert isinstance(unpacked_metadata.object_list[-1].shape, str
+        assert isinstance(unpacked_metadata.object_list[-1].shape, str,
                           ), 'Shape type unexpected.'
 
     def test_serialization_json(self):

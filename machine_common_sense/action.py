@@ -17,7 +17,7 @@ class Action(Enum):
         "CloseObject",
         "1",
         "Close a nearby object. (objectId=string, amount=float " +
-        "(default:1), objectImageCoordsX=float, objectImageCoordsY=float)"
+        "(default:1), objectImageCoordsX=float, objectImageCoordsY=float)",
     )
     """
     Close a nearby object.
@@ -68,7 +68,7 @@ class Action(Enum):
     CRAWL = (
         "Crawl",
         "c",
-        "Change pose to 'CRAWLING' (no params)"
+        "Change pose to 'CRAWLING' (no params)",
     )
     """
     Change pose to "CRAWLING". Can help you move underneath or over objects.
@@ -86,7 +86,7 @@ class Action(Enum):
     DROP_OBJECT = (
         "DropObject",
         "2",
-        "Drop an object you are holding. (objectId=string)"
+        "Drop an object you are holding. (objectId=string)",
     )
     """
     Drop an object you are holding.
@@ -112,7 +112,7 @@ class Action(Enum):
     LIE_DOWN = (
         "LieDown",
         "x",
-        "Change pose to 'LYING' (rotation=float)"
+        "Change pose to 'LYING' (rotation=float)",
     )
     """
     Change pose to "LYING". Can help you move underneath objects.
@@ -128,7 +128,7 @@ class Action(Enum):
     MOVE_AHEAD = (
         "MoveAhead",
         "w",
-        "Move yourself ahead based on your current view."
+        "Move yourself ahead based on your current view.",
     )
     """
     Move yourself forward based on your current viewport.
@@ -147,7 +147,7 @@ class Action(Enum):
     MOVE_BACK = (
         "MoveBack",
         "s",
-        "Move yourself back based on your current view."
+        "Move yourself back based on your current view.",
     )
     """
     Move yourself backward based on your current viewport.
@@ -165,7 +165,7 @@ class Action(Enum):
     MOVE_LEFT = (
         "MoveLeft",
         "a",
-        "Move yourself to your left based on your current view."
+        "Move yourself to your left based on your current view.",
     )
     """
     Move yourself left based on your current viewport.
@@ -183,7 +183,7 @@ class Action(Enum):
     MOVE_RIGHT = (
         "MoveRight",
         "d",
-        "Move yourself to your right based on your current view."
+        "Move yourself to your right based on your current view.",
     )
     """
     Move yourself right based on your current viewport.
@@ -203,7 +203,7 @@ class Action(Enum):
         "3",
         "Open a nearby object. (objectId=string, " +
         "amount=float (default:1), objectImageCoordsX=float, " +
-        "objectImageCoordsY=float)"
+        "objectImageCoordsY=float)",
     )
     """
     Open a nearby object.
@@ -255,7 +255,8 @@ class Action(Enum):
         "PickupObject",
         "4",
         "Pickup a nearby object and hold it in your hand. " +
-        "(objectId=string, objectImageCoordsX=float, objectImageCoordsY=float)"
+        "(objectId=string, objectImageCoordsX=float, " +
+        "objectImageCoordsY=float)",
     )
     """
     Pick up a nearby object and hold it in your hand. This action incorporates
@@ -303,7 +304,7 @@ class Action(Enum):
         "5",
         "Pull a nearby object. (objectId=string, rotation=float, " +
         "horizon=float, force=float (default:0.5), " +
-        "objectImageCoordsX=float, objectImageCoordsY=float)"
+        "objectImageCoordsX=float, objectImageCoordsY=float)",
     )
     """
     Pull a nearby object.
@@ -350,7 +351,7 @@ class Action(Enum):
         "6",
         "Push a nearby object. (objectId=string, rotation=float, " +
         "horizon=float, force=float (default:0.5), " +
-        "objectImageCoordsX=float, objectImageCoordsY=float)"
+        "objectImageCoordsX=float, objectImageCoordsY=float)",
     )
     """
     Push a nearby object.
@@ -398,7 +399,7 @@ class Action(Enum):
         "Place an object you are holding into/onto a nearby " +
         "receptacle object. (objectId=string, receptacleObjectId=string, " +
         "receptacleObjectImageCoordsX=float, " +
-        "receptacleObjectImageCoordsY=float)"
+        "receptacleObjectImageCoordsY=float)",
     )
     """
     Put down an object you are holding into/onto a nearby receptacle object. A
@@ -453,7 +454,7 @@ class Action(Enum):
     LOOK_UP = (
         "LookUp",
         "i",
-        "Rotate your view up (subtract 10 degrees from head tilt)."
+        "Rotate your view up (subtract 10 degrees from head tilt).",
     )
     """
     Rotate your view up (subtract 10 degrees from head tilt).
@@ -471,7 +472,7 @@ class Action(Enum):
     LOOK_DOWN = (
         "LookDown",
         "k",
-        "Rotate your view down (add 10 degrees to head tilt)."
+        "Rotate your view down (add 10 degrees to head tilt).",
     )
     """
     Rotate your viewport down (add 10 degrees to head tilt).
@@ -489,7 +490,7 @@ class Action(Enum):
     ROTATE_LEFT = (
         "RotateLeft",
         "j",
-        "Rotate your view left by 10 degrees."
+        "Rotate your view left by 10 degrees.",
     )
     """
     Rotate your viewport left by 10 degrees.
@@ -505,7 +506,7 @@ class Action(Enum):
     ROTATE_RIGHT = (
         "RotateRight",
         "l",
-        "Rotate your view right by 10 degrees."
+        "Rotate your view right by 10 degrees.",
     )
     """
     Rotate your viewport right by 10 degrees.
@@ -521,7 +522,7 @@ class Action(Enum):
     STAND = (
         "Stand",
         "u",
-        "Change pose to 'STANDING' (no params)"
+        "Change pose to 'STANDING' (no params)",
     )
     """
     Change pose to "STANDING". Can help you move over objects.
@@ -541,7 +542,7 @@ class Action(Enum):
         "q",
         "Throw an object you are holding. (objectId=string, " +
         "objectImageCoordsX=float, objectImageCoordsY=float, " +
-        "force=float (default:0.5))"
+        "force=float (default:0.5))",
     )
     """
     Throw an object you are holding.
@@ -578,7 +579,7 @@ class Action(Enum):
         "Ends a habituation trial for the scene by blanking the screen " +
         "for one action (and teleporting the agent if needed). Sometimes" +
         " needed depending on the task type. (xPosition=float, " +
-        "zPosition=float, yRotation=float)"
+        "zPosition=float, yRotation=float)",
     )
     """
     Ends a habituation trial for the scene by blanking the screen for one
@@ -616,7 +617,7 @@ class Action(Enum):
     PASS = (
         "Pass",
         " ",
-        "Do nothing. (no params)"
+        "Do nothing. (no params)",
     )
     """
     Do nothing.
@@ -643,7 +644,7 @@ class Action(Enum):
         return '<%s.%s: %s>' % (
             self.__class__.__name__,
             self._name_,
-            ', '.join([self._value_, self._key, self._desc])
+            ', '.join([self._value_, self._key, self._desc]),
         )
 
     @ property

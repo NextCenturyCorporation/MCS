@@ -109,21 +109,21 @@ class ConfigManager(object):
             self._config.set(
                 self.CONFIG_DEFAULT_SECTION,
                 self.CONFIG_SIZE,
-                str(self.SCREEN_WIDTH_DEFAULT)
+                str(self.SCREEN_WIDTH_DEFAULT),
             )
 
     def get_evaluation_name(self):
         return self._config.get(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_EVALUATION_NAME,
-            fallback=''
+            fallback='',
         )
 
     def get_metadata_tier(self):
         metadata = self._config.get(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_METADATA_TIER,
-            fallback='default'
+            fallback='default',
         )
 
         return MetadataTier(metadata)
@@ -132,63 +132,63 @@ class ConfigManager(object):
         self._config.set(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_METADATA_TIER,
-            mode
+            mode,
         )
 
     def get_seed(self):
         return self._config.getint(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_SEED,
-            fallback=None
+            fallback=None,
         )
 
     def get_size(self):
         return self._config.getint(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_SIZE,
-            fallback=self.SCREEN_WIDTH_DEFAULT
+            fallback=self.SCREEN_WIDTH_DEFAULT,
         )
 
     def get_team(self):
         return self._config.get(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_TEAM,
-            fallback=''
+            fallback='',
         )
 
     def is_history_enabled(self):
         return self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_HISTORY_ENABLED,
-            fallback=True
+            fallback=True,
         )
 
     def is_noise_enabled(self):
         return self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_NOISE_ENABLED,
-            fallback=False
+            fallback=False,
         )
 
     def is_save_debug_images(self):
         return self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_SAVE_DEBUG_IMAGES,
-            fallback=False
+            fallback=False,
         )
 
     def is_save_debug_json(self):
         return self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_SAVE_DEBUG_JSON,
-            fallback=False
+            fallback=False,
         )
 
     def is_video_enabled(self):
         return self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_VIDEO_ENABLED,
-            fallback=False
+            fallback=False,
         )
 
     def is_depth_maps_enabled(self) -> bool:
@@ -763,7 +763,7 @@ class SceneConfiguration:
                 last_preview_phase_step=(goal.last_preview_phase_step or 0),
                 last_step=goal.last_step or None,
                 metadata=goal.metadata or {},
-            )
+            ),
         )
 
     def update_goal_target_image(self, goal_output):

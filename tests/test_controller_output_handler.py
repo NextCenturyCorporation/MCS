@@ -43,8 +43,8 @@ class TestControllerOutputHandler(unittest.TestCase):
                 "instance_segmentation_frame": object_mask_data,
                 "object_id_to_color": {
                     "testId": (12, 34, 56),
-                    "testWallId": (101, 102, 103)
-                }
+                    "testWallId": (101, 102, 103),
+                },
             })],
             "metadata": {
                 "agent": {
@@ -52,16 +52,16 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "position": {
                         "x": 0.12,
                         "y": -0.23,
-                        "z": 4.5
+                        "z": 4.5,
                     },
                     "rotation": {
                         "x": 1.111,
                         "y": 2.222,
-                        "z": 3.333
-                    }
+                        "z": 3.333,
+                    },
                 },
                 "cameraPosition": {
-                    "y": 0.1234
+                    "y": 0.1234,
                 },
                 "clippingPlaneFar": 15,
                 "clippingPlaneNear": 0,
@@ -74,7 +74,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "direction": {
                         "x": 90,
                         "y": -30,
-                        "z": 0
+                        "z": 0,
                     },
                     "distance": 1.5,
                     "distanceXZ": 1.1,
@@ -90,30 +90,30 @@ class TestControllerOutputHandler(unittest.TestCase):
                             "p6",
                             "p7",
                             "p8",
-                        ]
+                        ],
                     },
                     "objectId": "testId",
                     "position": {
                         "x": 10,
                         "y": 11,
-                        "z": 12
+                        "z": 12,
                     },
                     "rotation": {
                         "x": 1.0,
                         "y": 2.0,
-                        "z": 3.0
+                        "z": 3.0,
                     },
                     "salientMaterials": ["Wood"],
                     "shape": "shape",
                     "visibleInCamera": True,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
                         "x": -90,
                         "y": 180,
-                        "z": 270
+                        "z": 270,
                     },
                     "distance": 2.5,
                     "distanceXZ": 2.0,
@@ -129,31 +129,31 @@ class TestControllerOutputHandler(unittest.TestCase):
                             "pF",
                             "pG",
                             "pH",
-                        ]
+                        ],
                     },
                     "objectId": "testIdHidden",
                     "position": {
                         "x": -3,
                         "y": -2,
-                        "z": -1
+                        "z": -1,
                     },
                     "rotation": {
                         "x": 11.0,
                         "y": 12.0,
-                        "z": 13.0
+                        "z": 13.0,
                     },
                     "salientMaterials": ["Wood"],
                     "shape": "shapeHidden",
                     "visibleInCamera": False,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
                 }],
                 "structuralObjects": [{
                     "colorsFromMaterials": ["c2"],
                     "direction": {
                         "x": 180,
                         "y": -60,
-                        "z": 0
+                        "z": 0,
                     },
                     "distance": 2.5,
                     "distanceXZ": 2.2,
@@ -169,30 +169,30 @@ class TestControllerOutputHandler(unittest.TestCase):
                             "p16",
                             "p17",
                             "p18",
-                        ]
+                        ],
                     },
                     "objectId": "testWallId",
                     "position": {
                         "x": 20,
                         "y": 21,
-                        "z": 22
+                        "z": 22,
                     },
                     "rotation": {
                         "x": 4.0,
                         "y": 5.0,
-                        "z": 6.0
+                        "z": 6.0,
                     },
                     "salientMaterials": ["Ceramic"],
                     "shape": "structure",
                     "visibleInCamera": True,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
                         "x": -180,
                         "y": 60,
-                        "z": 90
+                        "z": 90,
                     },
                     "distance": 3.5,
                     "distanceXZ": 3.3,
@@ -208,26 +208,26 @@ class TestControllerOutputHandler(unittest.TestCase):
                             "pFF",
                             "pGG",
                             "pHH",
-                        ]
+                        ],
                     },
                     "objectId": "testWallIdHidden",
                     "position": {
                         "x": 30,
                         "y": 31,
-                        "z": 32
+                        "z": 32,
                     },
                     "rotation": {
                         "x": 14.0,
                         "y": 15.0,
-                        "z": 16.0
+                        "z": 16.0,
                     },
                     "salientMaterials": ["Ceramic"],
                     "shape": "structureHidden",
                     "visibleInCamera": False,
                     "isOpen": False,
-                    "openable": False
-                }]
-            }
+                    "openable": False,
+                }],
+            },
         }, image_data, depth_data, object_mask_data
 
     def create_retrieve_object_list_scene_event(self):
@@ -236,8 +236,8 @@ class TestControllerOutputHandler(unittest.TestCase):
                 "object_id_to_color": {
                     "testId1": (12, 34, 56),
                     "testId2": (98, 76, 54),
-                    "testId3": (101, 102, 103)
-                }
+                    "testId3": (101, 102, 103),
+                },
             })],
             "metadata": {
                 "objects": [{
@@ -245,7 +245,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "direction": {
                         "x": 0,
                         "y": 0,
-                        "z": 0
+                        "z": 0,
                     },
                     "distance": 0,
                     "distanceXZ": 0,
@@ -255,24 +255,24 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "position": {
                         "x": 1,
                         "y": 1,
-                        "z": 2
+                        "z": 2,
                     },
                     "rotation": {
                         "x": 1.0,
                         "y": 2.0,
-                        "z": 3.0
+                        "z": 3.0,
                     },
                     "salientMaterials": [],
                     "shape": "shape1",
                     "visibleInCamera": True,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
                 }, {
                     "colorsFromMaterials": ["c2", "c3"],
                     "direction": {
                         "x": 90,
                         "y": -30,
-                        "z": 0
+                        "z": 0,
                     },
                     "distance": 1.5,
                     "distanceXZ": 1.1,
@@ -288,30 +288,30 @@ class TestControllerOutputHandler(unittest.TestCase):
                             "p6",
                             "p7",
                             "p8",
-                        ]
+                        ],
                     },
                     "objectId": "testId2",
                     "position": {
                         "x": 1,
                         "y": 2,
-                        "z": 3
+                        "z": 3,
                     },
                     "rotation": {
                         "x": 1.0,
                         "y": 2.0,
-                        "z": 3.0
+                        "z": 3.0,
                     },
                     "salientMaterials": ["Foobar", "Metal", "Plastic"],
                     "shape": "shape2",
                     "visibleInCamera": True,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
                         "x": -90,
                         "y": 180,
-                        "z": 270
+                        "z": 270,
                     },
                     "distance": 2.5,
                     "distanceXZ": 2,
@@ -327,35 +327,35 @@ class TestControllerOutputHandler(unittest.TestCase):
                             "pF",
                             "pG",
                             "pH",
-                        ]
+                        ],
                     },
                     "objectId": "testId3",
                     "position": {
                         "x": -3,
                         "y": -2,
-                        "z": -1
+                        "z": -1,
                     },
                     "rotation": {
                         "x": 11.0,
                         "y": 12.0,
-                        "z": 13.0
+                        "z": 13.0,
                     },
                     "salientMaterials": ["Wood"],
                     "shape": "shape3",
                     "visibleInCamera": False,
                     "isOpen": False,
-                    "openable": False
-                }]
-            }
+                    "openable": False,
+                }],
+            },
         }
 
     def test_retrieve_pose(self):
         # Check function calls
         mock_scene_event_data = {
             "metadata": {
-                "pose": mcs.Pose.STANDING.name
+                "pose": mcs.Pose.STANDING.name,
             },
-            "events": []
+            "events": [],
         }
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
@@ -366,9 +366,9 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         mock_scene_event_data = {
             "metadata": {
-                "pose": mcs.Pose.CRAWLING.name
+                "pose": mcs.Pose.CRAWLING.name,
             },
-            "events": []
+            "events": [],
         }
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
         scene_event = SceneEvent(
@@ -378,9 +378,9 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         mock_scene_event_data = {
             "metadata": {
-                "pose": mcs.Pose.LYING.name
+                "pose": mcs.Pose.LYING.name,
             },
-            "events": []
+            "events": [],
         }
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
         scene_event = SceneEvent(
@@ -391,9 +391,9 @@ class TestControllerOutputHandler(unittest.TestCase):
     def test_retrieve_return_status(self):
         mock_scene_event_data = {
             "metadata": {
-                "lastActionStatus": "SUCCESSFUL"
+                "lastActionStatus": "SUCCESSFUL",
             },
-            "events": []
+            "events": [],
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -405,9 +405,9 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         mock_scene_event_data = {
             "metadata": {
-                "lastActionStatus": "FAILED"
+                "lastActionStatus": "FAILED",
             },
-            "events": []
+            "events": [],
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -418,9 +418,9 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         mock_scene_event_data = {
             "metadata": {
-                "lastActionStatus": "INVALID_STATUS"
+                "lastActionStatus": "INVALID_STATUS",
             },
-            "events": []
+            "events": [],
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -431,9 +431,9 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         mock_scene_event_data = {
             "metadata": {
-                "lastActionStatus": None
+                "lastActionStatus": None,
             },
-            "events": []
+            "events": [],
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -446,10 +446,10 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_scene_event_data = {
             "metadata": {
                 "agent": {
-                    "cameraHorizon": 12.34
-                }
+                    "cameraHorizon": 12.34,
+                },
             },
-            "events": []
+            "events": [],
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -463,10 +463,10 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_scene_event_data = {
             "metadata": {
                 "agent": {
-                    "cameraHorizon": -56.78
-                }
+                    "cameraHorizon": -56.78,
+                },
             },
-            "events": []
+            "events": [],
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -482,7 +482,7 @@ class TestControllerOutputHandler(unittest.TestCase):
             mock_scene_event_data,
             image_data,
             depth_data,
-            object_mask_data
+            object_mask_data,
         ) = self.create_wrap_output_scene_event()
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
@@ -511,7 +511,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.object_list[0].segment_color, {
             "r": 12,
             "g": 34,
-            "b": 56
+            "b": 56,
         })
         self.assertEqual(
             actual.object_list[0].dimensions, [
@@ -519,7 +519,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.object_list[0].direction, {
             "x": 90,
             "y": -30,
-            "z": 0
+            "z": 0,
         })
         self.assertEqual(actual.object_list[0].distance, 11.0)
         self.assertEqual(actual.object_list[0].distance_in_steps, 11.0)
@@ -543,16 +543,16 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.structural_object_list[0].segment_color, {
             "r": 101,
             "g": 102,
-            "b": 103
+            "b": 103,
         })
         self.assertEqual(
             actual.structural_object_list[0].dimensions,
-            ["p11", "p12", "p13", "p14", "p15", "p16", "p17", "p18"]
+            ["p11", "p12", "p13", "p14", "p15", "p16", "p17", "p18"],
         )
         self.assertEqual(actual.structural_object_list[0].direction, {
             "x": 180,
             "y": -60,
-            "z": 0
+            "z": 0,
         })
         self.assertEqual(actual.structural_object_list[0].distance, 22.0)
         self.assertEqual(
@@ -600,7 +600,7 @@ class TestControllerOutputHandler(unittest.TestCase):
             mock_scene_event_data,
             image_data,
             depth_data,
-            object_mask_data
+            object_mask_data,
         ) = self.create_wrap_output_scene_event()
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
@@ -649,7 +649,7 @@ class TestControllerOutputHandler(unittest.TestCase):
             mock_scene_event_data,
             image_data,
             depth_data,
-            object_mask_data
+            object_mask_data,
         ) = self.create_wrap_output_scene_event()
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -688,7 +688,7 @@ class TestControllerOutputHandler(unittest.TestCase):
             mock_scene_event_data,
             image_data,
             depth_data,
-            object_mask_data
+            object_mask_data,
         ) = self.create_wrap_output_scene_event()
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -728,7 +728,7 @@ class TestControllerOutputHandler(unittest.TestCase):
             mock_scene_event_data,
             image_data,
             depth_data,
-            object_mask_data
+            object_mask_data,
         ) = self.create_wrap_output_scene_event()
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -762,7 +762,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         numpy.testing.assert_almost_equal(
             numpy.array(actual.depth_map_list[0]),
             numpy.array([[2.51]], dtype=numpy.float32),
-            3
+            3,
         )
         self.assertEqual(numpy.array(actual.image_list[0]), image_data)
         self.assertEqual(
@@ -777,7 +777,7 @@ class TestControllerOutputHandler(unittest.TestCase):
             mock_scene_event_data,
             image_data,
             depth_data,
-            object_mask_data
+            object_mask_data,
         ) = self.create_wrap_output_scene_event()
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -811,7 +811,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         numpy.testing.assert_almost_equal(
             numpy.array(actual.depth_map_list[0]),
             numpy.array([[2.51]], dtype=numpy.float32),
-            3
+            3,
         )
         self.assertEqual(numpy.array(actual.image_list[0]), image_data)
         self.assertEqual(
@@ -830,9 +830,9 @@ class TestControllerOutputHandler(unittest.TestCase):
             "events": [self.create_mock_scene_event({
                 "depth_frame": depth_data,
                 "frame": image_data,
-                "instance_segmentation_frame": object_mask_data
+                "instance_segmentation_frame": object_mask_data,
             })],
-            "metadata": {"objects": []}
+            "metadata": {"objects": []},
         }
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
         scene_event = SceneEvent(
@@ -850,7 +850,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         numpy.testing.assert_almost_equal(
             numpy.array(depth_map_list[0]),
             numpy.array([[0.0]], dtype=numpy.float32),
-            3
+            3,
         )
         self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data)
 
@@ -869,13 +869,13 @@ class TestControllerOutputHandler(unittest.TestCase):
             "events": [self.create_mock_scene_event({
                 "depth_frame": depth_data_1,
                 "frame": image_data_1,
-                "instance_segmentation_frame": object_mask_data_1
+                "instance_segmentation_frame": object_mask_data_1,
             }), self.create_mock_scene_event({
                 "depth_frame": depth_data_2,
                 "frame": image_data_2,
-                "instance_segmentation_frame": object_mask_data_2
+                "instance_segmentation_frame": object_mask_data_2,
             })],
-            "metadata": {"objects": []}
+            "metadata": {"objects": []},
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -895,7 +895,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         numpy.testing.assert_almost_equal(
             numpy.array(depth_map_list[0]),
             numpy.array([[4.392]], dtype=numpy.float32),
-            3
+            3,
         )
         self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data_1)
 
@@ -903,7 +903,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         numpy.testing.assert_almost_equal(
             numpy.array(depth_map_list[1]),
             numpy.array([[1.882]], dtype=numpy.float32),
-            3
+            3,
         )
         self.assertEqual(numpy.array(object_mask_list[1]), object_mask_data_2)
 
@@ -920,13 +920,13 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[0].segment_color, {
             "r": 12,
             "g": 34,
-            "b": 56
+            "b": 56,
         })
         self.assertEqual(actual[0].dimensions, [])
         self.assertEqual(actual[0].direction, {
             "x": 0,
             "y": 0,
-            "z": 0
+            "z": 0,
         })
         self.assertEqual(actual[0].distance, 0)
         self.assertEqual(actual[0].distance_in_steps, 0)
@@ -945,7 +945,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[1].segment_color, {
             "r": 98,
             "g": 76,
-            "b": 54
+            "b": 54,
         })
         self.assertEqual(
             actual[1].dimensions, [
@@ -953,7 +953,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[1].direction, {
             "x": 90,
             "y": -30,
-            "z": 0
+            "z": 0,
         })
         self.assertEqual(actual[1].distance, 11.0)
         self.assertEqual(actual[1].distance_in_steps, 11.0)
@@ -974,8 +974,8 @@ class TestControllerOutputHandler(unittest.TestCase):
             'objects': [{
                 'id': 'testId1',
                 'type': "ball",
-                'states': [['a', 'b'], ['c', 'd']]
-            }]
+                'states': [['a', 'b'], ['c', 'd']],
+            }],
         }
 
         scene_config = SceneConfigurationSchema().load(scene_config)
@@ -1017,13 +1017,13 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[0].segment_color, {
             "r": 12,
             "g": 34,
-            "b": 56
+            "b": 56,
         })
         self.assertEqual(actual[0].dimensions, [])
         self.assertEqual(actual[0].direction, {
             "x": 0,
             "y": 0,
-            "z": 0
+            "z": 0,
         })
         self.assertEqual(actual[0].distance, 0)
         self.assertEqual(actual[0].distance_in_steps, 0)
@@ -1042,7 +1042,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[1].segment_color, {
             "r": 98,
             "g": 76,
-            "b": 54
+            "b": 54,
         })
         self.assertEqual(
             actual[1].dimensions, [
@@ -1050,7 +1050,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[1].direction, {
             "x": 90,
             "y": -30,
-            "z": 0
+            "z": 0,
         })
         self.assertEqual(actual[1].distance, 11.0)
         self.assertEqual(actual[1].distance_in_steps, 11.0)
@@ -1069,7 +1069,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[2].segment_color, {
             "r": 101,
             "g": 102,
-            "b": 103
+            "b": 103,
         })
         self.assertEqual(
             actual[2].dimensions, [
@@ -1077,7 +1077,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[2].direction, {
             "x": -90,
             "y": 180,
-            "z": 270
+            "z": 270,
         })
         self.assertEqual(actual[2].distance, 20.0)
         self.assertEqual(actual[2].distance_in_steps, 20.0)

@@ -87,7 +87,7 @@ class AbstractVideoEventHandler(AbstractControllerSubscriber):
         basename = self.get_basename(payload)
         video_filename = basename.replace(
             AbstractVideoEventHandler.PLACEHOLDER,
-            file_tag
+            file_tag,
         )
         output_folder = pathlib.Path(payload.output_folder)
         vid_path = output_folder / video_filename
@@ -118,13 +118,13 @@ class DepthImageEventHandler(AbstractImageEventHandler):
                 payload.step_output.depth_map_list):
             max_depth = payload.step_metadata.metadata.get(
                 'clippingPlaneFar',
-                ConfigManager.DEFAULT_CLIPPING_PLANE_FAR
+                ConfigManager.DEFAULT_CLIPPING_PLANE_FAR,
             )
             # Convert to pixel values for saving debug image.
             depth_pixel_array = depth_float_array * \
                 255 / max_depth
             depth_map = PIL.Image.fromarray(
-                depth_pixel_array.astype(np.uint8)
+                depth_pixel_array.astype(np.uint8),
             )
             self._do_save_image(payload, index, depth_map, 'depth_map')
 
@@ -176,7 +176,7 @@ class TopdownVideoEventHandler(AbstractVideoEventHandler):
                 # Room is automatically expanded in intuitive physics scenes.
                 Vector3d(14, 10, 10) if payload.scene_config.intuitivePhysics
                 else payload.scene_config.roomDimensions
-            )
+            ),
         )
         self.save_video_for_step(payload)
 
@@ -220,13 +220,13 @@ class DepthVideoEventHandler(AbstractVideoEventHandler):
         for depth_float_array in payload.step_output.depth_map_list:
             max_depth = payload.step_metadata.metadata.get(
                 'clippingPlaneFar',
-                ConfigManager.DEFAULT_CLIPPING_PLANE_FAR
+                ConfigManager.DEFAULT_CLIPPING_PLANE_FAR,
             )
             # Convert to pixel values for saving debug image.
             depth_pixel_array = depth_float_array * \
                 255 / max_depth
             depth_map = PIL.Image.fromarray(
-                depth_pixel_array.astype(np.uint8)
+                depth_pixel_array.astype(np.uint8),
             )
             self.__recorder.add(depth_map)
 

@@ -75,7 +75,7 @@ class Stringifier:
             "POSITION (WORLD)",
             "DISTANCE (WORLD)",
             "DIRECTION (WORLD)",
-            "DIMENSIONS (WORLD)"
+            "DIMENSIONS (WORLD)",
         ]
         rows = [titles] + [
             [

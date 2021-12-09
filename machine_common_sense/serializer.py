@@ -64,7 +64,7 @@ class SerializerMsgPack(ISerializer):
                     x.camera_height, x.depth_map_list, x.goal, x.head_tilt,
                     x.image_list, x.object_list, x.object_mask_list, x.pose,
                     x.position, x.return_status, x.reward, x.rotation,
-                    x.step_number, x.structural_object_list
+                    x.step_number, x.structural_object_list,
                 ],
                     default=SerializerMsgPack._ext_pack,
                     strict_types=True))
@@ -86,7 +86,7 @@ class SerializerMsgPack(ISerializer):
                 msgpack.packb([
                     x.action_list, x.category, x.description,
                     x.habituation_total, x.last_preview_phase_step,
-                    x.last_step, x.metadata
+                    x.last_step, x.metadata,
                 ],
                     default=SerializerMsgPack._ext_pack,
                     strict_types=True))
@@ -97,7 +97,7 @@ class SerializerMsgPack(ISerializer):
                     x.uuid, x.color, x.dimensions, x.direction, x.distance,
                     x.distance_in_steps, x.distance_in_world, x.held, x.mass,
                     x.material_list, x.position, x.rotation, x.shape,
-                    x.state_list, x.texture_color_list, x.visible
+                    x.state_list, x.texture_color_list, x.visible,
                 ],
                     default=SerializerMsgPack._ext_pack,
                     strict_types=True))
@@ -231,7 +231,7 @@ class SerializerJson(ISerializer):
                     'reward': x.reward,
                     'rotation': x.rotation,
                     'step_number': x.step_number,
-                    'structural_object_list': x.structural_object_list
+                    'structural_object_list': x.structural_object_list,
                 }
             elif isinstance(x, tuple):
                 return [x[0], x[1]]
@@ -248,7 +248,7 @@ class SerializerJson(ISerializer):
                     'habituation_total': x.habituation_total,
                     'last_preview_phase_step': x.last_preview_phase_step,
                     'last_step': x.last_step,
-                    'metadata': x.metadata
+                    'metadata': x.metadata,
                 }
             elif isinstance(x, ObjectMetadata):
                 return {
@@ -267,7 +267,7 @@ class SerializerJson(ISerializer):
                     'shape': x.shape,
                     'state_list': x.state_list,
                     'texture_color_list': x.texture_color_list,
-                    'visible': x.visible
+                    'visible': x.visible,
                 }
             elif isinstance(x, np.ndarray):
                 return x.tolist()

@@ -62,7 +62,7 @@ def main():
             for file_name in os.listdir(args.mcs_scene_dir)
             if os.path.isfile(os.path.join(args.mcs_scene_dir, file_name)) and
             os.path.splitext(file_name)[1] == '.json'
-        ]
+        ],
     )
 
     print(

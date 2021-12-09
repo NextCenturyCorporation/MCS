@@ -34,7 +34,7 @@ class MyClass:
         self.my_list = [1, "b", {
             "my_integer": 2,
             "my_string": "c",
-            "my_list": [3, "d"]
+            "my_list": [3, "d"],
         }]
         self.my_dict = {
             "my_integer": 4,
@@ -43,7 +43,7 @@ class MyClass:
             "my_dict": {
                 "my_integer": 6,
                 "my_string": "g",
-            }
+            },
         }
         self.my_list_empty = []
         self.my_dict_empty = {}
@@ -76,7 +76,7 @@ class TestStringifier(unittest.TestCase):
                 position=None,
                 dimensions=None,
                 distance_in_world=0,
-                direction=None
+                direction=None,
             ),
             mcs.ObjectMetadata(
                 uuid='really_long_id2',
@@ -88,26 +88,26 @@ class TestStringifier(unittest.TestCase):
                 position={
                     'x': 1,
                     'y': 2,
-                    'z': 3
+                    'z': 3,
                 },
                 dimensions=[{
                     'x': 4,
                     'y': 5,
-                    'z': 6
+                    'z': 6,
                 }],
                 distance_in_world=1234567890987654321,
                 direction={
                     'x': 10000,
                     'y': 20000,
-                    'z': 30000
-                }
-            )
+                    'z': 30000,
+                },
+            ),
         ]
         self.assertEqual(mcs.Stringifier.generate_pretty_object_output(
             object_list), [
             'OBJECT ID        SHAPE  COLORS        HELD   VISIBLE  STATE           POSITION (WORLD)  DISTANCE (WORLD)     DIRECTION (WORLD)    DIMENSIONS (WORLD)',  # noqa: E501
             'id1                                   True   True                     None              0                    None                 None              ',  # noqa: E501
-            'really_long_id2  sofa   black, white  False  False    state1, state2  (1,2,3)           1234567890987654321  (10000,20000,30000)  [(4,5,6)]         '  # noqa: E501
+            'really_long_id2  sofa   black, white  False  False    state1, state2  (1,2,3)           1234567890987654321  (10000,20000,30000)  [(4,5,6)]         ',  # noqa: E501
         ])
 
     def test_value_to_str_with_boolean(self):
@@ -118,7 +118,7 @@ class TestStringifier(unittest.TestCase):
         self.assertEqual(mcs.Stringifier.value_to_str({}), "{}")
         self.assertEqual(mcs.Stringifier.value_to_str({
             "number": 1,
-            "string": "a"
+            "string": "a",
         }), "{\n    \"number\": 1,\n    \"string\": \"a\"\n}")
 
     def test_value_to_str_with_float(self):
@@ -139,14 +139,14 @@ class TestStringifier(unittest.TestCase):
         self.assertEqual(mcs.Stringifier.value_to_str([]), "[]")
         self.assertEqual(
             mcs.Stringifier.value_to_str([1, "a", {"b": 2}]),
-            "[\n    1,\n    \"a\",\n    {\n        \"b\": 2\n    }\n]"
+            "[\n    1,\n    \"a\",\n    {\n        \"b\": 2\n    }\n]",
         )
 
     def test_value_to_str_with_list_with_nested_list(self):
         self.assertEqual(mcs.Stringifier.value_to_str([]), "[]")
         self.assertEqual(
             mcs.Stringifier.value_to_str([1, "a", [2, "b"]]),
-            "[\n    1,\n    \"a\",\n    [2,\"b\"]\n]"
+            "[\n    1,\n    \"a\",\n    [2,\"b\"]\n]",
         )
 
     def test_value_to_str_with_string(self):
@@ -160,7 +160,7 @@ class TestStringifier(unittest.TestCase):
         self.assertEqual(mcs.Stringifier.vector_to_string({
             'x': 1,
             'y': 2,
-            'z': 3
+            'z': 3,
         }), '(1,2,3)')
 
 

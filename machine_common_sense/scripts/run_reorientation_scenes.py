@@ -126,7 +126,7 @@ experience_with_room_action_list = [
     'RotateLeft', 'RotateLeft', 'RotateLeft', 'RotateLeft', 'RotateLeft',
     'RotateLeft', 'RotateLeft', 'RotateLeft', 'RotateLeft', 'RotateLeft',
     'RotateLeft', 'RotateLeft', 'RotateLeft', 'RotateLeft', 'RotateLeft',
-    'RotateLeft'
+    'RotateLeft',
 ]
 
 move_to_target_action_list = [
@@ -142,7 +142,7 @@ move_to_target_action_list = [
     'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead',
     'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead', 'MoveAhead',
     # Look down to the container.
-    'LookDown', 'LookDown', 'LookDown'
+    'LookDown', 'LookDown', 'LookDown',
 ]
 
 scene_state = {}
@@ -157,10 +157,10 @@ def action_callback(scene_data, step_metadata, runner_script):
             'move_back_count': 0,
             'open': False,
             'pickup': False,
-            'target_id': None
+            'target_id': None,
         }
         kidnap_rotation = int(
-            scene_data['goal']['sceneInfo']['kidnapRotation']
+            scene_data['goal']['sceneInfo']['kidnapRotation'],
         )
         rotate_right_count = int((360 - kidnap_rotation) / 10)
         target_corner = scene_data['debug']['chosenCorner']
@@ -182,8 +182,8 @@ def action_callback(scene_data, step_metadata, runner_script):
         )
         scene_state['action_list'].extend(
             experience_with_room_action_list.copy() + ([
-                'Rotate' + ('Left' if rotate_right_count < 0 else 'Right')
-            ] * rotate_right_count) + move_to_target_action_list.copy()
+                'Rotate' + ('Left' if rotate_right_count < 0 else 'Right'),
+            ] * rotate_right_count) + move_to_target_action_list.copy(),
         )
 
     if len(step_metadata.action_list) == 1:
@@ -191,17 +191,17 @@ def action_callback(scene_data, step_metadata, runner_script):
 
     if len(scene_state['action_list']) > step_metadata.step_number:
         return mcs.Action.input_to_action_and_params(
-            scene_state['action_list'][step_metadata.step_number]
+            scene_state['action_list'][step_metadata.step_number],
         )
 
     if not scene_state['open']:
         scene_state['open'] = True
         return 'OpenObject', {
             'objectImageCoordsX': 300,
-            'objectImageCoordsY': 200
+            'objectImageCoordsY': 200,
         }
 
-    if scene_state['open'] and step_metadata.return_status == 'OBSTRUCTED':
+    if step_metadata.return_status == 'OBSTRUCTED':
         scene_state['open'] = False
         scene_state['move_back_count'] += 1
         return 'MoveBack', {}
@@ -210,7 +210,7 @@ def action_callback(scene_data, step_metadata, runner_script):
         scene_state['pickup'] = True
         return 'PickupObject', {'objectId': scene_state['target_id']}
 
-    if scene_state['pickup'] and step_metadata.return_status != 'SUCCESSFUL':
+    if step_metadata.return_status != 'SUCCESSFUL':
         scene_state['pickup'] = False
         if scene_state['move_back_count'] > 0:
             scene_state['move_back_count'] -= 1

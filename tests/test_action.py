@@ -29,7 +29,7 @@ class TestAction(unittest.TestCase):
         self.assertEqual(
             mcs.Action.CLOSE_OBJECT.desc,
             "Close a nearby object. (objectId=string, amount=float " +
-            "(default:1), objectImageCoordsX=float, objectImageCoordsY=float)"
+            "(default:1), objectImageCoordsX=float, objectImageCoordsY=float)",
         )
         self.assertEqual(mcs.Action("CloseObject"), mcs.Action.CLOSE_OBJECT)
         self.assertEqual(mcs.Action("1"), mcs.Action.CLOSE_OBJECT)
@@ -39,7 +39,7 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.CRAWL.key, "c")
         self.assertEqual(
             mcs.Action.CRAWL.desc,
-            "Change pose to 'CRAWLING' (no params)"
+            "Change pose to 'CRAWLING' (no params)",
         )
         self.assertEqual(mcs.Action("Crawl"), mcs.Action.CRAWL)
         self.assertEqual(mcs.Action("c"), mcs.Action.CRAWL)
@@ -49,7 +49,7 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.DROP_OBJECT.key, "2")
         self.assertEqual(
             mcs.Action.DROP_OBJECT.desc,
-            "Drop an object you are holding. (objectId=string)"
+            "Drop an object you are holding. (objectId=string)",
         )
         self.assertEqual(mcs.Action("DropObject"), mcs.Action.DROP_OBJECT)
         self.assertEqual(mcs.Action("2"), mcs.Action.DROP_OBJECT)
@@ -59,7 +59,7 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.LIE_DOWN.key, "x")
         self.assertEqual(
             mcs.Action.LIE_DOWN.desc,
-            "Change pose to 'LYING' (rotation=float)"
+            "Change pose to 'LYING' (rotation=float)",
         )
         self.assertEqual(mcs.Action("LieDown"), mcs.Action.LIE_DOWN)
         self.assertEqual(mcs.Action("x"), mcs.Action.LIE_DOWN)
@@ -69,7 +69,7 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.MOVE_AHEAD.key, "w")
         self.assertEqual(
             mcs.Action.MOVE_AHEAD.desc,
-            "Move yourself ahead based on your current view."
+            "Move yourself ahead based on your current view.",
         )
         self.assertEqual(mcs.Action("MoveAhead"), mcs.Action.MOVE_AHEAD)
         self.assertEqual(mcs.Action("w"), mcs.Action.MOVE_AHEAD)
@@ -79,7 +79,7 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.MOVE_BACK.key, "s")
         self.assertEqual(
             mcs.Action.MOVE_BACK.desc,
-            "Move yourself back based on your current view."
+            "Move yourself back based on your current view.",
         )
         self.assertEqual(mcs.Action("MoveBack"), mcs.Action.MOVE_BACK)
         self.assertEqual(mcs.Action("s"), mcs.Action.MOVE_BACK)
@@ -89,7 +89,7 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.MOVE_LEFT.key, "a")
         self.assertEqual(
             mcs.Action.MOVE_LEFT.desc,
-            "Move yourself to your left based on your current view."
+            "Move yourself to your left based on your current view.",
         )
         self.assertEqual(mcs.Action("MoveLeft"), mcs.Action.MOVE_LEFT)
         self.assertEqual(mcs.Action("a"), mcs.Action.MOVE_LEFT)
@@ -99,7 +99,7 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.MOVE_RIGHT.key, "d")
         self.assertEqual(
             mcs.Action.MOVE_RIGHT.desc,
-            "Move yourself to your right based on your current view."
+            "Move yourself to your right based on your current view.",
         )
         self.assertEqual(mcs.Action("MoveRight"), mcs.Action.MOVE_RIGHT)
         self.assertEqual(mcs.Action("d"), mcs.Action.MOVE_RIGHT)
@@ -111,7 +111,7 @@ class TestAction(unittest.TestCase):
             mcs.Action.OPEN_OBJECT.desc,
             "Open a nearby object. (objectId=string, " +
             "amount=float (default:1), objectImageCoordsX=float, " +
-            "objectImageCoordsY=float)"
+            "objectImageCoordsY=float)",
         )
         self.assertEqual(mcs.Action("OpenObject"), mcs.Action.OPEN_OBJECT)
         self.assertEqual(mcs.Action("3"), mcs.Action.OPEN_OBJECT)
@@ -123,7 +123,7 @@ class TestAction(unittest.TestCase):
             mcs.Action.PICKUP_OBJECT.desc,
             "Pickup a nearby object and hold it in your hand. " +
             "(objectId=string, objectImageCoordsX=float, " +
-            "objectImageCoordsY=float)"
+            "objectImageCoordsY=float)",
         )
         self.assertEqual(mcs.Action("PickupObject"), mcs.Action.PICKUP_OBJECT)
         self.assertEqual(mcs.Action("4"), mcs.Action.PICKUP_OBJECT)
@@ -135,7 +135,7 @@ class TestAction(unittest.TestCase):
             mcs.Action.PULL_OBJECT.desc,
             "Pull a nearby object. (objectId=string, rotation=float, " +
             "horizon=float, force=float (default:0.5), " +
-            "objectImageCoordsX=float, objectImageCoordsY=float)"
+            "objectImageCoordsX=float, objectImageCoordsY=float)",
         )
         self.assertEqual(mcs.Action("PullObject"), mcs.Action.PULL_OBJECT)
         self.assertEqual(mcs.Action("5"), mcs.Action.PULL_OBJECT)
@@ -147,7 +147,7 @@ class TestAction(unittest.TestCase):
             mcs.Action.PUSH_OBJECT.desc,
             "Push a nearby object. (objectId=string, rotation=float, " +
             "horizon=float, force=float (default:0.5), " +
-            "objectImageCoordsX=float, objectImageCoordsY=float)"
+            "objectImageCoordsX=float, objectImageCoordsY=float)",
         )
         self.assertEqual(mcs.Action("PushObject"), mcs.Action.PUSH_OBJECT)
         self.assertEqual(mcs.Action("6"), mcs.Action.PUSH_OBJECT)
@@ -161,7 +161,7 @@ class TestAction(unittest.TestCase):
             "receptacle object. (objectId=string, " +
             "receptacleObjectId=string, " +
             "receptacleObjectImageCoordsX=float, " +
-            "receptacleObjectImageCoordsY=float)"
+            "receptacleObjectImageCoordsY=float)",
         )
         self.assertEqual(mcs.Action("PutObject"), mcs.Action.PUT_OBJECT)
         self.assertEqual(mcs.Action("7"), mcs.Action.PUT_OBJECT)
@@ -171,7 +171,7 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.ROTATE_LEFT.key, "j")
         self.assertEqual(
             mcs.Action.ROTATE_LEFT.desc,
-            "Rotate your view left by 10 degrees."
+            "Rotate your view left by 10 degrees.",
         )
         self.assertEqual(mcs.Action("RotateLeft"), mcs.Action.ROTATE_LEFT)
         self.assertEqual(mcs.Action("j"), mcs.Action.ROTATE_LEFT)
@@ -181,7 +181,7 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.ROTATE_RIGHT.key, "l")
         self.assertEqual(
             mcs.Action.ROTATE_RIGHT.desc,
-            "Rotate your view right by 10 degrees."
+            "Rotate your view right by 10 degrees.",
         )
         self.assertEqual(mcs.Action("RotateRight"), mcs.Action.ROTATE_RIGHT)
         self.assertEqual(mcs.Action("l"), mcs.Action.ROTATE_RIGHT)
@@ -191,7 +191,7 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.LOOK_UP.key, "i")
         self.assertEqual(
             mcs.Action.LOOK_UP.desc,
-            "Rotate your view up (subtract 10 degrees from head tilt)."
+            "Rotate your view up (subtract 10 degrees from head tilt).",
         )
         self.assertEqual(mcs.Action("LookUp"), mcs.Action.LOOK_UP)
         self.assertEqual(mcs.Action("i"), mcs.Action.LOOK_UP)
@@ -201,7 +201,7 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.LOOK_DOWN.key, "k")
         self.assertEqual(
             mcs.Action.LOOK_DOWN.desc,
-            "Rotate your view down (add 10 degrees to head tilt)."
+            "Rotate your view down (add 10 degrees to head tilt).",
         )
         self.assertEqual(mcs.Action("LookDown"), mcs.Action.LOOK_DOWN)
         self.assertEqual(mcs.Action("k"), mcs.Action.LOOK_DOWN)
@@ -211,7 +211,7 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.STAND.key, "u")
         self.assertEqual(
             mcs.Action.STAND.desc,
-            "Change pose to 'STANDING' (no params)"
+            "Change pose to 'STANDING' (no params)",
         )
         self.assertEqual(mcs.Action("Stand"), mcs.Action.STAND)
         self.assertEqual(mcs.Action("u"), mcs.Action.STAND)
@@ -223,7 +223,7 @@ class TestAction(unittest.TestCase):
             mcs.Action.THROW_OBJECT.desc,
             "Throw an object you are holding. (objectId=string, " +
             "objectImageCoordsX=float, objectImageCoordsY=float, " +
-            "force=float (default:0.5))"
+            "force=float (default:0.5))",
         )
         self.assertEqual(mcs.Action("ThrowObject"), mcs.Action.THROW_OBJECT)
         self.assertEqual(mcs.Action("q"), mcs.Action.THROW_OBJECT)
@@ -233,7 +233,7 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.PASS.key, " ")
         self.assertEqual(
             mcs.Action.PASS.desc,
-            "Do nothing. (no params)"
+            "Do nothing. (no params)",
         )
         self.assertEqual(mcs.Action("Pass"), mcs.Action.PASS)
         self.assertEqual(mcs.Action(" "), mcs.Action.PASS)
@@ -245,15 +245,15 @@ class TestAction(unittest.TestCase):
             'RotateRight'), ('RotateRight', {}))
         self.assertEqual(
             mcs.Action.input_to_action_and_params(
-                'PickupObject,objectId=testId'
+                'PickupObject,objectId=testId',
             ),
-            ('PickupObject', {'objectId': 'testId'})
+            ('PickupObject', {'objectId': 'testId'}),
         )
         self.assertEqual(
             mcs.Action.input_to_action_and_params(
-                'PushObject,objectId=testId,force=12.34'
+                'PushObject,objectId=testId,force=12.34',
             ),
-            ('PushObject', {'objectId': 'testId', 'force': 12.34})
+            ('PushObject', {'objectId': 'testId', 'force': 12.34}),
         )
         self.assertEqual(
             mcs.Action.input_to_action_and_params('Foobar'), (None, {}))

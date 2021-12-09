@@ -14,7 +14,7 @@ if __name__ == "__main__":
     #     args.mcs_unity_github_branch_name
     # )
     parser = argparse.ArgumentParser(
-        description="Run All Integration Tests"
+        description="Run All Integration Tests",
     )
     parser = add_test_args(parser, handmade_only=True)
     args = parser.parse_args()
@@ -24,5 +24,5 @@ if __name__ == "__main__":
         args.test,
         args.dev,
         args.autofix,
-        unity_version=args.mcs_unity_version
+        unity_version=args.mcs_unity_version,
     )

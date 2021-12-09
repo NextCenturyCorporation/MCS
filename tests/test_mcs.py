@@ -198,13 +198,13 @@ class TestMCS(unittest.TestCase):
                     "position": {
                         "x": 0,
                         "y": 0.5,
-                        "z": 3
+                        "z": 3,
                     },
                     "scale": {
                         "x": 0.25,
                         "y": 0.25,
-                        "z": 0.25
-                    }
+                        "z": 0.25,
+                    },
                 }],
                 "forces": [{
                     "stepBegin": 1,
@@ -212,10 +212,10 @@ class TestMCS(unittest.TestCase):
                     "vector": {
                         "x": 50,
                         "y": 0,
-                        "z": 0
-                    }
-                }]
-            }]
+                        "z": 0,
+                    },
+                }],
+            }],
         }
         self.assertEqual(actual, expected)
         self.assertEqual(status, None)
@@ -227,7 +227,7 @@ class TestMCS(unittest.TestCase):
         self.assertEqual(
             status,
             "The given file 'tests/test_scene_invalid.json' does not " +
-            "contain valid JSON."
+            "contain valid JSON.",
         )
 
     def test_load_scene_file_json_is_missing(self):

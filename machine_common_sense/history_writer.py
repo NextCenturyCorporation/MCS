@@ -37,7 +37,7 @@ class HistoryEventHandler(AbstractControllerSubscriber):
                 payload.config.CONFIG_METADATA_TIER:
                     payload.config.get_metadata_tier().value,
                 payload.config.CONFIG_TEAM:
-                    payload.config.get_team()
+                    payload.config.get_team(),
             }
 
             # Create a new scene history writer with each new scene (config

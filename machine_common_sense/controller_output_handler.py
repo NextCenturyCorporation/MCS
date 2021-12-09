@@ -120,13 +120,13 @@ class SceneEvent():
         return sorted(
             [
                 self.retrieve_object_output(
-                    object_metadata, self.object_colors
+                    object_metadata, self.object_colors,
                 )
                 for object_metadata in self._raw_output.metadata[key]
                 if show_all or object_metadata['visibleInCamera'] or
                 object_metadata['isPickedUp']
             ],
-            key=lambda x: x.uuid
+            key=lambda x: x.uuid,
         )
 
     @property
@@ -184,7 +184,7 @@ class SceneEvent():
                         material.upper()
                         for material in object_metadata['salientMaterials']
                     ],
-                )
+                ),
             )
             if object_metadata['salientMaterials'] is not None
             else []
@@ -227,7 +227,7 @@ class SceneEvent():
             shape=object_metadata['shape'],
             state_list=self._scene_config.retrieve_object_states(
                 object_metadata['objectId'],
-                self._step_number
+                self._step_number,
             ),
             texture_color_list=object_metadata['colorsFromMaterials'],
             visible=(
@@ -235,7 +235,7 @@ class SceneEvent():
                 object_metadata['isPickedUp']
             ),
             is_open=object_metadata['isOpen'],
-            openable=object_metadata['openable']
+            openable=object_metadata['openable'],
         )
 
 
@@ -292,14 +292,14 @@ class ControllerOutputHandler():
         agent = self._scene_event.agent
         step_output = StepMetadata(
             action_list=goal.retrieve_action_list_at_step(
-                self._step_number
+                self._step_number,
             ),
             camera_aspect_ratio=(
                 self._config.get_screen_width(),
                 self._config.get_screen_height()),
             camera_clipping_planes=(
                 self._scene_event.clipping_plane_near,
-                self._scene_event.clipping_plane_far
+                self._scene_event.clipping_plane_far,
             ),
             camera_field_of_view=self._scene_event.camera_field_of_view,
             camera_height=self._scene_event.camera_height,
@@ -330,7 +330,7 @@ class ControllerOutputHandler():
             physics_frames_per_second=(
                 self._scene_event.physics_frames_per_second),
             structural_object_list=([] if restrict_non_oracle else
-                                    self._scene_event.structural_object_list)
+                                    self._scene_event.structural_object_list),
         )
 
         # This is here to retain the exact outputs as before

@@ -55,8 +55,8 @@ class TestController(unittest.TestCase):
                 "instance_segmentation_frame": object_mask_data,
                 "object_id_to_color": {
                     "testId": (12, 34, 56),
-                    "testWallId": (101, 102, 103)
-                }
+                    "testWallId": (101, 102, 103),
+                },
             })],
             "metadata": {
                 "agent": {
@@ -64,16 +64,16 @@ class TestController(unittest.TestCase):
                     "position": {
                         "x": 0.12,
                         "y": -0.23,
-                        "z": 4.5
+                        "z": 4.5,
                     },
                     "rotation": {
                         "x": 1.111,
                         "y": 2.222,
-                        "z": 3.333
-                    }
+                        "z": 3.333,
+                    },
                 },
                 "cameraPosition": {
-                    "y": 0.1234
+                    "y": 0.1234,
                 },
                 "clippingPlaneFar": 15,
                 "clippingPlaneNear": 0,
@@ -86,7 +86,7 @@ class TestController(unittest.TestCase):
                     "direction": {
                         "x": 90,
                         "y": -30,
-                        "z": 0
+                        "z": 0,
                     },
                     "distance": 1.5,
                     "distanceXZ": 1.1,
@@ -102,30 +102,30 @@ class TestController(unittest.TestCase):
                             "p6",
                             "p7",
                             "p8",
-                        ]
+                        ],
                     },
                     "objectId": "testId",
                     "position": {
                         "x": 10,
                         "y": 11,
-                        "z": 12
+                        "z": 12,
                     },
                     "rotation": {
                         "x": 1.0,
                         "y": 2.0,
-                        "z": 3.0
+                        "z": 3.0,
                     },
                     "salientMaterials": ["Wood"],
                     "shape": "shape",
                     "visibleInCamera": True,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
                         "x": -90,
                         "y": 180,
-                        "z": 270
+                        "z": 270,
                     },
                     "distance": 2.5,
                     "distanceXZ": 2.0,
@@ -141,31 +141,31 @@ class TestController(unittest.TestCase):
                             "pF",
                             "pG",
                             "pH",
-                        ]
+                        ],
                     },
                     "objectId": "testIdHidden",
                     "position": {
                         "x": -3,
                         "y": -2,
-                        "z": -1
+                        "z": -1,
                     },
                     "rotation": {
                         "x": 11.0,
                         "y": 12.0,
-                        "z": 13.0
+                        "z": 13.0,
                     },
                     "salientMaterials": ["Wood"],
                     "shape": "shapeHidden",
                     "visibleInCamera": False,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
                 }],
                 "structuralObjects": [{
                     "colorsFromMaterials": ["c2"],
                     "direction": {
                         "x": 180,
                         "y": -60,
-                        "z": 0
+                        "z": 0,
                     },
                     "distance": 2.5,
                     "distanceXZ": 2.2,
@@ -181,30 +181,30 @@ class TestController(unittest.TestCase):
                             "p16",
                             "p17",
                             "p18",
-                        ]
+                        ],
                     },
                     "objectId": "testWallId",
                     "position": {
                         "x": 20,
                         "y": 21,
-                        "z": 22
+                        "z": 22,
                     },
                     "rotation": {
                         "x": 4.0,
                         "y": 5.0,
-                        "z": 6.0
+                        "z": 6.0,
                     },
                     "salientMaterials": ["Ceramic"],
                     "shape": "structure",
                     "visibleInCamera": True,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
                         "x": -180,
                         "y": 60,
-                        "z": 90
+                        "z": 90,
                     },
                     "distance": 3.5,
                     "distanceXZ": 3.3,
@@ -220,26 +220,26 @@ class TestController(unittest.TestCase):
                             "pFF",
                             "pGG",
                             "pHH",
-                        ]
+                        ],
                     },
                     "objectId": "testWallIdHidden",
                     "position": {
                         "x": 30,
                         "y": 31,
-                        "z": 32
+                        "z": 32,
                     },
                     "rotation": {
                         "x": 14.0,
                         "y": 15.0,
-                        "z": 16.0
+                        "z": 16.0,
                     },
                     "salientMaterials": ["Ceramic"],
                     "shape": "structureHidden",
                     "visibleInCamera": False,
                     "isOpen": False,
-                    "openable": False
-                }]
-            }
+                    "openable": False,
+                }],
+            },
         }, image_data, depth_data, object_mask_data
 
     def create_step_data(self, **kwargs):
@@ -253,19 +253,19 @@ class TestController(unittest.TestCase):
             objectId=None,
             objectImageCoords={
                 'x': 0.0,
-                'y': 0.0
+                'y': 0.0,
             },
             receptacleObjectId=None,
             receptacleObjectImageCoords={
                 'x': 0.0,
-                'y': 0.0
+                'y': 0.0,
             },
             renderDepthImage=False,
             renderObjectImage=False,
             rotation={'y': 0.0},
             snapToGrid=False,
             teleportPosition=None,
-            teleportRotation=None
+            teleportRotation=None,
         )
 
         for key, value in kwargs.items():
@@ -285,9 +285,9 @@ class TestController(unittest.TestCase):
                 "violations_xy_list": [
                     {
                         "x": 1,
-                        "y": 1
-                    }
-                ]}
+                        "y": 1,
+                    },
+                ]},
         }
 
         self.controller.end_scene("plausible", 0.5, {
@@ -297,14 +297,14 @@ class TestController(unittest.TestCase):
                 "violations_xy_list": [
                     {
                         "x": 1,
-                        "y": 1
-                    }
-                ]}
+                        "y": 1,
+                    },
+                ]},
         })
 
         self.controller._publish_event.assert_called_with(
             EventType.ON_END_SCENE,
-            EndScenePayload(**test_payload)
+            EndScenePayload(**test_payload),
         )
 
     def test_end_scene_twice(self):
@@ -319,9 +319,9 @@ class TestController(unittest.TestCase):
                 "violations_xy_list": [
                     {
                         "x": 1,
-                        "y": 1
-                    }
-                ]}
+                        "y": 1,
+                    },
+                ]},
         }
 
         self.controller.end_scene("plausible", 0.5, {
@@ -331,9 +331,9 @@ class TestController(unittest.TestCase):
                 "violations_xy_list": [
                     {
                         "x": 1,
-                        "y": 1
-                    }
-                ]}
+                        "y": 1,
+                    },
+                ]},
         })
 
         # calling end_scene a second time raises an exception
@@ -346,9 +346,9 @@ class TestController(unittest.TestCase):
                               "violations_xy_list": [
                                   {
                                       "x": 1,
-                                      "y": 1
-                                  }
-                              ]}
+                                      "y": 1,
+                                  },
+                              ]},
                            })
 
     def test_start_scene(self):
@@ -358,7 +358,7 @@ class TestController(unittest.TestCase):
         self.assertIsNotNone(output)
         self.controller._publish_event.assert_called_with(
             EventType.ON_START_SCENE,
-            ANY
+            ANY,
         )
         self.assertEqual(
             output.action_list,
@@ -403,7 +403,7 @@ class TestController(unittest.TestCase):
             MetadataTier.ORACLE.value)
         last_preview_phase_step = 5
         output = self.controller.start_scene({'name': TEST_FILE_NAME, 'goal': {
-            'last_preview_phase_step': last_preview_phase_step}
+            'last_preview_phase_step': last_preview_phase_step},
         })
         self.assertIsNotNone(output)
         self.assertEqual(
@@ -483,11 +483,11 @@ class TestController(unittest.TestCase):
         output = self.controller.step('MoveAhead')
         self.controller._publish_event.assert_any_call(
             EventType.ON_BEFORE_STEP,
-            ANY
+            ANY,
         )
         self.controller._publish_event.assert_any_call(
             EventType.ON_AFTER_STEP,
-            ANY
+            ANY,
         )
         self.assertIsNotNone(output)
 
@@ -509,14 +509,14 @@ class TestController(unittest.TestCase):
         self.assertIsNone(output)
 
         self.controller.set_goal(mcs.GoalMetadata(action_list=[
-            [('Pass', {})]
+            [('Pass', {})],
         ]))
         output = self.controller.step('MoveAhead')
         self.assertIsNone(output)
 
         self.controller.set_goal(mcs.GoalMetadata(action_list=[
             [('MoveAhead', {})],
-            [('MoveBack', {})]]
+            [('MoveBack', {})]],
         ))
         output = self.controller.step('MoveAhead')
         self.assertIsNotNone(output)
@@ -680,12 +680,14 @@ class TestController(unittest.TestCase):
             self.controller.get_last_step_data(), self.create_step_data(
                 action='MCSOpenObject', moveMagnitude=1,
                 objectImageCoords={
-                    'x': 1, 'y': MOCK_VARIABLES['metadata']['screenHeight'] - 2
+                    'x': 1,
+                    'y': MOCK_VARIABLES['metadata']['screenHeight'] - 2,
                 },
                 receptacleObjectImageCoords={
-                    'x': 4, 'y': MOCK_VARIABLES['metadata']['screenHeight'] - 5
-                }
-            )
+                    'x': 4,
+                    'y': MOCK_VARIABLES['metadata']['screenHeight'] - 5,
+                },
+            ),
         )
 
     def test_retrieve_action_list_at_step(self):
@@ -694,88 +696,88 @@ class TestController(unittest.TestCase):
             ('LookUp', {'amount': 10}),
             ('MoveAhead', {'amount': 0.1}),
             ('PickupObject', {'objectId': 'ball'}),
-            ('PickupObject', {'objectId': 'duck'})
+            ('PickupObject', {'objectId': 'duck'}),
         ]
 
         # With no action list
         self.assertEqual(
             self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(),
-                0
+                0,
             ),
-            GoalMetadata.ACTION_LIST
+            GoalMetadata.ACTION_LIST,
         )
         # With empty action list
         self.assertEqual(
             self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[]),
-                0
+                0,
             ),
-            GoalMetadata.ACTION_LIST
+            GoalMetadata.ACTION_LIST,
         )
         # With empty nested action list
         self.assertEqual(
             self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[[]]),
-                0
+                0,
             ),
-            GoalMetadata.ACTION_LIST
+            GoalMetadata.ACTION_LIST,
         )
         # With test action list
         self.assertEqual(
             self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[test_action_list]),
-                0
+                0,
             ),
-            test_action_list
+            test_action_list,
         )
         # With index greater than action list length
         self.assertEqual(
             self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[test_action_list]),
-                1
+                1,
             ),
-            GoalMetadata.ACTION_LIST
+            GoalMetadata.ACTION_LIST,
         )
         # With incorrect index
         self.assertEqual(
             self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[test_action_list, []]),
-                1
+                1,
             ),
-            GoalMetadata.ACTION_LIST
+            GoalMetadata.ACTION_LIST,
         )
         # With incorrect index
         self.assertEqual(
             self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[[], test_action_list]),
-                0
+                0,
             ),
-            GoalMetadata.ACTION_LIST
+            GoalMetadata.ACTION_LIST,
         )
         # With correct index
         self.assertEqual(
             self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[[], test_action_list]),
-                1
+                1,
             ),
-            test_action_list
+            test_action_list,
         )
         # Before last step
         self.assertEqual(
             self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[test_action_list], last_step=1),
-                0
+                0,
             ),
-            test_action_list
+            test_action_list,
         )
         # On last step
         self.assertEqual(
             self.controller.retrieve_action_list_at_step(
                 mcs.GoalMetadata(action_list=[test_action_list], last_step=0),
-                0
+                0,
             ),
-            []
+            [],
         )
 
     def test_retrieve_pose(self):
@@ -844,7 +846,7 @@ class TestController(unittest.TestCase):
             "renderObjectImage": False,
             "snapToGrid": False,
             "stringProperty": "test_property",
-            "consistentColors": False
+            "consistentColors": False,
         }
         self.assertEqual(actual, expected)
 
@@ -866,7 +868,7 @@ class TestController(unittest.TestCase):
             "renderObjectImage": True,
             "snapToGrid": False,
             "stringProperty": "test_property",
-            "consistentColors": True
+            "consistentColors": True,
         }
         self.assertEqual(actual, expected)
 

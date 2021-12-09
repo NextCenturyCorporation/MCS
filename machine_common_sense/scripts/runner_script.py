@@ -21,8 +21,8 @@ class AbstractRunnerScript():
         name: str,
         action_callback: Callable[
             [Dict, mcs.StepMetadata, 'AbstractRunnerScript'],
-            Tuple[str, Dict]
-        ]
+            Tuple[str, Dict],
+        ],
     ):
         self._name = name
         args, filenames = self._read_args()
@@ -49,7 +49,7 @@ class AbstractRunnerScript():
         controller = mcs.create_controller(
             unity_app_file_path=args.mcs_unity_build_file,
             unity_cache_version=args.mcs_unity_version,
-            config_file_or_dict=config_file_path
+            config_file_or_dict=config_file_path,
         )
 
         for filename in filenames:
@@ -59,7 +59,7 @@ class AbstractRunnerScript():
                 action_callback,
                 args.last_step,
                 args.prefix,
-                args.rename
+                args.rename,
             )
             if args.save_videos or args.save_gifs:
                 # Copy the black image into the debug folder as the last frame.
@@ -74,18 +74,18 @@ class AbstractRunnerScript():
                     'ffmpeg', '-y', '-r', '20', '-i',
                     scene_name + '/frame_image_%d.png',
                     '-vcodec', 'h264', '-vf', 'format=yuv420p',
-                    scene_name + '.mp4'
+                    scene_name + '.mp4',
                 ])
             if args.save_gifs:
                 subprocess.call([
                     'ffmpeg', '-y', '-r', '20', '-i',
                     scene_name + '/frame_image_%d.png',
-                    scene_name + '.gif'
+                    scene_name + '.gif',
                 ])
 
     def _append_subclass_args_to_parser(
         self,
-        parser: argparse.ArgumentParser
+        parser: argparse.ArgumentParser,
     ) -> argparse.ArgumentParser:
         # To override
         return parser
@@ -96,52 +96,52 @@ class AbstractRunnerScript():
             '--config_file',
             type=str,
             default=None,
-            help='MCS config file override'
+            help='MCS config file override',
         )
         parser.add_argument(
             '--debug',
             default=False,
             action='store_true',
-            help='Save debug data (inputs, outputs, and images) to local files'
+            help='Save debug data (inputs, outputs, images) to local files',
         )
         parser.add_argument(
             '--last_step',
             default=None,
-            help='Scene last step override'
+            help='Scene last step override',
         )
         parser.add_argument(
             '--mcs_unity_build_file',
             type=str,
             default=None,
-            help='Path to MCS unity build file'
+            help='Path to MCS unity build file',
         )
         parser.add_argument(
             '--mcs_unity_version',
             type=str,
             default=None,
-            help='version of MCS Unity executable.  Default: current'
+            help='version of MCS Unity executable.  Default: current',
         )
         parser.add_argument(
             '--prefix',
             default=None,
-            help='Append a prefix to each output file'
+            help='Append a prefix to each output file',
         )
         parser.add_argument(
             '--rename',
             default=None,
-            help='Rename each scene and append the corresponding scene ID'
+            help='Rename each scene and append the corresponding scene ID',
         )
         parser.add_argument(
             '--save-gifs',
             default=False,
             action='store_true',
-            help='Save GIF of each MCS scene'
+            help='Save GIF of each MCS scene',
         )
         parser.add_argument(
             '--save-videos',
             default=False,
             action='store_true',
-            help='Save video of each MCS scene'
+            help='Save video of each MCS scene',
         )
 
         # Metadata tiers
@@ -149,19 +149,19 @@ class AbstractRunnerScript():
             '--level1',
             default=False,
             action='store_true',
-            help='Use level 1 metadata tier and save debug data'
+            help='Use level 1 metadata tier and save debug data',
         )
         parser.add_argument(
             '--level2',
             default=False,
             action='store_true',
-            help='Use level 2 metadata tier and save debug data'
+            help='Use level 2 metadata tier and save debug data',
         )
         parser.add_argument(
             '--oracle',
             default=False,
             action='store_true',
-            help='Use oracle metadata tier and save debug data'
+            help='Use oracle metadata tier and save debug data',
         )
 
         parser = self._append_subclass_args_to_parser(parser)
@@ -169,7 +169,7 @@ class AbstractRunnerScript():
 
     def _read_subclass_args(
         self,
-        parser: argparse.ArgumentParser
+        parser: argparse.ArgumentParser,
     ) -> Tuple[argparse.Namespace, List[str]]:
         # To override
         return None, []
@@ -180,11 +180,11 @@ class AbstractRunnerScript():
         filename: str,
         action_callback: Callable[
             [Dict, mcs.StepMetadata, 'AbstractRunnerScript'],
-            Tuple[str, Dict]
+            Tuple[str, Dict],
         ],
         last_step: int,
         prefix: str,
-        rename: bool
+        rename: bool,
     ):
         scene_data, status = mcs.load_scene_json_file(filename)
 
@@ -198,7 +198,7 @@ class AbstractRunnerScript():
 
         # Add a name to the scene if needed.
         if 'name' not in scene_data.keys():
-            scene_data['name'] = filename[0:filename.find('.')]
+            scene_data['name'] = filename[:filename.find('.')]
 
         # Remove the folder prefix from the scene name if needed.
         scene_data['name'] = (
@@ -235,17 +235,17 @@ class AbstractRunnerScript():
 class SingleFileRunnerScript(AbstractRunnerScript):
     def _append_subclass_args_to_parser(
         self,
-        parser: argparse.ArgumentParser
+        parser: argparse.ArgumentParser,
     ) -> argparse.ArgumentParser:
         parser.add_argument(
             'mcs_scene_filename',
-            help='Filename of MCS scene to run'
+            help='Filename of MCS scene to run',
         )
         return parser
 
     def _read_subclass_args(
         self,
-        parser: argparse.ArgumentParser
+        parser: argparse.ArgumentParser,
     ) -> Tuple[argparse.Namespace, List[str]]:
         args = parser.parse_args()
         return args, [args.mcs_scene_filename]
@@ -257,8 +257,8 @@ class MultipleFileRunnerScript(AbstractRunnerScript):
         name: str,
         action_callback: Callable[
             [Dict, mcs.StepMetadata, 'AbstractRunnerScript'],
-            Tuple[str, Dict]
-        ]
+            Tuple[str, Dict],
+        ],
     ):
         super().__init__(name, action_callback)
         if self.args.zip_prefix:
@@ -268,43 +268,43 @@ class MultipleFileRunnerScript(AbstractRunnerScript):
             ):
                 subprocess.call(
                     ['zip', self.args.zip_prefix + '_' + file_type + '.zip'] +
-                    glob.glob(self.args.mcs_scene_prefix + '*.' + file_type)
+                    glob.glob(self.args.mcs_scene_prefix + '*.' + file_type),
                 )
             subprocess.call(
                 ['zip', self.args.zip_prefix + '_frames.zip'] +
-                glob.glob(self.args.mcs_scene_prefix + '*/frame_image_*.png')
+                glob.glob(self.args.mcs_scene_prefix + '*/frame_image_*.png'),
             )
 
     def _append_subclass_args_to_parser(
         self,
-        parser: argparse.ArgumentParser
+        parser: argparse.ArgumentParser,
     ) -> argparse.ArgumentParser:
         parser.add_argument(
             'mcs_scene_prefix',
-            help='Filename prefix of all MCS scenes to run'
+            help='Filename prefix of all MCS scenes to run',
         )
         parser.add_argument(
             '--zip-prefix',
             default=None,
-            help='Save ZIPs of frames/videos/GIFs with this filename prefix'
+            help='Save ZIPs of frames/videos/GIFs with this filename prefix',
         )
         return parser
 
     def _read_subclass_args(
         self,
-        parser: argparse.ArgumentParser
+        parser: argparse.ArgumentParser,
     ) -> Tuple[argparse.Namespace, List[str]]:
         args = parser.parse_args()
         filenames = glob.glob(args.mcs_scene_prefix + '*_debug.json')
         print(
             f'Found {len(filenames)} files matching '
-            f'{args.mcs_scene_prefix + "*_debug.json"}'
+            f'{args.mcs_scene_prefix + "*_debug.json"}',
         )
         if not len(filenames):
             print('No matching files found... trying non-debug files')
             filenames = glob.glob(args.mcs_scene_prefix + '*.json')
             print(
                 f'Found {len(filenames)} files matching '
-                f'{args.mcs_scene_prefix + "*.json"}'
+                f'{args.mcs_scene_prefix + "*.json"}',
             )
         return args, sorted(filenames)

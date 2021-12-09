@@ -67,7 +67,7 @@ class TestConfigManager(unittest.TestCase):
 
         _read_in_config_dict.assert_not_called()
         _read_in_config_file.assert_called_once_with(
-            os.environ.get('MCS_CONFIG_FILE_PATH')
+            os.environ.get('MCS_CONFIG_FILE_PATH'),
         )
 
     @mock_env(MCS_CONFIG_FILE_PATH='~/somefolder/env-var-test.ini')
@@ -80,7 +80,7 @@ class TestConfigManager(unittest.TestCase):
     def test_init_no_override_with_env_var_and_dict(self):
         config_options = {
             'metadata': 'oracle',
-            'seed': 10
+            'seed': 10,
         }
         config_mngr = ConfigManager(config_options)
         self.assertEqual(config_mngr.get_metadata_tier(),
@@ -95,7 +95,7 @@ class TestConfigManager(unittest.TestCase):
             self, _read_in_config_dict, _read_in_config_file):
         config_options = {
             'metadata': 'oracle',
-            'seed': 10
+            'seed': 10,
         }
         _ = ConfigManager(config_options)
         _read_in_config_dict.assert_not_called()
@@ -123,7 +123,7 @@ class TestConfigManager(unittest.TestCase):
             'metadata': 'oracle',
             'video_enabled': 'false',
             'save_debug_images': True,
-            'seed': 10
+            'seed': 10,
         }
 
         config_mngr = ConfigManager(config_options)
@@ -282,21 +282,21 @@ class TestSceneConfig(unittest.TestCase):
     def test_objects(self):
         object_config_list = [{
             'id': 'id_1',
-            'type': 'type_1'
+            'type': 'type_1',
         }, {
             'id': 'id_2',
             'type': 'type_2',
             'centerOfMass': {
                 'x': 0.01,
                 'y': 0.02,
-                'z': 0.03
+                'z': 0.03,
             },
             'changeMaterials': [{
                 'stepBegin': 10,
-                'materials': ['material_3', 'material_4']
+                'materials': ['material_3', 'material_4'],
             }],
             'debug': {
-                'key': 'value'
+                'key': 'value',
             },
             'forces': [{
                 'relative': True,
@@ -305,15 +305,15 @@ class TestSceneConfig(unittest.TestCase):
                 'vector': {
                     'x': 0.04,
                     'y': 0.05,
-                    'z': 0.06
-                }
+                    'z': 0.06,
+                },
             }],
             'ghosts': [{
                 'stepBegin': 13,
-                'stepEnd': 14
+                'stepEnd': 14,
             }],
             'hides': [{
-                'stepBegin': 15
+                'stepBegin': 15,
             }],
             'kinematic': True,
             'locationParent': 'parent_id',
@@ -326,31 +326,31 @@ class TestSceneConfig(unittest.TestCase):
                 'vector': {
                     'x': 0.07,
                     'y': 0.08,
-                    'z': 0.09
-                }
+                    'z': 0.09,
+                },
             }],
             'nullParent': {
                 'position': {
                     'x': 0.11,
                     'y': 0.12,
-                    'z': 0.13
+                    'z': 0.13,
                 },
                 'rotation': {
                     'x': 0.14,
                     'y': 0.15,
-                    'z': 0.16
+                    'z': 0.16,
                 },
                 'scale': {
                     'x': 0.17,
                     'y': 0.18,
-                    'z': 0.19
-                }
+                    'z': 0.19,
+                },
             },
             'openable': True,
             'opened': True,
             'openClose': [{
                 'step': 18,
-                'open': True
+                'open': True,
             }],
             'physics': True,
             'physicsProperties': {
@@ -359,7 +359,7 @@ class TestSceneConfig(unittest.TestCase):
                 'bounciness': 2,
                 'drag': 3,
                 'dynamicFriction': 4,
-                'staticFriction': 5
+                'staticFriction': 5,
             },
             'pickupable': True,
             'receptacle': True,
@@ -370,8 +370,8 @@ class TestSceneConfig(unittest.TestCase):
                 'size': {
                     'x': 0.21,
                     'y': 0.22,
-                    'z': 0.23
-                }
+                    'z': 0.23,
+                },
             }],
             'rotates': [{
                 'stepBegin': 21,
@@ -379,8 +379,8 @@ class TestSceneConfig(unittest.TestCase):
                 'vector': {
                     'x': 0.24,
                     'y': 0.25,
-                    'z': 0.26
-                }
+                    'z': 0.26,
+                },
             }],
             'salientMaterials': ['salient_1', 'salient_2'],
             'shows': [{
@@ -388,22 +388,22 @@ class TestSceneConfig(unittest.TestCase):
                 'position': {
                     'x': 0.31,
                     'y': 0.32,
-                    'z': 0.33
+                    'z': 0.33,
                 },
                 'rotation': {
                     'x': 0.34,
                     'y': 0.35,
-                    'z': 0.36
+                    'z': 0.36,
                 },
                 'scale': {
                     'x': 0.37,
                     'y': 0.38,
-                    'z': 0.39
-                }
+                    'z': 0.39,
+                },
             }],
             'shrouds': [{
                 'stepBegin': 24,
-                'stepEnd': 25
+                'stepEnd': 25,
             }],
             'states': [['state_1'], [], ['state_2'], ['state_1', 'state_3']],
             'structure': True,
@@ -412,11 +412,11 @@ class TestSceneConfig(unittest.TestCase):
                 'position': {
                     'x': 0.41,
                     'y': 0.42,
-                    'z': 0.43
-                }
+                    'z': 0.43,
+                },
             }],
             'togglePhysics': [{
-                'stepBegin': 27
+                'stepBegin': 27,
             }],
             'torques': [{
                 'stepBegin': 28,
@@ -424,9 +424,9 @@ class TestSceneConfig(unittest.TestCase):
                 'vector': {
                     'x': 0.44,
                     'y': 0.45,
-                    'z': 0.46
-                }
-            }]
+                    'z': 0.46,
+                },
+            }],
         }]
         object_list = [
             SceneObjectSchema().load(object_config)
@@ -476,18 +476,18 @@ class TestSceneConfig(unittest.TestCase):
         assert object_2.centerOfMass == Vector3d(x=0.01, y=0.02, z=0.03)
         assert object_2.changeMaterials == [ChangeMaterialConfig(
             stepBegin=10,
-            materials=['material_3', 'material_4']
+            materials=['material_3', 'material_4'],
         )]
         assert object_2.debug == {'key': 'value'}
         assert object_2.forces == [ForceConfig(
             relative=True,
             stepBegin=11,
             stepEnd=12,
-            vector=Vector3d(x=0.04, y=0.05, z=0.06)
+            vector=Vector3d(x=0.04, y=0.05, z=0.06),
         )]
         assert object_2.ghosts == [StepBeginEndConfig(
             stepBegin=13,
-            stepEnd=14
+            stepEnd=14,
         )]
         assert object_2.hides == [SingleStepConfig(stepBegin=15)]
         assert object_2.kinematic is True
@@ -498,12 +498,12 @@ class TestSceneConfig(unittest.TestCase):
         assert object_2.moves == [MoveConfig(
             stepBegin=16,
             stepEnd=17,
-            vector=Vector3d(x=0.07, y=0.08, z=0.09)
+            vector=Vector3d(x=0.07, y=0.08, z=0.09),
         )]
         assert object_2.nullParent == TransformConfig(
             position=Vector3d(x=0.11, y=0.12, z=0.13),
             rotation=Vector3d(x=0.14, y=0.15, z=0.16),
-            scale=Vector3d(x=0.17, y=0.18, z=0.19)
+            scale=Vector3d(x=0.17, y=0.18, z=0.19),
         )
         assert object_2.openable is True
         assert object_2.opened is True
@@ -515,7 +515,7 @@ class TestSceneConfig(unittest.TestCase):
             bounciness=2,
             drag=3,
             dynamicFriction=4,
-            staticFriction=5
+            staticFriction=5,
         )
         assert object_2.pickupable is True
         assert object_2.receptacle is True
@@ -523,37 +523,37 @@ class TestSceneConfig(unittest.TestCase):
         assert object_2.resizes == [SizeConfig(
             stepBegin=19,
             stepEnd=20,
-            size=Vector3d(x=0.21, y=0.22, z=0.23)
+            size=Vector3d(x=0.21, y=0.22, z=0.23),
         )]
         assert object_2.rotates == [MoveConfig(
             stepBegin=21,
             stepEnd=22,
-            vector=Vector3d(x=0.24, y=0.25, z=0.26)
+            vector=Vector3d(x=0.24, y=0.25, z=0.26),
         )]
         assert object_2.salientMaterials == ['salient_1', 'salient_2']
         assert object_2.shows == [ShowConfig(
             stepBegin=23,
             position=Vector3d(x=0.31, y=0.32, z=0.33),
             rotation=Vector3d(x=0.34, y=0.35, z=0.36),
-            scale=Vector3d(x=0.37, y=0.38, z=0.39)
+            scale=Vector3d(x=0.37, y=0.38, z=0.39),
         )]
         assert object_2.shrouds == [StepBeginEndConfig(
             stepBegin=24,
-            stepEnd=25
+            stepEnd=25,
         )]
         assert object_2.states == [
-            ['state_1'], [], ['state_2'], ['state_1', 'state_3']
+            ['state_1'], [], ['state_2'], ['state_1', 'state_3'],
         ]
         assert object_2.structure is True
         assert object_2.teleports == [TeleportConfig(
             stepBegin=26,
-            position=Vector3d(x=0.41, y=0.42, z=0.43)
+            position=Vector3d(x=0.41, y=0.42, z=0.43),
         )]
         assert object_2.togglePhysics == [SingleStepConfig(stepBegin=27)]
         assert object_2.torques == [MoveConfig(
             stepBegin=28,
             stepEnd=29,
-            vector=Vector3d(x=0.44, y=0.45, z=0.46)
+            vector=Vector3d(x=0.44, y=0.45, z=0.46),
         )]
 
     def test_retrieve_goal_with_config_metadata(self):
@@ -562,8 +562,8 @@ class TestSceneConfig(unittest.TestCase):
             'metadata': {
                 'target': {'image': [0]},
                 'target_1': {'image': [1]},
-                'target_2': {'image': [2]}
-            }
+                'target_2': {'image': [2]},
+            },
         }
 
         goal = GoalSchema().load(goal)
@@ -572,7 +572,7 @@ class TestSceneConfig(unittest.TestCase):
         self.assertEqual(actual.metadata, {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
+            'target_2': {'image': [2]},
         })
 
     def test_retrieve_goal(self):
@@ -588,7 +588,7 @@ class TestSceneConfig(unittest.TestCase):
 
         goal = {
             "goal": {
-            }
+            },
         }
         goal = GoalSchema().load({})
         scene_config = SceneConfiguration(
@@ -605,15 +605,15 @@ class TestSceneConfig(unittest.TestCase):
             "action_list": [
                 [("MoveAhead", {"amount": 0.1})],
                 [],
-                [("Pass", {}), ("RotateLeft", {}), ("RotateRight", {})]
+                [("Pass", {}), ("RotateLeft", {}), ("RotateRight", {})],
             ],
             "category": "test category",
             "description": "test description",
             "habituation_total": 5,
             "last_step": 10,
             "metadata": {
-                "key": "value"
-            }
+                "key": "value",
+            },
         }
         goal = GoalSchema().load(goal)
         scene_config = SceneConfiguration(
@@ -623,7 +623,7 @@ class TestSceneConfig(unittest.TestCase):
         self.assertEqual(goal_3.action_list, [
             [("MoveAhead", {"amount": 0.1})],
             [],
-            [("Pass", {}), ("RotateLeft", {}), ("RotateRight", {})]
+            [("Pass", {}), ("RotateLeft", {}), ("RotateRight", {})],
         ])
         self.assertEqual(goal_3.category, "test category")
         self.assertEqual(goal_3.description, "test description")
@@ -631,14 +631,14 @@ class TestSceneConfig(unittest.TestCase):
         self.assertEqual(goal_3.last_step, 10)
         self.assertEqual(goal_3.metadata, {
             "category": "test category",
-            "key": "value"
+            "key": "value",
         })
 
     def test_update_goal_target_image(self):
         goal = {'metadata': {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
+            'target_2': {'image': [2]},
         }}
         goal = GoalSchema().load(goal)
         scene_config = SceneConfiguration(name="test", version=1, goal=goal)
@@ -646,15 +646,15 @@ class TestSceneConfig(unittest.TestCase):
         self.assertEqual(actual.metadata, {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
+            'target_2': {'image': [2]},
         })
 
     def test_update_goal_target_image_img_as_str(self):
         goal = {'metadata': {
             'target': {'image': "[0]"},
             'target_1': {'image': "[1]"},
-            'target_2': {'image': "[2]"}
-        }
+            'target_2': {'image': "[2]"},
+        },
         }
         goal = GoalSchema().load(goal)
         scene_config = SceneConfiguration(name="test", version=1, goal=goal)
@@ -662,14 +662,14 @@ class TestSceneConfig(unittest.TestCase):
         self.assertEqual(actual.metadata, {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
+            'target_2': {'image': [2]},
         })
 
     def test_update_goal_target_image_oracle(self):
         goal = {'metadata': {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
+            'target_2': {'image': [2]},
         }}
         goal = GoalSchema().load(goal)
         scene_config = SceneConfiguration(name="test", version=1, goal=goal)
@@ -677,14 +677,14 @@ class TestSceneConfig(unittest.TestCase):
         self.assertEqual(actual.metadata, {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
+            'target_2': {'image': [2]},
         })
 
     def test_update_goal_target_image_oracle_img_as_str(self):
         goal = {'metadata': {
             'target': {'image': "[0]"},
             'target_1': {'image': "[1]"},
-            'target_2': {'image': "[2]"}
+            'target_2': {'image': "[2]"},
         }}
         goal = GoalSchema().load(goal)
         scene_config = SceneConfiguration(name="test", version=1, goal=goal)
@@ -692,7 +692,7 @@ class TestSceneConfig(unittest.TestCase):
         self.assertEqual(actual.metadata, {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
+            'target_2': {'image': [2]},
         })
 
 

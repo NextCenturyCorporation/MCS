@@ -10,7 +10,7 @@ class ActionFileRunnerScript(SingleFileRunnerScript):
         parser = super()._append_subclass_args_to_parser(parser)
         parser.add_argument(
             'action_filename',
-            help='Filename of MCS actions to run'
+            help='Filename of MCS actions to run',
         )
         return parser
 
@@ -28,7 +28,7 @@ def action_callback(scene_data, step_metadata, runner_script):
         return None, None
 
     return mcs.Action.input_to_action_and_params(
-        action_list_from_file[step_metadata.step_number]
+        action_list_from_file[step_metadata.step_number],
     )
 
 

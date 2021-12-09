@@ -41,7 +41,7 @@ def __reset_override(self, scene):
     self.last_event = self.server.receive()
     self.last_event = self.step(
         action='Initialize',
-        **self.initialization_parameters
+        **self.initialization_parameters,
     )
     return self.last_event
 
@@ -56,7 +56,7 @@ def __image_depth_override(self, image_depth_data, **kwargs):
     return ai2thor.server.read_buffer_image(
         image_depth_data,
         self.screen_width,
-        self.screen_height
+        self.screen_height,
     )
 
 
@@ -153,8 +153,8 @@ class Controller():
             # This constructor always initializes a scene, so add a scene
             # config to ensure it doesn't error
             sceneConfig={
-                "objects": []
-            }
+                "objects": [],
+            },
         )
 
         if not self._controller:
@@ -243,7 +243,7 @@ class Controller():
         self,
         rating: Union[float, int, str] = None,
         score: float = 1.0,
-        report: Dict[int, object] = None
+        report: Dict[int, object] = None,
     ) -> None:
         """
         Ends the current scene.  Calling end_scene() before calling
@@ -392,7 +392,7 @@ class Controller():
         sc = self._remove_none(sc)
         wrapped_step = self.wrap_step(
             action='Initialize',
-            sceneConfig=sc
+            sceneConfig=sc,
         )
         step_output = self._controller.step(wrapped_step)
 
@@ -464,7 +464,7 @@ class Controller():
             self.AMOUNT_KEY,
             self.DEFAULT_OBJECT_MOVE_AMOUNT
             if action in self.OBJECT_MOVE_ACTIONS
-            else self.DEFAULT_AMOUNT
+            else self.DEFAULT_AMOUNT,
         )
         force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
 
@@ -552,7 +552,7 @@ class Controller():
         receptacle_vector = {
             'x': float(receptacleObjectImageCoordsX),
             'y': self._convert_y_image_coord_for_unity(
-                float(receptacleObjectImageCoordsY)
+                float(receptacleObjectImageCoordsY),
             ),
         }
 
@@ -580,7 +580,7 @@ class Controller():
             teleportPosition=teleportPosition,
             moveMagnitude=moveMagnitude,
             objectImageCoords=object_vector,
-            receptacleObjectImageCoords=receptacle_vector
+            receptacleObjectImageCoords=receptacle_vector,
         )
 
     # Override
@@ -632,7 +632,7 @@ class Controller():
                 f"The given action '{action}' with parameters "
                 f"'{kwargs}' isn't in the action_list. Ignoring your action. "
                 f"Please call controller.step() with an action in the "
-                f"action_list. Possible actions at step {self.__step_number}:"
+                f"action_list. Possible actions at step {self.__step_number}:",
             )
             for action_data in action_list:
                 logger.warning(f'    {action_data}')
@@ -744,7 +744,7 @@ class Controller():
             renderObjectImage=self._config.is_object_masks_enabled(),
             snapToGrid=False,
             consistentColors=consistentColors,
-            **kwargs
+            **kwargs,
         )
 
     def generate_noise(self):

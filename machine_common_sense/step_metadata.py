@@ -143,7 +143,7 @@ class StepMetadata:
         reward=0,
         rotation=0.0,
         step_number=0,
-        structural_object_list=None
+        structural_object_list=None,
     ):
         self.action_list = [] if action_list is None else action_list
         self.camera_aspect_ratio = (

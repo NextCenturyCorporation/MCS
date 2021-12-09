@@ -40,7 +40,7 @@ class TestHistoryEventHandler(unittest.TestCase):
             "step_metadata": {},
             "step_output": {},
             "restricted_step_output": {},
-            "goal": {}
+            "goal": {},
         }
 
         self.assertIsNone(
@@ -71,7 +71,7 @@ class TestHistoryEventHandler(unittest.TestCase):
             "step_metadata": {},
             "step_output": {},
             "restricted_step_output": {},
-            "goal": {}
+            "goal": {},
         }
 
         self.assertIsNone(
@@ -90,7 +90,7 @@ class TestHistoryEventHandler(unittest.TestCase):
             "scene_config": self.scene_config,
             "action": "Initialize",
             "habituation_trial": None,
-            "goal": {}
+            "goal": {},
         }
 
         self.histEvents.on_before_step(BeforeStepPayload(**test_payload))
@@ -116,7 +116,7 @@ class TestHistoryEventHandler(unittest.TestCase):
             "scene_config": self.scene_config,
             "action": "Initialize",
             "habituation_trial": None,
-            "goal": {}
+            "goal": {},
         }
 
         self.histEvents.on_before_step(BeforeStepPayload(**test_payload))
@@ -140,7 +140,7 @@ class TestHistoryEventHandler(unittest.TestCase):
             "wrapped_step": {},
             "step_metadata": {},
             "step_output": MagicMock(),
-            "restricted_step_output": {}
+            "restricted_step_output": {},
         }
 
         after_step_payload = AfterStepPayload(**test_payload)
@@ -177,12 +177,12 @@ class TestHistoryEventHandler(unittest.TestCase):
                                       "violations_xy_list": [
                                           {
                                               "x": 1,
-                                              "y": 1
-                                          }
+                                              "y": 1,
+                                          },
                                       ],
                                       "internal_state": {
-                                          "test": "some state"
-                                      }}
+                                          "test": "some state",
+                                      }},
                                   }
 
         self.histEvents.on_end_scene(EndScenePayload(**test_payload))
@@ -202,18 +202,18 @@ class TestHistoryEventHandler(unittest.TestCase):
             [
                 {
                     "x": 1,
-                    "y": 1
-                }
+                    "y": 1,
+                },
             ])
         self.assertEqual(
             hist_writer.current_steps[0]["internal_state"],
             {
-                "test": "some state"
+                "test": "some state",
             })
         self.assertEqual(
             hist_writer.current_steps[0]["internal_state"],
             {
-                "test": "some state"
+                "test": "some state",
             })
 
         hist_writer.write_history_file.assert_called_with("plausible", .8)
@@ -239,12 +239,12 @@ class TestHistoryEventHandler(unittest.TestCase):
                                       "violations_xy_list": [
                                           {
                                               "x": 1,
-                                              "y": 1
-                                          }
+                                              "y": 1,
+                                          },
                                       ],
                                       "internal_state": {
-                                          "test": "some state"
-                                      }}
+                                          "test": "some state",
+                                      }},
                                   }
 
         self.histEvents.on_end_scene(EndScenePayload(**test_payload))

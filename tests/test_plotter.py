@@ -13,7 +13,7 @@ class TestTopDownPlotter(unittest.TestCase):
         self.plotter = TopDownPlotter(
             team="test",
             scene_name="scene",
-            room_size=Vector3d(x=10, y=4, z=10)
+            room_size=Vector3d(x=10, y=4, z=10),
         )
 
     def test_convert_color_empty(self):
@@ -42,13 +42,13 @@ class TestTopDownPlotter(unittest.TestCase):
                 'position': {
                     'x': 0.0,
                     'y': 0.0,
-                    'z': 0.0
+                    'z': 0.0,
                 },
                 'rotation': {
                     'x': 0.0,
                     'y': 0.0,
-                    'z': 0.0
-                }
+                    'z': 0.0,
+                },
             }}
         scene_event = ai2thor.server.Event(metadata=metadata)
         img = self.plotter.plot(scene_event=scene_event, step_number=1)
@@ -64,13 +64,13 @@ class TestTopDownPlotter(unittest.TestCase):
                 'position': {
                     'x': 0.0,
                     'y': 0.0,
-                    'z': 0.0
+                    'z': 0.0,
                 },
                 'rotation': {
                     'x': 0.0,
                     'y': 0.0,
-                    'z': 0.0
-                }
+                    'z': 0.0,
+                },
             }}
         scene_event = ai2thor.server.Event(metadata=metadata)
         img1 = self.plotter.plot(scene_event=scene_event, step_number=1)
@@ -83,13 +83,13 @@ class TestTopDownPlotter(unittest.TestCase):
                 'position': {
                     'x': 2.0,
                     'y': 0.0,
-                    'z': 2.0
+                    'z': 2.0,
                 },
                 'rotation': {
                     'x': 0.0,
                     'y': 0.0,
-                    'z': 0.0
-                }
+                    'z': 0.0,
+                },
             }}
         scene_event = ai2thor.server.Event(metadata=metadata)
         img2 = self.plotter.plot(scene_event=scene_event, step_number=2)
@@ -158,13 +158,13 @@ class TestTopDownPlotter(unittest.TestCase):
             'position': {
                 'x': 2.70,
                 'y': 1.23,
-                'z': 3.14
+                'z': 3.14,
             },
             'rotation': {
                 'x': 0.0,
                 'y': 78.0,
-                'z': 0.0
-            }
+                'z': 0.0,
+            },
         }
         robot = self.plotter._create_robot(robot_metadata)
 
@@ -178,8 +178,8 @@ class TestTopDownPlotter(unittest.TestCase):
             'rotation': {
                 'x': 0.0,
                 'y': 78.0,
-                'z': 0.0
-            }
+                'z': 0.0,
+            },
         }
         robot = self.plotter._create_robot(robot_metadata)
 
@@ -193,8 +193,8 @@ class TestTopDownPlotter(unittest.TestCase):
             'position': {
                 'x': 2.70,
                 'y': 1.23,
-                'z': 3.14
-            }
+                'z': 3.14,
+            },
         }
         robot = self.plotter._create_robot(robot_metadata)
 
@@ -209,7 +209,7 @@ class TestTopDownPlotter(unittest.TestCase):
             'visibleInCamera': True,
             'objectId': 'test-uuid',
             'colorsFromMaterials': [
-                'orange'
+                'orange',
             ],
             'objectBounds': {
                 'objectBoundsCorners': [
@@ -220,9 +220,9 @@ class TestTopDownPlotter(unittest.TestCase):
                     {'x': 0, 'y': 1, 'z': 0},
                     {'x': 0, 'y': 1, 'z': 1},
                     {'x': 1, 'y': 1, 'z': 1},
-                    {'x': 1, 'y': 1, 'z': 0}
-                ]
-            }
+                    {'x': 1, 'y': 1, 'z': 0},
+                ],
+            },
         }
         obj = self.plotter._create_object(object_metadata)
 
@@ -253,14 +253,14 @@ class TestTopDownPlotter(unittest.TestCase):
                 'position': {
                     'x': 0.0,
                     'y': 0.0,
-                    'z': 0.0
+                    'z': 0.0,
                 },
                 'rotation': {
                     'x': 0.0,
                     'y': 0.0,
-                    'z': 0.0
-                }
-            }
+                    'z': 0.0,
+                },
+            },
         }
         scene_event = ai2thor.server.Event(metadata=metadata)
         filtered_objects = self.plotter._find_plottable_objects(scene_event)
@@ -273,13 +273,13 @@ class TestTopDownPlotter(unittest.TestCase):
             'objects': [
                 {'objectId': 'test-uuid1'},
                 {'objectId': 'test-uuid2'},
-                {'objectId': 'test-uuid3'}
+                {'objectId': 'test-uuid3'},
             ],
             'structuralObjects': [
                 {'objectId': 'occluder1'},
                 {'objectId': 'occluder2'},
-                {'objectId': 'wall1'}
-            ]
+                {'objectId': 'wall1'},
+            ],
         }
         scene_event = ai2thor.server.Event(metadata=metadata)
         filtered_objects = self.plotter._find_plottable_objects(scene_event)
@@ -301,7 +301,7 @@ class TestTopDownPlotter(unittest.TestCase):
             'objects': [
                 {'objectId': 'test-uuid1'},
                 {'objectId': 'test-uuid2'},
-                {'objectId': 'test-uuid3'}
+                {'objectId': 'test-uuid3'},
             ],
             'structuralObjects': [
                 {'objectId': 'occluder1'},
@@ -309,8 +309,8 @@ class TestTopDownPlotter(unittest.TestCase):
                 {'objectId': 'wall1'},
                 {'objectId': 'future-object'},
                 {'objectId': 'floor-gets-filtered'},
-                {'objectId': 'ceiling-gets-filtered'}
-            ]
+                {'objectId': 'ceiling-gets-filtered'},
+            ],
         }
         scene_event = ai2thor.server.Event(metadata=metadata)
         filtered_objects = self.plotter._find_plottable_objects(scene_event)
@@ -330,7 +330,7 @@ class TestTopDownPlotter(unittest.TestCase):
         plotter = TopDownPlotter(
             team="test",
             scene_name="prefix/scene",
-            room_size=Vector3d(x=10, y=3, z=10)
+            room_size=Vector3d(x=10, y=3, z=10),
         )
 
         self.assertEqual(plotter._scene_name, "scene")

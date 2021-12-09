@@ -26,12 +26,12 @@ if __name__ == "__main__":
     parser.add_argument(
         'debug_scene_folder',
         type=str,
-        help='Folder containing the MCS scene JSON debug files'
+        help='Folder containing the MCS scene JSON debug files',
     )
     parser.add_argument(
         'output_file_name',
         type=str,
-        help='Name of the output CSV file'
+        help='Name of the output CSV file',
     )
     args = parser.parse_args()
     main(args.debug_scene_folder, args.output_file_name)
