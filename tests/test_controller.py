@@ -872,14 +872,14 @@ class TestController(unittest.TestCase):
 
     def test_generate_noise(self):
         # Current noise range is -0.5 to 0.5
-        minValue = -0.5
-        maxValue = 0.5
+        min_noise = -0.5
+        max_noise = 0.5
 
-        currentNoise = self.controller.generate_noise()
-        self.assertTrue(minValue <= currentNoise <= maxValue)
+        current_noise = self.controller.generate_noise()
+        self.assertTrue(min_noise <= current_noise <= max_noise)
 
-        currentNoise = self.controller.generate_noise()
-        self.assertTrue(minValue <= currentNoise <= maxValue)
+        current_noise = self.controller.generate_noise()
+        self.assertTrue(min_noise <= current_noise <= max_noise)
 
     def test_get_metadata_level(self):
         self.assertEqual('default', self.controller.get_metadata_level())
@@ -900,24 +900,24 @@ class TestController(unittest.TestCase):
         actual = self.controller._convert_scene_config(config)
         # should be same instance
         self.assertEqual(None, actual.name)
-        self.assertEqual(None, actual.floorMaterial)
+        self.assertEqual(None, actual.floor_material)
         self.assertEqual([], actual.objects)
         self.assertEqual(
             ConfigManager.DEFAULT_ROOM_DIMENSIONS,
-            actual.roomDimensions)
+            actual.room_dimensions)
         self.assertEqual(None, actual.goal)
 
         config = {"name": "name1", "roomDimensions": {"x": 1, "y": 2, "z": 3}}
         actual = self.controller._convert_scene_config(config)
         self.assertIsInstance(actual, SceneConfiguration)
         self.assertEqual("name1", actual.name)
-        self.assertEqual(None, actual.floorMaterial)
+        self.assertEqual(None, actual.floor_material)
         self.assertEqual([], actual.objects)
-        self.assertIsNotNone(actual.roomDimensions)
-        self.assertIsInstance(actual.roomDimensions, Vector3d)
-        self.assertEqual(1, actual.roomDimensions.x)
-        self.assertEqual(2, actual.roomDimensions.y)
-        self.assertEqual(3, actual.roomDimensions.z)
+        self.assertIsNotNone(actual.room_dimensions)
+        self.assertIsInstance(actual.room_dimensions, Vector3d)
+        self.assertEqual(1, actual.room_dimensions.x)
+        self.assertEqual(2, actual.room_dimensions.y)
+        self.assertEqual(3, actual.room_dimensions.z)
         self.assertEqual(None, actual.goal)
 
     def test_remove_none(self):

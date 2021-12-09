@@ -104,7 +104,7 @@ class TestHistoryWriter(unittest.TestCase):
         # set start time back 500ms as if the run took 500ms.
         writer.last_step_time_millis -= 500
         # Save the time so we can check that it changes
-        priorToStep1 = writer.last_step_time_millis
+        initial_time = writer.last_step_time_millis
         history_item = mcs.SceneHistory(
             step=1,
             action="MoveAhead")
@@ -114,7 +114,7 @@ class TestHistoryWriter(unittest.TestCase):
         # we give some delta here because commands do take some time to run
         self.assertAlmostEqual(
             writer.current_steps[0]["delta_time_millis"], 500, delta=1)
-        self.assertNotEqual(priorToStep1, writer.last_step_time_millis)
+        self.assertNotEqual(initial_time, writer.last_step_time_millis)
 
         writer.last_step_time_millis -= 300
         history_item = mcs.SceneHistory(

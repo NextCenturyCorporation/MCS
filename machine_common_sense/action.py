@@ -689,11 +689,11 @@ class Action(Enum):
 
         try:
             for param in input_split[1:]:
-                paramKey, paramValue = param.split('=')
-                if Validation.is_number(paramValue.strip()):
-                    params[paramKey.strip()] = float(paramValue.strip())
+                param_key, param_value = param.split('=')
+                if Validation.is_number(param_value.strip()):
+                    params[param_key.strip()] = float(param_value.strip())
                 else:
-                    params[paramKey.strip()] = paramValue.strip()
+                    params[param_key.strip()] = param_value.strip()
         except BaseException:
             return action, None
 

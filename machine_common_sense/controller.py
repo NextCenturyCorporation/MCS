@@ -327,15 +327,15 @@ class Controller():
 
         """
         if(not self._end_scene_called):
-            payloadArgs = self._create_event_payload_kwargs()
-            payloadArgs['rating'] = str(rating)
-            payloadArgs['score'] = score
-            payloadArgs['report'] = report
+            payload = self._create_event_payload_kwargs()
+            payload['rating'] = str(rating)
+            payload['score'] = score
+            payload['report'] = report
 
             self._publish_event(
                 EventType.ON_END_SCENE,
                 EndScenePayload(
-                    **payloadArgs))
+                    **payload))
             self._end_scene_called = True
         else:
             raise RuntimeError("end_scene called twice with the same scene")
@@ -379,7 +379,7 @@ class Controller():
         skip_preview_phase = (scene_config.goal is not None and
                               scene_config.goal.skip_preview_phase)
 
-        if (self.isFileWritingEnabled()):
+        if (self.is_file_writing_enabled()):
             os.makedirs('./' + scene_config.name, exist_ok=True)
             self.__output_folder = './' + scene_config.name + '/'
             file_list = glob.glob(self.__output_folder + '*')
@@ -433,15 +433,15 @@ class Controller():
                 atexit.register(self.end_scene, rating="", score=-1)
                 self._failure_handler_registered = True
 
-        payloadArgs = self._create_post_step_event_payload_kwargs(
+        payload = self._create_post_step_event_payload_kwargs(
             wrapped_step, step_output, pre_restrict_output, output)
-        payload = StartScenePayload(**payloadArgs)
+        start_scene_payload = StartScenePayload(**payload)
         self._publish_event(
-            EventType.ON_START_SCENE, payload)
+            EventType.ON_START_SCENE, start_scene_payload)
 
         return output
 
-    def isFileWritingEnabled(self):
+    def is_file_writing_enabled(self):
         return self._scene_config.name is not None and (
             self._config.is_save_debug_images() or
             self._config.is_save_debug_json() or
@@ -457,7 +457,7 @@ class Controller():
     """
 
     def validate_and_convert_params(self, action, **kwargs):
-        moveMagnitude = DEFAULT_MOVE
+        move_magnitude = DEFAULT_MOVE
         rotation = kwargs.get(self.ROTATION_KEY, self.DEFAULT_ROTATION)
         horizon = kwargs.get(self.HORIZON_KEY, self.DEFAULT_HORIZON)
         amount = kwargs.get(
@@ -468,13 +468,13 @@ class Controller():
         )
         force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
 
-        objectImageCoordsX = kwargs.get(
+        object_image_coords_x = kwargs.get(
             self.OBJECT_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD)
-        objectImageCoordsY = kwargs.get(
+        object_image_coords_y = kwargs.get(
             self.OBJECT_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD)
-        receptacleObjectImageCoordsX = kwargs.get(
+        receptable_image_coords_x = kwargs.get(
             self.RECEPTACLE_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD)
-        receptacleObjectImageCoordsY = kwargs.get(
+        receptacle_image_coords_x = kwargs.get(
             self.RECEPTACLE_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD)
 
         if not Validation.is_number(amount, self.AMOUNT_KEY):
@@ -490,25 +490,25 @@ class Controller():
 
         # Check object directions are numbers
         if not Validation.is_number(
-                objectImageCoordsX,
+                object_image_coords_x,
                 self.OBJECT_IMAGE_COORDS_X_KEY):
-            objectImageCoordsX = self.DEFAULT_IMG_COORD
+            object_image_coords_x = self.DEFAULT_IMG_COORD
 
         if not Validation.is_number(
-                objectImageCoordsY,
+                object_image_coords_y,
                 self.OBJECT_IMAGE_COORDS_Y_KEY):
-            objectImageCoordsY = self.DEFAULT_IMG_COORD
+            object_image_coords_y = self.DEFAULT_IMG_COORD
 
         # Check receptacle directions are numbers
         if not Validation.is_number(
-                receptacleObjectImageCoordsX,
+                receptable_image_coords_x,
                 self.RECEPTACLE_IMAGE_COORDS_X_KEY):
-            receptacleObjectImageCoordsX = self.DEFAULT_IMG_COORD
+            receptable_image_coords_x = self.DEFAULT_IMG_COORD
 
         if not Validation.is_number(
-                receptacleObjectImageCoordsY,
+                receptacle_image_coords_x,
                 self.RECEPTACLE_IMAGE_COORDS_Y_KEY):
-            receptacleObjectImageCoordsY = self.DEFAULT_IMG_COORD
+            receptacle_image_coords_x = self.DEFAULT_IMG_COORD
 
         amount = Validation.is_in_range(
             amount,
@@ -528,57 +528,59 @@ class Controller():
 
         # Set the Move Magnitude to the appropriate amount based on the action
         if action in self.FORCE_ACTIONS:
-            moveMagnitude = force * self.MAX_FORCE
+            move_magnitude = force * self.MAX_FORCE
 
         if action in self.OBJECT_MOVE_ACTIONS:
-            moveMagnitude = amount
+            move_magnitude = amount
 
         if action in self.MOVE_ACTIONS:
-            moveMagnitude = DEFAULT_MOVE
+            move_magnitude = DEFAULT_MOVE
 
         # Add in noise if noise is enable
         if self.__noise_enabled:
             rotation = rotation * (1 + self.generate_noise())
             horizon = horizon * (1 + self.generate_noise())
-            moveMagnitude = moveMagnitude * (1 + self.generate_noise())
+            move_magnitude = move_magnitude * (1 + self.generate_noise())
 
         rotation_vector = {'y': rotation}
         object_vector = {
-            'x': float(objectImageCoordsX),
+            'x': float(object_image_coords_x),
             'y': self._convert_y_image_coord_for_unity(
-                float(objectImageCoordsY)),
+                float(object_image_coords_y)),
         }
 
         receptacle_vector = {
-            'x': float(receptacleObjectImageCoordsX),
+            'x': float(receptable_image_coords_x),
             'y': self._convert_y_image_coord_for_unity(
-                float(receptacleObjectImageCoordsY)
+                float(receptacle_image_coords_x)
             ),
         }
 
-        teleportRotInput = kwargs.get(self.TELEPORT_Y_ROT)
-        teleportPosXInput = kwargs.get(self.TELEPORT_X_POS)
-        teleportPosZInput = kwargs.get(self.TELEPORT_Z_POS)
+        teleport_rot_input = kwargs.get(self.TELEPORT_Y_ROT)
+        teleport_pos_x_input = kwargs.get(self.TELEPORT_X_POS)
+        teleport_pos_z_input = kwargs.get(self.TELEPORT_Z_POS)
 
-        teleportRotation = None
-        teleportPosition = None
+        teleport_rotation = None
+        teleport_position = None
 
-        if teleportRotInput is not None and Validation.is_number(
-                teleportRotInput):
-            teleportRotation = {'y': kwargs.get(self.TELEPORT_Y_ROT)}
-        if (teleportPosXInput is not None and
-                Validation.is_number(teleportPosXInput) and
-                teleportPosZInput is not None and
-                Validation.is_number(teleportPosZInput)):
-            teleportPosition = {'x': teleportPosXInput, 'z': teleportPosZInput}
+        if teleport_rot_input is not None and Validation.is_number(
+                teleport_rot_input):
+            teleport_rotation = {'y': kwargs.get(self.TELEPORT_Y_ROT)}
+        if (teleport_pos_x_input is not None and
+                Validation.is_number(teleport_pos_x_input) and
+                teleport_pos_z_input is not None and
+                Validation.is_number(teleport_pos_z_input)):
+            teleport_position = {
+                'x': teleport_pos_x_input,
+                'z': teleport_pos_z_input}
         return dict(
             objectId=kwargs.get("objectId", None),
             receptacleObjectId=kwargs.get("receptacleObjectId", None),
             rotation=rotation_vector,
             horizon=horizon,
-            teleportRotation=teleportRotation,
-            teleportPosition=teleportPosition,
-            moveMagnitude=moveMagnitude,
+            teleportRotation=teleport_rotation,
+            teleportPosition=teleport_position,
+            moveMagnitude=move_magnitude,
             objectImageCoords=object_vector,
             receptacleObjectImageCoords=receptacle_vector
         )
@@ -640,13 +642,13 @@ class Controller():
 
         self.__step_number += 1
 
-        payloadArgs = self._create_event_payload_kwargs()
-        payloadArgs['action'] = action
-        payloadArgs['habituation_trial'] = self.__habituation_trial
-        payloadArgs['goal'] = self._goal
+        payload = self._create_event_payload_kwargs()
+        payload['action'] = action
+        payload['habituation_trial'] = self.__habituation_trial
+        payload['goal'] = self._goal
         self._publish_event(
             EventType.ON_BEFORE_STEP,
-            BeforeStepPayload(**payloadArgs))
+            BeforeStepPayload(**payload))
 
         params = self.validate_and_convert_params(action, **kwargs)
 
@@ -671,14 +673,14 @@ class Controller():
             step_output, self._goal, self.__step_number,
             self.__habituation_trial)
 
-        payloadArgs = self._create_post_step_event_payload_kwargs(
+        payload = self._create_post_step_event_payload_kwargs(
             step_action, step_output, pre_restrict_output, output)
-        payloadArgs['ai2thor_action'] = action
-        payloadArgs['step_params'] = params
-        payloadArgs['action_kwargs'] = kwargs
+        payload['ai2thor_action'] = action
+        payload['step_params'] = params
+        payload['action_kwargs'] = kwargs
         self._publish_event(
             EventType.ON_AFTER_STEP,
-            AfterStepPayload(**payloadArgs))
+            AfterStepPayload(**payload))
 
         return output
 
@@ -734,7 +736,7 @@ class Controller():
     def wrap_step(self, **kwargs):
         # whether or not to randomize segmentation mask colors
         metadata_tier = self._config.get_metadata_tier()
-        consistentColors = (metadata_tier == MetadataTier.ORACLE)
+        consistent_colors = (metadata_tier == MetadataTier.ORACLE)
         # Create the step data dict for the AI2-THOR step function.
         return dict(
             continuous=True,
@@ -743,7 +745,7 @@ class Controller():
             renderDepthImage=self._config.is_depth_maps_enabled(),
             renderObjectImage=self._config.is_object_masks_enabled(),
             snapToGrid=False,
-            consistentColors=consistentColors,
+            consistentColors=consistent_colors,
             **kwargs
         )
 
