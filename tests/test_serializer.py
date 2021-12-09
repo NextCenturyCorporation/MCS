@@ -1,14 +1,11 @@
 import unittest
-from unittest.case import skip
 
 import numpy as np
 import PIL
 
-import machine_common_sense as mcs
 from machine_common_sense.goal_metadata import GoalMetadata
 from machine_common_sense.object_metadata import ObjectMetadata
-from machine_common_sense.serializer import (ISerializer, SerializerJson,
-                                             SerializerMsgPack)
+from machine_common_sense.serializer import ISerializer, SerializerMsgPack
 from machine_common_sense.step_metadata import StepMetadata
 
 
@@ -208,99 +205,6 @@ class TestSerializerMsgPack(unittest.TestCase):
         self.assertIsInstance(unpacked_ndarray, np.ndarray)
         self.assertFalse(np.all(unpacked_ndarray))
         self.assertEqual(unpacked_ndarray.size, 10)
-
-
-class TestSerializerJson(unittest.TestCase):
-
-    maxDiff = None
-
-    @classmethod
-    def setUpClass(cls) -> None:
-        cls.serializer = mcs.SerializerJson()
-        return super().setUpClass()
-
-    def test_serialize(self):
-        step_metadata = StepMetadata()
-        packed_json = self.serializer.serialize(step_metadata)
-        self.assertIsInstance(packed_json, str)
-
-    @skip
-    def test_deserializer(self):
-        step_metadata = StepMetadata()
-        packed_json = self.serializer.serialize(step_metadata)
-        self.assertIsInstance(packed_json, str)
-
-        unpacked_step_metadata = self.serializer.deserialize(packed_json)
-        self.assertIsInstance(unpacked_step_metadata, StepMetadata)
-
-        # compare the two default StepMetadata objects
-        self.assertEqual(
-            unpacked_step_metadata.goal.__dict__,
-            step_metadata.goal.__dict__)
-        del step_metadata.goal
-        del unpacked_step_metadata.goal
-        self.assertEqual(
-            unpacked_step_metadata.__dict__,
-            step_metadata.__dict__)
-
-    def test_ext_unpack(self):
-        ...
-
-    def test_mcs_step_metadata_encoder(self):
-        suite = unittest.defaultTestLoader.loadTestsFromTestCase(
-            self.TestMcsStepMetadataEncoder)
-        unittest.TextTestRunner(verbosity=2).run(suite)
-
-    class TestMcsStepMetadataEncoder(unittest.TestCase):
-
-        @classmethod
-        def setUpClass(cls) -> None:
-            cls.encoder = SerializerJson.McsStepMetadataEncoder()
-
-        def test_default_with_tuple(self):
-            test_tuple = (1, 'a')
-            print(test_tuple)
-            tuple_exttype = self.encoder.default(test_tuple)
-            print(tuple_exttype)
-            print(type(tuple_exttype))
-
-
-@skip
-class TestSerializer(unittest.TestCase):
-
-    # TODO remove the permanent mgpack file resource
-
-    @ staticmethod
-    def _helper_get_step_metadata():
-        with open('tests/test.msgpack', 'rb') as file:
-            packed_bytes = file.read()
-
-        serializer = mcs.SerializerMsgPack()
-        return serializer.deserialize(packed_bytes)
-
-    def test_serialization_msgpack(self):
-        unpacked_metadata = TestSerializer._helper_get_step_metadata()
-        assert abs(unpacked_metadata.reward - (-0.036000000000000004)
-                   ) < 1e-04, 'Reward unexpected.'
-        assert abs(unpacked_metadata.rotation -
-                   0.0) < 1e-04, 'Rotation unexpected.'
-        assert isinstance(unpacked_metadata.object_list[-1].shape, str
-                          ), 'Shape type unexpected.'
-
-    def test_serialization_json(self):
-        unpacked_metadata = TestSerializer._helper_get_step_metadata()
-        serializer = mcs.SerializerJson()
-        json_dump = serializer.serialize(unpacked_metadata)
-        unpacked_metadata = serializer.deserialize(json_dump)
-        self.assertEqual(len(unpacked_metadata.depth_map_list), 1)
-        self.assertIsInstance(unpacked_metadata.depth_map_list[0], np.ndarray)
-        self.assertEqual(unpacked_metadata.depth_map_list[0].shape, (400, 600))
-        self.assertIsInstance(unpacked_metadata, mcs.StepMetadata)
-        self.assertAlmostEqual(unpacked_metadata.reward, -0.036000000000000004)
-        self.assertAlmostEqual(unpacked_metadata.rotation, 0.0, delta=1e-04)
-        self.assertIsInstance(unpacked_metadata.object_list[-1].shape, str)
-        self.assertIsInstance(
-            unpacked_metadata.object_list[0].segment_color, dict)
 
 
 if __name__ == '__main__':
