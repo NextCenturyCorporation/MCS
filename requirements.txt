@@ -3,7 +3,7 @@ autopep8==1.5.4
 colour==0.1.5
 commonmark==0.9.1
 dataclasses==0.8; python_version<"3.7"
-flake8==3.8.3
+flake8==3.9.1
 isort==5.8.0
 marshmallow==3.12.1
 matplotlib==3.3.3
