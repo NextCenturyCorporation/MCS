@@ -589,7 +589,7 @@ class Controller():
         )
 
     @typechecked
-    def step(self, action: str, **kwargs) -> StepMetadata:
+    def step(self, action: str, **kwargs) -> Union[StepMetadata, None]:
         """
         Runs the given action within the current scene.
 
