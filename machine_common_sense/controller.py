@@ -11,6 +11,7 @@ import ai2thor.controller
 import ai2thor.server
 import marshmallow
 import numpy as np
+from typeguard import typechecked
 
 logger = logging.getLogger(__name__)
 
@@ -132,6 +133,7 @@ class Controller():
     OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
+    @typechecked
     def __init__(self, unity_app_file_path: str, config: ConfigManager):
 
         self._subscribers = []
@@ -170,6 +172,7 @@ class Controller():
     def remove_all_event_handlers(self):
         self._subscribers = []
 
+    @typechecked
     def _publish_event(self, event_type: EventType,
                        payload: Union[StartScenePayload, BeforeStepPayload,
                                       AfterStepPayload,
@@ -239,6 +242,7 @@ class Controller():
         if self.__seed:
             random.seed(self.__seed)
 
+    @typechecked
     def end_scene(
         self,
         rating: Union[float, int, str] = None,
@@ -350,7 +354,8 @@ class Controller():
         schema = SceneConfigurationSchema()
         return schema.load(config_data)
 
-    def start_scene(self, config_data):
+    @typechecked
+    def start_scene(self, config_data: Union[SceneConfiguration, Dict]):
         """
         Starts a new scene using the given scene configuration data dict and
         returns the scene output data object.
@@ -583,7 +588,7 @@ class Controller():
             receptacleObjectImageCoords=receptacle_vector
         )
 
-    # Override
+    @typechecked
     def step(self, action: str, **kwargs) -> StepMetadata:
         """
         Runs the given action within the current scene.
