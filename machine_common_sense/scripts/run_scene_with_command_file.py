@@ -2,7 +2,7 @@ import argparse
 
 import machine_common_sense as mcs
 
-commandList = []
+commands = []
 
 
 def parse_args():

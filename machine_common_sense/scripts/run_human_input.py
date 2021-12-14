@@ -7,7 +7,7 @@ from machine_common_sense.logging_config import LoggingConfig
 
 from .getch_helper import getch
 
-commandList = []
+commands = []
 
 
 def parse_args():
@@ -36,7 +36,7 @@ def parse_args():
     return parser.parse_args()
 
 
-class command:
+class Command:
     '''Class to contain possible commands and keys.'''
 
     def __init__(self, name, key, desc):
@@ -60,10 +60,10 @@ class HumanInputShell(cmd.Cmd):
     def precmd(self, line):
         return line
 
-    def postcmd(self, stopFlag, line) -> bool:
+    def postcmd(self, stop_flag, line) -> bool:
         print('================================================='
               '==============================')
-        return stopFlag
+        return stop_flag
 
     def default(self, line):
         split_input = line.split(',')
@@ -190,9 +190,9 @@ class HumanInputShell(cmd.Cmd):
 def build_commands():
     '''Define all the possible human input commands.'''
     for action in mcs.Action:
-        commandList.append(command(action.value,
-                                   action.key,
-                                   action.desc))
+        commands.append(Command(action.value,
+                                action.key,
+                                action.desc))
 
 
 def print_commands():
@@ -201,14 +201,14 @@ def print_commands():
     print("--------------- Available Commands ---------------")
     print(" ")
 
-    for commandListItem in commandList:
+    for command in commands:
         print(
             "- " +
-            commandListItem.name +
+            command.name +
             " (ShortcutKey=" +
-            commandListItem.key +
+            command.key +
             "): " +
-            commandListItem.desc)
+            command.desc)
 
     print(" ")
     print("---------------- Example Commands ----------------")

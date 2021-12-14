@@ -439,120 +439,120 @@ class TestSceneConfig(unittest.TestCase):
 
         assert object_1.id == 'id_1'
         assert object_1.type == 'type_1'
-        assert object_1.centerOfMass is None
-        assert object_1.changeMaterials is None
+        assert object_1.center_of_mass is None
+        assert object_1.change_materials is None
         assert object_1.debug is None
         assert object_1.forces is None
         assert object_1.ghosts is None
         assert object_1.hides is None
         assert object_1.kinematic is None
-        assert object_1.locationParent is None
+        assert object_1.location_parent is None
         assert object_1.mass is None
         assert object_1.materials is None
         assert object_1.moveable is None
         assert object_1.moves is None
-        assert object_1.nullParent is None
+        assert object_1.null_parent is None
         assert object_1.openable is None
         assert object_1.opened is None
-        assert object_1.openClose is None
+        assert object_1.open_close is None
         assert object_1.physics is None
-        assert object_1.physicsProperties is None
+        assert object_1.physics_properties is None
         assert object_1.pickupable is None
         assert object_1.receptacle is None
-        assert object_1.resetCenterOfMass is None
+        assert object_1.reset_center_of_mass is None
         assert object_1.resizes is None
         assert object_1.rotates is None
-        assert object_1.salientMaterials is None
+        assert object_1.salient_materials is None
         assert object_1.shows is None
         assert object_1.shrouds is None
         assert object_1.states is None
         assert object_1.structure is None
         assert object_1.teleports is None
-        assert object_1.togglePhysics is None
+        assert object_1.toggle_physics is None
         assert object_1.torques is None
 
         assert object_2.id == 'id_2'
         assert object_2.type == 'type_2'
-        assert object_2.centerOfMass == Vector3d(x=0.01, y=0.02, z=0.03)
-        assert object_2.changeMaterials == [ChangeMaterialConfig(
-            stepBegin=10,
+        assert object_2.center_of_mass == Vector3d(x=0.01, y=0.02, z=0.03)
+        assert object_2.change_materials == [ChangeMaterialConfig(
+            step_begin=10,
             materials=['material_3', 'material_4']
         )]
         assert object_2.debug == {'key': 'value'}
         assert object_2.forces == [ForceConfig(
             relative=True,
-            stepBegin=11,
-            stepEnd=12,
+            step_begin=11,
+            step_end=12,
             vector=Vector3d(x=0.04, y=0.05, z=0.06)
         )]
         assert object_2.ghosts == [StepBeginEndConfig(
-            stepBegin=13,
-            stepEnd=14
+            step_begin=13,
+            step_end=14
         )]
-        assert object_2.hides == [SingleStepConfig(stepBegin=15)]
+        assert object_2.hides == [SingleStepConfig(step_begin=15)]
         assert object_2.kinematic is True
-        assert object_2.locationParent == 'parent_id'
+        assert object_2.location_parent == 'parent_id'
         assert object_2.mass == 12.34
         assert object_2.materials == ['material_1', 'material_2']
         assert object_2.moveable is True
         assert object_2.moves == [MoveConfig(
-            stepBegin=16,
-            stepEnd=17,
+            step_begin=16,
+            step_end=17,
             vector=Vector3d(x=0.07, y=0.08, z=0.09)
         )]
-        assert object_2.nullParent == TransformConfig(
+        assert object_2.null_parent == TransformConfig(
             position=Vector3d(x=0.11, y=0.12, z=0.13),
             rotation=Vector3d(x=0.14, y=0.15, z=0.16),
             scale=Vector3d(x=0.17, y=0.18, z=0.19)
         )
         assert object_2.openable is True
         assert object_2.opened is True
-        assert object_2.openClose == [OpenCloseConfig(open=True, step=18)]
+        assert object_2.open_close == [OpenCloseConfig(open=True, step=18)]
         assert object_2.physics is True
-        assert object_2.physicsProperties == PhysicsConfig(
+        assert object_2.physics_properties == PhysicsConfig(
             enable=True,
-            angularDrag=1,
+            angular_drag=1,
             bounciness=2,
             drag=3,
-            dynamicFriction=4,
-            staticFriction=5
+            dynamic_friction=4,
+            static_friction=5
         )
         assert object_2.pickupable is True
         assert object_2.receptacle is True
-        assert object_2.resetCenterOfMass is True
+        assert object_2.reset_center_of_mass is True
         assert object_2.resizes == [SizeConfig(
-            stepBegin=19,
-            stepEnd=20,
+            step_begin=19,
+            step_end=20,
             size=Vector3d(x=0.21, y=0.22, z=0.23)
         )]
         assert object_2.rotates == [MoveConfig(
-            stepBegin=21,
-            stepEnd=22,
+            step_begin=21,
+            step_end=22,
             vector=Vector3d(x=0.24, y=0.25, z=0.26)
         )]
-        assert object_2.salientMaterials == ['salient_1', 'salient_2']
+        assert object_2.salient_materials == ['salient_1', 'salient_2']
         assert object_2.shows == [ShowConfig(
-            stepBegin=23,
+            step_begin=23,
             position=Vector3d(x=0.31, y=0.32, z=0.33),
             rotation=Vector3d(x=0.34, y=0.35, z=0.36),
             scale=Vector3d(x=0.37, y=0.38, z=0.39)
         )]
         assert object_2.shrouds == [StepBeginEndConfig(
-            stepBegin=24,
-            stepEnd=25
+            step_begin=24,
+            step_end=25
         )]
         assert object_2.states == [
             ['state_1'], [], ['state_2'], ['state_1', 'state_3']
         ]
         assert object_2.structure is True
         assert object_2.teleports == [TeleportConfig(
-            stepBegin=26,
+            step_begin=26,
             position=Vector3d(x=0.41, y=0.42, z=0.43)
         )]
-        assert object_2.togglePhysics == [SingleStepConfig(stepBegin=27)]
+        assert object_2.toggle_physics == [SingleStepConfig(step_begin=27)]
         assert object_2.torques == [MoveConfig(
-            stepBegin=28,
-            stepEnd=29,
+            step_begin=28,
+            step_end=29,
             vector=Vector3d(x=0.44, y=0.45, z=0.46)
         )]
 
