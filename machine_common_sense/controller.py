@@ -5,7 +5,7 @@ import json
 import logging
 import os
 import random
-from typing import Dict, Union
+from typing import Dict, List, Union
 
 import ai2thor.controller
 import ai2thor.server
@@ -709,18 +709,18 @@ class Controller():
 
         return action
 
-    # DW: only used for tests
     def retrieve_action_list_at_step(self, goal, step_number):
         return goal.retrieve_action_list_at_step(step_number)
 
-    # DW: not used at all
-    def retrieve_object_states(self, object_id):
+    @typeguard.typechecked
+    def retrieve_object_states(self, object_id: str) -> List:
         """Return the state list at the current step for the object with the
         given ID from the scene configuration data, if any."""
-        self._scene_config.retrieve_object_states(
+        return self._scene_config.retrieve_object_states(
             object_id,
             self.__step_number)
 
+    @typeguard.typechecked
     def stop_simulation(self) -> None:
         """Stop the 3D simulation environment. This controller won't work any
         more."""
@@ -755,6 +755,7 @@ class Controller():
             **kwargs
         )
 
+    @typeguard.typechecked
     def generate_noise(self) -> float:
         """
         Returns a random value between -0.05 and 0.05 used to add noise to all
@@ -767,6 +768,7 @@ class Controller():
 
         return random.uniform(-0.5, 0.5)
 
+    @typeguard.typechecked
     def get_metadata_level(self) -> str:
         """
         Returns the current metadata level set in the config. If none

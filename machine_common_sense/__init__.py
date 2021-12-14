@@ -3,9 +3,9 @@ import logging
 import logging.config
 import signal
 from contextlib import contextmanager
-from typing import Union
+from typing import Dict, Union
 
-from typeguard import typechecked
+import typeguard
 
 from ._version import __version__
 from .action import Action
@@ -48,8 +48,8 @@ def time_limit(seconds):
         signal.alarm(0)
 
 
-@typechecked
-def init_logging(log_config: dict = None,
+@typeguard.typechecked
+def init_logging(log_config: Dict = None,
                  log_config_file: str = "log.config.user.py"):
     """
     Initializes logging system.  If no parameters are provided, a
@@ -74,8 +74,8 @@ def init_logging(log_config: dict = None,
         log_config_file=log_config_file)
 
 
-@typechecked
-def create_controller(config_file_or_dict: Union[dict, str] = None,
+@typeguard.typechecked
+def create_controller(config_file_or_dict: Union[Dict, str] = None,
                       unity_app_file_path: str = None,
                       unity_cache_version: str = None):
     """
@@ -131,9 +131,9 @@ def create_controller(config_file_or_dict: Union[dict, str] = None,
         return None
 
 
-@typechecked
+@typeguard.typechecked
 def change_config(controller: Controller,
-                  config_file_or_dict: Union[dict, str] = None):
+                  config_file_or_dict: Union[Dict, str] = None):
     """
     Creates and returns a new MCS Controller object.  Should only be called
     After a run and before a scene is changed.
@@ -155,7 +155,7 @@ def change_config(controller: Controller,
     add_subscribers(controller, config)
 
 
-@typechecked
+@typeguard.typechecked
 def load_scene_json_file(scene_json_file_path: str):
     """
     Loads the given JSON scene config file and returns its data.
