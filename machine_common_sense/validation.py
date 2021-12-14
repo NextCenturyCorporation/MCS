@@ -1,8 +1,6 @@
 import logging
 from typing import Any
 
-from marshmallow.fields import Boolean
-
 logger = logging.getLogger(__name__)
 
 
@@ -46,7 +44,7 @@ class Validation():
         return default_value
 
     @staticmethod
-    def is_number(value: Any, label=None) -> Boolean:
+    def is_number(value: Any, label=None) -> bool:
         """
         Returns if the given value is a number.
 
