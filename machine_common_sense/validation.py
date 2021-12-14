@@ -1,4 +1,7 @@
 import logging
+from typing import Any
+
+from marshmallow.fields import Boolean
 
 logger = logging.getLogger(__name__)
 
@@ -31,18 +34,19 @@ class Validation():
         -------
         number
         """
-        if value > max_value or value < min_value:
-            if label is not None:
-                logger.debug(
-                    f'Value of {label} needs to be between '
-                    f'{min_value} and {max_value}. '
-                    f'Current value {value} '
-                    f'will be reset to {default_value}.')
-            return default_value
-        return value
+        if min_value <= value <= max_value:
+            return value
+
+        if label is not None:
+            logger.debug(
+                f'Value of {label} needs to be between '
+                f'{min_value} and {max_value}. '
+                f'Current value {value} '
+                f'will be reset to {default_value}.')
+        return default_value
 
     @staticmethod
-    def is_number(value, label=None):
+    def is_number(value: Any, label=None) -> Boolean:
         """
         Returns if the given value is a number.
 
@@ -61,7 +65,7 @@ class Validation():
         try:
             float(value)
             return True
-        except ValueError:
+        except (ValueError, TypeError):
             if label is not None:
                 logger.debug(f'Value of {label}'
                              f' needs to be a number. Will be set to 0.')
