@@ -1128,6 +1128,59 @@ class TestControllerOutputHandler(unittest.TestCase):
         actual = scene_event.object_list
         self.assertEqual(len(actual), 3)
 
+    def test_get_restrictions_none(self):
+        self._config.set_metadata_tier('none')
+        coh = ControllerOutputHandler(self._config)
+        restricted = False
+        restrictions = coh.get_restrictions(restricted, MetadataTier.NONE)
+        self.assertFalse(any(restrictions))
+
+        restricted = True
+        restrictions = coh.get_restrictions(restricted, MetadataTier.NONE)
+        self.assertTrue(all(restrictions))
+
+    def test_get_restrictions_level1(self):
+        self._config.set_metadata_tier('level1')
+        coh = ControllerOutputHandler(self._config)
+        restricted = False
+        restrictions = coh.get_restrictions(restricted, MetadataTier.LEVEL_1)
+        self.assertFalse(any(restrictions))
+
+        restricted = True
+        restrictions = coh.get_restrictions(restricted, MetadataTier.LEVEL_1)
+        self.assertTrue(any(restrictions))
+        self.assertFalse(restrictions[0])
+        self.assertTrue(restrictions[1])
+        self.assertTrue(restrictions[2])
+
+    def test_get_restrictions_level2(self):
+        self._config.set_metadata_tier('level2')
+        coh = ControllerOutputHandler(self._config)
+        restricted = False
+        restrictions = coh.get_restrictions(restricted, MetadataTier.LEVEL_2)
+        self.assertFalse(any(restrictions))
+
+        restricted = True
+        restrictions = coh.get_restrictions(restricted, MetadataTier.LEVEL_2)
+        self.assertTrue(any(restrictions))
+        self.assertFalse(restrictions[0])
+        self.assertFalse(restrictions[1])
+        self.assertTrue(restrictions[2])
+
+    def test_get_restrictions_oracle(self):
+        self._config.set_metadata_tier('oracle')
+        coh = ControllerOutputHandler(self._config)
+        restricted = False
+        restrictions = coh.get_restrictions(restricted, MetadataTier.ORACLE)
+        self.assertFalse(any(restrictions))
+
+        restricted = True
+        restrictions = coh.get_restrictions(restricted, MetadataTier.ORACLE)
+        self.assertFalse(any(restrictions))
+        self.assertFalse(restrictions[0])
+        self.assertFalse(restrictions[1])
+        self.assertFalse(restrictions[2])
+
 
 if __name__ == '__main__':
     unittest.main()
