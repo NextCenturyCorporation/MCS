@@ -10,6 +10,10 @@ from machine_common_sense.config_manager import (ConfigManager, MetadataTier,
 from machine_common_sense.controller_output_handler import (
     ControllerOutputHandler, SceneEvent)
 from machine_common_sense.goal_metadata import GoalMetadata
+from machine_common_sense.logging_config import LoggingConfig
+
+# ignore printing of errors for unit testing
+LoggingConfig.init_logging(LoggingConfig.get_no_logging_config())
 
 
 class TestControllerOutputHandler(unittest.TestCase):
