@@ -5,7 +5,7 @@ import json
 import logging
 import os
 import random
-from typing import Dict, Union
+from typing import Any, Dict, Union
 
 import ai2thor.controller
 import ai2thor.server
@@ -448,35 +448,13 @@ class Controller():
             self._config.is_video_enabled()
         )
 
-    # TODO: may need to reevaluate validation strategy/error handling in the
-    # future
-    """
-    Need a validation/conversion step for what ai2thor will accept as input
-    to keep parameters more simple for the user (in this case, wrapping
-    rotation degrees into an object)
-    """
-
-    def validate_and_convert_params(self, action, **kwargs):
-        move_magnitude = DEFAULT_MOVE
-        rotation = kwargs.get(self.ROTATION_KEY, self.DEFAULT_ROTATION)
-        horizon = kwargs.get(self.HORIZON_KEY, self.DEFAULT_HORIZON)
+    def get_amount(self, action, kwargs: Dict) -> float:
         amount = kwargs.get(
             self.AMOUNT_KEY,
             self.DEFAULT_OBJECT_MOVE_AMOUNT
             if action in self.OBJECT_MOVE_ACTIONS
             else self.DEFAULT_AMOUNT
         )
-        force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
-
-        object_image_coords_x = kwargs.get(
-            self.OBJECT_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD)
-        object_image_coords_y = kwargs.get(
-            self.OBJECT_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD)
-        receptable_image_coords_x = kwargs.get(
-            self.RECEPTACLE_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD)
-        receptacle_image_coords_x = kwargs.get(
-            self.RECEPTACLE_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD)
-
         if not Validation.is_number(amount, self.AMOUNT_KEY):
             # The default for open/close is 1, the default for "Move" actions
             # is 0.5
@@ -484,78 +462,43 @@ class Controller():
                 amount = self.DEFAULT_OBJECT_MOVE_AMOUNT
             else:
                 amount = self.DEFAULT_AMOUNT
-
-        if not Validation.is_number(force, self.FORCE_KEY):
-            force = self.DEFAULT_FORCE
-
-        # Check object directions are numbers
-        if not Validation.is_number(
-                object_image_coords_x,
-                self.OBJECT_IMAGE_COORDS_X_KEY):
-            object_image_coords_x = self.DEFAULT_IMG_COORD
-
-        if not Validation.is_number(
-                object_image_coords_y,
-                self.OBJECT_IMAGE_COORDS_Y_KEY):
-            object_image_coords_y = self.DEFAULT_IMG_COORD
-
-        # Check receptacle directions are numbers
-        if not Validation.is_number(
-                receptable_image_coords_x,
-                self.RECEPTACLE_IMAGE_COORDS_X_KEY):
-            receptable_image_coords_x = self.DEFAULT_IMG_COORD
-
-        if not Validation.is_number(
-                receptacle_image_coords_x,
-                self.RECEPTACLE_IMAGE_COORDS_Y_KEY):
-            receptacle_image_coords_x = self.DEFAULT_IMG_COORD
-
         amount = Validation.is_in_range(
             amount,
             self.MIN_AMOUNT,
             self.MAX_AMOUNT,
             self.DEFAULT_AMOUNT,
             self.AMOUNT_KEY)
+        return amount
+
+    def get_force(self, kwargs: Dict) -> float:
+        force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
+        if not Validation.is_number(force, self.FORCE_KEY):
+            force = self.DEFAULT_FORCE
         force = Validation.is_in_range(
             force,
             self.MIN_FORCE,
             self.MAX_FORCE,
             self.DEFAULT_FORCE,
             self.FORCE_KEY)
+        return force
 
-        # TODO Consider the current "head tilt" value while validating the
-        # input "horizon" value.
+    def get_number(self, kwargs: Dict, key: str, default: Any):
+        val = kwargs.get(key, default)
+        if not Validation.is_number(val, key):
+            val = default
+        return val
 
+    def get_move_magnitude(self, action: str, force: float,
+                           amount: float) -> float:
         # Set the Move Magnitude to the appropriate amount based on the action
+        move_magnitude = DEFAULT_MOVE
         if action in self.FORCE_ACTIONS:
             move_magnitude = force * self.MAX_FORCE
-
-        if action in self.OBJECT_MOVE_ACTIONS:
+        elif action in self.OBJECT_MOVE_ACTIONS:
             move_magnitude = amount
+        return move_magnitude
 
-        if action in self.MOVE_ACTIONS:
-            move_magnitude = DEFAULT_MOVE
-
-        # Add in noise if noise is enable
-        if self.__noise_enabled:
-            rotation = rotation * (1 + self.generate_noise())
-            horizon = horizon * (1 + self.generate_noise())
-            move_magnitude = move_magnitude * (1 + self.generate_noise())
-
-        rotation_vector = {'y': rotation}
-        object_vector = {
-            'x': float(object_image_coords_x),
-            'y': self._convert_y_image_coord_for_unity(
-                float(object_image_coords_y)),
-        }
-
-        receptacle_vector = {
-            'x': float(receptable_image_coords_x),
-            'y': self._convert_y_image_coord_for_unity(
-                float(receptacle_image_coords_x)
-            ),
-        }
-
+    def get_teleport(self, kwargs):
         teleport_rot_input = kwargs.get(self.TELEPORT_Y_ROT)
         teleport_pos_x_input = kwargs.get(self.TELEPORT_X_POS)
         teleport_pos_z_input = kwargs.get(self.TELEPORT_Z_POS)
@@ -573,6 +516,52 @@ class Controller():
             teleport_position = {
                 'x': teleport_pos_x_input,
                 'z': teleport_pos_z_input}
+        return (teleport_rotation, teleport_position)
+
+    def validate_and_convert_params(self, action: str, **kwargs: Dict) -> Dict:
+        """Need a validation/conversion step for what ai2thor will accept as input
+        to keep parameters more simple for the user (in this case, wrapping
+        rotation degrees into an object)
+        """
+        # TODO: may need to reevaluate validation strategy/error handling in
+        # the future
+        amount = self.get_amount(action, kwargs)
+        force = self.get_force(kwargs)
+        object_image_coords_x = self.get_number(
+            kwargs, self.OBJECT_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD)
+        object_image_coords_y = self.get_number(
+            kwargs, self.OBJECT_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD)
+        receptable_image_coords_x = self.get_number(
+            kwargs, self.RECEPTACLE_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD)
+        receptacle_image_coords_x = self.get_number(
+            kwargs, self.RECEPTACLE_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD)
+        # TODO Consider the current "head tilt" value while validating the
+        # input "horizon" value.
+        horizon = kwargs.get(self.HORIZON_KEY, self.DEFAULT_HORIZON)
+        rotation = kwargs.get(self.ROTATION_KEY, self.DEFAULT_ROTATION)
+
+        rotation_vector = {'y': rotation}
+        object_vector = {
+            'x': float(object_image_coords_x),
+            'y': self._convert_y_image_coord_for_unity(
+                float(object_image_coords_y)),
+        }
+
+        receptacle_vector = {
+            'x': float(receptable_image_coords_x),
+            'y': self._convert_y_image_coord_for_unity(
+                float(receptacle_image_coords_x)
+            ),
+        }
+        move_magnitude = self.get_move_magnitude(action, force, amount)
+        (teleport_rotation, teleport_position) = self.get_teleport(kwargs)
+
+        # Add in noise if noise is enable
+        if self.__noise_enabled:
+            rotation = rotation * (1 + self.generate_noise())
+            horizon = horizon * (1 + self.generate_noise())
+            move_magnitude = move_magnitude * (1 + self.generate_noise())
+
         return dict(
             objectId=kwargs.get("objectId", None),
             receptacleObjectId=kwargs.get("receptacleObjectId", None),
