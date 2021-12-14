@@ -11,7 +11,7 @@ import ai2thor.controller
 import ai2thor.server
 import marshmallow
 import numpy as np
-from typeguard import typechecked
+import typeguard
 
 logger = logging.getLogger(__name__)
 
@@ -133,7 +133,7 @@ class Controller():
     OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
-    @typechecked
+    @typeguard.typechecked
     def __init__(self, unity_app_file_path: str, config: ConfigManager):
 
         self._subscribers = []
@@ -172,7 +172,7 @@ class Controller():
     def remove_all_event_handlers(self):
         self._subscribers = []
 
-    @typechecked
+    @typeguard.typechecked
     def _publish_event(self, event_type: EventType,
                        payload: Union[StartScenePayload, BeforeStepPayload,
                                       AfterStepPayload,
@@ -242,7 +242,7 @@ class Controller():
         if self.__seed:
             random.seed(self.__seed)
 
-    @typechecked
+    @typeguard.typechecked
     def end_scene(
         self,
         rating: Union[float, int, str] = None,
@@ -354,8 +354,9 @@ class Controller():
         schema = SceneConfigurationSchema()
         return schema.load(config_data)
 
-    @typechecked
-    def start_scene(self, config_data: Union[SceneConfiguration, Dict]):
+    @typeguard.typechecked
+    def start_scene(self, config_data: Union[SceneConfiguration, Dict]) -> \
+            StepMetadata:
         """
         Starts a new scene using the given scene configuration data dict and
         returns the scene output data object.
@@ -588,7 +589,7 @@ class Controller():
             receptacleObjectImageCoords=receptacle_vector
         )
 
-    @typechecked
+    @typeguard.typechecked
     def step(self, action: str, **kwargs) -> Union[StepMetadata, None]:
         """
         Runs the given action within the current scene.
@@ -708,9 +709,11 @@ class Controller():
 
         return action
 
+    # DW: only used for tests
     def retrieve_action_list_at_step(self, goal, step_number):
         return goal.retrieve_action_list_at_step(step_number)
 
+    # DW: not used at all
     def retrieve_object_states(self, object_id):
         """Return the state list at the current step for the object with the
         given ID from the scene configuration data, if any."""
@@ -718,12 +721,12 @@ class Controller():
             object_id,
             self.__step_number)
 
-    def stop_simulation(self):
+    def stop_simulation(self) -> None:
         """Stop the 3D simulation environment. This controller won't work any
         more."""
         self._controller.stop()
 
-    def _remove_none(self, d):
+    def _remove_none(self, d) -> Dict:
         '''Remove all none's from dictionaries'''
         for key, value in dict(d).items():
             if isinstance(value, dict):
@@ -736,7 +739,7 @@ class Controller():
                 del d[key]
         return d
 
-    def wrap_step(self, **kwargs):
+    def wrap_step(self, **kwargs) -> Dict:
         # whether or not to randomize segmentation mask colors
         metadata_tier = self._config.get_metadata_tier()
         consistentColors = (metadata_tier == MetadataTier.ORACLE)
@@ -752,7 +755,7 @@ class Controller():
             **kwargs
         )
 
-    def generate_noise(self):
+    def generate_noise(self) -> float:
         """
         Returns a random value between -0.05 and 0.05 used to add noise to all
         numerical action parameters noise_enabled is True.
@@ -764,7 +767,7 @@ class Controller():
 
         return random.uniform(-0.5, 0.5)
 
-    def get_metadata_level(self):
+    def get_metadata_level(self) -> str:
         """
         Returns the current metadata level set in the config. If none
         specified, returns 'default'.
