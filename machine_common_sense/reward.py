@@ -1,5 +1,6 @@
-from typing import Dict, List
+from typing import Dict, List, Optional
 
+import typeguard
 from shapely import geometry
 
 from .controller import DEFAULT_MOVE
@@ -210,12 +211,13 @@ class Reward(object):
         return GOAL_NOT_ACHIEVED
 
     @staticmethod
+    @typeguard.typechecked
     def calculate_reward(
-            goal: GoalMetadata,
-            objects: Dict,
+            goal: Optional[GoalMetadata],
+            objects: List[Dict],
             agent: Dict,
             number_steps: int,
-            reach: float) -> float:
+            reach: Optional[float]) -> float:
         '''
         Determine if the agent achieved the objective/task/goal.
 

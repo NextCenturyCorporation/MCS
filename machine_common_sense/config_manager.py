@@ -4,7 +4,7 @@ import logging
 import os
 from dataclasses import dataclass, field
 from enum import Enum, unique
-from typing import List
+from typing import List, Tuple
 
 import numpy as np
 from marshmallow import Schema, fields, post_load
@@ -209,6 +209,9 @@ class ConfigManager(object):
                 MetadataTier.ORACLE,
             ]
         )
+
+    def get_screen_size(self) -> Tuple[int, int]:
+        return (self.get_screen_width(), self.get_screen_height())
 
     def get_screen_width(self) -> int:
         return self.get_size()

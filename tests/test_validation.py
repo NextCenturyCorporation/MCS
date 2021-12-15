@@ -39,12 +39,15 @@ class TestValidation(unittest.TestCase):
         self.assertEqual(mcs.Validation.is_in_range(3, -4, -2, 1234), 1234)
 
     def test_is_number(self):
-        self.assertEqual(mcs.Validation.is_number('0'), True)
-        self.assertEqual(mcs.Validation.is_number('1'), True)
-        self.assertEqual(mcs.Validation.is_number('12.34'), True)
-        self.assertEqual(mcs.Validation.is_number('01'), True)
-        self.assertEqual(mcs.Validation.is_number(''), False)
-        self.assertEqual(mcs.Validation.is_number('asdf'), False)
+        self.assertTrue(mcs.Validation.is_number(3))
+        self.assertTrue(mcs.Validation.is_number(-2.70))
+        self.assertTrue(mcs.Validation.is_number('0'))
+        self.assertTrue(mcs.Validation.is_number('1'))
+        self.assertTrue(mcs.Validation.is_number('12.34'))
+        self.assertTrue(mcs.Validation.is_number('01'))
+        self.assertFalse(mcs.Validation.is_number(''))
+        self.assertFalse(mcs.Validation.is_number('asdf'))
+        self.assertFalse(mcs.Validation.is_number(None))
 
 
 if __name__ == '__main__':
