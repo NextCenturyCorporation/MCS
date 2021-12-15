@@ -973,6 +973,16 @@ class TestController(unittest.TestCase):
         self.assertNotEqual(previous_noise,
                             self.controller._config.is_noise_enabled())
 
+    def test_retrieve_object_states(self):
+        config = ConfigManager(config_file_or_dict={})
+        self.controller._set_config(config)
+        scene_config = self.controller._convert_scene_config(
+            SceneConfiguration())
+        self.controller._scene_config = scene_config
+        states = self.controller.retrieve_object_states('')
+        self.assertIsInstance(states, list)
+        self.assertEqual(len(states), 0)
+
 
 if __name__ == '__main__':
     unittest.main()
