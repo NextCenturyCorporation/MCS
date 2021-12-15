@@ -5,7 +5,7 @@ import json
 import logging
 import os
 import random
-from typing import Dict, List, Union
+from typing import Dict, List, Optional, Union
 
 import ai2thor.controller
 import ai2thor.server
@@ -590,7 +590,7 @@ class Controller():
         )
 
     @typeguard.typechecked
-    def step(self, action: str, **kwargs) -> Union[StepMetadata, None]:
+    def step(self, action: str, **kwargs) -> Optional[StepMetadata]:
         """
         Runs the given action within the current scene.
 

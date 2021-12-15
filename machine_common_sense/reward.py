@@ -1,4 +1,4 @@
-from typing import Dict, List, Union
+from typing import Dict, List, Optional
 
 import typeguard
 from shapely import geometry
@@ -213,11 +213,11 @@ class Reward(object):
     @staticmethod
     @typeguard.typechecked
     def calculate_reward(
-            goal: Union[GoalMetadata, None],
+            goal: Optional[GoalMetadata],
             objects: List[Dict],
             agent: Dict,
             number_steps: int,
-            reach: Union[float, None]) -> float:
+            reach: Optional[float]) -> float:
         '''
         Determine if the agent achieved the objective/task/goal.
 
