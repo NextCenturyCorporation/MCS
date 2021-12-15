@@ -983,6 +983,36 @@ class TestController(unittest.TestCase):
         self.assertIsInstance(states, list)
         self.assertEqual(len(states), 0)
 
+    def test_get_teleport(self):
+        kwargs = {}
+        (teleport_rot, teleport_pos) = self.controller.get_teleport(kwargs)
+        self.assertIsNone(teleport_rot)
+        self.assertIsNone(teleport_pos)
+
+        kwargs = {'yRotation': 90}
+        (teleport_rot, teleport_pos) = self.controller.get_teleport(kwargs)
+        self.assertEqual(teleport_rot, {'y': 90.0})
+        self.assertIsNone(teleport_pos)
+
+        kwargs = {'xPosition': 1, 'zPosition': 2}
+        (teleport_rot, teleport_pos) = self.controller.get_teleport(kwargs)
+        self.assertIsNone(teleport_rot)
+        self.assertEqual(teleport_pos, {'x': 1.0, 'z': 2.0})
+
+        kwargs = {'yRotation': '90', 'xPosition': '1', 'zPosition': '2'}
+        (teleport_rot, teleport_pos) = self.controller.get_teleport(kwargs)
+        self.assertEqual(teleport_rot, {'y': 90.0})
+        self.assertEqual(teleport_pos, {'x': 1.0, 'z': 2.0})
+
+        kwargs = {'yRotation': 'invalid', 'xPosition': '1', 'zPosition': '2'}
+        self.assertRaises(ValueError, self.controller.get_teleport, kwargs)
+
+        kwargs = {'yRotation': '90', 'xPosition': 'invalid', 'zPosition': '2'}
+        self.assertRaises(ValueError, self.controller.get_teleport, kwargs)
+
+        kwargs = {'yRotation': '90', 'xPosition': '1', 'zPosition': 'invalid'}
+        self.assertRaises(ValueError, self.controller.get_teleport, kwargs)
+
 
 if __name__ == '__main__':
     unittest.main()

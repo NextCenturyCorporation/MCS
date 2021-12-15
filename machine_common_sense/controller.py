@@ -5,7 +5,7 @@ import json
 import logging
 import os
 import random
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import ai2thor.controller
 import ai2thor.server
@@ -488,7 +488,7 @@ class Controller():
             self.FORCE_KEY)
         return force
 
-    def get_number(self, kwargs: Dict, key: str, default: Any):
+    def get_number(self, kwargs: Dict, key: str, default: Any) -> Any:
         val = kwargs.get(key, default)
         if not Validation.is_number(val, key):
             val = default
@@ -504,33 +504,49 @@ class Controller():
             move_magnitude = amount
         return move_magnitude
 
-    def get_teleport(self, kwargs):
-        teleport_rot_input = kwargs.get(self.TELEPORT_Y_ROT)
+    def get_teleport(self, kwargs: Dict) -> Tuple:
+        teleport_rotation = self._get_teleport_rotation(kwargs)
+        teleport_position = self._get_teleport_position(kwargs)
+
+        return (teleport_rotation, teleport_position)
+
+    def _get_teleport_position(self, kwargs) -> Optional(Dict):
+        '''Extract teleport xz position from kwargs if it exists.
+        Otherwise, position will be None.
+        '''
         teleport_pos_x_input = kwargs.get(self.TELEPORT_X_POS)
         teleport_pos_z_input = kwargs.get(self.TELEPORT_Z_POS)
-
-        teleport_rotation = None
         teleport_position = None
+        if teleport_pos_x_input and teleport_pos_z_input:
+            try:
+                teleport_pos_x_input = float(teleport_pos_x_input)
+                teleport_pos_z_input = float(teleport_pos_z_input)
+                teleport_position = {
+                    'x': teleport_pos_x_input,
+                    'z': teleport_pos_z_input}
+            except ValueError as err:
+                raise ValueError('Teleport position') from err
+        return teleport_position
 
-        if teleport_rot_input is not None and Validation.is_number(
-                teleport_rot_input):
-            teleport_rotation = {'y': kwargs.get(self.TELEPORT_Y_ROT)}
-        if (teleport_pos_x_input is not None and
-                Validation.is_number(teleport_pos_x_input) and
-                teleport_pos_z_input is not None and
-                Validation.is_number(teleport_pos_z_input)):
-            teleport_position = {
-                'x': teleport_pos_x_input,
-                'z': teleport_pos_z_input}
-        return (teleport_rotation, teleport_position)
+    def _get_teleport_rotation(self, kwargs: Dict) -> Optional(Dict):
+        '''Extract teleport rotation from kwargs if it exists.
+        Otherwise, rotation will be None.
+        '''
+        teleport_rot_input = kwargs.get(self.TELEPORT_Y_ROT)
+        teleport_rotation = None
+        if teleport_rot_input:
+            try:
+                teleport_rot_input = float(teleport_rot_input)
+                teleport_rotation = {'y': teleport_rot_input}
+            except ValueError as err:
+                raise ValueError('Teleport rotation') from err
+        return teleport_rotation
 
     def validate_and_convert_params(self, action: str, **kwargs: Dict) -> Dict:
         """Need a validation/conversion step for what ai2thor will accept as input
         to keep parameters more simple for the user (in this case, wrapping
         rotation degrees into an object)
         """
-        # TODO: may need to reevaluate validation strategy/error handling in
-        # the future
         amount = self.get_amount(action, kwargs)
         force = self.get_force(kwargs)
         object_image_coords_x = self.get_number(
