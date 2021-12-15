@@ -1,4 +1,7 @@
 from enum import Enum, unique
+from typing import Tuple
+
+import typeguard
 
 from .validation import Validation
 
@@ -646,16 +649,17 @@ class Action(Enum):
             ', '.join([self._value_, self._key, self._desc])
         )
 
-    @ property
+    @property
     def key(self):
         return self._key
 
-    @ property
+    @property
     def desc(self):
         return self._desc
 
     @staticmethod
-    def input_to_action_and_params(input_str):
+    @typeguard.typechecked
+    def input_to_action_and_params(input_str: str) -> Tuple:
         """
         Transforms the given input string into an action string
         and parameter dict.

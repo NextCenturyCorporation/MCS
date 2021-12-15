@@ -60,7 +60,8 @@ setuptools.setup(
         'ai2thor==2.5.0',
         'scikit-image>=0.17.1',
         'dataclasses==0.8; python_version<"3.7"',
-        'marshmallow>=3.5.2'
+        'marshmallow>=3.5.2',
+        'typeguard>=2.11.1'
     ],
     entry_points={
         'console_scripts': [

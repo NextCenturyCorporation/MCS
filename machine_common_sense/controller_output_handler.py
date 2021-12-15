@@ -148,7 +148,8 @@ class SceneEvent():
                 ].name
         except KeyError:
             logger.error(
-                "Return status {self._raw_output.metadata['lastActionStatus']}"
+                f"Return status "
+                f"{self._raw_output.metadata['lastActionStatus']}"
                 " is not currently supported.")
         finally:
             return return_status
