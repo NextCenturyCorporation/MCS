@@ -568,15 +568,22 @@ class TestController(unittest.TestCase):
 
     def test_step_validate_parameters_force_object(self):
         _ = self.controller.start_scene({'name': TEST_FILE_NAME})
-        self.controller.step('PushObject', force=1, objectId='test_id_1')
+        self.controller.step(
+            'PushObject',
+            force=1,
+            objectId='test_id_1')
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
+                horizon=0.0,
                 moveMagnitude=mcs.Controller.MAX_FORCE,
                 objectId='test_id_1'))
 
-        self.controller.step('PushObject', force=0.1, objectId='test_id_1')
+        self.controller.step(
+            'PushObject',
+            force=0.1,
+            objectId='test_id_1')
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
@@ -585,23 +592,19 @@ class TestController(unittest.TestCase):
                 mcs.Controller.MAX_FORCE,
                 objectId='test_id_1'))
 
-        self.controller.step('PushObject', force=1.5, objectId='test_id_1')
-        self.assertEqual(
-            self.controller.get_last_step_data(),
-            self.create_step_data(
-                action='PushObject',
-                moveMagnitude=mcs.Controller.DEFAULT_AMOUNT *
-                mcs.Controller.MAX_FORCE,
-                objectId='test_id_1'))
+        self.assertRaises(
+            ValueError,
+            self.controller.step,
+            'PushObject',
+            force=1.5,
+            objectId='test_id_1')
 
-        self.controller.step('PushObject', force=-1, objectId='test_id_1')
-        self.assertEqual(
-            self.controller.get_last_step_data(),
-            self.create_step_data(
-                action='PushObject',
-                moveMagnitude=mcs.Controller.DEFAULT_AMOUNT *
-                mcs.Controller.MAX_FORCE,
-                objectId='test_id_1'))
+        self.assertRaises(
+            ValueError,
+            self.controller.step,
+            'PushObject',
+            force=-1,
+            objectId='test_id_1')
 
         self.controller.step(
             'PushObject',
@@ -643,31 +646,23 @@ class TestController(unittest.TestCase):
                 objectId='test_id_1',
                 receptacleObjectId='test_id_2'))
 
-        self.controller.step(
-            'OpenObject',
-            amount=1.5,
-            objectId='test_id_1',
-            receptacleObjectId='test_id_2')
-        self.assertEqual(
-            self.controller.get_last_step_data(),
-            self.create_step_data(
-                action='MCSOpenObject',
-                moveMagnitude=mcs.Controller.DEFAULT_AMOUNT,
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step(
+                'OpenObject',
+                amount=1.5,
                 objectId='test_id_1',
-                receptacleObjectId='test_id_2'))
+                receptacleObjectID='test_id_2')
+        )
 
-        self.controller.step(
-            'OpenObject',
-            amount=-1,
-            objectId='test_id_1',
-            receptacleObjectId='test_id_2')
-        self.assertEqual(
-            self.controller.get_last_step_data(),
-            self.create_step_data(
-                action='MCSOpenObject',
-                moveMagnitude=mcs.Controller.DEFAULT_AMOUNT,
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step(
+                'OpenObject',
+                amount=-1,
                 objectId='test_id_1',
-                receptacleObjectId='test_id_2'))
+                receptacleObjectId='test_id_2')
+        )
 
         self.controller.step(
             'OpenObject',
@@ -984,34 +979,51 @@ class TestController(unittest.TestCase):
         self.assertEqual(len(states), 0)
 
     def test_get_teleport(self):
-        kwargs = {}
-        (teleport_rot, teleport_pos) = self.controller.get_teleport(kwargs)
+        (teleport_rot, teleport_pos) = self.controller.get_teleport()
         self.assertIsNone(teleport_rot)
         self.assertIsNone(teleport_pos)
 
-        kwargs = {'yRotation': 90}
-        (teleport_rot, teleport_pos) = self.controller.get_teleport(kwargs)
+        (teleport_rot, teleport_pos) = self.controller.get_teleport(
+            yRotation=90
+        )
         self.assertEqual(teleport_rot, {'y': 90.0})
         self.assertIsNone(teleport_pos)
 
-        kwargs = {'xPosition': 1, 'zPosition': 2}
-        (teleport_rot, teleport_pos) = self.controller.get_teleport(kwargs)
+        (teleport_rot, teleport_pos) = self.controller.get_teleport(
+            xPosition=1, zPosition=2)
         self.assertIsNone(teleport_rot)
         self.assertEqual(teleport_pos, {'x': 1.0, 'z': 2.0})
 
-        kwargs = {'yRotation': '90', 'xPosition': '1', 'zPosition': '2'}
-        (teleport_rot, teleport_pos) = self.controller.get_teleport(kwargs)
+        (teleport_rot, teleport_pos) = self.controller.get_teleport(
+            yRotation=90, xPosition=1, zPosition='2')
         self.assertEqual(teleport_rot, {'y': 90.0})
         self.assertEqual(teleport_pos, {'x': 1.0, 'z': 2.0})
 
-        kwargs = {'yRotation': 'invalid', 'xPosition': '1', 'zPosition': '2'}
-        self.assertRaises(ValueError, self.controller.get_teleport, kwargs)
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.get_teleport(
+                yRotation='invalid',
+                xPosition='1',
+                zPosition='2')
+        )
 
-        kwargs = {'yRotation': '90', 'xPosition': 'invalid', 'zPosition': '2'}
-        self.assertRaises(ValueError, self.controller.get_teleport, kwargs)
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.get_teleport(
+                yRotation='90',
+                xPosition='invalid',
+                zPosition='2'
+            )
+        )
 
-        kwargs = {'yRotation': '90', 'xPosition': '1', 'zPosition': 'invalid'}
-        self.assertRaises(ValueError, self.controller.get_teleport, kwargs)
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.get_teleport(
+                yRotation=90,
+                xPosition=1,
+                zPosition='invalid'
+            )
+        )
 
 
 if __name__ == '__main__':
