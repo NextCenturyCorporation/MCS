@@ -25,7 +25,6 @@ from .step_metadata import StepMetadata
 from .stringifier import Stringifier
 from .subscriber import add_subscribers
 from .unity_executable_provider import UnityExecutableProvider
-from .validation import Validation
 
 logger = logging.getLogger(__name__)
 # Set default logging handler to avoid "No handler found" warnings
