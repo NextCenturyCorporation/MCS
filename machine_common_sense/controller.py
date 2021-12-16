@@ -489,7 +489,7 @@ class Controller():
 
     def get_number(self, key: str, **kwargs) -> Optional[Any]:
         val = kwargs.get(key)
-        if val:
+        if val is not None:
             try:
                 val = float(val)
             except ValueError as err:
@@ -499,7 +499,7 @@ class Controller():
     def get_number_with_default(
             self, key: str, default: Any, **kwargs) -> Any:
         val = kwargs.get(key, default)
-        if val:
+        if val is not None:
             try:
                 val = float(val)
             except ValueError as err:
@@ -528,7 +528,8 @@ class Controller():
         teleport_pos_x_input = self.get_number(self.TELEPORT_X_POS, **kwargs)
         teleport_pos_z_input = self.get_number(self.TELEPORT_Z_POS, **kwargs)
         teleport_position = None
-        if teleport_pos_x_input and teleport_pos_z_input:
+        if teleport_pos_x_input is not None and \
+                teleport_pos_z_input is not None:
             teleport_position = {
                 'x': teleport_pos_x_input,
                 'z': teleport_pos_z_input}
@@ -539,7 +540,8 @@ class Controller():
         Otherwise, rotation will be None.
         '''
         teleport_rot_input = self.get_number(self.TELEPORT_Y_ROT, **kwargs)
-        return {'y': teleport_rot_input} if teleport_rot_input else None
+        return {'y': teleport_rot_input} \
+            if teleport_rot_input is not None else None
 
     def validate_and_convert_params(self, action: str, **kwargs) -> Dict:
         """Need a validation/conversion step for what ai2thor will accept as input
