@@ -460,7 +460,7 @@ class Controller():
             if action in self.OBJECT_MOVE_ACTIONS
             else self.DEFAULT_AMOUNT
         )
-        if amount:
+        if amount is not None:
             try:
                 amount = float(amount)
             except ValueError as err:
@@ -475,7 +475,7 @@ class Controller():
 
     def get_force(self, **kwargs) -> float:
         force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
-        if force:
+        if force is not None:
             try:
                 force = float(force)
             except ValueError as err:
