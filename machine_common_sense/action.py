@@ -3,8 +3,6 @@ from typing import Tuple
 
 import typeguard
 
-from .validation import Validation
-
 
 @unique
 class Action(Enum):
@@ -694,10 +692,13 @@ class Action(Enum):
         try:
             for param in input_split[1:]:
                 param_key, param_value = param.split('=')
-                if Validation.is_number(param_value.strip()):
+                params[param_key.strip()] = param_value.strip()
+
+                try:
                     params[param_key.strip()] = float(param_value.strip())
-                else:
-                    params[param_key.strip()] = param_value.strip()
+                except ValueError:
+                    pass
+
         except BaseException:
             return action, None
 
