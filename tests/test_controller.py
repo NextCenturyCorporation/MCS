@@ -337,19 +337,22 @@ class TestController(unittest.TestCase):
         })
 
         # calling end_scene a second time raises an exception
-        self.assertRaises(RuntimeError, self.controller.end_scene,
-                          "plausible",
-                          0.5,
-                          {1: {
-                              "rating": "plausible",
-                              "score": .75,
-                              "violations_xy_list": [
-                                  {
-                                      "x": 1,
-                                      "y": 1
-                                  }
-                              ]}
-                           })
+        self.assertRaises(
+            RuntimeError,
+            lambda: self.controller.end_scene(
+                "plausible",
+                0.5,
+                {1: {
+                    "rating": "plausible",
+                    "score": .75,
+                    "violations_xy_list": [
+                        {
+                            "x": 1,
+                            "y": 1
+                        }
+                    ]}
+                 })
+        )
 
     def test_start_scene(self):
         self.controller.set_metadata_tier(
@@ -594,17 +597,18 @@ class TestController(unittest.TestCase):
 
         self.assertRaises(
             ValueError,
-            self.controller.step,
-            'PushObject',
-            force=1.5,
-            objectId='test_id_1')
-
+            lambda: self.controller.step(
+                'PushObject',
+                force=1.5,
+                objectId='test_id_1')
+        )
         self.assertRaises(
             ValueError,
-            self.controller.step,
-            'PushObject',
-            force=-1,
-            objectId='test_id_1')
+            lambda: self.controller.step(
+                'PushObject',
+                force=-1,
+                objectId='test_id_1')
+        )
 
         self.controller.step(
             'PushObject',
