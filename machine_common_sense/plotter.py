@@ -57,6 +57,12 @@ class Object():
     bounds: list
 
 
+@dataclass
+class Texture():
+    material: str
+    positions: list
+
+
 class TopDownPlotter():
 
     DEFAULT_COLOR = colour.COLOR_NAME_TO_RGB['white']
@@ -130,7 +136,9 @@ class TopDownPlotter():
             plt_img, scene_event.metadata.get(
                 'holes', []))
 
-        # TODO draw floor texture
+        plt_img = self._draw_floor_textures(
+            plt_img,
+            scene_event.metadata.get('floorTextures', []))
 
         plt_objects = self._find_plottable_objects(scene_event)
         plt_img = self._draw_objects(plt_img,
@@ -234,26 +242,57 @@ class TopDownPlotter():
         img[rr, cc] = self.BORDER_COLOR
         return img
 
+    def _draw_floor_textures(self, img: np.ndarray,
+                             floor_textures: List) -> np.ndarray:
+        if floor_textures is not None:
+            for floor_texture in floor_textures:
+                texture = Texture(**floor_texture)
+                print(texture.material)
+                print(texture.positions)
+                for position in texture.positions:
+                    texture_pos = SceneCoord(**position)
+                    tex_pos_ul = texture_pos - 0.5
+                    tex_pos_lr = texture_pos + 0.5
+                    tex_img_pos_ul = self._convert_to_image_coords(tex_pos_ul)
+                    tex_img_pos_lr = self._convert_to_image_coords(tex_pos_lr)
+                    img = self._draw_floor_texture(
+                        img, tex_img_pos_ul, tex_img_pos_lr)
+
+        return img
+
+    def _draw_floor_texture(self,
+                            img: np.ndarray,
+                            upper_left: ImageCoord,
+                            lower_right: ImageCoord) -> np.ndarray:
+        rr, cc = skimage.draw.rectangle(
+            start=(upper_left.y, upper_left.x),
+            end=(lower_right.y, lower_right.x),
+            shape=img.shape[:2])
+        img[rr, cc] = (255, 0, 0)  # TODO where does the color come from?
+
+        return img
+
     def _draw_holes(self, img: np.ndarray, holes: List) -> np.ndarray:
         '''Draw a box with an X to illustrate a floor hole'''
-        if holes is not None:
-            for hole in holes:
-                hole_center = SceneCoord(**hole)
-                # calculate scene corners
-                hole_upper_left = hole_center - (self.HOLE_WIDTH / 2)
-                hole_lower_right = hole_center + (self.HOLE_WIDTH / 2)
+        if holes is None:
+            return img
 
-                # convert scene corners to image coordinates
-                hole_img_upper_left = self._convert_to_image_coords(
-                    hole_upper_left)
-                hole_img_lower_right = self._convert_to_image_coords(
-                    hole_lower_right)
+        for hole in holes:
+            hole_center = SceneCoord(**hole)
+            # calculate scene corners
+            hole_upper_left: SceneCoord = hole_center - (self.HOLE_WIDTH / 2)
+            hole_lower_right: SceneCoord = hole_center + (self.HOLE_WIDTH / 2)
 
-                img = self._draw_hole_perimeter(
-                    img, hole_img_upper_left, hole_img_lower_right)
-                img = self._draw_hole_x(
-                    img, hole_img_upper_left, hole_img_lower_right)
+            # convert scene corners to image coordinates
+            hole_img_upper_left: ImageCoord = self._convert_to_image_coords(
+                hole_upper_left)
+            hole_img_lower_right: ImageCoord = self._convert_to_image_coords(
+                hole_lower_right)
 
+            img = self._draw_hole_perimeter(
+                img, hole_img_upper_left, hole_img_lower_right)
+            img = self._draw_hole_x(
+                img, hole_img_upper_left, hole_img_lower_right)
         return img
 
     def _draw_hole_perimeter(

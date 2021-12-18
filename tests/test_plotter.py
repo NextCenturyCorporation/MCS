@@ -1,4 +1,5 @@
 import unittest
+from unittest.case import skip
 
 import ai2thor
 import PIL
@@ -169,9 +170,9 @@ class TestTopDownPlotter(unittest.TestCase):
         robot = self.plotter._create_robot(robot_metadata)
 
         self.assertAlmostEqual(robot.x, 2.70)
-        self.assertAlmostEqual(robot.y, 1.23)
         self.assertAlmostEqual(robot.z, 3.14)
-        self.assertAlmostEqual(robot.rotation, 78.0)
+        self.assertAlmostEqual(robot.heading.x, 0.19562952)
+        self.assertAlmostEqual(robot.heading.z, 0.04158233)
 
     def test_create_robot_missing_position(self):
         robot_metadata = {
@@ -184,9 +185,9 @@ class TestTopDownPlotter(unittest.TestCase):
         robot = self.plotter._create_robot(robot_metadata)
 
         self.assertAlmostEqual(robot.x, 0.0)
-        self.assertAlmostEqual(robot.y, 0.0)
         self.assertAlmostEqual(robot.z, 0.0)
-        self.assertAlmostEqual(robot.rotation, 78.0)
+        self.assertAlmostEqual(robot.heading.x, 0.19562952)
+        self.assertAlmostEqual(robot.heading.z, 0.04158233)
 
     def test_create_robot_missing_rotation(self):
         robot_metadata = {
@@ -199,9 +200,9 @@ class TestTopDownPlotter(unittest.TestCase):
         robot = self.plotter._create_robot(robot_metadata)
 
         self.assertAlmostEqual(robot.x, 2.70)
-        self.assertAlmostEqual(robot.y, 1.23)
         self.assertAlmostEqual(robot.z, 3.14)
-        self.assertAlmostEqual(robot.rotation, 0.0)
+        self.assertAlmostEqual(robot.heading.x, 0.0)
+        self.assertAlmostEqual(robot.heading.z, 0.2)
 
     def test_create_object(self):
         object_metadata = {
@@ -334,6 +335,31 @@ class TestTopDownPlotter(unittest.TestCase):
         )
 
         self.assertEqual(plotter._scene_name, "scene")
+
+    @skip("ResourceWarning")
+    def test_draw_holes(self):
+        holes = [{"x": 0, "z": 0}, {"x": 1, "z": 0}, {"x": 2, "z": 2}]
+        plotter = TopDownPlotter(
+            team="test",
+            scene_name="testscene",
+            room_size=Vector3d(x=10, y=3, z=10))
+        img = plotter.grid_img.copy()
+        img = plotter._draw_holes(img, holes)
+        pil_img = plotter._export_plot(img)
+        pil_img.show()
+
+    @skip("ResourceWarning")
+    def test_draw_textures(self):
+        floor_textures = [{"material": "Lava", "positions": [
+            {"x": -2, "z": -2}, {"x": -1, "z": -2}, {"x": -3, "z": -3}]}]
+        plotter = TopDownPlotter(
+            team="test",
+            scene_name="testscene",
+            room_size=Vector3d(x=10, y=3, z=10))
+        img = plotter.grid_img.copy()
+        img = plotter._draw_floor_textures(img, floor_textures)
+        pil_img = plotter._export_plot(img)
+        pil_img.show()
 
 
 if __name__ == '__main__':
