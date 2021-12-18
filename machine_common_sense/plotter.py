@@ -77,7 +77,7 @@ class TopDownPlotter():
     HEADING_LENGTH = 0.2
     ROBOT_NOSE_RADIUS = 0.08
     PLOT_IMAGE_SIZE = 512
-    HOLE_WIDTH = 1
+    UNIT_CELL_WIDTH = 1
 
     FONT = cv2.FONT_HERSHEY_COMPLEX
     FONT_SCALE = 0.4
@@ -244,19 +244,19 @@ class TopDownPlotter():
 
     def _draw_floor_textures(self, img: np.ndarray,
                              floor_textures: List) -> np.ndarray:
-        if floor_textures is not None:
-            for floor_texture in floor_textures:
-                texture = Texture(**floor_texture)
-                print(texture.material)
-                print(texture.positions)
-                for position in texture.positions:
-                    texture_pos = SceneCoord(**position)
-                    tex_pos_ul = texture_pos - 0.5
-                    tex_pos_lr = texture_pos + 0.5
-                    tex_img_pos_ul = self._convert_to_image_coords(tex_pos_ul)
-                    tex_img_pos_lr = self._convert_to_image_coords(tex_pos_lr)
-                    img = self._draw_floor_texture(
-                        img, tex_img_pos_ul, tex_img_pos_lr)
+        if floor_textures is None:
+            return img
+
+        for floor_texture in floor_textures:
+            texture = Texture(**floor_texture)
+            for position in texture.positions:
+                texture_pos = SceneCoord(**position)
+                tex_pos_ul = texture_pos - (self.UNIT_CELL_WIDTH / 2)
+                tex_pos_lr = texture_pos + (self.UNIT_CELL_WIDTH / 2)
+                tex_img_pos_ul = self._convert_to_image_coords(tex_pos_ul)
+                tex_img_pos_lr = self._convert_to_image_coords(tex_pos_lr)
+                img = self._draw_floor_texture(
+                    img, tex_img_pos_ul, tex_img_pos_lr)
 
         return img
 
@@ -269,6 +269,7 @@ class TopDownPlotter():
             end=(lower_right.y, lower_right.x),
             shape=img.shape[:2])
         img[rr, cc] = (255, 0, 0)  # TODO where does the color come from?
+        # related to MCS-1024
 
         return img
 
@@ -280,8 +281,10 @@ class TopDownPlotter():
         for hole in holes:
             hole_center = SceneCoord(**hole)
             # calculate scene corners
-            hole_upper_left: SceneCoord = hole_center - (self.HOLE_WIDTH / 2)
-            hole_lower_right: SceneCoord = hole_center + (self.HOLE_WIDTH / 2)
+            hole_upper_left: SceneCoord = hole_center - \
+                (self.UNIT_CELL_WIDTH / 2)
+            hole_lower_right: SceneCoord = hole_center + \
+                (self.UNIT_CELL_WIDTH / 2)
 
             # convert scene corners to image coordinates
             hole_img_upper_left: ImageCoord = self._convert_to_image_coords(
