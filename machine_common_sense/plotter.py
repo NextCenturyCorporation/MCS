@@ -157,7 +157,7 @@ class TopDownPlotter():
         '''converts scene xz coordinate point to an xy image coordinate'''
         return ImageCoord(
             x=int(self.image_center.x + scene_pt.x * self.scale.x),
-            y=int(self.image_center.y + scene_pt.z * self.scale.y)
+            y=int(self.image_center.y - scene_pt.z * self.scale.y)
         )
 
     def _draw_step_number(self, img: np.ndarray,

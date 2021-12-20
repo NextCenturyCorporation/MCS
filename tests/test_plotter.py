@@ -345,6 +345,9 @@ class TestTopDownPlotter(unittest.TestCase):
             room_size=Vector3d(x=10, y=3, z=10))
         img = plotter.grid_img.copy()
         img = plotter._draw_holes(img, holes)
+        floor_textures = [{"material": "Lava", "positions": [
+            {"x": -2, "z": -2}, {"x": -1, "z": -2}, {"x": -3, "z": -3}]}]
+        img = plotter._draw_floor_textures(img, floor_textures)
         pil_img = plotter._export_plot(img)
         pil_img.show()
 
