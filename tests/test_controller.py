@@ -5,7 +5,7 @@ import unittest
 from types import SimpleNamespace
 from unittest.mock import ANY, MagicMock
 
-import numpy
+import numpy as np
 
 import machine_common_sense as mcs
 from machine_common_sense.config_manager import (ConfigManager, MetadataTier,
@@ -44,9 +44,9 @@ class TestController(unittest.TestCase):
         return SimpleNamespace(**mock_scene_event_data)
 
     def create_wrap_output_scene_event(self):
-        image_data = numpy.array([[0]], dtype=numpy.uint8)
-        depth_data = numpy.array([[[128, 0, 0]]], dtype=numpy.uint8)
-        object_mask_data = numpy.array([[192]], dtype=numpy.uint8)
+        image_data = np.array([[0]], dtype=np.uint8)
+        depth_data = np.array([[[128, 0, 0]]], dtype=np.uint8)
+        object_mask_data = np.array([[192]], dtype=np.uint8)
 
         return {
             "events": [self.create_mock_scene_event({
@@ -276,11 +276,11 @@ class TestController(unittest.TestCase):
     def test_end_scene(self):
         test_payload = self.controller._create_event_payload_kwargs()
 
-        test_payload["rating"] = "plausible"
+        test_payload["rating"] = 1.0
         test_payload["score"] = 0.5
         test_payload["report"] = {
             1: {
-                "rating": "plausible",
+                "rating": 1.0,
                 "score": .75,
                 "violations_xy_list": [
                     {
@@ -290,9 +290,9 @@ class TestController(unittest.TestCase):
                 ]}
         }
 
-        self.controller.end_scene("plausible", 0.5, {
+        self.controller.end_scene(1.0, 0.5, {
             1: {
-                "rating": "plausible",
+                "rating": 1.0,
                 "score": .75,
                 "violations_xy_list": [
                     {
@@ -307,14 +307,80 @@ class TestController(unittest.TestCase):
             EndScenePayload(**test_payload)
         )
 
+    def test_end_scene_with_numpy_float(self):
+        test_payload = self.controller._create_event_payload_kwargs()
+
+        test_payload["rating"] = 1.0
+        test_payload["score"] = np.float64(0.5)
+        test_payload["report"] = {
+            1: {
+                "rating": 1.0,
+                "score": np.float64(.75),
+                "violations_xy_list": [
+                    {
+                        "x": 1,
+                        "y": 1
+                    }
+                ]}
+        }
+
+        self.controller.end_scene(1.0, np.float64(0.5), {
+            1: {
+                "rating": 1.0,
+                "score": np.float64(.75),
+                "violations_xy_list": [
+                    {
+                        "x": np.int32(1),
+                        "y": np.int32(1)
+                    }
+                ]}
+        })
+
+        self.controller._publish_event.assert_called_with(
+            EventType.ON_END_SCENE,
+            EndScenePayload(**test_payload)
+        )
+
+    def test_end_scene_with_rating_string(self):
+        test_payload = self.controller._create_event_payload_kwargs()
+
+        test_payload["rating"] = 1.0
+        test_payload["score"] = np.float64(0.5)
+        test_payload["report"] = {
+            1: {
+                "rating": 1.0,
+                "score": np.float64(.75),
+                "violations_xy_list": [
+                    {
+                        "x": 1,
+                        "y": 1
+                    }
+                ]}
+        }
+
+        self.assertRaises(
+            TypeError,
+            lambda: self.controller.end_scene("1.0", np.float64(0.5), {
+                1: {
+                    "rating": 1.0,
+                    "score": np.float64(.75),
+                    "violations_xy_list": [
+                        {
+                            "x": np.int32(1),
+                            "y": np.int32(1)
+                        }
+                    ]}
+            })
+        )
+
     def test_end_scene_twice(self):
         test_payload = self.controller._create_event_payload_kwargs()
 
-        test_payload["rating"] = "plausible"
+        test_payload["rating"] = 1.0
         test_payload["score"] = 0.5
         test_payload["report"] = {
             1: {
-                "rating": "plausible",
+                "rating": 1.0,
                 "score": .75,
                 "violations_xy_list": [
                     {
@@ -324,9 +390,9 @@ class TestController(unittest.TestCase):
                 ]}
         }
 
-        self.controller.end_scene("plausible", 0.5, {
+        self.controller.end_scene(1.0, 0.5, {
             1: {
-                "rating": "plausible",
+                "rating": 1.0,
                 "score": .75,
                 "violations_xy_list": [
                     {
@@ -340,10 +406,10 @@ class TestController(unittest.TestCase):
         self.assertRaises(
             RuntimeError,
             lambda: self.controller.end_scene(
-                "plausible",
+                1.0,
                 0.5,
                 {1: {
-                    "rating": "plausible",
+                    "rating": 1.0,
                     "score": .75,
                     "violations_xy_list": [
                         {

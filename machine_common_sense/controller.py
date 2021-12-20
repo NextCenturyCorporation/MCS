@@ -244,8 +244,8 @@ class Controller():
     @typeguard.typechecked
     def end_scene(
         self,
-        rating: Union[float, int, str] = None,
-        score: float = 1.0,
+        rating: Optional[float] = None,
+        score: Optional[float] = None,
         report: Dict[int, object] = None
     ) -> None:
         """
@@ -255,20 +255,20 @@ class Controller():
 
         Parameters
         ----------
-        rating : float or int or string, required
+        rating : float, optional
             The plausibility rating to classify a passive / VoE scene as either
             plausible or implausible. Not used for any interactive scenes. For
             passive agent scenes, this rating should be continuous, from 0.0
             (completely implausible) to 1.0 (completely plausible). For other
             passive scenes, this rating must be binary, either 0 (implausible)
-            or 1 (plausible). Please note that end-of-scene ratings are
+            or 1 (plausible). End-of-scene ratings are
             required for all passive / VoE scenes. (default None)
         score : float, optional
             The continuous plausibility score between 0.0 (completely
             implausible) and 1.0 (completely plausible). End-of-scene scores
             are required for all passive / VoE scenes except agent scenes.
             Not used for any interactive scenes or passive agent scenes.
-            (default 1.0)
+            (default None)
 
             Note: when an issue causes the program to exit prematurely or
             end_scene isn't properly called but history_enabled is true,
@@ -281,14 +281,14 @@ class Controller():
             Key is an int representing a step/frame number from output step
             metadata, starting at 1. Value or payload contains:
 
-                * rating : float or int or string, optional
+                * rating : float or int, optional
                     The plausibility rating to classify a passive / VoE scene
                     as either plausible or implausible. Not used for any
                     interactive scenes. For passive agent scenes, this rating
                     should be continuous, from 0.0 (completely implausible) to
                     1.0 (completely plausible). For other passive scenes, this
                     rating must be binary, either 0 (implausible) or 1
-                    (plausible). Please note that frame-by-frame ratings are no
+                    (plausible). Frame-by-frame ratings are no
                     longer required for any scenes (but end-of-scene ratings
                     are). (default None)
                 * score : float, optional
@@ -331,7 +331,7 @@ class Controller():
         """
         if(not self._end_scene_called):
             payload = self._create_event_payload_kwargs()
-            payload['rating'] = str(rating)
+            payload['rating'] = rating
             payload['score'] = score
             payload['report'] = report
 

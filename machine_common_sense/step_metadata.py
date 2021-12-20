@@ -113,7 +113,7 @@ class StepMetadata:
         The list of metadata for all the visible structural objects (like
         walls, occluders, and ramps) in the scene. This list will be empty
         if using a metadata level below the 'oracle' level.
-        Please note that occluders are composed of two separate objects,
+        Occluders are composed of two separate objects,
         the "wall" and the "pole", with corresponding object IDs
         (occluder_wall_<uuid> and occluder_pole_<uuid>), and ramps are
         composed of between one and three objects (depending on the type
