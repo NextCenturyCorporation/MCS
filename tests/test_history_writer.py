@@ -239,16 +239,16 @@ class TestHistoryWriter(unittest.TestCase):
         writer = mcs.HistoryWriter(self.prefix_config_data)
 
         history_item = mcs.SceneHistory(
-            step=np.int(1),
+            step=np.int32(1),
             action="MoveAhead")
         writer.add_step(history_item)
 
         history_item = mcs.SceneHistory(
-            step=np.int(2),
+            step=2,
             action="MoveLeft")
         writer.add_step(history_item)
 
-        writer.write_history_file("Plausible", np.float(0.75))
+        writer.write_history_file("Plausible", np.float64(0.75))
 
         self.assertEqual(writer.end_score["classification"], "Plausible")
         self.assertEqual(writer.end_score["confidence"], "0.75")

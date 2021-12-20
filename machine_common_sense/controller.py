@@ -5,7 +5,7 @@ import json
 import logging
 import os
 import random
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import ai2thor.controller
 import ai2thor.server
@@ -32,7 +32,6 @@ from .controller_events import (AfterStepPayload, BeforeStepPayload,
 from .controller_output_handler import ControllerOutputHandler
 from .goal_metadata import GoalMetadata
 from .step_metadata import StepMetadata
-from .validation import Validation
 
 
 def __reset_override(self, scene):
@@ -98,17 +97,17 @@ class Controller():
 
     MAX_FORCE = 50.0
 
-    DEFAULT_HORIZON = 0
-    DEFAULT_ROTATION = 0
+    DEFAULT_HORIZON = 0.0
+    DEFAULT_ROTATION = 0.0
     DEFAULT_FORCE = 0.5
     DEFAULT_AMOUNT = 0.5
-    DEFAULT_IMG_COORD = 0
-    DEFAULT_OBJECT_MOVE_AMOUNT = 1
+    DEFAULT_IMG_COORD = 0.0
+    DEFAULT_OBJECT_MOVE_AMOUNT = 1.0
 
-    MAX_FORCE = 1
-    MIN_FORCE = 0
-    MAX_AMOUNT = 1
-    MIN_AMOUNT = 0
+    MAX_FORCE = 1.0
+    MIN_FORCE = 0.0
+    MAX_AMOUNT = 1.0
+    MIN_AMOUNT = 0.0
 
     ROTATION_KEY = 'rotation'
     HORIZON_KEY = 'horizon'
@@ -454,44 +453,57 @@ class Controller():
             self._config.is_video_enabled()
         )
 
-    def get_amount(self, action, kwargs: Dict) -> float:
+    def get_amount(self, action, **kwargs) -> float:
         amount = kwargs.get(
             self.AMOUNT_KEY,
             self.DEFAULT_OBJECT_MOVE_AMOUNT
             if action in self.OBJECT_MOVE_ACTIONS
             else self.DEFAULT_AMOUNT
         )
-        if not Validation.is_number(amount, self.AMOUNT_KEY):
-            # The default for open/close is 1, the default for "Move" actions
-            # is 0.5
-            if action in self.OBJECT_MOVE_ACTIONS:
-                amount = self.DEFAULT_OBJECT_MOVE_AMOUNT
-            else:
-                amount = self.DEFAULT_AMOUNT
-        amount = Validation.is_in_range(
-            amount,
-            self.MIN_AMOUNT,
-            self.MAX_AMOUNT,
-            self.DEFAULT_AMOUNT,
-            self.AMOUNT_KEY)
+        if amount is not None:
+            try:
+                amount = float(amount)
+            except ValueError as err:
+                raise ValueError(f"Amount {amount} is not a number") from err
+
+        if amount < self.MIN_AMOUNT or amount > self.MAX_AMOUNT:
+            raise ValueError(
+                "Amount not in acceptable range of "
+                f"({self.MIN_AMOUNT}-{self.MAX_AMOUNT})"
+            )
         return amount
 
-    def get_force(self, kwargs: Dict) -> float:
+    def get_force(self, **kwargs) -> float:
         force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
-        if not Validation.is_number(force, self.FORCE_KEY):
-            force = self.DEFAULT_FORCE
-        force = Validation.is_in_range(
-            force,
-            self.MIN_FORCE,
-            self.MAX_FORCE,
-            self.DEFAULT_FORCE,
-            self.FORCE_KEY)
+        if force is not None:
+            try:
+                force = float(force)
+            except ValueError as err:
+                raise ValueError('Force is not a number') from err
+
+            if force < self.MIN_FORCE or force > self.MAX_FORCE:
+                raise ValueError(
+                    f'Force not in acceptable range of '
+                    f'({self.MIN_FORCE}-{self.MAX_FORCE})')
         return force
 
-    def get_number(self, kwargs: Dict, key: str, default: Any):
+    def get_number(self, key: str, **kwargs) -> Optional[Any]:
+        val = kwargs.get(key)
+        if val is not None:
+            try:
+                val = float(val)
+            except ValueError as err:
+                raise ValueError(f"{key}") from err
+        return val
+
+    def get_number_with_default(
+            self, key: str, default: Any, **kwargs) -> Any:
         val = kwargs.get(key, default)
-        if not Validation.is_number(val, key):
-            val = default
+        if val is not None:
+            try:
+                val = float(val)
+            except ValueError as err:
+                raise ValueError(f"{key}") from err
         return val
 
     def get_move_magnitude(self, action: str, force: float,
@@ -504,43 +516,52 @@ class Controller():
             move_magnitude = amount
         return move_magnitude
 
-    def get_teleport(self, kwargs):
-        teleport_rot_input = kwargs.get(self.TELEPORT_Y_ROT)
-        teleport_pos_x_input = kwargs.get(self.TELEPORT_X_POS)
-        teleport_pos_z_input = kwargs.get(self.TELEPORT_Z_POS)
+    def get_teleport(self, **kwargs) -> Tuple:
+        teleport_rotation = self._get_teleport_rotation(**kwargs)
+        teleport_position = self._get_teleport_position(**kwargs)
+        return (teleport_rotation, teleport_position)
 
-        teleport_rotation = None
+    def _get_teleport_position(self, **kwargs) -> Optional[Dict]:
+        '''Extract teleport xz position from kwargs if it exists.
+        Otherwise, position will be None.
+        '''
+        teleport_pos_x_input = self.get_number(self.TELEPORT_X_POS, **kwargs)
+        teleport_pos_z_input = self.get_number(self.TELEPORT_Z_POS, **kwargs)
         teleport_position = None
-
-        if teleport_rot_input is not None and Validation.is_number(
-                teleport_rot_input):
-            teleport_rotation = {'y': kwargs.get(self.TELEPORT_Y_ROT)}
-        if (teleport_pos_x_input is not None and
-                Validation.is_number(teleport_pos_x_input) and
-                teleport_pos_z_input is not None and
-                Validation.is_number(teleport_pos_z_input)):
+        if teleport_pos_x_input is not None and \
+                teleport_pos_z_input is not None:
             teleport_position = {
                 'x': teleport_pos_x_input,
                 'z': teleport_pos_z_input}
-        return (teleport_rotation, teleport_position)
+        return teleport_position
 
-    def validate_and_convert_params(self, action: str, **kwargs: Dict) -> Dict:
+    def _get_teleport_rotation(self, **kwargs) -> Optional[Dict]:
+        '''Extract teleport rotation from kwargs if it exists.
+        Otherwise, rotation will be None.
+        '''
+        teleport_rot_input = self.get_number(self.TELEPORT_Y_ROT, **kwargs)
+        return {'y': teleport_rot_input} \
+            if teleport_rot_input is not None else None
+
+    def validate_and_convert_params(self, action: str, **kwargs) -> Dict:
         """Need a validation/conversion step for what ai2thor will accept as input
         to keep parameters more simple for the user (in this case, wrapping
         rotation degrees into an object)
         """
-        # TODO: may need to reevaluate validation strategy/error handling in
-        # the future
-        amount = self.get_amount(action, kwargs)
-        force = self.get_force(kwargs)
-        object_image_coords_x = self.get_number(
-            kwargs, self.OBJECT_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD)
-        object_image_coords_y = self.get_number(
-            kwargs, self.OBJECT_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD)
-        receptable_image_coords_x = self.get_number(
-            kwargs, self.RECEPTACLE_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD)
-        receptacle_image_coords_x = self.get_number(
-            kwargs, self.RECEPTACLE_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD)
+        amount = self.get_amount(action, **kwargs)
+        force = self.get_force(**kwargs)
+        object_image_coords_x = self.get_number_with_default(
+            self.OBJECT_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD, **kwargs)
+        object_image_coords_y = self.get_number_with_default(
+            self.OBJECT_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD, **kwargs)
+        receptable_image_coords_x = self.get_number_with_default(
+            self.RECEPTACLE_IMAGE_COORDS_X_KEY,
+            self.DEFAULT_IMG_COORD,
+            **kwargs)
+        receptacle_image_coords_x = self.get_number_with_default(
+            self.RECEPTACLE_IMAGE_COORDS_Y_KEY,
+            self.DEFAULT_IMG_COORD,
+            **kwargs)
         # TODO Consider the current "head tilt" value while validating the
         # input "horizon" value.
         horizon = kwargs.get(self.HORIZON_KEY, self.DEFAULT_HORIZON)
@@ -548,19 +569,18 @@ class Controller():
 
         rotation_vector = {'y': rotation}
         object_vector = {
-            'x': float(object_image_coords_x),
+            'x': object_image_coords_x,
             'y': self._convert_y_image_coord_for_unity(
-                float(object_image_coords_y)),
+                object_image_coords_y),
         }
 
         receptacle_vector = {
-            'x': float(receptable_image_coords_x),
+            'x': receptable_image_coords_x,
             'y': self._convert_y_image_coord_for_unity(
-                float(receptacle_image_coords_x)
-            ),
+                receptacle_image_coords_x)
         }
         move_magnitude = self.get_move_magnitude(action, force, amount)
-        (teleport_rotation, teleport_position) = self.get_teleport(kwargs)
+        (teleport_rotation, teleport_position) = self.get_teleport(**kwargs)
 
         # Add in noise if noise is enable
         if self.__noise_enabled:
@@ -569,8 +589,8 @@ class Controller():
             move_magnitude = move_magnitude * (1 + self.generate_noise())
 
         return dict(
-            objectId=kwargs.get("objectId", None),
-            receptacleObjectId=kwargs.get("receptacleObjectId", None),
+            objectId=kwargs.get("objectId"),
+            receptacleObjectId=kwargs.get("receptacleObjectId"),
             rotation=rotation_vector,
             horizon=horizon,
             teleportRotation=teleport_rotation,
@@ -598,6 +618,11 @@ class Controller():
             The MCS output data object from after the selected action and the
             physics simulation were run. Returns None if you have passed the
             "last_step" of this scene.
+
+        Raises
+        ------
+            ValueError: If values are outside acceptable ranges or unable to
+                convert to a number.
         """
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
@@ -685,18 +710,13 @@ class Controller():
             # specifically for the CloseObject action,
             # so just use our own custom action here.
             return "MCSCloseObject"
-
-        if action == Action.DROP_OBJECT.value:
+        elif action == Action.DROP_OBJECT.value:
             return "DropHandObject"
-
-        if action == Action.OPEN_OBJECT.value:
+        elif action == Action.OPEN_OBJECT.value:
             # The AI2-THOR Python library has buggy error checking
             # specifically for the OpenObject action,
             # so just use our own custom action here.
             return "MCSOpenObject"
-
-        # if action == Action.ROTATE_OBJECT_IN_HAND.value:
-        #     return "RotateHand"
 
         return action
 

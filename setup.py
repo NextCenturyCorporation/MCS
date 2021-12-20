@@ -28,11 +28,9 @@ setuptools.setup(
         'Development Status :: 5 - Production/Stable',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
-        'Programming Language :: Python :: 3.10',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
         'Operating System :: OS Independent',
@@ -47,7 +45,7 @@ setuptools.setup(
         'Typing :: Typed'
     ],
     license='Apache-2',
-    python_requires=">3.6",
+    python_requires=">=3.7,<3.10",
     packages=setuptools.find_packages(),
     package_data={'': ['*.ini'], },
     install_requires=[
@@ -59,7 +57,6 @@ setuptools.setup(
         'numpyencoder>=0.3.0',
         'ai2thor==2.5.0',
         'scikit-image>=0.17.1',
-        'dataclasses==0.8; python_version<"3.7"',
         'marshmallow>=3.5.2',
         'typeguard>=2.11.1'
     ],

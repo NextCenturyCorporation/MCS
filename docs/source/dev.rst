@@ -9,7 +9,7 @@ Create a Virtual Environment
 
 .. code-block:: console
 
-    $ python3.6 -m venv --prompt mcs venv
+    $ python3.7 -m venv --prompt mcs venv
     $ source venv/bin/activate
     (mcs) $ python -m pip install --upgrade pip setuptools wheel
 
