@@ -8,14 +8,14 @@ Installation and Setup
 Virtual Environments
 ------------------------
 
-Python virtual environments are recommended when using the MCS package. All steps below presume the activation of the virtual environment. The developer can choose between traditional Python or Anaconda depending on need. These instructions are for Ubuntu Linux or MacOS. The Machine Common Sense package has a minimum requirement of Python 3.6 regardless of Python distribution.
+Python virtual environments are recommended when using the MCS package. All steps below presume the activation of the virtual environment. The developer can choose between traditional Python or Anaconda depending on need. These instructions are for Ubuntu Linux or MacOS. The Machine Common Sense package has a minimum requirement of Python 3.7 regardless of Python distribution.
 
 Traditional Python Environment
 *******************************
 
 .. code-block:: console
 
-    $ python3.6 -m venv venv
+    $ python3.7 -m venv venv
     $ source venv/bin/activate
     (venv) $ python -m pip install --upgrade pip setuptools wheel
 
