@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import math
 from dataclasses import dataclass
 from typing import Dict, List
@@ -19,11 +21,11 @@ class SceneCoord():
     x: int
     z: int
 
-    def __sub__(self, amount):
-        return SceneCoord(self.x - amount, self.z - amount)
+    def __sub__(self, coord: SceneCoord):
+        return SceneCoord(self.x - coord.x, self.z - coord.z)
 
-    def __add__(self, amount):
-        return SceneCoord(self.x + amount, self.z + amount)
+    def __add__(self, coord: SceneCoord):
+        return SceneCoord(self.x + coord.x, self.z + coord.z)
 
 
 @dataclass
@@ -251,8 +253,10 @@ class TopDownPlotter():
             texture = Texture(**floor_texture)
             for position in texture.positions:
                 texture_pos = SceneCoord(**position)
-                tex_pos_ul = texture_pos - (self.UNIT_CELL_WIDTH / 2)
-                tex_pos_lr = texture_pos + (self.UNIT_CELL_WIDTH / 2)
+                half_cell_pos = SceneCoord(
+                    self.UNIT_CELL_WIDTH / 2, self.UNIT_CELL_WIDTH / 2)
+                tex_pos_ul = texture_pos - half_cell_pos
+                tex_pos_lr = texture_pos + half_cell_pos
                 tex_img_pos_ul = self._convert_to_image_coords(tex_pos_ul)
                 tex_img_pos_lr = self._convert_to_image_coords(tex_pos_lr)
                 img = self._draw_floor_texture(
@@ -280,11 +284,12 @@ class TopDownPlotter():
 
         for hole in holes:
             hole_center = SceneCoord(**hole)
+            half_cell_pos = SceneCoord(
+                self.UNIT_CELL_WIDTH / 2,
+                self.UNIT_CELL_WIDTH / 2)
             # calculate scene corners
-            hole_upper_left: SceneCoord = hole_center - \
-                (self.UNIT_CELL_WIDTH / 2)
-            hole_lower_right: SceneCoord = hole_center + \
-                (self.UNIT_CELL_WIDTH / 2)
+            hole_upper_left: SceneCoord = hole_center - half_cell_pos
+            hole_lower_right: SceneCoord = hole_center + half_cell_pos
 
             # convert scene corners to image coordinates
             hole_img_upper_left: ImageCoord = self._convert_to_image_coords(
