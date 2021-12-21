@@ -88,8 +88,6 @@ class TopDownPlotter():
     WALL_BUFFER = 50
 
     def __init__(self, team: str, scene_config: SceneConfiguration) -> None:
-
-        # name: str, room_size: Vector3d):
         self._scene_name = scene_config.name.replace('json', '')
         if '/' in self._scene_name:
             self._scene_name = self._scene_name.rsplit('/', 1)[1]
