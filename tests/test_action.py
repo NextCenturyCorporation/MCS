@@ -186,6 +186,16 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action("LookDown"), mcs.Action.LOOK_DOWN)
         self.assertEqual(mcs.Action("k"), mcs.Action.LOOK_DOWN)
 
+    def test_pass(self):
+        self.assertEqual(mcs.Action.PASS.value, "Pass")
+        self.assertEqual(mcs.Action.PASS.key, " ")
+        self.assertEqual(
+            mcs.Action.PASS.desc,
+            "Do nothing. (no params)"
+        )
+        self.assertEqual(mcs.Action("Pass"), mcs.Action.PASS)
+        self.assertEqual(mcs.Action(" "), mcs.Action.PASS)
+
     def test_input_to_action_and_params(self):
         self.assertEqual(mcs.Action.input_to_action_and_params(
             'MoveBack'), ('MoveBack', {}))
