@@ -7,6 +7,7 @@ import PIL
 
 from .config_manager import ConfigManager, Vector3d
 from .controller_events import (AbstractControllerSubscriber,
+                                BasePostActionEventPayload,
                                 ControllerEventPayload)
 from .plotter import TopDownPlotter
 from .recorder import VideoRecorder
@@ -166,7 +167,7 @@ class TopdownVideoEventHandler(AbstractVideoEventHandler):
     writes top down video
     '''
 
-    def on_start_scene(self, payload: ControllerEventPayload):
+    def on_start_scene(self, payload: BasePostActionEventPayload):
         self.__recorder = self.create_video_recorder(
             payload, AbstractVideoEventHandler.TOPDOWN)
         self.__plotter = TopDownPlotter(
@@ -174,16 +175,16 @@ class TopdownVideoEventHandler(AbstractVideoEventHandler):
             scene_name=payload.scene_config.name.replace('json', ''),
             room_size=(
                 # Room is automatically expanded in intuitive physics scenes.
-                Vector3d(14, 10, 10) if payload.scene_config.intuitivePhysics
-                else payload.scene_config.roomDimensions
+                Vector3d(14, 10, 10) if payload.scene_config.intuitive_physics
+                else payload.scene_config.room_dimensions
             )
         )
         self.save_video_for_step(payload)
 
-    def on_after_step(self, payload: ControllerEventPayload):
+    def on_after_step(self, payload: BasePostActionEventPayload):
         self.save_video_for_step(payload)
 
-    def save_video_for_step(self, payload: ControllerEventPayload):
+    def save_video_for_step(self, payload: BasePostActionEventPayload):
         for _ in payload.step_metadata.events:
             # The plotter used to be inside the for loop the same as
             # image_recorder, but it seems like it would only plot one per
@@ -199,7 +200,7 @@ class TopdownVideoEventHandler(AbstractVideoEventHandler):
                                        goal_id)
             self.__recorder.add(plot)
 
-    def on_end_scene(self, payload: ControllerEventPayload):
+    def on_end_scene(self, payload: BasePostActionEventPayload):
         self.__recorder.finish()
 
 
@@ -208,15 +209,15 @@ class DepthVideoEventHandler(AbstractVideoEventHandler):
     writes video of depth maps
     '''
 
-    def on_start_scene(self, payload: ControllerEventPayload):
+    def on_start_scene(self, payload: BasePostActionEventPayload):
         self.__recorder = self.create_video_recorder(
             payload, AbstractVideoEventHandler.DEPTH)
         self.save_video_for_step(payload)
 
-    def on_after_step(self, payload: ControllerEventPayload):
+    def on_after_step(self, payload: BasePostActionEventPayload):
         self.save_video_for_step(payload)
 
-    def save_video_for_step(self, payload: ControllerEventPayload):
+    def save_video_for_step(self, payload: BasePostActionEventPayload):
         for depth_float_array in payload.step_output.depth_map_list:
             max_depth = payload.step_metadata.metadata.get(
                 'clippingPlaneFar',
@@ -230,7 +231,7 @@ class DepthVideoEventHandler(AbstractVideoEventHandler):
             )
             self.__recorder.add(depth_map)
 
-    def on_end_scene(self, payload: ControllerEventPayload):
+    def on_end_scene(self, payload: BasePostActionEventPayload):
         self.__recorder.finish()
 
 
@@ -239,17 +240,17 @@ class SegmentationVideoEventHandler(AbstractVideoEventHandler):
     writes video for segmentation or object mask images
     '''
 
-    def on_start_scene(self, payload: ControllerEventPayload):
+    def on_start_scene(self, payload: BasePostActionEventPayload):
         self.__recorder = self.create_video_recorder(
             payload, AbstractVideoEventHandler.SEGMENTATION)
         self.save_video_for_step(payload)
 
-    def on_after_step(self, payload: ControllerEventPayload):
+    def on_after_step(self, payload: BasePostActionEventPayload):
         self.save_video_for_step(payload)
 
-    def save_video_for_step(self, payload: ControllerEventPayload):
+    def save_video_for_step(self, payload: BasePostActionEventPayload):
         for object_mask in payload.step_output.object_mask_list:
             self.__recorder.add(object_mask)
 
-    def on_end_scene(self, payload: ControllerEventPayload):
+    def on_end_scene(self, payload: BasePostActionEventPayload):
         self.__recorder.finish()
