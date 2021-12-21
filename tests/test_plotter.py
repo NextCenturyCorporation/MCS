@@ -4,17 +4,21 @@ from unittest.case import skip
 import ai2thor
 import PIL
 
-from machine_common_sense.config_manager import Vector3d
+from machine_common_sense.config_manager import (FloorHolesAndTexturesXZConfig,
+                                                 FloorTexturesConfig,
+                                                 SceneConfiguration, Vector3d)
 from machine_common_sense.plotter import TopDownPlotter, XZHeading
 
 
 class TestTopDownPlotter(unittest.TestCase):
 
     def setUp(self):
+        scene_config = SceneConfiguration(
+            name="test", room_dimensions=Vector3d(
+                x=10, y=4, z=10))
         self.plotter = TopDownPlotter(
             team="test",
-            scene_name="scene",
-            room_size=Vector3d(x=10, y=4, z=10)
+            scene_config=scene_config
         )
 
     def test_convert_color_empty(self):
@@ -325,42 +329,48 @@ class TestTopDownPlotter(unittest.TestCase):
         self.assertEqual(filtered_objects[6]['objectId'], 'test-uuid3')
 
     def test_scene_name(self):
-        self.assertEqual(self.plotter._scene_name, "scene")
+        self.assertEqual(self.plotter._scene_name, "test")
 
     def test_scene_name_prefix(self):
+        scene_config = SceneConfiguration(
+            name="prefix/test", room_dimensions=Vector3d(
+                x=10, y=4, z=10))
         plotter = TopDownPlotter(
             team="test",
-            scene_name="prefix/scene",
-            room_size=Vector3d(x=10, y=3, z=10)
+            scene_config=scene_config
         )
 
-        self.assertEqual(plotter._scene_name, "scene")
+        self.assertEqual(plotter._scene_name, "test")
 
     @skip("ResourceWarning")
     def test_draw_holes(self):
         holes = [{"x": 0, "z": 0}, {"x": 1, "z": 0}, {"x": 2, "z": 2}]
-        plotter = TopDownPlotter(
-            team="test",
-            scene_name="testscene",
-            room_size=Vector3d(x=10, y=3, z=10))
-        img = plotter.grid_img.copy()
-        img = plotter._draw_holes(img, holes)
-        floor_textures = [{"material": "Lava", "positions": [
-            {"x": -2, "z": -2}, {"x": -1, "z": -2}, {"x": -3, "z": -3}]}]
-        img = plotter._draw_floor_textures(img, floor_textures)
-        pil_img = plotter._export_plot(img)
-        pil_img.show()
+        goal = {'metadata': {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        }}
+        scene_config = SceneConfiguration(
+            name="testscene",
+            version=1,
+            goal=goal,
+            holes=holes,
+            room_dimensions=Vector3d(
+                x=10,
+                y=3,
+                z=10),
+            floor_textures=[FloorTexturesConfig(material="Lava", positions=[
+                FloorHolesAndTexturesXZConfig(x=-2, z=-2),
+                FloorHolesAndTexturesXZConfig(x=-1, z=-2),
+                FloorHolesAndTexturesXZConfig(x=-3, z=-3)
+            ])])
 
-    @skip("ResourceWarning")
-    def test_draw_textures(self):
-        floor_textures = [{"material": "Lava", "positions": [
-            {"x": -2, "z": -2}, {"x": -1, "z": -2}, {"x": -3, "z": -3}]}]
         plotter = TopDownPlotter(
             team="test",
-            scene_name="testscene",
-            room_size=Vector3d(x=10, y=3, z=10))
-        img = plotter.grid_img.copy()
-        img = plotter._draw_floor_textures(img, floor_textures)
+            scene_config=scene_config)
+        img = plotter.base_room_img.copy()
+        img = plotter._draw_holes(img, scene_config.holes)
+        img = plotter._draw_floor_textures(img, scene_config.floor_textures)
         pil_img = plotter._export_plot(img)
         pil_img.show()
 

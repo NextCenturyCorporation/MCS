@@ -12,7 +12,8 @@ import PIL.Image
 import skimage.draw
 from shapely import geometry
 
-from machine_common_sense.config_manager import Vector3d
+from machine_common_sense.config_manager import (FloorTexturesConfig,
+                                                 SceneConfiguration, Vector3d)
 
 
 @dataclass
@@ -86,16 +87,23 @@ class TopDownPlotter():
     FONT_THICKNESS = 1
     WALL_BUFFER = 50
 
-    def __init__(self, team: str, scene_name: str, room_size: Vector3d):
-        self._team = team
-        if '/' in scene_name:
-            scene_name = scene_name.rsplit('/', 1)[1]
-        self._scene_name = scene_name
-        self._room_size = room_size
-        # create the room once as it is computationally expensive
-        self.grid_img = self._initialize_plot()
+    def __init__(self, team: str, scene_config: SceneConfiguration) -> None:
 
-    def _initialize_plot(self) -> np.ndarray:
+        # name: str, room_size: Vector3d):
+        self._scene_name = scene_config.name.replace('json', '')
+        if '/' in self._scene_name:
+            self._scene_name = self._scene_name.rsplit('/', 1)[1]
+
+        self._room_size = (
+            # Room is automatically expanded in intuitive physics scenes.
+            Vector3d(14, 10, 10) if scene_config.intuitive_physics
+            else scene_config.room_dimensions
+        )
+        self._team = team
+        # create the room once as it is computationally expensive
+        self.base_room_img = self._initialize_plot(scene_config)
+
+    def _initialize_plot(self, scene_config: SceneConfiguration) -> np.ndarray:
         '''Create the initial plot with grid lines'''
         img = np.zeros(
             (self.PLOT_IMAGE_SIZE, self.PLOT_IMAGE_SIZE, 3),
@@ -125,22 +133,21 @@ class TopDownPlotter():
             y=(y_dim - self.scale.y * room.z) / 2
         )
 
-        return self._draw_grid_lines(img, buffer)
+        img = self._draw_grid_lines(img, buffer)
+        img = self._draw_holes(
+            img, scene_config.holes)
+        img = self._draw_floor_textures(
+            img,
+            scene_config.floor_textures)
+
+        return img
 
     def plot(self, scene_event: ai2thor.server.Event,
              step_number: int,
              goal_id: str = None
              ) -> PIL.Image.Image:
         '''Create a plot of the room, objects and robot'''
-        plt_img = self.grid_img.copy()
-
-        plt_img = self._draw_holes(
-            plt_img, scene_event.metadata.get(
-                'holes', []))
-
-        plt_img = self._draw_floor_textures(
-            plt_img,
-            scene_event.metadata.get('floorTextures', []))
+        plt_img = self.base_room_img.copy()
 
         plt_objects = self._find_plottable_objects(scene_event)
         plt_img = self._draw_objects(plt_img,
@@ -244,15 +251,20 @@ class TopDownPlotter():
         img[rr, cc] = self.BORDER_COLOR
         return img
 
-    def _draw_floor_textures(self, img: np.ndarray,
-                             floor_textures: List) -> np.ndarray:
+    def _draw_floor_textures(
+        self,
+        img: np.ndarray,
+        floor_textures: List[FloorTexturesConfig]
+    ) -> np.ndarray:
         if floor_textures is None:
             return img
 
         for floor_texture in floor_textures:
-            texture = Texture(**floor_texture)
-            for position in texture.positions:
-                texture_pos = SceneCoord(**position)
+            # TODO MCS-1024 use floor_texture.material for color
+            texture_color = colour.COLOR_NAME_TO_RGB['red']
+
+            for position in floor_texture.positions:
+                texture_pos = SceneCoord(x=position.x, z=position.z)
                 half_cell_pos = SceneCoord(
                     self.UNIT_CELL_WIDTH / 2, self.UNIT_CELL_WIDTH / 2)
                 tex_pos_ul = texture_pos - half_cell_pos
@@ -260,21 +272,23 @@ class TopDownPlotter():
                 tex_img_pos_ul = self._convert_to_image_coords(tex_pos_ul)
                 tex_img_pos_lr = self._convert_to_image_coords(tex_pos_lr)
                 img = self._draw_floor_texture(
-                    img, tex_img_pos_ul, tex_img_pos_lr)
+                    img=img,
+                    upper_left=tex_img_pos_ul,
+                    lower_right=tex_img_pos_lr,
+                    texture_color=texture_color)
 
         return img
 
     def _draw_floor_texture(self,
                             img: np.ndarray,
                             upper_left: ImageCoord,
-                            lower_right: ImageCoord) -> np.ndarray:
+                            lower_right: ImageCoord,
+                            texture_color: colour.C_RGB) -> np.ndarray:
         rr, cc = skimage.draw.rectangle(
             start=(upper_left.y, upper_left.x),
             end=(lower_right.y, lower_right.x),
             shape=img.shape[:2])
-        img[rr, cc] = (255, 0, 0)  # TODO where does the color come from?
-        # related to MCS-1024
-
+        img[rr, cc] = texture_color
         return img
 
     def _draw_holes(self, img: np.ndarray, holes: List) -> np.ndarray:
