@@ -295,7 +295,7 @@ class TopDownPlotter():
             return img
 
         for hole in holes:
-            hole_center = SceneCoord(**hole)
+            hole_center = SceneCoord(x=hole.x, z=hole.z)
             half_cell_pos = SceneCoord(
                 self.UNIT_CELL_WIDTH / 2,
                 self.UNIT_CELL_WIDTH / 2)

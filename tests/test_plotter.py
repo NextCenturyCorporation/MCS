@@ -344,7 +344,11 @@ class TestTopDownPlotter(unittest.TestCase):
 
     @skip("ResourceWarning")
     def test_draw_holes(self):
-        holes = [{"x": 0, "z": 0}, {"x": 1, "z": 0}, {"x": 2, "z": 2}]
+        holes = [
+            FloorHolesAndTexturesXZConfig(**{"x": 0, "z": 0}),
+            FloorHolesAndTexturesXZConfig(**{"x": 1, "z": 0}),
+            FloorHolesAndTexturesXZConfig(**{"x": 2, "z": 2})
+        ]
         goal = {'metadata': {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
