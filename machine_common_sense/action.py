@@ -485,42 +485,6 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    THROW_OBJECT = (
-        "ThrowObject",
-        "q",
-        "Throw an object you are holding. (objectId=string, " +
-        "objectImageCoordsX=float, objectImageCoordsY=float, " +
-        "force=float (default:0.5))"
-    )
-    """
-    Throw an object you are holding.
-
-    Parameters
-    ----------
-    objectId : string, optional
-        The "uuid" of the held object. Defaults to the first held object.
-    objectImageCoordsX : float, optional
-        The X of a pixel coordinate on where you would like to
-        throw the object based on your current viewport.
-        (See note under "Action" header regarding image coordinates.)
-    objectImageCoordsY : float, optional
-        The Y of a pixel coordinate on where you would like to
-        throw the object based on your current viewport.
-        (See note under "Action" header regarding image coordinates.)
-
-    Returns
-    -------
-    "SUCCESSFUL"
-        Action successful.
-    "NOT_HELD"
-        If you cannot throw the object corresponding to the "objectId"
-        because you are not holding it.
-    "NOT_OBJECT"
-        If the object corresponding to the "objectId" is not an object.
-    "FAILED"
-        Unexpected error; please report immediately to development team.
-    """
-
     END_HABITUATION = (
         "EndHabituation",
         "h",

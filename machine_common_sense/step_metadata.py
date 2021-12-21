@@ -45,8 +45,7 @@ class StepMetadata:
         The player camera's field of view. This will remain constant for
         the whole scene.
     camera_height : float
-        The player camera's height. This will change if the player uses
-        actions like "LieDown", "Stand", or "Crawl".
+        The player camera's height.
     depth_map_list : list of 2D numpy arrays
         The list of 2-dimensional numpy arrays of depth float data from the
         scene after the last action and physics simulation were run. This is
