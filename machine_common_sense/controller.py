@@ -128,7 +128,7 @@ class Controller():
     # value is set based off of the action
     # TODO: Move this to an enum or some place, so that you can determine
     # special move interactions that way
-    FORCE_ACTIONS = ["ThrowObject", "PushObject", "PullObject"]
+    FORCE_ACTIONS = ["PushObject", "PullObject"]
     OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 

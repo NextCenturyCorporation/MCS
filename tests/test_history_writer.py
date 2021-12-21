@@ -193,8 +193,7 @@ class TestHistoryWriter(unittest.TestCase):
         writer = mcs.HistoryWriter(self.prefix_config_data)
 
         output = mcs.StepMetadata(
-            action_list=["CloseObject", "Crawl"],
-            pose="STANDING",
+            action_list=["CloseObject", "MoveAhead"],
             return_status="SUCCESSFUL",
             step_number=2,
             object_list={
@@ -214,7 +213,6 @@ class TestHistoryWriter(unittest.TestCase):
 
         self.assertEqual(len(writer.current_steps), 1)
         self.assertEqual(writer.current_steps[0]["action"], "MoveAhead")
-        self.assertEqual(writer.current_steps[0]["output"]["pose"], "STANDING")
         self.assertIsNone(writer.current_steps[0]["output"]["action_list"])
         self.assertIsNone(writer.current_steps[0]["output"]["object_list"])
         self.assertIsNone(
@@ -229,7 +227,6 @@ class TestHistoryWriter(unittest.TestCase):
 
         self.assertEqual(len(writer.current_steps), 2)
         self.assertEqual(writer.current_steps[1]["action"], "MoveLeft")
-        self.assertEqual(writer.current_steps[1]["output"]["pose"], "STANDING")
         self.assertIsNone(writer.current_steps[1]["output"]["action_list"])
         self.assertIsNone(writer.current_steps[1]["output"]["object_list"])
         self.assertIsNone(

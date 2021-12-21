@@ -60,7 +60,7 @@ class SerializerMsgPack(ISerializer):
                     x.action_list, x.camera_aspect_ratio,
                     x.camera_clipping_planes, x.camera_field_of_view,
                     x.camera_height, x.depth_map_list, x.goal, x.head_tilt,
-                    x.image_list, x.object_list, x.object_mask_list, x.pose,
+                    x.image_list, x.object_list, x.object_mask_list,
                     x.position, x.return_status, x.reward, x.rotation,
                     x.step_number, x.structural_object_list
                 ],
@@ -116,7 +116,7 @@ class SerializerMsgPack(ISerializer):
         if code == 1:
             action_list, camera_aspect_ratio, camera_clipping_planes, \
                 camera_field_of_view, camera_height, depth_map_list, goal, \
-                head_tilt, image_list, object_list, object_mask_list, pose, \
+                head_tilt, image_list, object_list, object_mask_list, \
                 position, return_status, reward, rotation, step_number, \
                 structural_object_list = \
                 msgpack.unpackb(data, ext_hook=SerializerMsgPack._ext_unpack)
@@ -131,7 +131,6 @@ class SerializerMsgPack(ISerializer):
                                 image_list=image_list,
                                 object_list=object_list,
                                 object_mask_list=object_mask_list,
-                                pose=pose,
                                 position=position,
                                 return_status=return_status,
                                 reward=reward,

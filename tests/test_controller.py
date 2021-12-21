@@ -78,7 +78,6 @@ class TestController(unittest.TestCase):
                 "clippingPlaneFar": 15,
                 "clippingPlaneNear": 0,
                 "fov": 42.5,
-                "pose": mcs.Pose.STANDING.name,
                 "lastActionStatus": "SUCCESSFUL",
                 "lastActionSuccess": True,
                 "objects": [{
@@ -842,57 +841,6 @@ class TestController(unittest.TestCase):
             ),
             []
         )
-
-    def test_retrieve_pose(self):
-        output = self.controller.start_scene({'name': TEST_FILE_NAME})
-
-        # Testing retrieving proper pose depending on action made
-        # Check basics
-        output = self.controller.step(action='Stand')
-        self.assertEqual(output.pose, mcs.Pose.STANDING.name)
-
-        output = self.controller.step(action='LieDown')
-        self.assertEqual(output.pose, mcs.Pose.LYING.name)
-
-        output = self.controller.step(action='Crawl')
-        self.assertEqual(output.pose, mcs.Pose.CRAWLING.name)
-
-        # Check movement within crawling pose
-        output = self.controller.step(action='MoveAhead')
-        self.assertEqual(output.pose, mcs.Pose.CRAWLING.name)
-        self.controller.step(action='MoveBack')
-
-        self.controller.step(action='Stand')
-        output = self.controller.step(action='MoveBack')
-        self.assertEqual(output.pose, mcs.Pose.STANDING.name)
-
-        # Check stand->lying->crawl->stand
-        output = self.controller.step(action='LieDown')
-        self.assertEqual(output.pose, mcs.Pose.LYING.name)
-        output = self.controller.step(action='Crawl')
-        self.assertEqual(output.pose, mcs.Pose.CRAWLING.name)
-        output = self.controller.step(action='Stand')
-        self.assertEqual(output.pose, mcs.Pose.STANDING.name)
-
-        # Check stand->crawl->Lying->crawl->lying->crawl->stand
-        self.controller.step(action='Crawl')
-        output = self.controller.step(action='LieDown')
-        self.assertEqual(output.pose, mcs.Pose.LYING.name)
-        self.controller.step(action='Crawl')
-        output = self.controller.step(action='LieDown')
-        self.assertEqual(output.pose, mcs.Pose.LYING.name)
-        self.controller.step(action='Crawl')
-        output = self.controller.step(action='Stand')
-        self.assertEqual(output.pose, mcs.Pose.STANDING.name)
-
-        # Check stand->Lying (!= ->) stand
-        self.controller.step(action='LieDown')
-        output = self.controller.step(action='Stand')
-        self.assertNotEqual(output.pose, mcs.Pose.STANDING.name)
-
-        self.controller.step(action='Crawl')
-        output = self.controller.step(action='Stand')
-        self.assertEqual(output.pose, mcs.Pose.STANDING.name)
 
     def test_wrap_step(self):
         actual = self.controller.wrap_step(

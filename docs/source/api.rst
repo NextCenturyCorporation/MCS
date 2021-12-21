@@ -11,7 +11,6 @@ Python API
    machine_common_sense.GoalMetadata
    machine_common_sense.Material
    machine_common_sense.ObjectMetadata
-   machine_common_sense.Pose
    machine_common_sense.ReturnStatus
    machine_common_sense.Reward
    machine_common_sense.SerializerJson

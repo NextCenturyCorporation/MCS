@@ -11,7 +11,6 @@ from .config_manager import ConfigManager, MetadataTier, SceneConfiguration
 from .controller import DEFAULT_MOVE
 from .material import Material
 from .object_metadata import ObjectMetadata
-from .pose import Pose
 from .return_status import ReturnStatus
 from .reward import Reward
 from .step_metadata import StepMetadata
@@ -160,19 +159,6 @@ class SceneEvent():
             return return_status
 
     @property
-    def pose(self) -> str:
-        pose = Pose.UNDEFINED.name
-
-        try:
-            pose = Pose[self._raw_output.metadata['pose']].name
-        except KeyError:
-            logger.error(
-                "Pose {scene_event.metadata['pose']}"
-                " is not currently supported.")
-        finally:
-            return pose
-
-    @property
     def object_colors(self):
         # Use the color map for the final event (though they should all be the
         # same anyway).
@@ -292,7 +278,6 @@ class ControllerOutputHandler():
                 [] if restrict_non_oracle else self._scene_event.object_list),
             object_mask_list=([] if restrict_object_mask_list else
                               self._scene_event.object_mask_list),
-            pose=self._scene_event.pose,
             position=(
                 None if restrict_non_oracle else self._scene_event.position),
             performer_radius=self._scene_event.performer_radius,

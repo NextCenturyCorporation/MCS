@@ -62,7 +62,4 @@ While adding a new test scene, you can run with the `--dev` flag to run the whol
 - Self teleportation (MCS-540)
 - PullObject, various mass and force (when needed by an evaluation task)
 - PushObject, various mass and force (when needed by an evaluation task)
-- ThrowObject, various mass and force (when needed by an evaluation task)
-- Change pose between Stand, Crawl, and LieDown (when needed by an evaluation task)
-- Crawl under a table that is too short to be walked under (when needed by an evaluation task)
 - PickupObject on a "pickupable" object that is too large or heavy (when needed by an evaluation task)

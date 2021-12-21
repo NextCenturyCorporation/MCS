@@ -66,24 +66,6 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    CRAWL = (
-        "Crawl",
-        "c",
-        "Change pose to 'CRAWLING' (no params)"
-    )
-    """
-    Change pose to "CRAWLING". Can help you move underneath or over objects.
-
-    Returns
-    -------
-    "SUCCESSFUL"
-        Action successful.
-    "OBSTRUCTED"
-        If you cannot enter the pose because the path above you is obstructed.
-    "FAILED"
-        Unexpected error; please report immediately to development team.
-    """
-
     DROP_OBJECT = (
         "DropObject",
         "2",
@@ -106,22 +88,6 @@ class Action(Enum):
         because you are not holding it.
     "NOT_OBJECT"
         If the object corresponding to the "objectId" is not an object.
-    "FAILED"
-        Unexpected error; please report immediately to development team.
-    """
-
-    LIE_DOWN = (
-        "LieDown",
-        "x",
-        "Change pose to 'LYING' (rotation=float)"
-    )
-    """
-    Change pose to "LYING". Can help you move underneath objects.
-
-    Returns
-    -------
-    "SUCCESSFUL"
-        Action successful.
     "FAILED"
         Unexpected error; please report immediately to development team.
     """
@@ -515,24 +481,6 @@ class Action(Enum):
     -------
     "SUCCESSFUL"
         Action successful.
-    "FAILED"
-        Unexpected error; please report immediately to development team.
-    """
-
-    STAND = (
-        "Stand",
-        "u",
-        "Change pose to 'STANDING' (no params)"
-    )
-    """
-    Change pose to "STANDING". Can help you move over objects.
-
-    Returns
-    -------
-    "SUCCESSFUL"
-        Action successful.
-    "OBSTRUCTED"
-        If you cannot enter the pose because the path above you is obstructed.
     "FAILED"
         Unexpected error; please report immediately to development team.
     """
