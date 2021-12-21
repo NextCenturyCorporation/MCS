@@ -505,9 +505,9 @@ class TopDownPlotter():
                 cs,
                 shape=img.shape[:2])
         # use dictionary get method for color retrieval
-        # if no match, then None will resort to default color
-        clr = colour.COLOR_NAME_TO_RGB.get(obj.color.lower())
-        clr = clr if clr is not None else self.DEFAULT_COLOR
+        # if no match for that color string, then resort to the default color
+        clr = colour.COLOR_NAME_TO_RGB.get(
+            obj.color.lower(), self.DEFAULT_COLOR)
 
         img[rr, cc] = clr
         return img
