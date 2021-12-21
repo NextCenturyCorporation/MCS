@@ -99,7 +99,7 @@ class ControllerEventPayload(BaseEventPayload):
         return self.step_number
 
     def get_scene_config(self) -> SceneConfiguration:
-        self.scene_configuration
+        self.scene_config
 
     def get_habituation_trial(self) -> int:
         return self.habituation_trial
