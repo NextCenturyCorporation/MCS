@@ -109,7 +109,7 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
             )
 
     # Stop the test scene.
-    controller.end_scene("", 1)
+    controller.end_scene()
 
     # Validation successful!
     return True, ''
@@ -191,7 +191,7 @@ def run_habituation_trial_counts_test(controller, metadata_tier):
             )
 
     # Stop the test scene.
-    controller.end_scene("", 1)
+    controller.end_scene()
 
     # Validation successful!
     return True, ''
@@ -215,7 +215,7 @@ def run_numpy_array_data_test(controller, metadata_tier):
         step_metadata = controller.step('Pass')
 
     # Stop the test scene.
-    controller.end_scene("", 1)
+    controller.end_scene()
 
     if not step_metadata:
         return False, 'Failed to load scene with numpy array data'
@@ -248,7 +248,7 @@ def run_public_sample_scenes_test(controller, metadata_tier):
             failed_test_list.append(os.path.basename(scene_filename))
 
         # Stop the test scene.
-        controller.end_scene("", 1)
+        controller.end_scene()
 
     return (
         len(failed_test_list) == 0,
@@ -387,7 +387,7 @@ def run_restricted_action_list_test(controller, metadata_tier):
         )
 
     # Stop the test scene.
-    controller.end_scene("", 1)
+    controller.end_scene()
 
     # Validation successful!
     return True, ''

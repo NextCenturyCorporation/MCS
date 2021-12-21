@@ -263,7 +263,7 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
             print(f'SAVED {len(autofix_case_list)} FIXES: {output_filename}')
 
     # Stop the test scene.
-    controller.end_scene("", 1)
+    controller.end_scene()
 
     # Validation successful!
     return successful, ('' if successful else 'see above')

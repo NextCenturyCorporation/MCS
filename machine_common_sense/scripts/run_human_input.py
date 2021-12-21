@@ -146,7 +146,7 @@ class HumanInputShell(cmd.Cmd):
 
     def do_exit(self, args=None) -> bool:
         print("Exiting Human Input Mode\n")
-        self.controller.end_scene("", 1)
+        self.controller.end_scene()
         return True
 
     def do_print(self, args=None):
