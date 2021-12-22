@@ -16,7 +16,6 @@ from .history_writer import HistoryWriter
 from .logging_config import LoggingConfig
 from .material import Material
 from .object_metadata import ObjectMetadata
-from .pose import Pose
 from .return_status import ReturnStatus
 from .reward import Reward
 from .scene_history import SceneHistory

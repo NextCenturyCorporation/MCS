@@ -1,7 +1,6 @@
 import copy
 
 from .goal_metadata import GoalMetadata
-from .pose import Pose
 from .return_status import ReturnStatus
 from .stringifier import Stringifier
 
@@ -46,8 +45,7 @@ class StepMetadata:
         The player camera's field of view. This will remain constant for
         the whole scene.
     camera_height : float
-        The player camera's height. This will change if the player uses
-        actions like "LieDown", "Stand", or "Crawl".
+        The player camera's height.
     depth_map_list : list of 2D numpy arrays
         The list of 2-dimensional numpy arrays of depth float data from the
         scene after the last action and physics simulation were run. This is
@@ -90,8 +88,6 @@ class StepMetadata:
         The radius of the performer.
     performer_reach: float
         The max reach of the performer.
-    pose : string
-        Your current pose. Either "STANDING", "CRAWLING", or "LYING".
     position : dict
         The "x", "y", and "z" coordinates for your global position.
         Will be set to 'None' if using a metadata level below the
@@ -137,7 +133,6 @@ class StepMetadata:
         performer_radius=0.0,
         performer_reach=0.0,
         physics_frames_per_second=0,
-        pose=Pose.UNDEFINED.value,
         position=None,
         return_status=ReturnStatus.UNDEFINED.value,
         reward=0,
@@ -169,7 +164,6 @@ class StepMetadata:
         self.performer_radius = performer_radius
         self.performer_reach = performer_reach
         self.physics_frames_per_second = physics_frames_per_second
-        self.pose = pose
         self.position = {} if position is None else position
         self.return_status = return_status
         self.reward = reward
@@ -210,7 +204,6 @@ class StepMetadata:
         yield 'performer_radius', self.performer_radius
         yield 'performer_reach', self.performer_reach
         yield 'physics_frames_per_second', self.physics_frames_per_second
-        yield 'pose', self.pose
         yield 'position', self.position
         yield 'return_status', self.return_status
         yield 'reward', self.reward

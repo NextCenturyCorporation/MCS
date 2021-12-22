@@ -70,7 +70,6 @@ class TestControllerOutputHandler(unittest.TestCase):
                 "clippingPlaneFar": 15,
                 "clippingPlaneNear": 0,
                 "fov": 42.5,
-                "pose": mcs.Pose.STANDING.name,
                 "lastActionStatus": "SUCCESSFUL",
                 "lastActionSuccess": True,
                 "objects": [{
@@ -353,45 +352,6 @@ class TestControllerOutputHandler(unittest.TestCase):
             }
         }
 
-    def test_retrieve_pose(self):
-        # Check function calls
-        mock_scene_event_data = {
-            "metadata": {
-                "pose": mcs.Pose.STANDING.name
-            },
-            "events": []
-        }
-        mock_event = self.create_mock_scene_event(mock_scene_event_data)
-
-        scene_event = SceneEvent(
-            self._config, {}, mock_event, 0)
-        ret_status = scene_event.pose
-        self.assertEqual(ret_status, mcs.Pose.STANDING.name)
-
-        mock_scene_event_data = {
-            "metadata": {
-                "pose": mcs.Pose.CRAWLING.name
-            },
-            "events": []
-        }
-        mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        scene_event = SceneEvent(
-            self._config, {}, mock_event, 0)
-        ret_status = scene_event.pose
-        self.assertEqual(ret_status, mcs.Pose.CRAWLING.name)
-
-        mock_scene_event_data = {
-            "metadata": {
-                "pose": mcs.Pose.LYING.name
-            },
-            "events": []
-        }
-        mock_event = self.create_mock_scene_event(mock_scene_event_data)
-        scene_event = SceneEvent(
-            self._config, {}, mock_event, 0)
-        ret_status = scene_event.pose
-        self.assertEqual(ret_status, mcs.Pose.LYING.name)
-
     def test_retrieve_return_status(self):
         mock_scene_event_data = {
             "metadata": {
@@ -502,7 +462,6 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
-        self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(
@@ -619,7 +578,6 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
-        self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
         self.assertEqual(
@@ -670,7 +628,6 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
-        self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
         self.assertEqual(
@@ -709,7 +666,6 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
-        self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
         self.assertEqual(
@@ -748,7 +704,6 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
-        self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(
@@ -797,7 +752,6 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
-        self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(
