@@ -79,13 +79,11 @@ class TestConfigManager(unittest.TestCase):
                                     'config_level2_debug.ini'))
     def test_init_no_override_with_env_var_and_dict(self):
         config_options = {
-            'metadata': 'oracle',
-            'seed': 10
+            'metadata': 'oracle'
         }
         config_mngr = ConfigManager(config_options)
         self.assertEqual(config_mngr.get_metadata_tier(),
                          MetadataTier.LEVEL_2)
-        self.assertEqual(config_mngr.get_seed(), None)
 
     @mock_env(MCS_CONFIG_FILE_PATH=('machine_common_sense/scripts/'
                                     'config_level2_debug.ini'))
@@ -94,8 +92,7 @@ class TestConfigManager(unittest.TestCase):
     def test_init_env_var_and_dict_function_calls(
             self, _read_in_config_dict, _read_in_config_file):
         config_options = {
-            'metadata': 'oracle',
-            'seed': 10
+            'metadata': 'oracle'
         }
         _ = ConfigManager(config_options)
         _read_in_config_dict.assert_not_called()
@@ -107,7 +104,6 @@ class TestConfigManager(unittest.TestCase):
         config_mngr = ConfigManager(config_file_or_dict=config_file)
         self.assertEqual(config_mngr.get_metadata_tier(),
                          MetadataTier.LEVEL_2)
-        self.assertEqual(config_mngr.get_seed(), None)
 
     def test_init_with_filepath_missing(self):
         '''Provided config file path must exist or an exception occurs'''
@@ -122,8 +118,7 @@ class TestConfigManager(unittest.TestCase):
         config_options = {
             'metadata': 'oracle',
             'video_enabled': 'false',
-            'save_debug_images': True,
-            'seed': 10
+            'save_debug_images': True
         }
 
         config_mngr = ConfigManager(config_options)
@@ -133,7 +128,6 @@ class TestConfigManager(unittest.TestCase):
                          MetadataTier.ORACLE)
         self.assertFalse(config_mngr.is_video_enabled())
         self.assertTrue(config_mngr.is_save_debug_images())
-        self.assertEqual(config_mngr.get_seed(), 10)
 
     def test_validate_screen_size(self):
         self.config_mngr._config[
@@ -186,17 +180,6 @@ class TestConfigManager(unittest.TestCase):
         self.assertEqual(
             self.config_mngr.get_metadata_tier().value,
             'oracle')
-
-    def test_get_seed(self):
-        self.assertEqual(self.config_mngr.get_seed(), None)
-
-        self.config_mngr._config[
-            self.config_mngr.CONFIG_DEFAULT_SECTION
-        ][
-            self.config_mngr.CONFIG_SEED
-        ] = '1'
-
-        self.assertEqual(self.config_mngr.get_seed(), 1)
 
     def test_get_size(self):
         self.assertEqual(self.config_mngr.get_size(), 600)

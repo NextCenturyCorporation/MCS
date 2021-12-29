@@ -4,10 +4,11 @@ import logging
 import os
 from dataclasses import dataclass, field
 from enum import Enum, unique
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 import numpy as np
 from marshmallow import Schema, fields, post_load
+from marshmallow.decorators import post_dump
 
 from .action import Action
 from .goal_metadata import GoalMetadata
@@ -58,7 +59,6 @@ class ConfigManager(object):
     CONFIG_NOISE_ENABLED = 'noise_enabled'
     CONFIG_SAVE_DEBUG_IMAGES = 'save_debug_images'
     CONFIG_SAVE_DEBUG_JSON = 'save_debug_json'
-    CONFIG_SEED = 'seed'
     CONFIG_SIZE = 'size'
     CONFIG_TEAM = 'team'
     CONFIG_VIDEO_ENABLED = 'video_enabled'
@@ -112,6 +112,13 @@ class ConfigManager(object):
                 str(self.SCREEN_WIDTH_DEFAULT)
             )
 
+    def is_file_writing_enabled(self):
+        return (
+            self.is_save_debug_images() or
+            self.is_save_debug_json() or
+            self.is_video_enabled()
+        )
+
     def get_evaluation_name(self):
         return self._config.get(
             self.CONFIG_DEFAULT_SECTION,
@@ -133,13 +140,6 @@ class ConfigManager(object):
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_METADATA_TIER,
             mode
-        )
-
-    def get_seed(self):
-        return self._config.getint(
-            self.CONFIG_DEFAULT_SECTION,
-            self.CONFIG_SEED,
-            fallback=None
         )
 
     def get_size(self):
@@ -521,9 +521,24 @@ class SceneConfigurationSchema(Schema):
     sequence_number = fields.Int(data_key='sequenceNumber')
     training = fields.Bool()
 
-    @ post_load
+    @post_load
     def make_scene_configuration(self, data, **kwargs):
         return SceneConfiguration(**data)
+
+    # TODO DW: Needs testing/confirmation
+    @post_dump
+    def remove_none(self, d, **kwargs) -> Dict:
+        '''Remove all none's from dictionaries'''
+        for key, value in dict(d).items():
+            if isinstance(value, dict):
+                d[key] = self.remove_none(value)
+            if isinstance(value, list):
+                for index, val in enumerate(value):
+                    if isinstance(val, dict):
+                        value[index] = self.remove_none(val)
+            if value is None:
+                del d[key]
+        return d
 
 
 @dataclass

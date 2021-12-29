@@ -164,13 +164,6 @@ save_debug_json
 
 Save AI2-THOR/Unity input, AI2-THOR/Unity output, and MCS StepMetadata output to JSON file on each step. Default: False
 
-seed
-^^^^
-
-(int, optional)
-
-A seed for the Python random number generator (defaults to None).
-
 size
 ^^^^
 
