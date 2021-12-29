@@ -58,8 +58,9 @@ class Parameter:
     def __init__(self, config: ConfigManager):
         self.config = config
 
-    def build_ai2thor_step(self, action: str, **kwargs) -> Tuple:
-        params = self.validate_and_convert_params(action, **kwargs)
+    def build_ai2thor_step(self, **kwargs) -> Tuple:
+        print(f"kwargs={kwargs}")
+        action, params = self.validate_and_convert_params(**kwargs)
         action = self.mcs_action_to_ai2thor_action(action)
         wrapped_step = self.wrap_step(action=action, **params)
         return wrapped_step, params
@@ -73,7 +74,8 @@ class Parameter:
         else:
             return y_coord
 
-    def get_amount(self, action, **kwargs) -> float:
+    def get_amount(self, **kwargs) -> float:
+        action = kwargs.get('action')
         amount = kwargs.get(
             self.AMOUNT_KEY,
             self.DEFAULT_OBJECT_MOVE_AMOUNT
@@ -163,12 +165,13 @@ class Parameter:
         return {'y': teleport_rot_input} \
             if teleport_rot_input is not None else None
 
-    def validate_and_convert_params(self, action: str, **kwargs) -> Dict:
+    def validate_and_convert_params(self, **kwargs) -> Tuple:
         """Need a validation/conversion step for what ai2thor will accept as input
         to keep parameters more simple for the user (in this case, wrapping
         rotation degrees into an object)
         """
-        amount = self.get_amount(action, **kwargs)
+        action = kwargs.get('action')
+        amount = self.get_amount(**kwargs)
         force = self.get_force(**kwargs)
         object_image_coords_x = self.get_number_with_default(
             self.OBJECT_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD, **kwargs)
@@ -207,7 +210,7 @@ class Parameter:
             horizon = horizon * (1 + self.generate_noise())
             move_magnitude = move_magnitude * (1 + self.generate_noise())
 
-        return dict(
+        return action, dict(
             objectId=kwargs.get("objectId"),
             receptacleObjectId=kwargs.get("receptacleObjectId"),
             rotation=rotation_vector,

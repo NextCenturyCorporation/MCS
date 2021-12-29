@@ -32,6 +32,7 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
 
     # Initialize the test scene.
     step_metadata_0 = controller.start_scene(scene_data)
+    print(step_metadata_0.object_list)
 
     # Verify the depth map and object mask lists from step 0.
     if len(step_metadata_0.depth_map_list) != 1:

@@ -179,7 +179,7 @@ class Controller():
         sc = SceneConfigurationSchema(
             unknown=marshmallow.EXCLUDE).dump(
             scene_config)
-
+        print(sc)
         """
         All this did for conversion was to wrap a hard-coded step
         wrapped_step = self.wrap_step(
@@ -187,8 +187,11 @@ class Controller():
             sceneConfig=sc
         )
         """
-        ai2thor_step, _ = self.parameter_converter.build_ai2thor_step(
+        ai2thor_step, params = self.parameter_converter.build_ai2thor_step(
             action='Initialize', sceneConfig=sc)
+        print("BOB")
+        print(ai2thor_step)
+        print(params)
         step_output = self._controller.step(ai2thor_step)
 
         self._output_handler.set_scene_config(scene_config)
@@ -329,7 +332,7 @@ class Controller():
         step_action = self.wrap_step(action=action, **params)
         """
         ai2thor_step, params = self.parameter_converter.build_ai2thor_step(
-            action, **kwargs)
+            action=action, **kwargs)
         print(f"{ai2thor_step} - {params}")
         step_output = self._controller.step(ai2thor_step)
         print(f"ai2thor objects = {step_output.metadata['objects']}")
