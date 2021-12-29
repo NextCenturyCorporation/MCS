@@ -324,7 +324,8 @@ def start_handmade_tests(
         # Run each additional test at this metadata tier.
         for runner_function in (
                 [func for func in FUNCTION_LIST
-                 if only_test_name in str(func)]):
+                 if only_test_name is None or
+                 only_test_name in str(func)]):
             print(f'RUNNING TESTS: {runner_function.__name__}')
             successful, status = runner_function(controller, metadata_tier)
             test_name = runner_function.__name__
