@@ -179,7 +179,6 @@ class Controller():
         sc = SceneConfigurationSchema(
             unknown=marshmallow.EXCLUDE).dump(
             scene_config)
-        print(sc)
         """
         All this did for conversion was to wrap a hard-coded step
         wrapped_step = self.wrap_step(
@@ -187,11 +186,8 @@ class Controller():
             sceneConfig=sc
         )
         """
-        ai2thor_step, params = self.parameter_converter.build_ai2thor_step(
+        ai2thor_step = self.parameter_converter.wrap_step(
             action='Initialize', sceneConfig=sc)
-        print("BOB")
-        print(ai2thor_step)
-        print(params)
         step_output = self._controller.step(ai2thor_step)
 
         self._output_handler.set_scene_config(scene_config)
@@ -279,7 +275,6 @@ class Controller():
 
         if ',' in action:
             action, kwargs = Action.input_to_action_and_params(action)
-        print(f"{action}-{kwargs}")
 
         action_list = self._goal.retrieve_action_list_at_step(
             self.__step_number)
@@ -333,15 +328,11 @@ class Controller():
         """
         ai2thor_step, params = self.parameter_converter.build_ai2thor_step(
             action=action, **kwargs)
-        print(f"{ai2thor_step} - {params}")
         step_output = self._controller.step(ai2thor_step)
-        print(f"ai2thor objects = {step_output.metadata['objects']}")
 
         (pre_restrict_output, output) = self._output_handler.handle_output(
             step_output, self._goal, self.__step_number,
             self.__habituation_trial)
-        print("FOOBAR")
-        print(len(output.object_list))
 
         payload = self._create_post_step_event_payload_kwargs(
             ai2thor_step, step_output, pre_restrict_output, output)
