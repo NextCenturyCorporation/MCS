@@ -32,7 +32,6 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
 
     # Initialize the test scene.
     step_metadata_0 = controller.start_scene(scene_data)
-    print(step_metadata_0.object_list)
 
     # Verify the depth map and object mask lists from step 0.
     if len(step_metadata_0.depth_map_list) != 1:
@@ -67,9 +66,6 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
                 f'{len(step_metadata_1.object_mask_list)} should be length 1'
             )
     # Verify the consistent segment_color of each object across both steps.
-    print(step_metadata_0.object_list)
-    print(step_metadata_1.object_list)
-    # DW: these are both empty lists for oracle when they should not be
     if metadata_tier == 'oracle':
         if (
             step_metadata_0.object_list[0].uuid !=
@@ -136,7 +132,6 @@ def run_habituation_trial_counts_test(controller, metadata_tier):
             f'Step {step_metadata.step_number} failed: habituation_trial '
             f'{step_metadata.habituation_trial} != 1'
         )
-    print(step_metadata.object_list)
 
     # Try a couple of pass actions.
     for i in range(0, 2):
