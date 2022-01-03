@@ -525,7 +525,6 @@ class SceneConfigurationSchema(Schema):
     def make_scene_configuration(self, data, **kwargs):
         return SceneConfiguration(**data)
 
-    # TODO DW: Needs testing/confirmation
     @post_dump
     def remove_none(self, d, **kwargs) -> Dict:
         '''Remove all none's from dictionaries'''

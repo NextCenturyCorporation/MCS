@@ -6,9 +6,6 @@ from .config_manager import ConfigManager, MetadataTier
 from .controller import DEFAULT_MOVE
 
 
-# TODO rename
-# ParameterConverter?
-# converter.py module?
 class Parameter:
 
     # AI2-THOR creates a square grid across the scene that is

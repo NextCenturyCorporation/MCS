@@ -8,6 +8,7 @@ from machine_common_sense.config_manager import (ChangeMaterialConfig,
                                                  MoveConfig, OpenCloseConfig,
                                                  PhysicsConfig,
                                                  SceneConfiguration,
+                                                 SceneConfigurationSchema,
                                                  SceneObjectSchema, ShowConfig,
                                                  SingleStepConfig, SizeConfig,
                                                  StepBeginEndConfig,
@@ -677,6 +678,51 @@ class TestSceneConfig(unittest.TestCase):
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
         })
+
+
+class TestSchemeConfigurationSchema(unittest.TestCase):
+
+    def setUp(self):
+        self.scheme_config = SceneConfigurationSchema()
+
+    def test_remove_none(self):
+        actual = self.scheme_config.remove_none({})
+        self.assertEqual({}, actual)
+
+        actual = self.scheme_config.remove_none({"test": None})
+        self.assertEqual({}, actual)
+
+        actual = self.scheme_config.remove_none({"test": 1})
+        self.assertEqual({"test": 1}, actual)
+
+        actual = self.scheme_config.remove_none({"test": 1, "none": None})
+        self.assertEqual({"test": 1}, actual)
+
+        actual = self.scheme_config.remove_none({"test1": {"test2": 1}})
+        self.assertEqual({"test1": {"test2": 1}}, actual)
+
+        actual = self.scheme_config.remove_none(
+            {"test1": {"test2": 1, "none": None}})
+        self.assertEqual({"test1": {"test2": 1}}, actual)
+
+        actual = self.scheme_config.remove_none(
+            {"test1": {"test2": 1}, "none": None})
+        self.assertEqual({"test1": {"test2": 1}}, actual)
+
+        actual = self.scheme_config.remove_none(
+            {"test1": {"test2": 1, "none": None}, "none": None})
+        self.assertEqual({"test1": {"test2": 1}}, actual)
+
+        actual = self.scheme_config.remove_none({"test1": [{"test2": None}]})
+        self.assertEqual({"test1": [{}]}, actual)
+
+        actual = self.scheme_config.remove_none(
+            {"test1": [{"test2": None, "test3": "test"}]})
+        self.assertEqual({"test1": [{"test3": "test"}]}, actual)
+
+        actual = self.scheme_config.remove_none(
+            {"test1": [{"test2": None}], "test3": False})
+        self.assertEqual({"test1": [{}], "test3": False}, actual)
 
 
 if __name__ == '__main__':
