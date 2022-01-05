@@ -4,8 +4,7 @@ import glob
 import json
 import logging
 import os
-import random
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Union
 
 import ai2thor.controller
 import ai2thor.server
@@ -19,18 +18,16 @@ logger = logging.getLogger(__name__)
 # How far the player can reach.  I think this value needs to be bigger
 # than the MAX_MOVE_DISTANCE or else the player may not be able to move
 # into a position to reach some objects (it may be mathematically impossible).
-# TODO Reduce this number once the player can crouch down to reach and
-# pickup small objects on the floor.
-
 DEFAULT_MOVE = 0.1
 
 from .action import Action
-from .config_manager import (ConfigManager, MetadataTier, SceneConfiguration,
+from .config_manager import (ConfigManager, SceneConfiguration,
                              SceneConfigurationSchema)
 from .controller_events import (AfterStepPayload, BeforeStepPayload,
                                 EndScenePayload, EventType, StartScenePayload)
 from .controller_output_handler import ControllerOutputHandler
 from .goal_metadata import GoalMetadata
+from .parameter import Parameter
 from .step_metadata import StepMetadata
 
 
@@ -85,71 +82,24 @@ class Controller():
 
     Parameters
     ----------
-    unity_app_file: str
+    unity_app_file_path: str
     config: ConfigManager
     """
 
-    # AI2-THOR creates a square grid across the scene that is
-    # uses for "snap-to-grid" movement. (This value may not
-    # really matter because we set continuous to True in
-    # the step input.)
-    GRID_SIZE = 0.1
-
-    MAX_FORCE = 50.0
-
-    DEFAULT_HORIZON = 0.0
-    DEFAULT_ROTATION = 0.0
-    DEFAULT_FORCE = 0.5
-    DEFAULT_AMOUNT = 0.5
-    DEFAULT_IMG_COORD = 0.0
-    DEFAULT_OBJECT_MOVE_AMOUNT = 1.0
-
-    MAX_FORCE = 1.0
-    MIN_FORCE = 0.0
-    MAX_AMOUNT = 1.0
-    MIN_AMOUNT = 0.0
-
-    ROTATION_KEY = 'rotation'
-    HORIZON_KEY = 'horizon'
-    FORCE_KEY = 'force'
-    AMOUNT_KEY = 'amount'
-
-    OBJECT_IMAGE_COORDS_X_KEY = 'objectImageCoordsX'
-    OBJECT_IMAGE_COORDS_Y_KEY = 'objectImageCoordsY'
-    RECEPTACLE_IMAGE_COORDS_X_KEY = 'receptacleObjectImageCoordsX'
-    RECEPTACLE_IMAGE_COORDS_Y_KEY = 'receptacleObjectImageCoordsY'
-
-    # used for EndHabituation teleport
-    TELEPORT_X_POS = 'xPosition'
-    TELEPORT_Z_POS = 'zPosition'
-    TELEPORT_Y_ROT = 'yRotation'
-
-    # Hard coding actions that effect MoveMagnitude so the appropriate
-    # value is set based off of the action
-    # TODO: Move this to an enum or some place, so that you can determine
-    # special move interactions that way
-    FORCE_ACTIONS = ["PushObject", "PullObject"]
-    OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
-    MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
+    MAX_FORCE = 50.0  # DW: used for testing but had it twice
+    # once at 50.0 and the other at 1.0
 
     @typeguard.typechecked
     def __init__(self, unity_app_file_path: str, config: ConfigManager):
 
-        self._subscribers = []
-
-        self._failure_handler_registered = False
-        self._end_scene_called = False
-
         self._controller = ai2thor.controller.Controller(
             quality='Medium',
             fullscreen=False,
-            # The headless flag does not work for me
-            headless=False,
+            headless=False,  # TODO confirm functionality
             local_executable_path=unity_app_file_path,
             width=config.get_screen_width(),
             height=config.get_screen_height(),
-            # Set the name of our Scene in our Unity app
-            scene='MCS',
+            scene='MCS',  # Unity scene name
             logs=True,
             # This constructor always initializes a scene, so add a scene
             # config to ensure it doesn't error
@@ -164,59 +114,11 @@ class Controller():
         self._on_init()
         self._set_config(config)
 
-    def subscribe(self, subscriber):
-        if subscriber not in self._subscribers:
-            self._subscribers.append(subscriber)
-
-    def remove_all_event_handlers(self):
-        self._subscribers = []
-
-    @typeguard.typechecked
-    def _publish_event(self, event_type: EventType,
-                       payload: Union[StartScenePayload, BeforeStepPayload,
-                                      AfterStepPayload,
-                                      EndScenePayload]):
-        for subscriber in self._subscribers:
-            # TODO should we make a deep copy of the payload so subscribers
-            # cannot change source data?
-            # seems like performance vs safety
-
-            try:
-                subscriber.on_event(event_type, payload)
-            except Exception as msg:
-                logger.error(
-                    f"Error in event with type={event_type}" +
-                    f" to subscriber={type(subscriber)}",
-                    exc_info=msg)
-
-    def _create_event_payload_kwargs(self) -> dict:
-        return {"step_number": self.__step_number,
-                "config": self._config,
-                "scene_config": self._scene_config}
-
-    def _create_post_step_event_payload_kwargs(
-            self, wrapped_step, step_metadata, step_output: StepMetadata,
-            restricted_step_output: StepMetadata) -> dict:
-        args = self._create_event_payload_kwargs()
-        args['output_folder'] = self.__output_folder
-        args['timestamp'] = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-        args['wrapped_step'] = wrapped_step
-        args['step_metadata'] = step_metadata
-        args['step_output'] = step_output
-        args['restricted_step_output'] = restricted_step_output
-        args['goal'] = self._goal
-        return args
-
-    # Pixel coordinates are expected to start at the top left, but
-    # in Unity, (0,0) is the bottom left.
-
-    def _convert_y_image_coord_for_unity(self, y_coord):
-        if(y_coord != 0):
-            return self._config.get_screen_height() - y_coord
-        else:
-            return y_coord
-
     def _on_init(self):
+        '''Set class variables after controller is initialized'''
+        self._subscribers = []
+        self._failure_handler_registered = False
+        self._end_scene_called = False
         self._goal = GoalMetadata()
         self.__habituation_trial = 1
         # Output folder used to save debug image, video, and JSON files.
@@ -224,7 +126,7 @@ class Controller():
         self._scene_config = None
         self.__step_number = 0
 
-    def _set_config(self, config):
+    def _set_config(self, config: ConfigManager):
         '''Allows config to be changed without changing the controller and
         attached Unity process.  This typically should only be called by the
         MCS package itself.
@@ -232,14 +134,216 @@ class Controller():
         For users, call machine_common_sense.change_config()
         '''
         self._config = config
-
         self._output_handler = ControllerOutputHandler(self._config)
+        self.parameter_converter = Parameter(config)
 
-        self.__noise_enabled = self._config.is_noise_enabled()
-        self.__seed = self._config.get_seed()
+    @typeguard.typechecked
+    def start_scene(self, config_data: Union[SceneConfiguration, Dict]) -> \
+            StepMetadata:
+        """
+        Starts a new scene using the given scene configuration data dict and
+        returns the scene output data object.
 
-        if self.__seed:
-            random.seed(self.__seed)
+        Parameters
+        ----------
+        config_data : SceneConfiguration or dict that can be serialized to
+            SceneConfiguration
+            The MCS scene configuration data for the scene to start.
+
+        Returns
+        -------
+        StepMetadata
+            The output data object from the start of the scene (the output from
+            an "Initialize" action).
+        """
+
+        scene_config = self._convert_scene_config(config_data)
+
+        self._scene_config = scene_config
+        self.__habituation_trial = 1
+        self.__step_number = 0
+        self._goal = self._scene_config.retrieve_goal()
+        self._end_scene_called = False
+
+        skip_preview_phase = (scene_config.goal is not None and
+                              scene_config.goal.skip_preview_phase)
+
+        if (self._scene_config.name is not None and
+                self._config.is_file_writing_enabled()):
+            os.makedirs('./' + scene_config.name, exist_ok=True)
+            self.__output_folder = './' + scene_config.name + '/'
+            file_list = glob.glob(self.__output_folder + '*')
+            for file_path in file_list:
+                os.remove(file_path)
+
+        sc = SceneConfigurationSchema(
+            unknown=marshmallow.EXCLUDE).dump(
+            scene_config)
+        """
+        All this did for conversion was to wrap a hard-coded step
+        wrapped_step = self.wrap_step(
+            action='Initialize',
+            sceneConfig=sc
+        )
+        """
+        ai2thor_step = self.parameter_converter.wrap_step(
+            action='Initialize', sceneConfig=sc)
+        step_output = self._controller.step(ai2thor_step)
+
+        self._output_handler.set_scene_config(scene_config)
+        (pre_restrict_output, output) = self._output_handler.handle_output(
+            step_output, self._goal, self.__step_number,
+            self.__habituation_trial)
+
+        if not skip_preview_phase:
+            if (self._goal is not None and
+                    self._goal.last_preview_phase_step > 0):
+                image_list = output.image_list
+                depth_map_list = output.depth_map_list
+                object_mask_list = output.object_mask_list
+
+                logger.debug('STARTING PREVIEW PHASE...')
+
+                for _ in range(self._goal.last_preview_phase_step):
+                    output = self.step('Pass')
+                    image_list = image_list + output.image_list
+                    depth_map_list = depth_map_list + output.depth_map_list
+                    object_mask_list = (object_mask_list +
+                                        output.object_mask_list)
+
+                logger.debug('ENDING PREVIEW PHASE')
+
+                output.image_list = image_list
+                output.depth_map_list = depth_map_list
+                output.object_mask_list = object_mask_list
+
+            logger.debug('NO PREVIEW PHASE')
+
+            # TODO Should this be in the if block?  Now that we are using
+            # subscribers, we may want to always register
+            if(self._failure_handler_registered is False and
+                    self._config.is_history_enabled()):
+                # make sure history file is written when program exits
+                atexit.register(self.end_scene, rating=None, score=-1)
+                self._failure_handler_registered = True
+
+        payload = self._create_post_step_event_payload_kwargs(
+            ai2thor_step, step_output, pre_restrict_output, output)
+        start_scene_payload = StartScenePayload(**payload)
+        self._publish_event(
+            EventType.ON_START_SCENE, start_scene_payload)
+
+        return output
+
+    def _convert_scene_config(self, config_data) -> SceneConfiguration:
+        if isinstance(config_data, SceneConfiguration):
+            return config_data
+        schema = SceneConfigurationSchema()
+        return schema.load(config_data)
+
+    @typeguard.typechecked
+    def step(self, action: str, **kwargs) -> Optional[StepMetadata]:
+        """
+        Runs the given action within the current scene.
+
+        Parameters
+        ----------
+        action : string
+            A selected action string from the list of available actions.
+        **kwargs
+            Zero or more key-and-value parameters for the action.
+
+        Returns
+        -------
+        StepMetadata
+            The MCS output data object from after the selected action and the
+            physics simulation were run. Returns None if you have passed the
+            "last_step" of this scene.
+
+        Raises
+        ------
+            ValueError: If values are outside acceptable ranges or unable to
+                convert to a number.
+        """
+        if (self._goal.last_step is not None and
+                self._goal.last_step == self.__step_number):
+            logger.warning(
+                "You have passed the last step for this scene. "
+                "Ignoring your action. Please call controller.end_scene() "
+                "now.")
+            return None
+
+        if ',' in action:
+            action, kwargs = Action.input_to_action_and_params(action)
+
+        action_list = self._goal.retrieve_action_list_at_step(
+            self.__step_number)
+        # Only continue with this action step if the given action and
+        # parameters are in the restricted action list.
+        continue_with_step = any(
+            action == restricted_action and (
+                len(restricted_params.items()) == 0 or all(
+                    restricted_params.get(key) == value
+                    for key, value in kwargs.items()
+                )
+            )
+            for restricted_action, restricted_params in action_list
+        )
+
+        if not continue_with_step:
+            logger.warning(
+                f"The given action '{action}' with parameters "
+                f"'{kwargs}' isn't in the action_list. Ignoring your action. "
+                f"Please call controller.step() with an action in the "
+                f"action_list. Possible actions at step {self.__step_number}:"
+            )
+            for action_data in action_list:
+                logger.warning(f'    {action_data}')
+            return None
+
+        self.__step_number += 1
+
+        payload = self._create_event_payload_kwargs()
+        payload['action'] = action
+        payload['habituation_trial'] = self.__habituation_trial
+        payload['goal'] = self._goal
+        self._publish_event(
+            EventType.ON_BEFORE_STEP,
+            BeforeStepPayload(**payload))
+
+        if (action == 'EndHabituation'):
+            self.__habituation_trial += 1
+
+        if (self._goal.last_step is not None and
+                self._goal.last_step == self.__step_number):
+            logger.warning(
+                "This is your last step for this scene. All "
+                "your future actions will be skipped. Please call "
+                "controller.end_scene() now.")
+
+        """
+        params = self.validate_and_convert_params(action, **kwargs)
+        action = self.mcs_action_to_ai2thor_action(action)
+        step_action = self.wrap_step(action=action, **params)
+        """
+        ai2thor_step, params = self.parameter_converter.build_ai2thor_step(
+            action=action, **kwargs)
+        step_output = self._controller.step(ai2thor_step)
+
+        (pre_restrict_output, output) = self._output_handler.handle_output(
+            step_output, self._goal, self.__step_number,
+            self.__habituation_trial)
+
+        payload = self._create_post_step_event_payload_kwargs(
+            ai2thor_step, step_output, pre_restrict_output, output)
+        payload['ai2thor_action'] = action
+        payload['step_params'] = params
+        payload['action_kwargs'] = kwargs
+        self._publish_event(
+            EventType.ON_AFTER_STEP,
+            AfterStepPayload(**payload))
+
+        return output
 
     @typeguard.typechecked
     def end_scene(
@@ -347,437 +451,11 @@ class Controller():
             atexit.unregister(self.end_scene)
             self._failure_handler_registered = False
 
-    def _convert_scene_config(self, config_data) -> SceneConfiguration:
-        if isinstance(config_data, SceneConfiguration):
-            return config_data
-        schema = SceneConfigurationSchema()
-        return schema.load(config_data)
-
-    @typeguard.typechecked
-    def start_scene(self, config_data: Union[SceneConfiguration, Dict]) -> \
-            StepMetadata:
-        """
-        Starts a new scene using the given scene configuration data dict and
-        returns the scene output data object.
-
-        Parameters
-        ----------
-        config_data : SceneConfiguration or dict that can be serialized to
-            SceneConfiguration
-            The MCS scene configuration data for the scene to start.
-
-        Returns
-        -------
-        StepMetadata
-            The output data object from the start of the scene (the output from
-            an "Initialize" action).
-        """
-
-        scene_config = self._convert_scene_config(config_data)
-
-        self._scene_config = scene_config
-        self.__habituation_trial = 1
-        self.__step_number = 0
-        self._goal = self._scene_config.retrieve_goal()
-        self._end_scene_called = False
-
-        skip_preview_phase = (scene_config.goal is not None and
-                              scene_config.goal.skip_preview_phase)
-
-        if (self.is_file_writing_enabled()):
-            os.makedirs('./' + scene_config.name, exist_ok=True)
-            self.__output_folder = './' + scene_config.name + '/'
-            file_list = glob.glob(self.__output_folder + '*')
-            for file_path in file_list:
-                os.remove(file_path)
-
-        sc = SceneConfigurationSchema(
-            unknown=marshmallow.EXCLUDE).dump(
-            scene_config)
-        sc = self._remove_none(sc)
-        wrapped_step = self.wrap_step(
-            action='Initialize',
-            sceneConfig=sc
-        )
-        step_output = self._controller.step(wrapped_step)
-
-        self._output_handler.set_scene_config(scene_config)
-        (pre_restrict_output, output) = self._output_handler.handle_output(
-            step_output, self._goal, self.__step_number,
-            self.__habituation_trial)
-
-        if not skip_preview_phase:
-            if (self._goal is not None and
-                    self._goal.last_preview_phase_step > 0):
-                image_list = output.image_list
-                depth_map_list = output.depth_map_list
-                object_mask_list = output.object_mask_list
-
-                logger.debug('STARTING PREVIEW PHASE...')
-
-                for _ in range(self._goal.last_preview_phase_step):
-                    output = self.step('Pass')
-                    image_list = image_list + output.image_list
-                    depth_map_list = depth_map_list + output.depth_map_list
-                    object_mask_list = (object_mask_list +
-                                        output.object_mask_list)
-
-                logger.debug('ENDING PREVIEW PHASE')
-
-                output.image_list = image_list
-                output.depth_map_list = depth_map_list
-                output.object_mask_list = object_mask_list
-
-            logger.debug('NO PREVIEW PHASE')
-
-            # TODO Should this be in the if block?  Now that we are using
-            # subscribers, we may want to always register
-            if(self._failure_handler_registered is False and
-                    self._config.is_history_enabled()):
-                # make sure history file is written when program exits
-                atexit.register(self.end_scene, rating="", score=-1)
-                self._failure_handler_registered = True
-
-        payload = self._create_post_step_event_payload_kwargs(
-            wrapped_step, step_output, pre_restrict_output, output)
-        start_scene_payload = StartScenePayload(**payload)
-        self._publish_event(
-            EventType.ON_START_SCENE, start_scene_payload)
-
-        return output
-
-    def is_file_writing_enabled(self):
-        return self._scene_config.name is not None and (
-            self._config.is_save_debug_images() or
-            self._config.is_save_debug_json() or
-            self._config.is_video_enabled()
-        )
-
-    def get_amount(self, action, **kwargs) -> float:
-        amount = kwargs.get(
-            self.AMOUNT_KEY,
-            self.DEFAULT_OBJECT_MOVE_AMOUNT
-            if action in self.OBJECT_MOVE_ACTIONS
-            else self.DEFAULT_AMOUNT
-        )
-        if amount is not None:
-            try:
-                amount = float(amount)
-            except ValueError as err:
-                raise ValueError(f"Amount {amount} is not a number") from err
-
-        if amount < self.MIN_AMOUNT or amount > self.MAX_AMOUNT:
-            raise ValueError(
-                "Amount not in acceptable range of "
-                f"({self.MIN_AMOUNT}-{self.MAX_AMOUNT})"
-            )
-        return amount
-
-    def get_force(self, **kwargs) -> float:
-        force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
-        if force is not None:
-            try:
-                force = float(force)
-            except ValueError as err:
-                raise ValueError('Force is not a number') from err
-
-            if force < self.MIN_FORCE or force > self.MAX_FORCE:
-                raise ValueError(
-                    f'Force not in acceptable range of '
-                    f'({self.MIN_FORCE}-{self.MAX_FORCE})')
-        return force
-
-    def get_number(self, key: str, **kwargs) -> Optional[Any]:
-        val = kwargs.get(key)
-        if val is not None:
-            try:
-                val = float(val)
-            except ValueError as err:
-                raise ValueError(f"{key}") from err
-        return val
-
-    def get_number_with_default(
-            self, key: str, default: Any, **kwargs) -> Any:
-        val = kwargs.get(key, default)
-        if val is not None:
-            try:
-                val = float(val)
-            except ValueError as err:
-                raise ValueError(f"{key}") from err
-        return val
-
-    def get_move_magnitude(self, action: str, force: float,
-                           amount: float) -> float:
-        # Set the Move Magnitude to the appropriate amount based on the action
-        move_magnitude = DEFAULT_MOVE
-        if action in self.FORCE_ACTIONS:
-            move_magnitude = force * self.MAX_FORCE
-        elif action in self.OBJECT_MOVE_ACTIONS:
-            move_magnitude = amount
-        return move_magnitude
-
-    def get_teleport(self, **kwargs) -> Tuple:
-        teleport_rotation = self._get_teleport_rotation(**kwargs)
-        teleport_position = self._get_teleport_position(**kwargs)
-        return (teleport_rotation, teleport_position)
-
-    def _get_teleport_position(self, **kwargs) -> Optional[Dict]:
-        '''Extract teleport xz position from kwargs if it exists.
-        Otherwise, position will be None.
-        '''
-        teleport_pos_x_input = self.get_number(self.TELEPORT_X_POS, **kwargs)
-        teleport_pos_z_input = self.get_number(self.TELEPORT_Z_POS, **kwargs)
-        teleport_position = None
-        if teleport_pos_x_input is not None and \
-                teleport_pos_z_input is not None:
-            teleport_position = {
-                'x': teleport_pos_x_input,
-                'z': teleport_pos_z_input}
-        return teleport_position
-
-    def _get_teleport_rotation(self, **kwargs) -> Optional[Dict]:
-        '''Extract teleport rotation from kwargs if it exists.
-        Otherwise, rotation will be None.
-        '''
-        teleport_rot_input = self.get_number(self.TELEPORT_Y_ROT, **kwargs)
-        return {'y': teleport_rot_input} \
-            if teleport_rot_input is not None else None
-
-    def validate_and_convert_params(self, action: str, **kwargs) -> Dict:
-        """Need a validation/conversion step for what ai2thor will accept as input
-        to keep parameters more simple for the user (in this case, wrapping
-        rotation degrees into an object)
-        """
-        amount = self.get_amount(action, **kwargs)
-        force = self.get_force(**kwargs)
-        object_image_coords_x = self.get_number_with_default(
-            self.OBJECT_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD, **kwargs)
-        object_image_coords_y = self.get_number_with_default(
-            self.OBJECT_IMAGE_COORDS_Y_KEY, self.DEFAULT_IMG_COORD, **kwargs)
-        receptable_image_coords_x = self.get_number_with_default(
-            self.RECEPTACLE_IMAGE_COORDS_X_KEY,
-            self.DEFAULT_IMG_COORD,
-            **kwargs)
-        receptacle_image_coords_x = self.get_number_with_default(
-            self.RECEPTACLE_IMAGE_COORDS_Y_KEY,
-            self.DEFAULT_IMG_COORD,
-            **kwargs)
-        # TODO Consider the current "head tilt" value while validating the
-        # input "horizon" value.
-        horizon = kwargs.get(self.HORIZON_KEY, self.DEFAULT_HORIZON)
-        rotation = kwargs.get(self.ROTATION_KEY, self.DEFAULT_ROTATION)
-
-        rotation_vector = {'y': rotation}
-        object_vector = {
-            'x': object_image_coords_x,
-            'y': self._convert_y_image_coord_for_unity(
-                object_image_coords_y),
-        }
-
-        receptacle_vector = {
-            'x': receptable_image_coords_x,
-            'y': self._convert_y_image_coord_for_unity(
-                receptacle_image_coords_x)
-        }
-        move_magnitude = self.get_move_magnitude(action, force, amount)
-        (teleport_rotation, teleport_position) = self.get_teleport(**kwargs)
-
-        # Add in noise if noise is enable
-        if self.__noise_enabled:
-            rotation = rotation * (1 + self.generate_noise())
-            horizon = horizon * (1 + self.generate_noise())
-            move_magnitude = move_magnitude * (1 + self.generate_noise())
-
-        return dict(
-            objectId=kwargs.get("objectId"),
-            receptacleObjectId=kwargs.get("receptacleObjectId"),
-            rotation=rotation_vector,
-            horizon=horizon,
-            teleportRotation=teleport_rotation,
-            teleportPosition=teleport_position,
-            moveMagnitude=move_magnitude,
-            objectImageCoords=object_vector,
-            receptacleObjectImageCoords=receptacle_vector
-        )
-
-    @typeguard.typechecked
-    def step(self, action: str, **kwargs) -> Optional[StepMetadata]:
-        """
-        Runs the given action within the current scene.
-
-        Parameters
-        ----------
-        action : string
-            A selected action string from the list of available actions.
-        **kwargs
-            Zero or more key-and-value parameters for the action.
-
-        Returns
-        -------
-        StepMetadata
-            The MCS output data object from after the selected action and the
-            physics simulation were run. Returns None if you have passed the
-            "last_step" of this scene.
-
-        Raises
-        ------
-            ValueError: If values are outside acceptable ranges or unable to
-                convert to a number.
-        """
-        if (self._goal.last_step is not None and
-                self._goal.last_step == self.__step_number):
-            logger.warning(
-                "You have passed the last step for this scene. "
-                "Ignoring your action. Please call controller.end_scene() "
-                "now.")
-            return None
-
-        if ',' in action:
-            action, kwargs = Action.input_to_action_and_params(action)
-
-        action_list = self._goal.retrieve_action_list_at_step(
-            self.__step_number)
-        # Only continue with this action step if the given action and
-        # parameters are in the restricted action list.
-        continue_with_step = any(
-            action == restricted_action and (
-                len(restricted_params.items()) == 0 or all(
-                    restricted_params.get(key) == value
-                    for key, value in kwargs.items()
-                )
-            )
-            for restricted_action, restricted_params in action_list
-        )
-
-        if not continue_with_step:
-            logger.warning(
-                f"The given action '{action}' with parameters "
-                f"'{kwargs}' isn't in the action_list. Ignoring your action. "
-                f"Please call controller.step() with an action in the "
-                f"action_list. Possible actions at step {self.__step_number}:"
-            )
-            for action_data in action_list:
-                logger.warning(f'    {action_data}')
-            return None
-
-        self.__step_number += 1
-
-        payload = self._create_event_payload_kwargs()
-        payload['action'] = action
-        payload['habituation_trial'] = self.__habituation_trial
-        payload['goal'] = self._goal
-        self._publish_event(
-            EventType.ON_BEFORE_STEP,
-            BeforeStepPayload(**payload))
-
-        params = self.validate_and_convert_params(action, **kwargs)
-
-        # Only call mcs_action_to_ai2thor_action AFTER calling
-        # validate_and_convert_params
-        action = self.mcs_action_to_ai2thor_action(action)
-
-        if (action == 'EndHabituation'):
-            self.__habituation_trial += 1
-
-        if (self._goal.last_step is not None and
-                self._goal.last_step == self.__step_number):
-            logger.warning(
-                "This is your last step for this scene. All "
-                "your future actions will be skipped. Please call "
-                "controller.end_scene() now.")
-
-        step_action = self.wrap_step(action=action, **params)
-        step_output = self._controller.step(step_action)
-
-        (pre_restrict_output, output) = self._output_handler.handle_output(
-            step_output, self._goal, self.__step_number,
-            self.__habituation_trial)
-
-        payload = self._create_post_step_event_payload_kwargs(
-            step_action, step_output, pre_restrict_output, output)
-        payload['ai2thor_action'] = action
-        payload['step_params'] = params
-        payload['action_kwargs'] = kwargs
-        self._publish_event(
-            EventType.ON_AFTER_STEP,
-            AfterStepPayload(**payload))
-
-        return output
-
-    def mcs_action_to_ai2thor_action(self, action):
-        if action == Action.CLOSE_OBJECT.value:
-            # The AI2-THOR Python library has buggy error checking
-            # specifically for the CloseObject action,
-            # so just use our own custom action here.
-            return "MCSCloseObject"
-        elif action == Action.DROP_OBJECT.value:
-            return "DropHandObject"
-        elif action == Action.OPEN_OBJECT.value:
-            # The AI2-THOR Python library has buggy error checking
-            # specifically for the OpenObject action,
-            # so just use our own custom action here.
-            return "MCSOpenObject"
-
-        return action
-
-    def retrieve_action_list_at_step(self, goal, step_number):
-        return goal.retrieve_action_list_at_step(step_number)
-
-    @typeguard.typechecked
-    def retrieve_object_states(self, object_id: str) -> List:
-        """Return the state list at the current step for the object with the
-        given ID from the scene configuration data, if any."""
-        return self._scene_config.retrieve_object_states(
-            object_id,
-            self.__step_number)
-
     @typeguard.typechecked
     def stop_simulation(self) -> None:
         """Stop the 3D simulation environment. This controller won't work any
         more."""
         self._controller.stop()
-
-    def _remove_none(self, d) -> Dict:
-        '''Remove all none's from dictionaries'''
-        for key, value in dict(d).items():
-            if isinstance(value, dict):
-                d[key] = self._remove_none(value)
-            if isinstance(value, list):
-                for index, val in enumerate(value):
-                    if isinstance(val, dict):
-                        value[index] = self._remove_none(val)
-            if value is None:
-                del d[key]
-        return d
-
-    def wrap_step(self, **kwargs) -> Dict:
-        # whether or not to randomize segmentation mask colors
-        metadata_tier = self._config.get_metadata_tier()
-        consistent_colors = (metadata_tier == MetadataTier.ORACLE)
-        # Create the step data dict for the AI2-THOR step function.
-        return dict(
-            continuous=True,
-            gridSize=self.GRID_SIZE,
-            logs=True,
-            renderDepthImage=self._config.is_depth_maps_enabled(),
-            renderObjectImage=self._config.is_object_masks_enabled(),
-            snapToGrid=False,
-            consistentColors=consistent_colors,
-            **kwargs
-        )
-
-    @typeguard.typechecked
-    def generate_noise(self) -> float:
-        """
-        Returns a random value between -0.05 and 0.05 used to add noise to all
-        numerical action parameters noise_enabled is True.
-        Returns
-        -------
-        float
-            A value between -0.05 and 0.05 (using random.uniform).
-        """
-
-        return random.uniform(-0.5, 0.5)
 
     @typeguard.typechecked
     def get_metadata_level(self) -> str:
@@ -791,3 +469,53 @@ class Controller():
             A string containing the current metadata level.
         """
         return self._config.get_metadata_tier().value
+
+    def retrieve_action_list_at_step(self, goal, step_number):
+        return goal.retrieve_action_list_at_step(step_number)
+
+    @typeguard.typechecked
+    def retrieve_object_states(self, object_id: str) -> List:
+        """Return the state list at the current step for the object with the
+        given ID from the scene configuration data, if any."""
+        return self._scene_config.retrieve_object_states(
+            object_id,
+            self.__step_number)
+
+    def subscribe(self, subscriber):
+        if subscriber not in self._subscribers:
+            self._subscribers.append(subscriber)
+
+    def remove_all_event_handlers(self):
+        self._subscribers = []
+
+    @typeguard.typechecked
+    def _publish_event(self, event_type: EventType,
+                       payload: Union[StartScenePayload, BeforeStepPayload,
+                                      AfterStepPayload,
+                                      EndScenePayload]):
+        for subscriber in self._subscribers:
+            try:
+                subscriber.on_event(event_type, payload)
+            except Exception as msg:
+                logger.error(
+                    f"Error in event with type={event_type}" +
+                    f" to subscriber={type(subscriber)}",
+                    exc_info=msg)
+
+    def _create_event_payload_kwargs(self) -> dict:
+        return {"step_number": self.__step_number,
+                "config": self._config,
+                "scene_config": self._scene_config}
+
+    def _create_post_step_event_payload_kwargs(
+            self, wrapped_step, step_metadata, step_output: StepMetadata,
+            restricted_step_output: StepMetadata) -> dict:
+        args = self._create_event_payload_kwargs()
+        args['output_folder'] = self.__output_folder
+        args['timestamp'] = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        args['wrapped_step'] = wrapped_step
+        args['step_metadata'] = step_metadata
+        args['step_output'] = step_output
+        args['restricted_step_output'] = restricted_step_output
+        args['goal'] = self._goal
+        return args
