@@ -10,10 +10,6 @@ from machine_common_sense.config_manager import (ConfigManager, MetadataTier,
 from machine_common_sense.controller_output_handler import (
     ControllerOutputHandler, SceneEvent)
 from machine_common_sense.goal_metadata import GoalMetadata
-from machine_common_sense.logging_config import LoggingConfig
-
-# ignore printing of errors for unit testing
-LoggingConfig.init_logging(LoggingConfig.get_no_logging_config())
 
 
 class TestControllerOutputHandler(unittest.TestCase):
@@ -70,6 +66,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                 "clippingPlaneFar": 15,
                 "clippingPlaneNear": 0,
                 "fov": 42.5,
+                "pose": mcs.Pose.STANDING.name,
                 "lastActionStatus": "SUCCESSFUL",
                 "lastActionSuccess": True,
                 "objects": [{
@@ -352,6 +349,45 @@ class TestControllerOutputHandler(unittest.TestCase):
             }
         }
 
+    def test_retrieve_pose(self):
+        # Check function calls
+        mock_scene_event_data = {
+            "metadata": {
+                "pose": mcs.Pose.STANDING.name
+            },
+            "events": []
+        }
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+
+        scene_event = SceneEvent(
+            self._config, {}, mock_event, 0)
+        ret_status = scene_event.pose
+        self.assertEqual(ret_status, mcs.Pose.STANDING.name)
+
+        mock_scene_event_data = {
+            "metadata": {
+                "pose": mcs.Pose.CRAWLING.name
+            },
+            "events": []
+        }
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+        scene_event = SceneEvent(
+            self._config, {}, mock_event, 0)
+        ret_status = scene_event.pose
+        self.assertEqual(ret_status, mcs.Pose.CRAWLING.name)
+
+        mock_scene_event_data = {
+            "metadata": {
+                "pose": mcs.Pose.LYING.name
+            },
+            "events": []
+        }
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+        scene_event = SceneEvent(
+            self._config, {}, mock_event, 0)
+        ret_status = scene_event.pose
+        self.assertEqual(ret_status, mcs.Pose.LYING.name)
+
     def test_retrieve_return_status(self):
         mock_scene_event_data = {
             "metadata": {
@@ -462,6 +498,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
+        self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(
@@ -578,6 +615,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
+        self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
         self.assertEqual(
@@ -628,6 +666,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
+        self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
         self.assertEqual(
@@ -666,6 +705,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
+        self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, None)
         self.assertEqual(actual.rotation, None)
         self.assertEqual(
@@ -704,6 +744,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
+        self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(
@@ -752,6 +793,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
+        self.assertEqual(actual.pose, mcs.Pose.STANDING.value)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(
@@ -1085,59 +1127,6 @@ class TestControllerOutputHandler(unittest.TestCase):
             0)
         actual = scene_event.object_list
         self.assertEqual(len(actual), 3)
-
-    def test_get_restrictions_none(self):
-        self._config.set_metadata_tier('none')
-        coh = ControllerOutputHandler(self._config)
-        restricted = False
-        restrictions = coh.get_restrictions(restricted, MetadataTier.NONE)
-        self.assertFalse(any(restrictions))
-
-        restricted = True
-        restrictions = coh.get_restrictions(restricted, MetadataTier.NONE)
-        self.assertTrue(all(restrictions))
-
-    def test_get_restrictions_level1(self):
-        self._config.set_metadata_tier('level1')
-        coh = ControllerOutputHandler(self._config)
-        restricted = False
-        restrictions = coh.get_restrictions(restricted, MetadataTier.LEVEL_1)
-        self.assertFalse(any(restrictions))
-
-        restricted = True
-        restrictions = coh.get_restrictions(restricted, MetadataTier.LEVEL_1)
-        self.assertTrue(any(restrictions))
-        self.assertFalse(restrictions[0])
-        self.assertTrue(restrictions[1])
-        self.assertTrue(restrictions[2])
-
-    def test_get_restrictions_level2(self):
-        self._config.set_metadata_tier('level2')
-        coh = ControllerOutputHandler(self._config)
-        restricted = False
-        restrictions = coh.get_restrictions(restricted, MetadataTier.LEVEL_2)
-        self.assertFalse(any(restrictions))
-
-        restricted = True
-        restrictions = coh.get_restrictions(restricted, MetadataTier.LEVEL_2)
-        self.assertTrue(any(restrictions))
-        self.assertFalse(restrictions[0])
-        self.assertFalse(restrictions[1])
-        self.assertTrue(restrictions[2])
-
-    def test_get_restrictions_oracle(self):
-        self._config.set_metadata_tier('oracle')
-        coh = ControllerOutputHandler(self._config)
-        restricted = False
-        restrictions = coh.get_restrictions(restricted, MetadataTier.ORACLE)
-        self.assertFalse(any(restrictions))
-
-        restricted = True
-        restrictions = coh.get_restrictions(restricted, MetadataTier.ORACLE)
-        self.assertFalse(any(restrictions))
-        self.assertFalse(restrictions[0])
-        self.assertFalse(restrictions[1])
-        self.assertFalse(restrictions[2])
 
 
 if __name__ == '__main__':

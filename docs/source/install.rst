@@ -2,20 +2,20 @@
 Installation and Setup
 =======================
 
-.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.5.0/MCS-AI2-THOR-Unity-App-v0.5.0-mac.zip
-.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.5.0/MCS-AI2-THOR-Unity-App-v0.5.0-linux.zip
+.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.6/MCS-AI2-THOR-Unity-App-v0.4.6-mac.zip
+.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.4.6/MCS-AI2-THOR-Unity-App-v0.4.6-linux.zip
 
 Virtual Environments
 ------------------------
 
-Python virtual environments are recommended when using the MCS package. All steps below presume the activation of the virtual environment. The developer can choose between traditional Python or Anaconda depending on need. These instructions are for Ubuntu Linux or MacOS. The Machine Common Sense package has a minimum requirement of Python 3.7 regardless of Python distribution.
+Python virtual environments are recommended when using the MCS package. All steps below presume the activation of the virtual environment. The developer can choose between traditional Python or Anaconda depending on need. These instructions are for Ubuntu Linux or MacOS. The Machine Common Sense package has a minimum requirement of Python 3.6 regardless of Python distribution.
 
 Traditional Python Environment
 *******************************
 
 .. code-block:: console
 
-    $ python3.7 -m venv venv
+    $ python3.6 -m venv venv
     $ source venv/bin/activate
     (venv) $ python -m pip install --upgrade pip setuptools wheel
 
@@ -136,9 +136,9 @@ metadata
 The `metadata` property describes what metadata will be returned by the MCS Python library. The `metadata` property is available so that users can run baseline or ablation studies during training. It can be set to one of the following strings:
 
 - `oracle`: Returns the metadata for all the objects in the scene, including visible, held, and hidden objects. Object masks will have consistent colors throughout all steps for a scene.
-- `level2`: Only returns the images (with depth maps AND object masks), camera info, and properties corresponding to the player themself (like head tilt). No information about specific objects will be included. Note that here, object masks will have randomized colors per step.
-- `level1`: Only returns the images (with depth maps but NOT object masks), camera info, and properties corresponding to the player themself (like head tilt). No information about specific objects will be included.
-- `none`: Only returns the images (but no depth maps or object masks), camera info, and properties corresponding to the player themself (like head tilt). No information about specific objects will be included.
+- `level2`: Only returns the images (with depth maps AND object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included. Note that here, object masks will have randomized colors per step.
+- `level1`: Only returns the images (with depth maps but NOT object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
+- `none`: Only returns the images (but no depth maps or object masks), camera info, and properties corresponding to the player themself (like head tilt or pose). No information about specific objects will be included.
 
 If no metadata level is set:
 - `default`: Fallback if no metadata level is specified. Only meant for use during development (evaluations will never be run this way). Includes metadata for visible and held objects in the scene, as well as camera info and properties corresponding to the player. Does not include depth maps or object masks.
@@ -163,6 +163,13 @@ save_debug_json
 (boolean, optional)
 
 Save AI2-THOR/Unity input, AI2-THOR/Unity output, and MCS StepMetadata output to JSON file on each step. Default: False
+
+seed
+^^^^
+
+(int, optional)
+
+A seed for the Python random number generator (defaults to None).
 
 size
 ^^^^

@@ -2,7 +2,7 @@
 
 Unit tests for the Machine Common Sense (MCS) project are written using the unittest framework.
 
-https://docs.python.org/3.7/library/unittest.html
+https://docs.python.org/3.6/library/unittest.html
 
 ## Running All Tests
 

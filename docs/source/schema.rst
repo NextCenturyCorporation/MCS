@@ -110,8 +110,8 @@ Each **object config** has the following properties:
 - `kinematic` (boolean, optional): If true, the object will ignore all forces including gravity. See Unity's `isKinematic property <https://docs.unity3d.com/ScriptReference/Rigidbody-isKinematic.html>`_. Usually paired with `structure`. Default: `false`
 - `locationParent` (string, optional): The `id` of another object in the scene. If given, this object's `shows.position` and `shows.rotation` will both start from the position and rotation of the `locationParent` object rather than from `0`. Default: none
 - `mass` (float, optional): The mass of the object, which affects the physics simulation. Default: `1`
-- `materials` (string array, optional): The material(s) (colors/textures) of the object. An object `type` may use multiple individual materials; if so, they must be listed in a specific order. Most non-primitive objects already have specific material(s). See the :ref:`material list <Material List>` for options. Default: none
-- `materialFile` (string, optional): Deprecated (please use `materials` now). The material (color/texture) of the object. Most non-primitive objects already have specific material(s). See the :ref:`material list <Material List>` for options. Default: none
+- `materials` (string array, optional): The material(s) (colors/textures) of the object. An object `type` may use multiple individual materials; if so, they must be listed in a specific order. Please note that most non-primitive objects already have specific material(s). See the :ref:`material list <Material List>` for options. Default: none
+- `materialFile` (string, optional): Deprecated (please use `materials` now). The material (color/texture) of the object. Please note that most non-primitive objects already have specific material(s). See the :ref:`material list <Material List>` for options. Default: none
 - `moveable` (boolean, optional): Whether the object should be moveable, if it is not already moveable based on its `type`. Default: depends on `type`
 - `moves` (:ref:`move config<Move Config>` array, optional): The steps on which to move the object, moving it from one position in the scene to another. The config `vector` describes the amount of position to change, added to the object's current position. Useful if you want to move objects that are `kinematic`. A fifth of each move is made over each of the five substeps (five screenshots) during the step. Default: `[]`
 - `nullParent` (:ref:`transform config <Transform Config>`, optional): Whether to wrap the object in a null parent object. Useful if you want to rotate an object by a point other than its center point. Default: none
@@ -127,7 +127,7 @@ Each **object config** has the following properties:
 - `rotates` (:ref:`move config <Move Config>` array, optional): The steps on which to rotate the object. The config `vector` describes the amount of rotation (in degrees) to change, added to the object's current rotation. Useful if you want to rotate objects that are `kinematic`. A fifth of each move is made over each of the five substeps (five screenshots) during the step. Default: `[]`
 - `salientMaterials` (string array, optional)
 - `seesaw` (bool, optional): Whether this object should move like a seesaw. Default: `false`
-- `shows` (:ref:`show config <Show Config>` array, optional): The steps on which to show the object, adding its existence to the scene. Each object begins hidden within the scene, so each object should have at least one element in its `shows` array to be useful. Default: `[]`
+- `shows` (:ref:`show config <Show Config>` array, optional): The steps on which to show the object, adding its existence to the scene. Please note that each object begins hidden within the scene, so each object should have at least one element in its `shows` array to be useful. Default: `[]`
 - `shrouds` (:ref:`step begin and end config config <Step Begin And End Config>` array, optional): The steps on which to shroud the object, temporarily making it invisible, but moving with its existing intertia and able to collide with objects. Useful if you want to have impossible events. Default: `[]`
 - `states` (string array array, optional): An array of string arrays containing the state label(s) of the object at each step in the scene, returned by the simulation environment in the object's output metadata. Default: `[]`
 - `structure` (boolean, optional): Whether the object is a structural part of the environment. Usually paired with `kinematic`. Default: `false`
@@ -1111,7 +1111,7 @@ Furniture Objects
 Primitive Objects
 *****************
 
-The following objects have a default mass of 1, base size of (x=1, y=1, z=1), and no material restrictions. You can configure them with properties like `physics`, `moveable`, `pickupable`, or `structure`. These are NOT the internal Unity primitive 3D GameObjects.
+The following objects have a default mass of 1, base size of (x=1, y=1, z=1), and no material restrictions. You can configure them with properties like `physics`, `moveable`, `pickupable`, or `structure`. Please note that these are NOT the internal Unity primitive 3D GameObjects.
 
 - `"circle_frustum"`
 - `"cone"`

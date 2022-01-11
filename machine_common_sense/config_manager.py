@@ -4,11 +4,10 @@ import logging
 import os
 from dataclasses import dataclass, field
 from enum import Enum, unique
-from typing import Dict, List, Tuple
+from typing import List
 
 import numpy as np
 from marshmallow import Schema, fields, post_load
-from marshmallow.decorators import post_dump
 
 from .action import Action
 from .goal_metadata import GoalMetadata
@@ -59,6 +58,7 @@ class ConfigManager(object):
     CONFIG_NOISE_ENABLED = 'noise_enabled'
     CONFIG_SAVE_DEBUG_IMAGES = 'save_debug_images'
     CONFIG_SAVE_DEBUG_JSON = 'save_debug_json'
+    CONFIG_SEED = 'seed'
     CONFIG_SIZE = 'size'
     CONFIG_TEAM = 'team'
     CONFIG_VIDEO_ENABLED = 'video_enabled'
@@ -112,13 +112,6 @@ class ConfigManager(object):
                 str(self.SCREEN_WIDTH_DEFAULT)
             )
 
-    def is_file_writing_enabled(self):
-        return (
-            self.is_save_debug_images() or
-            self.is_save_debug_json() or
-            self.is_video_enabled()
-        )
-
     def get_evaluation_name(self):
         return self._config.get(
             self.CONFIG_DEFAULT_SECTION,
@@ -140,6 +133,13 @@ class ConfigManager(object):
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_METADATA_TIER,
             mode
+        )
+
+    def get_seed(self):
+        return self._config.getint(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_SEED,
+            fallback=None
         )
 
     def get_size(self):
@@ -210,9 +210,6 @@ class ConfigManager(object):
             ]
         )
 
-    def get_screen_size(self) -> Tuple[int, int]:
-        return (self.get_screen_width(), self.get_screen_height())
-
     def get_screen_width(self) -> int:
         return self.get_size()
 
@@ -268,14 +265,14 @@ class GoalSchema(Schema):
     answer = fields.Dict()  # UI property
     category = fields.Str()
     description = fields.Str()
-    domains_info = fields.Dict(data_key='domainsInfo')  # UI property
+    domainsInfo = fields.Dict()  # UI property
     habituation_total = fields.Int()
     info_list = fields.List(fields.Str())
     last_preview_phase_step = fields.Int()
     last_step = fields.Int()
     metadata = fields.Dict()
-    objects_info = fields.Dict(data_key='objectsInfo')  # UI property
-    scene_info = fields.Dict(data_key='sceneInfo')  # UI property
+    objectsInfo = fields.Dict()  # UI property
+    sceneInfo = fields.Dict()  # UI property
     skip_preview_phase = fields.Bool()
     task_list = fields.List(fields.Str())
     type_list = fields.List(fields.Str())
@@ -286,7 +283,7 @@ class GoalSchema(Schema):
 
 
 class ChangeMaterialConfigSchema(Schema):
-    step_begin = fields.Int(data_key='stepBegin')
+    stepBegin = fields.Int()
     materials = fields.List(fields.Str())
 
     @post_load
@@ -295,12 +292,12 @@ class ChangeMaterialConfigSchema(Schema):
 
 
 class ForceConfigSchema(Schema):
-    step_begin = fields.Int(data_key='stepBegin')
-    step_end = fields.Int(data_key='stepEnd')
+    stepBegin = fields.Int()
+    stepEnd = fields.Int()
     vector = fields.Nested(Vector3dSchema)
     relative = fields.Bool()
     repeat = fields.Bool()
-    step_wait = fields.Int(data_key='stepWait')
+    stepWait = fields.Int()
 
     @post_load
     def make_force_config(self, data, **kwargs):
@@ -308,11 +305,11 @@ class ForceConfigSchema(Schema):
 
 
 class MoveConfigSchema(Schema):
-    step_begin = fields.Int(data_key='stepBegin')
-    step_end = fields.Int(data_key='stepEnd')
+    stepBegin = fields.Int()
+    stepEnd = fields.Int()
     vector = fields.Nested(Vector3dSchema)
     repeat = fields.Bool()
-    step_wait = fields.Int(data_key='stepWait')
+    stepWait = fields.Int()
 
     @post_load
     def make_move_config(self, data, **kwargs):
@@ -330,11 +327,11 @@ class OpenCloseConfigSchema(Schema):
 
 class PhysicsConfigSchema(Schema):
     enable = fields.Bool()
-    angular_drag = fields.Float(data_key='angularDrag')
+    angularDrag = fields.Float()
     bounciness = fields.Float()
     drag = fields.Float()
-    dynamic_friction = fields.Float(data_key='dynamicFriction')
-    static_friction = fields.Float(data_key='staticFriction')
+    dynamicFriction = fields.Float()
+    staticFriction = fields.Float()
 
     @post_load
     def make_physics_config(self, data, **kwargs):
@@ -360,12 +357,11 @@ class FloorTexturesConfigSchema(Schema):
 
 
 class ShowConfigSchema(Schema):
-    step_begin = fields.Int(data_key='stepBegin')
+    stepBegin = fields.Int()
     position = fields.Nested(Vector3dSchema)
     rotation = fields.Nested(Vector3dSchema)
     scale = fields.Nested(Vector3dSchema)
-    bounding_box = fields.List(fields.Dict(),
-                               data_key='boundingBox')  # debug property
+    boundingBox = fields.List(fields.Dict())  # debug property
 
     @post_load
     def make_show_config(self, data, **kwargs):
@@ -373,11 +369,11 @@ class ShowConfigSchema(Schema):
 
 
 class SizeConfigSchema(Schema):
-    step_begin = fields.Int(data_key='stepBegin')
-    step_end = fields.Int(data_key='stepEnd')
+    stepBegin = fields.Int()
+    stepEnd = fields.Int()
     size = fields.Nested(Vector3dSchema)
     repeat = fields.Bool()
-    step_wait = fields.Int(data_key='stepWait')
+    stepWait = fields.Int()
 
     @post_load
     def make_size_config(self, data, **kwargs):
@@ -385,7 +381,7 @@ class SizeConfigSchema(Schema):
 
 
 class SingleStepConfigSchema(Schema):
-    step_begin = fields.Int(data_key='stepBegin')
+    stepBegin = fields.Int()
 
     @post_load
     def make_single_step_config(self, data, **kwargs):
@@ -393,10 +389,10 @@ class SingleStepConfigSchema(Schema):
 
 
 class StepBeginEndConfigSchema(Schema):
-    step_begin = fields.Int(data_key='stepBegin')
-    step_end = fields.Int(data_key='stepEnd')
+    stepBegin = fields.Int()
+    stepEnd = fields.Int()
     repeat = fields.Bool()
-    step_wait = fields.Int(data_key='stepWait')
+    stepWait = fields.Int()
 
     @post_load
     def make_step_begin_end_config(self, data, **kwargs):
@@ -404,7 +400,7 @@ class StepBeginEndConfigSchema(Schema):
 
 
 class TeleportConfigSchema(Schema):
-    step_begin = fields.Int(data_key='stepBegin')
+    stepBegin = fields.Int()
     position = fields.Nested(Vector3dSchema)
 
     @post_load
@@ -425,55 +421,46 @@ class TransformConfigSchema(Schema):
 class SceneObjectSchema(Schema):
     id = fields.Str()
     type = fields.Str()  # should this be an enum?
-    center_of_mass = fields.Nested(Vector3dSchema, data_key='centerOfMass')
-    change_materials = fields.List(
-        fields.Nested(ChangeMaterialConfigSchema),
-        data_key='changeMaterials')
+    centerOfMass = fields.Nested(Vector3dSchema)
+    changeMaterials = fields.List(fields.Nested(ChangeMaterialConfigSchema))
     debug = fields.Dict()
     forces = fields.List(fields.Nested(ForceConfigSchema))
     ghosts = fields.List(fields.Nested(StepBeginEndConfigSchema))
     hides = fields.List(fields.Nested(SingleStepConfigSchema))
     kinematic = fields.Bool()
-    location_parent = fields.Str(data_key='locationParent')
+    locationParent = fields.Str()
     mass = fields.Float()
     materials = fields.List(fields.Str())
-    # deprecated; please use materials
-    material_file = fields.Str(data_key='materialFile')
+    materialFile = fields.Str()  # deprecated; please use materials
     moveable = fields.Bool()
     moves = fields.List(fields.Nested(MoveConfigSchema))
-    null_parent = fields.Nested(TransformConfigSchema, data_key='nullParent')
+    nullParent = fields.Nested(TransformConfigSchema)
     openable = fields.Bool()
     opened = fields.Bool()
-    open_close = fields.List(
-        fields.Nested(OpenCloseConfigSchema),
-        data_key='openClose')
+    openClose = fields.List(fields.Nested(OpenCloseConfigSchema))
     physics = fields.Bool()
-    physics_properties = fields.Nested(
-        PhysicsConfigSchema,
-        data_key='physicsProperties')
+    physicsProperties = fields.Nested(PhysicsConfigSchema)
     pickupable = fields.Bool()
     receptacle = fields.Bool()
-    reset_center_of_mass = fields.Bool(data_key='resetCenterOfMass')
+    resetCenterOfMass = fields.Bool()
     resizes = fields.List(fields.Nested(SizeConfigSchema))
     rotates = fields.List(fields.Nested(MoveConfigSchema))
-    salient_materials = fields.List(fields.Str(), data_key='salientMaterials')
+    salientMaterials = fields.List(fields.Str())
     seesaw = fields.Bool()
     shows = fields.List(fields.Nested(ShowConfigSchema))
     shrouds = fields.List(fields.Nested(StepBeginEndConfigSchema))
     states = fields.List(fields.List(fields.Str(), allow_none=True))
     structure = fields.Bool()
     teleports = fields.List(fields.Nested(TeleportConfigSchema))
-    toggle_physics = fields.List(
-        fields.Nested(SingleStepConfigSchema),
-        data_key='togglePhysics')
+    togglePhysics = fields.List(fields.Nested(SingleStepConfigSchema))
     torques = fields.List(fields.Nested(MoveConfigSchema))
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
-    can_contain_target = fields.Bool(data_key='canContainTarget')
+    canContainTarget = fields.Bool()
     obstacle = fields.Bool()
     occluder = fields.Bool()
-    position_y = fields.Float(data_key='positionY')
-    stack_target = fields.Bool(data_key='stackTarget')
+    positionY = fields.Float()
+    stackTarget = fields.Bool()
 
     @post_load
     def make_scene_object(self, data, **kwargs):
@@ -482,62 +469,38 @@ class SceneObjectSchema(Schema):
 
 class SceneConfigurationSchema(Schema):
     # The passive agent scenes can have a None ceilingMaterial
-    ceiling_material = fields.Str(allow_none=True, data_key='ceilingMaterial')
+    ceilingMaterial = fields.Str(allow_none=True)
     debug = fields.Dict()
-    floor_material = fields.Str(data_key='floorMaterial')
-    floor_properties = fields.Nested(
-        PhysicsConfigSchema,
-        data_key='floorProperties')
+    floorMaterial = fields.Str()
+    floorProperties = fields.Nested(PhysicsConfigSchema)
     goal = fields.Nested(GoalSchema)
-    intuitive_physics = fields.Bool(data_key='intuitivePhysics')
+    intuitivePhysics = fields.Bool()
     isometric = fields.Bool()
     name = fields.Str()
     objects = fields.List(fields.Nested(SceneObjectSchema))
     observation = fields.Bool()  # deprecated; please use intuitivePhysics
-    performer_start = fields.Nested(
-        PerformerStartSchema,
-        data_key='performerStart')
-    room_dimensions = fields.Nested(Vector3dSchema, data_key='roomDimensions')
-    room_materials = fields.Nested(
-        RoomMaterialsSchema,
-        data_key='roomMaterials')
+    performerStart = fields.Nested(PerformerStartSchema)
+    roomDimensions = fields.Nested(Vector3dSchema)
+    roomMaterials = fields.Nested(RoomMaterialsSchema)
     screenshot = fields.Bool()  # developer use only; for the image generator
     version = fields.Integer()
-    wall_material = fields.Str(data_key='wallMaterial')
-    wall_properties = fields.Nested(
-        PhysicsConfigSchema,
-        data_key='wallProperties')
+    wallMaterial = fields.Str()
+    wallProperties = fields.Nested(PhysicsConfigSchema)
     holes = fields.List(fields.Nested(FloorHolesAndTexturesXZConfigSchema))
-    floor_textures = fields.List(
-        fields.Nested(FloorTexturesConfigSchema),
-        data_key='floorTextures')
+    floorTextures = fields.List(fields.Nested(FloorTexturesConfigSchema))
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation = fields.Str(allow_none=True)
-    evaluation_only = fields.Bool(data_key='evaluationOnly')
-    eval_name = fields.Str(data_key='evalName')
-    hypercube_number = fields.Int(data_key='hypercubeNumber')
-    scene_number = fields.Int(data_key='sceneNumber')
-    sequence_number = fields.Int(data_key='sequenceNumber')
+    evaluationOnly = fields.Bool()
+    evalName = fields.Str()
+    hypercubeNumber = fields.Int()
+    sceneNumber = fields.Int()
+    sequenceNumber = fields.Int()
     training = fields.Bool()
 
     @post_load
     def make_scene_configuration(self, data, **kwargs):
         return SceneConfiguration(**data)
-
-    @post_dump
-    def remove_none(self, d, **kwargs) -> Dict:
-        '''Remove all none's from dictionaries'''
-        for key, value in dict(d).items():
-            if isinstance(value, dict):
-                d[key] = self.remove_none(value)
-            if isinstance(value, list):
-                for index, val in enumerate(value):
-                    if isinstance(val, dict):
-                        value[index] = self.remove_none(val)
-            if value is None:
-                del d[key]
-        return d
 
 
 @dataclass
@@ -560,15 +523,15 @@ class Goal:
     answer: dict = None  # UI property
     category: str = None
     description: str = None
-    domains_info: dict = None  # UI property
+    domainsInfo: dict = None  # UI property
     habituation_total: int = None
     info_list: list = None
     last_preview_phase_step: int = None
     last_step: int = None
     # TODO metadata objects
     metadata: dict = None
-    objects_info: dict = None  # UI property
-    scene_info: dict = None  # UI property
+    objectsInfo: dict = None  # UI property
+    sceneInfo: dict = None  # UI property
     skip_preview_phase: bool = False
     task_list: List[str] = None
     type_list: List[str] = None
@@ -576,27 +539,27 @@ class Goal:
 
 @dataclass
 class ChangeMaterialConfig:
-    step_begin: int
+    stepBegin: int
     materials: List[str]
 
 
 @dataclass
 class ForceConfig:
-    step_begin: int
-    step_end: int
+    stepBegin: int
+    stepEnd: int
     vector: Vector3d = Vector3d(0, 0, 0)
     relative: bool = False
     repeat: bool = False
-    step_wait: int = 0
+    stepWait: int = 0
 
 
 @dataclass
 class MoveConfig:
-    step_begin: int
-    step_end: int
+    stepBegin: int
+    stepEnd: int
     vector: Vector3d = Vector3d(0, 0, 0)
     repeat: bool = False
-    step_wait: int = 0
+    stepWait: int = 0
 
 
 @dataclass
@@ -608,11 +571,11 @@ class OpenCloseConfig:
 @dataclass
 class PhysicsConfig:
     enable: bool = False
-    angular_drag: float = None
+    angularDrag: float = None
     bounciness: float = None
     drag: float = None
-    dynamic_friction: float = None
-    static_friction: float = None
+    dynamicFriction: float = None
+    staticFriction: float = None
 
 
 @dataclass
@@ -629,38 +592,38 @@ class FloorTexturesConfig:
 
 @dataclass
 class ShowConfig:
-    step_begin: int
+    stepBegin: int
     position: Vector3d = Vector3d(0, 0, 0)
     rotation: Vector3d = Vector3d(0, 0, 0)
     scale: Vector3d = Vector3d(1, 1, 1)
-    bounding_box: List[dict] = field(default_factory=list)  # debug property
+    boundingBox: List[dict] = field(default_factory=list)  # debug property
 
 
 @dataclass
 class SizeConfig:
-    step_begin: int
-    step_end: int
+    stepBegin: int
+    stepEnd: int
     size: Vector3d = Vector3d(1, 1, 1)
     repeat: bool = False
-    step_wait: int = 0
+    stepWait: int = 0
 
 
 @dataclass
 class SingleStepConfig:
-    step_begin: int
+    stepBegin: int
 
 
 @dataclass
 class StepBeginEndConfig:
-    step_begin: int
-    step_end: int
+    stepBegin: int
+    stepEnd: int
     repeat: bool = False
-    step_wait: int = 0
+    stepWait: int = 0
 
 
 @dataclass
 class TeleportConfig:
-    step_begin: int
+    stepBegin: int
     position: Vector3d = Vector3d(0, 0, 0)
 
 
@@ -675,81 +638,81 @@ class TransformConfig:
 class SceneObject:
     id: str
     type: str  # should this be an enum?
-    center_of_mass: Vector3d = None
-    change_materials: List[ChangeMaterialConfig] = None
+    centerOfMass: Vector3d = None
+    changeMaterials: List[ChangeMaterialConfig] = None
     debug: dict = None
     forces: List[ForceConfig] = None
     ghosts: List[StepBeginEndConfig] = None
     hides: List[SingleStepConfig] = None
     kinematic: bool = None
-    location_parent: str = None
+    locationParent: str = None
     mass: float = None
     materials: List[str] = None
-    material_file: str = None  # deprecated; please use materials
+    materialFile: str = None  # deprecated; please use materials
     # Docs say moveable's default is dependant on type.  That could
     # be a problem for the concrete classes.  Needs more review later
     moveable: bool = None
     moves: List[MoveConfig] = None
-    null_parent: TransformConfig = None
+    nullParent: TransformConfig = None
     openable: bool = None
     opened: bool = None
-    open_close: List[OpenCloseConfig] = None
+    openClose: List[OpenCloseConfig] = None
     physics: bool = None
-    physics_properties: PhysicsConfig = None
+    physicsProperties: PhysicsConfig = None
     pickupable: bool = None
     receptacle: bool = None
-    reset_center_of_mass: bool = None
+    resetCenterOfMass: bool = None
     resizes: List[SizeConfig] = None
     rotates: List[MoveConfig] = None
-    salient_materials: List[str] = None
+    salientMaterials: List[str] = None
     seesaw: bool = None
     shows: List[ShowConfig] = None
     shrouds: List[StepBeginEndConfig] = None
     states: List[List[str]] = None
     structure: bool = None
     teleports: List[TeleportConfig] = None
-    toggle_physics: List[SingleStepConfig] = None
+    togglePhysics: List[SingleStepConfig] = None
     torques: List[MoveConfig] = None
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
-    can_contain_target: bool = None
+    canContainTarget: bool = None
     obstacle: bool = None
     occluder: bool = None
-    position_y: float = None
-    stack_target: bool = None
+    positionY: float = None
+    stackTarget: bool = None
 
 
 @dataclass
 class SceneConfiguration:
     '''Class for keeping track of scene configuration'''
-    ceiling_material: str = None
+    ceilingMaterial: str = None
     debug: dict = None
-    floor_material: str = None
-    floor_properties: PhysicsConfig = None
+    floorMaterial: str = None
+    floorProperties: PhysicsConfig = None
     goal: Goal = None  # TODO change to concrete class
-    intuitive_physics: bool = False
+    intuitivePhysics: bool = False
     isometric: bool = False
     name: str = None
     objects: List[SceneObject] = field(default_factory=list)
     observation: bool = False  # deprecated; please use intuitivePhysics
-    performer_start: PerformerStart = None
-    room_dimensions: Vector3d = field(
+    performerStart: PerformerStart = None
+    roomDimensions: Vector3d = field(
         default=ConfigManager.DEFAULT_ROOM_DIMENSIONS)
-    room_materials: RoomMaterials = None
+    roomMaterials: RoomMaterials = None
     screenshot: bool = False  # developer use only; for the image generator
     version: int = None
-    wall_material: str = None
-    wall_properties: PhysicsConfig = None
+    wallMaterial: str = None
+    wallProperties: PhysicsConfig = None
     holes: List[FloorHolesAndTexturesXZConfig] = field(default_factory=list)
-    floor_textures: List[FloorTexturesConfig] = field(default_factory=list)
+    floorTextures: List[FloorTexturesConfig] = field(default_factory=list)
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation: str = None
-    evaluation_only: bool = None
-    eval_name: str = None
-    hypercube_number: int = None
-    scene_number: int = None
-    sequence_number: int = None
+    evaluationOnly: bool = None
+    evalName: str = None
+    hypercubeNumber: int = None
+    sceneNumber: int = None
+    sequenceNumber: int = None
     training: bool = None
 
     def retrieve_object_states(self,

@@ -1,7 +1,4 @@
 from enum import Enum, unique
-from typing import List
-
-import typeguard
 
 from .action import Action
 from .stringifier import Stringifier
@@ -110,8 +107,7 @@ class GoalMetadata:
         # yield 'type_list', self.type_list
         yield 'metadata', self.metadata
 
-    @typeguard.typechecked
-    def retrieve_action_list_at_step(self, step_number: int) -> List:
+    def retrieve_action_list_at_step(self, step_number):
         """Return the action list from the given goal at the given step as a
         a list of actions tuples by default."""
         if self is not None and self.action_list is not None:
@@ -120,11 +116,9 @@ class GoalMetadata:
             if self.last_step is not None and step_number == self.last_step:
                 return []
             adjusted_step = step_number - self.last_preview_phase_step
-            if (
-                len(self.action_list) > adjusted_step and
-                len(self.action_list[adjusted_step]) > 0
-            ):
-                return self.action_list[adjusted_step]
+            if len(self.action_list) > adjusted_step:
+                if len(self.action_list[adjusted_step]) > 0:
+                    return self.action_list[adjusted_step]
 
         return GoalMetadata.ACTION_LIST
 

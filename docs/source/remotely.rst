@@ -2,7 +2,7 @@ Running Remotely
 ================
 
 Requirements:
-* Make sure your system has Python 3.7 or greater.
+* Make sure your system has Python 3.6 or greater.
 * Make sure MCS has been installed per the install instructions
 
 To run MCS on a remote GPU server, use the following steps to launch an X11 server.
@@ -78,7 +78,7 @@ The following code was run on an AWS p2-xlarge with the Ubuntu Deep Learning AMI
 
     cd MCS
 
-    python3.7 -m venv venv
+    python3.6 -m venv venv
     . venv/bin/activate
 
     pip install --upgrade pip

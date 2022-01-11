@@ -49,7 +49,7 @@ def run_scene(controller, file_name):
         end = time.perf_counter()
         step_time_list.append(end - start)
 
-    output = controller.end_scene()
+    output = controller.end_scene("", "")
 
     return step_time_list
 

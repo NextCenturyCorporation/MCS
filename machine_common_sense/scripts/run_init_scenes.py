@@ -55,7 +55,7 @@ def main():
             scene_data['name'] +
             '.png')
 
-    controller.end_scene()
+    controller.end_scene("", 1)
 
 
 if __name__ == "__main__":

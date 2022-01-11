@@ -4,7 +4,7 @@ Containerization
 GPU Image
 ---------
 
-GPU images requires an Nvidia GPU and Nvidia Docker to be installed.
+Please note that the GPU image requires an Nvidia GPU and Nvidia Docker to be installed.
 
 You can run the GPU image with:
 

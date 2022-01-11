@@ -1,13 +1,13 @@
 MoveRight
 MoveRight
-Pass
+Crawl
 MoveAhead
 MoveAhead
 MoveRight
 MoveAhead
 MoveAhead
 MoveAhead
-Pass
+LieDown
 MoveAhead
 MoveAhead
 MoveAhead

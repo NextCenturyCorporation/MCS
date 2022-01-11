@@ -25,27 +25,12 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
         'License :: OSI Approved :: Apache Software License',
-        'Natural Language :: English',
         'Operating System :: OS Independent',
-        'Intended Audience :: Science/Research',
-        'Intended Audience :: Developers',
-        'Topic :: Software Development',
-        'Topic :: Scientific/Engineering',
-        'Topic :: Scientific/Engineering :: Artificial Intelligence',
-        'Topic :: Games/Entertainment :: Simulation',
-        'Topic :: Multimedia :: Graphics',
-        'Topic :: Multimedia :: Graphics :: 3D Rendering',
-        'Typing :: Typed'
     ],
     license='Apache-2',
-    python_requires=">=3.7,<3.10",
+    python_requires=">3.6",
     packages=setuptools.find_packages(),
     package_data={'': ['*.ini'], },
     install_requires=[
@@ -54,11 +39,10 @@ setuptools.setup(
         'opencv-python>=4.0',
         'matplotlib>=3.3',
         'msgpack>=1.0.0',
-        'numpyencoder>=0.3.0',
         'ai2thor==2.5.0',
         'scikit-image>=0.17.1',
-        'marshmallow>=3.5.2',
-        'typeguard>=2.11.1'
+        'dataclasses==0.8; python_version<"3.7"',
+        'marshmallow>=3.5.2'
     ],
     entry_points={
         'console_scripts': [

@@ -101,14 +101,14 @@ class TestHistoryEventHandler(unittest.TestCase):
         hist_writer.add_step.assert_not_called()
 
     def test_on_before_step_one(self):
-        hist = SceneHistory(
+        histItem = SceneHistory(
             step=1,
             action="MoveAhead",
             args=None,
             params=None,
             output=None,
             delta_time_millis=0)
-        self.histEvents._HistoryEventHandler__history_item = hist
+        self.histEvents._HistoryEventHandler__history_item = histItem
         self.histEvents._HistoryEventHandler__history_writer = MagicMock()
         test_payload = {
             "step_number": 1,
@@ -124,7 +124,7 @@ class TestHistoryEventHandler(unittest.TestCase):
         hist_writer = self.histEvents._HistoryEventHandler__history_writer
 
         hist_writer.init_timer.assert_not_called()
-        hist_writer.add_step.assert_called_with(hist)
+        hist_writer.add_step.assert_called_with(histItem)
 
     def test_on_after_step(self):
         test_payload = {
@@ -147,25 +147,25 @@ class TestHistoryEventHandler(unittest.TestCase):
 
         self.histEvents.on_after_step(after_step_payload)
 
-        hist = self.histEvents._HistoryEventHandler__history_item
+        histItem = self.histEvents._HistoryEventHandler__history_item
 
         after_step_payload.step_output.copy_without_depth_or_images.assert_called()  # noqa: E501
-        self.assertEqual(hist.step, 1)
-        self.assertEqual(hist.action, "MoveAhead")
-        self.assertEqual(hist.delta_time_millis, 0)
+        self.assertEqual(histItem.step, 1)
+        self.assertEqual(histItem.action, "MoveAhead")
+        self.assertEqual(histItem.delta_time_millis, 0)
 
     def test_on_end_scene(self):
         self.histEvents._HistoryEventHandler__history_writer = HistoryWriter(
             self.scene_config, {}, "20210831-202203")
         self.histEvents._HistoryEventHandler__history_writer.write_history_file = MagicMock()  # noqa: E501
-        hist = SceneHistory(
+        histItem = SceneHistory(
             step=1,
             action="MoveAhead",
             args=None,
             params=None,
             output=None,
             delta_time_millis=0)
-        self.histEvents._HistoryEventHandler__history_item = hist
+        self.histEvents._HistoryEventHandler__history_item = histItem
         test_payload = {}
         test_payload["step_number"] = 1
         test_payload["config"] = self.config_mngr

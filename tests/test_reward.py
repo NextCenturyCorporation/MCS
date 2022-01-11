@@ -11,21 +11,21 @@ class TestReward(unittest.TestCase):
     def test_default_reward(self):
         goal = mcs.GoalMetadata()
         reward = mcs.Reward.calculate_reward(
-            goal, objects=[{}], agent={}, number_steps=1, reach=1.0)
+            goal, objects={}, agent={}, number_steps=1, reach=1.0)
         self.assertEqual(reward, -0.001)
         self.assertIsInstance(reward, float)
 
     def test_none_goal(self):
         goal = None
         reward = mcs.Reward.calculate_reward(
-            goal, objects=[{}], agent={}, number_steps=5, reach=1.0)
+            goal, objects={}, agent={}, number_steps=5, reach=1.0)
         self.assertEqual(reward, -0.005)
         self.assertIsInstance(reward, float)
 
     def test_penalty_step_calcuation(self):
         goal = None
         reward = mcs.Reward.calculate_reward(
-            goal, objects=[{}], agent={}, number_steps=456, reach=1.0)
+            goal, objects={}, agent={}, number_steps=456, reach=1.0)
         penalty = 0 - ((456) * 0.001)
         self.assertEqual(reward, penalty)
         self.assertIsInstance(reward, float)
@@ -50,14 +50,18 @@ class TestReward(unittest.TestCase):
         self.assertEqual(results['objectId'], target_id)
 
     def test_target_not_in_object_list(self):
-        obj_list = [{"objectId": str(i)} for i in range(10)]
+        obj_list = []
+        for i in range(10):
+            obj_list.append({"objectId": str(i)})
         target_id = '111'  # not in list
         results = mcs.Reward._Reward__get_object_from_list(
             obj_list, target_id)
         self.assertIsNone(results)
 
     def test_duplicate_target_ids_in_list(self):
-        obj_list = [{"objectId": str(i)} for i in range(10)]
+        obj_list = []
+        for i in range(10):
+            obj_list.append({"objectId": str(i)})
         # add duplicate object
         obj_list.append({"objectId": '7', "duplicate": True})
         target_id = '7'
@@ -209,7 +213,9 @@ class TestReward(unittest.TestCase):
         obj['objectBounds']['objectBoundsCorners'].append(
             {'x': 0.0, 'y': 1.0, 'z': 10.0})
         obj['position'] = {'x': 0.0, 'z': 0.0}
-        obj_list = [obj]
+        obj_list = []
+        obj_list.append(obj)
+
         agent = {'position': {'x': 5.0, 'y': 0.5, 'z': 5.0}}
         reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent,
                                                    performer_reach=1.0)
@@ -239,7 +245,9 @@ class TestReward(unittest.TestCase):
         obj['objectBounds']['objectBoundsCorners'].append(
             {'x': 0.0, 'y': 1.0, 'z': 1.0})
         obj['position'] = {'x': 0.0, 'z': 0.0}
-        obj_list = [obj]
+        obj_list = []
+        obj_list.append(obj)
+
         agent = {'position': {'x': 10.1, 'y': 0.5, 'z': 1.1}}
         reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent,
                                                    performer_reach=1.0)
@@ -269,7 +277,9 @@ class TestReward(unittest.TestCase):
         obj['objectBounds']['objectBoundsCorners'].append(
             {'x': 0.0, 'y': 1.0, 'z': 1.0})
         obj['position'] = {'x': 0.0, 'z': 0.0}
-        obj_list = [obj]
+        obj_list = []
+        obj_list.append(obj)
+
         agent = {'position': {'x': 11.1, 'y': 0.5, 'z': 1.1}}
         reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent,
                                                    performer_reach=1.0)
@@ -299,7 +309,9 @@ class TestReward(unittest.TestCase):
         obj['objectBounds']['objectBoundsCorners'].append(
             {'x': 0.0, 'y': 1.0, 'z': 1.0})
         obj['position'] = {'x': 0.0, 'z': 0.0}
-        obj_list = [obj]
+        obj_list = []
+        obj_list.append(obj)
+
         agent = {'position': {'x': -0.5, 'y': 0.5, 'z': 0.0}}
         reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent,
                                                    performer_reach=1.0)
@@ -329,7 +341,9 @@ class TestReward(unittest.TestCase):
         obj['objectBounds']['objectBoundsCorners'].append(
             {'x': 0.0, 'y': 1.0, 'z': 1.0})
         obj['position'] = {'x': 0.0, 'z': 0.0}
-        obj_list = [obj]
+        obj_list = []
+        obj_list.append(obj)
+
         agent = {'position': {'x': -1.5, 'y': 0.5, 'z': 0.0}}
         reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent,
                                                    performer_reach=1.0)

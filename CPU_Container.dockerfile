@@ -8,8 +8,8 @@ LABEL maintainer="Next Century Corporation"
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
 
-# --build-arg mcsversion=x.y.z to override default in docker build command
-ARG mcsversion=0.5.0
+# --build-arg mcsversion=0.0.x to override default in docker build command
+ARG mcsversion=0.4.6
 ARG mcs_library_version=master
 
 WORKDIR /mcs

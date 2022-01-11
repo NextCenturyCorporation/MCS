@@ -119,7 +119,8 @@ class AbstractExecutionCache(ABC):
         '''returns a Path object for the path to the directory for the given
          version.
         '''
-        return self._base / version
+        ver_path = self._base / version
+        return ver_path
 
     def has_version(self, version: str) -> bool:
         '''Return whether the cache has the given version'''

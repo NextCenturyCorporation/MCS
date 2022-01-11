@@ -34,6 +34,16 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action("CloseObject"), mcs.Action.CLOSE_OBJECT)
         self.assertEqual(mcs.Action("1"), mcs.Action.CLOSE_OBJECT)
 
+    def test_crawl(self):
+        self.assertEqual(mcs.Action.CRAWL.value, "Crawl")
+        self.assertEqual(mcs.Action.CRAWL.key, "c")
+        self.assertEqual(
+            mcs.Action.CRAWL.desc,
+            "Change pose to 'CRAWLING' (no params)"
+        )
+        self.assertEqual(mcs.Action("Crawl"), mcs.Action.CRAWL)
+        self.assertEqual(mcs.Action("c"), mcs.Action.CRAWL)
+
     def test_drop_object(self):
         self.assertEqual(mcs.Action.DROP_OBJECT.value, "DropObject")
         self.assertEqual(mcs.Action.DROP_OBJECT.key, "2")
@@ -43,6 +53,16 @@ class TestAction(unittest.TestCase):
         )
         self.assertEqual(mcs.Action("DropObject"), mcs.Action.DROP_OBJECT)
         self.assertEqual(mcs.Action("2"), mcs.Action.DROP_OBJECT)
+
+    def test_lie_down(self):
+        self.assertEqual(mcs.Action.LIE_DOWN.value, "LieDown")
+        self.assertEqual(mcs.Action.LIE_DOWN.key, "x")
+        self.assertEqual(
+            mcs.Action.LIE_DOWN.desc,
+            "Change pose to 'LYING' (rotation=float)"
+        )
+        self.assertEqual(mcs.Action("LieDown"), mcs.Action.LIE_DOWN)
+        self.assertEqual(mcs.Action("x"), mcs.Action.LIE_DOWN)
 
     def test_move_ahead(self):
         self.assertEqual(mcs.Action.MOVE_AHEAD.value, "MoveAhead")
@@ -185,6 +205,28 @@ class TestAction(unittest.TestCase):
         )
         self.assertEqual(mcs.Action("LookDown"), mcs.Action.LOOK_DOWN)
         self.assertEqual(mcs.Action("k"), mcs.Action.LOOK_DOWN)
+
+    def test_stand(self):
+        self.assertEqual(mcs.Action.STAND.value, "Stand")
+        self.assertEqual(mcs.Action.STAND.key, "u")
+        self.assertEqual(
+            mcs.Action.STAND.desc,
+            "Change pose to 'STANDING' (no params)"
+        )
+        self.assertEqual(mcs.Action("Stand"), mcs.Action.STAND)
+        self.assertEqual(mcs.Action("u"), mcs.Action.STAND)
+
+    def test_throw_object(self):
+        self.assertEqual(mcs.Action.THROW_OBJECT.value, "ThrowObject")
+        self.assertEqual(mcs.Action.THROW_OBJECT.key, "q")
+        self.assertEqual(
+            mcs.Action.THROW_OBJECT.desc,
+            "Throw an object you are holding. (objectId=string, " +
+            "objectImageCoordsX=float, objectImageCoordsY=float, " +
+            "force=float (default:0.5))"
+        )
+        self.assertEqual(mcs.Action("ThrowObject"), mcs.Action.THROW_OBJECT)
+        self.assertEqual(mcs.Action("q"), mcs.Action.THROW_OBJECT)
 
     def test_pass(self):
         self.assertEqual(mcs.Action.PASS.value, "Pass")

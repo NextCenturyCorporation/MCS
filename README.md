@@ -4,7 +4,7 @@
 
 # MCS Python Package
 
-Python interface for interacting with MCS AI2Thor environment and running scenes. The latest release of the MCS Python library is `0.5.0`. You can find the latest documentation [here](https://nextcenturycorporation.github.io/MCS).
+Python interface for interacting with MCS AI2Thor environment and running scenes. The latest release of the MCS Python library is `0.4.6`. You can find the latest documentation [here](https://nextcenturycorporation.github.io/MCS).
 
 - [Quickstart Installation](#quickstart-installation)
 - [Usage](#usage)
@@ -17,12 +17,12 @@ Python interface for interacting with MCS AI2Thor environment and running scenes
 
 ### Virtual Environments
 
-Python virtual environments are recommended when using the  Machine Common Sense package. All steps below presume the activation of the virtual environment. The developer can choose between traditional Python or Anaconda depending on need. These instructions work for Ubuntu Linux or MacOS. The MCS package has a minimum requirement of Python 3.7 regardless of Python distribution. As of 0.4.4, the MCS package will automatically download the Unity app release for that version. On the first run, the Unity app may take a while to start in order to download all the assets. 
+Python virtual environments are recommended when using the  Machine Common Sense package. All steps below presume the activation of the virtual environment. The developer can choose between traditional Python or Anaconda depending on need. These instructions work for Ubuntu Linux or MacOS. The MCS package has a minimum requirement of Python 3.6 regardless of Python distribution. As of 0.4.4, the MCS package will automatically download the Unity app release for that version. On the first run, the Unity app may take a while to start in order to download all the assets. 
 
 #### Traditional Python Environment
 
 ```bash
-$ python3.7 -m venv --prompt mcs venv
+$ python3.6 -m venv venv
 $ source venv/bin/activate
 (venv) $ python -m pip install --upgrade pip setuptools wheel
 ```

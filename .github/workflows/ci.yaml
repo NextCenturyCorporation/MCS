@@ -1,4 +1,4 @@
-name: Mac/Ubuntu Python 3.7 Unit Tests 
+name: Mac and Ubuntu Python 3.6 Unit Tests 
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
       - name: Install Python 3
         uses: actions/setup-python@v2
         with:
-          python-version: 3.7
+          python-version: 3.6
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip setuptools wheel
@@ -27,9 +27,7 @@ jobs:
       - name: Run unit tests
         run: python -m unittest
       - name: Run isort
-        uses: isort/isort-action@master
-        with:
-            requirementsFiles: "requirements.txt requirements-test.txt"
+        uses: jamescurtin/isort-action@master
       - name: Flake8
         run: flake8
       - name: Autopep8

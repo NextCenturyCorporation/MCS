@@ -9,7 +9,7 @@ MoveAhead
 MoveAhead
 MoveAhead
 MoveLeft
-Pass
+Crawl
 MoveAhead
 MoveAhead
 MoveLeft

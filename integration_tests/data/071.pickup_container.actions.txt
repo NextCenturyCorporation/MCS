@@ -1,6 +1,6 @@
 ﻿LookDown
 MoveAhead
 PickupObject,objectId=bowl_a
-Pass
+Crawl
 DropObject
 Pass

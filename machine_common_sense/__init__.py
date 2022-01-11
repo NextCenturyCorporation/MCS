@@ -3,9 +3,7 @@ import logging
 import logging.config
 import signal
 from contextlib import contextmanager
-from typing import Dict, Union
-
-import typeguard
+from os.path import exists
 
 from ._version import __version__
 from .action import Action
@@ -16,14 +14,16 @@ from .history_writer import HistoryWriter
 from .logging_config import LoggingConfig
 from .material import Material
 from .object_metadata import ObjectMetadata
+from .pose import Pose
 from .return_status import ReturnStatus
 from .reward import Reward
 from .scene_history import SceneHistory
-from .serializer import SerializerMsgPack
+from .serializer import SerializerJson, SerializerMsgPack
+from .setup import add_subscribers
 from .step_metadata import StepMetadata
 from .stringifier import Stringifier
-from .subscriber import add_subscribers
 from .unity_executable_provider import UnityExecutableProvider
+from .validation import Validation
 
 logger = logging.getLogger(__name__)
 # Set default logging handler to avoid "No handler found" warnings
@@ -46,9 +46,8 @@ def time_limit(seconds):
         signal.alarm(0)
 
 
-@typeguard.typechecked
-def init_logging(log_config: Dict = None,
-                 log_config_file: str = "log.config.user.py"):
+def init_logging(log_config=None,
+                 log_config_file="log.config.user.py"):
     """
     Initializes logging system.  If no parameters are provided, a
     default configuration will be applied.  See python logging
@@ -59,23 +58,21 @@ def init_logging(log_config: Dict = None,
     Parameters
     ----------
     log_config : dict, optional
-        A dictionary the contains the logging configuration.  If None, a
-        default configuration will be used
+        A dictionary the contains the logging configuration.  If None, a default configuration
+        will be used
     log_config_file: str, optional
-        Path to an override configuration file.  The file will contain a
-        python dictionary for the logging configuration.  This file is
-        typically not used, but allows a user to change the logging
-        configuration without code changes.  Default, log.config.user.py
+        Path to an override configuration file.  The file will contain a python dictionary
+        for the logging configuration.  This file is typically not used, but allows a user
+        to change the logging configuration without code changes.  Default, log.config.user.py
     """
     LoggingConfig.init_logging(
         log_config=log_config,
         log_config_file=log_config_file)
 
 
-@typeguard.typechecked
-def create_controller(config_file_or_dict: Union[Dict, str] = None,
-                      unity_app_file_path: str = None,
-                      unity_cache_version: str = None):
+def create_controller(config_file_or_dict=None,
+                      unity_app_file_path=None,
+                      unity_cache_version=None):
     """
     Creates and returns a new MCS Controller object.
 
@@ -129,9 +126,8 @@ def create_controller(config_file_or_dict: Union[Dict, str] = None,
         return None
 
 
-@typeguard.typechecked
 def change_config(controller: Controller,
-                  config_file_or_dict: Union[Dict, str] = None):
+                  config_file_or_dict=None):
     """
     Creates and returns a new MCS Controller object.  Should only be called
     After a run and before a scene is changed.
@@ -153,8 +149,7 @@ def change_config(controller: Controller,
     add_subscribers(controller, config)
 
 
-@typeguard.typechecked
-def load_scene_json_file(scene_json_file_path: str):
+def load_scene_json_file(scene_json_file_path):
     """
     Loads the given JSON scene config file and returns its data.
 
