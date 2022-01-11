@@ -4,7 +4,7 @@
 
 # MCS Python Package
 
-Python interface for interacting with MCS AI2Thor environment and running scenes. The latest release of the MCS Python library is `0.4.6`. You can find the latest documentation [here](https://nextcenturycorporation.github.io/MCS).
+Python interface for interacting with MCS AI2Thor environment and running scenes. The latest release of the MCS Python library is `0.5.0`. You can find the latest documentation [here](https://nextcenturycorporation.github.io/MCS).
 
 - [Quickstart Installation](#quickstart-installation)
 - [Usage](#usage)
