@@ -4,6 +4,8 @@ import os
 import pathlib
 from time import perf_counter
 
+from numpyencoder import NumpyEncoder
+
 from machine_common_sense.step_metadata import StepMetadata
 
 from .controller_events import (AbstractControllerSubscriber, AfterStepPayload,
@@ -73,21 +75,21 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             # Loop back and fill out previous steps with retrospective report
             if payload.report is not None:
                 for step in self.__history_writer.current_steps:
-                    currentStep = step.get("step")
+                    current_step = step.get("step")
 
-                    findStepInReport = (
-                        payload.report.get(currentStep) or
-                        payload.report.get(str(currentStep))
+                    report_step = (
+                        payload.report.get(current_step) or
+                        payload.report.get(str(current_step))
                     )
 
-                    if (findStepInReport is not None):
+                    if (report_step is not None):
                         # Use classification and confidence rather than rating
                         # and score to be compatible with old history files.
-                        step["classification"] = findStepInReport.get("rating")
-                        step["confidence"] = findStepInReport.get("score")
-                        step["violations_xy_list"] = findStepInReport.get(
+                        step["classification"] = report_step.get("rating")
+                        step["confidence"] = report_step.get("score")
+                        step["violations_xy_list"] = report_step.get(
                             "violations_xy_list")
-                        step["internal_state"] = findStepInReport.get(
+                        step["internal_state"] = report_step.get(
                             "internal_state")
 
             self.__history_writer.write_history_file(
@@ -115,7 +117,7 @@ class HistoryWriter(object):
         scene_name = scene_config_data.name
         prefix_directory = None
         if '/' in scene_name:
-            prefix, scene_basename = scene_name.rsplit('/', 1)
+            prefix, _ = scene_name.rsplit('/', 1)
             prefix_directory = os.path.join(self.HISTORY_DIRECTORY, prefix)
             if not os.path.exists(prefix_directory):
                 logger.debug(f"Making prefix directory {prefix_directory}")
@@ -134,7 +136,10 @@ class HistoryWriter(object):
         if self.scene_history_file:
             logger.info(f"Saving history file {self.scene_history_file}")
             with open(self.scene_history_file, "a+") as history_file:
-                history_file.write(json.dumps(self.history_obj))
+                history_file.write(
+                    json.dumps(
+                        self.history_obj,
+                        cls=NumpyEncoder))
 
     def filter_history_output(
             self,

@@ -33,23 +33,20 @@ class Stringifier:
         """
         this_indent = " " * Stringifier.NUMBER_OF_SPACES * depth
         next_indent = " " * Stringifier.NUMBER_OF_SPACES * (depth + 1)
-        text_list = []
         props = {
             prop_key: prop_value
             for prop_key, prop_value in vars(input_class).items()
             if not prop_key.startswith('_') or callable(prop_value)
         }
-        for prop_key, prop_value in props.items():
-            text_list.append(
-                next_indent +
-                "\"" +
-                prop_key +
-                "\": " +
-                Stringifier.value_to_str(
-                    prop_value,
-                    depth +
-                    1))
-        return "{}" if len(text_list) == 0 else "{\n" + \
+        text_list = [next_indent +
+                     "\"" +
+                     prop_key +
+                     "\": " +
+                     Stringifier.value_to_str(
+                         prop_value,
+                         depth +
+                         1) for prop_key, prop_value in props.items()]
+        return "{}" if not text_list else "{\n" + \
             (",\n").join(text_list) + "\n" + this_indent + "}"
 
     @staticmethod
@@ -85,26 +82,38 @@ class Stringifier:
                 metadata.uuid,
                 metadata.shape,
                 ", ".join(metadata.texture_color_list)
-                if(metadata.texture_color_list is not None)
+                if (metadata.texture_color_list is not None)
                 else metadata.texture_color_list,
                 metadata.held,
                 metadata.visible,
                 ", ".join(metadata.state_list)
-                if(metadata.state_list is not None) else metadata.state_list,
+                if (metadata.state_list is not None)
+                else metadata.state_list,
                 Stringifier.vector_to_string(metadata.position),
                 metadata.distance_in_world,
                 Stringifier.vector_to_string(metadata.direction),
-                ("[" + ", ".join([
-                    Stringifier.vector_to_string(corner) for corner
-                    in metadata.dimensions
-                ]) + "]") if metadata.dimensions else None
+                (
+                    (
+                        "[" +
+                        ", ".join(
+                            Stringifier.vector_to_string(corner)
+                            for corner in metadata.dimensions
+                        )
+                    ) +
+                    "]"
+                )
+                if metadata.dimensions
+                else None,
             ]
             for metadata in object_list
         ]
+
         widths = [max(len(str(row[i])) for row in rows)
-                  for i in range(0, len(titles))]
-        return [("  ".join(str(row[i]).ljust(widths[i])
-                           for i in range(0, len(row)))) for row in rows]
+                  for i in range(len(titles))]
+        return [
+            "  ".join(str(row[i]).ljust(widths[i]) for i in range(len(row)))
+            for row in rows
+        ]
 
     @staticmethod
     def value_to_str(input_value, depth=0):
@@ -132,16 +141,15 @@ class Stringifier:
                 Stringifier.value_to_str(dict_value, depth + 1)
                 for dict_key, dict_value in input_value.items()
             ]
-            return "{}" if len(text_list) == 0 else "{\n" + \
+            return "{}" if not text_list else "{\n" + \
                 (",\n").join(text_list) + "\n" + this_indent + "}"
         if isinstance(input_value, (list, tuple, numpy.ndarray)):
             input_value_as_list = list(input_value)
-            # Condense the list output unless it has any nested dicts or lists.
-            condense = True
-            for list_item in input_value_as_list:
-                if isinstance(list_item, (dict, list, tuple, numpy.ndarray)):
-                    condense = False
-                    break
+            condense = not any(
+                isinstance(list_item, (dict, list, tuple, numpy.ndarray))
+                for list_item in input_value_as_list
+            )
+
             if condense:
                 # To condense the list output, remove all of the whitespace.
                 text_list = [
@@ -154,7 +162,7 @@ class Stringifier:
                 next_indent + Stringifier.value_to_str(list_item, depth + 1)
                 for list_item in input_value_as_list
             ]
-            return "[]" if len(text_list) == 0 else "[\n" + \
+            return "[]" if not text_list else "[\n" + \
                 (",\n").join(text_list) + "\n" + this_indent + "]"
         if isinstance(input_value, bool):
             return "true" if input_value else "false"

@@ -227,7 +227,7 @@ class AbstractRunnerScript():
                 break
             action, params = action_callback(scene_data, step_metadata, self)
 
-        controller.end_scene("", 1)
+        controller.end_scene()
 
         return scene_data['name']
 

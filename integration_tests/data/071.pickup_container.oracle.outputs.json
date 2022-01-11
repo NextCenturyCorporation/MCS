@@ -124,7 +124,7 @@
         "structural_objects_count": 6
     },
     {
-        "camera_height": 0.381,
+        "camera_height": 0.762,
         "head_tilt": 30,
         "objects": [
             {
@@ -132,7 +132,7 @@
                 "id": "apple_a",
                 "mass": 0.25,
                 "position_x": 0.0,
-                "position_y": 0.231,
+                "position_y": 0.612,
                 "position_z": 0.24,
                 "visible": true
             },
@@ -141,7 +141,7 @@
                 "id": "bowl_a",
                 "mass": 0.25,
                 "position_x": -0.001,
-                "position_y": 0.194,
+                "position_y": 0.575,
                 "position_z": 0.24,
                 "visible": true
             }
@@ -155,21 +155,21 @@
         "structural_objects_count": 6
     },
     {
-        "camera_height": 0.381,
+        "camera_height": 0.762,
         "head_tilt": 30,
         "objects": [
             {
                 "held": false,
                 "id": "apple_a",
                 "mass": 0.25,
-                "position_y": 0.216,
+                "position_y": 0.597,
                 "visible": true
             },
             {
                 "held": false,
                 "id": "bowl_a",
                 "mass": 0.25,
-                "position_y": 0.179,
+                "position_y": 0.56,
                 "visible": true
             }
         ],
@@ -182,21 +182,21 @@
         "structural_objects_count": 6
     },
     {
-        "camera_height": 0.381,
+        "camera_height": 0.762,
         "head_tilt": 30,
         "objects": [
             {
                 "held": false,
                 "id": "apple_a",
                 "mass": 0.25,
-                "position_y": 0.178,
+                "position_y": 0.559,
                 "visible": true
             },
             {
                 "held": false,
                 "id": "bowl_a",
                 "mass": 0.25,
-                "position_y": 0.14,
+                "position_y": 0.521,
                 "visible": true
             }
         ],

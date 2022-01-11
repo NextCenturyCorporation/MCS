@@ -3,12 +3,10 @@ import os
 import ai2thor.server
 import numpy
 
-from machine_common_sense.action import Action
 from machine_common_sense.config_manager import ConfigManager
 from machine_common_sense.controller import Controller
 from machine_common_sense.controller_output_handler import \
     ControllerOutputHandler
-from machine_common_sense.pose import Pose
 
 MOCK_VARIABLES = {
     'event_count': 5,
@@ -27,7 +25,6 @@ MOCK_VARIABLES = {
                 'y': 0.0
             }
         },
-        'pose': Pose.STANDING.name,
         'lastActionStatus': 'SUCCESSFUL',
         'objects': [],
         'screenHeight': 400,
@@ -47,7 +44,6 @@ class MockController():
 
     def step(self, data):
         self.__last_step_data = data
-        self.update_metadata(data)
         metadata = self.__last_metadata
 
         event = ai2thor.server.Event(metadata)
@@ -62,16 +58,6 @@ class MockController():
 
     def get_last_step_data(self):
         return self.__last_step_data
-
-    def update_metadata(self, data: dict) -> dict:
-
-        if data['action'] == Action.CRAWL.value:
-            self.__last_metadata['pose'] = Pose.CRAWLING.name
-        elif (data['action'] == Action.STAND.value and
-              self.__last_metadata['pose'] != Pose.LYING.name):
-            self.__last_metadata['pose'] = Pose.STANDING.name
-        elif data['action'] == Action.LIE_DOWN.value:
-            self.__last_metadata['pose'] = Pose.LYING.name
 
     def subscribe(self, subscriber):
         if subscriber not in self._subscribers:
@@ -94,7 +80,8 @@ class MockControllerAI2THOR(Controller):
 
         self._subscribers = []
 
-        self._end_scene_not_registered = False  # atexit not needed for tests
+        self._failure_handler_registered = True  # atexit not needed for tests
+        self._end_scene_called = False
         self._controller = MockController()
         self._config = ConfigManager(config_file_or_dict={})
         self._config._config[

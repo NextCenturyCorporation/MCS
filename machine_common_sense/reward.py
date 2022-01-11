@@ -1,5 +1,6 @@
-from typing import Dict, List
+from typing import Dict, List, Optional
 
+import typeguard
 from shapely import geometry
 
 from .controller import DEFAULT_MOVE
@@ -43,9 +44,7 @@ class Reward(object):
         bbox3d = goal_object['objectBounds']['objectBoundsCorners']
         # project to XZ plane
         xz_pts = [(pt['x'], pt['z']) for pt in bbox3d]
-        polygon = geometry.MultiPoint(xz_pts).convex_hull
-
-        return polygon
+        return geometry.MultiPoint(xz_pts).convex_hull
 
     @staticmethod
     def _calc_retrieval_reward(
@@ -212,12 +211,13 @@ class Reward(object):
         return GOAL_NOT_ACHIEVED
 
     @staticmethod
+    @typeguard.typechecked
     def calculate_reward(
-            goal: GoalMetadata,
-            objects: Dict,
+            goal: Optional[GoalMetadata],
+            objects: List[Dict],
             agent: Dict,
             number_steps: int,
-            reach: float) -> float:
+            reach: Optional[float]) -> float:
         '''
         Determine if the agent achieved the objective/task/goal.
 
