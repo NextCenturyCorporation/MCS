@@ -18,4 +18,4 @@ Shapely==1.7.1
 Sphinx==3.2.1
 sphinxcontrib-websupport==1.2.4
 sphinx-markdown-builder==0.5.4
-git+git://github.com/sphinx-contrib/video.git
+git+https://github.com/sphinx-contrib/video.git
