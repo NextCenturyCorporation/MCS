@@ -321,6 +321,7 @@ def start_handmade_tests(
                 successful_test_list.append((test_name, metadata_tier))
             else:
                 failed_test_list.append((test_name, metadata_tier, status))
+
         # Run each additional test at this metadata tier.
         for runner_function in (
                 [func for func in FUNCTION_LIST
