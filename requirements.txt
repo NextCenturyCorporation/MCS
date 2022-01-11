@@ -21,4 +21,4 @@ Sphinx==3.2.1
 sphinxcontrib-websupport==1.2.4
 sphinx-markdown-builder==0.5.4
 typeguard==2.13.2
-git+git://github.com/sphinx-contrib/video.git
+git+https://github.com/sphinx-contrib/video.git
