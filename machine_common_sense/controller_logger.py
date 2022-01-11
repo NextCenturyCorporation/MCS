@@ -30,9 +30,11 @@ class ControllerLogger(AbstractControllerSubscriber):
         logger.debug("STEP: " + str(payload.step_number))
         logger.debug("ACTION: " + payload.action)
         if payload.goal.habituation_total >= payload.habituation_trial:
-            logger.debug(f"HABITUATION TRIAL: "
-                         f"{str(payload.habituation_trial)}"
-                         f" / {str(payload.goal.habituation_total)}")
+            logger.debug(
+                f'HABITUATION TRIAL: {payload.habituation_trial} / '
+                f'{payload.goal.habituation_total}'
+            )
+
         elif payload.goal.habituation_total > 0:
             logger.debug("HABITUATION TRIAL: DONE")
         else:

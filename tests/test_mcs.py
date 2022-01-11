@@ -8,7 +8,7 @@ from machine_common_sense.controller_media import (
     ObjectMaskImageEventHandler, SceneImageEventHandler,
     SegmentationVideoEventHandler, TopdownVideoEventHandler)
 from machine_common_sense.history_writer import HistoryEventHandler
-from machine_common_sense.setup import add_subscribers
+from machine_common_sense.subscriber import add_subscribers
 
 from .mock_controller import MockController
 

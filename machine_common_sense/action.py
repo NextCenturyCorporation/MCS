@@ -1,6 +1,7 @@
 from enum import Enum, unique
+from typing import Tuple
 
-from .validation import Validation
+import typeguard
 
 
 @unique
@@ -65,24 +66,6 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    CRAWL = (
-        "Crawl",
-        "c",
-        "Change pose to 'CRAWLING' (no params)"
-    )
-    """
-    Change pose to "CRAWLING". Can help you move underneath or over objects.
-
-    Returns
-    -------
-    "SUCCESSFUL"
-        Action successful.
-    "OBSTRUCTED"
-        If you cannot enter the pose because the path above you is obstructed.
-    "FAILED"
-        Unexpected error; please report immediately to development team.
-    """
-
     DROP_OBJECT = (
         "DropObject",
         "2",
@@ -105,22 +88,6 @@ class Action(Enum):
         because you are not holding it.
     "NOT_OBJECT"
         If the object corresponding to the "objectId" is not an object.
-    "FAILED"
-        Unexpected error; please report immediately to development team.
-    """
-
-    LIE_DOWN = (
-        "LieDown",
-        "x",
-        "Change pose to 'LYING' (rotation=float)"
-    )
-    """
-    Change pose to "LYING". Can help you move underneath objects.
-
-    Returns
-    -------
-    "SUCCESSFUL"
-        Action successful.
     "FAILED"
         Unexpected error; please report immediately to development team.
     """
@@ -518,60 +485,6 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    STAND = (
-        "Stand",
-        "u",
-        "Change pose to 'STANDING' (no params)"
-    )
-    """
-    Change pose to "STANDING". Can help you move over objects.
-
-    Returns
-    -------
-    "SUCCESSFUL"
-        Action successful.
-    "OBSTRUCTED"
-        If you cannot enter the pose because the path above you is obstructed.
-    "FAILED"
-        Unexpected error; please report immediately to development team.
-    """
-
-    THROW_OBJECT = (
-        "ThrowObject",
-        "q",
-        "Throw an object you are holding. (objectId=string, " +
-        "objectImageCoordsX=float, objectImageCoordsY=float, " +
-        "force=float (default:0.5))"
-    )
-    """
-    Throw an object you are holding.
-
-    Parameters
-    ----------
-    objectId : string, optional
-        The "uuid" of the held object. Defaults to the first held object.
-    objectImageCoordsX : float, optional
-        The X of a pixel coordinate on where you would like to
-        throw the object based on your current viewport.
-        (See note under "Action" header regarding image coordinates.)
-    objectImageCoordsY : float, optional
-        The Y of a pixel coordinate on where you would like to
-        throw the object based on your current viewport.
-        (See note under "Action" header regarding image coordinates.)
-
-    Returns
-    -------
-    "SUCCESSFUL"
-        Action successful.
-    "NOT_HELD"
-        If you cannot throw the object corresponding to the "objectId"
-        because you are not holding it.
-    "NOT_OBJECT"
-        If the object corresponding to the "objectId" is not an object.
-    "FAILED"
-        Unexpected error; please report immediately to development team.
-    """
-
     END_HABITUATION = (
         "EndHabituation",
         "h",
@@ -646,16 +559,17 @@ class Action(Enum):
             ', '.join([self._value_, self._key, self._desc])
         )
 
-    @ property
+    @property
     def key(self):
         return self._key
 
-    @ property
+    @property
     def desc(self):
         return self._desc
 
     @staticmethod
-    def input_to_action_and_params(input_str):
+    @typeguard.typechecked
+    def input_to_action_and_params(input_str: str) -> Tuple:
         """
         Transforms the given input string into an action string
         and parameter dict.
@@ -678,7 +592,7 @@ class Action(Enum):
         action = input_split[0]
 
         try:
-            validate_action = Action(action).name  # noqa: F841
+            _ = Action(action).name
         except BaseException:
             return None, {}
 
@@ -689,11 +603,14 @@ class Action(Enum):
 
         try:
             for param in input_split[1:]:
-                paramKey, paramValue = param.split('=')
-                if Validation.is_number(paramValue.strip()):
-                    params[paramKey.strip()] = float(paramValue.strip())
-                else:
-                    params[paramKey.strip()] = paramValue.strip()
+                param_key, param_value = param.split('=')
+                params[param_key.strip()] = param_value.strip()
+
+                try:
+                    params[param_key.strip()] = float(param_value.strip())
+                except ValueError:
+                    pass
+
         except BaseException:
             return action, None
 

@@ -1,6 +1,7 @@
 import copy
 import logging
 from dataclasses import dataclass
+from typing import Tuple
 
 import numpy as np
 import PIL
@@ -10,7 +11,6 @@ from .config_manager import ConfigManager, MetadataTier, SceneConfiguration
 from .controller import DEFAULT_MOVE
 from .material import Material
 from .object_metadata import ObjectMetadata
-from .pose import Pose
 from .return_status import ReturnStatus
 from .reward import Reward
 from .step_metadata import StepMetadata
@@ -32,7 +32,7 @@ class SceneEvent():
         self.depth_map_list = []
         self.object_mask_list = []
 
-        for index, event in enumerate(self.events):
+        for event in self.events:
             if hasattr(event, 'frame'):
                 scene_image = PIL.Image.fromarray(event.frame)
                 self.image_list.append(scene_image)
@@ -76,6 +76,10 @@ class SceneEvent():
     @property
     def camera_field_of_view(self):
         return self._raw_output.metadata.get('fov', 0.0)
+
+    @property
+    def clipping_plane(self):
+        return (self.clipping_plane_near, self.clipping_plane_far)
 
     @property
     def clipping_plane_near(self):
@@ -148,23 +152,11 @@ class SceneEvent():
                 ].name
         except KeyError:
             logger.error(
-                "Return status {self._raw_output.metadata['lastActionStatus']}"
+                f"Return status "
+                f"{self._raw_output.metadata['lastActionStatus']}"
                 " is not currently supported.")
         finally:
             return return_status
-
-    @property
-    def pose(self) -> str:
-        pose = Pose.UNDEFINED.name
-
-        try:
-            pose = Pose[self._raw_output.metadata['pose']].name
-        except KeyError:
-            logger.error(
-                "Pose {scene_event.metadata['pose']}"
-                " is not currently supported.")
-        finally:
-            return pose
 
     @property
     def object_colors(self):
@@ -262,50 +254,18 @@ class ControllerOutputHandler():
             goal, habituation_trial, True)
         return (unrestricted, restricted)
 
-    # used to be wrap output
     def _get_step_metadata(self, goal, habituation_trial,
                            restricted=True) -> StepMetadata:
-        metadata_tier = self._config.get_metadata_tier()
-        restrict_depth_map = (
-            restricted and
-            metadata_tier == MetadataTier.NONE
-        )
-
-        restrict_object_mask_list = (
-            restricted and
-            (metadata_tier == MetadataTier.NONE or
-             metadata_tier == MetadataTier.LEVEL_1)
-        )
-
-        restrict_non_oracle = (
-            restricted and
-            (metadata_tier == MetadataTier.NONE or
-             metadata_tier == MetadataTier.LEVEL_1 or
-             metadata_tier == MetadataTier.LEVEL_2)
-        )
-
-        depth_map_list = [] if restrict_depth_map else (
-            self._scene_event.depth_map_list)
-        image_list = self._scene_event.image_list
-        object_mask_list = ([] if restrict_object_mask_list else
-                            self._scene_event.object_mask_list)
-
-        objects = self._scene_event.objects
-        agent = self._scene_event.agent
+        (restrict_depth_map, restrict_object_mask_list, restrict_non_oracle) =\
+            self.get_restrictions(restricted, self._config.get_metadata_tier())
         step_output = StepMetadata(
-            action_list=goal.retrieve_action_list_at_step(
-                self._step_number
-            ),
-            camera_aspect_ratio=(
-                self._config.get_screen_width(),
-                self._config.get_screen_height()),
-            camera_clipping_planes=(
-                self._scene_event.clipping_plane_near,
-                self._scene_event.clipping_plane_far
-            ),
+            action_list=goal.retrieve_action_list_at_step(self._step_number),
+            camera_aspect_ratio=self._config.get_screen_size(),
+            camera_clipping_planes=self._scene_event.clipping_plane,
             camera_field_of_view=self._scene_event.camera_field_of_view,
             camera_height=self._scene_event.camera_height,
-            depth_map_list=depth_map_list,
+            depth_map_list=[] if restrict_depth_map else (
+                self._scene_event.depth_map_list),
             goal=goal,
             habituation_trial=(
                 habituation_trial
@@ -313,19 +273,19 @@ class ControllerOutputHandler():
                 else None
             ),
             head_tilt=self._scene_event.head_tilt,
-            image_list=image_list,
+            image_list=self._scene_event.image_list,
             object_list=(
                 [] if restrict_non_oracle else self._scene_event.object_list),
-            object_mask_list=object_mask_list,
-            pose=self._scene_event.pose,
+            object_mask_list=([] if restrict_object_mask_list else
+                              self._scene_event.object_mask_list),
             position=(
                 None if restrict_non_oracle else self._scene_event.position),
             performer_radius=self._scene_event.performer_radius,
             performer_reach=self._scene_event.performer_reach,
             return_status=self._scene_event.return_status,
             reward=Reward.calculate_reward(
-                goal, objects, agent, self._step_number,
-                self._scene_event.performer_reach),
+                goal, self._scene_event.objects, self._scene_event.agent,
+                self._step_number, self._scene_event.performer_reach),
             rotation=(
                 None if restrict_non_oracle else self._scene_event.rotation),
             step_number=self._step_number,
@@ -335,25 +295,45 @@ class ControllerOutputHandler():
                                     self._scene_event.structural_object_list)
         )
 
+        if (restrict_non_oracle):
+            self.filter_step_output(step_output)
+
+        return step_output
+
+    def get_restrictions(self, restricted, metadata_tier) -> Tuple:
+        restrict_depth_map = (
+            restricted and
+            metadata_tier == MetadataTier.NONE
+        )
+
+        restrict_object_mask_list = restricted and metadata_tier in [
+            MetadataTier.NONE,
+            MetadataTier.LEVEL_1,
+        ]
+
+        restrict_non_oracle = restricted and metadata_tier in [
+            MetadataTier.NONE,
+            MetadataTier.LEVEL_1,
+            MetadataTier.LEVEL_2,
+        ]
+        return (restrict_depth_map, restrict_object_mask_list,
+                restrict_non_oracle)
+
+    def filter_step_output(self, step_output):
         # This is here to retain the exact outputs as before
         # If None is passed into the constructor, it is turned into
         # {}, but restricted mode turns it to None.
-        if (restrict_non_oracle):
-            step_output.position = None
+        step_output.position = None
 
-        if (restrict_non_oracle):
-            target_name_list = ['target', 'target_1', 'target_2']
-
-            for target_name in target_name_list:
-                if (target_name in step_output.goal.metadata):
-                    step_output.goal = copy.deepcopy(
-                        step_output.goal)
-                    if 'image' in step_output.goal.metadata[target_name]:
-                        step_output.goal.metadata[target_name]['image'] = None
-                    if 'id' in step_output.goal.metadata[target_name]:
-                        step_output.goal.metadata[target_name]['id'] = None
-                    if 'image_name' in step_output.goal.metadata[target_name]:
-                        step_output.goal.metadata[
-                            target_name]['image_name'] = None
-
-        return step_output
+        target_name_list = ['target', 'target_1', 'target_2']
+        for target_name in target_name_list:
+            if (target_name in step_output.goal.metadata):
+                step_output.goal = copy.deepcopy(
+                    step_output.goal)
+                if 'image' in step_output.goal.metadata[target_name]:
+                    step_output.goal.metadata[target_name]['image'] = None
+                if 'id' in step_output.goal.metadata[target_name]:
+                    step_output.goal.metadata[target_name]['id'] = None
+                if 'image_name' in step_output.goal.metadata[target_name]:
+                    step_output.goal.metadata[
+                        target_name]['image_name'] = None

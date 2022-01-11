@@ -1,19 +1,24 @@
 import unittest
+from unittest.case import skip
 
 import ai2thor
 import PIL
 
-from machine_common_sense.config_manager import Vector3d
+from machine_common_sense.config_manager import (FloorHolesAndTexturesXZConfig,
+                                                 FloorTexturesConfig,
+                                                 SceneConfiguration, Vector3d)
 from machine_common_sense.plotter import TopDownPlotter, XZHeading
 
 
 class TestTopDownPlotter(unittest.TestCase):
 
     def setUp(self):
+        scene_config = SceneConfiguration(
+            name="test", room_dimensions=Vector3d(
+                x=10, y=4, z=10))
         self.plotter = TopDownPlotter(
             team="test",
-            scene_name="scene",
-            room_size=Vector3d(x=10, y=4, z=10)
+            scene_config=scene_config
         )
 
     def test_convert_color_empty(self):
@@ -169,9 +174,9 @@ class TestTopDownPlotter(unittest.TestCase):
         robot = self.plotter._create_robot(robot_metadata)
 
         self.assertAlmostEqual(robot.x, 2.70)
-        self.assertAlmostEqual(robot.y, 1.23)
         self.assertAlmostEqual(robot.z, 3.14)
-        self.assertAlmostEqual(robot.rotation, 78.0)
+        self.assertAlmostEqual(robot.heading.x, 0.19562952)
+        self.assertAlmostEqual(robot.heading.z, 0.04158233)
 
     def test_create_robot_missing_position(self):
         robot_metadata = {
@@ -184,9 +189,9 @@ class TestTopDownPlotter(unittest.TestCase):
         robot = self.plotter._create_robot(robot_metadata)
 
         self.assertAlmostEqual(robot.x, 0.0)
-        self.assertAlmostEqual(robot.y, 0.0)
         self.assertAlmostEqual(robot.z, 0.0)
-        self.assertAlmostEqual(robot.rotation, 78.0)
+        self.assertAlmostEqual(robot.heading.x, 0.19562952)
+        self.assertAlmostEqual(robot.heading.z, 0.04158233)
 
     def test_create_robot_missing_rotation(self):
         robot_metadata = {
@@ -199,9 +204,9 @@ class TestTopDownPlotter(unittest.TestCase):
         robot = self.plotter._create_robot(robot_metadata)
 
         self.assertAlmostEqual(robot.x, 2.70)
-        self.assertAlmostEqual(robot.y, 1.23)
         self.assertAlmostEqual(robot.z, 3.14)
-        self.assertAlmostEqual(robot.rotation, 0.0)
+        self.assertAlmostEqual(robot.heading.x, 0.0)
+        self.assertAlmostEqual(robot.heading.z, 0.2)
 
     def test_create_object(self):
         object_metadata = {
@@ -324,16 +329,54 @@ class TestTopDownPlotter(unittest.TestCase):
         self.assertEqual(filtered_objects[6]['objectId'], 'test-uuid3')
 
     def test_scene_name(self):
-        self.assertEqual(self.plotter._scene_name, "scene")
+        self.assertEqual(self.plotter._scene_name, "test")
 
     def test_scene_name_prefix(self):
+        scene_config = SceneConfiguration(
+            name="prefix/test", room_dimensions=Vector3d(
+                x=10, y=4, z=10))
         plotter = TopDownPlotter(
             team="test",
-            scene_name="prefix/scene",
-            room_size=Vector3d(x=10, y=3, z=10)
+            scene_config=scene_config
         )
 
-        self.assertEqual(plotter._scene_name, "scene")
+        self.assertEqual(plotter._scene_name, "test")
+
+    @skip("ResourceWarning")
+    def test_draw_holes(self):
+        holes = [
+            FloorHolesAndTexturesXZConfig(**{"x": 0, "z": 0}),
+            FloorHolesAndTexturesXZConfig(**{"x": 1, "z": 0}),
+            FloorHolesAndTexturesXZConfig(**{"x": 2, "z": 2})
+        ]
+        goal = {'metadata': {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        }}
+        scene_config = SceneConfiguration(
+            name="testscene",
+            version=1,
+            goal=goal,
+            holes=holes,
+            room_dimensions=Vector3d(
+                x=10,
+                y=3,
+                z=10),
+            floor_textures=[FloorTexturesConfig(material="Lava", positions=[
+                FloorHolesAndTexturesXZConfig(x=-2, z=-2),
+                FloorHolesAndTexturesXZConfig(x=-1, z=-2),
+                FloorHolesAndTexturesXZConfig(x=-3, z=-3)
+            ])])
+
+        plotter = TopDownPlotter(
+            team="test",
+            scene_config=scene_config)
+        img = plotter.base_room_img.copy()
+        img = plotter._draw_holes(img, scene_config.holes)
+        img = plotter._draw_floor_textures(img, scene_config.floor_textures)
+        pil_img = plotter._export_plot(img)
+        pil_img.show()
 
 
 if __name__ == '__main__':

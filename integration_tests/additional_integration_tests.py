@@ -52,18 +52,18 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
     step_metadata_1 = controller.step('Pass')
 
     # Verify the depth map list and object mask list from step 1.
-    if len(step_metadata_0.depth_map_list) != 1:
+    if len(step_metadata_1.depth_map_list) != 1:
         return (
             False,
             f'Step 1 {metadata_tier} failed: depth_map_list with length '
-            f'{len(step_metadata_0.depth_map_list)} should be length 1'
+            f'{len(step_metadata_1.depth_map_list)} should be length 1'
         )
     if metadata_tier == 'level2' or metadata_tier == 'oracle':
-        if len(step_metadata_0.object_mask_list) != 1:
+        if len(step_metadata_1.object_mask_list) != 1:
             return (
                 False,
                 f'Step 1 {metadata_tier} failed: object_mask_list with length '
-                f'{len(step_metadata_0.object_mask_list)} should be length 1'
+                f'{len(step_metadata_1.object_mask_list)} should be length 1'
             )
     # Verify the consistent segment_color of each object across both steps.
     if metadata_tier == 'oracle':
@@ -109,7 +109,7 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
             )
 
     # Stop the test scene.
-    controller.end_scene("", 1)
+    controller.end_scene()
 
     # Validation successful!
     return True, ''
@@ -191,7 +191,7 @@ def run_habituation_trial_counts_test(controller, metadata_tier):
             )
 
     # Stop the test scene.
-    controller.end_scene("", 1)
+    controller.end_scene()
 
     # Validation successful!
     return True, ''
@@ -215,7 +215,7 @@ def run_numpy_array_data_test(controller, metadata_tier):
         step_metadata = controller.step('Pass')
 
     # Stop the test scene.
-    controller.end_scene("", 1)
+    controller.end_scene()
 
     if not step_metadata:
         return False, 'Failed to load scene with numpy array data'
@@ -248,7 +248,7 @@ def run_public_sample_scenes_test(controller, metadata_tier):
             failed_test_list.append(os.path.basename(scene_filename))
 
         # Stop the test scene.
-        controller.end_scene("", 1)
+        controller.end_scene()
 
     return (
         len(failed_test_list) == 0,
@@ -387,7 +387,7 @@ def run_restricted_action_list_test(controller, metadata_tier):
         )
 
     # Stop the test scene.
-    controller.end_scene("", 1)
+    controller.end_scene()
 
     # Validation successful!
     return True, ''

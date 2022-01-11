@@ -263,7 +263,7 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
             print(f'SAVED {len(autofix_case_list)} FIXES: {output_filename}')
 
     # Stop the test scene.
-    controller.end_scene("", 1)
+    controller.end_scene()
 
     # Validation successful!
     return successful, ('' if successful else 'see above')
@@ -321,9 +321,12 @@ def start_handmade_tests(
                 successful_test_list.append((test_name, metadata_tier))
             else:
                 failed_test_list.append((test_name, metadata_tier, status))
+
         # Run each additional test at this metadata tier.
         for runner_function in (
-                [] if only_test_name else FUNCTION_LIST):
+                [func for func in FUNCTION_LIST
+                 if only_test_name is None or
+                 only_test_name in str(func)]):
             print(f'RUNNING TESTS: {runner_function.__name__}')
             successful, status = runner_function(controller, metadata_tier)
             test_name = runner_function.__name__
