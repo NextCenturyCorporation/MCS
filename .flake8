@@ -2,6 +2,7 @@
 ignore = E402, W504
 exclude = 
         machine_common_sense/__init__.py,
+        build,
         docs,
         setup.py,
         template_playroom.py,

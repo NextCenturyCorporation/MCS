@@ -2,7 +2,7 @@ import argparse
 
 import machine_common_sense as mcs
 
-commandList = []
+commands = []
 
 
 def parse_args():
@@ -31,7 +31,7 @@ def run_commands(controller, config_data, command_data):
     for command in command_data:
         _ = controller.step(command)
 
-    controller.end_scene("", 1)
+    controller.end_scene()
 
 
 def main():

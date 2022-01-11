@@ -31,7 +31,6 @@ class TestStepMetadata(unittest.TestCase):
         "performer_radius": 0.0,
         "performer_reach": 0.0,
         "physics_frames_per_second": 0,
-        "pose": "UNDEFINED",
         "position": {},
         "return_status": "UNDEFINED",
         "reward": 0,
@@ -64,7 +63,6 @@ class TestStepMetadata(unittest.TestCase):
         "performer_radius": 0.0,
         "performer_reach": 0.0,
         "physics_frames_per_second": 0,
-        "pose": "UNDEFINED",
         "position": {},
         "return_status": "UNDEFINED",
         "reward": 0,
@@ -140,10 +138,6 @@ class TestStepMetadata(unittest.TestCase):
         self.assertEqual(self.step_metadata.performer_reach, 0.0)
         self.assertIsInstance(self.step_metadata.performer_reach, float)
 
-    def test_pose(self):
-        self.assertEqual(self.step_metadata.pose, mcs.Pose.UNDEFINED.value)
-        self.assertIsInstance(self.step_metadata.pose, str)
-
     def test_position(self):
         self.assertIsInstance(self.step_metadata.position, dict)
 
@@ -206,7 +200,6 @@ class TestStepMetadata(unittest.TestCase):
             performer_radius=0.5,
             performer_reach=1,
             physics_frames_per_second=20,
-            pose=mcs.Pose.CRAWLING.value,
             position={'x': 1, 'z': 2},
             return_status=mcs.ReturnStatus.SUCCESSFUL.value,
             reward=0,
@@ -243,7 +236,6 @@ class TestStepMetadata(unittest.TestCase):
             data.physics_frames_per_second,
             copy.physics_frames_per_second
         )
-        self.assertEqual(data.pose, copy.pose)
         self.assertEqual(data.position, copy.position)
         self.assertEqual(data.return_status, copy.return_status)
         self.assertEqual(data.reward, copy.reward)

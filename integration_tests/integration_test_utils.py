@@ -1,9 +1,11 @@
 import argparse
+import pathlib
 
+config_dir = pathlib.Path(__file__).parent
 METADATA_TIER_LIST = [
-    ('level1', './config_level1.ini'),
-    ('level2', './config_level2.ini'),
-    ('oracle', './config_oracle.ini')
+    ('level1', str(config_dir / 'config_level1.ini')),
+    ('level2', str(config_dir / 'config_level2.ini')),
+    ('oracle', str(config_dir / 'config_oracle.ini'))
 ]
 
 

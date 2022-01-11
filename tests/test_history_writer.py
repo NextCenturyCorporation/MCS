@@ -3,6 +3,8 @@ import os
 import shutil
 import unittest
 
+import numpy as np
+
 import machine_common_sense as mcs
 from machine_common_sense.config_manager import SceneConfiguration
 
@@ -102,7 +104,7 @@ class TestHistoryWriter(unittest.TestCase):
         # set start time back 500ms as if the run took 500ms.
         writer.last_step_time_millis -= 500
         # Save the time so we can check that it changes
-        priorToStep1 = writer.last_step_time_millis
+        initial_time = writer.last_step_time_millis
         history_item = mcs.SceneHistory(
             step=1,
             action="MoveAhead")
@@ -112,7 +114,7 @@ class TestHistoryWriter(unittest.TestCase):
         # we give some delta here because commands do take some time to run
         self.assertAlmostEqual(
             writer.current_steps[0]["delta_time_millis"], 500, delta=1)
-        self.assertNotEqual(priorToStep1, writer.last_step_time_millis)
+        self.assertNotEqual(initial_time, writer.last_step_time_millis)
 
         writer.last_step_time_millis -= 300
         history_item = mcs.SceneHistory(
@@ -191,8 +193,7 @@ class TestHistoryWriter(unittest.TestCase):
         writer = mcs.HistoryWriter(self.prefix_config_data)
 
         output = mcs.StepMetadata(
-            action_list=["CloseObject", "Crawl"],
-            pose="STANDING",
+            action_list=["CloseObject", "MoveAhead"],
             return_status="SUCCESSFUL",
             step_number=2,
             object_list={
@@ -212,7 +213,6 @@ class TestHistoryWriter(unittest.TestCase):
 
         self.assertEqual(len(writer.current_steps), 1)
         self.assertEqual(writer.current_steps[0]["action"], "MoveAhead")
-        self.assertEqual(writer.current_steps[0]["output"]["pose"], "STANDING")
         self.assertIsNone(writer.current_steps[0]["output"]["action_list"])
         self.assertIsNone(writer.current_steps[0]["output"]["object_list"])
         self.assertIsNone(
@@ -227,11 +227,38 @@ class TestHistoryWriter(unittest.TestCase):
 
         self.assertEqual(len(writer.current_steps), 2)
         self.assertEqual(writer.current_steps[1]["action"], "MoveLeft")
-        self.assertEqual(writer.current_steps[1]["output"]["pose"], "STANDING")
         self.assertIsNone(writer.current_steps[1]["output"]["action_list"])
         self.assertIsNone(writer.current_steps[1]["output"]["object_list"])
         self.assertIsNone(
             writer.current_steps[1]["output"]["structural_object_list"])
+
+    def test_write_history_file_with_numpy(self):
+        writer = mcs.HistoryWriter(self.prefix_config_data)
+
+        history_item = mcs.SceneHistory(
+            step=np.int32(1),
+            action="MoveAhead")
+        writer.add_step(history_item)
+
+        history_item = mcs.SceneHistory(
+            step=2,
+            action="MoveLeft")
+        writer.add_step(history_item)
+
+        writer.write_history_file("Plausible", np.float64(0.75))
+
+        self.assertEqual(writer.end_score["classification"], "Plausible")
+        self.assertEqual(writer.end_score["confidence"], "0.75")
+
+        self.assertEqual(
+            writer.history_obj["info"]["name"],
+            "prefix/test_scene_file")
+        self.assertEqual(len(writer.history_obj["steps"]), 2)
+        self.assertEqual(
+            writer.history_obj["score"]["classification"], "Plausible")
+        self.assertEqual(writer.history_obj["score"]["confidence"], "0.75")
+
+        self.assertTrue(os.path.exists(writer.scene_history_file))
 
 
 if __name__ == '__main__':

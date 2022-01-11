@@ -1,0 +1,7 @@
+MoveAhead
+MoveAhead
+OpenObject,objectId=testDoor
+MoveAhead
+MoveBack
+MoveBack
+CloseObject,objectId=testDoor
