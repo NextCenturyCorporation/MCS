@@ -1,13 +1,17 @@
+import os
 import unittest
-from unittest.case import skip
 
 import ai2thor
 import PIL
+from PIL import ImageStat
 
 from machine_common_sense.config_manager import (FloorHolesAndTexturesXZConfig,
                                                  FloorTexturesConfig,
                                                  SceneConfiguration, Vector3d)
 from machine_common_sense.plotter import TopDownPlotter, XZHeading
+
+test_path = os.path.dirname(__file__)
+resources_path = os.path.join(test_path, 'resources')
 
 
 class TestTopDownPlotter(unittest.TestCase):
@@ -342,7 +346,6 @@ class TestTopDownPlotter(unittest.TestCase):
 
         self.assertEqual(plotter._scene_name, "test")
 
-    @skip("ResourceWarning")
     def test_draw_holes(self):
         holes = [
             FloorHolesAndTexturesXZConfig(**{"x": 0, "z": 0}),
@@ -363,20 +366,140 @@ class TestTopDownPlotter(unittest.TestCase):
                 x=10,
                 y=3,
                 z=10),
-            floor_textures=[FloorTexturesConfig(material="Lava", positions=[
-                FloorHolesAndTexturesXZConfig(x=-2, z=-2),
-                FloorHolesAndTexturesXZConfig(x=-1, z=-2),
-                FloorHolesAndTexturesXZConfig(x=-3, z=-3)
-            ])])
+            floor_textures=[]
+        )
 
         plotter = TopDownPlotter(
             team="test",
             scene_config=scene_config)
         img = plotter.base_room_img.copy()
         img = plotter._draw_holes(img, scene_config.holes)
+        holes_img = plotter._export_plot(img)
+        # save image to resources folder in the event of plotter changes
+        # pil_img.save(os.path.join(resources_path, 'plotter_holes.png'))
+
+        # read image from resources folder
+        truth_img = PIL.Image.open(
+            os.path.join(
+                resources_path,
+                'plotter_holes.png'))
+        # calculate image difference
+        diff = PIL.ImageChops.difference(holes_img, truth_img)
+        stat = ImageStat.Stat(diff)
+        self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
+
+    def test_draw_lava(self):
+        goal = {'metadata': {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        }}
+        scene_config = SceneConfiguration(
+            name="testscene",
+            version=1,
+            goal=goal,
+            room_dimensions=Vector3d(
+                x=10,
+                y=3,
+                z=10),
+            floor_textures=[FloorTexturesConfig(material="Lava", positions=[
+                FloorHolesAndTexturesXZConfig(x=-2, z=-2),
+                FloorHolesAndTexturesXZConfig(x=-1, z=-2),
+                FloorHolesAndTexturesXZConfig(x=-3, z=-3)
+            ])]
+        )
+
+        plotter = TopDownPlotter(
+            team="test",
+            scene_config=scene_config)
+        img = plotter.base_room_img.copy()
         img = plotter._draw_floor_textures(img, scene_config.floor_textures)
-        pil_img = plotter._export_plot(img)
-        pil_img.show()
+        lava_img = plotter._export_plot(img)
+        # save image to resources folder in the event of plotter changes
+        # lava_img.save(os.path.join(resources_path, 'plotter_lava.png'))
+
+        # read image from resources folder
+        truth_img = PIL.Image.open(
+            os.path.join(
+                resources_path,
+                'plotter_lava.png'))
+        # calculate image difference
+        diff = PIL.ImageChops.difference(lava_img, truth_img)
+        stat = ImageStat.Stat(diff)
+        self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
+
+    def test_draw_room(self):
+        '''Floor grid plus walls'''
+        goal = {'metadata': {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        }}
+        scene_config = SceneConfiguration(
+            name="testscene",
+            version=1,
+            goal=goal,
+            room_dimensions=Vector3d(
+                x=10,
+                y=3,
+                z=10),
+            floor_textures=[]
+        )
+
+        plotter = TopDownPlotter(
+            team="test",
+            scene_config=scene_config)
+        img = plotter.base_room_img.copy()
+        base_img = plotter._export_plot(img)
+        # save image to resources folder in the event of plotter changes
+        # base_img.save(os.path.join(resources_path, 'plotter_base.png'))
+
+        # read image from resources folder
+        truth_img = PIL.Image.open(
+            os.path.join(
+                resources_path,
+                'plotter_base.png'))
+        # calculate image difference
+        diff = PIL.ImageChops.difference(base_img, truth_img)
+        stat = ImageStat.Stat(diff)
+        self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
+
+    def test_draw_nonsquare_room(self):
+        goal = {'metadata': {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        }}
+        scene_config = SceneConfiguration(
+            name="testscene",
+            version=1,
+            goal=goal,
+            room_dimensions=Vector3d(
+                x=10,
+                y=3,
+                z=20),
+            floor_textures=[]
+        )
+
+        plotter = TopDownPlotter(
+            team="test",
+            scene_config=scene_config)
+        img = plotter.base_room_img.copy()
+        base_img = plotter._export_plot(img)
+        # save image to resources folder in the event of plotter changes
+        # base_img.save(os.path.join(
+        #     resources_path,
+        #     'plotter_nonsquare_base.png'))
+
+        # read image from resources folder
+        truth_img = PIL.Image.open(
+            os.path.join(
+                resources_path,
+                'plotter_nonsquare_base.png'))
+        # calculate image difference
+        diff = PIL.ImageChops.difference(base_img, truth_img)
+        stat = ImageStat.Stat(diff)
+        self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
 
 
 if __name__ == '__main__':
