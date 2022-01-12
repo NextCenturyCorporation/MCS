@@ -1,7 +1,10 @@
 [![Linux](https://svgshare.com/i/Zhy.svg)](https://svgshare.com/i/Zhy.svg)
 [![macOS](https://svgshare.com/i/ZjP.svg)](https://svgshare.com/i/ZjP.svg)
-[![PyPI download month](https://img.shields.io/pypi/dm/machine-common-sense.svg)](https://pypi.python.org/pypi/machine-common-sense/)
+
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/machine-common-sense?style=plastic)](https://pypi.python.org/pypi/machine-common-sense/)
+
 [![PyPI version fury.io](https://badge.fury.io/py/machine-common-sense.svg)](https://pypi.python.org/pypi/machine-common-sense/)
+[![PyPI version shields.io](https://img.shields.io/pypi/v/machine-common-sense.svg)](https://pypi.python.org/pypi/machine-common-sense/)
 [![PyPI license](https://img.shields.io/pypi/l/machine-common-sense.svg)](https://pypi.python.org/pypi/machine-common-sense/)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/machine-common-sense.svg)](https://pypi.python.org/pypi/machine-common-sense/)
 
