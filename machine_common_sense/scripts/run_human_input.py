@@ -167,7 +167,7 @@ class HumanInputShell(cmd.Cmd):
             action.key for action in mcs.Action]
 
         while True:
-            char = mcs.getch.__call__()
+            char = getch.__call__()
             print('\n(shortcut-command)->', char)
             if char == 'e':  # exit shortcut key mode
                 break
