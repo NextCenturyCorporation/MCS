@@ -5,7 +5,10 @@ import machine_common_sense as mcs
 from machine_common_sense.goal_metadata import GoalMetadata
 from machine_common_sense.logging_config import LoggingConfig
 
-from .getch_helper import getch
+try:
+    from getch_helper import getch
+except ImportError:
+    from .getch_helper import getch  # noqa: F401
 
 commands = []
 
@@ -164,7 +167,7 @@ class HumanInputShell(cmd.Cmd):
             action.key for action in mcs.Action]
 
         while True:
-            char = getch.__call__()
+            char = mcs.getch.__call__()
             print('\n(shortcut-command)->', char)
             if char == 'e':  # exit shortcut key mode
                 break
