@@ -5,7 +5,10 @@ import machine_common_sense as mcs
 from machine_common_sense.goal_metadata import GoalMetadata
 from machine_common_sense.logging_config import LoggingConfig
 
-from .getch_helper import getch
+try:
+    from getch_helper import getch
+except ImportError:
+    from .getch_helper import getch  # noqa: F401
 
 commands = []
 
