@@ -89,7 +89,7 @@ class TestGoalMetadata(unittest.TestCase):
     def test_retrieve_action_list_at_step_with_custom_action_list(self):
         goal_metadata = mcs.GoalMetadata(action_list=[
             ['Pass'],
-            ['LookDown','LookUp','RotateLeft','RotateRight','Pass'],
+            ['LookDown', 'LookUp', 'RotateLeft', 'RotateRight', 'Pass'],
             [],
             ['EndHabituation,xPosition=0,zPosition=0,yRotation=90'],
             [('PickupObject', {'objectId': 'target'})]
