@@ -514,6 +514,9 @@ class TopDownPlotter():
                    pts: List) -> np.ndarray:
         '''Draw the goal object of the scene'''
         cs, rs = map(list, zip(*pts))
+        # convert room coordinates to image coordinates
+        rs = list(map(lambda r: self.image_center.y - r * self.scale.y, rs))
+        cs = list(map(lambda c: self.image_center.x + c * self.scale.x, cs))
         rr, cc = skimage.draw.polygon_perimeter(
             rs,
             cs,
