@@ -431,7 +431,7 @@ class TestController(unittest.TestCase):
         )
         self.assertEqual(
             output.action_list,
-            GoalMetadata.ACTION_LIST)
+            GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, 0)
@@ -451,7 +451,7 @@ class TestController(unittest.TestCase):
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
-            GoalMetadata.ACTION_LIST)
+            GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, 0)
@@ -477,7 +477,7 @@ class TestController(unittest.TestCase):
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
-            GoalMetadata.ACTION_LIST)
+            GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, -0.005)
@@ -509,7 +509,7 @@ class TestController(unittest.TestCase):
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
-            GoalMetadata.ACTION_LIST)
+            GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, -0.001)
@@ -529,7 +529,7 @@ class TestController(unittest.TestCase):
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
-            GoalMetadata.ACTION_LIST)
+            GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(output.return_status,
                          MOCK_VARIABLES['metadata']['lastActionStatus'])
         self.assertEqual(output.reward, -0.002)
@@ -587,7 +587,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(),
                 0
             ),
-            GoalMetadata.ACTION_LIST
+            GoalMetadata.DEFAULT_ACTIONS
         )
         # With empty action list
         self.assertEqual(
@@ -595,7 +595,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(action_list=[]),
                 0
             ),
-            GoalMetadata.ACTION_LIST
+            GoalMetadata.DEFAULT_ACTIONS
         )
         # With empty nested action list
         self.assertEqual(
@@ -603,7 +603,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(action_list=[[]]),
                 0
             ),
-            GoalMetadata.ACTION_LIST
+            GoalMetadata.DEFAULT_ACTIONS
         )
         # With test action list
         self.assertEqual(
@@ -619,7 +619,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(action_list=[test_action_list]),
                 1
             ),
-            GoalMetadata.ACTION_LIST
+            GoalMetadata.DEFAULT_ACTIONS
         )
         # With incorrect index
         self.assertEqual(
@@ -627,7 +627,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(action_list=[test_action_list, []]),
                 1
             ),
-            GoalMetadata.ACTION_LIST
+            GoalMetadata.DEFAULT_ACTIONS
         )
         # With incorrect index
         self.assertEqual(
@@ -635,7 +635,7 @@ class TestController(unittest.TestCase):
                 mcs.GoalMetadata(action_list=[[], test_action_list]),
                 0
             ),
-            GoalMetadata.ACTION_LIST
+            GoalMetadata.DEFAULT_ACTIONS
         )
         # With correct index
         self.assertEqual(

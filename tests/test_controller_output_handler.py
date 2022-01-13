@@ -454,7 +454,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
         (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
-        self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
+        self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
         self.assertEqual(actual.camera_clipping_planes, (0, 15))
         self.assertEqual(actual.camera_field_of_view, 42.5)
@@ -571,7 +571,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
         (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
-        self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
+        self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
         self.assertEqual(actual.camera_clipping_planes, (0, 15))
         self.assertEqual(actual.camera_field_of_view, 42.5)
@@ -620,7 +620,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
         (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
-        self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
+        self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
         self.assertEqual(actual.camera_clipping_planes, (0, 15))
         self.assertEqual(actual.camera_field_of_view, 42.5)
@@ -658,7 +658,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
         (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
-        self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
+        self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
         self.assertEqual(actual.camera_clipping_planes, (0, 15))
         self.assertEqual(actual.camera_field_of_view, 42.5)
@@ -697,7 +697,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
         (actual, res) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
-        self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
+        self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
         self.assertEqual(actual.camera_clipping_planes, (0, 15))
         self.assertEqual(actual.camera_field_of_view, 42.5)
@@ -745,7 +745,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
         (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
-        self.assertEqual(actual.action_list, GoalMetadata.ACTION_LIST)
+        self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
         self.assertEqual(actual.camera_clipping_planes, (0, 15))
         self.assertEqual(actual.camera_field_of_view, 42.5)
