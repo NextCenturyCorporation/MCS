@@ -73,7 +73,11 @@ class GoalMetadata:
         :mod:`Goal <machine_common_sense.GoalCategory>`.
     """
 
-    ACTION_LIST = [(item.value, {}) for item in Action]
+    # Don't allow a user to call the EndHabituation action unless it's
+    # specifically configured in the action_list of the scene file.
+    DEFAULT_ACTIONS = [
+        (item.value, {}) for item in Action if item.value != 'EndHabituation'
+    ]
 
     def __init__(
         self,
@@ -116,7 +120,7 @@ class GoalMetadata:
         a list of actions tuples by default."""
         if self is not None and self.action_list is not None:
             if step_number < self.last_preview_phase_step:
-                return ['Pass']
+                return [('Pass', {})]
             if self.last_step is not None and step_number == self.last_step:
                 return []
             adjusted_step = step_number - self.last_preview_phase_step
@@ -124,9 +128,13 @@ class GoalMetadata:
                 len(self.action_list) > adjusted_step and
                 len(self.action_list[adjusted_step]) > 0
             ):
-                return self.action_list[adjusted_step]
+                return [
+                    action if isinstance(action, tuple) else
+                    Action.input_to_action_and_params(action)
+                    for action in self.action_list[adjusted_step]
+                ]
 
-        return GoalMetadata.ACTION_LIST
+        return GoalMetadata.DEFAULT_ACTIONS
 
 
 @unique
