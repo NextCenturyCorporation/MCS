@@ -1,4 +1,0 @@
-OpenObject,objectImageCoordsX=300,objectImageCoordsY=235
-MoveAhead
-PickupObject,objectImageCoordsX=275,objectImageCoordsY=325
-CloseObject,objectImageCoordsX=300,objectImageCoordsY=105

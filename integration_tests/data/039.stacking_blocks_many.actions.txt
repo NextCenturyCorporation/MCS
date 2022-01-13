@@ -1,9 +1,0 @@
-PickupObject,objectId=testBlock3
-PutObject,objectId=testBlock3,receptacleObjectId=testBlock4
-Pass
-PickupObject,objectId=testBlock2
-PutObject,objectId=testBlock2,receptacleObjectId=testBlock3
-Pass
-PickupObject,objectId=testBlock1
-PutObject,objectId=testBlock1,receptacleObjectId=testBlock2
-Pass

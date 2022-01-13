@@ -1,5 +1,0 @@
-PickupObject,objectId=testBall
-LookDown
-PickupObject,objectId=testBall
-LookDown
-PickupObject,objectId=testBall

@@ -1,2 +1,0 @@
-OpenObject,objectId=testContainer
-CloseObject,objectId=testContainer

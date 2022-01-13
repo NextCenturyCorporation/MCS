@@ -1,5 +1,0 @@
-PickupObject,objectId=testBall
-PutObject,objectId=testBall,receptacleObjectId=testContainer
-OpenObject,objectId=testContainer
-PutObject,objectId=testBall,receptacleObjectId=testContainer
-CloseObject,objectId=testContainer

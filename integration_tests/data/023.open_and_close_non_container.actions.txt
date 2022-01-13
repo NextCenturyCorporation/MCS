@@ -1,2 +1,0 @@
-OpenObject,objectId=testBall
-CloseObject,objectId=testBall

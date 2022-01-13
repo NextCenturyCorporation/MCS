@@ -1,4 +1,0 @@
-OpenObject,objectImageCoordsX=1,objectImageCoordsY=300
-OpenObject,objectImageCoordsX=300,objectImageCoordsY=1
-OpenObject,objectImageCoordsX=300,objectImageCoordsY=230
-CloseObject,objectImageCoordsX=300,objectImageCoordsY=1

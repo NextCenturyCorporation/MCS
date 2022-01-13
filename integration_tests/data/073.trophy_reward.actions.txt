@@ -1,2 +1,0 @@
-﻿LookDown
-PickupObject,objectId=trophy
