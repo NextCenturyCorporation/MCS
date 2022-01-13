@@ -1,8 +1,0 @@
-MoveAhead
-MoveAhead
-MoveRight
-MoveRight
-MoveBack
-MoveBack
-MoveLeft
-MoveLeft

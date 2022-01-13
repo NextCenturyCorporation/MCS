@@ -1,6 +1,0 @@
-﻿LookDown
-MoveAhead
-PickupObject,objectId=bowl_a
-Pass
-DropObject
-Pass

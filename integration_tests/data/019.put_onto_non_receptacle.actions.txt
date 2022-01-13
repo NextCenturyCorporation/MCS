@@ -1,2 +1,0 @@
-PickupObject,objectId=testBall1
-PutObject,objectId=testBall1,receptacleObjectId=testBall2

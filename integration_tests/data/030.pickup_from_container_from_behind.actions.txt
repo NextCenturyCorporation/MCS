@@ -1,4 +1,0 @@
-PickupObject,objectId=testBall
-OpenObject,objectId=testContainer
-PickupObject,objectId=testBall
-CloseObject,objectId=testContainer

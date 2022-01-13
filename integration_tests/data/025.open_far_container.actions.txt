@@ -1,7 +1,0 @@
-OpenObject,objectId=testContainer
-MoveAhead
-OpenObject,objectId=testContainer
-MoveAhead
-OpenObject,objectId=testContainer
-MoveAhead
-OpenObject,objectId=testContainer
