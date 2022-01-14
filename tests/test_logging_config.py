@@ -10,19 +10,19 @@ class TestLoggingConfig(unittest.TestCase):
         root = cfg['root']
         loggers = cfg['loggers']
         handlers = cfg['handlers']
-        self.assertEquals(root['level'], 'INFO')
-        self.assertEquals(len(loggers), 2)
-        self.assertEquals(len(handlers), 1)
+        self.assertEqual(root['level'], 'INFO')
+        self.assertEqual(len(loggers), 2)
+        self.assertEqual(len(handlers), 1)
         self.assertIn("l1", loggers)
         self.assertIn("l2", loggers)
-        self.assertEquals(loggers['l1']['level'], 'INFO')
-        self.assertEquals(loggers['l2']['level'], 'INFO')
-        self.assertEquals(len(loggers['l1']['handlers']), 1)
-        self.assertEquals(len(loggers['l2']['handlers']), 1)
-        self.assertEquals(len(root['handlers']), 1)
-        self.assertEquals(loggers['l1']['handlers'], ['info-file'])
-        self.assertEquals(loggers['l1']['handlers'], ['info-file'])
-        self.assertEquals(root['handlers'], ['info-file'])
+        self.assertEqual(loggers['l1']['level'], 'INFO')
+        self.assertEqual(loggers['l2']['level'], 'INFO')
+        self.assertEqual(len(loggers['l1']['handlers']), 1)
+        self.assertEqual(len(loggers['l2']['handlers']), 1)
+        self.assertEqual(len(root['handlers']), 1)
+        self.assertEqual(loggers['l1']['handlers'], ['info-file'])
+        self.assertEqual(loggers['l1']['handlers'], ['info-file'])
+        self.assertEqual(root['handlers'], ['info-file'])
 
     def test_logging_config2(self):
         cfg = LoggingConfig.get_configurable_logging_config(
@@ -30,13 +30,13 @@ class TestLoggingConfig(unittest.TestCase):
         root = cfg['root']
         loggers = cfg['loggers']
         handlers = cfg['handlers']
-        self.assertEquals(root['level'], 'ERROR')
-        self.assertEquals(len(loggers), 1)
-        self.assertEquals(len(handlers), 2)
+        self.assertEqual(root['level'], 'ERROR')
+        self.assertEqual(len(loggers), 1)
+        self.assertEqual(len(handlers), 2)
         self.assertIn("l1", loggers)
-        self.assertEquals(loggers['l1']['level'], 'ERROR')
-        self.assertEquals(len(loggers['l1']['handlers']), 2)
-        self.assertEquals(len(root['handlers']), 2)
+        self.assertEqual(loggers['l1']['level'], 'ERROR')
+        self.assertEqual(len(loggers['l1']['handlers']), 2)
+        self.assertEqual(len(root['handlers']), 2)
         self.assertIn('console', loggers['l1']['handlers'])
         self.assertIn('console', root['handlers'])
         self.assertIn('debug-file', loggers['l1']['handlers'])
