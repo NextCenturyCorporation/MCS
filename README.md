@@ -1,3 +1,11 @@
+[![PyPI version fury.io](https://badge.fury.io/py/machine-common-sense.svg)](https://pypi.python.org/pypi/machine-common-sense/)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/machine-common-sense.svg)](https://pypi.python.org/pypi/machine-common-sense/)
+[![Linux](https://svgshare.com/i/Zhy.svg)](https://svgshare.com/i/Zhy.svg)
+[![macOS](https://svgshare.com/i/ZjP.svg)](https://svgshare.com/i/ZjP.svg)
+[![Downloads](https://pepy.tech/badge/machine-common-sense)](https://pepy.tech/project/machine-common-sense)
+[![Downloads](https://pepy.tech/badge/machine-common-sense/month)](https://pepy.tech/project/machine-common-sense)
+[![PyPI license](https://img.shields.io/pypi/l/machine-common-sense.svg)](https://pypi.python.org/pypi/machine-common-sense/)
+
 [![Unit Tests](https://github.com/NextCenturyCorporation/MCS/actions/workflows/ci.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/ci.yaml)
 [![Extensive Unit Tests](https://github.com/NextCenturyCorporation/MCS/actions/workflows/development-merge.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/development-merge.yaml)
 [![Documentation](https://github.com/NextCenturyCorporation/MCS/actions/workflows/docs-publish-pypi.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/docs-publish-pypi.yaml)

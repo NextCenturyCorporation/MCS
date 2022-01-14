@@ -168,8 +168,11 @@ class Controller():
         skip_preview_phase = (scene_config.goal is not None and
                               scene_config.goal.skip_preview_phase)
 
-        if (self._scene_config.name is not None and
-                self._config.is_file_writing_enabled()):
+        if (not self._scene_config.name):
+            raise Exception('The `name` field in the scene ' +
+                            'file cannot be empty.')
+
+        if (self._config.is_file_writing_enabled()):
             os.makedirs('./' + scene_config.name, exist_ok=True)
             self.__output_folder = './' + scene_config.name + '/'
             file_list = glob.glob(self.__output_folder + '*')
