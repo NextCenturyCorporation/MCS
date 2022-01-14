@@ -8,7 +8,7 @@
                 "mass": 1,
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 19,
+                "rotation_x": 73,
                 "visible": true
             },
             {
@@ -35,7 +35,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 25,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -55,7 +55,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 31,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -75,7 +75,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 37,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -95,7 +95,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 43,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -115,7 +115,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 48,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -135,7 +135,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 54,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -155,7 +155,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 59,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -175,7 +175,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 65,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -195,7 +195,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 70,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -215,7 +215,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 75,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -235,7 +235,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 77,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -255,7 +255,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 77,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -275,7 +275,7 @@
                 "id": "seesaw",
                 "position_x": -0.0,
                 "position_z": 0.3,
-                "rotation_x": 76,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -295,7 +295,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 75,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -315,7 +315,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 74,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -335,7 +335,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 74,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -375,7 +375,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 72,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -395,7 +395,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 72,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -415,7 +415,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 71,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -435,7 +435,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 72,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -448,14 +448,14 @@
         "structural_objects_count": 6
     },
     {
-        "camera_height": 1.222,
+        "camera_height": 0.795,
         "head_tilt": 0,
         "objects": [
             {
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 72,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -468,14 +468,14 @@
         "structural_objects_count": 6
     },
     {
-        "camera_height": 1.197,
+        "camera_height": 0.818,
         "head_tilt": 0,
         "objects": [
             {
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 70,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -488,14 +488,14 @@
         "structural_objects_count": 6
     },
     {
-        "camera_height": 1.089,
+        "camera_height": 0.849,
         "head_tilt": 0,
         "objects": [
             {
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 66,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -508,14 +508,14 @@
         "structural_objects_count": 6
     },
     {
-        "camera_height": 0.9,
+        "camera_height": 0.88,
         "head_tilt": 0,
         "objects": [
             {
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 70,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -528,7 +528,7 @@
         "structural_objects_count": 6
     },
     {
-        "camera_height": 0.943,
+        "camera_height": 0.91,
         "head_tilt": 0,
         "objects": [
             {
@@ -555,7 +555,7 @@
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 71,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -568,14 +568,14 @@
         "structural_objects_count": 6
     },
     {
-        "camera_height": 0.988,
+        "camera_height": 0.972,
         "head_tilt": 0,
         "objects": [
             {
                 "id": "seesaw",
                 "position_x": 0.0,
                 "position_z": 0.3,
-                "rotation_x": 71,
+                "rotation_x": 73,
                 "visible": true
             }
         ],
@@ -588,7 +588,7 @@
         "structural_objects_count": 6
     },
     {
-        "camera_height": 1.018,
+        "camera_height": 1.002,
         "head_tilt": 0,
         "objects": [
             {
@@ -608,7 +608,7 @@
         "structural_objects_count": 6
     },
     {
-        "camera_height": 1.037,
+        "camera_height": 1.033,
         "head_tilt": 0,
         "objects": [
             {
@@ -628,7 +628,7 @@
         "structural_objects_count": 6
     },
     {
-        "camera_height": 1.069,
+        "camera_height": 1.064,
         "head_tilt": 0,
         "objects": [
             {
