@@ -269,12 +269,22 @@ class TopDownPlotter():
                 tex_pos_lr = texture_pos + half_cell_pos
                 tex_img_pos_ul = self._convert_to_image_coords(tex_pos_ul)
                 tex_img_pos_lr = self._convert_to_image_coords(tex_pos_lr)
+
                 img = self._draw_floor_texture(
                     img=img,
                     upper_left=tex_img_pos_ul,
                     lower_right=tex_img_pos_lr,
                     texture_color=texture_color)
-                img = self._draw_lava_x(img, tex_img_pos_ul, tex_img_pos_lr)
+                img = self._draw_perimeter(
+                    img,
+                    tex_img_pos_ul,
+                    tex_img_pos_lr,
+                    self.BACKGROUND_COLOR)
+                img = self._draw_x(
+                    img,
+                    tex_img_pos_ul,
+                    tex_img_pos_lr,
+                    self.BACKGROUND_COLOR)
         return img
 
     def _draw_floor_texture(self,
@@ -309,24 +319,31 @@ class TopDownPlotter():
             hole_img_lower_right: ImageCoord = self._convert_to_image_coords(
                 hole_lower_right)
 
-            img = self._draw_hole_perimeter(
-                img, hole_img_upper_left, hole_img_lower_right)
-            img = self._draw_hole_x(
-                img, hole_img_upper_left, hole_img_lower_right)
+            img = self._draw_perimeter(
+                img,
+                hole_img_upper_left,
+                hole_img_lower_right,
+                self.DEFAULT_COLOR)
+            img = self._draw_x(
+                img,
+                hole_img_upper_left,
+                hole_img_lower_right,
+                self.DEFAULT_COLOR)
         return img
 
-    def _draw_hole_perimeter(
+    def _draw_perimeter(
             self,
             img: np.ndarray,
             upper_left: ImageCoord,
-            lower_right: ImageCoord) -> np.ndarray:
+            lower_right: ImageCoord,
+            color: Tuple) -> np.ndarray:
         '''Outline the floor hole'''
         rr, cc = skimage.draw.rectangle_perimeter(
             start=(upper_left.y, upper_left.x),
             end=(lower_right.y - 1, lower_right.x - 1),
             shape=img.shape[:2],
             clip=True)
-        img[rr, cc] = self.DEFAULT_COLOR
+        img[rr, cc] = color
         return img
 
     def _draw_x(
@@ -349,23 +366,6 @@ class TopDownPlotter():
             c1=lower_right.x)
         img[rr, cc] = color
         return img
-
-    def _draw_hole_x(
-            self,
-            img: np.ndarray,
-            upper_left: ImageCoord,
-            lower_right: ImageCoord) -> np.ndarray:
-        '''Draw an X through the hole cell'''
-        return self._draw_x(img, upper_left, lower_right, self.DEFAULT_COLOR)
-
-    def _draw_lava_x(
-            self,
-            img: np.ndarray,
-            upper_left: ImageCoord,
-            lower_right: ImageCoord) -> np.ndarray:
-        '''Draw an X through the hole cell'''
-        return self._draw_x(img, upper_left, lower_right,
-                            self.BACKGROUND_COLOR)
 
     def _export_plot(self, img: np.ndarray) -> PIL.Image.Image:
         '''Export the plot to a PIL Image'''
