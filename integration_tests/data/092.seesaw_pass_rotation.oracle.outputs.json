@@ -86,45 +86,5 @@
         "rotation_y": 180,
         "step_number": 3,
         "structural_objects_count": 6
-    },
-    {
-        "camera_height": 0.845,
-        "head_tilt": 20,
-        "objects": [
-            {
-                "id": "seesaw",
-                "position_x": 0.0,
-                "position_z": 0.3,
-                "rotation_x": 73,
-                "visible": true
-            }
-        ],
-        "objects_count": 2,
-        "position_x": 0.0,
-        "position_z": 1.6,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 180,
-        "step_number": 4,
-        "structural_objects_count": 6
-    },
-    {
-        "camera_height": 0.8797,
-        "head_tilt": 0,
-        "objects": [
-            {
-                "id": "seesaw",
-                "position_x": 0.0,
-                "position_z": 0.3,
-                "rotation_x": 73,
-                "visible": true
-            }
-        ],
-        "objects_count": 2,
-        "position_x": 0.0,
-        "position_z": 1.5,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 180,
-        "step_number": 5,
-        "structural_objects_count": 6
     }
 ]

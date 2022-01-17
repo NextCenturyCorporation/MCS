@@ -36,7 +36,8 @@
                 "position_z": 1,
                 "shape": "trophy",
                 "texture_color_list": [
-                    "silver", "grey"
+                    "silver",
+                    "grey"
                 ],
                 "visible": false
             }
@@ -113,9 +114,9 @@
             },
             {
                 "direction_x": 0,
-                "direction_y": -0.7788912,
-                "direction_z": 0.627159059,
-                "distance": 0.4942925,
+                "direction_y": -0.754,
+                "direction_z": 0.657,
+                "distance": 0.511,
                 "held": true,
                 "id": "testTrophy",
                 "mass": 1,
@@ -123,10 +124,11 @@
                     "METAL"
                 ],
                 "position_x": 0,
-                "position_z": 0.41,
+                "position_z": 0.436,
                 "shape": "trophy",
                 "texture_color_list": [
-                    "silver", "grey"
+                    "silver",
+                    "grey"
                 ],
                 "visible": true
             }
@@ -163,9 +165,9 @@
             },
             {
                 "direction_x": 0,
-                "direction_y": -0.7788912,
-                "direction_z": 0.627159059,
-                "distance": 0.4942925,
+                "direction_y": -0.754,
+                "direction_z": 0.657,
+                "distance": 0.511,
                 "held": true,
                 "id": "testTrophy",
                 "mass": 1,
@@ -173,10 +175,11 @@
                     "METAL"
                 ],
                 "position_x": 0,
-                "position_z": 0.41,
+                "position_z": 0.436,
                 "shape": "trophy",
                 "texture_color_list": [
-                    "silver", "grey"
+                    "silver",
+                    "grey"
                 ],
                 "visible": true
             }

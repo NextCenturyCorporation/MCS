@@ -103,10 +103,10 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.295,
-                "direction_y": -0.356,
-                "direction_z": 0.886,
-                "distance": 1.016,
+                "direction_x": -0.272,
+                "direction_y": -0.51,
+                "direction_z": 0.816,
+                "distance": 1.103,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
@@ -153,10 +153,10 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.295,
-                "direction_y": -0.356,
-                "direction_z": 0.887,
-                "distance": 1.016,
+                "direction_x": -0.272,
+                "direction_y": -0.51,
+                "direction_z": 0.816,
+                "distance": 1.103,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,

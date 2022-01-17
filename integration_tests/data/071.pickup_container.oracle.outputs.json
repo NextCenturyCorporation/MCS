@@ -102,7 +102,7 @@
                 "mass": 0.25,
                 "position_x": 0.0,
                 "position_y": 0.612,
-                "position_z": 0.24,
+                "position_z": 0.241,
                 "visible": true
             },
             {
@@ -111,7 +111,7 @@
                 "mass": 0.25,
                 "position_x": 0.0,
                 "position_y": 0.575,
-                "position_z": 0.24,
+                "position_z": 0.241,
                 "visible": true
             }
         ],
@@ -133,7 +133,7 @@
                 "mass": 0.25,
                 "position_x": 0.0,
                 "position_y": 0.612,
-                "position_z": 0.24,
+                "position_z": 0.241,
                 "visible": true
             },
             {
@@ -142,7 +142,7 @@
                 "mass": 0.25,
                 "position_x": -0.001,
                 "position_y": 0.575,
-                "position_z": 0.24,
+                "position_z": 0.241,
                 "visible": true
             }
         ],
