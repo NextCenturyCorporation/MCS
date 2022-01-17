@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 import ai2thor.server
 import colour
@@ -274,7 +274,7 @@ class TopDownPlotter():
                     upper_left=tex_img_pos_ul,
                     lower_right=tex_img_pos_lr,
                     texture_color=texture_color)
-
+                img = self._draw_lava_x(img, tex_img_pos_ul, tex_img_pos_lr)
         return img
 
     def _draw_floor_texture(self,
@@ -329,26 +329,43 @@ class TopDownPlotter():
         img[rr, cc] = self.DEFAULT_COLOR
         return img
 
-    def _draw_hole_x(
+    def _draw_x(
             self,
             img: np.ndarray,
             upper_left: ImageCoord,
-            lower_right: ImageCoord) -> np.ndarray:
-        '''Draw an X through the hole cell'''
+            lower_right: ImageCoord,
+            color: Tuple) -> np.ndarray:
         rr, cc = skimage.draw.line(
             r0=upper_left.y,
             c0=upper_left.x,
             r1=lower_right.y,
             c1=lower_right.x)
-        img[rr, cc] = self.DEFAULT_COLOR
+        img[rr, cc] = color
 
         rr, cc = skimage.draw.line(
             r0=lower_right.y,
             c0=upper_left.x,
             r1=upper_left.y,
             c1=lower_right.x)
-        img[rr, cc] = self.DEFAULT_COLOR
+        img[rr, cc] = color
         return img
+
+    def _draw_hole_x(
+            self,
+            img: np.ndarray,
+            upper_left: ImageCoord,
+            lower_right: ImageCoord) -> np.ndarray:
+        '''Draw an X through the hole cell'''
+        return self._draw_x(img, upper_left, lower_right, self.DEFAULT_COLOR)
+
+    def _draw_lava_x(
+            self,
+            img: np.ndarray,
+            upper_left: ImageCoord,
+            lower_right: ImageCoord) -> np.ndarray:
+        '''Draw an X through the hole cell'''
+        return self._draw_x(img, upper_left, lower_right,
+                            self.BACKGROUND_COLOR)
 
     def _export_plot(self, img: np.ndarray) -> PIL.Image.Image:
         '''Export the plot to a PIL Image'''
