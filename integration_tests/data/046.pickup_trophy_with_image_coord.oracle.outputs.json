@@ -17,7 +17,8 @@
                 "position_z": 1,
                 "shape": "trophy",
                 "texture_color_list": [
-                    "silver", "grey"
+                    "silver",
+                    "grey"
                 ],
                 "visible": true
             }
@@ -35,9 +36,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.778891146,
-                "direction_z": 0.6271592,
-                "distance": 0.494292438,
+                "direction_y": -0.754,
+                "direction_z": 0.657,
+                "distance": 0.511,
                 "held": true,
                 "id": "testTrophy",
                 "mass": 1,
@@ -45,10 +46,11 @@
                     "METAL"
                 ],
                 "position_x": 0.0,
-                "position_z": 0.310000032,
+                "position_z": 0.336,
                 "shape": "trophy",
                 "texture_color_list": [
-                    "silver", "grey"
+                    "silver",
+                    "grey"
                 ],
                 "visible": true
             }

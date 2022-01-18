@@ -103,17 +103,17 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.36,
-                "direction_y": -0.461,
-                "direction_z": 0.811,
-                "distance": 1.11,
+                "direction_x": -0.272,
+                "direction_y": -0.51,
+                "direction_z": 0.816,
+                "distance": 1.103,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.400037616,
+                "position_x": -0.3,
                 "position_z": 0.9,
                 "shape": "blank block cube",
                 "texture_color_list": [
@@ -153,17 +153,17 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.36,
-                "direction_y": -0.461,
-                "direction_z": 0.811,
-                "distance": 1.11,
+                "direction_x": -0.272,
+                "direction_y": -0.51,
+                "direction_z": 0.816,
+                "distance": 1.103,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.4000273,
+                "position_x": -0.3,
                 "position_z": 0.900114655,
                 "shape": "blank block cube",
                 "texture_color_list": [
