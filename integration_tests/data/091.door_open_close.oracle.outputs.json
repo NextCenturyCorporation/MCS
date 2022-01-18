@@ -179,9 +179,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.885,
-                "direction_z": 0.465,
-                "distance": 0.861,
+                "direction_y": -0.836,
+                "direction_z": 0.549,
+                "distance": 0.911,
                 "held": false,
                 "id": "testDoor",
                 "mass": 1,
@@ -193,10 +193,35 @@
         ],
         "objects_count": 1,
         "position_x": 0.0,
-        "position_z": 0.0,
+        "position_z": -0.1,
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 7,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.836,
+                "direction_z": 0.549,
+                "distance": 0.911,
+                "held": false,
+                "id": "testDoor",
+                "mass": 1,
+                "position_x": 0.0,
+                "position_z": 0.4,
+                "shape": "door_4",
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -0.1,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 8,
         "structural_objects_count": 6
     }
 ]
