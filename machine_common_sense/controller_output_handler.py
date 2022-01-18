@@ -91,6 +91,10 @@ class SceneEvent():
             'clippingPlaneFar', ConfigManager.DEFAULT_CLIPPING_PLANE_FAR)
 
     @property
+    def haptic_feedback(self):
+        return self._raw_output.metadata.get('hapticFeedback')
+
+    @property
     def performer_radius(self):
         return self._raw_output.metadata.get('performerRadius')
 
@@ -272,6 +276,7 @@ class ControllerOutputHandler():
                 if goal.habituation_total >= habituation_trial
                 else None
             ),
+            haptic_feedback=self._scene_event.haptic_feedback,
             head_tilt=self._scene_event.head_tilt,
             image_list=self._scene_event.image_list,
             object_list=(
