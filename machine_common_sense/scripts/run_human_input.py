@@ -177,7 +177,7 @@ class HumanInputShell(cmd.Cmd):
     def show_available_actions(self, output):
         if (
             output.action_list and
-            len(output.action_list) < len(GoalMetadata.ACTION_LIST)
+            len(output.action_list) < len(GoalMetadata.DEFAULT_ACTIONS)
         ):
             print('Only actions available during this step:')
             for action, params in output.action_list:
