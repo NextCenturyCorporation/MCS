@@ -485,9 +485,6 @@ class SceneConfigurationSchema(Schema):
     ceiling_material = fields.Str(allow_none=True, data_key='ceilingMaterial')
     debug = fields.Dict()
     floor_material = fields.Str(data_key='floorMaterial')
-    floor_properties = fields.Nested(
-        PhysicsConfigSchema,
-        data_key='floorProperties')
     goal = fields.Nested(GoalSchema)
     intuitive_physics = fields.Bool(data_key='intuitivePhysics')
     isometric = fields.Bool()
@@ -725,7 +722,6 @@ class SceneConfiguration:
     ceiling_material: str = None
     debug: dict = None
     floor_material: str = None
-    floor_properties: PhysicsConfig = None
     goal: Goal = None  # TODO change to concrete class
     intuitive_physics: bool = False
     isometric: bool = False
