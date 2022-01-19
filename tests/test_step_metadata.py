@@ -37,6 +37,7 @@ class TestStepMetadata(unittest.TestCase):
         "reward": 0,
         "rotation": 0.0,
         "step_number": 0,
+        "steps_on_lava": 0,
         "structural_object_list": []
     }'''
 
@@ -70,6 +71,7 @@ class TestStepMetadata(unittest.TestCase):
         "reward": 0,
         "rotation": 0.0,
         "step_number": 0,
+        "steps_on_lava": 0,
         "structural_object_list": [],
         "segment_map": {
             "0": {
