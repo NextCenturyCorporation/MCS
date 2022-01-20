@@ -4,7 +4,7 @@ import glob
 import json
 import logging
 import os
-from typing import Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 
 import ai2thor.controller
 import ai2thor.server
@@ -238,6 +238,18 @@ class Controller():
 
         return output
 
+    def _compare_param_values(self, value_1: Any, value_2: Any) -> bool:
+        """Compares two parameter values and returns if they are equal,
+        making sure that string numbers are converted to floats, and integer
+        floats are converted to ints."""
+        data = {'1': value_1, '2': value_2}
+        for key in data:
+            if isinstance(data[key], str) and data[key].isnumeric():
+                data[key] = float(data[key])
+            if isinstance(data[key], float) and data[key].is_integer():
+                data[key] = int(data[key])
+        return data['1'] == data['2']
+
     def _convert_scene_config(self, config_data) -> SceneConfiguration:
         if isinstance(config_data, SceneConfiguration):
             return config_data
@@ -270,7 +282,7 @@ class Controller():
         """
         if (self._goal.last_step is not None and
                 self._goal.last_step == self.__step_number):
-            logger.warning(
+            logger.error(
                 "You have passed the last step for this scene. "
                 "Ignoring your action. Please call controller.end_scene() "
                 "now.")
@@ -283,25 +295,22 @@ class Controller():
             self.__step_number)
         # Only continue with this action step if the given action and
         # parameters are in the restricted action list.
-        continue_with_step = any(
-            action == restricted_action and (
-                len(restricted_params.items()) == 0 or all(
-                    restricted_params.get(key) == value
-                    for key, value in kwargs.items()
-                )
+        continue_with_step = any(action == restricted_action and (
+            len(restricted_params.items()) == 0 or all(
+                self._compare_param_values(restricted_params.get(key), value)
+                for key, value in kwargs.items()
             )
-            for restricted_action, restricted_params in action_list
-        )
+        ) for restricted_action, restricted_params in action_list)
 
         if not continue_with_step:
-            logger.warning(
+            logger.error(
                 f"The given action '{action}' with parameters "
                 f"'{kwargs}' isn't in the action_list. Ignoring your action. "
                 f"Please call controller.step() with an action in the "
                 f"action_list. Possible actions at step {self.__step_number}:"
             )
             for action_data in action_list:
-                logger.warning(f'    {action_data}')
+                logger.error(f'    {action_data}')
             return None
 
         self.__step_number += 1

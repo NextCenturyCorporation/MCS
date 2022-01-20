@@ -36,6 +36,7 @@
         }]
     }],
     "goal": {
+        "action_list": [[], [], ["EndHabituation"], [], [], [], [], [], [], [], [], [], [], ["EndHabituation"], ["EndHabituation"]],
         "habituation_total": 3
     }
 }
