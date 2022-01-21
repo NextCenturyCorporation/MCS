@@ -211,6 +211,8 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
 
     # Run the specific actions for the test scene.
     for index, action_data in enumerate(action_list + [None]):
+        if not step_metadata:
+            return False, f'Step {index} failed: output step_metadata is None'
         # Validate the test scene's output metadata at each action step.
         failed_validation_list = validate_single_output(
             expected_output_data_list[index],
