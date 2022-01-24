@@ -341,6 +341,17 @@ class PhysicsConfigSchema(Schema):
         return PhysicsConfig(**data)
 
 
+class PlatformLipsConfigSchema(Schema):
+    front = fields.Bool()
+    back = fields.Bool()
+    left = fields.Bool()
+    right = fields.Bool()
+
+    @post_load
+    def make_platform_lips_config(self, data, **kwargs):
+        return PlatformLipsConfig(**data)
+
+
 class FloorHolesAndTexturesXZConfigSchema(Schema):
     x = fields.Int()
     z = fields.Int()
@@ -452,6 +463,8 @@ class SceneObjectSchema(Schema):
         PhysicsConfigSchema,
         data_key='physicsProperties')
     pickupable = fields.Bool()
+    platform_lips = fields.Nested(
+        PlatformLipsConfigSchema, data_key='platformLips')
     receptacle = fields.Bool()
     reset_center_of_mass = fields.Bool(data_key='resetCenterOfMass')
     resizes = fields.List(fields.Nested(SizeConfigSchema))
@@ -622,6 +635,14 @@ class FloorHolesAndTexturesXZConfig:
 
 
 @dataclass
+class PlatformLipsConfig:
+    front: bool = False
+    back: bool = False
+    left: bool = False
+    right: bool = False
+
+
+@dataclass
 class FloorTexturesConfig:
     material: str
     positions: List[FloorHolesAndTexturesXZConfig] = None
@@ -694,6 +715,7 @@ class SceneObject:
     openable: bool = None
     opened: bool = None
     open_close: List[OpenCloseConfig] = None
+    platform_lips: PlatformLipsConfig = None
     physics: bool = None
     physics_properties: PhysicsConfig = None
     pickupable: bool = None
