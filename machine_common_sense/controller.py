@@ -27,7 +27,7 @@ from .controller_events import (AfterStepPayload, BeforeStepPayload,
                                 EndScenePayload, EventType, StartScenePayload)
 from .controller_output_handler import ControllerOutputHandler
 from .goal_metadata import GoalMetadata
-from .parameter import Parameter
+from .parameter import Parameter, compare_param_values
 from .step_metadata import StepMetadata
 
 
@@ -283,15 +283,12 @@ class Controller():
             self.__step_number)
         # Only continue with this action step if the given action and
         # parameters are in the restricted action list.
-        continue_with_step = any(
-            action == restricted_action and (
-                len(restricted_params.items()) == 0 or all(
-                    restricted_params.get(key) == value
-                    for key, value in kwargs.items()
-                )
+        continue_with_step = any(action == restricted_action and (
+            len(restricted_params.items()) == 0 or all(
+                compare_param_values(restricted_params.get(key), value)
+                for key, value in kwargs.items()
             )
-            for restricted_action, restricted_params in action_list
-        )
+        ) for restricted_action, restricted_params in action_list)
 
         if not continue_with_step:
             logger.warning(

@@ -2,7 +2,7 @@ import unittest
 
 from machine_common_sense.config_manager import ConfigManager
 from machine_common_sense.controller import DEFAULT_MOVE
-from machine_common_sense.parameter import Parameter
+from machine_common_sense.parameter import Parameter, compare_param_values
 
 
 class TestParameter(unittest.TestCase):
@@ -465,3 +465,52 @@ class TestParameter(unittest.TestCase):
                 "DropObject")
         self.assertIsInstance(ai2thor_action, str)
         self.assertEqual(ai2thor_action, "DropHandObject")
+
+    def test_compare_param_values(self):
+        self.assertTrue(compare_param_values('', ''))
+        self.assertTrue(compare_param_values('a', 'a'))
+
+        self.assertTrue(compare_param_values('1', '1'))
+        self.assertTrue(compare_param_values('1.0', '1.0'))
+        self.assertTrue(compare_param_values('1.234', '1.234'))
+        self.assertTrue(compare_param_values(1, 1))
+        self.assertTrue(compare_param_values(1.0, 1.0))
+        self.assertTrue(compare_param_values(1.234, 1.234))
+
+        self.assertTrue(compare_param_values('1', 1))
+        self.assertTrue(compare_param_values(1, '1'))
+        self.assertTrue(compare_param_values('1.0', 1.0))
+        self.assertTrue(compare_param_values(1.0, '1.0'))
+
+        self.assertTrue(compare_param_values('1', 1.0))
+        self.assertTrue(compare_param_values(1.0, '1'))
+        self.assertTrue(compare_param_values(1, '1.0'))
+        self.assertTrue(compare_param_values('1.0', 1))
+
+        self.assertTrue(compare_param_values('1', '1.0'))
+        self.assertTrue(compare_param_values('1.0', '1'))
+        self.assertTrue(compare_param_values(1, 1.0))
+        self.assertTrue(compare_param_values(1.0, 1))
+
+        self.assertTrue(compare_param_values('1.234', 1.234))
+        self.assertTrue(compare_param_values(1.234, '1.234'))
+        self.assertTrue(compare_param_values('1.234', 1.234))
+        self.assertTrue(compare_param_values(1.234, '1.234'))
+
+        self.assertFalse(compare_param_values('a', '1'))
+        self.assertFalse(compare_param_values('1', 'a'))
+
+        self.assertFalse(compare_param_values('a', '1.0'))
+        self.assertFalse(compare_param_values('1.0', 'a'))
+        self.assertFalse(compare_param_values('a', '1.234'))
+        self.assertFalse(compare_param_values('1.234', 'a'))
+
+        self.assertFalse(compare_param_values('1', '1.234'))
+        self.assertFalse(compare_param_values('1.234', '1'))
+        self.assertFalse(compare_param_values('1.0', '1.234'))
+        self.assertFalse(compare_param_values('1.234', '1.0'))
+
+        self.assertFalse(compare_param_values(1, 1.234))
+        self.assertFalse(compare_param_values(1.234, 1))
+        self.assertFalse(compare_param_values(1.0, 1.234))
+        self.assertFalse(compare_param_values(1.234, 1.0))
