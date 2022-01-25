@@ -37,8 +37,7 @@ class Parameter:
     DEFAULT_IMG_COORD = 0
     DEFAULT_OBJECT_MOVE_AMOUNT = 1.0
 
-    MAX_FORCE = 1.0
-    MIN_FORCE = 0.0
+    MAX_FORCE = 250.0
     MAX_AMOUNT = 1.0
     MIN_AMOUNT = 0.0
 
@@ -136,13 +135,13 @@ class Parameter:
             except ValueError as err:
                 raise ValueError('Force is not a number') from err
 
-            if force < self.MIN_FORCE or force > self.MAX_FORCE:
+            if force < self.MIN_AMOUNT or force > self.MAX_AMOUNT:
                 raise ValueError(
                     f'Force not in acceptable range of '
-                    f'({self.MIN_FORCE}-{self.MAX_FORCE})')
+                    f'({self.MIN_AMOUNT}-{self.MAX_AMOUNT})')
         else:
             force = self.DEFAULT_FORCE
-        return force
+        return force * self.MAX_FORCE
 
     def _get_number(self, key: str, **kwargs) -> Optional[Any]:
         val = kwargs.get(key)
@@ -170,7 +169,7 @@ class Parameter:
         # Set the Move Magnitude to the appropriate amount based on the action
         move_magnitude = DEFAULT_MOVE
         if action in self.FORCE_ACTIONS:
-            move_magnitude = force * self.MAX_FORCE
+            move_magnitude = force * self.MAX_AMOUNT
         elif action in self.OBJECT_MOVE_ACTIONS:
             move_magnitude = amount
         return move_magnitude
