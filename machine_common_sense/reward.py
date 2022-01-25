@@ -200,9 +200,11 @@ class Reward(object):
         '''
         if current_score == 1:
             return current_score - ((number_steps - 1) * STEP_PENALTY)
-        else:
-            return current_score - (number_steps * STEP_PENALTY) - \
-                (steps_on_lava * LAVA_PENALTY)
+
+        if steps_on_lava is None:
+            steps_on_lava = 0
+        return current_score - (number_steps * STEP_PENALTY) - \
+            (steps_on_lava * LAVA_PENALTY)
 
     @staticmethod
     def _calculate_default_reward(
