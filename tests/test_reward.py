@@ -11,22 +11,44 @@ class TestReward(unittest.TestCase):
     def test_default_reward(self):
         goal = mcs.GoalMetadata()
         reward = mcs.Reward.calculate_reward(
-            goal, objects=[{}], agent={}, number_steps=1, reach=1.0)
-        self.assertEqual(reward, -0.001)
+            goal, objects=[{}], agent={}, number_steps=1,
+            reach=1.0, steps_on_lava=0)
+        self.assertEqual(reward, -mcs.reward.STEP_PENALTY)
         self.assertIsInstance(reward, float)
 
     def test_none_goal(self):
         goal = None
         reward = mcs.Reward.calculate_reward(
-            goal, objects=[{}], agent={}, number_steps=5, reach=1.0)
-        self.assertEqual(reward, -0.005)
+            goal, objects=[{}], agent={}, number_steps=5,
+            reach=1.0, steps_on_lava=0)
+        self.assertEqual(reward, -(5 * mcs.reward.STEP_PENALTY))
         self.assertIsInstance(reward, float)
 
     def test_penalty_step_calcuation(self):
         goal = None
         reward = mcs.Reward.calculate_reward(
-            goal, objects=[{}], agent={}, number_steps=456, reach=1.0)
-        penalty = 0 - ((456) * 0.001)
+            goal, objects=[{}], agent={}, number_steps=456,
+            reach=1.0, steps_on_lava=0)
+        penalty = 0 - (456 * mcs.reward.STEP_PENALTY)
+        self.assertEqual(reward, penalty)
+        self.assertIsInstance(reward, float)
+
+    def test_penalty_on_lava(self):
+        goal = None
+        reward = mcs.Reward.calculate_reward(
+            goal, objects=[{}], agent={}, number_steps=1,
+            reach=1.0, steps_on_lava=1)
+        penalty = 0 - (1 * mcs.reward.STEP_PENALTY) - mcs.reward.LAVA_PENALTY
+        self.assertEqual(reward, penalty)
+        self.assertIsInstance(reward, float)
+
+    def test_penalty_on_lava_multiple_steps(self):
+        goal = None
+        reward = mcs.Reward.calculate_reward(
+            goal, objects=[{}], agent={}, number_steps=456,
+            reach=1.0, steps_on_lava=2)
+        penalty = 0 - (456 * mcs.reward.STEP_PENALTY) - \
+            (2 * mcs.reward.LAVA_PENALTY)
         self.assertEqual(reward, penalty)
         self.assertIsInstance(reward, float)
 
