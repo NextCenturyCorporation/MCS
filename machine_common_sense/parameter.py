@@ -6,6 +6,22 @@ from .config_manager import ConfigManager, MetadataTier
 from .controller import DEFAULT_MOVE
 
 
+def compare_param_values(value_1: Any, value_2: Any) -> bool:
+    """Compares two parameter values and returns if they are equal,
+    making sure that string numbers are converted to floats, and integer
+    floats are converted to ints."""
+    data = {'value_1': value_1, 'value_2': value_2}
+    for key in data:
+        if isinstance(data[key], str):
+            try:
+                data[key] = float(data[key])
+            except ValueError:
+                ...
+        if isinstance(data[key], float) and data[key].is_integer():
+            data[key] = int(data[key])
+    return data['value_1'] == data['value_2']
+
+
 class Parameter:
 
     # AI2-THOR creates a square grid across the scene that is
