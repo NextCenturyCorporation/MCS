@@ -24,6 +24,7 @@ class TestStepMetadata(unittest.TestCase):
             "metadata": {}
         },
         "habituation_trial": null,
+        "haptic_feedback": {},
         "head_tilt": 0.0,
         "image_list": [],
         "object_list": [],
@@ -56,6 +57,7 @@ class TestStepMetadata(unittest.TestCase):
             "metadata": {}
         },
         "habituation_trial": null,
+        "haptic_feedback": {},
         "head_tilt": 0.0,
         "image_list": [],
         "object_list": [],

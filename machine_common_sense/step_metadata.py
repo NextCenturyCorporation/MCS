@@ -58,6 +58,10 @@ class StepMetadata:
         Note that this list will be empty if the metadata level is 'none'.
     goal : GoalMetadata or None
         The goal for the whole scene. Will be None in "Exploration" scenes.
+    haptic_feedback : dict
+        Haptic feedback sources for the agent. Values are true or false
+        depending on if the agent is touching the haptic feedback source.
+        The only current supported contact is "on_lava"
     habituation_trial : int or None
         The current habituation trial (as a positive integer), or None if the
         scene is not currently in a habituation trial (meaning this scene is
@@ -126,6 +130,7 @@ class StepMetadata:
         depth_map_list=None,
         goal=None,
         habituation_trial=None,
+        haptic_feedback=None,
         head_tilt=0.0,
         image_list=None,
         object_list=None,
@@ -155,6 +160,9 @@ class StepMetadata:
         )
         self.goal = GoalMetadata() if goal is None else goal
         self.habituation_trial = habituation_trial
+        self.haptic_feedback = (
+            {} if haptic_feedback is None else haptic_feedback
+        )
         self.head_tilt = head_tilt
         self.image_list = [] if image_list is None else image_list
         self.object_list = [] if object_list is None else object_list
@@ -199,6 +207,7 @@ class StepMetadata:
         yield 'camera_height', self.camera_height
         yield 'goal', dict(self.goal)
         yield 'habituation_trial', self.habituation_trial
+        yield 'haptic_feedback', self.haptic_feedback
         yield 'head_tilt', self.head_tilt
         yield 'object_list', self.check_list_none(self.object_list)
         yield 'performer_radius', self.performer_radius

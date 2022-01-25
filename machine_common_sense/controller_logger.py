@@ -52,6 +52,7 @@ class ControllerLogger(AbstractControllerSubscriber):
         logger.debug("  HEAD TILT: " + str(step_output.head_tilt))
         logger.debug("  POSITION: " + str(step_output.position))
         logger.debug("  ROTATION: " + str(step_output.rotation))
+        logger.debug("  HAPTIC FEEDBACK: " + str(step_output.haptic_feedback))
         logger.debug("OBJECTS: " +
                      str(len(step_output.object_list)) +
                      " TOTAL")
