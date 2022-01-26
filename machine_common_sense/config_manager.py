@@ -463,8 +463,8 @@ class SceneObjectSchema(Schema):
         PhysicsConfigSchema,
         data_key='physicsProperties')
     pickupable = fields.Bool()
-    platform_lips = fields.Nested(
-        PlatformLipsConfigSchema, data_key='platformLips')
+    lips = fields.Nested(
+        PlatformLipsConfigSchema, data_key='lips')
     receptacle = fields.Bool()
     reset_center_of_mass = fields.Bool(data_key='resetCenterOfMass')
     resizes = fields.List(fields.Nested(SizeConfigSchema))
@@ -715,7 +715,7 @@ class SceneObject:
     openable: bool = None
     opened: bool = None
     open_close: List[OpenCloseConfig] = None
-    platform_lips: PlatformLipsConfig = None
+    lips: PlatformLipsConfig = None
     physics: bool = None
     physics_properties: PhysicsConfig = None
     pickupable: bool = None
