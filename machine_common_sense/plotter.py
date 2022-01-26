@@ -564,6 +564,8 @@ class TopDownPlotter():
         clr = colour.COLOR_NAME_TO_RGB.get(
             obj.color.lower(), self.DEFAULT_COLOR)
 
+        # using ramp string prefix assumpation to make ramp determination
+        # might be better to have an attribute to leverage
         if(obj.uuid.startswith('ramp')):
             self._draw_ramp_arrow(img, obj)
 
