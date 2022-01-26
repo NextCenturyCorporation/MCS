@@ -36,12 +36,17 @@ class TestSceneCoord(unittest.TestCase):
         self.assertAlmostEqual(sc_sub.x, 2.0)
         self.assertAlmostEqual(sc_sub.z, -5.0)
 
-    def test_divide(self):
+    def test_midpoint(self):
         '''Gets the midpoint between the two points'''
         sc1 = SceneCoord(x=-1.0, z=2.5)
         sc2 = SceneCoord(x=1.0, z=-2.5)
 
-        sc_sub = sc1 / sc2
+        sc_sub = sc1 | sc2
+        self.assertAlmostEqual(sc_sub.x, 0.0)
+        self.assertAlmostEqual(sc_sub.z, 0.0)
+
+        # order shouldn't matter
+        sc_sub = sc2 | sc1
         self.assertAlmostEqual(sc_sub.x, 0.0)
         self.assertAlmostEqual(sc_sub.z, 0.0)
 

@@ -28,7 +28,7 @@ class SceneCoord():
     def __add__(self, coord: SceneCoord):
         return SceneCoord(self.x + coord.x, self.z + coord.z)
 
-    def __truediv__(self, coord: SceneCoord):
+    def __or__(self, coord: SceneCoord):
         '''Midpoint between two SceneCoords'''
         return SceneCoord((self.x + coord.x) / 2, (self.z + coord.z) / 2)
 
@@ -84,7 +84,7 @@ class Ramp(SceneAsset):
         sorted_bounds = sorted(self.bounds, key=lambda p: p['y'])
         peak_pts = sorted_bounds[-2:]
         peak_scene_pts = [SceneCoord(x=pt['x'], z=pt['z']) for pt in peak_pts]
-        return peak_scene_pts[0] / peak_scene_pts[1]
+        return peak_scene_pts[0] | peak_scene_pts[1]
 
     def _floor_points(self) -> List[SceneCoord]:
         '''The points of the ramp side nearest the floor'''
