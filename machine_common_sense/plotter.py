@@ -96,7 +96,7 @@ class Ramp(SceneAsset):
             for indx in indices[0]]
 
 
-@ dataclass
+@dataclass
 class Texture():
     material: str
     positions: list
