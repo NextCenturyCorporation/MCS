@@ -58,6 +58,10 @@ class StepMetadata:
         Note that this list will be empty if the metadata level is 'none'.
     goal : GoalMetadata or None
         The goal for the whole scene. Will be None in "Exploration" scenes.
+    haptic_feedback : dict
+        Haptic feedback sources for the agent. Values are true or false
+        depending on if the agent is touching the haptic feedback source.
+        The only current supported contact is "on_lava"
     habituation_trial : int or None
         The current habituation trial (as a positive integer), or None if the
         scene is not currently in a habituation trial (meaning this scene is
@@ -103,6 +107,8 @@ class StepMetadata:
     step_number : integer
         The step number of your last action, recorded since you started the
         current scene.
+    steps_in_lava : integer
+        The number of steps the agent has touched lava
     physics_frames_per_second : float
         The frames per second of the physics engine
     structural_object_list : list of ObjectMetadata objects
@@ -126,6 +132,7 @@ class StepMetadata:
         depth_map_list=None,
         goal=None,
         habituation_trial=None,
+        haptic_feedback=None,
         head_tilt=0.0,
         image_list=None,
         object_list=None,
@@ -138,6 +145,7 @@ class StepMetadata:
         reward=0,
         rotation=0.0,
         step_number=0,
+        steps_on_lava=0,
         structural_object_list=None
     ):
         self.action_list = [] if action_list is None else action_list
@@ -155,6 +163,9 @@ class StepMetadata:
         )
         self.goal = GoalMetadata() if goal is None else goal
         self.habituation_trial = habituation_trial
+        self.haptic_feedback = (
+            {} if haptic_feedback is None else haptic_feedback
+        )
         self.head_tilt = head_tilt
         self.image_list = [] if image_list is None else image_list
         self.object_list = [] if object_list is None else object_list
@@ -169,6 +180,7 @@ class StepMetadata:
         self.reward = reward
         self.rotation = rotation
         self.step_number = step_number
+        self.steps_on_lava = steps_on_lava
         self.structural_object_list = [
         ] if structural_object_list is None else structural_object_list
 
@@ -199,6 +211,7 @@ class StepMetadata:
         yield 'camera_height', self.camera_height
         yield 'goal', dict(self.goal)
         yield 'habituation_trial', self.habituation_trial
+        yield 'haptic_feedback', self.haptic_feedback
         yield 'head_tilt', self.head_tilt
         yield 'object_list', self.check_list_none(self.object_list)
         yield 'performer_radius', self.performer_radius
@@ -208,6 +221,7 @@ class StepMetadata:
         yield 'return_status', self.return_status
         yield 'reward', self.reward
         yield 'rotation', self.rotation
-        yield 'step_number', self.step_number
+        yield 'step_number', self.step_number,
+        yield 'steps_on_lava', self.steps_on_lava,
         yield 'structural_object_list', self.check_list_none(
             self.structural_object_list)

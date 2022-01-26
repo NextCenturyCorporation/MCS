@@ -24,6 +24,7 @@ class TestStepMetadata(unittest.TestCase):
             "metadata": {}
         },
         "habituation_trial": null,
+        "haptic_feedback": {},
         "head_tilt": 0.0,
         "image_list": [],
         "object_list": [],
@@ -36,6 +37,7 @@ class TestStepMetadata(unittest.TestCase):
         "reward": 0,
         "rotation": 0.0,
         "step_number": 0,
+        "steps_on_lava": 0,
         "structural_object_list": []
     }'''
 
@@ -56,6 +58,7 @@ class TestStepMetadata(unittest.TestCase):
             "metadata": {}
         },
         "habituation_trial": null,
+        "haptic_feedback": {},
         "head_tilt": 0.0,
         "image_list": [],
         "object_list": [],
@@ -68,6 +71,7 @@ class TestStepMetadata(unittest.TestCase):
         "reward": 0,
         "rotation": 0.0,
         "step_number": 0,
+        "steps_on_lava": 0,
         "structural_object_list": [],
         "segment_map": {
             "0": {

@@ -84,6 +84,7 @@ class LoggingConfig():
             if self.isEnabledFor(TRACE):
                 self._log(TRACE, message, args, **kws)
         logging.Logger.trace = trace
+        logging.TRACE = TRACE
 
     @staticmethod
     def get_default_console_config():
