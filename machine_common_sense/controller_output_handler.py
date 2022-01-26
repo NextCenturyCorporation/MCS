@@ -95,6 +95,10 @@ class SceneEvent():
         return self._raw_output.metadata.get('hapticFeedback')
 
     @property
+    def steps_on_lava(self):
+        return self._raw_output.metadata.get('stepsOnLava')
+
+    @property
     def performer_radius(self):
         return self._raw_output.metadata.get('performerRadius')
 
@@ -290,10 +294,12 @@ class ControllerOutputHandler():
             return_status=self._scene_event.return_status,
             reward=Reward.calculate_reward(
                 goal, self._scene_event.objects, self._scene_event.agent,
-                self._step_number, self._scene_event.performer_reach),
+                self._step_number, self._scene_event.performer_reach,
+                self._scene_event.steps_on_lava),
             rotation=(
                 None if restrict_non_oracle else self._scene_event.rotation),
             step_number=self._step_number,
+            steps_on_lava=self._scene_event.steps_on_lava,
             physics_frames_per_second=(
                 self._scene_event.physics_frames_per_second),
             structural_object_list=([] if restrict_non_oracle else

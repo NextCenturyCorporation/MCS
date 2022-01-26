@@ -9,6 +9,7 @@ from .goal_metadata import GoalCategory, GoalMetadata
 GOAL_ACHIEVED = 1
 GOAL_NOT_ACHIEVED = 0
 STEP_PENALTY = 0.001
+LAVA_PENALTY = 0.5
 
 
 class Reward(object):
@@ -181,7 +182,8 @@ class Reward(object):
     @staticmethod
     def _adjust_score_penalty(
             current_score: int,
-            number_steps: int) -> float:
+            number_steps: int,
+            steps_on_lava: int) -> float:
         '''
         Calculate the score penalty based on the number of steps,
         if the current step results in a reward being achieved do
@@ -198,8 +200,11 @@ class Reward(object):
         '''
         if current_score == 1:
             return current_score - ((number_steps - 1) * STEP_PENALTY)
-        else:
-            return current_score - ((number_steps) * STEP_PENALTY)
+
+        if steps_on_lava is None:
+            steps_on_lava = 0
+        return current_score - (number_steps * STEP_PENALTY) - \
+            (steps_on_lava * LAVA_PENALTY)
 
     @staticmethod
     def _calculate_default_reward(
@@ -217,7 +222,8 @@ class Reward(object):
             objects: List[Dict],
             agent: Dict,
             number_steps: int,
-            reach: Optional[float]) -> float:
+            reach: Optional[float],
+            steps_on_lava: Optional[int]) -> float:
         '''
         Determine if the agent achieved the objective/task/goal.
 
@@ -247,4 +253,5 @@ class Reward(object):
                                                                      objects,
                                                                      agent,
                                                                      reach)
-        return Reward._adjust_score_penalty(current_score, number_steps)
+        return Reward._adjust_score_penalty(
+            current_score, number_steps, steps_on_lava)

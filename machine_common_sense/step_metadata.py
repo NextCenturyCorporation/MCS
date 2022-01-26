@@ -107,6 +107,8 @@ class StepMetadata:
     step_number : integer
         The step number of your last action, recorded since you started the
         current scene.
+    steps_in_lava : integer
+        The number of steps the agent has touched lava
     physics_frames_per_second : float
         The frames per second of the physics engine
     structural_object_list : list of ObjectMetadata objects
@@ -143,6 +145,7 @@ class StepMetadata:
         reward=0,
         rotation=0.0,
         step_number=0,
+        steps_on_lava=0,
         structural_object_list=None
     ):
         self.action_list = [] if action_list is None else action_list
@@ -177,6 +180,7 @@ class StepMetadata:
         self.reward = reward
         self.rotation = rotation
         self.step_number = step_number
+        self.steps_on_lava = steps_on_lava
         self.structural_object_list = [
         ] if structural_object_list is None else structural_object_list
 
@@ -217,6 +221,7 @@ class StepMetadata:
         yield 'return_status', self.return_status
         yield 'reward', self.reward
         yield 'rotation', self.rotation
-        yield 'step_number', self.step_number
+        yield 'step_number', self.step_number,
+        yield 'steps_on_lava', self.steps_on_lava,
         yield 'structural_object_list', self.check_list_none(
             self.structural_object_list)
