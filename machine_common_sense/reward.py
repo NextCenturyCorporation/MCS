@@ -52,7 +52,8 @@ class Reward(object):
             goal: GoalMetadata,
             objects: Dict,
             agent: Dict,
-            performer_reach: float) -> int:
+            performer_reach: float,
+            goal_reward: float = GOAL_ACHIEVED) -> float:
         '''
         Calculate the reward for the retrieval goal.
 
@@ -63,9 +64,11 @@ class Reward(object):
             objects: Dict
             agent: Dict
             performer_reach: float
+            goal_reward: float
 
         Returns:
-            int: 1 for goal achieved, 0 otherwise
+            float: 1 for goal achieved and no goal_reward arg is given,
+            goal_reward value if goal_reward arg is given, 0 otherwise.
 
         '''
         reward = GOAL_NOT_ACHIEVED
@@ -73,7 +76,8 @@ class Reward(object):
         goal_object = Reward.__get_object_from_list(objects, goal_id)
 
         if goal_object and goal_object.get('isPickedUp', False):
-            reward = GOAL_ACHIEVED
+            reward = goal_reward
+
         return reward
 
     @staticmethod
@@ -81,7 +85,8 @@ class Reward(object):
             goal: GoalMetadata,
             objects: Dict,
             agent: Dict,
-            performer_reach: float) -> int:
+            performer_reach: float,
+            goal_reward: float = GOAL_ACHIEVED) -> float:
         '''
         Calculate the reward for the traversal goal.
 
@@ -93,9 +98,11 @@ class Reward(object):
             objects: Dict
             agent: Dict
             performer_reach: float
+            goal_reward: float
 
         Returns:
-            int: 1 for goal achieved, 0 otherwise
+            float: 1 for goal achieved and no goal_reward arg is given,
+            goal_reward value if goal_reward arg is given, 0 otherwise.
 
         '''
         reward = GOAL_NOT_ACHIEVED
@@ -109,7 +116,8 @@ class Reward(object):
             goal_polygon = Reward._convert_object_to_planar_polygon(
                 goal_object)
             polygonal_distance = agent_xz.distance(goal_polygon)
-            reward = int(polygonal_distance <= performer_reach)
+            reward = goal_reward if (
+                polygonal_distance <= performer_reach) else GOAL_NOT_ACHIEVED
 
         return reward
 
@@ -118,7 +126,8 @@ class Reward(object):
             goal: GoalMetadata,
             objects: Dict,
             agent: Dict,
-            performer_reach: float) -> int:
+            performer_reach: float,
+            goal_reward: float = GOAL_ACHIEVED) -> float:
         '''
         Calculate the reward for the transferral goal.
 
@@ -130,9 +139,11 @@ class Reward(object):
             objects: Dict
             agent: Dict
             performer_reach: float
+            goal_reward: float
 
         Returns:
-            int: 1 for goal achieved, 0 otherwise
+            float: 1 for goal achieved and no goal_reward is arg is given,
+            goal_reward value if goal_reward arg is given, 0 otherwise.
 
         '''
         reward = GOAL_NOT_ACHIEVED
@@ -167,7 +178,8 @@ class Reward(object):
         # actions are next_to or on_top_of (ie; action obj next to goal obj)
         if action == 'next to':
             polygonal_distance = action_polygon.distance(goal_polygon)
-            reward = int(polygonal_distance <= DEFAULT_MOVE)
+            reward = goal_reward if (
+                polygonal_distance <= DEFAULT_MOVE) else GOAL_NOT_ACHIEVED
         elif action == 'on top of':
             # check that the action object center intersects the goal object
             # bounds and the y dimension of the target is above the goal
@@ -175,7 +187,7 @@ class Reward(object):
             action_obj_above_goal = (action_object['position']['y'] >
                                      goal_object['position']['y'])
             if action_obj_within_goal and action_obj_above_goal:
-                reward = GOAL_ACHIEVED
+                reward = goal_reward
 
         return reward
 
@@ -183,7 +195,9 @@ class Reward(object):
     def _adjust_score_penalty(
             current_score: int,
             number_steps: int,
-            steps_on_lava: int) -> float:
+            steps_on_lava: int,
+            lava_penalty: float = LAVA_PENALTY,
+            step_penalty: float = STEP_PENALTY) -> float:
         '''
         Calculate the score penalty based on the number of steps,
         if the current step results in a reward being achieved do
@@ -193,25 +207,29 @@ class Reward(object):
         Args:
             current_score: 1 or 0 depending if reward achieved
             number_steps: the current step count
+            steps_on_lava: the number of total steps on lava
+            lava_penalty: the point deduction for each step on lava
+            step_penalty: point deduction for each step
 
         Returns:
             float: new score based off of step penalty
 
         '''
         if current_score == 1:
-            return current_score - ((number_steps - 1) * STEP_PENALTY)
+            return current_score - ((number_steps - 1) * float(step_penalty))
 
         if steps_on_lava is None:
             steps_on_lava = 0
-        return current_score - (number_steps * STEP_PENALTY) - \
-            (steps_on_lava * LAVA_PENALTY)
+        return current_score - (number_steps * float(step_penalty)) - \
+            (steps_on_lava * float(lava_penalty))
 
     @staticmethod
     def _calculate_default_reward(
             goal: GoalMetadata,
             objects: Dict,
             agent: Dict,
-            reach: float) -> int:
+            reach: float,
+            goal_reward: float = GOAL_ACHIEVED) -> float:
         '''Returns the default reward of 0; not achieved.'''
         return GOAL_NOT_ACHIEVED
 
@@ -223,7 +241,10 @@ class Reward(object):
             agent: Dict,
             number_steps: int,
             reach: Optional[float],
-            steps_on_lava: Optional[int]) -> float:
+            steps_on_lava: Optional[int] = None,
+            lava_penalty: Optional[float] = LAVA_PENALTY,
+            step_penalty: Optional[float] = STEP_PENALTY,
+            goal_reward: Optional[float] = GOAL_ACHIEVED) -> float:
         '''
         Determine if the agent achieved the objective/task/goal.
 
@@ -232,6 +253,10 @@ class Reward(object):
             objects: Dict
             agent: Dict
             reach: float
+            steps_on_lava: int
+            lava_penalty: float
+            step_penalty: float
+            goal_reward: float
 
         Returns:
             int: reward is 1 if goal achieved, 0 otherwise
@@ -248,10 +273,15 @@ class Reward(object):
             GoalCategory.TRAVERSAL.value: Reward._calc_traversal_reward,  # noqa: E501
         }
 
-        current_score = switch.get(category,
-                                   Reward._calculate_default_reward)(goal,
-                                                                     objects,
-                                                                     agent,
-                                                                     reach)
+        current_score = switch.get(category, Reward._calculate_default_reward)(
+            goal,
+            objects,
+            agent,
+            reach,
+            goal_reward
+        )
+
         return Reward._adjust_score_penalty(
-            current_score, number_steps, steps_on_lava)
+            current_score, number_steps, steps_on_lava, lava_penalty,
+            step_penalty
+        )

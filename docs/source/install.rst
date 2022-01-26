@@ -121,6 +121,14 @@ To use a specific configuration, you can either pass in a file path or dictionar
 Config File Properties
 **********************
 
+goal_reward
+^^^^^^^^^^^^^^^
+
+(float, optional)
+
+Changes the postive reward recieved for achieving a goal.
+
+
 history_enabled
 ^^^^^^^^^^^^^^^
 
@@ -142,6 +150,13 @@ The `metadata` property describes what metadata will be returned by the MCS Pyth
 
 If no metadata level is set:
 - `default`: Fallback if no metadata level is specified. Only meant for use during development (evaluations will never be run this way). Includes metadata for visible and held objects in the scene, as well as camera info and properties corresponding to the player. Does not include depth maps or object masks.
+
+lava_penalty
+^^^^^^^^^^^^^^^
+
+(float, optional)
+
+Changes the negative penalty recieved for every step on lava.
 
 noise_enabled
 ^^^^^^^^^^^^^^^
@@ -170,6 +185,13 @@ size
 (int, optional)
 
 Desired screen width. If value given, it must be more than `450`. If none given, screen width will default to `600`.
+
+step_penalty
+^^^^^^^^^^^^^^^
+
+(float, optional)
+
+Changes the negative penalty recieved for every step.
 
 video_enabled
 ^^^^^^^^^^^^^
