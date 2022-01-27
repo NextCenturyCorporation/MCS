@@ -7,10 +7,84 @@ from PIL import Image, ImageChops, ImageStat
 from machine_common_sense.config_manager import (FloorHolesAndTexturesXZConfig,
                                                  FloorTexturesConfig,
                                                  SceneConfiguration, Vector3d)
-from machine_common_sense.plotter import Object, TopDownPlotter, XZHeading
+from machine_common_sense.plotter import (Ramp, SceneAsset, SceneCoord,
+                                          TopDownPlotter, XZHeading)
 
 test_path = os.path.dirname(__file__)
 resources_path = os.path.join(test_path, 'resources')
+
+
+class TestSceneCoord(unittest.TestCase):
+
+    def test_add(self):
+        sc1 = SceneCoord(x=-1.0, z=2.5)
+        sc2 = SceneCoord(x=1.0, z=-2.5)
+        sc_add = sc1 + sc2
+        self.assertAlmostEqual(sc_add.x, 0)
+        self.assertAlmostEqual(sc_add.z, 0)
+
+    def test_subtract(self):
+        sc1 = SceneCoord(x=-1.0, z=2.5)
+        sc2 = SceneCoord(x=1.0, z=-2.5)
+
+        sc_sub = sc1 - sc2
+        self.assertAlmostEqual(sc_sub.x, -2.0)
+        self.assertAlmostEqual(sc_sub.z, 5.0)
+
+        # order matters
+        sc_sub = sc2 - sc1
+        self.assertAlmostEqual(sc_sub.x, 2.0)
+        self.assertAlmostEqual(sc_sub.z, -5.0)
+
+    def test_midpoint(self):
+        '''Gets the midpoint between the two points'''
+        sc1 = SceneCoord(x=-1.0, z=2.5)
+        sc2 = SceneCoord(x=1.0, z=-2.5)
+
+        sc_sub = sc1 | sc2
+        self.assertAlmostEqual(sc_sub.x, 0.0)
+        self.assertAlmostEqual(sc_sub.z, 0.0)
+
+        # order shouldn't matter
+        sc_sub = sc2 | sc1
+        self.assertAlmostEqual(sc_sub.x, 0.0)
+        self.assertAlmostEqual(sc_sub.z, 0.0)
+
+
+class TestRamp(unittest.TestCase):
+
+    bounds = [
+        {'x': 2.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
+        {'x': 1.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
+        {'x': 1.5, 'y': -0.006698787212371826, 'z': -1.9570508003234863},
+        {'x': 2.5, 'y': -0.006698787212371826, 'z': -1.9570508003234863},
+        {'x': 2.5, 'y': 1.9066987037658691, 'z': 1.5570507049560547},
+        {'x': 1.5, 'y': 1.9066987037658691, 'z': 1.5570507049560547},
+        {'x': 1.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705},
+        {'x': 2.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705}
+    ]
+
+    def test_ramp_arrow(self):
+        ramp = Ramp(
+            held=False,
+            visible=True,
+            uuid="ramp-test",
+            color="blue",
+            bounds=self.bounds)
+        arrow = ramp.arrow
+        self.assertTrue(len(arrow.floor), 2)
+        self.assertIsInstance(arrow.floor, list)
+        self.assertIsInstance(arrow.floor[0], SceneCoord)
+
+        self.assertAlmostEqual(arrow.floor[0].x, self.bounds[2]['x'])
+        self.assertAlmostEqual(arrow.floor[0].z, self.bounds[2]['z'])
+
+        self.assertAlmostEqual(arrow.floor[1].x, self.bounds[3]['x'])
+        self.assertAlmostEqual(arrow.floor[1].z, self.bounds[3]['z'])
+
+        self.assertIsInstance(arrow.peak, SceneCoord)
+        self.assertAlmostEqual(arrow.peak.x, 2.0)
+        self.assertAlmostEqual(arrow.peak.z, 1.5070507, places=5)
 
 
 class TestTopDownPlotter(unittest.TestCase):
@@ -232,7 +306,7 @@ class TestTopDownPlotter(unittest.TestCase):
                 ]
             }
         }
-        obj = self.plotter._create_object(object_metadata)
+        obj = self.plotter._create_asset(object_metadata)
 
         self.assertTrue(obj.held)
         self.assertTrue(obj.visible)
@@ -243,7 +317,7 @@ class TestTopDownPlotter(unittest.TestCase):
 
     def test_create_object_empty(self):
         object_metadata = {}
-        obj = self.plotter._create_object(object_metadata)
+        obj = self.plotter._create_asset(object_metadata)
 
         self.assertIsNone(obj.held)
         self.assertIsNone(obj.visible)
@@ -375,7 +449,7 @@ class TestTopDownPlotter(unittest.TestCase):
         img = plotter._draw_holes(img, scene_config.holes)
         holes_img = plotter._export_plot(img)
         # save image to resources folder in the event of plotter changes
-        # pil_img.save(os.path.join(resources_path, 'plotter_holes.png'))
+        # holes_img.save(os.path.join(resources_path, 'plotter_holes.png'))
 
         # read image from resources folder
         truth_img = Image.open(
@@ -558,21 +632,24 @@ class TestTopDownPlotter(unittest.TestCase):
                 z=10),
             floor_textures=[]
         )
-        obj = Object(
+        obj = SceneAsset(
             held=False,
             visible=True,
             uuid='1',
             color='green',
-            bounds=[])
-        pts = [(1, 1), (2, 1), (2, 2), (1, 2), (1, 1)]
+            bounds=[
+                {'x': 1, 'z': 1},
+                {'x': 2, 'z': 1},
+                {'x': 2, 'z': 2},
+                {'x': 1, 'z': 2}])
 
         plotter = TopDownPlotter(
             team="test",
             scene_config=scene_config)
         img = plotter.base_room_img.copy()
-        img = plotter._draw_object(img, obj, pts)
+        img = plotter._draw_object(img, obj)
         img = plotter._draw_goal(
-            img, pts)
+            img, obj)
         goal_img = plotter._export_plot(img)
         # save image to resources folder in the event of plotter changes
         # goal_img.save(os.path.join(
@@ -605,19 +682,22 @@ class TestTopDownPlotter(unittest.TestCase):
                 z=10),
             floor_textures=[]
         )
-        obj = Object(
+        obj = SceneAsset(
             held=False,
             visible=True,
             uuid='1',
             color='blue',
-            bounds=[])
-        pts = [(1, 1), (2, 1), (2, 2), (1, 2), (1, 1)]
+            bounds=[
+                {'x': 1, 'z': 1},
+                {'x': 2, 'z': 1},
+                {'x': 2, 'z': 2},
+                {'x': 1, 'z': 2}])
 
         plotter = TopDownPlotter(
             team="test",
             scene_config=scene_config)
         img = plotter.base_room_img.copy()
-        img = plotter._draw_object(img, obj, pts)
+        img = plotter._draw_object(img, obj)
         visible_object_img = plotter._export_plot(img)
         # save image to resources folder in the event of plotter changes
         # visible_object_img.save(os.path.join(
@@ -650,19 +730,22 @@ class TestTopDownPlotter(unittest.TestCase):
                 z=10),
             floor_textures=[]
         )
-        obj = Object(
+        obj = SceneAsset(
             held=False,
             visible=False,
             uuid='1',
             color='yellow',
-            bounds=[])
-        pts = [(1, 1), (2, 1), (2, 2), (1, 2), (1, 1)]
+            bounds=[
+                {'x': 1, 'z': 1},
+                {'x': 2, 'z': 1},
+                {'x': 2, 'z': 2},
+                {'x': 1, 'z': 2}])
 
         plotter = TopDownPlotter(
             team="test",
             scene_config=scene_config)
         img = plotter.base_room_img.copy()
-        img = plotter._draw_object(img, obj, pts)
+        img = plotter._draw_object(img, obj)
         hidden_object_img = plotter._export_plot(img)
         # save image to resources folder in the event of plotter changes
         # hidden_object_img.save(os.path.join(
@@ -676,6 +759,120 @@ class TestTopDownPlotter(unittest.TestCase):
                 'plotter_hidden_object.png'))
         # calculate image difference
         diff = ImageChops.difference(hidden_object_img, truth_img)
+        stat = ImageStat.Stat(diff)
+        self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
+
+    def test_draw_ramp_arrow(self):
+        goal = {'metadata': {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        }}
+        scene_config = SceneConfiguration(
+            name="testscene",
+            version=1,
+            goal=goal,
+            room_dimensions=Vector3d(
+                x=10,
+                y=3,
+                z=10),
+            floor_textures=[]
+        )
+        bounds = [
+            {'x': 2.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
+            {'x': 1.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
+            {'x': 1.5, 'y': -0.006698787212371826, 'z': -1.9570508003234863},
+            {'x': 2.5, 'y': -0.006698787212371826, 'z': -1.9570508003234863},
+            {'x': 2.5, 'y': 1.9066987037658691, 'z': 1.5570507049560547},
+            {'x': 1.5, 'y': 1.9066987037658691, 'z': 1.5570507049560547},
+            {'x': 1.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705},
+            {'x': 2.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705}
+        ]
+
+        ramp = SceneAsset(
+            held=False,
+            visible=True,
+            uuid='ramp-1',
+            color='yellow',
+            bounds=bounds
+        )
+
+        plotter = TopDownPlotter(
+            team="test",
+            scene_config=scene_config)
+        img = plotter.base_room_img.copy()
+        img = plotter._draw_object(img, ramp)
+        img = plotter._draw_ramp_arrow(img, ramp)
+        ramp_img = plotter._export_plot(img)
+        # save image to resources folder in the event of plotter changes
+        # ramp_img.save(os.path.join(
+        #     resources_path,
+        #     'plotter_ramp.png'))
+
+        # read image from resources folder
+        truth_img = Image.open(
+            os.path.join(
+                resources_path,
+                'plotter_ramp.png'))
+        # calculate image difference
+        diff = ImageChops.difference(ramp_img, truth_img)
+        stat = ImageStat.Stat(diff)
+        self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
+
+    def test_draw_hidden_ramp_arrow(self):
+        goal = {'metadata': {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        }}
+        scene_config = SceneConfiguration(
+            name="testscene",
+            version=1,
+            goal=goal,
+            room_dimensions=Vector3d(
+                x=10,
+                y=3,
+                z=10),
+            floor_textures=[]
+        )
+        bounds = [
+            {'x': 2.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
+            {'x': 1.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
+            {'x': 1.5, 'y': -0.006698787212371826, 'z': -1.9570508003234863},
+            {'x': 2.5, 'y': -0.006698787212371826, 'z': -1.9570508003234863},
+            {'x': 2.5, 'y': 1.9066987037658691, 'z': 1.5570507049560547},
+            {'x': 1.5, 'y': 1.9066987037658691, 'z': 1.5570507049560547},
+            {'x': 1.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705},
+            {'x': 2.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705}
+        ]
+
+        ramp = SceneAsset(
+            held=False,
+            visible=False,
+            uuid='ramp-1',
+            color='yellow',
+            bounds=bounds
+        )
+
+        plotter = TopDownPlotter(
+            team="test",
+            scene_config=scene_config)
+        img = plotter.base_room_img.copy()
+        img = plotter._draw_object(img, ramp)
+        img = plotter._draw_ramp_arrow(img, ramp)
+        ramp_img = plotter._export_plot(img)
+        # save image to resources folder in the event of plotter changes
+        # ramp_img.save(os.path.join(
+        #     resources_path,
+        #     'plotter_ramp_hidden.png'))
+
+        # read image from resources folder
+        truth_img = Image.open(
+            os.path.join(
+                resources_path,
+                'plotter_ramp_hidden.png'))
+        # calculate image difference
+        diff = ImageChops.difference(ramp_img, truth_img)
         stat = ImageStat.Stat(diff)
         self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
 

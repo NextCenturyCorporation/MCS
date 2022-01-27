@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 import ai2thor.server
 import colour
@@ -19,14 +19,18 @@ from machine_common_sense.config_manager import (FloorTexturesConfig,
 @dataclass
 class SceneCoord():
     '''Unity scenes have floor dimensions of x and z'''
-    x: int
-    z: int
+    x: float
+    z: float
 
     def __sub__(self, coord: SceneCoord):
         return SceneCoord(self.x - coord.x, self.z - coord.z)
 
     def __add__(self, coord: SceneCoord):
         return SceneCoord(self.x + coord.x, self.z + coord.z)
+
+    def __or__(self, coord: SceneCoord):
+        '''Midpoint between two SceneCoords'''
+        return SceneCoord((self.x + coord.x) / 2, (self.z + coord.z) / 2)
 
 
 @dataclass
@@ -52,12 +56,44 @@ class Robot():
 
 
 @dataclass
-class Object():
+class Arrow():
+    floor: List[SceneCoord]
+    peak: SceneCoord
+
+
+@dataclass
+class SceneAsset():
     held: bool
     visible: bool
     uuid: str
     color: str
-    bounds: list
+    bounds: List[SceneCoord]
+
+
+@dataclass
+class Ramp(SceneAsset):
+
+    @property
+    def arrow(self) -> Arrow:
+        peak_mid = self._peak_midpoint()
+        floor_pts = self._floor_points()
+        return Arrow(floor=floor_pts, peak=peak_mid)
+
+    def _peak_midpoint(self) -> SceneCoord:
+        '''The midpoint of the highest ramp side'''
+        sorted_bounds = sorted(self.bounds, key=lambda p: p['y'])
+        peak_pts = sorted_bounds[-2:]
+        peak_scene_pts = [SceneCoord(x=pt['x'], z=pt['z']) for pt in peak_pts]
+        return peak_scene_pts[0] | peak_scene_pts[1]
+
+    def _floor_points(self) -> List[SceneCoord]:
+        '''The points of the ramp side nearest the floor'''
+        ys = [p['y'] for p in self.bounds]
+        # get all of the indices for the value that is nearest 0 ie the floor
+        indices = np.where(np.isclose(ys, ys[np.argmin(np.abs(ys))]))
+        return [SceneCoord(
+            self.bounds[int(indx)]['x'], self.bounds[int(indx)]['z'])
+            for indx in indices[0]]
 
 
 @dataclass
@@ -269,12 +305,22 @@ class TopDownPlotter():
                 tex_pos_lr = texture_pos + half_cell_pos
                 tex_img_pos_ul = self._convert_to_image_coords(tex_pos_ul)
                 tex_img_pos_lr = self._convert_to_image_coords(tex_pos_lr)
+
                 img = self._draw_floor_texture(
                     img=img,
                     upper_left=tex_img_pos_ul,
                     lower_right=tex_img_pos_lr,
                     texture_color=texture_color)
-
+                img = self._draw_perimeter(
+                    img,
+                    tex_img_pos_ul,
+                    tex_img_pos_lr,
+                    self.BACKGROUND_COLOR)
+                img = self._draw_x(
+                    img,
+                    tex_img_pos_ul,
+                    tex_img_pos_lr,
+                    self.BACKGROUND_COLOR)
         return img
 
     def _draw_floor_texture(self,
@@ -309,45 +355,52 @@ class TopDownPlotter():
             hole_img_lower_right: ImageCoord = self._convert_to_image_coords(
                 hole_lower_right)
 
-            img = self._draw_hole_perimeter(
-                img, hole_img_upper_left, hole_img_lower_right)
-            img = self._draw_hole_x(
-                img, hole_img_upper_left, hole_img_lower_right)
+            img = self._draw_perimeter(
+                img,
+                hole_img_upper_left,
+                hole_img_lower_right,
+                self.DEFAULT_COLOR)
+            img = self._draw_x(
+                img,
+                hole_img_upper_left,
+                hole_img_lower_right,
+                self.DEFAULT_COLOR)
         return img
 
-    def _draw_hole_perimeter(
+    def _draw_perimeter(
             self,
             img: np.ndarray,
             upper_left: ImageCoord,
-            lower_right: ImageCoord) -> np.ndarray:
+            lower_right: ImageCoord,
+            color: Tuple) -> np.ndarray:
         '''Outline the floor hole'''
         rr, cc = skimage.draw.rectangle_perimeter(
             start=(upper_left.y, upper_left.x),
             end=(lower_right.y - 1, lower_right.x - 1),
             shape=img.shape[:2],
             clip=True)
-        img[rr, cc] = self.DEFAULT_COLOR
+        img[rr, cc] = color
         return img
 
-    def _draw_hole_x(
+    def _draw_x(
             self,
             img: np.ndarray,
             upper_left: ImageCoord,
-            lower_right: ImageCoord) -> np.ndarray:
-        '''Draw an X through the hole cell'''
+            lower_right: ImageCoord,
+            color: Tuple) -> np.ndarray:
         rr, cc = skimage.draw.line(
             r0=upper_left.y,
             c0=upper_left.x,
             r1=lower_right.y,
             c1=lower_right.x)
-        img[rr, cc] = self.DEFAULT_COLOR
+        img[rr, cc] = color
 
         rr, cc = skimage.draw.line(
             r0=lower_right.y,
             c0=upper_left.x,
             r1=upper_left.y,
             c1=lower_right.x)
-        img[rr, cc] = self.DEFAULT_COLOR
+        img[rr, cc] = color
         return img
 
     def _export_plot(self, img: np.ndarray) -> PIL.Image.Image:
@@ -440,35 +493,33 @@ class TopDownPlotter():
                       goal_id: str = None) -> np.ndarray:
         '''Plot the object bounds for each object in the scene'''
         for o in objects:
-            obj = self._create_object(o)
+            obj = self._create_asset(o)
             if obj.bounds is not None:
-                obj_pts = [(pt['x'], pt['z']) for pt in obj.bounds]
-                polygon = geometry.MultiPoint(
-                    obj_pts).convex_hull
-                pts = polygon.exterior.coords
-                img = self._draw_object(img, obj, pts)
+                img = self._draw_object(img, obj)
                 if goal_id is not None and o['objectId'] == goal_id:
-                    img = self._draw_goal(img, pts)
+                    img = self._draw_goal(img, obj)
         return img
 
-    def _create_object(self, object_metadata: Dict) -> Object:
+    def _create_asset(self, object_metadata: Dict) -> SceneAsset:
         '''Create the scene object from its metadata'''
-        held = object_metadata.get('isPickedUp')
-        visible = object_metadata.get('visibleInCamera')
-        uuid = object_metadata.get('objectId')
         colors = object_metadata.get('colorsFromMaterials', [])
         if len(colors):
             color = self._convert_color(colors[0])
         else:
             color = self._convert_color('')
-        bounds = object_metadata.get('objectBounds')
-        corners = None if bounds is None else bounds.get('objectBoundsCorners')
-        return Object(
-            held=held,
-            visible=visible,
-            uuid=uuid,
+
+        obj_bounds = object_metadata.get('objectBounds')
+        corners = None if obj_bounds is None else obj_bounds.get(
+            'objectBoundsCorners')
+        bounds = None if corners is None else [SceneCoord(
+            x=corner['x'], z=corner['z']) for corner in corners]
+
+        return SceneAsset(
+            held=object_metadata.get('isPickedUp'),
+            visible=object_metadata.get('visibleInCamera'),
+            uuid=object_metadata.get('objectId'),
             color=color,
-            bounds=corners
+            bounds=bounds
         )
 
     def _convert_color(self, color: str) -> str:
@@ -483,10 +534,16 @@ class TopDownPlotter():
         return color
 
     def _draw_object(self, img: np.ndarray,
-                     obj: Object, points: List) -> np.ndarray:
+                     obj: SceneAsset) -> np.ndarray:
         '''Draw the scene object'''
+
+        obj_pts = [(pt['x'], pt['z']) for pt in obj.bounds]
+        polygon = geometry.MultiPoint(
+            obj_pts).convex_hull
+        pts = polygon.exterior.coords
+
         # convert list of tuples to list of rows and list of columns
-        cs, rs = map(list, zip(*points))
+        cs, rs = map(list, zip(*pts))
         # convert room coordinates to image coordinates
         rs = list(map(lambda r: self.image_center.y - r * self.scale.y, rs))
         cs = list(map(lambda c: self.image_center.x + c * self.scale.x, cs))
@@ -507,12 +564,44 @@ class TopDownPlotter():
         clr = colour.COLOR_NAME_TO_RGB.get(
             obj.color.lower(), self.DEFAULT_COLOR)
 
+        # using ramp string prefix assumpation to make ramp determination
+        # might be better to have an attribute to leverage
+        if(obj.uuid.startswith('ramp')):
+            self._draw_ramp_arrow(img, obj)
+
         img[rr, cc] = clr
         return img
 
+    def _draw_ramp_arrow(self, img: np.ndarray, obj: SceneAsset) -> np.ndarray:
+        # convert scene object to a ramp
+        ramp = obj
+        ramp.__class__ = Ramp
+        return self._draw_arrow(img, ramp)
+
+    def _draw_arrow(self, img: np.ndarray, ramp: Ramp) -> np.ndarray:
+        '''draw lines from the arrow floor points to the peak
+        to illustrate the ramp
+        '''
+        peak_pt = self._convert_to_image_coords(ramp.arrow.peak)
+        for floor_pt in ramp.arrow.floor:
+            img_pt = self._convert_to_image_coords(floor_pt)
+            rr, cc = skimage.draw.line(
+                r0=peak_pt.y,
+                c0=peak_pt.x,
+                r1=img_pt.y,
+                c1=img_pt.x)
+            img[rr, cc] = self.BACKGROUND_COLOR \
+                if ramp.visible else self.DEFAULT_COLOR
+        return img
+
     def _draw_goal(self, img: np.ndarray,
-                   pts: List) -> np.ndarray:
+                   obj: SceneAsset) -> np.ndarray:
         '''Draw the goal object of the scene'''
+        obj_pts = [(pt['x'], pt['z']) for pt in obj.bounds]
+        polygon = geometry.MultiPoint(
+            obj_pts).convex_hull
+        pts = polygon.exterior.coords
+
         cs, rs = map(list, zip(*pts))
         # convert room coordinates to image coordinates
         rs = list(map(lambda r: self.image_center.y - r * self.scale.y, rs))
