@@ -32,12 +32,12 @@ class Parameter:
 
     DEFAULT_HORIZON = 0.0
     DEFAULT_ROTATION = 0.0
-    DEFAULT_FORCE = 0.5
     DEFAULT_AMOUNT = 0.5
     DEFAULT_IMG_COORD = 0
     DEFAULT_OBJECT_MOVE_AMOUNT = 1.0
 
-    MAX_FORCE = 250.0
+    FORCE_PERCENTAGE_MULTIPLIER = 250.0
+
     MAX_AMOUNT = 1.0
     MIN_AMOUNT = 0.0
 
@@ -128,7 +128,7 @@ class Parameter:
         return amount
 
     def _get_force(self, **kwargs) -> float:
-        force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
+        force = kwargs.get(self.FORCE_KEY, self.DEFAULT_AMOUNT)
         if force is not None:
             try:
                 force = float(force)
@@ -140,8 +140,8 @@ class Parameter:
                     f'Force not in acceptable range of '
                     f'({self.MIN_AMOUNT}-{self.MAX_AMOUNT})')
         else:
-            force = self.DEFAULT_FORCE
-        return force * self.MAX_FORCE
+            force = self.DEFAULT_AMOUNT
+        return force * self.FORCE_PERCENTAGE_MULTIPLIER
 
     def _get_number(self, key: str, **kwargs) -> Optional[Any]:
         val = kwargs.get(key)

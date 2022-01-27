@@ -864,8 +864,7 @@ class TestController(unittest.TestCase):
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
-                horizon=0.0,
-                moveMagnitude=Parameter.MAX_FORCE,
+                moveMagnitude=250.0,
                 objectId='test_id_1'))
 
         self.controller.step(
@@ -876,8 +875,7 @@ class TestController(unittest.TestCase):
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
-                moveMagnitude=0.1 *
-                Parameter.MAX_FORCE,
+                moveMagnitude=25.0,
                 objectId='test_id_1'))
 
         self.assertRaises(
@@ -904,7 +902,7 @@ class TestController(unittest.TestCase):
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
-                moveMagnitude=Parameter.MAX_FORCE,
+                moveMagnitude=250.0,
                 objectImageCoords={'x': 1, 'y': 397}))
 
 
