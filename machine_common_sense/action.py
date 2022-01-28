@@ -268,12 +268,12 @@ class Action(Enum):
     PULL_OBJECT = (
         "PullObject",
         "5",
-        "Pull a nearby object. (objectId=string, rotation=float, " +
-        "horizon=float, force=float (default:0.5), " +
+        "Pull a nearby object. (objectId=string, force=float (default:0.5), " +
         "objectImageCoordsX=float, objectImageCoordsY=float)"
     )
     """
-    Pull a nearby object.
+    Pull a nearby object by applying a physical force directly toward you on
+    the X/Z axis to the center point of the object.
 
     Parameters
     ----------
@@ -315,12 +315,12 @@ class Action(Enum):
     PUSH_OBJECT = (
         "PushObject",
         "6",
-        "Push a nearby object. (objectId=string, rotation=float, " +
-        "horizon=float, force=float (default:0.5), " +
+        "Push a nearby object. (objectId=string, force=float (default:0.5), " +
         "objectImageCoordsX=float, objectImageCoordsY=float)"
     )
     """
-    Push a nearby object.
+    Push a nearby object by applying a physical force directly away from you on
+    the X/Z axis to the center point of the object.
 
     Parameters
     ----------

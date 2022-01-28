@@ -211,15 +211,15 @@ class TestParameter(unittest.TestCase):
     def test_get_force(self):
         force = self.parameter_converter._get_force(force=1)
         self.assertIsInstance(force, float)
-        self.assertAlmostEqual(force, 1.0)
+        self.assertAlmostEqual(force, 250.0)
 
         force = self.parameter_converter._get_force()
         self.assertIsInstance(force, float)
-        self.assertAlmostEqual(force, Parameter.DEFAULT_FORCE)
+        self.assertAlmostEqual(force, 125.0)
 
         force = self.parameter_converter._get_force(force=None)
         self.assertIsInstance(force, float)
-        self.assertAlmostEqual(force, Parameter.DEFAULT_FORCE)
+        self.assertAlmostEqual(force, 125.0)
 
         self.assertRaises(
             ValueError,

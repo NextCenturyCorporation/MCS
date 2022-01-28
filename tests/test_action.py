@@ -113,8 +113,8 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.PULL_OBJECT.key, "5")
         self.assertEqual(
             mcs.Action.PULL_OBJECT.desc,
-            "Pull a nearby object. (objectId=string, rotation=float, " +
-            "horizon=float, force=float (default:0.5), " +
+            "Pull a nearby object. (objectId=string, " +
+            "force=float (default:0.5), " +
             "objectImageCoordsX=float, objectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("PullObject"), mcs.Action.PULL_OBJECT)
@@ -125,8 +125,8 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.PUSH_OBJECT.key, "6")
         self.assertEqual(
             mcs.Action.PUSH_OBJECT.desc,
-            "Push a nearby object. (objectId=string, rotation=float, " +
-            "horizon=float, force=float (default:0.5), " +
+            "Push a nearby object. (objectId=string, " +
+            "force=float (default:0.5), " +
             "objectImageCoordsX=float, objectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("PushObject"), mcs.Action.PUSH_OBJECT)

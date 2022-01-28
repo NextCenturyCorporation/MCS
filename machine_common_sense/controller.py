@@ -86,9 +86,6 @@ class Controller():
     config: ConfigManager
     """
 
-    MAX_FORCE = 50.0  # DW: used for testing but had it twice
-    # once at 50.0 and the other at 1.0
-
     @typeguard.typechecked
     def __init__(self, unity_app_file_path: str, config: ConfigManager):
 
