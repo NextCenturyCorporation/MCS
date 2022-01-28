@@ -1,0 +1,252 @@
+﻿[
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.638,
+                "direction_z": 0.77,
+                "distance": 1.038,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 0.8,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.429,
+                "direction_z": 0.903,
+                "distance": 1.66,
+                "held": false,
+                "id": "testSofa",
+                "mass": 50,
+                "material_list": [
+                    "FABRIC"
+                ],
+                "position_x": 0,
+                "position_z": 1.5,
+                "shape": "sofa",
+                "texture_color_list": [
+                    "grey"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.628,
+                "direction_z": 0.778,
+                "distance": 1.054,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 0.82,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.429,
+                "direction_z": 0.903,
+                "distance": 1.66,
+                "held": false,
+                "id": "testSofa",
+                "mass": 50,
+                "material_list": [
+                    "FABRIC"
+                ],
+                "position_x": 0,
+                "position_z": 1.5,
+                "shape": "sofa",
+                "texture_color_list": [
+                    "grey"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 1,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.62,
+                "direction_z": 0.784,
+                "distance": 1.067,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 0.837,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.453,
+                "direction_z": 0.891,
+                "distance": 1.571,
+                "held": false,
+                "id": "testSofa",
+                "mass": 50,
+                "material_list": [
+                    "FABRIC"
+                ],
+                "position_x": 0,
+                "position_z": 1.5,
+                "shape": "sofa",
+                "texture_color_list": [
+                    "grey"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 2,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.612,
+                "direction_z": 0.791,
+                "distance": 1.081,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 0.855,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.48,
+                "direction_z": 0.877,
+                "distance": 1.482,
+                "held": false,
+                "id": "testSofa",
+                "mass": 50,
+                "material_list": [
+                    "FABRIC"
+                ],
+                "position_x": 0,
+                "position_z": 1.5,
+                "shape": "sofa",
+                "texture_color_list": [
+                    "grey"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 3,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.605,
+                "direction_z": 0.797,
+                "distance": 1.095,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 0.872,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.48,
+                "direction_z": 0.877,
+                "distance": 1.482,
+                "held": false,
+                "id": "testSofa",
+                "mass": 50,
+                "material_list": [
+                    "FABRIC"
+                ],
+                "position_x": 0,
+                "position_z": 1.5,
+                "shape": "sofa",
+                "texture_color_list": [
+                    "grey"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 4,
+        "structural_objects_count": 6
+    }
+]

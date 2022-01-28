@@ -1,0 +1,4 @@
+PushObject,objectImageCoordsX=300,objectImageCoordsY=350
+Pass
+Pass
+Pass
