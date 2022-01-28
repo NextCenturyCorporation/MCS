@@ -610,26 +610,20 @@ class TestReward(unittest.TestCase):
             obj = {
                 "objectId": str(i),
                 "objectBounds": {
-                    "objectBoundsCorners": []}}
-            # create lower plane (y = 0)
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0, 'y': 0.0 + i, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0, 'y': 0.0 + i, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0, 'y': 0.0 + i, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0, 'y': 0.0 + i, 'z': 1.0})
-            # create upper plane (y = 1) + i
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0, 'y': 1.0 + i, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0, 'y': 1.0 + i, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0, 'y': 1.0 + i, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0, 'y': 1.0 + i, 'z': 1.0})
-            obj['position'] = {'x': 0.5, 'y': 0.0 + i, 'z': 0.5}
+                    "objectBoundsCorners": [
+                        {'x': 0.0, 'y': 0.0 + i, 'z': 0.0},
+                        {'x': 0.0, 'y': 0.0 + i, 'z': 0.0},
+                        {'x': 1.0, 'y': 0.0 + i, 'z': 0.0},
+                        {'x': 1.0, 'y': 0.0 + i, 'z': 1.0},
+                        {'x': 0.0, 'y': 0.0 + i, 'z': 1.0},
+                        {'x': 0.0, 'y': 1.0 + i, 'z': 0.0},
+                        {'x': 1.0, 'y': 1.0 + i, 'z': 0.0},
+                        {'x': 1.0, 'y': 1.0 + i, 'z': 1.0},
+                        {'x': 0.0, 'y': 1.0 + i, 'z': 1.0}
+                    ]
+                },
+                "position": {'x': 0.5, 'y': 0.0 + i, 'z': 0.5}
+            }
             obj_list.append(obj)
         agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
         reward = mcs.Reward._calc_transferral_reward(

@@ -126,7 +126,7 @@ goal_reward
 
 (float, optional)
 
-Changes the postive reward recieved for achieving a goal.
+Changes the postive reward recieved for achieving a goal. Default: 1
 
 
 history_enabled
@@ -156,7 +156,7 @@ lava_penalty
 
 (float, optional)
 
-Changes the negative penalty recieved for every step on lava.
+Changes the negative penalty recieved for every step on lava.  Default: 0.5
 
 noise_enabled
 ^^^^^^^^^^^^^^^
@@ -191,7 +191,7 @@ step_penalty
 
 (float, optional)
 
-Changes the negative penalty recieved for every step.
+Changes the negative penalty recieved for every step. Default: 0.001
 
 video_enabled
 ^^^^^^^^^^^^^

@@ -215,6 +215,8 @@ class Reward(object):
             float: new score based off of step penalty
 
         '''
+        step_penalty = STEP_PENALTY if step_penalty is None else step_penalty
+        lava_penalty = LAVA_PENALTY if lava_penalty is None else lava_penalty
         if current_score == 1:
             return current_score - ((number_steps - 1) * float(step_penalty))
 
