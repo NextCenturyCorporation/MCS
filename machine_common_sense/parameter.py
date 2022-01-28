@@ -36,7 +36,7 @@ class Parameter:
     DEFAULT_IMG_COORD = 0
     DEFAULT_OBJECT_MOVE_AMOUNT = 1.0
 
-    FORCE_PERCENTAGE_MULTIPLIER = 250.0
+    UNITY_FORCE = 250.0
 
     MAX_AMOUNT = 1.0
     MIN_AMOUNT = 0.0
@@ -141,7 +141,7 @@ class Parameter:
                     f'({self.MIN_AMOUNT}-{self.MAX_AMOUNT})')
         else:
             force = self.DEFAULT_AMOUNT
-        return force * self.FORCE_PERCENTAGE_MULTIPLIER
+        return force * self.UNITY_FORCE
 
     def _get_number(self, key: str, **kwargs) -> Optional[Any]:
         val = kwargs.get(key)
