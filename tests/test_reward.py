@@ -86,6 +86,31 @@ class TestReward(unittest.TestCase):
         self.assertEqual(reward, penalty)
         self.assertIsInstance(reward, float)
 
+    def test_steps_and_lava_with_config_is_none(self):
+        current_score = 0
+        config_lava_penalty = None
+        config_step_penalty = None
+        steps_on_lava = None
+        reward = mcs.Reward._adjust_score_penalty(
+            current_score=current_score, number_steps=456,
+            steps_on_lava=steps_on_lava,
+            lava_penalty=config_lava_penalty, step_penalty=config_step_penalty)
+        penalty = current_score - (456 * float(mcs.reward.STEP_PENALTY)) - \
+            (0 * float(mcs.reward.LAVA_PENALTY))
+        self.assertEqual(reward, penalty)
+        self.assertIsInstance(reward, float)
+
+    def test_steps_and_lava_with_config_penalty_score_is_one(self):
+        current_score = 1
+        config_lava_penalty = 10.5
+        config_step_penalty = 0.25
+        reward = mcs.Reward._adjust_score_penalty(
+            current_score=current_score, number_steps=456, steps_on_lava=8,
+            lava_penalty=config_lava_penalty, step_penalty=config_step_penalty)
+        penalty = current_score - ((456 - 1) * float(config_step_penalty))
+        self.assertEqual(reward, penalty)
+        self.assertIsInstance(reward, float)
+
     def test_target_in_empty_object_list(self):
         obj_list = []
         target_id = ''
