@@ -33,6 +33,16 @@ class TestReward(unittest.TestCase):
         self.assertEqual(reward, penalty)
         self.assertIsInstance(reward, float)
 
+    def test_steps_with_config_step_penalty(self):
+        goal = None
+        config_step_penalty = 0.25
+        reward = mcs.Reward.calculate_reward(
+            goal, objects=[{}], agent={}, number_steps=456,
+            reach=1.0, steps_on_lava=0, step_penalty=config_step_penalty)
+        penalty = 0 - (456 * config_step_penalty)
+        self.assertEqual(reward, penalty)
+        self.assertIsInstance(reward, float)
+
     def test_penalty_on_lava(self):
         goal = None
         reward = mcs.Reward.calculate_reward(
@@ -49,6 +59,67 @@ class TestReward(unittest.TestCase):
             reach=1.0, steps_on_lava=2)
         penalty = 0 - (456 * mcs.reward.STEP_PENALTY) - \
             (2 * mcs.reward.LAVA_PENALTY)
+        self.assertEqual(reward, penalty)
+        self.assertIsInstance(reward, float)
+
+    def test_penalty_on_lava_multiple_steps_with_config_lava_penalty(self):
+        goal = None
+        config_lava_penalty = 10.5
+        reward = mcs.Reward.calculate_reward(
+            goal, objects=[{}], agent={}, number_steps=456,
+            reach=1.0, steps_on_lava=2, lava_penalty=config_lava_penalty)
+        penalty = 0 - (456 * mcs.reward.STEP_PENALTY) - \
+            (2 * config_lava_penalty)
+        self.assertEqual(reward, penalty)
+        self.assertIsInstance(reward, float)
+
+    def test_steps_and_lava_config_penalty(self):
+        goal = None
+        config_lava_penalty = 10.5
+        config_step_penalty = 0.25
+        reward = mcs.Reward.calculate_reward(
+            goal, objects=[{}], agent={}, number_steps=456,
+            reach=1.0, steps_on_lava=2, lava_penalty=config_lava_penalty,
+            step_penalty=config_step_penalty)
+        penalty = 0 - (456 * config_step_penalty) - \
+            (2 * config_lava_penalty)
+        self.assertEqual(reward, penalty)
+        self.assertIsInstance(reward, float)
+
+    def test_steps_and_lava_config_is_none(self):
+        current_score = 0
+        config_lava_penalty = None
+        config_step_penalty = None
+        steps_on_lava = None
+        reward = mcs.Reward._adjust_score_penalty(
+            current_score=current_score, number_steps=456,
+            steps_on_lava=steps_on_lava,
+            lava_penalty=config_lava_penalty, step_penalty=config_step_penalty)
+        penalty = current_score - (456 * mcs.reward.STEP_PENALTY) - \
+            (0 * mcs.reward.LAVA_PENALTY)
+        self.assertEqual(reward, penalty)
+        self.assertIsInstance(reward, float)
+
+    def test_steps_and_lava_config_penalty_score_is_not_one(self):
+        current_score = 0
+        config_lava_penalty = 10.5
+        config_step_penalty = 0.25
+        reward = mcs.Reward._adjust_score_penalty(
+            current_score=current_score, number_steps=456, steps_on_lava=8,
+            lava_penalty=config_lava_penalty, step_penalty=config_step_penalty)
+        penalty = current_score - (456 * config_step_penalty) - \
+            (8 * config_lava_penalty)
+        self.assertEqual(reward, penalty)
+        self.assertIsInstance(reward, float)
+
+    def test_steps_and_lava_config_penalty_score_is_one(self):
+        current_score = 1
+        config_lava_penalty = 10.5
+        config_step_penalty = 0.25
+        reward = mcs.Reward._adjust_score_penalty(
+            current_score=current_score, number_steps=456, steps_on_lava=8,
+            lava_penalty=config_lava_penalty, step_penalty=config_step_penalty)
+        penalty = current_score - ((456 - 1) * config_step_penalty)
         self.assertEqual(reward, penalty)
         self.assertIsInstance(reward, float)
 
@@ -564,6 +635,40 @@ class TestReward(unittest.TestCase):
                                                      performer_reach=1.0)
         self.assertEqual(reward, 0)
         self.assertIsInstance(reward, int)
+
+    def test_transferral_reward_on_top_of_with_config_reward(self):
+        goal = mcs.GoalMetadata()
+        config_goal_reward = 1.525
+        goal.metadata['target_1'] = {'id': '1'}
+        goal.metadata['target_2'] = {'id': '0'}
+        goal.metadata['relationship'] = ['target_1', 'on top of', 'target_2']
+        obj_list = []
+        for i in range(10):
+            obj = {
+                "objectId": str(i),
+                "objectBounds": {
+                    "objectBoundsCorners": [
+                        {'x': 0.0, 'y': 0.0 + i, 'z': 0.0},
+                        {'x': 0.0, 'y': 0.0 + i, 'z': 0.0},
+                        {'x': 1.0, 'y': 0.0 + i, 'z': 0.0},
+                        {'x': 1.0, 'y': 0.0 + i, 'z': 1.0},
+                        {'x': 0.0, 'y': 0.0 + i, 'z': 1.0},
+                        {'x': 0.0, 'y': 1.0 + i, 'z': 0.0},
+                        {'x': 1.0, 'y': 1.0 + i, 'z': 0.0},
+                        {'x': 1.0, 'y': 1.0 + i, 'z': 1.0},
+                        {'x': 0.0, 'y': 1.0 + i, 'z': 1.0}
+                    ]
+                },
+                "position": {'x': 0.5, 'y': 0.0 + i, 'z': 0.5}
+            }
+            obj_list.append(obj)
+        agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
+        reward = mcs.Reward._calc_transferral_reward(
+            goal, obj_list, agent,
+            performer_reach=1.0,
+            goal_reward=config_goal_reward)
+        self.assertEqual(reward, config_goal_reward)
+        self.assertIsInstance(reward, float)
 
 
 if __name__ == '__main__':

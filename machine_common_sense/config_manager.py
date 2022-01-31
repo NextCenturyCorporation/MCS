@@ -62,6 +62,9 @@ class ConfigManager(object):
     CONFIG_SIZE = 'size'
     CONFIG_TEAM = 'team'
     CONFIG_VIDEO_ENABLED = 'video_enabled'
+    CONFIG_LAVA_PENALTY = 'lava_penalty'
+    CONFIG_STEP_PENALTY = 'step_penalty'
+    CONFIG_GOAL_REWARD = 'goal_reward'
 
     # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built
     # on this assumption.
@@ -219,6 +222,27 @@ class ConfigManager(object):
     def get_screen_height(self) -> int:
         size = self.get_size()
         return int(size / 3 * 2)
+
+    def get_lava_penalty(self):
+        return self._config.getfloat(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_LAVA_PENALTY,
+            fallback=None
+        )
+
+    def get_step_penalty(self):
+        return self._config.getfloat(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_STEP_PENALTY,
+            fallback=None
+        )
+
+    def get_goal_reward(self):
+        return self._config.getfloat(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_GOAL_REWARD,
+            fallback=None
+        )
 
 
 class Vector3dSchema(Schema):

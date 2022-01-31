@@ -295,7 +295,10 @@ class ControllerOutputHandler():
             reward=Reward.calculate_reward(
                 goal, self._scene_event.objects, self._scene_event.agent,
                 self._step_number, self._scene_event.performer_reach,
-                self._scene_event.steps_on_lava),
+                self._scene_event.steps_on_lava,
+                self._config.get_lava_penalty(),
+                self._config.get_step_penalty(),
+                self._config.get_goal_reward()),
             rotation=(
                 None if restrict_non_oracle else self._scene_event.rotation),
             step_number=self._step_number,
