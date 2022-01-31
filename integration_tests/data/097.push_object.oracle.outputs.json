@@ -20,25 +20,6 @@
                     "blue"
                 ],
                 "visible": true
-            },
-            {
-                "direction_x": 0,
-                "direction_y": -0.429,
-                "direction_z": 0.903,
-                "distance": 1.66,
-                "held": false,
-                "id": "testSofa",
-                "mass": 50,
-                "material_list": [
-                    "FABRIC"
-                ],
-                "position_x": 0,
-                "position_z": 1.5,
-                "shape": "sofa",
-                "texture_color_list": [
-                    "grey"
-                ],
-                "visible": true
             }
         ],
         "objects_count": 1,
@@ -68,25 +49,6 @@
                 "shape": "ball",
                 "texture_color_list": [
                     "blue"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0,
-                "direction_y": -0.429,
-                "direction_z": 0.903,
-                "distance": 1.66,
-                "held": false,
-                "id": "testSofa",
-                "mass": 50,
-                "material_list": [
-                    "FABRIC"
-                ],
-                "position_x": 0,
-                "position_z": 1.5,
-                "shape": "sofa",
-                "texture_color_list": [
-                    "grey"
                 ],
                 "visible": true
             }
@@ -120,25 +82,6 @@
                     "blue"
                 ],
                 "visible": true
-            },
-            {
-                "direction_x": 0,
-                "direction_y": -0.453,
-                "direction_z": 0.891,
-                "distance": 1.571,
-                "held": false,
-                "id": "testSofa",
-                "mass": 50,
-                "material_list": [
-                    "FABRIC"
-                ],
-                "position_x": 0,
-                "position_z": 1.5,
-                "shape": "sofa",
-                "texture_color_list": [
-                    "grey"
-                ],
-                "visible": true
             }
         ],
         "objects_count": 1,
@@ -170,25 +113,6 @@
                     "blue"
                 ],
                 "visible": true
-            },
-            {
-                "direction_x": 0,
-                "direction_y": -0.48,
-                "direction_z": 0.877,
-                "distance": 1.482,
-                "held": false,
-                "id": "testSofa",
-                "mass": 50,
-                "material_list": [
-                    "FABRIC"
-                ],
-                "position_x": 0,
-                "position_z": 1.5,
-                "shape": "sofa",
-                "texture_color_list": [
-                    "grey"
-                ],
-                "visible": true
             }
         ],
         "objects_count": 1,
@@ -218,25 +142,6 @@
                 "shape": "ball",
                 "texture_color_list": [
                     "blue"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0,
-                "direction_y": -0.48,
-                "direction_z": 0.877,
-                "distance": 1.482,
-                "held": false,
-                "id": "testSofa",
-                "mass": 50,
-                "material_list": [
-                    "FABRIC"
-                ],
-                "position_x": 0,
-                "position_z": 1.5,
-                "shape": "sofa",
-                "texture_color_list": [
-                    "grey"
                 ],
                 "visible": true
             }
