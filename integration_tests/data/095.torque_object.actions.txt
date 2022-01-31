@@ -1,0 +1,9 @@
+LookDown
+LookDown
+LookDown
+TorqueObject,objectId=turtle_on_wheels
+Pass
+TorqueObject,objectId=turtle_on_wheels,force=-0.75
+Pass
+TorqueObject,objectId=turtle_on_wheels,force=1
+Pass

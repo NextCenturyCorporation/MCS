@@ -132,6 +132,18 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action("PushObject"), mcs.Action.PUSH_OBJECT)
         self.assertEqual(mcs.Action("6"), mcs.Action.PUSH_OBJECT)
 
+    def test_torque_object(self):
+        self.assertEqual(mcs.Action.TORQUE_OBJECT.value, "TorqueObject")
+        self.assertEqual(mcs.Action.TORQUE_OBJECT.key, "8")
+        self.assertEqual(
+            mcs.Action.TORQUE_OBJECT.desc,
+            "Apply torque to a nearby object. (objectId=string, " +
+            "force=float(default:0.5), objectImageCoordsX=float, " +
+            "objectImageCoordsY=float)"
+        )
+        self.assertEqual(mcs.Action("TorqueObject"), mcs.Action.TORQUE_OBJECT)
+        self.assertEqual(mcs.Action("8"), mcs.Action.TORQUE_OBJECT)
+
     def test_put_object(self):
         self.assertEqual(mcs.Action.PUT_OBJECT.value, "PutObject")
         self.assertEqual(mcs.Action.PUT_OBJECT.key, "7")
