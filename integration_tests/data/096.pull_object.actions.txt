@@ -1,0 +1,4 @@
+PullObject,objectImageCoordsX=300,objectImageCoordsY=350,force=1
+Pass
+Pass
+Pass
