@@ -38,6 +38,8 @@ class Parameter:
 
     UNITY_FORCE = 250.0
 
+    MAX_AMOUNT_TORQUE = 1.0
+    MIN_AMOUNT_TORQUE = -1.0
     MAX_AMOUNT = 1.0
     MIN_AMOUNT = 0.0
 
@@ -63,7 +65,7 @@ class Parameter:
     # # value is set based off of the action
     # # TODO: Move this to an enum or some place, so that you can determine
     # # special move interactions that way
-    FORCE_ACTIONS = ["PushObject", "PullObject"]
+    FORCE_ACTIONS = ["PushObject", "PullObject", "TorqueObject"]
     OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     # DW: not used anywhere
     # MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
@@ -129,13 +131,21 @@ class Parameter:
 
     def _get_force(self, **kwargs) -> float:
         force = kwargs.get(self.FORCE_KEY, self.DEFAULT_AMOUNT)
+        action = kwargs.get('action')
         if force is not None:
             try:
                 force = float(force)
             except ValueError as err:
                 raise ValueError('Force is not a number') from err
 
-            if force < self.MIN_AMOUNT or force > self.MAX_AMOUNT:
+            if action == "TorqueObject":
+                if (force < self.MIN_AMOUNT_TORQUE or force >
+                        self.MAX_AMOUNT_TORQUE):
+                    raise ValueError(
+                        f'Force not in acceptable range of '
+                        f'({self.MIN_AMOUNT_TORQUE}-{self.MAX_AMOUNT_TORQUE})')
+
+            elif force < self.MIN_AMOUNT or force > self.MAX_AMOUNT:
                 raise ValueError(
                     f'Force not in acceptable range of '
                     f'({self.MIN_AMOUNT}-{self.MAX_AMOUNT})')

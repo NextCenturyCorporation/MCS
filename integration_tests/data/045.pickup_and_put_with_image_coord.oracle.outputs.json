@@ -254,9 +254,9 @@
         "objects": [
             {
                 "direction_x": 0,
-                "direction_y": -0.003,
+                "direction_y": -0.011,
                 "direction_z": 1.0,
-                "distance": 0.72,
+                "distance": 0.942,
                 "held": false,
                 "id": "testBall",
                 "mass": 1,
@@ -264,7 +264,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0,
-                "position_z": 0.92,
+                "position_z": 1.142,
                 "shape": "ball",
                 "texture_color_list": [
                     "blue"
