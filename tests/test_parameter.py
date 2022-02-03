@@ -236,6 +236,42 @@ class TestParameter(unittest.TestCase):
             lambda: self.parameter_converter._get_force(force=-0.1)
         )
 
+    def test_get_clockwise(self):
+        clockwise = self.parameter_converter._get_clockwise(clockwise="False")
+        self.assertIsInstance(clockwise, bool)
+        self.assertAlmostEqual(clockwise, False)
+
+        clockwise = self.parameter_converter._get_clockwise(clockwise="false")
+        self.assertIsInstance(clockwise, bool)
+        self.assertAlmostEqual(clockwise, False)
+
+        clockwise = self.parameter_converter._get_clockwise(clockwise="True")
+        self.assertIsInstance(clockwise, bool)
+        self.assertAlmostEqual(clockwise, True)
+
+        clockwise = self.parameter_converter._get_clockwise(clockwise="true")
+        self.assertIsInstance(clockwise, bool)
+        self.assertAlmostEqual(clockwise, True)
+
+        clockwise = self.parameter_converter._get_clockwise()
+        self.assertIsInstance(clockwise, bool)
+        self.assertAlmostEqual(clockwise, True)
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_clockwise(clockwise="string")
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_clockwise(clockwise=1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_clockwise(clockwise=-0.1)
+        )
+
     def test_get_number(self):
         number = self.parameter_converter._get_number(key="val", val=7)
         self.assertEqual(number, 7)

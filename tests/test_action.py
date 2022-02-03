@@ -144,6 +144,18 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action("TorqueObject"), mcs.Action.TORQUE_OBJECT)
         self.assertEqual(mcs.Action("8"), mcs.Action.TORQUE_OBJECT)
 
+    def test_rotate_object(self):
+        self.assertEqual(mcs.Action.ROTATE_OBJECT.value, "RotateObject")
+        self.assertEqual(mcs.Action.ROTATE_OBJECT.key, "9")
+        self.assertEqual(
+            mcs.Action.ROTATE_OBJECT.desc,
+            "Apply rotation to a nearby object. (objectId=string, " +
+            "clockwise=bool(default:True), objectImageCoordsX=float, " +
+            "objectImageCoordsY=float)"
+        )
+        self.assertEqual(mcs.Action("RotateObject"), mcs.Action.ROTATE_OBJECT)
+        self.assertEqual(mcs.Action("9"), mcs.Action.ROTATE_OBJECT)
+
     def test_put_object(self):
         self.assertEqual(mcs.Action.PUT_OBJECT.value, "PutObject")
         self.assertEqual(mcs.Action.PUT_OBJECT.key, "7")
