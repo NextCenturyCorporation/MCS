@@ -3,18 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <title>MCS Demo</title>
+    <style type="text/css">
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            color: #292929;
+            font: 90% Roboto, Arial, sans-serif;
+            font-weight: 300;
+        }
+
+        p {
+            padding: 0 10px;
+            line-height: 1.8;
+        }
+
+        ul li {
+            padding-right: 10px;
+            line-height: 1.6;
+        }
+
+        h3 {
+            padding: 5px 20px;
+            margin: 0;
+        }
+
+        div#header {
+            position: relative;
+        }
+
+        div#header h1 {
+            height: 80px;
+            line-height: 80px;
+            margin: 0;
+            padding-left: 10px;
+            background: #e0e0e0;
+            color: #292929;
+        }
+
+        div#header a {
+            position: absolute;
+            right: 0;
+            top: 23px;
+            padding: 10px;
+            color: #006;
+        }
+
+        div#navigation {
+            background: #7cb71c;
+        }
+
+        div#navigation li {
+            list-style: none;
+        }
+
+        div#extra {
+            background: #147FA9;
+        }
+
+        div#footer {
+            background: #42444e;
+            color: #fff;
+        }
+
+        div#footer p {
+            padding: 20px 10px;
+        }
+
+        div#wrapper {
+            float: left;
+            width: 100%;
+        }
+
+        div#content {
+            margin: 0 25%;
+        }
+
+        div#navigation {
+            float: left;
+            width: 25%;
+            margin-left: -100%;
+        }
+
+        div#extra {
+            float: left;
+            width: 25%;
+            margin-left: -25%;
+        }
+
+        div#footer {
+            clear: left;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
+<div id="container">
+    <div id="header">
+        <h1>Header</h1>
+        <a href="/download/template/1" target="_blank">download this layout</a>
+    </div>
+    <div id="wrapper">
+        <div id="content">
+            <p><strong>MCS Window</strong></p>
 
+
+            <img id="unityimg" width="640" height="480" src="{{ myimage }}" alt="my image"/>
+            <br/>
+
+        </div>
+    </div>
+    <div id="navigation">
+        <p><strong>Scenes</strong></p>
+        <ul>
+            <li>flex-direction</li>
+            <li>flex-wrap</li>
+            <li>justify-content</li>
+            <li>align-content</li>
+            <li>align-items</li>
+        </ul>
+
+    </div>
+    <div id="extra">
+        <p><strong>Keyboard Shortcuts</strong></p>
+        <img id="keyboard" width="400" src="static/keyboard.jpg" alt="keyboard"/>
+    </div>
+    <div id="footer"><p>Footer</p>
+    </div>
+</div>
+<script type="text/javascript">AddFillerLink("content", "navigation", "extra")</script>
 <script src="https://unpkg.com/whatwg-fetch@2.0.4/fetch.js"></script>
-
-<p>Image</p>
-
-<img id="unityimg" width="640" height="480" src="{{myimage}}" alt="my image"/>
-
 <script>
-
     window.addEventListener('keydown', this.process_key, false);
 
     function process_key(e) {
@@ -36,7 +158,5 @@
     }
 
 </script>
-
-
 </body>
 </html>
