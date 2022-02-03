@@ -239,23 +239,23 @@ class TestParameter(unittest.TestCase):
     def test_get_clockwise(self):
         clockwise = self.parameter_converter._get_clockwise(clockwise="False")
         self.assertIsInstance(clockwise, bool)
-        self.assertAlmostEqual(clockwise, False)
+        self.assertEqual(clockwise, False)
 
         clockwise = self.parameter_converter._get_clockwise(clockwise="false")
         self.assertIsInstance(clockwise, bool)
-        self.assertAlmostEqual(clockwise, False)
+        self.assertEqual(clockwise, False)
 
         clockwise = self.parameter_converter._get_clockwise(clockwise="True")
         self.assertIsInstance(clockwise, bool)
-        self.assertAlmostEqual(clockwise, True)
+        self.assertEqual(clockwise, True)
 
         clockwise = self.parameter_converter._get_clockwise(clockwise="true")
         self.assertIsInstance(clockwise, bool)
-        self.assertAlmostEqual(clockwise, True)
+        self.assertEqual(clockwise, True)
 
         clockwise = self.parameter_converter._get_clockwise()
         self.assertIsInstance(clockwise, bool)
-        self.assertAlmostEqual(clockwise, True)
+        self.assertEqual(clockwise, True)
 
         self.assertRaises(
             ValueError,
