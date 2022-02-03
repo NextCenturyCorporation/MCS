@@ -1,7 +1,7 @@
 ﻿[
     {
         "camera_height": 0.762,
-        "head_tilt": 0,
+        "head_tilt": 30,
         "objects": [
             {
                 "id": "turtle_on_wheels",
@@ -9,7 +9,8 @@
                 "position_x": 0.0,
                 "position_z": 1.0,
                 "rotation_x": 360,
-                "visible": false
+                "rotation_y": 90,
+                "visible": true
             }
         ],
         "objects_count": 1,
@@ -22,14 +23,15 @@
     },
     {
         "camera_height": 0.762,
-        "head_tilt": 10,
+        "head_tilt": 30,
         "objects": [
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
                 "position_x": 0.0,
-                "position_z": 1.0,
-                "rotation_x": 0,
+                "position_z": 1.004,
+                "rotation_x": 360,
+                "rotation_y": 123,
                 "visible": true
             }
         ],
@@ -43,14 +45,15 @@
     },
     {
         "camera_height": 0.762,
-        "head_tilt": 20,
+        "head_tilt": 30,
         "objects": [
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
                 "position_x": 0.0,
-                "position_z": 1.0,
-                "rotation_x": 0,
+                "position_z": 1.011,
+                "rotation_x": 360,
+                "rotation_y": 142,
                 "visible": true
             }
         ],
@@ -70,8 +73,9 @@
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
                 "position_x": 0.0,
-                "position_z": 1.0,
+                "position_z": 1.018,
                 "rotation_x": 0,
+                "rotation_y": 99,
                 "visible": true
             }
         ],
@@ -91,8 +95,9 @@
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
                 "position_x": 0.0,
-                "position_z": 1.002,
-                "rotation_x": 360,
+                "position_z": 1.023,
+                "rotation_x": 0,
+                "rotation_y": 69,
                 "visible": true
             }
         ],
@@ -112,8 +117,9 @@
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
                 "position_x": 0.0,
-                "position_z": 1.008,
+                "position_z": 1.028,
                 "rotation_x": 360,
+                "rotation_y": 123,
                 "visible": true
             }
         ],
@@ -133,8 +139,9 @@
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
                 "position_x": 0.0,
-                "position_z": 1.013,
-                "rotation_x": 0,
+                "position_z": 1.033,
+                "rotation_x": 360,
+                "rotation_y": 164,
                 "visible": true
             }
         ],
@@ -144,69 +151,6 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 6,
-        "structural_objects_count": 6
-    },
-    {
-        "camera_height": 0.762,
-        "head_tilt": 30,
-        "objects": [
-            {
-                "id": "turtle_on_wheels",
-                "mass": 1.5,
-                "position_x": 0.0,
-                "position_z": 1.012,
-                "rotation_x": 0,
-                "visible": true
-            }
-        ],
-        "objects_count": 1,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 7,
-        "structural_objects_count": 6
-    },
-    {
-        "camera_height": 0.762,
-        "head_tilt": 30,
-        "objects": [
-            {
-                "id": "turtle_on_wheels",
-                "mass": 1.5,
-                "position_x": 0.0,
-                "position_z": 1.011,
-                "rotation_x": 360,
-                "visible": true
-            }
-        ],
-        "objects_count": 1,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 8,
-        "structural_objects_count": 6
-    },
-    {
-        "camera_height": 0.762,
-        "head_tilt": 30,
-        "objects": [
-            {
-                "id": "turtle_on_wheels",
-                "mass": 1.5,
-                "position_x": 0.0,
-                "position_z": 1.011,
-                "rotation_x": 360,
-                "visible": true
-            }
-        ],
-        "objects_count": 1,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 9,
         "structural_objects_count": 6
     }
 ]
