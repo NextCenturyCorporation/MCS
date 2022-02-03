@@ -11,7 +11,7 @@
 
         body {
             color: #292929;
-            font: 90% Roboto, Arial, sans-serif;
+            font: 90% Verdana, Arial, sans-serif;
             font-weight: 300;
         }
 
@@ -52,7 +52,7 @@
         }
 
         div#navigation {
-            background: #7cb71c;
+            background: #7fa0a9;
         }
 
         div#navigation li {
@@ -60,7 +60,7 @@
         }
 
         div#extra {
-            background: #147FA9;
+            background: #7fa0a9;
         }
 
         div#footer {
@@ -97,21 +97,28 @@
             clear: left;
             width: 100%;
         }
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
 </head>
 
 <body>
 <div id="container">
     <div id="header">
-        <h1>Header</h1>
+        <h1>MCS Demo</h1>
         <a href="/download/template/1" target="_blank">download this layout</a>
     </div>
     <div id="wrapper">
         <div id="content">
             <p><strong>MCS Window</strong></p>
-
-
-            <img id="unityimg" width="640" height="480" src="{{ myimage }}" alt="my image"/>
+            <p>Below is the view presented to the agent.  The window starts up blank, but will respond
+            to keystrokes (see key to right). </p>
+            <p>Note:  there may be a lag between inputs and the result
+            on the screen or the image may be one step behind.  We're working on it.</p>
+            <img id="unityimg" width="640" height="480" src="{{ myimage }}" alt="my image" class="center"/>
             <br/>
 
         </div>
@@ -129,7 +136,13 @@
     </div>
     <div id="extra">
         <p><strong>Keyboard Shortcuts</strong></p>
-        <img id="keyboard" width="400" src="static/keyboard.jpg" alt="keyboard"/>
+        <p>Below are the keyboard shortcuts.  Make sure your mouse is somewhere in the
+        browser window and key strokes will be send to the environment.</p>
+
+        <p>Note that the left part of the keyboard is for <strong>motion</strong>
+        so that 'a' and 'd' make the agent move left or right without rotating.
+        To rotate left and right, use 'j' and 'l'.  </p>
+        <img id="keyboard" width="400" src="static/keyboard.jpg" alt="keyboard" class="center"/>
     </div>
     <div id="footer"><p>Footer</p>
     </div>
