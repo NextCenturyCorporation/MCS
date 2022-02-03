@@ -108,3 +108,14 @@ class MCSInterface:
                 return latest_file
 
             time.sleep(0.05)
+
+    def get_scene_list(self):
+        '''Look in scenes/ and get a list of all the scenes'''
+        scene_list = []
+        scene_dir = 'scenes/'
+        for scene in os.listdir(scene_dir):
+            if scene.endswith(".json"):
+                scene_list.append(scene)
+
+        scene_list.sort()
+        return scene_list

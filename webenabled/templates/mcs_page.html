@@ -128,7 +128,6 @@
 <div id="container">
     <div id="header">
         <h1>MCS Demo</h1>
-        <a href="/download/template/1" target="_blank">download this layout</a>
     </div>
     <div id="wrapper">
         <div id="content">
@@ -137,7 +136,7 @@
                 to keystrokes (see key to right). </p>
             <p>Note: there may be a lag between inputs and the result
                 on the screen or the image may be one step behind. We're working on it.</p>
-            <img id="unityimg" width="640" height="480" src="{{ myimage }}" alt="my image" class="center"/>
+            <img id="unityimg" width="640" height="480" src="{{ unityimg }}" alt="my image" class="center"/>
             <br/>
             <p></p>
         </div>
@@ -146,19 +145,9 @@
         <p><strong>Scenes</strong></p>
         <p>Pick from one of the following scenes: (Note: this doesn't actually work yet...)</p>
         <ul>
-            <li><a href="">alpha_0001_01.json</a></li>
-            <li><a href="">alpha_0001_02.json</a></li>
-            <li><a href="">charlie_0001_01.json</a></li>
-            <li><a href="">charlie_0001_01.json</a></li>
-            <li><a href="">charlie_0001_01.json</a></li>
-            <li><a href="">charlie_0001_01.json</a></li>
-            <li><a href="">charlie_0001_01.json</a></li>
-            <li><a href="">charlie_0001_01.json</a></li>
-            <li><a href="">charlie_0001_01.json</a></li>
-            <li><a href="">charlie_0001_01.json</a></li>
-            <li><a href="">charlie_0001_01.json</a></li>
-            <li><a href="">charlie_0001_01.json</a></li>
-            
+            {% for scene in scene_list %}
+                <li><a href="">{{ scene }}</a></li>
+            {% endfor %}
         </ul>
 
     </div>

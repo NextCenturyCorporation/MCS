@@ -27,9 +27,10 @@ def show_mcs_page():
         session["mcs_interface"] = mcs_interface
     mcs_interface = session.get("mcs_interface")
     img = mcs_interface.get_latest_image()
+    scene_list = mcs_interface.get_scene_list()
 
     # app.logger.warning(f'sending pic {rand_pic}')
-    return render_template('mcs_page.html', myimage=img)
+    return render_template('mcs_page.html', unityimg=img, scene_list=scene_list)
 
 
 @app.route("/keypress", methods=["POST"])
