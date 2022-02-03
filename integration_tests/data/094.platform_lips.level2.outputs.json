@@ -1,6 +1,6 @@
 ﻿[
     {
-        "head_tilt": 30,
+        "head_tilt": 0,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -11,7 +11,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 30,
+        "head_tilt": 0,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -22,7 +22,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 30,
+        "head_tilt": 0,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -33,7 +33,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 30,
+        "head_tilt": 0,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -44,7 +44,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 30,
+        "head_tilt": 0,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -55,7 +55,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 30,
+        "head_tilt": 0,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -66,7 +66,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 30,
+        "head_tilt": 0,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -74,6 +74,28 @@
         "reward": -0.005,
         "rotation_y": null,
         "step_number": 6,
+        "structural_objects_count": 0
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": null,
+        "position_z": null,
+        "return_status": "OBSTRUCTED",
+        "reward": -0.007,
+        "rotation_y": null,
+        "step_number": 7,
+        "structural_objects_count": 0
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": null,
+        "position_z": null,
+        "return_status": "OBSTRUCTED",
+        "reward": -0.008,
+        "rotation_y": null,
+        "step_number": 8,
         "structural_objects_count": 0
     }
 ]
