@@ -20,9 +20,27 @@
             line-height: 1.8;
         }
 
-        ul li {
-            padding-right: 10px;
-            line-height: 1.6;
+        ul {
+            list-style-type: none;
+            margin: 10px;
+            padding: 10px;
+            height: 200px;
+            width: 90%;
+            overflow: hidden;
+            overflow-y: scroll;
+        }
+
+        ul li a {
+            display: block;
+            width: 100%;
+            text-decoration: none;
+            padding: 5px;
+            color: #072c3e;
+            background-color: #98b8b9;
+        }
+
+        ul li a:hover {
+            background-color: #ccc;
         }
 
         h3 {
@@ -83,7 +101,7 @@
 
         div#navigation {
             float: left;
-            width: 25%;
+            width: 20%;
             margin-left: -100%;
         }
 
@@ -97,6 +115,7 @@
             clear: left;
             width: 100%;
         }
+
         .center {
             display: block;
             margin-left: auto;
@@ -114,35 +133,45 @@
     <div id="wrapper">
         <div id="content">
             <p><strong>MCS Window</strong></p>
-            <p>Below is the view presented to the agent.  The window starts up blank, but will respond
-            to keystrokes (see key to right). </p>
-            <p>Note:  there may be a lag between inputs and the result
-            on the screen or the image may be one step behind.  We're working on it.</p>
+            <p>Below is the view presented to the agent. The window starts up blank, but will respond
+                to keystrokes (see key to right). </p>
+            <p>Note: there may be a lag between inputs and the result
+                on the screen or the image may be one step behind. We're working on it.</p>
             <img id="unityimg" width="640" height="480" src="{{ myimage }}" alt="my image" class="center"/>
             <br/>
-
+            <p></p>
         </div>
     </div>
     <div id="navigation">
         <p><strong>Scenes</strong></p>
+        <p>Pick from one of the following scenes: (Note: this doesn't actually work yet...)</p>
         <ul>
-            <li>flex-direction</li>
-            <li>flex-wrap</li>
-            <li>justify-content</li>
-            <li>align-content</li>
-            <li>align-items</li>
+            <li><a href="">alpha_0001_01.json</a></li>
+            <li><a href="">alpha_0001_02.json</a></li>
+            <li><a href="">charlie_0001_01.json</a></li>
+            <li><a href="">charlie_0001_01.json</a></li>
+            <li><a href="">charlie_0001_01.json</a></li>
+            <li><a href="">charlie_0001_01.json</a></li>
+            <li><a href="">charlie_0001_01.json</a></li>
+            <li><a href="">charlie_0001_01.json</a></li>
+            <li><a href="">charlie_0001_01.json</a></li>
+            <li><a href="">charlie_0001_01.json</a></li>
+            <li><a href="">charlie_0001_01.json</a></li>
+            <li><a href="">charlie_0001_01.json</a></li>
+            
         </ul>
 
     </div>
     <div id="extra">
         <p><strong>Keyboard Shortcuts</strong></p>
-        <p>Below are the keyboard shortcuts.  Make sure your mouse is somewhere in the
-        browser window and key strokes will be send to the environment.</p>
+        <p>Below are the keyboard shortcuts. Make sure your mouse is somewhere in the
+            browser window and key strokes will be sent to the environment.</p>
 
-        <p>Note that the left part of the keyboard is for <strong>motion</strong>
-        so that 'a' and 'd' make the agent move left or right without rotating.
-        To rotate left and right, use 'j' and 'l'.  </p>
         <img id="keyboard" width="400" src="static/keyboard.jpg" alt="keyboard" class="center"/>
+
+        <p>The left part of the keyboard is for <strong>motion</strong>
+            so that 'a' and 'd' make the agent move left or right without rotating.
+            To <strong>rotate</strong> left and right, use 'j' and 'l' (lower case 'L') </p>
     </div>
     <div id="footer"><p>Footer</p>
     </div>
