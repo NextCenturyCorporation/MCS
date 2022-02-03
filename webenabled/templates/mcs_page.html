@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MCS Demo</title>
+</head>
+
+<body>
+
+<script src="https://unpkg.com/whatwg-fetch@2.0.4/fetch.js"></script>
+
+<p>Image</p>
+
+<img id="unityimg" width="640" height="480" src="{{myimage}}" alt="my image"/>
+
+<script>
+
+    window.addEventListener('keydown', this.process_key, false);
+
+    function process_key(e) {
+        fetch("{{url_for('add')}}", {method: 'POST', body: JSON.stringify(e.key)})
+            .then(parseJSON)
+            .then(updateImage)
+        // console.log(e)
+    }
+
+    function parseJSON(response) {
+        console.log(" repsonse is " + response)
+        return response.json();
+    }
+
+    function updateImage(data) {
+        console.log("data is " + data)
+        var imgref = document.getElementById('unityimg');
+        imgref.src = data
+    }
+
+</script>
+
+
+</body>
+</html>
