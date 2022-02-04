@@ -24,6 +24,7 @@
         {
             "id": "upperPlatform",
             "type": "cube",
+            "mass": 100,
             "materialFile": "Plastics/GreenPlastic",
             "physics": true,
             "kinematic": true,
@@ -44,6 +45,7 @@
         },{
             "id": "lowerPlatform",
             "type": "cube",
+            "mass": 100,
             "materialFile": "Plastics/GreenPlastic",
             "physics": true,
             "kinematic": true,
