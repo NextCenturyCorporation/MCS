@@ -1,0 +1,16 @@
+
+To Do
+--------
+load scene file when clicked (not hard coded)
+figure out timing of step->image, one behind???
+timeout session and close unity controller
+count # users and don't go above a certain number
+   -- figure out max number on g4dn
+
+
+
+
+======================
+
+Done
+-----
