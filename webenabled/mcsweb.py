@@ -30,7 +30,9 @@ def clean_request(response):
 def before_first():
     # Because we are using filesystem session, it keeps track of
     # sessions between start ups.  So clear it out when we start.
-    [session.pop(key) for key in list(session.keys())]
+    for key in list(session.keys()):
+        print(f"Have session key: {key}")
+    session.clear()
 
 
 @app.route('/mcs')

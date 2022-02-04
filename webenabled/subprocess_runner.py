@@ -13,8 +13,7 @@ def start_subprocess(command_dir, image_dir):
     proc = subprocess.Popen(
         ["python3", "run_scene_with_dir.py",
          "--mcs_command_in_dir", command_dir,
-         "--mcs_image_out_dir", image_dir,
-         "scenes/charlie_0001_01.json"])
+         "--mcs_image_out_dir", image_dir])
     print(f"Unity controller process started:  {proc.pid}")
     return proc.pid
 
