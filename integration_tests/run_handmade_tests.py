@@ -130,8 +130,8 @@ def validate_single_output(expected, actual):
             failed = (not math.isclose(
                 expected_data,
                 actual_data,
-                rel_tol=0.001,
-                abs_tol=0.001
+                rel_tol=0.01,
+                abs_tol=0.01
             ))
         if failed:
             test_case_string = ' '.join(test_case)
