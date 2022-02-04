@@ -9,7 +9,7 @@ from .goal_metadata import GoalCategory, GoalMetadata
 GOAL_ACHIEVED = 1
 GOAL_NOT_ACHIEVED = 0
 STEP_PENALTY = 0.001
-LAVA_PENALTY = 0.5
+LAVA_PENALTY = 100.0
 
 
 class Reward(object):
