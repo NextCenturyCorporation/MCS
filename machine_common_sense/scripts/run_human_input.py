@@ -182,7 +182,7 @@ class HumanInputShell(cmd.Cmd):
             print('Only actions available during this step:')
             for action, params in output.action_list:
                 action_string = action + ''.join(
-                    ',' + key + '=' + value for key, value in params.items()
+                    f',{key}={value}' for key, value in params.items()
                 )
 
                 print(f'    {action_string}')
