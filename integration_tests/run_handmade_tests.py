@@ -253,7 +253,7 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
                         output_dict = nested_dict
                 dict_property = test_case[2]
             output_dict[dict_property] = (
-                round(actual, 3) if isinstance(actual, float) else actual
+                round(actual, 2) if isinstance(actual, float) else actual
             )
         with open(output_filename, 'w', encoding='utf-8-sig') as output_file:
             json.dump(
