@@ -280,7 +280,7 @@ class Reward(object):
             objects,
             agent,
             reach,
-            goal_reward
+            goal_reward or GOAL_ACHIEVED
         )
 
         return Reward._adjust_score_penalty(
