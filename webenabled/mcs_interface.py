@@ -21,6 +21,7 @@ def convert_key_to_action(key: str):
         if key == action.key:
             return action.value
 
+    print(f"Do not recognize:  {key}.  Returning pass")
     return "Pass"
 
 
@@ -63,6 +64,14 @@ class MCSInterface:
         # Read in the image
         self.img_name = self.get_image_name()
         return self.img_name
+
+    def load_scene(self, scene_filename: str):
+        print(f" loading {scene_filename}")
+        img = self._post_step_and_get_image(scene_filename)
+        print(f" ----- done loading scene. image is {img} ")
+        # img = self.perform_action(" ")
+        # print(f" finished action pass {img}")
+        return img
 
     def perform_action(self, key: str):
         action = convert_key_to_action(key)
