@@ -20,8 +20,9 @@ def start_subprocess(command_dir, image_dir):
 
 
 def is_file_open(pid, file_to_check_on):
-    """We can see that the image file before it is finished writing, in which
-    case might be read and shown in the UI before it's done.  To see if it is
+    """We can see that image filename on disk before unity controller
+    is finished writing writing to it, in which case might be read
+    and shown in the UI before it's done.  To see if it is
     still being written to, check to see if the controller process is
     accessing it.
 
@@ -30,7 +31,8 @@ def is_file_open(pid, file_to_check_on):
     dir = '/proc/' + str(pid) + '/fd'
 
     # Check to see if it is a live process, if not return
-    if not os.access(dir, os.R_OK | os.X_OK): return False
+    if not os.access(dir, os.R_OK | os.X_OK):
+        return False
 
     # print(f"starting check for {file_to_check_on} -----------")
     for fds in os.listdir(dir):

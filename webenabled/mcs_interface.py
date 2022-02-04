@@ -56,7 +56,8 @@ class MCSInterface:
         return self.img_name
 
     def start_mcs(self):
-        # Start a run_human_input.py
+        # Start the unity controller.  (the function is in a different
+        # file so we can pickle / store MCSInterface in the session)
         self.pid = start_subprocess(self.command_out_dir, self.image_in_dir)
 
         # Read in the image
@@ -76,7 +77,7 @@ class MCSInterface:
 
     def get_image_name(self):
         """Watch the output directory, get image that appears.  If it does
-        not appear in 3 seconds, give up."""
+        not appear in 3 seconds, give up and return blank."""
         timestart = time.time()
 
         while True:
@@ -91,7 +92,7 @@ class MCSInterface:
             if len(list_of_files) > 0:
                 latest_file = max(list_of_files, key=os.path.getctime)
 
-                # Remove old files???
+                # Remove old files?  Probably a good idea, keep disk usage down
                 for file in list_of_files:
                     if file != latest_file:
                         os.unlink(file)

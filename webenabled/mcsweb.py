@@ -11,6 +11,21 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
+def clean_request(response):
+    """When we get a response from the client, it is mess
+    and wrapped in weird ways.  Clean it up."""
+
+    # Request data comes as binary, convert to text
+    data = request.data.decode("utf-8")
+
+    # Request data has quotes around it, remove them.
+    if data[0] == '"' and data[len(data) - 1] == '"':
+        data = data[1:len(data) - 1]
+
+    # app.logger.warning(f'values in request: {key}')
+    return data
+
+
 @app.before_first_request
 def before_first():
     # Because we are using filesystem session, it keeps track of
@@ -34,18 +49,20 @@ def show_mcs_page():
 
 
 @app.route("/keypress", methods=["POST"])
-def add():
-    # Get the passed key, cleaning it up first
-    key = request.data.decode("utf-8")
-    if key[0] == '"' and key[len(key) - 1] == '"':
-        key = key[1:len(key) - 1]
-    # app.logger.warning(f'values in request: {key}')
-
+def handle_keypress():
+    key = clean_request(request)
     mcs_interface = session.get("mcs_interface")
-
-    # We get key presses (w,k, space, etc.).  convert to
-    # things the controller understands
-
     img_name = mcs_interface.perform_action(key)
+    resp = jsonify(img_name)
+    return resp
+
+
+@app.route("/scene_selection", methods=["POST"])
+def handle_scene_selection():
+    # Get the passed key, cleaning it up first
+    scene_filename = clean_request(request)
+    app.logger.warning(f'opening scene {scene_filename}')
+    mcs_interface = session.get("mcs_interface")
+    img_name = mcs_interface.perform_action(scene_filename)
     resp = jsonify(img_name)
     return resp

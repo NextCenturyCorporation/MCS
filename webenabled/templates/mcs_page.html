@@ -144,7 +144,7 @@
     <div id="navigation">
         <p><strong>Scenes</strong></p>
         <p>Pick from one of the following scenes: (Note: this doesn't actually work yet...)</p>
-        <ul>
+        <ul id="scenes_unordered_list">
             {% for scene in scene_list %}
                 <li><a href="">{{ scene }}</a></li>
             {% endfor %}
@@ -168,15 +168,36 @@
 <script type="text/javascript">AddFillerLink("content", "navigation", "extra")</script>
 <script src="https://unpkg.com/whatwg-fetch@2.0.4/fetch.js"></script>
 <script>
+    // ---------------------------------------------------------
+    // Handle clicking on one of the scene file names
+    var lis = document.getElementById("scenes_unordered_list").getElementsByTagName('li');
+
+    for (var i = 0; i < lis.length; i++) {
+        lis[i].addEventListener('click', select_scene, false);
+    }
+
+    function select_scene() {
+        alert(this.innerHTML);
+        fetch("{{url_for('handle_scene_selection')}}",
+            {method: 'POST', body: JSON.stringify(this.innerHTML)})
+            .then(parseJSON)
+            .then(updateImage)
+    }
+
+    // ---------------------------------------------------------
+    // Handle Key strokes (navigation)
     window.addEventListener('keydown', this.process_key, false);
 
     function process_key(e) {
-        fetch("{{url_for('add')}}", {method: 'POST', body: JSON.stringify(e.key)})
+        fetch("{{url_for('handle_keypress')}}",
+            {method: 'POST', body: JSON.stringify(e.key)})
             .then(parseJSON)
             .then(updateImage)
-        // console.log(e)
     }
 
+    // ---------------------------------------------------------
+    // After some update, parse the response and update the
+    // image (this assumes that the response is an image filename).
     function parseJSON(response) {
         console.log(" repsonse is " + response)
         return response.json();
