@@ -417,6 +417,53 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
+    TORQUE_OBJECT = (
+        "TorqueObject",
+        "8",
+        "Apply torque to a nearby object. (objectId=string, " +
+        "force=float(default:0.5), objectImageCoordsX=float, " +
+        "objectImageCoordsY=float)"
+    )
+    """
+    Apply torque to a nearby object.
+
+    Parameters
+    ----------
+    objectId : string, optional
+        The "uuid" of the target object. Required unless the
+        "objectImageCoords" properties are given.
+    objectImageCoordsX : float, optional
+        The X of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    objectImageCoordsY : float, optional
+        The Y of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    force : float
+        The amount of force, from -1 to 1, used to move the target object.
+        Default: 0.5
+
+    Returns
+    -------
+    "SUCCESSFUL"
+        Action successful.
+    "NOT_INTERACTABLE"
+        If the object corresponding to the "objectImageCoords" vector is not an
+        interactable object.
+    "NOT_OBJECT"
+        If the object corresponding to the "objectId" (or object corresponding
+        to the "objectImageCoords" vector) is not an object.
+    "NOT_MOVEABLE"
+        If the object itself cannot be moved by a baby.
+    "OBSTRUCTED"
+        If you cannot move the object because your path is obstructed.
+    "OUT_OF_REACH"
+        If you cannot move the object because you are out of reach.
+    "FAILED"
+        Unexpected error; please report immediately to development team.
+    """
+
     LOOK_UP = (
         "LookUp",
         "i",
