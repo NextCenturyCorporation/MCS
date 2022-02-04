@@ -20,17 +20,22 @@ from machine_common_sense.config_manager import (FloorTexturesConfig,
 class SceneCoord():
     '''Unity scenes have floor dimensions of x and z'''
     x: float
+    y: float
     z: float
 
     def __sub__(self, coord: SceneCoord):
-        return SceneCoord(self.x - coord.x, self.z - coord.z)
+        return SceneCoord(self.x - coord.x, self.y - coord.y, self.z - coord.z)
 
     def __add__(self, coord: SceneCoord):
-        return SceneCoord(self.x + coord.x, self.z + coord.z)
+        return SceneCoord(self.x + coord.x, self.y + coord.y, self.z + coord.z)
 
     def __or__(self, coord: SceneCoord):
         '''Midpoint between two SceneCoords'''
-        return SceneCoord((self.x + coord.x) / 2, (self.z + coord.z) / 2)
+        return SceneCoord(
+            (self.x + coord.x) / 2,
+            (self.y + coord.y) / 2,
+            (self.z + coord.z) / 2
+        )
 
 
 @dataclass
@@ -51,6 +56,7 @@ class XZHeading():
 class Robot():
     '''AI robot/performer location and heading in Unity'''
     x: float
+    y: float
     z: float
     heading: XZHeading
 
@@ -81,19 +87,23 @@ class Ramp(SceneAsset):
 
     def _peak_midpoint(self) -> SceneCoord:
         '''The midpoint of the highest ramp side'''
-        sorted_bounds = sorted(self.bounds, key=lambda p: p['y'])
+        sorted_bounds = sorted(self.bounds, key=lambda p: p.y)
         peak_pts = sorted_bounds[-2:]
-        peak_scene_pts = [SceneCoord(x=pt['x'], z=pt['z']) for pt in peak_pts]
+        peak_scene_pts = [
+            SceneCoord(x=pt.x, y=pt.y, z=pt.z) for pt in peak_pts
+        ]
         return peak_scene_pts[0] | peak_scene_pts[1]
 
     def _floor_points(self) -> List[SceneCoord]:
         '''The points of the ramp side nearest the floor'''
-        ys = [p['y'] for p in self.bounds]
+        ys = [p.y for p in self.bounds]
         # get all of the indices for the value that is nearest 0 ie the floor
         indices = np.where(np.isclose(ys, ys[np.argmin(np.abs(ys))]))
         return [SceneCoord(
-            self.bounds[int(indx)]['x'], self.bounds[int(indx)]['z'])
-            for indx in indices[0]]
+            self.bounds[int(indx)].x,
+            self.bounds[int(indx)].y,
+            self.bounds[int(indx)].z
+        ) for indx in indices[0]]
 
 
 @dataclass
@@ -145,6 +155,7 @@ class TopDownPlotter():
 
         room = SceneCoord(
             x=self._room_size.x,
+            y=self._room_size.y,
             z=self._room_size.z
         )
         largest_dimension = max(room.x, room.z)
@@ -298,9 +309,9 @@ class TopDownPlotter():
             texture_color = colour.COLOR_NAME_TO_RGB['red']
 
             for position in floor_texture.positions:
-                texture_pos = SceneCoord(x=position.x, z=position.z)
+                texture_pos = SceneCoord(x=position.x, y=0, z=position.z)
                 half_cell_pos = SceneCoord(
-                    self.UNIT_CELL_WIDTH / 2, self.UNIT_CELL_WIDTH / 2)
+                    self.UNIT_CELL_WIDTH / 2, 0, self.UNIT_CELL_WIDTH / 2)
                 tex_pos_ul = texture_pos - half_cell_pos
                 tex_pos_lr = texture_pos + half_cell_pos
                 tex_img_pos_ul = self._convert_to_image_coords(tex_pos_ul)
@@ -341,10 +352,9 @@ class TopDownPlotter():
             return img
 
         for hole in holes:
-            hole_center = SceneCoord(x=hole.x, z=hole.z)
+            hole_center = SceneCoord(x=hole.x, y=0, z=hole.z)
             half_cell_pos = SceneCoord(
-                self.UNIT_CELL_WIDTH / 2,
-                self.UNIT_CELL_WIDTH / 2)
+                self.UNIT_CELL_WIDTH / 2, 0, self.UNIT_CELL_WIDTH / 2)
             # calculate scene corners
             hole_upper_left: SceneCoord = hole_center - half_cell_pos
             hole_lower_right: SceneCoord = hole_center + half_cell_pos
@@ -421,9 +431,11 @@ class TopDownPlotter():
         position = robot_metadata.get('position')
         if position is not None:
             x = position.get('x')
+            y = position.get('y')
             z = position.get('z')
         else:
             x = 0.0
+            y = 0.0
             z = 0.0
         rotation = robot_metadata.get('rotation')
         rotation_y = rotation.get('y') if rotation is not None else 0.0
@@ -431,7 +443,7 @@ class TopDownPlotter():
             rotation_angle=360.0 - rotation_y,
             heading_length=self.HEADING_LENGTH
         )
-        return Robot(x, z, heading)
+        return Robot(x, y, z, heading)
 
     def _calculate_heading(self, rotation_angle: float,
                            heading_length: float) -> XZHeading:
@@ -446,7 +458,7 @@ class TopDownPlotter():
                              robot: Robot) -> np.ndarray:
         '''Draw the robot's scene XZ position in the plot'''
         robot_position = self._convert_to_image_coords(
-            scene_pt=SceneCoord(robot.x, robot.z)
+            scene_pt=SceneCoord(robot.x, robot.y, robot.z)
         )
         rr, cc = skimage.draw.disk(
             center=(
@@ -512,7 +524,7 @@ class TopDownPlotter():
         corners = None if obj_bounds is None else obj_bounds.get(
             'objectBoundsCorners')
         bounds = None if corners is None else [SceneCoord(
-            x=corner['x'], z=corner['z']) for corner in corners]
+            x=corner['x'], y=corner['y'], z=corner['z']) for corner in corners]
 
         return SceneAsset(
             held=object_metadata.get('isPickedUp'),
@@ -537,7 +549,7 @@ class TopDownPlotter():
                      obj: SceneAsset) -> np.ndarray:
         '''Draw the scene object'''
 
-        obj_pts = [(pt['x'], pt['z']) for pt in obj.bounds]
+        obj_pts = [(pt.x, pt.z) for pt in obj.bounds]
         polygon = geometry.MultiPoint(
             obj_pts).convex_hull
         pts = polygon.exterior.coords
@@ -597,7 +609,7 @@ class TopDownPlotter():
     def _draw_goal(self, img: np.ndarray,
                    obj: SceneAsset) -> np.ndarray:
         '''Draw the goal object of the scene'''
-        obj_pts = [(pt['x'], pt['z']) for pt in obj.bounds]
+        obj_pts = [(pt.x, pt.z) for pt in obj.bounds]
         polygon = geometry.MultiPoint(
             obj_pts).convex_hull
         pts = polygon.exterior.coords
