@@ -1,4 +1,5 @@
 import glob
+import json
 import os
 import time
 import uuid
@@ -6,6 +7,7 @@ from os.path import exists
 
 import machine_common_sense as mcs
 from PIL import Image
+from machine_common_sense import GoalMetadata
 
 from subprocess_runner import start_subprocess, is_file_open
 
@@ -67,11 +69,12 @@ class MCSInterface:
 
     def load_scene(self, scene_filename: str):
         print(f" loading {scene_filename}")
+        action_list = self.get_action_list(scene_filename)
         img = self._post_step_and_get_image(scene_filename)
         print(f" ----- done loading scene. image is {img} ")
         # img = self.perform_action(" ")
         # print(f" finished action pass {img}")
-        return img
+        return img, action_list
 
     def perform_action(self, key: str):
         action = convert_key_to_action(key)
@@ -129,3 +132,20 @@ class MCSInterface:
 
         scene_list.sort()
         return scene_list
+
+    def get_action_list(self, scene_filename):
+        """Simplification of getting the action list as a function
+        of step"""
+        try:
+            with open(scene_filename, 'r') as scene_file:
+                scene_data = json.load(scene_file)
+                if 'goal' in scene_data:
+                    goal = scene_data['goal']
+                    if 'action_list' in goal:
+                        action_list = goal['action_list']
+                        return action_list[0]
+                    else:
+                        return GoalMetadata.ACTION_LIST
+        except Exception as e:
+            print(f"Exception in reading json file: {e}")
+            return GoalMetadata.ACTION_LIST

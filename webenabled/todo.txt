@@ -1,5 +1,5 @@
 
-To Do
+ToDo
 --------
 do sessions / user managment properly!
 timeout session and close unity controller
@@ -8,8 +8,10 @@ figure out timing of step->image, one behind???
 count # users and don't go above a certain number
    -- figure out max number on g4dn
 
+list actions available as a fn of scene
 
-
+show step number, show when scene over, habituation, etc.
+show list of actions taken
 
 ======================
 

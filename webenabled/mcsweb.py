@@ -65,6 +65,6 @@ def handle_scene_selection():
     scene_filename = clean_request(request)
     app.logger.warning(f'opening scene {scene_filename}')
     mcs_interface = session.get("mcs_interface")
-    img_name = mcs_interface.load_scene("scenes/" + scene_filename)
-    resp = jsonify(img_name)
+    img_name, action_list = mcs_interface.load_scene("scenes/" + scene_filename)
+    resp = jsonify(img_name=img_name, action_list=action_list)
     return resp
