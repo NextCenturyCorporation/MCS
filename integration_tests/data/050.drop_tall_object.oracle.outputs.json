@@ -12,7 +12,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "position_x": 0.0,
                 "position_z": -1.0,
                 "visible": false
@@ -37,7 +37,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": false
             }
         ],
@@ -60,7 +60,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": false
             }
         ],
@@ -83,7 +83,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": false
             }
         ],
@@ -106,7 +106,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": false
             }
         ],
@@ -129,7 +129,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": false
             }
         ],
@@ -152,7 +152,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": false
             }
         ],
@@ -175,7 +175,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": false
             }
         ],
@@ -197,7 +197,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": false
             }
         ],
@@ -220,7 +220,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": false
             }
         ],
@@ -243,7 +243,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": false
             }
         ],
@@ -266,7 +266,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": false
             }
         ],
@@ -289,7 +289,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": false
             }
         ],
@@ -312,7 +312,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": false
             }
         ],
@@ -335,7 +335,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": false
             }
         ],
@@ -358,7 +358,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": false
             }
         ],
@@ -381,7 +381,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": true
             }
         ],
@@ -404,7 +404,7 @@
             {
                 "held": true,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": true
             }
         ],
@@ -427,7 +427,7 @@
             {
                 "held": false,
                 "id": "testTrophy",
-                "mass": 1,
+                "mass": 5,
                 "visible": true
             }
         ],

@@ -56,10 +56,6 @@ While adding a new test scene, you can run with the `--dev` flag to run the whol
 
 ### Future Handmade Test Scene Ideas
 
-- Ramp movement (MCS-472)
 - PickupObject on a container with an object positioned inside of it (MCS-473)
 - Circumnavigating objects (MCS-541)
-- Self teleportation (MCS-540)
-- PullObject, various mass and force (when needed by an evaluation task)
-- PushObject, various mass and force (when needed by an evaluation task)
 - PickupObject on a "pickupable" object that is too large or heavy (when needed by an evaluation task)

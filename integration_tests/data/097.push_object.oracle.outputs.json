@@ -130,7 +130,7 @@
                 "direction_x": 0,
                 "direction_y": -0.562,
                 "direction_z": 0.827,
-                "distance": 1.179,
+                "distance": 1.19,
                 "held": false,
                 "id": "testBall",
                 "mass": 1,
@@ -138,7 +138,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0,
-                "position_z": 0.975,
+                "position_z": 0.99,
                 "shape": "ball",
                 "texture_color_list": [
                     "blue"
