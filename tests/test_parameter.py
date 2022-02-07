@@ -253,6 +253,14 @@ class TestParameter(unittest.TestCase):
         self.assertIsInstance(clockwise, bool)
         self.assertEqual(clockwise, True)
 
+        clockwise = self.parameter_converter._get_clockwise(clockwise=False)
+        self.assertIsInstance(clockwise, bool)
+        self.assertEqual(clockwise, False)
+
+        clockwise = self.parameter_converter._get_clockwise(clockwise=True)
+        self.assertIsInstance(clockwise, bool)
+        self.assertEqual(clockwise, True)
+
         clockwise = self.parameter_converter._get_clockwise()
         self.assertIsInstance(clockwise, bool)
         self.assertEqual(clockwise, True)

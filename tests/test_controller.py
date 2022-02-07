@@ -906,6 +906,152 @@ class TestController(unittest.TestCase):
                 moveMagnitude=250.0,
                 objectImageCoords={'x': 1, 'y': 397}))
 
+        self.controller.step(
+            'PushObject',
+            objectId='test_id_1')
+        self.assertEqual(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='PushObject',
+                moveMagnitude=125.0,
+                objectId='test_id_1'))
+
+    def test_step_validate_parameters_torque_object(self):
+        _ = self.controller.start_scene({'name': TEST_FILE_NAME})
+        self.controller.step(
+            'TorqueObject',
+            force=1,
+            objectImageCoordsX=1,
+            objectImageCoordsY=2)
+        self.assertEqual(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='TorqueObject',
+                moveMagnitude=250.0,
+                objectImageCoords={'x': 1, 'y': 397}))
+
+        self.controller.step(
+            'TorqueObject',
+            force=-1,
+            objectImageCoordsX=1,
+            objectImageCoordsY=2)
+        self.assertEqual(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='TorqueObject',
+                moveMagnitude=-250.0,
+                objectImageCoords={'x': 1, 'y': 397}))
+
+        self.controller.step(
+            'TorqueObject',
+            objectImageCoordsX=1,
+            objectImageCoordsY=2)
+        self.assertEqual(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='TorqueObject',
+                moveMagnitude=125.0,
+                objectImageCoords={'x': 1, 'y': 397}))
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step(
+                'TorqueObject',
+                force=-1.1,
+                objectId='test_id_1')
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step(
+                'TorqueObject',
+                force=1.1,
+                objectId='test_id_1')
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step(
+                'TorqueObject',
+                force=-1.1,
+                objectId='test_id_1')
+        )
+
+    def test_step_validate_parameters_rotate_object(self):
+        _ = self.controller.start_scene({'name': TEST_FILE_NAME})
+        self.controller.step('RotateObject', objectId='test_id_1')
+        self.assertEqual(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='RotateObject',
+                objectId='test_id_1',
+                clockwise=True,
+                moveMagnitude=1))
+
+        self.controller.step(
+            'RotateObject',
+            objectId='test_id_1',
+            clockwise='false')
+        self.assertEqual(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='RotateObject',
+                objectId='test_id_1',
+                clockwise=False,
+                moveMagnitude=1))
+
+        self.controller.step(
+            'RotateObject',
+            objectId='test_id_1',
+            clockwise='False')
+        self.assertEqual(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='RotateObject',
+                objectId='test_id_1',
+                clockwise=False,
+                moveMagnitude=1))
+
+        self.controller.step(
+            'RotateObject',
+            objectId='test_id_1',
+            clockwise=True)
+        self.assertEqual(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='RotateObject',
+                objectId='test_id_1',
+                clockwise=True,
+                moveMagnitude=1))
+
+        self.controller.step(
+            'RotateObject',
+            objectId='test_id_1',
+            clockwise=False)
+        self.assertEqual(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='RotateObject',
+                objectId='test_id_1',
+                clockwise=False,
+                moveMagnitude=1))
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step(
+                'RotateObject',
+                clockwise=1.0,
+                objectId='test_id_1')
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step(
+                'RotateObject',
+                clockwise='string',
+                objectId='test_id_1')
+        )
+
 
 if __name__ == '__main__':
     unittest.main()

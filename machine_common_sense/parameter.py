@@ -35,7 +35,7 @@ class Parameter:
     DEFAULT_AMOUNT = 0.5
     DEFAULT_IMG_COORD = 0
     DEFAULT_OBJECT_MOVE_AMOUNT = 1.0
-    DEFAULT_OBJECT_ROTATION_CLOCKWISE = 'True'
+    DEFAULT_OBJECT_ROTATION_CLOCKWISE = True
 
     UNITY_FORCE = 250.0
 
@@ -184,10 +184,14 @@ class Parameter:
         )
         if(isinstance(direction_clockwise, str)):
             direction_clockwise = direction_clockwise.capitalize()
-        try:
-            direction_clockwise = eval(direction_clockwise)
-        except Exception as err:
-            raise ValueError(f"{direction_clockwise} is not a bool") from err
+            try:
+                direction_clockwise = eval(direction_clockwise)
+            except Exception as err:
+                raise ValueError(
+                    f"{direction_clockwise} is not a bool") from err
+        elif not isinstance(direction_clockwise, bool):
+            raise ValueError(
+                f"{direction_clockwise} is not a bool")
         return direction_clockwise
 
     def _get_move_magnitude(self, action: str, force: float,
