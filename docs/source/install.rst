@@ -156,7 +156,7 @@ lava_penalty
 
 (float, optional)
 
-Changes the negative penalty recieved for every step on lava.  Default: 0.5
+Changes the negative penalty recieved for every step on lava.  Default: 100
 
 noise_enabled
 ^^^^^^^^^^^^^^^
