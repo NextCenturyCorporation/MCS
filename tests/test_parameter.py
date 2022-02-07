@@ -272,6 +272,42 @@ class TestParameter(unittest.TestCase):
             lambda: self.parameter_converter._get_clockwise(clockwise=-0.1)
         )
 
+    def test_get_movement_direction(self):
+        (x_direction, z_direction) = (
+            self.parameter_converter._get_movement_direction())
+        self.assertIsInstance(x_direction, int)
+        self.assertIsInstance(z_direction, int)
+        self.assertEqual(x_direction, 0)
+        self.assertEqual(z_direction, 1)
+
+        (x_direction, z_direction) = (
+            self.parameter_converter._get_movement_direction(
+                xDirection=1, zDirection=0))
+        self.assertIsInstance(x_direction, int)
+        self.assertIsInstance(z_direction, int)
+        self.assertEqual(x_direction, 1)
+        self.assertEqual(z_direction, 0)
+
+        (x_direction, z_direction) = (
+            self.parameter_converter._get_movement_direction(
+                xDirection=-1, zDirection=-1))
+        self.assertIsInstance(x_direction, int)
+        self.assertIsInstance(z_direction, int)
+        self.assertEqual(x_direction, -1)
+        self.assertEqual(z_direction, -1)
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                xDirection=-0.1, zDirection=0.1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                xDirection="x", zDirection="z")
+        )
+
     def test_get_number(self):
         number = self.parameter_converter._get_number(key="val", val=7)
         self.assertEqual(number, 7)

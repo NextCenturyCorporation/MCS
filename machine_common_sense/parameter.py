@@ -36,6 +36,8 @@ class Parameter:
     DEFAULT_IMG_COORD = 0
     DEFAULT_OBJECT_MOVE_AMOUNT = 1.0
     DEFAULT_OBJECT_ROTATION_CLOCKWISE = 'True'
+    DEFAULT_OBJECT_MOVEMENT_X_DIRECTION = 0
+    DEFAULT_OBJECT_MOVEMENT_Z_DIRECTION = 1
 
     UNITY_FORCE = 250.0
 
@@ -43,6 +45,8 @@ class Parameter:
     MIN_AMOUNT_TORQUE = -1.0
     MAX_AMOUNT = 1.0
     MIN_AMOUNT = 0.0
+    MIN_AMOUNT_MOVEMENT_DIRECTION = -1
+    MAX_AMOUNT_MOVEMENT_DIRECTION = 1
 
     MIN_NOISE = -0.5
     MAX_NOISE = 0.5
@@ -52,6 +56,8 @@ class Parameter:
     FORCE_KEY = 'force'
     AMOUNT_KEY = 'amount'
     CLOCKWISE_KEY = 'clockwise'
+    MOVEMENT_X_DIRECTION_KEY = 'xDirection'
+    MOVEMENT_Z_DIRECTION_KEY = 'zDirection'
 
     OBJECT_IMAGE_COORDS_X_KEY = 'objectImageCoordsX'
     OBJECT_IMAGE_COORDS_Y_KEY = 'objectImageCoordsY'
@@ -68,7 +74,11 @@ class Parameter:
     # # TODO: Move this to an enum or some place, so that you can determine
     # # special move interactions that way
     FORCE_ACTIONS = ["PushObject", "PullObject", "TorqueObject"]
-    OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject", "RotateObject"]
+    OBJECT_MOVE_ACTIONS = [
+        "CloseObject",
+        "OpenObject",
+        "RotateObject",
+        "MoveObject"]
     # DW: not used anywhere
     # MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
@@ -177,18 +187,38 @@ class Parameter:
         return val
 
     def _get_clockwise(self, **kwargs) -> bool:
-        # Set the Move Magnitude to the appropriate amount based on the action
         direction_clockwise = kwargs.get(
             self.CLOCKWISE_KEY,
             self.DEFAULT_OBJECT_ROTATION_CLOCKWISE
         )
-        if(isinstance(direction_clockwise, str)):
+        if isinstance(direction_clockwise, str):
             direction_clockwise = direction_clockwise.capitalize()
         try:
             direction_clockwise = eval(direction_clockwise)
         except Exception as err:
             raise ValueError(f"{direction_clockwise} is not a bool") from err
         return direction_clockwise
+
+    def _get_movement_direction(self, **kwargs) -> Tuple:
+        x_direction = kwargs.get(
+            self.MOVEMENT_X_DIRECTION_KEY,
+            self.DEFAULT_OBJECT_MOVEMENT_X_DIRECTION
+        )
+        z_direction = kwargs.get(
+            self.MOVEMENT_Z_DIRECTION_KEY,
+            self.DEFAULT_OBJECT_MOVEMENT_Z_DIRECTION
+        )
+        if not isinstance(x_direction, int):
+            raise ValueError(
+                f"{x_direction} is not an int of acceptable range "
+                f"{self.MIN_AMOUNT_MOVEMENT_DIRECTION}"
+                f"-{self.MAX_AMOUNT_MOVEMENT_DIRECTION}")
+        if not isinstance(z_direction, int):
+            raise ValueError(
+                f"{z_direction} is not an int of acceptable range "
+                f"{self.MIN_AMOUNT_MOVEMENT_DIRECTION}"
+                f"-{self.MAX_AMOUNT_MOVEMENT_DIRECTION}")
+        return (x_direction, z_direction)
 
     def _get_move_magnitude(self, action: str, force: float,
                             amount: float) -> float:
@@ -238,8 +268,8 @@ class Parameter:
         object_image_coords_x = int(self._get_number_with_default(
             self.OBJECT_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD, **kwargs))
         object_image_coords_y = int(self._get_number_with_default(
-                                    self.OBJECT_IMAGE_COORDS_Y_KEY,
-                                    self.DEFAULT_IMG_COORD, **kwargs))
+            self.OBJECT_IMAGE_COORDS_Y_KEY,
+            self.DEFAULT_IMG_COORD, **kwargs))
         receptable_image_coords_x = int(self._get_number_with_default(
             self.RECEPTACLE_IMAGE_COORDS_X_KEY,
             self.DEFAULT_IMG_COORD,
@@ -268,6 +298,7 @@ class Parameter:
         move_magnitude = self._get_move_magnitude(action, force, amount)
         (teleport_rotation, teleport_position) = self._get_teleport(**kwargs)
         clockwise = self._get_clockwise(**kwargs)
+        (x_direction, z_direction) = self._get_movement_direction(**kwargs)
         (teleport_rotation, teleport_position) = self._get_teleport(**kwargs)
 
         # TODO is this a feature we need?
@@ -286,7 +317,9 @@ class Parameter:
             moveMagnitude=move_magnitude,
             objectImageCoords=object_vector,
             receptacleObjectImageCoords=receptacle_vector,
-            clockwise=clockwise
+            clockwise=clockwise,
+            xDirection=x_direction,
+            zDirection=z_direction
         )
 
     def _mcs_action_to_ai2thor_action(self, action: str) -> str:
