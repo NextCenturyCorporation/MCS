@@ -845,8 +845,6 @@ class TestController(unittest.TestCase):
     def test_step_validate_parameters_rotate(self):
         _ = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.controller.step('RotateLeft')
-        self.controller.get_last_step_data(),
-        self.create_step_data(action='RotateLeft')
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(action='RotateLeft'))
