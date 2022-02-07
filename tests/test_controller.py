@@ -957,14 +957,6 @@ class TestController(unittest.TestCase):
             ValueError,
             lambda: self.controller.step(
                 'TorqueObject',
-                force=-1.1,
-                objectId='test_id_1')
-        )
-
-        self.assertRaises(
-            ValueError,
-            lambda: self.controller.step(
-                'TorqueObject',
                 force=1.1,
                 objectId='test_id_1')
         )
