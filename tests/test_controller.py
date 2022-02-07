@@ -977,8 +977,7 @@ class TestController(unittest.TestCase):
             self.create_step_data(
                 action='RotateObject',
                 objectId='test_id_1',
-                clockwise=True,
-                moveMagnitude=1))
+                clockwise=True))
 
         self.controller.step(
             'RotateObject',
@@ -989,8 +988,7 @@ class TestController(unittest.TestCase):
             self.create_step_data(
                 action='RotateObject',
                 objectId='test_id_1',
-                clockwise=False,
-                moveMagnitude=1))
+                clockwise=False))
 
         self.controller.step(
             'RotateObject',
@@ -1001,8 +999,7 @@ class TestController(unittest.TestCase):
             self.create_step_data(
                 action='RotateObject',
                 objectId='test_id_1',
-                clockwise=False,
-                moveMagnitude=1))
+                clockwise=False))
 
         self.controller.step(
             'RotateObject',
@@ -1013,8 +1010,7 @@ class TestController(unittest.TestCase):
             self.create_step_data(
                 action='RotateObject',
                 objectId='test_id_1',
-                clockwise=True,
-                moveMagnitude=1))
+                clockwise=True))
 
         self.controller.step(
             'RotateObject',
@@ -1025,8 +1021,7 @@ class TestController(unittest.TestCase):
             self.create_step_data(
                 action='RotateObject',
                 objectId='test_id_1',
-                clockwise=False,
-                moveMagnitude=1))
+                clockwise=False))
 
         self.assertRaises(
             ValueError,

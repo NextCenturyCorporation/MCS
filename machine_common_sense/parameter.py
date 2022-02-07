@@ -68,7 +68,7 @@ class Parameter:
     # # TODO: Move this to an enum or some place, so that you can determine
     # # special move interactions that way
     FORCE_ACTIONS = ["PushObject", "PullObject", "TorqueObject"]
-    OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject", "RotateObject"]
+    OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     # DW: not used anywhere
     # MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
@@ -272,7 +272,6 @@ class Parameter:
         move_magnitude = self._get_move_magnitude(action, force, amount)
         (teleport_rotation, teleport_position) = self._get_teleport(**kwargs)
         clockwise = self._get_clockwise(**kwargs)
-        (teleport_rotation, teleport_position) = self._get_teleport(**kwargs)
 
         # TODO is this a feature we need?
         if self.config.is_noise_enabled():
