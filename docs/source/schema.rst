@@ -119,6 +119,7 @@ Each **object config** has the following properties:
 - `opened` (boolean, optional): Whether the object should begin opened. Must also be `openable`. Default: `false`
 - `openClose` (:ref:`open close config <Open Close Config>`, optional): The steps where an object is opened or closed by the system.  Default: None
 - `lips` (:ref:`platform lips config <Platform Lips Config>`, optional): The sides of a platform to add lips. Default: None
+- `locked` (boolean, optional): Whether to lock the container at the start of the simulation.  Locked containers cannot be opened.  Default: false
 - `physics` (boolean, optional): Whether to enable physics simulation on the object. Automatically `true` if `moveable`, `openable`, `pickupable`, or `receptacle` is `true`. Use `physics` if you want to enable physics but don't want to use any of those other properties. Default: `false`
 - `physicsProperties` (:ref:`physics config <Physics Config>`, optional): Enable custom friction, bounciness, and/or drag on the object. Default: see :ref:`physics config <Physics Config>`.
 - `pickupable` (boolean, optional): Whether the object should be pickupable, if it is not already openable based on its `type`. Pickupable objects are also automatically `moveable`. Default: depends on `type`
