@@ -1,4 +1,4 @@
-name: Build and Publish PyPI, Documentation to GH Pages
+name: Publish
 on:
   release:
     types: [published]

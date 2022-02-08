@@ -6,11 +6,11 @@
 [![Downloads](https://pepy.tech/badge/machine-common-sense/month)](https://pepy.tech/project/machine-common-sense)
 [![PyPI license](https://img.shields.io/pypi/l/machine-common-sense.svg)](https://pypi.python.org/pypi/machine-common-sense/)
 
-[![Master](https://github.com/NextCenturyCorporation/MCS/actions/workflows/master-unit-tests.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/master-unit-tests.yaml) - Master Unit Tests
+Master Unit Tests: [![Master](https://github.com/NextCenturyCorporation/MCS/actions/workflows/master-unit-tests.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/master-unit-tests.yaml)
 
-[![Development](https://github.com/NextCenturyCorporation/MCS/actions/workflows/development-merge.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/development-merge.yaml) - Development Unit Tests
+Development Unit Tests: [![Development](https://github.com/NextCenturyCorporation/MCS/actions/workflows/development-merge.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/development-merge.yaml)
 
-[![Documentation](https://github.com/NextCenturyCorporation/MCS/actions/workflows/docs-publish-pypi.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/docs-publish-pypi.yaml)
+Documentation and PyPI: [![Documentation](https://github.com/NextCenturyCorporation/MCS/actions/workflows/docs-publish-pypi.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/docs-publish-pypi.yaml)
 
 # MCS Python Package
 
