@@ -10,7 +10,9 @@ Master Unit Tests: [![Master](https://github.com/NextCenturyCorporation/MCS/acti
 
 Development Unit Tests: [![Development](https://github.com/NextCenturyCorporation/MCS/actions/workflows/development-merge.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/development-merge.yaml)
 
-Documentation and PyPI: [![Documentation](https://github.com/NextCenturyCorporation/MCS/actions/workflows/docs-publish-pypi.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/docs-publish-pypi.yaml)
+Publish Documentation: [![Publish Docs](https://github.com/NextCenturyCorporation/MCS/actions/workflows/docs-publish.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/docs-publish.yaml)
+
+Publish to PyPI: [![Publish PyPI](https://github.com/NextCenturyCorporation/MCS/actions/workflows/pypi-publish.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/pypi-publish.yaml)
 
 # MCS Python Package
 
