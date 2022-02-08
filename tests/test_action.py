@@ -149,7 +149,8 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.ROTATE_OBJECT.key, "9")
         self.assertEqual(
             mcs.Action.ROTATE_OBJECT.desc,
-            "Apply rotation to a nearby object. (objectId=string, " +
+            "Apply a rotation of 5 degrees to a nearby object. " +
+            "(objectId=string, " +
             "clockwise=bool(default:True), objectImageCoordsX=float, " +
             "objectImageCoordsY=float)"
         )
