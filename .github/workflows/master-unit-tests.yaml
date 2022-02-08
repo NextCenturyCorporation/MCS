@@ -1,4 +1,4 @@
-name: Master Mac/Ubuntu Python 3.7-3.9 Unit Tests
+name: Tests
 
 on:
   push:
