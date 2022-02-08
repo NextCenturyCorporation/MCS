@@ -473,7 +473,7 @@ class Action(Enum):
         "objectImageCoordsY=float)"
     )
     """
-    Apply a rotation of degrees to a nearby object.
+    Apply a rotation of 5 degrees to a nearby object.
 
     Parameters
     ----------
