@@ -283,6 +283,7 @@ class TestSceneConfig(unittest.TestCase):
                 'key': 'value'
             },
             'forces': [{
+                'impulse': True,
                 'relative': True,
                 'stepBegin': 11,
                 'stepEnd': 12,
@@ -464,6 +465,7 @@ class TestSceneConfig(unittest.TestCase):
         )]
         assert object_2.debug == {'key': 'value'}
         assert object_2.forces == [ForceConfig(
+            impulse=True,
             relative=True,
             step_begin=11,
             step_end=12,
