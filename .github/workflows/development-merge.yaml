@@ -1,4 +1,4 @@
-name: Mac/Ubuntu Python 3.7-3.9 Unit Tests
+name: Dev Mac/Ubuntu Python 3.7-3.9 Unit Tests
 
 on:
   push:
