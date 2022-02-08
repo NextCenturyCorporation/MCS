@@ -1,0 +1,8 @@
+RotateObject,objectId=block_blank_a
+RotateObject,objectId=block_blank_a,clockwise=true
+RotateObject,objectId=block_blank_a,clockwise=true
+RotateObject,objectId=block_blank_a,clockwise=true
+RotateObject,objectId=block_blank_a,clockwise=false
+RotateObject,objectId=block_blank_a,clockwise=false
+RotateObject,objectId=block_blank_a,clockwise=false
+RotateObject,objectId=block_blank_a,clockwise=false

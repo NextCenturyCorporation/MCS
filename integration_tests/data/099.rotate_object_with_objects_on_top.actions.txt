@@ -1,0 +1,8 @@
+RotateObject,objectId=kiddie_table
+RotateObject,objectId=kiddie_table,clockwise=true
+RotateObject,objectId=kiddie_table,clockwise=true
+RotateObject,objectId=kiddie_table,clockwise=true
+RotateObject,objectId=kiddie_table,clockwise=false
+RotateObject,objectId=kiddie_table,clockwise=false
+RotateObject,objectId=kiddie_table,clockwise=false
+RotateObject,objectId=kiddie_table,clockwise=false
