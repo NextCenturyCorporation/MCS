@@ -1,0 +1,95 @@
+﻿[
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.606,
+                "direction_z": 0.795,
+                "distance": 1.257,
+                "held": false,
+                "id": "testContainer",
+                "mass": 5,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.0,
+                "position_z": 1,
+                "shape": "chest",
+                "texture_color_list": [
+                    "brown"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.606,
+                "direction_z": 0.795,
+                "distance": 1.257,
+                "held": false,
+                "id": "testContainer",
+                "mass": 5,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.0,
+                "position_z": 1,
+                "shape": "chest",
+                "texture_color_list": [
+                    "brown"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "IS_LOCKED",
+        "rotation_y": 0.0,
+        "step_number": 1,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.606,
+                "direction_z": 0.795,
+                "distance": 1.257,
+                "held": false,
+                "id": "testContainer",
+                "mass": 5,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.0,
+                "position_z": 1,
+                "shape": "chest",
+                "texture_color_list": [
+                    "brown"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 2,
+        "structural_objects_count": 6
+    }
+]
