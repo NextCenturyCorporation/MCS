@@ -467,12 +467,13 @@ class Action(Enum):
     ROTATE_OBJECT = (
         "RotateObject",
         "9",
-        "Apply rotation to a nearby object. (objectId=string, " +
+        "Apply a rotation of 5 degrees to a nearby object. " +
+        "(objectId=string, " +
         "clockwise=bool(default:True), objectImageCoordsX=float, " +
         "objectImageCoordsY=float)"
     )
     """
-    Apply rotation to a nearby object.
+    Apply a rotation of 5 degrees to a nearby object.
 
     Parameters
     ----------

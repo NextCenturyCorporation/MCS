@@ -35,7 +35,7 @@ class Parameter:
     DEFAULT_AMOUNT = 0.5
     DEFAULT_IMG_COORD = 0
     DEFAULT_OBJECT_MOVE_AMOUNT = 1.0
-    DEFAULT_OBJECT_ROTATION_CLOCKWISE = 'True'
+    DEFAULT_OBJECT_ROTATION_CLOCKWISE = True
     DEFAULT_OBJECT_MOVEMENT_X_DIRECTION = 0
     DEFAULT_OBJECT_MOVEMENT_Z_DIRECTION = 1
 
@@ -74,11 +74,7 @@ class Parameter:
     # # TODO: Move this to an enum or some place, so that you can determine
     # # special move interactions that way
     FORCE_ACTIONS = ["PushObject", "PullObject", "TorqueObject"]
-    OBJECT_MOVE_ACTIONS = [
-        "CloseObject",
-        "OpenObject",
-        "RotateObject",
-        "MoveObject"]
+    OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     # DW: not used anywhere
     # MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
@@ -193,10 +189,14 @@ class Parameter:
         )
         if isinstance(direction_clockwise, str):
             direction_clockwise = direction_clockwise.capitalize()
-        try:
-            direction_clockwise = eval(direction_clockwise)
-        except Exception as err:
-            raise ValueError(f"{direction_clockwise} is not a bool") from err
+            try:
+                direction_clockwise = eval(direction_clockwise)
+            except Exception as err:
+                raise ValueError(
+                    f"{direction_clockwise} is not a bool") from err
+        elif not isinstance(direction_clockwise, bool):
+            raise ValueError(
+                f"{direction_clockwise} is not a bool")
         return direction_clockwise
 
     def _get_movement_direction(self, **kwargs) -> Tuple:
@@ -299,7 +299,6 @@ class Parameter:
         (teleport_rotation, teleport_position) = self._get_teleport(**kwargs)
         clockwise = self._get_clockwise(**kwargs)
         (x_direction, z_direction) = self._get_movement_direction(**kwargs)
-        (teleport_rotation, teleport_position) = self._get_teleport(**kwargs)
 
         # TODO is this a feature we need?
         if self.config.is_noise_enabled():
