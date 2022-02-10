@@ -539,12 +539,14 @@ class Action(Enum):
         your current viewport. Can be used in place of the "objectId" property.
         (See note under "Action" header regarding image coordinates.)
     xDirection : int
-        The x axis direction of the movement on the object.
-        Can be -1, 0, 1.
+        The x axis direction of movement on the object.
+        Can be -1, 0, 1. If only xDirection is given,
+        zDirection will default to 0
         Default: 0
     zDirection : int
-        The z axis direction of the movement on the object.
-        Can be -1, 0, 1.
+        The z axis direction of movement on the object.
+        Can be -1, 0, 1. If only zDirection is given,
+        xDirection will default to 0
         Default: 1
 
     Returns
