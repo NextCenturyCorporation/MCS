@@ -290,30 +290,98 @@ class TestParameter(unittest.TestCase):
 
         (x_direction, z_direction) = (
             self.parameter_converter._get_movement_direction(
-                xDirection=1, zDirection=0))
+                xDirection=-1))
         self.assertIsInstance(x_direction, int)
         self.assertIsInstance(z_direction, int)
-        self.assertEqual(x_direction, 1)
+        self.assertEqual(x_direction, -1)
         self.assertEqual(z_direction, 0)
 
         (x_direction, z_direction) = (
             self.parameter_converter._get_movement_direction(
-                xDirection=-1, zDirection=-1))
+                zDirection=-1))
         self.assertIsInstance(x_direction, int)
         self.assertIsInstance(z_direction, int)
-        self.assertEqual(x_direction, -1)
+        self.assertEqual(x_direction, 0)
+        self.assertEqual(z_direction, -1)
+
+        (x_direction, z_direction) = (
+            self.parameter_converter._get_movement_direction(
+                xDirection=1, zDirection=-1))
+        self.assertIsInstance(x_direction, int)
+        self.assertIsInstance(z_direction, int)
+        self.assertEqual(x_direction, 1)
         self.assertEqual(z_direction, -1)
 
         self.assertRaises(
             ValueError,
             lambda: self.parameter_converter._get_movement_direction(
-                xDirection=-0.1, zDirection=0.1)
+                xDirection=2)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                zDirection=-2)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                xDirection=-2, zDirection=1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                xDirection=-1, zDirection=2)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                xDirection=0.1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                zDirection=0.1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                xDirection=-0.1, zDirection=1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                xDirection=1, zDirection=-0.1)
         )
 
         self.assertRaises(
             ValueError,
             lambda: self.parameter_converter._get_movement_direction(
                 xDirection="x", zDirection="z")
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                xDirection="x", zDirection=1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                xDirection=1, zDirection="z")
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                xDirection=True, zDirection=False)
         )
 
     def test_get_number(self):

@@ -515,14 +515,15 @@ class Action(Enum):
     MOVE_OBJECT = (
         "MoveObject",
         "0",
-        "Apply movement to a nearby object. (objectId=string, " +
+        "Apply a movement of 0.1 units to a nearby object. " +
+        "(objectId=string, " +
         "xDirection=int(default:0), " +
         "zDirection=int(default:1), " +
         "objectImageCoordsX=float, " +
         "objectImageCoordsY=float)"
     )
     """
-    Apply movement to a nearby object.
+    Apply a movement 0.1 units to a nearby object.
 
     Parameters
     ----------

@@ -1,0 +1,9 @@
+MoveObject,objectId=block_blank_a
+MoveObject,objectId=block_blank_a,xDirection=-1
+MoveObject,objectId=block_blank_a,xDirection=1
+MoveObject,objectId=block_blank_a,zDirection=-1
+MoveObject,objectId=block_blank_a,zDirection=1
+MoveObject,objectId=block_blank_a,xDirection=-1,zDirection=1
+MoveObject,objectId=block_blank_a,xDirection=1,zDirection=-1
+MoveObject,objectId=block_blank_a,xDirection=1,zDirection=1
+MoveObject,objectId=block_blank_a,xDirection=-1,zDirection=-1

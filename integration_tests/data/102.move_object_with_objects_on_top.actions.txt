@@ -1,0 +1,9 @@
+MoveObject,objectId=kiddie_table
+MoveObject,objectId=kiddie_table,xDirection=-1
+MoveObject,objectId=kiddie_table,xDirection=1
+MoveObject,objectId=kiddie_table,zDirection=-1
+MoveObject,objectId=kiddie_table,zDirection=1
+MoveObject,objectId=kiddie_table,xDirection=-1,zDirection=1
+MoveObject,objectId=kiddie_table,xDirection=1,zDirection=-1
+MoveObject,objectId=kiddie_table,xDirection=1,zDirection=1
+MoveObject,objectId=kiddie_table,xDirection=-1,zDirection=-1

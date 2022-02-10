@@ -162,7 +162,8 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.MOVE_OBJECT.key, "9")
         self.assertEqual(
             mcs.Action.MOVE_OBJECT.desc,
-            "Apply movement to a nearby object. (objectId=string, " +
+            "Apply a movement of 0.1 units to a nearby object. " +
+            "(objectId=string, " +
             "xDirection=int(default:0), " +
             "zDirection=int(default:1), " +
             "objectImageCoordsX=float, " +

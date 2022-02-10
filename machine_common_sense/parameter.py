@@ -151,12 +151,13 @@ class Parameter:
                         self.MAX_AMOUNT_TORQUE):
                     raise ValueError(
                         f'Force not in acceptable range of '
-                        f'({self.MIN_AMOUNT_TORQUE}-{self.MAX_AMOUNT_TORQUE})')
+                        f'({self.MIN_AMOUNT_TORQUE} and '
+                        f'{self.MAX_AMOUNT_TORQUE})')
 
             elif force < self.MIN_AMOUNT or force > self.MAX_AMOUNT:
                 raise ValueError(
                     f'Force not in acceptable range of '
-                    f'({self.MIN_AMOUNT}-{self.MAX_AMOUNT})')
+                    f'({self.MIN_AMOUNT} and {self.MAX_AMOUNT})')
         else:
             force = self.DEFAULT_AMOUNT
         return force * self.UNITY_FORCE
@@ -200,24 +201,73 @@ class Parameter:
         return direction_clockwise
 
     def _get_movement_direction(self, **kwargs) -> Tuple:
+        """
+        If no args are given, the default movement for (x,z) is (0,1)
+        If only x arg is given, movement is (x,0)
+        If only z arg is given, movement is (0,z)
+        If x,z args are given, movement is (x,z)
+        """
+
         x_direction = kwargs.get(
-            self.MOVEMENT_X_DIRECTION_KEY,
-            self.DEFAULT_OBJECT_MOVEMENT_X_DIRECTION
+            self.MOVEMENT_X_DIRECTION_KEY
         )
         z_direction = kwargs.get(
-            self.MOVEMENT_Z_DIRECTION_KEY,
-            self.DEFAULT_OBJECT_MOVEMENT_Z_DIRECTION
+            self.MOVEMENT_Z_DIRECTION_KEY
         )
-        if not isinstance(x_direction, int):
-            raise ValueError(
-                f"{x_direction} is not an int of acceptable range "
-                f"{self.MIN_AMOUNT_MOVEMENT_DIRECTION}"
-                f"-{self.MAX_AMOUNT_MOVEMENT_DIRECTION}")
-        if not isinstance(z_direction, int):
-            raise ValueError(
-                f"{z_direction} is not an int of acceptable range "
-                f"{self.MIN_AMOUNT_MOVEMENT_DIRECTION}"
-                f"-{self.MAX_AMOUNT_MOVEMENT_DIRECTION}")
+        x_is_none = x_direction is None
+        z_is_none = z_direction is None
+
+        if x_is_none and z_is_none:
+            x_direction = self.DEFAULT_OBJECT_MOVEMENT_X_DIRECTION
+            z_direction = self.DEFAULT_OBJECT_MOVEMENT_Z_DIRECTION
+            return (x_direction, z_direction)
+
+        direction_output = (
+            f"{'(xDirection: ' f'{x_direction})' if not x_is_none else ''}"
+            f"{'' if x_is_none else ' and ' if not z_is_none else ' is'}"
+            f"{'(zDirection: ' f'{z_direction})' if not z_is_none else ''}"
+            f"{' is' if x_is_none else ' are' if not z_is_none else ''}"
+            f" not "
+            f"{'both ints' if not x_is_none and not z_is_none else 'an int'}"
+            f" of acceptable range "
+            f"({self.MIN_AMOUNT_MOVEMENT_DIRECTION}"
+            f" and {self.MAX_AMOUNT_MOVEMENT_DIRECTION})")
+
+        if isinstance(x_direction, bool) or isinstance(z_direction, bool):
+            raise ValueError(direction_output)
+
+        try:
+            if not x_is_none:
+                x_direction = int(x_direction) if float(
+                    x_direction).is_integer() else x_direction
+                if isinstance(x_direction, float):
+                    raise ValueError(direction_output)
+            if not z_is_none:
+                z_direction = int(z_direction) if float(
+                    z_direction).is_integer() else z_direction
+                if isinstance(z_direction, float):
+                    raise ValueError(direction_output)
+        except Exception as err:
+            raise ValueError(direction_output) from err
+
+        if not x_is_none and z_is_none:
+            if (x_direction < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+                    x_direction > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
+                raise ValueError(direction_output)
+            elif z_is_none:
+                z_direction = 0
+        elif x_is_none and not z_is_none:
+            if (z_direction < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+                    z_direction > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
+                raise ValueError(direction_output)
+            elif x_is_none:
+                x_direction = 0
+        else:
+            if (x_direction < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+                    x_direction > self.MAX_AMOUNT_MOVEMENT_DIRECTION or
+                    z_direction < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+                    z_direction > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
+                raise ValueError(direction_output)
         return (x_direction, z_direction)
 
     def _get_move_magnitude(self, action: str, force: float,
