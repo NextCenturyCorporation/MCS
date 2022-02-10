@@ -359,7 +359,6 @@ class PhysicsConfigSchema(Schema):
     bounciness = fields.Float()
     drag = fields.Float()
     dynamic_friction = fields.Float(data_key='dynamicFriction')
-    max_angular_velocity = fields.Float(data_key='maxAngularVelocity')
     static_friction = fields.Float(data_key='staticFriction')
 
     @post_load
@@ -653,7 +652,6 @@ class PhysicsConfig:
     bounciness: float = None
     drag: float = None
     dynamic_friction: float = None
-    max_angular_velocity: float = None
     static_friction: float = None
 
 
