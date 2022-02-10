@@ -159,7 +159,7 @@ class TestAction(unittest.TestCase):
 
     def test_move_object(self):
         self.assertEqual(mcs.Action.MOVE_OBJECT.value, "MoveObject")
-        self.assertEqual(mcs.Action.MOVE_OBJECT.key, "9")
+        self.assertEqual(mcs.Action.MOVE_OBJECT.key, "0")
         self.assertEqual(
             mcs.Action.MOVE_OBJECT.desc,
             "Apply a movement of 0.1 units to a nearby object. " +
