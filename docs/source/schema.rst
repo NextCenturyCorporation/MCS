@@ -112,6 +112,7 @@ Each **object config** has the following properties:
 - `mass` (float, optional): The mass of the object, which affects the physics simulation. Default: `1`
 - `materials` (string array, optional): The material(s) (colors/textures) of the object. An object `type` may use multiple individual materials; if so, they must be listed in a specific order. Most non-primitive objects already have specific material(s). See the :ref:`material list <Material List>` for options. Default: none
 - `materialFile` (string, optional): Deprecated (please use `materials` now). The material (color/texture) of the object. Most non-primitive objects already have specific material(s). See the :ref:`material list <Material List>` for options. Default: none
+- `maxAngularVelocity` (force, optional): Override the object's maximum angular velocity in the physics simulation, affecting how it turns and rolls. Default: `7`
 - `moveable` (boolean, optional): Whether the object should be moveable, if it is not already moveable based on its `type`. Default: depends on `type`
 - `moves` (:ref:`move config<Move Config>` array, optional): The steps on which to move the object, moving it from one position in the scene to another. The config `vector` describes the amount of position to change, added to the object's current position. Useful if you want to move objects that are `kinematic`. A fifth of each move is made over each of the five substeps (five screenshots) during the step. Default: `[]`
 - `nullParent` (:ref:`transform config <Transform Config>`, optional): Whether to wrap the object in a null parent object. Useful if you want to rotate an object by a point other than its center point. Default: none
@@ -134,7 +135,7 @@ Each **object config** has the following properties:
 - `structure` (boolean, optional): Whether the object is a structural part of the environment. Usually paired with `kinematic`. Default: `false`
 - `teleports` (:ref:`teleport config <Teleport Config>` array, optional): The steps on which to teleport the object, teleporting it from one position in the scene to another. The config `position` describes the object's end position in global coordinates and is not affected by the object's current position. Useful if you want to have impossible events (spontaneous teleportation). Default: `[]`
 - `togglePhysics` (:ref:`single step config <Single Step Config>` array, optional): The steps on which to toggle physics on the object. Useful if you want to have scripted movement in specific parts of the scene. Can work with the `kinematic` property. Default: `[]`
-- `torques` (:ref:`move config <Move Config>` array, optional): The steps on which to apply `torque <https://docs.unity3d.com/ScriptReference/Rigidbody.AddTorque.html>`_ to the object. The config `vector` describes the amount of torque (in Newtons) to apply in each direction using the global coordinate system. Resets all existing torques on the object to 0 before applying the new torque. Default: `[]`
+- `torques` (:ref:`force config <Force Config>` array, optional): The steps on which to apply `torque <https://docs.unity3d.com/ScriptReference/Rigidbody.AddTorque.html>`_ to the object. The config `vector` describes the amount of torque (in Newtons) to apply in each direction using the global coordinate system. Resets all existing torques on the object to 0 before applying the new torque. Default: `[]`
 
 Goal Config
 ***********
@@ -172,6 +173,7 @@ Each **force config** has the following properties:
 - `stepBegin` (integer, required): The step on which the action should begin.  Must be non-negative.  A value of `0` means the action will begin during scene initialization.
 - `stepEnd` (integer, required): The step on which the action should end.  Must be equal to or greater than the `stepBegin`.
 - `vector` (:ref:`vector config <Vector Config>`, required): The coordinates to describe the movement. Default: `{ "x": 0, "y": 0, "z": 0 }`
+- `impulse` (bool, optional): Whether to apply the force using Unity's impulse force mode, rather than the default force mode. Default: `false`
 - `relative` (bool, optional): Whether to apply the force using the object's relative coordinate system, rather than the environment's absolute coordinate system. Default: `false`
 - `repeat` (bool, optional): Whether to indefinitely repeat this action. Will wait `stepWait` number of steps after `stepEnd`, then will execute this action for `stepEnd - stepBegin + 1` number of steps, then repeat. Default: `false`
 - `stepWait` (integer, optional): If `repeat` is `true`, the number of steps to wait after the `stepEnd` before repeating this action. Default: `0`

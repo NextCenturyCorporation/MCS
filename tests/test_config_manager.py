@@ -304,6 +304,7 @@ class TestSceneConfig(unittest.TestCase):
             'locationParent': 'parent_id',
             'mass': 12.34,
             'materials': ['material_1', 'material_2'],
+            'maxAngularVelocity': 25,
             'moveable': True,
             'moves': [{
                 'stepBegin': 16,
@@ -434,6 +435,7 @@ class TestSceneConfig(unittest.TestCase):
         assert object_1.location_parent is None
         assert object_1.mass is None
         assert object_1.materials is None
+        assert object_1.max_angular_velocity is None
         assert object_1.moveable is None
         assert object_1.moves is None
         assert object_1.null_parent is None
@@ -480,6 +482,7 @@ class TestSceneConfig(unittest.TestCase):
         assert object_2.location_parent == 'parent_id'
         assert object_2.mass == 12.34
         assert object_2.materials == ['material_1', 'material_2']
+        assert object_2.max_angular_velocity == 25
         assert object_2.moveable is True
         assert object_2.moves == [MoveConfig(
             step_begin=16,
@@ -536,7 +539,7 @@ class TestSceneConfig(unittest.TestCase):
             position=Vector3d(x=0.41, y=0.42, z=0.43)
         )]
         assert object_2.toggle_physics == [SingleStepConfig(step_begin=27)]
-        assert object_2.torques == [MoveConfig(
+        assert object_2.torques == [ForceConfig(
             step_begin=28,
             step_end=29,
             vector=Vector3d(x=0.44, y=0.45, z=0.46)
