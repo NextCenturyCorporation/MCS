@@ -865,7 +865,7 @@ class TestController(unittest.TestCase):
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
-                moveMagnitude=250.0,
+                moveMagnitude=1.0,
                 objectId='test_id_1'))
 
         self.controller.step(
@@ -876,7 +876,7 @@ class TestController(unittest.TestCase):
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
-                moveMagnitude=25.0,
+                moveMagnitude=0.1,
                 objectId='test_id_1'))
 
         self.assertRaises(
@@ -903,7 +903,7 @@ class TestController(unittest.TestCase):
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
-                moveMagnitude=250.0,
+                moveMagnitude=1.0,
                 objectImageCoords={'x': 1, 'y': 397}))
 
         self.controller.step(
@@ -913,7 +913,7 @@ class TestController(unittest.TestCase):
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='PushObject',
-                moveMagnitude=125.0,
+                moveMagnitude=0.5,
                 objectId='test_id_1'))
 
     def test_step_validate_parameters_torque_object(self):
@@ -927,7 +927,7 @@ class TestController(unittest.TestCase):
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='TorqueObject',
-                moveMagnitude=250.0,
+                moveMagnitude=1.0,
                 objectImageCoords={'x': 1, 'y': 397}))
 
         self.controller.step(
@@ -939,7 +939,7 @@ class TestController(unittest.TestCase):
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='TorqueObject',
-                moveMagnitude=-250.0,
+                moveMagnitude=-1.0,
                 objectImageCoords={'x': 1, 'y': 397}))
 
         self.controller.step(
@@ -950,7 +950,7 @@ class TestController(unittest.TestCase):
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='TorqueObject',
-                moveMagnitude=125.0,
+                moveMagnitude=0.5,
                 objectImageCoords={'x': 1, 'y': 397}))
 
         self.assertRaises(

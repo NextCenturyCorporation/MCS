@@ -1,41 +1,40 @@
 {
-  "name": "Rotate",
-  "version": 2,
-  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
-  "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
-  "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
-  "performerStart": {
-      "position": {
-          "x": 4.5,
-          "z": 0
-      },
-      "rotation": {
-          "x": 30,
-          "y": 0
-      }
-  },
-  "objects": [{
-      "id": "turtle_on_wheels",
-      "type": "turtle_on_wheels",
-      "salientMaterials": ["wood"],
-      "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 3"],
-      "shows": [{
-          "stepBegin": 0,
-          "position": {
-              "x": 4.725,
-              "y": 0.01,
-              "z": 0.5
-          },
-          "rotation": {
-              "x": 0,
-              "y": 90,
-              "z": 0
-          },
-          "scale": {
-              "x": 3,
-              "y": 3,
-              "z": 3
-          }
-      }]
-  }]
+    "name": "Rotate",
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "performerStart": {
+        "position": {
+            "x": 4.6,
+            "z": -0.4
+        },
+        "rotation": {
+            "x": 30,
+            "y": 0
+        }
+    },
+    "objects": [{
+        "id": "turtle_on_wheels",
+        "type": "turtle_on_wheels",
+        "salientMaterials": ["wood"],
+        "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 3"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 4.725,
+                "y": 0.01,
+                "z": 0.5
+            },
+            "rotation": {
+                "x": 0,
+                "y": 90,
+                "z": 0
+            },
+            "scale": {
+                "x": 3,
+                "y": 3,
+                "z": 3
+            }
+        }]
+    }]
 }
