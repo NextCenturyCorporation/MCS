@@ -56,6 +56,8 @@ class ObjectMetadata(object):
         Whether the object is open or not
     openable : boolean
         Whether the object can be opened
+    locked: boolean
+        Whether the object is locked
     """
 
     def __init__(
@@ -77,7 +79,8 @@ class ObjectMetadata(object):
         texture_color_list=None,
         visible=False,
         is_open=False,
-        openable=False
+        openable=False,
+        locked=False
     ):
         self.uuid = uuid
         self.dimensions = [] if dimensions is None else dimensions
@@ -101,6 +104,7 @@ class ObjectMetadata(object):
         self.visible = visible
         self.is_open = is_open
         self.openable = openable
+        self.locked = locked
 
     def __str__(self):
         return Stringifier.class_to_str(self)
@@ -126,3 +130,4 @@ class ObjectMetadata(object):
         yield 'visible', self.visible
         yield 'is_open', self.is_open
         yield 'openable', self.openable
+        yield 'locked', self.locked

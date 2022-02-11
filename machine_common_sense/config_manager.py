@@ -470,6 +470,7 @@ class SceneObjectSchema(Schema):
     hides = fields.List(fields.Nested(SingleStepConfigSchema))
     kinematic = fields.Bool()
     location_parent = fields.Str(data_key='locationParent')
+    locked = fields.Bool()
     mass = fields.Float()
     materials = fields.List(fields.Str())
     # deprecated; please use materials
@@ -728,6 +729,7 @@ class SceneObject:
     hides: List[SingleStepConfig] = None
     kinematic: bool = None
     location_parent: str = None
+    locked: bool = False
     mass: float = None
     materials: List[str] = None
     material_file: str = None  # deprecated; please use materials
