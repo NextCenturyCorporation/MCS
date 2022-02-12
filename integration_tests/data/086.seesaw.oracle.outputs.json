@@ -675,7 +675,7 @@
                 "id": "seesaw",
                 "position_x": -0.0,
                 "position_z": 0.3,
-                "rotation_x": 74,
+                "rotation_x": 73,
                 "visible": false
             }
         ],
@@ -695,7 +695,7 @@
                 "id": "seesaw",
                 "position_x": 0.001,
                 "position_z": 0.3,
-                "rotation_x": 70,
+                "rotation_x": 69,
                 "visible": false
             }
         ],
@@ -715,7 +715,7 @@
                 "id": "seesaw",
                 "position_x": 0.001,
                 "position_z": 0.3,
-                "rotation_x": 67,
+                "rotation_x": 66,
                 "visible": false
             }
         ],
