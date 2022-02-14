@@ -322,6 +322,7 @@ class ForceConfigSchema(Schema):
     step_begin = fields.Int(data_key='stepBegin')
     step_end = fields.Int(data_key='stepEnd')
     vector = fields.Nested(Vector3dSchema)
+    impulse = fields.Bool()
     relative = fields.Bool()
     repeat = fields.Bool()
     step_wait = fields.Int(data_key='stepWait')
@@ -623,6 +624,7 @@ class ForceConfig:
     step_begin: int
     step_end: int
     vector: Vector3d = Vector3d(0, 0, 0)
+    impulse: bool = False
     relative: bool = False
     repeat: bool = False
     step_wait: int = 0
