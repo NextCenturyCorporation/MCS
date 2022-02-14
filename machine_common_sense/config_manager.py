@@ -476,6 +476,7 @@ class SceneObjectSchema(Schema):
     materials = fields.List(fields.Str())
     # deprecated; please use materials
     material_file = fields.Str(data_key='materialFile')
+    max_angular_velocity = fields.Float(data_key='maxAngularVelocity')
     moveable = fields.Bool()
     moves = fields.List(fields.Nested(MoveConfigSchema))
     null_parent = fields.Nested(TransformConfigSchema, data_key='nullParent')
@@ -505,7 +506,7 @@ class SceneObjectSchema(Schema):
     toggle_physics = fields.List(
         fields.Nested(SingleStepConfigSchema),
         data_key='togglePhysics')
-    torques = fields.List(fields.Nested(MoveConfigSchema))
+    torques = fields.List(fields.Nested(ForceConfigSchema))
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     can_contain_target = fields.Bool(data_key='canContainTarget')
@@ -735,6 +736,7 @@ class SceneObject:
     mass: float = None
     materials: List[str] = None
     material_file: str = None  # deprecated; please use materials
+    max_angular_velocity: float = None
     # Docs say moveable's default is dependant on type.  That could
     # be a problem for the concrete classes.  Needs more review later
     moveable: bool = None
@@ -759,7 +761,7 @@ class SceneObject:
     structure: bool = None
     teleports: List[TeleportConfig] = None
     toggle_physics: List[SingleStepConfig] = None
-    torques: List[MoveConfig] = None
+    torques: List[ForceConfig] = None
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     can_contain_target: bool = None
