@@ -1,0 +1,16 @@
+LookDown
+RotateObject,objectId=turtle_on_wheels
+RotateObject,objectId=turtle_on_wheels,clockwise=true
+RotateObject,objectId=turtle_on_wheels,clockwise=true
+RotateObject,objectId=turtle_on_wheels,clockwise=true
+RotateObject,objectId=turtle_on_wheels,clockwise=true
+RotateObject,objectId=turtle_on_wheels,clockwise=true
+RotateObject,objectId=turtle_on_wheels,clockwise=false
+RotateObject,objectId=turtle_on_wheels,clockwise=false
+RotateObject,objectId=turtle_on_wheels,clockwise=false
+RotateObject,objectId=turtle_on_wheels,clockwise=false
+RotateObject,objectId=turtle_on_wheels,clockwise=false
+RotateObject,objectId=turtle_on_wheels,clockwise=false
+RotateObject,objectId=turtle_on_wheels,clockwise=false
+RotateObject,objectId=turtle_on_wheels,clockwise=false
+RotateObject,objectId=turtle_on_wheels,clockwise=false

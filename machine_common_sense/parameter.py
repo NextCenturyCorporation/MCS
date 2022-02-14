@@ -35,6 +35,7 @@ class Parameter:
     DEFAULT_AMOUNT = 0.5
     DEFAULT_IMG_COORD = 0
     DEFAULT_OBJECT_MOVE_AMOUNT = 1.0
+    DEFAULT_OBJECT_ROTATION_CLOCKWISE = True
 
     UNITY_FORCE = 250.0
 
@@ -50,6 +51,7 @@ class Parameter:
     HORIZON_KEY = 'horizon'
     FORCE_KEY = 'force'
     AMOUNT_KEY = 'amount'
+    CLOCKWISE_KEY = 'clockwise'
 
     OBJECT_IMAGE_COORDS_X_KEY = 'objectImageCoordsX'
     OBJECT_IMAGE_COORDS_Y_KEY = 'objectImageCoordsY'
@@ -174,6 +176,24 @@ class Parameter:
             val = float(default)
         return val
 
+    def _get_clockwise(self, **kwargs) -> bool:
+        # Set the Move Magnitude to the appropriate amount based on the action
+        direction_clockwise = kwargs.get(
+            self.CLOCKWISE_KEY,
+            self.DEFAULT_OBJECT_ROTATION_CLOCKWISE
+        )
+        if(isinstance(direction_clockwise, str)):
+            direction_clockwise = direction_clockwise.capitalize()
+            try:
+                direction_clockwise = eval(direction_clockwise)
+            except Exception as err:
+                raise ValueError(
+                    f"{direction_clockwise} is not a bool") from err
+        elif not isinstance(direction_clockwise, bool):
+            raise ValueError(
+                f"{direction_clockwise} is not a bool")
+        return direction_clockwise
+
     def _get_move_magnitude(self, action: str, force: float,
                             amount: float) -> float:
         # Set the Move Magnitude to the appropriate amount based on the action
@@ -251,6 +271,7 @@ class Parameter:
         }
         move_magnitude = self._get_move_magnitude(action, force, amount)
         (teleport_rotation, teleport_position) = self._get_teleport(**kwargs)
+        clockwise = self._get_clockwise(**kwargs)
 
         # TODO is this a feature we need?
         if self.config.is_noise_enabled():
@@ -267,7 +288,8 @@ class Parameter:
             teleportPosition=teleport_position,
             moveMagnitude=move_magnitude,
             objectImageCoords=object_vector,
-            receptacleObjectImageCoords=receptacle_vector
+            receptacleObjectImageCoords=receptacle_vector,
+            clockwise=clockwise
         )
 
     def _mcs_action_to_ai2thor_action(self, action: str) -> str:
