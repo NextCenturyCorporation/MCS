@@ -25,10 +25,7 @@ SAMPLE_SCENES_FOLDER = (
 
 def run_depth_and_segmentation_test(controller, metadata_tier):
     # Load the test scene's JSON data.
-    scene_data, status = mcs.load_scene_json_file(DEPTH_AND_SEGMENTATION_SCENE)
-
-    if status is not None:
-        return False, status
+    scene_data = mcs.load_scene_json_file(DEPTH_AND_SEGMENTATION_SCENE)
 
     # Initialize the test scene.
     step_metadata_0 = controller.start_scene(scene_data)
@@ -117,12 +114,9 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
 
 def run_habituation_trial_counts_test(controller, metadata_tier):
     # Load the test scene's JSON data.
-    scene_data, status = mcs.load_scene_json_file(
+    scene_data = mcs.load_scene_json_file(
         HABITUATION_TRIAL_COUNTS_SCENE
     )
-
-    if status is not None:
-        return False, status
 
     # Initialize the test scene.
     step_metadata = controller.start_scene(scene_data)
@@ -199,10 +193,7 @@ def run_habituation_trial_counts_test(controller, metadata_tier):
 
 def run_numpy_array_data_test(controller, metadata_tier):
     # Load the test scene's JSON data.
-    scene_data, status = mcs.load_scene_json_file(NUMPY_ARRAY_DATA_SCENE)
-
-    if status is not None:
-        return False, status
+    scene_data = mcs.load_scene_json_file(NUMPY_ARRAY_DATA_SCENE)
 
     # Convert the objects array to a numpy array
     scene_data['objects'] = np.array(scene_data.get("objects", []))
@@ -235,7 +226,7 @@ def run_public_sample_scenes_test(controller, metadata_tier):
 
     for scene_filename in scene_filename_list:
         # Load the sample scene's JSON data.
-        scene_data, status = mcs.load_scene_json_file(scene_filename)
+        scene_data = mcs.load_scene_json_file(scene_filename)
 
         # Initialize the test scene.
         step_metadata = controller.start_scene(scene_data)
@@ -258,10 +249,7 @@ def run_public_sample_scenes_test(controller, metadata_tier):
 
 def run_restricted_action_list_test(controller, metadata_tier):
     # Load the test scene's JSON data.
-    scene_data, status = mcs.load_scene_json_file(RESTRICTED_ACTION_LIST_SCENE)
-
-    if status is not None:
-        return False, status
+    scene_data = mcs.load_scene_json_file(RESTRICTED_ACTION_LIST_SCENE)
 
     # Initialize the test scene.
     step_metadata = controller.start_scene(scene_data)

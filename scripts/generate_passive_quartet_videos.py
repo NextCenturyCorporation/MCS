@@ -27,11 +27,7 @@ def parse_args():
 
 def run_scene(controller, file_name: str) -> None:
     '''Run the passive physics scene to generate the image frames'''
-    scene_data, status = mcs.load_scene_json_file(file_name)
-
-    if status is not None:
-        print(status)
-        return
+    scene_data = mcs.load_scene_json_file(file_name)
 
     scene_file_path = file_name
     scene_file_name = scene_file_path[scene_file_path.rfind('/') + 1:]

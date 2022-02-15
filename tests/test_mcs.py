@@ -183,7 +183,7 @@ class TestMCS(unittest.TestCase):
                              for subscriber in ctrl._subscribers]))
 
     def test_load_scene_file_json(self):
-        actual, status = mcs.load_scene_json_file("tests/test_scene.json")
+        actual = mcs.load_scene_json_file("tests/test_scene.json")
         expected = {
             "ceilingMaterial": "Walls/WallDrywallWhite",
             "floorMaterial": "Fabrics/RUG4",
@@ -218,25 +218,19 @@ class TestMCS(unittest.TestCase):
             }]
         }
         self.assertEqual(actual, expected)
-        self.assertEqual(status, None)
 
     def test_load_scene_file_json_is_invalid(self):
-        actual, status = mcs.load_scene_json_file(
-            "tests/test_scene_invalid.json")
-        self.assertEqual(actual, {})
-        self.assertEqual(
-            status,
-            "The given file 'tests/test_scene_invalid.json' does not " +
-            "contain valid JSON."
+        self.assertRaises(
+            ValueError,
+            lambda: mcs.load_scene_json_file("tests/test_scene_invalid.json")
         )
 
     def test_load_scene_file_json_is_missing(self):
-        actual, status = mcs.load_scene_json_file(
-            "tests/test_scene_missing.json")
-        self.assertEqual(actual, {})
-        self.assertEqual(
-            status,
-            "The given file 'tests/test_scene_missing.json' cannot be found.")
+        self.assertRaises(
+            FileNotFoundError,
+            lambda: mcs.load_scene_json_file(
+                "tests/test_scene_missing.json")
+        )
 
 
 if __name__ == '__main__':

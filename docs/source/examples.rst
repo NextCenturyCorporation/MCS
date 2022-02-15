@@ -18,7 +18,7 @@ For the below example, make sure `MCS_CONFIG_FILE_PATH` is not set, since it wil
 
     # Either load the scene data dict from an MCS scene config JSON file or create your own.
     # We will give you the training scene config JSON files and the format to make your own.
-    scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
+    scene_data = mcs.load_scene_json_file(scene_json_file_path)
 
     output = controller.start_scene(scene_data)
 
@@ -55,7 +55,7 @@ Run multiple scenes sequentially
     controller = mcs.create_controller(config_file_or_dict={})
 
     for scene_json_file_path in scene_json_file_list:
-        scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
+        scene_data = mcs.load_scene_json_file(scene_json_file_path)
         output = controller.start_scene(scene_data)
         action, params = select_action(output)
         while action != '':
@@ -78,7 +78,7 @@ Run with console logging
     mcs.init_logging()
 
     controller = mcs.create_controller(config_file_or_dict='./some-path/config.ini')
-    scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
+    scene_data = mcs.load_scene_json_file(scene_json_file_path)
     output = controller.start_scene(scene_data)
 
     action, params = select_action(output)
