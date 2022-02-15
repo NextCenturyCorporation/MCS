@@ -1,3 +1,15 @@
+#
+# RunSceneWithDir runs an MCS client while watching a directory for
+# commands and writing images out to another directory.
+#
+# Usage:
+#
+#     python3 run_scene_with_dir --mcs_command_in_dir indir --mcs_image_out_dir outdir
+#
+# where 'indir' is the name of an existing directory that is watched for files.  When they
+# appear, the commands are read in and executed.  The resulting images from MCS are
+# written out and put into the 'outdir'.
+#
 import argparse
 import os
 import time
@@ -69,6 +81,7 @@ class RunSceneWithDir:
                 self.step_and_save(command)
 
     def load_scene(self):
+        print(f"Loading file {self.scene_file}")
 
         if not exists(self.scene_file):
             print(f"File {self.scene_file} does not exist")
@@ -85,10 +98,11 @@ class RunSceneWithDir:
         except Exception as e:
             print(f"Loading scene file failed: {e}")
 
-        # TODO:  Decide if we need to do this.  It may allows us to get an image
+        # TODO:  Decide if we need to do this.  It may allow us to get an image
         # self.step_and_save('Pass')
 
     def step_and_save(self, command):
+        print(f"Executing command: {command}")
         output: StepMetadata = self.controller.step(command)
         if output is not None:
             self.save_output(output)

@@ -7,32 +7,39 @@ from os.path import exists
 
 import machine_common_sense as mcs
 from PIL import Image
+from flask import current_app
 from machine_common_sense import GoalMetadata
 
-from subprocess_runner import start_subprocess, is_file_open
+from subprocess_runner import is_file_open, start_subprocess
 
 IMG_WIDTH = 640
 IMG_HEIGHT = 480
 MCS_INTERFACE_TMP_DIR = "static/mcsinterface/"
 BLANK_IMAGE_NAME = 'blank_640x480.png'
+IMAGE_WAIT_TIMEOUT = 3.0
 
 
-def convert_key_to_action(key: str):
+def convert_key_to_action(key: str, logger):
     for action in mcs.Action:
-        # print(f"action {action}  {action.key}")
         if key == action.key:
+            logger.debug(f"Got action {action.value} from {key}")
             return action.value
-
-    print(f"Do not recognize:  {key}.  Returning pass")
+    logger.warn(f"Do not recognize:  {key}.  Returning pass")
     return "Pass"
 
 
 class MCSInterface:
     """We need to have a way to communicate with MCS.  We cannot simply
     create a controller and keep that in the session, because the
-    MCS controller object is not easily storable.  """
+    MCS controller object is not easily storable.
+
+    Note, be careful about what you try to put into this class.
+    In particular, you cannot include the code from subprocess_runner,
+    """
 
     def __init__(self):
+        self.logger = current_app.logger
+
         if not exists(MCS_INTERFACE_TMP_DIR):
             os.mkdir(MCS_INTERFACE_TMP_DIR)
 
@@ -68,16 +75,20 @@ class MCSInterface:
         return self.img_name
 
     def load_scene(self, scene_filename: str):
-        print(f" loading {scene_filename}")
+        self.logger.info(f" loading {scene_filename}")
         action_list = self.get_action_list(scene_filename)
+        self.logger.info(f"Action list: {action_list}")
         img = self._post_step_and_get_image(scene_filename)
-        print(f" ----- done loading scene. image is {img} ")
+        self.logger.info(f"done loading scene. image is {img} ")
+
+        # TODO:  Decide if we should do this
         # img = self.perform_action(" ")
-        # print(f" finished action pass {img}")
+        # self.logger.info(f" finished action pass {img}")
+
         return img, action_list
 
     def perform_action(self, key: str):
-        action = convert_key_to_action(key)
+        action = convert_key_to_action(key, self.logger)
         return self._post_step_and_get_image(action)
 
     def _post_step_and_get_image(self, action):
@@ -89,15 +100,14 @@ class MCSInterface:
 
     def get_image_name(self):
         """Watch the output directory, get image that appears.  If it does
-        not appear in 3 seconds, give up and return blank."""
+        not appear in timeout seconds, give up and return blank."""
         timestart = time.time()
 
         while True:
             timenow = time.time()
             elapsed = (timenow - timestart)
-            # print(f"elapsed {elapsed}")
-            if elapsed > 3.:
-                print("timeout, returning blank")
+            if elapsed > IMAGE_WAIT_TIMEOUT:
+                self.logger.debug("timeout, returning blank")
                 return self.blank_path
 
             list_of_files = glob.glob(self.image_in_dir + "*.png")
@@ -116,7 +126,7 @@ class MCSInterface:
                     else:
                         break
 
-                print(f"Returning from interface: {latest_file}")
+                # self.logger.info(f"Returning from interface: {latest_file}")
                 self.img_name = latest_file
                 return latest_file
 
@@ -133,6 +143,20 @@ class MCSInterface:
         scene_list.sort()
         return scene_list
 
+    def simplify_action_list(self, default_action_list):
+        """The action list looks something like:
+        [('CloseObject', {}), ('DropObject', {}), ('MoveAhead', {}), ...
+        which is not very user-friendly.  For each of them, remove
+        the extra quotes"""
+        simple_list = []
+        if default_action_list is not None and len(default_action_list) > 0:
+            for actionPair in default_action_list:
+                if isinstance(actionPair, tuple) and len(actionPair) > 0:
+                    simple_list.append(actionPair[0])
+                else:
+                    simple_list.append(actionPair)
+        return simple_list
+
     def get_action_list(self, scene_filename):
         """Simplification of getting the action list as a function
         of step"""
@@ -143,9 +167,9 @@ class MCSInterface:
                     goal = scene_data['goal']
                     if 'action_list' in goal:
                         action_list = goal['action_list']
-                        return action_list[0]
+                        return self.simplify_action_list(action_list[0])
                     else:
-                        return GoalMetadata.ACTION_LIST
+                        return self.simplify_action_list(GoalMetadata.ACTION_LIST)
         except Exception as e:
-            print(f"Exception in reading json file: {e}")
+            # self.logger.warn(f"Exception in reading json file: {e}")
             return GoalMetadata.ACTION_LIST
