@@ -37,7 +37,8 @@ class SceneEvent():
                 self.image_list.append(scene_image)
 
                 if self._config.is_depth_maps_enabled():
-                    depth_float_array = event.depth_frame.astype(np.float32)
+                    unity_depth_array = event.depth_frame.astype(np.float32)
+                    depth_float_array = unity_depth_array[:, :, 0]
                     self.depth_map_list.append(np.array(depth_float_array))
 
                 if self._config.is_object_masks_enabled():
