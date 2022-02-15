@@ -624,3 +624,17 @@ class TopDownPlotter():
             shape=img.shape[:2])
         img[rr, cc] = self.GOAL_COLOR
         return img
+
+
+if __name__ == '__main__':
+    import sys
+
+    import machine_common_sense as mcs
+    controller = mcs.create_controller(
+        unity_cache_version='dev',
+        config_file_or_dict={'metadata': 'level1',
+                             'video_enabled': True})
+
+    scene_data, _ = mcs.load_scene_json_file(sys.argv[1])
+    controller.start_scene(scene_data)
+    controller.end_scene()
