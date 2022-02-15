@@ -197,6 +197,7 @@ class StepMetadata:
         """Return a deep copy of this StepMetadata with default depth_map_list,
         image_list, and object_mask_list properties."""
         step_metadata_copy = StepMetadata()
+        # This class's __iter__ function will ignore specific properties.
         for key, _ in self:
             setattr(step_metadata_copy, key, copy.deepcopy(getattr(self, key)))
         return step_metadata_copy
@@ -209,11 +210,16 @@ class StepMetadata:
         yield 'camera_clipping_planes', self.camera_clipping_planes
         yield 'camera_field_of_view', self.camera_field_of_view
         yield 'camera_height', self.camera_height
+        # TODO MCS-1142 REMOVE
+        yield 'depth_map_list', self.depth_map_list,
+        # Intentially no depth_map_list
         yield 'goal', dict(self.goal)
         yield 'habituation_trial', self.habituation_trial
         yield 'haptic_feedback', self.haptic_feedback
         yield 'head_tilt', self.head_tilt
+        # Intentially no image_list
         yield 'object_list', self.check_list_none(self.object_list)
+        # Intentially no object_mask_list
         yield 'performer_radius', self.performer_radius
         yield 'performer_reach', self.performer_reach
         yield 'physics_frames_per_second', self.physics_frames_per_second
