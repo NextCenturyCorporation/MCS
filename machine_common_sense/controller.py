@@ -276,12 +276,7 @@ class Controller():
 
         # reformulate hidden EndHabituation parameters
         if action == Action.END_HABITUATION.value:
-            step_action_list = \
-                self._goal._retrieve_unfiltered_action_list(self.__step_number)
-            endhabituation_action = [
-                item for item in step_action_list
-                if item[0] == Action.END_HABITUATION.value]
-            action = ",".join(endhabituation_action)
+            action = self._build_endhabituation_params(action)
 
         if ',' in action:
             action, kwargs = Action.input_to_action_and_params(action)
@@ -346,6 +341,22 @@ class Controller():
             AfterStepPayload(**payload))
 
         return output
+
+    def _build_endhabituation_params(self, action: str) -> str:
+        # sourcery skip: use-named-expression
+        # TODO MCS-1169 Refactor/move
+        step_action_list = \
+            self._goal._retrieve_unfiltered_action_list(self.__step_number)
+        endhabituation_action = next((
+            item for item in step_action_list
+            if item[0] == Action.END_HABITUATION.value), None)
+        if endhabituation_action is not None:
+            params = ",".join(
+                f"{k}={v}" for k,
+                v in endhabituation_action[1].items())
+            if params:
+                action = f"{action},{params}"
+        return action
 
     @typeguard.typechecked
     def end_scene(
