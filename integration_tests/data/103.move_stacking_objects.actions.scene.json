@@ -1,17 +1,16 @@
 {
-    "name": "MoveObject stacking blocks",
-    "version": 2,
+    "name": "Move Stacking Objects",
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
     "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
     "performerStart": {
         "position": {
-            "x": 0,
-            "z": -0.75
+            "x": -2.45,
+            "z": 0.38
         },
         "rotation": {
-            "x": 35,
-            "y": 0
+            "x": 50,
+            "y": 130
         }
     },
     "objects": [{
@@ -22,13 +21,36 @@
         "shows": [{
             "stepBegin": 0,
             "position": {
-                "x": 0,
-                "y": 0.01,
-                "z": 0
+                "x": -2,
+                "y": 0,
+                "z": -0.11
             },
             "rotation": {
                 "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 2,
                 "y": 1,
+                "z": 2
+            }
+        }]
+    }, {
+        "id": "block_blank_b",
+        "type": "block_blank_wood_cylinder",
+        "salientMaterials": ["wood"],
+        "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/gray_1x1"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": -2,
+                "y": 0,
+                "z": 0.11
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
                 "z": 0
             },
             "scale": {
@@ -45,13 +67,13 @@
         "shows": [{
             "stepBegin": 0,
             "position": {
-                "x": 0,
+                "x": -2,
                 "y": 0.1,
-                "z": 0
+                "z": -0.11
             },
             "rotation": {
-                "x": 0.01,
-                "y": 1,
+                "x": 0,
+                "y": 0,
                 "z": 0
             },
             "scale": {
@@ -68,13 +90,13 @@
         "shows": [{
             "stepBegin": 0,
             "position": {
-                "x": 0,
+                "x": -2,
                 "y": 0.2,
-                "z": 0
+                "z": -0.1
             },
             "rotation": {
                 "x": 0,
-                "y": 1,
+                "y": 0,
                 "z": 0
             },
             "scale": {
@@ -84,26 +106,50 @@
             }
         }]
     }, {
-        "id": "block_blank_f",
-        "type": "block_blank_wood_cube",
+        "id": "block_blank_e",
+        "type": "block_blank_wood_cylinder",
         "salientMaterials": ["wood"],
-        "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/yellow_1x1"],
+        "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/wood_1x1"],
         "shows": [{
             "stepBegin": 0,
             "position": {
-                "x": 0,
-                "y": 0.3,
-                "z": 0
+                "x": -2,
+                "y": 0.1,
+                "z": 0.1
             },
             "rotation": {
                 "x": 0,
-                "y": 1,
+                "y": 0,
                 "z": 0
             },
             "scale": {
                 "x": 1,
                 "y": 2,
                 "z": 1
+            }
+        }]
+    }, {
+        "id": "block_blank_f",
+        "type": "block_blank_wood_cube",
+        "salientMaterials": ["wood"],
+        "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/yellow_1x1"],
+        "mass": 500,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": -2,
+                "y": 0.01,
+                "z": -0.6
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 5,
+                "y": 2,
+                "z": 2
             }
         }]
     }]

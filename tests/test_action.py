@@ -164,8 +164,8 @@ class TestAction(unittest.TestCase):
             mcs.Action.MOVE_OBJECT.desc,
             "Apply a movement of 0.1 units to a nearby object. " +
             "(objectId=string, " +
-            "xDirection=int(default:0), " +
-            "zDirection=int(default:1), " +
+            "lateral=int(default:0), " +
+            "straight=int(default:1), " +
             "objectImageCoordsX=float, " +
             "objectImageCoordsY=float)"
         )

@@ -56,8 +56,8 @@ class Parameter:
     FORCE_KEY = 'force'
     AMOUNT_KEY = 'amount'
     CLOCKWISE_KEY = 'clockwise'
-    MOVEMENT_X_DIRECTION_KEY = 'xDirection'
-    MOVEMENT_Z_DIRECTION_KEY = 'zDirection'
+    MOVEMENT_X_DIRECTION_KEY = 'lateral'
+    MOVEMENT_Z_DIRECTION_KEY = 'straight'
 
     OBJECT_IMAGE_COORDS_X_KEY = 'objectImageCoordsX'
     OBJECT_IMAGE_COORDS_Y_KEY = 'objectImageCoordsY'
@@ -208,67 +208,67 @@ class Parameter:
         If x,z args are given, movement is (x,z)
         """
 
-        x_direction = kwargs.get(
+        lateral = kwargs.get(
             self.MOVEMENT_X_DIRECTION_KEY
         )
-        z_direction = kwargs.get(
+        straight = kwargs.get(
             self.MOVEMENT_Z_DIRECTION_KEY
         )
-        x_is_none = x_direction is None
-        z_is_none = z_direction is None
+        l_none = lateral is None
+        s_none = straight is None
 
-        if x_is_none and z_is_none:
-            x_direction = self.DEFAULT_OBJECT_MOVEMENT_X_DIRECTION
-            z_direction = self.DEFAULT_OBJECT_MOVEMENT_Z_DIRECTION
-            return (x_direction, z_direction)
+        if l_none and s_none:
+            lateral = self.DEFAULT_OBJECT_MOVEMENT_X_DIRECTION
+            straight = self.DEFAULT_OBJECT_MOVEMENT_Z_DIRECTION
+            return (lateral, straight)
 
         direction_output = (
-            f"{'(xDirection: ' f'{x_direction})' if not x_is_none else ''}"
-            f"{'' if x_is_none else ' and ' if not z_is_none else ' is'}"
-            f"{'(zDirection: ' f'{z_direction})' if not z_is_none else ''}"
-            f"{' is' if x_is_none else ' are' if not z_is_none else ''}"
+            f"{'(lateral: ' f'{lateral})' if not l_none else ''}"
+            f"{'' if l_none else ' and ' if not s_none else ' is'}"
+            f"{'(straight: ' f'{straight})' if not s_none else ''}"
+            f"{' is' if l_none else ' are' if not s_none else ''}"
             f" not "
-            f"{'both ints' if not x_is_none and not z_is_none else 'an int'}"
+            f"{'both ints' if not l_none and not s_none else 'an int'}"
             f" of acceptable range "
             f"({self.MIN_AMOUNT_MOVEMENT_DIRECTION}"
             f" and {self.MAX_AMOUNT_MOVEMENT_DIRECTION})")
 
-        if isinstance(x_direction, bool) or isinstance(z_direction, bool):
+        if isinstance(lateral, bool) or isinstance(straight, bool):
             raise ValueError(direction_output)
 
         try:
-            if not x_is_none:
-                x_direction = int(x_direction) if float(
-                    x_direction).is_integer() else x_direction
-                if isinstance(x_direction, float):
+            if not l_none:
+                lateral = int(lateral) if float(
+                    lateral).is_integer() else lateral
+                if isinstance(lateral, float):
                     raise ValueError(direction_output)
-            if not z_is_none:
-                z_direction = int(z_direction) if float(
-                    z_direction).is_integer() else z_direction
-                if isinstance(z_direction, float):
+            if not s_none:
+                straight = int(straight) if float(
+                    straight).is_integer() else straight
+                if isinstance(straight, float):
                     raise ValueError(direction_output)
         except Exception as err:
             raise ValueError(direction_output) from err
 
-        if not x_is_none and z_is_none:
-            if (x_direction < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
-                    x_direction > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
+        if not l_none and s_none:
+            if (lateral < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+                    lateral > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
                 raise ValueError(direction_output)
-            elif z_is_none:
-                z_direction = 0
-        elif x_is_none and not z_is_none:
-            if (z_direction < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
-                    z_direction > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
+            elif s_none:
+                straight = 0
+        elif l_none and not s_none:
+            if (straight < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+                    straight > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
                 raise ValueError(direction_output)
-            elif x_is_none:
-                x_direction = 0
+            elif l_none:
+                lateral = 0
         else:
-            if (x_direction < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
-                    x_direction > self.MAX_AMOUNT_MOVEMENT_DIRECTION or
-                    z_direction < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
-                    z_direction > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
+            if (lateral < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+                    lateral > self.MAX_AMOUNT_MOVEMENT_DIRECTION or
+                    straight < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+                    straight > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
                 raise ValueError(direction_output)
-        return (x_direction, z_direction)
+        return (lateral, straight)
 
     def _get_move_magnitude(self, action: str, force: float,
                             amount: float) -> float:
@@ -348,7 +348,7 @@ class Parameter:
         move_magnitude = self._get_move_magnitude(action, force, amount)
         (teleport_rotation, teleport_position) = self._get_teleport(**kwargs)
         clockwise = self._get_clockwise(**kwargs)
-        (x_direction, z_direction) = self._get_movement_direction(**kwargs)
+        (lateral, straight) = self._get_movement_direction(**kwargs)
 
         # TODO is this a feature we need?
         if self.config.is_noise_enabled():
@@ -367,8 +367,8 @@ class Parameter:
             objectImageCoords=object_vector,
             receptacleObjectImageCoords=receptacle_vector,
             clockwise=clockwise,
-            xDirection=x_direction,
-            zDirection=z_direction
+            lateral=lateral,
+            straight=straight
         )
 
     def _mcs_action_to_ai2thor_action(self, action: str) -> str:

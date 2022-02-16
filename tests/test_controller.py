@@ -69,8 +69,8 @@ class TestController(unittest.TestCase):
             teleportPosition=None,
             teleportRotation=None,
             clockwise=True,
-            xDirection=0,
-            zDirection=1
+            lateral=0,
+            straight=1
         )
 
         for key, value in kwargs.items():
@@ -1049,68 +1049,68 @@ class TestController(unittest.TestCase):
             self.create_step_data(
                 action='MoveObject',
                 objectId='test_id_1',
-                xDirection=0,
-                zDirection=1))
+                lateral=0,
+                straight=1))
         self.controller.step(
             'MoveObject',
             objectId='test_id_1',
-            xDirection=1)
+            lateral=1)
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveObject',
                 objectId='test_id_1',
-                xDirection=1,
-                zDirection=0))
+                lateral=1,
+                straight=0))
         self.controller.step(
             'MoveObject',
             objectId='test_id_1',
-            xDirection=1,
-            zDirection=-1)
+            lateral=1,
+            straight=-1)
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MoveObject',
                 objectId='test_id_1',
-                xDirection=1,
-                zDirection=-1))
+                lateral=1,
+                straight=-1))
 
         self.assertRaises(
             ValueError,
             lambda: self.controller.step(
                 'MoveObject',
-                xDirection='string',
+                lateral='string',
                 objectId='test_id_1')
         )
         self.assertRaises(
             ValueError,
             lambda: self.controller.step(
                 'MoveObject',
-                zDirection='string',
+                straight='string',
                 objectId='test_id_1')
         )
         self.assertRaises(
             ValueError,
             lambda: self.controller.step(
                 'MoveObject',
-                xDirection=1,
-                zDirection=0.1,
+                lateral=1,
+                straight=0.1,
                 objectId='test_id_1')
         )
         self.assertRaises(
             ValueError,
             lambda: self.controller.step(
                 'MoveObject',
-                xDirection=0.1,
-                zDirection=1,
+                lateral=0.1,
+                straight=1,
                 objectId='test_id_1')
         )
         self.assertRaises(
             ValueError,
             lambda: self.controller.step(
                 'MoveObject',
-                xDirection=True,
-                zDirection=False,
+                lateral=True,
+                straight=False,
                 objectId='test_id_1')
         )
 

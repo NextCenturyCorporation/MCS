@@ -517,8 +517,8 @@ class Action(Enum):
         "0",
         "Apply a movement of 0.1 units to a nearby object. " +
         "(objectId=string, " +
-        "xDirection=int(default:0), " +
-        "zDirection=int(default:1), " +
+        "lateral=int(default:0), " +
+        "straight=int(default:1), " +
         "objectImageCoordsX=float, " +
         "objectImageCoordsY=float)"
     )
@@ -538,15 +538,15 @@ class Action(Enum):
         The Y of a pixel coordinate on the target object based on
         your current viewport. Can be used in place of the "objectId" property.
         (See note under "Action" header regarding image coordinates.)
-    xDirection : int
+    lateral : int
         The x axis direction of movement on the object.
-        Can be -1, 0, 1. If only xDirection is given,
-        zDirection will default to 0
+        Can be -1, 0, 1. If only lateral is given,
+        straight will default to 0
         Default: 0
-    zDirection : int
+    straight : int
         The z axis direction of movement on the object.
-        Can be -1, 0, 1. If only zDirection is given,
-        xDirection will default to 0
+        Can be -1, 0, 1. If only straight is given,
+        lateral will default to 0
         Default: 1
 
     Returns
