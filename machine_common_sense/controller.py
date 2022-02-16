@@ -274,11 +274,18 @@ class Controller():
                 "now.")
             return None
 
+        # reformulate hidden EndHabituation parameters
+        if action == Action.END_HABITUATION.value:
+            step_action_list = \
+                self._goal._retrieve_unfiltered_action_list(self.__step_number)
+            endhabituation_action = [
+                item for item in step_action_list
+                if item[0] == Action.END_HABITUATION.value]
+            action = ",".join(endhabituation_action)
+
         if ',' in action:
             action, kwargs = Action.input_to_action_and_params(action)
 
-        # TODO MCS-1169 change to private action retrieval
-        # kwargs needs to be build essentially
         action_list = self._goal.retrieve_action_list_at_step(
             self.__step_number)
 
@@ -321,11 +328,6 @@ class Controller():
                 "your future actions will be skipped. Please call "
                 "controller.end_scene() now.")
 
-        """
-        params = self.validate_and_convert_params(action, **kwargs)
-        action = self.mcs_action_to_ai2thor_action(action)
-        step_action = self.wrap_step(action=action, **params)
-        """
         ai2thor_step, params = self.parameter_converter.build_ai2thor_step(
             action=action, **kwargs)
         step_output = self._controller.step(ai2thor_step)
