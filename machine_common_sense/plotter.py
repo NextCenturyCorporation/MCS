@@ -499,7 +499,13 @@ class TopDownPlotter():
             obj.get('objectId', '').startswith('floor')
         ]
         objects = scene_event.metadata.get('objects', [])
-        return filtered_structural_objects + objects
+        combined_objects = filtered_structural_objects + objects
+        # the combined list needs to be sorted by y height
+        # so that the lowest objects are drawn first
+        combined_objects = sorted(
+            combined_objects,
+            key=lambda obj: obj['objectBounds']['objectBoundsCorners'][0]['y'])
+        return combined_objects
 
     def _draw_objects(self, img: np.ndarray, objects: Dict,
                       goal_id: str = None) -> np.ndarray:
