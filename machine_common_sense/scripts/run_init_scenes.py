@@ -29,12 +29,7 @@ def main():
         config_file_or_dict='./config_oracle_debug.ini')
 
     for json_file_name in json_file_list:
-        scene_data, status = mcs.load_scene_json_file(json_file_name)
-
-        if status is not None:
-            print('Error with JSON scene config file ' + json_file_name)
-            print(status)
-            continue
+        scene_data = mcs.load_scene_json_file(json_file_name)
 
         if 'name' not in scene_data.keys():
             scene_data['name'] = json_file_name[json_file_name.rfind(

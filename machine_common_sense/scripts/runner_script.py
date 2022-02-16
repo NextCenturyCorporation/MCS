@@ -186,11 +186,7 @@ class AbstractRunnerScript():
         prefix: str,
         rename: bool
     ):
-        scene_data, status = mcs.load_scene_json_file(filename)
-
-        if status is not None:
-            print(status)
-            return
+        scene_data = mcs.load_scene_json_file(filename)
 
         if last_step:
             scene_data['goal'] = scene_data.get('goal', {})
