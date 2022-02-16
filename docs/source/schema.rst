@@ -187,6 +187,24 @@ Each **grid config** has the following properties:
 - `x` (integer)
 - `z` (integer)
 
+Lip Gaps Config
+**************
+
+Each **lip gaps config** has the following properties:
+
+- `front` (:ref:`lip gaps span config list <Lip Gaps Span Config>`):: Gaps on the positive Z axis
+- `back` (:ref:`lip gaps span config list <Lip Gaps Span Config>`):: Gaps on the negative Z axis
+- `left` (:ref:`lip gaps span config list <Lip Gaps Span Config>`):: Gaps on the negative X axis
+- `right` (:ref:`lip gaps span config list <Lip Gaps Span Config>`):: Gaps on the positive X axis
+
+Lip Gaps Span Config
+**************
+
+Each **lip gaps span config** has the following properties:
+
+- `low` (float): low end of the gap in a range 0 to 1 along the edge of the platform
+- `high` (float): high end of the gap in a range 0 to 1 along the edge of the platform
+
 Material Position Config
 ************************
 
@@ -215,6 +233,7 @@ Each **platform lips config** has the following properties:
 - `back` (bool, optional): Negative Z axis
 - `left` (bool, optional): Negative X axis
 - `right` (bool, optional): Positive X axis
+- `gaps` (:ref:`lip gaps config <Lip Gaps Config>`, optional): gaps in the lits usually for ramps.
 
 Physics Config
 **************
