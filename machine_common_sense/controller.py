@@ -288,8 +288,11 @@ class Controller():
         if ',' in action:
             action, kwargs = Action.input_to_action_and_params(action)
 
+        # TODO MCS-1169 change to private action retrieval
+        # kwargs needs to be build essentially
         action_list = self._goal.retrieve_action_list_at_step(
             self.__step_number)
+
         # Only continue with this action step if the given action and
         # parameters are in the restricted action list.
         continue_with_step = any(action == restricted_action and (
@@ -303,12 +306,11 @@ class Controller():
             logger.error(
                 f"The given action '{action}' with parameters "
                 f"'{kwargs}' isn't in the action_list. Ignoring your action. "
-                f"Please call controller.step() with an action in the "
-                f"action_list. Possible actions at step {self.__step_number}:"
+                f"Possible actions at step {self.__step_number}:"
             )
             for action_data in action_list:
                 logger.error(f'    {action_data}')
-            return None
+            raise ValueError(f"{action}-{kwargs} not in {action_list}")
 
         self.__step_number += 1
 

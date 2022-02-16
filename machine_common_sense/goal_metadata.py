@@ -134,6 +134,8 @@ class GoalMetadata:
                     for action in self.action_list[adjusted_step]
                 ]
 
+        # TODO MCS-1169 remove EndHabituation params for "public" use
+        # internally, have a "private function" to get and use those params
         return GoalMetadata.DEFAULT_ACTIONS
 
 
