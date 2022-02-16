@@ -504,9 +504,7 @@ class TopDownPlotter():
         # so that the lowest objects are drawn first
         combined_objects = sorted(
             combined_objects,
-            key=lambda obj: obj.get(
-                'objectBounds', {}).get(
-                'objectBoundsCorners', [])[0]['y'])
+            key=lambda obj: obj['objectBounds']['objectBoundsCorners'][0]['y'])
         return combined_objects
 
     def _draw_objects(self, img: np.ndarray, objects: Dict,
