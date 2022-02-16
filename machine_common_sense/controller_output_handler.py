@@ -38,7 +38,8 @@ class SceneEvent():
 
                 if self._config.is_depth_maps_enabled():
                     unity_depth_array = event.depth_frame.astype(np.float32)
-                    depth_float_array = unity_depth_array[:, :, 0]
+                    # Convert to a 2D array (screen length X width)
+                    depth_float_array = np.squeeze(unity_depth_array)
                     self.depth_map_list.append(np.array(depth_float_array))
 
                 if self._config.is_object_masks_enabled():
@@ -76,8 +77,7 @@ class SceneEvent():
 
     @property
     def clipping_plane_far(self):
-        return self._raw_output.metadata.get(
-            'clippingPlaneFar', ConfigManager.DEFAULT_CLIPPING_PLANE_FAR)
+        return self._raw_output.metadata.get('clippingPlaneFar', 0.0)
 
     @property
     def haptic_feedback(self):

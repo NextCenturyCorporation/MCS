@@ -46,7 +46,6 @@ class MetadataTier(Enum):
 
 class ConfigManager(object):
 
-    DEFAULT_CLIPPING_PLANE_FAR = 15.0
     DEFAULT_ROOM_DIMENSIONS = Vector3d(x=10, y=3, z=10)
 
     CONFIG_FILE_ENV_VAR = 'MCS_CONFIG_FILE_PATH'

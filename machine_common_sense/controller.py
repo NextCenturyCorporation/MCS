@@ -53,7 +53,8 @@ def __image_depth_override(self, image_depth_data, **kwargs):
     return ai2thor.server.read_buffer_image(
         image_depth_data,
         self.screen_width,
-        self.screen_height
+        self.screen_height,
+        dtype=np.float32
     )
 
 
