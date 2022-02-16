@@ -118,9 +118,16 @@ class GoalMetadata:
     def retrieve_action_list_at_step(self, step_number: int) -> List:
         """Return the action list from the given goal at the given step as a
         a list of actions tuples by default."""
+        action_list = self._retrieve_unfiltered_action_list(step_number)
+        # remove EndHabituation parameters
+        return [
+            (action, params)
+            if action != 'EndHabituation' else ('EndHabituation', {})
+            for (action, params) in action_list
+        ]
 
-        # TODO MCS-1169 this function becomes the filtered version
-        # by taking out EndHabituation parameters
+    def _retrieve_unfiltered_action_list(self, step_number: int) -> List:
+        '''Unfiltered action list from goal'''
         if self.action_list is not None:
             if step_number < self.last_preview_phase_step:
                 return [('Pass', {})]
@@ -137,14 +144,7 @@ class GoalMetadata:
                     Action.input_to_action_and_params(action)
                     for action in self.action_list[adjusted_step]
                 ]
-
         return GoalMetadata.DEFAULT_ACTIONS
-
-    def _retrieve_unfiltered_action_list(self, step_number: int) -> List:
-        # TODO MCS-1169 remove EndHabituation params for "public" use
-        # internally, have a private unfiltered version to get and
-        # use those params
-        ...
 
 
 @unique
