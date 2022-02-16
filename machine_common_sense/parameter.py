@@ -11,14 +11,14 @@ def compare_param_values(value_1: Any, value_2: Any) -> bool:
     making sure that string numbers are converted to floats, and integer
     floats are converted to ints."""
     data = {'value_1': value_1, 'value_2': value_2}
-    for key in data:
-        if isinstance(data[key], str):
+    for key, value in data.items():
+        if isinstance(value, str):
             try:
-                data[key] = float(data[key])
+                data[key] = float(value)
             except ValueError:
                 ...
-        if isinstance(data[key], float) and data[key].is_integer():
-            data[key] = int(data[key])
+        if isinstance(value, float) and value.is_integer():
+            data[key] = int(value)
     return data['value_1'] == data['value_2']
 
 
@@ -215,13 +215,11 @@ class Parameter:
         '''
         teleport_pos_x_input = self._get_number(self.TELEPORT_X_POS, **kwargs)
         teleport_pos_z_input = self._get_number(self.TELEPORT_Z_POS, **kwargs)
-        teleport_position = None
-        if teleport_pos_x_input is not None and \
-                teleport_pos_z_input is not None:
-            teleport_position = {
-                'x': teleport_pos_x_input,
-                'z': teleport_pos_z_input}
-        return teleport_position
+        return {
+            'x': teleport_pos_x_input,
+            'z': teleport_pos_z_input} \
+            if teleport_pos_x_input is not None and \
+            teleport_pos_z_input is not None else None
 
     def _get_teleport_rotation(self, **kwargs) -> Optional[Dict]:
         '''Extract teleport rotation from kwargs if it exists.

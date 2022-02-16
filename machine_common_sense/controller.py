@@ -4,7 +4,7 @@ import glob
 import json
 import logging
 import os
-from typing import Any, Dict, List, Optional, Union
+from typing import Dict, List, Optional, Union
 
 import ai2thor.controller
 import ai2thor.server
@@ -135,8 +135,9 @@ class Controller():
         self.parameter_converter = Parameter(config)
 
     @typeguard.typechecked
-    def start_scene(self, config_data: Union[SceneConfiguration, Dict]) -> \
-            StepMetadata:
+    def start_scene(
+        self, config_data: Union[SceneConfiguration, Dict]) \
+            -> StepMetadata:
         """
         Starts a new scene using the given scene configuration data dict and
         returns the scene output data object.
@@ -170,9 +171,9 @@ class Controller():
                             'file cannot be empty.')
 
         if (self._config.is_file_writing_enabled()):
-            os.makedirs('./' + scene_config.name, exist_ok=True)
-            self.__output_folder = './' + scene_config.name + '/'
-            file_list = glob.glob(self.__output_folder + '*')
+            os.makedirs(f'./{scene_config.name}', exist_ok=True)
+            self.__output_folder = f'./{scene_config.name}/'
+            file_list = glob.glob(f'{self.__output_folder}*')
             for file_path in file_list:
                 os.remove(file_path)
 
@@ -234,18 +235,6 @@ class Controller():
             EventType.ON_START_SCENE, start_scene_payload)
 
         return output
-
-    def _compare_param_values(self, value_1: Any, value_2: Any) -> bool:
-        """Compares two parameter values and returns if they are equal,
-        making sure that string numbers are converted to floats, and integer
-        floats are converted to ints."""
-        data = {'1': value_1, '2': value_2}
-        for key in data:
-            if isinstance(data[key], str) and data[key].isnumeric():
-                data[key] = float(data[key])
-            if isinstance(data[key], float) and data[key].is_integer():
-                data[key] = int(data[key])
-        return data['1'] == data['2']
 
     def _convert_scene_config(self, config_data) -> SceneConfiguration:
         if isinstance(config_data, SceneConfiguration):
