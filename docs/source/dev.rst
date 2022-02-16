@@ -118,7 +118,7 @@ First, install ffmpeg. Then (change the frame rate with the `-r` option):
 Testing TopDown Plots
 ---------------------
 
-The plotter module has a main which is only executed when the plotter module is run. The developer can provide a scene file as a positional argument and the plotter's main will run with video_enabled for 1 step. This will create a visual, depth and topdown video for that scene for review.
+The plotter module has a main which is only executed when the plotter module is run directly vs imported. The developer can provide a scene file as a positional argument and the plotter's main will run with video_enabled for 1 step. This will create a visual, depth and topdown video in a scene folder for quick review.
 
 .. code-block:: bash
 
