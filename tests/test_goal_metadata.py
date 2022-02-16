@@ -48,6 +48,68 @@ class TestGoalMetadata(unittest.TestCase):
         self.assertFalse(self.goal_metadata.metadata)
         self.assertIsInstance(self.goal_metadata.metadata, dict)
 
+    def test_retrieve_action_list_with_preview_phase(self):
+        goal_metadata = mcs.GoalMetadata(
+            action_list=[],
+            last_preview_phase_step=10,
+            last_step=10)
+        self.assertEqual(
+            goal_metadata.retrieve_action_list_at_step(0), [(
+                'Pass', {})])
+        self.assertEqual(
+            goal_metadata.retrieve_action_list_at_step(9), [(
+                'Pass', {})])
+        self.assertEqual(self.goal_metadata.retrieve_action_list_at_step(10), [
+            ('CloseObject', {}),
+            ('DropObject', {}),
+            ('MoveAhead', {}),
+            ('MoveBack', {}),
+            ('MoveLeft', {}),
+            ('MoveRight', {}),
+            ('OpenObject', {}),
+            ('PickupObject', {}),
+            ('PullObject', {}),
+            ('PushObject', {}),
+            ('PutObject', {}),
+            ('TorqueObject', {}),
+            ('RotateObject', {}),
+            ('LookUp', {}),
+            ('LookDown', {}),
+            ('RotateLeft', {}),
+            ('RotateRight', {}),
+            ('Pass', {})
+        ])
+
+    def test_retrieve_action_list_after_preview_phase(self):
+        goal_metadata = mcs.GoalMetadata(
+            action_list=[['MoveBack']],
+            last_preview_phase_step=10,
+            last_step=11)
+        self.assertEqual(
+            goal_metadata.retrieve_action_list_at_step(0), [(
+                'Pass', {})])
+        self.assertEqual(
+            goal_metadata.retrieve_action_list_at_step(9), [(
+                'Pass', {})])
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(10), [
+            ('MoveBack', {})
+        ])
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(11), [])
+
+    def test_retrieve_action_list_at_final_step(self):
+        goal_metadata = mcs.GoalMetadata(
+            action_list=[],
+            last_step=10)
+        self.assertEqual(
+            goal_metadata.retrieve_action_list_at_step(10), [])
+
+    def test_retrieve_action_list_after_final_step(self):
+        goal_metadata = mcs.GoalMetadata(
+            action_list=[],
+            last_step=10)
+        self.assertEqual(
+            goal_metadata.retrieve_action_list_at_step(15), [])
+
     def test_retrieve_action_list_at_step(self):
         self.assertEqual(self.goal_metadata.retrieve_action_list_at_step(0), [
             ('CloseObject', {}),
