@@ -385,8 +385,8 @@ class TopDownPlotter():
             color: Tuple) -> np.ndarray:
         '''Outline the floor hole'''
         rr, cc = skimage.draw.rectangle_perimeter(
-            start=(upper_left.y, upper_left.x),
-            end=(lower_right.y - 1, lower_right.x - 1),
+            start=(upper_left.y - 1, upper_left.x + 1),
+            end=(lower_right.y + 1, lower_right.x - 1),
             shape=img.shape[:2],
             clip=True)
         img[rr, cc] = color
