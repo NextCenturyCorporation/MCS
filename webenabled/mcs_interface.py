@@ -152,7 +152,7 @@ class MCSInterface:
         if default_action_list is not None and len(default_action_list) > 0:
             for actionPair in default_action_list:
                 if isinstance(actionPair, tuple) and len(actionPair) > 0:
-                    simple_list.append(actionPair[0])
+                    simple_list.append(" " + actionPair[0])
                 else:
                     simple_list.append(actionPair)
         return simple_list

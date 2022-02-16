@@ -99,6 +99,10 @@
             margin: 0 25%;
         }
 
+        div#action_list {
+            margin: 0 5%;
+        }
+
         div#navigation {
             float: left;
             width: 20%;
@@ -133,13 +137,14 @@
         <div id="content">
             <p><strong>MCS Window</strong></p>
             <p>Below is the view presented to the agent. The window starts up blank, but will respond
-                to keystrokes (see key to right). </p>
+                to keystrokes (see key to right).  Current action list: <div id="action_list">(load scene to see)</div>
+            </p>
             <p>Note: there may be a lag between inputs and the result
                 on the screen or the image may be one step behind. We're working on it.</p>
             <img id="unityimg" width="640" height="480" src="{{ unityimg }}" alt="my image" class="center"/>
             <br/>
             <p></p>
-            <div id="action_list">Action List: ???</div>
+
         </div>
     </div>
     <div id="navigation">
@@ -192,7 +197,7 @@
     function updateActionList(data) {
         console.log("actionList is " + data.action_list)
         var actionList = document.getElementById('action_list');
-        actionList.innerHTML = "Action List: " + data.action_list
+        actionList.innerHTML = data.action_list
     }
 
     // ---------------------------------------------------------
