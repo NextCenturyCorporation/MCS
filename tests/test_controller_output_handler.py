@@ -110,7 +110,8 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "shape": "shape",
                     "visibleInCamera": True,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
+                    "locked": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -149,7 +150,8 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "shape": "shapeHidden",
                     "visibleInCamera": False,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
+                    "locked": False
                 }],
                 "structuralObjects": [{
                     "colorsFromMaterials": ["c2"],
@@ -189,7 +191,8 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "shape": "structure",
                     "visibleInCamera": True,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
+                    "locked": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -228,7 +231,8 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "shape": "structureHidden",
                     "visibleInCamera": False,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
+                    "locked": False
                 }]
             }
         }, image_data, depth_data, object_mask_data
@@ -269,7 +273,8 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "shape": "shape1",
                     "visibleInCamera": True,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
+                    "locked": False
                 }, {
                     "colorsFromMaterials": ["c2", "c3"],
                     "direction": {
@@ -308,7 +313,8 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "shape": "shape2",
                     "visibleInCamera": True,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
+                    "locked": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -347,7 +353,8 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "shape": "shape3",
                     "visibleInCamera": False,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
+                    "locked": False
                 }]
             }
         }

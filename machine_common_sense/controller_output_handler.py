@@ -235,7 +235,8 @@ class SceneEvent():
                 object_metadata['isPickedUp']
             ),
             is_open=object_metadata['isOpen'],
-            openable=object_metadata['openable']
+            openable=object_metadata['openable'],
+            locked=object_metadata['locked']
         )
 
 

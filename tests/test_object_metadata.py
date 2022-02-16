@@ -24,7 +24,8 @@ class TestObjectMetadata(unittest.TestCase):
         "texture_color_list": [],
         "visible": false,
         "is_open": false,
-        "openable": false
+        "openable": false,
+        "locked": false
     }'''
 
     @classmethod

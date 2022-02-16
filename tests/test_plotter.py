@@ -17,15 +17,15 @@ resources_path = os.path.join(test_path, 'resources')
 class TestSceneCoord(unittest.TestCase):
 
     def test_add(self):
-        sc1 = SceneCoord(x=-1.0, z=2.5)
-        sc2 = SceneCoord(x=1.0, z=-2.5)
+        sc1 = SceneCoord(x=-1.0, y=0, z=2.5)
+        sc2 = SceneCoord(x=1.0, y=0, z=-2.5)
         sc_add = sc1 + sc2
         self.assertAlmostEqual(sc_add.x, 0)
         self.assertAlmostEqual(sc_add.z, 0)
 
     def test_subtract(self):
-        sc1 = SceneCoord(x=-1.0, z=2.5)
-        sc2 = SceneCoord(x=1.0, z=-2.5)
+        sc1 = SceneCoord(x=-1.0, y=0, z=2.5)
+        sc2 = SceneCoord(x=1.0, y=0, z=-2.5)
 
         sc_sub = sc1 - sc2
         self.assertAlmostEqual(sc_sub.x, -2.0)
@@ -38,8 +38,8 @@ class TestSceneCoord(unittest.TestCase):
 
     def test_midpoint(self):
         '''Gets the midpoint between the two points'''
-        sc1 = SceneCoord(x=-1.0, z=2.5)
-        sc2 = SceneCoord(x=1.0, z=-2.5)
+        sc1 = SceneCoord(x=-1.0, y=0, z=2.5)
+        sc2 = SceneCoord(x=1.0, y=0, z=-2.5)
 
         sc_sub = sc1 | sc2
         self.assertAlmostEqual(sc_sub.x, 0.0)
@@ -53,7 +53,7 @@ class TestSceneCoord(unittest.TestCase):
 
 class TestRamp(unittest.TestCase):
 
-    bounds = [
+    bounds = [SceneCoord(**pt) for pt in [
         {'x': 2.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
         {'x': 1.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
         {'x': 1.5, 'y': -0.006698787212371826, 'z': -1.9570508003234863},
@@ -62,7 +62,7 @@ class TestRamp(unittest.TestCase):
         {'x': 1.5, 'y': 1.9066987037658691, 'z': 1.5570507049560547},
         {'x': 1.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705},
         {'x': 2.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705}
-    ]
+    ]]
 
     def test_ramp_arrow(self):
         ramp = Ramp(
@@ -76,11 +76,11 @@ class TestRamp(unittest.TestCase):
         self.assertIsInstance(arrow.floor, list)
         self.assertIsInstance(arrow.floor[0], SceneCoord)
 
-        self.assertAlmostEqual(arrow.floor[0].x, self.bounds[2]['x'])
-        self.assertAlmostEqual(arrow.floor[0].z, self.bounds[2]['z'])
+        self.assertAlmostEqual(arrow.floor[0].x, self.bounds[2].x)
+        self.assertAlmostEqual(arrow.floor[0].z, self.bounds[2].z)
 
-        self.assertAlmostEqual(arrow.floor[1].x, self.bounds[3]['x'])
-        self.assertAlmostEqual(arrow.floor[1].z, self.bounds[3]['z'])
+        self.assertAlmostEqual(arrow.floor[1].x, self.bounds[3].x)
+        self.assertAlmostEqual(arrow.floor[1].z, self.bounds[3].z)
 
         self.assertIsInstance(arrow.peak, SceneCoord)
         self.assertAlmostEqual(arrow.peak.x, 2.0)
@@ -637,11 +637,11 @@ class TestTopDownPlotter(unittest.TestCase):
             visible=True,
             uuid='1',
             color='green',
-            bounds=[
-                {'x': 1, 'z': 1},
-                {'x': 2, 'z': 1},
-                {'x': 2, 'z': 2},
-                {'x': 1, 'z': 2}])
+            bounds=[SceneCoord(**pt) for pt in [
+                {'x': 1, 'y': 0, 'z': 1},
+                {'x': 2, 'y': 0, 'z': 1},
+                {'x': 2, 'y': 0, 'z': 2},
+                {'x': 1, 'y': 0, 'z': 2}]])
 
         plotter = TopDownPlotter(
             team="test",
@@ -687,11 +687,11 @@ class TestTopDownPlotter(unittest.TestCase):
             visible=True,
             uuid='1',
             color='blue',
-            bounds=[
-                {'x': 1, 'z': 1},
-                {'x': 2, 'z': 1},
-                {'x': 2, 'z': 2},
-                {'x': 1, 'z': 2}])
+            bounds=[SceneCoord(**pt) for pt in [
+                {'x': 1, 'y': 0, 'z': 1},
+                {'x': 2, 'y': 0, 'z': 1},
+                {'x': 2, 'y': 0, 'z': 2},
+                {'x': 1, 'y': 0, 'z': 2}]])
 
         plotter = TopDownPlotter(
             team="test",
@@ -735,11 +735,11 @@ class TestTopDownPlotter(unittest.TestCase):
             visible=False,
             uuid='1',
             color='yellow',
-            bounds=[
-                {'x': 1, 'z': 1},
-                {'x': 2, 'z': 1},
-                {'x': 2, 'z': 2},
-                {'x': 1, 'z': 2}])
+            bounds=[SceneCoord(**pt) for pt in [
+                {'x': 1, 'y': 0, 'z': 1},
+                {'x': 2, 'y': 0, 'z': 1},
+                {'x': 2, 'y': 0, 'z': 2},
+                {'x': 1, 'y': 0, 'z': 2}]])
 
         plotter = TopDownPlotter(
             team="test",
@@ -778,7 +778,7 @@ class TestTopDownPlotter(unittest.TestCase):
                 z=10),
             floor_textures=[]
         )
-        bounds = [
+        bounds = [SceneCoord(**pt) for pt in [
             {'x': 2.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
             {'x': 1.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
             {'x': 1.5, 'y': -0.006698787212371826, 'z': -1.9570508003234863},
@@ -787,7 +787,7 @@ class TestTopDownPlotter(unittest.TestCase):
             {'x': 1.5, 'y': 1.9066987037658691, 'z': 1.5570507049560547},
             {'x': 1.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705},
             {'x': 2.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705}
-        ]
+        ]]
 
         ramp = SceneAsset(
             held=False,
@@ -835,7 +835,7 @@ class TestTopDownPlotter(unittest.TestCase):
                 z=10),
             floor_textures=[]
         )
-        bounds = [
+        bounds = [SceneCoord(**pt) for pt in [
             {'x': 2.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
             {'x': 1.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
             {'x': 1.5, 'y': -0.006698787212371826, 'z': -1.9570508003234863},
@@ -844,7 +844,7 @@ class TestTopDownPlotter(unittest.TestCase):
             {'x': 1.5, 'y': 1.9066987037658691, 'z': 1.5570507049560547},
             {'x': 1.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705},
             {'x': 2.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705}
-        ]
+        ]]
 
         ramp = SceneAsset(
             held=False,
