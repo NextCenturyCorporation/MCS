@@ -17,7 +17,8 @@ def start_subprocess(command_dir, image_dir):
         ["python3", "run_scene_with_dir.py",
          "--mcs_command_in_dir", command_dir,
          "--mcs_image_out_dir", image_dir])
-    logger.info(f"Unity controller process started:  {proc.pid}")
+    logger.info(f"Unity controller process started:  {proc.pid}." +
+                " Command: {command_dir}.  Img: {image_dir}")
     return proc.pid
 
 
@@ -37,28 +38,21 @@ def is_file_open(pid, file_to_check_on):
     if not os.access(dir, os.R_OK | os.X_OK):
         return False
 
-    logger.debug(f"starting check for {file_to_check_on} -----------")
     for fds in os.listdir(dir):
-        logger.debug(f"fds: {fds}")
         for fd in fds:
-            logger.debug(f"fd:  {fd}")
             full_name = os.path.join(dir, fd)
-            logger.debug(f"full_name {full_name}")
             try:
                 file = os.readlink(full_name)
-                logger.debug(f"file itself: {file}")
                 if file == '/dev/null' or \
                         re.match(r'pipe:\[\d+\]', file) or \
                         re.match(r'socket:\[\d+\]', file):
                     continue
 
                 if file.endswith(file_to_check_on):
-                    logger.debug("Found it --------------------------------------")
                     return True
 
             except OSError:
                 # TODO:  Do something more intelligent here???
                 return False
 
-    logger.debug(f" did not find {file_to_check_on} in process {pid}")
     return False
