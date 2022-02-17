@@ -7,19 +7,23 @@ import machine_common_sense as mcs
 
 INTEGRATION_TESTS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 DEPTH_AND_SEGMENTATION_SCENE = (
-    INTEGRATION_TESTS_FOLDER + '/depth_and_segmentation.scene.json'
+    f'{INTEGRATION_TESTS_FOLDER}/depth_and_segmentation.scene.json'
 )
+
 HABITUATION_TRIAL_COUNTS_SCENE = (
-    INTEGRATION_TESTS_FOLDER + '/habituation_trial_counts.scene.json'
+    f'{INTEGRATION_TESTS_FOLDER}/habituation_trial_counts.scene.json'
 )
+
 NUMPY_ARRAY_DATA_SCENE = (
-    INTEGRATION_TESTS_FOLDER + '/numpy_array_data.scene.json'
+    f'{INTEGRATION_TESTS_FOLDER}/numpy_array_data.scene.json'
 )
+
 RESTRICTED_ACTION_LIST_SCENE = (
-    INTEGRATION_TESTS_FOLDER + '/restricted_action_list.scene.json'
+    f'{INTEGRATION_TESTS_FOLDER}/restricted_action_list.scene.json'
 )
+
 SAMPLE_SCENES_FOLDER = (
-    INTEGRATION_TESTS_FOLDER + '../machine_common_sense/scenes/'
+    f'{INTEGRATION_TESTS_FOLDER}../machine_common_sense/scenes/'
 )
 
 
@@ -37,13 +41,15 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
             f'Step 0 {metadata_tier} failed: depth_map_list with length '
             f'{len(step_metadata_0.depth_map_list)} should be length 1'
         )
-    if metadata_tier == 'level2' or metadata_tier == 'oracle':
-        if len(step_metadata_0.object_mask_list) != 1:
-            return (
-                False,
-                f'Step 0 {metadata_tier} failed: object_mask_list with length '
-                f'{len(step_metadata_0.object_mask_list)} should be length 1'
-            )
+    if (
+        metadata_tier in ['level2', 'oracle'] and len(
+            step_metadata_0.object_mask_list) != 1
+    ):
+        return (
+            False,
+            f'Step 0 {metadata_tier} failed: object_mask_list with length '
+            f'{len(step_metadata_0.object_mask_list)} should be length 1'
+        )
 
     # Run an action step.
     step_metadata_1 = controller.step('Pass')
@@ -55,13 +61,15 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
             f'Step 1 {metadata_tier} failed: depth_map_list with length '
             f'{len(step_metadata_1.depth_map_list)} should be length 1'
         )
-    if metadata_tier == 'level2' or metadata_tier == 'oracle':
-        if len(step_metadata_1.object_mask_list) != 1:
-            return (
-                False,
-                f'Step 1 {metadata_tier} failed: object_mask_list with length '
-                f'{len(step_metadata_1.object_mask_list)} should be length 1'
-            )
+    if (
+        metadata_tier in ['level2', 'oracle'] and len(
+            step_metadata_1.object_mask_list) != 1
+    ):
+        return (
+            False,
+            f'Step 1 {metadata_tier} failed: object_mask_list with length '
+            f'{len(step_metadata_1.object_mask_list)} should be length 1'
+        )
     # Verify the consistent segment_color of each object across both steps.
     if metadata_tier == 'oracle':
         if (
@@ -128,7 +136,7 @@ def run_habituation_trial_counts_test(controller, metadata_tier):
         )
 
     # Try a couple of pass actions.
-    for i in range(0, 2):
+    for _ in range(2):
         step_metadata = controller.step('Pass')
         if step_metadata.habituation_trial != 1:
             return (
@@ -147,7 +155,7 @@ def run_habituation_trial_counts_test(controller, metadata_tier):
         )
 
     # Try a lot of pass actions.
-    for i in range(0, 10):
+    for _ in range(10):
         step_metadata = controller.step('Pass')
         if step_metadata.habituation_trial != 2:
             return (
@@ -175,7 +183,7 @@ def run_habituation_trial_counts_test(controller, metadata_tier):
         )
 
     # Try a couple of pass actions.
-    for i in range(0, 2):
+    for _ in range(2):
         step_metadata = controller.step('Pass')
         if step_metadata.habituation_trial is not None:
             return (
@@ -221,7 +229,7 @@ def run_position_by_step_test(controller, metadata_tier):
 
 
 def run_public_sample_scenes_test(controller, metadata_tier):
-    scene_filename_list = sorted(glob.glob(SAMPLE_SCENES_FOLDER + '*.json'))
+    scene_filename_list = sorted(glob.glob(f'{SAMPLE_SCENES_FOLDER}*.json'))
     failed_test_list = []
 
     for scene_filename in scene_filename_list:
@@ -242,8 +250,8 @@ def run_public_sample_scenes_test(controller, metadata_tier):
         controller.end_scene()
 
     return (
-        len(failed_test_list) == 0,
-        f'Failed to load scenes {",".join(failed_test_list)}'
+        not failed_test_list,
+        f'Failed to load scenes {",".join(failed_test_list)}',
     )
 
 

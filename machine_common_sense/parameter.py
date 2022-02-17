@@ -67,6 +67,8 @@ class Parameter:
     # # value is set based off of the action
     # # TODO: Move this to an enum or some place, so that you can determine
     # # special move interactions that way
+    # TODO MCS-1181 Could be in the actions module
+    # TODO MCS-1181 list of Action enums versus strings
     FORCE_ACTIONS = ["PushObject", "PullObject", "TorqueObject"]
     OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
     # DW: not used anywhere
@@ -140,6 +142,7 @@ class Parameter:
             except ValueError as err:
                 raise ValueError('Force is not a number') from err
 
+            # TODO MCS-1181 use Enum instead of magic string
             if action == "TorqueObject":
                 if (force < self.MIN_AMOUNT_TORQUE or force >
                         self.MAX_AMOUNT_TORQUE):
@@ -231,12 +234,12 @@ class Parameter:
         return {'y': teleport_rot_input} \
             if teleport_rot_input is not None else None
 
-    def _validate_and_convert_params(self, **kwargs) -> Tuple:
+    def _validate_and_convert_params(self, **kwargs) -> Tuple[Action, Dict]:
         """Need a validation/conversion step for what ai2thor will accept as input
         to keep parameters more simple for the user (in this case, wrapping
         rotation degrees into an object)
         """
-        action = kwargs.get('action')
+        action = Action[kwargs.get('action')]
         amount = self._get_amount(**kwargs)
         force = self._get_force(**kwargs)
         object_image_coords_x = int(self._get_number_with_default(
@@ -292,21 +295,22 @@ class Parameter:
             clockwise=clockwise
         )
 
-    def _mcs_action_to_ai2thor_action(self, action: str) -> str:
-        if action == Action.CLOSE_OBJECT.value:
+    def _mcs_action_to_ai2thor_action(self, action: Action) -> str:
+        # TODO MCS-1181 this does feel like it belongs in Action
+        if action == Action.CLOSE_OBJECT:
             # The AI2-THOR Python library has buggy error checking
             # specifically for the CloseObject action,
             # so just use our own custom action here.
             return "MCSCloseObject"
-        elif action == Action.DROP_OBJECT.value:
+        elif action == Action.DROP_OBJECT:
             return "DropHandObject"
-        elif action == Action.OPEN_OBJECT.value:
+        elif action == Action.OPEN_OBJECT:
             # The AI2-THOR Python library has buggy error checking
             # specifically for the OpenObject action,
             # so just use our own custom action here.
             return "MCSOpenObject"
 
-        return action
+        return action.value
 
     def _generate_noise(self) -> float:
         """

@@ -1,5 +1,6 @@
 import unittest
 
+from machine_common_sense.action import Action
 from machine_common_sense.config_manager import ConfigManager
 from machine_common_sense.controller import DEFAULT_MOVE
 from machine_common_sense.parameter import Parameter, compare_param_values
@@ -484,29 +485,21 @@ class TestParameter(unittest.TestCase):
         )
 
     def test_mcs_action_to_ai2thor_action(self):
-        # TODO any string is passed through
-        # should we leave an Action enum?
         ai2thor_action = \
             self.parameter_converter._mcs_action_to_ai2thor_action(
-                "")
-        self.assertIsInstance(ai2thor_action, str)
-        self.assertEqual(ai2thor_action, "")
-
-        ai2thor_action = \
-            self.parameter_converter._mcs_action_to_ai2thor_action(
-                "OpenObject")
+                Action.OPEN_OBJECT)
         self.assertIsInstance(ai2thor_action, str)
         self.assertEqual(ai2thor_action, "MCSOpenObject")
 
         ai2thor_action = \
             self.parameter_converter._mcs_action_to_ai2thor_action(
-                "CloseObject")
+                Action.CLOSE_OBJECT)
         self.assertIsInstance(ai2thor_action, str)
         self.assertEqual(ai2thor_action, "MCSCloseObject")
 
         ai2thor_action = \
             self.parameter_converter._mcs_action_to_ai2thor_action(
-                "DropObject")
+                Action.DROP_OBJECT)
         self.assertIsInstance(ai2thor_action, str)
         self.assertEqual(ai2thor_action, "DropHandObject")
 
