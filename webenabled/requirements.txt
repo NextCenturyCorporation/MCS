@@ -4,5 +4,6 @@ flask_session
 watchdog
 pytest
 flake8
+isort==5.8.0
 
 machine-common-sense==0.5.0

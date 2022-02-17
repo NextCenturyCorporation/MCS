@@ -51,15 +51,23 @@ def clean_request_data(response):
 def get_mcs_interface(request):
     # Do we know who this is?
     uniq_id_str = request.cookies.get("uniq_id")
-    app.logger.warn(f"Uniq id: {uniq_id_str}")
+    app.logger.info(f"Uniq id: {uniq_id_str}")
 
     # If old user, get stored mcs interface
     if uniq_id_str is not None:
         mcs_interface = session.get(uniq_id_str)
         if mcs_interface is not None:
+            app.logger.info("mcs_interface found in session")
             controller_alive = mcs_interface.is_controller_alive()
             if controller_alive:
+                app.logger.info("controller alive, returning interface")
                 return mcs_interface, uniq_id_str
+            else:
+                app.logger.info("controller not alive")
+        else:
+            app.logger.info("mcs_interface is not found in session")
+    else:
+        app.logger.info("cannot find uniq id in cookies")
 
     # Don't recognize, create new mcs interface
     mcs_interface = MCSInterface()
