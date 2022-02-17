@@ -154,13 +154,9 @@ class TestGoalMetadata(unittest.TestCase):
 
     def test_retrieve_action_list_hidden_endhabituation_params(self):
         goal_metadata = mcs.GoalMetadata(action_list=[
-            ['Pass'],
-            ['LookDown', 'LookUp', 'RotateLeft', 'RotateRight', 'Pass'],
-            [],
             ['EndHabituation,xPosition=0,zPosition=0,yRotation=90'],
-            [('PickupObject', {'objectId': 'target'})]
         ])
-        self.assertEqual(goal_metadata.retrieve_action_list_at_step(3), [
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(0), [
             ('EndHabituation', {})
         ])
 
