@@ -17,10 +17,11 @@ import time
 import uuid
 from os.path import exists
 
-import machine_common_sense as mcs
-from machine_common_sense import StepMetadata
 from watchdog.events import PatternMatchingEventHandler
 from watchdog.observers import Observer
+
+import machine_common_sense as mcs
+from machine_common_sense import StepMetadata
 
 
 class RunSceneWithDir:
