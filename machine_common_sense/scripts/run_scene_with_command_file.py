@@ -36,12 +36,8 @@ def run_commands(controller, config_data, command_data):
 
 def main():
     args = parse_args()
-    config_data, status = mcs.load_scene_json_file(args.mcs_config_json_file)
+    config_data = mcs.load_scene_json_file(args.mcs_config_json_file)
     command_data = load_command_file(args.mcs_command_list_file)
-
-    if status is not None:
-        print(status)
-        exit()
 
     controller = mcs.create_controller(
         unity_app_file_path=args.mcs_unity_build_file,

@@ -222,7 +222,7 @@ Example Using the Config File to Generate Scene Graphs or Maps
     controller = mcs.create_controller(config_file_or_dict='path/to/config')
 
     for scene_file in scene_files:
-        scene_data, status = mcs.load_scene_json_file(scene_file)
+        scene_data = mcs.load_scene_json_file(scene_file)
 
         if status is not None:
             print(status)

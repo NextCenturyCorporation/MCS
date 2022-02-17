@@ -353,14 +353,20 @@ class TestTopDownPlotter(unittest.TestCase):
             'screenWidth': 600,
             'screenHeight': 400,
             'objects': [
-                {'objectId': 'test-uuid1'},
-                {'objectId': 'test-uuid2'},
-                {'objectId': 'test-uuid3'}
+                {'objectId': 'test-uuid1',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 0}]}},
+                {'objectId': 'test-uuid2',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 0}]}},
+                {'objectId': 'test-uuid3',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 0}]}},
             ],
             'structuralObjects': [
-                {'objectId': 'occluder1'},
-                {'objectId': 'occluder2'},
-                {'objectId': 'wall1'}
+                {'objectId': 'occluder1',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 0}]}},
+                {'objectId': 'occluder2',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 0}]}},
+                {'objectId': 'wall1',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 0}]}},
             ]
         }
         scene_event = ai2thor.server.Event(metadata=metadata)
@@ -381,17 +387,64 @@ class TestTopDownPlotter(unittest.TestCase):
             'screenWidth': 600,
             'screenHeight': 400,
             'objects': [
-                {'objectId': 'test-uuid1'},
-                {'objectId': 'test-uuid2'},
-                {'objectId': 'test-uuid3'}
+                {'objectId': 'test-uuid1',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 0}]}},
+                {'objectId': 'test-uuid2',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 0}]}},
+                {'objectId': 'test-uuid3',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 0}]}},
             ],
             'structuralObjects': [
-                {'objectId': 'occluder1'},
-                {'objectId': 'occluder2'},
-                {'objectId': 'wall1'},
-                {'objectId': 'future-object'},
-                {'objectId': 'floor-gets-filtered'},
-                {'objectId': 'ceiling-gets-filtered'}
+                {'objectId': 'occluder1',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 0}]}},
+                {'objectId': 'occluder2',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 0}]}},
+                {'objectId': 'wall1',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 0}]}},
+                {'objectId': 'future-object',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 0}]}},
+                {'objectId': 'floor-gets-filtered',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 0}]}},
+                {'objectId': 'ceiling-gets-filtered',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 0}]}},
+            ]
+        }
+        scene_event = ai2thor.server.Event(metadata=metadata)
+        filtered_objects = self.plotter._find_plottable_objects(scene_event)
+        self.assertEqual(len(filtered_objects), 7)
+        self.assertEqual(filtered_objects[0]['objectId'], 'occluder1')
+        self.assertEqual(filtered_objects[1]['objectId'], 'occluder2')
+        self.assertEqual(filtered_objects[2]['objectId'], 'wall1')
+        self.assertEqual(filtered_objects[3]['objectId'], 'future-object')
+        self.assertEqual(filtered_objects[4]['objectId'], 'test-uuid1')
+        self.assertEqual(filtered_objects[5]['objectId'], 'test-uuid2')
+        self.assertEqual(filtered_objects[6]['objectId'], 'test-uuid3')
+
+    def test_find_plottable_objects_sorted(self):
+        metadata = {
+            'screenWidth': 600,
+            'screenHeight': 400,
+            'objects': [
+                {'objectId': 'test-uuid1',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 5}]}},
+                {'objectId': 'test-uuid2',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 6}]}},
+                {'objectId': 'test-uuid3',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 7}]}},
+            ],
+            'structuralObjects': [
+                {'objectId': 'occluder1',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 1}]}},
+                {'objectId': 'occluder2',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 2}]}},
+                {'objectId': 'wall1',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 3}]}},
+                {'objectId': 'future-object',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 4}]}},
+                {'objectId': 'floor-gets-filtered',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 0}]}},
+                {'objectId': 'ceiling-gets-filtered',
+                 'objectBounds': {'objectBoundsCorners': [{'y': 0}]}},
             ]
         }
         scene_event = ai2thor.server.Event(metadata=metadata)

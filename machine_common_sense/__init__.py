@@ -154,7 +154,7 @@ def change_config(controller: Controller,
 
 
 @typeguard.typechecked
-def load_scene_json_file(scene_json_file_path: str):
+def load_scene_json_file(scene_json_file_path: str) -> Dict:
     """
     Loads the given JSON scene config file and returns its data.
 
@@ -167,17 +167,12 @@ def load_scene_json_file(scene_json_file_path: str):
     -------
     dict
         The MCS scene configuration data from the given JSON file.
-    None or string
-        The error status (if any).
+
+    Raises
+    ------
+    FileNotFoundError
+    ValueError
     """
-    try:
-        with open(scene_json_file_path, encoding='utf-8-sig') \
-                as config_json_file_object:
-            try:
-                return json.load(config_json_file_object), None
-            except ValueError:
-                return {}, "The given file '" + scene_json_file_path + \
-                    "' does not contain valid JSON."
-    except IOError:
-        return {}, "The given file '" + scene_json_file_path + \
-            "' cannot be found."
+    with open(scene_json_file_path, encoding='utf-8-sig') \
+            as config_json_file_object:
+        return json.load(config_json_file_object)

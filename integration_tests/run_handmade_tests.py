@@ -178,10 +178,7 @@ def load_output_list(scene_filename, metadata_tier):
 
 def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
     # Load the test scene's JSON data.
-    scene_data, status = mcs.load_scene_json_file(scene_filename)
-
-    if status is not None:
-        return False, status
+    scene_data = mcs.load_scene_json_file(scene_filename)
 
     # Load this test's expected output metadata at each action step.
     output_filename, expected_output_data_list = load_output_list(

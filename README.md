@@ -80,7 +80,7 @@ controller = mcs.create_controller(config_file_or_dict='./some-path/sample_confi
 
 # Either load the scene data dict from an MCS scene config JSON file or create your own.
 # We will give you the training scene config JSON files and the format to make your own.
-scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
+scene_data = mcs.load_scene_json_file(scene_json_file_path)
 
 output = controller.start_scene(scene_data)
 

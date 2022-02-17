@@ -796,14 +796,18 @@ class TestController(unittest.TestCase):
 
     def test_step_validate_action(self):
         _ = self.controller.start_scene({'name': TEST_FILE_NAME})
-        output = self.controller.step('Foobar')
-        self.assertIsNone(output)
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step('Foobar')
+        )
 
         self.controller.set_goal(mcs.GoalMetadata(action_list=[
             [('Pass', {})]
         ]))
-        output = self.controller.step('MoveAhead')
-        self.assertIsNone(output)
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step('MoveAhead')
+        )
 
         self.controller.set_goal(mcs.GoalMetadata(action_list=[
             [('MoveAhead', {})],
@@ -811,8 +815,10 @@ class TestController(unittest.TestCase):
         ))
         output = self.controller.step('MoveAhead')
         self.assertIsNotNone(output)
-        output = self.controller.step('MoveAhead')
-        self.assertIsNone(output)
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step('MoveAhead')
+        )
 
     def test_step_validate_parameters_move(self):
         _ = self.controller.start_scene({'name': TEST_FILE_NAME})

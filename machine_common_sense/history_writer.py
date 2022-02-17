@@ -102,7 +102,9 @@ class HistoryEventHandler(AbstractControllerSubscriber):
 class HistoryWriter(object):
     HISTORY_DIRECTORY = "SCENE_HISTORY"
 
-    def __init__(self, scene_config_data=None, hist_info={}, timestamp=''):
+    def __init__(self, scene_config_data=None, hist_info=None, timestamp=''):
+        if hist_info is None:
+            hist_info = {}
         self.info_obj = hist_info
         self.current_steps = []
         self.end_score = {}
