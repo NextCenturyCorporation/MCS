@@ -45,9 +45,9 @@ class MCSInterface:
             os.mkdir(MCS_INTERFACE_TMP_DIR)
 
         self.command_out_dir = MCS_INTERFACE_TMP_DIR + \
-                               "cmd_" + str(time.time()) + "/"
+            "cmd_" + str(time.time()) + "/"
         self.image_in_dir = MCS_INTERFACE_TMP_DIR + \
-                            "img_" + str(time.time()) + "/"
+            "img_" + str(time.time()) + "/"
         if not exists(self.command_out_dir):
             os.mkdir(self.command_out_dir)
         if not exists(self.image_in_dir):
@@ -103,7 +103,7 @@ class MCSInterface:
 
     def _post_step_and_get_image(self, action):
         command_file_name = self.command_out_dir + \
-                            "command_" + str(uuid.uuid4()) + ".txt"
+            "command_" + str(uuid.uuid4()) + ".txt"
         f = open(command_file_name, "a")
         f.write(action)
         f.close()
@@ -181,9 +181,9 @@ class MCSInterface:
         the extra quotes"""
         simple_list_str = scene_filename + ": "
         if default_action_list is not None and len(default_action_list) > 0:
-            for actionPair in default_action_list:
-                if isinstance(actionPair, tuple) and len(actionPair) > 0:
-                    simple_list_str += (" " + actionPair[0])
+            for action_pair in default_action_list:
+                if isinstance(action_pair, tuple) and len(action_pair) > 0:
+                    simple_list_str += (" " + action_pair[0])
                 else:
-                    simple_list_str += (" " + actionPair)
+                    simple_list_str += (" " + action_pair)
         return simple_list_str

@@ -172,5 +172,5 @@ if __name__ == "__main__":
     command_dir = args.mcs_command_in_dir
     image_dir = args.mcs_image_out_dir
 
-    runScene = RunSceneWithDir(command_dir, image_dir)
-    runScene.run_loop()
+    run_scene = RunSceneWithDir(command_dir, image_dir)
+    run_scene.run_loop()

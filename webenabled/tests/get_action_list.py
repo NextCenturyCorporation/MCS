@@ -24,11 +24,11 @@ def simplify_action_list(default_action_list):
     the extra quotes"""
     simple_list = []
     if default_action_list is not None and len(default_action_list) > 0:
-        for actionPair in default_action_list:
-            if isinstance(actionPair, tuple) and len(actionPair) > 0:
-                simple_list.append(" " + actionPair[0])
+        for action_pair in default_action_list:
+            if isinstance(action_pair, tuple) and len(action_pair) > 0:
+                simple_list.append(" " + action_pair[0])
             else:
-                simple_list.append(actionPair)
+                simple_list.append(action_pair)
     return simple_list
 
 
