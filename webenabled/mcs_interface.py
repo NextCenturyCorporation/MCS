@@ -45,9 +45,9 @@ class MCSInterface:
             os.mkdir(MCS_INTERFACE_TMP_DIR)
 
         self.command_out_dir = MCS_INTERFACE_TMP_DIR + \
-            "cmd_" + str(time.time()) + "/"
+                               "cmd_" + str(time.time()) + "/"
         self.image_in_dir = MCS_INTERFACE_TMP_DIR + \
-            "img" + str(time.time()) + "/"
+                            "img_" + str(time.time()) + "/"
         if not exists(self.command_out_dir):
             os.mkdir(self.command_out_dir)
         if not exists(self.image_in_dir):
@@ -86,8 +86,8 @@ class MCSInterface:
 
     def load_scene(self, scene_filename: str):
         self.logger.info(f" loading {scene_filename}")
-        action_list = self.get_action_list(scene_filename)
-        self.logger.info(f"Action list: {action_list}")
+        action_list_str = self.get_action_list(scene_filename)
+        self.logger.info(f"Action list: {action_list_str}")
         img = self._post_step_and_get_image(scene_filename)
         self.logger.info(f"done loading scene. image is {img} ")
 
@@ -95,7 +95,7 @@ class MCSInterface:
         # img = self.perform_action(" ")
         # self.logger.info(f" finished action pass {img}")
 
-        return img, action_list
+        return img, action_list_str
 
     def perform_action(self, key: str):
         action = convert_key_to_action(key, self.logger)
@@ -103,7 +103,7 @@ class MCSInterface:
 
     def _post_step_and_get_image(self, action):
         command_file_name = self.command_out_dir + \
-            "command_" + str(uuid.uuid4()) + ".txt"
+                            "command_" + str(uuid.uuid4()) + ".txt"
         f = open(command_file_name, "a")
         f.write(action)
         f.close()
@@ -154,20 +154,6 @@ class MCSInterface:
         scene_list.sort()
         return scene_list
 
-    def simplify_action_list(self, default_action_list):
-        """The action list looks something like:
-        [('CloseObject', {}), ('DropObject', {}), ('MoveAhead', {}), ...
-        which is not very user-friendly.  For each of them, remove
-        the extra quotes"""
-        simple_list = []
-        if default_action_list is not None and len(default_action_list) > 0:
-            for actionPair in default_action_list:
-                if isinstance(actionPair, tuple) and len(actionPair) > 0:
-                    simple_list.append(" " + actionPair[0])
-                else:
-                    simple_list.append(actionPair)
-        return simple_list
-
     def get_action_list(self, scene_filename):
         """Simplification of getting the action list as a function
         of step"""
@@ -178,10 +164,26 @@ class MCSInterface:
                     goal = scene_data['goal']
                     if 'action_list' in goal:
                         action_list = goal['action_list']
-                        return self.simplify_action_list(action_list[0])
+                        return self.simplify_action_list(
+                            scene_filename, action_list[0])
                     else:
                         return self.simplify_action_list(
+                            scene_filename,
                             GoalMetadata.ACTION_LIST)
         except Exception as e:
             self.logger.warn(f"Exception in reading json file: {e}")
             return GoalMetadata.ACTION_LIST
+
+    def simplify_action_list(self, scene_filename, default_action_list):
+        """The action list looks something like:
+        [('CloseObject', {}), ('DropObject', {}), ('MoveAhead', {}), ...
+        which is not very user-friendly.  For each of them, remove
+        the extra quotes"""
+        simple_list_str = scene_filename + ": "
+        if default_action_list is not None and len(default_action_list) > 0:
+            for actionPair in default_action_list:
+                if isinstance(actionPair, tuple) and len(actionPair) > 0:
+                    simple_list_str += (" " + actionPair[0])
+                else:
+                    simple_list_str += (" " + actionPair)
+        return simple_list_str
