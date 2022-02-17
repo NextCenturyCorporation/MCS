@@ -1,5 +1,5 @@
 import random
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 from .action import Action
 from .config_manager import ConfigManager, MetadataTier
@@ -20,6 +20,27 @@ def compare_param_values(value_1: Any, value_2: Any) -> bool:
         if isinstance(value, float) and value.is_integer():
             data[key] = int(value)
     return data['value_1'] == data['value_2']
+
+
+def rebuild_endhabituation(step_action_list: List) -> str:
+    '''Rebuilds EndHabituation parameters from the goal's action list for the
+    current step. Parameters can include some or all of xPosition, zPosition,
+    and yRotation. Parameters are removed from the step_metadata list of
+    potentital actions in order for teleportation/displacement to be hidden
+    from AIs.
+    '''
+    # sourcery skip: use-named-expression
+    action = Action.END_HABITUATION.value
+    endhabituation_action = next((
+        item for item in step_action_list
+        if item[0] == action), None)
+    if endhabituation_action is not None:
+        params = ",".join(
+            f"{k}={v}" for k,
+            v in endhabituation_action[1].items())
+        if params:
+            action = f"{action},{params}"
+    return action
 
 
 class Parameter:
