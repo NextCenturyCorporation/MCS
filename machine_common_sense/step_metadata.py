@@ -53,8 +53,9 @@ class StepMetadata:
         for a scene with a scripted Preview Phase (Preview Phase case details
         TBD).
         Each depth float in a 2-dimensional numpy array is a value between 0
-        and the camera's far clipping plane (default 15) correspondings to the
-        depth in simulation units at that pixel in the image.
+        and 1.0 corresponding to the depth in simulation units at that pixel
+        in the image: 0 represents the camera's near clipping plane (default
+        0.01); 1.0 represents the camera's far clipping plane (default 150).
         Note that this list will be empty if the metadata level is 'none'.
     goal : GoalMetadata or None
         The goal for the whole scene. Will be None in "Exploration" scenes.
@@ -212,14 +213,14 @@ class StepMetadata:
         yield 'camera_height', self.camera_height
         # TODO MCS-1142 REMOVE
         yield 'depth_map_list', self.depth_map_list,
-        # Intentially no depth_map_list
+        # Intentionally no depth_map_list
         yield 'goal', dict(self.goal)
         yield 'habituation_trial', self.habituation_trial
         yield 'haptic_feedback', self.haptic_feedback
         yield 'head_tilt', self.head_tilt
-        # Intentially no image_list
+        # Intentionally no image_list
         yield 'object_list', self.check_list_none(self.object_list)
-        # Intentially no object_mask_list
+        # Intentionally no object_mask_list
         yield 'performer_radius', self.performer_radius
         yield 'performer_reach', self.performer_reach
         yield 'physics_frames_per_second', self.physics_frames_per_second
