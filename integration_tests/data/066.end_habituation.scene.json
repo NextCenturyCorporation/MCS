@@ -14,28 +14,71 @@
             "y": 0
         }
     },
-    "objects": [{
-        "id": "testBall",
-        "type": "ball",
-        "mass": 1,
-        "materials": ["AI2-THOR/Materials/Plastics/BlueRubber"],
-        "salientMaterials": ["rubber"],
-        "pickupable": true,
-        "shows": [{
-            "stepBegin": 0,
-            "position": {
-                "x": 0,
-                "y": 0.25,
-                "z": 1
-            },
-            "scale": {
-                "x": 0.5,
-                "y": 0.5,
-                "z": 0.5
-            }
-        }]
-    }],
+    "objects": [
+        {
+            "id": "testBall",
+            "type": "ball",
+            "mass": 1,
+            "materials": [
+                "AI2-THOR/Materials/Plastics/BlueRubber"
+            ],
+            "salientMaterials": [
+                "rubber"
+            ],
+            "pickupable": true,
+            "shows": [
+                {
+                    "stepBegin": 0,
+                    "position": {
+                        "x": 0,
+                        "y": 0.25,
+                        "z": 1
+                    },
+                    "scale": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "z": 0.5
+                    }
+                }
+            ]
+        }
+    ],
     "goal": {
-        "action_list": [[], [], [], ["EndHabituation"], [], [], [], ["EndHabituation,yRotation=30"], [], [], [], [], [], ["EndHabituation,xPosition=3"], [], [], ["EndHabituation,xPosition=0,zPosition=0"], [], [], [], [], [], [], ["EndHabituation,xPosition=0,zPosition=0,yRotation=0"]]
+        "action_list": [
+            [],
+            [],
+            [],
+            [
+                "EndHabituation"
+            ],
+            [],
+            [],
+            [],
+            [
+                "EndHabituation,yRotation=30"
+            ],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [
+                "EndHabituation,xPosition=3"
+            ],
+            [],
+            [],
+            [
+                "EndHabituation,xPosition=0,zPosition=0"
+            ],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [
+                "EndHabituation,xPosition=0,zPosition=0,yRotation=0"
+            ]
+        ]
     }
 }

@@ -266,13 +266,18 @@ def run_restricted_action_list_test(controller, metadata_tier):
         )
 
     # Try an illegal action.
-    step_metadata = controller.step('MoveAhead')
-    if step_metadata:
-        return (
-            False,
-            f'Step 1 failed: step_metadata from illegal action with '
-            f'return_status {step_metadata.return_status} != None'
-        )
+    try:
+        step_metadata = controller.step('MoveAhead')
+        got_exception = False
+    except ValueError:
+        got_exception = True
+    finally:
+        if not got_exception:
+            return (
+                False,
+                f'Step 1 failed: step_metadata from illegal action with '
+                f'return_status {step_metadata.return_status} != None'
+            )
 
     # Step 1.
     step_metadata = controller.step('Pass')
@@ -338,13 +343,18 @@ def run_restricted_action_list_test(controller, metadata_tier):
         )
 
     # Try a legal action with an illegal parameter.
-    step_metadata = controller.step('PickupObject', objectId='testBall1')
-    if step_metadata:
-        return (
-            False,
-            f'Step 4 failed: step_metadata from illegal action with '
-            f'return_status {step_metadata.return_status} != None'
-        )
+    try:
+        step_metadata = controller.step('PickupObject', objectId='testBall1')
+        got_exception = False
+    except ValueError:
+        got_exception = True
+    finally:
+        if not got_exception:
+            return (
+                False,
+                f'Step 4 failed: step_metadata from illegal action with '
+                f'return_status {step_metadata.return_status} != None'
+            )
 
     # Step 4.
     step_metadata = controller.step('PickupObject', objectId='testBall2')
