@@ -322,6 +322,7 @@ class ForceConfigSchema(Schema):
     step_begin = fields.Int(data_key='stepBegin')
     step_end = fields.Int(data_key='stepEnd')
     vector = fields.Nested(Vector3dSchema)
+    impulse = fields.Bool()
     relative = fields.Bool()
     repeat = fields.Bool()
     step_wait = fields.Int(data_key='stepWait')
@@ -475,6 +476,7 @@ class SceneObjectSchema(Schema):
     materials = fields.List(fields.Str())
     # deprecated; please use materials
     material_file = fields.Str(data_key='materialFile')
+    max_angular_velocity = fields.Float(data_key='maxAngularVelocity')
     moveable = fields.Bool()
     moves = fields.List(fields.Nested(MoveConfigSchema))
     null_parent = fields.Nested(TransformConfigSchema, data_key='nullParent')
@@ -504,7 +506,7 @@ class SceneObjectSchema(Schema):
     toggle_physics = fields.List(
         fields.Nested(SingleStepConfigSchema),
         data_key='togglePhysics')
-    torques = fields.List(fields.Nested(MoveConfigSchema))
+    torques = fields.List(fields.Nested(ForceConfigSchema))
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     can_contain_target = fields.Bool(data_key='canContainTarget')
@@ -623,6 +625,7 @@ class ForceConfig:
     step_begin: int
     step_end: int
     vector: Vector3d = Vector3d(0, 0, 0)
+    impulse: bool = False
     relative: bool = False
     repeat: bool = False
     step_wait: int = 0
@@ -733,6 +736,7 @@ class SceneObject:
     mass: float = None
     materials: List[str] = None
     material_file: str = None  # deprecated; please use materials
+    max_angular_velocity: float = None
     # Docs say moveable's default is dependant on type.  That could
     # be a problem for the concrete classes.  Needs more review later
     moveable: bool = None
@@ -757,7 +761,7 @@ class SceneObject:
     structure: bool = None
     teleports: List[TeleportConfig] = None
     toggle_physics: List[SingleStepConfig] = None
-    torques: List[MoveConfig] = None
+    torques: List[ForceConfig] = None
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     can_contain_target: bool = None

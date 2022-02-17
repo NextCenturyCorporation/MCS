@@ -385,8 +385,8 @@ class TopDownPlotter():
             color: Tuple) -> np.ndarray:
         '''Outline the floor hole'''
         rr, cc = skimage.draw.rectangle_perimeter(
-            start=(upper_left.y, upper_left.x),
-            end=(lower_right.y - 1, lower_right.x - 1),
+            start=(upper_left.y - 1, upper_left.x + 1),
+            end=(lower_right.y + 1, lower_right.x - 1),
             shape=img.shape[:2],
             clip=True)
         img[rr, cc] = color
@@ -499,7 +499,13 @@ class TopDownPlotter():
             obj.get('objectId', '').startswith('floor')
         ]
         objects = scene_event.metadata.get('objects', [])
-        return filtered_structural_objects + objects
+        combined_objects = filtered_structural_objects + objects
+        # the combined list needs to be sorted by y height
+        # so that the lowest objects are drawn first
+        combined_objects = sorted(
+            combined_objects,
+            key=lambda obj: obj['objectBounds']['objectBoundsCorners'][0]['y'])
+        return combined_objects
 
     def _draw_objects(self, img: np.ndarray, objects: Dict,
                       goal_id: str = None) -> np.ndarray:
@@ -624,3 +630,17 @@ class TopDownPlotter():
             shape=img.shape[:2])
         img[rr, cc] = self.GOAL_COLOR
         return img
+
+
+if __name__ == '__main__':
+    import sys
+
+    import machine_common_sense as mcs
+    controller = mcs.create_controller(
+        unity_cache_version='dev',
+        config_file_or_dict={'metadata': 'level1',
+                             'video_enabled': True})
+
+    scene_data, _ = mcs.load_scene_json_file(sys.argv[1])
+    controller.start_scene(scene_data)
+    controller.end_scene()

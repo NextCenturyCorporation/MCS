@@ -115,6 +115,16 @@ First, install ffmpeg. Then (change the frame rate with the `-r` option):
 
     $ ffmpeg -r 3 -i frame_image_%d.png output.gif
 
+Testing TopDown Plots
+---------------------
+
+The plotter module has a main which is only executed when the plotter module is run directly vs imported. The developer can provide a scene file as a positional argument and the plotter's main will run with video_enabled for 1 step. This will create a visual, depth and topdown video in a scene folder for quick review.
+
+.. code-block:: bash
+
+    (venv) $ python plotter.py playroom.json
+
+
 More Config Options
 ---------------------------
 

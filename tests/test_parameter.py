@@ -1,8 +1,10 @@
 import unittest
 
+import machine_common_sense as mcs
 from machine_common_sense.config_manager import ConfigManager
 from machine_common_sense.controller import DEFAULT_MOVE
-from machine_common_sense.parameter import Parameter, compare_param_values
+from machine_common_sense.parameter import (Parameter, compare_param_values,
+                                            rebuild_endhabituation)
 
 
 class TestParameter(unittest.TestCase):
@@ -558,3 +560,41 @@ class TestParameter(unittest.TestCase):
         self.assertFalse(compare_param_values(1.234, 1))
         self.assertFalse(compare_param_values(1.0, 1.234))
         self.assertFalse(compare_param_values(1.234, 1.0))
+
+    def test_rebuild_endhabituation(self):
+        # EndHabituation rebuilds parameters from the goal list
+        endhabit_goal = (mcs.Action.END_HABITUATION.value, {})
+        self.assertEqual(
+            "EndHabituation",
+            rebuild_endhabituation(
+                step_action_list=[endhabit_goal]
+            )
+        )
+
+        endhabit_goal = (mcs.Action.END_HABITUATION.value, {"yRotation": 90})
+        self.assertEqual(
+            "EndHabituation,yRotation=90",
+            rebuild_endhabituation(
+                step_action_list=[endhabit_goal]
+            )
+        )
+
+        endhabit_goal = (
+            mcs.Action.END_HABITUATION.value, {
+                'xPosition': 0.0, 'zPosition': 0.0})
+        self.assertEqual(
+            "EndHabituation,xPosition=0.0,zPosition=0.0",
+            rebuild_endhabituation(
+                step_action_list=[endhabit_goal]
+            )
+        )
+
+        endhabit_goal = (
+            mcs.Action.END_HABITUATION.value,
+            {'xPosition': 0.0, 'zPosition': 0.0, 'yRotation': 0.0})
+        self.assertEqual(
+            "EndHabituation,xPosition=0.0,zPosition=0.0,yRotation=0.0",
+            rebuild_endhabituation(
+                step_action_list=[endhabit_goal]
+            )
+        )
