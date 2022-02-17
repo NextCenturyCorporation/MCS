@@ -37,7 +37,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
     def create_wrap_output_scene_event(self):
         image_data = numpy.array([[0]], dtype=numpy.uint8)
-        depth_data = numpy.array([[[128, 0, 0]]], dtype=numpy.uint8)
+        depth_data = numpy.array([[0.2, 0.4], [0.6, 0.8]], dtype=numpy.float32)
         object_mask_data = numpy.array([[192]], dtype=numpy.uint8)
 
         return {
@@ -554,7 +554,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(len(actual.object_mask_list), 0)
         '''numpy.testing.assert_almost_equal(
             numpy.array(actual.depth_map_list[0]),
-            numpy.array([[2.51]], dtype=numpy.float32),
+            numpy.array([[0.2, 0.4], [0.6, 0.8]], dtype=numpy.float32),
             3
         )'''
         self.assertEqual(numpy.array(actual.image_list[0]), image_data)
@@ -727,7 +727,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(len(actual.object_mask_list), 1)
         numpy.testing.assert_almost_equal(
             numpy.array(actual.depth_map_list[0]),
-            numpy.array([[2.51]], dtype=numpy.float32),
+            numpy.array([[0.2, 0.4], [0.6, 0.8]], dtype=numpy.float32),
             3
         )
         self.assertEqual(numpy.array(actual.image_list[0]), image_data)
@@ -775,7 +775,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(len(actual.object_mask_list), 1)
         numpy.testing.assert_almost_equal(
             numpy.array(actual.depth_map_list[0]),
-            numpy.array([[2.51]], dtype=numpy.float32),
+            numpy.array([[0.2, 0.4], [0.6, 0.8]], dtype=numpy.float32),
             3
         )
         self.assertEqual(numpy.array(actual.image_list[0]), image_data)
@@ -788,7 +788,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self._config.set_metadata_tier(
             MetadataTier.ORACLE.value)
         image_data = numpy.array([[0]], dtype=numpy.uint8)
-        depth_data = numpy.array([[[0, 0, 0]]], dtype=numpy.uint8)
+        depth_data = numpy.array([[0.2, 0.4], [0.6, 0.8]], dtype=numpy.float32)
         object_mask_data = numpy.array([[192]], dtype=numpy.uint8)
 
         mock_scene_event_data = {
@@ -814,7 +814,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(numpy.array(image_list[0]), image_data)
         numpy.testing.assert_almost_equal(
             numpy.array(depth_map_list[0]),
-            numpy.array([[0.0]], dtype=numpy.float32),
+            numpy.array([[0.2, 0.4], [0.6, 0.8]], dtype=numpy.float32),
             3
         )
         self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data)
@@ -823,11 +823,17 @@ class TestControllerOutputHandler(unittest.TestCase):
         self._config.set_metadata_tier(
             MetadataTier.ORACLE.value)
         image_data_1 = numpy.array([[64]], dtype=numpy.uint8)
-        depth_data_1 = numpy.array([[[128, 64, 32]]], dtype=numpy.uint8)
+        depth_data_1 = numpy.array(
+            [[0.2, 0.4], [0.6, 0.8]],
+            dtype=numpy.float32
+        )
         object_mask_data_1 = numpy.array([[192]], dtype=numpy.uint8)
 
         image_data_2 = numpy.array([[32]], dtype=numpy.uint8)
-        depth_data_2 = numpy.array([[[96, 0, 0]]], dtype=numpy.uint8)
+        depth_data_2 = numpy.array(
+            [[0.0001, 0.9999], [0.25, 0.75]],
+            dtype=numpy.float32
+        )
         object_mask_data_2 = numpy.array([[160]], dtype=numpy.uint8)
 
         mock_scene_event_data = {
@@ -859,7 +865,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(numpy.array(image_list[0]), image_data_1)
         numpy.testing.assert_almost_equal(
             numpy.array(depth_map_list[0]),
-            numpy.array([[4.392]], dtype=numpy.float32),
+            numpy.array([[0.2, 0.4], [0.6, 0.8]], dtype=numpy.float32),
             3
         )
         self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data_1)
@@ -867,7 +873,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(numpy.array(image_list[1]), image_data_2)
         numpy.testing.assert_almost_equal(
             numpy.array(depth_map_list[1]),
-            numpy.array([[1.882]], dtype=numpy.float32),
+            numpy.array([[0.0001, 0.9999], [0.25, 0.75]], dtype=numpy.float32),
             3
         )
         self.assertEqual(numpy.array(object_mask_list[1]), object_mask_data_2)
