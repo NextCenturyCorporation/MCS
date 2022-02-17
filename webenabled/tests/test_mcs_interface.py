@@ -1,5 +1,4 @@
 import os
-from unittest import TestCase
 
 from mcs_interface import MCSInterface
 
@@ -26,7 +25,6 @@ def test_get_scene_list():
     thelist = mcsif.get_scene_list()
     for scene in thelist:
         print(f"{scene}")
-
 
 
 if __name__ == "__main__":

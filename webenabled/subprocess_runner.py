@@ -24,8 +24,8 @@ def start_subprocess(command_dir, image_dir):
 
 def is_process_running(pid):
     '''Check to see if a process is running on this machine by sending it
-    a kill 0. See: https://unix.stackexchange.com/questions/169898/what-does-kill-0-do
-    A kill 0 means don't actually send a signal, but error check to see if we could.'''
+    a kill 0.
+    See: https://unix.stackexchange.com/questions/169898/what-does-kill-0-do'''
     try:
         os.kill(pid, 0)
     except OSError:
@@ -43,7 +43,6 @@ def is_file_open(pid, file_to_check_on):
 
     return true if the file is still open; false if it is closed
     """
-    logger = current_app.logger
     dir = '/proc/' + str(pid) + '/fd'
 
     # Check to see if it is a live process, if not return

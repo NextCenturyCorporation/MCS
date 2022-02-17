@@ -2,7 +2,8 @@ import random
 import string
 from logging.config import dictConfig
 
-from flask import Flask, session, jsonify, request, render_template, make_response
+from flask import Flask, session, jsonify, request, \
+    render_template, make_response
 # See: https://www.geeksforgeeks.org/how-to-use-flask-session-in-python-flask/
 from flask_session import Session
 
@@ -81,7 +82,8 @@ def show_mcs_page():
 
     img = mcs_interface.get_latest_image()
     scene_list = mcs_interface.get_scene_list()
-    rendered_template = render_template('mcs_page.html', unityimg=img, scene_list=scene_list)
+    rendered_template = render_template(
+        'mcs_page.html', unityimg=img, scene_list=scene_list)
     resp = make_response(rendered_template)
     resp.set_cookie("uniq_id", uniq_id_str)
 
@@ -113,6 +115,6 @@ def handle_scene_selection():
     # Get the scene filename and tell interface to load it.
     scene_filename = clean_request_data(request)
     app.logger.warning(f'opening scene {scene_filename}')
-    img_name, action_list = mcs_interface.load_scene("scenes/" + scene_filename)
+    _, action_list = mcs_interface.load_scene("scenes/" + scene_filename)
     resp = jsonify(action_list=action_list)
     return resp

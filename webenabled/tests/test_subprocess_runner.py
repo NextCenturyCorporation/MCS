@@ -3,8 +3,8 @@ import subprocess
 import time
 
 from subprocess_runner import start_subprocess, is_file_open
-
 from tests import long_writer
+
 
 def test_start_subprocess():
     os.chdir('..')
@@ -18,7 +18,7 @@ def test_is_file_open():
     pid = proc.pid
     print(f"Looking for {long_writer.LONG_FILE_PATH} by process {pid}")
 
-    for x in range(0,10):
+    for x in range(0, 10):
         print(f"Test #{x}")
         is_open = is_file_open(pid, long_writer.LONG_FILE_PATH)
         print(f"is open: {is_open}")

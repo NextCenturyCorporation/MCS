@@ -4,11 +4,12 @@
 #
 # Usage:
 #
-#     python3 run_scene_with_dir --mcs_command_in_dir indir --mcs_image_out_dir outdir
+#     python3 run_scene_with_dir --mcs_command_in_dir indir
+#          --mcs_image_out_dir outdir
 #
-# where 'indir' is the name of an existing directory that is watched for files.  When they
-# appear, the commands are read in and executed.  The resulting images from MCS are
-# written out and put into the 'outdir'.
+# where 'indir' is the name of an existing directory that is watched
+# files. When they appear, the commands are read in and executed.  The
+# resulting images from MCS are written out and put into the 'outdir'.
 #
 import argparse
 import os
@@ -31,16 +32,19 @@ class RunSceneWithDir:
         self.image_out_dir = image_out_dir
 
     def run_loop(self):
-        print(f"Starting controller.  Watching files at {command_dir}.  Writing images to {image_dir}")
+        print(f"Starting controller.  Watching files at {command_dir}." +
+              f"  Writing images to {image_dir}")
 
-        self.controller = mcs.create_controller(config_file_or_dict='./config_level1.ini')
+        self.controller = mcs.create_controller(
+            config_file_or_dict='./config_level1.ini')
 
         # print("Staring to listen for commands")
         patterns = ["command_*.txt"]
         ignore_patterns = None
         ignore_directories = False
         case_sensitive = True
-        my_event_handler = PatternMatchingEventHandler(patterns, ignore_patterns, ignore_directories, case_sensitive)
+        my_event_handler = PatternMatchingEventHandler(
+            patterns, ignore_patterns, ignore_directories, case_sensitive)
         my_event_handler.on_create = self.on_created
         my_event_handler.on_deleted = self.on_deleted
         my_event_handler.on_modified = self.on_modified
@@ -52,7 +56,8 @@ class RunSceneWithDir:
         try:
             while True:
                 time.sleep(1)
-        except:
+        except Exception as e:
+            print(f"Sleep interrupted, stopping observer: {e}")
             observer.stop()
 
         observer.join()
@@ -63,8 +68,8 @@ class RunSceneWithDir:
         try:
             with open(command_text_file, 'r') as command_file:
                 commands = [line.strip() for line in command_file]
-        except:
-            print(f"Failed to open {command_text_file}")
+        except Exception as e:
+            print(f"Failed to open {command_text_file}: {e}")
             return
 
         for command in commands:
@@ -90,7 +95,8 @@ class RunSceneWithDir:
         try:
             scene_data, status = mcs.load_scene_json_file(self.scene_file)
             if status is not None:
-                raise ValueError("Unable to read in {self.scene_file}: {status}")
+                raise ValueError(
+                    f"Unable to read in {self.scene_file}: {status}")
 
             self.controller.end_scene()
             output: StepMetadata = self.controller.start_scene(scene_data)

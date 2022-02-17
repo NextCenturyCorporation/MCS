@@ -10,7 +10,8 @@ from PIL import Image
 from flask import current_app
 from machine_common_sense import GoalMetadata
 
-from subprocess_runner import is_file_open, start_subprocess, is_process_running
+from subprocess_runner import is_file_open, start_subprocess, \
+    is_process_running
 
 IMG_WIDTH = 640
 IMG_HEIGHT = 480
@@ -43,8 +44,10 @@ class MCSInterface:
         if not exists(MCS_INTERFACE_TMP_DIR):
             os.mkdir(MCS_INTERFACE_TMP_DIR)
 
-        self.command_out_dir = MCS_INTERFACE_TMP_DIR + "cmd_" + str(time.time()) + "/"
-        self.image_in_dir = MCS_INTERFACE_TMP_DIR + "img" + str(time.time()) + "/"
+        self.command_out_dir = MCS_INTERFACE_TMP_DIR + \
+            "cmd_" + str(time.time()) + "/"
+        self.image_in_dir = MCS_INTERFACE_TMP_DIR + \
+            "img" + str(time.time()) + "/"
         if not exists(self.command_out_dir):
             os.mkdir(self.command_out_dir)
         if not exists(self.image_in_dir):
@@ -99,7 +102,8 @@ class MCSInterface:
         return self._post_step_and_get_image(action)
 
     def _post_step_and_get_image(self, action):
-        command_file_name = self.command_out_dir + "command_" + str(uuid.uuid4()) + ".txt"
+        command_file_name = self.command_out_dir + \
+            "command_" + str(uuid.uuid4()) + ".txt"
         f = open(command_file_name, "a")
         f.write(action)
         f.close()
@@ -176,7 +180,8 @@ class MCSInterface:
                         action_list = goal['action_list']
                         return self.simplify_action_list(action_list[0])
                     else:
-                        return self.simplify_action_list(GoalMetadata.ACTION_LIST)
+                        return self.simplify_action_list(
+                            GoalMetadata.ACTION_LIST)
         except Exception as e:
-            # self.logger.warn(f"Exception in reading json file: {e}")
+            self.logger.warn(f"Exception in reading json file: {e}")
             return GoalMetadata.ACTION_LIST
