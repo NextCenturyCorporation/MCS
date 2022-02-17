@@ -2,11 +2,11 @@ import random
 import string
 from logging.config import dictConfig
 
-from flask import Flask, session, jsonify, request, \
-    render_template, make_response
+from flask import (Flask, jsonify, make_response, render_template, request,
+                   session)
+
 # See: https://www.geeksforgeeks.org/how-to-use-flask-session-in-python-flask/
 from flask_session import Session
-
 from mcs_interface import MCSInterface
 
 # Configure logging _before_ creating the app oject

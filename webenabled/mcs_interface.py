@@ -6,12 +6,12 @@ import uuid
 from os.path import exists
 
 import machine_common_sense as mcs
-from PIL import Image
 from flask import current_app
 from machine_common_sense import GoalMetadata
+from PIL import Image
 
-from subprocess_runner import is_file_open, start_subprocess, \
-    is_process_running
+from subprocess_runner import (is_file_open, is_process_running,
+                               start_subprocess)
 
 IMG_WIDTH = 640
 IMG_HEIGHT = 480

@@ -5,7 +5,8 @@ make it say 'loading' or something so you can see that a new
    scene is being read in.
 
 make it respond immediately on browsing to page, rather than
-   waiting for unity to start up.  
+   waiting for unity to start up.  Some sort of async/await
+   or maybe use Quark
 
 timeout session and close unity controller
 
