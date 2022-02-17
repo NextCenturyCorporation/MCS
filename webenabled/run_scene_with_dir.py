@@ -103,9 +103,12 @@ class RunSceneWithDir:
 
     def step_and_save(self, command):
         print(f"Executing command: {command}")
-        output: StepMetadata = self.controller.step(command)
-        if output is not None:
-            self.save_output(output)
+        try:
+            output: StepMetadata = self.controller.step(command)
+            if output is not None:
+                self.save_output(output)
+        except Exception as e:
+            print(f"Error: {e}")
 
     def save_output(self, output: StepMetadata):
         try:

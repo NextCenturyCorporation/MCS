@@ -7,8 +7,6 @@ make it say 'loading' or something so you can see that a new
 make it respond immediately on browsing to page, rather than
    waiting for unity to start up.  
 
-do sessions / user managment properly!
-
 timeout session and close unity controller
 
 figure out timing of step->image, one behind???
@@ -20,11 +18,12 @@ show step number, show when scene over, habituation, etc.
 
 show list of actions taken
 
-
 ======================
 
 Done
 -----
+do sessions / user managment properly!
+
 load scene file when clicked (not hard coded)
 
 list actions available as a fn of scene

@@ -10,7 +10,7 @@ from PIL import Image
 from flask import current_app
 from machine_common_sense import GoalMetadata
 
-from subprocess_runner import is_file_open, start_subprocess
+from subprocess_runner import is_file_open, start_subprocess, is_process_running
 
 IMG_WIDTH = 640
 IMG_HEIGHT = 480
@@ -73,6 +73,13 @@ class MCSInterface:
         # Read in the image
         self.img_name = self.get_image_name()
         return self.img_name
+
+    def is_controller_alive(self):
+        # When we re-attach, we need to make sure that the controller
+        # still lives, look for it.
+        if self.pid is None:
+            return False
+        return is_process_running(self.pid)
 
     def load_scene(self, scene_filename: str):
         self.logger.info(f" loading {scene_filename}")

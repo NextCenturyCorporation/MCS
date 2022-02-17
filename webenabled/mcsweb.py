@@ -1,13 +1,15 @@
+import random
+import string
 from logging.config import dictConfig
 
-from flask import Flask, session, jsonify, request, render_template
+from flask import Flask, session, jsonify, request, render_template, make_response
 # See: https://www.geeksforgeeks.org/how-to-use-flask-session-in-python-flask/
 from flask_session import Session
 
-# Configure logging _before_ creating the app oject
-# https://flask.palletsprojects.com/en/2.0.x/logging/
 from mcs_interface import MCSInterface
 
+# Configure logging _before_ creating the app oject
+# https://flask.palletsprojects.com/en/2.0.x/logging/
 dictConfig({
     'version': 1,
     'formatters': {'default': {
@@ -30,8 +32,8 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
-def clean_request(response):
-    """When we get a response from the client, it is mess
+def clean_request_data(response):
+    """When we get a response from the client, it can be a mess
     and wrapped in weird ways.  Clean it up."""
 
     # Request data comes as binary, convert to text
@@ -45,57 +47,72 @@ def clean_request(response):
     return data
 
 
-@app.before_first_request
-def before_first():
-    # Because we are using filesystem session, it keeps track of
-    # sessions between start ups.  So clear it out when we start.
-    app.logger.warn("Got to here!!!!!!!")
-    for key in list(session.keys()):
-        app.logger.info(f"Have session key: {key}")
-        session.pop(key)
-    session.clear()
+def get_mcs_interface(request):
+    # Do we know who this is?
+    uniq_id_str = request.cookies.get("uniq_id")
+    app.logger.warn(f"Uniq id: {uniq_id_str}")
+
+    # If old user, get stored mcs interface
+    if uniq_id_str is not None:
+        mcs_interface = session.get(uniq_id_str)
+        if mcs_interface is not None:
+            controller_alive = mcs_interface.is_controller_alive()
+            if controller_alive:
+                return mcs_interface, uniq_id_str
+
+    # Don't recognize, create new mcs interface
+    mcs_interface = MCSInterface()
+    mcs_interface.start_mcs()
+
+    letters = string.ascii_lowercase
+    uniq_id_str = ''.join(random.choice(letters) for i in range(10))
+    app.logger.info(f"New user with id {uniq_id_str}")
+    session[uniq_id_str] = mcs_interface
+
+    return mcs_interface, uniq_id_str
 
 
 @app.route('/mcs')
 def show_mcs_page():
-    # is this a new session?   If so start up
-    if not session.get("mcs_interface"):
-        app.logger.info("Creating new session")
-        mcs_interface = MCSInterface()
-        mcs_interface.start_mcs()
-        session["mcs_interface"] = mcs_interface
-    mcs_interface = session.get("mcs_interface")
+    mcs_interface, uniq_id_str = get_mcs_interface(request)
     if mcs_interface is None:
-        app.logger.warn("Unable to load mcs_interface")
+        app.logger.warn("Unable to load mcs_interface in session")
         return
-    app.logger.info("Reading in session")
+
     img = mcs_interface.get_latest_image()
     scene_list = mcs_interface.get_scene_list()
+    rendered_template = render_template('mcs_page.html', unityimg=img, scene_list=scene_list)
+    resp = make_response(rendered_template)
+    resp.set_cookie("uniq_id", uniq_id_str)
 
-    return render_template('mcs_page.html', unityimg=img, scene_list=scene_list)
+    return resp
 
 
 @app.route("/keypress", methods=["POST"])
 def handle_keypress():
-    key = clean_request(request)
-    mcs_interface = session.get("mcs_interface")
+    mcs_interface, _ = get_mcs_interface(request)
+    app.logger.warn(f"in handle_keypress {mcs_interface}")
     if mcs_interface is None:
         app.logger.warn("Unable to load mcs_interface")
         return
+
+    key = clean_request_data(request)
     img_name = mcs_interface.perform_action(key)
+    app.logger.debug(f"key pressed is {key} img name is {img_name}")
     resp = jsonify(img_name)
     return resp
 
 
 @app.route("/scene_selection", methods=["POST"])
 def handle_scene_selection():
-    # Get the passed key, cleaning it up first
-    scene_filename = clean_request(request)
+    mcs_interface, _ = get_mcs_interface(request)
+    if mcs_interface is None:
+        app.logger.warn("Unable to load mcs_interface")
+        return
+
+    # Get the scene filename and tell interface to load it.
+    scene_filename = clean_request_data(request)
     app.logger.warning(f'opening scene {scene_filename}')
-    mcs_interface = session.get("mcs_interface")
     img_name, action_list = mcs_interface.load_scene("scenes/" + scene_filename)
     resp = jsonify(action_list=action_list)
-
-    # TODO:  Figure out how to send multiple values.
-    # resp = jsonify(img_name=img_name, action_list=action_list)
     return resp

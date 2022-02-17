@@ -22,6 +22,18 @@ def start_subprocess(command_dir, image_dir):
     return proc.pid
 
 
+def is_process_running(pid):
+    '''Check to see if a process is running on this machine by sending it
+    a kill 0. See: https://unix.stackexchange.com/questions/169898/what-does-kill-0-do
+    A kill 0 means don't actually send a signal, but error check to see if we could.'''
+    try:
+        os.kill(pid, 0)
+    except OSError:
+        return False
+    else:
+        return True
+
+
 def is_file_open(pid, file_to_check_on):
     """We can see that image filename on disk before unity controller
     is finished writing writing to it, in which case might be read
