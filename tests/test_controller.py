@@ -815,9 +815,6 @@ class TestController(unittest.TestCase):
         ))
         output = self.controller.step(mcs.Action.MOVE_AHEAD.value)
         self.assertIsNotNone(output)
-
-        output = self.controller.step(mcs.Action.MOVE_AHEAD.value)
-        self.assertIsNone(output)
         self.assertRaises(
             ValueError,
             lambda: self.controller.step(mcs.Action.MOVE_AHEAD.value)
