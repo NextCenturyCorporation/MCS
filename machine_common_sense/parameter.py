@@ -58,8 +58,6 @@ class Parameter:
     DEFAULT_OBJECT_MOVE_AMOUNT = 1.0
     DEFAULT_OBJECT_ROTATION_CLOCKWISE = True
 
-    UNITY_FORCE = 250.0
-
     MAX_AMOUNT_TORQUE = 1.0
     MIN_AMOUNT_TORQUE = -1.0
     MAX_AMOUNT = 1.0
@@ -176,7 +174,7 @@ class Parameter:
                     f'({self.MIN_AMOUNT}-{self.MAX_AMOUNT})')
         else:
             force = self.DEFAULT_AMOUNT
-        return force * self.UNITY_FORCE
+        return force
 
     def _get_number(self, key: str, **kwargs) -> Optional[Any]:
         val = kwargs.get(key)

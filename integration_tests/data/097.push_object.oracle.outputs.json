@@ -35,9 +35,9 @@
         "objects": [
             {
                 "direction_x": 0,
-                "direction_y": -0.612,
-                "direction_z": 0.791,
-                "distance": 1.082,
+                "direction_y": -0.58,
+                "direction_z": 0.81,
+                "distance": 1.13,
                 "held": false,
                 "id": "testBall",
                 "mass": 1,
@@ -45,7 +45,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0,
-                "position_z": 0.856,
+                "position_z": 0.92,
                 "shape": "ball",
                 "texture_color_list": [
                     "blue"
@@ -66,9 +66,9 @@
         "objects": [
             {
                 "direction_x": 0,
-                "direction_y": -0.592,
-                "direction_z": 0.806,
-                "distance": 1.119,
+                "direction_y": -0.54,
+                "direction_z": 0.84,
+                "distance": 1.22,
                 "held": false,
                 "id": "testBall",
                 "mass": 1,
@@ -76,7 +76,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0,
-                "position_z": 0.902,
+                "position_z": 1.03,
                 "shape": "ball",
                 "texture_color_list": [
                     "blue"
@@ -97,9 +97,9 @@
         "objects": [
             {
                 "direction_x": 0,
-                "direction_y": -0.576,
-                "direction_z": 0.818,
-                "distance": 1.15,
+                "direction_y": -0.51,
+                "direction_z": 0.86,
+                "distance": 1.31,
                 "held": false,
                 "id": "testBall",
                 "mass": 1,
@@ -107,7 +107,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0,
-                "position_z": 0.94,
+                "position_z": 1.12,
                 "shape": "ball",
                 "texture_color_list": [
                     "blue"
@@ -128,9 +128,9 @@
         "objects": [
             {
                 "direction_x": 0,
-                "direction_y": -0.562,
-                "direction_z": 0.827,
-                "distance": 1.19,
+                "direction_y": -0.48,
+                "direction_z": 0.88,
+                "distance": 1.38,
                 "held": false,
                 "id": "testBall",
                 "mass": 1,
@@ -138,7 +138,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0,
-                "position_z": 0.98,
+                "position_z": 1.21,
                 "shape": "ball",
                 "texture_color_list": [
                     "blue"
