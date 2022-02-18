@@ -14,6 +14,15 @@ class Action(Enum):
     inputs must be greater than (0,0).
     """
 
+    INITIALIZE = (
+        "Initialize",
+        "0",
+        "Initialization"
+    )
+    """
+    Initialize the scene. Intended only for internal use.
+    """
+
     CLOSE_OBJECT = (
         "CloseObject",
         "1",
