@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-from machine_common_sense.action import Action
+import machine_common_sense as mcs
 from machine_common_sense.config_manager import (ConfigManager,
                                                  SceneConfiguration)
 from machine_common_sense.controller_events import (AfterStepPayload,
@@ -104,7 +104,7 @@ class TestHistoryEventHandler(unittest.TestCase):
     def test_on_before_step_one(self):
         hist = SceneHistory(
             step=1,
-            action=Action.MOVE_AHEAD.value,
+            action=mcs.Action.MOVE_AHEAD.value,
             args=None,
             params=None,
             output=None,
@@ -130,7 +130,7 @@ class TestHistoryEventHandler(unittest.TestCase):
     def test_on_after_step(self):
         test_payload = {
             "step_number": 1,
-            "ai2thor_action": Action.MOVE_AHEAD.value,
+            "ai2thor_action": mcs.Action.MOVE_AHEAD.value,
             "action_kwargs": {},
             "step_params": {},
             "config": self.config_mngr,
@@ -152,7 +152,7 @@ class TestHistoryEventHandler(unittest.TestCase):
 
         after_step_payload.step_output.copy_without_depth_or_images.assert_called()  # noqa: E501
         self.assertEqual(hist.step, 1)
-        self.assertEqual(hist.action, Action.MOVE_AHEAD.value)
+        self.assertEqual(hist.action, mcs.Action.MOVE_AHEAD.value)
         self.assertEqual(hist.delta_time_millis, 0)
 
     def test_on_end_scene(self):
@@ -161,7 +161,7 @@ class TestHistoryEventHandler(unittest.TestCase):
         self.histEvents._HistoryEventHandler__history_writer.write_history_file = MagicMock()  # noqa: E501
         hist = SceneHistory(
             step=1,
-            action=Action.MOVE_AHEAD.value,
+            action=mcs.Action.MOVE_AHEAD.value,
             args=None,
             params=None,
             output=None,
@@ -188,7 +188,8 @@ class TestHistoryEventHandler(unittest.TestCase):
         hist_writer = self.histEvents._HistoryEventHandler__history_writer
         self.assertEqual(len(hist_writer.current_steps), 1)
         self.assertEqual(
-            hist_writer.current_steps[0]["action"], Action.MOVE_AHEAD.value)
+            hist_writer.current_steps[0]["action"],
+            mcs.Action.MOVE_AHEAD.value)
         self.assertEqual(
             hist_writer.current_steps[0]["classification"],
             "plausible")
