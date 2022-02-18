@@ -142,8 +142,7 @@ class Parameter:
             except ValueError as err:
                 raise ValueError('Force is not a number') from err
 
-            # TODO MCS-1181 use Enum instead of magic string
-            if action == "TorqueObject":
+            if action == Action.TORQUE_OBJECT.value:
                 if (force < self.MIN_AMOUNT_TORQUE or force >
                         self.MAX_AMOUNT_TORQUE):
                     raise ValueError(
@@ -239,7 +238,7 @@ class Parameter:
         to keep parameters more simple for the user (in this case, wrapping
         rotation degrees into an object)
         """
-        action = Action[kwargs.get('action')]
+        action = Action(kwargs.get('action'))
         amount = self._get_amount(**kwargs)
         force = self._get_force(**kwargs)
         object_image_coords_x = int(self._get_number_with_default(
