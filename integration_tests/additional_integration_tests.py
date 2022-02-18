@@ -4,6 +4,7 @@ import os.path
 import numpy as np
 
 import machine_common_sense as mcs
+from machine_common_sense import Action
 
 INTEGRATION_TESTS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 DEPTH_AND_SEGMENTATION_SCENE = (
@@ -52,7 +53,7 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
         )
 
     # Run an action step.
-    step_metadata_1 = controller.step('Pass')
+    step_metadata_1 = controller.step(Action.PASS.value)
 
     # Verify the depth map list and object mask list from step 1.
     if len(step_metadata_1.depth_map_list) != 1:
@@ -137,7 +138,7 @@ def run_habituation_trial_counts_test(controller, metadata_tier):
 
     # Try a couple of pass actions.
     for _ in range(2):
-        step_metadata = controller.step('Pass')
+        step_metadata = controller.step(Action.PASS.value)
         if step_metadata.habituation_trial != 1:
             return (
                 False,
@@ -156,7 +157,7 @@ def run_habituation_trial_counts_test(controller, metadata_tier):
 
     # Try a lot of pass actions.
     for _ in range(10):
-        step_metadata = controller.step('Pass')
+        step_metadata = controller.step(Action.PASS.value)
         if step_metadata.habituation_trial != 2:
             return (
                 False,
@@ -184,7 +185,7 @@ def run_habituation_trial_counts_test(controller, metadata_tier):
 
     # Try a couple of pass actions.
     for _ in range(2):
-        step_metadata = controller.step('Pass')
+        step_metadata = controller.step(Action.PASS.value)
         if step_metadata.habituation_trial is not None:
             return (
                 False,
@@ -211,7 +212,7 @@ def run_numpy_array_data_test(controller, metadata_tier):
 
     if step_metadata:
         # Try a pass action.
-        step_metadata = controller.step('Pass')
+        step_metadata = controller.step(Action.PASS.value)
 
     # Stop the test scene.
     controller.end_scene()
@@ -241,7 +242,7 @@ def run_public_sample_scenes_test(controller, metadata_tier):
 
         if step_metadata:
             # Try a pass action.
-            step_metadata = controller.step('Pass')
+            step_metadata = controller.step(Action.PASS.value)
 
         if not step_metadata:
             failed_test_list.append(os.path.basename(scene_filename))
@@ -266,15 +267,15 @@ def run_restricted_action_list_test(controller, metadata_tier):
             False,
             f'Step 0 failed: last_step {step_metadata.goal.last_step} != 4'
         )
-    if step_metadata.action_list != [('Pass', {})]:
+    if step_metadata.action_list != [(Action.PASS.value, {})]:
         return (
             False,
             f'Step 0 failed: action_list {step_metadata.action_list} != '
-            f'[("Pass", {{}})]'
+            f'[({Action.PASS.value}, {{}})]'
         )
 
     # Try an illegal action.
-    step_metadata = controller.step('MoveAhead')
+    step_metadata = controller.step(Action.MOVE_AHEAD.value)
     if step_metadata:
         return (
             False,
@@ -283,7 +284,7 @@ def run_restricted_action_list_test(controller, metadata_tier):
         )
 
     # Step 1.
-    step_metadata = controller.step('Pass')
+    step_metadata = controller.step(Action.PASS.value)
     if step_metadata.step_number != 1:
         return (
             False,
@@ -295,15 +296,17 @@ def run_restricted_action_list_test(controller, metadata_tier):
             f'Step 1 failed: return_status {step_metadata.return_status} != '
             f'SUCCESSFUL'
         )
-    if step_metadata.action_list != [('MoveAhead', {}), ('MoveBack', {})]:
+    if step_metadata.action_list != [
+            (Action.MOVE_AHEAD.value, {}), (Action.MOVE_BACK.value, {})]:
         return (
             False,
             f'Step 1 failed: action_list {step_metadata.action_list} != '
-            f'[("MoveAhead", {{}}), ("MoveBack", {{}})]'
+            f'[({Action.MOVE_AHEAD.value}, {{}}), '
+            f'({Action.MOVE_BACK.value}, {{}})]'
         )
 
     # Step 2.
-    step_metadata = controller.step('MoveAhead')
+    step_metadata = controller.step(Action.MOVE_AHEAD.value)
     if step_metadata.step_number != 2:
         return (
             False,
@@ -315,15 +318,17 @@ def run_restricted_action_list_test(controller, metadata_tier):
             f'Step 2 failed: return_status {step_metadata.return_status} != '
             f'SUCCESSFUL'
         )
-    if step_metadata.action_list != [('MoveAhead', {}), ('MoveBack', {})]:
+    if step_metadata.action_list != [
+            (Action.MOVE_AHEAD.value, {}), (Action.MOVE_BACK.value, {})]:
         return (
             False,
             f'Step 2 failed: action_list {step_metadata.action_list} != '
-            f'[("MoveAhead", {{}}), ("MoveBack", {{}})]'
+            f'[({Action.MOVE_AHEAD.value}, {{}}), '
+            f'({Action.MOVE_BACK.value}, {{}})]'
         )
 
     # Step 3.
-    step_metadata = controller.step('MoveBack')
+    step_metadata = controller.step(Action.MOVE_BACK.value)
     if step_metadata.step_number != 3:
         return (
             False,
@@ -337,16 +342,18 @@ def run_restricted_action_list_test(controller, metadata_tier):
         )
     if (
         step_metadata.action_list !=
-        [('PickupObject', {'objectId': 'testBall2'})]
+        [(Action.PICKUP_OBJECT.value, {'objectId': 'testBall2'})]
     ):
         return (
             False,
             f'Step 3 failed: action_list {step_metadata.action_list} != '
-            f'[("PickupObject", {{"objectId": "testBall2"}})]'
+            f'[({Action.PICKUP_OBJECT.value}, {{"objectId": "testBall2"}})]'
         )
 
     # Try a legal action with an illegal parameter.
-    step_metadata = controller.step('PickupObject', objectId='testBall1')
+    step_metadata = controller.step(
+        Action.PICKUP_OBJECT.value,
+        objectId='testBall1')
     if step_metadata:
         return (
             False,
@@ -355,7 +362,9 @@ def run_restricted_action_list_test(controller, metadata_tier):
         )
 
     # Step 4.
-    step_metadata = controller.step('PickupObject', objectId='testBall2')
+    step_metadata = controller.step(
+        Action.PICKUP_OBJECT.value,
+        objectId='testBall2')
     if step_metadata.step_number != 4:
         return (
             False,
@@ -374,7 +383,7 @@ def run_restricted_action_list_test(controller, metadata_tier):
         )
 
     # Try an action after the last step of the scene.
-    step_metadata = controller.step('Pass')
+    step_metadata = controller.step(Action.PASS.value)
     if step_metadata:
         return (
             False,
