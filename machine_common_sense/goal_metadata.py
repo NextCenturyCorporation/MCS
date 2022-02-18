@@ -119,11 +119,22 @@ class GoalMetadata:
     def retrieve_action_list_at_step(self, step_number: int) -> List:
         """Return the action list from the given goal at the given step as a
         a list of actions tuples by default."""
-        if self is not None and self.action_list is not None:
+        action_list = self._retrieve_unfiltered_action_list(step_number)
+        # remove EndHabituation parameters
+        return [
+            (action, params)
+            if action != 'EndHabituation' else ('EndHabituation', {})
+            for (action, params) in action_list
+        ]
+
+    def _retrieve_unfiltered_action_list(self, step_number: int) -> List:
+        '''Unfiltered action list from goal'''
+        if self.action_list is not None:
             if step_number < self.last_preview_phase_step:
                 return [('Pass', {})]
-            if self.last_step is not None and step_number == self.last_step:
+            if self.last_step is not None and step_number >= self.last_step:
                 return []
+
             adjusted_step = step_number - self.last_preview_phase_step
             if (
                 len(self.action_list) > adjusted_step and
@@ -134,7 +145,6 @@ class GoalMetadata:
                     Action.input_to_action_and_params(action)
                     for action in self.action_list[adjusted_step]
                 ]
-
         return GoalMetadata.DEFAULT_ACTIONS
 
 

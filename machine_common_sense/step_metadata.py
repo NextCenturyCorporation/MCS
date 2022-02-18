@@ -19,6 +19,10 @@ class StepMetadata:
         forces a PickupObject action with any parameters; and
         ("PickupObject", {"objectId": "a"}) forces a PickupObject action with
         the specific parameters objectId=a.
+        EndHabituation is a special case of the action_list where its
+        parameters will always be empty. When taking the EndHabituation
+        action, the MCS system may apply hidden displacement parameters to the
+        robot.
         An action_list of None or an empty list means that all actions will
         be available for the next step.
 
