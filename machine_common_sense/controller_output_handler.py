@@ -261,14 +261,15 @@ class ControllerOutputHandler():
             goal, habituation_trial, False)
         restricted = self._get_step_metadata(
             goal, habituation_trial, True)
-        return (unrestricted, restricted)
+        return (unrestricted, restricted, self._scene_event.steps_on_lava)
 
     def _get_step_metadata(self, goal, habituation_trial,
                            restricted=True) -> StepMetadata:
         (restrict_depth_map, restrict_object_mask_list, restrict_non_oracle) =\
             self.get_restrictions(restricted, self._config.get_metadata_tier())
         step_output = StepMetadata(
-            action_list=goal.retrieve_action_list_at_step(self._step_number),
+            action_list=goal.retrieve_action_list_at_step(
+                self._step_number, self._scene_event.steps_on_lava),
             camera_aspect_ratio=self._config.get_screen_size(),
             camera_clipping_planes=self._scene_event.clipping_plane,
             camera_field_of_view=self._scene_event.camera_field_of_view,

@@ -63,6 +63,7 @@ class ConfigManager(object):
     CONFIG_TEAM = 'team'
     CONFIG_VIDEO_ENABLED = 'video_enabled'
     CONFIG_LAVA_PENALTY = 'lava_penalty'
+    CONFIG_STEPS_ALLOWED_IN_LAVA = 'steps_allowed_in_lava'
     CONFIG_STEP_PENALTY = 'step_penalty'
     CONFIG_GOAL_REWARD = 'goal_reward'
 
@@ -70,6 +71,9 @@ class ConfigManager(object):
     # on this assumption.
     SCREEN_WIDTH_DEFAULT = 600
     SCREEN_WIDTH_MIN = 450
+
+    # Default steps allowed in lava before calling end scene
+    STEPS_ALLOWED_IN_LAVA_DEFAULT = 0
 
     def __init__(self, config_file_or_dict=None):
         '''
@@ -242,6 +246,13 @@ class ConfigManager(object):
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_GOAL_REWARD,
             fallback=None
+        )
+
+    def get_steps_allowed_in_lava(self):
+        return self._config.getint(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_STEPS_ALLOWED_IN_LAVA,
+            fallback=self.STEPS_ALLOWED_IN_LAVA_DEFAULT
         )
 
 
@@ -824,7 +835,7 @@ class SceneConfiguration:
                 return [str(state) for state in state_list]
         return []
 
-    def retrieve_goal(self):
+    def retrieve_goal(self, config):
         if not self.goal:
             return self.update_goal_target_image(GoalMetadata())
 
@@ -852,6 +863,7 @@ class SceneConfiguration:
                 last_preview_phase_step=(goal.last_preview_phase_step or 0),
                 last_step=goal.last_step or None,
                 metadata=goal.metadata or {},
+                steps_allowed_in_lava=config.get_steps_allowed_in_lava()
             )
         )
 
