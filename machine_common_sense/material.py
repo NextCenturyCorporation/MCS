@@ -72,3 +72,6 @@ class Material(Enum):
             return True
         except KeyError:
             return False
+
+
+LAVA_TEXTURES = ["Stylized Lava Texture/Materials/Stylize_Lava_diffuse"]

@@ -4,9 +4,9 @@ import unittest
 import ai2thor
 from PIL import Image, ImageChops, ImageStat
 
-from machine_common_sense.config_manager import (FloorHolesAndTexturesXZConfig,
-                                                 FloorTexturesConfig,
-                                                 SceneConfiguration, Vector3d)
+from machine_common_sense.config_manager import (FloorTexturesConfig,
+                                                 SceneConfiguration,
+                                                 Vector2dInt, Vector3d)
 from machine_common_sense.plotter import (Ramp, SceneAsset, SceneCoord,
                                           TopDownPlotter, XZHeading)
 
@@ -474,9 +474,9 @@ class TestTopDownPlotter(unittest.TestCase):
 
     def test_draw_holes(self):
         holes = [
-            FloorHolesAndTexturesXZConfig(**{"x": 0, "z": 0}),
-            FloorHolesAndTexturesXZConfig(**{"x": 1, "z": 0}),
-            FloorHolesAndTexturesXZConfig(**{"x": 2, "z": 2})
+            Vector2dInt(**{"x": 0, "z": 0}),
+            Vector2dInt(**{"x": 1, "z": 0}),
+            Vector2dInt(**{"x": 2, "z": 2})
         ]
         goal = {'metadata': {
             'target': {'image': [0]},
@@ -529,9 +529,9 @@ class TestTopDownPlotter(unittest.TestCase):
                 y=3,
                 z=10),
             floor_textures=[FloorTexturesConfig(material="Lava", positions=[
-                FloorHolesAndTexturesXZConfig(x=-2, z=-2),
-                FloorHolesAndTexturesXZConfig(x=-1, z=-2),
-                FloorHolesAndTexturesXZConfig(x=-3, z=-3)
+                Vector2dInt(x=-2, z=-2),
+                Vector2dInt(x=-1, z=-2),
+                Vector2dInt(x=-3, z=-3)
             ])]
         )
 

@@ -377,18 +377,18 @@ class PlatformLipsConfigSchema(Schema):
         return PlatformLipsConfig(**data)
 
 
-class FloorHolesAndTexturesXZConfigSchema(Schema):
+class Vector2dIntSchema(Schema):
     x = fields.Int()
     z = fields.Int()
 
     @post_load
     def make_holes_config(self, data, **kwargs):
-        return FloorHolesAndTexturesXZConfig(**data)
+        return Vector2dInt(**data)
 
 
 class FloorTexturesConfigSchema(Schema):
     material = fields.Str()
-    positions = fields.List(fields.Nested(FloorHolesAndTexturesXZConfigSchema))
+    positions = fields.List(fields.Nested(Vector2dIntSchema))
 
     @post_load
     def make_floor_textures_config(self, data, **kwargs):
@@ -547,7 +547,7 @@ class SceneConfigurationSchema(Schema):
     wall_properties = fields.Nested(
         PhysicsConfigSchema,
         data_key='wallProperties')
-    holes = fields.List(fields.Nested(FloorHolesAndTexturesXZConfigSchema))
+    holes = fields.List(fields.Nested(Vector2dIntSchema))
     floor_textures = fields.List(
         fields.Nested(FloorTexturesConfigSchema),
         data_key='floorTextures')
@@ -657,7 +657,7 @@ class PhysicsConfig:
 
 
 @dataclass
-class FloorHolesAndTexturesXZConfig:
+class Vector2dInt:
     x: int = None
     z: int = None
 
@@ -673,7 +673,7 @@ class PlatformLipsConfig:
 @dataclass
 class FloorTexturesConfig:
     material: str
-    positions: List[FloorHolesAndTexturesXZConfig] = None
+    positions: List[Vector2dInt] = None
 
 
 @dataclass
@@ -792,7 +792,7 @@ class SceneConfiguration:
     version: int = None
     wall_material: str = None
     wall_properties: PhysicsConfig = None
-    holes: List[FloorHolesAndTexturesXZConfig] = field(default_factory=list)
+    holes: List[Vector2dInt] = field(default_factory=list)
     floor_textures: List[FloorTexturesConfig] = field(default_factory=list)
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
