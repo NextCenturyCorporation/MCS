@@ -515,7 +515,7 @@ class Action(Enum):
     MOVE_OBJECT = (
         "MoveObject",
         "0",
-        "Apply a movement of 0.1 units to a nearby object. " +
+        "Apply a movement of 0.1 meter to a nearby object. " +
         "(objectId=string, " +
         "lateral=int(default:0), " +
         "straight=int(default:1), " +
@@ -523,7 +523,7 @@ class Action(Enum):
         "objectImageCoordsY=float)"
     )
     """
-    Apply a movement 0.1 units to a nearby object.
+    Apply a movement of 0.1 meters units to a nearby object.
 
     Parameters
     ----------
@@ -539,12 +539,12 @@ class Action(Enum):
         your current viewport. Can be used in place of the "objectId" property.
         (See note under "Action" header regarding image coordinates.)
     lateral : int
-        The x axis direction of movement on the object.
+        The x axis direction of movement on the object relative to the agent.
         Can be -1, 0, 1. If only lateral is given,
         straight will default to 0
         Default: 0
     straight : int
-        The z axis direction of movement on the object.
+        The x axis direction of movement on the object relative to the agent.
         Can be -1, 0, 1. If only straight is given,
         lateral will default to 0
         Default: 1

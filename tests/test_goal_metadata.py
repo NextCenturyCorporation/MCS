@@ -73,6 +73,7 @@ class TestGoalMetadata(unittest.TestCase):
             ('PutObject', {}),
             ('TorqueObject', {}),
             ('RotateObject', {}),
+            ('MoveObject', {}),
             ('LookUp', {}),
             ('LookDown', {}),
             ('RotateLeft', {}),
