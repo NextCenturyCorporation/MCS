@@ -202,8 +202,12 @@ Lip Gaps Span Config
 
 Each **lip gaps span config** has the following properties:
 
-- `low` (float): low end of the gap in a range 0 to 1 along the edge of the platform
-- `high` (float): high end of the gap in a range 0 to 1 along the edge of the platform
+- `low` (float): Indicates where one side of the gap is located on an edge of a platform.  This 
+value is 0 to 1 where 0 is one end of the edge and 1 is the other edge.  This value must be 
+less than 'high'.
+- `high` (float): Indicates where one side of the gap is located on an edge of a platform.  This 
+value is 0 to 1 where 0 is one end of the edge and 1 is the other edge.  This value must be 
+greater than 'low'.
 
 Material Position Config
 ************************
