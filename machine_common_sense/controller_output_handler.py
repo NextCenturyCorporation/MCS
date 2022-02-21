@@ -261,7 +261,7 @@ class ControllerOutputHandler():
             goal, habituation_trial, False)
         restricted = self._get_step_metadata(
             goal, habituation_trial, True)
-        return (unrestricted, restricted, self._scene_event.steps_on_lava)
+        return (unrestricted, restricted)
 
     def _get_step_metadata(self, goal, habituation_trial,
                            restricted=True) -> StepMetadata:

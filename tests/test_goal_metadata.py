@@ -13,7 +13,8 @@ class TestGoalMetadata(unittest.TestCase):
         "habituation_total": 0,
         "last_preview_phase_step": 0,
         "last_step": null,
-        "metadata": {}
+        "metadata": {},
+        "steps_allowed_in_lava": 0
     }'''
 
     @classmethod
@@ -77,6 +78,7 @@ class TestGoalMetadata(unittest.TestCase):
             ('LookDown', {}),
             ('RotateLeft', {}),
             ('RotateRight', {}),
+            ('EndScene', {}),
             ('Pass', {})
         ])
 
@@ -110,6 +112,24 @@ class TestGoalMetadata(unittest.TestCase):
         self.assertEqual(
             goal_metadata.retrieve_action_list_at_step(15), [])
 
+    def test_retrieve_action_too_many_steps_lava_default(self):
+        goal_metadata = mcs.GoalMetadata(
+            action_list=[],
+            last_step=10)
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(11, 1), [
+            ('EndScene', {})
+        ])
+
+    def test_retrieve_action_too_many_steps(self):
+        goal_metadata = mcs.GoalMetadata(
+            action_list=[],
+            last_step=10,
+            steps_allowed_in_lava=3)
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(11, 1), [])
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(11, 4), [
+            ('EndScene', {})
+        ])
+
     def test_retrieve_action_list_at_step(self):
         self.assertEqual(self.goal_metadata.retrieve_action_list_at_step(0), [
             ('CloseObject', {}),
@@ -129,6 +149,7 @@ class TestGoalMetadata(unittest.TestCase):
             ('LookDown', {}),
             ('RotateLeft', {}),
             ('RotateRight', {}),
+            ('EndScene', {}),
             ('Pass', {})
         ])
         self.assertEqual(self.goal_metadata.retrieve_action_list_at_step(10), [
@@ -149,6 +170,7 @@ class TestGoalMetadata(unittest.TestCase):
             ('LookDown', {}),
             ('RotateLeft', {}),
             ('RotateRight', {}),
+            ('EndScene', {}),
             ('Pass', {})
         ])
 
@@ -196,6 +218,7 @@ class TestGoalMetadata(unittest.TestCase):
             ('LookDown', {}),
             ('RotateLeft', {}),
             ('RotateRight', {}),
+            ('EndScene', {}),
             ('Pass', {})
         ])
         self.assertEqual(goal_metadata.retrieve_action_list_at_step(3), [
@@ -222,6 +245,7 @@ class TestGoalMetadata(unittest.TestCase):
             ('LookDown', {}),
             ('RotateLeft', {}),
             ('RotateRight', {}),
+            ('EndScene', {}),
             ('Pass', {})
         ])
 

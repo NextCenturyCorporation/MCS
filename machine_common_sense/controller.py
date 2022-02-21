@@ -161,7 +161,7 @@ class Controller():
         self.__habituation_trial = 1
         self.__step_number = 0
         self.__steps_in_lava = 0
-        self._goal = self._scene_config.retrieve_goal(self._config)
+        self._goal = self._scene_config.retrieve_goal(self._config.get_steps_allowed_in_lava())
         self._end_scene_called = False
 
         skip_preview_phase = (scene_config.goal is not None and
@@ -193,9 +193,11 @@ class Controller():
         step_output = self._controller.step(ai2thor_step)
 
         self._output_handler.set_scene_config(scene_config)
-        (pre_restrict_output, output, self.__steps_in_lava) = self._output_handler.handle_output(
+        (pre_restrict_output, output) = self._output_handler.handle_output(
             step_output, self._goal, self.__step_number,
             self.__habituation_trial)
+
+        self.__steps_in_lava = output.steps_on_lava
 
         if not skip_preview_phase:
             if (self._goal is not None and
@@ -338,9 +340,11 @@ class Controller():
             action=action, **kwargs)
         step_output = self._controller.step(ai2thor_step)
 
-        (pre_restrict_output, output, self.__steps_in_lava) = self._output_handler.handle_output(
+        (pre_restrict_output, output) = self._output_handler.handle_output(
             step_output, self._goal, self.__step_number,
             self.__habituation_trial)
+        
+        self.__steps_in_lava = output.steps_on_lava
 
         payload = self._create_post_step_event_payload_kwargs(
             ai2thor_step, step_output, pre_restrict_output, output)

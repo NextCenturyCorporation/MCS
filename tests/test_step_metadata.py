@@ -21,7 +21,8 @@ class TestStepMetadata(unittest.TestCase):
             "habituation_total": 0,
             "last_preview_phase_step": 0,
             "last_step": null,
-            "metadata": {}
+            "metadata": {},
+            "steps_allowed_in_lava": 0
         },
         "habituation_trial": null,
         "haptic_feedback": {},
@@ -55,7 +56,8 @@ class TestStepMetadata(unittest.TestCase):
             "habituation_total": 0,
             "last_preview_phase_step": 0,
             "last_step": null,
-            "metadata": {}
+            "metadata": {},
+            "steps_allowed_in_lava": 0
         },
         "habituation_trial": null,
         "haptic_feedback": {},

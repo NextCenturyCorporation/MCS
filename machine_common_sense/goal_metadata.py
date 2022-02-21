@@ -1,5 +1,5 @@
 from enum import Enum, unique
-from typing import List
+from typing import List, Optional
 
 import typeguard
 
@@ -120,7 +120,7 @@ class GoalMetadata:
 
     @typeguard.typechecked
     def retrieve_action_list_at_step(self, step_number: int, 
-                                     steps_in_lava: int=0) -> List:
+                                     steps_in_lava: Optional[int]=0) -> List:
         """Return the action list from the given goal at the given step as a
         a list of actions tuples by default."""
         action_list = self._retrieve_unfiltered_action_list(
@@ -133,10 +133,10 @@ class GoalMetadata:
         ]
 
     def _retrieve_unfiltered_action_list(self, step_number: int,
-                                         steps_in_lava: int=0) -> List:
+                                         steps_in_lava: Optional[int]=0) -> List:
         # If steps in lava is greater than allowed, over ride
         #   action list and only return EndScene
-        if steps_in_lava > self.steps_allowed_in_lava:
+        if steps_in_lava != None and steps_in_lava > self.steps_allowed_in_lava:
             return [("EndScene", {})]
 
         '''Unfiltered action list from goal'''

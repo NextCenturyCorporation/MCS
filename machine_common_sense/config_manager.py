@@ -835,9 +835,11 @@ class SceneConfiguration:
                 return [str(state) for state in state_list]
         return []
 
-    def retrieve_goal(self, config):
+    def retrieve_goal(self, steps_allowed_in_lava=0):
         if not self.goal:
-            return self.update_goal_target_image(GoalMetadata())
+            return self.update_goal_target_image(GoalMetadata(
+                steps_allowed_in_lava=steps_allowed_in_lava
+            ))
 
         goal = self.goal
 
@@ -863,7 +865,7 @@ class SceneConfiguration:
                 last_preview_phase_step=(goal.last_preview_phase_step or 0),
                 last_step=goal.last_step or None,
                 metadata=goal.metadata or {},
-                steps_allowed_in_lava=config.get_steps_allowed_in_lava()
+                steps_allowed_in_lava=steps_allowed_in_lava
             )
         )
 
