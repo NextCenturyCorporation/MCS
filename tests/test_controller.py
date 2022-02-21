@@ -779,8 +779,6 @@ class TestController(unittest.TestCase):
             objectImageCoordsY=2,
             receptacleObjectImageCoordsX=4,
             receptacleObjectImageCoordsY=5)
-        # TODO MCS-1181 replace magic strings with param lookup
-        # after merge with development branch
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(

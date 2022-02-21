@@ -300,7 +300,6 @@ class Parameter:
         )
 
     def _mcs_action_to_ai2thor_action(self, action: Action) -> str:
-        # TODO MCS-1181 this does feel like it belongs in Action
         if action == Action.CLOSE_OBJECT:
             # The AI2-THOR Python library has buggy error checking
             # specifically for the CloseObject action,
