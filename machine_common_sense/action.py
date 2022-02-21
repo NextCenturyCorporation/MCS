@@ -515,7 +515,7 @@ class Action(Enum):
     MOVE_OBJECT = (
         "MoveObject",
         "0",
-        "Apply a movement of 0.1 meter to a nearby object. " +
+        "Apply a movement of 0.1 meters to a nearby object. " +
         "(objectId=string, " +
         "lateral=int(default:0), " +
         "straight=int(default:1), " +
