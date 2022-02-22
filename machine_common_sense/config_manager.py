@@ -366,11 +366,32 @@ class PhysicsConfigSchema(Schema):
         return PhysicsConfig(**data)
 
 
+class LipsGapSpanConfigSchema(Schema):
+    low = fields.Float()
+    high = fields.Float()
+
+    @post_load
+    def make_lip_gaps_config(self, data, **kwargs):
+        return LipsGapSpanConfig(**data)
+
+
+class LipsGapsConfigSchema(Schema):
+    front = fields.List(fields.Nested(LipsGapSpanConfigSchema))
+    back = fields.List(fields.Nested(LipsGapSpanConfigSchema))
+    left = fields.List(fields.Nested(LipsGapSpanConfigSchema))
+    right = fields.List(fields.Nested(LipsGapSpanConfigSchema))
+
+    @post_load
+    def make_lip_gaps_config(self, data, **kwargs):
+        return LipGapsConfig(**data)
+
+
 class PlatformLipsConfigSchema(Schema):
     front = fields.Bool()
     back = fields.Bool()
     left = fields.Bool()
     right = fields.Bool()
+    gaps = fields.Nested(LipsGapsConfigSchema)
 
     @post_load
     def make_platform_lips_config(self, data, **kwargs):
@@ -663,11 +684,26 @@ class FloorHolesAndTexturesXZConfig:
 
 
 @dataclass
+class LipsGapSpanConfig:
+    low: float = None
+    high: float = None
+
+
+@dataclass
+class LipGapsConfig:
+    front: List[LipsGapSpanConfig] = None
+    back: List[LipsGapSpanConfig] = None
+    left: List[LipsGapSpanConfig] = None
+    right: List[LipsGapSpanConfig] = None
+
+
+@dataclass
 class PlatformLipsConfig:
     front: bool = False
     back: bool = False
     left: bool = False
     right: bool = False
+    gaps: List[LipGapsConfig] = None
 
 
 @dataclass
