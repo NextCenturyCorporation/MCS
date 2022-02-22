@@ -9,3 +9,4 @@ MoveAhead
 MoveAhead
 MoveAhead
 OpenObject,objectId=door_2
+Pass

@@ -130,5 +130,16 @@
         "rotation_y": 90.0,
         "step_number": 11,
         "structural_objects_count": 12
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 2,
+        "position_x": 0.9000001549720764,
+        "position_z": -3.5,
+        "return_status": "SUCCESSFUL",
+        "reward": -0.012,
+        "rotation_y": 90.0,
+        "step_number": 12,
+        "structural_objects_count": 12
     }
 ]

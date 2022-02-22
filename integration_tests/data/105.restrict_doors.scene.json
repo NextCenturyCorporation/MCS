@@ -36,7 +36,7 @@
         "id": "door_1",
         "type": "door_4",
         "mass": 125,
-        "materials": ["AI2-THOR/Materials/Metals/BlackSmoothMeta"],
+        "materials": ["AI2-THOR/Materials/Wood/WoodGrain_Tan"],
         "kinematic": true,
         "openable": true,
         "shows": [
