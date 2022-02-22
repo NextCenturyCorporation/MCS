@@ -73,15 +73,17 @@ class StepMetadata:
     head_tilt : float
         How far your head is tilted up/down in degrees (between 90 and -90).
         Changed by setting the "horizon" parameter in a "RotateLook" action.
-    holes: list of Vector2dInt - coordinates of holes.  Will be set to 'None'
-        if using a metadata level below the 'oracle' level.
+    holes : list of tuples
+        Coordinates of holes as (X, Z) float tuples. Will be set to 'None' if
+        using a metadata level below the 'oracle' level.
     image_list : list of Pillow.Image objects
         The list of images from the scene after the last action and physics
         simulation were run. This is usually a list with 1 image, except for
         the output from start_scene for a scene with a scripted Preview Phase.
         (Preview Phase case details TBD).
-    lava: list of Vector2dInt - coordinates of lava.  Will be set to 'None'
-        if using a metadata level below the 'oracle' level.
+    lava : list of tuples
+        Coordinates of pools of lava as (X, Z) float tuples. Will be set to
+        'None' if using a metadata level below the 'oracle' level.
     object_list : list of ObjectMetadata objects
         The list of metadata for all the visible interactive objects in the
         scene. This list will be empty if using a metadata level below

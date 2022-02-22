@@ -283,12 +283,13 @@ class ControllerOutputHandler():
             ),
             haptic_feedback=self._scene_event.haptic_feedback,
             head_tilt=self._scene_event.head_tilt,
-            holes=None if restrict_non_oracle else copy.deepcopy(
-                self._scene_config.holes),
+            holes=None if restrict_non_oracle else [
+                (hole.x, hole.z) for hole in self._scene_config.holes
+            ],
             image_list=self._scene_event.image_list,
-            lava=None if restrict_non_oracle else copy.deepcopy(
-                self._scene_config.lava
-            ),
+            lava=None if restrict_non_oracle else [
+                (lava.x, lava.z) for lava in self._scene_config.lava
+            ],
             object_list=(
                 [] if restrict_non_oracle else self._scene_event.object_list),
             object_mask_list=([] if restrict_object_mask_list else
