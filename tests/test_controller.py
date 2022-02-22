@@ -68,7 +68,9 @@ class TestController(unittest.TestCase):
             snapToGrid=False,
             teleportPosition=None,
             teleportRotation=None,
-            clockwise=True
+            clockwise=True,
+            lateral=0,
+            straight=1
         )
 
         for key, value in kwargs.items():
@@ -1044,6 +1046,79 @@ class TestController(unittest.TestCase):
             lambda: self.controller.step(
                 mcs.Action.ROTATE_OBJECT.value,
                 clockwise='string',
+                objectId='test_id_1')
+        )
+
+    def test_step_validate_parameters_move_object(self):
+        _ = self.controller.start_scene({'name': TEST_FILE_NAME})
+        self.controller.step('MoveObject', objectId='test_id_1')
+        self.assertEqual(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='MoveObject',
+                objectId='test_id_1',
+                lateral=0,
+                straight=1))
+        self.controller.step(
+            'MoveObject',
+            objectId='test_id_1',
+            lateral=1)
+        self.assertEqual(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='MoveObject',
+                objectId='test_id_1',
+                lateral=1,
+                straight=0))
+        self.controller.step(
+            'MoveObject',
+            objectId='test_id_1',
+            lateral=1,
+            straight=-1)
+        self.assertEqual(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='MoveObject',
+                objectId='test_id_1',
+                lateral=1,
+                straight=-1))
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step(
+                'MoveObject',
+                lateral='string',
+                objectId='test_id_1')
+        )
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step(
+                'MoveObject',
+                straight='string',
+                objectId='test_id_1')
+        )
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step(
+                'MoveObject',
+                lateral=1,
+                straight=0.1,
+                objectId='test_id_1')
+        )
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step(
+                'MoveObject',
+                lateral=0.1,
+                straight=1,
+                objectId='test_id_1')
+        )
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step(
+                'MoveObject',
+                lateral=True,
+                straight=False,
                 objectId='test_id_1')
         )
 

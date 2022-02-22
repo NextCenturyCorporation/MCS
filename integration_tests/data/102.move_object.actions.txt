@@ -1,0 +1,14 @@
+MoveObject,objectId=turtle_on_wheels
+MoveObject,objectId=turtle_on_wheels,lateral=-1
+MoveObject,objectId=turtle_on_wheels,lateral=1
+MoveObject,objectId=turtle_on_wheels,straight=-1
+MoveObject,objectId=turtle_on_wheels,straight=1
+MoveObject,objectId=turtle_on_wheels,lateral=-1,straight=1
+MoveObject,objectId=turtle_on_wheels,lateral=1,straight=-1
+MoveObject,objectId=turtle_on_wheels,lateral=1,straight=1
+MoveObject,objectId=turtle_on_wheels,lateral=-1,straight=-1
+MoveObject,objectId=turtle_on_wheels,lateral=1
+MoveObject,objectId=turtle_on_wheels,lateral=1
+MoveObject,objectId=turtle_on_wheels,lateral=1
+MoveObject,objectId=turtle_on_wheels,lateral=1
+MoveObject,objectId=turtle_on_wheels,lateral=1

@@ -318,6 +318,110 @@ class TestParameter(unittest.TestCase):
             lambda: self.parameter_converter._get_clockwise(clockwise=-0.1)
         )
 
+    def test_get_movement_direction(self):
+        (lateral, straight) = (
+            self.parameter_converter._get_movement_direction())
+        self.assertIsInstance(lateral, int)
+        self.assertIsInstance(straight, int)
+        self.assertEqual(lateral, 0)
+        self.assertEqual(straight, 1)
+
+        (lateral, straight) = (
+            self.parameter_converter._get_movement_direction(
+                lateral=-1))
+        self.assertIsInstance(lateral, int)
+        self.assertIsInstance(straight, int)
+        self.assertEqual(lateral, -1)
+        self.assertEqual(straight, 0)
+
+        (lateral, straight) = (
+            self.parameter_converter._get_movement_direction(
+                straight=-1))
+        self.assertIsInstance(lateral, int)
+        self.assertIsInstance(straight, int)
+        self.assertEqual(lateral, 0)
+        self.assertEqual(straight, -1)
+
+        (lateral, straight) = (
+            self.parameter_converter._get_movement_direction(
+                lateral=1, straight=-1))
+        self.assertIsInstance(lateral, int)
+        self.assertIsInstance(straight, int)
+        self.assertEqual(lateral, 1)
+        self.assertEqual(straight, -1)
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral=2)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                straight=-2)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral=-2, straight=1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral=-1, straight=2)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral=0.1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                straight=0.1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral=-0.1, straight=1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral=1, straight=-0.1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral="x", straight="z")
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral="x", straight=1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral=1, straight="z")
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral=True, straight=False)
+        )
+
     def test_get_number(self):
         number = self.parameter_converter._get_number(key="val", val=7)
         self.assertEqual(number, 7)

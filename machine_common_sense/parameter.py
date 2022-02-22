@@ -57,11 +57,15 @@ class Parameter:
     DEFAULT_IMG_COORD = 0
     DEFAULT_OBJECT_MOVE_AMOUNT = 1.0
     DEFAULT_OBJECT_ROTATION_CLOCKWISE = True
+    DEFAULT_OBJECT_MOVEMENT_X_DIRECTION = 0
+    DEFAULT_OBJECT_MOVEMENT_Z_DIRECTION = 1
 
     MAX_AMOUNT_TORQUE = 1.0
     MIN_AMOUNT_TORQUE = -1.0
     MAX_AMOUNT = 1.0
     MIN_AMOUNT = 0.0
+    MIN_AMOUNT_MOVEMENT_DIRECTION = -1
+    MAX_AMOUNT_MOVEMENT_DIRECTION = 1
 
     MIN_NOISE = -0.5
     MAX_NOISE = 0.5
@@ -71,6 +75,8 @@ class Parameter:
     FORCE_KEY = 'force'
     AMOUNT_KEY = 'amount'
     CLOCKWISE_KEY = 'clockwise'
+    MOVEMENT_X_DIRECTION_KEY = 'lateral'
+    MOVEMENT_Z_DIRECTION_KEY = 'straight'
 
     OBJECT_IMAGE_COORDS_X_KEY = 'objectImageCoordsX'
     OBJECT_IMAGE_COORDS_Y_KEY = 'objectImageCoordsY'
@@ -152,13 +158,14 @@ class Parameter:
                 if (force < self.MIN_AMOUNT_TORQUE or force >
                         self.MAX_AMOUNT_TORQUE):
                     raise ValueError(
-                        f'Torque force not in acceptable range of '
-                        f'({self.MIN_AMOUNT_TORQUE}-{self.MAX_AMOUNT_TORQUE})')
+                        f'Force not in acceptable range of '
+                        f'({self.MIN_AMOUNT_TORQUE} and '
+                        f'{self.MAX_AMOUNT_TORQUE})')
 
             elif force < self.MIN_AMOUNT or force > self.MAX_AMOUNT:
                 raise ValueError(
                     f'Force not in acceptable range of '
-                    f'({self.MIN_AMOUNT}-{self.MAX_AMOUNT})')
+                    f'({self.MIN_AMOUNT} and {self.MAX_AMOUNT})')
         else:
             force = self.DEFAULT_AMOUNT
         return force
@@ -185,12 +192,11 @@ class Parameter:
         return val
 
     def _get_clockwise(self, **kwargs) -> bool:
-        # Set the Move Magnitude to the appropriate amount based on the action
         direction_clockwise = kwargs.get(
             self.CLOCKWISE_KEY,
             self.DEFAULT_OBJECT_ROTATION_CLOCKWISE
         )
-        if(isinstance(direction_clockwise, str)):
+        if isinstance(direction_clockwise, str):
             direction_clockwise = direction_clockwise.capitalize()
             try:
                 direction_clockwise = eval(direction_clockwise)
@@ -201,6 +207,76 @@ class Parameter:
             raise ValueError(
                 f"{direction_clockwise} is not a bool")
         return direction_clockwise
+
+    def _get_movement_direction(self, **kwargs) -> Tuple:
+        """
+        If no args are given, the default movement for (x,z) is (0,1)
+        If only x arg is given, movement is (x,0)
+        If only z arg is given, movement is (0,z)
+        If x,z args are given, movement is (x,z)
+        """
+
+        lateral = kwargs.get(
+            self.MOVEMENT_X_DIRECTION_KEY
+        )
+        straight = kwargs.get(
+            self.MOVEMENT_Z_DIRECTION_KEY
+        )
+        l_none = lateral is None
+        s_none = straight is None
+
+        if l_none and s_none:
+            lateral = self.DEFAULT_OBJECT_MOVEMENT_X_DIRECTION
+            straight = self.DEFAULT_OBJECT_MOVEMENT_Z_DIRECTION
+            return (lateral, straight)
+
+        direction_output = (
+            f"{'(lateral: ' f'{lateral})' if not l_none else ''}"
+            f"{'' if l_none else ' and ' if not s_none else ' is'}"
+            f"{'(straight: ' f'{straight})' if not s_none else ''}"
+            f"{' is' if l_none else ' are' if not s_none else ''}"
+            f" not "
+            f"{'both ints' if not l_none and not s_none else 'an int'}"
+            f" of acceptable range "
+            f"({self.MIN_AMOUNT_MOVEMENT_DIRECTION}"
+            f" and {self.MAX_AMOUNT_MOVEMENT_DIRECTION})")
+
+        if isinstance(lateral, bool) or isinstance(straight, bool):
+            raise ValueError(direction_output)
+
+        try:
+            if not l_none:
+                lateral = int(lateral) if float(
+                    lateral).is_integer() else lateral
+                if isinstance(lateral, float):
+                    raise ValueError(direction_output)
+            if not s_none:
+                straight = int(straight) if float(
+                    straight).is_integer() else straight
+                if isinstance(straight, float):
+                    raise ValueError(direction_output)
+        except Exception as err:
+            raise ValueError(direction_output) from err
+
+        if not l_none and s_none:
+            if (lateral < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+                    lateral > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
+                raise ValueError(direction_output)
+            elif s_none:
+                straight = 0
+        elif l_none and not s_none:
+            if (straight < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+                    straight > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
+                raise ValueError(direction_output)
+            elif l_none:
+                lateral = 0
+        else:
+            if (lateral < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+                    lateral > self.MAX_AMOUNT_MOVEMENT_DIRECTION or
+                    straight < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+                    straight > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
+                raise ValueError(direction_output)
+        return (lateral, straight)
 
     def _get_move_magnitude(self, action: Action, force: float,
                             amount: float) -> float:
@@ -249,8 +325,8 @@ class Parameter:
         object_image_coords_x = int(self._get_number_with_default(
             self.OBJECT_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD, **kwargs))
         object_image_coords_y = int(self._get_number_with_default(
-                                    self.OBJECT_IMAGE_COORDS_Y_KEY,
-                                    self.DEFAULT_IMG_COORD, **kwargs))
+            self.OBJECT_IMAGE_COORDS_Y_KEY,
+            self.DEFAULT_IMG_COORD, **kwargs))
         receptable_image_coords_x = int(self._get_number_with_default(
             self.RECEPTACLE_IMAGE_COORDS_X_KEY,
             self.DEFAULT_IMG_COORD,
@@ -279,6 +355,7 @@ class Parameter:
         move_magnitude = self._get_move_magnitude(action, force, amount)
         (teleport_rotation, teleport_position) = self._get_teleport(**kwargs)
         clockwise = self._get_clockwise(**kwargs)
+        (lateral, straight) = self._get_movement_direction(**kwargs)
 
         # TODO is this a feature we need?
         if self.config.is_noise_enabled():
@@ -296,7 +373,9 @@ class Parameter:
             moveMagnitude=move_magnitude,
             objectImageCoords=object_vector,
             receptacleObjectImageCoords=receptacle_vector,
-            clockwise=clockwise
+            clockwise=clockwise,
+            lateral=lateral,
+            straight=straight
         )
 
     def _mcs_action_to_ai2thor_action(self, action: Action) -> str:
