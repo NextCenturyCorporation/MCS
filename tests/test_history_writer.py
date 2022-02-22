@@ -84,19 +84,23 @@ class TestHistoryWriter(unittest.TestCase):
 
         history_item = mcs.SceneHistory(
             step=1,
-            action="MoveAhead")
+            action=mcs.Action.MOVE_AHEAD.value)
         writer.add_step(history_item)
 
         self.assertEqual(len(writer.current_steps), 1)
-        self.assertEqual(writer.current_steps[0]["action"], "MoveAhead")
+        self.assertEqual(
+            writer.current_steps[0]["action"],
+            mcs.Action.MOVE_AHEAD.value)
 
         history_item = mcs.SceneHistory(
             step=2,
-            action="MoveLeft")
+            action=mcs.Action.MOVE_LEFT.value)
         writer.add_step(history_item)
 
         self.assertEqual(len(writer.current_steps), 2)
-        self.assertEqual(writer.current_steps[1]["action"], "MoveLeft")
+        self.assertEqual(
+            writer.current_steps[1]["action"],
+            mcs.Action.MOVE_LEFT.value)
 
     def test_add_step_timer(self):
         writer = mcs.HistoryWriter(self.config_data)
@@ -107,7 +111,7 @@ class TestHistoryWriter(unittest.TestCase):
         initial_time = writer.last_step_time_millis
         history_item = mcs.SceneHistory(
             step=1,
-            action="MoveAhead")
+            action=mcs.Action.MOVE_AHEAD.value)
         writer.add_step(history_item)
 
         self.assertEqual(len(writer.current_steps), 1)
@@ -119,7 +123,7 @@ class TestHistoryWriter(unittest.TestCase):
         writer.last_step_time_millis -= 300
         history_item = mcs.SceneHistory(
             step=2,
-            action="MoveLeft")
+            action=mcs.Action.MOVE_LEFT.value)
         writer.add_step(history_item)
 
         self.assertEqual(len(writer.current_steps), 2)
@@ -128,7 +132,7 @@ class TestHistoryWriter(unittest.TestCase):
 
         history_item = mcs.SceneHistory(
             step=3,
-            action="MoveLeft")
+            action=mcs.Action.MOVE_LEFT.value)
         writer.add_step(history_item)
 
         self.assertEqual(len(writer.current_steps), 3)
@@ -140,12 +144,12 @@ class TestHistoryWriter(unittest.TestCase):
 
         history_item = mcs.SceneHistory(
             step=1,
-            action="MoveAhead")
+            action=mcs.Action.MOVE_AHEAD.value)
         writer.add_step(history_item)
 
         history_item = mcs.SceneHistory(
             step=2,
-            action="MoveLeft")
+            action=mcs.Action.MOVE_LEFT.value)
         writer.add_step(history_item)
 
         writer.write_history_file("Plausible", 0.75)
@@ -166,12 +170,12 @@ class TestHistoryWriter(unittest.TestCase):
 
         history_item = mcs.SceneHistory(
             step=1,
-            action="MoveAhead")
+            action=mcs.Action.MOVE_AHEAD.value)
         writer.add_step(history_item)
 
         history_item = mcs.SceneHistory(
             step=2,
-            action="MoveLeft")
+            action=mcs.Action.MOVE_LEFT.value)
         writer.add_step(history_item)
 
         writer.write_history_file("Plausible", 0.75)
@@ -193,7 +197,9 @@ class TestHistoryWriter(unittest.TestCase):
         writer = mcs.HistoryWriter(self.prefix_config_data)
 
         output = mcs.StepMetadata(
-            action_list=["CloseObject", "MoveAhead"],
+            action_list=[
+                mcs.Action.CLOSE_OBJECT.value,
+                mcs.Action.MOVE_AHEAD.value],
             return_status="SUCCESSFUL",
             step_number=2,
             object_list={
@@ -206,13 +212,15 @@ class TestHistoryWriter(unittest.TestCase):
 
         history_item = mcs.SceneHistory(
             step=1,
-            action="MoveAhead",
+            action=mcs.Action.MOVE_AHEAD.value,
             output=output
         )
         writer.add_step(history_item)
 
         self.assertEqual(len(writer.current_steps), 1)
-        self.assertEqual(writer.current_steps[0]["action"], "MoveAhead")
+        self.assertEqual(
+            writer.current_steps[0]["action"],
+            mcs.Action.MOVE_AHEAD.value)
         self.assertIsNone(writer.current_steps[0]["output"]["action_list"])
         self.assertIsNone(writer.current_steps[0]["output"]["object_list"])
         self.assertIsNone(
@@ -220,13 +228,15 @@ class TestHistoryWriter(unittest.TestCase):
 
         history_item = mcs.SceneHistory(
             step=2,
-            action="MoveLeft",
+            action=mcs.Action.MOVE_LEFT.value,
             output=output
         )
         writer.add_step(history_item)
 
         self.assertEqual(len(writer.current_steps), 2)
-        self.assertEqual(writer.current_steps[1]["action"], "MoveLeft")
+        self.assertEqual(
+            writer.current_steps[1]["action"],
+            mcs.Action.MOVE_LEFT.value)
         self.assertIsNone(writer.current_steps[1]["output"]["action_list"])
         self.assertIsNone(writer.current_steps[1]["output"]["object_list"])
         self.assertIsNone(
@@ -237,12 +247,12 @@ class TestHistoryWriter(unittest.TestCase):
 
         history_item = mcs.SceneHistory(
             step=np.int32(1),
-            action="MoveAhead")
+            action=mcs.Action.MOVE_AHEAD.value)
         writer.add_step(history_item)
 
         history_item = mcs.SceneHistory(
             step=2,
-            action="MoveLeft")
+            action=mcs.Action.MOVE_LEFT.value)
         writer.add_step(history_item)
 
         writer.write_history_file("Plausible", np.float64(0.75))
