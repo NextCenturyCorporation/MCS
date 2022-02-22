@@ -315,7 +315,7 @@ class Controller():
             EventType.ON_BEFORE_STEP,
             BeforeStepPayload(**payload))
 
-        if (action == 'EndHabituation'):
+        if (action == Action.END_HABITUATION.value):
             self.__habituation_trial += 1
 
         if (self._goal.last_step is not None and

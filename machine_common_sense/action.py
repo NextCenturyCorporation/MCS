@@ -14,6 +14,15 @@ class Action(Enum):
     inputs must be greater than (0,0).
     """
 
+    INITIALIZE = (
+        "Initialize",
+        "0",
+        "Initialization"
+    )
+    """
+    Initialize the scene. Intended only for internal use.
+    """
+
     CLOSE_OBJECT = (
         "CloseObject",
         "1",
@@ -512,6 +521,63 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
+    MOVE_OBJECT = (
+        "MoveObject",
+        "0",
+        "Apply a movement of 0.1 meters to a nearby object. " +
+        "(objectId=string, " +
+        "lateral=int(default:0), " +
+        "straight=int(default:1), " +
+        "objectImageCoordsX=float, " +
+        "objectImageCoordsY=float)"
+    )
+    """
+    Apply a movement of 0.1 meters units to a nearby object.
+
+    Parameters
+    ----------
+    objectId : string, optional
+        The "uuid" of the target object. Required unless the
+        "objectImageCoords" properties are given.
+    objectImageCoordsX : float, optional
+        The X of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    objectImageCoordsY : float, optional
+        The Y of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    lateral : int
+        The x axis direction of movement on the object relative to the agent.
+        Can be -1, 0, 1. If only lateral is given,
+        straight will default to 0
+        Default: 0
+    straight : int
+        The x axis direction of movement on the object relative to the agent.
+        Can be -1, 0, 1. If only straight is given,
+        lateral will default to 0
+        Default: 1
+
+    Returns
+    -------
+    "SUCCESSFUL"
+        Action successful.
+    "NOT_INTERACTABLE"
+        If the object corresponding to the "objectImageCoords" vector is not an
+        interactable object.
+    "NOT_OBJECT"
+        If the object corresponding to the "objectId" (or object corresponding
+        to the "objectImageCoords" vector) is not an object.
+    "NOT_MOVEABLE"
+        If the object itself cannot be moved by a baby.
+    "OBSTRUCTED"
+        If you cannot move the object because your path is obstructed.
+    "OUT_OF_REACH"
+        If you cannot move the object because you are out of reach.
+    "FAILED"
+        Unexpected error; please report immediately to development team.
+    """
+
     LOOK_UP = (
         "LookUp",
         "i",
@@ -695,3 +761,17 @@ class Action(Enum):
             return action, None
 
         return action, params
+
+
+FORCE_ACTIONS = [
+    Action.PUSH_OBJECT,
+    Action.PULL_OBJECT,
+    Action.TORQUE_OBJECT]
+OBJECT_MOVE_ACTIONS = [
+    Action.CLOSE_OBJECT,
+    Action.OPEN_OBJECT]
+MOVE_ACTIONS = [
+    Action.MOVE_AHEAD,
+    Action.MOVE_LEFT,
+    Action.MOVE_RIGHT,
+    Action.MOVE_BACK]

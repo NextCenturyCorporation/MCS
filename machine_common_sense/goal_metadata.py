@@ -76,7 +76,8 @@ class GoalMetadata:
     # Don't allow a user to call the EndHabituation action unless it's
     # specifically configured in the action_list of the scene file.
     DEFAULT_ACTIONS = [
-        (item.value, {}) for item in Action if item.value != 'EndHabituation'
+        (item.value, {}) for item in Action
+        if item not in [Action.END_HABITUATION, Action.INITIALIZE]
     ]
 
     def __init__(

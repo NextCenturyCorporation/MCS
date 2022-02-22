@@ -2,6 +2,7 @@ import os
 import unittest
 from unittest.mock import DEFAULT, patch
 
+import machine_common_sense as mcs
 from machine_common_sense.config_manager import (ChangeMaterialConfig,
                                                  ConfigManager, ForceConfig,
                                                  GoalSchema, MetadataTier,
@@ -592,9 +593,11 @@ class TestSceneConfig(unittest.TestCase):
 
         goal = {
             "action_list": [
-                [("MoveAhead", {"amount": 0.1})],
+                [(mcs.Action.MOVE_AHEAD.value, {"amount": 0.1})],
                 [],
-                [("Pass", {}), ("RotateLeft", {}), ("RotateRight", {})]
+                [(mcs.Action.PASS.value, {}),
+                 (mcs.Action.ROTATE_LEFT.value, {}),
+                 (mcs.Action.ROTATE_RIGHT.value, {})]
             ],
             "category": "test category",
             "description": "test description",
@@ -610,9 +613,10 @@ class TestSceneConfig(unittest.TestCase):
         goal_3 = scene_config.retrieve_goal()
 
         self.assertEqual(goal_3.action_list, [
-            [("MoveAhead", {"amount": 0.1})],
+            [(mcs.Action.MOVE_AHEAD.value, {"amount": 0.1})],
             [],
-            [("Pass", {}), ("RotateLeft", {}), ("RotateRight", {})]
+            [(mcs.Action.PASS.value, {}), (mcs.Action.ROTATE_LEFT.value, {}),
+             (mcs.Action.ROTATE_RIGHT.value, {})]
         ])
         self.assertEqual(goal_3.category, "test category")
         self.assertEqual(goal_3.description, "test description")

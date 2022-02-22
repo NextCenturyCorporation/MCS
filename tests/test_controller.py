@@ -68,7 +68,9 @@ class TestController(unittest.TestCase):
             snapToGrid=False,
             teleportPosition=None,
             teleportRotation=None,
-            clockwise=True
+            clockwise=True,
+            lateral=0,
+            straight=1
         )
 
         for key, value in kwargs.items():
@@ -506,7 +508,7 @@ class TestController(unittest.TestCase):
         self.controller.set_metadata_tier(
             MetadataTier.ORACLE.value)
         output = self.controller.start_scene({'name': TEST_FILE_NAME})
-        output = self.controller.step('MoveAhead')
+        output = self.controller.step(mcs.Action.MOVE_AHEAD.value)
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
@@ -526,7 +528,7 @@ class TestController(unittest.TestCase):
         self.assertEqual(len(output.structural_object_list),
                          len(MOCK_VARIABLES['metadata']['structuralObjects']))
 
-        output = self.controller.step('MoveAhead')
+        output = self.controller.step(mcs.Action.MOVE_AHEAD.value)
         self.assertIsNotNone(output)
         self.assertEqual(
             output.action_list,
@@ -550,7 +552,7 @@ class TestController(unittest.TestCase):
         self.controller.set_metadata_tier(
             MetadataTier.ORACLE.value)
         output = self.controller.start_scene({'name': TEST_FILE_NAME})
-        output = self.controller.step('MoveAhead')
+        output = self.controller.step(mcs.Action.MOVE_AHEAD.value)
         self.controller._publish_event.assert_any_call(
             EventType.ON_BEFORE_STEP,
             ANY
@@ -564,22 +566,22 @@ class TestController(unittest.TestCase):
     def test_step_last_step(self):
         output = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.controller.set_goal(mcs.GoalMetadata(last_step=0))
-        output = self.controller.step('MoveAhead')
+        output = self.controller.step(mcs.Action.MOVE_AHEAD.value)
         self.assertIsNone(output)
 
         self.controller.set_goal(mcs.GoalMetadata(last_step=1))
-        output = self.controller.step('MoveAhead')
+        output = self.controller.step(mcs.Action.MOVE_AHEAD.value)
         self.assertIsNotNone(output)
-        output = self.controller.step('MoveAhead')
+        output = self.controller.step(mcs.Action.MOVE_AHEAD.value)
         self.assertIsNone(output)
 
     def test_retrieve_action_list_at_step(self):
         test_action_list = [
-            ('Pass', {}),
-            ('LookUp', {'amount': 10}),
-            ('MoveAhead', {'amount': 0.1}),
-            ('PickupObject', {'objectId': 'ball'}),
-            ('PickupObject', {'objectId': 'duck'})
+            (mcs.Action.PASS.value, {}),
+            (mcs.Action.LOOK_UP.value, {'amount': 10}),
+            (mcs.Action.MOVE_AHEAD.value, {'amount': 0.1}),
+            (mcs.Action.PICKUP_OBJECT.value, {'objectId': 'ball'}),
+            (mcs.Action.PICKUP_OBJECT.value, {'objectId': 'duck'})
         ]
 
         # With no action list
@@ -729,7 +731,7 @@ class TestController(unittest.TestCase):
     def test_step_open_action_magnitude(self):
         _ = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.controller.step(
-            'OpenObject',
+            mcs.Action.OPEN_OBJECT.value,
             amount=1,
             objectId='test_id_1',
             receptacleObjectId='test_id_2')
@@ -742,7 +744,7 @@ class TestController(unittest.TestCase):
                 receptacleObjectId='test_id_2'))
 
         self.controller.step(
-            'OpenObject',
+            mcs.Action.OPEN_OBJECT.value,
             amount=0.1,
             objectId='test_id_1',
             receptacleObjectId='test_id_2')
@@ -757,7 +759,7 @@ class TestController(unittest.TestCase):
         self.assertRaises(
             ValueError,
             lambda: self.controller.step(
-                'OpenObject',
+                mcs.Action.OPEN_OBJECT.value,
                 amount=1.5,
                 objectId='test_id_1',
                 receptacleObjectID='test_id_2')
@@ -766,14 +768,14 @@ class TestController(unittest.TestCase):
         self.assertRaises(
             ValueError,
             lambda: self.controller.step(
-                'OpenObject',
+                mcs.Action.OPEN_OBJECT.value,
                 amount=-1,
                 objectId='test_id_1',
                 receptacleObjectId='test_id_2')
         )
 
         self.controller.step(
-            'OpenObject',
+            mcs.Action.OPEN_OBJECT.value,
             amount=1,
             objectImageCoordsX=1,
             objectImageCoordsY=2,
@@ -800,169 +802,169 @@ class TestController(unittest.TestCase):
         )
 
         self.controller.set_goal(mcs.GoalMetadata(action_list=[
-            [('Pass', {})]
+            [(mcs.Action.PASS.value, {})]
         ]))
         self.assertRaises(
             ValueError,
-            lambda: self.controller.step('MoveAhead')
+            lambda: self.controller.step(mcs.Action.MOVE_AHEAD.value)
         )
 
         self.controller.set_goal(mcs.GoalMetadata(action_list=[
-            [('MoveAhead', {})],
-            [('MoveBack', {})]]
+            [(mcs.Action.MOVE_AHEAD.value, {})],
+            [(mcs.Action.MOVE_BACK.value, {})]]
         ))
-        output = self.controller.step('MoveAhead')
+        output = self.controller.step(mcs.Action.MOVE_AHEAD.value)
         self.assertIsNotNone(output)
         self.assertRaises(
             ValueError,
-            lambda: self.controller.step('MoveAhead')
+            lambda: self.controller.step(mcs.Action.MOVE_AHEAD.value)
         )
 
     def test_step_validate_parameters_move(self):
         _ = self.controller.start_scene({'name': TEST_FILE_NAME})
-        self.controller.step('MoveAhead')
+        self.controller.step(mcs.Action.MOVE_AHEAD.value)
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='MoveAhead',
+                action=mcs.Action.MOVE_AHEAD.value,
                 moveMagnitude=mcs.controller.DEFAULT_MOVE))
 
-        self.controller.step('MoveAhead')
+        self.controller.step(mcs.Action.MOVE_AHEAD.value)
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='MoveAhead',
+                action=mcs.Action.MOVE_AHEAD.value,
                 moveMagnitude=mcs.controller.DEFAULT_MOVE))
 
-        self.controller.step('MoveAhead')
+        self.controller.step(mcs.Action.MOVE_AHEAD.value)
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='MoveAhead',
+                action=mcs.Action.MOVE_AHEAD.value,
                 moveMagnitude=mcs.controller.DEFAULT_MOVE))
 
-        self.controller.step('MoveAhead')
+        self.controller.step(mcs.Action.MOVE_AHEAD.value)
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='MoveAhead',
+                action=mcs.Action.MOVE_AHEAD.value,
                 moveMagnitude=mcs.controller.DEFAULT_MOVE))
 
     def test_step_validate_parameters_rotate(self):
         _ = self.controller.start_scene({'name': TEST_FILE_NAME})
-        self.controller.step('RotateLeft')
+        self.controller.step(mcs.Action.ROTATE_LEFT.value)
         self.assertEqual(
             self.controller.get_last_step_data(),
-            self.create_step_data(action='RotateLeft'))
+            self.create_step_data(action=mcs.Action.ROTATE_LEFT.value))
 
-        self.controller.step('RotateLeft')
+        self.controller.step(mcs.Action.ROTATE_LEFT.value)
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='RotateLeft'))
+                action=mcs.Action.ROTATE_LEFT.value))
 
     def test_step_validate_parameters_force_object(self):
         _ = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.controller.step(
-            'PushObject',
+            mcs.Action.PUSH_OBJECT.value,
             force=1,
             objectId='test_id_1')
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='PushObject',
+                action=mcs.Action.PUSH_OBJECT.value,
                 moveMagnitude=1.0,
                 objectId='test_id_1'))
 
         self.controller.step(
-            'PushObject',
+            mcs.Action.PUSH_OBJECT.value,
             force=0.1,
             objectId='test_id_1')
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='PushObject',
+                action=mcs.Action.PUSH_OBJECT.value,
                 moveMagnitude=0.1,
                 objectId='test_id_1'))
 
         self.assertRaises(
             ValueError,
             lambda: self.controller.step(
-                'PushObject',
+                mcs.Action.PUSH_OBJECT.value,
                 force=1.5,
                 objectId='test_id_1')
         )
         self.assertRaises(
             ValueError,
             lambda: self.controller.step(
-                'PushObject',
+                mcs.Action.PUSH_OBJECT.value,
                 force=-1,
                 objectId='test_id_1')
         )
 
         self.controller.step(
-            'PushObject',
+            mcs.Action.PUSH_OBJECT.value,
             force=1,
             objectImageCoordsX=1,
             objectImageCoordsY=2)
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='PushObject',
+                action=mcs.Action.PUSH_OBJECT.value,
                 moveMagnitude=1.0,
                 objectImageCoords={'x': 1, 'y': 397}))
 
         self.controller.step(
-            'PushObject',
+            mcs.Action.PUSH_OBJECT.value,
             objectId='test_id_1')
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='PushObject',
+                action=mcs.Action.PUSH_OBJECT.value,
                 moveMagnitude=0.5,
                 objectId='test_id_1'))
 
     def test_step_validate_parameters_torque_object(self):
         _ = self.controller.start_scene({'name': TEST_FILE_NAME})
         self.controller.step(
-            'TorqueObject',
+            mcs.Action.TORQUE_OBJECT.value,
             force=1,
             objectImageCoordsX=1,
             objectImageCoordsY=2)
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='TorqueObject',
+                action=mcs.Action.TORQUE_OBJECT.value,
                 moveMagnitude=1.0,
                 objectImageCoords={'x': 1, 'y': 397}))
 
         self.controller.step(
-            'TorqueObject',
+            mcs.Action.TORQUE_OBJECT.value,
             force=-1,
             objectImageCoordsX=1,
             objectImageCoordsY=2)
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='TorqueObject',
+                action=mcs.Action.TORQUE_OBJECT.value,
                 moveMagnitude=-1.0,
                 objectImageCoords={'x': 1, 'y': 397}))
 
         self.controller.step(
-            'TorqueObject',
+            mcs.Action.TORQUE_OBJECT.value,
             objectImageCoordsX=1,
             objectImageCoordsY=2)
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='TorqueObject',
+                action=mcs.Action.TORQUE_OBJECT.value,
                 moveMagnitude=0.5,
                 objectImageCoords={'x': 1, 'y': 397}))
 
         self.assertRaises(
             ValueError,
             lambda: self.controller.step(
-                'TorqueObject',
+                mcs.Action.TORQUE_OBJECT.value,
                 force=1.1,
                 objectId='test_id_1')
         )
@@ -970,69 +972,71 @@ class TestController(unittest.TestCase):
         self.assertRaises(
             ValueError,
             lambda: self.controller.step(
-                'TorqueObject',
+                mcs.Action.TORQUE_OBJECT.value,
                 force=-1.1,
                 objectId='test_id_1')
         )
 
     def test_step_validate_parameters_rotate_object(self):
         _ = self.controller.start_scene({'name': TEST_FILE_NAME})
-        self.controller.step('RotateObject', objectId='test_id_1')
+        self.controller.step(
+            mcs.Action.ROTATE_OBJECT.value,
+            objectId='test_id_1')
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='RotateObject',
+                action=mcs.Action.ROTATE_OBJECT.value,
                 objectId='test_id_1',
                 clockwise=True))
 
         self.controller.step(
-            'RotateObject',
+            mcs.Action.ROTATE_OBJECT.value,
             objectId='test_id_1',
             clockwise='false')
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='RotateObject',
+                action=mcs.Action.ROTATE_OBJECT.value,
                 objectId='test_id_1',
                 clockwise=False))
 
         self.controller.step(
-            'RotateObject',
+            mcs.Action.ROTATE_OBJECT.value,
             objectId='test_id_1',
             clockwise='False')
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='RotateObject',
+                action=mcs.Action.ROTATE_OBJECT.value,
                 objectId='test_id_1',
                 clockwise=False))
 
         self.controller.step(
-            'RotateObject',
+            mcs.Action.ROTATE_OBJECT.value,
             objectId='test_id_1',
             clockwise=True)
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='RotateObject',
+                action=mcs.Action.ROTATE_OBJECT.value,
                 objectId='test_id_1',
                 clockwise=True))
 
         self.controller.step(
-            'RotateObject',
+            mcs.Action.ROTATE_OBJECT.value,
             objectId='test_id_1',
             clockwise=False)
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
-                action='RotateObject',
+                action=mcs.Action.ROTATE_OBJECT.value,
                 objectId='test_id_1',
                 clockwise=False))
 
         self.assertRaises(
             ValueError,
             lambda: self.controller.step(
-                'RotateObject',
+                mcs.Action.ROTATE_OBJECT.value,
                 clockwise=1.0,
                 objectId='test_id_1')
         )
@@ -1040,8 +1044,81 @@ class TestController(unittest.TestCase):
         self.assertRaises(
             ValueError,
             lambda: self.controller.step(
-                'RotateObject',
+                mcs.Action.ROTATE_OBJECT.value,
                 clockwise='string',
+                objectId='test_id_1')
+        )
+
+    def test_step_validate_parameters_move_object(self):
+        _ = self.controller.start_scene({'name': TEST_FILE_NAME})
+        self.controller.step('MoveObject', objectId='test_id_1')
+        self.assertEqual(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='MoveObject',
+                objectId='test_id_1',
+                lateral=0,
+                straight=1))
+        self.controller.step(
+            'MoveObject',
+            objectId='test_id_1',
+            lateral=1)
+        self.assertEqual(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='MoveObject',
+                objectId='test_id_1',
+                lateral=1,
+                straight=0))
+        self.controller.step(
+            'MoveObject',
+            objectId='test_id_1',
+            lateral=1,
+            straight=-1)
+        self.assertEqual(
+            self.controller.get_last_step_data(),
+            self.create_step_data(
+                action='MoveObject',
+                objectId='test_id_1',
+                lateral=1,
+                straight=-1))
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step(
+                'MoveObject',
+                lateral='string',
+                objectId='test_id_1')
+        )
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step(
+                'MoveObject',
+                straight='string',
+                objectId='test_id_1')
+        )
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step(
+                'MoveObject',
+                lateral=1,
+                straight=0.1,
+                objectId='test_id_1')
+        )
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step(
+                'MoveObject',
+                lateral=0.1,
+                straight=1,
+                objectId='test_id_1')
+        )
+        self.assertRaises(
+            ValueError,
+            lambda: self.controller.step(
+                'MoveObject',
+                lateral=True,
+                straight=False,
                 objectId='test_id_1')
         )
 

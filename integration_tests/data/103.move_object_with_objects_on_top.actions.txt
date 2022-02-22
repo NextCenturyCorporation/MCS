@@ -1,0 +1,9 @@
+MoveObject,objectId=kiddie_table
+MoveObject,objectId=kiddie_table,lateral=-1
+MoveObject,objectId=kiddie_table,lateral=1
+MoveObject,objectId=kiddie_table,straight=-1
+MoveObject,objectId=kiddie_table,straight=1
+MoveObject,objectId=kiddie_table,lateral=-1,straight=1
+MoveObject,objectId=kiddie_table,lateral=1,straight=-1
+MoveObject,objectId=kiddie_table,lateral=1,straight=1
+MoveObject,objectId=kiddie_table,lateral=-1,straight=-1
