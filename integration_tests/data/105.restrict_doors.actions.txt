@@ -1,0 +1,11 @@
+OpenObject,objectId=door_1
+MoveAhead
+MoveAhead
+MoveAhead
+MoveAhead
+MoveAhead
+MoveAhead
+MoveAhead
+MoveAhead
+MoveAhead
+OpenObject,objectId=door_2
