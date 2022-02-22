@@ -1,6 +1,5 @@
 ﻿{
     "name": "floor_textures",
-    "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
     "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
@@ -12,52 +11,48 @@
     "floorTextures": [{
         "material": "UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 2",
         "positions": [{
-                "x": 0,
-                "z": 1
+                "x": 2,
+                "z": 5
             }, {
-                "x": 1,
-                "z": 2
+                "x": 3,
+                "z": 6
             }]
     }, {
         "material": "AI2-THOR/Materials/Wood/WornWood",
         "positions": [{
-                "x": 2,
-                "z": 1
+                "x": 4,
+                "z": 5
             }, {
-                "x": -2,
-                "z": 1
+                "x": 0,
+                "z": 5
             }
     ]}],
     "holes": [
         {
-            "x": 0,
-            "z": 1
+            "x": 2,
+            "z": 5
         },
         {
-            "x": 0,
-            "z": 2
+            "x": 2,
+            "z": 6
         },
         {
-            "x": 1,
-            "z": 2
-        },
-        {
-            "x": 1,
-            "z": 3
+            "x": 3,
+            "z": 6
         },
         {
             "x": 2,
             "z": 2
         },
         {
-            "x": -1,
-            "z": -1
+            "x": 1,
+            "z": 2
         }
     ],
     "performerStart": {
         "position": {
             "x": 0,
-            "z": 0
+            "z": 0.5
         },
         "rotation": {
             "x": 0,
@@ -75,7 +70,7 @@
             "position": {
                 "x": 0,
                 "y": 0,
-                "z": 2
+                "z": 2.5
             },
             "rotation": {
                 "x": 0,

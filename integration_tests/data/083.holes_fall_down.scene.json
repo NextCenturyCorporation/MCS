@@ -1,44 +1,43 @@
 ﻿{
     "name": "holes",
-    "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
     "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "roomDimensions": {
         "x": 5,
         "y": 5,
-        "z": 8
+        "z": 7
     },
     "holes": [
         {
-            "x": 0,
-            "z": 1
+            "x": 2,
+            "z": 4
         },
         {
-            "x": 0,
-            "z": 2
+            "x": 2,
+            "z": 5
         },
         {
-            "x": 1,
-            "z": 2
+            "x": 3,
+            "z": 5
         },
         {
-            "x": 1,
-            "z": 3
+            "x": 3,
+            "z": 6
         },
         {
             "x": 2,
             "z": 2
         },
         {
-            "x": -1,
-            "z": -1
+            "x": 1,
+            "z": 2
         }
     ],
     "performerStart": {
         "position": {
             "x": 0,
-            "z": 0
+            "z": 0.5
         },
         "rotation": {
             "x": 0,

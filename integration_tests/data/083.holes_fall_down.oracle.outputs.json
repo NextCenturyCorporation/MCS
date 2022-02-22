@@ -2,170 +2,309 @@
     {
         "camera_height": 0.762,
         "head_tilt": 0,
-        "objects": [],
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.46,
+                "direction_z": 0.89,
+                "distance": 1.69,
+                "held": false,
+                "id": "testContainer",
+                "mass": 5,
+                "position_x": 0.0,
+                "position_y": -0.01,
+                "position_z": 2.0,
+                "visible": true
+            }
+        ],
         "objects_count": 1,
         "position_x": 0.0,
-        "position_z": 0.0,
+        "position_y": 0.76,
+        "position_z": 0.5,
         "return_status": "SUCCESSFUL",
         "reward": 0.0,
         "rotation_y": 0.0,
         "step_number": 0,
-        "structural_objects_count": 83
+        "structural_objects_count": 41
     },
     {
         "camera_height": 0.762,
         "head_tilt": 10,
-        "objects": [],
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.48,
+                "direction_z": 0.88,
+                "distance": 1.71,
+                "held": false,
+                "id": "testContainer",
+                "mass": 5,
+                "position_x": 0.0,
+                "position_y": -0.05,
+                "position_z": 2.0,
+                "visible": true
+            }
+        ],
         "objects_count": 1,
         "position_x": 0.0,
-        "position_z": 0.0,
+        "position_y": 0.76,
+        "position_z": 0.5,
         "return_status": "SUCCESSFUL",
         "reward": -0.001,
         "rotation_y": 0.0,
         "step_number": 1,
-        "structural_objects_count": 83
+        "structural_objects_count": 41
     },
     {
         "camera_height": 0.762,
         "head_tilt": 10,
-        "objects": [],
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.53,
+                "direction_z": 0.85,
+                "distance": 1.65,
+                "held": false,
+                "id": "testContainer",
+                "mass": 5,
+                "position_x": 0.0,
+                "position_y": -0.12,
+                "position_z": 2.0,
+                "visible": true
+            }
+        ],
         "objects_count": 1,
         "position_x": 0.0,
-        "position_z": 0.1,
+        "position_y": 0.76,
+        "position_z": 0.6,
         "return_status": "SUCCESSFUL",
         "reward": -0.002,
         "rotation_y": 0.0,
         "step_number": 2,
-        "structural_objects_count": 83
+        "structural_objects_count": 41
     },
     {
-        "camera_height": 0.762,
+        "camera_height": -2.24,
         "head_tilt": 10,
-        "objects": [],
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.85,
+                "direction_z": 0.53,
+                "distance": 2.4,
+                "held": false,
+                "id": "testContainer",
+                "mass": 5,
+                "position_x": 0.0,
+                "position_y": -0.21,
+                "position_z": 2.0,
+                "visible": false
+            }
+        ],
         "objects_count": 1,
         "position_x": 0.0,
-        "position_z": 0.2,
+        "position_y": -2.24,
+        "position_z": 0.72,
         "return_status": "SUCCESSFUL",
         "reward": -0.003,
         "rotation_y": 0.0,
         "step_number": 3,
-        "structural_objects_count": 83
+        "structural_objects_count": 41
     },
     {
-        "camera_height": 0.762,
+        "camera_height": -2.24,
         "head_tilt": 10,
-        "objects": [],
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.85,
+                "direction_z": 0.52,
+                "distance": 2.25,
+                "held": false,
+                "id": "testContainer",
+                "mass": 5,
+                "position_x": 0.0,
+                "position_y": -0.32,
+                "position_z": 2.0,
+                "visible": false
+            }
+        ],
         "objects_count": 1,
         "position_x": 0.0,
-        "position_z": 0.3,
+        "position_y": -2.24,
+        "position_z": 0.82,
         "return_status": "SUCCESSFUL",
         "reward": -0.004,
         "rotation_y": 0.0,
         "step_number": 4,
-        "structural_objects_count": 83
+        "structural_objects_count": 41
     },
     {
-        "camera_height": 0.762,
+        "camera_height": -2.24,
         "head_tilt": 10,
-        "objects": [],
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.86,
+                "direction_z": 0.52,
+                "distance": 2.08,
+                "held": false,
+                "id": "testContainer",
+                "mass": 5,
+                "position_x": 0.0,
+                "position_y": -0.46,
+                "position_z": 2.0,
+                "visible": false
+            }
+        ],
         "objects_count": 1,
         "position_x": 0.0,
-        "position_z": 0.4,
+        "position_y": -2.24,
+        "position_z": 0.92,
         "return_status": "SUCCESSFUL",
         "reward": -0.005,
         "rotation_y": 0.0,
         "step_number": 5,
-        "structural_objects_count": 83
+        "structural_objects_count": 41
     },
     {
-        "camera_height": 0.762,
+        "camera_height": -2.24,
         "head_tilt": 10,
-        "objects": [],
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.86,
+                "direction_z": 0.52,
+                "distance": 1.89,
+                "held": false,
+                "id": "testContainer",
+                "mass": 5,
+                "position_x": 0.0,
+                "position_y": -0.62,
+                "position_z": 2.0,
+                "visible": false
+            }
+        ],
         "objects_count": 1,
         "position_x": 0.0,
-        "position_z": 0.5,
+        "position_y": -2.24,
+        "position_z": 1.02,
         "return_status": "SUCCESSFUL",
         "reward": -0.006,
         "rotation_y": 0.0,
         "step_number": 6,
-        "structural_objects_count": 83
+        "structural_objects_count": 41
     },
     {
-        "camera_height": 0.762,
+        "camera_height": -2.24,
         "head_tilt": 10,
-        "objects": [],
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.85,
+                "direction_z": 0.52,
+                "distance": 1.68,
+                "held": false,
+                "id": "testContainer",
+                "mass": 5,
+                "position_x": 0.0,
+                "position_y": -0.8,
+                "position_z": 2.0,
+                "visible": false
+            }
+        ],
         "objects_count": 1,
         "position_x": 0.0,
-        "position_z": 0.6,
+        "position_y": -2.24,
+        "position_z": 1.12,
         "return_status": "SUCCESSFUL",
         "reward": -0.007,
         "rotation_y": 0.0,
         "step_number": 7,
-        "structural_objects_count": 83
+        "structural_objects_count": 41
     },
     {
         "camera_height": -2.238,
         "head_tilt": 10,
-        "objects": [],
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.84,
+                "direction_z": 0.54,
+                "distance": 1.45,
+                "held": false,
+                "id": "testContainer",
+                "mass": 5,
+                "position_x": 0.0,
+                "position_y": -1.02,
+                "position_z": 2.0,
+                "visible": false
+            }
+        ],
         "objects_count": 1,
         "position_x": 0.0,
-        "position_z": 0.721,
+        "position_y": -2.24,
+        "position_z": 1.22,
         "return_status": "SUCCESSFUL",
         "reward": -0.008,
         "rotation_y": 0.0,
         "step_number": 8,
-        "structural_objects_count": 83
+        "structural_objects_count": 41
     },
     {
         "camera_height": -2.238,
         "head_tilt": 10,
-        "objects": [],
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.82,
+                "direction_z": 0.57,
+                "distance": 1.2,
+                "held": false,
+                "id": "testContainer",
+                "mass": 5,
+                "position_x": 0.0,
+                "position_y": -1.25,
+                "position_z": 2.0,
+                "visible": false
+            }
+        ],
         "objects_count": 1,
         "position_x": 0.0,
-        "position_z": 0.821,
+        "position_y": -2.24,
+        "position_z": 1.32,
         "return_status": "SUCCESSFUL",
         "reward": -0.009,
         "rotation_y": 0.0,
         "step_number": 9,
-        "structural_objects_count": 83
+        "structural_objects_count": 41
     },
     {
         "camera_height": -2.238,
         "head_tilt": 10,
-        "objects": [],
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": 0.78,
+                "direction_z": 0.62,
+                "distance": 0.93,
+                "held": false,
+                "id": "testContainer",
+                "mass": 5,
+                "position_x": 0.0,
+                "position_y": -1.51,
+                "position_z": 2.0,
+                "visible": false
+            }
+        ],
         "objects_count": 1,
         "position_x": 0.0,
-        "position_z": 0.921,
+        "position_y": -2.24,
+        "position_z": 1.42,
         "return_status": "SUCCESSFUL",
         "reward": -0.01,
         "rotation_y": 0.0,
         "step_number": 10,
-        "structural_objects_count": 83
-    },
-    {
-        "camera_height": 0.762,
-        "head_tilt": 40,
-        "objects": [],
-        "objects_count": 7,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "return_status": "SUCCESSFUL",
-        "reward": -0.011,
-        "rotation_y": 0.0,
-        "step_number": 11,
-        "structural_objects_count": 6
-    },
-    {
-        "camera_height": 0.762,
-        "head_tilt": 40,
-        "objects": [],
-        "objects_count": 7,
-        "position_x": 0.0,
-        "position_z": 0.0,
-        "return_status": "SUCCESSFUL",
-        "reward": -0.012,
-        "rotation_y": 0.0,
-        "step_number": 12,
-        "structural_objects_count": 6
+        "structural_objects_count": 41
     }
 ]
