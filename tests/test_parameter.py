@@ -24,6 +24,7 @@ class TestParameter(unittest.TestCase):
           'floorMaterial': 'AI2-THOR/Materials/Fabrics/CarpetWhite 3',
           'ceilingMaterial': 'AI2-THOR/Materials/Walls/Drywall',
           'holes': [],
+          'lava': [],
           'objects': [{'shows': [{'position': {'y': 0.25,
                                                'z': 1.0,
                                                'x': 0.25},

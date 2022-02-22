@@ -528,9 +528,14 @@ class SceneConfigurationSchema(Schema):
     floor_properties = fields.Nested(
         PhysicsConfigSchema,
         data_key='floorProperties')
+    floor_textures = fields.List(
+        fields.Nested(FloorTexturesConfigSchema),
+        data_key='floorTextures')
     goal = fields.Nested(GoalSchema)
+    holes = fields.List(fields.Nested(Vector2dIntSchema))
     intuitive_physics = fields.Bool(data_key='intuitivePhysics')
     isometric = fields.Bool()
+    lava = fields.List(fields.Nested(Vector2dIntSchema))
     name = fields.Str()
     objects = fields.List(fields.Nested(SceneObjectSchema))
     observation = fields.Bool()  # deprecated; please use intuitivePhysics
@@ -547,10 +552,6 @@ class SceneConfigurationSchema(Schema):
     wall_properties = fields.Nested(
         PhysicsConfigSchema,
         data_key='wallProperties')
-    holes = fields.List(fields.Nested(Vector2dIntSchema))
-    floor_textures = fields.List(
-        fields.Nested(FloorTexturesConfigSchema),
-        data_key='floorTextures')
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation = fields.Str(allow_none=True)
@@ -778,9 +779,12 @@ class SceneConfiguration:
     debug: dict = None
     floor_material: str = None
     floor_properties: PhysicsConfig = None
+    floor_textures: List[FloorTexturesConfig] = field(default_factory=list)
     goal: Goal = None  # TODO change to concrete class
+    holes: List[Vector2dInt] = field(default_factory=list)
     intuitive_physics: bool = False
     isometric: bool = False
+    lava: List[Vector2dInt] = field(default_factory=list)
     name: str = None
     objects: List[SceneObject] = field(default_factory=list)
     observation: bool = False  # deprecated; please use intuitivePhysics
@@ -792,8 +796,6 @@ class SceneConfiguration:
     version: int = None
     wall_material: str = None
     wall_properties: PhysicsConfig = None
-    holes: List[Vector2dInt] = field(default_factory=list)
-    floor_textures: List[FloorTexturesConfig] = field(default_factory=list)
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation: str = None
