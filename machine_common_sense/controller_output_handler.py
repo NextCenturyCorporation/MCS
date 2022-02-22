@@ -283,7 +283,8 @@ class ControllerOutputHandler():
             ),
             haptic_feedback=self._scene_event.haptic_feedback,
             head_tilt=self._scene_event.head_tilt,
-            holes=None if restrict_non_oracle else self._scene_config.holes,
+            holes=None if restrict_non_oracle else copy.deepcopy(
+                self._scene_config.holes),
             image_list=self._scene_event.image_list,
             lava=None if restrict_non_oracle else self._get_lava_positions(),
             object_list=(
@@ -322,7 +323,7 @@ class ControllerOutputHandler():
         textures = self._scene_config.floor_textures or []
         for texture in textures:
             if texture.material in LAVA_TEXTURES:
-                lava_positions += texture.positions
+                lava_positions += copy.deepcopy(texture.positions)
         return lava_positions
 
     def get_restrictions(self, restricted, metadata_tier) -> Tuple:
