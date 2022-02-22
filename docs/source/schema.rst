@@ -83,7 +83,7 @@ Each **scene config** has the following properties:
 - `floorProperties` (:ref:`physics config <Physics Config>`, optional): Enable custom friction, bounciness, and/or drag on the floor. Default: see :ref:`physics config <Physics Config>`.
 - `floorTextures` (:ref:`material position config list <Material Position Config>`, optional): A list of materials to apply to specific areas of the room's floor. These materials override the material set by `floorMaterial` for those specific areas. Default: none
 - `goal` (:ref:`goal config <Goal Config>`, optional): The goal for the scene. Default: none
-- `holes` (:ref:`grid config list <Grid Config>`, optional): The list of X/Z coordinates corresponding to one or more holes in the room's floor. Coordinates must be integers. Holes are always size 1x1 centered on the given X/Z coordinate. Adjacent holes are combined. Y coordinates are ignored. Holes are too deep to escape. Default: none
+- `holes` (:ref:`grid config list <Grid Config>`, optional): The list of X/Z coordinates corresponding to one or more holes in the room's floor. Coordinates must be integers >= 0. Holes are always size 1x1 centered on grid system based on the bottom left corner of the room. In a room of roomDimensions (10, 3, 10), (0,0) is the bottom left corner, (9,9) is the top right corner. Adjacent holes are combined. Y coordinates are ignored. Holes are too deep to escape. Default: none
 - `intuitivePhysics` (bool, optional): Specific performer and room setup for intuitive physics scenes.
 - `isometric` (bool, optional): Specific performer and room setup for agent scenes.
 - `name` (string, required): A unique name for the scene used for our logs. Default: the filename

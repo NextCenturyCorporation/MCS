@@ -180,10 +180,14 @@ class TopDownPlotter():
 
         img = self._draw_grid_lines(img, buffer)
         img = self._draw_holes(
-            img, scene_config.holes)
+            img, scene_config.holes,
+            scene_config.room_dimensions.x,
+            scene_config.room_dimensions.z)
         img = self._draw_floor_textures(
             img,
-            scene_config.floor_textures)
+            scene_config.floor_textures,
+            scene_config.room_dimensions.x,
+            scene_config.room_dimensions.z)
 
         return img
 
@@ -299,7 +303,8 @@ class TopDownPlotter():
     def _draw_floor_textures(
         self,
         img: np.ndarray,
-        floor_textures: List[FloorTexturesConfig]
+        floor_textures: List[FloorTexturesConfig],
+        room_dim_x: int = 10, room_dim_z: int = 10
     ) -> np.ndarray:
         if floor_textures is None:
             return img
@@ -309,7 +314,9 @@ class TopDownPlotter():
             texture_color = colour.COLOR_NAME_TO_RGB['red']
 
             for position in floor_texture.positions:
-                texture_pos = SceneCoord(x=position.x, y=0, z=position.z)
+                texture_pos = SceneCoord(
+                    x=-((room_dim_x - 1) / 2) + position.x,
+                    y=0, z=-((room_dim_z - 1) / 2) + position.z)
                 half_cell_pos = SceneCoord(
                     self.UNIT_CELL_WIDTH / 2, 0, self.UNIT_CELL_WIDTH / 2)
                 tex_pos_ul = texture_pos - half_cell_pos
@@ -346,13 +353,15 @@ class TopDownPlotter():
         img[rr, cc] = texture_color
         return img
 
-    def _draw_holes(self, img: np.ndarray, holes: List) -> np.ndarray:
+    def _draw_holes(self, img: np.ndarray, holes: List,
+                    room_dim_x: int = 10, room_dim_z: int = 10) -> np.ndarray:
         '''Draw a box with an X to illustrate a floor hole'''
         if holes is None:
             return img
 
         for hole in holes:
-            hole_center = SceneCoord(x=hole.x, y=0, z=hole.z)
+            hole_center = SceneCoord(x=-((room_dim_x - 1) / 2) + hole.x,
+                                     y=0, z=-((room_dim_z - 1) / 2) + hole.z)
             half_cell_pos = SceneCoord(
                 self.UNIT_CELL_WIDTH / 2, 0, self.UNIT_CELL_WIDTH / 2)
             # calculate scene corners

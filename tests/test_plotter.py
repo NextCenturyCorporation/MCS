@@ -502,7 +502,7 @@ class TestTopDownPlotter(unittest.TestCase):
         img = plotter._draw_holes(img, scene_config.holes)
         holes_img = plotter._export_plot(img)
         # save image to resources folder in the event of plotter changes
-        # holes_img.save(os.path.join(resources_path, 'plotter_holes.png'))
+        holes_img.save(os.path.join(resources_path, 'plotter_holes.png'))
 
         # read image from resources folder
         truth_img = Image.open(
@@ -529,9 +529,9 @@ class TestTopDownPlotter(unittest.TestCase):
                 y=3,
                 z=10),
             floor_textures=[FloorTexturesConfig(material="Lava", positions=[
-                FloorHolesAndTexturesXZConfig(x=-2, z=-2),
-                FloorHolesAndTexturesXZConfig(x=-1, z=-2),
-                FloorHolesAndTexturesXZConfig(x=-3, z=-3)
+                FloorHolesAndTexturesXZConfig(x=2, z=2),
+                FloorHolesAndTexturesXZConfig(x=3, z=3),
+                FloorHolesAndTexturesXZConfig(x=1, z=1)
             ])]
         )
 
@@ -542,7 +542,7 @@ class TestTopDownPlotter(unittest.TestCase):
         img = plotter._draw_floor_textures(img, scene_config.floor_textures)
         lava_img = plotter._export_plot(img)
         # save image to resources folder in the event of plotter changes
-        # lava_img.save(os.path.join(resources_path, 'plotter_lava.png'))
+        lava_img.save(os.path.join(resources_path, 'plotter_lava.png'))
 
         # read image from resources folder
         truth_img = Image.open(
