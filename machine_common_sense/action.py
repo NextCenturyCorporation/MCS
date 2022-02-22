@@ -14,6 +14,15 @@ class Action(Enum):
     inputs must be greater than (0,0).
     """
 
+    INITIALIZE = (
+        "Initialize",
+        "0",
+        "Initialization"
+    )
+    """
+    Initialize the scene. Intended only for internal use.
+    """
+
     CLOSE_OBJECT = (
         "CloseObject",
         "1",
@@ -752,3 +761,17 @@ class Action(Enum):
             return action, None
 
         return action, params
+
+
+FORCE_ACTIONS = [
+    Action.PUSH_OBJECT,
+    Action.PULL_OBJECT,
+    Action.TORQUE_OBJECT]
+OBJECT_MOVE_ACTIONS = [
+    Action.CLOSE_OBJECT,
+    Action.OPEN_OBJECT]
+MOVE_ACTIONS = [
+    Action.MOVE_AHEAD,
+    Action.MOVE_LEFT,
+    Action.MOVE_RIGHT,
+    Action.MOVE_BACK]

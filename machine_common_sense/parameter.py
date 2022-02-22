@@ -1,7 +1,7 @@
 import random
 from typing import Any, Dict, List, Optional, Tuple
 
-from .action import Action
+from .action import FORCE_ACTIONS, OBJECT_MOVE_ACTIONS, Action
 from .config_manager import ConfigManager, MetadataTier
 from .controller import DEFAULT_MOVE
 
@@ -60,8 +60,6 @@ class Parameter:
     DEFAULT_OBJECT_MOVEMENT_X_DIRECTION = 0
     DEFAULT_OBJECT_MOVEMENT_Z_DIRECTION = 1
 
-    UNITY_FORCE = 250.0
-
     MAX_AMOUNT_TORQUE = 1.0
     MIN_AMOUNT_TORQUE = -1.0
     MAX_AMOUNT = 1.0
@@ -89,15 +87,6 @@ class Parameter:
     TELEPORT_X_POS = 'xPosition'
     TELEPORT_Z_POS = 'zPosition'
     TELEPORT_Y_ROT = 'yRotation'
-
-    # # Hard coding actions that effect MoveMagnitude so the appropriate
-    # # value is set based off of the action
-    # # TODO: Move this to an enum or some place, so that you can determine
-    # # special move interactions that way
-    FORCE_ACTIONS = ["PushObject", "PullObject", "TorqueObject"]
-    OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
-    # DW: not used anywhere
-    # MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
     def __init__(self, config: ConfigManager):
         self.config = config
@@ -135,12 +124,11 @@ class Parameter:
             return screen_height - y_coord - 1
         raise ValueError(f"{y_coord} is not in range 0-{screen_height-1}")
 
-    def _get_amount(self, **kwargs) -> float:
-        action = kwargs.get('action')
+    def _get_amount(self, action: Action, **kwargs) -> float:
         amount = kwargs.get(
             self.AMOUNT_KEY,
             self.DEFAULT_OBJECT_MOVE_AMOUNT
-            if action in self.OBJECT_MOVE_ACTIONS
+            if action in OBJECT_MOVE_ACTIONS
             else self.DEFAULT_AMOUNT
         )
         if amount is not None:
@@ -158,16 +146,15 @@ class Parameter:
             )
         return amount
 
-    def _get_force(self, **kwargs) -> float:
+    def _get_force(self, action: Action, **kwargs) -> float:
         force = kwargs.get(self.FORCE_KEY, self.DEFAULT_AMOUNT)
-        action = kwargs.get('action')
         if force is not None:
             try:
                 force = float(force)
             except ValueError as err:
                 raise ValueError('Force is not a number') from err
 
-            if action == "TorqueObject":
+            if action == Action.TORQUE_OBJECT:
                 if (force < self.MIN_AMOUNT_TORQUE or force >
                         self.MAX_AMOUNT_TORQUE):
                     raise ValueError(
@@ -181,7 +168,7 @@ class Parameter:
                     f'({self.MIN_AMOUNT} and {self.MAX_AMOUNT})')
         else:
             force = self.DEFAULT_AMOUNT
-        return force * self.UNITY_FORCE
+        return force
 
     def _get_number(self, key: str, **kwargs) -> Optional[Any]:
         val = kwargs.get(key)
@@ -291,13 +278,13 @@ class Parameter:
                 raise ValueError(direction_output)
         return (lateral, straight)
 
-    def _get_move_magnitude(self, action: str, force: float,
+    def _get_move_magnitude(self, action: Action, force: float,
                             amount: float) -> float:
         # Set the Move Magnitude to the appropriate amount based on the action
         move_magnitude = DEFAULT_MOVE
-        if action in self.FORCE_ACTIONS:
+        if action in FORCE_ACTIONS:
             move_magnitude = force * self.MAX_AMOUNT
-        elif action in self.OBJECT_MOVE_ACTIONS:
+        elif action in OBJECT_MOVE_ACTIONS:
             move_magnitude = amount
         return move_magnitude
 
@@ -326,14 +313,15 @@ class Parameter:
         return {'y': teleport_rot_input} \
             if teleport_rot_input is not None else None
 
-    def _validate_and_convert_params(self, **kwargs) -> Tuple:
+    def _validate_and_convert_params(self, **kwargs) -> Tuple[Action, Dict]:
         """Need a validation/conversion step for what ai2thor will accept as input
         to keep parameters more simple for the user (in this case, wrapping
         rotation degrees into an object)
         """
-        action = kwargs.get('action')
-        amount = self._get_amount(**kwargs)
-        force = self._get_force(**kwargs)
+        action = Action(kwargs.get('action'))
+        kwargs.pop('action')
+        amount = self._get_amount(action, **kwargs)
+        force = self._get_force(action, **kwargs)
         object_image_coords_x = int(self._get_number_with_default(
             self.OBJECT_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD, **kwargs))
         object_image_coords_y = int(self._get_number_with_default(
@@ -390,21 +378,21 @@ class Parameter:
             straight=straight
         )
 
-    def _mcs_action_to_ai2thor_action(self, action: str) -> str:
-        if action == Action.CLOSE_OBJECT.value:
+    def _mcs_action_to_ai2thor_action(self, action: Action) -> str:
+        if action == Action.CLOSE_OBJECT:
             # The AI2-THOR Python library has buggy error checking
             # specifically for the CloseObject action,
             # so just use our own custom action here.
             return "MCSCloseObject"
-        elif action == Action.DROP_OBJECT.value:
+        elif action == Action.DROP_OBJECT:
             return "DropHandObject"
-        elif action == Action.OPEN_OBJECT.value:
+        elif action == Action.OPEN_OBJECT:
             # The AI2-THOR Python library has buggy error checking
             # specifically for the OpenObject action,
             # so just use our own custom action here.
             return "MCSOpenObject"
 
-        return action
+        return action.value
 
     def _generate_noise(self) -> float:
         """
