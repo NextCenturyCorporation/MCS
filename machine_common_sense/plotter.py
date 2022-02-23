@@ -180,10 +180,14 @@ class TopDownPlotter():
 
         img = self._draw_grid_lines(img, buffer)
         img = self._draw_holes(
-            img, scene_config.holes)
+            img, scene_config.holes,
+            scene_config.room_dimensions.x,
+            scene_config.room_dimensions.z)
         img = self._draw_floor_textures(
             img,
-            scene_config.floor_textures)
+            scene_config.floor_textures,
+            scene_config.room_dimensions.x,
+            scene_config.room_dimensions.z)
 
         return img
 
@@ -296,10 +300,59 @@ class TopDownPlotter():
         img[rr, cc] = self.BORDER_COLOR
         return img
 
+    def _plotter_hole_texture_size_reducer(
+            self,
+            pos: SceneCoord,
+            room_dim_x: int = 10, room_dim_z: int = 10) -> Tuple(SceneCoord):
+
+        x_is_even = room_dim_x % 2 == 0
+        z_is_even = room_dim_z % 2 == 0
+        size_reducer_left = SceneCoord(0, 0, 0)
+        size_reducer_right = SceneCoord(0, 0, 0)
+        if not x_is_even and not z_is_even:
+            if abs(pos.x) > (room_dim_x - 1) / \
+                    2 or abs(pos.z) > (room_dim_z - 1) / 2:
+                # dont draw hole
+                return None, None
+        if x_is_even and z_is_even:
+            if abs(pos.x) > room_dim_x / \
+                    2 or abs(pos.z) > room_dim_z / 2:
+                return None, None
+            if pos.x == -(room_dim_x / 2):
+                size_reducer_left.x = 0.5
+            if pos.z == -(room_dim_z / 2):
+                size_reducer_left.z = 0.5
+            if pos.x == (room_dim_x / 2):
+                size_reducer_right.x = -0.5
+            if pos.z == (room_dim_z / 2):
+                size_reducer_right.z = -0.5
+
+        if x_is_even and not z_is_even:
+            if abs(pos.x) > room_dim_x / \
+                    2 or abs(pos.z) > (room_dim_z - 1) / 2:
+                return None, None
+            if pos.x == -(room_dim_x / 2):
+                size_reducer_left.x = 0.5
+            if pos.x == (room_dim_x / 2):
+                size_reducer_right.x = -0.5
+
+        if not x_is_even and z_is_even:
+            if abs(pos.x) > (room_dim_x - 1) / \
+                    2 or abs(pos.z) > room_dim_z / 2:
+                return None, None
+            if pos.z == -(room_dim_z / 2):
+                size_reducer_left.z = 0.5
+            if pos.z == (room_dim_z / 2):
+                size_reducer_right.z = -0.5
+
+        return size_reducer_left, size_reducer_right
+
     def _draw_floor_textures(
         self,
         img: np.ndarray,
-        floor_textures: List[FloorTexturesConfig]
+        floor_textures: List[FloorTexturesConfig],
+        room_dim_x: int = 10,
+        room_dim_z: int = 10
     ) -> np.ndarray:
         if floor_textures is None:
             return img
@@ -310,10 +363,15 @@ class TopDownPlotter():
 
             for position in floor_texture.positions:
                 texture_pos = SceneCoord(x=position.x, y=0, z=position.z)
+                size_reducer_left, size_reducer_right = (
+                    self._plotter_hole_texture_size_reducer(
+                        texture_pos, room_dim_x, room_dim_z))
+                if size_reducer_left is None:
+                    continue
                 half_cell_pos = SceneCoord(
                     self.UNIT_CELL_WIDTH / 2, 0, self.UNIT_CELL_WIDTH / 2)
-                tex_pos_ul = texture_pos - half_cell_pos
-                tex_pos_lr = texture_pos + half_cell_pos
+                tex_pos_ul = texture_pos - half_cell_pos + size_reducer_left
+                tex_pos_lr = texture_pos + half_cell_pos + size_reducer_right
                 tex_img_pos_ul = self._convert_to_image_coords(tex_pos_ul)
                 tex_img_pos_lr = self._convert_to_image_coords(tex_pos_lr)
 
@@ -346,18 +404,27 @@ class TopDownPlotter():
         img[rr, cc] = texture_color
         return img
 
-    def _draw_holes(self, img: np.ndarray, holes: List) -> np.ndarray:
+    def _draw_holes(self, img: np.ndarray, holes: List,
+                    room_dim_x: int = 10, room_dim_z: int = 10) -> np.ndarray:
         '''Draw a box with an X to illustrate a floor hole'''
         if holes is None:
             return img
 
         for hole in holes:
             hole_center = SceneCoord(x=hole.x, y=0, z=hole.z)
+
+            size_reducer_left, size_reducer_right = (
+                self._plotter_hole_texture_size_reducer(
+                    hole, room_dim_x, room_dim_z))
+            if size_reducer_left is None:
+                continue
             half_cell_pos = SceneCoord(
                 self.UNIT_CELL_WIDTH / 2, 0, self.UNIT_CELL_WIDTH / 2)
             # calculate scene corners
-            hole_upper_left: SceneCoord = hole_center - half_cell_pos
-            hole_lower_right: SceneCoord = hole_center + half_cell_pos
+            hole_upper_left: SceneCoord = hole_center - half_cell_pos + \
+                size_reducer_left
+            hole_lower_right: SceneCoord = hole_center + half_cell_pos + \
+                size_reducer_right
 
             # convert scene corners to image coordinates
             hole_img_upper_left: ImageCoord = self._convert_to_image_coords(
