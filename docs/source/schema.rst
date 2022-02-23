@@ -89,7 +89,7 @@ Each **scene config** has the following properties:
 - `name` (string, required): A unique name for the scene used for our logs. Default: the filename
 - `objects` (:ref:`object config <Object Config>` array, optional): The objects for the scene. Default: `[]`
 - `performerStart` (:ref:`transform config <Transform Config>`, optional): The starting position and rotation of the performer (the "player"). Only the `position.x`, `position.z`, `rotation.x` (head tilt), and `rotation.y` properties are used. Default: `{ "position": { "x": 0, "z": 0 }, "rotation": { "y": 0 } }`
-- `restrictOpenDoors` (bool, optional): If there are multiple doors in a scene, restrict the amount that can be open at a time to 1.
+- `restrictOpenDoors` (bool, optional): If there are multiple doors in a scene, only allow for one door to ever be opened.
 - `roomDimensions` (Vector3, optional): Specify the size of the room, not including the thickness of walls, floor, and ceiling.  If omitted or set to 0, 0, 0, the default will be used.  Note: There is a maximum visibility which for objects and structures beyond will not be rendered.  Use caution when creating rooms where the maximum distance exceeds this maximum visibility.  The maximum visibility is 15 meters. Default: 10, 3, 10.
 - `roomMaterials` (:ref:`room material config <Room Material Config>`, optional): The materials for each individual wall.  For any individual wall not provided, or all outer walls if object is not provided, they will use 'wallMaterial' property.
 - `version` (int, optional): The version of this scene configuration. Default: the latest version
