@@ -4,9 +4,9 @@ import unittest
 import ai2thor
 from PIL import Image, ImageChops, ImageStat
 
-from machine_common_sense.config_manager import (FloorHolesAndTexturesXZConfig,
-                                                 FloorTexturesConfig,
-                                                 SceneConfiguration, Vector3d)
+from machine_common_sense.config_manager import (FloorTexturesConfig,
+                                                 SceneConfiguration,
+                                                 Vector2dInt, Vector3d)
 from machine_common_sense.plotter import (Ramp, SceneAsset, SceneCoord,
                                           TopDownPlotter, XZHeading)
 
@@ -474,21 +474,21 @@ class TestTopDownPlotter(unittest.TestCase):
 
     def test_draw_holes_even_room_dimensions(self):
         holes = [
-            FloorHolesAndTexturesXZConfig(**{"x": 0, "z": 0}),
-            FloorHolesAndTexturesXZConfig(**{"x": -3, "z": 0}),
-            FloorHolesAndTexturesXZConfig(**{"x": 3, "z": 0}),
-            FloorHolesAndTexturesXZConfig(**{"x": 0, "z": 4}),
-            FloorHolesAndTexturesXZConfig(**{"x": 0, "z": -4}),
-            FloorHolesAndTexturesXZConfig(**{"x": 2, "z": 0}),
-            FloorHolesAndTexturesXZConfig(**{"x": -2, "z": 0}),
-            FloorHolesAndTexturesXZConfig(**{"x": 2, "z": 3}),
-            FloorHolesAndTexturesXZConfig(**{"x": -2, "z": -3}),
-            FloorHolesAndTexturesXZConfig(**{"x": 2, "z": -3}),
-            FloorHolesAndTexturesXZConfig(**{"x": -2, "z": 3}),
-            FloorHolesAndTexturesXZConfig(**{"x": -3, "z": -4}),
-            FloorHolesAndTexturesXZConfig(**{"x": 3, "z": 4}),
-            FloorHolesAndTexturesXZConfig(**{"x": -3, "z": 4}),
-            FloorHolesAndTexturesXZConfig(**{"x": 3, "z": -4}),
+            Vector2dInt(**{"x": 0, "z": 0}),
+            Vector2dInt(**{"x": -3, "z": 0}),
+            Vector2dInt(**{"x": 3, "z": 0}),
+            Vector2dInt(**{"x": 0, "z": 4}),
+            Vector2dInt(**{"x": 0, "z": -4}),
+            Vector2dInt(**{"x": 2, "z": 0}),
+            Vector2dInt(**{"x": -2, "z": 0}),
+            Vector2dInt(**{"x": 2, "z": 3}),
+            Vector2dInt(**{"x": -2, "z": -3}),
+            Vector2dInt(**{"x": 2, "z": -3}),
+            Vector2dInt(**{"x": -2, "z": 3}),
+            Vector2dInt(**{"x": -3, "z": -4}),
+            Vector2dInt(**{"x": 3, "z": 4}),
+            Vector2dInt(**{"x": -3, "z": 4}),
+            Vector2dInt(**{"x": 3, "z": -4}),
         ]
         goal = {'metadata': {
             'target': {'image': [0]},
@@ -532,20 +532,20 @@ class TestTopDownPlotter(unittest.TestCase):
 
     def test_draw_holes_odd_room_dimensions(self):
         holes = [
-            FloorHolesAndTexturesXZConfig(**{"x": 0, "z": 0}),
-            FloorHolesAndTexturesXZConfig(**{"x": 2, "z": 3}),
-            FloorHolesAndTexturesXZConfig(**{"x": 2, "z": -3}),
-            FloorHolesAndTexturesXZConfig(**{"x": -2, "z": -3}),
-            FloorHolesAndTexturesXZConfig(**{"x": -2, "z": 3}),
-            FloorHolesAndTexturesXZConfig(**{"x": 2, "z": 1}),
-            FloorHolesAndTexturesXZConfig(**{"x": -2, "z": 1}),
-            FloorHolesAndTexturesXZConfig(**{"x": -2, "z": -1}),
-            FloorHolesAndTexturesXZConfig(**{"x": 2, "z": -1}),
-            FloorHolesAndTexturesXZConfig(**{"x": 0, "z": 3}),
-            FloorHolesAndTexturesXZConfig(**{"x": 0, "z": -3}),
-            FloorHolesAndTexturesXZConfig(
+            Vector2dInt(**{"x": 0, "z": 0}),
+            Vector2dInt(**{"x": 2, "z": 3}),
+            Vector2dInt(**{"x": 2, "z": -3}),
+            Vector2dInt(**{"x": -2, "z": -3}),
+            Vector2dInt(**{"x": -2, "z": 3}),
+            Vector2dInt(**{"x": 2, "z": 1}),
+            Vector2dInt(**{"x": -2, "z": 1}),
+            Vector2dInt(**{"x": -2, "z": -1}),
+            Vector2dInt(**{"x": 2, "z": -1}),
+            Vector2dInt(**{"x": 0, "z": 3}),
+            Vector2dInt(**{"x": 0, "z": -3}),
+            Vector2dInt(
                 **{"x": -3, "z": 3}),  # out of bounds - don't draw
-            FloorHolesAndTexturesXZConfig(
+            Vector2dInt(
                 **{"x": 3, "z": -3}),  # out of bounds - don't draw
         ]
         goal = {'metadata': {
@@ -590,32 +590,32 @@ class TestTopDownPlotter(unittest.TestCase):
 
     def test_draw_holes_even_odd_room_dimensions(self):
         holes = [
-            FloorHolesAndTexturesXZConfig(**{"x": 0, "z": 0}),
-            FloorHolesAndTexturesXZConfig(**{"x": 5, "z": 4}),
-            FloorHolesAndTexturesXZConfig(**{"x": -5, "z": 4}),
-            FloorHolesAndTexturesXZConfig(**{"x": 5, "z": -4}),
-            FloorHolesAndTexturesXZConfig(**{"x": -5, "z": -4}),
-            FloorHolesAndTexturesXZConfig(**{"x": 4, "z": -4}),
-            FloorHolesAndTexturesXZConfig(**{"x": 4, "z": -3}),
-            FloorHolesAndTexturesXZConfig(**{"x": 5, "z": -3}),
-            FloorHolesAndTexturesXZConfig(**{"x": -5, "z": -3}),
-            FloorHolesAndTexturesXZConfig(**{"x": -4, "z": -3}),
-            FloorHolesAndTexturesXZConfig(**{"x": -4, "z": -4}),
-            FloorHolesAndTexturesXZConfig(**{"x": 0, "z": -4}),
-            FloorHolesAndTexturesXZConfig(**{"x": 0, "z": 4}),
-            FloorHolesAndTexturesXZConfig(**{"x": 4, "z": 0}),
-            FloorHolesAndTexturesXZConfig(**{"x": -4, "z": 0}),
-            FloorHolesAndTexturesXZConfig(**{"x": 5, "z": 3}),
-            FloorHolesAndTexturesXZConfig(**{"x": -5, "z": 3}),
-            FloorHolesAndTexturesXZConfig(**{"x": -4, "z": 3}),
-            FloorHolesAndTexturesXZConfig(**{"x": 4, "z": 3}),
-            FloorHolesAndTexturesXZConfig(**{"x": 4, "z": 4}),
-            FloorHolesAndTexturesXZConfig(**{"x": -4, "z": 4}),
-            FloorHolesAndTexturesXZConfig(**{"x": -5, "z": 0}),
-            FloorHolesAndTexturesXZConfig(**{"x": 5, "z": 0}),
-            FloorHolesAndTexturesXZConfig(
+            Vector2dInt(**{"x": 0, "z": 0}),
+            Vector2dInt(**{"x": 5, "z": 4}),
+            Vector2dInt(**{"x": -5, "z": 4}),
+            Vector2dInt(**{"x": 5, "z": -4}),
+            Vector2dInt(**{"x": -5, "z": -4}),
+            Vector2dInt(**{"x": 4, "z": -4}),
+            Vector2dInt(**{"x": 4, "z": -3}),
+            Vector2dInt(**{"x": 5, "z": -3}),
+            Vector2dInt(**{"x": -5, "z": -3}),
+            Vector2dInt(**{"x": -4, "z": -3}),
+            Vector2dInt(**{"x": -4, "z": -4}),
+            Vector2dInt(**{"x": 0, "z": -4}),
+            Vector2dInt(**{"x": 0, "z": 4}),
+            Vector2dInt(**{"x": 4, "z": 0}),
+            Vector2dInt(**{"x": -4, "z": 0}),
+            Vector2dInt(**{"x": 5, "z": 3}),
+            Vector2dInt(**{"x": -5, "z": 3}),
+            Vector2dInt(**{"x": -4, "z": 3}),
+            Vector2dInt(**{"x": 4, "z": 3}),
+            Vector2dInt(**{"x": 4, "z": 4}),
+            Vector2dInt(**{"x": -4, "z": 4}),
+            Vector2dInt(**{"x": -5, "z": 0}),
+            Vector2dInt(**{"x": 5, "z": 0}),
+            Vector2dInt(
                 **{"x": 6, "z": 0}),  # out of bounds - dont draw
-            FloorHolesAndTexturesXZConfig(
+            Vector2dInt(
                 **{"x": -5, "z": -5})  # out of bounds - dont draw
 
         ]
@@ -674,32 +674,32 @@ class TestTopDownPlotter(unittest.TestCase):
                 y=3,
                 z=10),
             floor_textures=[FloorTexturesConfig(material="Lava", positions=[
-                FloorHolesAndTexturesXZConfig(**{"x": 0, "z": 0}),
-                FloorHolesAndTexturesXZConfig(**{"x": -3, "z": 0}),
-                FloorHolesAndTexturesXZConfig(**{"x": 3, "z": 0}),
-                FloorHolesAndTexturesXZConfig(**{"x": 0, "z": 5}),
-                FloorHolesAndTexturesXZConfig(**{"x": 0, "z": -5}),
-                FloorHolesAndTexturesXZConfig(**{"x": 2, "z": 0}),
-                FloorHolesAndTexturesXZConfig(**{"x": -2, "z": 0}),
-                FloorHolesAndTexturesXZConfig(**{"x": 2, "z": 4}),
-                FloorHolesAndTexturesXZConfig(**{"x": -2, "z": -4}),
-                FloorHolesAndTexturesXZConfig(**{"x": 2, "z": -4}),
-                FloorHolesAndTexturesXZConfig(**{"x": -2, "z": 4}),
-                FloorHolesAndTexturesXZConfig(**{"x": -3, "z": -4}),
-                FloorHolesAndTexturesXZConfig(**{"x": 3, "z": 4}),
-                FloorHolesAndTexturesXZConfig(**{"x": -3, "z": 4}),
-                FloorHolesAndTexturesXZConfig(**{"x": 3, "z": -4}),
-                FloorHolesAndTexturesXZConfig(**{"x": 3, "z": -5}),
-                FloorHolesAndTexturesXZConfig(**{"x": 3, "z": 5}),
-                FloorHolesAndTexturesXZConfig(**{"x": -3, "z": 5}),
-                FloorHolesAndTexturesXZConfig(**{"x": -3, "z": -5}),
-                FloorHolesAndTexturesXZConfig(**{"x": 2, "z": -5}),
-                FloorHolesAndTexturesXZConfig(**{"x": 2, "z": 5}),
-                FloorHolesAndTexturesXZConfig(**{"x": -2, "z": 5}),
-                FloorHolesAndTexturesXZConfig(**{"x": -2, "z": -5}),
-                FloorHolesAndTexturesXZConfig(
+                Vector2dInt(**{"x": 0, "z": 0}),
+                Vector2dInt(**{"x": -3, "z": 0}),
+                Vector2dInt(**{"x": 3, "z": 0}),
+                Vector2dInt(**{"x": 0, "z": 5}),
+                Vector2dInt(**{"x": 0, "z": -5}),
+                Vector2dInt(**{"x": 2, "z": 0}),
+                Vector2dInt(**{"x": -2, "z": 0}),
+                Vector2dInt(**{"x": 2, "z": 4}),
+                Vector2dInt(**{"x": -2, "z": -4}),
+                Vector2dInt(**{"x": 2, "z": -4}),
+                Vector2dInt(**{"x": -2, "z": 4}),
+                Vector2dInt(**{"x": -3, "z": -4}),
+                Vector2dInt(**{"x": 3, "z": 4}),
+                Vector2dInt(**{"x": -3, "z": 4}),
+                Vector2dInt(**{"x": 3, "z": -4}),
+                Vector2dInt(**{"x": 3, "z": -5}),
+                Vector2dInt(**{"x": 3, "z": 5}),
+                Vector2dInt(**{"x": -3, "z": 5}),
+                Vector2dInt(**{"x": -3, "z": -5}),
+                Vector2dInt(**{"x": 2, "z": -5}),
+                Vector2dInt(**{"x": 2, "z": 5}),
+                Vector2dInt(**{"x": -2, "z": 5}),
+                Vector2dInt(**{"x": -2, "z": -5}),
+                Vector2dInt(
                     **{"x": -4, "z": -6}),  # out of bounds - lava don't draw
-                FloorHolesAndTexturesXZConfig(
+                Vector2dInt(
                     **{"x": 4, "z": 6})  # out of bounds bad - lava don't draw
             ])]
         )

@@ -469,6 +469,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
+        self.assertEqual(actual.holes, [])
+        self.assertEqual(actual.lava, [])
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(
@@ -591,7 +593,8 @@ class TestControllerOutputHandler(unittest.TestCase):
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
         self.assertEqual(actual.step_number, 0)
-
+        self.assertEqual(actual.holes, None)
+        self.assertEqual(actual.lava, None)
         # Correct object metadata properties tested elsewhere
         self.assertEqual(len(actual.object_list), 0)
         self.assertEqual(len(actual.structural_object_list), 0)
@@ -641,7 +644,8 @@ class TestControllerOutputHandler(unittest.TestCase):
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
         self.assertEqual(actual.step_number, 0)
-
+        self.assertEqual(actual.holes, None)
+        self.assertEqual(actual.lava, None)
         # Correct object metadata properties tested elsewhere
         self.assertEqual(len(actual.object_list), 0)
         self.assertEqual(len(actual.structural_object_list), 0)
@@ -717,7 +721,8 @@ class TestControllerOutputHandler(unittest.TestCase):
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
         self.assertEqual(actual.step_number, 0)
-
+        self.assertEqual(actual.holes, [])
+        self.assertEqual(actual.lava, [])
         # Correct object metadata properties tested elsewhere
         self.assertEqual(len(actual.object_list), 2)
         self.assertEqual(len(actual.structural_object_list), 2)
@@ -765,7 +770,8 @@ class TestControllerOutputHandler(unittest.TestCase):
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
         self.assertEqual(actual.step_number, 0)
-
+        self.assertEqual(actual.holes, [])
+        self.assertEqual(actual.lava, [])
         # Correct object metadata properties tested elsewhere
         self.assertEqual(len(actual.object_list), 2)
         self.assertEqual(len(actual.structural_object_list), 2)
