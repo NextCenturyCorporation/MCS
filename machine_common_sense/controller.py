@@ -281,10 +281,8 @@ class Controller():
         # if they call end scene action they should have
         #   called end_scene instead of step
         if action == Action.END_SCENE.value:
-            logger.error(
-                "You have called EndScene action. "
-                "Please call controller.end_scene() now.")
-            return None
+            raise ValueError("You have called EndScene action.  "
+                             "Call controler.end_scene() instead.")
 
         # reformulate hidden EndHabituation parameters
         if action == Action.END_HABITUATION.value:
