@@ -39,23 +39,23 @@ class StepMetadata:
         The player camera's aspect ratio. This will remain constant for the
         whole scene.
     camera_clipping_planes : (float, float)
-        The player camera's near and far clipping planes. This will remain
-        constant for the whole scene.
+        The player camera's near and far clipping planes, in meters. This will
+        remain constant for the whole scene. Default (0.01, 150)
     camera_field_of_view : float
         The player camera's field of view. This will remain constant for
         the whole scene.
     camera_height : float
-        The player camera's height.
+        The player camera's height, in meters.
     depth_map_list : list of 2D numpy arrays
         The list of 2-dimensional numpy arrays of depth float data from the
         scene after the last action and physics simulation were run. This is
         usually a list with 1 array, except for the output from start_scene
         for a scene with a scripted Preview Phase (Preview Phase case details
         TBD).
-        Each depth float in a 2-dimensional numpy array is a value between 0
-        and 1.0 corresponding to the depth in simulation units at that pixel
-        in the image: 0 represents the camera's near clipping plane (default
-        0.01); 1.0 represents the camera's far clipping plane (default 150).
+        Each 32-bit depth float in the 2-dimensional numpy array is a value
+        between the camera's near clipping plane (default 0.01) and the
+        camera's far clipping plane (default 150) corresponding to the depth,
+        in meters, at that pixel in the image.
         Note that this list will be empty if the metadata level is 'none'.
     goal : GoalMetadata or None
         The goal for the whole scene. Will be None in "Exploration" scenes.
@@ -90,9 +90,9 @@ class StepMetadata:
         Note that this list will be empty if the metadata level is 'none'
         or 'level1'.
     performer_radius: float
-        The radius of the performer.
+        The radius of the performer, in meters.
     performer_reach: float
-        The max reach of the performer.
+        The max reach of the performer, in meters.
     position : dict
         The "x", "y", and "z" coordinates for your global position.
         Will be set to 'None' if using a metadata level below the

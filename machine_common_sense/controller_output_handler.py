@@ -40,6 +40,10 @@ class SceneEvent():
                     unity_depth_array = event.depth_frame.astype(np.float32)
                     # Convert to a 2D array (screen length X width)
                     depth_float_array = np.squeeze(unity_depth_array)
+                    # Convert from (0.0, 1.0) to (0, max distance)
+                    depth_float_array = (
+                        depth_float_array * self.clipping_plane_far
+                    )
                     self.depth_map_list.append(np.array(depth_float_array))
 
                 if self._config.is_object_masks_enabled():

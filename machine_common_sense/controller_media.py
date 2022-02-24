@@ -15,11 +15,14 @@ from .recorder import VideoRecorder
 logger = logging.getLogger(__name__)
 
 
-def convert_depth_to_image(depth_float_array: List[List[float]]) -> PIL.Image:
+def convert_depth_to_image(
+    depth_float_array: List[List[float]],
+    clipping_plane_far: float
+) -> PIL.Image:
     '''Convert the given depth float array into a depth image, then return the
     image.'''
-    # Convert (0.0, 1.0) to (0, 255)
-    depth_pixel_array = depth_float_array * 255
+    # Convert from (0.0, max distance) to (0, 255)
+    depth_pixel_array = depth_float_array / clipping_plane_far * 255
     # Convert floats to ints
     depth_pixel_array = depth_pixel_array.astype(np.uint8)
     # Convert to greyscale image (L mode uses 2-dimensional data)
@@ -128,7 +131,10 @@ class DepthImageEventHandler(AbstractImageEventHandler):
     def _save_image(self, payload):
         for index, depth_float_array in enumerate(
                 payload.step_output.depth_map_list):
-            depth_image = convert_depth_to_image(depth_float_array)
+            depth_image = convert_depth_to_image(
+                depth_float_array,
+                payload.step_output.camera_clipping_planes[1]
+            )
             self._do_save_image(payload, index, depth_image, 'depth_map')
 
 
@@ -216,7 +222,10 @@ class DepthVideoEventHandler(AbstractVideoEventHandler):
 
     def save_video_for_step(self, payload: BasePostActionEventPayload):
         for depth_float_array in payload.step_output.depth_map_list:
-            depth_image = convert_depth_to_image(depth_float_array)
+            depth_image = convert_depth_to_image(
+                depth_float_array,
+                payload.step_output.camera_clipping_planes[1]
+            )
             self.__recorder.add(depth_image)
 
     def on_end_scene(self, payload: BasePostActionEventPayload):
