@@ -158,6 +158,13 @@ lava_penalty
 
 Changes the negative penalty recieved for every step on lava.  Default: 100
 
+steps_allowed_in_lava
+^^^^^^^^^^^^^^^
+
+(int, optional)
+
+Number of steps allowed in lava before automatically calling end scene.  Default: 0
+
 noise_enabled
 ^^^^^^^^^^^^^^^
 

@@ -160,7 +160,9 @@ class Controller():
         self._scene_config = scene_config
         self.__habituation_trial = 1
         self.__step_number = 0
-        self._goal = self._scene_config.retrieve_goal()
+        self.__steps_in_lava = 0
+        self._goal = self._scene_config.retrieve_goal(
+            self._config.get_steps_allowed_in_lava())
         self._end_scene_called = False
 
         skip_preview_phase = (scene_config.goal is not None and
@@ -195,6 +197,8 @@ class Controller():
         (pre_restrict_output, output) = self._output_handler.handle_output(
             step_output, self._goal, self.__step_number,
             self.__habituation_trial)
+
+        self.__steps_in_lava = output.steps_on_lava
 
         if not skip_preview_phase:
             if (self._goal is not None and
@@ -274,6 +278,12 @@ class Controller():
                 "now.")
             return None
 
+        # if they call end scene action they should have
+        #   called end_scene instead of step
+        if action == Action.END_SCENE.value:
+            self.end_scene()
+            raise SystemExit(0)
+
         # reformulate hidden EndHabituation parameters
         if action == Action.END_HABITUATION.value:
             step_action_list = \
@@ -284,7 +294,7 @@ class Controller():
             action, kwargs = Action.input_to_action_and_params(action)
 
         action_list = self._goal.retrieve_action_list_at_step(
-            self.__step_number)
+            self.__step_number, self.__steps_in_lava)
 
         # Only continue with this action step if the given action and
         # parameters are in the restricted action list.
@@ -332,6 +342,8 @@ class Controller():
         (pre_restrict_output, output) = self._output_handler.handle_output(
             step_output, self._goal, self.__step_number,
             self.__habituation_trial)
+
+        self.__steps_in_lava = output.steps_on_lava
 
         payload = self._create_post_step_event_payload_kwargs(
             ai2thor_step, step_output, pre_restrict_output, output)
