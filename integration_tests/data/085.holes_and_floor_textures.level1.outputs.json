@@ -1,6 +1,8 @@
 ﻿[
     {
         "head_tilt": 0,
+        "holes": null,
+        "lava": null,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -12,6 +14,8 @@
     },
     {
         "head_tilt": 10,
+        "holes": null,
+        "lava": null,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -23,6 +27,8 @@
     },
     {
         "head_tilt": 20,
+        "holes": null,
+        "lava": null,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -34,6 +40,8 @@
     },
     {
         "head_tilt": 20,
+        "holes": null,
+        "lava": null,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -45,6 +53,8 @@
     },
     {
         "head_tilt": 20,
+        "holes": null,
+        "lava": null,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -56,6 +66,8 @@
     },
     {
         "head_tilt": 20,
+        "holes": null,
+        "lava": null,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -67,6 +79,8 @@
     },
     {
         "head_tilt": 20,
+        "holes": null,
+        "lava": null,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -78,6 +92,8 @@
     },
     {
         "head_tilt": 20,
+        "holes": null,
+        "lava": null,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -89,6 +105,8 @@
     },
     {
         "head_tilt": 20,
+        "holes": null,
+        "lava": null,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -100,6 +118,8 @@
     },
     {
         "head_tilt": 20,
+        "holes": null,
+        "lava": null,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -111,6 +131,8 @@
     },
     {
         "head_tilt": 20,
+        "holes": null,
+        "lava": null,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -122,6 +144,8 @@
     },
     {
         "head_tilt": 40,
+        "holes": null,
+        "lava": null,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -133,6 +157,8 @@
     },
     {
         "head_tilt": 40,
+        "holes": null,
+        "lava": null,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -144,6 +170,8 @@
     },
     {
         "head_tilt": 40,
+        "holes": null,
+        "lava": null,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -155,6 +183,8 @@
     },
     {
         "head_tilt": 30,
+        "holes": null,
+        "lava": null,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -166,6 +196,8 @@
     },
     {
         "head_tilt": 30,
+        "holes": null,
+        "lava": null,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
