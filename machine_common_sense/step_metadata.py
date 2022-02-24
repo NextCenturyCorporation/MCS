@@ -211,8 +211,6 @@ class StepMetadata:
         yield 'camera_clipping_planes', self.camera_clipping_planes
         yield 'camera_field_of_view', self.camera_field_of_view
         yield 'camera_height', self.camera_height
-        # TODO MCS-1142 REMOVE
-        yield 'depth_map_list', self.depth_map_list,
         # Intentionally no depth_map_list
         yield 'goal', dict(self.goal)
         yield 'habituation_trial', self.habituation_trial
