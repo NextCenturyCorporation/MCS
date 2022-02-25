@@ -12,8 +12,7 @@ import PIL.Image
 import skimage.draw
 from shapely import geometry
 
-from machine_common_sense.config_manager import (FloorTexturesConfig,
-                                                 SceneConfiguration, Vector3d)
+from machine_common_sense.config_manager import SceneConfiguration, Vector3d
 
 
 @dataclass
@@ -179,11 +178,15 @@ class TopDownPlotter():
         )
 
         img = self._draw_grid_lines(img, buffer)
+
         img = self._draw_holes(
-            img, scene_config.holes)
-        img = self._draw_floor_textures(
             img,
-            scene_config.floor_textures)
+            scene_config.holes,
+            scene_config.room_dimensions)
+        img = self._draw_lava(
+            img,
+            scene_config.lava,
+            scene_config.room_dimensions)
 
         return img
 
@@ -296,49 +299,118 @@ class TopDownPlotter():
         img[rr, cc] = self.BORDER_COLOR
         return img
 
-    def _draw_floor_textures(
-        self,
-        img: np.ndarray,
-        floor_textures: List[FloorTexturesConfig]
-    ) -> np.ndarray:
-        if floor_textures is None:
+    def _out_of_bounds(
+            self, pos: SceneCoord, room_dim: Vector3d) -> bool:
+        x_odd_reducer = 0 if room_dim.x % 2 == 0 else 1
+        z_odd_reducer = 0 if room_dim.z % 2 == 0 else 1
+        return (abs(pos.x) > (room_dim.x - x_odd_reducer) /
+                2 or abs(pos.z) > (room_dim.z - z_odd_reducer) / 2)
+
+    def _even_room_dim_edge_size_reducer(
+            self,
+            pos: SceneCoord,
+            room_dim: Vector3d = Vector3d(10, 0, 10)) -> Tuple(SceneCoord):
+
+        size_reducer_left = SceneCoord(0, 0, 0)
+        size_reducer_right = SceneCoord(0, 0, 0)
+        if pos.x == -(room_dim.x / 2):
+            size_reducer_left.x = 0.5
+        if pos.z == -(room_dim.z / 2):
+            size_reducer_left.z = 0.5
+        if pos.x == (room_dim.x / 2):
+            size_reducer_right.x = -0.5
+        if pos.z == (room_dim.z / 2):
+            size_reducer_right.z = -0.5
+
+        return size_reducer_left, size_reducer_right
+
+    def _even_x_odd_z_room_dim_edge_size_reducer(
+            self,
+            pos: SceneCoord,
+            room_dim: Vector3d = Vector3d(10, 0, 10)) -> Tuple(SceneCoord):
+
+        size_reducer_left = SceneCoord(0, 0, 0)
+        size_reducer_right = SceneCoord(0, 0, 0)
+        if pos.x == -(room_dim.x / 2):
+            size_reducer_left.x = 0.5
+        if pos.x == (room_dim.x / 2):
+            size_reducer_right.x = -0.5
+
+        return size_reducer_left, size_reducer_right
+
+    def _odd_x_even_z_room_dim_edge_size_reducer(
+            self,
+            pos: SceneCoord,
+            room_dim: Vector3d = Vector3d(10, 0, 10)) -> Tuple(SceneCoord):
+
+        size_reducer_left = SceneCoord(0, 0, 0)
+        size_reducer_right = SceneCoord(0, 0, 0)
+        if pos.z == -(room_dim.z / 2):
+            size_reducer_left.z = 0.5
+        if pos.z == (room_dim.z / 2):
+            size_reducer_right.z = -0.5
+
+        return size_reducer_left, size_reducer_right
+
+    def _plotter_hole_texture_size_reducer(
+            self,
+            pos: SceneCoord,
+            room_dim: Vector3d = Vector3d(10, 0, 10)) -> Tuple(SceneCoord):
+
+        x_is_even = room_dim.x % 2 == 0
+        z_is_even = room_dim.z % 2 == 0
+
+        if self._out_of_bounds(pos, room_dim):
+            return None, None
+        if x_is_even and z_is_even:
+            return (self._even_room_dim_edge_size_reducer(pos, room_dim))
+        if x_is_even and not z_is_even:
+            return self._even_x_odd_z_room_dim_edge_size_reducer(pos, room_dim)
+        return self._odd_x_even_z_room_dim_edge_size_reducer(pos, room_dim)
+
+    def _draw_lava(self, img: np.ndarray, lava: List,
+                   room_dim: Vector3d = Vector3d(10, 0, 10)) -> np.ndarray:
+        if lava is None:
             return img
 
-        for floor_texture in floor_textures:
-            # TODO MCS-1024 use floor_texture.material for color
-            texture_color = colour.COLOR_NAME_TO_RGB['red']
+        for area in lava:
+            area_center = SceneCoord(x=area.x, y=0, z=area.z)
+            half_cell_pos = SceneCoord(
+                self.UNIT_CELL_WIDTH / 2, 0, self.UNIT_CELL_WIDTH / 2)
+            size_reducer_left, size_reducer_right = (
+                self._plotter_hole_texture_size_reducer(
+                    area, room_dim))
+            if size_reducer_left is None:
+                continue
+            area_pos_ul = area_center - half_cell_pos + size_reducer_left
+            area_pos_lr = area_center + half_cell_pos + size_reducer_right
+            area_img_pos_ul = self._convert_to_image_coords(area_pos_ul)
+            area_img_pos_lr = self._convert_to_image_coords(area_pos_lr)
 
-            for position in floor_texture.positions:
-                texture_pos = SceneCoord(x=position.x, y=0, z=position.z)
-                half_cell_pos = SceneCoord(
-                    self.UNIT_CELL_WIDTH / 2, 0, self.UNIT_CELL_WIDTH / 2)
-                tex_pos_ul = texture_pos - half_cell_pos
-                tex_pos_lr = texture_pos + half_cell_pos
-                tex_img_pos_ul = self._convert_to_image_coords(tex_pos_ul)
-                tex_img_pos_lr = self._convert_to_image_coords(tex_pos_lr)
-
-                img = self._draw_floor_texture(
-                    img=img,
-                    upper_left=tex_img_pos_ul,
-                    lower_right=tex_img_pos_lr,
-                    texture_color=texture_color)
-                img = self._draw_perimeter(
-                    img,
-                    tex_img_pos_ul,
-                    tex_img_pos_lr,
-                    self.BACKGROUND_COLOR)
-                img = self._draw_x(
-                    img,
-                    tex_img_pos_ul,
-                    tex_img_pos_lr,
-                    self.BACKGROUND_COLOR)
+            img = self._draw_lava_area(
+                img=img,
+                upper_left=area_img_pos_ul,
+                lower_right=area_img_pos_lr,
+                texture_color=colour.COLOR_NAME_TO_RGB['red'])
+            img = self._draw_perimeter(
+                img,
+                area_img_pos_ul,
+                area_img_pos_lr,
+                self.BACKGROUND_COLOR)
+            img = self._draw_x(
+                img,
+                area_img_pos_ul,
+                area_img_pos_lr,
+                self.BACKGROUND_COLOR)
         return img
 
-    def _draw_floor_texture(self,
-                            img: np.ndarray,
-                            upper_left: ImageCoord,
-                            lower_right: ImageCoord,
-                            texture_color: colour.C_RGB) -> np.ndarray:
+    def _draw_lava_area(
+        self,
+        img: np.ndarray,
+        upper_left: ImageCoord,
+        lower_right: ImageCoord,
+        texture_color: colour.C_RGB
+    ) -> np.ndarray:
         rr, cc = skimage.draw.rectangle(
             start=(upper_left.y, upper_left.x),
             end=(lower_right.y, lower_right.x),
@@ -346,18 +418,27 @@ class TopDownPlotter():
         img[rr, cc] = texture_color
         return img
 
-    def _draw_holes(self, img: np.ndarray, holes: List) -> np.ndarray:
+    def _draw_holes(self, img: np.ndarray, holes: List,
+                    room_dim: Vector3d = Vector3d(10, 0, 10)) -> np.ndarray:
         '''Draw a box with an X to illustrate a floor hole'''
         if holes is None:
             return img
 
         for hole in holes:
             hole_center = SceneCoord(x=hole.x, y=0, z=hole.z)
+
+            size_reducer_left, size_reducer_right = (
+                self._plotter_hole_texture_size_reducer(
+                    hole, room_dim))
+            if size_reducer_left is None:
+                continue
             half_cell_pos = SceneCoord(
                 self.UNIT_CELL_WIDTH / 2, 0, self.UNIT_CELL_WIDTH / 2)
             # calculate scene corners
-            hole_upper_left: SceneCoord = hole_center - half_cell_pos
-            hole_lower_right: SceneCoord = hole_center + half_cell_pos
+            hole_upper_left: SceneCoord = hole_center - half_cell_pos + \
+                size_reducer_left
+            hole_lower_right: SceneCoord = hole_center + half_cell_pos + \
+                size_reducer_right
 
             # convert scene corners to image coordinates
             hole_img_upper_left: ImageCoord = self._convert_to_image_coords(

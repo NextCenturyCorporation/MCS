@@ -6,7 +6,8 @@ import numpy
 import machine_common_sense as mcs
 from machine_common_sense.config_manager import (ConfigManager, MetadataTier,
                                                  SceneConfiguration,
-                                                 SceneConfigurationSchema)
+                                                 SceneConfigurationSchema,
+                                                 Vector2dInt)
 from machine_common_sense.controller_output_handler import (
     ControllerOutputHandler, SceneEvent)
 from machine_common_sense.goal_metadata import GoalMetadata
@@ -37,7 +38,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
     def create_wrap_output_scene_event(self):
         image_data = numpy.array([[0]], dtype=numpy.uint8)
-        depth_data = numpy.array([[[128, 0, 0]]], dtype=numpy.uint8)
+        depth_data = numpy.array([[0.2, 0.4], [0.6, 0.8]], dtype=numpy.float32)
         object_mask_data = numpy.array([[192]], dtype=numpy.uint8)
 
         return {
@@ -67,7 +68,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                 "cameraPosition": {
                     "y": 0.1234
                 },
-                "clippingPlaneFar": 15,
+                "clippingPlaneFar": 150,
                 "clippingPlaneNear": 0,
                 "fov": 42.5,
                 "lastActionStatus": "SUCCESSFUL",
@@ -458,19 +459,23 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
         (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
-        self.assertEqual(actual.camera_clipping_planes, (0, 15))
+        self.assertEqual(actual.camera_clipping_planes, (0, 150))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
-        self.assertEqual(actual.holes, [])
-        self.assertEqual(actual.lava, [])
+        self.assertEqual(actual.holes, [(0, 0), (1, 2), (9, 8)])
+        self.assertEqual(actual.lava, [(3, 3), (7, 5), (4, 6)])
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(
@@ -556,7 +561,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(len(actual.object_mask_list), 0)
         '''numpy.testing.assert_almost_equal(
             numpy.array(actual.depth_map_list[0]),
-            numpy.array([[2.51]], dtype=numpy.float32),
+            numpy.array([[30, 60], [90, 120]], dtype=numpy.float32),
             3
         )'''
         self.assertEqual(numpy.array(actual.image_list[0]), image_data)
@@ -577,12 +582,16 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
         (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
-        self.assertEqual(actual.camera_clipping_planes, (0, 15))
+        self.assertEqual(actual.camera_clipping_planes, (0, 150))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(actual.habituation_trial, None)
@@ -627,12 +636,16 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
         (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
-        self.assertEqual(actual.camera_clipping_planes, (0, 15))
+        self.assertEqual(actual.camera_clipping_planes, (0, 150))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
@@ -666,12 +679,16 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
         (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
-        self.assertEqual(actual.camera_clipping_planes, (0, 15))
+        self.assertEqual(actual.camera_clipping_planes, (0, 150))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
@@ -705,12 +722,16 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
         (actual, res) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
-        self.assertEqual(actual.camera_clipping_planes, (0, 15))
+        self.assertEqual(actual.camera_clipping_planes, (0, 150))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(actual.habituation_trial, None)
@@ -721,8 +742,8 @@ class TestControllerOutputHandler(unittest.TestCase):
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
         self.assertEqual(actual.step_number, 0)
-        self.assertEqual(actual.holes, [])
-        self.assertEqual(actual.lava, [])
+        self.assertEqual(actual.holes, [(0, 0), (1, 2), (9, 8)])
+        self.assertEqual(actual.lava, [(3, 3), (7, 5), (4, 6)])
         # Correct object metadata properties tested elsewhere
         self.assertEqual(len(actual.object_list), 2)
         self.assertEqual(len(actual.structural_object_list), 2)
@@ -732,7 +753,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(len(actual.object_mask_list), 1)
         numpy.testing.assert_almost_equal(
             numpy.array(actual.depth_map_list[0]),
-            numpy.array([[2.51]], dtype=numpy.float32),
+            numpy.array([[30, 60], [90, 120]], dtype=numpy.float32),
             3
         )
         self.assertEqual(numpy.array(actual.image_list[0]), image_data)
@@ -754,12 +775,16 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
         (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
-        self.assertEqual(actual.camera_clipping_planes, (0, 15))
+        self.assertEqual(actual.camera_clipping_planes, (0, 150))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(actual.habituation_trial, None)
@@ -770,8 +795,8 @@ class TestControllerOutputHandler(unittest.TestCase):
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
         self.assertEqual(actual.step_number, 0)
-        self.assertEqual(actual.holes, [])
-        self.assertEqual(actual.lava, [])
+        self.assertEqual(actual.holes, [(0, 0), (1, 2), (9, 8)])
+        self.assertEqual(actual.lava, [(3, 3), (7, 5), (4, 6)])
         # Correct object metadata properties tested elsewhere
         self.assertEqual(len(actual.object_list), 2)
         self.assertEqual(len(actual.structural_object_list), 2)
@@ -781,7 +806,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(len(actual.object_mask_list), 1)
         numpy.testing.assert_almost_equal(
             numpy.array(actual.depth_map_list[0]),
-            numpy.array([[2.51]], dtype=numpy.float32),
+            numpy.array([[30, 60], [90, 120]], dtype=numpy.float32),
             3
         )
         self.assertEqual(numpy.array(actual.image_list[0]), image_data)
@@ -794,7 +819,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self._config.set_metadata_tier(
             MetadataTier.ORACLE.value)
         image_data = numpy.array([[0]], dtype=numpy.uint8)
-        depth_data = numpy.array([[[0, 0, 0]]], dtype=numpy.uint8)
+        depth_data = numpy.array([[0.2, 0.4], [0.6, 0.8]], dtype=numpy.float32)
         object_mask_data = numpy.array([[192]], dtype=numpy.uint8)
 
         mock_scene_event_data = {
@@ -803,7 +828,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                 "frame": image_data,
                 "instance_segmentation_frame": object_mask_data
             })],
-            "metadata": {"objects": []}
+            "metadata": {"clippingPlaneFar": 150, "objects": []}
         }
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
         scene_event = SceneEvent(
@@ -820,7 +845,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(numpy.array(image_list[0]), image_data)
         numpy.testing.assert_almost_equal(
             numpy.array(depth_map_list[0]),
-            numpy.array([[0.0]], dtype=numpy.float32),
+            numpy.array([[30, 60], [90, 120]], dtype=numpy.float32),
             3
         )
         self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data)
@@ -829,11 +854,17 @@ class TestControllerOutputHandler(unittest.TestCase):
         self._config.set_metadata_tier(
             MetadataTier.ORACLE.value)
         image_data_1 = numpy.array([[64]], dtype=numpy.uint8)
-        depth_data_1 = numpy.array([[[128, 64, 32]]], dtype=numpy.uint8)
+        depth_data_1 = numpy.array(
+            [[0.2, 0.4], [0.6, 0.8]],
+            dtype=numpy.float32
+        )
         object_mask_data_1 = numpy.array([[192]], dtype=numpy.uint8)
 
         image_data_2 = numpy.array([[32]], dtype=numpy.uint8)
-        depth_data_2 = numpy.array([[[96, 0, 0]]], dtype=numpy.uint8)
+        depth_data_2 = numpy.array(
+            [[0.0001, 0.99], [0.25, 0.75]],
+            dtype=numpy.float32
+        )
         object_mask_data_2 = numpy.array([[160]], dtype=numpy.uint8)
 
         mock_scene_event_data = {
@@ -846,7 +877,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                 "frame": image_data_2,
                 "instance_segmentation_frame": object_mask_data_2
             })],
-            "metadata": {"objects": []}
+            "metadata": {"clippingPlaneFar": 150, "objects": []}
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -865,7 +896,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(numpy.array(image_list[0]), image_data_1)
         numpy.testing.assert_almost_equal(
             numpy.array(depth_map_list[0]),
-            numpy.array([[4.392]], dtype=numpy.float32),
+            numpy.array([[30, 60], [90, 120]], dtype=numpy.float32),
             3
         )
         self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data_1)
@@ -873,7 +904,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(numpy.array(image_list[1]), image_data_2)
         numpy.testing.assert_almost_equal(
             numpy.array(depth_map_list[1]),
-            numpy.array([[1.882]], dtype=numpy.float32),
+            numpy.array([[0.015, 148.5], [37.5, 112.5]], dtype=numpy.float32),
             3
         )
         self.assertEqual(numpy.array(object_mask_list[1]), object_mask_data_2)

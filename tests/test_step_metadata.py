@@ -21,7 +21,8 @@ class TestStepMetadata(unittest.TestCase):
             "habituation_total": 0,
             "last_preview_phase_step": 0,
             "last_step": null,
-            "metadata": {}
+            "metadata": {},
+            "steps_allowed_in_lava": 0
         },
         "habituation_trial": null,
         "haptic_feedback": {},
@@ -57,7 +58,8 @@ class TestStepMetadata(unittest.TestCase):
             "habituation_total": 0,
             "last_preview_phase_step": 0,
             "last_step": null,
-            "metadata": {}
+            "metadata": {},
+            "steps_allowed_in_lava": 0
         },
         "habituation_trial": null,
         "haptic_feedback": {},
@@ -127,7 +129,7 @@ class TestStepMetadata(unittest.TestCase):
         self.assertIsInstance(self.step_metadata.head_tilt, float)
 
     def test_holes(self):
-        self.assertEquals(self.step_metadata.holes, [])
+        self.assertEqual(self.step_metadata.holes, [])
         self.assertIsInstance(self.step_metadata.holes, list)
 
     def test_image_list(self):
@@ -135,7 +137,7 @@ class TestStepMetadata(unittest.TestCase):
         self.assertIsInstance(self.step_metadata.image_list, list)
 
     def test_lava(self):
-        self.assertEquals(self.step_metadata.lava, [])
+        self.assertEqual(self.step_metadata.lava, [])
         self.assertIsInstance(self.step_metadata.lava, list)
 
     def test_object_list(self):

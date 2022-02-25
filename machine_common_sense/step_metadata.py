@@ -43,22 +43,23 @@ class StepMetadata:
         The player camera's aspect ratio. This will remain constant for the
         whole scene.
     camera_clipping_planes : (float, float)
-        The player camera's near and far clipping planes. This will remain
-        constant for the whole scene.
+        The player camera's near and far clipping planes, in meters. This will
+        remain constant for the whole scene. Default (0.01, 150)
     camera_field_of_view : float
         The player camera's field of view. This will remain constant for
         the whole scene.
     camera_height : float
-        The player camera's height.
+        The player camera's height, in meters.
     depth_map_list : list of 2D numpy arrays
         The list of 2-dimensional numpy arrays of depth float data from the
         scene after the last action and physics simulation were run. This is
         usually a list with 1 array, except for the output from start_scene
         for a scene with a scripted Preview Phase (Preview Phase case details
         TBD).
-        Each depth float in a 2-dimensional numpy array is a value between 0
-        and the camera's far clipping plane (default 15) correspondings to the
-        depth in simulation units at that pixel in the image.
+        Each 32-bit depth float in the 2-dimensional numpy array is a value
+        between the camera's near clipping plane (default 0.01) and the
+        camera's far clipping plane (default 150) corresponding to the depth,
+        in meters, at that pixel in the image.
         Note that this list will be empty if the metadata level is 'none'.
     goal : GoalMetadata or None
         The goal for the whole scene. Will be None in "Exploration" scenes.
@@ -73,15 +74,17 @@ class StepMetadata:
     head_tilt : float
         How far your head is tilted up/down in degrees (between 90 and -90).
         Changed by setting the "horizon" parameter in a "RotateLook" action.
-    holes: list of Vector2dInt - coordinates of holes.  Will be set to 'None'
-        if using a metadata level below the 'oracle' level.
+    holes : list of tuples
+        Coordinates of holes as (X, Z) float tuples. Will be set to 'None' if
+        using a metadata level below the 'oracle' level.
     image_list : list of Pillow.Image objects
         The list of images from the scene after the last action and physics
         simulation were run. This is usually a list with 1 image, except for
         the output from start_scene for a scene with a scripted Preview Phase.
         (Preview Phase case details TBD).
-    lava: list of Vector2dInt - coordinates of lava.  Will be set to 'None'
-        if using a metadata level below the 'oracle' level.
+    lava : list of tuples
+        Coordinates of pools of lava as (X, Z) float tuples. Will be set to
+        'None' if using a metadata level below the 'oracle' level.
     object_list : list of ObjectMetadata objects
         The list of metadata for all the visible interactive objects in the
         scene. This list will be empty if using a metadata level below
@@ -97,9 +100,9 @@ class StepMetadata:
         Note that this list will be empty if the metadata level is 'none'
         or 'level1'.
     performer_radius: float
-        The radius of the performer.
+        The radius of the performer, in meters.
     performer_reach: float
-        The max reach of the performer.
+        The max reach of the performer, in meters.
     position : dict
         The "x", "y", and "z" coordinates for your global position.
         Will be set to 'None' if using a metadata level below the
@@ -209,6 +212,7 @@ class StepMetadata:
         """Return a deep copy of this StepMetadata with default depth_map_list,
         image_list, and object_mask_list properties."""
         step_metadata_copy = StepMetadata()
+        # This class's __iter__ function will ignore specific properties.
         for key, _ in self:
             setattr(step_metadata_copy, key, copy.deepcopy(getattr(self, key)))
         return step_metadata_copy
@@ -221,11 +225,14 @@ class StepMetadata:
         yield 'camera_clipping_planes', self.camera_clipping_planes
         yield 'camera_field_of_view', self.camera_field_of_view
         yield 'camera_height', self.camera_height
+        # Intentionally no depth_map_list
         yield 'goal', dict(self.goal)
         yield 'habituation_trial', self.habituation_trial
         yield 'haptic_feedback', self.haptic_feedback
         yield 'head_tilt', self.head_tilt
+        # Intentionally no image_list
         yield 'object_list', self.check_list_none(self.object_list)
+        # Intentionally no object_mask_list
         yield 'performer_radius', self.performer_radius
         yield 'performer_reach', self.performer_reach
         yield 'physics_frames_per_second', self.physics_frames_per_second

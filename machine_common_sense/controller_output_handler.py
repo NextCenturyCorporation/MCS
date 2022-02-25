@@ -9,7 +9,7 @@ from ai2thor.server import Event
 
 from .config_manager import ConfigManager, MetadataTier, SceneConfiguration
 from .controller import DEFAULT_MOVE
-from .material import LAVA_TEXTURES, Material
+from .material import Material
 from .object_metadata import ObjectMetadata
 from .return_status import ReturnStatus
 from .reward import Reward
@@ -27,7 +27,6 @@ class SceneEvent():
     _step_number: int
 
     def __post_init__(self):
-        max_depth = self.clipping_plane_far
         self.image_list = []
         self.depth_map_list = []
         self.object_mask_list = []
@@ -38,17 +37,12 @@ class SceneEvent():
                 self.image_list.append(scene_image)
 
                 if self._config.is_depth_maps_enabled():
-                    # The Unity depth array (returned by Depth.shader) contains
-                    # a third of the total max depth in each RGB element.
                     unity_depth_array = event.depth_frame.astype(np.float32)
-                    # Convert to values between 0 and max_depth for output.
+                    # Convert to a 2D array (screen length X width)
+                    depth_float_array = np.squeeze(unity_depth_array)
+                    # Convert from (0.0, 1.0) to (0, max distance)
                     depth_float_array = (
-                        (unity_depth_array[:, :, 0] *
-                         (max_depth / 3.0) / 255.0) +
-                        (unity_depth_array[:, :, 1] *
-                         (max_depth / 3.0) / 255.0) +
-                        (unity_depth_array[:, :, 2] *
-                         (max_depth / 3.0) / 255.0)
+                        depth_float_array * self.clipping_plane_far
                     )
                     self.depth_map_list.append(np.array(depth_float_array))
 
@@ -87,8 +81,7 @@ class SceneEvent():
 
     @property
     def clipping_plane_far(self):
-        return self._raw_output.metadata.get(
-            'clippingPlaneFar', ConfigManager.DEFAULT_CLIPPING_PLANE_FAR)
+        return self._raw_output.metadata.get('clippingPlaneFar', 0.0)
 
     @property
     def haptic_feedback(self):
@@ -268,7 +261,8 @@ class ControllerOutputHandler():
         (restrict_depth_map, restrict_object_mask_list, restrict_non_oracle) =\
             self.get_restrictions(restricted, self._config.get_metadata_tier())
         step_output = StepMetadata(
-            action_list=goal.retrieve_action_list_at_step(self._step_number),
+            action_list=goal.retrieve_action_list_at_step(
+                self._step_number, self._scene_event.steps_on_lava),
             camera_aspect_ratio=self._config.get_screen_size(),
             camera_clipping_planes=self._scene_event.clipping_plane,
             camera_field_of_view=self._scene_event.camera_field_of_view,
@@ -283,10 +277,13 @@ class ControllerOutputHandler():
             ),
             haptic_feedback=self._scene_event.haptic_feedback,
             head_tilt=self._scene_event.head_tilt,
-            holes=None if restrict_non_oracle else copy.deepcopy(
-                self._scene_config.holes),
+            holes=None if restrict_non_oracle else [
+                (hole.x, hole.z) for hole in self._scene_config.holes
+            ],
             image_list=self._scene_event.image_list,
-            lava=None if restrict_non_oracle else self._get_lava_positions(),
+            lava=None if restrict_non_oracle else [
+                (lava.x, lava.z) for lava in self._scene_config.lava
+            ],
             object_list=(
                 [] if restrict_non_oracle else self._scene_event.object_list),
             object_mask_list=([] if restrict_object_mask_list else
@@ -317,14 +314,6 @@ class ControllerOutputHandler():
             self.filter_step_output(step_output)
 
         return step_output
-
-    def _get_lava_positions(self):
-        lava_positions = []
-        textures = self._scene_config.floor_textures or []
-        for texture in textures:
-            if texture.material in LAVA_TEXTURES:
-                lava_positions += copy.deepcopy(texture.positions)
-        return lava_positions
 
     def get_restrictions(self, restricted, metadata_tier) -> Tuple:
         restrict_depth_map = (

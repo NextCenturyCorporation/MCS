@@ -1,0 +1,30 @@
+{
+  "name": "room with lava",
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+  "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
+  "roomDimensions": {
+      "x": 4,
+      "y": 3,
+      "z": 4
+  },
+  "lava": [{
+      "x": 0,
+      "z": 1
+  }, {
+      "x": 1,
+      "z": 0
+  }],
+  "performerStart": {
+      "position": {
+          "x": 0,
+          "z": 0
+      },
+      "rotation": {
+          "x": 40,
+          "y": 0
+      }
+  },
+  "objects": []
+}

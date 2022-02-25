@@ -36,7 +36,15 @@ def create_step_test_case_list(expected, actual):
     test_case_list = [
         ('action_list', actual.action_list),
         ('camera_height', actual.camera_height),
+        ('haptic_feedback', actual.haptic_feedback),
         ('head_tilt', round(actual.head_tilt)),
+        # Convert tuples to arrays since JSON data can't have tuples.
+        ('holes', [
+            list(pair) for pair in actual.holes
+        ] if actual.holes is not None else None),
+        ('lava', [
+            list(pair) for pair in actual.lava
+        ] if actual.lava is not None else None),
         ('objects_count', len(actual.object_list)),
         ('position_x', actual.position.get('x') if actual.position else None),
         ('position_y', actual.position.get('y') if actual.position else None),
