@@ -1,11 +1,11 @@
 import logging
 import pathlib
 from abc import abstractmethod
+from typing import List
 
 import numpy as np
 import PIL
 
-from .config_manager import ConfigManager
 from .controller_events import (AbstractControllerSubscriber,
                                 BasePostActionEventPayload,
                                 ControllerEventPayload)
@@ -13,6 +13,20 @@ from .plotter import TopDownPlotter
 from .recorder import VideoRecorder
 
 logger = logging.getLogger(__name__)
+
+
+def convert_depth_to_image(
+    depth_float_array: List[List[float]],
+    clipping_plane_far: float
+) -> PIL.Image:
+    '''Convert the given depth float array into a depth image, then return the
+    image.'''
+    # Convert from (0.0, max distance) to (0, 255)
+    depth_pixel_array = depth_float_array / clipping_plane_far * 255
+    # Convert floats to ints
+    depth_pixel_array = depth_pixel_array.astype(np.uint8)
+    # Convert to greyscale image (L mode uses 2-dimensional data)
+    return PIL.Image.fromarray(depth_pixel_array, mode='L')
 
 
 class AbstractImageEventHandler(AbstractControllerSubscriber):
@@ -117,17 +131,11 @@ class DepthImageEventHandler(AbstractImageEventHandler):
     def _save_image(self, payload):
         for index, depth_float_array in enumerate(
                 payload.step_output.depth_map_list):
-            max_depth = payload.step_metadata.metadata.get(
-                'clippingPlaneFar',
-                ConfigManager.DEFAULT_CLIPPING_PLANE_FAR
+            depth_image = convert_depth_to_image(
+                depth_float_array,
+                payload.step_output.camera_clipping_planes[1]
             )
-            # Convert to pixel values for saving debug image.
-            depth_pixel_array = depth_float_array * \
-                255 / max_depth
-            depth_map = PIL.Image.fromarray(
-                depth_pixel_array.astype(np.uint8)
-            )
-            self._do_save_image(payload, index, depth_map, 'depth_map')
+            self._do_save_image(payload, index, depth_image, 'depth_map')
 
 
 class ObjectMaskImageEventHandler(AbstractImageEventHandler):
@@ -214,17 +222,11 @@ class DepthVideoEventHandler(AbstractVideoEventHandler):
 
     def save_video_for_step(self, payload: BasePostActionEventPayload):
         for depth_float_array in payload.step_output.depth_map_list:
-            max_depth = payload.step_metadata.metadata.get(
-                'clippingPlaneFar',
-                ConfigManager.DEFAULT_CLIPPING_PLANE_FAR
+            depth_image = convert_depth_to_image(
+                depth_float_array,
+                payload.step_output.camera_clipping_planes[1]
             )
-            # Convert to pixel values for saving debug image.
-            depth_pixel_array = depth_float_array * \
-                255 / max_depth
-            depth_map = PIL.Image.fromarray(
-                depth_pixel_array.astype(np.uint8)
-            )
-            self.__recorder.add(depth_map)
+            self.__recorder.add(depth_image)
 
     def on_end_scene(self, payload: BasePostActionEventPayload):
         self.__recorder.finish()

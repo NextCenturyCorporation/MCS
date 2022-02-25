@@ -4,8 +4,7 @@ import unittest
 import ai2thor
 from PIL import Image, ImageChops, ImageStat
 
-from machine_common_sense.config_manager import (FloorTexturesConfig,
-                                                 SceneConfiguration,
+from machine_common_sense.config_manager import (SceneConfiguration,
                                                  Vector2dInt, Vector3d)
 from machine_common_sense.plotter import (Ramp, SceneAsset, SceneCoord,
                                           TopDownPlotter, XZHeading)
@@ -633,7 +632,7 @@ class TestTopDownPlotter(unittest.TestCase):
                 x=10,
                 y=3,
                 z=9),
-            floor_textures=[]
+            lava=[]
         )
 
         plotter = TopDownPlotter(
@@ -673,7 +672,7 @@ class TestTopDownPlotter(unittest.TestCase):
                 x=6,
                 y=3,
                 z=10),
-            floor_textures=[FloorTexturesConfig(material="Lava", positions=[
+            lava=[
                 Vector2dInt(**{"x": 0, "z": 0}),
                 Vector2dInt(**{"x": -3, "z": 0}),
                 Vector2dInt(**{"x": 3, "z": 0}),
@@ -701,13 +700,14 @@ class TestTopDownPlotter(unittest.TestCase):
                     **{"x": -4, "z": -6}),  # out of bounds - lava don't draw
                 Vector2dInt(
                     **{"x": 4, "z": 6})  # out of bounds bad - lava don't draw
-            ])]
+            ]
         )
 
         plotter = TopDownPlotter(
             team="test",
             scene_config=scene_config)
         img = plotter.base_room_img.copy()
+
         lava_img = plotter._export_plot(img)
         # save image to resources folder in the event of plotter changes
         # lava_img.save(os.path.join(resources_path, 'plotter_lava.png'))
@@ -737,7 +737,7 @@ class TestTopDownPlotter(unittest.TestCase):
                 x=10,
                 y=3,
                 z=10),
-            floor_textures=[]
+            lava=[]
         )
 
         plotter = TopDownPlotter(
@@ -772,7 +772,7 @@ class TestTopDownPlotter(unittest.TestCase):
                 x=10,
                 y=3,
                 z=20),
-            floor_textures=[]
+            lava=[]
         )
 
         plotter = TopDownPlotter(
@@ -809,7 +809,7 @@ class TestTopDownPlotter(unittest.TestCase):
                 x=10,
                 y=3,
                 z=10),
-            floor_textures=[]
+            lava=[]
         )
         robot_metadata = {
             'position': {'x': 1, 'y': 0, 'z': 2},
@@ -851,7 +851,7 @@ class TestTopDownPlotter(unittest.TestCase):
                 x=10,
                 y=3,
                 z=10),
-            floor_textures=[]
+            lava=[]
         )
         obj = SceneAsset(
             held=False,
@@ -901,7 +901,7 @@ class TestTopDownPlotter(unittest.TestCase):
                 x=10,
                 y=3,
                 z=10),
-            floor_textures=[]
+            lava=[]
         )
         obj = SceneAsset(
             held=False,
@@ -949,7 +949,7 @@ class TestTopDownPlotter(unittest.TestCase):
                 x=10,
                 y=3,
                 z=10),
-            floor_textures=[]
+            lava=[]
         )
         obj = SceneAsset(
             held=False,
@@ -997,7 +997,7 @@ class TestTopDownPlotter(unittest.TestCase):
                 x=10,
                 y=3,
                 z=10),
-            floor_textures=[]
+            lava=[]
         )
         bounds = [SceneCoord(**pt) for pt in [
             {'x': 2.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
@@ -1054,7 +1054,7 @@ class TestTopDownPlotter(unittest.TestCase):
                 x=10,
                 y=3,
                 z=10),
-            floor_textures=[]
+            lava=[]
         )
         bounds = [SceneCoord(**pt) for pt in [
             {'x': 2.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},

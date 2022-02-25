@@ -46,7 +46,6 @@ class MetadataTier(Enum):
 
 class ConfigManager(object):
 
-    DEFAULT_CLIPPING_PLANE_FAR = 15.0
     DEFAULT_ROOM_DIMENSIONS = Vector3d(x=10, y=3, z=10)
 
     CONFIG_FILE_ENV_VAR = 'MCS_CONFIG_FILE_PATH'
@@ -63,6 +62,7 @@ class ConfigManager(object):
     CONFIG_TEAM = 'team'
     CONFIG_VIDEO_ENABLED = 'video_enabled'
     CONFIG_LAVA_PENALTY = 'lava_penalty'
+    CONFIG_STEPS_ALLOWED_IN_LAVA = 'steps_allowed_in_lava'
     CONFIG_STEP_PENALTY = 'step_penalty'
     CONFIG_GOAL_REWARD = 'goal_reward'
 
@@ -70,6 +70,9 @@ class ConfigManager(object):
     # on this assumption.
     SCREEN_WIDTH_DEFAULT = 600
     SCREEN_WIDTH_MIN = 450
+
+    # Default steps allowed in lava before calling end scene
+    STEPS_ALLOWED_IN_LAVA_DEFAULT = 0
 
     def __init__(self, config_file_or_dict=None):
         '''
@@ -242,6 +245,13 @@ class ConfigManager(object):
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_GOAL_REWARD,
             fallback=None
+        )
+
+    def get_steps_allowed_in_lava(self):
+        return self._config.getint(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_STEPS_ALLOWED_IN_LAVA,
+            fallback=self.STEPS_ALLOWED_IN_LAVA_DEFAULT
         )
 
 
@@ -549,15 +559,21 @@ class SceneConfigurationSchema(Schema):
     floor_properties = fields.Nested(
         PhysicsConfigSchema,
         data_key='floorProperties')
+    floor_textures = fields.List(
+        fields.Nested(FloorTexturesConfigSchema),
+        data_key='floorTextures')
     goal = fields.Nested(GoalSchema)
+    holes = fields.List(fields.Nested(Vector2dIntSchema))
     intuitive_physics = fields.Bool(data_key='intuitivePhysics')
     isometric = fields.Bool()
+    lava = fields.List(fields.Nested(Vector2dIntSchema))
     name = fields.Str()
     objects = fields.List(fields.Nested(SceneObjectSchema))
     observation = fields.Bool()  # deprecated; please use intuitivePhysics
     performer_start = fields.Nested(
         PerformerStartSchema,
         data_key='performerStart')
+    restrict_open_doors = fields.Bool(data_key='restrictOpenDoors')
     room_dimensions = fields.Nested(Vector3dSchema, data_key='roomDimensions')
     room_materials = fields.Nested(
         RoomMaterialsSchema,
@@ -568,10 +584,6 @@ class SceneConfigurationSchema(Schema):
     wall_properties = fields.Nested(
         PhysicsConfigSchema,
         data_key='wallProperties')
-    holes = fields.List(fields.Nested(Vector2dIntSchema))
-    floor_textures = fields.List(
-        fields.Nested(FloorTexturesConfigSchema),
-        data_key='floorTextures')
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation = fields.Str(allow_none=True)
@@ -814,13 +826,17 @@ class SceneConfiguration:
     debug: dict = None
     floor_material: str = None
     floor_properties: PhysicsConfig = None
+    floor_textures: List[FloorTexturesConfig] = field(default_factory=list)
     goal: Goal = None  # TODO change to concrete class
+    holes: List[Vector2dInt] = field(default_factory=list)
     intuitive_physics: bool = False
     isometric: bool = False
+    lava: List[Vector2dInt] = field(default_factory=list)
     name: str = None
     objects: List[SceneObject] = field(default_factory=list)
     observation: bool = False  # deprecated; please use intuitivePhysics
     performer_start: PerformerStart = None
+    restrict_open_doors: bool = None
     room_dimensions: Vector3d = field(
         default=ConfigManager.DEFAULT_ROOM_DIMENSIONS)
     room_materials: RoomMaterials = None
@@ -828,8 +844,6 @@ class SceneConfiguration:
     version: int = None
     wall_material: str = None
     wall_properties: PhysicsConfig = None
-    holes: List[Vector2dInt] = field(default_factory=list)
-    floor_textures: List[FloorTexturesConfig] = field(default_factory=list)
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation: str = None
@@ -860,9 +874,11 @@ class SceneConfiguration:
                 return [str(state) for state in state_list]
         return []
 
-    def retrieve_goal(self):
+    def retrieve_goal(self, steps_allowed_in_lava=0):
         if not self.goal:
-            return self.update_goal_target_image(GoalMetadata())
+            return self.update_goal_target_image(GoalMetadata(
+                steps_allowed_in_lava=steps_allowed_in_lava
+            ))
 
         goal = self.goal
 
@@ -888,6 +904,7 @@ class SceneConfiguration:
                 last_preview_phase_step=(goal.last_preview_phase_step or 0),
                 last_step=goal.last_step or None,
                 metadata=goal.metadata or {},
+                steps_allowed_in_lava=steps_allowed_in_lava
             )
         )
 
