@@ -27,7 +27,6 @@ class SceneEvent():
     _step_number: int
 
     def __post_init__(self):
-        max_depth = self.clipping_plane_far
         self.image_list = []
         self.depth_map_list = []
         self.object_mask_list = []
@@ -38,17 +37,12 @@ class SceneEvent():
                 self.image_list.append(scene_image)
 
                 if self._config.is_depth_maps_enabled():
-                    # The Unity depth array (returned by Depth.shader) contains
-                    # a third of the total max depth in each RGB element.
                     unity_depth_array = event.depth_frame.astype(np.float32)
-                    # Convert to values between 0 and max_depth for output.
+                    # Convert to a 2D array (screen length X width)
+                    depth_float_array = np.squeeze(unity_depth_array)
+                    # Convert from (0.0, 1.0) to (0, max distance)
                     depth_float_array = (
-                        (unity_depth_array[:, :, 0] *
-                         (max_depth / 3.0) / 255.0) +
-                        (unity_depth_array[:, :, 1] *
-                         (max_depth / 3.0) / 255.0) +
-                        (unity_depth_array[:, :, 2] *
-                         (max_depth / 3.0) / 255.0)
+                        depth_float_array * self.clipping_plane_far
                     )
                     self.depth_map_list.append(np.array(depth_float_array))
 
@@ -87,8 +81,7 @@ class SceneEvent():
 
     @property
     def clipping_plane_far(self):
-        return self._raw_output.metadata.get(
-            'clippingPlaneFar', ConfigManager.DEFAULT_CLIPPING_PLANE_FAR)
+        return self._raw_output.metadata.get('clippingPlaneFar', 0.0)
 
     @property
     def haptic_feedback(self):
