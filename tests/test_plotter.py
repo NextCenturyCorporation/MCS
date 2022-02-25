@@ -471,11 +471,152 @@ class TestTopDownPlotter(unittest.TestCase):
 
         self.assertEqual(plotter._scene_name, "test")
 
-    def test_draw_holes(self):
+    def test_draw_holes_even_room_dimensions(self):
         holes = [
             Vector2dInt(**{"x": 0, "z": 0}),
-            Vector2dInt(**{"x": 1, "z": 0}),
-            Vector2dInt(**{"x": 2, "z": 2})
+            Vector2dInt(**{"x": -3, "z": 0}),
+            Vector2dInt(**{"x": 3, "z": 0}),
+            Vector2dInt(**{"x": 0, "z": 4}),
+            Vector2dInt(**{"x": 0, "z": -4}),
+            Vector2dInt(**{"x": 2, "z": 0}),
+            Vector2dInt(**{"x": -2, "z": 0}),
+            Vector2dInt(**{"x": 2, "z": 3}),
+            Vector2dInt(**{"x": -2, "z": -3}),
+            Vector2dInt(**{"x": 2, "z": -3}),
+            Vector2dInt(**{"x": -2, "z": 3}),
+            Vector2dInt(**{"x": -3, "z": -4}),
+            Vector2dInt(**{"x": 3, "z": 4}),
+            Vector2dInt(**{"x": -3, "z": 4}),
+            Vector2dInt(**{"x": 3, "z": -4}),
+        ]
+        goal = {'metadata': {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        }}
+        scene_config = SceneConfiguration(
+            name="testscene",
+            version=1,
+            goal=goal,
+            holes=holes,
+            room_dimensions=Vector3d(
+                x=6,
+                y=3,
+                z=8),
+            floor_textures=[]
+        )
+
+        plotter = TopDownPlotter(
+            team="test",
+            scene_config=scene_config)
+        img = plotter.base_room_img.copy()
+        holes_img = plotter._export_plot(img)
+        # save image to resources folder in the event of plotter changes
+        """
+        holes_img.save(
+            os.path.join(
+                resources_path,
+                'plotter_holes_even_dimensions.png'))
+        """
+
+        # read image from resources folder
+        truth_img = Image.open(
+            os.path.join(
+                resources_path,
+                'plotter_holes_even_dimensions.png'))
+        # calculate image difference
+        diff = ImageChops.difference(holes_img, truth_img)
+        stat = ImageStat.Stat(diff)
+        self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
+
+    def test_draw_holes_odd_room_dimensions(self):
+        holes = [
+            Vector2dInt(**{"x": 0, "z": 0}),
+            Vector2dInt(**{"x": 2, "z": 3}),
+            Vector2dInt(**{"x": 2, "z": -3}),
+            Vector2dInt(**{"x": -2, "z": -3}),
+            Vector2dInt(**{"x": -2, "z": 3}),
+            Vector2dInt(**{"x": 2, "z": 1}),
+            Vector2dInt(**{"x": -2, "z": 1}),
+            Vector2dInt(**{"x": -2, "z": -1}),
+            Vector2dInt(**{"x": 2, "z": -1}),
+            Vector2dInt(**{"x": 0, "z": 3}),
+            Vector2dInt(**{"x": 0, "z": -3}),
+            Vector2dInt(
+                **{"x": -3, "z": 3}),  # out of bounds - don't draw
+            Vector2dInt(
+                **{"x": 3, "z": -3}),  # out of bounds - don't draw
+        ]
+        goal = {'metadata': {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        }}
+        scene_config = SceneConfiguration(
+            name="testscene",
+            version=1,
+            goal=goal,
+            holes=holes,
+            room_dimensions=Vector3d(
+                x=5,
+                y=3,
+                z=7),
+            floor_textures=[]
+        )
+
+        plotter = TopDownPlotter(
+            team="test",
+            scene_config=scene_config)
+        img = plotter.base_room_img.copy()
+        holes_img = plotter._export_plot(img)
+        # save image to resources folder in the event of plotter changes
+        """
+        holes_img.save(
+            os.path.join(
+                resources_path,
+                'plotter_holes_odd_dimensions.png'))
+        """
+
+        # read image from resources folder
+        truth_img = Image.open(
+            os.path.join(
+                resources_path,
+                'plotter_holes_odd_dimensions.png'))
+        # calculate image difference
+        diff = ImageChops.difference(holes_img, truth_img)
+        stat = ImageStat.Stat(diff)
+        self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
+
+    def test_draw_holes_even_odd_room_dimensions(self):
+        holes = [
+            Vector2dInt(**{"x": 0, "z": 0}),
+            Vector2dInt(**{"x": 5, "z": 4}),
+            Vector2dInt(**{"x": -5, "z": 4}),
+            Vector2dInt(**{"x": 5, "z": -4}),
+            Vector2dInt(**{"x": -5, "z": -4}),
+            Vector2dInt(**{"x": 4, "z": -4}),
+            Vector2dInt(**{"x": 4, "z": -3}),
+            Vector2dInt(**{"x": 5, "z": -3}),
+            Vector2dInt(**{"x": -5, "z": -3}),
+            Vector2dInt(**{"x": -4, "z": -3}),
+            Vector2dInt(**{"x": -4, "z": -4}),
+            Vector2dInt(**{"x": 0, "z": -4}),
+            Vector2dInt(**{"x": 0, "z": 4}),
+            Vector2dInt(**{"x": 4, "z": 0}),
+            Vector2dInt(**{"x": -4, "z": 0}),
+            Vector2dInt(**{"x": 5, "z": 3}),
+            Vector2dInt(**{"x": -5, "z": 3}),
+            Vector2dInt(**{"x": -4, "z": 3}),
+            Vector2dInt(**{"x": 4, "z": 3}),
+            Vector2dInt(**{"x": 4, "z": 4}),
+            Vector2dInt(**{"x": -4, "z": 4}),
+            Vector2dInt(**{"x": -5, "z": 0}),
+            Vector2dInt(**{"x": 5, "z": 0}),
+            Vector2dInt(
+                **{"x": 6, "z": 0}),  # out of bounds - dont draw
+            Vector2dInt(
+                **{"x": -5, "z": -5})  # out of bounds - dont draw
+
         ]
         goal = {'metadata': {
             'target': {'image': [0]},
@@ -490,7 +631,7 @@ class TestTopDownPlotter(unittest.TestCase):
             room_dimensions=Vector3d(
                 x=10,
                 y=3,
-                z=10),
+                z=9),
             lava=[]
         )
 
@@ -498,16 +639,20 @@ class TestTopDownPlotter(unittest.TestCase):
             team="test",
             scene_config=scene_config)
         img = plotter.base_room_img.copy()
-        img = plotter._draw_holes(img, scene_config.holes)
         holes_img = plotter._export_plot(img)
         # save image to resources folder in the event of plotter changes
-        # holes_img.save(os.path.join(resources_path, 'plotter_holes.png'))
+        """
+        holes_img.save(
+            os.path.join(
+                resources_path,
+                'plotter_holes_even_odd_dimensions.png'))
+        """
 
         # read image from resources folder
         truth_img = Image.open(
             os.path.join(
                 resources_path,
-                'plotter_holes.png'))
+                'plotter_holes_even_odd_dimensions.png'))
         # calculate image difference
         diff = ImageChops.difference(holes_img, truth_img)
         stat = ImageStat.Stat(diff)
@@ -524,13 +669,37 @@ class TestTopDownPlotter(unittest.TestCase):
             version=1,
             goal=goal,
             room_dimensions=Vector3d(
-                x=10,
+                x=6,
                 y=3,
                 z=10),
             lava=[
-                Vector2dInt(x=-2, z=-2),
-                Vector2dInt(x=-1, z=-2),
-                Vector2dInt(x=-3, z=-3)
+                Vector2dInt(**{"x": 0, "z": 0}),
+                Vector2dInt(**{"x": -3, "z": 0}),
+                Vector2dInt(**{"x": 3, "z": 0}),
+                Vector2dInt(**{"x": 0, "z": 5}),
+                Vector2dInt(**{"x": 0, "z": -5}),
+                Vector2dInt(**{"x": 2, "z": 0}),
+                Vector2dInt(**{"x": -2, "z": 0}),
+                Vector2dInt(**{"x": 2, "z": 4}),
+                Vector2dInt(**{"x": -2, "z": -4}),
+                Vector2dInt(**{"x": 2, "z": -4}),
+                Vector2dInt(**{"x": -2, "z": 4}),
+                Vector2dInt(**{"x": -3, "z": -4}),
+                Vector2dInt(**{"x": 3, "z": 4}),
+                Vector2dInt(**{"x": -3, "z": 4}),
+                Vector2dInt(**{"x": 3, "z": -4}),
+                Vector2dInt(**{"x": 3, "z": -5}),
+                Vector2dInt(**{"x": 3, "z": 5}),
+                Vector2dInt(**{"x": -3, "z": 5}),
+                Vector2dInt(**{"x": -3, "z": -5}),
+                Vector2dInt(**{"x": 2, "z": -5}),
+                Vector2dInt(**{"x": 2, "z": 5}),
+                Vector2dInt(**{"x": -2, "z": 5}),
+                Vector2dInt(**{"x": -2, "z": -5}),
+                Vector2dInt(
+                    **{"x": -4, "z": -6}),  # out of bounds - lava don't draw
+                Vector2dInt(
+                    **{"x": 4, "z": 6})  # out of bounds bad - lava don't draw
             ]
         )
 
@@ -538,7 +707,7 @@ class TestTopDownPlotter(unittest.TestCase):
             team="test",
             scene_config=scene_config)
         img = plotter.base_room_img.copy()
-        img = plotter._draw_lava(img, scene_config.lava)
+
         lava_img = plotter._export_plot(img)
         # save image to resources folder in the event of plotter changes
         # lava_img.save(os.path.join(resources_path, 'plotter_lava.png'))
