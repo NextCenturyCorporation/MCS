@@ -238,7 +238,7 @@
                 ],
                 "position_x": 0.0,
                 "position_z": 0.5,
-                "rotation_y": 11,
+                "rotation_y": [10, 11],
                 "shape": "tool",
                 "texture_color_list": [
                     "grey",
@@ -270,7 +270,7 @@
                 ],
                 "position_x": 0.0,
                 "position_z": 0.5,
-                "rotation_y": 11,
+                "rotation_y": [10, 11],
                 "shape": "tool",
                 "texture_color_list": [
                     "grey",

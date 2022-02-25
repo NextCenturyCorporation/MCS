@@ -7,7 +7,7 @@
                 "mass": 1.5,
                 "position_x": 0.0,
                 "position_z": 1.0,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 90,
                 "visible": true
             }
@@ -28,7 +28,7 @@
                 "mass": 1.5,
                 "position_x": 0.0,
                 "position_z": 1.004,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 215,
                 "visible": true
             }
@@ -49,7 +49,7 @@
                 "mass": 1.5,
                 "position_x": 0.0,
                 "position_z": 1.011,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 331,
                 "visible": true
             }
@@ -70,7 +70,7 @@
                 "mass": 1.5,
                 "position_x": 0.0,
                 "position_z": 1.018,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 68,
                 "visible": true
             }
@@ -91,7 +91,7 @@
                 "mass": 1.5,
                 "position_x": 0.0,
                 "position_z": 1.023,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 148,
                 "visible": true
             }
@@ -112,7 +112,7 @@
                 "mass": 1.5,
                 "position_x": -0.01,
                 "position_z": 1.028,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 213,
                 "visible": true
             }
@@ -133,7 +133,7 @@
                 "mass": 1.5,
                 "position_x": -0.0,
                 "position_z": 1.02,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 263,
                 "visible": true
             }
@@ -154,7 +154,7 @@
                 "mass": 1.5,
                 "position_x": 0.01,
                 "position_z": 1.02,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 300,
                 "visible": true
             }
@@ -175,7 +175,7 @@
                 "mass": 1.5,
                 "position_x": 0.02,
                 "position_z": 1.02,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 323,
                 "visible": true
             }
@@ -196,7 +196,7 @@
                 "mass": 1.5,
                 "position_x": 0.02,
                 "position_z": 1.01,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 333,
                 "visible": true
             }
@@ -217,7 +217,7 @@
                 "mass": 1.5,
                 "position_x": 0.03,
                 "position_z": 1.0,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 334,
                 "visible": true
             }
@@ -238,7 +238,7 @@
                 "mass": 1.5,
                 "position_x": 0.03,
                 "position_z": 1.0,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 209,
                 "visible": true
             }
@@ -259,7 +259,7 @@
                 "mass": 1.5,
                 "position_x": 0.03,
                 "position_z": 1.0,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 91,
                 "visible": true
             }
@@ -448,7 +448,7 @@
                 "mass": 1.5,
                 "position_x": 0.0,
                 "position_z": 1.0,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 204,
                 "visible": true
             }
@@ -469,7 +469,7 @@
                 "mass": 1.5,
                 "position_x": -0.0,
                 "position_z": 1.0,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 323,
                 "visible": true
             }
@@ -511,7 +511,7 @@
                 "mass": 1.5,
                 "position_x": -0.0,
                 "position_z": 1.01,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 145,
                 "visible": true
             }
@@ -532,7 +532,7 @@
                 "mass": 1.5,
                 "position_x": -0.0,
                 "position_z": 1.01,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 212,
                 "visible": true
             }
@@ -553,7 +553,7 @@
                 "mass": 1.5,
                 "position_x": 0.0,
                 "position_z": 1.01,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 262,
                 "visible": true
             }
@@ -574,7 +574,7 @@
                 "mass": 1.5,
                 "position_x": 0.01,
                 "position_z": 1.01,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 299,
                 "visible": true
             }
@@ -595,7 +595,7 @@
                 "mass": 1.5,
                 "position_x": 0.01,
                 "position_z": 1.01,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 322,
                 "visible": true
             }
@@ -616,7 +616,7 @@
                 "mass": 1.5,
                 "position_x": 0.02,
                 "position_z": 1.0,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 331,
                 "visible": true
             }
@@ -637,7 +637,7 @@
                 "mass": 1.5,
                 "position_x": 0.02,
                 "position_z": 1.0,
-                "rotation_x": 360,
+                "rotation_x": 0,
                 "rotation_y": 332,
                 "visible": true
             }

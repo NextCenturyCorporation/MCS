@@ -14,7 +14,7 @@
         "material_list": ["WOOD"],
         "position_x": 0.0,
         "position_z": 2.0,
-        "rotation_x": 360,
+        "rotation_x": 0,
         "rotation_y": 0,
         "rotation_z": 180,
         "shape": "blank block cube",
