@@ -9,7 +9,7 @@ from ai2thor.server import Event
 
 from .config_manager import ConfigManager, MetadataTier, SceneConfiguration
 from .controller import DEFAULT_MOVE
-from .material import LAVA_TEXTURES, Material
+from .material import Material
 from .object_metadata import ObjectMetadata
 from .return_status import ReturnStatus
 from .reward import Reward
@@ -277,10 +277,13 @@ class ControllerOutputHandler():
             ),
             haptic_feedback=self._scene_event.haptic_feedback,
             head_tilt=self._scene_event.head_tilt,
-            holes=None if restrict_non_oracle else copy.deepcopy(
-                self._scene_config.holes),
+            holes=None if restrict_non_oracle else [
+                (hole.x, hole.z) for hole in self._scene_config.holes
+            ],
             image_list=self._scene_event.image_list,
-            lava=None if restrict_non_oracle else self._get_lava_positions(),
+            lava=None if restrict_non_oracle else [
+                (lava.x, lava.z) for lava in self._scene_config.lava
+            ],
             object_list=(
                 [] if restrict_non_oracle else self._scene_event.object_list),
             object_mask_list=([] if restrict_object_mask_list else
@@ -311,14 +314,6 @@ class ControllerOutputHandler():
             self.filter_step_output(step_output)
 
         return step_output
-
-    def _get_lava_positions(self):
-        lava_positions = []
-        textures = self._scene_config.floor_textures or []
-        for texture in textures:
-            if texture.material in LAVA_TEXTURES:
-                lava_positions += copy.deepcopy(texture.positions)
-        return lava_positions
 
     def get_restrictions(self, restricted, metadata_tier) -> Tuple:
         restrict_depth_map = (

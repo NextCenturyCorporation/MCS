@@ -6,7 +6,8 @@ import numpy
 import machine_common_sense as mcs
 from machine_common_sense.config_manager import (ConfigManager, MetadataTier,
                                                  SceneConfiguration,
-                                                 SceneConfigurationSchema)
+                                                 SceneConfigurationSchema,
+                                                 Vector2dInt)
 from machine_common_sense.controller_output_handler import (
     ControllerOutputHandler, SceneEvent)
 from machine_common_sense.goal_metadata import GoalMetadata
@@ -458,7 +459,11 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
         (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
@@ -469,8 +474,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
-        self.assertEqual(actual.holes, [])
-        self.assertEqual(actual.lava, [])
+        self.assertEqual(actual.holes, [(0, 0), (1, 2), (9, 8)])
+        self.assertEqual(actual.lava, [(3, 3), (7, 5), (4, 6)])
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(
@@ -577,7 +582,11 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
         (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
@@ -627,7 +636,11 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
         (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
@@ -666,7 +679,11 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
         (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
@@ -705,7 +722,11 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
         (actual, res) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
@@ -721,8 +742,8 @@ class TestControllerOutputHandler(unittest.TestCase):
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
         self.assertEqual(actual.step_number, 0)
-        self.assertEqual(actual.holes, [])
-        self.assertEqual(actual.lava, [])
+        self.assertEqual(actual.holes, [(0, 0), (1, 2), (9, 8)])
+        self.assertEqual(actual.lava, [(3, 3), (7, 5), (4, 6)])
         # Correct object metadata properties tested elsewhere
         self.assertEqual(len(actual.object_list), 2)
         self.assertEqual(len(actual.structural_object_list), 2)
@@ -754,7 +775,11 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
         (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
@@ -770,8 +795,8 @@ class TestControllerOutputHandler(unittest.TestCase):
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
         self.assertEqual(actual.step_number, 0)
-        self.assertEqual(actual.holes, [])
-        self.assertEqual(actual.lava, [])
+        self.assertEqual(actual.holes, [(0, 0), (1, 2), (9, 8)])
+        self.assertEqual(actual.lava, [(3, 3), (7, 5), (4, 6)])
         # Correct object metadata properties tested elsewhere
         self.assertEqual(len(actual.object_list), 2)
         self.assertEqual(len(actual.structural_object_list), 2)

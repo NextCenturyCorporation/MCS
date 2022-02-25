@@ -86,6 +86,7 @@ Each **scene config** has the following properties:
 - `holes` (:ref:`grid config list <Grid Config>`, optional): The list of X/Z coordinates corresponding to one or more holes in the room's floor. Coordinates must be integers. Holes are always size 1x1 centered on the given X/Z coordinate. Adjacent holes are combined. Y coordinates are ignored. Holes are too deep to escape. Default: none
 - `intuitivePhysics` (bool, optional): Specific performer and room setup for intuitive physics scenes.
 - `isometric` (bool, optional): Specific performer and room setup for agent scenes.
+- `lava` (:ref:`grid config list <Grid Config>`, optional): The list of X/Z coordinates corresponding to one or more pools of lava in the room's floor. Coordinates must be integers. Each lava pool is always size 1x1 centered on the given X/Z coordinate. Adjacent pools of lava are combined. Y coordinates are ignored. Stepping in lava will either cause a reward penalty or immediately end the scene, depending on your settings. Default: none
 - `name` (string, required): A unique name for the scene used for our logs. Default: the filename
 - `objects` (:ref:`object config <Object Config>` array, optional): The objects for the scene. Default: `[]`
 - `performerStart` (:ref:`transform config <Transform Config>`, optional): The starting position and rotation of the performer (the "player"). Only the `position.x`, `position.z`, `rotation.x` (head tilt), and `rotation.y` properties are used. Default: `{ "position": { "x": 0, "z": 0 }, "rotation": { "y": 0 } }`

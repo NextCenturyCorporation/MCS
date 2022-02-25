@@ -129,7 +129,7 @@ class TestStepMetadata(unittest.TestCase):
         self.assertIsInstance(self.step_metadata.head_tilt, float)
 
     def test_holes(self):
-        self.assertEquals(self.step_metadata.holes, [])
+        self.assertEqual(self.step_metadata.holes, [])
         self.assertIsInstance(self.step_metadata.holes, list)
 
     def test_image_list(self):
@@ -137,7 +137,7 @@ class TestStepMetadata(unittest.TestCase):
         self.assertIsInstance(self.step_metadata.image_list, list)
 
     def test_lava(self):
-        self.assertEquals(self.step_metadata.lava, [])
+        self.assertEqual(self.step_metadata.lava, [])
         self.assertIsInstance(self.step_metadata.lava, list)
 
     def test_object_list(self):
