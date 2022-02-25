@@ -89,7 +89,7 @@ class UnityExecutableProvider():
             return self._cache.get_execution_location(version)
         else:
             raise Exception(
-                "unable to locate ai2thor for version={}".format(version))
+                f"unable to locate ai2thor for version={version}")
 
 
 class AbstractExecutionCache(ABC):
@@ -104,8 +104,7 @@ class AbstractExecutionCache(ABC):
         if not cache_base.exists():
             cache_base.mkdir(parents=True)
             logger.debug(
-                "Created mcs cache at {}".format(
-                    cache_base.as_posix()))
+                f"Created mcs cache at {cache_base.as_posix()}")
 
     def get_execution_location(self, version: str) -> Path:
         '''Returns the location of the executable file'''
@@ -130,7 +129,7 @@ class AbstractExecutionCache(ABC):
             file = file.format(version=version)
             exists = (ver_dir / file).exists()
             if not exists:
-                logger.info("Missing file: " + file)
+                logger.info(f"Missing file: {file}")
                 return False
         return True
 
@@ -148,11 +147,9 @@ class AbstractExecutionCache(ABC):
         ver_dir = self._get_version_dir(version)
         zip = ZipFile(zip_file)
         logger.info(
-            "Unzipping {} to {}".format(
-                zip_file.name,
-                ver_dir.as_posix()))
+            f"Unzipping {zip_file.name} to {ver_dir.as_posix()}")
         zip.extractall(ver_dir)
-        logger.info("Deleting {}.".format(zip_file.name))
+        logger.info(f"Deleting {zip_file.name}.")
         zip_file.unlink()
         ver_dir = self._get_version_dir(version)
         file = self._get_executable_file().format(version=version)
@@ -162,10 +159,9 @@ class AbstractExecutionCache(ABC):
             file = file.format(version=version)
             gz = ver_dir / file
             logger.info(
-                "Unzipping {} to {}.".format(
-                    gz.name, ver_dir.as_posix()))
+                f"Unzipping {gz.name} to {ver_dir.as_posix()}.")
             self._unzip_tar_gz(gz, ver_dir)
-            logger.info("Deleting {}.".format(gz.name))
+            logger.info(f"Deleting {gz.name}.")
             gz.unlink()
         (ver_dir / self.TIMESTAMP_FILE).touch()
 
@@ -184,14 +180,14 @@ class AbstractExecutionCache(ABC):
 
     def cull_cache(self, last_version: str):
         try:
-            list = glob.glob(self._base.as_posix() + "/*")
+            list = glob.glob(f"{self._base.as_posix()}/*")
             ver_dir = self._get_version_dir(last_version)
             for name in list:
-                logger.debug("test: " + name)
+                logger.debug(f"test: {name}")
                 file = Path(name)
                 keep = file.is_dir() and ver_dir.samefile(file)
                 if not keep:
-                    logger.debug("deleting " + file.as_posix())
+                    logger.debug(f"deleting {file.as_posix()}")
                     shutil.rmtree(file)
         except Exception:
             logger.exception(
@@ -265,7 +261,7 @@ class Downloader():
                 return MAC_URL.format(ver=ver)
             return MAC_DEV_URL
         else:
-            raise Exception("OS '{}' not supported".format(sys))
+            raise Exception(f"OS '{sys}' not supported")
 
     def download(self, url: str, filename: str,
                  destination_folder: Path) -> Path:
@@ -278,7 +274,7 @@ class Downloader():
     # TODO should probably change how we download so we can write file
     # sequentially
     def _do_download(self, url):
-        logger.debug("Downloading file from %s" % url)
+        logger.debug(f"Downloading file from {url}")
         r = requests.get(url, stream=True)
         r.raise_for_status()
         size = int(r.headers["Content-Length"].strip())
@@ -291,7 +287,7 @@ class Downloader():
             Percentage(),
             " ",
             FileTransferSpeed(),
-            " of {0}MB".format(str(round(size / 1024 / 1024, 2))[:4]),
+            f" of {str(round(size / 1024 / 1024, 2))[:4]}MB",
         ]
 
         pbar = ProgressBar(widgets=widgets, maxval=size).start()

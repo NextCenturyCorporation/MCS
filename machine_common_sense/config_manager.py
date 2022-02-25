@@ -100,14 +100,14 @@ class ConfigManager(object):
         self._config[self.CONFIG_DEFAULT_SECTION] = config_dict
         logger.info('No config file given or file path does not exist,'
                     ' using config dictionary')
-        logger.info('Read in config dictionary: ' + str(config_dict))
+        logger.info(f"Read in config dictionary: {str(config_dict)}")
 
     def _read_in_config_file(self, config_file_path):
         if os.path.exists(config_file_path):
             self._config.read(config_file_path)
-            logger.info('Config File Path: ' + config_file_path)
+            logger.info(f"Config File Path: {config_file_path}")
         else:
-            logger.warning('No config file at given path: ' + config_file_path)
+            logger.warning(f"No config file at given path: {config_file_path}")
             raise FileNotFoundError()
 
     def _validate_screen_size(self):

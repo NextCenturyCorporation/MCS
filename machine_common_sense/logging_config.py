@@ -64,7 +64,7 @@ class LoggingConfig():
         if (os.path.exists(log_config_file)):
             with open(log_config_file, "r") as data:
                 log_config = ast.literal_eval(data.read())
-                init_message = "Loaded logging config from " + log_config_file
+                init_message = f"Loaded logging config from {log_config_file}"
         elif log_config is not None:
             init_message = "Loaded provided logging config dictionary"
         if (log_config is None):
