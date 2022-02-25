@@ -1,0 +1,5 @@
+OpenObject,objectId=door_1
+MoveAhead
+MoveAhead
+OpenObject,objectId=testContainer
+Pass

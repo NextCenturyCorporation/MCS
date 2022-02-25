@@ -569,6 +569,7 @@ class SceneConfigurationSchema(Schema):
     performer_start = fields.Nested(
         PerformerStartSchema,
         data_key='performerStart')
+    restrict_open_doors = fields.Bool(data_key='restrictOpenDoors')
     room_dimensions = fields.Nested(Vector3dSchema, data_key='roomDimensions')
     room_materials = fields.Nested(
         RoomMaterialsSchema,
@@ -832,6 +833,7 @@ class SceneConfiguration:
     objects: List[SceneObject] = field(default_factory=list)
     observation: bool = False  # deprecated; please use intuitivePhysics
     performer_start: PerformerStart = None
+    restrict_open_doors: bool = None
     room_dimensions: Vector3d = field(
         default=ConfigManager.DEFAULT_ROOM_DIMENSIONS)
     room_materials: RoomMaterials = None
