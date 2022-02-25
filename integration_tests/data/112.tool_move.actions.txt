@@ -1,0 +1,6 @@
+MoveObject,objectId=tool,lateral=0,straight=1
+MoveObject,objectId=tool,lateral=0,straight=-1
+MoveObject,objectId=tool,lateral=1,straight=0
+MoveObject,objectId=tool,lateral=-1,straight=0
+MoveObject,objectId=tool,lateral=-1,straight=0
+MoveObject,objectId=tool,lateral=1,straight=0
