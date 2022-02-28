@@ -858,12 +858,15 @@ class SceneConfiguration:
                                object_id, step_number):
         """Return the state list at the current step for the object with the
         given ID from the scene configuration data, if any."""
-        state_list_each_step = []
-        # Retrieve the object's states from the scene configuration.
-        for object_config in self.objects:
-            if object_config.id == object_id:
-                state_list_each_step = object_config.states or []
-                break
+        state_list_each_step = next(
+            (
+                object_config.states or []
+                for object_config in self.objects
+                if object_config.id == object_id
+            ),
+            [],
+        )
+
         # Retrieve the object's states in the current step.
         if len(state_list_each_step) > step_number:
             state_list = state_list_each_step[step_number]

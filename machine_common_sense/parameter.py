@@ -262,20 +262,19 @@ class Parameter:
             if (lateral < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
                     lateral > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
                 raise ValueError(direction_output)
-            elif s_none:
+            else:
                 straight = 0
-        elif l_none and not s_none:
+        elif l_none:
             if (straight < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
                     straight > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
                 raise ValueError(direction_output)
-            elif l_none:
+            else:
                 lateral = 0
-        else:
-            if (lateral < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
-                    lateral > self.MAX_AMOUNT_MOVEMENT_DIRECTION or
-                    straight < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
-                    straight > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
-                raise ValueError(direction_output)
+        elif (lateral < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+              lateral > self.MAX_AMOUNT_MOVEMENT_DIRECTION or
+              straight < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+              straight > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
+            raise ValueError(direction_output)
         return (lateral, straight)
 
     def _get_move_magnitude(self, action: Action, force: float,

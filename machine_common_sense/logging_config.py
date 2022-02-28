@@ -127,11 +127,13 @@ class LoggingConfig():
 
     @staticmethod
     def get_configurable_logging_config(
-        log_level: str = 'DEBUG',
-        logger_names: Union[List[str], str] =
-        ['machine_common_sense'], console: bool = True,
-        debug_file: bool = True, info_file: bool = False,
-        log_file_name: str = "mcs", file_format: str = 'precise',
+            log_level: str = 'DEBUG',
+            logger_names: Union[List[str], str] = None,
+            console: bool = True,
+            debug_file: bool = True,
+            info_file: bool = False,
+            log_file_name: str = "mcs",
+            file_format: str = 'precise',
             console_format: str = 'brief'):
         """[summary]
 
@@ -166,6 +168,8 @@ class LoggingConfig():
             parameters.
         """
 
+        if logger_names is None:
+            logger_names = ['machine_common_sense']
         logger_names = logger_names if isinstance(
             logger_names, list) else [logger_names]
         handler_tags = []

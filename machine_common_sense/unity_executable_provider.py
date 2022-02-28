@@ -253,13 +253,10 @@ class Downloader():
         if (sys == "Windows"):
             raise Exception("Windows is not supported")
         elif sys == "Linux":
-            if ver != "develop":
-                return LINUX_URL.format(ver=ver)
-            return LINUX_DEV_URL
+            return LINUX_URL.format(
+                ver=ver) if ver != "develop" else LINUX_DEV_URL
         elif sys == "Darwin":
-            if ver != "develop":
-                return MAC_URL.format(ver=ver)
-            return MAC_DEV_URL
+            return MAC_URL.format(ver=ver) if ver != "develop" else MAC_DEV_URL
         else:
             raise Exception(f"OS '{sys}' not supported")
 

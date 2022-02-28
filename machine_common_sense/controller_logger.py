@@ -51,7 +51,7 @@ class ControllerLogger(AbstractControllerSubscriber):
         logger.debug(f"  POSITION: {str(step_output.position)}")
         logger.debug(f"  ROTATION: {str(step_output.rotation)}")
         logger.debug(f"  HAPTIC FEEDBACK: {str(step_output.haptic_feedback)}")
-        logger.debug(f"OBJECTS: {str(len(step_output.object_list))} TOTAL")
+        logger.debug(f"OBJECTS: {len(step_output.object_list)} TOTAL")
         if len(step_output.object_list) > 0:
             for line in Stringifier.generate_pretty_object_output(
                     step_output.object_list):
@@ -72,8 +72,9 @@ class ControllerDebugFileGenerator(AbstractControllerSubscriber):
         step_output = \
             payload.restricted_step_output.copy_without_depth_or_images()
         if payload.output_folder and payload.config.is_save_debug_json():
-            with open(payload.output_folder + 'mcs_output_' +
-                      str(payload.step_number) + '.json', 'w') as json_file:
+            with open(
+                ((f'{payload.output_folder}mcs_output_' +
+                  str(payload.step_number)) + '.json'), 'w') as json_file:
                 json_file.write(str(step_output))
 
 
