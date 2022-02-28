@@ -7,7 +7,7 @@
                 "id": "block_blank_a",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": -0.0,
+                "position_y": 0.05,
                 "position_z": -0.11,
                 "visible": true
             },
@@ -15,7 +15,7 @@
                 "id": "block_blank_b",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.05,
                 "position_z": 0.11,
                 "visible": true
             },
@@ -23,7 +23,7 @@
                 "id": "block_blank_c",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.1,
+                "position_y": 0.15,
                 "position_z": -0.11,
                 "visible": true
             },
@@ -31,7 +31,7 @@
                 "id": "block_blank_d",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.2,
+                "position_y": 0.25,
                 "position_z": -0.1,
                 "visible": true
             },
@@ -39,7 +39,7 @@
                 "id": "block_blank_e",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.1,
+                "position_y": 0.2,
                 "position_z": 0.1,
                 "visible": true
             },
@@ -47,7 +47,7 @@
                 "id": "block_blank_f",
                 "mass": 500.0,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.1,
                 "position_z": -0.6,
                 "visible": true
             }
@@ -67,7 +67,7 @@
                 "id": "block_blank_a",
                 "mass": 0.66,
                 "position_x": -2.06,
-                "position_y": -0.0,
+                "position_y": 0.05,
                 "position_z": -0.19,
                 "visible": true
             },
@@ -75,7 +75,7 @@
                 "id": "block_blank_b",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.05,
                 "position_z": 0.11,
                 "visible": true
             },
@@ -83,7 +83,7 @@
                 "id": "block_blank_c",
                 "mass": 0.66,
                 "position_x": -2.06,
-                "position_y": 0.1,
+                "position_y": 0.15,
                 "position_z": -0.19,
                 "visible": true
             },
@@ -91,7 +91,7 @@
                 "id": "block_blank_d",
                 "mass": 0.66,
                 "position_x": -2.06,
-                "position_y": 0.2,
+                "position_y": 0.25,
                 "position_z": -0.18,
                 "visible": true
             },
@@ -99,7 +99,7 @@
                 "id": "block_blank_e",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.1,
+                "position_y": 0.2,
                 "position_z": 0.1,
                 "visible": true
             },
@@ -107,7 +107,7 @@
                 "id": "block_blank_f",
                 "mass": 500.0,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.1,
                 "position_z": -0.6,
                 "visible": true
             }
@@ -127,7 +127,7 @@
                 "id": "block_blank_a",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": -0.0,
+                "position_y": 0.05,
                 "position_z": -0.11,
                 "visible": true
             },
@@ -135,7 +135,7 @@
                 "id": "block_blank_b",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.05,
                 "position_z": 0.11,
                 "visible": true
             },
@@ -143,7 +143,7 @@
                 "id": "block_blank_c",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.1,
+                "position_y": 0.15,
                 "position_z": -0.11,
                 "visible": true
             },
@@ -151,7 +151,7 @@
                 "id": "block_blank_d",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.2,
+                "position_y": 0.25,
                 "position_z": -0.1,
                 "visible": true
             },
@@ -159,7 +159,7 @@
                 "id": "block_blank_e",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.1,
+                "position_y": 0.2,
                 "position_z": 0.1,
                 "visible": true
             },
@@ -167,7 +167,7 @@
                 "id": "block_blank_f",
                 "mass": 500.0,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.1,
                 "position_z": -0.6,
                 "visible": true
             }
@@ -187,7 +187,7 @@
                 "id": "block_blank_a",
                 "mass": 0.66,
                 "position_x": -1.92,
-                "position_y": -0.0,
+                "position_y": 0.05,
                 "position_z": -0.17,
                 "visible": true
             },
@@ -195,7 +195,7 @@
                 "id": "block_blank_b",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.05,
                 "position_z": 0.11,
                 "visible": true
             },
@@ -203,7 +203,7 @@
                 "id": "block_blank_c",
                 "mass": 0.66,
                 "position_x": -1.92,
-                "position_y": 0.1,
+                "position_y": 0.15,
                 "position_z": -0.17,
                 "visible": true
             },
@@ -211,7 +211,7 @@
                 "id": "block_blank_d",
                 "mass": 0.66,
                 "position_x": -1.92,
-                "position_y": 0.2,
+                "position_y": 0.25,
                 "position_z": -0.16,
                 "visible": true
             },
@@ -219,7 +219,7 @@
                 "id": "block_blank_e",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.1,
+                "position_y": 0.2,
                 "position_z": 0.1,
                 "visible": true
             },
@@ -227,7 +227,7 @@
                 "id": "block_blank_f",
                 "mass": 500.0,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.1,
                 "position_z": -0.6,
                 "visible": true
             }
@@ -247,7 +247,7 @@
                 "id": "block_blank_a",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": -0.0,
+                "position_y": 0.05,
                 "position_z": -0.11,
                 "visible": true
             },
@@ -255,7 +255,7 @@
                 "id": "block_blank_b",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.05,
                 "position_z": 0.11,
                 "visible": true
             },
@@ -263,7 +263,7 @@
                 "id": "block_blank_c",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.1,
+                "position_y": 0.15,
                 "position_z": -0.11,
                 "visible": true
             },
@@ -271,7 +271,7 @@
                 "id": "block_blank_d",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.2,
+                "position_y": 0.25,
                 "position_z": -0.1,
                 "visible": true
             },
@@ -279,7 +279,7 @@
                 "id": "block_blank_e",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.1,
+                "position_y": 0.2,
                 "position_z": 0.1,
                 "visible": true
             },
@@ -287,7 +287,7 @@
                 "id": "block_blank_f",
                 "mass": 500.0,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.1,
                 "position_z": -0.6,
                 "visible": true
             }
@@ -307,7 +307,7 @@
                 "id": "block_blank_a",
                 "mass": 0.66,
                 "position_x": -1.9,
-                "position_y": -0.0,
+                "position_y": 0.05,
                 "position_z": -0.11,
                 "visible": true
             },
@@ -315,7 +315,7 @@
                 "id": "block_blank_b",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.05,
                 "position_z": 0.11,
                 "visible": true
             },
@@ -323,7 +323,7 @@
                 "id": "block_blank_c",
                 "mass": 0.66,
                 "position_x": -1.9,
-                "position_y": 0.1,
+                "position_y": 0.15,
                 "position_z": -0.11,
                 "visible": true
             },
@@ -331,7 +331,7 @@
                 "id": "block_blank_d",
                 "mass": 0.66,
                 "position_x": -1.9,
-                "position_y": 0.2,
+                "position_y": 0.25,
                 "position_z": -0.1,
                 "visible": true
             },
@@ -339,7 +339,7 @@
                 "id": "block_blank_e",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.1,
+                "position_y": 0.2,
                 "position_z": 0.1,
                 "visible": true
             },
@@ -347,7 +347,7 @@
                 "id": "block_blank_f",
                 "mass": 500.0,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.1,
                 "position_z": -0.6,
                 "visible": true
             }
@@ -367,7 +367,7 @@
                 "id": "block_blank_a",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": -0.0,
+                "position_y": 0.05,
                 "position_z": -0.11,
                 "visible": true
             },
@@ -375,7 +375,7 @@
                 "id": "block_blank_b",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.05,
                 "position_z": 0.11,
                 "visible": true
             },
@@ -383,7 +383,7 @@
                 "id": "block_blank_c",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.1,
+                "position_y": 0.15,
                 "position_z": -0.11,
                 "visible": true
             },
@@ -391,7 +391,7 @@
                 "id": "block_blank_d",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.2,
+                "position_y": 0.25,
                 "position_z": -0.1,
                 "visible": true
             },
@@ -399,7 +399,7 @@
                 "id": "block_blank_e",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.1,
+                "position_y": 0.2,
                 "position_z": 0.1,
                 "visible": true
             },
@@ -407,7 +407,7 @@
                 "id": "block_blank_f",
                 "mass": 500.0,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.1,
                 "position_z": -0.6,
                 "visible": true
             }
@@ -427,7 +427,7 @@
                 "id": "block_blank_a",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": -0.0,
+                "position_y": 0.05,
                 "position_z": -0.21,
                 "visible": true
             },
@@ -435,7 +435,7 @@
                 "id": "block_blank_b",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.05,
                 "position_z": 0.11,
                 "visible": true
             },
@@ -443,7 +443,7 @@
                 "id": "block_blank_c",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.1,
+                "position_y": 0.15,
                 "position_z": -0.21,
                 "visible": true
             },
@@ -451,7 +451,7 @@
                 "id": "block_blank_d",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.2,
+                "position_y": 0.25,
                 "position_z": -0.2,
                 "visible": true
             },
@@ -459,7 +459,7 @@
                 "id": "block_blank_e",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.1,
+                "position_y": 0.2,
                 "position_z": 0.1,
                 "visible": true
             },
@@ -467,7 +467,7 @@
                 "id": "block_blank_f",
                 "mass": 500.0,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.1,
                 "position_z": -0.6,
                 "visible": true
             }
@@ -487,7 +487,7 @@
                 "id": "block_blank_a",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": -0.0,
+                "position_y": 0.05,
                 "position_z": -0.11,
                 "visible": true
             },
@@ -495,7 +495,7 @@
                 "id": "block_blank_b",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.05,
                 "position_z": 0.11,
                 "visible": true
             },
@@ -503,7 +503,7 @@
                 "id": "block_blank_c",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.1,
+                "position_y": 0.15,
                 "position_z": -0.11,
                 "visible": true
             },
@@ -511,7 +511,7 @@
                 "id": "block_blank_d",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.2,
+                "position_y": 0.25,
                 "position_z": -0.1,
                 "visible": true
             },
@@ -519,7 +519,7 @@
                 "id": "block_blank_e",
                 "mass": 0.66,
                 "position_x": -2.0,
-                "position_y": 0.1,
+                "position_y": 0.2,
                 "position_z": 0.1,
                 "visible": true
             },
@@ -527,7 +527,7 @@
                 "id": "block_blank_f",
                 "mass": 500.0,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.1,
                 "position_z": -0.6,
                 "visible": true
             }
@@ -547,7 +547,7 @@
                 "id": "block_blank_a",
                 "mass": 0.66,
                 "position_x": -1.95,
-                "position_y": -0.0,
+                "position_y": 0.05,
                 "position_z": -0.19,
                 "visible": true
             },
@@ -555,7 +555,7 @@
                 "id": "block_blank_b",
                 "mass": 0.66,
                 "position_x": -1.92,
-                "position_y": 0.0,
+                "position_y": 0.05,
                 "position_z": 0.05,
                 "visible": true
             },
@@ -563,7 +563,7 @@
                 "id": "block_blank_c",
                 "mass": 0.66,
                 "position_x": -1.95,
-                "position_y": 0.1,
+                "position_y": 0.15,
                 "position_z": -0.19,
                 "visible": true
             },
@@ -571,7 +571,7 @@
                 "id": "block_blank_d",
                 "mass": 0.66,
                 "position_x": -1.95,
-                "position_y": 0.2,
+                "position_y": 0.25,
                 "position_z": -0.18,
                 "visible": true
             },
@@ -579,7 +579,7 @@
                 "id": "block_blank_e",
                 "mass": 0.66,
                 "position_x": -1.92,
-                "position_y": 0.1,
+                "position_y": 0.2,
                 "position_z": 0.04,
                 "visible": true
             },
@@ -587,7 +587,7 @@
                 "id": "block_blank_f",
                 "mass": 500.0,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.1,
                 "position_z": -0.6,
                 "visible": true
             }
@@ -607,7 +607,7 @@
                 "id": "block_blank_a",
                 "mass": 0.66,
                 "position_x": -1.9,
-                "position_y": -0.0,
+                "position_y": 0.05,
                 "position_z": -0.28,
                 "visible": true
             },
@@ -615,7 +615,7 @@
                 "id": "block_blank_b",
                 "mass": 0.66,
                 "position_x": -1.85,
-                "position_y": 0.0,
+                "position_y": 0.05,
                 "position_z": -0.02,
                 "visible": true
             },
@@ -623,7 +623,7 @@
                 "id": "block_blank_c",
                 "mass": 0.66,
                 "position_x": -1.9,
-                "position_y": 0.1,
+                "position_y": 0.15,
                 "position_z": -0.28,
                 "visible": true
             },
@@ -631,7 +631,7 @@
                 "id": "block_blank_d",
                 "mass": 0.66,
                 "position_x": -1.9,
-                "position_y": 0.2,
+                "position_y": 0.25,
                 "position_z": -0.26,
                 "visible": true
             },
@@ -639,7 +639,7 @@
                 "id": "block_blank_e",
                 "mass": 0.66,
                 "position_x": -1.85,
-                "position_y": 0.1,
+                "position_y": 0.2,
                 "position_z": -0.03,
                 "visible": true
             },
@@ -647,7 +647,7 @@
                 "id": "block_blank_f",
                 "mass": 500.0,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.1,
                 "position_z": -0.6,
                 "visible": true
             }
@@ -667,7 +667,7 @@
                 "id": "block_blank_a",
                 "mass": 0.66,
                 "position_x": -1.9,
-                "position_y": -0.0,
+                "position_y": 0.05,
                 "position_z": -0.28,
                 "visible": true
             },
@@ -675,7 +675,7 @@
                 "id": "block_blank_b",
                 "mass": 0.66,
                 "position_x": -1.77,
-                "position_y": 0.0,
+                "position_y": 0.05,
                 "position_z": -0.08,
                 "visible": true
             },
@@ -683,7 +683,7 @@
                 "id": "block_blank_c",
                 "mass": 0.66,
                 "position_x": -1.9,
-                "position_y": 0.1,
+                "position_y": 0.15,
                 "position_z": -0.28,
                 "visible": true
             },
@@ -691,7 +691,7 @@
                 "id": "block_blank_d",
                 "mass": 0.66,
                 "position_x": -1.9,
-                "position_y": 0.2,
+                "position_y": 0.25,
                 "position_z": -0.26,
                 "visible": true
             },
@@ -699,7 +699,7 @@
                 "id": "block_blank_e",
                 "mass": 0.66,
                 "position_x": -1.77,
-                "position_y": 0.1,
+                "position_y": 0.2,
                 "position_z": -0.09,
                 "visible": true
             },
@@ -707,7 +707,7 @@
                 "id": "block_blank_f",
                 "mass": 500.0,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.1,
                 "position_z": -0.6,
                 "visible": true
             }
@@ -727,7 +727,7 @@
                 "id": "block_blank_a",
                 "mass": 0.66,
                 "position_x": -1.9,
-                "position_y": -0.0,
+                "position_y": 0.05,
                 "position_z": -0.28,
                 "visible": true
             },
@@ -735,7 +735,7 @@
                 "id": "block_blank_b",
                 "mass": 0.66,
                 "position_x": -1.69,
-                "position_y": 0.0,
+                "position_y": 0.05,
                 "position_z": -0.15,
                 "visible": true
             },
@@ -743,7 +743,7 @@
                 "id": "block_blank_c",
                 "mass": 0.66,
                 "position_x": -1.9,
-                "position_y": 0.1,
+                "position_y": 0.15,
                 "position_z": -0.28,
                 "visible": true
             },
@@ -751,7 +751,7 @@
                 "id": "block_blank_d",
                 "mass": 0.66,
                 "position_x": -1.9,
-                "position_y": 0.2,
+                "position_y": 0.25,
                 "position_z": -0.26,
                 "visible": true
             },
@@ -759,7 +759,7 @@
                 "id": "block_blank_e",
                 "mass": 0.66,
                 "position_x": -1.69,
-                "position_y": 0.1,
+                "position_y": 0.2,
                 "position_z": -0.16,
                 "visible": true
             },
@@ -767,7 +767,7 @@
                 "id": "block_blank_f",
                 "mass": 500.0,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.1,
                 "position_z": -0.6,
                 "visible": true
             }
@@ -787,7 +787,7 @@
                 "id": "block_blank_a",
                 "mass": 0.66,
                 "position_x": -1.9,
-                "position_y": -0.0,
+                "position_y": 0.05,
                 "position_z": -0.28,
                 "visible": true
             },
@@ -795,7 +795,7 @@
                 "id": "block_blank_b",
                 "mass": 0.66,
                 "position_x": -1.69,
-                "position_y": 0.0,
+                "position_y": 0.05,
                 "position_z": -0.15,
                 "visible": true
             },
@@ -803,7 +803,7 @@
                 "id": "block_blank_c",
                 "mass": 0.66,
                 "position_x": -1.9,
-                "position_y": 0.1,
+                "position_y": 0.15,
                 "position_z": -0.28,
                 "visible": true
             },
@@ -811,7 +811,7 @@
                 "id": "block_blank_d",
                 "mass": 0.66,
                 "position_x": -1.9,
-                "position_y": 0.2,
+                "position_y": 0.25,
                 "position_z": -0.26,
                 "visible": true
             },
@@ -819,7 +819,7 @@
                 "id": "block_blank_e",
                 "mass": 0.66,
                 "position_x": -1.69,
-                "position_y": 0.1,
+                "position_y": 0.2,
                 "position_z": -0.16,
                 "visible": true
             },
@@ -827,7 +827,7 @@
                 "id": "block_blank_f",
                 "mass": 500.0,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.1,
                 "position_z": -0.6,
                 "visible": true
             }
@@ -847,7 +847,7 @@
                 "id": "block_blank_a",
                 "mass": 0.66,
                 "position_x": -1.97,
-                "position_y": -0.0,
+                "position_y": 0.05,
                 "position_z": -0.35,
                 "visible": true
             },
@@ -855,7 +855,7 @@
                 "id": "block_blank_b",
                 "mass": 0.66,
                 "position_x": -1.76,
-                "position_y": 0.0,
+                "position_y": 0.05,
                 "position_z": -0.22,
                 "visible": true
             },
@@ -863,7 +863,7 @@
                 "id": "block_blank_c",
                 "mass": 0.66,
                 "position_x": -1.97,
-                "position_y": 0.1,
+                "position_y": 0.15,
                 "position_z": -0.35,
                 "visible": true
             },
@@ -871,7 +871,7 @@
                 "id": "block_blank_d",
                 "mass": 0.66,
                 "position_x": -1.97,
-                "position_y": 0.2,
+                "position_y": 0.25,
                 "position_z": -0.32,
                 "visible": true
             },
@@ -879,7 +879,7 @@
                 "id": "block_blank_e",
                 "mass": 0.66,
                 "position_x": -1.76,
-                "position_y": 0.1,
+                "position_y": 0.2,
                 "position_z": -0.23,
                 "visible": true
             },
@@ -887,7 +887,7 @@
                 "id": "block_blank_f",
                 "mass": 500.0,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.1,
                 "position_z": -0.6,
                 "visible": true
             }
@@ -907,7 +907,7 @@
                 "id": "block_blank_a",
                 "mass": 0.66,
                 "position_x": -1.97,
-                "position_y": -0.0,
+                "position_y": 0.05,
                 "position_z": -0.35,
                 "visible": true
             },
@@ -915,7 +915,7 @@
                 "id": "block_blank_b",
                 "mass": 0.66,
                 "position_x": -1.76,
-                "position_y": 0.0,
+                "position_y": 0.05,
                 "position_z": -0.22,
                 "visible": true
             },
@@ -923,7 +923,7 @@
                 "id": "block_blank_c",
                 "mass": 0.66,
                 "position_x": -1.97,
-                "position_y": 0.1,
+                "position_y": 0.15,
                 "position_z": -0.35,
                 "visible": true
             },
@@ -931,7 +931,7 @@
                 "id": "block_blank_d",
                 "mass": 0.66,
                 "position_x": -1.97,
-                "position_y": 0.2,
+                "position_y": 0.25,
                 "position_z": -0.32,
                 "visible": true
             },
@@ -939,7 +939,7 @@
                 "id": "block_blank_e",
                 "mass": 0.66,
                 "position_x": -1.76,
-                "position_y": 0.1,
+                "position_y": 0.2,
                 "position_z": -0.23,
                 "visible": true
             },
@@ -947,7 +947,7 @@
                 "id": "block_blank_f",
                 "mass": 500.0,
                 "position_x": -2.0,
-                "position_y": 0.0,
+                "position_y": 0.1,
                 "position_z": -0.6,
                 "visible": true
             }
