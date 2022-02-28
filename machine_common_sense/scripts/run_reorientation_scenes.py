@@ -182,7 +182,7 @@ def action_callback(scene_data, step_metadata, runner_script):
         )
         scene_state['action_list'].extend(
             experience_with_room_action_list.copy() + ([
-                'Rotate' + ('Left' if rotate_right_count < 0 else 'Right')
+                f"Rotate{'Left' if rotate_right_count < 0 else 'Right'}"
             ] * rotate_right_count) + move_to_target_action_list.copy()
         )
 

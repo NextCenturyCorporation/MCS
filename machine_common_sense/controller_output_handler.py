@@ -27,7 +27,6 @@ class SceneEvent():
     _step_number: int
 
     def __post_init__(self):
-        max_depth = self.clipping_plane_far
         self.image_list = []
         self.depth_map_list = []
         self.object_mask_list = []
@@ -38,17 +37,12 @@ class SceneEvent():
                 self.image_list.append(scene_image)
 
                 if self._config.is_depth_maps_enabled():
-                    # The Unity depth array (returned by Depth.shader) contains
-                    # a third of the total max depth in each RGB element.
                     unity_depth_array = event.depth_frame.astype(np.float32)
-                    # Convert to values between 0 and max_depth for output.
+                    # Convert to a 2D array (screen length X width)
+                    depth_float_array = np.squeeze(unity_depth_array)
+                    # Convert from (0.0, 1.0) to (0, max distance)
                     depth_float_array = (
-                        (unity_depth_array[:, :, 0] *
-                         (max_depth / 3.0) / 255.0) +
-                        (unity_depth_array[:, :, 1] *
-                         (max_depth / 3.0) / 255.0) +
-                        (unity_depth_array[:, :, 2] *
-                         (max_depth / 3.0) / 255.0)
+                        depth_float_array * self.clipping_plane_far
                     )
                     self.depth_map_list.append(np.array(depth_float_array))
 
@@ -87,8 +81,15 @@ class SceneEvent():
 
     @property
     def clipping_plane_far(self):
-        return self._raw_output.metadata.get(
-            'clippingPlaneFar', ConfigManager.DEFAULT_CLIPPING_PLANE_FAR)
+        return self._raw_output.metadata.get('clippingPlaneFar', 0.0)
+
+    @property
+    def haptic_feedback(self):
+        return self._raw_output.metadata.get('hapticFeedback')
+
+    @property
+    def steps_on_lava(self):
+        return self._raw_output.metadata.get('stepsOnLava')
 
     @property
     def performer_radius(self):
@@ -227,7 +228,8 @@ class SceneEvent():
                 object_metadata['isPickedUp']
             ),
             is_open=object_metadata['isOpen'],
-            openable=object_metadata['openable']
+            openable=object_metadata['openable'],
+            locked=object_metadata['locked']
         )
 
 
@@ -259,7 +261,8 @@ class ControllerOutputHandler():
         (restrict_depth_map, restrict_object_mask_list, restrict_non_oracle) =\
             self.get_restrictions(restricted, self._config.get_metadata_tier())
         step_output = StepMetadata(
-            action_list=goal.retrieve_action_list_at_step(self._step_number),
+            action_list=goal.retrieve_action_list_at_step(
+                self._step_number, self._scene_event.steps_on_lava),
             camera_aspect_ratio=self._config.get_screen_size(),
             camera_clipping_planes=self._scene_event.clipping_plane,
             camera_field_of_view=self._scene_event.camera_field_of_view,
@@ -272,8 +275,15 @@ class ControllerOutputHandler():
                 if goal.habituation_total >= habituation_trial
                 else None
             ),
+            haptic_feedback=self._scene_event.haptic_feedback,
             head_tilt=self._scene_event.head_tilt,
+            holes=None if restrict_non_oracle else [
+                (hole.x, hole.z) for hole in self._scene_config.holes
+            ],
             image_list=self._scene_event.image_list,
+            lava=None if restrict_non_oracle else [
+                (lava.x, lava.z) for lava in self._scene_config.lava
+            ],
             object_list=(
                 [] if restrict_non_oracle else self._scene_event.object_list),
             object_mask_list=([] if restrict_object_mask_list else
@@ -285,10 +295,15 @@ class ControllerOutputHandler():
             return_status=self._scene_event.return_status,
             reward=Reward.calculate_reward(
                 goal, self._scene_event.objects, self._scene_event.agent,
-                self._step_number, self._scene_event.performer_reach),
+                self._step_number, self._scene_event.performer_reach,
+                self._scene_event.steps_on_lava,
+                self._config.get_lava_penalty(),
+                self._config.get_step_penalty(),
+                self._config.get_goal_reward()),
             rotation=(
                 None if restrict_non_oracle else self._scene_event.rotation),
             step_number=self._step_number,
+            steps_on_lava=self._scene_event.steps_on_lava,
             physics_frames_per_second=(
                 self._scene_event.physics_frames_per_second),
             structural_object_list=([] if restrict_non_oracle else
@@ -324,6 +339,8 @@ class ControllerOutputHandler():
         # If None is passed into the constructor, it is turned into
         # {}, but restricted mode turns it to None.
         step_output.position = None
+        step_output.holes = None
+        step_output.lava = None
 
         target_name_list = ['target', 'target_1', 'target_2']
         for target_name in target_name_list:

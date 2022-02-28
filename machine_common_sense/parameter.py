@@ -1,9 +1,46 @@
 import random
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
-from .action import Action
+from .action import FORCE_ACTIONS, OBJECT_MOVE_ACTIONS, Action
 from .config_manager import ConfigManager, MetadataTier
 from .controller import DEFAULT_MOVE
+
+
+def compare_param_values(value_1: Any, value_2: Any) -> bool:
+    """Compares two parameter values and returns if they are equal,
+    making sure that string numbers are converted to floats, and integer
+    floats are converted to ints."""
+    data = {'value_1': value_1, 'value_2': value_2}
+    for key, value in data.items():
+        if isinstance(value, str):
+            try:
+                data[key] = float(value)
+            except ValueError:
+                ...
+        if isinstance(value, float) and value.is_integer():
+            data[key] = int(value)
+    return data['value_1'] == data['value_2']
+
+
+def rebuild_endhabituation(step_action_list: List) -> str:
+    '''Rebuilds EndHabituation parameters from the goal's action list for the
+    current step. Parameters can include some or all of xPosition, zPosition,
+    and yRotation. Parameters are removed from the step_metadata list of
+    potentital actions in order for teleportation/displacement to be hidden
+    from AIs.
+    '''
+    # sourcery skip: use-named-expression
+    action = Action.END_HABITUATION.value
+    endhabituation_action = next((
+        item for item in step_action_list
+        if item[0] == action), None)
+    if endhabituation_action is not None:
+        params = ",".join(
+            f"{k}={v}" for k,
+            v in endhabituation_action[1].items())
+        if params:
+            action = f"{action},{params}"
+    return action
 
 
 class Parameter:
@@ -16,15 +53,19 @@ class Parameter:
 
     DEFAULT_HORIZON = 0.0
     DEFAULT_ROTATION = 0.0
-    DEFAULT_FORCE = 0.5
     DEFAULT_AMOUNT = 0.5
     DEFAULT_IMG_COORD = 0
     DEFAULT_OBJECT_MOVE_AMOUNT = 1.0
+    DEFAULT_OBJECT_ROTATION_CLOCKWISE = True
+    DEFAULT_OBJECT_MOVEMENT_X_DIRECTION = 0
+    DEFAULT_OBJECT_MOVEMENT_Z_DIRECTION = 1
 
-    MAX_FORCE = 1.0
-    MIN_FORCE = 0.0
+    MAX_AMOUNT_TORQUE = 1.0
+    MIN_AMOUNT_TORQUE = -1.0
     MAX_AMOUNT = 1.0
     MIN_AMOUNT = 0.0
+    MIN_AMOUNT_MOVEMENT_DIRECTION = -1
+    MAX_AMOUNT_MOVEMENT_DIRECTION = 1
 
     MIN_NOISE = -0.5
     MAX_NOISE = 0.5
@@ -33,6 +74,9 @@ class Parameter:
     HORIZON_KEY = 'horizon'
     FORCE_KEY = 'force'
     AMOUNT_KEY = 'amount'
+    CLOCKWISE_KEY = 'clockwise'
+    MOVEMENT_X_DIRECTION_KEY = 'lateral'
+    MOVEMENT_Z_DIRECTION_KEY = 'straight'
 
     OBJECT_IMAGE_COORDS_X_KEY = 'objectImageCoordsX'
     OBJECT_IMAGE_COORDS_Y_KEY = 'objectImageCoordsY'
@@ -43,15 +87,6 @@ class Parameter:
     TELEPORT_X_POS = 'xPosition'
     TELEPORT_Z_POS = 'zPosition'
     TELEPORT_Y_ROT = 'yRotation'
-
-    # # Hard coding actions that effect MoveMagnitude so the appropriate
-    # # value is set based off of the action
-    # # TODO: Move this to an enum or some place, so that you can determine
-    # # special move interactions that way
-    FORCE_ACTIONS = ["PushObject", "PullObject"]
-    OBJECT_MOVE_ACTIONS = ["CloseObject", "OpenObject"]
-    # DW: not used anywhere
-    # MOVE_ACTIONS = ["MoveAhead", "MoveLeft", "MoveRight", "MoveBack"]
 
     def __init__(self, config: ConfigManager):
         self.config = config
@@ -89,12 +124,11 @@ class Parameter:
             return screen_height - y_coord - 1
         raise ValueError(f"{y_coord} is not in range 0-{screen_height-1}")
 
-    def _get_amount(self, **kwargs) -> float:
-        action = kwargs.get('action')
+    def _get_amount(self, action: Action, **kwargs) -> float:
         amount = kwargs.get(
             self.AMOUNT_KEY,
             self.DEFAULT_OBJECT_MOVE_AMOUNT
-            if action in self.OBJECT_MOVE_ACTIONS
+            if action in OBJECT_MOVE_ACTIONS
             else self.DEFAULT_AMOUNT
         )
         if amount is not None:
@@ -112,20 +146,28 @@ class Parameter:
             )
         return amount
 
-    def _get_force(self, **kwargs) -> float:
-        force = kwargs.get(self.FORCE_KEY, self.DEFAULT_FORCE)
+    def _get_force(self, action: Action, **kwargs) -> float:
+        force = kwargs.get(self.FORCE_KEY, self.DEFAULT_AMOUNT)
         if force is not None:
             try:
                 force = float(force)
             except ValueError as err:
                 raise ValueError('Force is not a number') from err
 
-            if force < self.MIN_FORCE or force > self.MAX_FORCE:
+            if action == Action.TORQUE_OBJECT:
+                if (force < self.MIN_AMOUNT_TORQUE or force >
+                        self.MAX_AMOUNT_TORQUE):
+                    raise ValueError(
+                        f'Force not in acceptable range of '
+                        f'({self.MIN_AMOUNT_TORQUE} and '
+                        f'{self.MAX_AMOUNT_TORQUE})')
+
+            elif force < self.MIN_AMOUNT or force > self.MAX_AMOUNT:
                 raise ValueError(
                     f'Force not in acceptable range of '
-                    f'({self.MIN_FORCE}-{self.MAX_FORCE})')
+                    f'({self.MIN_AMOUNT} and {self.MAX_AMOUNT})')
         else:
-            force = self.DEFAULT_FORCE
+            force = self.DEFAULT_AMOUNT
         return force
 
     def _get_number(self, key: str, **kwargs) -> Optional[Any]:
@@ -149,13 +191,99 @@ class Parameter:
             val = float(default)
         return val
 
-    def _get_move_magnitude(self, action: str, force: float,
+    def _get_clockwise(self, **kwargs) -> bool:
+        direction_clockwise = kwargs.get(
+            self.CLOCKWISE_KEY,
+            self.DEFAULT_OBJECT_ROTATION_CLOCKWISE
+        )
+        if isinstance(direction_clockwise, str):
+            direction_clockwise = direction_clockwise.capitalize()
+            try:
+                direction_clockwise = eval(direction_clockwise)
+            except Exception as err:
+                raise ValueError(
+                    f"{direction_clockwise} is not a bool") from err
+        elif not isinstance(direction_clockwise, bool):
+            raise ValueError(
+                f"{direction_clockwise} is not a bool")
+        return direction_clockwise
+
+    def _get_movement_direction(self, **kwargs) -> Tuple:
+        """
+        If no args are given, the default movement for (x,z) is (0,1)
+        If only x arg is given, movement is (x,0)
+        If only z arg is given, movement is (0,z)
+        If x,z args are given, movement is (x,z)
+        """
+
+        lateral = kwargs.get(
+            self.MOVEMENT_X_DIRECTION_KEY
+        )
+        straight = kwargs.get(
+            self.MOVEMENT_Z_DIRECTION_KEY
+        )
+        l_none = lateral is None
+        s_none = straight is None
+
+        if l_none and s_none:
+            lateral = self.DEFAULT_OBJECT_MOVEMENT_X_DIRECTION
+            straight = self.DEFAULT_OBJECT_MOVEMENT_Z_DIRECTION
+            return (lateral, straight)
+
+        direction_output = (
+            f"{'(lateral: ' f'{lateral})' if not l_none else ''}"
+            f"{'' if l_none else ' and ' if not s_none else ' is'}"
+            f"{'(straight: ' f'{straight})' if not s_none else ''}"
+            f"{' is' if l_none else ' are' if not s_none else ''}"
+            f" not "
+            f"{'both ints' if not l_none and not s_none else 'an int'}"
+            f" of acceptable range "
+            f"({self.MIN_AMOUNT_MOVEMENT_DIRECTION}"
+            f" and {self.MAX_AMOUNT_MOVEMENT_DIRECTION})")
+
+        if isinstance(lateral, bool) or isinstance(straight, bool):
+            raise ValueError(direction_output)
+
+        try:
+            if not l_none:
+                lateral = int(lateral) if float(
+                    lateral).is_integer() else lateral
+                if isinstance(lateral, float):
+                    raise ValueError(direction_output)
+            if not s_none:
+                straight = int(straight) if float(
+                    straight).is_integer() else straight
+                if isinstance(straight, float):
+                    raise ValueError(direction_output)
+        except Exception as err:
+            raise ValueError(direction_output) from err
+
+        if not l_none and s_none:
+            if (lateral < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+                    lateral > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
+                raise ValueError(direction_output)
+            else:
+                straight = 0
+        elif l_none:
+            if (straight < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+                    straight > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
+                raise ValueError(direction_output)
+            else:
+                lateral = 0
+        elif (lateral < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+              lateral > self.MAX_AMOUNT_MOVEMENT_DIRECTION or
+              straight < self.MIN_AMOUNT_MOVEMENT_DIRECTION or
+              straight > self.MAX_AMOUNT_MOVEMENT_DIRECTION):
+            raise ValueError(direction_output)
+        return (lateral, straight)
+
+    def _get_move_magnitude(self, action: Action, force: float,
                             amount: float) -> float:
         # Set the Move Magnitude to the appropriate amount based on the action
         move_magnitude = DEFAULT_MOVE
-        if action in self.FORCE_ACTIONS:
-            move_magnitude = force * self.MAX_FORCE
-        elif action in self.OBJECT_MOVE_ACTIONS:
+        if action in FORCE_ACTIONS:
+            move_magnitude = force * self.MAX_AMOUNT
+        elif action in OBJECT_MOVE_ACTIONS:
             move_magnitude = amount
         return move_magnitude
 
@@ -170,13 +298,11 @@ class Parameter:
         '''
         teleport_pos_x_input = self._get_number(self.TELEPORT_X_POS, **kwargs)
         teleport_pos_z_input = self._get_number(self.TELEPORT_Z_POS, **kwargs)
-        teleport_position = None
-        if teleport_pos_x_input is not None and \
-                teleport_pos_z_input is not None:
-            teleport_position = {
-                'x': teleport_pos_x_input,
-                'z': teleport_pos_z_input}
-        return teleport_position
+        return {
+            'x': teleport_pos_x_input,
+            'z': teleport_pos_z_input} \
+            if teleport_pos_x_input is not None and \
+            teleport_pos_z_input is not None else None
 
     def _get_teleport_rotation(self, **kwargs) -> Optional[Dict]:
         '''Extract teleport rotation from kwargs if it exists.
@@ -186,19 +312,20 @@ class Parameter:
         return {'y': teleport_rot_input} \
             if teleport_rot_input is not None else None
 
-    def _validate_and_convert_params(self, **kwargs) -> Tuple:
+    def _validate_and_convert_params(self, **kwargs) -> Tuple[Action, Dict]:
         """Need a validation/conversion step for what ai2thor will accept as input
         to keep parameters more simple for the user (in this case, wrapping
         rotation degrees into an object)
         """
-        action = kwargs.get('action')
-        amount = self._get_amount(**kwargs)
-        force = self._get_force(**kwargs)
+        action = Action(kwargs.get('action'))
+        kwargs.pop('action')
+        amount = self._get_amount(action, **kwargs)
+        force = self._get_force(action, **kwargs)
         object_image_coords_x = int(self._get_number_with_default(
             self.OBJECT_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD, **kwargs))
         object_image_coords_y = int(self._get_number_with_default(
-                                    self.OBJECT_IMAGE_COORDS_Y_KEY,
-                                    self.DEFAULT_IMG_COORD, **kwargs))
+            self.OBJECT_IMAGE_COORDS_Y_KEY,
+            self.DEFAULT_IMG_COORD, **kwargs))
         receptable_image_coords_x = int(self._get_number_with_default(
             self.RECEPTACLE_IMAGE_COORDS_X_KEY,
             self.DEFAULT_IMG_COORD,
@@ -226,6 +353,8 @@ class Parameter:
         }
         move_magnitude = self._get_move_magnitude(action, force, amount)
         (teleport_rotation, teleport_position) = self._get_teleport(**kwargs)
+        clockwise = self._get_clockwise(**kwargs)
+        (lateral, straight) = self._get_movement_direction(**kwargs)
 
         # TODO is this a feature we need?
         if self.config.is_noise_enabled():
@@ -242,24 +371,27 @@ class Parameter:
             teleportPosition=teleport_position,
             moveMagnitude=move_magnitude,
             objectImageCoords=object_vector,
-            receptacleObjectImageCoords=receptacle_vector
+            receptacleObjectImageCoords=receptacle_vector,
+            clockwise=clockwise,
+            lateral=lateral,
+            straight=straight
         )
 
-    def _mcs_action_to_ai2thor_action(self, action: str) -> str:
-        if action == Action.CLOSE_OBJECT.value:
+    def _mcs_action_to_ai2thor_action(self, action: Action) -> str:
+        if action == Action.CLOSE_OBJECT:
             # The AI2-THOR Python library has buggy error checking
             # specifically for the CloseObject action,
             # so just use our own custom action here.
             return "MCSCloseObject"
-        elif action == Action.DROP_OBJECT.value:
+        elif action == Action.DROP_OBJECT:
             return "DropHandObject"
-        elif action == Action.OPEN_OBJECT.value:
+        elif action == Action.OPEN_OBJECT:
             # The AI2-THOR Python library has buggy error checking
             # specifically for the OpenObject action,
             # so just use our own custom action here.
             return "MCSOpenObject"
 
-        return action
+        return action.value
 
     def _generate_noise(self) -> float:
         """

@@ -13,7 +13,8 @@ class TestGoalMetadata(unittest.TestCase):
         "habituation_total": 0,
         "last_preview_phase_step": 0,
         "last_step": null,
-        "metadata": {}
+        "metadata": {},
+        "steps_allowed_in_lava": 0
     }'''
 
     @classmethod
@@ -47,6 +48,211 @@ class TestGoalMetadata(unittest.TestCase):
     def test_metadata(self):
         self.assertFalse(self.goal_metadata.metadata)
         self.assertIsInstance(self.goal_metadata.metadata, dict)
+
+    def test_retrieve_action_list_with_preview_phase(self):
+        goal_metadata = mcs.GoalMetadata(
+            action_list=[],
+            last_preview_phase_step=10,
+            last_step=10)
+        self.assertEqual(
+            goal_metadata.retrieve_action_list_at_step(0), [(
+                'Pass', {})])
+        self.assertEqual(
+            goal_metadata.retrieve_action_list_at_step(9), [(
+                'Pass', {})])
+        self.assertEqual(self.goal_metadata.retrieve_action_list_at_step(10), [
+            ('CloseObject', {}),
+            ('DropObject', {}),
+            ('MoveAhead', {}),
+            ('MoveBack', {}),
+            ('MoveLeft', {}),
+            ('MoveRight', {}),
+            ('OpenObject', {}),
+            ('PickupObject', {}),
+            ('PullObject', {}),
+            ('PushObject', {}),
+            ('PutObject', {}),
+            ('TorqueObject', {}),
+            ('RotateObject', {}),
+            ('MoveObject', {}),
+            ('LookUp', {}),
+            ('LookDown', {}),
+            ('RotateLeft', {}),
+            ('RotateRight', {}),
+            ('EndScene', {}),
+            ('Pass', {})
+        ])
+
+    def test_retrieve_action_list_after_preview_phase(self):
+        goal_metadata = mcs.GoalMetadata(
+            action_list=[['MoveBack']],
+            last_preview_phase_step=10,
+            last_step=11)
+        self.assertEqual(
+            goal_metadata.retrieve_action_list_at_step(0), [(
+                'Pass', {})])
+        self.assertEqual(
+            goal_metadata.retrieve_action_list_at_step(9), [(
+                'Pass', {})])
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(10), [
+            ('MoveBack', {})
+        ])
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(11), [])
+
+    def test_retrieve_action_list_at_final_step(self):
+        goal_metadata = mcs.GoalMetadata(
+            action_list=[],
+            last_step=10)
+        self.assertEqual(
+            goal_metadata.retrieve_action_list_at_step(10), [])
+
+    def test_retrieve_action_list_after_final_step(self):
+        goal_metadata = mcs.GoalMetadata(
+            action_list=[],
+            last_step=10)
+        self.assertEqual(
+            goal_metadata.retrieve_action_list_at_step(15), [])
+
+    def test_retrieve_action_too_many_steps_lava_default(self):
+        goal_metadata = mcs.GoalMetadata(
+            action_list=[],
+            last_step=10)
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(11, 1), [
+            ('EndScene', {})
+        ])
+
+    def test_retrieve_action_too_many_steps(self):
+        goal_metadata = mcs.GoalMetadata(
+            action_list=[],
+            last_step=10,
+            steps_allowed_in_lava=3)
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(11, 1), [])
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(11, 4), [
+            ('EndScene', {})
+        ])
+
+    def test_retrieve_action_list_at_step(self):
+        self.assertEqual(self.goal_metadata.retrieve_action_list_at_step(0), [
+            ('CloseObject', {}),
+            ('DropObject', {}),
+            ('MoveAhead', {}),
+            ('MoveBack', {}),
+            ('MoveLeft', {}),
+            ('MoveRight', {}),
+            ('OpenObject', {}),
+            ('PickupObject', {}),
+            ('PullObject', {}),
+            ('PushObject', {}),
+            ('PutObject', {}),
+            ('TorqueObject', {}),
+            ('RotateObject', {}),
+            ('MoveObject', {}),
+            ('LookUp', {}),
+            ('LookDown', {}),
+            ('RotateLeft', {}),
+            ('RotateRight', {}),
+            ('EndScene', {}),
+            ('Pass', {})
+        ])
+        self.assertEqual(self.goal_metadata.retrieve_action_list_at_step(10), [
+            ('CloseObject', {}),
+            ('DropObject', {}),
+            ('MoveAhead', {}),
+            ('MoveBack', {}),
+            ('MoveLeft', {}),
+            ('MoveRight', {}),
+            ('OpenObject', {}),
+            ('PickupObject', {}),
+            ('PullObject', {}),
+            ('PushObject', {}),
+            ('PutObject', {}),
+            ('TorqueObject', {}),
+            ('RotateObject', {}),
+            ('MoveObject', {}),
+            ('LookUp', {}),
+            ('LookDown', {}),
+            ('RotateLeft', {}),
+            ('RotateRight', {}),
+            ('EndScene', {}),
+            ('Pass', {})
+        ])
+
+    def test_retrieve_action_list_hidden_endhabituation_params(self):
+        goal_metadata = mcs.GoalMetadata(action_list=[
+            ['EndHabituation,xPosition=0,zPosition=0,yRotation=90'],
+        ])
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(0), [
+            ('EndHabituation', {})
+        ])
+
+    def test_retrieve_action_list_at_step_with_custom_action_list(self):
+        goal_metadata = mcs.GoalMetadata(action_list=[
+            ['Pass'],
+            ['LookDown', 'LookUp', 'RotateLeft', 'RotateRight', 'Pass'],
+            [],
+            ['EndHabituation,xPosition=0,zPosition=0,yRotation=90'],
+            [('PickupObject', {'objectId': 'target'})]
+        ])
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(0), [
+            ('Pass', {})
+        ])
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(1), [
+            ('LookDown', {}),
+            ('LookUp', {}),
+            ('RotateLeft', {}),
+            ('RotateRight', {}),
+            ('Pass', {})
+        ])
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(2), [
+            ('CloseObject', {}),
+            ('DropObject', {}),
+            ('MoveAhead', {}),
+            ('MoveBack', {}),
+            ('MoveLeft', {}),
+            ('MoveRight', {}),
+            ('OpenObject', {}),
+            ('PickupObject', {}),
+            ('PullObject', {}),
+            ('PushObject', {}),
+            ('PutObject', {}),
+            ('TorqueObject', {}),
+            ('RotateObject', {}),
+            ('MoveObject', {}),
+            ('LookUp', {}),
+            ('LookDown', {}),
+            ('RotateLeft', {}),
+            ('RotateRight', {}),
+            ('EndScene', {}),
+            ('Pass', {})
+        ])
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(3), [
+            ('EndHabituation', {})
+        ])
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(4), [
+            ('PickupObject', {'objectId': 'target'})
+        ])
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(10), [
+            ('CloseObject', {}),
+            ('DropObject', {}),
+            ('MoveAhead', {}),
+            ('MoveBack', {}),
+            ('MoveLeft', {}),
+            ('MoveRight', {}),
+            ('OpenObject', {}),
+            ('PickupObject', {}),
+            ('PullObject', {}),
+            ('PushObject', {}),
+            ('PutObject', {}),
+            ('TorqueObject', {}),
+            ('RotateObject', {}),
+            ('MoveObject', {}),
+            ('LookUp', {}),
+            ('LookDown', {}),
+            ('RotateLeft', {}),
+            ('RotateRight', {}),
+            ('EndScene', {}),
+            ('Pass', {})
+        ])
 
     def test_str(self):
         self.assertEqual(str(self.goal_metadata),

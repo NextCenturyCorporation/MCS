@@ -5,7 +5,10 @@ import machine_common_sense as mcs
 from machine_common_sense.goal_metadata import GoalMetadata
 from machine_common_sense.logging_config import LoggingConfig
 
-from .getch_helper import getch
+try:
+    from getch_helper import getch
+except ImportError:
+    from .getch_helper import getch  # noqa: F401
 
 commands = []
 
@@ -77,7 +80,7 @@ class HumanInputShell(cmd.Cmd):
             print(
                 "You entered an invalid shortcut key, please try again. "
                 "(Type 'help' to display commands again)")
-            print("You entered: " + split_input[0])
+            print(f"You entered: {split_input[0]}")
             return
 
         if (
@@ -174,12 +177,12 @@ class HumanInputShell(cmd.Cmd):
     def show_available_actions(self, output):
         if (
             output.action_list and
-            len(output.action_list) < len(GoalMetadata.ACTION_LIST)
+            len(output.action_list) < len(GoalMetadata.DEFAULT_ACTIONS)
         ):
             print('Only actions available during this step:')
             for action, params in output.action_list:
                 action_string = action + ''.join(
-                    ',' + key + '=' + value for key, value in params.items()
+                    f',{key}={value}' for key, value in params.items()
                 )
 
                 print(f'    {action_string}')
@@ -203,12 +206,7 @@ def print_commands():
 
     for command in commands:
         print(
-            "- " +
-            command.name +
-            " (ShortcutKey=" +
-            command.key +
-            "): " +
-            command.desc)
+            f"- {command.name} (ShortcutKey={command.key}): {command.desc}")
 
     print(" ")
     print("---------------- Example Commands ----------------")
@@ -246,11 +244,7 @@ def run_scene(controller, scene_data):
 def main():
     mcs.init_logging(LoggingConfig.get_dev_logging_config())
     args = parse_args()
-    scene_data, status = mcs.load_scene_json_file(args.mcs_scene_json_file)
-
-    if status is not None:
-        print(status)
-        exit()
+    scene_data = mcs.load_scene_json_file(args.mcs_scene_json_file)
 
     controller = mcs.create_controller(
         unity_app_file_path=args.mcs_unity_build_file,

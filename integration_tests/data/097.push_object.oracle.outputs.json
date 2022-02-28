@@ -1,0 +1,157 @@
+﻿[
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.638,
+                "direction_z": 0.77,
+                "distance": 1.038,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 0.8,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.58,
+                "direction_z": 0.81,
+                "distance": 1.13,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 0.92,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 1,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.54,
+                "direction_z": 0.84,
+                "distance": 1.22,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 1.03,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 2,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.51,
+                "direction_z": 0.86,
+                "distance": 1.31,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 1.12,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 3,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.48,
+                "direction_z": 0.88,
+                "distance": 1.38,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 1.21,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 4,
+        "structural_objects_count": 6
+    }
+]

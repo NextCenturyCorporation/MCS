@@ -1,0 +1,8 @@
+TorqueObject,objectId=tool,force=1.0
+TorqueObject,objectId=tool,force=1.0
+TorqueObject,objectId=tool,force=1.0
+TorqueObject,objectId=tool,force=1.0
+Pass
+Pass
+Pass
+Pass

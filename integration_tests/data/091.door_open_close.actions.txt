@@ -2,6 +2,11 @@ MoveAhead
 MoveAhead
 OpenObject,objectId=testDoor
 MoveAhead
+MoveAhead
 MoveBack
 MoveBack
+MoveBack
+MoveBack
+RotateRight
+RotateRight
 CloseObject,objectId=testDoor

@@ -2,6 +2,7 @@ import os
 import unittest
 from unittest.mock import DEFAULT, patch
 
+import machine_common_sense as mcs
 from machine_common_sense.config_manager import (ChangeMaterialConfig,
                                                  ConfigManager, ForceConfig,
                                                  GoalSchema, MetadataTier,
@@ -283,6 +284,7 @@ class TestSceneConfig(unittest.TestCase):
                 'key': 'value'
             },
             'forces': [{
+                'impulse': True,
                 'relative': True,
                 'stepBegin': 11,
                 'stepEnd': 12,
@@ -303,6 +305,7 @@ class TestSceneConfig(unittest.TestCase):
             'locationParent': 'parent_id',
             'mass': 12.34,
             'materials': ['material_1', 'material_2'],
+            'maxAngularVelocity': 25,
             'moveable': True,
             'moves': [{
                 'stepBegin': 16,
@@ -433,6 +436,7 @@ class TestSceneConfig(unittest.TestCase):
         assert object_1.location_parent is None
         assert object_1.mass is None
         assert object_1.materials is None
+        assert object_1.max_angular_velocity is None
         assert object_1.moveable is None
         assert object_1.moves is None
         assert object_1.null_parent is None
@@ -464,6 +468,7 @@ class TestSceneConfig(unittest.TestCase):
         )]
         assert object_2.debug == {'key': 'value'}
         assert object_2.forces == [ForceConfig(
+            impulse=True,
             relative=True,
             step_begin=11,
             step_end=12,
@@ -478,6 +483,7 @@ class TestSceneConfig(unittest.TestCase):
         assert object_2.location_parent == 'parent_id'
         assert object_2.mass == 12.34
         assert object_2.materials == ['material_1', 'material_2']
+        assert object_2.max_angular_velocity == 25
         assert object_2.moveable is True
         assert object_2.moves == [MoveConfig(
             step_begin=16,
@@ -534,7 +540,7 @@ class TestSceneConfig(unittest.TestCase):
             position=Vector3d(x=0.41, y=0.42, z=0.43)
         )]
         assert object_2.toggle_physics == [SingleStepConfig(step_begin=27)]
-        assert object_2.torques == [MoveConfig(
+        assert object_2.torques == [ForceConfig(
             step_begin=28,
             step_end=29,
             vector=Vector3d(x=0.44, y=0.45, z=0.46)
@@ -587,9 +593,11 @@ class TestSceneConfig(unittest.TestCase):
 
         goal = {
             "action_list": [
-                [("MoveAhead", {"amount": 0.1})],
+                [(mcs.Action.MOVE_AHEAD.value, {"amount": 0.1})],
                 [],
-                [("Pass", {}), ("RotateLeft", {}), ("RotateRight", {})]
+                [(mcs.Action.PASS.value, {}),
+                 (mcs.Action.ROTATE_LEFT.value, {}),
+                 (mcs.Action.ROTATE_RIGHT.value, {})]
             ],
             "category": "test category",
             "description": "test description",
@@ -605,9 +613,10 @@ class TestSceneConfig(unittest.TestCase):
         goal_3 = scene_config.retrieve_goal()
 
         self.assertEqual(goal_3.action_list, [
-            [("MoveAhead", {"amount": 0.1})],
+            [(mcs.Action.MOVE_AHEAD.value, {"amount": 0.1})],
             [],
-            [("Pass", {}), ("RotateLeft", {}), ("RotateRight", {})]
+            [(mcs.Action.PASS.value, {}), (mcs.Action.ROTATE_LEFT.value, {}),
+             (mcs.Action.ROTATE_RIGHT.value, {})]
         ])
         self.assertEqual(goal_3.category, "test category")
         self.assertEqual(goal_3.description, "test description")

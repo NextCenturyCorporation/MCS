@@ -46,7 +46,6 @@ class MetadataTier(Enum):
 
 class ConfigManager(object):
 
-    DEFAULT_CLIPPING_PLANE_FAR = 15.0
     DEFAULT_ROOM_DIMENSIONS = Vector3d(x=10, y=3, z=10)
 
     CONFIG_FILE_ENV_VAR = 'MCS_CONFIG_FILE_PATH'
@@ -62,11 +61,18 @@ class ConfigManager(object):
     CONFIG_SIZE = 'size'
     CONFIG_TEAM = 'team'
     CONFIG_VIDEO_ENABLED = 'video_enabled'
+    CONFIG_LAVA_PENALTY = 'lava_penalty'
+    CONFIG_STEPS_ALLOWED_IN_LAVA = 'steps_allowed_in_lava'
+    CONFIG_STEP_PENALTY = 'step_penalty'
+    CONFIG_GOAL_REWARD = 'goal_reward'
 
     # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built
     # on this assumption.
     SCREEN_WIDTH_DEFAULT = 600
     SCREEN_WIDTH_MIN = 450
+
+    # Default steps allowed in lava before calling end scene
+    STEPS_ALLOWED_IN_LAVA_DEFAULT = 0
 
     def __init__(self, config_file_or_dict=None):
         '''
@@ -94,14 +100,14 @@ class ConfigManager(object):
         self._config[self.CONFIG_DEFAULT_SECTION] = config_dict
         logger.info('No config file given or file path does not exist,'
                     ' using config dictionary')
-        logger.info('Read in config dictionary: ' + str(config_dict))
+        logger.info(f"Read in config dictionary: {str(config_dict)}")
 
     def _read_in_config_file(self, config_file_path):
         if os.path.exists(config_file_path):
             self._config.read(config_file_path)
-            logger.info('Config File Path: ' + config_file_path)
+            logger.info(f"Config File Path: {config_file_path}")
         else:
-            logger.warning('No config file at given path: ' + config_file_path)
+            logger.warning(f"No config file at given path: {config_file_path}")
             raise FileNotFoundError()
 
     def _validate_screen_size(self):
@@ -220,6 +226,34 @@ class ConfigManager(object):
         size = self.get_size()
         return int(size / 3 * 2)
 
+    def get_lava_penalty(self):
+        return self._config.getfloat(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_LAVA_PENALTY,
+            fallback=None
+        )
+
+    def get_step_penalty(self):
+        return self._config.getfloat(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_STEP_PENALTY,
+            fallback=None
+        )
+
+    def get_goal_reward(self):
+        return self._config.getfloat(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_GOAL_REWARD,
+            fallback=None
+        )
+
+    def get_steps_allowed_in_lava(self):
+        return self._config.getint(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_STEPS_ALLOWED_IN_LAVA,
+            fallback=self.STEPS_ALLOWED_IN_LAVA_DEFAULT
+        )
+
 
 class Vector3dSchema(Schema):
     x = fields.Float()
@@ -298,6 +332,7 @@ class ForceConfigSchema(Schema):
     step_begin = fields.Int(data_key='stepBegin')
     step_end = fields.Int(data_key='stepEnd')
     vector = fields.Nested(Vector3dSchema)
+    impulse = fields.Bool()
     relative = fields.Bool()
     repeat = fields.Bool()
     step_wait = fields.Int(data_key='stepWait')
@@ -341,18 +376,50 @@ class PhysicsConfigSchema(Schema):
         return PhysicsConfig(**data)
 
 
-class FloorHolesAndTexturesXZConfigSchema(Schema):
+class LipsGapSpanConfigSchema(Schema):
+    low = fields.Float()
+    high = fields.Float()
+
+    @post_load
+    def make_lip_gaps_config(self, data, **kwargs):
+        return LipsGapSpanConfig(**data)
+
+
+class LipsGapsConfigSchema(Schema):
+    front = fields.List(fields.Nested(LipsGapSpanConfigSchema))
+    back = fields.List(fields.Nested(LipsGapSpanConfigSchema))
+    left = fields.List(fields.Nested(LipsGapSpanConfigSchema))
+    right = fields.List(fields.Nested(LipsGapSpanConfigSchema))
+
+    @post_load
+    def make_lip_gaps_config(self, data, **kwargs):
+        return LipGapsConfig(**data)
+
+
+class PlatformLipsConfigSchema(Schema):
+    front = fields.Bool()
+    back = fields.Bool()
+    left = fields.Bool()
+    right = fields.Bool()
+    gaps = fields.Nested(LipsGapsConfigSchema)
+
+    @post_load
+    def make_platform_lips_config(self, data, **kwargs):
+        return PlatformLipsConfig(**data)
+
+
+class Vector2dIntSchema(Schema):
     x = fields.Int()
     z = fields.Int()
 
     @post_load
     def make_holes_config(self, data, **kwargs):
-        return FloorHolesAndTexturesXZConfig(**data)
+        return Vector2dInt(**data)
 
 
 class FloorTexturesConfigSchema(Schema):
     material = fields.Str()
-    positions = fields.List(fields.Nested(FloorHolesAndTexturesXZConfigSchema))
+    positions = fields.List(fields.Nested(Vector2dIntSchema))
 
     @post_load
     def make_floor_textures_config(self, data, **kwargs):
@@ -435,10 +502,12 @@ class SceneObjectSchema(Schema):
     hides = fields.List(fields.Nested(SingleStepConfigSchema))
     kinematic = fields.Bool()
     location_parent = fields.Str(data_key='locationParent')
+    locked = fields.Bool()
     mass = fields.Float()
     materials = fields.List(fields.Str())
     # deprecated; please use materials
     material_file = fields.Str(data_key='materialFile')
+    max_angular_velocity = fields.Float(data_key='maxAngularVelocity')
     moveable = fields.Bool()
     moves = fields.List(fields.Nested(MoveConfigSchema))
     null_parent = fields.Nested(TransformConfigSchema, data_key='nullParent')
@@ -452,6 +521,8 @@ class SceneObjectSchema(Schema):
         PhysicsConfigSchema,
         data_key='physicsProperties')
     pickupable = fields.Bool()
+    lips = fields.Nested(
+        PlatformLipsConfigSchema, data_key='lips')
     receptacle = fields.Bool()
     reset_center_of_mass = fields.Bool(data_key='resetCenterOfMass')
     resizes = fields.List(fields.Nested(SizeConfigSchema))
@@ -466,7 +537,7 @@ class SceneObjectSchema(Schema):
     toggle_physics = fields.List(
         fields.Nested(SingleStepConfigSchema),
         data_key='togglePhysics')
-    torques = fields.List(fields.Nested(MoveConfigSchema))
+    torques = fields.List(fields.Nested(ForceConfigSchema))
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     can_contain_target = fields.Bool(data_key='canContainTarget')
@@ -488,15 +559,21 @@ class SceneConfigurationSchema(Schema):
     floor_properties = fields.Nested(
         PhysicsConfigSchema,
         data_key='floorProperties')
+    floor_textures = fields.List(
+        fields.Nested(FloorTexturesConfigSchema),
+        data_key='floorTextures')
     goal = fields.Nested(GoalSchema)
+    holes = fields.List(fields.Nested(Vector2dIntSchema))
     intuitive_physics = fields.Bool(data_key='intuitivePhysics')
     isometric = fields.Bool()
+    lava = fields.List(fields.Nested(Vector2dIntSchema))
     name = fields.Str()
     objects = fields.List(fields.Nested(SceneObjectSchema))
     observation = fields.Bool()  # deprecated; please use intuitivePhysics
     performer_start = fields.Nested(
         PerformerStartSchema,
         data_key='performerStart')
+    restrict_open_doors = fields.Bool(data_key='restrictOpenDoors')
     room_dimensions = fields.Nested(Vector3dSchema, data_key='roomDimensions')
     room_materials = fields.Nested(
         RoomMaterialsSchema,
@@ -507,10 +584,6 @@ class SceneConfigurationSchema(Schema):
     wall_properties = fields.Nested(
         PhysicsConfigSchema,
         data_key='wallProperties')
-    holes = fields.List(fields.Nested(FloorHolesAndTexturesXZConfigSchema))
-    floor_textures = fields.List(
-        fields.Nested(FloorTexturesConfigSchema),
-        data_key='floorTextures')
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation = fields.Str(allow_none=True)
@@ -585,6 +658,7 @@ class ForceConfig:
     step_begin: int
     step_end: int
     vector: Vector3d = Vector3d(0, 0, 0)
+    impulse: bool = False
     relative: bool = False
     repeat: bool = False
     step_wait: int = 0
@@ -616,15 +690,38 @@ class PhysicsConfig:
 
 
 @dataclass
-class FloorHolesAndTexturesXZConfig:
+class Vector2dInt:
     x: int = None
     z: int = None
 
 
 @dataclass
+class LipsGapSpanConfig:
+    low: float = None
+    high: float = None
+
+
+@dataclass
+class LipGapsConfig:
+    front: List[LipsGapSpanConfig] = None
+    back: List[LipsGapSpanConfig] = None
+    left: List[LipsGapSpanConfig] = None
+    right: List[LipsGapSpanConfig] = None
+
+
+@dataclass
+class PlatformLipsConfig:
+    front: bool = False
+    back: bool = False
+    left: bool = False
+    right: bool = False
+    gaps: List[LipGapsConfig] = None
+
+
+@dataclass
 class FloorTexturesConfig:
     material: str
-    positions: List[FloorHolesAndTexturesXZConfig] = None
+    positions: List[Vector2dInt] = None
 
 
 @dataclass
@@ -683,9 +780,11 @@ class SceneObject:
     hides: List[SingleStepConfig] = None
     kinematic: bool = None
     location_parent: str = None
+    locked: bool = False
     mass: float = None
     materials: List[str] = None
     material_file: str = None  # deprecated; please use materials
+    max_angular_velocity: float = None
     # Docs say moveable's default is dependant on type.  That could
     # be a problem for the concrete classes.  Needs more review later
     moveable: bool = None
@@ -694,6 +793,7 @@ class SceneObject:
     openable: bool = None
     opened: bool = None
     open_close: List[OpenCloseConfig] = None
+    lips: PlatformLipsConfig = None
     physics: bool = None
     physics_properties: PhysicsConfig = None
     pickupable: bool = None
@@ -709,7 +809,7 @@ class SceneObject:
     structure: bool = None
     teleports: List[TeleportConfig] = None
     toggle_physics: List[SingleStepConfig] = None
-    torques: List[MoveConfig] = None
+    torques: List[ForceConfig] = None
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     can_contain_target: bool = None
@@ -726,13 +826,17 @@ class SceneConfiguration:
     debug: dict = None
     floor_material: str = None
     floor_properties: PhysicsConfig = None
+    floor_textures: List[FloorTexturesConfig] = field(default_factory=list)
     goal: Goal = None  # TODO change to concrete class
+    holes: List[Vector2dInt] = field(default_factory=list)
     intuitive_physics: bool = False
     isometric: bool = False
+    lava: List[Vector2dInt] = field(default_factory=list)
     name: str = None
     objects: List[SceneObject] = field(default_factory=list)
     observation: bool = False  # deprecated; please use intuitivePhysics
     performer_start: PerformerStart = None
+    restrict_open_doors: bool = None
     room_dimensions: Vector3d = field(
         default=ConfigManager.DEFAULT_ROOM_DIMENSIONS)
     room_materials: RoomMaterials = None
@@ -740,8 +844,6 @@ class SceneConfiguration:
     version: int = None
     wall_material: str = None
     wall_properties: PhysicsConfig = None
-    holes: List[FloorHolesAndTexturesXZConfig] = field(default_factory=list)
-    floor_textures: List[FloorTexturesConfig] = field(default_factory=list)
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation: str = None
@@ -756,12 +858,15 @@ class SceneConfiguration:
                                object_id, step_number):
         """Return the state list at the current step for the object with the
         given ID from the scene configuration data, if any."""
-        state_list_each_step = []
-        # Retrieve the object's states from the scene configuration.
-        for object_config in self.objects:
-            if object_config.id == object_id:
-                state_list_each_step = object_config.states or []
-                break
+        state_list_each_step = next(
+            (
+                object_config.states or []
+                for object_config in self.objects
+                if object_config.id == object_id
+            ),
+            [],
+        )
+
         # Retrieve the object's states in the current step.
         if len(state_list_each_step) > step_number:
             state_list = state_list_each_step[step_number]
@@ -772,9 +877,11 @@ class SceneConfiguration:
                 return [str(state) for state in state_list]
         return []
 
-    def retrieve_goal(self):
+    def retrieve_goal(self, steps_allowed_in_lava=0):
         if not self.goal:
-            return self.update_goal_target_image(GoalMetadata())
+            return self.update_goal_target_image(GoalMetadata(
+                steps_allowed_in_lava=steps_allowed_in_lava
+            ))
 
         goal = self.goal
 
@@ -800,6 +907,7 @@ class SceneConfiguration:
                 last_preview_phase_step=(goal.last_preview_phase_step or 0),
                 last_step=goal.last_step or None,
                 metadata=goal.metadata or {},
+                steps_allowed_in_lava=steps_allowed_in_lava
             )
         )
 

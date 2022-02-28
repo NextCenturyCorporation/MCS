@@ -1,5 +1,5 @@
 from enum import Enum, unique
-from typing import List
+from typing import List, Optional
 
 import typeguard
 
@@ -71,9 +71,16 @@ class GoalMetadata:
     metadata : dict
         The metadata specific to this goal. See
         :mod:`Goal <machine_common_sense.GoalCategory>`.
+    steps_allowed_in_lava : integer
+        The number of steps allowed in lava before the scene ends
     """
 
-    ACTION_LIST = [(item.value, {}) for item in Action]
+    # Don't allow a user to call the EndHabituation action unless it's
+    # specifically configured in the action_list of the scene file.
+    DEFAULT_ACTIONS = [
+        (item.value, {}) for item in Action
+        if item not in [Action.END_HABITUATION, Action.INITIALIZE]
+    ]
 
     def __init__(
         self,
@@ -83,7 +90,8 @@ class GoalMetadata:
         habituation_total=0,
         last_preview_phase_step=0,
         last_step=None,
-        metadata=None
+        metadata=None,
+        steps_allowed_in_lava=0
     ):
         # The action_list must be None by default
         self.action_list = action_list
@@ -93,6 +101,7 @@ class GoalMetadata:
         self.last_preview_phase_step = last_preview_phase_step
         self.last_step = last_step
         self.metadata = {} if metadata is None else metadata
+        self.steps_allowed_in_lava = steps_allowed_in_lava
 
     def __str__(self):
         return Stringifier.class_to_str(self)
@@ -111,22 +120,47 @@ class GoalMetadata:
         yield 'metadata', self.metadata
 
     @typeguard.typechecked
-    def retrieve_action_list_at_step(self, step_number: int) -> List:
+    def retrieve_action_list_at_step(self, step_number: int,
+                                     steps_in_lava: Optional[int] = 0) -> List:
         """Return the action list from the given goal at the given step as a
         a list of actions tuples by default."""
-        if self is not None and self.action_list is not None:
+        action_list = self._retrieve_unfiltered_action_list(
+            step_number, steps_in_lava)
+        # remove EndHabituation parameters
+        return [
+            (action, params)
+            if action != 'EndHabituation' else ('EndHabituation', {})
+            for (action, params) in action_list
+        ]
+
+    def _retrieve_unfiltered_action_list(self,
+                                         step_number: int,
+                                         steps_in_lava: Optional[int] = 0
+                                         ) -> List:
+        # If steps in lava is greater than allowed, over ride
+        #   action list and only return EndScene
+        if steps_in_lava is not None and (
+                steps_in_lava > self.steps_allowed_in_lava):
+            return [("EndScene", {})]
+
+        '''Unfiltered action list from goal'''
+        if self.action_list is not None:
             if step_number < self.last_preview_phase_step:
-                return ['Pass']
-            if self.last_step is not None and step_number == self.last_step:
+                return [('Pass', {})]
+            if self.last_step is not None and step_number >= self.last_step:
                 return []
+
             adjusted_step = step_number - self.last_preview_phase_step
             if (
                 len(self.action_list) > adjusted_step and
                 len(self.action_list[adjusted_step]) > 0
             ):
-                return self.action_list[adjusted_step]
-
-        return GoalMetadata.ACTION_LIST
+                return [
+                    action if isinstance(action, tuple) else
+                    Action.input_to_action_and_params(action)
+                    for action in self.action_list[adjusted_step]
+                ]
+        return GoalMetadata.DEFAULT_ACTIONS
 
 
 @unique
@@ -201,95 +235,4 @@ class GoalCategory(Enum):
         Human-readable information describing the target object needed for the
         visualization interface.
 
-    """
-
-    TRANSFERRAL = "transferral"
-    """
-    NOT USED IN MCS EVAL 4+
-
-    In a trial that has a transferral goal, you must find and pickup the
-    first target object and put it down either next to or on top of the second
-    target object. This may involve exploring the scene, avoiding obstacles,
-    interacting with objects (like closed receptacles), and (future
-    evaluations) tracking moving objects. These trials will demand a "common
-    sense" understanding of self navigation (how to move and rotate yourself
-    within a scene and around obstacles), object interaction (how objects work,
-    including opening containers), and (future evaluations) the basic physics
-    of movement (kinematics, gravity, friction, etc.).
-
-    Parameters
-    ----------
-    relationship : list of strings
-        The required final position of the two target objects in relation to
-        one another. For transferral goals, this value will always be either
-        ["target_1", "next_to", "target_2"] or ["target_1", "on_top_of",
-        "target_2"].
-
-    target_1.id : string
-        The objectId of the first target object to pickup and transfer to the
-        second target object.
-
-    target_1.image : list of numpy arrays
-        An image of the first target object to pickup and transfer to the
-        second target object, given as a 3D RGB pixel array.
-
-    target_1.info : list of strings
-        Human-readable information describing the target object needed for the
-        visualization interface.
-
-    target_1.match_image : string
-        Whether the image of the first target object (target_1.image) exactly
-        matches the actual object in the scene. If false, then the actual first
-        target object will be different in one way (for example, the image may
-        depict a blue ball, but the actual object is a yellow ball, or a blue
-        cube).
-
-    target_2.id : string
-        The objectId of the second target object to which the first target
-        object must be transferred.
-
-    target_2.image : list of numpy arrays
-        An image of the second target object to which the first target object
-        must be transferred, given as a 3D RGB pixel array.
-
-    target_2.info : list of strings
-        Human-readable information describing the target object needed for the
-        visualization interface.
-
-    target_2.match_image : string
-        Whether the image of the second target object (target_2.image) exactly
-        matches the actual object in the scene. If false, then the actual
-        second target object will be different in one way (for example, the
-        image may depict a blue ball, but the actual object is a yellow ball,
-        or a blue cube).
-    """
-
-    TRAVERSAL = "traversal"
-    """
-    NOT USED IN MCS EVAL 4+
-
-    In a trial that has a traversal goal, you must find and move next to a
-    target object. This may involve exploring the scene, and avoiding
-    obstacles. These trials will demand a "common sense" understanding of
-    self navigation (how to move and rotate yourself within a scene and around
-    obstacles).
-
-    Parameters
-    ----------
-    target.id : string
-        The objectId of the target object to find and move next to.
-
-    target.image : list of numpy arrays
-        An image of the target object to find and move next to, given as a 3D
-        RGB pixel array.
-
-    target.info : list of strings
-        Human-readable information describing the target object needed for the
-        visualization interface.
-
-    target.match_image : string
-        Whether the image of the target object (target.image) exactly matches
-        the actual target object in the scene. If false, then the actual object
-        will be different in one way (for example, the image may depict a blue
-        ball, but the actual object is a yellow ball, or a blue cube).
     """

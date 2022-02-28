@@ -113,8 +113,8 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.PULL_OBJECT.key, "5")
         self.assertEqual(
             mcs.Action.PULL_OBJECT.desc,
-            "Pull a nearby object. (objectId=string, rotation=float, " +
-            "horizon=float, force=float (default:0.5), " +
+            "Pull a nearby object. (objectId=string, " +
+            "force=float (default:0.5), " +
             "objectImageCoordsX=float, objectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("PullObject"), mcs.Action.PULL_OBJECT)
@@ -125,12 +125,52 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.PUSH_OBJECT.key, "6")
         self.assertEqual(
             mcs.Action.PUSH_OBJECT.desc,
-            "Push a nearby object. (objectId=string, rotation=float, " +
-            "horizon=float, force=float (default:0.5), " +
+            "Push a nearby object. (objectId=string, " +
+            "force=float (default:0.5), " +
             "objectImageCoordsX=float, objectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("PushObject"), mcs.Action.PUSH_OBJECT)
         self.assertEqual(mcs.Action("6"), mcs.Action.PUSH_OBJECT)
+
+    def test_torque_object(self):
+        self.assertEqual(mcs.Action.TORQUE_OBJECT.value, "TorqueObject")
+        self.assertEqual(mcs.Action.TORQUE_OBJECT.key, "8")
+        self.assertEqual(
+            mcs.Action.TORQUE_OBJECT.desc,
+            "Apply torque to a nearby object. (objectId=string, " +
+            "force=float(default:0.5), objectImageCoordsX=float, " +
+            "objectImageCoordsY=float)"
+        )
+        self.assertEqual(mcs.Action("TorqueObject"), mcs.Action.TORQUE_OBJECT)
+        self.assertEqual(mcs.Action("8"), mcs.Action.TORQUE_OBJECT)
+
+    def test_rotate_object(self):
+        self.assertEqual(mcs.Action.ROTATE_OBJECT.value, "RotateObject")
+        self.assertEqual(mcs.Action.ROTATE_OBJECT.key, "9")
+        self.assertEqual(
+            mcs.Action.ROTATE_OBJECT.desc,
+            "Apply a rotation of 5 degrees to a nearby object. " +
+            "(objectId=string, " +
+            "clockwise=bool(default:True), objectImageCoordsX=float, " +
+            "objectImageCoordsY=float)"
+        )
+        self.assertEqual(mcs.Action("RotateObject"), mcs.Action.ROTATE_OBJECT)
+        self.assertEqual(mcs.Action("9"), mcs.Action.ROTATE_OBJECT)
+
+    def test_move_object(self):
+        self.assertEqual(mcs.Action.MOVE_OBJECT.value, "MoveObject")
+        self.assertEqual(mcs.Action.MOVE_OBJECT.key, "0")
+        self.assertEqual(
+            mcs.Action.MOVE_OBJECT.desc,
+            "Apply a movement of 0.1 meters to a nearby object. " +
+            "(objectId=string, " +
+            "lateral=int(default:0), " +
+            "straight=int(default:1), " +
+            "objectImageCoordsX=float, " +
+            "objectImageCoordsY=float)"
+        )
+        self.assertEqual(mcs.Action("MoveObject"), mcs.Action.MOVE_OBJECT)
+        self.assertEqual(mcs.Action("0"), mcs.Action.MOVE_OBJECT)
 
     def test_put_object(self):
         self.assertEqual(mcs.Action.PUT_OBJECT.value, "PutObject")

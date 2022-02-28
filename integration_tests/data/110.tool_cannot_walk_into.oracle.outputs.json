@@ -1,0 +1,157 @@
+﻿[
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.24,
+                "direction_z": 0.97,
+                "distance": 2.57,
+                "id": "tool",
+                "mass": 4.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_z": -1.0,
+                "rotation_y": 0.0,
+                "shape": "tool",
+                "texture_color_list": [
+                    "grey", "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -3.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.25,
+                "direction_z": 0.97,
+                "distance": 2.48,
+                "id": "tool",
+                "mass": 4.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_z": -1.0,
+                "rotation_y": 0.0,
+                "shape": "tool",
+                "texture_color_list": [
+                    "grey", "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -3.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 1,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.26,
+                "direction_z": 0.97,
+                "distance": 2.38,
+                "id": "tool",
+                "mass": 4.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_z": -1.0,
+                "rotation_y": 0.0,
+                "shape": "tool",
+                "texture_color_list": [
+                    "grey", "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -3.3,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 2,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.27,
+                "direction_z": 0.96,
+                "distance": 2.28,
+                "id": "tool",
+                "mass": 4.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_z": -1.0,
+                "rotation_y": 0.0,
+                "shape": "tool",
+                "texture_color_list": [
+                    "grey", "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -3.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 3,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.27,
+                "direction_z": 0.96,
+                "distance": 2.28,
+                "id": "tool",
+                "mass": 4.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_z": -1.0,
+                "rotation_y": 0.0,
+                "shape": "tool",
+                "texture_color_list": [
+                    "grey", "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -3.2,
+        "return_status": "OBSTRUCTED",
+        "rotation_y": 0.0,
+        "step_number": 4,
+        "structural_objects_count": 6
+    }
+]

@@ -14,11 +14,9 @@ class ControllerLogger(AbstractControllerSubscriber):
 
     def on_start_scene(self, payload):
         logger.debug(
-            "STARTING NEW SCENE: " +
-            payload.scene_config.name)
+            f"STARTING NEW SCENE: {payload.scene_config.name}")
         logger.debug(
-            "METADATA TIER: " +
-            payload.config.get_metadata_tier().value)
+            f"METADATA TIER: {payload.config.get_metadata_tier().value}")
         logger.debug(f"STEP: {payload.step_number}")
         logger.debug("ACTION: Initialize")
 
@@ -27,8 +25,8 @@ class ControllerLogger(AbstractControllerSubscriber):
     def on_before_step(self, payload):
         logger.debug("================================================"
                      "===============================")
-        logger.debug("STEP: " + str(payload.step_number))
-        logger.debug("ACTION: " + payload.action)
+        logger.debug(f"STEP: {str(payload.step_number)}")
+        logger.debug(f'ACTION: {payload.action}')
         if payload.goal.habituation_total >= payload.habituation_trial:
             logger.debug(
                 f'HABITUATION TRIAL: {payload.habituation_trial} / '
@@ -45,20 +43,19 @@ class ControllerLogger(AbstractControllerSubscriber):
 
     def _write_debug_output(self, payload):
         step_output = payload.restricted_step_output
-        logger.debug("RETURN STATUS: " + step_output.return_status)
-        logger.debug("REWARD: " + str(step_output.reward))
+        logger.debug(f"RETURN STATUS: {step_output.return_status}")
+        logger.debug(f"REWARD: {str(step_output.reward)}")
         logger.debug("SELF METADATA:")
-        logger.debug("  CAMERA HEIGHT: " + str(step_output.camera_height))
-        logger.debug("  HEAD TILT: " + str(step_output.head_tilt))
-        logger.debug("  POSITION: " + str(step_output.position))
-        logger.debug("  ROTATION: " + str(step_output.rotation))
-        logger.debug("OBJECTS: " +
-                     str(len(step_output.object_list)) +
-                     " TOTAL")
+        logger.debug(f"  CAMERA HEIGHT: {str(step_output.camera_height)}")
+        logger.debug(f"  HEAD TILT: {str(step_output.head_tilt)}")
+        logger.debug(f"  POSITION: {str(step_output.position)}")
+        logger.debug(f"  ROTATION: {str(step_output.rotation)}")
+        logger.debug(f"  HAPTIC FEEDBACK: {str(step_output.haptic_feedback)}")
+        logger.debug(f"OBJECTS: {len(step_output.object_list)} TOTAL")
         if len(step_output.object_list) > 0:
             for line in Stringifier.generate_pretty_object_output(
                     step_output.object_list):
-                logger.debug("    " + line)
+                logger.debug(f"    {line}")
 
 
 class ControllerDebugFileGenerator(AbstractControllerSubscriber):
@@ -75,8 +72,9 @@ class ControllerDebugFileGenerator(AbstractControllerSubscriber):
         step_output = \
             payload.restricted_step_output.copy_without_depth_or_images()
         if payload.output_folder and payload.config.is_save_debug_json():
-            with open(payload.output_folder + 'mcs_output_' +
-                      str(payload.step_number) + '.json', 'w') as json_file:
+            with open(
+                ((f'{payload.output_folder}mcs_output_' +
+                  str(payload.step_number)) + '.json'), 'w') as json_file:
                 json_file.write(str(step_output))
 
 

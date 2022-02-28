@@ -14,6 +14,15 @@ class Action(Enum):
     inputs must be greater than (0,0).
     """
 
+    INITIALIZE = (
+        "Initialize",
+        "0",
+        "Initialization"
+    )
+    """
+    Initialize the scene. Intended only for internal use.
+    """
+
     CLOSE_OBJECT = (
         "CloseObject",
         "1",
@@ -268,12 +277,12 @@ class Action(Enum):
     PULL_OBJECT = (
         "PullObject",
         "5",
-        "Pull a nearby object. (objectId=string, rotation=float, " +
-        "horizon=float, force=float (default:0.5), " +
+        "Pull a nearby object. (objectId=string, force=float (default:0.5), " +
         "objectImageCoordsX=float, objectImageCoordsY=float)"
     )
     """
-    Pull a nearby object.
+    Pull a nearby object by applying a physical force directly toward you on
+    the X/Z axis to the center point of the object.
 
     Parameters
     ----------
@@ -315,12 +324,12 @@ class Action(Enum):
     PUSH_OBJECT = (
         "PushObject",
         "6",
-        "Push a nearby object. (objectId=string, rotation=float, " +
-        "horizon=float, force=float (default:0.5), " +
+        "Push a nearby object. (objectId=string, force=float (default:0.5), " +
         "objectImageCoordsX=float, objectImageCoordsY=float)"
     )
     """
-    Push a nearby object.
+    Push a nearby object by applying a physical force directly away from you on
+    the X/Z axis to the center point of the object.
 
     Parameters
     ----------
@@ -417,6 +426,158 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
+    TORQUE_OBJECT = (
+        "TorqueObject",
+        "8",
+        "Apply torque to a nearby object. (objectId=string, " +
+        "force=float(default:0.5), objectImageCoordsX=float, " +
+        "objectImageCoordsY=float)"
+    )
+    """
+    Apply torque to a nearby object.
+
+    Parameters
+    ----------
+    objectId : string, optional
+        The "uuid" of the target object. Required unless the
+        "objectImageCoords" properties are given.
+    objectImageCoordsX : float, optional
+        The X of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    objectImageCoordsY : float, optional
+        The Y of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    force : float
+        The amount of force, from -1 to 1, used to move the target object.
+        Default: 0.5
+
+    Returns
+    -------
+    "SUCCESSFUL"
+        Action successful.
+    "NOT_INTERACTABLE"
+        If the object corresponding to the "objectImageCoords" vector is not an
+        interactable object.
+    "NOT_OBJECT"
+        If the object corresponding to the "objectId" (or object corresponding
+        to the "objectImageCoords" vector) is not an object.
+    "NOT_MOVEABLE"
+        If the object itself cannot be moved by a baby.
+    "OBSTRUCTED"
+        If you cannot move the object because your path is obstructed.
+    "OUT_OF_REACH"
+        If you cannot move the object because you are out of reach.
+    "FAILED"
+        Unexpected error; please report immediately to development team.
+    """
+
+    ROTATE_OBJECT = (
+        "RotateObject",
+        "9",
+        "Apply a rotation of 5 degrees to a nearby object. " +
+        "(objectId=string, " +
+        "clockwise=bool(default:True), objectImageCoordsX=float, " +
+        "objectImageCoordsY=float)"
+    )
+    """
+    Apply a rotation of 5 degrees to a nearby object.
+
+    Parameters
+    ----------
+    objectId : string, optional
+        The "uuid" of the target object. Required unless the
+        "objectImageCoords" properties are given.
+    objectImageCoordsX : float, optional
+        The X of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    objectImageCoordsY : float, optional
+        The Y of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    clockwise : bool
+        If the rotation should be clockwise.
+        Default: True
+
+    Returns
+    -------
+    "SUCCESSFUL"
+        Action successful.
+    "NOT_INTERACTABLE"
+        If the object corresponding to the "objectImageCoords" vector is not an
+        interactable object.
+    "NOT_OBJECT"
+        If the object corresponding to the "objectId" (or object corresponding
+        to the "objectImageCoords" vector) is not an object.
+    "NOT_MOVEABLE"
+        If the object itself cannot be moved by a baby.
+    "OBSTRUCTED"
+        If you cannot move the object because your path is obstructed.
+    "OUT_OF_REACH"
+        If you cannot move the object because you are out of reach.
+    "FAILED"
+        Unexpected error; please report immediately to development team.
+    """
+
+    MOVE_OBJECT = (
+        "MoveObject",
+        "0",
+        "Apply a movement of 0.1 meters to a nearby object. " +
+        "(objectId=string, " +
+        "lateral=int(default:0), " +
+        "straight=int(default:1), " +
+        "objectImageCoordsX=float, " +
+        "objectImageCoordsY=float)"
+    )
+    """
+    Apply a movement of 0.1 meters units to a nearby object.
+
+    Parameters
+    ----------
+    objectId : string, optional
+        The "uuid" of the target object. Required unless the
+        "objectImageCoords" properties are given.
+    objectImageCoordsX : float, optional
+        The X of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    objectImageCoordsY : float, optional
+        The Y of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    lateral : int
+        The x axis direction of movement on the object relative to the agent.
+        Can be -1, 0, 1. If only lateral is given,
+        straight will default to 0
+        Default: 0
+    straight : int
+        The x axis direction of movement on the object relative to the agent.
+        Can be -1, 0, 1. If only straight is given,
+        lateral will default to 0
+        Default: 1
+
+    Returns
+    -------
+    "SUCCESSFUL"
+        Action successful.
+    "NOT_INTERACTABLE"
+        If the object corresponding to the "objectImageCoords" vector is not an
+        interactable object.
+    "NOT_OBJECT"
+        If the object corresponding to the "objectId" (or object corresponding
+        to the "objectImageCoords" vector) is not an object.
+    "NOT_MOVEABLE"
+        If the object itself cannot be moved by a baby.
+    "OBSTRUCTED"
+        If you cannot move the object because your path is obstructed.
+    "OUT_OF_REACH"
+        If you cannot move the object because you are out of reach.
+    "FAILED"
+        Unexpected error; please report immediately to development team.
+    """
+
     LOOK_UP = (
         "LookUp",
         "i",
@@ -490,8 +651,7 @@ class Action(Enum):
         "h",
         "Ends a habituation trial for the scene by blanking the screen " +
         "for one action (and teleporting the agent if needed). Sometimes" +
-        " needed depending on the task type. (xPosition=float, " +
-        "zPosition=float, yRotation=float)"
+        " needed depending on the task type."
     )
     """
     Ends a habituation trial for the scene by blanking the screen for one
@@ -503,19 +663,23 @@ class Action(Enum):
     guarantee that using a position intersecting another object or outside
     the room won't cause issues or errors.
 
-    Parameters
-    ----------
-    xPosition : float, optional
-        The global X position of the vector to teleport the agent to during
-        the blank screen. The Z position must also be specified for this to
-        work.
-    zPosition : float, optional
-        The global Z position of the vector to teleport the agent to during
-        the blank screen. The X position must also be specified for this to
-        work.
-    yRotation : float, optional
-        Degrees (global, not relative) to rotate the agent along the Y axis
-        during the blank screen.
+    Returns
+    -------
+    "SUCCESSFUL"
+        Action successful.
+    "FAILED"
+        Unexpected error; please report immediately to development team.
+    """
+
+    # Pass should always be the last action in the enum.
+    END_SCENE = (
+        "EndScene",
+        " ",
+        "There is no action available and end_scene needs to be called."
+    )
+    """
+    Call end_scene now there is no actions available.
+    Does nothing.
 
     Returns
     -------
@@ -615,3 +779,17 @@ class Action(Enum):
             return action, None
 
         return action, params
+
+
+FORCE_ACTIONS = [
+    Action.PUSH_OBJECT,
+    Action.PULL_OBJECT,
+    Action.TORQUE_OBJECT]
+OBJECT_MOVE_ACTIONS = [
+    Action.CLOSE_OBJECT,
+    Action.OPEN_OBJECT]
+MOVE_ACTIONS = [
+    Action.MOVE_AHEAD,
+    Action.MOVE_LEFT,
+    Action.MOVE_RIGHT,
+    Action.MOVE_BACK]

@@ -21,11 +21,15 @@ class TestStepMetadata(unittest.TestCase):
             "habituation_total": 0,
             "last_preview_phase_step": 0,
             "last_step": null,
-            "metadata": {}
+            "metadata": {},
+            "steps_allowed_in_lava": 0
         },
         "habituation_trial": null,
+        "haptic_feedback": {},
         "head_tilt": 0.0,
+        "holes": [],
         "image_list": [],
+        "lava": [],
         "object_list": [],
         "object_mask_list": [],
         "performer_radius": 0.0,
@@ -36,6 +40,7 @@ class TestStepMetadata(unittest.TestCase):
         "reward": 0,
         "rotation": 0.0,
         "step_number": 0,
+        "steps_on_lava": 0,
         "structural_object_list": []
     }'''
 
@@ -53,11 +58,15 @@ class TestStepMetadata(unittest.TestCase):
             "habituation_total": 0,
             "last_preview_phase_step": 0,
             "last_step": null,
-            "metadata": {}
+            "metadata": {},
+            "steps_allowed_in_lava": 0
         },
         "habituation_trial": null,
+        "haptic_feedback": {},
         "head_tilt": 0.0,
+        "holes": [],
         "image_list": [],
+        "lava": [],
         "object_list": [],
         "object_mask_list": [],
         "performer_radius": 0.0,
@@ -68,6 +77,7 @@ class TestStepMetadata(unittest.TestCase):
         "reward": 0,
         "rotation": 0.0,
         "step_number": 0,
+        "steps_on_lava": 0,
         "structural_object_list": [],
         "segment_map": {
             "0": {
@@ -118,9 +128,17 @@ class TestStepMetadata(unittest.TestCase):
         self.assertAlmostEqual(self.step_metadata.head_tilt, 0.0)
         self.assertIsInstance(self.step_metadata.head_tilt, float)
 
+    def test_holes(self):
+        self.assertEqual(self.step_metadata.holes, [])
+        self.assertIsInstance(self.step_metadata.holes, list)
+
     def test_image_list(self):
         self.assertFalse(self.step_metadata.image_list)
         self.assertIsInstance(self.step_metadata.image_list, list)
+
+    def test_lava(self):
+        self.assertEqual(self.step_metadata.lava, [])
+        self.assertIsInstance(self.step_metadata.lava, list)
 
     def test_object_list(self):
         self.assertFalse(self.step_metadata.object_list)

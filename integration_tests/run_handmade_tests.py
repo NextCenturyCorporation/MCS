@@ -13,7 +13,7 @@ import machine_common_sense as mcs
 from machine_common_sense.logging_config import LoggingConfig
 
 INTEGRATION_TESTS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-TEST_FOLDER = INTEGRATION_TESTS_FOLDER + '/data/'
+TEST_FOLDER = f"{INTEGRATION_TESTS_FOLDER}/data/"
 SCENE_SUFFIX = '.scene.json'
 ACTIONS_SUFFIX = '.actions.txt'
 OUTPUTS_SUFFIX = '.outputs.json'
@@ -36,14 +36,26 @@ def create_step_test_case_list(expected, actual):
     test_case_list = [
         ('action_list', actual.action_list),
         ('camera_height', actual.camera_height),
+        ('haptic_feedback', actual.haptic_feedback),
         ('head_tilt', round(actual.head_tilt)),
+        # Convert tuples to arrays since JSON data can't have tuples.
+        ('holes', [
+            list(pair) for pair in actual.holes
+        ] if actual.holes is not None else None),
+        ('lava', [
+            list(pair) for pair in actual.lava
+        ] if actual.lava is not None else None),
         ('objects_count', len(actual.object_list)),
         ('position_x', actual.position.get('x') if actual.position else None),
         ('position_y', actual.position.get('y') if actual.position else None),
         ('position_z', actual.position.get('z') if actual.position else None),
         ('return_status', actual.return_status),
         ('reward', actual.reward),
-        ('rotation_y', actual.rotation),
+        (
+            'rotation_y',
+            round(actual.rotation) % 360 if actual.rotation is not None
+            else None
+        ),
         ('step_number', actual.step_number),
         ('physics_frames_per_second', actual.physics_frames_per_second),
         ('structural_objects_count', len(actual.structural_object_list))
@@ -69,15 +81,15 @@ def create_object_test_case_list(object_type, expected, actual):
         ('position_z', actual.position.get('z') if actual.position else None),
         (
             'rotation_x',
-            round(actual.rotation.get('x')) if actual.rotation else None
+            round(actual.rotation.get('x')) % 360 if actual.rotation else None
         ),
         (
             'rotation_y',
-            round(actual.rotation.get('y')) if actual.rotation else None
+            round(actual.rotation.get('y')) % 360 if actual.rotation else None
         ),
         (
             'rotation_z',
-            round(actual.rotation.get('z')) if actual.rotation else None
+            round(actual.rotation.get('z')) % 360 if actual.rotation else None
         ),
         ('shape', actual.shape),
         ('state_list', actual.state_list),
@@ -124,15 +136,20 @@ def validate_single_output(expected, actual):
     for test_case, expected_data, actual_data in test_case_list:
         failed = (expected_data != actual_data)
         if (
-            isinstance(expected_data, (int, float)) and
+            isinstance(expected_data, (int, float, list)) and
             isinstance(actual_data, (int, float))
         ):
-            failed = (not math.isclose(
-                expected_data,
+            # This test case passes if any number in the expected list matches.
+            expected_list = (
+                [expected_data] if not isinstance(expected_data, list)
+                else expected_data
+            )
+            failed = not any([math.isclose(
+                expected_number,
                 actual_data,
-                rel_tol=0.001,
-                abs_tol=0.001
-            ))
+                rel_tol=0.01,
+                abs_tol=0.01
+            )] for expected_number in expected_list)
         if failed:
             test_case_string = ' '.join(test_case)
             failed_validation_list.append((
@@ -166,7 +183,7 @@ def load_action_list(scene_filename):
 def load_output_list(scene_filename, metadata_tier):
     output_filename = scene_filename.replace(
         SCENE_SUFFIX,
-        '.' + metadata_tier + OUTPUTS_SUFFIX
+        f".{metadata_tier}{OUTPUTS_SUFFIX}"
     )
     if not os.path.isfile(output_filename):
         return output_filename, None
@@ -178,10 +195,7 @@ def load_output_list(scene_filename, metadata_tier):
 
 def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
     # Load the test scene's JSON data.
-    scene_data, status = mcs.load_scene_json_file(scene_filename)
-
-    if status is not None:
-        return False, status
+    scene_data = mcs.load_scene_json_file(scene_filename)
 
     # Load this test's expected output metadata at each action step.
     output_filename, expected_output_data_list = load_output_list(
@@ -189,16 +203,16 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
         metadata_tier
     )
     if expected_output_data_list is None:
-        return False, 'No file ' + output_filename
+        return False, f"No file {output_filename}"
     if len(expected_output_data_list) == 0:
-        return False, 'No validation outputs in ' + output_filename
+        return False, f"No validation outputs in {output_filename}"
 
     # Load the actions from the test scene's corresponding actions file.
     action_filename, action_list = load_action_list(scene_filename)
     if action_list is None:
-        return False, 'No file ' + action_filename
+        return False, f"No file {action_filename}"
     if len(action_list) == 0:
-        return False, 'No scripted actions in ' + action_filename
+        return False, f"No scripted actions in {action_filename}"
 
     # Initialize the test scene.
     step_metadata = controller.start_scene(scene_data)
@@ -211,6 +225,8 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
 
     # Run the specific actions for the test scene.
     for index, action_data in enumerate(action_list + [None]):
+        if not step_metadata:
+            return False, f'Step {index} failed: output step_metadata is None'
         # Validate the test scene's output metadata at each action step.
         failed_validation_list = validate_single_output(
             expected_output_data_list[index],
@@ -218,7 +234,7 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
         )
         # If the validation failed, return the failed test case info.
         if len(failed_validation_list) > 0:
-            indent = "\n" + INDENT + INDENT
+            indent = f"\n{INDENT}{INDENT}"
             error_message_list = [item[3] for item in failed_validation_list]
             status = (
                 f'Step {index} failed:{indent}'
@@ -251,7 +267,7 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
                         output_dict = nested_dict
                 dict_property = test_case[2]
             output_dict[dict_property] = (
-                round(actual, 3) if isinstance(actual, float) else actual
+                round(actual, 2) if isinstance(actual, float) else actual
             )
         with open(output_filename, 'w', encoding='utf-8-sig') as output_file:
             json.dump(
@@ -279,7 +295,7 @@ def start_handmade_tests(
 ):
 
     # Find all of the test scene JSON files.
-    scene_filename_list = sorted(glob.glob(TEST_FOLDER + '*' + SCENE_SUFFIX))
+    scene_filename_list = sorted(glob.glob(f"{TEST_FOLDER}*{SCENE_SUFFIX}"))
 
     successful_test_list = []
     failed_test_list = []

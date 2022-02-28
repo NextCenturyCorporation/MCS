@@ -1,8 +1,11 @@
 import unittest
 
+import machine_common_sense as mcs
+from machine_common_sense.action import FORCE_ACTIONS, OBJECT_MOVE_ACTIONS
 from machine_common_sense.config_manager import ConfigManager
 from machine_common_sense.controller import DEFAULT_MOVE
-from machine_common_sense.parameter import Parameter
+from machine_common_sense.parameter import (Parameter, compare_param_values,
+                                            rebuild_endhabituation)
 
 
 class TestParameter(unittest.TestCase):
@@ -22,6 +25,7 @@ class TestParameter(unittest.TestCase):
           'floorMaterial': 'AI2-THOR/Materials/Fabrics/CarpetWhite 3',
           'ceilingMaterial': 'AI2-THOR/Materials/Walls/Drywall',
           'holes': [],
+          'lava': [],
           'objects': [{'shows': [{'position': {'y': 0.25,
                                                'z': 1.0,
                                                'x': 0.25},
@@ -176,64 +180,247 @@ class TestParameter(unittest.TestCase):
         self.assertTrue(min_noise <= current_noise <= max_noise)
 
     def test_get_amount(self):
-        amount = self.parameter_converter._get_amount(action="", amount=1)
+        # default amounts
+        amount = self.parameter_converter._get_amount(
+            action=OBJECT_MOVE_ACTIONS[0])
         self.assertIsInstance(amount, float)
-        self.assertAlmostEqual(amount, 1.0)
+        self.assertAlmostEqual(amount, Parameter.DEFAULT_OBJECT_MOVE_AMOUNT)
 
-        amount = self.parameter_converter._get_amount()
+        amount = self.parameter_converter._get_amount(
+            action=FORCE_ACTIONS[0])
+        self.assertIsInstance(amount, float)
+        self.assertAlmostEqual(amount, Parameter.DEFAULT_AMOUNT)
+
+        # amount of None equates to default for any action
+        amount = self.parameter_converter._get_amount(
+            action=OBJECT_MOVE_ACTIONS[0], amount=None)
         self.assertIsInstance(amount, float)
         self.assertAlmostEqual(amount, Parameter.DEFAULT_AMOUNT)
 
         amount = self.parameter_converter._get_amount(
-            action=Parameter.OBJECT_MOVE_ACTIONS[0])
-        self.assertIsInstance(amount, float)
-        self.assertAlmostEqual(amount, Parameter.DEFAULT_OBJECT_MOVE_AMOUNT)
-
-        amount = self.parameter_converter._get_amount(amount=None)
+            action=FORCE_ACTIONS[0], amount=None)
         self.assertIsInstance(amount, float)
         self.assertAlmostEqual(amount, Parameter.DEFAULT_AMOUNT)
 
+        # ensure exceptions are raised for unexpected value or types
         self.assertRaises(
             ValueError,
-            lambda: self.parameter_converter._get_amount(amount="string")
+            lambda: self.parameter_converter._get_amount(
+                action=mcs.Action.PASS, amount="string")
         )
 
         self.assertRaises(
             ValueError,
-            lambda: self.parameter_converter._get_amount(amount=1.1)
+            lambda: self.parameter_converter._get_amount(
+                action=mcs.Action.PASS, amount=1.1)
         )
 
         self.assertRaises(
             ValueError,
-            lambda: self.parameter_converter._get_amount(amount=-0.1)
+            lambda: self.parameter_converter._get_amount(
+                action=mcs.Action.PASS, amount=-0.1)
         )
 
     def test_get_force(self):
-        force = self.parameter_converter._get_force(force=1)
+        force = self.parameter_converter._get_force(
+            action=mcs.Action.PULL_OBJECT, force=1)
         self.assertIsInstance(force, float)
         self.assertAlmostEqual(force, 1.0)
 
-        force = self.parameter_converter._get_force()
+        force = self.parameter_converter._get_force(
+            action=mcs.Action.PULL_OBJECT)
         self.assertIsInstance(force, float)
-        self.assertAlmostEqual(force, Parameter.DEFAULT_FORCE)
+        self.assertAlmostEqual(force, Parameter.DEFAULT_AMOUNT)
 
-        force = self.parameter_converter._get_force(force=None)
+        # defaults for none force regardless of action type
+        force = self.parameter_converter._get_force(
+            action=mcs.Action.PUSH_OBJECT, force=None)
         self.assertIsInstance(force, float)
-        self.assertAlmostEqual(force, Parameter.DEFAULT_FORCE)
+        self.assertAlmostEqual(force, Parameter.DEFAULT_AMOUNT)
 
+        force = self.parameter_converter._get_force(
+            action=mcs.Action.TORQUE_OBJECT, force=None)
+        self.assertIsInstance(force, float)
+        self.assertAlmostEqual(force, Parameter.DEFAULT_AMOUNT)
+
+        # raise errors when force value and type is unexpected
         self.assertRaises(
             ValueError,
-            lambda: self.parameter_converter._get_force(force="string")
+            lambda: self.parameter_converter._get_force(
+                action=mcs.Action.PASS, force="string")
         )
 
         self.assertRaises(
             ValueError,
-            lambda: self.parameter_converter._get_force(force=1.1)
+            lambda: self.parameter_converter._get_force(
+                action=mcs.Action.PASS, force=1.1)
         )
 
         self.assertRaises(
             ValueError,
-            lambda: self.parameter_converter._get_force(force=-0.1)
+            lambda: self.parameter_converter._get_force(
+                action=mcs.Action.PASS, force=-0.1)
+        )
+
+        # torque force ranges
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_force(
+                action=mcs.Action.TORQUE_OBJECT, force=1.1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_force(
+                action=mcs.Action.TORQUE_OBJECT, force=-1.1)
+        )
+
+    def test_get_clockwise(self):
+        clockwise = self.parameter_converter._get_clockwise(clockwise="False")
+        self.assertIsInstance(clockwise, bool)
+        self.assertEqual(clockwise, False)
+
+        clockwise = self.parameter_converter._get_clockwise(clockwise="false")
+        self.assertIsInstance(clockwise, bool)
+        self.assertEqual(clockwise, False)
+
+        clockwise = self.parameter_converter._get_clockwise(clockwise="True")
+        self.assertIsInstance(clockwise, bool)
+        self.assertEqual(clockwise, True)
+
+        clockwise = self.parameter_converter._get_clockwise(clockwise="true")
+        self.assertIsInstance(clockwise, bool)
+        self.assertEqual(clockwise, True)
+
+        clockwise = self.parameter_converter._get_clockwise(clockwise=False)
+        self.assertIsInstance(clockwise, bool)
+        self.assertEqual(clockwise, False)
+
+        clockwise = self.parameter_converter._get_clockwise(clockwise=True)
+        self.assertIsInstance(clockwise, bool)
+        self.assertEqual(clockwise, True)
+
+        clockwise = self.parameter_converter._get_clockwise()
+        self.assertIsInstance(clockwise, bool)
+        self.assertEqual(clockwise, True)
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_clockwise(clockwise="string")
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_clockwise(clockwise=1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_clockwise(clockwise=-0.1)
+        )
+
+    def test_get_movement_direction(self):
+        (lateral, straight) = (
+            self.parameter_converter._get_movement_direction())
+        self.assertIsInstance(lateral, int)
+        self.assertIsInstance(straight, int)
+        self.assertEqual(lateral, 0)
+        self.assertEqual(straight, 1)
+
+        (lateral, straight) = (
+            self.parameter_converter._get_movement_direction(
+                lateral=-1))
+        self.assertIsInstance(lateral, int)
+        self.assertIsInstance(straight, int)
+        self.assertEqual(lateral, -1)
+        self.assertEqual(straight, 0)
+
+        (lateral, straight) = (
+            self.parameter_converter._get_movement_direction(
+                straight=-1))
+        self.assertIsInstance(lateral, int)
+        self.assertIsInstance(straight, int)
+        self.assertEqual(lateral, 0)
+        self.assertEqual(straight, -1)
+
+        (lateral, straight) = (
+            self.parameter_converter._get_movement_direction(
+                lateral=1, straight=-1))
+        self.assertIsInstance(lateral, int)
+        self.assertIsInstance(straight, int)
+        self.assertEqual(lateral, 1)
+        self.assertEqual(straight, -1)
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral=2)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                straight=-2)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral=-2, straight=1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral=-1, straight=2)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral=0.1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                straight=0.1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral=-0.1, straight=1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral=1, straight=-0.1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral="x", straight="z")
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral="x", straight=1)
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral=1, straight="z")
+        )
+
+        self.assertRaises(
+            ValueError,
+            lambda: self.parameter_converter._get_movement_direction(
+                lateral=True, straight=False)
         )
 
     def test_get_number(self):
@@ -284,7 +471,7 @@ class TestParameter(unittest.TestCase):
         self.assertEqual(magnitude, DEFAULT_MOVE)
 
         magnitude = self.parameter_converter._get_move_magnitude(
-            action=Parameter.FORCE_ACTIONS[0],
+            action=FORCE_ACTIONS[0],
             force=0.5,
             amount=0.7
         )
@@ -292,7 +479,7 @@ class TestParameter(unittest.TestCase):
         self.assertEqual(magnitude, 0.5)
 
         magnitude = self.parameter_converter._get_move_magnitude(
-            action=Parameter.OBJECT_MOVE_ACTIONS[0],
+            action=OBJECT_MOVE_ACTIONS[0],
             force=0.5,
             amount=0.7
         )
@@ -440,28 +627,107 @@ class TestParameter(unittest.TestCase):
         )
 
     def test_mcs_action_to_ai2thor_action(self):
-        # TODO any string is passed through
-        # should we leave an Action enum?
         ai2thor_action = \
             self.parameter_converter._mcs_action_to_ai2thor_action(
-                "")
-        self.assertIsInstance(ai2thor_action, str)
-        self.assertEqual(ai2thor_action, "")
-
-        ai2thor_action = \
-            self.parameter_converter._mcs_action_to_ai2thor_action(
-                "OpenObject")
+                mcs.Action.OPEN_OBJECT)
         self.assertIsInstance(ai2thor_action, str)
         self.assertEqual(ai2thor_action, "MCSOpenObject")
 
         ai2thor_action = \
             self.parameter_converter._mcs_action_to_ai2thor_action(
-                "CloseObject")
+                mcs.Action.CLOSE_OBJECT)
         self.assertIsInstance(ai2thor_action, str)
         self.assertEqual(ai2thor_action, "MCSCloseObject")
 
         ai2thor_action = \
             self.parameter_converter._mcs_action_to_ai2thor_action(
-                "DropObject")
+                mcs.Action.DROP_OBJECT)
         self.assertIsInstance(ai2thor_action, str)
         self.assertEqual(ai2thor_action, "DropHandObject")
+
+    def test_compare_param_values(self):
+        self.assertTrue(compare_param_values('', ''))
+        self.assertTrue(compare_param_values('a', 'a'))
+
+        self.assertTrue(compare_param_values('1', '1'))
+        self.assertTrue(compare_param_values('1.0', '1.0'))
+        self.assertTrue(compare_param_values('1.234', '1.234'))
+        self.assertTrue(compare_param_values(1, 1))
+        self.assertTrue(compare_param_values(1.0, 1.0))
+        self.assertTrue(compare_param_values(1.234, 1.234))
+
+        self.assertTrue(compare_param_values('1', 1))
+        self.assertTrue(compare_param_values(1, '1'))
+        self.assertTrue(compare_param_values('1.0', 1.0))
+        self.assertTrue(compare_param_values(1.0, '1.0'))
+
+        self.assertTrue(compare_param_values('1', 1.0))
+        self.assertTrue(compare_param_values(1.0, '1'))
+        self.assertTrue(compare_param_values(1, '1.0'))
+        self.assertTrue(compare_param_values('1.0', 1))
+
+        self.assertTrue(compare_param_values('1', '1.0'))
+        self.assertTrue(compare_param_values('1.0', '1'))
+        self.assertTrue(compare_param_values(1, 1.0))
+        self.assertTrue(compare_param_values(1.0, 1))
+
+        self.assertTrue(compare_param_values('1.234', 1.234))
+        self.assertTrue(compare_param_values(1.234, '1.234'))
+        self.assertTrue(compare_param_values('1.234', 1.234))
+        self.assertTrue(compare_param_values(1.234, '1.234'))
+
+        self.assertFalse(compare_param_values('a', '1'))
+        self.assertFalse(compare_param_values('1', 'a'))
+
+        self.assertFalse(compare_param_values('a', '1.0'))
+        self.assertFalse(compare_param_values('1.0', 'a'))
+        self.assertFalse(compare_param_values('a', '1.234'))
+        self.assertFalse(compare_param_values('1.234', 'a'))
+
+        self.assertFalse(compare_param_values('1', '1.234'))
+        self.assertFalse(compare_param_values('1.234', '1'))
+        self.assertFalse(compare_param_values('1.0', '1.234'))
+        self.assertFalse(compare_param_values('1.234', '1.0'))
+
+        self.assertFalse(compare_param_values(1, 1.234))
+        self.assertFalse(compare_param_values(1.234, 1))
+        self.assertFalse(compare_param_values(1.0, 1.234))
+        self.assertFalse(compare_param_values(1.234, 1.0))
+
+    def test_rebuild_endhabituation(self):
+        # EndHabituation rebuilds parameters from the goal list
+        endhabit_goal = (mcs.Action.END_HABITUATION.value, {})
+        self.assertEqual(
+            "EndHabituation",
+            rebuild_endhabituation(
+                step_action_list=[endhabit_goal]
+            )
+        )
+
+        endhabit_goal = (mcs.Action.END_HABITUATION.value, {"yRotation": 90})
+        self.assertEqual(
+            "EndHabituation,yRotation=90",
+            rebuild_endhabituation(
+                step_action_list=[endhabit_goal]
+            )
+        )
+
+        endhabit_goal = (
+            mcs.Action.END_HABITUATION.value, {
+                'xPosition': 0.0, 'zPosition': 0.0})
+        self.assertEqual(
+            "EndHabituation,xPosition=0.0,zPosition=0.0",
+            rebuild_endhabituation(
+                step_action_list=[endhabit_goal]
+            )
+        )
+
+        endhabit_goal = (
+            mcs.Action.END_HABITUATION.value,
+            {'xPosition': 0.0, 'zPosition': 0.0, 'yRotation': 0.0})
+        self.assertEqual(
+            "EndHabituation,xPosition=0.0,zPosition=0.0,yRotation=0.0",
+            rebuild_endhabituation(
+                step_action_list=[endhabit_goal]
+            )
+        )

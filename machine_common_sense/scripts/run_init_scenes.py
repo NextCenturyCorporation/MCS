@@ -21,20 +21,15 @@ def parse_args():
 def main():
     args = parse_args()
 
-    output_folder = args.image_output_folder + '/'
-    json_file_list = glob.glob(args.json_input_folder + '/*.json')
+    output_folder = f"{args.image_output_folder}/"
+    json_file_list = glob.glob(f"{args.json_input_folder}/*.json")
 
     controller = mcs.create_controller(
         unity_app_file_path=args.mcs_unity_build_file,
         config_file_or_dict='./config_oracle_debug.ini')
 
     for json_file_name in json_file_list:
-        scene_data, status = mcs.load_scene_json_file(json_file_name)
-
-        if status is not None:
-            print('Error with JSON scene config file ' + json_file_name)
-            print(status)
-            continue
+        scene_data = mcs.load_scene_json_file(json_file_name)
 
         if 'name' not in scene_data.keys():
             scene_data['name'] = json_file_name[json_file_name.rfind(
@@ -51,9 +46,7 @@ def main():
             output_json_file.write(str(output))
 
         output.image_list[0].save(
-            fp=output_folder +
-            scene_data['name'] +
-            '.png')
+            fp=f"{output_folder + scene_data['name']}.png")
 
     controller.end_scene()
 

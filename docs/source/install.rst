@@ -2,8 +2,8 @@
 Installation and Setup
 =======================
 
-.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.5.0/MCS-AI2-THOR-Unity-App-v0.5.0-mac.zip
-.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.5.0/MCS-AI2-THOR-Unity-App-v0.5.0-linux.zip
+.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.5.1/MCS-AI2-THOR-Unity-App-v0.5.1-mac.zip
+.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.5.1/MCS-AI2-THOR-Unity-App-v0.5.1-linux.zip
 
 Virtual Environments
 ------------------------
@@ -121,6 +121,14 @@ To use a specific configuration, you can either pass in a file path or dictionar
 Config File Properties
 **********************
 
+goal_reward
+^^^^^^^^^^^^^^^
+
+(float, optional)
+
+Changes the postive reward recieved for achieving a goal. Default: 1
+
+
 history_enabled
 ^^^^^^^^^^^^^^^
 
@@ -142,6 +150,20 @@ The `metadata` property describes what metadata will be returned by the MCS Pyth
 
 If no metadata level is set:
 - `default`: Fallback if no metadata level is specified. Only meant for use during development (evaluations will never be run this way). Includes metadata for visible and held objects in the scene, as well as camera info and properties corresponding to the player. Does not include depth maps or object masks.
+
+lava_penalty
+^^^^^^^^^^^^^^^
+
+(float, optional)
+
+Changes the negative penalty recieved for every step on lava.  Default: 100
+
+steps_allowed_in_lava
+^^^^^^^^^^^^^^^
+
+(int, optional)
+
+Number of steps allowed in lava before automatically calling end scene.  Default: 0
 
 noise_enabled
 ^^^^^^^^^^^^^^^
@@ -170,6 +192,13 @@ size
 (int, optional)
 
 Desired screen width. If value given, it must be more than `450`. If none given, screen width will default to `600`.
+
+step_penalty
+^^^^^^^^^^^^^^^
+
+(float, optional)
+
+Changes the negative penalty recieved for every step. Default: 0.001
 
 video_enabled
 ^^^^^^^^^^^^^
@@ -200,7 +229,7 @@ Example Using the Config File to Generate Scene Graphs or Maps
     controller = mcs.create_controller(config_file_or_dict='path/to/config')
 
     for scene_file in scene_files:
-        scene_data, status = mcs.load_scene_json_file(scene_file)
+        scene_data = mcs.load_scene_json_file(scene_file)
 
         if status is not None:
             print(status)

@@ -38,8 +38,10 @@
 # section.
 
 import ast
+import copy
 import logging
 import os
+from typing import List, Union
 
 logger = logging.getLogger(__name__)
 
@@ -47,35 +49,6 @@ TRACE = 5
 
 
 class LoggingConfig():
-
-    default_console_config = {
-        "version": 1,
-        "root": {
-            "level": "DEBUG",
-            "handlers": ["console"],
-            "propagate": False
-        },
-        "loggers": {
-            "machine_common_sense": {
-                "level": "DEBUG",
-                "handlers": ["console"],
-                "propagate": False
-            }
-        },
-        "handlers": {
-            "console": {
-                "class": "logging.StreamHandler",
-                "formatter": "brief",
-                "level": "DEBUG",
-                "stream": "ext://sys.stdout"
-            }
-        },
-        "formatters": {
-            "brief": {
-                "format": "%(message)s"
-            }
-        }
-    }
 
     @staticmethod
     def init_logging(log_config=None,
@@ -91,7 +64,7 @@ class LoggingConfig():
         if (os.path.exists(log_config_file)):
             with open(log_config_file, "r") as data:
                 log_config = ast.literal_eval(data.read())
-                init_message = "Loaded logging config from " + log_config_file
+                init_message = f"Loaded logging config from {log_config_file}"
         elif log_config is not None:
             init_message = "Loaded provided logging config dictionary"
         if (log_config is None):
@@ -111,41 +84,26 @@ class LoggingConfig():
             if self.isEnabledFor(TRACE):
                 self._log(TRACE, message, args, **kws)
         logging.Logger.trace = trace
+        logging.TRACE = TRACE
 
     @staticmethod
     def get_default_console_config():
-        return LoggingConfig.default_console_config
+        return LoggingConfig.get_configurable_logging_config(
+            log_level='DEBUG',
+            logger_names=['machine_common_sense'],
+            console=True, debug_file=False, info_file=False,
+            log_file_name="mcs",
+            console_format='brief'
+        )
 
     @staticmethod
     def get_errors_only_console_config():
-        return {
-            "version": 1,
-            "root": {
-                "level": "ERROR",
-                "handlers": ["console"],
-                "propagate": False
-            },
-            "loggers": {
-                "machine_common_sense": {
-                    "level": "ERROR",
-                    "handlers": ["console"],
-                    "propagate": False
-                }
-            },
-            "handlers": {
-                "console": {
-                    "class": "logging.StreamHandler",
-                    "formatter": "brief",
-                    "level": "DEBUG",
-                    "stream": "ext://sys.stdout"
-                }
-            },
-            "formatters": {
-                "brief": {
-                    "format": "%(message)s"
-                }
-            }
-        }
+        return LoggingConfig.get_configurable_logging_config(
+            log_level='ERROR',
+            logger_names=['machine_common_sense'],
+            console=True, debug_file=False, info_file=False,
+            log_file_name="mcs", file_format='precise',
+            console_format='brief')
 
     @staticmethod
     def get_no_logging_config():
@@ -155,51 +113,117 @@ class LoggingConfig():
             "handlers": {}
         }
 
-    @staticmethod
     def get_dev_logging_config():
         '''Note: This logging configuration needs the log directory to be
         created relative to the current working directory of the python
         execution.
         '''
+        return LoggingConfig.get_configurable_logging_config(
+            log_level='DEBUG',
+            logger_names=['machine_common_sense'],
+            console=True, debug_file=True, info_file=False,
+            log_file_name="mcs", file_format='precise',
+            console_format='brief')
+
+    @staticmethod
+    def get_configurable_logging_config(
+            log_level: str = 'DEBUG',
+            logger_names: Union[List[str], str] = None,
+            console: bool = True,
+            debug_file: bool = True,
+            info_file: bool = False,
+            log_file_name: str = "mcs",
+            file_format: str = 'precise',
+            console_format: str = 'brief'):
+        """[summary]
+
+        Args:
+            log_level (str, optional): The log level for all loggers including
+                root.  Can be 'ERROR', 'WARNING', 'INFO', 'DEBUG', or 'TRACE'.
+                Defaults to 'DEBUG'.
+            logger_names (Union[List[str], str], optional): Names of the
+                loggers to create.  Each logger specifies the level for all
+                packages or modules under it.
+                Defaults to ['machine_common_sense'].
+            console (bool, optional): Whether the console logger is on or off.
+                Defaults to True.
+            debug_file (bool, optional): Whether logs should be written to the
+                debug log file. This requires the 'log' directory to exist.
+                Defaults to True.
+            info_file (bool, optional): Whether logs should be written to the
+                info log file. This requires the 'log' directory to exist.
+                Defaults to False.
+            log_file_name (str, optional): The base name of the log file.  This
+                is usually an abbreviate for the project or product.
+                Defaults to "mcs".
+            file_format (str, optional): Format of the log output for log
+                files. Options: 'brief', 'precise', 'full'
+                Defaults to 'precise'.
+            console_format (str, optional): Format of the log output for
+                console logging. Options: 'brief', 'precise', 'full'.
+                Defaults to 'brief'.
+
+        Returns:
+            A dictionary containing a logging configuration created from the
+            parameters.
+        """
+
+        if logger_names is None:
+            logger_names = ['machine_common_sense']
+        logger_names = logger_names if isinstance(
+            logger_names, list) else [logger_names]
+        handler_tags = []
+
+        handlers = {}
+        if console:
+            handler_tags.append("console")
+            handlers['console'] = {
+                "class": "logging.StreamHandler",
+                "formatter": console_format,
+                "level": "DEBUG",
+                "stream": "ext://sys.stdout"
+            }
+        if debug_file:
+            handler_tags.append("debug-file")
+            handlers["debug-file"] = {
+                "level": "DEBUG",
+                "class": "logging.handlers.RotatingFileHandler",
+                "formatter": file_format,
+                "filename": f"logs/{log_file_name}.debug.log",
+                "maxBytes": 10240000,
+                "backupCount": 3
+            }
+        if info_file:
+            handler_tags.append("info-file")
+            handlers["info-file"] = {
+                "level": "INFO",
+                "class": "logging.handlers.RotatingFileHandler",
+                "formatter": file_format,
+                "filename": f"logs/{log_file_name}.debug.log",
+                "maxBytes": 10240000,
+                "backupCount": 3
+            }
+
+        logger_template = {
+            "level": log_level,
+            "handlers": handler_tags,
+            "propagate": False
+        }
+
+        loggers = {}
+        for name in logger_names:
+            logger = copy.deepcopy(logger_template)
+            loggers[name] = logger
+
         return {
             "version": 1,
             "root": {
-                "level": "DEBUG",
-                "handlers": ["console", "debug-file"],
+                "level": log_level,
+                "handlers": handler_tags,
                 "propagate": False
             },
-            "loggers": {
-                "machine_common_sense": {
-                    "level": "DEBUG",
-                    "handlers": ["console", "debug-file"],
-                    "propagate": False
-                }
-            },
-            "handlers": {
-                "console": {
-                    "class": "logging.StreamHandler",
-                    "formatter": "brief",
-                    "level": "DEBUG",
-                    "stream": "ext://sys.stdout"
-                },
-                "debug-file": {
-                    "level": "DEBUG",
-                    "class": "logging.handlers.RotatingFileHandler",
-                    "formatter": "precise",
-                    "filename": "logs/mcs.debug.log",
-                    "maxBytes": 10240000,
-                    "backupCount": 3
-                },
-
-                "info-file": {
-                    "level": "INFO",
-                    "class": "logging.handlers.RotatingFileHandler",
-                    "formatter": "precise",
-                    "filename": "logs/mcs.info.log",
-                    "maxBytes": 10240000,
-                    "backupCount": 3
-                }
-            },
+            "loggers": loggers,
+            "handlers": handlers,
             "formatters": {
                 "brief": {
                     "format": "%(message)s"

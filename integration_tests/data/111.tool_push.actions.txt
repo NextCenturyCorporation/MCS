@@ -1,0 +1,10 @@
+PushObject,objectId=tool,force=1.0
+PushObject,objectId=tool,force=1.0
+PushObject,objectId=tool,force=1.0
+PushObject,objectId=tool,force=1.0
+Pass
+Pass
+Pass
+Pass
+Pass
+Pass

@@ -19,6 +19,10 @@ class StepMetadata:
         forces a PickupObject action with any parameters; and
         ("PickupObject", {"objectId": "a"}) forces a PickupObject action with
         the specific parameters objectId=a.
+        EndHabituation is a special case of the action_list where its
+        parameters will always be empty. When taking the EndHabituation
+        action, the MCS system may apply hidden displacement parameters to the
+        robot.
         An action_list of None or an empty list means that all actions will
         be available for the next step.
 
@@ -39,25 +43,30 @@ class StepMetadata:
         The player camera's aspect ratio. This will remain constant for the
         whole scene.
     camera_clipping_planes : (float, float)
-        The player camera's near and far clipping planes. This will remain
-        constant for the whole scene.
+        The player camera's near and far clipping planes, in meters. This will
+        remain constant for the whole scene. Default (0.01, 150)
     camera_field_of_view : float
         The player camera's field of view. This will remain constant for
         the whole scene.
     camera_height : float
-        The player camera's height.
+        The player camera's height, in meters.
     depth_map_list : list of 2D numpy arrays
         The list of 2-dimensional numpy arrays of depth float data from the
         scene after the last action and physics simulation were run. This is
         usually a list with 1 array, except for the output from start_scene
         for a scene with a scripted Preview Phase (Preview Phase case details
         TBD).
-        Each depth float in a 2-dimensional numpy array is a value between 0
-        and the camera's far clipping plane (default 15) correspondings to the
-        depth in simulation units at that pixel in the image.
+        Each 32-bit depth float in the 2-dimensional numpy array is a value
+        between the camera's near clipping plane (default 0.01) and the
+        camera's far clipping plane (default 150) corresponding to the depth,
+        in meters, at that pixel in the image.
         Note that this list will be empty if the metadata level is 'none'.
     goal : GoalMetadata or None
         The goal for the whole scene. Will be None in "Exploration" scenes.
+    haptic_feedback : dict
+        Haptic feedback sources for the agent. Values are true or false
+        depending on if the agent is touching the haptic feedback source.
+        The only current supported contact is "on_lava"
     habituation_trial : int or None
         The current habituation trial (as a positive integer), or None if the
         scene is not currently in a habituation trial (meaning this scene is
@@ -65,11 +74,17 @@ class StepMetadata:
     head_tilt : float
         How far your head is tilted up/down in degrees (between 90 and -90).
         Changed by setting the "horizon" parameter in a "RotateLook" action.
+    holes : list of tuples
+        Coordinates of holes as (X, Z) float tuples. Will be set to 'None' if
+        using a metadata level below the 'oracle' level.
     image_list : list of Pillow.Image objects
         The list of images from the scene after the last action and physics
         simulation were run. This is usually a list with 1 image, except for
         the output from start_scene for a scene with a scripted Preview Phase.
         (Preview Phase case details TBD).
+    lava : list of tuples
+        Coordinates of pools of lava as (X, Z) float tuples. Will be set to
+        'None' if using a metadata level below the 'oracle' level.
     object_list : list of ObjectMetadata objects
         The list of metadata for all the visible interactive objects in the
         scene. This list will be empty if using a metadata level below
@@ -85,9 +100,9 @@ class StepMetadata:
         Note that this list will be empty if the metadata level is 'none'
         or 'level1'.
     performer_radius: float
-        The radius of the performer.
+        The radius of the performer, in meters.
     performer_reach: float
-        The max reach of the performer.
+        The max reach of the performer, in meters.
     position : dict
         The "x", "y", and "z" coordinates for your global position.
         Will be set to 'None' if using a metadata level below the
@@ -103,6 +118,8 @@ class StepMetadata:
     step_number : integer
         The step number of your last action, recorded since you started the
         current scene.
+    steps_in_lava : integer
+        The number of steps the agent has touched lava
     physics_frames_per_second : float
         The frames per second of the physics engine
     structural_object_list : list of ObjectMetadata objects
@@ -126,8 +143,11 @@ class StepMetadata:
         depth_map_list=None,
         goal=None,
         habituation_trial=None,
+        haptic_feedback=None,
         head_tilt=0.0,
+        holes=None,
         image_list=None,
+        lava=None,
         object_list=None,
         object_mask_list=None,
         performer_radius=0.0,
@@ -138,6 +158,7 @@ class StepMetadata:
         reward=0,
         rotation=0.0,
         step_number=0,
+        steps_on_lava=0,
         structural_object_list=None
     ):
         self.action_list = [] if action_list is None else action_list
@@ -155,8 +176,13 @@ class StepMetadata:
         )
         self.goal = GoalMetadata() if goal is None else goal
         self.habituation_trial = habituation_trial
+        self.haptic_feedback = (
+            {} if haptic_feedback is None else haptic_feedback
+        )
         self.head_tilt = head_tilt
+        self.holes = [] if holes is None else holes
         self.image_list = [] if image_list is None else image_list
+        self.lava = [] if lava is None else lava
         self.object_list = [] if object_list is None else object_list
         self.object_mask_list = (
             [] if object_mask_list is None else object_mask_list
@@ -169,6 +195,7 @@ class StepMetadata:
         self.reward = reward
         self.rotation = rotation
         self.step_number = step_number
+        self.steps_on_lava = steps_on_lava
         self.structural_object_list = [
         ] if structural_object_list is None else structural_object_list
 
@@ -185,6 +212,7 @@ class StepMetadata:
         """Return a deep copy of this StepMetadata with default depth_map_list,
         image_list, and object_mask_list properties."""
         step_metadata_copy = StepMetadata()
+        # This class's __iter__ function will ignore specific properties.
         for key, _ in self:
             setattr(step_metadata_copy, key, copy.deepcopy(getattr(self, key)))
         return step_metadata_copy
@@ -197,10 +225,14 @@ class StepMetadata:
         yield 'camera_clipping_planes', self.camera_clipping_planes
         yield 'camera_field_of_view', self.camera_field_of_view
         yield 'camera_height', self.camera_height
+        # Intentionally no depth_map_list
         yield 'goal', dict(self.goal)
         yield 'habituation_trial', self.habituation_trial
+        yield 'haptic_feedback', self.haptic_feedback
         yield 'head_tilt', self.head_tilt
+        # Intentionally no image_list
         yield 'object_list', self.check_list_none(self.object_list)
+        # Intentionally no object_mask_list
         yield 'performer_radius', self.performer_radius
         yield 'performer_reach', self.performer_reach
         yield 'physics_frames_per_second', self.physics_frames_per_second
@@ -208,6 +240,7 @@ class StepMetadata:
         yield 'return_status', self.return_status
         yield 'reward', self.reward
         yield 'rotation', self.rotation
-        yield 'step_number', self.step_number
+        yield 'step_number', self.step_number,
+        yield 'steps_on_lava', self.steps_on_lava,
         yield 'structural_object_list', self.check_list_none(
             self.structural_object_list)

@@ -7,7 +7,7 @@ class SceneHistory(object):
     def __init__(
         self,
         step=-1,
-        action=None,
+        action=None,  # MCS-1181 Enum vs string
         args=None,
         params=None,
         # Use classification and confidence rather than rating and score to be

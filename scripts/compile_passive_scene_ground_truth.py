@@ -6,7 +6,7 @@ import json
 
 
 def main(args):
-    filename_list = glob.glob(args.folder + '*_debug.json')
+    filename_list = glob.glob(f"{args.folder}*_debug.json")
     filename_list.sort()
     data = {}
     for filename in filename_list:

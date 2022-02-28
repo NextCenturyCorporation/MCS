@@ -86,9 +86,11 @@ Each **scene config** has the following properties:
 - `holes` (:ref:`grid config list <Grid Config>`, optional): The list of X/Z coordinates corresponding to one or more holes in the room's floor. Coordinates must be integers. Holes are always size 1x1 centered on the given X/Z coordinate. Adjacent holes are combined. Y coordinates are ignored. Holes are too deep to escape. Default: none
 - `intuitivePhysics` (bool, optional): Specific performer and room setup for intuitive physics scenes.
 - `isometric` (bool, optional): Specific performer and room setup for agent scenes.
+- `lava` (:ref:`grid config list <Grid Config>`, optional): The list of X/Z coordinates corresponding to one or more pools of lava in the room's floor. Coordinates must be integers. Each lava pool is always size 1x1 centered on the given X/Z coordinate. Adjacent pools of lava are combined. Y coordinates are ignored. Stepping in lava will either cause a reward penalty or immediately end the scene, depending on your settings. Default: none
 - `name` (string, required): A unique name for the scene used for our logs. Default: the filename
 - `objects` (:ref:`object config <Object Config>` array, optional): The objects for the scene. Default: `[]`
 - `performerStart` (:ref:`transform config <Transform Config>`, optional): The starting position and rotation of the performer (the "player"). Only the `position.x`, `position.z`, `rotation.x` (head tilt), and `rotation.y` properties are used. Default: `{ "position": { "x": 0, "z": 0 }, "rotation": { "y": 0 } }`
+- `restrictOpenDoors` (bool, optional): If there are multiple doors in a scene, only allow for one door to ever be opened.
 - `roomDimensions` (Vector3, optional): Specify the size of the room, not including the thickness of walls, floor, and ceiling.  If omitted or set to 0, 0, 0, the default will be used.  Note: There is a maximum visibility which for objects and structures beyond will not be rendered.  Use caution when creating rooms where the maximum distance exceeds this maximum visibility.  The maximum visibility is 15 meters. Default: 10, 3, 10.
 - `roomMaterials` (:ref:`room material config <Room Material Config>`, optional): The materials for each individual wall.  For any individual wall not provided, or all outer walls if object is not provided, they will use 'wallMaterial' property.
 - `version` (int, optional): The version of this scene configuration. Default: the latest version
@@ -112,12 +114,15 @@ Each **object config** has the following properties:
 - `mass` (float, optional): The mass of the object, which affects the physics simulation. Default: `1`
 - `materials` (string array, optional): The material(s) (colors/textures) of the object. An object `type` may use multiple individual materials; if so, they must be listed in a specific order. Most non-primitive objects already have specific material(s). See the :ref:`material list <Material List>` for options. Default: none
 - `materialFile` (string, optional): Deprecated (please use `materials` now). The material (color/texture) of the object. Most non-primitive objects already have specific material(s). See the :ref:`material list <Material List>` for options. Default: none
+- `maxAngularVelocity` (force, optional): Override the object's maximum angular velocity in the physics simulation, affecting how it turns and rolls. Default: `7`
 - `moveable` (boolean, optional): Whether the object should be moveable, if it is not already moveable based on its `type`. Default: depends on `type`
 - `moves` (:ref:`move config<Move Config>` array, optional): The steps on which to move the object, moving it from one position in the scene to another. The config `vector` describes the amount of position to change, added to the object's current position. Useful if you want to move objects that are `kinematic`. A fifth of each move is made over each of the five substeps (five screenshots) during the step. Default: `[]`
 - `nullParent` (:ref:`transform config <Transform Config>`, optional): Whether to wrap the object in a null parent object. Useful if you want to rotate an object by a point other than its center point. Default: none
 - `openable` (boolean, optional): Whether the object should be openable, if it is not already openable based on its `type`. Default: depends on `type`
 - `opened` (boolean, optional): Whether the object should begin opened. Must also be `openable`. Default: `false`
 - `openClose` (:ref:`open close config <Open Close Config>`, optional): The steps where an object is opened or closed by the system.  Default: None
+- `lips` (:ref:`platform lips config <Platform Lips Config>`, optional): The sides of a platform to add lips. Default: None
+- `locked` (boolean, optional): Whether to lock the container at the start of the simulation.  Locked containers cannot be opened.  Default: false
 - `physics` (boolean, optional): Whether to enable physics simulation on the object. Automatically `true` if `moveable`, `openable`, `pickupable`, or `receptacle` is `true`. Use `physics` if you want to enable physics but don't want to use any of those other properties. Default: `false`
 - `physicsProperties` (:ref:`physics config <Physics Config>`, optional): Enable custom friction, bounciness, and/or drag on the object. Default: see :ref:`physics config <Physics Config>`.
 - `pickupable` (boolean, optional): Whether the object should be pickupable, if it is not already openable based on its `type`. Pickupable objects are also automatically `moveable`. Default: depends on `type`
@@ -133,7 +138,7 @@ Each **object config** has the following properties:
 - `structure` (boolean, optional): Whether the object is a structural part of the environment. Usually paired with `kinematic`. Default: `false`
 - `teleports` (:ref:`teleport config <Teleport Config>` array, optional): The steps on which to teleport the object, teleporting it from one position in the scene to another. The config `position` describes the object's end position in global coordinates and is not affected by the object's current position. Useful if you want to have impossible events (spontaneous teleportation). Default: `[]`
 - `togglePhysics` (:ref:`single step config <Single Step Config>` array, optional): The steps on which to toggle physics on the object. Useful if you want to have scripted movement in specific parts of the scene. Can work with the `kinematic` property. Default: `[]`
-- `torques` (:ref:`move config <Move Config>` array, optional): The steps on which to apply `torque <https://docs.unity3d.com/ScriptReference/Rigidbody.AddTorque.html>`_ to the object. The config `vector` describes the amount of torque (in Newtons) to apply in each direction using the global coordinate system. Resets all existing torques on the object to 0 before applying the new torque. Default: `[]`
+- `torques` (:ref:`force config <Force Config>` array, optional): The steps on which to apply `torque <https://docs.unity3d.com/ScriptReference/Rigidbody.AddTorque.html>`_ to the object. The config `vector` describes the amount of torque (in Newtons) to apply in each direction using the global coordinate system. Resets all existing torques on the object to 0 before applying the new torque. Default: `[]`
 
 Goal Config
 ***********
@@ -171,6 +176,7 @@ Each **force config** has the following properties:
 - `stepBegin` (integer, required): The step on which the action should begin.  Must be non-negative.  A value of `0` means the action will begin during scene initialization.
 - `stepEnd` (integer, required): The step on which the action should end.  Must be equal to or greater than the `stepBegin`.
 - `vector` (:ref:`vector config <Vector Config>`, required): The coordinates to describe the movement. Default: `{ "x": 0, "y": 0, "z": 0 }`
+- `impulse` (bool, optional): Whether to apply the force using Unity's impulse force mode, rather than the default force mode. Default: `false`
 - `relative` (bool, optional): Whether to apply the force using the object's relative coordinate system, rather than the environment's absolute coordinate system. Default: `false`
 - `repeat` (bool, optional): Whether to indefinitely repeat this action. Will wait `stepWait` number of steps after `stepEnd`, then will execute this action for `stepEnd - stepBegin + 1` number of steps, then repeat. Default: `false`
 - `stepWait` (integer, optional): If `repeat` is `true`, the number of steps to wait after the `stepEnd` before repeating this action. Default: `0`
@@ -182,6 +188,28 @@ Each **grid config** has the following properties:
 
 - `x` (integer)
 - `z` (integer)
+
+Lip Gaps Config
+**************
+
+Each **lip gaps config** has the following properties:
+
+- `front` (:ref:`lip gaps span config list <Lip Gaps Span Config>`):: Gaps on the positive Z axis
+- `back` (:ref:`lip gaps span config list <Lip Gaps Span Config>`):: Gaps on the negative Z axis
+- `left` (:ref:`lip gaps span config list <Lip Gaps Span Config>`):: Gaps on the negative X axis
+- `right` (:ref:`lip gaps span config list <Lip Gaps Span Config>`):: Gaps on the positive X axis
+
+Lip Gaps Span Config
+**************
+
+Each **lip gaps span config** has the following properties:
+
+- `low` (float): Indicates where one side of the gap is located on an edge of a platform.  This 
+value is 0 to 1 where 0 is one end of the edge and 1 is the other edge.  This value must be 
+less than 'high'.
+- `high` (float): Indicates where one side of the gap is located on an edge of a platform.  This 
+value is 0 to 1 where 0 is one end of the edge and 1 is the other edge.  This value must be 
+greater than 'low'.
 
 Material Position Config
 ************************
@@ -201,6 +229,17 @@ Each **move config** has the following properties:
 - `vector` (:ref:`vector config <Vector Config>`, required): The coordinates to describe the movement. Default: `{ "x": 0, "y": 0, "z": 0 }`
 - `repeat` (bool, optional): Whether to indefinitely repeat this action. Will wait `stepWait` number of steps after `stepEnd`, then will execute this action for `stepEnd - stepBegin + 1` number of steps, then repeat. Default: `false`
 - `stepWait` (integer, optional): If `repeat` is `true`, the number of steps to wait after the `stepEnd` before repeating this action. Default: `0`
+
+Platform Lips Config
+**************
+
+Each **platform lips config** has the following properties:
+
+- `front` (bool, optional): Positive Z axis
+- `back` (bool, optional): Negative Z axis
+- `left` (bool, optional): Negative X axis
+- `right` (bool, optional): Positive X axis
+- `gaps` (:ref:`lip gaps config <Lip Gaps Config>`, optional): gaps in the lits usually for ramps.
 
 Physics Config
 **************
@@ -1107,6 +1146,72 @@ Furniture Objects
       - :ref:`wood <Wood Materials>`
       - x=1.07,y=2.1,z=0.49
       - 
+
+Tool Objects
+-------------
+
+All of the tools have the `tool` shape, `metal` material, `moveable` and `receptacle` attributes, and the same grey and black colors/textures.
+
+.. list-table::
+    :header-rows: 1
+
+    * - Object Type
+      - Default Mass
+      - Base Size
+    * - `"tool_rect_0_50_x_4_00"`
+      - 3
+      - x=0.5,y=0.3,z=4
+    * - `"tool_rect_0_50_x_5_00"`
+      - 3.25
+      - x=0.5,y=0.3,z=5
+    * - `"tool_rect_0_50_x_6_00"`
+      - 3.5
+      - x=0.5,y=0.3,z=6
+    * - `"tool_rect_0_50_x_7_00"`
+      - 3.75
+      - x=0.5,y=0.3,z=7
+    * - `"tool_rect_0_50_x_8_00"`
+      - 4
+      - x=0.5,y=0.3,z=8
+    * - `"tool_rect_0_50_x_9_00"`
+      - 4.25
+      - x=0.5,y=0.3,z=9
+    * - `"tool_rect_0_75_x_4_00"`
+      - 3.33
+      - x=0.75,y=0.3,z=4
+    * - `"tool_rect_0_75_x_5_00"`
+      - 3.66
+      - x=0.75,y=0.3,z=5
+    * - `"tool_rect_0_75_x_6_00"`
+      - 4
+      - x=0.75,y=0.3,z=6
+    * - `"tool_rect_0_75_x_7_00"`
+      - 4.33
+      - x=0.75,y=0.3,z=7
+    * - `"tool_rect_0_75_x_8_00"`
+      - 4.66
+      - x=0.75,y=0.3,z=8
+    * - `"tool_rect_0_75_x_9_00"`
+      - 5
+      - x=0.75,y=0.3,z=9
+    * - `"tool_rect_1_00_x_4_00"`
+      - 4
+      - x=1,y=0.3,z=4
+    * - `"tool_rect_1_00_x_5_00"`
+      - 4.5
+      - x=1,y=0.3,z=5
+    * - `"tool_rect_1_00_x_6_00"`
+      - 5
+      - x=1,y=0.3,z=6
+    * - `"tool_rect_1_00_x_7_00"`
+      - 5.5
+      - x=1,y=0.3,z=7
+    * - `"tool_rect_1_00_x_8_00"`
+      - 6
+      - x=1,y=0.3,z=8
+    * - `"tool_rect_1_00_x_9_00"`
+      - 6.5
+      - x=1,y=0.3,z=9
 
 Primitive Objects
 *****************

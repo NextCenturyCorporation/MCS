@@ -42,7 +42,7 @@ Run the following script to test MCS with the X11 server created above.
     controller = mcs.create_controller(config_file_or_dict={})
     # find a test scene
     scene_file_path = 'docs/source/scenes/ball_far.json'
-    scene_data, status = mcs.load_scene_json_file(scene_file_path)
+    scene_data = mcs.load_scene_json_file(scene_file_path)
     scene_file_name = scene_file_path[scene_file_path.rfind('/')+1]
     if 'name' not in scene_data.keys():
         scene_data['name'] = scene_file_name[0:scene_file_name.find('.')]

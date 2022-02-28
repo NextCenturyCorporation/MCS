@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 import ai2thor.server
 import colour
@@ -12,21 +12,29 @@ import PIL.Image
 import skimage.draw
 from shapely import geometry
 
-from machine_common_sense.config_manager import (FloorTexturesConfig,
-                                                 SceneConfiguration, Vector3d)
+from machine_common_sense.config_manager import SceneConfiguration, Vector3d
 
 
 @dataclass
 class SceneCoord():
     '''Unity scenes have floor dimensions of x and z'''
-    x: int
-    z: int
+    x: float
+    y: float
+    z: float
 
     def __sub__(self, coord: SceneCoord):
-        return SceneCoord(self.x - coord.x, self.z - coord.z)
+        return SceneCoord(self.x - coord.x, self.y - coord.y, self.z - coord.z)
 
     def __add__(self, coord: SceneCoord):
-        return SceneCoord(self.x + coord.x, self.z + coord.z)
+        return SceneCoord(self.x + coord.x, self.y + coord.y, self.z + coord.z)
+
+    def __or__(self, coord: SceneCoord):
+        '''Midpoint between two SceneCoords'''
+        return SceneCoord(
+            (self.x + coord.x) / 2,
+            (self.y + coord.y) / 2,
+            (self.z + coord.z) / 2
+        )
 
 
 @dataclass
@@ -47,17 +55,54 @@ class XZHeading():
 class Robot():
     '''AI robot/performer location and heading in Unity'''
     x: float
+    y: float
     z: float
     heading: XZHeading
 
 
 @dataclass
-class Object():
+class Arrow():
+    floor: List[SceneCoord]
+    peak: SceneCoord
+
+
+@dataclass
+class SceneAsset():
     held: bool
     visible: bool
     uuid: str
     color: str
-    bounds: list
+    bounds: List[SceneCoord]
+
+
+@dataclass
+class Ramp(SceneAsset):
+
+    @property
+    def arrow(self) -> Arrow:
+        peak_mid = self._peak_midpoint()
+        floor_pts = self._floor_points()
+        return Arrow(floor=floor_pts, peak=peak_mid)
+
+    def _peak_midpoint(self) -> SceneCoord:
+        '''The midpoint of the highest ramp side'''
+        sorted_bounds = sorted(self.bounds, key=lambda p: p.y)
+        peak_pts = sorted_bounds[-2:]
+        peak_scene_pts = [
+            SceneCoord(x=pt.x, y=pt.y, z=pt.z) for pt in peak_pts
+        ]
+        return peak_scene_pts[0] | peak_scene_pts[1]
+
+    def _floor_points(self) -> List[SceneCoord]:
+        '''The points of the ramp side nearest the floor'''
+        ys = [p.y for p in self.bounds]
+        # get all of the indices for the value that is nearest 0 ie the floor
+        indices = np.where(np.isclose(ys, ys[np.argmin(np.abs(ys))]))
+        return [SceneCoord(
+            self.bounds[int(indx)].x,
+            self.bounds[int(indx)].y,
+            self.bounds[int(indx)].z
+        ) for indx in indices[0]]
 
 
 @dataclass
@@ -109,6 +154,7 @@ class TopDownPlotter():
 
         room = SceneCoord(
             x=self._room_size.x,
+            y=self._room_size.y,
             z=self._room_size.z
         )
         largest_dimension = max(room.x, room.z)
@@ -132,11 +178,15 @@ class TopDownPlotter():
         )
 
         img = self._draw_grid_lines(img, buffer)
+
         img = self._draw_holes(
-            img, scene_config.holes)
-        img = self._draw_floor_textures(
             img,
-            scene_config.floor_textures)
+            scene_config.holes,
+            scene_config.room_dimensions)
+        img = self._draw_lava(
+            img,
+            scene_config.lava,
+            scene_config.room_dimensions)
 
         return img
 
@@ -249,39 +299,118 @@ class TopDownPlotter():
         img[rr, cc] = self.BORDER_COLOR
         return img
 
-    def _draw_floor_textures(
-        self,
-        img: np.ndarray,
-        floor_textures: List[FloorTexturesConfig]
-    ) -> np.ndarray:
-        if floor_textures is None:
+    def _out_of_bounds(
+            self, pos: SceneCoord, room_dim: Vector3d) -> bool:
+        x_odd_reducer = 0 if room_dim.x % 2 == 0 else 1
+        z_odd_reducer = 0 if room_dim.z % 2 == 0 else 1
+        return (abs(pos.x) > (room_dim.x - x_odd_reducer) /
+                2 or abs(pos.z) > (room_dim.z - z_odd_reducer) / 2)
+
+    def _even_room_dim_edge_size_reducer(
+            self,
+            pos: SceneCoord,
+            room_dim: Vector3d = Vector3d(10, 0, 10)) -> Tuple(SceneCoord):
+
+        size_reducer_left = SceneCoord(0, 0, 0)
+        size_reducer_right = SceneCoord(0, 0, 0)
+        if pos.x == -(room_dim.x / 2):
+            size_reducer_left.x = 0.5
+        if pos.z == -(room_dim.z / 2):
+            size_reducer_left.z = 0.5
+        if pos.x == (room_dim.x / 2):
+            size_reducer_right.x = -0.5
+        if pos.z == (room_dim.z / 2):
+            size_reducer_right.z = -0.5
+
+        return size_reducer_left, size_reducer_right
+
+    def _even_x_odd_z_room_dim_edge_size_reducer(
+            self,
+            pos: SceneCoord,
+            room_dim: Vector3d = Vector3d(10, 0, 10)) -> Tuple(SceneCoord):
+
+        size_reducer_left = SceneCoord(0, 0, 0)
+        size_reducer_right = SceneCoord(0, 0, 0)
+        if pos.x == -(room_dim.x / 2):
+            size_reducer_left.x = 0.5
+        if pos.x == (room_dim.x / 2):
+            size_reducer_right.x = -0.5
+
+        return size_reducer_left, size_reducer_right
+
+    def _odd_x_even_z_room_dim_edge_size_reducer(
+            self,
+            pos: SceneCoord,
+            room_dim: Vector3d = Vector3d(10, 0, 10)) -> Tuple(SceneCoord):
+
+        size_reducer_left = SceneCoord(0, 0, 0)
+        size_reducer_right = SceneCoord(0, 0, 0)
+        if pos.z == -(room_dim.z / 2):
+            size_reducer_left.z = 0.5
+        if pos.z == (room_dim.z / 2):
+            size_reducer_right.z = -0.5
+
+        return size_reducer_left, size_reducer_right
+
+    def _plotter_hole_texture_size_reducer(
+            self,
+            pos: SceneCoord,
+            room_dim: Vector3d = Vector3d(10, 0, 10)) -> Tuple(SceneCoord):
+
+        x_is_even = room_dim.x % 2 == 0
+        z_is_even = room_dim.z % 2 == 0
+
+        if self._out_of_bounds(pos, room_dim):
+            return None, None
+        if x_is_even and z_is_even:
+            return (self._even_room_dim_edge_size_reducer(pos, room_dim))
+        if x_is_even and not z_is_even:
+            return self._even_x_odd_z_room_dim_edge_size_reducer(pos, room_dim)
+        return self._odd_x_even_z_room_dim_edge_size_reducer(pos, room_dim)
+
+    def _draw_lava(self, img: np.ndarray, lava: List,
+                   room_dim: Vector3d = Vector3d(10, 0, 10)) -> np.ndarray:
+        if lava is None:
             return img
 
-        for floor_texture in floor_textures:
-            # TODO MCS-1024 use floor_texture.material for color
-            texture_color = colour.COLOR_NAME_TO_RGB['red']
+        for area in lava:
+            area_center = SceneCoord(x=area.x, y=0, z=area.z)
+            half_cell_pos = SceneCoord(
+                self.UNIT_CELL_WIDTH / 2, 0, self.UNIT_CELL_WIDTH / 2)
+            size_reducer_left, size_reducer_right = (
+                self._plotter_hole_texture_size_reducer(
+                    area, room_dim))
+            if size_reducer_left is None:
+                continue
+            area_pos_ul = area_center - half_cell_pos + size_reducer_left
+            area_pos_lr = area_center + half_cell_pos + size_reducer_right
+            area_img_pos_ul = self._convert_to_image_coords(area_pos_ul)
+            area_img_pos_lr = self._convert_to_image_coords(area_pos_lr)
 
-            for position in floor_texture.positions:
-                texture_pos = SceneCoord(x=position.x, z=position.z)
-                half_cell_pos = SceneCoord(
-                    self.UNIT_CELL_WIDTH / 2, self.UNIT_CELL_WIDTH / 2)
-                tex_pos_ul = texture_pos - half_cell_pos
-                tex_pos_lr = texture_pos + half_cell_pos
-                tex_img_pos_ul = self._convert_to_image_coords(tex_pos_ul)
-                tex_img_pos_lr = self._convert_to_image_coords(tex_pos_lr)
-                img = self._draw_floor_texture(
-                    img=img,
-                    upper_left=tex_img_pos_ul,
-                    lower_right=tex_img_pos_lr,
-                    texture_color=texture_color)
-
+            img = self._draw_lava_area(
+                img=img,
+                upper_left=area_img_pos_ul,
+                lower_right=area_img_pos_lr,
+                texture_color=colour.COLOR_NAME_TO_RGB['red'])
+            img = self._draw_perimeter(
+                img,
+                area_img_pos_ul,
+                area_img_pos_lr,
+                self.BACKGROUND_COLOR)
+            img = self._draw_x(
+                img,
+                area_img_pos_ul,
+                area_img_pos_lr,
+                self.BACKGROUND_COLOR)
         return img
 
-    def _draw_floor_texture(self,
-                            img: np.ndarray,
-                            upper_left: ImageCoord,
-                            lower_right: ImageCoord,
-                            texture_color: colour.C_RGB) -> np.ndarray:
+    def _draw_lava_area(
+        self,
+        img: np.ndarray,
+        upper_left: ImageCoord,
+        lower_right: ImageCoord,
+        texture_color: colour.C_RGB
+    ) -> np.ndarray:
         rr, cc = skimage.draw.rectangle(
             start=(upper_left.y, upper_left.x),
             end=(lower_right.y, lower_right.x),
@@ -289,19 +418,27 @@ class TopDownPlotter():
         img[rr, cc] = texture_color
         return img
 
-    def _draw_holes(self, img: np.ndarray, holes: List) -> np.ndarray:
+    def _draw_holes(self, img: np.ndarray, holes: List,
+                    room_dim: Vector3d = Vector3d(10, 0, 10)) -> np.ndarray:
         '''Draw a box with an X to illustrate a floor hole'''
         if holes is None:
             return img
 
         for hole in holes:
-            hole_center = SceneCoord(x=hole.x, z=hole.z)
+            hole_center = SceneCoord(x=hole.x, y=0, z=hole.z)
+
+            size_reducer_left, size_reducer_right = (
+                self._plotter_hole_texture_size_reducer(
+                    hole, room_dim))
+            if size_reducer_left is None:
+                continue
             half_cell_pos = SceneCoord(
-                self.UNIT_CELL_WIDTH / 2,
-                self.UNIT_CELL_WIDTH / 2)
+                self.UNIT_CELL_WIDTH / 2, 0, self.UNIT_CELL_WIDTH / 2)
             # calculate scene corners
-            hole_upper_left: SceneCoord = hole_center - half_cell_pos
-            hole_lower_right: SceneCoord = hole_center + half_cell_pos
+            hole_upper_left: SceneCoord = hole_center - half_cell_pos + \
+                size_reducer_left
+            hole_lower_right: SceneCoord = hole_center + half_cell_pos + \
+                size_reducer_right
 
             # convert scene corners to image coordinates
             hole_img_upper_left: ImageCoord = self._convert_to_image_coords(
@@ -309,45 +446,52 @@ class TopDownPlotter():
             hole_img_lower_right: ImageCoord = self._convert_to_image_coords(
                 hole_lower_right)
 
-            img = self._draw_hole_perimeter(
-                img, hole_img_upper_left, hole_img_lower_right)
-            img = self._draw_hole_x(
-                img, hole_img_upper_left, hole_img_lower_right)
+            img = self._draw_perimeter(
+                img,
+                hole_img_upper_left,
+                hole_img_lower_right,
+                self.DEFAULT_COLOR)
+            img = self._draw_x(
+                img,
+                hole_img_upper_left,
+                hole_img_lower_right,
+                self.DEFAULT_COLOR)
         return img
 
-    def _draw_hole_perimeter(
+    def _draw_perimeter(
             self,
             img: np.ndarray,
             upper_left: ImageCoord,
-            lower_right: ImageCoord) -> np.ndarray:
+            lower_right: ImageCoord,
+            color: Tuple) -> np.ndarray:
         '''Outline the floor hole'''
         rr, cc = skimage.draw.rectangle_perimeter(
-            start=(upper_left.y, upper_left.x),
-            end=(lower_right.y - 1, lower_right.x - 1),
+            start=(upper_left.y - 1, upper_left.x + 1),
+            end=(lower_right.y + 1, lower_right.x - 1),
             shape=img.shape[:2],
             clip=True)
-        img[rr, cc] = self.DEFAULT_COLOR
+        img[rr, cc] = color
         return img
 
-    def _draw_hole_x(
+    def _draw_x(
             self,
             img: np.ndarray,
             upper_left: ImageCoord,
-            lower_right: ImageCoord) -> np.ndarray:
-        '''Draw an X through the hole cell'''
+            lower_right: ImageCoord,
+            color: Tuple) -> np.ndarray:
         rr, cc = skimage.draw.line(
             r0=upper_left.y,
             c0=upper_left.x,
             r1=lower_right.y,
             c1=lower_right.x)
-        img[rr, cc] = self.DEFAULT_COLOR
+        img[rr, cc] = color
 
         rr, cc = skimage.draw.line(
             r0=lower_right.y,
             c0=upper_left.x,
             r1=upper_left.y,
             c1=lower_right.x)
-        img[rr, cc] = self.DEFAULT_COLOR
+        img[rr, cc] = color
         return img
 
     def _export_plot(self, img: np.ndarray) -> PIL.Image.Image:
@@ -368,9 +512,11 @@ class TopDownPlotter():
         position = robot_metadata.get('position')
         if position is not None:
             x = position.get('x')
+            y = position.get('y')
             z = position.get('z')
         else:
             x = 0.0
+            y = 0.0
             z = 0.0
         rotation = robot_metadata.get('rotation')
         rotation_y = rotation.get('y') if rotation is not None else 0.0
@@ -378,7 +524,7 @@ class TopDownPlotter():
             rotation_angle=360.0 - rotation_y,
             heading_length=self.HEADING_LENGTH
         )
-        return Robot(x, z, heading)
+        return Robot(x, y, z, heading)
 
     def _calculate_heading(self, rotation_angle: float,
                            heading_length: float) -> XZHeading:
@@ -393,7 +539,7 @@ class TopDownPlotter():
                              robot: Robot) -> np.ndarray:
         '''Draw the robot's scene XZ position in the plot'''
         robot_position = self._convert_to_image_coords(
-            scene_pt=SceneCoord(robot.x, robot.z)
+            scene_pt=SceneCoord(robot.x, robot.y, robot.z)
         )
         rr, cc = skimage.draw.disk(
             center=(
@@ -434,41 +580,45 @@ class TopDownPlotter():
             obj.get('objectId', '').startswith('floor')
         ]
         objects = scene_event.metadata.get('objects', [])
-        return filtered_structural_objects + objects
+        combined_objects = filtered_structural_objects + objects
+        # the combined list needs to be sorted by y height
+        # so that the lowest objects are drawn first
+        combined_objects = sorted(
+            combined_objects,
+            key=lambda obj: obj['objectBounds']['objectBoundsCorners'][0]['y'])
+        return combined_objects
 
     def _draw_objects(self, img: np.ndarray, objects: Dict,
                       goal_id: str = None) -> np.ndarray:
         '''Plot the object bounds for each object in the scene'''
         for o in objects:
-            obj = self._create_object(o)
+            obj = self._create_asset(o)
             if obj.bounds is not None:
-                obj_pts = [(pt['x'], pt['z']) for pt in obj.bounds]
-                polygon = geometry.MultiPoint(
-                    obj_pts).convex_hull
-                pts = polygon.exterior.coords
-                img = self._draw_object(img, obj, pts)
+                img = self._draw_object(img, obj)
                 if goal_id is not None and o['objectId'] == goal_id:
-                    img = self._draw_goal(img, pts)
+                    img = self._draw_goal(img, obj)
         return img
 
-    def _create_object(self, object_metadata: Dict) -> Object:
+    def _create_asset(self, object_metadata: Dict) -> SceneAsset:
         '''Create the scene object from its metadata'''
-        held = object_metadata.get('isPickedUp')
-        visible = object_metadata.get('visibleInCamera')
-        uuid = object_metadata.get('objectId')
         colors = object_metadata.get('colorsFromMaterials', [])
         if len(colors):
             color = self._convert_color(colors[0])
         else:
             color = self._convert_color('')
-        bounds = object_metadata.get('objectBounds')
-        corners = None if bounds is None else bounds.get('objectBoundsCorners')
-        return Object(
-            held=held,
-            visible=visible,
-            uuid=uuid,
+
+        obj_bounds = object_metadata.get('objectBounds')
+        corners = None if obj_bounds is None else obj_bounds.get(
+            'objectBoundsCorners')
+        bounds = None if corners is None else [SceneCoord(
+            x=corner['x'], y=corner['y'], z=corner['z']) for corner in corners]
+
+        return SceneAsset(
+            held=object_metadata.get('isPickedUp'),
+            visible=object_metadata.get('visibleInCamera'),
+            uuid=object_metadata.get('objectId'),
             color=color,
-            bounds=corners
+            bounds=bounds
         )
 
     def _convert_color(self, color: str) -> str:
@@ -483,10 +633,16 @@ class TopDownPlotter():
         return color
 
     def _draw_object(self, img: np.ndarray,
-                     obj: Object, points: List) -> np.ndarray:
+                     obj: SceneAsset) -> np.ndarray:
         '''Draw the scene object'''
+
+        obj_pts = [(pt.x, pt.z) for pt in obj.bounds]
+        polygon = geometry.MultiPoint(
+            obj_pts).convex_hull
+        pts = polygon.exterior.coords
+
         # convert list of tuples to list of rows and list of columns
-        cs, rs = map(list, zip(*points))
+        cs, rs = map(list, zip(*pts))
         # convert room coordinates to image coordinates
         rs = list(map(lambda r: self.image_center.y - r * self.scale.y, rs))
         cs = list(map(lambda c: self.image_center.x + c * self.scale.x, cs))
@@ -507,16 +663,65 @@ class TopDownPlotter():
         clr = colour.COLOR_NAME_TO_RGB.get(
             obj.color.lower(), self.DEFAULT_COLOR)
 
+        # using ramp string prefix assumpation to make ramp determination
+        # might be better to have an attribute to leverage
+        if(obj.uuid.startswith('ramp')):
+            self._draw_ramp_arrow(img, obj)
+
         img[rr, cc] = clr
         return img
 
+    def _draw_ramp_arrow(self, img: np.ndarray, obj: SceneAsset) -> np.ndarray:
+        # convert scene object to a ramp
+        ramp = obj
+        ramp.__class__ = Ramp
+        return self._draw_arrow(img, ramp)
+
+    def _draw_arrow(self, img: np.ndarray, ramp: Ramp) -> np.ndarray:
+        '''draw lines from the arrow floor points to the peak
+        to illustrate the ramp
+        '''
+        peak_pt = self._convert_to_image_coords(ramp.arrow.peak)
+        for floor_pt in ramp.arrow.floor:
+            img_pt = self._convert_to_image_coords(floor_pt)
+            rr, cc = skimage.draw.line(
+                r0=peak_pt.y,
+                c0=peak_pt.x,
+                r1=img_pt.y,
+                c1=img_pt.x)
+            img[rr, cc] = self.BACKGROUND_COLOR \
+                if ramp.visible else self.DEFAULT_COLOR
+        return img
+
     def _draw_goal(self, img: np.ndarray,
-                   pts: List) -> np.ndarray:
+                   obj: SceneAsset) -> np.ndarray:
         '''Draw the goal object of the scene'''
+        obj_pts = [(pt.x, pt.z) for pt in obj.bounds]
+        polygon = geometry.MultiPoint(
+            obj_pts).convex_hull
+        pts = polygon.exterior.coords
+
         cs, rs = map(list, zip(*pts))
+        # convert room coordinates to image coordinates
+        rs = list(map(lambda r: self.image_center.y - r * self.scale.y, rs))
+        cs = list(map(lambda c: self.image_center.x + c * self.scale.x, cs))
         rr, cc = skimage.draw.polygon_perimeter(
             rs,
             cs,
             shape=img.shape[:2])
         img[rr, cc] = self.GOAL_COLOR
         return img
+
+
+if __name__ == '__main__':
+    import sys
+
+    import machine_common_sense as mcs
+    controller = mcs.create_controller(
+        unity_cache_version='dev',
+        config_file_or_dict={'metadata': 'level1',
+                             'video_enabled': True})
+
+    scene_data, _ = mcs.load_scene_json_file(sys.argv[1])
+    controller.start_scene(scene_data)
+    controller.end_scene()
