@@ -4,7 +4,7 @@ import json
 
 
 def main(debug_scene_folder: str, output_file_name: str):
-    json_file_list = glob.glob(debug_scene_folder + '*_debug.json')
+    json_file_list = glob.glob(f"{debug_scene_folder}*_debug.json")
     json_file_list = sorted(json_file_list)
     print(f'Found {len(json_file_list)} debug files in {debug_scene_folder}')
     all_ground_truth = {}

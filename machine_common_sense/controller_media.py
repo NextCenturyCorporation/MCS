@@ -55,7 +55,7 @@ class AbstractImageEventHandler(AbstractControllerSubscriber):
                     len(payload.step_metadata.events)) +
                 (index + 1)
             )
-        return '_' + str(step_plus_substep_index) + '.png'
+        return f"_{str(step_plus_substep_index)}.png"
 
     def _do_save_image(self, payload, index: int, data: PIL.Image, name: str):
         if (payload.output_folder):

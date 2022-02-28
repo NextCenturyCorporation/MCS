@@ -145,9 +145,9 @@ class StepMetadata:
         habituation_trial=None,
         haptic_feedback=None,
         head_tilt=0.0,
-        holes=[],
+        holes=None,
         image_list=None,
-        lava=[],
+        lava=None,
         object_list=None,
         object_mask_list=None,
         performer_radius=0.0,
@@ -180,9 +180,9 @@ class StepMetadata:
             {} if haptic_feedback is None else haptic_feedback
         )
         self.head_tilt = head_tilt
-        self.holes = holes
+        self.holes = [] if holes is None else holes
         self.image_list = [] if image_list is None else image_list
-        self.lava = lava
+        self.lava = [] if lava is None else lava
         self.object_list = [] if object_list is None else object_list
         self.object_mask_list = (
             [] if object_mask_list is None else object_mask_list

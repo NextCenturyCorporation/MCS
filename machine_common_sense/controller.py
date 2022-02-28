@@ -1,6 +1,8 @@
 import atexit
+import contextlib
 import datetime
 import glob
+import io
 import json
 import logging
 import os
@@ -90,21 +92,23 @@ class Controller():
     @typeguard.typechecked
     def __init__(self, unity_app_file_path: str, config: ConfigManager):
 
-        self._controller = ai2thor.controller.Controller(
-            quality='Medium',
-            fullscreen=False,
-            headless=False,  # TODO confirm functionality
-            local_executable_path=unity_app_file_path,
-            width=config.get_screen_width(),
-            height=config.get_screen_height(),
-            scene='MCS',  # Unity scene name
-            logs=True,
-            # This constructor always initializes a scene, so add a scene
-            # config to ensure it doesn't error
-            sceneConfig={
-                "objects": []
-            }
-        )
+        # Suppress print statements from the AI2-THOR Controller's constructor.
+        with contextlib.redirect_stdout(io.StringIO()) as _:
+            self._controller = ai2thor.controller.Controller(
+                quality='Medium',
+                fullscreen=False,
+                headless=False,  # TODO confirm functionality
+                local_executable_path=unity_app_file_path,
+                width=config.get_screen_width(),
+                height=config.get_screen_height(),
+                scene='MCS',  # Unity scene name
+                logs=True,
+                # This constructor always initializes a scene, so add a scene
+                # config to ensure it doesn't error
+                sceneConfig={
+                    "objects": []
+                }
+            )
 
         if not self._controller:
             raise Exception('AI2-THOR/Unity Controller failed to initialize')
