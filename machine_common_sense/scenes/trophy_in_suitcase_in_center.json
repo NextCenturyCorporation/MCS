@@ -1,0 +1,83 @@
+{
+    "name": "trophy_retrieval_example",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": -0.5
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "objects": [
+        {
+            "id": "box",
+            "type": "suitcase_1",
+            "info": ["small","light","paper","brown","box","small light paper brown box"],
+            "mass": 0.5,
+            "moveable": true,
+            "pickupable": true,
+            "receptacle": true,
+            "openable": true,
+            "shows": [
+                {
+                    "rotation": {
+                        "x": 0,
+                        "y": 180,
+                        "z": 0
+                    },
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "stepBegin": 0,
+                    "scale": {
+                        "x": 1.25,
+                        "y": 2,
+                        "z": 1.25
+                    }
+                }
+            ],
+            "salientMaterials": ["paper"]
+        },
+        {
+            "id": "trophy",
+            "type": "trophy",
+            "shows": [{
+                "stepBegin": 0,
+                "position": {
+                    "x": 0,
+                    "y": 0.1,
+                    "z": 0
+                },
+                "rotation": {
+                    "x": 90,
+                    "y": 0,
+                    "z": 0
+                },
+                "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                }
+            }],
+            "locationParent": "box"
+        }],
+    "goal": {
+        "category": "retrieval",
+        "description": "Find and pick up the trophy.",
+        "last_step": 3000,
+        "metadata": {
+            "target": {
+                "id": "trophy",
+                "image": null
+            }
+        }
+    }
+}
