@@ -1147,6 +1147,72 @@ Furniture Objects
       - x=1.07,y=2.1,z=0.49
       - 
 
+Tool Objects
+-------------
+
+All of the tools have the `tool` shape, `metal` material, `moveable` and `receptacle` attributes, and the same grey and black colors/textures.
+
+.. list-table::
+    :header-rows: 1
+
+    * - Object Type
+      - Default Mass
+      - Base Size
+    * - `"tool_rect_0_50_x_4_00"`
+      - 3
+      - x=0.5,y=0.3,z=4
+    * - `"tool_rect_0_50_x_5_00"`
+      - 3.25
+      - x=0.5,y=0.3,z=5
+    * - `"tool_rect_0_50_x_6_00"`
+      - 3.5
+      - x=0.5,y=0.3,z=6
+    * - `"tool_rect_0_50_x_7_00"`
+      - 3.75
+      - x=0.5,y=0.3,z=7
+    * - `"tool_rect_0_50_x_8_00"`
+      - 4
+      - x=0.5,y=0.3,z=8
+    * - `"tool_rect_0_50_x_9_00"`
+      - 4.25
+      - x=0.5,y=0.3,z=9
+    * - `"tool_rect_0_75_x_4_00"`
+      - 3.33
+      - x=0.75,y=0.3,z=4
+    * - `"tool_rect_0_75_x_5_00"`
+      - 3.66
+      - x=0.75,y=0.3,z=5
+    * - `"tool_rect_0_75_x_6_00"`
+      - 4
+      - x=0.75,y=0.3,z=6
+    * - `"tool_rect_0_75_x_7_00"`
+      - 4.33
+      - x=0.75,y=0.3,z=7
+    * - `"tool_rect_0_75_x_8_00"`
+      - 4.66
+      - x=0.75,y=0.3,z=8
+    * - `"tool_rect_0_75_x_9_00"`
+      - 5
+      - x=0.75,y=0.3,z=9
+    * - `"tool_rect_1_00_x_4_00"`
+      - 4
+      - x=1,y=0.3,z=4
+    * - `"tool_rect_1_00_x_5_00"`
+      - 4.5
+      - x=1,y=0.3,z=5
+    * - `"tool_rect_1_00_x_6_00"`
+      - 5
+      - x=1,y=0.3,z=6
+    * - `"tool_rect_1_00_x_7_00"`
+      - 5.5
+      - x=1,y=0.3,z=7
+    * - `"tool_rect_1_00_x_8_00"`
+      - 6
+      - x=1,y=0.3,z=8
+    * - `"tool_rect_1_00_x_9_00"`
+      - 6.5
+      - x=1,y=0.3,z=9
+
 Primitive Objects
 *****************
 

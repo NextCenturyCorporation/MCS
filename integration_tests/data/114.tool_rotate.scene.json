@@ -1,0 +1,44 @@
+﻿{
+    "name": "rotate a large rectangular block tool on wheels",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "roomDimensions": {
+        "x": 12,
+        "y": 3,
+        "z": 12
+    },
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": -4.5
+        },
+        "rotation": {
+            "x": 20,
+            "y": 0
+        }
+    },
+    "objects": [{
+        "id": "tool",
+        "type": "tool_rect_1_00_x_9_00",
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.15,
+                "z": 0.5
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }]
+    }]
+}
