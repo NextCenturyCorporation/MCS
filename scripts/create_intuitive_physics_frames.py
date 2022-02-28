@@ -13,7 +13,7 @@ def run():
     folder_prefix = sys.argv[1]
     eval_number = sys.argv[2]
     move_across = len(sys.argv) > 3
-    folder_list = glob.glob(folder_prefix + '*')
+    folder_list = glob.glob(f"{folder_prefix}*")
     folder_list = sorted([
         folder for folder in folder_list if os.path.isdir(folder)
     ])
@@ -23,15 +23,14 @@ def run():
     frame_1 = '0' if move_across else '32'
     frame_2 = '40' if move_across else '60'
     for folder in folder_list:
-        file_list.append(folder + '/frame_image_' + frame_1 + '.png')
-        file_list.append(folder + '/frame_image_' + frame_2 + '.png')
+        file_list.append(f"{folder}/frame_image_{frame_1}.png")
+        file_list.append(f"{folder}/frame_image_{frame_2}.png")
 
     zip_prefix = (
-        'eval_' + eval_number + '_' + folder_prefix + 'frames_' + frame_1 +
-        '_' + frame_2
+        f"eval_{eval_number}_{folder_prefix}frames_{frame_1}_{frame_2}"
     )
     print('Making ZIP of frame image files')
-    subprocess.call(['zip', zip_prefix + '.zip'] + file_list)
+    subprocess.call(['zip', f"{zip_prefix}.zip"] + file_list)
 
 
 if __name__ == "__main__":

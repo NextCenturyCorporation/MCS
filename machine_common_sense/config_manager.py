@@ -100,14 +100,14 @@ class ConfigManager(object):
         self._config[self.CONFIG_DEFAULT_SECTION] = config_dict
         logger.info('No config file given or file path does not exist,'
                     ' using config dictionary')
-        logger.info('Read in config dictionary: ' + str(config_dict))
+        logger.info(f"Read in config dictionary: {str(config_dict)}")
 
     def _read_in_config_file(self, config_file_path):
         if os.path.exists(config_file_path):
             self._config.read(config_file_path)
-            logger.info('Config File Path: ' + config_file_path)
+            logger.info(f"Config File Path: {config_file_path}")
         else:
-            logger.warning('No config file at given path: ' + config_file_path)
+            logger.warning(f"No config file at given path: {config_file_path}")
             raise FileNotFoundError()
 
     def _validate_screen_size(self):
@@ -858,12 +858,15 @@ class SceneConfiguration:
                                object_id, step_number):
         """Return the state list at the current step for the object with the
         given ID from the scene configuration data, if any."""
-        state_list_each_step = []
-        # Retrieve the object's states from the scene configuration.
-        for object_config in self.objects:
-            if object_config.id == object_id:
-                state_list_each_step = object_config.states or []
-                break
+        state_list_each_step = next(
+            (
+                object_config.states or []
+                for object_config in self.objects
+                if object_config.id == object_id
+            ),
+            [],
+        )
+
         # Retrieve the object's states in the current step.
         if len(state_list_each_step) > step_number:
             state_list = state_list_each_step[step_number]

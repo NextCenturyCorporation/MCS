@@ -13,7 +13,7 @@ import machine_common_sense as mcs
 from machine_common_sense.logging_config import LoggingConfig
 
 INTEGRATION_TESTS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-TEST_FOLDER = INTEGRATION_TESTS_FOLDER + '/data/'
+TEST_FOLDER = f"{INTEGRATION_TESTS_FOLDER}/data/"
 SCENE_SUFFIX = '.scene.json'
 ACTIONS_SUFFIX = '.actions.txt'
 OUTPUTS_SUFFIX = '.outputs.json'
@@ -174,7 +174,7 @@ def load_action_list(scene_filename):
 def load_output_list(scene_filename, metadata_tier):
     output_filename = scene_filename.replace(
         SCENE_SUFFIX,
-        '.' + metadata_tier + OUTPUTS_SUFFIX
+        f".{metadata_tier}{OUTPUTS_SUFFIX}"
     )
     if not os.path.isfile(output_filename):
         return output_filename, None
@@ -194,16 +194,16 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
         metadata_tier
     )
     if expected_output_data_list is None:
-        return False, 'No file ' + output_filename
+        return False, f"No file {output_filename}"
     if len(expected_output_data_list) == 0:
-        return False, 'No validation outputs in ' + output_filename
+        return False, f"No validation outputs in {output_filename}"
 
     # Load the actions from the test scene's corresponding actions file.
     action_filename, action_list = load_action_list(scene_filename)
     if action_list is None:
-        return False, 'No file ' + action_filename
+        return False, f"No file {action_filename}"
     if len(action_list) == 0:
-        return False, 'No scripted actions in ' + action_filename
+        return False, f"No scripted actions in {action_filename}"
 
     # Initialize the test scene.
     step_metadata = controller.start_scene(scene_data)
@@ -225,7 +225,7 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
         )
         # If the validation failed, return the failed test case info.
         if len(failed_validation_list) > 0:
-            indent = "\n" + INDENT + INDENT
+            indent = f"\n{INDENT}{INDENT}"
             error_message_list = [item[3] for item in failed_validation_list]
             status = (
                 f'Step {index} failed:{indent}'
@@ -286,7 +286,7 @@ def start_handmade_tests(
 ):
 
     # Find all of the test scene JSON files.
-    scene_filename_list = sorted(glob.glob(TEST_FOLDER + '*' + SCENE_SUFFIX))
+    scene_filename_list = sorted(glob.glob(f"{TEST_FOLDER}*{SCENE_SUFFIX}"))
 
     successful_test_list = []
     failed_test_list = []

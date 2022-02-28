@@ -21,8 +21,8 @@ def parse_args():
 def main():
     args = parse_args()
 
-    output_folder = args.image_output_folder + '/'
-    json_file_list = glob.glob(args.json_input_folder + '/*.json')
+    output_folder = f"{args.image_output_folder}/"
+    json_file_list = glob.glob(f"{args.json_input_folder}/*.json")
 
     controller = mcs.create_controller(
         unity_app_file_path=args.mcs_unity_build_file,
@@ -46,9 +46,7 @@ def main():
             output_json_file.write(str(output))
 
         output.image_list[0].save(
-            fp=output_folder +
-            scene_data['name'] +
-            '.png')
+            fp=f"{output_folder + scene_data['name']}.png")
 
     controller.end_scene()
 

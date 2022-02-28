@@ -80,7 +80,7 @@ class HumanInputShell(cmd.Cmd):
             print(
                 "You entered an invalid shortcut key, please try again. "
                 "(Type 'help' to display commands again)")
-            print("You entered: " + split_input[0])
+            print(f"You entered: {split_input[0]}")
             return
 
         if (
@@ -206,12 +206,7 @@ def print_commands():
 
     for command in commands:
         print(
-            "- " +
-            command.name +
-            " (ShortcutKey=" +
-            command.key +
-            "): " +
-            command.desc)
+            f"- {command.name} (ShortcutKey={command.key}): {command.desc}")
 
     print(" ")
     print("---------------- Example Commands ----------------")
