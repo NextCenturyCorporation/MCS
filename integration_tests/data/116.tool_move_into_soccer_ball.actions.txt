@@ -1,0 +1,10 @@
+MoveObject,objectId=tool,lateral=0,straight=1
+MoveObject,objectId=tool,lateral=0,straight=1
+MoveObject,objectId=tool,lateral=0,straight=1
+MoveObject,objectId=tool,lateral=0,straight=1
+MoveObject,objectId=tool,lateral=0,straight=1
+MoveObject,objectId=tool,lateral=0,straight=1
+MoveObject,objectId=tool,lateral=0,straight=1
+MoveObject,objectId=tool,lateral=0,straight=1
+Pass
+Pass

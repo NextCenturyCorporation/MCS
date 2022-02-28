@@ -1,0 +1,354 @@
+﻿[
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.24,
+                "direction_z": 0.97,
+                "distance": 2.57,
+                "id": "tool",
+                "mass": 4.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_z": -1.0,
+                "rotation_y": 0.0,
+                "shape": "tool",
+                "texture_color_list": [
+                    "grey",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -3.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.23,
+                "direction_z": 0.97,
+                "distance": 2.63,
+                "id": "tool",
+                "mass": 4.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_z": -0.95,
+                "rotation_y": 0.0,
+                "shape": "tool",
+                "texture_color_list": [
+                    "grey",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -3.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 1,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.97,
+                "distance": 2.72,
+                "id": "tool",
+                "mass": 4.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_z": -0.85,
+                "rotation_y": 0.0,
+                "shape": "tool",
+                "texture_color_list": [
+                    "grey",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -3.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 2,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.21,
+                "direction_z": 0.98,
+                "distance": 2.86,
+                "id": "tool",
+                "mass": 4.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_z": -0.7,
+                "rotation_y": 0.0,
+                "shape": "tool",
+                "texture_color_list": [
+                    "grey",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -3.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 3,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.2,
+                "direction_z": 0.98,
+                "distance": 3.05,
+                "id": "tool",
+                "mass": 4.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_z": -0.51,
+                "rotation_y": 0.0,
+                "shape": "tool",
+                "texture_color_list": [
+                    "grey",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -3.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 4,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.19,
+                "direction_z": 0.98,
+                "distance": 3.23,
+                "id": "tool",
+                "mass": 4.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_z": -0.33,
+                "rotation_y": 0.0,
+                "shape": "tool",
+                "texture_color_list": [
+                    "grey",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -3.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 5,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.18,
+                "direction_z": 0.98,
+                "distance": 3.38,
+                "id": "tool",
+                "mass": 4.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_z": -0.17,
+                "rotation_y": 0.0,
+                "shape": "tool",
+                "texture_color_list": [
+                    "grey",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -3.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 6,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.17,
+                "direction_z": 0.98,
+                "distance": 3.53,
+                "id": "tool",
+                "mass": 4.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_z": -0.03,
+                "rotation_y": 0.0,
+                "shape": "tool",
+                "texture_color_list": [
+                    "grey",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -3.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 7,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.17,
+                "direction_z": 0.99,
+                "distance": 3.65,
+                "id": "tool",
+                "mass": 4.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.1,
+                "rotation_y": 0,
+                "shape": "tool",
+                "texture_color_list": [
+                    "grey",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -3.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 8,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.16,
+                "direction_z": 0.99,
+                "distance": 3.77,
+                "id": "tool",
+                "mass": 4.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.22,
+                "rotation_y": 0,
+                "shape": "tool",
+                "texture_color_list": [
+                    "grey",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -3.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 9,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.16,
+                "direction_z": 0.98,
+                "distance": 3.86,
+                "id": "tool",
+                "mass": 4.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.31,
+                "rotation_y": 0,
+                "shape": "tool",
+                "texture_color_list": [
+                    "grey",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": -3.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 10,
+        "structural_objects_count": 6
+    }
+]

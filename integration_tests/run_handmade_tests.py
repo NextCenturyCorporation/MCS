@@ -51,7 +51,11 @@ def create_step_test_case_list(expected, actual):
         ('position_z', actual.position.get('z') if actual.position else None),
         ('return_status', actual.return_status),
         ('reward', actual.reward),
-        ('rotation_y', actual.rotation),
+        (
+            'rotation_y',
+            round(actual.rotation) % 360 if actual.rotation is not None
+            else None
+        ),
         ('step_number', actual.step_number),
         ('physics_frames_per_second', actual.physics_frames_per_second),
         ('structural_objects_count', len(actual.structural_object_list))
@@ -77,15 +81,15 @@ def create_object_test_case_list(object_type, expected, actual):
         ('position_z', actual.position.get('z') if actual.position else None),
         (
             'rotation_x',
-            round(actual.rotation.get('x')) if actual.rotation else None
+            round(actual.rotation.get('x')) % 360 if actual.rotation else None
         ),
         (
             'rotation_y',
-            round(actual.rotation.get('y')) if actual.rotation else None
+            round(actual.rotation.get('y')) % 360 if actual.rotation else None
         ),
         (
             'rotation_z',
-            round(actual.rotation.get('z')) if actual.rotation else None
+            round(actual.rotation.get('z')) % 360 if actual.rotation else None
         ),
         ('shape', actual.shape),
         ('state_list', actual.state_list),
@@ -132,15 +136,20 @@ def validate_single_output(expected, actual):
     for test_case, expected_data, actual_data in test_case_list:
         failed = (expected_data != actual_data)
         if (
-            isinstance(expected_data, (int, float)) and
+            isinstance(expected_data, (int, float, list)) and
             isinstance(actual_data, (int, float))
         ):
-            failed = (not math.isclose(
-                expected_data,
+            # This test case passes if any number in the expected list matches.
+            expected_list = (
+                [expected_data] if not isinstance(expected_data, list)
+                else expected_data
+            )
+            failed = not any([math.isclose(
+                expected_number,
                 actual_data,
                 rel_tol=0.01,
                 abs_tol=0.01
-            ))
+            )] for expected_number in expected_list)
         if failed:
             test_case_string = ' '.join(test_case)
             failed_validation_list.append((
