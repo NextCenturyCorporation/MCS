@@ -54,7 +54,7 @@ def add_test_args(parser: argparse.ArgumentParser,
         type=str,
         default=None,
         help=(
-            'Version of the MCS Unity build and addressables to download ' +
+            'Version of the MCS Unity build and addressables to download '
             '(like "development"). Default: current'
         )
     )

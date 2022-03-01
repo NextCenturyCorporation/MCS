@@ -232,7 +232,7 @@ class LoggingConfig():
                     "format": "%(asctime)s <%(levelname)s>: %(message)s"
                 },
                 "full": {
-                    "format": "[%(name)s] %(asctime)s <%(levelname)s>: " +
+                    "format": "[%(name)s] %(asctime)s <%(levelname)s>: "
                     "%(message)s"
                 }
             }

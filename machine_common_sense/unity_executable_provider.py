@@ -51,8 +51,9 @@ class UnityExecutableProvider():
 
     def _other_init(self):
         raise Exception(
-            "Ai2thorProvider only supports Linux and Mac.  Platform={}".format(
-                platform.system()))
+            "Ai2thorProvider only supports Linux and Mac. "
+            f"Platform={platform.system()}"
+        )
 
     def clear_cache(self, version=None):
         '''clears the entire cache if no version is passed in, otherwise
@@ -71,7 +72,7 @@ class UnityExecutableProvider():
             version = __version__
         if version in ["dev", "development", "develop"]:
             logger.warn(
-                "Warning: Attempting to use development version of " +
+                "Warning: Attempting to use development version of "
                 "MCS-AI2Thor.  This is intended for developers only.")
             version = "develop"
             url = self._downloader.get_url(version)
