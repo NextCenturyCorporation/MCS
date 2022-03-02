@@ -88,8 +88,6 @@ html_theme_options = {
 napoleon_use_ivar = True
 autogenerate_summary = True
 
-html_extra_path = ['videos']
-
 
 def setup(app):
     pass
