@@ -29,7 +29,7 @@
                 "position_x": 0.0,
                 "position_z": 1.004,
                 "rotation_x": 0,
-                "rotation_y": 215,
+                "rotation_y": 220,
                 "visible": true
             }
         ],
@@ -48,7 +48,7 @@
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
                 "position_x": 0.0,
-                "position_z": 1.011,
+                "position_z": 1.0,
                 "rotation_x": 0,
                 "rotation_y": 331,
                 "visible": true
@@ -69,9 +69,9 @@
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
                 "position_x": 0.0,
-                "position_z": 1.018,
+                "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 68,
+                "rotation_y": 69,
                 "visible": true
             }
         ],
@@ -90,7 +90,7 @@
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
                 "position_x": 0.0,
-                "position_z": 1.023,
+                "position_z": 1.0,
                 "rotation_x": 0,
                 "rotation_y": 148,
                 "visible": true
@@ -110,10 +110,10 @@
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
-                "position_x": -0.01,
-                "position_z": 1.028,
+                "position_x": 0.0,
+                "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 213,
+                "rotation_y": 210,
                 "visible": true
             }
         ],
@@ -132,9 +132,9 @@
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
                 "position_x": -0.0,
-                "position_z": 1.02,
+                "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 263,
+                "rotation_y": 257,
                 "visible": true
             }
         ],
@@ -153,9 +153,9 @@
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
                 "position_x": 0.01,
-                "position_z": 1.02,
+                "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 300,
+                "rotation_y": 288,
                 "visible": true
             }
         ],
@@ -173,10 +173,10 @@
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
-                "position_x": 0.02,
-                "position_z": 1.02,
+                "position_x": 0.0,
+                "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 323,
+                "rotation_y": 305,
                 "visible": true
             }
         ],
@@ -194,10 +194,10 @@
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
-                "position_x": 0.02,
+                "position_x": -0.0,
                 "position_z": 1.01,
                 "rotation_x": 0,
-                "rotation_y": 333,
+                "rotation_y": 309,
                 "visible": true
             }
         ],
@@ -215,10 +215,10 @@
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
-                "position_x": 0.03,
+                "position_x": 0.0,
                 "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 334,
+                "rotation_y": 309,
                 "visible": true
             }
         ],
@@ -236,10 +236,10 @@
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
-                "position_x": 0.03,
+                "position_x": 0.0,
                 "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 209,
+                "rotation_y": 176,
                 "visible": true
             }
         ],
@@ -257,10 +257,10 @@
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
-                "position_x": 0.03,
+                "position_x": 0.0,
                 "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 91,
+                "rotation_y": 60,
                 "visible": true
             }
         ],
@@ -278,10 +278,10 @@
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
-                "position_x": 0.03,
+                "position_x": 0.0,
                 "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 352,
+                "rotation_y": 321,
                 "visible": true
             }
         ],
@@ -299,10 +299,10 @@
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
-                "position_x": 0.03,
+                "position_x": 0.0,
                 "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 270,
+                "rotation_y": 239,
                 "visible": true
             }
         ],
@@ -320,10 +320,10 @@
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
-                "position_x": 0.04,
+                "position_x": 0.0,
                 "position_z": 1.01,
                 "rotation_x": 0,
-                "rotation_y": 204,
+                "rotation_y": 174,
                 "visible": true
             }
         ],
@@ -341,10 +341,10 @@
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
-                "position_x": 0.03,
+                "position_x": 0.0,
                 "position_z": 1.01,
                 "rotation_x": 0,
-                "rotation_y": 153,
+                "rotation_y": 125,
                 "visible": true
             }
         ],
@@ -362,10 +362,10 @@
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
-                "position_x": 0.02,
-                "position_z": 1.01,
+                "position_x": 0.0,
+                "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 115,
+                "rotation_y": 90,
                 "visible": true
             }
         ],
@@ -384,9 +384,9 @@
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
                 "position_x": 0.01,
-                "position_z": 1.01,
+                "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 91,
+                "rotation_y": 71,
                 "visible": true
             }
         ],
@@ -404,10 +404,10 @@
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
-                "position_x": 0.01,
-                "position_z": 1.01,
+                "position_x": -0.0,
+                "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 81,
+                "rotation_y": 67,
                 "visible": true
             }
         ],
@@ -428,7 +428,7 @@
                 "position_x": 0.0,
                 "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 79,
+                "rotation_y": 67,
                 "visible": true
             }
         ],
@@ -449,7 +449,7 @@
                 "position_x": 0.0,
                 "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 204,
+                "rotation_y": 200,
                 "visible": true
             }
         ],
@@ -470,7 +470,7 @@
                 "position_x": -0.0,
                 "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 323,
+                "rotation_y": 315,
                 "visible": true
             }
         ],
@@ -489,9 +489,9 @@
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
                 "position_x": -0.0,
-                "position_z": 1.01,
+                "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 63,
+                "rotation_y": 54,
                 "visible": true
             }
         ],
@@ -510,9 +510,9 @@
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
                 "position_x": -0.0,
-                "position_z": 1.01,
+                "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 145,
+                "rotation_y": 135,
                 "visible": true
             }
         ],
@@ -531,9 +531,9 @@
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
                 "position_x": -0.0,
-                "position_z": 1.01,
+                "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 212,
+                "rotation_y": 200,
                 "visible": true
             }
         ],
@@ -552,9 +552,9 @@
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
                 "position_x": 0.0,
-                "position_z": 1.01,
+                "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 262,
+                "rotation_y": 250,
                 "visible": true
             }
         ],
@@ -572,10 +572,10 @@
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
-                "position_x": 0.01,
-                "position_z": 1.01,
+                "position_x": -0.0,
+                "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 299,
+                "rotation_y": 283,
                 "visible": true
             }
         ],
@@ -593,10 +593,10 @@
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
-                "position_x": 0.01,
-                "position_z": 1.01,
+                "position_x": -0.0,
+                "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 322,
+                "rotation_y": 302,
                 "visible": true
             }
         ],
@@ -614,10 +614,10 @@
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
-                "position_x": 0.02,
+                "position_x": -0.0,
                 "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 331,
+                "rotation_y": 308,
                 "visible": true
             }
         ],
@@ -635,10 +635,10 @@
             {
                 "id": "turtle_on_wheels",
                 "mass": 1.5,
-                "position_x": 0.02,
+                "position_x": -0.0,
                 "position_z": 1.0,
                 "rotation_x": 0,
-                "rotation_y": 332,
+                "rotation_y": 308,
                 "visible": true
             }
         ],
