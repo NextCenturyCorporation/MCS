@@ -116,7 +116,8 @@ class TestJsonRecorder(unittest.TestCase):
         bad_recorder = JsonRecorder(
             pathlib.Path("missing/test_json_{:04d}.json"))
         bad_recorder.add(self.test_data())
-        self.assertRaises(FileNotFoundError, bad_recorder.finish)
+        with self.assertRaises(FileNotFoundError):
+            bad_recorder.finish()
 
     def test_add_after_finish(self):
         output_file = pathlib.Path("tests/test_json_0000.json")
@@ -217,7 +218,8 @@ class TestImageRecorder(unittest.TestCase):
         size = (50, 100)
         img = PIL.Image.new("RGB", size, self.random_color())
         bad_recorder.add(img)
-        self.assertRaises(FileNotFoundError, bad_recorder.finish)
+        with self.assertRaises(FileNotFoundError):
+            bad_recorder.finish()
 
     def test_add_after_finish(self):
         output_file = pathlib.Path("tests/test_image_0000.jpg")
@@ -301,7 +303,8 @@ class TestVideoRecorder(unittest.TestCase):
         # any different sized frame will cause a ValueError exception
         wrong_size = (100, 100)
         wrong_size_img = PIL.Image.new("RGB", wrong_size, color='red')
-        self.assertRaises(ValueError, self.recorder.add, wrong_size_img)
+        with self.assertRaises(ValueError):
+            self.recorder.add(wrong_size_img)
 
         self.recorder.finish()
         self.assertFalse(self.recorder.recording)

@@ -16,10 +16,12 @@ class TestISerializer(unittest.TestCase):
         self.assertEqual(ISerializer.version(), version)
 
     def test_serialize(self):
-        self.assertRaises(NotImplementedError, ISerializer.serialize, None)
+        with self.assertRaises(NotImplementedError):
+            ISerializer.serialize(None)
 
     def test_deserialize(self):
-        self.assertRaises(NotImplementedError, ISerializer.deserialize, None)
+        with self.assertRaises(NotImplementedError):
+            ISerializer.deserialize(None)
 
     def test_image_to_bytes(self):
         size = (50, 100)
