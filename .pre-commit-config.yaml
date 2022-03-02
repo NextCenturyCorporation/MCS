@@ -23,6 +23,6 @@ repos:
     hooks:
     -   id: sphinx
         name: sphinx
-        entry: ./scripts/generate_sphinx_docs.sh
+        entry: ./docs/generate_sphinx_docs.sh
         language: script
         verbose: true
