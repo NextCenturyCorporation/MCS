@@ -75,7 +75,8 @@ class TestConfigManager(unittest.TestCase):
     @mock_env(MCS_CONFIG_FILE_PATH='~/somefolder/env-var-test.ini')
     def test_nonexistent_file_from_env_variable(self):
         '''Missing config files should raise an exception'''
-        self.assertRaises(RuntimeError, ConfigManager)
+        with self.assertRaises(RuntimeError):
+            ConfigManager()
 
     @mock_env(MCS_CONFIG_FILE_PATH=('machine_common_sense/scripts/'
                                     'config_level2_debug.ini'))
@@ -110,11 +111,13 @@ class TestConfigManager(unittest.TestCase):
     def test_init_with_filepath_missing(self):
         '''Provided config file path must exist or an exception occurs'''
         missing_config_file = '~/somefolder/env-var-test.ini'
-        self.assertRaises(RuntimeError, ConfigManager, missing_config_file)
+        with self.assertRaises(RuntimeError):
+            ConfigManager(missing_config_file)
 
     def test_init_with_no_config(self):
         '''No dictionary, no file, and no env should raise an exception'''
-        self.assertRaises(RuntimeError, ConfigManager)
+        with self.assertRaises(RuntimeError):
+            ConfigManager()
 
     def test_init_with_dict(self):
         config_options = {

@@ -220,17 +220,13 @@ class TestMCS(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_load_scene_file_json_is_invalid(self):
-        self.assertRaises(
-            ValueError,
-            lambda: mcs.load_scene_json_file("tests/test_scene_invalid.json")
-        )
+        with self.assertRaises(ValueError):
+            mcs.load_scene_json_file("tests/test_scene_invalid.json")
 
     def test_load_scene_file_json_is_missing(self):
-        self.assertRaises(
-            FileNotFoundError,
-            lambda: mcs.load_scene_json_file(
+        with self.assertRaises(FileNotFoundError):
+            mcs.load_scene_json_file(
                 "tests/test_scene_missing.json")
-        )
 
 
 if __name__ == '__main__':
