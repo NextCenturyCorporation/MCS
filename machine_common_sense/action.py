@@ -26,7 +26,7 @@ class Action(Enum):
     CLOSE_OBJECT = (
         "CloseObject",
         "1",
-        "Close a nearby object. (objectId=string, amount=float " +
+        "Close a nearby object. (objectId=string, amount=float "
         "(default:1), objectImageCoordsX=float, objectImageCoordsY=float)"
     )
     """
@@ -177,8 +177,8 @@ class Action(Enum):
     OPEN_OBJECT = (
         "OpenObject",
         "3",
-        "Open a nearby object. (objectId=string, " +
-        "amount=float (default:1), objectImageCoordsX=float, " +
+        "Open a nearby object. (objectId=string, "
+        "amount=float (default:1), objectImageCoordsX=float, "
         "objectImageCoordsY=float)"
     )
     """
@@ -230,7 +230,7 @@ class Action(Enum):
     PICKUP_OBJECT = (
         "PickupObject",
         "4",
-        "Pickup a nearby object and hold it in your hand. " +
+        "Pickup a nearby object and hold it in your hand. "
         "(objectId=string, objectImageCoordsX=float, objectImageCoordsY=float)"
     )
     """
@@ -277,7 +277,7 @@ class Action(Enum):
     PULL_OBJECT = (
         "PullObject",
         "5",
-        "Pull a nearby object. (objectId=string, force=float (default:0.5), " +
+        "Pull a nearby object. (objectId=string, force=float (default:0.5), "
         "objectImageCoordsX=float, objectImageCoordsY=float)"
     )
     """
@@ -324,7 +324,7 @@ class Action(Enum):
     PUSH_OBJECT = (
         "PushObject",
         "6",
-        "Push a nearby object. (objectId=string, force=float (default:0.5), " +
+        "Push a nearby object. (objectId=string, force=float (default:0.5), "
         "objectImageCoordsX=float, objectImageCoordsY=float)"
     )
     """
@@ -371,9 +371,9 @@ class Action(Enum):
     PUT_OBJECT = (
         "PutObject",
         "7",
-        "Place an object you are holding into/onto a nearby " +
-        "receptacle object. (objectId=string, receptacleObjectId=string, " +
-        "receptacleObjectImageCoordsX=float, " +
+        "Place an object you are holding into/onto a nearby "
+        "receptacle object. (objectId=string, receptacleObjectId=string, "
+        "receptacleObjectImageCoordsX=float, "
         "receptacleObjectImageCoordsY=float)"
     )
     """
@@ -429,8 +429,8 @@ class Action(Enum):
     TORQUE_OBJECT = (
         "TorqueObject",
         "8",
-        "Apply torque to a nearby object. (objectId=string, " +
-        "force=float(default:0.5), objectImageCoordsX=float, " +
+        "Apply torque to a nearby object. (objectId=string, "
+        "force=float(default:0.5), objectImageCoordsX=float, "
         "objectImageCoordsY=float)"
     )
     """
@@ -476,9 +476,9 @@ class Action(Enum):
     ROTATE_OBJECT = (
         "RotateObject",
         "9",
-        "Apply a rotation of 5 degrees to a nearby object. " +
-        "(objectId=string, " +
-        "clockwise=bool(default:True), objectImageCoordsX=float, " +
+        "Apply a rotation of 5 degrees to a nearby object. "
+        "(objectId=string, "
+        "clockwise=bool(default:True), objectImageCoordsX=float, "
         "objectImageCoordsY=float)"
     )
     """
@@ -524,11 +524,11 @@ class Action(Enum):
     MOVE_OBJECT = (
         "MoveObject",
         "0",
-        "Apply a movement of 0.1 meters to a nearby object. " +
-        "(objectId=string, " +
-        "lateral=int(default:0), " +
-        "straight=int(default:1), " +
-        "objectImageCoordsX=float, " +
+        "Apply a movement of 0.1 meters to a nearby object. "
+        "(objectId=string, "
+        "lateral=int(default:0), "
+        "straight=int(default:1), "
+        "objectImageCoordsX=float, "
         "objectImageCoordsY=float)"
     )
     """
@@ -649,8 +649,8 @@ class Action(Enum):
     END_HABITUATION = (
         "EndHabituation",
         "h",
-        "Ends a habituation trial for the scene by blanking the screen " +
-        "for one action (and teleporting the agent if needed). Sometimes" +
+        "Ends a habituation trial for the scene by blanking the screen "
+        "for one action (and teleporting the agent if needed). Sometimes"
         " needed depending on the task type."
     )
     """
@@ -717,11 +717,9 @@ class Action(Enum):
         return obj
 
     def __repr__(self):
-        return '<%s.%s: %s>' % (
-            self.__class__.__name__,
-            self._name_,
-            ', '.join([self._value_, self._key, self._desc])
-        )
+        return (
+            f"<{self.__class__.__name__}.{self._name_}: "
+            f"{', '.join([self._value_, self._key, self._desc])}>")
 
     @property
     def key(self):

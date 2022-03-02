@@ -1,5 +1,5 @@
 [flake8]
-ignore = E402, W504
+ignore = E402, W504, FS003
 exclude = 
         machine_common_sense/__init__.py,
         build,

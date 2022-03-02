@@ -38,7 +38,7 @@ def main():
         output = controller.start_scene(scene_data)
 
         print(
-            'Saving initialization output (scene image and metadata) of ' +
+            'Saving initialization output (scene image and metadata) of '
             'JSON scene config file ' + scene_data['name'])
 
         with open(output_folder + scene_data['name'] +

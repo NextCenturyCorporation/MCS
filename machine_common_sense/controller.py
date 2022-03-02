@@ -174,7 +174,7 @@ class Controller():
                               scene_config.goal.skip_preview_phase)
 
         if (not self._scene_config.name):
-            raise Exception('The `name` field in the scene ' +
+            raise Exception('The `name` field in the scene '
                             'file cannot be empty.')
 
         if (self._config.is_file_writing_enabled()):
@@ -514,7 +514,7 @@ class Controller():
                 subscriber.on_event(event_type, payload)
             except Exception as msg:
                 logger.error(
-                    f"Error in event with type={event_type}" +
+                    f"Error in event with type={event_type}"
                     f" to subscriber={type(subscriber)}",
                     exc_info=msg)
 
