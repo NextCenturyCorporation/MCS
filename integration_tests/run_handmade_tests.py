@@ -50,6 +50,8 @@ def create_step_test_case_list(expected, actual):
         ('position_y', actual.position.get('y') if actual.position else None),
         ('position_z', actual.position.get('z') if actual.position else None),
         ('return_status', actual.return_status),
+        ('resolved_object', actual.resolved_object),
+        ('resolved_receptacle', actual.resolved_receptacle),
         ('reward', actual.reward),
         (
             'rotation_y',

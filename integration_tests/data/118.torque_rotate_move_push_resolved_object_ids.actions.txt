@@ -1,0 +1,8 @@
+TorqueObject,objectImageCoordsX=300,objectImageCoordsY=200
+Pass
+RotateObject,objectImageCoordsX=300,objectImageCoordsY=200
+Pass
+MoveObject,objectImageCoordsX=300,objectImageCoordsY=200,straight=-1
+Pass
+PushObject,objectImageCoordsX=300,objectImageCoordsY=200
+Pass

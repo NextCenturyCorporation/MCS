@@ -1,0 +1,299 @@
+﻿[
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.638,
+                "direction_z": 0.77,
+                "distance": 1.038,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 0.8,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.638,
+                "direction_z": 0.77,
+                "distance": 1.038,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 0.8,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "testBall",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.638,
+                "direction_z": 0.77,
+                "distance": 1.038,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 0.8,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.638,
+                "direction_z": 0.77,
+                "distance": 1.038,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 0.8,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "testBall",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.638,
+                "direction_z": 0.77,
+                "distance": 1.038,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 0.8,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.638,
+                "direction_z": 0.77,
+                "distance": 1.038,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 0.8,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "testBall",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.638,
+                "direction_z": 0.77,
+                "distance": 1.038,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 0.8,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.638,
+                "direction_z": 0.77,
+                "distance": 1.038,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 0.8,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "testBall",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.638,
+                "direction_z": 0.77,
+                "distance": 1.038,
+                "held": false,
+                "id": "testBall",
+                "mass": 1,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0,
+                "position_z": 0.8,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    }
+]
