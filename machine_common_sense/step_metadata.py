@@ -108,11 +108,9 @@ class StepMetadata:
         Will be set to 'None' if using a metadata level below the
         'oracle' level.
     resolved_object : string
-        The object that was selected based on object on
-        image coordinates
+        The object that was selected based on objectImageCoords
     resolved_receptacle_object_id : string
-        The receptacle that was selected based on object id selection or
-        image coordinates
+        The receptacle that was selected based on receptacleObjectImageCoords
     return_status : string
         The return status from your last action. See
         :mod:`Action <machine_common_sense.Action>`.
