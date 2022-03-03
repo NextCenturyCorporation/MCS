@@ -36,6 +36,8 @@ class TestStepMetadata(unittest.TestCase):
         "performer_reach": 0.0,
         "physics_frames_per_second": 0,
         "position": {},
+        "resolved_object": "",
+        "resolved_receptacle": "",
         "return_status": "UNDEFINED",
         "reward": 0,
         "rotation": 0.0,
@@ -73,6 +75,8 @@ class TestStepMetadata(unittest.TestCase):
         "performer_reach": 0.0,
         "physics_frames_per_second": 0,
         "position": {},
+        "resolved_object": "",
+        "resolved_receptacle": "",
         "return_status": "UNDEFINED",
         "reward": 0,
         "rotation": 0.0,
@@ -158,6 +162,14 @@ class TestStepMetadata(unittest.TestCase):
 
     def test_position(self):
         self.assertIsInstance(self.step_metadata.position, dict)
+
+    def test_resolved_object(self):
+        self.assertEqual(self.step_metadata.resolved_object, '')
+        self.assertIsInstance(self.step_metadata.resolved_object, str)
+
+    def test_resolved_receptacle(self):
+        self.assertEqual(self.step_metadata.resolved_receptacle, '')
+        self.assertIsInstance(self.step_metadata.resolved_receptacle, str)
 
     def test_return_status(self):
         self.assertEqual(

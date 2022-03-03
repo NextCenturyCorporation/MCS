@@ -88,6 +88,14 @@ class SceneEvent():
         return self._raw_output.metadata.get('hapticFeedback')
 
     @property
+    def resolved_object(self):
+        return self._raw_output.metadata.get('resolvedObject')
+
+    @property
+    def resolved_receptacle(self):
+        return self._raw_output.metadata.get('resolvedReceptacle')
+
+    @property
     def steps_on_lava(self):
         return self._raw_output.metadata.get('stepsOnLava')
 
@@ -300,6 +308,12 @@ class ControllerOutputHandler():
                 self._config.get_lava_penalty(),
                 self._config.get_step_penalty(),
                 self._config.get_goal_reward()),
+            resolved_object=(
+                None if restrict_non_oracle
+                else self._scene_event.resolved_object),
+            resolved_receptacle=(
+                None if restrict_non_oracle
+                else self._scene_event.resolved_receptacle),
             rotation=(
                 None if restrict_non_oracle else self._scene_event.rotation),
             step_number=self._step_number,
