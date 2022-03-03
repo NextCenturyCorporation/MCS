@@ -180,7 +180,7 @@ class LoggingConfig():
             handlers['console'] = {
                 "class": "logging.StreamHandler",
                 "formatter": console_format,
-                "level": "DEBUG",
+                "level": log_level,
                 "stream": "ext://sys.stdout"
             }
         if debug_file:
