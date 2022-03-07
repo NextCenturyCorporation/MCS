@@ -1,0 +1,663 @@
+{
+  "name": "solidity_eval_5_ex_1",
+  "version": "2",
+  "restrictOpenDoors": true,
+  "ceilingMaterial": "Custom/Materials/GreyDrywallMCS",
+  "floorMaterial": "Custom/Materials/GreenWoodMCS",
+  "wallMaterial": "Custom/Materials/OliveWoodMCS",
+  "performerStart": {
+    "position": {
+      "x": 0,
+      "y": 2.5,
+      "z": -5.5
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  "roomDimensions": {
+    "x": 8,
+    "y": 8,
+    "z": 12
+  },
+  "goal": {
+      "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
+      "category": "retrieval",
+      "metadata": {
+          "target": {
+              "id": "target"
+          }
+      },
+      "description": "Find and pick up the small light black white rubber ball.",
+      "last_step": 2500
+  },
+  "objects": [
+    {
+      "id": "target",
+      "type": "soccer_ball",
+      "mass": 2,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1,
+            "y": 7.72,
+            "z": 3
+          },
+          "scale": {
+            "x": 2,
+            "y": 2,
+            "z": 2
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 22,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ],
+      "kinematic": true,
+      "togglePhysics": [
+        {
+          "stepBegin": 56
+        }
+      ]
+    },
+    {
+      "id": "placer",
+      "type": "cylinder",
+      "kinematic": true,
+      "structure": true,
+      "mass": 50,
+      "materials": ["Custom/Materials/Magenta"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1,
+            "y": 10.94,
+            "z": 3
+          },
+          "scale": {
+            "x": 0.1,
+            "y": 3,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 22,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 58,
+          "stepEnd": 79,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 56,
+          "materials": [
+            "Custom/Materials/Cyan"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "platform_p1",
+      "type": "cube",
+      "mass": 200,
+      "materials": ["Custom/Materials/OliveWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": false,
+        "right": false
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 1,
+            "z": -3
+          },
+          "scale": {
+            "x": 1,
+            "y": 2,
+            "z": 6
+          }
+        }
+      ]
+    },
+    {
+      "id": "platform_p2",
+      "type": "cube",
+      "mass": 200,
+      "materials": ["Custom/Materials/OliveWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": true,
+        "right": true
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 1,
+            "z": 1.25
+          },
+          "scale": {
+            "x": 1,
+            "y": 2,
+            "z": 2.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "platform_p3",
+      "type": "cube",
+      "mass": 200,
+      "materials": ["Custom/Materials/OliveWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": true,
+        "right": false
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 1,
+            "z": 3
+          },
+          "scale": {
+            "x": 1,
+            "y": 2,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "platform_p4",
+      "type": "cube",
+      "mass": 200,
+      "materials": ["Custom/Materials/OliveWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": true,
+        "right": true
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 1,
+            "z": 4.5
+          },
+          "scale": {
+            "x": 1,
+            "y": 2,
+            "z": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "platform_p5",
+      "type": "cube",
+      "mass": 200,
+      "materials": ["Custom/Materials/OliveWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": true,
+        "back": true,
+        "left": false,
+        "right": true
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1,
+            "y": 0.95,
+            "z": 3
+          },
+          "scale": {
+            "x": 1,
+            "y": 1.9,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "wall_with_top_door_p1",
+      "type": "cube",
+      "mass": 10,
+      "materials": ["Custom/Materials/GreyDrywallMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 12.1,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 0.2,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [{
+          "stepBegin": 23,
+          "stepEnd": 54,
+          "vector": {
+              "x": 0,
+              "y": -0.25,
+              "z": 0
+          }
+      }]
+    },
+    {
+      "id": "wall_with_top_door_p2",
+      "type": "cube",
+      "mass": 10,
+      "materials": ["Custom/Materials/GreyDrywallMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.46,
+            "y": 11,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.08,
+            "y": 2,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [{
+          "stepBegin": 23,
+          "stepEnd": 54,
+          "vector": {
+              "x": 0,
+              "y": -0.25,
+              "z": 0
+          }
+      }]
+    },
+    {
+      "id": "wall_with_top_door_p3",
+      "type": "cube",
+      "mass": 10,
+      "materials": ["Custom/Materials/GreyDrywallMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0.46,
+            "y": 11,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.08,
+            "y": 2,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [{
+          "stepBegin": 23,
+          "stepEnd": 54,
+          "vector": {
+              "x": 0,
+              "y": -0.25,
+              "z": 0
+          }
+      }]
+    },
+    {
+      "id": "door_top",
+      "type": "door_4",
+      "mass": 1,
+      "materials": ["Custom/Materials/BrownWoodMCS"],
+      "openable": true,
+      "kinematic": true,
+      "shows": [{
+          "stepBegin": 0,
+          "position": {
+              "x": 0,
+              "y": 10,
+              "z": 0
+          },
+          "rotation": {
+              "x": 0,
+              "y": 180,
+              "z": 0
+          },
+          "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+          }
+      }],
+      "moves": [{
+          "stepBegin": 23,
+          "stepEnd": 54,
+          "vector": {
+              "x": 0,
+              "y": -0.25,
+              "z": 0
+          }
+      }]
+    },
+    {
+      "id": "wall_with_left_door_p1",
+      "type": "cube",
+      "mass": 10,
+      "materials": ["Custom/Materials/GreyDrywallMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -2.25,
+            "y": 11.1,
+            "z": 0
+          },
+          "scale": {
+            "x": 3.5,
+            "y": 2.2,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [{
+          "stepBegin": 23,
+          "stepEnd": 54,
+          "vector": {
+              "x": 0,
+              "y": -0.25,
+              "z": 0
+          }
+      }]
+    },
+    {
+      "id": "wall_with_left_door_p2",
+      "type": "cube",
+      "mass": 10,
+      "materials": ["Custom/Materials/GreyDrywallMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -3.335,
+            "y": 9,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.33,
+            "y": 2,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [{
+          "stepBegin": 23,
+          "stepEnd": 54,
+          "vector": {
+              "x": 0,
+              "y": -0.25,
+              "z": 0
+          }
+      }]
+    },
+    {
+      "id": "wall_with_left_door_p3",
+      "type": "cube",
+      "mass": 10,
+      "materials": ["Custom/Materials/GreyDrywallMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.165,
+            "y": 9,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.33,
+            "y": 2,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [{
+          "stepBegin": 23,
+          "stepEnd": 54,
+          "vector": {
+              "x": 0,
+              "y": -0.25,
+              "z": 0
+          }
+      }]
+    },
+    {
+      "id": "door_left",
+      "type": "door_4",
+      "mass": 1,
+      "materials": ["Custom/Materials/BrownWoodMCS"],
+      "openable": true,
+      "kinematic": true,
+      "shows": [{
+          "stepBegin": 0,
+          "position": {
+              "x": -2.25,
+              "y": 8,
+              "z": 0
+          },
+          "rotation": {
+              "x": 0,
+              "y": 180,
+              "z": 0
+          },
+          "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+          }
+      }],
+      "moves": [{
+          "stepBegin": 23,
+          "stepEnd": 54,
+          "vector": {
+              "x": 0,
+              "y": -0.25,
+              "z": 0
+          }
+      }]
+    },
+    {
+      "id": "wall_with_right_door_p1",
+      "type": "cube",
+      "mass": 10,
+      "materials": ["Custom/Materials/GreyDrywallMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 2.25,
+            "y": 11.1,
+            "z": 0
+          },
+          "scale": {
+            "x": 3.5,
+            "y": 2.2,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [{
+          "stepBegin": 23,
+          "stepEnd": 54,
+          "vector": {
+              "x": 0,
+              "y": -0.25,
+              "z": 0
+          }
+      }]
+    },
+    {
+      "id": "wall_with_right_door_p2",
+      "type": "cube",
+      "mass": 10,
+      "materials": ["Custom/Materials/GreyDrywallMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1.165,
+            "y": 9,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.33,
+            "y": 2,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [{
+          "stepBegin": 23,
+          "stepEnd": 54,
+          "vector": {
+              "x": 0,
+              "y": -0.25,
+              "z": 0
+          }
+      }]
+    },
+    {
+      "id": "wall_with_right_door_p3",
+      "type": "cube",
+      "mass": 10,
+      "materials": ["Custom/Materials/GreyDrywallMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 3.335,
+            "y": 9,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.33,
+            "y": 2,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [{
+          "stepBegin": 23,
+          "stepEnd": 54,
+          "vector": {
+              "x": 0,
+              "y": -0.25,
+              "z": 0
+          }
+      }]
+    },
+    {
+      "id": "door_right",
+      "type": "door_4",
+      "mass": 1,
+      "materials": ["Custom/Materials/BrownWoodMCS"],
+      "openable": true,
+      "kinematic": true,
+      "shows": [{
+          "stepBegin": 0,
+          "position": {
+              "x": 2.25,
+              "y": 8,
+              "z": 0
+          },
+          "rotation": {
+              "x": 0,
+              "y": 180,
+              "z": 0
+          },
+          "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+          }
+      }],
+      "moves": [{
+          "stepBegin": 23,
+          "stepEnd": 54,
+          "vector": {
+              "x": 0,
+              "y": -0.25,
+              "z": 0
+          }
+      }]
+    }
+  ]
+}
