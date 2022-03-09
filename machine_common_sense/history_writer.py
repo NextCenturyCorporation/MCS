@@ -150,16 +150,36 @@ class HistoryWriter(object):
             object lists and action list """
         if history.output:
             history.output.action_list = None
-            history.output.object_list = None
             history.output.structural_object_list = None
-            targets = ['target', 'target_1', 'target2']
+            targets = ['target', 'target_1', 'target_2']
             for target in targets:
+
                 if (
                     target in history.output.goal.metadata.keys() and
                     history.output.goal.metadata[target].get('image', None)
                     is not None
                 ):
                     del history.output.goal.metadata[target]['image']
+                if (
+                    target in history.output.goal.metadata.keys() and
+                    history.output.goal.metadata[target].get('id', None)
+                    is not None
+                ):
+                    # Save target position at each step for history file/
+                    # scorecard purposes (accounts for tasks where the
+                    # target position changes)
+                    target_id = history.output.goal.metadata[target].get('id',
+                                                                         None)
+
+                    target_info = list(filter(
+                        lambda x: x.uuid == target_id,
+                        history.output.object_list))[0]
+
+                    history.output.goal.metadata[target][
+                        "position"
+                    ] = target_info.position
+
+            history.output.object_list = None
         return history
 
     def init_timer(self):
