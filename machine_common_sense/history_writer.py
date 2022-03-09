@@ -143,11 +143,12 @@ class HistoryWriter(object):
                         self.history_obj,
                         cls=NumpyEncoder))
 
-    def filter_history_output(
+    def update_history_output(
             self,
             history: SceneHistory) -> SceneHistory:
         """ filter out images from the step history data and
-            object lists and action list """
+            object lists and action list, incorporate
+            additional target info if needed """
         if history.output:
             history.output.action_list = None
             history.output.structural_object_list = None
@@ -199,7 +200,7 @@ class HistoryWriter(object):
                     step_obj)
             logger.debug("Adding history step")
             self.current_steps.append(
-                dict(self.filter_history_output(step_obj)))
+                dict(self.update_history_output(step_obj)))
 
     def is_target_visible(
             self,
