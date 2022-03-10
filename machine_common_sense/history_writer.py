@@ -172,13 +172,14 @@ class HistoryWriter(object):
                     target_id = history.output.goal.metadata[target].get('id',
                                                                          None)
 
-                    target_info = list(filter(
-                        lambda x: x.uuid == target_id,
-                        history.output.object_list))[0]
+                    target_info = next(
+                        (obj for obj in history.output.object_list
+                         if obj.uuid == target_id), None)
 
-                    history.output.goal.metadata[target][
-                        "position"
-                    ] = target_info.position
+                    if target_info:
+                        history.output.goal.metadata[target][
+                            "position"
+                        ] = target_info.position
 
             history.output.object_list = None
         return history
