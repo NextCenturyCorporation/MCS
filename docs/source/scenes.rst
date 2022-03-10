@@ -6,6 +6,47 @@ Example Scenes
 Interactive Scenes
 ------------------
 
+Eval 5 Example Interactive Scenes
+*********************************
+
+Relevant for the Summer 2022 evaluation (Eval 5):
+
+:download:`holes_eval_5_ex_1.json <./scenes/holes_eval_5_ex_1.json>`
+
+:download:`holes_eval_5_ex_2.json <./scenes/holes_eval_5_ex_2.json>`
+
+:download:`lava_eval_5_ex_1.json <./scenes/lava_eval_5_ex_1.json>`
+
+:download:`lava_eval_5_ex_2.json <./scenes/lava_eval_5_ex_2.json>`
+
+:download:`ramps_eval_5_ex_1.json <./scenes/ramps_eval_5_ex_1.json>`
+
+:download:`ramps_eval_5_ex_2.json <./scenes/ramps_eval_5_ex_2.json>`
+
+:download:`ramps_eval_5_ex_3.json <./scenes/ramps_eval_5_ex_3.json>`
+
+:download:`ramps_eval_5_ex_4.json <./scenes/ramps_eval_5_ex_4.json>`
+
+:download:`solidity_eval_5_ex_1.json <./scenes/solidity_eval_5_ex_1.json>`
+
+:download:`solidity_eval_5_ex_2.json <./scenes/solidity_eval_5_ex_2.json>`
+
+:download:`spatial_elimination_eval_5_ex_1.json <./scenes/spatial_elimination_eval_5_ex_1.json>`
+
+:download:`spatial_elimination_eval_5_ex_2.json <./scenes/spatial_elimination_eval_5_ex_2.json>`
+
+:download:`spatial_elimination_eval_5_ex_3.json <./scenes/spatial_elimination_eval_5_ex_3.json>`
+
+:download:`spatial_elimination_eval_5_ex_4.json <./scenes/spatial_elimination_eval_5_ex_4.json>`
+
+:download:`tool_use_eval_5_ex_1.json <./scenes/tool_use_eval_5_ex_1.json>`
+
+:download:`tool_use_eval_5_ex_2.json <./scenes/tool_use_eval_5_ex_2.json>`
+
+:download:`tool_use_eval_5_ex_3.json <./scenes/tool_use_eval_5_ex_3.json>`
+
+:download:`tool_use_eval_5_ex_4.json <./scenes/tool_use_eval_5_ex_4.json>`
+
 Playroom
 ********
 
@@ -20,18 +61,18 @@ An open room containing over 40 objects for undirected exploration.
 Retrieval Goal
 **************
 
-Soccer ball retrieval goal for the Fall 2021 evaluation:
+Soccer ball retrieval goal for the Fall 2021 evaluation (Eval 4):
 
 :download:`retrieval_goal_example_with_soccer_ball.json <./scenes/retrieval_goal_example_with_soccer_ball.json>`
 
-Silver trophy retrieval goal for the Winter 2020 evaluation:
+Silver trophy retrieval goal for the Winter 2020 evaluation (Eval 3):
 
 :download:`retrieval_goal_example_with_trophy.json <./scenes/retrieval_goal_example_with_trophy.json>`
 
 Hinged Containers
 *****************
 
-Soccer ball inside hinged containers for the Fall 2021 evaluation:
+Soccer ball inside hinged containers for the Fall 2021 evaluation (Eval 4):
 
 .. list-table::
 
@@ -39,7 +80,7 @@ Soccer ball inside hinged containers for the Fall 2021 evaluation:
 
            :download:`hinged_container_example_with_soccer_ball.json <./scenes/hinged_container_example_with_soccer_ball.json>`
 
-Silver trophy inside hinged containers for the Winter 2020 evaluation:
+Silver trophy inside hinged containers for the Winter 2020 evaluation (Eval 3):
 
 .. list-table::
 
@@ -200,7 +241,7 @@ All of these examples are PLAUSIBLE
 Object Permanence and Spatio-Temporal Continuity: Objects Moving on Multiple Axes Behind Occluders
 **************************************************************************************************
 
-Relevant for the Fall 2021 evaluation. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
+Relevant for the Fall 2021 evaluation (Eval 4). Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
 
 .. list-table::
 
@@ -231,7 +272,7 @@ Relevant for the Fall 2021 evaluation. Objects may move on only the X axis (as i
 Object Permanence: Objects Moving on Multiple Axes and Stopping Behind Occluders
 ********************************************************************************
 
-Relevant for the Fall 2021 evaluation. Objects may move across the entire screen and exit on the other side (as in previous evaluations), or come to a natural stop behind the occluder. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
+Relevant for the Fall 2021 evaluation (Eval 4). Objects may move across the entire screen and exit on the other side (as in previous evaluations), or come to a natural stop behind the occluder. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
 
 .. list-table::
 
@@ -263,7 +304,7 @@ Relevant for the Fall 2021 evaluation. Objects may move across the entire screen
 Object Permanence: Objects Falling Down Behind Occluders
 ********************************************************
 
-Relevant for the Winter 2020 evaluation.
+Relevant for the Winter 2020 evaluation (Eval 3).
 
 .. list-table::
 
@@ -278,7 +319,7 @@ Relevant for the Winter 2020 evaluation.
 Spatio-Temporal Continuity: Objects Moving Across Behind Occluders
 ******************************************************************
 
-Relevant for the Winter 2020 evaluation.
+Relevant for the Winter 2020 evaluation (Eval 3).
 
 .. list-table::
 

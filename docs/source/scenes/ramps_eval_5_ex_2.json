@@ -1,0 +1,180 @@
+﻿{
+    "name": "ramps_eval_5_ex_2",
+    "version": 2,
+    "ceilingMaterial": "Custom/Materials/BlackDrywallMCS",
+    "floorMaterial": "Custom/Materials/OliveCarpetMCS",
+    "wallMaterial": "Custom/Materials/MaroonDrywallMCS",
+    "roomDimensions": {
+        "x": 12,
+        "y": 6,
+        "z": 12
+    },
+    "performerStart": {
+        "position": {
+            "x": 4.5,
+            "y": 2,
+            "z": 4.5
+        },
+        "rotation": {
+            "x": 0,
+            "y": 220
+        }
+    },
+    "goal": {
+        "category": "retrieval",
+        "metadata": {
+            "target": {
+                "id": "target"
+            }
+        },
+        "description": "Find and pick up the tiny light black white rubber ball.",
+        "last_step": 2500
+    },
+    "objects": [{
+        "id": "target",
+        "type": "soccer_ball",
+        "mass": 1,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": -4,
+                "y": 0.22,
+                "z": -4
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 2,
+                "y": 2,
+                "z": 2
+            }
+        }]
+    }, {
+        "id": "platform_lower",
+        "materials": ["Custom/Materials/BrownDrywallMCS"],
+        "type": "cube",
+        "kinematic": "true",
+        "structure": "true",
+        "mass": 1000,
+        "lips": {
+            "front": true,
+            "back": true,
+            "left": true,
+            "right": true,
+            "gaps": {
+                "left": [{
+                    "low": 0.25,
+                    "high": 0.5
+                }]
+            }
+        },
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 4,
+                "y": 0.5,
+                "z": 2
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 4,
+                "y": 1,
+                "z": 8
+            }
+        }]
+    }, {
+        "id": "ramp_lower",
+        "materials": ["Custom/Materials/BrownDrywallMCS"],
+        "type": "triangle",
+        "kinematic": "true",
+        "structure": "true",
+        "mass": 100,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 1.5,
+                "y": 0.5,
+                "z": 1
+            },
+            "rotation": {
+                "x": 0,
+                "y": 90,
+                "z": 0
+            },
+            "scale": {
+                "x": 2,
+                "y": 1,
+                "z": 1
+            }
+        }]
+    }, {
+        "id": "platform_upper",
+        "materials": ["Custom/Materials/GreyDrywallMCS"],
+        "type": "cube",
+        "kinematic": "true",
+        "structure": "true",
+        "mass": 100,
+        "lips": {
+            "front": true,
+            "back": true,
+            "left": true,
+            "right": true,
+            "gaps": {
+                "front": [{
+                    "low": 0,
+                    "high": 1
+                }]
+            }
+        },
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 4.5,
+                "y": 1.5,
+                "z": 4.5
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }]
+    }, {
+        "id": "ramp_upper",
+        "materials": ["Custom/Materials/GreyDrywallMCS"],
+        "type": "triangle",
+        "kinematic": "true",
+        "structure": "true",
+        "mass": 100,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 4.5,
+                "y": 1.5,
+                "z": 3.15
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1.732
+            }
+        }]
+    }]
+}
