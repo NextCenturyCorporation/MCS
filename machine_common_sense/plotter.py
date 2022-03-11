@@ -67,12 +67,48 @@ class Arrow():
 
 
 @dataclass
+class SceneBounds():
+    points: List[SceneCoord]
+    rotation: Dict = None
+
+    def __post_init__(self):
+        # TODO If this object has any X/Z rotation, rotate the corners too.
+        # Safe to assume the bounds will always be in a consistent order.
+        # See BaseFPSAgentController.WorldCoordinatesOfBoundingBox (Unity)
+        assert len(self.points) == 8
+
+    def bottom_front_right_corner(self) -> SceneCoord:
+        return self.points[0]
+
+    def bottom_front_left_corner(self) -> SceneCoord:
+        return self.points[1]
+
+    def bottom_back_left_corner(self) -> SceneCoord:
+        return self.points[2]
+
+    def bottom_back_right_corner(self) -> SceneCoord:
+        return self.points[3]
+
+    def top_front_right_corner(self) -> SceneCoord:
+        return self.points[4]
+
+    def top_front_left_corner(self) -> SceneCoord:
+        return self.points[5]
+
+    def top_back_left_corner(self) -> SceneCoord:
+        return self.points[6]
+
+    def top_back_right_corner(self) -> SceneCoord:
+        return self.points[7]
+
+
+@dataclass
 class SceneAsset():
     held: bool
     visible: bool
     uuid: str
     color: str
-    bounds: List[SceneCoord]
+    bounds: SceneBounds
 
 
 @dataclass
@@ -86,8 +122,11 @@ class Ramp(SceneAsset):
 
     def _peak_midpoint(self) -> SceneCoord:
         '''The midpoint of the highest ramp side'''
-        # Safe to assume the bounds will always be in a consistent order.
-        peak_pts = self.bounds[-4:-2]
+        # Assumes ramps are always wedges (triangles).
+        peak_pts = [
+            self.bounds.top_front_right_corner(),
+            self.bounds.top_front_left_corner()
+        ]
         peak_scene_pts = [
             SceneCoord(x=pt.x, y=pt.y, z=pt.z) for pt in peak_pts
         ]
@@ -95,8 +134,12 @@ class Ramp(SceneAsset):
 
     def _floor_points(self) -> List[SceneCoord]:
         '''The points of the ramp side nearest the floor'''
-        # Safe to assume the bounds will always be in a consistent order.
-        return [SceneCoord(pt.x, pt.y, pt.z) for pt in self.bounds[2:4]]
+        # Assumes ramps are always wedges (triangles).
+        floor_points = [
+            self.bounds.bottom_back_right_corner(),
+            self.bounds.bottom_back_left_corner()
+        ]
+        return [SceneCoord(pt.x, pt.y, pt.z) for pt in floor_points]
 
 
 @dataclass
@@ -612,7 +655,10 @@ class TopDownPlotter():
             visible=object_metadata.get('visibleInCamera'),
             uuid=object_metadata.get('objectId'),
             color=color,
-            bounds=bounds
+            bounds=(
+                SceneBounds(bounds, object_metadata.get('rotation'))
+                if bounds else None
+            )
         )
 
     def _convert_color(self, color: str) -> str:
@@ -630,7 +676,7 @@ class TopDownPlotter():
                      obj: SceneAsset) -> np.ndarray:
         '''Draw the scene object'''
 
-        obj_pts = [(pt.x, pt.z) for pt in obj.bounds]
+        obj_pts = [(pt.x, pt.z) for pt in obj.bounds.points]
         polygon = geometry.MultiPoint(
             obj_pts).convex_hull
         pts = polygon.exterior.coords
@@ -695,7 +741,7 @@ class TopDownPlotter():
     def _draw_goal(self, img: np.ndarray,
                    obj: SceneAsset) -> np.ndarray:
         '''Draw the goal object of the scene'''
-        obj_pts = [(pt.x, pt.z) for pt in obj.bounds]
+        obj_pts = [(pt.x, pt.z) for pt in obj.bounds.points]
         polygon = geometry.MultiPoint(
             obj_pts).convex_hull
         pts = polygon.exterior.coords
