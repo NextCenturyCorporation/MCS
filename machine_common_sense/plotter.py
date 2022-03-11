@@ -96,7 +96,7 @@ class Ramp(SceneAsset):
     def _floor_points(self) -> List[SceneCoord]:
         '''The points of the ramp side nearest the floor'''
         # Safe to assume the bounds will always be in a consistent order.
-        return [SceneCoord(pt.x, pt.y, pt.z) for pt in self.bounds[:4]]
+        return [SceneCoord(pt.x, pt.y, pt.z) for pt in self.bounds[2:4]]
 
 
 @dataclass
@@ -685,11 +685,11 @@ class TopDownPlotter():
                 c0=peak_pt.x,
                 r1=img_pt.y,
                 c1=img_pt.x)
-            img[rr, cc] = (
-                self.BACKGROUND_COLOR
-                if (ramp_color != self.BACKGROUND_COLOR and ramp.visible) else
-                self.DEFAULT_COLOR
+            arrow_color = (
+                self.BACKGROUND_COLOR if ramp_color != self.BACKGROUND_COLOR
+                else self.DEFAULT_COLOR
             )
+            img[rr, cc] = arrow_color if ramp.visible else ramp_color
         return img
 
     def _draw_goal(self, img: np.ndarray,

@@ -75,11 +75,11 @@ class TestRamp(unittest.TestCase):
         self.assertIsInstance(arrow.floor, list)
         self.assertIsInstance(arrow.floor[0], SceneCoord)
 
-        self.assertAlmostEqual(arrow.floor[0].x, self.bounds[4].x)
-        self.assertAlmostEqual(arrow.floor[0].z, self.bounds[4].z)
+        self.assertAlmostEqual(arrow.floor[0].x, self.bounds[2].x)
+        self.assertAlmostEqual(arrow.floor[0].z, self.bounds[2].z)
 
-        self.assertAlmostEqual(arrow.floor[1].x, self.bounds[5].x)
-        self.assertAlmostEqual(arrow.floor[1].z, self.bounds[5].z)
+        self.assertAlmostEqual(arrow.floor[1].x, self.bounds[3].x)
+        self.assertAlmostEqual(arrow.floor[1].z, self.bounds[3].z)
 
         self.assertIsInstance(arrow.peak, SceneCoord)
         self.assertAlmostEqual(arrow.peak.x, 2.0)
