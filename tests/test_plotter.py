@@ -1023,7 +1023,6 @@ class TestTopDownPlotter(unittest.TestCase):
             scene_config=scene_config)
         img = plotter.base_room_img.copy()
         img = plotter._draw_object(img, ramp)
-        img = plotter._draw_ramp_arrow(img, ramp, (255, 255, 0))
         ramp_img = plotter._export_plot(img)
         # save image to resources folder in the event of plotter changes
         # ramp_img.save(os.path.join(
@@ -1080,7 +1079,6 @@ class TestTopDownPlotter(unittest.TestCase):
             scene_config=scene_config)
         img = plotter.base_room_img.copy()
         img = plotter._draw_object(img, ramp)
-        img = plotter._draw_ramp_arrow(img, ramp, (255, 255, 0))
         ramp_img = plotter._export_plot(img)
         # save image to resources folder in the event of plotter changes
         # ramp_img.save(os.path.join(
