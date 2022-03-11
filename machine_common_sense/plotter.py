@@ -86,8 +86,8 @@ class Ramp(SceneAsset):
 
     def _peak_midpoint(self) -> SceneCoord:
         '''The midpoint of the highest ramp side'''
-        sorted_bounds = sorted(self.bounds, key=lambda p: p.y)
-        peak_pts = sorted_bounds[-2:]
+        # Safe to assume the bounds will always be in a consistent order.
+        peak_pts = self.bounds[-4:-2]
         peak_scene_pts = [
             SceneCoord(x=pt.x, y=pt.y, z=pt.z) for pt in peak_pts
         ]
@@ -95,14 +95,8 @@ class Ramp(SceneAsset):
 
     def _floor_points(self) -> List[SceneCoord]:
         '''The points of the ramp side nearest the floor'''
-        ys = [p.y for p in self.bounds]
-        # get all of the indices for the value that is nearest 0 ie the floor
-        indices = np.where(np.isclose(ys, ys[np.argmin(np.abs(ys))]))
-        return [SceneCoord(
-            self.bounds[int(indx)].x,
-            self.bounds[int(indx)].y,
-            self.bounds[int(indx)].z
-        ) for indx in indices[0]]
+        # Safe to assume the bounds will always be in a consistent order.
+        return [SceneCoord(pt.x, pt.y, pt.z) for pt in self.bounds[:4]]
 
 
 @dataclass
@@ -662,22 +656,24 @@ class TopDownPlotter():
         # if no match for that color string, then resort to the default color
         clr = colour.COLOR_NAME_TO_RGB.get(
             obj.color.lower(), self.DEFAULT_COLOR)
+        img[rr, cc] = clr
 
         # using ramp string prefix assumpation to make ramp determination
         # might be better to have an attribute to leverage
         if(obj.uuid.startswith('ramp')):
-            self._draw_ramp_arrow(img, obj)
+            self._draw_ramp_arrow(img, obj, clr)
 
-        img[rr, cc] = clr
         return img
 
-    def _draw_ramp_arrow(self, img: np.ndarray, obj: SceneAsset) -> np.ndarray:
+    def _draw_ramp_arrow(self, img: np.ndarray, obj: SceneAsset,
+                         ramp_color: Tuple) -> np.ndarray:
         # convert scene object to a ramp
         ramp = obj
         ramp.__class__ = Ramp
-        return self._draw_arrow(img, ramp)
+        return self._draw_arrow(img, ramp, ramp_color)
 
-    def _draw_arrow(self, img: np.ndarray, ramp: Ramp) -> np.ndarray:
+    def _draw_arrow(self, img: np.ndarray, ramp: Ramp,
+                    ramp_color: Tuple) -> np.ndarray:
         '''draw lines from the arrow floor points to the peak
         to illustrate the ramp
         '''
@@ -689,8 +685,11 @@ class TopDownPlotter():
                 c0=peak_pt.x,
                 r1=img_pt.y,
                 c1=img_pt.x)
-            img[rr, cc] = self.BACKGROUND_COLOR \
-                if ramp.visible else self.DEFAULT_COLOR
+            img[rr, cc] = (
+                self.BACKGROUND_COLOR
+                if (ramp_color != self.BACKGROUND_COLOR and ramp.visible) else
+                self.DEFAULT_COLOR
+            )
         return img
 
     def _draw_goal(self, img: np.ndarray,
