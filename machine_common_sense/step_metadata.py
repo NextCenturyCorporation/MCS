@@ -107,6 +107,10 @@ class StepMetadata:
         The "x", "y", and "z" coordinates for your global position.
         Will be set to 'None' if using a metadata level below the
         'oracle' level.
+    resolved_object : string
+        The object that was selected based on objectImageCoords
+    resolved_receptacle_object_id : string
+        The receptacle that was selected based on receptacleObjectImageCoords
     return_status : string
         The return status from your last action. See
         :mod:`Action <machine_common_sense.Action>`.
@@ -154,6 +158,8 @@ class StepMetadata:
         performer_reach=0.0,
         physics_frames_per_second=0,
         position=None,
+        resolved_object='',
+        resolved_receptacle='',
         return_status=ReturnStatus.UNDEFINED.value,
         reward=0,
         rotation=0.0,
@@ -191,6 +197,8 @@ class StepMetadata:
         self.performer_reach = performer_reach
         self.physics_frames_per_second = physics_frames_per_second
         self.position = {} if position is None else position
+        self.resolved_object = resolved_object
+        self.resolved_receptacle = resolved_receptacle
         self.return_status = return_status
         self.reward = reward
         self.rotation = rotation
@@ -237,6 +245,8 @@ class StepMetadata:
         yield 'performer_reach', self.performer_reach
         yield 'physics_frames_per_second', self.physics_frames_per_second
         yield 'position', self.position
+        yield 'resolved_object', self.resolved_object
+        yield 'resolved_receptacle', self.resolved_receptacle
         yield 'return_status', self.return_status
         yield 'reward', self.reward
         yield 'rotation', self.rotation
