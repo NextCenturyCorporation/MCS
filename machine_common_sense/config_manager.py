@@ -255,6 +255,35 @@ class ConfigManager(object):
         )
 
 
+class AgentSettingsSchema(Schema):
+    chest = fields.Int()
+    chest_material = fields.Int(data_key='chestMaterial')
+    eyes = fields.Int()
+    feet = fields.Int()
+    feet_material = fields.Int(data_key='feetMaterial')
+    glasses = fields.Int()
+    hair = fields.Int()
+    hair_material = fields.Int(data_key='hairMaterial')
+    hat_material = fields.Int(data_key='hatMaterial')
+    hide_hair = fields.Bool(data_key='hideHair')
+    is_elder = fields.Bool(data_key='isElder')
+    jacket = fields.Int()
+    jacket_material = fields.Int(data_key='jacketMaterial')
+    legs = fields.Int()
+    legs_material = fields.Int(data_key='legsMaterial')
+    show_beard = fields.Bool(data_key='showBeard')
+    show_glasses = fields.Bool(data_key='showGlasses')
+    show_jacket = fields.Bool(data_key='showJacket')
+    show_tie = fields.Bool(data_key='showTie')
+    skin = fields.Int()
+    tie = fields.Int()
+    tie_material = fields.Int(data_key='tieMaterial')
+
+    @post_load
+    def make_position_3d(self, data, **kwargs):
+        return AgentSettings(**data)
+
+
 class Vector3dSchema(Schema):
     x = fields.Float()
     y = fields.Float()
@@ -492,6 +521,10 @@ class TransformConfigSchema(Schema):
 class SceneObjectSchema(Schema):
     id = fields.Str()
     type = fields.Str()  # should this be an enum?
+    agent_settings = fields.Nested(
+        AgentSettingsSchema,
+        data_key='agentSettings'
+    )
     center_of_mass = fields.Nested(Vector3dSchema, data_key='centerOfMass')
     change_materials = fields.List(
         fields.Nested(ChangeMaterialConfigSchema),
@@ -611,6 +644,32 @@ class SceneConfigurationSchema(Schema):
             if value is None:
                 del d[key]
         return d
+
+
+@dataclass
+class AgentSettings:
+    chest: int = None
+    chest_material: int = None
+    eyes: int = None
+    feet: int = None
+    feet_material: int = None
+    glasses: int = None
+    hair: int = None
+    hair_material: int = None
+    hat_material: int = None
+    hide_hair: bool = False
+    is_elder: bool = False
+    jacket: int = None
+    jacket_material: int = None
+    legs: int = None
+    legs_material: int = None
+    show_beard: bool = False
+    show_glasses: bool = False
+    show_jacket: bool = False
+    show_tie: bool = False
+    skin: int = None
+    tie: int = None
+    tie_material: int = None
 
 
 @dataclass
@@ -772,6 +831,7 @@ class TransformConfig:
 class SceneObject:
     id: str
     type: str  # should this be an enum?
+    agent_settings: AgentSettings = None
     center_of_mass: Vector3d = None
     change_materials: List[ChangeMaterialConfig] = None
     debug: dict = None
