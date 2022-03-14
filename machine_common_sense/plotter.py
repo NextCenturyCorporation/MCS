@@ -309,7 +309,8 @@ class TopDownPlotter():
     def _even_room_dim_edge_size_reducer(
             self,
             pos: SceneCoord,
-            room_dim: Vector3d = Vector3d(10, 0, 10)) -> Tuple(SceneCoord):
+            room_dim: Vector3d = Vector3d(x=10, y=0, z=10)
+    ) -> Tuple(SceneCoord):
 
         size_reducer_left = SceneCoord(0, 0, 0)
         size_reducer_right = SceneCoord(0, 0, 0)
@@ -327,7 +328,8 @@ class TopDownPlotter():
     def _even_x_odd_z_room_dim_edge_size_reducer(
             self,
             pos: SceneCoord,
-            room_dim: Vector3d = Vector3d(10, 0, 10)) -> Tuple(SceneCoord):
+            room_dim: Vector3d = Vector3d(x=10, y=0, z=10)
+    ) -> Tuple(SceneCoord):
 
         size_reducer_left = SceneCoord(0, 0, 0)
         size_reducer_right = SceneCoord(0, 0, 0)
@@ -341,7 +343,8 @@ class TopDownPlotter():
     def _odd_x_even_z_room_dim_edge_size_reducer(
             self,
             pos: SceneCoord,
-            room_dim: Vector3d = Vector3d(10, 0, 10)) -> Tuple(SceneCoord):
+            room_dim: Vector3d = Vector3d(x=10, y=0, z=10)
+    ) -> Tuple(SceneCoord):
 
         size_reducer_left = SceneCoord(0, 0, 0)
         size_reducer_right = SceneCoord(0, 0, 0)
@@ -355,7 +358,8 @@ class TopDownPlotter():
     def _plotter_hole_texture_size_reducer(
             self,
             pos: SceneCoord,
-            room_dim: Vector3d = Vector3d(10, 0, 10)) -> Tuple(SceneCoord):
+            room_dim: Vector3d = Vector3d(x=10, y=0, z=10)
+    ) -> Tuple(SceneCoord):
 
         x_is_even = room_dim.x % 2 == 0
         z_is_even = room_dim.z % 2 == 0
@@ -369,7 +373,8 @@ class TopDownPlotter():
         return self._odd_x_even_z_room_dim_edge_size_reducer(pos, room_dim)
 
     def _draw_lava(self, img: np.ndarray, lava: List,
-                   room_dim: Vector3d = Vector3d(10, 0, 10)) -> np.ndarray:
+                   room_dim: Vector3d = Vector3d(x=10, y=0, z=10)
+                   ) -> np.ndarray:
         if lava is None:
             return img
 
@@ -419,7 +424,8 @@ class TopDownPlotter():
         return img
 
     def _draw_holes(self, img: np.ndarray, holes: List,
-                    room_dim: Vector3d = Vector3d(10, 0, 10)) -> np.ndarray:
+                    room_dim: Vector3d = Vector3d(x=10, y=0, z=10
+                                                  )) -> np.ndarray:
         '''Draw a box with an X to illustrate a floor hole'''
         if holes is None:
             return img

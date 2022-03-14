@@ -58,7 +58,8 @@ setuptools.setup(
         'ai2thor==2.5.0',
         'scikit-image>=0.17.1',
         'marshmallow>=3.5.2',
-        'typeguard>=2.11.1'
+        'typeguard>=2.11.1',
+        'pydantic>=1.9.0'
     ],
     entry_points={
         'console_scripts': [

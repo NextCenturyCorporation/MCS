@@ -21,6 +21,8 @@ class EventType(enum.Enum):
     ON_AFTER_STEP = enum.auto()
     ON_END_SCENE = enum.auto()
 
+# TODO MCS-1238 remove in favor of pydantic
+
 
 class BaseEventPayloadSchema(Schema):
     step_number = fields.Int()

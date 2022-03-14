@@ -10,9 +10,8 @@ from typing import Dict, List, Optional, Union
 
 import ai2thor.controller
 import ai2thor.server
-import marshmallow
 import numpy as np
-import typeguard
+import typeguard  # TODO MCS-1238 can we replace with pydantic validator?
 
 logger = logging.getLogger(__name__)
 
@@ -23,8 +22,7 @@ logger = logging.getLogger(__name__)
 DEFAULT_MOVE = 0.1
 
 from .action import Action
-from .config_manager import (ConfigManager, SceneConfiguration,
-                             SceneConfigurationSchema)
+from .config_manager import ConfigManager, SceneConfiguration
 from .controller_events import (AfterStepPayload, BeforeStepPayload,
                                 EndScenePayload, EventType, StartScenePayload)
 from .controller_output_handler import ControllerOutputHandler
@@ -184,16 +182,8 @@ class Controller():
             for file_path in file_list:
                 os.remove(file_path)
 
-        sc = SceneConfigurationSchema(
-            unknown=marshmallow.EXCLUDE).dump(
-            scene_config)
-        """
-        All this did for conversion was to wrap a hard-coded step
-        wrapped_step = self.wrap_step(
-            action='Initialize',
-            sceneConfig=sc
-        )
-        """
+        sc = scene_config.json()
+
         ai2thor_step = self.parameter_converter.wrap_step(
             action='Initialize', sceneConfig=sc)
         step_output = self._controller.step(ai2thor_step)
@@ -248,8 +238,7 @@ class Controller():
     def _convert_scene_config(self, config_data) -> SceneConfiguration:
         if isinstance(config_data, SceneConfiguration):
             return config_data
-        schema = SceneConfigurationSchema()
-        return schema.load(config_data)
+        return SceneConfiguration(**config_data)
 
     @typeguard.typechecked
     def step(self, action: str, **kwargs) -> Optional[StepMetadata]:
