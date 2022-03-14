@@ -167,9 +167,35 @@ class TestStepMetadata(unittest.TestCase):
         self.assertEqual(self.step_metadata.resolved_object, '')
         self.assertIsInstance(self.step_metadata.resolved_object, str)
 
+        self.step_metadata.resolved_object = 'testResolvedId'
+        self.assertEqual(self.step_metadata.resolved_object, 'testResolvedId')
+        self.assertIsInstance(self.step_metadata.resolved_object, str)
+
+        self.step_metadata.resolved_object = 'testResolved'
+        self.assertNotEqual(
+            self.step_metadata.resolved_object,
+            'testResolvedId')
+        self.assertIsInstance(self.step_metadata.resolved_object, str)
+
+        self.step_metadata.resolved_object = ''
+
     def test_resolved_receptacle(self):
         self.assertEqual(self.step_metadata.resolved_receptacle, '')
         self.assertIsInstance(self.step_metadata.resolved_receptacle, str)
+
+        self.step_metadata.resolved_receptacle = 'testResolvedId'
+        self.assertEqual(
+            self.step_metadata.resolved_receptacle,
+            'testResolvedId')
+        self.assertIsInstance(self.step_metadata.resolved_receptacle, str)
+
+        self.step_metadata.resolved_receptacle = 'testResolved'
+        self.assertNotEqual(
+            self.step_metadata.resolved_receptacle,
+            'testResolvedId')
+        self.assertIsInstance(self.step_metadata.resolved_receptacle, str)
+
+        self.step_metadata.resolved_receptacle = ''
 
     def test_return_status(self):
         self.assertEqual(
@@ -232,6 +258,8 @@ class TestStepMetadata(unittest.TestCase):
             physics_frames_per_second=20,
             position={'x': 1, 'z': 2},
             return_status=mcs.ReturnStatus.SUCCESSFUL.value,
+            resolved_object='testObjectId',
+            resolved_receptacle='',
             reward=0,
             rotation=90,
             step_number=25,
@@ -268,6 +296,8 @@ class TestStepMetadata(unittest.TestCase):
         )
         self.assertEqual(data.position, copy.position)
         self.assertEqual(data.return_status, copy.return_status)
+        self.assertEqual(data.resolved_object, copy.resolved_object)
+        self.assertEqual(data.resolved_receptacle, copy.resolved_receptacle)
         self.assertEqual(data.reward, copy.reward)
         self.assertEqual(data.rotation, copy.rotation)
         self.assertEqual(data.step_number, copy.step_number)

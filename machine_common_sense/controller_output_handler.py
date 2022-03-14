@@ -89,11 +89,11 @@ class SceneEvent():
 
     @property
     def resolved_object(self):
-        return self._raw_output.metadata.get('resolvedObject')
+        return self._raw_output.metadata.get('resolvedObject', '')
 
     @property
     def resolved_receptacle(self):
-        return self._raw_output.metadata.get('resolvedReceptacle')
+        return self._raw_output.metadata.get('resolvedReceptacle', '')
 
     @property
     def steps_on_lava(self):
