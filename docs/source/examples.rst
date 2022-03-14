@@ -117,12 +117,33 @@ Initialize logging
 Run with Human Input
 --------------------
 
-To start the Unity application and enter your actions and parameters from the terminal, you can run the `run_in_human_input_mode` script that was installed in the package with the MCS Python Library (the `mcs_unity_build_file` is the Unity executable downloaded previously):
+To start the Unity application and enter your actions and parameters from the terminal, you can run the `run_in_human_input_mode` script that was installed in the package with the MCS Python Library:
 
 .. code-block:: console
 
-    run_in_human_input_mode <mcs_unity_build_file> <mcs_scene_json_file>
+    run_in_human_input_mode <mcs_scene_json_file> --config_file_path <mcs_config_ini_file>
 
-Run options:
-- `--config_file_path <file_path>`
+If you don't pass the `--mcs_unity_build_file` argument, the script will automatically download and run the Unity executable from our latest release.
 
+.. code-block:: console
+
+    run_in_human_input_mode <mcs_scene_json_file> --config_file_path <mcs_config_ini_file> --mcs_unity_build_file <mcs_unity_build_file>
+
+If you clone the MCS GitHub repository, you can also run this script directly from our source code:
+
+.. code-block:: console
+
+    python machine_common_sense/scripts/run_human_input.py <mcs_scene_json_file> --config_file_path <mcs_config_ini_file>
+
+MCS configuration files you can use:
+
+- Oracle metadata: `machine_common_sense/scripts/config_oracle.ini`
+- Oracle metadata, with debug data: `machine_common_sense/scripts/config_oracle_debug.ini`
+- Level 2 metadata: `machine_common_sense/scripts/config_level2.ini`
+- Level 2 metadata, with debug data: `machine_common_sense/scripts/config_level2_debug.ini`
+- Level 1 metadata: `machine_common_sense/scripts/config_level1.ini`
+- Level 1 metadata, with debug data: `machine_common_sense/scripts/config_level1_debug.ini`
+- Default metadata: `machine_common_sense/scripts/config_no_debug.ini`
+- Default metadata, with debug data: `machine_common_sense/scripts/config_with_debug.ini`
+
+**Please note**: The image you see in the Unity application will always be behind by one action step. The first image you see will be of the default white room that's present before your specific scene is initialized. This is a `known issue <https://github.com/allenai/ai2thor/issues/538>`_ in our underlying AI2-THOR architecture.
