@@ -182,7 +182,7 @@ class Controller():
             for file_path in file_list:
                 os.remove(file_path)
 
-        sc = scene_config.json()
+        sc = scene_config.dict(exclude_none=True)
 
         ai2thor_step = self.parameter_converter.wrap_step(
             action='Initialize', sceneConfig=sc)

@@ -470,8 +470,8 @@ class SceneConfiguration(BaseModel):
     floor_textures: List[FloorTexturesConfig] = None
     goal: Optional[Goal]
     holes: List[Vector2dInt] = []
-    intuitive_physics: Optional[bool]
-    isometric: Optional[bool]
+    intuitive_physics: bool = False
+    isometric: bool = False
     lava: List[Vector2dInt] = []
     name: Optional[str]
     objects: List[SceneObject] = []
@@ -493,9 +493,6 @@ class SceneConfiguration(BaseModel):
     scene_number: Optional[int]
     sequence_number: Optional[int]
     training: Optional[bool]
-
-    # exclude_unset and exclude_none are arguments to model.dict()
-    # https://stackoverflow.com/questions/65362524/in-json-created-from-a-pydantic-basemodel-exclude-optional-if-not-set
 
     """
     @post_dump
