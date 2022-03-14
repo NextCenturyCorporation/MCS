@@ -701,7 +701,7 @@ class TestSceneConfig(unittest.TestCase):
         })
 
 
-class TestSchemeConfiguration(unittest.TestCase):
+class TestSceneConfiguration(unittest.TestCase):
 
     def setUp(self):
         self.scheme_config = SceneConfiguration()
