@@ -467,7 +467,7 @@ class SceneConfiguration(BaseModel):
     debug: Optional[Dict]
     floor_material: Optional[str]
     floor_properties: Optional[PhysicsConfig]
-    floor_textures: List[FloorTexturesConfig] = None
+    floor_textures: List[FloorTexturesConfig] = []
     goal: Optional[Goal]
     holes: List[Vector2dInt] = []
     intuitive_physics: bool = False
