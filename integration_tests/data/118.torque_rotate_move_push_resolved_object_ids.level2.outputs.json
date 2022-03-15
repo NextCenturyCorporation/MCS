@@ -1,6 +1,6 @@
 ﻿[
     {
-        "head_tilt": 20,
+        "head_tilt": 45,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -12,7 +12,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 20,
+        "head_tilt": 45,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -24,7 +24,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 20,
+        "head_tilt": 45,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -36,7 +36,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 20,
+        "head_tilt": 45,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -48,7 +48,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 20,
+        "head_tilt": 45,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -60,7 +60,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 20,
+        "head_tilt": 45,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -72,7 +72,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 20,
+        "head_tilt": 45,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -80,11 +80,11 @@
         "resolved_receptacle": null,
         "return_status": "SUCCESSFUL",
         "rotation_y": null,
-        "step_number": 5,
+        "step_number": 6,
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 20,
+        "head_tilt": 45,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -92,11 +92,11 @@
         "resolved_receptacle": null,
         "return_status": "SUCCESSFUL",
         "rotation_y": null,
-        "step_number": 5,
+        "step_number": 7,
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 20,
+        "head_tilt": 45,
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
@@ -104,7 +104,7 @@
         "resolved_receptacle": null,
         "return_status": "SUCCESSFUL",
         "rotation_y": null,
-        "step_number": 5,
+        "step_number": 8,
         "structural_objects_count": 0
     }
 ]
