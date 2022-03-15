@@ -6,15 +6,9 @@ from typing import Dict, Optional, Union
 from ai2thor.server import Event, MultiAgentEvent
 from pydantic import BaseModel as PydanticBaseModel
 
-from .config_manager import ConfigManager, SceneConfiguration
+from .config_manager import ConfigManager, SceneConfiguration, to_camel_case
 from .goal_metadata import GoalMetadata
 from .step_metadata import StepMetadata
-
-
-def to_camel_case(string: str) -> str:
-    words = string.split('_')
-    return ''.join(word.capitalize() if word !=
-                   words[0] else word for word in words)
 
 
 class BaseModel(PydanticBaseModel):

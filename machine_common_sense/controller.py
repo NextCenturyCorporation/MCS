@@ -11,7 +11,7 @@ from typing import Dict, List, Optional, Union
 import ai2thor.controller
 import ai2thor.server
 import numpy as np
-import typeguard  # TODO MCS-1238 can we replace with pydantic validator?
+import typeguard  # can we replace with pydantic function validator?
 
 logger = logging.getLogger(__name__)
 

@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 
 
 def to_camel_case(string: str) -> str:
+    '''Converts a snake case string to camel case'''
     words = string.split('_')
     return ''.join(word.capitalize() if word !=
                    words[0] else word for word in words)
