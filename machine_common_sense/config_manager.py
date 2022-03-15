@@ -58,16 +58,6 @@ class GoalObject(BaseModel):
     image: bytes = None
 
 
-# TODO duplicate class name (GoalMetadata)
-# TODO TargetMetadata maybe?
-# TODO Is this class being used anywhere?
-class TargetMetadata(BaseModel):
-    choose: GoalObject
-    target: GoalObject
-    target_1: GoalObject
-    target_2: GoalObject
-
-
 class Goal(BaseModel):
     action_list: List = None  # TODO fields.Raw()
     answer: Optional[Dict]
