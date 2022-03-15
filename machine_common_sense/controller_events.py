@@ -70,7 +70,7 @@ class BeforeStepPayload(BaseEventPayload):
 
 class EndScenePayload(BaseEventPayload):
     rating: Optional[str]
-    score: float
+    score: Optional[float]
     report: Optional[dict]
 
 

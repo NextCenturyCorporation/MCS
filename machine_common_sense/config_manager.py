@@ -128,10 +128,10 @@ class LipsGapSpanConfig(BaseModel):
 
 
 class LipGapsConfig(BaseModel):
-    front: List[LipsGapSpanConfig] = []
-    back: List[LipsGapSpanConfig] = []
-    left: List[LipsGapSpanConfig] = []
-    right: List[LipsGapSpanConfig] = []
+    front: Optional[List[LipsGapSpanConfig]]
+    back: Optional[List[LipsGapSpanConfig]]
+    left: Optional[List[LipsGapSpanConfig]]
+    right: Optional[List[LipsGapSpanConfig]]
 
 
 class PlatformLipsConfig(BaseModel):
@@ -139,7 +139,7 @@ class PlatformLipsConfig(BaseModel):
     back: bool = False
     left: bool = False
     right: bool = False
-    gaps: List[LipGapsConfig] = None
+    gaps: LipGapsConfig
 
 
 class Vector2dInt(BaseModel):
@@ -191,10 +191,10 @@ class TransformConfig(BaseModel):
 
 
 class RoomMaterials(BaseModel):
-    front: str
-    left: str
-    right: str
-    back: str
+    front: Optional[str]
+    left: Optional[str]
+    right: Optional[str]
+    back: Optional[str]
 
 
 class PerformerStart(BaseModel):
