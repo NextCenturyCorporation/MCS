@@ -1,3 +1,4 @@
+import copy
 import glob
 import os
 import shutil
@@ -213,7 +214,7 @@ class TestHistoryWriter(unittest.TestCase):
         history_item = mcs.SceneHistory(
             step=1,
             action=mcs.Action.MOVE_AHEAD.value,
-            output=output
+            output=copy.deepcopy(output)
         )
         writer.add_step(history_item)
 
@@ -229,7 +230,7 @@ class TestHistoryWriter(unittest.TestCase):
         history_item = mcs.SceneHistory(
             step=2,
             action=mcs.Action.MOVE_LEFT.value,
-            output=output
+            output=copy.deepcopy(output)
         )
         writer.add_step(history_item)
 
@@ -241,6 +242,49 @@ class TestHistoryWriter(unittest.TestCase):
         self.assertIsNone(writer.current_steps[1]["output"]["object_list"])
         self.assertIsNone(
             writer.current_steps[1]["output"]["structural_object_list"])
+
+    def test_write_step_has_target_updates_some_output(self):
+        writer = mcs.HistoryWriter(self.prefix_config_data)
+
+        goal = mcs.GoalMetadata(metadata={
+            'target': {'id': 'targetId',
+                       'image': 'something.png'}
+        })
+        output = mcs.StepMetadata(
+            action_list=[
+                mcs.Action.CLOSE_OBJECT.value,
+                mcs.Action.MOVE_AHEAD.value],
+            return_status="SUCCESSFUL",
+            step_number=1,
+            object_list=[
+                mcs.ObjectMetadata(
+                    uuid="targetId", position={
+                        "x": 1, "y": 0.5, "z": 1})
+            ],
+            structural_object_list=[
+                mcs.ObjectMetadata(uuid='struct_obj')
+            ],
+            goal=goal
+        )
+
+        history_item = mcs.SceneHistory(
+            step=1,
+            action=mcs.Action.MOVE_AHEAD.value,
+            output=copy.deepcopy(output)
+        )
+        writer.add_step(history_item)
+
+        self.assertEqual(len(writer.current_steps), 1)
+        self.assertEqual(
+            writer.current_steps[0]["action"],
+            mcs.Action.MOVE_AHEAD.value)
+        self.assertIsNone(writer.current_steps[0]["output"]["action_list"])
+        self.assertIsNone(writer.current_steps[0]["output"]["object_list"])
+        self.assertIsNone(
+            writer.current_steps[0]["output"]["structural_object_list"])
+        self.assertEqual(
+            writer.current_steps[0]["output"]["goal"]["metadata"]["target"],
+            {'id': 'targetId', 'position': {'x': 1, 'y': 0.5, 'z': 1}})
 
     def test_write_history_file_with_numpy(self):
         writer = mcs.HistoryWriter(self.prefix_config_data)
