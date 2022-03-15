@@ -143,23 +143,45 @@ class HistoryWriter(object):
                         self.history_obj,
                         cls=NumpyEncoder))
 
-    def filter_history_output(
+    def update_history_output(
             self,
             history: SceneHistory) -> SceneHistory:
         """ filter out images from the step history data and
-            object lists and action list """
+            object lists and action list, incorporate
+            additional target info if needed """
         if history.output:
             history.output.action_list = None
-            history.output.object_list = None
             history.output.structural_object_list = None
-            targets = ['target', 'target_1', 'target2']
+            targets = ['target', 'target_1', 'target_2']
             for target in targets:
+
                 if (
                     target in history.output.goal.metadata.keys() and
                     history.output.goal.metadata[target].get('image', None)
                     is not None
                 ):
                     del history.output.goal.metadata[target]['image']
+                if (
+                    target in history.output.goal.metadata.keys() and
+                    history.output.goal.metadata[target].get('id', None)
+                    is not None
+                ):
+                    # Save target position at each step for history file/
+                    # scorecard purposes (accounts for tasks where the
+                    # target position changes)
+                    target_id = history.output.goal.metadata[target].get('id',
+                                                                         None)
+
+                    target_info = next(
+                        (obj for obj in history.output.object_list
+                         if obj.uuid == target_id), None)
+
+                    if target_info:
+                        history.output.goal.metadata[target][
+                            "position"
+                        ] = target_info.position
+
+            history.output.object_list = None
         return history
 
     def init_timer(self):
@@ -179,7 +201,7 @@ class HistoryWriter(object):
                     step_obj)
             logger.debug("Adding history step")
             self.current_steps.append(
-                dict(self.filter_history_output(step_obj)))
+                dict(self.update_history_output(step_obj)))
 
     def is_target_visible(
             self,

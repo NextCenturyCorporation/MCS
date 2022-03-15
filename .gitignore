@@ -53,3 +53,7 @@ scripts/log.config.user.py
 
 #.vscode files
 .vscode/launch.json
+
+# Jenkins test files
+flake8-output.txt
+test-results.xml

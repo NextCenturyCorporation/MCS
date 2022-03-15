@@ -50,6 +50,8 @@ def create_step_test_case_list(expected, actual):
         ('position_y', actual.position.get('y') if actual.position else None),
         ('position_z', actual.position.get('z') if actual.position else None),
         ('return_status', actual.return_status),
+        ('resolved_object', actual.resolved_object),
+        ('resolved_receptacle', actual.resolved_receptacle),
         ('reward', actual.reward),
         (
             'rotation_y',
@@ -135,21 +137,18 @@ def validate_single_output(expected, actual):
     # Validate each test case.
     for test_case, expected_data, actual_data in test_case_list:
         failed = (expected_data != actual_data)
-        if (
-            isinstance(expected_data, (int, float, list)) and
-            isinstance(actual_data, (int, float))
-        ):
-            # This test case passes if any number in the expected list matches.
-            expected_list = (
-                [expected_data] if not isinstance(expected_data, list)
-                else expected_data
-            )
-            failed = not any([math.isclose(
-                expected_number,
-                actual_data,
-                rel_tol=0.01,
-                abs_tol=0.01
-            )] for expected_number in expected_list)
+        if isinstance(actual_data, (int, float)):
+            if isinstance(expected_data, (int, float)):
+                failed = (not math.isclose(
+                    expected_data,
+                    actual_data,
+                    rel_tol=0.01,
+                    abs_tol=0.01
+                ))
+            elif isinstance(expected_data, list):
+                # Assume that the list is a numerical range.
+                min_max = list(sorted(expected_data))
+                failed = (min_max[1] < actual_data < min_max[0])
         if failed:
             test_case_string = ' '.join(test_case)
             failed_validation_list.append((

@@ -68,6 +68,8 @@ class TestControllerOutputHandler(unittest.TestCase):
                 "cameraPosition": {
                     "y": 0.1234
                 },
+                "resolvedObject": 'testResolvedId',
+                "resolvedReceptacle": '',
                 "clippingPlaneFar": 150,
                 "clippingPlaneNear": 0,
                 "fov": 42.5,
@@ -477,6 +479,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.holes, [(0, 0), (1, 2), (9, 8)])
         self.assertEqual(actual.lava, [(3, 3), (7, 5), (4, 6)])
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
+        self.assertEqual(actual.resolved_object, 'testResolvedId')
+        self.assertEqual(actual.resolved_receptacle, '')
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(
             actual.return_status,
@@ -597,6 +601,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.position, None)
+        self.assertEqual(actual.resolved_object, None)
+        self.assertEqual(actual.resolved_receptacle, None)
         self.assertEqual(actual.rotation, None)
         self.assertEqual(
             actual.return_status,
@@ -652,6 +658,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.position, None)
+        self.assertEqual(actual.resolved_object, None)
+        self.assertEqual(actual.resolved_receptacle, None)
         self.assertEqual(actual.rotation, None)
         self.assertEqual(
             actual.return_status,
@@ -695,6 +703,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.position, None)
+        self.assertEqual(actual.resolved_object, None)
+        self.assertEqual(actual.resolved_receptacle, None)
         self.assertEqual(actual.rotation, None)
         self.assertEqual(
             actual.return_status,
@@ -737,6 +747,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
+        self.assertEqual(actual.resolved_object, 'testResolvedId')
+        self.assertEqual(actual.resolved_receptacle, '')
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(
             actual.return_status,
@@ -790,6 +802,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
+        self.assertEqual(actual.resolved_object, 'testResolvedId')
+        self.assertEqual(actual.resolved_receptacle, '')
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(
             actual.return_status,

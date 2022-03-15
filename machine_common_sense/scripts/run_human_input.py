@@ -33,8 +33,8 @@ def parse_args():
         type=str,
         default=None,
         required=True,
-        help='Path to configuration file to read in and set various ' +
-        'properties, such as metadata level and whether or not to ' +
+        help='Path to configuration file to read in and set various '
+        'properties, such as metadata level and whether or not to '
         'save history files properties.')
     return parser.parse_args()
 

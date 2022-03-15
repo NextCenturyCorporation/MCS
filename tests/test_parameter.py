@@ -203,23 +203,17 @@ class TestParameter(unittest.TestCase):
         self.assertAlmostEqual(amount, Parameter.DEFAULT_AMOUNT)
 
         # ensure exceptions are raised for unexpected value or types
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_amount(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_amount(
                 action=mcs.Action.PASS, amount="string")
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_amount(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_amount(
                 action=mcs.Action.PASS, amount=1.1)
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_amount(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_amount(
                 action=mcs.Action.PASS, amount=-0.1)
-        )
 
     def test_get_force(self):
         force = self.parameter_converter._get_force(
@@ -244,36 +238,26 @@ class TestParameter(unittest.TestCase):
         self.assertAlmostEqual(force, Parameter.DEFAULT_AMOUNT)
 
         # raise errors when force value and type is unexpected
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_force(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_force(
                 action=mcs.Action.PASS, force="string")
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_force(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_force(
                 action=mcs.Action.PASS, force=1.1)
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_force(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_force(
                 action=mcs.Action.PASS, force=-0.1)
-        )
 
         # torque force ranges
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_force(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_force(
                 action=mcs.Action.TORQUE_OBJECT, force=1.1)
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_force(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_force(
                 action=mcs.Action.TORQUE_OBJECT, force=-1.1)
-        )
 
     def test_get_clockwise(self):
         clockwise = self.parameter_converter._get_clockwise(clockwise="False")
@@ -304,20 +288,14 @@ class TestParameter(unittest.TestCase):
         self.assertIsInstance(clockwise, bool)
         self.assertEqual(clockwise, True)
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_clockwise(clockwise="string")
-        )
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_clockwise(clockwise="string")
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_clockwise(clockwise=1)
-        )
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_clockwise(clockwise=1)
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_clockwise(clockwise=-0.1)
-        )
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_clockwise(clockwise=-0.1)
 
     def test_get_movement_direction(self):
         (lateral, straight) = (
@@ -351,77 +329,53 @@ class TestParameter(unittest.TestCase):
         self.assertEqual(lateral, 1)
         self.assertEqual(straight, -1)
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_movement_direction(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
                 lateral=2)
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_movement_direction(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
                 straight=-2)
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_movement_direction(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
                 lateral=-2, straight=1)
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_movement_direction(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
                 lateral=-1, straight=2)
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_movement_direction(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
                 lateral=0.1)
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_movement_direction(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
                 straight=0.1)
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_movement_direction(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
                 lateral=-0.1, straight=1)
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_movement_direction(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
                 lateral=1, straight=-0.1)
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_movement_direction(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
                 lateral="x", straight="z")
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_movement_direction(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
                 lateral="x", straight=1)
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_movement_direction(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
                 lateral=1, straight="z")
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_movement_direction(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
                 lateral=True, straight=False)
-        )
 
     def test_get_number(self):
         number = self.parameter_converter._get_number(key="val", val=7)
@@ -431,12 +385,10 @@ class TestParameter(unittest.TestCase):
         number = self.parameter_converter._get_number(key="val", not_val=7)
         self.assertIsNone(number)
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_number(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_number(
                 key="string", string="invalid"
             )
-        )
 
     def test_get_number_with_default(self):
         number = self.parameter_converter._get_number_with_default(
@@ -449,11 +401,9 @@ class TestParameter(unittest.TestCase):
         self.assertEqual(number, 5)
         self.assertIsInstance(number, float)
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_number_with_default(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_number_with_default(
                 key="string", default=5, string="invalid")
-        )
 
         number = self.parameter_converter._get_number_with_default(
             key="val", default=5, val=None
@@ -507,31 +457,25 @@ class TestParameter(unittest.TestCase):
         self.assertEqual(teleport_rot, {'y': 90.0})
         self.assertEqual(teleport_pos, {'x': 1.0, 'z': 2.0})
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_teleport(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_teleport(
                 yRotation='invalid',
                 xPosition='1',
                 zPosition='2')
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_teleport(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_teleport(
                 yRotation='90',
                 xPosition='invalid',
                 zPosition='2'
             )
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_teleport(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_teleport(
                 yRotation=90,
                 xPosition=1,
                 zPosition='invalid'
             )
-        )
 
     def test_teleport_position(self):
         position = self.parameter_converter._get_teleport_position(
@@ -583,48 +527,38 @@ class TestParameter(unittest.TestCase):
         self.assertEqual(unity_coord, 0)
 
         image_coord = screen_height
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._convert_y_image_coord_for_unity(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._convert_y_image_coord_for_unity(
                 y_coord=image_coord
             )
-        )
 
         # value much greater than the screen height
         image_coord = 1000000
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._convert_y_image_coord_for_unity(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._convert_y_image_coord_for_unity(
                 y_coord=image_coord
             )
-        )
 
         # value less than the origin
         image_coord = -1
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._convert_y_image_coord_for_unity(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._convert_y_image_coord_for_unity(
                 y_coord=image_coord
             )
-        )
 
         # Invalid image coordinate
         image_coord = None
-        self.assertRaises(
-            TypeError,
-            lambda: self.parameter_converter._convert_y_image_coord_for_unity(
+        with self.assertRaises(TypeError):
+            self.parameter_converter._convert_y_image_coord_for_unity(
                 y_coord=image_coord
             )
-        )
 
         # Invalid image coordinate value
         image_coord = "one"
-        self.assertRaises(
-            TypeError,
-            lambda: self.parameter_converter._convert_y_image_coord_for_unity(
+        with self.assertRaises(TypeError):
+            self.parameter_converter._convert_y_image_coord_for_unity(
                 y_coord=image_coord
             )
-        )
 
     def test_mcs_action_to_ai2thor_action(self):
         ai2thor_action = \

@@ -180,7 +180,7 @@ class LoggingConfig():
             handlers['console'] = {
                 "class": "logging.StreamHandler",
                 "formatter": console_format,
-                "level": "DEBUG",
+                "level": log_level,
                 "stream": "ext://sys.stdout"
             }
         if debug_file:
@@ -232,7 +232,7 @@ class LoggingConfig():
                     "format": "%(asctime)s <%(levelname)s>: %(message)s"
                 },
                 "full": {
-                    "format": "[%(name)s] %(asctime)s <%(levelname)s>: " +
+                    "format": "[%(name)s] %(asctime)s <%(levelname)s>: "
                     "%(message)s"
                 }
             }
