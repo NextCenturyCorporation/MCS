@@ -139,7 +139,7 @@ class PlatformLipsConfig(BaseModel):
     back: bool = False
     left: bool = False
     right: bool = False
-    gaps: LipGapsConfig
+    gaps: Optional[LipGapsConfig]
 
 
 class Vector2dInt(BaseModel):
