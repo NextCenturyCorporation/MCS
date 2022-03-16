@@ -257,7 +257,9 @@ class ConfigManager(object):
 
 class ActionConfigSchema(Schema):
     step_begin = fields.Int(data_key='stepBegin')
+    step_end = fields.Int(data_key='stepEnd')
     id = fields.Str()
+    is_loop_animation = fields.Bool(data_key='isLoopAnimation')
 
     @post_load
     def make_actions(self, data, **kwargs):
@@ -659,7 +661,9 @@ class SceneConfigurationSchema(Schema):
 @dataclass
 class ActionConfig:
     step_begin: int = None
+    step_end: int = None
     id: str = None
+    is_loop_animation: bool = False
 
 
 @dataclass
