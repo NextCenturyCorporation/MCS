@@ -4,20 +4,10 @@ from abc import ABC
 from typing import Dict, Optional, Union
 
 from ai2thor.server import Event, MultiAgentEvent
-from pydantic import BaseModel as PydanticBaseModel
 
-from .config_manager import ConfigManager, SceneConfiguration, to_camel_case
+from .config_manager import BaseModel, ConfigManager, SceneConfiguration
 from .goal_metadata import GoalMetadata
 from .step_metadata import StepMetadata
-
-
-class BaseModel(PydanticBaseModel):
-    # global configs are enabled by creating a custom BaseModel class
-    # contain the desired config
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        arbitrary_types_allowed = True
 
 
 class EventType(enum.Enum):
