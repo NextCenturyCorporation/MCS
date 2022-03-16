@@ -255,6 +255,15 @@ class ConfigManager(object):
         )
 
 
+class ActionConfigSchema(Schema):
+    step_begin = fields.Int(data_key='stepBegin')
+    id = fields.Str()
+
+    @post_load
+    def make_actions(self, data, **kwargs):
+        return ActionConfig(**data)
+
+
 class AgentSettingsSchema(Schema):
     chest = fields.Int()
     chest_material = fields.Int(data_key='chestMaterial')
@@ -280,7 +289,7 @@ class AgentSettingsSchema(Schema):
     tie_material = fields.Int(data_key='tieMaterial')
 
     @post_load
-    def make_position_3d(self, data, **kwargs):
+    def make_agent_settings(self, data, **kwargs):
         return AgentSettings(**data)
 
 
@@ -521,6 +530,7 @@ class TransformConfigSchema(Schema):
 class SceneObjectSchema(Schema):
     id = fields.Str()
     type = fields.Str()  # should this be an enum?
+    actions = fields.List(fields.Nested(ActionConfigSchema))
     agent_settings = fields.Nested(
         AgentSettingsSchema,
         data_key='agentSettings'
@@ -644,6 +654,12 @@ class SceneConfigurationSchema(Schema):
             if value is None:
                 del d[key]
         return d
+
+
+@dataclass
+class ActionConfig:
+    step_begin: int = None
+    id: str = None
 
 
 @dataclass
@@ -831,6 +847,7 @@ class TransformConfig:
 class SceneObject:
     id: str
     type: str  # should this be an enum?
+    actions: List[ActionConfig] = None
     agent_settings: AgentSettings = None
     center_of_mass: Vector3d = None
     change_materials: List[ChangeMaterialConfig] = None

@@ -3,7 +3,7 @@ import unittest
 from unittest.mock import DEFAULT, patch
 
 import machine_common_sense as mcs
-from machine_common_sense.config_manager import (AgentSettings,
+from machine_common_sense.config_manager import (ActionConfig, AgentSettings,
                                                  ChangeMaterialConfig,
                                                  ConfigManager, ForceConfig,
                                                  GoalSchema, MetadataTier,
@@ -275,6 +275,13 @@ class TestSceneConfig(unittest.TestCase):
         }, {
             'id': 'id_2',
             'type': 'type_2',
+            'actions': [{
+                'stepBegin': 1,
+                'id': 'animation_a'
+            }, {
+                'stepBegin': 25,
+                'id': 'animation_b'
+            }],
             'agentSettings': {
                 'chest': 1,
                 'chestMaterial': 2,
@@ -454,6 +461,7 @@ class TestSceneConfig(unittest.TestCase):
 
         assert object_1.id == 'id_1'
         assert object_1.type == 'type_1'
+        assert object_1.actions is None
         assert object_1.agent_settings is None
         assert object_1.center_of_mass is None
         assert object_1.change_materials is None
@@ -490,6 +498,10 @@ class TestSceneConfig(unittest.TestCase):
 
         assert object_2.id == 'id_2'
         assert object_2.type == 'type_2'
+        assert object_2.actions == [
+            ActionConfig(step_begin=1, id='animation_a'),
+            ActionConfig(step_begin=25, id='animation_b')
+        ]
         assert object_2.agent_settings == AgentSettings(
             chest=1,
             chest_material=2,
