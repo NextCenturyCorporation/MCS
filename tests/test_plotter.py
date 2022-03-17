@@ -6,8 +6,9 @@ from PIL import Image, ImageChops, ImageStat
 
 from machine_common_sense.config_manager import (SceneConfiguration,
                                                  Vector2dInt, Vector3d)
-from machine_common_sense.plotter import (Ramp, SceneAsset, SceneCoord,
-                                          TopDownPlotter, XZHeading)
+from machine_common_sense.plotter import (Ramp, SceneAsset, SceneBounds,
+                                          SceneCoord, TopDownPlotter,
+                                          XZHeading)
 
 test_path = os.path.dirname(__file__)
 resources_path = os.path.join(test_path, 'resources')
@@ -53,14 +54,14 @@ class TestSceneCoord(unittest.TestCase):
 class TestRamp(unittest.TestCase):
 
     bounds = [SceneCoord(**pt) for pt in [
-        {'x': 2.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
-        {'x': 1.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
-        {'x': 1.5, 'y': -0.006698787212371826, 'z': -1.9570508003234863},
-        {'x': 2.5, 'y': -0.006698787212371826, 'z': -1.9570508003234863},
-        {'x': 2.5, 'y': 1.9066987037658691, 'z': 1.5570507049560547},
-        {'x': 1.5, 'y': 1.9066987037658691, 'z': 1.5570507049560547},
-        {'x': 1.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705},
-        {'x': 2.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705}
+        {'x': 1.5, 'y': 0, 'z': 2},
+        {'x': 2.5, 'y': 0, 'z': 2},
+        {'x': 2.5, 'y': 0, 'z': -2},
+        {'x': 1.5, 'y': 0, 'z': -2},
+        {'x': 1.5, 'y': 2, 'z': 2},
+        {'x': 2.5, 'y': 2, 'z': 2},
+        {'x': 2.5, 'y': 2, 'z': -2},
+        {'x': 1.5, 'y': 2, 'z': -2}
     ]]
 
     def test_ramp_arrow(self):
@@ -69,21 +70,21 @@ class TestRamp(unittest.TestCase):
             visible=True,
             uuid="ramp-test",
             color="blue",
-            bounds=self.bounds)
+            bounds=SceneBounds(self.bounds))
         arrow = ramp.arrow
         self.assertTrue(len(arrow.floor), 2)
         self.assertIsInstance(arrow.floor, list)
         self.assertIsInstance(arrow.floor[0], SceneCoord)
 
-        self.assertAlmostEqual(arrow.floor[0].x, self.bounds[2].x)
-        self.assertAlmostEqual(arrow.floor[0].z, self.bounds[2].z)
+        self.assertAlmostEqual(arrow.floor[0].x, self.bounds[3].x)
+        self.assertAlmostEqual(arrow.floor[0].z, self.bounds[3].z)
 
-        self.assertAlmostEqual(arrow.floor[1].x, self.bounds[3].x)
-        self.assertAlmostEqual(arrow.floor[1].z, self.bounds[3].z)
+        self.assertAlmostEqual(arrow.floor[1].x, self.bounds[2].x)
+        self.assertAlmostEqual(arrow.floor[1].z, self.bounds[2].z)
 
         self.assertIsInstance(arrow.peak, SceneCoord)
         self.assertAlmostEqual(arrow.peak.x, 2.0)
-        self.assertAlmostEqual(arrow.peak.z, 1.5070507, places=5)
+        self.assertAlmostEqual(arrow.peak.z, 2.0)
 
 
 class TestTopDownPlotter(unittest.TestCase):
@@ -310,8 +311,8 @@ class TestTopDownPlotter(unittest.TestCase):
         self.assertTrue(obj.held)
         self.assertTrue(obj.visible)
         self.assertEqual(obj.uuid, 'test-uuid')
-        self.assertIsInstance(obj.bounds, list)
-        self.assertEqual(len(obj.bounds), 8)
+        self.assertIsInstance(obj.bounds, SceneBounds)
+        self.assertEqual(len(obj.bounds.points), 8)
         self.assertEqual(obj.color, "orange")
 
     def test_create_object_empty(self):
@@ -858,11 +859,16 @@ class TestTopDownPlotter(unittest.TestCase):
             visible=True,
             uuid='1',
             color='green',
-            bounds=[SceneCoord(**pt) for pt in [
+            bounds=SceneBounds([SceneCoord(**pt) for pt in [
                 {'x': 1, 'y': 0, 'z': 1},
                 {'x': 2, 'y': 0, 'z': 1},
                 {'x': 2, 'y': 0, 'z': 2},
-                {'x': 1, 'y': 0, 'z': 2}]])
+                {'x': 1, 'y': 0, 'z': 2},
+                {'x': 1, 'y': 0.22, 'z': 1},
+                {'x': 2, 'y': 0.22, 'z': 1},
+                {'x': 2, 'y': 0.22, 'z': 2},
+                {'x': 1, 'y': 0.22, 'z': 2}
+            ]]))
 
         plotter = TopDownPlotter(
             team="test",
@@ -908,11 +914,16 @@ class TestTopDownPlotter(unittest.TestCase):
             visible=True,
             uuid='1',
             color='blue',
-            bounds=[SceneCoord(**pt) for pt in [
+            bounds=SceneBounds([SceneCoord(**pt) for pt in [
                 {'x': 1, 'y': 0, 'z': 1},
                 {'x': 2, 'y': 0, 'z': 1},
                 {'x': 2, 'y': 0, 'z': 2},
-                {'x': 1, 'y': 0, 'z': 2}]])
+                {'x': 1, 'y': 0, 'z': 2},
+                {'x': 1, 'y': 0.22, 'z': 1},
+                {'x': 2, 'y': 0.22, 'z': 1},
+                {'x': 2, 'y': 0.22, 'z': 2},
+                {'x': 1, 'y': 0.22, 'z': 2}
+            ]]))
 
         plotter = TopDownPlotter(
             team="test",
@@ -956,11 +967,16 @@ class TestTopDownPlotter(unittest.TestCase):
             visible=False,
             uuid='1',
             color='yellow',
-            bounds=[SceneCoord(**pt) for pt in [
+            bounds=SceneBounds([SceneCoord(**pt) for pt in [
                 {'x': 1, 'y': 0, 'z': 1},
                 {'x': 2, 'y': 0, 'z': 1},
                 {'x': 2, 'y': 0, 'z': 2},
-                {'x': 1, 'y': 0, 'z': 2}]])
+                {'x': 1, 'y': 0, 'z': 2},
+                {'x': 1, 'y': 0.22, 'z': 1},
+                {'x': 2, 'y': 0.22, 'z': 1},
+                {'x': 2, 'y': 0.22, 'z': 2},
+                {'x': 1, 'y': 0.22, 'z': 2}
+            ]]))
 
         plotter = TopDownPlotter(
             team="test",
@@ -999,16 +1015,16 @@ class TestTopDownPlotter(unittest.TestCase):
                 z=10),
             lava=[]
         )
-        bounds = [SceneCoord(**pt) for pt in [
-            {'x': 2.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
-            {'x': 1.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
-            {'x': 1.5, 'y': -0.006698787212371826, 'z': -1.9570508003234863},
-            {'x': 2.5, 'y': -0.006698787212371826, 'z': -1.9570508003234863},
-            {'x': 2.5, 'y': 1.9066987037658691, 'z': 1.5570507049560547},
-            {'x': 1.5, 'y': 1.9066987037658691, 'z': 1.5570507049560547},
-            {'x': 1.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705},
-            {'x': 2.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705}
-        ]]
+        bounds = SceneBounds([SceneCoord(**pt) for pt in [
+            {'x': 1.5, 'y': 0, 'z': 2},
+            {'x': 2.5, 'y': 0, 'z': 2},
+            {'x': 2.5, 'y': 0, 'z': -2},
+            {'x': 1.5, 'y': 0, 'z': -2},
+            {'x': 1.5, 'y': 2, 'z': 2},
+            {'x': 2.5, 'y': 2, 'z': 2},
+            {'x': 2.5, 'y': 2, 'z': -2},
+            {'x': 1.5, 'y': 2, 'z': -2}
+        ]])
 
         ramp = SceneAsset(
             held=False,
@@ -1023,7 +1039,6 @@ class TestTopDownPlotter(unittest.TestCase):
             scene_config=scene_config)
         img = plotter.base_room_img.copy()
         img = plotter._draw_object(img, ramp)
-        img = plotter._draw_ramp_arrow(img, ramp)
         ramp_img = plotter._export_plot(img)
         # save image to resources folder in the event of plotter changes
         # ramp_img.save(os.path.join(
@@ -1056,16 +1071,16 @@ class TestTopDownPlotter(unittest.TestCase):
                 z=10),
             lava=[]
         )
-        bounds = [SceneCoord(**pt) for pt in [
-            {'x': 2.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
-            {'x': 1.5, 'y': -0.09330135583877563, 'z': -1.9070508480072021},
-            {'x': 1.5, 'y': -0.006698787212371826, 'z': -1.9570508003234863},
-            {'x': 2.5, 'y': -0.006698787212371826, 'z': -1.9570508003234863},
-            {'x': 2.5, 'y': 1.9066987037658691, 'z': 1.5570507049560547},
-            {'x': 1.5, 'y': 1.9066987037658691, 'z': 1.5570507049560547},
-            {'x': 1.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705},
-            {'x': 2.5, 'y': 1.9933013916015625, 'z': 1.5070507526397705}
-        ]]
+        bounds = SceneBounds([SceneCoord(**pt) for pt in [
+            {'x': 1.5, 'y': 0, 'z': 2},
+            {'x': 2.5, 'y': 0, 'z': 2},
+            {'x': 2.5, 'y': 0, 'z': -2},
+            {'x': 1.5, 'y': 0, 'z': -2},
+            {'x': 1.5, 'y': 2, 'z': 2},
+            {'x': 2.5, 'y': 2, 'z': 2},
+            {'x': 2.5, 'y': 2, 'z': -2},
+            {'x': 1.5, 'y': 2, 'z': -2}
+        ]])
 
         ramp = SceneAsset(
             held=False,
@@ -1080,7 +1095,6 @@ class TestTopDownPlotter(unittest.TestCase):
             scene_config=scene_config)
         img = plotter.base_room_img.copy()
         img = plotter._draw_object(img, ramp)
-        img = plotter._draw_ramp_arrow(img, ramp)
         ramp_img = plotter._export_plot(img)
         # save image to resources folder in the event of plotter changes
         # ramp_img.save(os.path.join(
