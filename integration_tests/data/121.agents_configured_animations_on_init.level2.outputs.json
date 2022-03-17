@@ -1,0 +1,28 @@
+[{
+    "step_number": 0,
+    "head_tilt": 0,
+    "position_x": null,
+    "position_z": null,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": null,
+    "objects_count": 0,
+    "structural_objects_count": 0
+}, {
+    "step_number": 1,
+    "head_tilt": 0,
+    "position_x": null,
+    "position_z": null,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": null,
+    "objects_count": 0,
+    "structural_objects_count": 0
+}, {
+    "step_number": 2,
+    "head_tilt": 0,
+    "position_x": null,
+    "position_z": null,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": null,
+    "objects_count": 0,
+    "structural_objects_count": 0
+}]
