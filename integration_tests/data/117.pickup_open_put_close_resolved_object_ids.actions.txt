@@ -1,0 +1,5 @@
+PickupObject,objectImageCoordsX=300,objectImageCoordsY=395
+PutObject,receptacleObjectImageCoordsX=300,receptacleObjectImageCoordsY=200
+OpenObject,objectImageCoordsX=300,objectImageCoordsY=200
+PutObject,receptacleObjectImageCoordsX=300,receptacleObjectImageCoordsY=200
+CloseObject,objectImageCoordsX=300,objectImageCoordsY=200
