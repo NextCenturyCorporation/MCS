@@ -67,12 +67,48 @@ class Arrow():
 
 
 @dataclass
+class SceneBounds():
+    points: List[SceneCoord]
+    rotation: Dict = None
+
+    def __post_init__(self):
+        # TODO If this object has any X/Z rotation, rotate the corners too.
+        # Safe to assume the bounds will always be in a consistent order.
+        # See BaseFPSAgentController.WorldCoordinatesOfBoundingBox (Unity)
+        assert len(self.points) == 8
+
+    def bottom_front_right_corner(self) -> SceneCoord:
+        return self.points[0]
+
+    def bottom_front_left_corner(self) -> SceneCoord:
+        return self.points[1]
+
+    def bottom_back_left_corner(self) -> SceneCoord:
+        return self.points[2]
+
+    def bottom_back_right_corner(self) -> SceneCoord:
+        return self.points[3]
+
+    def top_front_right_corner(self) -> SceneCoord:
+        return self.points[4]
+
+    def top_front_left_corner(self) -> SceneCoord:
+        return self.points[5]
+
+    def top_back_left_corner(self) -> SceneCoord:
+        return self.points[6]
+
+    def top_back_right_corner(self) -> SceneCoord:
+        return self.points[7]
+
+
+@dataclass
 class SceneAsset():
     held: bool
     visible: bool
     uuid: str
     color: str
-    bounds: List[SceneCoord]
+    bounds: SceneBounds
 
 
 @dataclass
@@ -86,8 +122,11 @@ class Ramp(SceneAsset):
 
     def _peak_midpoint(self) -> SceneCoord:
         '''The midpoint of the highest ramp side'''
-        sorted_bounds = sorted(self.bounds, key=lambda p: p.y)
-        peak_pts = sorted_bounds[-2:]
+        # Assumes ramps are always wedges (triangles).
+        peak_pts = [
+            self.bounds.top_front_right_corner(),
+            self.bounds.top_front_left_corner()
+        ]
         peak_scene_pts = [
             SceneCoord(x=pt.x, y=pt.y, z=pt.z) for pt in peak_pts
         ]
@@ -95,14 +134,12 @@ class Ramp(SceneAsset):
 
     def _floor_points(self) -> List[SceneCoord]:
         '''The points of the ramp side nearest the floor'''
-        ys = [p.y for p in self.bounds]
-        # get all of the indices for the value that is nearest 0 ie the floor
-        indices = np.where(np.isclose(ys, ys[np.argmin(np.abs(ys))]))
-        return [SceneCoord(
-            self.bounds[int(indx)].x,
-            self.bounds[int(indx)].y,
-            self.bounds[int(indx)].z
-        ) for indx in indices[0]]
+        # Assumes ramps are always wedges (triangles).
+        floor_points = [
+            self.bounds.bottom_back_right_corner(),
+            self.bounds.bottom_back_left_corner()
+        ]
+        return [SceneCoord(pt.x, pt.y, pt.z) for pt in floor_points]
 
 
 @dataclass
@@ -618,7 +655,10 @@ class TopDownPlotter():
             visible=object_metadata.get('visibleInCamera'),
             uuid=object_metadata.get('objectId'),
             color=color,
-            bounds=bounds
+            bounds=(
+                SceneBounds(bounds, object_metadata.get('rotation'))
+                if bounds else None
+            )
         )
 
     def _convert_color(self, color: str) -> str:
@@ -636,7 +676,7 @@ class TopDownPlotter():
                      obj: SceneAsset) -> np.ndarray:
         '''Draw the scene object'''
 
-        obj_pts = [(pt.x, pt.z) for pt in obj.bounds]
+        obj_pts = [(pt.x, pt.z) for pt in obj.bounds.points]
         polygon = geometry.MultiPoint(
             obj_pts).convex_hull
         pts = polygon.exterior.coords
@@ -662,22 +702,24 @@ class TopDownPlotter():
         # if no match for that color string, then resort to the default color
         clr = colour.COLOR_NAME_TO_RGB.get(
             obj.color.lower(), self.DEFAULT_COLOR)
+        img[rr, cc] = clr
 
         # using ramp string prefix assumpation to make ramp determination
         # might be better to have an attribute to leverage
         if(obj.uuid.startswith('ramp')):
-            self._draw_ramp_arrow(img, obj)
+            self._draw_ramp_arrow(img, obj, clr)
 
-        img[rr, cc] = clr
         return img
 
-    def _draw_ramp_arrow(self, img: np.ndarray, obj: SceneAsset) -> np.ndarray:
+    def _draw_ramp_arrow(self, img: np.ndarray, obj: SceneAsset,
+                         ramp_color: Tuple) -> np.ndarray:
         # convert scene object to a ramp
         ramp = obj
         ramp.__class__ = Ramp
-        return self._draw_arrow(img, ramp)
+        return self._draw_arrow(img, ramp, ramp_color)
 
-    def _draw_arrow(self, img: np.ndarray, ramp: Ramp) -> np.ndarray:
+    def _draw_arrow(self, img: np.ndarray, ramp: Ramp,
+                    ramp_color: Tuple) -> np.ndarray:
         '''draw lines from the arrow floor points to the peak
         to illustrate the ramp
         '''
@@ -689,14 +731,17 @@ class TopDownPlotter():
                 c0=peak_pt.x,
                 r1=img_pt.y,
                 c1=img_pt.x)
-            img[rr, cc] = self.BACKGROUND_COLOR \
-                if ramp.visible else self.DEFAULT_COLOR
+            arrow_color = (
+                self.BACKGROUND_COLOR if ramp_color != self.BACKGROUND_COLOR
+                else self.DEFAULT_COLOR
+            )
+            img[rr, cc] = arrow_color if ramp.visible else ramp_color
         return img
 
     def _draw_goal(self, img: np.ndarray,
                    obj: SceneAsset) -> np.ndarray:
         '''Draw the goal object of the scene'''
-        obj_pts = [(pt.x, pt.z) for pt in obj.bounds]
+        obj_pts = [(pt.x, pt.z) for pt in obj.bounds.points]
         polygon = geometry.MultiPoint(
             obj_pts).convex_hull
         pts = polygon.exterior.coords
