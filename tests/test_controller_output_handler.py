@@ -6,7 +6,6 @@ import numpy
 import machine_common_sense as mcs
 from machine_common_sense.config_manager import (ConfigManager, MetadataTier,
                                                  SceneConfiguration,
-                                                 SceneConfigurationSchema,
                                                  Vector2dInt)
 from machine_common_sense.controller_output_handler import (
     ControllerOutputHandler, SceneEvent)
@@ -994,7 +993,7 @@ class TestControllerOutputHandler(unittest.TestCase):
             }]
         }
 
-        scene_config = SceneConfigurationSchema().load(scene_config)
+        scene_config = SceneConfiguration(**scene_config)
 
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
 

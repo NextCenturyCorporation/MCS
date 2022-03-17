@@ -1,8 +1,6 @@
 import glob
 import os.path
 
-import numpy as np
-
 import machine_common_sense as mcs
 
 INTEGRATION_TESTS_FOLDER = os.path.dirname(os.path.abspath(__file__))
@@ -12,10 +10,6 @@ DEPTH_AND_SEGMENTATION_SCENE = (
 
 HABITUATION_TRIAL_COUNTS_SCENE = (
     f'{INTEGRATION_TESTS_FOLDER}/habituation_trial_counts.scene.json'
-)
-
-NUMPY_ARRAY_DATA_SCENE = (
-    f'{INTEGRATION_TESTS_FOLDER}/numpy_array_data.scene.json'
 )
 
 RESTRICTED_ACTION_LIST_SCENE = (
@@ -194,30 +188,6 @@ def run_habituation_trial_counts_test(controller, metadata_tier):
 
     # Stop the test scene.
     controller.end_scene()
-
-    # Validation successful!
-    return True, ''
-
-
-def run_numpy_array_data_test(controller, metadata_tier):
-    # Load the test scene's JSON data.
-    scene_data = mcs.load_scene_json_file(NUMPY_ARRAY_DATA_SCENE)
-
-    # Convert the objects array to a numpy array
-    scene_data['objects'] = np.array(scene_data.get("objects", []))
-
-    # Initialize the test scene.
-    step_metadata = controller.start_scene(scene_data)
-
-    if step_metadata:
-        # Try a pass action.
-        step_metadata = controller.step(mcs.Action.PASS.value)
-
-    # Stop the test scene.
-    controller.end_scene()
-
-    if not step_metadata:
-        return False, 'Failed to load scene with numpy array data'
 
     # Validation successful!
     return True, ''
@@ -413,7 +383,6 @@ def run_restricted_action_list_test(controller, metadata_tier):
 FUNCTION_LIST = [
     run_depth_and_segmentation_test,
     run_habituation_trial_counts_test,
-    run_numpy_array_data_test,
     run_position_by_step_test,
     run_public_sample_scenes_test,
     run_restricted_action_list_test

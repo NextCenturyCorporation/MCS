@@ -6,12 +6,11 @@ import machine_common_sense as mcs
 from machine_common_sense.config_manager import (ActionConfig, AgentSettings,
                                                  ChangeMaterialConfig,
                                                  ConfigManager, ForceConfig,
-                                                 GoalSchema, MetadataTier,
+                                                 Goal, MetadataTier,
                                                  MoveConfig, OpenCloseConfig,
                                                  PhysicsConfig,
                                                  SceneConfiguration,
-                                                 SceneConfigurationSchema,
-                                                 SceneObjectSchema, ShowConfig,
+                                                 SceneObject, ShowConfig,
                                                  SingleStepConfig, SizeConfig,
                                                  StepBeginEndConfig,
                                                  TeleportConfig,
@@ -453,65 +452,65 @@ class TestSceneConfig(unittest.TestCase):
             }]
         }]
         object_list = [
-            SceneObjectSchema().load(object_config)
+            SceneObject(**object_config)
             for object_config in object_config_list
         ]
         scene_config = SceneConfiguration(objects=object_list)
-        assert len(scene_config.objects) == 2
+        self.assertEqual(len(scene_config.objects), 2)
         object_1 = scene_config.objects[0]
         object_2 = scene_config.objects[1]
 
-        assert object_1.id == 'id_1'
-        assert object_1.type == 'type_1'
-        assert object_1.actions is None
-        assert object_1.agent_settings is None
-        assert object_1.center_of_mass is None
-        assert object_1.change_materials is None
-        assert object_1.debug is None
-        assert object_1.forces is None
-        assert object_1.ghosts is None
-        assert object_1.hides is None
-        assert object_1.kinematic is None
-        assert object_1.location_parent is None
-        assert object_1.mass is None
-        assert object_1.materials is None
-        assert object_1.max_angular_velocity is None
-        assert object_1.moveable is None
-        assert object_1.moves is None
-        assert object_1.null_parent is None
-        assert object_1.openable is None
-        assert object_1.opened is None
-        assert object_1.open_close is None
-        assert object_1.physics is None
-        assert object_1.physics_properties is None
-        assert object_1.pickupable is None
-        assert object_1.receptacle is None
-        assert object_1.reset_center_of_mass is None
-        assert object_1.resizes is None
-        assert object_1.rotates is None
-        assert object_1.salient_materials is None
-        assert object_1.shows is None
-        assert object_1.shrouds is None
-        assert object_1.states is None
-        assert object_1.structure is None
-        assert object_1.teleports is None
-        assert object_1.toggle_physics is None
-        assert object_1.torques is None
+        self.assertEqual(object_1.id, 'id_1')
+        self.assertEqual(object_1.type, 'type_1')
+        self.assertIsNone(object_1.actions)
+        self.assertIsNone(object_1.agent_settings)
+        self.assertIsNone(object_1.center_of_mass)
+        self.assertIsNone(object_1.change_materials)
+        self.assertIsNone(object_1.debug)
+        self.assertIsNone(object_1.forces)
+        self.assertIsNone(object_1.ghosts)
+        self.assertIsNone(object_1.hides)
+        self.assertIsNone(object_1.kinematic)
+        self.assertIsNone(object_1.location_parent)
+        self.assertIsNone(object_1.mass)
+        self.assertIsNone(object_1.materials)
+        self.assertIsNone(object_1.max_angular_velocity)
+        self.assertIsNone(object_1.moveable)
+        self.assertIsNone(object_1.moves)
+        self.assertIsNone(object_1.null_parent)
+        self.assertIsNone(object_1.openable)
+        self.assertIsNone(object_1.opened)
+        self.assertIsNone(object_1.open_close)
+        self.assertIsNone(object_1.physics)
+        self.assertIsNone(object_1.physics_properties)
+        self.assertIsNone(object_1.pickupable)
+        self.assertIsNone(object_1.receptacle)
+        self.assertIsNone(object_1.reset_center_of_mass)
+        self.assertIsNone(object_1.resizes)
+        self.assertIsNone(object_1.rotates)
+        self.assertIsNone(object_1.salient_materials)
+        self.assertIsNone(object_1.shows)
+        self.assertIsNone(object_1.shrouds)
+        self.assertIsNone(object_1.states)
+        self.assertIsNone(object_1.structure)
+        self.assertIsNone(object_1.teleports)
+        self.assertIsNone(object_1.toggle_physics)
+        self.assertIsNone(object_1.torques)
 
-        assert object_2.id == 'id_2'
-        assert object_2.type == 'type_2'
-        assert object_2.actions == [
+        self.assertEqual(object_2.id, 'id_2')
+        self.assertEqual(object_2.type, 'type_2')
+        self.assertEqual(object_2.actions, [
             ActionConfig(
                 step_begin=1,
-                step_end=5,
                 id='animation_a',
+                step_end=5,
                 is_loop_animation=True),
             ActionConfig(
                 step_begin=25,
                 id='animation_b',
                 is_loop_animation=False)
-        ]
-        assert object_2.agent_settings == AgentSettings(
+        ])
+        self.assertEqual(object_2.agent_settings, AgentSettings(
             chest=1,
             chest_material=2,
             eyes=3,
@@ -534,91 +533,101 @@ class TestSceneConfig(unittest.TestCase):
             skin=14,
             tie=15,
             tie_material=16
-        )
-        assert object_2.center_of_mass == Vector3d(x=0.01, y=0.02, z=0.03)
-        assert object_2.change_materials == [ChangeMaterialConfig(
+        ))
+        self.assertEqual(
+            object_2.center_of_mass, Vector3d(
+                x=0.01, y=0.02, z=0.03))
+        self.assertEqual(object_2.change_materials, [ChangeMaterialConfig(
             step_begin=10,
             materials=['material_3', 'material_4']
-        )]
-        assert object_2.debug == {'key': 'value'}
-        assert object_2.forces == [ForceConfig(
+        )])
+        self.assertEqual(object_2.debug, {'key': 'value'})
+        self.assertEqual(object_2.forces, [ForceConfig(
             impulse=True,
             relative=True,
             step_begin=11,
             step_end=12,
             vector=Vector3d(x=0.04, y=0.05, z=0.06)
-        )]
-        assert object_2.ghosts == [StepBeginEndConfig(
+        )])
+        self.assertEqual(object_2.ghosts, [StepBeginEndConfig(
             step_begin=13,
             step_end=14
-        )]
-        assert object_2.hides == [SingleStepConfig(step_begin=15)]
-        assert object_2.kinematic is True
-        assert object_2.location_parent == 'parent_id'
-        assert object_2.mass == 12.34
-        assert object_2.materials == ['material_1', 'material_2']
-        assert object_2.max_angular_velocity == 25
-        assert object_2.moveable is True
-        assert object_2.moves == [MoveConfig(
+        )])
+        self.assertEqual(object_2.hides, [SingleStepConfig(step_begin=15)])
+        self.assertTrue(object_2.kinematic)
+        self.assertEqual(object_2.location_parent, 'parent_id')
+        self.assertEqual(object_2.mass, 12.34)
+        self.assertListEqual(object_2.materials, ['material_1', 'material_2'])
+        self.assertEqual(object_2.max_angular_velocity, 25)
+        self.assertTrue(object_2.moveable)
+        self.assertEqual(object_2.moves, [MoveConfig(
             step_begin=16,
             step_end=17,
             vector=Vector3d(x=0.07, y=0.08, z=0.09)
-        )]
-        assert object_2.null_parent == TransformConfig(
+        )])
+        self.assertEqual(object_2.null_parent, TransformConfig(
             position=Vector3d(x=0.11, y=0.12, z=0.13),
             rotation=Vector3d(x=0.14, y=0.15, z=0.16),
             scale=Vector3d(x=0.17, y=0.18, z=0.19)
-        )
-        assert object_2.openable is True
-        assert object_2.opened is True
-        assert object_2.open_close == [OpenCloseConfig(open=True, step=18)]
-        assert object_2.physics is True
-        assert object_2.physics_properties == PhysicsConfig(
+        ))
+        self.assertTrue(object_2.openable)
+        self.assertTrue(object_2.opened)
+        self.assertEqual(
+            object_2.open_close, [
+                OpenCloseConfig(
+                    open=True, step=18)])
+        self.assertTrue(object_2.physics)
+        self.assertEqual(object_2.physics_properties, PhysicsConfig(
             enable=True,
             angular_drag=1,
             bounciness=2,
             drag=3,
             dynamic_friction=4,
             static_friction=5
-        )
-        assert object_2.pickupable is True
-        assert object_2.receptacle is True
-        assert object_2.reset_center_of_mass is True
-        assert object_2.resizes == [SizeConfig(
+        ))
+        self.assertTrue(object_2.pickupable)
+        self.assertTrue(object_2.receptacle)
+        self.assertTrue(object_2.reset_center_of_mass)
+        self.assertEqual(object_2.resizes, [SizeConfig(
             step_begin=19,
             step_end=20,
             size=Vector3d(x=0.21, y=0.22, z=0.23)
-        )]
-        assert object_2.rotates == [MoveConfig(
+        )])
+        self.assertEqual(object_2.rotates, [MoveConfig(
             step_begin=21,
             step_end=22,
             vector=Vector3d(x=0.24, y=0.25, z=0.26)
-        )]
-        assert object_2.salient_materials == ['salient_1', 'salient_2']
-        assert object_2.shows == [ShowConfig(
+        )])
+        self.assertListEqual(
+            object_2.salient_materials, [
+                'salient_1', 'salient_2'])
+        self.assertEqual(object_2.shows, [ShowConfig(
             step_begin=23,
             position=Vector3d(x=0.31, y=0.32, z=0.33),
             rotation=Vector3d(x=0.34, y=0.35, z=0.36),
             scale=Vector3d(x=0.37, y=0.38, z=0.39)
-        )]
-        assert object_2.shrouds == [StepBeginEndConfig(
+        )])
+        self.assertEqual(object_2.shrouds, [StepBeginEndConfig(
             step_begin=24,
             step_end=25
-        )]
-        assert object_2.states == [
+        )])
+        self.assertListEqual(object_2.states, [
             ['state_1'], [], ['state_2'], ['state_1', 'state_3']
-        ]
-        assert object_2.structure is True
-        assert object_2.teleports == [TeleportConfig(
+        ])
+        self.assertTrue(object_2.structure)
+        self.assertEqual(object_2.teleports, [TeleportConfig(
             step_begin=26,
             position=Vector3d(x=0.41, y=0.42, z=0.43)
-        )]
-        assert object_2.toggle_physics == [SingleStepConfig(step_begin=27)]
-        assert object_2.torques == [ForceConfig(
+        )])
+        self.assertEqual(
+            object_2.toggle_physics, [
+                SingleStepConfig(
+                    step_begin=27)])
+        self.assertEqual(object_2.torques, [ForceConfig(
             step_begin=28,
             step_end=29,
             vector=Vector3d(x=0.44, y=0.45, z=0.46)
-        )]
+        )])
 
     def test_retrieve_goal_with_config_metadata(self):
         # self.controller.set_metadata_tier('oracle')
@@ -630,7 +639,7 @@ class TestSceneConfig(unittest.TestCase):
             }
         }
 
-        goal = GoalSchema().load(goal)
+        goal = Goal(**goal)
         scene_config = SceneConfiguration(name="test", version=1, goal=goal)
         actual = scene_config.retrieve_goal()
         self.assertEqual(actual.metadata, {
@@ -640,7 +649,7 @@ class TestSceneConfig(unittest.TestCase):
         })
 
     def test_retrieve_goal(self):
-        goal = GoalSchema().load({})
+        goal = Goal(**{})
         scene_config = SceneConfiguration(name="test", version=1, goal=goal)
         goal_1 = scene_config.retrieve_goal()
         self.assertEqual(goal_1.action_list, None)
@@ -654,7 +663,7 @@ class TestSceneConfig(unittest.TestCase):
             "goal": {
             }
         }
-        goal = GoalSchema().load({})
+        goal = Goal(**{})
         scene_config = SceneConfiguration(
             name="test", version=1, goal=goal)
         goal_2 = scene_config.retrieve_goal()
@@ -681,7 +690,7 @@ class TestSceneConfig(unittest.TestCase):
                 "key": "value"
             }
         }
-        goal = GoalSchema().load(goal)
+        goal = Goal(**goal)
         scene_config = SceneConfiguration(
             name="test", version=1, goal=goal)
         goal_3 = scene_config.retrieve_goal()
@@ -707,7 +716,7 @@ class TestSceneConfig(unittest.TestCase):
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
         }}
-        goal = GoalSchema().load(goal)
+        goal = Goal(**goal)
         scene_config = SceneConfiguration(name="test", version=1, goal=goal)
         actual = scene_config.update_goal_target_image(scene_config.goal)
         self.assertEqual(actual.metadata, {
@@ -723,7 +732,7 @@ class TestSceneConfig(unittest.TestCase):
             'target_2': {'image': "[2]"}
         }
         }
-        goal = GoalSchema().load(goal)
+        goal = Goal(**goal)
         scene_config = SceneConfiguration(name="test", version=1, goal=goal)
         actual = scene_config.update_goal_target_image(scene_config.goal)
         self.assertEqual(actual.metadata, {
@@ -738,7 +747,7 @@ class TestSceneConfig(unittest.TestCase):
             'target_1': {'image': [1]},
             'target_2': {'image': [2]}
         }}
-        goal = GoalSchema().load(goal)
+        goal = Goal(**goal)
         scene_config = SceneConfiguration(name="test", version=1, goal=goal)
         actual = scene_config.update_goal_target_image(scene_config.goal)
         self.assertEqual(actual.metadata, {
@@ -753,7 +762,7 @@ class TestSceneConfig(unittest.TestCase):
             'target_1': {'image': "[1]"},
             'target_2': {'image': "[2]"}
         }}
-        goal = GoalSchema().load(goal)
+        goal = Goal(**goal)
         scene_config = SceneConfiguration(name="test", version=1, goal=goal)
         actual = scene_config.update_goal_target_image(scene_config.goal)
         self.assertEqual(actual.metadata, {
@@ -763,11 +772,12 @@ class TestSceneConfig(unittest.TestCase):
         })
 
 
-class TestSchemeConfigurationSchema(unittest.TestCase):
+class TestSceneConfiguration(unittest.TestCase):
 
     def setUp(self):
-        self.scheme_config = SceneConfigurationSchema()
+        self.scheme_config = SceneConfiguration()
 
+    @unittest.skip
     def test_remove_none(self):
         actual = self.scheme_config.remove_none({})
         self.assertEqual({}, actual)
