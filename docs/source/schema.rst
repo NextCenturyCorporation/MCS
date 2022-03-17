@@ -169,7 +169,9 @@ Action Config
 Each **action config** has the following properties:
 
 - `stepBegin` (integer, required): The step on which the action should occur.  Must be non-negative.  A value of `0` means the action will occur during scene initialization.
+- `stepEnd` (integer, optional): The step on which the action should end.  Must be non-negative.
 - `id` (string, required): The ID of the animation (action) to start. For a full list of available agent animations, please see :ref:`Agent Animations <Agent Animations>`.
+- `isLoopAnimation` (bool, optional): Whether the newly set animation should loop after being played. If false, the agent animation will reset to idle after being played once. Default: `false`
 
 Agent Settings Config
 *********************
