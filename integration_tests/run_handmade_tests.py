@@ -315,7 +315,7 @@ def start_handmade_tests(
                 config_file_or_dict=config_filename)
         else:
             mcs.change_config(controller, config_file_or_dict=config_filename)
-        
+
         reset_config = False
         # Run each test scene and record if it failed validation.
         for scene_filename in scene_filename_list:
@@ -333,9 +333,10 @@ def start_handmade_tests(
                 reset_config = True
                 mcs.change_config(
                     controller, config_file_or_dict=config_override_filename)
-            elif reset_config == True:
+            elif reset_config is True:
                 reset_config = False
-                mcs.change_config(controller, config_file_or_dict=config_filename)
+                mcs.change_config(
+                    controller, config_file_or_dict=config_filename)
 
             print(f'RUNNING SCENE: {os.path.basename(scene_filename)}')
             try:
