@@ -17,6 +17,7 @@ TEST_FOLDER = f"{INTEGRATION_TESTS_FOLDER}/data/"
 SCENE_SUFFIX = '.scene.json'
 ACTIONS_SUFFIX = '.actions.txt'
 OUTPUTS_SUFFIX = '.outputs.json'
+CONFIG_OVERRIDE_SUFFIX = '.config.ini'
 INDENT = '    '
 
 
@@ -314,6 +315,8 @@ def start_handmade_tests(
                 config_file_or_dict=config_filename)
         else:
             mcs.change_config(controller, config_file_or_dict=config_filename)
+        
+        reset_config = False
         # Run each test scene and record if it failed validation.
         for scene_filename in scene_filename_list:
             if (
@@ -321,14 +324,33 @@ def start_handmade_tests(
                 os.path.basename(scene_filename).startswith(only_test_name)
             ):
                 continue
+
+            # Check to see if any configuration should be overriden
+            config_override_filename = scene_filename.replace(
+                SCENE_SUFFIX, f".{metadata_tier}{CONFIG_OVERRIDE_SUFFIX}")
+
+            if os.path.exists(config_override_filename):
+                reset_config = True
+                mcs.change_config(
+                    controller, config_file_or_dict=config_override_filename)
+            elif reset_config == True:
+                reset_config = False
+                mcs.change_config(controller, config_file_or_dict=config_filename)
+
             print(f'RUNNING SCENE: {os.path.basename(scene_filename)}')
-            successful, status = run_single_scene(
-                controller,
-                scene_filename,
-                metadata_tier,
-                dev,
-                autofix
-            )
+            try:
+                successful, status = run_single_scene(
+                    controller,
+                    scene_filename,
+                    metadata_tier,
+                    dev,
+                    autofix
+                )
+            except SystemExit:
+                # Catch SystemExit when we are calling EndScene
+                successful = True
+                status = ''
+
             test_name = (
                 os.path.basename(scene_filename).replace(SCENE_SUFFIX, '')
             )
