@@ -187,6 +187,9 @@ class GoalCategory(Enum):
     These trials will demand a "common sense" understanding of agents, their
     behaviors, and their interactions with objects in the environment.
 
+    This goal category is only used for the **passive/VoE agent tasks**. All
+    interactive agent tasks will use the `retrieval` goal category.
+
     Notes
     -----
     You are required to call `controller.end_scene()` at the end of each scene
@@ -218,12 +221,12 @@ class GoalCategory(Enum):
     """
     In a trial that has a retrieval goal, you must find and pickup a target
     object. This may involve exploring the scene, avoiding obstacles,
-    interacting with objects (like closed containers), and (future evaluations)
-    tracking moving objects. These trials will demand a "common sense"
-    understanding of self navigation (how to move and rotate yourself within a
-    scene and around obstacles), object interaction (how objects work,
-    including opening containers), and (future evaluations) the basic physics
-    of movement (kinematics, gravity, friction, etc.).
+    interacting with objects (like closed containers) or agents, and tracking
+    moving objects. These trials will demand a "common sense" understanding of
+    self navigation (how to move and rotate yourself within a scene and around
+    obstacles), object interaction (how objects work, including opening
+    containers), the basic physics of movement (kinematics, gravity, friction,
+    etc.), and agency (identifying people and using them to achieve a goal).
 
     Parameters
     ----------
