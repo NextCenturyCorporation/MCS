@@ -95,6 +95,7 @@
         "reward": -200.006,
         "rotation_y": 0.0,
         "step_number": 6,
-        "structural_objects_count": 55
+        "structural_objects_count": 55,
+        "action_list": [["EndScene", {}]]
     }
 ]

@@ -35,7 +35,9 @@ def create_test_case(name, expected, actual):
 
 def create_step_test_case_list(expected, actual):
     test_case_list = [
-        ('action_list', actual.action_list),
+        ('action_list', [
+            list(pair) for pair in actual.action_list
+        ] if actual.action_list is not None else None),
         ('camera_height', actual.camera_height),
         ('haptic_feedback', actual.haptic_feedback),
         ('head_tilt', round(actual.head_tilt)),
