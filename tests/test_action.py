@@ -173,19 +173,22 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action("0"), mcs.Action.MOVE_OBJECT)
 
     def test_interact_with_agent(self):
-        self.assertEqual(mcs.Action.INTERACT_WITH_AGENT.value, "MoveObject")
-        self.assertEqual(mcs.Action.INTERACT_WITH_AGENT.key, "0")
+        self.assertEqual(
+            mcs.Action.INTERACT_WITH_AGENT.value,
+            "InteractWithAgent")
+        self.assertEqual(mcs.Action.INTERACT_WITH_AGENT.key, "T")
         self.assertEqual(
             mcs.Action.INTERACT_WITH_AGENT.desc,
-            "Apply a movement of 0.1 meters to a nearby object. "
+            "Interact with an Agent to make them hold out their "
+            "currently held object. "
             "(objectId=string, "
-            "lateral=int(default:0), "
-            "straight=int(default:1), "
             "objectImageCoordsX=float, "
             "objectImageCoordsY=float)"
         )
-        self.assertEqual(mcs.Action("MoveObject"), mcs.Action.MOVE_OBJECT)
-        self.assertEqual(mcs.Action("0"), mcs.Action.MOVE_OBJECT)
+        self.assertEqual(
+            mcs.Action("InteractWithAgent"),
+            mcs.Action.INTERACT_WITH_AGENT)
+        self.assertEqual(mcs.Action("T"), mcs.Action.INTERACT_WITH_AGENT)
 
     def test_put_object(self):
         self.assertEqual(mcs.Action.PUT_OBJECT.value, "PutObject")

@@ -581,13 +581,14 @@ class Action(Enum):
     INTERACT_WITH_AGENT = (
         "InteractWithAgent",
         "T",
-        "Interact with an Agent to change the state of nearby objects. "
+        "Interact with an Agent to make them hold out their "
+        "currently held object. "
         "(objectId=string, "
         "objectImageCoordsX=float, "
         "objectImageCoordsY=float)"
     )
     """
-    Interact with an Agent to change the state of nearby objects.
+    Interact with an Agent to make them hold out their currently held object.
 
     Parameters
     ----------
