@@ -187,13 +187,10 @@ Each **agent settings config** has the following properties:
 - `hatMaterial` (integer, optional): The color/texture to use for the hat (if one is present) of the specific agent. See :ref:`Hair Material Options <Hair Material Options>` for the full list of available options. Default: `0`
 - `hideHair` (boolean, optional): Whether to hide hair on the specific agent. This ignores any configured `hair` option. Default: `false`
 - `isElder` (boolean, optional): Whether to give the specific agent an elderly (wrinkly) face and skin. Default: `false`
-- `jacket` (integer, optional): The jacket to use for the specific agent. A jacket is only visible if `showJacket` is true. See :ref:`Jacket Options <Jacket Options>` for the full list of available options. Default: `0`
-- `jacketMaterial` (integer, optional): The color/texture to use for the jacket (if one is present) of the specific agent. See :ref:`Jacket Material Options <Jacket Material Options>` for the full list of available options. Default: `0`
 - `legs` (integer, optional): The legs and pants/shorts/skirt to use for the specific agent. Please note that the legs may be overridden by some `chest` options. See :ref:`Legs Options <Legs Options>` for the full list of available options. Default: `0`
 - `legsMaterial` (integer, optional): The color/texture to use for the pants/shorts/skirt of the specific agent. See :ref:`Legs Material Options <Legs Material Options>` for the full list of available options. Default: `0`
 - `showBeard` (boolean, optional): Whether to show a beard on the specific agent. The agent type must be male. The beard's color will match the `hairMaterial`. Default: `false`
 - `showGlasses` (boolean, optional): Whether to show glasses on the specific agent. Default: `false`
-- `showJacket` (boolean, optional): Whether to show a jacket on the specific agent. Default: `false`
 - `showTie` (boolean, optional): Whether to show a tie on the specific agent. The `chest` option must also be compatible with a tie. Default: `false`
 - `skin` (integer, optional): The skin to use for the specific agent. See :ref:`Skin Options <Skin Options>` for the full list of available options. Default: `0`
 - `tie` (integer, optional): The tie to use for the specific agent. A tie is only visible if `showTie` is true, and if the `chest` option is compatible with a tie. See :ref:`Tie Options <Tie Options>` for the full list of available options. Default: `0`
@@ -1857,28 +1854,6 @@ Hat Material Options
       - 0 to 11
     * - 9
       - 0 to 5
-
-Jacket Options
-**************
-
-.. list-table::
-    :header-rows: 1
-
-    * - Jacket Option
-      - Description
-    * - 0
-      - Suit jacket
-    * - 1
-      - Sweater
-
-Jacket Material Options
-***********************
-
-.. list-table::
-    :header-rows: 1
-
-    * - Jacket Material Options
-    * - 0 to 9
 
 Legs Options
 ************
