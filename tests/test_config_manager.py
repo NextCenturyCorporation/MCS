@@ -3,7 +3,8 @@ import unittest
 from unittest.mock import DEFAULT, patch
 
 import machine_common_sense as mcs
-from machine_common_sense.config_manager import (ChangeMaterialConfig,
+from machine_common_sense.config_manager import (ActionConfig, AgentSettings,
+                                                 ChangeMaterialConfig,
                                                  ConfigManager, ForceConfig,
                                                  Goal, MetadataTier,
                                                  MoveConfig, OpenCloseConfig,
@@ -273,6 +274,37 @@ class TestSceneConfig(unittest.TestCase):
         }, {
             'id': 'id_2',
             'type': 'type_2',
+            'actions': [{
+                'stepBegin': 1,
+                'id': 'animation_a'
+            }, {
+                'stepBegin': 25,
+                'id': 'animation_b'
+            }],
+            'agentSettings': {
+                'chest': 1,
+                'chestMaterial': 2,
+                'eyes': 3,
+                'feet': 4,
+                'feetMaterial': 5,
+                'glasses': 6,
+                'hair': 7,
+                'hairMaterial': 8,
+                'hatMaterial': 9,
+                'hideHair': True,
+                'isElder': True,
+                'jacket': 10,
+                'jacketMaterial': 11,
+                'legs': 12,
+                'legsMaterial': 13,
+                'showBeard': True,
+                'showGlasses': True,
+                'showJacket': True,
+                'showTie': True,
+                'skin': 14,
+                'tie': 15,
+                'tieMaterial': 16
+            },
             'centerOfMass': {
                 'x': 0.01,
                 'y': 0.02,
@@ -428,6 +460,8 @@ class TestSceneConfig(unittest.TestCase):
 
         self.assertEqual(object_1.id, 'id_1')
         self.assertEqual(object_1.type, 'type_1')
+        self.assertIsNone(object_1.actions)
+        self.assertIsNone(object_1.agent_settings)
         self.assertIsNone(object_1.center_of_mass)
         self.assertIsNone(object_1.change_materials)
         self.assertIsNone(object_1.debug)
@@ -463,6 +497,34 @@ class TestSceneConfig(unittest.TestCase):
 
         self.assertEqual(object_2.id, 'id_2')
         self.assertEqual(object_2.type, 'type_2')
+        self.assertEqual(object_2.actions, [
+            ActionConfig(step_begin=1, id='animation_a'),
+            ActionConfig(step_begin=25, id='animation_b')
+        ])
+        self.assertEqual(object_2.agent_settings, AgentSettings(
+            chest=1,
+            chest_material=2,
+            eyes=3,
+            feet=4,
+            feet_material=5,
+            glasses=6,
+            hair=7,
+            hair_material=8,
+            hat_material=9,
+            hide_hair=True,
+            is_elder=True,
+            jacket=10,
+            jacket_material=11,
+            legs=12,
+            legs_material=13,
+            show_beard=True,
+            show_glasses=True,
+            show_jacket=True,
+            show_tie=True,
+            skin=14,
+            tie=15,
+            tie_material=16
+        ))
         self.assertEqual(
             object_2.center_of_mass, Vector3d(
                 x=0.01, y=0.02, z=0.03))

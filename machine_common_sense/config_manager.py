@@ -77,6 +77,36 @@ class Goal(BaseModel):
     type_list: List[str] = None
 
 
+class ActionConfig(BaseModel):
+    step_begin: int
+    id: str
+
+
+class AgentSettings(BaseModel):
+    chest: int = -1
+    chest_material: int = -1
+    eyes: int = -1
+    feet: int = -1
+    feet_material: int = -1
+    glasses: int = -1
+    hair: int = -1
+    hair_material: int = -1
+    hat_material: int = -1
+    hide_hair: bool = False
+    is_elder: bool = False
+    jacket: int = -1
+    jacket_material: int = -1
+    legs: int = -1
+    legs_material: int = -1
+    show_beard: bool = False
+    show_glasses: bool = False
+    show_jacket: bool = False
+    show_tie: bool = False
+    skin: int = -1
+    tie: int = -1
+    tie_material: int = -1
+
+
 class ChangeMaterialConfig(BaseModel):
     step_begin: int
     materials: List[str]
@@ -197,6 +227,8 @@ class PerformerStart(BaseModel):
 class SceneObject(BaseModel):
     id: str
     type: str  # should this be an enum?
+    actions: List[ActionConfig] = None
+    agent_settings: Optional[AgentSettings]
     center_of_mass: Optional[Vector3d]
     change_materials: Optional[List[ChangeMaterialConfig]]
     debug: dict = None
