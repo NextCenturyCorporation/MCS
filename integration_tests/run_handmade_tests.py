@@ -17,6 +17,7 @@ TEST_FOLDER = f"{INTEGRATION_TESTS_FOLDER}/data/"
 SCENE_SUFFIX = '.scene.json'
 ACTIONS_SUFFIX = '.actions.txt'
 OUTPUTS_SUFFIX = '.outputs.json'
+CONFIG_OVERRIDE_SUFFIX = '.config.ini'
 INDENT = '    '
 
 
@@ -34,7 +35,9 @@ def create_test_case(name, expected, actual):
 
 def create_step_test_case_list(expected, actual):
     test_case_list = [
-        ('action_list', actual.action_list),
+        ('action_list', [
+            list(pair) for pair in actual.action_list
+        ] if actual.action_list is not None else None),
         ('camera_height', actual.camera_height),
         ('haptic_feedback', actual.haptic_feedback),
         ('head_tilt', round(actual.head_tilt)),
@@ -314,6 +317,8 @@ def start_handmade_tests(
                 config_file_or_dict=config_filename)
         else:
             mcs.change_config(controller, config_file_or_dict=config_filename)
+
+        reset_config = False
         # Run each test scene and record if it failed validation.
         for scene_filename in scene_filename_list:
             if (
@@ -321,14 +326,34 @@ def start_handmade_tests(
                 os.path.basename(scene_filename).startswith(only_test_name)
             ):
                 continue
+
+            # Check to see if any configuration should be overriden
+            config_override_filename = scene_filename.replace(
+                SCENE_SUFFIX, f".{metadata_tier}{CONFIG_OVERRIDE_SUFFIX}")
+
+            if os.path.exists(config_override_filename):
+                reset_config = True
+                mcs.change_config(
+                    controller, config_file_or_dict=config_override_filename)
+            elif reset_config is True:
+                reset_config = False
+                mcs.change_config(
+                    controller, config_file_or_dict=config_filename)
+
             print(f'RUNNING SCENE: {os.path.basename(scene_filename)}')
-            successful, status = run_single_scene(
-                controller,
-                scene_filename,
-                metadata_tier,
-                dev,
-                autofix
-            )
+            try:
+                successful, status = run_single_scene(
+                    controller,
+                    scene_filename,
+                    metadata_tier,
+                    dev,
+                    autofix
+                )
+            except SystemExit:
+                # Catch SystemExit when we are calling EndScene
+                successful = True
+                status = ''
+
             test_name = (
                 os.path.basename(scene_filename).replace(SCENE_SUFFIX, '')
             )
