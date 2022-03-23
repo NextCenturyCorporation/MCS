@@ -106,6 +106,7 @@ Each **object config** has the following properties:
 - `type` (string, required): The object's type from the :ref:`object list <Object List>`.
 - `actions` (:ref:`action config list <Action Config>`, optional): Specific animations to start at specific action steps. Available animations are based on the object's type. Currently animations are only available for :ref:`agent <Agents>` types. Default: none
 - `agentSettings` (:ref:`agent settings config <Agent Settings>`, optional): Specific configuration settings for :ref:`agent <Agents>` types. Default: none
+- `associatedWithAgent` (string array, optional):  The agent holding this object. Default: ""
 - `centerOfMass` (:ref:`vector config <Vector Config>`, optional): The object's center of mass/gravity, if not the default. Default: none
 - `centerOfMass` (:ref:`vector config <Vector Config>`, optional): The object's center of mass/gravity, if not the default. Default: none
 - `changeMaterials` (:ref:`change_materials config <Change Materials Config>` array, optional): The steps on which to change the material(s) (colors/textures) used on the object, and the new materials to use. See the :ref:`material list <Material List>` for options. Default: `[]`

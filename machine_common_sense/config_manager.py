@@ -231,6 +231,7 @@ class SceneObject(BaseModel):
     type: str  # should this be an enum?
     actions: List[ActionConfig] = None
     agent_settings: Optional[AgentSettings]
+    associated_with_agent: Optional[str] = ""
     center_of_mass: Optional[Vector3d]
     change_materials: Optional[List[ChangeMaterialConfig]]
     debug: dict = None

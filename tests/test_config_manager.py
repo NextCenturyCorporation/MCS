@@ -307,6 +307,7 @@ class TestSceneConfig(unittest.TestCase):
                 'tie': 15,
                 'tieMaterial': 16
             },
+            'associatedWithAgent': "agent_male",
             'centerOfMass': {
                 'x': 0.01,
                 'y': 0.02,
@@ -534,6 +535,7 @@ class TestSceneConfig(unittest.TestCase):
             tie=15,
             tie_material=16
         ))
+        self.assertEqual(object_2.associated_with_agent, 'agent_male')
         self.assertEqual(
             object_2.center_of_mass, Vector3d(
                 x=0.01, y=0.02, z=0.03))

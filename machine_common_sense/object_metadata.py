@@ -58,6 +58,8 @@ class ObjectMetadata(object):
         Whether the object can be opened
     locked: boolean
         Whether the object is locked
+    associate_with_agent: str
+        The agent holding this object.
     """
 
     def __init__(
@@ -80,7 +82,10 @@ class ObjectMetadata(object):
         visible=False,
         is_open=False,
         openable=False,
-        locked=False
+        locked=False,
+        associated_with_agent="",
+        simulation_agent_held_object="",
+        simulation_agent_is_holding_held_object=False
     ):
         self.uuid = uuid
         self.dimensions = [] if dimensions is None else dimensions
@@ -105,6 +110,10 @@ class ObjectMetadata(object):
         self.is_open = is_open
         self.openable = openable
         self.locked = locked
+        self.associated_with_agent = associated_with_agent
+        self.simulation_agent_held_object = simulation_agent_held_object
+        self.simulation_agent_is_holding_held_object = \
+            simulation_agent_is_holding_held_object
 
     def __str__(self):
         return Stringifier.class_to_str(self)
@@ -131,3 +140,7 @@ class ObjectMetadata(object):
         yield 'is_open', self.is_open
         yield 'openable', self.openable
         yield 'locked', self.locked
+        yield 'associated_with_agent', self.associated_with_agent
+        yield 'simulation_agent_held_object', self.simulation_agent_held_object
+        yield 'simulation_agent_is_holding_held_object', \
+            self.simulation_agent_is_holding_held_object

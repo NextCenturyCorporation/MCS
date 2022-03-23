@@ -1,0 +1,1156 @@
+﻿[
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.44,
+                "direction_y": -0.66,
+                "direction_z": 0.61,
+                "distance": 1.15,
+                "id": "agent_female",
+                "mass": 70,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.74,
+                "direction_z": 0.68,
+                "distance": 1.03,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": true,
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "associated_with_agent": "agent_male",
+                "direction_x": -0.17,
+                "direction_y": -0.38,
+                "direction_z": 0.91,
+                "distance": 0.76,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.13,
+                "position_z": 0.49,
+                "rotation_y": 344,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.0,
+        "position_z": -0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.44,
+                "direction_y": -0.66,
+                "direction_z": 0.61,
+                "distance": 1.15,
+                "id": "agent_female",
+                "mass": 70,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.74,
+                "direction_z": 0.68,
+                "distance": 1.03,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": true,
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "associated_with_agent": "agent_male",
+                "direction_x": -0.0,
+                "direction_y": 0.11,
+                "direction_z": 0.99,
+                "distance": 0.8,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.0,
+                "position_z": 0.59,
+                "rotation_y": 153,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.0,
+        "position_z": -0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 1,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.44,
+                "direction_y": -0.66,
+                "direction_z": 0.61,
+                "distance": 1.15,
+                "id": "agent_female",
+                "mass": 70,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.74,
+                "direction_z": 0.68,
+                "distance": 1.03,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": true,
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "associated_with_agent": "agent_male",
+                "direction_x": -0.12,
+                "direction_y": 0.19,
+                "direction_z": 0.97,
+                "distance": 0.64,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.08,
+                "position_z": 0.43,
+                "rotation_y": 168,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.0,
+        "position_z": -0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 2,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.44,
+                "direction_y": -0.66,
+                "direction_z": 0.61,
+                "distance": 1.15,
+                "id": "agent_female",
+                "mass": 70,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.74,
+                "direction_z": 0.68,
+                "distance": 1.03,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": true,
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "associated_with_agent": "agent_male",
+                "direction_x": -0.03,
+                "direction_y": 0.11,
+                "direction_z": 0.99,
+                "distance": 0.59,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.02,
+                "position_z": 0.39,
+                "rotation_y": 148,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.0,
+        "position_z": -0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 3,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.44,
+                "direction_y": -0.66,
+                "direction_z": 0.61,
+                "distance": 1.15,
+                "id": "agent_female",
+                "mass": 70,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.74,
+                "direction_z": 0.68,
+                "distance": 1.03,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": true,
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "associated_with_agent": "agent_male",
+                "direction_x": -0.0,
+                "direction_y": -0.15,
+                "direction_z": 0.99,
+                "distance": 0.59,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.0,
+                "position_z": 0.39,
+                "rotation_y": 340,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.0,
+        "position_z": -0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 4,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.44,
+                "direction_y": -0.66,
+                "direction_z": 0.61,
+                "distance": 1.15,
+                "id": "agent_female",
+                "mass": 70,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.74,
+                "direction_z": 0.68,
+                "distance": 1.03,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": true,
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "associated_with_agent": "agent_male",
+                "direction_x": -0.0,
+                "direction_y": -0.15,
+                "direction_z": 0.99,
+                "distance": 0.59,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.0,
+                "position_z": 0.39,
+                "rotation_y": 340,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.0,
+        "position_z": -0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 5,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.44,
+                "direction_y": -0.66,
+                "direction_z": 0.61,
+                "distance": 1.15,
+                "id": "agent_female",
+                "mass": 70,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.74,
+                "direction_z": 0.68,
+                "distance": 1.03,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "associated_with_agent": "agent_male",
+                "direction_x": 0.0,
+                "direction_y": -0.53,
+                "direction_z": 0.85,
+                "distance": 0.5,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.22,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.0,
+        "position_z": -0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 6,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.44,
+                "direction_y": -0.66,
+                "direction_z": 0.61,
+                "distance": 1.15,
+                "id": "agent_female",
+                "mass": 70,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.74,
+                "direction_z": 0.68,
+                "distance": 1.03,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "associated_with_agent": "agent_male",
+                "direction_x": 0.0,
+                "direction_y": -0.53,
+                "direction_z": 0.85,
+                "distance": 0.5,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.22,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.0,
+        "position_z": -0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 7,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.44,
+                "direction_y": -0.66,
+                "direction_z": 0.61,
+                "distance": 1.15,
+                "id": "agent_female",
+                "mass": 70,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.74,
+                "direction_z": 0.68,
+                "distance": 1.03,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "associated_with_agent": "agent_male",
+                "direction_x": 0.0,
+                "direction_y": -0.53,
+                "direction_z": 0.85,
+                "distance": 0.5,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.22,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.0,
+        "position_z": -0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 8,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.44,
+                "direction_y": -0.66,
+                "direction_z": 0.61,
+                "distance": 1.15,
+                "id": "agent_female",
+                "mass": 70,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.74,
+                "direction_z": 0.68,
+                "distance": 1.03,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "associated_with_agent": "agent_male",
+                "direction_x": 0.0,
+                "direction_y": -0.53,
+                "direction_z": 0.85,
+                "distance": 0.5,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.22,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.0,
+        "position_z": -0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 9,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.36,
+                "direction_y": -0.69,
+                "direction_z": 0.63,
+                "distance": 1.11,
+                "id": "agent_female",
+                "mass": 70,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.1,
+                "direction_y": -0.73,
+                "direction_z": 0.67,
+                "distance": 1.04,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "associated_with_agent": "agent_male",
+                "direction_x": 0.0,
+                "direction_y": -0.53,
+                "direction_z": 0.85,
+                "distance": 0.5,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.1,
+                "position_z": 0.22,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.1,
+        "position_z": -0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 10,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.28,
+                "direction_y": -0.71,
+                "direction_z": 0.65,
+                "distance": 1.08,
+                "id": "agent_female",
+                "mass": 70,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.19,
+                "direction_y": -0.72,
+                "direction_z": 0.66,
+                "distance": 1.05,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "associated_with_agent": "agent_male",
+                "direction_x": 0.0,
+                "direction_y": -0.53,
+                "direction_z": 0.85,
+                "distance": 0.5,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.2,
+                "position_z": 0.22,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.2,
+        "position_z": -0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 11,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.19,
+                "direction_y": -0.72,
+                "direction_z": 0.66,
+                "distance": 1.05,
+                "id": "agent_female",
+                "mass": 70,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.28,
+                "direction_y": -0.71,
+                "direction_z": 0.65,
+                "distance": 1.08,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "associated_with_agent": "agent_male",
+                "direction_x": 0.0,
+                "direction_y": -0.53,
+                "direction_z": 0.85,
+                "distance": 0.5,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.3,
+                "position_z": 0.22,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.3,
+        "position_z": -0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 12,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.1,
+                "direction_y": -0.73,
+                "direction_z": 0.67,
+                "distance": 1.04,
+                "id": "agent_female",
+                "mass": 70,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.36,
+                "direction_y": -0.69,
+                "direction_z": 0.63,
+                "distance": 1.11,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "associated_with_agent": "agent_male",
+                "direction_x": 0.0,
+                "direction_y": -0.53,
+                "direction_z": 0.85,
+                "distance": 0.5,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.4,
+                "position_z": 0.22,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.4,
+        "position_z": -0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 13,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.1,
+                "direction_y": -0.73,
+                "direction_z": 0.67,
+                "distance": 1.04,
+                "id": "agent_female",
+                "mass": 70,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.36,
+                "direction_y": -0.69,
+                "direction_z": 0.63,
+                "distance": 1.11,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "associated_with_agent": "agent_male",
+                "direction_x": 0.0,
+                "direction_y": -0.53,
+                "direction_z": 0.85,
+                "distance": 0.5,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.4,
+                "position_z": 0.22,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.4,
+        "position_z": -0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 14,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.1,
+                "direction_y": -0.73,
+                "direction_z": 0.67,
+                "distance": 1.04,
+                "id": "agent_female",
+                "mass": 70,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.36,
+                "direction_y": -0.69,
+                "direction_z": 0.63,
+                "distance": 1.11,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "associated_with_agent": "agent_male",
+                "direction_x": 0.0,
+                "direction_y": -0.53,
+                "direction_z": 0.85,
+                "distance": 0.5,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.4,
+                "position_z": 0.22,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.4,
+        "position_z": -0.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 15,
+        "structural_objects_count": 6
+    }
+]
