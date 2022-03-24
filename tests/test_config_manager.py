@@ -276,7 +276,9 @@ class TestSceneConfig(unittest.TestCase):
             'type': 'type_2',
             'actions': [{
                 'stepBegin': 1,
-                'id': 'animation_a'
+                'stepEnd': 5,
+                'id': 'animation_a',
+                'isLoopAnimation': True,
             }, {
                 'stepBegin': 25,
                 'id': 'animation_b'
@@ -498,8 +500,15 @@ class TestSceneConfig(unittest.TestCase):
         self.assertEqual(object_2.id, 'id_2')
         self.assertEqual(object_2.type, 'type_2')
         self.assertEqual(object_2.actions, [
-            ActionConfig(step_begin=1, id='animation_a'),
-            ActionConfig(step_begin=25, id='animation_b')
+            ActionConfig(
+                step_begin=1,
+                id='animation_a',
+                step_end=5,
+                is_loop_animation=True),
+            ActionConfig(
+                step_begin=25,
+                id='animation_b',
+                is_loop_animation=False)
         ])
         self.assertEqual(object_2.agent_settings, AgentSettings(
             chest=1,

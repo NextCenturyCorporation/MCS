@@ -79,7 +79,9 @@ class Goal(BaseModel):
 
 class ActionConfig(BaseModel):
     step_begin: int
+    step_end: Optional[int]
     id: str
+    is_loop_animation: Optional[bool] = False
 
 
 class AgentSettings(BaseModel):
