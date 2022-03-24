@@ -45,18 +45,18 @@
             },
             {
                 "associated_with_agent": "agent_male",
-                "direction_x": -0.17,
-                "direction_y": -0.38,
-                "direction_z": 0.91,
-                "distance": 0.76,
+                "direction_x": 0.0,
+                "direction_y": -0.74,
+                "direction_z": 0.68,
+                "distance": 1.03,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -0.13,
-                "position_z": 0.49,
-                "rotation_y": 344,
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 0,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -130,7 +130,7 @@
                 ],
                 "position_x": -0.0,
                 "position_z": 0.59,
-                "rotation_y": 153,
+                "rotation_y": 0,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -204,7 +204,7 @@
                 ],
                 "position_x": -0.08,
                 "position_z": 0.43,
-                "rotation_y": 168,
+                "rotation_y": 0,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -268,7 +268,7 @@
             {
                 "associated_with_agent": "agent_male",
                 "direction_x": -0.03,
-                "direction_y": 0.11,
+                "direction_y": 0.15,
                 "direction_z": 0.99,
                 "distance": 0.59,
                 "id": "soccer_ball",
@@ -278,13 +278,13 @@
                 ],
                 "position_x": -0.02,
                 "position_z": 0.39,
-                "rotation_y": 148,
+                "rotation_y": 0,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
                     "black"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 3,
@@ -352,7 +352,7 @@
                 ],
                 "position_x": -0.0,
                 "position_z": 0.39,
-                "rotation_y": 340,
+                "rotation_y": 0,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -426,7 +426,7 @@
                 ],
                 "position_x": -0.0,
                 "position_z": 0.39,
-                "rotation_y": 340,
+                "rotation_y": 0,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
