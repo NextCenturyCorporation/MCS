@@ -32,7 +32,6 @@
         "structural_objects_count": 6
     },
     {
-        "head_tilt": 30,
         "objects": [
             {
                 "direction_x": 0.0,
@@ -41,26 +40,505 @@
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
-                "mass": 1,
-                "material_list": [
-                    "RUBBER"
-                ],
                 "position_x": 0.0,
                 "position_z": 0.35,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
                 "visible": true
             }
         ],
-        "objects_count": 1,
-        "position_x": 0.0,
-        "position_z": 0.0,
         "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 1,
-        "structural_objects_count": 6
+        "step_number": 1
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.48,
+                "direction_z": 0.88,
+                "distance": 0.4,
+                "held": true,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 0.35,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 2
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.5,
+                "direction_z": 0.86,
+                "distance": 0.4,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 0.35,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 3
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.57,
+                "direction_z": 0.82,
+                "distance": 0.43,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 0.35,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 4
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.46,
+                "direction_z": 0.89,
+                "distance": 0.67,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 0.6,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 5
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.42,
+                "direction_z": 0.91,
+                "distance": 0.93,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 0.84,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 6
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.42,
+                "direction_z": 0.91,
+                "distance": 1.2,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 1.09,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 7
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.43,
+                "direction_z": 0.9,
+                "distance": 1.47,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 1.32,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 8
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.38,
+                "direction_z": 0.92,
+                "distance": 1.62,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 1.5,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 9
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.34,
+                "direction_z": 0.94,
+                "distance": 1.76,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 1.65,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 10
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.31,
+                "direction_z": 0.95,
+                "distance": 1.9,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 1.81,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 11
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.3,
+                "direction_z": 0.95,
+                "distance": 2.05,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 1.96,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 12
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.3,
+                "direction_z": 0.96,
+                "distance": 2.2,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 2.1,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 13
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.28,
+                "direction_z": 0.96,
+                "distance": 2.31,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 2.22,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 14
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.27,
+                "direction_z": 0.96,
+                "distance": 2.42,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 2.33,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 15
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.26,
+                "direction_z": 0.97,
+                "distance": 2.51,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 2.42,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 16
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.25,
+                "direction_z": 0.97,
+                "distance": 2.59,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 2.5,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 17
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.25,
+                "direction_z": 0.97,
+                "distance": 2.66,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 2.58,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 18
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.24,
+                "direction_z": 0.97,
+                "distance": 2.71,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 2.64,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 19
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.24,
+                "direction_z": 0.97,
+                "distance": 2.76,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 2.68,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 20
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.23,
+                "direction_z": 0.97,
+                "distance": 2.8,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 2.73,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 21
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.23,
+                "direction_z": 0.97,
+                "distance": 2.84,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 2.76,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 22
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.23,
+                "direction_z": 0.97,
+                "distance": 2.88,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 2.8,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 23
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.97,
+                "distance": 2.91,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 2.84,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 24
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.95,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 2.88,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 25
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.99,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 2.91,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 26
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 3.02,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 2.95,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 27
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.21,
+                "direction_z": 0.98,
+                "distance": 3.05,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 2.98,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 28
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.21,
+                "direction_z": 0.98,
+                "distance": 3.09,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 3.02,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 29
+    },
+    {
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.21,
+                "direction_z": 0.98,
+                "distance": 3.12,
+                "held": false,
+                "id": "soccer_ball",
+                "position_x": 0.0,
+                "position_z": 3.05,
+                "visible": true
+            }
+        ],
+        "return_status": "SUCCESSFUL",
+        "step_number": 30
     }
 ]
