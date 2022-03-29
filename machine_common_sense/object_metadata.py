@@ -128,25 +128,25 @@ class ObjectMetadata(object):
     #   certain fields to be left out of output file
     def __iter__(self):
         yield 'uuid', self.uuid
+        yield 'associated_with_agent', self.associated_with_agent
         yield 'dimensions', self.dimensions
         yield 'direction', self.direction
         yield 'distance', self.distance
         yield 'distance_in_steps', self.distance_in_steps
         yield 'distance_in_world', self.distance_in_world
         yield 'held', self.held
+        yield 'is_open', self.is_open
+        yield 'locked', self.locked
         yield 'mass', self.mass
         yield 'material_list', self.material_list
+        yield 'openable', self.openable
         yield 'position', self.position
         yield 'rotation', self.rotation
         yield 'segment_color', self.segment_color
+        yield 'simulation_agent_held_object', self.simulation_agent_held_object
+        yield 'simulation_agent_is_holding_held_object', \
+            self.simulation_agent_is_holding_held_object
         yield 'shape', self.shape
         yield 'state_list', self.state_list
         yield 'texture_color_list', self.texture_color_list
         yield 'visible', self.visible
-        yield 'is_open', self.is_open
-        yield 'openable', self.openable
-        yield 'locked', self.locked
-        yield 'associated_with_agent', self.associated_with_agent
-        yield 'simulation_agent_held_object', self.simulation_agent_held_object
-        yield 'simulation_agent_is_holding_held_object', \
-            self.simulation_agent_is_holding_held_object

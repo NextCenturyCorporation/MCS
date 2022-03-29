@@ -8,27 +8,27 @@ class TestObjectMetadata(unittest.TestCase):
 
     str_output = '''    {
         "uuid": "",
+        "associated_with_agent": "",
         "dimensions": [],
         "direction": {},
         "distance": -1.0,
         "distance_in_steps": -1.0,
         "distance_in_world": -1.0,
         "held": false,
+        "is_open": false,
+        "locked": false,
         "mass": 0.0,
         "material_list": [],
+        "openable": false,
         "position": {},
         "rotation": {},
         "segment_color": {},
         "shape": "",
+        "simulation_agent_held_object": "",
+        "simulation_agent_is_holding_held_object": false,
         "state_list": [],
         "texture_color_list": [],
-        "visible": false,
-        "is_open": false,
-        "openable": false,
-        "locked": false,
-        "associated_with_agent": "",
-        "simulation_agent_held_object": "",
-        "simulation_agent_is_holding_held_object": false
+        "visible": false
     }'''
 
     @classmethod
