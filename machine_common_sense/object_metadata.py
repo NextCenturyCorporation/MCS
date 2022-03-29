@@ -71,55 +71,55 @@ class ObjectMetadata(object):
     def __init__(
         self,
         uuid="",
-        associated_with_agent="",
         dimensions=None,
         direction=None,
         distance=-1.0,
         distance_in_steps=-1.0,
         distance_in_world=-1.0,
         held=False,
-        is_open=False,
-        locked=False,
         mass=0.0,
         material_list=None,
-        openable=False,
         position=None,
         rotation=None,
         segment_color=None,
         shape="",
-        simulation_agent_held_object="",
-        simulation_agent_is_holding_held_object=False,
         state_list=None,
         texture_color_list=None,
         visible=False,
+        is_open=False,
+        openable=False,
+        locked=False,
+        associated_with_agent="",
+        simulation_agent_held_object="",
+        simulation_agent_is_holding_held_object=False
     ):
         self.uuid = uuid
-        self.associated_with_agent = associated_with_agent
         self.dimensions = [] if dimensions is None else dimensions
         self.direction = {} if direction is None else direction
         self.distance = distance
         self.distance_in_steps = distance_in_steps
         self.distance_in_world = distance_in_world
         self.held = held
-        self.is_open = is_open
-        self.locked = locked
         self.mass = mass
         self.material_list = [] if material_list is None else material_list
-        self.openable = openable
         self.position = {} if position is None else position
         self.rotation = {} if rotation is None else rotation
         self.segment_color = {} \
             if segment_color is None \
             else segment_color
         self.shape = shape
-        self.simulation_agent_held_object = simulation_agent_held_object
-        self.simulation_agent_is_holding_held_object = \
-            simulation_agent_is_holding_held_object
         self.state_list = [] if state_list is None else state_list
         self.texture_color_list = (
             [] if texture_color_list is None else texture_color_list
         )
         self.visible = visible
+        self.is_open = is_open
+        self.openable = openable
+        self.locked = locked
+        self.associated_with_agent = associated_with_agent
+        self.simulation_agent_held_object = simulation_agent_held_object
+        self.simulation_agent_is_holding_held_object = \
+            simulation_agent_is_holding_held_object
 
     def __str__(self):
         return Stringifier.class_to_str(self)
@@ -128,25 +128,25 @@ class ObjectMetadata(object):
     #   certain fields to be left out of output file
     def __iter__(self):
         yield 'uuid', self.uuid
-        yield 'associated_with_agent', self.associated_with_agent
         yield 'dimensions', self.dimensions
         yield 'direction', self.direction
         yield 'distance', self.distance
         yield 'distance_in_steps', self.distance_in_steps
         yield 'distance_in_world', self.distance_in_world
         yield 'held', self.held
-        yield 'is_open', self.is_open
-        yield 'locked', self.locked
         yield 'mass', self.mass
         yield 'material_list', self.material_list
-        yield 'openable', self.openable
         yield 'position', self.position
         yield 'rotation', self.rotation
         yield 'segment_color', self.segment_color
-        yield 'simulation_agent_held_object', self.simulation_agent_held_object
-        yield 'simulation_agent_is_holding_held_object', \
-            self.simulation_agent_is_holding_held_object
         yield 'shape', self.shape
         yield 'state_list', self.state_list
         yield 'texture_color_list', self.texture_color_list
         yield 'visible', self.visible
+        yield 'is_open', self.is_open
+        yield 'openable', self.openable
+        yield 'locked', self.locked
+        yield 'associated_with_agent', self.associated_with_agent
+        yield 'simulation_agent_held_object', self.simulation_agent_held_object
+        yield 'simulation_agent_is_holding_held_object', \
+            self.simulation_agent_is_holding_held_object
