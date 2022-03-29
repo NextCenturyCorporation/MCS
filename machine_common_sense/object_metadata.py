@@ -9,6 +9,8 @@ class ObjectMetadata(object):
     ----------
     uuid : string
         The unique ID of this object, used with some actions.
+    associated_with_agent: str
+        The agent holding this object.
     dimensions : list of dicts
         The dimensions of this object in the environment's 3D global
         coordinate system as a list of 8 points (dicts with "x", "y", and "z").
@@ -29,11 +31,17 @@ class ObjectMetadata(object):
         coordinate system.
     held : boolean
         Whether you are holding this object.
+    is_open : boolean
+        Whether the object is open or not
+    locked: boolean
+        Whether the object is locked
     mass : float
         Haptic feedback. The mass of this object.
     material_list : list of strings
         Haptic feedback. The material(s) of this object.
         See :mod:`Material <machine_common_sense.Material>`.
+    openable : boolean
+        Whether the object can be opened
     position : dict
         The "x", "y", and "z" coordinates for the global position of the
         center of this object's 3D model.
@@ -45,6 +53,12 @@ class ObjectMetadata(object):
         StepMetadata's "object_mask_list".
     shape : string
         This object's shape in plain English.
+    simulation_agent_held_object: str
+        The object associated held for the simulation agent that the performer
+        can retrieve through the InteractWithAgent method.
+    simulation_agent_is_holding_held_object: str
+        Whether this simulation agent is currently holding its
+        associated held object.
     state_list : list of strings
         This object's state(s) from the current step in the scene. Sometimes
         used by objects with scripted behavior in passive scenes.
@@ -52,68 +66,60 @@ class ObjectMetadata(object):
         This object's colors, derived from its textures, in plain English.
     visible : boolean
         Whether you can see this object in your camera viewport.
-    is_open : boolean
-        Whether the object is open or not
-    openable : boolean
-        Whether the object can be opened
-    locked: boolean
-        Whether the object is locked
-    associate_with_agent: str
-        The agent holding this object.
     """
 
     def __init__(
         self,
         uuid="",
+        associated_with_agent="",
         dimensions=None,
         direction=None,
         distance=-1.0,
         distance_in_steps=-1.0,
         distance_in_world=-1.0,
         held=False,
+        is_open=False,
+        locked=False,
         mass=0.0,
         material_list=None,
+        openable=False,
         position=None,
         rotation=None,
         segment_color=None,
         shape="",
+        simulation_agent_held_object="",
+        simulation_agent_is_holding_held_object=False,
         state_list=None,
         texture_color_list=None,
         visible=False,
-        is_open=False,
-        openable=False,
-        locked=False,
-        associated_with_agent="",
-        simulation_agent_held_object="",
-        simulation_agent_is_holding_held_object=False
     ):
         self.uuid = uuid
+        self.associated_with_agent = associated_with_agent
         self.dimensions = [] if dimensions is None else dimensions
         self.direction = {} if direction is None else direction
         self.distance = distance
         self.distance_in_steps = distance_in_steps
         self.distance_in_world = distance_in_world
         self.held = held
+        self.is_open = is_open
+        self.locked = locked
         self.mass = mass
         self.material_list = [] if material_list is None else material_list
+        self.openable = openable
         self.position = {} if position is None else position
         self.rotation = {} if rotation is None else rotation
         self.segment_color = {} \
             if segment_color is None \
             else segment_color
         self.shape = shape
+        self.simulation_agent_held_object = simulation_agent_held_object
+        self.simulation_agent_is_holding_held_object = \
+            simulation_agent_is_holding_held_object
         self.state_list = [] if state_list is None else state_list
         self.texture_color_list = (
             [] if texture_color_list is None else texture_color_list
         )
         self.visible = visible
-        self.is_open = is_open
-        self.openable = openable
-        self.locked = locked
-        self.associated_with_agent = associated_with_agent
-        self.simulation_agent_held_object = simulation_agent_held_object
-        self.simulation_agent_is_holding_held_object = \
-            simulation_agent_is_holding_held_object
 
     def __str__(self):
         return Stringifier.class_to_str(self)
