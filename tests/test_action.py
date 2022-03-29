@@ -179,8 +179,9 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.INTERACT_WITH_AGENT.key, "T")
         self.assertEqual(
             mcs.Action.INTERACT_WITH_AGENT.desc,
-            "Interact with an Agent to make them hold out their "
-            "currently held object. "
+            "Interact with an agent. If that agent has an object, "
+            "it will hold out the object for you to pickup; "
+            "otherwise, the agent will look sad."
             "(objectId=string, "
             "objectImageCoordsX=float, "
             "objectImageCoordsY=float)"

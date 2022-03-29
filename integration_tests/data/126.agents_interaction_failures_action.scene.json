@@ -12,10 +12,10 @@
     "performerStart": {
         "position": {
             "x": 0,
-            "z": -0.2
+            "z": -0.5
         },
         "rotation": {
-          "x": 0,
+          "x": 60,
           "y": 0,
           "z": 0
         }
@@ -52,6 +52,56 @@
                 "x": 0,
                 "y": 180,
                 "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }],
+        "actions": [{
+            "stepBegin": 0,
+            "id": "TPF_clap",
+            "isLoopAnimation": true,
+            "stepEnd": 7
+        },{
+            "stepBegin": 9,
+            "id": "TPF_wave",
+            "isLoopAnimation": true
+        }]
+    }, {
+        "id": "wall_in_room",
+        "type": "cube",
+        "mass": 1,
+        "salientMaterials": ["plastic"],
+        "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color 1"],
+        "kinematic": true,
+        "structure": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0.3
+            },
+            "scale": {
+                "x": 0.5,
+                "y": 2,
+                "z": 0.175
+            }
+        }]
+    }, {
+        "id": "soccer_ball_2",
+        "type": "soccer_ball",
+        "mass": 1,
+        "salientMaterials": ["plastic"],
+        "pickupable": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.125,
+                "z": -0.3
             },
             "scale": {
                 "x": 1,
@@ -117,6 +167,11 @@
                 "y": 1,
                 "z": 1
             }
+        }],
+        "actions": [{
+            "stepBegin": 0,
+            "id": "TPF_wave",
+            "isLoopAnimation": true
         }]
     }]
 }

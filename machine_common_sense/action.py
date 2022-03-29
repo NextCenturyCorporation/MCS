@@ -581,14 +581,16 @@ class Action(Enum):
     INTERACT_WITH_AGENT = (
         "InteractWithAgent",
         "T",
-        "Interact with an Agent to make them hold out their "
-        "currently held object. "
+        "Interact with an agent. If that agent has an object, "
+        "it will hold out the object for you to pickup; "
+        "otherwise, the agent will look sad."
         "(objectId=string, "
         "objectImageCoordsX=float, "
         "objectImageCoordsY=float)"
     )
     """
-    Interact with an Agent to make them hold out their currently held object.
+    Interact with an agent. If that agent has an object, it will hold
+    out the object for you to pickup; otherwise, the agent will look sad.
 
     Parameters
     ----------

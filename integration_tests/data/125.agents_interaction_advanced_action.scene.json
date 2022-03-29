@@ -12,7 +12,7 @@
     "performerStart": {
         "position": {
             "x": 0,
-            "z": -0.2
+            "z": -1
         },
         "rotation": {
           "x": 0,
@@ -58,6 +58,16 @@
                 "y": 1,
                 "z": 1
             }
+        }],
+        "actions": [{
+            "stepBegin": 0,
+            "id": "TPF_clap",
+            "isLoopAnimation": true,
+            "stepEnd": 7
+        },{
+            "stepBegin": 9,
+            "id": "TPF_wave",
+            "isLoopAnimation": true
         }]
     }, {
         "id": "soccer_ball",
@@ -117,6 +127,11 @@
                 "y": 1,
                 "z": 1
             }
+        }],
+        "actions": [{
+            "stepBegin": 0,
+            "id": "TPF_wave",
+            "isLoopAnimation": true
         }]
     }]
 }
