@@ -25,7 +25,10 @@ class TestObjectMetadata(unittest.TestCase):
         "visible": false,
         "is_open": false,
         "openable": false,
-        "locked": false
+        "locked": false,
+        "associated_with_agent": "",
+        "simulation_agent_held_object": "",
+        "simulation_agent_is_holding_held_object": false
     }'''
 
     @classmethod
@@ -40,6 +43,21 @@ class TestObjectMetadata(unittest.TestCase):
     def test_uuid(self):
         self.assertEqual(self.object_metadata.uuid, "")
         self.assertIsInstance(self.object_metadata.uuid, str)
+
+    def test_associated_with_agent(self):
+        self.assertEqual(self.object_metadata.associated_with_agent, "")
+        self.assertIsInstance(self.object_metadata.associated_with_agent, str)
+
+    def test_simulation_agent_held_object(self):
+        self.assertEqual(self.object_metadata.simulation_agent_held_object, "")
+        self.assertIsInstance(
+            self.object_metadata.simulation_agent_held_object, str)
+
+    def test_simulation_agent_is_holding_held_object(self):
+        self.assertFalse(
+            self.object_metadata.simulation_agent_is_holding_held_object)
+        self.assertIsInstance(
+            self.object_metadata.simulation_agent_is_holding_held_object, bool)
 
     def test_dimensions(self):
         self.assertFalse(self.object_metadata.dimensions)

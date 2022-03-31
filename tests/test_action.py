@@ -172,6 +172,25 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action("MoveObject"), mcs.Action.MOVE_OBJECT)
         self.assertEqual(mcs.Action("0"), mcs.Action.MOVE_OBJECT)
 
+    def test_interact_with_agent(self):
+        self.assertEqual(
+            mcs.Action.INTERACT_WITH_AGENT.value,
+            "InteractWithAgent")
+        self.assertEqual(mcs.Action.INTERACT_WITH_AGENT.key, "T")
+        self.assertEqual(
+            mcs.Action.INTERACT_WITH_AGENT.desc,
+            "Interact with an agent. If that agent has an object, "
+            "it will hold out the object for you to pickup; "
+            "otherwise, the agent will look sad."
+            "(objectId=string, "
+            "objectImageCoordsX=float, "
+            "objectImageCoordsY=float)"
+        )
+        self.assertEqual(
+            mcs.Action("InteractWithAgent"),
+            mcs.Action.INTERACT_WITH_AGENT)
+        self.assertEqual(mcs.Action("T"), mcs.Action.INTERACT_WITH_AGENT)
+
     def test_put_object(self):
         self.assertEqual(mcs.Action.PUT_OBJECT.value, "PutObject")
         self.assertEqual(mcs.Action.PUT_OBJECT.key, "7")

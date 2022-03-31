@@ -101,7 +101,11 @@ def create_object_test_case_list(object_type, expected, actual):
         ('texture_color_list', actual.texture_color_list),
         ('visible', actual.visible),
         ('is_open', actual.is_open),
-        ('openable', actual.openable)
+        ('locked', actual.locked),
+        ('associated_with_agent', actual.associated_with_agent),
+        ('simulation_agent_held_object', actual.simulation_agent_held_object),
+        ('simulation_agent_is_holding_held_object',
+            actual.simulation_agent_is_holding_held_object)
     ]
     return [create_test_case(
         [object_type, actual.uuid, case_name],
