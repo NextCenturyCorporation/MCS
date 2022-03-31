@@ -1,5 +1,5 @@
 ﻿{
-    "name": "agent_interaction_action",
+    "name": "Agent interaction action with animated agents",
     "version": "1",
     "ceilingMaterial": "Custom/Materials/GreyDrywallMCS",
     "floorMaterial": "Custom/Materials/BrownWoodMCS",

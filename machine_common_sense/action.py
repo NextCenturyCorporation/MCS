@@ -616,6 +616,11 @@ class Action(Enum):
     "NOT_OBJECT"
         If the object corresponding to the "objectId" (or object corresponding
         to the "objectImageCoords" vector) is not an object.
+    "NOT_AGENT"
+        If the object being interacted with is not a simulation agent
+    "AGENT_CURRENTLY_INTERACTING_WTIH_PERFORMER"
+        If the object being interacted with is a simulation agent already
+        interacting with the performer
     "OBSTRUCTED"
         If you cannot move the object because your path is obstructed.
     "OUT_OF_REACH"

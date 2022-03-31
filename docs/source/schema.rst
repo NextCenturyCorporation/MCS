@@ -106,7 +106,7 @@ Each **object config** has the following properties:
 - `type` (string, required): The object's type from the :ref:`object list <Object List>`.
 - `actions` (:ref:`action config list <Action Config>`, optional): Specific animations to start at specific action steps. Available animations are based on the object's type. Currently animations are only available for :ref:`agent <Agents>` types. Default: none
 - `agentSettings` (:ref:`agent settings config <Agent Settings>`, optional): Specific configuration settings for :ref:`agent <Agents>` types. Default: none
-- `associatedWithAgent` (string array, optional):  The agent holding this object. Default: ""
+-  associatedWithAgent` (string, optional):  The agent holding this object. Objects with this property have the following restrictions --- Must have a shape of ball, a bounding box scaled between 0.2 and 0.25, and a scale of (1,1,1). Default: ""
 - `centerOfMass` (:ref:`vector config <Vector Config>`, optional): The object's center of mass/gravity, if not the default. Default: none
 - `centerOfMass` (:ref:`vector config <Vector Config>`, optional): The object's center of mass/gravity, if not the default. Default: none
 - `changeMaterials` (:ref:`change_materials config <Change Materials Config>` array, optional): The steps on which to change the material(s) (colors/textures) used on the object, and the new materials to use. See the :ref:`material list <Material List>` for options. Default: `[]`
@@ -170,7 +170,7 @@ Action Config
 Each **action config** has the following properties:
 
 - `stepBegin` (integer, required): The step on which the action should occur.  Must be non-negative.  A value of `0` means the action will occur during scene initialization.
-- `stepEnd` (integer, optional): The step on which the action should end.  Must be non-negative.
+- `stepEnd` (integer, optional): The step on which the action should end. The animation will play infinitely if its isLoopAnimation is true. If stepEnd is not configured and isLoopAnimation is false then the animation will play once. For example, a jump animation with stepBegin of 2 and stepEnd of 4 will stop immediately at that stepEnd. However, you can set that jump to isLoopAnimation true and have its stepEnd be 104 so it will loop and stop at step 104. Must be non-negative.
 - `id` (string, required): The ID of the animation (action) to start. For a full list of available agent animations, please see :ref:`Agent Animations <Agent Animations>`.
 - `isLoopAnimation` (bool, optional): Whether the newly set animation should loop after being played. If false, the agent animation will reset to idle after being played once. Default: `false`
 
