@@ -1,5 +1,5 @@
 ﻿{
-    "name": "agent_interaction_action",
+    "name": "Agent interation action with agents rotating to look at performer",
     "version": "1",
     "ceilingMaterial": "Custom/Materials/GreyDrywallMCS",
     "floorMaterial": "Custom/Materials/BrownWoodMCS",

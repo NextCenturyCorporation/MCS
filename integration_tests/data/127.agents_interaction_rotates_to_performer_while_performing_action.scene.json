@@ -1,5 +1,5 @@
 ﻿{
-    "name": "agent_interaction_action",
+    "name": "Agent interaction action with agents performing specific action animations, looking at performer, then returning to their original animation after the interaction is complete",
     "version": "1",
     "ceilingMaterial": "Custom/Materials/GreyDrywallMCS",
     "floorMaterial": "Custom/Materials/BrownWoodMCS",
