@@ -1,6 +1,9 @@
 import argparse
 import os
 
+from machine_common_sense.unity_executable_provider import \
+    UnityExecutableProvider
+
 '''
 Script will start Unity build with a flag to clear the addressables cache,
 cache all the data in catalog and then close the application.
@@ -20,8 +23,10 @@ executables.
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('build_path',
-                        help="Unity build path")
+    parser.add_argument('--build_path',
+                        help="Unity build path.",
+                        required=False,
+                        default=None)
     return parser.parse_args()
 
 
@@ -31,7 +36,10 @@ def run_caching_build(build_path):
 
 def main():
     args = parse_args()
-    run_caching_build(args.build_path)
+    path = args.build_path
+    if not path:
+        path = UnityExecutableProvider().get_executable(force_download=True)
+    run_caching_build(path)
 
 
 if __name__ == '__main__':
