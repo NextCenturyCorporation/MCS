@@ -84,6 +84,17 @@ class ActionConfig(BaseModel):
     is_loop_animation: Optional[bool] = False
 
 
+class SequenceConfig(BaseModel):
+    animation: str
+    end_point: Vector3d
+
+
+class AgentMovementConfig(BaseModel):
+    step_begin: int
+    repeat: bool
+    sequence: List[SequenceConfig] = []
+
+
 class AgentSettings(BaseModel):
     chest: int = -1
     chest_material: int = -1
@@ -229,7 +240,8 @@ class PerformerStart(BaseModel):
 class SceneObject(BaseModel):
     id: str
     type: str  # should this be an enum?
-    actions: List[ActionConfig] = None
+    actions: Optional[List[ActionConfig]]
+    agent_movement: Optional[AgentMovementConfig]
     agent_settings: Optional[AgentSettings]
     associated_with_agent: Optional[str] = ""
     center_of_mass: Optional[Vector3d]
