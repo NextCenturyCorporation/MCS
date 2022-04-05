@@ -1,0 +1,84 @@
+﻿{
+    "name": "Agent obstructed by object then the obstructed object is pushed by the performer",
+    "version": "1",
+    "ceilingMaterial": "Custom/Materials/GreyDrywallMCS",
+    "floorMaterial": "Custom/Materials/BrownWoodMCS",
+    "wallMaterial": "Custom/Materials/WhiteDrywallMCS",
+    "roomDimensions": {
+        "x": 12,
+        "y": 3,
+        "z": 12
+    },
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": -0.5
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+    },
+    "objects": [{
+        "id": "agent_female",
+        "type": "agent_female_01",
+        "agentSettings": {
+            "chest": 4,
+            "chestMaterial": 5,
+            "eyes": -1,
+            "feet": -1,
+            "feetMaterial": -1,
+            "glasses": -1,
+            "hair": 4,
+            "hairMaterial": -1,
+            "hatMaterial": -1,
+            "jacket": 4,
+            "jacketMaterial": 3,
+            "legs": 2,
+            "legsMaterial": -1,
+            "skin": 2,
+            "tie": -1,
+            "tieMaterial": -1
+        },
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }],
+        "agentMovement": {
+            "repeat": true,
+            "stepBegin": 1,
+            "sequence": [
+            {
+                "animation": "TPM_walk",
+                "endPoint": 
+                {
+                    "x": 0,
+                    "z": -1
+                }
+            }, 
+            {
+                "animation": "TPM_walk",
+                "endPoint": 
+                {
+                    "x": 0.7,
+                    "z": 1.3
+                }
+            }]
+        }
+    }]
+}
