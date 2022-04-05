@@ -1,5 +1,5 @@
 ﻿{
-    "name": "Agent obstructed by object then the obstructed object is pushed by the performer",
+    "name": "Agent obstructed by performer then the performer moves",
     "version": "1",
     "ceilingMaterial": "Custom/Materials/GreyDrywallMCS",
     "floorMaterial": "Custom/Materials/BrownWoodMCS",
