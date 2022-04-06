@@ -49,9 +49,9 @@ class MetadataTier(Enum):
 
 
 class Vector3d(BaseModel):
-    x: float = 0.0
-    y: float = 0.0
-    z: float = 0.0
+    x: Optional[float] = 0.0
+    y: Optional[float] = 0.0
+    z: Optional[float] = 0.0
 
 
 class GoalObject(BaseModel):
@@ -167,8 +167,8 @@ class PlatformLipsConfig(BaseModel):
 
 
 class Vector2dInt(BaseModel):
-    x: int
-    z: int
+    x: Optional[int]
+    z: Optional[int]
 
 
 class FloorTexturesConfig(BaseModel):
