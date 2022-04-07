@@ -578,6 +578,57 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
+    INTERACT_WITH_AGENT = (
+        "InteractWithAgent",
+        "T",
+        "Interact with an agent. If that agent has an object, "
+        "it will hold out the object for you to pickup; "
+        "otherwise, the agent will look sad."
+        "(objectId=string, "
+        "objectImageCoordsX=float, "
+        "objectImageCoordsY=float)"
+    )
+    """
+    Interact with an agent. If that agent has an object, it will hold
+    out the object for you to pickup; otherwise, the agent will look sad.
+
+    Parameters
+    ----------
+    objectId : string, optional
+        The "uuid" of the target object. Required unless the
+        "objectImageCoords" properties are given.
+    objectImageCoordsX : float, optional
+        The X of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    objectImageCoordsY : float, optional
+        The Y of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+
+    Returns
+    -------
+    "SUCCESSFUL"
+        Action successful.
+    "NOT_INTERACTABLE"
+        If the object corresponding to the "objectImageCoords" vector is not an
+        interactable object.
+    "NOT_OBJECT"
+        If the object corresponding to the "objectId" (or object corresponding
+        to the "objectImageCoords" vector) is not an object.
+    "NOT_AGENT"
+        If the object being interacted with is not a simulation agent
+    "AGENT_CURRENTLY_INTERACTING_WTIH_PERFORMER"
+        If the object being interacted with is a simulation agent already
+        interacting with the performer
+    "OBSTRUCTED"
+        If you cannot move the object because your path is obstructed.
+    "OUT_OF_REACH"
+        If you cannot move the object because you are out of reach.
+    "FAILED"
+        Unexpected error; please report immediately to development team.
+    """
+
     LOOK_UP = (
         "LookUp",
         "i",

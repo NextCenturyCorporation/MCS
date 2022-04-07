@@ -6,7 +6,6 @@ import numpy
 import machine_common_sense as mcs
 from machine_common_sense.config_manager import (ConfigManager, MetadataTier,
                                                  SceneConfiguration,
-                                                 SceneConfigurationSchema,
                                                  Vector2dInt)
 from machine_common_sense.controller_output_handler import (
     ControllerOutputHandler, SceneEvent)
@@ -114,7 +113,10 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "visibleInCamera": True,
                     "isOpen": False,
                     "openable": False,
-                    "locked": False
+                    "locked": False,
+                    "associatedWithAgent": "",
+                    "simulationAgentHeldObject": "",
+                    "simulationAgentIsHoldingHeldObject": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -154,7 +156,10 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "visibleInCamera": False,
                     "isOpen": False,
                     "openable": False,
-                    "locked": False
+                    "locked": False,
+                    "associatedWithAgent": "",
+                    "simulationAgentHeldObject": "",
+                    "simulationAgentIsHoldingHeldObject": False
                 }],
                 "structuralObjects": [{
                     "colorsFromMaterials": ["c2"],
@@ -195,7 +200,10 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "visibleInCamera": True,
                     "isOpen": False,
                     "openable": False,
-                    "locked": False
+                    "locked": False,
+                    "associatedWithAgent": "",
+                    "simulationAgentHeldObject": "",
+                    "simulationAgentIsHoldingHeldObject": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -235,7 +243,10 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "visibleInCamera": False,
                     "isOpen": False,
                     "openable": False,
-                    "locked": False
+                    "locked": False,
+                    "associatedWithAgent": "",
+                    "simulationAgentHeldObject": "",
+                    "simulationAgentIsHoldingHeldObject": False
                 }]
             }
         }, image_data, depth_data, object_mask_data
@@ -277,7 +288,10 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "visibleInCamera": True,
                     "isOpen": False,
                     "openable": False,
-                    "locked": False
+                    "locked": False,
+                    "associatedWithAgent": "",
+                    "simulationAgentHeldObject": "",
+                    "simulationAgentIsHoldingHeldObject": False
                 }, {
                     "colorsFromMaterials": ["c2", "c3"],
                     "direction": {
@@ -317,7 +331,10 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "visibleInCamera": True,
                     "isOpen": False,
                     "openable": False,
-                    "locked": False
+                    "locked": False,
+                    "associatedWithAgent": "agent_test",
+                    "simulationAgentHeldObject": "",
+                    "simulationAgentIsHoldingHeldObject": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -357,7 +374,10 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "visibleInCamera": False,
                     "isOpen": False,
                     "openable": False,
-                    "locked": False
+                    "locked": False,
+                    "associatedWithAgent": "",
+                    "simulationAgentHeldObject": "held_test",
+                    "simulationAgentIsHoldingHeldObject": True
                 }]
             }
         }
@@ -518,6 +538,12 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.object_list[0].state_list, [])
         self.assertEqual(actual.object_list[0].texture_color_list, ['c1'])
         self.assertEqual(actual.object_list[0].visible, True)
+        self.assertEqual(actual.object_list[0].associated_with_agent, "")
+        self.assertEqual(
+            actual.object_list[0].simulation_agent_held_object, "")
+        self.assertEqual(
+            actual.object_list[0].simulation_agent_is_holding_held_object,
+            False)
 
         self.assertEqual(len(actual.structural_object_list), 1)
         self.assertEqual(actual.structural_object_list[0].uuid, "testWallId")
@@ -557,6 +583,12 @@ class TestControllerOutputHandler(unittest.TestCase):
             actual.structural_object_list[0].texture_color_list,
             ['c2'])
         self.assertEqual(actual.structural_object_list[0].visible, True)
+        self.assertEqual(actual.object_list[0].associated_with_agent, "")
+        self.assertEqual(
+            actual.object_list[0].simulation_agent_held_object, "")
+        self.assertEqual(
+            actual.object_list[0].simulation_agent_is_holding_held_object,
+            False)
 
         # IF we are at default level, shouldn't depth maps, object masks be
         # restricted?
@@ -956,6 +988,12 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[0].state_list, [])
         self.assertEqual(actual[0].texture_color_list, ['c1'])
         self.assertEqual(actual[0].visible, True)
+        self.assertEqual(actual[0].associated_with_agent, "")
+        self.assertEqual(
+            actual[0].simulation_agent_held_object, "")
+        self.assertEqual(
+            actual[0].simulation_agent_is_holding_held_object,
+            False)
 
         self.assertEqual(actual[1].uuid, "testId2")
         self.assertEqual(actual[1].segment_color, {
@@ -983,6 +1021,12 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[1].state_list, [])
         self.assertEqual(actual[1].texture_color_list, ['c2', 'c3'])
         self.assertEqual(actual[1].visible, True)
+        self.assertEqual(actual[1].associated_with_agent, "agent_test")
+        self.assertEqual(
+            actual[1].simulation_agent_held_object, "")
+        self.assertEqual(
+            actual[1].simulation_agent_is_holding_held_object,
+            False)
 
     def test_retrieve_object_list_with_states(self):
         scene_config = {
@@ -994,7 +1038,7 @@ class TestControllerOutputHandler(unittest.TestCase):
             }]
         }
 
-        scene_config = SceneConfigurationSchema().load(scene_config)
+        scene_config = SceneConfiguration(**scene_config)
 
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
 
@@ -1053,6 +1097,12 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[0].state_list, [])
         self.assertEqual(actual[0].texture_color_list, ['c1'])
         self.assertEqual(actual[0].visible, True)
+        self.assertEqual(actual[0].associated_with_agent, "")
+        self.assertEqual(
+            actual[0].simulation_agent_held_object, "")
+        self.assertEqual(
+            actual[0].simulation_agent_is_holding_held_object,
+            False)
 
         self.assertEqual(actual[1].uuid, "testId2")
         self.assertEqual(actual[1].segment_color, {
@@ -1080,6 +1130,12 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[1].state_list, [])
         self.assertEqual(actual[1].texture_color_list, ['c2', 'c3'])
         self.assertEqual(actual[1].visible, True)
+        self.assertEqual(actual[1].associated_with_agent, "agent_test")
+        self.assertEqual(
+            actual[1].simulation_agent_held_object, "")
+        self.assertEqual(
+            actual[1].simulation_agent_is_holding_held_object,
+            False)
 
         self.assertEqual(actual[2].uuid, "testId3")
         self.assertEqual(actual[2].segment_color, {
@@ -1107,6 +1163,12 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[2].state_list, [])
         self.assertEqual(actual[2].texture_color_list, [])
         self.assertEqual(actual[2].visible, False)
+        self.assertEqual(actual[2].associated_with_agent, "")
+        self.assertEqual(
+            actual[2].simulation_agent_held_object, "held_test")
+        self.assertEqual(
+            actual[2].simulation_agent_is_holding_held_object,
+            True)
 
     def test_retrieve_object_list_with_config_metadata_level2(self):
         self._config.set_metadata_tier('level2')

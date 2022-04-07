@@ -104,6 +104,10 @@ Each **object config** has the following properties:
 
 - `id` (string, required): The object's unique ID.
 - `type` (string, required): The object's type from the :ref:`object list <Object List>`.
+- `actions` (:ref:`action config list <Action Config>`, optional): Specific animations to start at specific action steps. Available animations are based on the object's type. Currently animations are only available for :ref:`agent <Agents>` types. Default: none
+- `agentSettings` (:ref:`agent settings config <Agent Settings>`, optional): Specific configuration settings for :ref:`agent <Agents>` types. Default: none
+-  associatedWithAgent` (string, optional):  The agent holding this object. Objects with this property have the following restrictions --- Must have a shape of ball, a bounding box scaled between 0.2 and 0.25, and a scale of (1,1,1). Default: ""
+- `centerOfMass` (:ref:`vector config <Vector Config>`, optional): The object's center of mass/gravity, if not the default. Default: none
 - `centerOfMass` (:ref:`vector config <Vector Config>`, optional): The object's center of mass/gravity, if not the default. Default: none
 - `changeMaterials` (:ref:`change_materials config <Change Materials Config>` array, optional): The steps on which to change the material(s) (colors/textures) used on the object, and the new materials to use. See the :ref:`material list <Material List>` for options. Default: `[]`
 - `forces` (:ref:`force config <Force Config>` array, optional): The steps on which to apply `force <https://docs.unity3d.com/ScriptReference/Rigidbody.AddForce.html>`_ to the object. The config `vector` describes the amount of force (in Newtons) to apply in each direction using the global coordinate system. Resets all existing forces on the object to 0 before applying the new force. Default: `[]`
@@ -159,6 +163,41 @@ Goal Metadata Config
 Each **goal metadata config** has the following properties:
 
 (Coming soon!)
+
+Action Config
+*************
+
+Each **action config** has the following properties:
+
+- `stepBegin` (integer, required): The step on which the action should occur.  Must be non-negative.  A value of `0` means the action will occur during scene initialization.
+- `stepEnd` (integer, optional): The step on which the action should end. The animation will play infinitely if its isLoopAnimation is true. If stepEnd is not configured and isLoopAnimation is false then the animation will play once. For example, a jump animation with stepBegin of 2 and stepEnd of 4 will stop immediately at that stepEnd. However, you can set that jump to isLoopAnimation true and have its stepEnd be 104 so it will loop and stop at step 104. Must be non-negative.
+- `id` (string, required): The ID of the animation (action) to start. For a full list of available agent animations, please see :ref:`Agent Animations <Agent Animations>`.
+- `isLoopAnimation` (bool, optional): Whether the newly set animation should loop after being played. If false, the agent animation will reset to idle after being played once. Default: `false`
+
+Agent Settings Config
+*********************
+
+Each **agent settings config** has the following properties:
+
+- `chest` (integer, optional): The chest and shirt (or dress) to use for the specific agent. See :ref:`Chest Options <Chest Options>` for the full list of available options. Default: `0`
+- `chestMaterial` (integer, optional): The color/texture to use for the shirt of the specific agent. See :ref:`Chest Material Options <Chest Material Options>` for the full list of available options. Default: `0`
+- `eyes` (integer, optional): The eyes to use for the specific agent. See :ref:`Eye Options <Eye Options>` for the full list of available options. Default: `0`
+- `feet` (integer, optional): The feet and shoes to use for the specific agent. See :ref:`Feet Options <Feet Options>` for the full list of available options. Default: `0`
+- `feetMaterial` (integer, optional): The color/texture to use for the shoes of the specific agent. See :ref:`Feet Material Options <Feet Material Options>` for the full list of available options. Default: `0`
+- `glasses` (integer, optional): The glasses to use for the specific agent. The glasses are only visible if `showGlasses` is true. See :ref:`Glasses Options <Glasses Options>` for the full list of available options. Default: `0`
+- `hair` (integer, optional): The hair (and possibly hat, for some options) to use for the specific agent. See :ref:`Hair Options <Hair Options>` for the full list of available options. Default: `0`
+- `hairMaterial` (integer, optional): The color/texture to use for the hair of the specific agent. See :ref:`Hair Material Options <Hair Material Options>` for the full list of available options. Default: `0`
+- `hatMaterial` (integer, optional): The color/texture to use for the hat (if one is present) of the specific agent. See :ref:`Hair Material Options <Hair Material Options>` for the full list of available options. Default: `0`
+- `hideHair` (boolean, optional): Whether to hide hair on the specific agent. This ignores any configured `hair` option. Default: `false`
+- `isElder` (boolean, optional): Whether to give the specific agent an elderly (wrinkly) face and skin. Default: `false`
+- `legs` (integer, optional): The legs and pants/shorts/skirt to use for the specific agent. Please note that the legs may be overridden by some `chest` options. See :ref:`Legs Options <Legs Options>` for the full list of available options. Default: `0`
+- `legsMaterial` (integer, optional): The color/texture to use for the pants/shorts/skirt of the specific agent. See :ref:`Legs Material Options <Legs Material Options>` for the full list of available options. Default: `0`
+- `showBeard` (boolean, optional): Whether to show a beard on the specific agent. The agent type must be male. The beard's color will match the `hairMaterial`. Default: `false`
+- `showGlasses` (boolean, optional): Whether to show glasses on the specific agent. Default: `false`
+- `showTie` (boolean, optional): Whether to show a tie on the specific agent. The `chest` option must also be compatible with a tie. Default: `false`
+- `skin` (integer, optional): The skin to use for the specific agent. See :ref:`Skin Options <Skin Options>` for the full list of available options. Default: `0`
+- `tie` (integer, optional): The tie to use for the specific agent. A tie is only visible if `showTie` is true, and if the `chest` option is compatible with a tie. See :ref:`Tie Options <Tie Options>` for the full list of available options. Default: `0`
+- `tieMaterial` (integer, optional): The color/texture to use for the tie (if one is present) of the specific agent. See :ref:`Tie Material Options <Tie Material Options>` for the full list of available options. Default: `0`
 
 Change Materials Config
 ***********************
@@ -1213,6 +1252,36 @@ All of the tools have the `tool` shape, `metal` material, `moveable` and `recept
       - 6.5
       - x=1,y=0.3,z=9
 
+Agents
+******
+
+These agents are used in scenes for the interactive tasks.
+
+.. list-table::
+    :header-rows: 1
+
+    * - Object Type
+      - Default Mass
+      - Base Size
+    * - `"agent_female_01"`
+      - 70
+      - x=0.5,y=1.6,z=0.5
+    * - `"agent_female_02"`
+      - 70
+      - x=0.5,y=1.6,z=0.5
+    * - `"agent_female_04"`
+      - 70
+      - x=0.5,y=1.6,z=0.5
+    * - `"agent_male_02"`
+      - 80
+      - x=0.5,y=1.6,z=0.5
+    * - `"agent_male_03"`
+      - 80
+      - x=0.5,y=1.6,z=0.5
+    * - `"agent_male_04"`
+      - 80
+      - x=0.5,y=1.6,z=0.5
+
 Primitive Objects
 *****************
 
@@ -1631,4 +1700,460 @@ Wood Materials
 - `"UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 2"` (red)
 - `"UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 3"` (green)
 - `"UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 4"` (yellow)
+
+Agent Settings
+==============
+
+All options are inclusive. Please note that some options may be restricted to female or male.
+
+Chest Options
+*************
+
+.. list-table::
+    :header-rows: 1
+
+    * - Chest Option (Female)
+      - Chest Option (Male)
+      - Description
+    * - 0
+      -
+      - Long dress (ignores `legs`)
+    * - 1
+      -
+      - Tank top
+    * - 2
+      - 0
+      - Long-sleeve formal button-down shirt (permits `tie`)
+    * - 3
+      - 1
+      - Short-sleeve formal button-down shirt (permits `tie`)
+    * - 4
+      - 2
+      - Long-sleeve casual button-down shirt
+    * - 5
+      - 3
+      - Short-sleeve casual button-down shirt
+    * - 6
+      - 4
+      - High-neck shirt
+    * - 7
+      - 5
+      - Long-sleeve shirt
+    * - 8
+      - 6
+      - Short-sleeve shirt
+
+Chest Material Options
+**********************
+
+.. list-table::
+    :header-rows: 1
+
+    * - Chest Option
+      - Material Options (Female)
+      - Material Options (Male)
+    * - Dress or tank top
+      - 0 to 13
+      -
+    * - Formal button-down shirt
+      - 0 to 10
+      - 0 to 9
+    * - Casual button-down shirt
+      - 0 to 11
+      - 0 to 10
+    * - Other shirts
+      - 0 to 14
+      - 0 to 11
+
+Eye Options
+***********
+
+.. list-table::
+    :header-rows: 1
+
+    * - Eye Options
+    * - 0 to 3
+
+Feet Options
+************
+
+.. list-table::
+    :header-rows: 1
+
+    * - Feet Option (Female)
+      - Feet Option (Male)
+      - Description
+    * - 0
+      - 0
+      - Formal shoe
+    * - 1
+      - 1
+      - Sports shoe
+    * - 2
+      -
+      - Formal shoe with heel
+
+Feet Material Options
+*********************
+
+.. list-table::
+    :header-rows: 1
+
+    * - Feet Option
+      - Material Options
+    * - Formal shoe
+      - 0 to 11
+    * - Sports shoe
+      - 0 to 9
+    * - Formal shoe with heel
+      - 0 to 10
+
+Glasses Options
+***************
+
+.. list-table::
+    :header-rows: 1
+
+    * - Glasses Options
+    * - 0 to 10
+
+Hair Options
+************
+
+.. list-table::
+    :header-rows: 1
+
+    * - Hair Material Options
+      - Hat?
+    * - 0 to 6
+      - No
+    * - 7 to 9
+      - Yes
+
+Hair Material Options
+*********************
+
+.. list-table::
+    :header-rows: 1
+
+    * - Hair Options
+      - Hair Material Options
+    * - 0 to 9, excluding 5
+      - 0 (yellow), 1 (brown), 2 (black), or 3 (white)
+    * - 5
+      - 0 (brown)
+
+Hat Material Options
+********************
+
+.. list-table::
+    :header-rows: 1
+
+    * - Hair Option
+      - Hat Material Options
+    * - 7
+      - 0 to 11
+    * - 8
+      - 0 to 11
+    * - 9
+      - 0 to 5
+
+Legs Options
+************
+
+.. list-table::
+    :header-rows: 1
+
+    * - Chest Option (Female)
+      - Chest Option (Male)
+      - Description
+    * - 0
+      -
+      - Leggings
+    * - 1
+      - 0
+      - Long pants
+    * - 2
+      - 1
+      - Short pants
+    * - 3
+      -
+      - Skirt
+
+Legs Material Options
+*********************
+
+.. list-table::
+    :header-rows: 1
+
+    * - Legs Option
+      - Material Options
+    * - Leggings and pants
+      - 0 to 14
+    * - Skirt
+      - 0 to 13
+
+Skin Options
+************
+
+.. list-table::
+    :header-rows: 1
+
+    * - Skin Option (Female)
+      - Skin Option (Male)
+      - Description
+    * - 0
+      - 0
+      - Light tone
+    * - 1
+      - 1
+      - Dark tone
+    * - 2
+      - 2
+      - Medium-light tone
+    * - 3
+      - 3
+      - Medium-dark tone
+    * - 4
+      -
+      - Light tone, with makeup
+    * - 5
+      -
+      - Dark tone, with makeup
+    * - 6
+      -
+      - Medium-light tone, with makeup
+    * - 7
+      -
+      - Medium-dark tone, with makeup
+    * - 8
+      -
+      - Light tone, with makeup
+    * - 9
+      -
+      - Dark tone, with makeup
+    * - 10
+      -
+      - Medium-light tone, with makeup
+    * - 11
+      -
+      - Medium-dark tone, with makeup
+
+Tie Options
+***********
+
+.. list-table::
+    :header-rows: 1
+
+    * - Tie Option
+      - Description
+    * - 0
+      - Bowtie
+    * - 1
+      - Long tie
+    * - 2
+      - Short tie
+
+Tie Material Options
+********************
+
+.. list-table::
+    :header-rows: 1
+
+    * - Tie Material Options
+    * - 0 to 9
+
+Agent Actions
+=============
+
+Unrestricted Animations
+***********************
+
+- amazed
+- angry
+- disgust
+- happy
+- sad
+
+Elder Animations
+****************
+
+- TPE_clap
+- TPE_cry
+- TPE_freefall
+- TPE_hitbackwards
+- TPE_hitforward
+- TPE_idle1
+- TPE_idle2
+- TPE_idle3
+- TPE_idle4
+- TPE_idle5
+- TPE_idleafraid
+- TPE_idleangry
+- TPE_idlehappy
+- TPE_idlesad
+- TPE_jump
+- TPE_land
+- TPE_laugh
+- TPE_lookback
+- TPE_phone1
+- TPE_phone2
+- TPE_run
+- TPE_runbackwards
+- TPE_runIN
+- TPE_runjumpFLY
+- TPE_runjumpIN
+- TPE_runjumpOUT
+- TPE_runL
+- TPE_runOUT
+- TPE_runR
+- TPE_scream
+- TPE_sitdownIN
+- TPE_sitdownOUT
+- TPE_sitidle1
+- TPE_sitidle2
+- TPE_sitphone1
+- TPE_sitphone2
+- TPE_stairsDOWN
+- TPE_stairsUP
+- TPE_strafeL
+- TPE_strafeR
+- TPE_talk1
+- TPE_talk2
+- TPE_telloff
+- TPE_turnL45
+- TPE_turnL90
+- TPE_turnR45
+- TPE_turnR90
+- TPE_walk
+- TPE_walkbackwards
+- TPE_wave
+
+Female Animations
+*****************
+
+- TPF_brake
+- TPF_clap
+- TPF_cry
+- TPF_fallbackwardsFLY
+- TPF_fallbackwardsIN
+- TPF_fallbackwardsOUT
+- TPF_fallforwardFLY
+- TPF_fallforwardIN
+- TPF_fallforwardOUT
+- TPF_freefall
+- TPF_hitbackwards
+- TPF_hitforward
+- TPF_idle1
+- TPF_idle2
+- TPF_idle3
+- TPF_idle4
+- TPF_idle5
+- TPF_idleafraid
+- TPF_idleangry
+- TPF_idlehappy
+- TPF_idlesad
+- TPF_jump
+- TPF_land
+- TPF_laugh
+- TPF_lookback
+- TPF_phone1
+- TPF_phone2
+- TPF_run
+- TPF_runbackwards
+- TPF_runIN
+- TPF_runjumpFLY
+- TPF_runjumpIN
+- TPF_runjumpOUT
+- TPF_runL
+- TPF_runOUT
+- TPF_runR
+- TPF_runstrafeL
+- TPF_runstrafeR
+- TPF_scream
+- TPF_sitdownIN
+- TPF_sitdownOUT
+- TPF_sitidle1
+- TPF_sitidle2
+- TPF_sitphone1
+- TPF_sitphone2
+- TPF_stairsDOWN
+- TPF_stairsUP
+- TPF_static
+- TPF_strafeL
+- TPF_strafeR
+- TPF_talk1
+- TPF_talk2
+- TPF_telloff
+- TPF_turnL45
+- TPF_turnL90
+- TPF_turnR45
+- TPF_turnR90
+- TPF_walk
+- TPF_walkbackwards
+- TPF_wave
+
+Male Animations
+***************
+
+- TPM_brake
+- TPM_clap
+- TPM_cry
+- TPM_fallbackwardsFLY
+- TPM_fallbackwardsIN
+- TPM_fallbackwardsOUT
+- TPM_fallforwardFLY
+- TPM_fallforwardIN
+- TPM_fallforwardOUT
+- TPM_freefall
+- TPM_hitbackwards
+- TPM_hitforward
+- TPM_idle1
+- TPM_idle2
+- TPM_idle3
+- TPM_idle4
+- TPM_idle5
+- TPM_idleafraid
+- TPM_idleangry
+- TPM_idlehappy
+- TPM_idlesad
+- TPM_jump
+- TPM_land
+- TPM_laugh
+- TPM_lookback
+- TPM_phone1
+- TPM_phone2
+- TPM_run
+- TPM_runbackwards
+- TPM_runIN
+- TPM_runjumpFLY
+- TPM_runjumpIN
+- TPM_runjumpOUT
+- TPM_runL
+- TPM_runOUT
+- TPM_runR
+- TPM_runstrafeL
+- TPM_runstrafeR
+- TPM_scream
+- TPM_sitdownIN
+- TPM_sitdownOUT
+- TPM_sitidle1
+- TPM_sitidle2
+- TPM_sitphone1
+- TPM_sitphone2
+- TPM_stairsDOWN
+- TPM_stairsUP
+- TPM_static
+- TPM_strafeL
+- TPM_strafeR
+- TPM_talk1
+- TPM_talk2
+- TPM_telloff
+- TPM_turnL45
+- TPM_turnL90
+- TPM_turnR45
+- TPM_turnR90
+- TPM_walk
+- TPM_walkbackwards
+- TPM_wave
 

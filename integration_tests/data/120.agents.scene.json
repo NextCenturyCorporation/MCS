@@ -1,0 +1,94 @@
+﻿{
+    "name": "agents exist and can change animations",
+    "version": "2",
+    "ceilingMaterial": "Custom/Materials/GreyDrywallMCS",
+    "floorMaterial": "Custom/Materials/BrownWoodMCS",
+    "wallMaterial": "Custom/Materials/WhiteDrywallMCS",
+    "objects": [{
+        "id": "agent_female",
+        "type": "agent_female_02",
+        "agentSettings": {
+            "chest": -1,
+            "chestMaterial": -1,
+            "eyes": -1,
+            "feet": -1,
+            "feetMaterial": -1,
+            "glasses": -1,
+            "hair": -1,
+            "hairMaterial": -1,
+            "hatMaterial": -1,
+            "jacket": -1,
+            "jacketMaterial": -1,
+            "legs": -1,
+            "legsMaterial": -1,
+            "skin": -1,
+            "tie": -1,
+            "tieMaterial": -1
+        },
+        "actions": [{
+            "stepBegin": 2,
+            "id": "TPF_wave"
+        }],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": -1,
+                "y": 0,
+                "z": 3
+            },
+            "rotation": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }]
+    }, {
+        "id": "agent_male",
+        "type": "agent_male_02",
+        "agentSettings": {
+            "chest": -1,
+            "chestMaterial": -1,
+            "eyes": -1,
+            "feet": -1,
+            "feetMaterial": -1,
+            "glasses": -1,
+            "hair": -1,
+            "hairMaterial": -1,
+            "hatMaterial": -1,
+            "jacket": -1,
+            "jacketMaterial": -1,
+            "legs": -1,
+            "legsMaterial": -1,
+            "skin": -1,
+            "tie": -1,
+            "tieMaterial": -1
+        },
+        "actions": [{
+            "stepBegin": 4,
+            "id": "TPM_wave"
+        }],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 1,
+                "y": 0,
+                "z": 3
+            },
+            "rotation": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }]
+    }]
+}

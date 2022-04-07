@@ -1,0 +1,12 @@
+Pass
+InteractWithAgent,objectId=soccer_ball_2
+LookUp
+LookUp
+LookUp
+LookUp
+LookUp
+LookUp
+MoveAhead
+MoveAhead
+MoveAhead
+InteractWithAgent,objectId=agent_male

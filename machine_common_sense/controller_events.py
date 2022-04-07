@@ -1,13 +1,11 @@
 import datetime
 import enum
 from abc import ABC
-from dataclasses import dataclass
-from typing import Dict
+from typing import Dict, Optional, Union
 
-from ai2thor.server import Event
-from marshmallow import Schema, fields
+from ai2thor.server import Event, MultiAgentEvent
 
-from .config_manager import ConfigManager, SceneConfiguration
+from .config_manager import BaseModel, ConfigManager, SceneConfiguration
 from .goal_metadata import GoalMetadata
 from .step_metadata import StepMetadata
 
@@ -22,52 +20,42 @@ class EventType(enum.Enum):
     ON_END_SCENE = enum.auto()
 
 
-class BaseEventPayloadSchema(Schema):
-    step_number = fields.Int()
-
-
-@dataclass
-class BaseEventPayload:
+class BaseEventPayload(BaseModel):
     step_number: int
     config: ConfigManager
-    scene_config: SceneConfiguration
+    scene_config: Optional[SceneConfiguration]
 
 
-@dataclass
 class BasePostActionEventPayload(BaseEventPayload):
-    output_folder: str
+    output_folder: Optional[str]
     timestamp: str
     wrapped_step: dict
-    step_metadata: Event  # ai2thor.server.event
+    step_metadata: Union[Event, MultiAgentEvent]
     step_output: StepMetadata
     restricted_step_output: StepMetadata
     goal: GoalMetadata
 
 
-@dataclass
 class StartScenePayload(BasePostActionEventPayload):
-    pass
+    ...
 
 
-@dataclass
 class AfterStepPayload(BasePostActionEventPayload):
     ai2thor_action: str
     step_params: dict
     action_kwargs: dict
 
 
-@dataclass
 class BeforeStepPayload(BaseEventPayload):
     action: str
     goal: GoalMetadata
-    habituation_trial: int
+    habituation_trial: Optional[int]
 
 
-@dataclass
 class EndScenePayload(BaseEventPayload):
-    rating: str
-    score: float
-    report: dict
+    rating: Optional[str]
+    score: Optional[float]
+    report: Optional[dict]
 
 
 class ControllerEventPayload(BaseEventPayload):

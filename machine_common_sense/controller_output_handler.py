@@ -237,7 +237,12 @@ class SceneEvent():
             ),
             is_open=object_metadata['isOpen'],
             openable=object_metadata['openable'],
-            locked=object_metadata['locked']
+            locked=object_metadata['locked'],
+            associated_with_agent=object_metadata['associatedWithAgent'],
+            simulation_agent_held_object=object_metadata[
+                'simulationAgentHeldObject'],
+            simulation_agent_is_holding_held_object=object_metadata[
+                'simulationAgentIsHoldingHeldObject']
         )
 
 

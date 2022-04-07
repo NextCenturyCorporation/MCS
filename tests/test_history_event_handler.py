@@ -1,5 +1,7 @@
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
+
+from ai2thor.server import Event
 
 import machine_common_sense as mcs
 from machine_common_sense.config_manager import (ConfigManager,
@@ -8,8 +10,10 @@ from machine_common_sense.controller_events import (AfterStepPayload,
                                                     BeforeStepPayload,
                                                     EndScenePayload,
                                                     StartScenePayload)
+from machine_common_sense.goal_metadata import GoalMetadata
 from machine_common_sense.history_writer import (HistoryEventHandler,
                                                  HistoryWriter, SceneHistory)
+from machine_common_sense.step_metadata import StepMetadata
 
 TEST_FILE_NAME = "test_scene_file.json"
 
@@ -38,10 +42,10 @@ class TestHistoryEventHandler(unittest.TestCase):
             "output_folder": None,
             "timestamp": "20210831-202203",
             "wrapped_step": {},
-            "step_metadata": {},
-            "step_output": {},
-            "restricted_step_output": {},
-            "goal": {}
+            "step_metadata": Event({'screenWidth': 400, 'screenHeight': 600}),
+            "step_output": StepMetadata(),
+            "restricted_step_output": StepMetadata(),
+            "goal": GoalMetadata()
         }
 
         self.assertIsNone(
@@ -69,10 +73,10 @@ class TestHistoryEventHandler(unittest.TestCase):
             "output_folder": None,
             "timestamp": "20210831-202203",
             "wrapped_step": {},
-            "step_metadata": {},
-            "step_output": {},
-            "restricted_step_output": {},
-            "goal": {}
+            "step_metadata": Event({'screenWidth': 600, 'screenHeight': 400}),
+            "step_output": StepMetadata(),
+            "restricted_step_output": StepMetadata(),
+            "goal": GoalMetadata()
         }
 
         self.assertIsNone(
@@ -91,7 +95,7 @@ class TestHistoryEventHandler(unittest.TestCase):
             "scene_config": self.scene_config,
             "action": "Initialize",
             "habituation_trial": None,
-            "goal": {}
+            "goal": GoalMetadata()
         }
 
         self.histEvents.on_before_step(BeforeStepPayload(**test_payload))
@@ -117,7 +121,7 @@ class TestHistoryEventHandler(unittest.TestCase):
             "scene_config": self.scene_config,
             "action": "Initialize",
             "habituation_trial": None,
-            "goal": {}
+            "goal": GoalMetadata()
         }
 
         self.histEvents.on_before_step(BeforeStepPayload(**test_payload))
@@ -135,22 +139,23 @@ class TestHistoryEventHandler(unittest.TestCase):
             "step_params": {},
             "config": self.config_mngr,
             "scene_config": self.scene_config,
-            "goal": {},
+            "goal": GoalMetadata(),
             "output_folder": None,
             "timestamp": "20210831-202203",
-            "wrapped_step": {},
-            "step_metadata": {},
-            "step_output": MagicMock(),
-            "restricted_step_output": {}
+            "wrapped_step": StepMetadata(),
+            "step_metadata": Event({'screenHeight': 400, 'screenWidth': 600}),
+            "step_output": StepMetadata(),
+            "restricted_step_output": StepMetadata()
         }
 
         after_step_payload = AfterStepPayload(**test_payload)
-
-        self.histEvents.on_after_step(after_step_payload)
+        mock_function = ('machine_common_sense.step_metadata.StepMetadata'
+                         '.copy_without_depth_or_images')
+        with patch(mock_function) as copy_without_depth_or_images_call:
+            self.histEvents.on_after_step(after_step_payload)
+            copy_without_depth_or_images_call.assert_called()
 
         hist = self.histEvents._HistoryEventHandler__history_item
-
-        after_step_payload.step_output.copy_without_depth_or_images.assert_called()  # noqa: E501
         self.assertEqual(hist.step, 1)
         self.assertEqual(hist.action, mcs.Action.MOVE_AHEAD.value)
         self.assertEqual(hist.delta_time_millis, 0)
