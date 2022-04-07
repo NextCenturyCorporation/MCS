@@ -105,6 +105,7 @@ Each **object config** has the following properties:
 - `id` (string, required): The object's unique ID.
 - `type` (string, required): The object's type from the :ref:`object list <Object List>`.
 - `actions` (:ref:`action config list <Action Config>`, optional): Specific animations to start at specific action steps. Available animations are based on the object's type. Currently animations are only available for :ref:`agent <Agents>` types. Default: none
+- `agentMovement` (:ref:`agent movement config <Agent Movement>`, optional): The movement sequence for an individual :ref:`agent <Agents>`. Default: none
 - `agentSettings` (:ref:`agent settings config <Agent Settings>`, optional): Specific configuration settings for :ref:`agent <Agents>` types. Default: none
 -  associatedWithAgent` (string, optional):  The agent holding this object. Objects with this property have the following restrictions --- Must have a shape of ball, a bounding box scaled between 0.2 and 0.25, and a scale of (1,1,1). Default: ""
 - `centerOfMass` (:ref:`vector config <Vector Config>`, optional): The object's center of mass/gravity, if not the default. Default: none
@@ -169,10 +170,27 @@ Action Config
 
 Each **action config** has the following properties:
 
-- `stepBegin` (integer, required): The step on which the action should occur.  Must be non-negative.  A value of `0` means the action will occur during scene initialization.
-- `stepEnd` (integer, optional): The step on which the action should end. The animation will play infinitely if its isLoopAnimation is true. If stepEnd is not configured and isLoopAnimation is false then the animation will play once. For example, a jump animation with stepBegin of 2 and stepEnd of 4 will stop immediately at that stepEnd. However, you can set that jump to isLoopAnimation true and have its stepEnd be 104 so it will loop and stop at step 104. Must be non-negative.
+- `stepBegin` (integer, required): The step on which the action should occur.  Must be non-negative.  A value of `0` means the action will occur during scene initialization. If the step begin occurs while the agent is interacting and there is no step end or the step end is after the agent interaction is complete, the animation will play after the interaction is complete. If the agent is moving, triggering an action will pause the agents movement until the action is complete either by finishing the animation or by reaching its step end. If it is a loop animation with no step end the agent will no longer move and endlessly perform its action. The exception to this is if the step begin of the movement configuration is after the step begin of the action. In that case the movement will begin and halt the action.
+- `stepEnd` (integer, optional): The step on which the action should end. Must be non-negative. The animation will play infinitely if its isLoopAnimation is true. If stepEnd is not configured and isLoopAnimation is false then the animation will play once. For example, a jump animation with stepBegin of 2 and stepEnd of 4 will stop immediately at that stepEnd. However, you can set that jump to isLoopAnimation true and have its stepEnd be 104 so it will loop and stop at step 104. Triggering a step end while interacting with the agent will end the animation once the interaction is complete.
 - `id` (string, required): The ID of the animation (action) to start. For a full list of available agent animations, please see :ref:`Agent Animations <Agent Animations>`.
 - `isLoopAnimation` (bool, optional): Whether the newly set animation should loop after being played. If false, the agent animation will reset to idle after being played once. Default: `false`
+
+Sequence Config
+*************
+
+Each **sequence config** has the following properties:
+
+- `animation` (string, required): The animation to play while the agent moves to the next end point
+- `endPoint` (:ref:`vector config <Vector Config>`, required): The end point of this part of the movement path
+
+Agent Movement Config
+*************
+
+Each **agent movement config** has the following properties:
+
+- `stepBegin` (integer, required): The step on which the action should occur.  Must be non-negative.  A value of `0` means the action will occur during scene initialization. If the step begin of the movement configuration is after the step begin of a currently playing action the movement will begin and immediately stop the action. If a step begin is triggered while the agent is interacting, the agent will begin its movement after the interaction is complete. If a step begin is triggered while the agent is interacting, but an action's step begin was also triggered during the interaction at a later step, the action will play first then agent will begin its movement. 
+- `repeat` (bool, required): Whether the movement sequence should repeat after reaching the end. If true, once the last point is reached, the agent will move from its last end point to the first end point automatically. This means the last configured end point in the sequence does NOT need to be equal to the first end point for repeating to work. Once the first point is automatically reached, the agent will continue the sequence from the beginning.
+- `sequence` (:ref:`vector config <Vector Config>` array, required): The sequence that the agent will follow. Only x and z coordinates are necessary. If a y is given it will be ignored.
 
 Agent Settings Config
 *********************
