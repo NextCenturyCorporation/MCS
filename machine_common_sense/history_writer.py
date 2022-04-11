@@ -138,10 +138,24 @@ class HistoryWriter(object):
         if self.scene_history_file:
             logger.info(f"Saving history file {self.scene_history_file}")
             with open(self.scene_history_file, "a+") as history_file:
+                history = self._round_all(self.history_obj)
                 history_file.write(
                     json.dumps(
-                        self.history_obj,
+                        history,
                         cls=NumpyEncoder))
+
+    # This could easily be moved to a more accessible utility file.
+    def _round_all(self, obj):
+        if isinstance(obj, float):
+            obj = round(obj, 4)
+        elif isinstance(obj, list):
+            obj = [self._round_all(item) for item in obj]
+        elif isinstance(obj, dict):
+            new_obj = {}
+            for subkey, val in obj.items():
+                new_obj[subkey] = self._round_all(val)
+            obj = new_obj
+        return obj
 
     def update_history_output(
             self,
