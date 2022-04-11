@@ -456,7 +456,7 @@
                 ],
                 "position_x": 0.0,
                 "position_z": 0.5,
-                "rotation_y": 250,
+                "rotation_y": 270,
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
@@ -487,7 +487,7 @@
                 ],
                 "position_x": 0.0,
                 "position_z": 0.5,
-                "rotation_y": 230,
+                "rotation_y": 270,
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
@@ -518,7 +518,7 @@
                 ],
                 "position_x": 0.0,
                 "position_z": 0.5,
-                "rotation_y": 210,
+                "rotation_y": 250,
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
@@ -549,7 +549,7 @@
                 ],
                 "position_x": 0.0,
                 "position_z": 0.5,
-                "rotation_y": 180,
+                "rotation_y": 230,
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
@@ -563,6 +563,68 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 16,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.0,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 210,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -0.5,
+        "position_z": 0.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 17,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.0,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "soccer_ball",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -0.5,
+        "position_z": 0.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 18,
         "structural_objects_count": 6
     },
     {
@@ -593,68 +655,6 @@
         "position_z": 0.5,
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
-        "step_number": 17,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 0,
-        "objects": [
-            {
-                "direction_x": 0.55,
-                "direction_y": -0.84,
-                "direction_z": -0.09,
-                "distance": 0.91,
-                "id": "agent_male",
-                "mass": 80.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.0,
-                "position_z": 0.42,
-                "rotation_y": 180,
-                "shape": "agent",
-                "simulation_agent_held_object": "soccer_ball",
-                "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
-                "visible": true
-            }
-        ],
-        "objects_count": 2,
-        "position_x": -0.5,
-        "position_z": 0.5,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 90,
-        "step_number": 18,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 0,
-        "objects": [
-            {
-                "direction_x": 0.55,
-                "direction_y": -0.83,
-                "direction_z": -0.13,
-                "distance": 0.91,
-                "id": "agent_male",
-                "mass": 80.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.0,
-                "position_z": 0.38,
-                "rotation_y": 180,
-                "shape": "agent",
-                "simulation_agent_held_object": "soccer_ball",
-                "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
-                "visible": true
-            }
-        ],
-        "objects_count": 2,
-        "position_x": -0.5,
-        "position_z": 0.5,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 90,
         "step_number": 19,
         "structural_objects_count": 6
     },
@@ -663,16 +663,16 @@
         "objects": [
             {
                 "direction_x": 0.55,
-                "direction_y": -0.82,
-                "direction_z": -0.17,
-                "distance": 0.93,
+                "direction_y": -0.83,
+                "direction_z": -0.08,
+                "distance": 0.91,
                 "id": "agent_male",
                 "mass": 80.0,
                 "material_list": [
                     "UNDEFINED"
                 ],
                 "position_x": 0.0,
-                "position_z": 0.34,
+                "position_z": 0.42,
                 "rotation_y": 180,
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
