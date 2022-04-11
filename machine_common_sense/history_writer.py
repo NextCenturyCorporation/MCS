@@ -42,9 +42,11 @@ class HistoryEventHandler(AbstractControllerSubscriber):
 
             # Create a new scene history writer with each new scene (config
             # data) so we always create a new, separate scene history file.
+            # Also, ensure previous history item is cleared.
             self.__history_writer = HistoryWriter(payload.scene_config,
                                                   hist_info,
                                                   payload.timestamp)
+            self.__history_item = None
 
     def on_before_step(self, payload: BeforeStepPayload):
         if payload.config.is_history_enabled():
