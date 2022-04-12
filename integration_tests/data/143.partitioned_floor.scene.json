@@ -1,0 +1,22 @@
+﻿{
+    "name": "partitioned floor",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "partitionFloor": {
+        "leftHalf": 0.80,
+        "rightHalf": 0.40
+    },
+    "performerStart": {
+        "position": {
+            "x": -0.8,
+            "z": 0
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "objects": []
+}

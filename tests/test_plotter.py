@@ -4,7 +4,8 @@ import unittest
 import ai2thor
 from PIL import Image, ImageChops, ImageStat
 
-from machine_common_sense.config_manager import (SceneConfiguration,
+from machine_common_sense.config_manager import (FloorPartitionConfig,
+                                                 SceneConfiguration,
                                                  Vector2dInt, Vector3d)
 from machine_common_sense.plotter import (Ramp, SceneAsset, SceneBounds,
                                           SceneCoord, TopDownPlotter,
@@ -718,6 +719,36 @@ class TestTopDownPlotter(unittest.TestCase):
             os.path.join(
                 resources_path,
                 'plotter_lava.png'))
+        # calculate image difference
+        diff = ImageChops.difference(lava_img, truth_img)
+        stat = ImageStat.Stat(diff)
+        self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
+
+    def test_draw_lava_from_partition_floor(self):
+        goal = {'metadata': {
+            'target': {'image': [0]},
+            'target_1': {'image': [1]},
+            'target_2': {'image': [2]}
+        }}
+        scene_config = SceneConfiguration(
+            name="testscene",
+            version=1,
+            goal=goal,
+            room_dimensions=Vector3d(x=10, y=3, z=10),
+            partition_floor=FloorPartitionConfig(left_half=0.2, right_half=0.8)
+        )
+
+        plotter = TopDownPlotter(team="test", scene_config=scene_config)
+        img = plotter.base_room_img.copy()
+
+        lava_img = plotter._export_plot(img)
+        # save image to resources folder in the event of plotter changes
+        # lava_img.save(os.path.join(resources_path, 'plotter_lava_2.png'))
+
+        # read image from resources folder
+        truth_img = Image.open(
+            os.path.join(resources_path, 'plotter_lava_2.png')
+        )
         # calculate image difference
         diff = ImageChops.difference(lava_img, truth_img)
         stat = ImageStat.Stat(diff)

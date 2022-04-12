@@ -93,6 +93,7 @@ Each **scene config** has the following properties:
 - `restrictOpenDoors` (bool, optional): If there are multiple doors in a scene, only allow for one door to ever be opened.
 - `roomDimensions` (Vector3, optional): Specify the size of the room, not including the thickness of walls, floor, and ceiling.  If omitted or set to 0, 0, 0, the default will be used.  Note: There is a maximum visibility which for objects and structures beyond will not be rendered.  Use caution when creating rooms where the maximum distance exceeds this maximum visibility.  The maximum visibility is 15 meters. Default: 10, 3, 10.
 - `roomMaterials` (:ref:`room material config <Room Material Config>`, optional): The materials for each individual wall.  For any individual wall not provided, or all outer walls if object is not provided, they will use 'wallMaterial' property.
+- `partitionFloor` (:ref:`floor partition config <Floor Partition Config>`, optional): Settings to partition the floor in specific ways. Overrides the `floorTextures`, `holes`, and `lava` configurations. Default: none
 - `version` (int, optional): The version of this scene configuration. Default: the latest version
 - `wallProperties` (:ref:`physics config <Physics Config>`, optional): Enable custom friction, bounciness, and/or drag on the walls. Default: see :ref:`physics config <Physics Config>`.
 - `wallMaterial` (string, optional): The material (color/texture) for the room's four outer walls. See the :ref:`material list <Material List>` for options. Default (v0.0.3+): `"AI2-THOR/Materials/Walls/DrywallBeige"`
@@ -224,6 +225,14 @@ Each **change materials config** has the following properties:
 
 - `stepBegin` (integer, required): The step on which the action should occur.  Must be non-negative.  A value of `0` means the action will occur during scene initialization.
 - `materials` (string array, required): The new materials for the object.
+
+Floor Partition Config
+**********************
+
+Each **floor partition config** has the following properties:
+
+- `leftHalf` (float, optional): Percentage of the left half of the room to set as lava. Max value of `1`. Default: `0`
+- `rightHalf` (float, optional): Percentage of the right half of the room to set as lava. Max value of `1`. Default: `0`
 
 Force Config
 ************
