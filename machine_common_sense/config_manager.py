@@ -614,7 +614,7 @@ class SceneConfiguration(BaseModel):
 
     def retrieve_lava(self) -> List[Tuple[float, float, float, float]]:
         """Return the list of lava locations as (X1, Z1, X2, Z2) tuples, where
-        X1/Z1 is the top-left corner and X2/Z2 is the bottom-left corner."""
+        X1/Z1 is the top-left corner and X2/Z2 is the bottom-right corner."""
         lava = [
             (area.x - 0.5, area.z - 0.5, area.x + 0.5, area.z + 0.5)
             for area in self.lava
