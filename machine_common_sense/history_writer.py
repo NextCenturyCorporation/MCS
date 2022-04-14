@@ -145,9 +145,9 @@ class HistoryWriter(object):
                         cls=NumpyEncoder))
 
     # This could easily be moved to a more accessible utility file.
-    def _round_all(self, obj):
+    def _round_all(self, obj, num_digits=4):
         if isinstance(obj, float):
-            obj = round(obj, 4)
+            obj = round(obj, num_digits)
         elif isinstance(obj, list):
             obj = [self._round_all(item) for item in obj]
         elif isinstance(obj, dict):
@@ -155,6 +155,9 @@ class HistoryWriter(object):
                 subkey: self._round_all(val) for subkey,
                 val in obj.items()}
             obj = new_obj
+        elif isinstance(obj, tuple):
+            obj = list(obj)
+            obj = tuple(self._round_all(obj))
         return obj
 
     def update_history_output(
