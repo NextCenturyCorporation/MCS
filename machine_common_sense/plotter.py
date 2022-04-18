@@ -671,11 +671,15 @@ class TopDownPlotter():
         '''Convert color string to string'''
         if not color:
             color = 'ivory'
-
+        # Don't use the same color as the background (black).
         if color == 'black':
             color = 'ivory'
+        # Rose is apparently not a valid web color.
         if color == 'rose':
             color = 'deeppink'
+        # Azure as a web color is very different from the normal azure.
+        if color == 'azure':
+            color = 'deepskyblue'
         return color
 
     def _draw_object(self, img: np.ndarray,
