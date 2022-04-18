@@ -19,7 +19,7 @@
             ]
         ],
         "objects_count": 0,
-        "position_x": -0.8,
+        "position_x": -0.85,
         "position_z": 0,
         "return_status": "SUCCESSFUL",
         "reward": 0,
@@ -43,7 +43,7 @@
                 "visible": true
             },
             {
-                "direction_x": 0.43,
+                "direction_x": 0.44,
                 "direction_y": -0.9,
                 "direction_z": 0.0,
                 "distance": 4.17,
@@ -95,7 +95,7 @@
             ]
         ],
         "objects_count": 0,
-        "position_x": -0.9,
+        "position_x": -0.95,
         "position_z": 0,
         "return_status": "SUCCESSFUL",
         "reward": -0.001,
@@ -123,7 +123,7 @@
             ]
         ],
         "objects_count": 0,
-        "position_x": -1.0,
+        "position_x": -1.05,
         "position_z": 0,
         "return_status": "SUCCESSFUL",
         "reward": -100.002,
