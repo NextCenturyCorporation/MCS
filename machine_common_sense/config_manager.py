@@ -182,6 +182,11 @@ class Vector2dInt(BaseModel):
     z: Optional[int]
 
 
+class FloorPartitionConfig(BaseModel):
+    left_half: Optional[float]
+    right_half: Optional[float]
+
+
 class FloorTexturesConfig(BaseModel):
     material: str
     positions: List[Vector2dInt] = []
@@ -515,6 +520,7 @@ class SceneConfiguration(BaseModel):
     name: Optional[str]
     objects: List[SceneObject] = []
     observation: bool = False  # deprecated; please use intuitivePhysics
+    partition_floor: Optional[FloorPartitionConfig]
     performer_start: Optional[PerformerStart]
     restrict_open_doors: Optional[bool]
     room_dimensions: Vector3d = ConfigManager.DEFAULT_ROOM_DIMENSIONS
@@ -605,6 +611,25 @@ class SceneConfiguration(BaseModel):
                 steps_allowed_in_lava=steps_allowed_in_lava
             )
         )
+
+    def retrieve_lava(self) -> List[Tuple[float, float, float, float]]:
+        """Return the list of lava locations as (X1, Z1, X2, Z2) tuples, where
+        X1/Z1 is the top-left corner and X2/Z2 is the bottom-right corner."""
+        lava = [
+            (area.x - 0.5, area.z - 0.5, area.x + 0.5, area.z + 0.5)
+            for area in self.lava
+        ]
+        if self.partition_floor and (
+            self.partition_floor.left_half or
+            self.partition_floor.right_half
+        ):
+            x_half = self.room_dimensions.x / 2.0
+            z_half = self.room_dimensions.z / 2.0
+            x_left_scale = x_half * min(self.partition_floor.left_half, 1)
+            lava.append((-x_half, z_half, (-x_half + x_left_scale), -z_half))
+            x_right_scale = x_half * min(self.partition_floor.right_half, 1)
+            lava.append(((x_half - x_right_scale), z_half, x_half, -z_half))
+        return lava
 
     def update_goal_target_image(self, goal_output):
         target_name_list = ['target', 'target_1', 'target_2']

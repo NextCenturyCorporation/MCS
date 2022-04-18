@@ -294,9 +294,10 @@ class ControllerOutputHandler():
                 (hole.x, hole.z) for hole in self._scene_config.holes
             ],
             image_list=self._scene_event.image_list,
-            lava=None if restrict_non_oracle else [
-                (lava.x, lava.z) for lava in self._scene_config.lava
-            ],
+            lava=(
+                None if restrict_non_oracle else
+                self._scene_config.retrieve_lava()
+            ),
             object_list=(
                 [] if restrict_non_oracle else self._scene_event.object_list),
             object_mask_list=([] if restrict_object_mask_list else

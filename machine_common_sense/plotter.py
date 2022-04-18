@@ -222,7 +222,7 @@ class TopDownPlotter():
             scene_config.room_dimensions)
         img = self._draw_lava(
             img,
-            scene_config.lava,
+            scene_config.retrieve_lava(),
             scene_config.room_dimensions)
 
         return img
@@ -416,16 +416,16 @@ class TopDownPlotter():
             return img
 
         for area in lava:
-            area_center = SceneCoord(x=area.x, y=0, z=area.z)
-            half_cell_pos = SceneCoord(
-                self.UNIT_CELL_WIDTH / 2, 0, self.UNIT_CELL_WIDTH / 2)
+            area_pos_ul = SceneCoord(x=area[0], y=0, z=area[1])
+            area_pos_lr = SceneCoord(x=area[2], y=0, z=area[3])
+            midpoint = area_pos_ul | area_pos_lr
             size_reducer_left, size_reducer_right = (
-                self._plotter_hole_texture_size_reducer(
-                    area, room_dim))
+                self._plotter_hole_texture_size_reducer(midpoint, room_dim)
+            )
             if size_reducer_left is None:
                 continue
-            area_pos_ul = area_center - half_cell_pos + size_reducer_left
-            area_pos_lr = area_center + half_cell_pos + size_reducer_right
+            area_pos_ul = area_pos_ul + size_reducer_left
+            area_pos_lr = area_pos_lr + size_reducer_right
             area_img_pos_ul = self._convert_to_image_coords(area_pos_ul)
             area_img_pos_lr = self._convert_to_image_coords(area_pos_lr)
 
