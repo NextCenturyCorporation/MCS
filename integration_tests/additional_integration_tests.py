@@ -490,5 +490,6 @@ FUNCTION_LIST = [
     run_depth_and_segmentation_test,
     run_habituation_trial_counts_test,
     run_position_by_step_test,
+    run_public_sample_scenes_test,
     run_restricted_action_list_test
 ]
