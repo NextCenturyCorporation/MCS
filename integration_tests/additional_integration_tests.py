@@ -1,9 +1,13 @@
 import glob
 import os.path
 
+from PIL import Image, ImageChops, ImageStat
+
 import machine_common_sense as mcs
 
 INTEGRATION_TESTS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+LIGHTING_TESTS = os.path.join(INTEGRATION_TESTS_FOLDER, 'lighting_tests')
+
 DEPTH_AND_SEGMENTATION_SCENE = (
     f'{INTEGRATION_TESTS_FOLDER}/depth_and_segmentation.scene.json'
 )
@@ -14,6 +18,22 @@ HABITUATION_TRIAL_COUNTS_SCENE = (
 
 RESTRICTED_ACTION_LIST_SCENE = (
     f'{INTEGRATION_TESTS_FOLDER}/restricted_action_list.scene.json'
+)
+
+EMPTY_ROOM_LIGHTING_SCENE = (
+    f'{LIGHTING_TESTS}/empty_room.scene.json'
+)
+
+PLAYROOM_LIGHTING_SCENE = (
+    f'{LIGHTING_TESTS}/playroom.scene.json'
+)
+
+AGENTS_LIGHTING_SCENE = (
+    f'{LIGHTING_TESTS}/agents.scene.json'
+)
+
+HUGE_ROOM_LIGHTING_SCENE = (
+    f'{LIGHTING_TESTS}/huge_room.scene.json'
 )
 
 SAMPLE_SCENES_FOLDER = (
@@ -380,10 +400,95 @@ def run_restricted_action_list_test(controller, metadata_tier):
     return True, ''
 
 
+def image_comparison(step_metadata, resources_path) -> bool:
+    zero_diff = [0.0, 0.0, 0.0]
+    img = step_metadata.image_list[0]
+    truth_img = Image.open(
+        os.path.join(
+            resources_path,
+            f'frame_image_{step_metadata.step_number}.png'))
+    diff = ImageStat.Stat(ImageChops.difference(img, truth_img)).sum
+    max_diff = 10
+    equal = diff[0] < max_diff and diff[1] < max_diff and diff[2] < max_diff
+    return equal, diff, zero_diff
+
+
+def run_empty_room_lighting_test(controller, metadata_tier):
+    scene_data = mcs.load_scene_json_file(
+        EMPTY_ROOM_LIGHTING_SCENE
+    )
+
+    truth_images = 'empty_room/'
+    resources_path = os.path.join(LIGHTING_TESTS, truth_images)
+
+    step_metadata = controller.start_scene(scene_data)
+    image_comparison(step_metadata, resources_path)
+
+    for _ in range(1, 37):
+        step_metadata = controller.step(mcs.Action.ROTATE_RIGHT.value)
+
+        """ save a debug image if needed
+        step_metadata.image_list[0].save(
+            os.path.join(
+                resources_path,
+                f'test_step_{step_metadata.step_number}.png'))
+        """
+
+        equal, diff, zero_diff = image_comparison(
+            step_metadata, resources_path)
+        if not equal:
+            return (
+                False,
+                f'Step {step_metadata.step_number} failed: '
+                f'image lighting comparision {diff} != {zero_diff}'
+            )
+
+    controller.end_scene()
+    return True, ''
+
+
+def run_huge_room_lighting_test(controller, metadata_tier):
+    scene_data = mcs.load_scene_json_file(
+        HUGE_ROOM_LIGHTING_SCENE
+    )
+
+    truth_images = 'huge_room/'
+    resources_path = os.path.join(LIGHTING_TESTS, truth_images)
+
+    step_metadata = controller.start_scene(scene_data)
+    image_comparison(step_metadata, resources_path)
+
+    for _ in range(1, 10):
+        step_metadata = controller.step(mcs.Action.ROTATE_RIGHT.value)
+        equal, diff, zero_diff = image_comparison(
+            step_metadata, resources_path)
+        if not equal:
+            return (
+                False,
+                f'Step {step_metadata.step_number} failed: '
+                f'image lighting comparision {diff} != {zero_diff}'
+            )
+
+    for _ in range(10, 20):
+        step_metadata = controller.step(mcs.Action.ROTATE_LEFT.value)
+        equal, diff, zero_diff = image_comparison(
+            step_metadata, resources_path)
+        if not equal:
+            return (
+                False,
+                f'Step {step_metadata.step_number} failed: '
+                f'image lighting comparision {diff} != {zero_diff}'
+            )
+
+    controller.end_scene()
+    return True, ''
+
+
 FUNCTION_LIST = [
+    run_empty_room_lighting_test,
+    run_huge_room_lighting_test,
     run_depth_and_segmentation_test,
     run_habituation_trial_counts_test,
     run_position_by_step_test,
-    run_public_sample_scenes_test,
     run_restricted_action_list_test
 ]
