@@ -1,7 +1,7 @@
 import random
 import string
 from typing import Any, Dict, List, Optional, Tuple
-from .action import (FORCE_ACTIONS, OBJECT_MOVE_ACTIONS, OBJECT_IMAGE_ACTIONS,
+from .action import (FORCE_ACTIONS, OBJECT_IMAGE_ACTIONS, OBJECT_MOVE_ACTIONS,
                      RECEPTACLE_ACTIONS, Action)
 from .config_manager import ConfigManager, MetadataTier
 from .controller import DEFAULT_MOVE
