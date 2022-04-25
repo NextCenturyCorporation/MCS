@@ -1,7 +1,9 @@
 import random
+import string
 from typing import Any, Dict, List, Optional, Tuple
-
-from .action import FORCE_ACTIONS, OBJECT_MOVE_ACTIONS, Action
+from .action import (
+    FORCE_ACTIONS, OBJECT_MOVE_ACTIONS, RECEPTACLE_ACTIONS,
+    OBJECT_IMAGE_ACTIONS, Action)
 from .config_manager import ConfigManager, MetadataTier
 from .controller import DEFAULT_MOVE
 
@@ -54,7 +56,8 @@ class Parameter:
     DEFAULT_HORIZON = 0.0
     DEFAULT_ROTATION = 0.0
     DEFAULT_AMOUNT = 0.5
-    DEFAULT_IMG_COORD = 0
+    DEFAULT_IMG_COORD = None
+    DEFAULT_IMG_DICT = {'x': 0, 'y': 0}
     DEFAULT_OBJECT_MOVE_AMOUNT = 1.0
     DEFAULT_OBJECT_ROTATION_CLOCKWISE = True
     DEFAULT_OBJECT_MOVEMENT_X_DIRECTION = 0
@@ -187,7 +190,7 @@ class Parameter:
                 val = float(val)
             except ValueError as err:
                 raise ValueError(f"{key}") from err
-        else:
+        elif default is not None:
             val = float(default)
         return val
 
@@ -312,6 +315,52 @@ class Parameter:
         return {'y': teleport_rot_input} \
             if teleport_rot_input is not None else None
 
+    def _get_vector(
+            self,
+            x_key: string,
+            y_key: string,
+            default_coord: int, 
+            object_id: string,
+            **kwargs) -> Dict:
+        image_coords_x = self._get_number_with_default(x_key, default_coord, **kwargs)
+        image_coords_y = self._get_number_with_default(y_key, default_coord, **kwargs)
+
+        # If the user passes no x or y parameter and no object Id, throw an error, else
+        #   if an object id only is sent, pass the default values of 0,0 so Unity 
+        #   doesn't blow up.
+        if (image_coords_x is None and image_coords_y is None and
+                kwargs.get(object_id) is None):
+            raise Exception('MCS Action Failed to provide coordinate value')
+        elif (image_coords_x is None and image_coords_y is None and
+                kwargs.get(object_id) is not None):
+            return self.DEFAULT_IMG_DICT
+
+        return {
+            'x': int(image_coords_x),
+            'y': self._convert_y_image_coord_for_unity(
+                int(image_coords_y))
+        }
+        
+
+    def _get_receptacle_vector(self, **kwargs) -> Dict:
+        return self._get_vector(
+            self.RECEPTACLE_IMAGE_COORDS_X_KEY,
+            self.RECEPTACLE_IMAGE_COORDS_Y_KEY,
+            self.DEFAULT_IMG_COORD,
+            "receptacleObjectId",
+            **kwargs
+        )
+        
+
+    def _get_object_vector(self, **kwargs) -> Dict:
+        return self._get_vector(
+            self.OBJECT_IMAGE_COORDS_X_KEY,
+            self.OBJECT_IMAGE_COORDS_Y_KEY,
+            self.DEFAULT_IMG_COORD,
+            "objectId",
+            **kwargs
+        )
+
     def _validate_and_convert_params(self, **kwargs) -> Tuple[Action, Dict]:
         """Need a validation/conversion step for what ai2thor will accept as input
         to keep parameters more simple for the user (in this case, wrapping
@@ -321,36 +370,20 @@ class Parameter:
         kwargs.pop('action')
         amount = self._get_amount(action, **kwargs)
         force = self._get_force(action, **kwargs)
-        object_image_coords_x = int(self._get_number_with_default(
-            self.OBJECT_IMAGE_COORDS_X_KEY, self.DEFAULT_IMG_COORD, **kwargs))
-        object_image_coords_y = int(self._get_number_with_default(
-            self.OBJECT_IMAGE_COORDS_Y_KEY,
-            self.DEFAULT_IMG_COORD, **kwargs))
-        receptable_image_coords_x = int(self._get_number_with_default(
-            self.RECEPTACLE_IMAGE_COORDS_X_KEY,
-            self.DEFAULT_IMG_COORD,
-            **kwargs))
-        receptacle_image_coords_y = int(self._get_number_with_default(
-            self.RECEPTACLE_IMAGE_COORDS_Y_KEY,
-            self.DEFAULT_IMG_COORD,
-            **kwargs))
+
         # TODO Consider the current "head tilt" value while validating the
         # input "horizon" value.
         horizon = kwargs.get(self.HORIZON_KEY, self.DEFAULT_HORIZON)
         rotation = kwargs.get(self.ROTATION_KEY, self.DEFAULT_ROTATION)
 
         rotation_vector = {'y': rotation}
-        object_vector = {
-            'x': object_image_coords_x,
-            'y': self._convert_y_image_coord_for_unity(
-                object_image_coords_y),
-        }
 
-        receptacle_vector = {
-            'x': receptable_image_coords_x,
-            'y': self._convert_y_image_coord_for_unity(
-                receptacle_image_coords_y)
-        }
+        object_vector = self._get_object_vector(**kwargs) if (
+            action in OBJECT_IMAGE_ACTIONS) else self.DEFAULT_IMG_DICT
+
+        receptacle_vector = self._get_receptacle_vector(**kwargs) if (
+            action in RECEPTACLE_ACTIONS) else self.DEFAULT_IMG_DICT
+
         move_magnitude = self._get_move_magnitude(action, force, amount)
         (teleport_rotation, teleport_position) = self._get_teleport(**kwargs)
         clockwise = self._get_clockwise(**kwargs)

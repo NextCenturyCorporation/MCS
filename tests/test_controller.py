@@ -55,12 +55,12 @@ class TestController(unittest.TestCase):
             objectId=None,
             objectImageCoords={
                 'x': 0,
-                'y': 399
+                'y': 0
             },
             receptacleObjectId=None,
             receptacleObjectImageCoords={
                 'x': 0,
-                'y': 399
+                'y': 0
             },
             renderDepthImage=False,
             renderObjectImage=False,
@@ -770,18 +770,13 @@ class TestController(unittest.TestCase):
             mcs.Action.OPEN_OBJECT.value,
             amount=1,
             objectImageCoordsX=1,
-            objectImageCoordsY=2,
-            receptacleObjectImageCoordsX=4,
-            receptacleObjectImageCoordsY=5)
+            objectImageCoordsY=2)
         self.assertEqual(
             self.controller.get_last_step_data(),
             self.create_step_data(
                 action='MCSOpenObject', moveMagnitude=1.0,
                 objectImageCoords={
                     'x': 1, 'y': MOCK_VARIABLES['metadata']['screenHeight'] - 3
-                },
-                receptacleObjectImageCoords={
-                    'x': 4, 'y': MOCK_VARIABLES['metadata']['screenHeight'] - 6
                 }
             )
         )
