@@ -14,6 +14,7 @@ class TestStepMetadata(unittest.TestCase):
         "camera_field_of_view": 0.0,
         "camera_height": 0.0,
         "depth_map_list": [],
+        "focal_length": 0.0,
         "goal": {
             "action_list": null,
             "category": "",
@@ -53,6 +54,7 @@ class TestStepMetadata(unittest.TestCase):
         "camera_field_of_view": 0.0,
         "camera_height": 0.0,
         "depth_map_list": [],
+        "focal_length": 0.0,
         "goal": {
             "action_list": null,
             "category": "",
@@ -124,6 +126,9 @@ class TestStepMetadata(unittest.TestCase):
 
     def test_goal(self):
         self.assertIsInstance(self.step_metadata.goal, mcs.GoalMetadata)
+
+    def test_focal_length(self):
+        self.assertEqual(self.step_metadata.focal_length, 0.0)
 
     def test_habituation_trial(self):
         self.assertEqual(self.step_metadata.habituation_trial, None)

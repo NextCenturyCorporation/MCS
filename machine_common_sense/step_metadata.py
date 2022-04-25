@@ -61,6 +61,7 @@ class StepMetadata:
         camera's far clipping plane (default 150) corresponding to the depth,
         in meters, at that pixel in the image.
         Note that this list will be empty if the metadata level is 'none'.
+    focal_length: Focal length of the camera.
     goal : GoalMetadata or None
         The goal for the whole scene. Will be None in "Exploration" scenes.
     haptic_feedback : dict
@@ -146,6 +147,7 @@ class StepMetadata:
         camera_field_of_view=0.0,
         camera_height=0.0,
         depth_map_list=None,
+        focal_length=0.0,
         goal=None,
         habituation_trial=None,
         haptic_feedback=None,
@@ -181,6 +183,7 @@ class StepMetadata:
         self.depth_map_list = (
             [] if depth_map_list is None else depth_map_list
         )
+        self.focal_length = focal_length
         self.goal = GoalMetadata() if goal is None else goal
         self.habituation_trial = habituation_trial
         self.haptic_feedback = (
@@ -236,6 +239,7 @@ class StepMetadata:
         yield 'camera_height', self.camera_height
         # Intentionally no depth_map_list
         yield 'goal', dict(self.goal)
+        yield 'focal_length', self.focal_length
         yield 'habituation_trial', self.habituation_trial
         yield 'haptic_feedback', self.haptic_feedback
         yield 'head_tilt', self.head_tilt

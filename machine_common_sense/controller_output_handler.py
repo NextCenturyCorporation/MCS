@@ -84,6 +84,10 @@ class SceneEvent():
         return self._raw_output.metadata.get('clippingPlaneFar', 0.0)
 
     @property
+    def focal_length(self):
+        return self._raw_output.metadata.get('focalLength')
+
+    @property
     def haptic_feedback(self):
         return self._raw_output.metadata.get('hapticFeedback')
 
@@ -282,6 +286,7 @@ class ControllerOutputHandler():
             camera_height=self._scene_event.camera_height,
             depth_map_list=[] if restrict_depth_map else (
                 self._scene_event.depth_map_list),
+            focal_length=self._scene_event.focal_length,
             goal=goal,
             habituation_trial=(
                 habituation_trial

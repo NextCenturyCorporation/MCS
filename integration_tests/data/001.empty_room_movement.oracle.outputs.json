@@ -1,6 +1,7 @@
 ﻿[
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.0,
@@ -104,6 +105,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.0,
@@ -207,6 +209,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.0,
@@ -310,6 +313,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.1,
@@ -413,6 +417,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.2,
@@ -516,6 +521,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.2,
@@ -619,6 +625,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.2,
@@ -722,6 +729,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.1,
@@ -825,6 +833,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.0,
@@ -928,6 +937,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.0,
@@ -1031,6 +1041,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.0,
@@ -1134,6 +1145,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.0,
@@ -1237,6 +1249,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.0,
@@ -1340,6 +1353,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.0,
@@ -1443,6 +1457,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.0,
@@ -1546,6 +1561,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 10,
         "objects_count": 0,
         "position_x": 0.0,
@@ -1649,6 +1665,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 20,
         "objects_count": 0,
         "position_x": 0.0,
@@ -1752,6 +1769,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 30,
         "objects_count": 0,
         "position_x": 0.0,
@@ -1855,6 +1873,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 20,
         "objects_count": 0,
         "position_x": 0.0,
@@ -1958,6 +1977,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 10,
         "objects_count": 0,
         "position_x": 0.0,
@@ -2061,6 +2081,7 @@
     },
     {
         "camera_height": 0.762,
+        "focal_length": 50.0,
         "head_tilt": 0,
         "objects_count": 0,
         "position_x": 0.0,
