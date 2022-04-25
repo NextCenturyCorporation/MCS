@@ -1,9 +1,8 @@
 import random
 import string
 from typing import Any, Dict, List, Optional, Tuple
-from .action import (
-    FORCE_ACTIONS, OBJECT_MOVE_ACTIONS, RECEPTACLE_ACTIONS,
-    OBJECT_IMAGE_ACTIONS, Action)
+from .action import (FORCE_ACTIONS, OBJECT_MOVE_ACTIONS,
+                     RECEPTACLE_ACTIONS, OBJECT_IMAGE_ACTIONS, Action)
 from .config_manager import ConfigManager, MetadataTier
 from .controller import DEFAULT_MOVE
 
@@ -319,15 +318,17 @@ class Parameter:
             self,
             x_key: string,
             y_key: string,
-            default_coord: int, 
+            default_coord: int,
             object_id: string,
             **kwargs) -> Dict:
-        image_coords_x = self._get_number_with_default(x_key, default_coord, **kwargs)
-        image_coords_y = self._get_number_with_default(y_key, default_coord, **kwargs)
+        image_coords_x = self._get_number_with_default(
+            x_key, default_coord, **kwargs)
+        image_coords_y = self._get_number_with_default(
+            y_key, default_coord, **kwargs)
 
-        # If the user passes no x or y parameter and no object Id, throw an error, else
-        #   if an object id only is sent, pass the default values of 0,0 so Unity 
-        #   doesn't blow up.
+        # If the user passes no x or y parameter and no object Id,
+        #   throw an error, else if an object id only is sent, pass
+        #   the default values of 0,0 so Unity doesn't blow up.
         if (image_coords_x is None and image_coords_y is None and
                 kwargs.get(object_id) is None):
             raise Exception('MCS Action Failed to provide coordinate value')
@@ -340,7 +341,6 @@ class Parameter:
             'y': self._convert_y_image_coord_for_unity(
                 int(image_coords_y))
         }
-        
 
     def _get_receptacle_vector(self, **kwargs) -> Dict:
         return self._get_vector(
@@ -350,7 +350,6 @@ class Parameter:
             "receptacleObjectId",
             **kwargs
         )
-        
 
     def _get_object_vector(self, **kwargs) -> Dict:
         return self._get_vector(
