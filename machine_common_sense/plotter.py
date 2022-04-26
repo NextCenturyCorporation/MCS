@@ -10,7 +10,7 @@ import cv2
 import numpy as np
 import PIL.Image
 import skimage.draw
-from shapely import geometry
+from shapely import affinity, geometry
 
 from machine_common_sense.config_manager import SceneConfiguration, Vector3d
 
@@ -651,9 +651,10 @@ class TopDownPlotter():
         for o in objects:
             obj = self._create_asset(o)
             if obj.bounds is not None:
-                img = self._draw_object(img, obj)
                 if goal_id is not None and o['objectId'] == goal_id:
                     img = self._draw_goal(img, obj)
+                else:
+                    img = self._draw_object(img, obj)
         return img
 
     def _create_asset(self, object_metadata: Dict) -> SceneAsset:
@@ -697,12 +698,15 @@ class TopDownPlotter():
         return color
 
     def _draw_object(self, img: np.ndarray,
-                     obj: SceneAsset) -> np.ndarray:
+                     obj: SceneAsset, is_goal: bool = False) -> np.ndarray:
         '''Draw the scene object'''
 
         obj_pts = [(pt.x, pt.z) for pt in obj.bounds.points]
-        polygon = geometry.MultiPoint(
-            obj_pts).convex_hull
+        polygon = geometry.MultiPoint(obj_pts).convex_hull
+        # Shrink the polygon for the goal object, since it will be drawn on top
+        # of the correctly-sized polygon from _draw_goal.
+        if is_goal:
+            polygon = affinity.scale(polygon, xfact=0.5, yfact=0.5)
         pts = polygon.exterior.coords
 
         # convert list of tuples to list of rows and list of columns
@@ -711,21 +715,26 @@ class TopDownPlotter():
         rs = list(map(lambda r: self.image_center.y - r * self.scale.y, rs))
         cs = list(map(lambda c: self.image_center.x + c * self.scale.x, cs))
 
+        # use dictionary get method for color retrieval
+        # if no match for that color string, then resort to the default color
+        clr = colour.COLOR_NAME_TO_RGB.get(
+            obj.color.lower(), self.DEFAULT_COLOR)
+
         # draw filled polygon if visible to the robot
-        if(obj.visible):
+        if is_goal or obj.visible:
             rr, cc = skimage.draw.polygon(
                 rs,
                 cs,
                 shape=img.shape[:2])
+            # Draw a small black polygon for a hidden goal object, since it
+            # already has a border around it.
+            if not obj.visible:
+                clr = self.BACKGROUND_COLOR
         else:
             rr, cc = skimage.draw.polygon_perimeter(
                 rs,
                 cs,
                 shape=img.shape[:2])
-        # use dictionary get method for color retrieval
-        # if no match for that color string, then resort to the default color
-        clr = colour.COLOR_NAME_TO_RGB.get(
-            obj.color.lower(), self.DEFAULT_COLOR)
         img[rr, cc] = clr
 
         # using ramp string prefix assumpation to make ramp determination
@@ -770,17 +779,6 @@ class TopDownPlotter():
             obj_pts).convex_hull
         pts = polygon.exterior.coords
 
-        cs, rs = map(list, zip(*pts))
-        # convert room coordinates to image coordinates
-        rs = list(map(lambda r: self.image_center.y - r * self.scale.y, rs))
-        cs = list(map(lambda c: self.image_center.x + c * self.scale.x, cs))
-
-        # Draw a multi-pixel border of the opposite color around the goal.
-        min_row = min(rs)
-        max_row = max(rs)
-        min_col = min(cs)
-        max_col = max(cs)
-        border_size = int(min(max_row - min_row, max_col - min_col) / 4.0)
         color = colour.COLOR_NAME_TO_RGB.get(
             obj.color.lower(),
             self.DEFAULT_COLOR
@@ -789,15 +787,19 @@ class TopDownPlotter():
         # If the object's color is greyscale, use a default instead.
         if color[0] == color[1] == color[2]:
             opposite_color = self.DEFAULT_GOAL_COLOR
-        # Assumes that the object's bounds will never be angled like a diamond.
-        for i in range(1, border_size + 1):
-            rr, cc = skimage.draw.rectangle_perimeter(
-                start=(min_row + i, min_col + i),
-                end=(max_row - i, max_col - i),
-                shape=img.shape[:2]
-            )
-            img[rr, cc] = opposite_color
-        return img
+
+        cs, rs = map(list, zip(*pts))
+        # convert room coordinates to image coordinates
+        rs = list(map(lambda r: self.image_center.y - r * self.scale.y, rs))
+        cs = list(map(lambda c: self.image_center.x + c * self.scale.x, cs))
+
+        # Draw a correctly-sized polygon with the opposite of the goal's color.
+        # This will create a thick border around the 2nd polygon (see below).
+        rr, cc = skimage.draw.polygon(rs, cs, shape=img.shape[:2])
+        img[rr, cc] = opposite_color
+
+        # Then draw a smaller polygon on top of the 1st polygon in its middle.
+        return self._draw_object(img, obj, is_goal=True)
 
     def _find_opposite_color(self, color: tuple) -> tuple:
         '''Return the exact opposite of the given color.'''
