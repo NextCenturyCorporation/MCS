@@ -156,11 +156,11 @@ class TopDownPlotter():
     CENTER_COLOR = colour.COLOR_NAME_TO_RGB['gray']
     GRID_COLOR = colour.COLOR_NAME_TO_RGB['darkslategray']
     ROBOT_COLOR = colour.COLOR_NAME_TO_RGB['red']
-    GOAL_COLOR = colour.COLOR_NAME_TO_RGB['gold']
+    DEFAULT_GOAL_COLOR = colour.COLOR_NAME_TO_RGB['lime']
 
     ROBOT_PLOT_WIDTH = 0.2
     HEADING_LENGTH = 0.2
-    ROBOT_NOSE_RADIUS = 0.08
+    ROBOT_NOSE_RADIUS = 0.1
     PLOT_IMAGE_SIZE = 512
     UNIT_CELL_WIDTH = 1
 
@@ -584,12 +584,26 @@ class TopDownPlotter():
         robot_position = self._convert_to_image_coords(
             scene_pt=SceneCoord(robot.x, robot.y, robot.z)
         )
+        robot_radius = self.ROBOT_PLOT_WIDTH * self.scale.x
+        opposite_color = self._find_opposite_color(self.ROBOT_COLOR)
+
+        # Draw a large disk of the opposite color as a border around the robot.
         rr, cc = skimage.draw.disk(
             center=(
                 robot_position.y,
                 robot_position.x
             ),
-            radius=self.ROBOT_PLOT_WIDTH * self.scale.x,
+            radius=robot_radius,
+            shape=img.shape[:2])
+        img[rr, cc] = opposite_color
+
+        # Draw a small disk as the center of the robot.
+        rr, cc = skimage.draw.disk(
+            center=(
+                robot_position.y,
+                robot_position.x
+            ),
+            radius=(robot_radius / 2.0),
             shape=img.shape[:2])
         img[rr, cc] = self.ROBOT_COLOR
         return img
@@ -760,12 +774,34 @@ class TopDownPlotter():
         # convert room coordinates to image coordinates
         rs = list(map(lambda r: self.image_center.y - r * self.scale.y, rs))
         cs = list(map(lambda c: self.image_center.x + c * self.scale.x, cs))
-        rr, cc = skimage.draw.polygon_perimeter(
-            rs,
-            cs,
-            shape=img.shape[:2])
-        img[rr, cc] = self.GOAL_COLOR
+
+        # Draw a multi-pixel border of the opposite color around the goal.
+        min_row = min(rs)
+        max_row = max(rs)
+        min_col = min(cs)
+        max_col = max(cs)
+        border_size = int(min(max_row - min_row, max_col - min_col) / 4.0)
+        color = colour.COLOR_NAME_TO_RGB.get(
+            obj.color.lower(),
+            self.DEFAULT_COLOR
+        )
+        opposite_color = self._find_opposite_color(color)
+        # If the object's color is greyscale, use a default instead.
+        if color[0] == color[1] == color[2]:
+            opposite_color = self.DEFAULT_GOAL_COLOR
+        # Assumes that the object's bounds will never be angled like a diamond.
+        for i in range(1, border_size + 1):
+            rr, cc = skimage.draw.rectangle_perimeter(
+                start=(min_row + i, min_col + i),
+                end=(max_row - i, max_col - i),
+                shape=img.shape[:2]
+            )
+            img[rr, cc] = opposite_color
         return img
+
+    def _find_opposite_color(self, color: tuple) -> tuple:
+        '''Return the exact opposite of the given color.'''
+        return (255 - color[0], 255 - color[1], 255 - color[2])
 
 
 if __name__ == '__main__':
