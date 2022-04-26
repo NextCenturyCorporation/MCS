@@ -950,13 +950,11 @@ class TestTopDownPlotter(unittest.TestCase):
         img = plotter._draw_goal(img, obj)
         goal_img = plotter._export_plot(img)
         # save image to resources folder in the event of plotter changes
-        goal_img.save(os.path.join(
-            resources_path,
-            'plotter_goal_greyscale.png'))
+        # goal_img.save(os.path.join(resources_path, 'plotter_goal_white.png'))
 
         # read image from resources folder
         truth_img = Image.open(
-            os.path.join(resources_path, 'plotter_goal_greyscale.png')
+            os.path.join(resources_path, 'plotter_goal_white.png')
         )
         # calculate image difference
         diff = ImageChops.difference(goal_img, truth_img)
