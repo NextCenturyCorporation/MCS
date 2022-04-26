@@ -378,6 +378,8 @@ class Parameter:
 
         rotation_vector = {'y': rotation}
 
+        # Need to return a default value, Unity fails if returning None, or 
+        #  x: None, y: None for both vectors below
         object_vector = self._get_object_vector(**kwargs) if (
             action in OBJECT_IMAGE_ACTIONS) else self.DEFAULT_IMG_DICT
 

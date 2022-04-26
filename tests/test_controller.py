@@ -878,6 +878,10 @@ class TestController(unittest.TestCase):
                 mcs.Action.PUSH_OBJECT.value,
                 force=-1,
                 objectId='test_id_1')
+        with self.assertRaises(Exception):
+            self.controller.step(
+                mcs.Action.PUSH_OBJECT.value,
+                moveMagnitude=0.1)
 
         self.controller.step(
             mcs.Action.PUSH_OBJECT.value,
@@ -943,6 +947,11 @@ class TestController(unittest.TestCase):
                 mcs.Action.TORQUE_OBJECT.value,
                 force=1.1,
                 objectId='test_id_1')
+
+        with self.assertRaises(Exception):
+            self.controller.step(
+                mcs.Action.TORQUE_OBJECT.value,
+                moveMagnitude=0.1)
 
         with self.assertRaises(ValueError):
             self.controller.step(
@@ -1011,6 +1020,11 @@ class TestController(unittest.TestCase):
                 mcs.Action.ROTATE_OBJECT.value,
                 clockwise=1.0,
                 objectId='test_id_1')
+
+        with self.assertRaises(Exception):
+            self.controller.step(
+                mcs.Action.ROTATE_OBJECT.value,
+                clockwise=False)
 
         with self.assertRaises(ValueError):
             self.controller.step(
