@@ -42,6 +42,7 @@ def convert_depth_to_hsv(
         255 - np.floor((depth_float_array - mid_val) / band_size),
         255
     )
+    # Note that PIL images use HSV ints between 0 and 255 inclusive.
     depth_hsv_array[:shape[0], :shape[1], 0] = hue
     depth_hsv_array[:shape[0], :shape[1], 1] = sat
     depth_hsv_array[:shape[0], :shape[1], 2] = val
