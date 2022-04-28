@@ -21,8 +21,6 @@ def convert_depth_to_hsv(
     depth_float_array: np.array,
     clipping_plane_far: float
 ) -> np.array:
-    clipping_plane_far = 150.0
-
     # Split the depth data into multiple color bands. Each band corresponds to
     # the full hue spectrum, from red to purple, at a specific saturation and
     # value. Near bands have lower saturation (closer to white); far bands have
