@@ -1,7 +1,6 @@
 import logging
 import pathlib
 from abc import abstractmethod
-from typing import List
 
 import numpy as np
 import PIL
@@ -15,18 +14,57 @@ from .recorder import VideoRecorder
 logger = logging.getLogger(__name__)
 
 
+DEPTH_HSV_BANDS = 400.0
+
+
+def convert_depth_to_hsv(
+    depth_float_array: np.array,
+    clipping_plane_far: float
+) -> np.array:
+    clipping_plane_far = 150.0
+
+    # Split the depth data into multiple color bands. Each band corresponds to
+    # the full hue spectrum, from red to purple, at a specific saturation and
+    # value. Near bands have lower saturation (closer to white); far bands have
+    # lower value (closer to black). Don't use saturation or value lower than
+    # 30, or else the color will look too close to white or black.
+    band_size = clipping_plane_far / DEPTH_HSV_BANDS
+    mid_sat = band_size * int(DEPTH_HSV_BANDS / 2.0)
+    mid_val = clipping_plane_far - (band_size * int(DEPTH_HSV_BANDS / 2.0))
+    shape = depth_float_array.shape
+    depth_hsv_array = np.zeros((shape[0], shape[1], 3), dtype=np.uint8)
+    hue = (np.mod(depth_float_array, band_size) / band_size * 256)
+    sat = np.where(
+        depth_float_array < mid_sat,
+        55 + np.floor(depth_float_array / band_size),
+        255
+    )
+    val = np.where(
+        depth_float_array >= mid_val,
+        255 - np.floor((depth_float_array - mid_val) / band_size),
+        255
+    )
+    depth_hsv_array[:shape[0], :shape[1], 0] = hue
+    depth_hsv_array[:shape[0], :shape[1], 1] = sat
+    depth_hsv_array[:shape[0], :shape[1], 2] = val
+    return depth_hsv_array
+
+
 def convert_depth_to_image(
-    depth_float_array: List[List[float]],
+    depth_float_array: np.array,
     clipping_plane_far: float
 ) -> PIL.Image:
     '''Convert the given depth float array into a depth image, then return the
     image.'''
-    # Convert from (0.0, max distance) to (0, 255)
-    depth_pixel_array = depth_float_array / clipping_plane_far * 255
-    # Convert floats to ints
-    depth_pixel_array = depth_pixel_array.astype(np.uint8)
-    # Convert to greyscale image (L mode uses 2-dimensional data)
-    return PIL.Image.fromarray(depth_pixel_array, mode='L')
+    # Convert the depth array from a 2D array of floats, ranging from 0 to the
+    # camera's far clipping plane, to a 3D array of HSV tuples.
+    depth_hsv_array = convert_depth_to_hsv(
+        depth_float_array,
+        clipping_plane_far
+    )
+    image = PIL.Image.fromarray(depth_hsv_array, mode='HSV')
+    image = image.convert('RGB')
+    return image
 
 
 class AbstractImageEventHandler(AbstractControllerSubscriber):
