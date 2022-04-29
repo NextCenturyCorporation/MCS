@@ -7,6 +7,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 1,
@@ -17,6 +21,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 2,
@@ -27,6 +35,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 3,
@@ -37,6 +49,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 4,
@@ -47,6 +63,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 5,
@@ -57,6 +77,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 6,
@@ -67,6 +91,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 7,
@@ -77,6 +105,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 8,
@@ -87,6 +119,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 9,
@@ -97,6 +133,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 10,
@@ -107,6 +147,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 11,
@@ -117,6 +161,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 12,
@@ -127,6 +175,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 13,
@@ -137,6 +189,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 14,
@@ -147,6 +203,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 15,
@@ -157,6 +217,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 16,
@@ -167,6 +231,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 17,
@@ -177,6 +245,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 18,
@@ -187,6 +259,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 19,
@@ -197,6 +273,10 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }, {
     "step_number": 20,
@@ -207,5 +287,9 @@
     "rotation_y": null,
     "objects_count": 0,
     "structural_objects_count": 0,
+    "camera_aspect_ratio": [600, 400],
+    "camera_clipping_planes": [0.01, 150.0],
+    "camera_field_of_view": 42.5,
+    "camera_height": 0.762,
     "focal_length": 50.0
 }]
