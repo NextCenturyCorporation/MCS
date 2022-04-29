@@ -842,3 +842,15 @@ MOVE_ACTIONS = [
     Action.MOVE_LEFT,
     Action.MOVE_RIGHT,
     Action.MOVE_BACK]
+OBJECT_IMAGE_ACTIONS = [
+    Action.CLOSE_OBJECT,
+    Action.OPEN_OBJECT,
+    Action.PICKUP_OBJECT,
+    Action.PUSH_OBJECT,
+    Action.PULL_OBJECT,
+    Action.TORQUE_OBJECT,
+    Action.ROTATE_OBJECT,
+    Action.INTERACT_WITH_AGENT,
+    Action.MOVE_OBJECT]
+RECEPTACLE_ACTIONS = [
+    Action.PUT_OBJECT]
