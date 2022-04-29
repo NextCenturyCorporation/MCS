@@ -53,11 +53,11 @@ class XZHeading():
 
 @dataclass
 class Robot():
-    '''AI robot/performer location and heading in Unity'''
+    '''AI robot/performer location and rotation in Unity'''
     x: float
     y: float
     z: float
-    heading: XZHeading
+    rotation_y: float
 
 
 @dataclass
@@ -155,12 +155,11 @@ class TopDownPlotter():
     BORDER_COLOR = colour.COLOR_NAME_TO_RGB['white']
     CENTER_COLOR = colour.COLOR_NAME_TO_RGB['gray']
     GRID_COLOR = colour.COLOR_NAME_TO_RGB['darkslategray']
-    ROBOT_COLOR = colour.COLOR_NAME_TO_RGB['red']
+    ROBOT_COLOR = colour.COLOR_NAME_TO_RGB['blue']
     DEFAULT_GOAL_COLOR = colour.COLOR_NAME_TO_RGB['lime']
 
-    ROBOT_PLOT_WIDTH = 0.2
-    HEADING_LENGTH = 0.2
-    ROBOT_NOSE_RADIUS = 0.1
+    OBJECT_INSIDE_PERCENTAGE = 0.5
+    HEADING_LENGTH = 0.6
     PLOT_IMAGE_SIZE = 512
     UNIT_CELL_WIDTH = 1
 
@@ -253,6 +252,14 @@ class TopDownPlotter():
             x=int(self.image_center.x + scene_pt.x * self.scale.x),
             y=int(self.image_center.y - scene_pt.z * self.scale.y)
         )
+
+    def _convert_points(self, points: list) -> tuple:
+        # convert list of tuples to list of rows and list of columns
+        cs, rs = map(list, zip(*points))
+        # convert room coordinates to image coordinates
+        rs = list(map(lambda r: self.image_center.y - r * self.scale.y, rs))
+        cs = list(map(lambda c: self.image_center.x + c * self.scale.x, cs))
+        return cs, rs
 
     def _draw_step_number(self, img: np.ndarray,
                           step_number: int) -> np.ndarray:
@@ -542,12 +549,11 @@ class TopDownPlotter():
         return PIL.Image.fromarray(img, "RGB")
 
     def _draw_robot(self, img: np.ndarray, robot_metadata: Dict) -> np.ndarray:
-        '''Plot the robot position and heading'''
+        '''Plot the robot triangle'''
         if robot_metadata is None:
             return img
         robot = self._create_robot(robot_metadata)
         img = self._draw_robot_position(img, robot)
-        img = self._draw_robot_heading(img, robot)
         return img
 
     def _create_robot(self, robot_metadata: Dict) -> Robot:
@@ -563,64 +569,43 @@ class TopDownPlotter():
             z = 0.0
         rotation = robot_metadata.get('rotation')
         rotation_y = rotation.get('y') if rotation is not None else 0.0
-        heading = self._calculate_heading(
-            rotation_angle=360.0 - rotation_y,
-            heading_length=self.HEADING_LENGTH
-        )
-        return Robot(x, y, z, heading)
+        return Robot(x, y, z, 360 - rotation_y)
 
     def _calculate_heading(self, rotation_angle: float,
                            heading_length: float) -> XZHeading:
         '''Calculate XZ heading vector from the rotation angle'''
         s = math.sin(math.radians(rotation_angle))
         c = math.cos(math.radians(rotation_angle))
-        vec_x = 0 * c - heading_length * s
-        vec_z = 0 * s + heading_length * c
+        vec_x = heading_length * s * -1
+        vec_z = heading_length * c
         return XZHeading(vec_x, vec_z)
 
     def _draw_robot_position(self, img: np.ndarray,
                              robot: Robot) -> np.ndarray:
-        '''Draw the robot's scene XZ position in the plot'''
-        robot_position = self._convert_to_image_coords(
-            scene_pt=SceneCoord(robot.x, robot.y, robot.z)
-        )
-        robot_radius = self.ROBOT_PLOT_WIDTH * self.scale.x
+        '''Draw the robot's scene XZ position as a triangle in the plot'''
         opposite_color = self._find_opposite_color(self.ROBOT_COLOR)
-
-        # Draw a large disk of the opposite color as a border around the robot.
-        rr, cc = skimage.draw.disk(
-            center=(
-                robot_position.y,
-                robot_position.x
-            ),
-            radius=robot_radius,
-            shape=img.shape[:2])
-        img[rr, cc] = opposite_color
-
-        # Draw a small disk as the center of the robot.
-        rr, cc = skimage.draw.disk(
-            center=(
-                robot_position.y,
-                robot_position.x
-            ),
-            radius=(robot_radius / 2.0),
-            shape=img.shape[:2])
-        img[rr, cc] = self.ROBOT_COLOR
-        return img
-
-    def _draw_robot_heading(self, img: np.ndarray, robot: Robot) -> np.ndarray:
-        '''Draw the heading vector starting from the robot XZ position'''
-        y_point = int(self.image_center.y - robot.z * self.scale.y)
-        x_point = int(self.image_center.x + robot.x * self.scale.x)
-        rr, cc = skimage.draw.disk(
-            center=(
-                y_point - int(robot.heading.z * self.scale.x),
-                x_point + int(robot.heading.x * self.scale.x)
-            ),
-            radius=self.ROBOT_NOSE_RADIUS * self.scale.x,
-            shape=img.shape[:2]
-        )
-        img[rr, cc] = self.ROBOT_COLOR
+        half_length = self.HEADING_LENGTH / 2.0
+        # Create the triangle points.
+        front = self._calculate_heading(robot.rotation_y, self.HEADING_LENGTH)
+        right = self._calculate_heading(120 + robot.rotation_y, half_length)
+        left = self._calculate_heading(240 + robot.rotation_y, half_length)
+        triangle = [(front.x, front.z), (right.x, right.z), (left.x, left.z)]
+        # Create the triangle polygon.
+        outer = geometry.MultiPoint(triangle).convex_hull
+        # Move the triangle from the origin to the correct position.
+        outer = affinity.translate(outer, robot.x, robot.z)
+        # Draw the robot as two triangles: first a large outer triangle of the
+        # opposite color as a border; and a small inner triangle as the center.
+        percent = self.OBJECT_INSIDE_PERCENTAGE
+        inner = affinity.scale(outer, xfact=percent, yfact=percent)
+        for polygon, color in [
+            (outer, opposite_color),
+            (inner, self.ROBOT_COLOR)
+        ]:
+            points = list(polygon.exterior.coords)
+            cs, rs = self._convert_points(points)
+            rr, cc = skimage.draw.polygon(rs, cs, shape=img.shape[:2])
+            img[rr, cc] = color
         return img
 
     def _find_plottable_objects(
@@ -706,14 +691,11 @@ class TopDownPlotter():
         # Shrink the polygon for the goal object, since it will be drawn on top
         # of the correctly-sized polygon from _draw_goal.
         if is_goal:
-            polygon = affinity.scale(polygon, xfact=0.5, yfact=0.5)
+            percent = self.OBJECT_INSIDE_PERCENTAGE
+            polygon = affinity.scale(polygon, xfact=percent, yfact=percent)
         pts = polygon.exterior.coords
 
-        # convert list of tuples to list of rows and list of columns
-        cs, rs = map(list, zip(*pts))
-        # convert room coordinates to image coordinates
-        rs = list(map(lambda r: self.image_center.y - r * self.scale.y, rs))
-        cs = list(map(lambda c: self.image_center.x + c * self.scale.x, cs))
+        cs, rs = self._convert_points(pts)
 
         # use dictionary get method for color retrieval
         # if no match for that color string, then resort to the default color
@@ -788,10 +770,7 @@ class TopDownPlotter():
         if color[0] == color[1] == color[2]:
             opposite_color = self.DEFAULT_GOAL_COLOR
 
-        cs, rs = map(list, zip(*pts))
-        # convert room coordinates to image coordinates
-        rs = list(map(lambda r: self.image_center.y - r * self.scale.y, rs))
-        cs = list(map(lambda c: self.image_center.x + c * self.scale.x, cs))
+        cs, rs = self._convert_points(pts)
 
         # Draw a correctly-sized polygon with the opposite of the goal's color.
         # This will create a thick border around the 2nd polygon (see below).
