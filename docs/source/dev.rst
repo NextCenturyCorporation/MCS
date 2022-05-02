@@ -186,3 +186,15 @@ Releases
 
 Please see the following `Confluence page <https://nextcentury.atlassian.net/wiki/spaces/MCS/pages/1442742340/MCS+Release+Procedures>`_
 
+Depth Map Data
+--------------
+
+- In `machine_common_sense/step_metadata.py`, in the `StepMetadata` class, in the `__iter__` function, add `yield 'depth_map_list', self.depth_map_list` in order to save the depth map data in debug output files.
+- Run a scene with `debug` set to `true` and `metadata` NOT set to `none`.
+
+.. code-block:: console
+
+    (mcs) $ python machine_common_sense/scripts/run_human_input.py --config_file machine_common_sense/scripts/config_level1_debug.ini docs/source/scenes/playroom.json
+
+- Open one of the debug `mcs_output` files (like `playroom/mcs_output_0.json`) to see the `depth_map_list`
+

@@ -83,8 +83,9 @@ class StepMetadata:
         the output from start_scene for a scene with a scripted Preview Phase.
         (Preview Phase case details TBD).
     lava : list of tuples
-        Coordinates of pools of lava as (X, Z) float tuples. Will be set to
-        'None' if using a metadata level below the 'oracle' level.
+        Coordinates of pools of lava as (X1, Z1, X2, Z2) float tuples, where
+        X1/Z1 is the top-left corner and X2/Z2 is the bottom-right conrer. Will
+        be set to 'None' if using a metadata level below the 'oracle' level.
     object_list : list of ObjectMetadata objects
         The list of metadata for all the visible interactive objects in the
         scene. This list will be empty if using a metadata level below

@@ -3,15 +3,18 @@ import unittest
 from unittest.mock import DEFAULT, patch
 
 import machine_common_sense as mcs
-from machine_common_sense.config_manager import (ActionConfig, AgentSettings,
+from machine_common_sense.config_manager import (ActionConfig,
+                                                 AgentMovementConfig,
+                                                 AgentSettings,
                                                  ChangeMaterialConfig,
                                                  ConfigManager, ForceConfig,
                                                  Goal, MetadataTier,
                                                  MoveConfig, OpenCloseConfig,
                                                  PhysicsConfig,
                                                  SceneConfiguration,
-                                                 SceneObject, ShowConfig,
-                                                 SingleStepConfig, SizeConfig,
+                                                 SceneObject, SequenceConfig,
+                                                 ShowConfig, SingleStepConfig,
+                                                 SizeConfig,
                                                  StepBeginEndConfig,
                                                  TeleportConfig,
                                                  TransformConfig, Vector3d)
@@ -283,6 +286,39 @@ class TestSceneConfig(unittest.TestCase):
                 'stepBegin': 25,
                 'id': 'animation_b'
             }],
+            'agentMovement': {
+                "repeat": True,
+                "stepBegin": 4,
+                "sequence": [{
+                    "animation": "TPM_walk",
+                    "endPoint":
+                    {
+                        "x": 1,
+                        "z": 1
+                    }
+                }, {
+                    "animation": "TPM_run",
+                    "endPoint":
+                    {
+                        "x": -0.7,
+                        "z": -1.3
+                    }
+                }, {
+                    "animation": "TPF_walk",
+                    "endPoint":
+                    {
+                        "x": 1.2,
+                        "z": -1.5
+                    }
+                }, {
+                    "animation": "TPF_run",
+                    "endPoint":
+                    {
+                        "x": -0.6,
+                        "z": 1.2
+                    }
+                }]
+            },
             'agentSettings': {
                 'chest': 1,
                 'chestMaterial': 2,
@@ -464,6 +500,7 @@ class TestSceneConfig(unittest.TestCase):
         self.assertEqual(object_1.id, 'id_1')
         self.assertEqual(object_1.type, 'type_1')
         self.assertIsNone(object_1.actions)
+        self.assertIsNone(object_1.agent_movement)
         self.assertIsNone(object_1.agent_settings)
         self.assertIsNone(object_1.center_of_mass)
         self.assertIsNone(object_1.change_materials)
@@ -511,6 +548,24 @@ class TestSceneConfig(unittest.TestCase):
                 id='animation_b',
                 is_loop_animation=False)
         ])
+        self.assertEqual(object_2.agent_movement, AgentMovementConfig(
+            repeat=True,
+            step_begin=4,
+            sequence=[
+                SequenceConfig(
+                    animation="TPM_walk",
+                    end_point=Vector3d(x=1, y=0, z=1)),
+                SequenceConfig(
+                    animation="TPM_run",
+                    end_point=Vector3d(x=-0.7, y=0, z=-1.3)),
+                SequenceConfig(
+                    animation="TPF_walk",
+                    end_point=Vector3d(x=1.2, y=0, z=-1.5)),
+                SequenceConfig(
+                    animation="TPF_run",
+                    end_point=Vector3d(x=-0.6, y=0, z=1.2))
+            ]
+        ))
         self.assertEqual(object_2.agent_settings, AgentSettings(
             chest=1,
             chest_material=2,

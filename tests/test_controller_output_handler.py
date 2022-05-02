@@ -4,9 +4,11 @@ from types import SimpleNamespace
 import numpy
 
 import machine_common_sense as mcs
-from machine_common_sense.config_manager import (ConfigManager, MetadataTier,
+from machine_common_sense.config_manager import (ConfigManager,
+                                                 FloorPartitionConfig,
+                                                 MetadataTier,
                                                  SceneConfiguration,
-                                                 Vector2dInt)
+                                                 Vector2dInt, Vector3d)
 from machine_common_sense.controller_output_handler import (
     ControllerOutputHandler, SceneEvent)
 from machine_common_sense.goal_metadata import GoalMetadata
@@ -497,7 +499,9 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.holes, [(0, 0), (1, 2), (9, 8)])
-        self.assertEqual(actual.lava, [(3, 3), (7, 5), (4, 6)])
+        self.assertEqual(actual.lava, [
+            (2.5, 2.5, 3.5, 3.5), (6.5, 4.5, 7.5, 5.5), (3.5, 5.5, 4.5, 6.5)
+        ])
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
         self.assertEqual(actual.resolved_object, 'testResolvedId')
         self.assertEqual(actual.resolved_receptacle, '')
@@ -787,7 +791,9 @@ class TestControllerOutputHandler(unittest.TestCase):
             mcs.ReturnStatus.SUCCESSFUL.value)
         self.assertEqual(actual.step_number, 0)
         self.assertEqual(actual.holes, [(0, 0), (1, 2), (9, 8)])
-        self.assertEqual(actual.lava, [(3, 3), (7, 5), (4, 6)])
+        self.assertEqual(actual.lava, [
+            (2.5, 2.5, 3.5, 3.5), (6.5, 4.5, 7.5, 5.5), (3.5, 5.5, 4.5, 6.5)
+        ])
         # Correct object metadata properties tested elsewhere
         self.assertEqual(len(actual.object_list), 2)
         self.assertEqual(len(actual.structural_object_list), 2)
@@ -842,7 +848,9 @@ class TestControllerOutputHandler(unittest.TestCase):
             mcs.ReturnStatus.SUCCESSFUL.value)
         self.assertEqual(actual.step_number, 0)
         self.assertEqual(actual.holes, [(0, 0), (1, 2), (9, 8)])
-        self.assertEqual(actual.lava, [(3, 3), (7, 5), (4, 6)])
+        self.assertEqual(actual.lava, [
+            (2.5, 2.5, 3.5, 3.5), (6.5, 4.5, 7.5, 5.5), (3.5, 5.5, 4.5, 6.5)
+        ])
         # Correct object metadata properties tested elsewhere
         self.assertEqual(len(actual.object_list), 2)
         self.assertEqual(len(actual.structural_object_list), 2)
@@ -860,6 +868,28 @@ class TestControllerOutputHandler(unittest.TestCase):
             numpy.array(
                 actual.object_mask_list[0]),
             object_mask_data)
+
+    def test_wrap_output_with_partition_floor(self):
+        self._config.set_metadata_tier(MetadataTier.ORACLE.value)
+        (
+            mock_scene_event_data,
+            image_data,
+            depth_data,
+            object_mask_data
+        ) = self.create_wrap_output_scene_event()
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+
+        coh = ControllerOutputHandler(self._config)
+        coh.set_scene_config(SceneConfiguration(
+            partition_floor=FloorPartitionConfig(
+                left_half=0.2,
+                right_half=0.8
+            ),
+            room_dimensions=Vector3d(x=30, y=3, z=20)
+        ))
+        (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
+
+        self.assertEqual(actual.lava, [(-15, 10, -12, -10), (3, 10, 15, -10)])
 
     def test_save_images(self):
         self._config.set_metadata_tier(

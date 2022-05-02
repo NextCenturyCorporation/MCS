@@ -19,7 +19,7 @@ ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES},display
 # ENV LANG C.UTF-8
 
 # --build-arg mcsversion=x.y.z to override default in docker build command
-ARG mcsversion=0.5.3
+ARG mcsversion=0.5.4
 ARG mcs_library_version=master
 
 WORKDIR /mcs

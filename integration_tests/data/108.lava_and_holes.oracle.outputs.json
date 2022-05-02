@@ -1,9 +1,33 @@
 ﻿[
     {
-        "haptic_feedback": {"on_lava": false},
+        "haptic_feedback": {
+            "on_lava": false
+        },
         "head_tilt": 40,
-        "holes": [[0, -1], [-1, 0]],
-        "lava": [[0, 1], [1, 0]],
+        "holes": [
+            [
+                0,
+                -1
+            ],
+            [
+                -1,
+                0
+            ]
+        ],
+        "lava": [
+            [
+                -0.5,
+                0.5,
+                0.5,
+                1.5
+            ],
+            [
+                0.5,
+                -0.5,
+                1.5,
+                0.5
+            ]
+        ],
         "objects_count": 0,
         "position_x": 0.0,
         "position_z": 0.0,
@@ -14,10 +38,34 @@
         "structural_objects_count": 55
     },
     {
-        "haptic_feedback": {"on_lava": false},
+        "haptic_feedback": {
+            "on_lava": false
+        },
         "head_tilt": 40,
-        "holes": [[0, -1], [-1, 0]],
-        "lava": [[0, 1], [1, 0]],
+        "holes": [
+            [
+                0,
+                -1
+            ],
+            [
+                -1,
+                0
+            ]
+        ],
+        "lava": [
+            [
+                -0.5,
+                0.5,
+                0.5,
+                1.5
+            ],
+            [
+                0.5,
+                -0.5,
+                1.5,
+                0.5
+            ]
+        ],
         "objects_count": 0,
         "position_x": 0.0,
         "position_z": 0.1,
@@ -28,10 +76,34 @@
         "structural_objects_count": 55
     },
     {
-        "haptic_feedback": {"on_lava": false},
+        "haptic_feedback": {
+            "on_lava": false
+        },
         "head_tilt": 40,
-        "holes": [[0, -1], [-1, 0]],
-        "lava": [[0, 1], [1, 0]],
+        "holes": [
+            [
+                0,
+                -1
+            ],
+            [
+                -1,
+                0
+            ]
+        ],
+        "lava": [
+            [
+                -0.5,
+                0.5,
+                0.5,
+                1.5
+            ],
+            [
+                0.5,
+                -0.5,
+                1.5,
+                0.5
+            ]
+        ],
         "objects_count": 0,
         "position_x": 0.0,
         "position_z": 0.2,
@@ -42,10 +114,34 @@
         "structural_objects_count": 55
     },
     {
-        "haptic_feedback": {"on_lava": false},
+        "haptic_feedback": {
+            "on_lava": false
+        },
         "head_tilt": 40,
-        "holes": [[0, -1], [-1, 0]],
-        "lava": [[0, 1], [1, 0]],
+        "holes": [
+            [
+                0,
+                -1
+            ],
+            [
+                -1,
+                0
+            ]
+        ],
+        "lava": [
+            [
+                -0.5,
+                0.5,
+                0.5,
+                1.5
+            ],
+            [
+                0.5,
+                -0.5,
+                1.5,
+                0.5
+            ]
+        ],
         "objects_count": 0,
         "position_x": 0.0,
         "position_z": 0.3,
@@ -56,10 +152,34 @@
         "structural_objects_count": 55
     },
     {
-        "haptic_feedback": {"on_lava": false},
+        "haptic_feedback": {
+            "on_lava": false
+        },
         "head_tilt": 40,
-        "holes": [[0, -1], [-1, 0]],
-        "lava": [[0, 1], [1, 0]],
+        "holes": [
+            [
+                0,
+                -1
+            ],
+            [
+                -1,
+                0
+            ]
+        ],
+        "lava": [
+            [
+                -0.5,
+                0.5,
+                0.5,
+                1.5
+            ],
+            [
+                0.5,
+                -0.5,
+                1.5,
+                0.5
+            ]
+        ],
         "objects_count": 0,
         "position_x": 0.0,
         "position_z": 0.4,
@@ -70,10 +190,34 @@
         "structural_objects_count": 55
     },
     {
-        "haptic_feedback": {"on_lava": true},
+        "haptic_feedback": {
+            "on_lava": true
+        },
         "head_tilt": 40,
-        "holes": [[0, -1], [-1, 0]],
-        "lava": [[0, 1], [1, 0]],
+        "holes": [
+            [
+                0,
+                -1
+            ],
+            [
+                -1,
+                0
+            ]
+        ],
+        "lava": [
+            [
+                -0.5,
+                0.5,
+                0.5,
+                1.5
+            ],
+            [
+                0.5,
+                -0.5,
+                1.5,
+                0.5
+            ]
+        ],
         "objects_count": 0,
         "position_x": 0.0,
         "position_z": 0.5,
@@ -84,10 +228,34 @@
         "structural_objects_count": 55
     },
     {
-        "haptic_feedback": {"on_lava": true},
+        "haptic_feedback": {
+            "on_lava": true
+        },
         "head_tilt": 40,
-        "holes": [[0, -1], [-1, 0]],
-        "lava": [[0, 1], [1, 0]],
+        "holes": [
+            [
+                0,
+                -1
+            ],
+            [
+                -1,
+                0
+            ]
+        ],
+        "lava": [
+            [
+                -0.5,
+                0.5,
+                0.5,
+                1.5
+            ],
+            [
+                0.5,
+                -0.5,
+                1.5,
+                0.5
+            ]
+        ],
         "objects_count": 0,
         "position_x": 0.0,
         "position_z": 0.6,

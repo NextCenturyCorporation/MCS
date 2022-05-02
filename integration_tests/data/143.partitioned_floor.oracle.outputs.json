@@ -1,0 +1,134 @@
+﻿[
+    {
+        "haptic_feedback": {
+            "on_lava": false
+        },
+        "head_tilt": 0,
+        "lava": [
+            [
+                -5.0,
+                5.0,
+                -1.0,
+                -5.0
+            ],
+            [
+                3.0,
+                5.0,
+                5.0,
+                -5.0
+            ]
+        ],
+        "objects_count": 0,
+        "position_x": -0.85,
+        "position_z": 0,
+        "return_status": "SUCCESSFUL",
+        "reward": 0,
+        "rotation_y": 0,
+        "step_number": 0,
+        "structural_objects": [
+            {
+                "direction_x": -0.5,
+                "direction_y": -0.86,
+                "direction_z": 0.0,
+                "distance": 4.36,
+                "id": "floorLeft",
+                "position_x": -3.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "red",
+                    "orange",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.44,
+                "direction_y": -0.9,
+                "direction_z": 0.0,
+                "distance": 4.17,
+                "id": "floorCenter",
+                "position_x": 1.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.79,
+                "direction_y": -0.62,
+                "direction_z": 0.0,
+                "distance": 6.1,
+                "id": "floorRight",
+                "position_x": 4.0,
+                "position_z": 0.0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "red",
+                    "orange",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "structural_objects_count": 9
+    },
+    {
+        "haptic_feedback": {
+            "on_lava": false
+        },
+        "head_tilt": 0,
+        "lava": [
+            [
+                -5.0,
+                5.0,
+                -1.0,
+                -5.0
+            ],
+            [
+                3.0,
+                5.0,
+                5.0,
+                -5.0
+            ]
+        ],
+        "objects_count": 0,
+        "position_x": -0.95,
+        "position_z": 0,
+        "return_status": "SUCCESSFUL",
+        "reward": -0.001,
+        "rotation_y": 0,
+        "step_number": 1,
+        "structural_objects_count": 9
+    },
+    {
+        "haptic_feedback": {
+            "on_lava": true
+        },
+        "head_tilt": 0,
+        "lava": [
+            [
+                -5.0,
+                5.0,
+                -1.0,
+                -5.0
+            ],
+            [
+                3.0,
+                5.0,
+                5.0,
+                -5.0
+            ]
+        ],
+        "objects_count": 0,
+        "position_x": -1.05,
+        "position_z": 0,
+        "return_status": "SUCCESSFUL",
+        "reward": -100.002,
+        "rotation_y": 0,
+        "step_number": 2,
+        "structural_objects_count": 9
+    }
+]
