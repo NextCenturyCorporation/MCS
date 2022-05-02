@@ -12,7 +12,7 @@ class Stringifier:
     which is why this is seperate from serialization
     """
 
-    NUMBER_OF_DECIMALS = 4
+    NUMBER_OF_DECIMALS = 6
     NUMBER_OF_SPACES = 4
 
     @staticmethod
