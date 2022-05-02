@@ -253,8 +253,7 @@ class TestTopDownPlotter(unittest.TestCase):
 
         self.assertAlmostEqual(robot.x, 2.70)
         self.assertAlmostEqual(robot.z, 3.14)
-        self.assertAlmostEqual(robot.heading.x, 0.19562952)
-        self.assertAlmostEqual(robot.heading.z, 0.04158233)
+        self.assertAlmostEqual(robot.rotation_y, 282)
 
     def test_create_robot_missing_position(self):
         robot_metadata = {
@@ -268,8 +267,7 @@ class TestTopDownPlotter(unittest.TestCase):
 
         self.assertAlmostEqual(robot.x, 0.0)
         self.assertAlmostEqual(robot.z, 0.0)
-        self.assertAlmostEqual(robot.heading.x, 0.19562952)
-        self.assertAlmostEqual(robot.heading.z, 0.04158233)
+        self.assertAlmostEqual(robot.rotation_y, 282)
 
     def test_create_robot_missing_rotation(self):
         robot_metadata = {
@@ -283,8 +281,7 @@ class TestTopDownPlotter(unittest.TestCase):
 
         self.assertAlmostEqual(robot.x, 2.70)
         self.assertAlmostEqual(robot.z, 3.14)
-        self.assertAlmostEqual(robot.heading.x, 0.0)
-        self.assertAlmostEqual(robot.heading.z, 0.2)
+        self.assertAlmostEqual(robot.rotation_y, 360)
 
     def test_create_object(self):
         object_metadata = {
@@ -827,20 +824,43 @@ class TestTopDownPlotter(unittest.TestCase):
         stat = ImageStat.Stat(diff)
         self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
 
-    def test_draw_agent(self):
-        goal = {'metadata': {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        }}
+    def test_draw_agent_facing_angled(self):
         scene_config = SceneConfiguration(
             name="testscene",
             version=1,
-            goal=goal,
-            room_dimensions=Vector3d(
-                x=10,
-                y=3,
-                z=10),
+            goal={},
+            room_dimensions=Vector3d(x=10, y=3, z=10),
+            lava=[]
+        )
+        robot_metadata = {
+            'position': {'x': 1, 'y': 0, 'z': 2},
+            'rotation': {'x': 0, 'y': 135, 'z': 0}
+        }
+
+        plotter = TopDownPlotter(team="test", scene_config=scene_config)
+        img = plotter.base_room_img.copy()
+        img = plotter._draw_robot(img, robot_metadata=robot_metadata)
+        agent_img = plotter._export_plot(img)
+        # save image to resources folder in the event of plotter changes
+        # agent_img.save(
+        #     os.path.join(resources_path, 'plotter_agent_angle.png')
+        # )
+
+        # read image from resources folder
+        truth_img = Image.open(
+            os.path.join(resources_path, 'plotter_agent_angle.png')
+        )
+        # calculate image difference
+        diff = ImageChops.difference(agent_img, truth_img)
+        stat = ImageStat.Stat(diff)
+        self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
+
+    def test_draw_agent_facing_front(self):
+        scene_config = SceneConfiguration(
+            name="testscene",
+            version=1,
+            goal={},
+            room_dimensions=Vector3d(x=10, y=3, z=10),
             lava=[]
         )
         robot_metadata = {
@@ -848,22 +868,50 @@ class TestTopDownPlotter(unittest.TestCase):
             'rotation': {'x': 0, 'y': 0, 'z': 0}
         }
 
-        plotter = TopDownPlotter(
-            team="test",
-            scene_config=scene_config)
+        plotter = TopDownPlotter(team="test", scene_config=scene_config)
         img = plotter.base_room_img.copy()
         img = plotter._draw_robot(img, robot_metadata=robot_metadata)
         agent_img = plotter._export_plot(img)
         # save image to resources folder in the event of plotter changes
-        # agent_img.save(os.path.join(
-        #     resources_path,
-        #     'plotter_agent.png'))
+        # agent_img.save(
+        #     os.path.join(resources_path, 'plotter_agent_front.png')
+        # )
 
         # read image from resources folder
         truth_img = Image.open(
-            os.path.join(
-                resources_path,
-                'plotter_agent.png'))
+            os.path.join(resources_path, 'plotter_agent_front.png')
+        )
+        # calculate image difference
+        diff = ImageChops.difference(agent_img, truth_img)
+        stat = ImageStat.Stat(diff)
+        self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
+
+    def test_draw_agent_facing_left(self):
+        scene_config = SceneConfiguration(
+            name="testscene",
+            version=1,
+            goal={},
+            room_dimensions=Vector3d(x=10, y=3, z=10),
+            lava=[]
+        )
+        robot_metadata = {
+            'position': {'x': 1, 'y': 0, 'z': 2},
+            'rotation': {'x': 0, 'y': -90, 'z': 0}
+        }
+
+        plotter = TopDownPlotter(team="test", scene_config=scene_config)
+        img = plotter.base_room_img.copy()
+        img = plotter._draw_robot(img, robot_metadata=robot_metadata)
+        agent_img = plotter._export_plot(img)
+        # save image to resources folder in the event of plotter changes
+        # agent_img.save(
+        #     os.path.join(resources_path, 'plotter_agent_left.png')
+        # )
+
+        # read image from resources folder
+        truth_img = Image.open(
+            os.path.join(resources_path, 'plotter_agent_left.png')
+        )
         # calculate image difference
         diff = ImageChops.difference(agent_img, truth_img)
         stat = ImageStat.Stat(diff)
@@ -905,20 +953,138 @@ class TestTopDownPlotter(unittest.TestCase):
             team="test",
             scene_config=scene_config)
         img = plotter.base_room_img.copy()
-        img = plotter._draw_object(img, obj)
-        img = plotter._draw_goal(
-            img, obj)
+        img = plotter._draw_goal(img, obj)
         goal_img = plotter._export_plot(img)
         # save image to resources folder in the event of plotter changes
-        # goal_img.save(os.path.join(
-        #     resources_path,
-        #     'plotter_goal.png'))
+        # goal_img.save(os.path.join(resources_path, 'plotter_goal.png'))
 
         # read image from resources folder
         truth_img = Image.open(
             os.path.join(
                 resources_path,
                 'plotter_goal.png'))
+        # calculate image difference
+        diff = ImageChops.difference(goal_img, truth_img)
+        stat = ImageStat.Stat(diff)
+        self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
+
+    def test_draw_goal_object_greyscale(self):
+        scene_config = SceneConfiguration(
+            name="testscene",
+            version=1,
+            goal={},
+            room_dimensions=Vector3d(x=10, y=3, z=10),
+            lava=[]
+        )
+        obj = SceneAsset(
+            held=False,
+            visible=True,
+            uuid='1',
+            color='white',
+            bounds=SceneBounds([SceneCoord(**pt) for pt in [
+                {'x': -1, 'y': 0, 'z': -1},
+                {'x': -1.5, 'y': 0, 'z': -1},
+                {'x': -1.5, 'y': 0, 'z': -1.5},
+                {'x': -1, 'y': 0, 'z': -1.5},
+                {'x': -1, 'y': 0.22, 'z': -1},
+                {'x': -1.5, 'y': 0.22, 'z': -1},
+                {'x': -1.5, 'y': 0.22, 'z': -1.5},
+                {'x': -1, 'y': 0.22, 'z': -1.5}
+            ]]))
+
+        plotter = TopDownPlotter(team="test", scene_config=scene_config)
+        img = plotter.base_room_img.copy()
+        img = plotter._draw_goal(img, obj)
+        goal_img = plotter._export_plot(img)
+        # save image to resources folder in the event of plotter changes
+        # goal_img.save(os.path.join(resources_path, 'plotter_goal_white.png'))
+
+        # read image from resources folder
+        truth_img = Image.open(
+            os.path.join(resources_path, 'plotter_goal_white.png')
+        )
+        # calculate image difference
+        diff = ImageChops.difference(goal_img, truth_img)
+        stat = ImageStat.Stat(diff)
+        self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
+
+    def test_draw_goal_object_angled(self):
+        scene_config = SceneConfiguration(
+            name="testscene",
+            version=1,
+            goal={},
+            room_dimensions=Vector3d(x=10, y=3, z=10),
+            lava=[]
+        )
+        obj = SceneAsset(
+            held=False,
+            visible=True,
+            uuid='1',
+            color='blue',
+            bounds=SceneBounds([SceneCoord(**pt) for pt in [
+                {'x': 0.5, 'y': 0, 'z': 0},
+                {'x': 0, 'y': 0, 'z': -0.5},
+                {'x': -0.5, 'y': 0, 'z': 0},
+                {'x': 0, 'y': 0, 'z': 0.5},
+                {'x': 0.5, 'y': 0.22, 'z': 0},
+                {'x': 0, 'y': 0.22, 'z': -0.5},
+                {'x': -0.5, 'y': 0.22, 'z': 0},
+                {'x': 0, 'y': 0.22, 'z': 0.5}
+            ]]))
+
+        plotter = TopDownPlotter(team="test", scene_config=scene_config)
+        img = plotter.base_room_img.copy()
+        img = plotter._draw_goal(img, obj)
+        goal_img = plotter._export_plot(img)
+        # save image to resources folder in the event of plotter changes
+        # goal_img.save(os.path.join(resources_path, 'plotter_goal_angle.png'))
+
+        # read image from resources folder
+        truth_img = Image.open(
+            os.path.join(resources_path, 'plotter_goal_angle.png')
+        )
+        # calculate image difference
+        diff = ImageChops.difference(goal_img, truth_img)
+        stat = ImageStat.Stat(diff)
+        self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
+
+    def test_draw_goal_object_hidden(self):
+        scene_config = SceneConfiguration(
+            name="testscene",
+            version=1,
+            goal={},
+            room_dimensions=Vector3d(x=10, y=3, z=10),
+            lava=[]
+        )
+        obj = SceneAsset(
+            held=False,
+            visible=False,
+            uuid='1',
+            color='blue',
+            bounds=SceneBounds([SceneCoord(**pt) for pt in [
+                {'x': 0.5, 'y': 0, 'z': 0},
+                {'x': 0, 'y': 0, 'z': -0.5},
+                {'x': -0.5, 'y': 0, 'z': 0},
+                {'x': 0, 'y': 0, 'z': 0.5},
+                {'x': 0.5, 'y': 0.22, 'z': 0},
+                {'x': 0, 'y': 0.22, 'z': -0.5},
+                {'x': -0.5, 'y': 0.22, 'z': 0},
+                {'x': 0, 'y': 0.22, 'z': 0.5}
+            ]]))
+
+        plotter = TopDownPlotter(team="test", scene_config=scene_config)
+        img = plotter.base_room_img.copy()
+        img = plotter._draw_goal(img, obj)
+        goal_img = plotter._export_plot(img)
+        # save image to resources folder in the event of plotter changes
+        # goal_img.save(
+        #     os.path.join(resources_path, 'plotter_goal_hidden.png')
+        # )
+
+        # read image from resources folder
+        truth_img = Image.open(
+            os.path.join(resources_path, 'plotter_goal_hidden.png')
+        )
         # calculate image difference
         diff = ImageChops.difference(goal_img, truth_img)
         stat = ImageStat.Stat(diff)
@@ -977,6 +1143,48 @@ class TestTopDownPlotter(unittest.TestCase):
         stat = ImageStat.Stat(diff)
         self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
 
+    def test_draw_visible_object_angled(self):
+        scene_config = SceneConfiguration(
+            name="testscene",
+            version=1,
+            goal={},
+            room_dimensions=Vector3d(x=10, y=3, z=10),
+            lava=[]
+        )
+        obj = SceneAsset(
+            held=False,
+            visible=True,
+            uuid='1',
+            color='brown',
+            bounds=SceneBounds([SceneCoord(**pt) for pt in [
+                {'x': 2, 'y': 0, 'z': 1},
+                {'x': -1, 'y': 0, 'z': -2},
+                {'x': -2, 'y': 0, 'z': -1},
+                {'x': 1, 'y': 0, 'z': 2},
+                {'x': 2, 'y': 0.22, 'z': 1},
+                {'x': -1, 'y': 0.22, 'z': -2},
+                {'x': -2, 'y': 0.22, 'z': -1},
+                {'x': 1, 'y': 0.22, 'z': 2}
+            ]]))
+
+        plotter = TopDownPlotter(team="test", scene_config=scene_config)
+        img = plotter.base_room_img.copy()
+        img = plotter._draw_object(img, obj)
+        visible_object_img = plotter._export_plot(img)
+        # save image to resources folder in the event of plotter changes
+        # visible_object_img.save(
+        #     os.path.join(resources_path, 'plotter_visible_object_angle.png')
+        # )
+
+        # read image from resources folder
+        truth_img = Image.open(
+            os.path.join(resources_path, 'plotter_visible_object_angle.png')
+        )
+        # calculate image difference
+        diff = ImageChops.difference(visible_object_img, truth_img)
+        stat = ImageStat.Stat(diff)
+        self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
+
     def test_draw_hidden_object(self):
         goal = {'metadata': {
             'target': {'image': [0]},
@@ -1025,6 +1233,48 @@ class TestTopDownPlotter(unittest.TestCase):
             os.path.join(
                 resources_path,
                 'plotter_hidden_object.png'))
+        # calculate image difference
+        diff = ImageChops.difference(hidden_object_img, truth_img)
+        stat = ImageStat.Stat(diff)
+        self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
+
+    def test_draw_hidden_object_angled(self):
+        scene_config = SceneConfiguration(
+            name="testscene",
+            version=1,
+            goal={},
+            room_dimensions=Vector3d(x=10, y=3, z=10),
+            lava=[]
+        )
+        obj = SceneAsset(
+            held=False,
+            visible=False,
+            uuid='1',
+            color='brown',
+            bounds=SceneBounds([SceneCoord(**pt) for pt in [
+                {'x': 2, 'y': 0, 'z': 1},
+                {'x': -1, 'y': 0, 'z': -2},
+                {'x': -2, 'y': 0, 'z': -1},
+                {'x': 1, 'y': 0, 'z': 2},
+                {'x': 2, 'y': 0.22, 'z': 1},
+                {'x': -1, 'y': 0.22, 'z': -2},
+                {'x': -2, 'y': 0.22, 'z': -1},
+                {'x': 1, 'y': 0.22, 'z': 2}
+            ]]))
+
+        plotter = TopDownPlotter(team="test", scene_config=scene_config)
+        img = plotter.base_room_img.copy()
+        img = plotter._draw_object(img, obj)
+        hidden_object_img = plotter._export_plot(img)
+        # save image to resources folder in the event of plotter changes
+        # hidden_object_img.save(
+        #     os.path.join(resources_path, 'plotter_hidden_object_angle.png')
+        # )
+
+        # read image from resources folder
+        truth_img = Image.open(
+            os.path.join(resources_path, 'plotter_hidden_object_angle.png')
+        )
         # calculate image difference
         diff = ImageChops.difference(hidden_object_img, truth_img)
         stat = ImageStat.Stat(diff)
@@ -1141,6 +1391,10 @@ class TestTopDownPlotter(unittest.TestCase):
         diff = ImageChops.difference(ramp_img, truth_img)
         stat = ImageStat.Stat(diff)
         self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
+
+    def test_find_opposite_color(self):
+        color = self.plotter._find_opposite_color((0, 128, 255))
+        self.assertTupleEqual(color, (255, 127, 0))
 
 
 if __name__ == '__main__':
