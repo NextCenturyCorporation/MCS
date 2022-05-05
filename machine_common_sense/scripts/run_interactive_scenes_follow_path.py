@@ -16,24 +16,34 @@ def action_callback(scene_data, step_metadata, runner_script):
         scene_name = scene_data['name']
         waypoint_index = 0
 
-    path = scene_data.get('debug').get('path')
+    path = scene_data.get('debug', {}).get('path')
     if not path:
         print("Scene did not have 'debug.path' section")
         return None, None
 
-    if waypoint_index >= len(path):
+    if not step_metadata.position:
+        print("No position provided.  Oracle metadata is required for this"
+              " script.")
         return None, None
+
     waypoint = path[waypoint_index]
     sq_dist, delta_angle = get_deltas(step_metadata, waypoint)
-    print(f"DELTA_ANGLE: {delta_angle} dist: {sq_dist}")
-    if sq_dist < MAX_DISTANCE**2:
+    while sq_dist < MAX_DISTANCE**2:
         waypoint_index += 1
-        action = 'Pass'
-    elif abs(delta_angle) > MAX_DELTA_ANGLE:
-        action = 'RotateLeft' if delta_angle > 0 else 'RotateRight'
-    else:
-        action = 'MoveAhead'
+        if waypoint_index >= len(path):
+            return None, None
+        waypoint = path[waypoint_index]
+        sq_dist, delta_angle = get_deltas(step_metadata, waypoint)
+
+    action = get_waypoint_action(delta_angle)
     return action, {}
+
+
+def get_waypoint_action(delta_angle):
+    if abs(delta_angle) > MAX_DELTA_ANGLE:
+        return 'RotateLeft' if delta_angle > 0 else 'RotateRight'
+    else:
+        return 'MoveAhead'
 
 
 def get_deltas(previous_output, waypoint):
