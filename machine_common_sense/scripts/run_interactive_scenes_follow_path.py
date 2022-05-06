@@ -25,7 +25,8 @@ def action_callback(scene_data, step_metadata, runner_script):
         print("No position provided.  Oracle metadata is required for this"
               " script.")
         return None, None
-
+    if len(step_metadata.action_list) == 1:
+        return step_metadata.action_list[0]
     waypoint = path[waypoint_index]
     sq_dist, delta_angle = get_deltas(step_metadata, waypoint)
     while sq_dist < MAX_DISTANCE**2:
