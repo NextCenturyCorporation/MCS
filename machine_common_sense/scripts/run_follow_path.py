@@ -43,8 +43,8 @@ def run_scene(controller: Controller, scene_data, path):
     for waypoint in path:
         sq_dist, delta_angle = get_deltas(previous_output, waypoint)
         while sq_dist > MAX_DISTANCE ** 2:
-            action = get_waypoint_action(delta_angle)
-            output = controller.step(action, **{})
+            action = get_waypoint_action(delta_angle, previous_output)
+            output = controller.step(action[0], **action[1])
             previous_output = output
             sq_dist, delta_angle = get_deltas(previous_output, waypoint)
 

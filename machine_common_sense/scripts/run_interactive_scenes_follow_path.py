@@ -25,8 +25,6 @@ def action_callback(scene_data, step_metadata, runner_script):
         print("No position provided.  Oracle metadata is required for this"
               " script.")
         return None, None
-    if len(step_metadata.action_list) == 1:
-        return step_metadata.action_list[0]
     waypoint = path[waypoint_index]
     sq_dist, delta_angle = get_deltas(step_metadata, waypoint)
     while sq_dist < MAX_DISTANCE**2:
@@ -36,15 +34,20 @@ def action_callback(scene_data, step_metadata, runner_script):
         waypoint = path[waypoint_index]
         sq_dist, delta_angle = get_deltas(step_metadata, waypoint)
 
-    action = get_waypoint_action(delta_angle)
-    return action, {}
+    action = get_waypoint_action(delta_angle, step_metadata)
+    return action
 
 
-def get_waypoint_action(delta_angle):
+def get_waypoint_action(delta_angle, step_metadata):
+    if len(step_metadata.action_list) == 1:
+        return step_metadata.action_list[0]
+    if step_metadata.return_status == 'OBSTRUCTED':
+        return 'OpenObject', {
+            'objectImageCoordsX': 160, 'objectImageCoordsY': 120}
     if abs(delta_angle) > MAX_DELTA_ANGLE:
-        return 'RotateLeft' if delta_angle > 0 else 'RotateRight'
+        return ('RotateLeft' if delta_angle > 0 else 'RotateRight', {})
     else:
-        return 'MoveAhead'
+        return ('MoveAhead', {})
 
 
 def get_deltas(previous_output, waypoint):
