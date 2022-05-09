@@ -3,8 +3,8 @@ import argparse
 import machine_common_sense as mcs
 from machine_common_sense.controller import Controller
 from machine_common_sense.logging_config import LoggingConfig
-from machine_common_sense.scripts.run_interactive_scenes_follow_path import (
-    MAX_DISTANCE, get_deltas, get_waypoint_action)
+from machine_common_sense.scripts.run_interactive_scenes_follow_path import \
+    PathFollower
 
 commands = []
 
@@ -35,18 +35,19 @@ def parse_args():
     return parser.parse_args()
 
 
+path_follower = PathFollower()
+
+
 def run_scene(controller: Controller, scene_data, path):
 
     print("Resetting the current scene...")
-    previous_output = controller.start_scene(scene_data)
+    output = controller.start_scene(scene_data)
 
-    for waypoint in path:
-        sq_dist, delta_angle = get_deltas(previous_output, waypoint)
-        while sq_dist > MAX_DISTANCE ** 2:
-            action = get_waypoint_action(delta_angle, previous_output)
-            output = controller.step(action[0], **action[1])
-            previous_output = output
-            sq_dist, delta_angle = get_deltas(previous_output, waypoint)
+    action = 'start'
+    while action is not None:
+        action, params = path_follower.action_callback(
+            scene_data, output, None)
+        controller.step(action, **params)
 
     controller.end_scene()
 
@@ -66,9 +67,7 @@ def main():
         config_file_or_dict=args.config_file_path,
         unity_cache_version=args.mcs_unity_version)
 
-    if controller.get_metadata_level() != 'oracle':
-        print(f"Follow path requires 'oracle' metadata level.  Current "
-              f"metadata level is {controller.get_metadata_level()}")
+    path_follower.init_callback(controller)
 
     scene_file_path = args.mcs_scene_json_file
     scene_file_name = scene_file_path[scene_file_path.rfind('/') + 1:]

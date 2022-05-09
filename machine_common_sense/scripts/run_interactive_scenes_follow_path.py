@@ -2,40 +2,12 @@ import math
 
 from runner_script import MultipleFileRunnerScript
 
-waypoint_index = 0
-scene_name = ""
+from machine_common_sense.controller import Controller
+from machine_common_sense.controller_events import (
+    AbstractControllerSubscriber, ControllerEventPayload)
+
 MAX_DISTANCE = 0.06
 MAX_DELTA_ANGLE = 11
-
-
-def action_callback(scene_data, step_metadata, runner_script):
-
-    global waypoint_index
-    global scene_name
-    if scene_data['name'] != scene_name:
-        scene_name = scene_data['name']
-        waypoint_index = 0
-
-    path = scene_data.get('debug', {}).get('path')
-    if not path:
-        print("Scene did not have 'debug.path' section")
-        return None, None
-
-    if not step_metadata.position:
-        print("No position provided.  Oracle metadata is required for this"
-              " script.")
-        return None, None
-    waypoint = path[waypoint_index]
-    sq_dist, delta_angle = get_deltas(step_metadata, waypoint)
-    while sq_dist < MAX_DISTANCE**2:
-        waypoint_index += 1
-        if waypoint_index >= len(path):
-            return None, None
-        waypoint = path[waypoint_index]
-        sq_dist, delta_angle = get_deltas(step_metadata, waypoint)
-
-    action = get_waypoint_action(delta_angle, step_metadata)
-    return action
 
 
 def get_waypoint_action(delta_angle, step_metadata):
@@ -62,10 +34,53 @@ def get_deltas(previous_output, waypoint):
     return square_distance, delta_angle
 
 
+class PathFollower(AbstractControllerSubscriber):
+    waypoint_index = 0
+
+    scene_name = ""
+
+    def on_start_scene(self, payload: ControllerEventPayload):
+        self.previous_output = payload.step_output
+
+    def on_after_step(self, payload: ControllerEventPayload):
+        self.previous_output = payload.step_output
+
+    def init_callback(self, controller: Controller):
+        controller.subscribe(self)
+
+    def action_callback(self, scene_data, step_metadata, runner_script):
+        step_metadata = self.previous_output
+        if scene_data['name'] != self.scene_name:
+            self.scene_name = scene_data['name']
+            self.waypoint_index = 0
+
+        path = scene_data.get('debug', {}).get('path')
+        if not path:
+            print("Scene did not have 'debug.path' section")
+            return None, None
+
+        if not step_metadata.position:
+            print("No position provided.")
+            return None, None
+        waypoint = path[self.waypoint_index]
+        sq_dist, delta_angle = get_deltas(step_metadata, waypoint)
+        while sq_dist < MAX_DISTANCE**2:
+            self.waypoint_index += 1
+            if self.waypoint_index >= len(path):
+                return None, None
+            waypoint = path[self.waypoint_index]
+            sq_dist, delta_angle = get_deltas(step_metadata, waypoint)
+
+        return get_waypoint_action(delta_angle, step_metadata)
+
+
+follower = PathFollower()
+
+
 def main():
     MultipleFileRunnerScript(
         'Interactive Scenes - Follow Path',
-        action_callback)
+        follower.action_callback, follower.init_callback)
 
 
 if __name__ == "__main__":

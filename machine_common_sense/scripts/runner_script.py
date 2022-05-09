@@ -6,6 +6,7 @@ import subprocess
 from typing import Callable, Dict, List, Tuple
 
 import machine_common_sense as mcs
+from machine_common_sense.controller import Controller
 
 logger = logging.getLogger('machine_common_sense')
 mcs.LoggingConfig.init_logging(mcs.LoggingConfig.get_dev_logging_config())
@@ -22,7 +23,8 @@ class AbstractRunnerScript():
         action_callback: Callable[
             [Dict, mcs.StepMetadata, 'AbstractRunnerScript'],
             Tuple[str, Dict]
-        ]
+        ],
+        init_callback: Callable[[Controller], None] = None
     ):
         self._name = name
         args, filenames = self._read_args()
@@ -51,6 +53,9 @@ class AbstractRunnerScript():
             unity_cache_version=args.mcs_unity_version,
             config_file_or_dict=config_file_path
         )
+
+        if init_callback is not None:
+            init_callback(controller)
 
         for filename in filenames:
             scene_name = self.run_scene(
@@ -254,9 +259,10 @@ class MultipleFileRunnerScript(AbstractRunnerScript):
         action_callback: Callable[
             [Dict, mcs.StepMetadata, 'AbstractRunnerScript'],
             Tuple[str, Dict]
-        ]
+        ],
+        init_callback: Callable[[Controller], None] = None
     ):
-        super().__init__(name, action_callback)
+        super().__init__(name, action_callback, init_callback)
         if self.args.zip_prefix:
             for file_type in (
                 (['mp4'] if self.args.save_videos else []) +
