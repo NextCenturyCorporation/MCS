@@ -1993,12 +1993,6 @@ Tie Material Options
 Agent Actions
 =============
 
-Custom Animations
-***********************
-
-- TPF_freeze
-- TPM_freeze
-
 Unrestricted Animations
 ***********************
 
@@ -2014,6 +2008,7 @@ Elder Animations
 - TPE_clap
 - TPE_cry
 - TPE_freefall
+- TPE_freeze
 - TPE_hitbackwards
 - TPE_hitforward
 - TPE_idle1
@@ -2075,6 +2070,7 @@ Female Animations
 - TPF_fallforwardIN
 - TPF_fallforwardOUT
 - TPF_freefall
+- TPF_freeze
 - TPF_hitbackwards
 - TPF_hitforward
 - TPF_idle1
@@ -2124,7 +2120,7 @@ Female Animations
 - TPF_turnR90
 - TPF_walk
 - TPF_walkbackwards
-- TPF_wavezz
+- TPF_wave
 
 Male Animations
 ***************
@@ -2139,6 +2135,7 @@ Male Animations
 - TPM_fallforwardIN
 - TPM_fallforwardOUT
 - TPM_freefall
+- TPM_freeze
 - TPM_hitbackwards
 - TPM_hitforward
 - TPM_idle1
