@@ -1993,6 +1993,12 @@ Tie Material Options
 Agent Actions
 =============
 
+Custom Animations
+***********************
+
+- TPF_freeze
+- TPM_freeze
+
 Unrestricted Animations
 ***********************
 
@@ -2118,7 +2124,7 @@ Female Animations
 - TPF_turnR90
 - TPF_walk
 - TPF_walkbackwards
-- TPF_wave
+- TPF_wavezz
 
 Male Animations
 ***************
