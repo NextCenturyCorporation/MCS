@@ -7,7 +7,7 @@ from .controller_media import (DepthImageEventHandler, DepthVideoEventHandler,
                                ObjectMaskImageEventHandler,
                                SceneImageEventHandler,
                                SegmentationVideoEventHandler,
-                               TopdownVideoEventHandler)
+                               UnityTopdownCameraCombinerEventHandler)
 from .history_writer import HistoryEventHandler
 
 
@@ -26,7 +26,7 @@ def add_subscribers(controller: Controller, config: ConfigManager):
             controller.subscribe(ObjectMaskImageEventHandler())
     if config.is_video_enabled():
         controller.subscribe(ImageVideoEventHandler())
-        controller.subscribe(TopdownVideoEventHandler())
+        controller.subscribe(UnityTopdownCameraCombinerEventHandler())
         if (config.is_depth_maps_enabled()):
             controller.subscribe(DepthVideoEventHandler())
         if (config.is_object_masks_enabled()):
