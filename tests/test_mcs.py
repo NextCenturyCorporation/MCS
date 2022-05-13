@@ -6,7 +6,7 @@ from machine_common_sense.controller_logger import ControllerLogger
 from machine_common_sense.controller_media import (
     DepthImageEventHandler, DepthVideoEventHandler, ImageVideoEventHandler,
     ObjectMaskImageEventHandler, SceneImageEventHandler,
-    SegmentationVideoEventHandler, TopdownVideoEventHandler)
+    SegmentationVideoEventHandler, UnityTopdownCameraCombinerEventHandler)
 from machine_common_sense.history_writer import HistoryEventHandler
 from machine_common_sense.subscriber import add_subscribers
 
@@ -72,7 +72,8 @@ class TestMCS(unittest.TestCase):
         self.assertEqual(len(ctrl._subscribers), 4)
         self.assertTrue(any([isinstance(subscriber, ImageVideoEventHandler)
                              for subscriber in ctrl._subscribers]))
-        self.assertTrue(any([isinstance(subscriber, TopdownVideoEventHandler)
+        self.assertTrue(any([isinstance(subscriber,
+                                        UnityTopdownCameraCombinerEventHandler)
                              for subscriber in ctrl._subscribers]))
         self.assertTrue(any([isinstance(subscriber, ControllerLogger)
                              for subscriber in ctrl._subscribers]))
@@ -88,7 +89,8 @@ class TestMCS(unittest.TestCase):
         self.assertEqual(len(ctrl._subscribers), 5)
         self.assertTrue(any([isinstance(subscriber, ImageVideoEventHandler)
                              for subscriber in ctrl._subscribers]))
-        self.assertTrue(any([isinstance(subscriber, TopdownVideoEventHandler)
+        self.assertTrue(any([isinstance(subscriber,
+                                        UnityTopdownCameraCombinerEventHandler)
                              for subscriber in ctrl._subscribers]))
         self.assertTrue(any([isinstance(subscriber,
                                         SegmentationVideoEventHandler)
@@ -142,7 +144,8 @@ class TestMCS(unittest.TestCase):
         self.assertEqual(len(ctrl._subscribers), 6)
         self.assertTrue(any([isinstance(subscriber, ImageVideoEventHandler)
                              for subscriber in ctrl._subscribers]))
-        self.assertTrue(any([isinstance(subscriber, TopdownVideoEventHandler)
+        self.assertTrue(any([isinstance(subscriber,
+                                        UnityTopdownCameraCombinerEventHandler)
                              for subscriber in ctrl._subscribers]))
         self.assertTrue(any([isinstance(subscriber, DepthVideoEventHandler)
                              for subscriber in ctrl._subscribers]))
@@ -170,7 +173,8 @@ class TestMCS(unittest.TestCase):
                              for subscriber in ctrl._subscribers]))
         self.assertTrue(any([isinstance(subscriber, ImageVideoEventHandler)
                              for subscriber in ctrl._subscribers]))
-        self.assertTrue(any([isinstance(subscriber, TopdownVideoEventHandler)
+        self.assertTrue(any([isinstance(subscriber,
+                                        UnityTopdownCameraCombinerEventHandler)
                              for subscriber in ctrl._subscribers]))
         self.assertTrue(any([isinstance(subscriber, DepthVideoEventHandler)
                              for subscriber in ctrl._subscribers]))
