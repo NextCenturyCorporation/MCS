@@ -6,11 +6,11 @@ from machine_common_sense import LoggingConfig
 class TestLoggingConfig(unittest.TestCase):
     def test_logging_config(self):
         cfg = LoggingConfig.get_configurable_logging_config(
-            'INFO', ['l1', 'l2'], False, False, True)
+            'INFO', ['l1', 'l2'], False, False, True, root_log_level='ERROR')
         root = cfg['root']
         loggers = cfg['loggers']
         handlers = cfg['handlers']
-        self.assertEqual(root['level'], 'INFO')
+        self.assertEqual(root['level'], 'ERROR')
         self.assertEqual(len(loggers), 2)
         self.assertEqual(len(handlers), 1)
         self.assertIn("l1", loggers)
@@ -30,7 +30,7 @@ class TestLoggingConfig(unittest.TestCase):
         root = cfg['root']
         loggers = cfg['loggers']
         handlers = cfg['handlers']
-        self.assertEqual(root['level'], 'ERROR')
+        self.assertEqual(root['level'], 'WARN')
         self.assertEqual(len(loggers), 1)
         self.assertEqual(len(handlers), 2)
         self.assertIn("l1", loggers)
