@@ -36,7 +36,7 @@ class TestHistoryEventHandler(unittest.TestCase):
 
     def test_on_start_scene(self):
         test_payload = {
-            "step_number": 1,
+            "step_number": 0,
             "config": self.config_mngr,
             "scene_config": self.scene_config,
             "output_folder": None,
@@ -55,8 +55,19 @@ class TestHistoryEventHandler(unittest.TestCase):
 
         self.assertIsNotNone(
             self.histEvents._HistoryEventHandler__history_writer)
-        self.assertIsNotNone(
+        writer: HistoryWriter = (
             self.histEvents._HistoryEventHandler__history_writer)
+        self.assertIsNotNone(writer.current_steps)
+        step = writer.current_steps[0]
+        self.assertEqual(step['step'], 0)
+        self.assertEqual(step['action'], 'Initialize')
+        self.assertEqual(step['args'], {})
+
+        self.assertIsNotNone(step['output'])
+
+        self.assertIsNone(step['params'])
+        self.assertIsNone(step['classification'])
+        self.assertIsNone(step['confidence'])
 
     def test_on_start_scene_hist_not_enabled(self):
         self.config_mngr._config[
