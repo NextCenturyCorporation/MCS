@@ -134,7 +134,8 @@ class LoggingConfig():
             info_file: bool = False,
             log_file_name: str = "mcs",
             file_format: str = 'precise',
-            console_format: str = 'brief'):
+            console_format: str = 'brief',
+            root_log_level: str = 'WARN'):
         """[summary]
 
         Args:
@@ -218,7 +219,7 @@ class LoggingConfig():
         return {
             "version": 1,
             "root": {
-                "level": log_level,
+                "level": root_log_level,
                 "handlers": handler_tags,
                 "propagate": False
             },

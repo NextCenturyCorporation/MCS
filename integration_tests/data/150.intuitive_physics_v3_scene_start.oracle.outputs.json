@@ -27,13 +27,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.89,
-                "direction_z": -0.45,
-                "distance": 1.68,
+                "direction_y": 0.52,
+                "direction_z": -0.85,
+                "distance": 6.73,
                 "held": false,
                 "id": "wall_back",
                 "position_x": 0.0,
-                "position_z": -5.25,
+                "position_z": -10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -42,13 +42,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.15,
-                "direction_z": 0.99,
-                "distance": 9.86,
+                "direction_y": 0.23,
+                "direction_z": 0.97,
+                "distance": 15.16,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
-                "position_z": 5.25,
+                "position_z": 10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -56,13 +56,13 @@
                 "visible": true
             },
             {
-                "direction_x": -0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": -0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_left",
-                "position_x": -7.75,
+                "position_x": -10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -71,13 +71,13 @@
                 "visible": true
             },
             {
-                "direction_x": 0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": 0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_right",
-                "position_x": 7.75,
+                "position_x": 10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -146,13 +146,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.89,
-                "direction_z": -0.45,
-                "distance": 1.68,
+                "direction_y": 0.52,
+                "direction_z": -0.85,
+                "distance": 6.73,
                 "held": false,
                 "id": "wall_back",
                 "position_x": 0.0,
-                "position_z": -5.25,
+                "position_z": -10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -161,13 +161,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.15,
-                "direction_z": 0.99,
-                "distance": 9.86,
+                "direction_y": 0.23,
+                "direction_z": 0.97,
+                "distance": 15.16,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
-                "position_z": 5.25,
+                "position_z": 10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -175,13 +175,13 @@
                 "visible": true
             },
             {
-                "direction_x": -0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": -0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_left",
-                "position_x": -7.75,
+                "position_x": -10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -190,13 +190,13 @@
                 "visible": true
             },
             {
-                "direction_x": 0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": 0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_right",
-                "position_x": 7.75,
+                "position_x": 10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -265,13 +265,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.89,
-                "direction_z": -0.45,
-                "distance": 1.68,
+                "direction_y": 0.52,
+                "direction_z": -0.85,
+                "distance": 6.73,
                 "held": false,
                 "id": "wall_back",
                 "position_x": 0.0,
-                "position_z": -5.25,
+                "position_z": -10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -280,13 +280,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.15,
-                "direction_z": 0.99,
-                "distance": 9.86,
+                "direction_y": 0.23,
+                "direction_z": 0.97,
+                "distance": 15.16,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
-                "position_z": 5.25,
+                "position_z": 10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -294,13 +294,13 @@
                 "visible": true
             },
             {
-                "direction_x": -0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": -0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_left",
-                "position_x": -7.75,
+                "position_x": -10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -309,13 +309,13 @@
                 "visible": true
             },
             {
-                "direction_x": 0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": 0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_right",
-                "position_x": 7.75,
+                "position_x": 10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -384,13 +384,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.89,
-                "direction_z": -0.45,
-                "distance": 1.68,
+                "direction_y": 0.52,
+                "direction_z": -0.85,
+                "distance": 6.73,
                 "held": false,
                 "id": "wall_back",
                 "position_x": 0.0,
-                "position_z": -5.25,
+                "position_z": -10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -399,13 +399,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.15,
-                "direction_z": 0.99,
-                "distance": 9.86,
+                "direction_y": 0.23,
+                "direction_z": 0.97,
+                "distance": 15.16,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
-                "position_z": 5.25,
+                "position_z": 10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -413,13 +413,13 @@
                 "visible": true
             },
             {
-                "direction_x": -0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": -0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_left",
-                "position_x": -7.75,
+                "position_x": -10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -428,13 +428,13 @@
                 "visible": true
             },
             {
-                "direction_x": 0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": 0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_right",
-                "position_x": 7.75,
+                "position_x": 10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -503,13 +503,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.89,
-                "direction_z": -0.45,
-                "distance": 1.68,
+                "direction_y": 0.52,
+                "direction_z": -0.85,
+                "distance": 6.73,
                 "held": false,
                 "id": "wall_back",
                 "position_x": 0.0,
-                "position_z": -5.25,
+                "position_z": -10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -518,13 +518,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.15,
-                "direction_z": 0.99,
-                "distance": 9.86,
+                "direction_y": 0.23,
+                "direction_z": 0.97,
+                "distance": 15.16,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
-                "position_z": 5.25,
+                "position_z": 10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -532,13 +532,13 @@
                 "visible": true
             },
             {
-                "direction_x": -0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": -0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_left",
-                "position_x": -7.75,
+                "position_x": -10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -547,13 +547,13 @@
                 "visible": true
             },
             {
-                "direction_x": 0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": 0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_right",
-                "position_x": 7.75,
+                "position_x": 10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -622,13 +622,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.89,
-                "direction_z": -0.45,
-                "distance": 1.68,
+                "direction_y": 0.52,
+                "direction_z": -0.85,
+                "distance": 6.73,
                 "held": false,
                 "id": "wall_back",
                 "position_x": 0.0,
-                "position_z": -5.25,
+                "position_z": -10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -637,13 +637,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.15,
-                "direction_z": 0.99,
-                "distance": 9.86,
+                "direction_y": 0.23,
+                "direction_z": 0.97,
+                "distance": 15.16,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
-                "position_z": 5.25,
+                "position_z": 10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -651,13 +651,13 @@
                 "visible": true
             },
             {
-                "direction_x": -0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": -0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_left",
-                "position_x": -7.75,
+                "position_x": -10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -666,13 +666,13 @@
                 "visible": true
             },
             {
-                "direction_x": 0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": 0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_right",
-                "position_x": 7.75,
+                "position_x": 10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -741,13 +741,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.89,
-                "direction_z": -0.45,
-                "distance": 1.68,
+                "direction_y": 0.52,
+                "direction_z": -0.85,
+                "distance": 6.73,
                 "held": false,
                 "id": "wall_back",
                 "position_x": 0.0,
-                "position_z": -5.25,
+                "position_z": -10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -756,13 +756,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.15,
-                "direction_z": 0.99,
-                "distance": 9.86,
+                "direction_y": 0.23,
+                "direction_z": 0.97,
+                "distance": 15.16,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
-                "position_z": 5.25,
+                "position_z": 10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -770,13 +770,13 @@
                 "visible": true
             },
             {
-                "direction_x": -0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": -0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_left",
-                "position_x": -7.75,
+                "position_x": -10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -785,13 +785,13 @@
                 "visible": true
             },
             {
-                "direction_x": 0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": 0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_right",
-                "position_x": 7.75,
+                "position_x": 10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -860,13 +860,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.89,
-                "direction_z": -0.45,
-                "distance": 1.68,
+                "direction_y": 0.52,
+                "direction_z": -0.85,
+                "distance": 6.73,
                 "held": false,
                 "id": "wall_back",
                 "position_x": 0.0,
-                "position_z": -5.25,
+                "position_z": -10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -875,13 +875,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.15,
-                "direction_z": 0.99,
-                "distance": 9.86,
+                "direction_y": 0.23,
+                "direction_z": 0.97,
+                "distance": 15.16,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
-                "position_z": 5.25,
+                "position_z": 10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -889,13 +889,13 @@
                 "visible": true
             },
             {
-                "direction_x": -0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": -0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_left",
-                "position_x": -7.75,
+                "position_x": -10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -904,13 +904,13 @@
                 "visible": true
             },
             {
-                "direction_x": 0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": 0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_right",
-                "position_x": 7.75,
+                "position_x": 10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -979,13 +979,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.89,
-                "direction_z": -0.45,
-                "distance": 1.68,
+                "direction_y": 0.52,
+                "direction_z": -0.85,
+                "distance": 6.73,
                 "held": false,
                 "id": "wall_back",
                 "position_x": 0.0,
-                "position_z": -5.25,
+                "position_z": -10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -994,13 +994,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.15,
-                "direction_z": 0.99,
-                "distance": 9.86,
+                "direction_y": 0.23,
+                "direction_z": 0.97,
+                "distance": 15.16,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
-                "position_z": 5.25,
+                "position_z": 10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -1008,13 +1008,13 @@
                 "visible": true
             },
             {
-                "direction_x": -0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": -0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_left",
-                "position_x": -7.75,
+                "position_x": -10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -1023,13 +1023,13 @@
                 "visible": true
             },
             {
-                "direction_x": 0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": 0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_right",
-                "position_x": 7.75,
+                "position_x": 10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -1098,13 +1098,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.89,
-                "direction_z": -0.45,
-                "distance": 1.68,
+                "direction_y": 0.52,
+                "direction_z": -0.85,
+                "distance": 6.73,
                 "held": false,
                 "id": "wall_back",
                 "position_x": 0.0,
-                "position_z": -5.25,
+                "position_z": -10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -1113,13 +1113,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.15,
-                "direction_z": 0.99,
-                "distance": 9.86,
+                "direction_y": 0.23,
+                "direction_z": 0.97,
+                "distance": 15.16,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
-                "position_z": 5.25,
+                "position_z": 10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -1127,13 +1127,13 @@
                 "visible": true
             },
             {
-                "direction_x": -0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": -0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_left",
-                "position_x": -7.75,
+                "position_x": -10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -1142,13 +1142,13 @@
                 "visible": true
             },
             {
-                "direction_x": 0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": 0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_right",
-                "position_x": 7.75,
+                "position_x": 10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -1217,13 +1217,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.89,
-                "direction_z": -0.45,
-                "distance": 1.68,
+                "direction_y": 0.52,
+                "direction_z": -0.85,
+                "distance": 6.73,
                 "held": false,
                 "id": "wall_back",
                 "position_x": 0.0,
-                "position_z": -5.25,
+                "position_z": -10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -1232,13 +1232,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.15,
-                "direction_z": 0.99,
-                "distance": 9.86,
+                "direction_y": 0.23,
+                "direction_z": 0.97,
+                "distance": 15.16,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
-                "position_z": 5.25,
+                "position_z": 10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -1246,13 +1246,13 @@
                 "visible": true
             },
             {
-                "direction_x": -0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": -0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_left",
-                "position_x": -7.75,
+                "position_x": -10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -1261,13 +1261,13 @@
                 "visible": true
             },
             {
-                "direction_x": 0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": 0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_right",
-                "position_x": 7.75,
+                "position_x": 10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -1336,13 +1336,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.89,
-                "direction_z": -0.45,
-                "distance": 1.68,
+                "direction_y": 0.52,
+                "direction_z": -0.85,
+                "distance": 6.73,
                 "held": false,
                 "id": "wall_back",
                 "position_x": 0.0,
-                "position_z": -5.25,
+                "position_z": -10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -1351,13 +1351,13 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": 0.15,
-                "direction_z": 0.99,
-                "distance": 9.86,
+                "direction_y": 0.23,
+                "direction_z": 0.97,
+                "distance": 15.16,
                 "held": false,
                 "id": "wall_front",
                 "position_x": 0.0,
-                "position_z": 5.25,
+                "position_z": 10.25,
                 "shape": "structural",
                 "texture_color_list": [
                     "white"
@@ -1365,13 +1365,13 @@
                 "visible": true
             },
             {
-                "direction_x": -0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": -0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_left",
-                "position_x": -7.75,
+                "position_x": -10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [
@@ -1380,13 +1380,13 @@
                 "visible": true
             },
             {
-                "direction_x": 0.854,
-                "direction_y": 0.17,
-                "direction_z": 0.5,
-                "distance": 9.09,
+                "direction_x": 0.87,
+                "direction_y": 0.3,
+                "direction_z": 0.38,
+                "distance": 11.73,
                 "held": false,
                 "id": "wall_right",
-                "position_x": 7.75,
+                "position_x": 10.25,
                 "position_z": 0.0,
                 "shape": "structural",
                 "texture_color_list": [

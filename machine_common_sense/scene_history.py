@@ -18,8 +18,8 @@ class SceneHistory(object):
         internal_state: object = None,
         delta_time_millis=0,
         output=None,
-        target_visible=False
-
+        target_visible=False,
+        target_is_visible_at_start=None
     ):
         self.step = step
         self.action = action
@@ -32,6 +32,7 @@ class SceneHistory(object):
         self.delta_time_millis = delta_time_millis
         self.output = output
         self.target_visible = target_visible
+        self.target_is_visible_at_start = target_is_visible_at_start
 
     def __str__(self):
         return Stringifier.class_to_str(self)
@@ -51,3 +52,6 @@ class SceneHistory(object):
             self.output) is not None else self.output
         yield 'delta_time_millis', self.delta_time_millis
         yield 'target_visible', self.target_visible
+        if self.target_is_visible_at_start is not None:
+            yield 'target_is_visible_at_start', (
+                self.target_is_visible_at_start)

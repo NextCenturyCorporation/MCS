@@ -2,6 +2,9 @@ import argparse
 import cmd
 
 import machine_common_sense as mcs
+from machine_common_sense.action import (FORCE_ACTIONS, OBJECT_IMAGE_ACTIONS,
+                                         OBJECT_MOVE_ACTIONS,
+                                         RECEPTACLE_ACTIONS, Action)
 from machine_common_sense.goal_metadata import GoalMetadata
 from machine_common_sense.logging_config import LoggingConfig
 
@@ -96,14 +99,18 @@ class HumanInputShell(cmd.Cmd):
 
         if action is None:
             print(
-                "You entered an invalid command, please try again.  "
-                "(Type 'help' to display commands again)")
+                f"You entered an invalid command, '{split_input[0]}', please "
+                f"try again.  (Type 'help' to display commands again)")
             return
 
         if params is None:
             print(
                 "ERROR: Parameters should be separated by commas, and "
                 "look like this example: rotation=45")
+            return
+
+        if not self._is_parameters_valid(action, params):
+            # function in if will print if necessary
             return
 
         output = self.controller.step(action, **params)
@@ -118,6 +125,29 @@ class HumanInputShell(cmd.Cmd):
                 len(self.previous_output.action_list) == 1
             ):
                 self.default('')
+
+    def _is_parameters_valid(self, action_str, params):
+        action: Action = Action(action_str)
+        valid = False
+        if action in (FORCE_ACTIONS + OBJECT_IMAGE_ACTIONS +
+                      OBJECT_MOVE_ACTIONS):
+            valid = ('objectId' in params or (
+                'objectImageCoordsX' in params and
+                'objectImageCoordsY' in params))
+        elif action in RECEPTACLE_ACTIONS:
+            valid = 'objectId' in params
+            valid &= (
+                'receptacleObjectId' in params or (
+                    'receptacleObjectImageCoordsX' in params and
+                    'receptacleObjectImageCoordsY' in params))
+        else:
+            # for move or pass params can be ignored
+            valid = True
+        if not valid:
+            print(
+                f"Action: '{action_str}' parameters are invalid. Description: "
+                f"{action.desc}")
+        return valid
 
     def help_auto(self):
         print(
