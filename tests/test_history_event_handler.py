@@ -43,7 +43,7 @@ class TestHistoryEventHandler(unittest.TestCase):
             "timestamp": "20210831-202203",
             "wrapped_step": {},
             "step_metadata": Event({'screenWidth': 400, 'screenHeight': 600,
-                'targetIsVisibleAtStart': True}),
+                                    'targetIsVisibleAtStart': True}),
             "step_output": StepMetadata(),
             "restricted_step_output": StepMetadata(),
             "goal": GoalMetadata()
