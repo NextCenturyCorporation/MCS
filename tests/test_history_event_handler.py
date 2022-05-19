@@ -42,7 +42,8 @@ class TestHistoryEventHandler(unittest.TestCase):
             "output_folder": None,
             "timestamp": "20210831-202203",
             "wrapped_step": {},
-            "step_metadata": Event({'screenWidth': 400, 'screenHeight': 600}),
+            "step_metadata": Event({'screenWidth': 400, 'screenHeight': 600,
+                'targetIsVisibleAtStart': True}),
             "step_output": StepMetadata(),
             "restricted_step_output": StepMetadata(),
             "goal": GoalMetadata()
@@ -68,6 +69,7 @@ class TestHistoryEventHandler(unittest.TestCase):
         self.assertIsNone(step['params'])
         self.assertIsNone(step['classification'])
         self.assertIsNone(step['confidence'])
+        self.assertTrue(step['target_is_visible_at_start'])
 
     def test_on_start_scene_hist_not_enabled(self):
         self.config_mngr._config[
