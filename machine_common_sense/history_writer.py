@@ -46,6 +46,15 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             self.__history_writer = HistoryWriter(payload.scene_config,
                                                   hist_info,
                                                   payload.timestamp)
+            init_history = SceneHistory(
+                step=payload.step_number,
+                action='Initialize',
+                args={},
+                # We don't have the equivalent of params at this point
+                params=None,
+                output=payload.step_output.copy_without_depth_or_images(),
+                delta_time_millis=0)
+            self.__history_writer.add_step(init_history)
             self.__history_item = None
 
     def on_before_step(self, payload: BeforeStepPayload):
