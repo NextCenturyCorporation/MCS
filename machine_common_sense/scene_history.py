@@ -52,5 +52,6 @@ class SceneHistory(object):
             self.output) is not None else self.output
         yield 'delta_time_millis', self.delta_time_millis
         yield 'target_visible', self.target_visible
-        yield 'target_is_visible_at_start', (
-            self.target_is_visible_at_start)
+        if self.target_is_visible_at_start is not None:
+            yield 'target_is_visible_at_start', (
+                self.target_is_visible_at_start)
