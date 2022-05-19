@@ -219,6 +219,7 @@ class UnityTopdownCameraCombinerEventHandler(AbstractVideoEventHandler):
             scene_config=payload.scene_config
         )
         self.folder = pathlib.Path(payload.output_folder)
+        self.write_image(payload)
 
     def write_image(self, payload: BasePostActionEventPayload):
         image_file = (
