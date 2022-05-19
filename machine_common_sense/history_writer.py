@@ -53,11 +53,7 @@ class HistoryEventHandler(AbstractControllerSubscriber):
                 # We don't have the equivalent of params at this point
                 params=None,
                 output=payload.step_output.copy_without_depth_or_images(),
-                delta_time_millis=0,
-                target_is_visible_at_start=(
-                    payload.step_metadata.metadata.get(
-                        'targetIsVisibleAtStart')
-                ))
+                delta_time_millis=0)
             self.__history_writer.add_step(init_history)
             self.__history_item = None
 
@@ -79,7 +75,10 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             args=payload.action_kwargs,
             params=payload.step_params,
             output=output,
-            delta_time_millis=0)
+            delta_time_millis=0,
+            target_is_visible_at_start=(
+                payload.step_metadata.metadata.get(
+                    'targetIsVisibleAtStart')))
 
     def on_end_scene(self, payload: EndScenePayload):
         if (

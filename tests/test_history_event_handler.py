@@ -42,8 +42,7 @@ class TestHistoryEventHandler(unittest.TestCase):
             "output_folder": None,
             "timestamp": "20210831-202203",
             "wrapped_step": {},
-            "step_metadata": Event({'screenWidth': 400, 'screenHeight': 600,
-                                    'targetIsVisibleAtStart': True}),
+            "step_metadata": Event({'screenWidth': 400, 'screenHeight': 600}),
             "step_output": StepMetadata(),
             "restricted_step_output": StepMetadata(),
             "goal": GoalMetadata()
@@ -69,7 +68,6 @@ class TestHistoryEventHandler(unittest.TestCase):
         self.assertIsNone(step['params'])
         self.assertIsNone(step['classification'])
         self.assertIsNone(step['confidence'])
-        self.assertTrue(step['target_is_visible_at_start'])
 
     def test_on_start_scene_hist_not_enabled(self):
         self.config_mngr._config[
@@ -156,7 +154,8 @@ class TestHistoryEventHandler(unittest.TestCase):
             "output_folder": None,
             "timestamp": "20210831-202203",
             "wrapped_step": StepMetadata(),
-            "step_metadata": Event({'screenHeight': 400, 'screenWidth': 600}),
+            "step_metadata": Event({'screenHeight': 400, 'screenWidth': 600,
+                                    'targetIsVisibleAtStart': True}),
             "step_output": StepMetadata(),
             "restricted_step_output": StepMetadata()
         }
@@ -172,6 +171,7 @@ class TestHistoryEventHandler(unittest.TestCase):
         self.assertEqual(hist.step, 1)
         self.assertEqual(hist.action, mcs.Action.MOVE_AHEAD.value)
         self.assertEqual(hist.delta_time_millis, 0)
+        self.assertTrue(hist.target_is_visible_at_start)
 
     def test_on_end_scene(self):
         self.histEvents._HistoryEventHandler__history_writer = HistoryWriter(
