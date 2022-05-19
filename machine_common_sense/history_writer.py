@@ -63,6 +63,7 @@ class HistoryEventHandler(AbstractControllerSubscriber):
                 self.__history_writer.init_timer()
             if payload.step_number > 0:
                 self.__history_writer.add_step(self.__history_item)
+                self.__history_item = None
 
     def on_after_step(self, payload: AfterStepPayload):
         output: StepMetadata = \
