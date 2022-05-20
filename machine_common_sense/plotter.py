@@ -175,7 +175,7 @@ class TopDownPlotter():
 
         self._room_size = (
             # Room is automatically expanded in intuitive physics scenes.
-            Vector3d(14, 10, 10) if scene_config.intuitive_physics
+            Vector3d(x=14, y=10, z=10) if scene_config.intuitive_physics
             else scene_config.room_dimensions
         )
         self._team = team
