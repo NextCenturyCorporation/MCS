@@ -26,7 +26,7 @@
         "reward": 0.0,
         "rotation_y": 0.0,
         "step_number": 0,
-        "structural_objects_count": 55
+        "structural_objects_count": 5
     },
     {
         "haptic_feedback": {
@@ -55,7 +55,7 @@
         "reward": -0.001,
         "rotation_y": 0.0,
         "step_number": 1,
-        "structural_objects_count": 55
+        "structural_objects_count": 5
     },
     {
         "haptic_feedback": {
@@ -84,7 +84,7 @@
         "reward": -0.002,
         "rotation_y": 0.0,
         "step_number": 2,
-        "structural_objects_count": 55
+        "structural_objects_count": 5
     },
     {
         "haptic_feedback": {
@@ -113,7 +113,7 @@
         "reward": -0.003,
         "rotation_y": 0.0,
         "step_number": 3,
-        "structural_objects_count": 55
+        "structural_objects_count": 5
     },
     {
         "haptic_feedback": {
@@ -142,7 +142,7 @@
         "reward": -0.004,
         "rotation_y": 0.0,
         "step_number": 4,
-        "structural_objects_count": 55
+        "structural_objects_count": 5
     },
     {
         "haptic_feedback": {
@@ -171,7 +171,7 @@
         "reward": -100.005,
         "rotation_y": 0.0,
         "step_number": 5,
-        "structural_objects_count": 55
+        "structural_objects_count": 5
     },
     {
         "haptic_feedback": {
@@ -200,6 +200,6 @@
         "reward": -200.006,
         "rotation_y": 0.0,
         "step_number": 6,
-        "structural_objects_count": 55
+        "structural_objects_count": 5
     }
 ]

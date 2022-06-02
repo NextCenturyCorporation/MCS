@@ -28,7 +28,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 0,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -59,7 +59,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 1,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -90,7 +90,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 2,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -121,7 +121,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 3,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -152,7 +152,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 4,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -183,7 +183,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 5,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -214,7 +214,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 6,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -245,7 +245,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 7,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -276,7 +276,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 8,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -307,7 +307,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 9,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -338,7 +338,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 10,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -369,7 +369,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 11,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -400,7 +400,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 12,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -431,7 +431,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 13,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -462,7 +462,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 14,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -493,7 +493,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 15,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -524,7 +524,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 16,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -555,7 +555,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 17,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -586,7 +586,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 18,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -617,7 +617,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 19,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -648,7 +648,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 20,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -679,7 +679,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 21,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -710,7 +710,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 22,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -741,7 +741,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 23,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -772,7 +772,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 24,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -803,7 +803,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 25,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -834,7 +834,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 26,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -865,7 +865,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 27,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -896,7 +896,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 28,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -927,7 +927,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 29,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -958,7 +958,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 30,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -989,7 +989,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 31,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -1020,7 +1020,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 32,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -1051,7 +1051,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 33,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -1082,7 +1082,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 34,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -1113,7 +1113,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 35,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -1144,7 +1144,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 36,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -1175,7 +1175,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 37,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -1206,7 +1206,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 38,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -1237,7 +1237,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 39,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -1268,6 +1268,6 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
         "step_number": 40,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     }
 ]

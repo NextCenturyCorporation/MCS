@@ -1,55 +1,62 @@
-[{
-    "step_number": 0,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 1.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6
-}, {
-    "step_number": 1,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 1.1,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6
-}, {
-    "step_number": 2,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 1.2,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6
-}, {
-    "step_number": 3,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 1.2,
-    "return_status": "OBSTRUCTED",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6
-}, {
-    "step_number": 4,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 1.2,
-    "return_status": "OBSTRUCTED",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6
-}, {
-    "step_number": 5,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 1.2,
-    "return_status": "OBSTRUCTED",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6
-}]
+﻿[
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 1.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 0,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 1.1,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 1,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 1.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 2,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 1.2,
+        "return_status": "OBSTRUCTED",
+        "rotation_y": 0,
+        "step_number": 3,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 1.2,
+        "return_status": "OBSTRUCTED",
+        "rotation_y": 0,
+        "step_number": 4,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 1.2,
+        "return_status": "OBSTRUCTED",
+        "rotation_y": 0,
+        "step_number": 5,
+        "structural_objects_count": 5
+    }
+]

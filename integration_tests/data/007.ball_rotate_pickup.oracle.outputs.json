@@ -28,7 +28,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 0,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -59,7 +59,7 @@
         "return_status": "OUT_OF_REACH",
         "rotation_y": 0.0,
         "step_number": 1,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -90,7 +90,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 10,
         "step_number": 2,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -121,7 +121,7 @@
         "return_status": "OUT_OF_REACH",
         "rotation_y": 10,
         "step_number": 3,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -152,7 +152,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 20,
         "step_number": 4,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -183,7 +183,7 @@
         "return_status": "OUT_OF_REACH",
         "rotation_y": 20,
         "step_number": 5,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -214,7 +214,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 30,
         "step_number": 6,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -245,7 +245,7 @@
         "return_status": "OUT_OF_REACH",
         "rotation_y": 30,
         "step_number": 7,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -276,7 +276,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 40,
         "step_number": 8,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -307,7 +307,7 @@
         "return_status": "OUT_OF_REACH",
         "rotation_y": 40,
         "step_number": 9,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -338,7 +338,7 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 50,
         "step_number": 10,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,
@@ -369,7 +369,7 @@
         "return_status": "OUT_OF_REACH",
         "rotation_y": 50,
         "step_number": 11,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 0,

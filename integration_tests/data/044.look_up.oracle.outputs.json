@@ -1,100 +1,112 @@
-[{
-    "step_number": 0,
-    "head_tilt": 0,
-    "position_x": 0,
-    "position_z": 0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6
-}, {
-    "step_number": 1,
-    "head_tilt": -10,
-    "position_x": 0,
-    "position_z": 0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6
-}, {
-    "step_number": 2,
-    "head_tilt": -20,
-    "position_x": 0,
-    "position_z": 0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6
-}, {
-    "step_number": 3,
-    "head_tilt": -30,
-    "position_x": 0,
-    "position_z": 0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6
-}, {
-    "step_number": 4,
-    "head_tilt": -40,
-    "position_x": 0,
-    "position_z": 0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6
-}, {
-    "step_number": 5,
-    "head_tilt": -50,
-    "position_x": 0,
-    "position_z": 0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6
-}, {
-    "step_number": 6,
-    "head_tilt": -60,
-    "position_x": 0,
-    "position_z": 0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6
-}, {
-    "step_number": 7,
-    "head_tilt": -70,
-    "position_x": 0,
-    "position_z": 0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6
-}, {
-    "step_number": 8,
-    "head_tilt": -80,
-    "position_x": 0,
-    "position_z": 0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6
-}, {
-    "step_number": 9,
-    "head_tilt": -90,
-    "position_x": 0,
-    "position_z": 0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6
-}, {
-    "step_number": 10,
-    "head_tilt": -90,
-    "position_x": 0,
-    "position_z": 0,
-    "return_status": "CANNOT_ROTATE",
-    "rotation_y": 0,
-    "objects_count": 0,
-    "structural_objects_count": 6
-}]
+﻿[
+    {
+        "head_tilt": 0,
+        "objects_count": 0,
+        "position_x": 0,
+        "position_z": 0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 0,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": -10,
+        "objects_count": 0,
+        "position_x": 0,
+        "position_z": 0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 1,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": -20,
+        "objects_count": 0,
+        "position_x": 0,
+        "position_z": 0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 2,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": -30,
+        "objects_count": 0,
+        "position_x": 0,
+        "position_z": 0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 3,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": -40,
+        "objects_count": 0,
+        "position_x": 0,
+        "position_z": 0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 4,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": -50,
+        "objects_count": 0,
+        "position_x": 0,
+        "position_z": 0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 5,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": -60,
+        "objects_count": 0,
+        "position_x": 0,
+        "position_z": 0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 6,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": -70,
+        "objects_count": 0,
+        "position_x": 0,
+        "position_z": 0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 7,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": -80,
+        "objects_count": 0,
+        "position_x": 0,
+        "position_z": 0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 8,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": -90,
+        "objects_count": 0,
+        "position_x": 0,
+        "position_z": 0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 9,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": -90,
+        "objects_count": 0,
+        "position_x": 0,
+        "position_z": 0,
+        "return_status": "CANNOT_ROTATE",
+        "rotation_y": 0,
+        "step_number": 10,
+        "structural_objects_count": 5
+    }
+]
