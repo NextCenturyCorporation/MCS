@@ -207,6 +207,20 @@ video_enabled
 
 Create and save videos of the RGB frames, depth masks, object instance segmentation masks (if returned in the output by the chosen metadata tier), and the 2D top-down scene views. Default: False
 
+top_down_camera
+^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If `video_enabled` is true and `top_down_camera` is false, determines if the legacy top down plotter videos will be generated.  Default: False
+
+top_down_plotter
+^^^^^^^^^^^^^^^^
+
+If `video_enabled` is true, determines if the top down camera is used to generate videos instead of the old top down plotter.  Default: True
+
+(boolean, optional)
+
 Example Using the Config File to Generate Scene Graphs or Maps
 **************************************************************
 

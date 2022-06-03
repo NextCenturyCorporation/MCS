@@ -7,6 +7,7 @@ from .controller_media import (DepthImageEventHandler, DepthVideoEventHandler,
                                ObjectMaskImageEventHandler,
                                SceneImageEventHandler,
                                SegmentationVideoEventHandler,
+                               TopdownVideoEventHandler,
                                UnityTopdownCameraCombinerEventHandler)
 from .history_writer import HistoryEventHandler
 
@@ -26,7 +27,12 @@ def add_subscribers(controller: Controller, config: ConfigManager):
             controller.subscribe(ObjectMaskImageEventHandler())
     if config.is_video_enabled():
         controller.subscribe(ImageVideoEventHandler())
-        controller.subscribe(UnityTopdownCameraCombinerEventHandler())
+        if config.is_top_down_camera():
+            controller.subscribe(UnityTopdownCameraCombinerEventHandler())
+            # the two top down video generators use the same filename so we
+            # shouldn't enable both at the same time
+        elif config.is_top_down_plotter():
+            controller.subscribe(TopdownVideoEventHandler())
         if (config.is_depth_maps_enabled()):
             controller.subscribe(DepthVideoEventHandler())
         if (config.is_object_masks_enabled()):
