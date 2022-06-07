@@ -1,0 +1,144 @@
+﻿{
+    "name": "Agent_Test_0001_04",
+    "version": "2",
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall4Tiled",
+    "floorMaterial": "UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 4",
+    "wallMaterial": "AI2-THOR/Materials/Metals/BlackSmoothMeta",
+    "performerStart": {
+      "position": {
+        "x": -1.97,
+        "y": 0.5,
+        "z": -1.4
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "objects": [
+      {
+        "id": "soccer_ball",
+        "type": "soccer_ball",
+        "mass": 1.0,
+        "salientMaterials": ["rubber"],
+        "moveable": true,
+        "pickupable": true,
+        "shows": [
+          {
+            "position": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            },
+            "rotation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            },
+            "stepBegin": 0,
+            "scale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            }
+          }
+        ],
+        "materials": [],
+        "associatedWithAgent": "agent_90572d5e-7f24-4983-8b71-54cb4c431d7e"
+      },
+      {
+        "id": "agent_female",
+        "type": "agent_female_02",
+        "mass": null,
+        "agentSettings": {
+          "chest": 6,
+          "chestMaterial": 4,
+          "eyes": 1,
+          "feet": 2,
+          "feetMaterial": 10,
+          "glasses": 9,
+          "hair": 7,
+          "hairMaterial": 4,
+          "hatMaterial": 3,
+          "hideHair": true,
+          "isElder": false,
+          "jacket": 0,
+          "jacketMaterial": 0,
+          "legs": 0,
+          "legsMaterial": 14,
+          "showBeard": false,
+          "showGlasses": false,
+          "showJacket": false,
+          "showTie": true,
+          "skin": 1,
+          "tie": 0,
+          "tieMaterial": 1
+        },
+        "actions": [],
+        "shows": [
+          {
+            "stepBegin": 0,
+            "position": {
+              "x": -1.9368,
+              "y": 0,
+              "z": -0.9334905
+            },
+            "rotation": {
+              "x": 0,
+              "y": -164.915,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            }
+          }
+        ],
+        "agentMovement": {
+          "repeat": true,
+          "stepBegin": 0,
+          "sequence": [
+            {
+              "animation": "TPM_walk",
+              "endPoint": {
+                "x": -2.2,
+                "z": -1.91
+              }
+            },
+            {
+              "animation": "TPF_run",
+              "endPoint": {
+                "x": -1.61,
+                "z": 0.72
+              }
+            },
+            {
+              "animation": "TPF_run",
+              "endPoint": {
+                "x": -1.51,
+                "z": 0.65
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "goal": {
+      "category": "retrieval",
+      "metadata": {
+        "target": {
+          "id": "56ae678b-0ba9-4518-b7d6-fb0fc9f9970d"
+        }
+      },
+      "description": "Find and pick up the tiny light black white rubber ball.",
+      "actionList": [],
+      "lastStep": 2100
+    },
+    "roomDimensions": {
+      "x": 8,
+      "y": 3,
+      "z": 8
+    }
+  }
