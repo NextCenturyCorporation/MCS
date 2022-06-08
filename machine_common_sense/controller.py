@@ -185,7 +185,9 @@ class Controller():
         sc = scene_config.dict(exclude_none=True, by_alias=True)
 
         ai2thor_step = self.parameter_converter.wrap_step(
-            action='Initialize', sceneConfig=sc)
+            output_folder=self.__output_folder,
+            action='Initialize',
+            sceneConfig=sc)
         step_output = self._controller.step(ai2thor_step)
 
         self._output_handler.set_scene_config(scene_config)
@@ -330,7 +332,9 @@ class Controller():
                 "controller.end_scene() now.")
 
         ai2thor_step, params = self.parameter_converter.build_ai2thor_step(
-            action=action, **kwargs)
+            output_path=self.__output_folder,
+            action=action,
+            **kwargs)
         step_output = self._controller.step(ai2thor_step)
 
         (pre_restrict_output, output) = self._output_handler.handle_output(
