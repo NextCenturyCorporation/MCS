@@ -509,7 +509,7 @@ class ConfigManager:
     def is_top_down_plotter(self) -> bool:
         """Toggles whether old plotter should be used to create top down
         videos if videos are enabled."""
-        return self._config.getint(
+        return self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_TOP_DOWN_PLOTTER,
             fallback=False
@@ -518,7 +518,7 @@ class ConfigManager:
     def is_top_down_camera(self) -> bool:
         """Toggles whether the new top down camera is used to create top down
         videos if videos are enabled."""
-        return self._config.getint(
+        return self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_TOP_DOWN_CAMERA,
             fallback=True
