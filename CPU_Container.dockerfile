@@ -9,7 +9,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
 
 # --build-arg mcsversion=x.y.z to override default in docker build command
-ARG mcsversion=0.5.4
+ARG mcsversion=0.5.7
 ARG mcs_library_version=master
 
 WORKDIR /mcs

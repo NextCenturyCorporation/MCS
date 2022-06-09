@@ -36,7 +36,7 @@ class TestHistoryEventHandler(unittest.TestCase):
 
     def test_on_start_scene(self):
         test_payload = {
-            "step_number": 1,
+            "step_number": 0,
             "config": self.config_mngr,
             "scene_config": self.scene_config,
             "output_folder": None,
@@ -55,8 +55,19 @@ class TestHistoryEventHandler(unittest.TestCase):
 
         self.assertIsNotNone(
             self.histEvents._HistoryEventHandler__history_writer)
-        self.assertIsNotNone(
+        writer: HistoryWriter = (
             self.histEvents._HistoryEventHandler__history_writer)
+        self.assertIsNotNone(writer.current_steps)
+        step = writer.current_steps[0]
+        self.assertEqual(step['step'], 0)
+        self.assertEqual(step['action'], 'Initialize')
+        self.assertEqual(step['args'], {})
+
+        self.assertIsNotNone(step['output'])
+
+        self.assertIsNone(step['params'])
+        self.assertIsNone(step['classification'])
+        self.assertIsNone(step['confidence'])
 
     def test_on_start_scene_hist_not_enabled(self):
         self.config_mngr._config[
@@ -143,7 +154,8 @@ class TestHistoryEventHandler(unittest.TestCase):
             "output_folder": None,
             "timestamp": "20210831-202203",
             "wrapped_step": StepMetadata(),
-            "step_metadata": Event({'screenHeight': 400, 'screenWidth': 600}),
+            "step_metadata": Event({'screenHeight': 400, 'screenWidth': 600,
+                                    'targetIsVisibleAtStart': True}),
             "step_output": StepMetadata(),
             "restricted_step_output": StepMetadata()
         }
@@ -159,6 +171,7 @@ class TestHistoryEventHandler(unittest.TestCase):
         self.assertEqual(hist.step, 1)
         self.assertEqual(hist.action, mcs.Action.MOVE_AHEAD.value)
         self.assertEqual(hist.delta_time_millis, 0)
+        self.assertTrue(hist.target_is_visible_at_start)
 
     def test_on_end_scene(self):
         self.histEvents._HistoryEventHandler__history_writer = HistoryWriter(

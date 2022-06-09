@@ -19,7 +19,7 @@
   "performerStart": {
       "position": {
           "x": 0,
-          "z": 0
+          "z": 0.01
       },
       "rotation": {
           "x": 40,

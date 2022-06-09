@@ -46,6 +46,15 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             self.__history_writer = HistoryWriter(payload.scene_config,
                                                   hist_info,
                                                   payload.timestamp)
+            init_history = SceneHistory(
+                step=payload.step_number,
+                action='Initialize',
+                args={},
+                # We don't have the equivalent of params at this point
+                params=None,
+                output=payload.step_output.copy_without_depth_or_images(),
+                delta_time_millis=0)
+            self.__history_writer.add_step(init_history)
             self.__history_item = None
 
     def on_before_step(self, payload: BeforeStepPayload):
@@ -54,6 +63,7 @@ class HistoryEventHandler(AbstractControllerSubscriber):
                 self.__history_writer.init_timer()
             if payload.step_number > 0:
                 self.__history_writer.add_step(self.__history_item)
+                self.__history_item = None
 
     def on_after_step(self, payload: AfterStepPayload):
         output: StepMetadata = \
@@ -65,7 +75,10 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             args=payload.action_kwargs,
             params=payload.step_params,
             output=output,
-            delta_time_millis=0)
+            delta_time_millis=0,
+            target_is_visible_at_start=(
+                payload.step_metadata.metadata.get(
+                    'targetIsVisibleAtStart')))
 
     def on_end_scene(self, payload: EndScenePayload):
         if (

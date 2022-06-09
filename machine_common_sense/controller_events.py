@@ -117,14 +117,14 @@ class AbstractControllerSubscriber(ABC):
             "default")(
             payload)
 
-    def on_start_scene(self, payload: ControllerEventPayload):
+    def on_start_scene(self, payload: StartScenePayload):
         pass
 
-    def on_before_step(self, payload: ControllerEventPayload):
+    def on_before_step(self, payload: BeforeStepPayload):
         pass
 
-    def on_after_step(self, payload: ControllerEventPayload):
+    def on_after_step(self, payload: AfterStepPayload):
         pass
 
-    def on_end_scene(self, payload: ControllerEventPayload):
+    def on_end_scene(self, payload: EndScenePayload):
         pass

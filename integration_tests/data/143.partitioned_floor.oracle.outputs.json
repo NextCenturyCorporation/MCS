@@ -27,10 +27,10 @@
         "step_number": 0,
         "structural_objects": [
             {
-                "direction_x": -0.5,
-                "direction_y": -0.86,
+                "direction_x": -0.94,
+                "direction_y": -0.35,
                 "direction_z": 0.0,
-                "distance": 4.36,
+                "distance": 2.29,
                 "id": "floorLeft",
                 "position_x": -3.0,
                 "position_z": 0.0,
@@ -43,10 +43,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.44,
-                "direction_y": -0.9,
+                "direction_x": 0.92,
+                "direction_y": -0.39,
                 "direction_z": 0.0,
-                "distance": 4.17,
+                "distance": 2.01,
                 "id": "floorCenter",
                 "position_x": 1.0,
                 "position_z": 0.0,
@@ -57,10 +57,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.79,
-                "direction_y": -0.62,
+                "direction_x": 0.99,
+                "direction_y": -0.16,
                 "direction_z": 0.0,
-                "distance": 6.1,
+                "distance": 4.91,
                 "id": "floorRight",
                 "position_x": 4.0,
                 "position_z": 0.0,
