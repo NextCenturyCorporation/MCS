@@ -62,12 +62,14 @@ class TestController(unittest.TestCase):
                 'x': 0,
                 'y': 0
             },
+            recordTopDown=False,
             renderDepthImage=False,
             renderObjectImage=False,
             rotation={'y': 0.0},
             snapToGrid=False,
             teleportPosition=None,
             teleportRotation=None,
+            topDownImagePath=None,
             clockwise=True,
             lateral=0,
             straight=1

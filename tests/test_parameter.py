@@ -74,18 +74,23 @@ class TestParameter(unittest.TestCase):
 
     def test_initialization_wrap_step(self):
         wrapped_step = self.parameter_converter.wrap_step(
-            action='Initialize', sceneConfig=self.sc)
+            output_folder="path",
+            action='Initialize',
+            sceneConfig=self.sc)
         # sceneConfig does not get removed
         self.assertIsNotNone(wrapped_step.get('sceneConfig'))
 
     def test_initialization_build_ai2thor_step(self):
         wrapped_step, params = self.parameter_converter.build_ai2thor_step(
-            action='Initialize', sceneConfig=self.sc)
+            output_path="path",
+            action='Initialize',
+            sceneConfig=self.sc)
         # sceneConfig gets removed
         self.assertIsNone(wrapped_step.get('sceneConfig'))
 
     def test_wrap_step_action(self):
         actual = self.parameter_converter.wrap_step(
+            output_folder="path",
             action="TestAction",
             numberProperty=1234,
             stringProperty="test_property")
@@ -99,7 +104,9 @@ class TestParameter(unittest.TestCase):
             "renderObjectImage": False,
             "snapToGrid": False,
             "stringProperty": "test_property",
-            "consistentColors": False
+            "consistentColors": False,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
         }
         self.assertEqual(actual, expected)
 
@@ -107,6 +114,7 @@ class TestParameter(unittest.TestCase):
         config = ConfigManager(config_file_or_dict={'metadata': 'oracle'})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
+            output_folder="path",
             action="TestAction",
             numberProperty=1234,
             stringProperty="test_property")
@@ -122,7 +130,9 @@ class TestParameter(unittest.TestCase):
             "renderObjectImage": True,
             "snapToGrid": False,
             "stringProperty": "test_property",
-            "consistentColors": True
+            "consistentColors": True,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
         }
         self.assertEqual(actual, expected)
 
@@ -130,6 +140,7 @@ class TestParameter(unittest.TestCase):
         config = ConfigManager(config_file_or_dict={'metadata': 'level2'})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
+            output_folder="path",
             action="TestAction",
             numberProperty=1234,
             stringProperty="test_property")
@@ -145,7 +156,9 @@ class TestParameter(unittest.TestCase):
             "renderObjectImage": True,
             "snapToGrid": False,
             "stringProperty": "test_property",
-            "consistentColors": False
+            "consistentColors": False,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
         }
         self.assertEqual(actual, expected)
 
@@ -153,6 +166,7 @@ class TestParameter(unittest.TestCase):
         config = ConfigManager(config_file_or_dict={'metadata': 'level1'})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
+            output_folder="path",
             action="TestAction",
             numberProperty=1234,
             stringProperty="test_property")
@@ -168,7 +182,9 @@ class TestParameter(unittest.TestCase):
             "renderObjectImage": False,
             "snapToGrid": False,
             "stringProperty": "test_property",
-            "consistentColors": False
+            "consistentColors": False,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
         }
         self.assertEqual(actual, expected)
 
