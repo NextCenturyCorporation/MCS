@@ -288,7 +288,7 @@ class SceneObject(BaseModel):
     teleports: List[TeleportConfig] = None
     toggle_physics: List[SingleStepConfig] = None
     torques: List[ForceConfig] = None
-    toggleLights: bool = False
+    toggleLights: SingleStepConfig = False
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     can_contain_target: Optional[bool]
