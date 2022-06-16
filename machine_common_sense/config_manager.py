@@ -288,7 +288,6 @@ class SceneObject(BaseModel):
     teleports: List[TeleportConfig] = None
     toggle_physics: List[SingleStepConfig] = None
     torques: List[ForceConfig] = None
-    toggle_lights: List[SingleStepConfig] = None
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     can_contain_target: Optional[bool]
@@ -530,6 +529,7 @@ class SceneConfiguration(BaseModel):
     version: Optional[int]
     wall_material: Optional[str]
     wall_properties: Optional[PhysicsConfig]
+    toggle_lights: List[SingleStepConfig] = None
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation: Optional[str]
