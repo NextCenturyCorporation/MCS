@@ -498,11 +498,6 @@ class TestSceneConfig(unittest.TestCase):
             step_end=5
         )]
 
-        # toggle_lights_list = [
-        #     StepBeginEndConfig(**toggle_lights_config)
-        #     for toggle_lights_config in toggle_lights_steps
-        # ]
-
         scene_config = SceneConfiguration(
             toggle_lights=toggle_lights_list,
             objects=object_list)
