@@ -107,7 +107,8 @@ class Parameter:
             renderObjectImage=self.config.is_object_masks_enabled(),
             snapToGrid=False,
             consistentColors=consistent_colors,
-            recordTopDown=self.config.is_video_enabled(),
+            recordTopDown=(self.config.is_video_enabled() and
+                           self.config.is_top_down_camera()),
             topDownImagePath=output_folder,
             **kwargs
         )
