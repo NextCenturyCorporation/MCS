@@ -1988,8 +1988,14 @@ These agents are used in scenes for the interactive tasks.
     * - `"agent_female_02"`
       - 70
       - x=0.5,y=1.6,z=0.5
+    * - `"agent_female_03"`
+      - 70
+      - x=0.5,y=1.6,z=0.5
     * - `"agent_female_04"`
       - 70
+      - x=0.5,y=1.6,z=0.5
+    * - `"agent_male_01"`
+      - 80
       - x=0.5,y=1.6,z=0.5
     * - `"agent_male_02"`
       - 80
