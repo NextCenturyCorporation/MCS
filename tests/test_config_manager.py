@@ -492,8 +492,22 @@ class TestSceneConfig(unittest.TestCase):
             SceneObject(**object_config)
             for object_config in object_config_list
         ]
-        scene_config = SceneConfiguration(objects=object_list)
+
+        toggle_lights_list = [StepBeginEndConfig(
+            step_begin=4,
+            step_end=5
+        )]
+
+        scene_config = SceneConfiguration(
+            toggle_lights=toggle_lights_list,
+            objects=object_list)
         self.assertEqual(len(scene_config.objects), 2)
+
+        self.assertEqual(scene_config.toggle_lights, [StepBeginEndConfig(
+            step_begin=4,
+            step_end=5
+        )])
+
         object_1 = scene_config.objects[0]
         object_2 = scene_config.objects[1]
 

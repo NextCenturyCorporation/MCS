@@ -97,6 +97,7 @@ Each **scene config** has the following properties:
 - `version` (int, optional): The version of this scene configuration. Default: the latest version
 - `wallProperties` (:ref:`physics config <Physics Config>`, optional): Enable custom friction, bounciness, and/or drag on the walls. Default: see :ref:`physics config <Physics Config>`.
 - `wallMaterial` (string, optional): The material (color/texture) for the room's four outer walls. See the :ref:`material list <Material List>` for options. Default (v0.0.3+): `"AI2-THOR/Materials/Walls/DrywallBeige"`
+- `toggleLights` (:ref:`step begin and end config config <Step Begin And End Config>` array, optional): The steps at which the lights in the scene should be turned off and back on. Default: `[]`
 
 Object Config
 *************

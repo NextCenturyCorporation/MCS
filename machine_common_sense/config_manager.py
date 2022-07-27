@@ -549,6 +549,7 @@ class SceneConfiguration(BaseModel):
     version: Optional[int]
     wall_material: Optional[str]
     wall_properties: Optional[PhysicsConfig]
+    toggle_lights: List[StepBeginEndConfig] = []
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation: Optional[str]
