@@ -523,7 +523,7 @@ class Action(Enum):
 
     MOVE_OBJECT = (
         "MoveObject",
-        "0",
+        "m",
         "Apply a movement of 0.1 meters to a nearby object. "
         "(objectId=string, "
         "lateral=int(default:0), "
@@ -580,7 +580,7 @@ class Action(Enum):
 
     INTERACT_WITH_AGENT = (
         "InteractWithAgent",
-        "T",
+        "t",
         "Interact with an agent. If that agent has an object, "
         "it will hold out the object for you to pickup; "
         "otherwise, the agent will look sad."
