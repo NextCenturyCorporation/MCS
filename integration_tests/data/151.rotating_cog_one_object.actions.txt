@@ -1,0 +1,10 @@
+Pass
+Pass
+Pass
+Pass
+Pass
+Pass
+Pass
+Pass
+PickupObject,objectId=apple_a
+Pass
