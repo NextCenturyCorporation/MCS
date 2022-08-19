@@ -182,7 +182,7 @@ class SceneEvent():
             'r': item['color'][0],
             'g': item['color'][1],
             'b': item['color'][2]
-        } for item in self._raw_output.metadata.get('colors', [])]
+        } for item in (self._raw_output.metadata.get('colors') or [])]
 
     def retrieve_object_output(
             self, object_metadata, object_id_to_color):
