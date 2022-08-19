@@ -73,6 +73,13 @@ class TestControllerOutputHandler(unittest.TestCase):
                 "resolvedReceptacle": '',
                 "clippingPlaneFar": 150,
                 "clippingPlaneNear": 0,
+                "colors": [{
+                    "name": "thing1",
+                    "color": [0, 1, 2]
+                }, {
+                    "name": "thing2",
+                    "color": [3, 4, 5]
+                }],
                 "fov": 42.5,
                 "lastActionStatus": "SUCCESSFUL",
                 "lastActionSuccess": True,
@@ -509,6 +516,10 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
+        self.assertEqual(actual.segmentation_colors, [
+            {'objectId': 'thing1', 'r': 0, 'g': 1, 'b': 2},
+            {'objectId': 'thing2', 'r': 3, 'g': 4, 'b': 5}
+        ])
         self.assertEqual(actual.step_number, 0)
 
         self.assertEqual(len(actual.object_list), 1)
@@ -643,6 +654,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
+        self.assertEqual(actual.segmentation_colors, [])
         self.assertEqual(actual.step_number, 0)
         self.assertEqual(actual.holes, None)
         self.assertEqual(actual.lava, None)
@@ -700,6 +712,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
+        self.assertEqual(actual.segmentation_colors, [])
         self.assertEqual(actual.step_number, 0)
         self.assertEqual(actual.holes, None)
         self.assertEqual(actual.lava, None)
@@ -745,6 +758,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
+        self.assertEqual(actual.segmentation_colors, [])
         self.assertEqual(actual.step_number, 0)
 
         # Correct object metadata properties tested elsewhere
@@ -789,6 +803,10 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
+        self.assertEqual(actual.segmentation_colors, [
+            {'objectId': 'thing1', 'r': 0, 'g': 1, 'b': 2},
+            {'objectId': 'thing2', 'r': 3, 'g': 4, 'b': 5}
+        ])
         self.assertEqual(actual.step_number, 0)
         self.assertEqual(actual.holes, [(0, 0), (1, 2), (9, 8)])
         self.assertEqual(actual.lava, [
@@ -846,6 +864,10 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
+        self.assertEqual(actual.segmentation_colors, [
+            {'objectId': 'thing1', 'r': 0, 'g': 1, 'b': 2},
+            {'objectId': 'thing2', 'r': 3, 'g': 4, 'b': 5}
+        ])
         self.assertEqual(actual.step_number, 0)
         self.assertEqual(actual.holes, [(0, 0), (1, 2), (9, 8)])
         self.assertEqual(actual.lava, [
