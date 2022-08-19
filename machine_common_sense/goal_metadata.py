@@ -175,7 +175,7 @@ class GoalMetadata:
 
         if is_passive_scene:
             logger.warning(
-                'Passive scene should have an action_list but does not; ' +
+                'Passive scene should have an action_list but does not; '
                 'allowing only Pass actions by default.'
             )
             return GoalMetadata.DEFAULT_PASSIVE_SCENE_ACTIONS
