@@ -1,0 +1,121 @@
+﻿{
+    "name": "put in not recpetacles test",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 30,
+            "y": 0
+        }
+    },
+    "objects": [{
+        "id": "platform",
+        "type": "cube",
+        "mass": 100,
+        "materialFile": "Plastics/GreenPlastic",
+        "physics": true,
+        "kinematic": true,
+        "structure": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 1.5,
+                "y": 0.25,
+                "z": 0.5
+            },
+            "scale": {
+                "x": 0.5,
+                "y": 0.5,
+                "z": 0.5
+            }
+        }]
+    },
+    {
+        "id": "agent",
+        "type": "agent_male_02",
+        "agentSettings": {
+            "chest": 4,
+            "chestMaterial": 5,
+            "eyes": -1,
+            "feet": -1,
+            "feetMaterial": -1,
+            "glasses": -1,
+            "hair": 4,
+            "hairMaterial": -1,
+            "hatMaterial": -1,
+            "jacket": 4,
+            "jacketMaterial": 3,
+            "legs": 2,
+            "legsMaterial": -1,
+            "skin": 2,
+            "tie": -1,
+            "tieMaterial": -1
+        },
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 1,
+                "y": 0,
+                "z": 0.5
+            },
+            "rotation": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }]
+    },
+    {
+        "id": "small_ball",
+        "type": "ball",
+        "mass": 1,
+        "salientMaterials": ["plastic"],
+        "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color 1"],
+        "pickupable": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.125,
+                "z": 0.5
+            },
+            "scale": {
+                "x": 0.25,
+                "y": 0.25,
+                "z": 0.25
+            }
+        }]
+    },
+    {
+        "id": "big_ball",
+        "type": "ball",
+        "mass": 1,
+        "salientMaterials": ["plastic"],
+        "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color 2"],
+        "pickupable": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0.5,
+                "y": 0.125,
+                "z": 0.5
+            },
+            "scale": {
+                "x": 0.5,
+                "y": 0.5,
+                "z": 0.5
+            }
+        }]
+    }]
+}

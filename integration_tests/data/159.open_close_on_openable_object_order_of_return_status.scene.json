@@ -1,0 +1,83 @@
+﻿{
+    "name": "check return status on open, closing, an putting into receptacle with small object and big object",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 75,
+            "y": 0
+        }
+    },
+    "objects": [{
+        "id": "chest",
+        "type": "chest_1",
+        "salientMaterials": ["wood"],
+        "materials": ["AI2-THOR/Materials/Wood/WornWood"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0.7
+            },
+            "rotation": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+            },
+            "scale": {
+                "x": 0.7,
+                "y": 0.7,
+                "z": 0.7
+            }
+        }]
+    },
+    {
+        "id": "small_ball",
+        "type": "ball",
+        "mass": 1,
+        "salientMaterials": ["plastic"],
+        "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color 1"],
+        "pickupable": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.125,
+                "z": 0.1
+            },
+            "scale": {
+                "x": 0.1475,
+                "y": 0.1475,
+                "z": 0.1475
+            }
+        }]
+    },
+    {
+        "id": "big_ball",
+        "type": "ball",
+        "mass": 1,
+        "salientMaterials": ["plastic"],
+        "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color 1"],
+        "pickupable": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0.75,
+                "y": 1,
+                "z": 0.3
+            },
+            "scale": {
+                "x": 0.5,
+                "y": 0.5,
+                "z": 0.5
+            }
+        }]
+    }]
+}
