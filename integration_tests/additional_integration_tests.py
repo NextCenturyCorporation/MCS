@@ -1,5 +1,6 @@
 import glob
 import json
+import math
 import os.path
 
 import numpy as np
@@ -69,14 +70,21 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
     for row_idx, pixel_row in enumerate(
             output_depth_data[0]["depth_map_list"][0]):
         for col_idx, pixel_col in enumerate(pixel_row):
-            if(pixel_col !=
-               step_metadata_0.depth_map_list[0][row_idx][col_idx]):
+
+            # Need to account for hardware differences
+            if(not math.isclose(
+                pixel_col,
+                step_metadata_0.depth_map_list[0][row_idx][col_idx],
+                rel_tol=0.00009,
+                abs_tol=0.00009
+            )):
                 return (
                     False,
                     f'Step 0 {metadata_tier} failed: '
                     f'depth_map_list[0][{row_idx}][{col_idx}] value of '
                     f'{step_metadata_0.depth_map_list[0][row_idx][col_idx]} '
-                    f'is not equal to expected values of {pixel_col}'
+                    f'is not close enough to expected value of '
+                    f'{pixel_col}'
                 )
 
     if (
@@ -122,14 +130,20 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
     for row_idx, pixel_row in enumerate(
             output_depth_data[1]["depth_map_list"][0]):
         for col_idx, pixel_col in enumerate(pixel_row):
-            if(pixel_col !=
-               step_metadata_1.depth_map_list[0][row_idx][col_idx]):
+            # Need to account for hardware differences
+            if(not math.isclose(
+                pixel_col,
+                step_metadata_1.depth_map_list[0][row_idx][col_idx],
+                rel_tol=0.00009,
+                abs_tol=0.00009
+            )):
                 return (
                     False,
                     f'Step 1 {metadata_tier} failed: '
                     f'depth_map_list[0][{row_idx}][{col_idx}] value of '
                     f'{step_metadata_1.depth_map_list[0][row_idx][col_idx]} '
-                    f'is not equal to expected values of {pixel_col}'
+                    f'is not close enough to expected value of '
+                    f'{pixel_col}'
                 )
 
     if (
