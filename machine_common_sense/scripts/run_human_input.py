@@ -109,10 +109,7 @@ class HumanInputShell(cmd.Cmd):
                 "look like this example: rotation=45")
             return
 
-        if not self._is_parameters_valid(action, params):
-            # function in if will print if necessary
-            return
-
+        params = self._is_parameters_valid(action, params)
         output = self.controller.step(action, **params)
 
         # The output may be None if given an invalid action.
@@ -134,20 +131,26 @@ class HumanInputShell(cmd.Cmd):
             valid = ('objectId' in params or (
                 'objectImageCoordsX' in params and
                 'objectImageCoordsY' in params))
+            if not valid:
+                print(
+                    f"Action: '{action_str}' using default image coords "
+                    f"x=300 y=200 because no objectId "
+                    f"or objectImageCoords were given")
+                params['objectImageCoordsX'] = 300
+                params['objectImageCoordsY'] = 200
         elif action in RECEPTACLE_ACTIONS:
-            valid = 'objectId' in params
-            valid &= (
+            valid = (
                 'receptacleObjectId' in params or (
                     'receptacleObjectImageCoordsX' in params and
                     'receptacleObjectImageCoordsY' in params))
-        else:
-            # for move or pass params can be ignored
-            valid = True
-        if not valid:
-            print(
-                f"Action: '{action_str}' parameters are invalid. Description: "
-                f"{action.desc}")
-        return valid
+            if not valid:
+                print(
+                    f"Action: '{action_str}' using default image coords "
+                    f"x=300 y=200 because no receptacleObjectId "
+                    f"or receptacleObjectImageCoords were given")
+                params['receptacleObjectImageCoordsX'] = 300
+                params['receptacleObjectImageCoordsY'] = 200
+        return params
 
     def help_auto(self):
         print(
