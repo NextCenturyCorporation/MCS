@@ -29,7 +29,7 @@ jobs:
       - name: Run isort
         uses: isort/isort-action@master
         with:
-            requirementsFiles: "requirements.txt requirements-test.txt"
+            requirementsFiles: "requirements-gh-actions.txt requirements.txt"
       - name: Flake8
         run: flake8
       - name: Autopep8
