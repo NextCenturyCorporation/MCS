@@ -44,9 +44,11 @@ def run_scene(controller: Controller, scene_data, path):
     output = controller.start_scene(scene_data)
 
     action = 'start'
-    while action is not None:
+    while True:
         action, params = path_follower.action_callback(
             scene_data, output, None)
+        if action is None:
+            break
         controller.step(action, **params)
 
     controller.end_scene()

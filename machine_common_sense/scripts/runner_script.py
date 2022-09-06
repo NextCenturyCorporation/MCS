@@ -3,6 +3,7 @@ import glob
 import logging
 import os.path
 import subprocess
+import time
 from typing import Callable, Dict, List, Tuple
 
 import machine_common_sense as mcs
@@ -58,6 +59,8 @@ class AbstractRunnerScript():
             init_callback(controller)
 
         for filename in filenames:
+            print('Starting next scene timer')
+            begin_time = time.perf_counter()
             scene_name = self.run_scene(
                 controller,
                 filename,
@@ -66,6 +69,9 @@ class AbstractRunnerScript():
                 args.prefix,
                 args.rename
             )
+            end_time = time.perf_counter()
+            time_diff = end_time - begin_time
+            print(f'{scene_name} scene timer: {time_diff:0.4f} seconds')
             if args.save_videos or args.save_gifs:
                 # Copy the black image into the debug folder as the last frame.
                 frame_image_list = glob.glob(scene_name + '/frame_image_*')
