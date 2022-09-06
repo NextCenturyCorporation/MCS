@@ -277,6 +277,7 @@ class SceneObject(BaseModel):
     pickupable: Optional[bool]
     receptacle: Optional[bool]
     reset_center_of_mass: Optional[bool]
+    reset_center_of_mass_at_y: Optional[float]
     resizes: List[SizeConfig] = None
     rotates: List[MoveConfig] = None
     salient_materials: List[str] = None
