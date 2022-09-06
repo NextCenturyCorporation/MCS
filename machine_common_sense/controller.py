@@ -289,8 +289,12 @@ class Controller():
         if ',' in action:
             action, kwargs = Action.input_to_action_and_params(action)
 
+        is_passive_scene = (
+            self._scene_config.intuitive_physics or
+            self._scene_config.isometric
+        )
         action_list = self._goal.retrieve_action_list_at_step(
-            self.__step_number, self.__steps_in_lava)
+            self.__step_number, self.__steps_in_lava, is_passive_scene)
 
         # Only continue with this action step if the given action and
         # parameters are in the restricted action list.
@@ -478,9 +482,6 @@ class Controller():
             A string containing the current metadata level.
         """
         return self._config.get_metadata_tier().value
-
-    def retrieve_action_list_at_step(self, goal, step_number):
-        return goal.retrieve_action_list_at_step(step_number)
 
     @typeguard.typechecked
     def retrieve_object_states(self, object_id: str) -> List:
