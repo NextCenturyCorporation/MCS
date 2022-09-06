@@ -41,6 +41,7 @@ class TestStepMetadata(unittest.TestCase):
         "return_status": "UNDEFINED",
         "reward": 0,
         "rotation": 0.0,
+        "segmentation_colors": [],
         "step_number": 0,
         "steps_on_lava": 0,
         "structural_object_list": []
@@ -80,6 +81,7 @@ class TestStepMetadata(unittest.TestCase):
         "return_status": "UNDEFINED",
         "reward": 0,
         "rotation": 0.0,
+        "segmentation_colors": [],
         "step_number": 0,
         "steps_on_lava": 0,
         "structural_object_list": [],
@@ -211,6 +213,10 @@ class TestStepMetadata(unittest.TestCase):
         self.assertAlmostEqual(self.step_metadata.rotation, 0.0)
         self.assertIsInstance(self.step_metadata.rotation, float)
 
+    def test_segmentation_colors(self):
+        self.assertEqual(self.step_metadata.segmentation_colors, [])
+        self.assertIsInstance(self.step_metadata.segmentation_colors, list)
+
     def test_step_number(self):
         self.assertEqual(self.step_metadata.step_number, 0)
         self.assertIsInstance(self.step_metadata.step_number, int)
@@ -262,6 +268,7 @@ class TestStepMetadata(unittest.TestCase):
             resolved_receptacle='',
             reward=0,
             rotation=90,
+            segmentation_colors=[{'objectId': 'a', 'r': 0, 'g': 1, 'b': 2}],
             step_number=25,
             structural_object_list=[
                 mcs.ObjectMetadata(uuid='structure_1'),
@@ -300,6 +307,7 @@ class TestStepMetadata(unittest.TestCase):
         self.assertEqual(data.resolved_receptacle, copy.resolved_receptacle)
         self.assertEqual(data.reward, copy.reward)
         self.assertEqual(data.rotation, copy.rotation)
+        self.assertEqual(data.segmentation_colors, copy.segmentation_colors)
         self.assertEqual(data.step_number, copy.step_number)
         self.assertEqual(
             [dict(object_data) for object_data in data.structural_object_list],

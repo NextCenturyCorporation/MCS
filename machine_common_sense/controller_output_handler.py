@@ -175,6 +175,15 @@ class SceneEvent():
             self._raw_output.events) - 1]
         return event.object_id_to_color
 
+    @property
+    def segmentation_colors(self):
+        return [{
+            'objectId': item['name'],
+            'r': item['color'][0],
+            'g': item['color'][1],
+            'b': item['color'][2]
+        } for item in (self._raw_output.metadata.get('colors') or [])]
+
     def retrieve_object_output(
             self, object_metadata, object_id_to_color):
         material_list = (
@@ -322,6 +331,10 @@ class ControllerOutputHandler():
                 else self._scene_event.resolved_receptacle),
             rotation=(
                 None if restrict_non_oracle else self._scene_event.rotation),
+            segmentation_colors=(
+                None if restrict_non_oracle
+                else self._scene_event.segmentation_colors
+            ),
             step_number=self._step_number,
             steps_on_lava=self._scene_event.steps_on_lava,
             physics_frames_per_second=(
