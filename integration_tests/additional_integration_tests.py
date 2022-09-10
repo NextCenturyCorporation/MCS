@@ -1,11 +1,19 @@
 import glob
+import json
+import math
 import os.path
+
+import numpy as np
 
 import machine_common_sense as mcs
 
 INTEGRATION_TESTS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 DEPTH_AND_SEGMENTATION_SCENE = (
     f'{INTEGRATION_TESTS_FOLDER}/depth_and_segmentation.scene.json'
+)
+
+DEPTH_DATA = (
+    f'{INTEGRATION_TESTS_FOLDER}/depth_map.outputs.json'
 )
 
 HABITUATION_TRIAL_COUNTS_SCENE = (
@@ -25,6 +33,10 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
     # Load the test scene's JSON data.
     scene_data = mcs.load_scene_json_file(DEPTH_AND_SEGMENTATION_SCENE)
 
+    with open(DEPTH_DATA, encoding='utf-8-sig') \
+            as depth_data_obj:
+        output_depth_data = json.load(depth_data_obj)
+
     # Initialize the test scene.
     step_metadata_0 = controller.start_scene(scene_data)
 
@@ -35,6 +47,46 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
             f'Step 0 {metadata_tier} failed: depth_map_list with length '
             f'{len(step_metadata_0.depth_map_list)} should be length 1'
         )
+    if isinstance(step_metadata_0.depth_map_list[0], np.ndarray) is False:
+        return (
+            False,
+            f'Step 0 {metadata_tier} failed: depth_map_list should '
+            f'be a numpy array'
+        )
+    if step_metadata_0.depth_map_list[0].dtype != np.dtype('float32'):
+        return (
+            False,
+            f'Step 0 {metadata_tier} failed: depth_map_list with dtype '
+            f'{step_metadata_0.depth_map_list[0].dtype} should have a '
+            f'dtype of float32'
+        )
+    if np.shape(step_metadata_0.depth_map_list) != (1, 400, 600):
+        return (
+            False,
+            f'Step 0 {metadata_tier} failed: depth_map_list with dimensions '
+            f'{np.shape(step_metadata_0.depth_map_list)} should be '
+            f'dimensions (1, 400, 600)'
+        )
+    for row_idx, pixel_row in enumerate(
+            output_depth_data[0]["depth_map_list"][0]):
+        for col_idx, pixel_col in enumerate(pixel_row):
+
+            # Need to account for hardware differences
+            if(not math.isclose(
+                pixel_col,
+                step_metadata_0.depth_map_list[0][row_idx][col_idx],
+                rel_tol=0.00009,
+                abs_tol=0.00009
+            )):
+                return (
+                    False,
+                    f'Step 0 {metadata_tier} failed: '
+                    f'depth_map_list[0][{row_idx}][{col_idx}] value of '
+                    f'{step_metadata_0.depth_map_list[0][row_idx][col_idx]} '
+                    f'is not close enough to expected value of '
+                    f'{pixel_col}'
+                )
+
     if (
         metadata_tier in ['level2', 'oracle'] and len(
             step_metadata_0.object_mask_list) != 1
@@ -55,6 +107,45 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
             f'Step 1 {metadata_tier} failed: depth_map_list with length '
             f'{len(step_metadata_1.depth_map_list)} should be length 1'
         )
+    if isinstance(step_metadata_1.depth_map_list[0], np.ndarray) is False:
+        return (
+            False,
+            f'Step 1 {metadata_tier} failed: depth_map_list should '
+            f'be a numpy array'
+        )
+    if step_metadata_1.depth_map_list[0].dtype != np.dtype('float32'):
+        return (
+            False,
+            f'Step 1 {metadata_tier} failed: depth_map_list with dtype '
+            f'{step_metadata_1.depth_map_list[0].dtype} should have a '
+            f'dtype of float32'
+        )
+    if np.shape(step_metadata_1.depth_map_list) != (1, 400, 600):
+        return (
+            False,
+            f'Step 1 {metadata_tier} failed: depth_map_list with dimensions '
+            f'{np.shape(step_metadata_1.depth_map_list)} should be '
+            f'dimensions (1, 400, 600)'
+        )
+    for row_idx, pixel_row in enumerate(
+            output_depth_data[1]["depth_map_list"][0]):
+        for col_idx, pixel_col in enumerate(pixel_row):
+            # Need to account for hardware differences
+            if(not math.isclose(
+                pixel_col,
+                step_metadata_1.depth_map_list[0][row_idx][col_idx],
+                rel_tol=0.00009,
+                abs_tol=0.00009
+            )):
+                return (
+                    False,
+                    f'Step 1 {metadata_tier} failed: '
+                    f'depth_map_list[0][{row_idx}][{col_idx}] value of '
+                    f'{step_metadata_1.depth_map_list[0][row_idx][col_idx]} '
+                    f'is not close enough to expected value of '
+                    f'{pixel_col}'
+                )
+
     if (
         metadata_tier in ['level2', 'oracle'] and len(
             step_metadata_1.object_mask_list) != 1
