@@ -1,0 +1,62 @@
+﻿{
+    "name": "rotating_cog_example",
+    "version": 1,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/WallDrywallWhite",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/RUG4",
+    "wallMaterial": "AI2-THOR/Materials/Walls/YellowDrywall",
+    "roomDimensions": {
+        "x": 5,
+        "y": 5,
+        "z": 8
+    },
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": 0.75
+    },
+        "rotation": {
+            "x": 30,
+            "y": 0
+        }
+    },
+    "objects": 
+        [{
+        "id": "rotating_cog_a",
+        "type": "rotating_cog",
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.01,
+                "z": 2.00
+            }
+        }],
+        "rotates": [{
+            "stepBegin": 1,
+            "stepEnd": 9,
+            "vector": {
+                "x": 0,
+                "y": 10,
+                "z": 0
+            }
+        }],
+        "structure": true
+    }, {
+        "id": "apple_a",
+        "type": "apple_1",
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0.3,
+                "y": 0.02,
+                "z": 2.00
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }]
+    }
+    ]
+}

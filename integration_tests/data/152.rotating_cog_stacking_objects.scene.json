@@ -1,0 +1,163 @@
+﻿{ 
+    "name": "rotating_cog_example_with_stacking", 
+    "version": 1, 
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/WallDrywallWhite",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/RUG4",
+    "wallMaterial": "AI2-THOR/Materials/Walls/YellowDrywall",
+    "roomDimensions": { 
+        "x": 5,
+        "y": 5,
+        "z": 8 
+    },
+    "performerStart": { 
+        "position": { 
+            "x": 0.2,
+            "z": 1.2
+        },
+        "rotation": { 
+            "x": 30,
+            "y": 0 
+        } 
+    }, 
+    "objects": [{ 
+        "id": "block_blank_a", 
+        "type": "block_blank_wood_cube", 
+        "salientMaterials": ["wood"], 
+        "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/blue_1x1"],
+        "shows": [{ 
+            "stepBegin": 0, "position": { 
+                "x": 0, 
+                "y": 0.055, 
+                "z": 2.25 
+            },
+            "rotation": { 
+                "x": 0, 
+                "y": 1, 
+                "z": 0 
+            },
+            "scale": { 
+                "x": 2, 
+                "y": 1, 
+                "z": 2 
+                } 
+        }] 
+    }, { 
+        "id": "block_blank_c",
+        "type": "block_blank_wood_cube",
+        "salientMaterials": ["wood"],
+        "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/green_1x1"],
+        "shows": [{ 
+            "stepBegin": 0, 
+            "position": { 
+                "x": 0, 
+                "y": 0.155, 
+                "z": 2.25 
+            },
+        "rotation": { 
+            "x": 0.01, 
+            "y": 1, 
+            "z": 0 
+            }, "scale": { 
+                "x": 1, 
+                "y": 1, 
+                "z": 1 
+            } 
+        }], 
+        "rotates": [{ 
+            "stepBegin": 1, 
+            "stepEnd": 9,
+            "vector": { 
+                "x": 0, 
+                "y": 33, 
+                "z": 0 
+                } 
+            }] 
+        }, { 
+            "id": "block_blank_d",
+            "type": "block_blank_wood_cylinder",
+            "salientMaterials": [
+                "wood"
+            ], 
+            "materials": [
+                "UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/red_1x1"
+            ],
+            "shows": [{ 
+                "stepBegin": 0,
+                "position": { 
+                    "x": 0,
+                    "y": 0.26, 
+                    "z": 2.25 
+                },
+                "rotation": {
+                    "x": 0,
+                    "y": 1, 
+                    "z": 0 
+                },
+                "scale": { 
+                    "x": 1, 
+                    "y": 1, 
+                    "z": 1 
+                } 
+            }] 
+        }, { 
+            "id": "block_blank_f",
+            "type": "block_blank_wood_cube",
+            "salientMaterials": ["wood"],
+            "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/yellow_1x1"],
+            "shows": [{ 
+                "stepBegin": 0,
+                "position": { 
+                    "x": 0, 
+                    "y": 0.434, 
+                    "z": 2.25 
+                },
+                "rotation": { 
+                    "x": 0, 
+                    "y": 1, 
+                    "z": 0 
+                },
+                "scale": { 
+                    "x": 1, 
+                    "y": 2, 
+                    "z": 1 
+                } 
+            }] 
+        }, {
+            "id": "rotating_cog_a",
+            "type": "rotating_cog",
+            "shows": [{ 
+                "stepBegin": 0,
+                "position": { 
+                    "x": 0.2, 
+                    "y": 0.01, 
+                    "z": 2.00 
+                } 
+            }],
+            "rotates": [{ 
+                "stepBegin": 1,
+                "stepEnd": 9,
+                "vector": { 
+                    "x": 0, 
+                    "y": 10, 
+                    "z": 0 
+                } 
+            }],
+            "structure": true 
+        }, { 
+            "id": "apple_a",
+            "type": "apple_1",
+            "shows": [{
+                "stepBegin": 0,
+                "position": { 
+                "x": 0.3,
+                "y": 0.02,
+                "z": 2.00 
+                }, 
+                "scale": { 
+                    "x": 1, 
+                    "y": 1, 
+                    "z": 1 
+            }
+        }]
+    }] 
+}

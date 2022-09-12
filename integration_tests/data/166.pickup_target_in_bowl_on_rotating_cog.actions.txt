@@ -1,0 +1,12 @@
+Pass
+Pass
+Pass
+Pass
+Pass
+Pass
+Pass
+Pass
+Pass
+Pass
+PickupObject,objectId=soccer_ball
+Pass
