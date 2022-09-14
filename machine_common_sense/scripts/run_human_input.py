@@ -123,6 +123,26 @@ class HumanInputShell(cmd.Cmd):
             ):
                 self.default('')
 
+    def _set_default_image_coords(self, string, action_str, params):
+        number_of_default_img_coords_to_use = (
+            1 if f'{string}ImageCoordsX' in params or
+            f'{string}ImageCoordsY' in params else 2)
+        obj_img_coord_x = (
+            300 if f'{string}ImageCoordsX' not in
+            params else params[f'{string}ImageCoordsX'])
+        obj_img_coord_y = (
+            200 if f'{string}ImageCoordsY' not in
+            params else params[f'{string}ImageCoordsY'])
+        print(
+            f"Action: '{action_str}' using "
+            f"{number_of_default_img_coords_to_use} default image "
+            f"coord{'s' if number_of_default_img_coords_to_use == 0 else ''} "
+            f"x={obj_img_coord_x} y={obj_img_coord_y} because no {string}Id "
+            f"or {string}ImageCoords were given")
+        params[f'{string}ImageCoordsX'] = obj_img_coord_x
+        params[f'{string}ImageCoordsY'] = obj_img_coord_y
+        return params
+
     def _is_parameters_valid(self, action_str, params):
         action: Action = Action(action_str)
         valid = False
@@ -132,24 +152,15 @@ class HumanInputShell(cmd.Cmd):
                 'objectImageCoordsX' in params and
                 'objectImageCoordsY' in params))
             if not valid:
-                print(
-                    f"Action: '{action_str}' using default image coords "
-                    f"x=300 y=200 because no objectId "
-                    f"or objectImageCoords were given")
-                params['objectImageCoordsX'] = 300
-                params['objectImageCoordsY'] = 200
+                params = self._set_default_image_coords(
+                    "object", action_str, params)
         elif action in RECEPTACLE_ACTIONS:
-            valid = (
-                'receptacleObjectId' in params or (
-                    'receptacleObjectImageCoordsX' in params and
-                    'receptacleObjectImageCoordsY' in params))
+            valid = ('receptacleObjectId' in params or (
+                'receptacleObjectImageCoordsX' in params and
+                'receptacleObjectImageCoordsY' in params))
             if not valid:
-                print(
-                    f"Action: '{action_str}' using default image coords "
-                    f"x=300 y=200 because no receptacleObjectId "
-                    f"or receptacleObjectImageCoords were given")
-                params['receptacleObjectImageCoordsX'] = 300
-                params['receptacleObjectImageCoordsY'] = 200
+                params = self._set_default_image_coords(
+                    "receptacleObject", action_str, params)
         return params
 
     def help_auto(self):
