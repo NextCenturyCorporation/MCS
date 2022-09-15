@@ -1,0 +1,5 @@
+PickupObject,objectId=ball
+OpenObject,objectId=box
+MoveRight
+MoveRight
+PutObject,receptacleObjectId=box

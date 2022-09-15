@@ -956,7 +956,7 @@
         "objects_count": 4,
         "position_x": 0.0,
         "position_z": -0.2,
-        "return_status": "NOT_INTERACTABLE",
+        "return_status": "NOT_VISIBLE",
         "rotation_y": 0.0,
         "step_number": 12,
         "structural_objects_count": 7

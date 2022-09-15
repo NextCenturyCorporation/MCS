@@ -1,0 +1,1154 @@
+﻿[
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 0,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_VISIBLE",
+        "rotation_y": 90,
+        "step_number": 1,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_VISIBLE",
+        "rotation_y": 90,
+        "step_number": 2,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_VISIBLE",
+        "rotation_y": 90,
+        "step_number": 3,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_VISIBLE",
+        "rotation_y": 90,
+        "step_number": 4,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_VISIBLE",
+        "rotation_y": 90,
+        "step_number": 5,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_VISIBLE",
+        "rotation_y": 90,
+        "step_number": 6,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_VISIBLE",
+        "rotation_y": 90,
+        "step_number": 7,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_VISIBLE",
+        "rotation_y": 90,
+        "step_number": 8,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_VISIBLE",
+        "rotation_y": 90,
+        "step_number": 9,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 80,
+        "step_number": 10,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 70,
+        "step_number": 11,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 60,
+        "step_number": 12,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 50,
+        "step_number": 13,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 40,
+        "step_number": 14,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 30,
+        "step_number": 15,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 20,
+        "step_number": 16,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 10,
+        "step_number": 17,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 18,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_MOVEABLE",
+        "rotation_y": 0,
+        "step_number": 19,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_MOVEABLE",
+        "rotation_y": 0,
+        "step_number": 20,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_MOVEABLE",
+        "rotation_y": 0,
+        "step_number": 21,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_MOVEABLE",
+        "rotation_y": 0,
+        "step_number": 22,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_MOVEABLE",
+        "rotation_y": 0,
+        "step_number": 23,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_MOVEABLE",
+        "rotation_y": 0,
+        "step_number": 24,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_MOVEABLE",
+        "rotation_y": 0,
+        "step_number": 25,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_MOVEABLE",
+        "rotation_y": 0,
+        "step_number": 26,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_MOVEABLE",
+        "rotation_y": 0,
+        "step_number": 27,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_MOVEABLE",
+        "rotation_y": 0,
+        "step_number": 28,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_PICKUPABLE",
+        "rotation_y": 0,
+        "step_number": 29,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_OPENABLE",
+        "rotation_y": 0,
+        "step_number": 30,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_OPENABLE",
+        "rotation_y": 0,
+        "step_number": 31,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_OPENABLE",
+        "rotation_y": 0,
+        "step_number": 32,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_OPENABLE",
+        "rotation_y": 0,
+        "step_number": 33,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_AGENT",
+        "rotation_y": 0,
+        "step_number": 34,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0,
+                "position_z": 1.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 0,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "platform",
+        "resolved_receptacle": "",
+        "return_status": "NOT_AGENT",
+        "rotation_y": 0,
+        "step_number": 35,
+        "structural_objects_count": 7
+    }
+]
