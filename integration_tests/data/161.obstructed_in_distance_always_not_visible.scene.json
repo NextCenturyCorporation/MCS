@@ -1,0 +1,170 @@
+﻿{
+    "name": "move rotate push pull torque pickup open close interact on all object types test while obstructed",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "performerStart": {
+        "position": {
+            "x": -1,
+            "z": 1.4
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "objects": [{
+        "id": "platform",
+        "type": "cube",
+        "mass": 100,
+        "materialFile": "Plastics/GreenPlastic",
+        "physics": true,
+        "kinematic": true,
+        "structure": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 1,
+                "y": 0.25,
+                "z": 2
+            },
+            "scale": {
+                "x": 0.5,
+                "y": 0.5,
+                "z": 0.5
+            }
+        }]
+    },
+    {
+        "id": "occluder",
+        "type": "cube",
+        "mass": 100,
+        "materialFile": "Plastics/GreenPlastic",
+        "physics": true,
+        "kinematic": true,
+        "structure": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0.45,
+                "y": 0.5,
+                "z": 1.7
+            },
+            "scale": {
+                "x": 3.5,
+                "y": 1,
+                "z": 0.02
+            }
+        }]
+    },
+    {
+        "id": "agent",
+        "type": "agent_male_02",
+        "agentSettings": {
+            "chest": 4,
+            "chestMaterial": 5,
+            "eyes": -1,
+            "feet": -1,
+            "feetMaterial": -1,
+            "glasses": -1,
+            "hair": 4,
+            "hairMaterial": -1,
+            "hatMaterial": -1,
+            "jacket": 4,
+            "jacketMaterial": 3,
+            "legs": 2,
+            "legsMaterial": -1,
+            "skin": 2,
+            "tie": -1,
+            "tieMaterial": -1
+        },
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": -1,
+                "y": 0,
+                "z": 2
+            },
+            "rotation": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }]
+    },
+    {
+        "id": "changing_table",
+        "type": "changing_table",
+        "salientMaterials": ["wood"],
+        "materials": ["AI2-THOR/Materials/Wood/DarkWoodSmooth2", "AI2-THOR/Materials/Wood/DarkWoodSmooth2"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": -0.25,
+                "y": 0,
+                "z": 2
+            },
+            "rotation": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+            },
+            "scale": {
+                "x": 0.75,
+                "y": 0.75,
+                "z": 0.75
+            }
+        }]
+    },
+    {
+        "id": "ball",
+        "type": "ball",
+        "mass": 1,
+        "salientMaterials": ["plastic"],
+        "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color 1"],
+        "pickupable": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0.5,
+                "y": 0.125,
+                "z": 2
+            },
+            "scale": {
+                "x": 0.25,
+                "y": 0.25,
+                "z": 0.25
+            }
+        }]
+    },
+    {
+        "id": "chest",
+        "type": "chest_1",
+        "salientMaterials": ["wood"],
+        "materials": ["AI2-THOR/Materials/Wood/WornWood"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 1.75,
+                "y": 0,
+                "z": 2
+            },
+            "rotation": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+            },
+            "scale": {
+                "x": 0.7,
+                "y": 0.7,
+                "z": 0.7
+            }
+        }]
+    }]
+}

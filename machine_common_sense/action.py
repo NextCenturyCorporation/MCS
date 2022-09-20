@@ -67,8 +67,8 @@ class Action(Enum):
     "NOT_RECEPTACLE"
         If the object corresponding to the "objectImageCoords" vector is not a
         receptacle object.
-    "OBSTRUCTED"
-        If you cannot close the object because your path is obstructed.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
     "OUT_OF_REACH"
         If you cannot close the object because you are out of reach.
     "FAILED"
@@ -219,8 +219,11 @@ class Action(Enum):
     "NOT_RECEPTACLE"
         If the object corresponding to the "objectImageCoords" vector is not a
         receptacle object.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
     "OBSTRUCTED"
-        If you cannot open the object because your path is obstructed.
+        If you cannot open the object because you will be in the way of the
+        object when its opened.
     "OUT_OF_REACH"
         If you cannot open the object because you are out of reach.
     "FAILED"
@@ -266,8 +269,8 @@ class Action(Enum):
         to the "objectImageCoords" vector) is not an object.
     "NOT_PICKUPABLE"
         If the object itself cannot be picked up.
-    "OBSTRUCTED"
-        If you cannot pick up the object because your path is obstructed.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
     "OUT_OF_REACH"
         If you cannot pick up the object because you are out of reach.
     "FAILED"
@@ -313,8 +316,8 @@ class Action(Enum):
         to the "objectImageCoords" vector) is not an object.
     "NOT_MOVEABLE"
         If the object itself cannot be moved by a baby.
-    "OBSTRUCTED"
-        If you cannot move the object because your path is obstructed.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
     "OUT_OF_REACH"
         If you cannot move the object because you are out of reach.
     "FAILED"
@@ -360,8 +363,8 @@ class Action(Enum):
         to the "objectImageCoords" vector) is not an object.
     "NOT_MOVEABLE"
         If the object itself cannot be moved by a baby.
-    "OBSTRUCTED"
-        If you cannot move the object because your path is obstructed.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
     "OUT_OF_REACH"
         If you cannot move the object because you are out of reach.
     "FAILED"
@@ -418,6 +421,8 @@ class Action(Enum):
         If the object corresponding to the "receptacleObjectId" (or object
         corresponding to the "receptacleObjectImageCoords" vector) is not a
         receptacle.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
     "OBSTRUCTED"
         If you cannot put down the object because your path is obstructed.
     "OUT_OF_REACH"
@@ -465,8 +470,8 @@ class Action(Enum):
         to the "objectImageCoords" vector) is not an object.
     "NOT_MOVEABLE"
         If the object itself cannot be moved by a baby.
-    "OBSTRUCTED"
-        If you cannot move the object because your path is obstructed.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
     "OUT_OF_REACH"
         If you cannot move the object because you are out of reach.
     "FAILED"
@@ -513,8 +518,11 @@ class Action(Enum):
         to the "objectImageCoords" vector) is not an object.
     "NOT_MOVEABLE"
         If the object itself cannot be moved by a baby.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
     "OBSTRUCTED"
-        If you cannot move the object because your path is obstructed.
+        If you cannot rotate the object because the path of rotation
+        is obstructed.
     "OUT_OF_REACH"
         If you cannot move the object because you are out of reach.
     "FAILED"
@@ -570,8 +578,11 @@ class Action(Enum):
         to the "objectImageCoords" vector) is not an object.
     "NOT_MOVEABLE"
         If the object itself cannot be moved by a baby.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
     "OBSTRUCTED"
-        If you cannot move the object because your path is obstructed.
+        If you cannot rotate the object because the path of movement
+        is obstructed.
     "OUT_OF_REACH"
         If you cannot move the object because you are out of reach.
     "FAILED"
@@ -621,8 +632,8 @@ class Action(Enum):
     "AGENT_CURRENTLY_INTERACTING_WTIH_PERFORMER"
         If the object being interacted with is a simulation agent already
         interacting with the performer
-    "OBSTRUCTED"
-        If you cannot move the object because your path is obstructed.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
     "OUT_OF_REACH"
         If you cannot move the object because you are out of reach.
     "FAILED"

@@ -1,0 +1,88 @@
+﻿{ 
+    "name": "rotating cog with target in bowl", 
+    "version": 1, 
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/WallDrywallWhite",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/RUG4",
+    "wallMaterial": "AI2-THOR/Materials/Walls/YellowDrywall",
+    "roomDimensions": { 
+        "x": 12,
+        "y": 5,
+        "z": 12 
+    },
+    "performerStart": { 
+        "position": { 
+            "x": 0,
+            "z": 0 
+        },
+        "rotation": { 
+            "x": 30,
+            "y": 0 
+        } 
+    }, 
+    "objects": [{
+            "id": "rotating_cog_a",
+            "type": "rotating_cog",
+            "shows": [{ 
+                "stepBegin": 0,
+                "position": { 
+                    "x": 0.2, 
+                    "y": 0.01, 
+                    "z": 2.00 
+                },
+                "scale": { 
+                    "x": 4.5, 
+                    "y": 0.01, 
+                    "z": 4.5
+                } 
+            }],
+            "rotates": [{ 
+                "stepBegin": 1,
+                "stepEnd": 300,
+                "vector": { 
+                    "x": 0, 
+                    "y": -10, 
+                    "z": 0 
+                } 
+            }],
+            "structure": true 
+        }, {
+            "id": "soccer_ball",
+            "type": "soccer_ball",
+            "mass": 1,
+            "salientMaterials": ["plastic"],
+            "pickupable": true,
+            "shows": [{
+                "stepBegin": 0,
+                "position": {
+                    "x": 0,
+                    "y": 0.15,
+                    "z": 0.6
+                },
+                "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                }
+            }]
+        }, {
+            "id": "bowl_a",
+            "type": "bowl_6",
+            "salientMaterials": ["plastic"],
+            "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color 2"],
+            "shows": [{
+                "stepBegin": 0,
+                "position": {
+                    "x": 0,
+                    "y": 0.01,
+                    "z": 0.6
+                },
+                "scale": {
+                    "x": 3,
+                    "y": 3,
+                    "z": 3
+                }
+            }]
+        }
+    ]
+}
+

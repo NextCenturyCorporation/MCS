@@ -61,6 +61,7 @@ def create_step_test_case_list(expected, actual):
             round(actual.rotation) % 360 if actual.rotation is not None
             else None
         ),
+        ('room_dimensions', actual.room_dimensions),
         ('step_number', actual.step_number),
         ('physics_frames_per_second', actual.physics_frames_per_second),
         ('structural_objects_count', len(actual.structural_object_list))

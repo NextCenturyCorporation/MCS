@@ -117,6 +117,10 @@ class StepMetadata:
         :mod:`Action <machine_common_sense.Action>`.
     reward : integer
         Reward is 1 on successful completion of a task, 0 otherwise.
+    room_dimensions : dict
+        The "x", "y", and "z" dimensions of the current scene.
+        Will be set to 'None' if using a metadata level below the
+        'oracle' level.
     rotation : float
         Your current rotation angle in degrees. Will be set to 'None'
         if using a metadata level below the 'oracle' level.
@@ -163,6 +167,7 @@ class StepMetadata:
         resolved_receptacle='',
         return_status=ReturnStatus.UNDEFINED.value,
         reward=0,
+        room_dimensions=None,
         rotation=0.0,
         step_number=0,
         steps_on_lava=0,
@@ -202,6 +207,9 @@ class StepMetadata:
         self.resolved_receptacle = resolved_receptacle
         self.return_status = return_status
         self.reward = reward
+        self.room_dimensions = (
+            {} if room_dimensions is None else room_dimensions
+        )
         self.rotation = rotation
         self.step_number = step_number
         self.steps_on_lava = steps_on_lava
@@ -249,6 +257,7 @@ class StepMetadata:
         yield 'resolved_object', self.resolved_object
         yield 'resolved_receptacle', self.resolved_receptacle
         yield 'return_status', self.return_status
+        yield 'room_dimensions', self.room_dimensions
         yield 'reward', self.reward
         yield 'rotation', self.rotation
         yield 'step_number', self.step_number,

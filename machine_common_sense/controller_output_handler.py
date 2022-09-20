@@ -112,6 +112,10 @@ class SceneEvent():
         return self._raw_output.metadata.get('physicsFramesPerSecond')
 
     @property
+    def room_dimensions(self) -> float:
+        return self._raw_output.metadata.get('roomDimensions')
+
+    @property
     def events(self):
         return self._raw_output.events
 
@@ -324,6 +328,9 @@ class ControllerOutputHandler():
             resolved_receptacle=(
                 None if restrict_non_oracle
                 else self._scene_event.resolved_receptacle),
+            room_dimensions=(
+                None if restrict_non_oracle
+                else self._scene_event.room_dimensions),
             rotation=(
                 None if restrict_non_oracle else self._scene_event.rotation),
             step_number=self._step_number,
@@ -365,6 +372,7 @@ class ControllerOutputHandler():
         step_output.position = None
         step_output.holes = None
         step_output.lava = None
+        step_output.room_dimensions = None
 
         target_name_list = ['target', 'target_1', 'target_2']
         for target_name in target_name_list:
