@@ -5,9 +5,10 @@ from abc import abstractmethod
 import numpy as np
 import PIL
 
-from .controller_events import (AbstractControllerSubscriber,
+from .controller_events import (AbstractControllerSubscriber, AfterStepPayload,
                                 BasePostActionEventPayload,
-                                ControllerEventPayload)
+                                ControllerEventPayload, EndScenePayload,
+                                StartScenePayload)
 from .plotter import TopDownPlotter
 from .recorder import VideoRecorder
 
@@ -204,6 +205,34 @@ class ImageVideoEventHandler(AbstractVideoEventHandler):
             self.__recorder.add(scene_image)
 
     def on_end_scene(self, payload: ControllerEventPayload):
+        self.__recorder.finish()
+
+
+class UnityTopdownCameraCombinerEventHandler(AbstractVideoEventHandler):
+    keyword = "topdown"
+
+    def on_start_scene(self, payload: StartScenePayload):
+        self.__recorder = self.create_video_recorder(
+            payload, AbstractVideoEventHandler.TOPDOWN)
+        self.__plotter = TopDownPlotter(
+            team=payload.config.get_team(),
+            scene_config=payload.scene_config
+        )
+        self.folder = pathlib.Path(payload.output_folder)
+        self.write_image(payload)
+
+    def write_image(self, payload: BasePostActionEventPayload):
+        image_file = (
+            self.folder / pathlib.Path(
+                f"{payload.scene_config.name}_{self.keyword}_"
+                f"{payload.step_number}.png"))
+        image = PIL.Image.open(image_file.as_posix())
+        self.__recorder.add(image)
+
+    def on_after_step(self, payload: AfterStepPayload):
+        self.write_image(payload)
+
+    def on_end_scene(self, payload: EndScenePayload):
         self.__recorder.finish()
 
 

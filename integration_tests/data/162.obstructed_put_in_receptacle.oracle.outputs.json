@@ -1,0 +1,422 @@
+﻿[
+    {
+        "head_tilt": 60,
+        "objects": [
+            {
+                "direction_x": -0.04,
+                "direction_y": -0.85,
+                "direction_z": 0.52,
+                "distance": 0.77,
+                "held": false,
+                "id": "ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.23,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.23,
+                "direction_y": -0.86,
+                "direction_z": 0.45,
+                "distance": 0.88,
+                "held": false,
+                "id": "box",
+                "mass": 0.5,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": -0.0,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "box",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.68,
+                "direction_y": -0.55,
+                "direction_z": 0.48,
+                "distance": 0.48,
+                "held": false,
+                "id": "occluder",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.12,
+                "position_z": 0.33,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -0.2,
+        "position_z": 0.1,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 0,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 60,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.41,
+                "direction_z": 0.91,
+                "distance": 0.32,
+                "held": true,
+                "id": "ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.2,
+                "position_z": 0.39,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.23,
+                "direction_y": -0.86,
+                "direction_z": 0.45,
+                "distance": 0.88,
+                "held": false,
+                "id": "box",
+                "mass": 0.5,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": -0.0,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "box",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.68,
+                "direction_y": -0.55,
+                "direction_z": 0.48,
+                "distance": 0.48,
+                "held": false,
+                "id": "occluder",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.12,
+                "position_z": 0.33,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -0.2,
+        "position_z": 0.1,
+        "resolved_object": "ball",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 1,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 60,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.41,
+                "direction_z": 0.91,
+                "distance": 0.32,
+                "held": true,
+                "id": "ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.2,
+                "position_z": 0.39,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.23,
+                "direction_y": -0.86,
+                "direction_z": 0.45,
+                "distance": 0.88,
+                "held": false,
+                "id": "box",
+                "mass": 0.5,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": -0.0,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "box",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.68,
+                "direction_y": -0.55,
+                "direction_z": 0.48,
+                "distance": 0.48,
+                "held": false,
+                "id": "occluder",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.12,
+                "position_z": 0.33,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -0.2,
+        "position_z": 0.1,
+        "resolved_object": "box",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 2,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 60,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.41,
+                "direction_z": 0.91,
+                "distance": 0.32,
+                "held": true,
+                "id": "ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.1,
+                "position_z": 0.39,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.12,
+                "direction_y": -0.88,
+                "direction_z": 0.46,
+                "distance": 0.87,
+                "held": false,
+                "id": "box",
+                "mass": 0.5,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": -0.0,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "box",
+                "texture_color_list": [],
+                "visible": false
+            },
+            {
+                "direction_x": 0.54,
+                "direction_y": -0.63,
+                "direction_z": 0.55,
+                "distance": 0.41,
+                "held": false,
+                "id": "occluder",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.12,
+                "position_z": 0.33,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -0.1,
+        "position_z": 0.1,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 3,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 60,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.41,
+                "direction_z": 0.91,
+                "distance": 0.32,
+                "held": true,
+                "id": "ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.39,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.89,
+                "direction_z": 0.46,
+                "distance": 0.86,
+                "held": false,
+                "id": "box",
+                "mass": 0.5,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": -0.0,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "box",
+                "texture_color_list": [],
+                "visible": false
+            },
+            {
+                "direction_x": 0.34,
+                "direction_y": -0.71,
+                "direction_z": 0.62,
+                "distance": 0.37,
+                "held": false,
+                "id": "occluder",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.12,
+                "position_z": 0.33,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.1,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 4,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 60,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.41,
+                "direction_z": 0.91,
+                "distance": 0.32,
+                "held": true,
+                "id": "ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.39,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.89,
+                "direction_z": 0.46,
+                "distance": 0.86,
+                "held": false,
+                "id": "box",
+                "mass": 0.5,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": -0.0,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "box",
+                "texture_color_list": [],
+                "visible": false
+            },
+            {
+                "direction_x": 0.34,
+                "direction_y": -0.71,
+                "direction_z": 0.62,
+                "distance": 0.37,
+                "held": false,
+                "id": "occluder",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.12,
+                "position_z": 0.33,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.1,
+        "resolved_object": "",
+        "resolved_receptacle": "box",
+        "return_status": "NOT_VISIBLE",
+        "rotation_y": 0,
+        "step_number": 5,
+        "structural_objects_count": 7
+    }
+]

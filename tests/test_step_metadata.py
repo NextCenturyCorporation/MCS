@@ -40,6 +40,7 @@ class TestStepMetadata(unittest.TestCase):
         "resolved_receptacle": "",
         "return_status": "UNDEFINED",
         "reward": 0,
+        "room_dimensions": {},
         "rotation": 0.0,
         "step_number": 0,
         "steps_on_lava": 0,
@@ -79,6 +80,7 @@ class TestStepMetadata(unittest.TestCase):
         "resolved_receptacle": "",
         "return_status": "UNDEFINED",
         "reward": 0,
+        "room_dimensions": {},
         "rotation": 0.0,
         "step_number": 0,
         "steps_on_lava": 0,
@@ -207,6 +209,9 @@ class TestStepMetadata(unittest.TestCase):
         self.assertEqual(self.step_metadata.reward, 0)
         self.assertIsInstance(self.step_metadata.reward, int)
 
+    def test_room_dimensions(self):
+        self.assertIsInstance(self.step_metadata.room_dimensions, dict)
+
     def test_rotation(self):
         self.assertAlmostEqual(self.step_metadata.rotation, 0.0)
         self.assertIsInstance(self.step_metadata.rotation, float)
@@ -261,6 +266,7 @@ class TestStepMetadata(unittest.TestCase):
             resolved_object='testObjectId',
             resolved_receptacle='',
             reward=0,
+            room_dimensions={'x': 10, 'y': 4, 'z': 12},
             rotation=90,
             step_number=25,
             structural_object_list=[
@@ -299,6 +305,7 @@ class TestStepMetadata(unittest.TestCase):
         self.assertEqual(data.resolved_object, copy.resolved_object)
         self.assertEqual(data.resolved_receptacle, copy.resolved_receptacle)
         self.assertEqual(data.reward, copy.reward)
+        self.assertEqual(data.room_dimensions, copy.room_dimensions)
         self.assertEqual(data.rotation, copy.rotation)
         self.assertEqual(data.step_number, copy.step_number)
         self.assertEqual(

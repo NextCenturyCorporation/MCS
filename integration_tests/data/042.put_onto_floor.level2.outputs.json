@@ -24,7 +24,7 @@
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
-        "return_status": "NOT_OBJECT",
+        "return_status": "NOT_RECEPTACLE",
         "rotation_y": null,
         "step_number": 2,
         "structural_objects_count": 0

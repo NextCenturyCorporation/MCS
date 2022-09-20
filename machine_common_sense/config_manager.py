@@ -277,6 +277,7 @@ class SceneObject(BaseModel):
     pickupable: Optional[bool]
     receptacle: Optional[bool]
     reset_center_of_mass: Optional[bool]
+    reset_center_of_mass_at_y: Optional[float]
     resizes: List[SizeConfig] = None
     rotates: List[MoveConfig] = None
     salient_materials: List[str] = None
@@ -315,6 +316,8 @@ class ConfigManager:
     CONFIG_STEPS_ALLOWED_IN_LAVA = 'steps_allowed_in_lava'
     CONFIG_STEP_PENALTY = 'step_penalty'
     CONFIG_GOAL_REWARD = 'goal_reward'
+    CONFIG_TOP_DOWN_PLOTTER = 'top_down_plotter'
+    CONFIG_TOP_DOWN_CAMERA = 'top_down_camera'
 
     # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built
     # on this assumption.
@@ -504,6 +507,24 @@ class ConfigManager:
             fallback=self.STEPS_ALLOWED_IN_LAVA_DEFAULT
         )
 
+    def is_top_down_plotter(self) -> bool:
+        """Toggles whether old plotter should be used to create top down
+        videos if videos are enabled."""
+        return self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_TOP_DOWN_PLOTTER,
+            fallback=False
+        )
+
+    def is_top_down_camera(self) -> bool:
+        """Toggles whether the new top down camera is used to create top down
+        videos if videos are enabled."""
+        return self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_TOP_DOWN_CAMERA,
+            fallback=True
+        )
+
 
 class SceneConfiguration(BaseModel):
     '''Class for keeping track of scene configuration'''
@@ -529,6 +550,7 @@ class SceneConfiguration(BaseModel):
     version: Optional[int]
     wall_material: Optional[str]
     wall_properties: Optional[PhysicsConfig]
+    toggle_lights: List[StepBeginEndConfig] = []
 
     # These are deprecated, but needed for Eval 3 backwards compatibility
     evaluation: Optional[str]

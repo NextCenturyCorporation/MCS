@@ -2,8 +2,8 @@
 Installation and Setup
 =======================
 
-.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.5.6/MCS-AI2-THOR-Unity-App-v0.5.6-mac.zip
-.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.5.6/MCS-AI2-THOR-Unity-App-v0.5.6-linux.zip
+.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.5.7/MCS-AI2-THOR-Unity-App-v0.5.7-mac.zip
+.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.5.7/MCS-AI2-THOR-Unity-App-v0.5.7-linux.zip
 
 Virtual Environments
 ------------------------
@@ -206,6 +206,20 @@ video_enabled
 (boolean, optional)
 
 Create and save videos of the RGB frames, depth masks, object instance segmentation masks (if returned in the output by the chosen metadata tier), and the 2D top-down scene views. Default: False
+
+top_down_camera
+^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If `video_enabled` is true and `top_down_camera` is false, determines if the legacy top down plotter videos will be generated.  Default: False
+
+top_down_plotter
+^^^^^^^^^^^^^^^^
+
+If `video_enabled` is true, determines if the top down camera is used to generate videos instead of the old top down plotter.  Default: True
+
+(boolean, optional)
 
 Example Using the Config File to Generate Scene Graphs or Maps
 **************************************************************

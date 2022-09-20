@@ -94,7 +94,7 @@
         "objects_count": 2,
         "position_x": 0.0,
         "position_z": 0.0,
-        "return_status": "OBSTRUCTED",
+        "return_status": "NOT_VISIBLE",
         "rotation_y": 0.0,
         "step_number": 1,
         "structural_objects_count": 5
@@ -194,7 +194,7 @@
         "objects_count": 2,
         "position_x": 0.0,
         "position_z": 0.0,
-        "return_status": "OBSTRUCTED",
+        "return_status": "NOT_VISIBLE",
         "rotation_y": 0.0,
         "step_number": 3,
         "structural_objects_count": 5

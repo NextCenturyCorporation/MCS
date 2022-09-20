@@ -424,6 +424,7 @@ class TestSceneConfig(unittest.TestCase):
             'pickupable': True,
             'receptacle': True,
             'resetCenterOfMass': True,
+            'resetCenterOfMassAtY': 0.321,
             'resizes': [{
                 'stepBegin': 19,
                 'stepEnd': 20,
@@ -492,8 +493,22 @@ class TestSceneConfig(unittest.TestCase):
             SceneObject(**object_config)
             for object_config in object_config_list
         ]
-        scene_config = SceneConfiguration(objects=object_list)
+
+        toggle_lights_list = [StepBeginEndConfig(
+            step_begin=4,
+            step_end=5
+        )]
+
+        scene_config = SceneConfiguration(
+            toggle_lights=toggle_lights_list,
+            objects=object_list)
         self.assertEqual(len(scene_config.objects), 2)
+
+        self.assertEqual(scene_config.toggle_lights, [StepBeginEndConfig(
+            step_begin=4,
+            step_end=5
+        )])
+
         object_1 = scene_config.objects[0]
         object_2 = scene_config.objects[1]
 
@@ -524,6 +539,7 @@ class TestSceneConfig(unittest.TestCase):
         self.assertIsNone(object_1.pickupable)
         self.assertIsNone(object_1.receptacle)
         self.assertIsNone(object_1.reset_center_of_mass)
+        self.assertIsNone(object_1.reset_center_of_mass_at_y)
         self.assertIsNone(object_1.resizes)
         self.assertIsNone(object_1.rotates)
         self.assertIsNone(object_1.salient_materials)
@@ -645,6 +661,7 @@ class TestSceneConfig(unittest.TestCase):
         self.assertTrue(object_2.pickupable)
         self.assertTrue(object_2.receptacle)
         self.assertTrue(object_2.reset_center_of_mass)
+        self.assertEqual(object_2.reset_center_of_mass_at_y, 0.321)
         self.assertEqual(object_2.resizes, [SizeConfig(
             step_begin=19,
             step_end=20,

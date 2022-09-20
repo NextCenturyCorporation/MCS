@@ -1,0 +1,951 @@
+﻿[
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.79,
+                "direction_z": 0.62,
+                "distance": 0.97,
+                "held": false,
+                "id": "bowl_a",
+                "mass": 0.25,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.6,
+                "rotation_y": 0,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.09,
+                "direction_y": -0.35,
+                "direction_z": 0.93,
+                "distance": 2.15,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.72,
+                "direction_z": 0.69,
+                "distance": 0.87,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.6,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.11,
+                "direction_y": -0.79,
+                "direction_z": 0.61,
+                "distance": 0.97,
+                "held": false,
+                "id": "bowl_a",
+                "mass": 0.25,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.25,
+                "position_z": 0.59,
+                "rotation_y": 350,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.07,
+                "direction_y": -0.35,
+                "direction_z": 0.93,
+                "distance": 2.15,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 340,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.12,
+                "direction_y": -0.72,
+                "direction_z": 0.69,
+                "distance": 0.87,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.25,
+                "position_z": 0.59,
+                "rotation_y": 350,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.35,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 350,
+        "step_number": 1,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.21,
+                "direction_y": -0.79,
+                "direction_z": 0.58,
+                "distance": 0.97,
+                "held": false,
+                "id": "bowl_a",
+                "mass": 0.25,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.49,
+                "position_z": 0.62,
+                "rotation_y": 340,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.23,
+                "direction_y": -0.35,
+                "direction_z": 0.91,
+                "distance": 2.15,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 320,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.24,
+                "direction_y": -0.72,
+                "direction_z": 0.65,
+                "distance": 0.87,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.49,
+                "position_z": 0.62,
+                "rotation_y": 340,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.7,
+        "position_z": 0.05,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 340,
+        "step_number": 2,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.31,
+                "direction_y": -0.79,
+                "direction_z": 0.54,
+                "distance": 0.97,
+                "held": false,
+                "id": "bowl_a",
+                "mass": 0.25,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.73,
+                "position_z": 0.69,
+                "rotation_y": 330,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.38,
+                "direction_y": -0.35,
+                "direction_z": 0.85,
+                "distance": 2.15,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 300,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.35,
+                "direction_y": -0.72,
+                "direction_z": 0.6,
+                "distance": 0.87,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.73,
+                "position_z": 0.69,
+                "rotation_y": 330,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 1.03,
+        "position_z": 0.17,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 330,
+        "step_number": 3,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.4,
+                "direction_y": -0.79,
+                "direction_z": 0.47,
+                "distance": 0.97,
+                "held": false,
+                "id": "bowl_a",
+                "mass": 0.25,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.95,
+                "position_z": 0.8,
+                "rotation_y": 320,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.53,
+                "direction_y": -0.35,
+                "direction_z": 0.77,
+                "distance": 2.15,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 280,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.44,
+                "direction_y": -0.72,
+                "direction_z": 0.53,
+                "distance": 0.87,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.95,
+                "position_z": 0.8,
+                "rotation_y": 320,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 1.33,
+        "position_z": 0.34,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 320,
+        "step_number": 4,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.47,
+                "direction_y": -0.79,
+                "direction_z": 0.4,
+                "distance": 0.97,
+                "held": false,
+                "id": "bowl_a",
+                "mass": 0.25,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.14,
+                "position_z": 0.95,
+                "rotation_y": 310,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.65,
+                "direction_y": -0.35,
+                "direction_z": 0.67,
+                "distance": 2.15,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 260,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.53,
+                "direction_y": -0.72,
+                "direction_z": 0.44,
+                "distance": 0.87,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.14,
+                "position_z": 0.95,
+                "rotation_y": 310,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 1.6,
+        "position_z": 0.56,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 310,
+        "step_number": 5,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.54,
+                "direction_y": -0.79,
+                "direction_z": 0.31,
+                "distance": 0.97,
+                "held": false,
+                "id": "bowl_a",
+                "mass": 0.25,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.31,
+                "position_z": 1.13,
+                "rotation_y": 300,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.76,
+                "direction_y": -0.35,
+                "direction_z": 0.55,
+                "distance": 2.15,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 240,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.6,
+                "direction_y": -0.72,
+                "direction_z": 0.35,
+                "distance": 0.87,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.31,
+                "position_z": 1.13,
+                "rotation_y": 300,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 1.83,
+        "position_z": 0.83,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 300,
+        "step_number": 6,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.58,
+                "direction_y": -0.79,
+                "direction_z": 0.21,
+                "distance": 0.97,
+                "held": false,
+                "id": "bowl_a",
+                "mass": 0.25,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.45,
+                "position_z": 1.33,
+                "rotation_y": 290,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.84,
+                "direction_y": -0.35,
+                "direction_z": 0.41,
+                "distance": 2.15,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 220,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.65,
+                "direction_y": -0.72,
+                "direction_z": 0.24,
+                "distance": 0.87,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.45,
+                "position_z": 1.33,
+                "rotation_y": 290,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 2.01,
+        "position_z": 1.13,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 290,
+        "step_number": 7,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.61,
+                "direction_y": -0.79,
+                "direction_z": 0.11,
+                "distance": 0.97,
+                "held": false,
+                "id": "bowl_a",
+                "mass": 0.25,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.54,
+                "position_z": 1.56,
+                "rotation_y": 280,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.9,
+                "direction_y": -0.35,
+                "direction_z": 0.25,
+                "distance": 2.15,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 200,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.68,
+                "direction_y": -0.72,
+                "direction_z": 0.12,
+                "distance": 0.87,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.54,
+                "position_z": 1.56,
+                "rotation_y": 280,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 2.13,
+        "position_z": 1.46,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 280,
+        "step_number": 8,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.62,
+                "direction_y": -0.79,
+                "direction_z": -0.0,
+                "distance": 0.97,
+                "held": false,
+                "id": "bowl_a",
+                "mass": 0.25,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.6,
+                "position_z": 1.8,
+                "rotation_y": 270,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.93,
+                "direction_y": -0.35,
+                "direction_z": 0.09,
+                "distance": 2.15,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 180,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.69,
+                "direction_y": -0.72,
+                "direction_z": 0.0,
+                "distance": 0.87,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.6,
+                "position_z": 1.8,
+                "rotation_y": 270,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 2.2,
+        "position_z": 1.8,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 270,
+        "step_number": 9,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.61,
+                "direction_y": -0.79,
+                "direction_z": -0.11,
+                "distance": 0.97,
+                "held": false,
+                "id": "bowl_a",
+                "mass": 0.25,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.61,
+                "position_z": 2.05,
+                "rotation_y": 260,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.93,
+                "direction_y": -0.35,
+                "direction_z": -0.07,
+                "distance": 2.15,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 160,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.68,
+                "direction_y": -0.72,
+                "direction_z": -0.12,
+                "distance": 0.87,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.61,
+                "position_z": 2.05,
+                "rotation_y": 260,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 2.2,
+        "position_z": 2.15,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 260,
+        "step_number": 10,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.58,
+                "direction_y": -0.79,
+                "direction_z": -0.21,
+                "distance": 0.97,
+                "held": false,
+                "id": "bowl_a",
+                "mass": 0.25,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.58,
+                "position_z": 2.29,
+                "rotation_y": 250,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.91,
+                "direction_y": -0.35,
+                "direction_z": -0.23,
+                "distance": 2.15,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 140,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.83,
+                "direction_y": -0.48,
+                "direction_z": -0.3,
+                "distance": 0.4,
+                "held": true,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.82,
+                "position_z": 2.38,
+                "rotation_y": 250,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 2.15,
+        "position_z": 2.5,
+        "resolved_object": "soccer_ball",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 250,
+        "step_number": 11,
+        "structural_objects_count": 7
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.54,
+                "direction_y": -0.79,
+                "direction_z": -0.31,
+                "distance": 0.97,
+                "held": false,
+                "id": "bowl_a",
+                "mass": 0.25,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.51,
+                "position_z": 2.53,
+                "rotation_y": 240,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.85,
+                "direction_y": -0.35,
+                "direction_z": -0.38,
+                "distance": 2.15,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 120,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.76,
+                "direction_y": -0.48,
+                "direction_z": -0.44,
+                "distance": 0.4,
+                "held": true,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.73,
+                "position_z": 2.65,
+                "rotation_y": 240,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 2.03,
+        "position_z": 2.83,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 240,
+        "step_number": 12,
+        "structural_objects_count": 7
+    }
+]
