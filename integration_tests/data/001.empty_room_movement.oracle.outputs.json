@@ -26,21 +26,6 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
                 "direction_y": 0.139,
                 "direction_z": -0.99,
                 "distance": 5.302,
@@ -119,21 +104,6 @@
                 "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.995,
-                "direction_z": -0.098,
-                "distance": 1.017,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -232,21 +202,6 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.981,
-                "direction_z": -0.194,
-                "distance": 1.032,
-                "held": false,
-                "id": "floor",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
                 "direction_y": 0.134,
                 "direction_z": -0.991,
                 "distance": 5.5,
@@ -325,21 +280,6 @@
                 "distance": 2.25,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": -0.096,
-                "direction_y": -0.976,
-                "direction_z": -0.193,
-                "distance": 1.036,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -437,21 +377,6 @@
                 "visible": true
             },
             {
-                "direction_x": -0.19,
-                "direction_y": -0.963,
-                "direction_z": -0.19,
-                "distance": 1.051,
-                "held": false,
-                "id": "floor",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
                 "direction_x": -0.0360264443,
                 "direction_y": 0.134,
                 "direction_z": -0.99,
@@ -531,21 +456,6 @@
                 "distance": 2.25,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": -0.193,
-                "direction_y": -0.976,
-                "direction_z": -0.096,
-                "distance": 1.036,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -643,21 +553,6 @@
                 "visible": true
             },
             {
-                "direction_x": -0.194,
-                "direction_y": -0.981,
-                "direction_z": 0.0,
-                "distance": 1.032,
-                "held": false,
-                "id": "floor",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
                 "direction_x": -0.0373463966,
                 "direction_y": 0.139,
                 "direction_z": -0.99,
@@ -737,21 +632,6 @@
                 "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": -0.098,
-                "direction_y": -0.995,
-                "direction_z": 0.0,
-                "distance": 1.017,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -850,21 +730,6 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
                 "direction_y": 0.139,
                 "direction_z": -0.99,
                 "distance": 5.302,
@@ -943,21 +808,6 @@
                 "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -1056,21 +906,6 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
                 "direction_y": 0.139,
                 "direction_z": -0.99,
                 "distance": 5.302,
@@ -1149,21 +984,6 @@
                 "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -1262,21 +1082,6 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
                 "direction_y": 0.139,
                 "direction_z": -0.99,
                 "distance": 5.302,
@@ -1355,21 +1160,6 @@
                 "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -1468,21 +1258,6 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
                 "direction_y": 0.139,
                 "direction_z": -0.99,
                 "distance": 5.302,
@@ -1561,21 +1336,6 @@
                 "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -1674,21 +1434,6 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
                 "direction_y": 0.139,
                 "direction_z": -0.99,
                 "distance": 5.302,
@@ -1767,21 +1512,6 @@
                 "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -1880,21 +1610,6 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
                 "direction_y": 0.139,
                 "direction_z": -0.99,
                 "distance": 5.302,
@@ -1983,21 +1698,6 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
                 "direction_y": 0.139,
                 "direction_z": -0.99,
                 "distance": 5.302,
@@ -2076,21 +1776,6 @@
                 "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",

@@ -486,7 +486,7 @@
         "position_z": null,
         "resolved_object": null,
         "resolved_receptacle": null,
-        "return_status": "NOT_VISIBLE",
+        "return_status": "NOT_MOVEABLE",
         "rotation_y": null,
         "step_number": 40,
         "structural_objects_count": 0
@@ -498,7 +498,7 @@
         "position_z": null,
         "resolved_object": null,
         "resolved_receptacle": null,
-        "return_status": "NOT_VISIBLE",
+        "return_status": "NOT_MOVEABLE",
         "rotation_y": null,
         "step_number": 41,
         "structural_objects_count": 0
@@ -510,7 +510,7 @@
         "position_z": null,
         "resolved_object": null,
         "resolved_receptacle": null,
-        "return_status": "NOT_VISIBLE",
+        "return_status": "NOT_MOVEABLE",
         "rotation_y": null,
         "step_number": 42,
         "structural_objects_count": 0
@@ -522,7 +522,7 @@
         "position_z": null,
         "resolved_object": null,
         "resolved_receptacle": null,
-        "return_status": "NOT_VISIBLE",
+        "return_status": "NOT_MOVEABLE",
         "rotation_y": null,
         "step_number": 43,
         "structural_objects_count": 0
@@ -534,7 +534,7 @@
         "position_z": null,
         "resolved_object": null,
         "resolved_receptacle": null,
-        "return_status": "NOT_VISIBLE",
+        "return_status": "NOT_MOVEABLE",
         "rotation_y": null,
         "step_number": 44,
         "structural_objects_count": 0
@@ -558,7 +558,7 @@
         "position_z": null,
         "resolved_object": null,
         "resolved_receptacle": null,
-        "return_status": "NOT_VISIBLE",
+        "return_status": "NOT_OPENABLE",
         "rotation_y": null,
         "step_number": 46,
         "structural_objects_count": 0
@@ -570,7 +570,7 @@
         "position_z": null,
         "resolved_object": null,
         "resolved_receptacle": null,
-        "return_status": "NOT_VISIBLE",
+        "return_status": "NOT_OPENABLE",
         "rotation_y": null,
         "step_number": 47,
         "structural_objects_count": 0
@@ -582,7 +582,7 @@
         "position_z": null,
         "resolved_object": null,
         "resolved_receptacle": null,
-        "return_status": "NOT_VISIBLE",
+        "return_status": "NOT_OPENABLE",
         "rotation_y": null,
         "step_number": 48,
         "structural_objects_count": 0
@@ -594,7 +594,7 @@
         "position_z": null,
         "resolved_object": null,
         "resolved_receptacle": null,
-        "return_status": "NOT_VISIBLE",
+        "return_status": "NOT_AGENT",
         "rotation_y": null,
         "step_number": 49,
         "structural_objects_count": 0
@@ -606,7 +606,7 @@
         "position_z": null,
         "resolved_object": null,
         "resolved_receptacle": null,
-        "return_status": "NOT_VISIBLE",
+        "return_status": "NOT_RECEPTACLE",
         "rotation_y": null,
         "step_number": 50,
         "structural_objects_count": 0

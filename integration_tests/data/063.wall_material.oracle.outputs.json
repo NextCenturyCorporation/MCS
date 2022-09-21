@@ -99,11 +99,7 @@
                 "visible": true
             }
         ],
-<<<<<<< HEAD
         "structural_objects_count": 5
-=======
-        "structural_objects_count": 6
->>>>>>> development
     },
     {
         "head_tilt": 0,
@@ -118,11 +114,7 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-<<<<<<< HEAD
-                "distance": 2.488,
-=======
                 "distance": 2.24,
->>>>>>> development
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -209,11 +201,7 @@
                 "visible": true
             }
         ],
-<<<<<<< HEAD
         "structural_objects_count": 5
-=======
-        "structural_objects_count": 6
->>>>>>> development
     },
     {
         "head_tilt": 0,
@@ -228,11 +216,7 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-<<<<<<< HEAD
-                "distance": 2.488,
-=======
                 "distance": 2.24,
->>>>>>> development
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -319,11 +303,7 @@
                 "visible": true
             }
         ],
-<<<<<<< HEAD
         "structural_objects_count": 5
-=======
-        "structural_objects_count": 6
->>>>>>> development
     },
     {
         "head_tilt": 0,
@@ -338,11 +318,7 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-<<<<<<< HEAD
-                "distance": 2.488,
-=======
                 "distance": 2.24,
->>>>>>> development
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -429,10 +405,6 @@
                 "visible": true
             }
         ],
-<<<<<<< HEAD
         "structural_objects_count": 5
-=======
-        "structural_objects_count": 6
->>>>>>> development
     }
 ]
