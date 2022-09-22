@@ -104,6 +104,8 @@ class StepMetadata:
         The radius of the performer, in meters.
     performer_reach: float
         The max reach of the performer, in meters.
+    physics_frames_per_second : float
+        The frames per second of the physics engine
     position : dict
         The "x", "y", and "z" coordinates for your global position.
         Will be set to 'None' if using a metadata level below the
@@ -124,13 +126,23 @@ class StepMetadata:
     rotation : float
         Your current rotation angle in degrees. Will be set to 'None'
         if using a metadata level below the 'oracle' level.
+    segmentation_colors : list of dicts
+        The colors for all objects in the instance segmentation images
+        (in `object_mask_list`), each represented as a dict containing an
+        "objectId" string property and "r", "g", and "b" int properties for the
+        corresponding red, green, and blue values. The ceiling has an objectId
+        of "ceiling"; exterior room walls have objectIds of "wall_back",
+        "wall_front", "wall_left", and "wall_right"; floor sections have
+        objectIds starting with "floor " and then the texture name (since
+        different areas of the floor can have different textures); holes have
+        objectIds of "hole"; hole walls have objectIds of "hole wall"; and
+        lava areas have objectIds of "lava".
+        Will be empty if using a metadata level below the 'oracle' level.
     step_number : integer
         The step number of your last action, recorded since you started the
         current scene.
     steps_in_lava : integer
         The number of steps the agent has touched lava
-    physics_frames_per_second : float
-        The frames per second of the physics engine
     structural_object_list : list of ObjectMetadata objects
         The list of metadata for all the visible structural objects (like
         walls, occluders, and ramps) in the scene. This list will be empty
@@ -169,6 +181,7 @@ class StepMetadata:
         reward=0,
         room_dimensions=None,
         rotation=0.0,
+        segmentation_colors=None,
         step_number=0,
         steps_on_lava=0,
         structural_object_list=None
@@ -211,6 +224,9 @@ class StepMetadata:
             {} if room_dimensions is None else room_dimensions
         )
         self.rotation = rotation
+        self.segmentation_colors = (
+            [] if segmentation_colors is None else segmentation_colors
+        )
         self.step_number = step_number
         self.steps_on_lava = steps_on_lava
         self.structural_object_list = [
@@ -247,7 +263,9 @@ class StepMetadata:
         yield 'habituation_trial', self.habituation_trial
         yield 'haptic_feedback', self.haptic_feedback
         yield 'head_tilt', self.head_tilt
+        yield 'holes', self.head_tilt
         # Intentionally no image_list
+        yield 'lava', self.head_tilt
         yield 'object_list', self.check_list_none(self.object_list)
         # Intentionally no object_mask_list
         yield 'performer_radius', self.performer_radius
@@ -260,6 +278,7 @@ class StepMetadata:
         yield 'room_dimensions', self.room_dimensions
         yield 'reward', self.reward
         yield 'rotation', self.rotation
+        yield 'segmentation_colors', self.segmentation_colors
         yield 'step_number', self.step_number,
         yield 'steps_on_lava', self.steps_on_lava,
         yield 'structural_object_list', self.check_list_none(

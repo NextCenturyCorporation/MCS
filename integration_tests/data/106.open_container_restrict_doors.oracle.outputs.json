@@ -1,4 +1,4 @@
-[
+﻿[
     {
         "head_tilt": 0,
         "objects_count": 2,
@@ -8,7 +8,7 @@
         "reward": 0.0,
         "rotation_y": 90.0,
         "step_number": 0,
-        "structural_objects_count": 9
+        "structural_objects_count": 8
     },
     {
         "head_tilt": 0,
@@ -19,7 +19,7 @@
         "reward": -0.001,
         "rotation_y": 90.0,
         "step_number": 1,
-        "structural_objects_count": 9
+        "structural_objects_count": 8
     },
     {
         "head_tilt": 0,
@@ -30,7 +30,7 @@
         "reward": -0.002,
         "rotation_y": 90.0,
         "step_number": 2,
-        "structural_objects_count": 9
+        "structural_objects_count": 8
     },
     {
         "head_tilt": 0,
@@ -41,7 +41,7 @@
         "reward": -0.003,
         "rotation_y": 90.0,
         "step_number": 3,
-        "structural_objects_count": 9
+        "structural_objects_count": 8
     },
     {
         "head_tilt": 0,
@@ -52,7 +52,7 @@
         "reward": -0.004,
         "rotation_y": 90.0,
         "step_number": 4,
-        "structural_objects_count": 9
+        "structural_objects_count": 8
     },
     {
         "head_tilt": 0,
@@ -63,6 +63,6 @@
         "reward": -0.005,
         "rotation_y": 90.0,
         "step_number": 5,
-        "structural_objects_count": 9
+        "structural_objects_count": 8
     }
 ]
