@@ -109,7 +109,7 @@ Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2th
     - Set the **"Primary Property"** to "Static" (for non-moveable objects), "Moveable", or "Can Pickup" (a subset of Moveable).
     - Set the **"Secondary Properties"** as needed (we use: "Receptacle" for objects on which you can use the PutObject action; "Can Open" for openable objects; "Stacking" for blocks). You will need to adjust the size of the "Secondary Properties" array before you can add new elements to it.
     - Set the **"Bounding Box"** property to the "BoundingBox" Game Object that you made.
-    - Set the **"Visibility Points"** array property to have each Visibility Point Game Object that you made. This is easy if you right-click on the Inspector tab, click "Lock", go to the Hierarcy window, use click-shift-click to select all Visibility Points simultaneously, and click-and-drag them over from the Hierarchy window onto the "Visibility Points" label in the SimObjPhysics (Script) Component.
+    - Set the **"Visibility Points"** array property to have each Visibility Point Game Object that you made. This is easy if you right-click on the Inspector tab, click "Lock", go to the Hierarchy window, use click-shift-click to select all Visibility Points simultaneously, and click-and-drag them over from the Hierarchy window onto the "Visibility Points" label in the SimObjPhysics (Script) Component.
     - Set the **"My Colliders"** array property to have each Collider Game Object that you made.
     - Optionally, set the "Salient Materials" property as needed.
 
