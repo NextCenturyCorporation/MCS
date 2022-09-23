@@ -1103,6 +1103,42 @@ Furniture Objects
       - Materials
       - Base Size
       - Details
+    * - `"antique_armchair_1"`
+      - sofa chair
+      - 5
+      - X
+      - X
+      - 
+      - :ref:`leather armchair <Leather Armchair Materials>`
+      - x=0.35,y=0.45,z=0.33
+      - 
+    * - `"antique_chair_1"`
+      - chair
+      - 10
+      - X
+      - X
+      - 
+      - :ref:`wood <Wood Materials>`
+      - x=0.76,y=1.26,z=0.64
+      - 
+    * - `"antique_sofa_1"`
+      - sofa
+      - 20
+      - X
+      - X
+      - 
+      - :ref:`wood <Wood Materials>`
+      - x=2,y=1.4,z=0.68
+      - 
+    * - `"antique_table_1"`
+      - table
+      - 5
+      - X
+      - X
+      - 
+      - :ref:`wood <Wood Materials>`
+      - x=0.77,y=0.48,z=0.77
+      - 
     * - `"bed_1"`
       - bed
       - 50
@@ -2322,6 +2358,25 @@ Custom-made textures that are completely flat colors.
 - `"Custom/Materials/Violet"`
 - `"Custom/Materials/White"`
 - `"Custom/Materials/Yellow"`
+
+Leather Materials
+*****************
+
+- `"AI2-THOR/Materials/Fabrics/Leather"`
+- `"AI2-THOR/Materials/Fabrics/Leather2"`
+- `"AI2-THOR/Materials/Fabrics/Leather3"`
+- `"AI2-THOR/Materials/Fabrics/Leather 2"`
+
+Leather Armchair Materials
+**************************
+
+Specific textures for `antique_armchair_1` only.
+
+- `"UnityAssetStore/Leather_Chair/Assets/Materials/Leather_Chair_NEW_1"`
+- `"UnityAssetStore/Leather_Chair/Assets/Materials/Leather_Chair_NEW_2"`
+- `"UnityAssetStore/Leather_Chair/Assets/Materials/Leather_Chair_NEW_3"`
+- `"UnityAssetStore/Leather_Chair/Assets/Materials/Leather_Chair_NEW_4"`
+- `"UnityAssetStore/Leather_Chair/Assets/Materials/Leather_Chair_normal_OLD"`
 
 Metal Materials
 ***************
